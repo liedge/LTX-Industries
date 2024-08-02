@@ -22,3 +22,6 @@ jobs:
         uses: gradle/actions/setup-gradle@v3
         with:
           arguments: build
+        env:
+          GITHUB_USERNAME: liedge
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
