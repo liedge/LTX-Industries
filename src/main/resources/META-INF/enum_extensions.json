@@ -1,0 +1,31 @@
+{
+  "entries": [
+    {
+      "enum": "net/minecraft/client/model/HumanoidModel$ArmPose",
+      "name": "LIMATECH_TWO_HAND_WEAPON",
+      "constructor": "(ZLnet/neoforged/neoforge/client/IArmPoseTransformer;)V",
+      "parameters": {
+        "class": "liedge/limatech/client/renderer/LimaTechArmPoses",
+        "field": "TWO_HANDED_WEAPON"
+      }
+    },
+    {
+      "enum": "net/minecraft/world/item/Rarity",
+      "name": "LIMATECH_LTX",
+      "constructor": "(ILjava/lang/String;Ljava/util/function/UnaryOperator;)V",
+      "parameters": {
+        "class": "liedge/limatech/item/LimaTechRarities",
+        "field": "LTX_RARITY"
+      }
+    },
+    {
+      "enum": "net/minecraft/world/damagesource/DeathMessageType",
+      "name": "LIMATECH_WEAPON_DAMAGE",
+      "constructor": "(Ljava/lang/String;Lnet/neoforged/neoforge/common/damagesource/IDeathMessageProvider;)V",
+      "parameters": {
+        "class": "liedge/limatech/lib/weapons/WeaponDeathMessageType",
+        "field": "WEAPON_DEATH_MESSAGE_TYPE"
+      }
+    }
+  ]
+}

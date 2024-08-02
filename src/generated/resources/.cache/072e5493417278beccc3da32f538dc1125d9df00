@@ -1,0 +1,18 @@
+// 1.21	2024-07-31T23:42:21.0128116	Tags for minecraft:block mod id limatech
+1a0698d39aabe57ee2466c869394ac3b9bd97a96 data/c/tags/block/ores.json
+df7216d94e66f4463b351932ed9ff94a1f081f52 data/c/tags/block/ores/niobium.json
+22696717ed31d889b1edd4f48ae9de61a9352824 data/c/tags/block/ores/titanium.json
+3fead8bd7b2ca821f56e6640f7ef3a5055db2b94 data/c/tags/block/ores_in_ground/deepslate.json
+28509e83d37aba926dff8c6295f7981301bdd665 data/c/tags/block/ores_in_ground/stone.json
+1a0698d39aabe57ee2466c869394ac3b9bd97a96 data/c/tags/block/ore_rates/singular.json
+400bb03bf1decad5ff00d4de75e33f2aaefa8cd7 data/c/tags/block/storage_blocks.json
+12c219919f616ddee689cf6499daf70631d7907e data/c/tags/block/storage_blocks/niobium.json
+2b3884721e500ba52944b88438586e6534d33ad4 data/c/tags/block/storage_blocks/raw_niobium.json
+f702531c408d0da8ba248f2ee7368cb224add87c data/c/tags/block/storage_blocks/raw_titanium.json
+a975eb9c44ffa9dd8a03d0307975c76c9a4058a4 data/c/tags/block/storage_blocks/slate_alloy.json
+6b10c6a7598a91aaebc51fa83aa1eda2c0e41222 data/c/tags/block/storage_blocks/titanium.json
+ba44400d5130966167b0a5dd907fa77bf3b89016 data/limatech/tags/block/deepslate_grindables.json
+1c3006b6c414d030927c15e5b29c385e9108371d data/minecraft/tags/block/beacon_base_blocks.json
+21d0c8cea97c5e3a359751302a388b58d3d0101e data/minecraft/tags/block/mineable/pickaxe.json
+0e3ff465dd44e32c994d932788dbf1b502a1185c data/minecraft/tags/block/needs_diamond_tool.json
+453a0f1d247c32c8cb5ed27a151669d927380a22 data/minecraft/tags/block/needs_stone_tool.json

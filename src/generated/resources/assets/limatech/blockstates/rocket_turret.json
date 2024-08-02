@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=lower": {
+      "model": "limatech:block/turret_base"
+    },
+    "half=upper": {
+      "model": "minecraft:block/warped_fence_post"
+    }
+  }
+}

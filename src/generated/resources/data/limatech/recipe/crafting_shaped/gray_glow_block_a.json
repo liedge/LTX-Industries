@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "d": {
+      "item": "minecraft:gray_dye"
+    },
+    "g": {
+      "item": "minecraft:glowstone"
+    }
+  },
+  "pattern": [
+    "dg",
+    "gd"
+  ],
+  "result": {
+    "count": 4,
+    "id": "limatech:gray_glow_block"
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "type": "minecraft:entity",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "type_specific": {
+              "type": "limacore:hostile_entity"
+            }
+          }
+        },
+        {
+          "chance": 0.2,
+          "condition": "minecraft:random_chance"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "limatech:auto_ammo_canister",
+          "weight": 80
+        },
+        {
+          "type": "minecraft:item",
+          "name": "limatech:specialist_ammo_canister",
+          "weight": 15
+        },
+        {
+          "type": "minecraft:item",
+          "name": "limatech:explosives_ammo_canister",
+          "weight": 5
+        }
+      ],
+      "rolls": {
+        "type": "minecraft:uniform",
+        "max": 2.0,
+        "min": 1.0
+      }
+    },
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "neoforge:loot_table_id",
+          "loot_table_id": "minecraft:entities/phantom"
+        },
+        {
+          "chance": 0.1,
+          "condition": "minecraft:random_chance"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "limatech:targeting_tech_salvage"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "limatech:entity/extra_drops"
+}
