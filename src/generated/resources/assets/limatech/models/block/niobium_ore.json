@@ -1,0 +1,8 @@
+{
+  "parent": "limatech:block/glowing_ore",
+  "textures": {
+    "0": "limatech:block/niobium_ore_0",
+    "1": "limatech:block/niobium_ore_1",
+    "particle": "minecraft:block/end_stone"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "limatech:block/slate_alloy_block"
+    }
+  }
+}

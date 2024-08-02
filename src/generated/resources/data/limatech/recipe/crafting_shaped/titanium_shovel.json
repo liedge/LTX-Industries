@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "s": {
+      "tag": "c:rods/wooden"
+    },
+    "t": {
+      "item": "limatech:titanium_ingot"
+    }
+  },
+  "pattern": [
+    "t",
+    "s",
+    "s"
+  ],
+  "result": {
+    "count": 1,
+    "id": "limatech:titanium_shovel"
+  }
+}

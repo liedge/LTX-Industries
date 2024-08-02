@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "limatech:item/legendary_ammo_canister"
+  }
+}

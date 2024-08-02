@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "limatech:block/gray_glow_block"
+    }
+  }
+}

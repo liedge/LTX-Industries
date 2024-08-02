@@ -1,0 +1,10 @@
+// 1.21	2024-07-31T23:42:21.0158151	Registries
+a60ccf2493b41e40fb11874270dae2ddbc7657f2 data/limatech/damage_type/lightfrag.json
+d8fd5c1ec917eba6461d27bb7a3920b9b4e333a5 data/limatech/damage_type/rocket_turret.json
+b14a1649943670e3e7837d691c17572eae03dd7a data/limatech/damage_type/weapon_damage.json
+143f8ec60125bbf824c2802116b8fa20133f5cb2 data/limatech/neoforge/biome_modifier/niobium_ore.json
+e4129cc9802bf3d83e4aa370ee5e1efd75d849da data/limatech/neoforge/biome_modifier/titanium_ore.json
+c1decf4858a7d612f6cabec4493d179763d03412 data/limatech/worldgen/configured_feature/niobium_ore.json
+71b19e42a779fd9d7ec077a4203767515fc2dd0e data/limatech/worldgen/configured_feature/titanium_ore.json
+0d480f9f050b1c5d687f445a25e1fcdf3dca3848 data/limatech/worldgen/placed_feature/niobium_ore.json
+ebbfa7c5411d26b9ddad8cdd011e5b66c92039ec data/limatech/worldgen/placed_feature/titanium_ore.json

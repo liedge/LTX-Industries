@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "limatech:slate_alloy_ingot"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "id": "limatech:slate_alloy_nugget"
+  }
+}

@@ -23,7 +23,7 @@ repositories {
 }
 
 base {
-    archivesName = mod_id
+    archivesName = "${mod_id}-${minecraft_version}"
 }
 
 // Mojang ships Java 21 to end users starting in 1.20.5, so mods should target Java 21.
@@ -129,6 +129,8 @@ dependencies {
     // Example mod dependency using a file as dependency
     // implementation files("libs/coolmod-${mc_version}-${coolmod_version}.jar")
 
+    implementation "liedge:limacore-${minecraft_version}:${limacore_version}"
+
     // Example project dependency using a sister or child project:
     // implementation project(":myproject")
 
@@ -153,7 +155,8 @@ tasks.withType(ProcessResources).configureEach {
             mod_license            : mod_license,
             mod_version            : mod_version,
             mod_authors            : mod_authors,
-            mod_description        : mod_description
+            mod_description        : mod_description,
+            limacore_version_range  : limacore_version_range
     ]
     inputs.properties replaceProperties
 
@@ -165,10 +168,14 @@ tasks.withType(ProcessResources).configureEach {
 // Example configuration to allow publishing using the maven-publish plugin
 publishing {
     publications {
-        register('mavenJava', MavenPublication) {
-            from components.java
+        register ('modJar', MavenPublication) {
+            groupId project.group
+            artifactId project.archivesBaseName
+            version project.version
+            artifact jar
         }
     }
+
     repositories {
         maven {
             url "file://${project.projectDir}/repo"

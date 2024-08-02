@@ -1,0 +1,26 @@
+{
+  "type": "limatech:fabricating",
+  "energy_required": 325000,
+  "group": "weapons",
+  "ingredients": [
+    {
+      "type": "limacore:simple_count",
+      "count": 16,
+      "item": "limatech:titanium_ingot"
+    },
+    {
+      "type": "limacore:simple_count",
+      "count": 8,
+      "item": "limatech:copper_circuit"
+    },
+    {
+      "type": "limacore:simple_count",
+      "count": 4,
+      "item": "limatech:gold_circuit"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "limatech:submachine_gun"
+  }
+}

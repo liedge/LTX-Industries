@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "chance": 0.5,
+              "condition": "minecraft:random_chance"
+            }
+          ],
+          "name": "limatech:legendary_ammo_canister"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "limatech:chests/legendary_ammo"
+}
