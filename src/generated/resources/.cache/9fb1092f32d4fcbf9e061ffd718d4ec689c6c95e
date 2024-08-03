@@ -1,4 +1,4 @@
-// 1.21	2024-08-02T03:09:46.0398092	Recipes
+// 1.21	2024-08-03T02:12:18.7605688	Recipes
 6030a7da1c8d9a14b1deeffdac63d0f0e4d83cf0 data/limatech/recipe/blasting/smelt_deepslate_titanium.json
 512c6ddd7cd30727dd5adb9d9e5a9d71bcdf41e8 data/limatech/recipe/blasting/smelt_niobium_ore.json
 0dfdc1a8c8a942b2297534d8ea78c7299bf9ed11 data/limatech/recipe/blasting/smelt_raw_niobium.json
@@ -13,6 +13,7 @@ ead2f09e200b3fbaecba7851351fc50895a2709a data/limatech/recipe/crafting_shaped/bl
 291f026373896b04544497bf8a79ef9bd0d46926 data/limatech/recipe/crafting_shaped/copper_circuit.json
 fe2f0b363a644d57bc174960cbb17e243e2d12d5 data/limatech/recipe/crafting_shaped/cyan_glow_block_a.json
 9f7f9d29bc19784a7849fd46e596244fc467cc56 data/limatech/recipe/crafting_shaped/cyan_glow_block_b.json
+b3ec4bb04a36275f3453864f618bd2f78215e398 data/limatech/recipe/crafting_shaped/fabricator.json
 1057dd48d203d210d3803a4e230b4538aed8f94d data/limatech/recipe/crafting_shaped/gold_circuit.json
 56c8d9448f5f58f4e98d72406ef95a076fe89517 data/limatech/recipe/crafting_shaped/gray_glow_block_a.json
 804df9facc64f2f9228cd7b508be91ec55b3a635 data/limatech/recipe/crafting_shaped/gray_glow_block_b.json

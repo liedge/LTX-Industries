@@ -54,6 +54,8 @@ class RecipesGen extends LimaRecipeProvider
         shaped(out(GOLD_CIRCUIT)).input('r', in(REDSTONE)).input('m', in(GOLD_INGOT)).input('t', in(TITANIUM_NUGGET)).patterns("rrr", "mmm", "ttt").save(output);
         shaped(out(NIOBIUM_CIRCUIT)).input('r', in(REDSTONE)).input('m', in(NIOBIUM_INGOT)).input('t', in(TITANIUM_NUGGET)).patterns("rrr", "mmm", "ttt").save(output);
 
+        shaped(out(FABRICATOR)).input('t', in(TITANIUM_INGOT)).input('c', in(GOLD_CIRCUIT)).input('l', in(LIME_DYE)).input('a', in(CRAFTER)).patterns("tlt", "cac", "ttt").save(output);
+
         GLOW_BLOCKS.forEach((color, deferredBlock) -> {
             DyeItem dye = DyeItem.byColor(color);
             String path = deferredBlock.getId().getPath();

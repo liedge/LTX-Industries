@@ -153,7 +153,7 @@ public class FabricatorScreen extends LimaMenuScreen<FabricatorMenu>
 
             RecipeHolder<FabricatingRecipe> holder = recipes.get(i);
             ItemStack resultStack = holder.value().getResultItem(level.registryAccess());
-            graphics.renderItem(resultStack, rx + 1, ry + 1);
+            graphics.renderFakeItem(resultStack, rx + 1, ry + 1);
             graphics.renderItemDecorations(font, resultStack, rx + 1, ry + 1);
         }
     }
@@ -251,7 +251,6 @@ public class FabricatorScreen extends LimaMenuScreen<FabricatorMenu>
 
                 if (checkMouseOver(mouseX, mouseY, rx, ry, 18, 18))
                 {
-                    LimaTech.LOGGER.debug("Grid index matching for {}", gridIndex);
                     if (selectedRecipeIndex != gridIndex)
                     {
                         selectedRecipeIndex = gridIndex;

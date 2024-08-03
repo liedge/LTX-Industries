@@ -8,10 +8,7 @@ import liedge.limatech.item.weapon.GrenadeLauncherWeaponItem;
 import liedge.limatech.item.weapon.WeaponItem;
 import liedge.limatech.lib.weapons.OrbGrenadeElement;
 import liedge.limatech.lib.weapons.WeaponDeathMessageType;
-import liedge.limatech.registry.LimaTechDamageTypes;
-import liedge.limatech.registry.LimaTechEntities;
-import liedge.limatech.registry.LimaTechMenus;
-import liedge.limatech.registry.LimaTechMobEffects;
+import liedge.limatech.registry.*;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.item.DyeColor;
 
@@ -120,10 +117,6 @@ class LanguageGen extends LimaLanguageProvider
         addItem(EXPLOSIVES_AMMO_CANISTER, "Explosives Ammo Canister");
         addItem(LEGENDARY_AMMO_CANISTER, "Legendary Ammo Canister");
 
-        // LTX-91/EC Terra's Legacy
-        // LTX-AL/15 Sword of Light
-        // LTX-29/SH FrontLiner
-
         addItem(INFINITE_ENERGY_CARD, "Infinite Energy Card");
         //#endregion
 
@@ -133,6 +126,9 @@ class LanguageGen extends LimaLanguageProvider
         //#region Menu titles
         add(LimaTechMenus.FABRICATOR, "Fabricator");
         //#endregion
+
+        // Recipe types
+        add(LimaTechCrafting.FABRICATING_TYPE, "Fabricating");
 
         // Entity type names
         addEntityType(LimaTechEntities.ORB_GRENADE, "Orb Grenade");

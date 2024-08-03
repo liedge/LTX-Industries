@@ -1,6 +1,7 @@
 package liedge.limatech.registry;
 
 import liedge.limacore.recipe.LimaCustomRecipe;
+import liedge.limacore.recipe.LimaRecipeType;
 import liedge.limatech.LimaTech;
 import liedge.limatech.recipe.FabricatingRecipe;
 import net.minecraft.core.registries.Registries;
@@ -24,13 +25,13 @@ public final class LimaTechCrafting
     }
 
     // Recipe types
-    public static final DeferredHolder<RecipeType<?>, RecipeType<FabricatingRecipe>> FABRICATING_TYPE = registerType("fabricating");
+    public static final DeferredHolder<RecipeType<?>, LimaRecipeType<FabricatingRecipe>> FABRICATING_TYPE = registerType("fabricating");
 
     // Recipe serializers
     public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<FabricatingRecipe>> FABRICATING_SERIALIZER = SERIALIZERS.register("fabricating", FabricatingRecipe.Serializer::new);
 
-    private static <R extends LimaCustomRecipe<?>> DeferredHolder<RecipeType<?>, RecipeType<R>> registerType(String name)
+    private static <R extends LimaCustomRecipe<?>> DeferredHolder<RecipeType<?>, LimaRecipeType<R>> registerType(String name)
     {
-        return TYPES.register(name, RecipeType::simple);
+        return TYPES.register(name, LimaRecipeType::new);
     }
 }

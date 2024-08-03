@@ -17,7 +17,6 @@ public record ServerboundFabricatorCraftPacket(ResourceLocation recipeId) implem
     {
         if (sender.containerMenu instanceof FabricatorMenu menu)
         {
-            LimaTech.LOGGER.debug("Received recipe id '{}' instruction on server for fabricator", recipeId);
             menu.tryStartCrafting(recipeId);
         }
     }

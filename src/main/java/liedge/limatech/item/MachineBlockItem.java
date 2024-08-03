@@ -4,7 +4,6 @@ import com.mojang.datafixers.util.Either;
 import liedge.limacore.lib.energy.LimaEnergyUtil;
 import liedge.limatech.LimaTechConstants;
 import liedge.limatech.menu.ItemGridTooltip;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.BlockItem;
@@ -29,16 +28,16 @@ public class MachineBlockItem extends BlockItem implements TooltipShiftHintItem
         super(block, properties);
     }
 
-    protected Component createEnergyTooltip(ItemStack stack)
-    {
-        return ITEM_ENERGY_TOOLTIP.translateArgs(LimaEnergyUtil.formatEnergyWithSuffix(stack.getOrDefault(ENERGY, 0))).withStyle(LimaTechConstants.REM_BLUE::applyStyle);
-    }
-
     @Override
     public void appendTooltipHintComponents(@Nullable Level level, ItemStack stack, Consumer<Either<FormattedText, TooltipComponent>> consumer)
     {
-        consumer.accept(Either.left(createEnergyTooltip(stack)));
+        int energy = stack.getOrDefault(ENERGY, 0);
+        if (energy > 0)
+        {
+            consumer.accept(Either.left(ITEM_ENERGY_TOOLTIP.translateArgs(LimaEnergyUtil.formatEnergyWithSuffix(energy)).withStyle(LimaTechConstants.REM_BLUE::applyStyle)));
+        }
 
+        stack.getOrDefault(ITEM_CONTAINER, ItemContainerContents.EMPTY).nonEmptyStream();
         List<ItemStack> inventory = stack.getOrDefault(ITEM_CONTAINER, ItemContainerContents.EMPTY).nonEmptyStream().toList();
         if (!inventory.isEmpty())
         {
