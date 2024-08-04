@@ -76,7 +76,7 @@ public class FabricatingRecipe extends LimaCustomRecipe<FabricatorBlockEntity>
     }
 
     @Override
-    public ItemStack getResultItem(HolderLookup.Provider pRegistries)
+    public ItemStack getResultItem(HolderLookup.Provider registries)
     {
         return result;
     }

@@ -1,0 +1,17 @@
+{
+  "type": "limatech:fusing",
+  "ingredients": [
+    {
+      "type": "limacore:simple_count",
+      "count": 4,
+      "item": "minecraft:netherite_scrap"
+    },
+    {
+      "item": "minecraft:gold_ingot"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "minecraft:netherite_ingot"
+  }
+}

@@ -5,7 +5,11 @@ import liedge.limacore.data.generation.LimaRecipeProvider;
 import liedge.limacore.data.generation.recipe.SingleResultRecipeBuilder;
 import liedge.limacore.lib.ModResources;
 import liedge.limatech.LimaTech;
+import liedge.limatech.LimaTechTags;
+import liedge.limatech.recipe.BasicMachineRecipe;
 import liedge.limatech.recipe.FabricatingRecipe;
+import liedge.limatech.recipe.FusingRecipe;
+import liedge.limatech.recipe.GrindingRecipe;
 import liedge.limatech.registry.LimaTechCrafting;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
@@ -54,6 +58,8 @@ class RecipesGen extends LimaRecipeProvider
         shaped(out(GOLD_CIRCUIT)).input('r', in(REDSTONE)).input('m', in(GOLD_INGOT)).input('t', in(TITANIUM_NUGGET)).patterns("rrr", "mmm", "ttt").save(output);
         shaped(out(NIOBIUM_CIRCUIT)).input('r', in(REDSTONE)).input('m', in(NIOBIUM_INGOT)).input('t', in(TITANIUM_NUGGET)).patterns("rrr", "mmm", "ttt").save(output);
 
+        shaped(out(GRINDER)).input('t', in(TITANIUM_INGOT)).input('c', in(COPPER_CIRCUIT)).input('l', in(LIME_DYE)).input('a', in(GRINDSTONE)).patterns("tlt", "cac", "ttt").save(output);
+        shaped(out(MATERIAL_FUSING_CHAMBER)).input('t', in(TITANIUM_INGOT)).input('c', in(COPPER_CIRCUIT)).input('l', in(LIME_DYE)).input('a', in(BLAST_FURNACE)).patterns("tlt", "cac", "ttt").save(output);
         shaped(out(FABRICATOR)).input('t', in(TITANIUM_INGOT)).input('c', in(GOLD_CIRCUIT)).input('l', in(LIME_DYE)).input('a', in(CRAFTER)).patterns("tlt", "cac", "ttt").save(output);
 
         GLOW_BLOCKS.forEach((color, deferredBlock) -> {
@@ -70,6 +76,26 @@ class RecipesGen extends LimaRecipeProvider
         oreSmeltBlast(output, "smelt_deepslate_titanium", in(DEEPSLATE_TITANIUM_ORE), out(TITANIUM_INGOT));
         oreSmeltBlast(output, "smelt_raw_niobium", in(RAW_NIOBIUM), out(NIOBIUM_INGOT));
         oreSmeltBlast(output, "smelt_niobium_ore", in(NIOBIUM_ORE), out(NIOBIUM_INGOT));
+
+        // Grinding recipes
+        grinding(out(DEEPSLATE_POWDER))
+                .input(in(LimaTechTags.Items.DEEPSLATE_GRINDABLES))
+                .save(output, "grind_deepslate");
+
+        // Material fusing recipes
+        fusing(out(SLATE_ALLOY_INGOT))
+                .input(in(DEEPSLATE_POWDER, 4))
+                .input(in(NETHERITE_INGOT))
+                .save(output, "slate_alloy_from_netherite_ingot");
+        fusing(out(SLATE_ALLOY_INGOT))
+                .input(in(DEEPSLATE_POWDER, 4))
+                .input(in(NETHERITE_SCRAP, 2))
+                .input(in(GOLD_INGOT))
+                .save(output, "slate_alloy_from_netherite_alloying");
+        fusing(out(NETHERITE_INGOT))
+                .input(in(NETHERITE_SCRAP, 4))
+                .input(in(GOLD_INGOT))
+                .save(output);
 
         // Fabricating recipes
         fabricating(ROCKET_TURRET, 1_000_000)
@@ -102,9 +128,20 @@ class RecipesGen extends LimaRecipeProvider
         fabricating(MAGNUM, 50_000_000)
                 .input(in(TITANIUM_INGOT, 32))
                 .input(in(NIOBIUM_INGOT, 24))
+                .input(in(SLATE_ALLOY_INGOT, 4))
                 .input(in(GOLD_CIRCUIT, 16))
                 .input(in(NIOBIUM_CIRCUIT, 8))
                 .group("weapons").save(output);
+    }
+
+    private BasicRecipeBuilder<GrindingRecipe> grinding(ItemStack result)
+    {
+        return new BasicRecipeBuilder<>(LimaTechCrafting.GRINDING_SERIALIZER.get(), modResources, result);
+    }
+
+    private BasicRecipeBuilder<FusingRecipe> fusing(ItemStack result)
+    {
+        return new BasicRecipeBuilder<>(LimaTechCrafting.FUSING_SERIALIZER.get(), modResources, result);
     }
 
     private FabricatingBuilder fabricating(ItemLike result, int energyRequired)
@@ -120,6 +157,33 @@ class RecipesGen extends LimaRecipeProvider
     private void titaniumTool(RecipeOutput output, ItemLike tool, String p1, String p2, String p3)
     {
         shaped(out(tool)).input('t', in(TITANIUM_INGOT)).input('s', in(Tags.Items.RODS_WOODEN)).patterns(p1, p2, p3).save(output);
+    }
+
+    private static class BasicRecipeBuilder<R extends BasicMachineRecipe> extends SingleResultRecipeBuilder<R, BasicRecipeBuilder<R>>
+    {
+        private final List<Ingredient> ingredients = new ObjectArrayList<>();
+        private final BasicMachineRecipe.BasicMachineRecipeSerializer<R> serializer;
+
+        protected BasicRecipeBuilder(BasicMachineRecipe.BasicMachineRecipeSerializer<R> serializer, ModResources resources, ItemStack result)
+        {
+            super(serializer, resources, result);
+            this.serializer = serializer;
+        }
+
+        private BasicRecipeBuilder<R> input(Ingredient ingredient)
+        {
+            ingredients.add(ingredient);
+            return this;
+        }
+
+        @Override
+        protected void validate(ResourceLocation id) { }
+
+        @Override
+        protected R buildRecipe()
+        {
+            return serializer.createRecipeInstance(NonNullList.copyOf(ingredients), result);
+        }
     }
 
     private static class FabricatingBuilder extends SingleResultRecipeBuilder<FabricatingRecipe, FabricatingBuilder>

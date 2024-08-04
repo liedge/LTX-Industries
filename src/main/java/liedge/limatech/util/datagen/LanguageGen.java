@@ -76,6 +76,8 @@ class LanguageGen extends LimaLanguageProvider
 
         GLOW_BLOCKS.forEach((color, deferredBlock) -> addBlock(deferredBlock, localizeDyeColor(color) + " Glow Block"));
 
+        addBlock(GRINDER, "Grinder");
+        addBlock(MATERIAL_FUSING_CHAMBER, "Material Fusing Chamber");
         addBlock(FABRICATOR, "Fabricator");
 
         addBlock(ROCKET_TURRET, "Anti-Air Rocket Turret");
@@ -124,10 +126,14 @@ class LanguageGen extends LimaLanguageProvider
         creativeTab(MAIN_TAB, "LimaTech");
 
         //#region Menu titles
+        add(LimaTechMenus.GRINDER, "Grinder");
+        add(LimaTechMenus.MATERIAL_FUSING_CHAMBER, "Material Fusing Chamber");
         add(LimaTechMenus.FABRICATOR, "Fabricator");
         //#endregion
 
         // Recipe types
+        add(LimaTechCrafting.GRINDING_TYPE, "Grinding");
+        add(LimaTechCrafting.FUSING_TYPE, "Material Fusing");
         add(LimaTechCrafting.FABRICATING_TYPE, "Fabricating");
 
         // Entity type names

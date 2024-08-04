@@ -6,6 +6,8 @@ import liedge.limatech.client.gui.layer.BubbleShieldLayer;
 import liedge.limatech.client.gui.layer.WeaponCrosshairLayer;
 import liedge.limatech.client.gui.layer.WeaponHUDInfoLayer;
 import liedge.limatech.client.gui.screen.FabricatorScreen;
+import liedge.limatech.client.gui.screen.GrinderScreen;
+import liedge.limatech.client.gui.screen.MaterialFusingChamberScreen;
 import liedge.limatech.client.model.baked.DynamicModularGeometry;
 import liedge.limatech.client.model.custom.BubbleShieldModel;
 import liedge.limatech.client.model.entity.LimaTechModelLayers;
@@ -52,6 +54,8 @@ public final class LimaTechClientSetup
     @SubscribeEvent
     public static void registerMenuScreens(final RegisterMenuScreensEvent event)
     {
+        event.register(LimaTechMenus.GRINDER.get(), GrinderScreen::new);
+        event.register(LimaTechMenus.MATERIAL_FUSING_CHAMBER.get(), MaterialFusingChamberScreen::new);
         event.register(LimaTechMenus.FABRICATOR.get(), FabricatorScreen::new);
     }
 

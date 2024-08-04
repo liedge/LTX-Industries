@@ -33,26 +33,7 @@ import static net.minecraft.world.level.block.state.properties.BlockStatePropert
 
 public class RocketTurretBlock extends LimaEntityBlock implements SimpleWaterloggedBlock
 {
-    private static final VoxelShape INSET_FRAME_SHAPE = Shapes.or(
-            // Center frame piece
-            Block.box(0.5d, 0.5d, 0.5d, 15.5d, 15.5d, 15.5d),
-            // Bottom frame pieces
-            Block.box(0, 0, 0, 16, 1, 1),
-            Block.box(0, 0, 15, 16,  1, 16),
-            Block.box(0, 0, 0, 1, 1, 16),
-            Block.box(15, 0, 0, 16, 1, 16),
-            // Vertical frame pieces
-            Block.box(0, 0, 0, 1, 16, 1),
-            Block.box(15, 0, 0, 16, 16, 1),
-            Block.box(0, 0, 15, 1, 16, 16),
-            Block.box(15, 0, 15, 16, 16, 16),
-            // Top frame pieces
-            Block.box(0, 15, 0, 16, 16, 1),
-            Block.box(0, 15, 15, 16, 16, 16),
-            Block.box(0, 15, 0, 1, 16, 16),
-            Block.box(15, 15, 0, 16, 16, 16));
-
-    private static final VoxelShape TURRET_SHAPE = Shapes.or(INSET_FRAME_SHAPE,
+    private static final VoxelShape TURRET_SHAPE = Shapes.or(BasicMachineBlock.BASIC_MACHINE_SHAPE,
             // Gun shape
             Block.box(3.5d, 16, 3.5d, 12.5d, 17.25d, 12.5d),
             Block.box(6, 17, 6, 10, 25, 10));

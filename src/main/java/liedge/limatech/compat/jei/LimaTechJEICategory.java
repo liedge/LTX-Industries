@@ -1,8 +1,10 @@
 package liedge.limatech.compat.jei;
 
+import liedge.limacore.client.gui.UnmanagedSprite;
 import liedge.limacore.recipe.LimaCustomRecipe;
 import liedge.limacore.recipe.LimaRecipeType;
 import mezz.jei.api.gui.drawable.IDrawable;
+import mezz.jei.api.gui.drawable.IDrawableBuilder;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
@@ -32,6 +34,11 @@ public abstract class LimaTechJEICategory<R extends LimaCustomRecipe<?>> impleme
     protected final RegistryAccess localRegistryAccess()
     {
         return Objects.requireNonNull(Minecraft.getInstance().level, "Minecraft local level is null").registryAccess();
+    }
+
+    protected IDrawableBuilder unmanagedSpriteDrawable(IGuiHelper helper, UnmanagedSprite sprite)
+    {
+        return helper.drawableBuilder(sprite.textureSheet(), sprite.u(), sprite.v(), sprite.width(), sprite.height());
     }
 
     @Override

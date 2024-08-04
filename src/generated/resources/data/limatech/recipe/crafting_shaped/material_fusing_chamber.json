@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "a": {
+      "item": "minecraft:blast_furnace"
+    },
+    "c": {
+      "item": "limatech:copper_circuit"
+    },
+    "l": {
+      "item": "minecraft:lime_dye"
+    },
+    "t": {
+      "item": "limatech:titanium_ingot"
+    }
+  },
+  "pattern": [
+    "tlt",
+    "cac",
+    "ttt"
+  ],
+  "result": {
+    "count": 1,
+    "id": "limatech:material_fusing_chamber"
+  }
+}

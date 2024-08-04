@@ -4,6 +4,7 @@ import liedge.limacore.registry.LimaBlockDeferredRegister;
 import liedge.limacore.registry.LimaDeferredBlock;
 import liedge.limacore.util.LimaCollectionsUtil;
 import liedge.limatech.LimaTech;
+import liedge.limatech.block.BasicMachineBlock;
 import liedge.limatech.block.FabricatorBlock;
 import liedge.limatech.block.RocketTurretBlock;
 import liedge.limatech.item.MachineBlockItem;
@@ -60,6 +61,8 @@ public final class LimaTechBlocks
     public static final Map<DyeColor, DeferredBlock<Block>> GLOW_BLOCKS = LimaCollectionsUtil.immutableEnumMapFor(DyeColor.class, color -> BLOCKS.registerSimpleBlockWithItem(color.getSerializedName() + "_glow_block", of().mapColor(color).sound(SoundType.GLASS).strength(2f).lightLevel(state -> 15)));
 
     // Machinery
+    public static final LimaDeferredBlock<BasicMachineBlock, MachineBlockItem> GRINDER = BLOCKS.registerBlockAndItem("grinder", () -> new BasicMachineBlock(machineProperties()), block -> new MachineBlockItem(block, new Item.Properties().stacksTo(1)));
+    public static final LimaDeferredBlock<BasicMachineBlock, MachineBlockItem> MATERIAL_FUSING_CHAMBER = BLOCKS.registerBlockAndItem("material_fusing_chamber", () -> new BasicMachineBlock(machineProperties()), block -> new MachineBlockItem(block, new Item.Properties().stacksTo(1)));
     public static final LimaDeferredBlock<FabricatorBlock, MachineBlockItem> FABRICATOR = BLOCKS.registerBlockAndItem("fabricator", () -> new FabricatorBlock(machineProperties().noOcclusion()), block -> new MachineBlockItem(block, new Item.Properties().stacksTo(1)));
 
     public static final LimaDeferredBlock<RocketTurretBlock, BlockItem> ROCKET_TURRET = BLOCKS.registerBlockAndSimpleItem("rocket_turret", () -> new RocketTurretBlock(machineProperties().noOcclusion()));

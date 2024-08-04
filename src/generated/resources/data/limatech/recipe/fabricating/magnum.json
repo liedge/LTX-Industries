@@ -15,6 +15,11 @@
     },
     {
       "type": "limacore:simple_count",
+      "count": 4,
+      "item": "limatech:slate_alloy_ingot"
+    },
+    {
+      "type": "limacore:simple_count",
       "count": 16,
       "item": "limatech:gold_circuit"
     },

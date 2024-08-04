@@ -107,12 +107,13 @@ public class FabricatorBlockEntity extends MachineBlockEntity implements RecipeI
     protected void tickServer(Level level, BlockPos pos, BlockState state)
     {
         LimaEnergyStorage machineEnergy = getEnergyStorage();
-
-        // TODO move this tick somewhere else
-        IEnergyStorage itemEnergy = getItemHandler().getStackInSlot(0).getCapability(Capabilities.EnergyStorage.ITEM);
-        if (itemEnergy != null)
+        if (machineEnergy.getEnergyStored() < machineEnergy.getMaxEnergyStored())
         {
-            LimaEnergyUtil.transferEnergyBetween(itemEnergy, machineEnergy, machineEnergy.getTransferRate(), false);
+            IEnergyStorage itemEnergy = getItemHandler().getStackInSlot(0).getCapability(Capabilities.EnergyStorage.ITEM);
+            if (itemEnergy != null)
+            {
+                LimaEnergyUtil.transferEnergyBetween(itemEnergy, machineEnergy, machineEnergy.getTransferRate(), false);
+            }
         }
 
         FabricatingRecipe recipe = currentRecipe.getRecipeValue(level);

@@ -1,0 +1,12 @@
+{
+  "type": "limatech:grinding",
+  "ingredients": [
+    {
+      "tag": "limatech:deepslate_grindables"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "limatech:deepslate_powder"
+  }
+}

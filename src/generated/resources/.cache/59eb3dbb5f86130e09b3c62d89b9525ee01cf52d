@@ -1,4 +1,4 @@
-// 1.21	2024-08-02T03:02:51.5391905	Loot Tables
+// 1.21	2024-08-04T03:41:20.2752471	Loot Tables
 d2921ade656bb5f907d43bc46407d7f7fb3995c1 data/limatech/loot_table/blocks/black_glow_block.json
 3a0705649b5bfb3e23b6242ad7d3e1bb93a5d345 data/limatech/loot_table/blocks/blue_glow_block.json
 c1c994b756184c059f015ed9bb1ed254f7ea68f7 data/limatech/loot_table/blocks/brown_glow_block.json
@@ -7,10 +7,12 @@ c416c4e4b7eeb572fe612529226162126664f33c data/limatech/loot_table/blocks/deepsla
 d19d9c8e64505844f3d825057345f15fab58c883 data/limatech/loot_table/blocks/fabricator.json
 055f5c8c9647e6159f89096bfa38b95849474330 data/limatech/loot_table/blocks/gray_glow_block.json
 81a6d28ab23eafd2a6ebd42f17e4b69dce9d53df data/limatech/loot_table/blocks/green_glow_block.json
+8b8c7eb9513fe4583f907c5c8b6b17d53323b8a7 data/limatech/loot_table/blocks/grinder.json
 4859bd36dbb14a928f414d55f352fdef4f3a1c35 data/limatech/loot_table/blocks/light_blue_glow_block.json
 472b215f56a8bb1a31189d5854a02ae16e8bb901 data/limatech/loot_table/blocks/light_gray_glow_block.json
 8d7392d3b342e91ac4627d3519a0385c116ba334 data/limatech/loot_table/blocks/lime_glow_block.json
 ac3c9b3e8673f318f98bbba38f6dccebeda80f96 data/limatech/loot_table/blocks/magenta_glow_block.json
+6de2875c54d37802495c7379b6472b8ed69fef68 data/limatech/loot_table/blocks/material_fusing_chamber.json
 c0ddf185c8f042b19e5b5135c630a800227016b1 data/limatech/loot_table/blocks/niobium_block.json
 c682b1612f05c9d9550b4eff92a0d7a5e32cfdce data/limatech/loot_table/blocks/niobium_ore.json
 447054cf03b0f12635a096b95dee41b4928adf44 data/limatech/loot_table/blocks/orange_glow_block.json
