@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import it.unimi.dsi.fastutil.ints.IntList;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import liedge.limacore.client.model.BlockBenchGroupData;
 import liedge.limacore.client.model.BlockBenchGroupGeometry;
 import liedge.limacore.client.model.LimaGeometryLoader;
 import liedge.limatech.LimaTech;
@@ -74,11 +75,11 @@ public class DynamicModularGeometry extends BlockBenchGroupGeometry<DynamicModul
     private static class Loader extends GeometryLoader<GroupData>
     {
         @Override
-        protected GroupData deserializeGroup(JsonObject json, IntList groupElements)
+        protected GroupData deserializeGroup(JsonObject groupJson, String name, IntList elements)
         {
-            String submodel = GsonHelper.getAsString(json, "sub_model", "main");
-            boolean emissive = GsonHelper.getAsBoolean(json, "emissive", false);
-            return new GroupData(submodel, groupElements, emissive);
+            String submodel = GsonHelper.getAsString(groupJson, "sub_model", "main");
+            boolean emissive = GsonHelper.getAsBoolean(groupJson, "emissive", false);
+            return new GroupData(name, elements, emissive, submodel);
         }
 
         @Override
@@ -115,5 +116,6 @@ public class DynamicModularGeometry extends BlockBenchGroupGeometry<DynamicModul
         }
     }
 
-    public record GroupData(String submodel, IntList elements, boolean emissive) {}
+    public record GroupData(String name, IntList elements, boolean emissive, String submodel) implements BlockBenchGroupData
+    {}
 }

@@ -1,0 +1,12 @@
+{
+  "type": "limatech:grinding",
+  "ingredients": [
+    {
+      "tag": "c:raw_materials/niobium"
+    }
+  ],
+  "result": {
+    "count": 2,
+    "id": "limatech:niobium_ore_pebbles"
+  }
+}

@@ -1,9 +1,12 @@
-// 1.21	2024-08-04T03:41:20.2752471	Loot Tables
+// 1.21.1	2024-12-17T23:39:15.0658499	Loot Tables
 d2921ade656bb5f907d43bc46407d7f7fb3995c1 data/limatech/loot_table/blocks/black_glow_block.json
 3a0705649b5bfb3e23b6242ad7d3e1bb93a5d345 data/limatech/loot_table/blocks/blue_glow_block.json
 c1c994b756184c059f015ed9bb1ed254f7ea68f7 data/limatech/loot_table/blocks/brown_glow_block.json
 235845b53a43cbd3112788cd0f736bc29fc1d867 data/limatech/loot_table/blocks/cyan_glow_block.json
 c416c4e4b7eeb572fe612529226162126664f33c data/limatech/loot_table/blocks/deepslate_titanium_ore.json
+235f850fc895d51b46e8f7988f8652ffd49f024a data/limatech/loot_table/blocks/digital_furnace.json
+ecb0087a4e0cfd736cd408ca1e88cd8c785509d2 data/limatech/loot_table/blocks/energy_storage_array.json
+f7340da4c8e9310ff0892d893062d43ba23e9347 data/limatech/loot_table/blocks/equipment_mod_table.json
 d19d9c8e64505844f3d825057345f15fab58c883 data/limatech/loot_table/blocks/fabricator.json
 055f5c8c9647e6159f89096bfa38b95849474330 data/limatech/loot_table/blocks/gray_glow_block.json
 81a6d28ab23eafd2a6ebd42f17e4b69dce9d53df data/limatech/loot_table/blocks/green_glow_block.json
@@ -20,6 +23,7 @@ d3ddbddf3a8aa1c853d649cd3cb7bf66e1da7ff3 data/limatech/loot_table/blocks/pink_gl
 01763494cfbb5487e53489a0a9b8e8aa089a9e73 data/limatech/loot_table/blocks/purple_glow_block.json
 cd172de5649c5abfaf28f3cb8ca10604eca3076a data/limatech/loot_table/blocks/raw_niobium_block.json
 7034a9fabac6f9a9b9e43c5aaa5d012c25eb0422 data/limatech/loot_table/blocks/raw_titanium_block.json
+e6297fe1235972307764a5ab0f7dc55d501a0576 data/limatech/loot_table/blocks/recomposer.json
 e30176cc397eda5c00e53f0afc33450ab3fad72a data/limatech/loot_table/blocks/red_glow_block.json
 aac701f4d594bb801e2db6c9b89fde4a2141ccbc data/limatech/loot_table/blocks/rocket_turret.json
 75cd0fe38a6eb34b65aaf76caa1c1d080dd13861 data/limatech/loot_table/blocks/slate_alloy_block.json
@@ -27,6 +31,6 @@ aac701f4d594bb801e2db6c9b89fde4a2141ccbc data/limatech/loot_table/blocks/rocket_
 5f717b0a5633ef659b335fff3b07da5dfea5787e data/limatech/loot_table/blocks/titanium_ore.json
 cd3c599233b00b6433bfd8e02bfd1e07ef7d4555 data/limatech/loot_table/blocks/white_glow_block.json
 7a23e700ae19cc05e885cc619df329666cde9462 data/limatech/loot_table/blocks/yellow_glow_block.json
-7e7035bdbc6a88607884f2454922d305d04ede7e data/limatech/loot_table/chests/explosive_salvage.json
-165a574af4f91852f7f45bb569a5fe6273b8ae3c data/limatech/loot_table/chests/legendary_ammo.json
-768e2a4cf62b52ae03db57d7559dbdcb1537d5ec data/limatech/loot_table/entity/extra_drops.json
+34811e9a7b39733bda309027719f64d752facce2 data/limatech/loot_table/entity/enemy_ammo_drops.json
+53082b8e03bacbd8ee7517281dd0a25c02f784cb data/limatech/loot_table/entity/extra_drops.json
+3b3fac1044c90d6f35c514c60aa1301308b47d1c data/limatech/loot_table/entity/razor_drops.json

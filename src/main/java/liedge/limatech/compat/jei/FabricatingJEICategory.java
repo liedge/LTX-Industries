@@ -1,56 +1,83 @@
 package liedge.limatech.compat.jei;
 
-import liedge.limacore.client.gui.LimaRenderable;
+import liedge.limacore.client.gui.LimaGuiUtil;
 import liedge.limacore.recipe.LimaRecipeType;
 import liedge.limacore.util.LimaMathUtil;
 import liedge.limatech.LimaTech;
 import liedge.limatech.LimaTechConstants;
-import liedge.limatech.client.LimaTechLangKeys;
-import liedge.limatech.recipe.FabricatingRecipe;
+import liedge.limatech.client.LimaTechLang;
+import liedge.limatech.client.gui.widget.ScreenWidgetSprites;
+import liedge.limatech.recipe.BaseFabricatingRecipe;
 import liedge.limatech.registry.LimaTechBlocks;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawableAnimated;
+import mezz.jei.api.gui.drawable.IDrawableStatic;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.item.crafting.RecipeHolder;
 
 import java.util.List;
+import java.util.function.Supplier;
 
-public class FabricatingJEICategory extends LimaTechJEICategory<FabricatingRecipe>
+public class FabricatingJEICategory extends LimaJEICategory<BaseFabricatingRecipe>
 {
     private static final ResourceLocation BACKGROUND = LimaTech.RESOURCES.textureLocation("gui", "fabricator_jei");
 
-    private final IDrawableAnimated energyBarAnimation;
+    private final IDrawableStatic energyBarBackground;
+    private final IDrawableAnimated energyBarForeground;
 
-    FabricatingJEICategory(IGuiHelper helper, LimaRecipeType<FabricatingRecipe> limaRecipeType)
+    FabricatingJEICategory(IGuiHelper helper, Supplier<LimaRecipeType<BaseFabricatingRecipe>> typeSupplier)
     {
-        super(helper, limaRecipeType, BACKGROUND, 0, 0, 112, 82);
-        this.energyBarAnimation = helper.drawableBuilder(BACKGROUND, 112, 0, 8, 46).buildAnimated(60, IDrawableAnimated.StartDirection.BOTTOM, false);
+        super(helper, typeSupplier, BACKGROUND, 0, 0, 112, 82);
+        this.energyBarBackground = unmanagedSpriteDrawable(helper, ScreenWidgetSprites.ENERGY_GAUGE_BACKGROUND).build();
+        this.energyBarForeground = unmanagedSpriteDrawable(helper, ScreenWidgetSprites.ENERGY_GAUGE_FOREGROUND).buildAnimated(80, IDrawableAnimated.StartDirection.BOTTOM, false);
     }
 
     @Override
-    protected ItemLike categoryIconItem()
-    {
-        return LimaTechBlocks.FABRICATOR;
-    }
-
-    @Override
-    public RecipeType<FabricatingRecipe> getRecipeType()
+    public RecipeType<RecipeHolder<BaseFabricatingRecipe>> getRecipeType()
     {
         return LimaTechJEIPlugin.FABRICATING_JEI;
     }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, FabricatingRecipe recipe, IFocusGroup focuses)
+    public void draw(RecipeHolder<BaseFabricatingRecipe> recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY)
     {
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 8, 58).addItemStack(recipe.getResultItem(localRegistryAccess()));
+        energyBarBackground.draw(guiGraphics, 11, 5);
+        energyBarForeground.draw(guiGraphics, 12, 6);
+    }
+
+    @Override
+    public List<Component> getTooltipStrings(RecipeHolder<BaseFabricatingRecipe> holder, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY)
+    {
+        if (LimaGuiUtil.isMouseWithinArea(mouseX, mouseY, 11, 5, 10, 48))
+        {
+            return List.of(LimaTechLang.FABRICATOR_ENERGY_REQUIRED_TOOLTIP.translateArgs(LimaMathUtil.FORMAT_COMMA_INT.format(holder.value().getEnergyRequired())).withStyle(LimaTechConstants.REM_BLUE.chatStyle()));
+        }
+        else
+        {
+            return List.of();
+        }
+    }
+
+    @Override
+    protected ItemStack categoryIconItemStack()
+    {
+        return LimaTechBlocks.FABRICATOR.toStack();
+    }
+
+    @Override
+    protected void setRecipe(IRecipeLayoutBuilder builder, RecipeHolder<BaseFabricatingRecipe> holder, BaseFabricatingRecipe recipe, IFocusGroup focuses, RegistryAccess registries)
+    {
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 8, 58).addItemStack(recipe.getResultItem(null));
 
         List<Ingredient> ingredients = recipe.getIngredients();
         for (int i = 0; i < ingredients.size(); i++)
@@ -59,25 +86,6 @@ public class FabricatingJEICategory extends LimaTechJEICategory<FabricatingRecip
             int x = 36 + (i % 4) * 18;
             int y = 6 + (i / 4) * 18;
             builder.addSlot(RecipeIngredientRole.INPUT, x, y).addIngredients(ingredient);
-        }
-    }
-
-    @Override
-    public void draw(FabricatingRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY)
-    {
-        energyBarAnimation.draw(guiGraphics, 12, 6);
-    }
-
-    @Override
-    public List<Component> getTooltipStrings(FabricatingRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY)
-    {
-        if (LimaRenderable.checkMouseOver(mouseX, mouseY, 11, 5, 10, 48))
-        {
-            return List.of(LimaTechLangKeys.FABRICATOR_ENERGY_REQUIRED_TOOLTIP.translateArgs(LimaMathUtil.FORMAT_COMMA_INT.format(recipe.getEnergyRequired())).withStyle(LimaTechConstants.REM_BLUE::applyStyle));
-        }
-        else
-        {
-            return List.of();
         }
     }
 }

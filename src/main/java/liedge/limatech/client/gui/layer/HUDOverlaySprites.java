@@ -32,7 +32,9 @@ public final class HUDOverlaySprites
     public static final UnmanagedSprite MAGNUM_CROSSHAIR_1 = sprite(13, 0, 6, 6);
     public static final UnmanagedSprite MAGNUM_CROSSHAIR_2 = sprite(19, 0, 6, 6);
 
-    public static final UnmanagedSprite AMMO_INDICATOR = sprite(46, 0, 49, 13);
+    public static final UnmanagedSprite NORMAL_AMMO_INDICATOR = sprite(46, 0, 49, 13);
+    public static final UnmanagedSprite ENERGY_AMMO_INDICATOR = sprite(187, 0, 49, 23);
+    public static final UnmanagedSprite INFINITE_AMMO_INDICATOR = sprite(46, 14, 47, 13);
     public static final UnmanagedSprite RELOADING_INDICATOR = sprite(134, 0, 35, 15);
     public static final UnmanagedSprite RELOADING_INDICATOR_INNER = sprite(170, 0, 16, 3);
 

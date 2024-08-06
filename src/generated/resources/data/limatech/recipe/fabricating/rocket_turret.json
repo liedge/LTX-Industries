@@ -7,17 +7,17 @@
       "item": "limatech:targeting_tech_salvage"
     },
     {
-      "type": "limacore:simple_count",
+      "type": "limacore:item_with_count",
       "count": 32,
       "item": "limatech:titanium_ingot"
     },
     {
-      "type": "limacore:simple_count",
+      "type": "limacore:item_with_count",
       "count": 4,
       "item": "limatech:niobium_circuit"
     },
     {
-      "type": "limacore:simple_count",
+      "type": "limacore:item_with_count",
       "count": 8,
       "item": "limatech:gold_circuit"
     }

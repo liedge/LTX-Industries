@@ -1,0 +1,18 @@
+{
+  "description": {
+    "translate": "equipment_upgrade.limatech.flame_grenade_core.desc"
+  },
+  "effects": [
+    {
+      "type": "limatech:grenade_type_selection",
+      "types": [
+        "flame"
+      ]
+    }
+  ],
+  "icon": "limatech:flame_grenade_core",
+  "supported_items": "limatech:grenade_launcher",
+  "title": {
+    "translate": "equipment_upgrade.limatech.flame_grenade_core.title"
+  }
+}

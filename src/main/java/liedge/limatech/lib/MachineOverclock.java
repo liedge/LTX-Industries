@@ -20,7 +20,7 @@ public enum MachineOverclock implements OrderedEnum<MachineOverclock>, StringRep
     OVERCLOCK_11(11),
     OVERCLOCK_12(12);
 
-    public static final LimaEnumCodec<MachineOverclock> CODEC = LimaEnumCodec.createDefaulted(MachineOverclock.class, NO_OVERCLOCK);
+    public static final LimaEnumCodec<MachineOverclock> CODEC = LimaEnumCodec.createLenient(MachineOverclock.class, NO_OVERCLOCK);
 
     private final String name;
     private final int overclockTier;

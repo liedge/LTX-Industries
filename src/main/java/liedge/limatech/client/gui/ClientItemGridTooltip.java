@@ -1,53 +1,27 @@
 package liedge.limatech.client.gui;
 
-import liedge.limatech.menu.ItemGridTooltip;
+import liedge.limatech.menu.tooltip.GridTooltip;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.world.item.ItemStack;
 
-import java.util.List;
-
-public final class ClientItemGridTooltip implements ClientTooltipComponent
+public final class ClientItemGridTooltip extends ClientGridTooltip<ItemStack>
 {
-    private final List<ItemStack> itemStacks;
-    private final int maxColumns;
-    private final int width;
-    private final int height;
-
-    public ClientItemGridTooltip(ItemGridTooltip tooltipData)
+    public ClientItemGridTooltip(GridTooltip<ItemStack> tooltip)
     {
-        this.itemStacks = tooltipData.itemStacks();
-        this.maxColumns = tooltipData.maxColumns();
-        this.width = Math.min(maxColumns, itemStacks.size()) * 18;
-        this.height = (int) Math.ceil(itemStacks.size() / (double) maxColumns) * 18;
+        super(tooltip);
     }
 
     @Override
-    public int getHeight()
+    protected int elementSize()
     {
-        return height;
+        return 18;
     }
 
     @Override
-    public int getWidth(Font font)
+    protected void renderGridElement(ItemStack element, Font font, int rx, int ry, GuiGraphics graphics)
     {
-        return width;
-    }
-
-    @Override
-    public void renderImage(Font font, int x, int y, GuiGraphics graphics)
-    {
-        int count = itemStacks.size();
-
-        for (int i = 0; i < count; i++)
-        {
-            int rx = x + (i % maxColumns) * 18;
-            int ry = y + (i / maxColumns) * 18;
-
-            ItemStack stack = itemStacks.get(i);
-            graphics.renderItem(stack, rx, ry);
-            graphics.renderItemDecorations(font, stack, rx, ry);
-        }
+        graphics.renderItem(element, rx, ry);
+        graphics.renderItemDecorations(font, element, rx, ry);
     }
 }

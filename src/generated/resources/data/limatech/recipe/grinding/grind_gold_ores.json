@@ -1,0 +1,12 @@
+{
+  "type": "limatech:grinding",
+  "ingredients": [
+    {
+      "tag": "c:ores/gold"
+    }
+  ],
+  "result": {
+    "count": 3,
+    "id": "limatech:gold_ore_pebbles"
+  }
+}

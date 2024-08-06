@@ -1,11 +1,12 @@
 package liedge.limatech.network.packet;
 
-import liedge.limacore.network.LimaStreamCodecs;
+import liedge.limacore.client.LimaCoreClientUtil;
 import liedge.limacore.network.packet.LimaPlayPacket;
+import liedge.limacore.util.LimaEntityUtil;
 import liedge.limatech.LimaTech;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.network.protocol.PacketFlow;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -13,36 +14,34 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Optional;
-
 import static liedge.limatech.registry.LimaTechAttachmentTypes.BUBBLE_SHIELD;
 
-public record ClientboundBubbleShieldPacket(Optional<Entity> remoteEntity, float shieldHealth) implements LimaPlayPacket.ClientboundOnly
+public record ClientboundBubbleShieldPacket(@Nullable Entity remoteEntity, float shieldHealth) implements LimaPlayPacket.ClientboundOnly
 {
-    static final PacketSpec<ClientboundBubbleShieldPacket> PACKET_SPEC = LimaTech.RESOURCES.packetSpec("bubble_shield", StreamCodec.composite(
-            LimaStreamCodecs.REMOTE_ENTITY, ClientboundBubbleShieldPacket::remoteEntity,
+    static final PacketSpec<ClientboundBubbleShieldPacket> PACKET_SPEC = LimaTech.RESOURCES.packetSpec(PacketFlow.CLIENTBOUND, "bubble_shield", StreamCodec.composite(
+            ByteBufCodecs.VAR_INT, msg -> LimaEntityUtil.getEntityId(msg.remoteEntity),
             ByteBufCodecs.FLOAT, ClientboundBubbleShieldPacket::shieldHealth,
             ClientboundBubbleShieldPacket::new));
 
-    public static void sendShieldToTrackers(LivingEntity shieldedEntity)
+    private ClientboundBubbleShieldPacket(int eid, float shieldHealth)
     {
-        shieldedEntity.getExistingData(BUBBLE_SHIELD).ifPresent(shield -> PacketDistributor.sendToPlayersTrackingEntityAndSelf(shieldedEntity, new ClientboundBubbleShieldPacket(Optional.of(shieldedEntity), shield.getShieldHealth())));
+        this(LimaCoreClientUtil.getClientEntity(eid), shieldHealth);
     }
 
-    public ClientboundBubbleShieldPacket(@Nullable Entity remoteEntity, float shieldHealth)
+    public static void sendShieldToTrackersAndSelf(LivingEntity shieldedEntity)
     {
-        this(Optional.ofNullable(remoteEntity), shieldHealth);
-    }
-
-    @Override
-    public void onReceivedByClient(IPayloadContext context, Player player)
-    {
-        remoteEntity.ifPresent(entity -> entity.getData(BUBBLE_SHIELD).setShieldHealth(shieldHealth));
+        shieldedEntity.getExistingData(BUBBLE_SHIELD).ifPresent(shield -> PacketDistributor.sendToPlayersTrackingEntityAndSelf(shieldedEntity, new ClientboundBubbleShieldPacket(shieldedEntity, shield.getShieldHealth())));
     }
 
     @Override
-    public Type<? extends CustomPacketPayload> type()
+    public void onReceivedByClient(IPayloadContext context, Player localPlayer)
     {
-        return PACKET_SPEC.type();
+        if (remoteEntity != null) remoteEntity.getData(BUBBLE_SHIELD).setShieldHealth(shieldHealth);
+    }
+
+    @Override
+    public PacketSpec<?> getPacketSpec()
+    {
+        return PACKET_SPEC;
     }
 }

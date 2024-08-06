@@ -1,0 +1,41 @@
+{
+  "type": "limatech:fabricating",
+  "energy_required": 1000000,
+  "group": "grenade_cores",
+  "ingredients": [
+    {
+      "type": "limacore:item_with_count",
+      "count": 16,
+      "item": "limatech:gold_circuit"
+    },
+    {
+      "type": "limacore:item_with_count",
+      "count": 4,
+      "item": "limatech:niobium_circuit"
+    },
+    {
+      "type": "limacore:item_with_count",
+      "count": 32,
+      "item": "limatech:titanium_ingot"
+    },
+    {
+      "type": "neoforge:components",
+      "components": {
+        "minecraft:potion_contents": {
+          "potion": "minecraft:strong_poison"
+        }
+      },
+      "items": "minecraft:potion"
+    }
+  ],
+  "result": {
+    "components": {
+      "limatech:upgrade_data": {
+        "rank": 1,
+        "upgrade": "limatech:acid_grenade_core"
+      }
+    },
+    "count": 1,
+    "id": "limatech:equipment_upgrade"
+  }
+}

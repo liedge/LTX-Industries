@@ -1,0 +1,40 @@
+{
+  "type": "limatech:fabricating",
+  "energy_required": 500000,
+  "group": "grenade_cores",
+  "ingredients": [
+    {
+      "type": "limacore:item_with_count",
+      "count": 8,
+      "item": "limatech:copper_circuit"
+    },
+    {
+      "type": "limacore:item_with_count",
+      "count": 8,
+      "item": "limatech:gold_circuit"
+    },
+    {
+      "type": "limacore:item_with_count",
+      "count": 8,
+      "item": "limatech:titanium_ingot"
+    },
+    {
+      "type": "limacore:item_with_count",
+      "count": 4,
+      "item": "minecraft:lightning_rod"
+    },
+    {
+      "item": "minecraft:breeze_rod"
+    }
+  ],
+  "result": {
+    "components": {
+      "limatech:upgrade_data": {
+        "rank": 1,
+        "upgrade": "limatech:electric_grenade_core"
+      }
+    },
+    "count": 1,
+    "id": "limatech:equipment_upgrade"
+  }
+}

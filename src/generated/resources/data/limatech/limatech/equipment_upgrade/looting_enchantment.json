@@ -1,0 +1,22 @@
+{
+  "description": {
+    "translate": "equipment_upgrade.limatech.looting_enchantment.desc"
+  },
+  "effects": [
+    {
+      "type": "limatech:enchantment_level",
+      "enchantment": "minecraft:looting",
+      "levels_per_rank": {
+        "type": "minecraft:linear",
+        "base": 1.0,
+        "per_level_above_first": 1.0
+      }
+    }
+  ],
+  "icon": "limatech:looting_enchant",
+  "max_rank": 5,
+  "supported_items": "#limatech:ltx_weapons",
+  "title": {
+    "translate": "equipment_upgrade.limatech.looting_enchantment.title"
+  }
+}

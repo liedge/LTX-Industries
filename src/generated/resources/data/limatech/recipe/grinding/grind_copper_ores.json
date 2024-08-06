@@ -1,0 +1,12 @@
+{
+  "type": "limatech:grinding",
+  "ingredients": [
+    {
+      "tag": "c:ores/copper"
+    }
+  ],
+  "result": {
+    "count": 3,
+    "id": "limatech:copper_ore_pebbles"
+  }
+}

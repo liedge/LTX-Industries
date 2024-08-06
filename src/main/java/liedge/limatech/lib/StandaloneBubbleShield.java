@@ -13,8 +13,6 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 public class StandaloneBubbleShield implements INBTSerializable<FloatTag>, BubbleShieldUser
 {
-    public static final float MAX_SHIELD_HEALTH = 1000;
-
     private float shieldHealth;
     private int shieldInvulnerableCooldown;
     private boolean changed = true;
@@ -32,11 +30,12 @@ public class StandaloneBubbleShield implements INBTSerializable<FloatTag>, Bubbl
         changed = true;
     }
 
-    public void addShieldHealth(float amount, float max)
+    @Override
+    public void restoreShieldHealth(float amount, float maxShield)
     {
-        if (shieldHealth < max)
+        if (shieldHealth < maxShield)
         {
-            float newShield = Math.min(shieldHealth + amount, max);
+            float newShield = Math.min(shieldHealth + amount, maxShield);
             setShieldHealth(newShield);
         }
     }

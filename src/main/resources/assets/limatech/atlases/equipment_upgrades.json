@@ -1,0 +1,9 @@
+{
+  "sources": [
+    {
+      "type": "directory",
+      "source": "equipment_upgrade",
+      "prefix": ""
+    }
+  ]
+}

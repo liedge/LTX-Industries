@@ -1,0 +1,40 @@
+{
+  "type": "limatech:fabricating",
+  "energy_required": 125000,
+  "group": "looting_upgrades",
+  "ingredients": [
+    {
+      "type": "limacore:item_with_count",
+      "count": 8,
+      "item": "limatech:copper_circuit"
+    },
+    {
+      "type": "limacore:item_with_count",
+      "count": 2,
+      "item": "limatech:gold_circuit"
+    },
+    {
+      "type": "limacore:item_with_count",
+      "count": 8,
+      "item": "limatech:titanium_ingot"
+    },
+    {
+      "item": "minecraft:rabbit_foot"
+    },
+    {
+      "type": "limacore:item_with_count",
+      "count": 8,
+      "item": "minecraft:lapis_lazuli"
+    }
+  ],
+  "result": {
+    "components": {
+      "limatech:upgrade_data": {
+        "rank": 1,
+        "upgrade": "limatech:looting_enchantment"
+      }
+    },
+    "count": 1,
+    "id": "limatech:equipment_upgrade"
+  }
+}

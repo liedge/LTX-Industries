@@ -1,8 +1,9 @@
 {
   "entries": [
+    "limatech:razor_drops",
     "limatech:extra_drops",
-    "limatech:explosives_salvage_chest",
-    "limatech:legendary_ammo_chest"
+    "limatech:enemy_ammo_drops",
+    "limatech:explosives_salvage_loot"
   ],
   "replace": false
 }

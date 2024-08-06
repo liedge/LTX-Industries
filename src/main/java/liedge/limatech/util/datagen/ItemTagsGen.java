@@ -1,20 +1,13 @@
 package liedge.limatech.util.datagen;
 
-import liedge.limacore.data.generation.TagBuilderHelper;
+import liedge.limacore.data.generation.LimaTagsProvider;
 import liedge.limatech.LimaTech;
 import liedge.limatech.LimaTechTags.Blocks;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.tags.ItemTagsProvider;
-import net.minecraft.tags.TagBuilder;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -23,30 +16,30 @@ import static liedge.limatech.registry.LimaTechItems.*;
 import static net.minecraft.tags.ItemTags.*;
 import static net.neoforged.neoforge.common.Tags.Items.*;
 
-class ItemTagsGen extends ItemTagsProvider implements TagBuilderHelper<Item>
+class ItemTagsGen extends LimaTagsProvider.ItemTags
 {
-    ItemTagsGen(PackOutput output, CompletableFuture<HolderLookup.Provider> registries, CompletableFuture<TagLookup<Block>> blockTags, ExistingFileHelper helper)
+    ItemTagsGen(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, CompletableFuture<TagLookup<Block>> blockTags, ExistingFileHelper helper)
     {
-        super(output, registries, blockTags, LimaTech.MODID, helper);
+        super(output, LimaTech.MODID, blockTags, lookupProvider, helper);
     }
 
     @Override
     protected void addTags(HolderLookup.Provider lookup)
     {
-        copy(Blocks.TITANIUM_ORES, TITANIUM_ORES);
-        copy(Blocks.NIOBIUM_ORES, NIOBIUM_ORES);
+        copyTag(Blocks.TITANIUM_ORES, TITANIUM_ORES);
+        copyTag(Blocks.NIOBIUM_ORES, NIOBIUM_ORES);
 
-        copy(Blocks.RAW_TITANIUM_STORAGE_BLOCKS, RAW_TITANIUM_STORAGE_BLOCKS);
-        copy(Blocks.RAW_NIOBIUM_STORAGE_BLOCKS, RAW_NIOBIUM_STORAGE_BLOCKS);
-        copy(Blocks.TITANIUM_STORAGE_BLOCKS, TITANIUM_STORAGE_BLOCKS);
-        copy(Blocks.NIOBIUM_STORAGE_BLOCKS, NIOBIUM_STORAGE_BLOCKS);
-        copy(Blocks.SLATE_ALLOY_STORAGE_BLOCKS, SLATE_ALLOY_STORAGE_BLOCKS);
+        copyTag(Blocks.RAW_TITANIUM_STORAGE_BLOCKS, RAW_TITANIUM_STORAGE_BLOCKS);
+        copyTag(Blocks.RAW_NIOBIUM_STORAGE_BLOCKS, RAW_NIOBIUM_STORAGE_BLOCKS);
+        copyTag(Blocks.TITANIUM_STORAGE_BLOCKS, TITANIUM_STORAGE_BLOCKS);
+        copyTag(Blocks.NIOBIUM_STORAGE_BLOCKS, NIOBIUM_STORAGE_BLOCKS);
+        copyTag(Blocks.SLATE_ALLOY_STORAGE_BLOCKS, SLATE_ALLOY_STORAGE_BLOCKS);
 
-        copy(Blocks.DEEPSLATE_GRINDABLES, DEEPSLATE_GRINDABLES);
+        copyTag(Blocks.DEEPSLATE_GRINDABLES, DEEPSLATE_GRINDABLES);
 
-        copy(Tags.Blocks.ORE_RATES_SINGULAR, ORE_RATES_SINGULAR);
-        copy(Tags.Blocks.ORES_IN_GROUND_STONE, ORES_IN_GROUND_STONE);
-        copy(Tags.Blocks.ORES_IN_GROUND_DEEPSLATE, ORES_IN_GROUND_DEEPSLATE);
+        copyTag(Tags.Blocks.ORE_RATES_SINGULAR, ORE_RATES_SINGULAR);
+        copyTag(Tags.Blocks.ORES_IN_GROUND_STONE, ORES_IN_GROUND_STONE);
+        copyTag(Tags.Blocks.ORES_IN_GROUND_DEEPSLATE, ORES_IN_GROUND_DEEPSLATE);
 
         buildTag(RAW_TITANIUM_MATERIALS).add(RAW_TITANIUM);
         buildTag(RAW_NIOBIUM_MATERIALS).add(RAW_NIOBIUM);
@@ -62,6 +55,9 @@ class ItemTagsGen extends ItemTagsProvider implements TagBuilderHelper<Item>
         buildTag(SLATE_ALLOY_NUGGETS).add(SLATE_ALLOY_NUGGET);
         buildTag(NUGGETS).addTags(TITANIUM_NUGGETS, NIOBIUM_NUGGETS, SLATE_ALLOY_NUGGETS);
 
+        buildTag(DYES_WHITE).add(WHITE_PIGMENT);
+        buildTag(DYES_LIME).add(LIME_PIGMENT);
+
         buildTag(SWORDS).add(TITANIUM_SWORD);
         buildTag(SHOVELS).add(TITANIUM_SHOVEL);
         buildTag(PICKAXES).add(TITANIUM_PICKAXE);
@@ -73,17 +69,7 @@ class ItemTagsGen extends ItemTagsProvider implements TagBuilderHelper<Item>
 
         buildTag(DEEPSLATE_DUSTS).add(DEEPSLATE_POWDER);
         buildTag(DUSTS).addTag(DEEPSLATE_DUSTS);
-    }
 
-    @Override
-    public @Nullable Registry<Item> getTagRegistry()
-    {
-        return BuiltInRegistries.ITEM;
-    }
-
-    @Override
-    public TagBuilder getOrCreateRawBuilder(TagKey<Item> tagKey)
-    {
-        return super.getOrCreateRawBuilder(tagKey);
+        buildTag(LTX_WEAPONS).add(SUBMACHINE_GUN, SHOTGUN, GRENADE_LAUNCHER, ROCKET_LAUNCHER, MAGNUM);
     }
 }

@@ -4,16 +4,17 @@ import liedge.limacore.LimaCommonConstants;
 import liedge.limacore.blockentity.BlockEntityWithOwner;
 import liedge.limacore.blockentity.LimaBlockEntity;
 import liedge.limacore.blockentity.LimaBlockEntityType;
-import liedge.limacore.network.sync.LimaDataWatcher;
-import liedge.limacore.network.sync.SimpleDataWatcher;
+import liedge.limacore.network.sync.AutomaticDataWatcher;
 import liedge.limacore.util.LimaNbtUtil;
 import liedge.limatech.LimaTechTags;
-import liedge.limatech.entity.LimaTechProjectile;
-import liedge.limatech.entity.MissileEntity;
+import liedge.limatech.entity.BaseMissileEntity;
+import liedge.limatech.entity.LimaTechEntityUtil;
+import liedge.limatech.registry.LimaTechSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
@@ -24,9 +25,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Comparator;
+import java.util.Queue;
+import java.util.UUID;
 
 import static liedge.limacore.util.LimaMathUtil.toDeg;
 import static liedge.limacore.util.LimaMathUtil.vec2Length;
@@ -34,16 +38,16 @@ import static liedge.limacore.util.LimaMathUtil.vec2Length;
 public class RocketTurretBlockEntity extends LimaBlockEntity implements BlockEntityWithOwner
 {
     private final Vec3 projectileStart;
-    private final Queue<Entity> currentTargets = new ArrayDeque<>();
+    private final Queue<Entity> targetQueue = new ArrayDeque<>();
     private final AABB targetArea;
 
     private @Nullable UUID ownerUUID;
     private @Nullable Player owner;
+    private @Nullable Entity currentTarget;
     private int ticker0 = 0;
     private int ticker = 0;
 
     // Client properties
-    private @Nullable Entity remoteTarget;
     private float turretYRot0;
     private float turretYRot;
     private float turretXRot0;
@@ -59,6 +63,11 @@ public class RocketTurretBlockEntity extends LimaBlockEntity implements BlockEnt
     public AABB getTargetArea()
     {
         return targetArea;
+    }
+
+    public @Nullable Entity getCurrentTarget()
+    {
+        return currentTarget;
     }
 
     @Override
@@ -79,6 +88,18 @@ public class RocketTurretBlockEntity extends LimaBlockEntity implements BlockEnt
     }
 
     @Override
+    public @Nullable UUID getOwnerUUID()
+    {
+        return ownerUUID;
+    }
+
+    @Override
+    public void setOwnerUUID(@Nullable UUID ownerUUID)
+    {
+        this.ownerUUID = ownerUUID;
+    }
+
+    @Override
     public void setOwner(@Nullable Player owner)
     {
         if (owner != null)
@@ -90,11 +111,12 @@ public class RocketTurretBlockEntity extends LimaBlockEntity implements BlockEnt
     }
 
     @Override
-    protected List<LimaDataWatcher<?>> defineDataWatchers()
+    public void defineDataWatchers(DataWatcherCollector collector)
     {
-        return List.of(SimpleDataWatcher.keepOptionalRemoteEntitySynced(() -> remoteTarget, e -> {
-            if (e != null && !checkAlive(e)) e = null;
-            this.remoteTarget = e;
+        collector.register(AutomaticDataWatcher.keepClientsideEntitySynced(() -> currentTarget, entity -> {
+            // Don't set the current target on the client if it's already dead when packet arrives. Also reset client timers.
+            if (entity != null && !checkAlive(entity)) entity = null;
+            this.currentTarget = entity;
             this.ticker0 = 0;
             this.ticker = 0;
         }));
@@ -103,49 +125,51 @@ public class RocketTurretBlockEntity extends LimaBlockEntity implements BlockEnt
     @Override
     protected void tickServer(Level level, BlockPos pos, BlockState state)
     {
-        if (currentTargets.isEmpty() && ticker > 40)
+        // Handle targeting queue
+        if (targetQueue.isEmpty() && ticker > 40)
         {
             Player owner = getOwner();
 
-            level.getEntities(owner, targetArea, e -> isValidTarget(level, owner, e))
+            level.getEntities(owner, getTargetArea(), e -> isValidTarget(level, owner, e))
                     .stream()
                     .sorted(Comparator.comparingDouble(e -> e.distanceToSqr(projectileStart)))
                     .limit(10)
-                    .forEach(currentTargets::add);
+                    .forEach(targetQueue::add);
 
-            remoteTarget = currentTargets.peek();
             ticker = 0;
         }
-        else if (!currentTargets.isEmpty() && ticker > 30)
+        else if (!targetQueue.isEmpty() && (currentTarget == null || !checkAlive(currentTarget)))
         {
-            Entity next = currentTargets.poll();
-            if (next != null && checkAlive(next))
-            {
-                MissileEntity missile = new MissileEntity(level);
-                missile.setOwner(getOwner());
-                missile.setPos(projectileStart);
-                missile.aimTowardsEntity(next, 2f, 0);
-                missile.setTargetEntity(next);
-                level.addFreshEntity(missile);
-            }
-
-            remoteTarget = currentTargets.peek();
+            currentTarget = targetQueue.poll();
             ticker = 0;
         }
-        else
+
+        // Shoot target if valid and select next
+        if (ticker > 30 && currentTarget != null && checkAlive(currentTarget))
         {
-            ticker++;
+            BaseMissileEntity.TurretMissile missile = new BaseMissileEntity.TurretMissile(level);
+            missile.setOwner(getOwner());
+            missile.setPos(projectileStart);
+            missile.aimTowardsEntity(currentTarget, 2.5f, 0);
+            missile.setTargetEntity(currentTarget);
+            level.addFreshEntity(missile);
+            level.playSound(null, projectileStart.x, projectileStart.y, projectileStart.z, LimaTechSounds.ROCKET_LAUNCHER_FIRE.get(), SoundSource.BLOCKS, 1.5f, Mth.randomBetween(level.random, 0.75f, 0.9f));
+
+            currentTarget = targetQueue.poll();
+            ticker = 0;
         }
+
+        ticker++;
     }
 
     @Override
     protected void tickClient(Level level, BlockPos pos, BlockState state)
     {
-        if (remoteTarget != null && checkAlive(remoteTarget))
+        if (currentTarget != null && checkAlive(currentTarget))
         {
-            double dx = remoteTarget.getX() - projectileStart.x();
-            double dy = remoteTarget.getEyePosition().y() - projectileStart.y();
-            double dz = remoteTarget.getZ() - projectileStart.z();
+            double dx = currentTarget.getX() - projectileStart.x();
+            double dy = currentTarget.getEyePosition().y() - projectileStart.y();
+            double dz = currentTarget.getZ() - projectileStart.z();
 
             turretYRot0 = turretYRot;
             turretXRot0 = turretXRot;
@@ -157,6 +181,7 @@ public class RocketTurretBlockEntity extends LimaBlockEntity implements BlockEnt
         }
         else
         {
+            currentTarget = null;
             ticker = 0;
             ticker0 = 0;
 
@@ -183,7 +208,7 @@ public class RocketTurretBlockEntity extends LimaBlockEntity implements BlockEnt
 
     private boolean isValidTarget(Level level, @Nullable Player owner, Entity entity)
     {
-        return LimaTechProjectile.canHitEntity(owner, entity) && entity.getType().is(LimaTechTags.EntityTypes.FLYING_MOBS) && level.clip(new ClipContext(projectileStart, entity.getBoundingBox().getCenter(), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, entity)).getType() != HitResult.Type.BLOCK;
+        return LimaTechEntityUtil.isValidWeaponTarget(owner, entity) && entity.getType().is(LimaTechTags.EntityTypes.ROCKET_TURRET_TARGETS) && level.clip(new ClipContext(projectileStart, entity.getBoundingBox().getCenter(), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, entity)).getType() != HitResult.Type.BLOCK;
     }
 
     private boolean checkAlive(Entity entity)
@@ -196,12 +221,6 @@ public class RocketTurretBlockEntity extends LimaBlockEntity implements BlockEnt
         {
             return entity.isAlive();
         }
-    }
-
-    @Nullable
-    public Entity getRemoteTarget()
-    {
-        return remoteTarget;
     }
 
     public float lerpTicker(float partialTick)

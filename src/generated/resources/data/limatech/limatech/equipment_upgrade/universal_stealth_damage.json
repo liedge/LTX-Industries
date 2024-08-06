@@ -1,0 +1,15 @@
+{
+  "description": {
+    "translate": "equipment_upgrade.limatech.universal_stealth_damage.desc"
+  },
+  "effects": [
+    {
+      "type": "limatech:no_anger"
+    }
+  ],
+  "icon": "limatech:stealth_damage",
+  "supported_items": "#limatech:ltx_weapons",
+  "title": {
+    "translate": "equipment_upgrade.limatech.universal_stealth_damage.title"
+  }
+}

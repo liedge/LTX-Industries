@@ -1,0 +1,12 @@
+{
+  "type": "limatech:grinding",
+  "ingredients": [
+    {
+      "tag": "c:ores/netherite_scrap"
+    }
+  ],
+  "result": {
+    "count": 3,
+    "id": "limatech:netherite_ore_pebbles"
+  }
+}

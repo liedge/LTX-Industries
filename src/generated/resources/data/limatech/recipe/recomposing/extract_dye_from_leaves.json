@@ -1,0 +1,14 @@
+{
+  "type": "limatech:recomposing",
+  "ingredients": [
+    {
+      "type": "limacore:tag_with_count",
+      "count": 8,
+      "tag": "minecraft:leaves"
+    }
+  ],
+  "result": {
+    "count": 2,
+    "id": "limatech:lime_pigment"
+  }
+}

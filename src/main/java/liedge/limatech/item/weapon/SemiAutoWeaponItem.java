@@ -1,6 +1,6 @@
 package liedge.limatech.item.weapon;
 
-import liedge.limatech.lib.weapons.AbstractWeaponInput;
+import liedge.limatech.lib.weapons.AbstractWeaponControls;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
@@ -12,14 +12,17 @@ public abstract class SemiAutoWeaponItem extends WeaponItem
     }
 
     @Override
-    public void triggerPressed(ItemStack heldItem, Player player, AbstractWeaponInput input)
+    public void triggerPressed(ItemStack heldItem, Player player, AbstractWeaponControls input)
     {
-        if (!player.level().isClientSide() && input.canShootWeapon(heldItem, player, this))
+        if (!player.level().isClientSide() && input.canStartShootingWeapon(heldItem, player, this))
         {
             input.shootWeapon(heldItem, player, this, true);
         }
     }
 
     @Override
-    public void triggerRelease(ItemStack heldItem, Player player, AbstractWeaponInput input, boolean releasedByPlayer) {}
+    public boolean canContinueHoldingTrigger(ItemStack heldItem, Player player, AbstractWeaponControls input)
+    {
+        return false;
+    }
 }

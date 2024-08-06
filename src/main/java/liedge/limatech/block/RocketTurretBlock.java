@@ -1,16 +1,17 @@
 package liedge.limatech.block;
 
-import liedge.limacore.block.LimaEntityBlock;
 import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.inventory.menu.LimaMenuProvider;
 import liedge.limacore.util.LimaBlockUtil;
 import liedge.limatech.registry.LimaTechBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -31,9 +32,9 @@ import org.jetbrains.annotations.Nullable;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.DOUBLE_BLOCK_HALF;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.WATERLOGGED;
 
-public class RocketTurretBlock extends LimaEntityBlock implements SimpleWaterloggedBlock
+public class RocketTurretBlock extends BaseWrenchEntityBlock implements SimpleWaterloggedBlock
 {
-    private static final VoxelShape TURRET_SHAPE = Shapes.or(BasicMachineBlock.BASIC_MACHINE_SHAPE,
+    private static final VoxelShape TURRET_SHAPE = Shapes.or(BasicHorizontalMachineBlock.BASIC_MACHINE_SHAPE,
             // Gun shape
             Block.box(3.5d, 16, 3.5d, 12.5d, 17.25d, 12.5d),
             Block.box(6, 17, 6, 10, 25, 10));
@@ -179,6 +180,26 @@ public class RocketTurretBlock extends LimaEntityBlock implements SimpleWaterlog
         {
             super.playerDestroy(level, player, pos, state, blockEntity, tool);
         }
+    }
+
+    @Override
+    public InteractionResult useWrenchOnBlock(UseOnContext context, Player player, Level level, BlockPos pos, BlockState state)
+    {
+        BlockPos basePos;
+        BlockState baseState;
+
+        if (state.getValue(DOUBLE_BLOCK_HALF) == DoubleBlockHalf.UPPER)
+        {
+            basePos = pos.below();
+            baseState = level.getBlockState(basePos);
+        }
+        else
+        {
+            basePos = pos;
+            baseState = state;
+        }
+
+        return dismantleOrRotateMachine(context, player, level, basePos, baseState);
     }
 
     @Override

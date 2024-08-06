@@ -1,0 +1,25 @@
+{
+  "description": {
+    "translate": "equipment_upgrade.limatech.grenade_launcher_projectile_speed.desc"
+  },
+  "effects": [
+    {
+      "type": "limatech:weapon_attribute_modifier",
+      "attribute": "projectile_speed",
+      "calculation": {
+        "type": "addition",
+        "amount": {
+          "type": "minecraft:linear",
+          "base": 0.5,
+          "per_level_above_first": 0.5
+        }
+      }
+    }
+  ],
+  "icon": "limatech:grenade_speed_boost",
+  "max_rank": 2,
+  "supported_items": "limatech:grenade_launcher",
+  "title": {
+    "translate": "equipment_upgrade.limatech.grenade_launcher_projectile_speed.title"
+  }
+}

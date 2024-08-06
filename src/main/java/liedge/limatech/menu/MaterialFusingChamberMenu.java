@@ -1,41 +1,35 @@
 package liedge.limatech.menu;
 
-import liedge.limacore.inventory.LimaItemStackHandler;
-import liedge.limacore.inventory.menu.LimaMenu;
-import liedge.limacore.inventory.slot.LimaMenuSlot;
-import liedge.limacore.network.sync.LimaDataWatcher;
+import liedge.limacore.inventory.menu.LimaItemHandlerMenu;
+import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limacore.util.LimaItemUtil;
 import liedge.limatech.blockentity.MaterialFusingChamberBlockEntity;
-import liedge.limatech.registry.LimaTechCrafting;
-import liedge.limatech.registry.LimaTechMenus;
+import liedge.limatech.registry.LimaTechNetworkSerializers;
+import liedge.limatech.registry.LimaTechRecipeTypes;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 
-import java.util.List;
-
-public class MaterialFusingChamberMenu extends LimaMenu<MaterialFusingChamberBlockEntity>
+public class MaterialFusingChamberMenu extends LimaItemHandlerMenu<MaterialFusingChamberBlockEntity>
 {
-    public MaterialFusingChamberMenu(int containerId, Inventory inventory, MaterialFusingChamberBlockEntity menuContext)
+    public MaterialFusingChamberMenu(LimaMenuType<MaterialFusingChamberBlockEntity, ?> type, int containerId, Inventory inventory, MaterialFusingChamberBlockEntity menuContext)
     {
-        super(LimaTechMenus.MATERIAL_FUSING_CHAMBER.get(), containerId, inventory, menuContext);
+        super(type, containerId, inventory, menuContext);
 
-        LimaItemStackHandler machineInventory = menuContext.getItemHandler();
-        addSlot(new LimaMenuSlot(machineInventory, 0, 8, 62));
-        addSlot(new LimaMenuSlot(machineInventory, 1, 42, 27));
-        addSlot(new LimaMenuSlot(machineInventory, 2, 60, 27));
-        addSlot(new LimaMenuSlot(machineInventory, 3, 51, 45));
-        addRecipeResultSlot(machineInventory, 4, 112, 36, LimaTechCrafting.FUSING_TYPE);
+        addContextSlot(0, 8, 62);
+        addContextSlot(1, 42, 27);
+        addContextSlot(2, 60, 27);
+        addContextSlot(3, 51, 45);
+        addContextRecipeResultSlot(4, 112, 36, LimaTechRecipeTypes.MATERIAL_FUSING);
 
-        addPlayerInventory(8, 84);
-        addPlayerHotbar(8, 142);
+        addPlayerInventory(DEFAULT_INV_X, DEFAULT_INV_Y);
+        addPlayerHotbar(DEFAULT_INV_X, DEFAULT_HOTBAR_Y);
     }
 
     @Override
-    protected List<LimaDataWatcher<?>> defineDataWatchers(MaterialFusingChamberBlockEntity menuContext)
+    public void defineDataWatchers(DataWatcherCollector collector)
     {
-        return List.of(
-                menuContext.getEnergyStorage().createDataWatcher(),
-                menuContext.keepMachineProgressSynced());
+        collector.register(menuContext.getEnergyStorage().createDataWatcher());
+        collector.register(menuContext.keepProcessSynced());
     }
 
     @Override
@@ -51,14 +45,20 @@ public class MaterialFusingChamberMenu extends LimaMenu<MaterialFusingChamberBlo
         }
         else
         {
-            if (LimaItemUtil.ENERGY_ITEMS.test(stack))
+            if (LimaItemUtil.hasEnergyCapability(stack))
             {
-                return quickMoveToSlot(stack, 0, false);
+                return quickMoveToContainerSlot(stack, 0);
             }
             else
             {
-                return moveItemStackTo(stack, 1, 4, false);
+                return quickMoveToContainerSlots(stack, 1, 4, false);
             }
         }
+    }
+
+    @Override
+    protected void defineButtonEventHandlers(EventHandlerBuilder builder)
+    {
+        builder.handleAction(0, LimaTechNetworkSerializers.MACHINE_INPUT_TYPE, menuContext::openIOControlMenuScreen);
     }
 }

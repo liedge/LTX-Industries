@@ -6,7 +6,7 @@ import liedge.limacore.client.gui.LimaGuiLayer;
 import liedge.limatech.LimaTech;
 import liedge.limatech.client.renderer.item.WeaponRenderProperties;
 import liedge.limatech.item.weapon.WeaponItem;
-import liedge.limatech.lib.weapons.LocalWeaponInput;
+import liedge.limatech.lib.weapons.ClientWeaponControls;
 import liedge.limatech.util.config.LimaTechClientConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -39,15 +39,15 @@ public final class WeaponCrosshairLayer extends LimaGuiLayer
 
         ItemStack heldItem = player.getMainHandItem();
         WeaponItem weaponItem = (WeaponItem) heldItem.getItem();
-        LocalWeaponInput input = LocalWeaponInput.LOCAL_WEAPON_INPUT;
+        ClientWeaponControls controls = ClientWeaponControls.of(player);
 
-        if (input.getReloadTimer().isRunningClient())
+        if (controls.getReloadTimer().isRunningClient())
         {
             final int centerX = (screenWidth - RELOADING_INDICATOR.width()) / 2;
             final int centerY = (screenHeight - RELOADING_INDICATOR.height()) / 2;
 
             RELOADING_INDICATOR.singleBlit(graphics, centerX, centerY);
-            RELOADING_INDICATOR_INNER.partialHorizontalBlit(graphics, centerX + 17, centerY + 6, input.getReloadTimer().lerpProgressNotPaused(partialTicks));
+            RELOADING_INDICATOR_INNER.partialHorizontalBlit(graphics, centerX + 17, centerY + 6, controls.getReloadTimer().lerpProgressNotPaused(partialTicks));
         }
         else
         {
@@ -60,7 +60,7 @@ public final class WeaponCrosshairLayer extends LimaGuiLayer
                         GlStateManager.DestFactor.ZERO);
             }
 
-            WeaponRenderProperties.fromItem(weaponItem).renderCrosshair(weaponItem, input, graphics, partialTicks, screenWidth, screenHeight, LimaTechClientConfig.getCrosshairColor());
+            WeaponRenderProperties.fromItem(weaponItem).renderCrosshair(player, weaponItem, controls, graphics, partialTicks, screenWidth, screenHeight, LimaTechClientConfig.getCrosshairColor());
 
             RenderSystem.defaultBlendFunc();
         }

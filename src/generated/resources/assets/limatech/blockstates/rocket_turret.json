@@ -4,7 +4,7 @@
       "model": "limatech:block/turret_base"
     },
     "half=upper": {
-      "model": "minecraft:block/warped_fence_post"
+      "model": "limatech:block/machine_particles"
     }
   }
 }

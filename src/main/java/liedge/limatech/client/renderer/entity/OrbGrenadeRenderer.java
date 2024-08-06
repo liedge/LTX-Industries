@@ -29,7 +29,7 @@ public class OrbGrenadeRenderer extends EntityRenderer<OrbGrenadeEntity>
         model.animateFromEntity(entity, partialTick);
         poseStack.translate(0, -1.1875d, 0);
 
-        model.renderToBuffer(poseStack, bufferSource, light, entity.getGrenadeElement().getColor());
+        model.renderToBuffer(poseStack, bufferSource, light, entity.getGrenadeType().getColor());
 
         poseStack.popPose();
     }

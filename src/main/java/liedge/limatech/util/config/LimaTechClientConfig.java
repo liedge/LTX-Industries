@@ -36,7 +36,7 @@ public final class LimaTechClientConfig
         if (event.getConfig().getSpec() == CONFIG_SPEC)
         {
             solidCrosshairColor = SOLID_COLOR_CROSSHAIR.get();
-            crosshairColor = solidCrosshairColor ? LimaMathUtil.tryParseHexadecimal(WEAPON_CROSSHAIR_COLOR.get()).map(LimaColor::makeColor).orElse(LimaColor.WHITE) : LimaColor.WHITE;
+            crosshairColor = solidCrosshairColor ? LimaMathUtil.tryParseHexadecimal(WEAPON_CROSSHAIR_COLOR.get()).map(LimaColor::createOpaque).orElse(LimaColor.WHITE) : LimaColor.WHITE;
         }
     }
 

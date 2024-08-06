@@ -1,5 +1,6 @@
-// 1.21	2024-08-01T22:54:17.0950565	Global Loot Modifiers : limatech
-b97b3425e1f4a68aacaddc80890f4967099d8fbc data/limatech/loot_modifiers/explosives_salvage_chest.json
+// 1.21.1	2024-12-17T21:53:48.2061009	Global Loot Modifiers : limatech
+fc44b495a38e98183b160dec1fc1e8a6f28e7352 data/limatech/loot_modifiers/enemy_ammo_drops.json
+52de99b6f11445c547d4b11a1bd79002f8c48a93 data/limatech/loot_modifiers/explosives_salvage_loot.json
 994f71fdac939d0e68c6f752e2aeef36aca80df2 data/limatech/loot_modifiers/extra_drops.json
-908285ba9b96b45a95a358a33a5c7023ce7f31b9 data/limatech/loot_modifiers/legendary_ammo_chest.json
-264cdf9649b6b66ea583a6bd9807baee3ced13f9 data/neoforge/loot_modifiers/global_loot_modifiers.json
+59f6a6b6b6272a76e34a03e233bb0e1edacff9e0 data/limatech/loot_modifiers/razor_drops.json
+1322632811a07ab3f8bf26b202a8234293ddd99d data/neoforge/loot_modifiers/global_loot_modifiers.json

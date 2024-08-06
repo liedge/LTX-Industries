@@ -1,0 +1,32 @@
+{
+  "type": "limatech:fabricating",
+  "energy_required": 300000,
+  "group": "ammo_scavenger_upgrades",
+  "ingredients": [
+    {
+      "type": "limacore:item_with_count",
+      "count": 2,
+      "item": "limatech:gold_circuit"
+    },
+    {
+      "type": "limacore:item_with_count",
+      "count": 8,
+      "item": "limatech:titanium_ingot"
+    },
+    {
+      "type": "limacore:item_with_count",
+      "count": 8,
+      "item": "minecraft:gunpowder"
+    }
+  ],
+  "result": {
+    "components": {
+      "limatech:upgrade_data": {
+        "rank": 1,
+        "upgrade": "limatech:ammo_scavenger_enchantment"
+      }
+    },
+    "count": 1,
+    "id": "limatech:equipment_upgrade"
+  }
+}

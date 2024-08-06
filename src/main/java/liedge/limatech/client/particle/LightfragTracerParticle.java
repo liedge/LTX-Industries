@@ -19,27 +19,24 @@ import static liedge.limacore.util.LimaMathUtil.*;
 
 public class LightfragTracerParticle extends CustomRenderTypeParticle
 {
-    private static final float FLIGHT_SPEED = 4f;
     private static final float TRACER_SIZE = 0.015625f;
 
-    private final float maxDistance;
-    private final Vec3 pathVec;
     private final Quaternionf yRot;
     private final Quaternionf xRot;
-
-    private float distanceTraveled;
 
     public LightfragTracerParticle(SimpleParticleType type, ClientLevel level, double x1, double y1, double z1, double x2, double y2, double z2)
     {
         super(level, x1, y1, z1);
 
         Vector2f angles = xyRotBetweenPoints(x1, y1, z1, x2, y2, z2);
-        this.maxDistance = (float) distanceBetween(x1, y1, z1, x2, y2, z2);
-        this.pathVec = createMotionVector(angles, 1f);
         this.yRot = Axis.YP.rotationDegrees(-angles.y);
         this.xRot = Axis.XP.rotationDegrees(angles.x);
         this.hasPhysics = false;
-        setParticleSpeed(pathVec.x * FLIGHT_SPEED, pathVec.y * FLIGHT_SPEED, pathVec.z * FLIGHT_SPEED);
+        double distance = distanceBetween(x1, y1, z1, x2, y2, z2);
+        this.lifetime = distance < 3.0d ? 1 : 2;
+        double step = divideDouble(distance, lifetime);
+        Vec3 path = createMotionVector(angles, step);
+        setParticleSpeed(path.x, path.y, path.z);
     }
 
     @Override
@@ -55,21 +52,7 @@ public class LightfragTracerParticle extends CustomRenderTypeParticle
         }
         else
         {
-            if (distanceTraveled < maxDistance)
-            {
-                if (distanceTraveled + FLIGHT_SPEED >= maxDistance)
-                {
-                    float f = maxDistance - distanceTraveled;
-                    move(pathVec.x * f, pathVec.y * f, pathVec.z * f);
-                    lifetime = 1;
-                    distanceTraveled = maxDistance;
-                }
-                else
-                {
-                    move(xd, yd, zd);
-                    distanceTraveled += FLIGHT_SPEED;
-                }
-            }
+            move(xd, yd, zd);
         }
     }
 
@@ -79,7 +62,7 @@ public class LightfragTracerParticle extends CustomRenderTypeParticle
         mx4.rotate(yRot);
         mx4.rotate(xRot);
 
-        float alpha = (age > 0) ? 0.95f : 0f;
+        float alpha = age == 0 ? partialTicks : 1f;
 
         LimaTechClient.renderPositionColorCuboid(buffer, mx4, -TRACER_SIZE, -TRACER_SIZE, -0.0625f, TRACER_SIZE, TRACER_SIZE, 0.0625f, LimaTechConstants.LIME_GREEN, alpha, LimaTechClient.ALL_SIDES);
     }

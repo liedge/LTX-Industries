@@ -1,0 +1,10 @@
+{
+  "values": {
+    "limatech:projectile_exploded": {
+      "frequency": 15
+    },
+    "limatech:weapon_fired": {
+      "frequency": 3
+    }
+  }
+}

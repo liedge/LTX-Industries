@@ -1,0 +1,48 @@
+{
+  "type": "limatech:fabricating",
+  "energy_required": 600000,
+  "group": "ammo_scavenger_upgrades",
+  "ingredients": [
+    {
+      "type": "neoforge:components",
+      "components": {
+        "limatech:upgrade_data": {
+          "rank": 1,
+          "upgrade": "limatech:ammo_scavenger_enchantment"
+        }
+      },
+      "items": "limatech:equipment_upgrade",
+      "strict": true
+    },
+    {
+      "type": "limacore:item_with_count",
+      "count": 4,
+      "item": "limatech:gold_circuit"
+    },
+    {
+      "type": "limacore:item_with_count",
+      "count": 12,
+      "item": "limatech:titanium_ingot"
+    },
+    {
+      "type": "limacore:item_with_count",
+      "count": 12,
+      "item": "minecraft:gunpowder"
+    },
+    {
+      "type": "limacore:item_with_count",
+      "count": 16,
+      "item": "minecraft:lapis_lazuli"
+    }
+  ],
+  "result": {
+    "components": {
+      "limatech:upgrade_data": {
+        "rank": 2,
+        "upgrade": "limatech:ammo_scavenger_enchantment"
+      }
+    },
+    "count": 1,
+    "id": "limatech:equipment_upgrade"
+  }
+}

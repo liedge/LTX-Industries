@@ -1,0 +1,17 @@
+{
+  "type": "limatech:material_fusing",
+  "ingredients": [
+    {
+      "type": "limacore:item_with_count",
+      "count": 4,
+      "item": "limatech:deepslate_powder"
+    },
+    {
+      "item": "minecraft:netherite_ingot"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "limatech:slate_alloy_ingot"
+  }
+}

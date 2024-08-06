@@ -1,12 +1,12 @@
 package liedge.limatech.registry;
 
-import liedge.limacore.registry.LimaBlockDeferredRegister;
-import liedge.limacore.registry.LimaDeferredBlock;
+import liedge.limacore.registry.DeferredBlockPair;
+import liedge.limacore.registry.LimaDeferredBlocks;
 import liedge.limacore.util.LimaCollectionsUtil;
 import liedge.limatech.LimaTech;
-import liedge.limatech.block.BasicMachineBlock;
-import liedge.limatech.block.FabricatorBlock;
-import liedge.limatech.block.RocketTurretBlock;
+import liedge.limatech.block.*;
+import liedge.limatech.item.EnergyStorageArrayItem;
+import liedge.limatech.item.LimaContainerItem;
 import liedge.limatech.item.MachineBlockItem;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -20,7 +20,10 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.registries.DeferredBlock;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 import java.util.Collection;
 import java.util.Map;
@@ -31,41 +34,51 @@ public final class LimaTechBlocks
 {
     private LimaTechBlocks() {}
 
-    private static final LimaBlockDeferredRegister BLOCKS = LimaTech.RESOURCES.deferredBlocks();
+    private static final LimaDeferredBlocks BLOCKS = LimaTech.RESOURCES.deferredBlocks();
 
     public static void initRegister(IEventBus bus)
     {
-        BLOCKS.registerToBus(bus);
+        BLOCKS.register(bus);
     }
 
-    static Collection<LimaDeferredBlock<?, ?>> getRegisteredBlocks()
+    public static void registerCapabilities(RegisterCapabilitiesEvent event)
     {
-        return BLOCKS.getRegistryEntries();
+        // Energy container block items
+        event.registerItem(Capabilities.EnergyStorage.ITEM, (stack, $) -> LimaContainerItem.createEnergyAccess(stack), ENERGY_STORAGE_ARRAY);
+    }
+
+    static Collection<DeferredHolder<Block, ? extends Block>> getRegisteredBlocks()
+    {
+        return BLOCKS.getEntriesWithItemsOnly();
     }
 
     // Ores
-    public static final LimaDeferredBlock<DropExperienceBlock, BlockItem> TITANIUM_ORE = BLOCKS.registerBlockAndSimpleItem("titanium_ore", () -> new DropExperienceBlock(ConstantInt.of(0), of().mapColor(MapColor.STONE).strength(3f).requiresCorrectToolForDrops()));
-    public static final LimaDeferredBlock<DropExperienceBlock, BlockItem> DEEPSLATE_TITANIUM_ORE = BLOCKS.registerBlockAndSimpleItem("deepslate_titanium_ore", () -> new DropExperienceBlock(ConstantInt.of(0), of().mapColor(MapColor.DEEPSLATE).strength(4.5f, 3f).sound(SoundType.DEEPSLATE).requiresCorrectToolForDrops()));
-    public static final LimaDeferredBlock<DropExperienceBlock, BlockItem> NIOBIUM_ORE = BLOCKS.registerBlockAndSimpleItem("niobium_ore", () -> new DropExperienceBlock(UniformInt.of(1, 4), of().mapColor(MapColor.SAND).strength(3.2f, 9f).requiresCorrectToolForDrops()));
+    public static final DeferredBlockPair<DropExperienceBlock, BlockItem> TITANIUM_ORE = BLOCKS.registerBlockAndSimpleItem("titanium_ore", () -> new DropExperienceBlock(ConstantInt.of(0), of().mapColor(MapColor.STONE).strength(3f).requiresCorrectToolForDrops()));
+    public static final DeferredBlockPair<DropExperienceBlock, BlockItem> DEEPSLATE_TITANIUM_ORE = BLOCKS.registerBlockAndSimpleItem("deepslate_titanium_ore", () -> new DropExperienceBlock(ConstantInt.of(0), of().mapColor(MapColor.DEEPSLATE).strength(4.5f, 3f).sound(SoundType.DEEPSLATE).requiresCorrectToolForDrops()));
+    public static final DeferredBlockPair<DropExperienceBlock, BlockItem> NIOBIUM_ORE = BLOCKS.registerBlockAndSimpleItem("niobium_ore", () -> new DropExperienceBlock(UniformInt.of(1, 4), of().mapColor(MapColor.SAND).strength(3.2f, 9f).requiresCorrectToolForDrops()));
 
     // Raw ore blocks
-    public static final LimaDeferredBlock<Block, BlockItem> RAW_TITANIUM_BLOCK = BLOCKS.registerSimpleBlockWithItem("raw_titanium_block", of().mapColor(MapColor.COLOR_LIGHT_GRAY).strength(5f, 6f).requiresCorrectToolForDrops());
-    public static final LimaDeferredBlock<Block, BlockItem> RAW_NIOBIUM_BLOCK = BLOCKS.registerSimpleBlockWithItem("raw_niobium_block", of().mapColor(MapColor.COLOR_PURPLE).strength(5f, 9f).requiresCorrectToolForDrops());
+    public static final DeferredBlockPair<Block, BlockItem> RAW_TITANIUM_BLOCK = BLOCKS.registerSimpleBlockAndItem("raw_titanium_block", of().mapColor(MapColor.COLOR_LIGHT_GRAY).strength(5f, 6f).requiresCorrectToolForDrops());
+    public static final DeferredBlockPair<Block, BlockItem> RAW_NIOBIUM_BLOCK = BLOCKS.registerSimpleBlockAndItem("raw_niobium_block", of().mapColor(MapColor.COLOR_PURPLE).strength(5f, 9f).requiresCorrectToolForDrops());
 
     // Ingot storage blocks
-    public static final LimaDeferredBlock<Block, BlockItem> TITANIUM_BLOCK = BLOCKS.registerSimpleBlockWithItem("titanium_block", of().mapColor(MapColor.COLOR_LIGHT_GRAY).strength(5f, 6f).sound(SoundType.METAL).requiresCorrectToolForDrops());
-    public static final LimaDeferredBlock<Block, BlockItem> NIOBIUM_BLOCK = BLOCKS.registerSimpleBlockWithItem("niobium_block", of().mapColor(MapColor.COLOR_LIGHT_GRAY).strength(6f, 9f).sound(SoundType.METAL).requiresCorrectToolForDrops());
-    public static final LimaDeferredBlock<Block, BlockItem> SLATE_ALLOY_BLOCK = BLOCKS.registerSimpleBlockWithItem("slate_alloy_block", of().mapColor(MapColor.COLOR_LIGHT_GRAY).strength(5f, 12f).sound(SoundType.METAL).requiresCorrectToolForDrops());
+    public static final DeferredBlockPair<Block, BlockItem> TITANIUM_BLOCK = BLOCKS.registerSimpleBlockAndItem("titanium_block", of().mapColor(MapColor.COLOR_LIGHT_GRAY).strength(5f, 6f).sound(SoundType.METAL).requiresCorrectToolForDrops());
+    public static final DeferredBlockPair<Block, BlockItem> NIOBIUM_BLOCK = BLOCKS.registerSimpleBlockAndItem("niobium_block", of().mapColor(MapColor.COLOR_LIGHT_GRAY).strength(6f, 9f).sound(SoundType.METAL).requiresCorrectToolForDrops());
+    public static final DeferredBlockPair<Block, BlockItem> SLATE_ALLOY_BLOCK = BLOCKS.registerSimpleBlockAndItem("slate_alloy_block", of().mapColor(MapColor.COLOR_LIGHT_GRAY).strength(5f, 12f).sound(SoundType.METAL).requiresCorrectToolForDrops());
 
     // Decoration blocks
-    public static final Map<DyeColor, DeferredBlock<Block>> GLOW_BLOCKS = LimaCollectionsUtil.immutableEnumMapFor(DyeColor.class, color -> BLOCKS.registerSimpleBlockWithItem(color.getSerializedName() + "_glow_block", of().mapColor(color).sound(SoundType.GLASS).strength(2f).lightLevel(state -> 15)));
+    public static final Map<DyeColor, DeferredBlock<Block>> GLOW_BLOCKS = LimaCollectionsUtil.fillAndCreateImmutableEnumMap(DyeColor.class, color -> BLOCKS.registerSimpleBlockAndItem(color.getSerializedName() + "_glow_block", of().mapColor(color).sound(SoundType.GLASS).strength(2f).lightLevel(state -> 15)));
 
     // Machinery
-    public static final LimaDeferredBlock<BasicMachineBlock, MachineBlockItem> GRINDER = BLOCKS.registerBlockAndItem("grinder", () -> new BasicMachineBlock(machineProperties()), block -> new MachineBlockItem(block, new Item.Properties().stacksTo(1)));
-    public static final LimaDeferredBlock<BasicMachineBlock, MachineBlockItem> MATERIAL_FUSING_CHAMBER = BLOCKS.registerBlockAndItem("material_fusing_chamber", () -> new BasicMachineBlock(machineProperties()), block -> new MachineBlockItem(block, new Item.Properties().stacksTo(1)));
-    public static final LimaDeferredBlock<FabricatorBlock, MachineBlockItem> FABRICATOR = BLOCKS.registerBlockAndItem("fabricator", () -> new FabricatorBlock(machineProperties().noOcclusion()), block -> new MachineBlockItem(block, new Item.Properties().stacksTo(1)));
+    public static final DeferredBlockPair<EnergyStorageArrayBlock, EnergyStorageArrayItem> ENERGY_STORAGE_ARRAY = BLOCKS.registerBlockAndItem("energy_storage_array", () -> new EnergyStorageArrayBlock(machineProperties().noOcclusion()), block -> new EnergyStorageArrayItem(block, new Item.Properties().stacksTo(1)));
+    public static final DeferredBlockPair<BasicHorizontalMachineBlock, MachineBlockItem> DIGITAL_FURNACE = BLOCKS.registerBlockAndItem("digital_furnace", () -> new BasicHorizontalMachineBlock(machineProperties()), block -> new MachineBlockItem(block, new Item.Properties().stacksTo(1), true, true));
+    public static final DeferredBlockPair<BasicHorizontalMachineBlock, MachineBlockItem> GRINDER = BLOCKS.registerBlockAndItem("grinder", () -> new BasicHorizontalMachineBlock(machineProperties()), block -> new MachineBlockItem(block, new Item.Properties().stacksTo(1), true, true));
+    public static final DeferredBlockPair<BasicHorizontalMachineBlock, MachineBlockItem> RECOMPOSER = BLOCKS.registerBlockAndItem("recomposer", () -> new BasicHorizontalMachineBlock(machineProperties()), block -> new MachineBlockItem(block, new Item.Properties().stacksTo(1), true, true));
+    public static final DeferredBlockPair<BasicHorizontalMachineBlock, MachineBlockItem> MATERIAL_FUSING_CHAMBER = BLOCKS.registerBlockAndItem("material_fusing_chamber", () -> new BasicHorizontalMachineBlock(machineProperties()), block -> new MachineBlockItem(block, new Item.Properties().stacksTo(1), true, true));
+    public static final DeferredBlockPair<FabricatorBlock, MachineBlockItem> FABRICATOR = BLOCKS.registerBlockAndItem("fabricator", () -> new FabricatorBlock(machineProperties().noOcclusion()), block -> new MachineBlockItem(block, new Item.Properties().stacksTo(1), true, true));
+    public static final DeferredBlockPair<EquipmentModTableBlock, MachineBlockItem> EQUIPMENT_MOD_TABLE = BLOCKS.registerBlockAndItem("equipment_mod_table", () -> new EquipmentModTableBlock(machineProperties().noOcclusion()), block -> new MachineBlockItem(block, new Item.Properties().stacksTo(1), false, true));
 
-    public static final LimaDeferredBlock<RocketTurretBlock, BlockItem> ROCKET_TURRET = BLOCKS.registerBlockAndSimpleItem("rocket_turret", () -> new RocketTurretBlock(machineProperties().noOcclusion()));
+    public static final DeferredBlockPair<RocketTurretBlock, BlockItem> ROCKET_TURRET = BLOCKS.registerBlockAndSimpleItem("rocket_turret", () -> new RocketTurretBlock(machineProperties().noOcclusion()));
 
     // Helpers & initializers
     private static BlockBehaviour.Properties machineProperties()

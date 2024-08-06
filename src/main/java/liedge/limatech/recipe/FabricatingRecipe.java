@@ -6,111 +6,68 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import liedge.limacore.data.LimaCoreCodecs;
 import liedge.limacore.network.LimaStreamCodecs;
 import liedge.limacore.recipe.LimaCustomRecipe;
-import liedge.limatech.blockentity.FabricatorBlockEntity;
-import liedge.limatech.menu.ItemGridTooltip;
-import liedge.limatech.registry.LimaTechCrafting;
+import liedge.limacore.recipe.LimaRecipeInput;
+import liedge.limatech.registry.LimaTechRecipeSerializers;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.ExtraCodecs;
-import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
-
-public class FabricatingRecipe extends LimaCustomRecipe<FabricatorBlockEntity>
+public class FabricatingRecipe extends BaseFabricatingRecipe
 {
-    private static final MapCodec<FabricatingRecipe> MAP_CODEC = RecordCodecBuilder.mapCodec(builder -> builder.group(
-            LimaCoreCodecs.ingredientsMapCodec(1, 16).forGetter(LimaCustomRecipe::getIngredients),
-            Codec.STRING.optionalFieldOf("group", "").forGetter(LimaCustomRecipe::getGroup),
-            ItemStack.CODEC.fieldOf("result").forGetter(r -> r.result),
-            ExtraCodecs.POSITIVE_INT.fieldOf("energy_required").forGetter(r -> r.energyRequired))
-            .apply(builder, FabricatingRecipe::new));
+    public static final String EMPTY_GROUP = "";
 
-    private static final StreamCodec<RegistryFriendlyByteBuf, FabricatingRecipe> STREAM_CODEC = StreamCodec.composite(
+    public static final MapCodec<FabricatingRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+            LimaCoreCodecs.ingredientsMapCodec(1, 16).forGetter(LimaCustomRecipe::getIngredients),
+            ItemStack.CODEC.fieldOf("result").forGetter(o -> o.result),
+            ExtraCodecs.POSITIVE_INT.fieldOf("energy_required").forGetter(BaseFabricatingRecipe::getEnergyRequired),
+            Codec.STRING.optionalFieldOf("group", EMPTY_GROUP).forGetter(LimaCustomRecipe::getGroup))
+            .apply(instance, FabricatingRecipe::new));
+
+    public static final StreamCodec<RegistryFriendlyByteBuf, FabricatingRecipe> STREAM_CODEC = StreamCodec.composite(
             LimaStreamCodecs.ingredientsStreamCodec(1, 16), LimaCustomRecipe::getIngredients,
-            ByteBufCodecs.STRING_UTF8, LimaCustomRecipe::getGroup,
             ItemStack.STREAM_CODEC, r -> r.result,
-            LimaStreamCodecs.POSITIVE_VAR_INT, r -> r.energyRequired,
+            LimaStreamCodecs.POSITIVE_VAR_INT, BaseFabricatingRecipe::getEnergyRequired,
+            ByteBufCodecs.STRING_UTF8, FabricatingRecipe::getGroup,
             FabricatingRecipe::new);
 
-    private final String group;
     private final ItemStack result;
-    private final int energyRequired;
+    private final String group;
 
-    public FabricatingRecipe(NonNullList<Ingredient> ingredients, String group, ItemStack result, int energyRequired)
+    public FabricatingRecipe(NonNullList<Ingredient> ingredients, ItemStack result, int energyRequired, String group)
     {
-        super(ingredients);
-        this.group = group;
+        super(ingredients, energyRequired);
         this.result = result;
-        this.energyRequired = energyRequired;
-    }
-
-    public int getEnergyRequired()
-    {
-        return energyRequired;
-    }
-
-    public TooltipComponent createIngredientTooltip()
-    {
-        List<ItemStack> stacks = getIngredients().stream().map(i -> i.getItems()[0]).toList();
-        return new ItemGridTooltip(stacks, 4);
-    }
-
-    @Override
-    public boolean matches(FabricatorBlockEntity blockEntity, Level level)
-    {
-        return false;
-    }
-
-    @Override
-    public ItemStack assemble(FabricatorBlockEntity blockEntity, HolderLookup.Provider provider)
-    {
-        return result.copy();
-    }
-
-    @Override
-    public ItemStack getResultItem(HolderLookup.Provider registries)
-    {
-        return result;
-    }
-
-    @Override
-    public RecipeSerializer<?> getSerializer()
-    {
-        return LimaTechCrafting.FABRICATING_SERIALIZER.get();
-    }
-
-    @Override
-    public RecipeType<?> getType()
-    {
-        return LimaTechCrafting.FABRICATING_TYPE.get();
+        this.group = group;
     }
 
     @Override
     public String getGroup()
     {
-        return this.group;
+        return group;
     }
 
-    public static class Serializer implements RecipeSerializer<FabricatingRecipe>
+    @Override
+    public RecipeSerializer<?> getSerializer()
     {
-        @Override
-        public MapCodec<FabricatingRecipe> codec()
-        {
-            return MAP_CODEC;
-        }
+        return LimaTechRecipeSerializers.FABRICATING.get();
+    }
 
-        @Override
-        public StreamCodec<RegistryFriendlyByteBuf, FabricatingRecipe> streamCodec()
-        {
-            return STREAM_CODEC;
-        }
+    @Override
+    public ItemStack assemble(@Nullable LimaRecipeInput input, HolderLookup.Provider registries)
+    {
+        return result.copy();
+    }
+
+    @Override
+    public ItemStack getResultItem(HolderLookup.@Nullable Provider registries)
+    {
+        return result;
     }
 }

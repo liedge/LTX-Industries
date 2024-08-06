@@ -1,0 +1,12 @@
+{
+  "type": "limatech:recomposing",
+  "ingredients": [
+    {
+      "item": "limatech:titanium_ingot"
+    }
+  ],
+  "result": {
+    "count": 12,
+    "id": "limatech:white_pigment"
+  }
+}

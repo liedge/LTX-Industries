@@ -1,0 +1,6 @@
+{
+  "parent": "limatech:block/basic_machine",
+  "textures": {
+    "front": "limatech:block/recomposer_working"
+  }
+}

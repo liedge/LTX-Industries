@@ -1,0 +1,46 @@
+{
+  "type": "limatech:fabricating",
+  "energy_required": 1000000,
+  "group": "looting_upgrades",
+  "ingredients": [
+    {
+      "type": "neoforge:components",
+      "components": {
+        "limatech:upgrade_data": {
+          "rank": 3,
+          "upgrade": "limatech:looting_enchantment"
+        }
+      },
+      "items": "limatech:equipment_upgrade",
+      "strict": true
+    },
+    {
+      "type": "limacore:item_with_count",
+      "count": 4,
+      "item": "limatech:niobium_circuit"
+    },
+    {
+      "type": "limacore:item_with_count",
+      "count": 4,
+      "item": "minecraft:emerald_block"
+    },
+    {
+      "item": "minecraft:nether_star"
+    },
+    {
+      "type": "limacore:item_with_count",
+      "count": 16,
+      "item": "minecraft:lapis_block"
+    }
+  ],
+  "result": {
+    "components": {
+      "limatech:upgrade_data": {
+        "rank": 4,
+        "upgrade": "limatech:looting_enchantment"
+      }
+    },
+    "count": 1,
+    "id": "limatech:equipment_upgrade"
+  }
+}

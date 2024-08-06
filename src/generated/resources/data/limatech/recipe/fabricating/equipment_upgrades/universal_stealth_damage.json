@@ -1,0 +1,41 @@
+{
+  "type": "limatech:fabricating",
+  "energy_required": 750000,
+  "group": "stealth_upgrades",
+  "ingredients": [
+    {
+      "type": "limacore:item_with_count",
+      "count": 6,
+      "item": "limatech:gold_circuit"
+    },
+    {
+      "type": "limacore:item_with_count",
+      "count": 16,
+      "item": "limatech:titanium_ingot"
+    },
+    {
+      "type": "limacore:item_with_count",
+      "count": 8,
+      "item": "minecraft:phantom_membrane"
+    },
+    {
+      "type": "neoforge:components",
+      "components": {
+        "minecraft:potion_contents": {
+          "potion": "minecraft:invisibility"
+        }
+      },
+      "items": "minecraft:potion"
+    }
+  ],
+  "result": {
+    "components": {
+      "limatech:upgrade_data": {
+        "rank": 1,
+        "upgrade": "limatech:universal_stealth_damage"
+      }
+    },
+    "count": 1,
+    "id": "limatech:equipment_upgrade"
+  }
+}

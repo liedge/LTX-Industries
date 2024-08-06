@@ -1,13 +1,11 @@
 package liedge.limatech.client.gui.widget;
 
+import liedge.limacore.capability.energy.LimaEnergyStorage;
+import liedge.limacore.capability.energy.LimaEnergyUtil;
 import liedge.limacore.client.gui.UnmanagedSprite;
 import liedge.limacore.client.gui.VariableBarWidget;
-import liedge.limacore.lib.energy.EnergyStorageHolder;
-import liedge.limacore.lib.energy.LimaEnergyStorage;
-import liedge.limacore.lib.energy.LimaEnergyUtil;
 import liedge.limatech.LimaTechConstants;
-import liedge.limatech.client.LimaTechLangKeys;
-import net.minecraft.ChatFormatting;
+import liedge.limatech.client.LimaTechLang;
 import net.minecraft.network.chat.Component;
 
 import java.util.List;
@@ -16,10 +14,10 @@ public class EnergyGaugeWidget extends VariableBarWidget.VerticalBar
 {
     private final LimaEnergyStorage energyStorage;
 
-    public EnergyGaugeWidget(EnergyStorageHolder supplier, int x, int y)
+    public EnergyGaugeWidget(LimaEnergyStorage energyStorage, int x, int y)
     {
         super(x, y);
-        this.energyStorage = supplier.getEnergyStorage();
+        this.energyStorage = energyStorage;
     }
 
     @Override
@@ -43,8 +41,6 @@ public class EnergyGaugeWidget extends VariableBarWidget.VerticalBar
     @Override
     public List<Component> getTooltipLines()
     {
-        return List.of(
-                LimaTechLangKeys.ENERGY_TOOLTIP.translate().withStyle(LimaTechConstants.REM_BLUE::applyStyle),
-                Component.literal(LimaEnergyUtil.formatStoredAndTotal(energyStorage)).withStyle(ChatFormatting.GRAY));
+        return List.of(LimaTechLang.INLINE_ENERGY_STORED.translateArgs(LimaEnergyUtil.formatStoredAndTotal(energyStorage)).withStyle(LimaTechConstants.REM_BLUE.chatStyle()));
     }
 }

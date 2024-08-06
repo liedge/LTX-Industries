@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.5,
+  "ingredient": {
+    "item": "limatech:lapis_ore_pebbles"
+  },
+  "result": {
+    "count": 6,
+    "id": "minecraft:lapis_lazuli"
+  }
+}

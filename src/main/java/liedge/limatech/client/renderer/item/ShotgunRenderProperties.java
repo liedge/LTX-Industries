@@ -3,24 +3,20 @@ package liedge.limatech.client.renderer.item;
 import liedge.limacore.lib.LimaColor;
 import liedge.limatech.client.LimaTechClient;
 import liedge.limatech.client.model.baked.BakedRotation;
-import liedge.limatech.client.model.baked.WeaponAmmoDisplay;
-import liedge.limatech.client.renderer.LimaTechArmPoses;
+import liedge.limatech.client.model.custom.TranslucentFillModel;
 import liedge.limatech.item.weapon.WeaponItem;
-import liedge.limatech.lib.weapons.LocalWeaponInput;
 import liedge.limatech.registry.LimaTechItems;
+import liedge.limatech.lib.weapons.ClientWeaponControls;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.Direction;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemStack;
 
 import static liedge.limatech.client.gui.layer.HUDOverlaySprites.SHOTGUN_CROSSHAIR_LEFT;
 import static liedge.limatech.client.gui.layer.HUDOverlaySprites.SHOTGUN_CROSSHAIR_RIGHT;
 
 public class ShotgunRenderProperties extends SimpleWeaponRenderProperties
 {
-    private final WeaponAmmoDisplay ammoDisplay = WeaponAmmoDisplay.createDisplay(
+    private final TranslucentFillModel magazineFillModel = TranslucentFillModel.create(
             6.76f, 2.76f, 3.51f,
             9.24f, 8.74f, 5.99f,
             Direction.Axis.Y,
@@ -28,7 +24,7 @@ public class ShotgunRenderProperties extends SimpleWeaponRenderProperties
 
     ShotgunRenderProperties()
     {
-        super(5f, 0.75f);
+        super(5f, 0.75f, 5);
     }
 
     @Override
@@ -38,26 +34,20 @@ public class ShotgunRenderProperties extends SimpleWeaponRenderProperties
     }
 
     @Override
-    public HumanoidModel.ArmPose getArmPose(LivingEntity entity, InteractionHand hand, ItemStack heldItem)
-    {
-        return LimaTechArmPoses.twoHandedWeapon();
-    }
-
-    @Override
-    public void renderCrosshair(WeaponItem weaponItem, LocalWeaponInput weaponInput, GuiGraphics graphics, float partialTicks, int screenWidth, int screenHeight, LimaColor crosshairColor)
+    public void renderCrosshair(LocalPlayer player, WeaponItem weaponItem, ClientWeaponControls controls, GuiGraphics graphics, float partialTicks, int screenWidth, int screenHeight, LimaColor crosshairColor)
     {
         final int centerX = (screenWidth - 1) / 2;
         final int centerY = (screenHeight - 13) / 2;
-        float bloom = 2.5f + 3.5f * LimaTechClient.animationCurveA(weaponInput.lerpTriggerTimer(weaponItem, partialTicks));
+        float bloom = 2.5f + 3.5f * LimaTechClient.animationCurveB(controls.lerpTriggerTimer(weaponItem, partialTicks));
 
         SHOTGUN_CROSSHAIR_LEFT.directColorBlit(graphics, centerX - 6 - bloom, centerY, crosshairColor);
         SHOTGUN_CROSSHAIR_RIGHT.directColorBlit(graphics, centerX + 1 + bloom, centerY, crosshairColor);
     }
 
     @Override
-    protected WeaponAmmoDisplay mainAmmoDisplay()
+    public TranslucentFillModel getMagazineFillModel()
     {
-        return ammoDisplay;
+        return magazineFillModel;
     }
 
     @Override

@@ -5,13 +5,12 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Axis;
 import liedge.limacore.client.EmptyVertexConsumer;
+import liedge.limacore.client.LimaBlockEntityRenderer;
 import liedge.limatech.blockentity.FabricatorBlockEntity;
 import liedge.limatech.client.renderer.LimaTechRenderTypes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
@@ -20,18 +19,16 @@ import java.util.Set;
 
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING;
 
-public class FabricatorRenderer implements BlockEntityRenderer<FabricatorBlockEntity>
+public class FabricatorRenderer extends LimaBlockEntityRenderer<FabricatorBlockEntity>
 {
     private static final Set<VertexFormat> VALID_WIREFRAME_FORMATS = Set.of(
             DefaultVertexFormat.BLOCK,
             DefaultVertexFormat.NEW_ENTITY,
             DefaultVertexFormat.POSITION_TEX_COLOR);
 
-    private final ItemRenderer itemRenderer;
-
-    public FabricatorRenderer(BlockEntityRendererProvider.Context ctx)
+    public FabricatorRenderer(BlockEntityRendererProvider.Context context)
     {
-        this.itemRenderer = ctx.getItemRenderer();
+        super(context);
     }
 
     @Override

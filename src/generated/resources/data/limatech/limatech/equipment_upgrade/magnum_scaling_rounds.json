@@ -1,0 +1,24 @@
+{
+  "description": {
+    "translate": "equipment_upgrade.limatech.magnum_scaling_rounds.desc"
+  },
+  "effects": [
+    {
+      "type": "limatech:weapon_attribute_modifier",
+      "attribute": "damage",
+      "calculation": {
+        "type": "multiply_by_target_attribute",
+        "amount": 0.2,
+        "attribute": "minecraft:generic.max_health"
+      }
+    },
+    {
+      "type": "limatech:bypass_armor",
+      "amount": 1.0
+    }
+  ],
+  "supported_items": "limatech:magnum",
+  "title": {
+    "translate": "equipment_upgrade.limatech.magnum_scaling_rounds.title"
+  }
+}

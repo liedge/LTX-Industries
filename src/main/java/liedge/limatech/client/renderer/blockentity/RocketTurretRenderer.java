@@ -3,39 +3,33 @@ package liedge.limatech.client.renderer.blockentity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
+import liedge.limacore.client.LimaBlockEntityRenderer;
 import liedge.limacore.client.LimaCoreClientUtil;
 import liedge.limacore.lib.LimaColor;
-import liedge.limatech.LimaTech;
 import liedge.limatech.blockentity.RocketTurretBlockEntity;
 import liedge.limatech.client.model.baked.DynamicModularBakedModel;
+import liedge.limatech.client.model.baked.LimaTechExtraBakedModels;
 import liedge.limatech.client.renderer.LimaTechRenderTypes;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
-import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.core.BlockPos;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.AABB;
 import org.joml.Matrix4f;
 
-import static liedge.limatech.LimaTechConstants.*;
+import static liedge.limatech.LimaTechConstants.HOSTILE_ORANGE;
+import static liedge.limatech.LimaTechConstants.LIME_GREEN;
 
-public class RocketTurretRenderer implements BlockEntityRenderer<RocketTurretBlockEntity>
+public class RocketTurretRenderer extends LimaBlockEntityRenderer<RocketTurretBlockEntity>
 {
-    public static final ModelResourceLocation GUN_MODEL_PATH = ModelResourceLocation.standalone(LimaTech.RESOURCES.location("misc/rocket_turret_gun"));
-
-    private final EntityRenderDispatcher entityRenderer;
-
     private final DynamicModularBakedModel.SubModel gun;
     private final DynamicModularBakedModel.SubModel swivel;
 
-    public RocketTurretRenderer(BlockEntityRendererProvider.Context ctx)
+    public RocketTurretRenderer(BlockEntityRendererProvider.Context context)
     {
-        this.entityRenderer = ctx.getEntityRenderer();
-        DynamicModularBakedModel model = LimaCoreClientUtil.getCustomBakedModel(GUN_MODEL_PATH, DynamicModularBakedModel.class);
+        super(context);
+
+        DynamicModularBakedModel model = LimaCoreClientUtil.getCustomBakedModel(LimaTechExtraBakedModels.ROCKET_TURRET_GUN, DynamicModularBakedModel.class);
         this.gun = model.getSubmodel("gun");
         this.swivel = model.getSubmodel("swivel");
     }
@@ -63,25 +57,21 @@ public class RocketTurretRenderer implements BlockEntityRenderer<RocketTurretBlo
         poseStack.popPose();
 
         // Render lock on triangle
-        Entity remoteTarget = blockEntity.getRemoteTarget();
-        if (remoteTarget != null)
+        Entity currentTarget = blockEntity.getCurrentTarget();
+        if (currentTarget != null)
         {
-            BlockPos pos = blockEntity.getBlockPos();
-
-            double lx = Mth.lerp(partialTick, remoteTarget.xo - pos.getX(), remoteTarget.getX() - pos.getX());
-            double ly = Mth.lerp(partialTick, remoteTarget.yo - pos.getY(), remoteTarget.getY() - pos.getY()) + (remoteTarget.getBoundingBox().getYsize() / 2d);
-            double lz = Mth.lerp(partialTick, remoteTarget.zo - pos.getZ(), remoteTarget.getZ() - pos.getZ());
-
             poseStack.pushPose();
 
             VertexConsumer buffer = bufferSource.getBuffer(LimaTechRenderTypes.TARGET_TRIANGLE);
             Matrix4f mx4 = poseStack.last().pose();
 
-            poseStack.translate(lx, ly, lz);
+            double[] targetCenter = lerpEntityCenter(blockEntity.getBlockPos(), currentTarget, partialTick);
+
+            poseStack.translate(targetCenter[0], targetCenter[1], targetCenter[2]);
             poseStack.mulPose(Axis.YP.rotationDegrees(-entityRenderer.camera.getYRot()));
             poseStack.mulPose(Axis.XP.rotationDegrees(entityRenderer.camera.getXRot()));
 
-            float size = (float) remoteTarget.getBoundingBox().getSize();
+            float size = (float) currentTarget.getBoundingBox().getSize();
             poseStack.scale(size, size, size);
             poseStack.mulPose(Axis.ZP.rotationDegrees(ry));
             poseStack.translate(-0.5d, -0.5d, 0);

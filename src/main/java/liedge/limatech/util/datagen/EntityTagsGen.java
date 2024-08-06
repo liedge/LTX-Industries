@@ -1,51 +1,38 @@
 package liedge.limatech.util.datagen;
 
-import liedge.limacore.data.generation.TagBuilderHelper;
+import liedge.limacore.data.generation.LimaTagsProvider;
 import liedge.limatech.LimaTech;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.tags.EntityTypeTagsProvider;
-import net.minecraft.tags.TagBuilder;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.CompletableFuture;
 
 import static liedge.limatech.LimaTechTags.EntityTypes.*;
+import static net.minecraft.tags.EntityTypeTags.FREEZE_HURTS_EXTRA_TYPES;
+import static net.minecraft.tags.EntityTypeTags.SENSITIVE_TO_IMPALING;
 import static net.minecraft.world.entity.EntityType.*;
 
-class EntityTagsGen extends EntityTypeTagsProvider implements TagBuilderHelper<EntityType<?>>
+class EntityTagsGen extends LimaTagsProvider.RegistryTags<EntityType<?>>
 {
-    public EntityTagsGen(PackOutput output, CompletableFuture<HolderLookup.Provider> registries, ExistingFileHelper helper)
+    public EntityTagsGen(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, ExistingFileHelper helper)
     {
-        super(output, registries, LimaTech.MODID, helper);
+        super(output, BuiltInRegistries.ENTITY_TYPE, LimaTech.MODID, lookupProvider, helper);
     }
 
     @Override
     protected void addTags(HolderLookup.Provider lookup)
     {
-        buildTag(FLYING_MOBS).add(PHANTOM, GHAST, BLAZE, ENDER_DRAGON, VEX, WITHER);
+        buildTag(IMMUNE_TO_LTX_WEAPONS).add(ITEM, EXPERIENCE_ORB, ITEM_FRAME, GLOW_ITEM_FRAME, ARMOR_STAND);
 
-        // Elite mobs
-        buildTag(ELITE_MOBS).add(EVOKER, HOGLIN, ILLUSIONER, IRON_GOLEM, PIGLIN_BRUTE, RAVAGER, VINDICATOR, ZOGLIN);
+        buildTag(WEAK_TO_FLAME).add(STRAY, POLAR_BEAR, SNOW_GOLEM);
+        buildTag(WEAK_TO_FREEZE).addTag(FREEZE_HURTS_EXTRA_TYPES);
+        buildTag(WEAK_TO_ELECTRIC).addTag(SENSITIVE_TO_IMPALING);
 
-        // Boss mobs
-        buildTag(BOSS_MOBS).add(ELDER_GUARDIAN, ENDER_DRAGON, WITHER, WARDEN);
-    }
-
-    @Override
-    public TagBuilder getOrCreateRawBuilder(TagKey<EntityType<?>> tagKey)
-    {
-        return super.getOrCreateRawBuilder(tagKey);
-    }
-
-    @Override
-    public @Nullable Registry<EntityType<?>> getTagRegistry()
-    {
-        return BuiltInRegistries.ENTITY_TYPE;
+        buildTag(ROCKET_TURRET_TARGETS).add(PHANTOM, GHAST, BLAZE, ENDER_DRAGON, VEX, WITHER);
+        buildTag(MEDIUM_THREAT_LEVEL).add(EVOKER, HOGLIN, ILLUSIONER, IRON_GOLEM, PIGLIN_BRUTE, RAVAGER, VINDICATOR, ZOGLIN);
+        buildTag(HIGH_THREAT_LEVEL).add(ELDER_GUARDIAN, ENDER_DRAGON, WITHER, WARDEN);
     }
 }

@@ -1,0 +1,23 @@
+{
+  "description": {
+    "translate": "equipment_upgrade.limatech.high_impact_rounds.desc"
+  },
+  "effects": [
+    {
+      "type": "limatech:knockback_modifier",
+      "ignore_resistance": true,
+      "modifier": {
+        "type": "addition",
+        "amount": 1.5
+      }
+    }
+  ],
+  "icon": "limatech:armor_bypass",
+  "supported_items": [
+    "limatech:shotgun",
+    "limatech:magnum"
+  ],
+  "title": {
+    "translate": "equipment_upgrade.limatech.high_impact_rounds.title"
+  }
+}

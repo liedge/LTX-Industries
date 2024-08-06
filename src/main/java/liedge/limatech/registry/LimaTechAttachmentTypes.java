@@ -1,14 +1,17 @@
 package liedge.limatech.registry;
 
+import liedge.limacore.util.LimaCoreUtil;
 import liedge.limatech.LimaTech;
 import liedge.limatech.lib.StandaloneBubbleShield;
-import liedge.limatech.lib.weapons.ServerWeaponInput;
+import liedge.limatech.lib.weapons.AbstractWeaponControls;
+import liedge.limatech.lib.weapons.ClientWeaponControls;
+import liedge.limatech.lib.weapons.ServerWeaponControls;
+import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.attachment.AttachmentType;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
-
-import java.util.function.Supplier;
 
 public final class LimaTechAttachmentTypes
 {
@@ -21,6 +24,10 @@ public final class LimaTechAttachmentTypes
         ATTACHMENTS.register(bus);
     }
 
-    public static final Supplier<AttachmentType<StandaloneBubbleShield>> BUBBLE_SHIELD = ATTACHMENTS.register("bubble_shield", () -> AttachmentType.serializable(StandaloneBubbleShield::new).build());
-    public static final Supplier<AttachmentType<ServerWeaponInput>> WEAPON_INPUT = ATTACHMENTS.register("weapon_input", () -> AttachmentType.builder(ServerWeaponInput::new).build());
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<StandaloneBubbleShield>> BUBBLE_SHIELD = ATTACHMENTS.register("bubble_shield", () -> AttachmentType.serializable(StandaloneBubbleShield::new).build());
+
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<AbstractWeaponControls>> WEAPON_CONTROLS = ATTACHMENTS.register("weapon_controls", () -> AttachmentType.builder(holder -> {
+        Player player = LimaCoreUtil.castOrThrow(Player.class, holder, () -> new IllegalStateException("Weapon controls attachment can only be added to players."));
+        return player.level().isClientSide() ? new ClientWeaponControls() : new ServerWeaponControls();
+    }).build());
 }

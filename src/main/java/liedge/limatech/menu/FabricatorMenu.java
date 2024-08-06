@@ -1,58 +1,44 @@
 package liedge.limatech.menu;
 
-import liedge.limacore.inventory.menu.LimaMenu;
-import liedge.limacore.inventory.slot.LimaMenuSlot;
-import liedge.limacore.network.sync.LimaDataWatcher;
-import liedge.limacore.network.sync.SimpleDataWatcher;
-import liedge.limacore.recipe.LimaSimpleCountIngredient;
+import liedge.limacore.inventory.menu.LimaItemHandlerMenu;
+import liedge.limacore.inventory.menu.LimaMenuType;
+import liedge.limacore.recipe.LimaRecipeInput;
 import liedge.limacore.registry.LimaCoreNetworkSerializers;
-import liedge.limacore.util.LimaCoreUtil;
 import liedge.limacore.util.LimaItemUtil;
+import liedge.limacore.util.LimaRecipesUtil;
 import liedge.limatech.LimaTech;
 import liedge.limatech.blockentity.FabricatorBlockEntity;
-import liedge.limatech.recipe.FabricatingRecipe;
-import liedge.limatech.registry.LimaTechCrafting;
-import liedge.limatech.registry.LimaTechMenus;
+import liedge.limatech.recipe.BaseFabricatingRecipe;
+import liedge.limatech.registry.LimaTechNetworkSerializers;
+import liedge.limatech.registry.LimaTechRecipeTypes;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
-import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.wrapper.PlayerMainInvWrapper;
 
-import java.util.List;
-
-public class FabricatorMenu extends LimaMenu<FabricatorBlockEntity>
+public class FabricatorMenu extends LimaItemHandlerMenu<FabricatorBlockEntity>
 {
-    public FabricatorMenu(int containerId, Inventory inventory, FabricatorBlockEntity context)
+    public FabricatorMenu(LimaMenuType<FabricatorBlockEntity, ?> type, int containerId, Inventory inventory, FabricatorBlockEntity context)
     {
-        super(LimaTechMenus.FABRICATOR.get(), containerId, inventory, context);
+        super(type, containerId, inventory, context);
 
         // Slots
-        addSlot(new LimaMenuSlot(context.getItemHandler(), 0, 7, 61));
-        addRecipeResultSlot(context.getItemHandler(), 1, 43, 86, LimaTechCrafting.FABRICATING_TYPE);
+        addContextSlot(0, 7, 61);
+        addContextRecipeResultSlot(1, 43, 86, LimaTechRecipeTypes.FABRICATING);
         addPlayerInventory(15, 118);
         addPlayerHotbar(15, 176);
     }
 
-    public void tryStartCrafting(ResourceLocation id)
+    private void receiveCraftCommand(ServerPlayer sender, ResourceLocation id)
     {
-        RecipeHolder<FabricatingRecipe> holder = LimaCoreUtil.getRecipeByKey(level(), id, LimaTechCrafting.FABRICATING_TYPE);
+        RecipeHolder<BaseFabricatingRecipe> holder = LimaRecipesUtil.recipeHolderByKey(level(), id, LimaTechRecipeTypes.FABRICATING);
 
         if (holder != null)
         {
-            if (getUser().isCreative())
-            {
-                menuContext().startCrafting(holder);
-            }
-            else
-            {
-                if (consumeIngredients(holder, true) && menuContext().startCrafting(holder))
-                {
-                    consumeIngredients(holder, false);
-                }
-            }
+            LimaRecipeInput input = LimaRecipeInput.matchingContainer(new PlayerMainInvWrapper(sender.getInventory()));
+            menuContext.startCrafting(holder, input, sender.isCreative());
         }
         else
         {
@@ -60,46 +46,18 @@ public class FabricatorMenu extends LimaMenu<FabricatorBlockEntity>
         }
     }
 
-    private boolean consumeIngredients(RecipeHolder<FabricatingRecipe> holder, boolean simulate)
+    @Override
+    public void defineDataWatchers(DataWatcherCollector collector)
     {
-        IItemHandler invWrapper = new PlayerMainInvWrapper(playerInventory);
-        List<IngredientInstance> ingredientInstances = holder.value().getIngredients().stream().map(IngredientInstance::new).toList();
+        collector.register(menuContext.getEnergyStorage().createDataWatcher());
+        collector.register(menuContext.keepProcessSynced());
+    }
 
-        for (IngredientInstance instance : ingredientInstances)
-        {
-            // Handle simple count ingredients differently. Because ingredient.test() requires that a slot contains the ingredient's entire count,
-            // the check will fail even if the player has the necessary materials split over several inventory slots.
-            if (instance.ingredient.getCustomIngredient() instanceof LimaSimpleCountIngredient countIngredient)
-            {
-                for (int i = 0; i < invWrapper.getSlots(); i++)
-                {
-                    if (countIngredient.matchesItem(invWrapper.getStackInSlot(i)))
-                    {
-                        ItemStack extracted = invWrapper.extractItem(i, instance.remaining, simulate);
-                        instance.remaining -= extracted.getCount();
-
-                        if (instance.remaining == 0) break;
-                    }
-                }
-            }
-            else
-            {
-                for (int i = 0; i < invWrapper.getSlots(); i++)
-                {
-                    if (instance.ingredient.test(invWrapper.getStackInSlot(i)))
-                    {
-                        ItemStack extracted = invWrapper.extractItem(i, instance.remaining, simulate);
-                        instance.remaining -= extracted.getCount();
-
-                        if (instance.remaining == 0) break;
-                    }
-                }
-            }
-
-            if (instance.remaining > 0) return false;
-        }
-
-        return true;
+    @Override
+    protected void defineButtonEventHandlers(EventHandlerBuilder builder)
+    {
+        builder.handleAction(0, LimaCoreNetworkSerializers.RESOURCE_LOCATION, this::receiveCraftCommand);
+        builder.handleAction(1, LimaTechNetworkSerializers.MACHINE_INPUT_TYPE, menuContext::openIOControlMenuScreen);
     }
 
     @Override
@@ -109,31 +67,11 @@ public class FabricatorMenu extends LimaMenu<FabricatorBlockEntity>
         {
             return quickMoveToAllInventory(stack, false);
         }
-        else if (LimaItemUtil.ENERGY_ITEMS.test(stack))
+        else if (LimaItemUtil.hasEnergyCapability(stack))
         {
-            return quickMoveToSlot(stack, 0, false);
+            return quickMoveToContainerSlot(stack, 0);
         }
 
         return false;
-    }
-
-    @Override
-    protected List<LimaDataWatcher<?>> defineDataWatchers(FabricatorBlockEntity menuContext)
-    {
-        return List.of(
-                menuContext.getEnergyStorage().createDataWatcher(),
-                SimpleDataWatcher.keepSynced(LimaCoreNetworkSerializers.VAR_INT, menuContext::getClientProgress, menuContext::setClientProgress));
-    }
-
-    private static class IngredientInstance
-    {
-        private final Ingredient ingredient;
-        private int remaining;
-
-        IngredientInstance(Ingredient ingredient)
-        {
-            this.ingredient = ingredient;
-            this.remaining = ingredient.getItems()[0].getCount();
-        }
     }
 }

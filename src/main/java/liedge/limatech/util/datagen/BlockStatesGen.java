@@ -1,23 +1,23 @@
 package liedge.limatech.util.datagen;
 
 import liedge.limacore.data.generation.LimaBlockStateProvider;
-import liedge.limacore.lib.ModResources;
 import liedge.limatech.LimaTech;
-import liedge.limatech.block.BasicMachineBlock;
-import net.minecraft.core.Direction;
+import liedge.limatech.block.BasicHorizontalMachineBlock;
+import net.minecraft.core.Holder;
 import net.minecraft.data.PackOutput;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
-
-import java.util.function.Supplier;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 import static liedge.limacore.util.LimaRegistryUtil.getBlockName;
-import static liedge.limatech.block.BasicMachineBlock.MACHINE_WORKING;
+import static liedge.limatech.block.LimaTechBlockProperties.MACHINE_WORKING;
 import static liedge.limatech.registry.LimaTechBlocks.*;
-import static net.minecraft.world.level.block.state.properties.BlockStateProperties.*;
+import static net.minecraft.world.level.block.state.properties.BlockStateProperties.DOUBLE_BLOCK_HALF;
+import static net.minecraft.world.level.block.state.properties.BlockStateProperties.WATERLOGGED;
 
 class BlockStatesGen extends LimaBlockStateProvider
 {
@@ -59,31 +59,37 @@ class BlockStatesGen extends LimaBlockStateProvider
                 .element().from(0, 0, 0).to(16, 16, 16).allFaces((side, face) -> face.uvs(0, 0, 16, 16).texture("#all").cullface(side)).emissivity(15, 15).shade(false).end();
         GLOW_BLOCKS.forEach((color, deferredBlock) -> simpleBlockWithItem(deferredBlock, getBlockBuilder(deferredBlock).parent(glowBlockModel).texture("all", blockFolderLocation("glow_blocks/" + color.getSerializedName()))));
 
-        basicMachine(GRINDER);
-        basicMachine(MATERIAL_FUSING_CHAMBER);
+        // Energy storage array
+        simpleBlockWithItem(ENERGY_STORAGE_ARRAY, existingModel(blockFolderLocation(ENERGY_STORAGE_ARRAY)));
 
-        // Fabricator block
-        final ModelFile fabricatorModel = existingModel(blockFolderLocation(FABRICATOR));
-        getVariantBuilder(FABRICATOR).forAllStates(state -> {
-            Direction facing = state.getValue(HORIZONTAL_FACING);
-            return ConfiguredModel.builder().modelFile(fabricatorModel).rotationY(getRotationY(facing, 180)).build();
-        });
-        simpleBlockItem(FABRICATOR, fabricatorModel);
+        // Simple machines
+        basicMachine(DIGITAL_FURNACE);
+        basicMachine(GRINDER);
+        basicMachine(RECOMPOSER);
+        basicMachine(MATERIAL_FUSING_CHAMBER);
+        horizontalBlockWithSimpleItem(FABRICATOR);
+        simpleBlockWithItem(EQUIPMENT_MOD_TABLE, existingModel(blockFolderLocation(EQUIPMENT_MOD_TABLE)));
 
         // Turret
         getVariantBuilder(ROCKET_TURRET).forAllStatesExcept(state -> {
-            ModelFile upper = existingModel(blockFolderLocation(ModResources.MC, "warped_fence_post"));
-            ModelFile model = state.getValue(DOUBLE_BLOCK_HALF) == DoubleBlockHalf.LOWER ? turretBase : upper;
+            ModelFile model = state.getValue(DOUBLE_BLOCK_HALF) == DoubleBlockHalf.LOWER ? turretBase : machineParticlesOnly;
             return ConfiguredModel.builder().modelFile(model).build();
         }, WATERLOGGED);
     }
 
-    private void basicMachine(Supplier<? extends BasicMachineBlock> supplier)
+    private void horizontalBlockWithSimpleItem(Holder<Block> holder)
     {
-        String name = getBlockName(supplier.get());
+        ModelFile model = existingModel(blockFolderLocation(holder));
+        horizontalBlock(holder.value(), model, 180);
+        simpleBlockItem(holder, model);
+    }
+
+    private void basicMachine(DeferredHolder<Block, ? extends BasicHorizontalMachineBlock> holder)
+    {
+        String name = getBlockName(holder);
         ModelFile idleModel = models().getBuilder(name + "_idle").parent(basicMachineModel).texture("front", blockFolderLocation(name + "_idle"));
         ModelFile workingModel = models().getBuilder(name + "_working").parent(basicMachineModel).texture("front", blockFolderLocation(name + "_working"));
-        horizontalBlock(supplier.get(), state -> state.getValue(MACHINE_WORKING) ? workingModel : idleModel);
-        simpleBlockItem(supplier, idleModel);
+        horizontalBlock(holder.get(), state -> state.getValue(MACHINE_WORKING) ? workingModel : idleModel);
+        simpleBlockItem(holder, idleModel);
     }
 }

@@ -15,9 +15,7 @@ public final class LimaTechLootTables
     }
 
     // Entity extra drops
+    public static final ResourceKey<LootTable> ENEMY_AMMO_DROPS = key("entity/enemy_ammo_drops");
     public static final ResourceKey<LootTable> ENTITY_EXTRA_DROPS = key("entity/extra_drops");
-
-    // Chests
-    public static final ResourceKey<LootTable> EXPLOSIVES_SALVAGE = key("chests/explosive_salvage");
-    public static final ResourceKey<LootTable> LEGENDARY_AMMO = key("chests/legendary_ammo");
+    public static final ResourceKey<LootTable> RAZOR_LOOT_TABLE = key("entity/razor_drops");
 }

@@ -1,0 +1,12 @@
+{
+  "type": "limatech:grinding",
+  "ingredients": [
+    {
+      "tag": "c:ores/lapis"
+    }
+  ],
+  "result": {
+    "count": 3,
+    "id": "limatech:lapis_ore_pebbles"
+  }
+}

@@ -4,8 +4,9 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import liedge.limatech.LimaTechConstants;
 import liedge.limatech.client.model.baked.DynamicModularBakedModel;
-import liedge.limatech.client.model.baked.WeaponAmmoDisplay;
+import liedge.limatech.client.model.custom.TranslucentFillModel;
 import liedge.limatech.item.weapon.WeaponItem;
+import liedge.limatech.lib.weapons.ClientWeaponControls;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
@@ -14,16 +15,24 @@ abstract class SimpleWeaponRenderProperties extends WeaponRenderProperties<Weapo
 {
     private final float recoilAngle;
     private final float recoilDistance;
+    private final int recoilAnimationTime;
 
-    SimpleWeaponRenderProperties(float recoilAngle, float recoilDistance)
+    SimpleWeaponRenderProperties(float recoilAngle, float recoilDistance, int recoilAnimationTime)
     {
         this.recoilAngle = recoilAngle;
         this.recoilDistance = recoilDistance;
+        this.recoilAnimationTime = recoilAnimationTime;
     }
 
-    protected abstract WeaponAmmoDisplay mainAmmoDisplay();
+    protected abstract TranslucentFillModel getMagazineFillModel();
 
     protected abstract float applyAnimationCurve(float recoilA);
+
+    @Override
+    public void onWeaponFired(ItemStack stack, WeaponItem weaponItem, ClientWeaponControls controls)
+    {
+        controls.getAnimationTimerA().startTimer(recoilAnimationTime);
+    }
 
     @Override
     protected final void loadWeaponModelParts(WeaponItem item, DynamicModularBakedModel model) {}
@@ -32,15 +41,16 @@ abstract class SimpleWeaponRenderProperties extends WeaponRenderProperties<Weapo
     protected final void renderStaticWeapon(ItemStack stack, WeaponItem item, ItemDisplayContext displayContext, PoseStack poseStack, MultiBufferSource bufferSource, int light, int overlay)
     {
         mainSubmodel.renderToBuffer(poseStack, bufferSource, light);
-        renderAmmoDisplay(item, stack, poseStack, bufferSource, mainAmmoDisplay(), LimaTechConstants.LIME_GREEN);
+        renderStaticMagazineFill(item, stack, poseStack, bufferSource, getMagazineFillModel(), LimaTechConstants.LIME_GREEN);
     }
 
     @Override
-    protected final void renderHeldWeapon(ItemStack stack, WeaponItem item, ItemDisplayContext displayContext, PoseStack poseStack, MultiBufferSource bufferSource, float partialTick, int light, int overlay, float recoilA, float recoilB)
+    protected final void renderWeaponFirstPerson(ItemStack stack, WeaponItem item, ItemDisplayContext displayContext, PoseStack poseStack, MultiBufferSource bufferSource, int light, int overlay, float partialTick, ClientWeaponControls controls)
     {
-        float mul = applyAnimationCurve(recoilA);
+        float mul = applyAnimationCurve(controls.getAnimationTimerA().lerpProgressNotPaused(partialTick));
         poseStack.translate(0, 0, recoilDistance * mul);
         if (recoilAngle > 0) poseStack.mulPose(Axis.XP.rotationDegrees(recoilAngle * mul));
-        renderStaticWeapon(stack, item, displayContext, poseStack, bufferSource, light, overlay);
+        mainSubmodel.renderToBuffer(poseStack, bufferSource, light);
+        renderAnimatedMagazineFill(item, stack, poseStack, bufferSource, getMagazineFillModel(), LimaTechConstants.LIME_GREEN, partialTick, controls);
     }
 }

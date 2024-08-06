@@ -1,0 +1,18 @@
+{
+  "description": {
+    "translate": "equipment_upgrade.limatech.electric_grenade_core.desc"
+  },
+  "effects": [
+    {
+      "type": "limatech:grenade_type_selection",
+      "types": [
+        "electric"
+      ]
+    }
+  ],
+  "icon": "limatech:electric_grenade_core",
+  "supported_items": "limatech:grenade_launcher",
+  "title": {
+    "translate": "equipment_upgrade.limatech.electric_grenade_core.title"
+  }
+}

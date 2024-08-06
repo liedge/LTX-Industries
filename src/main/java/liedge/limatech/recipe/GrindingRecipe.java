@@ -1,13 +1,16 @@
 package liedge.limatech.recipe;
 
-import liedge.limatech.registry.LimaTechCrafting;
+import liedge.limacore.recipe.LimaRecipeInput;
+import liedge.limacore.recipe.LimaRecipeType;
+import liedge.limacore.recipe.LimaSimpleRecipe;
+import liedge.limatech.registry.LimaTechRecipeSerializers;
+import liedge.limatech.registry.LimaTechRecipeTypes;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
 
-public class GrindingRecipe extends BasicMachineRecipe
+public class GrindingRecipe extends LimaSimpleRecipe<LimaRecipeInput>
 {
     public GrindingRecipe(NonNullList<Ingredient> ingredients, ItemStack result)
     {
@@ -17,12 +20,12 @@ public class GrindingRecipe extends BasicMachineRecipe
     @Override
     public RecipeSerializer<?> getSerializer()
     {
-        return LimaTechCrafting.GRINDING_SERIALIZER.get();
+        return LimaTechRecipeSerializers.GRINDING.get();
     }
 
     @Override
-    public RecipeType<?> getType()
+    public LimaRecipeType<?> getType()
     {
-        return LimaTechCrafting.GRINDING_TYPE.get();
+        return LimaTechRecipeTypes.GRINDING.get();
     }
 }

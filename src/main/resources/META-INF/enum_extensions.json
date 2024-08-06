@@ -10,6 +10,15 @@
       }
     },
     {
+      "enum": "net/minecraft/client/model/HumanoidModel$ArmPose",
+      "name": "LIMATECH_WEAPON_SHIELD_POSE",
+      "constructor": "(ZLnet/neoforged/neoforge/client/IArmPoseTransformer;)V",
+      "parameters": {
+        "class": "liedge/limatech/client/renderer/LimaTechArmPoses",
+        "field": "WEAPON_SHIELD_POSE"
+      }
+    },
+    {
       "enum": "net/minecraft/world/item/Rarity",
       "name": "LIMATECH_LTX",
       "constructor": "(ILjava/lang/String;Ljava/util/function/UnaryOperator;)V",
@@ -20,10 +29,19 @@
     },
     {
       "enum": "net/minecraft/world/damagesource/DeathMessageType",
+      "name": "LIMATECH_TRACEABLE_PROJECTILE_MESSAGE_TYPE",
+      "constructor": "(Ljava/lang/String;Lnet/neoforged/neoforge/common/damagesource/IDeathMessageProvider;)V",
+      "parameters": {
+        "class": "liedge/limatech/lib/LimaTechDeathMessageTypes",
+        "field": "TRACEABLE_PROJECTILE_MESSAGE_TYPE"
+      }
+    },
+    {
+      "enum": "net/minecraft/world/damagesource/DeathMessageType",
       "name": "LIMATECH_WEAPON_DAMAGE",
       "constructor": "(Ljava/lang/String;Lnet/neoforged/neoforge/common/damagesource/IDeathMessageProvider;)V",
       "parameters": {
-        "class": "liedge/limatech/lib/weapons/WeaponDeathMessageType",
+        "class": "liedge/limatech/lib/LimaTechDeathMessageTypes",
         "field": "WEAPON_DEATH_MESSAGE_TYPE"
       }
     }

@@ -1,31 +1,24 @@
 package liedge.limatech.entity;
 
-import liedge.limacore.LimaCommonConstants;
 import liedge.limacore.util.LimaMathUtil;
-import liedge.limacore.util.LimaNbtUtil;
-import liedge.limatech.util.config.LimaTechServerConfig;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.projectile.ProjectileUtil;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2f;
-
-import java.util.UUID;
 
 import static liedge.limacore.util.LimaMathUtil.*;
 
-public abstract class LimaTechProjectile extends Entity implements TraceableEntity
+public abstract class LimaTechProjectile extends BaseTraceableEntity
 {
-    private @Nullable UUID ownerUUID;
-    private @Nullable LivingEntity owner;
+    private float damage = 1f;
 
     protected LimaTechProjectile(EntityType<?> type, Level level)
     {
@@ -70,6 +63,16 @@ public abstract class LimaTechProjectile extends Entity implements TraceableEnti
 
     public abstract int getLifetime();
 
+    public float getDamage()
+    {
+        return damage;
+    }
+
+    public void setDamage(float damage)
+    {
+        this.damage = damage;
+    }
+
     protected float getProjectileGravity()
     {
         return 0f;
@@ -78,34 +81,6 @@ public abstract class LimaTechProjectile extends Entity implements TraceableEnti
     protected abstract void onProjectileHit(Level level, HitResult hitResult, Vec3 hitLocation);
 
     protected abstract void tickProjectile(Level level, boolean isClientSide);
-
-    @Override
-    public @Nullable LivingEntity getOwner()
-    {
-        if (owner != null && !owner.isRemoved())
-        {
-            return owner;
-        }
-        else if (ownerUUID != null && level() instanceof ServerLevel serverLevel)
-        {
-            Entity e = serverLevel.getEntity(ownerUUID);
-            if (e instanceof LivingEntity) owner = (LivingEntity) e;
-            return owner;
-        }
-        else
-        {
-            return null;
-        }
-    }
-
-    public void setOwner(@Nullable LivingEntity owner)
-    {
-        if (owner != null)
-        {
-            this.ownerUUID = owner.getUUID();
-            this.owner = owner;
-        }
-    }
 
     @Override
     public boolean hurt(DamageSource source, float amount)
@@ -121,15 +96,19 @@ public abstract class LimaTechProjectile extends Entity implements TraceableEnti
     }
 
     @Override
-    public void baseTick()
+    public final void baseTick()
     {
-        level().getProfiler().push("entityBaseTick");
+        Level level = level();
+        level.getProfiler().push("entityBaseTick");
 
         // Discard projectile if lifetime is complete
         if (tickCount >= getLifetime())
         {
             this.discard();
         }
+
+        // Do fluid calculations
+        updateFluidHeightOnly(level);
 
         // Handle motion
         final double x = getX();
@@ -161,26 +140,17 @@ public abstract class LimaTechProjectile extends Entity implements TraceableEnti
     }
 
     @Override
-    public void tick()
+    public final void tick()
     {
         Level level = level();
         boolean isClientSide = level.isClientSide();
 
         if (!isClientSide)
         {
-            HitResult hitResult = ProjectileUtil.getHitResultOnMoveVector(this, hit -> canHitEntity(getOwner(), hit));
+            HitResult hitResult = LimaTechEntityUtil.traceProjectileEntityPath(level, this, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, getBoundingBox().getSize());
             if (hitResult.getType() != HitResult.Type.MISS)
             {
-                Vec3 hitLocation;
-                if (hitResult instanceof EntityHitResult)
-                {
-                    hitLocation = ((EntityHitResult) hitResult).getEntity().getBoundingBox().getCenter();
-                }
-                else
-                {
-                    hitLocation = hitResult.getLocation();
-                }
-
+                Vec3 hitLocation = hitResult.getLocation();
                 setPos(hitLocation);
                 onProjectileHit(level, hitResult, hitLocation);
             }
@@ -217,29 +187,14 @@ public abstract class LimaTechProjectile extends Entity implements TraceableEnti
     @Override
     protected void readAdditionalSaveData(CompoundTag tag)
     {
-        tickCount = tag.getInt("age");
-        ownerUUID = LimaNbtUtil.getOptionalUUID(tag, LimaCommonConstants.KEY_OWNER);
+        super.readAdditionalSaveData(tag);
+        damage = tag.getFloat("damage");
     }
 
     @Override
     protected void addAdditionalSaveData(CompoundTag tag)
     {
-        tag.putInt("age", tickCount);
-        LimaNbtUtil.putOptionalUUID(tag, LimaCommonConstants.KEY_OWNER, ownerUUID);
-    }
-
-    // Utility methods
-    public static boolean canHitEntity(@Nullable LivingEntity owner, Entity hitEntity)
-    {
-        // Don't hurt the owner and non-alive entities, and don't hurt item & experience orbs
-        boolean flag1 = hitEntity.isAlive() && hitEntity != owner && LimaTechServerConfig.canWeaponDamage(hitEntity.getType());
-
-        // Don't hurt traceable entities (i.e. projectiles) with the same owner
-        boolean flag2 = !(hitEntity instanceof TraceableEntity) || ((TraceableEntity) hitEntity).getOwner() != owner;
-
-        // Don't hurt owned mobs (if config)
-        boolean flag3 = (!(hitEntity instanceof OwnableEntity) || LimaTechServerConfig.weaponsHurtOwnedEntities()) || ((OwnableEntity) hitEntity).getOwner() != owner;
-
-        return flag1 && flag2 && flag3;
+        super.addAdditionalSaveData(tag);
+        tag.putFloat("damage", damage);
     }
 }

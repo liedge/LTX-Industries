@@ -6,12 +6,12 @@ import liedge.limatech.item.weapon.WeaponItem;
 import liedge.limatech.lib.weapons.WeaponDamageSource;
 import liedge.limatech.network.packet.ClientboundBubbleShieldPacket;
 import liedge.limatech.registry.LimaTechAttachmentTypes;
-import liedge.limatech.registry.LimaTechTriggerTypes;
-import net.minecraft.server.level.ServerPlayer;
+import liedge.limatech.registry.LimaTechAttributes;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
@@ -28,12 +28,10 @@ public final class LimaTechEventHandler
     @SubscribeEvent
     public static void onPlayerTick(final PlayerTickEvent.Pre event)
     {
-        if (event.getEntity() instanceof ServerPlayer serverPlayer)
-        {
-            ItemStack heldItem = serverPlayer.getMainHandItem();
-            WeaponItem weaponItem = LimaCoreUtil.castOrNull(WeaponItem.class, heldItem.getItem());
-            serverPlayer.getData(LimaTechAttachmentTypes.WEAPON_INPUT).tickInput(serverPlayer, heldItem, weaponItem);
-        }
+        Player player = event.getEntity();
+        ItemStack heldItem = player.getMainHandItem();
+        WeaponItem weaponItem = LimaCoreUtil.castOrNull(WeaponItem.class, heldItem.getItem());
+        player.getData(LimaTechAttachmentTypes.WEAPON_CONTROLS).tickInput(player, heldItem, weaponItem);
     }
 
     @SubscribeEvent
@@ -42,7 +40,7 @@ public final class LimaTechEventHandler
         Player player = event.getEntity();
         if (!player.level().isClientSide())
         {
-            ClientboundBubbleShieldPacket.sendShieldToTrackers(player);
+            ClientboundBubbleShieldPacket.sendShieldToTrackersAndSelf(player);
         }
     }
 
@@ -51,8 +49,14 @@ public final class LimaTechEventHandler
     {
         if (!event.getTarget().level().isClientSide() && event.getTarget() instanceof LivingEntity livingEntity)
         {
-            ClientboundBubbleShieldPacket.sendShieldToTrackers(livingEntity);
+            ClientboundBubbleShieldPacket.sendShieldToTrackersAndSelf(livingEntity);
         }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerLogin(final PlayerEvent.PlayerLoggedInEvent event)
+    {
+        ClientboundBubbleShieldPacket.sendShieldToTrackersAndSelf(event.getEntity());
     }
 
     @SubscribeEvent
@@ -64,13 +68,24 @@ public final class LimaTechEventHandler
         }
     }
 
-
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.HIGH)
     public static void onLivingIncomingDamage(final LivingIncomingDamageEvent event)
     {
         LivingEntity hurtEntity = event.getEntity();
         DamageSource source = event.getSource();
 
+        // Check for universal attack strength
+        if (source.getEntity() instanceof LivingEntity attacker)
+        {
+            double universalAttack = attacker.getAttributeValue(LimaTechAttributes.UNIVERSAL_STRENGTH);
+            if (universalAttack != 1.0)
+            {
+                float newDamage = event.getAmount() * (float) universalAttack;
+                event.setAmount(newDamage);
+            }
+        }
+
+        // Check for bubble shield
         if (!hurtEntity.level().isClientSide())
         {
             BubbleShieldUser shieldUser = hurtEntity.getCapability(LimaTechCapabilities.ENTITY_BUBBLE_SHIELD);
@@ -84,14 +99,10 @@ public final class LimaTechEventHandler
     @SubscribeEvent
     public static void onLivingDeath(final LivingDeathEvent event)
     {
-        if (event.getSource() instanceof WeaponDamageSource damageSource && damageSource.getEntity() instanceof LivingEntity killer)
+        if (event.getSource() instanceof WeaponDamageSource damageSource && damageSource.getEntity() instanceof Player player)
         {
-            LivingEntity killedEntity = event.getEntity();
-            damageSource.getKillerWeapon().killedByWeapon(killer, killedEntity);
-            if (killer instanceof ServerPlayer serverPlayer)
-            {
-                LimaTechTriggerTypes.KILLED_WITH_WEAPON.get().trigger(serverPlayer, killedEntity, damageSource);
-            }
+            LivingEntity targetEntity = event.getEntity();
+            damageSource.weaponItem().onPlayerKill(damageSource, player, targetEntity);
         }
     }
 }

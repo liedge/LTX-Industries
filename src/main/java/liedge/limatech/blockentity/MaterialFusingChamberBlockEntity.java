@@ -2,32 +2,40 @@ package liedge.limatech.blockentity;
 
 import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.inventory.menu.LimaMenuType;
-import liedge.limacore.util.LimaItemUtil;
-import liedge.limatech.recipe.FusingRecipe;
-import liedge.limatech.registry.LimaTechCrafting;
+import liedge.limacore.recipe.LimaRecipeInput;
+import liedge.limatech.recipe.MaterialFusingRecipe;
 import liedge.limatech.registry.LimaTechMenus;
+import liedge.limatech.registry.LimaTechRecipeTypes;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class MaterialFusingChamberBlockEntity extends BasicRecipeMachineBlockEntity.LimaRecipeMachine<FusingRecipe>
+import static liedge.limatech.util.config.LimaTechMachinesConfig.*;
+
+public class MaterialFusingChamberBlockEntity extends SimpleRecipeMachineBlockEntity<LimaRecipeInput, MaterialFusingRecipe>
 {
     public MaterialFusingChamberBlockEntity(LimaBlockEntityType<?> type, BlockPos pos, BlockState state)
     {
-        super(type, pos, state, 250_000, 10_000, 5);
+        super(type, pos, state, MFC_ENERGY_CAPACITY.getAsInt(), 5);
     }
 
     @Override
-    public RecipeType<FusingRecipe> machineRecipeType()
+    public RecipeType<MaterialFusingRecipe> machineRecipeType()
     {
-        return LimaTechCrafting.FUSING_TYPE.get();
+        return LimaTechRecipeTypes.MATERIAL_FUSING.get();
     }
 
     @Override
     public int machineEnergyUse()
     {
-        return 1000;
+        return MFC_ENERGY_USAGE.getAsInt();
+    }
+
+    @Override
+    protected LimaRecipeInput getRecipeInput(Level level)
+    {
+        return new LimaRecipeInput(getItemHandler(), 3, 1);
     }
 
     @Override
@@ -43,9 +51,9 @@ public class MaterialFusingChamberBlockEntity extends BasicRecipeMachineBlockEnt
     }
 
     @Override
-    public boolean isItemValid(int slot, ItemStack stack)
+    protected void consumeIngredients(LimaRecipeInput recipeInput, MaterialFusingRecipe recipe, Level level)
     {
-        return slot != 0 || LimaItemUtil.ENERGY_ITEMS.test(stack);
+        recipe.consumeIngredientsLenientSlots(recipeInput, false);
     }
 
     @Override
@@ -55,20 +63,8 @@ public class MaterialFusingChamberBlockEntity extends BasicRecipeMachineBlockEnt
     }
 
     @Override
-    public int getMachineProcessTime()
+    public int getTotalProcessDuration()
     {
-        return 200;
-    }
-
-    @Override
-    public int inventorySlotForIngredient(int ingredientIndex)
-    {
-        return ingredientIndex + 1;
-    }
-
-    @Override
-    public int size()
-    {
-        return 3;
+        return MFC_CRAFTING_TIME.getAsInt();
     }
 }

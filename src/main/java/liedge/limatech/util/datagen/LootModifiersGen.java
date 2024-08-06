@@ -1,16 +1,17 @@
 package liedge.limatech.util.datagen;
 
 import liedge.limacore.data.generation.loot.LimaLootModifierProvider;
+import liedge.limacore.world.loot.AddItemLootModifier;
+import liedge.limatech.registry.LimaTechItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
-import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
-import net.neoforged.neoforge.common.loot.LootTableIdCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
 
 import java.util.concurrent.CompletableFuture;
 
+import static liedge.limacore.util.LimaLootUtil.specificLootTable;
+import static liedge.limacore.world.loot.LootModifierBuilder.rollLootTable;
 import static liedge.limatech.LimaTech.RESOURCES;
 import static liedge.limatech.registry.LimaTechLootTables.*;
 
@@ -24,19 +25,12 @@ class LootModifiersGen extends LimaLootModifierProvider
     @Override
     protected void start()
     {
-        rollTable(ENTITY_EXTRA_DROPS).killedByPlayer().build("extra_drops");
+        add("enemy_ammo_drops", rollLootTable(ENEMY_AMMO_DROPS).killedByPlayer());
+        add("extra_drops", rollLootTable(ENTITY_EXTRA_DROPS).killedByPlayer());
+        add("razor_drops", rollLootTable(RAZOR_LOOT_TABLE).killedByPlayer());
 
-        rollTable(EXPLOSIVES_SALVAGE)
-                .requires(forTable(BuiltInLootTables.NETHER_BRIDGE))
-                .build("explosives_salvage_chest");
-
-        rollTable(LEGENDARY_AMMO)
-                .requires(forTable(BuiltInLootTables.TRIAL_CHAMBERS_REWARD_OMINOUS))
-                .build("legendary_ammo_chest");
-    }
-
-    private LootItemCondition.Builder forTable(ResourceKey<LootTable> key)
-    {
-        return LootTableIdCondition.builder(key.location());
+        add("explosives_salvage_loot", AddItemLootModifier.addItem(LimaTechItems.EXPLOSIVES_WEAPON_TECH_SALVAGE)
+                .requires(specificLootTable(BuiltInLootTables.NETHER_BRIDGE))
+                .requires(LootItemRandomChanceCondition.randomChance(0.5f)));
     }
 }

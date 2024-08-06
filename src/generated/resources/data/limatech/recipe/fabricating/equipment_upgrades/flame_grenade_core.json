@@ -1,0 +1,32 @@
+{
+  "type": "limatech:fabricating",
+  "energy_required": 250000,
+  "group": "grenade_cores",
+  "ingredients": [
+    {
+      "type": "limacore:item_with_count",
+      "count": 16,
+      "item": "limatech:copper_circuit"
+    },
+    {
+      "type": "limacore:item_with_count",
+      "count": 8,
+      "item": "limatech:titanium_ingot"
+    },
+    {
+      "type": "limacore:item_with_count",
+      "count": 21,
+      "item": "minecraft:fire_charge"
+    }
+  ],
+  "result": {
+    "components": {
+      "limatech:upgrade_data": {
+        "rank": 1,
+        "upgrade": "limatech:flame_grenade_core"
+      }
+    },
+    "count": 1,
+    "id": "limatech:equipment_upgrade"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "description": {
+    "translate": "equipment_upgrade.limatech.universal_anti_vibration.desc"
+  },
+  "effects": [
+    {
+      "type": "limatech:no_vibration"
+    }
+  ],
+  "icon": "limatech:no_vibration",
+  "supported_items": "#limatech:ltx_weapons",
+  "title": {
+    "translate": "equipment_upgrade.limatech.universal_anti_vibration.title"
+  }
+}

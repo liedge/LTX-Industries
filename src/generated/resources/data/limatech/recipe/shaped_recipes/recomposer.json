@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": {
+      "item": "limatech:gold_circuit"
+    },
+    "l": {
+      "item": "limatech:lime_glow_block"
+    },
+    "t": {
+      "item": "limatech:titanium_ingot"
+    }
+  },
+  "pattern": [
+    "ttt",
+    "lcl",
+    "tct"
+  ],
+  "result": {
+    "count": 1,
+    "id": "limatech:recomposer"
+  }
+}

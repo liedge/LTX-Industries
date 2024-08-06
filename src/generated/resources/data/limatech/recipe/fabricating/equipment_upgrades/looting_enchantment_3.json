@@ -1,0 +1,45 @@
+{
+  "type": "limatech:fabricating",
+  "energy_required": 500000,
+  "group": "looting_upgrades",
+  "ingredients": [
+    {
+      "type": "neoforge:components",
+      "components": {
+        "limatech:upgrade_data": {
+          "rank": 2,
+          "upgrade": "limatech:looting_enchantment"
+        }
+      },
+      "items": "limatech:equipment_upgrade",
+      "strict": true
+    },
+    {
+      "item": "minecraft:zombie_head"
+    },
+    {
+      "item": "minecraft:creeper_head"
+    },
+    {
+      "item": "minecraft:skeleton_skull"
+    },
+    {
+      "item": "minecraft:wither_skeleton_skull"
+    },
+    {
+      "type": "limacore:item_with_count",
+      "count": 48,
+      "item": "minecraft:lapis_lazuli"
+    }
+  ],
+  "result": {
+    "components": {
+      "limatech:upgrade_data": {
+        "rank": 3,
+        "upgrade": "limatech:looting_enchantment"
+      }
+    },
+    "count": 1,
+    "id": "limatech:equipment_upgrade"
+  }
+}

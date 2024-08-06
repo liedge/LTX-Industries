@@ -1,36 +1,42 @@
 package liedge.limatech.client.particle;
 
+import liedge.limacore.client.particle.ColorSizeParticleOptions;
 import liedge.limacore.util.LimaMathUtil;
-import liedge.limatech.lib.weapons.OrbGrenadeElement;
 import liedge.limatech.registry.LimaTechParticles;
+import liedge.limatech.lib.weapons.GrenadeType;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.NoRenderParticle;
+import net.minecraft.client.particle.Particle;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class GrenadeExplosionParticle extends NoRenderParticle
 {
-    private final OrbGrenadeElement grenadeElement;
+    private final GrenadeType grenadeElement;
+    private final double explosionSize;
 
-    public GrenadeExplosionParticle(GrenadeElementParticleOptions options, ClientLevel level, double x, double y, double z, double dx, double dy, double dz)
+    public GrenadeExplosionParticle(GrenadeExplosionParticleOptions options, ClientLevel level, double x, double y, double z, double dx, double dy, double dz)
     {
         super(level, x, y, z);
         this.grenadeElement = options.element();
+        this.explosionSize = options.explosionSize();
     }
 
     @Override
     public void tick()
     {
+        level.addAlwaysVisibleParticle(new ColorSizeParticleOptions(LimaTechParticles.COLOR_FLASH, grenadeElement.getColor(), (float) explosionSize), true, x, y, z, 0, 0, 0);
+
         switch (grenadeElement)
         {
             case EXPLOSIVE -> level.addParticle(LimaTechParticles.HALF_SONIC_BOOM_EMITTER.get(), true, x, y, z, 0, 0, 0);
-            case FLAME -> particleBall(LimaTechParticles.CAMP_FLAME.get(), 0.25d, 1);
             case FREEZE -> freezeExplosion();
-            case ELECTRIC -> electricExplosion();
-            case ACID -> particleBall(LimaTechParticles.ACID_FALL.get(), 0.755d, 2);
+            case ELECTRIC -> particleBall(LimaTechParticles.MINI_ELECTRIC_SPARK.get(), 0.5d, 1);
+            case ACID -> acidExplosion();
+            case NEURO -> neuroExplosion();
         }
 
         remove();
@@ -51,7 +57,7 @@ public class GrenadeExplosionParticle extends NoRenderParticle
 
     private void freezeExplosion()
     {
-        particleBall(ParticleTypes.SNOWFLAKE, 0.325d, 1);
+        particleBallManualSpeed(LimaTechParticles.FREEZE_SNOWFLAKE.get(), 0.325d, 1);
 
         BlockPos.betweenClosedStream(AABB.ofSize(getPos(), 3, 3, 3)).filter(this::isNotAirAndHasAirAbove).forEach(blockPos -> {
             VoxelShape shape = level.getBlockState(blockPos).getCollisionShape(level, blockPos);
@@ -67,17 +73,41 @@ public class GrenadeExplosionParticle extends NoRenderParticle
         });
     }
 
-    private void electricExplosion()
+    private void acidExplosion()
     {
-        particleBall(LimaTechParticles.MINI_ELECTRIC_SPARK.get(), 0.6, 1);
+        particleBall(LimaTechParticles.ACID_FALL.get(), 0.755d, 2);
+    }
 
-        for (int i = 0; i < 7; i++)
+    private void neuroExplosion()
+    {
+        for (int i = 0; i < 16; i++)
         {
-            double ax = x + (random.nextDouble() - random.nextDouble()) * 2.75d;
-            double ay = y + (random.nextDouble() - random.nextDouble()) * 2.75d;
-            double az = z + (random.nextDouble() - random.nextDouble()) * 2.75d;
+            double dx = (random.nextDouble() - random.nextDouble()) * 0.2d;
+            double dz = (random.nextDouble() - random.nextDouble()) * 0.2d;
+            level.addParticle(LimaTechParticles.NEURO_SMOKE.get(), true, x, y + 0.25d, z, dx, 0.05d, dz);
+        }
+    }
 
-            level.addParticle(LimaTechParticles.ELECTRIC_ARC.get(), true, ax, ay, az, 0, 0, 0);
+    private void particleBallManualSpeed(ParticleOptions options, double speed, int size)
+    {
+        for (int i = -size; i <= size; i++)
+        {
+            for (int j = -size; j <= size; j++)
+            {
+                for (int k = -size; k <= size; k++)
+                {
+                    double dx = (double) j + (random.nextDouble() - random.nextDouble()) * 0.5d;
+                    double dy = (double) i + (random.nextDouble() - random.nextDouble()) * 0.5d;
+                    double dz = (double) k + (random.nextDouble() - random.nextDouble()) * 0.5d;
+                    double d1 = LimaMathUtil.vec3Length(dx, dy, dz) / speed + random.nextGaussian() * 0.05d;
+
+                    Particle particle = Minecraft.getInstance().particleEngine.createParticle(options, x, y, z, 0, 0, 0);
+                    if (particle != null)
+                    {
+                        particle.setParticleSpeed(dx / d1, Math.min(dy / d1, 0.5d), dz / d1);
+                    }
+                }
+            }
         }
     }
 

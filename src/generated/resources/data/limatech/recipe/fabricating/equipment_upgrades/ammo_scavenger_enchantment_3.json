@@ -1,0 +1,43 @@
+{
+  "type": "limatech:fabricating",
+  "energy_required": 900000,
+  "group": "ammo_scavenger_upgrades",
+  "ingredients": [
+    {
+      "type": "neoforge:components",
+      "components": {
+        "limatech:upgrade_data": {
+          "rank": 2,
+          "upgrade": "limatech:ammo_scavenger_enchantment"
+        }
+      },
+      "items": "limatech:equipment_upgrade",
+      "strict": true
+    },
+    {
+      "type": "limacore:item_with_count",
+      "count": 6,
+      "item": "limatech:gold_circuit"
+    },
+    {
+      "type": "limacore:item_with_count",
+      "count": 2,
+      "item": "limatech:auto_ammo_canister"
+    },
+    {
+      "type": "limacore:item_with_count",
+      "count": 16,
+      "item": "limatech:titanium_ingot"
+    }
+  ],
+  "result": {
+    "components": {
+      "limatech:upgrade_data": {
+        "rank": 3,
+        "upgrade": "limatech:ammo_scavenger_enchantment"
+      }
+    },
+    "count": 1,
+    "id": "limatech:equipment_upgrade"
+  }
+}

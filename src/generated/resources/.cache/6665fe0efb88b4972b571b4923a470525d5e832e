@@ -1,6 +1,8 @@
-// 1.21	2024-07-31T23:42:21.0148159	Tags for minecraft:item mod id limatech
+// 1.21.1	2024-12-17T21:10:16.2786739	Tags for minecraft:item mod id limatech
 9939b49f7e060d0d662f4396fa4de2e098c34dc4 data/c/tags/item/dusts.json
 8daf696a3e732e785a0d1813c61772a300edc853 data/c/tags/item/dusts/deepslate.json
+172ecf99de9e6097c2c2ed4308f9f67e79777471 data/c/tags/item/dyes/lime.json
+241cca4af098c21cc7efbaa1e904eac4183229b0 data/c/tags/item/dyes/white.json
 aadf838521dd26f77aa89df7bc382a7f096e9e73 data/c/tags/item/ingots.json
 a1fad93c7647c63cda794e3b6790a8b17c18d193 data/c/tags/item/ingots/niobium.json
 5142650e96d512b0b4789722805fd8d5eba72b71 data/c/tags/item/ingots/slate_alloy.json
@@ -24,6 +26,7 @@ a975eb9c44ffa9dd8a03d0307975c76c9a4058a4 data/c/tags/item/storage_blocks/slate_a
 6b10c6a7598a91aaebc51fa83aa1eda2c0e41222 data/c/tags/item/storage_blocks/titanium.json
 22fa7653dc6bcbf352582831ffb7d4cab381cf04 data/c/tags/item/tools/shear.json
 ba44400d5130966167b0a5dd907fa77bf3b89016 data/limatech/tags/item/deepslate_grindables.json
+4e0dc8bde43be003d83dfbfeae857a086efab59c data/limatech/tags/item/ltx_weapons.json
 f8e04b1b7415e56f54c88ab209e967b2a42a3c0e data/minecraft/tags/item/axes.json
 aadf838521dd26f77aa89df7bc382a7f096e9e73 data/minecraft/tags/item/beacon_payment_items.json
 901cbaffce2c0af2e62fc7261601da00bc43fada data/minecraft/tags/item/hoes.json

@@ -1,6 +1,5 @@
 package liedge.limatech.entity;
 
-import liedge.limatech.registry.LimaTechDamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
@@ -28,7 +27,7 @@ public class LightfragEntity extends LimaTechProjectile
         {
             Entity hit = entityHitResult.getEntity();
             // TODO Un-hardcode damage number
-            hit.hurt(level.damageSources().source(LimaTechDamageTypes.WEAPON_DAMAGE, this), 11.5f);
+            //hit.hurt(level.damageSources().source(LimaTechDamageTypes.WEAPON_DAMAGE, this), 11.5f);
         }
 
         discard();

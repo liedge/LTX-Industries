@@ -1,18 +1,20 @@
 package liedge.limatech.blockentity;
 
+import liedge.limacore.blockentity.IOAccess;
 import liedge.limacore.blockentity.LimaBlockEntity;
 import liedge.limacore.blockentity.LimaBlockEntityType;
-import liedge.limacore.inventory.ItemHandlerHolder;
-import liedge.limacore.inventory.LimaItemStackHandler;
+import liedge.limacore.capability.energy.EnergyHolderBlockEntity;
+import liedge.limacore.capability.energy.LimaBlockEntityEnergyStorage;
+import liedge.limacore.capability.energy.LimaEnergyStorage;
+import liedge.limacore.capability.itemhandler.ItemHolderBlockEntity;
+import liedge.limacore.capability.itemhandler.LimaBlockEntityItemHandler;
+import liedge.limacore.capability.itemhandler.LimaItemHandlerBase;
 import liedge.limacore.inventory.menu.LimaMenuProvider;
-import liedge.limacore.lib.energy.BlockEnergyStorage;
-import liedge.limacore.lib.energy.EnergyStorageHolder;
-import liedge.limacore.lib.energy.LimaEnergyStorage;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -22,16 +24,16 @@ import static liedge.limacore.registry.LimaCoreDataComponents.ENERGY;
 import static liedge.limacore.registry.LimaCoreDataComponents.ITEM_CONTAINER;
 import static liedge.limacore.util.LimaNbtUtil.deserializeInt;
 
-public abstract class MachineBlockEntity extends LimaBlockEntity implements LimaMenuProvider, EnergyStorageHolder, ItemHandlerHolder
+public abstract class MachineBlockEntity extends LimaBlockEntity implements LimaMenuProvider, EnergyHolderBlockEntity, ItemHolderBlockEntity
 {
-    protected final BlockEnergyStorage machineEnergy;
-    protected final LimaItemStackHandler machineItems;
+    private final LimaBlockEntityEnergyStorage machineEnergy;
+    private final LimaBlockEntityItemHandler machineItems;
 
     protected MachineBlockEntity(LimaBlockEntityType<?> type, BlockPos pos, BlockState state, int energyCapacity, int energyTransferRate, int inventorySize)
     {
         super(type, pos, state);
-        this.machineEnergy = new BlockEnergyStorage(this, energyCapacity, energyTransferRate);
-        this.machineItems = new LimaItemStackHandler(this, inventorySize);
+        this.machineEnergy = new LimaBlockEntityEnergyStorage(this, energyCapacity, energyTransferRate);
+        this.machineItems = new LimaBlockEntityItemHandler(this, inventorySize);
     }
 
     @Override
@@ -41,7 +43,7 @@ public abstract class MachineBlockEntity extends LimaBlockEntity implements Lima
     }
 
     @Override
-    public LimaItemStackHandler getItemHandler()
+    public LimaItemHandlerBase getItemHandler()
     {
         return machineItems;
     }
@@ -59,26 +61,28 @@ public abstract class MachineBlockEntity extends LimaBlockEntity implements Lima
     }
 
     @Override
-    public abstract boolean isItemValid(int slot, ItemStack stack);
-
-    @Override
-    protected void applyImplicitComponents(DataComponentInput input)
+    public IOAccess getEnergyIOForSide(Direction side)
     {
-        machineEnergy.setEnergyStored(input.getOrDefault(ENERGY, 0));
-        machineItems.copyFromComponent(input.getOrDefault(ITEM_CONTAINER, ItemContainerContents.EMPTY));
+        return IOAccess.INPUT_ONLY;
     }
 
     @Override
-    protected void collectImplicitComponents(DataComponentMap.Builder builder)
+    protected void applyImplicitComponents(DataComponentInput componentInput)
     {
-        builder.set(ENERGY, machineEnergy.getEnergyStored());
-        builder.set(ITEM_CONTAINER, machineItems.copyToComponent());
+        machineEnergy.setEnergyStored(componentInput.getOrDefault(ENERGY, 0));
+        machineItems.copyFromComponent(componentInput.getOrDefault(ITEM_CONTAINER, ItemContainerContents.EMPTY));
+    }
+
+    @Override
+    protected void collectImplicitComponents(DataComponentMap.Builder components)
+    {
+        components.set(ENERGY, machineEnergy.getEnergyStored());
+        components.set(ITEM_CONTAINER, machineItems.copyToComponent());
     }
 
     @Override
     public void removeComponentsFromTag(CompoundTag tag)
     {
-        super.removeComponentsFromTag(tag);
         tag.remove(KEY_ENERGY_CONTAINER);
         tag.remove(KEY_ITEM_CONTAINER);
     }

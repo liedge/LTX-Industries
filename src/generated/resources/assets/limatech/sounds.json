@@ -38,6 +38,12 @@
     ],
     "subtitle": "subtitle.limatech.grenade_launcher_fire"
   },
+  "magnum_fire": {
+    "sounds": [
+      "limatech:magnum_fire"
+    ],
+    "subtitle": "subtitle.limatech.magnum_fire"
+  },
   "missile_explode": {
     "sounds": [
       {
@@ -46,5 +52,35 @@
       }
     ],
     "subtitle": "subtitle.limatech.missile_explode"
+  },
+  "neuro_grenade_explode": {
+    "sounds": [
+      "limatech:neuro_grenade_explode"
+    ],
+    "subtitle": "subtitle.limatech.neuro_grenade_explode"
+  },
+  "rocket_launcher_fire": {
+    "sounds": [
+      "limatech:rocket_launcher_fire"
+    ],
+    "subtitle": "subtitle.limatech.rocket_launcher_fire"
+  },
+  "shotgun_fire": {
+    "sounds": [
+      "limatech:shotgun_fire"
+    ],
+    "subtitle": "subtitle.limatech.shotgun_fire"
+  },
+  "submachine_gun_loop": {
+    "sounds": [
+      "limatech:submachine_gun_loop"
+    ],
+    "subtitle": "subtitle.limatech.submachine_gun_loop"
+  },
+  "weapon_mode_switch": {
+    "sounds": [
+      "limatech:weapon_mode_switch"
+    ],
+    "subtitle": "subtitle.limatech.weapon_mode_switch"
   }
 }

@@ -1,0 +1,12 @@
+{
+  "type": "limatech:grinding",
+  "ingredients": [
+    {
+      "tag": "c:ores/diamond"
+    }
+  ],
+  "result": {
+    "count": 3,
+    "id": "limatech:diamond_ore_pebbles"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "description": {
+    "translate": "equipment_upgrade.limatech.universal_shield_regen.desc"
+  },
+  "effects": [
+    {
+      "type": "limatech:bubble_shield_restore",
+      "max_shield": {
+        "type": "minecraft:linear",
+        "base": 10.0,
+        "per_level_above_first": 10.0
+      },
+      "shield_amount": 4.0
+    }
+  ],
+  "icon": "limatech:shield_regen",
+  "max_rank": 3,
+  "supported_items": "#limatech:ltx_weapons",
+  "title": {
+    "translate": "equipment_upgrade.limatech.universal_shield_regen.title"
+  }
+}

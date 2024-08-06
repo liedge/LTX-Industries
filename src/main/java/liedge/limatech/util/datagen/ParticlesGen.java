@@ -1,6 +1,6 @@
 package liedge.limatech.util.datagen;
 
-import liedge.limacore.data.generation.LimaParticleDefinitionsProvider;
+import liedge.limacore.data.generation.LimaParticleDescriptionProvider;
 import liedge.limatech.LimaTech;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
@@ -8,7 +8,7 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import static liedge.limacore.lib.ModResources.MC;
 import static liedge.limatech.registry.LimaTechParticles.*;
 
-class ParticlesGen extends LimaParticleDefinitionsProvider
+class ParticlesGen extends LimaParticleDescriptionProvider
 {
     ParticlesGen(PackOutput output, ExistingFileHelper helper)
     {
@@ -16,13 +16,16 @@ class ParticlesGen extends LimaParticleDefinitionsProvider
     }
 
     @Override
-    protected void defineParticles()
+    protected void addDescriptions()
     {
-        orderedSpriteSet(MISSILE_TRAIL.get(), MC.location("glitter"), 8, true);
-        orderedSpriteSet(MINI_ELECTRIC_SPARK.get(), MC.location("spark"), 8, false);
-        singleSprite(ACID_FALL_AMBIENT.get(), MC.location("drip_fall"));
-        singleSprite(ACID_FALL.get(), MC.location("drip_fall"));
-        singleSprite(ACID_LAND.get(), MC.location("drip_land"));
-        orderedSpriteSet(HALF_SONIC_BOOM.get(), "color_sonic_boom", 6, 16, false);
+        spriteSet(COLOR_GLITTER, MC.location("glitter"), 8, true);
+        sprite(COLOR_FLASH, MC.location("flash"));
+        spriteSet(HALF_SONIC_BOOM, "color_sonic_boom", 6, 16, false);
+        spriteSet(FREEZE_SNOWFLAKE, "freeze_snowflake", 10, false);
+        spriteSet(MINI_ELECTRIC_SPARK, MC.location("spark"), 8, false);
+        sprite(CORROSIVE_DRIP, MC.location("drip_fall"));
+        sprite(ACID_FALL, MC.location("drip_fall"));
+        sprite(ACID_LAND, MC.location("drip_land"));
+        spriteSet(NEURO_SMOKE, MC.location("big_smoke"), 1, 8, false);
     }
 }

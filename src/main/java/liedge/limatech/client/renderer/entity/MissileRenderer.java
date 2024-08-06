@@ -6,7 +6,7 @@ import com.mojang.math.Axis;
 import liedge.limatech.LimaTech;
 import liedge.limatech.LimaTechConstants;
 import liedge.limatech.client.model.entity.MissileModel;
-import liedge.limatech.entity.MissileEntity;
+import liedge.limatech.entity.BaseMissileEntity;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -15,7 +15,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 
-public class MissileRenderer extends EntityRenderer<MissileEntity>
+public class MissileRenderer<T extends BaseMissileEntity> extends EntityRenderer<T>
 {
     private static final ResourceLocation TEXTURE = LimaTech.RESOURCES.textureLocation("entity", "missile");
     private static final RenderType RENDER_TYPE = RenderType.entitySolid(TEXTURE);
@@ -29,7 +29,7 @@ public class MissileRenderer extends EntityRenderer<MissileEntity>
     }
 
     @Override
-    public void render(MissileEntity entity, float yaw, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int light)
+    public void render(T entity, float yaw, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int light)
     {
         poseStack.pushPose();
 
@@ -39,13 +39,13 @@ public class MissileRenderer extends EntityRenderer<MissileEntity>
         poseStack.translate(0, -1.34375d, 0);
 
         VertexConsumer buffer = bufferSource.getBuffer(RENDER_TYPE);
-        model.renderToBuffer(poseStack, buffer, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, LimaTechConstants.LIME_GREEN.rgb());
+        model.renderToBuffer(poseStack, buffer, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, LimaTechConstants.LIME_GREEN.packedRGB());
 
         poseStack.popPose();
     }
 
     @Override
-    public ResourceLocation getTextureLocation(MissileEntity entity)
+    public ResourceLocation getTextureLocation(T entity)
     {
         return TEXTURE;
     }

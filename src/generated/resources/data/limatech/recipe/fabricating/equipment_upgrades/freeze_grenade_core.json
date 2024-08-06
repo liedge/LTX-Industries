@@ -1,0 +1,41 @@
+{
+  "type": "limatech:fabricating",
+  "energy_required": 250000,
+  "group": "grenade_cores",
+  "ingredients": [
+    {
+      "type": "limacore:item_with_count",
+      "count": 16,
+      "item": "limatech:copper_circuit"
+    },
+    {
+      "type": "limacore:item_with_count",
+      "count": 8,
+      "item": "limatech:titanium_ingot"
+    },
+    {
+      "type": "limacore:item_with_count",
+      "count": 16,
+      "item": "minecraft:snow_block"
+    },
+    {
+      "type": "neoforge:components",
+      "components": {
+        "minecraft:potion_contents": {
+          "potion": "minecraft:strong_slowness"
+        }
+      },
+      "items": "minecraft:potion"
+    }
+  ],
+  "result": {
+    "components": {
+      "limatech:upgrade_data": {
+        "rank": 1,
+        "upgrade": "limatech:freeze_grenade_core"
+      }
+    },
+    "count": 1,
+    "id": "limatech:equipment_upgrade"
+  }
+}

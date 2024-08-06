@@ -5,7 +5,6 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.datafixers.util.Either;
 import com.mojang.math.Axis;
 import liedge.limacore.client.LimaCoreClientUtil;
-import liedge.limacore.util.LimaCoreUtil;
 import liedge.limatech.LimaTech;
 import liedge.limatech.client.renderer.BubbleShieldRenderer;
 import liedge.limatech.client.renderer.LimaTechRenderTypes;
@@ -13,7 +12,7 @@ import liedge.limatech.client.renderer.item.LimaTechItemRenderers;
 import liedge.limatech.item.ScrollModeSwitchItem;
 import liedge.limatech.item.TooltipShiftHintItem;
 import liedge.limatech.item.weapon.WeaponItem;
-import liedge.limatech.lib.weapons.LocalWeaponInput;
+import liedge.limatech.lib.weapons.ClientWeaponControls;
 import liedge.limatech.network.packet.ServerboundItemModeSwitchPacket;
 import liedge.limatech.registry.LimaTechAttachmentTypes;
 import net.minecraft.ChatFormatting;
@@ -46,18 +45,13 @@ public final class LimaTechClientEvents
     @SubscribeEvent
     public static void onClientTick(final ClientTickEvent.Pre event)
     {
-        LimaTechItemRenderers.tickValidRenderers();
-
         BubbleShieldRenderer.SHIELD_RENDERER.tickRenderer();
 
-        Player player = Minecraft.getInstance().player;
-        if (player != null)
+        Player localPlayer = Minecraft.getInstance().player;
+        if (localPlayer != null)
         {
-            ItemStack heldItem = player.getMainHandItem();
-            WeaponItem weaponItem = LimaCoreUtil.castOrNull(WeaponItem.class, heldItem.getItem());
-            LocalWeaponInput.LOCAL_WEAPON_INPUT.tickInput(player, heldItem, weaponItem);
+            LimaTechItemRenderers.tickValidRenderers(localPlayer);
         }
-
     }
 
     @SubscribeEvent
@@ -101,7 +95,7 @@ public final class LimaTechClientEvents
 
             if (heldItem.getItem() instanceof WeaponItem weaponItem)
             {
-                LocalWeaponInput.LOCAL_WEAPON_INPUT.handleReloadInput(player, heldItem, weaponItem);
+                ClientWeaponControls.of(player).handleReloadInput(player, heldItem, weaponItem);
             }
         }
     }

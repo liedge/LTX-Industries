@@ -15,16 +15,19 @@ public interface TooltipShiftHintItem
 {
     Translatable HINT_HOVER_TOOLTIP = LimaTech.RESOURCES.translationHolder("tooltip.{}.shift_hint_tooltip");
 
-    void appendTooltipHintComponents(@Nullable Level level, ItemStack stack, Consumer<Either<FormattedText, TooltipComponent>> consumer);
+    void appendTooltipHintComponents(@Nullable Level level, ItemStack stack, TooltipCollector collector);
 
-    interface TextOnly extends TooltipShiftHintItem
+    @FunctionalInterface
+    interface TooltipCollector extends Consumer<Either<FormattedText, TooltipComponent>>
     {
-        @Override
-        default void appendTooltipHintComponents(@Nullable Level level, ItemStack stack, Consumer<Either<FormattedText, TooltipComponent>> consumer)
+        default void with(FormattedText text)
         {
-            appendTooltipHintLines(level, stack, text -> consumer.accept(Either.left(text)));
+            accept(Either.left(text));
         }
 
-        void appendTooltipHintLines(@Nullable Level level, ItemStack stack, Consumer<FormattedText> consumer);
+        default void with(TooltipComponent component)
+        {
+            accept(Either.right(component));
+        }
     }
 }

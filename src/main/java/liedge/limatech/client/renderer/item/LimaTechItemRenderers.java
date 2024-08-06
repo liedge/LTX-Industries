@@ -3,6 +3,7 @@ package liedge.limatech.client.renderer.item;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
+import net.minecraft.world.entity.player.Player;
 
 import java.util.List;
 
@@ -23,11 +24,12 @@ public final class LimaTechItemRenderers
         RELOAD_LISTENERS.forEach(o -> o.onResourceManagerReload(manager));
     }
 
-    public static void tickValidRenderers()
+    public static void tickValidRenderers(Player localPlayer)
     {
-        GRENADE_LAUNCHER.tickItemRenderer();
+        GRENADE_LAUNCHER.tickItemRenderer(localPlayer);
     }
 
+    // Weapons
     public static final SMGRenderProperties SUBMACHINE_GUN = register(new SMGRenderProperties());
     public static final ShotgunRenderProperties SHOTGUN = register(new ShotgunRenderProperties());
     public static final GrenadeLauncherRenderProperties GRENADE_LAUNCHER = register(new GrenadeLauncherRenderProperties());

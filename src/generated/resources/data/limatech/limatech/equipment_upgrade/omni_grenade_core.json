@@ -1,0 +1,22 @@
+{
+  "description": {
+    "translate": "equipment_upgrade.limatech.omni_grenade_core.desc"
+  },
+  "effects": [
+    {
+      "type": "limatech:grenade_type_selection",
+      "types": [
+        "neuro",
+        "acid",
+        "freeze",
+        "flame",
+        "electric"
+      ]
+    }
+  ],
+  "icon": "limatech:omni_grenade_core",
+  "supported_items": "limatech:grenade_launcher",
+  "title": {
+    "translate": "equipment_upgrade.limatech.omni_grenade_core.title"
+  }
+}

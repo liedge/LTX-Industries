@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "d": {
+      "tag": "c:dyes/orange"
+    },
+    "g": {
+      "item": "minecraft:glow_ink_sac"
+    }
+  },
+  "pattern": [
+    "dg",
+    "gd"
+  ],
+  "result": {
+    "count": 8,
+    "id": "limatech:orange_glow_block"
+  }
+}

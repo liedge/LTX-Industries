@@ -1,12 +1,8 @@
 package liedge.limatech.registry;
 
-import liedge.limacore.item.LimaCreativeTabGenerator;
-import liedge.limacore.lib.energy.InfiniteEnergyStorage;
 import liedge.limatech.LimaTech;
-import liedge.limatech.item.InfiniteEnergyItem;
-import liedge.limatech.item.LimaTechRarities;
+import liedge.limatech.item.*;
 import liedge.limatech.item.weapon.*;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -20,31 +16,32 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collection;
 import java.util.function.Function;
 
 import static liedge.limacore.util.LimaItemUtil.*;
+import static liedge.limatech.item.LimaTechRarities.ltxGearRarity;
 
 public final class LimaTechItems
 {
     private LimaTechItems() {}
 
     private static final DeferredRegister.Items ITEMS = LimaTech.RESOURCES.deferredItems();
-    private static final DeferredRegister<CreativeModeTab> CREATIVE_TABS = LimaTech.RESOURCES.deferredRegister(Registries.CREATIVE_MODE_TAB);
 
     public static void initRegister(IEventBus bus)
     {
         ITEMS.register(bus);
-        CREATIVE_TABS.register(bus);
     }
 
     public static void registerCapabilities(RegisterCapabilitiesEvent event)
     {
-        event.registerItem(Capabilities.EnergyStorage.ITEM, (stack, ctx) -> InfiniteEnergyStorage.INFINITE_ENERGY_STORAGE, INFINITE_ENERGY_CARD);
+        event.registerItem(Capabilities.EnergyStorage.ITEM, (stack, $) -> LimaContainerItem.createEnergyAccess(stack), INFINITE_ENERGY_CARD, SUBMACHINE_GUN, SHOTGUN, GRENADE_LAUNCHER, ROCKET_LAUNCHER, MAGNUM);
     }
 
-    // Creative mode tabs
-    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MAIN_TAB = CREATIVE_TABS.register("main", id -> LimaCreativeTabGenerator.tabBuilder(id, LimaTechBlocks.getRegisteredBlocks(), ITEMS.getEntries())
-            .icon(LimaTechItems.SUBMACHINE_GUN::toStack).build());
+    static Collection<DeferredHolder<Item, ? extends Item>> getRegisteredItems()
+    {
+        return ITEMS.getEntries();
+    }
 
     // Mod tiers & rarities
     private static final Tier TITANIUM_TIER = new SimpleTier(BlockTags.INCORRECT_FOR_IRON_TOOL, 500, 6.25f, 2.1f, 14, () -> Ingredient.of(LimaTechItems.TITANIUM_INGOT));
@@ -56,6 +53,10 @@ public final class LimaTechItems
     public static final DeferredItem<Item> RAW_NIOBIUM = ITEMS.registerSimpleItem("raw_niobium");
     public static final DeferredItem<Item> NIOBIUM_INGOT = ITEMS.registerSimpleItem("niobium_ingot");
     public static final DeferredItem<Item> NIOBIUM_NUGGET = ITEMS.registerSimpleItem("niobium_nugget");
+
+    // Pigments
+    public static final DeferredItem<Item> WHITE_PIGMENT = ITEMS.registerSimpleItem("white_pigment");
+    public static final DeferredItem<Item> LIME_PIGMENT = ITEMS.registerSimpleItem("lime_pigment");
     
     // Titanium tools
     public static final DeferredItem<SwordItem> TITANIUM_SWORD = ITEMS.registerItem("titanium_sword", properties -> createSword(properties, TITANIUM_TIER, 3, -2.2f));
@@ -65,10 +66,27 @@ public final class LimaTechItems
     public static final DeferredItem<HoeItem> TITANIUM_HOE = ITEMS.registerItem("titanium_hoe", properties -> createHoe(properties, TITANIUM_TIER, -2f, -1f));
     public static final DeferredItem<ShearsItem> TITANIUM_SHEARS = ITEMS.registerItem("titanium_shears", properties -> createShears(properties, 476));
 
+    // Ore pebbles
+    public static final DeferredItem<Item> COAL_ORE_PEBBLES = ITEMS.registerSimpleItem("coal_ore_pebbles");
+    public static final DeferredItem<Item> COPPER_ORE_PEBBLES = ITEMS.registerSimpleItem("copper_ore_pebbles");
+    public static final DeferredItem<Item> IRON_ORE_PEBBLES = ITEMS.registerSimpleItem("iron_ore_pebbles");
+    public static final DeferredItem<Item> LAPIS_ORE_PEBBLES = ITEMS.registerSimpleItem("lapis_ore_pebbles");
+    public static final DeferredItem<Item> REDSTONE_ORE_PEBBLES = ITEMS.registerSimpleItem("redstone_ore_pebbles");
+    public static final DeferredItem<Item> GOLD_ORE_PEBBLES = ITEMS.registerSimpleItem("gold_ore_pebbles");
+    public static final DeferredItem<Item> DIAMOND_ORE_PEBBLES = ITEMS.registerSimpleItem("diamond_ore_pebbles");
+    public static final DeferredItem<Item> EMERALD_ORE_PEBBLES = ITEMS.registerSimpleItem("emerald_ore_pebbles");
+    public static final DeferredItem<Item> QUARTZ_ORE_PEBBLES = ITEMS.registerSimpleItem("quartz_ore_pebbles");
+    public static final DeferredItem<Item> NETHERITE_ORE_PEBBLES = ITEMS.registerSimpleItem("netherite_ore_pebbles");
+    public static final DeferredItem<Item> TITANIUM_ORE_PEBBLES = ITEMS.registerSimpleItem("titanium_ore_pebbles");
+    public static final DeferredItem<Item> NIOBIUM_ORE_PEBBLES = ITEMS.registerSimpleItem("niobium_ore_pebbles");
+
     // Components
     public static final DeferredItem<Item> COPPER_CIRCUIT = ITEMS.registerSimpleItem("copper_circuit");
     public static final DeferredItem<Item> GOLD_CIRCUIT = ITEMS.registerSimpleItem("gold_circuit");
     public static final DeferredItem<Item> NIOBIUM_CIRCUIT = ITEMS.registerSimpleItem("niobium_circuit");
+
+    // General tools
+    public static final DeferredItem<MachineWrenchItem> MACHINE_WRENCH = ITEMS.registerItem("machine_wrench", MachineWrenchItem::new, properties().stacksTo(1).rarity(ltxGearRarity()));
 
     // Processed resources
     public static final DeferredItem<Item> DEEPSLATE_POWDER = ITEMS.registerSimpleItem("deepslate_powder");
@@ -78,8 +96,11 @@ public final class LimaTechItems
     public static final DeferredItem<Item> SLATE_ALLOY_NUGGET = ITEMS.registerSimpleItem("slate_alloy_nugget");
 
     // Tech salvage modules
-    public static final DeferredItem<Item> EXPLOSIVES_WEAPON_TECH_SALVAGE = ITEMS.registerSimpleItem("explosives_weapon_tech_salvage", properties().rarity(Rarity.RARE));
-    public static final DeferredItem<Item> TARGETING_TECH_SALVAGE = ITEMS.registerSimpleItem("targeting_tech_salvage", properties().rarity(Rarity.RARE));
+    public static final DeferredItem<SimpleHintItem> EXPLOSIVES_WEAPON_TECH_SALVAGE = ITEMS.registerItem("explosives_weapon_tech_salvage", SimpleHintItem::new, properties().rarity(Rarity.RARE));
+    public static final DeferredItem<SimpleHintItem> TARGETING_TECH_SALVAGE = ITEMS.registerItem("targeting_tech_salvage", SimpleHintItem::new, properties().rarity(Rarity.RARE));
+
+    // Upgrade
+    public static final DeferredItem<EquipmentUpgradeItem> EQUIPMENT_UPGRADE_ITEM = ITEMS.registerItem("equipment_upgrade", EquipmentUpgradeItem::new, properties().rarity(ltxGearRarity()).stacksTo(1));
 
     // LTX Weapons
     public static final DeferredItem<WeaponItem> SUBMACHINE_GUN = registerWeapon("submachine_gun", SMGWeaponItem::new);
@@ -89,17 +110,17 @@ public final class LimaTechItems
     public static final DeferredItem<WeaponItem> MAGNUM = registerWeapon("magnum", MagnumWeaponItem::new);
 
     // LTX Weapons Canisters
-    public static final DeferredItem<Item> AUTO_AMMO_CANISTER = ITEMS.registerSimpleItem("auto_ammo_canister");
-    public static final DeferredItem<Item> SPECIALIST_AMMO_CANISTER = ITEMS.registerSimpleItem("specialist_ammo_canister");
-    public static final DeferredItem<Item> EXPLOSIVES_AMMO_CANISTER = ITEMS.registerSimpleItem("explosives_ammo_canister");
-    public static final DeferredItem<Item> LEGENDARY_AMMO_CANISTER = ITEMS.registerSimpleItem("legendary_ammo_canister", properties().fireResistant().rarity(Rarity.EPIC));
+    public static final DeferredItem<SimpleHintItem> AUTO_AMMO_CANISTER = ITEMS.registerItem("auto_ammo_canister", SimpleHintItem::new);
+    public static final DeferredItem<SimpleHintItem> SPECIALIST_AMMO_CANISTER = ITEMS.registerItem("specialist_ammo_canister", SimpleHintItem::new);
+    public static final DeferredItem<SimpleHintItem> EXPLOSIVES_AMMO_CANISTER = ITEMS.registerItem("explosives_ammo_canister", SimpleHintItem::new);
+    public static final DeferredItem<SimpleHintItem> MAGNUM_AMMO_CANISTER = ITEMS.registerItem("magnum_ammo_canister", SimpleHintItem::new);
 
     // Creative debug items
     public static final DeferredItem<Item> INFINITE_ENERGY_CARD = ITEMS.registerItem("infinite_energy_card", InfiniteEnergyItem::new, properties().rarity(Rarity.EPIC).stacksTo(1));
 
     private static DeferredItem<WeaponItem> registerWeapon(String name, Function<Item.Properties, ? extends WeaponItem> constructor)
     {
-        return ITEMS.registerItem(name, constructor, properties().stacksTo(1).fireResistant().rarity(LimaTechRarities.ltxGearRarity()));
+        return ITEMS.registerItem(name, constructor, properties().stacksTo(1).fireResistant().rarity(ltxGearRarity()));
     }
 
     @Contract(value = " -> new", pure = true)

@@ -1,0 +1,21 @@
+{
+  "description": {
+    "translate": "equipment_upgrade.limatech.universal_armor_pierce.desc"
+  },
+  "effects": [
+    {
+      "type": "limatech:bypass_armor",
+      "amount": {
+        "type": "minecraft:linear",
+        "base": 0.1,
+        "per_level_above_first": 0.1
+      }
+    }
+  ],
+  "icon": "limatech:armor_bypass",
+  "max_rank": 3,
+  "supported_items": "#limatech:ltx_weapons",
+  "title": {
+    "translate": "equipment_upgrade.limatech.universal_armor_pierce.title"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "description": {
+    "translate": "equipment_upgrade.limatech.smg_built_in.desc"
+  },
+  "effects": [
+    {
+      "type": "limatech:no_vibration"
+    },
+    {
+      "type": "limatech:no_anger"
+    },
+    {
+      "type": "limatech:knockback_modifier",
+      "modifier": {
+        "type": "override_base",
+        "amount": 0.0
+      }
+    },
+    {
+      "type": "limatech:bypass_armor",
+      "amount": 0.0
+    }
+  ],
+  "supported_items": "limatech:submachine_gun",
+  "title": {
+    "translate": "equipment_upgrade.limatech.smg_built_in.title"
+  }
+}

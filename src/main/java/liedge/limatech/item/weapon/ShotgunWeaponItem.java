@@ -3,36 +3,51 @@ package liedge.limatech.item.weapon;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import liedge.limacore.util.LimaNetworkUtil;
-import liedge.limatech.entity.WeaponRayTrace;
-import liedge.limatech.lib.weapons.WeaponDamageSource;
-import liedge.limatech.registry.LimaTechDamageTypes;
-import liedge.limatech.registry.LimaTechDataComponents;
-import liedge.limatech.registry.LimaTechItems;
-import liedge.limatech.registry.LimaTechParticles;
+import liedge.limatech.entity.CompoundHitResult;
+import liedge.limatech.lib.weapons.AbstractWeaponControls;
+import liedge.limatech.registry.*;
+import liedge.limatech.upgradesystem.ItemEquipmentUpgrades;
+import liedge.limatech.util.config.LimaTechWeaponsConfig;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlotGroup;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
-
-import static liedge.limatech.LimaTech.RESOURCES;
 
 public class ShotgunWeaponItem extends SemiAutoWeaponItem
 {
-    private final ItemAttributeModifiers attributeModifiers;
-
     public ShotgunWeaponItem(Properties properties)
     {
         super(properties);
+    }
 
-        this.attributeModifiers = ItemAttributeModifiers.builder()
-                .add(Attributes.MOVEMENT_SPEED, new AttributeModifier(RESOURCES.location("shotgun_speed_boost"), 0.25d, AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.MAINHAND)
-                .add(Attributes.STEP_HEIGHT, new AttributeModifier(RESOURCES.location("shotgun_step_boost"), 1d, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
+    @Override
+    protected ItemEquipmentUpgrades getDefaultUpgrades(HolderLookup.Provider registries)
+    {
+        return ItemEquipmentUpgrades.builder()
+                .add(registries.holderOrThrow(LimaTechEquipmentUpgrades.SHOTGUN_BUILT_IN))
                 .build();
+    }
+
+    @Override
+    public boolean canFocusReticle(ItemStack heldItem, Player player, AbstractWeaponControls controls)
+    {
+        return false;
+    }
+
+    @Override
+    public int getEnergyCapacity(ItemStack stack)
+    {
+        return LimaTechWeaponsConfig.SHOTGUN_ENERGY_CAPACITY.getAsInt();
+    }
+
+    @Override
+    public int getEnergyReloadCost(ItemStack stack)
+    {
+        return LimaTechWeaponsConfig.SHOTGUN_ENERGY_AMMO_COST.getAsInt();
     }
 
     @Override
@@ -44,30 +59,25 @@ public class ShotgunWeaponItem extends SemiAutoWeaponItem
 
             for (int i = 0; i < 7; i++)
             {
-                WeaponRayTrace rayTrace = WeaponRayTrace.traceWithDynamicMagnetism(level, player, 10d, 6.5d, entity -> entity.getBoundingBox().getSize() <= 1d ? 0.625d : 0.325d, 10);
-
-                rayTrace.hits().forEach(e -> {
-                    int n = pelletHits.getOrDefault(e, 0) + 1;
-                    pelletHits.put(e, n);
-                });
-
-                LimaNetworkUtil.spawnAlwaysVisibleParticle(level, LimaTechParticles.LIGHTFRAG_TRACER.get(), rayTrace.start(), rayTrace.end());
+                CompoundHitResult hitResult = CompoundHitResult.tracePath(level, player, 10d, 6.5d, hit -> hit.getBoundingBox().getSize() <= 1d ? 0.75d : 0.375d, 5);
+                hitResult.entityHits().forEach(hit -> pelletHits.mergeInt(hit.getEntity(), 1, Integer::sum));
+                LimaNetworkUtil.spawnAlwaysVisibleParticle(level, LimaTechParticles.LIGHTFRAG_TRACER, hitResult.origin(), hitResult.impact().getLocation());
             }
 
-            pelletHits.forEach((hit, pellets) -> hit.hurt(WeaponDamageSource.directEntityDamage(player, LimaTechDamageTypes.LIGHTFRAG, this),  9f * pellets));
+            final double basePelletDamage = LimaTechWeaponsConfig.SHOTGUN_BASE_PELLET_DAMAGE.getAsDouble();
+            ItemEquipmentUpgrades upgrades = ItemEquipmentUpgrades.getFromItem(heldItem);
+
+            pelletHits.forEach((hitEntity, pellets) -> causeInstantDamage(upgrades, player, LimaTechDamageTypes.LIGHTFRAG, hitEntity, basePelletDamage * pellets));
+            postWeaponFiredGameEvent(upgrades, level, player);
         }
+
+        level.playSound(player, player, LimaTechSounds.SHOTGUN_FIRE.get(), SoundSource.PLAYERS, 2.0f, Mth.randomBetween(player.getRandom(), 0.9f, 1f));
     }
 
     @Override
-    public Item getAmmoItem()
+    public Item getAmmoItem(ItemStack stack)
     {
         return LimaTechItems.SPECIALIST_AMMO_CANISTER.asItem();
-    }
-
-    @Override
-    public int getFireRate(ItemStack stack)
-    {
-        return 12;
     }
 
     @Override
@@ -77,20 +87,14 @@ public class ShotgunWeaponItem extends SemiAutoWeaponItem
     }
 
     @Override
+    public int getFireRate(ItemStack stack)
+    {
+        return 12;
+    }
+
+    @Override
     public int getReloadSpeed(ItemStack stack)
     {
         return 30;
-    }
-
-    @Override
-    public int getRecoilA(ItemStack stack)
-    {
-        return 5;
-    }
-
-    @Override
-    public ItemAttributeModifiers getDefaultAttributeModifiers(ItemStack stack)
-    {
-        return stack.getOrDefault(LimaTechDataComponents.WEAPON_AMMO, 0) > 0 ? attributeModifiers : super.getDefaultAttributeModifiers(stack);
     }
 }

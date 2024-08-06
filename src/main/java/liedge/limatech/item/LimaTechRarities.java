@@ -11,7 +11,7 @@ public final class LimaTechRarities
 {
     private LimaTechRarities() {}
 
-    public static final EnumProxy<Rarity> LTX_RARITY = new EnumProxy<>(Rarity.class, -1, "limatech:ltx", (UnaryOperator<Style>) LimaTechConstants.LIME_GREEN::applyStyle);
+    public static final EnumProxy<Rarity> LTX_RARITY = new EnumProxy<>(Rarity.class, -1, "limatech:ltx", (UnaryOperator<Style>) LimaTechConstants.LIME_GREEN::applyChatStyle);
 
     public static Rarity ltxGearRarity()
     {

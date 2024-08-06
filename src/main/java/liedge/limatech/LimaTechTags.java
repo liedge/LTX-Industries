@@ -1,5 +1,7 @@
 package liedge.limatech;
 
+import liedge.limatech.registry.LimaTechRegistries;
+import liedge.limatech.upgradesystem.EquipmentUpgrade;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
@@ -58,6 +60,9 @@ public final class LimaTechTags
         // Dusts
         public static final TagKey<Item> DEEPSLATE_DUSTS = COMMON_NAMESPACE.itemTag("dusts/deepslate");
 
+        // Mod tags
+        public static final TagKey<Item> LTX_WEAPONS = RESOURCES.itemTag("ltx_weapons");
+
         private static TagKey<Item> copy(TagKey<Block> blockTag)
         {
             return ItemTags.create(blockTag.location());
@@ -68,14 +73,32 @@ public final class LimaTechTags
     {
         private EntityTypes() {}
 
-        public static final TagKey<EntityType<?>> FLYING_MOBS = tag("flying_mobs");
+        public static final TagKey<EntityType<?>> IMMUNE_TO_LTX_WEAPONS = tag("immune_to_ltx_weapons");
 
-        public static final TagKey<EntityType<?>> ELITE_MOBS = tag("elite_mobs");
-        public static final TagKey<EntityType<?>> BOSS_MOBS = tag("boss_mobs");
+        public static final TagKey<EntityType<?>> WEAK_TO_FLAME = tag("weak_to_flame");
+        public static final TagKey<EntityType<?>> WEAK_TO_FREEZE = tag("weak_to_freeze");
+        public static final TagKey<EntityType<?>> WEAK_TO_ELECTRIC = tag("weak_to_electric");
+
+        public static final TagKey<EntityType<?>> ROCKET_TURRET_TARGETS = tag("rocket_turret_targets");
+
+        public static final TagKey<EntityType<?>> MEDIUM_THREAT_LEVEL = tag("medium_threat");
+        public static final TagKey<EntityType<?>> HIGH_THREAT_LEVEL = tag("high_threat");
 
         private static TagKey<EntityType<?>> tag(String name)
         {
             return RESOURCES.entityTypeTag(name);
+        }
+    }
+
+    public static final class EquipmentUpgrades
+    {
+        private EquipmentUpgrades() {}
+
+        public static final TagKey<EquipmentUpgrade> AMMO_SOURCE_MODIFIERS = key("ammo_source_modifiers");
+
+        private static TagKey<EquipmentUpgrade> key(String name)
+        {
+            return RESOURCES.tagKey(LimaTechRegistries.EQUIPMENT_UPGRADES_KEY, name);
         }
     }
 }
