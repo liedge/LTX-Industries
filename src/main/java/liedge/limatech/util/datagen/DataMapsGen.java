@@ -34,12 +34,12 @@ class DataMapsGen extends DataMapProvider
         builder(GlobalWeaponDamageModifiers.DATA_MAP_TYPE)
                 .add(LimaTechTags.EntityTypes.HIGH_THREAT_LEVEL, GlobalWeaponDamageModifiers.builder()
                         .add(SUBMACHINE_GUN, overrideBase(0.5f))
-                        .add(SHOTGUN, multiplyBase(0.4f))
-                        .add(GRENADE_LAUNCHER, multiplyBase(0.15f))
+                        .add(SHOTGUN, multiplyBase(0.6f))
+                        .add(GRENADE_LAUNCHER, multiplyBase(0.85f))
                         .build(), false)
                 .add(LimaTechTags.EntityTypes.MEDIUM_THREAT_LEVEL, GlobalWeaponDamageModifiers.builder()
                         .add(SUBMACHINE_GUN, multiplyBase(0.4f))
-                        .add(SHOTGUN, multiplyBase(0.2f))
+                        .add(SHOTGUN, multiplyBase(0.8f))
                         .build(), false);
     }
 }
