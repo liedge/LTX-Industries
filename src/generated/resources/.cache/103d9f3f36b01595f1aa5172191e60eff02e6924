@@ -1,4 +1,4 @@
-// 1.21.1	2024-12-18T14:09:10.1729272	Registries
+// 1.21.1	2024-12-18T22:17:33.154048	Registries
 1c176dbd4aac4218c0f886354d565f88f89a7977 data/limatech/damage_type/acid_grenade.json
 663546f5130351cd13d3033165fd25ffed3a331d data/limatech/damage_type/electric_grenade.json
 d0b047a589592d8bc7ce09e2dfcdb9b98fda6053 data/limatech/damage_type/explosive_grenade.json
@@ -22,7 +22,7 @@ eae974e65eb1e66fb149ad6ac7dd6530cbd76fcd data/limatech/limatech/equipment_upgrad
 4b963f60728c79ecf452392c14cd82144bc8c067 data/limatech/limatech/equipment_upgrade/looting_enchantment.json
 63a93a4bb5654a04236d50d197e5fcf9dba05f51 data/limatech/limatech/equipment_upgrade/magnum_scaling_rounds.json
 c21488f05c61e2c17b742ab151f501e5d54c5307 data/limatech/limatech/equipment_upgrade/neuro_grenade_core.json
-a34af73ef877ff29f8de289a3e10c92d43619245 data/limatech/limatech/equipment_upgrade/omni_grenade_core.json
+e044734c8fece3fc1e90174817d84963d379e9e0 data/limatech/limatech/equipment_upgrade/omni_grenade_core.json
 0c82cb440fb883fbe66e4bc9e62de60ae941b87a data/limatech/limatech/equipment_upgrade/razor_enchantment.json
 a21255dad6f6eec020689525cb36fbeaa27c3c36 data/limatech/limatech/equipment_upgrade/shotgun_built_in.json
 d62040ed4e1f5edaaf49202205e661c6d0db2a36 data/limatech/limatech/equipment_upgrade/smg_built_in.json

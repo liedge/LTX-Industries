@@ -6,11 +6,11 @@
     {
       "type": "limatech:grenade_type_selection",
       "types": [
-        "electric",
         "flame",
-        "neuro",
+        "freeze",
+        "electric",
         "acid",
-        "freeze"
+        "neuro"
       ]
     }
   ],
