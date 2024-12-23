@@ -1,11 +1,6 @@
 {
   "values": [
     "limatech:lightfrag",
-    "limatech:magnum_lightfrag",
-    "limatech:flame_grenade",
-    "limatech:freeze_grenade",
-    "limatech:electric_grenade",
-    "limatech:acid_grenade",
-    "limatech:sticky_flame"
+    "limatech:magnum_lightfrag"
   ]
 }

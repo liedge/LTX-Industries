@@ -1,9 +1,9 @@
-// 1.21.1	2024-11-08T12:39:01.0946476	Tags for minecraft:damage_type mod id limatech
-e8f724aa340146bcacc3ff2c857aed41fed163be data/minecraft/tags/damage_type/avoids_guardian_thorns.json
+// 1.21.1	2024-12-24T00:23:13.5100484	Tags for minecraft:damage_type mod id limatech
+f1a02bfde17ab6d6b8bd83edf01620332aca1df4 data/minecraft/tags/damage_type/avoids_guardian_thorns.json
 2e105e671696a62a2a28295b04cd9382a592bab4 data/minecraft/tags/damage_type/bypasses_armor.json
-497a16e5a7e2bfc7358e965cc5fea2ac24cdbb65 data/minecraft/tags/damage_type/bypasses_cooldown.json
+98d433d17f64ef9ac39ceda0f3af0646bd64f995 data/minecraft/tags/damage_type/bypasses_cooldown.json
 2e105e671696a62a2a28295b04cd9382a592bab4 data/minecraft/tags/damage_type/bypasses_effects.json
 2e105e671696a62a2a28295b04cd9382a592bab4 data/minecraft/tags/damage_type/bypasses_enchantments.json
-d8c7bbf347e1edf5a9a51843e0b2a4cdf953b650 data/minecraft/tags/damage_type/is_explosion.json
+3c71bde55b8e784632c0014024a02027873f63a1 data/minecraft/tags/damage_type/is_explosion.json
 1352b9c77580051cdf434da62bfd16d424e7367a data/minecraft/tags/damage_type/is_fire.json
 3844501137f8cd6f2ab4438aed1b300d7d99d31a data/minecraft/tags/damage_type/no_knockback.json

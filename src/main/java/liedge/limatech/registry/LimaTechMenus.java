@@ -4,7 +4,6 @@ import liedge.limacore.inventory.menu.BlockEntityMenuType;
 import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limatech.LimaTech;
 import liedge.limatech.blockentity.*;
-import liedge.limatech.blockentity.io.MachineInputType;
 import liedge.limatech.menu.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.inventory.MenuType;
@@ -23,10 +22,7 @@ public final class LimaTechMenus
         TYPES.register(bus);
     }
 
-    public static final DeferredHolder<MenuType<?>, MachineIOControlMenu.MenuType> ITEM_IO_CONTROL = TYPES.register("item_io_control", id -> new MachineIOControlMenu.MenuType(id, MachineInputType.ITEMS));
-    public static final DeferredHolder<MenuType<?>, MachineIOControlMenu.MenuType> ENERGY_IO_CONTROL = TYPES.register("energy_io_control", id -> new MachineIOControlMenu.MenuType(id, MachineInputType.ENERGY));
-    public static final DeferredHolder<MenuType<?>, MachineIOControlMenu.MenuType> FLUID_IO_CONTROL = TYPES.register("fluid_io_control", id -> new MachineIOControlMenu.MenuType(id, MachineInputType.FLUIDS));
-
+    public static final DeferredHolder<MenuType<?>, MachineIOControlMenu.MenuType> MACHINE_IO_CONTROL = TYPES.register("machine_io_control", MachineIOControlMenu.MenuType::new);
     public static final DeferredHolder<MenuType<?>, LimaMenuType<EnergyStorageArrayBlockEntity, EnergyStorageArrayMenu>> ENERGY_STORAGE_ARRAY = TYPES.register("energy_storage_array", id -> BlockEntityMenuType.create(id, EnergyStorageArrayBlockEntity.class, EnergyStorageArrayMenu::new));
     public static final DeferredHolder<MenuType<?>, LimaMenuType<DigitalFurnaceBlockEntity, DigitalFurnaceMenu>> DIGITAL_FURNACE = TYPES.register("digital_furnace", id -> BlockEntityMenuType.create(id, DigitalFurnaceBlockEntity.class, DigitalFurnaceMenu::new));
     public static final DeferredHolder<MenuType<?>, LimaMenuType<GrinderBlockEntity, GrinderMenu>> GRINDER = TYPES.register("grinder", id -> BlockEntityMenuType.create(id, GrinderBlockEntity.class, GrinderMenu::new));

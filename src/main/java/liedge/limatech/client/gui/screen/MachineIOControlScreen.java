@@ -2,6 +2,7 @@ package liedge.limatech.client.gui.screen;
 
 import liedge.limacore.client.LimaComponentUtil;
 import liedge.limacore.client.gui.LimaMenuScreen;
+import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.client.gui.UnmanagedSprite;
 import liedge.limacore.lib.Translatable;
 import liedge.limacore.registry.LimaCoreNetworkSerializers;
@@ -17,7 +18,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
-import java.util.List;
 import java.util.function.BooleanSupplier;
 
 import static liedge.limatech.client.LimaTechLang.*;
@@ -109,9 +109,16 @@ public class MachineIOControlScreen extends LimaMenuScreen<MachineIOControlMenu>
         }
 
         @Override
-        public List<Component> getTooltipLines()
+        public boolean hasTooltip()
         {
-            return List.of(ioLabel, ioControl.getSideIO(side).translate());
+            return true;
+        }
+
+        @Override
+        public void createWidgetTooltip(TooltipLineConsumer consumer)
+        {
+            consumer.accept(ioLabel);
+            consumer.accept(ioControl.getSideIO(side).translate());
         }
 
         @Override
@@ -130,8 +137,8 @@ public class MachineIOControlScreen extends LimaMenuScreen<MachineIOControlMenu>
     private class AutoIOButton extends LimaRenderableButton
     {
         private final int buttonId;
-        private final List<Component> offLabel;
-        private final List<Component> onLabel;
+        private final Component offLabel;
+        private final Component onLabel;
         private final UnmanagedSprite offSprite;
         private final UnmanagedSprite onSprite;
         private final BooleanSupplier stateGetter;
@@ -141,8 +148,8 @@ public class MachineIOControlScreen extends LimaMenuScreen<MachineIOControlMenu>
             super(x, y, 14, 14);
 
             this.buttonId = buttonId;
-            this.offLabel = List.of(offLabel.translate());
-            this.onLabel = List.of(onLabel.translate());
+            this.offLabel = offLabel.translate();
+            this.onLabel = onLabel.translate();
             this.offSprite = offSprite;
             this.onSprite = onSprite;
             this.stateGetter = stateGetter;
@@ -167,9 +174,16 @@ public class MachineIOControlScreen extends LimaMenuScreen<MachineIOControlMenu>
         }
 
         @Override
-        public List<Component> getTooltipLines()
+        public boolean hasTooltip()
         {
-            return stateGetter.getAsBoolean() ? onLabel : offLabel;
+            return true;
+        }
+
+        @Override
+        public void createWidgetTooltip(TooltipLineConsumer consumer)
+        {
+            Component label = stateGetter.getAsBoolean() ? onLabel : offLabel;
+            consumer.accept(label);
         }
     }
 

@@ -35,7 +35,7 @@ public final class LimaTechItems
 
     public static void registerCapabilities(RegisterCapabilitiesEvent event)
     {
-        event.registerItem(Capabilities.EnergyStorage.ITEM, (stack, $) -> LimaContainerItem.createEnergyAccess(stack), INFINITE_ENERGY_CARD, SUBMACHINE_GUN, SHOTGUN, GRENADE_LAUNCHER, ROCKET_LAUNCHER, MAGNUM);
+        event.registerItem(Capabilities.EnergyStorage.ITEM, (stack, $) -> EnergyHolderItem.createEnergyAccess(stack), SUBMACHINE_GUN, SHOTGUN, GRENADE_LAUNCHER, ROCKET_LAUNCHER, MAGNUM);
     }
 
     static Collection<DeferredHolder<Item, ? extends Item>> getRegisteredItems()
@@ -114,9 +114,6 @@ public final class LimaTechItems
     public static final DeferredItem<SimpleHintItem> SPECIALIST_AMMO_CANISTER = ITEMS.registerItem("specialist_ammo_canister", SimpleHintItem::new);
     public static final DeferredItem<SimpleHintItem> EXPLOSIVES_AMMO_CANISTER = ITEMS.registerItem("explosives_ammo_canister", SimpleHintItem::new);
     public static final DeferredItem<SimpleHintItem> MAGNUM_AMMO_CANISTER = ITEMS.registerItem("magnum_ammo_canister", SimpleHintItem::new);
-
-    // Creative debug items
-    public static final DeferredItem<Item> INFINITE_ENERGY_CARD = ITEMS.registerItem("infinite_energy_card", InfiniteEnergyItem::new, properties().rarity(Rarity.EPIC).stacksTo(1));
 
     private static DeferredItem<WeaponItem> registerWeapon(String name, Function<Item.Properties, ? extends WeaponItem> constructor)
     {

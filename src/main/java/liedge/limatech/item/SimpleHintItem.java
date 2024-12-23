@@ -1,5 +1,6 @@
 package liedge.limatech.item;
 
+import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.lib.Translatable;
 import net.minecraft.ChatFormatting;
 import net.minecraft.world.item.Item;
@@ -23,8 +24,8 @@ public class SimpleHintItem extends Item implements TooltipShiftHintItem
     }
 
     @Override
-    public void appendTooltipHintComponents(@Nullable Level level, ItemStack stack, TooltipCollector collector)
+    public void appendTooltipHintComponents(@Nullable Level level, ItemStack stack, TooltipLineConsumer consumer)
     {
-        collector.with(getShiftHint().translate().withStyle(ChatFormatting.GRAY));
+        consumer.accept(getShiftHint().translate().withStyle(ChatFormatting.GRAY));
     }
 }

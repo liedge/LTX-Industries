@@ -47,13 +47,14 @@ public final class LimaTechClientSetup
     @SubscribeEvent
     public static void registerBlockColorHandlers(final RegisterColorHandlersEvent.Block event)
     {
-        event.register(EnergyStorageArrayRenderer.COLOR_HANDLER, LimaTechBlocks.ENERGY_STORAGE_ARRAY.get());
+        event.register(EnergyStorageArrayRenderer.ESA_BLOCK_COLOR, LimaTechBlocks.TIERED_ENERGY_STORAGE_ARRAY.get(), LimaTechBlocks.INFINITE_ENERGY_STORAGE_ARRAY.get());
     }
 
     @SubscribeEvent
     public static void registerItemColorHandlers(final RegisterColorHandlersEvent.Item event)
     {
-        event.register(EnergyStorageArrayRenderer.COLOR_HANDLER, LimaTechBlocks.ENERGY_STORAGE_ARRAY);
+        event.register(EnergyStorageArrayRenderer.TIERED_ESA_COLOR, LimaTechBlocks.TIERED_ENERGY_STORAGE_ARRAY);
+        event.register(EnergyStorageArrayRenderer.INFINITE_ESA_COLOR, LimaTechBlocks.INFINITE_ENERGY_STORAGE_ARRAY);
     }
 
     @SubscribeEvent
@@ -71,10 +72,7 @@ public final class LimaTechClientSetup
     @SubscribeEvent
     public static void registerMenuScreens(final RegisterMenuScreensEvent event)
     {
-        event.register(LimaTechMenus.ITEM_IO_CONTROL.get(), MachineIOControlScreen::new);
-        event.register(LimaTechMenus.ENERGY_IO_CONTROL.get(), MachineIOControlScreen::new);
-        event.register(LimaTechMenus.FLUID_IO_CONTROL.get(), MachineIOControlScreen::new);
-
+        event.register(LimaTechMenus.MACHINE_IO_CONTROL.get(), MachineIOControlScreen::new);
         event.register(LimaTechMenus.ENERGY_STORAGE_ARRAY.get(), EnergyStorageArrayScreen::new);
         event.register(LimaTechMenus.DIGITAL_FURNACE.get(), DigitalFurnaceScreen::new);
         event.register(LimaTechMenus.GRINDER.get(), GrinderScreen::new);
@@ -113,7 +111,8 @@ public final class LimaTechClientSetup
         event.registerEntityRenderer(LimaTechEntities.STICKY_FLAME.get(), StickyFlameRenderer::new);
 
         // Block entities
-        event.registerBlockEntityRenderer(LimaTechBlockEntities.ENERGY_STORAGE_ARRAY.get(), EnergyStorageArrayRenderer::new);
+        event.registerBlockEntityRenderer(LimaTechBlockEntities.TIERED_ENERGY_STORAGE_ARRAY.get(), EnergyStorageArrayRenderer::new);
+        event.registerBlockEntityRenderer(LimaTechBlockEntities.INFINITE_ENERGY_STORAGE_ARRAY.get(), EnergyStorageArrayRenderer::new);
         event.registerBlockEntityRenderer(LimaTechBlockEntities.FABRICATOR.get(), FabricatorRenderer::new);
         event.registerBlockEntityRenderer(LimaTechBlockEntities.EQUIPMENT_MOD_TABLE.get(), EquipmentModTableRenderer::new);
         event.registerBlockEntityRenderer(LimaTechBlockEntities.ROCKET_TURRET.get(), RocketTurretRenderer::new);

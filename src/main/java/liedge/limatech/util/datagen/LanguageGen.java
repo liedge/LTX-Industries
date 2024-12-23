@@ -52,7 +52,8 @@ class LanguageGen extends LimaLanguageProvider
 
         GLOW_BLOCKS.forEach((color, deferredBlock) -> addBlock(deferredBlock, localizeSimpleName(color) + " Glow Block"));
 
-        addBlock(ENERGY_STORAGE_ARRAY, "Energy Storage Array");
+        addBlock(TIERED_ENERGY_STORAGE_ARRAY, "Energy Storage Array");
+        addBlock(INFINITE_ENERGY_STORAGE_ARRAY, "Energy Storage Array");
         addBlock(DIGITAL_FURNACE, "Digital Furnace");
         addBlock(GRINDER, "Grinder");
         addBlock(RECOMPOSER, "Recomposer");
@@ -189,6 +190,7 @@ class LanguageGen extends LimaLanguageProvider
         enchantment(LimaTechEnchantments.AMMO_SCAVENGER, "Ammo Scavenger");
 
         //#region Tooltips
+        add(MACHINE_TIER_TOOLTIP, "Tier %s");
         add(INLINE_ENERGY_STORED, "Energy: %s");
         add(INLINE_ENERGY_CAPACITY, "Capacity: %s");
         add(INLINE_ENERGY_TRANSFER_RATE, "I/O: %s/t");

@@ -26,9 +26,15 @@ public class DigitalFurnaceBlockEntity extends SimpleRecipeMachineBlockEntity<Si
     }
 
     @Override
-    public int machineEnergyUse()
+    public int baseEnergyUsage()
     {
         return DIGITAL_FURNACE_ENERGY_USAGE.getAsInt();
+    }
+
+    @Override
+    public int baseCraftingTime()
+    {
+        return DIGITAL_FURNACE_CRAFTING_TIME.getAsInt();
     }
 
     @Override
@@ -59,11 +65,5 @@ public class DigitalFurnaceBlockEntity extends SimpleRecipeMachineBlockEntity<Si
     public LimaMenuType<?, ?> getMenuType()
     {
         return LimaTechMenus.DIGITAL_FURNACE.get();
-    }
-
-    @Override
-    public int getTotalProcessDuration()
-    {
-        return DIGITAL_FURNACE_CRAFTING_TIME.getAsInt();
     }
 }

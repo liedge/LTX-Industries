@@ -27,9 +27,15 @@ public class RecomposerBlockEntity extends SimpleRecipeMachineBlockEntity<LimaRe
     }
 
     @Override
-    public int machineEnergyUse()
+    public int baseEnergyUsage()
     {
         return RECOMPOSER_ENERGY_USAGE.getAsInt();
+    }
+
+    @Override
+    public int baseCraftingTime()
+    {
+        return RECOMPOSER_CRAFTING_TIME.getAsInt();
     }
 
     @Override
@@ -60,11 +66,5 @@ public class RecomposerBlockEntity extends SimpleRecipeMachineBlockEntity<LimaRe
     public LimaMenuType<?, ?> getMenuType()
     {
         return LimaTechMenus.RECOMPOSER.get();
-    }
-
-    @Override
-    public int getTotalProcessDuration()
-    {
-        return RECOMPOSER_CRAFTING_TIME.getAsInt();
     }
 }

@@ -1,6 +1,7 @@
 package liedge.limatech.item.weapon;
 
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.lib.OrderedEnum;
 import liedge.limacore.lib.Translatable;
 import liedge.limatech.LimaTech;
@@ -136,9 +137,9 @@ public class GrenadeLauncherWeaponItem extends SemiAutoWeaponItem implements Scr
     }
 
     @Override
-    public void appendTooltipHintComponents(@Nullable Level level, ItemStack stack, TooltipCollector collector)
+    public void appendTooltipHintComponents(@Nullable Level level, ItemStack stack, TooltipLineConsumer consumer)
     {
-        collector.with(GRENADE_TYPE_TOOLTIP.translateArgs(getGrenadeTypeFromItem(stack).translate()));
-        super.appendTooltipHintComponents(level, stack, collector);
+        consumer.accept(GRENADE_TYPE_TOOLTIP.translateArgs(getGrenadeTypeFromItem(stack).translate()));
+        super.appendTooltipHintComponents(level, stack, consumer);
     }
 }

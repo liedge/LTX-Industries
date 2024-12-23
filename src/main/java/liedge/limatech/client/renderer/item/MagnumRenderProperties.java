@@ -23,7 +23,7 @@ public class MagnumRenderProperties extends SimpleWeaponRenderProperties
 
     MagnumRenderProperties()
     {
-        super(25f, 0.3125f, 11);
+        super(17.5f, 0.375f, 6);
     }
 
     @Override

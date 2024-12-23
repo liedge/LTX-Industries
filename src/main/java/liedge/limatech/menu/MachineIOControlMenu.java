@@ -17,9 +17,9 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.Objects;
 
-public class MachineIOControlMenu extends LimaMenu<SidedMachineIOHolder>
+public class MachineIOControlMenu extends LimaMenu<MachineIOControlMenu.MenuContext>
 {
-    private MachineIOControlMenu(LimaMenuType<SidedMachineIOHolder, ?> type, int containerId, Inventory inventory, SidedMachineIOHolder menuContext)
+    private MachineIOControlMenu(LimaMenuType<MenuContext, ?> type, int containerId, Inventory inventory, MenuContext menuContext)
     {
         super(type, containerId, inventory, menuContext);
         addPlayerInventory(DEFAULT_INV_X, DEFAULT_INV_Y);
@@ -28,7 +28,7 @@ public class MachineIOControlMenu extends LimaMenu<SidedMachineIOHolder>
 
     public MachineIOControl getIOControl()
     {
-        return menuContext.getIOControlsOrThrow(((MenuType) getType()).inputType);
+        return menuContext.holder.getIOControlsOrThrow(menuContext.inputType);
     }
 
     @Override
@@ -47,52 +47,49 @@ public class MachineIOControlMenu extends LimaMenu<SidedMachineIOHolder>
     protected void defineButtonEventHandlers(EventHandlerBuilder builder)
     {
         MachineIOControl ioControl = getIOControl();
-        builder.handleUnitAction(0, menuContext::returnToPrimaryMenuScreen);
+        builder.handleUnitAction(0, menuContext.holder::returnToPrimaryMenuScreen);
         builder.handleAction(1, LimaCoreNetworkSerializers.DIRECTION, (sender, side) -> ioControl.cycleSideIO(side, true));
         builder.handleAction(2, LimaCoreNetworkSerializers.DIRECTION, (sender, side) -> ioControl.cycleSideIO(side, false));
         builder.handleUnitAction(3, sender -> ioControl.toggleAutoInput());
         builder.handleUnitAction(4, sender -> ioControl.toggleAutoOutput());
     }
 
-    public static class MenuType extends LimaMenuType<SidedMachineIOHolder, MachineIOControlMenu>
+    public static class MenuType extends LimaMenuType<MenuContext, MachineIOControlMenu>
     {
-        private final MachineInputType inputType;
-
-        public MenuType(ResourceLocation registryId, MachineInputType inputType)
+        public MenuType(ResourceLocation registryId)
         {
-            super(registryId, SidedMachineIOHolder.class, MachineIOControlMenu::new);
-            this.inputType = inputType;
+            super(registryId, MenuContext.class, MachineIOControlMenu::new);
         }
 
         @Override
-        public String descriptionId()
+        public MutableComponent getMenuTitle(Object uncheckedContext)
         {
-            return inputType.descriptionId();
+            return checkContext(uncheckedContext).inputType.translate();
         }
 
         @Override
-        public MutableComponent translate()
+        public void encodeContext(MenuContext menuContext, RegistryFriendlyByteBuf net)
         {
-            return inputType.translate();
+            net.writeBlockPos(menuContext.holder.getAsLimaBlockEntity().getBlockPos());
+            MachineInputType.STREAM_CODEC.encode(net, menuContext.inputType);
         }
 
         @Override
-        public void encodeContext(SidedMachineIOHolder menuContext, RegistryFriendlyByteBuf net)
-        {
-            net.writeBlockPos(menuContext.getAsLimaBlockEntity().getBlockPos());
-        }
-
-        @Override
-        protected SidedMachineIOHolder decodeContext(RegistryFriendlyByteBuf net, Inventory inventory)
+        protected MenuContext decodeContext(RegistryFriendlyByteBuf net, Inventory inventory)
         {
             BlockPos pos = net.readBlockPos();
-            return Objects.requireNonNull(LimaBlockUtil.getSafeBlockEntity(inventory.player.level(), pos, SidedMachineIOHolder.class));
+            SidedMachineIOHolder holder = Objects.requireNonNull(LimaBlockUtil.getSafeBlockEntity(inventory.player.level(), pos, SidedMachineIOHolder.class));
+            MachineInputType inputType = MachineInputType.STREAM_CODEC.decode(net);
+
+            return new MenuContext(holder, inputType);
         }
 
         @Override
-        public boolean canPlayerKeepUsing(SidedMachineIOHolder menuContext, Player player)
+        public boolean canPlayerKeepUsing(MenuContext menuContext, Player player)
         {
-            return menuContext.getAsLimaBlockEntity().canPlayerUse(player);
+            return menuContext.holder.getAsLimaBlockEntity().canPlayerUse(player);
         }
     }
+
+    public record MenuContext(SidedMachineIOHolder holder, MachineInputType inputType) {}
 }

@@ -9,7 +9,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
-public class EnergyStorageArrayScreen extends LimaTechSidebarScreen<EnergyStorageArrayMenu>
+public class EnergyStorageArrayScreen extends RightSidebarScreen.RightAlignedInventoryLabel<EnergyStorageArrayMenu>
 {
     private static final ResourceLocation TEXTURE = LimaTech.RESOURCES.textureLocation("gui", "energy_storage_array");
 
@@ -22,7 +22,7 @@ public class EnergyStorageArrayScreen extends LimaTechSidebarScreen<EnergyStorag
     protected void addWidgets()
     {
         addRenderableWidget(new OpenIOControlButton(leftPos + bgWidth, topPos + 3, this, 0, MachineInputType.ENERGY));
-        addRenderableOnly(new EnergyGaugeWidget(menu.menuContext().getEnergyStorage(), leftPos + 83, topPos + 25));
+        addRenderableOnly(new EnergyGaugeWidget(menu.menuContext().getEnergyStorage(), leftPos + 11, topPos + 10));
     }
 
     @Override

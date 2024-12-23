@@ -2,13 +2,10 @@ package liedge.limatech.client.gui.widget;
 
 import liedge.limacore.capability.energy.LimaEnergyStorage;
 import liedge.limacore.capability.energy.LimaEnergyUtil;
+import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.client.gui.UnmanagedSprite;
 import liedge.limacore.client.gui.VariableBarWidget;
-import liedge.limatech.LimaTechConstants;
-import liedge.limatech.client.LimaTechLang;
-import net.minecraft.network.chat.Component;
-
-import java.util.List;
+import liedge.limatech.util.LimaTechTooltipUtil;
 
 public class EnergyGaugeWidget extends VariableBarWidget.VerticalBar
 {
@@ -39,8 +36,14 @@ public class EnergyGaugeWidget extends VariableBarWidget.VerticalBar
     }
 
     @Override
-    public List<Component> getTooltipLines()
+    public boolean hasTooltip()
     {
-        return List.of(LimaTechLang.INLINE_ENERGY_STORED.translateArgs(LimaEnergyUtil.formatStoredAndTotal(energyStorage)).withStyle(LimaTechConstants.REM_BLUE.chatStyle()));
+        return true;
+    }
+
+    @Override
+    public void createWidgetTooltip(TooltipLineConsumer consumer)
+    {
+        LimaTechTooltipUtil.appendExtendedEnergyTooltip(consumer, energyStorage.getEnergyStored(), energyStorage.getMaxEnergyStored(), energyStorage.getTransferRate());
     }
 }

@@ -25,9 +25,12 @@ public class EnergyStorageArrayBlock extends BaseWrenchEntityBlock
 {
     private static final VoxelShape SHAPE = Block.box(0.5d, 0.5d, 0.5d, 15.5d, 15.5d, 15.5d);
 
-    public EnergyStorageArrayBlock(Properties properties)
+    private final boolean infinite;
+
+    public EnergyStorageArrayBlock(Properties properties, boolean infinite)
     {
         super(properties);
+        this.infinite = infinite;
     }
 
     @Override
@@ -49,7 +52,7 @@ public class EnergyStorageArrayBlock extends BaseWrenchEntityBlock
     @Override
     public @Nullable LimaBlockEntityType<?> getBlockEntityType(BlockState state)
     {
-        return LimaTechBlockEntities.ENERGY_STORAGE_ARRAY.get();
+        return infinite ? LimaTechBlockEntities.INFINITE_ENERGY_STORAGE_ARRAY.get() : LimaTechBlockEntities.TIERED_ENERGY_STORAGE_ARRAY.get();
     }
 
     @Override

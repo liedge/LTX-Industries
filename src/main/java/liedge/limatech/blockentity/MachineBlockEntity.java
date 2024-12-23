@@ -5,10 +5,8 @@ import liedge.limacore.blockentity.LimaBlockEntity;
 import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.capability.energy.EnergyHolderBlockEntity;
 import liedge.limacore.capability.energy.LimaBlockEntityEnergyStorage;
-import liedge.limacore.capability.energy.LimaEnergyStorage;
 import liedge.limacore.capability.itemhandler.ItemHolderBlockEntity;
 import liedge.limacore.capability.itemhandler.LimaBlockEntityItemHandler;
-import liedge.limacore.capability.itemhandler.LimaItemHandlerBase;
 import liedge.limacore.inventory.menu.LimaMenuProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -26,27 +24,16 @@ import static liedge.limacore.util.LimaNbtUtil.deserializeInt;
 
 public abstract class MachineBlockEntity extends LimaBlockEntity implements LimaMenuProvider, EnergyHolderBlockEntity, ItemHolderBlockEntity
 {
-    private final LimaBlockEntityEnergyStorage machineEnergy;
-    private final LimaBlockEntityItemHandler machineItems;
-
-    protected MachineBlockEntity(LimaBlockEntityType<?> type, BlockPos pos, BlockState state, int energyCapacity, int energyTransferRate, int inventorySize)
+    protected MachineBlockEntity(LimaBlockEntityType<?> type, BlockPos pos, BlockState state)
     {
         super(type, pos, state);
-        this.machineEnergy = new LimaBlockEntityEnergyStorage(this, energyCapacity, energyTransferRate);
-        this.machineItems = new LimaBlockEntityItemHandler(this, inventorySize);
     }
 
     @Override
-    public LimaEnergyStorage getEnergyStorage()
-    {
-        return machineEnergy;
-    }
+    public abstract LimaBlockEntityEnergyStorage getEnergyStorage();
 
     @Override
-    public LimaItemHandlerBase getItemHandler()
-    {
-        return machineItems;
-    }
+    public abstract LimaBlockEntityItemHandler getItemHandler();
 
     @Override
     public void onEnergyChanged()
@@ -69,15 +56,15 @@ public abstract class MachineBlockEntity extends LimaBlockEntity implements Lima
     @Override
     protected void applyImplicitComponents(DataComponentInput componentInput)
     {
-        machineEnergy.setEnergyStored(componentInput.getOrDefault(ENERGY, 0));
-        machineItems.copyFromComponent(componentInput.getOrDefault(ITEM_CONTAINER, ItemContainerContents.EMPTY));
+        getEnergyStorage().setEnergyStored(componentInput.getOrDefault(ENERGY, 0));
+        getItemHandler().copyFromComponent(componentInput.getOrDefault(ITEM_CONTAINER, ItemContainerContents.EMPTY));
     }
 
     @Override
     protected void collectImplicitComponents(DataComponentMap.Builder components)
     {
-        components.set(ENERGY, machineEnergy.getEnergyStored());
-        components.set(ITEM_CONTAINER, machineItems.copyToComponent());
+        components.set(ENERGY, getEnergyStorage().getEnergyStored());
+        components.set(ITEM_CONTAINER, getItemHandler().copyToComponent());
     }
 
     @Override
@@ -91,15 +78,15 @@ public abstract class MachineBlockEntity extends LimaBlockEntity implements Lima
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries)
     {
         super.loadAdditional(tag, registries);
-        deserializeInt(machineEnergy, registries, tag.get(KEY_ENERGY_CONTAINER));
-        machineItems.deserializeNBT(registries, tag.getCompound(KEY_ITEM_CONTAINER));
+        deserializeInt(getEnergyStorage(), registries, tag.get(KEY_ENERGY_CONTAINER));
+        getItemHandler().deserializeNBT(registries, tag.getCompound(KEY_ITEM_CONTAINER));
     }
 
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries)
     {
         super.saveAdditional(tag, registries);
-        tag.put(KEY_ENERGY_CONTAINER, machineEnergy.serializeNBT(registries));
-        tag.put(KEY_ITEM_CONTAINER, machineItems.serializeNBT(registries));
+        tag.put(KEY_ENERGY_CONTAINER, getEnergyStorage().serializeNBT(registries));
+        tag.put(KEY_ITEM_CONTAINER, getItemHandler().serializeNBT(registries));
     }
 }

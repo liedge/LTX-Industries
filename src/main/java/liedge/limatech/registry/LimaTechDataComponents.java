@@ -1,6 +1,7 @@
 package liedge.limatech.registry;
 
 import liedge.limatech.LimaTech;
+import liedge.limatech.lib.machinetiers.MachineTier;
 import liedge.limatech.lib.weapons.GrenadeType;
 import liedge.limatech.lib.weapons.WeaponAmmoSource;
 import liedge.limatech.upgradesystem.ItemEquipmentUpgrades;
@@ -23,6 +24,9 @@ public final class LimaTechDataComponents
     {
         DATA_COMPONENT_TYPES.register(bus);
     }
+
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<MachineTier>> MACHINE_TIER = DATA_COMPONENT_TYPES.register("machine_tier",
+            () -> DataComponentType.<MachineTier>builder().persistent(MachineTier.CODEC).networkSynchronized(MachineTier.STREAM_CODEC).build());
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<ItemEquipmentUpgrades>> EQUIPMENT_UPGRADES = DATA_COMPONENT_TYPES.register("upgrades",
             () -> DataComponentType.<ItemEquipmentUpgrades>builder().persistent(ItemEquipmentUpgrades.CODEC).networkSynchronized(ItemEquipmentUpgrades.STREAM_CODEC).build());

@@ -1,4 +1,4 @@
-// 1.21.1	2024-12-18T10:16:57.07208	Recipes
+// 1.21.1	2024-12-22T03:29:11.5859511	Recipes
 c8275617fa453c38fc837208f8be42d7d960af0d data/limatech/recipe/blasting/blast_coal_ore_pebbles.json
 db62af114805dff901e1b60319fd82daf23ee61d data/limatech/recipe/blasting/blast_copper_ore_pebbles.json
 088be7f68997d99212be68b3700cefa15df4fb59 data/limatech/recipe/blasting/blast_diamond_ore_pebbles.json
@@ -73,7 +73,6 @@ ccc6503800fbcf00e66960165c85dc0164206ce0 data/limatech/recipe/shaped_recipes/blu
 aafe6ff1eb30c0bb8737e7930856d033b08eccaf data/limatech/recipe/shaped_recipes/cyan_glow_block_a.json
 21bb13b0ff30e62f27159f4a07883f7b7f6dd68e data/limatech/recipe/shaped_recipes/cyan_glow_block_b.json
 2084977ed16668ed5812ee6853150969ea6dbc55 data/limatech/recipe/shaped_recipes/digital_furnace.json
-c74dbd5370a47d1e62b262b51edd565f4019a61a data/limatech/recipe/shaped_recipes/energy_storage_array.json
 7f37b6d462f27350493fc0a746c3a6f9d63ec4dc data/limatech/recipe/shaped_recipes/equipment_mod_table.json
 f99dc59a853f07d5dc0c80901beb3de4223932e3 data/limatech/recipe/shaped_recipes/fabricator.json
 1057dd48d203d210d3803a4e230b4538aed8f94d data/limatech/recipe/shaped_recipes/gold_circuit.json
@@ -108,6 +107,7 @@ b17524271ca29db6aa74a0fee78fda1ca2f8c0a5 data/limatech/recipe/shaped_recipes/red
 95c410fbe00f7aa8d7486e05741429921adf0a8f data/limatech/recipe/shaped_recipes/red_glow_block_b.json
 b70098469f881ed1ef7bfa1fd34c6502bfcb4aeb data/limatech/recipe/shaped_recipes/slate_alloy_ingots_to_block.json
 cd90c192d9bc3f812b45ba092736883fded1ccbc data/limatech/recipe/shaped_recipes/slate_alloy_nuggets_to_ingot.json
+2afe4e15718cfa06d4e46071b9fafc31c4ffbf3d data/limatech/recipe/shaped_recipes/tiered_energy_storage_array.json
 452f3408118f967aec01c84ee3f76940f0746716 data/limatech/recipe/shaped_recipes/titanium_axe.json
 83d4525574f3515ee3d6ab622d9166127b46dcb8 data/limatech/recipe/shaped_recipes/titanium_hoe.json
 90a33d65a7dd2c310b7c5f949676e163d069d325 data/limatech/recipe/shaped_recipes/titanium_ingots_to_block.json

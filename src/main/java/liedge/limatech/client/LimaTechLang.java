@@ -25,6 +25,7 @@ public final class LimaTechLang
     public static final Translatable AUTO_INPUT_OFF_TOOLTIP = tooltip("auto_input_off");
     public static final Translatable AUTO_INPUT_ON_TOOLTIP = tooltip("auto_input_on");
 
+    public static final Translatable MACHINE_TIER_TOOLTIP = tooltip("machine_tier");
     public static final Translatable INLINE_ENERGY_STORED = tooltip("energy_stored");
     public static final Translatable INLINE_ENERGY_CAPACITY = tooltip("energy_capacity");
     public static final Translatable INLINE_ENERGY_TRANSFER_RATE = tooltip("energy_transfer_rate");

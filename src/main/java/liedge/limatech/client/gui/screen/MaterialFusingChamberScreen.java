@@ -10,20 +10,13 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
-public class MaterialFusingChamberScreen extends LimaTechSidebarScreen<MaterialFusingChamberMenu>
+public class MaterialFusingChamberScreen extends RightSidebarScreen.RightAlignedInventoryLabel<MaterialFusingChamberMenu>
 {
     public static final ResourceLocation SCREEN_TEXTURE = LimaTech.RESOURCES.textureLocation("gui", "material_fusing_chamber");
 
     public MaterialFusingChamberScreen(MaterialFusingChamberMenu menu, Inventory inventory, Component title)
     {
         super(menu, inventory, title, DEFAULT_WIDTH, DEFAULT_HEIGHT, 15);
-    }
-
-    @Override
-    protected void positionLabels()
-    {
-        super.positionLabels();
-        this.inventoryLabelX = bgWidth - 6 - font.width(playerInventoryTitle);
     }
 
     @Override

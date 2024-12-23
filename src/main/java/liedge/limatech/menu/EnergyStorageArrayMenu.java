@@ -2,13 +2,11 @@ package liedge.limatech.menu;
 
 import liedge.limacore.inventory.menu.LimaItemHandlerMenu;
 import liedge.limacore.inventory.menu.LimaMenuType;
+import liedge.limacore.util.LimaItemUtil;
 import liedge.limatech.blockentity.EnergyStorageArrayBlockEntity;
 import liedge.limatech.registry.LimaTechNetworkSerializers;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
-
-import static liedge.limatech.blockentity.EnergyStorageArrayBlockEntity.INPUT_ENERGY_ITEM_SLOT;
-import static liedge.limatech.blockentity.EnergyStorageArrayBlockEntity.OUTPUT_ENERGY_ITEM_SLOT;
 
 public class EnergyStorageArrayMenu extends LimaItemHandlerMenu<EnergyStorageArrayBlockEntity>
 {
@@ -16,8 +14,8 @@ public class EnergyStorageArrayMenu extends LimaItemHandlerMenu<EnergyStorageArr
     {
         super(type, containerId, inventory, menuContext);
 
-        addContextSlot(INPUT_ENERGY_ITEM_SLOT, 62, 41);
-        addContextSlot(OUTPUT_ENERGY_ITEM_SLOT, 98, 41);
+        addContextSlot(0, 8, 62);
+        addContextSlotsGrid(1, 56, 37, 4, 1);
 
         addPlayerInventory(DEFAULT_INV_X, DEFAULT_INV_Y);
         addPlayerHotbar(DEFAULT_INV_X, DEFAULT_HOTBAR_Y);
@@ -32,6 +30,15 @@ public class EnergyStorageArrayMenu extends LimaItemHandlerMenu<EnergyStorageArr
     @Override
     protected boolean quickMoveInternal(int index, ItemStack stack)
     {
+        if (index < 5)
+        {
+            return quickMoveToAllInventory(stack, false);
+        }
+        else if (LimaItemUtil.hasEnergyCapability(stack))
+        {
+            return quickMoveToContainerSlots(stack, 1, 5, false);
+        }
+
         return false;
     }
 

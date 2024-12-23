@@ -35,8 +35,6 @@ class ItemModelGen extends LimaItemModelProvider
 
         generated(DEEPSLATE_POWDER, SLATE_ALLOY_INGOT, SLATE_ALLOY_NUGGET, COPPER_CIRCUIT, GOLD_CIRCUIT, NIOBIUM_CIRCUIT,
                 EQUIPMENT_UPGRADE_ITEM, AUTO_AMMO_CANISTER, SPECIALIST_AMMO_CANISTER, EXPLOSIVES_AMMO_CANISTER, MAGNUM_AMMO_CANISTER);
-
-        generated(INFINITE_ENERGY_CARD, itemFolderLocation("lime_digital_card"));
     }
 
     private void orePebbles(ItemLike... pebbles)

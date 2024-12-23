@@ -3,6 +3,8 @@ package liedge.limatech.blockentity.io;
 import liedge.limacore.blockentity.LimaBlockEntityAccess;
 import liedge.limacore.inventory.menu.LimaMenuProvider;
 import liedge.limacore.util.LimaCoreUtil;
+import liedge.limatech.menu.MachineIOControlMenu;
+import liedge.limatech.registry.LimaTechMenus;
 import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.Nullable;
 
@@ -30,6 +32,7 @@ public interface SidedMachineIOHolder extends LimaBlockEntityAccess
 
     default void openIOControlMenuScreen(Player player, MachineInputType inputType)
     {
-        LimaMenuProvider.openStandaloneMenu(player, inputType.getControlMenuType(), this);
+        MachineIOControlMenu.MenuContext context = new MachineIOControlMenu.MenuContext(this, inputType);
+        LimaMenuProvider.openStandaloneMenu(player, LimaTechMenus.MACHINE_IO_CONTROL.get(), context);
     }
 }

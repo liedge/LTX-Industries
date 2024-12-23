@@ -2,10 +2,14 @@ package liedge.limatech.compat.jei;
 
 import liedge.limacore.util.LimaRecipesUtil;
 import liedge.limatech.LimaTech;
+import liedge.limatech.client.gui.screen.DigitalFurnaceScreen;
 import liedge.limatech.client.gui.screen.GrinderScreen;
 import liedge.limatech.client.gui.screen.MaterialFusingChamberScreen;
 import liedge.limatech.client.gui.screen.RecomposerScreen;
-import liedge.limatech.recipe.*;
+import liedge.limatech.recipe.BaseFabricatingRecipe;
+import liedge.limatech.recipe.GrindingRecipe;
+import liedge.limatech.recipe.MaterialFusingRecipe;
+import liedge.limatech.recipe.RecomposingRecipe;
 import liedge.limatech.registry.LimaTechBlocks;
 import liedge.limatech.registry.LimaTechItems;
 import liedge.limatech.upgradesystem.EquipmentUpgradeEntry;
@@ -92,6 +96,7 @@ public class LimaTechJEIPlugin implements IModPlugin
     @Override
     public void registerGuiHandlers(IGuiHandlerRegistration registration)
     {
+        registration.addRecipeClickArea(DigitalFurnaceScreen.class, 75, 39, 24, 6, RecipeTypes.SMELTING);
         registration.addRecipeClickArea(GrinderScreen.class, 75, 39, 24, 6, GRINDING_JEI);
         registration.addRecipeClickArea(RecomposerScreen.class, 75, 39, 24, 6, RECOMPOSING_JEI);
         registration.addRecipeClickArea(MaterialFusingChamberScreen.class, 81, 41, 24, 6, MATERIAL_FUSING_JEI);

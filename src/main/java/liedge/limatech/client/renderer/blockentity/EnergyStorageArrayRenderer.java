@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import liedge.limacore.client.LimaBlockEntityRenderer;
 import liedge.limacore.lib.LimaColor;
-import liedge.limatech.LimaTechConstants;
 import liedge.limatech.blockentity.EnergyStorageArrayBlockEntity;
 import liedge.limatech.client.model.custom.TranslucentFillModel;
 import liedge.limatech.client.renderer.LimaTechRenderTypes;
@@ -32,7 +31,9 @@ public class EnergyStorageArrayRenderer extends LimaBlockEntityRenderer<EnergySt
                     TranslucentFillModel.create(8.26f, 3.01f, 8.26f, 15.24f, 12.99f, 15.24f, Direction.Axis.Y)
             };
 
-    public static final ColorHandler COLOR_HANDLER = new ColorHandler();
+    public static final BlockColor ESA_BLOCK_COLOR = new ColorHandler();
+    public static final ItemColor TIERED_ESA_COLOR = new ESAItemColor(REM_BLUE.packedRGB());
+    public static final ItemColor INFINITE_ESA_COLOR = new ESAItemColor(NIOBIUM_PURPLE.packedRGB());
 
     public EnergyStorageArrayRenderer(BlockEntityRendererProvider.Context context)
     {
@@ -50,12 +51,12 @@ public class EnergyStorageArrayRenderer extends LimaBlockEntityRenderer<EnergySt
 
             for (TranslucentFillModel model : fillModels)
             {
-                model.render(buffer, poseStack, LimaTechConstants.REM_BLUE, fill);
+                model.render(buffer, poseStack, blockEntity.getRemoteEnergyFillColor(), fill);
             }
         }
     }
 
-    public static class ColorHandler implements ItemColor, BlockColor
+    public static class ColorHandler implements BlockColor
     {
         private ColorHandler() {}
 
@@ -87,11 +88,14 @@ public class EnergyStorageArrayRenderer extends LimaBlockEntityRenderer<EnergySt
 
             return 0xFFFFFFFF;
         }
+    }
 
+    private record ESAItemColor(int argb32) implements ItemColor
+    {
         @Override
         public int getColor(ItemStack stack, int tintIndex)
         {
-            return tintIndex == -1 ? 0xFFFFFFFF : REM_BLUE.packedRGB();
+            return tintIndex == -1 ? 0xFFFFFFFF : argb32;
         }
     }
 }

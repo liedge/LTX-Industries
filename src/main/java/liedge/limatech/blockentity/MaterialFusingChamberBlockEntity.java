@@ -27,9 +27,15 @@ public class MaterialFusingChamberBlockEntity extends SimpleRecipeMachineBlockEn
     }
 
     @Override
-    public int machineEnergyUse()
+    public int baseEnergyUsage()
     {
         return MFC_ENERGY_USAGE.getAsInt();
+    }
+
+    @Override
+    public int baseCraftingTime()
+    {
+        return MFC_CRAFTING_TIME.getAsInt();
     }
 
     @Override
@@ -60,11 +66,5 @@ public class MaterialFusingChamberBlockEntity extends SimpleRecipeMachineBlockEn
     public LimaMenuType<?, ?> getMenuType()
     {
         return LimaTechMenus.MATERIAL_FUSING_CHAMBER.get();
-    }
-
-    @Override
-    public int getTotalProcessDuration()
-    {
-        return MFC_CRAFTING_TIME.getAsInt();
     }
 }

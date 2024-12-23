@@ -1,12 +1,14 @@
 package liedge.limatech.item.weapon;
 
 import com.mojang.serialization.Codec;
+import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.data.LimaCoreCodecs;
 import liedge.limacore.item.LimaCreativeTabFillerItem;
 import liedge.limacore.lib.Translatable;
 import liedge.limacore.network.LimaStreamCodecs;
 import liedge.limatech.entity.LimaTechProjectile;
-import liedge.limatech.item.LimaContainerItem;
+import liedge.limatech.item.EnergyHolderItem;
+import liedge.limatech.item.TooltipShiftHintItem;
 import liedge.limatech.lib.weapons.*;
 import liedge.limatech.registry.LimaTechAttachmentTypes;
 import liedge.limatech.registry.LimaTechGameEvents;
@@ -14,6 +16,7 @@ import liedge.limatech.registry.LimaTechRegistries;
 import liedge.limatech.upgradesystem.EquipmentUpgrade;
 import liedge.limatech.upgradesystem.ItemEquipmentUpgrades;
 import liedge.limatech.upgradesystem.effect.EquipmentUpgradeEffect;
+import liedge.limatech.util.LimaTechTooltipUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
@@ -44,10 +47,9 @@ import static liedge.limacore.capability.energy.LimaEnergyUtil.formatEnergyWithS
 import static liedge.limacore.util.LimaRegistryUtil.getItemName;
 import static liedge.limatech.LimaTech.RESOURCES;
 import static liedge.limatech.LimaTechConstants.*;
-import static liedge.limatech.client.LimaTechLang.INLINE_ENERGY_STORED;
 import static liedge.limatech.registry.LimaTechDataComponents.*;
 
-public abstract class WeaponItem extends Item implements LimaContainerItem, LimaCreativeTabFillerItem
+public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaCreativeTabFillerItem, TooltipShiftHintItem
 {
     public static final Codec<WeaponItem> CODEC = LimaCoreCodecs.classCastRegistryCodec(BuiltInRegistries.ITEM, WeaponItem.class);
     public static final StreamCodec<RegistryFriendlyByteBuf, WeaponItem> STREAM_CODEC = LimaStreamCodecs.classCastRegistryStreamCodec(Registries.ITEM, WeaponItem.class);
@@ -105,7 +107,7 @@ public abstract class WeaponItem extends Item implements LimaContainerItem, Lima
     }
 
     @Override
-    public boolean supportsEnergy(ItemStack stack)
+    public boolean supportsEnergyStorage(ItemStack stack)
     {
         return getAmmoSourceFromItem(stack) == WeaponAmmoSource.COMMON_ENERGY_UNIT;
     }
@@ -214,23 +216,21 @@ public abstract class WeaponItem extends Item implements LimaContainerItem, Lima
     }
 
     @Override
-    public void appendTooltipHintComponents(@Nullable Level level, ItemStack stack, TooltipCollector collector)
+    public void appendTooltipHintComponents(@Nullable Level level, ItemStack stack, TooltipLineConsumer consumer)
     {
-        collector.with(AMMO_LOADED_TOOLTIP.translateArgs(stack.getOrDefault(WEAPON_AMMO, 0), getAmmoCapacity(stack)).withStyle(LIME_GREEN.chatStyle()));
+        consumer.accept(AMMO_LOADED_TOOLTIP.translateArgs(stack.getOrDefault(WEAPON_AMMO, 0), getAmmoCapacity(stack)).withStyle(LIME_GREEN.chatStyle()));
 
         WeaponAmmoSource ammoSource = getAmmoSourceFromItem(stack);
         switch (ammoSource)
         {
-            case NORMAL -> collector.with(ammoSource.getItemTooltip().translateArgs(getAmmoItem(stack).getDescription()).withStyle(ChatFormatting.GRAY));
+            case NORMAL -> consumer.accept(ammoSource.getItemTooltip().translateArgs(getAmmoItem(stack).getDescription()).withStyle(ChatFormatting.GRAY));
             case COMMON_ENERGY_UNIT -> {
-                collector.with(ammoSource.getItemTooltip().translate().withStyle(REM_BLUE.chatStyle()));
-                collector.with(INLINE_ENERGY_STORED.translateArgs(formatEnergyWithSuffix(getEnergyStored(stack))).withStyle(REM_BLUE.chatStyle()));
-                collector.with(ENERGY_AMMO_COST_TOOLTIP.translateArgs(formatEnergyWithSuffix(getEnergyReloadCost(stack))).withStyle(REM_BLUE.chatStyle()));
+                consumer.accept(ammoSource.getItemTooltip().translate().withStyle(REM_BLUE.chatStyle()));
+                LimaTechTooltipUtil.appendSimpleEnergyTooltip(consumer, getEnergyStored(stack));
+                consumer.accept(ENERGY_AMMO_COST_TOOLTIP.translateArgs(formatEnergyWithSuffix(getEnergyReloadCost(stack))).withStyle(REM_BLUE.chatStyle()));
             }
-            case INFINITE -> collector.with(ammoSource.getItemTooltip().translate().withStyle(NIOBIUM_PURPLE.chatStyle()));
+            case INFINITE -> consumer.accept(ammoSource.getItemTooltip().translate().withStyle(NIOBIUM_PURPLE.chatStyle()));
         }
-
-        // TODO: Show upgrade icons with rank, maybe?
     }
 
     @Override

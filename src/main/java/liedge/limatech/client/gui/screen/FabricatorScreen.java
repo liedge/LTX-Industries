@@ -2,6 +2,7 @@ package liedge.limatech.client.gui.screen;
 
 import liedge.limacore.capability.energy.LimaEnergyUtil;
 import liedge.limacore.client.gui.LimaMenuScreen;
+import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.client.gui.UnmanagedSprite;
 import liedge.limacore.client.gui.VariableBarWidget;
 import liedge.limacore.registry.LimaCoreNetworkSerializers;
@@ -263,18 +264,16 @@ public class FabricatorScreen extends LimaMenuScreen<FabricatorMenu> implements 
         }
 
         @Override
-        public List<Component> getTooltipLines()
+        public boolean hasTooltip()
         {
-            float fill = fillPercent();
-            if (fill > 0)
-            {
-                int fillTooltip = (int) (fill * 100f);
-                return List.of(CRAFTING_PROGRESS_TOOLTIP.translateArgs(fillTooltip).withStyle(ChatFormatting.GRAY));
-            }
-            else
-            {
-                return List.of();
-            }
+            return fillPercent() > 0;
+        }
+
+        @Override
+        public void createWidgetTooltip(TooltipLineConsumer consumer)
+        {
+            int fill = (int) (fillPercent() * 100f);
+            consumer.accept(CRAFTING_PROGRESS_TOOLTIP.translateArgs(fill).withStyle(ChatFormatting.GRAY));
         }
     }
 }

@@ -27,9 +27,15 @@ public class GrinderBlockEntity extends SimpleRecipeMachineBlockEntity<LimaRecip
     }
 
     @Override
-    public int machineEnergyUse()
+    public int baseEnergyUsage()
     {
         return GRINDER_ENERGY_USAGE.getAsInt();
+    }
+
+    @Override
+    public int baseCraftingTime()
+    {
+        return GRINDER_CRAFTING_TIME.getAsInt();
     }
 
     @Override
@@ -60,11 +66,5 @@ public class GrinderBlockEntity extends SimpleRecipeMachineBlockEntity<LimaRecip
     public LimaMenuType<?, ?> getMenuType()
     {
         return LimaTechMenus.GRINDER.get();
-    }
-
-    @Override
-    public int getTotalProcessDuration()
-    {
-        return GRINDER_CRAFTING_TIME.getAsInt();
     }
 }

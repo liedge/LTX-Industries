@@ -1,5 +1,6 @@
 package liedge.limatech.item;
 
+import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.item.LimaCreativeTabFillerItem;
 import liedge.limatech.LimaTechTags;
 import liedge.limatech.client.LimaTechLang;
@@ -77,7 +78,7 @@ public class EquipmentUpgradeItem extends Item implements LimaCreativeTabFillerI
     }
 
     @Override
-    public void appendTooltipHintComponents(@Nullable Level level, ItemStack stack, TooltipCollector collector)
+    public void appendTooltipHintComponents(@Nullable Level level, ItemStack stack, TooltipLineConsumer consumer)
     {
         EquipmentUpgradeEntry data = EquipmentUpgradeEntry.getFromItem(stack);
         if (data != null)
@@ -88,13 +89,13 @@ public class EquipmentUpgradeItem extends Item implements LimaCreativeTabFillerI
 
             if (supportedItems instanceof HolderSet.Named<Item> named && named.key() == LimaTechTags.Items.LTX_WEAPONS)
             {
-                collector.with(LimaTechLang.UPGRADE_COMPATIBLE_ALL_WEAPONS.translate().withStyle(LIME_GREEN.chatStyle()));
+                consumer.accept(LimaTechLang.UPGRADE_COMPATIBLE_ALL_WEAPONS.translate().withStyle(LIME_GREEN.chatStyle()));
             }
             else
             {
-                collector.with(LimaTechLang.UPGRADE_COMPATIBLE_SPECIFIC_WEAPONS.translate().withStyle(LIME_GREEN.chatStyle()));
+                consumer.accept(LimaTechLang.UPGRADE_COMPATIBLE_SPECIFIC_WEAPONS.translate().withStyle(LIME_GREEN.chatStyle()));
                 List<ItemStack> stacks = upgrade.supportedItems().stream().map(holder -> holder.value().getDefaultInstance()).toList();
-                collector.with(new ItemGridTooltip(stacks, 6));
+                consumer.accept(new ItemGridTooltip(stacks, 6));
             }
         }
     }

@@ -60,7 +60,9 @@ class BlockStatesGen extends LimaBlockStateProvider
         GLOW_BLOCKS.forEach((color, deferredBlock) -> simpleBlockWithItem(deferredBlock, getBlockBuilder(deferredBlock).parent(glowBlockModel).texture("all", blockFolderLocation("glow_blocks/" + color.getSerializedName()))));
 
         // Energy storage array
-        simpleBlockWithItem(ENERGY_STORAGE_ARRAY, existingModel(blockFolderLocation(ENERGY_STORAGE_ARRAY)));
+        final ModelFile esaModel = existingModel(blockFolderLocation("energy_storage_array"));
+        simpleBlockWithItem(TIERED_ENERGY_STORAGE_ARRAY, esaModel);
+        simpleBlockWithItem(INFINITE_ENERGY_STORAGE_ARRAY, esaModel);
 
         // Simple machines
         basicMachine(DIGITAL_FURNACE);

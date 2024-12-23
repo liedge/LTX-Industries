@@ -2,8 +2,10 @@ package liedge.limatech.blockentity;
 
 import liedge.limacore.blockentity.IOAccess;
 import liedge.limacore.blockentity.LimaBlockEntityType;
+import liedge.limacore.capability.energy.LimaBlockEntityEnergyStorage;
 import liedge.limacore.capability.energy.LimaEnergyStorage;
 import liedge.limacore.capability.energy.LimaEnergyUtil;
+import liedge.limacore.capability.itemhandler.LimaBlockEntityItemHandler;
 import liedge.limacore.capability.itemhandler.LimaItemHandlerUtil;
 import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limacore.network.sync.AutomaticDataWatcher;
@@ -42,6 +44,8 @@ import static net.minecraft.world.level.block.state.properties.BlockStatePropert
 
 public class FabricatorBlockEntity extends MachineBlockEntity implements TimedProcessMachineBlockEntity, SidedMachineIOHolder
 {
+    private final LimaBlockEntityEnergyStorage machineEnergy;
+    private final LimaBlockEntityItemHandler machineItems;
     private final MutableRecipeReference<BaseFabricatingRecipe> currentRecipe = new MutableRecipeReference<>(LimaTechRecipeTypes.FABRICATING);
     private final MachineIOControl itemIOControl;
     private final Map<Direction, BlockCapabilityCache<IItemHandler, Direction>> itemConnections = new EnumMap<>(Direction.class);
@@ -54,10 +58,24 @@ public class FabricatorBlockEntity extends MachineBlockEntity implements TimedPr
 
     public FabricatorBlockEntity(LimaBlockEntityType<?> type, BlockPos pos, BlockState state)
     {
-        super(type, pos, state, LimaTechMachinesConfig.FABRICATOR_ENERGY_CAPACITY.getAsInt(), LimaTechMachinesConfig.FABRICATOR_ENERGY_IO_RATE.getAsInt(), 2);
+        super(type, pos, state);
+        this.machineEnergy = new LimaBlockEntityEnergyStorage(this, LimaTechMachinesConfig.FABRICATOR_ENERGY_CAPACITY.getAsInt(), LimaTechMachinesConfig.FABRICATOR_ENERGY_IO_RATE.getAsInt());
+        this.machineItems = new LimaBlockEntityItemHandler(this, 2);
 
         Direction front = state.getValue(HORIZONTAL_FACING);
         this.itemIOControl = new MachineIOControl(this, MachineInputType.ITEMS, IOAccess.ONLY_OUTPUT_AND_DISABLED, IOAccess.DISABLED, front, false, false);
+    }
+
+    @Override
+    public LimaBlockEntityEnergyStorage getEnergyStorage()
+    {
+        return machineEnergy;
+    }
+
+    @Override
+    public LimaBlockEntityItemHandler getItemHandler()
+    {
+        return machineItems;
     }
 
     public boolean isCrafting()

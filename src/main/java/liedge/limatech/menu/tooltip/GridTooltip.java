@@ -10,8 +10,5 @@ public interface GridTooltip<T> extends TooltipComponent
 
     int maxColumns();
 
-    default int maxRows()
-    {
-        return 3;
-    }
+    int maxRows();
 }

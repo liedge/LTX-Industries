@@ -11,7 +11,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "limatech:energy_storage_array"
+          "name": "limatech:infinite_energy_storage_array"
         }
       ],
       "functions": [
@@ -22,5 +22,5 @@
       "rolls": 1.0
     }
   ],
-  "random_sequence": "limatech:blocks/energy_storage_array"
+  "random_sequence": "limatech:blocks/infinite_energy_storage_array"
 }
