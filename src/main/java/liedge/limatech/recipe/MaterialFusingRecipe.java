@@ -2,18 +2,19 @@ package liedge.limatech.recipe;
 
 import liedge.limacore.recipe.LimaRecipeInput;
 import liedge.limacore.recipe.LimaRecipeType;
-import liedge.limacore.recipe.LimaSimpleRecipe;
+import liedge.limacore.recipe.LimaSimpleSizedIngredientRecipe;
 import liedge.limatech.registry.LimaTechRecipeSerializers;
 import liedge.limatech.registry.LimaTechRecipeTypes;
-import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.common.crafting.SizedIngredient;
 
-public class MaterialFusingRecipe extends LimaSimpleRecipe<LimaRecipeInput>
+import java.util.List;
+
+public class MaterialFusingRecipe extends LimaSimpleSizedIngredientRecipe<LimaRecipeInput>
 {
-    public MaterialFusingRecipe(NonNullList<Ingredient> ingredients, ItemStack result)
+    public MaterialFusingRecipe(List<SizedIngredient> ingredients, ItemStack result)
     {
         super(ingredients, result);
     }

@@ -1,9 +1,9 @@
 package liedge.limatech.util.datagen;
 
 import liedge.limacore.data.generation.LimaRecipeProvider;
-import liedge.limacore.data.generation.recipe.LimaCustomRecipeBuilder;
-import liedge.limacore.data.generation.recipe.LimaSimpleRecipeBuilder;
+import liedge.limacore.data.generation.recipe.LimaSizedIngredientListRecipeBuilder;
 import liedge.limacore.lib.ModResources;
+import liedge.limacore.util.LimaCoreUtil;
 import liedge.limatech.LimaTech;
 import liedge.limatech.LimaTechTags;
 import liedge.limatech.item.EquipmentUpgradeItem;
@@ -14,7 +14,6 @@ import liedge.limatech.upgradesystem.EquipmentUpgrade;
 import liedge.limatech.upgradesystem.EquipmentUpgradeEntry;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponentPredicate;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.data.PackOutput;
@@ -23,7 +22,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.alchemy.PotionContents;
@@ -78,7 +76,7 @@ class RecipesGen extends LimaRecipeProvider
         shaped(TIERED_ENERGY_STORAGE_ARRAY).input('t', TITANIUM_INGOT).input('c', GOLD_CIRCUIT).input('l', DYES_LIME).input('b', COPPER_BLOCK).patterns("tlt", "cbc", "tlt").save(output);
         shaped(DIGITAL_FURNACE).input('t', TITANIUM_INGOT).input('c', COPPER_CIRCUIT).input('l', DYES_LIME).input('a', FURNACE).patterns("tlt", "cac", "ttt").save(output);
         shaped(GRINDER).input('t', TITANIUM_INGOT).input('c', COPPER_CIRCUIT).input('l', DYES_LIME).input('a', GRINDSTONE).patterns("tlt", "cac", "ttt").save(output);
-        shaped(RECOMPOSER).input('t', TITANIUM_INGOT).input('c', GOLD_CIRCUIT).input('l', GLOW_BLOCKS.get(DyeColor.LIME)).patterns("ttt", "lcl", "tct").save(output);
+        shaped(RECOMPOSER).input('t', TITANIUM_INGOT).input('c', GOLD_CIRCUIT).input('r', LIGHTNING_ROD).input('g', GLASS).patterns("ttt", "rgr", "tct").save(output);
         shaped(MATERIAL_FUSING_CHAMBER).input('t', TITANIUM_INGOT).input('c', COPPER_CIRCUIT).input('l', DYES_LIME).input('a', BLAST_FURNACE).patterns("tlt", "cac", "ttt").save(output);
         shaped(FABRICATOR).input('t', TITANIUM_INGOT).input('c', GOLD_CIRCUIT).input('l', DYES_LIME).input('a', CRAFTER).patterns("tlt", "cac", "ttt").save(output);
         shaped(EQUIPMENT_MOD_TABLE).input('t', TITANIUM_INGOT).input('a', ANVIL).input('l', DYES_LIME).patterns("ttt",  "lal", "ttt").save(output);
@@ -292,9 +290,9 @@ class RecipesGen extends LimaRecipeProvider
         blasting(stackOf(resultItem, resultCount)).input(orePebble).xp(0.5f).save(output, "blast_" + name);
     }
 
-    private LimaSimpleRecipeBuilder<GrindingRecipe, ?> grinding(ItemStack result)
+    private LimaSizedIngredientListRecipeBuilder.SimpleBuilder<GrindingRecipe, ?> grinding(ItemStack result)
     {
-        return LimaSimpleRecipeBuilder.simpleBuilder(modResources, result, GrindingRecipe::new);
+        return LimaSizedIngredientListRecipeBuilder.simpleBuilder(modResources, result, GrindingRecipe::new);
     }
 
     private void orePebbleGrinding(ItemLike orePebble, TagKey<Item> oreTag, @Nullable TagKey<Item> rawOreTag, String name, RecipeOutput output)
@@ -303,14 +301,14 @@ class RecipesGen extends LimaRecipeProvider
         if (rawOreTag != null) grinding(stackOf(orePebble, 2)).input(rawOreTag).save(output, "grind_raw_" + name + "_materials");
     }
 
-    private LimaSimpleRecipeBuilder<RecomposingRecipe, ?> recomposing(ItemStack result)
+    private LimaSizedIngredientListRecipeBuilder.SimpleBuilder<RecomposingRecipe, ?> recomposing(ItemStack result)
     {
-        return LimaSimpleRecipeBuilder.simpleBuilder(modResources, result, RecomposingRecipe::new);
+        return LimaSizedIngredientListRecipeBuilder.simpleBuilder(modResources, result, RecomposingRecipe::new);
     }
 
-    private LimaSimpleRecipeBuilder<MaterialFusingRecipe, ?> fusing(ItemStack result)
+    private LimaSizedIngredientListRecipeBuilder.SimpleBuilder<MaterialFusingRecipe, ?> fusing(ItemStack result)
     {
-        return LimaSimpleRecipeBuilder.simpleBuilder(modResources, result, MaterialFusingRecipe::new);
+        return LimaSizedIngredientListRecipeBuilder.simpleBuilder(modResources, result, MaterialFusingRecipe::new);
     }
 
     private FabricatingBuilder fabricating(ItemLike result, int energyRequired)
@@ -352,7 +350,7 @@ class RecipesGen extends LimaRecipeProvider
         shaped(stackOf(tool)).input('t', TITANIUM_INGOT).input('s', Tags.Items.RODS_WOODEN).patterns(p1, p2, p3).save(output);
     }
 
-    private static class FabricatingBuilder extends LimaSimpleRecipeBuilder<FabricatingRecipe, FabricatingBuilder>
+    private static class FabricatingBuilder extends LimaSizedIngredientListRecipeBuilder.SimpleBuilder<FabricatingRecipe, FabricatingBuilder>
     {
         private final int energyRequired;
 
@@ -371,19 +369,17 @@ class RecipesGen extends LimaRecipeProvider
         @Override
         protected FabricatingRecipe buildRecipe()
         {
-            return new FabricatingRecipe(NonNullList.copyOf(ingredients), resultItem, energyRequired, getGroupOrBlank());
+            return new FabricatingRecipe(ingredients, resultItem, energyRequired, getGroupOrBlank());
         }
     }
 
-    private static class WeaponFabricatingBuilder extends LimaCustomRecipeBuilder<WeaponFabricatingRecipe, WeaponFabricatingBuilder>
+    private static class WeaponFabricatingBuilder extends LimaSizedIngredientListRecipeBuilder.SimpleBuilder<WeaponFabricatingRecipe, WeaponFabricatingBuilder>
     {
-        private final WeaponItem weaponItem;
         private final int energyRequired;
 
-        protected WeaponFabricatingBuilder(ModResources modResources, WeaponItem weaponItem, int energyRequired)
+        WeaponFabricatingBuilder(ModResources modResources, WeaponItem weaponItem, int energyRequired)
         {
-            super(modResources);
-            this.weaponItem = weaponItem;
+            super(modResources, new ItemStack(weaponItem));
             this.energyRequired = energyRequired;
         }
 
@@ -394,18 +390,15 @@ class RecipesGen extends LimaRecipeProvider
         }
 
         @Override
-        protected void validate(ResourceLocation id) { }
+        protected void validate(ResourceLocation id)
+        {
+            LimaCoreUtil.castOrThrow(WeaponItem.class, resultItem.getItem(), () -> new IllegalStateException("Weapon fabricating recipe result item stack must be of a weapon item."));
+        }
 
         @Override
         protected WeaponFabricatingRecipe buildRecipe()
         {
-            return new WeaponFabricatingRecipe(buildIngredients(), energyRequired, weaponItem);
-        }
-
-        @Override
-        protected String getDefaultRecipeName()
-        {
-            return getItemName(weaponItem);
+            return new WeaponFabricatingRecipe(ingredients, resultItem, energyRequired, getGroupOrBlank());
         }
     }
 }

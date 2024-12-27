@@ -4,17 +4,14 @@
   "group": "stealth_upgrades",
   "ingredients": [
     {
-      "type": "limacore:item_with_count",
       "count": 6,
       "item": "limatech:gold_circuit"
     },
     {
-      "type": "limacore:item_with_count",
       "count": 16,
       "item": "limatech:titanium_ingot"
     },
     {
-      "type": "limacore:item_with_count",
       "count": 8,
       "item": "minecraft:phantom_membrane"
     },
@@ -25,6 +22,7 @@
           "potion": "minecraft:invisibility"
         }
       },
+      "count": 1,
       "items": "minecraft:potion"
     }
   ],

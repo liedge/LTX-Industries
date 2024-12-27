@@ -16,8 +16,8 @@ import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.neoforged.neoforge.common.crafting.SizedIngredient;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -56,18 +56,16 @@ public class MaterialFusingJEICategory extends LimaJEICategory<MaterialFusingRec
     @Override
     protected void setRecipe(IRecipeLayoutBuilder builder, RecipeHolder<MaterialFusingRecipe> holder, MaterialFusingRecipe recipe, IFocusGroup focuses, RegistryAccess registries)
     {
-        List<Ingredient> ingredients = recipe.getIngredients();
-        for (int i = 0; i < ingredients.size(); i++)
+        List<SizedIngredient> recipeIngredients = recipe.getRecipeIngredients();
+        for (int i = 0; i < recipeIngredients.size(); i++)
         {
-            Ingredient ingredient = ingredients.get(i);
             switch (i)
             {
-                case 0 -> builder.addSlot(RecipeIngredientRole.INPUT, 2, 2).addIngredients(ingredient);
-                case 1 -> builder.addSlot(RecipeIngredientRole.INPUT, 20, 2).addIngredients(ingredient);
-                case 2 -> builder.addSlot(RecipeIngredientRole.INPUT, 11, 20).addIngredients(ingredient);
+                case 0 -> sizedIngredientsSlot(builder, recipe, i, 2, 2);
+                case 1 -> sizedIngredientsSlot(builder, recipe, i, 20, 2);
+                case 2 -> sizedIngredientsSlot(builder, recipe, i, 11, 20);
             }
         }
-
         builder.addSlot(RecipeIngredientRole.OUTPUT, 72, 11).addItemStack(recipe.getResultItem(registries));
     }
 }

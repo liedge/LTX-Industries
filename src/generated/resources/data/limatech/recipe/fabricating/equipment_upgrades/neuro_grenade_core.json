@@ -4,21 +4,19 @@
   "group": "grenade_cores",
   "ingredients": [
     {
-      "type": "limacore:item_with_count",
       "count": 16,
       "item": "limatech:gold_circuit"
     },
     {
-      "type": "limacore:item_with_count",
       "count": 16,
       "item": "limatech:niobium_circuit"
     },
     {
-      "type": "limacore:item_with_count",
       "count": 64,
       "item": "limatech:titanium_ingot"
     },
     {
+      "count": 1,
       "item": "minecraft:nether_star"
     },
     {
@@ -28,6 +26,7 @@
           "potion": "minecraft:long_weakness"
         }
       },
+      "count": 1,
       "items": "minecraft:potion"
     }
   ],

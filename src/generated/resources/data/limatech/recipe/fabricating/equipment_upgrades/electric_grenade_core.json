@@ -4,26 +4,23 @@
   "group": "grenade_cores",
   "ingredients": [
     {
-      "type": "limacore:item_with_count",
       "count": 8,
       "item": "limatech:copper_circuit"
     },
     {
-      "type": "limacore:item_with_count",
       "count": 8,
       "item": "limatech:gold_circuit"
     },
     {
-      "type": "limacore:item_with_count",
       "count": 8,
       "item": "limatech:titanium_ingot"
     },
     {
-      "type": "limacore:item_with_count",
       "count": 4,
       "item": "minecraft:lightning_rod"
     },
     {
+      "count": 1,
       "item": "minecraft:breeze_rod"
     }
   ],

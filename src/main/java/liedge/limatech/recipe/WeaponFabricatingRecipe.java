@@ -1,51 +1,45 @@
 package liedge.limatech.recipe;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
-import liedge.limacore.data.LimaCoreCodecs;
-import liedge.limacore.network.LimaStreamCodecs;
-import liedge.limacore.recipe.LimaCustomRecipe;
 import liedge.limacore.recipe.LimaRecipeInput;
+import liedge.limacore.util.LimaCoreUtil;
+import liedge.limacore.util.LimaRegistryUtil;
+import liedge.limatech.LimaTech;
 import liedge.limatech.item.weapon.WeaponItem;
 import liedge.limatech.registry.LimaTechRecipeSerializers;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.NonNullList;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
+import java.util.function.Function;
 
 public class WeaponFabricatingRecipe extends BaseFabricatingRecipe
 {
-    public static final MapCodec<WeaponFabricatingRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            LimaCoreCodecs.ingredientsMapCodec(1, 16).forGetter(LimaCustomRecipe::getIngredients),
-            ExtraCodecs.POSITIVE_INT.fieldOf("energy_required").forGetter(BaseFabricatingRecipe::getEnergyRequired),
-            WeaponItem.CODEC.fieldOf("weapon_item").forGetter(o -> o.weaponItem))
-            .apply(instance, WeaponFabricatingRecipe::new));
+    private static final Codec<ItemStack> RESULT_CODEC = ItemStack.CODEC.comapFlatMap(stack -> {
+        if (stack.getItem() instanceof WeaponItem)
+        {
+            return DataResult.success(stack);
+        }
+        else
+        {
+            return DataResult.error(() -> "Result item stack is a not a Weapon Item");
+        }
+    }, Function.identity());
 
-    public static final StreamCodec<RegistryFriendlyByteBuf, WeaponFabricatingRecipe> STREAM_CODEC = StreamCodec.composite(
-            LimaStreamCodecs.ingredientsStreamCodec(1, 16), LimaCustomRecipe::getIngredients,
-            LimaStreamCodecs.POSITIVE_VAR_INT, BaseFabricatingRecipe::getEnergyRequired,
-            WeaponItem.STREAM_CODEC, o -> o.weaponItem,
-            WeaponFabricatingRecipe::new);
+    public static final MapCodec<WeaponFabricatingRecipe> CODEC = createCodec(RESULT_CODEC, WeaponFabricatingRecipe::new);
+    public static final StreamCodec<RegistryFriendlyByteBuf, WeaponFabricatingRecipe> STREAM_CODEC = createStreamCodec(WeaponFabricatingRecipe::new);
 
-    private final WeaponItem weaponItem;
-    private final ItemStack previewItem;
-
-    public WeaponFabricatingRecipe(NonNullList<Ingredient> ingredients, int energyRequired, WeaponItem weaponItem)
+    public WeaponFabricatingRecipe(List<SizedIngredient> ingredients, ItemStack resultItem, int energyRequired, String group)
     {
-        super(ingredients, energyRequired);
-        this.weaponItem = weaponItem;
-        this.previewItem = weaponItem.getDefaultInstance();
-    }
-
-    @Override
-    public String getGroup()
-    {
-        return "weapons";
+        super(ingredients, resultItem, energyRequired, group);
     }
 
     @Override
@@ -57,12 +51,15 @@ public class WeaponFabricatingRecipe extends BaseFabricatingRecipe
     @Override
     public ItemStack assemble(@Nullable LimaRecipeInput input, HolderLookup.Provider registries)
     {
-        return weaponItem.getDefaultInstance(registries);
-    }
-
-    @Override
-    public ItemStack getResultItem(HolderLookup.@Nullable Provider registries)
-    {
-        return previewItem;
+        WeaponItem weaponItem = LimaCoreUtil.castOrNull(WeaponItem.class, getResultItem().getItem());
+        if (weaponItem != null)
+        {
+            return weaponItem.getDefaultInstance(registries);
+        }
+        else
+        {
+            LimaTech.LOGGER.warn("Recipe of serializer type '{}' has an invalid result item. This should not happen.", LimaRegistryUtil.getNonNullRegistryId(getSerializer(), BuiltInRegistries.RECIPE_SERIALIZER));
+            return ItemStack.EMPTY;
+        }
     }
 }

@@ -1,10 +1,13 @@
 package liedge.limatech.registry;
 
-import liedge.limacore.recipe.LimaCustomRecipe;
 import liedge.limacore.recipe.LimaRecipeType;
 import liedge.limatech.LimaTech;
-import liedge.limatech.recipe.*;
+import liedge.limatech.recipe.BaseFabricatingRecipe;
+import liedge.limatech.recipe.GrindingRecipe;
+import liedge.limatech.recipe.MaterialFusingRecipe;
+import liedge.limatech.recipe.RecomposingRecipe;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -26,7 +29,7 @@ public final class LimaTechRecipeTypes
     public static final DeferredHolder<RecipeType<?>, LimaRecipeType<MaterialFusingRecipe>> MATERIAL_FUSING = register("material_fusing");
     public static final DeferredHolder<RecipeType<?>, LimaRecipeType<BaseFabricatingRecipe>> FABRICATING = register("fabricating");
 
-    private static <R extends LimaCustomRecipe<?>> DeferredHolder<RecipeType<?>, LimaRecipeType<R>> register(String name)
+    private static <R extends Recipe<?>> DeferredHolder<RecipeType<?>, LimaRecipeType<R>> register(String name)
     {
         return TYPES.register(name, LimaRecipeType::create);
     }

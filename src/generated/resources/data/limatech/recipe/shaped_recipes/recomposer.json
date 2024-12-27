@@ -5,8 +5,11 @@
     "c": {
       "item": "limatech:gold_circuit"
     },
-    "l": {
-      "item": "limatech:lime_glow_block"
+    "g": {
+      "item": "minecraft:glass"
+    },
+    "r": {
+      "item": "minecraft:lightning_rod"
     },
     "t": {
       "item": "limatech:titanium_ingot"
@@ -14,7 +17,7 @@
   },
   "pattern": [
     "ttt",
-    "lcl",
+    "rgr",
     "tct"
   ],
   "result": {

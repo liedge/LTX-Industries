@@ -58,7 +58,7 @@ public abstract class SimpleRecipeMachineBlockEntity<I extends RecipeInput, R ex
     protected SimpleRecipeMachineBlockEntity(LimaBlockEntityType<?> type, BlockPos pos, BlockState state, int baseEnergyCapacity, int inventorySize)
     {
         super(type, pos, state);
-        this.machineEnergy = new LimaBlockEntityEnergyStorage(this, baseEnergyCapacity, baseEnergyCapacity / 16);
+        this.machineEnergy = new LimaBlockEntityEnergyStorage(this, baseEnergyCapacity, baseEnergyCapacity / 20);
         this.machineItems = new LimaBlockEntityItemHandler(this, inventorySize);
         this.baseEnergyCapacity = baseEnergyCapacity;
 
@@ -82,8 +82,8 @@ public abstract class SimpleRecipeMachineBlockEntity<I extends RecipeInput, R ex
     protected void applyMachineTier(MachineTier tier)
     {
         int newCapacity = baseEnergyCapacity + getTotalEnergyUsage() * 8;
-        getEnergyStorage().setMaxEnergyStored(newCapacity);
-        getEnergyStorage().setTransferRate(getTotalEnergyUsage() * 2);
+        machineEnergy.setMaxEnergyStored(newCapacity);
+        machineEnergy.setTransferRate(newCapacity / 20);
         LimaTech.LOGGER.debug("Applying machine tier {}", tier.getTierLevel());
     }
 

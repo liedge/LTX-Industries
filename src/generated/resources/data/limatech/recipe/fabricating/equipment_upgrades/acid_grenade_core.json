@@ -4,17 +4,14 @@
   "group": "grenade_cores",
   "ingredients": [
     {
-      "type": "limacore:item_with_count",
       "count": 16,
       "item": "limatech:gold_circuit"
     },
     {
-      "type": "limacore:item_with_count",
       "count": 4,
       "item": "limatech:niobium_circuit"
     },
     {
-      "type": "limacore:item_with_count",
       "count": 32,
       "item": "limatech:titanium_ingot"
     },
@@ -25,6 +22,7 @@
           "potion": "minecraft:strong_poison"
         }
       },
+      "count": 1,
       "items": "minecraft:potion"
     }
   ],

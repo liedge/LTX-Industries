@@ -2,6 +2,7 @@
   "type": "limatech:grinding",
   "ingredients": [
     {
+      "count": 1,
       "tag": "c:ores/niobium"
     }
   ],

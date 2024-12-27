@@ -1,16 +1,16 @@
 package liedge.limatech.client.gui;
 
-import liedge.limatech.menu.tooltip.GridTooltip;
+import liedge.limatech.menu.tooltip.FabricatorIngredientTooltip;
 import net.minecraft.Util;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
+import net.neoforged.neoforge.common.crafting.SizedIngredient;
 
-public final class ClientFabricatorIngredientTooltip extends ClientGridTooltip<Ingredient>
+public final class ClientFabricatorIngredientTooltip extends ClientGridTooltip<SizedIngredient>
 {
-    public ClientFabricatorIngredientTooltip(GridTooltip<Ingredient> tooltip)
+    public ClientFabricatorIngredientTooltip(FabricatorIngredientTooltip tooltip)
     {
         super(tooltip);
     }
@@ -22,7 +22,7 @@ public final class ClientFabricatorIngredientTooltip extends ClientGridTooltip<I
     }
 
     @Override
-    protected void renderGridElement(Ingredient element, Font font, int rx, int ry, GuiGraphics graphics)
+    protected void renderGridElement(SizedIngredient element, Font font, int rx, int ry, GuiGraphics graphics)
     {
         ItemStack[] items = element.getItems();
         int itemCount = items.length;

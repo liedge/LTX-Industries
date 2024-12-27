@@ -1,7 +1,7 @@
 package liedge.limatech.compat.jei;
 
 import liedge.limacore.recipe.LimaRecipeType;
-import liedge.limacore.recipe.LimaSimpleRecipe;
+import liedge.limacore.recipe.LimaSimpleSizedIngredientRecipe;
 import liedge.limatech.client.gui.screen.SingleItemRecipeScreen;
 import liedge.limatech.client.gui.widget.ScreenWidgetSprites;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
@@ -17,7 +17,7 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 
 import java.util.function.Supplier;
 
-public abstract class SingleItemRecipeJEICategory<R extends LimaSimpleRecipe<?>> extends LimaJEICategory<R>
+public abstract class SingleItemRecipeJEICategory<R extends LimaSimpleSizedIngredientRecipe<?>> extends LimaJEICategory<R>
 {
     private final IDrawableStatic progressBackground;
     private final IDrawableAnimated progressForeground;
@@ -39,7 +39,7 @@ public abstract class SingleItemRecipeJEICategory<R extends LimaSimpleRecipe<?>>
     @Override
     protected void setRecipe(IRecipeLayoutBuilder builder, RecipeHolder<R> holder, R recipe, IFocusGroup focuses, RegistryAccess registries)
     {
-        builder.addSlot(RecipeIngredientRole.INPUT, 3, 5).addIngredients(recipe.getIngredient(0));
+        sizedIngredientsSlot(builder, recipe, 0, 3, 5);
         builder.addSlot(RecipeIngredientRole.OUTPUT, 55, 5).addItemStack(recipe.getResultItem(registries));
     }
 }

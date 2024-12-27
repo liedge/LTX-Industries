@@ -1,22 +1,23 @@
 {
   "type": "limatech:weapon_fabricating",
   "energy_required": 1000000,
+  "group": "weapons",
   "ingredients": [
     {
-      "type": "limacore:item_with_count",
       "count": 32,
       "item": "limatech:titanium_ingot"
     },
     {
-      "type": "limacore:item_with_count",
       "count": 16,
       "item": "limatech:copper_circuit"
     },
     {
-      "type": "limacore:item_with_count",
       "count": 8,
       "item": "limatech:gold_circuit"
     }
   ],
-  "weapon_item": "limatech:shotgun"
+  "result": {
+    "count": 1,
+    "id": "limatech:shotgun"
+  }
 }

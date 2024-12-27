@@ -4,25 +4,22 @@
   "group": "looting_upgrades",
   "ingredients": [
     {
-      "type": "limacore:item_with_count",
       "count": 8,
       "item": "limatech:copper_circuit"
     },
     {
-      "type": "limacore:item_with_count",
       "count": 2,
       "item": "limatech:gold_circuit"
     },
     {
-      "type": "limacore:item_with_count",
       "count": 8,
       "item": "limatech:titanium_ingot"
     },
     {
+      "count": 1,
       "item": "minecraft:rabbit_foot"
     },
     {
-      "type": "limacore:item_with_count",
       "count": 8,
       "item": "minecraft:lapis_lazuli"
     }

@@ -2,6 +2,7 @@
   "type": "limatech:recomposing",
   "ingredients": [
     {
+      "count": 1,
       "item": "limatech:titanium_ingot"
     }
   ],

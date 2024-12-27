@@ -11,21 +11,19 @@
           "upgrade": "limatech:ammo_scavenger_enchantment"
         }
       },
+      "count": 1,
       "items": "limatech:equipment_upgrade",
       "strict": true
     },
     {
-      "type": "limacore:item_with_count",
       "count": 6,
       "item": "limatech:gold_circuit"
     },
     {
-      "type": "limacore:item_with_count",
       "count": 2,
       "item": "limatech:auto_ammo_canister"
     },
     {
-      "type": "limacore:item_with_count",
       "count": 16,
       "item": "limatech:titanium_ingot"
     }

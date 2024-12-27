@@ -11,24 +11,23 @@
           "upgrade": "limatech:looting_enchantment"
         }
       },
+      "count": 1,
       "items": "limatech:equipment_upgrade",
       "strict": true
     },
     {
-      "type": "limacore:item_with_count",
       "count": 4,
       "item": "limatech:niobium_circuit"
     },
     {
-      "type": "limacore:item_with_count",
       "count": 4,
       "item": "minecraft:emerald_block"
     },
     {
+      "count": 1,
       "item": "minecraft:nether_star"
     },
     {
-      "type": "limacore:item_with_count",
       "count": 16,
       "item": "minecraft:lapis_block"
     }

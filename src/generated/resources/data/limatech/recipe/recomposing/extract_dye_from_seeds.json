@@ -2,7 +2,6 @@
   "type": "limatech:recomposing",
   "ingredients": [
     {
-      "type": "limacore:tag_with_count",
       "count": 8,
       "tag": "c:seeds"
     }

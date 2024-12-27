@@ -22,8 +22,8 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.neoforged.neoforge.common.crafting.SizedIngredient;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -79,13 +79,12 @@ public class FabricatingJEICategory extends LimaJEICategory<BaseFabricatingRecip
     {
         builder.addSlot(RecipeIngredientRole.OUTPUT, 8, 58).addItemStack(recipe.getResultItem(null));
 
-        List<Ingredient> ingredients = recipe.getIngredients();
-        for (int i = 0; i < ingredients.size(); i++)
+        List<SizedIngredient> recipeIngredients = recipe.getRecipeIngredients();
+        for (int i = 0; i < recipeIngredients.size(); i++)
         {
-            Ingredient ingredient = ingredients.get(i);
             int x = 36 + (i % 4) * 18;
             int y = 6 + (i / 4) * 18;
-            builder.addSlot(RecipeIngredientRole.INPUT, x, y).addIngredients(ingredient);
+            sizedIngredientsSlot(builder, recipe, i, x, y);
         }
     }
 }

@@ -11,23 +11,24 @@
           "upgrade": "limatech:ammo_scavenger_enchantment"
         }
       },
+      "count": 1,
       "items": "limatech:equipment_upgrade",
       "strict": true
     },
     {
-      "type": "limacore:item_with_count",
       "count": 8,
       "item": "limatech:gold_circuit"
     },
     {
+      "count": 1,
       "item": "limatech:niobium_circuit"
     },
     {
-      "type": "limacore:item_with_count",
       "count": 4,
       "item": "limatech:auto_ammo_canister"
     },
     {
+      "count": 1,
       "item": "limatech:specialist_ammo_canister"
     }
   ],

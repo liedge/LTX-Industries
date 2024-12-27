@@ -1,25 +1,27 @@
 {
   "type": "limatech:weapon_fabricating",
   "energy_required": 30000000,
+  "group": "weapons",
   "ingredients": [
     {
+      "count": 1,
       "item": "limatech:explosives_weapon_tech_salvage"
     },
     {
-      "type": "limacore:item_with_count",
       "count": 48,
       "item": "limatech:titanium_ingot"
     },
     {
-      "type": "limacore:item_with_count",
       "count": 16,
       "item": "limatech:niobium_ingot"
     },
     {
-      "type": "limacore:item_with_count",
       "count": 16,
       "item": "limatech:gold_circuit"
     }
   ],
-  "weapon_item": "limatech:rocket_launcher"
+  "result": {
+    "count": 1,
+    "id": "limatech:rocket_launcher"
+  }
 }

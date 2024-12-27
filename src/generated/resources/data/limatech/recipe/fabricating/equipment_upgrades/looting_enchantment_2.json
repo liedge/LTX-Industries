@@ -11,26 +11,23 @@
           "upgrade": "limatech:looting_enchantment"
         }
       },
+      "count": 1,
       "items": "limatech:equipment_upgrade",
       "strict": true
     },
     {
-      "type": "limacore:item_with_count",
       "count": 4,
       "item": "limatech:gold_circuit"
     },
     {
-      "type": "limacore:item_with_count",
       "count": 4,
       "item": "minecraft:emerald"
     },
     {
-      "type": "limacore:item_with_count",
       "count": 4,
       "item": "minecraft:diamond"
     },
     {
-      "type": "limacore:item_with_count",
       "count": 32,
       "item": "minecraft:lapis_lazuli"
     }

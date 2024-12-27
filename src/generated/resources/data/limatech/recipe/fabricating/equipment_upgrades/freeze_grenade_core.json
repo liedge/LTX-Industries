@@ -4,17 +4,14 @@
   "group": "grenade_cores",
   "ingredients": [
     {
-      "type": "limacore:item_with_count",
       "count": 16,
       "item": "limatech:copper_circuit"
     },
     {
-      "type": "limacore:item_with_count",
       "count": 8,
       "item": "limatech:titanium_ingot"
     },
     {
-      "type": "limacore:item_with_count",
       "count": 16,
       "item": "minecraft:snow_block"
     },
@@ -25,6 +22,7 @@
           "potion": "minecraft:strong_slowness"
         }
       },
+      "count": 1,
       "items": "minecraft:potion"
     }
   ],

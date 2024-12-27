@@ -1,20 +1,20 @@
 package liedge.limatech.menu.tooltip;
 
-import net.minecraft.world.item.crafting.Ingredient;
+import net.neoforged.neoforge.common.crafting.SizedIngredient;
 
 import java.util.List;
 
-public final class FabricatorIngredientTooltip implements GridTooltip<Ingredient>
+public final class FabricatorIngredientTooltip implements GridTooltip<SizedIngredient>
 {
-    private final List<Ingredient> ingredients;
+    private final List<SizedIngredient> ingredients;
 
-    public FabricatorIngredientTooltip(List<Ingredient> ingredients)
+    public FabricatorIngredientTooltip(List<SizedIngredient> ingredients)
     {
         this.ingredients = ingredients;
     }
 
     @Override
-    public List<Ingredient> gridElements()
+    public List<SizedIngredient> gridElements()
     {
         return ingredients;
     }

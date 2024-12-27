@@ -11,34 +11,31 @@
           "upgrade": "limatech:looting_enchantment"
         }
       },
+      "count": 1,
       "items": "limatech:equipment_upgrade",
       "strict": true
     },
     {
-      "type": "limacore:item_with_count",
       "count": 8,
       "item": "limatech:niobium_circuit"
     },
     {
-      "type": "limacore:item_with_count",
       "count": 16,
       "item": "limatech:slate_alloy_ingot"
     },
     {
-      "type": "limacore:item_with_count",
       "count": 2,
       "item": "minecraft:echo_shard"
     },
     {
+      "count": 1,
       "item": "minecraft:dragon_head"
     },
     {
-      "type": "limacore:item_with_count",
       "count": 4,
       "item": "minecraft:nether_star"
     },
     {
-      "type": "limacore:item_with_count",
       "count": 64,
       "item": "minecraft:lapis_block"
     }
