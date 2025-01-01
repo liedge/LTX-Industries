@@ -30,7 +30,7 @@ import static liedge.limatech.LimaTechConstants.NIOBIUM_PURPLE;
 
 public class EquipmentModTableScreen extends LimaMenuScreen<EquipmentModTableMenu> implements ScrollableGUIElement
 {
-    private static final ResourceLocation TEXTURE = LimaTech.RESOURCES.textureLocation("gui", "equipment_mod_table");
+    private static final ResourceLocation TEXTURE = LimaTech.RESOURCES.textureLocation("gui", "item_upgrades");
     private static final UnmanagedSprite UPGRADE_ENTRY_NEUTRAL = new UnmanagedSprite(TEXTURE, 0, 200, 104, 20);
     private static final UnmanagedSprite UPGRADE_ENTRY_HOVERED = new UnmanagedSprite(TEXTURE, 0, 220, 104, 20);
 

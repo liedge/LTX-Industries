@@ -1,0 +1,14 @@
+{
+  "name": "Acid Rounds",
+  "sortnum": 1,
+  "category": "limatech:weapons_hanabi",
+  "icon": "limatech:textures/equipment_upgrade/acid_grenade_core.png",
+  "pages": [
+    "$(#39e622)$(l)Acid$() rounds douse targets with a highly corrosive chemical. As devastating as that sounds, the impact and explosion damage is actually quite weak. It also has the lowest blast radius of 5.0. The real strength of these rounds lies in the potion effect it applies.",
+    {
+      "type": "patchouli:text",
+      "title": "Corroding",
+      "text": "Acid grenades impart the Corroding III effect on targets, reducing their armor and armor toughness by 99.99% for the duration of the effect."
+    }
+  ]
+}

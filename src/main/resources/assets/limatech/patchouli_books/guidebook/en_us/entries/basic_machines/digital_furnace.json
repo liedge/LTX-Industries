@@ -1,0 +1,8 @@
+{
+  "name": "Digital Furnace",
+  "category": "limatech:basic_machines",
+  "icon": "limatech:digital_furnace",
+  "pages": [
+    "$(o)\"Turn the heat up!\"$()$(br2)The $(l)Digital Furnace$() smelts items using CE. Not very fast at the start but it's still recommended to make and operate one as you progress through the tech tree."
+  ]
+}

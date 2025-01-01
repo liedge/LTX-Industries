@@ -37,9 +37,9 @@ public class EquipmentModTableMenu extends LimaItemHandlerMenu<EquipmentModTable
     {
         super(type, containerId, inventory, menuContext);
 
-        addContextSlot(EQUIPMENT_ITEM_SLOT, 17, 85);
-        addSlot(new InsertSlot(UPGRADE_INPUT_SLOT, 15, 51));
-        addContextSlot(UPGRADE_OUTPUT_SLOT, 33, 51, false);
+        addContextSlot(EQUIPMENT_ITEM_SLOT, 24, 51);
+        addSlot(new InsertSlot(UPGRADE_INPUT_SLOT, 15, 87));
+        addContextSlot(UPGRADE_OUTPUT_SLOT, 33, 87, false);
 
         addPlayerInventory(15, 118);
         addPlayerHotbar(15, 176);

@@ -146,6 +146,7 @@ dependencies {
     // Example mod dependency using a file as dependency
     // implementation files("libs/coolmod-${mc_version}-${coolmod_version}.jar")
 
+    // LimaCore
     implementation("liedge:limacore-${minecraft_version}:${limacore_version}")
 
     // compile against the JEI API but do not include it at runtime
@@ -153,6 +154,10 @@ dependencies {
     compileOnly("mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}")
     // at runtime, use the full JEI jar for NeoForge
     runtimeOnly("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
+
+    // Patchouli
+    compileOnly("vazkii.patchouli:Patchouli:${patchouli_version}:api")
+    runtimeOnly("vazkii.patchouli:Patchouli:${patchouli_version}")
 
     // Example project dependency using a sister or child project:
     // implementation project(":myproject")

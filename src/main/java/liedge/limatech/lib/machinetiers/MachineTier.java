@@ -12,6 +12,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
+@Deprecated(forRemoval = true)
 public enum MachineTier implements OrderedEnum<MachineTier>
 {
     TIER_1(1),

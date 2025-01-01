@@ -43,6 +43,7 @@ final class LimaTechDatagen
         generator.addProvider(runServer, new DamageTagsGen(output, patchedRegistries, helper));
         generator.addProvider(runServer, new EntityTagsGen(output, patchedRegistries, helper));
         generator.addProvider(runServer, new GameEventsTagsGen(output, patchedRegistries, helper));
+        generator.addProvider(runServer, new BlockEntityTagsGen(output, patchedRegistries, helper));
         generator.addProvider(runServer, new LootTablesGen(output, patchedRegistries));
         generator.addProvider(runServer, new LootModifiersGen(output, patchedRegistries));
         generator.addProvider(runServer, new RecipesGen(output, patchedRegistries));

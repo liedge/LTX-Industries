@@ -14,7 +14,7 @@ public record EquipmentUpgradeEntry(Holder<EquipmentUpgrade> upgrade, int upgrad
 {
     public static final Codec<EquipmentUpgradeEntry> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             EquipmentUpgrade.CODEC.fieldOf("upgrade").forGetter(EquipmentUpgradeEntry::upgrade),
-            EquipmentUpgrade.UPGRADE_RANK_CODEC.fieldOf("rank").forGetter(EquipmentUpgradeEntry::upgradeRank))
+            EquipmentUpgrade.UPGRADE_RANK_CODEC.optionalFieldOf("rank", 1).forGetter(EquipmentUpgradeEntry::upgradeRank))
             .apply(instance, EquipmentUpgradeEntry::new));
     public static final StreamCodec<RegistryFriendlyByteBuf, EquipmentUpgradeEntry> STREAM_CODEC = StreamCodec.composite(
             EquipmentUpgrade.STREAM_CODEC, EquipmentUpgradeEntry::upgrade,
@@ -23,7 +23,7 @@ public record EquipmentUpgradeEntry(Holder<EquipmentUpgrade> upgrade, int upgrad
 
     public static @Nullable EquipmentUpgradeEntry getFromItem(ItemStack stack)
     {
-        return stack.get(LimaTechDataComponents.UPGRADE_ITEM_DATA);
+        return stack.get(LimaTechDataComponents.ITEM_UPGRADE_ENTRY);
     }
 
     @Override

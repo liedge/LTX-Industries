@@ -37,7 +37,7 @@ public class EquipmentUpgradeItem extends Item implements LimaCreativeTabFillerI
     {
         ItemStack stack = new ItemStack(LimaTechItems.EQUIPMENT_UPGRADE_ITEM.asItem());
         Holder<EquipmentUpgrade> holder = registries.holderOrThrow(upgradeKey);
-        stack.set(LimaTechDataComponents.UPGRADE_ITEM_DATA, new EquipmentUpgradeEntry(holder, upgradeRank));
+        stack.set(LimaTechDataComponents.ITEM_UPGRADE_ENTRY, new EquipmentUpgradeEntry(holder, upgradeRank));
         return stack;
     }
 
@@ -116,7 +116,7 @@ public class EquipmentUpgradeItem extends Item implements LimaCreativeTabFillerI
                     .flatMap(holder -> IntStream.rangeClosed(1, holder.value().maxRank()).mapToObj(rank -> new EquipmentUpgradeEntry(holder, rank)))
                     .forEach(entry -> {
                         ItemStack stack = new ItemStack(this);
-                        stack.set(LimaTechDataComponents.UPGRADE_ITEM_DATA, entry);
+                        stack.set(LimaTechDataComponents.ITEM_UPGRADE_ENTRY, entry);
                         output.accept(stack, tabVisibility);
                     });
         }

@@ -31,7 +31,7 @@ public final class LimaTechDataComponents
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<ItemEquipmentUpgrades>> EQUIPMENT_UPGRADES = DATA_COMPONENT_TYPES.register("upgrades",
             () -> DataComponentType.<ItemEquipmentUpgrades>builder().persistent(ItemEquipmentUpgrades.CODEC).networkSynchronized(ItemEquipmentUpgrades.STREAM_CODEC).build());
 
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<EquipmentUpgradeEntry>> UPGRADE_ITEM_DATA = DATA_COMPONENT_TYPES.register("upgrade_data",
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<EquipmentUpgradeEntry>> ITEM_UPGRADE_ENTRY = DATA_COMPONENT_TYPES.register("upgrade_entry",
             () -> DataComponentType.<EquipmentUpgradeEntry>builder().persistent(EquipmentUpgradeEntry.CODEC).networkSynchronized(EquipmentUpgradeEntry.STREAM_CODEC).build());
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> WEAPON_AMMO = DATA_COMPONENT_TYPES.register("weapon_ammo",

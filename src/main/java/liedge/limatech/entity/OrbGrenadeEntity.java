@@ -35,8 +35,6 @@ import static liedge.limatech.util.config.LimaTechWeaponsConfig.*;
 
 public class OrbGrenadeEntity extends LimaTechProjectile implements IEntityWithComplexSpawn
 {
-    public static final double FLAME_BLAST_RADIUS = 9d;
-
     private GrenadeType grenadeType = GrenadeType.EXPLOSIVE;
     private ItemEquipmentUpgrades upgrades = ItemEquipmentUpgrades.EMPTY;
     private float spin0;
@@ -74,7 +72,7 @@ public class OrbGrenadeEntity extends LimaTechProjectile implements IEntityWithC
         return switch (getGrenadeType())
         {
             case EXPLOSIVE -> 10d;
-            case FLAME -> FLAME_BLAST_RADIUS;
+            case FLAME -> 9d;
             case FREEZE -> 11d;
             case ELECTRIC -> checkGrenadeInRainOrWater() ? 16d : 8d;
             case ACID, NEURO -> 5d;

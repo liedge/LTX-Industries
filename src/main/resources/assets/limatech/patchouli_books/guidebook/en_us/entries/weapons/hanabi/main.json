@@ -1,0 +1,8 @@
+{
+  "name": "Hanabi",
+  "category": "limatech:weapons_hanabi",
+  "icon": "limatech:grenade_launcher",
+  "pages": [
+    "The $(l)LTX-33/GL $(o)Hanabi$() orb grenade launcher is one of the best additions to your arsenal. Upgradeable to switch between multiple types of rounds. To switch round types (if applicable), hold shift and cycle your mouse wheel up or down."
+  ]
+}

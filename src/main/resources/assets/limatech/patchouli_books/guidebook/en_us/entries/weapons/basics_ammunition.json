@@ -1,0 +1,10 @@
+{
+  "name": "Basics: Ammunition",
+  "category": "limatech:weapons",
+  "icon": "limatech:textures/equipment_upgrade/energy_ammo.png",
+  "pages": [
+    "Weapons have 3 ammunition sources: $(li)Ammo Canisters (Normal)$(li)Common Energy$(li)Infinite Ammo$(br2)By default weapons consume an ammo canister item, you can check which one it uses by holding $(l)Shift$() over the weapon item. Ammo in the magazine is $(o)lost$() when reloading, so avoid unnecessary reloads.",
+    "The Common Energy ammo source enables the weapon to receive and hold CE, and to reload with a certain amount of CE instead of an ammo canister. Again, hold $(l)Shift$() over the weapon item to check it's CE capacity and reload CE cost. Note: Weapons with CE ammo source can't use ammo canister items anymore.",
+    "Infinite ammo is self-explanatory. The weapon will always fire and won't consume ammo from the magazine. You can also reload instantly, though it might be a bit redundant."
+  ]
+}

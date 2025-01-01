@@ -338,7 +338,7 @@ class RecipesGen extends LimaRecipeProvider
         if (upgradeRank > 1)
         {
             Holder<EquipmentUpgrade> upgradeHolder = registries.holderOrThrow(upgradeKey);
-            Ingredient previousRankUpgrade = DataComponentIngredient.of(true, LimaTechDataComponents.UPGRADE_ITEM_DATA, new EquipmentUpgradeEntry(upgradeHolder, upgradeRank - 1), EQUIPMENT_UPGRADE_ITEM);
+            Ingredient previousRankUpgrade = DataComponentIngredient.of(true, LimaTechDataComponents.ITEM_UPGRADE_ENTRY, new EquipmentUpgradeEntry(upgradeHolder, upgradeRank - 1), EQUIPMENT_UPGRADE_ITEM);
             builder.input(previousRankUpgrade);
         }
 

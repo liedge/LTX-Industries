@@ -6,7 +6,7 @@
     {
       "type": "neoforge:components",
       "components": {
-        "limatech:upgrade_data": {
+        "limatech:upgrade_entry": {
           "rank": 2,
           "upgrade": "limatech:looting_enchantment"
         }
@@ -38,7 +38,7 @@
   ],
   "result": {
     "components": {
-      "limatech:upgrade_data": {
+      "limatech:upgrade_entry": {
         "rank": 3,
         "upgrade": "limatech:looting_enchantment"
       }

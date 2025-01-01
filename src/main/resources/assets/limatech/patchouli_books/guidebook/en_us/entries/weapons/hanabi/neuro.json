@@ -1,0 +1,14 @@
+{
+  "name": "Neuro Rounds",
+  "sortnum": 1,
+  "category": "limatech:weapons_hanabi",
+  "icon": "limatech:textures/equipment_upgrade/neuro_grenade_core.png",
+  "pages": [
+    "$(#0590fa)$(l)Neuro$() rounds' specialty is weakening target attack strength. Lowest blast radius of 5.0 and lowest blast damage, but applies the powerful Neuro-Suppressed potion effect.",
+    {
+      "type": "patchouli:text",
+      "title": "Neuro-Suppressed",
+      "text": "Neuro grenades impart the Neuro-Suppressed III effect on targets. All damage sources traceable back to that target are reduced by $(l)99.99%$()."
+    }
+  ]
+}

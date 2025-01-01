@@ -262,6 +262,10 @@ class LanguageGen extends LimaLanguageProvider
         //#region Advancements
         //#endregion
 
+        // Patchouli compatibility
+        add("item.limatech.guidebook", "LimaTech Guidebook");
+        add("limatech.guidebook.landing_text", "Welcome to LimaTech! This guidebook contains hints, info, and instructions on the basic mechanics of the mod.");
+
         // Key mapping
         add(LimaTechKeyMappings.CATEGORY_LIMATECH, "LimaTech");
         add(LimaTechKeyMappings.RELOAD_KEY_SUBTITLE, "Reload Weapon");

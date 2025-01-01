@@ -1,0 +1,8 @@
+{
+  "name": "Grinder",
+  "category": "limatech:basic_machines",
+  "icon": "limatech:grinder",
+  "pages": [
+    "$(o)\"The grind never ends...\"$()$(br2)The $(l)Grinder$() serves 2 important purposes: to create useful dusts and powders from items and to process ores into ore pebbles. You will need at least 1 of these, but 2+ are recommended for ore processing and material production."
+  ]
+}

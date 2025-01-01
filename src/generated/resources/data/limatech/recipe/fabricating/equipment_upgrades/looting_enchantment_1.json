@@ -26,8 +26,7 @@
   ],
   "result": {
     "components": {
-      "limatech:upgrade_data": {
-        "rank": 1,
+      "limatech:upgrade_entry": {
         "upgrade": "limatech:looting_enchantment"
       }
     },

@@ -1,0 +1,13 @@
+{
+  "name": "Common Energy",
+  "category": "limatech:getting_started",
+  "icon": "limatech:infinite_energy_storage_array",
+  "pages": [
+    "Common Energy (shortened to CE) is LimaTech's name for the default Energy API used by many other mods. You might be familiar with it as Forge Energy, FE, RF, Redstone Flux, etc.",
+    {
+      "type": "patchouli:text",
+      "title": "Color coded energy",
+      "text": "$(l)$(#8bd1f0)This tone of light blue$() appears on GUIs, tooltips, item/block models, and other things that store, use, or are otherwise relevant to Common Energy."
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "name": "Freeze Rounds",
+  "sortnum": 1,
+  "category": "limatech:weapons_hanabi",
+  "icon": "limatech:textures/equipment_upgrade/freeze_grenade_core.png",
+  "pages": [
+    ""
+  ]
+}
