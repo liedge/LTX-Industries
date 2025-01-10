@@ -2,7 +2,7 @@
   "name": "Electric Rounds",
   "sortnum": 1,
   "category": "limatech:weapons_hanabi",
-  "icon": "limatech:textures/equipment_upgrade/electric_grenade_core.png",
+  "icon": "limatech:textures/upgrade_icon/electric_grenade_core.png",
   "pages": [
     ""
   ]

@@ -1,0 +1,9 @@
+{
+  "sources": [
+    {
+      "type": "directory",
+      "source": "upgrade_icon",
+      "prefix": ""
+    }
+  ]
+}

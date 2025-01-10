@@ -8,8 +8,6 @@ public final class LimaTechMachinesConfig
 
     public static final ModConfigSpec.IntValue ESA_BASE_ENERGY_CAPACITY;
     public static final ModConfigSpec.IntValue ESA_BASE_TRANSFER_RATE;
-    public static final ModConfigSpec.IntValue ESA_PER_TIER_CAPACITY_MULTIPLIER;
-    public static final ModConfigSpec.IntValue ESA_PER_TIER_TRANSFER_MULTIPLIER;
 
     public static final ModConfigSpec.IntValue DIGITAL_FURNACE_ENERGY_CAPACITY;
     public static final ModConfigSpec.IntValue DIGITAL_FURNACE_ENERGY_USAGE;
@@ -41,11 +39,9 @@ public final class LimaTechMachinesConfig
         // Energy Storage Array (ESA)
         builder.push("energy_storage_array");
         ESA_BASE_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Energy Storage Array")
-                        .defineInRange("energy_capacity", 2_000_000, 1, Integer.MAX_VALUE);
-        ESA_PER_TIER_CAPACITY_MULTIPLIER = builder.defineInRange("per_tier_capacity_multiplier", 2, 2, 16);
+                        .defineInRange("energy_capacity", 1_000_000, 1, Integer.MAX_VALUE);
         ESA_BASE_TRANSFER_RATE = builder.comment("Base transfer rate (per tick) of the Energy Storage Array")
-                        .defineInRange("transfer_rate", 2048, 1, Integer.MAX_VALUE);
-        ESA_PER_TIER_TRANSFER_MULTIPLIER = builder.defineInRange("per_tier_transfer_multiplier", 4, 2, 16);
+                        .defineInRange("transfer_rate", 10_000, 1, Integer.MAX_VALUE);
         builder.pop();
 
         // Digital Furnace

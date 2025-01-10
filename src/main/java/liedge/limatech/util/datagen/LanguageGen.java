@@ -2,18 +2,22 @@ package liedge.limatech.util.datagen;
 
 import liedge.limacore.data.generation.LimaLanguageProvider;
 import liedge.limatech.LimaTech;
+import liedge.limatech.LimaTechTags;
 import liedge.limatech.blockentity.io.MachineInputType;
 import liedge.limatech.client.LimaTechKeyMappings;
+import liedge.limatech.client.LimaTechLang;
 import liedge.limatech.item.SimpleHintItem;
 import liedge.limatech.item.TooltipShiftHintItem;
 import liedge.limatech.item.weapon.GrenadeLauncherWeaponItem;
 import liedge.limatech.item.weapon.WeaponItem;
+import liedge.limatech.lib.upgradesystem.equipment.EquipmentUpgrade;
+import liedge.limatech.lib.upgradesystem.machine.MachineUpgrade;
 import liedge.limatech.lib.weapons.GrenadeType;
 import liedge.limatech.lib.weapons.WeaponAmmoSource;
 import liedge.limatech.registry.*;
-import liedge.limatech.upgradesystem.EquipmentUpgrade;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageType;
 import net.neoforged.neoforge.registries.DeferredItem;
 
@@ -21,8 +25,7 @@ import java.util.function.Supplier;
 
 import static liedge.limatech.client.LimaTechLang.*;
 import static liedge.limatech.registry.LimaTechBlocks.*;
-import static liedge.limatech.registry.LimaTechCreativeTabs.MAIN_TAB;
-import static liedge.limatech.registry.LimaTechCreativeTabs.WEAPON_MODS_TAB;
+import static liedge.limatech.registry.LimaTechCreativeTabs.*;
 import static liedge.limatech.registry.LimaTechItems.*;
 import static liedge.limatech.registry.LimaTechRecipeTypes.*;
 import static liedge.limatech.registry.LimaTechSounds.*;
@@ -52,14 +55,14 @@ class LanguageGen extends LimaLanguageProvider
 
         GLOW_BLOCKS.forEach((color, deferredBlock) -> addBlock(deferredBlock, localizeSimpleName(color) + " Glow Block"));
 
-        addBlock(TIERED_ENERGY_STORAGE_ARRAY, "Energy Storage Array");
-        addBlock(INFINITE_ENERGY_STORAGE_ARRAY, "Energy Storage Array");
+        addBlock(ENERGY_STORAGE_ARRAY, "Energy Storage Array");
+        addBlock(INFINITE_ENERGY_STORAGE_ARRAY, "Energy Storage Array (∞)");
         addBlock(DIGITAL_FURNACE, "Digital Furnace");
         addBlock(GRINDER, "Grinder");
         addBlock(RECOMPOSER, "Recomposer");
         addBlock(MATERIAL_FUSING_CHAMBER, "Material Fusing Chamber");
         addBlock(FABRICATOR, "Fabricator");
-        addBlock(EQUIPMENT_MOD_TABLE, "Equipment Mod Table");
+        addBlock(EQUIPMENT_UPGRADE_STATION, "Equipment Upgrade Station");
 
         addBlock(ROCKET_TURRET, "Anti-Air Rocket Turret");
         //#endregion
@@ -101,8 +104,8 @@ class LanguageGen extends LimaLanguageProvider
         addItem(NETHERITE_ORE_PEBBLES, "Netherite Scrap Ore Pebbles");
         addItem(TITANIUM_ORE_PEBBLES, "Titanium Ore Pebbles");
         addItem(NIOBIUM_ORE_PEBBLES, "Niobium Ore Pebbles");
-
         addItem(MACHINE_WRENCH, "Machine Wrench");
+        addItem(EMPTY_UPGRADE_MODULE, "Empty Upgrade Module");
 
         simpleHintItem(EXPLOSIVES_WEAPON_TECH_SALVAGE, "Salvaged Tech: Explosive Weapon Systems", "Broken components from an explosives handling device. Might be useful in reconstructing explosive weaponry.");
         simpleHintItem(TARGETING_TECH_SALVAGE, "Salvaged Tech: Auto-Targeting Systems", "Broken electronics from a targeting computer. Might be useful in reconstructing guidance systems for weaponry.");
@@ -113,19 +116,15 @@ class LanguageGen extends LimaLanguageProvider
         addWeaponItem(ROCKET_LAUNCHER, "Daybreak", "LTX-42/RL %s");
         addWeaponItem(MAGNUM, "Nova", "LTX-77/HX %s");
 
-        addItem(EQUIPMENT_UPGRADE_ITEM, "Equipment Upgrade Module");
-        add(EQUIPMENT_UPGRADE_ITEM_CUSTOM_NAME, "Equipment Upgrade: %s");
-        add(INVALID_EQUIPMENT_UPGRADE_ITEM, "Corrupted Equipment Upgrade");
-
         simpleHintItem(AUTO_AMMO_CANISTER, "Automatics Ammo Canister", "Stabilized energy suitable for use in low-power high frequency projectile synthesis.");
         simpleHintItem(SPECIALIST_AMMO_CANISTER, "Specialist Ammo Canister", "Concentrated energy suitable for use in medium-power projectile synthesis.");
         simpleHintItem(EXPLOSIVES_AMMO_CANISTER, "Explosives Ammo Canister", "Volatile energy suitable for use in explosive weaponry.");
         simpleHintItem(MAGNUM_AMMO_CANISTER, "Magnum Ammo Canister", "Highly concentrated, compact energy capable of handling the energy spikes of the Nova magnum.");
         //#endregion
 
-        // Weapon upgrade types
+        //#region Equipment upgrades
         equipmentUpgrade(LimaTechEquipmentUpgrades.SMG_BUILT_IN, "Serenity Intrinsics", "Serenity's small light-frags zip right through targets without a trace.");
-        equipmentUpgrade(LimaTechEquipmentUpgrades.SHOTGUN_BUILT_IN, "Aurora Intrinsics", "When in main hand, move 25% faster and step 1 block higher. Additionally, light-frags pierce 15% of armor.");
+        equipmentUpgrade(LimaTechEquipmentUpgrades.SHOTGUN_BUILT_IN, "Aurora Intrinsics", "Aurora's combat precepts, specialized in fast assault and scout operations.");
         equipmentUpgrade(LimaTechEquipmentUpgrades.HIGH_IMPACT_ROUNDS, "High Impact Rounds", "Light-frags with a punch! Send targets flying back regardless of their knockback resistances.");
         equipmentUpgrade(LimaTechEquipmentUpgrades.MAGNUM_SCALING_ROUNDS, "Stellar Reality Disruptor", "Adds 20% of the target's max health as bonus damage to the Nova's lightfrags. Also ignores armor.");
 
@@ -136,9 +135,9 @@ class LanguageGen extends LimaLanguageProvider
         equipmentUpgrade(LimaTechEquipmentUpgrades.UNIVERSAL_ARMOR_PIERCE, "Armor-Piercing Rounds", "Weapon ignores 10% of armor per upgrade rank.");
         equipmentUpgrade(LimaTechEquipmentUpgrades.UNIVERSAL_SHIELD_REGEN, "Shield Siphon", "Restores 4 points of bubble shield per kill, for a maximum of the upgrade rank times 10.");
 
-        equipmentUpgrade(LimaTechEquipmentUpgrades.LOOTING_ENCHANTMENT, "Loot Drop Booster", "Provides 'Looting' enchantment levels equal to the rank of the upgrade.");
-        equipmentUpgrade(LimaTechEquipmentUpgrades.AMMO_SCAVENGER_ENCHANTMENT, "Ammo Scavenger", "Increases the chance to find rarer weapon ammo types based on the upgrade rank.");
-        equipmentUpgrade(LimaTechEquipmentUpgrades.RAZOR_ENCHANTMENT, "Razor Lightfrags", "Increases mob head drops proportional to the upgrade rank.");
+        equipmentUpgrade(LimaTechEquipmentUpgrades.LOOTING_ENCHANTMENT, "Loot Booster", "Earn more loot drops from defeated enemies, affected by rank.");
+        equipmentUpgrade(LimaTechEquipmentUpgrades.AMMO_SCAVENGER_ENCHANTMENT, "Ammunition Finder", "Increases the chance to find rarer weapon ammo types.");
+        equipmentUpgrade(LimaTechEquipmentUpgrades.RAZOR_ENCHANTMENT, "Razor Edge", "Defeated enemies can drop their heads, affected by rank.");
 
         equipmentUpgrade(LimaTechEquipmentUpgrades.GRENADE_LAUNCHER_PROJECTILE_SPEED, "Hanabi Launch Boost", "Increases the velocity of the Hanabi grenades.");
 
@@ -148,19 +147,26 @@ class LanguageGen extends LimaLanguageProvider
         equipmentUpgrade(LimaTechEquipmentUpgrades.ACID_GRENADE_CORE, "Hanabi Core/Acid", "Grenades contain a highly corrosive acid that reduces target armor strength.");
         equipmentUpgrade(LimaTechEquipmentUpgrades.NEURO_GRENADE_CORE, "Hanabi Core/Neuro", "Grenades contain a powerful neuro-suppressant agent that highly reduces target attack strength.");
         equipmentUpgrade(LimaTechEquipmentUpgrades.OMNI_GRENADE_CORE, "Hanabi Core/ARCOIRIS", "Full spectrum adaptable core for the Hanabi. Allows the use of any of grenade types.");
+        //#endregion
+
+        //#region Machine upgrades
+        machineUpgrade(LimaTechMachineUpgrades.ESA_CAPACITY_UPGRADE, "Auxiliary Energy Cells", "Increases the energy capacity and transfer rate of the Energy Storage Array.");
+        //#endregion
 
         // Creative tabs
         creativeTab(MAIN_TAB, "LimaTech");
-        creativeTab(WEAPON_MODS_TAB, "LimaTech: Weapon Mods");
+        creativeTab(EQUIPMENT_MODULES_TAB, "LimaTech: Equipment Upgrades");
+        creativeTab(MACHINE_MODULES_TAB, "LimaTech: Machine Upgrades");
 
         //#region Menu titles
+        add(LimaTechMenus.MACHINE_UPGRADES, "Machine Upgrades");
         add(LimaTechMenus.ENERGY_STORAGE_ARRAY, "Energy Storage Array");
         add(LimaTechMenus.DIGITAL_FURNACE, "Digital Furnace");
         add(LimaTechMenus.GRINDER, "Grinder");
         add(LimaTechMenus.RECOMPOSER, "Recomposer");
         add(LimaTechMenus.MATERIAL_FUSING_CHAMBER, "Material Fusing Chamber");
         add(LimaTechMenus.FABRICATOR, "Fabricator");
-        add(LimaTechMenus.EQUIPMENT_MOD_TABLE, "Equipment Mod Table");
+        add(LimaTechMenus.EQUIPMENT_UPGRADE_STATION, "Equipment Upgrade Station");
         //#endregion
 
         // Machine input types
@@ -190,10 +196,10 @@ class LanguageGen extends LimaLanguageProvider
         enchantment(LimaTechEnchantments.AMMO_SCAVENGER, "Ammo Scavenger");
 
         //#region Tooltips
-        add(MACHINE_TIER_TOOLTIP, "Tier %s");
         add(INLINE_ENERGY_STORED, "Energy: %s");
         add(INLINE_ENERGY_CAPACITY, "Capacity: %s");
         add(INLINE_ENERGY_TRANSFER_RATE, "I/O: %s/t");
+        add(ENERGY_OVERCHARGE_TOOLTIP, "Energy Overcharged! Your energy stored is more than your current capacity.");
 
         add(TOP_IO_LABEL, "Top (%s)");
         add(BOTTOM_IO_LABEL, "Bottom (%s)");
@@ -212,10 +218,33 @@ class LanguageGen extends LimaLanguageProvider
         add(FABRICATOR_CLICK_TO_CRAFT_TOOLTIP, "Click again to craft");
         add(FABRICATOR_ENERGY_REQUIRED_TOOLTIP, "Energy required: %s");
         add(CRAFTING_PROGRESS_TOOLTIP, "Crafting: %s%%");
-        add(EQUIPMENT_UPGRADE_RANK, "Rank %s");
-        add(UPGRADE_REMOVE_HINT, "Shift + left click to remove upgrade. Output slot must be empty.");
-        add(UPGRADE_COMPATIBLE_ALL_WEAPONS, "Compatible with all LTX weapons");
-        add(UPGRADE_COMPATIBLE_SPECIFIC_WEAPONS, "Compatible with:");
+        add(UPGRADE_RANK_TOOLTIP, "Rank %s");
+        add(UPGRADE_REMOVE_HINT, "Shift + left click to remove upgrade. Must have space in your inventory.");
+        add(UPGRADE_COMPATIBILITY_TOOLTIP, "Compatible with:");
+        add(EQUIPMENT_UPGRADE_MODULE_TOOLTIP, "Equipment Upgrade Module");
+        add(MACHINE_UPGRADE_MODULE_TOOLTIP, "Machine Upgrade Module");
+
+        add(OVERRIDE_BASE_CALCULATION, "[%s]");
+        add(MULTIPLY_BASE_CALCULATION, "%s base");
+        add(MULTIPLY_TOTAL_CALCULATION, "%s total");
+        add(ADD_MULTIPLIED_ATTRIBUTE_CALCULATION, "%s enemy %s");
+
+        add(INVALID_UPGRADE_HINT, "This upgrade data in this module is invalid or corrupted. Shift+Right Click to revert to an empty module.");
+
+        add(WEAPON_KNOCKBACK_EFFECT, "%s knockback power");
+        add(WEAPON_KNOCKBACK_IGNORE_RESIST_EFFECT, "Ignores knockback resist");
+        add(WEAPON_DAMAGE_EFFECT, "%s bonus damage");
+        add(PROJECTILE_SPEED_EFFECT, "%s projectile speed");
+        add(NO_ANGER_EFFECT, "No neutral mob anger");
+        add(NO_SCULK_VIBRATIONS_EFFECT, "No sculk vibrations");
+        add(ENERGY_AMMO_EFFECT, "Unlocks CE ammunition synthesis");
+        add(INFINITE_AMMO_EFFECT, "Unlocks infinite ammo");
+        add(ENERGY_CAPACITY_UPGRADE, "Energy Capacity: %s");
+        add(ENERGY_TRANSFER_RATE_UPGRADE, "Energy Transfer Rate: %s");
+        add(SHIELD_UPGRADE_EFFECT, "%s shield per kill, (max %s)");
+        add(NATURAL_ARMOR_BYPASS_EFFECT, "Natural armor bypass");
+        add(ARMOR_BYPASS_EFFECT, "%s armor bypass");
+        add(GRENADE_UNLOCK_EFFECT, "Unlocks %s grenades");
 
         add(TooltipShiftHintItem.HINT_HOVER_TOOLTIP, "Hold SHIFT for extra info");
         add(WeaponAmmoSource.NORMAL.getItemTooltip(), "Reloads with %s");
@@ -262,6 +291,9 @@ class LanguageGen extends LimaLanguageProvider
         //#region Advancements
         //#endregion
 
+        // Named tags
+        namedTag(LimaTechTags.Items.LTX_WEAPONS, "All LTX Weapons");
+
         // Patchouli compatibility
         add("item.limatech.guidebook", "LimaTech Guidebook");
         add("limatech.guidebook.landing_text", "Welcome to LimaTech! This guidebook contains hints, info, and instructions on the basic mechanics of the mod.");
@@ -292,5 +324,16 @@ class LanguageGen extends LimaLanguageProvider
     {
         add(EquipmentUpgrade.defaultTitleTranslationKey(key), title);
         add(EquipmentUpgrade.defaultDescriptionTranslationKey(key), description);
+    }
+
+    private void machineUpgrade(ResourceKey<MachineUpgrade> key, String title, String description)
+    {
+        add(MachineUpgrade.defaultTitleTranslationKey(key), title);
+        add(MachineUpgrade.defaultDescriptionTranslationKey(key), description);
+    }
+
+    private void namedTag(TagKey<?> tagKey, String value)
+    {
+        add(LimaTechLang.namedTagTranslationId(tagKey), value);
     }
 }

@@ -10,10 +10,10 @@
       "type": "limatech:no_anger"
     },
     {
-      "type": "limatech:knockback_modifier",
+      "type": "limatech:weapon_knockback",
       "modifier": {
-        "type": "override_base",
-        "amount": 0.0
+        "type": "multiply_total",
+        "value": -1.0
       }
     },
     {
@@ -21,7 +21,15 @@
       "amount": 0.0
     }
   ],
-  "supported_items": "limatech:submachine_gun",
+  "exclusive_set": [],
+  "icon": {
+    "type": "item_stack",
+    "item": {
+      "count": 1,
+      "id": "limatech:submachine_gun"
+    }
+  },
+  "supported_set": "limatech:submachine_gun",
   "title": {
     "translate": "equipment_upgrade.limatech.smg_built_in.title"
   }

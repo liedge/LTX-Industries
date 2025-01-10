@@ -28,11 +28,11 @@
   ],
   "result": {
     "components": {
-      "limatech:upgrade_entry": {
+      "limatech:equipment_upgrade": {
         "upgrade": "limatech:acid_grenade_core"
       }
     },
     "count": 1,
-    "id": "limatech:equipment_upgrade"
+    "id": "limatech:equipment_upgrade_module"
   }
 }

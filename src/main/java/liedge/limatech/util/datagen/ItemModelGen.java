@@ -34,8 +34,7 @@ class ItemModelGen extends LimaItemModelProvider
         handheld(MACHINE_WRENCH, itemFolderLocation("wrench"));
 
         generated(DEEPSLATE_POWDER, SLATE_ALLOY_INGOT, SLATE_ALLOY_NUGGET, COPPER_CIRCUIT, GOLD_CIRCUIT, NIOBIUM_CIRCUIT, AUTO_AMMO_CANISTER, SPECIALIST_AMMO_CANISTER, EXPLOSIVES_AMMO_CANISTER, MAGNUM_AMMO_CANISTER);
-
-        generated(EQUIPMENT_UPGRADE_ITEM, itemFolderLocation("weapon_upgrade_module"));
+        generated(EMPTY_UPGRADE_MODULE, EQUIPMENT_UPGRADE_MODULE, MACHINE_UPGRADE_MODULE);
 
         // Patchouli guidebook model
         getBuilder("guidebook").parent(generatedModel).texture("layer0", itemFolderLocation("guidebook"));

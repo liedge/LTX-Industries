@@ -7,8 +7,9 @@
       "type": "limatech:no_anger"
     }
   ],
+  "exclusive_set": [],
   "icon": "limatech:stealth_damage",
-  "supported_items": "#limatech:ltx_weapons",
+  "supported_set": "#limatech:ltx_weapons",
   "title": {
     "translate": "equipment_upgrade.limatech.universal_stealth_damage.title"
   }

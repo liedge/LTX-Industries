@@ -5,15 +5,15 @@ import liedge.limacore.registry.LimaDeferredBlocks;
 import liedge.limacore.util.LimaCollectionsUtil;
 import liedge.limatech.LimaTech;
 import liedge.limatech.block.*;
+import liedge.limatech.item.ContentsTooltipBlockItem;
 import liedge.limatech.item.EnergyHolderItem;
 import liedge.limatech.item.EnergyStorageArrayItem;
-import liedge.limatech.item.ContentsTooltipBlockItem;
-import liedge.limatech.item.TieredMachineBlockItem;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DropExperienceBlock;
 import net.minecraft.world.level.block.SoundType;
@@ -45,7 +45,7 @@ public final class LimaTechBlocks
     public static void registerCapabilities(RegisterCapabilitiesEvent event)
     {
         // Energy container block items
-        event.registerItem(Capabilities.EnergyStorage.ITEM, (stack, $) -> EnergyHolderItem.createEnergyAccess(stack), TIERED_ENERGY_STORAGE_ARRAY, INFINITE_ENERGY_STORAGE_ARRAY);
+        event.registerItem(Capabilities.EnergyStorage.ITEM, (stack, $) -> EnergyHolderItem.createEnergyAccess(stack), ENERGY_STORAGE_ARRAY, INFINITE_ENERGY_STORAGE_ARRAY);
     }
 
     static Collection<DeferredHolder<Block, ? extends Block>> getRegisteredBlocks()
@@ -71,14 +71,14 @@ public final class LimaTechBlocks
     public static final Map<DyeColor, DeferredBlock<Block>> GLOW_BLOCKS = LimaCollectionsUtil.fillAndCreateImmutableEnumMap(DyeColor.class, color -> BLOCKS.registerSimpleBlockAndItem(color.getSerializedName() + "_glow_block", of().mapColor(color).sound(SoundType.GLASS).strength(2f).lightLevel(state -> 15)));
 
     // Machinery
-    public static final DeferredBlockPair<EnergyStorageArrayBlock, EnergyStorageArrayItem> TIERED_ENERGY_STORAGE_ARRAY = BLOCKS.registerBlockAndItem("tiered_energy_storage_array", () -> new EnergyStorageArrayBlock(machineProperties().noOcclusion(), false), block -> new EnergyStorageArrayItem(block, new Item.Properties().stacksTo(1), false));
-    public static final DeferredBlockPair<EnergyStorageArrayBlock, EnergyStorageArrayItem> INFINITE_ENERGY_STORAGE_ARRAY = BLOCKS.registerBlockAndItem("infinite_energy_storage_array", () -> new EnergyStorageArrayBlock(machineProperties().noOcclusion(), true), block -> new EnergyStorageArrayItem(block, new Item.Properties().stacksTo(1), true));
-    public static final DeferredBlockPair<BasicHorizontalMachineBlock, TieredMachineBlockItem> DIGITAL_FURNACE = BLOCKS.registerBlockAndItem("digital_furnace", () -> new BasicHorizontalMachineBlock(machineProperties()), block -> new TieredMachineBlockItem(block, new Item.Properties().stacksTo(1)));
-    public static final DeferredBlockPair<BasicHorizontalMachineBlock, TieredMachineBlockItem> GRINDER = BLOCKS.registerBlockAndItem("grinder", () -> new BasicHorizontalMachineBlock(machineProperties()), block -> new TieredMachineBlockItem(block, new Item.Properties().stacksTo(1)));
-    public static final DeferredBlockPair<BasicHorizontalMachineBlock, TieredMachineBlockItem> RECOMPOSER = BLOCKS.registerBlockAndItem("recomposer", () -> new BasicHorizontalMachineBlock(machineProperties()), block -> new TieredMachineBlockItem(block, new Item.Properties().stacksTo(1)));
-    public static final DeferredBlockPair<BasicHorizontalMachineBlock, TieredMachineBlockItem> MATERIAL_FUSING_CHAMBER = BLOCKS.registerBlockAndItem("material_fusing_chamber", () -> new BasicHorizontalMachineBlock(machineProperties()), block -> new TieredMachineBlockItem(block, new Item.Properties().stacksTo(1)));
-    public static final DeferredBlockPair<FabricatorBlock, TieredMachineBlockItem> FABRICATOR = BLOCKS.registerBlockAndItem("fabricator", () -> new FabricatorBlock(machineProperties().noOcclusion()), block -> new TieredMachineBlockItem(block, new Item.Properties().stacksTo(1)));
-    public static final DeferredBlockPair<EquipmentModTableBlock, ContentsTooltipBlockItem> EQUIPMENT_MOD_TABLE = BLOCKS.registerBlockAndItem("equipment_mod_table", () -> new EquipmentModTableBlock(machineProperties().noOcclusion()), block -> new ContentsTooltipBlockItem(block, new Item.Properties().stacksTo(1), false, true));
+    public static final DeferredBlockPair<EnergyStorageArrayBlock, EnergyStorageArrayItem> ENERGY_STORAGE_ARRAY = BLOCKS.registerBlockAndItem("energy_storage_array", () -> new EnergyStorageArrayBlock(machineProperties().noOcclusion(), false), block -> new EnergyStorageArrayItem(block, new Item.Properties().stacksTo(1), false));
+    public static final DeferredBlockPair<EnergyStorageArrayBlock, EnergyStorageArrayItem> INFINITE_ENERGY_STORAGE_ARRAY = BLOCKS.registerBlockAndItem("infinite_energy_storage_array", () -> new EnergyStorageArrayBlock(machineProperties().noOcclusion(), true), block -> new EnergyStorageArrayItem(block, new Item.Properties().stacksTo(1).rarity(Rarity.EPIC), true));
+    public static final DeferredBlockPair<BasicHorizontalMachineBlock, ContentsTooltipBlockItem> DIGITAL_FURNACE = BLOCKS.registerBlockAndItem("digital_furnace", () -> new BasicHorizontalMachineBlock(machineProperties()), block -> new ContentsTooltipBlockItem(block, new Item.Properties().stacksTo(1), true, true));
+    public static final DeferredBlockPair<BasicHorizontalMachineBlock, ContentsTooltipBlockItem> GRINDER = BLOCKS.registerBlockAndItem("grinder", () -> new BasicHorizontalMachineBlock(machineProperties()), block -> new ContentsTooltipBlockItem(block, new Item.Properties().stacksTo(1), true, true));
+    public static final DeferredBlockPair<BasicHorizontalMachineBlock, ContentsTooltipBlockItem> RECOMPOSER = BLOCKS.registerBlockAndItem("recomposer", () -> new BasicHorizontalMachineBlock(machineProperties()), block -> new ContentsTooltipBlockItem(block, new Item.Properties().stacksTo(1), true, true));
+    public static final DeferredBlockPair<BasicHorizontalMachineBlock, ContentsTooltipBlockItem> MATERIAL_FUSING_CHAMBER = BLOCKS.registerBlockAndItem("material_fusing_chamber", () -> new BasicHorizontalMachineBlock(machineProperties()), block -> new ContentsTooltipBlockItem(block, new Item.Properties().stacksTo(1), true, true));
+    public static final DeferredBlockPair<FabricatorBlock, ContentsTooltipBlockItem> FABRICATOR = BLOCKS.registerBlockAndItem("fabricator", () -> new FabricatorBlock(machineProperties().noOcclusion()), block -> new ContentsTooltipBlockItem(block, new Item.Properties().stacksTo(1), true, true));
+    public static final DeferredBlockPair<EquipmentUpgradeStationBlock, ContentsTooltipBlockItem> EQUIPMENT_UPGRADE_STATION = BLOCKS.registerBlockAndItem("equipment_upgrade_station", () -> new EquipmentUpgradeStationBlock(machineProperties().noOcclusion()), block -> new ContentsTooltipBlockItem(block, new Item.Properties().stacksTo(1), false, true));
 
     public static final DeferredBlockPair<RocketTurretBlock, BlockItem> ROCKET_TURRET = BLOCKS.registerBlockAndSimpleItem("rocket_turret", () -> new RocketTurretBlock(machineProperties().noOcclusion()));
 

@@ -2,7 +2,7 @@
   "name": "Explosive Rounds",
   "sortnum": 1,
   "category": "limatech:weapons_hanabi",
-  "icon": "limatech:textures/equipment_upgrade/explosive_grenade_core.png",
+  "icon": "limatech:textures/upgrade_icon/explosive_grenade_core.png",
   "pages": [
     "The standard $(#8b8b8b)$(l)Explosive$() rounds are the default round type of the Hanabi, and is the only one available on a newly crafted weapon. It deals explosion-type damage and has a blast radius of 10.0. Boring, but reliable."
   ]

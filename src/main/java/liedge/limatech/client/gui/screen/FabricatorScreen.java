@@ -1,19 +1,16 @@
 package liedge.limatech.client.gui.screen;
 
 import liedge.limacore.capability.energy.LimaEnergyUtil;
-import liedge.limacore.client.gui.LimaMenuScreen;
+import liedge.limacore.client.gui.FillBarWidget;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.client.gui.UnmanagedSprite;
-import liedge.limacore.client.gui.VariableBarWidget;
 import liedge.limacore.registry.LimaCoreNetworkSerializers;
 import liedge.limacore.util.LimaCollectionsUtil;
 import liedge.limacore.util.LimaRecipesUtil;
 import liedge.limatech.LimaTech;
 import liedge.limatech.LimaTechConstants;
 import liedge.limatech.blockentity.FabricatorBlockEntity;
-import liedge.limatech.blockentity.io.MachineInputType;
 import liedge.limatech.client.gui.widget.EnergyGaugeWidget;
-import liedge.limatech.client.gui.widget.OpenIOControlButton;
 import liedge.limatech.client.gui.widget.ScrollableGUIElement;
 import liedge.limatech.client.gui.widget.ScrollbarWidget;
 import liedge.limatech.menu.FabricatorMenu;
@@ -36,7 +33,7 @@ import java.util.Optional;
 import static liedge.limacore.client.gui.LimaGuiUtil.isMouseWithinArea;
 import static liedge.limatech.client.LimaTechLang.*;
 
-public class FabricatorScreen extends LimaMenuScreen<FabricatorMenu> implements ScrollableGUIElement
+public class FabricatorScreen extends SidedUpgradableMachineScreen<FabricatorMenu> implements ScrollableGUIElement
 {
     private static final int SELECTOR_GRID_WIDTH = 5;
     private static final int SELECTOR_GRID_HEIGHT = 4;
@@ -57,8 +54,7 @@ public class FabricatorScreen extends LimaMenuScreen<FabricatorMenu> implements 
 
     public FabricatorScreen(FabricatorMenu menu, Inventory inventory, Component title)
     {
-        super(menu, inventory, title, 205, 200, LimaTechConstants.LIME_GREEN.packedRGB());
-        this.bgWidth = 190;
+        super(menu, inventory, title, 190, 200);
         this.recipes = LimaRecipesUtil.getSortedRecipesForType(menu.level(), LimaTechRecipeTypes.FABRICATING, Comparator.comparing(holder -> holder.value().getGroup()), Comparator.comparing(holder -> holder.id().getPath()));
         this.recipeRows = LimaCollectionsUtil.splitCollectionToSegments(recipes, SELECTOR_GRID_WIDTH);
         this.scrollWheelDelta = 59 / recipeRows;
@@ -104,7 +100,7 @@ public class FabricatorScreen extends LimaMenuScreen<FabricatorMenu> implements 
         addRenderableOnly(new EnergyGaugeWidget(menu.menuContext().getEnergyStorage(), leftPos + 10, topPos + 10));
         addRenderableOnly(new ProgressWidget(leftPos + 61, topPos + 83, menu.menuContext()));
         this.scrollbar = addRenderableWidget(new ScrollbarWidget(leftPos + 168, topPos + 32, 72, this));
-        addRenderableWidget(new OpenIOControlButton(leftPos + bgWidth, topPos + 3, this, 1, MachineInputType.ITEMS));
+        addSidebarWidgets();
     }
 
     @Override
@@ -219,7 +215,7 @@ public class FabricatorScreen extends LimaMenuScreen<FabricatorMenu> implements 
                     }
                     else
                     {
-                        sendCustomButtonData(0, recipes.get(i).id(), LimaCoreNetworkSerializers.RESOURCE_LOCATION);
+                        sendCustomButtonData(FabricatorMenu.CRAFT_BUTTON_ID, recipes.get(i).id(), LimaCoreNetworkSerializers.RESOURCE_LOCATION);
                     }
 
                     return true;
@@ -232,7 +228,7 @@ public class FabricatorScreen extends LimaMenuScreen<FabricatorMenu> implements 
         return super.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
-    private static class ProgressWidget extends VariableBarWidget.VerticalBar
+    private static class ProgressWidget extends FillBarWidget.VerticalBar
     {
         private static final UnmanagedSprite BACKGROUND = new UnmanagedSprite(TEXTURE, 190, 0, 5, 22);
         private static final UnmanagedSprite FOREGROUND = new UnmanagedSprite(TEXTURE, 195, 0, 3, 20);
@@ -241,38 +237,32 @@ public class FabricatorScreen extends LimaMenuScreen<FabricatorMenu> implements 
 
         ProgressWidget(int x, int y, FabricatorBlockEntity blockEntity)
         {
-            super(x, y);
+            super(x, y, BACKGROUND);
             this.blockEntity = blockEntity;
         }
 
         @Override
-        protected UnmanagedSprite backgroundSprite()
-        {
-            return BACKGROUND;
-        }
-
-        @Override
-        protected UnmanagedSprite foregroundSprite()
-        {
-            return FOREGROUND;
-        }
-
-        @Override
-        protected float fillPercent()
+        protected float getFillPercentage()
         {
             return blockEntity.getProcessTimePercent();
         }
 
         @Override
+        protected UnmanagedSprite getForegroundSprite(float fillPercentage)
+        {
+            return FOREGROUND;
+        }
+
+        @Override
         public boolean hasTooltip()
         {
-            return fillPercent() > 0;
+            return getFillPercentage() > 0;
         }
 
         @Override
         public void createWidgetTooltip(TooltipLineConsumer consumer)
         {
-            int fill = (int) (fillPercent() * 100f);
+            int fill = (int) (getFillPercentage() * 100f);
             consumer.accept(CRAFTING_PROGRESS_TOOLTIP.translateArgs(fill).withStyle(ChatFormatting.GRAY));
         }
     }

@@ -6,12 +6,12 @@ import liedge.limacore.lib.ModResources;
 import liedge.limacore.util.LimaCoreUtil;
 import liedge.limatech.LimaTech;
 import liedge.limatech.LimaTechTags;
-import liedge.limatech.item.EquipmentUpgradeItem;
+import liedge.limatech.item.EquipmentUpgradeModuleItem;
 import liedge.limatech.item.weapon.WeaponItem;
 import liedge.limatech.recipe.*;
 import liedge.limatech.registry.LimaTechDataComponents;
-import liedge.limatech.upgradesystem.EquipmentUpgrade;
-import liedge.limatech.upgradesystem.EquipmentUpgradeEntry;
+import liedge.limatech.lib.upgradesystem.equipment.EquipmentUpgrade;
+import liedge.limatech.lib.upgradesystem.equipment.EquipmentUpgradeEntry;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentPredicate;
@@ -73,13 +73,13 @@ class RecipesGen extends LimaRecipeProvider
 
         shaped(MACHINE_WRENCH).input('t', TITANIUM_INGOT).input('l', DYES_LIME).patterns("t t", " l ", " t ").save(output);
 
-        shaped(TIERED_ENERGY_STORAGE_ARRAY).input('t', TITANIUM_INGOT).input('c', GOLD_CIRCUIT).input('l', DYES_LIME).input('b', COPPER_BLOCK).patterns("tlt", "cbc", "tlt").save(output);
+        shaped(ENERGY_STORAGE_ARRAY).input('t', TITANIUM_INGOT).input('c', GOLD_CIRCUIT).input('l', DYES_LIME).input('b', COPPER_BLOCK).patterns("tlt", "cbc", "tlt").save(output);
         shaped(DIGITAL_FURNACE).input('t', TITANIUM_INGOT).input('c', COPPER_CIRCUIT).input('l', DYES_LIME).input('a', FURNACE).patterns("tlt", "cac", "ttt").save(output);
         shaped(GRINDER).input('t', TITANIUM_INGOT).input('c', COPPER_CIRCUIT).input('l', DYES_LIME).input('a', GRINDSTONE).patterns("tlt", "cac", "ttt").save(output);
         shaped(RECOMPOSER).input('t', TITANIUM_INGOT).input('c', GOLD_CIRCUIT).input('r', LIGHTNING_ROD).input('g', GLASS).patterns("ttt", "rgr", "tct").save(output);
         shaped(MATERIAL_FUSING_CHAMBER).input('t', TITANIUM_INGOT).input('c', COPPER_CIRCUIT).input('l', DYES_LIME).input('a', BLAST_FURNACE).patterns("tlt", "cac", "ttt").save(output);
         shaped(FABRICATOR).input('t', TITANIUM_INGOT).input('c', GOLD_CIRCUIT).input('l', DYES_LIME).input('a', CRAFTER).patterns("tlt", "cac", "ttt").save(output);
-        shaped(EQUIPMENT_MOD_TABLE).input('t', TITANIUM_INGOT).input('a', ANVIL).input('l', DYES_LIME).patterns("ttt",  "lal", "ttt").save(output);
+        shaped(EQUIPMENT_UPGRADE_STATION).input('t', TITANIUM_INGOT).input('a', ANVIL).input('l', DYES_LIME).patterns("ttt",  "lal", "ttt").save(output);
 
         GLOW_BLOCKS.forEach((color, deferredBlock) -> {
             String path = deferredBlock.getId().getPath();
@@ -328,17 +328,17 @@ class RecipesGen extends LimaRecipeProvider
 
     private void upgradeFabricating(RecipeOutput output, HolderLookup.Provider registries, String group, ResourceKey<EquipmentUpgrade> upgradeKey, int energyRequired, UnaryOperator<FabricatingBuilder> op)
     {
-        op.apply(fabricating(EquipmentUpgradeItem.createStack(registries, upgradeKey), energyRequired)).group(group).save(output, "equipment_upgrades/" + upgradeKey.location().getPath());
+        op.apply(fabricating(EquipmentUpgradeModuleItem.createStack(registries, upgradeKey), energyRequired)).group(group).save(output, "equipment_upgrades/" + upgradeKey.location().getPath());
     }
 
     private void upgradeFabricating(RecipeOutput output, HolderLookup.Provider registries, String group, ResourceKey<EquipmentUpgrade> upgradeKey, int upgradeRank, int energyRequired, UnaryOperator<FabricatingBuilder> op)
     {
-        FabricatingBuilder builder = fabricating(EquipmentUpgradeItem.createStack(registries, upgradeKey, upgradeRank), energyRequired);
+        FabricatingBuilder builder = fabricating(EquipmentUpgradeModuleItem.createStack(registries, upgradeKey, upgradeRank), energyRequired);
 
         if (upgradeRank > 1)
         {
             Holder<EquipmentUpgrade> upgradeHolder = registries.holderOrThrow(upgradeKey);
-            Ingredient previousRankUpgrade = DataComponentIngredient.of(true, LimaTechDataComponents.ITEM_UPGRADE_ENTRY, new EquipmentUpgradeEntry(upgradeHolder, upgradeRank - 1), EQUIPMENT_UPGRADE_ITEM);
+            Ingredient previousRankUpgrade = DataComponentIngredient.of(true, LimaTechDataComponents.EQUIPMENT_UPGRADE_ENTRY, new EquipmentUpgradeEntry(upgradeHolder, upgradeRank - 1), EQUIPMENT_UPGRADE_MODULE);
             builder.input(previousRankUpgrade);
         }
 

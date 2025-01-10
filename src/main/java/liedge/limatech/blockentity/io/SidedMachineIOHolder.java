@@ -1,16 +1,16 @@
 package liedge.limatech.blockentity.io;
 
-import liedge.limacore.blockentity.LimaBlockEntityAccess;
 import liedge.limacore.inventory.menu.LimaMenuProvider;
-import liedge.limacore.util.LimaCoreUtil;
-import liedge.limatech.menu.MachineIOControlMenu;
+import liedge.limatech.blockentity.SubMenuProviderBlockEntity;
+import liedge.limatech.menu.IOControlMenu;
 import liedge.limatech.registry.LimaTechMenus;
+import net.minecraft.core.Direction;
 import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
-public interface SidedMachineIOHolder extends LimaBlockEntityAccess
+public interface SidedMachineIOHolder extends SubMenuProviderBlockEntity
 {
     @Nullable MachineIOControl getIOControls(MachineInputType inputType);
 
@@ -19,20 +19,24 @@ public interface SidedMachineIOHolder extends LimaBlockEntityAccess
         return Objects.requireNonNull(getIOControls(inputType), "Machine does not support IO controls for " + inputType);
     }
 
+    default void updateFacingForAllIO(Direction newFacing)
+    {
+        for (MachineInputType type : MachineInputType.values())
+        {
+            MachineIOControl control = getIOControls(type);
+            if (control != null) control.setFacing(newFacing);
+        }
+    }
+
     void onIOControlsChanged(MachineInputType inputType);
 
     boolean allowsAutoInput(MachineInputType inputType);
 
     boolean allowsAutoOutput(MachineInputType inputType);
 
-    default void returnToPrimaryMenuScreen(Player player)
-    {
-        LimaCoreUtil.castOrThrow(LimaMenuProvider.class, this).openMenuScreen(player);
-    }
-
     default void openIOControlMenuScreen(Player player, MachineInputType inputType)
     {
-        MachineIOControlMenu.MenuContext context = new MachineIOControlMenu.MenuContext(this, inputType);
+        IOControlMenu.MenuContext context = new IOControlMenu.MenuContext(this, inputType);
         LimaMenuProvider.openStandaloneMenu(player, LimaTechMenus.MACHINE_IO_CONTROL.get(), context);
     }
 }

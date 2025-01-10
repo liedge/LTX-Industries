@@ -1,31 +1,28 @@
 package liedge.limatech.menu;
 
-import liedge.limacore.inventory.menu.LimaItemHandlerMenu;
 import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limacore.util.LimaItemUtil;
 import liedge.limatech.blockentity.SimpleRecipeMachineBlockEntity;
-import liedge.limatech.registry.LimaTechNetworkSerializers;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 
-public abstract class SingleItemRecipeMenu<CTX extends SimpleRecipeMachineBlockEntity<?, ?>> extends LimaItemHandlerMenu<CTX>
+public abstract class SingleItemRecipeMenu<CTX extends SimpleRecipeMachineBlockEntity<?, ?>> extends SidedUpgradableMachineMenu<CTX>
 {
     protected SingleItemRecipeMenu(LimaMenuType<CTX, ?> type, int containerId, Inventory inventory, CTX menuContext)
     {
         super(type, containerId, inventory, menuContext);
 
-        addContextSlot(0, 8, 62);
-        addContextSlot(1, 54, 34);
-        addContextRecipeResultSlot(2, 106, 34, menuContext.machineRecipeType());
+        addSlot(0, 8, 62);
+        addSlot(1, 54, 34);
+        addRecipeResultSlot(2, 106, 34, menuContext.machineRecipeType());
 
-        addPlayerInventory(DEFAULT_INV_X, DEFAULT_INV_Y);
-        addPlayerHotbar(DEFAULT_INV_X, DEFAULT_HOTBAR_Y);
+        addDefaultPlayerInventoryAndHotbar();
     }
 
     @Override
     public void defineDataWatchers(DataWatcherCollector collector)
     {
-        collector.register(menuContext.getEnergyStorage().createDataWatcher());
+        menuContext.getEnergyStorage().keepAllPropertiesSynced(collector);
         collector.register(menuContext.keepProcessSynced());
     }
 
@@ -51,11 +48,5 @@ public abstract class SingleItemRecipeMenu<CTX extends SimpleRecipeMachineBlockE
                 return quickMoveToContainerSlot(stack, 1);
             }
         }
-    }
-
-    @Override
-    protected void defineButtonEventHandlers(EventHandlerBuilder builder)
-    {
-        builder.handleAction(0, LimaTechNetworkSerializers.MACHINE_INPUT_TYPE, menuContext::openIOControlMenuScreen);
     }
 }

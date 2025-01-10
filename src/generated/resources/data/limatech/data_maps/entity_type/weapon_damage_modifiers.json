@@ -3,25 +3,25 @@
     "#limatech:high_threat": {
       "limatech:grenade_launcher": {
         "type": "multiply_base",
-        "amount": 0.85
+        "value": -0.2
       },
       "limatech:shotgun": {
         "type": "multiply_base",
-        "amount": 0.6
+        "value": -0.4
       },
       "limatech:submachine_gun": {
         "type": "override_base",
-        "amount": 0.5
+        "value": 0.5
       }
     },
     "#limatech:medium_threat": {
       "limatech:shotgun": {
         "type": "multiply_base",
-        "amount": 0.8
+        "value": -0.33
       },
       "limatech:submachine_gun": {
         "type": "multiply_base",
-        "amount": 0.4
+        "value": -0.4
       }
     }
   }

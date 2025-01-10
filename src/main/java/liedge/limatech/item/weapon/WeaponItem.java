@@ -9,13 +9,18 @@ import liedge.limacore.network.LimaStreamCodecs;
 import liedge.limatech.entity.LimaTechProjectile;
 import liedge.limatech.item.EnergyHolderItem;
 import liedge.limatech.item.TooltipShiftHintItem;
+import liedge.limatech.item.UpgradableEquipmentItem;
+import liedge.limatech.lib.upgradesystem.calculation.CompoundCalculation;
+import liedge.limatech.lib.upgradesystem.equipment.EquipmentUpgrade;
+import liedge.limatech.lib.upgradesystem.equipment.EquipmentUpgrades;
+import liedge.limatech.lib.upgradesystem.equipment.effect.EquipmentUpgradeEffect;
+import liedge.limatech.lib.upgradesystem.equipment.effect.ProjectileSpeedUpgradeEffect;
+import liedge.limatech.lib.upgradesystem.equipment.effect.WeaponDamageUpgradeEffect;
+import liedge.limatech.lib.upgradesystem.equipment.effect.WeaponKnockbackUpgradeEffect;
 import liedge.limatech.lib.weapons.*;
 import liedge.limatech.registry.LimaTechAttachmentTypes;
 import liedge.limatech.registry.LimaTechGameEvents;
 import liedge.limatech.registry.LimaTechRegistries;
-import liedge.limatech.upgradesystem.EquipmentUpgrade;
-import liedge.limatech.upgradesystem.ItemEquipmentUpgrades;
-import liedge.limatech.upgradesystem.effect.EquipmentUpgradeEffect;
 import liedge.limatech.util.LimaTechTooltipUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
@@ -49,7 +54,7 @@ import static liedge.limatech.LimaTech.RESOURCES;
 import static liedge.limatech.LimaTechConstants.*;
 import static liedge.limatech.registry.LimaTechDataComponents.*;
 
-public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaCreativeTabFillerItem, TooltipShiftHintItem
+public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaCreativeTabFillerItem, TooltipShiftHintItem, UpgradableEquipmentItem
 {
     public static final Codec<WeaponItem> CODEC = LimaCoreCodecs.classCastRegistryCodec(BuiltInRegistries.ITEM, WeaponItem.class);
     public static final StreamCodec<RegistryFriendlyByteBuf, WeaponItem> STREAM_CODEC = LimaStreamCodecs.classCastRegistryStreamCodec(Registries.ITEM, WeaponItem.class);
@@ -85,8 +90,7 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
     public void onPlayerKill(WeaponDamageSource damageSource, Player player, LivingEntity targetEntity)
     {
         ItemStack heldItem = player.getMainHandItem();
-        ItemEquipmentUpgrades upgrades = ItemEquipmentUpgrades.getFromItem(heldItem);
-        upgrades.forEachEffect((effect, rank) -> effect.onWeaponPlayerKill(damageSource, player, targetEntity, rank));
+        getUpgrades(heldItem).forEachEffect(((effect, upgradeRank) -> effect.onWeaponPlayerKill(damageSource, player, targetEntity, upgradeRank)));
     }
     //#endregion
 
@@ -137,43 +141,47 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
         return getDescriptionId() + ".designation";
     }
 
-    protected void hurtTargetEntity(Entity target, ItemEquipmentUpgrades upgrades, WeaponDamageSource damageSource, double baseDamage)
+    protected void hurtTargetEntity(Entity target, EquipmentUpgrades upgrades, WeaponDamageSource damageSource, double baseDamage)
     {
-        // Collect bonus damage from upgrades and perform damage source modification
-        double damageModifier = upgrades.flatMapEffectsToDouble((effect, rank) -> {
-            effect.modifyDamageSource(damageSource, target, rank);
-            return effect.modifyWeaponAttribute(this, WeaponAttribute.DAMAGE, target, rank, baseDamage);
-        }).sum();
+        // Perform custom damage source modification by upgrades
+        upgrades.forEachEffect((effect, rank) -> effect.modifyDamageSource(damageSource, target, rank));
 
-        // Add bonus damage from upgrades and apply the global damage modifier
-        double actualDamage = GlobalWeaponDamageModifiers.applyDamageModifierForEntity(this, target, baseDamage + damageModifier);
+        // Get knockback modifier and apply to damage source
+        double knockback = CompoundCalculation.runSteps(1d, target, upgrades.flatMapToSortedCalculations(WeaponKnockbackUpgradeEffect.class, WeaponKnockbackUpgradeEffect::modifier));
+        damageSource.setKnockbackMultiplier(knockback);
+
+        // Get the base damage modified by the weapon upgrades
+        double damage = CompoundCalculation.runSteps(baseDamage, target, upgrades.flatMapToSortedCalculations(WeaponDamageUpgradeEffect.class, WeaponDamageUpgradeEffect::modifier));
+
+        CompoundCalculation globalModifier = GlobalWeaponDamageModifiers.getModifierForEntity(this, target);
+        damage = CompoundCalculation.runSingle(damage, target, globalModifier, 0);
 
         // Only deal damage if greater than 0
-        if (actualDamage > 0)
+        if (damage > 0)
         {
-            target.hurt(damageSource, (float) actualDamage);
+            target.hurt(damageSource, (float) damage);
         }
     }
 
-    protected void causeInstantDamage(ItemEquipmentUpgrades upgrades, Player player, ResourceKey<DamageType> damageTypeKey, Entity targetEntity, double baseDamage)
+    protected void causeInstantDamage(EquipmentUpgrades upgrades, Player player, ResourceKey<DamageType> damageTypeKey, Entity targetEntity, double baseDamage)
     {
         WeaponDamageSource source = WeaponDamageSource.handheldInstantDamage(damageTypeKey, player, this);
         hurtTargetEntity(targetEntity, upgrades, source, baseDamage);
     }
 
-    public void causeProjectileDamage(ItemEquipmentUpgrades upgrades, LimaTechProjectile projectile, @Nullable Entity owner, ResourceKey<DamageType> damageTypeKey, Entity targetEntity, double baseDamage)
+    public void causeProjectileDamage(EquipmentUpgrades upgrades, LimaTechProjectile projectile, @Nullable Entity owner, ResourceKey<DamageType> damageTypeKey, Entity targetEntity, double baseDamage)
     {
         WeaponDamageSource source = WeaponDamageSource.projectileDamage(damageTypeKey, projectile, owner, this);
         hurtTargetEntity(targetEntity, upgrades, source, baseDamage);
     }
 
-    protected double calculateProjectileSpeed(ItemEquipmentUpgrades upgrades, double baseSpeed)
+    protected double calculateProjectileSpeed(EquipmentUpgrades upgrades, double baseSpeed)
     {
-        double speedModifier = upgrades.flatMapEffectsToDouble((effect, rank) -> effect.modifyWeaponAttribute(this, WeaponAttribute.PROJECTILE_SPEED, null, rank, baseSpeed)).sum();
-        return Mth.clamp(baseSpeed + speedModifier, 0.1d, 3.9d);
+        baseSpeed = CompoundCalculation.runSteps(baseSpeed, upgrades.flatMapToSortedCalculations(ProjectileSpeedUpgradeEffect.class, ProjectileSpeedUpgradeEffect::modifier));
+        return Mth.clamp(baseSpeed, 0.001d, 3.9d);
     }
 
-    protected void postWeaponFiredGameEvent(ItemEquipmentUpgrades upgrades, Level level, Player player)
+    protected void postWeaponFiredGameEvent(EquipmentUpgrades upgrades, Level level, Player player)
     {
         if (upgrades.noEffectMatches(EquipmentUpgradeEffect::preventsWeaponVibrationEvent)) level.gameEvent(player, LimaTechGameEvents.WEAPON_FIRED, player.getEyePosition());
     }
@@ -185,12 +193,12 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
         ItemStack stack = new ItemStack(this);
 
         holder.ifPresent(h -> {
-            ItemEquipmentUpgrades upgrades = ItemEquipmentUpgrades.builder().add(h).build();
+            EquipmentUpgrades upgrades = EquipmentUpgrades.builder().add(h).build();
             stack.set(EQUIPMENT_UPGRADES, upgrades);
         });
 
-        ItemEquipmentUpgrades defaultUpgrades = getDefaultUpgrades(registries);
-        if (defaultUpgrades != ItemEquipmentUpgrades.EMPTY)
+        EquipmentUpgrades defaultUpgrades = getDefaultUpgrades(registries);
+        if (defaultUpgrades != EquipmentUpgrades.EMPTY)
         {
             stack.set(EQUIPMENT_UPGRADES, defaultUpgrades);
             defaultUpgrades.forEachEffect((effect, rank) -> effect.postUpgradeInstall(defaultUpgrades, stack, rank));
@@ -198,9 +206,9 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
         return stack;
     }
 
-    protected ItemEquipmentUpgrades getDefaultUpgrades(HolderLookup.Provider registries)
+    protected EquipmentUpgrades getDefaultUpgrades(HolderLookup.Provider registries)
     {
-        return ItemEquipmentUpgrades.EMPTY;
+        return EquipmentUpgrades.EMPTY;
     }
 
     @Override
@@ -303,6 +311,6 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
     @Override
     public int getEnchantmentLevel(ItemStack stack, Holder<Enchantment> enchantment)
     {
-        return ItemEquipmentUpgrades.getFromItem(stack).flatMapEffectsToInt((effect, rank) -> effect.addToEnchantmentLevel(enchantment, rank)).sum();
+        return getUpgradeEnchantmentLevel(stack, enchantment);
     }
 }

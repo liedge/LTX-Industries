@@ -1,4 +1,4 @@
-// 1.21.1	2024-12-22T03:29:11.5849517	Tags for minecraft:block mod id limatech
+// 1.21.1	2025-01-05T22:38:18.208516	Tags for minecraft:block mod id limatech
 1a0698d39aabe57ee2466c869394ac3b9bd97a96 data/c/tags/block/ores.json
 df7216d94e66f4463b351932ed9ff94a1f081f52 data/c/tags/block/ores/niobium.json
 22696717ed31d889b1edd4f48ae9de61a9352824 data/c/tags/block/ores/titanium.json
@@ -13,6 +13,6 @@ a975eb9c44ffa9dd8a03d0307975c76c9a4058a4 data/c/tags/block/storage_blocks/slate_
 6b10c6a7598a91aaebc51fa83aa1eda2c0e41222 data/c/tags/block/storage_blocks/titanium.json
 ba44400d5130966167b0a5dd907fa77bf3b89016 data/limatech/tags/block/deepslate_grindables.json
 1c3006b6c414d030927c15e5b29c385e9108371d data/minecraft/tags/block/beacon_base_blocks.json
-3298da3af3f2162338590be4ad1b73f117407e6c data/minecraft/tags/block/mineable/pickaxe.json
+1eaa32ee5fcb074a9e9ae0da04c81224ea696bb8 data/minecraft/tags/block/mineable/pickaxe.json
 0e3ff465dd44e32c994d932788dbf1b502a1185c data/minecraft/tags/block/needs_diamond_tool.json
-45c687a002380838389e06babf84885d92a498be data/minecraft/tags/block/needs_stone_tool.json
+eb639202a6f14e9c6b8be3bdb2f9095e6d573fbd data/minecraft/tags/block/needs_stone_tool.json

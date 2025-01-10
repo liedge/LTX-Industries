@@ -18,11 +18,11 @@
   ],
   "result": {
     "components": {
-      "limatech:upgrade_entry": {
+      "limatech:equipment_upgrade": {
         "upgrade": "limatech:ammo_scavenger_enchantment"
       }
     },
     "count": 1,
-    "id": "limatech:equipment_upgrade"
+    "id": "limatech:equipment_upgrade_module"
   }
 }

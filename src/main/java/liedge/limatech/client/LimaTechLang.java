@@ -1,6 +1,10 @@
 package liedge.limatech.client;
 
+import liedge.limacore.lib.ModResources;
 import liedge.limacore.lib.Translatable;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.tags.TagKey;
 
 import static liedge.limatech.LimaTech.RESOURCES;
 
@@ -25,10 +29,10 @@ public final class LimaTechLang
     public static final Translatable AUTO_INPUT_OFF_TOOLTIP = tooltip("auto_input_off");
     public static final Translatable AUTO_INPUT_ON_TOOLTIP = tooltip("auto_input_on");
 
-    public static final Translatable MACHINE_TIER_TOOLTIP = tooltip("machine_tier");
     public static final Translatable INLINE_ENERGY_STORED = tooltip("energy_stored");
     public static final Translatable INLINE_ENERGY_CAPACITY = tooltip("energy_capacity");
     public static final Translatable INLINE_ENERGY_TRANSFER_RATE = tooltip("energy_transfer_rate");
+    public static final Translatable ENERGY_OVERCHARGE_TOOLTIP = tooltip("energy_overcharge");
 
     public static final Translatable EMPTY_ITEM_INVENTORY_TOOLTIP = tooltip("empty_item_inventory_hint");
     public static final Translatable ITEM_INVENTORY_TOOLTIP = tooltip("item_inventory_hint");
@@ -36,16 +40,64 @@ public final class LimaTechLang
     public static final Translatable FABRICATOR_ENERGY_REQUIRED_TOOLTIP = tooltip("fabricator_2");
     public static final Translatable CRAFTING_PROGRESS_TOOLTIP = tooltip("craft_progress");
 
+    // Compound calculation components
+    public static final Translatable OVERRIDE_BASE_CALCULATION = prefixKey("calc", "override");
+    public static final Translatable MULTIPLY_BASE_CALCULATION = prefixKey("calc", "multiply_base");
+    public static final Translatable MULTIPLY_TOTAL_CALCULATION = prefixKey("calc", "multiply_total");
+    public static final Translatable ADD_MULTIPLIED_ATTRIBUTE_CALCULATION = prefixKey("calc", "attribute");
+
+    // Item hints
+    public static final Translatable INVALID_UPGRADE_HINT = itemHint("invalid_upgrade");
+
     // Equipment upgrades tooltips
     public static final Translatable UPGRADE_REMOVE_HINT = tooltip("upgrade_remove_hint");
-    public static final Translatable EQUIPMENT_UPGRADE_RANK = tooltip("upgrade_rank");
-    public static final Translatable UPGRADE_COMPATIBLE_ALL_WEAPONS = tooltip("upgrade_compatibility.all");
-    public static final Translatable UPGRADE_COMPATIBLE_SPECIFIC_WEAPONS = tooltip("upgrade_compatibility.specific");
-    public static final Translatable EQUIPMENT_UPGRADE_ITEM_CUSTOM_NAME = RESOURCES.translationHolder("item.{}.equipment_upgrade.custom");
-    public static final Translatable INVALID_EQUIPMENT_UPGRADE_ITEM = RESOURCES.translationHolder("item.{}.invalid_equipment_upgrade");
+    public static final Translatable UPGRADE_RANK_TOOLTIP = tooltip("upgrade_rank");
+    public static final Translatable UPGRADE_COMPATIBILITY_TOOLTIP = tooltip("upgrade_compatibility");
+    public static final Translatable EQUIPMENT_UPGRADE_MODULE_TOOLTIP = tooltip("equipment_upgrade_module");
+    public static final Translatable MACHINE_UPGRADE_MODULE_TOOLTIP = tooltip("machine_upgrade_module");
+
+    public static final Translatable WEAPON_KNOCKBACK_EFFECT = upgradeEffect("weapon_knockback");
+    public static final Translatable WEAPON_KNOCKBACK_IGNORE_RESIST_EFFECT = upgradeEffect("ignore_knockback_resist");
+    public static final Translatable WEAPON_DAMAGE_EFFECT = upgradeEffect("weapon_damage");
+    public static final Translatable PROJECTILE_SPEED_EFFECT = upgradeEffect("projectile_speed");
+    public static final Translatable NO_ANGER_EFFECT = upgradeEffect("no_anger");
+    public static final Translatable NO_SCULK_VIBRATIONS_EFFECT = upgradeEffect("no_vibration");
+    public static final Translatable ENERGY_AMMO_EFFECT = upgradeEffect("energy_ammo");
+    public static final Translatable INFINITE_AMMO_EFFECT = upgradeEffect("infinite_ammo");
+    public static final Translatable ENERGY_CAPACITY_UPGRADE = upgradeEffect("energy_capacity");
+    public static final Translatable ENERGY_TRANSFER_RATE_UPGRADE = upgradeEffect("energy_transfer_rate");
+    public static final Translatable SHIELD_UPGRADE_EFFECT = upgradeEffect("shield");
+    public static final Translatable NATURAL_ARMOR_BYPASS_EFFECT = upgradeEffect("natural_armor_bypass");
+    public static final Translatable ARMOR_BYPASS_EFFECT = upgradeEffect("armor_bypass");
+    public static final Translatable GRENADE_UNLOCK_EFFECT = upgradeEffect("grenade_unlock");
+
+    public static String namedTagTranslationId(TagKey<?> tagKey)
+    {
+        return ModResources.prefixIdTranslationKey("named_tag", tagKey.location());
+    }
+
+    public static MutableComponent namedTagComponent(TagKey<?> tagKey)
+    {
+        return Component.translatable(namedTagTranslationId(tagKey));
+    }
+
+    private static Translatable prefixKey(String prefix, String key)
+    {
+        return RESOURCES.translationHolder(prefix, "{}", key);
+    }
+
+    private static Translatable itemHint(String key)
+    {
+        return prefixKey("hint", key);
+    }
 
     private static Translatable tooltip(String key)
     {
-        return RESOURCES.translationHolder("tooltip", "{}", key);
+        return prefixKey("tooltip", key);
+    }
+
+    private static Translatable upgradeEffect(String key)
+    {
+        return prefixKey("upgrade_effect", key);
     }
 }

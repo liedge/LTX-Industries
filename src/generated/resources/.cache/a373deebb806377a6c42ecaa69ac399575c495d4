@@ -1,4 +1,4 @@
-// 1.21.1	2024-12-31T18:52:57.514989	Item Models: limatech
+// 1.21.1	2025-01-08T13:04:26.2272836	Item Models: limatech
 4b6d59f87537490b1710fa75fcf5451e6d3a81c5 assets/limatech/models/item/auto_ammo_canister.json
 84f16ac4ff419b98a921631d7e2b7c23f6515937 assets/limatech/models/item/coal_ore_pebbles.json
 c696cb13fd1c15a694f4d199c242694b75f58c33 assets/limatech/models/item/copper_circuit.json
@@ -6,7 +6,8 @@ c696cb13fd1c15a694f4d199c242694b75f58c33 assets/limatech/models/item/copper_circ
 50352c2c4a10438f0521e252b42ce8922006524f assets/limatech/models/item/deepslate_powder.json
 4aea21af0c1dd228469d71d3b1eb906fa4e9c1a7 assets/limatech/models/item/diamond_ore_pebbles.json
 ee670f7827e8839a37887fd6f5a715a023dcecea assets/limatech/models/item/emerald_ore_pebbles.json
-272749489cb7d25d048b7908ce99ac2c3e7c5d30 assets/limatech/models/item/equipment_upgrade.json
+e24c324c0ab04e8d633dd1220c6e11283e9d63db assets/limatech/models/item/empty_upgrade_module.json
+fbb668f5b1fd92a6fe124138a0e2b78baf812894 assets/limatech/models/item/equipment_upgrade_module.json
 1f8df2aabbbb96d26d68863276b6d701c01dbfac assets/limatech/models/item/explosives_ammo_canister.json
 b0d991418bf41da631434c20891e950dcd9029f6 assets/limatech/models/item/explosives_weapon_tech_salvage.json
 ccc6779984561298fd5c6cca2039a8a2532ea6e7 assets/limatech/models/item/gold_circuit.json
@@ -15,6 +16,7 @@ ccc6779984561298fd5c6cca2039a8a2532ea6e7 assets/limatech/models/item/gold_circui
 11322225ca23ceef7b75fedde39f7cdafee4a1b9 assets/limatech/models/item/iron_ore_pebbles.json
 4643751315cb17e1d6ec0d19b49f8c94f1c49bec assets/limatech/models/item/lapis_ore_pebbles.json
 4c86fc8138889e7fbe4ad02e2c3baa342774af77 assets/limatech/models/item/lime_pigment.json
+15d3a329590c6ee3071c6bc73c1f6e94d43e22a6 assets/limatech/models/item/machine_upgrade_module.json
 9face87a6f0b2355a346401539bfde18fa19cd8b assets/limatech/models/item/machine_wrench.json
 68d9dc55ef984581f03dad3965a7f9df0e0cb873 assets/limatech/models/item/magnum_ammo_canister.json
 3908e75a1896bd8cefbb2962f556de4e83f8b683 assets/limatech/models/item/netherite_ore_pebbles.json

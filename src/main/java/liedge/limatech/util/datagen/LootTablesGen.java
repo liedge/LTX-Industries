@@ -112,14 +112,14 @@ class LootTablesGen extends LimaLootTableProvider
 
             dropSelf(GLOW_BLOCKS.values());
 
-            dropSelfWithEntity(TIERED_ENERGY_STORAGE_ARRAY);
+            dropSelfWithEntity(ENERGY_STORAGE_ARRAY);
             dropSelfWithEntity(INFINITE_ENERGY_STORAGE_ARRAY);
             dropSelfWithEntity(DIGITAL_FURNACE);
             dropSelfWithEntity(GRINDER);
             dropSelfWithEntity(RECOMPOSER);
             dropSelfWithEntity(MATERIAL_FUSING_CHAMBER);
             dropSelfWithEntity(FABRICATOR);
-            dropSelfWithEntity(EQUIPMENT_MOD_TABLE);
+            dropSelfWithEntity(EQUIPMENT_UPGRADE_STATION);
 
             add(ROCKET_TURRET, singlePoolTable(applyExplosionCondition(ROCKET_TURRET, singleItemPool(ROCKET_TURRET))
                     .when(matchStateProperty(ROCKET_TURRET, DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER))

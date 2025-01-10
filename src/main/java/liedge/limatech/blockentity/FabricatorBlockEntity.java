@@ -1,11 +1,11 @@
 package liedge.limatech.blockentity;
 
 import liedge.limacore.blockentity.IOAccess;
+import liedge.limacore.blockentity.IOAccessSets;
 import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.capability.energy.LimaBlockEntityEnergyStorage;
 import liedge.limacore.capability.energy.LimaEnergyStorage;
 import liedge.limacore.capability.energy.LimaEnergyUtil;
-import liedge.limacore.capability.itemhandler.LimaBlockEntityItemHandler;
 import liedge.limacore.capability.itemhandler.LimaItemHandlerUtil;
 import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limacore.network.sync.AutomaticDataWatcher;
@@ -16,11 +16,9 @@ import liedge.limacore.util.LimaItemUtil;
 import liedge.limacore.util.LimaMathUtil;
 import liedge.limatech.blockentity.io.MachineIOControl;
 import liedge.limatech.blockentity.io.MachineInputType;
-import liedge.limatech.blockentity.io.SidedMachineIOHolder;
 import liedge.limatech.recipe.BaseFabricatingRecipe;
 import liedge.limatech.registry.LimaTechMenus;
 import liedge.limatech.registry.LimaTechRecipeTypes;
-import liedge.limatech.util.config.LimaTechMachinesConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -34,20 +32,18 @@ import net.neoforged.neoforge.capabilities.BlockCapabilityCache;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.items.IItemHandler;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumMap;
 import java.util.Map;
 
 import static liedge.limacore.util.LimaNbtUtil.deserializeString;
-import static net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING;
+import static liedge.limatech.util.config.LimaTechMachinesConfig.FABRICATOR_ENERGY_CAPACITY;
+import static liedge.limatech.util.config.LimaTechMachinesConfig.FABRICATOR_ENERGY_IO_RATE;
 
-public class FabricatorBlockEntity extends MachineBlockEntity implements TimedProcessMachineBlockEntity, SidedMachineIOHolder
+public class FabricatorBlockEntity extends SidedItemEnergyMachineBlockEntity implements TimedProcessMachineBlockEntity
 {
     private final LimaBlockEntityEnergyStorage machineEnergy;
-    private final LimaBlockEntityItemHandler machineItems;
     private final MutableRecipeReference<BaseFabricatingRecipe> currentRecipe = new MutableRecipeReference<>(LimaTechRecipeTypes.FABRICATING);
-    private final MachineIOControl itemIOControl;
     private final Map<Direction, BlockCapabilityCache<IItemHandler, Direction>> itemConnections = new EnumMap<>(Direction.class);
 
     private boolean crafting = false;
@@ -58,24 +54,38 @@ public class FabricatorBlockEntity extends MachineBlockEntity implements TimedPr
 
     public FabricatorBlockEntity(LimaBlockEntityType<?> type, BlockPos pos, BlockState state)
     {
-        super(type, pos, state);
-        this.machineEnergy = new LimaBlockEntityEnergyStorage(this, LimaTechMachinesConfig.FABRICATOR_ENERGY_CAPACITY.getAsInt(), LimaTechMachinesConfig.FABRICATOR_ENERGY_IO_RATE.getAsInt());
-        this.machineItems = new LimaBlockEntityItemHandler(this, 2);
+        super(type, pos, state, 2);
+        this.machineEnergy = new LimaBlockEntityEnergyStorage(this);
+    }
 
-        Direction front = state.getValue(HORIZONTAL_FACING);
-        this.itemIOControl = new MachineIOControl(this, MachineInputType.ITEMS, IOAccess.ONLY_OUTPUT_AND_DISABLED, IOAccess.DISABLED, front, false, false);
+    @Override
+    protected MachineIOControl initItemIOControl(Direction front)
+    {
+        return new MachineIOControl(this, MachineInputType.ITEMS, IOAccessSets.OUTPUT_ONLY_OR_DISABLED, IOAccess.DISABLED, front);
+    }
+
+    @Override
+    protected MachineIOControl initEnergyIOControl(Direction front)
+    {
+        return new MachineIOControl(this, MachineInputType.ENERGY, IOAccessSets.INPUT_ONLY_OR_DISABLED, IOAccess.INPUT_ONLY, front);
+    }
+
+    @Override
+    public int getBaseEnergyCapacity()
+    {
+        return FABRICATOR_ENERGY_CAPACITY.getAsInt();
+    }
+
+    @Override
+    public int getBaseEnergyTransferRate()
+    {
+        return FABRICATOR_ENERGY_IO_RATE.getAsInt();
     }
 
     @Override
     public LimaBlockEntityEnergyStorage getEnergyStorage()
     {
         return machineEnergy;
-    }
-
-    @Override
-    public LimaBlockEntityItemHandler getItemHandler()
-    {
-        return machineItems;
     }
 
     public boolean isCrafting()
@@ -129,12 +139,6 @@ public class FabricatorBlockEntity extends MachineBlockEntity implements TimedPr
     }
 
     @Override
-    public IOAccess getItemIOForSide(Direction side)
-    {
-        return itemIOControl.getSideIO(side);
-    }
-
-    @Override
     protected void tickServer(Level level, BlockPos pos, BlockState state)
     {
         LimaEnergyStorage machineEnergy = getEnergyStorage();
@@ -171,13 +175,13 @@ public class FabricatorBlockEntity extends MachineBlockEntity implements TimedPr
         }
 
         // Auto output item if option available
-        if (itemIOControl.isAutoOutput())
+        if (getItemControl().isAutoOutput())
         {
             if (autoOutputTimer >= 20)
             {
                 for (Direction side : Direction.values())
                 {
-                    if (itemIOControl.getSideIO(side).allowsOutput())
+                    if (getItemControl().getSideIO(side).allowsOutput())
                     {
                         IItemHandler adjacentInventory = itemConnections.get(side).getCapability();
                         if (adjacentInventory != null)
@@ -249,22 +253,18 @@ public class FabricatorBlockEntity extends MachineBlockEntity implements TimedPr
     }
 
     @Override
-    public void onLoad()
+    protected void onLoadServer(ServerLevel level)
     {
-        super.onLoad();
+        super.onLoadServer(level);
 
-        itemIOControl.setFacing(getBlockState().getValue(HORIZONTAL_FACING));
-        if (level instanceof ServerLevel serverLevel)
+        for (Direction side : Direction.values())
         {
-            for (Direction side : Direction.values())
-            {
-                itemConnections.put(side, createCapabilityCache(Capabilities.ItemHandler.BLOCK, serverLevel, side));
-            }
+            itemConnections.put(side, createCapabilityCache(Capabilities.ItemHandler.BLOCK, level, side));
         }
     }
 
     @Override
-    public IOAccess getExternalItemSlotIO(int slot)
+    public IOAccess getPerSlotIO(int slot)
     {
         return slot == 0 ? IOAccess.INPUT_ONLY : IOAccess.OUTPUT_ONLY;
     }
@@ -273,33 +273,20 @@ public class FabricatorBlockEntity extends MachineBlockEntity implements TimedPr
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries)
     {
         super.loadAdditional(tag, registries);
+
         deserializeString(currentRecipe, registries, tag.get("current_recipe"));
         crafting = tag.getBoolean("crafting");
         energyUsedForRecipe = tag.getInt("recipe_energy");
-        itemIOControl.deserializeNBT(registries, tag.getCompound("item_io"));
     }
 
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries)
     {
         super.saveAdditional(tag, registries);
+
         tag.put("current_recipe", currentRecipe.serializeNBT(registries));
         tag.putBoolean("crafting", crafting);
         tag.putInt("recipe_energy", energyUsedForRecipe);
-        tag.put("item_io", itemIOControl.serializeNBT(registries));
-    }
-
-    @Override
-    public @Nullable MachineIOControl getIOControls(MachineInputType inputType)
-    {
-        return inputType == MachineInputType.ITEMS ? itemIOControl : null;
-    }
-
-    @Override
-    public void onIOControlsChanged(MachineInputType inputType)
-    {
-        invalidateCapabilities();
-        setChanged();
     }
 
     @Override

@@ -1,6 +1,9 @@
 package liedge.limatech.util.datagen;
 
 import liedge.limatech.LimaTechTags;
+import liedge.limatech.lib.LevelBasedDoubleValue;
+import liedge.limatech.lib.upgradesystem.calculation.MultiplyBaseCalculation;
+import liedge.limatech.lib.upgradesystem.calculation.OverrideBaseCalculation;
 import liedge.limatech.lib.weapons.GlobalWeaponDamageModifiers;
 import liedge.limatech.registry.LimaTechGameEvents;
 import net.minecraft.core.HolderLookup;
@@ -11,8 +14,6 @@ import net.neoforged.neoforge.registries.datamaps.builtin.VibrationFrequency;
 
 import java.util.concurrent.CompletableFuture;
 
-import static liedge.limatech.lib.weapons.WeaponContextCalculation.multiplyBase;
-import static liedge.limatech.lib.weapons.WeaponContextCalculation.overrideBase;
 import static liedge.limatech.registry.LimaTechItems.*;
 
 class DataMapsGen extends DataMapProvider
@@ -33,13 +34,13 @@ class DataMapsGen extends DataMapProvider
         // Weapon damage modifiers
         builder(GlobalWeaponDamageModifiers.DATA_MAP_TYPE)
                 .add(LimaTechTags.EntityTypes.HIGH_THREAT_LEVEL, GlobalWeaponDamageModifiers.builder()
-                        .add(SUBMACHINE_GUN, overrideBase(0.5f))
-                        .add(SHOTGUN, multiplyBase(0.6f))
-                        .add(GRENADE_LAUNCHER, multiplyBase(0.85f))
+                        .add(SUBMACHINE_GUN, new OverrideBaseCalculation(LevelBasedDoubleValue.constant(0.5d)))
+                        .add(SHOTGUN, new MultiplyBaseCalculation(LevelBasedDoubleValue.constant(-0.4d)))
+                        .add(GRENADE_LAUNCHER, new MultiplyBaseCalculation(LevelBasedDoubleValue.constant(-0.2d)))
                         .build(), false)
                 .add(LimaTechTags.EntityTypes.MEDIUM_THREAT_LEVEL, GlobalWeaponDamageModifiers.builder()
-                        .add(SUBMACHINE_GUN, multiplyBase(0.4f))
-                        .add(SHOTGUN, multiplyBase(0.8f))
+                        .add(SUBMACHINE_GUN, new MultiplyBaseCalculation(LevelBasedDoubleValue.constant(-0.4d)))
+                        .add(SHOTGUN, new MultiplyBaseCalculation(LevelBasedDoubleValue.constant(-0.33d)))
                         .build(), false);
     }
 }

@@ -6,7 +6,7 @@
     "The $(o)Serenity$() is likely your first weapon, hopefully one of many.",
     {
       "type": "patchouli:spotlight",
-      "item": "limatech:equipment_upgrade[limatech:upgrade_entry={upgrade:'limatech:smg_built_in'}]"
+      "item": "limatech:equipment_upgrade_module[limatech:equipment_upgrade={upgrade:'limatech:smg_built_in'}]"
     }
   ]
 }

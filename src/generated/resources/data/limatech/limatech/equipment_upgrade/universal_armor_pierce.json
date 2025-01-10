@@ -12,9 +12,10 @@
       }
     }
   ],
+  "exclusive_set": [],
   "icon": "limatech:armor_bypass",
   "max_rank": 3,
-  "supported_items": "#limatech:ltx_weapons",
+  "supported_set": "#limatech:ltx_weapons",
   "title": {
     "translate": "equipment_upgrade.limatech.universal_armor_pierce.title"
   }

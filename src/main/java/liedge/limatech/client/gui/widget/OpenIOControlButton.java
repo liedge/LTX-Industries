@@ -6,7 +6,9 @@ import liedge.limatech.blockentity.io.MachineInputType;
 import liedge.limatech.registry.LimaTechNetworkSerializers;
 import net.minecraft.client.gui.components.Tooltip;
 
-public class OpenIOControlButton extends LimaRenderableButton
+import static liedge.limatech.client.gui.widget.ScreenWidgetSprites.*;
+
+public class OpenIOControlButton extends LimaSidebarButton
 {
     private final LimaMenuScreen<?> parent;
     private final int buttonId;
@@ -14,11 +16,11 @@ public class OpenIOControlButton extends LimaRenderableButton
 
     public OpenIOControlButton(int x, int y, LimaMenuScreen<?> parent, int buttonId, MachineInputType inputType)
     {
-        super(x, y, 16, 16, inputType.translate());
+        super(x, y, inputType.translate());
         this.parent = parent;
         this.buttonId = buttonId;
         this.inputType = inputType;
-        setTooltip(Tooltip.create(inputType.translate()));
+        setTooltip(Tooltip.create(getMessage()));
     }
 
     @Override
@@ -28,13 +30,13 @@ public class OpenIOControlButton extends LimaRenderableButton
     }
 
     @Override
-    protected UnmanagedSprite unfocusedSprite()
+    protected UnmanagedSprite iconSprite()
     {
         return switch (inputType)
         {
-            case ITEMS -> ScreenWidgetSprites.ITEM_IO_BUTTON;
-            case ENERGY -> ScreenWidgetSprites.ENERGY_IO_BUTTON;
-            case FLUIDS -> ScreenWidgetSprites.FLUID_IO_BUTTON;
+            case ITEMS -> SIDEBAR_ICON_ITEM_IO;
+            case ENERGY -> SIDEBAR_ICON_ENERGY_IO;
+            case FLUIDS -> SIDEBAR_ICON_FLUIDS_IO;
         };
     }
 }

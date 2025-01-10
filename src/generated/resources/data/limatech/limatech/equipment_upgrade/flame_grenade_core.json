@@ -10,8 +10,9 @@
       ]
     }
   ],
+  "exclusive_set": [],
   "icon": "limatech:flame_grenade_core",
-  "supported_items": "limatech:grenade_launcher",
+  "supported_set": "limatech:grenade_launcher",
   "title": {
     "translate": "equipment_upgrade.limatech.flame_grenade_core.title"
   }

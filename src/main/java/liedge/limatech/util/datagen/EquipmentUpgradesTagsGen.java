@@ -3,7 +3,7 @@ package liedge.limatech.util.datagen;
 import liedge.limacore.data.generation.LimaTagsProvider;
 import liedge.limatech.LimaTech;
 import liedge.limatech.registry.LimaTechRegistries;
-import liedge.limatech.upgradesystem.EquipmentUpgrade;
+import liedge.limatech.lib.upgradesystem.equipment.EquipmentUpgrade;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;

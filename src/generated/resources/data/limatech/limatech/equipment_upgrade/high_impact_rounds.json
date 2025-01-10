@@ -4,16 +4,17 @@
   },
   "effects": [
     {
-      "type": "limatech:knockback_modifier",
+      "type": "limatech:weapon_knockback",
       "ignore_resistance": true,
       "modifier": {
-        "type": "addition",
-        "amount": 1.5
+        "type": "flat_addition",
+        "value": 1.5
       }
     }
   ],
+  "exclusive_set": [],
   "icon": "limatech:armor_bypass",
-  "supported_items": [
+  "supported_set": [
     "limatech:shotgun",
     "limatech:magnum"
   ],

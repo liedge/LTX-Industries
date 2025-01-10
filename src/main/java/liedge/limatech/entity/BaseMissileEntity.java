@@ -4,9 +4,9 @@ import liedge.limacore.client.particle.ColorSizeParticleOptions;
 import liedge.limacore.util.LimaNbtUtil;
 import liedge.limacore.util.LimaNetworkUtil;
 import liedge.limatech.LimaTechConstants;
+import liedge.limatech.lib.upgradesystem.equipment.EquipmentUpgrades;
+import liedge.limatech.lib.upgradesystem.equipment.effect.EquipmentUpgradeEffect;
 import liedge.limatech.registry.*;
-import liedge.limatech.upgradesystem.effect.EquipmentUpgradeEffect;
-import liedge.limatech.upgradesystem.ItemEquipmentUpgrades;
 import liedge.limatech.util.config.LimaTechMachinesConfig;
 import liedge.limatech.util.config.LimaTechWeaponsConfig;
 import net.minecraft.nbt.CompoundTag;
@@ -92,14 +92,14 @@ public abstract class BaseMissileEntity extends AutoTrackingProjectile
 
     public static class RocketLauncherMissile extends BaseMissileEntity
     {
-        private ItemEquipmentUpgrades upgrades = ItemEquipmentUpgrades.EMPTY;
+        private EquipmentUpgrades upgrades = EquipmentUpgrades.EMPTY;
 
         public RocketLauncherMissile(EntityType<?> type, Level level)
         {
             super(type, level);
         }
 
-        public RocketLauncherMissile(Level level, ItemEquipmentUpgrades upgrades)
+        public RocketLauncherMissile(Level level, EquipmentUpgrades upgrades)
         {
             this(LimaTechEntities.ROCKET_LAUNCHER_MISSILE.get(), level);
             this.upgrades = upgrades;
@@ -122,7 +122,7 @@ public abstract class BaseMissileEntity extends AutoTrackingProjectile
         {
             super.readAdditionalSaveData(tag);
 
-            if (tag.contains("upgrades")) upgrades = LimaNbtUtil.codecDecode(ItemEquipmentUpgrades.CODEC, tag, "upgrades");
+            if (tag.contains("upgrades")) upgrades = LimaNbtUtil.codecDecode(EquipmentUpgrades.CODEC, tag, "upgrades");
         }
 
         @Override
@@ -130,7 +130,7 @@ public abstract class BaseMissileEntity extends AutoTrackingProjectile
         {
             super.addAdditionalSaveData(tag);
 
-            if (upgrades != ItemEquipmentUpgrades.EMPTY) tag.put("upgrades", LimaNbtUtil.codecEncode(ItemEquipmentUpgrades.CODEC, upgrades));
+            if (upgrades != EquipmentUpgrades.EMPTY) tag.put("upgrades", LimaNbtUtil.codecEncode(EquipmentUpgrades.CODEC, upgrades));
         }
     }
 }

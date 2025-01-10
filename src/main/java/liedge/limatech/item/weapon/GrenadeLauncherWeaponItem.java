@@ -13,8 +13,8 @@ import liedge.limatech.registry.LimaTechDataComponents;
 import liedge.limatech.registry.LimaTechEquipmentUpgrades;
 import liedge.limatech.registry.LimaTechItems;
 import liedge.limatech.registry.LimaTechSounds;
-import liedge.limatech.upgradesystem.ItemEquipmentUpgrades;
-import liedge.limatech.upgradesystem.effect.GrenadeTypeSelectionUpgradeEffect;
+import liedge.limatech.lib.upgradesystem.equipment.EquipmentUpgrades;
+import liedge.limatech.lib.upgradesystem.equipment.effect.GrenadeTypeSelectionUpgradeEffect;
 import liedge.limatech.util.config.LimaTechWeaponsConfig;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.ResourceLocation;
@@ -68,7 +68,7 @@ public class GrenadeLauncherWeaponItem extends SemiAutoWeaponItem implements Scr
     {
         if (!level.isClientSide())
         {
-            ItemEquipmentUpgrades upgrades = ItemEquipmentUpgrades.getFromItem(heldItem);
+            EquipmentUpgrades upgrades = getUpgrades(heldItem);
 
             OrbGrenadeEntity grenade = new OrbGrenadeEntity(level, getGrenadeTypeFromItem(heldItem), upgrades);
             grenade.setOwner(player);
@@ -110,7 +110,7 @@ public class GrenadeLauncherWeaponItem extends SemiAutoWeaponItem implements Scr
     {
         final boolean forward = delta == 1;
 
-        ItemEquipmentUpgrades upgrades = ItemEquipmentUpgrades.getFromItem(stack);
+        EquipmentUpgrades upgrades = getUpgrades(stack);
         Set<GrenadeType> availableTypes = new ObjectOpenHashSet<>();
         availableTypes.add(GrenadeType.EXPLOSIVE); // Always allow equipping explosive rounds
         upgrades.flatMapEffectsTwice(GrenadeTypeSelectionUpgradeEffect.class, (effect, rank) -> effect.allowedGrenadeTypeSelections()).forEach(availableTypes::add);
@@ -130,7 +130,7 @@ public class GrenadeLauncherWeaponItem extends SemiAutoWeaponItem implements Scr
         HolderLookup.Provider registries = parameters.holders();
         ItemStack stack = getDefaultInstance(registries);
         setAmmoLoaded(stack, getAmmoCapacity(stack));
-        stack.set(LimaTechDataComponents.EQUIPMENT_UPGRADES, ItemEquipmentUpgrades.builder()
+        stack.set(LimaTechDataComponents.EQUIPMENT_UPGRADES, EquipmentUpgrades.builder()
                 .add(registries.holderOrThrow(LimaTechEquipmentUpgrades.OMNI_GRENADE_CORE))
                 .build());
         output.accept(stack, tabVisibility);

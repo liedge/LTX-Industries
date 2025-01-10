@@ -2,10 +2,11 @@ package liedge.limatech;
 
 import com.mojang.logging.LogUtils;
 import liedge.limacore.lib.ModResources;
+import liedge.limatech.lib.upgradesystem.equipment.EquipmentUpgrade;
+import liedge.limatech.lib.upgradesystem.machine.MachineUpgrade;
 import liedge.limatech.lib.weapons.GlobalWeaponDamageModifiers;
 import liedge.limatech.network.packet.LimaTechPacketsRegistration;
 import liedge.limatech.registry.*;
-import liedge.limatech.upgradesystem.EquipmentUpgrade;
 import liedge.limatech.util.config.LimaTechClientConfig;
 import liedge.limatech.util.config.LimaTechMachinesConfig;
 import liedge.limatech.util.config.LimaTechWeaponsConfig;
@@ -45,6 +46,7 @@ public class LimaTech
         LimaTechEquipmentUpgrades.initRegister(modBus);
         LimaTechGameEvents.initRegister(modBus);
         LimaTechItems.initRegister(modBus);
+        LimaTechMachineUpgrades.initRegister(modBus);
         LimaTechMenus.initRegister(modBus);
         LimaTechMobEffects.initRegister(modBus);
         LimaTechNetworkSerializers.initRegister(modBus);
@@ -95,13 +97,15 @@ public class LimaTech
         @SubscribeEvent
         private void registerCustomRegistries(final NewRegistryEvent event)
         {
-            event.register(LimaTechRegistries.UPGRADE_EFFECT_TYPE);
+            event.register(LimaTechRegistries.EQUIPMENT_UPGRADE_EFFECT_TYPE);
+            event.register(LimaTechRegistries.MACHINE_UPGRADE_EFFECT_TYPE);
         }
 
         @SubscribeEvent
         private void registerDataPackRegistries(final DataPackRegistryEvent.NewRegistry event)
         {
             event.dataPackRegistry(LimaTechRegistries.EQUIPMENT_UPGRADES_KEY, EquipmentUpgrade.DIRECT_CODEC, EquipmentUpgrade.DIRECT_CODEC);
+            event.dataPackRegistry(LimaTechRegistries.MACHINE_UPGRADES_KEY, MachineUpgrade.DIRECT_CODEC, MachineUpgrade.DIRECT_CODEC);
         }
 
         @SubscribeEvent

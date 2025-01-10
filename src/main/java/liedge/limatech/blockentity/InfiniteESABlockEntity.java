@@ -1,6 +1,7 @@
 package liedge.limatech.blockentity;
 
 import liedge.limacore.blockentity.IOAccess;
+import liedge.limacore.blockentity.IOAccessSets;
 import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.capability.energy.InfiniteEnergyStorage;
 import liedge.limacore.capability.energy.LimaEnergyStorage;
@@ -12,23 +13,17 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.state.BlockState;
 
-import static net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING;
-
-public class InfiniteESABlockEntity extends EnergyStorageArrayBlockEntity
+public class InfiniteESABlockEntity extends BaseESABlockEntity
 {
-    private final MachineIOControl energyControl;
-
     public InfiniteESABlockEntity(LimaBlockEntityType<?> type, BlockPos pos, BlockState state)
     {
         super(type, pos, state);
-        Direction front = state.getValue(HORIZONTAL_FACING);
-        this.energyControl = new MachineIOControl(this, MachineInputType.ENERGY, IOAccess.ONLY_OUTPUT_AND_DISABLED, IOAccess.OUTPUT_ONLY, front, false, true);
     }
 
     @Override
     public LimaColor getRemoteEnergyFillColor()
     {
-        return LimaTechConstants.NIOBIUM_PURPLE;
+        return LimaTechConstants.CREATIVE_PINK;
     }
 
     @Override
@@ -38,9 +33,21 @@ public class InfiniteESABlockEntity extends EnergyStorageArrayBlockEntity
     }
 
     @Override
-    protected MachineIOControl energyIOControl()
+    protected MachineIOControl initEnergyIOControl(Direction front)
     {
-        return energyControl;
+        return new MachineIOControl(this, MachineInputType.ENERGY, IOAccessSets.OUTPUT_ONLY_OR_DISABLED, IOAccess.OUTPUT_ONLY, front, false, true);
+    }
+
+    @Override
+    public int getBaseEnergyCapacity()
+    {
+        return Integer.MAX_VALUE;
+    }
+
+    @Override
+    public int getBaseEnergyTransferRate()
+    {
+        return Integer.MAX_VALUE;
     }
 
     @Override

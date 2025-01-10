@@ -6,13 +6,14 @@ import liedge.limatech.client.gui.screen.DigitalFurnaceScreen;
 import liedge.limatech.client.gui.screen.GrinderScreen;
 import liedge.limatech.client.gui.screen.MaterialFusingChamberScreen;
 import liedge.limatech.client.gui.screen.RecomposerScreen;
+import liedge.limatech.item.UpgradeModuleItem;
+import liedge.limatech.lib.upgradesystem.UpgradeBaseEntry;
 import liedge.limatech.recipe.BaseFabricatingRecipe;
 import liedge.limatech.recipe.GrindingRecipe;
 import liedge.limatech.recipe.MaterialFusingRecipe;
 import liedge.limatech.recipe.RecomposingRecipe;
 import liedge.limatech.registry.LimaTechBlocks;
 import liedge.limatech.registry.LimaTechItems;
-import liedge.limatech.upgradesystem.EquipmentUpgradeEntry;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.RecipeTypes;
@@ -53,10 +54,8 @@ public class LimaTechJEIPlugin implements IModPlugin
     @Override
     public void registerItemSubtypes(ISubtypeRegistration registration)
     {
-        registration.registerSubtypeInterpreter(LimaTechItems.EQUIPMENT_UPGRADE_ITEM.get(), (stack, $) -> {
-            EquipmentUpgradeEntry entry = EquipmentUpgradeEntry.getFromItem(stack);
-            return entry != null ? entry.toString() : IIngredientSubtypeInterpreter.NONE;
-        });
+        registerUpgradeModuleSubtype(registration, LimaTechItems.EQUIPMENT_UPGRADE_MODULE.get());
+        registerUpgradeModuleSubtype(registration, LimaTechItems.MACHINE_UPGRADE_MODULE.get());
     }
 
     @Override
@@ -100,6 +99,14 @@ public class LimaTechJEIPlugin implements IModPlugin
         registration.addRecipeClickArea(GrinderScreen.class, 75, 39, 24, 6, GRINDING_JEI);
         registration.addRecipeClickArea(RecomposerScreen.class, 75, 39, 24, 6, RECOMPOSING_JEI);
         registration.addRecipeClickArea(MaterialFusingChamberScreen.class, 81, 41, 24, 6, MATERIAL_FUSING_JEI);
+    }
+
+    private void registerUpgradeModuleSubtype(ISubtypeRegistration registration, UpgradeModuleItem<?, ?> item)
+    {
+        registration.registerSubtypeInterpreter(item, (stack, $) -> {
+            UpgradeBaseEntry<?> entry = stack.get(item.entryComponentType());
+            return entry != null ? entry.toString() : IIngredientSubtypeInterpreter.NONE;
+        });
     }
 
     @SuppressWarnings("unchecked")

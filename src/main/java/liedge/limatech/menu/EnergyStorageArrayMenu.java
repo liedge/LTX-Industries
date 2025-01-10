@@ -1,30 +1,27 @@
 package liedge.limatech.menu;
 
-import liedge.limacore.inventory.menu.LimaItemHandlerMenu;
 import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limacore.util.LimaItemUtil;
-import liedge.limatech.blockentity.EnergyStorageArrayBlockEntity;
-import liedge.limatech.registry.LimaTechNetworkSerializers;
+import liedge.limatech.blockentity.BaseESABlockEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 
-public class EnergyStorageArrayMenu extends LimaItemHandlerMenu<EnergyStorageArrayBlockEntity>
+public class EnergyStorageArrayMenu extends SidedUpgradableMachineMenu<BaseESABlockEntity>
 {
-    public EnergyStorageArrayMenu(LimaMenuType<EnergyStorageArrayBlockEntity, ?> type, int containerId, Inventory inventory, EnergyStorageArrayBlockEntity menuContext)
+    public EnergyStorageArrayMenu(LimaMenuType<BaseESABlockEntity, ?> type, int containerId, Inventory inventory, BaseESABlockEntity menuContext)
     {
         super(type, containerId, inventory, menuContext);
 
-        addContextSlot(0, 8, 62);
-        addContextSlotsGrid(1, 56, 37, 4, 1);
+        addSlot(0, 8, 62);
+        addSlotsGrid(1, 56, 37, 4, 1);
 
-        addPlayerInventory(DEFAULT_INV_X, DEFAULT_INV_Y);
-        addPlayerHotbar(DEFAULT_INV_X, DEFAULT_HOTBAR_Y);
+        addDefaultPlayerInventoryAndHotbar();
     }
 
     @Override
     public void defineDataWatchers(DataWatcherCollector collector)
     {
-        collector.register(menuContext.getEnergyStorage().createDataWatcher());
+        menuContext.getEnergyStorage().keepAllPropertiesSynced(collector);
     }
 
     @Override
@@ -40,11 +37,5 @@ public class EnergyStorageArrayMenu extends LimaItemHandlerMenu<EnergyStorageArr
         }
 
         return false;
-    }
-
-    @Override
-    protected void defineButtonEventHandlers(EventHandlerBuilder builder)
-    {
-        builder.handleAction(0, LimaTechNetworkSerializers.MACHINE_INPUT_TYPE, menuContext::openIOControlMenuScreen);
     }
 }

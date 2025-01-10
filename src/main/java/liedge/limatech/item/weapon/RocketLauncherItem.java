@@ -5,7 +5,7 @@ import liedge.limatech.entity.BaseMissileEntity;
 import liedge.limatech.entity.LimaTechEntityUtil;
 import liedge.limatech.registry.LimaTechItems;
 import liedge.limatech.registry.LimaTechSounds;
-import liedge.limatech.upgradesystem.ItemEquipmentUpgrades;
+import liedge.limatech.lib.upgradesystem.equipment.EquipmentUpgrades;
 import liedge.limatech.util.config.LimaTechWeaponsConfig;
 import liedge.limatech.lib.weapons.AbstractWeaponControls;
 import net.minecraft.sounds.SoundSource;
@@ -82,7 +82,7 @@ public class RocketLauncherItem extends SemiAutoWeaponItem
     {
         if (!level.isClientSide())
         {
-            ItemEquipmentUpgrades upgrades = ItemEquipmentUpgrades.getFromItem(heldItem);
+            EquipmentUpgrades upgrades = getUpgrades(heldItem);
 
             BaseMissileEntity.RocketLauncherMissile missile = new BaseMissileEntity.RocketLauncherMissile(level, upgrades);
             missile.setOwner(player);

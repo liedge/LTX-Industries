@@ -4,8 +4,9 @@ import liedge.limacore.capability.energy.LimaComponentEnergyStorage;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.util.LimaMathUtil;
 import liedge.limatech.LimaTechConstants;
-import liedge.limatech.client.LimaTechLang;
-import liedge.limatech.lib.machinetiers.MachineTier;
+import liedge.limatech.blockentity.UpgradableMachineBlockEntity;
+import liedge.limatech.lib.upgradesystem.calculation.CompoundCalculation;
+import liedge.limatech.lib.upgradesystem.machine.effect.ModifyEnergyStorageUpgradeEffect;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -14,9 +15,8 @@ import net.neoforged.neoforge.energy.IEnergyStorage;
 import org.jetbrains.annotations.Nullable;
 
 import static liedge.limacore.capability.energy.InfiniteEnergyStorage.INFINITE_ENERGY_STORAGE;
-import static liedge.limatech.LimaTechConstants.LIME_GREEN;
-import static liedge.limatech.registry.LimaTechDataComponents.MACHINE_TIER;
-import static liedge.limatech.util.config.LimaTechMachinesConfig.*;
+import static liedge.limatech.util.config.LimaTechMachinesConfig.ESA_BASE_ENERGY_CAPACITY;
+import static liedge.limatech.util.config.LimaTechMachinesConfig.ESA_BASE_TRANSFER_RATE;
 
 public class EnergyStorageArrayItem extends BlockItem implements EnergyHolderItem, TooltipShiftHintItem
 {
@@ -43,8 +43,7 @@ public class EnergyStorageArrayItem extends BlockItem implements EnergyHolderIte
         }
         else
         {
-            MachineTier tier = stack.getOrDefault(MACHINE_TIER, MachineTier.TIER_1);
-            return tier.calculateInt(ESA_BASE_ENERGY_CAPACITY.getAsInt(), ESA_PER_TIER_CAPACITY_MULTIPLIER.getAsInt());
+            return CompoundCalculation.runStepsAsInt(ESA_BASE_ENERGY_CAPACITY.getAsInt(), UpgradableMachineBlockEntity.getMachineUpgradesFromItem(stack).flatMapToSortedCalculations(ModifyEnergyStorageUpgradeEffect.class, ModifyEnergyStorageUpgradeEffect::capacityModifier));
         }
     }
 
@@ -57,8 +56,7 @@ public class EnergyStorageArrayItem extends BlockItem implements EnergyHolderIte
         }
         else
         {
-            MachineTier tier = stack.getOrDefault(MACHINE_TIER, MachineTier.TIER_1);
-            return tier.calculateInt(ESA_BASE_TRANSFER_RATE.getAsInt(), ESA_PER_TIER_TRANSFER_MULTIPLIER.getAsInt());
+            return CompoundCalculation.runStepsAsInt(ESA_BASE_TRANSFER_RATE.getAsInt(), UpgradableMachineBlockEntity.getMachineUpgradesFromItem(stack).flatMapToSortedCalculations(ModifyEnergyStorageUpgradeEffect.class, ModifyEnergyStorageUpgradeEffect::transferRateModifier));
         }
     }
 
@@ -90,13 +88,13 @@ public class EnergyStorageArrayItem extends BlockItem implements EnergyHolderIte
     @Override
     public int getBarWidth(ItemStack stack)
     {
-        return Math.round(13f * LimaMathUtil.divideFloat(getEnergyStored(stack), getEnergyCapacity(stack)));
+        float fill = Math.min(LimaMathUtil.divideFloat(getEnergyStored(stack), getEnergyCapacity(stack)), 1f);
+        return Math.round(13f * fill);
     }
 
     @Override
     public void appendTooltipHintComponents(@Nullable Level level, ItemStack stack, TooltipLineConsumer consumer)
     {
-        if (!infinite) consumer.accept(LimaTechLang.MACHINE_TIER_TOOLTIP.translateArgs(stack.getOrDefault(MACHINE_TIER, MachineTier.TIER_1).getTierLevel()).withStyle(LIME_GREEN.chatStyle()));
         appendExtendedEnergyTooltip(consumer, stack);
     }
 }

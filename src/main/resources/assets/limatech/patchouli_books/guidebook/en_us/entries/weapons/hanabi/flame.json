@@ -2,7 +2,7 @@
   "name": "Flame Rounds",
   "sortnum": 1,
   "category": "limatech:weapons_hanabi",
-  "icon": "limatech:textures/equipment_upgrade/flame_grenade_core.png",
+  "icon": "limatech:textures/upgrade_icon/flame_grenade_core.png",
   "pages": [
     ""
   ]

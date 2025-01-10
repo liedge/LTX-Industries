@@ -22,11 +22,11 @@
   ],
   "result": {
     "components": {
-      "limatech:upgrade_entry": {
+      "limatech:equipment_upgrade": {
         "upgrade": "limatech:universal_anti_vibration"
       }
     },
     "count": 1,
-    "id": "limatech:equipment_upgrade"
+    "id": "limatech:equipment_upgrade_module"
   }
 }

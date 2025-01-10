@@ -4,12 +4,11 @@
   },
   "effects": [
     {
-      "type": "limatech:weapon_attribute_modifier",
-      "attribute": "damage",
-      "calculation": {
-        "type": "multiply_by_target_attribute",
-        "amount": 0.2,
-        "attribute": "minecraft:generic.max_health"
+      "type": "limatech:weapon_damage",
+      "modifier": {
+        "type": "add_multiplied_attribute",
+        "attribute": "minecraft:generic.max_health",
+        "value": 0.2
       }
     },
     {
@@ -17,7 +16,8 @@
       "amount": 1.0
     }
   ],
-  "supported_items": "limatech:magnum",
+  "exclusive_set": [],
+  "supported_set": "limatech:magnum",
   "title": {
     "translate": "equipment_upgrade.limatech.magnum_scaling_rounds.title"
   }

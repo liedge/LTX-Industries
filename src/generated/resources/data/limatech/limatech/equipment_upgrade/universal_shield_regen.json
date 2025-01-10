@@ -13,9 +13,10 @@
       "shield_amount": 4.0
     }
   ],
+  "exclusive_set": [],
   "icon": "limatech:shield_regen",
   "max_rank": 3,
-  "supported_items": "#limatech:ltx_weapons",
+  "supported_set": "#limatech:ltx_weapons",
   "title": {
     "translate": "equipment_upgrade.limatech.universal_shield_regen.title"
   }

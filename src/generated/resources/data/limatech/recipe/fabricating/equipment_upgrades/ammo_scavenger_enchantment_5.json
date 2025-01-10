@@ -6,13 +6,13 @@
     {
       "type": "neoforge:components",
       "components": {
-        "limatech:upgrade_entry": {
+        "limatech:equipment_upgrade": {
           "rank": 4,
           "upgrade": "limatech:ammo_scavenger_enchantment"
         }
       },
       "count": 1,
-      "items": "limatech:equipment_upgrade",
+      "items": "limatech:equipment_upgrade_module",
       "strict": true
     },
     {
@@ -38,12 +38,12 @@
   ],
   "result": {
     "components": {
-      "limatech:upgrade_entry": {
+      "limatech:equipment_upgrade": {
         "rank": 5,
         "upgrade": "limatech:ammo_scavenger_enchantment"
       }
     },
     "count": 1,
-    "id": "limatech:equipment_upgrade"
+    "id": "limatech:equipment_upgrade_module"
   }
 }

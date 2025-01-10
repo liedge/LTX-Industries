@@ -1,7 +1,7 @@
 package liedge.limatech;
 
 import liedge.limatech.registry.LimaTechRegistries;
-import liedge.limatech.upgradesystem.EquipmentUpgrade;
+import liedge.limatech.lib.upgradesystem.equipment.EquipmentUpgrade;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;

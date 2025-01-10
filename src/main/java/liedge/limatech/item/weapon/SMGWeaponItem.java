@@ -7,7 +7,7 @@ import liedge.limatech.registry.LimaTechDamageTypes;
 import liedge.limatech.registry.LimaTechEquipmentUpgrades;
 import liedge.limatech.registry.LimaTechItems;
 import liedge.limatech.registry.LimaTechParticles;
-import liedge.limatech.upgradesystem.ItemEquipmentUpgrades;
+import liedge.limatech.lib.upgradesystem.equipment.EquipmentUpgrades;
 import liedge.limatech.util.config.LimaTechWeaponsConfig;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.world.InteractionHand;
@@ -25,9 +25,9 @@ public class SMGWeaponItem extends FullAutoWeaponItem
     }
 
     @Override
-    protected ItemEquipmentUpgrades getDefaultUpgrades(HolderLookup.Provider registries)
+    protected EquipmentUpgrades getDefaultUpgrades(HolderLookup.Provider registries)
     {
-        return ItemEquipmentUpgrades.builder()
+        return EquipmentUpgrades.builder()
             .add(registries.holderOrThrow(LimaTechEquipmentUpgrades.SMG_BUILT_IN))
             .build();
     }
@@ -39,7 +39,7 @@ public class SMGWeaponItem extends FullAutoWeaponItem
         {
             double inaccuracy = LimaEntityUtil.isEntityUsingItem(player, InteractionHand.MAIN_HAND) ? 0.25d : 4d;
             CompoundHitResult hitResult = CompoundHitResult.tracePath(level, player, 12d, inaccuracy, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, e -> 0.2d, 1);
-            ItemEquipmentUpgrades upgrades = ItemEquipmentUpgrades.getFromItem(heldItem);
+            EquipmentUpgrades upgrades = getUpgrades(heldItem);
 
             hitResult.entityHits().forEach(hit -> causeInstantDamage(upgrades, player, LimaTechDamageTypes.LIGHTFRAG, hit.getEntity(), LimaTechWeaponsConfig.SMG_BASE_DAMAGE.getAsDouble()));
             postWeaponFiredGameEvent(upgrades, level, player);

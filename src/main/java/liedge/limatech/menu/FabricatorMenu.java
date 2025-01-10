@@ -1,6 +1,5 @@
 package liedge.limatech.menu;
 
-import liedge.limacore.inventory.menu.LimaItemHandlerMenu;
 import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limacore.recipe.LimaRecipeInput;
 import liedge.limacore.registry.LimaCoreNetworkSerializers;
@@ -9,7 +8,6 @@ import liedge.limacore.util.LimaRecipesUtil;
 import liedge.limatech.LimaTech;
 import liedge.limatech.blockentity.FabricatorBlockEntity;
 import liedge.limatech.recipe.BaseFabricatingRecipe;
-import liedge.limatech.registry.LimaTechNetworkSerializers;
 import liedge.limatech.registry.LimaTechRecipeTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -18,17 +16,18 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.neoforged.neoforge.items.wrapper.PlayerMainInvWrapper;
 
-public class FabricatorMenu extends LimaItemHandlerMenu<FabricatorBlockEntity>
+public class FabricatorMenu extends SidedUpgradableMachineMenu<FabricatorBlockEntity>
 {
+    public static final int CRAFT_BUTTON_ID = 2;
+
     public FabricatorMenu(LimaMenuType<FabricatorBlockEntity, ?> type, int containerId, Inventory inventory, FabricatorBlockEntity context)
     {
         super(type, containerId, inventory, context);
 
         // Slots
-        addContextSlot(0, 7, 61);
-        addContextRecipeResultSlot(1, 43, 86, LimaTechRecipeTypes.FABRICATING);
-        addPlayerInventory(15, 118);
-        addPlayerHotbar(15, 176);
+        addSlot(0, 7, 61);
+        addRecipeResultSlot(1, 43, 86, LimaTechRecipeTypes.FABRICATING);
+        addPlayerInventoryAndHotbar(15, 118);
     }
 
     private void receiveCraftCommand(ServerPlayer sender, ResourceLocation id)
@@ -42,22 +41,22 @@ public class FabricatorMenu extends LimaItemHandlerMenu<FabricatorBlockEntity>
         }
         else
         {
-            LimaTech.LOGGER.warn("Received unknown fabricating recipe id '{}' on server.", id);
+            LimaTech.LOGGER.warn("Received unknown fabricating recipe iconPath '{}' on server.", id);
         }
     }
 
     @Override
     public void defineDataWatchers(DataWatcherCollector collector)
     {
-        collector.register(menuContext.getEnergyStorage().createDataWatcher());
+        menuContext.getEnergyStorage().keepAllPropertiesSynced(collector);
         collector.register(menuContext.keepProcessSynced());
     }
 
     @Override
     protected void defineButtonEventHandlers(EventHandlerBuilder builder)
     {
-        builder.handleAction(0, LimaCoreNetworkSerializers.RESOURCE_LOCATION, this::receiveCraftCommand);
-        builder.handleAction(1, LimaTechNetworkSerializers.MACHINE_INPUT_TYPE, menuContext::openIOControlMenuScreen);
+        super.defineButtonEventHandlers(builder);
+        builder.handleAction(CRAFT_BUTTON_ID, LimaCoreNetworkSerializers.RESOURCE_LOCATION, this::receiveCraftCommand);
     }
 
     @Override

@@ -13,9 +13,10 @@
       }
     }
   ],
+  "exclusive_set": [],
   "icon": "limatech:looting_enchant",
   "max_rank": 5,
-  "supported_items": "#limatech:ltx_weapons",
+  "supported_set": "#limatech:ltx_weapons",
   "title": {
     "translate": "equipment_upgrade.limatech.looting_enchantment.title"
   }

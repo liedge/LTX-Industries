@@ -61,7 +61,7 @@ class BlockStatesGen extends LimaBlockStateProvider
 
         // Energy storage array
         final ModelFile esaModel = existingModel(blockFolderLocation("energy_storage_array"));
-        simpleBlockWithItem(TIERED_ENERGY_STORAGE_ARRAY, esaModel);
+        simpleBlockWithItem(ENERGY_STORAGE_ARRAY, esaModel);
         simpleBlockWithItem(INFINITE_ENERGY_STORAGE_ARRAY, esaModel);
 
         // Simple machines
@@ -70,7 +70,7 @@ class BlockStatesGen extends LimaBlockStateProvider
         basicMachine(RECOMPOSER);
         basicMachine(MATERIAL_FUSING_CHAMBER);
         horizontalBlockWithSimpleItem(FABRICATOR);
-        simpleBlockWithItem(EQUIPMENT_MOD_TABLE, existingModel(blockFolderLocation(EQUIPMENT_MOD_TABLE)));
+        simpleBlockWithItem(EQUIPMENT_UPGRADE_STATION, existingModel(blockFolderLocation(EQUIPMENT_UPGRADE_STATION)));
 
         // Turret
         getVariantBuilder(ROCKET_TURRET).forAllStatesExcept(state -> {

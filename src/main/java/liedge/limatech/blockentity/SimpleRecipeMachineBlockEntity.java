@@ -1,19 +1,16 @@
 package liedge.limatech.blockentity;
 
 import liedge.limacore.blockentity.IOAccess;
+import liedge.limacore.blockentity.IOAccessSets;
 import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.capability.energy.LimaBlockEntityEnergyStorage;
 import liedge.limacore.capability.energy.LimaEnergyStorage;
 import liedge.limacore.capability.energy.LimaEnergyUtil;
-import liedge.limacore.capability.itemhandler.LimaBlockEntityItemHandler;
 import liedge.limacore.capability.itemhandler.LimaItemHandlerBase;
 import liedge.limacore.capability.itemhandler.LimaItemHandlerUtil;
 import liedge.limacore.util.LimaItemUtil;
-import liedge.limatech.LimaTech;
 import liedge.limatech.blockentity.io.MachineIOControl;
 import liedge.limatech.blockentity.io.MachineInputType;
-import liedge.limatech.blockentity.io.SidedMachineIOHolder;
-import liedge.limatech.lib.machinetiers.MachineTier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -37,14 +34,12 @@ import java.util.Map;
 import java.util.Optional;
 
 import static liedge.limatech.block.LimaTechBlockProperties.MACHINE_WORKING;
-import static net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING;
 
-public abstract class SimpleRecipeMachineBlockEntity<I extends RecipeInput, R extends Recipe<I>> extends TieredMachineBlockEntity implements TimedProcessMachineBlockEntity, SidedMachineIOHolder
+public abstract class SimpleRecipeMachineBlockEntity<I extends RecipeInput, R extends Recipe<I>> extends SidedItemEnergyMachineBlockEntity implements TimedProcessMachineBlockEntity
 {
     private final LimaBlockEntityEnergyStorage machineEnergy;
-    private final LimaBlockEntityItemHandler machineItems;
     private final int baseEnergyCapacity;
-    private final MachineIOControl itemIOControl;
+    private final int baseEnergyTransferRate;
     private final Map<Direction, BlockCapabilityCache<IItemHandler, Direction>> itemConnections = new EnumMap<>(Direction.class);
 
     private int craftingProgress;
@@ -52,39 +47,44 @@ public abstract class SimpleRecipeMachineBlockEntity<I extends RecipeInput, R ex
     private boolean crafting;
 
     private int autoOutputTimer = 0;
-
     private @Nullable RecipeHolder<R> lastUsedRecipe;
 
     protected SimpleRecipeMachineBlockEntity(LimaBlockEntityType<?> type, BlockPos pos, BlockState state, int baseEnergyCapacity, int inventorySize)
     {
-        super(type, pos, state);
-        this.machineEnergy = new LimaBlockEntityEnergyStorage(this, baseEnergyCapacity, baseEnergyCapacity / 20);
-        this.machineItems = new LimaBlockEntityItemHandler(this, inventorySize);
+        super(type, pos, state, inventorySize);
         this.baseEnergyCapacity = baseEnergyCapacity;
+        this.baseEnergyTransferRate = baseEnergyCapacity / 20;
+        this.machineEnergy = new LimaBlockEntityEnergyStorage(this);
+    }
 
-        Direction front = state.getValue(HORIZONTAL_FACING);
-        this.itemIOControl = new MachineIOControl(this, MachineInputType.ITEMS, IOAccess.INPUT_OR_OUTPUT_ONLY_AND_DISABLED, IOAccess.DISABLED, front, false, false);
+    @Override
+    protected MachineIOControl initItemIOControl(Direction front)
+    {
+        return new MachineIOControl(this, MachineInputType.ITEMS, IOAccessSets.ALL_ALLOWED, IOAccess.DISABLED, front, false, true);
+    }
+
+    @Override
+    protected MachineIOControl initEnergyIOControl(Direction front)
+    {
+        return new MachineIOControl(this, MachineInputType.ENERGY, IOAccessSets.INPUT_ONLY_OR_DISABLED, IOAccess.INPUT_ONLY, front);
+    }
+
+    @Override
+    public int getBaseEnergyCapacity()
+    {
+        return baseEnergyCapacity;
+    }
+
+    @Override
+    public int getBaseEnergyTransferRate()
+    {
+        return baseEnergyTransferRate;
     }
 
     @Override
     public LimaBlockEntityEnergyStorage getEnergyStorage()
     {
         return machineEnergy;
-    }
-
-    @Override
-    public LimaBlockEntityItemHandler getItemHandler()
-    {
-        return machineItems;
-    }
-
-    @Override
-    protected void applyMachineTier(MachineTier tier)
-    {
-        int newCapacity = baseEnergyCapacity + getTotalEnergyUsage() * 8;
-        machineEnergy.setMaxEnergyStored(newCapacity);
-        machineEnergy.setTransferRate(newCapacity / 20);
-        LimaTech.LOGGER.debug("Applying machine tier {}", tier.getTierLevel());
     }
 
     @Override
@@ -109,25 +109,6 @@ public abstract class SimpleRecipeMachineBlockEntity<I extends RecipeInput, R ex
     }
 
     @Override
-    public IOAccess getItemIOForSide(Direction side)
-    {
-        return itemIOControl.getSideIO(side);
-    }
-
-    @Override
-    public @Nullable MachineIOControl getIOControls(MachineInputType inputType)
-    {
-        return inputType == MachineInputType.ITEMS ? itemIOControl : null;
-    }
-
-    @Override
-    public void onIOControlsChanged(MachineInputType inputType)
-    {
-        invalidateCapabilities();
-        setChanged();
-    }
-
-    @Override
     public boolean allowsAutoInput(MachineInputType inputType)
     {
         return false;
@@ -142,12 +123,12 @@ public abstract class SimpleRecipeMachineBlockEntity<I extends RecipeInput, R ex
     @Override
     public int getTotalProcessDuration()
     {
-        return baseCraftingTime() / getTier().getSpeedModifier();
+        return baseCraftingTime();
     }
 
     public int getTotalEnergyUsage()
     {
-        return baseEnergyUsage() * getTier().getEnergyMultiplier();
+        return baseEnergyUsage();
     }
 
     public abstract RecipeType<R> machineRecipeType();
@@ -200,7 +181,7 @@ public abstract class SimpleRecipeMachineBlockEntity<I extends RecipeInput, R ex
     }
 
     @Override
-    public IOAccess getExternalItemSlotIO(int slot)
+    public IOAccess getPerSlotIO(int slot)
     {
         if (slot == outputSlotIndex())
         {
@@ -268,13 +249,13 @@ public abstract class SimpleRecipeMachineBlockEntity<I extends RecipeInput, R ex
         }
 
         // Auto output item if option available
-        if (itemIOControl.isAutoOutput())
+        if (getItemControl().isAutoOutput())
         {
             if (autoOutputTimer >= 20)
             {
                 for (Direction side : Direction.values())
                 {
-                    if (itemIOControl.getSideIO(side).allowsOutput())
+                    if (getItemControl().getSideIO(side).allowsOutput())
                     {
                         IItemHandler adjacentInventory = itemConnections.get(side).getCapability();
                         if (adjacentInventory != null)
@@ -302,18 +283,14 @@ public abstract class SimpleRecipeMachineBlockEntity<I extends RecipeInput, R ex
     }
 
     @Override
-    public void onLoad()
+    protected void onLoadServer(ServerLevel level)
     {
-        super.onLoad();
-        this.shouldCheckRecipe = true;
+        super.onLoadServer(level);
 
-        itemIOControl.setFacing(getBlockState().getValue(HORIZONTAL_FACING));
-        if (level instanceof ServerLevel serverLevel)
+        this.shouldCheckRecipe = true;
+        for (Direction side : Direction.values())
         {
-            for (Direction side : Direction.values())
-            {
-                itemConnections.put(side, createCapabilityCache(Capabilities.ItemHandler.BLOCK, serverLevel, side));
-            }
+            itemConnections.put(side, createCapabilityCache(Capabilities.ItemHandler.BLOCK, level, side));
         }
     }
 
@@ -322,7 +299,6 @@ public abstract class SimpleRecipeMachineBlockEntity<I extends RecipeInput, R ex
     {
         super.loadAdditional(tag, registries);
         craftingProgress = tag.getInt("progress");
-        itemIOControl.deserializeNBT(registries, tag.getCompound("item_io"));
     }
 
     @Override
@@ -330,6 +306,5 @@ public abstract class SimpleRecipeMachineBlockEntity<I extends RecipeInput, R ex
     {
         super.saveAdditional(tag, registries);
         tag.putInt("progress", craftingProgress);
-        tag.put("item_io", itemIOControl.serializeNBT(registries));
     }
 }

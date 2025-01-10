@@ -6,10 +6,10 @@ import liedge.limacore.util.LimaNbtUtil;
 import liedge.limacore.util.LimaNetworkUtil;
 import liedge.limatech.LimaTechTags;
 import liedge.limatech.client.particle.GrenadeExplosionParticleOptions;
+import liedge.limatech.lib.upgradesystem.equipment.EquipmentUpgrades;
+import liedge.limatech.lib.upgradesystem.equipment.effect.EquipmentUpgradeEffect;
 import liedge.limatech.lib.weapons.GrenadeType;
 import liedge.limatech.registry.*;
-import liedge.limatech.upgradesystem.ItemEquipmentUpgrades;
-import liedge.limatech.upgradesystem.effect.EquipmentUpgradeEffect;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceKey;
@@ -36,7 +36,7 @@ import static liedge.limatech.util.config.LimaTechWeaponsConfig.*;
 public class OrbGrenadeEntity extends LimaTechProjectile implements IEntityWithComplexSpawn
 {
     private GrenadeType grenadeType = GrenadeType.EXPLOSIVE;
-    private ItemEquipmentUpgrades upgrades = ItemEquipmentUpgrades.EMPTY;
+    private EquipmentUpgrades upgrades = EquipmentUpgrades.EMPTY;
     private float spin0;
     private float spin;
 
@@ -45,7 +45,7 @@ public class OrbGrenadeEntity extends LimaTechProjectile implements IEntityWithC
         super(type, level);
     }
 
-    public OrbGrenadeEntity(Level level, GrenadeType grenadeType, ItemEquipmentUpgrades upgrades)
+    public OrbGrenadeEntity(Level level, GrenadeType grenadeType, EquipmentUpgrades upgrades)
     {
         this(LimaTechEntities.ORB_GRENADE.get(), level);
         this.grenadeType = grenadeType;
@@ -229,7 +229,7 @@ public class OrbGrenadeEntity extends LimaTechProjectile implements IEntityWithC
         super.readAdditionalSaveData(tag);
         setGrenadeType(GrenadeType.CODEC.byName(tag.getString("grenade_type")));
 
-        if (tag.contains("upgrades")) upgrades = LimaNbtUtil.codecDecode(ItemEquipmentUpgrades.CODEC, registryAccess(), tag, "upgrades");
+        if (tag.contains("upgrades")) upgrades = LimaNbtUtil.codecDecode(EquipmentUpgrades.CODEC, registryAccess(), tag, "upgrades");
     }
 
     @Override
@@ -238,7 +238,7 @@ public class OrbGrenadeEntity extends LimaTechProjectile implements IEntityWithC
         super.addAdditionalSaveData(tag);
         tag.putString("grenade_type", grenadeType.getSerializedName());
 
-        if (upgrades != ItemEquipmentUpgrades.EMPTY) tag.put("upgrades", LimaNbtUtil.codecEncode(ItemEquipmentUpgrades.CODEC, registryAccess(), upgrades));
+        if (upgrades != EquipmentUpgrades.EMPTY) tag.put("upgrades", LimaNbtUtil.codecEncode(EquipmentUpgrades.CODEC, registryAccess(), upgrades));
     }
 
     @Override

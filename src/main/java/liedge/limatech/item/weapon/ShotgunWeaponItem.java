@@ -6,7 +6,7 @@ import liedge.limacore.util.LimaNetworkUtil;
 import liedge.limatech.entity.CompoundHitResult;
 import liedge.limatech.lib.weapons.AbstractWeaponControls;
 import liedge.limatech.registry.*;
-import liedge.limatech.upgradesystem.ItemEquipmentUpgrades;
+import liedge.limatech.lib.upgradesystem.equipment.EquipmentUpgrades;
 import liedge.limatech.util.config.LimaTechWeaponsConfig;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.sounds.SoundSource;
@@ -25,9 +25,9 @@ public class ShotgunWeaponItem extends SemiAutoWeaponItem
     }
 
     @Override
-    protected ItemEquipmentUpgrades getDefaultUpgrades(HolderLookup.Provider registries)
+    protected EquipmentUpgrades getDefaultUpgrades(HolderLookup.Provider registries)
     {
-        return ItemEquipmentUpgrades.builder()
+        return EquipmentUpgrades.builder()
                 .add(registries.holderOrThrow(LimaTechEquipmentUpgrades.SHOTGUN_BUILT_IN))
                 .build();
     }
@@ -65,7 +65,7 @@ public class ShotgunWeaponItem extends SemiAutoWeaponItem
             }
 
             final double basePelletDamage = LimaTechWeaponsConfig.SHOTGUN_BASE_PELLET_DAMAGE.getAsDouble();
-            ItemEquipmentUpgrades upgrades = ItemEquipmentUpgrades.getFromItem(heldItem);
+            EquipmentUpgrades upgrades = getUpgrades(heldItem);
 
             pelletHits.forEach((hitEntity, pellets) -> causeInstantDamage(upgrades, player, LimaTechDamageTypes.LIGHTFRAG, hitEntity, basePelletDamage * pellets));
             postWeaponFiredGameEvent(upgrades, level, player);

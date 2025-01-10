@@ -2,15 +2,11 @@ package liedge.limatech.block;
 
 import liedge.limacore.blockentity.IOAccess;
 import liedge.limacore.blockentity.LimaBlockEntityType;
-import liedge.limacore.util.LimaBlockUtil;
-import liedge.limatech.blockentity.EnergyStorageArrayBlockEntity;
-import liedge.limatech.blockentity.io.MachineInputType;
 import liedge.limatech.registry.LimaTechBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -34,25 +30,9 @@ public class EnergyStorageArrayBlock extends BaseWrenchEntityBlock
     }
 
     @Override
-    public void onBlockStateChange(LevelReader level, BlockPos pos, BlockState oldState, BlockState newState)
-    {
-        if (!level.isClientSide() && oldState.getBlock() == newState.getBlock() && newState.getBlock() == this)
-        {
-            Direction oldFront = oldState.getValue(HORIZONTAL_FACING);
-            Direction newFront = newState.getValue(HORIZONTAL_FACING);
-
-            if (oldFront != newFront)
-            {
-                EnergyStorageArrayBlockEntity be = LimaBlockUtil.getSafeBlockEntity(level, pos, EnergyStorageArrayBlockEntity.class);
-                if (be != null) be.getIOControlsOrThrow(MachineInputType.ENERGY).setFacing(newFront);
-            }
-        }
-    }
-
-    @Override
     public @Nullable LimaBlockEntityType<?> getBlockEntityType(BlockState state)
     {
-        return infinite ? LimaTechBlockEntities.INFINITE_ENERGY_STORAGE_ARRAY.get() : LimaTechBlockEntities.TIERED_ENERGY_STORAGE_ARRAY.get();
+        return infinite ? LimaTechBlockEntities.INFINITE_ENERGY_STORAGE_ARRAY.get() : LimaTechBlockEntities.ENERGY_STORAGE_ARRAY.get();
     }
 
     @Override

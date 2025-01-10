@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import liedge.limacore.client.LimaBlockEntityRenderer;
 import liedge.limacore.lib.LimaColor;
-import liedge.limatech.blockentity.EnergyStorageArrayBlockEntity;
+import liedge.limatech.blockentity.BaseESABlockEntity;
 import liedge.limatech.client.model.custom.TranslucentFillModel;
 import liedge.limatech.client.renderer.LimaTechRenderTypes;
 import net.minecraft.client.color.block.BlockColor;
@@ -21,7 +21,7 @@ import org.jetbrains.annotations.Nullable;
 import static liedge.limatech.LimaTechConstants.*;
 import static liedge.limatech.block.LimaTechBlockProperties.getESASideIOProperty;
 
-public class EnergyStorageArrayRenderer extends LimaBlockEntityRenderer<EnergyStorageArrayBlockEntity>
+public class EnergyStorageArrayRenderer extends LimaBlockEntityRenderer<BaseESABlockEntity>
 {
     private final TranslucentFillModel[] fillModels = new TranslucentFillModel[]
             {
@@ -33,7 +33,7 @@ public class EnergyStorageArrayRenderer extends LimaBlockEntityRenderer<EnergySt
 
     public static final BlockColor ESA_BLOCK_COLOR = new ColorHandler();
     public static final ItemColor TIERED_ESA_COLOR = new ESAItemColor(REM_BLUE.packedRGB());
-    public static final ItemColor INFINITE_ESA_COLOR = new ESAItemColor(NIOBIUM_PURPLE.packedRGB());
+    public static final ItemColor INFINITE_ESA_COLOR = new ESAItemColor(CREATIVE_PINK.packedRGB());
 
     public EnergyStorageArrayRenderer(BlockEntityRendererProvider.Context context)
     {
@@ -41,7 +41,7 @@ public class EnergyStorageArrayRenderer extends LimaBlockEntityRenderer<EnergySt
     }
 
     @Override
-    public void render(EnergyStorageArrayBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay)
+    public void render(BaseESABlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay)
     {
         float fill = blockEntity.getRemoteEnergyFill();
 

@@ -7,8 +7,9 @@
       "type": "limatech:no_vibration"
     }
   ],
+  "exclusive_set": [],
   "icon": "limatech:no_vibration",
-  "supported_items": "#limatech:ltx_weapons",
+  "supported_set": "#limatech:ltx_weapons",
   "title": {
     "translate": "equipment_upgrade.limatech.universal_anti_vibration.title"
   }

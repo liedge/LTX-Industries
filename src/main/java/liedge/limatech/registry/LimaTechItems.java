@@ -1,10 +1,17 @@
 package liedge.limatech.registry;
 
+import com.google.gson.JsonElement;
+import liedge.limacore.util.LimaJsonUtil;
 import liedge.limatech.LimaTech;
 import liedge.limatech.item.*;
 import liedge.limatech.item.weapon.*;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.component.ItemLore;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.capabilities.Capabilities;
@@ -17,6 +24,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.function.Function;
 
 import static liedge.limacore.util.LimaItemUtil.*;
@@ -100,7 +108,9 @@ public final class LimaTechItems
     public static final DeferredItem<SimpleHintItem> TARGETING_TECH_SALVAGE = ITEMS.registerItem("targeting_tech_salvage", SimpleHintItem::new, properties().rarity(Rarity.RARE));
 
     // Upgrade
-    public static final DeferredItem<EquipmentUpgradeItem> EQUIPMENT_UPGRADE_ITEM = ITEMS.registerItem("equipment_upgrade", EquipmentUpgradeItem::new, properties().rarity(ltxGearRarity()).stacksTo(1));
+    public static final DeferredItem<Item> EMPTY_UPGRADE_MODULE = ITEMS.registerSimpleItem("empty_upgrade_module");
+    public static final DeferredItem<EquipmentUpgradeModuleItem> EQUIPMENT_UPGRADE_MODULE = ITEMS.registerItem("equipment_upgrade_module", EquipmentUpgradeModuleItem::new, properties().stacksTo(1));
+    public static final DeferredItem<MachineUpgradeModuleItem> MACHINE_UPGRADE_MODULE = ITEMS.registerItem("machine_upgrade_module", MachineUpgradeModuleItem::new, properties().stacksTo(1));
 
     // LTX Weapons
     public static final DeferredItem<WeaponItem> SUBMACHINE_GUN = registerWeapon("submachine_gun", SMGWeaponItem::new);
@@ -114,6 +124,21 @@ public final class LimaTechItems
     public static final DeferredItem<SimpleHintItem> SPECIALIST_AMMO_CANISTER = ITEMS.registerItem("specialist_ammo_canister", SimpleHintItem::new);
     public static final DeferredItem<SimpleHintItem> EXPLOSIVES_AMMO_CANISTER = ITEMS.registerItem("explosives_ammo_canister", SimpleHintItem::new);
     public static final DeferredItem<SimpleHintItem> MAGNUM_AMMO_CANISTER = ITEMS.registerItem("magnum_ammo_canister", SimpleHintItem::new);
+
+    private static DeferredItem<SimpleHintItem> simpleLoreItem(String name)
+    {
+        return ITEMS.register(name, id -> {
+
+            Component loreLine = Component.translatable("item.limatech." + id.getPath() + ".hint").withStyle(Style.EMPTY.withColor(ChatFormatting.GRAY).withItalic(false));
+            ItemLore lore = new ItemLore(List.of(loreLine));
+            Item.Properties properties = new Item.Properties().component(DataComponents.LORE, lore);
+
+            JsonElement element = LimaJsonUtil.codecEncode(ItemLore.CODEC, lore);
+            LimaTech.LOGGER.debug("Serialized json: {}", element);
+
+            return new SimpleHintItem(properties);
+        });
+    }
 
     private static DeferredItem<WeaponItem> registerWeapon(String name, Function<Item.Properties, ? extends WeaponItem> constructor)
     {
