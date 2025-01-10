@@ -126,10 +126,10 @@ class LanguageGen extends LimaLanguageProvider
         equipmentUpgrade(LimaTechEquipmentUpgrades.SMG_BUILT_IN, "Serenity Intrinsics", "Serenity's small light-frags zip right through targets without a trace.");
         equipmentUpgrade(LimaTechEquipmentUpgrades.SHOTGUN_BUILT_IN, "Aurora Intrinsics", "Aurora's combat precepts, specialized in fast assault and scout operations.");
         equipmentUpgrade(LimaTechEquipmentUpgrades.HIGH_IMPACT_ROUNDS, "High Impact Rounds", "Light-frags with a punch! Send targets flying back regardless of their knockback resistances.");
-        equipmentUpgrade(LimaTechEquipmentUpgrades.MAGNUM_SCALING_ROUNDS, "Stellar Reality Disruptor", "Adds 20% of the target's max health as bonus damage to the Nova's lightfrags. Also ignores armor.");
+        equipmentUpgrade(LimaTechEquipmentUpgrades.MAGNUM_SCALING_ROUNDS, "Stellar Reality Disruptor", "Rip through reality itself with this Nova upgrade. Ensures swift defeat of even the strongest enemies.");
 
         equipmentUpgrade(LimaTechEquipmentUpgrades.UNIVERSAL_ANTI_VIBRATION, "Acoustic Attenuation", "Eliminates Sculk sound vibrations from weapons and their projectiles.");
-        equipmentUpgrade(LimaTechEquipmentUpgrades.UNIVERSAL_STEALTH_DAMAGE, "Biometric Obfuscation", "Targets hit by weapons and their projectiles will (generally) not become aggressive towards the user.");
+        equipmentUpgrade(LimaTechEquipmentUpgrades.UNIVERSAL_STEALTH_DAMAGE, "Biometric Obfuscation", "Hey, wasn't me.");
         equipmentUpgrade(LimaTechEquipmentUpgrades.UNIVERSAL_ENERGY_AMMO, "Energy Ammo Synthesis", "Modifies the weapon's magazine system to reload from an internal Common Energy reserve instead of ammo canister items.");
         equipmentUpgrade(LimaTechEquipmentUpgrades.UNIVERSAL_INFINITE_AMMO, "Infinite Ammo", "Weapon ignores ammo and can fire infinitely.");
         equipmentUpgrade(LimaTechEquipmentUpgrades.UNIVERSAL_ARMOR_PIERCE, "Armor-Piercing Rounds", "Weapon ignores 10% of armor per upgrade rank.");

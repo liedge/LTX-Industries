@@ -39,25 +39,30 @@ public abstract class CompoundCalculation implements Comparable<CompoundCalculat
         return result;
     }
 
-    public static double runSingle(final double baseValue, @Nullable Object optionalContext, CompoundCalculation calculation, int level)
-    {
-        if (calculation.isEmpty())
-        {
-            return baseValue;
-        }
-        else if (calculation.getType() == CalculationType.OVERRIDE_BASE)
-        {
-            return calculation.calculate(baseValue, level, optionalContext);
-        }
-        else
-        {
-            return baseValue + calculation.calculate(baseValue, level, optionalContext);
-        }
-    }
-
     public static double runSteps(final double baseValue, List<Step> steps)
     {
         return runSteps(baseValue, null, steps);
+    }
+
+    public static double runSteps(final double baseValue, @Nullable Object optionalContext, List<CompoundCalculation> calculations, int level)
+    {
+        if (calculations.isEmpty()) return baseValue;
+
+        double result = baseValue;
+
+        for (CompoundCalculation calc : calculations)
+        {
+            if (calc.getType() == CalculationType.OVERRIDE_BASE)
+            {
+                result = calc.calculate(baseValue, level, optionalContext);
+            }
+            else
+            {
+                result += calc.calculate(baseValue, level, optionalContext);
+            }
+        }
+
+        return result;
     }
 
     public static int runStepsAsInt(final double baseValue, @Nullable Object optionalContext, List<Step> steps)

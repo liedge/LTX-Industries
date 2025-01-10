@@ -1,74 +1,73 @@
 package liedge.limatech.lib.weapons;
 
-import com.google.common.collect.ImmutableMap;
+import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import liedge.limatech.LimaTech;
 import liedge.limatech.item.weapon.WeaponItem;
 import liedge.limatech.lib.upgradesystem.calculation.CompoundCalculation;
-import liedge.limatech.lib.upgradesystem.calculation.EmptyCalculation;
 import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.neoforged.neoforge.registries.datamaps.DataMapType;
+import net.neoforged.neoforge.registries.datamaps.AdvancedDataMapType;
+import net.neoforged.neoforge.registries.datamaps.DataMapValueMerger;
+import net.neoforged.neoforge.registries.datamaps.DataMapValueRemover;
 
-import java.util.Map;
+import java.util.List;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 public final class GlobalWeaponDamageModifiers
 {
-    public static final Codec<GlobalWeaponDamageModifiers> CODEC = Codec.unboundedMap(WeaponItem.CODEC, CompoundCalculation.CODEC).xmap(GlobalWeaponDamageModifiers::new, o -> o.modifierMap);
-    public static final DataMapType<EntityType<?>, GlobalWeaponDamageModifiers> DATA_MAP_TYPE = DataMapType.builder(LimaTech.RESOURCES.location("weapon_damage_modifiers"), Registries.ENTITY_TYPE, CODEC).synced(CODEC, false).build();
+    private GlobalWeaponDamageModifiers() {}
 
-    public static Builder builder()
-    {
-        return new Builder();
-    }
+    public static final Codec<List<WeaponDamageModifier>> CODEC = WeaponDamageModifier.CODEC.listOf();
+    public static final AdvancedDataMapType<EntityType<?>, List<WeaponDamageModifier>, RemovalEntry> DATA_MAP_TYPE = AdvancedDataMapType.builder(LimaTech.RESOURCES.location("weapon_damage_modifier"), Registries.ENTITY_TYPE, CODEC)
+            .synced(CODEC, false)
+            .merger(DataMapValueMerger.listMerger())
+            .remover(RemovalEntry.CODEC)
+            .build();
 
     @SuppressWarnings("deprecation")
-    public static CompoundCalculation getModifierForEntity(WeaponItem weaponItem, Entity target)
+    public static List<CompoundCalculation> getModifiersForEntity(WeaponItem weaponItem, Entity target)
     {
         Holder<EntityType<?>> holder = target.getType().builtInRegistryHolder();
-        GlobalWeaponDamageModifiers modifiers = holder.getData(DATA_MAP_TYPE);
+        List<WeaponDamageModifier> modifiers = holder.getData(DATA_MAP_TYPE);
 
-        if (modifiers != null && modifiers.modifierMap.containsKey(weaponItem))
+        if (modifiers != null)
         {
-            return modifiers.modifierMap.get(weaponItem);
+            return modifiers.stream().filter(e -> e.weaponItem == weaponItem).map(WeaponDamageModifier::modifier).toList();
         }
-        else
+
+        return List.of();
+    }
+
+    public record WeaponDamageModifier(WeaponItem weaponItem, CompoundCalculation modifier)
+    {
+        public static final Codec<WeaponDamageModifier> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+                WeaponItem.CODEC.fieldOf("weapon").forGetter(WeaponDamageModifier::weaponItem),
+                CompoundCalculation.CODEC.fieldOf("modifier").forGetter(WeaponDamageModifier::modifier))
+                .apply(instance, WeaponDamageModifier::new));
+
+        public static WeaponDamageModifier create(Supplier<? extends WeaponItem> supplier, CompoundCalculation modifier)
         {
-            return EmptyCalculation.empty();
+            return new WeaponDamageModifier(supplier.get(), modifier);
         }
     }
 
-    private final Map<WeaponItem, CompoundCalculation> modifierMap;
-
-    private GlobalWeaponDamageModifiers(Map<WeaponItem, CompoundCalculation> modifierMap)
+    public record RemovalEntry(WeaponItem weaponItem) implements DataMapValueRemover<EntityType<?>, List<WeaponDamageModifier>>
     {
-        this.modifierMap = modifierMap;
-    }
+        public static final Codec<RemovalEntry> CODEC = WeaponItem.CODEC.xmap(RemovalEntry::new, RemovalEntry::weaponItem);
 
-    public static class Builder
-    {
-        private final Map<WeaponItem, CompoundCalculation> map = new Object2ObjectOpenHashMap<>();
-
-        private Builder() {}
-
-        public Builder add(WeaponItem weaponItem, CompoundCalculation modifier)
+        @Override
+        public Optional<List<WeaponDamageModifier>> remove(List<WeaponDamageModifier> value, Registry<EntityType<?>> registry, Either<TagKey<EntityType<?>>, ResourceKey<EntityType<?>>> source, EntityType<?> object)
         {
-            map.put(weaponItem, modifier);
-            return this;
-        }
-
-        public Builder add(Supplier<? extends WeaponItem> supplier, CompoundCalculation modifier)
-        {
-            return add(supplier.get(), modifier);
-        }
-
-        public GlobalWeaponDamageModifiers build()
-        {
-            return new GlobalWeaponDamageModifiers(ImmutableMap.copyOf(map));
+            List<WeaponDamageModifier> filteredList = value.stream().filter(e -> e.weaponItem != weaponItem).toList(); // Remove modifiers matching the removal entry's weapon
+            return Optional.of(filteredList);
         }
     }
 }

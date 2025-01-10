@@ -46,6 +46,7 @@ import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.ItemAbilities;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Optional;
 
 import static liedge.limacore.capability.energy.LimaEnergyUtil.formatEnergyWithSuffix;
@@ -153,8 +154,8 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
         // Get the base damage modified by the weapon upgrades
         double damage = CompoundCalculation.runSteps(baseDamage, target, upgrades.flatMapToSortedCalculations(WeaponDamageUpgradeEffect.class, WeaponDamageUpgradeEffect::modifier));
 
-        CompoundCalculation globalModifier = GlobalWeaponDamageModifiers.getModifierForEntity(this, target);
-        damage = CompoundCalculation.runSingle(damage, target, globalModifier, 0);
+        List<CompoundCalculation> globalModifiers = GlobalWeaponDamageModifiers.getModifiersForEntity(this, target);
+        damage = CompoundCalculation.runSteps(damage, target, globalModifiers, 0);
 
         // Only deal damage if greater than 0
         if (damage > 0)

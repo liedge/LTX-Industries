@@ -1,0 +1,43 @@
+{
+  "values": {
+    "#limatech:high_threat": [
+      {
+        "modifier": {
+          "type": "override_base",
+          "value": 0.5
+        },
+        "weapon": "limatech:submachine_gun"
+      },
+      {
+        "modifier": {
+          "type": "multiply_total",
+          "value": -0.45
+        },
+        "weapon": "limatech:shotgun"
+      },
+      {
+        "modifier": {
+          "type": "multiply_total",
+          "value": -0.2
+        },
+        "weapon": "limatech:grenade_launcher"
+      }
+    ],
+    "#limatech:medium_threat": [
+      {
+        "modifier": {
+          "type": "multiply_total",
+          "value": -0.5
+        },
+        "weapon": "limatech:submachine_gun"
+      },
+      {
+        "modifier": {
+          "type": "multiply_total",
+          "value": -0.33
+        },
+        "weapon": "limatech:shotgun"
+      }
+    ]
+  }
+}
