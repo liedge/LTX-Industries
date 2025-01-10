@@ -2,11 +2,11 @@ package liedge.limatech.lib.upgradesystem.equipment.effect;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import liedge.limatech.client.LimaTechLang;
 import liedge.limatech.registry.LimaTechEquipmentUpgrades;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.RegistryFixedCodec;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -57,6 +57,6 @@ public class EnchantmentLevelUpgradeEffect implements EquipmentUpgradeEffect
     @Override
     public void appendEffectTooltip(int upgradeRank, List<Component> lines)
     {
-        lines.add(enchantment.value().description().copy().withStyle(ChatFormatting.DARK_PURPLE).append(CommonComponents.SPACE).append(Component.translatable("enchantment.level." + upgradeRank)));
+        lines.add(LimaTechLang.ENCHANTMENT_UPGRADE_EFFECT.translateArgs(enchantment.value().description(), Component.translatable("enchantment.level." + upgradeRank)).withStyle(ChatFormatting.DARK_PURPLE));
     }
 }

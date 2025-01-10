@@ -6,7 +6,7 @@
     {
       "type": "limatech:projectile_speed",
       "modifier": {
-        "type": "flat_addition",
+        "type": "add_value",
         "value": {
           "type": "linear",
           "base": 0.5,

@@ -243,6 +243,7 @@ class LanguageGen extends LimaLanguageProvider
         add(ENERGY_CAPACITY_UPGRADE, "Energy Capacity: %s");
         add(ENERGY_TRANSFER_RATE_UPGRADE, "Energy Transfer Rate: %s");
         add(SHIELD_UPGRADE_EFFECT, "%s shield per kill, (max %s)");
+        add(ENCHANTMENT_UPGRADE_EFFECT, "%s %s Enchantment");
         add(NATURAL_ARMOR_BYPASS_EFFECT, "Natural armor bypass");
         add(ARMOR_BYPASS_EFFECT, "%s armor bypass");
         add(GRENADE_UNLOCK_EFFECT, "Unlocks %s grenades");

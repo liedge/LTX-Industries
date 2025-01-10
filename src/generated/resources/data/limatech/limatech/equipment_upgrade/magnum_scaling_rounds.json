@@ -6,9 +6,9 @@
     {
       "type": "limatech:weapon_damage",
       "modifier": {
-        "type": "add_multiplied_attribute",
-        "attribute": "minecraft:generic.max_health",
-        "value": 0.2
+        "type": "add_entity_attribute_value",
+        "amount": 0.2,
+        "attribute": "minecraft:generic.max_health"
       }
     },
     {

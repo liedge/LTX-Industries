@@ -9,10 +9,10 @@ public enum CalculationType implements StringRepresentable
 {
     EMPTY("empty", 99, EmptyCalculation.CODEC),
     OVERRIDE_BASE("override_base", 0, OverrideBaseCalculation.CODEC),
-    FLAT_ADDITION("flat_addition", 1, AdditionCalculation.CODEC),
-    ADD_MULTIPLIED_ATTRIBUTE("add_multiplied_attribute", 1, LivingAttributeCalculation.CODEC),
-    MULTIPLY_BASE_VALUE("multiply_base", 1, MultiplyBaseCalculation.CODEC),
-    MULTIPLY_TOTAL_VALUE("multiply_total", 2, MultiplyTotalCalculation.CODEC);
+    ADD_VALUE("add_value", 1, AdditionCalculation.CODEC),
+    ADD_MULTIPLIED_ATTRIBUTE("add_entity_attribute_value", 1, LivingAttributeCalculation.CODEC),
+    ADD_MULTIPLIED_BASE("add_multiplied_base", 1, MultiplyBaseCalculation.CODEC),
+    ADD_MULTIPLIED_TOTAL("add_multiplied_total", 2, MultiplyTotalCalculation.CODEC);
 
     public static final Codec<CalculationType> CODEC = LimaEnumCodec.createStrict(CalculationType.class);
 

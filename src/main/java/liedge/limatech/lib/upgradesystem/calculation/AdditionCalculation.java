@@ -23,6 +23,6 @@ public final class AdditionCalculation extends CompoundCalculation.FlatOperation
     @Override
     public CalculationType getType()
     {
-        return CalculationType.FLAT_ADDITION;
+        return CalculationType.ADD_VALUE;
     }
 }

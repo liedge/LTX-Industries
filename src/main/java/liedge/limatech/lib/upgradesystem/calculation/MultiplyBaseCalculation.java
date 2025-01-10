@@ -24,6 +24,6 @@ public final class MultiplyBaseCalculation extends CompoundCalculation.MultiplyO
     @Override
     public CalculationType getType()
     {
-        return CalculationType.MULTIPLY_BASE_VALUE;
+        return CalculationType.ADD_MULTIPLIED_BASE;
     }
 }

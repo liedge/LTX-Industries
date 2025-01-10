@@ -40,22 +40,27 @@ public final class GlobalWeaponDamageModifiers
 
         if (modifiers != null)
         {
-            return modifiers.stream().filter(e -> e.weaponItem == weaponItem).map(WeaponDamageModifier::modifier).toList();
+            return modifiers.stream().filter(entry -> entry.weapon.map(item -> item == weaponItem).orElse(true)).map(WeaponDamageModifier::modifier).toList();
         }
 
         return List.of();
     }
 
-    public record WeaponDamageModifier(WeaponItem weaponItem, CompoundCalculation modifier)
+    public record WeaponDamageModifier(Optional<WeaponItem> weapon, CompoundCalculation modifier)
     {
         public static final Codec<WeaponDamageModifier> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-                WeaponItem.CODEC.fieldOf("weapon").forGetter(WeaponDamageModifier::weaponItem),
+                WeaponItem.CODEC.optionalFieldOf("weapon").forGetter(WeaponDamageModifier::weapon),
                 CompoundCalculation.CODEC.fieldOf("modifier").forGetter(WeaponDamageModifier::modifier))
                 .apply(instance, WeaponDamageModifier::new));
 
         public static WeaponDamageModifier create(Supplier<? extends WeaponItem> supplier, CompoundCalculation modifier)
         {
-            return new WeaponDamageModifier(supplier.get(), modifier);
+            return new WeaponDamageModifier(Optional.of(supplier.get()), modifier);
+        }
+
+        public static WeaponDamageModifier allWeapons(CompoundCalculation modifier)
+        {
+            return new WeaponDamageModifier(Optional.empty(), modifier);
         }
     }
 
@@ -66,7 +71,7 @@ public final class GlobalWeaponDamageModifiers
         @Override
         public Optional<List<WeaponDamageModifier>> remove(List<WeaponDamageModifier> value, Registry<EntityType<?>> registry, Either<TagKey<EntityType<?>>, ResourceKey<EntityType<?>>> source, EntityType<?> object)
         {
-            List<WeaponDamageModifier> filteredList = value.stream().filter(e -> e.weaponItem != weaponItem).toList(); // Remove modifiers matching the removal entry's weapon
+            List<WeaponDamageModifier> filteredList = value.stream().filter(entry -> entry.weapon.map(item -> weaponItem != item).orElse(true)).toList();
             return Optional.of(filteredList);
         }
     }

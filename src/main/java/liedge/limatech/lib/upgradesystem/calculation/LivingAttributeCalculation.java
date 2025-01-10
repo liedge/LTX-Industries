@@ -17,7 +17,7 @@ public final class LivingAttributeCalculation extends CompoundCalculation
 {
     public static final MapCodec<LivingAttributeCalculation> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             Attribute.CODEC.fieldOf("attribute").forGetter(o -> o.attribute),
-            LevelBasedDoubleValue.CODEC.fieldOf("value").forGetter(CompoundCalculation::getValue))
+            LevelBasedDoubleValue.CODEC.fieldOf("amount").forGetter(CompoundCalculation::getValue))
             .apply(instance, LivingAttributeCalculation::new));
 
     private final Holder<Attribute> attribute;

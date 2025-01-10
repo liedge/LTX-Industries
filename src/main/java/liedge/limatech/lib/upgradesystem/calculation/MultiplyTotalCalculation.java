@@ -24,6 +24,6 @@ public final class MultiplyTotalCalculation extends CompoundCalculation.Multiply
     @Override
     public CalculationType getType()
     {
-        return CalculationType.MULTIPLY_TOTAL_VALUE;
+        return CalculationType.ADD_MULTIPLIED_TOTAL;
     }
 }

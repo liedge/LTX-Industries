@@ -236,6 +236,7 @@
   "tooltip.limatech.upgrade_rank": "Rank %s",
   "tooltip.limatech.upgrade_remove_hint": "Shift + left click to remove upgrade. Must have space in your inventory.",
   "upgrade_effect.limatech.armor_bypass": "%s armor bypass",
+  "upgrade_effect.limatech.enchantment": "%s %s Enchantment",
   "upgrade_effect.limatech.energy_ammo": "Unlocks CE ammunition synthesis",
   "upgrade_effect.limatech.energy_capacity": "Energy Capacity: %s",
   "upgrade_effect.limatech.energy_transfer_rate": "Energy Transfer Rate: %s",

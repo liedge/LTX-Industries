@@ -7,7 +7,7 @@
       "type": "limatech:weapon_knockback",
       "ignore_resistance": true,
       "modifier": {
-        "type": "flat_addition",
+        "type": "add_value",
         "value": 1.5
       }
     }

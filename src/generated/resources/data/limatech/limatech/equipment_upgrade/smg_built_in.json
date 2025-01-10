@@ -12,7 +12,7 @@
     {
       "type": "limatech:weapon_knockback",
       "modifier": {
-        "type": "multiply_total",
+        "type": "add_multiplied_total",
         "value": -1.0
       }
     },
