@@ -16,7 +16,7 @@ import liedge.limacore.util.LimaItemUtil;
 import liedge.limacore.util.LimaMathUtil;
 import liedge.limatech.blockentity.io.MachineIOControl;
 import liedge.limatech.blockentity.io.MachineInputType;
-import liedge.limatech.recipe.BaseFabricatingRecipe;
+import liedge.limatech.recipe.FabricatingRecipe;
 import liedge.limatech.registry.LimaTechMenus;
 import liedge.limatech.registry.LimaTechRecipeTypes;
 import net.minecraft.core.BlockPos;
@@ -43,7 +43,7 @@ import static liedge.limatech.util.config.LimaTechMachinesConfig.FABRICATOR_ENER
 public class FabricatorBlockEntity extends SidedItemEnergyMachineBlockEntity implements TimedProcessMachineBlockEntity
 {
     private final LimaBlockEntityEnergyStorage machineEnergy;
-    private final MutableRecipeReference<BaseFabricatingRecipe> currentRecipe = new MutableRecipeReference<>(LimaTechRecipeTypes.FABRICATING);
+    private final MutableRecipeReference<FabricatingRecipe> currentRecipe = new MutableRecipeReference<>(LimaTechRecipeTypes.FABRICATING);
     private final Map<Direction, BlockCapabilityCache<IItemHandler, Direction>> itemConnections = new EnumMap<>(Direction.class);
 
     private boolean crafting = false;
@@ -99,9 +99,9 @@ public class FabricatorBlockEntity extends SidedItemEnergyMachineBlockEntity imp
         setChanged();
     }
 
-    public void startCrafting(RecipeHolder<BaseFabricatingRecipe> holder, LimaRecipeInput input, boolean forceStart)
+    public void startCrafting(RecipeHolder<FabricatingRecipe> holder, LimaRecipeInput input, boolean forceStart)
     {
-        BaseFabricatingRecipe recipe = holder.value();
+        FabricatingRecipe recipe = holder.value();
 
         if (!isCrafting() && LimaItemUtil.canMergeItemStacks(getItemHandler().getStackInSlot(1), recipe.getResultItem(null)))
         {
@@ -126,7 +126,7 @@ public class FabricatorBlockEntity extends SidedItemEnergyMachineBlockEntity imp
 
     private void stopCrafting(boolean insertResult)
     {
-        BaseFabricatingRecipe recipe = currentRecipe.getRecipeValue(level);
+        FabricatingRecipe recipe = currentRecipe.getRecipeValue(level);
 
         if (insertResult && recipe != null)
         {
@@ -154,7 +154,7 @@ public class FabricatorBlockEntity extends SidedItemEnergyMachineBlockEntity imp
         }
 
         // Try progressing crafting recipe
-        BaseFabricatingRecipe recipe = currentRecipe.getRecipeValue(level);
+        FabricatingRecipe recipe = currentRecipe.getRecipeValue(level);
         if (isCrafting() && recipe != null)
         {
             int totalEnergyRequired = recipe.getEnergyRequired();

@@ -2,7 +2,7 @@ package liedge.limatech.registry;
 
 import liedge.limacore.recipe.LimaRecipeType;
 import liedge.limatech.LimaTech;
-import liedge.limatech.recipe.BaseFabricatingRecipe;
+import liedge.limatech.recipe.FabricatingRecipe;
 import liedge.limatech.recipe.GrindingRecipe;
 import liedge.limatech.recipe.MaterialFusingRecipe;
 import liedge.limatech.recipe.RecomposingRecipe;
@@ -27,7 +27,7 @@ public final class LimaTechRecipeTypes
     public static final DeferredHolder<RecipeType<?>, LimaRecipeType<GrindingRecipe>> GRINDING = register("grinding");
     public static final DeferredHolder<RecipeType<?>, LimaRecipeType<RecomposingRecipe>> RECOMPOSING = register("recomposing");
     public static final DeferredHolder<RecipeType<?>, LimaRecipeType<MaterialFusingRecipe>> MATERIAL_FUSING = register("material_fusing");
-    public static final DeferredHolder<RecipeType<?>, LimaRecipeType<BaseFabricatingRecipe>> FABRICATING = register("fabricating");
+    public static final DeferredHolder<RecipeType<?>, LimaRecipeType<FabricatingRecipe>> FABRICATING = register("fabricating");
 
     private static <R extends Recipe<?>> DeferredHolder<RecipeType<?>, LimaRecipeType<R>> register(String name)
     {

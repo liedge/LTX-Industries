@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": {
+      "item": "limatech:copper_circuit"
+    },
+    "l": {
+      "tag": "c:dyes/lime"
+    },
+    "t": {
+      "item": "limatech:titanium_ingot"
+    }
+  },
+  "pattern": [
+    "ttt",
+    "tct",
+    "lcl"
+  ],
+  "result": {
+    "count": 1,
+    "id": "limatech:empty_upgrade_module"
+  }
+}

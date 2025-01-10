@@ -87,6 +87,7 @@ class LanguageGen extends LimaLanguageProvider
 
         addItem(DEEPSLATE_POWDER, "Deepslate Powder");
         addItem(SLATE_ALLOY_INGOT, "Slate Alloy Ingot");
+        addItem(BEDROCK_ALLOY_INGOT, "Bedrock Alloy Ingot");
         addItem(SLATE_ALLOY_NUGGET, "Slate Alloy Nugget");
         addItem(COPPER_CIRCUIT, "Copper Circuit");
         addItem(GOLD_CIRCUIT, "Gold Circuit");

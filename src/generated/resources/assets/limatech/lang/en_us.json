@@ -124,6 +124,7 @@
   "input_type.limatech.items": "Items IO Control",
   "item.limatech.auto_ammo_canister": "Automatics Ammo Canister",
   "item.limatech.auto_ammo_canister.hint": "Stabilized energy suitable for use in low-power high frequency projectile synthesis.",
+  "item.limatech.bedrock_alloy_ingot": "Bedrock Alloy Ingot",
   "item.limatech.coal_ore_pebbles": "Coal Ore Pebbles",
   "item.limatech.copper_circuit": "Copper Circuit",
   "item.limatech.copper_ore_pebbles": "Copper Ore Pebbles",

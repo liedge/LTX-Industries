@@ -101,6 +101,7 @@ public final class LimaTechItems
 
     // Alloy ingots
     public static final DeferredItem<Item> SLATE_ALLOY_INGOT = ITEMS.registerSimpleItem("slate_alloy_ingot");
+    public static final DeferredItem<Item> BEDROCK_ALLOY_INGOT = ITEMS.registerSimpleItem("bedrock_alloy_ingot");
     public static final DeferredItem<Item> SLATE_ALLOY_NUGGET = ITEMS.registerSimpleItem("slate_alloy_nugget");
 
     // Tech salvage modules

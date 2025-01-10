@@ -1,9 +1,9 @@
-// 1.21.1	2024-12-17T21:10:16.2786739	Tags for minecraft:item mod id limatech
+// 1.21.1	2025-01-10T02:17:39.5718769	Tags for minecraft:item mod id limatech
 9939b49f7e060d0d662f4396fa4de2e098c34dc4 data/c/tags/item/dusts.json
 8daf696a3e732e785a0d1813c61772a300edc853 data/c/tags/item/dusts/deepslate.json
 172ecf99de9e6097c2c2ed4308f9f67e79777471 data/c/tags/item/dyes/lime.json
 241cca4af098c21cc7efbaa1e904eac4183229b0 data/c/tags/item/dyes/white.json
-aadf838521dd26f77aa89df7bc382a7f096e9e73 data/c/tags/item/ingots.json
+a2bf4e397da25d29d6cf6ab8568d57e80e3ed454 data/c/tags/item/ingots.json
 a1fad93c7647c63cda794e3b6790a8b17c18d193 data/c/tags/item/ingots/niobium.json
 5142650e96d512b0b4789722805fd8d5eba72b71 data/c/tags/item/ingots/slate_alloy.json
 7bd0825ed37c104cb660655de58fa3a1aab3a467 data/c/tags/item/ingots/titanium.json

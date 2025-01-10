@@ -1,6 +1,6 @@
 {
-  "type": "limatech:weapon_fabricating",
-  "energy_required": 20000000,
+  "type": "limatech:fabricating",
+  "energy_required": 30000000,
   "group": "weapons",
   "ingredients": [
     {
@@ -8,7 +8,7 @@
       "item": "limatech:explosives_weapon_tech_salvage"
     },
     {
-      "count": 32,
+      "count": 48,
       "item": "limatech:titanium_ingot"
     },
     {
@@ -22,6 +22,6 @@
   ],
   "result": {
     "count": 1,
-    "id": "limatech:grenade_launcher"
+    "id": "limatech:rocket_launcher"
   }
 }

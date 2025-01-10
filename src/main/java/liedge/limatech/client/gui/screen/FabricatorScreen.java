@@ -14,7 +14,7 @@ import liedge.limatech.client.gui.widget.EnergyGaugeWidget;
 import liedge.limatech.client.gui.widget.ScrollableGUIElement;
 import liedge.limatech.client.gui.widget.ScrollbarWidget;
 import liedge.limatech.menu.FabricatorMenu;
-import liedge.limatech.recipe.BaseFabricatingRecipe;
+import liedge.limatech.recipe.FabricatingRecipe;
 import liedge.limatech.registry.LimaTechRecipeTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -45,7 +45,7 @@ public class FabricatorScreen extends SidedUpgradableMachineScreen<FabricatorMen
 
     private final int recipeRows;
     private final int scrollWheelDelta;
-    private final List<RecipeHolder<BaseFabricatingRecipe>> recipes;
+    private final List<RecipeHolder<FabricatingRecipe>> recipes;
 
     private int currentScrollRow;
     private int selectedRecipeIndex = -1;
@@ -139,7 +139,7 @@ public class FabricatorScreen extends SidedUpgradableMachineScreen<FabricatorMen
             }
             sprite.singleBlit(graphics, rx, ry);
 
-            RecipeHolder<BaseFabricatingRecipe> holder = recipes.get(i);
+            RecipeHolder<FabricatingRecipe> holder = recipes.get(i);
             ItemStack resultStack = holder.value().getResultItem(null);
             graphics.renderFakeItem(resultStack, rx + 1, ry + 1);
             graphics.renderItemDecorations(font, resultStack, rx + 1, ry + 1);
@@ -162,7 +162,7 @@ public class FabricatorScreen extends SidedUpgradableMachineScreen<FabricatorMen
 
                 if (isMouseWithinArea(x, y, rx, ry, 18, 18))
                 {
-                    RecipeHolder<BaseFabricatingRecipe> holder = recipes.get(i);
+                    RecipeHolder<FabricatingRecipe> holder = recipes.get(i);
                     List<Component> lines = getTooltipFromItem(Minecraft.getInstance(), holder.value().getResultItem(null));
 
                     if (gridIndex == selectedRecipeIndex) lines.add(FABRICATOR_CLICK_TO_CRAFT_TOOLTIP.translate().withStyle(LimaTechConstants.LIME_GREEN.chatStyle()));

@@ -1,5 +1,5 @@
 {
-  "type": "limatech:weapon_fabricating",
+  "type": "limatech:fabricating",
   "energy_required": 1000000,
   "group": "weapons",
   "ingredients": [
@@ -17,6 +17,11 @@
     }
   ],
   "result": {
+    "components": {
+      "limatech:equipment_upgrades": {
+        "limatech:shotgun_built_in": 1
+      }
+    },
     "count": 1,
     "id": "limatech:shotgun"
   }

@@ -48,7 +48,7 @@ class ItemTagsGen extends LimaTagsProvider.ItemTags
         buildTag(TITANIUM_INGOTS).add(TITANIUM_INGOT);
         buildTag(NIOBIUM_INGOTS).add(NIOBIUM_INGOT);
         buildTag(SLATE_ALLOY_INGOTS).add(SLATE_ALLOY_INGOT);
-        buildTag(INGOTS).addTags(TITANIUM_INGOTS, NIOBIUM_INGOTS, SLATE_ALLOY_INGOTS);
+        buildTag(INGOTS).add(BEDROCK_ALLOY_INGOT).addTags(TITANIUM_INGOTS, NIOBIUM_INGOTS, SLATE_ALLOY_INGOTS);
 
         buildTag(TITANIUM_NUGGETS).add(TITANIUM_NUGGET);
         buildTag(NIOBIUM_NUGGETS).add(NIOBIUM_NUGGET);

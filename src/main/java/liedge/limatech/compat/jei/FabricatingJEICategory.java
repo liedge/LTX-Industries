@@ -7,7 +7,7 @@ import liedge.limatech.LimaTech;
 import liedge.limatech.LimaTechConstants;
 import liedge.limatech.client.LimaTechLang;
 import liedge.limatech.client.gui.widget.ScreenWidgetSprites;
-import liedge.limatech.recipe.BaseFabricatingRecipe;
+import liedge.limatech.recipe.FabricatingRecipe;
 import liedge.limatech.registry.LimaTechBlocks;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawableAnimated;
@@ -28,14 +28,14 @@ import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class FabricatingJEICategory extends LimaJEICategory<BaseFabricatingRecipe>
+public class FabricatingJEICategory extends LimaJEICategory<FabricatingRecipe>
 {
     private static final ResourceLocation BACKGROUND = LimaTech.RESOURCES.textureLocation("gui", "fabricator_jei");
 
     private final IDrawableStatic energyBarBackground;
     private final IDrawableAnimated energyBarForeground;
 
-    FabricatingJEICategory(IGuiHelper helper, Supplier<LimaRecipeType<BaseFabricatingRecipe>> typeSupplier)
+    FabricatingJEICategory(IGuiHelper helper, Supplier<LimaRecipeType<FabricatingRecipe>> typeSupplier)
     {
         super(helper, typeSupplier, BACKGROUND, 0, 0, 112, 82);
         this.energyBarBackground = unmanagedSpriteDrawable(helper, ScreenWidgetSprites.ENERGY_GAUGE_BACKGROUND).build();
@@ -43,20 +43,20 @@ public class FabricatingJEICategory extends LimaJEICategory<BaseFabricatingRecip
     }
 
     @Override
-    public RecipeType<RecipeHolder<BaseFabricatingRecipe>> getRecipeType()
+    public RecipeType<RecipeHolder<FabricatingRecipe>> getRecipeType()
     {
         return LimaTechJEIPlugin.FABRICATING_JEI;
     }
 
     @Override
-    public void draw(RecipeHolder<BaseFabricatingRecipe> recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY)
+    public void draw(RecipeHolder<FabricatingRecipe> recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY)
     {
         energyBarBackground.draw(guiGraphics, 11, 5);
         energyBarForeground.draw(guiGraphics, 12, 6);
     }
 
     @Override
-    public List<Component> getTooltipStrings(RecipeHolder<BaseFabricatingRecipe> holder, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY)
+    public List<Component> getTooltipStrings(RecipeHolder<FabricatingRecipe> holder, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY)
     {
         if (LimaGuiUtil.isMouseWithinArea(mouseX, mouseY, 11, 5, 10, 48))
         {
@@ -75,7 +75,7 @@ public class FabricatingJEICategory extends LimaJEICategory<BaseFabricatingRecip
     }
 
     @Override
-    protected void setRecipe(IRecipeLayoutBuilder builder, RecipeHolder<BaseFabricatingRecipe> holder, BaseFabricatingRecipe recipe, IFocusGroup focuses, RegistryAccess registries)
+    protected void setRecipe(IRecipeLayoutBuilder builder, RecipeHolder<FabricatingRecipe> holder, FabricatingRecipe recipe, IFocusGroup focuses, RegistryAccess registries)
     {
         builder.addSlot(RecipeIngredientRole.OUTPUT, 8, 58).addItemStack(recipe.getResultItem(null));
 

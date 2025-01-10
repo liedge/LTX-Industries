@@ -1,8 +1,16 @@
 {
   "type": "limatech:fabricating",
-  "energy_required": 300000,
-  "group": "ammo_scavenger_upgrades",
+  "energy_required": 125000,
+  "group": "looting_upgrades",
   "ingredients": [
+    {
+      "count": 1,
+      "item": "limatech:empty_upgrade_module"
+    },
+    {
+      "count": 8,
+      "item": "limatech:copper_circuit"
+    },
     {
       "count": 2,
       "item": "limatech:gold_circuit"
@@ -12,14 +20,18 @@
       "item": "limatech:titanium_ingot"
     },
     {
+      "count": 1,
+      "item": "minecraft:rabbit_foot"
+    },
+    {
       "count": 8,
-      "item": "minecraft:gunpowder"
+      "item": "minecraft:lapis_lazuli"
     }
   ],
   "result": {
     "components": {
       "limatech:equipment_upgrade": {
-        "upgrade": "limatech:ammo_scavenger_enchantment"
+        "upgrade": "limatech:looting_enchantment"
       }
     },
     "count": 1,

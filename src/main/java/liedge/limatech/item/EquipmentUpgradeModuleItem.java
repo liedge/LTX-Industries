@@ -23,17 +23,16 @@ import static liedge.limatech.registry.LimaTechDataComponents.EQUIPMENT_UPGRADE_
 
 public class EquipmentUpgradeModuleItem extends UpgradeModuleItem<EquipmentUpgrade, EquipmentUpgradeEntry>
 {
-    public static ItemStack createStack(HolderLookup.Provider registries, ResourceKey<EquipmentUpgrade> upgradeKey, int upgradeRank)
+    public static ItemStack createStack(Holder<EquipmentUpgrade> upgradeHolder, int upgradeRank)
     {
-        ItemStack stack = new ItemStack(LimaTechItems.EQUIPMENT_UPGRADE_MODULE.asItem());
-        Holder<EquipmentUpgrade> holder = registries.holderOrThrow(upgradeKey);
-        stack.set(EQUIPMENT_UPGRADE_ENTRY, new EquipmentUpgradeEntry(holder, upgradeRank));
+        ItemStack stack = new ItemStack(LimaTechItems.EQUIPMENT_UPGRADE_MODULE.get());
+        stack.set(EQUIPMENT_UPGRADE_ENTRY, new EquipmentUpgradeEntry(upgradeHolder, upgradeRank));
         return stack;
     }
 
-    public static ItemStack createStack(HolderLookup.Provider registries, ResourceKey<EquipmentUpgrade> upgradeKey)
+    public static ItemStack createStack(HolderLookup.Provider registries, ResourceKey<EquipmentUpgrade> upgradeKey, int upgradeRank)
     {
-        return createStack(registries, upgradeKey, 1);
+        return createStack(registries.holderOrThrow(upgradeKey), upgradeRank);
     }
 
     public EquipmentUpgradeModuleItem(Properties properties)

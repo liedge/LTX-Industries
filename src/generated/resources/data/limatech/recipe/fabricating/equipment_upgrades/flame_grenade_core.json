@@ -4,6 +4,10 @@
   "group": "grenade_cores",
   "ingredients": [
     {
+      "count": 1,
+      "item": "limatech:empty_upgrade_module"
+    },
+    {
       "count": 16,
       "item": "limatech:copper_circuit"
     },

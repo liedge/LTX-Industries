@@ -4,6 +4,10 @@
   "group": "stealth_upgrades",
   "ingredients": [
     {
+      "count": 1,
+      "item": "limatech:empty_upgrade_module"
+    },
+    {
       "count": 6,
       "item": "limatech:gold_circuit"
     },

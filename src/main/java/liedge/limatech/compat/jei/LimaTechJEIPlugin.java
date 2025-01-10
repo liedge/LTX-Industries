@@ -8,7 +8,7 @@ import liedge.limatech.client.gui.screen.MaterialFusingChamberScreen;
 import liedge.limatech.client.gui.screen.RecomposerScreen;
 import liedge.limatech.item.UpgradeModuleItem;
 import liedge.limatech.lib.upgradesystem.UpgradeBaseEntry;
-import liedge.limatech.recipe.BaseFabricatingRecipe;
+import liedge.limatech.recipe.FabricatingRecipe;
 import liedge.limatech.recipe.GrindingRecipe;
 import liedge.limatech.recipe.MaterialFusingRecipe;
 import liedge.limatech.recipe.RecomposingRecipe;
@@ -43,7 +43,7 @@ public class LimaTechJEIPlugin implements IModPlugin
     static final RecipeType<RecipeHolder<GrindingRecipe>> GRINDING_JEI = createType(GRINDING);
     static final RecipeType<RecipeHolder<RecomposingRecipe>> RECOMPOSING_JEI = createType(RECOMPOSING);
     static final RecipeType<RecipeHolder<MaterialFusingRecipe>> MATERIAL_FUSING_JEI = createType(MATERIAL_FUSING);
-    static final RecipeType<RecipeHolder<BaseFabricatingRecipe>> FABRICATING_JEI = createType(FABRICATING);
+    static final RecipeType<RecipeHolder<FabricatingRecipe>> FABRICATING_JEI = createType(FABRICATING);
 
     @Override
     public ResourceLocation getPluginUid()
@@ -78,7 +78,7 @@ public class LimaTechJEIPlugin implements IModPlugin
         registration.addRecipes(GRINDING_JEI, manager.getAllRecipesFor(GRINDING.get()));
         registration.addRecipes(RECOMPOSING_JEI, manager.getAllRecipesFor(RECOMPOSING.get()));
         registration.addRecipes(MATERIAL_FUSING_JEI, manager.getAllRecipesFor(MATERIAL_FUSING.get()));
-        List<RecipeHolder<BaseFabricatingRecipe>> fabricatingRecipes = LimaRecipesUtil.getSortedRecipesForType(level, FABRICATING, Comparator.comparing(holder -> holder.value().getGroup()), Comparator.comparing(holder -> holder.id().getPath()));
+        List<RecipeHolder<FabricatingRecipe>> fabricatingRecipes = LimaRecipesUtil.getSortedRecipesForType(level, FABRICATING, Comparator.comparing(holder -> holder.value().getGroup()), Comparator.comparing(holder -> holder.id().getPath()));
         registration.addRecipes(FABRICATING_JEI, fabricatingRecipes);
     }
 

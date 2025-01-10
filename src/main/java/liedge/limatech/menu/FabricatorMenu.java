@@ -7,7 +7,7 @@ import liedge.limacore.util.LimaItemUtil;
 import liedge.limacore.util.LimaRecipesUtil;
 import liedge.limatech.LimaTech;
 import liedge.limatech.blockentity.FabricatorBlockEntity;
-import liedge.limatech.recipe.BaseFabricatingRecipe;
+import liedge.limatech.recipe.FabricatingRecipe;
 import liedge.limatech.registry.LimaTechRecipeTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -32,7 +32,7 @@ public class FabricatorMenu extends SidedUpgradableMachineMenu<FabricatorBlockEn
 
     private void receiveCraftCommand(ServerPlayer sender, ResourceLocation id)
     {
-        RecipeHolder<BaseFabricatingRecipe> holder = LimaRecipesUtil.recipeHolderByKey(level(), id, LimaTechRecipeTypes.FABRICATING);
+        RecipeHolder<FabricatingRecipe> holder = LimaRecipesUtil.recipeHolderByKey(level(), id, LimaTechRecipeTypes.FABRICATING);
 
         if (holder != null)
         {

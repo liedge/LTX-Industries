@@ -24,17 +24,16 @@ public class MachineUpgradeModuleItem extends UpgradeModuleItem<MachineUpgrade, 
 {
     private static final Style STYLE = Style.EMPTY.withColor(0x4cc9bf);
 
-    public static ItemStack createStack(HolderLookup.Provider registries, ResourceKey<MachineUpgrade> upgradeKey, int upgradeRank)
+    public static ItemStack createStack(Holder<MachineUpgrade> upgradeHolder, int upgradeRank)
     {
         ItemStack stack = new ItemStack(LimaTechItems.MACHINE_UPGRADE_MODULE.get());
-        Holder<MachineUpgrade> holder = registries.holderOrThrow(upgradeKey);
-        stack.set(MACHINE_UPGRADE_ENTRY, new MachineUpgradeEntry(holder, upgradeRank));
+        stack.set(MACHINE_UPGRADE_ENTRY, new MachineUpgradeEntry(upgradeHolder, upgradeRank));
         return stack;
     }
 
-    public static ItemStack createStack(HolderLookup.Provider registries, ResourceKey<MachineUpgrade> upgradeKey)
+    public static ItemStack createStack(HolderLookup.Provider registries, ResourceKey<MachineUpgrade> upgradeKey, int upgradeRank)
     {
-        return createStack(registries, upgradeKey, 1);
+        return createStack(registries.holderOrThrow(upgradeKey), upgradeRank);
     }
 
     public MachineUpgradeModuleItem(Properties properties)
