@@ -145,7 +145,7 @@ public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, ?, U>, M ext
                 graphics.enableScissor(titleX, titleY, titleX + 79, titleY + 6);
                 graphics.drawString(font, upgrade.title(), 0, 0, LIME_GREEN.packedRGB(), false);
                 graphics.disableScissor();
-                graphics.drawString(font, LimaTechLang.UPGRADE_RANK_TOOLTIP.translateArgs(entry.getIntValue()), 0, font.lineHeight + 4, 0xffffff, false);
+                graphics.drawString(font, LimaTechLang.UPGRADE_RANK_TOOLTIP.translateArgs(entry.getIntValue(), upgrade.maxRank()), 0, font.lineHeight + 4, 0xffffff, false);
 
                 poseStack.popPose();
             }

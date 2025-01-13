@@ -20,12 +20,16 @@
       "item": "limatech:gold_circuit"
     },
     {
-      "count": 2,
+      "count": 16,
+      "item": "limatech:titanium_ingot"
+    },
+    {
+      "count": 8,
       "item": "limatech:auto_ammo_canister"
     },
     {
-      "count": 16,
-      "item": "limatech:titanium_ingot"
+      "count": 2,
+      "item": "limatech:specialist_ammo_canister"
     }
   ],
   "result": {

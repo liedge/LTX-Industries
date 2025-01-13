@@ -25,11 +25,11 @@
     },
     {
       "count": 4,
-      "item": "limatech:auto_ammo_canister"
+      "item": "limatech:specialist_ammo_canister"
     },
     {
-      "count": 1,
-      "item": "limatech:specialist_ammo_canister"
+      "count": 2,
+      "item": "limatech:explosives_ammo_canister"
     }
   ],
   "result": {

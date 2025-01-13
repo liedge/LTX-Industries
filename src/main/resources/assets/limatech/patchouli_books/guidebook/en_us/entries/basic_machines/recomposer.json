@@ -3,6 +3,6 @@
   "category": "limatech:basic_machines",
   "icon": "limatech:recomposer",
   "pages": [
-    "$(o)\"It's Sci-Fi magic!\"$()$(br2)The $(l)Recomposer$() uses CE to modify a material's molecular composition directly. It can mutate/extract/reduce materials to alternative forms or useful derivatives. It isn't strictly required for progression but it can be a good source of lime dye early on without needing cacti and bones."
+    "The $(l)Recomposer$() uses CE to modify a material's molecular composition directly. It can mutate/extract/reduce materials to alternative forms or useful derivatives. It isn't strictly required for progression but it can be a good source of lime dye early on without needing cacti and bones."
   ]
 }

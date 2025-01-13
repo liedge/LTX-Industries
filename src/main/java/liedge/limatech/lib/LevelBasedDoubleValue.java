@@ -1,6 +1,5 @@
 package liedge.limatech.lib;
 
-import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -8,9 +7,9 @@ import it.unimi.dsi.fastutil.doubles.DoubleImmutableList;
 import it.unimi.dsi.fastutil.doubles.DoubleList;
 import liedge.limacore.data.LimaEnumCodec;
 import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.item.enchantment.LevelBasedValue;
 
 import java.util.List;
-import java.util.function.Function;
 
 /**
  * Similar to {@link net.minecraft.world.item.enchantment.LevelBasedValue} but with double data type to avoid
@@ -18,10 +17,7 @@ import java.util.function.Function;
  */
 public interface LevelBasedDoubleValue
 {
-    Codec<LevelBasedDoubleValue> DISPATCH_CODEC = Type.CODEC.dispatch(LevelBasedDoubleValue::getType, Type::getCodec);
-    Codec<LevelBasedDoubleValue> CODEC = Codec.either(ConstantValue.FLAT_CODEC, DISPATCH_CODEC).xmap(
-            either -> either.map(Function.identity(), Function.identity()),
-            value -> value instanceof ConstantValue constant ? Either.left(constant) : Either.right(value));
+    Codec<LevelBasedDoubleValue> CODEC = Type.CODEC.flatDispatch(ConstantValue.class, ConstantValue.FLAT_CODEC, LevelBasedDoubleValue::getType,  Type::getCodec);
 
     static ConstantValue constant(double value)
     {
@@ -110,13 +106,31 @@ public interface LevelBasedDoubleValue
         }
     }
 
+    record VanillaWrapper(LevelBasedValue value) implements LevelBasedDoubleValue
+    {
+        public static final MapCodec<VanillaWrapper> CODEC = LevelBasedValue.CODEC.fieldOf("value").xmap(VanillaWrapper::new, VanillaWrapper::value);
+
+        @Override
+        public double calculate(int level)
+        {
+            return value.calculate(level);
+        }
+
+        @Override
+        public Type getType()
+        {
+            return Type.VANILLA_WRAPPER;
+        }
+    }
+
     enum Type implements StringRepresentable
     {
         CONSTANT("constant", ConstantValue.CODEC),
         LINEAR("linear", LinearValue.CODEC),
-        LOOKUP("lookup", LookupValue.CODEC);
+        LOOKUP("lookup", LookupValue.CODEC),
+        VANILLA_WRAPPER("wrapper", VanillaWrapper.CODEC);
 
-        public static final Codec<Type> CODEC = LimaEnumCodec.createStrict(Type.class);
+        public static final LimaEnumCodec<Type> CODEC = LimaEnumCodec.createStrict(Type.class);
 
         private final String name;
         private final MapCodec<? extends LevelBasedDoubleValue> codec;

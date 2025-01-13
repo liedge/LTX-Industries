@@ -51,7 +51,7 @@ public final class LimaTechLang
 
     // Equipment upgrades tooltips
     public static final Translatable UPGRADE_REMOVE_HINT = tooltip("upgrade_remove_hint");
-    public static final Translatable UPGRADE_RANK_TOOLTIP = tooltip("upgrade_rank");
+    public static final Translatable UPGRADE_RANK_TOOLTIP = suffixOnlyKey("upgrade_rank");
     public static final Translatable UPGRADE_COMPATIBILITY_TOOLTIP = tooltip("upgrade_compatibility");
     public static final Translatable EQUIPMENT_UPGRADE_MODULE_TOOLTIP = tooltip("equipment_upgrade_module");
     public static final Translatable MACHINE_UPGRADE_MODULE_TOOLTIP = tooltip("machine_upgrade_module");
@@ -85,6 +85,11 @@ public final class LimaTechLang
     private static Translatable prefixKey(String prefix, String key)
     {
         return RESOURCES.translationHolder(prefix, "{}", key);
+    }
+
+    private static Translatable suffixOnlyKey(String suffix)
+    {
+        return RESOURCES.translationHolder("{}", suffix);
     }
 
     private static Translatable itemHint(String key)

@@ -1,12 +1,12 @@
 package liedge.limatech.util.datagen;
 
+import it.unimi.dsi.fastutil.floats.FloatList;
 import liedge.limacore.data.generation.loot.LimaBlockLootSubProvider;
 import liedge.limacore.data.generation.loot.LimaLootSubProvider;
 import liedge.limacore.data.generation.loot.LimaLootTableProvider;
 import liedge.limacore.util.LimaLootUtil;
-import liedge.limacore.world.loot.EnchantmentBasedWeightLootItem;
-import liedge.limacore.world.loot.HostileEntitySubPredicate;
-import liedge.limacore.world.loot.SaveBlockEntityFunction;
+import liedge.limacore.util.LimaMathUtil;
+import liedge.limacore.world.loot.*;
 import liedge.limatech.LimaTech;
 import liedge.limatech.registry.LimaTechEnchantments;
 import net.minecraft.advancements.critereon.EntityPredicate;
@@ -16,6 +16,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.LevelBasedValue;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -72,20 +73,24 @@ class LootTablesGen extends LimaLootTableProvider
                     .when(LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity().subPredicate(HostileEntitySubPredicate.INSTANCE)))
                     .when(LootItemRandomChanceWithEnchantedBonusCondition.randomChanceAndLootingBoost(registries, 0.1f, 0.02f))
                     .add(LootItem.lootTableItem(AUTO_AMMO_CANISTER).setWeight(80))
-                    .add(EnchantmentBasedWeightLootItem.enchantedWeightLootItem(SPECIALIST_AMMO_CANISTER, ammoScavengerEnchantment).setBaseWeight(15).setWeightPerLevel(6))
-                    .add(EnchantmentBasedWeightLootItem.enchantedWeightLootItem(EXPLOSIVES_AMMO_CANISTER, ammoScavengerEnchantment).setBaseWeight(5).setWeightPerLevel(3))
-                    .add(EnchantmentBasedWeightLootItem.enchantedWeightLootItem(MAGNUM_AMMO_CANISTER, ammoScavengerEnchantment).setBaseWeight(2).setWeightPerLevel(2))));
+                    .add(DynamicWeightLootEntry.dynamicWeightItem(SPECIALIST_AMMO_CANISTER).setWeight(EntityEnchantmentLevelProvider.playerEnchantLevelOrElse(ammoScavengerEnchantment, LevelBasedValue.perLevel(15f, 6f), 15)))
+                    .add(DynamicWeightLootEntry.dynamicWeightItem(EXPLOSIVES_AMMO_CANISTER).setWeight(EntityEnchantmentLevelProvider.playerEnchantLevelOrElse(ammoScavengerEnchantment, LevelBasedValue.perLevel(5f, 3f), 5)))
+                    .add(DynamicWeightLootEntry.dynamicWeightItem(MAGNUM_AMMO_CANISTER).setWeight(EntityEnchantmentLevelProvider.playerEnchantLevelOrElse(ammoScavengerEnchantment, LevelBasedValue.perLevel(2f, 2f), 2)))
+                    .setRolls(RoundingNumberProvider.roundValue(LimaMathUtil.RoundingStrategy.RANDOM, EntityEnchantmentLevelProvider.playerEnchantLevelOrElse(
+                            ammoScavengerEnchantment, LevelBasedValue.lookup(FloatList.of(1, 1, 1, 1.5f, 2), LevelBasedValue.constant(2)), 1)))));
 
             addTable(ENTITY_EXTRA_DROPS, LootTable.lootTable().withPool(phantomDrops));
 
             // Razor drops
-            LootPool.Builder razorPool = LootPool.lootPool().when(LimaLootUtil.randomChanceLinearEnchantBonus(registries, LimaTechEnchantments.RAZOR, 0f, 0.1f))
+            Holder<Enchantment> razorEnchant = registries.holderOrThrow(LimaTechEnchantments.RAZOR);
+            LootPool.Builder razorPool = LootPool.lootPool().when(LimaLootUtil.randomChanceLinearEnchantBonus(razorEnchant, 0f, 0.1f))
                     .add(lootItem(Items.ZOMBIE_HEAD).when(needsEntityType(EntityType.ZOMBIE)))
                     .add(lootItem(Items.SKELETON_SKULL).when(needsEntityType(EntityType.SKELETON)))
                     .add(lootItem(Items.CREEPER_HEAD).when(needsEntityType(EntityType.CREEPER)))
                     .add(lootItem(Items.PIGLIN_HEAD).when(needsEntityType(EntityType.PIGLIN)))
                     .add(lootItem(Items.WITHER_SKELETON_SKULL).when(needsEntityType(EntityType.WITHER_SKELETON)))
-                    .add(lootItem(Items.PLAYER_HEAD).when(needsEntityType(EntityType.PLAYER)).apply(FillPlayerHead.fillPlayerHead(LootContext.EntityTarget.THIS)));
+                    .add(lootItem(Items.PLAYER_HEAD).when(needsEntityType(EntityType.PLAYER)).apply(FillPlayerHead.fillPlayerHead(LootContext.EntityTarget.THIS)))
+                    .add(lootItem(Items.DRAGON_HEAD).when(needsEntityType(EntityType.ENDER_DRAGON)).when(EntityEnchantmentLevelsCondition.playerRequiresAtLeast(razorEnchant, 5)));
             addTable(RAZOR_LOOT_TABLE, singlePoolTable(razorPool));
         }
     }

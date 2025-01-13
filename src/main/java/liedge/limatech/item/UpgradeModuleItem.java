@@ -8,6 +8,7 @@ import liedge.limatech.lib.upgradesystem.UpgradeBase;
 import liedge.limatech.lib.upgradesystem.UpgradeBaseEntry;
 import liedge.limatech.menu.tooltip.ItemGridTooltip;
 import liedge.limatech.registry.LimaTechItems;
+import liedge.limatech.util.config.LimaTechServerConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
@@ -88,7 +89,7 @@ public abstract class UpgradeModuleItem<U extends UpgradeBase<?, ?, U>, UE exten
         {
             tooltipComponents.add(moduleTypeTooltip().translate().withStyle(moduleTypeStyle()));
             U upgrade = entry.upgrade().value();
-            if (upgrade.maxRank() > 1) tooltipComponents.add(LimaTechLang.UPGRADE_RANK_TOOLTIP.translateArgs(entry.upgradeRank()));
+            if (upgrade.maxRank() > 1) tooltipComponents.add(LimaTechLang.UPGRADE_RANK_TOOLTIP.translateArgs(entry.upgradeRank(), upgrade.maxRank()));
             tooltipComponents.add(upgrade.description().copy().withStyle(ChatFormatting.GRAY));
         }
         else
@@ -131,8 +132,14 @@ public abstract class UpgradeModuleItem<U extends UpgradeBase<?, ?, U>, UE exten
         if (tabId.equals(creativeTabId()))
         {
             HolderLookup.RegistryLookup<U> registry = parameters.holders().lookupOrThrow(upgradeRegistryKey());
+            boolean generateAll = LimaTechServerConfig.GENERATE_ALL_UPGRADE_RANKS.getAsBoolean();
+
             registry.listElements()
-                    .flatMap(holder -> IntStream.rangeClosed(1, holder.value().maxRank()).mapToObj(rank -> createUpgradeEntry(holder, rank)))
+                    .flatMap(holder -> {
+                        int max = holder.value().maxRank();
+                        int min = generateAll ? 1 : max;
+                        return IntStream.rangeClosed(min, max).mapToObj(rank -> createUpgradeEntry(holder, rank));
+                    })
                     .forEach(entry -> {
                         ItemStack stack = new ItemStack(this);
                         stack.set(entryComponentType(), entry);

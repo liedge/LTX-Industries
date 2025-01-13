@@ -31,28 +31,77 @@
           "weight": 80
         },
         {
-          "type": "limacore:enchantment_based_weight",
-          "base_weight": 15,
-          "enchantment": "limatech:ammo_scavenger",
-          "item": "limatech:specialist_ammo_canister",
-          "weight_per_level": 6.0
+          "type": "limacore:dynamic_weight",
+          "child": {
+            "type": "minecraft:item",
+            "name": "limatech:specialist_ammo_canister"
+          },
+          "weight": {
+            "type": "limacore:entity_enchantment_level",
+            "enchanted_value": {
+              "type": "minecraft:linear",
+              "base": 15.0,
+              "per_level_above_first": 6.0
+            },
+            "enchantment": "limatech:ammo_scavenger",
+            "normal_value": 15.0
+          }
         },
         {
-          "type": "limacore:enchantment_based_weight",
-          "base_weight": 5,
-          "enchantment": "limatech:ammo_scavenger",
-          "item": "limatech:explosives_ammo_canister",
-          "weight_per_level": 3.0
+          "type": "limacore:dynamic_weight",
+          "child": {
+            "type": "minecraft:item",
+            "name": "limatech:explosives_ammo_canister"
+          },
+          "weight": {
+            "type": "limacore:entity_enchantment_level",
+            "enchanted_value": {
+              "type": "minecraft:linear",
+              "base": 5.0,
+              "per_level_above_first": 3.0
+            },
+            "enchantment": "limatech:ammo_scavenger",
+            "normal_value": 5.0
+          }
         },
         {
-          "type": "limacore:enchantment_based_weight",
-          "base_weight": 2,
-          "enchantment": "limatech:ammo_scavenger",
-          "item": "limatech:magnum_ammo_canister",
-          "weight_per_level": 2.0
+          "type": "limacore:dynamic_weight",
+          "child": {
+            "type": "minecraft:item",
+            "name": "limatech:magnum_ammo_canister"
+          },
+          "weight": {
+            "type": "limacore:entity_enchantment_level",
+            "enchanted_value": {
+              "type": "minecraft:linear",
+              "base": 2.0,
+              "per_level_above_first": 2.0
+            },
+            "enchantment": "limatech:ammo_scavenger",
+            "normal_value": 2.0
+          }
         }
       ],
-      "rolls": 1.0
+      "rolls": {
+        "type": "limacore:rounding",
+        "child": {
+          "type": "limacore:entity_enchantment_level",
+          "enchanted_value": {
+            "type": "minecraft:lookup",
+            "fallback": 2.0,
+            "values": [
+              1.0,
+              1.0,
+              1.0,
+              1.5,
+              2.0
+            ]
+          },
+          "enchantment": "limatech:ammo_scavenger",
+          "normal_value": 1.0
+        },
+        "rounding_strategy": "random"
+      }
     }
   ],
   "random_sequence": "limatech:entity/enemy_ammo_drops"

@@ -1,7 +1,6 @@
 package liedge.limatech.lib.upgradesystem;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import liedge.limatech.LimaTech;
 import liedge.limatech.client.UpgradeIcon;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
@@ -11,7 +10,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
-import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 
@@ -99,15 +97,9 @@ public abstract class UpgradeBaseBuilder<CTX, E extends UpgradeEffectBase, U ext
         return selfUnchecked();
     }
 
-    public B effectIcon(String name)
+    public B effectIcon(UpgradeIcon icon)
     {
-        this.icon = new UpgradeIcon.UpgradeSprite(LimaTech.RESOURCES.location(name));
-        return selfUnchecked();
-    }
-
-    public B effectIcon(ItemStack stack)
-    {
-        this.icon = new UpgradeIcon.ItemStackRender(stack);
+        this.icon = icon;
         return selfUnchecked();
     }
 

@@ -45,6 +45,11 @@ public class GrenadeLauncherWeaponItem extends SemiAutoWeaponItem implements Scr
         super(properties);
     }
 
+    public void setGrenadeType(ItemStack stack, GrenadeType grenadeType)
+    {
+        stack.set(GRENADE_TYPE, grenadeType);
+    }
+
     @Override
     public boolean canFocusReticle(ItemStack heldItem, Player player, AbstractWeaponControls controls)
     {
@@ -119,7 +124,7 @@ public class GrenadeLauncherWeaponItem extends SemiAutoWeaponItem implements Scr
         GrenadeType toSwitch = forward ? OrderedEnum.nextAvailable(availableTypes, currentType) : OrderedEnum.previousAvailable(availableTypes, currentType);
         if (!currentType.equals(toSwitch))
         {
-            stack.set(GRENADE_TYPE, toSwitch);
+            setGrenadeType(stack, toSwitch);
             player.level().playSound(null, player, LimaTechSounds.WEAPON_MODE_SWITCH.get(), SoundSource.PLAYERS, 1.0f, 1.0f);
         }
     }

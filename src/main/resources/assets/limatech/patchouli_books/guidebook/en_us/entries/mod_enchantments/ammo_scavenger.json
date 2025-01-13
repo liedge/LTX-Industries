@@ -1,0 +1,9 @@
+{
+  "name": "Ammo Scavenger",
+  "category": "limatech:mod_enchantments",
+  "icon": "limatech:textures/upgrade_icon/ammo_scavenger.png",
+  "pages": [
+    "Ammo Scavenger is an enchantment for standard Sharp Weapons or LimaTech equipment. This enchantment increases the weight of the rarer ammo canister types in the ammo drop loot table. At $(o)Level 4$(), there's a 50% for a second canister to drop. $(o)Levels 5+$() guarantee an extra drop.",
+    "Level 3 is the maximum level obtainable through the standard enchantment table. Higher levels must be obtained via Equipment Upgrades or another source of enchantments capable of going above the standard max levels."
+  ]
+}

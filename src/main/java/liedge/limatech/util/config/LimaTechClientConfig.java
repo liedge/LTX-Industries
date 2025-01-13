@@ -25,7 +25,7 @@ public final class LimaTechClientConfig
                     "The color of the weapon crosshair if the solid color crosshair option is enabled. Use a hexadecimal color format prefixed with #.")
             .define("weapon_crosshair_color", LimaColor.WHITE.toString());
 
-    public static final ModConfigSpec CONFIG_SPEC = BUILDER.build();
+    public static final ModConfigSpec CLIENT_CONFIG_SPEC = BUILDER.build();
 
     // Cached values
     private static boolean solidCrosshairColor;
@@ -33,7 +33,7 @@ public final class LimaTechClientConfig
 
     public static void onConfigLoaded(final ModConfigEvent event)
     {
-        if (event.getConfig().getSpec() == CONFIG_SPEC)
+        if (event.getConfig().getSpec() == CLIENT_CONFIG_SPEC)
         {
             solidCrosshairColor = SOLID_COLOR_CROSSHAIR.get();
             crosshairColor = solidCrosshairColor ? LimaMathUtil.tryParseHexadecimal(WEAPON_CROSSHAIR_COLOR.get()).map(LimaColor::createOpaque).orElse(LimaColor.WHITE) : LimaColor.WHITE;

@@ -1,0 +1,9 @@
+{
+  "name": "Energy Storage Array",
+  "category": "limatech:basic_machines",
+  "icon": "limatech:energy_storage_array",
+  "pages": [
+    "The $(l)Energy Storage Array$() is LimaTech's main CE storage block. It features configurable side IO for items and energy. It has 1 input slot for filling the internal buffer and 4 charging slots to charge items in.",
+    "Smart item automation only allows CE-compatible items to be inserted and will not allow the $(o)automatic$() extraction of items until they are fully charged. You can always take them out manually through the GUI."
+  ]
+}

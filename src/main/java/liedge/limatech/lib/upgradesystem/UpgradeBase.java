@@ -20,6 +20,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.enchantment.Enchantment;
 
 import java.util.List;
 
@@ -42,6 +43,10 @@ public interface UpgradeBase<CTX, E extends UpgradeEffectBase, U extends Upgrade
                 effectCodec.listOf(1, MAX_EFFECTS_PER_UPGRADE).fieldOf("effects").forGetter(UpgradeBase::effects),
                 UpgradeIcon.CODEC.optionalFieldOf("icon", UpgradeIcon.DEFAULT_ICON).forGetter(UpgradeBase::icon))
                 .apply(instance, factory));
+    }
+
+    private void testing4(Enchantment enchantment)
+    {
     }
 
     Component title();

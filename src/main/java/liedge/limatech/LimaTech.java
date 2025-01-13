@@ -9,6 +9,7 @@ import liedge.limatech.network.packet.LimaTechPacketsRegistration;
 import liedge.limatech.registry.*;
 import liedge.limatech.util.config.LimaTechClientConfig;
 import liedge.limatech.util.config.LimaTechMachinesConfig;
+import liedge.limatech.util.config.LimaTechServerConfig;
 import liedge.limatech.util.config.LimaTechWeaponsConfig;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -54,9 +55,11 @@ public class LimaTech
         LimaTechRecipeSerializers.initRegister(modBus);
         LimaTechRecipeTypes.initRegister(modBus);
         LimaTechSounds.initRegister(modBus);
+        LimaTechUpgradeEffectTypes.initRegister(modBus);
 
         // Mod configs
-        modContainer.registerConfig(ModConfig.Type.CLIENT, LimaTechClientConfig.CONFIG_SPEC);
+        modContainer.registerConfig(ModConfig.Type.CLIENT, LimaTechClientConfig.CLIENT_CONFIG_SPEC);
+        modContainer.registerConfig(ModConfig.Type.SERVER, LimaTechServerConfig.SERVER_CONFIG_SPEC);
         modContainer.registerConfig(ModConfig.Type.SERVER, LimaTechWeaponsConfig.WEAPONS_CONFIG_SPEC, "limatech-weapons.toml");
         modContainer.registerConfig(ModConfig.Type.SERVER, LimaTechMachinesConfig.MACHINES_CONFIG_SPEC, "limatech-machines.toml");
 
@@ -99,6 +102,7 @@ public class LimaTech
         {
             event.register(LimaTechRegistries.EQUIPMENT_UPGRADE_EFFECT_TYPE);
             event.register(LimaTechRegistries.MACHINE_UPGRADE_EFFECT_TYPE);
+            event.register(LimaTechRegistries.UPGRADE_EFFECT_TYPE);
         }
 
         @SubscribeEvent

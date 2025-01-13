@@ -1,14 +1,14 @@
 {
   "type": "limatech:fabricating",
-  "energy_required": 1500000,
-  "group": "ammo_scavenger_upgrades",
+  "energy_required": 4000000,
+  "group": "razor_upgrades",
   "ingredients": [
     {
       "type": "neoforge:components",
       "components": {
         "limatech:equipment_upgrade": {
           "rank": 4,
-          "upgrade": "limatech:ammo_scavenger_enchantment"
+          "upgrade": "limatech:razor_enchantment"
         }
       },
       "count": 1,
@@ -16,35 +16,39 @@
       "strict": true
     },
     {
-      "count": 2,
+      "count": 4,
       "item": "limatech:niobium_circuit"
     },
     {
-      "count": 2,
-      "item": "limatech:slate_alloy_ingot"
+      "count": 16,
+      "item": "minecraft:zombie_head"
     },
     {
       "count": 16,
-      "item": "limatech:auto_ammo_canister"
+      "item": "minecraft:creeper_head"
+    },
+    {
+      "count": 16,
+      "item": "minecraft:skeleton_skull"
     },
     {
       "count": 8,
-      "item": "limatech:specialist_ammo_canister"
+      "item": "minecraft:wither_skeleton_skull"
     },
     {
-      "count": 4,
-      "item": "limatech:explosives_ammo_canister"
+      "count": 8,
+      "item": "minecraft:piglin_head"
     },
     {
-      "count": 2,
-      "item": "limatech:magnum_ammo_canister"
+      "count": 1,
+      "item": "minecraft:dragon_head"
     }
   ],
   "result": {
     "components": {
       "limatech:equipment_upgrade": {
         "rank": 5,
-        "upgrade": "limatech:ammo_scavenger_enchantment"
+        "upgrade": "limatech:razor_enchantment"
       }
     },
     "count": 1,

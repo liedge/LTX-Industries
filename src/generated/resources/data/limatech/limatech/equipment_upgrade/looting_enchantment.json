@@ -14,7 +14,7 @@
     }
   ],
   "exclusive_set": [],
-  "icon": "limatech:looting_enchant",
+  "icon": "limatech:looting",
   "max_rank": 5,
   "supported_set": "#limatech:ltx_weapons",
   "title": {

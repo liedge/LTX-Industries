@@ -1,0 +1,32 @@
+{
+  "type": "limatech:fabricating",
+  "energy_required": 250000,
+  "group": "razor_upgrades",
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "limatech:empty_upgrade_module"
+    },
+    {
+      "count": 4,
+      "item": "limatech:copper_circuit"
+    },
+    {
+      "count": 1,
+      "item": "limatech:titanium_sword"
+    },
+    {
+      "count": 1,
+      "item": "limatech:titanium_shears"
+    }
+  ],
+  "result": {
+    "components": {
+      "limatech:equipment_upgrade": {
+        "upgrade": "limatech:razor_enchantment"
+      }
+    },
+    "count": 1,
+    "id": "limatech:equipment_upgrade_module"
+  }
+}

@@ -47,6 +47,7 @@ import static liedge.limatech.registry.LimaTechEquipmentUpgrades.*;
 import static liedge.limatech.registry.LimaTechItems.*;
 import static net.minecraft.world.item.Items.*;
 import static net.neoforged.neoforge.common.Tags.Items.DYES_LIME;
+import static net.neoforged.neoforge.common.Tags.Items.GLASS_BLOCKS;
 
 class RecipesGen extends LimaRecipeProvider
 {
@@ -167,6 +168,13 @@ class RecipesGen extends LimaRecipeProvider
                 .input(NIOBIUM_CIRCUIT, 4)
                 .input(GOLD_CIRCUIT, 8)
                 .group("turrets").save(output);
+        fabricating(AUTO_AMMO_CANISTER, 100_000)
+                .input(TITANIUM_INGOT, 3)
+                .input(GUNPOWDER, 4)
+                .input(Ingredient.of(GLOWSTONE_DUST, REDSTONE), 4)
+                .input(DYES_LIME)
+                .input(GLASS_BLOCKS, 2)
+                .group("weapon_ammo").save(output);
         weaponFabricating(SUBMACHINE_GUN, registries, 400_000)
                 .input(TITANIUM_INGOT, 16)
                 .input(COPPER_CIRCUIT, 8)
@@ -238,30 +246,61 @@ class RecipesGen extends LimaRecipeProvider
                 .input(NETHER_STAR, 4)
                 .input(LAPIS_BLOCK, 64));
 
+        equipmentModuleFab(output, registries, "razor_upgrades", RAZOR_ENCHANTMENT, 1, 250_000, builder -> builder
+                .input(COPPER_CIRCUIT, 4)
+                .input(TITANIUM_SWORD)
+                .input(TITANIUM_SHEARS));
+        equipmentModuleFab(output, registries,"razor_upgrades", RAZOR_ENCHANTMENT, 2, 500_000, builder -> builder
+                .input(COPPER_CIRCUIT, 8)
+                .input(GOLD_CIRCUIT, 2)
+                .input(TITANIUM_SWORD, 2)
+                .input(ZOMBIE_HEAD));
+        equipmentModuleFab(output, registries, "razor_upgrades", RAZOR_ENCHANTMENT, 3, 1_000_000, builder -> builder
+                .input(GOLD_CIRCUIT, 4)
+                .input(ZOMBIE_HEAD, 2)
+                .input(SKELETON_SKULL, 2)
+                .input(CREEPER_HEAD, 2));
+        equipmentModuleFab(output, registries, "razor_upgrades", RAZOR_ENCHANTMENT, 4, 2_00_000, builder -> builder
+                .input(GOLD_CIRCUIT, 4)
+                .input(NIOBIUM_CIRCUIT, 2)
+                .input(WITHER_SKELETON_SKULL, 4)
+                .input(PIGLIN_HEAD, 4));
+        equipmentModuleFab(output, registries, "razor_upgrades", RAZOR_ENCHANTMENT, 5, 4_000_000, builder -> builder
+                .input(NIOBIUM_CIRCUIT, 4)
+                .input(ZOMBIE_HEAD, 16)
+                .input(CREEPER_HEAD, 16)
+                .input(SKELETON_SKULL, 16)
+                .input(WITHER_SKELETON_SKULL, 8)
+                .input(PIGLIN_HEAD, 8)
+                .input(DRAGON_HEAD, 1));
+
         equipmentModuleFab(output, registries, "ammo_scavenger_upgrades", AMMO_SCAVENGER_ENCHANTMENT, 1, 300_000, builder -> builder
                 .input(GOLD_CIRCUIT, 2)
                 .input(TITANIUM_INGOT, 8)
-                .input(GUNPOWDER, 8));
+                .input(GUNPOWDER, 8)
+                .input(AUTO_AMMO_CANISTER, 2));
         equipmentModuleFab(output, registries, "ammo_scavenger_upgrades", AMMO_SCAVENGER_ENCHANTMENT, 2, 600_000, builder -> builder
                 .input(GOLD_CIRCUIT, 4)
                 .input(TITANIUM_INGOT, 12)
-                .input(GUNPOWDER, 12)
-                .input(LAPIS_LAZULI, 16));
+                .input(LAPIS_LAZULI, 16)
+                .input(AUTO_AMMO_CANISTER, 4));
         equipmentModuleFab(output, registries, "ammo_scavenger_upgrades", AMMO_SCAVENGER_ENCHANTMENT, 3, 900_000, builder -> builder
                 .input(GOLD_CIRCUIT, 6)
-                .input(AUTO_AMMO_CANISTER, 2)
-                .input(TITANIUM_INGOT, 16));
+                .input(TITANIUM_INGOT, 16)
+                .input(AUTO_AMMO_CANISTER, 8)
+                .input(SPECIALIST_AMMO_CANISTER, 2));
         equipmentModuleFab(output, registries, "ammo_scavenger_upgrades", AMMO_SCAVENGER_ENCHANTMENT, 4, 1_200_000, builder -> builder
                 .input(GOLD_CIRCUIT, 8)
                 .input(NIOBIUM_CIRCUIT, 1)
-                .input(AUTO_AMMO_CANISTER, 4)
-                .input(SPECIALIST_AMMO_CANISTER, 1));
+                .input(SPECIALIST_AMMO_CANISTER, 4)
+                .input(EXPLOSIVES_AMMO_CANISTER, 2));
         equipmentModuleFab(output, registries, "ammo_scavenger_upgrades", AMMO_SCAVENGER_ENCHANTMENT, 5, 1_500_000, builder -> builder
                 .input(NIOBIUM_CIRCUIT, 2)
                 .input(SLATE_ALLOY_INGOT, 2)
-                .input(AUTO_AMMO_CANISTER, 6)
-                .input(SPECIALIST_AMMO_CANISTER, 2)
-                .input(EXPLOSIVES_AMMO_CANISTER, 1));
+                .input(AUTO_AMMO_CANISTER, 16)
+                .input(SPECIALIST_AMMO_CANISTER, 8)
+                .input(EXPLOSIVES_AMMO_CANISTER, 4)
+                .input(MAGNUM_AMMO_CANISTER, 2));
 
         equipmentModuleFab(output, registries, "grenade_cores", FLAME_GRENADE_CORE, 1, 250_000, builder -> builder
                 .input(COPPER_CIRCUIT, 16)

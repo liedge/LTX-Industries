@@ -219,7 +219,7 @@ class LanguageGen extends LimaLanguageProvider
         add(FABRICATOR_CLICK_TO_CRAFT_TOOLTIP, "Click again to craft");
         add(FABRICATOR_ENERGY_REQUIRED_TOOLTIP, "Energy required: %s");
         add(CRAFTING_PROGRESS_TOOLTIP, "Crafting: %s%%");
-        add(UPGRADE_RANK_TOOLTIP, "Rank %s");
+        add(UPGRADE_RANK_TOOLTIP, "Rank %s/%s");
         add(UPGRADE_REMOVE_HINT, "Shift + left click to remove upgrade. Must have space in your inventory.");
         add(UPGRADE_COMPATIBILITY_TOOLTIP, "Compatible with:");
         add(EQUIPMENT_UPGRADE_MODULE_TOOLTIP, "Equipment Upgrade Module");

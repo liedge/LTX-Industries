@@ -18,6 +18,10 @@
     {
       "count": 8,
       "item": "minecraft:gunpowder"
+    },
+    {
+      "count": 2,
+      "item": "limatech:auto_ammo_canister"
     }
   ],
   "result": {

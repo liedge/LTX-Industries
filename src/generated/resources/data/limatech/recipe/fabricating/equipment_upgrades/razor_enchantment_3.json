@@ -1,13 +1,14 @@
 {
   "type": "limatech:fabricating",
-  "energy_required": 600000,
-  "group": "ammo_scavenger_upgrades",
+  "energy_required": 1000000,
+  "group": "razor_upgrades",
   "ingredients": [
     {
       "type": "neoforge:components",
       "components": {
         "limatech:equipment_upgrade": {
-          "upgrade": "limatech:ammo_scavenger_enchantment"
+          "rank": 2,
+          "upgrade": "limatech:razor_enchantment"
         }
       },
       "count": 1,
@@ -19,23 +20,23 @@
       "item": "limatech:gold_circuit"
     },
     {
-      "count": 12,
-      "item": "limatech:titanium_ingot"
+      "count": 2,
+      "item": "minecraft:zombie_head"
     },
     {
-      "count": 16,
-      "item": "minecraft:lapis_lazuli"
+      "count": 2,
+      "item": "minecraft:skeleton_skull"
     },
     {
-      "count": 4,
-      "item": "limatech:auto_ammo_canister"
+      "count": 2,
+      "item": "minecraft:creeper_head"
     }
   ],
   "result": {
     "components": {
       "limatech:equipment_upgrade": {
-        "rank": 2,
-        "upgrade": "limatech:ammo_scavenger_enchantment"
+        "rank": 3,
+        "upgrade": "limatech:razor_enchantment"
       }
     },
     "count": 1,

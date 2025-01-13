@@ -114,11 +114,11 @@ public final class LimaTechItems
     public static final DeferredItem<MachineUpgradeModuleItem> MACHINE_UPGRADE_MODULE = ITEMS.registerItem("machine_upgrade_module", MachineUpgradeModuleItem::new, properties().stacksTo(1));
 
     // LTX Weapons
-    public static final DeferredItem<WeaponItem> SUBMACHINE_GUN = registerWeapon("submachine_gun", SMGWeaponItem::new);
-    public static final DeferredItem<WeaponItem> SHOTGUN = registerWeapon("shotgun", ShotgunWeaponItem::new);
-    public static final DeferredItem<WeaponItem> GRENADE_LAUNCHER = registerWeapon("grenade_launcher", GrenadeLauncherWeaponItem::new);
-    public static final DeferredItem<WeaponItem> ROCKET_LAUNCHER = registerWeapon("rocket_launcher", RocketLauncherItem::new);
-    public static final DeferredItem<WeaponItem> MAGNUM = registerWeapon("magnum", MagnumWeaponItem::new);
+    public static final DeferredItem<SMGWeaponItem> SUBMACHINE_GUN = registerWeapon("submachine_gun", SMGWeaponItem::new);
+    public static final DeferredItem<ShotgunWeaponItem> SHOTGUN = registerWeapon("shotgun", ShotgunWeaponItem::new);
+    public static final DeferredItem<GrenadeLauncherWeaponItem> GRENADE_LAUNCHER = registerWeapon("grenade_launcher", GrenadeLauncherWeaponItem::new);
+    public static final DeferredItem<RocketLauncherWeaponItem> ROCKET_LAUNCHER = registerWeapon("rocket_launcher", RocketLauncherWeaponItem::new);
+    public static final DeferredItem<MagnumWeaponItem> MAGNUM = registerWeapon("magnum", MagnumWeaponItem::new);
 
     // LTX Weapons Canisters
     public static final DeferredItem<SimpleHintItem> AUTO_AMMO_CANISTER = ITEMS.registerItem("auto_ammo_canister", SimpleHintItem::new);
@@ -141,7 +141,7 @@ public final class LimaTechItems
         });
     }
 
-    private static DeferredItem<WeaponItem> registerWeapon(String name, Function<Item.Properties, ? extends WeaponItem> constructor)
+    private static <T extends WeaponItem> DeferredItem<T> registerWeapon(String name, Function<Item.Properties, T> constructor)
     {
         return ITEMS.registerItem(name, constructor, properties().stacksTo(1).fireResistant().rarity(ltxGearRarity()));
     }

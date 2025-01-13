@@ -20,9 +20,9 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.Comparator;
 
-public class RocketLauncherItem extends SemiAutoWeaponItem
+public class RocketLauncherWeaponItem extends SemiAutoWeaponItem
 {
-    public RocketLauncherItem(Properties properties)
+    public RocketLauncherWeaponItem(Properties properties)
     {
         super(properties);
     }

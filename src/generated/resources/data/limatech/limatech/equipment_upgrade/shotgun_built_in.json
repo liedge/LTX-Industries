@@ -24,11 +24,16 @@
   ],
   "exclusive_set": [],
   "icon": {
-    "type": "item_stack",
+    "type": "item_sprite_overlay",
+    "height": 10,
     "item": {
       "count": 1,
       "id": "limatech:shotgun"
-    }
+    },
+    "sprite": "limatech:generic",
+    "width": 10,
+    "x_offset": 0,
+    "y_offset": 6
   },
   "supported_set": "limatech:shotgun",
   "title": {

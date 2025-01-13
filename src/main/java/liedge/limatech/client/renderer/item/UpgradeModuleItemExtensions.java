@@ -35,7 +35,7 @@ public final class UpgradeModuleItemExtensions implements ItemGuiRenderOverride
                 if (icon.shouldRenderRank(entry))
                 {
                     graphics.pose().pushPose();
-                    graphics.pose().translate(0, 0, 200f);
+                    graphics.pose().translate(0, 0, 240f);
 
                     graphics.drawString(Minecraft.getInstance().font, Integer.toString(entry.upgradeRank()), x + 1, y + 8, 0xffffff);
 

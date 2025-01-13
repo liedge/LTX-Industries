@@ -4,6 +4,7 @@ import liedge.limacore.data.LimaEnumCodec;
 import liedge.limacore.lib.LimaColor;
 import liedge.limacore.lib.OrderedEnum;
 import liedge.limacore.lib.Translatable;
+import liedge.limatech.LimaTech;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.codec.StreamCodec;
@@ -32,7 +33,7 @@ public enum GrenadeType implements StringRepresentable, Translatable, OrderedEnu
     {
         this.name = name;
         this.color = color;
-        this.descriptionId = "grenade_type." + name;
+        this.descriptionId = LimaTech.RESOURCES.translationKey("grenade_type", "{}", name);
     }
 
     public LimaColor getColor()
