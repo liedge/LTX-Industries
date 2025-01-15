@@ -1,10 +1,10 @@
 package liedge.limatech.registry;
 
 import liedge.limatech.LimaTech;
-import liedge.limatech.lib.upgradesystem.equipment.EquipmentUpgradeEntry;
-import liedge.limatech.lib.upgradesystem.equipment.EquipmentUpgrades;
-import liedge.limatech.lib.upgradesystem.machine.MachineUpgrades;
-import liedge.limatech.lib.upgradesystem.machine.MachineUpgradeEntry;
+import liedge.limatech.lib.upgrades.equipment.EquipmentUpgradeEntry;
+import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrades;
+import liedge.limatech.lib.upgrades.machine.MachineUpgrades;
+import liedge.limatech.lib.upgrades.machine.MachineUpgradeEntry;
 import liedge.limatech.lib.weapons.GrenadeType;
 import liedge.limatech.lib.weapons.WeaponAmmoSource;
 import net.minecraft.core.component.DataComponentType;

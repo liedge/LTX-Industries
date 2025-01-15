@@ -1,4 +1,4 @@
-// 1.21.1	2025-01-12T02:06:40.1233268	Loot Tables
+// 1.21.1	2025-01-17T00:19:08.747294	Loot Tables
 d2921ade656bb5f907d43bc46407d7f7fb3995c1 data/limatech/loot_table/blocks/black_glow_block.json
 3a0705649b5bfb3e23b6242ad7d3e1bb93a5d345 data/limatech/loot_table/blocks/blue_glow_block.json
 c1c994b756184c059f015ed9bb1ed254f7ea68f7 data/limatech/loot_table/blocks/brown_glow_block.json
@@ -32,6 +32,6 @@ aac701f4d594bb801e2db6c9b89fde4a2141ccbc data/limatech/loot_table/blocks/rocket_
 5f717b0a5633ef659b335fff3b07da5dfea5787e data/limatech/loot_table/blocks/titanium_ore.json
 cd3c599233b00b6433bfd8e02bfd1e07ef7d4555 data/limatech/loot_table/blocks/white_glow_block.json
 7a23e700ae19cc05e885cc619df329666cde9462 data/limatech/loot_table/blocks/yellow_glow_block.json
-c51ee6390e431b6e94a0ae61813493b204370cfb data/limatech/loot_table/entity/enemy_ammo_drops.json
+c92f36cc3ccefe08bce63ec26816a1a8f086545c data/limatech/loot_table/entity/enemy_ammo_drops.json
 53082b8e03bacbd8ee7517281dd0a25c02f784cb data/limatech/loot_table/entity/extra_drops.json
 878b7557b9f119defe880b8cb2cc84c738f6daae data/limatech/loot_table/entity/razor_drops.json

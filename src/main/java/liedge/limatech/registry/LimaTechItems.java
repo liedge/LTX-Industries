@@ -1,17 +1,10 @@
 package liedge.limatech.registry;
 
-import com.google.gson.JsonElement;
-import liedge.limacore.util.LimaJsonUtil;
 import liedge.limatech.LimaTech;
 import liedge.limatech.item.*;
 import liedge.limatech.item.weapon.*;
-import net.minecraft.ChatFormatting;
-import net.minecraft.core.component.DataComponents;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.component.ItemLore;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.capabilities.Capabilities;
@@ -24,7 +17,6 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.function.Function;
 
 import static liedge.limacore.util.LimaItemUtil.*;
@@ -120,26 +112,12 @@ public final class LimaTechItems
     public static final DeferredItem<RocketLauncherWeaponItem> ROCKET_LAUNCHER = registerWeapon("rocket_launcher", RocketLauncherWeaponItem::new);
     public static final DeferredItem<MagnumWeaponItem> MAGNUM = registerWeapon("magnum", MagnumWeaponItem::new);
 
-    // LTX Weapons Canisters
+    // LTX weapon ammo items
     public static final DeferredItem<SimpleHintItem> AUTO_AMMO_CANISTER = ITEMS.registerItem("auto_ammo_canister", SimpleHintItem::new);
     public static final DeferredItem<SimpleHintItem> SPECIALIST_AMMO_CANISTER = ITEMS.registerItem("specialist_ammo_canister", SimpleHintItem::new);
     public static final DeferredItem<SimpleHintItem> EXPLOSIVES_AMMO_CANISTER = ITEMS.registerItem("explosives_ammo_canister", SimpleHintItem::new);
+    public static final DeferredItem<SimpleHintItem> ROCKET_LAUNCHER_AMMO = ITEMS.registerItem("rocket_launcher_ammo", SimpleHintItem::new);
     public static final DeferredItem<SimpleHintItem> MAGNUM_AMMO_CANISTER = ITEMS.registerItem("magnum_ammo_canister", SimpleHintItem::new);
-
-    private static DeferredItem<SimpleHintItem> simpleLoreItem(String name)
-    {
-        return ITEMS.register(name, id -> {
-
-            Component loreLine = Component.translatable("item.limatech." + id.getPath() + ".hint").withStyle(Style.EMPTY.withColor(ChatFormatting.GRAY).withItalic(false));
-            ItemLore lore = new ItemLore(List.of(loreLine));
-            Item.Properties properties = new Item.Properties().component(DataComponents.LORE, lore);
-
-            JsonElement element = LimaJsonUtil.codecEncode(ItemLore.CODEC, lore);
-            LimaTech.LOGGER.debug("Serialized json: {}", element);
-
-            return new SimpleHintItem(properties);
-        });
-    }
 
     private static <T extends WeaponItem> DeferredItem<T> registerWeapon(String name, Function<Item.Properties, T> constructor)
     {

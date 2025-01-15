@@ -3,6 +3,7 @@ package liedge.limatech.util;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limatech.menu.tooltip.ItemGridTooltip;
 import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemContainerContents;
 
@@ -11,6 +12,8 @@ import java.util.List;
 import static liedge.limacore.capability.energy.LimaEnergyUtil.formatEnergyWithSuffix;
 import static liedge.limacore.registry.LimaCoreDataComponents.ENERGY;
 import static liedge.limacore.registry.LimaCoreDataComponents.ITEM_CONTAINER;
+import static liedge.limacore.util.LimaMathUtil.FORMAT_COMMA_INT;
+import static liedge.limacore.util.LimaMathUtil.FORMAT_PERCENTAGE;
 import static liedge.limatech.LimaTechConstants.REM_BLUE;
 import static liedge.limatech.client.LimaTechLang.*;
 
@@ -47,5 +50,46 @@ public final class LimaTechTooltipUtil
         {
             consumer.accept(EMPTY_ITEM_INVENTORY_TOOLTIP.translate().withStyle(ChatFormatting.GRAY));
         }
+    }
+
+    public static ChatFormatting numSignColor(double zero, double value, boolean invertColors)
+    {
+        if (invertColors)
+        {
+            return value < zero ? ChatFormatting.GREEN : ChatFormatting.RED;
+        }
+        else
+        {
+            return value < zero ? ChatFormatting.RED : ChatFormatting.GREEN;
+        }
+    }
+
+    public static ChatFormatting numSignColor(double value, boolean invertColors)
+    {
+        return numSignColor(0, value, invertColors);
+    }
+
+    public static String formatFlatNumber(double value)
+    {
+        return value < 1000 ? Double.toString(value) : FORMAT_COMMA_INT.format(value);
+    }
+
+    public static Component flatNumberWithSign(double value, boolean invertColors)
+    {
+        String formattedValue = formatFlatNumber(value);
+        if (value >= 0) formattedValue = "+" + formattedValue;
+        return Component.literal(formattedValue).withStyle(numSignColor(value, invertColors));
+    }
+
+    public static Component flatNumberWithoutSign(double value, boolean invertColors)
+    {
+        return Component.literal(formatFlatNumber(value)).withStyle(numSignColor(1, value, invertColors));
+    }
+
+    public static Component percentageWithSign(double value, boolean invertColors)
+    {
+        String formattedValue = FORMAT_PERCENTAGE.format(value);
+        if (value >= 0) formattedValue = "+" + formattedValue;
+        return Component.literal(formattedValue).withStyle(numSignColor(value, invertColors));
     }
 }

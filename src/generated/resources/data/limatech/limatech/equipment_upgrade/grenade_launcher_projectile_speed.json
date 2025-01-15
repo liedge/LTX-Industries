@@ -2,19 +2,18 @@
   "description": {
     "translate": "equipment_upgrade.limatech.grenade_launcher_projectile_speed.desc"
   },
-  "effects": [
-    {
-      "type": "limatech:projectile_speed",
-      "modifier": {
-        "type": "add_value",
+  "effects": {
+    "limatech:weapon_projectile_speed": [
+      {
+        "operation": "flat_addition",
         "value": {
           "type": "linear",
           "base": 0.5,
           "per_level_after_first": 0.5
         }
       }
-    }
-  ],
+    ]
+  },
   "exclusive_set": [],
   "icon": "limatech:grenade_speed_boost",
   "max_rank": 2,

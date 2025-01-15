@@ -2,12 +2,9 @@
   "description": {
     "translate": "equipment_upgrade.limatech.universal_energy_ammo.desc"
   },
-  "effects": [
-    {
-      "type": "limatech:set_ammo_source",
-      "ammo_source": "energy"
-    }
-  ],
+  "effects": {
+    "limatech:ammo_source": "energy"
+  },
   "exclusive_set": "#limatech:ammo_source_modifiers",
   "icon": "limatech:energy_ammo",
   "supported_set": "#limatech:ltx_weapons",

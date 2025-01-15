@@ -1,0 +1,42 @@
+{
+  "description": {
+    "translate": "machine_upgrade.limatech.fabricator_upgrade.desc"
+  },
+  "effects": {
+    "limatech:energy_capacity": [
+      {
+        "operation": "multiply",
+        "value": {
+          "type": "exponential",
+          "base": 2.0,
+          "power": {
+            "type": "linear",
+            "base": 2.0,
+            "per_level_after_first": 1.0
+          }
+        }
+      }
+    ],
+    "limatech:energy_transfer_rate": [
+      {
+        "operation": "multiply",
+        "value": {
+          "type": "exponential",
+          "base": 2.0,
+          "power": {
+            "type": "linear",
+            "base": 2.0,
+            "per_level_after_first": 1.0
+          }
+        }
+      }
+    ]
+  },
+  "exclusive_set": [],
+  "icon": "limatech:fabricator_upgrade",
+  "max_rank": 4,
+  "supported_set": "limatech:fabricator",
+  "title": {
+    "translate": "machine_upgrade.limatech.fabricator_upgrade.title"
+  }
+}

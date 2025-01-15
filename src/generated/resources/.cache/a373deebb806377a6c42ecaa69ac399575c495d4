@@ -1,4 +1,4 @@
-// 1.21.1	2025-01-10T02:17:39.5688769	Item Models: limatech
+// 1.21.1	2025-01-17T00:19:08.7502941	Item Models: limatech
 4b6d59f87537490b1710fa75fcf5451e6d3a81c5 assets/limatech/models/item/auto_ammo_canister.json
 566836a3f0a2abca7767e36596da72891c56a2a8 assets/limatech/models/item/bedrock_alloy_ingot.json
 84f16ac4ff419b98a921631d7e2b7c23f6515937 assets/limatech/models/item/coal_ore_pebbles.json
@@ -29,6 +29,7 @@ f3d1b15a33b5296ec74a01128a876f25a3969541 assets/limatech/models/item/niobium_ore
 13bc4888f343f746000b82f1713f72035c987086 assets/limatech/models/item/raw_niobium.json
 ad1e1474802d9dab83ffae9f4e16dd4b6f48ccdb assets/limatech/models/item/raw_titanium.json
 96ec5f37348fa6e2b72d784e7d6cb952d7a730b8 assets/limatech/models/item/redstone_ore_pebbles.json
+269dc106ad4b8af911fcfa9bbd99bca7ccacb168 assets/limatech/models/item/rocket_launcher_ammo.json
 ddd35d36434e42b4f3d44233a7741a9f6ecdf66c assets/limatech/models/item/slate_alloy_ingot.json
 4d786f45ae3d96041b430d03a12b57d1ab695003 assets/limatech/models/item/slate_alloy_nugget.json
 c0cf223f42c75da767f9583879f96c872f9baf55 assets/limatech/models/item/specialist_ammo_canister.json

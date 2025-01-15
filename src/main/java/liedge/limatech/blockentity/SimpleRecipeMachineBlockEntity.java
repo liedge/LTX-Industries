@@ -42,6 +42,8 @@ public abstract class SimpleRecipeMachineBlockEntity<I extends RecipeInput, R ex
     private final int baseEnergyTransferRate;
     private final Map<Direction, BlockCapabilityCache<IItemHandler, Direction>> itemConnections = new EnumMap<>(Direction.class);
 
+    private int energyUsage;
+    private int machineSpeed = getBaseTicksPerOperation();
     private int craftingProgress;
     private boolean shouldCheckRecipe;
     private boolean crafting;
@@ -88,6 +90,18 @@ public abstract class SimpleRecipeMachineBlockEntity<I extends RecipeInput, R ex
     }
 
     @Override
+    public int getEnergyUsage()
+    {
+        return energyUsage;
+    }
+
+    @Override
+    public void setEnergyUsage(int energyUsage)
+    {
+        this.energyUsage = energyUsage;
+    }
+
+    @Override
     public void defineDataWatchers(DataWatcherCollector collector) {}
 
     @Override
@@ -121,21 +135,18 @@ public abstract class SimpleRecipeMachineBlockEntity<I extends RecipeInput, R ex
     }
 
     @Override
-    public int getTotalProcessDuration()
+    public int getTicksPerOperation()
     {
-        return baseCraftingTime();
+        return machineSpeed;
     }
 
-    public int getTotalEnergyUsage()
+    @Override
+    public void setTicksPerOperation(int ticksPerOperation)
     {
-        return baseEnergyUsage();
+        this.machineSpeed = ticksPerOperation;
     }
 
     public abstract RecipeType<R> machineRecipeType();
-
-    public abstract int baseEnergyUsage();
-
-    public abstract int baseCraftingTime();
 
     protected abstract I getRecipeInput(Level level);
 
@@ -230,7 +241,7 @@ public abstract class SimpleRecipeMachineBlockEntity<I extends RecipeInput, R ex
         // Tick recipe progress
         if (crafting && lastUsedRecipe != null && canInsertResultItem(level, lastUsedRecipe.value()))
         {
-            if (craftingProgress >= getTotalProcessDuration())
+            if (craftingProgress >= getTicksPerOperation())
             {
                 ItemStack craftedItem = lastUsedRecipe.value().assemble(recipeInput, level.registryAccess());
                 getItemHandler().insertItem(outputSlotIndex(), craftedItem, false);
@@ -238,7 +249,7 @@ public abstract class SimpleRecipeMachineBlockEntity<I extends RecipeInput, R ex
                 craftingProgress = 0;
                 shouldCheckRecipe = true; // Check state of recipe after every successful craft.
             }
-            else if (LimaEnergyUtil.consumeEnergy(energyStorage, getTotalEnergyUsage(), false))
+            else if (LimaEnergyUtil.consumeEnergy(energyStorage, getEnergyUsage(), false))
             {
                 craftingProgress++; // setChanged already called by energy storage extraction
             }
@@ -258,18 +269,7 @@ public abstract class SimpleRecipeMachineBlockEntity<I extends RecipeInput, R ex
                     if (getItemControl().getSideIO(side).allowsOutput())
                     {
                         IItemHandler adjacentInventory = itemConnections.get(side).getCapability();
-                        if (adjacentInventory != null)
-                        {
-                            ItemStack outputItem = getItemHandler().getStackInSlot(outputSlotIndex());
-                            ItemStack insertResult = LimaItemHandlerUtil.insertIntoAnySlot(adjacentInventory, outputItem, true);
-
-                            // Insert the extracted stack into adjacent inventory
-                            if (outputItem != insertResult)
-                            {
-                                int inserted = outputItem.getCount() - insertResult.getCount();
-                                LimaItemHandlerUtil.insertIntoAnySlot(adjacentInventory, getItemHandler().extractItem(outputSlotIndex(), inserted, false), false);
-                            }
-                        }
+                        if (adjacentInventory != null) LimaItemHandlerUtil.transferStackBetweenInventories(getItemHandler(), adjacentInventory, outputSlotIndex());
                     }
                 }
 

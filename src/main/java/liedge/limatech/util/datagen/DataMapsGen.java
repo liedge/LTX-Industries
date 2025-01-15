@@ -1,9 +1,7 @@
 package liedge.limatech.util.datagen;
 
 import liedge.limatech.LimaTechTags;
-import liedge.limatech.lib.LevelBasedDoubleValue;
-import liedge.limatech.lib.upgradesystem.calculation.MultiplyTotalCalculation;
-import liedge.limatech.lib.upgradesystem.calculation.OverrideBaseCalculation;
+import liedge.limatech.lib.math.CompoundOperation;
 import liedge.limatech.lib.weapons.GlobalWeaponDamageModifiers;
 import liedge.limatech.registry.LimaTechGameEvents;
 import net.minecraft.core.HolderLookup;
@@ -36,13 +34,13 @@ class DataMapsGen extends DataMapProvider
         // Weapon damage modifiers
         builder(GlobalWeaponDamageModifiers.DATA_MAP_TYPE)
                 .add(LimaTechTags.EntityTypes.HIGH_THREAT_LEVEL, List.of(
-                        create(SUBMACHINE_GUN, new OverrideBaseCalculation(LevelBasedDoubleValue.constant(0.5d))),
-                        create(SHOTGUN, new MultiplyTotalCalculation(LevelBasedDoubleValue.constant(-0.45d))),
-                        create(GRENADE_LAUNCHER, new MultiplyTotalCalculation(LevelBasedDoubleValue.constant(-0.2d)))
+                        create(SUBMACHINE_GUN, 0.5d, CompoundOperation.SET),
+                        create(SHOTGUN, -0.45d, CompoundOperation.ADD_MULTIPLIED_TOTAL),
+                        create(GRENADE_LAUNCHER, -0.2d, CompoundOperation.ADD_MULTIPLIED_TOTAL)
                 ), false)
                 .add(LimaTechTags.EntityTypes.MEDIUM_THREAT_LEVEL, List.of(
-                        create(SUBMACHINE_GUN, new MultiplyTotalCalculation(LevelBasedDoubleValue.constant(-0.5d))),
-                        create(SHOTGUN, new MultiplyTotalCalculation(LevelBasedDoubleValue.constant(-0.33d)))
+                        create(SUBMACHINE_GUN, -0.5d, CompoundOperation.ADD_MULTIPLIED_TOTAL),
+                        create(SHOTGUN, -0.4d, CompoundOperation.ADD_MULTIPLIED_TOTAL)
                 ), false);
     }
 }

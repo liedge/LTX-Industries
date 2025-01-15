@@ -27,13 +27,13 @@ public class MaterialFusingChamberBlockEntity extends SimpleRecipeMachineBlockEn
     }
 
     @Override
-    public int baseEnergyUsage()
+    public int getBaseEnergyUsage()
     {
         return MFC_ENERGY_USAGE.getAsInt();
     }
 
     @Override
-    public int baseCraftingTime()
+    public int getBaseTicksPerOperation()
     {
         return MFC_CRAFTING_TIME.getAsInt();
     }

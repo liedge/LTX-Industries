@@ -2,14 +2,11 @@
   "description": {
     "translate": "equipment_upgrade.limatech.acid_grenade_core.desc"
   },
-  "effects": [
-    {
-      "type": "limatech:grenade_type_selection",
-      "types": [
-        "acid"
-      ]
-    }
-  ],
+  "effects": {
+    "limatech:grenade_unlock": [
+      "acid"
+    ]
+  },
   "exclusive_set": [],
   "icon": {
     "type": "item_sprite_overlay",

@@ -25,6 +25,11 @@
     }
   ],
   "result": {
+    "components": {
+      "limatech:equipment_upgrades": {
+        "limatech:lightfrag_armor_bypass": 1
+      }
+    },
     "count": 1,
     "id": "limatech:magnum"
   }

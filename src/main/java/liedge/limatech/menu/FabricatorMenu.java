@@ -49,7 +49,7 @@ public class FabricatorMenu extends SidedUpgradableMachineMenu<FabricatorBlockEn
     public void defineDataWatchers(DataWatcherCollector collector)
     {
         menuContext.getEnergyStorage().keepAllPropertiesSynced(collector);
-        collector.register(menuContext.keepProcessSynced());
+        collector.register(menuContext.keepProgressSynced());
     }
 
     @Override

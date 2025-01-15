@@ -7,14 +7,10 @@ import liedge.limacore.lib.Translatable;
 import liedge.limatech.LimaTech;
 import liedge.limatech.entity.OrbGrenadeEntity;
 import liedge.limatech.item.ScrollModeSwitchItem;
+import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.limatech.lib.weapons.AbstractWeaponControls;
 import liedge.limatech.lib.weapons.GrenadeType;
-import liedge.limatech.registry.LimaTechDataComponents;
-import liedge.limatech.registry.LimaTechEquipmentUpgrades;
-import liedge.limatech.registry.LimaTechItems;
-import liedge.limatech.registry.LimaTechSounds;
-import liedge.limatech.lib.upgradesystem.equipment.EquipmentUpgrades;
-import liedge.limatech.lib.upgradesystem.equipment.effect.GrenadeTypeSelectionUpgradeEffect;
+import liedge.limatech.registry.*;
 import liedge.limatech.util.config.LimaTechWeaponsConfig;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.ResourceLocation;
@@ -57,6 +53,16 @@ public class GrenadeLauncherWeaponItem extends SemiAutoWeaponItem implements Scr
     }
 
     @Override
+    public void refreshEquipmentUpgrades(ItemStack stack, EquipmentUpgrades upgrades, Player player)
+    {
+        super.refreshEquipmentUpgrades(stack, upgrades, player);
+
+        GrenadeType currentlyEquipped = getGrenadeTypeFromItem(stack);
+        boolean shouldReset = upgrades.effectFlatStream(LimaTechUpgradeDataTypes.GRENADE_UNLOCK.get()).noneMatch(effect -> effect.grenadeType() == currentlyEquipped);
+        if (shouldReset) setGrenadeType(stack, GrenadeType.EXPLOSIVE);
+    }
+
+    @Override
     public int getEnergyCapacity(ItemStack stack)
     {
         return LimaTechWeaponsConfig.GRENADE_LAUNCHER_ENERGY_CAPACITY.getAsInt();
@@ -77,7 +83,7 @@ public class GrenadeLauncherWeaponItem extends SemiAutoWeaponItem implements Scr
 
             OrbGrenadeEntity grenade = new OrbGrenadeEntity(level, getGrenadeTypeFromItem(heldItem), upgrades);
             grenade.setOwner(player);
-            grenade.aimAndSetPosFromShooter(player, calculateProjectileSpeed(upgrades, 1.5d), 0.35d);
+            grenade.aimAndSetPosFromShooter(player, calculateProjectileSpeed(player, upgrades, 1.5d), 0.35d);
             level.addFreshEntity(grenade);
 
             postWeaponFiredGameEvent(upgrades, level, player);
@@ -118,7 +124,7 @@ public class GrenadeLauncherWeaponItem extends SemiAutoWeaponItem implements Scr
         EquipmentUpgrades upgrades = getUpgrades(stack);
         Set<GrenadeType> availableTypes = new ObjectOpenHashSet<>();
         availableTypes.add(GrenadeType.EXPLOSIVE); // Always allow equipping explosive rounds
-        upgrades.flatMapEffectsTwice(GrenadeTypeSelectionUpgradeEffect.class, (effect, rank) -> effect.allowedGrenadeTypeSelections()).forEach(availableTypes::add);
+        upgrades.forEachListEffect(LimaTechUpgradeDataTypes.GRENADE_UNLOCK, (effect, rank) -> availableTypes.add(effect.grenadeType()));
 
         GrenadeType currentType = GrenadeLauncherWeaponItem.getGrenadeTypeFromItem(stack);
         GrenadeType toSwitch = forward ? OrderedEnum.nextAvailable(availableTypes, currentType) : OrderedEnum.previousAvailable(availableTypes, currentType);

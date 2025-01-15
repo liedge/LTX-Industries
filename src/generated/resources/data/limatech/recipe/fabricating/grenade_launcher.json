@@ -21,6 +21,9 @@
     }
   ],
   "result": {
+    "components": {
+      "limatech:equipment_upgrades": {}
+    },
     "count": 1,
     "id": "limatech:grenade_launcher"
   }

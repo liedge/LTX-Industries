@@ -189,10 +189,10 @@ public final class MachineIOControl implements INBTSerializable<CompoundTag>
     {
         for (Direction side : Direction.values())
         {
-            map.put(side, IOAccess.CODEC.byName(nbt.getString(side.getSerializedName()), defaultAccess));
+            map.put(side, IOAccess.CODEC.byNameOrElse(nbt.getString(side.getSerializedName()), defaultAccess));
         }
 
-        this.facing = LimaCoreCodecs.STRICT_DIRECTION.byName(nbt.getString("facing"));
+        this.facing = LimaCoreCodecs.STRICT_DIRECTION.byNameOrThrow(nbt.getString("facing"));
         this.autoInput = nbt.getBoolean("auto_input");
         this.autoOutput = nbt.getBoolean("auto_output");
     }

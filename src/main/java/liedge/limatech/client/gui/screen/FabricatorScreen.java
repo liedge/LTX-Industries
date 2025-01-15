@@ -244,7 +244,7 @@ public class FabricatorScreen extends SidedUpgradableMachineScreen<FabricatorMen
         @Override
         protected float getFillPercentage()
         {
-            return blockEntity.getProcessTimePercent();
+            return blockEntity.getClientProcessTime() / 100f;
         }
 
         @Override

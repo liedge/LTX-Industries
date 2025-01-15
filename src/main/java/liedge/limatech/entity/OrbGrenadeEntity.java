@@ -6,8 +6,7 @@ import liedge.limacore.util.LimaNbtUtil;
 import liedge.limacore.util.LimaNetworkUtil;
 import liedge.limatech.LimaTechTags;
 import liedge.limatech.client.particle.GrenadeExplosionParticleOptions;
-import liedge.limatech.lib.upgradesystem.equipment.EquipmentUpgrades;
-import liedge.limatech.lib.upgradesystem.equipment.effect.EquipmentUpgradeEffect;
+import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.limatech.lib.weapons.GrenadeType;
 import liedge.limatech.registry.*;
 import net.minecraft.nbt.CompoundTag;
@@ -198,7 +197,7 @@ public class OrbGrenadeEntity extends LimaTechProjectile implements IEntityWithC
             }
         });
 
-        if (upgrades.noEffectMatches(EquipmentUpgradeEffect::preventsWeaponVibrationEvent)) level.gameEvent(owner, LimaTechGameEvents.PROJECTILE_EXPLODED, hitLocation);
+        if (upgrades.upgradeEffectTypeAbsent(LimaTechUpgradeDataTypes.PREVENT_SCULK_VIBRATION.get())) level.gameEvent(owner, LimaTechGameEvents.PROJECTILE_EXPLODED, hitLocation);
 
         level.playSound(null, hitLocation.x, hitLocation.y, hitLocation.z, LimaTechSounds.GRENADE_SOUNDS.get(grenadeType).get(), SoundSource.PLAYERS, 2.5f, 0.9f);
         LimaNetworkUtil.spawnAlwaysVisibleParticle(level, new GrenadeExplosionParticleOptions(grenadeType, radius), hitLocation);
@@ -227,7 +226,7 @@ public class OrbGrenadeEntity extends LimaTechProjectile implements IEntityWithC
     protected void readAdditionalSaveData(CompoundTag tag)
     {
         super.readAdditionalSaveData(tag);
-        setGrenadeType(GrenadeType.CODEC.byName(tag.getString("grenade_type")));
+        setGrenadeType(GrenadeType.CODEC.byNameOrElse(tag.getString("grenade_type"), GrenadeType.EXPLOSIVE));
 
         if (tag.contains("upgrades")) upgrades = LimaNbtUtil.codecDecode(EquipmentUpgrades.CODEC, registryAccess(), tag, "upgrades");
     }

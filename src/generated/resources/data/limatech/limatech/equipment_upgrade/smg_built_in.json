@@ -2,25 +2,19 @@
   "description": {
     "translate": "equipment_upgrade.limatech.smg_built_in.desc"
   },
-  "effects": [
-    {
-      "type": "limatech:no_vibration"
-    },
-    {
-      "type": "limatech:no_anger"
-    },
-    {
-      "type": "limatech:weapon_knockback",
-      "modifier": {
-        "type": "add_multiplied_total",
-        "value": -1.0
+  "effects": {
+    "limatech:prevent_sculk_vibration": {},
+    "limatech:weapon_pre_attack": [
+      {
+        "type": "limatech:dynamic_damage_tag",
+        "tag": "minecraft:no_anger"
+      },
+      {
+        "type": "limatech:dynamic_damage_tag",
+        "tag": "minecraft:no_knockback"
       }
-    },
-    {
-      "type": "limatech:bypass_armor",
-      "amount": 0.0
-    }
-  ],
+    ]
+  },
   "exclusive_set": [],
   "icon": {
     "type": "item_sprite_overlay",

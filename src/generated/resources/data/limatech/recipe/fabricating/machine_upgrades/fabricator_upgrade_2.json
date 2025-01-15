@@ -1,0 +1,52 @@
+{
+  "type": "limatech:fabricating",
+  "energy_required": 1000000,
+  "group": "fab_upgrades",
+  "ingredients": [
+    {
+      "type": "neoforge:components",
+      "components": {
+        "limatech:machine_upgrade": {
+          "upgrade": "limatech:fabricator_upgrade"
+        }
+      },
+      "count": 1,
+      "items": "limatech:machine_upgrade_module",
+      "strict": true
+    },
+    {
+      "count": 4,
+      "tag": "c:dyes/lime"
+    },
+    {
+      "count": 4,
+      "item": "minecraft:diamond"
+    },
+    {
+      "count": 8,
+      "item": "limatech:titanium_ingot"
+    },
+    {
+      "count": 4,
+      "item": "limatech:copper_circuit"
+    },
+    {
+      "count": 2,
+      "item": "limatech:gold_circuit"
+    },
+    {
+      "count": 8,
+      "item": "minecraft:redstone"
+    }
+  ],
+  "result": {
+    "components": {
+      "limatech:machine_upgrade": {
+        "rank": 2,
+        "upgrade": "limatech:fabricator_upgrade"
+      }
+    },
+    "count": 1,
+    "id": "limatech:machine_upgrade_module"
+  }
+}

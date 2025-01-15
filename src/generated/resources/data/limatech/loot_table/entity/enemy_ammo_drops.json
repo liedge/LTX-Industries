@@ -68,6 +68,23 @@
           "type": "limacore:dynamic_weight",
           "child": {
             "type": "minecraft:item",
+            "name": "limatech:rocket_launcher_ammo"
+          },
+          "weight": {
+            "type": "limacore:entity_enchantment_level",
+            "enchanted_value": {
+              "type": "minecraft:linear",
+              "base": 5.0,
+              "per_level_above_first": 3.0
+            },
+            "enchantment": "limatech:ammo_scavenger",
+            "normal_value": 5.0
+          }
+        },
+        {
+          "type": "limacore:dynamic_weight",
+          "child": {
+            "type": "minecraft:item",
             "name": "limatech:magnum_ammo_canister"
           },
           "weight": {

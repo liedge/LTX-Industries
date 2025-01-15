@@ -1,0 +1,40 @@
+{
+  "type": "limatech:fabricating",
+  "energy_required": 500000,
+  "group": "esa_upgrades",
+  "ingredients": [
+    {
+      "type": "neoforge:components",
+      "components": {
+        "limatech:machine_upgrade": {
+          "upgrade": "limatech:esa_capacity"
+        }
+      },
+      "count": 1,
+      "items": "limatech:machine_upgrade_module",
+      "strict": true
+    },
+    {
+      "count": 2,
+      "item": "minecraft:lightning_rod"
+    },
+    {
+      "count": 12,
+      "item": "minecraft:copper_ingot"
+    },
+    {
+      "count": 2,
+      "item": "limatech:gold_circuit"
+    }
+  ],
+  "result": {
+    "components": {
+      "limatech:machine_upgrade": {
+        "rank": 2,
+        "upgrade": "limatech:esa_capacity"
+      }
+    },
+    "count": 1,
+    "id": "limatech:machine_upgrade_module"
+  }
+}

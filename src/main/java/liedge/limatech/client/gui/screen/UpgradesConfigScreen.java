@@ -8,9 +8,10 @@ import liedge.limacore.client.gui.UnmanagedSprite;
 import liedge.limacore.registry.LimaCoreNetworkSerializers;
 import liedge.limacore.util.LimaRegistryUtil;
 import liedge.limatech.client.LimaTechLang;
+import liedge.limatech.client.gui.UpgradeIconRenderers;
 import liedge.limatech.client.gui.widget.ScrollableGUIElement;
 import liedge.limatech.client.gui.widget.ScrollbarWidget;
-import liedge.limatech.lib.upgradesystem.UpgradeBase;
+import liedge.limatech.lib.upgrades.UpgradeBase;
 import liedge.limatech.menu.UpgradesConfigMenu;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
@@ -27,7 +28,7 @@ import static liedge.limatech.LimaTechConstants.OUTPUT_ORANGE;
 import static liedge.limatech.client.gui.widget.ScreenWidgetSprites.UPGRADE_ENTRY_FOCUSED;
 import static liedge.limatech.client.gui.widget.ScreenWidgetSprites.UPGRADE_ENTRY_NOT_FOCUSED;
 
-public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, ?, U>, M extends UpgradesConfigMenu<?, U, ?>> extends LimaMenuScreen<M> implements ScrollableGUIElement
+public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, U>, M extends UpgradesConfigMenu<?, U, ?>> extends LimaMenuScreen<M> implements ScrollableGUIElement
 {
     private int upgradeCount;
     private int scrollWheelDelta = 1;
@@ -130,8 +131,7 @@ public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, ?, U>, M ext
                 Object2IntMap.Entry<Holder<U>> entry = remoteUpgrades.get(i);
                 U upgrade = entry.getKey().value();
 
-                //graphics.blit(ix + 2, iy + 2, 0, 16, 16, UpgradeIconTextures.getUpgradeSprites().getSprite(upgrade));
-                entry.getKey().value().icon().render(graphics, ix + 2, iy + 2);
+                UpgradeIconRenderers.renderIcon(graphics, entry.getKey().value().icon(), ix + 2, iy + 2);
                 PoseStack poseStack = graphics.pose();
 
                 poseStack.pushPose();

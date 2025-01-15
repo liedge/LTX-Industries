@@ -2,11 +2,14 @@
   "description": {
     "translate": "equipment_upgrade.limatech.universal_stealth_damage.desc"
   },
-  "effects": [
-    {
-      "type": "limatech:no_anger"
-    }
-  ],
+  "effects": {
+    "limatech:weapon_pre_attack": [
+      {
+        "type": "limatech:dynamic_damage_tag",
+        "tag": "minecraft:no_anger"
+      }
+    ]
+  },
   "exclusive_set": [],
   "icon": "limatech:stealth_damage",
   "supported_set": "#limatech:ltx_weapons",

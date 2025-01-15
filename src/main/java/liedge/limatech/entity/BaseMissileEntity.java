@@ -4,8 +4,7 @@ import liedge.limacore.client.particle.ColorSizeParticleOptions;
 import liedge.limacore.util.LimaNbtUtil;
 import liedge.limacore.util.LimaNetworkUtil;
 import liedge.limatech.LimaTechConstants;
-import liedge.limatech.lib.upgradesystem.equipment.EquipmentUpgrades;
-import liedge.limatech.lib.upgradesystem.equipment.effect.EquipmentUpgradeEffect;
+import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.limatech.registry.*;
 import liedge.limatech.util.config.LimaTechMachinesConfig;
 import liedge.limatech.util.config.LimaTechWeaponsConfig;
@@ -108,7 +107,7 @@ public abstract class BaseMissileEntity extends AutoTrackingProjectile
         @Override
         protected boolean shouldPostGameEvent()
         {
-            return upgrades.noEffectMatches(EquipmentUpgradeEffect::preventsWeaponVibrationEvent);
+            return upgrades.upgradeEffectTypeAbsent(LimaTechUpgradeDataTypes.PREVENT_SCULK_VIBRATION.get());
         }
 
         @Override
@@ -122,7 +121,7 @@ public abstract class BaseMissileEntity extends AutoTrackingProjectile
         {
             super.readAdditionalSaveData(tag);
 
-            if (tag.contains("upgrades")) upgrades = LimaNbtUtil.codecDecode(EquipmentUpgrades.CODEC, tag, "upgrades");
+            if (tag.contains("upgrades")) upgrades = LimaNbtUtil.codecDecode(EquipmentUpgrades.CODEC, registryAccess(), tag, "upgrades");
         }
 
         @Override
@@ -130,7 +129,7 @@ public abstract class BaseMissileEntity extends AutoTrackingProjectile
         {
             super.addAdditionalSaveData(tag);
 
-            if (upgrades != EquipmentUpgrades.EMPTY) tag.put("upgrades", LimaNbtUtil.codecEncode(EquipmentUpgrades.CODEC, upgrades));
+            if (upgrades != EquipmentUpgrades.EMPTY) tag.put("upgrades", LimaNbtUtil.codecEncode(EquipmentUpgrades.CODEC, registryAccess(), upgrades));
         }
     }
 }

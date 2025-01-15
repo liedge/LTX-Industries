@@ -6,14 +6,15 @@ import liedge.limacore.network.NetworkSerializer;
 import liedge.limacore.registry.LimaCoreNetworkSerializers;
 import liedge.limatech.blockentity.UpgradableMachineBlockEntity;
 import liedge.limatech.item.MachineUpgradeModuleItem;
-import liedge.limatech.lib.upgradesystem.machine.MachineUpgrade;
-import liedge.limatech.lib.upgradesystem.machine.MachineUpgradeEntry;
-import liedge.limatech.lib.upgradesystem.machine.MachineUpgrades;
+import liedge.limatech.lib.upgrades.machine.MachineUpgrade;
+import liedge.limatech.lib.upgrades.machine.MachineUpgradeEntry;
+import liedge.limatech.lib.upgrades.machine.MachineUpgrades;
 import liedge.limatech.registry.LimaTechNetworkSerializers;
 import liedge.limatech.registry.LimaTechRegistries;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
@@ -80,7 +81,7 @@ public class MachineUpgradeMenu extends UpgradesConfigMenu<UpgradableMachineBloc
     }
 
     @Override
-    protected void tryInstallUpgrade(ItemStack upgradeModuleItem)
+    protected void tryInstallUpgrade(ItemStack upgradeModuleItem, ServerLevel level)
     {
         MachineUpgrades currentUpgrades = menuContext.getUpgrades();
         MachineUpgradeEntry entry = upgradeModuleItem.get(MACHINE_UPGRADE_ENTRY);

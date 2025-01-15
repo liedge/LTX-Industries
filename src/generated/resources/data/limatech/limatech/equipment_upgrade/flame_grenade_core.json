@@ -2,14 +2,11 @@
   "description": {
     "translate": "equipment_upgrade.limatech.flame_grenade_core.desc"
   },
-  "effects": [
-    {
-      "type": "limatech:grenade_type_selection",
-      "types": [
-        "flame"
-      ]
-    }
-  ],
+  "effects": {
+    "limatech:grenade_unlock": [
+      "flame"
+    ]
+  },
   "exclusive_set": [],
   "icon": {
     "type": "item_sprite_overlay",

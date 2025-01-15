@@ -4,11 +4,11 @@ import liedge.limacore.util.LimaCoreUtil;
 import liedge.limatech.entity.BubbleShieldUser;
 import liedge.limatech.item.UpgradableEquipmentItem;
 import liedge.limatech.item.weapon.WeaponItem;
-import liedge.limatech.lib.upgradesystem.equipment.effect.ItemAttributeModifierUpgradeEffect;
 import liedge.limatech.lib.weapons.WeaponDamageSource;
 import liedge.limatech.network.packet.ClientboundBubbleShieldPacket;
 import liedge.limatech.registry.LimaTechAttachmentTypes;
 import liedge.limatech.registry.LimaTechAttributes;
+import liedge.limatech.registry.LimaTechUpgradeDataTypes;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -68,7 +68,7 @@ public final class LimaTechEventHandler
     {
         if (event.getItemStack().getItem() instanceof UpgradableEquipmentItem item)
         {
-            item.getUpgrades(event.getItemStack()).forEachEffect(ItemAttributeModifierUpgradeEffect.class, (effect, rank) -> effect.addModifierToItem(rank, event::addModifier));
+            item.getUpgrades(event.getItemStack()).forEachListEffect(LimaTechUpgradeDataTypes.ITEM_ATTRIBUTE_MODIFIERS, (effect, rank) -> event.addModifier(effect.attribute(), effect.makeModifier(rank), effect.slotGroup()));
         }
     }
 

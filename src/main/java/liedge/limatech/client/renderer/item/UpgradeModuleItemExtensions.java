@@ -1,9 +1,11 @@
 package liedge.limatech.client.renderer.item;
 
 import liedge.limacore.client.ItemGuiRenderOverride;
-import liedge.limatech.client.UpgradeIcon;
+import liedge.limatech.lib.upgrades.UpgradeIcon;
+import liedge.limatech.client.gui.UpgradeIconRenderers;
 import liedge.limatech.item.UpgradeModuleItem;
-import liedge.limatech.lib.upgradesystem.UpgradeBaseEntry;
+import liedge.limatech.lib.upgrades.UpgradeBaseEntry;
+import liedge.limatech.util.config.LimaTechClientConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
@@ -12,6 +14,11 @@ import net.minecraft.world.item.ItemStack;
 public final class UpgradeModuleItemExtensions implements ItemGuiRenderOverride
 {
     private static final UpgradeModuleItemExtensions INSTANCE = new UpgradeModuleItemExtensions();
+
+    private static boolean shouldShowIcon()
+    {
+        return Minecraft.getInstance().screen != null && (Screen.hasShiftDown() || LimaTechClientConfig.alwaysShowUpgradeIcons());
+    }
 
     public static UpgradeModuleItemExtensions getInstance()
     {
@@ -26,13 +33,13 @@ public final class UpgradeModuleItemExtensions implements ItemGuiRenderOverride
         if (stack.getItem() instanceof UpgradeModuleItem<?, ?> moduleItem)
         {
             UpgradeBaseEntry<?> entry = stack.get(moduleItem.entryComponentType());
-            if (entry != null && Minecraft.getInstance().screen != null && Screen.hasShiftDown())
+            if (entry != null && shouldShowIcon())
             {
                 UpgradeIcon icon = entry.upgrade().value().icon();
-                icon.render(graphics, x, y);
+                UpgradeIconRenderers.renderIcon(graphics, icon, x, y);
 
                 // Render rank number if applicable
-                if (icon.shouldRenderRank(entry))
+                if (icon.shouldDisplayRank(entry))
                 {
                     graphics.pose().pushPose();
                     graphics.pose().translate(0, 0, 240f);

@@ -86,12 +86,12 @@ public final class LimaTechMachinesConfig
 
         // Fabricator
         builder.push("fabricator");
-        FABRICATOR_ENERGY_CAPACITY = builder.comment("Energy capacity of the Fabricator.")
-                .defineInRange("energy_capacity", 5_000_000, 1, Integer.MAX_VALUE);
+        FABRICATOR_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Fabricator.")
+                .defineInRange("energy_capacity", 250_000, 1, Integer.MAX_VALUE);
         FABRICATOR_ENERGY_IO_RATE = builder.comment(
-                        "Energy IO rate of the Fabricator.",
+                        "Base energy IO rate of the Fabricator.",
                         "This is also the crafting 'speed' of the fabricator since the recipe crafting times are based on energy consumption.")
-                .defineInRange("energy_io_rate", 100_000, 1, Integer.MAX_VALUE);
+                .defineInRange("energy_io_rate", 2500, 1, Integer.MAX_VALUE);
         builder.pop();
 
         // Rocket turret

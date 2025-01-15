@@ -68,18 +68,19 @@ class LootTablesGen extends LimaLootTableProvider
                     .when(defaultEntityLootTable(EntityType.PHANTOM))
                     .when(LootItemRandomChanceCondition.randomChance(0.1f))
                     .add(LootItem.lootTableItem(TARGETING_TECH_SALVAGE));
+            addTable(ENTITY_EXTRA_DROPS, LootTable.lootTable().withPool(phantomDrops));
 
-            addTable(ENEMY_AMMO_DROPS, LootTable.lootTable().withPool(LootPool.lootPool()
+            LootPool.Builder ammoDrops = LootPool.lootPool()
                     .when(LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity().subPredicate(HostileEntitySubPredicate.INSTANCE)))
                     .when(LootItemRandomChanceWithEnchantedBonusCondition.randomChanceAndLootingBoost(registries, 0.1f, 0.02f))
                     .add(LootItem.lootTableItem(AUTO_AMMO_CANISTER).setWeight(80))
                     .add(DynamicWeightLootEntry.dynamicWeightItem(SPECIALIST_AMMO_CANISTER).setWeight(EntityEnchantmentLevelProvider.playerEnchantLevelOrElse(ammoScavengerEnchantment, LevelBasedValue.perLevel(15f, 6f), 15)))
                     .add(DynamicWeightLootEntry.dynamicWeightItem(EXPLOSIVES_AMMO_CANISTER).setWeight(EntityEnchantmentLevelProvider.playerEnchantLevelOrElse(ammoScavengerEnchantment, LevelBasedValue.perLevel(5f, 3f), 5)))
+                    .add(DynamicWeightLootEntry.dynamicWeightItem(ROCKET_LAUNCHER_AMMO).setWeight(EntityEnchantmentLevelProvider.playerEnchantLevelOrElse(ammoScavengerEnchantment, LevelBasedValue.perLevel(5f, 3f), 5)))
                     .add(DynamicWeightLootEntry.dynamicWeightItem(MAGNUM_AMMO_CANISTER).setWeight(EntityEnchantmentLevelProvider.playerEnchantLevelOrElse(ammoScavengerEnchantment, LevelBasedValue.perLevel(2f, 2f), 2)))
-                    .setRolls(RoundingNumberProvider.roundValue(LimaMathUtil.RoundingStrategy.RANDOM, EntityEnchantmentLevelProvider.playerEnchantLevelOrElse(
-                            ammoScavengerEnchantment, LevelBasedValue.lookup(FloatList.of(1, 1, 1, 1.5f, 2), LevelBasedValue.constant(2)), 1)))));
+                    .setRolls(RoundingNumberProvider.roundValue(LimaMathUtil.RoundingStrategy.RANDOM, EntityEnchantmentLevelProvider.playerEnchantLevelOrElse(ammoScavengerEnchantment, LevelBasedValue.lookup(FloatList.of(1, 1, 1, 1.5f, 2), LevelBasedValue.constant(2)), 1)));
 
-            addTable(ENTITY_EXTRA_DROPS, LootTable.lootTable().withPool(phantomDrops));
+            addTable(ENEMY_AMMO_DROPS, LootTable.lootTable().withPool(ammoDrops));
 
             // Razor drops
             Holder<Enchantment> razorEnchant = registries.holderOrThrow(LimaTechEnchantments.RAZOR);

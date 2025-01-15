@@ -3,11 +3,11 @@ package liedge.limatech.item.weapon;
 import liedge.limatech.LimaTech;
 import liedge.limatech.entity.BaseMissileEntity;
 import liedge.limatech.entity.LimaTechEntityUtil;
+import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrades;
+import liedge.limatech.lib.weapons.AbstractWeaponControls;
 import liedge.limatech.registry.LimaTechItems;
 import liedge.limatech.registry.LimaTechSounds;
-import liedge.limatech.lib.upgradesystem.equipment.EquipmentUpgrades;
 import liedge.limatech.util.config.LimaTechWeaponsConfig;
-import liedge.limatech.lib.weapons.AbstractWeaponControls;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -86,7 +86,7 @@ public class RocketLauncherWeaponItem extends SemiAutoWeaponItem
 
             BaseMissileEntity.RocketLauncherMissile missile = new BaseMissileEntity.RocketLauncherMissile(level, upgrades);
             missile.setOwner(player);
-            missile.aimAndSetPosFromShooter(player, calculateProjectileSpeed(upgrades, 2.2f), 0.1f);
+            missile.aimAndSetPosFromShooter(player, calculateProjectileSpeed(player, upgrades, 2.2d), 0.1f);
             level.addFreshEntity(missile);
 
             postWeaponFiredGameEvent(upgrades, level, player);
@@ -98,7 +98,7 @@ public class RocketLauncherWeaponItem extends SemiAutoWeaponItem
     @Override
     public Item getAmmoItem(ItemStack stack)
     {
-        return LimaTechItems.EXPLOSIVES_AMMO_CANISTER.asItem();
+        return LimaTechItems.ROCKET_LAUNCHER_AMMO.get();
     }
 
     @Override

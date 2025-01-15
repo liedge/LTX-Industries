@@ -2,8 +2,8 @@ package liedge.limatech.item;
 
 import liedge.limacore.lib.Translatable;
 import liedge.limatech.client.LimaTechLang;
-import liedge.limatech.lib.upgradesystem.machine.MachineUpgrade;
-import liedge.limatech.lib.upgradesystem.machine.MachineUpgradeEntry;
+import liedge.limatech.lib.upgrades.machine.MachineUpgrade;
+import liedge.limatech.lib.upgrades.machine.MachineUpgradeEntry;
 import liedge.limatech.registry.LimaTechCreativeTabs;
 import liedge.limatech.registry.LimaTechItems;
 import liedge.limatech.registry.LimaTechRegistries;

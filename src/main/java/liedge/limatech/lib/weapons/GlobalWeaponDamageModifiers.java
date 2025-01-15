@@ -5,7 +5,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import liedge.limatech.LimaTech;
 import liedge.limatech.item.weapon.WeaponItem;
-import liedge.limatech.lib.upgradesystem.calculation.CompoundCalculation;
+import liedge.limatech.lib.math.CompoundOperation;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
@@ -16,6 +16,7 @@ import net.minecraft.world.entity.EntityType;
 import net.neoforged.neoforge.registries.datamaps.AdvancedDataMapType;
 import net.neoforged.neoforge.registries.datamaps.DataMapValueMerger;
 import net.neoforged.neoforge.registries.datamaps.DataMapValueRemover;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,34 +34,41 @@ public final class GlobalWeaponDamageModifiers
             .build();
 
     @SuppressWarnings("deprecation")
-    public static List<CompoundCalculation> getModifiersForEntity(WeaponItem weaponItem, Entity target)
+    public static double applyGlobalModifiers(WeaponItem weaponItem, Entity target, double baseDamage, double totalDamage)
     {
         Holder<EntityType<?>> holder = target.getType().builtInRegistryHolder();
         List<WeaponDamageModifier> modifiers = holder.getData(DATA_MAP_TYPE);
 
         if (modifiers != null)
         {
-            return modifiers.stream().filter(entry -> entry.weapon.map(item -> item == weaponItem).orElse(true)).map(WeaponDamageModifier::modifier).toList();
+            List<WeaponDamageModifier> list = modifiers.stream().filter(o -> o.weapon.map(item -> weaponItem == item).orElse(true)).sorted().toList();
+
+            for (WeaponDamageModifier modifier : list)
+            {
+                totalDamage = modifier.operation.apply(baseDamage, totalDamage, modifier.factor);
+            }
         }
 
-        return List.of();
+        return totalDamage;
     }
 
-    public record WeaponDamageModifier(Optional<WeaponItem> weapon, CompoundCalculation modifier)
+    public record WeaponDamageModifier(Optional<WeaponItem> weapon, double factor, CompoundOperation operation) implements Comparable<WeaponDamageModifier>
     {
         public static final Codec<WeaponDamageModifier> CODEC = RecordCodecBuilder.create(instance -> instance.group(
                 WeaponItem.CODEC.optionalFieldOf("weapon").forGetter(WeaponDamageModifier::weapon),
-                CompoundCalculation.CODEC.fieldOf("modifier").forGetter(WeaponDamageModifier::modifier))
+                Codec.DOUBLE.fieldOf("factor").forGetter(WeaponDamageModifier::factor),
+                CompoundOperation.CODEC.fieldOf("operation").forGetter(WeaponDamageModifier::operation))
                 .apply(instance, WeaponDamageModifier::new));
 
-        public static WeaponDamageModifier create(Supplier<? extends WeaponItem> supplier, CompoundCalculation modifier)
+        public static WeaponDamageModifier create(Supplier<? extends WeaponItem> supplier, double factor, CompoundOperation operation)
         {
-            return new WeaponDamageModifier(Optional.of(supplier.get()), modifier);
+            return new WeaponDamageModifier(Optional.of(supplier.get()), factor, operation);
         }
 
-        public static WeaponDamageModifier allWeapons(CompoundCalculation modifier)
+        @Override
+        public int compareTo(@NotNull GlobalWeaponDamageModifiers.WeaponDamageModifier o)
         {
-            return new WeaponDamageModifier(Optional.empty(), modifier);
+            return this.operation.compareTo(o.operation);
         }
     }
 

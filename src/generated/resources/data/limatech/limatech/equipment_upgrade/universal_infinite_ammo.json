@@ -2,12 +2,9 @@
   "description": {
     "translate": "equipment_upgrade.limatech.universal_infinite_ammo.desc"
   },
-  "effects": [
-    {
-      "type": "limatech:set_ammo_source",
-      "ammo_source": "infinite"
-    }
-  ],
+  "effects": {
+    "limatech:ammo_source": "infinite"
+  },
   "exclusive_set": "#limatech:ammo_source_modifiers",
   "icon": "limatech:infinite_ammo",
   "supported_set": "#limatech:ltx_weapons",

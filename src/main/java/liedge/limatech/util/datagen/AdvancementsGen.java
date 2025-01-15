@@ -9,10 +9,7 @@ import java.util.function.Consumer;
 
 class AdvancementsGen extends LimaAdvancementGenerator
 {
-    AdvancementsGen(ExistingFileHelper helper)
-    {
-        super(helper);
-    }
+    AdvancementsGen() { }
 
     @Override
     public void generate(HolderLookup.Provider registries, Consumer<AdvancementHolder> saver, ExistingFileHelper helper)

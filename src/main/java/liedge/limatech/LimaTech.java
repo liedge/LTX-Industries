@@ -2,8 +2,8 @@ package liedge.limatech;
 
 import com.mojang.logging.LogUtils;
 import liedge.limacore.lib.ModResources;
-import liedge.limatech.lib.upgradesystem.equipment.EquipmentUpgrade;
-import liedge.limatech.lib.upgradesystem.machine.MachineUpgrade;
+import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrade;
+import liedge.limatech.lib.upgrades.machine.MachineUpgrade;
 import liedge.limatech.lib.weapons.GlobalWeaponDamageModifiers;
 import liedge.limatech.network.packet.LimaTechPacketsRegistration;
 import liedge.limatech.registry.*;
@@ -44,10 +44,9 @@ public class LimaTech
         LimaTechCreativeTabs.initRegister(modBus);
         LimaTechDataComponents.initRegister(modBus);
         LimaTechEntities.initRegister(modBus);
-        LimaTechEquipmentUpgrades.initRegister(modBus);
+        LimaTechEntityUpgradeEffects.initRegister(modBus);
         LimaTechGameEvents.initRegister(modBus);
         LimaTechItems.initRegister(modBus);
-        LimaTechMachineUpgrades.initRegister(modBus);
         LimaTechMenus.initRegister(modBus);
         LimaTechMobEffects.initRegister(modBus);
         LimaTechNetworkSerializers.initRegister(modBus);
@@ -55,7 +54,7 @@ public class LimaTech
         LimaTechRecipeSerializers.initRegister(modBus);
         LimaTechRecipeTypes.initRegister(modBus);
         LimaTechSounds.initRegister(modBus);
-        LimaTechUpgradeEffectTypes.initRegister(modBus);
+        LimaTechUpgradeDataTypes.initRegister(modBus);
 
         // Mod configs
         modContainer.registerConfig(ModConfig.Type.CLIENT, LimaTechClientConfig.CLIENT_CONFIG_SPEC);
@@ -100,9 +99,8 @@ public class LimaTech
         @SubscribeEvent
         private void registerCustomRegistries(final NewRegistryEvent event)
         {
-            event.register(LimaTechRegistries.EQUIPMENT_UPGRADE_EFFECT_TYPE);
-            event.register(LimaTechRegistries.MACHINE_UPGRADE_EFFECT_TYPE);
-            event.register(LimaTechRegistries.UPGRADE_EFFECT_TYPE);
+            event.register(LimaTechRegistries.UPGRADE_DATA_TYPE);
+            event.register(LimaTechRegistries.PLAYER_UPGRADE_EFFECT_TYPE);
         }
 
         @SubscribeEvent

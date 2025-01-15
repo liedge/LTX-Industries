@@ -4,8 +4,8 @@ import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.item.LimaCreativeTabFillerItem;
 import liedge.limacore.lib.Translatable;
 import liedge.limatech.client.LimaTechLang;
-import liedge.limatech.lib.upgradesystem.UpgradeBase;
-import liedge.limatech.lib.upgradesystem.UpgradeBaseEntry;
+import liedge.limatech.lib.upgrades.UpgradeBase;
+import liedge.limatech.lib.upgrades.UpgradeBaseEntry;
 import liedge.limatech.menu.tooltip.ItemGridTooltip;
 import liedge.limatech.registry.LimaTechItems;
 import liedge.limatech.util.config.LimaTechServerConfig;
@@ -27,6 +27,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.common.Tags;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -34,7 +35,7 @@ import java.util.stream.IntStream;
 
 import static liedge.limatech.LimaTechConstants.HOSTILE_ORANGE;
 
-public abstract class UpgradeModuleItem<U extends UpgradeBase<?, ?, U>, UE extends UpgradeBaseEntry<U>> extends Item implements LimaCreativeTabFillerItem, TooltipShiftHintItem
+public abstract class UpgradeModuleItem<U extends UpgradeBase<?, U>, UE extends UpgradeBaseEntry<U>> extends Item implements LimaCreativeTabFillerItem, TooltipShiftHintItem
 {
     protected UpgradeModuleItem(Properties properties)
     {
@@ -110,7 +111,7 @@ public abstract class UpgradeModuleItem<U extends UpgradeBase<?, ?, U>, UE exten
             consumer.accept(LimaTechLang.UPGRADE_COMPATIBILITY_TOOLTIP.translate().withStyle(moduleTypeStyle()));
             if (upgrade.supportedSet() instanceof HolderSet.Named<?> namedSet)
             {
-                consumer.accept(LimaTechLang.namedTagComponent(namedSet.key()).withStyle(moduleTypeStyle()));
+                consumer.accept(Component.translatable(Tags.getTagTranslationKey(namedSet.key())).withStyle(moduleTypeStyle()));
             }
             else
             {

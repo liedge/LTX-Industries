@@ -14,7 +14,7 @@ public enum WeaponAmmoSource implements StringRepresentable
     COMMON_ENERGY_UNIT("energy"),
     INFINITE("infinite");
 
-    public static final LimaEnumCodec<WeaponAmmoSource> CODEC = LimaEnumCodec.createLenient(WeaponAmmoSource.class, NORMAL);
+    public static final LimaEnumCodec<WeaponAmmoSource> CODEC = LimaEnumCodec.create(WeaponAmmoSource.class);
     public static final StreamCodec<FriendlyByteBuf, WeaponAmmoSource> STREAM_CODEC = NeoForgeStreamCodecs.enumCodec(WeaponAmmoSource.class);
 
     private final String name;

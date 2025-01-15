@@ -1,10 +1,10 @@
 package liedge.limatech.registry;
 
-import liedge.limatech.lib.upgradesystem.effect.UpgradeEffectType;
-import liedge.limatech.lib.upgradesystem.equipment.EquipmentUpgrade;
-import liedge.limatech.lib.upgradesystem.equipment.effect.EquipmentUpgradeEffectType;
-import liedge.limatech.lib.upgradesystem.machine.MachineUpgrade;
-import liedge.limatech.lib.upgradesystem.machine.effect.MachineUpgradeEffectType;
+import com.mojang.serialization.MapCodec;
+import liedge.limatech.lib.upgrades.effect.equipment.EquipmentUpgradeEffect;
+import liedge.limatech.lib.upgrades.effect.UpgradeEffectDataType;
+import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrade;
+import liedge.limatech.lib.upgrades.machine.MachineUpgrade;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 
@@ -15,13 +15,11 @@ public final class LimaTechRegistries
     private LimaTechRegistries() {}
 
     // Custom registries
-    public static final ResourceKey<Registry<EquipmentUpgradeEffectType<?>>> EQUIPMENT_UPGRADE_EFFECT_TYPE_KEY = RESOURCES.registryResourceKey("upgrade_effect_type/equipment");
-    public static final ResourceKey<Registry<MachineUpgradeEffectType<?>>> MACHINE_UPGRADE_EFFECT_TYPE_KEY = RESOURCES.registryResourceKey("upgrade_effect_type/machine");
-    public static final ResourceKey<Registry<UpgradeEffectType<?>>> UPGRADE_EFFECT_TYPE_KEY = RESOURCES.registryResourceKey("upgrade_effect_type");
+    public static final ResourceKey<Registry<UpgradeEffectDataType<?>>> UPGRADE_DATA_TYPE_KEY = RESOURCES.registryResourceKey("upgrade_data_type");
+    public static final ResourceKey<Registry<MapCodec<? extends EquipmentUpgradeEffect>>> PLAYER_UPGRADE_EFFECT_TYPE_KEY = RESOURCES.registryResourceKey("player_upgrade_effect");
 
-    public static final Registry<EquipmentUpgradeEffectType<?>> EQUIPMENT_UPGRADE_EFFECT_TYPE = RESOURCES.registryBuilder(EQUIPMENT_UPGRADE_EFFECT_TYPE_KEY).sync(true).create();
-    public static final Registry<MachineUpgradeEffectType<?>> MACHINE_UPGRADE_EFFECT_TYPE = RESOURCES.registryBuilder(MACHINE_UPGRADE_EFFECT_TYPE_KEY).sync(true).create();
-    public static final Registry<UpgradeEffectType<?>> UPGRADE_EFFECT_TYPE = RESOURCES.registryBuilder(UPGRADE_EFFECT_TYPE_KEY).sync(true).create();
+    public static final Registry<UpgradeEffectDataType<?>> UPGRADE_DATA_TYPE = RESOURCES.registryBuilder(UPGRADE_DATA_TYPE_KEY).sync(true).create();
+    public static final Registry<MapCodec<? extends EquipmentUpgradeEffect>> PLAYER_UPGRADE_EFFECT_TYPE = RESOURCES.registryBuilder(PLAYER_UPGRADE_EFFECT_TYPE_KEY).sync(true).create();
 
     // Data pack registries
     public static final ResourceKey<Registry<EquipmentUpgrade>> EQUIPMENT_UPGRADES_KEY = RESOURCES.registryResourceKey("equipment_upgrade");

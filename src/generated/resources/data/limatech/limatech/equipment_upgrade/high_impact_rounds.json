@@ -2,16 +2,22 @@
   "description": {
     "translate": "equipment_upgrade.limatech.high_impact_rounds.desc"
   },
-  "effects": [
-    {
-      "type": "limatech:weapon_knockback",
-      "ignore_resistance": true,
-      "modifier": {
-        "type": "add_value",
-        "value": 1.5
+  "effects": {
+    "limatech:weapon_pre_attack": [
+      {
+        "type": "limatech:dynamic_damage_tag",
+        "tag": "limacore:ignores_knockback_resistance"
+      },
+      {
+        "type": "limatech:knockback_strength",
+        "amount": {
+          "type": "minecraft:linear",
+          "base": 1.5,
+          "per_level_above_first": 1.5
+        }
       }
-    }
-  ],
+    ]
+  },
   "exclusive_set": [],
   "icon": "limatech:armor_bypass",
   "supported_set": [

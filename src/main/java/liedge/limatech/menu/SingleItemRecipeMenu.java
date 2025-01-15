@@ -23,7 +23,7 @@ public abstract class SingleItemRecipeMenu<CTX extends SimpleRecipeMachineBlockE
     public void defineDataWatchers(DataWatcherCollector collector)
     {
         menuContext.getEnergyStorage().keepAllPropertiesSynced(collector);
-        collector.register(menuContext.keepProcessSynced());
+        menuContext.keepProcessAndDurationSynced(collector);
     }
 
     @Override

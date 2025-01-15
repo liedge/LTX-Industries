@@ -26,13 +26,13 @@ public class DigitalFurnaceBlockEntity extends SimpleRecipeMachineBlockEntity<Si
     }
 
     @Override
-    public int baseEnergyUsage()
+    public int getBaseEnergyUsage()
     {
         return DIGITAL_FURNACE_ENERGY_USAGE.getAsInt();
     }
 
     @Override
-    public int baseCraftingTime()
+    public int getBaseTicksPerOperation()
     {
         return DIGITAL_FURNACE_CRAFTING_TIME.getAsInt();
     }

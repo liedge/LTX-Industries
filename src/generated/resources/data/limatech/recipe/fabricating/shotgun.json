@@ -19,6 +19,7 @@
   "result": {
     "components": {
       "limatech:equipment_upgrades": {
+        "limatech:lightfrag_armor_bypass": 1,
         "limatech:shotgun_built_in": 1
       }
     },

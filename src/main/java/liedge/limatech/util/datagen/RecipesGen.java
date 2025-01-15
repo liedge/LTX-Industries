@@ -6,12 +6,12 @@ import liedge.limacore.lib.ModResources;
 import liedge.limatech.LimaTech;
 import liedge.limatech.LimaTechTags;
 import liedge.limatech.item.weapon.WeaponItem;
-import liedge.limatech.lib.upgradesystem.UpgradeBase;
-import liedge.limatech.lib.upgradesystem.UpgradeBaseEntry;
-import liedge.limatech.lib.upgradesystem.equipment.EquipmentUpgrade;
-import liedge.limatech.lib.upgradesystem.equipment.EquipmentUpgradeEntry;
-import liedge.limatech.lib.upgradesystem.machine.MachineUpgrade;
-import liedge.limatech.lib.upgradesystem.machine.MachineUpgradeEntry;
+import liedge.limatech.lib.upgrades.UpgradeBase;
+import liedge.limatech.lib.upgrades.UpgradeBaseEntry;
+import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrade;
+import liedge.limatech.lib.upgrades.equipment.EquipmentUpgradeEntry;
+import liedge.limatech.lib.upgrades.machine.MachineUpgrade;
+import liedge.limatech.lib.upgrades.machine.MachineUpgradeEntry;
 import liedge.limatech.recipe.FabricatingRecipe;
 import liedge.limatech.recipe.GrindingRecipe;
 import liedge.limatech.recipe.MaterialFusingRecipe;
@@ -45,6 +45,8 @@ import java.util.function.UnaryOperator;
 import static liedge.limatech.registry.LimaTechBlocks.*;
 import static liedge.limatech.registry.LimaTechEquipmentUpgrades.*;
 import static liedge.limatech.registry.LimaTechItems.*;
+import static liedge.limatech.registry.LimaTechMachineUpgrades.ESA_CAPACITY_UPGRADE;
+import static liedge.limatech.registry.LimaTechMachineUpgrades.FABRICATOR_UPGRADE;
 import static net.minecraft.world.item.Items.*;
 import static net.neoforged.neoforge.common.Tags.Items.DYES_LIME;
 import static net.neoforged.neoforge.common.Tags.Items.GLASS_BLOCKS;
@@ -214,6 +216,7 @@ class RecipesGen extends LimaRecipeProvider
                 .input(GOLD_CIRCUIT, 6)
                 .input(TITANIUM_INGOT, 16)
                 .input(PHANTOM_MEMBRANE, 8)
+                .input(ENDER_PEARL, 4)
                 .input(DataComponentIngredient.of(false, DataComponentPredicate.builder().expect(DataComponents.POTION_CONTENTS, new PotionContents(Potions.INVISIBILITY)).build(), POTION)));
 
         equipmentModuleFab(output, registries, "looting_upgrades", LOOTING_ENCHANTMENT, 1, 125_000, builder -> builder
@@ -328,6 +331,49 @@ class RecipesGen extends LimaRecipeProvider
                 .input(TITANIUM_INGOT, 64)
                 .input(NETHER_STAR)
                 .input(DataComponentIngredient.of(false, DataComponentPredicate.builder().expect(DataComponents.POTION_CONTENTS, new PotionContents(Potions.LONG_WEAKNESS)).build(), POTION)));
+
+        machineModuleFab(output, registries, "esa_upgrades", ESA_CAPACITY_UPGRADE, 1, 250_000, builder -> builder
+                .input(LIGHTNING_ROD, 2)
+                .input(COPPER_INGOT, 6));
+        machineModuleFab(output, registries, "esa_upgrades", ESA_CAPACITY_UPGRADE, 2, 500_000, builder -> builder
+                .input(LIGHTNING_ROD, 2)
+                .input(COPPER_INGOT, 12)
+                .input(GOLD_CIRCUIT, 2));
+        machineModuleFab(output, registries, "esa_upgrades", ESA_CAPACITY_UPGRADE, 3, 1_000_000, builder -> builder
+                .input(LIGHTNING_ROD, 2)
+                .input(GOLD_INGOT, 12)
+                .input(NIOBIUM_CIRCUIT, 2));
+        machineModuleFab(output, registries, "esa_upgrades", ESA_CAPACITY_UPGRADE, 4, 5_000_000, builder -> builder
+                .input(LIGHTNING_ROD, 2)
+                .input(NIOBIUM_INGOT, 12)
+                .input(NIOBIUM_CIRCUIT, 2));
+
+        machineModuleFab(output, registries, "fab_upgrades", FABRICATOR_UPGRADE, 1, 500_000, builder -> builder
+                .input(DYES_LIME, 4)
+                .input(DIAMOND)
+                .input(TITANIUM_INGOT, 4)
+                .input(COPPER_CIRCUIT, 2)
+                .input(REDSTONE, 8));
+        machineModuleFab(output, registries, "fab_upgrades", FABRICATOR_UPGRADE, 2, 1_000_000, builder -> builder
+                .input(DYES_LIME, 4)
+                .input(DIAMOND, 4)
+                .input(TITANIUM_INGOT, 8)
+                .input(COPPER_CIRCUIT, 4)
+                .input(GOLD_CIRCUIT, 2)
+                .input(REDSTONE, 8));
+        machineModuleFab(output, registries, "fab_upgrades", FABRICATOR_UPGRADE, 3, 5_000_000, builder -> builder
+                .input(DYES_LIME, 8)
+                .input(DIAMOND_BLOCK)
+                .input(TITANIUM_INGOT, 16)
+                .input(GOLD_CIRCUIT, 4)
+                .input(NIOBIUM_CIRCUIT, 2)
+                .input(REDSTONE, 16));
+        machineModuleFab(output, registries, "fab_upgrades", FABRICATOR_UPGRADE, 4, 10_000_000, builder -> builder
+                .input(DYES_LIME, 8)
+                .input(DIAMOND_BLOCK)
+                .input(TITANIUM_INGOT, 32)
+                .input(NIOBIUM_CIRCUIT, 6)
+                .input(REDSTONE, 32));
     }
 
     private void orePebblesCooking(ItemLike orePebble, ItemLike resultItem, int resultCount, RecipeOutput output)
@@ -374,7 +420,7 @@ class RecipesGen extends LimaRecipeProvider
         return new FabricatingBuilder(modResources, result, energyRequired);
     }
 
-    private <U extends UpgradeBase<?, ?, U>, UE extends UpgradeBaseEntry<U>> void upgradeFabricating(RecipeOutput output, HolderLookup.Provider registries, String group, ResourceKey<U> upgradeKey, int upgradeRank, int energyRequired, Supplier<? extends DataComponentType<UE>> entryDataComponent, BiFunction<Holder<U>, Integer, UE> entryFactory, ItemLike moduleItem, UnaryOperator<FabricatingBuilder> op)
+    private <U extends UpgradeBase<?, U>, UE extends UpgradeBaseEntry<U>> void upgradeFabricating(RecipeOutput output, HolderLookup.Provider registries, String group, ResourceKey<U> upgradeKey, int upgradeRank, int energyRequired, Supplier<? extends DataComponentType<UE>> entryDataComponent, BiFunction<Holder<U>, Integer, UE> entryFactory, ItemLike moduleItem, UnaryOperator<FabricatingBuilder> op)
     {
         Holder<U> upgradeHolder = registries.holderOrThrow(upgradeKey);
         ItemStack result = new ItemStack(moduleItem);

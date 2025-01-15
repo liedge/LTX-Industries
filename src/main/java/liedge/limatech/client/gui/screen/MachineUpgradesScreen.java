@@ -2,7 +2,7 @@ package liedge.limatech.client.gui.screen;
 
 import liedge.limatech.LimaTech;
 import liedge.limatech.client.gui.widget.LimaBackButton;
-import liedge.limatech.lib.upgradesystem.machine.MachineUpgrade;
+import liedge.limatech.lib.upgrades.machine.MachineUpgrade;
 import liedge.limatech.menu.MachineUpgradeMenu;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;

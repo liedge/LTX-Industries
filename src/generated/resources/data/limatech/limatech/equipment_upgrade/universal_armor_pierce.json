@@ -2,16 +2,19 @@
   "description": {
     "translate": "equipment_upgrade.limatech.universal_armor_pierce.desc"
   },
-  "effects": [
-    {
-      "type": "limatech:bypass_armor",
-      "amount": {
-        "type": "minecraft:linear",
-        "base": 0.1,
-        "per_level_above_first": 0.1
+  "effects": {
+    "limatech:weapon_pre_attack": [
+      {
+        "type": "limatech:armor_bypass",
+        "amount": {
+          "type": "minecraft:linear",
+          "base": -0.1,
+          "per_level_above_first": -0.1
+        },
+        "operation": "add_multiplied_total"
       }
-    }
-  ],
+    ]
+  },
   "exclusive_set": [],
   "icon": "limatech:armor_bypass",
   "max_rank": 3,

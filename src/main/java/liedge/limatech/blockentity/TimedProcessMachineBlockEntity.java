@@ -12,13 +12,21 @@ public interface TimedProcessMachineBlockEntity
 
     void setCurrentProcessTime(int currentProcessTime);
 
-    int getTotalProcessDuration();
+    int getBaseTicksPerOperation();
 
-    default void setTotalProcessDuration(int totalProcessDuration) {}
+    int getTicksPerOperation();
+
+    void setTicksPerOperation(int ticksPerOperation);
+
+    int getBaseEnergyUsage();
+
+    int getEnergyUsage();
+
+    void setEnergyUsage(int energyUsage);
 
     default float getProcessTimePercent()
     {
-        return LimaMathUtil.divideFloat(getCurrentProcessTime(), getTotalProcessDuration());
+        return LimaMathUtil.divideFloat(getCurrentProcessTime(), getTicksPerOperation());
     }
 
     default LimaDataWatcher<Integer> keepProcessSynced()
@@ -28,7 +36,7 @@ public interface TimedProcessMachineBlockEntity
 
     default LimaDataWatcher<Integer> keepProcessDurationSynced()
     {
-        return AutomaticDataWatcher.keepSynced(LimaCoreNetworkSerializers.VAR_INT, this::getTotalProcessDuration, this::setTotalProcessDuration);
+        return AutomaticDataWatcher.keepSynced(LimaCoreNetworkSerializers.VAR_INT, this::getTicksPerOperation, this::setTicksPerOperation);
     }
 
     default void keepProcessAndDurationSynced(DataWatcherHolder.DataWatcherCollector collector)

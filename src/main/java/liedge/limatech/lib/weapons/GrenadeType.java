@@ -22,7 +22,7 @@ public enum GrenadeType implements StringRepresentable, Translatable, OrderedEnu
     ACID("acid", ACID_GREEN),
     NEURO("neuro", NEURO_BLUE);
 
-    public static final LimaEnumCodec<GrenadeType> CODEC = LimaEnumCodec.createLenient(GrenadeType.class, EXPLOSIVE);
+    public static final LimaEnumCodec<GrenadeType> CODEC = LimaEnumCodec.create(GrenadeType.class);
     public static final StreamCodec<FriendlyByteBuf, GrenadeType> STREAM_CODEC = NeoForgeStreamCodecs.enumCodec(GrenadeType.class);
 
     private final String name;

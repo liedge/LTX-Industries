@@ -2,17 +2,13 @@
   "description": {
     "translate": "equipment_upgrade.limatech.ammo_scavenger_enchantment.desc"
   },
-  "effects": [
-    {
-      "type": "limatech:enchantment_level",
-      "enchantment": "limatech:ammo_scavenger",
-      "levels_per_rank": {
-        "type": "minecraft:linear",
-        "base": 1.0,
-        "per_level_above_first": 1.0
+  "effects": {
+    "limatech:enchantments": [
+      {
+        "enchantment": "limatech:ammo_scavenger"
       }
-    }
-  ],
+    ]
+  },
   "exclusive_set": [],
   "icon": "limatech:ammo_scavenger",
   "max_rank": 5,

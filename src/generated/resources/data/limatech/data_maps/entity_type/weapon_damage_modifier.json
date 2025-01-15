@@ -2,40 +2,30 @@
   "values": {
     "#limatech:high_threat": [
       {
-        "modifier": {
-          "type": "override_base",
-          "value": 0.5
-        },
+        "factor": 0.5,
+        "operation": "set",
         "weapon": "limatech:submachine_gun"
       },
       {
-        "modifier": {
-          "type": "add_multiplied_total",
-          "value": -0.45
-        },
+        "factor": -0.45,
+        "operation": "add_multiplied_total",
         "weapon": "limatech:shotgun"
       },
       {
-        "modifier": {
-          "type": "add_multiplied_total",
-          "value": -0.2
-        },
+        "factor": -0.2,
+        "operation": "add_multiplied_total",
         "weapon": "limatech:grenade_launcher"
       }
     ],
     "#limatech:medium_threat": [
       {
-        "modifier": {
-          "type": "add_multiplied_total",
-          "value": -0.5
-        },
+        "factor": -0.5,
+        "operation": "add_multiplied_total",
         "weapon": "limatech:submachine_gun"
       },
       {
-        "modifier": {
-          "type": "add_multiplied_total",
-          "value": -0.33
-        },
+        "factor": -0.4,
+        "operation": "add_multiplied_total",
         "weapon": "limatech:shotgun"
       }
     ]

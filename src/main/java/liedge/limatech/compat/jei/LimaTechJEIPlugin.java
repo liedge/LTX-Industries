@@ -7,7 +7,7 @@ import liedge.limatech.client.gui.screen.GrinderScreen;
 import liedge.limatech.client.gui.screen.MaterialFusingChamberScreen;
 import liedge.limatech.client.gui.screen.RecomposerScreen;
 import liedge.limatech.item.UpgradeModuleItem;
-import liedge.limatech.lib.upgradesystem.UpgradeBaseEntry;
+import liedge.limatech.lib.upgrades.UpgradeBaseEntry;
 import liedge.limatech.recipe.FabricatingRecipe;
 import liedge.limatech.recipe.GrindingRecipe;
 import liedge.limatech.recipe.MaterialFusingRecipe;

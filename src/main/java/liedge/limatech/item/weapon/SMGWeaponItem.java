@@ -3,11 +3,11 @@ package liedge.limatech.item.weapon;
 import liedge.limacore.util.LimaEntityUtil;
 import liedge.limacore.util.LimaNetworkUtil;
 import liedge.limatech.entity.CompoundHitResult;
+import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.limatech.registry.LimaTechDamageTypes;
 import liedge.limatech.registry.LimaTechEquipmentUpgrades;
 import liedge.limatech.registry.LimaTechItems;
 import liedge.limatech.registry.LimaTechParticles;
-import liedge.limatech.lib.upgradesystem.equipment.EquipmentUpgrades;
 import liedge.limatech.util.config.LimaTechWeaponsConfig;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.world.InteractionHand;
@@ -28,8 +28,9 @@ public class SMGWeaponItem extends FullAutoWeaponItem
     protected EquipmentUpgrades getDefaultUpgrades(HolderLookup.Provider registries)
     {
         return EquipmentUpgrades.builder()
-            .add(registries.holderOrThrow(LimaTechEquipmentUpgrades.SMG_BUILT_IN))
-            .build();
+                .add(registries.holderOrThrow(LimaTechEquipmentUpgrades.SMG_BUILT_IN))
+                .add(registries.holderOrThrow(LimaTechEquipmentUpgrades.LIGHTFRAG_BASE_ARMOR_BYPASS))
+                .build();
     }
 
     @Override

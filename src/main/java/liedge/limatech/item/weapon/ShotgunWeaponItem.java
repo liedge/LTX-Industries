@@ -6,7 +6,7 @@ import liedge.limacore.util.LimaNetworkUtil;
 import liedge.limatech.entity.CompoundHitResult;
 import liedge.limatech.lib.weapons.AbstractWeaponControls;
 import liedge.limatech.registry.*;
-import liedge.limatech.lib.upgradesystem.equipment.EquipmentUpgrades;
+import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.limatech.util.config.LimaTechWeaponsConfig;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.sounds.SoundSource;
@@ -29,6 +29,7 @@ public class ShotgunWeaponItem extends SemiAutoWeaponItem
     {
         return EquipmentUpgrades.builder()
                 .add(registries.holderOrThrow(LimaTechEquipmentUpgrades.SHOTGUN_BUILT_IN))
+                .add(registries.holderOrThrow(LimaTechEquipmentUpgrades.LIGHTFRAG_BASE_ARMOR_BYPASS))
                 .build();
     }
 

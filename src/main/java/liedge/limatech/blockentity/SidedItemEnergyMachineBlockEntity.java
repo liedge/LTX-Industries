@@ -14,7 +14,7 @@ import liedge.limacore.util.LimaNbtUtil;
 import liedge.limatech.blockentity.io.MachineIOControl;
 import liedge.limatech.blockentity.io.MachineInputType;
 import liedge.limatech.blockentity.io.SidedMachineIOHolder;
-import liedge.limatech.lib.upgradesystem.machine.MachineUpgrades;
+import liedge.limatech.lib.upgrades.machine.MachineUpgrades;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;

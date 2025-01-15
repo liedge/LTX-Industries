@@ -2,26 +2,29 @@
   "description": {
     "translate": "equipment_upgrade.limatech.shotgun_built_in.desc"
   },
-  "effects": [
-    {
-      "type": "limatech:attribute_modifier",
-      "amount": 0.25,
-      "attribute": "minecraft:generic.movement_speed",
-      "modifier_id": "limatech:shotgun_speed_boost",
-      "operation": "add_multiplied_base"
-    },
-    {
-      "type": "limatech:attribute_modifier",
-      "amount": 1.0,
-      "attribute": "minecraft:generic.step_height",
-      "modifier_id": "limatech:shotgun_step_boost",
-      "operation": "add_value"
-    },
-    {
-      "type": "limatech:bypass_armor",
-      "amount": 0.15
-    }
-  ],
+  "effects": {
+    "limatech:attribute_modifier": [
+      {
+        "amount": 0.25,
+        "attribute": "minecraft:generic.movement_speed",
+        "modifier_id": "limatech:shotgun_speed_boost",
+        "operation": "add_multiplied_base"
+      },
+      {
+        "amount": 1.0,
+        "attribute": "minecraft:generic.step_height",
+        "modifier_id": "limatech:shotgun_step_height_boost",
+        "operation": "add_value"
+      }
+    ],
+    "limatech:weapon_pre_attack": [
+      {
+        "type": "limatech:armor_bypass",
+        "amount": -0.15,
+        "operation": "add_multiplied_total"
+      }
+    ]
+  },
   "exclusive_set": [],
   "icon": {
     "type": "item_sprite_overlay",

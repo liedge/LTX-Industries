@@ -2,10 +2,10 @@ package liedge.limatech.blockentity;
 
 import liedge.limacore.capability.energy.EnergyHolderBlockEntity;
 import liedge.limacore.capability.itemhandler.LimaItemHandlerBase;
-import liedge.limatech.lib.upgradesystem.calculation.CompoundCalculation;
-import liedge.limatech.lib.upgradesystem.machine.MachineUpgrades;
-import liedge.limatech.lib.upgradesystem.machine.effect.ModifyEnergyStorageUpgradeEffect;
+import liedge.limacore.util.LimaMathUtil;
+import liedge.limatech.lib.upgrades.machine.MachineUpgrades;
 import liedge.limatech.registry.LimaTechDataComponents;
+import liedge.limatech.registry.LimaTechUpgradeDataTypes;
 import net.minecraft.world.item.ItemStack;
 
 public interface UpgradableMachineBlockEntity extends SubMenuProviderBlockEntity
@@ -26,13 +26,21 @@ public interface UpgradableMachineBlockEntity extends SubMenuProviderBlockEntity
         // Apply to energy holders, must run here since it is a compounding calculation
         if (this instanceof EnergyHolderBlockEntity energyHolder)
         {
-            int newCapacity = CompoundCalculation.runStepsAsInt(energyHolder.getBaseEnergyCapacity(), getUpgrades().flatMapToSortedCalculations(ModifyEnergyStorageUpgradeEffect.class, ModifyEnergyStorageUpgradeEffect::capacityModifier));
-            int newTransferRate = CompoundCalculation.runStepsAsInt(energyHolder.getBaseEnergyTransferRate(), getUpgrades().flatMapToSortedCalculations(ModifyEnergyStorageUpgradeEffect.class, ModifyEnergyStorageUpgradeEffect::transferRateModifier));
+            double newCapacity = getUpgrades().runCompoundOps(LimaTechUpgradeDataTypes.ENERGY_CAPACITY, null, null, energyHolder.getBaseEnergyCapacity());
+            double newTransferRate = getUpgrades().runCompoundOps(LimaTechUpgradeDataTypes.ENERGY_TRANSFER_RATE, null, null, energyHolder.getBaseEnergyTransferRate());
 
-            energyHolder.getEnergyStorage().setMaxEnergyStored(newCapacity);
-            energyHolder.getEnergyStorage().setTransferRate(newTransferRate);
+            energyHolder.getEnergyStorage().setMaxEnergyStored(LimaMathUtil.round(newCapacity));
+            energyHolder.getEnergyStorage().setTransferRate(LimaMathUtil.round(newTransferRate));
         }
 
-        getUpgrades().forEachEffect((effect, upgradeRank) -> effect.onUpgradeReload(this, upgradeRank));
+        // Apply to timed process machines
+        if (this instanceof TimedProcessMachineBlockEntity processMachine)
+        {
+            double newEnergyUsage = getUpgrades().runCompoundOps(LimaTechUpgradeDataTypes.MACHINE_ENERGY_USAGE, null, null, processMachine.getBaseEnergyUsage());
+            double newProcessingTime = getUpgrades().runCompoundOps(LimaTechUpgradeDataTypes.TICKS_PER_OPERATION, null, null, processMachine.getBaseTicksPerOperation());
+
+            processMachine.setEnergyUsage(LimaMathUtil.round(newEnergyUsage));
+            processMachine.setTicksPerOperation(Math.max(1, LimaMathUtil.round(newProcessingTime, LimaMathUtil.RoundingStrategy.FLOOR)));
+        }
     }
 }

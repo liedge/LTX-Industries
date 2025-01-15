@@ -1,6 +1,6 @@
 package liedge.limatech.lib.weapons;
 
-import liedge.limacore.lib.LimaExtendedDamageSource;
+import liedge.limacore.lib.LimaDynamicDamageSource;
 import liedge.limatech.item.weapon.WeaponItem;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.damagesource.DamageType;
@@ -8,7 +8,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import org.jetbrains.annotations.Nullable;
 
-public class WeaponDamageSource extends LimaExtendedDamageSource
+public class WeaponDamageSource extends LimaDynamicDamageSource
 {
     public static WeaponDamageSource handheldInstantDamage(ResourceKey<DamageType> typeKey, Entity shooter, WeaponItem weaponItem)
     {

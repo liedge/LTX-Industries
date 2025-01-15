@@ -9,6 +9,7 @@ import liedge.limacore.capability.energy.LimaEnergyUtil;
 import liedge.limacore.capability.itemhandler.LimaItemHandlerUtil;
 import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limacore.network.sync.AutomaticDataWatcher;
+import liedge.limacore.network.sync.LimaDataWatcher;
 import liedge.limacore.recipe.LimaRecipeInput;
 import liedge.limacore.recipe.MutableRecipeReference;
 import liedge.limacore.registry.LimaCoreNetworkSerializers;
@@ -40,7 +41,7 @@ import static liedge.limacore.util.LimaNbtUtil.deserializeString;
 import static liedge.limatech.util.config.LimaTechMachinesConfig.FABRICATOR_ENERGY_CAPACITY;
 import static liedge.limatech.util.config.LimaTechMachinesConfig.FABRICATOR_ENERGY_IO_RATE;
 
-public class FabricatorBlockEntity extends SidedItemEnergyMachineBlockEntity implements TimedProcessMachineBlockEntity
+public class FabricatorBlockEntity extends SidedItemEnergyMachineBlockEntity
 {
     private final LimaBlockEntityEnergyStorage machineEnergy;
     private final MutableRecipeReference<FabricatingRecipe> currentRecipe = new MutableRecipeReference<>(LimaTechRecipeTypes.FABRICATING);
@@ -56,6 +57,23 @@ public class FabricatorBlockEntity extends SidedItemEnergyMachineBlockEntity imp
     {
         super(type, pos, state, 2);
         this.machineEnergy = new LimaBlockEntityEnergyStorage(this);
+    }
+
+    public int getClientProcessTime()
+    {
+        if (checkServerSide())
+        {
+            return currentRecipe.toIntOrElse(level, recipe -> (int) (LimaMathUtil.divideFloat(energyUsedForRecipe, recipe.getEnergyRequired()) * 100f), 0);
+        }
+        else
+        {
+            return clientProcessTime;
+        }
+    }
+
+    public LimaDataWatcher<Integer> keepProgressSynced()
+    {
+        return AutomaticDataWatcher.keepSynced(LimaCoreNetworkSerializers.VAR_INT, this::getClientProcessTime, i -> this.clientProcessTime = i);
     }
 
     @Override
@@ -184,18 +202,7 @@ public class FabricatorBlockEntity extends SidedItemEnergyMachineBlockEntity imp
                     if (getItemControl().getSideIO(side).allowsOutput())
                     {
                         IItemHandler adjacentInventory = itemConnections.get(side).getCapability();
-                        if (adjacentInventory != null)
-                        {
-                            ItemStack outputItem = getItemHandler().getStackInSlot(1);
-                            ItemStack insertResult = LimaItemHandlerUtil.insertIntoAnySlot(adjacentInventory, outputItem, true);
-
-                            // Insert the extracted stack into adjacent inventory
-                            if (outputItem != insertResult)
-                            {
-                                int inserted = outputItem.getCount() - insertResult.getCount();
-                                LimaItemHandlerUtil.insertIntoAnySlot(adjacentInventory, getItemHandler().extractItem(1, inserted, false), false);
-                            }
-                        }
+                        if (adjacentInventory != null) LimaItemHandlerUtil.transferStackBetweenInventories(getItemHandler(), adjacentInventory, 1);
                     }
                 }
 
@@ -206,31 +213,6 @@ public class FabricatorBlockEntity extends SidedItemEnergyMachineBlockEntity imp
                 autoOutputTimer++;
             }
         }
-    }
-
-    @Override
-    public int getCurrentProcessTime()
-    {
-        if (checkServerSide())
-        {
-            return currentRecipe.toIntOrElse(level, recipe -> (int) (LimaMathUtil.divideFloat(energyUsedForRecipe, recipe.getEnergyRequired()) * 100f), 0);
-        }
-        else
-        {
-            return clientProcessTime;
-        }
-    }
-
-    @Override
-    public void setCurrentProcessTime(int currentProcessTime)
-    {
-        this.clientProcessTime = currentProcessTime;
-    }
-
-    @Override
-    public int getTotalProcessDuration()
-    {
-        return 100;
     }
 
     @Override

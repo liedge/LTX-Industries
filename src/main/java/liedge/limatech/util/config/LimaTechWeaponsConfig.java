@@ -82,7 +82,7 @@ public final class LimaTechWeaponsConfig
         FREEZE_GRENADE_BASE_DAMAGE = builder.comment("Freeze grenades base damage").defineInRange("freeze_base_damage", 6.0d, 0.1d, Double.MAX_VALUE);
         FREEZE_GRENADE_DAMAGE_MULTIPLIER = builder.comment("Freeze grenades damage multiplier to mobs that have the dataTag limatech:weak_to_freeze").defineInRange("freeze_multiplier", 8.0d, 0d, Double.MAX_VALUE);
         ELECTRIC_GRENADE_BASE_DAMAGE = builder.comment("Electric grenades base damage").defineInRange("electric_base_damage", 28.0d, 0.1d, Double.MAX_VALUE);
-        ELECTRIC_GRENADE_DAMAGE_MULTIPLIER = builder.comment("Electric grenades damage multiplier to mobs in rain/water or that have the dataTag limatech:weak_to_electric").defineInRange("electric_multiplier", 3.0d, 0d, Double.MAX_VALUE);
+        ELECTRIC_GRENADE_DAMAGE_MULTIPLIER = builder.comment("Electric grenades damage multiplier to mobs in rain/water or that have the entity type tag limatech:weak_to_electric").defineInRange("electric_multiplier", 3.0d, 0d, Double.MAX_VALUE);
         ACID_GRENADE_BASE_DAMAGE = builder.comment("Acid grenades base damage").defineInRange("acid_base_damage", 10.0d, 0.1d, Double.MAX_VALUE);
         NEURO_GRENADE_BASE_DAMAGE = builder.comment("Neuro grenades base damage").defineInRange("neuro_base_damage", 4.0d, 0.1d, Double.MAX_VALUE);
         builder.pop();

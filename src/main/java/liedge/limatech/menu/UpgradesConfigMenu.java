@@ -7,17 +7,18 @@ import liedge.limacore.inventory.menu.LimaMenu;
 import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limacore.network.NetworkSerializer;
 import liedge.limacore.network.sync.AutomaticDataWatcher;
-import liedge.limatech.lib.upgradesystem.UpgradeBase;
-import liedge.limatech.lib.upgradesystem.UpgradesContainerBase;
+import liedge.limatech.lib.upgrades.UpgradeBase;
+import liedge.limatech.lib.upgrades.UpgradesContainerBase;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 
-public abstract class UpgradesConfigMenu<CTX, U extends UpgradeBase<?, ?, U>, UCT extends UpgradesContainerBase<?, ?, U>> extends LimaMenu<CTX>
+public abstract class UpgradesConfigMenu<CTX, U extends UpgradeBase<?, U>, UCT extends UpgradesContainerBase<?, U>> extends LimaMenu<CTX>
 {
     private final List<Object2IntMap.Entry<Holder<U>>> remoteUpgrades = new ObjectArrayList<>();
     private boolean screenUpdate = true;
@@ -32,7 +33,7 @@ public abstract class UpgradesConfigMenu<CTX, U extends UpgradeBase<?, ?, U>, UC
     {
         collector.register(AutomaticDataWatcher.keepSynced(getUpgradesSerializer(), this::getUpgradesFromContext, eid -> {
             this.remoteUpgrades.clear();
-            this.remoteUpgrades.addAll(eid.toEntryList());
+            this.remoteUpgrades.addAll(eid.toEntrySet());
             this.screenUpdate = true;
         }));
     }
@@ -46,7 +47,7 @@ public abstract class UpgradesConfigMenu<CTX, U extends UpgradeBase<?, ?, U>, UC
 
     protected abstract boolean canInstallUpgrade(ItemStack upgradeModuleItem);
 
-    protected abstract void tryInstallUpgrade(ItemStack upgradeModuleItem);
+    protected abstract void tryInstallUpgrade(ItemStack upgradeModuleItem, ServerLevel level);
 
     protected abstract void tryRemoveUpgrade(ServerPlayer sender, ResourceLocation upgradeId);
 
@@ -83,9 +84,9 @@ public abstract class UpgradesConfigMenu<CTX, U extends UpgradeBase<?, ?, U>, UC
         {
             super.setByPlayer(stack);
 
-            if (!level().isClientSide() && !stack.isEmpty())
+            if (!stack.isEmpty() && level() instanceof ServerLevel serverLevel)
             {
-                tryInstallUpgrade(stack);
+                tryInstallUpgrade(stack, serverLevel);
             }
         }
 

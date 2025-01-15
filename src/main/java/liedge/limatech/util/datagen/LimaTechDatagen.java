@@ -1,5 +1,6 @@
 package liedge.limatech.util.datagen;
 
+import liedge.limacore.data.generation.LimaAdvancementGenerator;
 import liedge.limacore.data.generation.LimaDatagenBootstrapBuilder;
 import liedge.limatech.LimaTech;
 import net.minecraft.core.HolderLookup;
@@ -30,14 +31,13 @@ final class LimaTechDatagen
         final boolean runClient = event.includeClient();
 
         BlockTagsGen blockTags = new BlockTagsGen(output, baseRegistries, helper);
-        AdvancementsGen advancements = new AdvancementsGen(helper);
         DatapackBuiltinEntriesProvider dataRegistriesProvider = LimaDatagenBootstrapBuilder.createDataPackProvider(output, baseRegistries, LimaTech.MODID, new DataRegistriesEntries());
         CompletableFuture<HolderLookup.Provider> patchedRegistries = dataRegistriesProvider.getRegistryProvider();
 
         // Server data
         generator.addProvider(runServer, new EquipmentUpgradesTagsGen(output, patchedRegistries, helper));
         generator.addProvider(runServer, dataRegistriesProvider);
-        generator.addProvider(runServer, advancements.buildProvider(output, patchedRegistries));
+        generator.addProvider(runServer, LimaAdvancementGenerator.createDataProvider(output, helper, patchedRegistries, AdvancementsGen::new));
         generator.addProvider(runServer, blockTags);
         generator.addProvider(runServer, new ItemTagsGen(output, patchedRegistries, blockTags.contentsGetter(), helper));
         generator.addProvider(runServer, new DamageTagsGen(output, patchedRegistries, helper));

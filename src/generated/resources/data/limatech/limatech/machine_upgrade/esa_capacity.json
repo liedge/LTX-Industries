@@ -2,14 +2,13 @@
   "description": {
     "translate": "machine_upgrade.limatech.esa_capacity.desc"
   },
-  "effects": [
-    {
-      "type": "limatech:modify_energy_storage",
-      "capacity_modifier": {
-        "type": "override_base",
+  "effects": {
+    "limatech:energy_capacity": [
+      {
+        "operation": "set",
         "value": {
           "type": "lookup",
-          "fallback": 1.0,
+          "fallback": 1.0E8,
           "values": [
             1.0E7,
             3.0E7,
@@ -17,12 +16,14 @@
             1.0E8
           ]
         }
-      },
-      "transfer_rate_modifier": {
-        "type": "override_base",
+      }
+    ],
+    "limatech:energy_transfer_rate": [
+      {
+        "operation": "set",
         "value": {
           "type": "lookup",
-          "fallback": 1.0,
+          "fallback": 1000000.0,
           "values": [
             100000.0,
             300000.0,
@@ -31,10 +32,10 @@
           ]
         }
       }
-    }
-  ],
+    ]
+  },
   "exclusive_set": [],
-  "icon": "limatech:extra_batteries",
+  "icon": "limatech:extra_energy",
   "max_rank": 4,
   "supported_set": "limatech:energy_storage_array",
   "title": {

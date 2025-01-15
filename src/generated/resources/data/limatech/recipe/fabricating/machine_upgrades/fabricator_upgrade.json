@@ -1,0 +1,40 @@
+{
+  "type": "limatech:fabricating",
+  "energy_required": 500000,
+  "group": "fab_upgrades",
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "limatech:empty_upgrade_module"
+    },
+    {
+      "count": 4,
+      "tag": "c:dyes/lime"
+    },
+    {
+      "count": 1,
+      "item": "minecraft:diamond"
+    },
+    {
+      "count": 4,
+      "item": "limatech:titanium_ingot"
+    },
+    {
+      "count": 2,
+      "item": "limatech:copper_circuit"
+    },
+    {
+      "count": 8,
+      "item": "minecraft:redstone"
+    }
+  ],
+  "result": {
+    "components": {
+      "limatech:machine_upgrade": {
+        "upgrade": "limatech:fabricator_upgrade"
+      }
+    },
+    "count": 1,
+    "id": "limatech:machine_upgrade_module"
+  }
+}

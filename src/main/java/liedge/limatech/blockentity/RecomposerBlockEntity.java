@@ -27,13 +27,13 @@ public class RecomposerBlockEntity extends SimpleRecipeMachineBlockEntity<LimaRe
     }
 
     @Override
-    public int baseEnergyUsage()
+    public int getBaseEnergyUsage()
     {
         return RECOMPOSER_ENERGY_USAGE.getAsInt();
     }
 
     @Override
-    public int baseCraftingTime()
+    public int getBaseTicksPerOperation()
     {
         return RECOMPOSER_CRAFTING_TIME.getAsInt();
     }

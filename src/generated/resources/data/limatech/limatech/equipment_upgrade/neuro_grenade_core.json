@@ -2,14 +2,11 @@
   "description": {
     "translate": "equipment_upgrade.limatech.neuro_grenade_core.desc"
   },
-  "effects": [
-    {
-      "type": "limatech:grenade_type_selection",
-      "types": [
-        "neuro"
-      ]
-    }
-  ],
+  "effects": {
+    "limatech:grenade_unlock": [
+      "neuro"
+    ]
+  },
   "exclusive_set": [],
   "icon": {
     "type": "item_sprite_overlay",

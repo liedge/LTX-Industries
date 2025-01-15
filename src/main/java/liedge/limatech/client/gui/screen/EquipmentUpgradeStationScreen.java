@@ -1,7 +1,7 @@
 package liedge.limatech.client.gui.screen;
 
 import liedge.limatech.LimaTech;
-import liedge.limatech.lib.upgradesystem.equipment.EquipmentUpgrade;
+import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrade;
 import liedge.limatech.menu.EquipmentUpgradeStationMenu;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
