@@ -3,6 +3,6 @@
   "category": "limatech:basic_machines",
   "icon": "limatech:fabricator",
   "pages": [
-
+    "The $(l)Fabricator$() can craft complex recipes that use up to 16 ingredients and a set amount of energy. Unlike the other machines, the crafting time is determined by the recipe's energy requirements and the machine's energy IO rate."
   ]
 }

@@ -34,7 +34,7 @@ class DataMapsGen extends DataMapProvider
         // Weapon damage modifiers
         builder(GlobalWeaponDamageModifiers.DATA_MAP_TYPE)
                 .add(LimaTechTags.EntityTypes.HIGH_THREAT_LEVEL, List.of(
-                        create(SUBMACHINE_GUN, 0.5d, CompoundOperation.SET),
+                        create(SUBMACHINE_GUN, -0.8, CompoundOperation.ADD_MULTIPLIED_TOTAL),
                         create(SHOTGUN, -0.45d, CompoundOperation.ADD_MULTIPLIED_TOTAL),
                         create(GRENADE_LAUNCHER, -0.2d, CompoundOperation.ADD_MULTIPLIED_TOTAL)
                 ), false)

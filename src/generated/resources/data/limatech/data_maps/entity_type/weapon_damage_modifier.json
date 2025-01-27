@@ -2,8 +2,8 @@
   "values": {
     "#limatech:high_threat": [
       {
-        "factor": 0.5,
-        "operation": "set",
+        "factor": -0.8,
+        "operation": "add_multiplied_total",
         "weapon": "limatech:submachine_gun"
       },
       {
