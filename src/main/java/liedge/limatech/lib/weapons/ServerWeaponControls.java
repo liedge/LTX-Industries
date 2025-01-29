@@ -13,8 +13,6 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Optional;
-
 public class ServerWeaponControls extends AbstractWeaponControls
 {
     private boolean reloadFlag;
@@ -26,7 +24,7 @@ public class ServerWeaponControls extends AbstractWeaponControls
 
     private void sendPacketToClient(Player player, WeaponItem weaponItem, byte action)
     {
-        LimaCoreUtil.castOrThrow(ServerPlayer.class, player).connection.send(new ClientboundWeaponControlsPacket(Optional.of(player), weaponItem, action));
+        LimaCoreUtil.castOrThrow(ServerPlayer.class, player).connection.send(new ClientboundWeaponControlsPacket(player.getId(), weaponItem, action));
     }
 
     /**

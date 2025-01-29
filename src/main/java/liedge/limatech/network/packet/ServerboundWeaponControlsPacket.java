@@ -1,36 +1,23 @@
 package liedge.limatech.network.packet;
 
-import liedge.limacore.network.packet.LimaPlayPacket;
+import io.netty.buffer.ByteBuf;
 import liedge.limatech.LimaTech;
-import liedge.limatech.item.weapon.WeaponItem;
-import liedge.limatech.registry.LimaTechAttachmentTypes;
 import net.minecraft.network.codec.ByteBufCodecs;
-import net.minecraft.network.protocol.PacketFlow;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.network.handling.IPayloadContext;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
-public record ServerboundWeaponControlsPacket(byte action) implements LimaPlayPacket.ServerboundOnly
+public record ServerboundWeaponControlsPacket(byte action) implements CustomPacketPayload
 {
-    static final PacketSpec<ServerboundWeaponControlsPacket> PACKET_SPEC = LimaTech.RESOURCES.packetSpec(PacketFlow.SERVERBOUND, "server_weapon_controls", ByteBufCodecs.BYTE.map(ServerboundWeaponControlsPacket::new, ServerboundWeaponControlsPacket::action));
+    static final Type<ServerboundWeaponControlsPacket> TYPE = LimaTech.RESOURCES.packetType("server_weapon_controls");
+    static final StreamCodec<ByteBuf, ServerboundWeaponControlsPacket> STREAM_CODEC = ByteBufCodecs.BYTE.map(ServerboundWeaponControlsPacket::new, ServerboundWeaponControlsPacket::action);
 
     public static final byte TRIGGER_PRESS = 0;
     public static final byte TRIGGER_RELEASE = 1;
     public static final byte RELOAD_PRESS = 2;
 
     @Override
-    public void onReceivedByServer(IPayloadContext context, ServerPlayer sender)
+    public Type<? extends CustomPacketPayload> type()
     {
-        ItemStack heldItem = sender.getMainHandItem();
-        if (heldItem.getItem() instanceof WeaponItem weaponItem)
-        {
-            sender.getData(LimaTechAttachmentTypes.WEAPON_CONTROLS).asServerControls().handleClientAction(heldItem, sender, weaponItem, action);
-        }
-    }
-
-    @Override
-    public PacketSpec<?> getPacketSpec()
-    {
-        return PACKET_SPEC;
+        return TYPE;
     }
 }

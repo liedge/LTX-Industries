@@ -1,7 +1,7 @@
 package liedge.limatech.lib;
 
 import liedge.limatech.entity.BubbleShieldUser;
-import liedge.limatech.network.packet.ClientboundBubbleShieldPacket;
+import liedge.limatech.network.packet.ClientboundEntityShieldPacket;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.FloatTag;
 import net.minecraft.tags.DamageTypeTags;
@@ -15,7 +15,7 @@ public class StandaloneBubbleShield implements INBTSerializable<FloatTag>, Bubbl
 {
     private float shieldHealth;
     private int shieldInvulnerableCooldown;
-    private boolean changed = true;
+    private boolean changed = false;
 
     @Override
     public float getShieldHealth()
@@ -46,7 +46,7 @@ public class StandaloneBubbleShield implements INBTSerializable<FloatTag>, Bubbl
 
         if (changed && !shieldedEntity.level().isClientSide())
         {
-            PacketDistributor.sendToPlayersTrackingEntityAndSelf(shieldedEntity, new ClientboundBubbleShieldPacket(shieldedEntity, shieldHealth));
+            PacketDistributor.sendToPlayersTrackingEntityAndSelf(shieldedEntity, new ClientboundEntityShieldPacket(shieldedEntity.getId(), shieldHealth));
             changed = false;
         }
     }
