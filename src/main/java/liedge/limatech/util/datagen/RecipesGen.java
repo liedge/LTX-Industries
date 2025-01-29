@@ -219,6 +219,23 @@ class RecipesGen extends LimaRecipeProvider
                 .input(ENDER_PEARL, 4)
                 .input(DataComponentIngredient.of(false, DataComponentPredicate.builder().expect(DataComponents.POTION_CONTENTS, new PotionContents(Potions.INVISIBILITY)).build(), POTION)));
 
+        equipmentModuleFab(output, registries, "shield_upgrades", UNIVERSAL_SHIELD_REGEN, 1, 1_500_000, builder -> builder
+                .input(GOLD_CIRCUIT)
+                .input(GOLDEN_APPLE, 1)
+                .input(DataComponentIngredient.of(false, DataComponentPredicate.builder().expect(DataComponents.POTION_CONTENTS, new PotionContents(Potions.FIRE_RESISTANCE)).build(), POTION))
+                .input(SHIELD)
+                .input(DIAMOND, 4));
+        equipmentModuleFab(output, registries, "shield_upgrades", UNIVERSAL_SHIELD_REGEN, 2, 3_000_000, builder -> builder
+                .input(GOLD_CIRCUIT, 2)
+                .input(GOLDEN_APPLE, 2)
+                .input(DIAMOND, 8)
+                .input(AMETHYST_SHARD, 2));
+        equipmentModuleFab(output, registries, "shield_upgrades", UNIVERSAL_SHIELD_REGEN, 3, 5_000_000, builder -> builder
+                .input(GOLD_CIRCUIT, 4)
+                .input(NIOBIUM_CIRCUIT, 2)
+                .input(AMETHYST_SHARD, 8)
+                .input(ENCHANTED_GOLDEN_APPLE));
+
         equipmentModuleFab(output, registries, "looting_upgrades", LOOTING_ENCHANTMENT, 1, 125_000, builder -> builder
                 .input(COPPER_CIRCUIT, 8)
                 .input(GOLD_CIRCUIT, 2)

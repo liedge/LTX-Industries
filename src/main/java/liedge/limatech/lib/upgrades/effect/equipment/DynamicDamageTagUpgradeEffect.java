@@ -4,7 +4,7 @@ import com.mojang.serialization.MapCodec;
 import liedge.limacore.lib.LimaDynamicDamageSource;
 import liedge.limatech.LimaTechConstants;
 import liedge.limatech.client.LimaTechLang;
-import liedge.limatech.registry.LimaTechEntityUpgradeEffects;
+import liedge.limatech.registry.LimaTechEquipmentUpgradeEffects;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -26,7 +26,7 @@ public record DynamicDamageTagUpgradeEffect(TagKey<DamageType> tag) implements E
     @Override
     public MapCodec<? extends EquipmentUpgradeEffect> codec()
     {
-        return LimaTechEntityUpgradeEffects.DYNAMIC_DAMAGE_TAG_ENTITY_EFFECT.get();
+        return LimaTechEquipmentUpgradeEffects.DYNAMIC_DAMAGE_TAG_EQUIPMENT_EFFECT.get();
     }
 
     @Override

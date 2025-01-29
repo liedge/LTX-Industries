@@ -37,7 +37,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.List;
 
-import static liedge.limatech.LimaTechConstants.REM_BLUE;
+import static liedge.limatech.LimaTechConstants.BUBBLE_SHIELD_BLUE;
 
 @EventBusSubscriber(modid = LimaTech.MODID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
 public final class LimaTechClientEvents
@@ -144,7 +144,7 @@ public final class LimaTechClientEvents
                         poseStack.mulPose(Axis.YN.rotationDegrees(entity.getYRot()));
                         poseStack.scale(size, size, size);
 
-                        BubbleShieldRenderer.SHIELD_RENDERER.renderBubbleShield(poseStack, buffer, REM_BLUE, partialTick);
+                        BubbleShieldRenderer.SHIELD_RENDERER.renderBubbleShield(poseStack, buffer, BUBBLE_SHIELD_BLUE, partialTick);
 
                         poseStack.popPose();
                     }

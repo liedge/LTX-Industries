@@ -241,7 +241,7 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
                 LimaTechTooltipUtil.appendSimpleEnergyTooltip(consumer, getEnergyStored(stack));
                 consumer.accept(ENERGY_AMMO_COST_TOOLTIP.translateArgs(formatEnergyWithSuffix(getEnergyReloadCost(stack))).withStyle(REM_BLUE.chatStyle()));
             }
-            case INFINITE -> consumer.accept(ammoSource.getItemTooltip().translate().withStyle(NIOBIUM_PURPLE.chatStyle()));
+            case INFINITE -> consumer.accept(ammoSource.getItemTooltip().translate().withStyle(CREATIVE_PINK.chatStyle()));
         }
     }
 

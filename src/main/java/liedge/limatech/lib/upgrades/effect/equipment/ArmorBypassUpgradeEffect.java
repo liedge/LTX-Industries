@@ -5,7 +5,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import liedge.limacore.lib.LimaDynamicDamageSource;
 import liedge.limatech.client.LimaTechLang;
 import liedge.limatech.lib.math.CompoundOperation;
-import liedge.limatech.registry.LimaTechEntityUpgradeEffects;
+import liedge.limatech.registry.LimaTechEquipmentUpgradeEffects;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
@@ -23,7 +23,7 @@ public record ArmorBypassUpgradeEffect(LevelBasedValue amount, CompoundOperation
     @Override
     public MapCodec<? extends EquipmentUpgradeEffect> codec()
     {
-        return LimaTechEntityUpgradeEffects.ARMOR_BYPASS_ENTITY_EFFECT.get();
+        return LimaTechEquipmentUpgradeEffects.ARMOR_BYPASS_EQUIPMENT_EFFECT.get();
     }
 
     @Override

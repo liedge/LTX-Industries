@@ -5,7 +5,8 @@ import liedge.limatech.entity.BubbleShieldUser;
 import liedge.limatech.item.UpgradableEquipmentItem;
 import liedge.limatech.item.weapon.WeaponItem;
 import liedge.limatech.lib.weapons.WeaponDamageSource;
-import liedge.limatech.network.packet.ClientboundBubbleShieldPacket;
+import liedge.limatech.network.packet.ClientboundEntityShieldPacket;
+import liedge.limatech.network.packet.ClientboundPlayerShieldPacket;
 import liedge.limatech.registry.LimaTechAttachmentTypes;
 import liedge.limatech.registry.LimaTechAttributes;
 import liedge.limatech.registry.LimaTechUpgradeDataTypes;
@@ -41,11 +42,7 @@ public final class LimaTechEventHandler
     @SubscribeEvent
     public static void onPlayerChangedDimension(final PlayerEvent.PlayerChangedDimensionEvent event)
     {
-        Player player = event.getEntity();
-        if (!player.level().isClientSide())
-        {
-            ClientboundBubbleShieldPacket.sendShieldToTrackersAndSelf(player);
-        }
+        ClientboundPlayerShieldPacket.sendPacketToPlayer(event.getEntity());
     }
 
     @SubscribeEvent
@@ -53,14 +50,14 @@ public final class LimaTechEventHandler
     {
         if (!event.getTarget().level().isClientSide() && event.getTarget() instanceof LivingEntity livingEntity)
         {
-            ClientboundBubbleShieldPacket.sendShieldToTrackersAndSelf(livingEntity);
+            ClientboundEntityShieldPacket.sendShieldToTrackersAndSelf(livingEntity);
         }
     }
 
     @SubscribeEvent
     public static void onPlayerLogin(final PlayerEvent.PlayerLoggedInEvent event)
     {
-        ClientboundBubbleShieldPacket.sendShieldToTrackersAndSelf(event.getEntity());
+        ClientboundPlayerShieldPacket.sendPacketToPlayer(event.getEntity());
     }
 
     @SubscribeEvent

@@ -8,6 +8,8 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.StringRepresentable;
 
+import static liedge.limatech.util.LimaTechTooltipUtil.*;
+
 public enum CompoundOperation implements StringRepresentable, Translatable
 {
     SET("set", (base, total, param) -> param),
@@ -43,10 +45,10 @@ public enum CompoundOperation implements StringRepresentable, Translatable
     {
         Component valueComponent = switch (this)
         {
-            case SET -> Component.literal(LimaTechTooltipUtil.formatFlatNumber(value)).withStyle(ChatFormatting.GOLD);
-            case FLAT_ADDITION -> LimaTechTooltipUtil.flatNumberWithSign(value, invertColor);
+            case SET -> flatNumberWithoutSign(value).withStyle(ChatFormatting.GOLD);
+            case FLAT_ADDITION -> flatNumberWithSign(value).withStyle(numSignColor(value, invertColor));
             case ADD_MULTIPLIED_BASE, ADD_MULTIPLIED_TOTAL -> LimaTechTooltipUtil.percentageWithSign(value, invertColor);
-            case MULTIPLY -> LimaTechTooltipUtil.flatNumberWithoutSign(value, invertColor);
+            case MULTIPLY -> LimaTechTooltipUtil.flatNumberWithoutSign(value).withStyle(numSignColor(value, invertColor));
         };
 
         return translateArgs(valueComponent);

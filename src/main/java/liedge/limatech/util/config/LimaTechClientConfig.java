@@ -1,6 +1,5 @@
 package liedge.limatech.util.config;
 
-import it.unimi.dsi.fastutil.ints.IntList;
 import liedge.limacore.lib.LimaColor;
 import liedge.limacore.util.LimaMathUtil;
 import net.neoforged.fml.event.config.ModConfigEvent;
@@ -9,13 +8,6 @@ import net.neoforged.neoforge.common.ModConfigSpec;
 public final class LimaTechClientConfig
 {
     private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
-
-    private static final ModConfigSpec.ConfigValue<Integer> BUBBLE_SHIELD_QUALITY = BUILDER.comment(
-                    "Controls how many groups of polygons the bubble shield is 'split' into to be animated. 32 allows every face to be individually animated.",
-                    "Higher numbers may have a negative performance impact. Changes require a client restart to properly take effect.",
-                    "Default value: 8, allowed values: 1, 2, 4, 8, 16, 32")
-            .gameRestart()
-            .defineInList("bubble_shield_quality", 8, IntList.of(1, 2, 4, 8, 16, 32));
 
     private static final ModConfigSpec.BooleanValue SOLID_COLOR_CROSSHAIR = BUILDER.comment(
                     "Controls whether the weapon crosshair/reticle is a custom color. Otherwise, uses the minecraft style background aware transparent color. Defaults to false")
@@ -26,7 +18,7 @@ public final class LimaTechClientConfig
             .define("weapon_crosshair_color", LimaColor.WHITE.toString());
 
     private static final ModConfigSpec.BooleanValue ALWAYS_SHOW_UPGRADE_ICONS = BUILDER.comment(
-            "Whether upgrade module icons are always shown instead of needing to hold down SHIFT. Defaults to false)")
+            "Whether upgrade module icons are always shown instead of needing to hold down SHIFT. (Defaults to false)")
             .define("always_show_upgrade_icons", false);
 
     public static final ModConfigSpec CLIENT_CONFIG_SPEC = BUILDER.build();
@@ -47,11 +39,6 @@ public final class LimaTechClientConfig
     public static boolean alwaysShowUpgradeIcons()
     {
         return ALWAYS_SHOW_UPGRADE_ICONS.getAsBoolean();
-    }
-
-    public static int getBubbleShieldQuality()
-    {
-        return BUBBLE_SHIELD_QUALITY.get();
     }
 
     public static boolean isSolidCrosshairColor()

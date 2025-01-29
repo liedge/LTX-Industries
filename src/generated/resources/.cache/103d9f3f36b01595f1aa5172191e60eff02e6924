@@ -1,4 +1,4 @@
-// 1.21.1	2025-01-26T13:32:33.5952944	Registries
+// 1.21.1	2025-01-27T22:27:33.6903365	Registries
 1c176dbd4aac4218c0f886354d565f88f89a7977 data/limatech/damage_type/acid_grenade.json
 663546f5130351cd13d3033165fd25ffed3a331d data/limatech/damage_type/electric_grenade.json
 d0b047a589592d8bc7ce09e2dfcdb9b98fda6053 data/limatech/damage_type/explosive_grenade.json
@@ -31,6 +31,7 @@ e393d20d68a5418c5e913b08734183242cc566ff data/limatech/limatech/equipment_upgrad
 6e91258519ab112b70a16ff69b6bb63164c1e38c data/limatech/limatech/equipment_upgrade/universal_armor_pierce.json
 9df5941c4af5021743b0725473dac3e540d35069 data/limatech/limatech/equipment_upgrade/universal_energy_ammo.json
 be2e2e65afab874ed6a866a32984503988ab7115 data/limatech/limatech/equipment_upgrade/universal_infinite_ammo.json
+00be81ba4c97756051eb4e0e1f3cab43e4580c66 data/limatech/limatech/equipment_upgrade/universal_shield_regen.json
 38ec35c1244ef7a45e3c9b724058049cc26b0454 data/limatech/limatech/equipment_upgrade/universal_stealth_damage.json
 24c96c91b5f3f8dc4da6608cf3043ed018c914df data/limatech/limatech/machine_upgrade/esa_capacity.json
 0f73c6fad512dfef5d5203349e2409f26cf65ea6 data/limatech/limatech/machine_upgrade/fabricator_upgrade.json

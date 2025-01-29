@@ -139,7 +139,7 @@ class LanguageGen extends LimaLanguageProvider
         equipmentUpgrade(LimaTechEquipmentUpgrades.UNIVERSAL_ENERGY_AMMO, "Energy Ammo Synthesis", "Modifies the weapon's magazine system to reload from an internal Common Energy reserve instead of ammo canister items.");
         equipmentUpgrade(LimaTechEquipmentUpgrades.UNIVERSAL_INFINITE_AMMO, "Infinite Ammo", "Weapon ignores ammo and can fire infinitely.");
         equipmentUpgrade(LimaTechEquipmentUpgrades.UNIVERSAL_ARMOR_PIERCE, "Armor-Piercing Rounds", "Weapon ignores 10% of armor per upgrade rank.");
-        equipmentUpgrade(LimaTechEquipmentUpgrades.UNIVERSAL_SHIELD_REGEN, "Shield Siphon", "Restores 4 points of bubble shield per kill, for a maximum of the upgrade rank times 10.");
+        equipmentUpgrade(LimaTechEquipmentUpgrades.UNIVERSAL_SHIELD_REGEN, "Bubble Shield Regen", "Kills recharge your personal Bubble Shield.");
 
         equipmentUpgrade(LimaTechEquipmentUpgrades.LOOTING_ENCHANTMENT, "Loot Booster", "Earn more loot drops from defeated enemies, affected by rank.");
         equipmentUpgrade(LimaTechEquipmentUpgrades.AMMO_SCAVENGER_ENCHANTMENT, "Ammunition Finder", "Increases the chance to find rarer weapon ammo types.");
@@ -251,14 +251,10 @@ class LanguageGen extends LimaLanguageProvider
         add(PLAYER_ATTRIBUTE_VALUE_EFFECT, "%s of player %s");
         add(WEAPON_KNOCKBACK_EFFECT, "%s knockback power");
         add(DYNAMIC_DAMAGE_TAG_EFFECT, "Adds damage type tag: %s");
-        add(WEAPON_DAMAGE_EFFECT, "%s bonus damage");
-        add(PROJECTILE_SPEED_EFFECT, "%s projectile speed");
         add(NO_SCULK_VIBRATIONS_EFFECT, "No sculk vibrations");
         add(ENERGY_AMMO_EFFECT, "Unlocks CE ammunition synthesis");
         add(INFINITE_AMMO_EFFECT, "Unlocks infinite ammo");
-        add(ENERGY_CAPACITY_UPGRADE, "Energy Capacity: %s");
-        add(ENERGY_TRANSFER_RATE_UPGRADE, "Energy Transfer Rate: %s");
-        add(SHIELD_UPGRADE_EFFECT, "%s shield per kill, (max %s)");
+        add(SHIELD_UPGRADE_EFFECT, "%s Bubble Shield/kill, (max %s)");
         add(ENCHANTMENT_UPGRADE_EFFECT, "%s %s Enchantment");
         add(ARMOR_BYPASS_EFFECT, "Equipment bypasses %s armor");
         add(GRENADE_UNLOCK_EFFECT, "Unlocks %s grenades");

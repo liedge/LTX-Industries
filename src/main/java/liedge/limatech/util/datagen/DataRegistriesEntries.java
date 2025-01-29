@@ -10,6 +10,7 @@ import liedge.limatech.lib.math.CompoundOperation;
 import liedge.limatech.lib.math.LevelBasedDoubleValue;
 import liedge.limatech.lib.upgrades.effect.*;
 import liedge.limatech.lib.upgrades.effect.equipment.ArmorBypassUpgradeEffect;
+import liedge.limatech.lib.upgrades.effect.equipment.BubbleShieldUpgradeEffect;
 import liedge.limatech.lib.upgrades.effect.equipment.DynamicDamageTagUpgradeEffect;
 import liedge.limatech.lib.upgrades.effect.equipment.KnockbackStrengthUpgradeEffect;
 import liedge.limatech.lib.upgrades.effect.value.ValueUpgradeEffect;
@@ -246,15 +247,12 @@ class DataRegistriesEntries extends LimaDatagenBootstrapBuilder
                 .withListEffect(LimaTechUpgradeDataTypes.WEAPON_PRE_ATTACK, new ArmorBypassUpgradeEffect(LevelBasedValue.perLevel(-0.1f), CompoundOperation.ADD_MULTIPLIED_TOTAL))
                 .effectIcon(sprite("armor_bypass"))
                 .buildAndRegister(ctx);
-
-        /*
         EquipmentUpgrade.builder(UNIVERSAL_SHIELD_REGEN)
                 .supportsLTXWeapons(items)
                 .setMaxRank(3)
-                .withEffect(new BubbleShieldUpgradeEffect(LevelBasedValue.constant(4), LevelBasedValue.perLevel(10)))
+                .withListEffect(LimaTechUpgradeDataTypes.WEAPON_KILL, new BubbleShieldUpgradeEffect(LevelBasedValue.constant(4), LevelBasedValue.perLevel(10)))
                 .effectIcon(sprite("shield_regen"))
                 .buildAndRegister(ctx);
-        */
 
         // Enchantments
         EquipmentUpgrade.builder(LOOTING_ENCHANTMENT)

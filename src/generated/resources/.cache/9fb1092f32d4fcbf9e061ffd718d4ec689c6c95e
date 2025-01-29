@@ -1,4 +1,4 @@
-// 1.21.1	2025-01-26T21:11:54.1954825	Recipes
+// 1.21.1	2025-01-28T22:50:20.5911256	Recipes
 c8275617fa453c38fc837208f8be42d7d960af0d data/limatech/recipe/blasting/blast_coal_ore_pebbles.json
 db62af114805dff901e1b60319fd82daf23ee61d data/limatech/recipe/blasting/blast_copper_ore_pebbles.json
 088be7f68997d99212be68b3700cefa15df4fb59 data/limatech/recipe/blasting/blast_diamond_ore_pebbles.json
@@ -38,6 +38,9 @@ ca4f24ec977cc40c1a70fee7e9db9c110086eab1 data/limatech/recipe/fabricating/equipm
 bd51d96837b88f7c615f78286aaf16429af55aa0 data/limatech/recipe/fabricating/equipment_upgrades/razor_enchantment_4.json
 36bfb69ced3b0425c4626778185c498b4f684848 data/limatech/recipe/fabricating/equipment_upgrades/razor_enchantment_5.json
 00f0167323be84aa9d8479c054c4f691e90eac30 data/limatech/recipe/fabricating/equipment_upgrades/universal_anti_vibration.json
+a7c1eccc6e36f471e9c07b13631481c4fd022fd9 data/limatech/recipe/fabricating/equipment_upgrades/universal_shield_regen.json
+fe79f3c40c53d2a896896287205e69def1349f75 data/limatech/recipe/fabricating/equipment_upgrades/universal_shield_regen_2.json
+9bc17e4120fb346e7ef6bdd7bd091a800f8d272e data/limatech/recipe/fabricating/equipment_upgrades/universal_shield_regen_3.json
 4b74f03e358d354a267816439b12ae2df84823ce data/limatech/recipe/fabricating/equipment_upgrades/universal_stealth_damage.json
 08e22e77f38e152952dab21d37ab18167397bda6 data/limatech/recipe/fabricating/grenade_launcher.json
 ccab0f3e3580eec21cc7df95c224cb84db824110 data/limatech/recipe/fabricating/machine_upgrades/esa_capacity.json

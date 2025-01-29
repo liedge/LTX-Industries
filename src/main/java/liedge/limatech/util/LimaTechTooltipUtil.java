@@ -4,6 +4,7 @@ import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limatech.menu.tooltip.ItemGridTooltip;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemContainerContents;
 
@@ -74,19 +75,19 @@ public final class LimaTechTooltipUtil
         return value < 1000 ? Double.toString(value) : FORMAT_COMMA_INT.format(value);
     }
 
-    public static Component flatNumberWithSign(double value, boolean invertColors)
+    public static MutableComponent flatNumberWithSign(double value)
     {
         String formattedValue = formatFlatNumber(value);
         if (value >= 0) formattedValue = "+" + formattedValue;
-        return Component.literal(formattedValue).withStyle(numSignColor(value, invertColors));
+        return Component.literal(formattedValue);
     }
 
-    public static Component flatNumberWithoutSign(double value, boolean invertColors)
+    public static MutableComponent flatNumberWithoutSign(double value)
     {
-        return Component.literal(formatFlatNumber(value)).withStyle(numSignColor(1, value, invertColors));
+        return Component.literal(formatFlatNumber(value));
     }
 
-    public static Component percentageWithSign(double value, boolean invertColors)
+    public static MutableComponent percentageWithSign(double value, boolean invertColors)
     {
         String formattedValue = FORMAT_PERCENTAGE.format(value);
         if (value >= 0) formattedValue = "+" + formattedValue;

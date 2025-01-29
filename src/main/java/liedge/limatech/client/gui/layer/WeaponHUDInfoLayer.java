@@ -38,7 +38,7 @@ public final class WeaponHUDInfoLayer extends LimaGuiLayer
         WeaponAmmoSource ammoSource = WeaponItem.getAmmoSourceFromItem(heldItem);
 
         int ammo = weaponItem.getAmmoLoaded(heldItem);
-        int ammoTextColor = (ammo > 0) ? LIME_GREEN.packedRGB() : 16733525;
+        int ammoTextColor = (ammo > 0 || ammoSource == WeaponAmmoSource.INFINITE) ? LIME_GREEN.packedRGB() : 16733525;
         int x = 10;
 
         PoseStack poseStack = graphics.pose();
@@ -81,13 +81,13 @@ public final class WeaponHUDInfoLayer extends LimaGuiLayer
         {
             int y = (graphics.guiHeight() - INFINITE_AMMO_INDICATOR.height()) / 2;
             INFINITE_AMMO_INDICATOR.singleBlit(graphics, x, y);
-            graphics.drawString(Minecraft.getInstance().font, Integer.toString(ammo), x + 5, y + 3, NIOBIUM_PURPLE.packedRGB());
+            graphics.drawString(Minecraft.getInstance().font, Integer.toString(ammo), x + 5, y + 3, ammoTextColor);
 
             poseStack.pushPose();
 
             poseStack.translate(x + 32, y + 1, 0);
             poseStack.scale(1.5f, 1.5f, 1f);
-            graphics.drawString(Minecraft.getInstance().font, LimaComponentUtil.INFINITY_SYMBOL, 0, 0, NIOBIUM_PURPLE.packedRGB(), false);
+            graphics.drawString(Minecraft.getInstance().font, LimaComponentUtil.INFINITY_SYMBOL, 0, 0, CREATIVE_PINK.packedRGB(), false);
 
             poseStack.popPose();
         }

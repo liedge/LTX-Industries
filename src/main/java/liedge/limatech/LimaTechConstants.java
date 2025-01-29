@@ -13,6 +13,7 @@ public final class LimaTechConstants
     // Primary mod colors
     public static final LimaColor LIME_GREEN = LimaColor.createOpaque(0x9df143);
     public static final LimaColor REM_BLUE = LimaColor.createOpaque(0x8bd1f0);
+    public static final LimaColor BUBBLE_SHIELD_BLUE = LimaColor.createOpaque(0x74f7ec);
     public static final LimaColor NIOBIUM_PURPLE = LimaColor.createOpaque(0x8780ff);
     public static final LimaColor HOSTILE_ORANGE = LimaColor.createOpaque(0xfc501c);
     public static final LimaColor INPUT_BLUE = LimaColor.createOpaque(0x007ddd);

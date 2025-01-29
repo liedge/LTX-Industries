@@ -44,7 +44,7 @@ public class LimaTech
         LimaTechCreativeTabs.initRegister(modBus);
         LimaTechDataComponents.initRegister(modBus);
         LimaTechEntities.initRegister(modBus);
-        LimaTechEntityUpgradeEffects.initRegister(modBus);
+        LimaTechEquipmentUpgradeEffects.initRegister(modBus);
         LimaTechGameEvents.initRegister(modBus);
         LimaTechItems.initRegister(modBus);
         LimaTechMenus.initRegister(modBus);
@@ -100,7 +100,7 @@ public class LimaTech
         private void registerCustomRegistries(final NewRegistryEvent event)
         {
             event.register(LimaTechRegistries.UPGRADE_DATA_TYPE);
-            event.register(LimaTechRegistries.PLAYER_UPGRADE_EFFECT_TYPE);
+            event.register(LimaTechRegistries.EQUIPMENT_UPGRADE_EFFECT_TYPE);
         }
 
         @SubscribeEvent

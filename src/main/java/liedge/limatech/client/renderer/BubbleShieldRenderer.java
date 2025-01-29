@@ -11,11 +11,10 @@ import liedge.limacore.util.LimaCollectionsUtil;
 import liedge.limacore.util.LimaMathUtil;
 import liedge.limatech.client.LimaTechClient;
 import liedge.limatech.client.model.custom.BubbleShieldModel;
-import liedge.limatech.util.config.LimaTechClientConfig;
 import net.minecraft.util.Mth;
 import org.joml.Matrix4f;
-import org.openjdk.nashorn.internal.IntDeque;
 
+import java.util.ArrayDeque;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -27,23 +26,21 @@ public final class BubbleShieldRenderer
 
     private BubbleShieldRenderer()
     {
-        int qualityConfig = LimaTechClientConfig.getBubbleShieldQuality();
-
-        IntList indexes = LimaCollectionsUtil.toIntList(IntStream.range(0, 32));
-        IntDeque deque = new IntDeque();
+        ArrayDeque<Integer> deque = new ArrayDeque<>();
+        IntList indexes = LimaCollectionsUtil.toIntList(IntStream.range(0, 122));
         IntLists.shuffle(indexes, LimaMathUtil.RANDOM).forEach(deque::push);
 
-        final int facesPerAnim = 32 / qualityConfig;
-
-        for (int i = 0; i < qualityConfig; i++)
+        for (int i = 0; i < 16; i++)
         {
-            int[] faceIndexes = new int[facesPerAnim];
-            for (int j = 0; j < facesPerAnim; j++)
+            final int n = Math.min(deque.size(), 8);
+            int[] geometryIndexes = new int[n];
+
+            for (int j = 0; j < n; j++)
             {
-                faceIndexes[j] = deque.pop();
+                geometryIndexes[j] = deque.pop();
             }
 
-            animations.add(new FadeAnimation(faceIndexes));
+            animations.add(new FadeAnimation(geometryIndexes));
         }
     }
 
@@ -60,12 +57,12 @@ public final class BubbleShieldRenderer
 
     private static class FadeAnimation
     {
-        private final int[] faceIndexes;
+        private final int[] geometryIndexes;
         private final TickTimer animationTimer = new TickTimer();
 
-        private FadeAnimation(int[] faceIndexes)
+        private FadeAnimation(int[] geometryIndexes)
         {
-            this.faceIndexes = faceIndexes;
+            this.geometryIndexes = geometryIndexes;
         }
 
         private void tick()
@@ -80,7 +77,7 @@ public final class BubbleShieldRenderer
         private void putInBuffer(VertexConsumer buffer, Matrix4f mx4, LimaColor color, float partialTick)
         {
             float alpha = animationTimer.getTimerState() == TickTimer.State.STOPPED ? 0.125f : Mth.clamp(LimaTechClient.animationCurveC(animationTimer.lerpPausedProgress(partialTick)), 0.125f, 0.8f);
-            BubbleShieldModel.SHIELD_MODEL.renderFaces(faceIndexes, buffer, mx4, color, alpha);
+            BubbleShieldModel.SHIELD_MODEL.renderFaces(geometryIndexes, buffer, mx4, color, alpha);
         }
     }
 }

@@ -54,14 +54,10 @@ public final class LimaTechLang
 
     public static final Translatable WEAPON_KNOCKBACK_EFFECT = upgradeEffect("weapon_knockback");
     public static final Translatable DYNAMIC_DAMAGE_TAG_EFFECT = upgradeEffect("dynamic_tag");
-    public static final Translatable WEAPON_DAMAGE_EFFECT = upgradeEffect("weapon_damage");
-    public static final Translatable PROJECTILE_SPEED_EFFECT = upgradeEffect("projectile_speed");
+    public static final Translatable SHIELD_UPGRADE_EFFECT = upgradeEffect("shield");
     public static final Translatable NO_SCULK_VIBRATIONS_EFFECT = upgradeEffect("no_vibration");
     public static final Translatable ENERGY_AMMO_EFFECT = upgradeEffect("energy_ammo");
     public static final Translatable INFINITE_AMMO_EFFECT = upgradeEffect("infinite_ammo");
-    public static final Translatable ENERGY_CAPACITY_UPGRADE = upgradeEffect("energy_capacity");
-    public static final Translatable ENERGY_TRANSFER_RATE_UPGRADE = upgradeEffect("energy_transfer_rate");
-    public static final Translatable SHIELD_UPGRADE_EFFECT = upgradeEffect("shield");
     public static final Translatable ENCHANTMENT_UPGRADE_EFFECT = upgradeEffect("enchantment");
     public static final Translatable ARMOR_BYPASS_EFFECT = upgradeEffect("armor_bypass");
     public static final Translatable GRENADE_UNLOCK_EFFECT = upgradeEffect("grenade_unlock");
