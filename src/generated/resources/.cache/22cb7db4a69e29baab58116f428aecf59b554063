@@ -1,8 +1,0 @@
-// 1.21.1	2024-11-08T12:39:01.0916467	Tags for minecraft:entity_type mod id limatech
-6eab31cce464edc32eb9531b161946f64598c1f6 data/limatech/tags/entity_type/high_threat.json
-866d26d8586f1d2c46a81c04639c2b3ee2b1c468 data/limatech/tags/entity_type/immune_to_ltx_weapons.json
-98befb755fcc5d7332ab7fa30e1f56562d635415 data/limatech/tags/entity_type/medium_threat.json
-671550f14537e9f8edc21f52d20e8d41b837049f data/limatech/tags/entity_type/rocket_turret_targets.json
-6365cb5ceefe64d6f140a498673a07f3f3cb346f data/limatech/tags/entity_type/weak_to_electric.json
-5b8f0b0973a4bee6d736adf3e171909017c0d5e7 data/limatech/tags/entity_type/weak_to_flame.json
-94a159890c55be787385f4b85b75ede5e721b92e data/limatech/tags/entity_type/weak_to_freeze.json
