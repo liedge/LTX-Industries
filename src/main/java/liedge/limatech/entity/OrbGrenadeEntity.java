@@ -137,6 +137,15 @@ public class OrbGrenadeEntity extends LimaTechProjectile implements IEntityWithC
         if (instance != null) hitEntity.forceAddEffect(instance, getOwner());
     }
 
+    private void spawnHitEntityParticles(Level level, Vec3 hitLocation, Entity hitEntity)
+    {
+        // Add electric bolt particles between impact and targets if electric
+        if (grenadeType == GrenadeType.ELECTRIC)
+        {
+            LimaNetworkUtil.spawnAlwaysVisibleParticle(level, LimaTechParticles.FIXED_ELECTRIC_BOLT, hitLocation, hitEntity.getEyePosition());
+        }
+    }
+
     @Override
     public int getLifetime()
     {
@@ -180,24 +189,22 @@ public class OrbGrenadeEntity extends LimaTechProjectile implements IEntityWithC
         }
 
         hits.forEach(hitEntity -> {
-            // Deal damage to entities
-            final double baseDamage = getBaseDamage() * getDamageMultiplier(hitEntity);
-            LimaTechItems.GRENADE_LAUNCHER.get().causeProjectileDamage(upgrades, this, owner, getDamageType(), hitEntity, baseDamage);
-
             // Apply potion effects
             if (hitEntity instanceof LivingEntity living)
             {
                 applyPotionEffects(living);
             }
 
-            // Add electric bolt particles between impact and targets if electric
-            if (grenadeType == GrenadeType.ELECTRIC)
-            {
-                LimaNetworkUtil.spawnAlwaysVisibleParticle(level, LimaTechParticles.FIXED_ELECTRIC_BOLT, hitLocation, hitEntity.getEyePosition());
-            }
+            // Deal damage to entities
+            final double baseDamage = getBaseDamage() * getDamageMultiplier(hitEntity);
+            LimaTechItems.GRENADE_LAUNCHER.get().causeProjectileDamage(upgrades, this, owner, getDamageType(), hitEntity, baseDamage);
+
+            // Spawn any additional particle effects on hit entities (if applicable)
+            spawnHitEntityParticles(level, hitLocation, hitEntity);
         });
 
-        if (upgrades.upgradeEffectTypeAbsent(LimaTechUpgradeDataTypes.PREVENT_SCULK_VIBRATION.get())) level.gameEvent(owner, LimaTechGameEvents.PROJECTILE_EXPLODED, hitLocation);
+        // Fire the sculk event if no suppression upgrade is present
+        if (upgrades.upgradeEffectTypeAbsent(LimaTechUpgradeEffectComponents.PREVENT_SCULK_VIBRATION.get())) level.gameEvent(owner, LimaTechGameEvents.PROJECTILE_EXPLODED, hitLocation);
 
         level.playSound(null, hitLocation.x, hitLocation.y, hitLocation.z, LimaTechSounds.GRENADE_SOUNDS.get(grenadeType).get(), SoundSource.PLAYERS, 2.5f, 0.9f);
         LimaNetworkUtil.spawnAlwaysVisibleParticle(level, new GrenadeExplosionParticleOptions(grenadeType, radius), hitLocation);

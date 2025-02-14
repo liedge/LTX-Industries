@@ -18,7 +18,7 @@ import java.util.function.Function;
 
 public interface EquipmentUpgradeEffect extends UpgradeEffect
 {
-    Codec<EquipmentUpgradeEffect> CODEC = Codec.lazyInitialized(() -> LimaTechRegistries.EQUIPMENT_UPGRADE_EFFECT_TYPE.byNameCodec().dispatch(EquipmentUpgradeEffect::codec, Function.identity()));
+    Codec<EquipmentUpgradeEffect> CODEC = Codec.lazyInitialized(() -> LimaTechRegistries.EQUIPMENT_UPGRADE_EFFECT_TYPES.byNameCodec().dispatch(EquipmentUpgradeEffect::codec, Function.identity()));
 
     void activateEquipmentEffect(ServerLevel level, int upgradeRank, Player player, ItemStack stack, @Nullable Entity targetedEntity, @Nullable DamageSource damageSource);
 

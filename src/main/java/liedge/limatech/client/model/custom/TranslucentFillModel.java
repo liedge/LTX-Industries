@@ -3,7 +3,7 @@ package liedge.limatech.client.model.custom;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import liedge.limacore.lib.LimaColor;
-import liedge.limatech.client.LimaTechClient;
+import liedge.limatech.client.LimaTechRenderUtil;
 import liedge.limatech.client.model.baked.BakedRotation;
 import net.minecraft.core.Direction;
 import org.jetbrains.annotations.Nullable;
@@ -28,7 +28,7 @@ public record TranslucentFillModel(Vector3f from, Vector3f to, float length, Dir
     {
         float lengthComponent = (float) drainAxis.choose(from.x, from.y, from.z);
         Vector3f to1 = new Vector3f(to).setComponent(drainAxis.ordinal(), lengthComponent + (length * fillPercentage));
-        LimaTechClient.renderPositionColorCuboid(buffer, poseStack.last().pose(), from.x, from.y, from.z, to1.x, to1.y, to1.z, fillColor, 0.85f, LimaTechClient.ALL_SIDES);
+        LimaTechRenderUtil.renderPositionColorCuboid(buffer, poseStack.last().pose(), from.x, from.y, from.z, to1.x, to1.y, to1.z, fillColor, 0.85f, LimaTechRenderUtil.ALL_SIDES);
     }
 
     public void renderRotated(VertexConsumer buffer, PoseStack poseStack, LimaColor fillColor, float fillPercentage)

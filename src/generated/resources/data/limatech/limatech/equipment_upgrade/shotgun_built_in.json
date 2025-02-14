@@ -3,6 +3,12 @@
     "translate": "equipment_upgrade.limatech.shotgun_built_in.desc"
   },
   "effects": {
+    "limatech:armor_bypass": [
+      {
+        "operation": "add_multiplied_total",
+        "value": -0.15000000596046448
+      }
+    ],
     "limatech:attribute_modifier": [
       {
         "amount": 0.25,
@@ -15,13 +21,6 @@
         "attribute": "minecraft:generic.step_height",
         "modifier_id": "limatech:shotgun_step_height_boost",
         "operation": "add_value"
-      }
-    ],
-    "limatech:weapon_pre_attack": [
-      {
-        "type": "limatech:armor_bypass",
-        "amount": -0.15,
-        "operation": "add_multiplied_total"
       }
     ]
   },

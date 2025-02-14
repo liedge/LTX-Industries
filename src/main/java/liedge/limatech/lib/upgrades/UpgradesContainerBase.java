@@ -5,9 +5,9 @@ import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import liedge.limacore.data.LimaCoreCodecs;
 import liedge.limacore.network.LimaStreamCodecs;
 import liedge.limacore.util.LimaRegistryUtil;
-import liedge.limatech.lib.upgrades.effect.UpgradeEffectDataType;
 import liedge.limatech.lib.upgrades.effect.value.ValueUpgradeEffect;
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.entity.Entity;
@@ -43,75 +43,87 @@ public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
     }
 
     // Iteration helpers
-    public <T> void forEachListEffect(UpgradeEffectDataType<List<T>> type, BiConsumer<T, Integer> consumer)
+    public <T> void forEachListEffect(DataComponentType<List<T>> type, BiConsumer<T, Integer> consumer)
     {
         for (Object2IntMap.Entry<Holder<U>> entry : internalMap.object2IntEntrySet())
         {
-            entry.getKey().value().effects().getListEffect(type).forEach(effect -> consumer.accept(effect, entry.getIntValue()));
+            entry.getKey().value().getListEffect(type).forEach(effect -> consumer.accept(effect, entry.getIntValue()));
         }
     }
 
-    public <T> void forEachListEffect(Supplier<? extends UpgradeEffectDataType<List<T>>> typeSupplier, BiConsumer<T, Integer> consumer)
+    public <T> void forEachListEffect(Supplier<? extends DataComponentType<List<T>>> typeSupplier, BiConsumer<T, Integer> consumer)
     {
         forEachListEffect(typeSupplier.get(), consumer);
     }
 
-    public <T> boolean upgradeEffectTypePresent(UpgradeEffectDataType<T> type)
+    public <T> boolean upgradeEffectTypePresent(DataComponentType<T> type)
     {
         return entryStream().anyMatch(entry -> entry.getKey().value().effects().has(type));
     }
 
-    public <T> boolean upgradeEffectTypeAbsent(UpgradeEffectDataType<T> type)
+    public <T> boolean upgradeEffectTypeAbsent(DataComponentType<T> type)
     {
         return entryStream().noneMatch(entry -> entry.getKey().value().effects().has(type));
     }
 
-    public <T> Stream<T> effectStream(UpgradeEffectDataType<T> type)
+    public <T> Stream<T> effectStream(DataComponentType<T> type)
     {
         return entryStream().map(entry -> entry.getKey().value().effects().get(type)).filter(Objects::nonNull);
     }
 
-    public <T> Stream<T> effectFlatStream(UpgradeEffectDataType<List<T>> type)
+    public <T> Stream<T> effectFlatStream(DataComponentType<List<T>> type)
     {
-        return entryStream().flatMap(entry -> entry.getKey().value().effects().getListEffect(type).stream());
+        return entryStream().flatMap(entry -> entry.getKey().value().getListEffect(type).stream());
     }
 
-    public <T> Stream<EffectRankPair<T>> boxedFlatStream(UpgradeEffectDataType<List<T>> type)
+    public <T> Stream<EffectRankPair<T>> boxedFlatStream(DataComponentType<List<T>> type)
     {
         return entryStream().flatMap(entry -> {
-            List<T> data = entry.getKey().value().effects().getListEffect(type);
+            List<T> data = entry.getKey().value().getListEffect(type);
             return data.stream().map(effect -> new EffectRankPair<>(effect, entry.getIntValue()));
         });
     }
 
-    public <T> Stream<EffectRankPair<T>> boxedFlatStream(Supplier<? extends UpgradeEffectDataType<List<T>>> typeSupplier)
+    public <T> Stream<EffectRankPair<T>> boxedFlatStream(Supplier<? extends DataComponentType<List<T>>> typeSupplier)
     {
         return boxedFlatStream(typeSupplier.get());
     }
 
-    public <T> IntStream flatMapToInt(UpgradeEffectDataType<List<T>> type, ToIntBiFunction<T, Integer> mapper)
+    public <T> IntStream flatMapToInt(DataComponentType<List<T>> type, ToIntBiFunction<T, Integer> mapper)
     {
         return entryStream().flatMapToInt(entry -> {
-            List<T> data = entry.getKey().value().effects().getListEffect(type);
+            List<T> data = entry.getKey().value().getListEffect(type);
             return data.stream().mapToInt(effect -> mapper.applyAsInt(effect, entry.getIntValue()));
         });
     }
 
-    public double runCompoundOps(ValueUpgradeEffect.DataType type, @Nullable Player player, @Nullable Entity targetEntity, double baseValue)
+    public double runCompoundOps(ValueUpgradeEffect.ComponentType type, @Nullable Player player, @Nullable Entity targetEntity, double base, double total)
     {
         List<EffectRankPair<ValueUpgradeEffect>> list = boxedFlatStream(type).sorted(Comparator.comparing(entry -> entry.effect.operation())).toList();
-        double result = baseValue;
+        double result = total;
+
         for (EffectRankPair<ValueUpgradeEffect> pair : list)
         {
             ValueUpgradeEffect effect = pair.effect;
-            result = effect.operation().apply(baseValue, result, effect.calculate(player, targetEntity, pair.upgradeRank));
+            result = effect.operation().apply(base, result, effect.calculate(player, targetEntity, pair.upgradeRank));
         }
+
         return result;
     }
 
-    public double runCompoundOps(Supplier<? extends ValueUpgradeEffect.DataType> typeSupplier, @Nullable Player player, @Nullable Entity targetEntity, double baseValue)
+    public double runCompoundOps(ValueUpgradeEffect.ComponentType type, @Nullable Player player, @Nullable Entity targetEntity, double base)
     {
-        return runCompoundOps(typeSupplier.get(), player, targetEntity, baseValue);
+        return runCompoundOps(type, player, targetEntity, base, base);
+    }
+
+    public double runCompoundOps(Supplier<? extends ValueUpgradeEffect.ComponentType> typeSupplier, @Nullable Player player, @Nullable Entity targetEntity, double base, double total)
+    {
+        return runCompoundOps(typeSupplier.get(), player, targetEntity, base, total);
+    }
+
+    public double runCompoundOps(Supplier<? extends ValueUpgradeEffect.ComponentType> typeSupplier, @Nullable Player player, @Nullable Entity targetEntity, double base)
+    {
+        return runCompoundOps(typeSupplier.get(), player, targetEntity, base);
     }
 
     // Container properties

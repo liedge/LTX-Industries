@@ -17,7 +17,7 @@ public final class LimaTechRenderTypes
             .setOutputState(RenderStateShard.TRANSLUCENT_TARGET)
             .createCompositeState(false));
 
-    public static final RenderType TARGET_TRIANGLE = newRenderType("target_triangle", DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, false, RenderType.CompositeState.builder()
+    public static final RenderType LOCK_ON_INDICATOR = newRenderType("lock_on_indicator", DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, false, RenderType.CompositeState.builder()
             .setShaderState(RenderStateShard.POSITION_COLOR_TEX_LIGHTMAP_SHADER)
             .setTextureState(new RenderStateShard.TextureStateShard(LimaTech.RESOURCES.textureLocation("entity", "target_triangle"), false, false))
             .setDepthTestState(RenderStateShard.NO_DEPTH_TEST)

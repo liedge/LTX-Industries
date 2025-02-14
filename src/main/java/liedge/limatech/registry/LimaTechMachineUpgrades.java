@@ -16,6 +16,6 @@ public final class LimaTechMachineUpgrades
 
     private static ResourceKey<MachineUpgrade> key(String name)
     {
-        return RESOURCES.resourceKey(LimaTechRegistries.MACHINE_UPGRADES_KEY, name);
+        return RESOURCES.resourceKey(LimaTechRegistries.Keys.MACHINE_UPGRADES, name);
     }
 }

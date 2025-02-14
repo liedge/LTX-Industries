@@ -59,7 +59,6 @@ public final class LimaTechLang
     public static final Translatable ENERGY_AMMO_EFFECT = upgradeEffect("energy_ammo");
     public static final Translatable INFINITE_AMMO_EFFECT = upgradeEffect("infinite_ammo");
     public static final Translatable ENCHANTMENT_UPGRADE_EFFECT = upgradeEffect("enchantment");
-    public static final Translatable ARMOR_BYPASS_EFFECT = upgradeEffect("armor_bypass");
     public static final Translatable GRENADE_UNLOCK_EFFECT = upgradeEffect("grenade_unlock");
 
     public static String namedDamageTagKey(TagKey<DamageType> tagKey)

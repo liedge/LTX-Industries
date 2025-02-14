@@ -29,7 +29,7 @@ public final class LimaTechCreativeTabs
     }
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MAIN_TAB = TABS.register("main", id -> LimaItemUtil.tabBuilderWithTitle(id)
-            .icon(LimaTechItems.MACHINE_WRENCH::toStack)
+            .icon(LimaTechItems.GRENADE_LAUNCHER::toStack)
             .displayItems((parameters, output) -> buildMainTab(id, parameters, output))
             .build());
 

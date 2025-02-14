@@ -1,7 +1,7 @@
 package liedge.limatech.client.renderer.item;
 
 import liedge.limacore.lib.LimaColor;
-import liedge.limatech.client.LimaTechClient;
+import liedge.limatech.client.LimaTechRenderUtil;
 import liedge.limatech.client.model.baked.BakedRotation;
 import liedge.limatech.client.model.custom.TranslucentFillModel;
 import liedge.limatech.item.weapon.WeaponItem;
@@ -38,7 +38,7 @@ public class ShotgunRenderProperties extends SimpleWeaponRenderProperties
     {
         final int centerX = (screenWidth - 1) / 2;
         final int centerY = (screenHeight - 13) / 2;
-        float bloom = 2.5f + 3.5f * LimaTechClient.animationCurveB(controls.lerpTriggerTimer(weaponItem, partialTicks));
+        float bloom = 2.5f + 3.5f * LimaTechRenderUtil.animationCurveB(controls.lerpTriggerTimer(weaponItem, partialTicks));
 
         SHOTGUN_CROSSHAIR_LEFT.directColorBlit(graphics, centerX - 6 - bloom, centerY, crosshairColor);
         SHOTGUN_CROSSHAIR_RIGHT.directColorBlit(graphics, centerX + 1 + bloom, centerY, crosshairColor);
@@ -53,6 +53,6 @@ public class ShotgunRenderProperties extends SimpleWeaponRenderProperties
     @Override
     protected float applyAnimationCurve(float recoilA)
     {
-        return LimaTechClient.animationCurveA(recoilA);
+        return LimaTechRenderUtil.animationCurveA(recoilA);
     }
 }

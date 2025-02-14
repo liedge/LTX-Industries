@@ -6,7 +6,8 @@ import it.unimi.dsi.fastutil.objects.ObjectIterator;
 import liedge.limacore.lib.TickTimer;
 import liedge.limacore.util.LimaCoreUtil;
 import liedge.limatech.item.weapon.WeaponItem;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -24,7 +25,9 @@ public abstract class AbstractWeaponControls
     private boolean triggerHeld;
     private int ticksHoldingTrigger;
 
-    private @Nullable Entity focusedTarget;
+    private @Nullable LivingEntity focusedTarget;
+    private int targetTicks;
+    private int targetTicks0;
 
     // #region Weapon item functions
     protected boolean isInfiniteAmmo(Player player, WeaponAmmoSource ammoSource)
@@ -135,6 +138,27 @@ public abstract class AbstractWeaponControls
         }
     }
 
+    // Focus target functions
+    public @Nullable LivingEntity getFocusedTarget()
+    {
+        return focusedTarget;
+    }
+
+    public void setFocusedTarget(@Nullable LivingEntity focusedTarget)
+    {
+        this.focusedTarget = focusedTarget;
+    }
+
+    public int getTargetTicks()
+    {
+        return targetTicks;
+    }
+
+    public float lerpTargetTicks(float partialTick)
+    {
+        return Mth.lerp(partialTick, targetTicks0, targetTicks);
+    }
+
     // Timer functions
     public TickTimer.State getTriggerState(WeaponItem weaponItem)
     {
@@ -185,7 +209,7 @@ public abstract class AbstractWeaponControls
 
     public void shootWeapon(ItemStack heldItem, Player player, WeaponItem weaponItem, boolean sendClientUpdate)
     {
-        weaponItem.weaponFired(heldItem, player, player.level());
+        weaponItem.weaponFired(heldItem, player, player.level(), this);
         startTriggerTimer(weaponItem, weaponItem.getFireRate(heldItem));
     }
 
@@ -243,6 +267,18 @@ public abstract class AbstractWeaponControls
         if (weaponItem != null)
         {
             triggerTick(heldItem, player, weaponItem);
+        }
+
+        // Focus target stuff
+        if (focusedTarget != null)
+        {
+            targetTicks0 = targetTicks;
+            targetTicks++;
+        }
+        else
+        {
+            targetTicks = 0;
+            targetTicks0 = 0;
         }
     }
 }

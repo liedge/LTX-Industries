@@ -5,7 +5,7 @@ import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.util.LimaMathUtil;
 import liedge.limatech.LimaTechConstants;
 import liedge.limatech.blockentity.UpgradableMachineBlockEntity;
-import liedge.limatech.registry.LimaTechUpgradeDataTypes;
+import liedge.limatech.registry.LimaTechUpgradeEffectComponents;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -42,7 +42,7 @@ public class EnergyStorageArrayItem extends BlockItem implements EnergyHolderIte
         }
         else
         {
-            double newCapacity = UpgradableMachineBlockEntity.getMachineUpgradesFromItem(stack).runCompoundOps(LimaTechUpgradeDataTypes.ENERGY_CAPACITY, null, null, ESA_BASE_ENERGY_CAPACITY.getAsInt());
+            double newCapacity = UpgradableMachineBlockEntity.getMachineUpgradesFromItem(stack).runCompoundOps(LimaTechUpgradeEffectComponents.ENERGY_CAPACITY, null, null, ESA_BASE_ENERGY_CAPACITY.getAsInt());
             return LimaMathUtil.round(newCapacity);
         }
     }
@@ -56,7 +56,7 @@ public class EnergyStorageArrayItem extends BlockItem implements EnergyHolderIte
         }
         else
         {
-            double newTransferRate = UpgradableMachineBlockEntity.getMachineUpgradesFromItem(stack).runCompoundOps(LimaTechUpgradeDataTypes.ENERGY_TRANSFER_RATE, null, null, ESA_BASE_TRANSFER_RATE.getAsInt());
+            double newTransferRate = UpgradableMachineBlockEntity.getMachineUpgradesFromItem(stack).runCompoundOps(LimaTechUpgradeEffectComponents.ENERGY_TRANSFER_RATE, null, null, ESA_BASE_TRANSFER_RATE.getAsInt());
             return LimaMathUtil.round(newTransferRate);
         }
     }

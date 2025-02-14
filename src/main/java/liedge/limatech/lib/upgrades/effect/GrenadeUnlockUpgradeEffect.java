@@ -5,7 +5,6 @@ import liedge.limatech.client.LimaTechLang;
 import liedge.limatech.lib.weapons.GrenadeType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentUtils;
-import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
 
@@ -19,18 +18,17 @@ public record GrenadeUnlockUpgradeEffect(GrenadeType grenadeType) implements Upg
         return LimaTechLang.GRENADE_UNLOCK_EFFECT.translateArgs(grenadeType.translate());
     }
 
-    public record DataType(ResourceLocation id) implements UpgradeEffectDataType<List<GrenadeUnlockUpgradeEffect>>
+    public static class DataComponentType extends UpgradeDataComponentType<List<GrenadeUnlockUpgradeEffect>>
     {
-        @Override
-        public Codec<List<GrenadeUnlockUpgradeEffect>> codec()
+        public DataComponentType()
         {
-            return GrenadeUnlockUpgradeEffect.CODEC.listOf();
+            super(GrenadeUnlockUpgradeEffect.CODEC.listOf());
         }
 
         @Override
-        public void appendTooltipLines(List<GrenadeUnlockUpgradeEffect> effectData, int upgradeRank, List<Component> lines)
+        public void appendTooltipLines(List<GrenadeUnlockUpgradeEffect> data, int upgradeRank, List<Component> lines)
         {
-            Component baseComponent = ComponentUtils.formatList(effectData, effect -> effect.grenadeType.translate());
+            Component baseComponent = ComponentUtils.formatList(data, effect -> effect.grenadeType.translate());
             lines.add(LimaTechLang.GRENADE_UNLOCK_EFFECT.translateArgs(baseComponent));
         }
     }

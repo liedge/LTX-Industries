@@ -18,7 +18,7 @@ import liedge.limatech.lib.weapons.WeaponAmmoSource;
 import liedge.limatech.lib.weapons.WeaponDamageSource;
 import liedge.limatech.registry.LimaTechAttachmentTypes;
 import liedge.limatech.registry.LimaTechGameEvents;
-import liedge.limatech.registry.LimaTechUpgradeDataTypes;
+import liedge.limatech.registry.LimaTechUpgradeEffectComponents;
 import liedge.limatech.util.LimaTechTooltipUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
@@ -39,6 +39,7 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -84,14 +85,14 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
 
     public void onStoppedHoldingTrigger(ItemStack heldItem, Player player, AbstractWeaponControls input, boolean releasedByPlayer, boolean serverAction) {}
 
-    public abstract void weaponFired(ItemStack heldItem, Player player, Level level);
+    public abstract void weaponFired(ItemStack heldItem, Player player, Level level, AbstractWeaponControls controls);
 
     public void onPlayerKill(WeaponDamageSource damageSource, Player player, LivingEntity targetEntity)
     {
         ItemStack heldItem = player.getMainHandItem();
         if (player.level() instanceof ServerLevel serverLevel)
         {
-            getUpgrades(heldItem).forEachListEffect(LimaTechUpgradeDataTypes.WEAPON_KILL, (effect, rank) -> effect.activateEquipmentEffect(serverLevel, rank, player, heldItem, targetEntity, damageSource));
+            getUpgrades(heldItem).forEachListEffect(LimaTechUpgradeEffectComponents.WEAPON_KILL, (effect, rank) -> effect.activateEquipmentEffect(serverLevel, rank, player, heldItem, targetEntity, damageSource));
         }
     }
     //#endregion
@@ -143,7 +144,7 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
     public void refreshEquipmentUpgrades(ItemStack stack, EquipmentUpgrades upgrades, Player player)
     {
         // Refresh ammo types
-        WeaponAmmoSource newAmmoSource = upgrades.effectStream(LimaTechUpgradeDataTypes.AMMO_SOURCE.get()).map(AmmoSourceUpgradeEffect::ammoSource).max(Comparator.naturalOrder()).orElse(WeaponAmmoSource.NORMAL);
+        WeaponAmmoSource newAmmoSource = upgrades.effectStream(LimaTechUpgradeEffectComponents.AMMO_SOURCE.get()).map(AmmoSourceUpgradeEffect::ammoSource).max(Comparator.naturalOrder()).orElse(WeaponAmmoSource.NORMAL);
         stack.set(WEAPON_AMMO_SOURCE, newAmmoSource);
     }
 
@@ -157,10 +158,21 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
         if (player.level() instanceof ServerLevel serverLevel)
         {
             // Apply pre-damage upgrade effects
-            upgrades.forEachListEffect(LimaTechUpgradeDataTypes.WEAPON_PRE_ATTACK, (effect, rank) -> effect.activateEquipmentEffect(serverLevel, rank, player, player.getMainHandItem(), target, damageSource));
+            upgrades.forEachListEffect(LimaTechUpgradeEffectComponents.WEAPON_PRE_ATTACK, (effect, rank) -> effect.activateEquipmentEffect(serverLevel, rank, player, player.getMainHandItem(), target, damageSource));
+
+            // Run only if entity is living
+            if (target instanceof LivingEntity livingTarget)
+            {
+                // Armor bypass calculations
+                double targetBaseArmor = livingTarget.getAttributeBaseValue(Attributes.ARMOR);
+                double targetTotalArmor = livingTarget.getAttributeValue(Attributes.ARMOR);
+                double modifiedArmor = upgrades.runCompoundOps(LimaTechUpgradeEffectComponents.ARMOR_BYPASS, player, livingTarget, targetBaseArmor, targetTotalArmor);
+                float modifier = (float) -(targetTotalArmor - modifiedArmor);
+                damageSource.setArmorModifier(modifier);
+            }
 
             // Apply damage modifiers from upgrade
-            double totalDamage = upgrades.runCompoundOps(LimaTechUpgradeDataTypes.WEAPON_DAMAGE, player, target, baseDamage);
+            double totalDamage = upgrades.runCompoundOps(LimaTechUpgradeEffectComponents.WEAPON_DAMAGE, player, target, baseDamage);
 
             // Get global damage modifier factors and apply
             totalDamage = GlobalWeaponDamageModifiers.applyGlobalModifiers(this, target, baseDamage, totalDamage);
@@ -193,13 +205,13 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
 
     protected double calculateProjectileSpeed(Player player, EquipmentUpgrades upgrades, double baseSpeed)
     {
-        double newSpeed = upgrades.runCompoundOps(LimaTechUpgradeDataTypes.WEAPON_PROJECTILE_SPEED, player, null, baseSpeed);
+        double newSpeed = upgrades.runCompoundOps(LimaTechUpgradeEffectComponents.WEAPON_PROJECTILE_SPEED, player, null, baseSpeed);
         return Mth.clamp(newSpeed, 0.001d, 3.9d);
     }
 
     protected void postWeaponFiredGameEvent(EquipmentUpgrades upgrades, Level level, Player player)
     {
-        if (upgrades.upgradeEffectTypeAbsent(LimaTechUpgradeDataTypes.PREVENT_SCULK_VIBRATION.get())) level.gameEvent(player, LimaTechGameEvents.WEAPON_FIRED, player.getEyePosition());
+        if (upgrades.upgradeEffectTypeAbsent(LimaTechUpgradeEffectComponents.PREVENT_SCULK_VIBRATION.get())) level.gameEvent(player, LimaTechGameEvents.WEAPON_FIRED, player.getEyePosition());
     }
 
     public ItemStack getDefaultInstance(HolderLookup.Provider registries)

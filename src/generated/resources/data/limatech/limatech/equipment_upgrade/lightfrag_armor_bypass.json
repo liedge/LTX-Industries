@@ -3,11 +3,10 @@
     "translate": "equipment_upgrade.limatech.lightfrag_armor_bypass.desc"
   },
   "effects": {
-    "limatech:weapon_pre_attack": [
+    "limatech:armor_bypass": [
       {
-        "type": "limatech:armor_bypass",
-        "amount": -4.0,
-        "operation": "flat_addition"
+        "operation": "flat_addition",
+        "value": -4.0
       }
     ]
   },

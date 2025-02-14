@@ -23,7 +23,7 @@ public record EnchantmentUpgradeEffect(Holder<Enchantment> enchantment, LevelBas
     }
 
     @SuppressWarnings("deprecation")
-    public int calculate(Holder<Enchantment> enchantment, int upgradeRank)
+    public int getEnchantmentLevels(Holder<Enchantment> enchantment, int upgradeRank)
     {
         return this.enchantment.is(enchantment) ? getValue(upgradeRank) : 0;
     }

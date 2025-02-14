@@ -4,6 +4,6 @@
   "icon": "minecraft:wooden_sword",
   "pages": [
     "Not every weapon is going to excel in every scenario. Certain enemies fall into higher threat categories.$(br2)$(l)Medium Threat Level$(): Vindicator, Evoker, Illusioner, Ravager, Hoglin, Zoglin, Iron Golem, Piglin Brute.$(br2)$(l)High Threat Level$(): Elder Guardian, Ender Dragon, Warden",
-    "$(l)VS. Medium Threat Level$()$(li)Serenity: $(4)-50% damage$()$(li)Aurora: $(4)-40% damage$()$(br2)$(l)VS. High Threat Level$()$(li)Serenity: $(4)-80% damage$()$(li)Aurora: $(4)-45% damage$()$(li)Hanabi: $(4)-20% damage$()"
+    "$(l)VS. Medium Threat Level$()$(li)Serenity: $(4)-50% damage$()$(li)Aurora: $(4)-40% damage$()$(br2)$(l)VS. High Threat Level$()$(li)Serenity: $(4)-80% damage$()$(li)Aurora: $(4)-45% damage$()"
   ]
 }

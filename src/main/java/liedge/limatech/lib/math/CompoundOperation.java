@@ -31,11 +31,6 @@ public enum CompoundOperation implements StringRepresentable, Translatable
         this.operator = operator;
     }
 
-    public double apply(double total, double param)
-    {
-        return apply(total, total, param);
-    }
-
     public double apply(double base, double total, double param)
     {
         return operator.apply(base, total, param);

@@ -2,11 +2,11 @@ package liedge.limatech.lib.upgrades;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import liedge.limatech.lib.upgrades.effect.UpgradeEffectDataType;
-import liedge.limatech.lib.upgrades.effect.UpgradeEffectMap;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -21,8 +21,8 @@ public abstract class UpgradeBaseBuilder<CTX, U extends UpgradeBase<CTX, U>, B e
 {
     private final ResourceKey<U> key;
     private final UpgradeBase.UpgradeFactory<CTX, U> factory;
-    private final UpgradeEffectMap.Builder effectsBuilder = UpgradeEffectMap.builder();
-    private final Map<UpgradeEffectDataType<?>, List<?>> effectsLists = new Object2ObjectOpenHashMap<>();
+    private final DataComponentMap.Builder effectMapBuilder = DataComponentMap.builder();
+    private final Map<DataComponentType<?>, List<?>> effectLists = new Object2ObjectOpenHashMap<>();
 
     private Component title;
     private Component description;
@@ -96,37 +96,37 @@ public abstract class UpgradeBaseBuilder<CTX, U extends UpgradeBase<CTX, U>, B e
         return exclusiveWith(holders.getOrThrow(tagKey));
     }
 
-    public <T> B withEffect(UpgradeEffectDataType<T> type, T effect)
+    public <T> B withEffect(DataComponentType<T> type, T effect)
     {
-        effectsBuilder.add(type, effect);
+        effectMapBuilder.set(type, effect);
         return selfUnchecked();
     }
 
-    public <T> B withEffect(Supplier<? extends UpgradeEffectDataType<T>> typeSupplier, T effect)
+    public <T> B withEffect(Supplier<? extends DataComponentType<T>> typeSupplier, T effect)
     {
         return withEffect(typeSupplier.get(), effect);
     }
 
-    public <T> B withListEffect(UpgradeEffectDataType<List<T>> type, T effect)
+    public <T> B withListEffect(DataComponentType<List<T>> type, T effect)
     {
         getEffectsList(type).add(effect);
         return selfUnchecked();
     }
 
-    public <T> B withListEffect(Supplier<? extends UpgradeEffectDataType<List<T>>> typeSupplier, T effect)
+    public <T> B withListEffect(Supplier<? extends DataComponentType<List<T>>> typeSupplier, T effect)
     {
         return withListEffect(typeSupplier.get(), effect);
     }
 
     @SafeVarargs
-    public final <T> B withListEffects(UpgradeEffectDataType<List<T>> type, T... effects)
+    public final <T> B withListEffects(DataComponentType<List<T>> type, T... effects)
     {
         getEffectsList(type).addAll(List.of(effects));
         return selfUnchecked();
     }
 
     @SafeVarargs
-    public final <T> B withListEffects(Supplier<? extends UpgradeEffectDataType<List<T>>> typeSupplier, T... effects)
+    public final <T> B withListEffects(Supplier<? extends DataComponentType<List<T>>> typeSupplier, T... effects)
     {
         return withListEffects(typeSupplier.get(), effects);
     }
@@ -139,7 +139,7 @@ public abstract class UpgradeBaseBuilder<CTX, U extends UpgradeBase<CTX, U>, B e
 
     public U build()
     {
-        return factory.apply(title, description, maxRank, supportedSet, exclusiveSet, effectsBuilder.build(), icon);
+        return factory.apply(title, description, maxRank, supportedSet, exclusiveSet, effectMapBuilder.build(), icon);
     }
 
     public void buildAndRegister(BootstrapContext<U> ctx)
@@ -148,11 +148,11 @@ public abstract class UpgradeBaseBuilder<CTX, U extends UpgradeBase<CTX, U>, B e
     }
 
     @SuppressWarnings("unchecked")
-    private <T> List<T> getEffectsList(UpgradeEffectDataType<List<T>> type)
+    private <T> List<T> getEffectsList(DataComponentType<List<T>> type)
     {
-        return (List<T>) effectsLists.computeIfAbsent(type, key -> {
+        return (List<T>) effectLists.computeIfAbsent(type, key -> {
             List<T> list = new ObjectArrayList<>();
-            effectsBuilder.add(type, list);
+            effectMapBuilder.set(type, list);
             return list;
         });
     }

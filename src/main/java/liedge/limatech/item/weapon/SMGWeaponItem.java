@@ -4,6 +4,7 @@ import liedge.limacore.util.LimaEntityUtil;
 import liedge.limacore.util.LimaNetworkUtil;
 import liedge.limatech.entity.CompoundHitResult;
 import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrades;
+import liedge.limatech.lib.weapons.AbstractWeaponControls;
 import liedge.limatech.registry.LimaTechDamageTypes;
 import liedge.limatech.registry.LimaTechEquipmentUpgrades;
 import liedge.limatech.registry.LimaTechItems;
@@ -34,7 +35,7 @@ public class SMGWeaponItem extends FullAutoWeaponItem
     }
 
     @Override
-    public void weaponFired(ItemStack heldItem, Player player, Level level)
+    public void weaponFired(ItemStack heldItem, Player player, Level level, AbstractWeaponControls controls)
     {
         if (!level.isClientSide())
         {

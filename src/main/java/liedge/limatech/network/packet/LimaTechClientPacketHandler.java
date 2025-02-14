@@ -1,13 +1,14 @@
 package liedge.limatech.network.packet;
 
 import liedge.limacore.client.LimaCoreClientUtil;
+import liedge.limatech.LimaTech;
+import liedge.limatech.LimaTechCapabilities;
+import liedge.limatech.entity.BubbleShieldUser;
 import liedge.limatech.lib.weapons.ClientWeaponControls;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
-
-import static liedge.limatech.registry.LimaTechAttachmentTypes.BUBBLE_SHIELD;
 
 final class LimaTechClientPacketHandler
 {
@@ -15,7 +16,8 @@ final class LimaTechClientPacketHandler
 
     private static void setLocalShieldHealth(LivingEntity entity, float shieldHealth)
     {
-        entity.getData(BUBBLE_SHIELD).setShieldHealth(shieldHealth);
+        BubbleShieldUser shield = entity.getCapability(LimaTechCapabilities.ENTITY_BUBBLE_SHIELD);
+        if (shield != null) shield.setShieldHealth(shieldHealth);
     }
 
     public static void handlePlayerShieldPacket(ClientboundPlayerShieldPacket packet, IPayloadContext context)
@@ -39,6 +41,18 @@ final class LimaTechClientPacketHandler
             {
                 ClientWeaponControls.of(player).handleServerAction(heldItem, player, packet.weaponItem(), packet.action());
             }
+        }
+    }
+
+    public static void handleFocusTargetPacket(ClientboundFocusTargetPacket packet, IPayloadContext context)
+    {
+        Player player = LimaCoreClientUtil.getClientEntity(packet.playerId(), Player.class);
+        LivingEntity livingEntity = LimaCoreClientUtil.getClientEntity(packet.entityId(), LivingEntity.class);
+
+        if (player != null)
+        {
+            LimaTech.LOGGER.debug("Receiving focus target on client. Valid? {}", livingEntity != null);
+            ClientWeaponControls.of(player).setFocusedTarget(livingEntity);
         }
     }
 }

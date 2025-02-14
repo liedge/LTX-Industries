@@ -3,6 +3,7 @@ package liedge.limatech.item.weapon;
 import liedge.limacore.util.LimaEntityUtil;
 import liedge.limacore.util.LimaNetworkUtil;
 import liedge.limatech.entity.CompoundHitResult;
+import liedge.limatech.lib.weapons.AbstractWeaponControls;
 import liedge.limatech.registry.*;
 import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.limatech.util.config.LimaTechWeaponsConfig;
@@ -30,7 +31,7 @@ public class MagnumWeaponItem extends SemiAutoWeaponItem
     }
 
     @Override
-    public void weaponFired(ItemStack heldItem, Player player, Level level)
+    public void weaponFired(ItemStack heldItem, Player player, Level level, AbstractWeaponControls controls)
     {
         player.getUsedItemHand();
 

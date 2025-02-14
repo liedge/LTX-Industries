@@ -2,7 +2,7 @@ package liedge.limatech.client.renderer.item;
 
 import liedge.limacore.lib.LimaColor;
 import liedge.limacore.util.LimaEntityUtil;
-import liedge.limatech.client.LimaTechClient;
+import liedge.limatech.client.LimaTechRenderUtil;
 import liedge.limatech.client.model.custom.TranslucentFillModel;
 import liedge.limatech.item.weapon.WeaponItem;
 import liedge.limatech.lib.weapons.ClientWeaponControls;
@@ -49,7 +49,7 @@ public class MagnumRenderProperties extends SimpleWeaponRenderProperties
             baseBloom = 3f;
         }
 
-        float bloom = baseBloom + 6f * LimaTechClient.animationCurveB(controls.lerpTriggerTimer(weaponItem, partialTicks));
+        float bloom = baseBloom + 6f * LimaTechRenderUtil.animationCurveB(controls.lerpTriggerTimer(weaponItem, partialTicks));
 
         float xl = centerX - 6 - bloom;
         float yu = centerY - 6 - bloom;

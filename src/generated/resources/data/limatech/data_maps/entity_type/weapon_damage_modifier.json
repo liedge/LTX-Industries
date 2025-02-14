@@ -10,11 +10,6 @@
         "factor": -0.45,
         "operation": "add_multiplied_total",
         "weapon": "limatech:shotgun"
-      },
-      {
-        "factor": -0.2,
-        "operation": "add_multiplied_total",
-        "weapon": "limatech:grenade_launcher"
       }
     ],
     "#limatech:medium_threat": [

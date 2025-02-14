@@ -93,4 +93,9 @@ public final class LimaTechTooltipUtil
         if (value >= 0) formattedValue = "+" + formattedValue;
         return Component.literal(formattedValue).withStyle(numSignColor(value, invertColors));
     }
+
+    public static MutableComponent percentageWithoutSign(double value)
+    {
+        return Component.literal(FORMAT_PERCENTAGE.format(value));
+    }
 }

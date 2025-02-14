@@ -15,7 +15,7 @@ import org.joml.Vector4f;
 import java.util.List;
 
 import static liedge.limacore.util.LimaMathUtil.*;
-import static liedge.limatech.client.LimaTechClient.renderPositionColorCuboid;
+import static liedge.limatech.client.LimaTechRenderUtil.renderPositionColorCuboid;
 
 public class EnergyBoltModel
 {

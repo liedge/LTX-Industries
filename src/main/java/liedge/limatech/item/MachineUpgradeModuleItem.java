@@ -50,7 +50,7 @@ public class MachineUpgradeModuleItem extends UpgradeModuleItem<MachineUpgrade, 
     @Override
     protected ResourceKey<Registry<MachineUpgrade>> upgradeRegistryKey()
     {
-        return LimaTechRegistries.MACHINE_UPGRADES_KEY;
+        return LimaTechRegistries.Keys.MACHINE_UPGRADES;
     }
 
     @Override

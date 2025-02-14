@@ -107,7 +107,7 @@ public abstract class BaseMissileEntity extends AutoTrackingProjectile
         @Override
         protected boolean shouldPostGameEvent()
         {
-            return upgrades.upgradeEffectTypeAbsent(LimaTechUpgradeDataTypes.PREVENT_SCULK_VIBRATION.get());
+            return upgrades.upgradeEffectTypeAbsent(LimaTechUpgradeEffectComponents.PREVENT_SCULK_VIBRATION.get());
         }
 
         @Override

@@ -54,7 +54,7 @@ public class LimaTech
         LimaTechRecipeSerializers.initRegister(modBus);
         LimaTechRecipeTypes.initRegister(modBus);
         LimaTechSounds.initRegister(modBus);
-        LimaTechUpgradeDataTypes.initRegister(modBus);
+        LimaTechUpgradeEffectComponents.initRegister(modBus);
 
         // Mod configs
         modContainer.registerConfig(ModConfig.Type.CLIENT, LimaTechClientConfig.CLIENT_CONFIG_SPEC);
@@ -99,15 +99,15 @@ public class LimaTech
         @SubscribeEvent
         private void registerCustomRegistries(final NewRegistryEvent event)
         {
-            event.register(LimaTechRegistries.UPGRADE_DATA_TYPE);
-            event.register(LimaTechRegistries.EQUIPMENT_UPGRADE_EFFECT_TYPE);
+            event.register(LimaTechRegistries.UPGRADE_COMPONENT_TYPES);
+            event.register(LimaTechRegistries.EQUIPMENT_UPGRADE_EFFECT_TYPES);
         }
 
         @SubscribeEvent
         private void registerDataPackRegistries(final DataPackRegistryEvent.NewRegistry event)
         {
-            event.dataPackRegistry(LimaTechRegistries.EQUIPMENT_UPGRADES_KEY, EquipmentUpgrade.DIRECT_CODEC, EquipmentUpgrade.DIRECT_CODEC);
-            event.dataPackRegistry(LimaTechRegistries.MACHINE_UPGRADES_KEY, MachineUpgrade.DIRECT_CODEC, MachineUpgrade.DIRECT_CODEC);
+            event.dataPackRegistry(LimaTechRegistries.Keys.EQUIPMENT_UPGRADES, EquipmentUpgrade.DIRECT_CODEC, EquipmentUpgrade.DIRECT_CODEC);
+            event.dataPackRegistry(LimaTechRegistries.Keys.MACHINE_UPGRADES, MachineUpgrade.DIRECT_CODEC, MachineUpgrade.DIRECT_CODEC);
         }
 
         @SubscribeEvent

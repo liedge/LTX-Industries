@@ -3,7 +3,7 @@ package liedge.limatech.client.particle;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import liedge.limacore.lib.ModResources;
 import liedge.limacore.util.LimaMathUtil;
-import liedge.limatech.client.LimaTechClient;
+import liedge.limatech.client.LimaTechRenderUtil;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -106,7 +106,7 @@ public class GroundIcicleParticle extends Particle
 
         renderBlockFormatCuboid(buffer, mx4, xz11, 0, xz11, xz21, y21, xz21,
                 sprite.getU(0.5f), sprite.getU(0.625f), sprite.getV(0.5f), sprite.getV(0.625f), sprite.getU(0.5f), sprite.getU(0.625f), sprite.getV(1f - 0.4375f), sprite.getV(1f),
-                light, 1f, 1f, 1f, 0.85f, LimaTechClient.ALL_SIDES);
+                light, 1f, 1f, 1f, 0.85f, LimaTechRenderUtil.ALL_SIDES);
 
         renderBlockFormatCuboid(buffer, mx4, xz12, y12, xz12, xz22, y22, xz22,
                 sprite.getU(0.5f), sprite.getU(0.5625f), sprite.getV(0.5f), sprite.getV(0.5625f), sprite.getU(0.5f), sprite.getU(0.5625f), sprite.getV(1f - 0.75f), sprite.getV(1f - 0.4375f),

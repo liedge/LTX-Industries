@@ -131,7 +131,7 @@ public class EquipmentUpgradeStationMenu extends UpgradesConfigMenu<EquipmentUpg
 
         if (equipmentStack.getItem() instanceof UpgradableEquipmentItem equipmentItem)
         {
-            ResourceKey<EquipmentUpgrade> upgradeKey = ResourceKey.create(LimaTechRegistries.EQUIPMENT_UPGRADES_KEY, upgradeId);
+            ResourceKey<EquipmentUpgrade> upgradeKey = ResourceKey.create(LimaTechRegistries.Keys.EQUIPMENT_UPGRADES, upgradeId);
             EquipmentUpgrades currentUpgrades = equipmentItem.getUpgrades(equipmentStack);
             Holder<EquipmentUpgrade> upgradeHolder = level().registryAccess().holderOrThrow(upgradeKey);
 

@@ -128,7 +128,7 @@ class LanguageGen extends LimaLanguageProvider
         //#endregion
 
         //#region Equipment upgrades
-        equipmentUpgrade(LimaTechEquipmentUpgrades.LIGHTFRAG_BASE_ARMOR_BYPASS, "Lightfrag Weaponry", "Lightning-fast LightFragments pierce the natural armor-like skin of certain enemies such as undead.");
+        equipmentUpgrade(LimaTechEquipmentUpgrades.LIGHTFRAG_BASE_ARMOR_BYPASS, "Lightfrag Weaponry", "Lightning-fast Lightfrags pierce the natural armor-like skin of certain enemies such zombies.");
         equipmentUpgrade(LimaTechEquipmentUpgrades.SMG_BUILT_IN, "Serenity Intrinsics", "Serenity's small light-frags zip right through targets without a trace.");
         equipmentUpgrade(LimaTechEquipmentUpgrades.SHOTGUN_BUILT_IN, "Aurora Intrinsics", "Aurora's combat precepts, specialized in fast assault and scout operations.");
         equipmentUpgrade(LimaTechEquipmentUpgrades.HIGH_IMPACT_ROUNDS, "High Impact Rounds", "Light-frags with a punch! Send targets flying back regardless of their knockback resistances.");
@@ -240,12 +240,13 @@ class LanguageGen extends LimaLanguageProvider
 
         add(INVALID_UPGRADE_HINT, "This upgrade data in this module is invalid or corrupted. Shift+Right Click to revert to an empty module.");
 
-        add(LimaTechUpgradeDataTypes.WEAPON_DAMAGE, "%s weapon damage");
-        add(LimaTechUpgradeDataTypes.WEAPON_PROJECTILE_SPEED, "%s projectile speed");
-        add(LimaTechUpgradeDataTypes.ENERGY_CAPACITY, "%s CE capacity");
-        add(LimaTechUpgradeDataTypes.ENERGY_TRANSFER_RATE, "%s CE transfer rate/tick");
-        add(LimaTechUpgradeDataTypes.MACHINE_ENERGY_USAGE, "%s CE usage");
-        add(LimaTechUpgradeDataTypes.TICKS_PER_OPERATION, "%s ticks/operation");
+        add(LimaTechUpgradeEffectComponents.ARMOR_BYPASS, "Equipment bypasses %s armor");
+        add(LimaTechUpgradeEffectComponents.WEAPON_DAMAGE, "%s weapon damage");
+        add(LimaTechUpgradeEffectComponents.WEAPON_PROJECTILE_SPEED, "%s projectile speed");
+        add(LimaTechUpgradeEffectComponents.ENERGY_CAPACITY, "%s CE capacity");
+        add(LimaTechUpgradeEffectComponents.ENERGY_TRANSFER_RATE, "%s CE transfer rate/tick");
+        add(LimaTechUpgradeEffectComponents.MACHINE_ENERGY_USAGE, "%s CE usage");
+        add(LimaTechUpgradeEffectComponents.TICKS_PER_OPERATION, "%s ticks/operation");
 
         add(TARGET_ATTRIBUTE_VALUE_EFFECT, "%s of enemy %s");
         add(PLAYER_ATTRIBUTE_VALUE_EFFECT, "%s of player %s");
@@ -256,7 +257,6 @@ class LanguageGen extends LimaLanguageProvider
         add(INFINITE_AMMO_EFFECT, "Unlocks infinite ammo");
         add(SHIELD_UPGRADE_EFFECT, "%s Bubble Shield/kill, (max %s)");
         add(ENCHANTMENT_UPGRADE_EFFECT, "%s %s Enchantment");
-        add(ARMOR_BYPASS_EFFECT, "Equipment bypasses %s armor");
         add(GRENADE_UNLOCK_EFFECT, "Unlocks %s grenades");
 
         add(TooltipShiftHintItem.HINT_HOVER_TOOLTIP, "Hold SHIFT for extra info");

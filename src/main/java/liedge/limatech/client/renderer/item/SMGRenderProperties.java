@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import liedge.limacore.lib.LimaColor;
 import liedge.limacore.util.LimaEntityUtil;
 import liedge.limatech.LimaTechConstants;
-import liedge.limatech.client.LimaTechClient;
+import liedge.limatech.client.LimaTechRenderUtil;
 import liedge.limatech.client.model.baked.BakedRotation;
 import liedge.limatech.client.model.baked.DynamicModularBakedModel;
 import liedge.limatech.client.model.custom.TranslucentFillModel;
@@ -55,7 +55,7 @@ public class SMGRenderProperties extends WeaponRenderProperties<WeaponItem>
             baseBloom = 3f;
         }
 
-        float bloom = baseBloom + 2f * (controls.isTriggerHeld() ? LimaTechClient.animationCurveSin(partialTicks) : 0f);
+        float bloom = baseBloom + 2f * (controls.isTriggerHeld() ? LimaTechRenderUtil.animationCurveSin(partialTicks) : 0f);
 
         AUTO_CROSSHAIR_1.directColorBlit(graphics, centerX - 6 - bloom, centerY, crosshairColor);
         AUTO_CROSSHAIR_1.directColorBlit(graphics, centerX + 1 + bloom, centerY, crosshairColor);
@@ -80,7 +80,7 @@ public class SMGRenderProperties extends WeaponRenderProperties<WeaponItem>
     {
         if (controls.isTriggerHeld())
         {
-            poseStack.translate(0, 0, 0.09375f * LimaTechClient.animationCurveSin(partialTick));
+            poseStack.translate(0, 0, 0.09375f * LimaTechRenderUtil.animationCurveSin(partialTick));
         }
 
         mainSubmodel.renderToBuffer(poseStack, bufferSource, light);

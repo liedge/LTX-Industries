@@ -52,7 +52,7 @@ public class ShotgunWeaponItem extends SemiAutoWeaponItem
     }
 
     @Override
-    public void weaponFired(ItemStack heldItem, Player player, Level level)
+    public void weaponFired(ItemStack heldItem, Player player, Level level, AbstractWeaponControls controls)
     {
         if (!level.isClientSide())
         {

@@ -8,7 +8,6 @@ import liedge.limacore.data.LimaEnumCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.ItemLike;
 
 import static liedge.limatech.LimaTech.RESOURCES;
 
@@ -17,36 +16,6 @@ public interface UpgradeIcon
     Codec<UpgradeIcon> CODEC = Type.CODEC.flatDispatch(SpriteSheetIcon.class, SpriteSheetIcon.FLAT_CODEC, UpgradeIcon::getType, Type::getCodec);
     ResourceLocation DEFAULT_ICON_LOCATION = RESOURCES.location("generic");
     UpgradeIcon DEFAULT_ICON = new SpriteSheetIcon(UpgradeIcon.DEFAULT_ICON_LOCATION);
-
-    static SpriteSheetIcon sprite(ResourceLocation location)
-    {
-        return new SpriteSheetIcon(location);
-    }
-
-    static SpriteSheetIcon sprite(String path)
-    {
-        return new SpriteSheetIcon(RESOURCES.location(path));
-    }
-
-    static ItemStackIcon itemIcon(ItemStack stack)
-    {
-        return new ItemStackIcon(stack);
-    }
-
-    static ItemStackIcon itemIcon(ItemLike iconItem)
-    {
-        return new ItemStackIcon(new ItemStack(iconItem.asItem()));
-    }
-
-    static ItemStackWithSpriteIcon itemWithSpriteOverlay(ItemStack stack, ResourceLocation location, int width, int height, int xOffset, int yOffset)
-    {
-        return new ItemStackWithSpriteIcon(stack, location, width, height, xOffset, yOffset);
-    }
-
-    static ItemStackWithSpriteIcon itemWithSpriteOverlay(ItemLike iconItem, ResourceLocation location, int width, int height, int xOffset, int yOffset)
-    {
-        return itemWithSpriteOverlay(new ItemStack(iconItem.asItem()), location, width, height, xOffset, yOffset);
-    }
 
     Type getType();
 

@@ -1,6 +1,5 @@
 package liedge.limatech.item.weapon;
 
-import liedge.limatech.LimaTech;
 import liedge.limatech.entity.BaseMissileEntity;
 import liedge.limatech.entity.LimaTechEntityUtil;
 import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrades;
@@ -19,6 +18,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.Comparator;
+import java.util.Optional;
+
+import static liedge.limatech.registry.LimaTechAttachmentTypes.WEAPON_CONTROLS;
 
 public class RocketLauncherWeaponItem extends SemiAutoWeaponItem
 {
@@ -48,21 +50,41 @@ public class RocketLauncherWeaponItem extends SemiAutoWeaponItem
     public boolean canFocusReticle(ItemStack heldItem, Player player, AbstractWeaponControls controls)
     {
         boolean canTryFocus = super.canFocusReticle(heldItem, player, controls);
+        Level level = player.level();
 
-        if (canTryFocus)
+        if (!level.isClientSide() && canTryFocus)
         {
-            Level level = player.level();
-
             Vec3 scanPath = player.getViewVector(1f).scale(50);
-            level.getEntities(player, player.getBoundingBox().expandTowards(scanPath), e -> canLockOnTo(player, e)).stream()
-                    .min(Comparator.comparingDouble(e -> e.distanceToSqr(player)))
-                    .ifPresent(e -> {
-                        LimaTech.LOGGER.debug("Found valid lock-on target: {}", e.getName().getString());
-                        // TODO Do lock on targeting stuff here, pending
-                    });
+            Optional<Entity> entity = level.getEntities(player, player.getBoundingBox().expandTowards(scanPath), e -> canLockOnTo(player, e)).stream().min(Comparator.comparingDouble(e -> e.distanceToSqr(player)));
+            if (entity.isPresent() && entity.get() instanceof LivingEntity livingEntity)
+            {
+                if (!player.level().isClientSide()) controls.asServerControls().setFocusedTargetAndNotify(player, livingEntity);
+
+                return true;
+            }
         }
 
         return false;
+    }
+
+    @Override
+    public void onUseTick(Level level, LivingEntity livingEntity, ItemStack stack, int remainingUseDuration)
+    {
+        livingEntity.getExistingData(WEAPON_CONTROLS).ifPresent(controls -> {
+            if (controls.getFocusedTarget() != null && !controls.getFocusedTarget().isAlive())
+            {
+                livingEntity.stopUsingItem();
+            }
+        });
+    }
+
+    @Override
+    public void onStopUsing(ItemStack stack, LivingEntity entity, int count)
+    {
+        if (entity instanceof Player player && !player.level().isClientSide())
+        {
+            player.getData(WEAPON_CONTROLS).asServerControls().setFocusedTargetAndNotify(player, null);
+        }
     }
 
     @Override
@@ -78,7 +100,7 @@ public class RocketLauncherWeaponItem extends SemiAutoWeaponItem
     }
 
     @Override
-    public void weaponFired(ItemStack heldItem, Player player, Level level)
+    public void weaponFired(ItemStack heldItem, Player player, Level level, AbstractWeaponControls controls)
     {
         if (!level.isClientSide())
         {
@@ -86,7 +108,11 @@ public class RocketLauncherWeaponItem extends SemiAutoWeaponItem
 
             BaseMissileEntity.RocketLauncherMissile missile = new BaseMissileEntity.RocketLauncherMissile(level, upgrades);
             missile.setOwner(player);
-            missile.aimAndSetPosFromShooter(player, calculateProjectileSpeed(player, upgrades, 2.2d), 0.1f);
+
+            LivingEntity focusedTarget = controls.getFocusedTarget();
+            missile.aimAndSetPosFromShooter(player, calculateProjectileSpeed(player, upgrades, 2.75d), 0f);
+            if (focusedTarget != null && controls.getTargetTicks() > 20) missile.setTargetEntity(focusedTarget);
+
             level.addFreshEntity(missile);
 
             postWeaponFiredGameEvent(upgrades, level, player);

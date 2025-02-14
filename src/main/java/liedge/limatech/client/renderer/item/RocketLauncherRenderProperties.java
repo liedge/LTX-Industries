@@ -1,7 +1,7 @@
 package liedge.limatech.client.renderer.item;
 
 import liedge.limacore.lib.LimaColor;
-import liedge.limatech.client.LimaTechClient;
+import liedge.limatech.client.LimaTechRenderUtil;
 import liedge.limatech.client.model.baked.BakedRotation;
 import liedge.limatech.client.model.custom.TranslucentFillModel;
 import liedge.limatech.item.weapon.WeaponItem;
@@ -31,7 +31,7 @@ public class RocketLauncherRenderProperties extends SimpleWeaponRenderProperties
     {
         final int centerX = (screenWidth - 5) / 2;
         final int centerY = (screenHeight - 5) / 2;
-        float bloom = 4f * LimaTechClient.animationCurveB(controls.lerpTriggerTimer(weaponItem, partialTicks));
+        float bloom = 4f * LimaTechRenderUtil.animationCurveB(controls.lerpTriggerTimer(weaponItem, partialTicks));
 
         LAUNCHER_CROSSHAIR_CENTER.directColorBlit(graphics, centerX, centerY, crosshairColor);
         LAUNCHER_CROSSHAIR_UP.directColorBlit(graphics, centerX - 1, centerY - 4 - bloom, crosshairColor);
@@ -55,6 +55,6 @@ public class RocketLauncherRenderProperties extends SimpleWeaponRenderProperties
     @Override
     protected float applyAnimationCurve(float recoilA)
     {
-        return LimaTechClient.animationCurveB(recoilA);
+        return LimaTechRenderUtil.animationCurveB(recoilA);
     }
 }

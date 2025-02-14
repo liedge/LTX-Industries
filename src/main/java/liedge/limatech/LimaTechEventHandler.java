@@ -9,8 +9,9 @@ import liedge.limatech.network.packet.ClientboundEntityShieldPacket;
 import liedge.limatech.network.packet.ClientboundPlayerShieldPacket;
 import liedge.limatech.registry.LimaTechAttachmentTypes;
 import liedge.limatech.registry.LimaTechAttributes;
-import liedge.limatech.registry.LimaTechUpgradeDataTypes;
+import liedge.limatech.registry.LimaTechUpgradeEffectComponents;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -24,6 +25,7 @@ import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 @EventBusSubscriber(modid = LimaTech.MODID, bus = EventBusSubscriber.Bus.GAME)
 public final class LimaTechEventHandler
@@ -48,9 +50,16 @@ public final class LimaTechEventHandler
     @SubscribeEvent
     public static void onStartTrackingEntity(final PlayerEvent.StartTracking event)
     {
-        if (!event.getTarget().level().isClientSide() && event.getTarget() instanceof LivingEntity livingEntity)
+        Entity entity = event.getTarget();
+
+        if (!entity.level().isClientSide())
         {
-            ClientboundEntityShieldPacket.sendShieldToTrackersAndSelf(livingEntity);
+            BubbleShieldUser shield = entity.getCapability(LimaTechCapabilities.ENTITY_BUBBLE_SHIELD);
+            if (shield != null)
+            {
+                ClientboundEntityShieldPacket packet = new ClientboundEntityShieldPacket(entity.getId(), shield.getShieldHealth());
+                PacketDistributor.sendToPlayersTrackingEntityAndSelf(entity, packet);
+            }
         }
     }
 
@@ -65,7 +74,7 @@ public final class LimaTechEventHandler
     {
         if (event.getItemStack().getItem() instanceof UpgradableEquipmentItem item)
         {
-            item.getUpgrades(event.getItemStack()).forEachListEffect(LimaTechUpgradeDataTypes.ITEM_ATTRIBUTE_MODIFIERS, (effect, rank) -> event.addModifier(effect.attribute(), effect.makeModifier(rank), effect.slotGroup()));
+            item.getUpgrades(event.getItemStack()).forEachListEffect(LimaTechUpgradeEffectComponents.ITEM_ATTRIBUTE_MODIFIERS, (effect, rank) -> event.addModifier(effect.attribute(), effect.makeModifier(rank), effect.slotGroup()));
         }
     }
 

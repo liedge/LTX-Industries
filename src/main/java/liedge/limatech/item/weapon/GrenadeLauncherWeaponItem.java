@@ -58,7 +58,7 @@ public class GrenadeLauncherWeaponItem extends SemiAutoWeaponItem implements Scr
         super.refreshEquipmentUpgrades(stack, upgrades, player);
 
         GrenadeType currentlyEquipped = getGrenadeTypeFromItem(stack);
-        boolean shouldReset = upgrades.effectFlatStream(LimaTechUpgradeDataTypes.GRENADE_UNLOCK.get()).noneMatch(effect -> effect.grenadeType() == currentlyEquipped);
+        boolean shouldReset = upgrades.effectFlatStream(LimaTechUpgradeEffectComponents.GRENADE_UNLOCK.get()).noneMatch(effect -> effect.grenadeType() == currentlyEquipped);
         if (shouldReset) setGrenadeType(stack, GrenadeType.EXPLOSIVE);
     }
 
@@ -75,7 +75,7 @@ public class GrenadeLauncherWeaponItem extends SemiAutoWeaponItem implements Scr
     }
 
     @Override
-    public void weaponFired(ItemStack heldItem, Player player, Level level)
+    public void weaponFired(ItemStack heldItem, Player player, Level level, AbstractWeaponControls controls)
     {
         if (!level.isClientSide())
         {
@@ -124,7 +124,7 @@ public class GrenadeLauncherWeaponItem extends SemiAutoWeaponItem implements Scr
         EquipmentUpgrades upgrades = getUpgrades(stack);
         Set<GrenadeType> availableTypes = new ObjectOpenHashSet<>();
         availableTypes.add(GrenadeType.EXPLOSIVE); // Always allow equipping explosive rounds
-        upgrades.forEachListEffect(LimaTechUpgradeDataTypes.GRENADE_UNLOCK, (effect, rank) -> availableTypes.add(effect.grenadeType()));
+        upgrades.forEachListEffect(LimaTechUpgradeEffectComponents.GRENADE_UNLOCK, (effect, rank) -> availableTypes.add(effect.grenadeType()));
 
         GrenadeType currentType = GrenadeLauncherWeaponItem.getGrenadeTypeFromItem(stack);
         GrenadeType toSwitch = forward ? OrderedEnum.nextAvailable(availableTypes, currentType) : OrderedEnum.previousAvailable(availableTypes, currentType);

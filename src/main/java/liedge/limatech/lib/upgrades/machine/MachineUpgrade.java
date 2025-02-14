@@ -5,10 +5,10 @@ import liedge.limacore.lib.ModResources;
 import liedge.limatech.lib.upgrades.UpgradeIcon;
 import liedge.limatech.lib.upgrades.UpgradeBase;
 import liedge.limatech.lib.upgrades.UpgradeBaseBuilder;
-import liedge.limatech.lib.upgrades.effect.UpgradeEffectMap;
 import liedge.limatech.registry.LimaTechRegistries;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
+import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -18,11 +18,11 @@ import net.minecraft.resources.RegistryFixedCodec;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
-public record MachineUpgrade(Component title, Component description, int maxRank, HolderSet<BlockEntityType<?>> supportedSet, HolderSet<MachineUpgrade> exclusiveSet, UpgradeEffectMap effects, UpgradeIcon icon) implements UpgradeBase<BlockEntityType<?>, MachineUpgrade>
+public record MachineUpgrade(Component title, Component description, int maxRank, HolderSet<BlockEntityType<?>> supportedSet, HolderSet<MachineUpgrade> exclusiveSet, DataComponentMap effects, UpgradeIcon icon) implements UpgradeBase<BlockEntityType<?>, MachineUpgrade>
 {
-    public static final Codec<MachineUpgrade> DIRECT_CODEC = UpgradeBase.createDirectCodec(Registries.BLOCK_ENTITY_TYPE, LimaTechRegistries.MACHINE_UPGRADES_KEY, MachineUpgrade::new);
-    public static final Codec<Holder<MachineUpgrade>> CODEC = RegistryFixedCodec.create(LimaTechRegistries.MACHINE_UPGRADES_KEY);
-    public static final StreamCodec<RegistryFriendlyByteBuf, Holder<MachineUpgrade>> STREAM_CODEC = ByteBufCodecs.holderRegistry(LimaTechRegistries.MACHINE_UPGRADES_KEY);
+    public static final Codec<MachineUpgrade> DIRECT_CODEC = UpgradeBase.createDirectCodec(Registries.BLOCK_ENTITY_TYPE, LimaTechRegistries.Keys.MACHINE_UPGRADES, MachineUpgrade::new);
+    public static final Codec<Holder<MachineUpgrade>> CODEC = RegistryFixedCodec.create(LimaTechRegistries.Keys.MACHINE_UPGRADES);
+    public static final StreamCodec<RegistryFriendlyByteBuf, Holder<MachineUpgrade>> STREAM_CODEC = ByteBufCodecs.holderRegistry(LimaTechRegistries.Keys.MACHINE_UPGRADES);
 
     public static String defaultTitleTranslationKey(ResourceKey<MachineUpgrade> key)
     {

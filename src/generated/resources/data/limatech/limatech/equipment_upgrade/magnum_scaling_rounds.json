@@ -9,13 +9,6 @@
         "amount": 0.2,
         "attribute": "minecraft:generic.max_health"
       }
-    ],
-    "limatech:weapon_pre_attack": [
-      {
-        "type": "limatech:armor_bypass",
-        "amount": -1.0,
-        "operation": "add_multiplied_total"
-      }
     ]
   },
   "exclusive_set": [],
@@ -26,7 +19,7 @@
       "count": 1,
       "id": "limatech:magnum"
     },
-    "sprite": "limatech:generic",
+    "sprite": "limatech:powerful_lightfrag",
     "width": 10,
     "x_offset": 0,
     "y_offset": 6

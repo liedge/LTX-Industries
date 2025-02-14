@@ -9,7 +9,7 @@ import liedge.limacore.lib.LimaColor;
 import liedge.limacore.lib.TickTimer;
 import liedge.limacore.util.LimaCollectionsUtil;
 import liedge.limacore.util.LimaMathUtil;
-import liedge.limatech.client.LimaTechClient;
+import liedge.limatech.client.LimaTechRenderUtil;
 import liedge.limatech.client.model.custom.BubbleShieldModel;
 import net.minecraft.util.Mth;
 import org.joml.Matrix4f;
@@ -76,7 +76,7 @@ public final class BubbleShieldRenderer
 
         private void putInBuffer(VertexConsumer buffer, Matrix4f mx4, LimaColor color, float partialTick)
         {
-            float alpha = animationTimer.getTimerState() == TickTimer.State.STOPPED ? 0.125f : Mth.clamp(LimaTechClient.animationCurveC(animationTimer.lerpPausedProgress(partialTick)), 0.125f, 0.8f);
+            float alpha = animationTimer.getTimerState() == TickTimer.State.STOPPED ? 0.125f : Mth.clamp(LimaTechRenderUtil.animationCurveC(animationTimer.lerpPausedProgress(partialTick)), 0.125f, 0.8f);
             BubbleShieldModel.SHIELD_MODEL.renderFaces(geometryIndexes, buffer, mx4, color, alpha);
         }
     }

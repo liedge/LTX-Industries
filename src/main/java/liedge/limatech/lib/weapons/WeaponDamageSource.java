@@ -5,7 +5,6 @@ import liedge.limatech.item.weapon.WeaponItem;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import org.jetbrains.annotations.Nullable;
 
 public class WeaponDamageSource extends LimaDynamicDamageSource
@@ -21,7 +20,6 @@ public class WeaponDamageSource extends LimaDynamicDamageSource
     }
 
     private final WeaponItem weaponItem;
-    private float armorReduction = 0f;
 
     private WeaponDamageSource(ResourceKey<DamageType> typeKey, Entity directEntity, @Nullable Entity causingEntity, WeaponItem weaponItem)
     {
@@ -32,16 +30,5 @@ public class WeaponDamageSource extends LimaDynamicDamageSource
     public WeaponItem weaponItem()
     {
         return weaponItem;
-    }
-
-    public void setArmorReduction(float armorReduction)
-    {
-        this.armorReduction = armorReduction;
-    }
-
-    @Override
-    public float modifyAppliedArmor(LivingEntity armorWearer, float armor)
-    {
-        return armor - armorReduction;
     }
 }

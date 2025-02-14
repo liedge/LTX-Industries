@@ -6,8 +6,8 @@ import liedge.limacore.lib.ModResources;
 import liedge.limacore.lib.Translatable;
 import liedge.limatech.lib.math.CompoundOperation;
 import liedge.limatech.lib.math.LevelBasedDoubleValue;
+import liedge.limatech.lib.upgrades.effect.UpgradeDataComponentType;
 import liedge.limatech.lib.upgrades.effect.UpgradeEffect;
-import liedge.limatech.lib.upgrades.effect.UpgradeEffectDataType;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -22,12 +22,6 @@ public interface ValueUpgradeEffect extends UpgradeEffect
 {
     Codec<ValueUpgradeEffect> CODEC = LimaCoreCodecs.flatDispatchCodec(ValueUpgradeEffectType.CODEC, SimpleValueOperationEffect.class, SimpleValueOperationEffect.FLAT_CODEC, ValueUpgradeEffect::type, ValueUpgradeEffectType::getCodec);
     Codec<List<ValueUpgradeEffect>> LIST_CODEC = CODEC.listOf();
-
-    static DataType createDataType(ResourceLocation id, boolean beneficial)
-    {
-        String descriptionId = ModResources.prefixIdTranslationKey("value_effect", id);
-        return new DataType(id, descriptionId, beneficial);
-    }
 
     static SimpleValueOperationEffect simpleValue(LevelBasedDoubleValue value, CompoundOperation operation)
     {
@@ -52,20 +46,30 @@ public interface ValueUpgradeEffect extends UpgradeEffect
 
     ValueUpgradeEffectType type();
 
-    record DataType(ResourceLocation id, String descriptionId, boolean beneficial) implements UpgradeEffectDataType<List<ValueUpgradeEffect>>, Translatable
+    final class ComponentType extends UpgradeDataComponentType<List<ValueUpgradeEffect>> implements Translatable
     {
-        @Override
-        public Codec<List<ValueUpgradeEffect>> codec()
+        private final String descriptionId;
+        private final boolean beneficial;
+
+        public ComponentType(ResourceLocation id, boolean beneficial)
         {
-            return LIST_CODEC;
+            super(LIST_CODEC);
+            this.descriptionId = ModResources.prefixIdTranslationKey("value_effect", id);
+            this.beneficial = beneficial;
         }
 
         @Override
-        public void appendTooltipLines(List<ValueUpgradeEffect> effectData, int upgradeRank, List<Component> lines)
+        public String descriptionId()
         {
-            for (ValueUpgradeEffect effect : effectData)
+            return descriptionId;
+        }
+
+        @Override
+        public void appendTooltipLines(List<ValueUpgradeEffect> data, int upgradeRank, List<Component> lines)
+        {
+            for (ValueUpgradeEffect e : data)
             {
-                lines.add(this.translateArgs(effect.getValueTooltip(upgradeRank, beneficial)));
+                lines.add(translateArgs(e.getValueTooltip(upgradeRank, beneficial)));
             }
         }
     }

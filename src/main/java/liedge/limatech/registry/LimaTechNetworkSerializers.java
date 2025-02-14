@@ -14,7 +14,7 @@ public final class LimaTechNetworkSerializers
 {
     private LimaTechNetworkSerializers() {}
 
-    private static final DeferredRegister<NetworkSerializer<?>> SERIALIZERS = LimaTech.RESOURCES.deferredRegister(LimaCoreRegistries.NETWORK_SERIALIZERS_KEY);
+    private static final DeferredRegister<NetworkSerializer<?>> SERIALIZERS = LimaTech.RESOURCES.deferredRegister(LimaCoreRegistries.Keys.NETWORK_SERIALIZERS);
 
     public static void initRegister(IEventBus bus)
     {

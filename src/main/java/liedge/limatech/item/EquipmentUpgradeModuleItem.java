@@ -49,7 +49,7 @@ public class EquipmentUpgradeModuleItem extends UpgradeModuleItem<EquipmentUpgra
     @Override
     protected ResourceKey<Registry<EquipmentUpgrade>> upgradeRegistryKey()
     {
-        return LimaTechRegistries.EQUIPMENT_UPGRADES_KEY;
+        return LimaTechRegistries.Keys.EQUIPMENT_UPGRADES;
     }
 
     @Override

@@ -3,10 +3,14 @@ package liedge.limatech.lib.weapons;
 import liedge.limacore.capability.energy.LimaEnergyUtil;
 import liedge.limacore.lib.TickTimer;
 import liedge.limacore.util.LimaCoreUtil;
+import liedge.limacore.util.LimaEntityUtil;
 import liedge.limatech.item.weapon.WeaponItem;
+import liedge.limatech.network.packet.ClientboundFocusTargetPacket;
 import liedge.limatech.network.packet.ClientboundWeaponControlsPacket;
 import liedge.limatech.network.packet.ServerboundWeaponControlsPacket;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.capabilities.Capabilities;
@@ -22,9 +26,14 @@ public class ServerWeaponControls extends AbstractWeaponControls
         getReloadTimer().withStopCallback(success -> reloadFlag = success);
     }
 
+    private void sendPacketToClient(Player player, CustomPacketPayload packet)
+    {
+        LimaCoreUtil.castOrThrow(ServerPlayer.class, player).connection.send(packet);
+    }
+
     private void sendPacketToClient(Player player, WeaponItem weaponItem, byte action)
     {
-        LimaCoreUtil.castOrThrow(ServerPlayer.class, player).connection.send(new ClientboundWeaponControlsPacket(player.getId(), weaponItem, action));
+        sendPacketToClient(player, new ClientboundWeaponControlsPacket(player.getId(), weaponItem, action));
     }
 
     /**
@@ -85,6 +94,12 @@ public class ServerWeaponControls extends AbstractWeaponControls
                 }
             }
         }
+    }
+
+    public void setFocusedTargetAndNotify(Player player, @Nullable LivingEntity focusedTarget)
+    {
+        setFocusedTarget(focusedTarget);
+        sendPacketToClient(player, new ClientboundFocusTargetPacket(player.getId(), LimaEntityUtil.getEntityId(focusedTarget)));
     }
 
     @Override

@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import liedge.limacore.client.particle.CustomRenderTypeParticle;
 import liedge.limatech.LimaTechConstants;
-import liedge.limatech.client.LimaTechClient;
+import liedge.limatech.client.LimaTechRenderUtil;
 import liedge.limatech.client.renderer.LimaTechRenderTypes;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -64,7 +64,7 @@ public class LightfragTracerParticle extends CustomRenderTypeParticle
 
         float alpha = age == 0 ? partialTicks : 1f;
 
-        LimaTechClient.renderPositionColorCuboid(buffer, mx4, -TRACER_SIZE, -TRACER_SIZE, -0.0625f, TRACER_SIZE, TRACER_SIZE, 0.0625f, LimaTechConstants.LIME_GREEN, alpha, LimaTechClient.ALL_SIDES);
+        LimaTechRenderUtil.renderPositionColorCuboid(buffer, mx4, -TRACER_SIZE, -TRACER_SIZE, -0.0625f, TRACER_SIZE, TRACER_SIZE, 0.0625f, LimaTechConstants.LIME_GREEN, alpha, LimaTechRenderUtil.ALL_SIDES);
     }
 
     @Override

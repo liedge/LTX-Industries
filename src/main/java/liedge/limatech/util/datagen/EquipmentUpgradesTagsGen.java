@@ -18,7 +18,7 @@ class EquipmentUpgradesTagsGen extends LimaTagsProvider<EquipmentUpgrade>
 {
     EquipmentUpgradesTagsGen(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries, @Nullable ExistingFileHelper helper)
     {
-        super(packOutput, LimaTechRegistries.EQUIPMENT_UPGRADES_KEY, LimaTech.MODID, registries, helper);
+        super(packOutput, LimaTechRegistries.Keys.EQUIPMENT_UPGRADES, LimaTech.MODID, registries, helper);
     }
 
     @Override

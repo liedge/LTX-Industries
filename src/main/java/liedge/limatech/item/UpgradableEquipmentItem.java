@@ -2,7 +2,7 @@ package liedge.limatech.item;
 
 import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.limatech.registry.LimaTechDataComponents;
-import liedge.limatech.registry.LimaTechUpgradeDataTypes;
+import liedge.limatech.registry.LimaTechUpgradeEffectComponents;
 import net.minecraft.core.Holder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -29,6 +29,6 @@ public interface UpgradableEquipmentItem
 
     default int getUpgradeEnchantmentLevel(ItemStack stack, Holder<Enchantment> enchantment)
     {
-        return getUpgrades(stack).flatMapToInt(LimaTechUpgradeDataTypes.ITEM_ENCHANTMENTS.get(), (effect, rank) -> effect.calculate(enchantment, rank)).sum();
+        return getUpgrades(stack).flatMapToInt(LimaTechUpgradeEffectComponents.ITEM_ENCHANTMENTS.get(), (effect, rank) -> effect.getEnchantmentLevels(enchantment, rank)).sum();
     }
 }

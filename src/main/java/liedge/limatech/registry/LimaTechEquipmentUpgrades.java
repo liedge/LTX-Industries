@@ -39,6 +39,6 @@ public final class LimaTechEquipmentUpgrades
 
     private static ResourceKey<EquipmentUpgrade> key(String name)
     {
-        return RESOURCES.resourceKey(LimaTechRegistries.EQUIPMENT_UPGRADES_KEY, name);
+        return RESOURCES.resourceKey(LimaTechRegistries.Keys.EQUIPMENT_UPGRADES, name);
     }
 }

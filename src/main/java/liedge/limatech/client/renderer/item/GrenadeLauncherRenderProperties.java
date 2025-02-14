@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import liedge.limacore.lib.LimaColor;
 import liedge.limacore.lib.TickTimer;
-import liedge.limatech.client.LimaTechClient;
+import liedge.limatech.client.LimaTechRenderUtil;
 import liedge.limatech.client.model.baked.BakedRotation;
 import liedge.limatech.client.model.baked.DynamicModularBakedModel;
 import liedge.limatech.client.model.custom.TranslucentFillModel;
@@ -42,7 +42,7 @@ public class GrenadeLauncherRenderProperties extends WeaponRenderProperties<Weap
 
         if (animationB.getTimerState() == TickTimer.State.RUNNING)
         {
-            speed = 0.95f * LimaTechClient.animationCurveSin(animationB.getProgressPercent());
+            speed = 0.95f * LimaTechRenderUtil.animationCurveSin(animationB.getProgressPercent());
         }
         else
         {
@@ -59,7 +59,7 @@ public class GrenadeLauncherRenderProperties extends WeaponRenderProperties<Weap
         final int centerX = (screenWidth - 5) / 2;
         final int centerY = (screenHeight - 5) / 2;
 
-        float bloom = 4f * LimaTechClient.animationCurveA(controls.lerpTriggerTimer(weaponItem, partialTicks));
+        float bloom = 4f * LimaTechRenderUtil.animationCurveA(controls.lerpTriggerTimer(weaponItem, partialTicks));
 
         LAUNCHER_CROSSHAIR_CENTER.directColorBlit(graphics, centerX, centerY, crosshairColor);
         LAUNCHER_CROSSHAIR_UP.directColorBlit(graphics, centerX - 1, centerY - 4 - bloom, crosshairColor);
@@ -99,7 +99,7 @@ public class GrenadeLauncherRenderProperties extends WeaponRenderProperties<Weap
     {
         LimaColor grenadeColor = GrenadeLauncherWeaponItem.getGrenadeTypeFromItem(stack).getColor();
 
-        float mul = LimaTechClient.animationCurveA(controls.getAnimationTimerA().lerpProgressNotPaused(partialTick));
+        float mul = LimaTechRenderUtil.animationCurveA(controls.getAnimationTimerA().lerpProgressNotPaused(partialTick));
         if (mul > 0)
         {
             poseStack.translate(0, 0, mul * 0.5f);

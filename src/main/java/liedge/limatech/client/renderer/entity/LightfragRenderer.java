@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import liedge.limatech.LimaTechConstants;
-import liedge.limatech.client.LimaTechClient;
+import liedge.limatech.client.LimaTechRenderUtil;
 import liedge.limatech.client.renderer.LimaTechRenderTypes;
 import liedge.limatech.entity.LightfragEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -34,7 +34,7 @@ public class LightfragRenderer extends EntityRenderer<LightfragEntity>
         final float alpha = 0.875f;
         Matrix4f mx4 = poseStack.last().pose();
 
-        LimaTechClient.renderPositionColorCuboid(buffer, mx4, -0.03125f, -0.03125f, -0.125f, 0.03125f, 0.03125f, 0.125f, LimaTechConstants.LIME_GREEN, alpha, LimaTechClient.ALL_SIDES);
+        LimaTechRenderUtil.renderPositionColorCuboid(buffer, mx4, -0.03125f, -0.03125f, -0.125f, 0.03125f, 0.03125f, 0.125f, LimaTechConstants.LIME_GREEN, alpha, LimaTechRenderUtil.ALL_SIDES);
 
         poseStack.popPose();
     }

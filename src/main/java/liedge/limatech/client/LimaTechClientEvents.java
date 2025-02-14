@@ -1,7 +1,6 @@
 package liedge.limatech.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.datafixers.util.Either;
 import com.mojang.math.Axis;
 import liedge.limacore.client.LimaCoreClientUtil;
@@ -12,6 +11,7 @@ import liedge.limatech.client.renderer.item.LimaTechItemRenderers;
 import liedge.limatech.item.ScrollModeSwitchItem;
 import liedge.limatech.item.TooltipShiftHintItem;
 import liedge.limatech.item.weapon.WeaponItem;
+import liedge.limatech.lib.weapons.AbstractWeaponControls;
 import liedge.limatech.lib.weapons.ClientWeaponControls;
 import liedge.limatech.network.packet.ServerboundItemModeSwitchPacket;
 import liedge.limatech.registry.LimaTechAttachmentTypes;
@@ -20,9 +20,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.network.chat.FormattedText;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
@@ -38,6 +39,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import java.util.List;
 
 import static liedge.limatech.LimaTechConstants.BUBBLE_SHIELD_BLUE;
+import static liedge.limatech.registry.LimaTechAttachmentTypes.WEAPON_CONTROLS;
 
 @EventBusSubscriber(modid = LimaTech.MODID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
 public final class LimaTechClientEvents
@@ -103,31 +105,28 @@ public final class LimaTechClientEvents
     @SubscribeEvent
     public static void onLevelStageRender(final RenderLevelStageEvent event)
     {
-        if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_PARTICLES && Minecraft.getInstance().level != null)
+        if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_PARTICLES && Minecraft.getInstance().level != null && Minecraft.getInstance().player != null)
         {
             ClientLevel level = Minecraft.getInstance().level;
             PoseStack poseStack = event.getPoseStack();
-            VertexConsumer buffer = Minecraft.getInstance().renderBuffers().bufferSource().getBuffer(LimaTechRenderTypes.BUBBLE_SHIELD);
-            Vec3 cam = event.getCamera().getPosition();
+            MultiBufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
+            Vec3 camVec = event.getCamera().getPosition();
             float partialTick = event.getPartialTick().getGameTimeDeltaPartialTick(true);
+            AbstractWeaponControls controls = Minecraft.getInstance().player.getData(WEAPON_CONTROLS);
 
             // TODO Rework bubble shield rendering
-            // Render bubble shields
             for (Entity entity : level.entitiesForRendering())
             {
-                if (entity == Minecraft.getInstance().player && Minecraft.getInstance().options.getCameraType().isFirstPerson()) return;
-
+                // Render bubble shield pass
                 if (entity.hasData(LimaTechAttachmentTypes.BUBBLE_SHIELD))
                 {
+                    if (entity == Minecraft.getInstance().player && Minecraft.getInstance().options.getCameraType().isFirstPerson()) continue;
+
                     float shieldHealth = entity.getData(LimaTechAttachmentTypes.BUBBLE_SHIELD).getShieldHealth();
 
                     if (shieldHealth != 0)
                     {
                         poseStack.pushPose();
-
-                        double x = Mth.lerp(partialTick, entity.xo, entity.getX()) - cam.x;
-                        double y = Mth.lerp(partialTick, entity.yo, entity.getY()) - cam.y;
-                        double z = Mth.lerp(partialTick, entity.zo, entity.getZ()) - cam.z;
 
                         AABB bb = entity.getBoundingBox();
                         float size;
@@ -140,15 +139,24 @@ public final class LimaTechClientEvents
                             size = (float) Math.max(Math.max(bb.getXsize(), bb.getYsize()), bb.getZsize());
                         }
 
-                        poseStack.translate(x, y + (bb.getYsize() / 2d), z);
+                        double[] pos = LimaTechRenderUtil.lerpEntityCenter(entity, camVec.x, camVec.y, camVec.z, partialTick);
+                        poseStack.translate(pos[0], pos[1], pos[2]);
                         poseStack.mulPose(Axis.YN.rotationDegrees(entity.getYRot()));
                         poseStack.scale(size, size, size);
 
-                        BubbleShieldRenderer.SHIELD_RENDERER.renderBubbleShield(poseStack, buffer, BUBBLE_SHIELD_BLUE, partialTick);
+                        BubbleShieldRenderer.SHIELD_RENDERER.renderBubbleShield(poseStack, bufferSource.getBuffer(LimaTechRenderTypes.BUBBLE_SHIELD), BUBBLE_SHIELD_BLUE, partialTick);
 
                         poseStack.popPose();
                     }
                 }
+            }
+
+            // Render lock-on indicator
+            LivingEntity target = controls.getFocusedTarget();
+            if (target != null)
+            {
+                float lockProgress = Math.min(1f, controls.lerpTargetTicks(partialTick) / 20f);
+                LimaTechRenderUtil.renderLockOnIndicatorOnEntity(target, poseStack, bufferSource,event.getCamera(), camVec.x, camVec.y, camVec.z, partialTick, lockProgress);
             }
         }
     }

@@ -98,7 +98,7 @@ public final class LimaTechTags
 
         private static TagKey<EquipmentUpgrade> key(String name)
         {
-            return RESOURCES.tagKey(LimaTechRegistries.EQUIPMENT_UPGRADES_KEY, name);
+            return RESOURCES.tagKey(LimaTechRegistries.Keys.EQUIPMENT_UPGRADES, name);
         }
     }
 }
