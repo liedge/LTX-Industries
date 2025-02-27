@@ -1,7 +1,7 @@
 {
   "type": "limatech:fabricating",
   "energy_required": 500000,
-  "group": "grenade_cores",
+  "group": "hanabi/cores",
   "ingredients": [
     {
       "count": 1,

@@ -12,6 +12,6 @@ public final class LimaTechModelLayers
         return new ModelLayerLocation(LimaTech.RESOURCES.location(name), "main");
     }
 
-    public static final ModelLayerLocation MISSILE = mainLayer("missile");
+    public static final ModelLayerLocation ROCKET = mainLayer("rocket");
     public static final ModelLayerLocation ORB_GRENADE = mainLayer("orb_grenade");
 }

@@ -17,7 +17,7 @@ public enum GrenadeType implements StringRepresentable, Translatable, OrderedEnu
 {
     EXPLOSIVE("explosive", EXPLOSIVE_GRAY),
     FLAME("flame", FLAME_ORANGE),
-    FREEZE("freeze", FREEZE_LIGHT_BLUE),
+    CRYO("cryo", CRYO_LIGHT_BLUE),
     ELECTRIC("electric", ELECTRIC_GREEN),
     ACID("acid", ACID_GREEN),
     NEURO("neuro", NEURO_BLUE);

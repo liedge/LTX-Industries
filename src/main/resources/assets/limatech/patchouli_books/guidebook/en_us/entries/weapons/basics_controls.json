@@ -12,7 +12,7 @@
     {
       "type": "patchouli:text",
       "title": "Mode Switching",
-      "text": "Certain weapons can cycle between different modes, the primary example being the Hanabi and its round types. To switch between modes, hold $(l)SHIFT$() and scroll your $(l)mouse wheel$()."
+      "text": "Certain weapons can cycle between different modes, the primary example being the Hanabi and its shell types. To switch between modes, hold $(l)SHIFT$() and scroll your $(l)mouse wheel$()."
     }
   ]
 }

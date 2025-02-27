@@ -28,7 +28,7 @@ class EntityTagsGen extends LimaTagsProvider.RegistryTags<EntityType<?>>
         buildTag(IMMUNE_TO_LTX_WEAPONS).add(ITEM, EXPERIENCE_ORB, ITEM_FRAME, GLOW_ITEM_FRAME, ARMOR_STAND);
 
         buildTag(WEAK_TO_FLAME).add(STRAY, POLAR_BEAR, SNOW_GOLEM);
-        buildTag(WEAK_TO_FREEZE).addTag(FREEZE_HURTS_EXTRA_TYPES);
+        buildTag(WEAK_TO_CRYO).addTag(FREEZE_HURTS_EXTRA_TYPES);
         buildTag(WEAK_TO_ELECTRIC).addTag(SENSITIVE_TO_IMPALING);
 
         buildTag(ROCKET_TURRET_TARGETS).add(PHANTOM, GHAST, BLAZE, ENDER_DRAGON, VEX, WITHER);

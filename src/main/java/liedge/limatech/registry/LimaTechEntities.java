@@ -2,7 +2,7 @@ package liedge.limatech.registry;
 
 import liedge.limatech.LimaTech;
 import liedge.limatech.entity.LimaTechProjectile;
-import liedge.limatech.entity.BaseMissileEntity;
+import liedge.limatech.entity.BaseRocketEntity;
 import liedge.limatech.entity.OrbGrenadeEntity;
 import liedge.limatech.entity.StickyFlameEntity;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -28,8 +28,8 @@ public final class LimaTechEntities
 
     // Entity types
     public static final DeferredHolder<EntityType<?>, EntityType<OrbGrenadeEntity>> ORB_GRENADE = projectile("orb_grenade", OrbGrenadeEntity::new, 0.4f, 0.4f, 2);
-    public static final DeferredHolder<EntityType<?>, EntityType<BaseMissileEntity.RocketLauncherMissile>> ROCKET_LAUNCHER_MISSILE = projectile("rocket_launcher_missile", BaseMissileEntity.RocketLauncherMissile::new, 0.6f, 0.6f, 2);
-    public static final DeferredHolder<EntityType<?>, EntityType<BaseMissileEntity.TurretMissile>> TURRET_MISSILE = projectile("turret_missile", BaseMissileEntity.TurretMissile::new, 0.6f, 0.6f, 2);
+    public static final DeferredHolder<EntityType<?>, EntityType<BaseRocketEntity.DaybreakRocket>> DAYBREAK_ROCKET = projectile("daybreak_rocket", BaseRocketEntity.DaybreakRocket::new, 0.6f, 0.6f, 2);
+    public static final DeferredHolder<EntityType<?>, EntityType<BaseRocketEntity.TurretRocket>> TURRET_ROCKET = projectile("turret_rocket", BaseRocketEntity.TurretRocket::new, 0.6f, 0.6f, 2);
     public static final DeferredHolder<EntityType<?>, EntityType<StickyFlameEntity>> STICKY_FLAME = register("sticky_flame", StickyFlameEntity::new, MobCategory.MISC, builder -> builder.sized(2f, 2f).clientTrackingRange(10).updateInterval(20));
 
     private static <T extends Entity> DeferredHolder<EntityType<?>, EntityType<T>> register(String name, EntityType.EntityFactory<T> factory, MobCategory category, UnaryOperator<EntityType.Builder<T>> builderOp)

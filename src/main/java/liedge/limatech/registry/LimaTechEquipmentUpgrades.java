@@ -31,7 +31,7 @@ public final class LimaTechEquipmentUpgrades
 
     // Hanabi grenade cores
     public static final ResourceKey<EquipmentUpgrade> FLAME_GRENADE_CORE = key("flame_grenade_core");
-    public static final ResourceKey<EquipmentUpgrade> FREEZE_GRENADE_CORE = key("freeze_grenade_core");
+    public static final ResourceKey<EquipmentUpgrade> CRYO_GRENADE_CORE = key("cryo_grenade_core");
     public static final ResourceKey<EquipmentUpgrade> ELECTRIC_GRENADE_CORE = key("electric_grenade_core");
     public static final ResourceKey<EquipmentUpgrade> ACID_GRENADE_CORE = key("acid_grenade_core");
     public static final ResourceKey<EquipmentUpgrade> NEURO_GRENADE_CORE = key("neuro_grenade_core");

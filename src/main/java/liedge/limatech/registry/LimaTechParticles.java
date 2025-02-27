@@ -1,5 +1,6 @@
 package liedge.limatech.registry;
 
+import liedge.limacore.client.particle.ColorParticleOptions;
 import liedge.limacore.client.particle.ColorSizeParticleOptions;
 import liedge.limacore.client.particle.LimaParticleType;
 import liedge.limatech.LimaTech;
@@ -25,10 +26,10 @@ public final class LimaTechParticles
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> LIGHTFRAG_TRACER = registerSimple("lightfrag_tracer", true);
     public static final DeferredHolder<ParticleType<?>, LimaParticleType<ColorSizeParticleOptions>> COLOR_GLITTER = PARTICLES.register("color_glitter", () -> ColorSizeParticleOptions.createParticleType(false));
     public static final DeferredHolder<ParticleType<?>, LimaParticleType<ColorSizeParticleOptions>> COLOR_FLASH = PARTICLES.register("color_flash", () -> ColorSizeParticleOptions.createParticleType(false));
-    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> HALF_SONIC_BOOM = registerSimple("half_sonic_boom", false);
-    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> HALF_SONIC_BOOM_EMITTER = registerSimple("half_sonic_boom_emitter", true);
+    public static final DeferredHolder<ParticleType<?>, LimaParticleType<ColorParticleOptions>> HALF_SONIC_BOOM = PARTICLES.register("half_sonic_boom", () -> ColorParticleOptions.createParticleType(false));
+    public static final DeferredHolder<ParticleType<?>, LimaParticleType<ColorParticleOptions>> HALF_SONIC_BOOM_EMITTER = PARTICLES.register("half_sonic_boom_emitter", () -> ColorParticleOptions.createParticleType(true));
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> GROUND_ICICLE = registerSimple("icicle", false);
-    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> FREEZE_SNOWFLAKE = registerSimple("freeze_snowflake", false);
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> CRYO_SNOWFLAKE = registerSimple("cryo_snowflake", false);
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> MINI_ELECTRIC_SPARK = registerSimple("mini_electric_spark", false);
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> FIXED_ELECTRIC_BOLT = registerSimple("fixed_electric_bolt", false);
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> CORROSIVE_DRIP = registerSimple("corrosive_drip", false);

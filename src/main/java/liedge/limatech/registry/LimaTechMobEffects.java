@@ -4,7 +4,7 @@ import liedge.limacore.lib.SimpleMobEffect;
 import liedge.limatech.LimaTech;
 import liedge.limatech.LimaTechConstants;
 import liedge.limatech.entity.effect.CorrosiveMobEffect;
-import liedge.limatech.entity.effect.FreezingMobEffect;
+import liedge.limatech.entity.effect.FrostbiteMobEffect;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -24,8 +24,8 @@ public final class LimaTechMobEffects
         MOB_EFFECTS.register(bus);
     }
 
-    public static final DeferredHolder<MobEffect, MobEffect> FREEZING = MOB_EFFECTS.register("freezing", FreezingMobEffect::new);
+    public static final DeferredHolder<MobEffect, MobEffect> FROSTBITE = MOB_EFFECTS.register("frostbite", FrostbiteMobEffect::new);
     public static final DeferredHolder<MobEffect, MobEffect> CORROSIVE = MOB_EFFECTS.register("corrosive", CorrosiveMobEffect::new);
-    public static final DeferredHolder<MobEffect, MobEffect> NEURO = MOB_EFFECTS.register("neuro", id -> new SimpleMobEffect(MobEffectCategory.HARMFUL, LimaTechConstants.NEURO_BLUE.packedRGB())
+    public static final DeferredHolder<MobEffect, MobEffect> NEURO_SUPPRESSED = MOB_EFFECTS.register("neuro_suppressed", id -> new SimpleMobEffect(MobEffectCategory.HARMFUL, LimaTechConstants.NEURO_BLUE.packedRGB())
             .addAttributeModifier(LimaTechAttributes.UNIVERSAL_STRENGTH, id.withSuffix(".universal_attack"), -0.33d, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
 }

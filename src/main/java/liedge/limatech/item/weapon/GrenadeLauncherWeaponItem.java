@@ -46,6 +46,13 @@ public class GrenadeLauncherWeaponItem extends SemiAutoWeaponItem implements Scr
         stack.set(GRENADE_TYPE, grenadeType);
     }
 
+    public ItemStack createDefaultStack(@Nullable HolderLookup.Provider registries, boolean fullMagazine, GrenadeType grenadeType)
+    {
+        ItemStack stack = createDefaultStack(registries, fullMagazine);
+        setGrenadeType(stack, grenadeType);
+        return stack;
+    }
+
     @Override
     public boolean canFocusReticle(ItemStack heldItem, Player player, AbstractWeaponControls controls)
     {
@@ -123,7 +130,7 @@ public class GrenadeLauncherWeaponItem extends SemiAutoWeaponItem implements Scr
 
         EquipmentUpgrades upgrades = getUpgrades(stack);
         Set<GrenadeType> availableTypes = new ObjectOpenHashSet<>();
-        availableTypes.add(GrenadeType.EXPLOSIVE); // Always allow equipping explosive rounds
+        availableTypes.add(GrenadeType.EXPLOSIVE); // Always allow equipping explosive shells
         upgrades.forEachListEffect(LimaTechUpgradeEffectComponents.GRENADE_UNLOCK, (effect, rank) -> availableTypes.add(effect.grenadeType()));
 
         GrenadeType currentType = GrenadeLauncherWeaponItem.getGrenadeTypeFromItem(stack);
@@ -139,8 +146,7 @@ public class GrenadeLauncherWeaponItem extends SemiAutoWeaponItem implements Scr
     public void addAdditionalToCreativeTab(ResourceLocation tabId, CreativeModeTab.ItemDisplayParameters parameters, CreativeModeTab.Output output, CreativeModeTab.TabVisibility tabVisibility)
     {
         HolderLookup.Provider registries = parameters.holders();
-        ItemStack stack = getDefaultInstance(registries);
-        setAmmoLoaded(stack, getAmmoCapacity(stack));
+        ItemStack stack = createDefaultStack(registries, true);
         stack.set(LimaTechDataComponents.EQUIPMENT_UPGRADES, EquipmentUpgrades.builder()
                 .add(registries.holderOrThrow(LimaTechEquipmentUpgrades.OMNI_GRENADE_CORE))
                 .build());

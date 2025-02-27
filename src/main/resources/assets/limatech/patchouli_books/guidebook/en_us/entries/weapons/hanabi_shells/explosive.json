@@ -1,0 +1,9 @@
+{
+  "name": "Explosive Shells",
+  "sortnum": 1,
+  "category": "limatech:hanabi_shells",
+  "icon": "limatech:textures/upgrade_icon/explosive_grenade_core.png",
+  "pages": [
+    "Blast radius: 10.0$(br)Base damage: 30.0$(br2)$(#8b8b8b)$(l)Explosive$() shells are the default round type of the Hanabi, and is the only one available on a newly crafted weapon. Boring, but reliable. Damage from these shells is considered $(o)Explosion$()."
+  ]
+}

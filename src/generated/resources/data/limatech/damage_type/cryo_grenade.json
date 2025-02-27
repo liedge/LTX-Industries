@@ -1,0 +1,7 @@
+{
+  "death_message_type": "limatech:weapon",
+  "effects": "freezing",
+  "exhaustion": 0.0,
+  "message_id": "limatech.cryo_grenade",
+  "scaling": "when_caused_by_living_non_player"
+}

@@ -19,7 +19,7 @@ public final class LimaTechDamageTypes
     public static final ResourceKey<DamageType> MAGNUM_LIGHTFRAG = key("magnum_lightfrag");
     public static final ResourceKey<DamageType> EXPLOSIVE_GRENADE = key("explosive_grenade");
     public static final ResourceKey<DamageType> FLAME_GRENADE = key("flame_grenade");
-    public static final ResourceKey<DamageType> FREEZE_GRENADE = key("freeze_grenade");
+    public static final ResourceKey<DamageType> CRYO_GRENADE = key("cryo_grenade");
     public static final ResourceKey<DamageType> ELECTRIC_GRENADE = key("electric_grenade");
     public static final ResourceKey<DamageType> ACID_GRENADE = key("acid_grenade");
     public static final ResourceKey<DamageType> NEURO_GRENADE = key("neuro_grenade");

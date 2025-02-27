@@ -91,11 +91,11 @@
             "type": "limacore:entity_enchantment_level",
             "enchanted_value": {
               "type": "minecraft:linear",
-              "base": 2.0,
+              "base": 1.0,
               "per_level_above_first": 2.0
             },
             "enchantment": "limatech:ammo_scavenger",
-            "normal_value": 2.0
+            "normal_value": 1.0
           }
         }
       ],

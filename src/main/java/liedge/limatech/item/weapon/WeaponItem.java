@@ -214,11 +214,17 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
         if (upgrades.upgradeEffectTypeAbsent(LimaTechUpgradeEffectComponents.PREVENT_SCULK_VIBRATION.get())) level.gameEvent(player, LimaTechGameEvents.WEAPON_FIRED, player.getEyePosition());
     }
 
-    public ItemStack getDefaultInstance(HolderLookup.Provider registries)
+    public ItemStack createDefaultStack(@Nullable HolderLookup.Provider registries, boolean fullMagazine)
     {
         ItemStack stack = new ItemStack(this);
-        EquipmentUpgrades defaultUpgrades = getDefaultUpgrades(registries);
-        stack.set(EQUIPMENT_UPGRADES, defaultUpgrades);
+
+        if (registries != null)
+        {
+            EquipmentUpgrades defaultUpgrades = getDefaultUpgrades(registries);
+            stack.set(EQUIPMENT_UPGRADES, defaultUpgrades);
+        }
+
+        if (fullMagazine) setAmmoLoaded(stack, getAmmoCapacity(stack));
         return stack;
     }
 
@@ -301,8 +307,7 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
     @Override
     public void addAdditionalToCreativeTab(ResourceLocation tabId, CreativeModeTab.ItemDisplayParameters parameters, CreativeModeTab.Output output, CreativeModeTab.TabVisibility tabVisibility)
     {
-        ItemStack stack = getDefaultInstance(parameters.holders());
-        setAmmoLoaded(stack, getAmmoCapacity(stack));
+        ItemStack stack = createDefaultStack(parameters.holders(), true);
         output.accept(stack, tabVisibility);
     }
 

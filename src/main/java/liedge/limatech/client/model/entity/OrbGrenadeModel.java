@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import liedge.limacore.lib.LimaColor;
 import liedge.limacore.util.LimaMathUtil;
 import liedge.limatech.LimaTech;
+import liedge.limatech.client.renderer.LimaTechRenderTypes;
 import liedge.limatech.entity.OrbGrenadeEntity;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.EntityModelSet;
@@ -16,13 +17,12 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.neoforge.client.NeoForgeRenderTypes;
 
 public class OrbGrenadeModel extends Model
 {
     public static final ResourceLocation TEXTURE = LimaTech.RESOURCES.textureLocation("entity", "orb_grenade");
     private static final RenderType RENDER_TYPE = RenderType.entitySolid(TEXTURE);
-    private static final RenderType EMISSIVE_RENDER_TYPE = NeoForgeRenderTypes.getUnlitTranslucent(TEXTURE);
+    private static final RenderType EMISSIVE_RENDER_TYPE = LimaTechRenderTypes.positionTexColor(TEXTURE);
 
     private final ModelPart body;
     private final ModelPart accents;
@@ -35,8 +35,6 @@ public class OrbGrenadeModel extends Model
         body = root.getChild("body");
         accents = root.getChild("accents");
         caps = root.getChild("caps");
-
-        NeoForgeRenderTypes.ITEM_UNSORTED_UNLIT_TRANSLUCENT.get();
     }
 
     public void animateFromEntity(OrbGrenadeEntity entity, float partialTick)

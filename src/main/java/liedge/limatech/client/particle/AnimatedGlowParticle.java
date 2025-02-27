@@ -29,7 +29,7 @@ public class AnimatedGlowParticle extends SimpleAnimatedParticle
         return particle;
     }
 
-    public static Particle freezeSnowflake(SimpleParticleType type, ClientLevel level, SpriteSet spriteSet, double x, double y, double z, double dx, double dy, double dz)
+    public static Particle cryoSnowflake(SimpleParticleType type, ClientLevel level, SpriteSet spriteSet, double x, double y, double z, double dx, double dy, double dz)
     {
         return new SnowflakeParticle(level, spriteSet, 0.825f, LimaColor.WHITE, x, y, z, 0, 0, 0);
     }

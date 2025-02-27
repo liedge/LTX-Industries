@@ -1,11 +1,13 @@
 package liedge.limatech.client.model.custom;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.JsonOps;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import liedge.limacore.data.LimaCoreCodecs;
 import liedge.limacore.lib.LimaColor;
-import liedge.limacore.util.LimaJsonUtil;
 import liedge.limatech.LimaTech;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
@@ -19,6 +21,8 @@ import java.util.List;
 public final class BubbleShieldModel implements ResourceManagerReloadListener
 {
     public static final BubbleShieldModel SHIELD_MODEL = new BubbleShieldModel();
+    public static final int SHIELD_POLYGON_COUNT = 122;
+    private static final Codec<List<SimpleTriangularGeometry>> CODEC = SimpleTriangularGeometry.CODEC.listOf(SHIELD_POLYGON_COUNT, SHIELD_POLYGON_COUNT);
 
     private final List<SimpleTriangularGeometry> geometries = new ObjectArrayList<>();
 
@@ -27,25 +31,21 @@ public final class BubbleShieldModel implements ResourceManagerReloadListener
     @Override
     public void onResourceManagerReload(ResourceManager manager)
     {
-        // Read json data
-        JsonArray root;
         try (BufferedReader reader = manager.openAsReader(LimaTech.RESOURCES.location("misc/bubble_shield_model.json")))
         {
-            root = GsonHelper.parseArray(reader);
-        }
-        catch (IOException ex)
-        {
-            throw new RuntimeException("Failed to load bubble shield model.", ex);
-        }
+            // Read json file
+            JsonArray root = GsonHelper.parseArray(reader);
 
-        // Clear current data
-        geometries.clear();
+            // Clear current data
+            geometries.clear();
 
-        // Read geometries
-        for (JsonElement element : root)
+            // Decode geometries
+            geometries.addAll(LimaCoreCodecs.strictDecode(CODEC, JsonOps.INSTANCE, root));
+        }
+        catch (JsonParseException | IllegalStateException | IOException ex)
         {
-            JsonArray rawGeometry = element.getAsJsonArray();
-            geometries.add(LimaJsonUtil.codecDecode(SimpleTriangularGeometry.CODEC, rawGeometry));
+            LimaTech.LOGGER.error("bubble_shield_model.json didn't decode correctly, it might be missing, corrupted, or modified by a data-pack. Don't do that.", ex);
+            throw new IllegalStateException("Failed to loaded bubble shield model.", ex);
         }
 
         LimaTech.LOGGER.info("Loaded bubble shield model.");

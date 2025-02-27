@@ -77,7 +77,7 @@ public class MagnumWeaponItem extends SemiAutoWeaponItem
     @Override
     public int getFireRate(ItemStack stack)
     {
-        return 17;
+        return 13;
     }
 
     @Override

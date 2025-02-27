@@ -3,13 +3,13 @@ package liedge.limatech.item;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.item.LimaCreativeTabFillerItem;
 import liedge.limacore.lib.Translatable;
+import liedge.limatech.LimaTechConstants;
 import liedge.limatech.client.LimaTechLang;
 import liedge.limatech.lib.upgrades.UpgradeBase;
 import liedge.limatech.lib.upgrades.UpgradeBaseEntry;
 import liedge.limatech.menu.tooltip.ItemGridTooltip;
 import liedge.limatech.registry.LimaTechItems;
 import liedge.limatech.util.config.LimaTechServerConfig;
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderSet;
@@ -90,8 +90,8 @@ public abstract class UpgradeModuleItem<U extends UpgradeBase<?, U>, UE extends 
         {
             tooltipComponents.add(moduleTypeTooltip().translate().withStyle(moduleTypeStyle()));
             U upgrade = entry.upgrade().value();
-            if (upgrade.maxRank() > 1) tooltipComponents.add(LimaTechLang.UPGRADE_RANK_TOOLTIP.translateArgs(entry.upgradeRank(), upgrade.maxRank()));
-            tooltipComponents.add(upgrade.description().copy().withStyle(ChatFormatting.GRAY));
+            if (upgrade.maxRank() > 1) tooltipComponents.add(LimaTechLang.UPGRADE_RANK_TOOLTIP.translateArgs(entry.upgradeRank(), upgrade.maxRank()).withStyle(LimaTechConstants.UPGRADE_RANK_MAGENTA.chatStyle()));
+            tooltipComponents.add(upgrade.description());
         }
         else
         {

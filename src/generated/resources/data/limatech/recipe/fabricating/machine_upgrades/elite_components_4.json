@@ -1,0 +1,49 @@
+{
+  "type": "limatech:fabricating",
+  "energy_required": 100000000,
+  "group": "machines/processing/2",
+  "ingredients": [
+    {
+      "type": "neoforge:components",
+      "components": {
+        "limatech:machine_upgrade": {
+          "rank": 3,
+          "upgrade": "limatech:elite_components"
+        }
+      },
+      "count": 1,
+      "items": "limatech:machine_upgrade_module",
+      "strict": true
+    },
+    {
+      "count": 8,
+      "item": "limatech:niobium_circuit"
+    },
+    {
+      "count": 16,
+      "item": "limatech:slate_alloy_ingot"
+    },
+    {
+      "count": 48,
+      "item": "limatech:titanium_ingot"
+    },
+    {
+      "count": 12,
+      "item": "minecraft:redstone_block"
+    },
+    {
+      "count": 1,
+      "item": "minecraft:beacon"
+    }
+  ],
+  "result": {
+    "components": {
+      "limatech:machine_upgrade": {
+        "rank": 4,
+        "upgrade": "limatech:elite_components"
+      }
+    },
+    "count": 1,
+    "id": "limatech:machine_upgrade_module"
+  }
+}

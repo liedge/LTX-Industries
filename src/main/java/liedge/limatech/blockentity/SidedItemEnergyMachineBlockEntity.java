@@ -9,6 +9,7 @@ import liedge.limacore.capability.itemhandler.ItemHolderBlockEntity;
 import liedge.limacore.capability.itemhandler.LimaBlockEntityItemHandler;
 import liedge.limacore.capability.itemhandler.LimaItemHandlerBase;
 import liedge.limacore.capability.itemhandler.StandaloneBlockEntityItemHandler;
+import liedge.limacore.data.LimaCoreCodecs;
 import liedge.limacore.inventory.menu.LimaMenuProvider;
 import liedge.limacore.util.LimaNbtUtil;
 import liedge.limatech.blockentity.io.MachineIOControl;
@@ -20,6 +21,8 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.resources.RegistryOps;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.level.Level;
@@ -188,7 +191,7 @@ public abstract class SidedItemEnergyMachineBlockEntity extends LimaBlockEntity 
         itemControl.deserializeNBT(registries, tag.getCompound("item_io"));
         energyControl.deserializeNBT(registries, tag.getCompound("energy_io"));
         upgradeModuleSlot.deserializeNBT(registries, tag.getCompound("upgrade_slot"));
-        upgrades = LimaNbtUtil.codecDecode(MachineUpgrades.CODEC, registries, tag, "upgrades");
+        upgrades = LimaNbtUtil.lenientDecode(MachineUpgrades.CODEC, RegistryOps.create(NbtOps.INSTANCE, registries), tag, "upgrades");
     }
 
     @Override
@@ -200,7 +203,7 @@ public abstract class SidedItemEnergyMachineBlockEntity extends LimaBlockEntity 
         tag.put("item_io", itemControl.serializeNBT(registries));
         tag.put("energy_io", energyControl.serializeNBT(registries));
         tag.put("upgrade_slot", upgradeModuleSlot.serializeNBT(registries));
-        tag.put("upgrades", LimaNbtUtil.codecEncode(MachineUpgrades.CODEC, registries, upgrades));
+        tag.put("upgrades", LimaCoreCodecs.strictEncode(MachineUpgrades.CODEC, RegistryOps.create(NbtOps.INSTANCE, registries), upgrades));
     }
 
     @Override

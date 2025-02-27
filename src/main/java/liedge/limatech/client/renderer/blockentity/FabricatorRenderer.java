@@ -56,10 +56,10 @@ public class FabricatorRenderer extends LimaBlockEntityRenderer<FabricatorBlockE
             poseStack.mulPose(Axis.XP.rotationDegrees(90f));
             poseStack.scale(0.4375f, 0.4375f, 0.4375f);
 
-            MultiBufferSource previewItemBuffer = renderType -> {
+            MultiBufferSource wireframeBufferSource = renderType -> {
                 if (blockEntity.isCrafting())
                 {
-                    return VALID_WIREFRAME_FORMATS.contains(renderType.format()) ? bufferSource.getBuffer(LimaTechRenderTypes.FABRICATOR_ITEM_PREVIEW) : EmptyVertexConsumer.EMPTY_VERTEX_CONSUMER;
+                    return VALID_WIREFRAME_FORMATS.contains(renderType.format()) ? bufferSource.getBuffer(LimaTechRenderTypes.FABRICATOR_WIREFRAME) : EmptyVertexConsumer.EMPTY_VERTEX_CONSUMER;
                 }
                 else
                 {
@@ -67,7 +67,7 @@ public class FabricatorRenderer extends LimaBlockEntityRenderer<FabricatorBlockE
                 }
             };
 
-            itemRenderer.renderStatic(previewItem, ItemDisplayContext.FIXED, light, overlay, poseStack, previewItemBuffer, Minecraft.getInstance().level, 0);
+            itemRenderer.renderStatic(previewItem, ItemDisplayContext.FIXED, light, overlay, poseStack, wireframeBufferSource, Minecraft.getInstance().level, 0);
 
             poseStack.popPose();
         }

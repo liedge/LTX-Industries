@@ -29,9 +29,9 @@ public class ClientWeaponControls extends AbstractWeaponControls
 
     public ClientWeaponControls() {}
 
-    private void sendPacketToServer(byte action)
+    private void sendPacketToServer(WeaponItem weaponItem, byte action)
     {
-        PacketDistributor.sendToServer(new ServerboundWeaponControlsPacket(action));
+        PacketDistributor.sendToServer(new ServerboundWeaponControlsPacket(weaponItem, action));
     }
 
     public TickTimer getAnimationTimerA()
@@ -57,7 +57,7 @@ public class ClientWeaponControls extends AbstractWeaponControls
 
     public void handleReloadInput(Player player, ItemStack heldItem, WeaponItem weaponItem)
     {
-        if (canReloadWeapon(heldItem, player, weaponItem)) sendPacketToServer(ServerboundWeaponControlsPacket.RELOAD_PRESS);
+        if (canReloadWeapon(heldItem, player, weaponItem)) sendPacketToServer(weaponItem, ServerboundWeaponControlsPacket.RELOAD_PRESS);
     }
 
     @Override
@@ -104,12 +104,12 @@ public class ClientWeaponControls extends AbstractWeaponControls
             if (leftInput)
             {
                 pressTrigger(heldItem, player, weaponItem);
-                sendPacketToServer(ServerboundWeaponControlsPacket.TRIGGER_PRESS);
+                sendPacketToServer(weaponItem, ServerboundWeaponControlsPacket.TRIGGER_PRESS);
             }
             else
             {
                 releaseTrigger(heldItem, weaponItem, player, true);
-                sendPacketToServer(ServerboundWeaponControlsPacket.TRIGGER_RELEASE);
+                sendPacketToServer(weaponItem, ServerboundWeaponControlsPacket.TRIGGER_RELEASE);
             }
 
             previousLeftInput = leftInput;

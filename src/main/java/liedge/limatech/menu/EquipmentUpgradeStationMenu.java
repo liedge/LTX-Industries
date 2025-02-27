@@ -114,7 +114,6 @@ public class EquipmentUpgradeStationMenu extends UpgradesConfigMenu<EquipmentUpg
                 EquipmentUpgrades newUpgrades = currentUpgrades.asBuilder().add(data.upgrade(), data.upgradeRank()).build();
                 equipmentItem.setUpgrades(equipmentStack, newUpgrades);
 
-                //UpgradeSystemUtil.iterateListEffectData(newUpgrades, LimaTechUpgradeDataTypes.EQUIPMENT_STATION, (effect, rank) -> effect.activateEquipmentEffect(level, rank, playerInventory.player, equipmentStack, null, null));
                 equipmentItem.refreshEquipmentUpgrades(equipmentStack, newUpgrades, playerInventory.player);
 
                 beInventory.setStackInSlot(EQUIPMENT_ITEM_SLOT, equipmentStack);
@@ -148,8 +147,6 @@ public class EquipmentUpgradeStationMenu extends UpgradesConfigMenu<EquipmentUpg
                     EquipmentUpgrades newUpgrades = currentUpgrades.asBuilder().remove(upgradeHolder).build();
                     equipmentItem.setUpgrades(equipmentStack, newUpgrades);
 
-                    //upgradeHolder.value().effects().getListEffect(LimaTechUpgradeDataTypes.EQUIPMENT_STATION.get()).forEach(effect -> effect.deactivateEquipmentEffect(sender.serverLevel(), upgradeRank, sender, equipmentStack, newUpgrades));
-                    //UpgradeSystemUtil.iterateListEffectData(newUpgrades, LimaTechUpgradeDataTypes.EQUIPMENT_STATION, (effect, rank) -> effect.activateEquipmentEffect(sender.serverLevel(), rank, playerInventory.player, equipmentStack, null, null));
                     equipmentItem.refreshEquipmentUpgrades(equipmentStack, newUpgrades, sender);
 
                     invWrapper.insertItem(nextSlot, upgradeModuleItem, false);

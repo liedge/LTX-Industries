@@ -5,6 +5,12 @@
     ],
     "subtitle": "subtitle.limatech.acid_grenade_explode"
   },
+  "cryo_grenade_explode": {
+    "sounds": [
+      "limatech:cryo_grenade_explode"
+    ],
+    "subtitle": "subtitle.limatech.cryo_grenade_explode"
+  },
   "electric_grenade_explode": {
     "sounds": [
       "limatech:electric_grenade_explode"
@@ -26,12 +32,6 @@
     ],
     "subtitle": "subtitle.limatech.flame_grenade_explode"
   },
-  "freeze_grenade_explode": {
-    "sounds": [
-      "limatech:freeze_grenade_explode"
-    ],
-    "subtitle": "subtitle.limatech.freeze_grenade_explode"
-  },
   "grenade_launcher_fire": {
     "sounds": [
       "limatech:grenade_launcher_fire"
@@ -44,20 +44,20 @@
     ],
     "subtitle": "subtitle.limatech.magnum_fire"
   },
-  "missile_explode": {
+  "neuro_grenade_explode": {
+    "sounds": [
+      "limatech:neuro_grenade_explode"
+    ],
+    "subtitle": "subtitle.limatech.neuro_grenade_explode"
+  },
+  "rocket_explode": {
     "sounds": [
       {
         "type": "event",
         "name": "entity.generic.explode"
       }
     ],
-    "subtitle": "subtitle.limatech.missile_explode"
-  },
-  "neuro_grenade_explode": {
-    "sounds": [
-      "limatech:neuro_grenade_explode"
-    ],
-    "subtitle": "subtitle.limatech.neuro_grenade_explode"
+    "subtitle": "subtitle.limatech.rocket_explode"
   },
   "rocket_launcher_fire": {
     "sounds": [

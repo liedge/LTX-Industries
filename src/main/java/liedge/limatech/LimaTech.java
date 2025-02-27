@@ -47,6 +47,7 @@ public class LimaTech
         LimaTechEquipmentUpgradeEffects.initRegister(modBus);
         LimaTechGameEvents.initRegister(modBus);
         LimaTechItems.initRegister(modBus);
+        LimaTechLootRegistries.initRegister(modBus);
         LimaTechMenus.initRegister(modBus);
         LimaTechMobEffects.initRegister(modBus);
         LimaTechNetworkSerializers.initRegister(modBus);

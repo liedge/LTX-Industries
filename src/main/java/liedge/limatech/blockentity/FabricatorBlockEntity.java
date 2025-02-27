@@ -106,6 +106,11 @@ public class FabricatorBlockEntity extends SidedItemEnergyMachineBlockEntity
         return machineEnergy;
     }
 
+    public MutableRecipeReference<FabricatingRecipe> getCurrentRecipe()
+    {
+        return currentRecipe;
+    }
+
     public boolean isCrafting()
     {
         return crafting;

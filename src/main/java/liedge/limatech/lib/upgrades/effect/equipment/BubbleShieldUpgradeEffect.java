@@ -15,7 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.LevelBasedValue;
 import org.jetbrains.annotations.Nullable;
 
-import static liedge.limatech.LimaTechConstants.BUBBLE_SHIELD_BLUE;
+import static liedge.limatech.LimaTechConstants.BUBBLE_SHIELD_GREEN;
 import static liedge.limatech.util.LimaTechTooltipUtil.flatNumberWithSign;
 import static liedge.limatech.util.LimaTechTooltipUtil.flatNumberWithoutSign;
 
@@ -36,7 +36,7 @@ public record BubbleShieldUpgradeEffect(LevelBasedValue amount, LevelBasedValue 
     @Override
     public Component defaultEffectTooltip(int upgradeRank)
     {
-        return LimaTechLang.SHIELD_UPGRADE_EFFECT.translateArgs(flatNumberWithSign(amount.calculate(upgradeRank)).withStyle(BUBBLE_SHIELD_BLUE.chatStyle()), flatNumberWithoutSign(maxShield.calculate(upgradeRank)).withStyle(BUBBLE_SHIELD_BLUE.chatStyle()));
+        return LimaTechLang.SHIELD_UPGRADE_EFFECT.translateArgs(flatNumberWithSign(amount.calculate(upgradeRank)).withStyle(BUBBLE_SHIELD_GREEN.chatStyle()), flatNumberWithoutSign(maxShield.calculate(upgradeRank)).withStyle(BUBBLE_SHIELD_GREEN.chatStyle()));
     }
 
     @Override

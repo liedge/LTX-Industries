@@ -1,7 +1,7 @@
 {
   "type": "limatech:fabricating",
   "energy_required": 1500000,
-  "group": "shield_upgrades",
+  "group": "weapons/shield",
   "ingredients": [
     {
       "count": 1,

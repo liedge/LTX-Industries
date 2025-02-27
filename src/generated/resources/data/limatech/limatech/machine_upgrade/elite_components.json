@@ -1,0 +1,67 @@
+{
+  "description": {
+    "translate": "machine_upgrade.limatech.elite_components.desc"
+  },
+  "effects": {
+    "limatech:energy_capacity": [
+      {
+        "operation": "multiply",
+        "value": {
+          "type": "exponential",
+          "base": 2.0,
+          "power": {
+            "type": "linear",
+            "base": 5.0,
+            "per_level_after_first": 1.0
+          }
+        }
+      }
+    ],
+    "limatech:energy_transfer_rate": [
+      {
+        "operation": "multiply",
+        "value": {
+          "type": "linear",
+          "base": 60.0,
+          "per_level_after_first": 12.0
+        }
+      }
+    ],
+    "limatech:energy_usage": [
+      {
+        "operation": "multiply",
+        "value": {
+          "type": "exponential",
+          "base": 2.0,
+          "power": {
+            "type": "linear",
+            "base": 5.0,
+            "per_level_after_first": 1.0
+          }
+        }
+      }
+    ],
+    "limatech:ticks_per_operation": [
+      {
+        "operation": "flat_addition",
+        "value": {
+          "type": "linear",
+          "base": -100.0,
+          "per_level_after_first": -20.0
+        }
+      }
+    ]
+  },
+  "exclusive_set": [],
+  "icon": "limatech:elite_components",
+  "max_rank": 4,
+  "supported_set": [
+    "limatech:digital_furnace",
+    "limatech:grinder",
+    "limatech:recomposer",
+    "limatech:material_fusing_chamber"
+  ],
+  "title": {
+    "translate": "machine_upgrade.limatech.elite_components.title"
+  }
+}

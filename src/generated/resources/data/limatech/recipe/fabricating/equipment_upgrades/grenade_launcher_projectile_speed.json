@@ -1,0 +1,32 @@
+{
+  "type": "limatech:fabricating",
+  "energy_required": 750000,
+  "group": "hanabi/speed",
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "limatech:empty_upgrade_module"
+    },
+    {
+      "count": 1,
+      "item": "limatech:gold_circuit"
+    },
+    {
+      "count": 9,
+      "item": "minecraft:firework_rocket"
+    },
+    {
+      "count": 2,
+      "item": "minecraft:phantom_membrane"
+    }
+  ],
+  "result": {
+    "components": {
+      "limatech:equipment_upgrade": {
+        "upgrade": "limatech:grenade_launcher_projectile_speed"
+      }
+    },
+    "count": 1,
+    "id": "limatech:equipment_upgrade_module"
+  }
+}

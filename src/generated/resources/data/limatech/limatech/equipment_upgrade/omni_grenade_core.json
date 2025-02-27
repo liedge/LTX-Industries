@@ -5,7 +5,7 @@
   "effects": {
     "limatech:grenade_unlock": [
       "flame",
-      "freeze",
+      "cryo",
       "electric",
       "acid",
       "neuro"

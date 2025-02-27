@@ -1,0 +1,67 @@
+{
+  "description": {
+    "translate": "machine_upgrade.limatech.reinforced_components.desc"
+  },
+  "effects": {
+    "limatech:energy_capacity": [
+      {
+        "operation": "multiply",
+        "value": {
+          "type": "exponential",
+          "base": 2.0,
+          "power": {
+            "type": "linear",
+            "base": 1.0,
+            "per_level_after_first": 1.0
+          }
+        }
+      }
+    ],
+    "limatech:energy_transfer_rate": [
+      {
+        "operation": "multiply",
+        "value": {
+          "type": "linear",
+          "base": 12.0,
+          "per_level_after_first": 12.0
+        }
+      }
+    ],
+    "limatech:energy_usage": [
+      {
+        "operation": "multiply",
+        "value": {
+          "type": "exponential",
+          "base": 2.0,
+          "power": {
+            "type": "linear",
+            "base": 1.0,
+            "per_level_after_first": 1.0
+          }
+        }
+      }
+    ],
+    "limatech:ticks_per_operation": [
+      {
+        "operation": "flat_addition",
+        "value": {
+          "type": "linear",
+          "base": -20.0,
+          "per_level_after_first": -20.0
+        }
+      }
+    ]
+  },
+  "exclusive_set": [],
+  "icon": "limatech:reinforced_components",
+  "max_rank": 4,
+  "supported_set": [
+    "limatech:digital_furnace",
+    "limatech:grinder",
+    "limatech:recomposer",
+    "limatech:material_fusing_chamber"
+  ],
+  "title": {
+    "translate": "machine_upgrade.limatech.reinforced_components.title"
+  }
+}

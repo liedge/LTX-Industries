@@ -2,7 +2,7 @@ package liedge.limatech.client.gui.widget;
 
 import liedge.limacore.client.gui.LimaMenuScreen;
 import liedge.limacore.client.gui.UnmanagedSprite;
-import liedge.limatech.menu.SidedUpgradableMachineMenu;
+import liedge.limatech.menu.UpgradableMachineMenu;
 import liedge.limatech.registry.LimaTechMenus;
 import net.minecraft.client.gui.components.Tooltip;
 
@@ -26,6 +26,6 @@ public class MachineUpgradesButton extends LimaSidebarButton
     @Override
     public void onPress(int button)
     {
-        parent.sendUnitButtonData(SidedUpgradableMachineMenu.UPGRADES_BUTTON_ID);
+        parent.sendUnitButtonData(UpgradableMachineMenu.UPGRADES_BUTTON_ID);
     }
 }

@@ -7,8 +7,9 @@ import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.network.sync.AutomaticDataWatcher;
 import liedge.limacore.util.LimaNbtUtil;
 import liedge.limatech.LimaTechTags;
-import liedge.limatech.entity.BaseMissileEntity;
+import liedge.limatech.entity.BaseRocketEntity;
 import liedge.limatech.entity.LimaTechEntityUtil;
+import liedge.limatech.lib.TurretTargetList;
 import liedge.limatech.registry.LimaTechSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -70,6 +71,11 @@ public class RocketTurretBlockEntity extends LimaBlockEntity implements BlockEnt
         return currentTarget;
     }
 
+    public void onRemovedFromLevel()
+    {
+        TurretTargetList.getOrDefault(getOwner()).removeTarget(currentTarget);
+    }
+
     @Override
     public @Nullable Player getOwner()
     {
@@ -125,12 +131,14 @@ public class RocketTurretBlockEntity extends LimaBlockEntity implements BlockEnt
     @Override
     protected void tickServer(Level level, BlockPos pos, BlockState state)
     {
-        // Handle targeting queue
+        // Get the target list
+        Player owner = getOwner();
+        TurretTargetList targetList = TurretTargetList.getOrDefault(owner);
+
+        // Fill targeting queue
         if (targetQueue.isEmpty() && ticker > 40)
         {
-            Player owner = getOwner();
-
-            level.getEntities(owner, getTargetArea(), e -> isValidTarget(level, owner, e))
+            level.getEntities(owner, getTargetArea(), e -> isValidTarget(level, owner, e) && !targetList.containsTarget(e))
                     .stream()
                     .sorted(Comparator.comparingDouble(e -> e.distanceToSqr(projectileStart)))
                     .limit(10)
@@ -138,25 +146,44 @@ public class RocketTurretBlockEntity extends LimaBlockEntity implements BlockEnt
 
             ticker = 0;
         }
-        else if (!targetQueue.isEmpty() && (currentTarget == null || !checkAlive(currentTarget)))
+
+        // Check if target is not null and alive
+        if (currentTarget != null && checkAlive(currentTarget))
         {
-            currentTarget = targetQueue.poll();
-            ticker = 0;
+            if (ticker > 30) // Fire missile at 30 ticks
+            {
+                BaseRocketEntity.TurretRocket missile = new BaseRocketEntity.TurretRocket(level);
+                missile.setOwner(owner);
+                missile.setPos(projectileStart);
+                missile.aimTowardsEntity(currentTarget, 2.5f, 0);
+                missile.setTargetEntity(currentTarget);
+                level.addFreshEntity(missile);
+                level.playSound(null, projectileStart.x, projectileStart.y, projectileStart.z, LimaTechSounds.ROCKET_LAUNCHER_FIRE.get(), SoundSource.BLOCKS, 1.5f, Mth.randomBetween(level.random, 0.75f, 0.9f));
+
+                targetList.removeTarget(currentTarget);
+                currentTarget = null;
+                ticker = 0;
+            }
         }
-
-        // Shoot target if valid and select next
-        if (ticker > 30 && currentTarget != null && checkAlive(currentTarget))
+        else // If target is null or dead
         {
-            BaseMissileEntity.TurretMissile missile = new BaseMissileEntity.TurretMissile(level);
-            missile.setOwner(getOwner());
-            missile.setPos(projectileStart);
-            missile.aimTowardsEntity(currentTarget, 2.5f, 0);
-            missile.setTargetEntity(currentTarget);
-            level.addFreshEntity(missile);
-            level.playSound(null, projectileStart.x, projectileStart.y, projectileStart.z, LimaTechSounds.ROCKET_LAUNCHER_FIRE.get(), SoundSource.BLOCKS, 1.5f, Mth.randomBetween(level.random, 0.75f, 0.9f));
+            currentTarget = null; // Set to null since target can be dead but still stored in BE, fixes mini-memory leak and more consistent with client behavior
 
-            currentTarget = targetQueue.poll();
-            ticker = 0;
+            // If target queue is not empty, select next target
+            if (!targetQueue.isEmpty())
+            {
+                while (!targetQueue.isEmpty())
+                {
+                    Entity next = targetQueue.poll();
+                    if (targetList.addTarget(next))
+                    {
+                        currentTarget = next;
+                        break;
+                    }
+                }
+
+                ticker = 0;
+            }
         }
 
         ticker++;

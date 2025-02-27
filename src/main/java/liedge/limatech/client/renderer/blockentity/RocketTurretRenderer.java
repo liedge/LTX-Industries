@@ -72,6 +72,14 @@ public class RocketTurretRenderer extends LimaBlockEntityRenderer<RocketTurretBl
     @Override
     public AABB getRenderBoundingBox(RocketTurretBlockEntity blockEntity)
     {
-        return blockEntity.getTargetArea();
+        if (blockEntity.getCurrentTarget() != null)
+        {
+            return AABB.INFINITE;
+        }
+        else
+        {
+            BlockPos pos = blockEntity.getBlockPos();
+            return new AABB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 2, pos.getZ() + 1);
+        }
     }
 }

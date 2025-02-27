@@ -1,0 +1,32 @@
+{
+  "type": "limatech:fabricating",
+  "energy_required": 1000000,
+  "group": "weapons/general",
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "limatech:empty_upgrade_module"
+    },
+    {
+      "count": 2,
+      "item": "limatech:gold_circuit"
+    },
+    {
+      "count": 8,
+      "item": "minecraft:tnt"
+    },
+    {
+      "count": 2,
+      "item": "minecraft:piston"
+    }
+  ],
+  "result": {
+    "components": {
+      "limatech:equipment_upgrade": {
+        "upgrade": "limatech:high_impact_rounds"
+      }
+    },
+    "count": 1,
+    "id": "limatech:equipment_upgrade_module"
+  }
+}

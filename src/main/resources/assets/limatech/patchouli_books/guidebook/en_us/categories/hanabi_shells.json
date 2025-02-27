@@ -1,0 +1,6 @@
+{
+  "name": "Hanabi Shell Types",
+  "description": "All of the types of shells the Hanabi can use.",
+  "icon": "limatech:textures/upgrade_icon/omni_grenade_core.png",
+  "parent": "limatech:weapons"
+}

@@ -16,9 +16,9 @@ final class LimaTechServerPacketHandler
     public static void handleWeaponControlsPacket(ServerboundWeaponControlsPacket packet, IPayloadContext context, ServerPlayer sender)
     {
         ItemStack heldItem = sender.getMainHandItem();
-        if (heldItem.getItem() instanceof WeaponItem weaponItem)
+        if (heldItem.is(packet.weaponItem()))
         {
-            sender.getData(LimaTechAttachmentTypes.WEAPON_CONTROLS).asServerControls().handleClientAction(heldItem, sender, weaponItem, packet.action());
+            sender.getData(LimaTechAttachmentTypes.WEAPON_CONTROLS).asServerControls().handleClientAction(heldItem, sender, packet.weaponItem(), packet.action());
         }
     }
 

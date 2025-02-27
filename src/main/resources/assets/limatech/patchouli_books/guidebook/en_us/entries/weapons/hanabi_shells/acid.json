@@ -1,0 +1,14 @@
+{
+  "name": "Acid Shells",
+  "sortnum": 1,
+  "category": "limatech:hanabi_shells",
+  "icon": "limatech:textures/upgrade_icon/acid_grenade_core.png",
+  "pages": [
+    "Blast radius: 5.0$(br)Base damage: 50.0$(br2)$(#39e622)$(l)Acid$() shells douse targets with a highly corrosive chemical. These shells specialize against highly armored or higher health targets.",
+    {
+      "type": "patchouli:text",
+      "title": "Corroding",
+      "text": "Acid grenades impart the Corroding III effect on targets, reducing their armor and armor toughness by 99.99% for the duration of the effect."
+    }
+  ]
+}

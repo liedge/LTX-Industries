@@ -12,15 +12,15 @@ import liedge.limatech.client.model.baked.DynamicModularGeometry;
 import liedge.limatech.client.model.baked.LimaTechExtraBakedModels;
 import liedge.limatech.client.model.custom.BubbleShieldModel;
 import liedge.limatech.client.model.entity.LimaTechModelLayers;
-import liedge.limatech.client.model.entity.MissileModel;
 import liedge.limatech.client.model.entity.OrbGrenadeModel;
+import liedge.limatech.client.model.entity.RocketModel;
 import liedge.limatech.client.particle.*;
 import liedge.limatech.client.renderer.blockentity.EnergyStorageArrayRenderer;
 import liedge.limatech.client.renderer.blockentity.EquipmentUpgradeStationRenderer;
 import liedge.limatech.client.renderer.blockentity.FabricatorRenderer;
 import liedge.limatech.client.renderer.blockentity.RocketTurretRenderer;
-import liedge.limatech.client.renderer.entity.MissileRenderer;
 import liedge.limatech.client.renderer.entity.OrbGrenadeRenderer;
+import liedge.limatech.client.renderer.entity.RocketRenderer;
 import liedge.limatech.client.renderer.entity.StickyFlameRenderer;
 import liedge.limatech.client.renderer.item.LimaTechItemRenderers;
 import liedge.limatech.client.renderer.item.UpgradeModuleItemExtensions;
@@ -92,7 +92,7 @@ public final class LimaTechClientSetup
         registerPositionOnly(event, HALF_SONIC_BOOM, HalfSonicBoomParticle::new);
         event.registerSpecial(HALF_SONIC_BOOM_EMITTER.get(), HalfSonicBoomParticle.EmitterParticle::new);
         event.registerSpecial(GROUND_ICICLE.get(), GroundIcicleParticle::new);
-        registerPositionVelocity(event, FREEZE_SNOWFLAKE, AnimatedGlowParticle::freezeSnowflake);
+        registerPositionVelocity(event, CRYO_SNOWFLAKE, AnimatedGlowParticle::cryoSnowflake);
         registerPositionVelocity(event, MINI_ELECTRIC_SPARK, AnimatedGlowParticle::electricSpark);
         event.registerSpecial(FIXED_ELECTRIC_BOLT.get(), FixedElectricBoltParticle::new);
         event.registerSprite(CORROSIVE_DRIP.get(), AcidDripParticle::corrosiveDripParticle);
@@ -107,8 +107,8 @@ public final class LimaTechClientSetup
     {
         // Entities
         event.registerEntityRenderer(LimaTechEntities.ORB_GRENADE.get(), OrbGrenadeRenderer::new);
-        event.registerEntityRenderer(LimaTechEntities.ROCKET_LAUNCHER_MISSILE.get(), MissileRenderer::new);
-        event.registerEntityRenderer(LimaTechEntities.TURRET_MISSILE.get(), MissileRenderer::new);
+        event.registerEntityRenderer(LimaTechEntities.DAYBREAK_ROCKET.get(), RocketRenderer::new);
+        event.registerEntityRenderer(LimaTechEntities.TURRET_ROCKET.get(), RocketRenderer::new);
         event.registerEntityRenderer(LimaTechEntities.STICKY_FLAME.get(), StickyFlameRenderer::new);
 
         // Block entities
@@ -123,7 +123,7 @@ public final class LimaTechClientSetup
     public static void registerLayerDefinitions(final EntityRenderersEvent.RegisterLayerDefinitions event)
     {
         event.registerLayerDefinition(LimaTechModelLayers.ORB_GRENADE, OrbGrenadeModel::defineLayer);
-        event.registerLayerDefinition(LimaTechModelLayers.MISSILE, MissileModel::defineLayer);
+        event.registerLayerDefinition(LimaTechModelLayers.ROCKET, RocketModel::defineLayer);
     }
 
     @SubscribeEvent

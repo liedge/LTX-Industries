@@ -1,6 +1,6 @@
 package liedge.limatech.item.weapon;
 
-import liedge.limatech.entity.BaseMissileEntity;
+import liedge.limatech.entity.BaseRocketEntity;
 import liedge.limatech.entity.LimaTechEntityUtil;
 import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.limatech.lib.weapons.AbstractWeaponControls;
@@ -14,7 +14,9 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.Comparator;
@@ -29,13 +31,12 @@ public class RocketLauncherWeaponItem extends SemiAutoWeaponItem
         super(properties);
     }
 
-    private boolean canLockOnTo(Player player, Entity target)
+    private boolean isInTargetScanPath(Player player, Entity target)
     {
         if (LimaTechEntityUtil.isValidWeaponTarget(player, target) && target.distanceTo(player) >= 10 && target instanceof LivingEntity)
         {
             Vec3 look = player.getViewVector(1f);
-            Vec3 targetCenter = target.getBoundingBox().getCenter();
-            Vec3 path = new Vec3(targetCenter.x - player.getX(), targetCenter.y - player.getEyeY(), targetCenter.z - player.getZ());
+            Vec3 path = target.getBoundingBox().getCenter().subtract(player.getEyePosition());
 
             double distanceBetween = path.length();
             double dot = look.dot(path.normalize());
@@ -54,8 +55,16 @@ public class RocketLauncherWeaponItem extends SemiAutoWeaponItem
 
         if (!level.isClientSide() && canTryFocus)
         {
-            Vec3 scanPath = player.getViewVector(1f).scale(50);
-            Optional<Entity> entity = level.getEntities(player, player.getBoundingBox().expandTowards(scanPath), e -> canLockOnTo(player, e)).stream().min(Comparator.comparingDouble(e -> e.distanceToSqr(player)));
+            Vec3 scanPath = player.getViewVector(1f).scale(60);
+
+            Optional<Entity> entity = level.getEntities(player, player.getBoundingBox().expandTowards(scanPath), e -> isInTargetScanPath(player, e))
+                    .stream()
+                    .min(Comparator.comparingDouble(e -> e.distanceToSqr(player)))
+                    .filter(e -> {
+                        HitResult blockTrace = level.clip(new ClipContext(player.getEyePosition(), e.getBoundingBox().getCenter(), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, player));
+                        return blockTrace.getType() == HitResult.Type.MISS || e.getBoundingBox().contains(blockTrace.getLocation());
+                    });
+
             if (entity.isPresent() && entity.get() instanceof LivingEntity livingEntity)
             {
                 if (!player.level().isClientSide()) controls.asServerControls().setFocusedTargetAndNotify(player, livingEntity);
@@ -106,7 +115,7 @@ public class RocketLauncherWeaponItem extends SemiAutoWeaponItem
         {
             EquipmentUpgrades upgrades = getUpgrades(heldItem);
 
-            BaseMissileEntity.RocketLauncherMissile missile = new BaseMissileEntity.RocketLauncherMissile(level, upgrades);
+            BaseRocketEntity.DaybreakRocket missile = new BaseRocketEntity.DaybreakRocket(level, upgrades);
             missile.setOwner(player);
 
             LivingEntity focusedTarget = controls.getFocusedTarget();

@@ -40,7 +40,7 @@ public interface UpgradableMachineBlockEntity extends SubMenuProviderBlockEntity
             double newProcessingTime = getUpgrades().runCompoundOps(LimaTechUpgradeEffectComponents.TICKS_PER_OPERATION, null, null, processMachine.getBaseTicksPerOperation());
 
             processMachine.setEnergyUsage(LimaMathUtil.round(newEnergyUsage));
-            processMachine.setTicksPerOperation(Math.max(1, LimaMathUtil.round(newProcessingTime, LimaMathUtil.RoundingStrategy.FLOOR)));
+            processMachine.setTicksPerOperation(Math.max(0, LimaMathUtil.round(newProcessingTime, LimaMathUtil.RoundingStrategy.FLOOR)));
         }
     }
 }

@@ -1,6 +1,7 @@
 package liedge.limatech.entity;
 
 import liedge.limacore.client.particle.ColorSizeParticleOptions;
+import liedge.limacore.data.LimaCoreCodecs;
 import liedge.limacore.util.LimaBlockUtil;
 import liedge.limacore.util.LimaNbtUtil;
 import liedge.limacore.util.LimaNetworkUtil;
@@ -10,7 +11,9 @@ import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.limatech.lib.weapons.GrenadeType;
 import liedge.limatech.registry.*;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -72,7 +75,7 @@ public class OrbGrenadeEntity extends LimaTechProjectile implements IEntityWithC
         {
             case EXPLOSIVE -> 10d;
             case FLAME -> 9d;
-            case FREEZE -> 11d;
+            case CRYO -> 11d;
             case ELECTRIC -> checkGrenadeInRainOrWater() ? 16d : 8d;
             case ACID, NEURO -> 5d;
         };
@@ -84,7 +87,7 @@ public class OrbGrenadeEntity extends LimaTechProjectile implements IEntityWithC
         {
             case EXPLOSIVE -> LimaTechDamageTypes.EXPLOSIVE_GRENADE;
             case FLAME -> LimaTechDamageTypes.FLAME_GRENADE;
-            case FREEZE -> LimaTechDamageTypes.FREEZE_GRENADE;
+            case CRYO -> LimaTechDamageTypes.CRYO_GRENADE;
             case ELECTRIC -> LimaTechDamageTypes.ELECTRIC_GRENADE;
             case ACID -> LimaTechDamageTypes.ACID_GRENADE;
             case NEURO -> LimaTechDamageTypes.NEURO_GRENADE;
@@ -103,7 +106,7 @@ public class OrbGrenadeEntity extends LimaTechProjectile implements IEntityWithC
         return switch (grenadeType)
         {
             case FLAME -> type.is(LimaTechTags.EntityTypes.WEAK_TO_FLAME) ? FLAME_GRENADE_DAMAGE_MULTIPLIER.getAsDouble() : 1d;
-            case FREEZE -> type.is(LimaTechTags.EntityTypes.WEAK_TO_FREEZE) ? FREEZE_GRENADE_DAMAGE_MULTIPLIER.getAsDouble() : 1d;
+            case CRYO -> type.is(LimaTechTags.EntityTypes.WEAK_TO_CRYO) ? CRYO_GRENADE_DAMAGE_MULTIPLIER.getAsDouble() : 1d;
             case ELECTRIC -> (hitEntity.isInWaterOrRain() || type.is(LimaTechTags.EntityTypes.WEAK_TO_ELECTRIC)) ? ELECTRIC_GRENADE_DAMAGE_MULTIPLIER.getAsDouble() : 1d;
             default -> 1d;
         };
@@ -115,7 +118,7 @@ public class OrbGrenadeEntity extends LimaTechProjectile implements IEntityWithC
         {
             case EXPLOSIVE -> EXPLOSIVE_GRENADE_BASE_DAMAGE;
             case FLAME -> FLAME_GRENADE_BASE_DAMAGE;
-            case FREEZE -> FREEZE_GRENADE_BASE_DAMAGE;
+            case CRYO -> CRYO_GRENADE_BASE_DAMAGE;
             case ELECTRIC -> ELECTRIC_GRENADE_BASE_DAMAGE;
             case ACID -> ACID_GRENADE_BASE_DAMAGE;
             case NEURO -> NEURO_GRENADE_BASE_DAMAGE;
@@ -128,9 +131,9 @@ public class OrbGrenadeEntity extends LimaTechProjectile implements IEntityWithC
     {
         MobEffectInstance instance = switch (grenadeType)
         {
-            case FREEZE -> new MobEffectInstance(FREEZING, 400, 1);
+            case CRYO -> new MobEffectInstance(FROSTBITE, 400, 2);
             case ACID -> new MobEffectInstance(CORROSIVE, 200, 2);
-            case NEURO -> new MobEffectInstance(NEURO, 600, 2);
+            case NEURO -> new MobEffectInstance(NEURO_SUPPRESSED, 600, 2);
             default -> null;
         };
 
@@ -206,7 +209,7 @@ public class OrbGrenadeEntity extends LimaTechProjectile implements IEntityWithC
         // Fire the sculk event if no suppression upgrade is present
         if (upgrades.upgradeEffectTypeAbsent(LimaTechUpgradeEffectComponents.PREVENT_SCULK_VIBRATION.get())) level.gameEvent(owner, LimaTechGameEvents.PROJECTILE_EXPLODED, hitLocation);
 
-        level.playSound(null, hitLocation.x, hitLocation.y, hitLocation.z, LimaTechSounds.GRENADE_SOUNDS.get(grenadeType).get(), SoundSource.PLAYERS, 2.5f, 0.9f);
+        level.playSound(null, hitLocation.x, hitLocation.y, hitLocation.z, LimaTechSounds.GRENADE_SOUNDS.get(grenadeType).get(), SoundSource.PLAYERS, 2.5f, Mth.randomBetween(random, 0.77f, 0.9f));
         LimaNetworkUtil.spawnAlwaysVisibleParticle(level, new GrenadeExplosionParticleOptions(grenadeType, radius), hitLocation);
         discard();
     }
@@ -234,8 +237,7 @@ public class OrbGrenadeEntity extends LimaTechProjectile implements IEntityWithC
     {
         super.readAdditionalSaveData(tag);
         setGrenadeType(GrenadeType.CODEC.byNameOrElse(tag.getString("grenade_type"), GrenadeType.EXPLOSIVE));
-
-        if (tag.contains("upgrades")) upgrades = LimaNbtUtil.codecDecode(EquipmentUpgrades.CODEC, registryAccess(), tag, "upgrades");
+        upgrades = LimaNbtUtil.lenientDecode(EquipmentUpgrades.CODEC, RegistryOps.create(NbtOps.INSTANCE, registryAccess()), tag, "upgrades");
     }
 
     @Override
@@ -243,8 +245,7 @@ public class OrbGrenadeEntity extends LimaTechProjectile implements IEntityWithC
     {
         super.addAdditionalSaveData(tag);
         tag.putString("grenade_type", grenadeType.getSerializedName());
-
-        if (upgrades != EquipmentUpgrades.EMPTY) tag.put("upgrades", LimaNbtUtil.codecEncode(EquipmentUpgrades.CODEC, registryAccess(), upgrades));
+        tag.put("upgrades", LimaCoreCodecs.strictEncode(EquipmentUpgrades.CODEC, RegistryOps.create(NbtOps.INSTANCE, registryAccess()), upgrades));
     }
 
     @Override

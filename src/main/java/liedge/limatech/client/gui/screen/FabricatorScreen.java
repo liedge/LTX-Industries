@@ -41,6 +41,7 @@ public class FabricatorScreen extends SidedUpgradableMachineScreen<FabricatorMen
     private static final ResourceLocation TEXTURE = LimaTech.RESOURCES.textureLocation("gui", "fabricator");
     private static final UnmanagedSprite SELECTOR_SPRITE = new UnmanagedSprite(TEXTURE, 190, 22, 18, 18);
     private static final UnmanagedSprite SELECTOR_SELECTED_SPRITE = new UnmanagedSprite(TEXTURE, 208, 22, 18, 18);
+    private static final UnmanagedSprite SELECTOR_ACTIVE_CRAFTING_SPRITE = new UnmanagedSprite(TEXTURE, 190, 40, 18, 18);
     private static final UnmanagedSprite SELECTOR_HOVERED_SPRITE = new UnmanagedSprite(TEXTURE, 226, 22, 18, 18);
 
     private final int recipeRows;
@@ -100,6 +101,7 @@ public class FabricatorScreen extends SidedUpgradableMachineScreen<FabricatorMen
         addRenderableOnly(new EnergyGaugeWidget(menu.menuContext().getEnergyStorage(), leftPos + 10, topPos + 10));
         addRenderableOnly(new ProgressWidget(leftPos + 61, topPos + 83, menu.menuContext()));
         this.scrollbar = addRenderableWidget(new ScrollbarWidget(leftPos + 168, topPos + 32, 72, this));
+        scrollbar.reset(); // Always reset scrollbar after reinitializing
         addSidebarWidgets();
     }
 
@@ -124,8 +126,14 @@ public class FabricatorScreen extends SidedUpgradableMachineScreen<FabricatorMen
             int rx = selectorLeft() + (gridIndex % SELECTOR_GRID_WIDTH) * 18;
             int ry = selectorTop() + (gridIndex / SELECTOR_GRID_WIDTH) * 18;
 
+            FabricatingRecipe gridRecipe = recipes.get(i).value();
+
             UnmanagedSprite sprite;
-            if (gridIndex == selectedRecipeIndex)
+            if (menu.menuContext().isCrafting() && menu.menuContext().getCurrentRecipe().testValue(Minecraft.getInstance().level, r -> gridRecipe == r))
+            {
+                sprite = SELECTOR_ACTIVE_CRAFTING_SPRITE;
+            }
+            else if (gridIndex == selectedRecipeIndex)
             {
                 sprite = SELECTOR_SELECTED_SPRITE;
             }
@@ -139,8 +147,8 @@ public class FabricatorScreen extends SidedUpgradableMachineScreen<FabricatorMen
             }
             sprite.singleBlit(graphics, rx, ry);
 
-            RecipeHolder<FabricatingRecipe> holder = recipes.get(i);
-            ItemStack resultStack = holder.value().getResultItem(null);
+
+            ItemStack resultStack = gridRecipe.getResultItem(null);
             graphics.renderFakeItem(resultStack, rx + 1, ry + 1);
             graphics.renderItemDecorations(font, resultStack, rx + 1, ry + 1);
         }
@@ -256,7 +264,7 @@ public class FabricatorScreen extends SidedUpgradableMachineScreen<FabricatorMen
         @Override
         public boolean hasTooltip()
         {
-            return getFillPercentage() > 0;
+            return blockEntity.isCrafting();
         }
 
         @Override

@@ -17,7 +17,6 @@ public abstract class FullAutoWeaponItem extends WeaponItem
         if (!player.level().isClientSide() && input.canStartShootingWeapon(heldItem, player, this))
         {
             input.startHoldingTrigger(heldItem, player, this);
-            //input.setTriggerHeld(heldItem, player, this, true);
         }
     }
 

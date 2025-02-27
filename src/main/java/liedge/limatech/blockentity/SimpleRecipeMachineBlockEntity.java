@@ -241,7 +241,7 @@ public abstract class SimpleRecipeMachineBlockEntity<I extends RecipeInput, R ex
         // Tick recipe progress
         if (crafting && lastUsedRecipe != null && canInsertResultItem(level, lastUsedRecipe.value()))
         {
-            if (craftingProgress >= getTicksPerOperation())
+            if ((getTicksPerOperation() == 0 && LimaEnergyUtil.consumeEnergy(energyStorage, getEnergyUsage(), false)) || craftingProgress >= getTicksPerOperation()) // In zero-tick operations call energy consumption
             {
                 ItemStack craftedItem = lastUsedRecipe.value().assemble(recipeInput, level.registryAccess());
                 getItemHandler().insertItem(outputSlotIndex(), craftedItem, false);

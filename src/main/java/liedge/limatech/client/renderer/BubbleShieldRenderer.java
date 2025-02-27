@@ -27,7 +27,7 @@ public final class BubbleShieldRenderer
     private BubbleShieldRenderer()
     {
         ArrayDeque<Integer> deque = new ArrayDeque<>();
-        IntList indexes = LimaCollectionsUtil.toIntList(IntStream.range(0, 122));
+        IntList indexes = LimaCollectionsUtil.toIntList(IntStream.range(0, BubbleShieldModel.SHIELD_POLYGON_COUNT));
         IntLists.shuffle(indexes, LimaMathUtil.RANDOM).forEach(deque::push);
 
         for (int i = 0; i < 16; i++)

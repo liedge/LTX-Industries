@@ -1,9 +1,9 @@
 package liedge.limatech.network.packet;
 
 import liedge.limacore.client.LimaCoreClientUtil;
-import liedge.limatech.LimaTech;
 import liedge.limatech.LimaTechCapabilities;
 import liedge.limatech.entity.BubbleShieldUser;
+import liedge.limatech.item.weapon.WeaponItem;
 import liedge.limatech.lib.weapons.ClientWeaponControls;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -37,9 +37,18 @@ final class LimaTechClientPacketHandler
         if (player != null)
         {
             ItemStack heldItem = player.getMainHandItem();
-            if (heldItem.is(packet.weaponItem()))
+            if (heldItem.getItem() instanceof WeaponItem weaponItem)
             {
-                ClientWeaponControls.of(player).handleServerAction(heldItem, player, packet.weaponItem(), packet.action());
+                ClientWeaponControls controls = ClientWeaponControls.of(player);
+
+                if (packet.weaponItem() == weaponItem)
+                {
+                    controls.handleServerAction(heldItem, player, weaponItem, packet.action());
+                }
+                else
+                {
+                    controls.stopHoldingTrigger(heldItem, player, weaponItem, false, false);
+                }
             }
         }
     }
@@ -51,7 +60,6 @@ final class LimaTechClientPacketHandler
 
         if (player != null)
         {
-            LimaTech.LOGGER.debug("Receiving focus target on client. Valid? {}", livingEntity != null);
             ClientWeaponControls.of(player).setFocusedTarget(livingEntity);
         }
     }

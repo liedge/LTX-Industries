@@ -25,8 +25,8 @@ public final class LimaTechWeaponsConfig
     public static final ModConfigSpec.DoubleValue EXPLOSIVE_GRENADE_BASE_DAMAGE;
     public static final ModConfigSpec.DoubleValue FLAME_GRENADE_BASE_DAMAGE;
     public static final ModConfigSpec.DoubleValue FLAME_GRENADE_DAMAGE_MULTIPLIER;
-    public static final ModConfigSpec.DoubleValue FREEZE_GRENADE_BASE_DAMAGE;
-    public static final ModConfigSpec.DoubleValue FREEZE_GRENADE_DAMAGE_MULTIPLIER;
+    public static final ModConfigSpec.DoubleValue CRYO_GRENADE_BASE_DAMAGE;
+    public static final ModConfigSpec.DoubleValue CRYO_GRENADE_DAMAGE_MULTIPLIER;
     public static final ModConfigSpec.DoubleValue ELECTRIC_GRENADE_BASE_DAMAGE;
     public static final ModConfigSpec.DoubleValue ELECTRIC_GRENADE_DAMAGE_MULTIPLIER;
     public static final ModConfigSpec.DoubleValue ACID_GRENADE_BASE_DAMAGE;
@@ -79,8 +79,8 @@ public final class LimaTechWeaponsConfig
         EXPLOSIVE_GRENADE_BASE_DAMAGE = builder.comment("Explosive grenades base damage").defineInRange("explosive_base_damage", 30.0d, 0.1d, Double.MAX_VALUE);
         FLAME_GRENADE_BASE_DAMAGE = builder.comment("Flame grenades base damage").defineInRange("flame_base_damage", 10.0d, 0.1d, Double.MAX_VALUE);
         FLAME_GRENADE_DAMAGE_MULTIPLIER = builder.comment("Flame grenades damage multiplier to mobs that have the dataTag limatech:weak_to_flame").defineInRange("flame_multiplier", 3.0d, 0d, Double.MAX_VALUE);
-        FREEZE_GRENADE_BASE_DAMAGE = builder.comment("Freeze grenades base damage").defineInRange("freeze_base_damage", 4.0d, 0.1d, Double.MAX_VALUE);
-        FREEZE_GRENADE_DAMAGE_MULTIPLIER = builder.comment("Freeze grenades damage multiplier to mobs that have the dataTag limatech:weak_to_freeze").defineInRange("freeze_multiplier", 8.0d, 0d, Double.MAX_VALUE);
+        CRYO_GRENADE_BASE_DAMAGE = builder.comment("Cryo grenades base damage").defineInRange("cryo_base_damage", 4.0d, 0.1d, Double.MAX_VALUE);
+        CRYO_GRENADE_DAMAGE_MULTIPLIER = builder.comment("Cryo grenades damage multiplier to mobs that have the dataTag limatech:weak_to_cryo").defineInRange("cryo_multiplier", 8.0d, 0d, Double.MAX_VALUE);
         ELECTRIC_GRENADE_BASE_DAMAGE = builder.comment("Electric grenades base damage").defineInRange("electric_base_damage", 30.0d, 0.1d, Double.MAX_VALUE);
         ELECTRIC_GRENADE_DAMAGE_MULTIPLIER = builder.comment("Electric grenades damage multiplier to mobs in rain/water or that have the entity type tag limatech:weak_to_electric").defineInRange("electric_multiplier", 3.0d, 0d, Double.MAX_VALUE);
         ACID_GRENADE_BASE_DAMAGE = builder.comment("Acid grenades base damage").defineInRange("acid_base_damage", 50.0d, 0.1d, Double.MAX_VALUE);

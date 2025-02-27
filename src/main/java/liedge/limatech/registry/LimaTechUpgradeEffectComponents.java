@@ -29,6 +29,8 @@ public final class LimaTechUpgradeEffectComponents
     public static final DeferredHolder<DataComponentType<?>, UpgradeDataComponentType<List<EquipmentUpgradeEffect>>> WEAPON_PRE_ATTACK = COMPONENTS.register("weapon_pre_attack", () -> listType(EquipmentUpgradeEffect.CODEC));
     public static final DeferredHolder<DataComponentType<?>, ValueUpgradeEffect.ComponentType> ARMOR_BYPASS = valueComponent("armor_bypass", false);
     public static final DeferredHolder<DataComponentType<?>, ValueUpgradeEffect.ComponentType> WEAPON_DAMAGE = valueComponent("weapon_damage", true);
+    public static final DeferredHolder<DataComponentType<?>, ValueUpgradeEffect.ComponentType> ENTITY_PUNCH_THROUGH = valueComponent("entity_punch_through", true);
+    public static final DeferredHolder<DataComponentType<?>, ValueUpgradeEffect.ComponentType> BLOCK_PUNCH_THROUGH = valueComponent("block_punch_through", true);
     public static final DeferredHolder<DataComponentType<?>, ValueUpgradeEffect.ComponentType> WEAPON_PROJECTILE_SPEED = valueComponent("weapon_projectile_speed", true);
     public static final DeferredHolder<DataComponentType<?>, UpgradeDataComponentType<List<EquipmentUpgradeEffect>>> WEAPON_KILL = COMPONENTS.register("weapon_kill", () -> listType(EquipmentUpgradeEffect.CODEC));
     public static final DeferredHolder<DataComponentType<?>, UpgradeDataComponentType<AmmoSourceUpgradeEffect>> AMMO_SOURCE = COMPONENTS.register("ammo_source", () -> singletonType(AmmoSourceUpgradeEffect.CODEC));

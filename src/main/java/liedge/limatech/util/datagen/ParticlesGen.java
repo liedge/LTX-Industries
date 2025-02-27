@@ -21,7 +21,7 @@ class ParticlesGen extends LimaParticleDescriptionProvider
         spriteSet(COLOR_GLITTER, MC.location("glitter"), 8, true);
         sprite(COLOR_FLASH, MC.location("flash"));
         spriteSet(HALF_SONIC_BOOM, "color_sonic_boom", 6, 16, false);
-        spriteSet(FREEZE_SNOWFLAKE, "freeze_snowflake", 10, false);
+        spriteSet(CRYO_SNOWFLAKE, "cryo_snowflake", 10, false);
         spriteSet(MINI_ELECTRIC_SPARK, MC.location("spark"), 8, false);
         sprite(CORROSIVE_DRIP, MC.location("drip_fall"));
         sprite(ACID_FALL, MC.location("drip_fall"));

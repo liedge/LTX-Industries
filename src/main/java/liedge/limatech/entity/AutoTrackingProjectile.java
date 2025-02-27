@@ -20,7 +20,7 @@ public abstract class AutoTrackingProjectile extends LimaTechProjectile
         super(type, level);
     }
 
-    public @Nullable Entity getTargeted()
+    public @Nullable Entity getTargetEntity()
     {
         if (targeted != null && targeted.isAlive())
         {
@@ -51,7 +51,7 @@ public abstract class AutoTrackingProjectile extends LimaTechProjectile
     {
         if (!isClientSide)
         {
-            Entity target = getTargeted();
+            Entity target = getTargetEntity();
             if (target != null)
             {
                 aimTowardsEntity(target, getDeltaMovement().length(), 0, 30);

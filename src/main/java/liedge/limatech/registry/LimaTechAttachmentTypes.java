@@ -3,6 +3,7 @@ package liedge.limatech.registry;
 import liedge.limacore.util.LimaCoreUtil;
 import liedge.limatech.LimaTech;
 import liedge.limatech.lib.StandaloneBubbleShield;
+import liedge.limatech.lib.TurretTargetList;
 import liedge.limatech.lib.weapons.AbstractWeaponControls;
 import liedge.limatech.lib.weapons.ClientWeaponControls;
 import liedge.limatech.lib.weapons.ServerWeaponControls;
@@ -30,4 +31,6 @@ public final class LimaTechAttachmentTypes
         Player player = LimaCoreUtil.castOrThrow(Player.class, holder, () -> new IllegalStateException("Weapon controls attachment can only be added to players."));
         return player.level().isClientSide() ? new ClientWeaponControls() : new ServerWeaponControls();
     }).build());
+
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<TurretTargetList>> TARGET_LIST = ATTACHMENTS.register("target_list", () -> AttachmentType.builder(TurretTargetList::create).build());
 }

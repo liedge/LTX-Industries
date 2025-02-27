@@ -115,7 +115,7 @@ class LanguageGen extends LimaLanguageProvider
         simpleHintItem(TARGETING_TECH_SALVAGE, "Salvaged Tech: Auto-Targeting Systems", "Broken electronics from a targeting computer. Might be useful in reconstructing guidance systems for weaponry.");
 
         addWeaponItem(SUBMACHINE_GUN, "Serenity", "LTX-07/SD");
-        addWeaponItem(SHOTGUN, "Aurora", "LTX-19/SG");
+        addWeaponItem(SHOTGUN, "Aurora", "LTX-21/SG");
         addWeaponItem(GRENADE_LAUNCHER, "Hanabi", "LTX-33/GL");
         addWeaponItem(ROCKET_LAUNCHER, "Daybreak", "LTX-42/RL");
         addWeaponItem(MAGNUM, "Nova", "LTX-77/HX");
@@ -123,7 +123,7 @@ class LanguageGen extends LimaLanguageProvider
         simpleHintItem(AUTO_AMMO_CANISTER, "Automatics Ammo Canister", "Stabilized energy suitable for use in low-power high frequency projectile synthesis.");
         simpleHintItem(SPECIALIST_AMMO_CANISTER, "Specialist Ammo Canister", "Concentrated energy suitable for use in medium-power projectile synthesis.");
         simpleHintItem(EXPLOSIVES_AMMO_CANISTER, "Explosives Ammo Canister", "Volatile energy suitable for use in explosive weaponry.");
-        simpleHintItem(ROCKET_LAUNCHER_AMMO, "Daybreak Mini Missiles", "Programmable, compact rockets for use in the Daybreak launcher.");
+        simpleHintItem(ROCKET_LAUNCHER_AMMO, "Daybreak Rockets", "Programmable, compact rockets for use in the Daybreak launcher.");
         simpleHintItem(MAGNUM_AMMO_CANISTER, "Magnum Ammo Canister", "Highly concentrated, compact energy capable of handling the energy spikes of the Nova magnum.");
         //#endregion
 
@@ -148,16 +148,17 @@ class LanguageGen extends LimaLanguageProvider
         equipmentUpgrade(LimaTechEquipmentUpgrades.GRENADE_LAUNCHER_PROJECTILE_SPEED, "Hanabi Launch Boost", "Increases the velocity of the Hanabi grenades.");
 
         equipmentUpgrade(LimaTechEquipmentUpgrades.FLAME_GRENADE_CORE, "Hanabi Core/Flame", "Grenades are loaded with a concentrated fuel that creates powerful flames.");
-        equipmentUpgrade(LimaTechEquipmentUpgrades.FREEZE_GRENADE_CORE, "Hanabi Core/Freeze", "Grenades contain a cryogenic compound that freezes a large area.");
+        equipmentUpgrade(LimaTechEquipmentUpgrades.CRYO_GRENADE_CORE, "Hanabi Core/Cryo", "Grenades contain a cryogenic compound that freezes a large area.");
         equipmentUpgrade(LimaTechEquipmentUpgrades.ELECTRIC_GRENADE_CORE, "Hanabi Core/Electric", "Grenades create a burst of electrical energy. Recommended for use in humid/aquatic environments.");
         equipmentUpgrade(LimaTechEquipmentUpgrades.ACID_GRENADE_CORE, "Hanabi Core/Acid", "Grenades contain a highly corrosive acid that reduces target armor strength.");
         equipmentUpgrade(LimaTechEquipmentUpgrades.NEURO_GRENADE_CORE, "Hanabi Core/Neuro", "Grenades contain a powerful neuro-suppressant agent that highly reduces target attack strength.");
-        equipmentUpgrade(LimaTechEquipmentUpgrades.OMNI_GRENADE_CORE, "Hanabi Core/ARCOIRIS", "Full spectrum adaptable core for the Hanabi. Allows the use of any of grenade types.");
+        equipmentUpgrade(LimaTechEquipmentUpgrades.OMNI_GRENADE_CORE, "Hanabi Core/ARCOIRIS", "Full spectrum adaptable core for the Hanabi. Allows the use of any of grenade shells.");
         //#endregion
 
         //#region Machine upgrades
         machineUpgrade(LimaTechMachineUpgrades.ESA_CAPACITY_UPGRADE, "Auxiliary Energy Cells", "Increases the energy capacity and transfer rate of the Energy Storage Array.");
-        machineUpgrade(LimaTechMachineUpgrades.GENERAL_PROCESSING_UPGRADE, "Upgraded Internal Parts", "General purpose upgrade for basic machines. Increases stats all around as well as processing speed (at the cost of increased energy consumption).");
+        machineUpgrade(LimaTechMachineUpgrades.REINFORCED_COMPONENTS, "Reinforced Internal Components", "Sturdy industry-standard components that provide a moderate stat boost all around to your machinery.");
+        machineUpgrade(LimaTechMachineUpgrades.ELITE_COMPONENTS, "Elite Internal Components", "Upgrades your machine with exotic materials, provides very large stat boosts! Hope you have enough energy.");
         machineUpgrade(LimaTechMachineUpgrades.FABRICATOR_UPGRADE, "Enhanced Tool Head", "Elevate your Fabricator's manufacturing capabilities with superior internal components.");
         //#endregion
 
@@ -190,14 +191,14 @@ class LanguageGen extends LimaLanguageProvider
 
         // Entity type names
         addEntityType(LimaTechEntities.ORB_GRENADE, "Orb Grenade");
-        addEntityType(LimaTechEntities.ROCKET_LAUNCHER_MISSILE, "Rocket Launcher Missile");
-        addEntityType(LimaTechEntities.TURRET_MISSILE, "Turret Missile");
+        addEntityType(LimaTechEntities.DAYBREAK_ROCKET, "Daybreak Rocket");
+        addEntityType(LimaTechEntities.TURRET_ROCKET, "Turret Rocket");
         addEntityType(LimaTechEntities.STICKY_FLAME, "Sticky Flame");
 
         // Mob effects
-        addEffect(LimaTechMobEffects.FREEZING, "Freezing");
+        addEffect(LimaTechMobEffects.FROSTBITE, "Frostbite");
         addEffect(LimaTechMobEffects.CORROSIVE, "Corroding");
-        addEffect(LimaTechMobEffects.NEURO, "Neuro-Suppressed");
+        addEffect(LimaTechMobEffects.NEURO_SUPPRESSED, "Neuro-Suppressed");
 
         // Enchantments
         enchantment(LimaTechEnchantments.RAZOR, "Razor");
@@ -257,7 +258,7 @@ class LanguageGen extends LimaLanguageProvider
         add(INFINITE_AMMO_EFFECT, "Unlocks infinite ammo");
         add(SHIELD_UPGRADE_EFFECT, "%s Bubble Shield/kill, (max %s)");
         add(ENCHANTMENT_UPGRADE_EFFECT, "%s %s Enchantment");
-        add(GRENADE_UNLOCK_EFFECT, "Unlocks %s grenades");
+        add(GRENADE_UNLOCK_EFFECT, "Can use %s shells");
 
         add(TooltipShiftHintItem.HINT_HOVER_TOOLTIP, "Hold SHIFT for extra info");
         add(WeaponAmmoSource.NORMAL.getItemTooltip(), "Reloads with %s");
@@ -266,7 +267,7 @@ class LanguageGen extends LimaLanguageProvider
 
         add(WeaponItem.AMMO_LOADED_TOOLTIP, "Ammo: %s/%s");
         add(WeaponItem.ENERGY_AMMO_COST_TOOLTIP, "Ammo Synth Cost: %s");
-        add(GrenadeLauncherWeaponItem.GRENADE_TYPE_TOOLTIP, "%s rounds equipped");
+        add(GrenadeLauncherWeaponItem.GRENADE_TYPE_TOOLTIP, "%s shells equipped");
         //#endregion
 
         // Sound subtitles
@@ -276,7 +277,7 @@ class LanguageGen extends LimaLanguageProvider
         soundEvent(GRENADE_LAUNCHER_FIRE, "Grenade launched");
         soundEvent(ROCKET_LAUNCHER_FIRE, "Rocket launched");
         soundEvent(MAGNUM_FIRE, "Magnum fires");
-        soundEvent(MISSILE_EXPLODE, "Missile explodes");
+        soundEvent(ROCKET_EXPLODE, "Rocket explodes");
         GRENADE_SOUNDS.forEach((element, holder) -> soundEvent(holder, localizeSimpleName(element) + " grenade explodes"));
 
         // Orb grenade elements
@@ -292,7 +293,7 @@ class LanguageGen extends LimaLanguageProvider
         damageType(LimaTechDamageTypes.MAGNUM_LIGHTFRAG, "%s was erased by %s's %s");
         damageType(LimaTechDamageTypes.EXPLOSIVE_GRENADE, "%s was blown away by %s's %s");
         damageType(LimaTechDamageTypes.FLAME_GRENADE, "%s was incinerated by %s's %s");
-        damageType(LimaTechDamageTypes.FREEZE_GRENADE, "%s was frozen solid by %s's %s");
+        damageType(LimaTechDamageTypes.CRYO_GRENADE, "%s was frozen solid by %s's %s");
         damageType(LimaTechDamageTypes.ELECTRIC_GRENADE, "%s was electrocuted by %s's %s");
         damageType(LimaTechDamageTypes.ACID_GRENADE, "%s was dissolved by %s's %s");
         damageType(LimaTechDamageTypes.NEURO_GRENADE, "%s was decayed by %s's %s");

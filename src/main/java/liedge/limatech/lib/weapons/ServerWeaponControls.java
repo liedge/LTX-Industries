@@ -2,7 +2,6 @@ package liedge.limatech.lib.weapons;
 
 import liedge.limacore.capability.energy.LimaEnergyUtil;
 import liedge.limacore.lib.TickTimer;
-import liedge.limacore.util.LimaCoreUtil;
 import liedge.limacore.util.LimaEntityUtil;
 import liedge.limatech.item.weapon.WeaponItem;
 import liedge.limatech.network.packet.ClientboundFocusTargetPacket;
@@ -15,6 +14,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.Nullable;
 
 public class ServerWeaponControls extends AbstractWeaponControls
@@ -28,7 +28,7 @@ public class ServerWeaponControls extends AbstractWeaponControls
 
     private void sendPacketToClient(Player player, CustomPacketPayload packet)
     {
-        LimaCoreUtil.castOrThrow(ServerPlayer.class, player).connection.send(packet);
+        PacketDistributor.sendToPlayersTrackingEntityAndSelf(player, packet);
     }
 
     private void sendPacketToClient(Player player, WeaponItem weaponItem, byte action)

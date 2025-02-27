@@ -50,6 +50,7 @@ public class FabricatorMenu extends SidedUpgradableMachineMenu<FabricatorBlockEn
     {
         menuContext.getEnergyStorage().keepAllPropertiesSynced(collector);
         collector.register(menuContext.keepProgressSynced());
+        collector.register(menuContext.getCurrentRecipe().createDataWatcher());
     }
 
     @Override

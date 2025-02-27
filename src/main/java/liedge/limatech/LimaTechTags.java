@@ -76,7 +76,7 @@ public final class LimaTechTags
         public static final TagKey<EntityType<?>> IMMUNE_TO_LTX_WEAPONS = tag("immune_to_ltx_weapons");
 
         public static final TagKey<EntityType<?>> WEAK_TO_FLAME = tag("weak_to_flame");
-        public static final TagKey<EntityType<?>> WEAK_TO_FREEZE = tag("weak_to_freeze");
+        public static final TagKey<EntityType<?>> WEAK_TO_CRYO = tag("weak_to_cryo");
         public static final TagKey<EntityType<?>> WEAK_TO_ELECTRIC = tag("weak_to_electric");
 
         public static final TagKey<EntityType<?>> ROCKET_TURRET_TARGETS = tag("rocket_turret_targets");

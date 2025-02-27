@@ -26,7 +26,7 @@ class SoundsGen extends LimaSoundDefinitionsProvider
         addSingleDirectSound(GRENADE_LAUNCHER_FIRE);
         addSingleDirectSound(ROCKET_LAUNCHER_FIRE);
         addSingleDirectSound(MAGNUM_FIRE);
-        addSingleEventRedirectSound(MISSILE_EXPLODE, GENERIC_EXPLODE);
+        addSingleEventRedirectSound(ROCKET_EXPLODE, GENERIC_EXPLODE);
 
         GRENADE_SOUNDS.forEach((element, holder) -> {
             if (element == GrenadeType.EXPLOSIVE)

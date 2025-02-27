@@ -19,11 +19,6 @@ public interface UpgradeIcon
 
     Type getType();
 
-    default boolean shouldDisplayRank(UpgradeBaseEntry<?> entry)
-    {
-        return entry.upgrade().value().maxRank() > 1;
-    }
-
     record SpriteSheetIcon(ResourceLocation location) implements UpgradeIcon
     {
         private static final Codec<SpriteSheetIcon> FLAT_CODEC = ResourceLocation.CODEC.xmap(SpriteSheetIcon::new, SpriteSheetIcon::location);

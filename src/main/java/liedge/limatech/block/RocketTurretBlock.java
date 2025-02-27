@@ -3,6 +3,7 @@ package liedge.limatech.block;
 import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.inventory.menu.LimaMenuProvider;
 import liedge.limacore.util.LimaBlockUtil;
+import liedge.limatech.blockentity.RocketTurretBlockEntity;
 import liedge.limatech.registry.LimaTechBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -120,6 +121,9 @@ public class RocketTurretBlock extends BaseWrenchEntityBlock implements SimpleWa
             BlockPos opposite = state.getValue(DOUBLE_BLOCK_HALF) == DoubleBlockHalf.LOWER ? pos.above() : pos.below();
             level.removeBlock(opposite, false);
 
+            RocketTurretBlockEntity be = LimaBlockUtil.getSafeBlockEntity(level, pos, RocketTurretBlockEntity.class);
+            if (be != null) be.onRemovedFromLevel();
+
             super.onRemove(state, level, pos, newState, movedByPiston);
         }
     }
@@ -154,7 +158,7 @@ public class RocketTurretBlock extends BaseWrenchEntityBlock implements SimpleWa
 
             if (belowState.is(this))
             {
-                belowState.onDestroyedByPlayer(level, below, player, willHarvest, fluid);
+                belowState.onDestroyedByPlayer(level, below, player, false, fluid);
             }
         }
 

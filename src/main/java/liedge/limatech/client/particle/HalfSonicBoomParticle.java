@@ -1,5 +1,8 @@
 package liedge.limatech.client.particle;
 
+import liedge.limacore.client.LimaCoreClientUtil;
+import liedge.limacore.client.particle.ColorParticleOptions;
+import liedge.limacore.lib.LimaColor;
 import liedge.limatech.registry.LimaTechParticles;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.NoRenderParticle;
@@ -7,13 +10,12 @@ import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.client.renderer.LightTexture;
-import net.minecraft.core.particles.SimpleParticleType;
 
 public class HalfSonicBoomParticle extends TextureSheetParticle
 {
     private final SpriteSet spriteSet;
 
-    public HalfSonicBoomParticle(SimpleParticleType type, ClientLevel level, SpriteSet spriteSet, double x, double y, double z)
+    public HalfSonicBoomParticle(ColorParticleOptions options, ClientLevel level, SpriteSet spriteSet, double x, double y, double z)
     {
         super(level, x, y, z);
 
@@ -22,8 +24,7 @@ public class HalfSonicBoomParticle extends TextureSheetParticle
         this.hasPhysics = false;
         this.lifetime = 4 + random.nextInt(3);
 
-        float shade = (random.nextFloat() * 0.5f) + 0.5f;
-        setColor(shade, shade, shade);
+        LimaCoreClientUtil.setParticleColor(this, options.color());
 
         setSpriteFromAge(spriteSet);
     }
@@ -55,10 +56,13 @@ public class HalfSonicBoomParticle extends TextureSheetParticle
 
     public static class EmitterParticle extends NoRenderParticle
     {
-        public EmitterParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double dx, double dy, double dz)
+        private final LimaColor color;
+
+        public EmitterParticle(ColorParticleOptions options, ClientLevel level, double x, double y, double z, double dx, double dy, double dz)
         {
             super(level, x, y, z);
             this.lifetime = 3;
+            this.color = options.color();
         }
 
         @Override
@@ -75,7 +79,7 @@ public class HalfSonicBoomParticle extends TextureSheetParticle
                 double py = y + (random.nextDouble() - random.nextDouble()) * 4.25d;
                 double pz = z + (random.nextDouble() - random.nextDouble()) * 4.25d;
 
-                level.addAlwaysVisibleParticle(LimaTechParticles.HALF_SONIC_BOOM.get(), true, px, py, pz, 0, 0, 0);
+                level.addAlwaysVisibleParticle(new ColorParticleOptions(LimaTechParticles.HALF_SONIC_BOOM, color), true, px, py, pz, 0, 0, 0);
             }
         }
     }

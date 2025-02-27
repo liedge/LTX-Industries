@@ -98,7 +98,6 @@ public class MachineUpgradeMenu extends UpgradesConfigMenu<UpgradableMachineBloc
     protected void tryRemoveUpgrade(ServerPlayer sender, ResourceLocation upgradeId)
     {
         ResourceKey<MachineUpgrade> upgradeKey = ResourceKey.create(LimaTechRegistries.Keys.MACHINE_UPGRADES, upgradeId);
-
         MachineUpgrades currentUpgrades = menuContext.getUpgrades();
         Holder<MachineUpgrade> upgradeHolder = level().registryAccess().holderOrThrow(upgradeKey);
 

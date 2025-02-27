@@ -1,5 +1,6 @@
 package liedge.limatech.client.particle;
 
+import liedge.limacore.client.particle.ColorParticleOptions;
 import liedge.limacore.client.particle.ColorSizeParticleOptions;
 import liedge.limacore.util.LimaMathUtil;
 import liedge.limatech.registry.LimaTechParticles;
@@ -32,8 +33,8 @@ public class GrenadeExplosionParticle extends NoRenderParticle
 
         switch (grenadeElement)
         {
-            case EXPLOSIVE -> level.addParticle(LimaTechParticles.HALF_SONIC_BOOM_EMITTER.get(), true, x, y, z, 0, 0, 0);
-            case FREEZE -> freezeExplosion();
+            case EXPLOSIVE -> level.addParticle(new ColorParticleOptions(LimaTechParticles.HALF_SONIC_BOOM_EMITTER, grenadeElement.getColor()), true, x, y, z, 0, 0, 0);
+            case CRYO -> cryoSnowflakeExplosion();
             case ELECTRIC -> particleBall(LimaTechParticles.MINI_ELECTRIC_SPARK.get(), 0.5d, 1);
             case ACID -> acidExplosion();
             case NEURO -> neuroExplosion();
@@ -55,9 +56,9 @@ public class GrenadeExplosionParticle extends NoRenderParticle
         }
     }
 
-    private void freezeExplosion()
+    private void cryoSnowflakeExplosion()
     {
-        particleBallManualSpeed(LimaTechParticles.FREEZE_SNOWFLAKE.get(), 0.325d, 1);
+        particleBallManualSpeed(LimaTechParticles.CRYO_SNOWFLAKE.get(), 0.325d, 1);
 
         BlockPos.betweenClosedStream(AABB.ofSize(getPos(), 3, 3, 3)).filter(this::isNotAirAndHasAirAbove).forEach(blockPos -> {
             VoxelShape shape = level.getBlockState(blockPos).getCollisionShape(level, blockPos);

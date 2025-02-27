@@ -1,0 +1,14 @@
+{
+  "name": "Cryo Shells",
+  "sortnum": 1,
+  "category": "limatech:hanabi_shells",
+  "icon": "limatech:textures/upgrade_icon/cryo_grenade_core.png",
+  "pages": [
+    "Blast radius: 11.0$(br)Base damage: 4.0$(br2)$(#c0f6fc)$(l)Cryo$() shells cover a large area and specialize in crowd control or high damage against enemies weak to ice.",
+    {
+      "type": "patchouli:text",
+      "title": "Frostbite",
+      "text": "Cryo grenades apply the Frostbite III status effect on targets. Each level of Frostbite reduces $(o)Attack speed, movement speed, flying speed, and mining speed$() by 25%."
+    }
+  ]
+}

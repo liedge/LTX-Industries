@@ -7,18 +7,21 @@ import liedge.limacore.lib.LimaColor;
 import liedge.limatech.client.renderer.LimaTechRenderTypes;
 import net.minecraft.Util;
 import net.minecraft.client.Camera;
-import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import org.joml.Matrix4f;
 
+import static liedge.limatech.LimaTech.RESOURCES;
 import static liedge.limatech.LimaTechConstants.HOSTILE_ORANGE;
 import static liedge.limatech.LimaTechConstants.LIME_GREEN;
 
 public final class LimaTechRenderUtil
 {
+    private static final RenderType LOCK_ON_INDICATOR_RENDER_TYPE = LimaTechRenderTypes.positionTexColor(RESOURCES.textureLocation("entity", "target_triangle"));
+
     private static final float ANIMATION_B_FACTOR = 1 / 0.9f;
     private static final float ANIMATION_C_FACTOR = 1 / 0.7f;
 
@@ -147,9 +150,9 @@ public final class LimaTechRenderUtil
     private static void drawLockOnTriangle(VertexConsumer buffer, Matrix4f mx4, float y1, LimaColor color)
     {
         float y2 = y1 + 1f;
-        buffer.addVertex(mx4, (float) 0, y1, 0).setColor(color.red(), color.green(), color.blue(), 1f).setUv(0, 0).setLight(LightTexture.FULL_BRIGHT);
-        buffer.addVertex(mx4, (float) 0, y2, 0).setColor(color.red(), color.green(), color.blue(), 1f).setUv(0, 1).setLight(LightTexture.FULL_BRIGHT);
-        buffer.addVertex(mx4, 1f, y2, 0).setColor(color.red(), color.green(), color.blue(), 1f).setUv(1, 1).setLight(LightTexture.FULL_BRIGHT);
-        buffer.addVertex(mx4, 1f, y1, 0).setColor(color.red(), color.green(), color.blue(), 1f).setUv(1, 0).setLight(LightTexture.FULL_BRIGHT);
+        buffer.addVertex(mx4, (float) 0, y1, 0).setColor(color.red(), color.green(), color.blue(), 1f).setUv(0, 0);
+        buffer.addVertex(mx4, (float) 0, y2, 0).setColor(color.red(), color.green(), color.blue(), 1f).setUv(0, 1);
+        buffer.addVertex(mx4, 1f, y2, 0).setColor(color.red(), color.green(), color.blue(), 1f).setUv(1, 1);
+        buffer.addVertex(mx4, 1f, y1, 0).setColor(color.red(), color.green(), color.blue(), 1f).setUv(1, 0);
     }
 }

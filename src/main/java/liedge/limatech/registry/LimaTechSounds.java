@@ -29,7 +29,7 @@ public final class LimaTechSounds
     public static final DeferredHolder<SoundEvent, SoundEvent> GRENADE_LAUNCHER_FIRE = register("grenade_launcher_fire");
     public static final DeferredHolder<SoundEvent, SoundEvent> ROCKET_LAUNCHER_FIRE = register("rocket_launcher_fire");
     public static final DeferredHolder<SoundEvent, SoundEvent> MAGNUM_FIRE = register("magnum_fire");
-    public static final DeferredHolder<SoundEvent, SoundEvent> MISSILE_EXPLODE = register("missile_explode");
+    public static final DeferredHolder<SoundEvent, SoundEvent> ROCKET_EXPLODE = register("rocket_explode");
     public static final Map<GrenadeType, DeferredHolder<SoundEvent, SoundEvent>> GRENADE_SOUNDS = LimaCollectionsUtil.fillAndCreateImmutableEnumMap(GrenadeType.class, e -> register(e.getSerializedName() + "_grenade_explode"));
 
     private static DeferredHolder<SoundEvent, SoundEvent> register(String name)

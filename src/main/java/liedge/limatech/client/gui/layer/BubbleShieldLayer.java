@@ -40,7 +40,7 @@ public final class BubbleShieldLayer extends LimaGuiLayer
 
             BUBBLE_SHIELD_INDICATOR.singleBlit(graphics, x, y);
 
-            graphics.drawString(Minecraft.getInstance().font, Integer.toString((int) shieldHealth), x + 11, y + 3, LimaTechConstants.BUBBLE_SHIELD_BLUE.packedRGB(), false);
+            graphics.drawString(Minecraft.getInstance().font, Integer.toString((int) shieldHealth), x + 11, y + 3, LimaTechConstants.BUBBLE_SHIELD_GREEN.packedRGB(), false);
         }
     }
 }

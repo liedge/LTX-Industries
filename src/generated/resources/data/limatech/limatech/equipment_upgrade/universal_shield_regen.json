@@ -16,7 +16,7 @@
     ]
   },
   "exclusive_set": [],
-  "icon": "limatech:shield_regen",
+  "icon": "limatech:bubble_shield",
   "max_rank": 3,
   "supported_set": "#limatech:ltx_weapons",
   "title": {

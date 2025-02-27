@@ -1,0 +1,31 @@
+{
+  "description": {
+    "translate": "equipment_upgrade.limatech.cryo_grenade_core.desc"
+  },
+  "effects": {
+    "limatech:grenade_unlock": [
+      "cryo"
+    ]
+  },
+  "exclusive_set": [],
+  "icon": {
+    "type": "item_sprite_overlay",
+    "height": 10,
+    "item": {
+      "components": {
+        "limatech:grenade_type": "cryo",
+        "limatech:weapon_ammo": 6
+      },
+      "count": 1,
+      "id": "limatech:grenade_launcher"
+    },
+    "sprite": "limatech:cryo_grenade_core",
+    "width": 10,
+    "x_offset": 0,
+    "y_offset": 6
+  },
+  "supported_set": "limatech:grenade_launcher",
+  "title": {
+    "translate": "equipment_upgrade.limatech.cryo_grenade_core.title"
+  }
+}
