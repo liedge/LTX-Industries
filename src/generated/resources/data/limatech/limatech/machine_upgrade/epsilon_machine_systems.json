@@ -1,0 +1,43 @@
+{
+  "description": {
+    "translate": "machine_upgrade.limatech.epsilon_machine_systems.desc"
+  },
+  "effects": {
+    "limatech:energy_capacity": [
+      {
+        "operation": "multiply",
+        "value": 8.0
+      }
+    ],
+    "limatech:energy_transfer_rate": [
+      {
+        "operation": "multiply",
+        "value": 16.0
+      }
+    ],
+    "limatech:energy_usage": [
+      {
+        "operation": "multiply",
+        "value": 256.0
+      }
+    ],
+    "limatech:ticks_per_operation": [
+      {
+        "operation": "add_multiplied_total",
+        "value": -1.0
+      }
+    ]
+  },
+  "exclusive_set": [],
+  "icon": "limatech:epsilon_systems",
+  "supported_set": [
+    "limatech:digital_furnace",
+    "limatech:grinder",
+    "limatech:recomposer",
+    "limatech:material_fusing_chamber"
+  ],
+  "title": {
+    "color": "#9DF143",
+    "translate": "machine_upgrade.limatech.epsilon_machine_systems.title"
+  }
+}

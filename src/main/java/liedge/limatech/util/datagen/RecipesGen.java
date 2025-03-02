@@ -373,52 +373,46 @@ class RecipesGen extends LimaRecipeProvider
                 .input(FIREWORK_ROCKET, 36)
                 .input(PHANTOM_MEMBRANE, 8));
 
-        machineModuleFab(output, registries, "machines/processing/1", REINFORCED_COMPONENTS, 1, 100_000, builder -> builder
+        machineModuleFab(output, registries, "machines/processing/alpha", ALPHA_MACHINE_SYSTEMS, 1, 100_000, builder -> builder
                 .input(COPPER_CIRCUIT, 1)
-                .input(TITANIUM_INGOT, 4)
+                .input(TITANIUM_INGOT, 2)
                 .input(REDSTONE, 8)
                 .input(IRON_INGOT, 4));
-        machineModuleFab(output, registries, "machines/processing/1", REINFORCED_COMPONENTS, 2, 400_000, builder -> builder
+        machineModuleFab(output, registries, "machines/processing/alpha", ALPHA_MACHINE_SYSTEMS, 2, 400_000, builder -> builder
                 .input(GOLD_CIRCUIT, 1)
-                .input(TITANIUM_INGOT, 6)
+                .input(TITANIUM_INGOT, 4)
                 .input(REDSTONE, 12)
-                .input(BLAZE_POWDER, 2));
-        machineModuleFab(output, registries, "machines/processing/1", REINFORCED_COMPONENTS, 3, 700_000, builder -> builder
+                .input(LAPIS_LAZULI, 4));
+        machineModuleFab(output, registries, "machines/processing/alpha", ALPHA_MACHINE_SYSTEMS, 3, 700_000, builder -> builder
                 .input(GOLD_CIRCUIT, 2)
-                .input(TITANIUM_INGOT, 8)
-                .input(REDSTONE, 16)
+                .input(TITANIUM_INGOT, 6)
+                .input(REDSTONE_BLOCK, 2)
                 .input(OBSIDIAN, 4));
-        machineModuleFab(output, registries, "machines/processing/1", REINFORCED_COMPONENTS, 4, 1_000_000, builder -> builder
-                .input(GOLD_CIRCUIT, 4)
-                .input(TITANIUM_INGOT, 12)
-                .input(REDSTONE, 24)
-                .input(DIAMOND, 2));
-
-        machineModuleFab(output, registries, "machines/processing/2", ELITE_COMPONENTS, 1, 10_000_000, builder -> builder
+        machineModuleFab(output, registries, "machines/processing/alpha", ALPHA_MACHINE_SYSTEMS, 4, 10_000_000, builder -> builder
                 .input(NIOBIUM_CIRCUIT, 1)
                 .input(SLATE_ALLOY_INGOT, 2)
-                .input(TITANIUM_INGOT, 16)
+                .input(TITANIUM_INGOT, 8)
                 .input(REDSTONE_BLOCK, 4)
-                .input(OBSIDIAN, 4));
-        machineModuleFab(output, registries, "machines/processing/2", ELITE_COMPONENTS, 2, 40_000_000, builder -> builder
+                .input(DIAMOND, 1));
+        machineModuleFab(output, registries, "machines/processing/alpha", ALPHA_MACHINE_SYSTEMS, 5, 40_000_000, builder -> builder
                 .input(NIOBIUM_CIRCUIT, 2)
                 .input(SLATE_ALLOY_INGOT, 4)
-                .input(TITANIUM_INGOT, 24)
-                .input(REDSTONE_BLOCK, 6)
-                .input(ECHO_SHARD, 4)
-                .input(CHORUS_FRUIT, 4));
-        machineModuleFab(output, registries, "machines/processing/2", ELITE_COMPONENTS, 3, 70_000_000, builder -> builder
+                .input(EMERALD, 2)
+                .input(CHORUS_FRUIT, 4)
+                .input(SHULKER_SHELL, 2));
+        machineModuleFab(output, registries, "machines/processing/alpha", ALPHA_MACHINE_SYSTEMS, 6, 100_000_000, builder -> builder
                 .input(NIOBIUM_CIRCUIT, 4)
                 .input(SLATE_ALLOY_INGOT, 8)
-                .input(TITANIUM_INGOT, 32)
-                .input(REDSTONE_BLOCK, 8)
-                .input(SHULKER_SHELL, 8));
-        machineModuleFab(output, registries, "machines/processing/2", ELITE_COMPONENTS, 4, 100_000_000, builder -> builder
+                .input(ECHO_SHARD, 2)
+                .input(AMETHYST_SHARD, 4));
+        machineModuleFab(output, registries, "machines/processing/epsilon", EPSILON_MACHINE_SYSTEMS, 1, 250_000_000, builder -> builder
                 .input(NIOBIUM_CIRCUIT, 8)
                 .input(SLATE_ALLOY_INGOT, 16)
-                .input(TITANIUM_INGOT, 48)
-                .input(REDSTONE_BLOCK, 12)
-                .input(BEACON, 1));
+                .input(NETHER_STAR, 2)
+                .input(ECHO_SHARD, 4)
+                .input(DYES_LIME, 32)
+                .input(REDSTONE_BLOCK, 16)
+                .input(AMETHYST_BLOCK, 4));
 
         machineModuleFab(output, registries, "esa_upgrades", ESA_CAPACITY_UPGRADE, 1, 250_000, builder -> builder
                 .input(LIGHTNING_ROD, 2)
@@ -508,36 +502,43 @@ class RecipesGen extends LimaRecipeProvider
         return new FabricatingBuilder(modResources, result, energyRequired);
     }
 
-    private <U extends UpgradeBase<?, U>, UE extends UpgradeBaseEntry<U>> void upgradeFabricating(RecipeOutput output, HolderLookup.Provider registries, String group, ResourceKey<U> upgradeKey, int upgradeRank, int energyRequired, Supplier<? extends DataComponentType<UE>> entryDataComponent, BiFunction<Holder<U>, Integer, UE> entryFactory, ItemLike moduleItem, UnaryOperator<FabricatingBuilder> op)
+    private <U extends UpgradeBase<?, U>, UE extends UpgradeBaseEntry<U>> void upgradeFabricating(RecipeOutput output, HolderLookup.Provider registries, String group, ResourceKey<U> upgradeKey, int upgradeRank, int energyRequired, Supplier<? extends DataComponentType<UE>> entryDataComponent, BiFunction<Holder<U>, Integer, UE> entryFactory, ItemLike moduleItem, boolean addBaseModuleInput, @Nullable String suffix, UnaryOperator<FabricatingBuilder> op)
     {
         Holder<U> upgradeHolder = registries.holderOrThrow(upgradeKey);
         ItemStack result = new ItemStack(moduleItem);
         result.set(entryDataComponent, entryFactory.apply(upgradeHolder, upgradeRank));
         FabricatingBuilder builder = fabricating(result, energyRequired).group(group);
 
-        if (upgradeRank == 1)
+        if (addBaseModuleInput)
         {
-            builder.input(EMPTY_UPGRADE_MODULE);
-        }
-        else
-        {
-            Ingredient previousRankUpgrade = DataComponentIngredient.of(true, entryDataComponent, entryFactory.apply(upgradeHolder, upgradeRank - 1), moduleItem);
-            builder.input(previousRankUpgrade);
+            Ingredient moduleIngredient = upgradeRank == 1 ? Ingredient.of(EMPTY_UPGRADE_MODULE) : DataComponentIngredient.of(true, entryDataComponent, entryFactory.apply(upgradeHolder, upgradeRank - 1), moduleItem);
+            builder.input(moduleIngredient);
         }
 
         String name = upgradeKey.registry().getPath() + "s/" + upgradeKey.location().getPath();
         if (upgradeRank > 1) name = name + "_" + upgradeRank;
+        if (suffix != null) name += suffix;
         op.apply(builder).save(output, name);
+    }
+
+    private void equipmentModuleFab(RecipeOutput output, HolderLookup.Provider registries, String group, ResourceKey<EquipmentUpgrade> upgradeKey, int upgradeRank, int energyRequired, boolean addBaseModuleInput, @Nullable String suffix, UnaryOperator<FabricatingBuilder> op)
+    {
+        upgradeFabricating(output, registries, group, upgradeKey, upgradeRank, energyRequired, LimaTechDataComponents.EQUIPMENT_UPGRADE_ENTRY, EquipmentUpgradeEntry::new, EQUIPMENT_UPGRADE_MODULE, addBaseModuleInput, suffix, op);
     }
 
     private void equipmentModuleFab(RecipeOutput output, HolderLookup.Provider registries, String group, ResourceKey<EquipmentUpgrade> upgradeKey, int upgradeRank, int energyRequired, UnaryOperator<FabricatingBuilder> op)
     {
-        upgradeFabricating(output, registries, group, upgradeKey, upgradeRank, energyRequired, LimaTechDataComponents.EQUIPMENT_UPGRADE_ENTRY, EquipmentUpgradeEntry::new, EQUIPMENT_UPGRADE_MODULE, op);
+        equipmentModuleFab(output, registries, group, upgradeKey, upgradeRank, energyRequired, true, null, op);
+    }
+
+    private void machineModuleFab(RecipeOutput output, HolderLookup.Provider registries, String group, ResourceKey<MachineUpgrade> upgradeKey, int upgradeRank, int energyRequired, boolean addBaseModuleInput, @Nullable String suffix, UnaryOperator<FabricatingBuilder> op)
+    {
+        upgradeFabricating(output, registries, group, upgradeKey, upgradeRank, energyRequired, LimaTechDataComponents.MACHINE_UPGRADE_ENTRY, MachineUpgradeEntry::new, MACHINE_UPGRADE_MODULE, addBaseModuleInput, suffix, op);
     }
 
     private void machineModuleFab(RecipeOutput output, HolderLookup.Provider registries, String group, ResourceKey<MachineUpgrade> upgradeKey, int upgradeRank, int energyRequired, UnaryOperator<FabricatingBuilder> op)
     {
-        upgradeFabricating(output, registries, group, upgradeKey, upgradeRank, energyRequired, LimaTechDataComponents.MACHINE_UPGRADE_ENTRY, MachineUpgradeEntry::new, MACHINE_UPGRADE_MODULE, op);
+        machineModuleFab(output, registries, group, upgradeKey, upgradeRank, energyRequired, true, null, op);
     }
 
     private void titaniumTool(RecipeOutput output, ItemLike tool, String p1, String p2, String p3)
@@ -545,6 +546,7 @@ class RecipesGen extends LimaRecipeProvider
         shaped(stackOf(tool)).input('t', TITANIUM_INGOT).input('s', Tags.Items.RODS_WOODEN).patterns(p1, p2, p3).save(output);
     }
 
+    // Builder classes
     private static class FabricatingBuilder extends LimaSizedIngredientListRecipeBuilder.SimpleBuilder<FabricatingRecipe, FabricatingBuilder>
     {
         private final int energyRequired;

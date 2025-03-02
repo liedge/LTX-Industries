@@ -2,9 +2,9 @@ package liedge.limatech.lib.upgrades.effect.equipment;
 
 import com.mojang.serialization.MapCodec;
 import liedge.limacore.lib.LimaDynamicDamageSource;
-import liedge.limatech.LimaTechConstants;
 import liedge.limatech.client.LimaTechLang;
 import liedge.limatech.registry.LimaTechEquipmentUpgradeEffects;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -32,6 +32,6 @@ public record DynamicDamageTagUpgradeEffect(TagKey<DamageType> tag) implements E
     @Override
     public Component defaultEffectTooltip(int upgradeRank)
     {
-        return LimaTechLang.DYNAMIC_DAMAGE_TAG_EFFECT.translateArgs(Component.translatable(LimaTechLang.namedDamageTagKey(tag)).withStyle(LimaTechConstants.LIME_GREEN.chatStyle()));
+        return LimaTechLang.DYNAMIC_DAMAGE_TAG_EFFECT.translateArgs(Component.translatable(LimaTechLang.namedDamageTagKey(tag)).withStyle(ChatFormatting.AQUA));
     }
 }

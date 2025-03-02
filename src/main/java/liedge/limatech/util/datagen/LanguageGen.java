@@ -157,8 +157,8 @@ class LanguageGen extends LimaLanguageProvider
 
         //#region Machine upgrades
         machineUpgrade(LimaTechMachineUpgrades.ESA_CAPACITY_UPGRADE, "Auxiliary Energy Cells", "Increases the energy capacity and transfer rate of the Energy Storage Array.");
-        machineUpgrade(LimaTechMachineUpgrades.REINFORCED_COMPONENTS, "Reinforced Internal Components", "Sturdy industry-standard components that provide a moderate stat boost all around to your machinery.");
-        machineUpgrade(LimaTechMachineUpgrades.ELITE_COMPONENTS, "Elite Internal Components", "Upgrades your machine with exotic materials, provides very large stat boosts! Hope you have enough energy.");
+        machineUpgrade(LimaTechMachineUpgrades.ALPHA_MACHINE_SYSTEMS, "LTX/α Machine Systems", "Core modular systems designed for balanced efficiency.");
+        machineUpgrade(LimaTechMachineUpgrades.EPSILON_MACHINE_SYSTEMS, "LTX/ε Machine Systems", "The pinnacle of engineering precision! Achieves near-instantaneous crafting at the cost of immense energy consumption.");
         machineUpgrade(LimaTechMachineUpgrades.FABRICATOR_UPGRADE, "Enhanced Tool Head", "Elevate your Fabricator's manufacturing capabilities with superior internal components.");
         //#endregion
 

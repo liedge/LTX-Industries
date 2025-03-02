@@ -2,6 +2,7 @@ package liedge.limatech.util.datagen;
 
 import liedge.limacore.LimaCoreTags;
 import liedge.limacore.data.generation.LimaDatagenBootstrapBuilder;
+import liedge.limatech.LimaTechConstants;
 import liedge.limatech.LimaTechTags;
 import liedge.limatech.lib.LimaTechDeathMessageTypes;
 import liedge.limatech.lib.math.CompoundOperation;
@@ -310,34 +311,32 @@ class DataRegistriesEntries extends LimaDatagenBootstrapBuilder
 
     private void createMachineEffects(BootstrapContext<MachineUpgrade> ctx)
     {
-        LevelBasedDoubleValue esaCapacities = LevelBasedDoubleValue.lookupOrHighest(10_000_000, 30_000_000, 50_000_000, 100_000_000);
-        LevelBasedDoubleValue esaTransferRates = LevelBasedDoubleValue.lookupOrHighest(100_000, 300_000, 500_000, 1_000_000);
-
         MachineUpgrade.builder(ESA_CAPACITY_UPGRADE)
                 .supports(LimaTechBlockEntities.ENERGY_STORAGE_ARRAY)
-                .withListEffect(LimaTechUpgradeEffectComponents.ENERGY_CAPACITY, ValueUpgradeEffect.simpleValue(esaCapacities, CompoundOperation.SET))
-                .withListEffect(LimaTechUpgradeEffectComponents.ENERGY_TRANSFER_RATE, ValueUpgradeEffect.simpleValue(esaTransferRates, CompoundOperation.SET))
+                .withListEffect(LimaTechUpgradeEffectComponents.ENERGY_CAPACITY, ValueUpgradeEffect.simpleValue(LevelBasedDoubleValue.exponential(2, LevelBasedDoubleValue.linear(3, 1)), CompoundOperation.MULTIPLY))
+                .withListEffect(LimaTechUpgradeEffectComponents.ENERGY_TRANSFER_RATE, ValueUpgradeEffect.simpleValue(LevelBasedDoubleValue.exponential(2, LevelBasedDoubleValue.linear(3, 1)), CompoundOperation.MULTIPLY))
                 .setMaxRank(4)
                 .effectIcon(sprite("extra_energy"))
                 .buildAndRegister(ctx);
 
-        MachineUpgrade.builder(REINFORCED_COMPONENTS)
+        MachineUpgrade.builder(ALPHA_MACHINE_SYSTEMS)
                 .supports(LimaTechBlockEntities.DIGITAL_FURNACE, LimaTechBlockEntities.GRINDER, LimaTechBlockEntities.RECOMPOSER, LimaTechBlockEntities.MATERIAL_FUSING_CHAMBER)
-                .withListEffect(LimaTechUpgradeEffectComponents.ENERGY_CAPACITY, ValueUpgradeEffect.simpleValue(LevelBasedDoubleValue.linearExponent(2), CompoundOperation.MULTIPLY))
-                .withListEffect(LimaTechUpgradeEffectComponents.ENERGY_TRANSFER_RATE, ValueUpgradeEffect.simpleValue(LevelBasedDoubleValue.perLevel(12), CompoundOperation.MULTIPLY))
-                .withListEffect(LimaTechUpgradeEffectComponents.MACHINE_ENERGY_USAGE, ValueUpgradeEffect.simpleValue(LevelBasedDoubleValue.linearExponent(2), CompoundOperation.MULTIPLY))
-                .withListEffect(LimaTechUpgradeEffectComponents.TICKS_PER_OPERATION, ValueUpgradeEffect.simpleValue(LevelBasedDoubleValue.perLevel(-20), CompoundOperation.FLAT_ADDITION))
-                .setMaxRank(4)
-                .effectIcon(sprite("reinforced_components"))
+                .withListEffect(LimaTechUpgradeEffectComponents.ENERGY_CAPACITY, ValueUpgradeEffect.simpleValue(LevelBasedDoubleValue.perLevel(0.5d), CompoundOperation.ADD_MULTIPLIED_BASE))
+                .withListEffect(LimaTechUpgradeEffectComponents.ENERGY_TRANSFER_RATE, ValueUpgradeEffect.simpleValue(LevelBasedDoubleValue.perLevel(0.5d), CompoundOperation.ADD_MULTIPLIED_BASE))
+                .withListEffect(LimaTechUpgradeEffectComponents.MACHINE_ENERGY_USAGE, ValueUpgradeEffect.simpleValue(LevelBasedDoubleValue.linearExponent(1.5d), CompoundOperation.MULTIPLY))
+                .withListEffect(LimaTechUpgradeEffectComponents.TICKS_PER_OPERATION, ValueUpgradeEffect.simpleValue(LevelBasedDoubleValue.exponential(0.725d, LevelBasedDoubleValue.perLevel(1)), CompoundOperation.MULTIPLY))
+                .setMaxRank(6)
+                .effectIcon(sprite("alpha_systems"))
                 .buildAndRegister(ctx);
-        MachineUpgrade.builder(ELITE_COMPONENTS)
+
+        MachineUpgrade.builder(EPSILON_MACHINE_SYSTEMS)
+                .modifyTitle(title -> title.copy().withStyle(LimaTechConstants.LIME_GREEN.chatStyle()))
                 .supports(LimaTechBlockEntities.DIGITAL_FURNACE, LimaTechBlockEntities.GRINDER, LimaTechBlockEntities.RECOMPOSER, LimaTechBlockEntities.MATERIAL_FUSING_CHAMBER)
-                .withListEffect(LimaTechUpgradeEffectComponents.ENERGY_CAPACITY, ValueUpgradeEffect.simpleValue(LevelBasedDoubleValue.exponential(2, LevelBasedDoubleValue.linear(5, 1)), CompoundOperation.MULTIPLY))
-                .withListEffect(LimaTechUpgradeEffectComponents.ENERGY_TRANSFER_RATE, ValueUpgradeEffect.simpleValue(LevelBasedDoubleValue.linear(60, 12), CompoundOperation.MULTIPLY))
-                .withListEffect(LimaTechUpgradeEffectComponents.MACHINE_ENERGY_USAGE, ValueUpgradeEffect.simpleValue(LevelBasedDoubleValue.exponential(2, LevelBasedDoubleValue.linear(5, 1)), CompoundOperation.MULTIPLY))
-                .withListEffect(LimaTechUpgradeEffectComponents.TICKS_PER_OPERATION, ValueUpgradeEffect.simpleValue(LevelBasedDoubleValue.linear(-100, -20), CompoundOperation.FLAT_ADDITION))
-                .setMaxRank(4)
-                .effectIcon(sprite("elite_components"))
+                .withListEffect(LimaTechUpgradeEffectComponents.ENERGY_CAPACITY, ValueUpgradeEffect.simpleValue(LevelBasedDoubleValue.constant(8), CompoundOperation.MULTIPLY))
+                .withListEffect(LimaTechUpgradeEffectComponents.ENERGY_TRANSFER_RATE, ValueUpgradeEffect.simpleValue(LevelBasedDoubleValue.constant(16), CompoundOperation.MULTIPLY))
+                .withListEffect(LimaTechUpgradeEffectComponents.MACHINE_ENERGY_USAGE, ValueUpgradeEffect.simpleValue(LevelBasedDoubleValue.constant(256), CompoundOperation.MULTIPLY))
+                .withListEffect(LimaTechUpgradeEffectComponents.TICKS_PER_OPERATION, ValueUpgradeEffect.simpleValue(LevelBasedDoubleValue.constant(-1), CompoundOperation.ADD_MULTIPLIED_TOTAL))
+                .effectIcon(sprite("epsilon_systems"))
                 .buildAndRegister(ctx);
 
         MachineUpgrade.builder(FABRICATOR_UPGRADE)

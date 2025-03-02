@@ -1,29 +1,25 @@
 {
   "description": {
-    "translate": "machine_upgrade.limatech.elite_components.desc"
+    "translate": "machine_upgrade.limatech.alpha_machine_systems.desc"
   },
   "effects": {
     "limatech:energy_capacity": [
       {
-        "operation": "multiply",
+        "operation": "add_multiplied_base",
         "value": {
-          "type": "exponential",
-          "base": 2.0,
-          "power": {
-            "type": "linear",
-            "base": 5.0,
-            "per_level_after_first": 1.0
-          }
+          "type": "linear",
+          "base": 0.5,
+          "per_level_after_first": 0.5
         }
       }
     ],
     "limatech:energy_transfer_rate": [
       {
-        "operation": "multiply",
+        "operation": "add_multiplied_base",
         "value": {
           "type": "linear",
-          "base": 60.0,
-          "per_level_after_first": 12.0
+          "base": 0.5,
+          "per_level_after_first": 0.5
         }
       }
     ],
@@ -32,10 +28,10 @@
         "operation": "multiply",
         "value": {
           "type": "exponential",
-          "base": 2.0,
+          "base": 1.5,
           "power": {
             "type": "linear",
-            "base": 5.0,
+            "base": 1.0,
             "per_level_after_first": 1.0
           }
         }
@@ -43,18 +39,22 @@
     ],
     "limatech:ticks_per_operation": [
       {
-        "operation": "flat_addition",
+        "operation": "multiply",
         "value": {
-          "type": "linear",
-          "base": -100.0,
-          "per_level_after_first": -20.0
+          "type": "exponential",
+          "base": 0.725,
+          "power": {
+            "type": "linear",
+            "base": 1.0,
+            "per_level_after_first": 1.0
+          }
         }
       }
     ]
   },
   "exclusive_set": [],
-  "icon": "limatech:elite_components",
-  "max_rank": 4,
+  "icon": "limatech:alpha_systems",
+  "max_rank": 6,
   "supported_set": [
     "limatech:digital_furnace",
     "limatech:grinder",
@@ -62,6 +62,6 @@
     "limatech:material_fusing_chamber"
   ],
   "title": {
-    "translate": "machine_upgrade.limatech.elite_components.title"
+    "translate": "machine_upgrade.limatech.alpha_machine_systems.title"
   }
 }

@@ -43,7 +43,7 @@ public enum CompoundOperation implements StringRepresentable, Translatable
             case SET -> flatNumberWithoutSign(value).withStyle(ChatFormatting.GOLD);
             case FLAT_ADDITION -> flatNumberWithSign(value).withStyle(numSignColor(value, invertColor));
             case ADD_MULTIPLIED_BASE, ADD_MULTIPLIED_TOTAL -> LimaTechTooltipUtil.percentageWithSign(value, invertColor);
-            case MULTIPLY -> LimaTechTooltipUtil.flatNumberWithoutSign(value).withStyle(numSignColor(value, invertColor));
+            case MULTIPLY -> LimaTechTooltipUtil.flatNumberWithoutSign(value).withStyle(numSignColor(1, value, invertColor));
         };
 
         return translateArgs(valueComponent);

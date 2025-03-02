@@ -1,13 +1,14 @@
 {
   "type": "limatech:fabricating",
-  "energy_required": 400000,
-  "group": "machines/processing/1",
+  "energy_required": 100000000,
+  "group": "machines/processing/alpha",
   "ingredients": [
     {
       "type": "neoforge:components",
       "components": {
         "limatech:machine_upgrade": {
-          "upgrade": "limatech:reinforced_components"
+          "rank": 5,
+          "upgrade": "limatech:alpha_machine_systems"
         }
       },
       "count": 1,
@@ -15,27 +16,27 @@
       "strict": true
     },
     {
-      "count": 1,
-      "item": "limatech:gold_circuit"
+      "count": 4,
+      "item": "limatech:niobium_circuit"
     },
     {
-      "count": 6,
-      "item": "limatech:titanium_ingot"
-    },
-    {
-      "count": 12,
-      "item": "minecraft:redstone"
+      "count": 8,
+      "item": "limatech:slate_alloy_ingot"
     },
     {
       "count": 2,
-      "item": "minecraft:blaze_powder"
+      "item": "minecraft:echo_shard"
+    },
+    {
+      "count": 4,
+      "item": "minecraft:amethyst_shard"
     }
   ],
   "result": {
     "components": {
       "limatech:machine_upgrade": {
-        "rank": 2,
-        "upgrade": "limatech:reinforced_components"
+        "rank": 6,
+        "upgrade": "limatech:alpha_machine_systems"
       }
     },
     "count": 1,

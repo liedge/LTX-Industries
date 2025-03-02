@@ -1,11 +1,13 @@
 package liedge.limatech.client.gui.screen;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.client.gui.LimaMenuScreen;
 import liedge.limacore.client.gui.UnmanagedSprite;
 import liedge.limacore.registry.LimaCoreNetworkSerializers;
+import liedge.limacore.util.LimaMathUtil;
 import liedge.limacore.util.LimaRegistryUtil;
 import liedge.limatech.client.LimaTechLang;
 import liedge.limatech.client.gui.UpgradeIconRenderers;
@@ -15,16 +17,17 @@ import liedge.limatech.lib.upgrades.UpgradeBase;
 import liedge.limatech.menu.UpgradesConfigMenu;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
+import org.joml.Matrix4f;
 
 import java.util.List;
 import java.util.Optional;
 
 import static liedge.limacore.client.gui.LimaGuiUtil.isMouseWithinArea;
-import static liedge.limatech.LimaTechConstants.LIME_GREEN;
-import static liedge.limatech.LimaTechConstants.OUTPUT_ORANGE;
+import static liedge.limatech.LimaTechConstants.*;
 import static liedge.limatech.client.gui.widget.ScreenWidgetSprites.UPGRADE_ENTRY_FOCUSED;
 import static liedge.limatech.client.gui.widget.ScreenWidgetSprites.UPGRADE_ENTRY_NOT_FOCUSED;
 
@@ -123,7 +126,7 @@ public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, U>, M extend
             {
                 int upgradeIndex = i - min;
                 int ix = leftPos + 61;
-                int iy = topPos + 23 + (20 * upgradeIndex);
+                int iy = selectorTop() + 20 * upgradeIndex;
 
                 UnmanagedSprite sprite = isMouseWithinArea(mouseX, mouseY, ix, iy, 104, 20) ? UPGRADE_ENTRY_FOCUSED : UPGRADE_ENTRY_NOT_FOCUSED;
                 sprite.singleBlit(graphics, ix, iy);
@@ -131,23 +134,45 @@ public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, U>, M extend
                 Object2IntMap.Entry<Holder<U>> entry = remoteUpgrades.get(i);
                 U upgrade = entry.getKey().value();
 
-                UpgradeIconRenderers.renderIcon(graphics, entry.getKey().value().icon(), ix + 2, iy + 2);
+                UpgradeIconRenderers.renderIcon(graphics, upgrade.icon(), ix + 2, iy + 2);
+
+                // Render title
+                int titleX = ix + 22;
+                int titleY = iy + 3;
+
                 PoseStack poseStack = graphics.pose();
 
                 poseStack.pushPose();
 
-                int titleX = ix + 22;
-                int titleY = iy + 3;
+                graphics.enableScissor(titleX, titleY, titleX + 79,  titleY + 9);
 
-                poseStack.translate(titleX, titleY, 0);
-                poseStack.scale(0.7f, 0.7f, 0);
+                poseStack.translate(titleX, titleY + (11d - (double) font.lineHeight * 0.8d) / 2d, 0);
+                poseStack.scale(0.8f, 0.8f, 0.8f);
 
-                graphics.enableScissor(titleX, titleY, titleX + 79, titleY + 6);
-                graphics.drawString(font, upgrade.title(), 0, 0, LIME_GREEN.packedRGB(), false);
+                graphics.drawString(font, upgrade.title(), 0, 0, -1, false);
+
                 graphics.disableScissor();
-                graphics.drawString(font, LimaTechLang.UPGRADE_RANK_TOOLTIP.translateArgs(entry.getIntValue(), upgrade.maxRank()), 0, font.lineHeight + 4, 0xffffff, false);
 
                 poseStack.popPose();
+
+
+                // Render rank bar
+                float xo = 70f * LimaMathUtil.divideFloat(entry.getIntValue(), upgrade.maxRank());
+                int leftColor;
+                int rightColor;
+
+                if (entry.getIntValue() == upgrade.maxRank())
+                {
+                    leftColor = 0xff3f5ff0;
+                    rightColor = 0xff3ff0d1;
+                }
+                else
+                {
+                    leftColor = 0xffd13ff0;
+                    rightColor = UPGRADE_RANK_MAGENTA.packedRGB();
+                }
+
+                renderGradientBar(graphics, ix + 21, iy + 15, ix + 21 + xo, iy + 19, leftColor, rightColor);
             }
         }
     }
@@ -175,7 +200,8 @@ public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, U>, M extend
                         U upgrade = entry.getKey().value();
 
                         List<Component> lines = new ObjectArrayList<>();
-                        lines.add(upgrade.title().copy().withStyle(LIME_GREEN.chatStyle()));
+                        lines.add(upgrade.title());
+                        lines.add(LimaTechLang.UPGRADE_RANK_TOOLTIP.translateArgs(entry.getIntValue(), upgrade.maxRank()).withStyle(UPGRADE_RANK_MAGENTA.chatStyle()));
                         lines.add(upgrade.description());
                         lines.add(upgrade.getEffectsTooltip(entry.getIntValue()));
                         lines.add(LimaTechLang.UPGRADE_REMOVE_HINT.translate().withStyle(OUTPUT_ORANGE.chatStyle()));
@@ -232,5 +258,18 @@ public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, U>, M extend
         }
 
         return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
+    }
+
+    private void renderGradientBar(GuiGraphics graphics, float x1, float y1, float x2, float y2, int leftColor, int rightColor)
+    {
+        Matrix4f mx4 = graphics.pose().last().pose();
+        VertexConsumer buffer = graphics.bufferSource().getBuffer(RenderType.guiOverlay());
+
+        buffer.addVertex(mx4, x1, y1, 0).setColor(leftColor);
+        buffer.addVertex(mx4, x1, y2, 0).setColor(leftColor);
+        buffer.addVertex(mx4, x2, y2, 0).setColor(rightColor);
+        buffer.addVertex(mx4, x2, y1, 0).setColor(rightColor);
+
+        graphics.flush();
     }
 }

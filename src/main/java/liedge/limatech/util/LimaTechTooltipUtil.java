@@ -13,8 +13,7 @@ import java.util.List;
 import static liedge.limacore.capability.energy.LimaEnergyUtil.formatEnergyWithSuffix;
 import static liedge.limacore.registry.LimaCoreDataComponents.ENERGY;
 import static liedge.limacore.registry.LimaCoreDataComponents.ITEM_CONTAINER;
-import static liedge.limacore.util.LimaMathUtil.FORMAT_COMMA_INT;
-import static liedge.limacore.util.LimaMathUtil.FORMAT_PERCENTAGE;
+import static liedge.limacore.util.LimaMathUtil.*;
 import static liedge.limatech.LimaTechConstants.REM_BLUE;
 import static liedge.limatech.client.LimaTechLang.*;
 
@@ -72,7 +71,7 @@ public final class LimaTechTooltipUtil
 
     public static String formatFlatNumber(double value)
     {
-        return value < 1000 ? Double.toString(value) : FORMAT_COMMA_INT.format(value);
+        return value < 1000 ? FORMAT_2_ROUND_FLOOR.format(value) : FORMAT_COMMA_INT.format(value);
     }
 
     public static MutableComponent flatNumberWithSign(double value)

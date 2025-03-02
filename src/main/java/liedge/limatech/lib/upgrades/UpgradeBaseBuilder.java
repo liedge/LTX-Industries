@@ -16,6 +16,7 @@ import net.minecraft.util.Mth;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
+import java.util.function.UnaryOperator;
 
 public abstract class UpgradeBaseBuilder<CTX, U extends UpgradeBase<CTX, U>, B extends UpgradeBaseBuilder<CTX, U, B>>
 {
@@ -54,6 +55,18 @@ public abstract class UpgradeBaseBuilder<CTX, U extends UpgradeBase<CTX, U>, B e
     public B setDescription(Component description)
     {
         this.description = description;
+        return selfUnchecked();
+    }
+
+    public B modifyTitle(UnaryOperator<Component> op)
+    {
+        this.title = op.apply(title);
+        return selfUnchecked();
+    }
+
+    public B modifyDescription(UnaryOperator<Component> op)
+    {
+        this.description = op.apply(description);
         return selfUnchecked();
     }
 
