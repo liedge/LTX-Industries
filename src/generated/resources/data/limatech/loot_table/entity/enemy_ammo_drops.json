@@ -34,52 +34,55 @@
           "type": "limacore:dynamic_weight",
           "child": {
             "type": "minecraft:item",
-            "name": "limatech:specialist_ammo_canister"
+            "name": "limatech:specialist_ammo_canister",
+            "weight": 15
           },
-          "weight": {
-            "type": "limacore:entity_enchantment_level",
-            "enchanted_value": {
+          "dynamic_weight": {
+            "type": "limacore:targeted_enchantment_level",
+            "amount": {
               "type": "minecraft:linear",
-              "base": 15.0,
+              "base": 6.0,
               "per_level_above_first": 6.0
             },
-            "enchantment": "limatech:ammo_scavenger",
-            "normal_value": 15.0
-          }
+            "enchantment": "limatech:ammo_scavenger"
+          },
+          "replace_weight": false
         },
         {
           "type": "limacore:dynamic_weight",
           "child": {
             "type": "minecraft:item",
-            "name": "limatech:explosives_ammo_canister"
+            "name": "limatech:explosives_ammo_canister",
+            "weight": 5
           },
-          "weight": {
-            "type": "limacore:entity_enchantment_level",
-            "enchanted_value": {
+          "dynamic_weight": {
+            "type": "limacore:targeted_enchantment_level",
+            "amount": {
               "type": "minecraft:linear",
-              "base": 5.0,
+              "base": 3.0,
               "per_level_above_first": 3.0
             },
-            "enchantment": "limatech:ammo_scavenger",
-            "normal_value": 5.0
-          }
+            "enchantment": "limatech:ammo_scavenger"
+          },
+          "replace_weight": false
         },
         {
           "type": "limacore:dynamic_weight",
           "child": {
             "type": "minecraft:item",
-            "name": "limatech:rocket_launcher_ammo"
+            "name": "limatech:rocket_launcher_ammo",
+            "weight": 3
           },
-          "weight": {
-            "type": "limacore:entity_enchantment_level",
-            "enchanted_value": {
+          "dynamic_weight": {
+            "type": "limacore:targeted_enchantment_level",
+            "amount": {
               "type": "minecraft:linear",
-              "base": 5.0,
+              "base": 3.0,
               "per_level_above_first": 3.0
             },
-            "enchantment": "limatech:ammo_scavenger",
-            "normal_value": 5.0
-          }
+            "enchantment": "limatech:ammo_scavenger"
+          },
+          "replace_weight": false
         },
         {
           "type": "limacore:dynamic_weight",
@@ -87,37 +90,35 @@
             "type": "minecraft:item",
             "name": "limatech:magnum_ammo_canister"
           },
-          "weight": {
-            "type": "limacore:entity_enchantment_level",
-            "enchanted_value": {
+          "dynamic_weight": {
+            "type": "limacore:targeted_enchantment_level",
+            "amount": {
               "type": "minecraft:linear",
-              "base": 1.0,
+              "base": 2.0,
               "per_level_above_first": 2.0
             },
-            "enchantment": "limatech:ammo_scavenger",
-            "normal_value": 1.0
-          }
+            "enchantment": "limatech:ammo_scavenger"
+          },
+          "replace_weight": false
         }
       ],
       "rolls": {
         "type": "limacore:rounding",
         "child": {
-          "type": "limacore:entity_enchantment_level",
-          "enchanted_value": {
-            "type": "minecraft:lookup",
-            "fallback": 2.0,
+          "type": "limacore:targeted_enchantment_level",
+          "amount": {
+            "type": "limacore:enhanced_lookup",
+            "default_above": 2.0,
+            "default_below": 1.0,
+            "level_offset": 4,
             "values": [
-              1.0,
-              1.0,
-              1.0,
               1.5,
               2.0
             ]
           },
-          "enchantment": "limatech:ammo_scavenger",
-          "normal_value": 1.0
+          "enchantment": "limatech:ammo_scavenger"
         },
-        "rounding_strategy": "random"
+        "mode": "random"
       }
     }
   ],

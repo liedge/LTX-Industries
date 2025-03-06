@@ -2,6 +2,7 @@ package liedge.limatech.util.datagen;
 
 import liedge.limacore.LimaCoreTags;
 import liedge.limacore.data.generation.LimaDatagenBootstrapBuilder;
+import liedge.limacore.registry.LimaCoreDataComponents;
 import liedge.limatech.LimaTechConstants;
 import liedge.limatech.LimaTechTags;
 import liedge.limatech.lib.LimaTechDeathMessageTypes;
@@ -18,6 +19,7 @@ import liedge.limatech.lib.upgrades.machine.MachineUpgrade;
 import liedge.limatech.lib.weapons.GrenadeType;
 import liedge.limatech.lib.weapons.WeaponAmmoSource;
 import liedge.limatech.registry.*;
+import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistrySetBuilder;
@@ -31,6 +33,7 @@ import net.minecraft.world.damagesource.DamageEffects;
 import net.minecraft.world.damagesource.DamageScaling;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.damagesource.DeathMessageType;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -49,6 +52,8 @@ import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.predicates.LootItemEntityPropertyCondition;
 import net.neoforged.neoforge.common.world.BiomeModifier;
 import net.neoforged.neoforge.common.world.BiomeModifiers.AddFeaturesBiomeModifier;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
@@ -147,7 +152,9 @@ class DataRegistriesEntries extends LimaDatagenBootstrapBuilder
                 Enchantment.dynamicCost(10, 9),
                 Enchantment.dynamicCost(60, 9),
                 3,
-                EquipmentSlotGroup.MAINHAND));
+                EquipmentSlotGroup.MAINHAND))
+                .withEffect(LimaCoreDataComponents.EXTRA_LOOT_TABLE_EFFECT.get(), LimaTechLootTables.RAZOR_LOOT_TABLE,
+                        LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.ATTACKER, EntityPredicate.Builder.entity().of(EntityType.PLAYER)));
 
         Enchantment.Builder ammoScavenger = Enchantment.enchantment(Enchantment.definition(
                 items.getOrThrow(ItemTags.SHARP_WEAPON_ENCHANTABLE),

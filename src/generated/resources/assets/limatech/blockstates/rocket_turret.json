@@ -1,7 +1,19 @@
 {
   "variants": {
-    "half=lower": {
+    "facing=east,half=lower": {
+      "model": "limatech:block/turret_base",
+      "y": 90
+    },
+    "facing=north,half=lower": {
       "model": "limatech:block/turret_base"
+    },
+    "facing=south,half=lower": {
+      "model": "limatech:block/turret_base",
+      "y": 180
+    },
+    "facing=west,half=lower": {
+      "model": "limatech:block/turret_base",
+      "y": 270
     },
     "half=upper": {
       "model": "limatech:block/machine_particles"

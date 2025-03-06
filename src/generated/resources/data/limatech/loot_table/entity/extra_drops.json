@@ -5,8 +5,11 @@
       "bonus_rolls": 0.0,
       "conditions": [
         {
-          "condition": "neoforge:loot_table_id",
-          "loot_table_id": "minecraft:entities/phantom"
+          "condition": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "type": "minecraft:phantom"
+          }
         },
         {
           "chance": 0.1,
@@ -17,6 +20,57 @@
         {
           "type": "minecraft:item",
           "name": "limatech:targeting_tech_salvage"
+        }
+      ],
+      "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "type": "minecraft:warden"
+          }
+        },
+        {
+          "condition": "minecraft:any_of",
+          "terms": [
+            {
+              "condition": "minecraft:entity_properties",
+              "entity": "direct_attacker",
+              "predicate": {
+                "type_specific": {
+                  "type": "limatech:grenade_type",
+                  "grenade": "acid"
+                }
+              }
+            },
+            {
+              "condition": "minecraft:entity_properties",
+              "entity": "attacker",
+              "predicate": {
+                "type_specific": {
+                  "type": "limacore:enchantment_level",
+                  "enchantment": "minecraft:looting",
+                  "min_level": 4
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "entries": [],
+      "functions": [
+        {
+          "add": false,
+          "count": {
+            "type": "minecraft:uniform",
+            "max": 2.0,
+            "min": 1.0
+          },
+          "function": "minecraft:set_count"
         }
       ],
       "rolls": 1.0

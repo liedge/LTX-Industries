@@ -2,14 +2,12 @@ package liedge.limatech;
 
 import liedge.limacore.util.LimaCoreUtil;
 import liedge.limatech.entity.BubbleShieldUser;
-import liedge.limatech.item.UpgradableEquipmentItem;
 import liedge.limatech.item.weapon.WeaponItem;
 import liedge.limatech.lib.weapons.WeaponDamageSource;
 import liedge.limatech.network.packet.ClientboundEntityShieldPacket;
 import liedge.limatech.network.packet.ClientboundPlayerShieldPacket;
 import liedge.limatech.registry.LimaTechAttachmentTypes;
 import liedge.limatech.registry.LimaTechAttributes;
-import liedge.limatech.registry.LimaTechUpgradeEffectComponents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -19,7 +17,6 @@ import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.GatherSkippedAttributeTooltipsEvent;
-import net.neoforged.neoforge.event.ItemAttributeModifierEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
@@ -67,15 +64,6 @@ public final class LimaTechEventHandler
     public static void onPlayerLogin(final PlayerEvent.PlayerLoggedInEvent event)
     {
         ClientboundPlayerShieldPacket.sendPacketToPlayer(event.getEntity());
-    }
-
-    @SubscribeEvent
-    public static void onModifyItemAttributeModifiers(final ItemAttributeModifierEvent event)
-    {
-        if (event.getItemStack().getItem() instanceof UpgradableEquipmentItem item)
-        {
-            item.getUpgrades(event.getItemStack()).forEachListEffect(LimaTechUpgradeEffectComponents.ITEM_ATTRIBUTE_MODIFIERS, (effect, rank) -> event.addModifier(effect.attribute(), effect.makeModifier(rank), effect.slotGroup()));
-        }
     }
 
     @SubscribeEvent

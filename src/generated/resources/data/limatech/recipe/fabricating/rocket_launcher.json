@@ -22,7 +22,13 @@
   ],
   "result": {
     "components": {
-      "limatech:equipment_upgrades": {}
+      "!minecraft:enchantments": {},
+      "limatech:ammo_source": "normal",
+      "limatech:equipment_upgrades": {},
+      "minecraft:attribute_modifiers": {
+        "modifiers": [],
+        "show_in_tooltip": false
+      }
     },
     "count": 1,
     "id": "limatech:rocket_launcher"

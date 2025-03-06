@@ -30,8 +30,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
-import static net.minecraft.world.level.block.state.properties.BlockStateProperties.DOUBLE_BLOCK_HALF;
-import static net.minecraft.world.level.block.state.properties.BlockStateProperties.WATERLOGGED;
+import static net.minecraft.world.level.block.state.properties.BlockStateProperties.*;
 
 public class RocketTurretBlock extends BaseWrenchEntityBlock implements SimpleWaterloggedBlock
 {
@@ -47,6 +46,7 @@ public class RocketTurretBlock extends BaseWrenchEntityBlock implements SimpleWa
         super(properties);
 
         registerDefaultState(getStateDefinition().any()
+                .setValue(HORIZONTAL_FACING, Direction.NORTH)
                 .setValue(DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER)
                 .setValue(WATERLOGGED, false));
     }
@@ -60,10 +60,8 @@ public class RocketTurretBlock extends BaseWrenchEntityBlock implements SimpleWa
     @Override
     public @Nullable LimaMenuProvider getMenuProvider(BlockState state, Level level, BlockPos pos)
     {
-        //BlockPos basePos = state.getValue(DOUBLE_BLOCK_HALF) == DoubleBlockHalf.LOWER ? pos : pos.below();
-        //return super.getMenuProvider(state, level, basePos);
-
-        return null;
+        BlockPos basePos = state.getValue(DOUBLE_BLOCK_HALF) == DoubleBlockHalf.LOWER ? pos : pos.below();
+        return super.getMenuProvider(state, level, basePos);
     }
 
     @Override
@@ -94,7 +92,10 @@ public class RocketTurretBlock extends BaseWrenchEntityBlock implements SimpleWa
 
         if (pos.getY() < level.getMaxBuildHeight() - 1 && level.getBlockState(above).canBeReplaced(ctx))
         {
-            return defaultBlockState().setValue(DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).setValue(WATERLOGGED, fluidState.getType().equals(Fluids.WATER));
+            return defaultBlockState()
+                    .setValue(HORIZONTAL_FACING, ctx.getHorizontalDirection().getOpposite())
+                    .setValue(DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER)
+                    .setValue(WATERLOGGED, fluidState.getType().equals(Fluids.WATER));
         }
         else
         {
@@ -187,6 +188,12 @@ public class RocketTurretBlock extends BaseWrenchEntityBlock implements SimpleWa
     }
 
     @Override
+    public boolean allowsRotation(BlockState state)
+    {
+        return false;
+    }
+
+    @Override
     public InteractionResult useWrenchOnBlock(UseOnContext context, Player player, Level level, BlockPos pos, BlockState state)
     {
         BlockPos basePos;
@@ -209,7 +216,7 @@ public class RocketTurretBlock extends BaseWrenchEntityBlock implements SimpleWa
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
     {
-        builder.add(DOUBLE_BLOCK_HALF, WATERLOGGED);
+        builder.add(HORIZONTAL_FACING, DOUBLE_BLOCK_HALF, WATERLOGGED);
     }
 
     @Override

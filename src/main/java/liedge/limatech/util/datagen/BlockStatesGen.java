@@ -3,6 +3,7 @@ package liedge.limatech.util.datagen;
 import liedge.limacore.data.generation.LimaBlockStateProvider;
 import liedge.limatech.LimaTech;
 import liedge.limatech.block.BasicHorizontalMachineBlock;
+import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.block.Block;
@@ -10,14 +11,14 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
+import net.neoforged.neoforge.client.model.generators.VariantBlockStateBuilder;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 import static liedge.limacore.util.LimaRegistryUtil.getBlockName;
 import static liedge.limatech.block.LimaTechBlockProperties.MACHINE_WORKING;
 import static liedge.limatech.registry.LimaTechBlocks.*;
-import static net.minecraft.world.level.block.state.properties.BlockStateProperties.DOUBLE_BLOCK_HALF;
-import static net.minecraft.world.level.block.state.properties.BlockStateProperties.WATERLOGGED;
+import static net.minecraft.world.level.block.state.properties.BlockStateProperties.*;
 
 class BlockStatesGen extends LimaBlockStateProvider
 {
@@ -73,10 +74,17 @@ class BlockStatesGen extends LimaBlockStateProvider
         simpleBlockWithItem(EQUIPMENT_UPGRADE_STATION, existingModel(blockFolderLocation(EQUIPMENT_UPGRADE_STATION)));
 
         // Turret
-        getVariantBuilder(ROCKET_TURRET).forAllStatesExcept(state -> {
-            ModelFile model = state.getValue(DOUBLE_BLOCK_HALF) == DoubleBlockHalf.LOWER ? turretBase : machineParticlesOnly;
-            return ConfiguredModel.builder().modelFile(model).build();
-        }, WATERLOGGED);
+        turretBlock(ROCKET_TURRET);
+    }
+
+    private void turretBlock(Holder<Block> turret)
+    {
+        VariantBlockStateBuilder builder = getVariantBuilder(turret);
+        builder.setModels(builder.partialState().with(DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER), ConfiguredModel.builder().modelFile(machineParticlesOnly).build());
+        for (Direction side : Direction.Plane.HORIZONTAL)
+        {
+            builder.setModels(builder.partialState().with(DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).with(HORIZONTAL_FACING, side), ConfiguredModel.builder().modelFile(turretBase).rotationY(getRotationY(side, 180)).build());
+        }
     }
 
     private void horizontalBlockWithSimpleItem(Holder<Block> holder)

@@ -60,9 +60,9 @@ public class GrenadeLauncherWeaponItem extends SemiAutoWeaponItem implements Scr
     }
 
     @Override
-    public void refreshEquipmentUpgrades(ItemStack stack, EquipmentUpgrades upgrades, Player player)
+    public void refreshEquipmentUpgrades(ItemStack stack, EquipmentUpgrades upgrades)
     {
-        super.refreshEquipmentUpgrades(stack, upgrades, player);
+        super.refreshEquipmentUpgrades(stack, upgrades);
 
         GrenadeType currentlyEquipped = getGrenadeTypeFromItem(stack);
         boolean shouldReset = upgrades.effectFlatStream(LimaTechUpgradeEffectComponents.GRENADE_UNLOCK.get()).noneMatch(effect -> effect.grenadeType() == currentlyEquipped);

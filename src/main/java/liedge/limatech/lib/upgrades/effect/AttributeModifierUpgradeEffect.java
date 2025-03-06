@@ -10,6 +10,7 @@ import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.enchantment.LevelBasedValue;
 
 public record AttributeModifierUpgradeEffect(Holder<Attribute> attribute, ResourceLocation modifierId, LevelBasedValue amount, AttributeModifier.Operation operation, EquipmentSlotGroup slotGroup) implements UpgradeEffect
@@ -27,14 +28,19 @@ public record AttributeModifierUpgradeEffect(Holder<Attribute> attribute, Resour
         return new AttributeModifierUpgradeEffect(attribute, modifierId, LevelBasedValue.constant(value), operation, EquipmentSlotGroup.MAINHAND);
     }
 
-    public AttributeModifier makeModifier(int upgradeRank)
+    public ItemAttributeModifiers.Entry makeModifierEntry(int upgradeRank)
     {
-        return new AttributeModifier(modifierId, amount.calculate(upgradeRank), operation);
+        return new ItemAttributeModifiers.Entry(attribute, makeModifier(upgradeRank), slotGroup);
     }
 
     @Override
     public Component defaultEffectTooltip(int upgradeRank)
     {
         return attribute.value().toComponent(makeModifier(upgradeRank), TooltipFlag.NORMAL).withStyle(ChatFormatting.BLUE);
+    }
+
+    private AttributeModifier makeModifier(int upgradeRank)
+    {
+        return new AttributeModifier(modifierId, amount.calculate(upgradeRank), operation);
     }
 }

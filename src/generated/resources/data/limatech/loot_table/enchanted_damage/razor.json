@@ -1,5 +1,5 @@
 {
-  "type": "minecraft:entity",
+  "type": "minecraft:enchanted_damage",
   "pools": [
     {
       "bonus_rolls": 0.0,
@@ -23,7 +23,7 @@
               "condition": "minecraft:entity_properties",
               "entity": "this",
               "predicate": {
-                "type": "minecraft:zombie"
+                "type": "#minecraft:zombies"
               }
             }
           ],
@@ -36,7 +36,17 @@
               "condition": "minecraft:entity_properties",
               "entity": "this",
               "predicate": {
-                "type": "minecraft:skeleton"
+                "type": "#minecraft:skeletons"
+              }
+            },
+            {
+              "condition": "minecraft:inverted",
+              "term": {
+                "condition": "minecraft:entity_properties",
+                "entity": "this",
+                "predicate": {
+                  "type": "minecraft:wither_skeleton"
+                }
               }
             }
           ],
@@ -111,10 +121,17 @@
               }
             },
             {
-              "condition": "limacore:entity_enchantment_level",
-              "enchantment": "limatech:razor",
-              "valid_levels": {
+              "condition": "minecraft:value_check",
+              "range": {
                 "min": 5.0
+              },
+              "value": {
+                "type": "minecraft:enchantment_level",
+                "amount": {
+                  "type": "minecraft:linear",
+                  "base": 1.0,
+                  "per_level_above_first": 1.0
+                }
               }
             }
           ],
@@ -124,5 +141,5 @@
       "rolls": 1.0
     }
   ],
-  "random_sequence": "limatech:entity/razor_drops"
+  "random_sequence": "limatech:enchanted_damage/razor"
 }

@@ -21,7 +21,6 @@ import liedge.limatech.registry.LimaTechGameEvents;
 import liedge.limatech.registry.LimaTechUpgradeEffectComponents;
 import liedge.limatech.util.LimaTechTooltipUtil;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -42,7 +41,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.ItemAbilities;
 import org.jetbrains.annotations.Nullable;
@@ -141,8 +139,10 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
 
 
     @Override
-    public void refreshEquipmentUpgrades(ItemStack stack, EquipmentUpgrades upgrades, Player player)
+    public void refreshEquipmentUpgrades(ItemStack stack, EquipmentUpgrades upgrades)
     {
+        UpgradableEquipmentItem.super.refreshEquipmentUpgrades(stack, upgrades);
+
         // Refresh ammo types
         WeaponAmmoSource newAmmoSource = upgrades.effectStream(LimaTechUpgradeEffectComponents.AMMO_SOURCE.get()).map(AmmoSourceUpgradeEffect::ammoSource).max(Comparator.naturalOrder()).orElse(WeaponAmmoSource.NORMAL);
         stack.set(WEAPON_AMMO_SOURCE, newAmmoSource);
@@ -222,6 +222,7 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
         {
             EquipmentUpgrades defaultUpgrades = getDefaultUpgrades(registries);
             stack.set(EQUIPMENT_UPGRADES, defaultUpgrades);
+            refreshEquipmentUpgrades(stack, defaultUpgrades);
         }
 
         if (fullMagazine) setAmmoLoaded(stack, getAmmoCapacity(stack));
@@ -327,11 +328,5 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
     public boolean isEnchantable(ItemStack stack)
     {
         return false;
-    }
-
-    @Override
-    public int getEnchantmentLevel(ItemStack stack, Holder<Enchantment> enchantment)
-    {
-        return getUpgradeEnchantmentLevel(stack, enchantment);
     }
 }
