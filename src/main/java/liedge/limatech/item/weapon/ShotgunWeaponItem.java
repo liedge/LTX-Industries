@@ -28,8 +28,8 @@ public class ShotgunWeaponItem extends SemiAutoWeaponItem
     protected EquipmentUpgrades getDefaultUpgrades(HolderLookup.Provider registries)
     {
         return EquipmentUpgrades.builder()
-                .add(registries.holderOrThrow(LimaTechEquipmentUpgrades.SHOTGUN_BUILT_IN))
-                .add(registries.holderOrThrow(LimaTechEquipmentUpgrades.LIGHTFRAG_BASE_ARMOR_BYPASS))
+                .set(registries.holderOrThrow(LimaTechEquipmentUpgrades.SHOTGUN_BUILT_IN))
+                .set(registries.holderOrThrow(LimaTechEquipmentUpgrades.LIGHTFRAG_BASE_ARMOR_BYPASS))
                 .build();
     }
 

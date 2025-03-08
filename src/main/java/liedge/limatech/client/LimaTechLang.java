@@ -2,8 +2,11 @@ package liedge.limatech.client;
 
 import liedge.limacore.lib.ModResources;
 import liedge.limacore.lib.Translatable;
+import liedge.limatech.LimaTechConstants;
+import net.minecraft.network.chat.Component;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.level.storage.loot.LootContext;
 
 import static liedge.limatech.LimaTech.RESOURCES;
 
@@ -49,8 +52,11 @@ public final class LimaTechLang
     public static final Translatable EQUIPMENT_UPGRADE_MODULE_TOOLTIP = tooltip("equipment_upgrade_module");
     public static final Translatable MACHINE_UPGRADE_MODULE_TOOLTIP = tooltip("machine_upgrade_module");
 
-    public static final Translatable TARGET_ATTRIBUTE_VALUE_EFFECT = upgradeEffect("target_attribute");
-    public static final Translatable PLAYER_ATTRIBUTE_VALUE_EFFECT = upgradeEffect("player_attribute");
+    public static final Translatable THIS_ENTITY_TARGET_TOOLTIP = tooltip("entity_target.this");
+    public static final Translatable ATTACKER_ENTITY_TARGET_TOOLTIP = tooltip("entity_target.attacker");
+    public static final Translatable DIRECT_ATTACKER_ENTITY_TARGET_TOOLTIP = tooltip("entity_target.direct_attacker");
+    public static final Translatable LAST_ATTACKING_PLAYER_ENTITY_TARGET_TOOLTIP = tooltip("entity_target.last_player");
+    public static final Translatable ATTRIBUTE_AMOUNT_VALUE_TOOLTIP = prefixKey("complex_value", "attribute_amount");
 
     public static final Translatable WEAPON_KNOCKBACK_EFFECT = upgradeEffect("weapon_knockback");
     public static final Translatable DYNAMIC_DAMAGE_TAG_EFFECT = upgradeEffect("dynamic_tag");
@@ -60,6 +66,17 @@ public final class LimaTechLang
     public static final Translatable INFINITE_AMMO_EFFECT = upgradeEffect("infinite_ammo");
     public static final Translatable ENCHANTMENT_UPGRADE_EFFECT = upgradeEffect("enchantment");
     public static final Translatable GRENADE_UNLOCK_EFFECT = upgradeEffect("grenade_unlock");
+
+    public static Component makeEntityTargetComponent(LootContext.EntityTarget target)
+    {
+        return switch (target)
+        {
+            case THIS -> THIS_ENTITY_TARGET_TOOLTIP.translate().withStyle(LimaTechConstants.HOSTILE_ORANGE.chatStyle());
+            case ATTACKER -> ATTACKER_ENTITY_TARGET_TOOLTIP.translate().withStyle(LimaTechConstants.LIME_GREEN.chatStyle());
+            case DIRECT_ATTACKER -> DIRECT_ATTACKER_ENTITY_TARGET_TOOLTIP.translate();
+            case ATTACKING_PLAYER -> LAST_ATTACKING_PLAYER_ENTITY_TARGET_TOOLTIP.translate();
+        };
+    }
 
     public static String namedDamageTagKey(TagKey<DamageType> tagKey)
     {

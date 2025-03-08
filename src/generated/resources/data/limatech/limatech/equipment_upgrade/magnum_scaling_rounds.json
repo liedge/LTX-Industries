@@ -5,9 +5,25 @@
   "effects": {
     "limatech:weapon_damage": [
       {
-        "type": "target_attribute",
-        "amount": 0.2,
-        "attribute": "minecraft:generic.max_health"
+        "effect": {
+          "op": "flat_addition",
+          "tooltip": {
+            "type": "targeted_attribute",
+            "amount": 0.25,
+            "attribute": "minecraft:generic.max_health",
+            "target": "this"
+          },
+          "value": {
+            "type": "limacore:math_ops",
+            "first": {
+              "type": "limacore:targeted_attribute_value",
+              "attribute": "minecraft:generic.max_health",
+              "target": "this"
+            },
+            "op": "multiply",
+            "second": 0.25
+          }
+        }
       }
     ]
   },

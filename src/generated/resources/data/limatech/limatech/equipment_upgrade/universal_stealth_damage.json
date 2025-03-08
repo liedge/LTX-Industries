@@ -5,8 +5,10 @@
   "effects": {
     "limatech:weapon_pre_attack": [
       {
-        "type": "limatech:dynamic_damage_tag",
-        "tag": "minecraft:no_anger"
+        "effect": {
+          "type": "limatech:dynamic_damage_tag",
+          "tag": "minecraft:no_anger"
+        }
       }
     ]
   },

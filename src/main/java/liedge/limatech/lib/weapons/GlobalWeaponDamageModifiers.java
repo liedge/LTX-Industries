@@ -5,7 +5,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import liedge.limatech.LimaTech;
 import liedge.limatech.item.weapon.WeaponItem;
-import liedge.limatech.lib.math.CompoundOperation;
+import liedge.limatech.lib.CompoundValueOperation;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
@@ -45,22 +45,22 @@ public final class GlobalWeaponDamageModifiers
 
             for (WeaponDamageModifier modifier : list)
             {
-                totalDamage = modifier.operation.apply(baseDamage, totalDamage, modifier.factor);
+                totalDamage = modifier.operation.computeDouble(baseDamage, totalDamage, modifier.factor);
             }
         }
 
         return totalDamage;
     }
 
-    public record WeaponDamageModifier(Optional<WeaponItem> weapon, double factor, CompoundOperation operation) implements Comparable<WeaponDamageModifier>
+    public record WeaponDamageModifier(Optional<WeaponItem> weapon, float factor, CompoundValueOperation operation) implements Comparable<WeaponDamageModifier>
     {
         public static final Codec<WeaponDamageModifier> CODEC = RecordCodecBuilder.create(instance -> instance.group(
                 WeaponItem.CODEC.optionalFieldOf("weapon").forGetter(WeaponDamageModifier::weapon),
-                Codec.DOUBLE.fieldOf("factor").forGetter(WeaponDamageModifier::factor),
-                CompoundOperation.CODEC.fieldOf("operation").forGetter(WeaponDamageModifier::operation))
+                Codec.FLOAT.fieldOf("factor").forGetter(WeaponDamageModifier::factor),
+                CompoundValueOperation.CODEC.fieldOf("operation").forGetter(WeaponDamageModifier::operation))
                 .apply(instance, WeaponDamageModifier::new));
 
-        public static WeaponDamageModifier create(Supplier<? extends WeaponItem> supplier, double factor, CompoundOperation operation)
+        public static WeaponDamageModifier create(Supplier<? extends WeaponItem> supplier, float factor, CompoundValueOperation operation)
         {
             return new WeaponDamageModifier(Optional.of(supplier.get()), factor, operation);
         }

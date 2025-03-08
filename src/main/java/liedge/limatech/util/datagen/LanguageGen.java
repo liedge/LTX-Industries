@@ -11,7 +11,7 @@ import liedge.limatech.item.SimpleHintItem;
 import liedge.limatech.item.TooltipShiftHintItem;
 import liedge.limatech.item.weapon.GrenadeLauncherWeaponItem;
 import liedge.limatech.item.weapon.WeaponItem;
-import liedge.limatech.lib.math.CompoundOperation;
+import liedge.limatech.lib.CompoundValueOperation;
 import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrade;
 import liedge.limatech.lib.upgrades.machine.MachineUpgrade;
 import liedge.limatech.lib.weapons.GrenadeType;
@@ -233,15 +233,21 @@ class LanguageGen extends LimaLanguageProvider
         add(EQUIPMENT_UPGRADE_MODULE_TOOLTIP, "Equipment Upgrade Module");
         add(MACHINE_UPGRADE_MODULE_TOOLTIP, "Machine Upgrade Module");
 
-        add(CompoundOperation.SET, "Sets %s as new base");
-        add(CompoundOperation.FLAT_ADDITION, "%s");
-        add(CompoundOperation.ADD_MULTIPLIED_BASE, "%s base");
-        add(CompoundOperation.ADD_MULTIPLIED_TOTAL, "%s total");
-        add(CompoundOperation.MULTIPLY, "%sx");
+        add(CompoundValueOperation.REPLACE_BASE, "Sets %s as new base");
+        add(CompoundValueOperation.FLAT_ADDITION, "%s");
+        add(CompoundValueOperation.ADD_MULTIPLIED_BASE, "%s base");
+        add(CompoundValueOperation.ADD_MULTIPLIED_TOTAL, "%s total");
+        add(CompoundValueOperation.MULTIPLY, "%sx");
 
         add(INVALID_UPGRADE_HINT, "This upgrade data in this module is invalid or corrupted. Shift+Right Click to revert to an empty module.");
 
-        add(LimaTechUpgradeEffectComponents.ARMOR_BYPASS, "Equipment bypasses %s armor");
+        add(THIS_ENTITY_TARGET_TOOLTIP, "Enemy");
+        add(ATTACKER_ENTITY_TARGET_TOOLTIP, "User");
+        add(DIRECT_ATTACKER_ENTITY_TARGET_TOOLTIP, "Projectile");
+        add(LAST_ATTACKING_PLAYER_ENTITY_TARGET_TOOLTIP, "Last Attacking Player");
+        add(ATTRIBUTE_AMOUNT_VALUE_TOOLTIP, "%s of %s %s");
+
+        add(LimaTechUpgradeEffectComponents.ARMOR_BYPASS, "Equipment bypasses %s armor points");
         add(LimaTechUpgradeEffectComponents.WEAPON_DAMAGE, "%s weapon damage");
         add(LimaTechUpgradeEffectComponents.WEAPON_PROJECTILE_SPEED, "%s projectile speed");
         add(LimaTechUpgradeEffectComponents.ENERGY_CAPACITY, "%s CE capacity");
@@ -249,8 +255,6 @@ class LanguageGen extends LimaLanguageProvider
         add(LimaTechUpgradeEffectComponents.MACHINE_ENERGY_USAGE, "%s CE usage");
         add(LimaTechUpgradeEffectComponents.TICKS_PER_OPERATION, "%s ticks/operation");
 
-        add(TARGET_ATTRIBUTE_VALUE_EFFECT, "%s of enemy %s");
-        add(PLAYER_ATTRIBUTE_VALUE_EFFECT, "%s of player %s");
         add(WEAPON_KNOCKBACK_EFFECT, "%s knockback power");
         add(DYNAMIC_DAMAGE_TAG_EFFECT, "Adds damage type tag: %s");
         add(NO_SCULK_VIBRATIONS_EFFECT, "No sculk vibrations");

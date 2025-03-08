@@ -2,18 +2,25 @@ package liedge.limatech.util.datagen;
 
 import liedge.limacore.LimaCoreTags;
 import liedge.limacore.data.generation.LimaDatagenBootstrapBuilder;
+import liedge.limacore.lib.math.MathOperation;
 import liedge.limacore.registry.LimaCoreDataComponents;
+import liedge.limacore.world.loot.number.MathOpsNumberProvider;
+import liedge.limacore.world.loot.number.TargetedAttributeValueProvider;
 import liedge.limatech.LimaTechConstants;
 import liedge.limatech.LimaTechTags;
+import liedge.limatech.lib.CompoundValueOperation;
 import liedge.limatech.lib.LimaTechDeathMessageTypes;
-import liedge.limatech.lib.math.CompoundOperation;
-import liedge.limatech.lib.math.LevelBasedDoubleValue;
 import liedge.limatech.lib.upgrades.UpgradeIcon;
-import liedge.limatech.lib.upgrades.effect.*;
+import liedge.limatech.lib.upgrades.effect.AmmoSourceUpgradeEffect;
+import liedge.limatech.lib.upgrades.effect.AttributeModifierUpgradeEffect;
+import liedge.limatech.lib.upgrades.effect.EnchantmentUpgradeEffect;
 import liedge.limatech.lib.upgrades.effect.equipment.BubbleShieldUpgradeEffect;
 import liedge.limatech.lib.upgrades.effect.equipment.DynamicDamageTagUpgradeEffect;
 import liedge.limatech.lib.upgrades.effect.equipment.KnockbackStrengthUpgradeEffect;
-import liedge.limatech.lib.upgrades.effect.value.ValueUpgradeEffect;
+import liedge.limatech.lib.upgrades.effect.value.ComplexValueTooltip;
+import liedge.limatech.lib.upgrades.effect.value.ComplexValueUpgradeEffect;
+import liedge.limatech.lib.upgrades.effect.value.DoubleLevelBasedValue;
+import liedge.limatech.lib.upgrades.effect.value.SimpleValueUpgradeEffect;
 import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrade;
 import liedge.limatech.lib.upgrades.machine.MachineUpgrade;
 import liedge.limatech.lib.weapons.GrenadeType;
@@ -25,6 +32,7 @@ import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.network.chat.Component;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.DamageTypeTags;
@@ -54,6 +62,7 @@ import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.predicates.LootItemEntityPropertyCondition;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.neoforged.neoforge.common.world.BiomeModifier;
 import net.neoforged.neoforge.common.world.BiomeModifiers.AddFeaturesBiomeModifier;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
@@ -64,6 +73,7 @@ import static liedge.limatech.registry.LimaTechEnchantments.AMMO_SCAVENGER;
 import static liedge.limatech.registry.LimaTechEnchantments.RAZOR;
 import static liedge.limatech.registry.LimaTechEquipmentUpgrades.*;
 import static liedge.limatech.registry.LimaTechMachineUpgrades.*;
+import static liedge.limatech.registry.LimaTechUpgradeEffectComponents.*;
 import static liedge.limatech.registry.LimaTechWorldGen.*;
 
 class DataRegistriesEntries extends LimaDatagenBootstrapBuilder
@@ -178,39 +188,37 @@ class DataRegistriesEntries extends LimaDatagenBootstrapBuilder
         // Weapon-specific upgrades
         EquipmentUpgrade.builder(LIGHTFRAG_BASE_ARMOR_BYPASS)
                 .supports(HolderSet.direct(LimaTechItems.SUBMACHINE_GUN, LimaTechItems.SHOTGUN,  LimaTechItems.MAGNUM))
-                .withListEffect(LimaTechUpgradeEffectComponents.ARMOR_BYPASS, ValueUpgradeEffect.simpleValue(LevelBasedDoubleValue.constant(-4), CompoundOperation.FLAT_ADDITION))
+                .withConditionalEffect(ARMOR_BYPASS, ComplexValueUpgradeEffect.simpleConstant(-4f, CompoundValueOperation.FLAT_ADDITION))
                 .effectIcon(sprite("lightfrags"))
                 .buildAndRegister(ctx);
 
         EquipmentUpgrade.builder(SMG_BUILT_IN)
                 .supports(HolderSet.direct(LimaTechItems.SUBMACHINE_GUN))
-                .withEffect(LimaTechUpgradeEffectComponents.PREVENT_SCULK_VIBRATION, NoSculkVibrationEffect.preventSculkVibrations())
-                .withListEffects(LimaTechUpgradeEffectComponents.WEAPON_PRE_ATTACK,
-                        new DynamicDamageTagUpgradeEffect(DamageTypeTags.NO_ANGER),
-                        new DynamicDamageTagUpgradeEffect(DamageTypeTags.NO_KNOCKBACK))
+                .withUnitEffect(PREVENT_SCULK_VIBRATION)
+                .withConditionalEffect(WEAPON_PRE_ATTACK, new DynamicDamageTagUpgradeEffect(DamageTypeTags.NO_ANGER))
+                .withConditionalEffect(WEAPON_PRE_ATTACK, new DynamicDamageTagUpgradeEffect(DamageTypeTags.NO_KNOCKBACK))
                 .effectIcon(intrinsicTypeIcon(LimaTechItems.SUBMACHINE_GUN))
                 .buildAndRegister(ctx);
 
         EquipmentUpgrade.builder(SHOTGUN_BUILT_IN)
                 .supports(LimaTechItems.SHOTGUN)
-                .withListEffects(LimaTechUpgradeEffectComponents.ITEM_ATTRIBUTE_MODIFIERS,
-                        AttributeModifierUpgradeEffect.constantMainHand(Attributes.MOVEMENT_SPEED, RESOURCES.location("shotgun_speed_boost"), 0.25f, AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
-                        AttributeModifierUpgradeEffect.constantMainHand(Attributes.STEP_HEIGHT, RESOURCES.location("shotgun_step_height_boost"), 1, AttributeModifier.Operation.ADD_VALUE))
-                .withListEffect(LimaTechUpgradeEffectComponents.ARMOR_BYPASS, ValueUpgradeEffect.simpleValue(LevelBasedDoubleValue.constant(-0.15f), CompoundOperation.ADD_MULTIPLIED_TOTAL))
+                .withEffect(ITEM_ATTRIBUTE_MODIFIERS, AttributeModifierUpgradeEffect.constantMainHand(Attributes.MOVEMENT_SPEED, RESOURCES.location("shotgun_speed_boost"), 0.25f, AttributeModifier.Operation.ADD_MULTIPLIED_BASE))
+                .withEffect(ITEM_ATTRIBUTE_MODIFIERS, AttributeModifierUpgradeEffect.constantMainHand(Attributes.STEP_HEIGHT, RESOURCES.location("shotgun_step_height_boost"), 1, AttributeModifier.Operation.ADD_VALUE))
+                .withConditionalEffect(ARMOR_BYPASS, ComplexValueUpgradeEffect.simpleConstant(-0.15f, CompoundValueOperation.ADD_MULTIPLIED_TOTAL))
                 .effectIcon(intrinsicTypeIcon(LimaTechItems.SHOTGUN))
                 .buildAndRegister(ctx);
 
         EquipmentUpgrade.builder(HIGH_IMPACT_ROUNDS)
                 .supports(LimaTechItems.SHOTGUN, LimaTechItems.MAGNUM)
-                .withListEffects(LimaTechUpgradeEffectComponents.WEAPON_PRE_ATTACK,
-                        new DynamicDamageTagUpgradeEffect(LimaCoreTags.DamageTypes.IGNORES_KNOCKBACK_RESISTANCE),
-                        new KnockbackStrengthUpgradeEffect(LevelBasedValue.perLevel(1.5f)))
+                .withConditionalEffect(WEAPON_PRE_ATTACK, new DynamicDamageTagUpgradeEffect(LimaCoreTags.DamageTypes.IGNORES_KNOCKBACK_RESISTANCE))
+                .withConditionalEffect(WEAPON_PRE_ATTACK, new KnockbackStrengthUpgradeEffect(LevelBasedValue.perLevel(1.5f)))
                 .effectIcon(sprite("powerful_lightfrag"))
                 .buildAndRegister(ctx);
 
         EquipmentUpgrade.builder(MAGNUM_SCALING_ROUNDS)
                 .supports(LimaTechItems.MAGNUM)
-                .withListEffect(LimaTechUpgradeEffectComponents.WEAPON_DAMAGE, ValueUpgradeEffect.addEnemyAttribute(Attributes.MAX_HEALTH, LevelBasedDoubleValue.constant(0.2d)))
+                .withConditionalEffect(WEAPON_DAMAGE, ComplexValueUpgradeEffect.of(MathOpsNumberProvider.of(TargetedAttributeValueProvider.of(LootContext.EntityTarget.THIS, Attributes.MAX_HEALTH), ConstantValue.exactly(0.25f), MathOperation.MULTIPLICATION), CompoundValueOperation.FLAT_ADDITION,
+                        ComplexValueTooltip.attributeValueTooltip(LootContext.EntityTarget.THIS, Attributes.MAX_HEALTH, LevelBasedValue.constant(0.25f))))
                 .effectIcon(intrinsicTypeIcon(LimaTechItems.MAGNUM))
                 .effectIcon(itemWithSpriteOverlay(LimaTechItems.MAGNUM, "powerful_lightfrag", 10, 10, 0, 6))
                 .buildAndRegister(ctx);
@@ -218,43 +226,43 @@ class DataRegistriesEntries extends LimaDatagenBootstrapBuilder
         EquipmentUpgrade.builder(GRENADE_LAUNCHER_PROJECTILE_SPEED)
                 .supports(LimaTechItems.GRENADE_LAUNCHER)
                 .setMaxRank(2)
-                .withListEffect(LimaTechUpgradeEffectComponents.WEAPON_PROJECTILE_SPEED, ValueUpgradeEffect.simpleValue(LevelBasedDoubleValue.perLevel(0.5d), CompoundOperation.FLAT_ADDITION))
+                .withEffect(WEAPON_PROJECTILE_SPEED, SimpleValueUpgradeEffect.of(DoubleLevelBasedValue.linear(0.5d), CompoundValueOperation.FLAT_ADDITION))
                 .effectIcon(sprite("grenade_speed_boost"))
                 .buildAndRegister(ctx);
 
         // Universal upgrades
         EquipmentUpgrade.builder(UNIVERSAL_ANTI_VIBRATION)
                 .supportsLTXWeapons(items)
-                .withEffect(LimaTechUpgradeEffectComponents.PREVENT_SCULK_VIBRATION, NoSculkVibrationEffect.preventSculkVibrations())
+                .withUnitEffect(PREVENT_SCULK_VIBRATION)
                 .effectIcon(sprite("no_vibration"))
                 .buildAndRegister(ctx);
         EquipmentUpgrade.builder(UNIVERSAL_STEALTH_DAMAGE)
                 .supportsLTXWeapons(items)
-                .withListEffect(LimaTechUpgradeEffectComponents.WEAPON_PRE_ATTACK, new DynamicDamageTagUpgradeEffect(DamageTypeTags.NO_ANGER))
+                .withConditionalEffect(WEAPON_PRE_ATTACK, new DynamicDamageTagUpgradeEffect(DamageTypeTags.NO_ANGER))
                 .effectIcon(sprite("stealth_damage"))
                 .buildAndRegister(ctx);
         EquipmentUpgrade.builder(UNIVERSAL_ENERGY_AMMO)
                 .supportsLTXWeapons(items)
                 .exclusiveWith(holders, LimaTechTags.EquipmentUpgrades.AMMO_SOURCE_MODIFIERS)
-                .withEffect(LimaTechUpgradeEffectComponents.AMMO_SOURCE, new AmmoSourceUpgradeEffect(WeaponAmmoSource.COMMON_ENERGY_UNIT))
+                .withSpecialEffect(AMMO_SOURCE, new AmmoSourceUpgradeEffect(WeaponAmmoSource.COMMON_ENERGY_UNIT))
                 .effectIcon(sprite("energy_ammo"))
                 .buildAndRegister(ctx);
         EquipmentUpgrade.builder(UNIVERSAL_INFINITE_AMMO)
                 .supportsLTXWeapons(items)
                 .exclusiveWith(holders, LimaTechTags.EquipmentUpgrades.AMMO_SOURCE_MODIFIERS)
-                .withEffect(LimaTechUpgradeEffectComponents.AMMO_SOURCE, new AmmoSourceUpgradeEffect(WeaponAmmoSource.INFINITE))
+                .withSpecialEffect(AMMO_SOURCE, new AmmoSourceUpgradeEffect(WeaponAmmoSource.INFINITE))
                 .effectIcon(sprite("infinite_ammo"))
                 .buildAndRegister(ctx);
         EquipmentUpgrade.builder(UNIVERSAL_ARMOR_PIERCE)
                 .supportsLTXWeapons(items)
                 .setMaxRank(3)
-                .withListEffect(LimaTechUpgradeEffectComponents.ARMOR_BYPASS, ValueUpgradeEffect.simpleValue(LevelBasedDoubleValue.perLevel(-0.1f), CompoundOperation.ADD_MULTIPLIED_TOTAL))
+                .withConditionalEffect(ARMOR_BYPASS, ComplexValueUpgradeEffect.simpleRankBased(LevelBasedValue.perLevel(-0.1f), CompoundValueOperation.ADD_MULTIPLIED_TOTAL))
                 .effectIcon(sprite("armor_bypass"))
                 .buildAndRegister(ctx);
         EquipmentUpgrade.builder(UNIVERSAL_SHIELD_REGEN)
                 .supportsLTXWeapons(items)
                 .setMaxRank(3)
-                .withListEffect(LimaTechUpgradeEffectComponents.WEAPON_KILL, new BubbleShieldUpgradeEffect(LevelBasedValue.constant(4), LevelBasedValue.perLevel(10)))
+                .withConditionalEffect(WEAPON_KILL, new BubbleShieldUpgradeEffect(LevelBasedValue.constant(4), LevelBasedValue.perLevel(10)))
                 .effectIcon(sprite("bubble_shield"))
                 .buildAndRegister(ctx);
 
@@ -262,56 +270,55 @@ class DataRegistriesEntries extends LimaDatagenBootstrapBuilder
         EquipmentUpgrade.builder(LOOTING_ENCHANTMENT)
                 .supportsLTXWeapons(items)
                 .setMaxRank(5)
-                .withListEffect(LimaTechUpgradeEffectComponents.ITEM_ENCHANTMENTS, EnchantmentUpgradeEffect.oneLevelPerRank(enchantments.getOrThrow(Enchantments.LOOTING)))
+                .withEffect(ITEM_ENCHANTMENTS, EnchantmentUpgradeEffect.oneLevelPerRank(enchantments.getOrThrow(Enchantments.LOOTING)))
                 .effectIcon(sprite("looting"))
                 .buildAndRegister(ctx);
         EquipmentUpgrade.builder(AMMO_SCAVENGER_ENCHANTMENT)
                 .supportsLTXWeapons(items)
                 .setMaxRank(5)
-                .withListEffect(LimaTechUpgradeEffectComponents.ITEM_ENCHANTMENTS, EnchantmentUpgradeEffect.oneLevelPerRank(enchantments.getOrThrow(AMMO_SCAVENGER)))
+                .withEffect(ITEM_ENCHANTMENTS, EnchantmentUpgradeEffect.oneLevelPerRank(enchantments.getOrThrow(AMMO_SCAVENGER)))
                 .effectIcon(sprite("ammo_scavenger"))
                 .buildAndRegister(ctx);
         EquipmentUpgrade.builder(RAZOR_ENCHANTMENT)
                 .supportsLTXWeapons(items)
                 .setMaxRank(5)
-                .withListEffect(LimaTechUpgradeEffectComponents.ITEM_ENCHANTMENTS, EnchantmentUpgradeEffect.oneLevelPerRank(enchantments.getOrThrow(RAZOR)))
+                .withEffect(ITEM_ENCHANTMENTS, EnchantmentUpgradeEffect.oneLevelPerRank(enchantments.getOrThrow(RAZOR)))
                 .effectIcon(sprite("razor_enchant"))
                 .buildAndRegister(ctx);
 
         // Hanabi grenade cores
         EquipmentUpgrade.builder(FLAME_GRENADE_CORE)
                 .supports(LimaTechItems.GRENADE_LAUNCHER)
-                .withListEffect(LimaTechUpgradeEffectComponents.GRENADE_UNLOCK, new GrenadeUnlockUpgradeEffect(GrenadeType.FLAME))
+                .withEffect(GRENADE_UNLOCK, GrenadeType.FLAME)
                 .effectIcon(hanabiCoreIcon(GrenadeType.FLAME))
                 .buildAndRegister(ctx);
         EquipmentUpgrade.builder(CRYO_GRENADE_CORE)
                 .supports(LimaTechItems.GRENADE_LAUNCHER)
-                .withListEffect(LimaTechUpgradeEffectComponents.GRENADE_UNLOCK, new GrenadeUnlockUpgradeEffect(GrenadeType.CRYO))
+                .withEffect(GRENADE_UNLOCK, GrenadeType.CRYO)
                 .effectIcon(hanabiCoreIcon(GrenadeType.CRYO))
                 .buildAndRegister(ctx);
         EquipmentUpgrade.builder(ELECTRIC_GRENADE_CORE)
                 .supports(LimaTechItems.GRENADE_LAUNCHER)
-                .withListEffect(LimaTechUpgradeEffectComponents.GRENADE_UNLOCK, new GrenadeUnlockUpgradeEffect(GrenadeType.ELECTRIC))
+                .withEffect(GRENADE_UNLOCK, GrenadeType.ELECTRIC)
                 .effectIcon(hanabiCoreIcon(GrenadeType.ELECTRIC))
                 .buildAndRegister(ctx);
         EquipmentUpgrade.builder(ACID_GRENADE_CORE)
                 .supports(LimaTechItems.GRENADE_LAUNCHER)
-                .withListEffect(LimaTechUpgradeEffectComponents.GRENADE_UNLOCK, new GrenadeUnlockUpgradeEffect(GrenadeType.ACID))
+                .withEffect(GRENADE_UNLOCK, GrenadeType.ACID)
                 .effectIcon(hanabiCoreIcon(GrenadeType.ACID))
                 .buildAndRegister(ctx);
         EquipmentUpgrade.builder(NEURO_GRENADE_CORE)
                 .supports(LimaTechItems.GRENADE_LAUNCHER)
-                .withListEffect(LimaTechUpgradeEffectComponents.GRENADE_UNLOCK, new GrenadeUnlockUpgradeEffect(GrenadeType.NEURO))
+                .withEffect(GRENADE_UNLOCK, GrenadeType.NEURO)
                 .effectIcon(hanabiCoreIcon(GrenadeType.NEURO))
                 .buildAndRegister(ctx);
         EquipmentUpgrade.builder(OMNI_GRENADE_CORE)
                 .supports(LimaTechItems.GRENADE_LAUNCHER)
-                .withListEffects(LimaTechUpgradeEffectComponents.GRENADE_UNLOCK,
-                        new GrenadeUnlockUpgradeEffect(GrenadeType.FLAME),
-                        new GrenadeUnlockUpgradeEffect(GrenadeType.CRYO),
-                        new GrenadeUnlockUpgradeEffect(GrenadeType.ELECTRIC),
-                        new GrenadeUnlockUpgradeEffect(GrenadeType.ACID),
-                        new GrenadeUnlockUpgradeEffect(GrenadeType.NEURO))
+                .withEffect(GRENADE_UNLOCK, GrenadeType.FLAME)
+                .withEffect(GRENADE_UNLOCK, GrenadeType.CRYO)
+                .withEffect(GRENADE_UNLOCK, GrenadeType.ELECTRIC)
+                .withEffect(GRENADE_UNLOCK, GrenadeType.ACID)
+                .withEffect(GRENADE_UNLOCK, GrenadeType.NEURO)
                 .effectIcon(sprite("omni_grenade_core"))
                 .buildAndRegister(ctx);
     }
@@ -320,36 +327,36 @@ class DataRegistriesEntries extends LimaDatagenBootstrapBuilder
     {
         MachineUpgrade.builder(ESA_CAPACITY_UPGRADE)
                 .supports(LimaTechBlockEntities.ENERGY_STORAGE_ARRAY)
-                .withListEffect(LimaTechUpgradeEffectComponents.ENERGY_CAPACITY, ValueUpgradeEffect.simpleValue(LevelBasedDoubleValue.exponential(2, LevelBasedDoubleValue.linear(3, 1)), CompoundOperation.MULTIPLY))
-                .withListEffect(LimaTechUpgradeEffectComponents.ENERGY_TRANSFER_RATE, ValueUpgradeEffect.simpleValue(LevelBasedDoubleValue.exponential(2, LevelBasedDoubleValue.linear(3, 1)), CompoundOperation.MULTIPLY))
+                .withEffect(LimaTechUpgradeEffectComponents.ENERGY_CAPACITY, SimpleValueUpgradeEffect.of(DoubleLevelBasedValue.exponential(2, DoubleLevelBasedValue.linear(3, 1)), CompoundValueOperation.MULTIPLY))
+                .withEffect(LimaTechUpgradeEffectComponents.ENERGY_TRANSFER_RATE, SimpleValueUpgradeEffect.of(DoubleLevelBasedValue.exponential(2, DoubleLevelBasedValue.linear(3, 1)), CompoundValueOperation.MULTIPLY))
                 .setMaxRank(4)
                 .effectIcon(sprite("extra_energy"))
                 .buildAndRegister(ctx);
 
         MachineUpgrade.builder(ALPHA_MACHINE_SYSTEMS)
                 .supports(LimaTechBlockEntities.DIGITAL_FURNACE, LimaTechBlockEntities.GRINDER, LimaTechBlockEntities.RECOMPOSER, LimaTechBlockEntities.MATERIAL_FUSING_CHAMBER)
-                .withListEffect(LimaTechUpgradeEffectComponents.ENERGY_CAPACITY, ValueUpgradeEffect.simpleValue(LevelBasedDoubleValue.perLevel(0.5d), CompoundOperation.ADD_MULTIPLIED_BASE))
-                .withListEffect(LimaTechUpgradeEffectComponents.ENERGY_TRANSFER_RATE, ValueUpgradeEffect.simpleValue(LevelBasedDoubleValue.perLevel(0.5d), CompoundOperation.ADD_MULTIPLIED_BASE))
-                .withListEffect(LimaTechUpgradeEffectComponents.MACHINE_ENERGY_USAGE, ValueUpgradeEffect.simpleValue(LevelBasedDoubleValue.linearExponent(1.5d), CompoundOperation.MULTIPLY))
-                .withListEffect(LimaTechUpgradeEffectComponents.TICKS_PER_OPERATION, ValueUpgradeEffect.simpleValue(LevelBasedDoubleValue.exponential(0.725d, LevelBasedDoubleValue.perLevel(1)), CompoundOperation.MULTIPLY))
+                .withEffect(ENERGY_CAPACITY, SimpleValueUpgradeEffect.of(DoubleLevelBasedValue.linear(0.5d), CompoundValueOperation.ADD_MULTIPLIED_BASE))
+                .withEffect(ENERGY_TRANSFER_RATE, SimpleValueUpgradeEffect.of(DoubleLevelBasedValue.linear(0.5d), CompoundValueOperation.ADD_MULTIPLIED_BASE))
+                .withEffect(MACHINE_ENERGY_USAGE, SimpleValueUpgradeEffect.of(DoubleLevelBasedValue.linearExponent(1.5d), CompoundValueOperation.MULTIPLY))
+                .withEffect(TICKS_PER_OPERATION, SimpleValueUpgradeEffect.of(DoubleLevelBasedValue.exponential(0.725d, DoubleLevelBasedValue.linear(1)), CompoundValueOperation.MULTIPLY))
                 .setMaxRank(6)
                 .effectIcon(sprite("alpha_systems"))
                 .buildAndRegister(ctx);
 
         MachineUpgrade.builder(EPSILON_MACHINE_SYSTEMS)
-                .modifyTitle(title -> title.copy().withStyle(LimaTechConstants.LIME_GREEN.chatStyle()))
+                .createDefaultTitle(key -> Component.translatable(key).withStyle(LimaTechConstants.LIME_GREEN.chatStyle()))
                 .supports(LimaTechBlockEntities.DIGITAL_FURNACE, LimaTechBlockEntities.GRINDER, LimaTechBlockEntities.RECOMPOSER, LimaTechBlockEntities.MATERIAL_FUSING_CHAMBER)
-                .withListEffect(LimaTechUpgradeEffectComponents.ENERGY_CAPACITY, ValueUpgradeEffect.simpleValue(LevelBasedDoubleValue.constant(8), CompoundOperation.MULTIPLY))
-                .withListEffect(LimaTechUpgradeEffectComponents.ENERGY_TRANSFER_RATE, ValueUpgradeEffect.simpleValue(LevelBasedDoubleValue.constant(16), CompoundOperation.MULTIPLY))
-                .withListEffect(LimaTechUpgradeEffectComponents.MACHINE_ENERGY_USAGE, ValueUpgradeEffect.simpleValue(LevelBasedDoubleValue.constant(256), CompoundOperation.MULTIPLY))
-                .withListEffect(LimaTechUpgradeEffectComponents.TICKS_PER_OPERATION, ValueUpgradeEffect.simpleValue(LevelBasedDoubleValue.constant(-1), CompoundOperation.ADD_MULTIPLIED_TOTAL))
+                .withEffect(ENERGY_CAPACITY, SimpleValueUpgradeEffect.of(DoubleLevelBasedValue.constant(8), CompoundValueOperation.MULTIPLY))
+                .withEffect(ENERGY_TRANSFER_RATE, SimpleValueUpgradeEffect.of(DoubleLevelBasedValue.constant(16), CompoundValueOperation.MULTIPLY))
+                .withEffect(MACHINE_ENERGY_USAGE, SimpleValueUpgradeEffect.of(DoubleLevelBasedValue.constant(256), CompoundValueOperation.MULTIPLY))
+                .withEffect(TICKS_PER_OPERATION, SimpleValueUpgradeEffect.of(DoubleLevelBasedValue.constant(-1), CompoundValueOperation.ADD_MULTIPLIED_TOTAL))
                 .effectIcon(sprite("epsilon_systems"))
                 .buildAndRegister(ctx);
 
         MachineUpgrade.builder(FABRICATOR_UPGRADE)
                 .supports(LimaTechBlockEntities.FABRICATOR)
-                .withListEffect(LimaTechUpgradeEffectComponents.ENERGY_CAPACITY, ValueUpgradeEffect.simpleValue(LevelBasedDoubleValue.exponential(2, LevelBasedDoubleValue.linear(2, 1)), CompoundOperation.MULTIPLY))
-                .withListEffect(LimaTechUpgradeEffectComponents.ENERGY_TRANSFER_RATE, ValueUpgradeEffect.simpleValue(LevelBasedDoubleValue.exponential(2, LevelBasedDoubleValue.linear(2, 1)), CompoundOperation.MULTIPLY))
+                .withEffect(ENERGY_CAPACITY, SimpleValueUpgradeEffect.of(DoubleLevelBasedValue.exponential(2, DoubleLevelBasedValue.linear(2, 1)), CompoundValueOperation.MULTIPLY))
+                .withEffect(ENERGY_TRANSFER_RATE, SimpleValueUpgradeEffect.of(DoubleLevelBasedValue.exponential(2, DoubleLevelBasedValue.linear(2, 1)), CompoundValueOperation.MULTIPLY))
                 .setMaxRank(4)
                 .effectIcon(sprite("fabricator_upgrade"))
                 .buildAndRegister(ctx);

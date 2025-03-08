@@ -5,15 +5,19 @@
   "effects": {
     "limatech:weapon_pre_attack": [
       {
-        "type": "limatech:dynamic_damage_tag",
-        "tag": "limacore:ignores_knockback_resistance"
+        "effect": {
+          "type": "limatech:dynamic_damage_tag",
+          "tag": "limacore:ignores_knockback_resistance"
+        }
       },
       {
-        "type": "limatech:knockback_strength",
-        "amount": {
-          "type": "minecraft:linear",
-          "base": 1.5,
-          "per_level_above_first": 1.5
+        "effect": {
+          "type": "limatech:knockback_strength",
+          "amount": {
+            "type": "minecraft:linear",
+            "base": 1.5,
+            "per_level_above_first": 1.5
+          }
         }
       }
     ]

@@ -5,8 +5,11 @@
   "effects": {
     "limatech:armor_bypass": [
       {
-        "operation": "flat_addition",
-        "value": -4.0
+        "effect": {
+          "op": "flat_addition",
+          "tooltip": -4.0,
+          "value": -4.0
+        }
       }
     ]
   },

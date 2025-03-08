@@ -65,7 +65,7 @@ public class GrenadeLauncherWeaponItem extends SemiAutoWeaponItem implements Scr
         super.refreshEquipmentUpgrades(stack, upgrades);
 
         GrenadeType currentlyEquipped = getGrenadeTypeFromItem(stack);
-        boolean shouldReset = upgrades.effectFlatStream(LimaTechUpgradeEffectComponents.GRENADE_UNLOCK.get()).noneMatch(effect -> effect.grenadeType() == currentlyEquipped);
+        boolean shouldReset = upgrades.effectFlatStream(LimaTechUpgradeEffectComponents.GRENADE_UNLOCK.get()).noneMatch(currentlyEquipped::equals);
         if (shouldReset) setGrenadeType(stack, GrenadeType.EXPLOSIVE);
     }
 
@@ -90,7 +90,7 @@ public class GrenadeLauncherWeaponItem extends SemiAutoWeaponItem implements Scr
 
             OrbGrenadeEntity grenade = new OrbGrenadeEntity(level, getGrenadeTypeFromItem(heldItem), upgrades);
             grenade.setOwner(player);
-            grenade.aimAndSetPosFromShooter(player, calculateProjectileSpeed(player, upgrades, 1.5d), 0.35d);
+            grenade.aimAndSetPosFromShooter(player, calculateProjectileSpeed(upgrades, 1.5d), 0.35d);
             level.addFreshEntity(grenade);
 
             postWeaponFiredGameEvent(upgrades, level, player);
@@ -131,7 +131,7 @@ public class GrenadeLauncherWeaponItem extends SemiAutoWeaponItem implements Scr
         EquipmentUpgrades upgrades = getUpgrades(stack);
         Set<GrenadeType> availableTypes = new ObjectOpenHashSet<>();
         availableTypes.add(GrenadeType.EXPLOSIVE); // Always allow equipping explosive shells
-        upgrades.forEachListEffect(LimaTechUpgradeEffectComponents.GRENADE_UNLOCK, (effect, rank) -> availableTypes.add(effect.grenadeType()));
+        upgrades.forEachEffect(LimaTechUpgradeEffectComponents.GRENADE_UNLOCK, (effect, rank) -> availableTypes.add(effect));
 
         GrenadeType currentType = GrenadeLauncherWeaponItem.getGrenadeTypeFromItem(stack);
         GrenadeType toSwitch = forward ? OrderedEnum.nextAvailable(availableTypes, currentType) : OrderedEnum.previousAvailable(availableTypes, currentType);
@@ -148,7 +148,7 @@ public class GrenadeLauncherWeaponItem extends SemiAutoWeaponItem implements Scr
         HolderLookup.Provider registries = parameters.holders();
         ItemStack stack = createDefaultStack(registries, true);
         stack.set(LimaTechDataComponents.EQUIPMENT_UPGRADES, EquipmentUpgrades.builder()
-                .add(registries.holderOrThrow(LimaTechEquipmentUpgrades.OMNI_GRENADE_CORE))
+                .set(registries.holderOrThrow(LimaTechEquipmentUpgrades.OMNI_GRENADE_CORE))
                 .build());
         output.accept(stack, tabVisibility);
     }

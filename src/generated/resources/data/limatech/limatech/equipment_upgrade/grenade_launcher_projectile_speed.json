@@ -5,7 +5,7 @@
   "effects": {
     "limatech:weapon_projectile_speed": [
       {
-        "operation": "flat_addition",
+        "op": "flat_addition",
         "value": {
           "type": "linear",
           "base": 0.5,

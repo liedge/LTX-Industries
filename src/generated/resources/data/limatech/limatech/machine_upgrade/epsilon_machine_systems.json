@@ -5,25 +5,25 @@
   "effects": {
     "limatech:energy_capacity": [
       {
-        "operation": "multiply",
+        "op": "multiply",
         "value": 8.0
       }
     ],
     "limatech:energy_transfer_rate": [
       {
-        "operation": "multiply",
+        "op": "multiply",
         "value": 16.0
       }
     ],
     "limatech:energy_usage": [
       {
-        "operation": "multiply",
+        "op": "multiply",
         "value": 256.0
       }
     ],
     "limatech:ticks_per_operation": [
       {
-        "operation": "add_multiplied_total",
+        "op": "add_multiplied_total",
         "value": -1.0
       }
     ]

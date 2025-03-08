@@ -27,20 +27,32 @@ public final class UpgradesContainerBuilder<U extends UpgradeBase<?, U>, T exten
         this(new Object2IntOpenHashMap<>(container.internalMap), containerFactory);
     }
 
-    public UpgradesContainerBuilder<U, T> add(Holder<U> upgradeHolder, int upgradeRank)
+    public UpgradesContainerBuilder<U, T> set(Holder<U> upgradeHolder, int upgradeRank)
     {
         map.put(upgradeHolder, upgradeRank);
         return this;
     }
 
-    public UpgradesContainerBuilder<U, T> add(Holder<U> upgradeHolder)
+    public UpgradesContainerBuilder<U, T> set(Holder<U> upgradeHolder)
     {
-        return add(upgradeHolder, 1);
+        return set(upgradeHolder, 1);
     }
 
-    public UpgradesContainerBuilder<U, T> add(UpgradeBaseEntry<U> entry)
+    public UpgradesContainerBuilder<U, T> set(UpgradeBaseEntry<U> entry)
     {
-        return add(entry.upgrade(), entry.upgradeRank());
+        return set(entry.upgrade(), entry.upgradeRank());
+    }
+
+    public int add(Holder<U> upgradeHolder, int upgradeRank)
+    {
+        int previousRank = map.getOrDefault(upgradeHolder, 0);
+
+        if (upgradeRank > previousRank)
+        {
+            map.put(upgradeHolder, upgradeRank);
+        }
+
+        return previousRank;
     }
 
     public UpgradesContainerBuilder<U, T> remove(Holder<U> upgradeHolder)

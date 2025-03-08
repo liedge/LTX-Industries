@@ -5,11 +5,21 @@
   "effects": {
     "limatech:armor_bypass": [
       {
-        "operation": "add_multiplied_total",
-        "value": {
-          "type": "linear",
-          "base": -0.10000000149011612,
-          "per_level_after_first": -0.10000000149011612
+        "effect": {
+          "op": "add_multiplied_total",
+          "tooltip": {
+            "type": "minecraft:linear",
+            "base": -0.1,
+            "per_level_above_first": -0.1
+          },
+          "value": {
+            "type": "minecraft:enchantment_level",
+            "amount": {
+              "type": "minecraft:linear",
+              "base": -0.1,
+              "per_level_above_first": -0.1
+            }
+          }
         }
       }
     ]

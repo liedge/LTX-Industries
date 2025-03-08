@@ -119,7 +119,7 @@ public class RocketLauncherWeaponItem extends SemiAutoWeaponItem
             missile.setOwner(player);
 
             LivingEntity focusedTarget = controls.getFocusedTarget();
-            missile.aimAndSetPosFromShooter(player, calculateProjectileSpeed(player, upgrades, 2.75d), 0f);
+            missile.aimAndSetPosFromShooter(player, calculateProjectileSpeed(upgrades, 2.75d), 0d);
             if (focusedTarget != null && controls.getTargetTicks() > 20) missile.setTargetEntity(focusedTarget);
 
             level.addFreshEntity(missile);

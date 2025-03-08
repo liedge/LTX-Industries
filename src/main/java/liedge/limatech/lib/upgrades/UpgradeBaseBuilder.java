@@ -12,11 +12,16 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
+import net.minecraft.util.Unit;
+import net.minecraft.world.item.enchantment.ConditionalEffect;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
 import java.util.function.Supplier;
-import java.util.function.UnaryOperator;
 
 public abstract class UpgradeBaseBuilder<CTX, U extends UpgradeBase<CTX, U>, B extends UpgradeBaseBuilder<CTX, U, B>>
 {
@@ -58,15 +63,15 @@ public abstract class UpgradeBaseBuilder<CTX, U extends UpgradeBase<CTX, U>, B e
         return selfUnchecked();
     }
 
-    public B modifyTitle(UnaryOperator<Component> op)
+    public B createDefaultTitle(Function<String, ? extends Component> function)
     {
-        this.title = op.apply(title);
+        this.title = function.apply(defaultTitleKey(key));
         return selfUnchecked();
     }
 
-    public B modifyDescription(UnaryOperator<Component> op)
+    public B createDefaultDescription(Function<String, ? extends Component> function)
     {
-        this.description = op.apply(description);
+        this.description = function.apply(defaultDescriptionKey(key));
         return selfUnchecked();
     }
 
@@ -109,39 +114,57 @@ public abstract class UpgradeBaseBuilder<CTX, U extends UpgradeBase<CTX, U>, B e
         return exclusiveWith(holders.getOrThrow(tagKey));
     }
 
-    public <T> B withEffect(DataComponentType<T> type, T effect)
-    {
-        effectMapBuilder.set(type, effect);
-        return selfUnchecked();
-    }
-
-    public <T> B withEffect(Supplier<? extends DataComponentType<T>> typeSupplier, T effect)
-    {
-        return withEffect(typeSupplier.get(), effect);
-    }
-
-    public <T> B withListEffect(DataComponentType<List<T>> type, T effect)
+    public <T> B withEffect(DataComponentType<List<T>> type, T effect)
     {
         getEffectsList(type).add(effect);
         return selfUnchecked();
     }
 
-    public <T> B withListEffect(Supplier<? extends DataComponentType<List<T>>> typeSupplier, T effect)
+    public <T> B withEffect(Supplier<? extends DataComponentType<List<T>>> typeSupplier, T effect)
     {
-        return withListEffect(typeSupplier.get(), effect);
+        return withEffect(typeSupplier.get(), effect);
     }
 
-    @SafeVarargs
-    public final <T> B withListEffects(DataComponentType<List<T>> type, T... effects)
+    public <T> B withConditionalEffect(DataComponentType<List<ConditionalEffect<T>>> type, T effect, @Nullable LootItemCondition.Builder condition)
     {
-        getEffectsList(type).addAll(List.of(effects));
+        getEffectsList(type).add(new ConditionalEffect<>(effect, Optional.ofNullable(condition).map(LootItemCondition.Builder::build)));
         return selfUnchecked();
     }
 
-    @SafeVarargs
-    public final <T> B withListEffects(Supplier<? extends DataComponentType<List<T>>> typeSupplier, T... effects)
+    public <T> B withConditionalEffect(DataComponentType<List<ConditionalEffect<T>>> type, T effect)
     {
-        return withListEffects(typeSupplier.get(), effects);
+        return withConditionalEffect(type, effect, null);
+    }
+
+    public <T> B withConditionalEffect(Supplier<? extends DataComponentType<List<ConditionalEffect<T>>>> typeSupplier, T effect, @Nullable LootItemCondition.Builder condition)
+    {
+        return withConditionalEffect(typeSupplier.get(), effect, condition);
+    }
+
+    public <T> B withConditionalEffect(Supplier<? extends DataComponentType<List<ConditionalEffect<T>>>> typeSupplier, T effect)
+    {
+        return withConditionalEffect(typeSupplier, effect, null);
+    }
+
+    public <T> B withSpecialEffect(DataComponentType<T> type, T effect)
+    {
+        effectMapBuilder.set(type, effect);
+        return selfUnchecked();
+    }
+
+    public <T> B withSpecialEffect(Supplier<? extends DataComponentType<T>> typeSupplier, T effect)
+    {
+        return withSpecialEffect(typeSupplier.get(), effect);
+    }
+
+    public B withUnitEffect(DataComponentType<Unit> type)
+    {
+        return withSpecialEffect(type, Unit.INSTANCE);
+    }
+
+    public B withUnitEffect(Supplier<? extends DataComponentType<Unit>> typeSupplier)
+    {
+        return withUnitEffect(typeSupplier.get());
     }
 
     public B effectIcon(UpgradeIcon icon)

@@ -42,7 +42,7 @@ public class EnergyStorageArrayItem extends BlockItem implements EnergyHolderIte
         }
         else
         {
-            double newCapacity = UpgradableMachineBlockEntity.getMachineUpgradesFromItem(stack).runCompoundOps(LimaTechUpgradeEffectComponents.ENERGY_CAPACITY, null, null, ESA_BASE_ENERGY_CAPACITY.getAsInt());
+            double newCapacity = UpgradableMachineBlockEntity.getMachineUpgradesFromItem(stack).applySimpleValue(LimaTechUpgradeEffectComponents.ENERGY_CAPACITY, ESA_BASE_ENERGY_CAPACITY.getAsInt());
             return LimaMathUtil.round(newCapacity);
         }
     }
@@ -56,7 +56,7 @@ public class EnergyStorageArrayItem extends BlockItem implements EnergyHolderIte
         }
         else
         {
-            double newTransferRate = UpgradableMachineBlockEntity.getMachineUpgradesFromItem(stack).runCompoundOps(LimaTechUpgradeEffectComponents.ENERGY_TRANSFER_RATE, null, null, ESA_BASE_TRANSFER_RATE.getAsInt());
+            double newTransferRate = UpgradableMachineBlockEntity.getMachineUpgradesFromItem(stack).applySimpleValue(LimaTechUpgradeEffectComponents.ENERGY_TRANSFER_RATE, ESA_BASE_TRANSFER_RATE.getAsInt());
             return LimaMathUtil.round(newTransferRate);
         }
     }

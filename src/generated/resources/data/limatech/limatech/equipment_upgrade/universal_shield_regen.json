@@ -5,12 +5,14 @@
   "effects": {
     "limatech:weapon_kill": [
       {
-        "type": "limatech:bubble_shield",
-        "amount": 4.0,
-        "max_shield": {
-          "type": "minecraft:linear",
-          "base": 10.0,
-          "per_level_above_first": 10.0
+        "effect": {
+          "type": "limatech:bubble_shield",
+          "amount": 4.0,
+          "max_shield": {
+            "type": "minecraft:linear",
+            "base": 10.0,
+            "per_level_above_first": 10.0
+          }
         }
       }
     ]

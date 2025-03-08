@@ -5,7 +5,7 @@
   "effects": {
     "limatech:energy_capacity": [
       {
-        "operation": "add_multiplied_base",
+        "op": "add_multiplied_base",
         "value": {
           "type": "linear",
           "base": 0.5,
@@ -15,7 +15,7 @@
     ],
     "limatech:energy_transfer_rate": [
       {
-        "operation": "add_multiplied_base",
+        "op": "add_multiplied_base",
         "value": {
           "type": "linear",
           "base": 0.5,
@@ -25,7 +25,7 @@
     ],
     "limatech:energy_usage": [
       {
-        "operation": "multiply",
+        "op": "multiply",
         "value": {
           "type": "exponential",
           "base": 1.5,
@@ -39,7 +39,7 @@
     ],
     "limatech:ticks_per_operation": [
       {
-        "operation": "multiply",
+        "op": "multiply",
         "value": {
           "type": "exponential",
           "base": 0.725,

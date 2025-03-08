@@ -7,7 +7,6 @@ import liedge.limatech.registry.LimaTechEquipmentUpgradeEffects;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.LivingEntity;
@@ -18,19 +17,19 @@ public record DynamicDamageTagUpgradeEffect(TagKey<DamageType> tag) implements E
     public static final MapCodec<DynamicDamageTagUpgradeEffect> CODEC = TagKey.codec(Registries.DAMAGE_TYPE).fieldOf("tag").xmap(DynamicDamageTagUpgradeEffect::new, DynamicDamageTagUpgradeEffect::tag);
 
     @Override
-    public void modifyDynamicAttack(ServerLevel level, int upgradeRank, Player player, LivingEntity livingTarget, LimaDynamicDamageSource damageSource)
-    {
-        damageSource.addDynamicTag(tag);
-    }
-
-    @Override
     public MapCodec<? extends EquipmentUpgradeEffect> codec()
     {
         return LimaTechEquipmentUpgradeEffects.DYNAMIC_DAMAGE_TAG_EQUIPMENT_EFFECT.get();
     }
 
     @Override
-    public Component defaultEffectTooltip(int upgradeRank)
+    public void modifyDynamicAttack(Player player, int upgradeRank, LivingEntity target, LimaDynamicDamageSource damageSource)
+    {
+        damageSource.addDynamicTag(tag);
+    }
+
+    @Override
+    public Component getEffectTooltip(int upgradeRank)
     {
         return LimaTechLang.DYNAMIC_DAMAGE_TAG_EFFECT.translateArgs(Component.translatable(LimaTechLang.namedDamageTagKey(tag)).withStyle(ChatFormatting.AQUA));
     }

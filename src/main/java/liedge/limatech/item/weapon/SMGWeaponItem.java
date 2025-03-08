@@ -29,8 +29,8 @@ public class SMGWeaponItem extends FullAutoWeaponItem
     protected EquipmentUpgrades getDefaultUpgrades(HolderLookup.Provider registries)
     {
         return EquipmentUpgrades.builder()
-                .add(registries.holderOrThrow(LimaTechEquipmentUpgrades.SMG_BUILT_IN))
-                .add(registries.holderOrThrow(LimaTechEquipmentUpgrades.LIGHTFRAG_BASE_ARMOR_BYPASS))
+                .set(registries.holderOrThrow(LimaTechEquipmentUpgrades.SMG_BUILT_IN))
+                .set(registries.holderOrThrow(LimaTechEquipmentUpgrades.LIGHTFRAG_BASE_ARMOR_BYPASS))
                 .build();
     }
 

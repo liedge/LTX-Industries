@@ -1,7 +1,7 @@
 package liedge.limatech.util.datagen;
 
 import liedge.limatech.LimaTechTags;
-import liedge.limatech.lib.math.CompoundOperation;
+import liedge.limatech.lib.CompoundValueOperation;
 import liedge.limatech.lib.weapons.GlobalWeaponDamageModifiers;
 import liedge.limatech.registry.LimaTechGameEvents;
 import net.minecraft.core.HolderLookup;
@@ -34,12 +34,12 @@ class DataMapsGen extends DataMapProvider
         // Weapon damage modifiers
         builder(GlobalWeaponDamageModifiers.DATA_MAP_TYPE)
                 .add(LimaTechTags.EntityTypes.HIGH_THREAT_LEVEL, List.of(
-                        create(SUBMACHINE_GUN, -0.8, CompoundOperation.ADD_MULTIPLIED_TOTAL),
-                        create(SHOTGUN, -0.45d, CompoundOperation.ADD_MULTIPLIED_TOTAL)
+                        create(SUBMACHINE_GUN, -0.8f, CompoundValueOperation.ADD_MULTIPLIED_TOTAL),
+                        create(SHOTGUN, -0.45f, CompoundValueOperation.ADD_MULTIPLIED_TOTAL)
                 ), false)
                 .add(LimaTechTags.EntityTypes.MEDIUM_THREAT_LEVEL, List.of(
-                        create(SUBMACHINE_GUN, -0.5d, CompoundOperation.ADD_MULTIPLIED_TOTAL),
-                        create(SHOTGUN, -0.4d, CompoundOperation.ADD_MULTIPLIED_TOTAL)
+                        create(SUBMACHINE_GUN, -0.5f, CompoundValueOperation.ADD_MULTIPLIED_TOTAL),
+                        create(SHOTGUN, -0.4f, CompoundValueOperation.ADD_MULTIPLIED_TOTAL)
                 ), false);
     }
 }

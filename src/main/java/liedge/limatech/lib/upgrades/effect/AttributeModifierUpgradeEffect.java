@@ -13,7 +13,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.enchantment.LevelBasedValue;
 
-public record AttributeModifierUpgradeEffect(Holder<Attribute> attribute, ResourceLocation modifierId, LevelBasedValue amount, AttributeModifier.Operation operation, EquipmentSlotGroup slotGroup) implements UpgradeEffect
+public record AttributeModifierUpgradeEffect(Holder<Attribute> attribute, ResourceLocation modifierId, LevelBasedValue amount, AttributeModifier.Operation operation, EquipmentSlotGroup slotGroup) implements EffectTooltipProvider
 {
     public static final Codec<AttributeModifierUpgradeEffect> CODEC = RecordCodecBuilder.create(instance -> instance.group(
                     Attribute.CODEC.fieldOf("attribute").forGetter(o -> o.attribute),
@@ -33,14 +33,14 @@ public record AttributeModifierUpgradeEffect(Holder<Attribute> attribute, Resour
         return new ItemAttributeModifiers.Entry(attribute, makeModifier(upgradeRank), slotGroup);
     }
 
-    @Override
-    public Component defaultEffectTooltip(int upgradeRank)
-    {
-        return attribute.value().toComponent(makeModifier(upgradeRank), TooltipFlag.NORMAL).withStyle(ChatFormatting.BLUE);
-    }
-
     private AttributeModifier makeModifier(int upgradeRank)
     {
         return new AttributeModifier(modifierId, amount.calculate(upgradeRank), operation);
+    }
+
+    @Override
+    public Component getEffectTooltip(int upgradeRank)
+    {
+        return attribute.value().toComponent(makeModifier(upgradeRank), TooltipFlag.NORMAL).withStyle(ChatFormatting.DARK_GREEN);
     }
 }

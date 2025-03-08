@@ -2,9 +2,9 @@ package liedge.limatech.lib.upgrades.machine;
 
 import com.mojang.serialization.Codec;
 import liedge.limacore.lib.ModResources;
-import liedge.limatech.lib.upgrades.UpgradeIcon;
 import liedge.limatech.lib.upgrades.UpgradeBase;
 import liedge.limatech.lib.upgrades.UpgradeBaseBuilder;
+import liedge.limatech.lib.upgrades.UpgradeIcon;
 import liedge.limatech.registry.LimaTechRegistries;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;

@@ -7,13 +7,10 @@ import liedge.limatech.client.LimaTechLang;
 import liedge.limatech.entity.BubbleShieldUser;
 import liedge.limatech.registry.LimaTechEquipmentUpgradeEffects;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.LevelBasedValue;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.world.level.storage.loot.LootContext;
 
 import static liedge.limatech.LimaTechConstants.BUBBLE_SHIELD_GREEN;
 import static liedge.limatech.util.LimaTechTooltipUtil.flatNumberWithSign;
@@ -27,21 +24,21 @@ public record BubbleShieldUpgradeEffect(LevelBasedValue amount, LevelBasedValue 
             .apply(instance, BubbleShieldUpgradeEffect::new));
 
     @Override
-    public void activateEquipmentEffect(ServerLevel level, int upgradeRank, Player player, ItemStack stack, @Nullable Entity targetedEntity, @Nullable DamageSource damageSource)
+    public void applyEquipmentEffect(Player player, int upgradeRank, ItemStack stack, LootContext context)
     {
         BubbleShieldUser user = player.getCapability(LimaTechCapabilities.ENTITY_BUBBLE_SHIELD);
         if (user != null) user.restoreShieldHealth(amount.calculate(upgradeRank), maxShield.calculate(upgradeRank));
     }
 
     @Override
-    public Component defaultEffectTooltip(int upgradeRank)
-    {
-        return LimaTechLang.SHIELD_UPGRADE_EFFECT.translateArgs(flatNumberWithSign(amount.calculate(upgradeRank)).withStyle(BUBBLE_SHIELD_GREEN.chatStyle()), flatNumberWithoutSign(maxShield.calculate(upgradeRank)).withStyle(BUBBLE_SHIELD_GREEN.chatStyle()));
-    }
-
-    @Override
     public MapCodec<? extends EquipmentUpgradeEffect> codec()
     {
         return LimaTechEquipmentUpgradeEffects.BUBBLE_SHIELD_EQUIPMENT_EFFECT.get();
+    }
+
+    @Override
+    public Component getEffectTooltip(int upgradeRank)
+    {
+        return LimaTechLang.SHIELD_UPGRADE_EFFECT.translateArgs(flatNumberWithSign(amount.calculate(upgradeRank)).withStyle(BUBBLE_SHIELD_GREEN.chatStyle()), flatNumberWithoutSign(maxShield.calculate(upgradeRank)).withStyle(BUBBLE_SHIELD_GREEN.chatStyle()));
     }
 }

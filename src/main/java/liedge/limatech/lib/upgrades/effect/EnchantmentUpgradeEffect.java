@@ -11,7 +11,7 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.item.enchantment.LevelBasedValue;
 
-public record EnchantmentUpgradeEffect(Holder<Enchantment> enchantment, LevelBasedValue amount) implements UpgradeEffect
+public record EnchantmentUpgradeEffect(Holder<Enchantment> enchantment, LevelBasedValue amount) implements EffectTooltipProvider
 {
     public static final Codec<EnchantmentUpgradeEffect> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Enchantment.CODEC.fieldOf("enchantment").forGetter(EnchantmentUpgradeEffect::enchantment),
@@ -21,12 +21,6 @@ public record EnchantmentUpgradeEffect(Holder<Enchantment> enchantment, LevelBas
     public static EnchantmentUpgradeEffect oneLevelPerRank(Holder<Enchantment> enchantment)
     {
         return new EnchantmentUpgradeEffect(enchantment, LevelBasedValue.perLevel(1));
-    }
-
-    @SuppressWarnings("deprecation")
-    public int getEnchantmentLevels(Holder<Enchantment> enchantment, int upgradeRank)
-    {
-        return this.enchantment.is(enchantment) ? getValue(upgradeRank) : 0;
     }
 
     private int getValue(int upgradeRank)
@@ -40,7 +34,7 @@ public record EnchantmentUpgradeEffect(Holder<Enchantment> enchantment, LevelBas
     }
 
     @Override
-    public Component defaultEffectTooltip(int upgradeRank)
+    public Component getEffectTooltip(int upgradeRank)
     {
         return LimaTechLang.ENCHANTMENT_UPGRADE_EFFECT.translateArgs(enchantment.value().description(), Component.translatable("enchantment.level." + getValue(upgradeRank))).withStyle(ChatFormatting.DARK_PURPLE);
     }

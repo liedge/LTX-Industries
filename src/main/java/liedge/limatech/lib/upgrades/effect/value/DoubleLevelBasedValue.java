@@ -1,29 +1,25 @@
-package liedge.limatech.lib.math;
+package liedge.limatech.lib.upgrades.effect.value;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import it.unimi.dsi.fastutil.doubles.DoubleImmutableList;
-import it.unimi.dsi.fastutil.doubles.DoubleList;
 import liedge.limacore.data.LimaEnumCodec;
 import net.minecraft.util.StringRepresentable;
-
-import java.util.List;
 
 /**
  * Similar to {@link net.minecraft.world.item.enchantment.LevelBasedValue} but with double data type to avoid
  * precision loss.
  */
-public interface LevelBasedDoubleValue
+public interface DoubleLevelBasedValue
 {
-    Codec<LevelBasedDoubleValue> CODEC = Codec.lazyInitialized(() -> Type.CODEC.flatDispatch(ConstantValue.class, ConstantValue.FLAT_CODEC, LevelBasedDoubleValue::getType, Type::getCodec));
+    Codec<DoubleLevelBasedValue> CODEC = Codec.lazyInitialized(() -> Type.CODEC.flatDispatch(ConstantValue.class, ConstantValue.FLAT_CODEC, DoubleLevelBasedValue::getType, Type::getCodec));
 
     static ConstantValue constant(double value)
     {
         return new ConstantValue(value);
     }
 
-    static LinearValue perLevel(double perLevel)
+    static LinearValue linear(double perLevel)
     {
         return new LinearValue(perLevel, perLevel);
     }
@@ -33,40 +29,26 @@ public interface LevelBasedDoubleValue
         return new LinearValue(base, perLevelAfterFirst);
     }
 
-    static LookupValue lookupOrLowest(double... values)
-    {
-        DoubleList list = new DoubleImmutableList(values);
-        double min = list.doubleStream().min().orElseThrow(() -> new IllegalArgumentException("Lookup value must have at least 1 value."));
-        return new LookupValue(list, constant(min));
-    }
-
-    static LookupValue lookupOrHighest(double... values)
-    {
-        DoubleList list = new DoubleImmutableList(values);
-        double max = list.doubleStream().max().orElseThrow(() -> new IllegalArgumentException("Lookup value must at least 1 value."));
-        return new LookupValue(list, constant(max));
-    }
-
-    static Fraction constantNumerator(double numerator, LevelBasedDoubleValue denominator)
+    static Fraction constantNumerator(double numerator, DoubleLevelBasedValue denominator)
     {
         return new Fraction(constant(numerator), denominator);
     }
 
-    static Exponential exponential(double base, LevelBasedDoubleValue power)
+    static Exponential exponential(double base, DoubleLevelBasedValue power)
     {
         return new Exponential(base, power);
     }
 
     static Exponential linearExponent(double base)
     {
-        return exponential(base, perLevel(1));
+        return exponential(base, linear(1));
     }
 
     double calculate(int level);
 
     Type getType();
 
-    record ConstantValue(double value) implements LevelBasedDoubleValue
+    record ConstantValue(double value) implements DoubleLevelBasedValue
     {
         private static final Codec<ConstantValue> FLAT_CODEC = Codec.DOUBLE.xmap(ConstantValue::new, ConstantValue::value);
         private static final MapCodec<ConstantValue> CODEC = FLAT_CODEC.fieldOf("value");
@@ -84,7 +66,7 @@ public interface LevelBasedDoubleValue
         }
     }
 
-    record LinearValue(double base, double perLevelAfterFirst) implements LevelBasedDoubleValue
+    record LinearValue(double base, double perLevelAfterFirst) implements DoubleLevelBasedValue
     {
         private static final MapCodec<LinearValue> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
                         Codec.DOUBLE.fieldOf("base").forGetter(LinearValue::base),
@@ -104,11 +86,11 @@ public interface LevelBasedDoubleValue
         }
     }
 
-    record Fraction(LevelBasedDoubleValue numerator, LevelBasedDoubleValue denominator) implements LevelBasedDoubleValue
+    record Fraction(DoubleLevelBasedValue numerator, DoubleLevelBasedValue denominator) implements DoubleLevelBasedValue
     {
         public static final MapCodec<Fraction> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-                LevelBasedDoubleValue.CODEC.fieldOf("numerator").forGetter(Fraction::numerator),
-                LevelBasedDoubleValue.CODEC.fieldOf("denominator").forGetter(Fraction::denominator))
+                        DoubleLevelBasedValue.CODEC.fieldOf("numerator").forGetter(Fraction::numerator),
+                        DoubleLevelBasedValue.CODEC.fieldOf("denominator").forGetter(Fraction::denominator))
                 .apply(instance, Fraction::new));
 
 
@@ -125,11 +107,11 @@ public interface LevelBasedDoubleValue
         }
     }
 
-    record Exponential(double base, LevelBasedDoubleValue power) implements LevelBasedDoubleValue
+    record Exponential(double base, DoubleLevelBasedValue power) implements DoubleLevelBasedValue
     {
         public static final MapCodec<Exponential> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-                Codec.DOUBLE.fieldOf("base").forGetter(Exponential::base),
-                LevelBasedDoubleValue.CODEC.fieldOf("power").forGetter(Exponential::power))
+                        Codec.DOUBLE.fieldOf("base").forGetter(Exponential::base),
+                        DoubleLevelBasedValue.CODEC.fieldOf("power").forGetter(Exponential::power))
                 .apply(instance, Exponential::new));
 
         @Override
@@ -145,51 +127,25 @@ public interface LevelBasedDoubleValue
         }
     }
 
-    record LookupValue(DoubleList values, LevelBasedDoubleValue fallback) implements LevelBasedDoubleValue
-    {
-        public static final MapCodec<LookupValue> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-                        Codec.DOUBLE.listOf().fieldOf("values").forGetter(LookupValue::values),
-                        LevelBasedDoubleValue.CODEC.fieldOf("fallback").forGetter(LookupValue::fallback))
-                .apply(instance, LookupValue::new));
-
-        private LookupValue(List<Double> boxedList, LevelBasedDoubleValue fallback)
-        {
-            this(new DoubleImmutableList(boxedList), fallback);
-        }
-
-        @Override
-        public double calculate(int level)
-        {
-            return level <= values.size() ? values.getDouble(level - 1) : fallback.calculate(level);
-        }
-
-        @Override
-        public Type getType()
-        {
-            return Type.LOOKUP;
-        }
-    }
-
     enum Type implements StringRepresentable
     {
         CONSTANT("constant", ConstantValue.CODEC),
         LINEAR("linear", LinearValue.CODEC),
         FRACTION("fraction", Fraction.CODEC),
-        EXPONENTIAL("exponential", Exponential.CODEC),
-        LOOKUP("lookup", LookupValue.CODEC);
+        EXPONENTIAL("exponential", Exponential.CODEC);
 
         public static final LimaEnumCodec<Type> CODEC = LimaEnumCodec.create(Type.class);
 
         private final String name;
-        private final MapCodec<? extends LevelBasedDoubleValue> codec;
+        private final MapCodec<? extends DoubleLevelBasedValue> codec;
 
-        Type(String name, MapCodec<? extends LevelBasedDoubleValue> codec)
+        Type(String name, MapCodec<? extends DoubleLevelBasedValue> codec)
         {
             this.name = name;
             this.codec = codec;
         }
 
-        public MapCodec<? extends LevelBasedDoubleValue> getCodec()
+        public MapCodec<? extends DoubleLevelBasedValue> getCodec()
         {
             return codec;
         }

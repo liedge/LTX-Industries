@@ -42,10 +42,15 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.neoforged.neoforge.common.ItemAbilities;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Comparator;
+import java.util.Optional;
 
 import static liedge.limacore.capability.energy.LimaEnergyUtil.formatEnergyWithSuffix;
 import static liedge.limatech.LimaTech.RESOURCES;
@@ -90,7 +95,17 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
         ItemStack heldItem = player.getMainHandItem();
         if (player.level() instanceof ServerLevel serverLevel)
         {
-            getUpgrades(heldItem).forEachListEffect(LimaTechUpgradeEffectComponents.WEAPON_KILL, (effect, rank) -> effect.activateEquipmentEffect(serverLevel, rank, player, heldItem, targetEntity, damageSource));
+            // Create the loot context
+            LootParams params = new LootParams.Builder(serverLevel)
+                    .withParameter(LootContextParams.THIS_ENTITY, targetEntity)
+                    .withParameter(LootContextParams.ORIGIN, targetEntity.position())
+                    .withParameter(LootContextParams.DAMAGE_SOURCE, damageSource)
+                    .withParameter(LootContextParams.ATTACKING_ENTITY, player)
+                    .withOptionalParameter(LootContextParams.DIRECT_ATTACKING_ENTITY, damageSource.getDirectEntity())
+                    .create(LootContextParamSets.ENTITY);
+            LootContext context = new LootContext.Builder(params).create(Optional.empty());
+
+            getUpgrades(heldItem).forEachConditionalEffect(LimaTechUpgradeEffectComponents.WEAPON_KILL, context, (effect, rank) -> effect.applyEquipmentEffect(player, rank, heldItem, context));
         }
     }
     //#endregion
@@ -153,12 +168,22 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
         return getDescriptionId() + ".designation";
     }
 
-    protected void hurtTargetEntity(Player player, Entity target, EquipmentUpgrades upgrades, WeaponDamageSource damageSource, final double baseDamage)
+    protected void hurtTargetEntity(Player player, Entity target, @Nullable Entity directEntity, EquipmentUpgrades upgrades, WeaponDamageSource damageSource, final double baseDamage)
     {
         if (player.level() instanceof ServerLevel serverLevel)
         {
+            // Create the loot context
+            LootParams params = new LootParams.Builder(serverLevel)
+                    .withParameter(LootContextParams.THIS_ENTITY, target)
+                    .withParameter(LootContextParams.ORIGIN, target.position())
+                    .withParameter(LootContextParams.DAMAGE_SOURCE, damageSource)
+                    .withParameter(LootContextParams.ATTACKING_ENTITY, player)
+                    .withOptionalParameter(LootContextParams.DIRECT_ATTACKING_ENTITY, directEntity)
+                    .create(LootContextParamSets.ENTITY);
+            LootContext context = new LootContext.Builder(params).create(Optional.empty());
+
             // Apply pre-damage upgrade effects
-            upgrades.forEachListEffect(LimaTechUpgradeEffectComponents.WEAPON_PRE_ATTACK, (effect, rank) -> effect.activateEquipmentEffect(serverLevel, rank, player, player.getMainHandItem(), target, damageSource));
+            upgrades.forEachConditionalEffect(LimaTechUpgradeEffectComponents.WEAPON_PRE_ATTACK, context, (effect, rank) -> effect.applyEquipmentEffect(player, rank, player.getMainHandItem(), context));
 
             // Run only if entity is living
             if (target instanceof LivingEntity livingTarget)
@@ -166,13 +191,14 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
                 // Armor bypass calculations
                 double targetBaseArmor = livingTarget.getAttributeBaseValue(Attributes.ARMOR);
                 double targetTotalArmor = livingTarget.getAttributeValue(Attributes.ARMOR);
-                double modifiedArmor = upgrades.runCompoundOps(LimaTechUpgradeEffectComponents.ARMOR_BYPASS, player, livingTarget, targetBaseArmor, targetTotalArmor);
+                double modifiedArmor = upgrades.applyComplexDamageContextValue(LimaTechUpgradeEffectComponents.ARMOR_BYPASS.get(), serverLevel, livingTarget, damageSource, targetBaseArmor, targetTotalArmor);
                 float modifier = (float) -(targetTotalArmor - modifiedArmor);
+
                 damageSource.setArmorModifier(modifier);
             }
 
             // Apply damage modifiers from upgrade
-            double totalDamage = upgrades.runCompoundOps(LimaTechUpgradeEffectComponents.WEAPON_DAMAGE, player, target, baseDamage);
+            double totalDamage = upgrades.applyComplexDamageContextValue(LimaTechUpgradeEffectComponents.WEAPON_DAMAGE.get(), serverLevel, target, damageSource, baseDamage, baseDamage);
 
             // Get global damage modifier factors and apply
             totalDamage = GlobalWeaponDamageModifiers.applyGlobalModifiers(this, target, baseDamage, totalDamage);
@@ -187,7 +213,7 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
     protected void causeInstantDamage(EquipmentUpgrades upgrades, Player player, ResourceKey<DamageType> damageTypeKey, Entity targetEntity, double baseDamage)
     {
         WeaponDamageSource source = WeaponDamageSource.handheldInstantDamage(damageTypeKey, player, this);
-        hurtTargetEntity(player, targetEntity, upgrades, source, baseDamage);
+        hurtTargetEntity(player, targetEntity, null, upgrades, source, baseDamage);
     }
 
     public void causeProjectileDamage(EquipmentUpgrades upgrades, LimaTechProjectile projectile, @Nullable Entity owner, ResourceKey<DamageType> damageTypeKey, Entity targetEntity, double baseDamage)
@@ -195,7 +221,7 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
         WeaponDamageSource source = WeaponDamageSource.projectileDamage(damageTypeKey, projectile, owner, this);
         if (owner instanceof Player player)
         {
-            hurtTargetEntity(player, targetEntity, upgrades, source, baseDamage);
+            hurtTargetEntity(player, targetEntity, projectile, upgrades, source, baseDamage);
         }
         else
         {
@@ -203,9 +229,9 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
         }
     }
 
-    protected double calculateProjectileSpeed(Player player, EquipmentUpgrades upgrades, double baseSpeed)
+    protected double calculateProjectileSpeed(EquipmentUpgrades upgrades, double baseSpeed)
     {
-        double newSpeed = upgrades.runCompoundOps(LimaTechUpgradeEffectComponents.WEAPON_PROJECTILE_SPEED, player, null, baseSpeed);
+        double newSpeed = upgrades.applySimpleValue(LimaTechUpgradeEffectComponents.WEAPON_PROJECTILE_SPEED, baseSpeed);
         return Mth.clamp(newSpeed, 0.001d, 3.9d);
     }
 

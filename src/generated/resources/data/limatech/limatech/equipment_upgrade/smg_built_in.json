@@ -6,12 +6,16 @@
     "limatech:prevent_sculk_vibration": {},
     "limatech:weapon_pre_attack": [
       {
-        "type": "limatech:dynamic_damage_tag",
-        "tag": "minecraft:no_anger"
+        "effect": {
+          "type": "limatech:dynamic_damage_tag",
+          "tag": "minecraft:no_anger"
+        }
       },
       {
-        "type": "limatech:dynamic_damage_tag",
-        "tag": "minecraft:no_knockback"
+        "effect": {
+          "type": "limatech:dynamic_damage_tag",
+          "tag": "minecraft:no_knockback"
+        }
       }
     ]
   },

@@ -7,7 +7,7 @@ import io.netty.buffer.ByteBuf;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.client.LimaComponentUtil;
 import liedge.limacore.network.LimaStreamCodecs;
-import liedge.limatech.lib.upgrades.effect.UpgradeDataComponentType;
+import liedge.limatech.lib.upgrades.effect.EffectDataComponentType;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
@@ -29,7 +29,7 @@ public interface UpgradeBase<CTX, U extends UpgradeBase<CTX, U>>
     int MAX_UPGRADE_RANK = 10;
     Codec<Integer> UPGRADE_RANK_CODEC = Codec.intRange(1, MAX_UPGRADE_RANK);
     StreamCodec<ByteBuf, Integer> UPGRADE_RANK_STREAM_CODEC = LimaStreamCodecs.varIntRange(1, MAX_UPGRADE_RANK);
-    Codec<DataComponentMap> COMPONENT_MAP_CODEC = DataComponentMap.makeCodec(UpgradeDataComponentType.CODEC);
+    Codec<DataComponentMap> COMPONENT_MAP_CODEC = DataComponentMap.makeCodec(EffectDataComponentType.CODEC);
 
     static <CTX, U extends UpgradeBase<CTX, U>> Codec<U> createDirectCodec(ResourceKey<Registry<CTX>> contextRegistryKey, ResourceKey<Registry<U>> upgradesRegistryKey, UpgradeFactory<CTX, U> factory)
     {
@@ -62,12 +62,21 @@ public interface UpgradeBase<CTX, U extends UpgradeBase<CTX, U>>
     {
         List<Component> lines = new ObjectArrayList<>();
 
-        for (TypedDataComponent<?> component : effects())
+        // Add built-in tooltips
+        for (TypedDataComponent<?> dataComponent : effects())
         {
-            appendTooltipLine(component, upgradeRank, lines);
+            processBuiltInTooltips(dataComponent, upgradeRank, lines);
         }
 
-        return LimaComponentUtil.bulletPointList(LimaComponentUtil.BULLET_1_INDENT.copy().withStyle(ChatFormatting.GRAY), lines);
+        return !lines.isEmpty() ? LimaComponentUtil.bulletPointList(LimaComponentUtil.BULLET_1_INDENT.copy().withStyle(ChatFormatting.GRAY), lines) : Component.empty();
+    }
+
+    private <T> void processBuiltInTooltips(TypedDataComponent<T> dataComponent, int upgradeRank, List<Component> lines)
+    {
+        if (dataComponent.type() instanceof EffectDataComponentType<T> type)
+        {
+            type.appendTooltipLines(dataComponent.value(), upgradeRank, lines);
+        }
     }
 
     default boolean canBeInstalledOn(Holder<CTX> upgradeContext)
@@ -83,12 +92,6 @@ public interface UpgradeBase<CTX, U extends UpgradeBase<CTX, U>>
     default <T> List<T> getListEffect(DataComponentType<List<T>> type)
     {
         return effects().getOrDefault(type, List.of());
-    }
-
-    private <T> void appendTooltipLine(TypedDataComponent<T> component, int upgradeRank, List<Component> lines)
-    {
-        UpgradeDataComponentType<T> type = (UpgradeDataComponentType<T>) component.type();
-        type.appendTooltipLines(component.value(), upgradeRank, lines);
     }
 
     @FunctionalInterface

@@ -5,11 +5,14 @@
   "effects": {
     "limatech:armor_bypass": [
       {
-        "operation": "add_multiplied_total",
-        "value": -0.15000000596046448
+        "effect": {
+          "op": "add_multiplied_total",
+          "tooltip": -0.15,
+          "value": -0.15
+        }
       }
     ],
-    "limatech:attribute_modifier": [
+    "limatech:attribute_modifiers": [
       {
         "amount": 0.25,
         "attribute": "minecraft:generic.movement_speed",

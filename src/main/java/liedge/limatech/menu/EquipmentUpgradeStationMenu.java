@@ -111,7 +111,7 @@ public class EquipmentUpgradeStationMenu extends UpgradesConfigMenu<EquipmentUpg
 
             if (data != null && currentUpgrades.canInstallUpgrade(equipmentStack, data.upgrade()))
             {
-                EquipmentUpgrades newUpgrades = currentUpgrades.asBuilder().add(data.upgrade(), data.upgradeRank()).build();
+                EquipmentUpgrades newUpgrades = currentUpgrades.asBuilder().set(data.upgrade(), data.upgradeRank()).build();
                 equipmentItem.setUpgrades(equipmentStack, newUpgrades);
 
                 equipmentItem.refreshEquipmentUpgrades(equipmentStack, newUpgrades);

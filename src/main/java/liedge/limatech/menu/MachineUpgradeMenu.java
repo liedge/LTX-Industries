@@ -88,7 +88,7 @@ public class MachineUpgradeMenu extends UpgradesConfigMenu<UpgradableMachineBloc
 
         if (entry != null && currentUpgrades.canInstallUpgrade(menuContext, entry.upgrade()))
         {
-            MachineUpgrades newUpgrades = currentUpgrades.asBuilder().add(entry).build();
+            MachineUpgrades newUpgrades = currentUpgrades.asBuilder().set(entry).build();
             menuContext.setUpgrades(newUpgrades);
             menuContainer().extractItem(0, 1, false);
         }
