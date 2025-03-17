@@ -73,16 +73,15 @@ public final class LimaTechTags
     {
         private EntityTypes() {}
 
-        public static final TagKey<EntityType<?>> IMMUNE_TO_LTX_WEAPONS = tag("immune_to_ltx_weapons");
+        public static final TagKey<EntityType<?>> INVALID_TARGETS = tag("targets/invalid");
+        public static final TagKey<EntityType<?>> MEDIUM_THREAT_TARGETS = tag("targets/medium_threat");
+        public static final TagKey<EntityType<?>> HIGH_THREAT_TARGETS = tag("targets/high_threat");
+        public static final TagKey<EntityType<?>> FLYING_TARGETS = tag("targets/flying");
+        public static final TagKey<EntityType<?>> AQUATIC_TARGETS = tag("targets/aquatic");
 
         public static final TagKey<EntityType<?>> WEAK_TO_FLAME = tag("weak_to_flame");
         public static final TagKey<EntityType<?>> WEAK_TO_CRYO = tag("weak_to_cryo");
         public static final TagKey<EntityType<?>> WEAK_TO_ELECTRIC = tag("weak_to_electric");
-
-        public static final TagKey<EntityType<?>> ROCKET_TURRET_TARGETS = tag("rocket_turret_targets");
-
-        public static final TagKey<EntityType<?>> MEDIUM_THREAT_LEVEL = tag("medium_threat");
-        public static final TagKey<EntityType<?>> HIGH_THREAT_LEVEL = tag("high_threat");
 
         private static TagKey<EntityType<?>> tag(String name)
         {

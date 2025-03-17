@@ -25,9 +25,6 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.chat.CommonComponents;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -163,11 +160,6 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
         stack.set(WEAPON_AMMO_SOURCE, newAmmoSource);
     }
 
-    public String getDesignationId()
-    {
-        return getDescriptionId() + ".designation";
-    }
-
     protected void hurtTargetEntity(Player player, Entity target, @Nullable Entity directEntity, EquipmentUpgrades upgrades, WeaponDamageSource damageSource, final double baseDamage)
     {
         if (player.level() instanceof ServerLevel serverLevel)
@@ -201,7 +193,7 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
             double totalDamage = upgrades.applyComplexDamageContextValue(LimaTechUpgradeEffectComponents.WEAPON_DAMAGE.get(), serverLevel, target, damageSource, baseDamage, baseDamage);
 
             // Get global damage modifier factors and apply
-            totalDamage = GlobalWeaponDamageModifiers.applyGlobalModifiers(this, target, baseDamage, totalDamage);
+            totalDamage = GlobalWeaponDamageModifiers.applyGlobalModifiers(this, target, context, baseDamage, totalDamage);
 
             if (totalDamage > 0)
             {
@@ -258,18 +250,6 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
     protected EquipmentUpgrades getDefaultUpgrades(HolderLookup.Provider registries)
     {
         return EquipmentUpgrades.EMPTY;
-    }
-
-    @Override
-    public MutableComponent getDescription()
-    {
-        return Component.translatable(getDescriptionId());
-    }
-
-    @Override
-    public Component getName(ItemStack stack)
-    {
-        return Component.translatable(getDesignationId()).append(CommonComponents.SPACE).append(getDescription().withStyle(ChatFormatting.ITALIC)).withStyle(LIME_GREEN.chatStyle());
     }
 
     @Override

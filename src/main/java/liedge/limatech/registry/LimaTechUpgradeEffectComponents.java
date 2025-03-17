@@ -49,5 +49,5 @@ public final class LimaTechUpgradeEffectComponents
     public static final DeferredHolder<DataComponentType<?>, ValueEffectDataComponentType<List<SimpleValueUpgradeEffect>>> ENERGY_TRANSFER_RATE = COMPONENTS.register("energy_transfer_rate", id -> ValueEffectDataComponentType.createSimpleList(id, true));
     public static final DeferredHolder<DataComponentType<?>, ValueEffectDataComponentType<List<SimpleValueUpgradeEffect>>> MACHINE_ENERGY_USAGE = COMPONENTS.register("energy_usage", id -> ValueEffectDataComponentType.createSimpleList(id, false));
     public static final DeferredHolder<DataComponentType<?>, ValueEffectDataComponentType<List<SimpleValueUpgradeEffect>>> MACHINE_ENERGY_PRODUCTION = COMPONENTS.register("energy_production", id -> ValueEffectDataComponentType.createSimpleList(id, true));
-    public static final DeferredHolder<DataComponentType<?>, ValueEffectDataComponentType<List<SimpleValueUpgradeEffect>>> TICKS_PER_OPERATION = COMPONENTS.register("ticks_per_operation", id -> ValueEffectDataComponentType.createSimpleList(id, true));
+    public static final DeferredHolder<DataComponentType<?>, ValueEffectDataComponentType<List<SimpleValueUpgradeEffect>>> TICKS_PER_OPERATION = COMPONENTS.register("ticks_per_operation", id -> ValueEffectDataComponentType.createSimpleList(id, false));
 }

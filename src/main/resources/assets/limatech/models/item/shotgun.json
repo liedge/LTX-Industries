@@ -2,6 +2,7 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [32, 32],
 	"loader": "limatech:dynamic_model",
+	"custom_renderer": true,
 	"render_type": "cutout",
 	"textures": {
 		"gun0": "limatech:item/weapons/grip_and_rails",
@@ -773,7 +774,7 @@
 							"name": "lights",
 							"origin": [8, 8, 17.5],
 							"color": 0,
-							"emissive": true,
+							"emissivity": 15,
 							"children": [7, 8, 9, 10, 11, 12, 13, 14, 15]
 						}
 					]
@@ -782,7 +783,7 @@
 					"name": "gun_lights",
 					"origin": [8, 7.30958, 24.89349],
 					"color": 0,
-					"emissive": true,
+					"emissivity": 15,
 					"children": [
 						16,
 						17,
@@ -793,14 +794,14 @@
 							"name": "west frame lights",
 							"origin": [6.985, 6.95, 12.65],
 							"color": 0,
-							"emissive": true,
+							"emissivity": 15,
 							"children": [21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41]
 						},
 						{
 							"name": "west frame lights",
 							"origin": [6.985, 6.95, 12.65],
 							"color": 0,
-							"emissive": true,
+							"emissivity": 15,
 							"children": [42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62]
 						}
 					]

@@ -1,5 +1,6 @@
 package liedge.limatech.blockentity;
 
+import com.google.common.base.Preconditions;
 import liedge.limacore.blockentity.IOAccess;
 import liedge.limacore.blockentity.LimaBlockEntity;
 import liedge.limacore.blockentity.LimaBlockEntityType;
@@ -50,25 +51,14 @@ public class EquipmentUpgradeStationBlockEntity extends LimaBlockEntity implemen
     }
 
     @Override
-    public LimaItemHandlerBase getItemHandler()
+    public LimaItemHandlerBase getItemHandler(int handlerIndex) throws IndexOutOfBoundsException
     {
+        Preconditions.checkElementIndex(handlerIndex, 1, "Item Handlers");
         return inventory;
     }
 
     @Override
-    public void onItemSlotChanged(int slot)
-    {
-        setChanged();
-    }
-
-    @Override
-    public IOAccess getItemIOForSide(Direction side)
-    {
-        return IOAccess.DISABLED;
-    }
-
-    @Override
-    public boolean isItemValid(int slot, ItemStack stack)
+    public boolean isItemValid(int handlerIndex, int slot, ItemStack stack)
     {
         if (slot == EQUIPMENT_ITEM_SLOT)
         {
@@ -78,6 +68,12 @@ public class EquipmentUpgradeStationBlockEntity extends LimaBlockEntity implemen
         {
             return stack.getItem() instanceof EquipmentUpgradeModuleItem;
         }
+    }
+
+    @Override
+    public IOAccess getItemHandlerSideIO(Direction side)
+    {
+        return IOAccess.DISABLED;
     }
 
     @Override

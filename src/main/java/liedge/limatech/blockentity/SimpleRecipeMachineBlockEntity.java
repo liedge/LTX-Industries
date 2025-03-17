@@ -117,9 +117,14 @@ public abstract class SimpleRecipeMachineBlockEntity<I extends RecipeInput, R ex
     }
 
     @Override
-    public boolean isItemValid(int slot, ItemStack stack)
+    public boolean isItemValid(int handlerIndex, int slot, ItemStack stack)
     {
-        return slot != 0 || LimaItemUtil.hasEnergyCapability(stack);
+        if (handlerIndex == 0)
+        {
+            return slot != 0 || LimaItemUtil.hasEnergyCapability(stack);
+        }
+
+        return super.isItemValid(handlerIndex, slot, stack);
     }
 
     @Override
@@ -192,27 +197,32 @@ public abstract class SimpleRecipeMachineBlockEntity<I extends RecipeInput, R ex
     }
 
     @Override
-    public IOAccess getPerSlotIO(int slot)
+    public IOAccess getItemSlotIO(int handlerIndex, int slot)
     {
-        if (slot == outputSlotIndex())
+        if (handlerIndex == 0)
         {
-            return IOAccess.OUTPUT_ONLY;
+            if (slot == outputSlotIndex())
+            {
+                return IOAccess.OUTPUT_ONLY;
+            }
+            else if (isInputSlot(slot))
+            {
+                return IOAccess.INPUT_ONLY;
+            }
+            else
+            {
+                return IOAccess.DISABLED;
+            }
         }
-        else if (isInputSlot(slot))
-        {
-            return IOAccess.INPUT_ONLY;
-        }
-        else
-        {
-            return IOAccess.DISABLED;
-        }
+
+        return IOAccess.DISABLED;
     }
 
     @Override
-    public void onItemSlotChanged(int slot)
+    public void onItemSlotChanged(int handlerIndex, int slot)
     {
-        super.onItemSlotChanged(slot);
-        if (slot != 0) shouldCheckRecipe = true;
+        super.onItemSlotChanged(handlerIndex, slot);
+        if (handlerIndex == 0 && slot != 0) shouldCheckRecipe = true;
     }
 
     @Override

@@ -209,7 +209,7 @@ public class OrbGrenadeEntity extends LimaTechProjectile implements IEntityWithC
         // Fire the sculk event if no suppression upgrade is present
         if (upgrades.upgradeEffectTypeAbsent(LimaTechUpgradeEffectComponents.PREVENT_SCULK_VIBRATION.get())) level.gameEvent(owner, LimaTechGameEvents.PROJECTILE_EXPLODED, hitLocation);
 
-        level.playSound(null, hitLocation.x, hitLocation.y, hitLocation.z, LimaTechSounds.GRENADE_SOUNDS.get(grenadeType).get(), SoundSource.PLAYERS, 2.5f, Mth.randomBetween(random, 0.77f, 0.9f));
+        level.playSound(null, hitLocation.x, hitLocation.y, hitLocation.z, LimaTechSounds.GRENADE_EXPLOSIONS.get(grenadeType).get(), SoundSource.PLAYERS, 2.5f, Mth.randomBetween(random, 0.77f, 0.9f));
         LimaNetworkUtil.spawnAlwaysVisibleParticle(level, new GrenadeExplosionParticleOptions(grenadeType, radius), hitLocation);
         discard();
     }
@@ -237,7 +237,7 @@ public class OrbGrenadeEntity extends LimaTechProjectile implements IEntityWithC
     {
         super.readAdditionalSaveData(tag);
         setGrenadeType(GrenadeType.CODEC.byNameOrElse(tag.getString("grenade_type"), GrenadeType.EXPLOSIVE));
-        upgrades = LimaNbtUtil.lenientDecode(EquipmentUpgrades.CODEC, RegistryOps.create(NbtOps.INSTANCE, registryAccess()), tag, "upgrades");
+        if (tag.contains("upgrades")) upgrades = LimaNbtUtil.lenientDecode(EquipmentUpgrades.CODEC, RegistryOps.create(NbtOps.INSTANCE, registryAccess()), tag, "upgrades");
     }
 
     @Override
@@ -245,7 +245,7 @@ public class OrbGrenadeEntity extends LimaTechProjectile implements IEntityWithC
     {
         super.addAdditionalSaveData(tag);
         tag.putString("grenade_type", grenadeType.getSerializedName());
-        tag.put("upgrades", LimaCoreCodecs.strictEncode(EquipmentUpgrades.CODEC, RegistryOps.create(NbtOps.INSTANCE, registryAccess()), upgrades));
+        if (upgrades != EquipmentUpgrades.EMPTY) tag.put("upgrades", LimaCoreCodecs.strictEncode(EquipmentUpgrades.CODEC, RegistryOps.create(NbtOps.INSTANCE, registryAccess()), upgrades));
     }
 
     @Override

@@ -234,12 +234,6 @@ public class FabricatorBlockEntity extends SidedItemEnergyMachineBlockEntity
     }
 
     @Override
-    public boolean isItemValid(int slot, ItemStack stack)
-    {
-        return slot != 0 || LimaItemUtil.hasEnergyCapability(stack);
-    }
-
-    @Override
     protected void onLoadServer(ServerLevel level)
     {
         super.onLoadServer(level);
@@ -251,9 +245,22 @@ public class FabricatorBlockEntity extends SidedItemEnergyMachineBlockEntity
     }
 
     @Override
-    public IOAccess getPerSlotIO(int slot)
+    public boolean isItemValid(int handlerIndex, int slot, ItemStack stack)
     {
-        return slot == 0 ? IOAccess.INPUT_ONLY : IOAccess.OUTPUT_ONLY;
+        if (handlerIndex == 0)
+        {
+            return slot != 0 || LimaItemUtil.hasEnergyCapability(stack);
+        }
+
+        return super.isItemValid(handlerIndex, slot, stack);
+    }
+
+    @Override
+    public IOAccess getItemSlotIO(int handlerIndex, int slot)
+    {
+        if (handlerIndex == 0) return slot == 0 ? IOAccess.INPUT_ONLY : IOAccess.OUTPUT_ONLY;
+
+        return super.getItemSlotIO(handlerIndex, slot);
     }
 
     @Override

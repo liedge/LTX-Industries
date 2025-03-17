@@ -93,7 +93,7 @@ class DataRegistriesEntries extends LimaDatagenBootstrapBuilder
     private void createDamageTypes(BootstrapContext<DamageType> ctx)
     {
         DeathMessageType weaponMsgType = LimaTechDeathMessageTypes.WEAPON_DEATH_MESSAGE_TYPE.getValue();
-        DeathMessageType traceableMsgType = LimaTechDeathMessageTypes.TRACEABLE_PROJECTILE_MESSAGE_TYPE.getValue();
+        DeathMessageType noItemCausedOnlyMsg = LimaTechDeathMessageTypes.NO_ITEM_CAUSING_ENTITY_ONLY.getValue();
 
         registerDamageType(ctx, LIGHTFRAG, DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0f, DamageEffects.HURT, weaponMsgType);
         registerDamageType(ctx, MAGNUM_LIGHTFRAG, DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0f, DamageEffects.HURT, weaponMsgType);
@@ -105,8 +105,8 @@ class DataRegistriesEntries extends LimaDatagenBootstrapBuilder
         registerDamageType(ctx, NEURO_GRENADE, DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0f, DamageEffects.HURT, weaponMsgType);
         registerDamageType(ctx, ROCKET_LAUNCHER, DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0f, DamageEffects.HURT, weaponMsgType);
 
-        registerDamageType(ctx, STICKY_FLAME, DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0f, DamageEffects.HURT, traceableMsgType);
-        registerDamageType(ctx, TURRET_ROCKET, DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0f, DamageEffects.HURT, traceableMsgType);
+        registerDamageType(ctx, STICKY_FLAME, DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0f, DamageEffects.HURT, noItemCausedOnlyMsg);
+        registerDamageType(ctx, TURRET_ROCKET, DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0f, DamageEffects.HURT, noItemCausedOnlyMsg);
     }
 
     private void createConfiguredFeatures(BootstrapContext<ConfiguredFeature<?, ?>> ctx)

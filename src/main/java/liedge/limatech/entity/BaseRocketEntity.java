@@ -124,14 +124,14 @@ public abstract class BaseRocketEntity extends AutoTrackingProjectile
         protected void readAdditionalSaveData(CompoundTag tag)
         {
             super.readAdditionalSaveData(tag);
-            upgrades = LimaNbtUtil.lenientDecode(EquipmentUpgrades.CODEC, RegistryOps.create(NbtOps.INSTANCE, registryAccess()), tag, "upgrades");
+            if (tag.contains("upgrades")) upgrades = LimaNbtUtil.lenientDecode(EquipmentUpgrades.CODEC, RegistryOps.create(NbtOps.INSTANCE, registryAccess()), tag, "upgrades");
         }
 
         @Override
         protected void addAdditionalSaveData(CompoundTag tag)
         {
             super.addAdditionalSaveData(tag);
-            tag.put("upgrades", LimaCoreCodecs.strictEncode(EquipmentUpgrades.CODEC, RegistryOps.create(NbtOps.INSTANCE, registryAccess()), upgrades));
+            if (upgrades != EquipmentUpgrades.EMPTY) tag.put("upgrades", LimaCoreCodecs.strictEncode(EquipmentUpgrades.CODEC, RegistryOps.create(NbtOps.INSTANCE, registryAccess()), upgrades));
         }
     }
 }

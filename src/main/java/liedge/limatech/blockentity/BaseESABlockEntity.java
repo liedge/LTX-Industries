@@ -47,19 +47,22 @@ public abstract class BaseESABlockEntity extends SidedItemEnergyMachineBlockEnti
     }
 
     @Override
-    public IOAccess getPerSlotIO(int slot)
+    public IOAccess getItemSlotIO(int handlerIndex, int slot)
     {
-        if (slot == 0)
+        if (handlerIndex == 0)
         {
-            return IOAccess.INPUT_ONLY;
-        }
-        else if (slot > 0 && slot < 5)
-        {
-            ItemStack slotItem = getItemHandler().getStackInSlot(slot);
-            if (slotItem.isEmpty()) return IOAccess.INPUT_ONLY;
+            if (slot == 0)
+            {
+                return IOAccess.INPUT_ONLY;
+            }
+            else if (slot > 0 && slot < 5)
+            {
+                ItemStack slotItem = getItemHandler().getStackInSlot(slot);
+                if (slotItem.isEmpty()) return IOAccess.INPUT_ONLY;
 
-            IEnergyStorage storage = slotItem.getCapability(Capabilities.EnergyStorage.ITEM);
-            if (storage != null && storage.getEnergyStored() == storage.getMaxEnergyStored()) return IOAccess.OUTPUT_ONLY;
+                IEnergyStorage storage = slotItem.getCapability(Capabilities.EnergyStorage.ITEM);
+                if (storage != null && storage.getEnergyStored() == storage.getMaxEnergyStored()) return IOAccess.OUTPUT_ONLY;
+            }
         }
 
         return IOAccess.DISABLED;
@@ -111,9 +114,16 @@ public abstract class BaseESABlockEntity extends SidedItemEnergyMachineBlockEnti
     }
 
     @Override
-    public boolean isItemValid(int slot, ItemStack stack)
+    public boolean isItemValid(int handlerIndex, int slot, ItemStack stack)
     {
-        return LimaItemUtil.hasEnergyCapability(stack);
+        if (handlerIndex == 0)
+        {
+            return LimaItemUtil.hasEnergyCapability(stack);
+        }
+        else
+        {
+            return super.isItemValid(handlerIndex, slot, stack);
+        }
     }
 
     @Override

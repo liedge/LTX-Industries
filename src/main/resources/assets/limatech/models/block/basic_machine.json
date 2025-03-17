@@ -226,7 +226,7 @@
 			"name": "lights",
 			"origin": [8, 8, 8],
 			"color": 0,
-			"emissive": true,
+			"emissivity": 15,
 			"children": [13, 14, 15]
 		}
 	]

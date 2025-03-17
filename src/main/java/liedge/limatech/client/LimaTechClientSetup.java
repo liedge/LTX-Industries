@@ -8,8 +8,7 @@ import liedge.limatech.client.gui.layer.BubbleShieldLayer;
 import liedge.limatech.client.gui.layer.WeaponCrosshairLayer;
 import liedge.limatech.client.gui.layer.WeaponHUDInfoLayer;
 import liedge.limatech.client.gui.screen.*;
-import liedge.limatech.client.model.baked.DynamicModularGeometry;
-import liedge.limatech.client.model.baked.LimaTechExtraBakedModels;
+import liedge.limatech.client.model.baked.DynamicModularItemGeometry;
 import liedge.limatech.client.model.custom.BubbleShieldModel;
 import liedge.limatech.client.model.entity.LimaTechModelLayers;
 import liedge.limatech.client.model.entity.OrbGrenadeModel;
@@ -81,6 +80,7 @@ public final class LimaTechClientSetup
         event.register(LimaTechMenus.MATERIAL_FUSING_CHAMBER.get(), MaterialFusingChamberScreen::new);
         event.register(LimaTechMenus.FABRICATOR.get(), FabricatorScreen::new);
         event.register(LimaTechMenus.EQUIPMENT_UPGRADE_STATION.get(), EquipmentUpgradeStationScreen::new);
+        event.register(LimaTechMenus.ROCKET_TURRET.get(), RocketTurretScreen::new);
     }
 
     @SubscribeEvent
@@ -127,15 +127,9 @@ public final class LimaTechClientSetup
     }
 
     @SubscribeEvent
-    public static void registerAdditionalModels(final ModelEvent.RegisterAdditional event)
-    {
-        event.register(LimaTechExtraBakedModels.ROCKET_TURRET_GUN);
-    }
-
-    @SubscribeEvent
     public static void registerGeometryLoaders(final ModelEvent.RegisterGeometryLoaders event)
     {
-        DynamicModularGeometry.DYNAMIC_MODEL_LOADER.registerLoader(event);
+        DynamicModularItemGeometry.DYNAMIC_MODEL_LOADER.registerLoader(event);
     }
 
     @SubscribeEvent

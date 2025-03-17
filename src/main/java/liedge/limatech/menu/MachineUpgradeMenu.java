@@ -55,7 +55,7 @@ public class MachineUpgradeMenu extends UpgradesConfigMenu<UpgradableMachineBloc
     @Override
     protected IItemHandlerModifiable menuContainer()
     {
-        return menuContext.getUpgradeModuleInventory();
+        return menuContext.getItemHandler(1);
     }
 
     @Override

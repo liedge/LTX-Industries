@@ -398,7 +398,7 @@
 			"name": "lights",
 			"origin": [8, 8, 8],
 			"color": 0,
-			"emissive": true,
+			"emissivity": 15,
 			"children": [20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
 		}
 	]

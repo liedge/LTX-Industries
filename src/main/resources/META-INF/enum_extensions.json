@@ -29,11 +29,11 @@
     },
     {
       "enum": "net/minecraft/world/damagesource/DeathMessageType",
-      "name": "LIMATECH_TRACEABLE_PROJECTILE_MESSAGE_TYPE",
+      "name": "LIMATECH_NO_ITEM_CAUSING_ENTITY_ONLY",
       "constructor": "(Ljava/lang/String;Lnet/neoforged/neoforge/common/damagesource/IDeathMessageProvider;)V",
       "parameters": {
         "class": "liedge/limatech/lib/LimaTechDeathMessageTypes",
-        "field": "TRACEABLE_PROJECTILE_MESSAGE_TYPE"
+        "field": "NO_ITEM_CAUSING_ENTITY_ONLY"
       }
     },
     {

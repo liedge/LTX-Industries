@@ -6,9 +6,6 @@ public final class LimaTechWeaponsConfig
 {
     private LimaTechWeaponsConfig() {}
 
-    // General weapon settings
-    public static final ModConfigSpec.BooleanValue WEAPONS_HURT_OWNED_ENTITIES;
-
     // Submachine gun
     public static final ModConfigSpec.DoubleValue SMG_BASE_DAMAGE;
     public static final ModConfigSpec.IntValue SMG_ENERGY_CAPACITY;
@@ -47,11 +44,6 @@ public final class LimaTechWeaponsConfig
     static
     {
         ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
-
-        WEAPONS_HURT_OWNED_ENTITIES = builder.comment(
-                "Whether this mod's weapons and their projectiles hurt entities owned/tamed by the weapon user.",
-                "Does not apply to entities with no owner or entities owned by someone else. Disabled by default.")
-                .define("weapons_hurt_owned_entities", false);
 
         // Common messages
         final String baseDamageMsg = "Weapon base damage (each full number is half a heart).";

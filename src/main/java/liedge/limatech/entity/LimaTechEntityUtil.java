@@ -1,13 +1,17 @@
 package liedge.limatech.entity;
 
 import liedge.limatech.LimaTechTags;
-import liedge.limatech.util.config.LimaTechWeaponsConfig;
+import liedge.limatech.util.config.LimaTechServerConfig;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.OwnableEntity;
 import net.minecraft.world.entity.TraceableEntity;
+import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.*;
+import net.neoforged.neoforge.entity.PartEntity;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Comparator;
@@ -17,22 +21,61 @@ public final class LimaTechEntityUtil
 {
     private LimaTechEntityUtil() {}
 
-    public static boolean isValidWeaponTarget(@Nullable Entity owner, Entity target)
+    /**
+     * Checks if an entity can be considered 'alive' for the purposes of this mod. The {@link EnderDragon}
+     * requires a special check as it's health is 1 when it is defeated instead of 0.
+     * @param entity Entity to check
+     * @return If the entity is alive
+     */
+    public static boolean isEntityAlive(Entity entity)
     {
-        // Don't hurt the owner, removed/dead entities and immune dataTag entities
-        if (!target.isAlive() || target == owner || target.getType().is(LimaTechTags.EntityTypes.IMMUNE_TO_LTX_WEAPONS))
-            return false;
+        if (entity instanceof EnderDragon dragon) return dragon.getHealth() > 1f;
+        return entity.isAlive();
+    }
 
-        // Don't hurt traceable entities with the same owner
-        if (target instanceof TraceableEntity traceable && traceable.getOwner() == owner)
-            return false;
+    /**
+     * Checks if the {@code attackingEntity} is a {@link ServerPlayer}. If it is, then checks both
+     * the game's PVP rule and this mod's PVP config option. Both must be true for this check to pass.
+     * Otherwise, this check always passes.
+     * @param attackingEntity The attacking entity
+     * @param target The target entity
+     * @return Whether the attacking entity can attack the target
+     */
+    public static boolean checkPlayerPVPRule(@Nullable Entity attackingEntity, Player target)
+    {
+        if (attackingEntity instanceof ServerPlayer serverPlayer)
+        {
+            return serverPlayer.canHarmPlayer(target) && LimaTechServerConfig.ENABLE_MOD_PVP.getAsBoolean();
+        }
 
-        // Don't hurt ownable mobs depending on config
-        if (target instanceof OwnableEntity ownable && ownable.getOwner() == owner && !LimaTechWeaponsConfig.WEAPONS_HURT_OWNED_ENTITIES.getAsBoolean())
-            return false;
+        return true;
+    }
 
-        // Finally, don't hurt the vehicle entity owner is riding (if any)
-        return owner == null || !owner.isPassengerOfSameVehicle(target);
+    public static boolean isValidWeaponTarget(@Nullable Entity attackingEntity, Entity target)
+    {
+        // Don't hurt the owner, removed/dead entities and immune entity type tag entities
+        if (!isEntityAlive(target) || target == attackingEntity || target.getType().is(LimaTechTags.EntityTypes.INVALID_TARGETS)) return false;
+
+        // Attacks can come with no attacking entity (rogue entities/machines/etc.)
+        final boolean validAttacker = attackingEntity != null;
+
+        return switch (target)
+        {
+            // Don't hurt traceable entities with the same owner
+            case TraceableEntity traceable when validAttacker && traceable.getOwner() == attackingEntity -> false;
+
+            // Don't hurt ownable mobs with same owner
+            case OwnableEntity ownable when validAttacker && ownable.getOwner() == attackingEntity -> false;
+
+            // Check pvp rules if target is a player
+            case Player player when !checkPlayerPVPRule(attackingEntity, player) -> false;
+
+            // Do not hit part entities
+            case PartEntity<?> ignored -> false;
+
+            // Finally, don't hurt the vehicle entity owner is riding (if any)
+            default -> validAttacker && !attackingEntity.isPassengerOfSameVehicle(target);
+        };
     }
 
     /**

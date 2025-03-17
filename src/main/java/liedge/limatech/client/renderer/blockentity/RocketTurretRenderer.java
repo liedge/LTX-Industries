@@ -4,11 +4,13 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import liedge.limacore.client.LimaBlockEntityRenderer;
 import liedge.limacore.client.LimaCoreClientUtil;
+import liedge.limacore.client.model.BakedQuadGroup;
 import liedge.limatech.blockentity.RocketTurretBlockEntity;
 import liedge.limatech.client.LimaTechRenderUtil;
-import liedge.limatech.client.model.baked.DynamicModularBakedModel;
-import liedge.limatech.client.model.baked.LimaTechExtraBakedModels;
+import liedge.limatech.client.model.baked.DynamicModularItemBakedModel;
+import liedge.limatech.registry.LimaTechBlocks;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
@@ -16,15 +18,20 @@ import net.minecraft.world.phys.AABB;
 
 public class RocketTurretRenderer extends LimaBlockEntityRenderer<RocketTurretBlockEntity>
 {
-    private final DynamicModularBakedModel.SubModel gun;
-    private final DynamicModularBakedModel.SubModel swivel;
+    private final RenderType nonEmissiveRenderType;
+    private final RenderType emissiveRenderType;
+    private final BakedQuadGroup guns;
+    private final BakedQuadGroup swivel;
 
     public RocketTurretRenderer(BlockEntityRendererProvider.Context context)
     {
         super(context);
 
-        DynamicModularBakedModel model = LimaCoreClientUtil.getCustomBakedModel(LimaTechExtraBakedModels.ROCKET_TURRET_GUN, DynamicModularBakedModel.class);
-        this.gun = model.getSubmodel("gun");
+        DynamicModularItemBakedModel model = LimaCoreClientUtil.getCustomBakedModel(LimaCoreClientUtil.inventoryModelPath(LimaTechBlocks.ROCKET_TURRET), DynamicModularItemBakedModel.class);
+
+        this.nonEmissiveRenderType = model.getNonEmissiveRenderType();
+        this.emissiveRenderType = model.getEmissiveRenderType();
+        this.guns = model.getSubmodel("guns");
         this.swivel = model.getSubmodel("swivel");
     }
 
@@ -38,22 +45,22 @@ public class RocketTurretRenderer extends LimaBlockEntityRenderer<RocketTurretBl
         poseStack.mulPose(Axis.YP.rotationDegrees(blockEntity.lerpYRot(partialTick)));
         poseStack.translate(-0.5d, 0, -0.5d);
 
-        swivel.renderToBuffer(poseStack, bufferSource, light);
+        swivel.putItemQuadsInBuffer(poseStack, bufferSource, nonEmissiveRenderType, emissiveRenderType, light);
 
-        poseStack.translate(0.5d, 1.6875d, 0.5d);
+        poseStack.translate(0.5d, 1.625d, 0.5d);
         poseStack.mulPose(Axis.XN.rotationDegrees(blockEntity.lerpXRot(partialTick)));
-        poseStack.translate(-0.5d, -1.6875d, -0.5d);
+        poseStack.translate(-0.5d, -1.625d, -0.5d);
 
-        gun.renderToBuffer(poseStack, bufferSource, light);
+        guns.putItemQuadsInBuffer(poseStack, bufferSource, nonEmissiveRenderType, emissiveRenderType, light);
 
         poseStack.popPose();
 
-        // Render lock on triangle
-        Entity currentTarget = blockEntity.getCurrentTarget();
-        if (currentTarget != null)
+        // Render lock on indicators
+        BlockPos pos = blockEntity.getBlockPos();
+        float indicatorLerp = blockEntity.lerpIndicators(partialTick);
+        for (Entity target : blockEntity.getTargetQueue())
         {
-            BlockPos pos = blockEntity.getBlockPos();
-            LimaTechRenderUtil.renderLockOnIndicatorOnEntity(currentTarget, poseStack, bufferSource, entityRenderer.camera, pos.getX(), pos.getY(), pos.getZ(), partialTick, blockEntity.lerpTicker(partialTick));
+            LimaTechRenderUtil.renderLockOnIndicatorOnEntity(target, poseStack, bufferSource, entityRenderer.camera, pos.getX(), pos.getY(), pos.getZ(), partialTick, indicatorLerp);
         }
     }
 
@@ -72,7 +79,7 @@ public class RocketTurretRenderer extends LimaBlockEntityRenderer<RocketTurretBl
     @Override
     public AABB getRenderBoundingBox(RocketTurretBlockEntity blockEntity)
     {
-        if (blockEntity.getCurrentTarget() != null)
+        if (!blockEntity.getTargetQueue().isEmpty())
         {
             return AABB.INFINITE;
         }

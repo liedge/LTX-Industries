@@ -77,6 +77,12 @@
     ],
     "subtitle": "subtitle.limatech.submachine_gun_loop"
   },
+  "turret_target_found": {
+    "sounds": [
+      "limatech:turret_target_found"
+    ],
+    "subtitle": "subtitle.limatech.turret_target_found"
+  },
   "weapon_mode_switch": {
     "sounds": [
       "limatech:weapon_mode_switch"

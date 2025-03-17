@@ -8,6 +8,7 @@ import liedge.limatech.block.*;
 import liedge.limatech.item.ContentsTooltipBlockItem;
 import liedge.limatech.item.EnergyHolderItem;
 import liedge.limatech.item.EnergyStorageArrayItem;
+import liedge.limatech.item.LimaTechRarities;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.item.BlockItem;
@@ -80,7 +81,7 @@ public final class LimaTechBlocks
     public static final DeferredBlockPair<FabricatorBlock, ContentsTooltipBlockItem> FABRICATOR = BLOCKS.registerBlockAndItem("fabricator", () -> new FabricatorBlock(machineProperties().noOcclusion()), block -> new ContentsTooltipBlockItem(block, new Item.Properties().stacksTo(1), true, true));
     public static final DeferredBlockPair<EquipmentUpgradeStationBlock, ContentsTooltipBlockItem> EQUIPMENT_UPGRADE_STATION = BLOCKS.registerBlockAndItem("equipment_upgrade_station", () -> new EquipmentUpgradeStationBlock(machineProperties().noOcclusion()), block -> new ContentsTooltipBlockItem(block, new Item.Properties().stacksTo(1), false, true));
 
-    public static final DeferredBlockPair<RocketTurretBlock, BlockItem> ROCKET_TURRET = BLOCKS.registerBlockAndSimpleItem("rocket_turret", () -> new RocketTurretBlock(machineProperties().noOcclusion()));
+    public static final DeferredBlockPair<RocketTurretBlock, BlockItem> ROCKET_TURRET = BLOCKS.registerBlockAndItem("rocket_turret", () -> new RocketTurretBlock(machineProperties().noOcclusion()), block -> new ContentsTooltipBlockItem(block, new Item.Properties().stacksTo(1).rarity(LimaTechRarities.ltxGearRarity()), true, false));
 
     // Helpers & initializers
     private static BlockBehaviour.Properties machineProperties()

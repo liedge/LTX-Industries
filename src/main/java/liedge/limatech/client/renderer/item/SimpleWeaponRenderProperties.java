@@ -3,7 +3,7 @@ package liedge.limatech.client.renderer.item;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import liedge.limatech.LimaTechConstants;
-import liedge.limatech.client.model.baked.DynamicModularBakedModel;
+import liedge.limatech.client.model.baked.DynamicModularItemBakedModel;
 import liedge.limatech.client.model.custom.TranslucentFillModel;
 import liedge.limatech.item.weapon.WeaponItem;
 import liedge.limatech.lib.weapons.ClientWeaponControls;
@@ -35,12 +35,12 @@ abstract class SimpleWeaponRenderProperties extends WeaponRenderProperties<Weapo
     }
 
     @Override
-    protected final void loadWeaponModelParts(WeaponItem item, DynamicModularBakedModel model) {}
+    protected final void loadWeaponModelParts(WeaponItem item, DynamicModularItemBakedModel model) {}
 
     @Override
     protected final void renderStaticWeapon(ItemStack stack, WeaponItem item, ItemDisplayContext displayContext, PoseStack poseStack, MultiBufferSource bufferSource, int light, int overlay)
     {
-        mainSubmodel.renderToBuffer(poseStack, bufferSource, light);
+        renderSubModel(mainSubmodel, poseStack, bufferSource, light);
         renderStaticMagazineFill(item, stack, poseStack, bufferSource, getMagazineFillModel(), LimaTechConstants.LIME_GREEN);
     }
 
@@ -50,7 +50,7 @@ abstract class SimpleWeaponRenderProperties extends WeaponRenderProperties<Weapo
         float mul = applyAnimationCurve(controls.getAnimationTimerA().lerpProgressNotPaused(partialTick));
         poseStack.translate(0, 0, recoilDistance * mul);
         if (recoilAngle > 0) poseStack.mulPose(Axis.XP.rotationDegrees(recoilAngle * mul));
-        mainSubmodel.renderToBuffer(poseStack, bufferSource, light);
+        renderSubModel(mainSubmodel, poseStack, bufferSource, light);
         renderAnimatedMagazineFill(item, stack, poseStack, bufferSource, getMagazineFillModel(), LimaTechConstants.LIME_GREEN, partialTick, controls);
     }
 }

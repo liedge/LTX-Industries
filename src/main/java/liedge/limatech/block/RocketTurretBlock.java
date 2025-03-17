@@ -34,10 +34,19 @@ import static net.minecraft.world.level.block.state.properties.BlockStatePropert
 
 public class RocketTurretBlock extends BaseWrenchEntityBlock implements SimpleWaterloggedBlock
 {
-    private static final VoxelShape TURRET_SHAPE = Shapes.or(BasicHorizontalMachineBlock.BASIC_MACHINE_SHAPE,
-            // Gun shape
-            Block.box(3.5d, 16, 3.5d, 12.5d, 17.25d, 12.5d),
-            Block.box(6, 17, 6, 10, 25, 10));
+    private static final VoxelShape TURRET_SHAPE = Shapes.or(
+            // Base
+            Block.box(0, 0, 0, 16, 1, 16),
+            Block.box(1, 1, 1, 15, 3, 15),
+            Block.box(0, 3, 0, 16, 15, 16),
+            // Top frame pieces
+            Block.box(0, 15, 0, 16, 16, 1),
+            Block.box(0, 15, 15, 16, 16, 16),
+            Block.box(0, 15, 0, 1, 16, 16),
+            Block.box(15, 15, 0, 16, 16, 16),
+            // Swivel & gun
+            Block.box(4, 15, 4, 12, 17, 12),
+            Block.box(5, 17, 5, 11, 25, 11));
 
     private static final VoxelShape UPPER_TURRET_SHAPE = LimaBlockUtil.moveShape(TURRET_SHAPE, 0, -1, 0);
 
@@ -188,7 +197,7 @@ public class RocketTurretBlock extends BaseWrenchEntityBlock implements SimpleWa
     }
 
     @Override
-    public boolean allowsRotation(BlockState state)
+    public boolean allowsRotation(Level level, BlockPos pos, BlockState state)
     {
         return false;
     }

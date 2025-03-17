@@ -30,7 +30,7 @@ public abstract class BaseWrenchEntityBlock extends LimaEntityBlock
         return dismantleOrRotateMachine(context, player, level, pos, state);
     }
 
-    public boolean allowsRotation(BlockState state)
+    public boolean allowsRotation(Level level, BlockPos pos, BlockState state)
     {
         return state.hasProperty(HORIZONTAL_FACING);
     }
@@ -49,7 +49,7 @@ public abstract class BaseWrenchEntityBlock extends LimaEntityBlock
                 Block.dropResources(state, level, pos, level.getBlockEntity(pos), player, context.getItemInHand());
                 level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
             }
-            else if (allowsRotation(state))
+            else if (allowsRotation(level, pos, state))
             {
                 Direction oldFront = state.getValue(HORIZONTAL_FACING);
                 level.setBlockAndUpdate(pos, rotateBlockState(context, player, level, pos, state, oldFront));

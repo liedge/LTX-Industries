@@ -1,6 +1,5 @@
 package liedge.limatech.menu;
 
-import liedge.limacore.capability.itemhandler.ItemHolderBlockEntity;
 import liedge.limacore.inventory.menu.LimaItemHandlerMenu;
 import liedge.limacore.inventory.menu.LimaMenuProvider;
 import liedge.limacore.inventory.menu.LimaMenuType;
@@ -8,7 +7,7 @@ import liedge.limatech.blockentity.UpgradableMachineBlockEntity;
 import liedge.limatech.registry.LimaTechMenus;
 import net.minecraft.world.entity.player.Inventory;
 
-public abstract class UpgradableMachineMenu<CTX extends ItemHolderBlockEntity & UpgradableMachineBlockEntity> extends LimaItemHandlerMenu<CTX>
+public abstract class UpgradableMachineMenu<CTX extends UpgradableMachineBlockEntity> extends LimaItemHandlerMenu<CTX>
 {
     public static final int UPGRADES_BUTTON_ID = 0;
 

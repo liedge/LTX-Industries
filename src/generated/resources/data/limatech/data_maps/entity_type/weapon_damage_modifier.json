@@ -1,26 +1,31 @@
 {
   "values": {
-    "#limatech:high_threat": [
+    "#limatech:targets/high_threat": [
       {
-        "factor": -0.8,
-        "operation": "add_multiplied_total",
+        "op": "add_multiplied_total",
+        "value": -0.8,
         "weapon": "limatech:submachine_gun"
       },
       {
-        "factor": -0.45,
-        "operation": "add_multiplied_total",
+        "op": "add_multiplied_total",
+        "value": -0.45,
         "weapon": "limatech:shotgun"
+      },
+      {
+        "op": "multiply",
+        "value": 2.0,
+        "weapon": "limatech:rocket_launcher"
       }
     ],
-    "#limatech:medium_threat": [
+    "#limatech:targets/medium_threat": [
       {
-        "factor": -0.5,
-        "operation": "add_multiplied_total",
+        "op": "add_multiplied_total",
+        "value": -0.5,
         "weapon": "limatech:submachine_gun"
       },
       {
-        "factor": -0.4,
-        "operation": "add_multiplied_total",
+        "op": "add_multiplied_total",
+        "value": -0.4,
         "weapon": "limatech:shotgun"
       }
     ]

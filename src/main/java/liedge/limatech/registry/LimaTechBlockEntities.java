@@ -29,7 +29,7 @@ public final class LimaTechBlockEntities
     public static void registerCapabilities(RegisterCapabilitiesEvent event)
     {
         // Machine capability registration (energy & items)
-        Stream.of(ENERGY_STORAGE_ARRAY, INFINITE_ENERGY_STORAGE_ARRAY, DIGITAL_FURNACE, GRINDER, RECOMPOSER, MATERIAL_FUSING_CHAMBER, FABRICATOR).map(DeferredHolder::get).forEach(machineType ->
+        Stream.of(ENERGY_STORAGE_ARRAY, INFINITE_ENERGY_STORAGE_ARRAY, DIGITAL_FURNACE, GRINDER, RECOMPOSER, MATERIAL_FUSING_CHAMBER, FABRICATOR, ROCKET_TURRET).map(DeferredHolder::get).forEach(machineType ->
         {
             event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, machineType, EnergyHolderBlockEntity::createEnergyIOWrapper);
             event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, machineType, ItemHolderBlockEntity::createItemIOWrapper);

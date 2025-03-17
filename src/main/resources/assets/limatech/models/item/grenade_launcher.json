@@ -2,6 +2,7 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [32, 32],
 	"loader": "limatech:dynamic_model",
+	"custom_renderer": true,
 	"render_type": "translucent",
 	"textures": {
 		"gun0": "limatech:item/weapons/weapon_parts_0",
@@ -591,6 +592,12 @@
 			"translation": [3.5, 0.5, 0]
 		}
 	},
+	"submodels": {
+		"chamber ornament": [
+			"chamber ornament", "chamber ornament lights"
+		],
+		"chamber glass": ["chamber glass"]
+	},
 	"groups": [
 		{
 			"name": "gun",
@@ -608,7 +615,7 @@
 						3,
 						{
 							"name": "grip_lights",
-							"emissive": true,
+							"emissivity": 15,
 							"origin": [8, 8, 17.5],
 							"color": 0,
 							"children": [4, 5, 6, 7, 8, 9, 10, 11]
@@ -627,7 +634,7 @@
 						16,
 						{
 							"name": "light",
-							"emissive": true,
+							"emissivity": 15,
 							"origin": [0, 0, 0],
 							"color": 0,
 							"children": [17]
@@ -642,20 +649,20 @@
 				},
 				{
 					"name": "lights",
-					"emissive": true,
+					"emissivity": 15,
 					"origin": [8, 9.5, 13.5],
 					"color": 0,
 					"children": [
 						{
 							"name": "west",
-							"emissive": true,
+							"emissivity": 15,
 							"origin": [0, 0, 0],
 							"color": 0,
 							"children": [21, 22, 23, 24, 25, 26]
 						},
 						{
 							"name": "east",
-							"emissive": true,
+							"emissivity": 15,
 							"origin": [0, 0, 0],
 							"color": 0,
 							"children": [27, 28, 29, 30, 31, 32]
@@ -668,22 +675,19 @@
 					]
 				},
 				{
-					"name": "chamber_ornament",
+					"name": "chamber ornament",
 					"origin": [8, 8, 8],
 					"color": 0,
-					"sub_model": "chamber_ornament",
 					"children": [
 						{
-							"name": "glass",
-							"sub_model": "chamber_glass",
+							"name": "chamber glass",
 							"origin": [0, 0, 0],
 							"color": 0,
 							"children": [38]
 						},
 						{
-							"name": "lights",
-							"sub_model": "chamber_ornament",
-							"emissive": true,
+							"name": "chamber ornament lights",
+							"emissivity": 15,
 							"origin": [0, 0, 0],
 							"color": 0,
 							"children": [39, 40, 41, 42]

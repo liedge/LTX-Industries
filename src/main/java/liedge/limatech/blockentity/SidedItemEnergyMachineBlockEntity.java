@@ -5,10 +5,8 @@ import liedge.limacore.blockentity.LimaBlockEntity;
 import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.capability.energy.EnergyHolderBlockEntity;
 import liedge.limacore.capability.energy.LimaBlockEntityEnergyStorage;
-import liedge.limacore.capability.itemhandler.ItemHolderBlockEntity;
 import liedge.limacore.capability.itemhandler.LimaBlockEntityItemHandler;
 import liedge.limacore.capability.itemhandler.LimaItemHandlerBase;
-import liedge.limacore.capability.itemhandler.StandaloneBlockEntityItemHandler;
 import liedge.limacore.data.LimaCoreCodecs;
 import liedge.limacore.inventory.menu.LimaMenuProvider;
 import liedge.limacore.util.LimaNbtUtil;
@@ -24,6 +22,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -36,18 +35,19 @@ import static liedge.limacore.registry.LimaCoreDataComponents.ITEM_CONTAINER;
 import static liedge.limatech.registry.LimaTechDataComponents.MACHINE_UPGRADES;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING;
 
-public abstract class SidedItemEnergyMachineBlockEntity extends LimaBlockEntity implements LimaMenuProvider, EnergyHolderBlockEntity, ItemHolderBlockEntity, UpgradableMachineBlockEntity, SidedMachineIOHolder
+public abstract class SidedItemEnergyMachineBlockEntity extends LimaBlockEntity implements LimaMenuProvider, EnergyHolderBlockEntity, UpgradableMachineBlockEntity, SidedMachineIOHolder
 {
     private final LimaBlockEntityItemHandler inventory;
     private final MachineIOControl energyControl;
     private final MachineIOControl itemControl;
-    private final StandaloneBlockEntityItemHandler upgradeModuleSlot = new StandaloneBlockEntityItemHandler(this, 1);
+    private final LimaBlockEntityItemHandler upgradeModuleSlot;
     private MachineUpgrades upgrades = MachineUpgrades.EMPTY;
 
     protected SidedItemEnergyMachineBlockEntity(LimaBlockEntityType<?> type, BlockPos pos, BlockState state, int inventorySize)
     {
         super(type, pos, state);
         this.inventory = new LimaBlockEntityItemHandler(this, inventorySize);
+        this.upgradeModuleSlot = new LimaBlockEntityItemHandler(this, 1, 1);
         Direction front = state.getValue(HORIZONTAL_FACING);
         this.energyControl = initEnergyIOControl(front);
         this.itemControl = initItemIOControl(front);
@@ -106,30 +106,29 @@ public abstract class SidedItemEnergyMachineBlockEntity extends LimaBlockEntity 
 
     // Item handler methods
     @Override
-    public LimaItemHandlerBase getItemHandler()
+    public LimaItemHandlerBase getItemHandler(int handlerIndex) throws IndexOutOfBoundsException
     {
-        return inventory;
+        return switch (handlerIndex)
+        {
+            case 0 -> inventory;
+            case 1 -> upgradeModuleSlot;
+            default -> throw new IndexOutOfBoundsException("Invalid item handler index " + handlerIndex + " accessed.");
+        };
     }
 
     @Override
-    public IOAccess getItemIOForSide(Direction side)
+    public IOAccess getItemHandlerSideIO(Direction side)
     {
         return itemControl.getSideIO(side);
     }
 
     @Override
-    public void onItemSlotChanged(int slot)
+    public boolean isItemValid(int handlerIndex, int slot, ItemStack stack)
     {
-        setChanged();
+        return true;
     }
 
     // Upgrades methods
-    @Override
-    public LimaItemHandlerBase getUpgradeModuleInventory()
-    {
-        return upgradeModuleSlot;
-    }
-
     @Override
     public MachineUpgrades getUpgrades()
     {
@@ -203,7 +202,7 @@ public abstract class SidedItemEnergyMachineBlockEntity extends LimaBlockEntity 
         tag.put("item_io", itemControl.serializeNBT(registries));
         tag.put("energy_io", energyControl.serializeNBT(registries));
         tag.put("upgrade_slot", upgradeModuleSlot.serializeNBT(registries));
-        tag.put("upgrades", LimaCoreCodecs.strictEncode(MachineUpgrades.CODEC, RegistryOps.create(NbtOps.INSTANCE, registries), upgrades));
+        tag.put("upgrades", LimaCoreCodecs.lenientEncode(MachineUpgrades.CODEC, RegistryOps.create(NbtOps.INSTANCE, registries), upgrades));
     }
 
     @Override

@@ -15,18 +15,18 @@ public final class LimaTechDeathMessageTypes
 {
     private LimaTechDeathMessageTypes() {}
 
-    public static final EnumProxy<DeathMessageType> TRACEABLE_PROJECTILE_MESSAGE_TYPE = new EnumProxy<>(DeathMessageType.class, "limatech:traceable_entity", (IDeathMessageProvider) (killedEntity, lastEntry, sigFall) -> {
+    public static final EnumProxy<DeathMessageType> NO_ITEM_CAUSING_ENTITY_ONLY = new EnumProxy<>(DeathMessageType.class, "limatech:no_item_causing_entity_only", (IDeathMessageProvider) (killedEntity, lastEntry, sigFall) -> {
         DamageSource source = lastEntry.source();
         Entity causingEntity = source.getEntity();
         String translationKey = "death.attack." + source.getMsgId();
 
         if (causingEntity != null)
         {
-            return Component.translatable(translationKey + ".entity", killedEntity.getDisplayName(), causingEntity.getDisplayName());
+            return Component.translatable(translationKey, killedEntity.getDisplayName(), causingEntity.getDisplayName());
         }
         else
         {
-            return Component.translatable(translationKey, killedEntity.getDisplayName());
+            return Component.translatable(translationKey + ".unowned", killedEntity.getDisplayName());
         }
     });
 

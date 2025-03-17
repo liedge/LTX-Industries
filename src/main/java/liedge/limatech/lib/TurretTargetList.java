@@ -4,6 +4,7 @@ import liedge.limatech.registry.LimaTechAttachmentTypes;
 import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 import java.util.WeakHashMap;
@@ -31,6 +32,8 @@ public abstract class TurretTargetList
 
     public abstract void removeTarget(@Nullable Entity target);
 
+    public abstract void removeTargets(Collection<Entity> targets);
+
     private static class SetBacked extends TurretTargetList
     {
         private final Set<Entity> set = Collections.newSetFromMap(new WeakHashMap<>());
@@ -52,6 +55,12 @@ public abstract class TurretTargetList
         {
             set.remove(target);
         }
+
+        @Override
+        public void removeTargets(Collection<Entity> targets)
+        {
+            set.removeAll(targets);
+        }
     }
 
     private static class Empty extends TurretTargetList
@@ -70,5 +79,8 @@ public abstract class TurretTargetList
 
         @Override
         public void removeTarget(@Nullable Entity target) { }
+
+        @Override
+        public void removeTargets(Collection<Entity> targets) {}
     }
 }

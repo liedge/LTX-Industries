@@ -20,6 +20,7 @@ class SoundsGen extends LimaSoundDefinitionsProvider
     public void registerSounds()
     {
         addSingleDirectSound(WEAPON_MODE_SWITCH);
+        addSingleDirectSound(TURRET_TARGET_FOUND);
 
         addSingleDirectSound(SUBMACHINE_GUN_LOOP);
         addSingleDirectSound(SHOTGUN_FIRE);
@@ -28,7 +29,7 @@ class SoundsGen extends LimaSoundDefinitionsProvider
         addSingleDirectSound(MAGNUM_FIRE);
         addSingleEventRedirectSound(ROCKET_EXPLODE, GENERIC_EXPLODE);
 
-        GRENADE_SOUNDS.forEach((element, holder) -> {
+        GRENADE_EXPLOSIONS.forEach((element, holder) -> {
             if (element == GrenadeType.EXPLOSIVE)
             {
                 addSingleEventRedirectSound(holder, GENERIC_EXPLODE);

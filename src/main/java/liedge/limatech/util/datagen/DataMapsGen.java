@@ -12,8 +12,9 @@ import net.neoforged.neoforge.registries.datamaps.builtin.VibrationFrequency;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Stream;
 
-import static liedge.limatech.lib.weapons.GlobalWeaponDamageModifiers.WeaponDamageModifier.create;
+import static liedge.limatech.lib.weapons.GlobalWeaponDamageModifiers.WeaponDamageModifier.modifier;
 import static liedge.limatech.registry.LimaTechItems.*;
 
 class DataMapsGen extends DataMapProvider
@@ -21,6 +22,11 @@ class DataMapsGen extends DataMapProvider
     DataMapsGen(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookupProvider)
     {
         super(packOutput, lookupProvider);
+    }
+
+    private List<GlobalWeaponDamageModifiers.WeaponDamageModifier> makeModifierList(GlobalWeaponDamageModifiers.WeaponDamageModifier.Builder... builders)
+    {
+        return Stream.of(builders).map(GlobalWeaponDamageModifiers.WeaponDamageModifier.Builder::build).toList();
     }
 
     @Override
@@ -33,13 +39,14 @@ class DataMapsGen extends DataMapProvider
 
         // Weapon damage modifiers
         builder(GlobalWeaponDamageModifiers.DATA_MAP_TYPE)
-                .add(LimaTechTags.EntityTypes.HIGH_THREAT_LEVEL, List.of(
-                        create(SUBMACHINE_GUN, -0.8f, CompoundValueOperation.ADD_MULTIPLIED_TOTAL),
-                        create(SHOTGUN, -0.45f, CompoundValueOperation.ADD_MULTIPLIED_TOTAL)
+                .add(LimaTechTags.EntityTypes.HIGH_THREAT_TARGETS, makeModifierList(
+                        modifier(CompoundValueOperation.ADD_MULTIPLIED_TOTAL).forWeapon(SUBMACHINE_GUN).withConstantAmount(-0.8f),
+                        modifier(CompoundValueOperation.ADD_MULTIPLIED_TOTAL).forWeapon(SHOTGUN).withConstantAmount(-0.45f),
+                        modifier(CompoundValueOperation.MULTIPLY).forWeapon(ROCKET_LAUNCHER).withConstantAmount(2f)
                 ), false)
-                .add(LimaTechTags.EntityTypes.MEDIUM_THREAT_LEVEL, List.of(
-                        create(SUBMACHINE_GUN, -0.5f, CompoundValueOperation.ADD_MULTIPLIED_TOTAL),
-                        create(SHOTGUN, -0.4f, CompoundValueOperation.ADD_MULTIPLIED_TOTAL)
+                .add(LimaTechTags.EntityTypes.MEDIUM_THREAT_TARGETS, makeModifierList(
+                        modifier(CompoundValueOperation.ADD_MULTIPLIED_TOTAL).forWeapon(SUBMACHINE_GUN).withConstantAmount(-0.5f),
+                        modifier(CompoundValueOperation.ADD_MULTIPLIED_TOTAL).forWeapon(SHOTGUN).withConstantAmount(-0.4f)
                 ), false);
     }
 }

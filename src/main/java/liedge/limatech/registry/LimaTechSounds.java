@@ -23,6 +23,7 @@ public final class LimaTechSounds
     }
 
     public static final DeferredHolder<SoundEvent, SoundEvent> WEAPON_MODE_SWITCH = register("weapon_mode_switch");
+    public static final DeferredHolder<SoundEvent, SoundEvent> TURRET_TARGET_FOUND = register("turret_target_found");
 
     public static final DeferredHolder<SoundEvent, SoundEvent> SUBMACHINE_GUN_LOOP = register("submachine_gun_loop");
     public static final DeferredHolder<SoundEvent, SoundEvent> SHOTGUN_FIRE = register("shotgun_fire");
@@ -30,7 +31,7 @@ public final class LimaTechSounds
     public static final DeferredHolder<SoundEvent, SoundEvent> ROCKET_LAUNCHER_FIRE = register("rocket_launcher_fire");
     public static final DeferredHolder<SoundEvent, SoundEvent> MAGNUM_FIRE = register("magnum_fire");
     public static final DeferredHolder<SoundEvent, SoundEvent> ROCKET_EXPLODE = register("rocket_explode");
-    public static final Map<GrenadeType, DeferredHolder<SoundEvent, SoundEvent>> GRENADE_SOUNDS = LimaCollectionsUtil.fillAndCreateImmutableEnumMap(GrenadeType.class, e -> register(e.getSerializedName() + "_grenade_explode"));
+    public static final Map<GrenadeType, DeferredHolder<SoundEvent, SoundEvent>> GRENADE_EXPLOSIONS = LimaCollectionsUtil.fillAndCreateImmutableEnumMap(GrenadeType.class, e -> register(e.getSerializedName() + "_grenade_explode"));
 
     private static DeferredHolder<SoundEvent, SoundEvent> register(String name)
     {

@@ -8,20 +8,17 @@ import liedge.limatech.client.renderer.LimaTechRenderTypes;
 import net.minecraft.Util;
 import net.minecraft.client.Camera;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import org.joml.Matrix4f;
 
-import static liedge.limatech.LimaTech.RESOURCES;
+import static liedge.limacore.util.LimaMathUtil.toRad;
 import static liedge.limatech.LimaTechConstants.HOSTILE_ORANGE;
 import static liedge.limatech.LimaTechConstants.LIME_GREEN;
 
 public final class LimaTechRenderUtil
 {
-    private static final RenderType LOCK_ON_INDICATOR_RENDER_TYPE = LimaTechRenderTypes.positionTexColor(RESOURCES.textureLocation("entity", "target_triangle"));
-
     private static final float ANIMATION_B_FACTOR = 1 / 0.9f;
     private static final float ANIMATION_C_FACTOR = 1 / 0.7f;
 
@@ -66,22 +63,13 @@ public final class LimaTechRenderUtil
         poseStack.scale(size, size, size);
         float f0 = (Util.getMillis() % 5000L) / 5000f;
         poseStack.mulPose(Axis.ZP.rotationDegrees(Mth.wrapDegrees(f0 * 360f)));
-        poseStack.translate(-0.5d, -0.5d, 0d);
 
         float f1 = -0.6875f - (2f * (1 - lerpLockProgress));
         LimaColor color = lerpLockProgress >= 1 ? LIME_GREEN : HOSTILE_ORANGE;
 
-        drawLockOnTriangle(buffer, mx4, f1, color);
-
-        poseStack.translate(0.5d, 0.5d, 0);
-        poseStack.mulPose(Axis.ZP.rotationDegrees(120));
-        poseStack.translate(-0.5d, -0.5d, 0);
-        drawLockOnTriangle(buffer, mx4, f1, color);
-
-        poseStack.translate(0.5d, 0.5d, 0);
-        poseStack.mulPose(Axis.ZP.rotationDegrees(120));
-        poseStack.translate(-0.5d, -0.5d, 0);
-        drawLockOnTriangle(buffer, mx4, f1, color);
+        drawLockOnQuad(buffer, mx4, f1, 0, color);
+        drawLockOnQuad(buffer, mx4, f1, 120, color);
+        drawLockOnQuad(buffer, mx4, f1, 240, color);
 
         poseStack.popPose();
     }
@@ -147,12 +135,33 @@ public final class LimaTechRenderUtil
         }
     }
 
-    private static void drawLockOnTriangle(VertexConsumer buffer, Matrix4f mx4, float y1, LimaColor color)
+    private static void drawLockOnQuad(VertexConsumer buffer, Matrix4f mx4, float yOffset, int angle, LimaColor color)
     {
-        float y2 = y1 + 1f;
-        buffer.addVertex(mx4, (float) 0, y1, 0).setColor(color.red(), color.green(), color.blue(), 1f).setUv(0, 0);
-        buffer.addVertex(mx4, (float) 0, y2, 0).setColor(color.red(), color.green(), color.blue(), 1f).setUv(0, 1);
-        buffer.addVertex(mx4, 1f, y2, 0).setColor(color.red(), color.green(), color.blue(), 1f).setUv(1, 1);
-        buffer.addVertex(mx4, 1f, y1, 0).setColor(color.red(), color.green(), color.blue(), 1f).setUv(1, 0);
+        float centerX = yOffset * Mth.cos(toRad(angle));
+        float centerY = yOffset * Mth.sin(toRad(angle));
+
+        float[] vtx = {
+                -0.5f, -0.5f,
+                -0.5f, 0.5f,
+                0.5f, 0.5f,
+                0.5f, -0.5f
+        };
+
+        float cos = Mth.cos(toRad(angle) - Mth.HALF_PI);
+        float sin = Mth.sin(toRad(angle) - Mth.HALF_PI);
+
+        for (int i = 0; i < vtx.length; i += 2)
+        {
+            float x = vtx[i] ;
+            float y = vtx[i + 1];
+
+            vtx[i] = (x * cos - y * sin) + centerX;
+            vtx[i + 1] = (x * sin + y * cos) + centerY;
+        }
+
+        buffer.addVertex(mx4, vtx[0], vtx[1], 0).setColor(color.red(), color.green(), color.blue(), 1f).setUv(0, 0);
+        buffer.addVertex(mx4, vtx[2], vtx[3], 0).setColor(color.red(), color.green(), color.blue(), 1f).setUv(0, 1);
+        buffer.addVertex(mx4, vtx[4], vtx[5], 0).setColor(color.red(), color.green(), color.blue(), 1f).setUv(1, 1);
+        buffer.addVertex(mx4, vtx[6], vtx[7], 0).setColor(color.red(), color.green(), color.blue(), 1f).setUv(1, 0);
     }
 }

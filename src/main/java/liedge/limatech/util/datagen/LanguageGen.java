@@ -24,8 +24,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageType;
 import net.neoforged.neoforge.registries.DeferredItem;
 
-import java.util.function.Supplier;
-
 import static liedge.limatech.client.LimaTechLang.*;
 import static liedge.limatech.registry.LimaTechBlocks.*;
 import static liedge.limatech.registry.LimaTechCreativeTabs.*;
@@ -67,7 +65,7 @@ class LanguageGen extends LimaLanguageProvider
         addBlock(FABRICATOR, "Fabricator");
         addBlock(EQUIPMENT_UPGRADE_STATION, "Equipment Upgrade Station");
 
-        addBlock(ROCKET_TURRET, "Anti-Air Rocket Turret");
+        addBlock(ROCKET_TURRET, ltxName("LTX A/DU %s", "Atmos"));
         //#endregion
 
         //#region Items
@@ -114,11 +112,11 @@ class LanguageGen extends LimaLanguageProvider
         simpleHintItem(EXPLOSIVES_WEAPON_TECH_SALVAGE, "Salvaged Tech: Explosive Weapon Systems", "Broken components from an explosives handling device. Might be useful in reconstructing explosive weaponry.");
         simpleHintItem(TARGETING_TECH_SALVAGE, "Salvaged Tech: Auto-Targeting Systems", "Broken electronics from a targeting computer. Might be useful in reconstructing guidance systems for weaponry.");
 
-        addWeaponItem(SUBMACHINE_GUN, "Serenity", "LTX-07/SD");
-        addWeaponItem(SHOTGUN, "Aurora", "LTX-21/SG");
-        addWeaponItem(GRENADE_LAUNCHER, "Hanabi", "LTX-33/GL");
-        addWeaponItem(ROCKET_LAUNCHER, "Daybreak", "LTX-42/RL");
-        addWeaponItem(MAGNUM, "Nova", "LTX-77/HX");
+        addItem(SUBMACHINE_GUN, ltxName("LTX 07/SD %s", "Serenity"));
+        addItem(SHOTGUN, ltxName("LTX 21/SG %s", "Aurora"));
+        addItem(GRENADE_LAUNCHER, ltxName("LTX 33/GL %s", "Hanabi"));
+        addItem(ROCKET_LAUNCHER, ltxName("LTX 42/RL %s", "Daybreak"));
+        addItem(MAGNUM, ltxName("LTX 77/HX %s", "Nova"));
 
         simpleHintItem(AUTO_AMMO_CANISTER, "Automatics Ammo Canister", "Stabilized energy suitable for use in low-power high frequency projectile synthesis.");
         simpleHintItem(SPECIALIST_AMMO_CANISTER, "Specialist Ammo Canister", "Concentrated energy suitable for use in medium-power projectile synthesis.");
@@ -176,6 +174,7 @@ class LanguageGen extends LimaLanguageProvider
         add(LimaTechMenus.MATERIAL_FUSING_CHAMBER, "Material Fusing Chamber");
         add(LimaTechMenus.FABRICATOR, "Fabricator");
         add(LimaTechMenus.EQUIPMENT_UPGRADE_STATION, "Equipment Upgrade Station");
+        add(LimaTechMenus.ROCKET_TURRET, "Atmos Turret");
         //#endregion
 
         // Machine input types
@@ -276,13 +275,14 @@ class LanguageGen extends LimaLanguageProvider
 
         // Sound subtitles
         soundEvent(WEAPON_MODE_SWITCH, "Weapon mode switched");
+        soundEvent(TURRET_TARGET_FOUND, "Turret finds targets");
         soundEvent(SUBMACHINE_GUN_LOOP, "Submachine gun firing");
         soundEvent(SHOTGUN_FIRE, "Shotgun fires");
         soundEvent(GRENADE_LAUNCHER_FIRE, "Grenade launched");
         soundEvent(ROCKET_LAUNCHER_FIRE, "Rocket launched");
         soundEvent(MAGNUM_FIRE, "Magnum fires");
         soundEvent(ROCKET_EXPLODE, "Rocket explodes");
-        GRENADE_SOUNDS.forEach((element, holder) -> soundEvent(holder, localizeSimpleName(element) + " grenade explodes"));
+        GRENADE_EXPLOSIONS.forEach((element, holder) -> soundEvent(holder, localizeSimpleName(element) + " grenade explodes"));
 
         // Orb grenade elements
         for (GrenadeType element : GrenadeType.values())
@@ -303,8 +303,8 @@ class LanguageGen extends LimaLanguageProvider
         damageType(LimaTechDamageTypes.NEURO_GRENADE, "%s was decayed by %s's %s");
         damageType(LimaTechDamageTypes.ROCKET_LAUNCHER, "%s was blown up by %s's %s");
 
-        traceableDamageSourceMessage(LimaTechDamageTypes.STICKY_FLAME, "%s was cooked well-done", "%s was cooked well-done by %s");
-        traceableDamageSourceMessage(LimaTechDamageTypes.TURRET_ROCKET, "%s was shot out of the sky by a rocket turret", "s was shot out of the sky by %s's rocket turret");
+        noItemCausingEntityOnlyDamageMessage(LimaTechDamageTypes.STICKY_FLAME, "%s was cooked well-done by %s", "%s was cooked well-done");
+        noItemCausingEntityOnlyDamageMessage(LimaTechDamageTypes.TURRET_ROCKET, "%s was shot down by %s's rocket turret", "%s was shot down by a rogue rocket turret");
 
         //#region Advancements
         //#endregion
@@ -331,15 +331,15 @@ class LanguageGen extends LimaLanguageProvider
         add(item.get().getShiftHint(), hint);
     }
 
-    private void addWeaponItem(Supplier<? extends WeaponItem> supplier, String name, String designation)
+    private String ltxName(String pattern, String name)
     {
-        addItem(supplier, name);
-        add(supplier.get().getDesignationId(), designation);
+        name = "§o" + name + "§r";
+        return String.format(pattern, name);
     }
 
-    private void traceableDamageSourceMessage(ResourceKey<DamageType> damageTypeKey, String translation, String entityTranslation)
+    private void noItemCausingEntityOnlyDamageMessage(ResourceKey<DamageType> damageTypeKey, String translation, String unownedTranslation)
     {
-        damageTypeAndVariants(damageTypeKey, translation, collector -> collector.accept("entity", entityTranslation));
+        damageTypeAndVariants(damageTypeKey, translation, collector -> collector.accept("unowned", unownedTranslation));
     }
 
     private void equipmentUpgrade(ResourceKey<EquipmentUpgrade> key, String title, String description)

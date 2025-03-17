@@ -1,7 +1,7 @@
 package liedge.limatech.blockentity;
 
 import liedge.limacore.capability.energy.EnergyHolderBlockEntity;
-import liedge.limacore.capability.itemhandler.LimaItemHandlerBase;
+import liedge.limacore.capability.itemhandler.ItemHolderBlockEntity;
 import liedge.limacore.util.LimaMathUtil;
 import liedge.limatech.lib.upgrades.machine.MachineUpgrades;
 import liedge.limatech.registry.LimaTechDataComponents;
@@ -9,14 +9,12 @@ import liedge.limatech.registry.LimaTechUpgradeEffectComponents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 
-public interface UpgradableMachineBlockEntity extends SubMenuProviderBlockEntity
+public interface UpgradableMachineBlockEntity extends SubMenuProviderBlockEntity, ItemHolderBlockEntity
 {
     static MachineUpgrades getMachineUpgradesFromItem(ItemStack stack)
     {
         return stack.getOrDefault(LimaTechDataComponents.MACHINE_UPGRADES, MachineUpgrades.EMPTY);
     }
-
-    LimaItemHandlerBase getUpgradeModuleInventory();
 
     MachineUpgrades getUpgrades();
 
