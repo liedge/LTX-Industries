@@ -2,7 +2,6 @@ package liedge.limatech.blockentity;
 
 import liedge.limacore.blockentity.IOAccess;
 import liedge.limacore.blockentity.LimaBlockEntity;
-import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.capability.energy.EnergyHolderBlockEntity;
 import liedge.limacore.capability.energy.LimaBlockEntityEnergyStorage;
 import liedge.limacore.capability.itemhandler.LimaBlockEntityItemHandler;
@@ -10,9 +9,10 @@ import liedge.limacore.capability.itemhandler.LimaItemHandlerBase;
 import liedge.limacore.data.LimaCoreCodecs;
 import liedge.limacore.inventory.menu.LimaMenuProvider;
 import liedge.limacore.util.LimaNbtUtil;
-import liedge.limatech.blockentity.io.MachineIOControl;
-import liedge.limatech.blockentity.io.MachineInputType;
-import liedge.limatech.blockentity.io.SidedMachineIOHolder;
+import liedge.limatech.blockentity.base.SidedAccessBlockEntityType;
+import liedge.limatech.blockentity.base.IOController;
+import liedge.limatech.blockentity.base.BlockEntityInputType;
+import liedge.limatech.blockentity.base.SidedAccessBlockEntity;
 import liedge.limatech.lib.upgrades.machine.MachineUpgrades;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -26,7 +26,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
 
 import static liedge.limacore.LimaCommonConstants.KEY_ENERGY_CONTAINER;
 import static liedge.limacore.LimaCommonConstants.KEY_ITEM_CONTAINER;
@@ -35,29 +34,25 @@ import static liedge.limacore.registry.LimaCoreDataComponents.ITEM_CONTAINER;
 import static liedge.limatech.registry.LimaTechDataComponents.MACHINE_UPGRADES;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING;
 
-public abstract class SidedItemEnergyMachineBlockEntity extends LimaBlockEntity implements LimaMenuProvider, EnergyHolderBlockEntity, UpgradableMachineBlockEntity, SidedMachineIOHolder
+public abstract class SidedItemEnergyMachineBlockEntity extends LimaBlockEntity implements LimaMenuProvider, EnergyHolderBlockEntity, UpgradableMachineBlockEntity, SidedAccessBlockEntity
 {
     private final LimaBlockEntityItemHandler inventory;
-    private final MachineIOControl energyControl;
-    private final MachineIOControl itemControl;
+    private final IOController energyControl;
+    private final IOController itemControl;
     private final LimaBlockEntityItemHandler upgradeModuleSlot;
     private MachineUpgrades upgrades = MachineUpgrades.EMPTY;
 
-    protected SidedItemEnergyMachineBlockEntity(LimaBlockEntityType<?> type, BlockPos pos, BlockState state, int inventorySize)
+    protected SidedItemEnergyMachineBlockEntity(SidedAccessBlockEntityType<?> type, BlockPos pos, BlockState state, int inventorySize)
     {
         super(type, pos, state);
         this.inventory = new LimaBlockEntityItemHandler(this, inventorySize);
         this.upgradeModuleSlot = new LimaBlockEntityItemHandler(this, 1, 1);
         Direction front = state.getValue(HORIZONTAL_FACING);
-        this.energyControl = initEnergyIOControl(front);
-        this.itemControl = initItemIOControl(front);
+        this.energyControl = new IOController(this, BlockEntityInputType.ENERGY, front);
+        this.itemControl = new IOController(this, BlockEntityInputType.ITEMS, front);
     }
 
     // IO control methods/initializers
-    protected abstract MachineIOControl initItemIOControl(Direction front);
-
-    protected abstract MachineIOControl initEnergyIOControl(Direction front);
-
     @Override
     public void onBlockStateUpdated(BlockPos pos, BlockState oldState, BlockState newState)
     {
@@ -71,18 +66,18 @@ public abstract class SidedItemEnergyMachineBlockEntity extends LimaBlockEntity 
     }
 
     @Override
-    public @Nullable MachineIOControl getIOControls(MachineInputType inputType)
+    public IOController getIOController(BlockEntityInputType inputType) throws IllegalArgumentException
     {
         return switch (inputType)
         {
             case ITEMS -> itemControl;
             case ENERGY -> energyControl;
-            case FLUIDS -> null;
+            case FLUIDS -> throw new IllegalArgumentException("Fluid IO controls not supported.");
         };
     }
 
     @Override
-    public void onIOControlsChanged(MachineInputType inputType)
+    public void onIOControlsChanged(BlockEntityInputType inputType)
     {
         if (level != null && !level.isClientSide())
         {
@@ -92,17 +87,17 @@ public abstract class SidedItemEnergyMachineBlockEntity extends LimaBlockEntity 
         }
     }
 
-    public MachineIOControl getItemControl()
+    public IOController getItemControl()
     {
         return itemControl;
     }
 
-    public MachineIOControl getEnergyControl()
+    public IOController getEnergyControl()
     {
         return energyControl;
     }
 
-    protected void onIOControlsChangedInternal(MachineInputType inputType, Level level) {}
+    protected void onIOControlsChangedInternal(BlockEntityInputType inputType, Level level) {}
 
     // Item handler methods
     @Override
@@ -144,12 +139,6 @@ public abstract class SidedItemEnergyMachineBlockEntity extends LimaBlockEntity 
     }
 
     // Energy methods
-    @Override
-    public void onEnergyChanged()
-    {
-        setChanged();
-    }
-
     @Override
     public IOAccess getEnergyIOForSide(Direction side)
     {
@@ -213,5 +202,11 @@ public abstract class SidedItemEnergyMachineBlockEntity extends LimaBlockEntity 
         itemControl.setFacing(front);
 
         reloadUpgrades();
+    }
+
+    @Override
+    public SidedAccessBlockEntityType<?> getType()
+    {
+        return (SidedAccessBlockEntityType<?>) super.getType();
     }
 }

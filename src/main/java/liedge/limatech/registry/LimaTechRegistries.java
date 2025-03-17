@@ -21,8 +21,11 @@ public final class LimaTechRegistries
     {
         private Keys() {}
 
+        // Game registries
         public static final ResourceKey<Registry<DataComponentType<?>>> UPGRADE_COMPONENT_TYPES = RESOURCES.registryResourceKey("upgrade_component");
         public static final ResourceKey<Registry<MapCodec<? extends EquipmentUpgradeEffect>>> EQUIPMENT_UPGRADE_EFFECT_TYPES = RESOURCES.registryResourceKey("equipment_upgrade_effect");
+
+        // Data registries
         public static final ResourceKey<Registry<EquipmentUpgrade>> EQUIPMENT_UPGRADES = RESOURCES.registryResourceKey("equipment_upgrade");
         public static final ResourceKey<Registry<MachineUpgrade>> MACHINE_UPGRADES = RESOURCES.registryResourceKey("machine_upgrade");
     }

@@ -1,23 +1,18 @@
 package liedge.limatech.blockentity;
 
-import liedge.limacore.blockentity.IOAccess;
-import liedge.limacore.blockentity.IOAccessSets;
-import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.capability.energy.InfiniteEnergyStorage;
 import liedge.limacore.capability.energy.LimaEnergyStorage;
 import liedge.limacore.lib.LimaColor;
 import liedge.limatech.LimaTechConstants;
-import liedge.limatech.blockentity.io.MachineIOControl;
-import liedge.limatech.blockentity.io.MachineInputType;
+import liedge.limatech.registry.LimaTechBlockEntities;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class InfiniteESABlockEntity extends BaseESABlockEntity
 {
-    public InfiniteESABlockEntity(LimaBlockEntityType<?> type, BlockPos pos, BlockState state)
+    public InfiniteESABlockEntity(BlockPos pos, BlockState state)
     {
-        super(type, pos, state);
+        super(LimaTechBlockEntities.INFINITE_ENERGY_STORAGE_ARRAY.get(), pos, state);
     }
 
     @Override
@@ -30,12 +25,6 @@ public class InfiniteESABlockEntity extends BaseESABlockEntity
     public float getRemoteEnergyFill()
     {
         return 1f;
-    }
-
-    @Override
-    protected MachineIOControl initEnergyIOControl(Direction front)
-    {
-        return new MachineIOControl(this, MachineInputType.ENERGY, IOAccessSets.OUTPUT_ONLY_OR_DISABLED, IOAccess.OUTPUT_ONLY, front, false, true);
     }
 
     @Override

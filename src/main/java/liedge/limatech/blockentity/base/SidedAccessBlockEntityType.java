@@ -1,37 +1,65 @@
 package liedge.limatech.blockentity.base;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import liedge.limacore.blockentity.IOAccess;
 import liedge.limacore.blockentity.LimaBlockEntity;
 import liedge.limacore.blockentity.LimaBlockEntityType;
+import liedge.limacore.util.LimaCollectionsUtil;
+import liedge.limacore.util.LimaRegistryUtil;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Holder;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Block;
 
-import java.util.EnumSet;
-import java.util.Set;
+import java.util.*;
 
 public final class SidedAccessBlockEntityType<BE extends LimaBlockEntity> extends LimaBlockEntityType<BE>
 {
     public static final Set<Direction> ALL_SIDES = ImmutableSet.copyOf(EnumSet.allOf(Direction.class));
 
-    public static <BE extends LimaBlockEntity> SidedAccessBlockEntityType<BE> create(WithTypeConstructor<BE> constructor, Holder<Block> holder, Set<IOAccess> validIOStates, Set<Direction> activeSides)
+    private final Map<BlockEntityInputType, SidedAccessRules> accessRules;
+    private final Set<BlockEntityInputType> validInputTypes;
+
+    public SidedAccessBlockEntityType(BlockEntitySupplier<BE> factory, Set<Block> validBlocks, Map<BlockEntityInputType, SidedAccessRules> accessRules)
     {
-        return new SidedAccessBlockEntityType<>(constructor, Set.of(holder.value()), activeSides, validIOStates);
+        super(factory, validBlocks);
+        this.accessRules = accessRules;
+        this.validInputTypes = Collections.unmodifiableSet(accessRules.keySet());
     }
 
-    public static <BE extends LimaBlockEntity> SidedAccessBlockEntityType<BE> create(WithTypeConstructor<BE> constructor, Holder<Block> holder, Set<IOAccess> validIOStates)
+    public Collection<BlockEntityInputType> getValidInputTypes()
     {
-        return create(constructor, holder, validIOStates, ALL_SIDES);
+        return validInputTypes;
     }
 
-    private final Set<Direction> activeSides;
-    private final Set<IOAccess> validIOStates;
-
-    private SidedAccessBlockEntityType(WithTypeConstructor<BE> constructor, Set<Block> validBlocks, Set<Direction> activeSides, Set<IOAccess> validIOStates)
+    public SidedAccessRules getSideAccessRules(BlockEntityInputType inputType)
     {
-        super(constructor, validBlocks);
-        this.activeSides = activeSides;
-        this.validIOStates = validIOStates;
+        return Objects.requireNonNull(accessRules.get(inputType), () -> String.format("Block entity type %s does not support input type %s", LimaRegistryUtil.getNonNullRegistryId(this, BuiltInRegistries.BLOCK_ENTITY_TYPE), inputType));
+    }
+
+    public static class Builder<BE extends LimaBlockEntity> extends AbstractBuilder<BE, SidedAccessBlockEntityType<BE>, Builder<BE>>
+    {
+        public static <BE extends LimaBlockEntity> Builder<BE> builder(BlockEntitySupplier<BE> factory)
+        {
+            return new Builder<>(factory);
+        }
+
+        private final Map<BlockEntityInputType, SidedAccessRules> ruleMap = new EnumMap<>(BlockEntityInputType.class);
+
+        private Builder(BlockEntitySupplier<BE> factory)
+        {
+            super(factory);
+        }
+
+        public Builder<BE> withSideRules(BlockEntityInputType inputType, SidedAccessRules rules)
+        {
+            LimaCollectionsUtil.putNoDuplicates(ruleMap, inputType, rules);
+            return this;
+        }
+
+        @Override
+        protected SidedAccessBlockEntityType<BE> build(BlockEntitySupplier<BE> factory, Set<Block> validBlocks)
+        {
+            return new SidedAccessBlockEntityType<>(factory, validBlocks, ImmutableMap.copyOf(ruleMap));
+        }
     }
 }

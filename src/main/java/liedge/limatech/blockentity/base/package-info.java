@@ -1,4 +1,4 @@
 @AllNotNull
-package liedge.limatech.blockentity.io;
+package liedge.limatech.blockentity.base;
 
 import liedge.limacore.AllNotNull;

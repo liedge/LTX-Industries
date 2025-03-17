@@ -1,8 +1,6 @@
 package liedge.limatech.blockentity;
 
 import liedge.limacore.blockentity.IOAccess;
-import liedge.limacore.blockentity.IOAccessSets;
-import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.capability.energy.LimaBlockEntityEnergyStorage;
 import liedge.limacore.capability.energy.LimaEnergyStorage;
 import liedge.limacore.capability.energy.LimaEnergyUtil;
@@ -15,9 +13,8 @@ import liedge.limacore.recipe.MutableRecipeReference;
 import liedge.limacore.registry.LimaCoreNetworkSerializers;
 import liedge.limacore.util.LimaItemUtil;
 import liedge.limacore.util.LimaMathUtil;
-import liedge.limatech.blockentity.io.MachineIOControl;
-import liedge.limatech.blockentity.io.MachineInputType;
 import liedge.limatech.recipe.FabricatingRecipe;
+import liedge.limatech.registry.LimaTechBlockEntities;
 import liedge.limatech.registry.LimaTechMenus;
 import liedge.limatech.registry.LimaTechRecipeTypes;
 import net.minecraft.core.BlockPos;
@@ -53,9 +50,9 @@ public class FabricatorBlockEntity extends SidedItemEnergyMachineBlockEntity
     private int autoOutputTimer;
     private int clientProcessTime;
 
-    public FabricatorBlockEntity(LimaBlockEntityType<?> type, BlockPos pos, BlockState state)
+    public FabricatorBlockEntity(BlockPos pos, BlockState state)
     {
-        super(type, pos, state, 2);
+        super(LimaTechBlockEntities.FABRICATOR.get(), pos, state, 2);
         this.machineEnergy = new LimaBlockEntityEnergyStorage(this);
     }
 
@@ -74,18 +71,6 @@ public class FabricatorBlockEntity extends SidedItemEnergyMachineBlockEntity
     public LimaDataWatcher<Integer> keepProgressSynced()
     {
         return AutomaticDataWatcher.keepSynced(LimaCoreNetworkSerializers.VAR_INT, this::getClientProcessTime, i -> this.clientProcessTime = i);
-    }
-
-    @Override
-    protected MachineIOControl initItemIOControl(Direction front)
-    {
-        return new MachineIOControl(this, MachineInputType.ITEMS, IOAccessSets.OUTPUT_ONLY_OR_DISABLED, IOAccess.DISABLED, front);
-    }
-
-    @Override
-    protected MachineIOControl initEnergyIOControl(Direction front)
-    {
-        return new MachineIOControl(this, MachineInputType.ENERGY, IOAccessSets.INPUT_ONLY_OR_DISABLED, IOAccess.INPUT_ONLY, front);
     }
 
     @Override
@@ -153,7 +138,7 @@ public class FabricatorBlockEntity extends SidedItemEnergyMachineBlockEntity
 
         if (insertResult && recipe != null)
         {
-            getItemHandler().insertItem(1, recipe.assemble(null, nonNullRegistryAccess()), false);
+            getItemHandler().insertItem(1, recipe.assemble(null, nonNullLevel().registryAccess()), false);
         }
 
         energyUsedForRecipe = 0;
@@ -281,17 +266,5 @@ public class FabricatorBlockEntity extends SidedItemEnergyMachineBlockEntity
         tag.put("current_recipe", currentRecipe.serializeNBT(registries));
         tag.putBoolean("crafting", crafting);
         tag.putInt("recipe_energy", energyUsedForRecipe);
-    }
-
-    @Override
-    public boolean allowsAutoInput(MachineInputType inputType)
-    {
-        return false;
-    }
-
-    @Override
-    public boolean allowsAutoOutput(MachineInputType inputType)
-    {
-        return inputType == MachineInputType.ITEMS;
     }
 }

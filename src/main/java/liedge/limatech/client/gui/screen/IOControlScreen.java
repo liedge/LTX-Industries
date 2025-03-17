@@ -8,7 +8,7 @@ import liedge.limacore.lib.Translatable;
 import liedge.limacore.registry.LimaCoreNetworkSerializers;
 import liedge.limatech.LimaTech;
 import liedge.limatech.LimaTechConstants;
-import liedge.limatech.blockentity.io.MachineIOControl;
+import liedge.limatech.blockentity.base.IOController;
 import liedge.limatech.client.gui.widget.LimaBackButton;
 import liedge.limatech.client.gui.widget.LimaRenderableButton;
 import liedge.limatech.menu.IOControlMenu;
@@ -33,7 +33,7 @@ public class IOControlScreen extends LimaMenuScreen<IOControlMenu>
     private static final UnmanagedSprite AUTO_OUTPUT_ENABLED = new UnmanagedSprite(TEXTURE, 204, 16, 14, 14);
     private static final UnmanagedSprite AUTO_INPUT_ENABLED = new UnmanagedSprite(TEXTURE, 218, 16, 14, 14);
 
-    private final MachineIOControl ioControl;
+    private final IOController ioControl;
 
     public IOControlScreen(IOControlMenu menu, Inventory inventory, Component title)
     {

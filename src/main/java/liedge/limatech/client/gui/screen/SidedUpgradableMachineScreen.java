@@ -1,6 +1,6 @@
 package liedge.limatech.client.gui.screen;
 
-import liedge.limatech.blockentity.io.MachineInputType;
+import liedge.limatech.blockentity.base.BlockEntityInputType;
 import liedge.limatech.client.gui.widget.OpenIOControlButton;
 import liedge.limatech.menu.SidedUpgradableMachineMenu;
 import net.minecraft.network.chat.Component;
@@ -19,7 +19,7 @@ public abstract class SidedUpgradableMachineScreen<M extends SidedUpgradableMach
     protected void addSidebarWidgets()
     {
         super.addSidebarWidgets();
-        addRenderableWidget(new OpenIOControlButton(rightPos, topPos + 23, this, IO_CONTROLS_BUTTON_ID, MachineInputType.ITEMS));
-        addRenderableWidget(new OpenIOControlButton(rightPos, topPos + 43, this, IO_CONTROLS_BUTTON_ID, MachineInputType.ENERGY));
+        addRenderableWidget(new OpenIOControlButton(rightPos, topPos + 23, this, IO_CONTROLS_BUTTON_ID, BlockEntityInputType.ITEMS));
+        addRenderableWidget(new OpenIOControlButton(rightPos, topPos + 43, this, IO_CONTROLS_BUTTON_ID, BlockEntityInputType.ENERGY));
     }
 }

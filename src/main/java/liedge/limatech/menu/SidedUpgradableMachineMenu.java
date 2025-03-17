@@ -3,11 +3,11 @@ package liedge.limatech.menu;
 import liedge.limacore.capability.itemhandler.ItemHolderBlockEntity;
 import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limatech.blockentity.UpgradableMachineBlockEntity;
-import liedge.limatech.blockentity.io.SidedMachineIOHolder;
+import liedge.limatech.blockentity.base.SidedAccessBlockEntity;
 import liedge.limatech.registry.LimaTechNetworkSerializers;
 import net.minecraft.world.entity.player.Inventory;
 
-public abstract class SidedUpgradableMachineMenu<CTX extends ItemHolderBlockEntity & SidedMachineIOHolder & UpgradableMachineBlockEntity> extends UpgradableMachineMenu<CTX>
+public abstract class SidedUpgradableMachineMenu<CTX extends ItemHolderBlockEntity & SidedAccessBlockEntity & UpgradableMachineBlockEntity> extends UpgradableMachineMenu<CTX>
 {
     public static final int IO_CONTROLS_BUTTON_ID = 1;
 

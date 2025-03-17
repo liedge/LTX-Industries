@@ -1,7 +1,7 @@
 package liedge.limatech.blockentity;
 
-import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.inventory.menu.LimaMenuType;
+import liedge.limatech.registry.LimaTechBlockEntities;
 import liedge.limatech.registry.LimaTechMenus;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -14,9 +14,9 @@ import static liedge.limatech.util.config.LimaTechMachinesConfig.*;
 
 public class DigitalFurnaceBlockEntity extends SimpleRecipeMachineBlockEntity<SingleRecipeInput, SmeltingRecipe>
 {
-    public DigitalFurnaceBlockEntity(LimaBlockEntityType<?> type, BlockPos pos, BlockState state)
+    public DigitalFurnaceBlockEntity(BlockPos pos, BlockState state)
     {
-        super(type, pos, state, DIGITAL_FURNACE_ENERGY_CAPACITY.getAsInt(), 3);
+        super(LimaTechBlockEntities.DIGITAL_FURNACE.get(), pos, state, DIGITAL_FURNACE_ENERGY_CAPACITY.getAsInt(), 3);
     }
 
     @Override

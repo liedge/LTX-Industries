@@ -2,7 +2,7 @@ package liedge.limatech.client.gui.widget;
 
 import liedge.limacore.client.gui.LimaMenuScreen;
 import liedge.limacore.client.gui.UnmanagedSprite;
-import liedge.limatech.blockentity.io.MachineInputType;
+import liedge.limatech.blockentity.base.BlockEntityInputType;
 import liedge.limatech.registry.LimaTechNetworkSerializers;
 import net.minecraft.client.gui.components.Tooltip;
 
@@ -12,9 +12,9 @@ public class OpenIOControlButton extends LimaSidebarButton
 {
     private final LimaMenuScreen<?> parent;
     private final int buttonId;
-    private final MachineInputType inputType;
+    private final BlockEntityInputType inputType;
 
-    public OpenIOControlButton(int x, int y, LimaMenuScreen<?> parent, int buttonId, MachineInputType inputType)
+    public OpenIOControlButton(int x, int y, LimaMenuScreen<?> parent, int buttonId, BlockEntityInputType inputType)
     {
         super(x, y, inputType.translate());
         this.parent = parent;

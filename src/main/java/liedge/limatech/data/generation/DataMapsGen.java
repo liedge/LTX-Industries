@@ -1,4 +1,4 @@
-package liedge.limatech.util.datagen;
+package liedge.limatech.data.generation;
 
 import liedge.limatech.LimaTechTags;
 import liedge.limatech.lib.CompoundValueOperation;

@@ -2,15 +2,14 @@ package liedge.limatech.blockentity;
 
 import liedge.limacore.blockentity.IOAccess;
 import liedge.limacore.blockentity.IOAccessSets;
-import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.capability.energy.LimaBlockEntityEnergyStorage;
 import liedge.limacore.capability.energy.LimaEnergyStorage;
 import liedge.limacore.capability.energy.LimaEnergyUtil;
 import liedge.limacore.capability.itemhandler.LimaItemHandlerBase;
 import liedge.limacore.capability.itemhandler.LimaItemHandlerUtil;
 import liedge.limacore.util.LimaItemUtil;
-import liedge.limatech.blockentity.io.MachineIOControl;
-import liedge.limatech.blockentity.io.MachineInputType;
+import liedge.limatech.blockentity.base.SidedAccessBlockEntityType;
+import liedge.limatech.blockentity.base.SidedAccessRules;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -37,6 +36,9 @@ import static liedge.limatech.block.LimaTechBlockProperties.MACHINE_WORKING;
 
 public abstract class SimpleRecipeMachineBlockEntity<I extends RecipeInput, R extends Recipe<I>> extends SidedItemEnergyMachineBlockEntity implements TimedProcessMachineBlockEntity
 {
+    public static final SidedAccessRules ITEM_ACCESS_RULES = SidedAccessRules.allSides(IOAccessSets.ALL_ALLOWED, IOAccess.DISABLED, false, true);
+    public static final SidedAccessRules ENERGY_ACCESS_RULES = SidedAccessRules.allSides(IOAccessSets.INPUT_ONLY_OR_DISABLED, IOAccess.INPUT_ONLY, false, false);
+
     private final LimaBlockEntityEnergyStorage machineEnergy;
     private final int baseEnergyCapacity;
     private final int baseEnergyTransferRate;
@@ -51,24 +53,12 @@ public abstract class SimpleRecipeMachineBlockEntity<I extends RecipeInput, R ex
     private int autoOutputTimer = 0;
     private @Nullable RecipeHolder<R> lastUsedRecipe;
 
-    protected SimpleRecipeMachineBlockEntity(LimaBlockEntityType<?> type, BlockPos pos, BlockState state, int baseEnergyCapacity, int inventorySize)
+    protected SimpleRecipeMachineBlockEntity(SidedAccessBlockEntityType<?> type, BlockPos pos, BlockState state, int baseEnergyCapacity, int inventorySize)
     {
         super(type, pos, state, inventorySize);
         this.baseEnergyCapacity = baseEnergyCapacity;
         this.baseEnergyTransferRate = baseEnergyCapacity / 20;
         this.machineEnergy = new LimaBlockEntityEnergyStorage(this);
-    }
-
-    @Override
-    protected MachineIOControl initItemIOControl(Direction front)
-    {
-        return new MachineIOControl(this, MachineInputType.ITEMS, IOAccessSets.ALL_ALLOWED, IOAccess.DISABLED, front, false, true);
-    }
-
-    @Override
-    protected MachineIOControl initEnergyIOControl(Direction front)
-    {
-        return new MachineIOControl(this, MachineInputType.ENERGY, IOAccessSets.INPUT_ONLY_OR_DISABLED, IOAccess.INPUT_ONLY, front);
     }
 
     @Override
@@ -125,18 +115,6 @@ public abstract class SimpleRecipeMachineBlockEntity<I extends RecipeInput, R ex
         }
 
         return super.isItemValid(handlerIndex, slot, stack);
-    }
-
-    @Override
-    public boolean allowsAutoInput(MachineInputType inputType)
-    {
-        return false;
-    }
-
-    @Override
-    public boolean allowsAutoOutput(MachineInputType inputType)
-    {
-        return inputType == MachineInputType.ITEMS;
     }
 
     @Override

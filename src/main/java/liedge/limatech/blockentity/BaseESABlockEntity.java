@@ -2,15 +2,15 @@ package liedge.limatech.blockentity;
 
 import liedge.limacore.blockentity.IOAccess;
 import liedge.limacore.blockentity.IOAccessSets;
-import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.capability.energy.LimaEnergyStorage;
 import liedge.limacore.capability.energy.LimaEnergyUtil;
 import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limacore.lib.LimaColor;
 import liedge.limacore.util.LimaItemUtil;
 import liedge.limatech.block.LimaTechBlockProperties;
-import liedge.limatech.blockentity.io.MachineIOControl;
-import liedge.limatech.blockentity.io.MachineInputType;
+import liedge.limatech.blockentity.base.SidedAccessBlockEntityType;
+import liedge.limatech.blockentity.base.SidedAccessRules;
+import liedge.limatech.blockentity.base.BlockEntityInputType;
 import liedge.limatech.registry.LimaTechMenus;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -29,9 +29,11 @@ import java.util.stream.Stream;
 
 public abstract class BaseESABlockEntity extends SidedItemEnergyMachineBlockEntity
 {
+    public static final SidedAccessRules ITEM_ACCESS_RULES = SidedAccessRules.allSides(IOAccessSets.ALL_ALLOWED, IOAccess.DISABLED, false, false);
+
     private final Map<Direction, BlockCapabilityCache<IEnergyStorage, Direction>> energyConnections = new EnumMap<>(Direction.class);
 
-    public BaseESABlockEntity(LimaBlockEntityType<?> type, BlockPos pos, BlockState state)
+    public BaseESABlockEntity(SidedAccessBlockEntityType<?> type, BlockPos pos, BlockState state)
     {
         super(type, pos, state, 5);
     }
@@ -39,12 +41,6 @@ public abstract class BaseESABlockEntity extends SidedItemEnergyMachineBlockEnti
     public abstract LimaColor getRemoteEnergyFillColor();
 
     public abstract float getRemoteEnergyFill();
-
-    @Override
-    protected MachineIOControl initItemIOControl(Direction front)
-    {
-        return new MachineIOControl(this, MachineInputType.ITEMS, IOAccessSets.ALL_ALLOWED, IOAccess.DISABLED, front, false, false);
-    }
 
     @Override
     public IOAccess getItemSlotIO(int handlerIndex, int slot)
@@ -136,21 +132,9 @@ public abstract class BaseESABlockEntity extends SidedItemEnergyMachineBlockEnti
     }
 
     @Override
-    protected void onIOControlsChangedInternal(MachineInputType inputType, Level level)
+    protected void onIOControlsChangedInternal(BlockEntityInputType inputType, Level level)
     {
         updateAndSyncBlockState(level);
-    }
-
-    @Override
-    public boolean allowsAutoInput(MachineInputType inputType)
-    {
-        return false;
-    }
-
-    @Override
-    public boolean allowsAutoOutput(MachineInputType inputType)
-    {
-        return inputType == MachineInputType.ENERGY;
     }
 
     private void updateAndSyncBlockState(Level level)

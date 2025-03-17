@@ -3,7 +3,7 @@ package liedge.limatech.registry;
 import liedge.limacore.network.NetworkSerializer;
 import liedge.limacore.registry.LimaCoreRegistries;
 import liedge.limatech.LimaTech;
-import liedge.limatech.blockentity.io.MachineInputType;
+import liedge.limatech.blockentity.base.BlockEntityInputType;
 import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.limatech.lib.upgrades.machine.MachineUpgrades;
 import net.neoforged.bus.api.IEventBus;
@@ -23,5 +23,5 @@ public final class LimaTechNetworkSerializers
 
     public static final DeferredHolder<NetworkSerializer<?>, NetworkSerializer<EquipmentUpgrades>> ITEM_EQUIPMENT_UPGRADES = SERIALIZERS.register("equipment_upgrades", id -> NetworkSerializer.create(id, EquipmentUpgrades.STREAM_CODEC));
     public static final DeferredHolder<NetworkSerializer<?>, NetworkSerializer<MachineUpgrades>> ITEM_MACHINE_UPGRADES = SERIALIZERS.register("machine_upgrades", id -> NetworkSerializer.create(id, MachineUpgrades.STREAM_CODEC));
-    public static final DeferredHolder<NetworkSerializer<?>, NetworkSerializer<MachineInputType>> MACHINE_INPUT_TYPE = SERIALIZERS.register("machine_input_type", id -> NetworkSerializer.create(id, MachineInputType.STREAM_CODEC));
+    public static final DeferredHolder<NetworkSerializer<?>, NetworkSerializer<BlockEntityInputType>> MACHINE_INPUT_TYPE = SERIALIZERS.register("machine_input_type", id -> NetworkSerializer.create(id, BlockEntityInputType.STREAM_CODEC));
 }

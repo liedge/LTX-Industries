@@ -3,7 +3,6 @@ package liedge.limatech.blockentity;
 import it.unimi.dsi.fastutil.ints.IntList;
 import liedge.limacore.blockentity.IOAccess;
 import liedge.limacore.blockentity.LimaBlockEntity;
-import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.blockentity.OwnableBlockEntity;
 import liedge.limacore.capability.energy.EnergyHolderBlockEntity;
 import liedge.limacore.capability.energy.LimaBlockEntityEnergyStorage;
@@ -26,11 +25,13 @@ import liedge.limatech.entity.BaseRocketEntity;
 import liedge.limatech.entity.LimaTechEntityUtil;
 import liedge.limatech.lib.TurretTargetList;
 import liedge.limatech.lib.upgrades.machine.MachineUpgrades;
+import liedge.limatech.registry.LimaTechBlockEntities;
 import liedge.limatech.registry.LimaTechMenus;
 import liedge.limatech.registry.LimaTechSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.resources.RegistryOps;
@@ -51,8 +52,11 @@ import java.util.*;
 
 import static liedge.limacore.LimaCommonConstants.KEY_ENERGY_CONTAINER;
 import static liedge.limacore.LimaCommonConstants.KEY_ITEM_CONTAINER;
+import static liedge.limacore.registry.LimaCoreDataComponents.ENERGY;
+import static liedge.limacore.registry.LimaCoreDataComponents.ITEM_CONTAINER;
 import static liedge.limacore.util.LimaMathUtil.toDeg;
 import static liedge.limacore.util.LimaMathUtil.vec2Length;
+import static liedge.limatech.registry.LimaTechDataComponents.MACHINE_UPGRADES;
 
 public class RocketTurretBlockEntity extends LimaBlockEntity implements LimaMenuProvider, EnergyHolderBlockEntity, UpgradableMachineBlockEntity, OwnableBlockEntity
 {
@@ -77,9 +81,9 @@ public class RocketTurretBlockEntity extends LimaBlockEntity implements LimaMenu
     private float turretXRot0;
     private float turretXRot;
 
-    public RocketTurretBlockEntity(LimaBlockEntityType<?> type, BlockPos pos, BlockState state)
+    public RocketTurretBlockEntity(BlockPos pos, BlockState state)
     {
-        super(type, pos, state);
+        super(LimaTechBlockEntities.ROCKET_TURRET.get(), pos, state);
         this.inventory = new LimaBlockEntityItemHandler(this, 21);
         this.upgradeModuleSlot = new LimaBlockEntityItemHandler(this, 1, 1);
         this.energyStorage = new LimaBlockEntityEnergyStorage(this);
@@ -153,12 +157,6 @@ public class RocketTurretBlockEntity extends LimaBlockEntity implements LimaMenu
     public LimaEnergyStorage getEnergyStorage()
     {
         return energyStorage;
-    }
-
-    @Override
-    public void onEnergyChanged()
-    {
-        setChanged();
     }
 
     @Override
@@ -341,6 +339,22 @@ public class RocketTurretBlockEntity extends LimaBlockEntity implements LimaMenu
             turretYRot0 = turretYRot;
             turretYRot = (turretYRot - 2) % 360;
         }
+    }
+
+    @Override
+    protected void collectImplicitComponents(DataComponentMap.Builder components)
+    {
+        components.set(ENERGY, energyStorage.getEnergyStored());
+        components.set(ITEM_CONTAINER, inventory.copyToComponent());
+        components.set(MACHINE_UPGRADES, upgrades);
+    }
+
+    @Override
+    public void removeComponentsFromTag(CompoundTag tag)
+    {
+        tag.remove(KEY_ENERGY_CONTAINER);
+        tag.remove(KEY_ITEM_CONTAINER);
+        tag.remove("upgrades");
     }
 
     @Override

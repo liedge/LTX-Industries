@@ -1,4 +1,4 @@
-package liedge.limatech.util.datagen;
+package liedge.limatech.data.generation;
 
 import liedge.limacore.data.generation.loot.LimaLootModifierProvider;
 import liedge.limacore.world.loot.AddItemLootModifier;

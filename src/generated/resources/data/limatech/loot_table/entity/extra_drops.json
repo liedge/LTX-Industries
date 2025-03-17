@@ -61,7 +61,12 @@
           ]
         }
       ],
-      "entries": [],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:echo_shard"
+        }
+      ],
       "functions": [
         {
           "add": false,

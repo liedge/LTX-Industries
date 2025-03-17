@@ -1,10 +1,10 @@
-package liedge.limatech.util.datagen;
+package liedge.limatech.data.generation;
 
 import liedge.limacore.LimaCoreTags;
 import liedge.limacore.data.generation.LimaLanguageProvider;
 import liedge.limatech.LimaTech;
 import liedge.limatech.LimaTechTags;
-import liedge.limatech.blockentity.io.MachineInputType;
+import liedge.limatech.blockentity.base.BlockEntityInputType;
 import liedge.limatech.client.LimaTechKeyMappings;
 import liedge.limatech.client.LimaTechLang;
 import liedge.limatech.item.SimpleHintItem;
@@ -178,9 +178,9 @@ class LanguageGen extends LimaLanguageProvider
         //#endregion
 
         // Machine input types
-        add(MachineInputType.ITEMS, "Items IO Control");
-        add(MachineInputType.ENERGY, "Energy IO Control");
-        add(MachineInputType.FLUIDS, "Fluids IO Control");
+        add(BlockEntityInputType.ITEMS, "Items IO Control");
+        add(BlockEntityInputType.ENERGY, "Energy IO Control");
+        add(BlockEntityInputType.FLUIDS, "Fluids IO Control");
 
         // Recipe types
         add(GRINDING, "Grinding");

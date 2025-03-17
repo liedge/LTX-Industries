@@ -1,4 +1,4 @@
-package liedge.limatech.util.datagen;
+package liedge.limatech.data.generation;
 
 import liedge.limacore.data.generation.loot.LimaBlockLootSubProvider;
 import liedge.limacore.data.generation.loot.LimaLootSubProvider;
@@ -110,7 +110,8 @@ class LootTablesGen extends LimaLootTableProvider
                     .when(AnyOfCondition.anyOf(
                             LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.DIRECT_ATTACKER, EntityPredicate.Builder.entity().subPredicate(new GrenadeSubPredicate(GrenadeType.ACID))),
                             entityEnchantmentLevels(LootContext.EntityTarget.ATTACKER, EnchantmentLevelSubPredicate.atLeast(lootingEnchantment, 4))))
-                    .apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 2)));
+                    .apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 2)))
+                    .add(lootItem(Items.ECHO_SHARD));
 
             addTable(ENTITY_EXTRA_DROPS, LootTable.lootTable()
                     .withPool(phantomDrops)

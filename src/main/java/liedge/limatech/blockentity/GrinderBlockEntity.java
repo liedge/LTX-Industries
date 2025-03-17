@@ -1,9 +1,9 @@
 package liedge.limatech.blockentity;
 
-import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limacore.recipe.LimaRecipeInput;
 import liedge.limatech.recipe.GrindingRecipe;
+import liedge.limatech.registry.LimaTechBlockEntities;
 import liedge.limatech.registry.LimaTechMenus;
 import liedge.limatech.registry.LimaTechRecipeTypes;
 import net.minecraft.core.BlockPos;
@@ -15,9 +15,9 @@ import static liedge.limatech.util.config.LimaTechMachinesConfig.*;
 
 public class GrinderBlockEntity extends SimpleRecipeMachineBlockEntity<LimaRecipeInput, GrindingRecipe>
 {
-    public GrinderBlockEntity(LimaBlockEntityType type, BlockPos pos, BlockState state)
+    public GrinderBlockEntity(BlockPos pos, BlockState state)
     {
-        super(type, pos, state, GRINDER_ENERGY_CAPACITY.getAsInt(), 3);
+        super(LimaTechBlockEntities.GRINDER.get(), pos, state, GRINDER_ENERGY_CAPACITY.getAsInt(), 3);
     }
 
     @Override

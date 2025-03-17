@@ -3,7 +3,6 @@ package liedge.limatech.blockentity;
 import com.google.common.base.Preconditions;
 import liedge.limacore.blockentity.IOAccess;
 import liedge.limacore.blockentity.LimaBlockEntity;
-import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.capability.itemhandler.ItemHolderBlockEntity;
 import liedge.limacore.capability.itemhandler.LimaBlockEntityItemHandler;
 import liedge.limacore.capability.itemhandler.LimaItemHandlerBase;
@@ -12,6 +11,7 @@ import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limacore.network.sync.AutomaticDataWatcher;
 import liedge.limatech.item.EquipmentUpgradeModuleItem;
 import liedge.limatech.item.weapon.WeaponItem;
+import liedge.limatech.registry.LimaTechBlockEntities;
 import liedge.limatech.registry.LimaTechMenus;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -34,9 +34,9 @@ public class EquipmentUpgradeStationBlockEntity extends LimaBlockEntity implemen
 
     private ItemStack previewItem = ItemStack.EMPTY;
 
-    public EquipmentUpgradeStationBlockEntity(LimaBlockEntityType<?> type, BlockPos pos, BlockState state)
+    public EquipmentUpgradeStationBlockEntity(BlockPos pos, BlockState state)
     {
-        super(type, pos, state);
+        super(LimaTechBlockEntities.EQUIPMENT_UPGRADE_STATION.get(), pos, state);
     }
 
     public ItemStack getPreviewItem()

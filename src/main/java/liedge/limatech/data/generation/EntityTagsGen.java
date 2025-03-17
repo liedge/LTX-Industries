@@ -1,4 +1,4 @@
-package liedge.limatech.util.datagen;
+package liedge.limatech.data.generation;
 
 import liedge.limacore.data.generation.LimaTagsProvider;
 import liedge.limatech.LimaTech;
@@ -28,7 +28,7 @@ class EntityTagsGen extends LimaTagsProvider.RegistryTags<EntityType<?>>
         buildTag(INVALID_TARGETS).add(ITEM, EXPERIENCE_ORB, ITEM_FRAME, GLOW_ITEM_FRAME, ARMOR_STAND);
         buildTag(MEDIUM_THREAT_TARGETS).add(EVOKER, HOGLIN, ILLUSIONER, IRON_GOLEM, PIGLIN_BRUTE, RAVAGER, VINDICATOR, ZOGLIN);
         buildTag(HIGH_THREAT_TARGETS).add(ELDER_GUARDIAN, ENDER_DRAGON, WITHER, WARDEN);
-        buildTag(FLYING_TARGETS).add(PHANTOM, GHAST, BLAZE, ENDER_DRAGON, VEX, WITHER);
+        buildTag(FLYING_TARGETS).add(PHANTOM, GHAST, BLAZE, BREEZE, ENDER_DRAGON, VEX, WITHER);
         buildTag(AQUATIC_TARGETS).add(DROWNED, GUARDIAN, ELDER_GUARDIAN);
 
         buildTag(WEAK_TO_FLAME).add(STRAY, POLAR_BEAR, SNOW_GOLEM);
