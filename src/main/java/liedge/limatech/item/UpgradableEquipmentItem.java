@@ -22,7 +22,7 @@ public interface UpgradableEquipmentItem
     {
         // Refresh enchantments
         ItemEnchantments.Mutable builder = new ItemEnchantments.Mutable(ItemEnchantments.EMPTY.withTooltip(false));
-        getUpgrades(stack).forEachEffect(LimaTechUpgradeEffectComponents.ITEM_ENCHANTMENTS, (effect, rank) -> effect.applyEnchantment(builder, rank));
+        getUpgrades(stack).forEachEffect(LimaTechUpgradeEffectComponents.ENCHANTMENT_LEVEL, (effect, rank) -> effect.applyEnchantment(builder, rank));
         ItemEnchantments enchantments = builder.keySet().isEmpty() ? null : builder.toImmutable();
         stack.set(DataComponents.ENCHANTMENTS, enchantments);
 

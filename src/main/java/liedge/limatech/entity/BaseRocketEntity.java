@@ -3,17 +3,23 @@ package liedge.limatech.entity;
 import liedge.limacore.client.particle.ColorParticleOptions;
 import liedge.limacore.client.particle.ColorSizeParticleOptions;
 import liedge.limacore.data.LimaCoreCodecs;
+import liedge.limacore.util.LimaBlockUtil;
 import liedge.limacore.util.LimaNbtUtil;
 import liedge.limacore.util.LimaNetworkUtil;
 import liedge.limatech.LimaTechConstants;
+import liedge.limatech.blockentity.RocketTurretBlockEntity;
+import liedge.limatech.lib.TurretDamageSource;
 import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrades;
+import liedge.limatech.lib.upgrades.machine.MachineUpgrades;
 import liedge.limatech.registry.*;
+import liedge.limatech.registry.bootstrap.LimaTechDamageTypes;
 import liedge.limatech.util.config.LimaTechMachinesConfig;
 import liedge.limatech.util.config.LimaTechWeaponsConfig;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
-import net.minecraft.resources.RegistryOps;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -70,14 +76,24 @@ public abstract class BaseRocketEntity extends AutoTrackingProjectile
 
     public static class TurretRocket extends BaseRocketEntity
     {
-        public TurretRocket(EntityType<?> type, Level level)
+        private MachineUpgrades upgrades = MachineUpgrades.EMPTY;
+        private @Nullable BlockPos turretPos;
+
+        public TurretRocket(EntityType<?> type, Level level, @Nullable BlockPos turretPos)
         {
             super(type, level);
+            this.turretPos = turretPos;
         }
 
-        public TurretRocket(Level level)
+        public TurretRocket(EntityType<?> type, Level level)
         {
-            this(LimaTechEntities.TURRET_ROCKET.get(), level);
+            this(type, level, null);
+        }
+
+        public TurretRocket(Level level, RocketTurretBlockEntity blockEntity)
+        {
+            this(LimaTechEntities.TURRET_ROCKET.get(), level, blockEntity.getBlockPos());
+            this.upgrades = blockEntity.getUpgrades();
         }
 
         @Override
@@ -89,7 +105,35 @@ public abstract class BaseRocketEntity extends AutoTrackingProjectile
         @Override
         protected void damageTarget(Level level, @Nullable LivingEntity owner, Entity targetEntity, Vec3 hitLocation)
         {
-            targetEntity.hurt(level.damageSources().source(LimaTechDamageTypes.TURRET_ROCKET, this, owner), (float) LimaTechMachinesConfig.ROCKET_TURRET_DAMAGE.getAsDouble());
+            DamageSource source;
+
+            RocketTurretBlockEntity be = LimaBlockUtil.getSafeBlockEntity(level, turretPos, RocketTurretBlockEntity.class);
+            if (be != null)
+            {
+                source = TurretDamageSource.create(level, LimaTechDamageTypes.TURRET_ROCKET, be, this, owner);
+            }
+            else
+            {
+                source = level.damageSources().source(LimaTechDamageTypes.TURRET_ROCKET, this, owner); // Standard damage source if parent turret is missing/invalid
+            }
+
+            targetEntity.hurt(source, (float) LimaTechMachinesConfig.ATMOS_TURRET_ROCKET_DAMAGE.getAsDouble());
+        }
+
+        @Override
+        protected void readAdditionalSaveData(CompoundTag tag)
+        {
+            super.readAdditionalSaveData(tag);
+            if (tag.contains("upgrades")) upgrades = LimaNbtUtil.lenientDecode(MachineUpgrades.CODEC, registryOps(), tag, "upgrades");
+            if (tag.contains("turret_pos")) turretPos = LimaNbtUtil.strictDecode(BlockPos.CODEC, NbtOps.INSTANCE, tag, "turret_pos");
+        }
+
+        @Override
+        protected void addAdditionalSaveData(CompoundTag tag)
+        {
+            super.addAdditionalSaveData(tag);
+            if (upgrades != MachineUpgrades.EMPTY) tag.put("upgrades", LimaCoreCodecs.strictEncode(MachineUpgrades.CODEC, registryOps(), upgrades));
+            if (turretPos != null) tag.put("turret_pos", LimaCoreCodecs.strictEncode(BlockPos.CODEC, NbtOps.INSTANCE, turretPos));
         }
     }
 
@@ -124,14 +168,14 @@ public abstract class BaseRocketEntity extends AutoTrackingProjectile
         protected void readAdditionalSaveData(CompoundTag tag)
         {
             super.readAdditionalSaveData(tag);
-            if (tag.contains("upgrades")) upgrades = LimaNbtUtil.lenientDecode(EquipmentUpgrades.CODEC, RegistryOps.create(NbtOps.INSTANCE, registryAccess()), tag, "upgrades");
+            if (tag.contains("upgrades")) upgrades = LimaNbtUtil.lenientDecode(EquipmentUpgrades.CODEC, registryOps(), tag, "upgrades");
         }
 
         @Override
         protected void addAdditionalSaveData(CompoundTag tag)
         {
             super.addAdditionalSaveData(tag);
-            if (upgrades != EquipmentUpgrades.EMPTY) tag.put("upgrades", LimaCoreCodecs.strictEncode(EquipmentUpgrades.CODEC, RegistryOps.create(NbtOps.INSTANCE, registryAccess()), upgrades));
+            if (upgrades != EquipmentUpgrades.EMPTY) tag.put("upgrades", LimaCoreCodecs.strictEncode(EquipmentUpgrades.CODEC, registryOps(), upgrades));
         }
     }
 }

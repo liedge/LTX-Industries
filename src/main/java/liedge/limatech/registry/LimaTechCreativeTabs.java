@@ -4,6 +4,7 @@ import liedge.limacore.item.LimaCreativeTabFillerItem;
 import liedge.limacore.util.LimaItemUtil;
 import liedge.limatech.LimaTech;
 import liedge.limatech.lib.weapons.GrenadeType;
+import liedge.limatech.registry.bootstrap.LimaTechEnchantments;
 import liedge.limatech.util.config.LimaTechServerConfig;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;

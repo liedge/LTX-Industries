@@ -4,11 +4,15 @@ import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limatech.menu.tooltip.ItemGridTooltip;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.ComponentUtils;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemContainerContents;
+import net.neoforged.neoforge.common.UsernameCache;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.UUID;
 
 import static liedge.limacore.capability.energy.LimaEnergyUtil.formatEnergyWithSuffix;
 import static liedge.limacore.registry.LimaCoreDataComponents.ENERGY;
@@ -96,5 +100,19 @@ public final class LimaTechTooltipUtil
     public static MutableComponent percentageWithoutSign(double value)
     {
         return Component.literal(FORMAT_PERCENTAGE.format(value));
+    }
+
+    public static MutableComponent makeOwnerComponent(@Nullable UUID uuid)
+    {
+        if (uuid == null)
+        {
+            return INLINE_NO_OWNER_TOOLTIP.translate();
+        }
+        else
+        {
+            String username = UsernameCache.getLastKnownUsername(uuid);
+            Component nameComponent = username != null ? Component.literal(username) : ComponentUtils.wrapInSquareBrackets(Component.literal(uuid.toString()));
+            return INLINE_OWNER_TOOLTIP.translateArgs(nameComponent);
+        }
     }
 }

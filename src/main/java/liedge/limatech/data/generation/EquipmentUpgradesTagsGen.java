@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.concurrent.CompletableFuture;
 
 import static liedge.limatech.LimaTechTags.EquipmentUpgrades.*;
-import static liedge.limatech.registry.LimaTechEquipmentUpgrades.*;
+import static liedge.limatech.registry.bootstrap.LimaTechEquipmentUpgrades.*;
 
 class EquipmentUpgradesTagsGen extends LimaTagsProvider<EquipmentUpgrade>
 {

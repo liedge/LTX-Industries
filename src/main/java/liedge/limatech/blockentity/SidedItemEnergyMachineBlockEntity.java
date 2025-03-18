@@ -47,9 +47,8 @@ public abstract class SidedItemEnergyMachineBlockEntity extends LimaBlockEntity 
         super(type, pos, state);
         this.inventory = new LimaBlockEntityItemHandler(this, inventorySize);
         this.upgradeModuleSlot = new LimaBlockEntityItemHandler(this, 1, 1);
-        Direction front = state.getValue(HORIZONTAL_FACING);
-        this.energyControl = new IOController(this, BlockEntityInputType.ENERGY, front);
-        this.itemControl = new IOController(this, BlockEntityInputType.ITEMS, front);
+        this.energyControl = new IOController(this, BlockEntityInputType.ENERGY);
+        this.itemControl = new IOController(this, BlockEntityInputType.ITEMS);
     }
 
     // IO control methods/initializers
@@ -58,10 +57,8 @@ public abstract class SidedItemEnergyMachineBlockEntity extends LimaBlockEntity 
     {
         if (checkServerSide())
         {
-            Direction oldFront = oldState.getValue(HORIZONTAL_FACING);
-            Direction newFront = newState.getValue(HORIZONTAL_FACING);
-
-            if (oldFront != newFront) updateFacingForAllIO(newFront);
+            onIOControlsChanged(BlockEntityInputType.ITEMS);
+            onIOControlsChanged(BlockEntityInputType.ENERGY);
         }
     }
 
@@ -74,6 +71,12 @@ public abstract class SidedItemEnergyMachineBlockEntity extends LimaBlockEntity 
             case ENERGY -> energyControl;
             case FLUIDS -> throw new IllegalArgumentException("Fluid IO controls not supported.");
         };
+    }
+
+    @Override
+    public Direction getFacing()
+    {
+        return getBlockState().getValue(HORIZONTAL_FACING);
     }
 
     @Override
@@ -114,7 +117,7 @@ public abstract class SidedItemEnergyMachineBlockEntity extends LimaBlockEntity 
     @Override
     public IOAccess getItemHandlerSideIO(Direction side)
     {
-        return itemControl.getSideIO(side);
+        return itemControl.getSideIOState(side);
     }
 
     @Override
@@ -142,7 +145,7 @@ public abstract class SidedItemEnergyMachineBlockEntity extends LimaBlockEntity 
     @Override
     public IOAccess getEnergyIOForSide(Direction side)
     {
-        return energyControl.getSideIO(side);
+        return energyControl.getSideIOState(side);
     }
 
     // Load/Save methods
@@ -197,10 +200,6 @@ public abstract class SidedItemEnergyMachineBlockEntity extends LimaBlockEntity 
     @Override
     protected void onLoadServer(ServerLevel level)
     {
-        Direction front = getBlockState().getValue(HORIZONTAL_FACING);
-        energyControl.setFacing(front);
-        itemControl.setFacing(front);
-
         reloadUpgrades();
     }
 

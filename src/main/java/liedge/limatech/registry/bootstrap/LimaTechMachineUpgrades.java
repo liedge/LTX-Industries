@@ -1,25 +1,49 @@
-package liedge.limatech.data.generation.bootstrap;
+package liedge.limatech.registry.bootstrap;
 
 import liedge.limatech.LimaTechConstants;
 import liedge.limatech.lib.CompoundValueOperation;
+import liedge.limatech.lib.upgrades.effect.EnchantmentUpgradeEffect;
 import liedge.limatech.lib.upgrades.effect.value.DoubleLevelBasedValue;
 import liedge.limatech.lib.upgrades.effect.value.SimpleValueUpgradeEffect;
 import liedge.limatech.lib.upgrades.machine.MachineUpgrade;
 import liedge.limatech.registry.LimaTechBlockEntities;
+import liedge.limatech.registry.LimaTechRegistries;
 import liedge.limatech.registry.LimaTechUpgradeEffectComponents;
+import net.minecraft.core.HolderGetter;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.Enchantments;
 
-import static liedge.limatech.registry.LimaTechMachineUpgrades.*;
-import static liedge.limatech.registry.LimaTechMachineUpgrades.FABRICATOR_UPGRADE;
+import static liedge.limatech.LimaTech.RESOURCES;
+import static liedge.limatech.data.generation.LimaTechBootstrap.sprite;
 import static liedge.limatech.registry.LimaTechUpgradeEffectComponents.*;
-import static liedge.limatech.registry.LimaTechUpgradeEffectComponents.ENERGY_TRANSFER_RATE;
+import static liedge.limatech.registry.LimaTechUpgradeEffectComponents.DIRECT_ITEM_TELEPORT;
 
-class MachineUpgrades implements UpgradesBootstrap<MachineUpgrade>
+public final class LimaTechMachineUpgrades
 {
-    @Override
-    public void run(BootstrapContext<MachineUpgrade> context)
+    private LimaTechMachineUpgrades() {}
+
+    // Built-in upgrade resource keys
+    public static final ResourceKey<MachineUpgrade> ESA_CAPACITY_UPGRADE = key("esa_capacity");
+    public static final ResourceKey<MachineUpgrade> ALPHA_MACHINE_SYSTEMS = key("alpha_machine_systems");
+    public static final ResourceKey<MachineUpgrade> EPSILON_MACHINE_SYSTEMS = key("epsilon_machine_systems");
+    public static final ResourceKey<MachineUpgrade> FABRICATOR_UPGRADE = key("fabricator_upgrade");
+
+    public static final ResourceKey<MachineUpgrade> TURRET_LOOTING = key("turret_looting");
+    public static final ResourceKey<MachineUpgrade> TURRET_LOOT_COLLECTOR = key("turret_loot_collector");
+
+    private static ResourceKey<MachineUpgrade> key(String name)
     {
+        return RESOURCES.resourceKey(LimaTechRegistries.Keys.MACHINE_UPGRADES, name);
+    }
+
+    public static void bootstrap(BootstrapContext<MachineUpgrade> context)
+    {
+        HolderGetter<Enchantment> enchantments = context.lookup(Registries.ENCHANTMENT);
+
         MachineUpgrade.builder(ESA_CAPACITY_UPGRADE)
                 .supports(LimaTechBlockEntities.ENERGY_STORAGE_ARRAY)
                 .withEffect(LimaTechUpgradeEffectComponents.ENERGY_CAPACITY, SimpleValueUpgradeEffect.of(DoubleLevelBasedValue.exponential(2, DoubleLevelBasedValue.linear(3, 1)), CompoundValueOperation.MULTIPLY))
@@ -54,6 +78,19 @@ class MachineUpgrades implements UpgradesBootstrap<MachineUpgrade>
                 .withEffect(ENERGY_TRANSFER_RATE, SimpleValueUpgradeEffect.of(DoubleLevelBasedValue.exponential(2, DoubleLevelBasedValue.linear(2, 1)), CompoundValueOperation.MULTIPLY))
                 .setMaxRank(4)
                 .effectIcon(sprite("fabricator_upgrade"))
+                .buildAndRegister(context);
+
+        MachineUpgrade.builder(TURRET_LOOTING)
+                .supports(LimaTechBlockEntities.ROCKET_TURRET)
+                .withEffect(ENCHANTMENT_LEVEL, EnchantmentUpgradeEffect.oneLevelPerRank(enchantments.getOrThrow(Enchantments.LOOTING)))
+                .setMaxRank(3)
+                .effectIcon(sprite("looting"))
+                .buildAndRegister(context);
+
+        MachineUpgrade.builder(TURRET_LOOT_COLLECTOR)
+                .supports(LimaTechBlockEntities.ROCKET_TURRET)
+                .withUnitEffect(DIRECT_ITEM_TELEPORT)
+                .effectIcon(sprite("magnet"))
                 .buildAndRegister(context);
     }
 }

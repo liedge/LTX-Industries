@@ -10,6 +10,7 @@ import liedge.limatech.client.particle.GrenadeExplosionParticleOptions;
 import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.limatech.lib.weapons.GrenadeType;
 import liedge.limatech.registry.*;
+import liedge.limatech.registry.bootstrap.LimaTechDamageTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.RegistryFriendlyByteBuf;

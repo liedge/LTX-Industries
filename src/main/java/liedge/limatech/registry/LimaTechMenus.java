@@ -22,7 +22,7 @@ public final class LimaTechMenus
         TYPES.register(bus);
     }
 
-    public static final DeferredHolder<MenuType<?>, IOControlMenu.MenuType> MACHINE_IO_CONTROL = TYPES.register("machine_io_control", IOControlMenu.MenuType::new);
+    public static final DeferredHolder<MenuType<?>, IOControllerMenu.MenuType> MACHINE_IO_CONTROL = TYPES.register("machine_io_control", IOControllerMenu.MenuType::new);
     public static final DeferredHolder<MenuType<?>, LimaMenuType<UpgradableMachineBlockEntity, MachineUpgradeMenu>> MACHINE_UPGRADES = TYPES.register("machine_upgrades", id -> BlockEntityAccessMenuType.create(id, UpgradableMachineBlockEntity.class, MachineUpgradeMenu::new));
     public static final DeferredHolder<MenuType<?>, LimaMenuType<BaseESABlockEntity, EnergyStorageArrayMenu>> ENERGY_STORAGE_ARRAY = TYPES.register("energy_storage_array", id -> BlockEntityAccessMenuType.create(id, BaseESABlockEntity.class, EnergyStorageArrayMenu::new));
     public static final DeferredHolder<MenuType<?>, LimaMenuType<DigitalFurnaceBlockEntity, DigitalFurnaceMenu>> DIGITAL_FURNACE = TYPES.register("digital_furnace", id -> BlockEntityAccessMenuType.create(id, DigitalFurnaceBlockEntity.class, DigitalFurnaceMenu::new));

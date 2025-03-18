@@ -1,16 +1,21 @@
 package liedge.limatech;
 
+import liedge.limacore.capability.itemhandler.LimaItemHandlerUtil;
 import liedge.limacore.util.LimaCoreUtil;
+import liedge.limatech.blockentity.RocketTurretBlockEntity;
 import liedge.limatech.entity.BubbleShieldUser;
 import liedge.limatech.item.weapon.WeaponItem;
+import liedge.limatech.lib.TurretDamageSource;
 import liedge.limatech.lib.weapons.WeaponDamageSource;
 import liedge.limatech.network.packet.ClientboundEntityShieldPacket;
 import liedge.limatech.network.packet.ClientboundPlayerShieldPacket;
 import liedge.limatech.registry.LimaTechAttachmentTypes;
 import liedge.limatech.registry.LimaTechAttributes;
+import liedge.limatech.registry.LimaTechUpgradeEffectComponents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.EventPriority;
@@ -18,11 +23,14 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.GatherSkippedAttributeTooltipsEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
+
+import java.util.Iterator;
 
 @EventBusSubscriber(modid = LimaTech.MODID, bus = EventBusSubscriber.Bus.GAME)
 public final class LimaTechEventHandler
@@ -81,6 +89,33 @@ public final class LimaTechEventHandler
         if (event.getEntity() instanceof LivingEntity livingEntity)
         {
             livingEntity.getExistingData(LimaTechAttachmentTypes.BUBBLE_SHIELD).ifPresent(shield -> shield.tickShield(livingEntity));
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLivingDrops(final LivingDropsEvent event)
+    {
+        if (event.getSource() instanceof TurretDamageSource damageSource)
+        {
+            // Check if upgrade effect is active
+            RocketTurretBlockEntity be = damageSource.getBlockEntity();
+            if (be.getUpgrades().upgradeEffectTypePresent(LimaTechUpgradeEffectComponents.DIRECT_ITEM_TELEPORT.get()))
+            {
+                Iterator<ItemEntity> iterator = event.getDrops().iterator();
+
+                while (iterator.hasNext())
+                {
+                    ItemEntity itemEntity = iterator.next();
+
+                    ItemStack original = itemEntity.getItem();
+                    ItemStack insertRemainder = LimaItemHandlerUtil.insertItemIntoSlots(be.getItemHandler(), original, 1, 21, false);
+
+                    if (insertRemainder.isEmpty()) iterator.remove(); // Entity drop removed if fully inserted
+                    if (original.getCount() != insertRemainder.getCount()) itemEntity.setItem(insertRemainder); // Partial remaining stack still drops in world
+                }
+
+                if (event.getDrops().isEmpty()) event.setCanceled(true); // No point in continuing event if iterator was emptied
+            }
         }
     }
 

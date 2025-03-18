@@ -28,7 +28,9 @@ public final class LimaTechMachinesConfig
     public static final ModConfigSpec.IntValue FABRICATOR_ENERGY_CAPACITY;
     public static final ModConfigSpec.IntValue FABRICATOR_ENERGY_IO_RATE;
 
-    public static final ModConfigSpec.DoubleValue ROCKET_TURRET_DAMAGE;
+    public static final ModConfigSpec.IntValue ATMOS_TURRET_ENERGY_CAPACITY;
+    public static final ModConfigSpec.IntValue ATMOS_TURRET_ENERGY_PER_TARGET;
+    public static final ModConfigSpec.DoubleValue ATMOS_TURRET_ROCKET_DAMAGE;
 
     public static final ModConfigSpec MACHINES_CONFIG_SPEC;
 
@@ -95,9 +97,13 @@ public final class LimaTechMachinesConfig
         builder.pop();
 
         // Rocket turret
-        builder.push("rocket_turret");
-        ROCKET_TURRET_DAMAGE = builder.comment("Damage dealt by rockets from the rocket turret")
-                .defineInRange("turret_damage", 40d, 1d, Double.MAX_VALUE);
+        builder.push("atmos_turret");
+        ATMOS_TURRET_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Atmos turret.")
+                .defineInRange("energy_capacity", 200_000, 1, Integer.MAX_VALUE);
+        ATMOS_TURRET_ENERGY_PER_TARGET = builder.comment("Energy usage per target acquisition.")
+                .defineInRange("energy_per_target", 10_000, 1, Integer.MAX_VALUE);
+        ATMOS_TURRET_ROCKET_DAMAGE = builder.comment("Base damage dealt by rockets from the Atmos turret")
+                .defineInRange("rocket_damage", 40d, 1d, Double.MAX_VALUE);
         builder.pop();
 
         MACHINES_CONFIG_SPEC = builder.build();

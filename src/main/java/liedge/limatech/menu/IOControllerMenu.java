@@ -4,8 +4,8 @@ import liedge.limacore.inventory.menu.LimaMenu;
 import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limacore.registry.LimaCoreNetworkSerializers;
 import liedge.limacore.util.LimaBlockUtil;
-import liedge.limatech.blockentity.base.IOController;
 import liedge.limatech.blockentity.base.BlockEntityInputType;
+import liedge.limatech.blockentity.base.IOController;
 import liedge.limatech.blockentity.base.SidedAccessBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -18,9 +18,9 @@ import net.neoforged.neoforge.items.IItemHandlerModifiable;
 
 import java.util.Objects;
 
-public class IOControlMenu extends LimaMenu<IOControlMenu.MenuContext>
+public class IOControllerMenu extends LimaMenu<IOControllerMenu.MenuContext>
 {
-    private IOControlMenu(LimaMenuType<MenuContext, ?> type, int containerId, Inventory inventory, MenuContext menuContext)
+    private IOControllerMenu(LimaMenuType<MenuContext, ?> type, int containerId, Inventory inventory, MenuContext menuContext)
     {
         super(type, containerId, inventory, menuContext);
 
@@ -30,7 +30,7 @@ public class IOControlMenu extends LimaMenu<IOControlMenu.MenuContext>
 
     public IOController getIOControl()
     {
-        return menuContext.holder.getIOController(menuContext.inputType);
+        return menuContext.blockEntity.getIOController(menuContext.inputType);
     }
 
     @Override
@@ -49,9 +49,9 @@ public class IOControlMenu extends LimaMenu<IOControlMenu.MenuContext>
     protected void defineButtonEventHandlers(EventHandlerBuilder builder)
     {
         IOController ioControl = getIOControl();
-        builder.handleUnitAction(0, menuContext.holder::returnToPrimaryMenuScreen);
-        builder.handleAction(1, LimaCoreNetworkSerializers.DIRECTION, (sender, side) -> ioControl.cycleSideIO(side, true));
-        builder.handleAction(2, LimaCoreNetworkSerializers.DIRECTION, (sender, side) -> ioControl.cycleSideIO(side, false));
+        builder.handleUnitAction(0, menuContext.blockEntity::returnToPrimaryMenuScreen);
+        builder.handleAction(1, LimaCoreNetworkSerializers.RELATIVE_SIDE, (sender, side) -> ioControl.cycleSideIOState(side, true));
+        builder.handleAction(2, LimaCoreNetworkSerializers.RELATIVE_SIDE, (sender, side) -> ioControl.cycleSideIOState(side, false));
         builder.handleUnitAction(3, sender -> ioControl.toggleAutoInput());
         builder.handleUnitAction(4, sender -> ioControl.toggleAutoOutput());
     }
@@ -62,11 +62,11 @@ public class IOControlMenu extends LimaMenu<IOControlMenu.MenuContext>
         throw new UnsupportedOperationException();
     }
 
-    public static class MenuType extends LimaMenuType<MenuContext, IOControlMenu>
+    public static class MenuType extends LimaMenuType<MenuContext, IOControllerMenu>
     {
         public MenuType(ResourceLocation registryId)
         {
-            super(registryId, MenuContext.class, IOControlMenu::new);
+            super(registryId, MenuContext.class, IOControllerMenu::new);
         }
 
         @Override
@@ -78,7 +78,7 @@ public class IOControlMenu extends LimaMenu<IOControlMenu.MenuContext>
         @Override
         public void encodeContext(MenuContext menuContext, RegistryFriendlyByteBuf net)
         {
-            net.writeBlockPos(menuContext.holder.getAsLimaBlockEntity().getBlockPos());
+            net.writeBlockPos(menuContext.blockEntity.getAsLimaBlockEntity().getBlockPos());
             BlockEntityInputType.STREAM_CODEC.encode(net, menuContext.inputType);
         }
 
@@ -95,9 +95,9 @@ public class IOControlMenu extends LimaMenu<IOControlMenu.MenuContext>
         @Override
         public boolean canPlayerKeepUsing(MenuContext menuContext, Player player)
         {
-            return menuContext.holder.getAsLimaBlockEntity().canPlayerUse(player);
+            return menuContext.blockEntity.getAsLimaBlockEntity().canPlayerUse(player);
         }
     }
 
-    public record MenuContext(SidedAccessBlockEntity holder, BlockEntityInputType inputType) {}
+    public record MenuContext(SidedAccessBlockEntity blockEntity, BlockEntityInputType inputType) {}
 }

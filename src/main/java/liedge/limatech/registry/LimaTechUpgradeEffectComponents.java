@@ -1,5 +1,6 @@
 package liedge.limatech.registry;
 
+import liedge.limatech.LimaTechConstants;
 import liedge.limatech.client.LimaTechLang;
 import liedge.limatech.lib.upgrades.effect.*;
 import liedge.limatech.lib.upgrades.effect.equipment.EquipmentUpgradeEffect;
@@ -30,7 +31,11 @@ public final class LimaTechUpgradeEffectComponents
         COMPONENTS.register(bus);
     }
 
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<EnchantmentUpgradeEffect>>> ITEM_ENCHANTMENTS = COMPONENTS.register("enchantments", () -> EffectDataComponentType.createList(EnchantmentUpgradeEffect.CODEC));
+    // Universal effects
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Unit>> DIRECT_ITEM_TELEPORT = COMPONENTS.register("direct_item_teleport", () -> EffectDataComponentType.createSpecialUnit(() -> LimaTechLang.DIRECT_ITEM_TELEPORT_EFFECT.translate().withStyle(LimaTechConstants.LIME_GREEN.chatStyle())));
+
+    // Equipment related
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<EnchantmentUpgradeEffect>>> ENCHANTMENT_LEVEL = COMPONENTS.register("enchantments", () -> EffectDataComponentType.createList(EnchantmentUpgradeEffect.CODEC));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<AttributeModifierUpgradeEffect>>> ITEM_ATTRIBUTE_MODIFIERS = COMPONENTS.register("attribute_modifiers", () -> EffectDataComponentType.createList(AttributeModifierUpgradeEffect.CODEC));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ConditionalEffect<EquipmentUpgradeEffect>>>> WEAPON_PRE_ATTACK = COMPONENTS.register("weapon_pre_attack", () -> EffectDataComponentType.createConditionalList(EquipmentUpgradeEffect.CODEC, LootContextParamSets.ENTITY));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ConditionalEffect<EquipmentUpgradeEffect>>>> WEAPON_KILL = COMPONENTS.register("weapon_kill", () -> EffectDataComponentType.createConditionalList(EquipmentUpgradeEffect.CODEC, LootContextParamSets.ENTITY));

@@ -2,7 +2,6 @@ package liedge.limatech.data.generation;
 
 import liedge.limacore.data.generation.LimaAdvancementGenerator;
 import liedge.limatech.LimaTech;
-import liedge.limatech.data.generation.bootstrap.LimaTechBootstrapGen;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
@@ -31,7 +30,9 @@ final class LimaTechDatagen
         final boolean runClient = event.includeClient();
 
         BlockTagsGen blockTags = new BlockTagsGen(output, baseRegistries, helper);
-        DatapackBuiltinEntriesProvider dataRegistriesProvider = LimaTechBootstrapGen.create(output, baseRegistries);
+
+        // Patched registries w/ boostrap objects
+        DatapackBuiltinEntriesProvider dataRegistriesProvider = LimaTechBootstrap.create(output, baseRegistries);
         CompletableFuture<HolderLookup.Provider> patchedRegistries = dataRegistriesProvider.getRegistryProvider();
 
         // Server data

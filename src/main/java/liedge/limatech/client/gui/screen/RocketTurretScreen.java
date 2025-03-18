@@ -7,7 +7,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
-public class RocketTurretScreen extends UpgradableMachineScreen<RocketTurretMenu>
+public class RocketTurretScreen extends SidedUpgradableMachineScreen<RocketTurretMenu>
 {
     private static final ResourceLocation TEXTURE = LimaTech.RESOURCES.textureLocation("gui", "turret");
 

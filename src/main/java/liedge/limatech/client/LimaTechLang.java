@@ -19,12 +19,6 @@ public final class LimaTechLang
     public static final Translatable STRAY_PROJECTILE_DEATH_MESSAGE = RESOURCES.translationHolder("death.attack.{}.stray_projectile");
 
     // GUI Tooltips
-    public static final Translatable TOP_IO_LABEL = tooltip("io_top");
-    public static final Translatable BOTTOM_IO_LABEL = tooltip("io_bottom");
-    public static final Translatable FRONT_IO_LABEL = tooltip("io_front");
-    public static final Translatable REAR_IO_LABEL = tooltip("io_rear");
-    public static final Translatable LEFT_IO_LABEL = tooltip("io_left");
-    public static final Translatable RIGHT_IO_LABEL = tooltip("io_right");
     public static final Translatable BACK_BUTTON_LABEL = tooltip("back_button");
     public static final Translatable AUTO_OUTPUT_OFF_TOOLTIP = tooltip("auto_output_off");
     public static final Translatable AUTO_OUTPUT_ON_TOOLTIP = tooltip("auto_output_on");
@@ -34,6 +28,8 @@ public final class LimaTechLang
     public static final Translatable INLINE_ENERGY_STORED = tooltip("energy_stored");
     public static final Translatable INLINE_ENERGY_CAPACITY = tooltip("energy_capacity");
     public static final Translatable INLINE_ENERGY_TRANSFER_RATE = tooltip("energy_transfer_rate");
+    public static final Translatable INLINE_NO_OWNER_TOOLTIP = tooltip("no_owner");
+    public static final Translatable INLINE_OWNER_TOOLTIP = tooltip("owner");
     public static final Translatable ENERGY_OVERCHARGE_TOOLTIP = tooltip("energy_overcharge");
 
     public static final Translatable EMPTY_ITEM_INVENTORY_TOOLTIP = tooltip("empty_item_inventory_hint");
@@ -66,6 +62,7 @@ public final class LimaTechLang
     public static final Translatable INFINITE_AMMO_EFFECT = upgradeEffect("infinite_ammo");
     public static final Translatable ENCHANTMENT_UPGRADE_EFFECT = upgradeEffect("enchantment");
     public static final Translatable GRENADE_UNLOCK_EFFECT = upgradeEffect("grenade_unlock");
+    public static final Translatable DIRECT_ITEM_TELEPORT_EFFECT = upgradeEffect("direct_item_teleport");
 
     public static Component makeEntityTargetComponent(LootContext.EntityTarget target)
     {

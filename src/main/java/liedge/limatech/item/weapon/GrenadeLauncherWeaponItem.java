@@ -11,6 +11,7 @@ import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.limatech.lib.weapons.AbstractWeaponControls;
 import liedge.limatech.lib.weapons.GrenadeType;
 import liedge.limatech.registry.*;
+import liedge.limatech.registry.bootstrap.LimaTechEquipmentUpgrades;
 import liedge.limatech.util.config.LimaTechWeaponsConfig;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.ResourceLocation;

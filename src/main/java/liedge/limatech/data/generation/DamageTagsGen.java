@@ -10,7 +10,7 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import java.util.concurrent.CompletableFuture;
 
-import static liedge.limatech.registry.LimaTechDamageTypes.*;
+import static liedge.limatech.registry.bootstrap.LimaTechDamageTypes.*;
 import static net.minecraft.tags.DamageTypeTags.*;
 
 class DamageTagsGen extends LimaTagsProvider<DamageType>

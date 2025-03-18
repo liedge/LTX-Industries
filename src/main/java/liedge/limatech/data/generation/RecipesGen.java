@@ -43,9 +43,9 @@ import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
 import static liedge.limatech.registry.LimaTechBlocks.*;
-import static liedge.limatech.registry.LimaTechEquipmentUpgrades.*;
+import static liedge.limatech.registry.bootstrap.LimaTechEquipmentUpgrades.*;
 import static liedge.limatech.registry.LimaTechItems.*;
-import static liedge.limatech.registry.LimaTechMachineUpgrades.*;
+import static liedge.limatech.registry.bootstrap.LimaTechMachineUpgrades.*;
 import static net.minecraft.world.item.Items.*;
 import static net.neoforged.neoforge.common.Tags.Items.DYES_LIME;
 import static net.neoforged.neoforge.common.Tags.Items.GLASS_BLOCKS;

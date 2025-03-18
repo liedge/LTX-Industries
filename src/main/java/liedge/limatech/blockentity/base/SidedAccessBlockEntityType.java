@@ -1,12 +1,10 @@
 package liedge.limatech.blockentity.base;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
 import liedge.limacore.blockentity.LimaBlockEntity;
 import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.util.LimaCollectionsUtil;
 import liedge.limacore.util.LimaRegistryUtil;
-import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Block;
 
@@ -14,8 +12,6 @@ import java.util.*;
 
 public final class SidedAccessBlockEntityType<BE extends LimaBlockEntity> extends LimaBlockEntityType<BE>
 {
-    public static final Set<Direction> ALL_SIDES = ImmutableSet.copyOf(EnumSet.allOf(Direction.class));
-
     private final Map<BlockEntityInputType, SidedAccessRules> accessRules;
     private final Set<BlockEntityInputType> validInputTypes;
 

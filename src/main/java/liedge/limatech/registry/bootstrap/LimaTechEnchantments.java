@@ -1,12 +1,13 @@
-package liedge.limatech.data.generation.bootstrap;
+package liedge.limatech.registry.bootstrap;
 
-import liedge.limacore.data.generation.RegistryBootstrapExtensions;
 import liedge.limacore.registry.LimaCoreDataComponents;
+import liedge.limatech.LimaTech;
 import liedge.limatech.registry.LimaTechLootTables;
 import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlotGroup;
@@ -15,13 +16,16 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.predicates.LootItemEntityPropertyCondition;
 
-import static liedge.limatech.registry.LimaTechEnchantments.AMMO_SCAVENGER;
-import static liedge.limatech.registry.LimaTechEnchantments.RAZOR;
+import static liedge.limacore.data.generation.LimaBootstrapUtil.registerEnchantment;
 
-class Enchantments implements RegistryBootstrapExtensions<Enchantment>
+public final class LimaTechEnchantments
 {
-    @Override
-    public void run(BootstrapContext<Enchantment> context)
+    private LimaTechEnchantments() {}
+
+    public static final ResourceKey<Enchantment> RAZOR = LimaTech.RESOURCES.resourceKey(Registries.ENCHANTMENT, "razor");
+    public static final ResourceKey<Enchantment> AMMO_SCAVENGER = LimaTech.RESOURCES.resourceKey(Registries.ENCHANTMENT, "ammo_scavenger");
+
+    public static void bootstrap(BootstrapContext<Enchantment> context)
     {
         HolderGetter<Item> items = context.lookup(Registries.ITEM);
 

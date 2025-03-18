@@ -2,7 +2,7 @@ package liedge.limatech.blockentity.base;
 
 import com.google.common.base.Preconditions;
 import liedge.limacore.blockentity.IOAccess;
-import liedge.limacore.data.LimaCoreCodecs;
+import liedge.limacore.blockentity.RelativeHorizontalSide;
 import liedge.limacore.lib.OrderedEnum;
 import liedge.limacore.network.sync.LimaDataWatcher;
 import liedge.limacore.network.sync.ManualDataWatcher;
@@ -22,82 +22,64 @@ public final class IOController implements INBTSerializable<CompoundTag>
     private final SidedAccessBlockEntity blockEntity;
     private final SidedAccessRules accessRules;
     private final BlockEntityInputType inputType;
-    private final Map<Direction, IOAccess> controlMap;
+    private final Map<RelativeHorizontalSide, IOAccess> controlMap;
 
-    private Direction facing;
     private boolean autoInput;
     private boolean autoOutput;
 
     private @Nullable LimaDataWatcher<CompoundTag> dataWatcher;
 
-    public IOController(SidedAccessBlockEntity blockEntity, BlockEntityInputType inputType, Direction facing, boolean autoInput, boolean autoOutput)
+    public IOController(SidedAccessBlockEntity blockEntity, BlockEntityInputType inputType, boolean autoInput, boolean autoOutput)
     {
         this.blockEntity = blockEntity;
         this.accessRules = blockEntity.getType().getSideAccessRules(inputType);
-        validateFacing(facing);
         this.inputType = inputType;
-        this.controlMap = accessRules.validSides().stream().collect(LimaStreamsUtil.toEnumMap(Direction.class, $ -> accessRules.defaultAccess()));
-        this.facing = facing;
+        this.controlMap = accessRules.validSides().stream().collect(LimaStreamsUtil.toEnumMap(RelativeHorizontalSide.class, $ -> accessRules.defaultAccess()));
         this.autoInput = accessRules.allowAutoInput() && autoInput;
         this.autoOutput = accessRules.allowAutoOutput() && autoOutput;
     }
 
-    public IOController(SidedAccessBlockEntity blockEntity, BlockEntityInputType inputType, Direction facing)
+    public IOController(SidedAccessBlockEntity blockEntity, BlockEntityInputType inputType)
     {
-        this(blockEntity, inputType, facing, false, false);
+        this(blockEntity, inputType, false, false);
     }
 
-    public IOAccess getSideIO(Direction side)
+    public SidedAccessRules getAccessRules()
     {
-        return Objects.requireNonNull(controlMap.get(side), "Side not valid for IO controls.");
+        return accessRules;
     }
 
-    private @Nullable IOAccess setSideIOInternal(Direction side, IOAccess access)
+    public IOAccess getSideIOState(RelativeHorizontalSide side)
     {
-        Preconditions.checkArgument(accessRules.validSides().contains(side), "Side %s is not valid for input type %s.", side, inputType);
-        Preconditions.checkArgument(accessRules.validIOStates().contains(access), "IO access %s not valid for input type %s.", access, inputType);
-        return controlMap.put(side, access);
+        return Objects.requireNonNull(controlMap.get(side), "Side not valid for IO controls");
     }
 
-    public void setSideIO(Direction side, IOAccess access)
+    public IOAccess getSideIOState(Direction absoluteSide)
     {
-        IOAccess oldAccess = setSideIOInternal(side, access);
+        return getSideIOState(RelativeHorizontalSide.of(blockEntity.getFacing(), absoluteSide));
+    }
+
+    public void setSideIOState(RelativeHorizontalSide side, IOAccess access)
+    {
+        IOAccess oldAccess = setSideIOStateInternal(side, access);
         if (oldAccess != access) onChanged();
     }
 
-    public void cycleSideIO(Direction side, boolean forward)
+    public void setSideIOState(Direction absoluteSide, IOAccess access)
     {
-        IOAccess current = getSideIO(side);
+        setSideIOState(RelativeHorizontalSide.of(blockEntity.getFacing(), absoluteSide), access);
+    }
+
+    public void cycleSideIOState(RelativeHorizontalSide side, boolean forward)
+    {
+        IOAccess current = getSideIOState(side);
         IOAccess next = forward ? OrderedEnum.nextAvailable(accessRules.validIOStates(), current) : OrderedEnum.previousAvailable(accessRules.validIOStates(), current);
-        setSideIO(side, next);
+        setSideIOState(side, next);
     }
 
-    public Direction getFacing()
+    public void cycleSideIOState(Direction absoluteSide, boolean forward)
     {
-        return facing;
-    }
-
-    public void setFacing(Direction newFacing)
-    {
-        validateFacing(newFacing);
-        final Direction oldFacing = this.facing;
-
-        if (oldFacing != newFacing)
-        {
-            IOAccess front = getSideIO(oldFacing);
-            IOAccess back = getSideIO(oldFacing.getOpposite());
-            IOAccess left = getSideIO(oldFacing.getClockWise());
-            IOAccess right = getSideIO(oldFacing.getCounterClockWise());
-
-            this.facing = newFacing;
-
-            setSideIOInternal(newFacing, front);
-            setSideIOInternal(newFacing.getOpposite(), back);
-            setSideIOInternal(newFacing.getClockWise(), left);
-            setSideIOInternal(newFacing.getCounterClockWise(), right);
-
-            onChanged();
-        }
+        cycleSideIOState(RelativeHorizontalSide.of(blockEntity.getFacing(), absoluteSide), forward);
     }
 
     public boolean isAutoInput()
@@ -154,15 +136,17 @@ public final class IOController implements INBTSerializable<CompoundTag>
         return dataWatcher;
     }
 
+    private @Nullable IOAccess setSideIOStateInternal(RelativeHorizontalSide side, IOAccess access)
+    {
+        Preconditions.checkArgument(accessRules.validSides().contains(side), "Side %s is not valid for input type %s.", side, inputType);
+        Preconditions.checkArgument(accessRules.validIOStates().contains(access), "IO access %s not valid for input type %s.", access, inputType);
+        return controlMap.put(side, access);
+    }
+
     private void onChanged()
     {
         blockEntity.onIOControlsChanged(inputType);
         getOrCreateDataWatcher().setChanged(true);
-    }
-
-    private void validateFacing(Direction facing)
-    {
-        Preconditions.checkArgument(facing.getAxis().isHorizontal(), "Front facing direction must be horizontal (N/S/E/W)");
     }
 
     // Remove supplier dependency for registry access. Not needed for serializing this as NBT
@@ -170,12 +154,11 @@ public final class IOController implements INBTSerializable<CompoundTag>
     {
         CompoundTag tag = new CompoundTag();
 
-        for (Direction side : accessRules.validSides())
+        for (RelativeHorizontalSide side : accessRules.validSides())
         {
-            tag.putString(side.getSerializedName(), getSideIO(side).getSerializedName());
+            tag.putString(side.getSerializedName(), getSideIOState(side).getSerializedName());
         }
 
-        tag.putString("facing", facing.getSerializedName());
         tag.putBoolean("auto_input", autoInput);
         tag.putBoolean("auto_output", autoOutput);
 
@@ -184,12 +167,11 @@ public final class IOController implements INBTSerializable<CompoundTag>
 
     private void deserializeNBT(CompoundTag tag)
     {
-        for (Direction side : accessRules.validSides())
+        for (RelativeHorizontalSide side : accessRules.validSides())
         {
-            setSideIOInternal(side, IOAccess.CODEC.byNameOrThrow(tag.getString(side.getSerializedName())));
+            setSideIOStateInternal(side, IOAccess.CODEC.byNameOrThrow(tag.getString(side.getSerializedName())));
         }
 
-        this.facing = LimaCoreCodecs.STRICT_DIRECTION.byNameOrThrow(tag.getString("facing"));
         this.autoInput = tag.getBoolean("auto_input");
         this.autoOutput = tag.getBoolean("auto_output");
     }

@@ -189,7 +189,7 @@ public class FabricatorBlockEntity extends SidedItemEnergyMachineBlockEntity
             {
                 for (Direction side : Direction.values())
                 {
-                    if (getItemControl().getSideIO(side).allowsOutput())
+                    if (getItemControl().getSideIOState(side).allowsOutput())
                     {
                         IItemHandler adjacentInventory = itemConnections.get(side).getCapability();
                         if (adjacentInventory != null) LimaItemHandlerUtil.transferStackBetweenInventories(getItemHandler(), adjacentInventory, 1);

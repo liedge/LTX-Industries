@@ -61,7 +61,11 @@ public final class LimaTechBlockEntities
             .withSideRules(BlockEntityInputType.ITEMS, SidedAccessRules.allSides(IOAccessSets.OUTPUT_ONLY_OR_DISABLED, IOAccess.DISABLED, false, true))
             .withSideRules(BlockEntityInputType.ENERGY, SidedAccessRules.allSides(IOAccessSets.INPUT_ONLY_OR_DISABLED, IOAccess.INPUT_ONLY, false, false)).build());
     public static final DeferredHolder<BlockEntityType<?>, LimaBlockEntityType<EquipmentUpgradeStationBlockEntity>> EQUIPMENT_UPGRADE_STATION = TYPES.register("equipment_upgrade_station", () -> LimaBlockEntityType.of(EquipmentUpgradeStationBlockEntity::new, LimaTechBlocks.EQUIPMENT_UPGRADE_STATION));
-    public static final DeferredHolder<BlockEntityType<?>, LimaBlockEntityType<RocketTurretBlockEntity>> ROCKET_TURRET = TYPES.register("rocket_turret", () -> LimaBlockEntityType.of(RocketTurretBlockEntity::new, LimaTechBlocks.ROCKET_TURRET));
+    public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<RocketTurretBlockEntity>> ROCKET_TURRET = TYPES.register("rocket_turret", () -> SidedAccessBlockEntityType.Builder.builder(RocketTurretBlockEntity::new)
+            .withBlock(LimaTechBlocks.ROCKET_TURRET)
+            .withSideRules(BlockEntityInputType.ITEMS, RocketTurretBlockEntity.ITEM_RULES)
+            .withSideRules(BlockEntityInputType.ENERGY, RocketTurretBlockEntity.ENERGY_RULES)
+            .build());
 
     private static <BE extends SimpleRecipeMachineBlockEntity<?, ?>> DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<BE>> registerSimpleRecipeMachine(String name, BlockEntityType.BlockEntitySupplier<BE> factory, UnaryOperator<SidedAccessBlockEntityType.Builder<BE>> builder)
     {

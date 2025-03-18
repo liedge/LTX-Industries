@@ -1,0 +1,19 @@
+{
+  "description": {
+    "translate": "machine_upgrade.limatech.turret_looting.desc"
+  },
+  "effects": {
+    "limatech:enchantments": [
+      {
+        "enchantment": "minecraft:looting"
+      }
+    ]
+  },
+  "exclusive_set": [],
+  "icon": "limatech:looting",
+  "max_rank": 3,
+  "supported_set": "limatech:rocket_turret",
+  "title": {
+    "translate": "machine_upgrade.limatech.turret_looting.title"
+  }
+}

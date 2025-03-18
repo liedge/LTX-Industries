@@ -14,7 +14,7 @@ import liedge.limacore.world.loot.number.RoundingNumberProvider;
 import liedge.limacore.world.loot.number.TargetedEnchantmentLevelProvider;
 import liedge.limatech.LimaTech;
 import liedge.limatech.lib.weapons.GrenadeType;
-import liedge.limatech.registry.LimaTechEnchantments;
+import liedge.limatech.registry.bootstrap.LimaTechEnchantments;
 import liedge.limatech.world.GrenadeSubPredicate;
 import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.core.Holder;

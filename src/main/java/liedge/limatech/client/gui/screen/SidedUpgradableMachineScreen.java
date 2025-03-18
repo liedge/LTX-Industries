@@ -19,7 +19,14 @@ public abstract class SidedUpgradableMachineScreen<M extends SidedUpgradableMach
     protected void addSidebarWidgets()
     {
         super.addSidebarWidgets();
-        addRenderableWidget(new OpenIOControlButton(rightPos, topPos + 23, this, IO_CONTROLS_BUTTON_ID, BlockEntityInputType.ITEMS));
-        addRenderableWidget(new OpenIOControlButton(rightPos, topPos + 43, this, IO_CONTROLS_BUTTON_ID, BlockEntityInputType.ENERGY));
+
+        for (BlockEntityInputType type : menu.menuContext().getType().getValidInputTypes())
+        {
+            int yOffset = 23 + (type.ordinal() * 20);
+            addRenderableWidget(new OpenIOControlButton(rightPos, topPos + yOffset, this, IO_CONTROLS_BUTTON_ID, type));
+        }
+
+        //addRenderableWidget(new OpenIOControlButton(rightPos, topPos + 23, this, IO_CONTROLS_BUTTON_ID, BlockEntityInputType.ITEMS));
+        //addRenderableWidget(new OpenIOControlButton(rightPos, topPos + 43, this, IO_CONTROLS_BUTTON_ID, BlockEntityInputType.ENERGY));
     }
 }

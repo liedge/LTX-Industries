@@ -17,6 +17,10 @@ import liedge.limatech.lib.upgrades.machine.MachineUpgrade;
 import liedge.limatech.lib.weapons.GrenadeType;
 import liedge.limatech.lib.weapons.WeaponAmmoSource;
 import liedge.limatech.registry.*;
+import liedge.limatech.registry.bootstrap.LimaTechDamageTypes;
+import liedge.limatech.registry.bootstrap.LimaTechEnchantments;
+import liedge.limatech.registry.bootstrap.LimaTechEquipmentUpgrades;
+import liedge.limatech.registry.bootstrap.LimaTechMachineUpgrades;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.DamageTypeTags;
@@ -158,6 +162,8 @@ class LanguageGen extends LimaLanguageProvider
         machineUpgrade(LimaTechMachineUpgrades.ALPHA_MACHINE_SYSTEMS, "LTX/α Machine Systems", "Core modular systems designed for balanced efficiency.");
         machineUpgrade(LimaTechMachineUpgrades.EPSILON_MACHINE_SYSTEMS, "LTX/ε Machine Systems", "The pinnacle of engineering precision! Achieves near-instantaneous crafting at the cost of immense energy consumption.");
         machineUpgrade(LimaTechMachineUpgrades.FABRICATOR_UPGRADE, "Enhanced Tool Head", "Elevate your Fabricator's manufacturing capabilities with superior internal components.");
+        machineUpgrade(LimaTechMachineUpgrades.TURRET_LOOTING, "Efficient Target Disposal", "Smarter turret targeting systems allow for increased loot drops from eliminated targets.");
+        machineUpgrade(LimaTechMachineUpgrades.TURRET_LOOT_COLLECTOR, "Matter SubLink", "Loot from eliminated targets is directly stored in the turret's inventory if there's free space.");
         //#endregion
 
         // Creative tabs
@@ -207,14 +213,10 @@ class LanguageGen extends LimaLanguageProvider
         add(INLINE_ENERGY_STORED, "Energy: %s");
         add(INLINE_ENERGY_CAPACITY, "Capacity: %s");
         add(INLINE_ENERGY_TRANSFER_RATE, "I/O: %s/t");
+        add(INLINE_NO_OWNER_TOOLTIP, "No Owner");
+        add(INLINE_OWNER_TOOLTIP, "Owner: %s");
         add(ENERGY_OVERCHARGE_TOOLTIP, "Energy Overcharged! Your energy stored is more than your current capacity.");
 
-        add(TOP_IO_LABEL, "Top (%s)");
-        add(BOTTOM_IO_LABEL, "Bottom (%s)");
-        add(FRONT_IO_LABEL, "Front (%s)");
-        add(REAR_IO_LABEL, "Rear (%s)");
-        add(LEFT_IO_LABEL, "Left (%s)");
-        add(RIGHT_IO_LABEL, "Right (%s)");
         add(BACK_BUTTON_LABEL, "Back");
         add(AUTO_OUTPUT_OFF_TOOLTIP, "Auto Output Disabled");
         add(AUTO_OUTPUT_ON_TOOLTIP, "Auto Output Enabled");
@@ -262,6 +264,7 @@ class LanguageGen extends LimaLanguageProvider
         add(SHIELD_UPGRADE_EFFECT, "%s Bubble Shield/kill, (max %s)");
         add(ENCHANTMENT_UPGRADE_EFFECT, "%s %s Enchantment");
         add(GRENADE_UNLOCK_EFFECT, "Can use %s shells");
+        add(DIRECT_ITEM_TELEPORT_EFFECT, "Direct item to inventory teleport");
 
         add(TooltipShiftHintItem.HINT_HOVER_TOOLTIP, "Hold SHIFT for extra info");
         add(WeaponAmmoSource.NORMAL.getItemTooltip(), "Reloads with %s");

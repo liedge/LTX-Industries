@@ -2,7 +2,7 @@ package liedge.limatech.blockentity.base;
 
 import liedge.limacore.inventory.menu.LimaMenuProvider;
 import liedge.limatech.blockentity.SubMenuProviderBlockEntity;
-import liedge.limatech.menu.IOControlMenu;
+import liedge.limatech.menu.IOControllerMenu;
 import liedge.limatech.registry.LimaTechMenus;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.player.Player;
@@ -18,13 +18,7 @@ public interface SidedAccessBlockEntity extends SubMenuProviderBlockEntity
      */
     IOController getIOController(BlockEntityInputType inputType) throws IllegalArgumentException;
 
-    default void updateFacingForAllIO(Direction newFacing)
-    {
-        for (BlockEntityInputType type : getType().getValidInputTypes())
-        {
-            getIOController(type).setFacing(newFacing);
-        }
-    }
+    Direction getFacing();
 
     SidedAccessBlockEntityType<?> getType();
 
@@ -32,7 +26,7 @@ public interface SidedAccessBlockEntity extends SubMenuProviderBlockEntity
 
     default void openIOControlMenuScreen(Player player, BlockEntityInputType inputType)
     {
-        IOControlMenu.MenuContext context = new IOControlMenu.MenuContext(this, inputType);
+        IOControllerMenu.MenuContext context = new IOControllerMenu.MenuContext(this, inputType);
         LimaMenuProvider.openStandaloneMenu(player, LimaTechMenus.MACHINE_IO_CONTROL.get(), context);
     }
 }

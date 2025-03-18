@@ -1,4 +1,4 @@
-package liedge.limatech.data.generation.bootstrap;
+package liedge.limatech.registry.bootstrap;
 
 import liedge.limacore.LimaCoreTags;
 import liedge.limacore.lib.math.MathOperation;
@@ -25,6 +25,7 @@ import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -36,15 +37,50 @@ import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 
 import static liedge.limatech.LimaTech.RESOURCES;
-import static liedge.limatech.registry.LimaTechEnchantments.AMMO_SCAVENGER;
-import static liedge.limatech.registry.LimaTechEnchantments.RAZOR;
-import static liedge.limatech.registry.LimaTechEquipmentUpgrades.*;
+import static liedge.limatech.data.generation.LimaTechBootstrap.*;
 import static liedge.limatech.registry.LimaTechUpgradeEffectComponents.*;
+import static liedge.limatech.registry.LimaTechUpgradeEffectComponents.GRENADE_UNLOCK;
+import static liedge.limatech.registry.bootstrap.LimaTechEnchantments.AMMO_SCAVENGER;
+import static liedge.limatech.registry.bootstrap.LimaTechEnchantments.RAZOR;
 
-class EquipmentUpgrades implements UpgradesBootstrap<EquipmentUpgrade>
+public final class LimaTechEquipmentUpgrades
 {
-    @Override
-    public void run(BootstrapContext<EquipmentUpgrade> context)
+    private LimaTechEquipmentUpgrades() {}
+
+    // Weapon-specific upgrades
+    public static final ResourceKey<EquipmentUpgrade> LIGHTFRAG_BASE_ARMOR_BYPASS = key("lightfrag_armor_bypass");
+    public static final ResourceKey<EquipmentUpgrade> SMG_BUILT_IN = key("smg_built_in");
+    public static final ResourceKey<EquipmentUpgrade> SHOTGUN_BUILT_IN = key("shotgun_built_in");
+    public static final ResourceKey<EquipmentUpgrade> HIGH_IMPACT_ROUNDS = key("high_impact_rounds");
+    public static final ResourceKey<EquipmentUpgrade> MAGNUM_SCALING_ROUNDS = key("magnum_scaling_rounds");
+    public static final ResourceKey<EquipmentUpgrade> GRENADE_LAUNCHER_PROJECTILE_SPEED = key("grenade_launcher_projectile_speed");
+
+    // Universal upgrades
+    public static final ResourceKey<EquipmentUpgrade> UNIVERSAL_ANTI_VIBRATION = key("universal_anti_vibration");
+    public static final ResourceKey<EquipmentUpgrade> UNIVERSAL_STEALTH_DAMAGE = key("universal_stealth_damage");
+    public static final ResourceKey<EquipmentUpgrade> UNIVERSAL_ENERGY_AMMO = key("universal_energy_ammo");
+    public static final ResourceKey<EquipmentUpgrade> UNIVERSAL_INFINITE_AMMO = key("universal_infinite_ammo");
+    public static final ResourceKey<EquipmentUpgrade> UNIVERSAL_ARMOR_PIERCE = key("universal_armor_pierce");
+    public static final ResourceKey<EquipmentUpgrade> UNIVERSAL_SHIELD_REGEN = key("universal_shield_regen");
+
+    public static final ResourceKey<EquipmentUpgrade> LOOTING_ENCHANTMENT = key("looting_enchantment");
+    public static final ResourceKey<EquipmentUpgrade> AMMO_SCAVENGER_ENCHANTMENT = key("ammo_scavenger_enchantment");
+    public static final ResourceKey<EquipmentUpgrade> RAZOR_ENCHANTMENT = key("razor_enchantment");
+
+    // Hanabi grenade cores
+    public static final ResourceKey<EquipmentUpgrade> FLAME_GRENADE_CORE = key("flame_grenade_core");
+    public static final ResourceKey<EquipmentUpgrade> CRYO_GRENADE_CORE = key("cryo_grenade_core");
+    public static final ResourceKey<EquipmentUpgrade> ELECTRIC_GRENADE_CORE = key("electric_grenade_core");
+    public static final ResourceKey<EquipmentUpgrade> ACID_GRENADE_CORE = key("acid_grenade_core");
+    public static final ResourceKey<EquipmentUpgrade> NEURO_GRENADE_CORE = key("neuro_grenade_core");
+    public static final ResourceKey<EquipmentUpgrade> OMNI_GRENADE_CORE = key("omni_grenade_core");
+
+    private static ResourceKey<EquipmentUpgrade> key(String name)
+    {
+        return RESOURCES.resourceKey(LimaTechRegistries.Keys.EQUIPMENT_UPGRADES, name);
+    }
+
+    public static void bootstrap(BootstrapContext<EquipmentUpgrade> context)
     {
         HolderGetter<Item> items = context.lookup(Registries.ITEM);
         HolderGetter<Enchantment> enchantments = context.lookup(Registries.ENCHANTMENT);
@@ -135,19 +171,19 @@ class EquipmentUpgrades implements UpgradesBootstrap<EquipmentUpgrade>
         EquipmentUpgrade.builder(LOOTING_ENCHANTMENT)
                 .supportsLTXWeapons(items)
                 .setMaxRank(5)
-                .withEffect(ITEM_ENCHANTMENTS, EnchantmentUpgradeEffect.oneLevelPerRank(enchantments.getOrThrow(Enchantments.LOOTING)))
+                .withEffect(ENCHANTMENT_LEVEL, EnchantmentUpgradeEffect.oneLevelPerRank(enchantments.getOrThrow(Enchantments.LOOTING)))
                 .effectIcon(sprite("looting"))
                 .buildAndRegister(context);
         EquipmentUpgrade.builder(AMMO_SCAVENGER_ENCHANTMENT)
                 .supportsLTXWeapons(items)
                 .setMaxRank(5)
-                .withEffect(ITEM_ENCHANTMENTS, EnchantmentUpgradeEffect.oneLevelPerRank(enchantments.getOrThrow(AMMO_SCAVENGER)))
+                .withEffect(ENCHANTMENT_LEVEL, EnchantmentUpgradeEffect.oneLevelPerRank(enchantments.getOrThrow(AMMO_SCAVENGER)))
                 .effectIcon(sprite("ammo_scavenger"))
                 .buildAndRegister(context);
         EquipmentUpgrade.builder(RAZOR_ENCHANTMENT)
                 .supportsLTXWeapons(items)
                 .setMaxRank(5)
-                .withEffect(ITEM_ENCHANTMENTS, EnchantmentUpgradeEffect.oneLevelPerRank(enchantments.getOrThrow(RAZOR)))
+                .withEffect(ENCHANTMENT_LEVEL, EnchantmentUpgradeEffect.oneLevelPerRank(enchantments.getOrThrow(RAZOR)))
                 .effectIcon(sprite("razor_enchant"))
                 .buildAndRegister(context);
 

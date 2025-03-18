@@ -1,0 +1,14 @@
+{
+  "description": {
+    "translate": "machine_upgrade.limatech.turret_loot_collector.desc"
+  },
+  "effects": {
+    "limatech:direct_item_teleport": {}
+  },
+  "exclusive_set": [],
+  "icon": "limatech:magnet",
+  "supported_set": "limatech:rocket_turret",
+  "title": {
+    "translate": "machine_upgrade.limatech.turret_loot_collector.title"
+  }
+}

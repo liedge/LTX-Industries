@@ -1,7 +1,7 @@
 package liedge.limatech.entity;
 
 import liedge.limacore.util.LimaMathUtil;
-import liedge.limatech.registry.LimaTechDamageTypes;
+import liedge.limatech.registry.bootstrap.LimaTechDamageTypes;
 import liedge.limatech.registry.LimaTechEntities;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;

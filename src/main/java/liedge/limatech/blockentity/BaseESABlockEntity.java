@@ -89,7 +89,7 @@ public abstract class BaseESABlockEntity extends SidedItemEnergyMachineBlockEnti
         // Auto output energy if option enabled
         if (getEnergyControl().isAutoOutput())
         {
-            Direction.stream().filter(s -> getEnergyControl().getSideIO(s).allowsOutput()).forEach(side -> {
+            Direction.stream().filter(s -> getEnergyControl().getSideIOState(s).allowsOutput()).forEach(side -> {
                 IEnergyStorage sideEnergy = energyConnections.get(side).getCapability();
                 if (sideEnergy != null) LimaEnergyUtil.transferEnergyBetween(machineEnergy, sideEnergy, machineEnergy.getMaxEnergyStored(), false);
             });
@@ -142,7 +142,7 @@ public abstract class BaseESABlockEntity extends SidedItemEnergyMachineBlockEnti
         BlockState state = getBlockState();
         for (Direction side : Direction.values())
         {
-            state = state.setValue(LimaTechBlockProperties.getESASideIOProperty(side), getEnergyControl().getSideIO(side));
+            state = state.setValue(LimaTechBlockProperties.getESASideIOProperty(side), getEnergyControl().getSideIOState(side));
         }
         level.setBlockAndUpdate(getBlockPos(), state);
     }

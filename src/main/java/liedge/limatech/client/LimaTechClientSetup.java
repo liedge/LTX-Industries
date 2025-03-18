@@ -72,7 +72,7 @@ public final class LimaTechClientSetup
     public static void registerMenuScreens(final RegisterMenuScreensEvent event)
     {
         event.register(LimaTechMenus.MACHINE_UPGRADES.get(), MachineUpgradesScreen::new);
-        event.register(LimaTechMenus.MACHINE_IO_CONTROL.get(), IOControlScreen::new);
+        event.register(LimaTechMenus.MACHINE_IO_CONTROL.get(), IOControllerScreen::new);
         event.register(LimaTechMenus.ENERGY_STORAGE_ARRAY.get(), EnergyStorageArrayScreen::new);
         event.register(LimaTechMenus.DIGITAL_FURNACE.get(), DigitalFurnaceScreen::new);
         event.register(LimaTechMenus.GRINDER.get(), GrinderScreen::new);

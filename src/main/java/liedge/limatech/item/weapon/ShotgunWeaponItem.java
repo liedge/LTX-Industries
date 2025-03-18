@@ -7,6 +7,8 @@ import liedge.limatech.entity.CompoundHitResult;
 import liedge.limatech.lib.weapons.AbstractWeaponControls;
 import liedge.limatech.registry.*;
 import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrades;
+import liedge.limatech.registry.bootstrap.LimaTechDamageTypes;
+import liedge.limatech.registry.bootstrap.LimaTechEquipmentUpgrades;
 import liedge.limatech.util.config.LimaTechWeaponsConfig;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.sounds.SoundSource;

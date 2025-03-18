@@ -1,8 +1,12 @@
 package liedge.limatech.entity;
 
+import com.mojang.serialization.DynamicOps;
 import liedge.limacore.util.LimaMathUtil;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.RegistryOps;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -76,6 +80,11 @@ public abstract class LimaTechProjectile extends BaseTraceableEntity
     protected float getProjectileGravity()
     {
         return 0f;
+    }
+
+    protected DynamicOps<Tag> registryOps()
+    {
+        return RegistryOps.create(NbtOps.INSTANCE, registryAccess());
     }
 
     protected abstract void onProjectileHit(Level level, HitResult hitResult, Vec3 hitLocation);
