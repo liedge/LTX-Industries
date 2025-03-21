@@ -54,8 +54,8 @@ import static liedge.limacore.util.LimaMathUtil.vec2Length;
 public class RocketTurretBlockEntity extends SidedItemEnergyMachineBlockEntity implements OwnableBlockEntity
 {
     private static final Set<RelativeHorizontalSide> VALID_SIDES = ImmutableSet.copyOf(EnumSet.of(RelativeHorizontalSide.BOTTOM, RelativeHorizontalSide.FRONT, RelativeHorizontalSide.REAR, RelativeHorizontalSide.LEFT, RelativeHorizontalSide.RIGHT));
-    public static final SidedAccessRules ITEM_RULES = new SidedAccessRules(VALID_SIDES, IOAccessSets.ALL_ALLOWED, IOAccess.OUTPUT_ONLY, false, false);
-    public static final SidedAccessRules ENERGY_RULES = new SidedAccessRules(VALID_SIDES, IOAccessSets.INPUT_ONLY_OR_DISABLED, IOAccess.INPUT_ONLY, false, false);
+    public static final SidedAccessRules ITEM_RULES = SidedAccessRules.builder().setValidSides(VALID_SIDES).setValidIOStates(IOAccessSets.INPUT_XOR_OUTPUT_OR_DISABLED).setDefaultIOState(IOAccess.OUTPUT_ONLY).build();
+    public static final SidedAccessRules ENERGY_RULES = SidedAccessRules.builder().setValidSides(VALID_SIDES).setValidIOStates(IOAccessSets.INPUT_ONLY_OR_DISABLED).setDefaultIOState(IOAccess.INPUT_ONLY).build();
 
     private final LimaBlockEntityEnergyStorage energyStorage;
     private final Vec3 projectileStart;

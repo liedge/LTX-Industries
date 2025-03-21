@@ -29,19 +29,14 @@ public final class IOController implements INBTSerializable<CompoundTag>
 
     private @Nullable LimaDataWatcher<CompoundTag> dataWatcher;
 
-    public IOController(SidedAccessBlockEntity blockEntity, BlockEntityInputType inputType, boolean autoInput, boolean autoOutput)
+    public IOController(SidedAccessBlockEntity blockEntity, BlockEntityInputType inputType)
     {
         this.blockEntity = blockEntity;
         this.accessRules = blockEntity.getType().getSideAccessRules(inputType);
         this.inputType = inputType;
-        this.controlMap = accessRules.validSides().stream().collect(LimaStreamsUtil.toEnumMap(RelativeHorizontalSide.class, $ -> accessRules.defaultAccess()));
-        this.autoInput = accessRules.allowAutoInput() && autoInput;
-        this.autoOutput = accessRules.allowAutoOutput() && autoOutput;
-    }
-
-    public IOController(SidedAccessBlockEntity blockEntity, BlockEntityInputType inputType)
-    {
-        this(blockEntity, inputType, false, false);
+        this.controlMap = accessRules.validSides().stream().collect(LimaStreamsUtil.toEnumMap(RelativeHorizontalSide.class, $ -> accessRules.defaultIOState()));
+        this.autoInput = accessRules.defaultAutoInput();
+        this.autoOutput = accessRules.defaultAutoOutput();
     }
 
     public SidedAccessRules getAccessRules()

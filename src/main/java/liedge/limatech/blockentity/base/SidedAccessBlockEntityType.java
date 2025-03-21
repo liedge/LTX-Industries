@@ -9,6 +9,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Block;
 
 import java.util.*;
+import java.util.function.UnaryOperator;
 
 public final class SidedAccessBlockEntityType<BE extends LimaBlockEntity> extends LimaBlockEntityType<BE>
 {
@@ -50,6 +51,11 @@ public final class SidedAccessBlockEntityType<BE extends LimaBlockEntity> extend
         {
             LimaCollectionsUtil.putNoDuplicates(ruleMap, inputType, rules);
             return this;
+        }
+
+        public Builder<BE> withSideRules(BlockEntityInputType inputType, UnaryOperator<SidedAccessRules.Builder> builder)
+        {
+            return withSideRules(inputType, builder.apply(SidedAccessRules.builder()).build());
         }
 
         @Override

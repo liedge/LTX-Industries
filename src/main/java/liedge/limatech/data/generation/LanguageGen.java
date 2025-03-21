@@ -236,8 +236,8 @@ class LanguageGen extends LimaLanguageProvider
 
         add(CompoundValueOperation.REPLACE_BASE, "Sets %s as new base");
         add(CompoundValueOperation.FLAT_ADDITION, "%s");
-        add(CompoundValueOperation.ADD_MULTIPLIED_BASE, "%s base");
-        add(CompoundValueOperation.ADD_MULTIPLIED_TOTAL, "%s total");
+        add(CompoundValueOperation.ADD_MULTIPLIED_BASE, "%s of base");
+        add(CompoundValueOperation.ADD_MULTIPLIED_TOTAL, "%s of total");
         add(CompoundValueOperation.MULTIPLY, "%sx");
 
         add(INVALID_UPGRADE_HINT, "This upgrade data in this module is invalid or corrupted. Shift+Right Click to revert to an empty module.");
@@ -248,7 +248,7 @@ class LanguageGen extends LimaLanguageProvider
         add(LAST_ATTACKING_PLAYER_ENTITY_TARGET_TOOLTIP, "Last Attacking Player");
         add(ATTRIBUTE_AMOUNT_VALUE_TOOLTIP, "%s of %s %s");
 
-        add(LimaTechUpgradeEffectComponents.ARMOR_BYPASS, "Equipment bypasses %s armor points");
+        add(LimaTechUpgradeEffectComponents.ARMOR_BYPASS, "%s enemy armor (damage calculation)");
         add(LimaTechUpgradeEffectComponents.WEAPON_DAMAGE, "%s weapon damage");
         add(LimaTechUpgradeEffectComponents.WEAPON_PROJECTILE_SPEED, "%s projectile speed");
         add(LimaTechUpgradeEffectComponents.ENERGY_CAPACITY, "%s CE capacity");

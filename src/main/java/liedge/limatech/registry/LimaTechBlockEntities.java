@@ -45,12 +45,18 @@ public final class LimaTechBlockEntities
     public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<EnergyStorageArrayBlockEntity>> ENERGY_STORAGE_ARRAY = TYPES.register("energy_storage_array", () -> SidedAccessBlockEntityType.Builder.builder(EnergyStorageArrayBlockEntity::new)
             .withBlock(LimaTechBlocks.ENERGY_STORAGE_ARRAY)
             .withSideRules(BlockEntityInputType.ITEMS, BaseESABlockEntity.ITEM_ACCESS_RULES)
-            .withSideRules(BlockEntityInputType.ENERGY, SidedAccessRules.allSides(IOAccessSets.INPUT_XOR_OUTPUT_OR_DISABLED, IOAccess.INPUT_ONLY, false, true))
+            .withSideRules(BlockEntityInputType.ENERGY, builder -> builder
+                    .setValidIOStates(IOAccessSets.INPUT_XOR_OUTPUT_OR_DISABLED)
+                    .setDefaultIOState(IOAccess.INPUT_ONLY)
+                    .defineAutoOutput(true, true))
             .build());
     public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<InfiniteESABlockEntity>> INFINITE_ENERGY_STORAGE_ARRAY = TYPES.register("infinite_energy_storage_array", () -> SidedAccessBlockEntityType.Builder.builder(InfiniteESABlockEntity::new)
             .withBlock(LimaTechBlocks.INFINITE_ENERGY_STORAGE_ARRAY)
             .withSideRules(BlockEntityInputType.ITEMS, BaseESABlockEntity.ITEM_ACCESS_RULES)
-            .withSideRules(BlockEntityInputType.ENERGY, SidedAccessRules.allSides(IOAccessSets.OUTPUT_ONLY_OR_DISABLED, IOAccess.OUTPUT_ONLY, false, true))
+            .withSideRules(BlockEntityInputType.ENERGY, builder -> builder
+                    .setValidIOStates(IOAccessSets.OUTPUT_ONLY_OR_DISABLED)
+                    .setDefaultIOState(IOAccess.OUTPUT_ONLY)
+                    .defineAutoOutput(true, true))
             .build());
     public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<DigitalFurnaceBlockEntity>> DIGITAL_FURNACE = registerSimpleRecipeMachine("digital_furnace", DigitalFurnaceBlockEntity::new, builder -> builder.withBlock(LimaTechBlocks.DIGITAL_FURNACE));
     public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<GrinderBlockEntity>> GRINDER = registerSimpleRecipeMachine("grinder", GrinderBlockEntity::new, builder -> builder.withBlock(LimaTechBlocks.GRINDER));
