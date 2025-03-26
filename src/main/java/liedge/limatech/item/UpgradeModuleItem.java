@@ -109,14 +109,15 @@ public abstract class UpgradeModuleItem<U extends UpgradeBase<?, U>, UE extends 
 
             consumer.accept(upgrade.getEffectsTooltip(entry.upgradeRank()));
             consumer.accept(LimaTechLang.UPGRADE_COMPATIBILITY_TOOLTIP.translate().withStyle(moduleTypeStyle()));
-            if (upgrade.supportedSet() instanceof HolderSet.Named<?> namedSet)
+
+            List<ItemStack> compatibleItems = getAllCompatibleItems(upgrade);
+            if (compatibleItems.size() > 12 && upgrade.supportedSet() instanceof HolderSet.Named<?> namedSet)
             {
                 consumer.accept(Component.translatable(Tags.getTagTranslationKey(namedSet.key())).withStyle(moduleTypeStyle()));
             }
             else
             {
-                List<ItemStack> stacks = getAllCompatibleItems(upgrade);
-                consumer.accept(new ItemGridTooltip(stacks, 6, 2));
+                consumer.accept(new ItemGridTooltip(compatibleItems, 6, 2));
             }
         }
     }

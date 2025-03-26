@@ -22,7 +22,6 @@ import liedge.limatech.lib.weapons.WeaponAmmoSource;
 import liedge.limatech.registry.LimaTechItems;
 import liedge.limatech.registry.LimaTechRegistries;
 import net.minecraft.core.HolderGetter;
-import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
@@ -39,7 +38,6 @@ import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import static liedge.limatech.LimaTech.RESOURCES;
 import static liedge.limatech.data.generation.LimaTechBootstrap.*;
 import static liedge.limatech.registry.LimaTechUpgradeEffectComponents.*;
-import static liedge.limatech.registry.LimaTechUpgradeEffectComponents.GRENADE_UNLOCK;
 import static liedge.limatech.registry.bootstrap.LimaTechEnchantments.AMMO_SCAVENGER;
 import static liedge.limatech.registry.bootstrap.LimaTechEnchantments.RAZOR;
 
@@ -88,13 +86,13 @@ public final class LimaTechEquipmentUpgrades
 
         // Weapon-specific upgrades
         EquipmentUpgrade.builder(LIGHTFRAG_BASE_ARMOR_BYPASS)
-                .supports(HolderSet.direct(LimaTechItems.SUBMACHINE_GUN, LimaTechItems.SHOTGUN,  LimaTechItems.MAGNUM))
+                .supports(LimaTechItems.SUBMACHINE_GUN, LimaTechItems.SHOTGUN,  LimaTechItems.MAGNUM)
                 .withConditionalEffect(ARMOR_BYPASS, ComplexValueUpgradeEffect.simpleConstant(-4f, CompoundValueOperation.FLAT_ADDITION))
                 .effectIcon(sprite("lightfrags"))
                 .buildAndRegister(context);
 
         EquipmentUpgrade.builder(SMG_BUILT_IN)
-                .supports(HolderSet.direct(LimaTechItems.SUBMACHINE_GUN))
+                .supports(LimaTechItems.SUBMACHINE_GUN)
                 .withUnitEffect(PREVENT_SCULK_VIBRATION)
                 .withConditionalEffect(WEAPON_PRE_ATTACK, new DynamicDamageTagUpgradeEffect(DamageTypeTags.NO_ANGER))
                 .withConditionalEffect(WEAPON_PRE_ATTACK, new DynamicDamageTagUpgradeEffect(DamageTypeTags.NO_KNOCKBACK))

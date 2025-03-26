@@ -28,14 +28,9 @@
       }
     ]
   },
-  "exclusive_set": [],
+  "exclusive_set": "#limatech:machine_tier",
   "icon": "limatech:epsilon_systems",
-  "supported_set": [
-    "limatech:digital_furnace",
-    "limatech:grinder",
-    "limatech:recomposer",
-    "limatech:material_fusing_chamber"
-  ],
+  "supported_set": "#limatech:machines/general_processing",
   "title": {
     "color": "#9DF143",
     "translate": "machine_upgrade.limatech.epsilon_machine_systems.title"

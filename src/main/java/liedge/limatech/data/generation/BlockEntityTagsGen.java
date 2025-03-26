@@ -11,6 +11,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.CompletableFuture;
 
+import static liedge.limatech.LimaTechTags.BlockEntities.GENERAL_PROCESSING_MACHINES;
+import static liedge.limatech.registry.LimaTechBlockEntities.*;
+
 class BlockEntityTagsGen extends LimaTagsProvider.RegistryTags<BlockEntityType<?>>
 {
     BlockEntityTagsGen(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookupProvider, @Nullable ExistingFileHelper helper)
@@ -21,5 +24,6 @@ class BlockEntityTagsGen extends LimaTagsProvider.RegistryTags<BlockEntityType<?
     @Override
     protected void addTags(HolderLookup.Provider provider)
     {
+        buildTag(GENERAL_PROCESSING_MACHINES).add(DIGITAL_FURNACE, GRINDER, RECOMPOSER, MATERIAL_FUSING_CHAMBER);
     }
 }

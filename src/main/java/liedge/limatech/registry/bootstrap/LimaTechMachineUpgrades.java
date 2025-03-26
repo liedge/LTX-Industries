@@ -1,6 +1,7 @@
 package liedge.limatech.registry.bootstrap;
 
 import liedge.limatech.LimaTechConstants;
+import liedge.limatech.LimaTechTags;
 import liedge.limatech.lib.CompoundValueOperation;
 import liedge.limatech.lib.upgrades.effect.EnchantmentUpgradeEffect;
 import liedge.limatech.lib.upgrades.effect.value.DoubleLevelBasedValue;
@@ -16,8 +17,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 
 import static liedge.limatech.LimaTech.RESOURCES;
+import static liedge.limatech.LimaTechTags.MachineUpgrades.MACHINE_TIER;
 import static liedge.limatech.data.generation.LimaTechBootstrap.sprite;
 import static liedge.limatech.registry.LimaTechUpgradeEffectComponents.*;
 import static liedge.limatech.registry.LimaTechUpgradeEffectComponents.DIRECT_ITEM_TELEPORT;
@@ -42,7 +45,9 @@ public final class LimaTechMachineUpgrades
 
     public static void bootstrap(BootstrapContext<MachineUpgrade> context)
     {
+        HolderGetter<MachineUpgrade> holders = context.lookup(LimaTechRegistries.Keys.MACHINE_UPGRADES);
         HolderGetter<Enchantment> enchantments = context.lookup(Registries.ENCHANTMENT);
+        HolderGetter<BlockEntityType<?>> blockEntities = context.lookup(Registries.BLOCK_ENTITY_TYPE);
 
         MachineUpgrade.builder(ESA_CAPACITY_UPGRADE)
                 .supports(LimaTechBlockEntities.ENERGY_STORAGE_ARRAY)
@@ -53,7 +58,8 @@ public final class LimaTechMachineUpgrades
                 .buildAndRegister(context);
 
         MachineUpgrade.builder(ALPHA_MACHINE_SYSTEMS)
-                .supports(LimaTechBlockEntities.DIGITAL_FURNACE, LimaTechBlockEntities.GRINDER, LimaTechBlockEntities.RECOMPOSER, LimaTechBlockEntities.MATERIAL_FUSING_CHAMBER)
+                .supports(blockEntities, LimaTechTags.BlockEntities.GENERAL_PROCESSING_MACHINES)
+                .exclusiveWith(holders, MACHINE_TIER)
                 .withEffect(ENERGY_CAPACITY, SimpleValueUpgradeEffect.of(DoubleLevelBasedValue.linear(0.5d), CompoundValueOperation.ADD_MULTIPLIED_BASE))
                 .withEffect(ENERGY_TRANSFER_RATE, SimpleValueUpgradeEffect.of(DoubleLevelBasedValue.linear(0.5d), CompoundValueOperation.ADD_MULTIPLIED_BASE))
                 .withEffect(MACHINE_ENERGY_USAGE, SimpleValueUpgradeEffect.of(DoubleLevelBasedValue.linearExponent(1.5d), CompoundValueOperation.MULTIPLY))
@@ -64,7 +70,8 @@ public final class LimaTechMachineUpgrades
 
         MachineUpgrade.builder(EPSILON_MACHINE_SYSTEMS)
                 .createDefaultTitle(key -> Component.translatable(key).withStyle(LimaTechConstants.LIME_GREEN.chatStyle()))
-                .supports(LimaTechBlockEntities.DIGITAL_FURNACE, LimaTechBlockEntities.GRINDER, LimaTechBlockEntities.RECOMPOSER, LimaTechBlockEntities.MATERIAL_FUSING_CHAMBER)
+                .supports(blockEntities, LimaTechTags.BlockEntities.GENERAL_PROCESSING_MACHINES)
+                .exclusiveWith(holders, MACHINE_TIER)
                 .withEffect(ENERGY_CAPACITY, SimpleValueUpgradeEffect.of(DoubleLevelBasedValue.constant(8), CompoundValueOperation.MULTIPLY))
                 .withEffect(ENERGY_TRANSFER_RATE, SimpleValueUpgradeEffect.of(DoubleLevelBasedValue.constant(16), CompoundValueOperation.MULTIPLY))
                 .withEffect(MACHINE_ENERGY_USAGE, SimpleValueUpgradeEffect.of(DoubleLevelBasedValue.constant(256), CompoundValueOperation.MULTIPLY))

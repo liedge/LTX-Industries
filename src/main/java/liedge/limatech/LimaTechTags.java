@@ -1,5 +1,6 @@
 package liedge.limatech;
 
+import liedge.limatech.lib.upgrades.machine.MachineUpgrade;
 import liedge.limatech.registry.LimaTechRegistries;
 import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrade;
 import net.minecraft.tags.ItemTags;
@@ -7,6 +8,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 
 import static liedge.limacore.lib.ModResources.COMMON_NAMESPACE;
 import static liedge.limatech.LimaTech.RESOURCES;
@@ -89,6 +91,18 @@ public final class LimaTechTags
         }
     }
 
+    public static final class BlockEntities
+    {
+        private BlockEntities() {}
+
+        public static final TagKey<BlockEntityType<?>> GENERAL_PROCESSING_MACHINES = tag("machines/general_processing");
+
+        private static TagKey<BlockEntityType<?>> tag(String name)
+        {
+            return RESOURCES.blockEntityTag(name);
+        }
+    }
+
     public static final class EquipmentUpgrades
     {
         private EquipmentUpgrades() {}
@@ -98,6 +112,18 @@ public final class LimaTechTags
         private static TagKey<EquipmentUpgrade> key(String name)
         {
             return RESOURCES.tagKey(LimaTechRegistries.Keys.EQUIPMENT_UPGRADES, name);
+        }
+    }
+
+    public static final class MachineUpgrades
+    {
+        private MachineUpgrades() {}
+
+        public static final TagKey<MachineUpgrade> MACHINE_TIER = tag("machine_tier");
+
+        private static TagKey<MachineUpgrade> tag(String name)
+        {
+            return RESOURCES.tagKey(LimaTechRegistries.Keys.MACHINE_UPGRADES, name);
         }
     }
 }

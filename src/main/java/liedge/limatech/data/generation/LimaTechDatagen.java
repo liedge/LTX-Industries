@@ -36,7 +36,6 @@ final class LimaTechDatagen
         CompletableFuture<HolderLookup.Provider> patchedRegistries = dataRegistriesProvider.getRegistryProvider();
 
         // Server data
-        generator.addProvider(runServer, new EquipmentUpgradesTagsGen(output, patchedRegistries, helper));
         generator.addProvider(runServer, dataRegistriesProvider);
         generator.addProvider(runServer, LimaAdvancementGenerator.createDataProvider(output, helper, patchedRegistries, AdvancementsGen::new));
         generator.addProvider(runServer, blockTags);
@@ -45,6 +44,8 @@ final class LimaTechDatagen
         generator.addProvider(runServer, new EntityTagsGen(output, patchedRegistries, helper));
         generator.addProvider(runServer, new GameEventsTagsGen(output, patchedRegistries, helper));
         generator.addProvider(runServer, new BlockEntityTagsGen(output, patchedRegistries, helper));
+        generator.addProvider(runServer, new EquipmentUpgradesTagsGen(output, patchedRegistries, helper));
+        generator.addProvider(runServer, new MachineUpgradesTagsGen(output, patchedRegistries, helper));
         generator.addProvider(runServer, new LootTablesGen(output, patchedRegistries));
         generator.addProvider(runServer, new LootModifiersGen(output, patchedRegistries));
         generator.addProvider(runServer, new RecipesGen(output, patchedRegistries));

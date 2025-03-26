@@ -88,7 +88,7 @@ public final class LimaTechWeaponsConfig
 
         // Magnum
         builder.push("magnum");
-        MAGNUM_BASE_DAMAGE = builder.comment(baseDamageMsg, "Used when targeting non-living entities or when it is the higher value over the scaling damage.").defineInRange("base_damage", 60d, 0.1d, Double.MAX_VALUE);
+        MAGNUM_BASE_DAMAGE = builder.comment(baseDamageMsg).defineInRange("base_damage", 75d, 0.1d, Double.MAX_VALUE);
         MAGNUM_ENERGY_CAPACITY = builder.comment(ceuCapacityDamageMsg).defineInRange("energy_capacity", 20_000_000, 1, Integer.MAX_VALUE);
         MAGNUM_ENERGY_AMMO_COST = builder.comment(ceuAmmoCostMsg).defineInRange("energy_ammo_cost", 20_000_000, 1, Integer.MAX_VALUE);
         builder.pop();

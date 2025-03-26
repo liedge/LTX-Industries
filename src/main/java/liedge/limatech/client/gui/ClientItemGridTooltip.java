@@ -21,7 +21,10 @@ public final class ClientItemGridTooltip extends ClientGridTooltip<ItemStack>
     @Override
     protected void renderGridElement(ItemStack element, Font font, int rx, int ry, GuiGraphics graphics)
     {
-        graphics.renderItem(element, rx, ry);
-        graphics.renderItemDecorations(font, element, rx, ry);
+        int x = rx + 1;
+        int y = ry + 1;
+
+        graphics.renderItem(element, x, y);
+        graphics.renderItemDecorations(font, element, x, y);
     }
 }

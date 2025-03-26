@@ -52,15 +52,10 @@
       }
     ]
   },
-  "exclusive_set": [],
+  "exclusive_set": "#limatech:machine_tier",
   "icon": "limatech:alpha_systems",
   "max_rank": 6,
-  "supported_set": [
-    "limatech:digital_furnace",
-    "limatech:grinder",
-    "limatech:recomposer",
-    "limatech:material_fusing_chamber"
-  ],
+  "supported_set": "#limatech:machines/general_processing",
   "title": {
     "translate": "machine_upgrade.limatech.alpha_machine_systems.title"
   }

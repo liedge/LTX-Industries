@@ -39,7 +39,9 @@ public final class ClientFabricatorIngredientTooltip extends ClientGridTooltip<S
         }
 
         ItemStack stack = items[index];
-        graphics.renderItem(stack, rx, ry);
-        graphics.renderItemDecorations(font, stack, rx, ry);
+        int x = rx + 1;
+        int y = ry + 1;
+        graphics.renderItem(stack, x, y);
+        graphics.renderItemDecorations(font, stack, x, y);
     }
 }
