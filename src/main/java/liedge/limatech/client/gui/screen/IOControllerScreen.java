@@ -6,7 +6,7 @@ import liedge.limacore.client.gui.LimaMenuScreen;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.client.gui.UnmanagedSprite;
 import liedge.limacore.lib.Translatable;
-import liedge.limacore.registry.LimaCoreNetworkSerializers;
+import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.limatech.LimaTech;
 import liedge.limatech.LimaTechConstants;
 import liedge.limatech.blockentity.base.IOController;

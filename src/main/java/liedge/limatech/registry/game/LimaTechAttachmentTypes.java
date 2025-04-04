@@ -1,4 +1,4 @@
-package liedge.limatech.registry;
+package liedge.limatech.registry.game;
 
 import liedge.limacore.util.LimaCoreUtil;
 import liedge.limatech.LimaTech;
@@ -20,7 +20,7 @@ public final class LimaTechAttachmentTypes
 
     private static final DeferredRegister<AttachmentType<?>> ATTACHMENTS = LimaTech.RESOURCES.deferredRegister(NeoForgeRegistries.ATTACHMENT_TYPES);
 
-    public static void initRegister(IEventBus bus)
+    public static void register(IEventBus bus)
     {
         ATTACHMENTS.register(bus);
     }

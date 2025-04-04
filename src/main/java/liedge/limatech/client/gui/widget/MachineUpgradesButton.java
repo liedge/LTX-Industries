@@ -3,7 +3,7 @@ package liedge.limatech.client.gui.widget;
 import liedge.limacore.client.gui.LimaMenuScreen;
 import liedge.limacore.client.gui.UnmanagedSprite;
 import liedge.limatech.menu.UpgradableMachineMenu;
-import liedge.limatech.registry.LimaTechMenus;
+import liedge.limatech.registry.game.LimaTechMenus;
 import net.minecraft.client.gui.components.Tooltip;
 
 public class MachineUpgradesButton extends LimaSidebarButton

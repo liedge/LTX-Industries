@@ -11,7 +11,7 @@ import liedge.limatech.block.LimaTechBlockProperties;
 import liedge.limatech.blockentity.base.SidedAccessBlockEntityType;
 import liedge.limatech.blockentity.base.SidedAccessRules;
 import liedge.limatech.blockentity.base.BlockEntityInputType;
-import liedge.limatech.registry.LimaTechMenus;
+import liedge.limatech.registry.game.LimaTechMenus;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;

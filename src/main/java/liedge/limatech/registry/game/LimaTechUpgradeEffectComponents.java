@@ -1,4 +1,4 @@
-package liedge.limatech.registry;
+package liedge.limatech.registry.game;
 
 import liedge.limatech.LimaTechConstants;
 import liedge.limatech.client.LimaTechLang;
@@ -7,6 +7,7 @@ import liedge.limatech.lib.upgrades.effect.equipment.EquipmentUpgradeEffect;
 import liedge.limatech.lib.upgrades.effect.value.ComplexValueUpgradeEffect;
 import liedge.limatech.lib.upgrades.effect.value.SimpleValueUpgradeEffect;
 import liedge.limatech.lib.weapons.GrenadeType;
+import liedge.limatech.registry.LimaTechRegistries;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.util.Unit;
@@ -26,7 +27,7 @@ public final class LimaTechUpgradeEffectComponents
 
     private LimaTechUpgradeEffectComponents() {}
 
-    public static void initRegister(IEventBus bus)
+    public static void register(IEventBus bus)
     {
         COMPONENTS.register(bus);
     }

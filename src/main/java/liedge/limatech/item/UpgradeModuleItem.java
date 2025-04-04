@@ -8,7 +8,7 @@ import liedge.limatech.client.LimaTechLang;
 import liedge.limatech.lib.upgrades.UpgradeBase;
 import liedge.limatech.lib.upgrades.UpgradeBaseEntry;
 import liedge.limatech.menu.tooltip.ItemGridTooltip;
-import liedge.limatech.registry.LimaTechItems;
+import liedge.limatech.registry.game.LimaTechItems;
 import liedge.limatech.util.config.LimaTechServerConfig;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;

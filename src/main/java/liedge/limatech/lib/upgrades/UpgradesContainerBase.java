@@ -7,15 +7,19 @@ import liedge.limacore.network.LimaStreamCodecs;
 import liedge.limacore.util.LimaRegistryUtil;
 import liedge.limatech.lib.upgrades.effect.value.ComplexValueUpgradeEffect;
 import liedge.limatech.lib.upgrades.effect.value.SimpleValueUpgradeEffect;
+import liedge.limatech.registry.game.LimaTechUpgradeEffectComponents;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.ConditionalEffect;
 import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.storage.loot.LootContext;
 
 import java.util.*;
@@ -46,7 +50,7 @@ public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
         this.internalMap = internalMap;
     }
 
-    // Iteration helpers
+    //#region General iteration helpers
     public <T> void forEachConditionalEffect(DataComponentType<List<ConditionalEffect<T>>> type, LootContext context, BiConsumer<T, Integer> consumer)
     {
         for (Object2IntMap.Entry<Holder<U>> entry : internalMap.object2IntEntrySet())
@@ -128,24 +132,21 @@ public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
             return data.stream().mapToInt(effect -> mapper.applyAsInt(effect, entry.getIntValue()));
         });
     }
+    //#endregion
 
-    public double applyComplexDamageContextValue(DataComponentType<List<ConditionalEffect<ComplexValueUpgradeEffect>>> type, ServerLevel serverLevel, Entity targetEntity, DamageSource damageSource, double base, double total)
+    //#region Specialized iteration helpers
+    public ItemEnchantments getEnchantments()
     {
-        List<EffectRankPair<ConditionalEffect<ComplexValueUpgradeEffect>>> list = boxedFlatStream(type).sorted(Comparator.comparing(pair -> pair.effect.effect().operation())).toList();
-        double result = total;
-
-        for (EffectRankPair<ConditionalEffect<ComplexValueUpgradeEffect>> pair : list)
-        {
-            LootContext context = Enchantment.damageContext(serverLevel, pair.upgradeRank, targetEntity, damageSource);
-            if (pair.effect.matches(context))
-            {
-                ComplexValueUpgradeEffect effect = pair.effect.effect();
-                result = effect.operation().computeDouble(base, result, effect.value().getFloat(context));
-            }
-        }
-
-        return result;
+        ItemEnchantments.Mutable builder = new ItemEnchantments.Mutable(ItemEnchantments.EMPTY.withTooltip(false));
+        forEachEffect(LimaTechUpgradeEffectComponents.ENCHANTMENT_LEVEL, (effect, rank) -> effect.applyEnchantment(builder, rank));
+        return builder.keySet().isEmpty() ? ItemEnchantments.EMPTY : builder.toImmutable();
     }
+
+    public void applyEnchantments(ItemStack stack)
+    {
+        stack.set(DataComponents.ENCHANTMENTS, getEnchantments());
+    }
+    //#endregion
 
     //#region Value computing helpers
     public double applySimpleValue(DataComponentType<List<SimpleValueUpgradeEffect>> type, double base, double total)
@@ -175,6 +176,24 @@ public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
     public double applySimpleValue(Supplier<? extends DataComponentType<List<SimpleValueUpgradeEffect>>> typeSupplier, double base)
     {
         return applySimpleValue(typeSupplier.get(), base);
+    }
+
+    public double applyComplexDamageContextValue(DataComponentType<List<ConditionalEffect<ComplexValueUpgradeEffect>>> type, ServerLevel serverLevel, Entity targetEntity, DamageSource damageSource, double base, double total)
+    {
+        List<EffectRankPair<ConditionalEffect<ComplexValueUpgradeEffect>>> list = boxedFlatStream(type).sorted(Comparator.comparing(pair -> pair.effect.effect().operation())).toList();
+        double result = total;
+
+        for (EffectRankPair<ConditionalEffect<ComplexValueUpgradeEffect>> pair : list)
+        {
+            LootContext context = Enchantment.damageContext(serverLevel, pair.upgradeRank, targetEntity, damageSource);
+            if (pair.effect.matches(context))
+            {
+                ComplexValueUpgradeEffect effect = pair.effect.effect();
+                result = effect.operation().computeDouble(base, result, effect.value().getFloat(context));
+            }
+        }
+
+        return result;
     }
     //#endregion
 

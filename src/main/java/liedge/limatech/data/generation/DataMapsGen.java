@@ -3,7 +3,7 @@ package liedge.limatech.data.generation;
 import liedge.limatech.LimaTechTags;
 import liedge.limatech.lib.CompoundValueOperation;
 import liedge.limatech.lib.weapons.GlobalWeaponDamageModifiers;
-import liedge.limatech.registry.LimaTechGameEvents;
+import liedge.limatech.registry.game.LimaTechGameEvents;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.DataMapProvider;
@@ -15,7 +15,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
 import static liedge.limatech.lib.weapons.GlobalWeaponDamageModifiers.WeaponDamageModifier.modifier;
-import static liedge.limatech.registry.LimaTechItems.*;
+import static liedge.limatech.registry.game.LimaTechItems.*;
 
 class DataMapsGen extends DataMapProvider
 {

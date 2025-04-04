@@ -2,12 +2,11 @@ package liedge.limatech.item;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrades;
-import liedge.limatech.registry.LimaTechDataComponents;
-import liedge.limatech.registry.LimaTechUpgradeEffectComponents;
+import liedge.limatech.registry.game.LimaTechDataComponents;
+import liedge.limatech.registry.game.LimaTechUpgradeEffectComponents;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
-import net.minecraft.world.item.enchantment.ItemEnchantments;
 
 import java.util.List;
 
@@ -21,14 +20,11 @@ public interface UpgradableEquipmentItem
     default void refreshEquipmentUpgrades(ItemStack stack, EquipmentUpgrades upgrades)
     {
         // Refresh enchantments
-        ItemEnchantments.Mutable builder = new ItemEnchantments.Mutable(ItemEnchantments.EMPTY.withTooltip(false));
-        getUpgrades(stack).forEachEffect(LimaTechUpgradeEffectComponents.ENCHANTMENT_LEVEL, (effect, rank) -> effect.applyEnchantment(builder, rank));
-        ItemEnchantments enchantments = builder.keySet().isEmpty() ? null : builder.toImmutable();
-        stack.set(DataComponents.ENCHANTMENTS, enchantments);
+        upgrades.applyEnchantments(stack);
 
         // Refresh attribute modifiers
         List<ItemAttributeModifiers.Entry> modifierEntries = new ObjectArrayList<>();
-        getUpgrades(stack).forEachEffect(LimaTechUpgradeEffectComponents.ITEM_ATTRIBUTE_MODIFIERS, (effect, rank) -> modifierEntries.add(effect.makeModifierEntry(rank)));
+        upgrades.forEachEffect(LimaTechUpgradeEffectComponents.ITEM_ATTRIBUTE_MODIFIERS, (effect, rank) -> modifierEntries.add(effect.makeModifierEntry(rank)));
         stack.set(DataComponents.ATTRIBUTE_MODIFIERS, new ItemAttributeModifiers(modifierEntries, false));
     }
 

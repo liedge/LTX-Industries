@@ -3,7 +3,7 @@ package liedge.limatech.world;
 import com.mojang.serialization.MapCodec;
 import liedge.limatech.entity.OrbGrenadeEntity;
 import liedge.limatech.lib.weapons.GrenadeType;
-import liedge.limatech.registry.LimaTechLootRegistries;
+import liedge.limatech.registry.game.LimaTechLootRegistries;
 import net.minecraft.advancements.critereon.EntitySubPredicate;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;

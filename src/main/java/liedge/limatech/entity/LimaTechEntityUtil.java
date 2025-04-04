@@ -1,20 +1,30 @@
 package liedge.limatech.entity;
 
 import liedge.limatech.LimaTechTags;
+import liedge.limatech.lib.upgrades.UpgradesContainerBase;
 import liedge.limatech.util.config.LimaTechServerConfig;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.OwnableEntity;
 import net.minecraft.world.entity.TraceableEntity;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.*;
-import net.neoforged.neoforge.entity.PartEntity;
+import net.neoforged.neoforge.common.util.FakePlayerFactory;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Comparator;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 public final class LimaTechEntityUtil
@@ -70,9 +80,6 @@ public final class LimaTechEntityUtil
             // Check pvp rules if target is a player
             case Player player when !checkPlayerPVPRule(attackingEntity, player) -> false;
 
-            // Do not hit part entities
-            case PartEntity<?> ignored -> false;
-
             // Finally, don't hurt the vehicle entity owner is riding (if any)
             default -> validAttacker && !attackingEntity.isPassengerOfSameVehicle(target);
         };
@@ -113,5 +120,34 @@ public final class LimaTechEntityUtil
                 .orElse(null);
 
         return entityTrace != null ? entityTrace : blockTrace;
+    }
+
+    public static void hurtWithEnchantedFakePlayer(ServerLevel level, Entity target, @Nullable LivingEntity owner, UpgradesContainerBase<?, ?> upgrades, Function<@Nullable LivingEntity, ? extends DamageSource> damageSourceFunction, float damage)
+    {
+        if (owner instanceof Player)
+        {
+            ItemEnchantments enchantments = upgrades.getEnchantments();
+
+            owner = FakePlayerFactory.get(level, ((Player) owner).getGameProfile());
+
+            if (enchantments.isEmpty())
+            {
+                owner.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY); // Just in case...
+                target.hurt(damageSourceFunction.apply(owner), damage);
+            }
+            else
+            {
+                ItemStack stack = new ItemStack(Items.DIAMOND_SWORD);
+                stack.set(DataComponents.ENCHANTMENTS, enchantments);
+
+                owner.setItemInHand(InteractionHand.MAIN_HAND, stack);
+                target.hurt(damageSourceFunction.apply(owner), damage);
+                owner.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
+            }
+        }
+        else
+        {
+            target.hurt(damageSourceFunction.apply(owner), damage);
+        }
     }
 }

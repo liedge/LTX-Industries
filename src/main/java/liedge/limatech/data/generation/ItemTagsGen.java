@@ -12,7 +12,7 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import java.util.concurrent.CompletableFuture;
 
 import static liedge.limatech.LimaTechTags.Items.*;
-import static liedge.limatech.registry.LimaTechItems.*;
+import static liedge.limatech.registry.game.LimaTechItems.*;
 import static net.minecraft.tags.ItemTags.*;
 import static net.neoforged.neoforge.common.Tags.Items.*;
 

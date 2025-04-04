@@ -10,8 +10,8 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import java.util.concurrent.CompletableFuture;
 
-import static liedge.limatech.registry.LimaTechGameEvents.PROJECTILE_EXPLODED;
-import static liedge.limatech.registry.LimaTechGameEvents.WEAPON_FIRED;
+import static liedge.limatech.registry.game.LimaTechGameEvents.PROJECTILE_EXPLODED;
+import static liedge.limatech.registry.game.LimaTechGameEvents.WEAPON_FIRED;
 import static net.minecraft.tags.GameEventTags.SHRIEKER_CAN_LISTEN;
 import static net.minecraft.tags.GameEventTags.VIBRATIONS;
 

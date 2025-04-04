@@ -1,4 +1,4 @@
-package liedge.limatech.registry;
+package liedge.limatech.registry.game;
 
 import liedge.limacore.lib.SimpleMobEffect;
 import liedge.limatech.LimaTech;
@@ -19,7 +19,7 @@ public final class LimaTechMobEffects
 
     private static final DeferredRegister<MobEffect> MOB_EFFECTS = LimaTech.RESOURCES.deferredRegister(Registries.MOB_EFFECT);
 
-    public static void initRegister(IEventBus bus)
+    public static void register(IEventBus bus)
     {
         MOB_EFFECTS.register(bus);
     }

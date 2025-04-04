@@ -14,7 +14,7 @@ import liedge.limatech.item.weapon.WeaponItem;
 import liedge.limatech.lib.weapons.AbstractWeaponControls;
 import liedge.limatech.lib.weapons.ClientWeaponControls;
 import liedge.limatech.network.packet.ServerboundItemModeSwitchPacket;
-import liedge.limatech.registry.LimaTechAttachmentTypes;
+import liedge.limatech.registry.game.LimaTechAttachmentTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
@@ -39,7 +39,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import java.util.List;
 
 import static liedge.limatech.LimaTechConstants.BUBBLE_SHIELD_GREEN;
-import static liedge.limatech.registry.LimaTechAttachmentTypes.WEAPON_CONTROLS;
+import static liedge.limatech.registry.game.LimaTechAttachmentTypes.WEAPON_CONTROLS;
 
 @EventBusSubscriber(modid = LimaTech.MODID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
 public final class LimaTechClientEvents

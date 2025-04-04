@@ -1,4 +1,4 @@
-package liedge.limatech.registry;
+package liedge.limatech.registry.game;
 
 import com.mojang.serialization.MapCodec;
 import liedge.limatech.world.AutoTrackingTargetSubPredicate;
@@ -17,7 +17,7 @@ public final class LimaTechLootRegistries
 
     private static final DeferredRegister<MapCodec<? extends EntitySubPredicate>> SUB_PREDICATES = RESOURCES.deferredRegister(Registries.ENTITY_SUB_PREDICATE_TYPE);
 
-    public static void initRegister(IEventBus bus)
+    public static void register(IEventBus bus)
     {
         SUB_PREDICATES.register(bus);
     }

@@ -1,6 +1,6 @@
 package liedge.limatech.client;
 
-import liedge.limatech.registry.LimaTechAttachmentTypes;
+import liedge.limatech.registry.game.LimaTechAttachmentTypes;
 import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.core.Holder;

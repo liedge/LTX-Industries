@@ -2,16 +2,16 @@ package liedge.limatech;
 
 import liedge.limacore.capability.itemhandler.LimaItemHandlerUtil;
 import liedge.limacore.util.LimaCoreUtil;
-import liedge.limatech.blockentity.RocketTurretBlockEntity;
+import liedge.limatech.blockentity.BaseTurretBlockEntity;
 import liedge.limatech.entity.BubbleShieldUser;
 import liedge.limatech.item.weapon.WeaponItem;
 import liedge.limatech.lib.TurretDamageSource;
 import liedge.limatech.lib.weapons.WeaponDamageSource;
 import liedge.limatech.network.packet.ClientboundEntityShieldPacket;
 import liedge.limatech.network.packet.ClientboundPlayerShieldPacket;
-import liedge.limatech.registry.LimaTechAttachmentTypes;
-import liedge.limatech.registry.LimaTechAttributes;
-import liedge.limatech.registry.LimaTechUpgradeEffectComponents;
+import liedge.limatech.registry.game.LimaTechAttachmentTypes;
+import liedge.limatech.registry.game.LimaTechAttributes;
+import liedge.limatech.registry.game.LimaTechUpgradeEffectComponents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -98,7 +98,7 @@ public final class LimaTechEventHandler
         if (event.getSource() instanceof TurretDamageSource damageSource)
         {
             // Check if upgrade effect is active
-            RocketTurretBlockEntity be = damageSource.getBlockEntity();
+            BaseTurretBlockEntity be = damageSource.getBlockEntity();
             if (be.getUpgrades().upgradeEffectTypePresent(LimaTechUpgradeEffectComponents.DIRECT_ITEM_TELEPORT.get()))
             {
                 Iterator<ItemEntity> iterator = event.getDrops().iterator();

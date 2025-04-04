@@ -1,8 +1,8 @@
 package liedge.limatech.blockentity;
 
 import liedge.limacore.inventory.menu.LimaMenuType;
-import liedge.limatech.registry.LimaTechBlockEntities;
-import liedge.limatech.registry.LimaTechMenus;
+import liedge.limatech.registry.game.LimaTechBlockEntities;
+import liedge.limatech.registry.game.LimaTechMenus;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SingleRecipeInput;

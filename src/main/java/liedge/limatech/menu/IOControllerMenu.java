@@ -2,7 +2,7 @@ package liedge.limatech.menu;
 
 import liedge.limacore.inventory.menu.LimaMenu;
 import liedge.limacore.inventory.menu.LimaMenuType;
-import liedge.limacore.registry.LimaCoreNetworkSerializers;
+import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.limacore.util.LimaBlockUtil;
 import liedge.limatech.blockentity.base.BlockEntityInputType;
 import liedge.limatech.blockentity.base.IOController;

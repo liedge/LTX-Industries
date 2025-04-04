@@ -1,6 +1,6 @@
 package liedge.limatech.lib;
 
-import liedge.limatech.registry.LimaTechAttachmentTypes;
+import liedge.limatech.registry.game.LimaTechAttachmentTypes;
 import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.Nullable;
 

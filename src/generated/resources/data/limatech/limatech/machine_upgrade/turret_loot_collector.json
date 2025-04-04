@@ -7,7 +7,7 @@
   },
   "exclusive_set": [],
   "icon": "limatech:magnet",
-  "supported_set": "limatech:rocket_turret",
+  "supported_set": "#limatech:turrets",
   "title": {
     "translate": "machine_upgrade.limatech.turret_loot_collector.title"
   }

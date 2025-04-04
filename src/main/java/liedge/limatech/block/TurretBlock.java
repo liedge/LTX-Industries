@@ -3,10 +3,13 @@ package liedge.limatech.block;
 import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.inventory.menu.LimaMenuProvider;
 import liedge.limacore.util.LimaBlockUtil;
-import liedge.limatech.blockentity.RocketTurretBlockEntity;
-import liedge.limatech.registry.LimaTechBlockEntities;
+import liedge.limacore.util.LimaCoreUtil;
+import liedge.limacore.util.LimaRegistryUtil;
+import liedge.limatech.blockentity.BaseTurretBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -16,6 +19,7 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
@@ -25,6 +29,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -32,7 +37,7 @@ import org.jetbrains.annotations.Nullable;
 
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.*;
 
-public class RocketTurretBlock extends BaseWrenchEntityBlock implements SimpleWaterloggedBlock
+public class TurretBlock extends BaseWrenchEntityBlock implements SimpleWaterloggedBlock
 {
     private static final VoxelShape TURRET_SHAPE = Shapes.or(
             // Base
@@ -50,7 +55,9 @@ public class RocketTurretBlock extends BaseWrenchEntityBlock implements SimpleWa
 
     private static final VoxelShape UPPER_TURRET_SHAPE = LimaBlockUtil.moveShape(TURRET_SHAPE, 0, -1, 0);
 
-    public RocketTurretBlock(Properties properties)
+    private LimaBlockEntityType<?> entityType;
+
+    public TurretBlock(Properties properties)
     {
         super(properties);
 
@@ -63,7 +70,7 @@ public class RocketTurretBlock extends BaseWrenchEntityBlock implements SimpleWa
     @Override
     public @Nullable LimaBlockEntityType<?> getBlockEntityType(BlockState state)
     {
-        return state.is(this) && state.getValue(DOUBLE_BLOCK_HALF) == DoubleBlockHalf.LOWER ? LimaTechBlockEntities.ROCKET_TURRET.get() : null;
+        return state.is(this) && state.getValue(DOUBLE_BLOCK_HALF) == DoubleBlockHalf.LOWER ? resolveBlockEntityType() : null;
     }
 
     @Override
@@ -89,6 +96,19 @@ public class RocketTurretBlock extends BaseWrenchEntityBlock implements SimpleWa
     protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext ctx)
     {
         return state.getValue(DOUBLE_BLOCK_HALF) == DoubleBlockHalf.LOWER ? TURRET_SHAPE : UPPER_TURRET_SHAPE;
+    }
+
+    @Override
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player)
+    {
+        if (state.getValue(DOUBLE_BLOCK_HALF) == DoubleBlockHalf.UPPER)
+        {
+            BlockPos below = pos.below();
+            BlockState belowState = level.getBlockState(below);
+            if (belowState.is(this)) return belowState.getCloneItemStack(target, level, below, player);
+        }
+
+        return super.getCloneItemStack(state, target, level, pos, player);
     }
 
     @Override
@@ -131,7 +151,7 @@ public class RocketTurretBlock extends BaseWrenchEntityBlock implements SimpleWa
             BlockPos opposite = state.getValue(DOUBLE_BLOCK_HALF) == DoubleBlockHalf.LOWER ? pos.above() : pos.below();
             level.removeBlock(opposite, false);
 
-            RocketTurretBlockEntity be = LimaBlockUtil.getSafeBlockEntity(level, pos, RocketTurretBlockEntity.class);
+            BaseTurretBlockEntity be = LimaBlockUtil.getSafeBlockEntity(level, pos, BaseTurretBlockEntity.class);
             if (be != null) be.onRemovedFromLevel();
 
             super.onRemove(state, level, pos, newState, movedByPiston);
@@ -185,7 +205,7 @@ public class RocketTurretBlock extends BaseWrenchEntityBlock implements SimpleWa
 
             if (belowState.is(this))
             {
-                belowState.getBlock().playerDestroy(level, player, below, belowState, blockEntity, tool);
+                belowState.getBlock().playerDestroy(level, player, below, belowState, level.getBlockEntity(below), tool); // Critical fix: Must use lower block entity, not upper (doesn't exist)
             }
 
             level.removeBlock(pos, false);
@@ -246,5 +266,17 @@ public class RocketTurretBlock extends BaseWrenchEntityBlock implements SimpleWa
         if (state.getValue(WATERLOGGED)) level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
 
         return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
+    }
+
+    private LimaBlockEntityType<?> resolveBlockEntityType()
+    {
+        if (entityType == null)
+        {
+            ResourceLocation blockId = LimaRegistryUtil.getBlockId(this);
+            this.entityType = LimaCoreUtil.castOrThrow(LimaBlockEntityType.class, LimaRegistryUtil.getNonNullRegistryValue(blockId, BuiltInRegistries.BLOCK_ENTITY_TYPE),
+                    () -> new IllegalStateException("Block with id '" + blockId + "' has no block entity type registered with matching ID."));
+        }
+
+        return entityType;
     }
 }

@@ -3,7 +3,7 @@ package liedge.limatech.menu;
 import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limacore.util.LimaItemUtil;
 import liedge.limatech.blockentity.MaterialFusingChamberBlockEntity;
-import liedge.limatech.registry.LimaTechRecipeTypes;
+import liedge.limatech.registry.game.LimaTechRecipeTypes;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 

@@ -32,6 +32,10 @@ public final class LimaTechMachinesConfig
     public static final ModConfigSpec.IntValue ATMOS_TURRET_ENERGY_PER_TARGET;
     public static final ModConfigSpec.DoubleValue ATMOS_TURRET_ROCKET_DAMAGE;
 
+    public static final ModConfigSpec.IntValue NOCTIS_TURRET_ENERGY_CAPACITY;
+    public static final ModConfigSpec.IntValue NOCTIS_TURRET_ENERGY_PER_TARGET;
+    public static final ModConfigSpec.DoubleValue NOCTIS_TURRET_DAMAGE;
+
     public static final ModConfigSpec MACHINES_CONFIG_SPEC;
 
     static
@@ -102,8 +106,18 @@ public final class LimaTechMachinesConfig
                 .defineInRange("energy_capacity", 200_000, 1, Integer.MAX_VALUE);
         ATMOS_TURRET_ENERGY_PER_TARGET = builder.comment("Energy usage per target acquisition.")
                 .defineInRange("energy_per_target", 10_000, 1, Integer.MAX_VALUE);
-        ATMOS_TURRET_ROCKET_DAMAGE = builder.comment("Base damage dealt by rockets from the Atmos turret")
+        ATMOS_TURRET_ROCKET_DAMAGE = builder.comment("Base damage dealt by rockets from the Atmos turret.")
                 .defineInRange("rocket_damage", 40d, 1d, Double.MAX_VALUE);
+        builder.pop();
+
+        // Noctis turret
+        builder.push("noctis_turret");
+        NOCTIS_TURRET_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Noctis turret.")
+                .defineInRange("energy_capacity", 1_200_000, 1, Integer.MAX_VALUE);
+        NOCTIS_TURRET_ENERGY_PER_TARGET = builder.comment("Energy usage per target acquisition.")
+                .defineInRange("energy_per_target", 400_000, 1, Integer.MAX_VALUE);
+        NOCTIS_TURRET_DAMAGE = builder.comment("Base damage per shot of the Noctis turret.")
+                .defineInRange("base_damage", 200d, 1d, Double.MAX_VALUE);
         builder.pop();
 
         MACHINES_CONFIG_SPEC = builder.build();

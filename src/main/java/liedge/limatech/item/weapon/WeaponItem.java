@@ -16,9 +16,9 @@ import liedge.limatech.lib.weapons.AbstractWeaponControls;
 import liedge.limatech.lib.weapons.GlobalWeaponDamageModifiers;
 import liedge.limatech.lib.weapons.WeaponAmmoSource;
 import liedge.limatech.lib.weapons.WeaponDamageSource;
-import liedge.limatech.registry.LimaTechAttachmentTypes;
-import liedge.limatech.registry.LimaTechGameEvents;
-import liedge.limatech.registry.LimaTechUpgradeEffectComponents;
+import liedge.limatech.registry.game.LimaTechAttachmentTypes;
+import liedge.limatech.registry.game.LimaTechGameEvents;
+import liedge.limatech.registry.game.LimaTechUpgradeEffectComponents;
 import liedge.limatech.util.LimaTechTooltipUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.HolderLookup;
@@ -52,7 +52,7 @@ import java.util.Optional;
 import static liedge.limacore.capability.energy.LimaEnergyUtil.formatEnergyWithSuffix;
 import static liedge.limatech.LimaTech.RESOURCES;
 import static liedge.limatech.LimaTechConstants.*;
-import static liedge.limatech.registry.LimaTechDataComponents.*;
+import static liedge.limatech.registry.game.LimaTechDataComponents.*;
 
 public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaCreativeTabFillerItem, TooltipShiftHintItem, UpgradableEquipmentItem
 {

@@ -6,8 +6,8 @@ import liedge.limatech.lib.weapons.GrenadeType;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
-import static liedge.limatech.registry.LimaTechSounds.*;
-import static net.minecraft.sounds.SoundEvents.GENERIC_EXPLODE;
+import static liedge.limatech.registry.game.LimaTechSounds.*;
+import static net.minecraft.sounds.SoundEvents.*;
 
 class SoundsGen extends LimaSoundDefinitionsProvider
 {
@@ -27,17 +27,19 @@ class SoundsGen extends LimaSoundDefinitionsProvider
         addSingleDirectSound(GRENADE_LAUNCHER_FIRE);
         addSingleDirectSound(ROCKET_LAUNCHER_FIRE);
         addSingleDirectSound(MAGNUM_FIRE);
-        addSingleEventRedirectSound(ROCKET_EXPLODE, GENERIC_EXPLODE);
+        addSingleEventSound(ROCKET_EXPLODE, GENERIC_EXPLODE);
 
         GRENADE_EXPLOSIONS.forEach((element, holder) -> {
             if (element == GrenadeType.EXPLOSIVE)
             {
-                addSingleEventRedirectSound(holder, GENERIC_EXPLODE);
+                addSingleEventSound(holder, GENERIC_EXPLODE);
             }
             else
             {
                 addSingleDirectSound(holder);
             }
         });
-    }
+
+        addSingleEventSound(RAILGUN_BOOM, WARDEN_SONIC_BOOM);
+     }
 }

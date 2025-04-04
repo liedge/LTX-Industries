@@ -6,7 +6,7 @@ import liedge.limacore.blockentity.RelativeHorizontalSide;
 import liedge.limacore.lib.OrderedEnum;
 import liedge.limacore.network.sync.LimaDataWatcher;
 import liedge.limacore.network.sync.ManualDataWatcher;
-import liedge.limacore.registry.LimaCoreNetworkSerializers;
+import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.limacore.util.LimaStreamsUtil;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;

@@ -4,8 +4,8 @@ import liedge.limatech.entity.BaseRocketEntity;
 import liedge.limatech.entity.LimaTechEntityUtil;
 import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.limatech.lib.weapons.AbstractWeaponControls;
-import liedge.limatech.registry.LimaTechItems;
-import liedge.limatech.registry.LimaTechSounds;
+import liedge.limatech.registry.game.LimaTechItems;
+import liedge.limatech.registry.game.LimaTechSounds;
 import liedge.limatech.util.config.LimaTechWeaponsConfig;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -22,7 +22,7 @@ import net.minecraft.world.phys.Vec3;
 import java.util.Comparator;
 import java.util.Optional;
 
-import static liedge.limatech.registry.LimaTechAttachmentTypes.WEAPON_CONTROLS;
+import static liedge.limatech.registry.game.LimaTechAttachmentTypes.WEAPON_CONTROLS;
 
 public class RocketLauncherWeaponItem extends SemiAutoWeaponItem
 {

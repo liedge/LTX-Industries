@@ -2,7 +2,7 @@ package liedge.limatech.data.generation;
 
 import liedge.limacore.data.generation.loot.LimaLootModifierProvider;
 import liedge.limacore.world.loot.AddItemLootModifier;
-import liedge.limatech.registry.LimaTechItems;
+import liedge.limatech.registry.game.LimaTechItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;

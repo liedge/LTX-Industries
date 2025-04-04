@@ -19,7 +19,7 @@ import liedge.limatech.lib.upgrades.effect.value.SimpleValueUpgradeEffect;
 import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrade;
 import liedge.limatech.lib.weapons.GrenadeType;
 import liedge.limatech.lib.weapons.WeaponAmmoSource;
-import liedge.limatech.registry.LimaTechItems;
+import liedge.limatech.registry.game.LimaTechItems;
 import liedge.limatech.registry.LimaTechRegistries;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
@@ -37,7 +37,7 @@ import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 
 import static liedge.limatech.LimaTech.RESOURCES;
 import static liedge.limatech.data.generation.LimaTechBootstrap.*;
-import static liedge.limatech.registry.LimaTechUpgradeEffectComponents.*;
+import static liedge.limatech.registry.game.LimaTechUpgradeEffectComponents.*;
 import static liedge.limatech.registry.bootstrap.LimaTechEnchantments.AMMO_SCAVENGER;
 import static liedge.limatech.registry.bootstrap.LimaTechEnchantments.RAZOR;
 

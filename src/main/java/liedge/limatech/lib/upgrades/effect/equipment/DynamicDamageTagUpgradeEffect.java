@@ -3,7 +3,7 @@ package liedge.limatech.lib.upgrades.effect.equipment;
 import com.mojang.serialization.MapCodec;
 import liedge.limacore.lib.LimaDynamicDamageSource;
 import liedge.limatech.client.LimaTechLang;
-import liedge.limatech.registry.LimaTechEquipmentUpgradeEffects;
+import liedge.limatech.registry.game.LimaTechEquipmentUpgradeEffects;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;

@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import static liedge.limatech.LimaTechTags.Blocks.*;
-import static liedge.limatech.registry.LimaTechBlocks.*;
+import static liedge.limatech.registry.game.LimaTechBlocks.*;
 import static net.minecraft.tags.BlockTags.*;
 import static net.neoforged.neoforge.common.Tags.Blocks.*;
 
@@ -29,7 +29,8 @@ class BlockTagsGen extends LimaTagsProvider.RegistryTags<Block>
     {
         buildTag(MINEABLE_WITH_PICKAXE).addHolders(List.copyOf(GLOW_BLOCKS.values()));
 
-        buildTag(NEEDS_STONE_TOOL).add(TITANIUM_ORE, DEEPSLATE_TITANIUM_ORE, RAW_TITANIUM_BLOCK, TITANIUM_BLOCK, ENERGY_STORAGE_ARRAY, INFINITE_ENERGY_STORAGE_ARRAY, DIGITAL_FURNACE, GRINDER, RECOMPOSER, MATERIAL_FUSING_CHAMBER, FABRICATOR, EQUIPMENT_UPGRADE_STATION, ROCKET_TURRET).copyTo(MINEABLE_WITH_PICKAXE);
+        buildTag(NEEDS_STONE_TOOL).add(TITANIUM_ORE, DEEPSLATE_TITANIUM_ORE, RAW_TITANIUM_BLOCK, TITANIUM_BLOCK, ENERGY_STORAGE_ARRAY, INFINITE_ENERGY_STORAGE_ARRAY, DIGITAL_FURNACE, GRINDER, RECOMPOSER, MATERIAL_FUSING_CHAMBER, FABRICATOR, EQUIPMENT_UPGRADE_STATION,
+                ROCKET_TURRET, RAILGUN_TURRET).copyTo(MINEABLE_WITH_PICKAXE);
         buildTag(NEEDS_DIAMOND_TOOL).add(NIOBIUM_ORE, RAW_NIOBIUM_BLOCK, NIOBIUM_BLOCK, SLATE_ALLOY_BLOCK).copyTo(MINEABLE_WITH_PICKAXE);
 
         buildTag(BEACON_BASE_BLOCKS).add(TITANIUM_BLOCK, NIOBIUM_BLOCK, SLATE_ALLOY_BLOCK);

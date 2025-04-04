@@ -29,9 +29,9 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import static liedge.limacore.LimaCommonConstants.KEY_ENERGY_CONTAINER;
 import static liedge.limacore.LimaCommonConstants.KEY_ITEM_CONTAINER;
-import static liedge.limacore.registry.LimaCoreDataComponents.ENERGY;
-import static liedge.limacore.registry.LimaCoreDataComponents.ITEM_CONTAINER;
-import static liedge.limatech.registry.LimaTechDataComponents.MACHINE_UPGRADES;
+import static liedge.limacore.registry.game.LimaCoreDataComponents.ENERGY;
+import static liedge.limacore.registry.game.LimaCoreDataComponents.ITEM_CONTAINER;
+import static liedge.limatech.registry.game.LimaTechDataComponents.MACHINE_UPGRADES;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING;
 
 public abstract class SidedItemEnergyMachineBlockEntity extends LimaBlockEntity implements LimaMenuProvider, EnergyHolderBlockEntity, UpgradableMachineBlockEntity, SidedAccessBlockEntity

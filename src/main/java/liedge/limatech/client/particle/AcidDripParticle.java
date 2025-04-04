@@ -2,7 +2,7 @@ package liedge.limatech.client.particle;
 
 import liedge.limacore.client.LimaCoreClientUtil;
 import liedge.limatech.LimaTechConstants;
-import liedge.limatech.registry.LimaTechParticles;
+import liedge.limatech.registry.game.LimaTechParticles;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.TextureSheetParticle;

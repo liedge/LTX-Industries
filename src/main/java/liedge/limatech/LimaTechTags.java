@@ -96,6 +96,7 @@ public final class LimaTechTags
         private BlockEntities() {}
 
         public static final TagKey<BlockEntityType<?>> GENERAL_PROCESSING_MACHINES = tag("machines/general_processing");
+        public static final TagKey<BlockEntityType<?>> TURRETS = tag("turrets");
 
         private static TagKey<BlockEntityType<?>> tag(String name)
         {

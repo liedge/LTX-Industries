@@ -1,4 +1,4 @@
-package liedge.limatech.registry;
+package liedge.limatech.registry.game;
 
 import liedge.limacore.network.NetworkSerializer;
 import liedge.limacore.registry.LimaCoreRegistries;
@@ -16,7 +16,7 @@ public final class LimaTechNetworkSerializers
 
     private static final DeferredRegister<NetworkSerializer<?>> SERIALIZERS = LimaTech.RESOURCES.deferredRegister(LimaCoreRegistries.Keys.NETWORK_SERIALIZERS);
 
-    public static void initRegister(IEventBus bus)
+    public static void register(IEventBus bus)
     {
         SERIALIZERS.register(bus);
     }

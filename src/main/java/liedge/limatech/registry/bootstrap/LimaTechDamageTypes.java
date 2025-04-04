@@ -29,6 +29,7 @@ public final class LimaTechDamageTypes
 
     public static final ResourceKey<DamageType> STICKY_FLAME = key("sticky_flame");
     public static final ResourceKey<DamageType> TURRET_ROCKET = key("turret_rocket");
+    public static final ResourceKey<DamageType> RAILGUN_TURRET = key("railgun_turret");
 
     private static ResourceKey<DamageType> key(String name)
     {
@@ -52,5 +53,6 @@ public final class LimaTechDamageTypes
 
         registerDamageType(context, STICKY_FLAME, DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0f, DamageEffects.HURT, noItemCausedOnlyMsg);
         registerDamageType(context, TURRET_ROCKET, DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0f, DamageEffects.HURT, noItemCausedOnlyMsg);
+        registerDamageType(context, RAILGUN_TURRET, DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0f, DamageEffects.HURT, noItemCausedOnlyMsg);
     }
 }

@@ -4,7 +4,7 @@ import liedge.limacore.capability.energy.InfiniteEnergyStorage;
 import liedge.limacore.capability.energy.LimaEnergyStorage;
 import liedge.limacore.lib.LimaColor;
 import liedge.limatech.LimaTechConstants;
-import liedge.limatech.registry.LimaTechBlockEntities;
+import liedge.limatech.registry.game.LimaTechBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 

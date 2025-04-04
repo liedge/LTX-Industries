@@ -4,7 +4,7 @@ import liedge.limacore.data.generation.LimaBootstrapUtil;
 import liedge.limatech.LimaTech;
 import liedge.limatech.lib.upgrades.UpgradeIcon;
 import liedge.limatech.lib.weapons.GrenadeType;
-import liedge.limatech.registry.LimaTechItems;
+import liedge.limatech.registry.game.LimaTechItems;
 import liedge.limatech.registry.LimaTechRegistries;
 import liedge.limatech.registry.bootstrap.*;
 import net.minecraft.core.HolderLookup;

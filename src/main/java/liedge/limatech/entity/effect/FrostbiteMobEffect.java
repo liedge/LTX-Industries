@@ -1,7 +1,7 @@
 package liedge.limatech.entity.effect;
 
 import liedge.limatech.LimaTechConstants;
-import liedge.limatech.registry.LimaTechParticles;
+import liedge.limatech.registry.game.LimaTechParticles;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;

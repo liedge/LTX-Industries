@@ -1,4 +1,4 @@
-package liedge.limatech.registry;
+package liedge.limatech.registry.game;
 
 import liedge.limacore.recipe.LimaRecipeSerializer;
 import liedge.limacore.recipe.LimaSimpleSizedIngredientRecipe;
@@ -16,13 +16,13 @@ public final class LimaTechRecipeSerializers
 
     private static final DeferredRegister<RecipeSerializer<?>> SERIALIZERS = LimaTech.RESOURCES.deferredRegister(Registries.RECIPE_SERIALIZER);
 
+    public static void register(IEventBus bus)
+    {
+        SERIALIZERS.register(bus);
+    }
+
     public static final DeferredHolder<RecipeSerializer<?>, LimaRecipeSerializer<GrindingRecipe>> GRINDING = SERIALIZERS.register("grinding", id -> LimaSimpleSizedIngredientRecipe.maxIngredientsSerializer(id, GrindingRecipe::new, 1));
     public static final DeferredHolder<RecipeSerializer<?>, LimaRecipeSerializer<RecomposingRecipe>> RECOMPOSING = SERIALIZERS.register("recomposing", id -> LimaSimpleSizedIngredientRecipe.maxIngredientsSerializer(id, RecomposingRecipe::new, 1));
     public static final DeferredHolder<RecipeSerializer<?>, LimaRecipeSerializer<MaterialFusingRecipe>> MATERIAL_FUSING = SERIALIZERS.register("material_fusing", id -> LimaSimpleSizedIngredientRecipe.maxIngredientsSerializer(id, MaterialFusingRecipe::new, 3));
     public static final DeferredHolder<RecipeSerializer<?>, LimaRecipeSerializer<FabricatingRecipe>> FABRICATING = SERIALIZERS.register("fabricating", id -> new LimaRecipeSerializer<>(id, FabricatingRecipe.CODEC, FabricatingRecipe.STREAM_CODEC));
-
-    public static void initRegister(IEventBus bus)
-    {
-        SERIALIZERS.register(bus);
-    }
 }

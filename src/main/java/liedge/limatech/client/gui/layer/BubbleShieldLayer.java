@@ -3,7 +3,7 @@ package liedge.limatech.client.gui.layer;
 import liedge.limacore.client.gui.LimaGuiLayer;
 import liedge.limatech.LimaTech;
 import liedge.limatech.LimaTechConstants;
-import liedge.limatech.registry.LimaTechAttachmentTypes;
+import liedge.limatech.registry.game.LimaTechAttachmentTypes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;

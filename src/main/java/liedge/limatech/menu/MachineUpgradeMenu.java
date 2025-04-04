@@ -3,13 +3,13 @@ package liedge.limatech.menu;
 import liedge.limacore.capability.itemhandler.LimaItemHandlerUtil;
 import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limacore.network.NetworkSerializer;
-import liedge.limacore.registry.LimaCoreNetworkSerializers;
+import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.limatech.blockentity.UpgradableMachineBlockEntity;
 import liedge.limatech.item.MachineUpgradeModuleItem;
 import liedge.limatech.lib.upgrades.machine.MachineUpgrade;
 import liedge.limatech.lib.upgrades.machine.MachineUpgradeEntry;
 import liedge.limatech.lib.upgrades.machine.MachineUpgrades;
-import liedge.limatech.registry.LimaTechNetworkSerializers;
+import liedge.limatech.registry.game.LimaTechNetworkSerializers;
 import liedge.limatech.registry.LimaTechRegistries;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
@@ -21,7 +21,7 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import net.neoforged.neoforge.items.wrapper.PlayerMainInvWrapper;
 
-import static liedge.limatech.registry.LimaTechDataComponents.MACHINE_UPGRADE_ENTRY;
+import static liedge.limatech.registry.game.LimaTechDataComponents.MACHINE_UPGRADE_ENTRY;
 
 public class MachineUpgradeMenu extends UpgradesConfigMenu<UpgradableMachineBlockEntity, MachineUpgrade, MachineUpgrades>
 {

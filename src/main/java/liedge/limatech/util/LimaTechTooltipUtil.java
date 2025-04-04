@@ -15,8 +15,8 @@ import java.util.List;
 import java.util.UUID;
 
 import static liedge.limacore.capability.energy.LimaEnergyUtil.formatEnergyWithSuffix;
-import static liedge.limacore.registry.LimaCoreDataComponents.ENERGY;
-import static liedge.limacore.registry.LimaCoreDataComponents.ITEM_CONTAINER;
+import static liedge.limacore.registry.game.LimaCoreDataComponents.ENERGY;
+import static liedge.limacore.registry.game.LimaCoreDataComponents.ITEM_CONTAINER;
 import static liedge.limacore.util.LimaMathUtil.*;
 import static liedge.limatech.LimaTechConstants.REM_BLUE;
 import static liedge.limatech.client.LimaTechLang.*;

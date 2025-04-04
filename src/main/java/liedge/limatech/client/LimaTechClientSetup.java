@@ -14,10 +14,7 @@ import liedge.limatech.client.model.entity.LimaTechModelLayers;
 import liedge.limatech.client.model.entity.OrbGrenadeModel;
 import liedge.limatech.client.model.entity.RocketModel;
 import liedge.limatech.client.particle.*;
-import liedge.limatech.client.renderer.blockentity.EnergyStorageArrayRenderer;
-import liedge.limatech.client.renderer.blockentity.EquipmentUpgradeStationRenderer;
-import liedge.limatech.client.renderer.blockentity.FabricatorRenderer;
-import liedge.limatech.client.renderer.blockentity.RocketTurretRenderer;
+import liedge.limatech.client.renderer.blockentity.*;
 import liedge.limatech.client.renderer.entity.OrbGrenadeRenderer;
 import liedge.limatech.client.renderer.entity.RocketRenderer;
 import liedge.limatech.client.renderer.entity.StickyFlameRenderer;
@@ -25,7 +22,7 @@ import liedge.limatech.client.renderer.item.LimaTechItemRenderers;
 import liedge.limatech.client.renderer.item.UpgradeModuleItemExtensions;
 import liedge.limatech.menu.tooltip.FabricatorIngredientTooltip;
 import liedge.limatech.menu.tooltip.ItemGridTooltip;
-import liedge.limatech.registry.*;
+import liedge.limatech.registry.game.*;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -36,7 +33,7 @@ import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 
 import static liedge.limacore.client.particle.SpriteSetParticleProvider.registerPositionOnly;
 import static liedge.limacore.client.particle.SpriteSetParticleProvider.registerPositionVelocity;
-import static liedge.limatech.registry.LimaTechParticles.*;
+import static liedge.limatech.registry.game.LimaTechParticles.*;
 
 @EventBusSubscriber(modid = LimaTech.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public final class LimaTechClientSetup
@@ -80,7 +77,8 @@ public final class LimaTechClientSetup
         event.register(LimaTechMenus.MATERIAL_FUSING_CHAMBER.get(), MaterialFusingChamberScreen::new);
         event.register(LimaTechMenus.FABRICATOR.get(), FabricatorScreen::new);
         event.register(LimaTechMenus.EQUIPMENT_UPGRADE_STATION.get(), EquipmentUpgradeStationScreen::new);
-        event.register(LimaTechMenus.ROCKET_TURRET.get(), RocketTurretScreen::new);
+        event.register(LimaTechMenus.ROCKET_TURRET.get(), TurretScreen::new);
+        event.register(LimaTechMenus.RAILGUN_TURRET.get(), TurretScreen::new);
     }
 
     @SubscribeEvent
@@ -89,8 +87,9 @@ public final class LimaTechClientSetup
         event.registerSpecial(LIGHTFRAG_TRACER.get(), LightfragTracerParticle::new);
         registerPositionVelocity(event, COLOR_GLITTER, AnimatedGlowParticle::colorGlitter);
         event.registerSprite(COLOR_FLASH.get(), ColorFlashParticle::new);
-        registerPositionOnly(event, HALF_SONIC_BOOM, HalfSonicBoomParticle::new);
-        event.registerSpecial(HALF_SONIC_BOOM_EMITTER.get(), HalfSonicBoomParticle.EmitterParticle::new);
+        registerPositionOnly(event, COLOR_FULL_SONIC_BOOM, ColorSonicBoomParticle::fullSonicBoom);
+        registerPositionOnly(event, COLOR_HALF_SONIC_BOOM, ColorSonicBoomParticle::halfSonicBoom);
+        event.registerSpecial(HALF_SONIC_BOOM_EMITTER.get(), ColorSonicBoomParticle.EmitterParticle::new);
         event.registerSpecial(GROUND_ICICLE.get(), GroundIcicleParticle::new);
         registerPositionVelocity(event, CRYO_SNOWFLAKE, AnimatedGlowParticle::cryoSnowflake);
         registerPositionVelocity(event, MINI_ELECTRIC_SPARK, AnimatedGlowParticle::electricSpark);
@@ -100,6 +99,7 @@ public final class LimaTechClientSetup
         event.registerSprite(ACID_LAND.get(), AcidDripParticle::createLandParticle);
         registerPositionVelocity(event, NEURO_SMOKE, BigColorSmokeParticle::neuroSmokeParticle);
         event.registerSpecial(GRENADE_EXPLOSION.get(), GrenadeExplosionParticle::new);
+        event.registerSpecial(RAILGUN_BOLT.get(), RailgunBoltParticle::create);
     }
 
     @SubscribeEvent
@@ -117,6 +117,7 @@ public final class LimaTechClientSetup
         event.registerBlockEntityRenderer(LimaTechBlockEntities.FABRICATOR.get(), FabricatorRenderer::new);
         event.registerBlockEntityRenderer(LimaTechBlockEntities.EQUIPMENT_UPGRADE_STATION.get(), EquipmentUpgradeStationRenderer::new);
         event.registerBlockEntityRenderer(LimaTechBlockEntities.ROCKET_TURRET.get(), RocketTurretRenderer::new);
+        event.registerBlockEntityRenderer(LimaTechBlockEntities.RAILGUN_TURRET.get(), RailgunTurretRenderer::new);
     }
 
     @SubscribeEvent

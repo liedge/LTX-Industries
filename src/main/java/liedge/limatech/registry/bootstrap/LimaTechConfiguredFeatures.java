@@ -1,6 +1,6 @@
 package liedge.limatech.registry.bootstrap;
 
-import liedge.limatech.registry.LimaTechBlocks;
+import liedge.limatech.registry.game.LimaTechBlocks;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;

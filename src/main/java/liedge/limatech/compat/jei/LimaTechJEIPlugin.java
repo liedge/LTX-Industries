@@ -12,8 +12,8 @@ import liedge.limatech.recipe.FabricatingRecipe;
 import liedge.limatech.recipe.GrindingRecipe;
 import liedge.limatech.recipe.MaterialFusingRecipe;
 import liedge.limatech.recipe.RecomposingRecipe;
-import liedge.limatech.registry.LimaTechBlocks;
-import liedge.limatech.registry.LimaTechItems;
+import liedge.limatech.registry.game.LimaTechBlocks;
+import liedge.limatech.registry.game.LimaTechItems;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.RecipeTypes;
@@ -33,7 +33,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
-import static liedge.limatech.registry.LimaTechRecipeTypes.*;
+import static liedge.limatech.registry.game.LimaTechRecipeTypes.*;
 
 @JeiPlugin
 public class LimaTechJEIPlugin implements IModPlugin

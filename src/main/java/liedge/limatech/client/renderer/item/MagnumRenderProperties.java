@@ -6,7 +6,7 @@ import liedge.limatech.client.LimaTechRenderUtil;
 import liedge.limatech.client.model.custom.TranslucentFillModel;
 import liedge.limatech.item.weapon.WeaponItem;
 import liedge.limatech.lib.weapons.ClientWeaponControls;
-import liedge.limatech.registry.LimaTechItems;
+import liedge.limatech.registry.game.LimaTechItems;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.Direction;

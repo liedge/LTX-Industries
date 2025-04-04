@@ -1,15 +1,15 @@
-package liedge.limatech.registry;
+package liedge.limatech.registry.game;
 
 import liedge.limacore.blockentity.IOAccess;
 import liedge.limacore.blockentity.IOAccessSets;
+import liedge.limacore.blockentity.LimaBlockEntity;
 import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.capability.energy.EnergyHolderBlockEntity;
 import liedge.limacore.capability.itemhandler.ItemHolderBlockEntity;
 import liedge.limatech.LimaTech;
 import liedge.limatech.blockentity.*;
-import liedge.limatech.blockentity.base.SidedAccessBlockEntityType;
-import liedge.limatech.blockentity.base.SidedAccessRules;
 import liedge.limatech.blockentity.base.BlockEntityInputType;
+import liedge.limatech.blockentity.base.SidedAccessBlockEntityType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
@@ -27,15 +27,15 @@ public final class LimaTechBlockEntities
 
     private static final DeferredRegister<BlockEntityType<?>> TYPES = LimaTech.RESOURCES.deferredRegister(Registries.BLOCK_ENTITY_TYPE);
 
-    public static void initRegister(IEventBus bus)
+    public static void register(IEventBus bus)
     {
         TYPES.register(bus);
     }
 
-    public static void registerCapabilities(RegisterCapabilitiesEvent event)
+    public static void registerCapabilities(final RegisterCapabilitiesEvent event)
     {
         // Machine capability registration (energy & items)
-        Stream.of(ENERGY_STORAGE_ARRAY, INFINITE_ENERGY_STORAGE_ARRAY, DIGITAL_FURNACE, GRINDER, RECOMPOSER, MATERIAL_FUSING_CHAMBER, FABRICATOR, ROCKET_TURRET).map(DeferredHolder::get).forEach(machineType ->
+        Stream.of(ENERGY_STORAGE_ARRAY, INFINITE_ENERGY_STORAGE_ARRAY, DIGITAL_FURNACE, GRINDER, RECOMPOSER, MATERIAL_FUSING_CHAMBER, FABRICATOR, ROCKET_TURRET, RAILGUN_TURRET).map(DeferredHolder::get).forEach(machineType ->
         {
             event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, machineType, EnergyHolderBlockEntity::createEnergyIOWrapper);
             event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, machineType, ItemHolderBlockEntity::createItemIOWrapper);
@@ -62,21 +62,23 @@ public final class LimaTechBlockEntities
     public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<GrinderBlockEntity>> GRINDER = registerSimpleRecipeMachine("grinder", GrinderBlockEntity::new, builder -> builder.withBlock(LimaTechBlocks.GRINDER));
     public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<RecomposerBlockEntity>> RECOMPOSER = registerSimpleRecipeMachine("recomposer", RecomposerBlockEntity::new, builder -> builder.withBlock(LimaTechBlocks.RECOMPOSER));
     public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<MaterialFusingChamberBlockEntity>> MATERIAL_FUSING_CHAMBER = registerSimpleRecipeMachine("material_fusing_chamber", MaterialFusingChamberBlockEntity::new, builder -> builder.withBlock(LimaTechBlocks.MATERIAL_FUSING_CHAMBER));
-    public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<FabricatorBlockEntity>> FABRICATOR = TYPES.register("fabricator", () -> SidedAccessBlockEntityType.Builder.builder(FabricatorBlockEntity::new)
-            .withBlock(LimaTechBlocks.FABRICATOR)
-            .withSideRules(BlockEntityInputType.ITEMS, SidedAccessRules.allSides(IOAccessSets.OUTPUT_ONLY_OR_DISABLED, IOAccess.DISABLED, false, true))
-            .withSideRules(BlockEntityInputType.ENERGY, SidedAccessRules.allSides(IOAccessSets.INPUT_ONLY_OR_DISABLED, IOAccess.INPUT_ONLY, false, false)).build());
+    public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<FabricatorBlockEntity>> FABRICATOR = registerSimpleRecipeMachine("fabricator", FabricatorBlockEntity::new, builder -> builder.withBlock(LimaTechBlocks.FABRICATOR));
     public static final DeferredHolder<BlockEntityType<?>, LimaBlockEntityType<EquipmentUpgradeStationBlockEntity>> EQUIPMENT_UPGRADE_STATION = TYPES.register("equipment_upgrade_station", () -> LimaBlockEntityType.of(EquipmentUpgradeStationBlockEntity::new, LimaTechBlocks.EQUIPMENT_UPGRADE_STATION));
-    public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<RocketTurretBlockEntity>> ROCKET_TURRET = TYPES.register("rocket_turret", () -> SidedAccessBlockEntityType.Builder.builder(RocketTurretBlockEntity::new)
-            .withBlock(LimaTechBlocks.ROCKET_TURRET)
-            .withSideRules(BlockEntityInputType.ITEMS, RocketTurretBlockEntity.ITEM_RULES)
-            .withSideRules(BlockEntityInputType.ENERGY, RocketTurretBlockEntity.ENERGY_RULES)
-            .build());
+    public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<RocketTurretBlockEntity>> ROCKET_TURRET = registerTurret("rocket_turret", RocketTurretBlockEntity::new, builder -> builder.withBlock(LimaTechBlocks.ROCKET_TURRET));
+    public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<RailgunTurretBlockEntity>> RAILGUN_TURRET = registerTurret("railgun_turret", RailgunTurretBlockEntity::new, builder -> builder.withBlock(LimaTechBlocks.RAILGUN_TURRET));
 
-    private static <BE extends SimpleRecipeMachineBlockEntity<?, ?>> DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<BE>> registerSimpleRecipeMachine(String name, BlockEntityType.BlockEntitySupplier<BE> factory, UnaryOperator<SidedAccessBlockEntityType.Builder<BE>> builder)
+    // Helpers
+    private static <BE extends LimaBlockEntity> DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<BE>> registerSimpleRecipeMachine(String name, BlockEntityType.BlockEntitySupplier<BE> factory, UnaryOperator<SidedAccessBlockEntityType.Builder<BE>> builder)
     {
         return TYPES.register(name, () -> builder.apply(SidedAccessBlockEntityType.Builder.builder(factory))
                 .withSideRules(BlockEntityInputType.ITEMS, SimpleRecipeMachineBlockEntity.ITEM_ACCESS_RULES)
                 .withSideRules(BlockEntityInputType.ENERGY, SimpleRecipeMachineBlockEntity.ENERGY_ACCESS_RULES).build());
+    }
+
+    private static <BE extends BaseTurretBlockEntity> DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<BE>> registerTurret(String name, BlockEntityType.BlockEntitySupplier<BE> factory, UnaryOperator<SidedAccessBlockEntityType.Builder<BE>> builder)
+    {
+        return TYPES.register(name, () -> builder.apply(SidedAccessBlockEntityType.Builder.builder(factory))
+                .withSideRules(BlockEntityInputType.ITEMS, BaseTurretBlockEntity.ITEM_RULES)
+                .withSideRules(BlockEntityInputType.ENERGY, BaseTurretBlockEntity.ENERGY_RULES).build());
     }
 }

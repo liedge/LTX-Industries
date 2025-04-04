@@ -3,7 +3,7 @@ package liedge.limatech.blockentity.base;
 import liedge.limacore.inventory.menu.LimaMenuProvider;
 import liedge.limatech.blockentity.SubMenuProviderBlockEntity;
 import liedge.limatech.menu.IOControllerMenu;
-import liedge.limatech.registry.LimaTechMenus;
+import liedge.limatech.registry.game.LimaTechMenus;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.player.Player;
 

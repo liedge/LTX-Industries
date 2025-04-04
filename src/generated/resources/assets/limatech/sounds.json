@@ -50,6 +50,15 @@
     ],
     "subtitle": "subtitle.limatech.neuro_grenade_explode"
   },
+  "railgun_boom": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.warden.sonic_boom"
+      }
+    ],
+    "subtitle": "subtitle.limatech.railgun_boom"
+  },
   "rocket_explode": {
     "sounds": [
       {

@@ -1,4 +1,4 @@
-package liedge.limatech.registry;
+package liedge.limatech.registry.game;
 
 import liedge.limatech.LimaTech;
 import liedge.limatech.lib.upgrades.equipment.EquipmentUpgradeEntry;
@@ -20,7 +20,7 @@ public final class LimaTechDataComponents
 
     private static final DeferredRegister.DataComponents TYPES = LimaTech.RESOURCES.deferredDataComponents();
 
-    public static void initRegister(IEventBus bus)
+    public static void register(IEventBus bus)
     {
         TYPES.register(bus);
     }

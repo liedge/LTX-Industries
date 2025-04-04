@@ -7,6 +7,7 @@ import liedge.limatech.lib.upgrades.machine.MachineUpgrade;
 import liedge.limatech.lib.weapons.GlobalWeaponDamageModifiers;
 import liedge.limatech.network.packet.LimaTechPacketsRegistration;
 import liedge.limatech.registry.*;
+import liedge.limatech.registry.game.*;
 import liedge.limatech.util.config.LimaTechClientConfig;
 import liedge.limatech.util.config.LimaTechMachinesConfig;
 import liedge.limatech.util.config.LimaTechServerConfig;
@@ -37,25 +38,25 @@ public class LimaTech
     public LimaTech(IEventBus modBus, ModContainer modContainer)
     {
         // Deferred register initialization
-        LimaTechAttributes.initRegister(modBus);
-        LimaTechAttachmentTypes.initRegister(modBus);
-        LimaTechBlockEntities.initRegister(modBus);
-        LimaTechBlocks.initRegister(modBus);
-        LimaTechCreativeTabs.initRegister(modBus);
-        LimaTechDataComponents.initRegister(modBus);
-        LimaTechEntities.initRegister(modBus);
-        LimaTechEquipmentUpgradeEffects.initRegister(modBus);
-        LimaTechGameEvents.initRegister(modBus);
-        LimaTechItems.initRegister(modBus);
-        LimaTechLootRegistries.initRegister(modBus);
-        LimaTechMenus.initRegister(modBus);
-        LimaTechMobEffects.initRegister(modBus);
-        LimaTechNetworkSerializers.initRegister(modBus);
-        LimaTechParticles.initRegister(modBus);
-        LimaTechRecipeSerializers.initRegister(modBus);
-        LimaTechRecipeTypes.initRegister(modBus);
-        LimaTechSounds.initRegister(modBus);
-        LimaTechUpgradeEffectComponents.initRegister(modBus);
+        LimaTechAttachmentTypes.register(modBus);
+        LimaTechAttributes.register(modBus);
+        LimaTechBlockEntities.register(modBus);
+        LimaTechBlocks.register(modBus);
+        LimaTechCreativeTabs.register(modBus);
+        LimaTechDataComponents.register(modBus);
+        LimaTechEntities.register(modBus);
+        LimaTechEquipmentUpgradeEffects.register(modBus);
+        LimaTechGameEvents.register(modBus);
+        LimaTechItems.register(modBus);
+        LimaTechLootRegistries.register(modBus);
+        LimaTechMenus.register(modBus);
+        LimaTechMobEffects.register(modBus);
+        LimaTechNetworkSerializers.register(modBus);
+        LimaTechParticles.register(modBus);
+        LimaTechRecipeSerializers.register(modBus);
+        LimaTechRecipeTypes.register(modBus);
+        LimaTechSounds.register(modBus);
+        LimaTechUpgradeEffectComponents.register(modBus);
 
         // Mod configs
         modContainer.registerConfig(ModConfig.Type.CLIENT, LimaTechClientConfig.CLIENT_CONFIG_SPEC);

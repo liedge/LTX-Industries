@@ -1,43 +1,34 @@
 package liedge.limatech.lib;
 
+import com.google.common.base.Preconditions;
 import liedge.limacore.lib.LimaDynamicDamageSource;
-import liedge.limatech.blockentity.RocketTurretBlockEntity;
-import liedge.limatech.registry.LimaTechUpgradeEffectComponents;
+import liedge.limatech.blockentity.BaseTurretBlockEntity;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 public class TurretDamageSource extends LimaDynamicDamageSource
 {
-    public static TurretDamageSource create(Level level, ResourceKey<DamageType> damageTypeKey, RocketTurretBlockEntity blockEntity, @Nullable Entity directEntity, @Nullable Entity owner)
+    public static TurretDamageSource create(Level level, ResourceKey<DamageType> damageTypeKey, BaseTurretBlockEntity blockEntity, @Nullable Entity directEntity, @Nullable Entity owner, @Nullable Vec3 location)
     {
-        Holder<DamageType> holder = level.registryAccess().holderOrThrow(damageTypeKey);
-        return new TurretDamageSource(holder, blockEntity, directEntity, owner);
+        Preconditions.checkArgument(!(directEntity == null && location == null), "Turret damage must have either a direct projectile entity or a location");
+        return new TurretDamageSource(level.registryAccess().holderOrThrow(damageTypeKey), blockEntity, directEntity, owner, location);
     }
 
-    private final RocketTurretBlockEntity blockEntity;
+    private final BaseTurretBlockEntity blockEntity;
 
-    public TurretDamageSource(Holder<DamageType> type, RocketTurretBlockEntity blockEntity, @Nullable Entity directEntity, @Nullable Entity causingEntity)
+    private TurretDamageSource(Holder<DamageType> type, BaseTurretBlockEntity blockEntity, @Nullable Entity directEntity, @Nullable Entity causingEntity, @Nullable Vec3 location)
     {
-        super(type, directEntity, causingEntity);
+        super(type, directEntity, causingEntity, location);
         this.blockEntity = blockEntity;
     }
 
-    public RocketTurretBlockEntity getBlockEntity()
+    public BaseTurretBlockEntity getBlockEntity()
     {
         return blockEntity;
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public int modifyEnchantmentLevel(LootContext context, Holder<Enchantment> enchantment, int entityLevel)
-    {
-        // Don't allow player enchants for turrets
-        return blockEntity.getUpgrades().flatMapToInt(LimaTechUpgradeEffectComponents.ENCHANTMENT_LEVEL.get(), (effect, rank) -> enchantment.is(effect.enchantment()) ? rank : 0).sum();
     }
 }

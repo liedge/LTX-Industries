@@ -12,6 +12,7 @@
     "limatech:material_fusing_chamber",
     "limatech:fabricator",
     "limatech:equipment_upgrade_station",
-    "limatech:rocket_turret"
+    "limatech:rocket_turret",
+    "limatech:railgun_turret"
   ]
 }

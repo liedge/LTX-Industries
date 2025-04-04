@@ -22,7 +22,6 @@
   ],
   "result": {
     "components": {
-      "!minecraft:enchantments": {},
       "limatech:ammo_source": "normal",
       "limatech:equipment_upgrades": {},
       "limatech:grenade_type": "explosive",

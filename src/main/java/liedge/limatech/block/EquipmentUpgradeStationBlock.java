@@ -1,7 +1,7 @@
 package liedge.limatech.block;
 
 import liedge.limacore.blockentity.LimaBlockEntityType;
-import liedge.limatech.registry.LimaTechBlockEntities;
+import liedge.limatech.registry.game.LimaTechBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;

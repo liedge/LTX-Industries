@@ -4,7 +4,7 @@ import liedge.limacore.lib.TickTimer;
 import liedge.limatech.item.ScrollModeSwitchItem;
 import liedge.limatech.item.weapon.WeaponItem;
 import liedge.limatech.lib.weapons.AbstractWeaponControls;
-import liedge.limatech.registry.LimaTechAttachmentTypes;
+import liedge.limatech.registry.game.LimaTechAttachmentTypes;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.handling.IPayloadContext;

@@ -9,7 +9,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
 
-import static liedge.limatech.registry.LimaTechAttachmentTypes.BUBBLE_SHIELD;
+import static liedge.limatech.registry.game.LimaTechAttachmentTypes.BUBBLE_SHIELD;
 
 public record ClientboundPlayerShieldPacket(float shieldHealth) implements CustomPacketPayload
 {

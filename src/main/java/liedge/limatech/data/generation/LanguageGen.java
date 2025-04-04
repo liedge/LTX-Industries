@@ -16,11 +16,11 @@ import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrade;
 import liedge.limatech.lib.upgrades.machine.MachineUpgrade;
 import liedge.limatech.lib.weapons.GrenadeType;
 import liedge.limatech.lib.weapons.WeaponAmmoSource;
-import liedge.limatech.registry.*;
 import liedge.limatech.registry.bootstrap.LimaTechDamageTypes;
 import liedge.limatech.registry.bootstrap.LimaTechEnchantments;
 import liedge.limatech.registry.bootstrap.LimaTechEquipmentUpgrades;
 import liedge.limatech.registry.bootstrap.LimaTechMachineUpgrades;
+import liedge.limatech.registry.game.*;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.DamageTypeTags;
@@ -29,11 +29,11 @@ import net.minecraft.world.damagesource.DamageType;
 import net.neoforged.neoforge.registries.DeferredItem;
 
 import static liedge.limatech.client.LimaTechLang.*;
-import static liedge.limatech.registry.LimaTechBlocks.*;
-import static liedge.limatech.registry.LimaTechCreativeTabs.*;
-import static liedge.limatech.registry.LimaTechItems.*;
-import static liedge.limatech.registry.LimaTechRecipeTypes.*;
-import static liedge.limatech.registry.LimaTechSounds.*;
+import static liedge.limatech.registry.game.LimaTechBlocks.*;
+import static liedge.limatech.registry.game.LimaTechCreativeTabs.*;
+import static liedge.limatech.registry.game.LimaTechItems.*;
+import static liedge.limatech.registry.game.LimaTechRecipeTypes.*;
+import static liedge.limatech.registry.game.LimaTechSounds.*;
 
 class LanguageGen extends LimaLanguageProvider
 {
@@ -70,6 +70,7 @@ class LanguageGen extends LimaLanguageProvider
         addBlock(EQUIPMENT_UPGRADE_STATION, "Equipment Upgrade Station");
 
         addBlock(ROCKET_TURRET, ltxName("LTX A/DU %s", "Atmos"));
+        addBlock(RAILGUN_TURRET, ltxName("LTX A/DU %s", "Noctis"));
         //#endregion
 
         //#region Items
@@ -181,6 +182,7 @@ class LanguageGen extends LimaLanguageProvider
         add(LimaTechMenus.FABRICATOR, "Fabricator");
         add(LimaTechMenus.EQUIPMENT_UPGRADE_STATION, "Equipment Upgrade Station");
         add(LimaTechMenus.ROCKET_TURRET, "Atmos Turret");
+        add(LimaTechMenus.RAILGUN_TURRET, "Noctis Turret");
         //#endregion
 
         // Machine input types
@@ -286,6 +288,7 @@ class LanguageGen extends LimaLanguageProvider
         soundEvent(MAGNUM_FIRE, "Magnum fires");
         soundEvent(ROCKET_EXPLODE, "Rocket explodes");
         GRENADE_EXPLOSIONS.forEach((element, holder) -> soundEvent(holder, localizeSimpleName(element) + " grenade explodes"));
+        soundEvent(RAILGUN_BOOM, "Railgun booms");
 
         // Orb grenade elements
         for (GrenadeType element : GrenadeType.values())
@@ -307,7 +310,8 @@ class LanguageGen extends LimaLanguageProvider
         damageType(LimaTechDamageTypes.ROCKET_LAUNCHER, "%s was blown up by %s's %s");
 
         noItemCausingEntityOnlyDamageMessage(LimaTechDamageTypes.STICKY_FLAME, "%s was cooked well-done by %s", "%s was cooked well-done");
-        noItemCausingEntityOnlyDamageMessage(LimaTechDamageTypes.TURRET_ROCKET, "%s was shot down by %s's rocket turret", "%s was shot down by a rogue rocket turret");
+        noItemCausingEntityOnlyDamageMessage(LimaTechDamageTypes.TURRET_ROCKET, "%s was shot down by %s's Atmos turret", "%s was shot down by a rogue Atmos turret");
+        noItemCausingEntityOnlyDamageMessage(LimaTechDamageTypes.RAILGUN_TURRET, "%s was obliterated by %s's Noctis turret", "%s was obliterated by a rogue Noctis turret");
 
         //#region Advancements
         //#endregion

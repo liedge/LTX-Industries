@@ -9,8 +9,8 @@ import liedge.limatech.LimaTechTags;
 import liedge.limatech.client.particle.GrenadeExplosionParticleOptions;
 import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.limatech.lib.weapons.GrenadeType;
-import liedge.limatech.registry.*;
 import liedge.limatech.registry.bootstrap.LimaTechDamageTypes;
+import liedge.limatech.registry.game.*;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -33,7 +33,7 @@ import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 
 import java.util.List;
 
-import static liedge.limatech.registry.LimaTechMobEffects.*;
+import static liedge.limatech.registry.game.LimaTechMobEffects.*;
 import static liedge.limatech.util.config.LimaTechWeaponsConfig.*;
 
 public class OrbGrenadeEntity extends LimaTechProjectile implements IEntityWithComplexSpawn

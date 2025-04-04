@@ -4,8 +4,8 @@ import liedge.limacore.capability.energy.EnergyHolderBlockEntity;
 import liedge.limacore.capability.itemhandler.ItemHolderBlockEntity;
 import liedge.limacore.util.LimaMathUtil;
 import liedge.limatech.lib.upgrades.machine.MachineUpgrades;
-import liedge.limatech.registry.LimaTechDataComponents;
-import liedge.limatech.registry.LimaTechUpgradeEffectComponents;
+import liedge.limatech.registry.game.LimaTechDataComponents;
+import liedge.limatech.registry.game.LimaTechUpgradeEffectComponents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 

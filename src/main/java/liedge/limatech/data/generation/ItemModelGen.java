@@ -10,7 +10,7 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import java.util.stream.Stream;
 
-import static liedge.limatech.registry.LimaTechItems.*;
+import static liedge.limatech.registry.game.LimaTechItems.*;
 
 class ItemModelGen extends LimaItemModelProvider
 {

@@ -6,7 +6,7 @@ import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import static liedge.limacore.lib.ModResources.MC;
-import static liedge.limatech.registry.LimaTechParticles.*;
+import static liedge.limatech.registry.game.LimaTechParticles.*;
 
 class ParticlesGen extends LimaParticleDescriptionProvider
 {
@@ -20,7 +20,8 @@ class ParticlesGen extends LimaParticleDescriptionProvider
     {
         spriteSet(COLOR_GLITTER, MC.location("glitter"), 8, true);
         sprite(COLOR_FLASH, MC.location("flash"));
-        spriteSet(HALF_SONIC_BOOM, "color_sonic_boom", 6, 16, false);
+        spriteSet(COLOR_FULL_SONIC_BOOM, "color_sonic_boom", 16, false);
+        spriteSet(COLOR_HALF_SONIC_BOOM, "color_sonic_boom", 6, 16, false);
         spriteSet(CRYO_SNOWFLAKE, "cryo_snowflake", 10, false);
         spriteSet(MINI_ELECTRIC_SPARK, MC.location("spark"), 8, false);
         sprite(CORROSIVE_DRIP, MC.location("drip_fall"));

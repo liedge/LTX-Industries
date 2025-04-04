@@ -13,6 +13,7 @@ import liedge.limacore.world.loot.number.EnhancedLookupLevelBasedValue;
 import liedge.limacore.world.loot.number.RoundingNumberProvider;
 import liedge.limacore.world.loot.number.TargetedEnchantmentLevelProvider;
 import liedge.limatech.LimaTech;
+import liedge.limatech.block.TurretBlock;
 import liedge.limatech.lib.weapons.GrenadeType;
 import liedge.limatech.registry.bootstrap.LimaTechEnchantments;
 import liedge.limatech.world.GrenadeSubPredicate;
@@ -41,10 +42,11 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceWit
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Supplier;
 
 import static liedge.limacore.util.LimaLootUtil.*;
-import static liedge.limatech.registry.LimaTechBlocks.*;
-import static liedge.limatech.registry.LimaTechItems.*;
+import static liedge.limatech.registry.game.LimaTechBlocks.*;
+import static liedge.limatech.registry.game.LimaTechItems.*;
 import static liedge.limatech.registry.LimaTechLootTables.*;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.DOUBLE_BLOCK_HALF;
 
@@ -162,8 +164,15 @@ class LootTablesGen extends LimaLootTableProvider
             dropSelfWithEntity(FABRICATOR);
             dropSelfWithEntity(EQUIPMENT_UPGRADE_STATION);
 
-            add(ROCKET_TURRET, singlePoolTable(applyExplosionCondition(ROCKET_TURRET, singleItemPool(ROCKET_TURRET))
-                    .when(matchStateProperty(ROCKET_TURRET, DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER))
+            turretDrop(ROCKET_TURRET);
+            turretDrop(RAILGUN_TURRET);
+        }
+
+        private void turretDrop(Supplier<? extends TurretBlock> turretSupplier)
+        {
+            TurretBlock block = turretSupplier.get();
+            add(block, singlePoolTable(applyExplosionCondition(block, singleItemPool(block))
+                    .when(matchStateProperty(block, DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER))
                     .apply(SaveBlockEntityFunction.saveBlockEntityData())));
         }
     }

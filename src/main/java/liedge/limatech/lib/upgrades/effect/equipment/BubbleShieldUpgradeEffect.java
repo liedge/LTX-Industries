@@ -5,7 +5,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import liedge.limatech.LimaTechCapabilities;
 import liedge.limatech.client.LimaTechLang;
 import liedge.limatech.entity.BubbleShieldUser;
-import liedge.limatech.registry.LimaTechEquipmentUpgradeEffects;
+import liedge.limatech.registry.game.LimaTechEquipmentUpgradeEffects;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;

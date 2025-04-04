@@ -1,4 +1,4 @@
-package liedge.limatech.registry;
+package liedge.limatech.registry.game;
 
 import liedge.limatech.LimaTech;
 import liedge.limatech.item.*;
@@ -28,7 +28,7 @@ public final class LimaTechItems
 
     private static final DeferredRegister.Items ITEMS = LimaTech.RESOURCES.deferredItems();
 
-    public static void initRegister(IEventBus bus)
+    public static void register(IEventBus bus)
     {
         ITEMS.register(bus);
     }

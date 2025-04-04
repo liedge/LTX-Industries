@@ -1,7 +1,8 @@
-package liedge.limatech.registry;
+package liedge.limatech.registry.game;
 
 import com.mojang.serialization.MapCodec;
 import liedge.limatech.lib.upgrades.effect.equipment.*;
+import liedge.limatech.registry.LimaTechRegistries;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -14,7 +15,7 @@ public final class LimaTechEquipmentUpgradeEffects
 
     private LimaTechEquipmentUpgradeEffects() {}
 
-    public static void initRegister(IEventBus bus)
+    public static void register(IEventBus bus)
     {
         TYPES.register(bus);
     }

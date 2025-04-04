@@ -11,8 +11,8 @@ import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limacore.network.sync.AutomaticDataWatcher;
 import liedge.limatech.item.EquipmentUpgradeModuleItem;
 import liedge.limatech.item.weapon.WeaponItem;
-import liedge.limatech.registry.LimaTechBlockEntities;
-import liedge.limatech.registry.LimaTechMenus;
+import liedge.limatech.registry.game.LimaTechBlockEntities;
+import liedge.limatech.registry.game.LimaTechMenus;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -23,7 +23,7 @@ import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.level.block.state.BlockState;
 
 import static liedge.limacore.LimaCommonConstants.KEY_ITEM_CONTAINER;
-import static liedge.limacore.registry.LimaCoreDataComponents.ITEM_CONTAINER;
+import static liedge.limacore.registry.game.LimaCoreDataComponents.ITEM_CONTAINER;
 
 public class EquipmentUpgradeStationBlockEntity extends LimaBlockEntity implements ItemHolderBlockEntity, LimaMenuProvider
 {

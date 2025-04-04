@@ -1,6 +1,6 @@
 package liedge.limatech.registry.bootstrap;
 
-import liedge.limacore.registry.LimaCoreDataComponents;
+import liedge.limacore.registry.game.LimaCoreDataComponents;
 import liedge.limatech.LimaTech;
 import liedge.limatech.registry.LimaTechLootTables;
 import net.minecraft.advancements.critereon.EntityPredicate;

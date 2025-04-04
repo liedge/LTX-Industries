@@ -5,7 +5,7 @@ import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.util.LimaMathUtil;
 import liedge.limatech.LimaTechConstants;
 import liedge.limatech.blockentity.UpgradableMachineBlockEntity;
-import liedge.limatech.registry.LimaTechUpgradeEffectComponents;
+import liedge.limatech.registry.game.LimaTechUpgradeEffectComponents;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;

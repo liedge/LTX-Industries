@@ -4,8 +4,8 @@ import liedge.limacore.lib.Translatable;
 import liedge.limatech.client.LimaTechLang;
 import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrade;
 import liedge.limatech.lib.upgrades.equipment.EquipmentUpgradeEntry;
-import liedge.limatech.registry.LimaTechCreativeTabs;
-import liedge.limatech.registry.LimaTechItems;
+import liedge.limatech.registry.game.LimaTechCreativeTabs;
+import liedge.limatech.registry.game.LimaTechItems;
 import liedge.limatech.registry.LimaTechRegistries;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
@@ -19,7 +19,7 @@ import net.minecraft.world.item.ItemStack;
 import java.util.List;
 
 import static liedge.limatech.LimaTechConstants.LIME_GREEN;
-import static liedge.limatech.registry.LimaTechDataComponents.EQUIPMENT_UPGRADE_ENTRY;
+import static liedge.limatech.registry.game.LimaTechDataComponents.EQUIPMENT_UPGRADE_ENTRY;
 
 public class EquipmentUpgradeModuleItem extends UpgradeModuleItem<EquipmentUpgrade, EquipmentUpgradeEntry>
 {

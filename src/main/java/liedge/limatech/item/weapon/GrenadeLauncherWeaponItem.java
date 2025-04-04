@@ -10,8 +10,11 @@ import liedge.limatech.item.ScrollModeSwitchItem;
 import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.limatech.lib.weapons.AbstractWeaponControls;
 import liedge.limatech.lib.weapons.GrenadeType;
-import liedge.limatech.registry.*;
 import liedge.limatech.registry.bootstrap.LimaTechEquipmentUpgrades;
+import liedge.limatech.registry.game.LimaTechDataComponents;
+import liedge.limatech.registry.game.LimaTechItems;
+import liedge.limatech.registry.game.LimaTechSounds;
+import liedge.limatech.registry.game.LimaTechUpgradeEffectComponents;
 import liedge.limatech.util.config.LimaTechWeaponsConfig;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.ResourceLocation;
@@ -26,7 +29,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 
-import static liedge.limatech.registry.LimaTechDataComponents.GRENADE_TYPE;
+import static liedge.limatech.registry.game.LimaTechDataComponents.GRENADE_TYPE;
 
 public class GrenadeLauncherWeaponItem extends SemiAutoWeaponItem implements ScrollModeSwitchItem
 {

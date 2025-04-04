@@ -3,13 +3,13 @@ package liedge.limatech.menu;
 import liedge.limacore.inventory.menu.LimaItemHandlerMenuSlot;
 import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limacore.util.LimaItemUtil;
-import liedge.limatech.blockentity.RocketTurretBlockEntity;
+import liedge.limatech.blockentity.BaseTurretBlockEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 
-public class RocketTurretMenu extends SidedUpgradableMachineMenu<RocketTurretBlockEntity>
+public class TurretMenu<BE extends BaseTurretBlockEntity> extends SidedUpgradableMachineMenu<BE>
 {
-    public RocketTurretMenu(LimaMenuType<RocketTurretBlockEntity, ?> type, int containerId, Inventory inventory, RocketTurretBlockEntity menuContext)
+    public TurretMenu(LimaMenuType<BE, ?> type, int containerId, Inventory inventory, BE menuContext)
     {
         super(type, containerId, inventory, menuContext);
 

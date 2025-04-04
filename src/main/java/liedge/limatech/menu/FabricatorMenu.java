@@ -2,13 +2,13 @@ package liedge.limatech.menu;
 
 import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limacore.recipe.LimaRecipeInput;
-import liedge.limacore.registry.LimaCoreNetworkSerializers;
+import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.limacore.util.LimaItemUtil;
 import liedge.limacore.util.LimaRecipesUtil;
 import liedge.limatech.LimaTech;
 import liedge.limatech.blockentity.FabricatorBlockEntity;
 import liedge.limatech.recipe.FabricatingRecipe;
-import liedge.limatech.registry.LimaTechRecipeTypes;
+import liedge.limatech.registry.game.LimaTechRecipeTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;

@@ -11,15 +11,15 @@ import liedge.limatech.blockentity.RocketTurretBlockEntity;
 import liedge.limatech.lib.TurretDamageSource;
 import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.limatech.lib.upgrades.machine.MachineUpgrades;
-import liedge.limatech.registry.*;
 import liedge.limatech.registry.bootstrap.LimaTechDamageTypes;
+import liedge.limatech.registry.game.*;
 import liedge.limatech.util.config.LimaTechMachinesConfig;
 import liedge.limatech.util.config.LimaTechWeaponsConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -105,19 +105,18 @@ public abstract class BaseRocketEntity extends AutoTrackingProjectile
         @Override
         protected void damageTarget(Level level, @Nullable LivingEntity owner, Entity targetEntity, Vec3 hitLocation)
         {
-            DamageSource source;
+            float baseDamage = (float) LimaTechMachinesConfig.ATMOS_TURRET_ROCKET_DAMAGE.getAsDouble();
 
             RocketTurretBlockEntity be = LimaBlockUtil.getSafeBlockEntity(level, turretPos, RocketTurretBlockEntity.class);
             if (be != null)
             {
-                source = TurretDamageSource.create(level, LimaTechDamageTypes.TURRET_ROCKET, be, this, owner);
+                // Auto-wrap player owners with a Fake Player instance that has the turret's enchantments
+                LimaTechEntityUtil.hurtWithEnchantedFakePlayer((ServerLevel) level, targetEntity, owner, be.getUpgrades(), le -> TurretDamageSource.create(level, LimaTechDamageTypes.TURRET_ROCKET, be, this, le, null), baseDamage);
             }
             else
             {
-                source = level.damageSources().source(LimaTechDamageTypes.TURRET_ROCKET, this, owner); // Standard damage source if parent turret is missing/invalid
+                targetEntity.hurt(level.damageSources().source(LimaTechDamageTypes.TURRET_ROCKET, this, owner), baseDamage); // Standard damage source if parent turret is missing/invalid
             }
-
-            targetEntity.hurt(source, (float) LimaTechMachinesConfig.ATMOS_TURRET_ROCKET_DAMAGE.getAsDouble());
         }
 
         @Override

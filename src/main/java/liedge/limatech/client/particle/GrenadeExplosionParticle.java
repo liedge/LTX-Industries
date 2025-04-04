@@ -3,7 +3,7 @@ package liedge.limatech.client.particle;
 import liedge.limacore.client.particle.ColorParticleOptions;
 import liedge.limacore.client.particle.ColorSizeParticleOptions;
 import liedge.limacore.util.LimaMathUtil;
-import liedge.limatech.registry.LimaTechParticles;
+import liedge.limatech.registry.game.LimaTechParticles;
 import liedge.limatech.lib.weapons.GrenadeType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;

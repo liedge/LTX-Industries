@@ -8,7 +8,7 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 import org.jetbrains.annotations.Nullable;
 
-import static liedge.limacore.registry.LimaCoreDataComponents.ENERGY;
+import static liedge.limacore.registry.game.LimaCoreDataComponents.ENERGY;
 
 public interface EnergyHolderItem
 {

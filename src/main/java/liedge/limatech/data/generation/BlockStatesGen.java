@@ -17,7 +17,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 
 import static liedge.limacore.util.LimaRegistryUtil.getBlockName;
 import static liedge.limatech.block.LimaTechBlockProperties.MACHINE_WORKING;
-import static liedge.limatech.registry.LimaTechBlocks.*;
+import static liedge.limatech.registry.game.LimaTechBlocks.*;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.*;
 
 class BlockStatesGen extends LimaBlockStateProvider
@@ -75,6 +75,7 @@ class BlockStatesGen extends LimaBlockStateProvider
 
         // Turret
         turretBlock(ROCKET_TURRET);
+        turretBlock(RAILGUN_TURRET);
     }
 
     private void turretBlock(Holder<Block> turret)

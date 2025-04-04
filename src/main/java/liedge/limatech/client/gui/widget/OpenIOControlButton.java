@@ -3,7 +3,7 @@ package liedge.limatech.client.gui.widget;
 import liedge.limacore.client.gui.LimaMenuScreen;
 import liedge.limacore.client.gui.UnmanagedSprite;
 import liedge.limatech.blockentity.base.BlockEntityInputType;
-import liedge.limatech.registry.LimaTechNetworkSerializers;
+import liedge.limatech.registry.game.LimaTechNetworkSerializers;
 import net.minecraft.client.gui.components.Tooltip;
 
 import static liedge.limatech.client.gui.widget.ScreenWidgetSprites.*;

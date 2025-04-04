@@ -8,7 +8,7 @@ import liedge.limatech.LimaTechConstants;
 import liedge.limatech.client.LimaTechLang;
 import liedge.limatech.client.gui.widget.ScreenWidgetSprites;
 import liedge.limatech.recipe.FabricatingRecipe;
-import liedge.limatech.registry.LimaTechBlocks;
+import liedge.limatech.registry.game.LimaTechBlocks;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawableAnimated;
 import mezz.jei.api.gui.drawable.IDrawableStatic;

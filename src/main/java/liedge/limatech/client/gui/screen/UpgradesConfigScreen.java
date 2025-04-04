@@ -6,7 +6,7 @@ import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.client.gui.LimaMenuScreen;
 import liedge.limacore.client.gui.UnmanagedSprite;
-import liedge.limacore.registry.LimaCoreNetworkSerializers;
+import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.limacore.util.LimaMathUtil;
 import liedge.limacore.util.LimaRegistryUtil;
 import liedge.limatech.client.LimaTechLang;

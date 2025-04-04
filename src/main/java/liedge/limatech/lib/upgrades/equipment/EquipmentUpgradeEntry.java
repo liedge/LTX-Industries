@@ -3,7 +3,7 @@ package liedge.limatech.lib.upgrades.equipment;
 import com.mojang.serialization.Codec;
 import liedge.limacore.util.LimaRegistryUtil;
 import liedge.limatech.lib.upgrades.UpgradeBaseEntry;
-import liedge.limatech.registry.LimaTechDataComponents;
+import liedge.limatech.registry.game.LimaTechDataComponents;
 import net.minecraft.core.Holder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;

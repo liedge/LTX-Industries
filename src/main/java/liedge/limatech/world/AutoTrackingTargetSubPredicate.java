@@ -2,7 +2,7 @@ package liedge.limatech.world;
 
 import com.mojang.serialization.MapCodec;
 import liedge.limatech.entity.AutoTrackingProjectile;
-import liedge.limatech.registry.LimaTechLootRegistries;
+import liedge.limatech.registry.game.LimaTechLootRegistries;
 import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.advancements.critereon.EntitySubPredicate;
 import net.minecraft.server.level.ServerLevel;

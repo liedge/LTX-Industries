@@ -1,4 +1,4 @@
-package liedge.limatech.registry;
+package liedge.limatech.registry.game;
 
 import liedge.limatech.LimaTech;
 import net.minecraft.core.registries.Registries;
@@ -16,7 +16,7 @@ public final class LimaTechAttributes
 
     private static final DeferredRegister<Attribute> ATTRIBUTES = LimaTech.RESOURCES.deferredRegister(Registries.ATTRIBUTE);
 
-    public static void initRegister(IEventBus bus)
+    public static void register(IEventBus bus)
     {
         ATTRIBUTES.register(bus);
     }

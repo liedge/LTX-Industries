@@ -10,6 +10,7 @@
     "limatech:neuro_grenade",
     "limatech:rocket_launcher",
     "limatech:sticky_flame",
-    "limatech:turret_rocket"
+    "limatech:turret_rocket",
+    "limatech:railgun_turret"
   ]
 }

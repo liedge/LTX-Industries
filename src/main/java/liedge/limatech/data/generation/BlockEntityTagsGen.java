@@ -12,7 +12,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.concurrent.CompletableFuture;
 
 import static liedge.limatech.LimaTechTags.BlockEntities.GENERAL_PROCESSING_MACHINES;
-import static liedge.limatech.registry.LimaTechBlockEntities.*;
+import static liedge.limatech.LimaTechTags.BlockEntities.TURRETS;
+import static liedge.limatech.registry.game.LimaTechBlockEntities.*;
 
 class BlockEntityTagsGen extends LimaTagsProvider.RegistryTags<BlockEntityType<?>>
 {
@@ -25,5 +26,6 @@ class BlockEntityTagsGen extends LimaTagsProvider.RegistryTags<BlockEntityType<?
     protected void addTags(HolderLookup.Provider provider)
     {
         buildTag(GENERAL_PROCESSING_MACHINES).add(DIGITAL_FURNACE, GRINDER, RECOMPOSER, MATERIAL_FUSING_CHAMBER);
+        buildTag(TURRETS).add(ROCKET_TURRET, RAILGUN_TURRET);
     }
 }

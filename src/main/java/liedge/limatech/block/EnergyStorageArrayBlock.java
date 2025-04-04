@@ -2,7 +2,7 @@ package liedge.limatech.block;
 
 import liedge.limacore.blockentity.IOAccess;
 import liedge.limacore.blockentity.LimaBlockEntityType;
-import liedge.limatech.registry.LimaTechBlockEntities;
+import liedge.limatech.registry.game.LimaTechBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
