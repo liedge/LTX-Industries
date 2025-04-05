@@ -28,7 +28,6 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.item.enchantment.LevelBasedValue;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
-import net.minecraft.world.level.storage.loot.IntRange;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -45,9 +44,9 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
 import static liedge.limacore.util.LimaLootUtil.*;
+import static liedge.limatech.registry.LimaTechLootTables.*;
 import static liedge.limatech.registry.game.LimaTechBlocks.*;
 import static liedge.limatech.registry.game.LimaTechItems.*;
-import static liedge.limatech.registry.LimaTechLootTables.*;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.DOUBLE_BLOCK_HALF;
 
 class LootTablesGen extends LimaLootTableProvider
@@ -76,15 +75,21 @@ class LootTablesGen extends LimaLootTableProvider
         protected void generateTables(HolderLookup.Provider registries)
         {
             Holder<Enchantment> razorEnchant = registries.holderOrThrow(LimaTechEnchantments.RAZOR);
-            LootPool.Builder razorPool = LootPool.lootPool().when(LimaLootUtil.randomChanceLinearEnchantBonus(razorEnchant, 0f, 0.1f))
+
+            LootPool.Builder razorDragonHead = LootPool.lootPool()
+                    .when(needsEntityType(EntityType.ENDER_DRAGON))
+                    .when(LimaLootUtil.randomChanceWithEnchantBonus(razorEnchant, 0f, EnhancedLookupLevelBasedValue.offsetLookup(4, 0f, 1f, 0.5f)))
+                    .add(lootItem(Items.DRAGON_HEAD));
+
+            LootPool.Builder razorGeneralHeads = LootPool.lootPool().when(LimaLootUtil.randomChanceLinearEnchantBonus(razorEnchant, 0f, 0.1f))
                     .add(lootItem(Items.ZOMBIE_HEAD).when(needsEntityTag(EntityTypeTags.ZOMBIES)))
                     .add(lootItem(Items.SKELETON_SKULL).when(needsEntityTag(EntityTypeTags.SKELETONS)).when(needsEntityType(EntityType.WITHER_SKELETON).invert()))
                     .add(lootItem(Items.CREEPER_HEAD).when(needsEntityType(EntityType.CREEPER)))
                     .add(lootItem(Items.PIGLIN_HEAD).when(needsEntityType(EntityType.PIGLIN)))
                     .add(lootItem(Items.WITHER_SKELETON_SKULL).when(needsEntityType(EntityType.WITHER_SKELETON)))
-                    .add(lootItem(Items.PLAYER_HEAD).when(needsEntityType(EntityType.PLAYER)).apply(FillPlayerHead.fillPlayerHead(LootContext.EntityTarget.THIS)))
-                    .add(lootItem(Items.DRAGON_HEAD).when(needsEntityType(EntityType.ENDER_DRAGON)).when(contextEnchantmentLevels(IntRange.lowerBound(5))));
-            addTable(RAZOR_LOOT_TABLE, singlePoolTable(razorPool));
+                    .add(lootItem(Items.PLAYER_HEAD).when(needsEntityType(EntityType.PLAYER)).apply(FillPlayerHead.fillPlayerHead(LootContext.EntityTarget.THIS)));
+
+            addTable(RAZOR_LOOT_TABLE, LootTable.lootTable().withPool(razorDragonHead).withPool(razorGeneralHeads));
         }
     }
 
@@ -99,6 +104,7 @@ class LootTablesGen extends LimaLootTableProvider
         protected void generateTables(HolderLookup.Provider registries)
         {
             Holder<Enchantment> ammoScavengerEnchantment = registries.holderOrThrow(LimaTechEnchantments.AMMO_SCAVENGER);
+            Holder<Enchantment> razorEnchantment = registries.holderOrThrow(LimaTechEnchantments.RAZOR);
             Holder<Enchantment> lootingEnchantment = registries.holderOrThrow(Enchantments.LOOTING);
 
             // GLM generic drops
@@ -111,7 +117,7 @@ class LootTablesGen extends LimaLootTableProvider
                     .when(needsEntityType(EntityType.WARDEN))
                     .when(AnyOfCondition.anyOf(
                             LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.DIRECT_ATTACKER, EntityPredicate.Builder.entity().subPredicate(new GrenadeSubPredicate(GrenadeType.ACID))),
-                            entityEnchantmentLevels(LootContext.EntityTarget.ATTACKER, EnchantmentLevelSubPredicate.atLeast(lootingEnchantment, 4))))
+                            entityEnchantmentLevels(LootContext.EntityTarget.ATTACKER, EnchantmentLevelSubPredicate.atLeast(razorEnchantment, 3))))
                     .apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 2)))
                     .add(lootItem(Items.ECHO_SHARD));
 
@@ -127,7 +133,7 @@ class LootTablesGen extends LimaLootTableProvider
                     .add(DynamicWeightLootEntry.dynamicWeightItem(EXPLOSIVES_AMMO_CANISTER, 5).setReplaceWeight(false).setDynamicWeight(TargetedEnchantmentLevelProvider.of(LootContext.EntityTarget.ATTACKER, ammoScavengerEnchantment, LevelBasedValue.perLevel(3))))
                     .add(DynamicWeightLootEntry.dynamicWeightItem(ROCKET_LAUNCHER_AMMO, 3).setReplaceWeight(false).setDynamicWeight(TargetedEnchantmentLevelProvider.of(LootContext.EntityTarget.ATTACKER, ammoScavengerEnchantment, LevelBasedValue.perLevel(3))))
                     .add(DynamicWeightLootEntry.dynamicWeightItem(MAGNUM_AMMO_CANISTER, 1).setReplaceWeight(false).setDynamicWeight(TargetedEnchantmentLevelProvider.of(LootContext.EntityTarget.ATTACKER, ammoScavengerEnchantment, LevelBasedValue.perLevel(2))))
-                    .setRolls(RoundingNumberProvider.of(TargetedEnchantmentLevelProvider.of(LootContext.EntityTarget.ATTACKER, ammoScavengerEnchantment, EnhancedLookupLevelBasedValue.offsetLookup(4, 1, 2, 1.5f, 2f)), LimaRoundingMode.RANDOM));
+                    .setRolls(RoundingNumberProvider.of(TargetedEnchantmentLevelProvider.of(LootContext.EntityTarget.ATTACKER, ammoScavengerEnchantment, EnhancedLookupLevelBasedValue.offsetLookup(4, 1, 2, 1.5f)), LimaRoundingMode.RANDOM));
 
             addTable(ENEMY_AMMO_DROPS, LootTable.lootTable().withPool(ammoDrops));
         }

@@ -1,7 +1,7 @@
 package liedge.limatech.lib;
 
 import liedge.limatech.client.LimaTechLang;
-import liedge.limatech.lib.weapons.WeaponDamageSource;
+import liedge.limatech.entity.damage.WeaponDamageSource;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DeathMessageType;

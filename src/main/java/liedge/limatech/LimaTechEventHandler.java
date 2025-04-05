@@ -1,23 +1,21 @@
 package liedge.limatech;
 
-import liedge.limacore.capability.itemhandler.LimaItemHandlerUtil;
 import liedge.limacore.util.LimaCoreUtil;
-import liedge.limatech.blockentity.BaseTurretBlockEntity;
 import liedge.limatech.entity.BubbleShieldUser;
+import liedge.limatech.entity.damage.UpgradeAwareDamageSource;
 import liedge.limatech.item.weapon.WeaponItem;
-import liedge.limatech.lib.TurretDamageSource;
-import liedge.limatech.lib.weapons.WeaponDamageSource;
+import liedge.limatech.entity.damage.WeaponDamageSource;
 import liedge.limatech.network.packet.ClientboundEntityShieldPacket;
 import liedge.limatech.network.packet.ClientboundPlayerShieldPacket;
 import liedge.limatech.registry.game.LimaTechAttachmentTypes;
 import liedge.limatech.registry.game.LimaTechAttributes;
-import liedge.limatech.registry.game.LimaTechUpgradeEffectComponents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -28,6 +26,8 @@ import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.Iterator;
@@ -95,11 +95,10 @@ public final class LimaTechEventHandler
     @SubscribeEvent
     public static void onLivingDrops(final LivingDropsEvent event)
     {
-        if (event.getSource() instanceof TurretDamageSource damageSource)
+        if (event.getSource() instanceof UpgradeAwareDamageSource damageSource)
         {
-            // Check if upgrade effect is active
-            BaseTurretBlockEntity be = damageSource.getBlockEntity();
-            if (be.getUpgrades().upgradeEffectTypePresent(LimaTechUpgradeEffectComponents.DIRECT_ITEM_TELEPORT.get()))
+            IItemHandler inventory = damageSource.directTeleportDropsInventory();
+            if (inventory != null)
             {
                 Iterator<ItemEntity> iterator = event.getDrops().iterator();
 
@@ -108,13 +107,27 @@ public final class LimaTechEventHandler
                     ItemEntity itemEntity = iterator.next();
 
                     ItemStack original = itemEntity.getItem();
-                    ItemStack insertRemainder = LimaItemHandlerUtil.insertItemIntoSlots(be.getItemHandler(), original, 1, 21, false);
+                    ItemStack insertRemainder = ItemHandlerHelper.insertItemStacked(inventory, original, false);
 
-                    if (insertRemainder.isEmpty()) iterator.remove(); // Entity drop removed if fully inserted
-                    if (original.getCount() != insertRemainder.getCount()) itemEntity.setItem(insertRemainder); // Partial remaining stack still drops in world
+                    if (insertRemainder.isEmpty())
+                        iterator.remove(); // Entity drop removed if fully inserted
+                    else if (original.getCount() != insertRemainder.getCount())
+                        itemEntity.setItem(insertRemainder); // Partial remaining stack still drops in world
                 }
 
-                if (event.getDrops().isEmpty()) event.setCanceled(true); // No point in continuing event if iterator was emptied
+                if (event.getDrops().isEmpty())
+                {
+                    event.setCanceled(true); // No point in continuing event if iterator was emptied
+                }
+                else
+                {
+                    // Relocate drops to new spot if available
+                    Vec3 newDropLocation = damageSource.directTeleportDropsLocation();
+                    if (newDropLocation != null) event.getDrops().forEach(e -> {
+                        e.setPos(newDropLocation);
+                        e.setDeltaMovement(Vec3.ZERO);
+                    });
+                }
             }
         }
     }

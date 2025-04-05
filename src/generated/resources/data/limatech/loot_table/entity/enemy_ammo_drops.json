@@ -112,8 +112,7 @@
             "default_below": 1.0,
             "level_offset": 4,
             "values": [
-              1.5,
-              2.0
+              1.5
             ]
           },
           "enchantment": "limatech:ammo_scavenger"

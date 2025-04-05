@@ -1,5 +1,8 @@
 package liedge.limatech.entity;
 
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.IntList;
+import liedge.limacore.util.LimaEntityUtil;
 import liedge.limatech.LimaTechTags;
 import liedge.limatech.lib.upgrades.UpgradesContainerBase;
 import liedge.limatech.util.config.LimaTechServerConfig;
@@ -21,14 +24,18 @@ import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.*;
 import net.neoforged.neoforge.common.util.FakePlayerFactory;
+import net.neoforged.neoforge.entity.PartEntity;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
 public final class LimaTechEntityUtil
 {
+    private static final int MAX_ENTITY_CHECK_RECURSION = 5;
+
     private LimaTechEntityUtil() {}
 
     /**
@@ -63,6 +70,13 @@ public final class LimaTechEntityUtil
 
     public static boolean isValidWeaponTarget(@Nullable Entity attackingEntity, Entity target)
     {
+        return isValidWeaponTarget(attackingEntity, target, 0);
+    }
+
+    private static boolean isValidWeaponTarget(@Nullable Entity attackingEntity, Entity target, int recursionDepth)
+    {
+        if (recursionDepth > MAX_ENTITY_CHECK_RECURSION) return false;
+
         // Don't hurt the owner, removed/dead entities and immune entity type tag entities
         if (!isEntityAlive(target) || target == attackingEntity || target.getType().is(LimaTechTags.EntityTypes.INVALID_TARGETS)) return false;
 
@@ -77,12 +91,34 @@ public final class LimaTechEntityUtil
             // Don't hurt ownable mobs with same owner
             case OwnableEntity ownable when validAttacker && ownable.getOwner() == attackingEntity -> false;
 
+            // Don't hurt part entities if their parent entity is dead
+            case PartEntity<?> part when !isValidWeaponTarget(attackingEntity, part.getParent(), recursionDepth + 1) -> false;
+
             // Check pvp rules if target is a player
             case Player player when !checkPlayerPVPRule(attackingEntity, player) -> false;
 
             // Finally, don't hurt the vehicle entity owner is riding (if any)
             default -> validAttacker && !attackingEntity.isPassengerOfSameVehicle(target);
         };
+    }
+
+    public static IntList flattenEntityIds(Collection<Entity> entities)
+    {
+        IntList list = new IntArrayList(entities.size());
+
+        for (Entity e : entities)
+        {
+            int depth = 0;
+            while (e instanceof PartEntity<?> && depth <= MAX_ENTITY_CHECK_RECURSION)
+            {
+                e = ((PartEntity<?>) e).getParent();
+                depth++;
+            }
+
+            if (depth <= MAX_ENTITY_CHECK_RECURSION) list.add(LimaEntityUtil.getEntityId(e));
+        }
+
+        return list;
     }
 
     /**

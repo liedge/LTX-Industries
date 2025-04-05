@@ -14,7 +14,6 @@ import liedge.limacore.network.sync.AutomaticDataWatcher;
 import liedge.limacore.network.sync.LimaDataWatcher;
 import liedge.limacore.network.sync.ManualDataWatcher;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
-import liedge.limacore.util.LimaCollectionsUtil;
 import liedge.limacore.util.LimaItemUtil;
 import liedge.limacore.util.LimaStreamsUtil;
 import liedge.limatech.blockentity.base.SidedAccessBlockEntityType;
@@ -138,7 +137,7 @@ public abstract class BaseTurretBlockEntity extends SidedItemEnergyMachineBlockE
             this.currentTarget = entity;
         }));
 
-        this.targetsWatcher = ManualDataWatcher.manuallyTrack(LimaCoreNetworkSerializers.INT_LIST, () -> LimaCollectionsUtil.toIntList(targetQueue.stream().mapToInt(Entity::getId)), list -> {
+        this.targetsWatcher = ManualDataWatcher.manuallyTrack(LimaCoreNetworkSerializers.INT_LIST, () -> LimaTechEntityUtil.flattenEntityIds(targetQueue), list -> {
             targetQueue.clear();
             list.intStream().mapToObj(LimaCoreClientUtil::getClientEntity).filter(e -> e != null && LimaTechEntityUtil.isEntityAlive(e)).forEach(targetQueue::add);
             this.ticker0 = 0;

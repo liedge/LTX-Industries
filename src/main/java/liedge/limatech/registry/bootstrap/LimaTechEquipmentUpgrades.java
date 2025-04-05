@@ -60,6 +60,7 @@ public final class LimaTechEquipmentUpgrades
     public static final ResourceKey<EquipmentUpgrade> UNIVERSAL_INFINITE_AMMO = key("universal_infinite_ammo");
     public static final ResourceKey<EquipmentUpgrade> UNIVERSAL_ARMOR_PIERCE = key("universal_armor_pierce");
     public static final ResourceKey<EquipmentUpgrade> UNIVERSAL_SHIELD_REGEN = key("universal_shield_regen");
+    public static final ResourceKey<EquipmentUpgrade> UNIVERSAL_LOOT_TELEPORT = key("universal_loot_teleport");
 
     public static final ResourceKey<EquipmentUpgrade> LOOTING_ENCHANTMENT = key("looting_enchantment");
     public static final ResourceKey<EquipmentUpgrade> AMMO_SCAVENGER_ENCHANTMENT = key("ammo_scavenger_enchantment");
@@ -163,6 +164,11 @@ public final class LimaTechEquipmentUpgrades
                 .setMaxRank(3)
                 .withConditionalEffect(WEAPON_KILL, new BubbleShieldUpgradeEffect(LevelBasedValue.constant(4), LevelBasedValue.perLevel(10)))
                 .effectIcon(sprite("bubble_shield"))
+                .buildAndRegister(context);
+        EquipmentUpgrade.builder(UNIVERSAL_LOOT_TELEPORT)
+                .supportsLTXWeapons(items)
+                .withUnitEffect(DIRECT_ITEM_TELEPORT)
+                .effectIcon(sprite("magnet"))
                 .buildAndRegister(context);
 
         // Enchantments

@@ -4,7 +4,7 @@ import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limacore.util.LimaNetworkUtil;
 import liedge.limatech.LimaTechTags;
 import liedge.limatech.entity.LimaTechEntityUtil;
-import liedge.limatech.lib.TurretDamageSource;
+import liedge.limatech.entity.damage.TurretDamageSource;
 import liedge.limatech.lib.TurretTargetList;
 import liedge.limatech.registry.game.LimaTechBlockEntities;
 import liedge.limatech.registry.game.LimaTechMenus;

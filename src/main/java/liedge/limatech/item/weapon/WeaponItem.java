@@ -15,7 +15,7 @@ import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.limatech.lib.weapons.AbstractWeaponControls;
 import liedge.limatech.lib.weapons.GlobalWeaponDamageModifiers;
 import liedge.limatech.lib.weapons.WeaponAmmoSource;
-import liedge.limatech.lib.weapons.WeaponDamageSource;
+import liedge.limatech.entity.damage.WeaponDamageSource;
 import liedge.limatech.registry.game.LimaTechAttachmentTypes;
 import liedge.limatech.registry.game.LimaTechGameEvents;
 import liedge.limatech.registry.game.LimaTechUpgradeEffectComponents;
@@ -204,13 +204,13 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
 
     protected void causeInstantDamage(EquipmentUpgrades upgrades, Player player, ResourceKey<DamageType> damageTypeKey, Entity targetEntity, double baseDamage)
     {
-        WeaponDamageSource source = WeaponDamageSource.handheldInstantDamage(damageTypeKey, player, this);
+        WeaponDamageSource source = WeaponDamageSource.handheldInstantDamage(damageTypeKey, player, this, upgrades);
         hurtTargetEntity(player, targetEntity, null, upgrades, source, baseDamage);
     }
 
     public void causeProjectileDamage(EquipmentUpgrades upgrades, LimaTechProjectile projectile, @Nullable Entity owner, ResourceKey<DamageType> damageTypeKey, Entity targetEntity, double baseDamage)
     {
-        WeaponDamageSource source = WeaponDamageSource.projectileDamage(damageTypeKey, projectile, owner, this);
+        WeaponDamageSource source = WeaponDamageSource.projectileDamage(damageTypeKey, projectile, owner, this, upgrades);
         if (owner instanceof Player player)
         {
             hurtTargetEntity(player, targetEntity, projectile, upgrades, source, baseDamage);

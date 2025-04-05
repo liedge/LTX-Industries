@@ -8,7 +8,7 @@ import liedge.limacore.util.LimaNbtUtil;
 import liedge.limacore.util.LimaNetworkUtil;
 import liedge.limatech.LimaTechConstants;
 import liedge.limatech.blockentity.RocketTurretBlockEntity;
-import liedge.limatech.lib.TurretDamageSource;
+import liedge.limatech.entity.damage.TurretDamageSource;
 import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.limatech.lib.upgrades.machine.MachineUpgrades;
 import liedge.limatech.registry.bootstrap.LimaTechDamageTypes;

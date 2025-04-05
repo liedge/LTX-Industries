@@ -48,7 +48,7 @@ public class RailgunTurretRenderer extends TurretRenderer<RailgunTurretBlockEnti
                 // Laser 'engines' y and z: 28.5 and 15 -> 1.78125f, 0.9375f
                 // Left laser x: 11.5 (0.71875f) Right laser x: 4.5 (0.28125f)
                 float y = 1.78125f;
-                float z = 0.9375f;
+                float z = 0.0625f;
                 float lx = 0.71875f;
                 float rx = 0.28125f;
 

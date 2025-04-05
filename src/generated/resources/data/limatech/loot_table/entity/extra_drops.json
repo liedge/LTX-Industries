@@ -53,8 +53,8 @@
               "predicate": {
                 "type_specific": {
                   "type": "limacore:enchantment_level",
-                  "enchantment": "minecraft:looting",
-                  "min_level": 4
+                  "enchantment": "limatech:razor",
+                  "min_level": 3
                 }
               }
             }

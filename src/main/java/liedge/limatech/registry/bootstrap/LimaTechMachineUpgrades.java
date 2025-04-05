@@ -7,8 +7,8 @@ import liedge.limatech.lib.upgrades.effect.EnchantmentUpgradeEffect;
 import liedge.limatech.lib.upgrades.effect.value.DoubleLevelBasedValue;
 import liedge.limatech.lib.upgrades.effect.value.SimpleValueUpgradeEffect;
 import liedge.limatech.lib.upgrades.machine.MachineUpgrade;
-import liedge.limatech.registry.game.LimaTechBlockEntities;
 import liedge.limatech.registry.LimaTechRegistries;
+import liedge.limatech.registry.game.LimaTechBlockEntities;
 import liedge.limatech.registry.game.LimaTechUpgradeEffectComponents;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
@@ -35,6 +35,7 @@ public final class LimaTechMachineUpgrades
     public static final ResourceKey<MachineUpgrade> FABRICATOR_UPGRADE = key("fabricator_upgrade");
 
     public static final ResourceKey<MachineUpgrade> TURRET_LOOTING = key("turret_looting");
+    public static final ResourceKey<MachineUpgrade> TURRET_RAZOR = key("turret_razor");
     public static final ResourceKey<MachineUpgrade> TURRET_LOOT_COLLECTOR = key("turret_loot_collector");
 
     private static ResourceKey<MachineUpgrade> key(String name)
@@ -91,6 +92,13 @@ public final class LimaTechMachineUpgrades
                 .withEffect(ENCHANTMENT_LEVEL, EnchantmentUpgradeEffect.oneLevelPerRank(enchantments.getOrThrow(Enchantments.LOOTING)))
                 .setMaxRank(3)
                 .effectIcon(sprite("looting"))
+                .buildAndRegister(context);
+
+        MachineUpgrade.builder(TURRET_RAZOR)
+                .supports(blockEntities, LimaTechTags.BlockEntities.TURRETS)
+                .setMaxRank(2)
+                .withEffect(ENCHANTMENT_LEVEL, EnchantmentUpgradeEffect.oneLevelPerRank(enchantments.getOrThrow(LimaTechEnchantments.RAZOR)))
+                .effectIcon(sprite("razor_enchant"))
                 .buildAndRegister(context);
 
         MachineUpgrade.builder(TURRET_LOOT_COLLECTOR)

@@ -1,17 +1,19 @@
-package liedge.limatech.lib;
+package liedge.limatech.entity.damage;
 
 import com.google.common.base.Preconditions;
-import liedge.limacore.lib.LimaDynamicDamageSource;
 import liedge.limatech.blockentity.BaseTurretBlockEntity;
+import liedge.limatech.lib.upgrades.UpgradesContainerBase;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.wrapper.RangedWrapper;
 import org.jetbrains.annotations.Nullable;
 
-public class TurretDamageSource extends LimaDynamicDamageSource
+public class TurretDamageSource extends UpgradeAwareDamageSource
 {
     public static TurretDamageSource create(Level level, ResourceKey<DamageType> damageTypeKey, BaseTurretBlockEntity blockEntity, @Nullable Entity directEntity, @Nullable Entity owner, @Nullable Vec3 location)
     {
@@ -27,8 +29,21 @@ public class TurretDamageSource extends LimaDynamicDamageSource
         this.blockEntity = blockEntity;
     }
 
-    public BaseTurretBlockEntity getBlockEntity()
+    @Override
+    protected @Nullable IItemHandler getOrCreateTeleportInventory()
     {
-        return blockEntity;
+        return new RangedWrapper(blockEntity.getItemHandler(), 1, 21);
+    }
+
+    @Override
+    public UpgradesContainerBase<?, ?> getUpgrades()
+    {
+        return blockEntity.getUpgrades();
+    }
+
+    @Override
+    public @Nullable Vec3 directTeleportDropsLocation()
+    {
+        return blockEntity.getProjectileStart();
     }
 }

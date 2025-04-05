@@ -143,10 +143,11 @@ class LanguageGen extends LimaLanguageProvider
         equipmentUpgrade(LimaTechEquipmentUpgrades.UNIVERSAL_INFINITE_AMMO, "Infinite Ammo", "Weapon ignores ammo and can fire infinitely.");
         equipmentUpgrade(LimaTechEquipmentUpgrades.UNIVERSAL_ARMOR_PIERCE, "Armor-Piercing Rounds", "Weapon ignores 10% of armor per upgrade rank.");
         equipmentUpgrade(LimaTechEquipmentUpgrades.UNIVERSAL_SHIELD_REGEN, "Bubble Shield Regen", "Kills recharge your personal Bubble Shield.");
+        equipmentUpgrade(LimaTechEquipmentUpgrades.UNIVERSAL_LOOT_TELEPORT, "Personal Matter SubLink", "Loot is sent directly to your inventory. If full, items appear at your feet.");
 
         equipmentUpgrade(LimaTechEquipmentUpgrades.LOOTING_ENCHANTMENT, "Loot Booster", "Earn more loot drops from defeated enemies, affected by rank.");
         equipmentUpgrade(LimaTechEquipmentUpgrades.AMMO_SCAVENGER_ENCHANTMENT, "Ammunition Finder", "Increases the chance to find rarer weapon ammo types.");
-        equipmentUpgrade(LimaTechEquipmentUpgrades.RAZOR_ENCHANTMENT, "Razor's Edge", "Defeated enemies can drop their heads, affected by rank.");
+        equipmentUpgrade(LimaTechEquipmentUpgrades.RAZOR_ENCHANTMENT, "Severance Optics", "Weapon calibration enables the retrieval of anatomical curiosities.");
 
         equipmentUpgrade(LimaTechEquipmentUpgrades.GRENADE_LAUNCHER_PROJECTILE_SPEED, "Hanabi Launch Boost", "Increases the velocity of the Hanabi grenades.");
 
@@ -164,7 +165,8 @@ class LanguageGen extends LimaLanguageProvider
         machineUpgrade(LimaTechMachineUpgrades.EPSILON_MACHINE_SYSTEMS, "LTX/ε Machine Systems", "The pinnacle of engineering precision! Achieves near-instantaneous crafting at the cost of immense energy consumption.");
         machineUpgrade(LimaTechMachineUpgrades.FABRICATOR_UPGRADE, "Enhanced Tool Head", "Elevate your Fabricator's manufacturing capabilities with superior internal components.");
         machineUpgrade(LimaTechMachineUpgrades.TURRET_LOOTING, "Efficient Target Disposal", "Smarter turret targeting systems allow for increased loot drops from eliminated targets.");
-        machineUpgrade(LimaTechMachineUpgrades.TURRET_LOOT_COLLECTOR, "Matter SubLink", "Loot from eliminated targets is directly stored in the turret's inventory if there's free space.");
+        machineUpgrade(LimaTechMachineUpgrades.TURRET_RAZOR, "Headhunter Scope", "Precise turret calibration enables the collection of anatomical curiosities.");
+        machineUpgrade(LimaTechMachineUpgrades.TURRET_LOOT_COLLECTOR, "Matter SubLink", "Loot is sent directly to the turret’s storage. If full, items appear at the turret’s base.");
         //#endregion
 
         // Creative tabs
