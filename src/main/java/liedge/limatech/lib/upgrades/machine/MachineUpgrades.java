@@ -5,7 +5,7 @@ import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import liedge.limatech.blockentity.UpgradableMachineBlockEntity;
 import liedge.limatech.lib.upgrades.UpgradesContainerBase;
-import liedge.limatech.lib.upgrades.UpgradesContainerBuilder;
+import liedge.limatech.lib.upgrades.MutableUpgradesContainer;
 import net.minecraft.core.Holder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -19,9 +19,9 @@ public final class MachineUpgrades extends UpgradesContainerBase<BlockEntityType
     public static final StreamCodec<RegistryFriendlyByteBuf, MachineUpgrades> STREAM_CODEC = createStreamCodec(MachineUpgrade.STREAM_CODEC, MachineUpgrades::new);
     public static final MachineUpgrades EMPTY = new MachineUpgrades(new Object2IntOpenHashMap<>());
 
-    public static UpgradesContainerBuilder<MachineUpgrade, MachineUpgrades> builder()
+    public static MutableUpgradesContainer<MachineUpgrade, MachineUpgrades> builder()
     {
-        return new UpgradesContainerBuilder<>(MachineUpgrades::new);
+        return new MutableUpgradesContainer<>(MachineUpgrades::new);
     }
 
     private MachineUpgrades(Object2IntMap<Holder<MachineUpgrade>> internalMap)
@@ -35,8 +35,9 @@ public final class MachineUpgrades extends UpgradesContainerBase<BlockEntityType
         return canInstallUpgrade(contextHolder, upgradeHolder);
     }
 
-    public UpgradesContainerBuilder<MachineUpgrade, MachineUpgrades> asBuilder()
+    @Override
+    public MutableUpgradesContainer<MachineUpgrade, MachineUpgrades> toMutableContainer()
     {
-        return new UpgradesContainerBuilder<>(this, MachineUpgrades::new);
+        return new MutableUpgradesContainer<>(this, MachineUpgrades::new);
     }
 }

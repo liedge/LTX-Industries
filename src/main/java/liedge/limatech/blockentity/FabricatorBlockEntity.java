@@ -24,7 +24,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.capabilities.BlockCapabilityCache;
 import net.neoforged.neoforge.capabilities.Capabilities;
@@ -147,7 +146,7 @@ public class FabricatorBlockEntity extends SidedItemEnergyMachineBlockEntity
     }
 
     @Override
-    protected void tickServer(Level level, BlockPos pos, BlockState state)
+    protected void tickServer(ServerLevel level, BlockPos pos, BlockState state)
     {
         LimaEnergyStorage machineEnergy = getEnergyStorage();
 

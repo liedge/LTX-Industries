@@ -1,5 +1,6 @@
 package liedge.limatech.item;
 
+import liedge.limacore.capability.energy.EnergyContainerSpec;
 import liedge.limacore.capability.energy.LimaComponentEnergyStorage;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.util.LimaCoreUtil;
@@ -9,6 +10,7 @@ import net.neoforged.neoforge.energy.IEnergyStorage;
 import org.jetbrains.annotations.Nullable;
 
 import static liedge.limacore.registry.game.LimaCoreDataComponents.ENERGY;
+import static liedge.limacore.registry.game.LimaCoreDataComponents.ENERGY_SPEC;
 
 public interface EnergyHolderItem
 {
@@ -22,9 +24,15 @@ public interface EnergyHolderItem
         return stack.getOrDefault(ENERGY, 0);
     }
 
-    int getEnergyCapacity(ItemStack stack);
+    default int getEnergyCapacity(ItemStack stack)
+    {
+        return stack.getOrDefault(ENERGY_SPEC, EnergyContainerSpec.EMPTY).capacity();
+    }
 
-    int getEnergyTransferRate(ItemStack stack);
+    default int getEnergyTransferRate(ItemStack stack)
+    {
+        return stack.getOrDefault(ENERGY_SPEC, EnergyContainerSpec.EMPTY).transferRate();
+    }
 
     default boolean supportsEnergyStorage(ItemStack stack)
     {

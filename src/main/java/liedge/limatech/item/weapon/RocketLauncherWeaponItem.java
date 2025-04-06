@@ -7,6 +7,7 @@ import liedge.limatech.lib.weapons.AbstractWeaponControls;
 import liedge.limatech.registry.game.LimaTechItems;
 import liedge.limatech.registry.game.LimaTechSounds;
 import liedge.limatech.util.config.LimaTechWeaponsConfig;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -111,7 +112,7 @@ public class RocketLauncherWeaponItem extends SemiAutoWeaponItem
     @Override
     public void weaponFired(ItemStack heldItem, Player player, Level level, AbstractWeaponControls controls)
     {
-        if (!level.isClientSide())
+        if (level instanceof ServerLevel serverLevel)
         {
             EquipmentUpgrades upgrades = getUpgrades(heldItem);
 
@@ -119,7 +120,7 @@ public class RocketLauncherWeaponItem extends SemiAutoWeaponItem
             missile.setOwner(player);
 
             LivingEntity focusedTarget = controls.getFocusedTarget();
-            missile.aimAndSetPosFromShooter(player, calculateProjectileSpeed(upgrades, 2.75d), 0d);
+            missile.aimAndSetPosFromShooter(player, calculateProjectileSpeed(serverLevel, upgrades, 2.75d), 0d);
             if (focusedTarget != null && controls.getTargetTicks() > 20) missile.setTargetEntity(focusedTarget);
 
             level.addFreshEntity(missile);

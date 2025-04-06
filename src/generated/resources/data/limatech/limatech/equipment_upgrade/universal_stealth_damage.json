@@ -3,12 +3,14 @@
     "translate": "equipment_upgrade.limatech.universal_stealth_damage.desc"
   },
   "effects": {
-    "limatech:weapon_pre_attack": [
+    "limatech:pre_attack": [
       {
+        "affected": "victim",
         "effect": {
           "type": "limatech:dynamic_damage_tag",
           "tag": "minecraft:no_anger"
-        }
+        },
+        "enchanted": "attacker"
       }
     ]
   },

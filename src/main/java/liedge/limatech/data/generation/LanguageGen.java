@@ -264,8 +264,9 @@ class LanguageGen extends LimaLanguageProvider
         add(DYNAMIC_DAMAGE_TAG_EFFECT, "Adds damage type tag: %s");
         add(NO_SCULK_VIBRATIONS_EFFECT, "No sculk vibrations");
         add(ENERGY_AMMO_EFFECT, "Unlocks CE ammunition synthesis");
-        add(INFINITE_AMMO_EFFECT, "Unlocks infinite ammo");
+        add(INFINITE_AMMO_EFFECT, "Grants weapon infinite ammunition and magazine");
         add(SHIELD_UPGRADE_EFFECT, "%s Bubble Shield/kill, (max %s)");
+        add(MOB_EFFECT_UPGRADE_EFFECT, "Applies %s (%s)");
         add(ENCHANTMENT_UPGRADE_EFFECT, "%s %s Enchantment");
         add(GRENADE_UNLOCK_EFFECT, "Can use %s shells");
         add(DIRECT_ITEM_TELEPORT_EFFECT, "Direct item to inventory teleport");
@@ -276,7 +277,7 @@ class LanguageGen extends LimaLanguageProvider
         add(WeaponAmmoSource.INFINITE.getItemTooltip(), "This weapon has infinite ammo!");
 
         add(WeaponItem.AMMO_LOADED_TOOLTIP, "Ammo: %s/%s");
-        add(WeaponItem.ENERGY_AMMO_COST_TOOLTIP, "Ammo Synth Cost: %s");
+        add(WeaponItem.ENERGY_AMMO_COST_TOOLTIP, "Energy per reload: %s");
         add(GrenadeLauncherWeaponItem.GRENADE_TYPE_TOOLTIP, "%s shells equipped");
         //#endregion
 

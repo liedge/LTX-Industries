@@ -31,7 +31,7 @@ public class SMGWeaponItem extends FullAutoWeaponItem
         return EquipmentUpgrades.builder()
                 .set(registries.holderOrThrow(LimaTechEquipmentUpgrades.SMG_BUILT_IN))
                 .set(registries.holderOrThrow(LimaTechEquipmentUpgrades.LIGHTFRAG_BASE_ARMOR_BYPASS))
-                .build();
+                .toImmutable();
     }
 
     @Override

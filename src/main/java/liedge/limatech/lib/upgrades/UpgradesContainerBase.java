@@ -3,10 +3,12 @@ package liedge.limatech.lib.upgrades;
 import com.mojang.serialization.Codec;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import liedge.limacore.data.LimaCoreCodecs;
+import liedge.limacore.lib.function.ObjectIntConsumer;
 import liedge.limacore.network.LimaStreamCodecs;
 import liedge.limacore.util.LimaRegistryUtil;
-import liedge.limatech.lib.upgrades.effect.value.ComplexValueUpgradeEffect;
-import liedge.limatech.lib.upgrades.effect.value.SimpleValueUpgradeEffect;
+import liedge.limacore.util.LimaStreamsUtil;
+import liedge.limatech.lib.upgrades.effect.equipment.EquipmentUpgradeEffect;
+import liedge.limatech.lib.upgrades.effect.value.ValueUpgradeEffect;
 import liedge.limatech.registry.game.LimaTechUpgradeEffectComponents;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentType;
@@ -16,19 +18,23 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.ConditionalEffect;
-import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentTarget;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
+import net.minecraft.world.item.enchantment.TargetedConditionalEffect;
 import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 
 import java.util.*;
-import java.util.function.BiConsumer;
 import java.util.function.Function;
+import java.util.function.IntFunction;
 import java.util.function.Supplier;
-import java.util.function.ToIntBiFunction;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
@@ -51,7 +57,7 @@ public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
     }
 
     //#region General iteration helpers
-    public <T> void forEachConditionalEffect(DataComponentType<List<ConditionalEffect<T>>> type, LootContext context, BiConsumer<T, Integer> consumer)
+    public <T> void forEachConditionalEffect(DataComponentType<List<ConditionalEffect<T>>> type, LootContext context, ObjectIntConsumer<T> consumer)
     {
         for (Object2IntMap.Entry<Holder<U>> entry : internalMap.object2IntEntrySet())
         {
@@ -60,28 +66,71 @@ public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
             {
                 if (conditionalEffect.matches(context))
                 {
-                    consumer.accept(conditionalEffect.effect(), entry.getIntValue());
+                    consumer.acceptWithInt(conditionalEffect.effect(), entry.getIntValue());
                 }
             }
         }
     }
 
-    public <T> void forEachConditionalEffect(Supplier<? extends DataComponentType<List<ConditionalEffect<T>>>> typeSupplier, LootContext context, BiConsumer<T, Integer> consumer)
+    public <T> void forEachConditionalEffect(Supplier<? extends DataComponentType<List<ConditionalEffect<T>>>> typeSupplier, LootContext context, ObjectIntConsumer<T> consumer)
     {
         forEachConditionalEffect(typeSupplier.get(), context, consumer);
     }
 
-    public <T> void forEachEffect(DataComponentType<List<T>> type, BiConsumer<T, Integer> consumer)
+    public <T> void forEachEffect(DataComponentType<List<T>> type, ObjectIntConsumer<T> consumer)
     {
         for (Object2IntMap.Entry<Holder<U>> entry : internalMap.object2IntEntrySet())
         {
-            entry.getKey().value().getListEffect(type).forEach(effect -> consumer.accept(effect, entry.getIntValue()));
+            List<T> effects = entry.getKey().value().getListEffect(type);
+            final int rank = entry.getIntValue();
+
+            for (T effect: effects)
+            {
+                consumer.acceptWithInt(effect, rank);
+            }
         }
     }
 
-    public <T> void forEachEffect(Supplier<? extends DataComponentType<List<T>>> typeSupplier, BiConsumer<T, Integer> consumer)
+    public <T> void forEachEffect(Supplier<? extends DataComponentType<List<T>>> typeSupplier, ObjectIntConsumer<T> consumer)
     {
         forEachEffect(typeSupplier.get(), consumer);
+    }
+
+    public void applyDamageContextEffects(DataComponentType<List<TargetedConditionalEffect<EquipmentUpgradeEffect>>> type, ServerLevel level, EnchantmentTarget effectTarget, LivingEntity targetEntity, Player attacker, DamageSource damageSource)
+    {
+        LootParams params = new LootParams.Builder(level)
+                .withParameter(LootContextParams.THIS_ENTITY, targetEntity)
+                .withParameter(LootContextParams.ORIGIN, targetEntity.position())
+                .withParameter(LootContextParams.DAMAGE_SOURCE, damageSource)
+                .withParameter(LootContextParams.ATTACKING_ENTITY, attacker)
+                .withOptionalParameter(LootContextParams.DIRECT_ATTACKING_ENTITY, damageSource.getDirectEntity())
+                .create(LootContextParamSets.ENTITY);
+
+        LootContext context = new LootContext.Builder(params).create(Optional.empty());
+
+        for (Object2IntMap.Entry<Holder<U>> entry : internalMap.object2IntEntrySet())
+        {
+            List<TargetedConditionalEffect<EquipmentUpgradeEffect>> list = entry.getKey().value().getListEffect(type);
+            for (TargetedConditionalEffect<EquipmentUpgradeEffect> conditionalEffect : list)
+            {
+                if (conditionalEffect.enchanted() == effectTarget && conditionalEffect.matches(context))
+                {
+                    Entity entity = switch (conditionalEffect.affected())
+                    {
+                        case ATTACKER -> attacker;
+                        case DAMAGING_ENTITY -> damageSource.getDirectEntity();
+                        case VICTIM -> targetEntity;
+                    };
+
+                    if (entity != null) conditionalEffect.effect().applyEquipmentEffect(level, entity, entry.getIntValue(), context);
+                }
+            }
+        }
+    }
+
+    public void applyDamageContextEffects(Supplier<? extends DataComponentType<List<TargetedConditionalEffect<EquipmentUpgradeEffect>>>> typeSupplier, ServerLevel level, EnchantmentTarget effectTarget, LivingEntity targetEntity, Player attacker, DamageSource damageSource)
+    {
+        applyDamageContextEffects(typeSupplier.get(), level, effectTarget, targetEntity, attacker, damageSource);
     }
 
     public <T> boolean upgradeEffectTypePresent(DataComponentType<T> type)
@@ -99,9 +148,19 @@ public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
         return entryStream().map(entry -> entry.getKey().value().effects().get(type)).filter(Objects::nonNull);
     }
 
+    public <T> Stream<T> effectStream(Supplier<? extends DataComponentType<T>> typeSupplier)
+    {
+        return effectStream(typeSupplier.get());
+    }
+
     public <T> Stream<T> effectFlatStream(DataComponentType<List<T>> type)
     {
         return entryStream().flatMap(entry -> entry.getKey().value().getListEffect(type).stream());
+    }
+
+    public <T> Stream<T> effectFlatStream(Supplier<? extends DataComponentType<List<T>>> typeSupplier)
+    {
+        return effectFlatStream(typeSupplier.get());
     }
 
     public <T> Stream<EffectRankPair<T>> boxedFlatStream(DataComponentType<List<T>> type)
@@ -109,27 +168,6 @@ public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
         return entryStream().flatMap(entry -> {
             List<T> data = entry.getKey().value().getListEffect(type);
             return data.stream().map(effect -> new EffectRankPair<>(effect, entry.getIntValue()));
-        });
-    }
-
-    public <T> Stream<EffectRankPair<T>> boxedFlatStream(Supplier<? extends DataComponentType<List<T>>> typeSupplier)
-    {
-        return boxedFlatStream(typeSupplier.get());
-    }
-
-    public <T> Stream<EffectRankPair<T>> boxedConditionalFlatStream(DataComponentType<List<ConditionalEffect<T>>> type, LootContext context)
-    {
-        return entryStream().flatMap(entry -> {
-            List<ConditionalEffect<T>> data = entry.getKey().value().getListEffect(type);
-            return data.stream().filter(e -> e.matches(context)).map(e -> new EffectRankPair<>(e.effect(), entry.getIntValue()));
-        });
-    }
-
-    public <T> IntStream flatMapToInt(DataComponentType<List<T>> type, ToIntBiFunction<T, Integer> mapper)
-    {
-        return entryStream().flatMapToInt(entry -> {
-            List<T> data = entry.getKey().value().getListEffect(type);
-            return data.stream().mapToInt(effect -> mapper.applyAsInt(effect, entry.getIntValue()));
         });
     }
     //#endregion
@@ -149,55 +187,74 @@ public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
     //#endregion
 
     //#region Value computing helpers
-    public double applySimpleValue(DataComponentType<List<SimpleValueUpgradeEffect>> type, double base, double total)
+    public double applyValue(DataComponentType<List<ValueUpgradeEffect>> type, LootContext context, double base, double total)
     {
-        List<EffectRankPair<SimpleValueUpgradeEffect>> list = boxedFlatStream(type).sorted(Comparator.comparing(entry -> entry.effect.operation())).toList();
+        List<EffectRankPair<ValueUpgradeEffect>> list = boxedFlatStream(type).sorted(Comparator.comparing(entry -> entry.effect().getOperation())).collect(LimaStreamsUtil.toObjectList());
         double result = total;
 
-        for (EffectRankPair<SimpleValueUpgradeEffect> pair : list)
+        for (EffectRankPair<ValueUpgradeEffect> pair : list)
         {
-            SimpleValueUpgradeEffect effect = pair.effect;
-            result = effect.operation().computeDouble(base, result, effect.value().calculate(pair.upgradeRank));
+            ValueUpgradeEffect effect = pair.effect();
+            result = effect.apply(context, pair.upgradeRank(), base, result);
         }
 
         return result;
     }
 
-    public double applySimpleValue(DataComponentType<List<SimpleValueUpgradeEffect>> type, double base)
+    public double applyValue(DataComponentType<List<ValueUpgradeEffect>> type, LootContext context, double base)
     {
-        return applySimpleValue(type, base, base);
+        return applyValue(type, context, base, base);
     }
 
-    public double applySimpleValue(Supplier<? extends DataComponentType<List<SimpleValueUpgradeEffect>>> typeSupplier, double base, double total)
+    public double applyValue(Supplier<? extends DataComponentType<List<ValueUpgradeEffect>>> typeSupplier, LootContext context, double base, double total)
     {
-        return applySimpleValue(typeSupplier.get(), base, total);
+        return applyValue(typeSupplier.get(), context, base, total);
     }
 
-    public double applySimpleValue(Supplier<? extends DataComponentType<List<SimpleValueUpgradeEffect>>> typeSupplier, double base)
+    public double applyValue(Supplier<? extends DataComponentType<List<ValueUpgradeEffect>>> typeSupplier, LootContext context, double base)
     {
-        return applySimpleValue(typeSupplier.get(), base);
+        return applyValue(typeSupplier.get(), context, base);
     }
 
-    public double applyComplexDamageContextValue(DataComponentType<List<ConditionalEffect<ComplexValueUpgradeEffect>>> type, ServerLevel serverLevel, Entity targetEntity, DamageSource damageSource, double base, double total)
+    public double applyConditionalValue(DataComponentType<List<ConditionalEffect<ValueUpgradeEffect>>> type, IntFunction<LootContext> contextFunction, double base, double total)
     {
-        List<EffectRankPair<ConditionalEffect<ComplexValueUpgradeEffect>>> list = boxedFlatStream(type).sorted(Comparator.comparing(pair -> pair.effect.effect().operation())).toList();
+        List<EffectRankPair<ConditionalEffect<ValueUpgradeEffect>>> list = boxedFlatStream(type).sorted(Comparator.comparing(pair -> pair.effect().effect().getOperation())).collect(LimaStreamsUtil.toObjectList());
         double result = total;
 
-        for (EffectRankPair<ConditionalEffect<ComplexValueUpgradeEffect>> pair : list)
+        for (EffectRankPair<ConditionalEffect<ValueUpgradeEffect>> pair : list)
         {
-            LootContext context = Enchantment.damageContext(serverLevel, pair.upgradeRank, targetEntity, damageSource);
-            if (pair.effect.matches(context))
+            ConditionalEffect<ValueUpgradeEffect> conditionalEffect = pair.effect();
+            LootContext context = contextFunction.apply(pair.upgradeRank());
+
+            if (conditionalEffect.matches(context))
             {
-                ComplexValueUpgradeEffect effect = pair.effect.effect();
-                result = effect.operation().computeDouble(base, result, effect.value().getFloat(context));
+                ValueUpgradeEffect effect = conditionalEffect.effect();
+                result = effect.apply(context, pair.upgradeRank(), base, result);
             }
         }
 
         return result;
     }
+
+    public double applyConditionalValue(DataComponentType<List<ConditionalEffect<ValueUpgradeEffect>>> type, IntFunction<LootContext> contextFunction, double base)
+    {
+        return applyConditionalValue(type, contextFunction, base, base);
+    }
+
+    public double applyConditionalValue(Supplier<? extends DataComponentType<List<ConditionalEffect<ValueUpgradeEffect>>>> typeSupplier, IntFunction<LootContext> contextFunction, double base, double total)
+    {
+        return applyConditionalValue(typeSupplier.get(), contextFunction, base, total);
+    }
+
+    public double applyConditionalValue(Supplier<? extends DataComponentType<List<ConditionalEffect<ValueUpgradeEffect>>>> typeSupplier, IntFunction<LootContext> contextFunction, double base)
+    {
+        return applyConditionalValue(typeSupplier.get(), contextFunction, base);
+    }
     //#endregion
 
     // Container properties
+    public abstract MutableUpgradesContainer<U, ? extends UpgradesContainerBase<CTX, U>> toMutableContainer();
+
     public int size()
     {
         return internalMap.size();
@@ -264,6 +321,4 @@ public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
     {
         return internalMap.hashCode();
     }
-
-    public record EffectRankPair<T>(T effect, int upgradeRank) {}
 }

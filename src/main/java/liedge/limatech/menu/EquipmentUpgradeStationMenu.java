@@ -111,11 +111,9 @@ public class EquipmentUpgradeStationMenu extends UpgradesConfigMenu<EquipmentUpg
 
             if (data != null && currentUpgrades.canInstallUpgrade(equipmentStack, data.upgrade()))
             {
-                EquipmentUpgrades newUpgrades = currentUpgrades.asBuilder().set(data.upgrade(), data.upgradeRank()).build();
+                EquipmentUpgrades newUpgrades = currentUpgrades.toMutableContainer().set(data.upgrade(), data.upgradeRank()).toImmutable();
                 equipmentItem.setUpgrades(equipmentStack, newUpgrades);
-
-                equipmentItem.refreshEquipmentUpgrades(equipmentStack, newUpgrades);
-
+                //equipmentItem.refreshEquipmentUpgrades(equipmentStack, newUpgrades);
                 beInventory.setStackInSlot(EQUIPMENT_ITEM_SLOT, equipmentStack);
                 beInventory.extractItem(UPGRADE_INPUT_SLOT, 1, false);
             }
@@ -144,10 +142,10 @@ public class EquipmentUpgradeStationMenu extends UpgradesConfigMenu<EquipmentUpg
 
                 if (nextSlot != -1)
                 {
-                    EquipmentUpgrades newUpgrades = currentUpgrades.asBuilder().remove(upgradeHolder).build();
+                    EquipmentUpgrades newUpgrades = currentUpgrades.toMutableContainer().remove(upgradeHolder).toImmutable();
                     equipmentItem.setUpgrades(equipmentStack, newUpgrades);
 
-                    equipmentItem.refreshEquipmentUpgrades(equipmentStack, newUpgrades);
+                    //equipmentItem.refreshEquipmentUpgrades(equipmentStack, newUpgrades);
 
                     invWrapper.insertItem(nextSlot, upgradeModuleItem, false);
                     beInventory.setStackInSlot(EQUIPMENT_ITEM_SLOT, equipmentStack);

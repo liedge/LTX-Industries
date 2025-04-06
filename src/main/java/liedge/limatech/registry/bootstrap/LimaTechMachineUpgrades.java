@@ -3,9 +3,9 @@ package liedge.limatech.registry.bootstrap;
 import liedge.limatech.LimaTechConstants;
 import liedge.limatech.LimaTechTags;
 import liedge.limatech.lib.CompoundValueOperation;
-import liedge.limatech.lib.upgrades.effect.EnchantmentUpgradeEffect;
+import liedge.limatech.lib.upgrades.effect.equipment.EnchantmentUpgradeEffect;
 import liedge.limatech.lib.upgrades.effect.value.DoubleLevelBasedValue;
-import liedge.limatech.lib.upgrades.effect.value.SimpleValueUpgradeEffect;
+import liedge.limatech.lib.upgrades.effect.value.ValueUpgradeEffect;
 import liedge.limatech.lib.upgrades.machine.MachineUpgrade;
 import liedge.limatech.registry.LimaTechRegistries;
 import liedge.limatech.registry.game.LimaTechBlockEntities;
@@ -51,8 +51,8 @@ public final class LimaTechMachineUpgrades
 
         MachineUpgrade.builder(ESA_CAPACITY_UPGRADE)
                 .supports(LimaTechBlockEntities.ENERGY_STORAGE_ARRAY)
-                .withEffect(LimaTechUpgradeEffectComponents.ENERGY_CAPACITY, SimpleValueUpgradeEffect.of(DoubleLevelBasedValue.exponential(2, DoubleLevelBasedValue.linear(3, 1)), CompoundValueOperation.MULTIPLY))
-                .withEffect(LimaTechUpgradeEffectComponents.ENERGY_TRANSFER_RATE, SimpleValueUpgradeEffect.of(DoubleLevelBasedValue.exponential(2, DoubleLevelBasedValue.linear(3, 1)), CompoundValueOperation.MULTIPLY))
+                .withEffect(LimaTechUpgradeEffectComponents.ENERGY_CAPACITY, ValueUpgradeEffect.createSimple(DoubleLevelBasedValue.exponential(2, DoubleLevelBasedValue.linear(3, 1)), CompoundValueOperation.MULTIPLY))
+                .withEffect(LimaTechUpgradeEffectComponents.ENERGY_TRANSFER_RATE, ValueUpgradeEffect.createSimple(DoubleLevelBasedValue.exponential(2, DoubleLevelBasedValue.linear(3, 1)), CompoundValueOperation.MULTIPLY))
                 .setMaxRank(4)
                 .effectIcon(sprite("extra_energy"))
                 .buildAndRegister(context);
@@ -60,10 +60,10 @@ public final class LimaTechMachineUpgrades
         MachineUpgrade.builder(ALPHA_MACHINE_SYSTEMS)
                 .supports(blockEntities, LimaTechTags.BlockEntities.GENERAL_PROCESSING_MACHINES)
                 .exclusiveWith(holders, MACHINE_TIER)
-                .withEffect(ENERGY_CAPACITY, SimpleValueUpgradeEffect.of(DoubleLevelBasedValue.linear(0.5d), CompoundValueOperation.ADD_MULTIPLIED_BASE))
-                .withEffect(ENERGY_TRANSFER_RATE, SimpleValueUpgradeEffect.of(DoubleLevelBasedValue.linear(0.5d), CompoundValueOperation.ADD_MULTIPLIED_BASE))
-                .withEffect(MACHINE_ENERGY_USAGE, SimpleValueUpgradeEffect.of(DoubleLevelBasedValue.linearExponent(1.5d), CompoundValueOperation.MULTIPLY))
-                .withEffect(TICKS_PER_OPERATION, SimpleValueUpgradeEffect.of(DoubleLevelBasedValue.exponential(0.725d, DoubleLevelBasedValue.linear(1)), CompoundValueOperation.MULTIPLY))
+                .withEffect(ENERGY_CAPACITY, ValueUpgradeEffect.createSimple(DoubleLevelBasedValue.linear(0.5d), CompoundValueOperation.ADD_MULTIPLIED_BASE))
+                .withEffect(ENERGY_TRANSFER_RATE, ValueUpgradeEffect.createSimple(DoubleLevelBasedValue.linear(0.5d), CompoundValueOperation.ADD_MULTIPLIED_BASE))
+                .withEffect(MACHINE_ENERGY_USAGE, ValueUpgradeEffect.createSimple(DoubleLevelBasedValue.linearExponent(1.5d), CompoundValueOperation.MULTIPLY, true))
+                .withEffect(TICKS_PER_OPERATION, ValueUpgradeEffect.createSimple(DoubleLevelBasedValue.exponential(0.725d, DoubleLevelBasedValue.linear(1)), CompoundValueOperation.MULTIPLY, true))
                 .setMaxRank(6)
                 .effectIcon(sprite("alpha_systems"))
                 .buildAndRegister(context);
@@ -72,17 +72,17 @@ public final class LimaTechMachineUpgrades
                 .createDefaultTitle(key -> Component.translatable(key).withStyle(LimaTechConstants.LIME_GREEN.chatStyle()))
                 .supports(blockEntities, LimaTechTags.BlockEntities.GENERAL_PROCESSING_MACHINES)
                 .exclusiveWith(holders, MACHINE_TIER)
-                .withEffect(ENERGY_CAPACITY, SimpleValueUpgradeEffect.of(DoubleLevelBasedValue.constant(8), CompoundValueOperation.MULTIPLY))
-                .withEffect(ENERGY_TRANSFER_RATE, SimpleValueUpgradeEffect.of(DoubleLevelBasedValue.constant(16), CompoundValueOperation.MULTIPLY))
-                .withEffect(MACHINE_ENERGY_USAGE, SimpleValueUpgradeEffect.of(DoubleLevelBasedValue.constant(256), CompoundValueOperation.MULTIPLY))
-                .withEffect(TICKS_PER_OPERATION, SimpleValueUpgradeEffect.of(DoubleLevelBasedValue.constant(-1), CompoundValueOperation.ADD_MULTIPLIED_TOTAL))
+                .withEffect(ENERGY_CAPACITY, ValueUpgradeEffect.createSimple(DoubleLevelBasedValue.constant(8), CompoundValueOperation.MULTIPLY))
+                .withEffect(ENERGY_TRANSFER_RATE, ValueUpgradeEffect.createSimple(DoubleLevelBasedValue.constant(16), CompoundValueOperation.MULTIPLY))
+                .withEffect(MACHINE_ENERGY_USAGE, ValueUpgradeEffect.createSimple(DoubleLevelBasedValue.constant(256), CompoundValueOperation.MULTIPLY, true))
+                .withEffect(TICKS_PER_OPERATION, ValueUpgradeEffect.createSimple(DoubleLevelBasedValue.constant(-1), CompoundValueOperation.ADD_MULTIPLIED_TOTAL, true))
                 .effectIcon(sprite("epsilon_systems"))
                 .buildAndRegister(context);
 
         MachineUpgrade.builder(FABRICATOR_UPGRADE)
                 .supports(LimaTechBlockEntities.FABRICATOR)
-                .withEffect(ENERGY_CAPACITY, SimpleValueUpgradeEffect.of(DoubleLevelBasedValue.exponential(2, DoubleLevelBasedValue.linear(2, 1)), CompoundValueOperation.MULTIPLY))
-                .withEffect(ENERGY_TRANSFER_RATE, SimpleValueUpgradeEffect.of(DoubleLevelBasedValue.exponential(2, DoubleLevelBasedValue.linear(2, 1)), CompoundValueOperation.MULTIPLY))
+                .withEffect(ENERGY_CAPACITY, ValueUpgradeEffect.createSimple(DoubleLevelBasedValue.exponential(2, DoubleLevelBasedValue.linear(2, 1)), CompoundValueOperation.MULTIPLY))
+                .withEffect(ENERGY_TRANSFER_RATE, ValueUpgradeEffect.createSimple(DoubleLevelBasedValue.exponential(2, DoubleLevelBasedValue.linear(2, 1)), CompoundValueOperation.MULTIPLY))
                 .setMaxRank(4)
                 .effectIcon(sprite("fabricator_upgrade"))
                 .buildAndRegister(context);

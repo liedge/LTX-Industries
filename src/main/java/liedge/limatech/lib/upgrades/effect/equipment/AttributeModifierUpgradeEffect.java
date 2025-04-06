@@ -1,7 +1,11 @@
-package liedge.limatech.lib.upgrades.effect;
+package liedge.limatech.lib.upgrades.effect.equipment;
 
+import com.google.common.cache.LoadingCache;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import liedge.limatech.lib.upgrades.EffectRankPair;
+import liedge.limatech.lib.upgrades.effect.EffectTooltipCaches;
+import liedge.limatech.lib.upgrades.effect.EffectTooltipProvider;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
@@ -15,6 +19,11 @@ import net.minecraft.world.item.enchantment.LevelBasedValue;
 
 public record AttributeModifierUpgradeEffect(Holder<Attribute> attribute, ResourceLocation modifierId, LevelBasedValue amount, AttributeModifier.Operation operation, EquipmentSlotGroup slotGroup) implements EffectTooltipProvider
 {
+    private static final LoadingCache<EffectRankPair<AttributeModifierUpgradeEffect>, Component> TOOLTIP_CACHE = EffectTooltipCaches.getInstance().create(25, key -> {
+        AttributeModifierUpgradeEffect effect = key.effect();
+        return effect.attribute.value().toComponent(effect.makeModifier(key.upgradeRank()), TooltipFlag.NORMAL).withStyle(ChatFormatting.DARK_GREEN);
+    });
+
     public static final Codec<AttributeModifierUpgradeEffect> CODEC = RecordCodecBuilder.create(instance -> instance.group(
                     Attribute.CODEC.fieldOf("attribute").forGetter(o -> o.attribute),
                     ResourceLocation.CODEC.fieldOf("modifier_id").forGetter(o -> o.modifierId),
@@ -41,6 +50,6 @@ public record AttributeModifierUpgradeEffect(Holder<Attribute> attribute, Resour
     @Override
     public Component getEffectTooltip(int upgradeRank)
     {
-        return attribute.value().toComponent(makeModifier(upgradeRank), TooltipFlag.NORMAL).withStyle(ChatFormatting.DARK_GREEN);
+        return TOOLTIP_CACHE.getUnchecked(new EffectRankPair<>(this, upgradeRank));
     }
 }

@@ -4,10 +4,9 @@ import com.mojang.datafixers.util.Function7;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.netty.buffer.ByteBuf;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.client.LimaComponentUtil;
 import liedge.limacore.network.LimaStreamCodecs;
-import liedge.limatech.lib.upgrades.effect.EffectDataComponentType;
+import liedge.limatech.lib.upgrades.effect.UpgradeDataComponentType;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
@@ -18,18 +17,18 @@ import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.TypedDataComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceKey;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public interface UpgradeBase<CTX, U extends UpgradeBase<CTX, U>>
 {
     int MAX_UPGRADE_RANK = 10;
     Codec<Integer> UPGRADE_RANK_CODEC = Codec.intRange(1, MAX_UPGRADE_RANK);
     StreamCodec<ByteBuf, Integer> UPGRADE_RANK_STREAM_CODEC = LimaStreamCodecs.varIntRange(1, MAX_UPGRADE_RANK);
-    Codec<DataComponentMap> COMPONENT_MAP_CODEC = DataComponentMap.makeCodec(EffectDataComponentType.CODEC);
+    Codec<DataComponentMap> COMPONENT_MAP_CODEC = DataComponentMap.makeCodec(UpgradeDataComponentType.CODEC);
 
     static <CTX, U extends UpgradeBase<CTX, U>> Codec<U> createDirectCodec(ResourceKey<Registry<CTX>> contextRegistryKey, ResourceKey<Registry<U>> upgradesRegistryKey, UpgradeFactory<CTX, U> factory)
     {
@@ -58,24 +57,19 @@ public interface UpgradeBase<CTX, U extends UpgradeBase<CTX, U>>
 
     UpgradeIcon icon();
 
-    default MutableComponent getEffectsTooltip(int upgradeRank)
+    default void applyEffectsTooltips(int upgradeRank, Consumer<Component> consumer)
     {
-        List<Component> lines = new ObjectArrayList<>();
-
-        // Add built-in tooltips
         for (TypedDataComponent<?> dataComponent : effects())
         {
-            processBuiltInTooltips(dataComponent, upgradeRank, lines);
+            processBuiltInTooltips(dataComponent, upgradeRank, component -> consumer.accept(LimaComponentUtil.BULLET_1_INDENT.copy().withStyle(ChatFormatting.GRAY).append(component)));
         }
-
-        return !lines.isEmpty() ? LimaComponentUtil.bulletPointList(LimaComponentUtil.BULLET_1_INDENT.copy().withStyle(ChatFormatting.GRAY), lines) : Component.empty();
     }
 
-    private <T> void processBuiltInTooltips(TypedDataComponent<T> dataComponent, int upgradeRank, List<Component> lines)
+    private <T> void processBuiltInTooltips(TypedDataComponent<T> dataComponent, int upgradeRank, Consumer<Component> consumer)
     {
-        if (dataComponent.type() instanceof EffectDataComponentType<T> type)
+        if (dataComponent.type() instanceof UpgradeDataComponentType<T> type)
         {
-            type.appendTooltipLines(dataComponent.value(), upgradeRank, lines);
+            type.appendTooltipLines(dataComponent.value(), upgradeRank, consumer);
         }
     }
 

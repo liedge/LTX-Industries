@@ -88,7 +88,7 @@ public class MachineUpgradeMenu extends UpgradesConfigMenu<UpgradableMachineBloc
 
         if (entry != null && currentUpgrades.canInstallUpgrade(menuContext, entry.upgrade()))
         {
-            MachineUpgrades newUpgrades = currentUpgrades.asBuilder().set(entry).build();
+            MachineUpgrades newUpgrades = currentUpgrades.toMutableContainer().set(entry).toImmutable();
             menuContext.setUpgrades(newUpgrades);
             menuContainer().extractItem(0, 1, false);
         }
@@ -110,7 +110,7 @@ public class MachineUpgradeMenu extends UpgradesConfigMenu<UpgradableMachineBloc
 
             if (nextSlot != -1)
             {
-                MachineUpgrades newUpgrades = currentUpgrades.asBuilder().remove(upgradeHolder).build();
+                MachineUpgrades newUpgrades = currentUpgrades.toMutableContainer().remove(upgradeHolder).toImmutable();
                 menuContext.setUpgrades(newUpgrades);
                 invWrapper.insertItem(nextSlot, upgradeModuleItem, false);
             }

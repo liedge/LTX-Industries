@@ -6,16 +6,15 @@ import liedge.limacore.world.loot.number.MathOpsNumberProvider;
 import liedge.limacore.world.loot.number.TargetedAttributeValueProvider;
 import liedge.limatech.LimaTechTags;
 import liedge.limatech.lib.CompoundValueOperation;
-import liedge.limatech.lib.upgrades.effect.AmmoSourceUpgradeEffect;
-import liedge.limatech.lib.upgrades.effect.AttributeModifierUpgradeEffect;
-import liedge.limatech.lib.upgrades.effect.EnchantmentUpgradeEffect;
+import liedge.limatech.lib.upgrades.effect.equipment.AttributeModifierUpgradeEffect;
+import liedge.limatech.lib.upgrades.effect.equipment.EnchantmentUpgradeEffect;
 import liedge.limatech.lib.upgrades.effect.equipment.BubbleShieldUpgradeEffect;
 import liedge.limatech.lib.upgrades.effect.equipment.DynamicDamageTagUpgradeEffect;
 import liedge.limatech.lib.upgrades.effect.equipment.KnockbackStrengthUpgradeEffect;
-import liedge.limatech.lib.upgrades.effect.value.ComplexValueTooltip;
-import liedge.limatech.lib.upgrades.effect.value.ComplexValueUpgradeEffect;
+import liedge.limatech.lib.upgrades.effect.equipment.MobEffectUpgradeEffect;
+import liedge.limatech.lib.upgrades.effect.value.AttributeAmountTooltip;
 import liedge.limatech.lib.upgrades.effect.value.DoubleLevelBasedValue;
-import liedge.limatech.lib.upgrades.effect.value.SimpleValueUpgradeEffect;
+import liedge.limatech.lib.upgrades.effect.value.ValueUpgradeEffect;
 import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrade;
 import liedge.limatech.lib.weapons.GrenadeType;
 import liedge.limatech.lib.weapons.WeaponAmmoSource;
@@ -26,10 +25,12 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentTarget;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.item.enchantment.LevelBasedValue;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -88,15 +89,15 @@ public final class LimaTechEquipmentUpgrades
         // Weapon-specific upgrades
         EquipmentUpgrade.builder(LIGHTFRAG_BASE_ARMOR_BYPASS)
                 .supports(LimaTechItems.SUBMACHINE_GUN, LimaTechItems.SHOTGUN,  LimaTechItems.MAGNUM)
-                .withConditionalEffect(ARMOR_BYPASS, ComplexValueUpgradeEffect.simpleConstant(-4f, CompoundValueOperation.FLAT_ADDITION))
+                .withConditionalEffect(ARMOR_BYPASS, ValueUpgradeEffect.createSimple(DoubleLevelBasedValue.constant(-4f), CompoundValueOperation.FLAT_ADDITION, true))
                 .effectIcon(sprite("lightfrags"))
                 .buildAndRegister(context);
 
         EquipmentUpgrade.builder(SMG_BUILT_IN)
                 .supports(LimaTechItems.SUBMACHINE_GUN)
                 .withUnitEffect(PREVENT_SCULK_VIBRATION)
-                .withConditionalEffect(WEAPON_PRE_ATTACK, new DynamicDamageTagUpgradeEffect(DamageTypeTags.NO_ANGER))
-                .withConditionalEffect(WEAPON_PRE_ATTACK, new DynamicDamageTagUpgradeEffect(DamageTypeTags.NO_KNOCKBACK))
+                .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, new DynamicDamageTagUpgradeEffect(DamageTypeTags.NO_ANGER))
+                .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, new DynamicDamageTagUpgradeEffect(DamageTypeTags.NO_KNOCKBACK))
                 .effectIcon(intrinsicTypeIcon(LimaTechItems.SUBMACHINE_GUN))
                 .buildAndRegister(context);
 
@@ -104,21 +105,21 @@ public final class LimaTechEquipmentUpgrades
                 .supports(LimaTechItems.SHOTGUN)
                 .withEffect(ITEM_ATTRIBUTE_MODIFIERS, AttributeModifierUpgradeEffect.constantMainHand(Attributes.MOVEMENT_SPEED, RESOURCES.location("shotgun_speed_boost"), 0.25f, AttributeModifier.Operation.ADD_MULTIPLIED_BASE))
                 .withEffect(ITEM_ATTRIBUTE_MODIFIERS, AttributeModifierUpgradeEffect.constantMainHand(Attributes.STEP_HEIGHT, RESOURCES.location("shotgun_step_height_boost"), 1, AttributeModifier.Operation.ADD_VALUE))
-                .withConditionalEffect(ARMOR_BYPASS, ComplexValueUpgradeEffect.simpleConstant(-0.15f, CompoundValueOperation.ADD_MULTIPLIED_TOTAL))
+                .withConditionalEffect(ARMOR_BYPASS, ValueUpgradeEffect.createSimple(DoubleLevelBasedValue.constant(-0.15f), CompoundValueOperation.ADD_MULTIPLIED_TOTAL, true))
                 .effectIcon(intrinsicTypeIcon(LimaTechItems.SHOTGUN))
                 .buildAndRegister(context);
 
         EquipmentUpgrade.builder(HIGH_IMPACT_ROUNDS)
                 .supports(LimaTechItems.SHOTGUN, LimaTechItems.MAGNUM)
-                .withConditionalEffect(WEAPON_PRE_ATTACK, new DynamicDamageTagUpgradeEffect(LimaCoreTags.DamageTypes.IGNORES_KNOCKBACK_RESISTANCE))
-                .withConditionalEffect(WEAPON_PRE_ATTACK, new KnockbackStrengthUpgradeEffect(LevelBasedValue.perLevel(1.5f)))
+                .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, new DynamicDamageTagUpgradeEffect(LimaCoreTags.DamageTypes.IGNORES_KNOCKBACK_RESISTANCE))
+                .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, new KnockbackStrengthUpgradeEffect(LevelBasedValue.perLevel(1.5f)))
                 .effectIcon(sprite("powerful_lightfrag"))
                 .buildAndRegister(context);
 
         EquipmentUpgrade.builder(MAGNUM_SCALING_ROUNDS)
                 .supports(LimaTechItems.MAGNUM)
-                .withConditionalEffect(WEAPON_DAMAGE, ComplexValueUpgradeEffect.of(MathOpsNumberProvider.of(TargetedAttributeValueProvider.of(LootContext.EntityTarget.THIS, Attributes.MAX_HEALTH), ConstantValue.exactly(0.25f), MathOperation.MULTIPLICATION), CompoundValueOperation.FLAT_ADDITION,
-                        ComplexValueTooltip.attributeValueTooltip(LootContext.EntityTarget.THIS, Attributes.MAX_HEALTH, LevelBasedValue.constant(0.25f))))
+                .withConditionalEffect(WEAPON_DAMAGE, ValueUpgradeEffect.create(MathOpsNumberProvider.of(TargetedAttributeValueProvider.of(LootContext.EntityTarget.THIS, Attributes.MAX_HEALTH), ConstantValue.exactly(0.25f), MathOperation.MULTIPLICATION), CompoundValueOperation.FLAT_ADDITION,
+                        new AttributeAmountTooltip(LootContext.EntityTarget.THIS, Attributes.MAX_HEALTH, LevelBasedValue.constant(0.25f))))
                 .effectIcon(intrinsicTypeIcon(LimaTechItems.MAGNUM))
                 .effectIcon(itemWithSpriteOverlay(LimaTechItems.MAGNUM, "powerful_lightfrag", 10, 10, 0, 6))
                 .buildAndRegister(context);
@@ -126,7 +127,7 @@ public final class LimaTechEquipmentUpgrades
         EquipmentUpgrade.builder(GRENADE_LAUNCHER_PROJECTILE_SPEED)
                 .supports(LimaTechItems.GRENADE_LAUNCHER)
                 .setMaxRank(2)
-                .withEffect(WEAPON_PROJECTILE_SPEED, SimpleValueUpgradeEffect.of(DoubleLevelBasedValue.linear(0.5d), CompoundValueOperation.FLAT_ADDITION))
+                .withEffect(WEAPON_PROJECTILE_SPEED, ValueUpgradeEffect.createSimple(DoubleLevelBasedValue.linear(0.5d), CompoundValueOperation.FLAT_ADDITION))
                 .effectIcon(sprite("grenade_speed_boost"))
                 .buildAndRegister(context);
 
@@ -138,31 +139,32 @@ public final class LimaTechEquipmentUpgrades
                 .buildAndRegister(context);
         EquipmentUpgrade.builder(UNIVERSAL_STEALTH_DAMAGE)
                 .supportsLTXWeapons(items)
-                .withConditionalEffect(WEAPON_PRE_ATTACK, new DynamicDamageTagUpgradeEffect(DamageTypeTags.NO_ANGER))
+                .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, new DynamicDamageTagUpgradeEffect(DamageTypeTags.NO_ANGER))
                 .effectIcon(sprite("stealth_damage"))
                 .buildAndRegister(context);
         EquipmentUpgrade.builder(UNIVERSAL_ENERGY_AMMO)
                 .supportsLTXWeapons(items)
                 .exclusiveWith(holders, LimaTechTags.EquipmentUpgrades.AMMO_SOURCE_MODIFIERS)
-                .withSpecialEffect(AMMO_SOURCE, new AmmoSourceUpgradeEffect(WeaponAmmoSource.COMMON_ENERGY_UNIT))
+                .withSpecialEffect(AMMO_SOURCE, WeaponAmmoSource.COMMON_ENERGY_UNIT)
                 .effectIcon(sprite("energy_ammo"))
                 .buildAndRegister(context);
         EquipmentUpgrade.builder(UNIVERSAL_INFINITE_AMMO)
                 .supportsLTXWeapons(items)
                 .exclusiveWith(holders, LimaTechTags.EquipmentUpgrades.AMMO_SOURCE_MODIFIERS)
-                .withSpecialEffect(AMMO_SOURCE, new AmmoSourceUpgradeEffect(WeaponAmmoSource.INFINITE))
+                .withSpecialEffect(AMMO_SOURCE, WeaponAmmoSource.INFINITE)
                 .effectIcon(sprite("infinite_ammo"))
                 .buildAndRegister(context);
         EquipmentUpgrade.builder(UNIVERSAL_ARMOR_PIERCE)
                 .supportsLTXWeapons(items)
                 .setMaxRank(3)
-                .withConditionalEffect(ARMOR_BYPASS, ComplexValueUpgradeEffect.simpleRankBased(LevelBasedValue.perLevel(-0.1f), CompoundValueOperation.ADD_MULTIPLIED_TOTAL))
+                .withConditionalEffect(ARMOR_BYPASS, ValueUpgradeEffect.createSimple(DoubleLevelBasedValue.linear(-0.1f), CompoundValueOperation.ADD_MULTIPLIED_TOTAL, true))
                 .effectIcon(sprite("armor_bypass"))
                 .buildAndRegister(context);
         EquipmentUpgrade.builder(UNIVERSAL_SHIELD_REGEN)
                 .supportsLTXWeapons(items)
                 .setMaxRank(3)
-                .withConditionalEffect(WEAPON_KILL, new BubbleShieldUpgradeEffect(LevelBasedValue.constant(4), LevelBasedValue.perLevel(10)))
+                .withTargetedEffect(EQUIPMENT_KILL, EnchantmentTarget.ATTACKER, EnchantmentTarget.ATTACKER, new BubbleShieldUpgradeEffect(LevelBasedValue.constant(4), LevelBasedValue.perLevel(10)))
+                .withTargetedEffect(EQUIPMENT_KILL, EnchantmentTarget.ATTACKER, EnchantmentTarget.ATTACKER, MobEffectUpgradeEffect.create(MobEffects.REGENERATION, LevelBasedValue.constant(60)))
                 .effectIcon(sprite("bubble_shield"))
                 .buildAndRegister(context);
         EquipmentUpgrade.builder(UNIVERSAL_LOOT_TELEPORT)

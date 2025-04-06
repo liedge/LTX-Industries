@@ -203,8 +203,10 @@ public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, U>, M extend
                         lines.add(upgrade.title());
                         lines.add(LimaTechLang.UPGRADE_RANK_TOOLTIP.translateArgs(entry.getIntValue(), upgrade.maxRank()).withStyle(UPGRADE_RANK_MAGENTA.chatStyle()));
                         lines.add(upgrade.description());
-                        lines.add(upgrade.getEffectsTooltip(entry.getIntValue()));
+                        upgrade.applyEffectsTooltips(entry.getIntValue(), lines::add);
+
                         lines.add(LimaTechLang.UPGRADE_REMOVE_HINT.translate().withStyle(OUTPUT_ORANGE.chatStyle()));
+
 
                         graphics.renderTooltip(font, lines, Optional.empty(), x, y);
                     }

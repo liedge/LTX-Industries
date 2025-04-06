@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import liedge.limatech.lib.upgrades.UpgradesContainerBase;
-import liedge.limatech.lib.upgrades.UpgradesContainerBuilder;
+import liedge.limatech.lib.upgrades.MutableUpgradesContainer;
 import net.minecraft.core.Holder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -17,9 +17,9 @@ public final class EquipmentUpgrades extends UpgradesContainerBase<Item, Equipme
     public static final StreamCodec<RegistryFriendlyByteBuf, EquipmentUpgrades> STREAM_CODEC = createStreamCodec(EquipmentUpgrade.STREAM_CODEC, EquipmentUpgrades::new);
     public static final EquipmentUpgrades EMPTY = new EquipmentUpgrades(new Object2IntOpenHashMap<>());
 
-    public static UpgradesContainerBuilder<EquipmentUpgrade, EquipmentUpgrades> builder()
+    public static MutableUpgradesContainer<EquipmentUpgrade, EquipmentUpgrades> builder()
     {
-        return new UpgradesContainerBuilder<>(EquipmentUpgrades::new);
+        return new MutableUpgradesContainer<>(EquipmentUpgrades::new);
     }
 
     private EquipmentUpgrades(Object2IntMap<Holder<EquipmentUpgrade>> map)
@@ -32,8 +32,9 @@ public final class EquipmentUpgrades extends UpgradesContainerBase<Item, Equipme
         return canInstallUpgrade(equipmentItem.getItemHolder(), upgradeHolder);
     }
 
-    public UpgradesContainerBuilder<EquipmentUpgrade, EquipmentUpgrades> asBuilder()
+    @Override
+    public MutableUpgradesContainer<EquipmentUpgrade, EquipmentUpgrades> toMutableContainer()
     {
-        return new UpgradesContainerBuilder<>(this, EquipmentUpgrades::new);
+        return new MutableUpgradesContainer<>(this, EquipmentUpgrades::new);
     }
 }

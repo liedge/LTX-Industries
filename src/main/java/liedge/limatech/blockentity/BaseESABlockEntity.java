@@ -65,7 +65,7 @@ public abstract class BaseESABlockEntity extends SidedItemEnergyMachineBlockEnti
     }
 
     @Override
-    protected void tickServer(Level level, BlockPos pos, BlockState state)
+    protected void tickServer(ServerLevel level, BlockPos pos, BlockState state)
     {
         LimaEnergyStorage machineEnergy = getEnergyStorage();
 

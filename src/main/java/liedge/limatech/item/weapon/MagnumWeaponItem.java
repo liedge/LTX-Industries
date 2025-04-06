@@ -31,7 +31,7 @@ public class MagnumWeaponItem extends SemiAutoWeaponItem
     {
         return EquipmentUpgrades.builder()
                 .set(registries.holderOrThrow(LimaTechEquipmentUpgrades.LIGHTFRAG_BASE_ARMOR_BYPASS))
-                .build();
+                .toImmutable();
     }
 
     @Override

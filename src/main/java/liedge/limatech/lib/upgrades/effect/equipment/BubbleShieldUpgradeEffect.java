@@ -7,8 +7,8 @@ import liedge.limatech.client.LimaTechLang;
 import liedge.limatech.entity.BubbleShieldUser;
 import liedge.limatech.registry.game.LimaTechEquipmentUpgradeEffects;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.enchantment.LevelBasedValue;
 import net.minecraft.world.level.storage.loot.LootContext;
 
@@ -24,9 +24,9 @@ public record BubbleShieldUpgradeEffect(LevelBasedValue amount, LevelBasedValue 
             .apply(instance, BubbleShieldUpgradeEffect::new));
 
     @Override
-    public void applyEquipmentEffect(Player player, int upgradeRank, ItemStack stack, LootContext context)
+    public void applyEquipmentEffect(ServerLevel level, Entity entity, int upgradeRank, LootContext context)
     {
-        BubbleShieldUser user = player.getCapability(LimaTechCapabilities.ENTITY_BUBBLE_SHIELD);
+        BubbleShieldUser user = entity.getCapability(LimaTechCapabilities.ENTITY_BUBBLE_SHIELD);
         if (user != null) user.restoreShieldHealth(amount.calculate(upgradeRank), maxShield.calculate(upgradeRank));
     }
 

@@ -204,7 +204,7 @@ public abstract class SimpleRecipeMachineBlockEntity<I extends RecipeInput, R ex
     }
 
     @Override
-    protected void tickServer(Level level, BlockPos pos, BlockState state)
+    protected void tickServer(ServerLevel level, BlockPos pos, BlockState state)
     {
         LimaEnergyStorage energyStorage = getEnergyStorage();
         LimaItemHandlerBase inventory = getItemHandler();

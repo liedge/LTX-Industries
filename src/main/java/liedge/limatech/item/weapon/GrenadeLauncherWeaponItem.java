@@ -18,6 +18,7 @@ import liedge.limatech.registry.game.LimaTechUpgradeEffectComponents;
 import liedge.limatech.util.config.LimaTechWeaponsConfig;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
@@ -25,6 +26,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.loot.LootContext;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
@@ -64,10 +66,9 @@ public class GrenadeLauncherWeaponItem extends SemiAutoWeaponItem implements Scr
     }
 
     @Override
-    public void refreshEquipmentUpgrades(ItemStack stack, EquipmentUpgrades upgrades)
+    public void onUpgradeRefresh(LootContext context, ItemStack stack, EquipmentUpgrades upgrades)
     {
-        super.refreshEquipmentUpgrades(stack, upgrades);
-
+        super.onUpgradeRefresh(context, stack, upgrades);
         GrenadeType currentlyEquipped = getGrenadeTypeFromItem(stack);
         boolean shouldReset = upgrades.effectFlatStream(LimaTechUpgradeEffectComponents.GRENADE_UNLOCK.get()).noneMatch(currentlyEquipped::equals);
         if (shouldReset) setGrenadeType(stack, GrenadeType.EXPLOSIVE);
@@ -88,13 +89,13 @@ public class GrenadeLauncherWeaponItem extends SemiAutoWeaponItem implements Scr
     @Override
     public void weaponFired(ItemStack heldItem, Player player, Level level, AbstractWeaponControls controls)
     {
-        if (!level.isClientSide())
+        if (level instanceof ServerLevel serverLevel)
         {
             EquipmentUpgrades upgrades = getUpgrades(heldItem);
 
             OrbGrenadeEntity grenade = new OrbGrenadeEntity(level, getGrenadeTypeFromItem(heldItem), upgrades);
             grenade.setOwner(player);
-            grenade.aimAndSetPosFromShooter(player, calculateProjectileSpeed(upgrades, 1.5d), 0.35d);
+            grenade.aimAndSetPosFromShooter(player, calculateProjectileSpeed(serverLevel, upgrades, 1.5d), 0.35d);
             level.addFreshEntity(grenade);
 
             postWeaponFiredGameEvent(upgrades, level, player);
@@ -153,7 +154,7 @@ public class GrenadeLauncherWeaponItem extends SemiAutoWeaponItem implements Scr
         ItemStack stack = createDefaultStack(registries, true);
         stack.set(LimaTechDataComponents.EQUIPMENT_UPGRADES, EquipmentUpgrades.builder()
                 .set(registries.holderOrThrow(LimaTechEquipmentUpgrades.OMNI_GRENADE_CORE))
-                .build());
+                .toImmutable());
         output.accept(stack, tabVisibility);
     }
 

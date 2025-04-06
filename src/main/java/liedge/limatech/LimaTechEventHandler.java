@@ -5,6 +5,7 @@ import liedge.limatech.entity.BubbleShieldUser;
 import liedge.limatech.entity.damage.UpgradeAwareDamageSource;
 import liedge.limatech.item.weapon.WeaponItem;
 import liedge.limatech.entity.damage.WeaponDamageSource;
+import liedge.limatech.lib.upgrades.effect.EffectTooltipCaches;
 import liedge.limatech.network.packet.ClientboundEntityShieldPacket;
 import liedge.limatech.network.packet.ClientboundPlayerShieldPacket;
 import liedge.limatech.registry.game.LimaTechAttachmentTypes;
@@ -20,6 +21,7 @@ import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.GatherSkippedAttributeTooltipsEvent;
+import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
@@ -36,6 +38,12 @@ import java.util.Iterator;
 public final class LimaTechEventHandler
 {
     private LimaTechEventHandler() {}
+
+    @SubscribeEvent
+    public static void addReloadListeners(final AddReloadListenerEvent event)
+    {
+        event.addListener(EffectTooltipCaches.getInstance());
+    }
 
     @SubscribeEvent
     public static void onPlayerTick(final PlayerTickEvent.Pre event)

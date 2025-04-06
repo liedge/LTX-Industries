@@ -57,6 +57,7 @@ public final class LimaTechLang
     public static final Translatable WEAPON_KNOCKBACK_EFFECT = upgradeEffect("weapon_knockback");
     public static final Translatable DYNAMIC_DAMAGE_TAG_EFFECT = upgradeEffect("dynamic_tag");
     public static final Translatable SHIELD_UPGRADE_EFFECT = upgradeEffect("shield");
+    public static final Translatable MOB_EFFECT_UPGRADE_EFFECT = upgradeEffect("mob_effect");
     public static final Translatable NO_SCULK_VIBRATIONS_EFFECT = upgradeEffect("no_vibration");
     public static final Translatable ENERGY_AMMO_EFFECT = upgradeEffect("energy_ammo");
     public static final Translatable INFINITE_AMMO_EFFECT = upgradeEffect("infinite_ammo");

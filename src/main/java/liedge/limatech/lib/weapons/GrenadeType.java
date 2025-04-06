@@ -5,7 +5,10 @@ import liedge.limacore.lib.LimaColor;
 import liedge.limacore.lib.OrderedEnum;
 import liedge.limacore.lib.Translatable;
 import liedge.limatech.LimaTech;
+import liedge.limatech.client.LimaTechLang;
+import liedge.limatech.lib.upgrades.effect.EffectTooltipProvider;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.StringRepresentable;
@@ -13,7 +16,7 @@ import net.neoforged.neoforge.network.codec.NeoForgeStreamCodecs;
 
 import static liedge.limatech.LimaTechConstants.*;
 
-public enum GrenadeType implements StringRepresentable, Translatable, OrderedEnum<GrenadeType>
+public enum GrenadeType implements StringRepresentable, Translatable, OrderedEnum<GrenadeType>, EffectTooltipProvider
 {
     EXPLOSIVE("explosive", EXPLOSIVE_GRAY),
     FLAME("flame", FLAME_ORANGE),
@@ -57,5 +60,11 @@ public enum GrenadeType implements StringRepresentable, Translatable, OrderedEnu
     public String getSerializedName()
     {
         return name;
+    }
+
+    @Override
+    public Component getEffectTooltip(int upgradeRank)
+    {
+        return LimaTechLang.GRENADE_UNLOCK_EFFECT.translateArgs(this.translate());
     }
 }

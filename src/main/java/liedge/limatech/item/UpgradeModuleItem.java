@@ -107,7 +107,7 @@ public abstract class UpgradeModuleItem<U extends UpgradeBase<?, U>, UE extends 
         {
             U upgrade = entry.upgrade().value();
 
-            consumer.accept(upgrade.getEffectsTooltip(entry.upgradeRank()));
+            upgrade.applyEffectsTooltips(entry.upgradeRank(), consumer::accept);
             consumer.accept(LimaTechLang.UPGRADE_COMPATIBILITY_TOOLTIP.translate().withStyle(moduleTypeStyle()));
 
             List<ItemStack> compatibleItems = getAllCompatibleItems(upgrade);

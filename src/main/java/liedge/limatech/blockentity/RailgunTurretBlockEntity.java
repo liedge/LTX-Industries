@@ -18,7 +18,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
@@ -61,14 +60,14 @@ public class RailgunTurretBlockEntity extends BaseTurretBlockEntity
     }
 
     @Override
-    protected void serverTargetFiringTick(Level level, BlockPos pos, BlockState state, @Nullable Player owner, Entity target, TurretTargetList targetList)
+    protected void serverTargetFiringTick(ServerLevel level, BlockPos pos, BlockState state, @Nullable Player owner, Entity target, TurretTargetList targetList)
     {
         if (ticker >= 10)
         {
             Vec3 start = getProjectileStart();
             float baseDamage = (float) LimaTechMachinesConfig.NOCTIS_TURRET_DAMAGE.getAsDouble();
 
-            LimaTechEntityUtil.hurtWithEnchantedFakePlayer((ServerLevel) level, target, owner, getUpgrades(), le -> TurretDamageSource.create(level, LimaTechDamageTypes.RAILGUN_TURRET, this, null, owner, start), baseDamage);
+            LimaTechEntityUtil.hurtWithEnchantedFakePlayer(level, target, owner, getUpgrades(), le -> TurretDamageSource.create(level, LimaTechDamageTypes.RAILGUN_TURRET, this, null, owner, start), baseDamage);
 
             LimaNetworkUtil.spawnAlwaysVisibleParticle(level, LimaTechParticles.RAILGUN_BOLT.get(), start, target.getBoundingBox().getCenter());
             level.playSound(null, start.x ,start.y, start.z, LimaTechSounds.RAILGUN_BOOM.get(), SoundSource.BLOCKS, 2.5f, Mth.randomBetween(level.random, 0.85f, 0.95f));

@@ -6,8 +6,8 @@ import liedge.limatech.client.LimaTechLang;
 import liedge.limatech.registry.game.LimaTechEquipmentUpgradeEffects;
 import liedge.limatech.util.LimaTechTooltipUtil;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.enchantment.LevelBasedValue;
 
 public record KnockbackStrengthUpgradeEffect(LevelBasedValue amount) implements EquipmentUpgradeEffect.DamageModification
@@ -21,7 +21,7 @@ public record KnockbackStrengthUpgradeEffect(LevelBasedValue amount) implements 
     }
 
     @Override
-    public void modifyDynamicAttack(Player player, int upgradeRank, LivingEntity target, LimaDynamicDamageSource damageSource)
+    public void modifyDynamicDamageSource(ServerLevel level, Entity entity, int upgradeRank, LimaDynamicDamageSource damageSource)
     {
         damageSource.setKnockbackMultiplier(amount.calculate(upgradeRank));
     }

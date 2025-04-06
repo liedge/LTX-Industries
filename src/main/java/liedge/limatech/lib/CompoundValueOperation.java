@@ -40,16 +40,14 @@ public enum CompoundValueOperation implements StringRepresentable, Translatable
         };
     }
 
-    public Component toValueComponent(double value, boolean beneficial)
+    public Component toValueComponent(double value, boolean invertColors)
     {
-        boolean invertColor = !beneficial;
-
         Component valueComponent = switch (this)
         {
             case REPLACE_BASE -> flatNumberWithoutSign(value).withStyle(ChatFormatting.GOLD);
-            case FLAT_ADDITION -> flatNumberWithSign(value).withStyle(numSignColor(value, invertColor));
-            case ADD_MULTIPLIED_BASE, ADD_MULTIPLIED_TOTAL -> percentageWithSign(value, invertColor);
-            case MULTIPLY -> flatNumberWithoutSign(value).withStyle(numSignColor(1, value, invertColor));
+            case FLAT_ADDITION -> flatNumberWithSign(value).withStyle(numSignColor(value, invertColors));
+            case ADD_MULTIPLIED_BASE, ADD_MULTIPLIED_TOTAL -> percentageWithSign(value, invertColors);
+            case MULTIPLY -> flatNumberWithoutSign(value).withStyle(numSignColor(1, value, invertColors));
         };
 
         return translateArgs(valueComponent);

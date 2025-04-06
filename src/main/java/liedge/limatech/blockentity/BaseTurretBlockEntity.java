@@ -24,6 +24,7 @@ import liedge.limatech.registry.game.LimaTechSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -94,7 +95,7 @@ public abstract class BaseTurretBlockEntity extends SidedItemEnergyMachineBlockE
 
     protected abstract boolean isValidTarget(Entity entity);
 
-    protected abstract void serverTargetFiringTick(Level level, BlockPos pos, BlockState state, @Nullable Player owner, Entity target, TurretTargetList targetList);
+    protected abstract void serverTargetFiringTick(ServerLevel level, BlockPos pos, BlockState state, @Nullable Player owner, Entity target, TurretTargetList targetList);
 
     protected Comparator<Entity> targetsComparator()
     {
@@ -193,7 +194,7 @@ public abstract class BaseTurretBlockEntity extends SidedItemEnergyMachineBlockE
     }
 
     @Override
-    protected void tickServer(Level level, BlockPos pos, BlockState state)
+    protected void tickServer(ServerLevel level, BlockPos pos, BlockState state)
     {
         // Tick variables
         Player owner = getOwner();

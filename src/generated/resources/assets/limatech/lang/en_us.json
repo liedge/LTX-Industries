@@ -266,6 +266,7 @@
   "upgrade_effect.limatech.energy_ammo": "Unlocks CE ammunition synthesis",
   "upgrade_effect.limatech.grenade_unlock": "Can use %s shells",
   "upgrade_effect.limatech.infinite_ammo": "Unlocks infinite ammo",
+  "upgrade_effect.limatech.mob_effect": "Applies %s (%s)",
   "upgrade_effect.limatech.no_vibration": "No sculk vibrations",
   "upgrade_effect.limatech.shield": "%s Bubble Shield/kill, (max %s)",
   "upgrade_effect.limatech.weapon_knockback": "%s knockback power",

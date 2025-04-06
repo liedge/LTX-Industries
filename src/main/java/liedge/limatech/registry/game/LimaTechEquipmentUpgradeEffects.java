@@ -23,4 +23,5 @@ public final class LimaTechEquipmentUpgradeEffects
     public static final DeferredHolder<MapCodec<? extends EquipmentUpgradeEffect>, MapCodec<DynamicDamageTagUpgradeEffect>> DYNAMIC_DAMAGE_TAG_EQUIPMENT_EFFECT = TYPES.register("dynamic_damage_tag", () -> DynamicDamageTagUpgradeEffect.CODEC);
     public static final DeferredHolder<MapCodec<? extends EquipmentUpgradeEffect>, MapCodec<KnockbackStrengthUpgradeEffect>> KNOCKBACK_STRENGTH_EQUIPMENT_EFFECT = TYPES.register("knockback_strength", () -> KnockbackStrengthUpgradeEffect.CODEC);
     public static final DeferredHolder<MapCodec<? extends EquipmentUpgradeEffect>, MapCodec<BubbleShieldUpgradeEffect>> BUBBLE_SHIELD_EQUIPMENT_EFFECT = TYPES.register("bubble_shield", () -> BubbleShieldUpgradeEffect.CODEC);
+    public static final DeferredHolder<MapCodec<? extends EquipmentUpgradeEffect>, MapCodec<MobEffectUpgradeEffect>> MOB_EFFECT_EQUIPMENT_EFFECT = TYPES.register("mob_effect", () -> MobEffectUpgradeEffect.CODEC);
 }

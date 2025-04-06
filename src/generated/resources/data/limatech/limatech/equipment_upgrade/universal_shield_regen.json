@@ -3,8 +3,9 @@
     "translate": "equipment_upgrade.limatech.universal_shield_regen.desc"
   },
   "effects": {
-    "limatech:weapon_kill": [
+    "limatech:on_kill": [
       {
+        "affected": "attacker",
         "effect": {
           "type": "limatech:bubble_shield",
           "amount": 4.0,
@@ -13,7 +14,17 @@
             "base": 10.0,
             "per_level_above_first": 10.0
           }
-        }
+        },
+        "enchanted": "attacker"
+      },
+      {
+        "affected": "attacker",
+        "effect": {
+          "type": "limatech:mob_effect",
+          "duration": 60.0,
+          "effect": "minecraft:regeneration"
+        },
+        "enchanted": "attacker"
       }
     ]
   },

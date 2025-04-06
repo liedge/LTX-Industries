@@ -7,19 +7,19 @@ import liedge.limacore.item.LimaCreativeTabFillerItem;
 import liedge.limacore.lib.Translatable;
 import liedge.limacore.network.LimaStreamCodecs;
 import liedge.limatech.entity.LimaTechProjectile;
+import liedge.limatech.entity.damage.WeaponDamageSource;
 import liedge.limatech.item.EnergyHolderItem;
 import liedge.limatech.item.TooltipShiftHintItem;
 import liedge.limatech.item.UpgradableEquipmentItem;
-import liedge.limatech.lib.upgrades.effect.AmmoSourceUpgradeEffect;
 import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.limatech.lib.weapons.AbstractWeaponControls;
 import liedge.limatech.lib.weapons.GlobalWeaponDamageModifiers;
 import liedge.limatech.lib.weapons.WeaponAmmoSource;
-import liedge.limatech.entity.damage.WeaponDamageSource;
 import liedge.limatech.registry.game.LimaTechAttachmentTypes;
 import liedge.limatech.registry.game.LimaTechGameEvents;
 import liedge.limatech.registry.game.LimaTechUpgradeEffectComponents;
 import liedge.limatech.util.LimaTechTooltipUtil;
+import liedge.limatech.util.LimaTechUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -38,16 +38,14 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentTarget;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.loot.LootContext;
-import net.minecraft.world.level.storage.loot.LootParams;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.neoforged.neoforge.common.ItemAbilities;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Comparator;
-import java.util.Optional;
 
 import static liedge.limacore.capability.energy.LimaEnergyUtil.formatEnergyWithSuffix;
 import static liedge.limatech.LimaTech.RESOURCES;
@@ -92,17 +90,7 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
         ItemStack heldItem = player.getMainHandItem();
         if (player.level() instanceof ServerLevel serverLevel)
         {
-            // Create the loot context
-            LootParams params = new LootParams.Builder(serverLevel)
-                    .withParameter(LootContextParams.THIS_ENTITY, targetEntity)
-                    .withParameter(LootContextParams.ORIGIN, targetEntity.position())
-                    .withParameter(LootContextParams.DAMAGE_SOURCE, damageSource)
-                    .withParameter(LootContextParams.ATTACKING_ENTITY, player)
-                    .withOptionalParameter(LootContextParams.DIRECT_ATTACKING_ENTITY, damageSource.getDirectEntity())
-                    .create(LootContextParamSets.ENTITY);
-            LootContext context = new LootContext.Builder(params).create(Optional.empty());
-
-            getUpgrades(heldItem).forEachConditionalEffect(LimaTechUpgradeEffectComponents.WEAPON_KILL, context, (effect, rank) -> effect.applyEquipmentEffect(player, rank, heldItem, context));
+            getUpgrades(heldItem).applyDamageContextEffects(LimaTechUpgradeEffectComponents.EQUIPMENT_KILL, serverLevel, EnchantmentTarget.ATTACKER, targetEntity, player, damageSource);
         }
     }
     //#endregion
@@ -130,12 +118,6 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
     }
 
     @Override
-    public int getEnergyTransferRate(ItemStack stack)
-    {
-        return getEnergyCapacity(stack) / 10;
-    }
-
-    @Override
     public abstract int getEnergyCapacity(ItemStack stack);
 
     public abstract int getEnergyReloadCost(ItemStack stack);
@@ -149,48 +131,40 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
     public abstract int getReloadSpeed(ItemStack stack);
     //#endregion
 
-
     @Override
-    public void refreshEquipmentUpgrades(ItemStack stack, EquipmentUpgrades upgrades)
+    public void onUpgradeRefresh(LootContext context, ItemStack stack, EquipmentUpgrades upgrades)
     {
-        UpgradableEquipmentItem.super.refreshEquipmentUpgrades(stack, upgrades);
+        UpgradableEquipmentItem.super.onUpgradeRefresh(context, stack, upgrades);
 
         // Refresh ammo types
-        WeaponAmmoSource newAmmoSource = upgrades.effectStream(LimaTechUpgradeEffectComponents.AMMO_SOURCE.get()).map(AmmoSourceUpgradeEffect::ammoSource).max(Comparator.naturalOrder()).orElse(WeaponAmmoSource.NORMAL);
-        stack.set(WEAPON_AMMO_SOURCE, newAmmoSource);
+        WeaponAmmoSource source = upgrades.effectStream(LimaTechUpgradeEffectComponents.AMMO_SOURCE).max(Comparator.naturalOrder()).orElse(WeaponAmmoSource.NORMAL);
+        stack.set(WEAPON_AMMO_SOURCE, source);
     }
 
-    protected void hurtTargetEntity(Player player, Entity target, @Nullable Entity directEntity, EquipmentUpgrades upgrades, WeaponDamageSource damageSource, final double baseDamage)
+    protected void hurtTargetEntity(Player player, Entity target, EquipmentUpgrades upgrades, WeaponDamageSource damageSource, final double baseDamage)
     {
         if (player.level() instanceof ServerLevel serverLevel)
         {
             // Create the loot context
-            LootParams params = new LootParams.Builder(serverLevel)
-                    .withParameter(LootContextParams.THIS_ENTITY, target)
-                    .withParameter(LootContextParams.ORIGIN, target.position())
-                    .withParameter(LootContextParams.DAMAGE_SOURCE, damageSource)
-                    .withParameter(LootContextParams.ATTACKING_ENTITY, player)
-                    .withOptionalParameter(LootContextParams.DIRECT_ATTACKING_ENTITY, directEntity)
-                    .create(LootContextParamSets.ENTITY);
-            LootContext context = new LootContext.Builder(params).create(Optional.empty());
-
-            // Apply pre-damage upgrade effects
-            upgrades.forEachConditionalEffect(LimaTechUpgradeEffectComponents.WEAPON_PRE_ATTACK, context, (effect, rank) -> effect.applyEquipmentEffect(player, rank, player.getMainHandItem(), context));
+            LootContext context = LimaTechUtil.entityLootContext(serverLevel, target, damageSource, player);
 
             // Run only if entity is living
             if (target instanceof LivingEntity livingTarget)
             {
+                // Apply pre-damage upgrade effects
+                upgrades.applyDamageContextEffects(LimaTechUpgradeEffectComponents.EQUIPMENT_PRE_ATTACK, serverLevel, EnchantmentTarget.ATTACKER, livingTarget, player, damageSource);
+
                 // Armor bypass calculations
                 double targetBaseArmor = livingTarget.getAttributeBaseValue(Attributes.ARMOR);
                 double targetTotalArmor = livingTarget.getAttributeValue(Attributes.ARMOR);
-                double modifiedArmor = upgrades.applyComplexDamageContextValue(LimaTechUpgradeEffectComponents.ARMOR_BYPASS.get(), serverLevel, livingTarget, damageSource, targetBaseArmor, targetTotalArmor);
+                double modifiedArmor = upgrades.applyConditionalValue(LimaTechUpgradeEffectComponents.ARMOR_BYPASS.get(), rank -> Enchantment.damageContext(serverLevel, rank, target, damageSource), targetBaseArmor, targetTotalArmor);
                 float modifier = (float) -(targetTotalArmor - modifiedArmor);
 
                 damageSource.setArmorModifier(modifier);
             }
 
             // Apply damage modifiers from upgrade
-            double totalDamage = upgrades.applyComplexDamageContextValue(LimaTechUpgradeEffectComponents.WEAPON_DAMAGE.get(), serverLevel, target, damageSource, baseDamage, baseDamage);
+            double totalDamage = upgrades.applyConditionalValue(LimaTechUpgradeEffectComponents.WEAPON_DAMAGE.get(), rank -> Enchantment.damageContext(serverLevel, rank, target, damageSource), baseDamage, baseDamage);
 
             // Get global damage modifier factors and apply
             totalDamage = GlobalWeaponDamageModifiers.applyGlobalModifiers(this, target, context, baseDamage, totalDamage);
@@ -205,7 +179,7 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
     protected void causeInstantDamage(EquipmentUpgrades upgrades, Player player, ResourceKey<DamageType> damageTypeKey, Entity targetEntity, double baseDamage)
     {
         WeaponDamageSource source = WeaponDamageSource.handheldInstantDamage(damageTypeKey, player, this, upgrades);
-        hurtTargetEntity(player, targetEntity, null, upgrades, source, baseDamage);
+        hurtTargetEntity(player, targetEntity, upgrades, source, baseDamage);
     }
 
     public void causeProjectileDamage(EquipmentUpgrades upgrades, LimaTechProjectile projectile, @Nullable Entity owner, ResourceKey<DamageType> damageTypeKey, Entity targetEntity, double baseDamage)
@@ -213,7 +187,7 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
         WeaponDamageSource source = WeaponDamageSource.projectileDamage(damageTypeKey, projectile, owner, this, upgrades);
         if (owner instanceof Player player)
         {
-            hurtTargetEntity(player, targetEntity, projectile, upgrades, source, baseDamage);
+            hurtTargetEntity(player, targetEntity, upgrades, source, baseDamage);
         }
         else
         {
@@ -221,9 +195,10 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
         }
     }
 
-    protected double calculateProjectileSpeed(EquipmentUpgrades upgrades, double baseSpeed)
+    protected double calculateProjectileSpeed(ServerLevel level, EquipmentUpgrades upgrades, double baseSpeed)
     {
-        double newSpeed = upgrades.applySimpleValue(LimaTechUpgradeEffectComponents.WEAPON_PROJECTILE_SPEED, baseSpeed);
+        LootContext context = LimaTechUtil.emptyLootContext(level);
+        double newSpeed = upgrades.applyValue(LimaTechUpgradeEffectComponents.WEAPON_PROJECTILE_SPEED, context, baseSpeed);
         return Mth.clamp(newSpeed, 0.001d, 3.9d);
     }
 
@@ -240,7 +215,8 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
         {
             EquipmentUpgrades defaultUpgrades = getDefaultUpgrades(registries);
             stack.set(EQUIPMENT_UPGRADES, defaultUpgrades);
-            refreshEquipmentUpgrades(stack, defaultUpgrades);
+
+            //refreshEquipmentUpgrades(stack, defaultUpgrades); TODO: Find a way to set default upgrades - Maybe migrate refresh to equipment changed?
         }
 
         if (fullMagazine) setAmmoLoaded(stack, getAmmoCapacity(stack));

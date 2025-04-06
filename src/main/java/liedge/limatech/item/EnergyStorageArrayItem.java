@@ -1,11 +1,8 @@
 package liedge.limatech.item;
 
-import liedge.limacore.capability.energy.LimaComponentEnergyStorage;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.util.LimaMathUtil;
 import liedge.limatech.LimaTechConstants;
-import liedge.limatech.blockentity.UpgradableMachineBlockEntity;
-import liedge.limatech.registry.game.LimaTechUpgradeEffectComponents;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -14,8 +11,6 @@ import net.neoforged.neoforge.energy.IEnergyStorage;
 import org.jetbrains.annotations.Nullable;
 
 import static liedge.limacore.capability.energy.InfiniteEnergyStorage.INFINITE_ENERGY_STORAGE;
-import static liedge.limatech.util.config.LimaTechMachinesConfig.ESA_BASE_ENERGY_CAPACITY;
-import static liedge.limatech.util.config.LimaTechMachinesConfig.ESA_BASE_TRANSFER_RATE;
 
 public class EnergyStorageArrayItem extends BlockItem implements EnergyHolderItem, TooltipShiftHintItem
 {
@@ -34,34 +29,6 @@ public class EnergyStorageArrayItem extends BlockItem implements EnergyHolderIte
     }
 
     @Override
-    public int getEnergyCapacity(ItemStack stack)
-    {
-        if (infinite)
-        {
-            return INFINITE_ENERGY_STORAGE.getMaxEnergyStored();
-        }
-        else
-        {
-            double newCapacity = UpgradableMachineBlockEntity.getMachineUpgradesFromItem(stack).applySimpleValue(LimaTechUpgradeEffectComponents.ENERGY_CAPACITY, ESA_BASE_ENERGY_CAPACITY.getAsInt());
-            return LimaMathUtil.round(newCapacity);
-        }
-    }
-
-    @Override
-    public int getEnergyTransferRate(ItemStack stack)
-    {
-        if (infinite)
-        {
-            return INFINITE_ENERGY_STORAGE.getTransferRate();
-        }
-        else
-        {
-            double newTransferRate = UpgradableMachineBlockEntity.getMachineUpgradesFromItem(stack).applySimpleValue(LimaTechUpgradeEffectComponents.ENERGY_TRANSFER_RATE, ESA_BASE_TRANSFER_RATE.getAsInt());
-            return LimaMathUtil.round(newTransferRate);
-        }
-    }
-
-    @Override
     public IEnergyStorage getOrCreateEnergyStorage(ItemStack stack)
     {
         if (infinite)
@@ -70,7 +37,7 @@ public class EnergyStorageArrayItem extends BlockItem implements EnergyHolderIte
         }
         else
         {
-            return new LimaComponentEnergyStorage(stack, getEnergyCapacity(stack), getEnergyTransferRate(stack));
+            return EnergyHolderItem.super.getOrCreateEnergyStorage(stack);
         }
     }
 

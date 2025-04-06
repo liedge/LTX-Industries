@@ -9,11 +9,11 @@ import liedge.limatech.registry.game.LimaTechMenus;
 import liedge.limatech.registry.game.LimaTechSounds;
 import liedge.limatech.util.config.LimaTechMachinesConfig;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
@@ -56,7 +56,7 @@ public class RocketTurretBlockEntity extends BaseTurretBlockEntity
     }
 
     @Override
-    protected void serverTargetFiringTick(Level level, BlockPos pos, BlockState state, @Nullable Player owner, Entity target, TurretTargetList targetList)
+    protected void serverTargetFiringTick(ServerLevel level, BlockPos pos, BlockState state, @Nullable Player owner, Entity target, TurretTargetList targetList)
     {
         // Fire rockets in quick succession
         if (ticker >= 5)

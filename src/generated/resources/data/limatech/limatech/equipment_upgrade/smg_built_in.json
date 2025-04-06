@@ -3,21 +3,25 @@
     "translate": "equipment_upgrade.limatech.smg_built_in.desc"
   },
   "effects": {
-    "limatech:prevent_sculk_vibration": {},
-    "limatech:weapon_pre_attack": [
+    "limatech:pre_attack": [
       {
+        "affected": "victim",
         "effect": {
           "type": "limatech:dynamic_damage_tag",
           "tag": "minecraft:no_anger"
-        }
+        },
+        "enchanted": "attacker"
       },
       {
+        "affected": "victim",
         "effect": {
           "type": "limatech:dynamic_damage_tag",
           "tag": "minecraft:no_knockback"
-        }
+        },
+        "enchanted": "attacker"
       }
-    ]
+    ],
+    "limatech:prevent_sculk_vibration": {}
   },
   "exclusive_set": [],
   "icon": {

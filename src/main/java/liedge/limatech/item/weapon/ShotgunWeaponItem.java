@@ -34,7 +34,7 @@ public class ShotgunWeaponItem extends SemiAutoWeaponItem
         return EquipmentUpgrades.builder()
                 .set(registries.holderOrThrow(LimaTechEquipmentUpgrades.SHOTGUN_BUILT_IN))
                 .set(registries.holderOrThrow(LimaTechEquipmentUpgrades.LIGHTFRAG_BASE_ARMOR_BYPASS))
-                .build();
+                .toImmutable();
     }
 
     @Override

@@ -14,6 +14,8 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.util.Unit;
 import net.minecraft.world.item.enchantment.ConditionalEffect;
+import net.minecraft.world.item.enchantment.EnchantmentTarget;
+import net.minecraft.world.item.enchantment.TargetedConditionalEffect;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import org.jetbrains.annotations.Nullable;
 
@@ -144,6 +146,27 @@ public abstract class UpgradeBaseBuilder<CTX, U extends UpgradeBase<CTX, U>, B e
     public <T> B withConditionalEffect(Supplier<? extends DataComponentType<List<ConditionalEffect<T>>>> typeSupplier, T effect)
     {
         return withConditionalEffect(typeSupplier, effect, null);
+    }
+
+    public <T> B withTargetedEffect(DataComponentType<List<TargetedConditionalEffect<T>>> type, EnchantmentTarget enchanted, EnchantmentTarget affected, T effect, @Nullable LootItemCondition.Builder condition)
+    {
+        getEffectsList(type).add(new TargetedConditionalEffect<>(enchanted, affected, effect, Optional.ofNullable(condition).map(LootItemCondition.Builder::build)));
+        return selfUnchecked();
+    }
+
+    public <T> B withTargetedEffect(DataComponentType<List<TargetedConditionalEffect<T>>> type, EnchantmentTarget enchanted, EnchantmentTarget affected, T effect)
+    {
+        return withTargetedEffect(type, enchanted, affected, effect, null);
+    }
+
+    public <T> B withTargetedEffect(Supplier<? extends DataComponentType<List<TargetedConditionalEffect<T>>>> typeSupplier, EnchantmentTarget enchanted, EnchantmentTarget affected, T effect, @Nullable LootItemCondition.Builder condition)
+    {
+        return withTargetedEffect(typeSupplier.get(), enchanted, affected, effect, condition);
+    }
+
+    public <T> B withTargetedEffect(Supplier<? extends DataComponentType<List<TargetedConditionalEffect<T>>>> typeSupplier, EnchantmentTarget enchanted, EnchantmentTarget affected, T effect)
+    {
+        return withTargetedEffect(typeSupplier, enchanted, affected, effect, null);
     }
 
     public <T> B withSpecialEffect(DataComponentType<T> type, T effect)

@@ -3,12 +3,16 @@ package liedge.limatech.lib.weapons;
 import liedge.limacore.data.LimaEnumCodec;
 import liedge.limacore.lib.Translatable;
 import liedge.limatech.LimaTech;
+import liedge.limatech.LimaTechConstants;
+import liedge.limatech.client.LimaTechLang;
+import liedge.limatech.lib.upgrades.effect.EffectTooltipProvider;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.StringRepresentable;
 import net.neoforged.neoforge.network.codec.NeoForgeStreamCodecs;
 
-public enum WeaponAmmoSource implements StringRepresentable
+public enum WeaponAmmoSource implements StringRepresentable, EffectTooltipProvider
 {
     NORMAL("normal"),
     COMMON_ENERGY_UNIT("energy"),
@@ -35,5 +39,16 @@ public enum WeaponAmmoSource implements StringRepresentable
     public String getSerializedName()
     {
         return name;
+    }
+
+    @Override
+    public Component getEffectTooltip(int upgradeRank)
+    {
+        return switch (this)
+        {
+            case COMMON_ENERGY_UNIT -> LimaTechLang.ENERGY_AMMO_EFFECT.translate().withStyle(LimaTechConstants.REM_BLUE.chatStyle());
+            case INFINITE -> LimaTechLang.INFINITE_AMMO_EFFECT.translate().withStyle(LimaTechConstants.CREATIVE_PINK.chatStyle());
+            default -> Component.empty();
+        };
     }
 }

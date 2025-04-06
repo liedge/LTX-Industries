@@ -3,14 +3,17 @@
     "translate": "equipment_upgrade.limatech.high_impact_rounds.desc"
   },
   "effects": {
-    "limatech:weapon_pre_attack": [
+    "limatech:pre_attack": [
       {
+        "affected": "victim",
         "effect": {
           "type": "limatech:dynamic_damage_tag",
           "tag": "limacore:ignores_knockback_resistance"
-        }
+        },
+        "enchanted": "attacker"
       },
       {
+        "affected": "victim",
         "effect": {
           "type": "limatech:knockback_strength",
           "amount": {
@@ -18,7 +21,8 @@
             "base": 1.5,
             "per_level_above_first": 1.5
           }
-        }
+        },
+        "enchanted": "attacker"
       }
     ]
   },

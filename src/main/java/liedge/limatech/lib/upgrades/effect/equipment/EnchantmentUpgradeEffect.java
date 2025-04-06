@@ -1,8 +1,9 @@
-package liedge.limatech.lib.upgrades.effect;
+package liedge.limatech.lib.upgrades.effect.equipment;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import liedge.limatech.client.LimaTechLang;
+import liedge.limatech.lib.upgrades.effect.EffectTooltipProvider;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
