@@ -3,20 +3,6 @@
   "description": {
     "translate": "enchantment.limatech.razor"
   },
-  "effects": {
-    "limacore:extra_loot_table": [
-      {
-        "effect": "limatech:enchanted_damage/razor",
-        "requirements": {
-          "condition": "minecraft:entity_properties",
-          "entity": "attacker",
-          "predicate": {
-            "type": "minecraft:player"
-          }
-        }
-      }
-    ]
-  },
   "max_cost": {
     "base": 60,
     "per_level_above_first": 9

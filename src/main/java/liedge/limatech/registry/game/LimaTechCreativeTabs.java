@@ -33,18 +33,18 @@ public final class LimaTechCreativeTabs
     }
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MAIN_TAB = TABS.register("main", id -> LimaItemUtil.tabBuilderWithTitle(id)
-            .icon(() -> LimaTechItems.GRENADE_LAUNCHER.get().createDefaultStack(null, true, GrenadeType.ELECTRIC))
+            .icon(() -> LimaTechItems.GRENADE_LAUNCHER.get().createDecorativeStack(GrenadeType.ELECTRIC))
             .displayItems((parameters, output) -> buildMainTab(id, parameters, output))
             .build());
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EQUIPMENT_MODULES_TAB = TABS.register("equipment_modules", id -> LimaItemUtil.tabBuilderWithTitle(id)
             .icon(LimaTechItems.EQUIPMENT_UPGRADE_MODULE::toStack)
-            .displayItems(((parameters, output) -> LimaCreativeTabFillerItem.addToTab(id, parameters, output, CreativeModeTab.TabVisibility.PARENT_TAB_ONLY, LimaTechItems.EQUIPMENT_UPGRADE_MODULE)))
+            .displayItems(((parameters, output) -> LimaCreativeTabFillerItem.addToTab(id, parameters, output, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS, LimaTechItems.EQUIPMENT_UPGRADE_MODULE)))
             .build());
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MACHINE_MODULES_TAB = TABS.register("machine_modules", id -> LimaItemUtil.tabBuilderWithTitle(id)
             .icon(LimaTechItems.MACHINE_UPGRADE_MODULE::toStack)
-            .displayItems((parameters, output) -> LimaCreativeTabFillerItem.addToTab(id, parameters, output, CreativeModeTab.TabVisibility.PARENT_TAB_ONLY, LimaTechItems.MACHINE_UPGRADE_MODULE))
+            .displayItems((parameters, output) -> LimaCreativeTabFillerItem.addToTab(id, parameters, output, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS, LimaTechItems.MACHINE_UPGRADE_MODULE))
             .build());
 
     private static void buildMainTab(ResourceLocation tabId, CreativeModeTab.ItemDisplayParameters parameters, CreativeModeTab.Output output)

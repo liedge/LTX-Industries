@@ -1,0 +1,48 @@
+{
+  "type": "limatech:fabricating",
+  "energy_required": 250000000,
+  "group": "machines/processing1",
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "limatech:empty_upgrade_module"
+    },
+    {
+      "count": 8,
+      "item": "limatech:niobium_circuit"
+    },
+    {
+      "count": 16,
+      "item": "limatech:slate_alloy_ingot"
+    },
+    {
+      "count": 2,
+      "item": "minecraft:nether_star"
+    },
+    {
+      "count": 4,
+      "item": "minecraft:echo_shard"
+    },
+    {
+      "count": 32,
+      "tag": "c:dyes/lime"
+    },
+    {
+      "count": 16,
+      "item": "minecraft:redstone_block"
+    },
+    {
+      "count": 4,
+      "item": "minecraft:amethyst_block"
+    }
+  ],
+  "result": {
+    "components": {
+      "limatech:machine_upgrade": {
+        "upgrade": "limatech:ultimate_machine_systems"
+      }
+    },
+    "count": 1,
+    "id": "limatech:machine_upgrade_module"
+  }
+}

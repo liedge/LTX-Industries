@@ -24,7 +24,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
@@ -50,9 +49,8 @@ public abstract class BaseRocketEntity extends AutoTrackingProjectile
     protected void onProjectileHit(Level level, HitResult hitResult, Vec3 hitLocation)
     {
         LivingEntity owner = getOwner();
-        AABB aabb = AABB.ofSize(hitLocation, 5, 5, 5);
 
-        level.getEntities(this, aabb, e -> LimaTechEntityUtil.isValidWeaponTarget(owner, e)).forEach(hitEntity -> damageTarget(level, owner, hitEntity, hitLocation));
+        getEntitiesInAOE(level, hitLocation, 3d, owner).forEach(hitEntity -> damageTarget(level, owner, hitEntity, hitLocation));
 
         if (shouldPostGameEvent()) level.gameEvent(owner, LimaTechGameEvents.PROJECTILE_EXPLODED, hitLocation);
         level.playSound(null, hitLocation.x, hitLocation.y, hitLocation.z, LimaTechSounds.ROCKET_EXPLODE.get(), SoundSource.PLAYERS, 4f, 0.9f);
@@ -123,7 +121,7 @@ public abstract class BaseRocketEntity extends AutoTrackingProjectile
         protected void readAdditionalSaveData(CompoundTag tag)
         {
             super.readAdditionalSaveData(tag);
-            if (tag.contains("upgrades")) upgrades = LimaNbtUtil.lenientDecode(MachineUpgrades.CODEC, registryOps(), tag, "upgrades");
+            upgrades = readMachineUpgrades(tag);
             if (tag.contains("turret_pos")) turretPos = LimaNbtUtil.strictDecode(BlockPos.CODEC, NbtOps.INSTANCE, tag, "turret_pos");
         }
 
@@ -131,7 +129,7 @@ public abstract class BaseRocketEntity extends AutoTrackingProjectile
         protected void addAdditionalSaveData(CompoundTag tag)
         {
             super.addAdditionalSaveData(tag);
-            if (upgrades != MachineUpgrades.EMPTY) tag.put("upgrades", LimaCoreCodecs.strictEncode(MachineUpgrades.CODEC, registryOps(), upgrades));
+            writeMachineUpgrades(upgrades, tag);
             if (turretPos != null) tag.put("turret_pos", LimaCoreCodecs.strictEncode(BlockPos.CODEC, NbtOps.INSTANCE, turretPos));
         }
     }
@@ -154,7 +152,7 @@ public abstract class BaseRocketEntity extends AutoTrackingProjectile
         @Override
         protected boolean shouldPostGameEvent()
         {
-            return upgrades.upgradeEffectTypeAbsent(LimaTechUpgradeEffectComponents.PREVENT_SCULK_VIBRATION.get());
+            return upgrades.noneMatch(LimaTechUpgradeEffectComponents.PREVENT_VIBRATION.get(), (effect, $) -> effect.apply(null, LimaTechGameEvents.PROJECTILE_EXPLODED));
         }
 
         @Override
@@ -167,14 +165,14 @@ public abstract class BaseRocketEntity extends AutoTrackingProjectile
         protected void readAdditionalSaveData(CompoundTag tag)
         {
             super.readAdditionalSaveData(tag);
-            if (tag.contains("upgrades")) upgrades = LimaNbtUtil.lenientDecode(EquipmentUpgrades.CODEC, registryOps(), tag, "upgrades");
+            upgrades = readEquipmentUpgrades(tag);
         }
 
         @Override
         protected void addAdditionalSaveData(CompoundTag tag)
         {
             super.addAdditionalSaveData(tag);
-            if (upgrades != EquipmentUpgrades.EMPTY) tag.put("upgrades", LimaCoreCodecs.strictEncode(EquipmentUpgrades.CODEC, registryOps(), upgrades));
+            writeEquipmentUpgrades(upgrades, tag);
         }
     }
 }

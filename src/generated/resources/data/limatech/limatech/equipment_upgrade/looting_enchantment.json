@@ -1,6 +1,22 @@
 {
-  "description": {
-    "translate": "equipment_upgrade.limatech.looting_enchantment.desc"
+  "display": {
+    "category": "enchants",
+    "description": {
+      "translate": "equipment_upgrade.limatech.looting_enchantment.desc"
+    },
+    "icon": {
+      "type": "composite",
+      "background": {
+        "id": "limatech:ltx_sword"
+      },
+      "overlay": "limatech:clover",
+      "overlay_size": 10,
+      "x_offset": 6,
+      "y_offset": 6
+    },
+    "title": {
+      "translate": "equipment_upgrade.limatech.looting_enchantment"
+    }
   },
   "effects": {
     "limatech:enchantments": [
@@ -10,10 +26,6 @@
     ]
   },
   "exclusive_set": [],
-  "icon": "limatech:looting",
   "max_rank": 5,
-  "supported_set": "#limatech:ltx_weapons",
-  "title": {
-    "translate": "equipment_upgrade.limatech.looting_enchantment.title"
-  }
+  "supported_set": "#limatech:ltx_weapons/all"
 }

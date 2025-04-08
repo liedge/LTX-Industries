@@ -1,0 +1,32 @@
+{
+  "display": {
+    "category": "default/tool",
+    "description": {
+      "translate": "equipment_upgrade.limatech.ltx_shovel_default.desc"
+    },
+    "icon": {
+      "type": "composite",
+      "background": {
+        "id": "limatech:ltx_shovel"
+      },
+      "overlay": "limatech:default",
+      "overlay_size": 10,
+      "x_offset": 6,
+      "y_offset": 6
+    },
+    "title": {
+      "color": "#9DF143",
+      "translate": "equipment_upgrade.limatech.tool_default"
+    }
+  },
+  "effects": {
+    "limatech:enchantments": [
+      {
+        "amount": 1.0,
+        "enchantment": "minecraft:silk_touch"
+      }
+    ]
+  },
+  "exclusive_set": [],
+  "supported_set": "limatech:ltx_shovel"
+}

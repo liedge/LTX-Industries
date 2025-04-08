@@ -1,28 +1,29 @@
 package liedge.limatech.registry.bootstrap;
 
-import liedge.limacore.LimaCoreTags;
+import liedge.limacore.lib.damage.DamageReductionType;
 import liedge.limacore.lib.math.MathOperation;
+import liedge.limacore.registry.game.LimaCoreAttributes;
 import liedge.limacore.world.loot.number.MathOpsNumberProvider;
 import liedge.limacore.world.loot.number.TargetedAttributeValueProvider;
+import liedge.limatech.LimaTechConstants;
 import liedge.limatech.LimaTechTags;
+import liedge.limatech.client.LimaTechLang;
 import liedge.limatech.lib.CompoundValueOperation;
-import liedge.limatech.lib.upgrades.effect.equipment.AttributeModifierUpgradeEffect;
-import liedge.limatech.lib.upgrades.effect.equipment.EnchantmentUpgradeEffect;
-import liedge.limatech.lib.upgrades.effect.equipment.BubbleShieldUpgradeEffect;
-import liedge.limatech.lib.upgrades.effect.equipment.DynamicDamageTagUpgradeEffect;
-import liedge.limatech.lib.upgrades.effect.equipment.KnockbackStrengthUpgradeEffect;
-import liedge.limatech.lib.upgrades.effect.equipment.MobEffectUpgradeEffect;
+import liedge.limatech.lib.upgrades.effect.equipment.*;
 import liedge.limatech.lib.upgrades.effect.value.AttributeAmountTooltip;
 import liedge.limatech.lib.upgrades.effect.value.DoubleLevelBasedValue;
 import liedge.limatech.lib.upgrades.effect.value.ValueUpgradeEffect;
 import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrade;
 import liedge.limatech.lib.weapons.GrenadeType;
 import liedge.limatech.lib.weapons.WeaponAmmoSource;
-import liedge.limatech.registry.game.LimaTechItems;
 import liedge.limatech.registry.LimaTechRegistries;
+import liedge.limatech.registry.game.LimaTechItems;
 import net.minecraft.core.HolderGetter;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.effect.MobEffects;
@@ -33,39 +34,56 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentTarget;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.item.enchantment.LevelBasedValue;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.neoforged.neoforge.registries.holdersets.AnyHolderSet;
 
 import static liedge.limatech.LimaTech.RESOURCES;
-import static liedge.limatech.data.generation.LimaTechBootstrap.*;
-import static liedge.limatech.registry.game.LimaTechUpgradeEffectComponents.*;
+import static liedge.limatech.LimaTechTags.EquipmentUpgrades.AMMO_SOURCE_MODIFIERS;
+import static liedge.limatech.LimaTechTags.EquipmentUpgrades.MINING_DROPS_MODIFIERS;
+import static liedge.limatech.lib.upgrades.UpgradeIcon.*;
 import static liedge.limatech.registry.bootstrap.LimaTechEnchantments.AMMO_SCAVENGER;
 import static liedge.limatech.registry.bootstrap.LimaTechEnchantments.RAZOR;
+import static liedge.limatech.registry.game.LimaTechUpgradeEffectComponents.*;
 
 public final class LimaTechEquipmentUpgrades
 {
     private LimaTechEquipmentUpgrades() {}
 
-    // Weapon-specific upgrades
-    public static final ResourceKey<EquipmentUpgrade> LIGHTFRAG_BASE_ARMOR_BYPASS = key("lightfrag_armor_bypass");
-    public static final ResourceKey<EquipmentUpgrade> SMG_BUILT_IN = key("smg_built_in");
-    public static final ResourceKey<EquipmentUpgrade> SHOTGUN_BUILT_IN = key("shotgun_built_in");
+    // Built-in upgrades
+    public static final ResourceKey<EquipmentUpgrade> LTX_SHOVEL_DEFAULT = key("ltx_shovel_default");
+    public static final ResourceKey<EquipmentUpgrade> LTX_AXE_DEFAULT = key("ltx_axe_default");
+    public static final ResourceKey<EquipmentUpgrade> LTX_WRENCH_DEFAULT = key("ltx_wrench_default");
+    public static final ResourceKey<EquipmentUpgrade> SUBMACHINE_GUN_DEFAULT = key("submachine_gun_default");
+    public static final ResourceKey<EquipmentUpgrade> SHOTGUN_DEFAULT = key("shotgun_default");
+
+    // Tool upgrades
+    public static final ResourceKey<EquipmentUpgrade> TOOL_OMNI_MINER = key("tool_omni_miner");
+    public static final ResourceKey<EquipmentUpgrade> TOOL_VIBRATION_CANCEL = key("tool_vibration_cancel");
+    public static final ResourceKey<EquipmentUpgrade> TOOL_DIRECT_DROPS = key("tool_direct_drops");
+
+    // Weapon upgrades
+    public static final ResourceKey<EquipmentUpgrade> WEAPON_VIBRATION_CANCEL = key("weapon_vibration_cancel");
+    public static final ResourceKey<EquipmentUpgrade> WEAPON_DIRECT_DROPS = key("weapon_direct_drops");
+    public static final ResourceKey<EquipmentUpgrade> WEAPON_ARMOR_PIERCE = key("weapon_armor_pierce");
     public static final ResourceKey<EquipmentUpgrade> HIGH_IMPACT_ROUNDS = key("high_impact_rounds");
     public static final ResourceKey<EquipmentUpgrade> MAGNUM_SCALING_ROUNDS = key("magnum_scaling_rounds");
     public static final ResourceKey<EquipmentUpgrade> GRENADE_LAUNCHER_PROJECTILE_SPEED = key("grenade_launcher_projectile_speed");
 
-    // Universal upgrades
-    public static final ResourceKey<EquipmentUpgrade> UNIVERSAL_ANTI_VIBRATION = key("universal_anti_vibration");
-    public static final ResourceKey<EquipmentUpgrade> UNIVERSAL_STEALTH_DAMAGE = key("universal_stealth_damage");
-    public static final ResourceKey<EquipmentUpgrade> UNIVERSAL_ENERGY_AMMO = key("universal_energy_ammo");
-    public static final ResourceKey<EquipmentUpgrade> UNIVERSAL_INFINITE_AMMO = key("universal_infinite_ammo");
-    public static final ResourceKey<EquipmentUpgrade> UNIVERSAL_ARMOR_PIERCE = key("universal_armor_pierce");
-    public static final ResourceKey<EquipmentUpgrade> UNIVERSAL_SHIELD_REGEN = key("universal_shield_regen");
-    public static final ResourceKey<EquipmentUpgrade> UNIVERSAL_LOOT_TELEPORT = key("universal_loot_teleport");
-
+    // Enchantments
+    public static final ResourceKey<EquipmentUpgrade> SILK_TOUCH_ENCHANT = key("silk_touch_enchantment");
+    public static final ResourceKey<EquipmentUpgrade> FORTUNE_ENCHANTMENT = key("fortune_enchantment");
     public static final ResourceKey<EquipmentUpgrade> LOOTING_ENCHANTMENT = key("looting_enchantment");
     public static final ResourceKey<EquipmentUpgrade> AMMO_SCAVENGER_ENCHANTMENT = key("ammo_scavenger_enchantment");
     public static final ResourceKey<EquipmentUpgrade> RAZOR_ENCHANTMENT = key("razor_enchantment");
+
+    // Universal upgrades
+    public static final ResourceKey<EquipmentUpgrade> UNIVERSAL_STEALTH_DAMAGE = key("universal_stealth_damage");
+    public static final ResourceKey<EquipmentUpgrade> UNIVERSAL_ENERGY_AMMO = key("universal_energy_ammo");
+    public static final ResourceKey<EquipmentUpgrade> UNIVERSAL_INFINITE_AMMO = key("universal_infinite_ammo");
+    public static final ResourceKey<EquipmentUpgrade> UNIVERSAL_SHIELD_REGEN = key("universal_shield_regen");
 
     // Hanabi grenade cores
     public static final ResourceKey<EquipmentUpgrade> FLAME_GRENADE_CORE = key("flame_grenade_core");
@@ -82,143 +100,213 @@ public final class LimaTechEquipmentUpgrades
 
     public static void bootstrap(BootstrapContext<EquipmentUpgrade> context)
     {
+        // Holder getters
         HolderGetter<Item> items = context.lookup(Registries.ITEM);
         HolderGetter<Enchantment> enchantments = context.lookup(Registries.ENCHANTMENT);
+        HolderGetter<GameEvent> gameEvents = context.lookup(Registries.GAME_EVENT);
         HolderGetter<EquipmentUpgrade> holders = context.lookup(LimaTechRegistries.Keys.EQUIPMENT_UPGRADES);
 
-        // Weapon-specific upgrades
-        EquipmentUpgrade.builder(LIGHTFRAG_BASE_ARMOR_BYPASS)
-                .supports(LimaTechItems.SUBMACHINE_GUN, LimaTechItems.SHOTGUN,  LimaTechItems.MAGNUM)
-                .withConditionalEffect(ARMOR_BYPASS, ValueUpgradeEffect.createSimple(DoubleLevelBasedValue.constant(-4f), CompoundValueOperation.FLAT_ADDITION, true))
-                .effectIcon(sprite("lightfrags"))
-                .buildAndRegister(context);
+        // AnyHolderSets
+        HolderSet<Block> anyBlockHolderSet = new AnyHolderSet<>(BuiltInRegistries.BLOCK.asLookup());
+        HolderSet<Item> anyItemHolderSet = new AnyHolderSet<>(BuiltInRegistries.ITEM.asLookup());
 
-        EquipmentUpgrade.builder(SMG_BUILT_IN)
+        // Common holder sets
+        HolderSet<Item> ltxMiningTools = items.getOrThrow(LimaTechTags.Items.LTX_MINING_TOOLS);
+        HolderSet<Item> ltxProjectileWeapons = items.getOrThrow(LimaTechTags.Items.LTX_PROJECTILE_WEAPONS);
+        HolderSet<Item> ltxAllWeapons = items.getOrThrow(LimaTechTags.Items.LTX_ALL_WEAPONS);
+
+        // Built in upgrades
+        final Component defaultToolTitle = LimaTechLang.TOOL_DEFAULT_UPGRADE_TITLE.translate().withStyle(LimaTechConstants.LIME_GREEN.chatStyle());
+        EquipmentUpgrade.builder(LTX_SHOVEL_DEFAULT)
+                .setTitle(defaultToolTitle)
+                .supports(LimaTechItems.LTX_SHOVEL)
+                .withEffect(ENCHANTMENT_LEVEL, EnchantmentUpgradeEffect.constantLevel(enchantments.getOrThrow(Enchantments.SILK_TOUCH), 1))
+                .effectIcon(bottomRightComposite(itemIcon(LimaTechItems.LTX_SHOVEL), sprite("default")))
+                .category("default/tool")
+                .register(context);
+        EquipmentUpgrade.builder(LTX_AXE_DEFAULT)
+                .setTitle(defaultToolTitle)
+                .supports(LimaTechItems.LTX_AXE)
+                .withEffect(ENCHANTMENT_LEVEL, EnchantmentUpgradeEffect.constantLevel(enchantments.getOrThrow(RAZOR), 1))
+                .effectIcon(bottomRightComposite(itemIcon(LimaTechItems.LTX_AXE), sprite("default")))
+                .category("default/tool")
+                .register(context);
+        EquipmentUpgrade.builder(LTX_WRENCH_DEFAULT)
+                .setTitle(defaultToolTitle)
+                .supports(LimaTechItems.LTX_WRENCH)
+                .withEffect(DIRECT_DROPS, DirectDropsUpgradeEffect.blocksOnly(items.getOrThrow(LimaTechTags.Items.WRENCH_BREAKABLE)))
+                .effectIcon(bottomRightComposite(itemIcon(LimaTechItems.LTX_WRENCH), sprite("default")))
+                .category("default/tool")
+                .register(context);
+        EquipmentUpgrade.builder(SUBMACHINE_GUN_DEFAULT)
                 .supports(LimaTechItems.SUBMACHINE_GUN)
-                .withUnitEffect(PREVENT_SCULK_VIBRATION)
-                .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, new DynamicDamageTagUpgradeEffect(DamageTypeTags.NO_ANGER))
-                .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, new DynamicDamageTagUpgradeEffect(DamageTypeTags.NO_KNOCKBACK))
-                .effectIcon(intrinsicTypeIcon(LimaTechItems.SUBMACHINE_GUN))
-                .buildAndRegister(context);
-
-        EquipmentUpgrade.builder(SHOTGUN_BUILT_IN)
+                .withEffect(PREVENT_VIBRATION, PreventVibrationUpgradeEffect.suppressMainHand(gameEvents.getOrThrow(LimaTechTags.GameEvents.WEAPON_VIBRATIONS)))
+                .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, DynamicDamageTagUpgradeEffect.of(DamageTypeTags.NO_ANGER, DamageTypeTags.NO_KNOCKBACK))
+                .effectIcon(bottomLeftComposite(itemIcon(LimaTechItems.SUBMACHINE_GUN), sprite("default")))
+                .category("default/weapon")
+                .register(context);
+        EquipmentUpgrade.builder(SHOTGUN_DEFAULT)
                 .supports(LimaTechItems.SHOTGUN)
-                .withEffect(ITEM_ATTRIBUTE_MODIFIERS, AttributeModifierUpgradeEffect.constantMainHand(Attributes.MOVEMENT_SPEED, RESOURCES.location("shotgun_speed_boost"), 0.25f, AttributeModifier.Operation.ADD_MULTIPLIED_BASE))
-                .withEffect(ITEM_ATTRIBUTE_MODIFIERS, AttributeModifierUpgradeEffect.constantMainHand(Attributes.STEP_HEIGHT, RESOURCES.location("shotgun_step_height_boost"), 1, AttributeModifier.Operation.ADD_VALUE))
-                .withConditionalEffect(ARMOR_BYPASS, ValueUpgradeEffect.createSimple(DoubleLevelBasedValue.constant(-0.15f), CompoundValueOperation.ADD_MULTIPLIED_TOTAL, true))
-                .effectIcon(intrinsicTypeIcon(LimaTechItems.SHOTGUN))
-                .buildAndRegister(context);
+                .withEffect(ITEM_ATTRIBUTE_MODIFIERS, AttributeModifierUpgradeEffect.constantMainHand(Attributes.MOVEMENT_SPEED, SHOTGUN_DEFAULT.location().withSuffix("shotgun_speed_boost"), 0.25f, AttributeModifier.Operation.ADD_MULTIPLIED_BASE))
+                .withEffect(ITEM_ATTRIBUTE_MODIFIERS, AttributeModifierUpgradeEffect.constantMainHand(Attributes.STEP_HEIGHT, SHOTGUN_DEFAULT.location().withSuffix("shotgun_step_height_boost"), 1, AttributeModifier.Operation.ADD_VALUE))
+                .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, new ModifyReductionsUpgradeEffect(DamageReductionType.ARMOR, LevelBasedValue.constant(0.9f)))
+                .effectIcon(bottomLeftComposite(itemIcon(LimaTechItems.SHOTGUN), sprite("default")))
+                .category("default/weapon")
+                .register(context);
 
+        // Tool upgrades
+        EquipmentUpgrade.builder(TOOL_OMNI_MINER)
+                .createDefaultTitle(LimaTechConstants.LIME_GREEN)
+                .supports(ltxMiningTools)
+                .withSpecialEffect(TOOL_PROFILE, ToolProfileUpgradeEffect.alwaysMinesAndDrops(anyBlockHolderSet, 13f))
+                .effectIcon(sprite("omni_miner"))
+                .register(context);
+        EquipmentUpgrade.builder(TOOL_VIBRATION_CANCEL)
+                .supports(items.getOrThrow(LimaTechTags.Items.LTX_ALL_TOOLS))
+                .withEffect(PREVENT_VIBRATION, PreventVibrationUpgradeEffect.suppressHands(gameEvents.getOrThrow(LimaTechTags.GameEvents.HANDHELD_EQUIPMENT)))
+                .effectIcon(sprite("earmuffs"))
+                .register(context);
+        EquipmentUpgrade.builder(TOOL_DIRECT_DROPS)
+                .supports(ltxMiningTools)
+                .withEffect(DIRECT_DROPS, DirectDropsUpgradeEffect.blocksOnly(anyItemHolderSet))
+                .effectIcon(sprite("magnet"))
+                .register(context);
+
+        // Weapon-specific upgrades
         EquipmentUpgrade.builder(HIGH_IMPACT_ROUNDS)
                 .supports(LimaTechItems.SHOTGUN, LimaTechItems.MAGNUM)
-                .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, new DynamicDamageTagUpgradeEffect(LimaCoreTags.DamageTypes.IGNORES_KNOCKBACK_RESISTANCE))
-                .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, new KnockbackStrengthUpgradeEffect(LevelBasedValue.perLevel(1.5f)))
+                .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, DamageAttributesUpgradeEffect.of(Attributes.KNOCKBACK_RESISTANCE, HIGH_IMPACT_ROUNDS.location().withSuffix(".knockback_resist"), LevelBasedValue.constant(-1f), AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL))
+                .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, DamageAttributesUpgradeEffect.of(LimaCoreAttributes.KNOCKBACK_MULTIPLIER, HIGH_IMPACT_ROUNDS.location().withSuffix(".knockback"), LevelBasedValue.perLevel(2f), AttributeModifier.Operation.ADD_VALUE))
                 .effectIcon(sprite("powerful_lightfrag"))
-                .buildAndRegister(context);
-
+                .register(context);
         EquipmentUpgrade.builder(MAGNUM_SCALING_ROUNDS)
                 .supports(LimaTechItems.MAGNUM)
-                .withConditionalEffect(WEAPON_DAMAGE, ValueUpgradeEffect.create(MathOpsNumberProvider.of(TargetedAttributeValueProvider.of(LootContext.EntityTarget.THIS, Attributes.MAX_HEALTH), ConstantValue.exactly(0.25f), MathOperation.MULTIPLICATION), CompoundValueOperation.FLAT_ADDITION,
+                .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, DynamicDamageTagUpgradeEffect.of(LimaTechTags.DamageTypes.BYPASS_SURVIVAL_DEFENSES))
+                .withConditionalEffect(EQUIPMENT_DAMAGE, ValueUpgradeEffect.create(MathOpsNumberProvider.of(TargetedAttributeValueProvider.of(LootContext.EntityTarget.THIS, Attributes.MAX_HEALTH), ConstantValue.exactly(0.25f), MathOperation.MULTIPLY), CompoundValueOperation.FLAT_ADDITION,
                         new AttributeAmountTooltip(LootContext.EntityTarget.THIS, Attributes.MAX_HEALTH, LevelBasedValue.constant(0.25f))))
-                .effectIcon(intrinsicTypeIcon(LimaTechItems.MAGNUM))
-                .effectIcon(itemWithSpriteOverlay(LimaTechItems.MAGNUM, "powerful_lightfrag", 10, 10, 0, 6))
-                .buildAndRegister(context);
-
+                .effectIcon(bottomLeftComposite(itemIcon(LimaTechItems.MAGNUM), sprite("powerful_lightfrag")))
+                .register(context);
         EquipmentUpgrade.builder(GRENADE_LAUNCHER_PROJECTILE_SPEED)
                 .supports(LimaTechItems.GRENADE_LAUNCHER)
                 .setMaxRank(2)
                 .withEffect(WEAPON_PROJECTILE_SPEED, ValueUpgradeEffect.createSimple(DoubleLevelBasedValue.linear(0.5d), CompoundValueOperation.FLAT_ADDITION))
                 .effectIcon(sprite("grenade_speed_boost"))
-                .buildAndRegister(context);
+                .register(context);
 
         // Universal upgrades
-        EquipmentUpgrade.builder(UNIVERSAL_ANTI_VIBRATION)
-                .supportsLTXWeapons(items)
-                .withUnitEffect(PREVENT_SCULK_VIBRATION)
-                .effectIcon(sprite("no_vibration"))
-                .buildAndRegister(context);
+        EquipmentUpgrade.builder(WEAPON_VIBRATION_CANCEL)
+                .supports(ltxProjectileWeapons)
+                .withEffect(PREVENT_VIBRATION, PreventVibrationUpgradeEffect.suppressMainHand(gameEvents.getOrThrow(LimaTechTags.GameEvents.WEAPON_VIBRATIONS)))
+                .effectIcon(sprite("earmuffs"))
+                .register(context);
         EquipmentUpgrade.builder(UNIVERSAL_STEALTH_DAMAGE)
-                .supportsLTXWeapons(items)
-                .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, new DynamicDamageTagUpgradeEffect(DamageTypeTags.NO_ANGER))
+                .supports(ltxProjectileWeapons)
+                .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, DynamicDamageTagUpgradeEffect.of(DamageTypeTags.NO_ANGER))
                 .effectIcon(sprite("stealth_damage"))
-                .buildAndRegister(context);
+                .register(context);
         EquipmentUpgrade.builder(UNIVERSAL_ENERGY_AMMO)
-                .supportsLTXWeapons(items)
-                .exclusiveWith(holders, LimaTechTags.EquipmentUpgrades.AMMO_SOURCE_MODIFIERS)
+                .createDefaultTitle(LimaTechConstants.REM_BLUE)
+                .supports(ltxProjectileWeapons)
+                .exclusiveWith(holders, AMMO_SOURCE_MODIFIERS)
                 .withSpecialEffect(AMMO_SOURCE, WeaponAmmoSource.COMMON_ENERGY_UNIT)
                 .effectIcon(sprite("energy_ammo"))
-                .buildAndRegister(context);
+                .register(context);
         EquipmentUpgrade.builder(UNIVERSAL_INFINITE_AMMO)
-                .supportsLTXWeapons(items)
-                .exclusiveWith(holders, LimaTechTags.EquipmentUpgrades.AMMO_SOURCE_MODIFIERS)
+                .createDefaultTitle(LimaTechConstants.CREATIVE_PINK)
+                .supports(ltxProjectileWeapons)
+                .exclusiveWith(holders, AMMO_SOURCE_MODIFIERS)
                 .withSpecialEffect(AMMO_SOURCE, WeaponAmmoSource.INFINITE)
                 .effectIcon(sprite("infinite_ammo"))
-                .buildAndRegister(context);
-        EquipmentUpgrade.builder(UNIVERSAL_ARMOR_PIERCE)
-                .supportsLTXWeapons(items)
+                .register(context);
+        EquipmentUpgrade.builder(WEAPON_ARMOR_PIERCE)
+                .supports(ltxProjectileWeapons)
                 .setMaxRank(3)
-                .withConditionalEffect(ARMOR_BYPASS, ValueUpgradeEffect.createSimple(DoubleLevelBasedValue.linear(-0.1f), CompoundValueOperation.ADD_MULTIPLIED_TOTAL, true))
-                .effectIcon(sprite("armor_bypass"))
-                .buildAndRegister(context);
+                .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, new ModifyReductionsUpgradeEffect(DamageReductionType.ARMOR, LevelBasedValue.perLevel(0.75f, -0.25f)))
+                .effectIcon(sprite("broken_armor"))
+                .register(context);
         EquipmentUpgrade.builder(UNIVERSAL_SHIELD_REGEN)
-                .supportsLTXWeapons(items)
+                .supports(ltxProjectileWeapons)
                 .setMaxRank(3)
                 .withTargetedEffect(EQUIPMENT_KILL, EnchantmentTarget.ATTACKER, EnchantmentTarget.ATTACKER, new BubbleShieldUpgradeEffect(LevelBasedValue.constant(4), LevelBasedValue.perLevel(10)))
                 .withTargetedEffect(EQUIPMENT_KILL, EnchantmentTarget.ATTACKER, EnchantmentTarget.ATTACKER, MobEffectUpgradeEffect.create(MobEffects.REGENERATION, LevelBasedValue.constant(60)))
                 .effectIcon(sprite("bubble_shield"))
-                .buildAndRegister(context);
-        EquipmentUpgrade.builder(UNIVERSAL_LOOT_TELEPORT)
-                .supportsLTXWeapons(items)
-                .withUnitEffect(DIRECT_ITEM_TELEPORT)
+                .register(context);
+        EquipmentUpgrade.builder(WEAPON_DIRECT_DROPS)
+                .supports(ltxAllWeapons)
+                .withEffect(DIRECT_DROPS, DirectDropsUpgradeEffect.entityDrops(anyItemHolderSet))
                 .effectIcon(sprite("magnet"))
-                .buildAndRegister(context);
+                .register(context);
 
         // Enchantments
+        EquipmentUpgrade.builder(SILK_TOUCH_ENCHANT)
+                .supports(ltxMiningTools)
+                .exclusiveWith(holders, MINING_DROPS_MODIFIERS)
+                .withEffect(ENCHANTMENT_LEVEL, EnchantmentUpgradeEffect.constantLevel(enchantments.getOrThrow(Enchantments.SILK_TOUCH), 1))
+                .effectIcon(bottomLeftComposite(sprite("pickaxe_head"), sprite("silk_touch")))
+                .category("enchants")
+                .register(context);
+        EquipmentUpgrade.builder(FORTUNE_ENCHANTMENT)
+                .supports(ltxMiningTools)
+                .exclusiveWith(holders, MINING_DROPS_MODIFIERS)
+                .setMaxRank(5)
+                .withEffect(ENCHANTMENT_LEVEL, EnchantmentUpgradeEffect.oneLevelPerRank(enchantments.getOrThrow(Enchantments.FORTUNE)))
+                .withEffect(ENERGY_USAGE, ValueUpgradeEffect.createSimple(DoubleLevelBasedValue.linear(0.5d), CompoundValueOperation.ADD_MULTIPLIED_BASE, true))
+                .effectIcon(bottomLeftComposite(sprite("pickaxe_head"), sprite("clover")))
+                .category("enchants")
+                .register(context);
         EquipmentUpgrade.builder(LOOTING_ENCHANTMENT)
-                .supportsLTXWeapons(items)
+                .supports(ltxAllWeapons)
                 .setMaxRank(5)
                 .withEffect(ENCHANTMENT_LEVEL, EnchantmentUpgradeEffect.oneLevelPerRank(enchantments.getOrThrow(Enchantments.LOOTING)))
-                .effectIcon(sprite("looting"))
-                .buildAndRegister(context);
+                .effectIcon(bottomRightComposite(itemIcon(LimaTechItems.LTX_SWORD), sprite("clover")))
+                .category("enchants")
+                .register(context);
         EquipmentUpgrade.builder(AMMO_SCAVENGER_ENCHANTMENT)
-                .supportsLTXWeapons(items)
+                .supports(ltxAllWeapons)
                 .setMaxRank(5)
                 .withEffect(ENCHANTMENT_LEVEL, EnchantmentUpgradeEffect.oneLevelPerRank(enchantments.getOrThrow(AMMO_SCAVENGER)))
                 .effectIcon(sprite("ammo_scavenger"))
-                .buildAndRegister(context);
+                .category("enchants")
+                .register(context);
         EquipmentUpgrade.builder(RAZOR_ENCHANTMENT)
-                .supportsLTXWeapons(items)
+                .supports(ltxAllWeapons)
                 .setMaxRank(5)
                 .withEffect(ENCHANTMENT_LEVEL, EnchantmentUpgradeEffect.oneLevelPerRank(enchantments.getOrThrow(RAZOR)))
                 .effectIcon(sprite("razor_enchant"))
-                .buildAndRegister(context);
+                .category("enchants")
+                .register(context);
 
         // Hanabi grenade cores
         EquipmentUpgrade.builder(FLAME_GRENADE_CORE)
                 .supports(LimaTechItems.GRENADE_LAUNCHER)
                 .withEffect(GRENADE_UNLOCK, GrenadeType.FLAME)
-                .effectIcon(hanabiCoreIcon(GrenadeType.FLAME))
-                .buildAndRegister(context);
+                .effectIcon(sprite("flame_grenade_core"))
+                .category("grenade_cores")
+                .register(context);
         EquipmentUpgrade.builder(CRYO_GRENADE_CORE)
                 .supports(LimaTechItems.GRENADE_LAUNCHER)
                 .withEffect(GRENADE_UNLOCK, GrenadeType.CRYO)
-                .effectIcon(hanabiCoreIcon(GrenadeType.CRYO))
-                .buildAndRegister(context);
+                .effectIcon(sprite("cryo_grenade_core"))
+                .category("grenade_cores")
+                .register(context);
         EquipmentUpgrade.builder(ELECTRIC_GRENADE_CORE)
                 .supports(LimaTechItems.GRENADE_LAUNCHER)
                 .withEffect(GRENADE_UNLOCK, GrenadeType.ELECTRIC)
-                .effectIcon(hanabiCoreIcon(GrenadeType.ELECTRIC))
-                .buildAndRegister(context);
+                .effectIcon(sprite("electric_grenade_core"))
+                .category("grenade_cores")
+                .register(context);
         EquipmentUpgrade.builder(ACID_GRENADE_CORE)
                 .supports(LimaTechItems.GRENADE_LAUNCHER)
                 .withEffect(GRENADE_UNLOCK, GrenadeType.ACID)
-                .effectIcon(hanabiCoreIcon(GrenadeType.ACID))
-                .buildAndRegister(context);
+                .effectIcon(sprite("acid_grenade_core"))
+                .category("grenade_cores")
+                .register(context);
         EquipmentUpgrade.builder(NEURO_GRENADE_CORE)
                 .supports(LimaTechItems.GRENADE_LAUNCHER)
                 .withEffect(GRENADE_UNLOCK, GrenadeType.NEURO)
-                .effectIcon(hanabiCoreIcon(GrenadeType.NEURO))
-                .buildAndRegister(context);
+                .effectIcon(sprite("neuro_grenade_core"))
+                .category("grenade_cores")
+                .register(context);
         EquipmentUpgrade.builder(OMNI_GRENADE_CORE)
                 .supports(LimaTechItems.GRENADE_LAUNCHER)
                 .withEffect(GRENADE_UNLOCK, GrenadeType.FLAME)
@@ -227,6 +315,7 @@ public final class LimaTechEquipmentUpgrades
                 .withEffect(GRENADE_UNLOCK, GrenadeType.ACID)
                 .withEffect(GRENADE_UNLOCK, GrenadeType.NEURO)
                 .effectIcon(sprite("omni_grenade_core"))
-                .buildAndRegister(context);
+                .category("grenade_cores")
+                .register(context);
     }
 }

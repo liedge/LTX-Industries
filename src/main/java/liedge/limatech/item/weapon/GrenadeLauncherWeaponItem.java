@@ -11,7 +11,7 @@ import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.limatech.lib.weapons.AbstractWeaponControls;
 import liedge.limatech.lib.weapons.GrenadeType;
 import liedge.limatech.registry.bootstrap.LimaTechEquipmentUpgrades;
-import liedge.limatech.registry.game.LimaTechDataComponents;
+import liedge.limatech.registry.game.LimaTechGameEvents;
 import liedge.limatech.registry.game.LimaTechItems;
 import liedge.limatech.registry.game.LimaTechSounds;
 import liedge.limatech.registry.game.LimaTechUpgradeEffectComponents;
@@ -52,10 +52,17 @@ public class GrenadeLauncherWeaponItem extends SemiAutoWeaponItem implements Scr
         stack.set(GRENADE_TYPE, grenadeType);
     }
 
-    public ItemStack createDefaultStack(@Nullable HolderLookup.Provider registries, boolean fullMagazine, GrenadeType grenadeType)
+    /**
+     * Creates a stack meant for use in upgrade icons or creative tabs.
+     * @param grenadeType The grenade type equipped
+     * @return The item stack
+     */
+    public ItemStack createDecorativeStack(GrenadeType grenadeType)
     {
-        ItemStack stack = createDefaultStack(registries, fullMagazine);
+        ItemStack stack = new ItemStack(this);
+        setAmmoLoaded(stack, getAmmoCapacity(stack));
         setGrenadeType(stack, grenadeType);
+
         return stack;
     }
 
@@ -75,13 +82,13 @@ public class GrenadeLauncherWeaponItem extends SemiAutoWeaponItem implements Scr
     }
 
     @Override
-    public int getEnergyCapacity(ItemStack stack)
+    public int getBaseEnergyCapacity(ItemStack stack)
     {
         return LimaTechWeaponsConfig.GRENADE_LAUNCHER_ENERGY_CAPACITY.getAsInt();
     }
 
     @Override
-    public int getEnergyReloadCost(ItemStack stack)
+    public int getBaseEnergyUsage(ItemStack stack)
     {
         return LimaTechWeaponsConfig.GRENADE_LAUNCHER_ENERGY_AMMO_COST.getAsInt();
     }
@@ -97,8 +104,7 @@ public class GrenadeLauncherWeaponItem extends SemiAutoWeaponItem implements Scr
             grenade.setOwner(player);
             grenade.aimAndSetPosFromShooter(player, calculateProjectileSpeed(serverLevel, upgrades, 1.5d), 0.35d);
             level.addFreshEntity(grenade);
-
-            postWeaponFiredGameEvent(upgrades, level, player);
+            level.gameEvent(player, LimaTechGameEvents.WEAPON_FIRED, player.getEyePosition());
         }
 
         level.playSound(player, player, LimaTechSounds.GRENADE_LAUNCHER_FIRE.get(), SoundSource.PLAYERS, 2f, Mth.randomBetween(level.random, 0.9f, 1.1f));
@@ -151,10 +157,11 @@ public class GrenadeLauncherWeaponItem extends SemiAutoWeaponItem implements Scr
     public void addAdditionalToCreativeTab(ResourceLocation tabId, CreativeModeTab.ItemDisplayParameters parameters, CreativeModeTab.Output output, CreativeModeTab.TabVisibility tabVisibility)
     {
         HolderLookup.Provider registries = parameters.holders();
-        ItemStack stack = createDefaultStack(registries, true);
-        stack.set(LimaTechDataComponents.EQUIPMENT_UPGRADES, EquipmentUpgrades.builder()
+        ItemStack stack = new ItemStack(this);
+        setUpgrades(stack, EquipmentUpgrades.builder()
                 .set(registries.holderOrThrow(LimaTechEquipmentUpgrades.OMNI_GRENADE_CORE))
                 .toImmutable());
+        setAmmoLoadedMax(stack);
         output.accept(stack, tabVisibility);
     }
 

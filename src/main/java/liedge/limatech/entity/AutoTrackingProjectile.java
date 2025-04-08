@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
-public abstract class AutoTrackingProjectile extends LimaTechProjectile
+public abstract class AutoTrackingProjectile extends LimaTraceableProjectile
 {
     private @Nullable UUID targetUUID;
     private @Nullable Entity targeted;
@@ -22,19 +22,17 @@ public abstract class AutoTrackingProjectile extends LimaTechProjectile
 
     public @Nullable Entity getTargetEntity()
     {
-        if (targeted != null && targeted.isAlive())
+        // Cache target if UUID is present
+        if (targeted == null && targetUUID != null && level() instanceof ServerLevel serverLevel) targeted = serverLevel.getEntity(targetUUID);
+
+        // More aggressively clear dead target references
+        if (targeted != null && !LimaTechEntityUtil.isEntityAlive(targeted))
         {
-            return targeted;
+            targeted = null;
+            targetUUID = null;
         }
-        else if (targetUUID != null && level() instanceof ServerLevel serverLevel)
-        {
-            targeted = serverLevel.getEntity(targetUUID);
-            return targeted;
-        }
-        else
-        {
-            return null;
-        }
+
+        return targeted;
     }
 
     public void setTargetEntity(@Nullable Entity targeted)

@@ -59,7 +59,7 @@ public abstract class UpgradeDataComponentType<T> extends LimaDataComponentType<
         @Override
         public void appendTooltipLines(T data, int upgradeRank, Consumer<Component> linesConsumer)
         {
-            linesConsumer.accept(data.getEffectTooltip(upgradeRank));
+            data.appendEffectLines(upgradeRank, linesConsumer);
         }
     }
 
@@ -75,7 +75,7 @@ public abstract class UpgradeDataComponentType<T> extends LimaDataComponentType<
         {
             for (T effect : data)
             {
-                linesConsumer.accept(effect.getEffectTooltip(upgradeRank));
+                effect.appendEffectLines(upgradeRank, linesConsumer);
             }
         }
     }
@@ -92,7 +92,7 @@ public abstract class UpgradeDataComponentType<T> extends LimaDataComponentType<
         {
             for (ConditionalEffect<T> conditionalEffect : data)
             {
-                linesConsumer.accept(conditionalEffect.effect().getEffectTooltip(upgradeRank));
+                conditionalEffect.effect().appendEffectLines(upgradeRank, linesConsumer);
             }
         }
     }
@@ -109,7 +109,7 @@ public abstract class UpgradeDataComponentType<T> extends LimaDataComponentType<
         {
             for (TargetedConditionalEffect<T> conditionalEffect : data)
             {
-                linesConsumer.accept(conditionalEffect.effect().getEffectTooltip(upgradeRank));
+                conditionalEffect.effect().appendEffectLines(upgradeRank, linesConsumer);
             }
         }
     }

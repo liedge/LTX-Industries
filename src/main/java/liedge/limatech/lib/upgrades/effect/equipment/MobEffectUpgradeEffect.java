@@ -1,11 +1,8 @@
 package liedge.limatech.lib.upgrades.effect.equipment;
 
-import com.google.common.cache.LoadingCache;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import liedge.limatech.client.LimaTechLang;
-import liedge.limatech.lib.upgrades.EffectRankPair;
-import liedge.limatech.lib.upgrades.effect.EffectTooltipCaches;
 import liedge.limatech.registry.game.LimaTechEquipmentUpgradeEffects;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
@@ -24,20 +21,6 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 
 public record MobEffectUpgradeEffect(Holder<MobEffect> effect, LevelBasedValue duration, LevelBasedValue amplifier) implements EquipmentUpgradeEffect
 {
-    private static final LoadingCache<EffectRankPair<MobEffectUpgradeEffect>, Component> TOOLTIP_CACHE = EffectTooltipCaches.getInstance().create(100, key -> {
-        MutableComponent nameComponent = key.effect().effect.value().getDisplayName().copy();
-        int amplifier = Math.round(key.effect().amplifier.calculate(key.upgradeRank()));
-        if (amplifier > 0 && amplifier < 10)
-        {
-            nameComponent.append(CommonComponents.SPACE).append(Component.translatable("enchantment.level." + (amplifier + 1)));
-        }
-
-        int duration = Math.round(key.effect().duration.calculate(key.upgradeRank()));
-        Component durationComponent = Component.literal(StringUtil.formatTickDuration(duration, 20));
-
-        return LimaTechLang.MOB_EFFECT_UPGRADE_EFFECT.translateArgs(nameComponent, durationComponent).withStyle(ChatFormatting.GOLD);
-    });
-
     public static final MapCodec<MobEffectUpgradeEffect> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             MobEffect.CODEC.fieldOf("effect").forGetter(MobEffectUpgradeEffect::effect),
             LevelBasedValue.CODEC.fieldOf("duration").forGetter(MobEffectUpgradeEffect::duration),
@@ -70,6 +53,17 @@ public record MobEffectUpgradeEffect(Holder<MobEffect> effect, LevelBasedValue d
     @Override
     public Component getEffectTooltip(int upgradeRank)
     {
-        return TOOLTIP_CACHE.getUnchecked(new EffectRankPair<>(this, upgradeRank));
+        MutableComponent nameComponent = effect.value().getDisplayName().copy();
+
+        int amplifier = Math.round(this.amplifier.calculate(upgradeRank));
+        if (amplifier > 0 && amplifier < 10)
+        {
+            nameComponent.append(CommonComponents.SPACE).append(Component.translatable("enchantment.level." + (amplifier + 1)));
+        }
+
+        int duration = Math.round(this.duration.calculate(upgradeRank));
+        Component durationComponent = Component.literal(StringUtil.formatTickDuration(duration, 20));
+
+        return LimaTechLang.MOB_EFFECT_UPGRADE_EFFECT.translateArgs(nameComponent, durationComponent).withStyle(ChatFormatting.GOLD);
     }
 }

@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 
 public record GrenadeSubPredicate(GrenadeType type) implements EntitySubPredicate
 {
-    public static final MapCodec<GrenadeSubPredicate> CODEC = GrenadeType.CODEC.fieldOf("grenade").xmap(GrenadeSubPredicate::new, GrenadeSubPredicate::type);
+    public static final MapCodec<GrenadeSubPredicate> CODEC = GrenadeType.CODEC.fieldOf("grenade_element").xmap(GrenadeSubPredicate::new, GrenadeSubPredicate::type);
 
     @Override
     public MapCodec<? extends EntitySubPredicate> codec()

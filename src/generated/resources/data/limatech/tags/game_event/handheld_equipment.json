@@ -1,0 +1,9 @@
+{
+  "values": [
+    "minecraft:block_change",
+    "minecraft:block_destroy",
+    "minecraft:item_interact_start",
+    "minecraft:item_interact_finish",
+    "minecraft:shear"
+  ]
+}

@@ -69,7 +69,7 @@ public abstract class AbstractWeaponControls
             }
             else if (ammoSource == WeaponAmmoSource.COMMON_ENERGY_UNIT)
             {
-                return weaponItem.getEnergyStored(heldItem) >= weaponItem.getEnergyReloadCost(heldItem);
+                return weaponItem.getEnergyStored(heldItem) >= weaponItem.getEnergyUsage(heldItem);
             }
             else
             {

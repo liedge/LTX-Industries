@@ -1,0 +1,5 @@
+{
+  "net/minecraft/world/damagesource/DamageSource": [
+    "liedge/limacore/lib/damage/LimaDamageSourceExtension"
+  ]
+}

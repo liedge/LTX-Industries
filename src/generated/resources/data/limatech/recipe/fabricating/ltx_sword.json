@@ -1,0 +1,27 @@
+{
+  "type": "limatech:fabricating",
+  "energy_required": 500000,
+  "group": "tools",
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "minecraft:diamond_sword"
+    },
+    {
+      "count": 16,
+      "item": "limatech:titanium_ingot"
+    },
+    {
+      "count": 2,
+      "item": "limatech:gold_circuit"
+    },
+    {
+      "count": 4,
+      "tag": "c:dyes/lime"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "limatech:ltx_sword"
+  }
+}

@@ -41,8 +41,8 @@ public final class UpgradeModuleItemExtensions implements ItemGuiRenderOverride
             UpgradeBaseEntry<?> entry = stack.get(moduleItem.entryComponentType());
             if (entry != null && shouldShowIcon())
             {
-                UpgradeIcon icon = entry.upgrade().value().icon();
-                UpgradeIconRenderers.renderIcon(graphics, icon, x, y);
+                UpgradeIcon icon = entry.upgrade().value().display().icon();
+                boolean result = UpgradeIconRenderers.renderIcon(graphics, icon, x, y);
 
                 final int rank = entry.upgradeRank();
                 final int maxRank = entry.upgrade().value().maxRank();
@@ -59,7 +59,7 @@ public final class UpgradeModuleItemExtensions implements ItemGuiRenderOverride
                     graphics.pose().popPose();
                 }
 
-                return true;
+                return result;
             }
         }
 
@@ -69,12 +69,12 @@ public final class UpgradeModuleItemExtensions implements ItemGuiRenderOverride
     private void renderGradientBar(GuiGraphics graphics, float x1, float y1, float x2, float y2, int topColor, int bottomColor)
     {
         Matrix4f mx4 = graphics.pose().last().pose();
-        VertexConsumer buffer = graphics.bufferSource().getBuffer(RenderType.guiOverlay());
+        VertexConsumer buffer = graphics.bufferSource().getBuffer(RenderType.gui());
 
-        buffer.addVertex(mx4, x1, y1, 0).setColor(topColor);
-        buffer.addVertex(mx4, x1, y2, 0).setColor(bottomColor);
-        buffer.addVertex(mx4, x2, y2, 0).setColor(bottomColor);
-        buffer.addVertex(mx4, x2, y1, 0).setColor(topColor);
+        buffer.addVertex(mx4, x1, y1, 300).setColor(topColor);
+        buffer.addVertex(mx4, x1, y2, 300).setColor(bottomColor);
+        buffer.addVertex(mx4, x2, y2, 300).setColor(bottomColor);
+        buffer.addVertex(mx4, x2, y1, 300).setColor(topColor);
 
         graphics.flush();
     }

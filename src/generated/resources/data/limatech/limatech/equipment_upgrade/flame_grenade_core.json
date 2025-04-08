@@ -1,6 +1,13 @@
 {
-  "description": {
-    "translate": "equipment_upgrade.limatech.flame_grenade_core.desc"
+  "display": {
+    "category": "grenade_cores",
+    "description": {
+      "translate": "equipment_upgrade.limatech.flame_grenade_core.desc"
+    },
+    "icon": "limatech:flame_grenade_core",
+    "title": {
+      "translate": "equipment_upgrade.limatech.flame_grenade_core"
+    }
   },
   "effects": {
     "limatech:grenade_unlock": [
@@ -8,24 +15,5 @@
     ]
   },
   "exclusive_set": [],
-  "icon": {
-    "type": "item_sprite_overlay",
-    "height": 10,
-    "item": {
-      "components": {
-        "limatech:grenade_type": "flame",
-        "limatech:weapon_ammo": 6
-      },
-      "count": 1,
-      "id": "limatech:grenade_launcher"
-    },
-    "sprite": "limatech:flame_grenade_core",
-    "width": 10,
-    "x_offset": 0,
-    "y_offset": 6
-  },
-  "supported_set": "limatech:grenade_launcher",
-  "title": {
-    "translate": "equipment_upgrade.limatech.flame_grenade_core.title"
-  }
+  "supported_set": "limatech:grenade_launcher"
 }

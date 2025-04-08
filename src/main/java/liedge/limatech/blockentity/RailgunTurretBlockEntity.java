@@ -6,11 +6,11 @@ import liedge.limatech.LimaTechTags;
 import liedge.limatech.entity.LimaTechEntityUtil;
 import liedge.limatech.entity.damage.TurretDamageSource;
 import liedge.limatech.lib.TurretTargetList;
+import liedge.limatech.registry.bootstrap.LimaTechDamageTypes;
 import liedge.limatech.registry.game.LimaTechBlockEntities;
 import liedge.limatech.registry.game.LimaTechMenus;
 import liedge.limatech.registry.game.LimaTechParticles;
 import liedge.limatech.registry.game.LimaTechSounds;
-import liedge.limatech.registry.bootstrap.LimaTechDamageTypes;
 import liedge.limatech.util.config.LimaTechMachinesConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -67,7 +67,7 @@ public class RailgunTurretBlockEntity extends BaseTurretBlockEntity
             Vec3 start = getProjectileStart();
             float baseDamage = (float) LimaTechMachinesConfig.NOCTIS_TURRET_DAMAGE.getAsDouble();
 
-            LimaTechEntityUtil.hurtWithEnchantedFakePlayer(level, target, owner, getUpgrades(), le -> TurretDamageSource.create(level, LimaTechDamageTypes.RAILGUN_TURRET, this, null, owner, start), baseDamage);
+            LimaTechEntityUtil.hurtWithEnchantedFakePlayer(level, target, owner, getUpgrades(), ignored -> TurretDamageSource.create(level, LimaTechDamageTypes.RAILGUN_TURRET, this, null, owner, start), baseDamage);
 
             LimaNetworkUtil.spawnAlwaysVisibleParticle(level, LimaTechParticles.RAILGUN_BOLT.get(), start, target.getBoundingBox().getCenter());
             level.playSound(null, start.x ,start.y, start.z, LimaTechSounds.RAILGUN_BOOM.get(), SoundSource.BLOCKS, 2.5f, Mth.randomBetween(level.random, 0.85f, 0.95f));

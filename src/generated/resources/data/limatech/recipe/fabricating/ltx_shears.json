@@ -1,0 +1,27 @@
+{
+  "type": "limatech:fabricating",
+  "energy_required": 300000,
+  "group": "tools",
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "minecraft:shears"
+    },
+    {
+      "count": 12,
+      "item": "limatech:titanium_ingot"
+    },
+    {
+      "count": 2,
+      "item": "limatech:copper_circuit"
+    },
+    {
+      "count": 2,
+      "tag": "c:dyes/lime"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "limatech:ltx_shears"
+  }
+}

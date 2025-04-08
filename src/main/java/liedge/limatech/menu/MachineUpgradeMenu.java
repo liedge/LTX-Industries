@@ -104,7 +104,7 @@ public class MachineUpgradeMenu extends UpgradesConfigMenu<UpgradableMachineBloc
         int upgradeRank = currentUpgrades.getUpgradeRank(upgradeHolder);
         if (upgradeRank > 0)
         {
-            ItemStack upgradeModuleItem = MachineUpgradeModuleItem.createStack(level().registryAccess(), upgradeKey, upgradeRank);
+            ItemStack upgradeModuleItem = MachineUpgradeModuleItem.createStack(upgradeHolder, upgradeRank);
             PlayerMainInvWrapper invWrapper = new PlayerMainInvWrapper(playerInventory);
             int nextSlot = LimaItemHandlerUtil.getNextEmptySlot(invWrapper);
 

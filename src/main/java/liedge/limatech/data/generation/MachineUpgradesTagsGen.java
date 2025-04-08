@@ -12,8 +12,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.concurrent.CompletableFuture;
 
 import static liedge.limatech.LimaTechTags.MachineUpgrades.MACHINE_TIER;
-import static liedge.limatech.registry.bootstrap.LimaTechMachineUpgrades.ALPHA_MACHINE_SYSTEMS;
-import static liedge.limatech.registry.bootstrap.LimaTechMachineUpgrades.EPSILON_MACHINE_SYSTEMS;
+import static liedge.limatech.registry.bootstrap.LimaTechMachineUpgrades.STANDARD_MACHINE_SYSTEMS;
+import static liedge.limatech.registry.bootstrap.LimaTechMachineUpgrades.ULTIMATE_MACHINE_SYSTEMS;
 
 class MachineUpgradesTagsGen extends LimaTagsProvider<MachineUpgrade>
 {
@@ -25,6 +25,6 @@ class MachineUpgradesTagsGen extends LimaTagsProvider<MachineUpgrade>
     @Override
     protected void addTags(HolderLookup.Provider provider)
     {
-        buildTag(MACHINE_TIER).add(ALPHA_MACHINE_SYSTEMS, EPSILON_MACHINE_SYSTEMS);
+        buildTag(MACHINE_TIER).add(STANDARD_MACHINE_SYSTEMS, ULTIMATE_MACHINE_SYSTEMS);
     }
 }

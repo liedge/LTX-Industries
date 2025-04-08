@@ -1,6 +1,13 @@
 {
-  "description": {
-    "translate": "machine_upgrade.limatech.turret_razor.desc"
+  "display": {
+    "category": "turret",
+    "description": {
+      "translate": "machine_upgrade.limatech.turret_razor.desc"
+    },
+    "icon": "limatech:razor_enchant",
+    "title": {
+      "translate": "machine_upgrade.limatech.turret_razor"
+    }
   },
   "effects": {
     "limatech:enchantments": [
@@ -10,10 +17,6 @@
     ]
   },
   "exclusive_set": [],
-  "icon": "limatech:razor_enchant",
   "max_rank": 2,
-  "supported_set": "#limatech:turrets",
-  "title": {
-    "translate": "machine_upgrade.limatech.turret_razor.title"
-  }
+  "supported_set": "#limatech:turrets"
 }

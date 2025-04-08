@@ -1,14 +1,24 @@
 {
-  "description": {
-    "translate": "machine_upgrade.limatech.turret_loot_collector.desc"
+  "display": {
+    "category": "turret",
+    "description": {
+      "translate": "machine_upgrade.limatech.turret_loot_collector.desc"
+    },
+    "icon": "limatech:magnet",
+    "title": {
+      "translate": "machine_upgrade.limatech.turret_loot_collector"
+    }
   },
   "effects": {
-    "limatech:direct_item_teleport": {}
+    "limatech:direct_drops": [
+      {
+        "type": "entity",
+        "items": {
+          "type": "neoforge:any"
+        }
+      }
+    ]
   },
   "exclusive_set": [],
-  "icon": "limatech:magnet",
-  "supported_set": "#limatech:turrets",
-  "title": {
-    "translate": "machine_upgrade.limatech.turret_loot_collector.title"
-  }
+  "supported_set": "#limatech:turrets"
 }

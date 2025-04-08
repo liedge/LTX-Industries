@@ -1,16 +1,5 @@
 {
   "values": [
-    "limatech:lightfrag",
-    "limatech:magnum_lightfrag",
-    "limatech:explosive_grenade",
-    "limatech:flame_grenade",
-    "limatech:cryo_grenade",
-    "limatech:electric_grenade",
-    "limatech:acid_grenade",
-    "limatech:neuro_grenade",
-    "limatech:rocket_launcher",
-    "limatech:sticky_flame",
-    "limatech:turret_rocket",
-    "limatech:railgun_turret"
+    "#limatech:weapon_damage"
   ]
 }

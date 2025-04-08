@@ -1,19 +1,27 @@
 {
-  "description": {
-    "translate": "equipment_upgrade.limatech.magnum_scaling_rounds.desc"
+  "display": {
+    "description": {
+      "translate": "equipment_upgrade.limatech.magnum_scaling_rounds.desc"
+    },
+    "icon": {
+      "type": "composite",
+      "background": {
+        "id": "limatech:magnum"
+      },
+      "overlay": "limatech:powerful_lightfrag",
+      "overlay_size": 10,
+      "x_offset": 0,
+      "y_offset": 6
+    },
+    "title": {
+      "translate": "equipment_upgrade.limatech.magnum_scaling_rounds"
+    }
   },
   "effects": {
-    "limatech:weapon_damage": [
+    "limatech:equipment_damage": [
       {
         "effect": {
-          "op": "flat_addition",
-          "tooltip": {
-            "type": "targeted_attribute",
-            "amount": 0.25,
-            "attribute": "minecraft:generic.max_health",
-            "target": "this"
-          },
-          "value": {
+          "context_value": {
             "type": "limacore:math_ops",
             "first": {
               "type": "limacore:targeted_attribute_value",
@@ -22,26 +30,30 @@
             },
             "op": "multiply",
             "second": 0.25
+          },
+          "op": "flat_addition",
+          "tooltip": {
+            "type": "attribute_amount",
+            "amount": 0.25,
+            "attribute": "minecraft:generic.max_health",
+            "target": "this"
           }
         }
+      }
+    ],
+    "limatech:pre_attack": [
+      {
+        "affected": "victim",
+        "effect": {
+          "type": "limatech:dynamic_damage_tag",
+          "tags": [
+            "limatech:bypass_survival_defenses"
+          ]
+        },
+        "enchanted": "attacker"
       }
     ]
   },
   "exclusive_set": [],
-  "icon": {
-    "type": "item_sprite_overlay",
-    "height": 10,
-    "item": {
-      "count": 1,
-      "id": "limatech:magnum"
-    },
-    "sprite": "limatech:powerful_lightfrag",
-    "width": 10,
-    "x_offset": 0,
-    "y_offset": 6
-  },
-  "supported_set": "limatech:magnum",
-  "title": {
-    "translate": "equipment_upgrade.limatech.magnum_scaling_rounds.title"
-  }
+  "supported_set": "limatech:magnum"
 }

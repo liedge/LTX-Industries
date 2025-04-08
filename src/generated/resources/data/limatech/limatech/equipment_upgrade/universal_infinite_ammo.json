@@ -1,14 +1,17 @@
 {
-  "description": {
-    "translate": "equipment_upgrade.limatech.universal_infinite_ammo.desc"
+  "display": {
+    "description": {
+      "translate": "equipment_upgrade.limatech.universal_infinite_ammo.desc"
+    },
+    "icon": "limatech:infinite_ammo",
+    "title": {
+      "color": "#FF00FF",
+      "translate": "equipment_upgrade.limatech.universal_infinite_ammo"
+    }
   },
   "effects": {
     "limatech:ammo_source": "infinite"
   },
   "exclusive_set": "#limatech:ammo_source_modifiers",
-  "icon": "limatech:infinite_ammo",
-  "supported_set": "#limatech:ltx_weapons",
-  "title": {
-    "translate": "equipment_upgrade.limatech.universal_infinite_ammo.title"
-  }
+  "supported_set": "#limatech:ltx_weapons/energy"
 }

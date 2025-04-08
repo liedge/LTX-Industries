@@ -127,7 +127,7 @@ public final class LimaTechEntityUtil
      * @param start The start position of the path vector to be checked.
      * @param end The end position of the path vector to be checked.
      * @param bbExpansion How much to expand the target's bounding box before performing the clip check.
-     * @return The hit result containing entity and the clip point the entity's bounding box or null if vector did not clip entity's bounding box.
+     * @return The hit result containing entity and the clip point on the entity's bounding box or null if vector did not clip entity's bounding box.
      */
     public static @Nullable EntityHitResult clipEntityBoundingBox(Entity target, Vec3 start, Vec3 end, double bbExpansion)
     {
@@ -149,11 +149,11 @@ public final class LimaTechEntityUtil
         BlockHitResult blockTrace = level.clip(new ClipContext(origin, origin.add(path), blockCollision, fluidCollision, projectile));
         Vec3 impact = blockTrace.getLocation();
 
-        EntityHitResult entityTrace = level.getEntities(projectile, projectile.getBoundingBox().expandTowards(path).inflate(1d), hit -> isValidWeaponTarget(projectile.getOwner(), hit))
+        EntityHitResult entityTrace = level.getEntities(projectile, projectile.getBoundingBox().expandTowards(path).inflate(0.3d), hit -> isValidWeaponTarget(projectile.getOwner(), hit))
                 .stream()
+                .sorted(Comparator.comparingDouble(hit -> hit.distanceToSqr(origin)))
                 .flatMap(hit -> Stream.ofNullable(clipEntityBoundingBox(hit, origin, impact, bbExpansion)))
-                .min(Comparator.comparingDouble(result -> result.getLocation().distanceToSqr(origin)))
-                .orElse(null);
+                .findFirst().orElse(null);
 
         return entityTrace != null ? entityTrace : blockTrace;
     }

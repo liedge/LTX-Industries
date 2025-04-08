@@ -1,24 +1,45 @@
 package liedge.limatech.lib.upgrades.effect.equipment;
 
-import com.google.common.cache.LoadingCache;
 import com.mojang.serialization.MapCodec;
-import liedge.limacore.lib.LimaDynamicDamageSource;
+import liedge.limacore.lib.damage.LimaCoreDamageComponents;
 import liedge.limatech.client.LimaTechLang;
-import liedge.limatech.lib.upgrades.effect.EffectTooltipCaches;
 import liedge.limatech.registry.game.LimaTechEquipmentUpgradeEffects;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.ComponentUtils;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 
-public record DynamicDamageTagUpgradeEffect(TagKey<DamageType> tag) implements EquipmentUpgradeEffect.DamageModification
+import java.util.Arrays;
+import java.util.List;
+
+public record DynamicDamageTagUpgradeEffect(List<TagKey<DamageType>> tags) implements EquipmentUpgradeEffect
 {
-    private static final LoadingCache<TagKey<DamageType>, Component> TOOLTIP_CACHE = EffectTooltipCaches.getInstance().create(25, tag -> LimaTechLang.DYNAMIC_DAMAGE_TAG_EFFECT.translateArgs(Component.translatable(LimaTechLang.namedDamageTagKey(tag)).withStyle(ChatFormatting.AQUA)));
+    public static final MapCodec<DynamicDamageTagUpgradeEffect> CODEC = TagKey.codec(Registries.DAMAGE_TYPE).listOf().fieldOf("tags").xmap(DynamicDamageTagUpgradeEffect::new, DynamicDamageTagUpgradeEffect::tags);
 
-    public static final MapCodec<DynamicDamageTagUpgradeEffect> CODEC = TagKey.codec(Registries.DAMAGE_TYPE).fieldOf("tag").xmap(DynamicDamageTagUpgradeEffect::new, DynamicDamageTagUpgradeEffect::tag);
+    public static DynamicDamageTagUpgradeEffect of(TagKey<DamageType> key)
+    {
+        return new DynamicDamageTagUpgradeEffect(List.of(key));
+    }
+
+    @SafeVarargs
+    public static DynamicDamageTagUpgradeEffect of(TagKey<DamageType>... keys)
+    {
+        return new DynamicDamageTagUpgradeEffect(Arrays.asList(keys));
+    }
+
+    @Override
+    public void applyEquipmentEffect(ServerLevel level, Entity entity, int upgradeRank, LootContext context)
+    {
+        DamageSource damageSource = context.getParamOrNull(LootContextParams.DAMAGE_SOURCE);
+        if (damageSource != null) damageSource.mergeSet(LimaCoreDamageComponents.DYNAMIC_TAGS, tags);
+    }
 
     @Override
     public MapCodec<? extends EquipmentUpgradeEffect> codec()
@@ -27,14 +48,9 @@ public record DynamicDamageTagUpgradeEffect(TagKey<DamageType> tag) implements E
     }
 
     @Override
-    public void modifyDynamicDamageSource(ServerLevel level, Entity entity, int upgradeRank, LimaDynamicDamageSource damageSource)
-    {
-        damageSource.addDynamicTag(tag);
-    }
-
-    @Override
     public Component getEffectTooltip(int upgradeRank)
     {
-        return TOOLTIP_CACHE.getUnchecked(tag);
+        Component tagsComponent = ComponentUtils.formatList(tags, o -> Component.translatable(LimaTechLang.namedDamageTagKey(o)));
+        return LimaTechLang.DYNAMIC_DAMAGE_TAG_EFFECT.translateArgs(tagsComponent).withStyle(ChatFormatting.AQUA);
     }
 }

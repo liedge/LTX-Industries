@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "l": {
+      "tag": "c:dyes/lime"
+    },
+    "t": {
+      "item": "limatech:titanium_ingot"
+    }
+  },
+  "pattern": [
+    "t t",
+    " l ",
+    " t "
+  ],
+  "result": {
+    "components": {
+      "limatech:equipment_upgrades": {
+        "limatech:ltx_wrench_default": 1
+      }
+    },
+    "count": 1,
+    "id": "limatech:ltx_wrench"
+  }
+}

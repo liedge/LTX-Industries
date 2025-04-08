@@ -1,15 +1,18 @@
 package liedge.limatech.client.gui;
 
-import liedge.limatech.menu.tooltip.GridTooltip;
+import liedge.limatech.menu.tooltip.ItemGridTooltip;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.item.ItemStack;
 
 public final class ClientItemGridTooltip extends ClientGridTooltip<ItemStack>
 {
-    public ClientItemGridTooltip(GridTooltip<ItemStack> tooltip)
+    private final boolean renderDecorations;
+
+    public ClientItemGridTooltip(ItemGridTooltip tooltip)
     {
         super(tooltip);
+        this.renderDecorations = tooltip.renderDecorations();
     }
 
     @Override
@@ -25,6 +28,6 @@ public final class ClientItemGridTooltip extends ClientGridTooltip<ItemStack>
         int y = ry + 1;
 
         graphics.renderItem(element, x, y);
-        graphics.renderItemDecorations(font, element, x, y);
+        if (renderDecorations) graphics.renderItemDecorations(font, element, x, y);
     }
 }

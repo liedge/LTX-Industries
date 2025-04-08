@@ -24,11 +24,19 @@
     },
     {
       "count": 2,
-      "item": "limatech:titanium_sword"
+      "item": "minecraft:diamond"
     },
     {
-      "count": 1,
+      "count": 2,
       "item": "minecraft:zombie_head"
+    },
+    {
+      "count": 2,
+      "item": "minecraft:creeper_head"
+    },
+    {
+      "count": 2,
+      "item": "minecraft:skeleton_skull"
     }
   ],
   "result": {

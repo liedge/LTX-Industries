@@ -26,8 +26,9 @@ public final class LimaTechLang
     public static final Translatable AUTO_INPUT_ON_TOOLTIP = tooltip("auto_input_on");
 
     public static final Translatable INLINE_ENERGY_STORED = tooltip("energy_stored");
-    public static final Translatable INLINE_ENERGY_CAPACITY = tooltip("energy_capacity");
+    public static final Translatable INLINE_ENERGY_AND_CAPACITY = tooltip("energy_and_capacity");
     public static final Translatable INLINE_ENERGY_TRANSFER_RATE = tooltip("energy_transfer_rate");
+    public static final Translatable INLINE_ENERGY_USAGE = tooltip("energy_usage");
     public static final Translatable INLINE_NO_OWNER_TOOLTIP = tooltip("no_owner");
     public static final Translatable INLINE_OWNER_TOOLTIP = tooltip("owner");
     public static final Translatable ENERGY_OVERCHARGE_TOOLTIP = tooltip("energy_overcharge");
@@ -40,6 +41,9 @@ public final class LimaTechLang
 
     // Item hints
     public static final Translatable INVALID_UPGRADE_HINT = itemHint("invalid_upgrade");
+
+    // Static upgrade upgrade titles
+    public static final Translatable TOOL_DEFAULT_UPGRADE_TITLE = prefixKey("equipment_upgrade", "tool_default");
 
     // Upgrades tooltips
     public static final Translatable UPGRADE_REMOVE_HINT = tooltip("upgrade_remove_hint");
@@ -58,12 +62,13 @@ public final class LimaTechLang
     public static final Translatable DYNAMIC_DAMAGE_TAG_EFFECT = upgradeEffect("dynamic_tag");
     public static final Translatable SHIELD_UPGRADE_EFFECT = upgradeEffect("shield");
     public static final Translatable MOB_EFFECT_UPGRADE_EFFECT = upgradeEffect("mob_effect");
-    public static final Translatable NO_SCULK_VIBRATIONS_EFFECT = upgradeEffect("no_vibration");
+    public static final Translatable DIRECT_BLOCK_DROPS_EFFECT = upgradeEffect("direct_drops.block");
+    public static final Translatable DIRECT_ENTITY_DROPS_EFFECT = upgradeEffect("direct_drops.entity");
+    public static final Translatable SUPPRESS_VIBRATIONS_EFFECT = upgradeEffect("suppress_vibrations");
     public static final Translatable ENERGY_AMMO_EFFECT = upgradeEffect("energy_ammo");
     public static final Translatable INFINITE_AMMO_EFFECT = upgradeEffect("infinite_ammo");
     public static final Translatable ENCHANTMENT_UPGRADE_EFFECT = upgradeEffect("enchantment");
     public static final Translatable GRENADE_UNLOCK_EFFECT = upgradeEffect("grenade_unlock");
-    public static final Translatable DIRECT_ITEM_TELEPORT_EFFECT = upgradeEffect("direct_item_teleport");
 
     public static Component makeEntityTargetComponent(LootContext.EntityTarget target)
     {
@@ -78,7 +83,7 @@ public final class LimaTechLang
 
     public static String namedDamageTagKey(TagKey<DamageType> tagKey)
     {
-        return ModResources.prefixIdTranslationKey("lima.damage_tag", tagKey.location());
+        return ModResources.prefixedIdLangKey("lima.damage_tag", tagKey.location());
     }
 
     private static Translatable prefixKey(String prefix, String key)

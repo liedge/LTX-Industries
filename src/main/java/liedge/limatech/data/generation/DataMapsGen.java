@@ -30,7 +30,7 @@ class DataMapsGen extends DataMapProvider
     }
 
     @Override
-    protected void gather()
+    protected void gather(HolderLookup.Provider registries)
     {
         // Vibration frequencies
         builder(NeoForgeDataMaps.VIBRATION_FREQUENCIES)

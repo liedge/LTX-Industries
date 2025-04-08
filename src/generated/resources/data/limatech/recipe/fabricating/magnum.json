@@ -25,16 +25,6 @@
     }
   ],
   "result": {
-    "components": {
-      "limatech:ammo_source": "normal",
-      "limatech:equipment_upgrades": {
-        "limatech:lightfrag_armor_bypass": 1
-      },
-      "minecraft:attribute_modifiers": {
-        "modifiers": [],
-        "show_in_tooltip": false
-      }
-    },
     "count": 1,
     "id": "limatech:magnum"
   }

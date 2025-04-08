@@ -53,7 +53,7 @@ public class ServerWeaponControls extends AbstractWeaponControls
         else if (source == WeaponAmmoSource.COMMON_ENERGY_UNIT)
         {
             IEnergyStorage weaponEnergy = heldItem.getCapability(Capabilities.EnergyStorage.ITEM);
-            return weaponEnergy != null && LimaEnergyUtil.consumeEnergy(weaponEnergy, weaponItem.getEnergyReloadCost(heldItem), true);
+            return weaponEnergy != null && LimaEnergyUtil.consumeEnergy(weaponEnergy, weaponItem.getEnergyUsage(heldItem), true);
         }
         else
         {

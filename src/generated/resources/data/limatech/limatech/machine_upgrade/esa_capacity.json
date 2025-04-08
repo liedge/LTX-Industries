@@ -1,12 +1,18 @@
 {
-  "description": {
-    "translate": "machine_upgrade.limatech.esa_capacity.desc"
+  "display": {
+    "description": {
+      "translate": "machine_upgrade.limatech.esa_capacity.desc"
+    },
+    "icon": "limatech:extra_energy",
+    "title": {
+      "translate": "machine_upgrade.limatech.esa_capacity"
+    }
   },
   "effects": {
     "limatech:energy_capacity": [
       {
         "op": "multiply",
-        "value": {
+        "simple_value": {
           "type": "exponential",
           "base": 2.0,
           "power": {
@@ -20,7 +26,7 @@
     "limatech:energy_transfer_rate": [
       {
         "op": "multiply",
-        "value": {
+        "simple_value": {
           "type": "exponential",
           "base": 2.0,
           "power": {
@@ -33,10 +39,6 @@
     ]
   },
   "exclusive_set": [],
-  "icon": "limatech:extra_energy",
   "max_rank": 4,
-  "supported_set": "limatech:energy_storage_array",
-  "title": {
-    "translate": "machine_upgrade.limatech.esa_capacity.title"
-  }
+  "supported_set": "limatech:energy_storage_array"
 }

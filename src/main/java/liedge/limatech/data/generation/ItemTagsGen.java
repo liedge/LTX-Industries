@@ -14,6 +14,7 @@ import java.util.concurrent.CompletableFuture;
 import static liedge.limatech.LimaTechTags.Items.*;
 import static liedge.limatech.registry.game.LimaTechItems.*;
 import static net.minecraft.tags.ItemTags.*;
+import static net.minecraft.world.item.Items.*;
 import static net.neoforged.neoforge.common.Tags.Items.*;
 
 class ItemTagsGen extends LimaTagsProvider.ItemTags
@@ -36,6 +37,7 @@ class ItemTagsGen extends LimaTagsProvider.ItemTags
         copyTag(Blocks.SLATE_ALLOY_STORAGE_BLOCKS, SLATE_ALLOY_STORAGE_BLOCKS);
 
         copyTag(Blocks.DEEPSLATE_GRINDABLES, DEEPSLATE_GRINDABLES);
+        copyTag(Blocks.WRENCH_BREAKABLE, WRENCH_BREAKABLE);
 
         copyTag(Tags.Blocks.ORE_RATES_SINGULAR, ORE_RATES_SINGULAR);
         copyTag(Tags.Blocks.ORES_IN_GROUND_STONE, ORES_IN_GROUND_STONE);
@@ -56,20 +58,33 @@ class ItemTagsGen extends LimaTagsProvider.ItemTags
         buildTag(NUGGETS).addTags(TITANIUM_NUGGETS, NIOBIUM_NUGGETS, SLATE_ALLOY_NUGGETS);
 
         buildTag(DYES_WHITE).add(WHITE_PIGMENT);
+        buildTag(DYES_LIGHT_BLUE).add(LIGHT_BLUE_PIGMENT);
         buildTag(DYES_LIME).add(LIME_PIGMENT);
 
-        buildTag(SWORDS).add(TITANIUM_SWORD);
-        buildTag(SHOVELS).add(TITANIUM_SHOVEL);
-        buildTag(PICKAXES).add(TITANIUM_PICKAXE);
-        buildTag(AXES).add(TITANIUM_AXE);
-        buildTag(HOES).add(TITANIUM_HOE);
-        buildTag(TOOLS_SHEAR).add(TITANIUM_SHEARS);
+        buildTag(SWORDS).add(LTX_SWORD);
+        buildTag(SHOVELS).add(LTX_SHOVEL);
+        buildTag(PICKAXES).add(LTX_PICKAXE);
+        buildTag(AXES).add(LTX_AXE);
+        buildTag(HOES).add(LTX_HOE);
+        buildTag(TOOLS_SHEAR).add(LTX_SHEARS);
+        buildTag(TOOLS_BRUSH).add(LTX_BRUSH);
+        buildTag(TOOLS_FISHING_ROD).add(LTX_FISHING_ROD);
+        buildTag(TOOLS_WRENCH).add(LTX_WRENCH);
+        buildTag(TOOLS_IGNITER).add(LTX_LIGHTER);
+        buildTag(CREEPER_IGNITERS).add(LTX_LIGHTER);
 
-        buildTag(BEACON_PAYMENT_ITEMS).addTags(TITANIUM_INGOTS, NIOBIUM_INGOTS, SLATE_ALLOY_INGOTS);
+        buildTag(BEACON_PAYMENT_ITEMS).add(TITANIUM_INGOT, NIOBIUM_INGOT, SLATE_ALLOY_INGOT); // Only add this mod's ingots
 
         buildTag(DEEPSLATE_DUSTS).add(DEEPSLATE_POWDER);
         buildTag(DUSTS).addTag(DEEPSLATE_DUSTS);
 
-        buildTag(LTX_WEAPONS).add(SUBMACHINE_GUN, SHOTGUN, GRENADE_LAUNCHER, ROCKET_LAUNCHER, MAGNUM);
+        buildTag(GLOW_BLOCK_MATERIALS).add(GLOWSTONE, GLOW_INK_SAC, GLOW_BERRIES);
+
+        buildTag(LTX_PROJECTILE_WEAPONS).add(SUBMACHINE_GUN, SHOTGUN, GRENADE_LAUNCHER, ROCKET_LAUNCHER, MAGNUM);
+        buildTag(LTX_MELEE_WEAPONS).add(LTX_SWORD, LTX_AXE);
+        buildTag(LTX_ALL_WEAPONS).addTags(LTX_MELEE_WEAPONS, LTX_PROJECTILE_WEAPONS);
+
+        buildTag(LTX_MINING_TOOLS).add(LTX_PICKAXE, LTX_SHOVEL, LTX_AXE, LTX_HOE);
+        buildTag(LTX_ALL_TOOLS).add(LTX_SHEARS, LTX_BRUSH, LTX_FISHING_ROD, LTX_WRENCH, LTX_LIGHTER).addTags(LTX_MINING_TOOLS, LTX_MELEE_WEAPONS);
     }
 }

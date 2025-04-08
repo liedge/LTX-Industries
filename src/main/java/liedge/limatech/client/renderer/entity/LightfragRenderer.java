@@ -6,15 +6,15 @@ import com.mojang.math.Axis;
 import liedge.limatech.LimaTechConstants;
 import liedge.limatech.client.LimaTechRenderUtil;
 import liedge.limatech.client.renderer.LimaTechRenderTypes;
-import liedge.limatech.entity.LightfragEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.inventory.InventoryMenu;
 import org.joml.Matrix4f;
 
-public class LightfragRenderer extends EntityRenderer<LightfragEntity>
+public class LightfragRenderer extends EntityRenderer<Entity>
 {
     public LightfragRenderer(EntityRendererProvider.Context ctx)
     {
@@ -22,7 +22,7 @@ public class LightfragRenderer extends EntityRenderer<LightfragEntity>
     }
 
     @Override
-    public void render(LightfragEntity entity, float yaw, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int light)
+    public void render(Entity entity, float yaw, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int light)
     {
         poseStack.pushPose();
 
@@ -40,7 +40,7 @@ public class LightfragRenderer extends EntityRenderer<LightfragEntity>
     }
 
     @Override
-    public ResourceLocation getTextureLocation(LightfragEntity entity)
+    public ResourceLocation getTextureLocation(Entity entity)
     {
         return InventoryMenu.BLOCK_ATLAS;
     }

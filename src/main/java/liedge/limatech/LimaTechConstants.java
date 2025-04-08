@@ -6,7 +6,8 @@ public final class LimaTechConstants
 {
     private LimaTechConstants() {}
 
-    // Color templates
+    // Common keys
+    public static final String KEY_UPGRADES_CONTAINER = "upgrades";
 
     //#region Color templates
 

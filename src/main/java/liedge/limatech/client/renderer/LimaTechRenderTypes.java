@@ -27,8 +27,7 @@ public final class LimaTechRenderTypes
                 .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
                 .setCullState(RenderStateShard.NO_CULL)
                 .createCompositeState(true);
-
-        return RenderType.create("position_tex_color", DefaultVertexFormat.POSITION_TEX_COLOR, VertexFormat.Mode.QUADS, 1536, true, true, state);
+        return RenderType.create("position_tex_color", DefaultVertexFormat.POSITION_TEX_COLOR, VertexFormat.Mode.QUADS, 1536, false, true, state);
     });
 
     public static final RenderType BUBBLE_SHIELD = RenderType.create("bubble_shield", DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.TRIANGLES, 1536, false, true, RenderType.CompositeState.builder()
@@ -53,7 +52,7 @@ public final class LimaTechRenderTypes
             .setTexturingState(FABRICATOR_WIREFRAME_TEXTURING)
             .createCompositeState(false));
 
-    public static final RenderType POSITION_COLOR_TRANSLUCENT = RenderType.create("position_color_translucent", DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS, 1536, true, true, RenderType.CompositeState.builder()
+    public static final RenderType POSITION_COLOR_TRANSLUCENT = RenderType.create("position_color_translucent", DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS, 1536, false, true, RenderType.CompositeState.builder()
             .setShaderState(RenderStateShard.POSITION_COLOR_SHADER)
             .setWriteMaskState(RenderStateShard.COLOR_DEPTH_WRITE)
             .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)

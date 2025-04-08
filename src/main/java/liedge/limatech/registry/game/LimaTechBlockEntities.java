@@ -30,9 +30,10 @@ public final class LimaTechBlockEntities
     public static void register(IEventBus bus)
     {
         TYPES.register(bus);
+        bus.addListener(RegisterCapabilitiesEvent.class, LimaTechBlockEntities::registerCapabilities);
     }
 
-    public static void registerCapabilities(final RegisterCapabilitiesEvent event)
+    private static void registerCapabilities(final RegisterCapabilitiesEvent event)
     {
         // Machine capability registration (energy & items)
         Stream.of(ENERGY_STORAGE_ARRAY, INFINITE_ENERGY_STORAGE_ARRAY, DIGITAL_FURNACE, GRINDER, RECOMPOSER, MATERIAL_FUSING_CHAMBER, FABRICATOR, ROCKET_TURRET, RAILGUN_TURRET).map(DeferredHolder::get).forEach(machineType ->

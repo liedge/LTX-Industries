@@ -1,0 +1,41 @@
+{
+  "type": "limatech:fabricating",
+  "energy_required": 5000000,
+  "group": "weapons/armor_pierce",
+  "ingredients": [
+    {
+      "type": "neoforge:components",
+      "components": {
+        "limatech:equipment_upgrade": {
+          "rank": 2,
+          "upgrade": "limatech:weapon_armor_pierce"
+        }
+      },
+      "count": 1,
+      "items": "limatech:equipment_upgrade_module",
+      "strict": true
+    },
+    {
+      "count": 2,
+      "item": "limatech:niobium_circuit"
+    },
+    {
+      "count": 64,
+      "item": "minecraft:obsidian"
+    },
+    {
+      "count": 4,
+      "item": "limatech:slate_alloy_ingot"
+    }
+  ],
+  "result": {
+    "components": {
+      "limatech:equipment_upgrade": {
+        "rank": 3,
+        "upgrade": "limatech:weapon_armor_pierce"
+      }
+    },
+    "count": 1,
+    "id": "limatech:equipment_upgrade_module"
+  }
+}

@@ -3,15 +3,13 @@ package liedge.limatech.item.weapon;
 import liedge.limacore.util.LimaEntityUtil;
 import liedge.limacore.util.LimaNetworkUtil;
 import liedge.limatech.entity.CompoundHitResult;
-import liedge.limatech.lib.weapons.AbstractWeaponControls;
 import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrades;
-import liedge.limatech.registry.bootstrap.LimaTechDamageTypes;
-import liedge.limatech.registry.bootstrap.LimaTechEquipmentUpgrades;
+import liedge.limatech.lib.weapons.AbstractWeaponControls;
+import liedge.limatech.registry.game.LimaTechGameEvents;
 import liedge.limatech.registry.game.LimaTechItems;
 import liedge.limatech.registry.game.LimaTechParticles;
 import liedge.limatech.registry.game.LimaTechSounds;
 import liedge.limatech.util.config.LimaTechWeaponsConfig;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
@@ -27,14 +25,6 @@ public class MagnumWeaponItem extends SemiAutoWeaponItem
     }
 
     @Override
-    protected EquipmentUpgrades getDefaultUpgrades(HolderLookup.Provider registries)
-    {
-        return EquipmentUpgrades.builder()
-                .set(registries.holderOrThrow(LimaTechEquipmentUpgrades.LIGHTFRAG_BASE_ARMOR_BYPASS))
-                .toImmutable();
-    }
-
-    @Override
     public void weaponFired(ItemStack heldItem, Player player, Level level, AbstractWeaponControls controls)
     {
         player.getUsedItemHand();
@@ -45,8 +35,8 @@ public class MagnumWeaponItem extends SemiAutoWeaponItem
             CompoundHitResult hitResult = CompoundHitResult.tracePath(level, player, 25d, inaccuracy, 0.25d, 1000);
             EquipmentUpgrades upgrades = getUpgrades(heldItem);
 
-            hitResult.entityHits().forEach(hit -> causeInstantDamage(upgrades, player, LimaTechDamageTypes.MAGNUM_LIGHTFRAG, hit.getEntity(), LimaTechWeaponsConfig.MAGNUM_BASE_DAMAGE.getAsDouble()));
-            postWeaponFiredGameEvent(upgrades, level, player);
+            hitResult.entityHits().forEach(hit -> causeInstantDamage(upgrades, player, hit.getEntity(), LimaTechWeaponsConfig.MAGNUM_BASE_DAMAGE.getAsDouble()));
+            level.gameEvent(player, LimaTechGameEvents.WEAPON_FIRED, player.getEyePosition());
 
             LimaNetworkUtil.spawnAlwaysVisibleParticle(level, LimaTechParticles.LIGHTFRAG_TRACER, hitResult.origin(), hitResult.impact().getLocation());
         }
@@ -55,15 +45,15 @@ public class MagnumWeaponItem extends SemiAutoWeaponItem
     }
 
     @Override
-    public int getEnergyCapacity(ItemStack stack)
+    public int getBaseEnergyCapacity(ItemStack stack)
     {
         return LimaTechWeaponsConfig.MAGNUM_ENERGY_CAPACITY.getAsInt();
     }
 
     @Override
-    public int getEnergyReloadCost(ItemStack stack)
+    public int getBaseEnergyUsage(ItemStack stack)
     {
-        return LimaTechWeaponsConfig.MAGNUM_ENERGY_AMMO_COST.getAsInt();
+        return LimaTechWeaponsConfig.MAGNUM_ENERGY_CAPACITY.getAsInt();
     }
 
     @Override

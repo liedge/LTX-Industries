@@ -12,12 +12,17 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.item.enchantment.LevelBasedValue;
 
-public record EnchantmentUpgradeEffect(Holder<Enchantment> enchantment, LevelBasedValue amount) implements EffectTooltipProvider
+public record EnchantmentUpgradeEffect(Holder<Enchantment> enchantment, LevelBasedValue amount) implements EffectTooltipProvider.SingleLine
 {
     public static final Codec<EnchantmentUpgradeEffect> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Enchantment.CODEC.fieldOf("enchantment").forGetter(EnchantmentUpgradeEffect::enchantment),
             LevelBasedValue.CODEC.optionalFieldOf("amount", LevelBasedValue.perLevel(1)).forGetter(EnchantmentUpgradeEffect::amount))
             .apply(instance, EnchantmentUpgradeEffect::new));
+
+    public static EnchantmentUpgradeEffect constantLevel(Holder<Enchantment> enchantment, int level)
+    {
+        return new EnchantmentUpgradeEffect(enchantment, LevelBasedValue.constant(level));
+    }
 
     public static EnchantmentUpgradeEffect oneLevelPerRank(Holder<Enchantment> enchantment)
     {

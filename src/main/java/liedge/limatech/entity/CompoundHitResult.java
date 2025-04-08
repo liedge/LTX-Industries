@@ -24,10 +24,10 @@ public record CompoundHitResult(Vec3 origin, List<EntityHitResult> entityHits, H
         BlockHitResult blockTrace = level.clip(new ClipContext(origin, origin.add(path), blockCollision, fluidCollision, sourceEntity));
         Vec3 end = blockTrace.getLocation();
 
-        List<EntityHitResult> entityHits = level.getEntities(sourceEntity, sourceEntity.getBoundingBox().expandTowards(path).inflate(1d), hit -> LimaTechEntityUtil.isValidWeaponTarget(sourceEntity, hit))
+        List<EntityHitResult> entityHits = level.getEntities(sourceEntity, sourceEntity.getBoundingBox().expandTowards(path).inflate(0.3d), hit -> LimaTechEntityUtil.isValidWeaponTarget(sourceEntity, hit))
                 .stream()
+                .sorted(Comparator.comparingDouble(hit -> hit.distanceToSqr(origin)))
                 .flatMap(hit -> Stream.ofNullable(LimaTechEntityUtil.clipEntityBoundingBox(hit, origin, end, bbExpansionFunction.applyAsDouble(hit))))
-                .sorted(Comparator.comparingDouble(result -> result.getLocation().distanceToSqr(origin)))
                 .limit(maxHits)
                 .toList();
 

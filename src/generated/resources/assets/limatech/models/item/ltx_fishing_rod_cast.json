@@ -1,0 +1,21 @@
+{
+  "parent": "minecraft:item/handheld_rod",
+  "loader": "neoforge:item_layers",
+  "neoforge_data": {
+    "layers": {
+      "1": {
+        "block_light": 15,
+        "sky_light": 15
+      }
+    }
+  },
+  "render_types": {
+    "neoforge:item_unlit": [
+      1
+    ]
+  },
+  "textures": {
+    "layer0": "limatech:item/ltx_fishing_rod_cast_base",
+    "layer1": "limatech:item/ltx_fishing_rod_emissive"
+  }
+}

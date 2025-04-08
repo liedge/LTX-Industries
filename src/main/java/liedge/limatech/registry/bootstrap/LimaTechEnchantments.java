@@ -1,20 +1,14 @@
 package liedge.limatech.registry.bootstrap;
 
-import liedge.limacore.registry.game.LimaCoreDataComponents;
 import liedge.limatech.LimaTech;
-import liedge.limatech.registry.LimaTechLootTables;
-import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.level.storage.loot.LootContext;
-import net.minecraft.world.level.storage.loot.predicates.LootItemEntityPropertyCondition;
 
 import static liedge.limacore.data.generation.LimaBootstrapUtil.registerEnchantment;
 
@@ -36,9 +30,7 @@ public final class LimaTechEnchantments
                         Enchantment.dynamicCost(10, 9),
                         Enchantment.dynamicCost(60, 9),
                         3,
-                        EquipmentSlotGroup.MAINHAND))
-                .withEffect(LimaCoreDataComponents.EXTRA_LOOT_TABLE_EFFECT.get(), LimaTechLootTables.RAZOR_LOOT_TABLE,
-                        LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.ATTACKER, EntityPredicate.Builder.entity().of(EntityType.PLAYER)));
+                        EquipmentSlotGroup.MAINHAND));
 
         Enchantment.Builder ammoScavenger = Enchantment.enchantment(Enchantment.definition(
                 items.getOrThrow(ItemTags.SHARP_WEAPON_ENCHANTABLE),

@@ -5,13 +5,14 @@ import liedge.limatech.network.packet.ClientboundEntityShieldPacket;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.FloatTag;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 import net.neoforged.neoforge.network.PacketDistributor;
 
-public class StandaloneBubbleShield implements INBTSerializable<FloatTag>, BubbleShieldUser
+public final class StandaloneBubbleShield implements INBTSerializable<FloatTag>, BubbleShieldUser
 {
     private float shieldHealth;
     private int shieldInvulnerableCooldown;
@@ -26,18 +27,15 @@ public class StandaloneBubbleShield implements INBTSerializable<FloatTag>, Bubbl
     @Override
     public void setShieldHealth(float shieldHealth)
     {
-        this.shieldHealth = Math.min(shieldHealth, MAX_SHIELD_HEALTH);
+        this.shieldHealth = Mth.clamp(shieldHealth, 0f, MAX_SHIELD_HEALTH);
         changed = true;
     }
 
     @Override
-    public void restoreShieldHealth(float amount, float maxShield)
+    public void modifyShieldHealth(float amount, float minShield, float maxShield)
     {
-        if (shieldHealth < maxShield)
-        {
-            float newShield = Math.min(shieldHealth + amount, maxShield);
-            setShieldHealth(newShield);
-        }
+        float newShield = Mth.clamp(shieldHealth + amount, minShield, maxShield);
+        if (newShield != shieldHealth) setShieldHealth(newShield);
     }
 
     public void tickShield(LivingEntity shieldedEntity)
@@ -54,21 +52,21 @@ public class StandaloneBubbleShield implements INBTSerializable<FloatTag>, Bubbl
     @Override
     public boolean blockDamage(Level level, DamageSource source, float amount)
     {
-        if (!level.isClientSide())
+        // Serverside only, and doesn't block void damage
+        if (!level.isClientSide() && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY) && shieldHealth > 0)
         {
-            if (!source.is(DamageTypeTags.BYPASSES_INVULNERABILITY) && shieldHealth > 0)
+            // Should bypass cooldown be allowed?
+            if (shieldInvulnerableCooldown == 0 || source.is(DamageTypeTags.BYPASSES_COOLDOWN))
             {
-                if (shieldInvulnerableCooldown == 0 || source.is(DamageTypeTags.BYPASSES_COOLDOWN))
-                {
-                    float newShield = shieldHealth - Math.min(shieldHealth, amount);
-                    setShieldHealth(newShield);
-                    shieldInvulnerableCooldown = 20;
-                }
-
-                return true;
+                removeShieldHealth(amount, 0);
+                shieldInvulnerableCooldown = 20;
             }
+
+            // Block damage
+            return true;
         }
 
+        // Damage wasn't blocked
         return false;
     }
 

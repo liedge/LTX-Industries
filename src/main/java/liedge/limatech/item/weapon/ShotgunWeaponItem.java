@@ -4,15 +4,13 @@ import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import liedge.limacore.util.LimaNetworkUtil;
 import liedge.limatech.entity.CompoundHitResult;
-import liedge.limatech.lib.weapons.AbstractWeaponControls;
 import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrades;
-import liedge.limatech.registry.bootstrap.LimaTechDamageTypes;
-import liedge.limatech.registry.bootstrap.LimaTechEquipmentUpgrades;
+import liedge.limatech.lib.weapons.AbstractWeaponControls;
+import liedge.limatech.registry.game.LimaTechGameEvents;
 import liedge.limatech.registry.game.LimaTechItems;
 import liedge.limatech.registry.game.LimaTechParticles;
 import liedge.limatech.registry.game.LimaTechSounds;
 import liedge.limatech.util.config.LimaTechWeaponsConfig;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -29,28 +27,19 @@ public class ShotgunWeaponItem extends SemiAutoWeaponItem
     }
 
     @Override
-    protected EquipmentUpgrades getDefaultUpgrades(HolderLookup.Provider registries)
-    {
-        return EquipmentUpgrades.builder()
-                .set(registries.holderOrThrow(LimaTechEquipmentUpgrades.SHOTGUN_BUILT_IN))
-                .set(registries.holderOrThrow(LimaTechEquipmentUpgrades.LIGHTFRAG_BASE_ARMOR_BYPASS))
-                .toImmutable();
-    }
-
-    @Override
     public boolean canFocusReticle(ItemStack heldItem, Player player, AbstractWeaponControls controls)
     {
         return false;
     }
 
     @Override
-    public int getEnergyCapacity(ItemStack stack)
+    public int getBaseEnergyCapacity(ItemStack stack)
     {
         return LimaTechWeaponsConfig.SHOTGUN_ENERGY_CAPACITY.getAsInt();
     }
 
     @Override
-    public int getEnergyReloadCost(ItemStack stack)
+    public int getBaseEnergyUsage(ItemStack stack)
     {
         return LimaTechWeaponsConfig.SHOTGUN_ENERGY_AMMO_COST.getAsInt();
     }
@@ -72,8 +61,8 @@ public class ShotgunWeaponItem extends SemiAutoWeaponItem
             final double basePelletDamage = LimaTechWeaponsConfig.SHOTGUN_BASE_PELLET_DAMAGE.getAsDouble();
             EquipmentUpgrades upgrades = getUpgrades(heldItem);
 
-            pelletHits.forEach((hitEntity, pellets) -> causeInstantDamage(upgrades, player, LimaTechDamageTypes.LIGHTFRAG, hitEntity, basePelletDamage * pellets));
-            postWeaponFiredGameEvent(upgrades, level, player);
+            pelletHits.forEach((hitEntity, pellets) -> causeInstantDamage(upgrades, player, hitEntity, basePelletDamage * pellets));
+            level.gameEvent(player, LimaTechGameEvents.WEAPON_FIRED, player.getEyePosition());
         }
 
         level.playSound(player, player, LimaTechSounds.SHOTGUN_FIRE.get(), SoundSource.PLAYERS, 2.0f, Mth.randomBetween(player.getRandom(), 0.9f, 1f));

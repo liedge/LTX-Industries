@@ -1,6 +1,12 @@
 {
-  "description": {
-    "translate": "equipment_upgrade.limatech.universal_shield_regen.desc"
+  "display": {
+    "description": {
+      "translate": "equipment_upgrade.limatech.universal_shield_regen.desc"
+    },
+    "icon": "limatech:bubble_shield",
+    "title": {
+      "translate": "equipment_upgrade.limatech.universal_shield_regen"
+    }
   },
   "effects": {
     "limatech:on_kill": [
@@ -29,10 +35,6 @@
     ]
   },
   "exclusive_set": [],
-  "icon": "limatech:bubble_shield",
   "max_rank": 3,
-  "supported_set": "#limatech:ltx_weapons",
-  "title": {
-    "translate": "equipment_upgrade.limatech.universal_shield_regen.title"
-  }
+  "supported_set": "#limatech:ltx_weapons/energy"
 }

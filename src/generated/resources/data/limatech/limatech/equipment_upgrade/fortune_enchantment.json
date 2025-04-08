@@ -1,0 +1,40 @@
+{
+  "display": {
+    "category": "enchants",
+    "description": {
+      "translate": "equipment_upgrade.limatech.fortune_enchantment.desc"
+    },
+    "icon": {
+      "type": "composite",
+      "background": "limatech:pickaxe_head",
+      "overlay": "limatech:clover",
+      "overlay_size": 10,
+      "x_offset": 0,
+      "y_offset": 6
+    },
+    "title": {
+      "translate": "equipment_upgrade.limatech.fortune_enchantment"
+    }
+  },
+  "effects": {
+    "limatech:enchantments": [
+      {
+        "enchantment": "minecraft:fortune"
+      }
+    ],
+    "limatech:energy_usage": [
+      {
+        "invert_color": true,
+        "op": "add_multiplied_base",
+        "simple_value": {
+          "type": "linear",
+          "base": 0.5,
+          "per_level_after_first": 0.5
+        }
+      }
+    ]
+  },
+  "exclusive_set": "#limatech:mining_drops_modifiers",
+  "max_rank": 5,
+  "supported_set": "#limatech:ltx_tools/mining"
+}

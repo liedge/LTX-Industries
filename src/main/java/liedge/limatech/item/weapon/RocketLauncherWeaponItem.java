@@ -4,6 +4,7 @@ import liedge.limatech.entity.BaseRocketEntity;
 import liedge.limatech.entity.LimaTechEntityUtil;
 import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.limatech.lib.weapons.AbstractWeaponControls;
+import liedge.limatech.registry.game.LimaTechGameEvents;
 import liedge.limatech.registry.game.LimaTechItems;
 import liedge.limatech.registry.game.LimaTechSounds;
 import liedge.limatech.util.config.LimaTechWeaponsConfig;
@@ -81,7 +82,7 @@ public class RocketLauncherWeaponItem extends SemiAutoWeaponItem
     public void onUseTick(Level level, LivingEntity livingEntity, ItemStack stack, int remainingUseDuration)
     {
         livingEntity.getExistingData(WEAPON_CONTROLS).ifPresent(controls -> {
-            if (controls.getFocusedTarget() != null && !controls.getFocusedTarget().isAlive())
+            if (controls.getFocusedTarget() != null && !LimaTechEntityUtil.isEntityAlive(controls.getFocusedTarget()))
             {
                 livingEntity.stopUsingItem();
             }
@@ -98,13 +99,13 @@ public class RocketLauncherWeaponItem extends SemiAutoWeaponItem
     }
 
     @Override
-    public int getEnergyCapacity(ItemStack stack)
+    public int getBaseEnergyCapacity(ItemStack stack)
     {
         return LimaTechWeaponsConfig.ROCKET_LAUNCHER_ENERGY_CAPACITY.getAsInt();
     }
 
     @Override
-    public int getEnergyReloadCost(ItemStack stack)
+    public int getBaseEnergyUsage(ItemStack stack)
     {
         return LimaTechWeaponsConfig.ROCKET_LAUNCHER_ENERGY_AMMO_COST.getAsInt();
     }
@@ -124,8 +125,7 @@ public class RocketLauncherWeaponItem extends SemiAutoWeaponItem
             if (focusedTarget != null && controls.getTargetTicks() > 20) missile.setTargetEntity(focusedTarget);
 
             level.addFreshEntity(missile);
-
-            postWeaponFiredGameEvent(upgrades, level, player);
+            level.gameEvent(player, LimaTechGameEvents.WEAPON_FIRED, player.getEyePosition());
         }
 
         level.playSound(player, player, LimaTechSounds.ROCKET_LAUNCHER_FIRE.get(), SoundSource.PLAYERS, 2f, Mth.randomBetween(level.random, 0.75f, 0.9f));

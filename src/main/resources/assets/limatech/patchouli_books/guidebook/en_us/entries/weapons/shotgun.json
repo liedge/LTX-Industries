@@ -7,7 +7,7 @@
     "The $(l)Aurora$() is a semi-automatic $(o)LightFrag$() weapon with a Split/Refract engine. In other words, a shotgun. It fires 7 lightfrags in a wide cone each shot. Very high damage if all pellets connect, but the lowest range of 10 m.",
     {
       "type": "patchouli:spotlight",
-      "item": "limatech:equipment_upgrade_module[limatech:equipment_upgrade={upgrade:'limatech:shotgun_built_in'}]",
+      "item": "limatech:equipment_upgrade_module[limatech:equipment_upgrade={upgrade:'limatech:shotgun_default'}]",
       "text": "This upgrade module comes pre-installed in the Aurora. Optimized for short-range brawls, Aurora's systems allow the user to step higher and move much faster."
     }
   ]

@@ -5,12 +5,10 @@ import liedge.limacore.util.LimaNetworkUtil;
 import liedge.limatech.entity.CompoundHitResult;
 import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.limatech.lib.weapons.AbstractWeaponControls;
-import liedge.limatech.registry.bootstrap.LimaTechDamageTypes;
-import liedge.limatech.registry.bootstrap.LimaTechEquipmentUpgrades;
+import liedge.limatech.registry.game.LimaTechGameEvents;
 import liedge.limatech.registry.game.LimaTechItems;
 import liedge.limatech.registry.game.LimaTechParticles;
 import liedge.limatech.util.config.LimaTechWeaponsConfig;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -26,15 +24,6 @@ public class SMGWeaponItem extends FullAutoWeaponItem
     }
 
     @Override
-    protected EquipmentUpgrades getDefaultUpgrades(HolderLookup.Provider registries)
-    {
-        return EquipmentUpgrades.builder()
-                .set(registries.holderOrThrow(LimaTechEquipmentUpgrades.SMG_BUILT_IN))
-                .set(registries.holderOrThrow(LimaTechEquipmentUpgrades.LIGHTFRAG_BASE_ARMOR_BYPASS))
-                .toImmutable();
-    }
-
-    @Override
     public void weaponFired(ItemStack heldItem, Player player, Level level, AbstractWeaponControls controls)
     {
         if (!level.isClientSide())
@@ -43,20 +32,20 @@ public class SMGWeaponItem extends FullAutoWeaponItem
             CompoundHitResult hitResult = CompoundHitResult.tracePath(level, player, 12d, inaccuracy, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, e -> 0.2d, 1);
             EquipmentUpgrades upgrades = getUpgrades(heldItem);
 
-            hitResult.entityHits().forEach(hit -> causeInstantDamage(upgrades, player, LimaTechDamageTypes.LIGHTFRAG, hit.getEntity(), LimaTechWeaponsConfig.SMG_BASE_DAMAGE.getAsDouble()));
-            postWeaponFiredGameEvent(upgrades, level, player);
+            hitResult.entityHits().forEach(hit -> causeInstantDamage(upgrades, player, hit.getEntity(), LimaTechWeaponsConfig.SMG_BASE_DAMAGE.getAsDouble()));
+            level.gameEvent(player, LimaTechGameEvents.WEAPON_FIRED, player.getEyePosition());
             LimaNetworkUtil.spawnAlwaysVisibleParticle(level, LimaTechParticles.LIGHTFRAG_TRACER, hitResult.origin(), hitResult.impact().getLocation());
         }
     }
 
     @Override
-    public int getEnergyCapacity(ItemStack stack)
+    public int getBaseEnergyCapacity(ItemStack stack)
     {
         return LimaTechWeaponsConfig.SMG_ENERGY_CAPACITY.getAsInt();
     }
 
     @Override
-    public int getEnergyReloadCost(ItemStack stack)
+    public int getBaseEnergyUsage(ItemStack stack)
     {
         return LimaTechWeaponsConfig.SMG_ENERGY_AMMO_COST.getAsInt();
     }

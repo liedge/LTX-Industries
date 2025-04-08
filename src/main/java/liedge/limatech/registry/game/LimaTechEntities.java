@@ -1,7 +1,7 @@
 package liedge.limatech.registry.game;
 
 import liedge.limatech.LimaTech;
-import liedge.limatech.entity.LimaTechProjectile;
+import liedge.limatech.entity.LimaTraceableProjectile;
 import liedge.limatech.entity.BaseRocketEntity;
 import liedge.limatech.entity.OrbGrenadeEntity;
 import liedge.limatech.entity.StickyFlameEntity;
@@ -40,7 +40,7 @@ public final class LimaTechEntities
         });
     }
 
-    private static <T extends LimaTechProjectile> DeferredHolder<EntityType<?>, EntityType<T>> projectile(String name, EntityType.EntityFactory<T> factory, float width, float height, int updateInterval)
+    private static <T extends LimaTraceableProjectile> DeferredHolder<EntityType<?>, EntityType<T>> projectile(String name, EntityType.EntityFactory<T> factory, float width, float height, int updateInterval)
     {
         return register(name, factory, MobCategory.MISC, builder -> builder.sized(width, height).clientTrackingRange(10).updateInterval(updateInterval).fireImmune());
     }

@@ -1,6 +1,6 @@
 package liedge.limatech.registry.game;
 
-import liedge.limacore.capability.energy.EnergyContainerSpec;
+import liedge.limacore.capability.energy.ItemEnergyProperties;
 import liedge.limacore.registry.DeferredBlockWithItem;
 import liedge.limacore.registry.LimaDeferredBlocksWithItems;
 import liedge.limacore.registry.game.LimaCoreDataComponents;
@@ -8,8 +8,8 @@ import liedge.limacore.util.LimaCollectionsUtil;
 import liedge.limatech.LimaTech;
 import liedge.limatech.block.*;
 import liedge.limatech.item.ContentsTooltipBlockItem;
+import liedge.limatech.item.ESABlockItem;
 import liedge.limatech.item.EnergyHolderItem;
-import liedge.limatech.item.EnergyStorageArrayItem;
 import liedge.limatech.item.LimaTechRarities;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -43,9 +43,10 @@ public final class LimaTechBlocks
     public static void register(IEventBus bus)
     {
         BLOCKS.register(bus);
+        bus.addListener(RegisterCapabilitiesEvent.class, LimaTechBlocks::registerCapabilities);
     }
 
-    public static void registerCapabilities(RegisterCapabilitiesEvent event)
+    private static void registerCapabilities(RegisterCapabilitiesEvent event)
     {
         // Energy container block items
         event.registerItem(Capabilities.EnergyStorage.ITEM, (stack, $) -> EnergyHolderItem.createEnergyAccess(stack), ENERGY_STORAGE_ARRAY, INFINITE_ENERGY_STORAGE_ARRAY);
@@ -74,8 +75,8 @@ public final class LimaTechBlocks
     public static final Map<DyeColor, DeferredBlock<Block>> GLOW_BLOCKS = LimaCollectionsUtil.fillAndCreateImmutableEnumMap(DyeColor.class, color -> BLOCKS.registerSimpleBlockAndItem(color.getSerializedName() + "_glow_block", of().mapColor(color).sound(SoundType.GLASS).strength(2f).lightLevel(state -> 15)));
 
     // Machinery
-    public static final DeferredBlockWithItem<EnergyStorageArrayBlock, EnergyStorageArrayItem> ENERGY_STORAGE_ARRAY = BLOCKS.registerBlockAndItem("energy_storage_array", () -> new EnergyStorageArrayBlock(machineProperties().noOcclusion(), false), block -> new EnergyStorageArrayItem(block, new Item.Properties().stacksTo(1), false));
-    public static final DeferredBlockWithItem<EnergyStorageArrayBlock, EnergyStorageArrayItem> INFINITE_ENERGY_STORAGE_ARRAY = BLOCKS.registerBlockAndItem("infinite_energy_storage_array", () -> new EnergyStorageArrayBlock(machineProperties().noOcclusion(), true), block -> new EnergyStorageArrayItem(block, new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).component(LimaCoreDataComponents.ENERGY_SPEC, EnergyContainerSpec.INFINITE), true));
+    public static final DeferredBlockWithItem<EnergyStorageArrayBlock, ESABlockItem> ENERGY_STORAGE_ARRAY = BLOCKS.registerBlockAndItem("energy_storage_array", () -> new EnergyStorageArrayBlock(machineProperties().noOcclusion(), false), block -> new ESABlockItem(block, new Item.Properties().stacksTo(1), false));
+    public static final DeferredBlockWithItem<EnergyStorageArrayBlock, ESABlockItem> INFINITE_ENERGY_STORAGE_ARRAY = BLOCKS.registerBlockAndItem("infinite_energy_storage_array", () -> new EnergyStorageArrayBlock(machineProperties().noOcclusion(), true), block -> new ESABlockItem(block, new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).component(LimaCoreDataComponents.ENERGY_PROPERTIES, ItemEnergyProperties.INFINITE), true));
     public static final DeferredBlockWithItem<BasicHorizontalMachineBlock, ContentsTooltipBlockItem> DIGITAL_FURNACE = BLOCKS.registerBlockAndItem("digital_furnace", () -> new BasicHorizontalMachineBlock(machineProperties()), block -> new ContentsTooltipBlockItem(block, new Item.Properties().stacksTo(1), true, true));
     public static final DeferredBlockWithItem<BasicHorizontalMachineBlock, ContentsTooltipBlockItem> GRINDER = BLOCKS.registerBlockAndItem("grinder", () -> new BasicHorizontalMachineBlock(machineProperties()), block -> new ContentsTooltipBlockItem(block, new Item.Properties().stacksTo(1), true, true));
     public static final DeferredBlockWithItem<BasicHorizontalMachineBlock, ContentsTooltipBlockItem> RECOMPOSER = BLOCKS.registerBlockAndItem("recomposer", () -> new BasicHorizontalMachineBlock(machineProperties()), block -> new ContentsTooltipBlockItem(block, new Item.Properties().stacksTo(1), true, true));

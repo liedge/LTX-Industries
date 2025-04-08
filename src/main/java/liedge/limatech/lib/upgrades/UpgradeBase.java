@@ -1,11 +1,12 @@
 package liedge.limatech.lib.upgrades;
 
-import com.mojang.datafixers.util.Function7;
+import com.mojang.datafixers.util.Function5;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.netty.buffer.ByteBuf;
 import liedge.limacore.client.LimaComponentUtil;
 import liedge.limacore.network.LimaStreamCodecs;
+import liedge.limacore.util.LimaRegistryUtil;
 import liedge.limatech.lib.upgrades.effect.UpgradeDataComponentType;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
@@ -16,10 +17,10 @@ import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.TypedDataComponent;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceKey;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -33,19 +34,21 @@ public interface UpgradeBase<CTX, U extends UpgradeBase<CTX, U>>
     static <CTX, U extends UpgradeBase<CTX, U>> Codec<U> createDirectCodec(ResourceKey<Registry<CTX>> contextRegistryKey, ResourceKey<Registry<U>> upgradesRegistryKey, UpgradeFactory<CTX, U> factory)
     {
         return RecordCodecBuilder.create(instance -> instance.group(
-                ComponentSerialization.CODEC.fieldOf("title").forGetter(UpgradeBase::title),
-                ComponentSerialization.CODEC.fieldOf("description").forGetter(UpgradeBase::description),
+                UpgradeDisplayInfo.CODEC.fieldOf("display").forGetter(UpgradeBase::display),
                 UPGRADE_RANK_CODEC.optionalFieldOf("max_rank", 1).forGetter(UpgradeBase::maxRank),
                 RegistryCodecs.homogeneousList(contextRegistryKey).fieldOf("supported_set").forGetter(UpgradeBase::supportedSet),
                 RegistryCodecs.homogeneousList(upgradesRegistryKey).fieldOf("exclusive_set").forGetter(UpgradeBase::exclusiveSet),
-                COMPONENT_MAP_CODEC.fieldOf("effects").forGetter(UpgradeBase::effects),
-                UpgradeIcon.CODEC.optionalFieldOf("icon", UpgradeIcon.DEFAULT_ICON).forGetter(UpgradeBase::icon))
+                COMPONENT_MAP_CODEC.fieldOf("effects").forGetter(UpgradeBase::effects))
                 .apply(instance, factory));
     }
 
-    Component title();
+    static <U extends UpgradeBase<?, U>> Comparator<Holder<U>> comparingCategoryThenId()
+    {
+        return Comparator.<Holder<U>, String>comparing(holder -> holder.value().display().category(), Comparator.comparing(String::isEmpty).thenComparing(Comparator.naturalOrder()))
+                .thenComparing(holder -> LimaRegistryUtil.getNonNullRegistryId(holder));
+    }
 
-    Component description();
+    UpgradeDisplayInfo display();
 
     int maxRank();
 
@@ -54,8 +57,6 @@ public interface UpgradeBase<CTX, U extends UpgradeBase<CTX, U>>
     HolderSet<U> exclusiveSet();
 
     DataComponentMap effects();
-
-    UpgradeIcon icon();
 
     default void applyEffectsTooltips(int upgradeRank, Consumer<Component> consumer)
     {
@@ -89,14 +90,14 @@ public interface UpgradeBase<CTX, U extends UpgradeBase<CTX, U>>
     }
 
     @FunctionalInterface
-    interface UpgradeFactory<CTX, U extends UpgradeBase<CTX, U>> extends Function7<Component, Component, Integer, HolderSet<CTX>, HolderSet<U>, DataComponentMap, UpgradeIcon, U>
+    interface UpgradeFactory<CTX, U extends UpgradeBase<CTX, U>> extends Function5<UpgradeDisplayInfo, Integer, HolderSet<CTX>, HolderSet<U>, DataComponentMap, U>
     {
-        U newInstance(Component title, Component description, int maxRank, HolderSet<CTX> supportedSet, HolderSet<U> exclusiveSet, DataComponentMap effects, UpgradeIcon icon);
+        U create(UpgradeDisplayInfo displayInfo, int maxRank, HolderSet<CTX> supportedSet, HolderSet<U> exclusiveSet, DataComponentMap effects);
 
         @Override
-        default U apply(Component title, Component description, Integer maxRank, HolderSet<CTX> supportedSet, HolderSet<U> exclusiveSet, DataComponentMap effects, UpgradeIcon icon)
+        default U apply(UpgradeDisplayInfo display, Integer maxRank, HolderSet<CTX> supportedSet, HolderSet<U> exclusiveSet, DataComponentMap effects)
         {
-            return newInstance(title, description, maxRank, supportedSet, exclusiveSet, effects, icon);
+            return create(display, maxRank, supportedSet, exclusiveSet, effects);
         }
     }
 }

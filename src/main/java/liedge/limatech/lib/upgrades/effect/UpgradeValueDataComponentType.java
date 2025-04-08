@@ -19,7 +19,7 @@ public abstract class UpgradeValueDataComponentType<T> extends UpgradeDataCompon
     private UpgradeValueDataComponentType(ResourceLocation id, Codec<T> codec)
     {
         super(codec);
-        this.descriptionId = ModResources.prefixIdTranslationKey("value_effect", id);
+        this.descriptionId = ModResources.prefixedIdLangKey("value_effect", id);
     }
 
     @Override

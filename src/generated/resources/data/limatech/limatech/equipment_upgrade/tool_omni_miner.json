@@ -1,0 +1,27 @@
+{
+  "display": {
+    "description": {
+      "translate": "equipment_upgrade.limatech.tool_omni_miner.desc"
+    },
+    "icon": "limatech:omni_miner",
+    "title": {
+      "color": "#9DF143",
+      "translate": "equipment_upgrade.limatech.tool_omni_miner"
+    }
+  },
+  "effects": {
+    "limatech:tool_profile": {
+      "rules": [
+        {
+          "blocks": {
+            "type": "neoforge:any"
+          },
+          "correct_for_drops": true,
+          "speed": 13.0
+        }
+      ]
+    }
+  },
+  "exclusive_set": [],
+  "supported_set": "#limatech:ltx_tools/mining"
+}

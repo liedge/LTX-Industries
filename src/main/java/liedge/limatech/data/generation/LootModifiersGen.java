@@ -13,8 +13,7 @@ import java.util.concurrent.CompletableFuture;
 import static liedge.limacore.util.LimaLootUtil.specificLootTable;
 import static liedge.limacore.world.loot.LootModifierBuilder.rollLootTable;
 import static liedge.limatech.LimaTech.RESOURCES;
-import static liedge.limatech.registry.LimaTechLootTables.ENEMY_AMMO_DROPS;
-import static liedge.limatech.registry.LimaTechLootTables.ENTITY_EXTRA_DROPS;
+import static liedge.limatech.registry.LimaTechLootTables.*;
 
 class LootModifiersGen extends LimaLootModifierProvider
 {
@@ -28,6 +27,7 @@ class LootModifiersGen extends LimaLootModifierProvider
     {
         add("enemy_ammo_drops", rollLootTable(ENEMY_AMMO_DROPS).killedByPlayer());
         add("extra_drops", rollLootTable(ENTITY_EXTRA_DROPS).killedByPlayer());
+        add("razor_loot_table", rollLootTable(RAZOR_LOOT_TABLE).killedByPlayer());
 
         add("explosives_salvage_loot", AddItemLootModifier.addItem(LimaTechItems.EXPLOSIVES_WEAPON_TECH_SALVAGE)
                 .requires(specificLootTable(BuiltInLootTables.NETHER_BRIDGE))

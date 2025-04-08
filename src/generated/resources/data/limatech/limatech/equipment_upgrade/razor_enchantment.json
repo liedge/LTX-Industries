@@ -1,6 +1,13 @@
 {
-  "description": {
-    "translate": "equipment_upgrade.limatech.razor_enchantment.desc"
+  "display": {
+    "category": "enchants",
+    "description": {
+      "translate": "equipment_upgrade.limatech.razor_enchantment.desc"
+    },
+    "icon": "limatech:razor_enchant",
+    "title": {
+      "translate": "equipment_upgrade.limatech.razor_enchantment"
+    }
   },
   "effects": {
     "limatech:enchantments": [
@@ -10,10 +17,6 @@
     ]
   },
   "exclusive_set": [],
-  "icon": "limatech:razor_enchant",
   "max_rank": 5,
-  "supported_set": "#limatech:ltx_weapons",
-  "title": {
-    "translate": "equipment_upgrade.limatech.razor_enchantment.title"
-  }
+  "supported_set": "#limatech:ltx_weapons/all"
 }

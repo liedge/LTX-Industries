@@ -15,6 +15,7 @@ import java.util.concurrent.CompletableFuture;
 import static liedge.limatech.LimaTechTags.Blocks.*;
 import static liedge.limatech.registry.game.LimaTechBlocks.*;
 import static net.minecraft.tags.BlockTags.*;
+import static net.minecraft.world.level.block.Blocks.*;
 import static net.neoforged.neoforge.common.Tags.Blocks.*;
 
 class BlockTagsGen extends LimaTagsProvider.RegistryTags<Block>
@@ -48,8 +49,10 @@ class BlockTagsGen extends LimaTagsProvider.RegistryTags<Block>
         buildTag(TITANIUM_STORAGE_BLOCKS).add(TITANIUM_BLOCK);
         buildTag(NIOBIUM_STORAGE_BLOCKS).add(NIOBIUM_BLOCK);
         buildTag(SLATE_ALLOY_STORAGE_BLOCKS).add(SLATE_ALLOY_BLOCK);
+        buildTag(SHEARS_HARVESTABLE).add(COBWEB, SHORT_GRASS, FERN, DEAD_BUSH, HANGING_ROOTS, VINE, TRIPWIRE).addTag(WOOL).addTag(LEAVES);
 
         buildTag(DEEPSLATE_GRINDABLES).add(Blocks.DEEPSLATE, Blocks.COBBLED_DEEPSLATE, Blocks.POLISHED_DEEPSLATE, Blocks.DEEPSLATE_BRICKS, Blocks.CRACKED_DEEPSLATE_BRICKS, Blocks.DEEPSLATE_TILES, Blocks.CRACKED_DEEPSLATE_TILES);
+        buildTag(WRENCH_BREAKABLE).add(DIGITAL_FURNACE, GRINDER, RECOMPOSER, MATERIAL_FUSING_CHAMBER, FABRICATOR, EQUIPMENT_UPGRADE_STATION, ENERGY_STORAGE_ARRAY, INFINITE_ENERGY_STORAGE_ARRAY, ROCKET_TURRET, RAILGUN_TURRET);
 
         buildTag(STORAGE_BLOCKS).addTags(RAW_TITANIUM_STORAGE_BLOCKS, RAW_NIOBIUM_STORAGE_BLOCKS, TITANIUM_STORAGE_BLOCKS, NIOBIUM_STORAGE_BLOCKS, SLATE_ALLOY_STORAGE_BLOCKS);
     }

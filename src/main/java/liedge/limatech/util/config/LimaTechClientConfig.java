@@ -27,7 +27,7 @@ public final class LimaTechClientConfig
     private static boolean solidCrosshairColor;
     private static LimaColor crosshairColor = LimaColor.WHITE;
 
-    public static void onConfigLoaded(final ModConfigEvent event)
+    public static void reCacheConfigValues(final ModConfigEvent event)
     {
         if (event.getConfig().getSpec() == CLIENT_CONFIG_SPEC)
         {

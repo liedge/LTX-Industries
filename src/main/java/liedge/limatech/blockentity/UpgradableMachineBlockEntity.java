@@ -55,7 +55,7 @@ public interface UpgradableMachineBlockEntity extends SubMenuProviderBlockEntity
         // Apply to timed process machines
         if (this instanceof TimedProcessMachineBlockEntity processMachine)
         {
-            double newEnergyUsage = upgrades.applyValue(LimaTechUpgradeEffectComponents.MACHINE_ENERGY_USAGE, context, processMachine.getBaseEnergyUsage());
+            double newEnergyUsage = upgrades.applyValue(LimaTechUpgradeEffectComponents.ENERGY_USAGE, context, processMachine.getBaseEnergyUsage());
             double newProcessingTime = upgrades.applyValue(LimaTechUpgradeEffectComponents.TICKS_PER_OPERATION, context, processMachine.getBaseTicksPerOperation());
 
             processMachine.setEnergyUsage(LimaMathUtil.round(newEnergyUsage));

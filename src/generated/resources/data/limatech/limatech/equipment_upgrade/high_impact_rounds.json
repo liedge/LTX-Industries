@@ -1,25 +1,41 @@
 {
-  "description": {
-    "translate": "equipment_upgrade.limatech.high_impact_rounds.desc"
+  "display": {
+    "description": {
+      "translate": "equipment_upgrade.limatech.high_impact_rounds.desc"
+    },
+    "icon": "limatech:powerful_lightfrag",
+    "title": {
+      "translate": "equipment_upgrade.limatech.high_impact_rounds"
+    }
   },
   "effects": {
     "limatech:pre_attack": [
       {
         "affected": "victim",
         "effect": {
-          "type": "limatech:dynamic_damage_tag",
-          "tag": "limacore:ignores_knockback_resistance"
+          "type": "limatech:damage_attribute",
+          "attribute": "minecraft:generic.knockback_resistance",
+          "modifier": {
+            "amount": -1.0,
+            "id": "limatech:high_impact_rounds.knockback_resist",
+            "operation": "add_multiplied_total"
+          }
         },
         "enchanted": "attacker"
       },
       {
         "affected": "victim",
         "effect": {
-          "type": "limatech:knockback_strength",
-          "amount": {
-            "type": "minecraft:linear",
-            "base": 1.5,
-            "per_level_above_first": 1.5
+          "type": "limatech:damage_attribute",
+          "attribute": "limacore:knockback_multiplier",
+          "modifier": {
+            "amount": {
+              "type": "minecraft:linear",
+              "base": 2.0,
+              "per_level_above_first": 2.0
+            },
+            "id": "limatech:high_impact_rounds.knockback",
+            "operation": "add_value"
           }
         },
         "enchanted": "attacker"
@@ -27,12 +43,8 @@
     ]
   },
   "exclusive_set": [],
-  "icon": "limatech:powerful_lightfrag",
   "supported_set": [
     "limatech:shotgun",
     "limatech:magnum"
-  ],
-  "title": {
-    "translate": "equipment_upgrade.limatech.high_impact_rounds.title"
-  }
+  ]
 }

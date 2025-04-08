@@ -1,12 +1,18 @@
 {
-  "description": {
-    "translate": "equipment_upgrade.limatech.grenade_launcher_projectile_speed.desc"
+  "display": {
+    "description": {
+      "translate": "equipment_upgrade.limatech.grenade_launcher_projectile_speed.desc"
+    },
+    "icon": "limatech:grenade_speed_boost",
+    "title": {
+      "translate": "equipment_upgrade.limatech.grenade_launcher_projectile_speed"
+    }
   },
   "effects": {
     "limatech:weapon_projectile_speed": [
       {
         "op": "flat_addition",
-        "value": {
+        "simple_value": {
           "type": "linear",
           "base": 0.5,
           "per_level_after_first": 0.5
@@ -15,10 +21,6 @@
     ]
   },
   "exclusive_set": [],
-  "icon": "limatech:grenade_speed_boost",
   "max_rank": 2,
-  "supported_set": "limatech:grenade_launcher",
-  "title": {
-    "translate": "equipment_upgrade.limatech.grenade_launcher_projectile_speed.title"
-  }
+  "supported_set": "limatech:grenade_launcher"
 }

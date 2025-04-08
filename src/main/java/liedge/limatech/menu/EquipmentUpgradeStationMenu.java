@@ -113,7 +113,6 @@ public class EquipmentUpgradeStationMenu extends UpgradesConfigMenu<EquipmentUpg
             {
                 EquipmentUpgrades newUpgrades = currentUpgrades.toMutableContainer().set(data.upgrade(), data.upgradeRank()).toImmutable();
                 equipmentItem.setUpgrades(equipmentStack, newUpgrades);
-                //equipmentItem.refreshEquipmentUpgrades(equipmentStack, newUpgrades);
                 beInventory.setStackInSlot(EQUIPMENT_ITEM_SLOT, equipmentStack);
                 beInventory.extractItem(UPGRADE_INPUT_SLOT, 1, false);
             }
@@ -144,9 +143,6 @@ public class EquipmentUpgradeStationMenu extends UpgradesConfigMenu<EquipmentUpg
                 {
                     EquipmentUpgrades newUpgrades = currentUpgrades.toMutableContainer().remove(upgradeHolder).toImmutable();
                     equipmentItem.setUpgrades(equipmentStack, newUpgrades);
-
-                    //equipmentItem.refreshEquipmentUpgrades(equipmentStack, newUpgrades);
-
                     invWrapper.insertItem(nextSlot, upgradeModuleItem, false);
                     beInventory.setStackInSlot(EQUIPMENT_ITEM_SLOT, equipmentStack);
                 }

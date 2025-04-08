@@ -27,6 +27,7 @@ import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
@@ -39,6 +40,13 @@ import static liedge.limatech.registry.game.LimaTechParticles.*;
 public final class LimaTechClientSetup
 {
     private LimaTechClientSetup() {}
+
+    @SubscribeEvent
+    public static void onClientSetup(final FMLClientSetupEvent event)
+    {
+        // Register item overrides
+        event.enqueueWork(LimaTechItemOverrides::registerOverrides);
+    }
 
     @SubscribeEvent
     public static void registerBlockColorHandlers(final RegisterColorHandlersEvent.Block event)

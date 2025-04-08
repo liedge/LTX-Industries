@@ -42,7 +42,7 @@ public class EnergyGaugeWidget extends FillBarWidget.VerticalBar
     @Override
     public void createWidgetTooltip(TooltipLineConsumer consumer)
     {
-        LimaTechTooltipUtil.appendExtendedEnergyTooltip(consumer, energyStorage.getEnergyStored(), energyStorage.getMaxEnergyStored(), energyStorage.getTransferRate());
+        LimaTechTooltipUtil.appendStorageEnergyTooltip(consumer, energyStorage.getEnergyStored(), energyStorage.getMaxEnergyStored(), energyStorage.getTransferRate());
         if (getFillPercentage() > 1) consumer.accept(LimaTechLang.ENERGY_OVERCHARGE_TOOLTIP.translate().withStyle(HOSTILE_ORANGE.chatStyle()));
     }
 }

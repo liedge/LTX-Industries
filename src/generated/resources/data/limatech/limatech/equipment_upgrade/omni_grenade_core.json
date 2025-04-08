@@ -1,6 +1,13 @@
 {
-  "description": {
-    "translate": "equipment_upgrade.limatech.omni_grenade_core.desc"
+  "display": {
+    "category": "grenade_cores",
+    "description": {
+      "translate": "equipment_upgrade.limatech.omni_grenade_core.desc"
+    },
+    "icon": "limatech:omni_grenade_core",
+    "title": {
+      "translate": "equipment_upgrade.limatech.omni_grenade_core"
+    }
   },
   "effects": {
     "limatech:grenade_unlock": [
@@ -12,9 +19,5 @@
     ]
   },
   "exclusive_set": [],
-  "icon": "limatech:omni_grenade_core",
-  "supported_set": "limatech:grenade_launcher",
-  "title": {
-    "translate": "equipment_upgrade.limatech.omni_grenade_core.title"
-  }
+  "supported_set": "limatech:grenade_launcher"
 }

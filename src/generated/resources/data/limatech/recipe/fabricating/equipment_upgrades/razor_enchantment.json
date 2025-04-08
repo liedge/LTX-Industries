@@ -12,12 +12,20 @@
       "item": "limatech:copper_circuit"
     },
     {
-      "count": 1,
-      "item": "limatech:titanium_sword"
+      "count": 8,
+      "item": "limatech:titanium_ingot"
     },
     {
       "count": 1,
-      "item": "limatech:titanium_shears"
+      "item": "minecraft:zombie_head"
+    },
+    {
+      "count": 1,
+      "item": "minecraft:creeper_head"
+    },
+    {
+      "count": 1,
+      "item": "minecraft:skeleton_skull"
     }
   ],
   "result": {

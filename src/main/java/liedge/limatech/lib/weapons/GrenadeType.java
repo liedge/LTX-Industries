@@ -16,7 +16,7 @@ import net.neoforged.neoforge.network.codec.NeoForgeStreamCodecs;
 
 import static liedge.limatech.LimaTechConstants.*;
 
-public enum GrenadeType implements StringRepresentable, Translatable, OrderedEnum<GrenadeType>, EffectTooltipProvider
+public enum GrenadeType implements StringRepresentable, Translatable, OrderedEnum<GrenadeType>, EffectTooltipProvider.SingleLine
 {
     EXPLOSIVE("explosive", EXPLOSIVE_GRAY),
     FLAME("flame", FLAME_ORANGE),

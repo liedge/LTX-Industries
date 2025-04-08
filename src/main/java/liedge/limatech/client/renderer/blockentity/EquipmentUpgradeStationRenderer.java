@@ -29,7 +29,7 @@ public class EquipmentUpgradeStationRenderer extends LimaBlockEntityRenderer<Equ
 
             Direction facing = blockEntity.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING);
 
-            poseStack.translate(0.5d, 0.9d, 0.5d);
+            poseStack.translate(0.5d, 0.859375d, 0.5d);
 
             float angle = switch (facing)
             {

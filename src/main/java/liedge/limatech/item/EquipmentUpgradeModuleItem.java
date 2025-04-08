@@ -4,11 +4,10 @@ import liedge.limacore.lib.Translatable;
 import liedge.limatech.client.LimaTechLang;
 import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrade;
 import liedge.limatech.lib.upgrades.equipment.EquipmentUpgradeEntry;
+import liedge.limatech.registry.LimaTechRegistries;
 import liedge.limatech.registry.game.LimaTechCreativeTabs;
 import liedge.limatech.registry.game.LimaTechItems;
-import liedge.limatech.registry.LimaTechRegistries;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.network.chat.Style;
@@ -28,11 +27,6 @@ public class EquipmentUpgradeModuleItem extends UpgradeModuleItem<EquipmentUpgra
         ItemStack stack = new ItemStack(LimaTechItems.EQUIPMENT_UPGRADE_MODULE.get());
         stack.set(EQUIPMENT_UPGRADE_ENTRY, new EquipmentUpgradeEntry(upgradeHolder, upgradeRank));
         return stack;
-    }
-
-    public static ItemStack createStack(HolderLookup.Provider registries, ResourceKey<EquipmentUpgrade> upgradeKey, int upgradeRank)
-    {
-        return createStack(registries.holderOrThrow(upgradeKey), upgradeRank);
     }
 
     public EquipmentUpgradeModuleItem(Properties properties)

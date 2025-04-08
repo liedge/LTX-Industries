@@ -61,36 +61,6 @@ class LootTablesGen extends LimaLootTableProvider
     {
         addSubProvider(EntityBonusDrops::new, LootContextParamSets.ENTITY);
         addSubProvider(BlockDrops::new, LootContextParamSets.BLOCK);
-        addSubProvider(EnchantedDamageTables::new, LootContextParamSets.ENCHANTED_DAMAGE);
-    }
-
-    private static class EnchantedDamageTables extends LimaLootSubProvider
-    {
-        EnchantedDamageTables(HolderLookup.Provider registries)
-        {
-            super(registries);
-        }
-
-        @Override
-        protected void generateTables(HolderLookup.Provider registries)
-        {
-            Holder<Enchantment> razorEnchant = registries.holderOrThrow(LimaTechEnchantments.RAZOR);
-
-            LootPool.Builder razorDragonHead = LootPool.lootPool()
-                    .when(needsEntityType(EntityType.ENDER_DRAGON))
-                    .when(LimaLootUtil.randomChanceWithEnchantBonus(razorEnchant, 0f, EnhancedLookupLevelBasedValue.offsetLookup(4, 0f, 1f, 0.5f)))
-                    .add(lootItem(Items.DRAGON_HEAD));
-
-            LootPool.Builder razorGeneralHeads = LootPool.lootPool().when(LimaLootUtil.randomChanceLinearEnchantBonus(razorEnchant, 0f, 0.1f))
-                    .add(lootItem(Items.ZOMBIE_HEAD).when(needsEntityTag(EntityTypeTags.ZOMBIES)))
-                    .add(lootItem(Items.SKELETON_SKULL).when(needsEntityTag(EntityTypeTags.SKELETONS)).when(needsEntityType(EntityType.WITHER_SKELETON).invert()))
-                    .add(lootItem(Items.CREEPER_HEAD).when(needsEntityType(EntityType.CREEPER)))
-                    .add(lootItem(Items.PIGLIN_HEAD).when(needsEntityType(EntityType.PIGLIN)))
-                    .add(lootItem(Items.WITHER_SKELETON_SKULL).when(needsEntityType(EntityType.WITHER_SKELETON)))
-                    .add(lootItem(Items.PLAYER_HEAD).when(needsEntityType(EntityType.PLAYER)).apply(FillPlayerHead.fillPlayerHead(LootContext.EntityTarget.THIS)));
-
-            addTable(RAZOR_LOOT_TABLE, LootTable.lootTable().withPool(razorDragonHead).withPool(razorGeneralHeads));
-        }
     }
 
     private static class EntityBonusDrops extends LimaLootSubProvider
@@ -125,6 +95,7 @@ class LootTablesGen extends LimaLootTableProvider
                     .withPool(phantomDrops)
                     .withPool(wardenDrops));
 
+            // Ammo drops table
             LootPool.Builder ammoDrops = LootPool.lootPool()
                     .when(LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity().subPredicate(HostileEntitySubPredicate.INSTANCE)))
                     .when(LootItemRandomChanceWithEnchantedBonusCondition.randomChanceAndLootingBoost(registries, 0.1f, 0.02f))
@@ -136,6 +107,20 @@ class LootTablesGen extends LimaLootTableProvider
                     .setRolls(RoundingNumberProvider.of(TargetedEnchantmentLevelProvider.of(LootContext.EntityTarget.ATTACKER, ammoScavengerEnchantment, EnhancedLookupLevelBasedValue.offsetLookup(4, 1, 2, 1.5f)), LimaRoundingMode.RANDOM));
 
             addTable(ENEMY_AMMO_DROPS, LootTable.lootTable().withPool(ammoDrops));
+
+            // Razor enchantment loot table
+            LootPool.Builder razorGeneralHeads = LootPool.lootPool().when(LimaLootUtil.randomChanceLinearEnchantBonus(razorEnchantment, 0f, 0.1f))
+                    .add(lootItem(Items.ZOMBIE_HEAD).when(needsEntityTag(EntityTypeTags.ZOMBIES)))
+                    .add(lootItem(Items.SKELETON_SKULL).when(needsEntityTag(EntityTypeTags.SKELETONS)).when(needsEntityType(EntityType.WITHER_SKELETON).invert()))
+                    .add(lootItem(Items.CREEPER_HEAD).when(needsEntityType(EntityType.CREEPER)))
+                    .add(lootItem(Items.PIGLIN_HEAD).when(needsEntityType(EntityType.PIGLIN)))
+                    .add(lootItem(Items.WITHER_SKELETON_SKULL).when(needsEntityType(EntityType.WITHER_SKELETON)))
+                    .add(lootItem(Items.PLAYER_HEAD).when(needsEntityType(EntityType.PLAYER)).apply(FillPlayerHead.fillPlayerHead(LootContext.EntityTarget.THIS)));
+            LootPool.Builder razorDragonHead = LootPool.lootPool()
+                    .when(needsEntityType(EntityType.ENDER_DRAGON))
+                    .when(LimaLootUtil.randomChanceWithEnchantBonus(razorEnchantment, 0f, EnhancedLookupLevelBasedValue.offsetLookup(4, 0f, 1f, 0.5f)))
+                    .add(lootItem(Items.DRAGON_HEAD));
+            addTable(RAZOR_LOOT_TABLE, LootTable.lootTable().withPool(razorGeneralHeads).withPool(razorDragonHead));
         }
     }
 

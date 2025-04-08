@@ -12,6 +12,8 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.StringRepresentable;
 import net.neoforged.neoforge.network.codec.NeoForgeStreamCodecs;
 
+import java.util.function.Consumer;
+
 public enum WeaponAmmoSource implements StringRepresentable, EffectTooltipProvider
 {
     NORMAL("normal"),
@@ -42,13 +44,12 @@ public enum WeaponAmmoSource implements StringRepresentable, EffectTooltipProvid
     }
 
     @Override
-    public Component getEffectTooltip(int upgradeRank)
+    public void appendEffectLines(int upgradeRank, Consumer<Component> linesConsumer)
     {
-        return switch (this)
+        switch (this)
         {
-            case COMMON_ENERGY_UNIT -> LimaTechLang.ENERGY_AMMO_EFFECT.translate().withStyle(LimaTechConstants.REM_BLUE.chatStyle());
+            case COMMON_ENERGY_UNIT -> linesConsumer.accept(LimaTechLang.ENERGY_AMMO_EFFECT.translate().withStyle(LimaTechConstants.REM_BLUE.chatStyle()));
             case INFINITE -> LimaTechLang.INFINITE_AMMO_EFFECT.translate().withStyle(LimaTechConstants.CREATIVE_PINK.chatStyle());
-            default -> Component.empty();
-        };
+        }
     }
 }

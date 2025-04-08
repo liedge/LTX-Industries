@@ -10,7 +10,7 @@ import liedge.limacore.inventory.menu.LimaMenuProvider;
 import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limacore.network.sync.AutomaticDataWatcher;
 import liedge.limatech.item.EquipmentUpgradeModuleItem;
-import liedge.limatech.item.weapon.WeaponItem;
+import liedge.limatech.item.UpgradableEquipmentItem;
 import liedge.limatech.registry.game.LimaTechBlockEntities;
 import liedge.limatech.registry.game.LimaTechMenus;
 import net.minecraft.core.BlockPos;
@@ -62,7 +62,7 @@ public class EquipmentUpgradeStationBlockEntity extends LimaBlockEntity implemen
     {
         if (slot == EQUIPMENT_ITEM_SLOT)
         {
-            return stack.getItem() instanceof WeaponItem;
+            return stack.getItem() instanceof UpgradableEquipmentItem; // All upgradeable equipment
         }
         else
         {

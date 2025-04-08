@@ -1,6 +1,5 @@
 {
   "values": [
-    "limatech:lightfrag",
-    "limatech:magnum_lightfrag"
+    "#limatech:weapon_damage"
   ]
 }

@@ -2,9 +2,12 @@ package liedge.limatech.registry.game;
 
 import liedge.limatech.LimaTech;
 import liedge.limatech.item.*;
+import liedge.limatech.item.tool.*;
 import liedge.limatech.item.weapon.*;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.capabilities.Capabilities;
@@ -19,7 +22,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Collection;
 import java.util.function.Function;
 
-import static liedge.limacore.util.LimaItemUtil.*;
 import static liedge.limatech.item.LimaTechRarities.ltxGearRarity;
 
 public final class LimaTechItems
@@ -31,11 +33,14 @@ public final class LimaTechItems
     public static void register(IEventBus bus)
     {
         ITEMS.register(bus);
+        bus.addListener(RegisterCapabilitiesEvent.class, LimaTechItems::registerCapabilities);
     }
 
-    public static void registerCapabilities(RegisterCapabilitiesEvent event)
+    private static void registerCapabilities(RegisterCapabilitiesEvent event)
     {
-        event.registerItem(Capabilities.EnergyStorage.ITEM, (stack, $) -> EnergyHolderItem.createEnergyAccess(stack), SUBMACHINE_GUN, SHOTGUN, GRENADE_LAUNCHER, ROCKET_LAUNCHER, MAGNUM);
+        event.registerItem(Capabilities.EnergyStorage.ITEM, (stack, $) -> EnergyHolderItem.createEnergyAccess(stack),
+                LTX_SWORD, LTX_SHOVEL, LTX_PICKAXE, LTX_AXE, LTX_HOE, LTX_SHEARS, LTX_BRUSH, LTX_FISHING_ROD, LTX_LIGHTER, LTX_WRENCH,
+                SUBMACHINE_GUN, SHOTGUN, GRENADE_LAUNCHER, ROCKET_LAUNCHER, MAGNUM);
     }
 
     static Collection<DeferredHolder<Item, ? extends Item>> getRegisteredItems()
@@ -56,15 +61,8 @@ public final class LimaTechItems
 
     // Pigments
     public static final DeferredItem<Item> WHITE_PIGMENT = ITEMS.registerSimpleItem("white_pigment");
+    public static final DeferredItem<Item> LIGHT_BLUE_PIGMENT = ITEMS.registerSimpleItem("light_blue_pigment");
     public static final DeferredItem<Item> LIME_PIGMENT = ITEMS.registerSimpleItem("lime_pigment");
-    
-    // Titanium tools
-    public static final DeferredItem<SwordItem> TITANIUM_SWORD = ITEMS.registerItem("titanium_sword", properties -> createSword(properties, TITANIUM_TIER, 3, -2.2f));
-    public static final DeferredItem<ShovelItem> TITANIUM_SHOVEL = ITEMS.registerItem("titanium_shovel", properties -> createShovel(properties, TITANIUM_TIER, 1.5f, -2.8f));
-    public static final DeferredItem<PickaxeItem> TITANIUM_PICKAXE = ITEMS.registerItem("titanium_pickaxe", properties -> createPickaxe(properties, TITANIUM_TIER, 1f, -2.6f));
-    public static final DeferredItem<AxeItem> TITANIUM_AXE = ITEMS.registerItem("titanium_axe", properties -> createAxe(properties, TITANIUM_TIER, 6f, -2.9f));
-    public static final DeferredItem<HoeItem> TITANIUM_HOE = ITEMS.registerItem("titanium_hoe", properties -> createHoe(properties, TITANIUM_TIER, -2f, -1f));
-    public static final DeferredItem<ShearsItem> TITANIUM_SHEARS = ITEMS.registerItem("titanium_shears", properties -> createShears(properties, 476));
 
     // Ore pebbles
     public static final DeferredItem<Item> COAL_ORE_PEBBLES = ITEMS.registerSimpleItem("coal_ore_pebbles");
@@ -85,8 +83,17 @@ public final class LimaTechItems
     public static final DeferredItem<Item> GOLD_CIRCUIT = ITEMS.registerSimpleItem("gold_circuit");
     public static final DeferredItem<Item> NIOBIUM_CIRCUIT = ITEMS.registerSimpleItem("niobium_circuit");
 
-    // General tools
-    public static final DeferredItem<MachineWrenchItem> MACHINE_WRENCH = ITEMS.registerItem("machine_wrench", MachineWrenchItem::new, properties().stacksTo(1).rarity(ltxGearRarity()));
+    // LTX basic tools
+    public static final DeferredItem<EnergySwordItem> LTX_SWORD = registerLTXGear("ltx_sword", properties -> new EnergySwordItem(properties, 9f, -1.5f));
+    public static final DeferredItem<EnergyShovelItem> LTX_SHOVEL = registerLTXGear("ltx_shovel", properties -> new EnergyShovelItem(properties, 7.5f, -2.2f));
+    public static final DeferredItem<EnergyPickaxeItem> LTX_PICKAXE = registerLTXGear("ltx_pickaxe", properties -> new EnergyPickaxeItem(properties, 6f, -2f));
+    public static final DeferredItem<EnergyAxeItem> LTX_AXE = registerLTXGear("ltx_axe", properties -> new EnergyAxeItem(properties, 12f, -2.8f));
+    public static final DeferredItem<EnergyHoeItem> LTX_HOE = registerLTXGear("ltx_hoe", properties -> new EnergyHoeItem(properties, 3f, -1f));
+    public static final DeferredItem<EnergyWrenchItem> LTX_WRENCH = registerLTXGear("ltx_wrench", EnergyWrenchItem::new);
+    public static final DeferredItem<EnergyShearsItem> LTX_SHEARS = registerLTXGear("ltx_shears", EnergyShearsItem::new);
+    public static final DeferredItem<EnergyBrushItem> LTX_BRUSH = registerLTXGear("ltx_brush", EnergyBrushItem::new);
+    public static final DeferredItem<EnergyFishingRodItem> LTX_FISHING_ROD = registerLTXGear("ltx_fishing_rod", EnergyFishingRodItem::new);
+    public static final DeferredItem<EnergyLighterItem> LTX_LIGHTER = registerLTXGear("ltx_lighter", EnergyLighterItem::new);
 
     // Processed resources
     public static final DeferredItem<Item> DEEPSLATE_POWDER = ITEMS.registerSimpleItem("deepslate_powder");
@@ -106,11 +113,11 @@ public final class LimaTechItems
     public static final DeferredItem<MachineUpgradeModuleItem> MACHINE_UPGRADE_MODULE = ITEMS.registerItem("machine_upgrade_module", MachineUpgradeModuleItem::new, properties().stacksTo(1));
 
     // LTX Weapons
-    public static final DeferredItem<SMGWeaponItem> SUBMACHINE_GUN = registerWeapon("submachine_gun", SMGWeaponItem::new);
-    public static final DeferredItem<ShotgunWeaponItem> SHOTGUN = registerWeapon("shotgun", ShotgunWeaponItem::new);
-    public static final DeferredItem<GrenadeLauncherWeaponItem> GRENADE_LAUNCHER = registerWeapon("grenade_launcher", GrenadeLauncherWeaponItem::new);
-    public static final DeferredItem<RocketLauncherWeaponItem> ROCKET_LAUNCHER = registerWeapon("rocket_launcher", RocketLauncherWeaponItem::new);
-    public static final DeferredItem<MagnumWeaponItem> MAGNUM = registerWeapon("magnum", MagnumWeaponItem::new);
+    public static final DeferredItem<SMGWeaponItem> SUBMACHINE_GUN = registerLTXGear("submachine_gun", SMGWeaponItem::new);
+    public static final DeferredItem<ShotgunWeaponItem> SHOTGUN = registerLTXGear("shotgun", ShotgunWeaponItem::new);
+    public static final DeferredItem<GrenadeLauncherWeaponItem> GRENADE_LAUNCHER = registerLTXGear("grenade_launcher", GrenadeLauncherWeaponItem::new);
+    public static final DeferredItem<RocketLauncherWeaponItem> ROCKET_LAUNCHER = registerLTXGear("rocket_launcher", RocketLauncherWeaponItem::new);
+    public static final DeferredItem<MagnumWeaponItem> MAGNUM = registerLTXGear("magnum", MagnumWeaponItem::new);
 
     // LTX weapon ammo items
     public static final DeferredItem<SimpleHintItem> AUTO_AMMO_CANISTER = ITEMS.registerItem("auto_ammo_canister", SimpleHintItem::new);
@@ -119,7 +126,7 @@ public final class LimaTechItems
     public static final DeferredItem<SimpleHintItem> ROCKET_LAUNCHER_AMMO = ITEMS.registerItem("rocket_launcher_ammo", SimpleHintItem::new);
     public static final DeferredItem<SimpleHintItem> MAGNUM_AMMO_CANISTER = ITEMS.registerItem("magnum_ammo_canister", SimpleHintItem::new);
 
-    private static <T extends WeaponItem> DeferredItem<T> registerWeapon(String name, Function<Item.Properties, T> constructor)
+    private static <T extends Item> DeferredItem<T> registerLTXGear(String name, Function<Item.Properties, T> constructor)
     {
         return ITEMS.registerItem(name, constructor, properties().stacksTo(1).fireResistant().rarity(ltxGearRarity()));
     }

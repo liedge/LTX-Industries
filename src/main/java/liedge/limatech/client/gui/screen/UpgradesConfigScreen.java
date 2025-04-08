@@ -134,7 +134,7 @@ public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, U>, M extend
                 Object2IntMap.Entry<Holder<U>> entry = remoteUpgrades.get(i);
                 U upgrade = entry.getKey().value();
 
-                UpgradeIconRenderers.renderIcon(graphics, upgrade.icon(), ix + 2, iy + 2);
+                UpgradeIconRenderers.renderWithSpriteFallback(graphics, upgrade.display().icon(), ix + 2, iy + 2);
 
                 // Render title
                 int titleX = ix + 22;
@@ -149,7 +149,7 @@ public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, U>, M extend
                 poseStack.translate(titleX, titleY + (11d - (double) font.lineHeight * 0.8d) / 2d, 0);
                 poseStack.scale(0.8f, 0.8f, 0.8f);
 
-                graphics.drawString(font, upgrade.title(), 0, 0, -1, false);
+                graphics.drawString(font, upgrade.display().title(), 0, 0, -1, false);
 
                 graphics.disableScissor();
 
@@ -200,9 +200,9 @@ public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, U>, M extend
                         U upgrade = entry.getKey().value();
 
                         List<Component> lines = new ObjectArrayList<>();
-                        lines.add(upgrade.title());
+                        lines.add(upgrade.display().title());
                         lines.add(LimaTechLang.UPGRADE_RANK_TOOLTIP.translateArgs(entry.getIntValue(), upgrade.maxRank()).withStyle(UPGRADE_RANK_MAGENTA.chatStyle()));
-                        lines.add(upgrade.description());
+                        lines.add(upgrade.display().description());
                         upgrade.applyEffectsTooltips(entry.getIntValue(), lines::add);
 
                         lines.add(LimaTechLang.UPGRADE_REMOVE_HINT.translate().withStyle(OUTPUT_ORANGE.chatStyle()));

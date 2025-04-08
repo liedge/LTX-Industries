@@ -27,7 +27,7 @@ public record BubbleShieldUpgradeEffect(LevelBasedValue amount, LevelBasedValue 
     public void applyEquipmentEffect(ServerLevel level, Entity entity, int upgradeRank, LootContext context)
     {
         BubbleShieldUser user = entity.getCapability(LimaTechCapabilities.ENTITY_BUBBLE_SHIELD);
-        if (user != null) user.restoreShieldHealth(amount.calculate(upgradeRank), maxShield.calculate(upgradeRank));
+        if (user != null) user.addShieldHealth(amount.calculate(upgradeRank), maxShield.calculate(upgradeRank));
     }
 
     @Override

@@ -1,0 +1,40 @@
+{
+  "type": "limatech:fabricating",
+  "energy_required": 2500000,
+  "group": "weapons/armor_pierce",
+  "ingredients": [
+    {
+      "type": "neoforge:components",
+      "components": {
+        "limatech:equipment_upgrade": {
+          "upgrade": "limatech:weapon_armor_pierce"
+        }
+      },
+      "count": 1,
+      "items": "limatech:equipment_upgrade_module",
+      "strict": true
+    },
+    {
+      "count": 4,
+      "item": "limatech:gold_circuit"
+    },
+    {
+      "count": 32,
+      "item": "minecraft:obsidian"
+    },
+    {
+      "count": 2,
+      "item": "limatech:titanium_block"
+    }
+  ],
+  "result": {
+    "components": {
+      "limatech:equipment_upgrade": {
+        "rank": 2,
+        "upgrade": "limatech:weapon_armor_pierce"
+      }
+    },
+    "count": 1,
+    "id": "limatech:equipment_upgrade_module"
+  }
+}

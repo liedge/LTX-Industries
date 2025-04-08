@@ -17,7 +17,7 @@ public record SimpleValueTooltip(DoubleLevelBasedValue value, boolean invertColo
     @Override
     public Component get(int upgradeRank, CompoundValueOperation operation)
     {
-        return operation.toValueComponent(value.calculate(upgradeRank), false);
+        return operation.toValueComponent(value.calculate(upgradeRank), invertColors);
     }
 
     @Override

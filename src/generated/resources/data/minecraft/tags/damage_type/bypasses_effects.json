@@ -1,6 +1,5 @@
 {
   "values": [
-    "limatech:magnum_lightfrag",
-    "limatech:railgun_turret"
+    "#limatech:bypass_survival_defenses"
   ]
 }

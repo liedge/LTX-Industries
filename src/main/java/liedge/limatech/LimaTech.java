@@ -6,14 +6,13 @@ import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrade;
 import liedge.limatech.lib.upgrades.machine.MachineUpgrade;
 import liedge.limatech.lib.weapons.GlobalWeaponDamageModifiers;
 import liedge.limatech.network.packet.LimaTechPacketsRegistration;
-import liedge.limatech.registry.*;
+import liedge.limatech.registry.LimaTechRegistries;
 import liedge.limatech.registry.game.*;
 import liedge.limatech.util.config.LimaTechClientConfig;
 import liedge.limatech.util.config.LimaTechMachinesConfig;
 import liedge.limatech.util.config.LimaTechServerConfig;
 import liedge.limatech.util.config.LimaTechWeaponsConfig;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
@@ -21,7 +20,6 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
-import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.registries.DataPackRegistryEvent;
 import net.neoforged.neoforge.registries.NewRegistryEvent;
@@ -39,7 +37,6 @@ public class LimaTech
     {
         // Deferred register initialization
         LimaTechAttachmentTypes.register(modBus);
-        LimaTechAttributes.register(modBus);
         LimaTechBlockEntities.register(modBus);
         LimaTechBlocks.register(modBus);
         LimaTechCreativeTabs.register(modBus);
@@ -72,7 +69,7 @@ public class LimaTech
         @SubscribeEvent
         private void onConfigLoaded(final ModConfigEvent event)
         {
-            LimaTechClientConfig.onConfigLoaded(event);
+            LimaTechClientConfig.reCacheConfigValues(event);
         }
 
         @SubscribeEvent
@@ -84,10 +81,6 @@ public class LimaTech
         @SubscribeEvent
         private void registerCapabilities(final RegisterCapabilitiesEvent event)
         {
-            LimaTechItems.registerCapabilities(event);
-            LimaTechBlocks.registerCapabilities(event);
-            LimaTechBlockEntities.registerCapabilities(event);
-
             // Entity capabilities
             event.registerEntity(LimaTechCapabilities.ENTITY_BUBBLE_SHIELD, EntityType.PLAYER, (player, $) -> player.getData(LimaTechAttachmentTypes.BUBBLE_SHIELD));
         }
@@ -110,18 +103,6 @@ public class LimaTech
         {
             event.dataPackRegistry(LimaTechRegistries.Keys.EQUIPMENT_UPGRADES, EquipmentUpgrade.DIRECT_CODEC, EquipmentUpgrade.DIRECT_CODEC);
             event.dataPackRegistry(LimaTechRegistries.Keys.MACHINE_UPGRADES, MachineUpgrade.DIRECT_CODEC, MachineUpgrade.DIRECT_CODEC);
-        }
-
-        @SubscribeEvent
-        private void modifyEntityAttributes(final EntityAttributeModificationEvent event)
-        {
-            for (EntityType<? extends LivingEntity> type : event.getTypes())
-            {
-                if (!event.has(type, LimaTechAttributes.UNIVERSAL_STRENGTH))
-                {
-                    event.add(type, LimaTechAttributes.UNIVERSAL_STRENGTH);
-                }
-            }
         }
     }
 }

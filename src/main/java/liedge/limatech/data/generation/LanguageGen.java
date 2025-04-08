@@ -1,7 +1,7 @@
 package liedge.limatech.data.generation;
 
-import liedge.limacore.LimaCoreTags;
 import liedge.limacore.data.generation.LimaLanguageProvider;
+import liedge.limacore.lib.ModResources;
 import liedge.limatech.LimaTech;
 import liedge.limatech.LimaTechTags;
 import liedge.limatech.blockentity.base.BlockEntityInputType;
@@ -12,15 +12,19 @@ import liedge.limatech.item.TooltipShiftHintItem;
 import liedge.limatech.item.weapon.GrenadeLauncherWeaponItem;
 import liedge.limatech.item.weapon.WeaponItem;
 import liedge.limatech.lib.CompoundValueOperation;
-import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrade;
-import liedge.limatech.lib.upgrades.machine.MachineUpgrade;
+import liedge.limatech.lib.upgrades.UpgradeBase;
+import liedge.limatech.lib.upgrades.UpgradeBaseBuilder;
 import liedge.limatech.lib.weapons.GrenadeType;
 import liedge.limatech.lib.weapons.WeaponAmmoSource;
 import liedge.limatech.registry.bootstrap.LimaTechDamageTypes;
 import liedge.limatech.registry.bootstrap.LimaTechEnchantments;
 import liedge.limatech.registry.bootstrap.LimaTechEquipmentUpgrades;
 import liedge.limatech.registry.bootstrap.LimaTechMachineUpgrades;
-import liedge.limatech.registry.game.*;
+import liedge.limatech.registry.game.LimaTechEntities;
+import liedge.limatech.registry.game.LimaTechMenus;
+import liedge.limatech.registry.game.LimaTechMobEffects;
+import liedge.limatech.registry.game.LimaTechUpgradeEffectComponents;
+import liedge.limatech.util.LimaTechTooltipUtil;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.DamageTypeTags;
@@ -45,9 +49,6 @@ class LanguageGen extends LimaLanguageProvider
     @Override
     protected void addTranslations()
     {
-        // Attributes
-        add(LimaTechAttributes.UNIVERSAL_STRENGTH.get().getDescriptionId(), "Universal Attack Strength");
-
         //#region Blocks
         addBlock(TITANIUM_ORE, "Titanium Ore");
         addBlock(DEEPSLATE_TITANIUM_ORE, "Deepslate Titanium Ore");
@@ -81,15 +82,9 @@ class LanguageGen extends LimaLanguageProvider
         addItem(NIOBIUM_INGOT, "Niobium Ingot");
         addItem(NIOBIUM_NUGGET, "Niobium Nugget");
 
-        addItem(WHITE_PIGMENT, "Titanium White Pigment");
+        addItem(WHITE_PIGMENT, "White Pigment");
+        addItem(LIGHT_BLUE_PIGMENT, "Light Blue Pigment");
         addItem(LIME_PIGMENT, "Lime Pigment");
-
-        addItem(TITANIUM_SWORD, "Titanium Sword");
-        addItem(TITANIUM_SHOVEL, "Titanium Shovel");
-        addItem(TITANIUM_PICKAXE, "Titanium Pickaxe");
-        addItem(TITANIUM_AXE, "Titanium Axe");
-        addItem(TITANIUM_HOE, "Titanium Hoe");
-        addItem(TITANIUM_SHEARS, "Titanium Shears");
 
         addItem(DEEPSLATE_POWDER, "Deepslate Powder");
         addItem(SLATE_ALLOY_INGOT, "Slate Alloy Ingot");
@@ -111,7 +106,18 @@ class LanguageGen extends LimaLanguageProvider
         addItem(NETHERITE_ORE_PEBBLES, "Netherite Scrap Ore Pebbles");
         addItem(TITANIUM_ORE_PEBBLES, "Titanium Ore Pebbles");
         addItem(NIOBIUM_ORE_PEBBLES, "Niobium Ore Pebbles");
-        addItem(MACHINE_WRENCH, "Machine Wrench");
+
+        addItem(LTX_SWORD, ltxToolName("Sword"));
+        addItem(LTX_SHOVEL, ltxToolName("Shovel"));
+        addItem(LTX_PICKAXE, ltxToolName("Pickaxe"));
+        addItem(LTX_AXE, ltxToolName("Axe"));
+        addItem(LTX_HOE, ltxToolName("Hoe"));
+        addItem(LTX_SHEARS, ltxToolName("Shears"));
+        addItem(LTX_BRUSH, ltxToolName("Brush"));
+        addItem(LTX_FISHING_ROD, ltxToolName("Fishing Rod"));
+        addItem(LTX_LIGHTER, ltxToolName("Lighter"));
+        addItem(LTX_WRENCH, ltxToolName("Wrench"));
+
         addItem(EMPTY_UPGRADE_MODULE, "Empty Upgrade Module");
 
         simpleHintItem(EXPLOSIVES_WEAPON_TECH_SALVAGE, "Salvaged Tech: Explosive Weapon Systems", "Broken components from an explosives handling device. Might be useful in reconstructing explosive weaponry.");
@@ -131,42 +137,52 @@ class LanguageGen extends LimaLanguageProvider
         //#endregion
 
         //#region Equipment upgrades
-        equipmentUpgrade(LimaTechEquipmentUpgrades.LIGHTFRAG_BASE_ARMOR_BYPASS, "Lightfrag Weaponry", "Lightning-fast Lightfrags pierce the natural armor-like skin of certain enemies such zombies.");
-        equipmentUpgrade(LimaTechEquipmentUpgrades.SMG_BUILT_IN, "Serenity Intrinsics", "Serenity's small light-frags zip right through targets without a trace.");
-        equipmentUpgrade(LimaTechEquipmentUpgrades.SHOTGUN_BUILT_IN, "Aurora Intrinsics", "Aurora's combat precepts, specialized in fast assault and scout operations.");
-        equipmentUpgrade(LimaTechEquipmentUpgrades.HIGH_IMPACT_ROUNDS, "High Impact Rounds", "Light-frags with a punch! Send targets flying back regardless of their knockback resistances.");
-        equipmentUpgrade(LimaTechEquipmentUpgrades.MAGNUM_SCALING_ROUNDS, "Stellar Reality Disruptor", "Rip through reality itself with this Nova upgrade. Ensures swift defeat of even the strongest enemies.");
+        add(TOOL_DEFAULT_UPGRADE_TITLE, "ε Core Systems");
+        upgradeDescOnly(LimaTechEquipmentUpgrades.LTX_SHOVEL_DEFAULT, "Standard issue operating system. Excavator emitter preserves topographical integrity.");
+        upgradeDescOnly(LimaTechEquipmentUpgrades.LTX_AXE_DEFAULT, "Standard issue operating system. Cutter emitters have a low but functional chance to sever anatomical curiosities.");
+        upgradeDescOnly(LimaTechEquipmentUpgrades.LTX_WRENCH_DEFAULT, "Standard issue operating system. Designed to facilitate industrial logistics.");
+        upgrade(LimaTechEquipmentUpgrades.SUBMACHINE_GUN_DEFAULT, "Serenity Intrinsics", "Serenity's small light-frags zip right through targets without a trace.");
+        upgrade(LimaTechEquipmentUpgrades.SHOTGUN_DEFAULT, "Aurora Intrinsics", "Aurora's combat precepts, specialized in fast assault and scout operations.");
 
-        equipmentUpgrade(LimaTechEquipmentUpgrades.UNIVERSAL_ANTI_VIBRATION, "Acoustic Attenuation", "Eliminates Sculk sound vibrations from weapons and their projectiles.");
-        equipmentUpgrade(LimaTechEquipmentUpgrades.UNIVERSAL_STEALTH_DAMAGE, "Biometric Obfuscation", "Hey, wasn't me.");
-        equipmentUpgrade(LimaTechEquipmentUpgrades.UNIVERSAL_ENERGY_AMMO, "Energy Ammo Synthesis", "Modifies the weapon's magazine system to reload from an internal Common Energy reserve instead of ammo canister items.");
-        equipmentUpgrade(LimaTechEquipmentUpgrades.UNIVERSAL_INFINITE_AMMO, "Infinite Ammo", "Weapon ignores ammo and can fire infinitely.");
-        equipmentUpgrade(LimaTechEquipmentUpgrades.UNIVERSAL_ARMOR_PIERCE, "Armor-Piercing Rounds", "Weapon ignores 10% of armor per upgrade rank.");
-        equipmentUpgrade(LimaTechEquipmentUpgrades.UNIVERSAL_SHIELD_REGEN, "Bubble Shield Regen", "Kills recharge your personal Bubble Shield.");
-        equipmentUpgrade(LimaTechEquipmentUpgrades.UNIVERSAL_LOOT_TELEPORT, "Personal Matter SubLink", "Loot is sent directly to your inventory. If full, items appear at your feet.");
+        upgrade(LimaTechEquipmentUpgrades.TOOL_OMNI_MINER, "LTX/ε Omni-Miner", "This experimental cutter emitter overrides your tool's precepts and lets you mine everything!");
+        upgrade(LimaTechEquipmentUpgrades.TOOL_VIBRATION_CANCEL, "Resonance-Tuned Servos", "Special lining on this tool's servos dampen vibrations from standard use.");
+        upgrade(LimaTechEquipmentUpgrades.TOOL_DIRECT_DROPS, "Mining Subspace Link", "Tool systems interface directly with your inventory, depositing materials without physical collection.");
 
-        equipmentUpgrade(LimaTechEquipmentUpgrades.LOOTING_ENCHANTMENT, "Loot Booster", "Earn more loot drops from defeated enemies, affected by rank.");
-        equipmentUpgrade(LimaTechEquipmentUpgrades.AMMO_SCAVENGER_ENCHANTMENT, "Ammunition Finder", "Increases the chance to find rarer weapon ammo types.");
-        equipmentUpgrade(LimaTechEquipmentUpgrades.RAZOR_ENCHANTMENT, "Severance Optics", "Weapon calibration enables the retrieval of anatomical curiosities.");
+        upgrade(LimaTechEquipmentUpgrades.WEAPON_VIBRATION_CANCEL, "Echo Suppressor", "Augments weapons and projectiles with an anti-resonance field, erasing vibration signatures");
+        upgrade(LimaTechEquipmentUpgrades.HIGH_IMPACT_ROUNDS, "High Impact Rounds", "Light-frags with a punch! Send targets flying back regardless of their knockback resistances.");
+        upgrade(LimaTechEquipmentUpgrades.MAGNUM_SCALING_ROUNDS, "Stellar Reality Disruptor", "Rip through reality itself with this Nova upgrade. Ensures swift defeat of even the strongest enemies.");
 
-        equipmentUpgrade(LimaTechEquipmentUpgrades.GRENADE_LAUNCHER_PROJECTILE_SPEED, "Hanabi Launch Boost", "Increases the velocity of the Hanabi grenades.");
+        upgrade(LimaTechEquipmentUpgrades.UNIVERSAL_STEALTH_DAMAGE, "Biometric Obfuscation", "Targeting systems mask your signature, leaving no trace of your involvement. May not be effective against all targets.");
+        upgrade(LimaTechEquipmentUpgrades.UNIVERSAL_ENERGY_AMMO, "Weapon Energy Systems", "Reroutes magazine feed to draw from Common Energy reserves. Say goodbye to your ammo stash.");
+        upgrade(LimaTechEquipmentUpgrades.UNIVERSAL_INFINITE_AMMO, "//ERR~∞//Magazine", "Ignore the laws of physics with this never-ending ammo source. Try not to cause a mass extinction event, yeah?");
+        upgrade(LimaTechEquipmentUpgrades.WEAPON_ARMOR_PIERCE, "Armor-Piercing Rounds", "Weapon ignores 10% of armor per upgrade rank.");
+        upgrade(LimaTechEquipmentUpgrades.UNIVERSAL_SHIELD_REGEN, "Bubble Shield Regen", "Kills recharge your personal Bubble Shield.");
+        upgrade(LimaTechEquipmentUpgrades.WEAPON_DIRECT_DROPS, "Combat Subspace Link", "Weapon systems interface directly with your inventory, depositing loot without physical collection.");
 
-        equipmentUpgrade(LimaTechEquipmentUpgrades.FLAME_GRENADE_CORE, "Hanabi Core/Flame", "Grenades are loaded with a concentrated fuel that creates powerful flames.");
-        equipmentUpgrade(LimaTechEquipmentUpgrades.CRYO_GRENADE_CORE, "Hanabi Core/Cryo", "Grenades contain a cryogenic compound that freezes a large area.");
-        equipmentUpgrade(LimaTechEquipmentUpgrades.ELECTRIC_GRENADE_CORE, "Hanabi Core/Electric", "Grenades create a burst of electrical energy. Recommended for use in humid/aquatic environments.");
-        equipmentUpgrade(LimaTechEquipmentUpgrades.ACID_GRENADE_CORE, "Hanabi Core/Acid", "Grenades contain a highly corrosive acid that reduces target armor strength.");
-        equipmentUpgrade(LimaTechEquipmentUpgrades.NEURO_GRENADE_CORE, "Hanabi Core/Neuro", "Grenades contain a powerful neuro-suppressant agent that highly reduces target attack strength.");
-        equipmentUpgrade(LimaTechEquipmentUpgrades.OMNI_GRENADE_CORE, "Hanabi Core/ARCOIRIS", "Full spectrum adaptable core for the Hanabi. Allows the use of any of grenade shells.");
+        upgrade(LimaTechEquipmentUpgrades.SILK_TOUCH_ENCHANT, "Stabilized Harvest Matrix", "Calibrated to extract intact samples from the terrain.");
+        upgrade(LimaTechEquipmentUpgrades.FORTUNE_ENCHANTMENT, "Overclocked Harvest Matrix", "Calibrated to extract superior quantities of valuable resources.");
+        upgrade(LimaTechEquipmentUpgrades.LOOTING_ENCHANTMENT, "Combat Yield Protocol", "Calibrated to maximize structural integrity of salvageable biomaterials.");
+        upgrade(LimaTechEquipmentUpgrades.AMMO_SCAVENGER_ENCHANTMENT, "Munition Trace Unit", "Improves detection of high-grade LTX ammunition in the field.");
+        upgrade(LimaTechEquipmentUpgrades.RAZOR_ENCHANTMENT, "Severance Algorithm", "Weapon calibration enables the retrieval of anatomical curiosities.");
+
+        upgrade(LimaTechEquipmentUpgrades.GRENADE_LAUNCHER_PROJECTILE_SPEED, "Hanabi Launch Boost", "Increases the velocity of the Hanabi grenades.");
+
+        upgrade(LimaTechEquipmentUpgrades.FLAME_GRENADE_CORE, "Hanabi Core/Flame", "Grenades are loaded with a concentrated fuel that creates powerful flames.");
+        upgrade(LimaTechEquipmentUpgrades.CRYO_GRENADE_CORE, "Hanabi Core/Cryo", "Grenades contain a cryogenic compound that freezes a large area.");
+        upgrade(LimaTechEquipmentUpgrades.ELECTRIC_GRENADE_CORE, "Hanabi Core/Electric", "Grenades create a burst of electrical energy. Recommended for use in humid/aquatic environments.");
+        upgrade(LimaTechEquipmentUpgrades.ACID_GRENADE_CORE, "Hanabi Core/Acid", "Grenades contain a highly corrosive acid that reduces target armor strength.");
+        upgrade(LimaTechEquipmentUpgrades.NEURO_GRENADE_CORE, "Hanabi Core/Neuro", "Grenades contain a powerful neuro-suppressant agent that highly reduces target attack strength.");
+        upgrade(LimaTechEquipmentUpgrades.OMNI_GRENADE_CORE, "Hanabi Core/ARCOIRIS", "Full spectrum adaptable core for the Hanabi. Allows the use of any of grenade shells.");
         //#endregion
 
         //#region Machine upgrades
-        machineUpgrade(LimaTechMachineUpgrades.ESA_CAPACITY_UPGRADE, "Auxiliary Energy Cells", "Increases the energy capacity and transfer rate of the Energy Storage Array.");
-        machineUpgrade(LimaTechMachineUpgrades.ALPHA_MACHINE_SYSTEMS, "LTX/α Machine Systems", "Core modular systems designed for balanced efficiency.");
-        machineUpgrade(LimaTechMachineUpgrades.EPSILON_MACHINE_SYSTEMS, "LTX/ε Machine Systems", "The pinnacle of engineering precision! Achieves near-instantaneous crafting at the cost of immense energy consumption.");
-        machineUpgrade(LimaTechMachineUpgrades.FABRICATOR_UPGRADE, "Enhanced Tool Head", "Elevate your Fabricator's manufacturing capabilities with superior internal components.");
-        machineUpgrade(LimaTechMachineUpgrades.TURRET_LOOTING, "Efficient Target Disposal", "Smarter turret targeting systems allow for increased loot drops from eliminated targets.");
-        machineUpgrade(LimaTechMachineUpgrades.TURRET_RAZOR, "Headhunter Scope", "Precise turret calibration enables the collection of anatomical curiosities.");
-        machineUpgrade(LimaTechMachineUpgrades.TURRET_LOOT_COLLECTOR, "Matter SubLink", "Loot is sent directly to the turret’s storage. If full, items appear at the turret’s base.");
+        upgrade(LimaTechMachineUpgrades.ESA_CAPACITY_UPGRADE, "Auxiliary Energy Cells", "Increases the energy capacity and transfer rate of the Energy Storage Array.");
+        upgrade(LimaTechMachineUpgrades.STANDARD_MACHINE_SYSTEMS, "Standard Machine Systems", "Core modular systems designed for balanced efficiency.");
+        upgrade(LimaTechMachineUpgrades.ULTIMATE_MACHINE_SYSTEMS, "Ultimate Machine Systems", "The pinnacle of engineering precision! Achieves near-instantaneous crafting at the cost of immense energy consumption.");
+        upgrade(LimaTechMachineUpgrades.FABRICATOR_UPGRADE, "Enhanced Tool Head", "Elevate your Fabricator's manufacturing capabilities with superior internal components.");
+        upgrade(LimaTechMachineUpgrades.TURRET_LOOTING, "Efficient Target Disposal", "Smarter turret targeting systems allow for increased loot drops from eliminated targets.");
+        upgrade(LimaTechMachineUpgrades.TURRET_RAZOR, "Headhunter Scope", "Precise turret calibration enables the collection of anatomical curiosities.");
+        upgrade(LimaTechMachineUpgrades.TURRET_LOOT_COLLECTOR, "Matter SubLink", "Loot is sent directly to the turret’s storage. If full, items appear at the turret’s base.");
         //#endregion
 
         // Creative tabs
@@ -215,8 +231,9 @@ class LanguageGen extends LimaLanguageProvider
 
         //#region Tooltips
         add(INLINE_ENERGY_STORED, "Energy: %s");
-        add(INLINE_ENERGY_CAPACITY, "Capacity: %s");
-        add(INLINE_ENERGY_TRANSFER_RATE, "I/O: %s/t");
+        add(INLINE_ENERGY_AND_CAPACITY, "Energy: %s/%s");
+        add(INLINE_ENERGY_TRANSFER_RATE, "Energy I/O: %s/t");
+        add(INLINE_ENERGY_USAGE, "Energy use: %s");
         add(INLINE_NO_OWNER_TOOLTIP, "No Owner");
         add(INLINE_OWNER_TOOLTIP, "Owner: %s");
         add(ENERGY_OVERCHARGE_TOOLTIP, "Energy Overcharged! Your energy stored is more than your current capacity.");
@@ -252,24 +269,24 @@ class LanguageGen extends LimaLanguageProvider
         add(LAST_ATTACKING_PLAYER_ENTITY_TARGET_TOOLTIP, "Last Attacking Player");
         add(ATTRIBUTE_AMOUNT_VALUE_TOOLTIP, "%s of %s %s");
 
-        add(LimaTechUpgradeEffectComponents.ARMOR_BYPASS, "%s enemy armor (damage calculation)");
-        add(LimaTechUpgradeEffectComponents.WEAPON_DAMAGE, "%s weapon damage");
-        add(LimaTechUpgradeEffectComponents.WEAPON_PROJECTILE_SPEED, "%s projectile speed");
         add(LimaTechUpgradeEffectComponents.ENERGY_CAPACITY, "%s CE capacity");
         add(LimaTechUpgradeEffectComponents.ENERGY_TRANSFER_RATE, "%s CE transfer rate/tick");
-        add(LimaTechUpgradeEffectComponents.MACHINE_ENERGY_USAGE, "%s CE usage");
+        add(LimaTechUpgradeEffectComponents.ENERGY_USAGE, "%s CE usage");
+        add(LimaTechUpgradeEffectComponents.EQUIPMENT_DAMAGE, "%s damage");
+        add(LimaTechUpgradeEffectComponents.WEAPON_PROJECTILE_SPEED, "%s projectile speed");
         add(LimaTechUpgradeEffectComponents.TICKS_PER_OPERATION, "%s ticks/operation");
 
         add(WEAPON_KNOCKBACK_EFFECT, "%s knockback power");
-        add(DYNAMIC_DAMAGE_TAG_EFFECT, "Adds damage type tag: %s");
-        add(NO_SCULK_VIBRATIONS_EFFECT, "No sculk vibrations");
-        add(ENERGY_AMMO_EFFECT, "Unlocks CE ammunition synthesis");
+        add(DYNAMIC_DAMAGE_TAG_EFFECT, "+Damage Tags: %s");
+        add(SUPPRESS_VIBRATIONS_EFFECT, "Suppresses %s sculk vibrations");
+        add(DIRECT_BLOCK_DROPS_EFFECT, "Directly collects %s block drops");
+        add(DIRECT_ENTITY_DROPS_EFFECT, "Directly collects %s entity drops");
+        add(ENERGY_AMMO_EFFECT, "Weapon reloads from an internal CE reserve");
         add(INFINITE_AMMO_EFFECT, "Grants weapon infinite ammunition and magazine");
         add(SHIELD_UPGRADE_EFFECT, "%s Bubble Shield/kill, (max %s)");
         add(MOB_EFFECT_UPGRADE_EFFECT, "Applies %s (%s)");
         add(ENCHANTMENT_UPGRADE_EFFECT, "%s %s Enchantment");
         add(GRENADE_UNLOCK_EFFECT, "Can use %s shells");
-        add(DIRECT_ITEM_TELEPORT_EFFECT, "Direct item to inventory teleport");
 
         add(TooltipShiftHintItem.HINT_HOVER_TOOLTIP, "Hold SHIFT for extra info");
         add(WeaponAmmoSource.NORMAL.getItemTooltip(), "Reloads with %s");
@@ -277,8 +294,10 @@ class LanguageGen extends LimaLanguageProvider
         add(WeaponAmmoSource.INFINITE.getItemTooltip(), "This weapon has infinite ammo!");
 
         add(WeaponItem.AMMO_LOADED_TOOLTIP, "Ammo: %s/%s");
-        add(WeaponItem.ENERGY_AMMO_COST_TOOLTIP, "Energy per reload: %s");
         add(GrenadeLauncherWeaponItem.GRENADE_TYPE_TOOLTIP, "%s shells equipped");
+
+        add(LimaTechTooltipUtil.ALL_HOLDER_SET, "all");
+        add(LimaTechTooltipUtil.AMBIGUOUS_HOLDER_SET, "certain");
         //#endregion
 
         // Sound subtitles
@@ -303,7 +322,6 @@ class LanguageGen extends LimaLanguageProvider
         add(INVALID_WEAPON_DEATH_MESSAGE, "%s was killed by an invalid LTX weapon");
         add(STRAY_PROJECTILE_DEATH_MESSAGE, "%s was killed by a stray %s");
         damageType(LimaTechDamageTypes.LIGHTFRAG, "%2$s shot %1$s with %3$s");
-        damageType(LimaTechDamageTypes.MAGNUM_LIGHTFRAG, "%s was erased by %s's %s");
         damageType(LimaTechDamageTypes.EXPLOSIVE_GRENADE, "%s was blown away by %s's %s");
         damageType(LimaTechDamageTypes.FLAME_GRENADE, "%s was incinerated by %s's %s");
         damageType(LimaTechDamageTypes.CRYO_GRENADE, "%s was frozen solid by %s's %s");
@@ -320,9 +338,12 @@ class LanguageGen extends LimaLanguageProvider
         //#endregion
 
         // Named tags
-        add(LimaTechTags.Items.LTX_WEAPONS, "All LTX Weapons");
+        add(LimaTechTags.Items.WRENCH_BREAKABLE, "wrench-breakable");
+        add(LimaTechTags.GameEvents.WEAPON_VIBRATIONS, "weaponry");
+        add(LimaTechTags.GameEvents.HANDHELD_EQUIPMENT, "handheld tool");
 
-        namedDamageTag(LimaCoreTags.DamageTypes.IGNORES_KNOCKBACK_RESISTANCE, "Ignores Knockback Resistance");
+        namedDamageTag(LimaTechTags.DamageTypes.WEAPON_DAMAGE, "Weapon Damage");
+        namedDamageTag(LimaTechTags.DamageTypes.BYPASS_SURVIVAL_DEFENSES, "Bypass All Survival Defenses");
         namedDamageTag(DamageTypeTags.NO_ANGER, "No Anger");
         namedDamageTag(DamageTypeTags.NO_KNOCKBACK, "No Knockback");
 
@@ -347,21 +368,25 @@ class LanguageGen extends LimaLanguageProvider
         return String.format(pattern, name);
     }
 
+    private String ltxToolName(String name)
+    {
+        return "LTX ε-Series " + name;
+    }
+
     private void noItemCausingEntityOnlyDamageMessage(ResourceKey<DamageType> damageTypeKey, String translation, String unownedTranslation)
     {
         damageTypeAndVariants(damageTypeKey, translation, collector -> collector.accept("unowned", unownedTranslation));
     }
 
-    private void equipmentUpgrade(ResourceKey<EquipmentUpgrade> key, String title, String description)
+    private void upgrade(ResourceKey<? extends UpgradeBase<?, ?>> key, String title, String description)
     {
-        add(EquipmentUpgrade.defaultTitleTranslationKey(key), title);
-        add(EquipmentUpgrade.defaultDescriptionTranslationKey(key), description);
+        add(ModResources.registryPrefixedIdLangKey(key), title);
+        add(ModResources.registryPrefixVariantIdLangKey(key, UpgradeBaseBuilder.DEFAULT_DESCRIPTION_SUFFIX), description);
     }
 
-    private void machineUpgrade(ResourceKey<MachineUpgrade> key, String title, String description)
+    private void upgradeDescOnly(ResourceKey<? extends UpgradeBase<?, ?>> key, String description)
     {
-        add(MachineUpgrade.defaultTitleTranslationKey(key), title);
-        add(MachineUpgrade.defaultDescriptionTranslationKey(key), description);
+        add(ModResources.registryPrefixVariantIdLangKey(key, UpgradeBaseBuilder.DEFAULT_DESCRIPTION_SUFFIX), description);
     }
 
     private void namedDamageTag(TagKey<DamageType> tagKey, String value)

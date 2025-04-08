@@ -29,9 +29,11 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.Tags;
 import org.jetbrains.annotations.Nullable;
+import oshi.util.tuples.Pair;
 
 import java.util.List;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static liedge.limatech.LimaTechConstants.HOSTILE_ORANGE;
 
@@ -74,7 +76,7 @@ public abstract class UpgradeModuleItem<U extends UpgradeBase<?, U>, UE extends 
         UE entry = stack.get(entryComponentType());
         if (entry != null)
         {
-            return entry.upgrade().value().title();
+            return entry.upgrade().value().display().title();
         }
         else
         {
@@ -91,7 +93,7 @@ public abstract class UpgradeModuleItem<U extends UpgradeBase<?, U>, UE extends 
             tooltipComponents.add(moduleTypeTooltip().translate().withStyle(moduleTypeStyle()));
             U upgrade = entry.upgrade().value();
             if (upgrade.maxRank() > 1) tooltipComponents.add(LimaTechLang.UPGRADE_RANK_TOOLTIP.translateArgs(entry.upgradeRank(), upgrade.maxRank()).withStyle(LimaTechConstants.UPGRADE_RANK_MAGENTA.chatStyle()));
-            tooltipComponents.add(upgrade.description());
+            tooltipComponents.add(upgrade.display().description());
         }
         else
         {
@@ -117,7 +119,7 @@ public abstract class UpgradeModuleItem<U extends UpgradeBase<?, U>, UE extends 
             }
             else
             {
-                consumer.accept(new ItemGridTooltip(compatibleItems, 6, 2));
+                consumer.accept(new ItemGridTooltip(compatibleItems, 7, 2, false));
             }
         }
     }
@@ -137,16 +139,25 @@ public abstract class UpgradeModuleItem<U extends UpgradeBase<?, U>, UE extends 
             boolean generateAll = LimaTechServerConfig.GENERATE_ALL_UPGRADE_RANKS.getAsBoolean();
 
             registry.listElements()
-                    .flatMap(holder -> {
-                        int max = holder.value().maxRank();
-                        int min = generateAll ? 1 : max;
-                        return IntStream.rangeClosed(min, max).mapToObj(rank -> createUpgradeEntry(holder, rank));
-                    })
-                    .forEach(entry -> {
+                    .sorted(UpgradeBase.comparingCategoryThenId())
+                    .flatMap(holder -> createPairsStream(holder, generateAll))
+                    .forEach(pair -> {
                         ItemStack stack = new ItemStack(this);
-                        stack.set(entryComponentType(), entry);
-                        output.accept(stack, tabVisibility);
+                        stack.set(entryComponentType(), pair.getA());
+                        output.accept(stack, pair.getB());
                     });
         }
+    }
+
+    private Stream<Pair<UE, CreativeModeTab.TabVisibility>> createPairsStream(Holder<U> holder, boolean generateAll)
+    {
+        int max = holder.value().maxRank();
+        int min = generateAll ? 1 : max;
+
+        return IntStream.rangeClosed(min, max).mapToObj(rank ->
+        {
+            CreativeModeTab.TabVisibility vis = rank == max ? CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS : CreativeModeTab.TabVisibility.PARENT_TAB_ONLY;
+            return new Pair<>(createUpgradeEntry(holder, rank), vis);
+        });
     }
 }

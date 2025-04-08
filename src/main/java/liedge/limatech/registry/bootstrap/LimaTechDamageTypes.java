@@ -18,7 +18,6 @@ public final class LimaTechDamageTypes
 
     // Weapons
     public static final ResourceKey<DamageType> LIGHTFRAG = key("lightfrag");
-    public static final ResourceKey<DamageType> MAGNUM_LIGHTFRAG = key("magnum_lightfrag");
     public static final ResourceKey<DamageType> EXPLOSIVE_GRENADE = key("explosive_grenade");
     public static final ResourceKey<DamageType> FLAME_GRENADE = key("flame_grenade");
     public static final ResourceKey<DamageType> CRYO_GRENADE = key("cryo_grenade");
@@ -42,7 +41,6 @@ public final class LimaTechDamageTypes
         DeathMessageType noItemCausedOnlyMsg = LimaTechDeathMessageTypes.NO_ITEM_CAUSING_ENTITY_ONLY.getValue();
 
         registerDamageType(context, LIGHTFRAG, DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0f, DamageEffects.HURT, weaponMsgType);
-        registerDamageType(context, MAGNUM_LIGHTFRAG, DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0f, DamageEffects.HURT, weaponMsgType);
         registerDamageType(context, EXPLOSIVE_GRENADE, DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0f, DamageEffects.HURT, weaponMsgType);
         registerDamageType(context, FLAME_GRENADE, DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0f, DamageEffects.BURNING, weaponMsgType);
         registerDamageType(context, CRYO_GRENADE, DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0f, DamageEffects.FREEZING, weaponMsgType);

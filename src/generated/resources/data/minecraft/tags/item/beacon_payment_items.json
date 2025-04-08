@@ -1,7 +1,7 @@
 {
   "values": [
-    "#c:ingots/titanium",
-    "#c:ingots/niobium",
-    "#c:ingots/slate_alloy"
+    "limatech:titanium_ingot",
+    "limatech:niobium_ingot",
+    "limatech:slate_alloy_ingot"
   ]
 }

@@ -1,0 +1,44 @@
+{
+  "display": {
+    "category": "default/weapon",
+    "description": {
+      "translate": "equipment_upgrade.limatech.submachine_gun_default.desc"
+    },
+    "icon": {
+      "type": "composite",
+      "background": {
+        "id": "limatech:submachine_gun"
+      },
+      "overlay": "limatech:default",
+      "overlay_size": 10,
+      "x_offset": 0,
+      "y_offset": 6
+    },
+    "title": {
+      "translate": "equipment_upgrade.limatech.submachine_gun_default"
+    }
+  },
+  "effects": {
+    "limatech:pre_attack": [
+      {
+        "affected": "victim",
+        "effect": {
+          "type": "limatech:dynamic_damage_tag",
+          "tags": [
+            "minecraft:no_anger",
+            "minecraft:no_knockback"
+          ]
+        },
+        "enchanted": "attacker"
+      }
+    ],
+    "limatech:prevent_vibration": [
+      {
+        "slot": "mainhand",
+        "target": "#limatech:weapon_vibrations"
+      }
+    ]
+  },
+  "exclusive_set": [],
+  "supported_set": "limatech:submachine_gun"
+}

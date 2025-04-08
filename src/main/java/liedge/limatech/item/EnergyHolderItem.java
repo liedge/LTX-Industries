@@ -1,6 +1,6 @@
 package liedge.limatech.item;
 
-import liedge.limacore.capability.energy.EnergyContainerSpec;
+import liedge.limacore.capability.energy.ItemEnergyProperties;
 import liedge.limacore.capability.energy.LimaComponentEnergyStorage;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.util.LimaCoreUtil;
@@ -10,13 +10,23 @@ import net.neoforged.neoforge.energy.IEnergyStorage;
 import org.jetbrains.annotations.Nullable;
 
 import static liedge.limacore.registry.game.LimaCoreDataComponents.ENERGY;
-import static liedge.limacore.registry.game.LimaCoreDataComponents.ENERGY_SPEC;
+import static liedge.limacore.registry.game.LimaCoreDataComponents.ENERGY_PROPERTIES;
 
 public interface EnergyHolderItem
 {
     static @Nullable IEnergyStorage createEnergyAccess(ItemStack stack)
     {
-        return LimaCoreUtil.castOrThrow(EnergyHolderItem.class, stack.getItem(), "Not an energy holder item.").getOrCreateEnergyStorage(stack);
+        EnergyHolderItem item = LimaCoreUtil.castOrThrow(EnergyHolderItem.class, stack.getItem(), "Not an energy holder item.");
+        return item.supportsEnergyStorage(stack) ? item.getOrCreateEnergyStorage(stack) : null;
+    }
+
+    int getBaseEnergyCapacity(ItemStack stack);
+
+    int getBaseEnergyTransferRate(ItemStack stack);
+
+    default int getBaseEnergyUsage(ItemStack stack)
+    {
+        return 0;
     }
 
     default int getEnergyStored(ItemStack stack)
@@ -24,14 +34,27 @@ public interface EnergyHolderItem
         return stack.getOrDefault(ENERGY, 0);
     }
 
+    default ItemEnergyProperties getEnergyProperties(ItemStack stack)
+    {
+        return stack.getOrDefault(ENERGY_PROPERTIES, ItemEnergyProperties.EMPTY);
+    }
+
     default int getEnergyCapacity(ItemStack stack)
     {
-        return stack.getOrDefault(ENERGY_SPEC, EnergyContainerSpec.EMPTY).capacity();
+        ItemEnergyProperties properties = getEnergyProperties(stack);
+        return properties == ItemEnergyProperties.EMPTY ? getBaseEnergyCapacity(stack) : properties.capacity();
     }
 
     default int getEnergyTransferRate(ItemStack stack)
     {
-        return stack.getOrDefault(ENERGY_SPEC, EnergyContainerSpec.EMPTY).transferRate();
+        ItemEnergyProperties properties = getEnergyProperties(stack);
+        return properties == ItemEnergyProperties.EMPTY ? getBaseEnergyTransferRate(stack) : properties.transferRate();
+    }
+
+    default int getEnergyUsage(ItemStack stack)
+    {
+        ItemEnergyProperties properties = getEnergyProperties(stack);
+        return properties == ItemEnergyProperties.EMPTY ? getBaseEnergyUsage(stack) : properties.energyUsage();
     }
 
     default boolean supportsEnergyStorage(ItemStack stack)
@@ -39,23 +62,20 @@ public interface EnergyHolderItem
         return true;
     }
 
-    default @Nullable IEnergyStorage getOrCreateEnergyStorage(ItemStack stack)
+    default IEnergyStorage getOrCreateEnergyStorage(ItemStack stack)
     {
-        if (supportsEnergyStorage(stack))
-        {
-            return new LimaComponentEnergyStorage(stack, getEnergyCapacity(stack), getEnergyTransferRate(stack));
-        }
-
-        return null;
+        ItemEnergyProperties properties = getEnergyProperties(stack);
+        if (properties == ItemEnergyProperties.EMPTY) properties = new ItemEnergyProperties(getBaseEnergyCapacity(stack), getBaseEnergyTransferRate(stack), getBaseEnergyUsage(stack));
+        return new LimaComponentEnergyStorage(stack, properties);
     }
 
-    default void appendSimpleEnergyTooltip(TooltipLineConsumer consumer, ItemStack stack)
+    default void appendEquipmentEnergyTooltip(TooltipLineConsumer consumer, ItemStack stack)
     {
-        LimaTechTooltipUtil.appendSimpleEnergyTooltip(consumer, getEnergyStored(stack));
+        LimaTechTooltipUtil.appendEquipmentEnergyTooltip(consumer, getEnergyStored(stack), getEnergyCapacity(stack), getEnergyUsage(stack));
     }
 
-    default void appendExtendedEnergyTooltip(TooltipLineConsumer consumer, ItemStack stack)
+    default void appendStorageEnergyTooltip(TooltipLineConsumer consumer, ItemStack stack)
     {
-        LimaTechTooltipUtil.appendExtendedEnergyTooltip(consumer, getEnergyStored(stack), getEnergyCapacity(stack), getEnergyTransferRate(stack));
+        LimaTechTooltipUtil.appendStorageEnergyTooltip(consumer, getEnergyStored(stack), getEnergyCapacity(stack), getEnergyTransferRate(stack));
     }
 }

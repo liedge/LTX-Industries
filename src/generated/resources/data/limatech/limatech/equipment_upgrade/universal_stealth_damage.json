@@ -1,6 +1,12 @@
 {
-  "description": {
-    "translate": "equipment_upgrade.limatech.universal_stealth_damage.desc"
+  "display": {
+    "description": {
+      "translate": "equipment_upgrade.limatech.universal_stealth_damage.desc"
+    },
+    "icon": "limatech:stealth_damage",
+    "title": {
+      "translate": "equipment_upgrade.limatech.universal_stealth_damage"
+    }
   },
   "effects": {
     "limatech:pre_attack": [
@@ -8,16 +14,14 @@
         "affected": "victim",
         "effect": {
           "type": "limatech:dynamic_damage_tag",
-          "tag": "minecraft:no_anger"
+          "tags": [
+            "minecraft:no_anger"
+          ]
         },
         "enchanted": "attacker"
       }
     ]
   },
   "exclusive_set": [],
-  "icon": "limatech:stealth_damage",
-  "supported_set": "#limatech:ltx_weapons",
-  "title": {
-    "translate": "equipment_upgrade.limatech.universal_stealth_damage.title"
-  }
+  "supported_set": "#limatech:ltx_weapons/energy"
 }

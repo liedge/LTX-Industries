@@ -1,0 +1,36 @@
+{
+  "type": "limatech:fabricating",
+  "energy_required": 500000,
+  "group": "weapons/general",
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "limatech:empty_upgrade_module"
+    },
+    {
+      "count": 4,
+      "item": "limatech:gold_circuit"
+    },
+    {
+      "count": 16,
+      "item": "limatech:titanium_ingot"
+    },
+    {
+      "count": 1,
+      "item": "minecraft:echo_shard"
+    },
+    {
+      "count": 16,
+      "tag": "minecraft:wool"
+    }
+  ],
+  "result": {
+    "components": {
+      "limatech:equipment_upgrade": {
+        "upgrade": "limatech:weapon_vibration_cancel"
+      }
+    },
+    "count": 1,
+    "id": "limatech:equipment_upgrade_module"
+  }
+}

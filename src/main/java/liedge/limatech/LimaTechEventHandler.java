@@ -2,37 +2,41 @@ package liedge.limatech;
 
 import liedge.limacore.util.LimaCoreUtil;
 import liedge.limatech.entity.BubbleShieldUser;
-import liedge.limatech.entity.damage.UpgradeAwareDamageSource;
+import liedge.limatech.entity.damage.DropsRedirect;
+import liedge.limatech.entity.damage.UpgradableDamageSource;
+import liedge.limatech.item.UpgradableEquipmentItem;
 import liedge.limatech.item.weapon.WeaponItem;
-import liedge.limatech.entity.damage.WeaponDamageSource;
-import liedge.limatech.lib.upgrades.effect.EffectTooltipCaches;
+import liedge.limatech.lib.upgrades.UpgradesContainerBase;
+import liedge.limatech.lib.upgrades.effect.equipment.DirectDropsUpgradeEffect;
+import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.limatech.network.packet.ClientboundEntityShieldPacket;
 import liedge.limatech.network.packet.ClientboundPlayerShieldPacket;
 import liedge.limatech.registry.game.LimaTechAttachmentTypes;
-import liedge.limatech.registry.game.LimaTechAttributes;
+import liedge.limatech.registry.game.LimaTechDataComponents;
+import liedge.limatech.registry.game.LimaTechUpgradeEffectComponents;
+import liedge.limatech.util.LimaTechUtil;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.item.enchantment.EnchantmentTarget;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.GatherSkippedAttributeTooltipsEvent;
-import net.neoforged.neoforge.event.AddReloadListenerEvent;
+import net.neoforged.neoforge.event.VanillaGameEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
+import net.neoforged.neoforge.event.entity.living.LivingEquipmentChangeEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.event.level.BlockDropsEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
 import net.neoforged.neoforge.network.PacketDistributor;
-
-import java.util.Iterator;
 
 @EventBusSubscriber(modid = LimaTech.MODID, bus = EventBusSubscriber.Bus.GAME)
 public final class LimaTechEventHandler
@@ -40,9 +44,44 @@ public final class LimaTechEventHandler
     private LimaTechEventHandler() {}
 
     @SubscribeEvent
-    public static void addReloadListeners(final AddReloadListenerEvent event)
+    public static void onVanillaGameEvent(final VanillaGameEvent event)
     {
-        event.addListener(EffectTooltipCaches.getInstance());
+        // Players only
+        if (event.getCause() instanceof Player player)
+        {
+            boolean cancelEvent = false;
+
+            for (EquipmentSlot slot : EquipmentSlot.values())
+            {
+                EquipmentUpgrades upgrades = UpgradableEquipmentItem.getEquipmentUpgradesFromStack(player.getItemBySlot(slot));
+                if (upgrades.anyMatch(LimaTechUpgradeEffectComponents.PREVENT_VIBRATION.get(), (effect, ignored) -> effect.apply(slot, event.getVanillaEvent())))
+                {
+                    cancelEvent = true;
+                    break;
+                }
+            }
+
+            event.setCanceled(cancelEvent);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onEquipmentChanged(final LivingEquipmentChangeEvent event)
+    {
+        // Only run serverside and on upgradable equipment items
+        if (event.getEntity().level() instanceof ServerLevel level && event.getTo().getItem() instanceof UpgradableEquipmentItem equipmentItem)
+        {
+            ItemStack stack = event.getTo();
+            EquipmentUpgrades upgrades = equipmentItem.getUpgrades(stack);
+            Integer lastHash = stack.get(LimaTechDataComponents.LAST_EQUIPMENT_HASH);
+
+            // Run check if last upgrades hash-print is null or different
+            if (lastHash == null || lastHash != upgrades.hashCode())
+            {
+                equipmentItem.onUpgradeRefresh(LimaTechUtil.emptyLootContext(level), stack, upgrades);
+                stack.set(LimaTechDataComponents.LAST_EQUIPMENT_HASH, upgrades.hashCode());
+            }
+        }
     }
 
     @SubscribeEvent
@@ -83,15 +122,6 @@ public final class LimaTechEventHandler
     }
 
     @SubscribeEvent
-    public static void gatherSkippedAttributeTooltips(final GatherSkippedAttributeTooltipsEvent event)
-    {
-        if (event.getStack().getItem() instanceof WeaponItem)
-        {
-            event.setSkipAll(true);
-        }
-    }
-
-    @SubscribeEvent
     public static void onLivingTick(final EntityTickEvent.Pre event)
     {
         if (event.getEntity() instanceof LivingEntity livingEntity)
@@ -101,69 +131,69 @@ public final class LimaTechEventHandler
     }
 
     @SubscribeEvent
-    public static void onLivingDrops(final LivingDropsEvent event)
+    public static void onBlockDrops(final BlockDropsEvent event)
     {
-        if (event.getSource() instanceof UpgradeAwareDamageSource damageSource)
+        // Don't run if we don't have drops
+        if (event.getDrops().isEmpty()) return;
+
+        // Only for players and qualifying upgradable equipment
+        if (event.getBreaker() instanceof Player player && event.getTool().getItem() instanceof UpgradableEquipmentItem equipmentItem)
         {
-            IItemHandler inventory = damageSource.directTeleportDropsInventory();
-            if (inventory != null)
-            {
-                Iterator<ItemEntity> iterator = event.getDrops().iterator();
-
-                while (iterator.hasNext())
-                {
-                    ItemEntity itemEntity = iterator.next();
-
-                    ItemStack original = itemEntity.getItem();
-                    ItemStack insertRemainder = ItemHandlerHelper.insertItemStacked(inventory, original, false);
-
-                    if (insertRemainder.isEmpty())
-                        iterator.remove(); // Entity drop removed if fully inserted
-                    else if (original.getCount() != insertRemainder.getCount())
-                        itemEntity.setItem(insertRemainder); // Partial remaining stack still drops in world
-                }
-
-                if (event.getDrops().isEmpty())
-                {
-                    event.setCanceled(true); // No point in continuing event if iterator was emptied
-                }
-                else
-                {
-                    // Relocate drops to new spot if available
-                    Vec3 newDropLocation = damageSource.directTeleportDropsLocation();
-                    if (newDropLocation != null) event.getDrops().forEach(e -> {
-                        e.setPos(newDropLocation);
-                        e.setDeltaMovement(Vec3.ZERO);
-                    });
-                }
-            }
+            EquipmentUpgrades upgrades = equipmentItem.getUpgrades(event.getTool());
+            DropsRedirect redirect = DropsRedirect.forPlayer(player, upgrades, DirectDropsUpgradeEffect.Type.BLOCK_DROPS);
+            if (redirect != null) redirect.captureAndRelocateDrops(event.getDrops(), event::setCanceled);
         }
     }
 
-    @SubscribeEvent(priority = EventPriority.HIGH)
-    public static void onLivingIncomingDamage(final LivingIncomingDamageEvent event)
+    @SubscribeEvent
+    public static void onLivingDrops(final LivingDropsEvent event)
     {
-        LivingEntity hurtEntity = event.getEntity();
-        DamageSource source = event.getSource();
+        DamageSource damageSource = event.getSource();
+        DropsRedirect dropsRedirect = null;
 
-        // Check for universal attack strength
-        if (source.getEntity() instanceof LivingEntity attacker)
+        // First attempt to get from upgradable damage source. Most likely case
+        if (damageSource instanceof UpgradableDamageSource upgradableSource)
         {
-            double universalAttack = attacker.getAttributeValue(LimaTechAttributes.UNIVERSAL_STRENGTH);
-            if (universalAttack != 1.0)
-            {
-                float newDamage = event.getAmount() * (float) universalAttack;
-                event.setAmount(newDamage);
-            }
+            dropsRedirect = upgradableSource.createDropsRedirect();
+        }
+        // Otherwise make drops redirect (if possible) from a melee attacks
+        else if (damageSource.getDirectEntity() instanceof Player player && player.getWeaponItem().getItem() instanceof UpgradableEquipmentItem equipmentItem && damageSource.is(DamageTypeTags.IS_PLAYER_ATTACK))
+        {
+            EquipmentUpgrades upgrades = equipmentItem.getUpgrades(player.getWeaponItem());
+            dropsRedirect = DropsRedirect.forPlayer(player, upgrades, DirectDropsUpgradeEffect.Type.ENTITY_DROPS);
         }
 
-        // Check for bubble shield
+        // Perform redirection if one was found
+        if (dropsRedirect != null) dropsRedirect.captureAndRelocateDrops(event.getDrops(), event::setCanceled);
+    }
+
+    // Run this on highest so damage source components in LimaCore can apply properly
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public static void onLivingIncomingDamageHighest(final LivingIncomingDamageEvent event)
+    {
+        DamageSource source = event.getSource();
+
+        // Process pre-attack upgrade effects for melee attacks here
+        if (source.getDirectEntity() instanceof LivingEntity attacker && !attacker.level().isClientSide() && attacker.getWeaponItem().getItem() instanceof UpgradableEquipmentItem equipmentItem && source.is(DamageTypeTags.IS_PLAYER_ATTACK))
+        {
+            EquipmentUpgrades upgrades = equipmentItem.getUpgrades(attacker.getWeaponItem());
+            upgrades.applyDamageContextEffects(LimaTechUpgradeEffectComponents.EQUIPMENT_PRE_ATTACK, (ServerLevel) attacker.level(), EnchantmentTarget.ATTACKER, event.getEntity(), attacker, source);
+        }
+    }
+
+    // Run bubble shield checks on lowest to first apply damage modifiers
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onLivingIncomingDamageLowest(final LivingIncomingDamageEvent event)
+    {
+        LivingEntity hurtEntity = event.getEntity();
+
+        // Process bubble shield checks
         if (!hurtEntity.level().isClientSide())
         {
             BubbleShieldUser shieldUser = hurtEntity.getCapability(LimaTechCapabilities.ENTITY_BUBBLE_SHIELD);
             if (shieldUser != null)
             {
-                if (shieldUser.blockDamage(hurtEntity.level(), source, event.getAmount())) event.setCanceled(true);
+                if (shieldUser.blockDamage(hurtEntity.level(), event.getSource(), event.getAmount())) event.setCanceled(true);
             }
         }
     }
@@ -171,10 +201,25 @@ public final class LimaTechEventHandler
     @SubscribeEvent
     public static void onLivingDeath(final LivingDeathEvent event)
     {
-        if (event.getSource() instanceof WeaponDamageSource damageSource && damageSource.getEntity() instanceof Player player)
+        DamageSource damageSource = event.getSource();
+
+        if (damageSource.getEntity() instanceof LivingEntity attacker && !attacker.level().isClientSide())
         {
-            LivingEntity targetEntity = event.getEntity();
-            damageSource.weaponItem().onPlayerKill(damageSource, player, targetEntity);
+            UpgradesContainerBase<?, ?> upgrades = null;
+
+            // Get upgrades from upgradable sources
+            if (damageSource instanceof UpgradableDamageSource upgradableSource)
+            {
+                upgrades = upgradableSource.getUpgrades();
+            }
+            // Otherwise get them from held item if melee attack
+            else if (damageSource.getDirectEntity() == attacker && attacker.getWeaponItem().getItem() instanceof UpgradableEquipmentItem equipmentItem && damageSource.is(DamageTypeTags.IS_PLAYER_ATTACK))
+            {
+                upgrades = equipmentItem.getUpgrades(attacker.getWeaponItem());
+            }
+
+            // Apply on kill effects
+            if (upgrades != null) upgrades.applyDamageContextEffects(LimaTechUpgradeEffectComponents.EQUIPMENT_KILL, (ServerLevel) attacker.level(), EnchantmentTarget.ATTACKER, event.getEntity(), attacker, damageSource);
         }
     }
 }

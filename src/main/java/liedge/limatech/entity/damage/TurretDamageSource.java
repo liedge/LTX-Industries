@@ -3,17 +3,17 @@ package liedge.limatech.entity.damage;
 import com.google.common.base.Preconditions;
 import liedge.limatech.blockentity.BaseTurretBlockEntity;
 import liedge.limatech.lib.upgrades.UpgradesContainerBase;
+import liedge.limatech.lib.upgrades.effect.equipment.DirectDropsUpgradeEffect;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.wrapper.RangedWrapper;
 import org.jetbrains.annotations.Nullable;
 
-public class TurretDamageSource extends UpgradeAwareDamageSource
+public class TurretDamageSource extends UpgradableDamageSource
 {
     public static TurretDamageSource create(Level level, ResourceKey<DamageType> damageTypeKey, BaseTurretBlockEntity blockEntity, @Nullable Entity directEntity, @Nullable Entity owner, @Nullable Vec3 location)
     {
@@ -30,20 +30,14 @@ public class TurretDamageSource extends UpgradeAwareDamageSource
     }
 
     @Override
-    protected @Nullable IItemHandler getOrCreateTeleportInventory()
-    {
-        return new RangedWrapper(blockEntity.getItemHandler(), 1, 21);
-    }
-
-    @Override
     public UpgradesContainerBase<?, ?> getUpgrades()
     {
         return blockEntity.getUpgrades();
     }
 
     @Override
-    public @Nullable Vec3 directTeleportDropsLocation()
+    public @Nullable DropsRedirect createDropsRedirect()
     {
-        return blockEntity.getProjectileStart();
+        return DropsRedirect.create(new RangedWrapper(blockEntity.getItemHandler(), 1, 21), blockEntity.getProjectileStart(), getUpgrades(), DirectDropsUpgradeEffect.Type.ENTITY_DROPS);
     }
 }
