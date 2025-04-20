@@ -11,6 +11,7 @@
   "effects": {
     "limatech:energy_capacity": [
       {
+        "type": "simple",
         "op": "multiply",
         "simple_value": {
           "type": "exponential",
@@ -25,6 +26,7 @@
     ],
     "limatech:energy_transfer_rate": [
       {
+        "type": "simple",
         "op": "multiply",
         "simple_value": {
           "type": "exponential",

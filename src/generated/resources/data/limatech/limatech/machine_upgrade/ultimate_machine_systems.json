@@ -13,18 +13,21 @@
   "effects": {
     "limatech:energy_capacity": [
       {
+        "type": "simple",
         "op": "multiply",
         "simple_value": 8.0
       }
     ],
     "limatech:energy_transfer_rate": [
       {
+        "type": "simple",
         "op": "multiply",
         "simple_value": 16.0
       }
     ],
     "limatech:energy_usage": [
       {
+        "type": "simple",
         "invert_color": true,
         "op": "multiply",
         "simple_value": 256.0
@@ -32,6 +35,7 @@
     ],
     "limatech:ticks_per_operation": [
       {
+        "type": "simple",
         "invert_color": true,
         "op": "add_multiplied_total",
         "simple_value": -1.0

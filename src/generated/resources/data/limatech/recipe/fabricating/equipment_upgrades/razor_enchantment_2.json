@@ -1,7 +1,7 @@
 {
   "type": "limatech:fabricating",
   "energy_required": 500000,
-  "group": "razor_upgrades",
+  "group": "eum/enchant",
   "ingredients": [
     {
       "type": "neoforge:components",

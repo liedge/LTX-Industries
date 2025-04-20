@@ -1,7 +1,7 @@
 {
   "type": "limatech:fabricating",
   "energy_required": 10000000,
-  "group": "looting_upgrades",
+  "group": "eum/enchant",
   "ingredients": [
     {
       "type": "neoforge:components",
@@ -16,27 +16,27 @@
       "strict": true
     },
     {
-      "count": 8,
+      "count": 6,
       "item": "limatech:niobium_circuit"
     },
     {
-      "count": 16,
-      "item": "limatech:slate_alloy_ingot"
-    },
-    {
-      "count": 2,
-      "item": "minecraft:echo_shard"
+      "count": 1,
+      "item": "minecraft:emerald_block"
     },
     {
       "count": 1,
-      "item": "minecraft:dragon_head"
+      "item": "minecraft:diamond_block"
     },
     {
-      "count": 4,
+      "count": 6,
+      "item": "minecraft:amethyst_block"
+    },
+    {
+      "count": 2,
       "item": "minecraft:nether_star"
     },
     {
-      "count": 64,
+      "count": 8,
       "item": "minecraft:lapis_block"
     }
   ],

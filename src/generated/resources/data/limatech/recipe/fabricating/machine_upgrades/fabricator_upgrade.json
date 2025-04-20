@@ -1,7 +1,7 @@
 {
   "type": "limatech:fabricating",
   "energy_required": 500000,
-  "group": "fab_upgrades",
+  "group": "mum/fabricator",
   "ingredients": [
     {
       "count": 1,

@@ -1,30 +1,26 @@
 {
   "type": "limatech:fabricating",
   "energy_required": 125000,
-  "group": "looting_upgrades",
+  "group": "eum/enchant",
   "ingredients": [
     {
       "count": 1,
       "item": "limatech:empty_upgrade_module"
     },
     {
-      "count": 8,
+      "count": 4,
       "item": "limatech:copper_circuit"
     },
     {
-      "count": 2,
-      "item": "limatech:gold_circuit"
-    },
-    {
-      "count": 8,
-      "item": "limatech:titanium_ingot"
+      "count": 4,
+      "item": "minecraft:iron_ingot"
     },
     {
       "count": 1,
       "item": "minecraft:rabbit_foot"
     },
     {
-      "count": 8,
+      "count": 4,
       "item": "minecraft:lapis_lazuli"
     }
   ],

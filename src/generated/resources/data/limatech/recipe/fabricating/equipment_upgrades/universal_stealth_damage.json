@@ -1,7 +1,7 @@
 {
   "type": "limatech:fabricating",
   "energy_required": 750000,
-  "group": "weapons/general",
+  "group": "eum/weapon",
   "ingredients": [
     {
       "count": 1,

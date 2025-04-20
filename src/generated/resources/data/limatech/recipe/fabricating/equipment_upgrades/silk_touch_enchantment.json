@@ -1,29 +1,33 @@
 {
   "type": "limatech:fabricating",
-  "energy_required": 1000000,
-  "group": "eum/weapon",
+  "energy_required": 500000,
+  "group": "eum/enchant",
   "ingredients": [
     {
       "count": 1,
       "item": "limatech:empty_upgrade_module"
     },
     {
-      "count": 8,
-      "item": "limatech:copper_circuit"
+      "count": 2,
+      "item": "limatech:gold_circuit"
+    },
+    {
+      "count": 1,
+      "item": "minecraft:emerald"
     },
     {
       "count": 8,
-      "item": "minecraft:obsidian"
+      "item": "minecraft:slime_ball"
     },
     {
-      "count": 8,
-      "item": "limatech:titanium_ingot"
+      "count": 16,
+      "item": "minecraft:glass"
     }
   ],
   "result": {
     "components": {
       "limatech:equipment_upgrade": {
-        "upgrade": "limatech:weapon_armor_pierce"
+        "upgrade": "limatech:silk_touch_enchantment"
       }
     },
     "count": 1,

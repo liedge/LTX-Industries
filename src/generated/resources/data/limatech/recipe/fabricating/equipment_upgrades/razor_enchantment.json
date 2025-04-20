@@ -1,7 +1,7 @@
 {
   "type": "limatech:fabricating",
   "energy_required": 250000,
-  "group": "razor_upgrades",
+  "group": "eum/enchant",
   "ingredients": [
     {
       "count": 1,

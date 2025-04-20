@@ -1,7 +1,7 @@
 {
   "type": "limatech:fabricating",
   "energy_required": 400000,
-  "group": "weapons",
+  "group": "ltx/weapon",
   "ingredients": [
     {
       "count": 16,
@@ -12,7 +12,7 @@
       "item": "limatech:copper_circuit"
     },
     {
-      "count": 4,
+      "count": 2,
       "item": "limatech:gold_circuit"
     }
   ],

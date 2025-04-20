@@ -1,6 +1,6 @@
 {
   "type": "limatech:fabricating",
-  "energy_required": 1000000,
+  "energy_required": 500000,
   "group": "eum/enchant",
   "ingredients": [
     {
@@ -8,7 +8,7 @@
       "components": {
         "limatech:equipment_upgrade": {
           "rank": 2,
-          "upgrade": "limatech:razor_enchantment"
+          "upgrade": "limatech:fortune_enchantment"
         }
       },
       "count": 1,
@@ -20,23 +20,27 @@
       "item": "limatech:gold_circuit"
     },
     {
-      "count": 4,
-      "item": "minecraft:zombie_head"
+      "count": 8,
+      "item": "limatech:titanium_ingot"
     },
     {
-      "count": 4,
-      "item": "minecraft:skeleton_skull"
+      "count": 2,
+      "item": "minecraft:emerald"
     },
     {
-      "count": 4,
-      "item": "minecraft:creeper_head"
+      "count": 2,
+      "item": "minecraft:diamond"
+    },
+    {
+      "count": 2,
+      "item": "minecraft:lapis_block"
     }
   ],
   "result": {
     "components": {
       "limatech:equipment_upgrade": {
         "rank": 3,
-        "upgrade": "limatech:razor_enchantment"
+        "upgrade": "limatech:fortune_enchantment"
       }
     },
     "count": 1,

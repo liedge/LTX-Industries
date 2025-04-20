@@ -12,6 +12,7 @@
   "effects": {
     "limatech:energy_capacity": [
       {
+        "type": "simple",
         "op": "add_multiplied_base",
         "simple_value": {
           "type": "linear",
@@ -22,6 +23,7 @@
     ],
     "limatech:energy_transfer_rate": [
       {
+        "type": "simple",
         "op": "add_multiplied_base",
         "simple_value": {
           "type": "linear",
@@ -32,6 +34,7 @@
     ],
     "limatech:energy_usage": [
       {
+        "type": "simple",
         "invert_color": true,
         "op": "multiply",
         "simple_value": {
@@ -47,6 +50,7 @@
     ],
     "limatech:ticks_per_operation": [
       {
+        "type": "simple",
         "invert_color": true,
         "op": "multiply",
         "simple_value": {

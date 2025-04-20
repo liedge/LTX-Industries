@@ -1,7 +1,7 @@
 {
   "type": "limatech:fabricating",
   "energy_required": 5000000,
-  "group": "weapons/shield",
+  "group": "eum/weapon",
   "ingredients": [
     {
       "type": "neoforge:components",

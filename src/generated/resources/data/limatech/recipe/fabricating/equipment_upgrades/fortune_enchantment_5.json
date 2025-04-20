@@ -1,6 +1,6 @@
 {
   "type": "limatech:fabricating",
-  "energy_required": 4000000,
+  "energy_required": 10000000,
   "group": "eum/enchant",
   "ingredients": [
     {
@@ -8,7 +8,7 @@
       "components": {
         "limatech:equipment_upgrade": {
           "rank": 4,
-          "upgrade": "limatech:razor_enchantment"
+          "upgrade": "limatech:fortune_enchantment"
         }
       },
       "count": 1,
@@ -16,39 +16,35 @@
       "strict": true
     },
     {
-      "count": 4,
+      "count": 6,
       "item": "limatech:niobium_circuit"
     },
     {
-      "count": 8,
-      "item": "minecraft:zombie_head"
-    },
-    {
-      "count": 8,
-      "item": "minecraft:creeper_head"
-    },
-    {
-      "count": 8,
-      "item": "minecraft:skeleton_skull"
-    },
-    {
-      "count": 8,
-      "item": "minecraft:wither_skeleton_skull"
-    },
-    {
-      "count": 8,
-      "item": "minecraft:piglin_head"
+      "count": 1,
+      "item": "minecraft:emerald_block"
     },
     {
       "count": 1,
-      "item": "minecraft:dragon_head"
+      "item": "minecraft:diamond_block"
+    },
+    {
+      "count": 6,
+      "item": "minecraft:amethyst_block"
+    },
+    {
+      "count": 2,
+      "item": "minecraft:nether_star"
+    },
+    {
+      "count": 8,
+      "item": "minecraft:lapis_block"
     }
   ],
   "result": {
     "components": {
       "limatech:equipment_upgrade": {
         "rank": 5,
-        "upgrade": "limatech:razor_enchantment"
+        "upgrade": "limatech:fortune_enchantment"
       }
     },
     "count": 1,

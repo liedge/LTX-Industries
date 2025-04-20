@@ -21,7 +21,15 @@
     "limatech:equipment_damage": [
       {
         "effect": {
-          "context_value": {
+          "type": "context",
+          "op": "flat_addition",
+          "tooltip": {
+            "type": "attribute_amount",
+            "amount": 0.25,
+            "attribute": "minecraft:generic.max_health",
+            "target": "this"
+          },
+          "value": {
             "type": "limacore:math_ops",
             "first": {
               "type": "limacore:targeted_attribute_value",
@@ -30,13 +38,6 @@
             },
             "op": "multiply",
             "second": 0.25
-          },
-          "op": "flat_addition",
-          "tooltip": {
-            "type": "attribute_amount",
-            "amount": 0.25,
-            "attribute": "minecraft:generic.max_health",
-            "target": "this"
           }
         }
       }

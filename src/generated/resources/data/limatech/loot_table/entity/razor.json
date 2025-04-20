@@ -145,6 +145,35 @@
         }
       ],
       "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "type": "minecraft:rabbit"
+          }
+        },
+        {
+          "condition": "minecraft:random_chance_with_enchanted_bonus",
+          "enchanted_chance": {
+            "type": "minecraft:linear",
+            "base": 0.33,
+            "per_level_above_first": 0.33
+          },
+          "enchantment": "limatech:razor",
+          "unenchanted_chance": 0.0
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:rabbit_foot"
+        }
+      ],
+      "rolls": 1.0
     }
   ],
   "random_sequence": "limatech:entity/razor"

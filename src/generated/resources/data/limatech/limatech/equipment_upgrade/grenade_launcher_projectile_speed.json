@@ -11,6 +11,7 @@
   "effects": {
     "limatech:weapon_projectile_speed": [
       {
+        "type": "simple",
         "op": "flat_addition",
         "simple_value": {
           "type": "linear",

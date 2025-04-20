@@ -1,7 +1,7 @@
 {
   "type": "limatech:fabricating",
   "energy_required": 600000,
-  "group": "ammo_scavenger_upgrades",
+  "group": "eum/enchant",
   "ingredients": [
     {
       "type": "neoforge:components",

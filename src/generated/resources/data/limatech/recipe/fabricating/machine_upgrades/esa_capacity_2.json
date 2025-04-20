@@ -1,7 +1,7 @@
 {
   "type": "limatech:fabricating",
   "energy_required": 500000,
-  "group": "esa_upgrades",
+  "group": "mum/esa",
   "ingredients": [
     {
       "type": "neoforge:components",

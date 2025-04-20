@@ -1,7 +1,7 @@
 {
   "type": "limatech:fabricating",
   "energy_required": 400000,
-  "group": "machines/processing/alpha",
+  "group": "mum/gpm",
   "ingredients": [
     {
       "type": "neoforge:components",

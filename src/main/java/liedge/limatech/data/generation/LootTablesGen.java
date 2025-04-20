@@ -109,7 +109,8 @@ class LootTablesGen extends LimaLootTableProvider
             addTable(ENEMY_AMMO_DROPS, LootTable.lootTable().withPool(ammoDrops));
 
             // Razor enchantment loot table
-            LootPool.Builder razorGeneralHeads = LootPool.lootPool().when(LimaLootUtil.randomChanceLinearEnchantBonus(razorEnchantment, 0f, 0.1f))
+            LootPool.Builder razorGeneralHeads = LootPool.lootPool()
+                    .when(LimaLootUtil.randomChanceLinearEnchantBonus(razorEnchantment, 0f, 0.1f))
                     .add(lootItem(Items.ZOMBIE_HEAD).when(needsEntityTag(EntityTypeTags.ZOMBIES)))
                     .add(lootItem(Items.SKELETON_SKULL).when(needsEntityTag(EntityTypeTags.SKELETONS)).when(needsEntityType(EntityType.WITHER_SKELETON).invert()))
                     .add(lootItem(Items.CREEPER_HEAD).when(needsEntityType(EntityType.CREEPER)))
@@ -120,7 +121,11 @@ class LootTablesGen extends LimaLootTableProvider
                     .when(needsEntityType(EntityType.ENDER_DRAGON))
                     .when(LimaLootUtil.randomChanceWithEnchantBonus(razorEnchantment, 0f, EnhancedLookupLevelBasedValue.offsetLookup(4, 0f, 1f, 0.5f)))
                     .add(lootItem(Items.DRAGON_HEAD));
-            addTable(RAZOR_LOOT_TABLE, LootTable.lootTable().withPool(razorGeneralHeads).withPool(razorDragonHead));
+            LootPool.Builder razorRabbitFoot = LootPool.lootPool()
+                    .when(needsEntityType(EntityType.RABBIT))
+                    .when(LimaLootUtil.randomChanceLinearEnchantBonus(razorEnchantment, 0f, 0.33f))
+                    .add(lootItem(Items.RABBIT_FOOT));
+            addTable(RAZOR_LOOT_TABLE, LootTable.lootTable().withPool(razorGeneralHeads).withPool(razorDragonHead).withPool(razorRabbitFoot));
         }
     }
 

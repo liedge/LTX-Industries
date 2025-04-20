@@ -79,9 +79,9 @@ class RecipesGen extends LimaRecipeProvider
         shaped(ENERGY_STORAGE_ARRAY).input('t', TITANIUM_INGOT).input('c', GOLD_CIRCUIT).input('l', DYES_LIME).input('b', COPPER_BLOCK).patterns("tlt", "cbc", "tlt").save(output);
         shaped(DIGITAL_FURNACE).input('t', TITANIUM_INGOT).input('c', COPPER_CIRCUIT).input('l', DYES_LIME).input('a', FURNACE).patterns("tlt", "cac", "ttt").save(output);
         shaped(GRINDER).input('t', TITANIUM_INGOT).input('c', COPPER_CIRCUIT).input('l', DYES_LIME).input('a', GRINDSTONE).patterns("tlt", "cac", "ttt").save(output);
-        shaped(RECOMPOSER).input('t', TITANIUM_INGOT).input('c', GOLD_CIRCUIT).input('r', LIGHTNING_ROD).input('g', GLASS).patterns("ttt", "rgr", "tct").save(output);
+        shaped(RECOMPOSER).input('t', TITANIUM_INGOT).input('c', COPPER_CIRCUIT).input('r', LIGHTNING_ROD).input('g', GLASS).patterns("ttt", "rgr", "tct").save(output);
         shaped(MATERIAL_FUSING_CHAMBER).input('t', TITANIUM_INGOT).input('c', COPPER_CIRCUIT).input('l', DYES_LIME).input('a', BLAST_FURNACE).patterns("tlt", "cac", "ttt").save(output);
-        shaped(FABRICATOR).input('t', TITANIUM_INGOT).input('c', GOLD_CIRCUIT).input('l', DYES_LIME).input('a', CRAFTER).patterns("tlt", "cac", "ttt").save(output);
+        shaped(FABRICATOR).input('t', TITANIUM_INGOT).input('c', COPPER_CIRCUIT).input('l', DYES_LIME).input('a', CRAFTER).patterns("tlt", "cac", "ttt").save(output);
         shaped(EQUIPMENT_UPGRADE_STATION).input('t', TITANIUM_INGOT).input('a', ANVIL).input('l', DYES_LIME).patterns("ttt",  "lal", "ttt").save(output);
 
         GLOW_BLOCKS.forEach((color, deferredBlock) -> shaped(deferredBlock, 4).input('d', color.getTag()).input('g', GLOWSTONE).patterns("dg", "gd").save(output));
@@ -153,11 +153,17 @@ class RecipesGen extends LimaRecipeProvider
         GLOW_BLOCKS.forEach((color, block) -> fusing(stackOf(block, 8)).input(LimaTechTags.Items.GLOW_BLOCK_MATERIALS, 2).input(color.getTag()).save(output));
 
         // Fabricating recipes
-        fabricating(ROCKET_TURRET, 1_000_000)
+        fabricating(ROCKET_TURRET, 2_500_000)
                 .input(TARGETING_TECH_SALVAGE)
                 .input(TITANIUM_INGOT, 32)
-                .input(NIOBIUM_CIRCUIT, 4)
+                .input(GOLD_CIRCUIT, 4)
+                .input(NIOBIUM_CIRCUIT, 2)
+                .group("turrets").save(output);
+        fabricating(RAILGUN_TURRET, 5_000_000)
+                .input(TARGETING_TECH_SALVAGE)
+                .input(TITANIUM_INGOT, 64)
                 .input(GOLD_CIRCUIT, 8)
+                .input(NIOBIUM_CIRCUIT, 4)
                 .group("turrets").save(output);
         fabricating(AUTO_AMMO_CANISTER, 100_000)
                 .input(TITANIUM_INGOT, 3)
@@ -173,187 +179,227 @@ class RecipesGen extends LimaRecipeProvider
                 .input(TITANIUM_INGOT, 16)
                 .input(GOLD_CIRCUIT, 2)
                 .input(DYES_LIME, 4)
-                .group("tools").save(output);
+                .group("ltx/tool").save(output);
         upgradeableItemFabricating(LTX_SHOVEL, registries, 500_000)
                 .input(DIAMOND_SHOVEL)
                 .input(TITANIUM_INGOT, 8)
                 .input(GOLD_CIRCUIT, 2)
                 .input(DYES_LIME, 4)
-                .group("tools").save(output);
+                .group("ltx/tool").save(output);
         upgradeableItemFabricating(LTX_PICKAXE, registries, 500_000)
                 .input(DIAMOND_PICKAXE)
                 .input(TITANIUM_INGOT, 24)
                 .input(GOLD_CIRCUIT, 2)
                 .input(DYES_LIME, 4)
-                .group("tools").save(output);
+                .group("ltx/tool").save(output);
         upgradeableItemFabricating(LTX_AXE, registries, 500_000)
                 .input(DIAMOND_AXE)
                 .input(TITANIUM_INGOT, 24)
                 .input(GOLD_CIRCUIT, 2)
                 .input(DYES_LIME, 4)
-                .group("tools").save(output);
+                .group("ltx/tool").save(output);
         upgradeableItemFabricating(LTX_HOE, registries, 500_000)
                 .input(DIAMOND_HOE)
                 .input(TITANIUM_INGOT, 16)
                 .input(GOLD_CIRCUIT, 2)
                 .input(DYES_LIME, 4)
-                .group("tools").save(output);
+                .group("ltx/tool").save(output);
         upgradeableItemFabricating(LTX_SHEARS, registries, 300_000)
                 .input(SHEARS)
                 .input(TITANIUM_INGOT, 12)
                 .input(COPPER_CIRCUIT, 2)
                 .input(DYES_LIME, 2)
-                .group("tools").save(output);
+                .group("ltx/tool").save(output);
         upgradeableItemFabricating(LTX_BRUSH, registries, 300_000)
                 .input(BRUSH)
                 .input(TITANIUM_INGOT, 6)
                 .input(COPPER_CIRCUIT, 2)
                 .input(DYES_LIME, 2)
-                .group("tools").save(output);
+                .group("ltx/tool").save(output);
         upgradeableItemFabricating(LTX_FISHING_ROD, registries, 300_000)
                 .input(FISHING_ROD)
                 .input(TITANIUM_INGOT, 12)
                 .input(COPPER_CIRCUIT, 2)
                 .input(DYES_LIME, 2)
-                .group("tools").save(output);
+                .group("ltx/tool").save(output);
         upgradeableItemFabricating(LTX_LIGHTER, registries, 300_000)
                 .input(FLINT_AND_STEEL)
                 .input(TITANIUM_INGOT, 6)
                 .input(COPPER_CIRCUIT, 2)
                 .input(DYES_LIME, 2)
-                .group("tools").save(output);
+                .group("ltx/tool").save(output);
 
-        // Weapons fabricator
+        // Weapons fabrication
         upgradeableItemFabricating(SUBMACHINE_GUN, registries, 400_000)
                 .input(TITANIUM_INGOT, 16)
                 .input(COPPER_CIRCUIT, 8)
-                .input(GOLD_CIRCUIT, 4)
-                .group("weapons").save(output);
+                .input(GOLD_CIRCUIT, 2)
+                .group("ltx/weapon").save(output);
         upgradeableItemFabricating(SHOTGUN, registries, 1_000_000)
                 .input(TITANIUM_INGOT, 32)
                 .input(COPPER_CIRCUIT, 16)
                 .input(GOLD_CIRCUIT, 8)
-                .group("weapons").save(output);
+                .group("ltx/weapon").save(output);
         upgradeableItemFabricating(GRENADE_LAUNCHER, registries, 20_000_000)
                 .input(EXPLOSIVES_WEAPON_TECH_SALVAGE)
                 .input(TITANIUM_INGOT, 32)
                 .input(NIOBIUM_INGOT, 16)
                 .input(GOLD_CIRCUIT, 16)
-                .group("weapons").save(output);
+                .group("ltx/weapon").save(output);
         upgradeableItemFabricating(ROCKET_LAUNCHER, registries, 30_000_000)
                 .input(EXPLOSIVES_WEAPON_TECH_SALVAGE)
                 .input(TITANIUM_INGOT, 48)
                 .input(NIOBIUM_INGOT, 16)
                 .input(GOLD_CIRCUIT, 16)
-                .group("weapons").save(output);
+                .group("ltx/weapon").save(output);
         upgradeableItemFabricating(MAGNUM, registries, 50_000_000)
                 .input(TITANIUM_INGOT, 32)
                 .input(NIOBIUM_INGOT, 24)
                 .input(SLATE_ALLOY_INGOT, 4)
                 .input(GOLD_CIRCUIT, 16)
                 .input(NIOBIUM_CIRCUIT, 8)
-                .group("weapons").save(output);
+                .group("ltx/weapon").save(output);
 
-        equipmentModuleFab(output, registries, "weapons/armor_pierce", WEAPON_ARMOR_PIERCE, 1, 1_000_000, builder -> builder
+        equipmentModuleFab(output, registries, "eum/tool", TOOL_OMNI_MINER, 1, 50_000_000, builder -> builder
+                .input(DIAMOND_SHOVEL)
+                .input(DIAMOND_PICKAXE)
+                .input(DIAMOND_AXE)
+                .input(DIAMOND_HOE)
+                .input(TITANIUM_INGOT, 32)
+                .input(NIOBIUM_CIRCUIT, 2)
+                .input(LIME_PIGMENT, 8));
+        equipmentModuleFab(output, registries, "eum/tool", TOOL_VIBRATION_CANCEL, 1, 500_000, builder -> builder
+                .input(GOLD_CIRCUIT, 1)
+                .input(TITANIUM_INGOT, 4)
+                .input(SCULK_SENSOR, 1)
+                .input(ItemTags.WOOL, 8));
+
+        UnaryOperator<FabricatingBuilder> directDrops = builder -> builder
+                .input(NIOBIUM_CIRCUIT, 1)
+                .input(NETHER_STAR)
+                .input(ENDER_CHEST)
+                .input(ENDER_PEARL, 8)
+                .input(ECHO_SHARD);
+        equipmentModuleFab(output, registries, "eum/tool", TOOL_DIRECT_DROPS, 1, 15_000_000, directDrops);
+        equipmentModuleFab(output, registries, "eum/weapon", WEAPON_DIRECT_DROPS, 1, 15_000_000, directDrops);
+
+        equipmentModuleFab(output, registries, "eum/weapon", WEAPON_ARMOR_PIERCE, 1, 1_000_000, builder -> builder
                 .input(COPPER_CIRCUIT, 8)
                 .input(OBSIDIAN, 8)
                 .input(TITANIUM_INGOT, 8));
-        equipmentModuleFab(output, registries, "weapons/armor_pierce", WEAPON_ARMOR_PIERCE, 2, 2_500_000, builder -> builder
+        equipmentModuleFab(output, registries, "eum/weapon", WEAPON_ARMOR_PIERCE, 2, 2_500_000, builder -> builder
                 .input(GOLD_CIRCUIT, 4)
                 .input(OBSIDIAN, 32)
                 .input(TITANIUM_BLOCK, 2));
-        equipmentModuleFab(output, registries, "weapons/armor_pierce", WEAPON_ARMOR_PIERCE, 3, 5_000_000, builder -> builder
+        equipmentModuleFab(output, registries, "eum/weapon", WEAPON_ARMOR_PIERCE, 3, 5_000_000, builder -> builder
                 .input(NIOBIUM_CIRCUIT, 2)
                 .input(OBSIDIAN, 64)
                 .input(SLATE_ALLOY_INGOT, 4));
 
-        equipmentModuleFab(output, registries, "weapons/general", HIGH_IMPACT_ROUNDS, 1, 1_000_000, builder -> builder
+        equipmentModuleFab(output, registries, "eum/weapon", HIGH_IMPACT_ROUNDS, 1, 1_000_000, builder -> builder
                 .input(GOLD_CIRCUIT, 2)
                 .input(TNT, 8)
                 .input(PISTON, 2));
-        equipmentModuleFab(output, registries, "weapons/general", WEAPON_VIBRATION_CANCEL, 1, 500_000, builder -> builder
-                .input(GOLD_CIRCUIT, 4)
+        equipmentModuleFab(output, registries, "eum/weapon", WEAPON_VIBRATION_CANCEL, 1, 500_000, builder -> builder
+                .input(GOLD_CIRCUIT, 2)
+                .input(NIOBIUM_CIRCUIT, 1)
                 .input(TITANIUM_INGOT, 16)
-                .input(ECHO_SHARD, 1)
+                .input(ECHO_SHARD, 2)
                 .input(ItemTags.WOOL, 16));
-        equipmentModuleFab(output, registries, "weapons/general", UNIVERSAL_STEALTH_DAMAGE, 1, 750_000, builder -> builder
+        equipmentModuleFab(output, registries, "eum/weapon", UNIVERSAL_STEALTH_DAMAGE, 1, 750_000, builder -> builder
                 .input(GOLD_CIRCUIT, 6)
                 .input(TITANIUM_INGOT, 16)
                 .input(PHANTOM_MEMBRANE, 8)
                 .input(ENDER_PEARL, 4)
                 .input(DataComponentIngredient.of(false, DataComponentPredicate.builder().expect(DataComponents.POTION_CONTENTS, new PotionContents(Potions.INVISIBILITY)).build(), POTION)));
 
-        equipmentModuleFab(output, registries, "weapons/shield", UNIVERSAL_SHIELD_REGEN, 1, 1_500_000, builder -> builder
+        equipmentModuleFab(output, registries, "eum/weapon", UNIVERSAL_SHIELD_REGEN, 1, 1_500_000, builder -> builder
                 .input(GOLD_CIRCUIT)
                 .input(GOLDEN_APPLE, 1)
                 .input(DataComponentIngredient.of(false, DataComponentPredicate.builder().expect(DataComponents.POTION_CONTENTS, new PotionContents(Potions.FIRE_RESISTANCE)).build(), POTION))
                 .input(SHIELD)
                 .input(DIAMOND, 4));
-        equipmentModuleFab(output, registries, "weapons/shield", UNIVERSAL_SHIELD_REGEN, 2, 3_000_000, builder -> builder
+        equipmentModuleFab(output, registries, "eum/weapon", UNIVERSAL_SHIELD_REGEN, 2, 3_000_000, builder -> builder
                 .input(GOLD_CIRCUIT, 2)
                 .input(GOLDEN_APPLE, 2)
                 .input(DIAMOND, 8)
                 .input(AMETHYST_SHARD, 2));
-        equipmentModuleFab(output, registries, "weapons/shield", UNIVERSAL_SHIELD_REGEN, 3, 5_000_000, builder -> builder
+        equipmentModuleFab(output, registries, "eum/weapon", UNIVERSAL_SHIELD_REGEN, 3, 5_000_000, builder -> builder
                 .input(GOLD_CIRCUIT, 4)
                 .input(NIOBIUM_CIRCUIT, 2)
                 .input(AMETHYST_SHARD, 8)
                 .input(ENCHANTED_GOLDEN_APPLE));
 
-        equipmentModuleFab(output, registries, "looting_upgrades", LOOTING_ENCHANTMENT, 1, 125_000, builder -> builder
-                .input(COPPER_CIRCUIT, 8)
+        equipmentModuleFab(output, registries, "eum/enchant", SILK_TOUCH_ENCHANT, 1, 500_000, builder -> builder
                 .input(GOLD_CIRCUIT, 2)
-                .input(TITANIUM_INGOT, 8)
-                .input(RABBIT_FOOT, 1)
-                .input(LAPIS_LAZULI, 8));
-        equipmentModuleFab(output, registries, "looting_upgrades", LOOTING_ENCHANTMENT, 2, 250_000, builder -> builder
+                .input(EMERALD, 1)
+                .input(SLIME_BALL, 8)
+                .input(GLASS, 16));
+        UnaryOperator<FabricatingBuilder> multi1 = builder -> builder
+                .input(COPPER_CIRCUIT, 4)
+                .input(IRON_INGOT, 4)
+                .input(RABBIT_FOOT)
+                .input(LAPIS_LAZULI, 4);
+        UnaryOperator<FabricatingBuilder> multi2 = builder -> builder
+                .input(GOLD_CIRCUIT, 2)
+                .input(TITANIUM_INGOT, 6)
+                .input(RABBIT_FOOT, 2)
+                .input(LAPIS_LAZULI, 8);
+        UnaryOperator<FabricatingBuilder> multi3 = builder -> builder
                 .input(GOLD_CIRCUIT, 4)
-                .input(EMERALD, 4)
-                .input(DIAMOND, 4)
-                .input(LAPIS_LAZULI, 32));
-        equipmentModuleFab(output, registries, "looting_upgrades", LOOTING_ENCHANTMENT, 3, 500_000, builder -> builder
-                .input(ZOMBIE_HEAD)
-                .input(CREEPER_HEAD)
-                .input(SKELETON_SKULL)
-                .input(WITHER_SKELETON_SKULL)
-                .input(LAPIS_LAZULI, 48));
-        equipmentModuleFab(output, registries, "looting_upgrades", LOOTING_ENCHANTMENT, 4, 1_000_000, builder -> builder
-                .input(NIOBIUM_CIRCUIT, 4)
-                .input(EMERALD_BLOCK, 4)
+                .input(TITANIUM_INGOT, 8)
+                .input(EMERALD, 2)
+                .input(DIAMOND, 2)
+                .input(LAPIS_BLOCK, 2);
+        UnaryOperator<FabricatingBuilder> multi4 = builder -> builder
+                .input(NIOBIUM_CIRCUIT, 3)
+                .input(EMERALD, 6)
+                .input(DIAMOND, 6)
+                .input(AMETHYST_BLOCK, 3)
                 .input(NETHER_STAR, 1)
-                .input(LAPIS_BLOCK, 16));
-        equipmentModuleFab(output, registries, "looting_upgrades", LOOTING_ENCHANTMENT, 5, 10_000_000, builder -> builder
-                .input(NIOBIUM_CIRCUIT, 8)
-                .input(SLATE_ALLOY_INGOT, 16)
-                .input(ECHO_SHARD, 2)
-                .input(DRAGON_HEAD, 1)
-                .input(NETHER_STAR, 4)
-                .input(LAPIS_BLOCK, 64));
+                .input(LAPIS_BLOCK, 4);
+        UnaryOperator<FabricatingBuilder> multi5 = builder -> builder
+                .input(NIOBIUM_CIRCUIT, 6)
+                .input(EMERALD_BLOCK, 1)
+                .input(DIAMOND_BLOCK, 1)
+                .input(AMETHYST_BLOCK, 6)
+                .input(NETHER_STAR, 2)
+                .input(LAPIS_BLOCK, 8);
+        equipmentModuleFab(output, registries, "eum/enchant", LOOTING_ENCHANTMENT, 1, 125_000, multi1);
+        equipmentModuleFab(output, registries, "eum/enchant", FORTUNE_ENCHANTMENT, 1, 125_000, multi1);
+        equipmentModuleFab(output, registries, "eum/enchant", LOOTING_ENCHANTMENT, 2, 250_000, multi2);
+        equipmentModuleFab(output, registries, "eum/enchant", FORTUNE_ENCHANTMENT, 2, 250_000, multi2);
+        equipmentModuleFab(output, registries, "eum/enchant", LOOTING_ENCHANTMENT, 3, 500_000, multi3);
+        equipmentModuleFab(output, registries, "eum/enchant", FORTUNE_ENCHANTMENT, 3, 500_000, multi3);
+        equipmentModuleFab(output, registries, "eum/enchant", LOOTING_ENCHANTMENT, 4, 1_000_000, multi4);
+        equipmentModuleFab(output, registries, "eum/enchant", FORTUNE_ENCHANTMENT, 4, 1_000_000, multi4);
+        equipmentModuleFab(output, registries, "eum/enchant", LOOTING_ENCHANTMENT, 5, 10_000_000, multi5);
+        equipmentModuleFab(output, registries, "eum/enchant", FORTUNE_ENCHANTMENT, 5, 10_000_000, multi5);
 
-        equipmentModuleFab(output, registries, "razor_upgrades", RAZOR_ENCHANTMENT, 1, 250_000, builder -> builder
+        equipmentModuleFab(output, registries, "eum/enchant", RAZOR_ENCHANTMENT, 1, 250_000, builder -> builder
                 .input(COPPER_CIRCUIT, 4)
                 .input(TITANIUM_INGOT, 8)
                 .input(ZOMBIE_HEAD)
                 .input(CREEPER_HEAD)
                 .input(SKELETON_SKULL));
-        equipmentModuleFab(output, registries,"razor_upgrades", RAZOR_ENCHANTMENT, 2, 500_000, builder -> builder
+        equipmentModuleFab(output, registries,"eum/enchant", RAZOR_ENCHANTMENT, 2, 500_000, builder -> builder
                 .input(COPPER_CIRCUIT, 8)
                 .input(GOLD_CIRCUIT, 2)
                 .input(DIAMOND, 2)
                 .input(ZOMBIE_HEAD, 2)
                 .input(CREEPER_HEAD, 2)
                 .input(SKELETON_SKULL, 2));
-        equipmentModuleFab(output, registries, "razor_upgrades", RAZOR_ENCHANTMENT, 3, 1_000_000, builder -> builder
+        equipmentModuleFab(output, registries, "eum/enchant", RAZOR_ENCHANTMENT, 3, 1_000_000, builder -> builder
                 .input(GOLD_CIRCUIT, 4)
                 .input(ZOMBIE_HEAD, 4)
                 .input(SKELETON_SKULL, 4)
                 .input(CREEPER_HEAD, 4));
-        equipmentModuleFab(output, registries, "razor_upgrades", RAZOR_ENCHANTMENT, 4, 2_00_000, builder -> builder
+        equipmentModuleFab(output, registries, "eum/enchant", RAZOR_ENCHANTMENT, 4, 2_00_000, builder -> builder
                 .input(GOLD_CIRCUIT, 4)
                 .input(NIOBIUM_CIRCUIT, 2)
                 .input(WITHER_SKELETON_SKULL, 6)
                 .input(PIGLIN_HEAD, 6));
-        equipmentModuleFab(output, registries, "razor_upgrades", RAZOR_ENCHANTMENT, 5, 4_000_000, builder -> builder
+        equipmentModuleFab(output, registries, "eum/enchant", RAZOR_ENCHANTMENT, 5, 4_000_000, builder -> builder
                 .input(NIOBIUM_CIRCUIT, 4)
                 .input(ZOMBIE_HEAD, 8)
                 .input(CREEPER_HEAD, 8)
@@ -362,27 +408,27 @@ class RecipesGen extends LimaRecipeProvider
                 .input(PIGLIN_HEAD, 8)
                 .input(DRAGON_HEAD, 1));
 
-        equipmentModuleFab(output, registries, "ammo_scavenger_upgrades", AMMO_SCAVENGER_ENCHANTMENT, 1, 300_000, builder -> builder
+        equipmentModuleFab(output, registries, "eum/enchant", AMMO_SCAVENGER_ENCHANTMENT, 1, 300_000, builder -> builder
                 .input(GOLD_CIRCUIT, 2)
                 .input(TITANIUM_INGOT, 8)
                 .input(GUNPOWDER, 8)
                 .input(AUTO_AMMO_CANISTER, 2));
-        equipmentModuleFab(output, registries, "ammo_scavenger_upgrades", AMMO_SCAVENGER_ENCHANTMENT, 2, 600_000, builder -> builder
+        equipmentModuleFab(output, registries, "eum/enchant", AMMO_SCAVENGER_ENCHANTMENT, 2, 600_000, builder -> builder
                 .input(GOLD_CIRCUIT, 4)
                 .input(TITANIUM_INGOT, 12)
                 .input(LAPIS_LAZULI, 16)
                 .input(AUTO_AMMO_CANISTER, 4));
-        equipmentModuleFab(output, registries, "ammo_scavenger_upgrades", AMMO_SCAVENGER_ENCHANTMENT, 3, 900_000, builder -> builder
+        equipmentModuleFab(output, registries, "eum/enchant", AMMO_SCAVENGER_ENCHANTMENT, 3, 900_000, builder -> builder
                 .input(GOLD_CIRCUIT, 6)
                 .input(TITANIUM_INGOT, 16)
                 .input(AUTO_AMMO_CANISTER, 8)
                 .input(SPECIALIST_AMMO_CANISTER, 2));
-        equipmentModuleFab(output, registries, "ammo_scavenger_upgrades", AMMO_SCAVENGER_ENCHANTMENT, 4, 1_200_000, builder -> builder
+        equipmentModuleFab(output, registries, "eum/enchant", AMMO_SCAVENGER_ENCHANTMENT, 4, 1_200_000, builder -> builder
                 .input(GOLD_CIRCUIT, 8)
                 .input(NIOBIUM_CIRCUIT, 1)
                 .input(SPECIALIST_AMMO_CANISTER, 4)
                 .input(EXPLOSIVES_AMMO_CANISTER, 2));
-        equipmentModuleFab(output, registries, "ammo_scavenger_upgrades", AMMO_SCAVENGER_ENCHANTMENT, 5, 1_500_000, builder -> builder
+        equipmentModuleFab(output, registries, "eum/enchant", AMMO_SCAVENGER_ENCHANTMENT, 5, 1_500_000, builder -> builder
                 .input(NIOBIUM_CIRCUIT, 2)
                 .input(SLATE_ALLOY_INGOT, 2)
                 .input(AUTO_AMMO_CANISTER, 16)
@@ -390,74 +436,74 @@ class RecipesGen extends LimaRecipeProvider
                 .input(EXPLOSIVES_AMMO_CANISTER, 4)
                 .input(MAGNUM_AMMO_CANISTER, 2));
 
-        equipmentModuleFab(output, registries, "hanabi/cores", FLAME_GRENADE_CORE, 1, 250_000, builder -> builder
+        equipmentModuleFab(output, registries, "eum/weapon/gl", FLAME_GRENADE_CORE, 1, 250_000, builder -> builder
                 .input(COPPER_CIRCUIT, 16)
                 .input(TITANIUM_INGOT, 8)
                 .input(FIRE_CHARGE, 21));
-        equipmentModuleFab(output, registries, "hanabi/cores", CRYO_GRENADE_CORE, 1, 250_000, builder -> builder
+        equipmentModuleFab(output, registries, "eum/weapon/gl", CRYO_GRENADE_CORE, 1, 250_000, builder -> builder
                 .input(COPPER_CIRCUIT, 16)
                 .input(TITANIUM_INGOT, 8)
                 .input(SNOW_BLOCK, 16)
                 .input(DataComponentIngredient.of(false, DataComponentPredicate.builder().expect(DataComponents.POTION_CONTENTS, new PotionContents(Potions.STRONG_SLOWNESS)).build(), POTION)));
-        equipmentModuleFab(output, registries, "hanabi/cores", ELECTRIC_GRENADE_CORE, 1, 500_000, builder -> builder
+        equipmentModuleFab(output, registries, "eum/weapon/gl", ELECTRIC_GRENADE_CORE, 1, 500_000, builder -> builder
                 .input(COPPER_CIRCUIT, 8)
                 .input(GOLD_CIRCUIT, 8)
                 .input(TITANIUM_INGOT, 8)
                 .input(LIGHTNING_ROD, 4)
                 .input(BREEZE_ROD, 1));
-        equipmentModuleFab(output, registries, "hanabi/cores", ACID_GRENADE_CORE, 1, 1_000_000, builder -> builder
+        equipmentModuleFab(output, registries, "eum/weapon/gl", ACID_GRENADE_CORE, 1, 1_000_000, builder -> builder
                 .input(GOLD_CIRCUIT, 16)
                 .input(NIOBIUM_CIRCUIT, 4)
                 .input(TITANIUM_INGOT, 32)
                 .input(DataComponentIngredient.of(false, DataComponentPredicate.builder().expect(DataComponents.POTION_CONTENTS, new PotionContents(Potions.STRONG_POISON)).build(), POTION)));
-        equipmentModuleFab(output, registries, "hanabi/cores", NEURO_GRENADE_CORE, 1, 5_000_000, builder -> builder
+        equipmentModuleFab(output, registries, "eum/weapon/gl", NEURO_GRENADE_CORE, 1, 5_000_000, builder -> builder
                 .input(GOLD_CIRCUIT, 16)
                 .input(NIOBIUM_CIRCUIT, 16)
                 .input(TITANIUM_INGOT, 64)
                 .input(NETHER_STAR)
                 .input(DataComponentIngredient.of(false, DataComponentPredicate.builder().expect(DataComponents.POTION_CONTENTS, new PotionContents(Potions.LONG_WEAKNESS)).build(), POTION)));
-        equipmentModuleFab(output, registries, "hanabi/speed", GRENADE_LAUNCHER_PROJECTILE_SPEED, 1, 750_000, builder -> builder
+        equipmentModuleFab(output, registries, "eum/weapon", GRENADE_LAUNCHER_PROJECTILE_SPEED, 1, 750_000, builder -> builder
                 .input(GOLD_CIRCUIT)
                 .input(FIREWORK_ROCKET, 9)
                 .input(PHANTOM_MEMBRANE, 2));
-        equipmentModuleFab(output, registries, "hanabi/speed", GRENADE_LAUNCHER_PROJECTILE_SPEED, 2, 2_000_000, builder -> builder
+        equipmentModuleFab(output, registries, "eum/weapon", GRENADE_LAUNCHER_PROJECTILE_SPEED, 2, 2_000_000, builder -> builder
                 .input(NIOBIUM_CIRCUIT, 2)
                 .input(FIREWORK_ROCKET, 36)
                 .input(PHANTOM_MEMBRANE, 8));
 
-        machineModuleFab(output, registries, "machines/processing/alpha", STANDARD_MACHINE_SYSTEMS, 1, 100_000, builder -> builder
+        machineModuleFab(output, registries, "mum/gpm", STANDARD_MACHINE_SYSTEMS, 1, 100_000, builder -> builder
                 .input(COPPER_CIRCUIT, 1)
                 .input(TITANIUM_INGOT, 2)
                 .input(REDSTONE, 8)
                 .input(IRON_INGOT, 4));
-        machineModuleFab(output, registries, "machines/processing/alpha", STANDARD_MACHINE_SYSTEMS, 2, 400_000, builder -> builder
+        machineModuleFab(output, registries, "mum/gpm", STANDARD_MACHINE_SYSTEMS, 2, 400_000, builder -> builder
                 .input(GOLD_CIRCUIT, 1)
                 .input(TITANIUM_INGOT, 4)
                 .input(REDSTONE, 12)
                 .input(LAPIS_LAZULI, 4));
-        machineModuleFab(output, registries, "machines/processing/alpha", STANDARD_MACHINE_SYSTEMS, 3, 700_000, builder -> builder
+        machineModuleFab(output, registries, "mum/gpm", STANDARD_MACHINE_SYSTEMS, 3, 700_000, builder -> builder
                 .input(GOLD_CIRCUIT, 2)
                 .input(TITANIUM_INGOT, 6)
                 .input(REDSTONE_BLOCK, 2)
                 .input(OBSIDIAN, 4));
-        machineModuleFab(output, registries, "machines/processing/alpha", STANDARD_MACHINE_SYSTEMS, 4, 10_000_000, builder -> builder
+        machineModuleFab(output, registries, "mum/gpm", STANDARD_MACHINE_SYSTEMS, 4, 10_000_000, builder -> builder
                 .input(NIOBIUM_CIRCUIT, 1)
                 .input(SLATE_ALLOY_INGOT, 2)
                 .input(TITANIUM_INGOT, 8)
                 .input(REDSTONE_BLOCK, 4)
                 .input(DIAMOND, 1));
-        machineModuleFab(output, registries, "machines/processing/alpha", STANDARD_MACHINE_SYSTEMS, 5, 40_000_000, builder -> builder
+        machineModuleFab(output, registries, "mum/gpm", STANDARD_MACHINE_SYSTEMS, 5, 40_000_000, builder -> builder
                 .input(NIOBIUM_CIRCUIT, 2)
                 .input(SLATE_ALLOY_INGOT, 4)
                 .input(EMERALD, 2)
                 .input(CHORUS_FRUIT, 4)
                 .input(SHULKER_SHELL, 2));
-        machineModuleFab(output, registries, "machines/processing0", STANDARD_MACHINE_SYSTEMS, 6, 100_000_000, builder -> builder
+        machineModuleFab(output, registries, "mum/gpm", STANDARD_MACHINE_SYSTEMS, 6, 100_000_000, builder -> builder
                 .input(NIOBIUM_CIRCUIT, 4)
                 .input(SLATE_ALLOY_INGOT, 8)
                 .input(ECHO_SHARD, 2)
                 .input(AMETHYST_SHARD, 4));
-        machineModuleFab(output, registries, "machines/processing1", ULTIMATE_MACHINE_SYSTEMS, 1, 250_000_000, builder -> builder
+        machineModuleFab(output, registries, "mum/gpm", ULTIMATE_MACHINE_SYSTEMS, 1, 250_000_000, builder -> builder
                 .input(NIOBIUM_CIRCUIT, 8)
                 .input(SLATE_ALLOY_INGOT, 16)
                 .input(NETHER_STAR, 2)
@@ -466,43 +512,43 @@ class RecipesGen extends LimaRecipeProvider
                 .input(REDSTONE_BLOCK, 16)
                 .input(AMETHYST_BLOCK, 4));
 
-        machineModuleFab(output, registries, "esa_upgrades", ESA_CAPACITY_UPGRADE, 1, 250_000, builder -> builder
+        machineModuleFab(output, registries, "mum/esa", ESA_CAPACITY_UPGRADE, 1, 250_000, builder -> builder
                 .input(LIGHTNING_ROD, 2)
                 .input(COPPER_INGOT, 6));
-        machineModuleFab(output, registries, "esa_upgrades", ESA_CAPACITY_UPGRADE, 2, 500_000, builder -> builder
+        machineModuleFab(output, registries, "mum/esa", ESA_CAPACITY_UPGRADE, 2, 500_000, builder -> builder
                 .input(LIGHTNING_ROD, 2)
                 .input(COPPER_INGOT, 12)
                 .input(GOLD_CIRCUIT, 2));
-        machineModuleFab(output, registries, "esa_upgrades", ESA_CAPACITY_UPGRADE, 3, 1_000_000, builder -> builder
+        machineModuleFab(output, registries, "mum/esa", ESA_CAPACITY_UPGRADE, 3, 1_000_000, builder -> builder
                 .input(LIGHTNING_ROD, 2)
                 .input(GOLD_INGOT, 12)
                 .input(NIOBIUM_CIRCUIT, 2));
-        machineModuleFab(output, registries, "esa_upgrades", ESA_CAPACITY_UPGRADE, 4, 5_000_000, builder -> builder
+        machineModuleFab(output, registries, "mum/esa", ESA_CAPACITY_UPGRADE, 4, 5_000_000, builder -> builder
                 .input(LIGHTNING_ROD, 2)
                 .input(NIOBIUM_INGOT, 12)
                 .input(NIOBIUM_CIRCUIT, 2));
 
-        machineModuleFab(output, registries, "fab_upgrades", FABRICATOR_UPGRADE, 1, 500_000, builder -> builder
+        machineModuleFab(output, registries, "mum/fabricator", FABRICATOR_UPGRADE, 1, 500_000, builder -> builder
                 .input(DYES_LIME, 4)
                 .input(DIAMOND)
                 .input(TITANIUM_INGOT, 4)
                 .input(COPPER_CIRCUIT, 2)
                 .input(REDSTONE, 8));
-        machineModuleFab(output, registries, "fab_upgrades", FABRICATOR_UPGRADE, 2, 1_000_000, builder -> builder
+        machineModuleFab(output, registries, "mum/fabricator", FABRICATOR_UPGRADE, 2, 1_000_000, builder -> builder
                 .input(DYES_LIME, 4)
                 .input(DIAMOND, 4)
                 .input(TITANIUM_INGOT, 8)
                 .input(COPPER_CIRCUIT, 4)
                 .input(GOLD_CIRCUIT, 2)
                 .input(REDSTONE, 8));
-        machineModuleFab(output, registries, "fab_upgrades", FABRICATOR_UPGRADE, 3, 5_000_000, builder -> builder
+        machineModuleFab(output, registries, "mum/fabricator", FABRICATOR_UPGRADE, 3, 5_000_000, builder -> builder
                 .input(DYES_LIME, 8)
                 .input(DIAMOND_BLOCK)
                 .input(TITANIUM_INGOT, 16)
                 .input(GOLD_CIRCUIT, 4)
                 .input(NIOBIUM_CIRCUIT, 2)
                 .input(REDSTONE, 16));
-        machineModuleFab(output, registries, "fab_upgrades", FABRICATOR_UPGRADE, 4, 10_000_000, builder -> builder
+        machineModuleFab(output, registries, "mum/fabricator", FABRICATOR_UPGRADE, 4, 10_000_000, builder -> builder
                 .input(DYES_LIME, 8)
                 .input(DIAMOND_BLOCK)
                 .input(TITANIUM_INGOT, 32)
@@ -510,6 +556,7 @@ class RecipesGen extends LimaRecipeProvider
                 .input(REDSTONE, 32));
     }
 
+    // Helpers
     private void orePebblesCooking(ItemLike orePebble, ItemLike resultItem, int resultCount, RecipeOutput output)
     {
         String name = getItemName(orePebble);

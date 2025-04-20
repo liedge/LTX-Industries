@@ -6,7 +6,7 @@
       "item": "minecraft:crafter"
     },
     "c": {
-      "item": "limatech:gold_circuit"
+      "item": "limatech:copper_circuit"
     },
     "l": {
       "tag": "c:dyes/lime"

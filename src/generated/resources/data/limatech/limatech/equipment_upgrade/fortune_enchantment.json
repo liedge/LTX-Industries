@@ -24,6 +24,7 @@
     ],
     "limatech:energy_usage": [
       {
+        "type": "simple",
         "invert_color": true,
         "op": "add_multiplied_base",
         "simple_value": {

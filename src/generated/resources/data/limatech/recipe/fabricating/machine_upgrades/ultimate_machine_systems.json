@@ -1,7 +1,7 @@
 {
   "type": "limatech:fabricating",
   "energy_required": 250000000,
-  "group": "machines/processing1",
+  "group": "mum/gpm",
   "ingredients": [
     {
       "count": 1,

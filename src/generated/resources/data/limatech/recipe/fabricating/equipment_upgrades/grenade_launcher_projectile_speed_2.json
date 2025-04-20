@@ -1,7 +1,7 @@
 {
   "type": "limatech:fabricating",
   "energy_required": 2000000,
-  "group": "hanabi/speed",
+  "group": "eum/weapon",
   "ingredients": [
     {
       "type": "neoforge:components",

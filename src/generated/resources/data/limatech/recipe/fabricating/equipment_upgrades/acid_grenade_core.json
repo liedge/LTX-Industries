@@ -1,7 +1,7 @@
 {
   "type": "limatech:fabricating",
   "energy_required": 1000000,
-  "group": "hanabi/cores",
+  "group": "eum/weapon/gl",
   "ingredients": [
     {
       "count": 1,

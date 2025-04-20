@@ -1,27 +1,27 @@
 {
   "type": "limatech:fabricating",
-  "energy_required": 500000,
-  "group": "ltx/tool",
+  "energy_required": 5000000,
+  "group": "turrets",
   "ingredients": [
     {
       "count": 1,
-      "item": "minecraft:diamond_hoe"
+      "item": "limatech:targeting_tech_salvage"
     },
     {
-      "count": 16,
+      "count": 64,
       "item": "limatech:titanium_ingot"
     },
     {
-      "count": 2,
+      "count": 8,
       "item": "limatech:gold_circuit"
     },
     {
       "count": 4,
-      "tag": "c:dyes/lime"
+      "item": "limatech:niobium_circuit"
     }
   ],
   "result": {
     "count": 1,
-    "id": "limatech:ltx_hoe"
+    "id": "limatech:railgun_turret"
   }
 }

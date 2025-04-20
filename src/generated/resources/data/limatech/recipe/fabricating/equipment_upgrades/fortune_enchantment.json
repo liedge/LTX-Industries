@@ -1,29 +1,33 @@
 {
   "type": "limatech:fabricating",
-  "energy_required": 1000000,
-  "group": "eum/weapon",
+  "energy_required": 125000,
+  "group": "eum/enchant",
   "ingredients": [
     {
       "count": 1,
       "item": "limatech:empty_upgrade_module"
     },
     {
-      "count": 8,
+      "count": 4,
       "item": "limatech:copper_circuit"
     },
     {
-      "count": 8,
-      "item": "minecraft:obsidian"
+      "count": 4,
+      "item": "minecraft:iron_ingot"
     },
     {
-      "count": 8,
-      "item": "limatech:titanium_ingot"
+      "count": 1,
+      "item": "minecraft:rabbit_foot"
+    },
+    {
+      "count": 4,
+      "item": "minecraft:lapis_lazuli"
     }
   ],
   "result": {
     "components": {
       "limatech:equipment_upgrade": {
-        "upgrade": "limatech:weapon_armor_pierce"
+        "upgrade": "limatech:fortune_enchantment"
       }
     },
     "count": 1,
