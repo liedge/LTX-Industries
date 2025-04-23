@@ -27,7 +27,7 @@ public final class WeaponHUDInfoLayer extends LimaGuiLayer
     @Override
     protected boolean shouldRender(LocalPlayer player)
     {
-        return Minecraft.getInstance().options.getCameraType().isFirstPerson() && !player.isSpectator() && player.getMainHandItem().getItem() instanceof WeaponItem;
+        return !player.isSpectator() && !Minecraft.getInstance().options.hideGui && player.getMainHandItem().getItem() instanceof WeaponItem;
     }
 
     @Override

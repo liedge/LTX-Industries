@@ -97,7 +97,7 @@ public class ClientWeaponControls extends AbstractWeaponControls
     @Override
     protected void triggerTick(ItemStack heldItem, Player player, WeaponItem weaponItem)
     {
-        final boolean leftInput = Minecraft.getInstance().options.keyAttack.isDown();
+        final boolean leftInput = Minecraft.getInstance().options.keyAttack.isDown() && !player.isSpectator();
 
         if (previousLeftInput != leftInput)
         {

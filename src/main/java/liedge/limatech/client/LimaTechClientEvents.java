@@ -90,11 +90,10 @@ public final class LimaTechClientEvents
     public static void onKeyInput(final InputEvent.Key event)
     {
         // Handle reload key input
-        if (LimaTechKeyMappings.RELOAD_KEY.consumeClick() && Minecraft.getInstance().player != null)
+        LocalPlayer player = Minecraft.getInstance().player;
+        if (LimaTechKeyMappings.RELOAD_KEY.consumeClick() && player != null && !player.isSpectator())
         {
-            Player player = Minecraft.getInstance().player;
             ItemStack heldItem = player.getMainHandItem();
-
             if (heldItem.getItem() instanceof WeaponItem weaponItem)
             {
                 ClientWeaponControls.of(player).handleReloadInput(player, heldItem, weaponItem);
@@ -120,7 +119,7 @@ public final class LimaTechClientEvents
                 // Render bubble shield pass
                 if (entity.hasData(LimaTechAttachmentTypes.BUBBLE_SHIELD))
                 {
-                    if (entity == Minecraft.getInstance().player && Minecraft.getInstance().options.getCameraType().isFirstPerson()) continue;
+                    if (entity == Minecraft.getInstance().player && (Minecraft.getInstance().options.getCameraType().isFirstPerson() || entity.isSpectator())) continue;
 
                     float shieldHealth = entity.getData(LimaTechAttachmentTypes.BUBBLE_SHIELD).getShieldHealth();
 

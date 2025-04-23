@@ -22,7 +22,7 @@ public final class BubbleShieldLayer extends LimaGuiLayer
     @Override
     protected boolean shouldRender(LocalPlayer player)
     {
-        return !player.isSpectator();
+        return !player.isSpectator() && !Minecraft.getInstance().options.hideGui;
     }
 
     @Override
