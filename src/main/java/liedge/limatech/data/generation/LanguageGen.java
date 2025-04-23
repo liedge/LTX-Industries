@@ -107,9 +107,9 @@ class LanguageGen extends LimaLanguageProvider
         addItem(TITANIUM_ORE_PEBBLES, "Titanium Ore Pebbles");
         addItem(NIOBIUM_ORE_PEBBLES, "Niobium Ore Pebbles");
 
+        addItem(LTX_DRILL, ltxToolName("Drill"));
         addItem(LTX_SWORD, ltxToolName("Sword"));
         addItem(LTX_SHOVEL, ltxToolName("Shovel"));
-        addItem(LTX_PICKAXE, ltxToolName("Pickaxe"));
         addItem(LTX_AXE, ltxToolName("Axe"));
         addItem(LTX_HOE, ltxToolName("Hoe"));
         addItem(LTX_SHEARS, ltxToolName("Shears"));
@@ -144,7 +144,9 @@ class LanguageGen extends LimaLanguageProvider
         upgrade(LimaTechEquipmentUpgrades.SUBMACHINE_GUN_DEFAULT, "Serenity Intrinsics", "Serenity's small light-frags zip right through targets without a trace.");
         upgrade(LimaTechEquipmentUpgrades.SHOTGUN_DEFAULT, "Aurora Intrinsics", "Aurora's combat precepts, specialized in fast assault and scout operations.");
 
-        upgrade(LimaTechEquipmentUpgrades.TOOL_OMNI_MINER, "LTX/ε Omni-Miner", "This experimental cutter emitter overrides your tool's precepts and lets you mine everything!");
+        upgrade(LimaTechEquipmentUpgrades.DRILL_DIAMOND_LEVEL, "Diamond Drill Core", "Diamond plating allows the drill to harvest diamond-level materials.");
+        upgrade(LimaTechEquipmentUpgrades.DRILL_NETHERITE_LEVEL, "Netherite Drill Core", "The composite alloy plating on the drill allows harvesting of netherite-level materials.");
+        upgrade(LimaTechEquipmentUpgrades.DRILL_OMNI_MINER, "Omni-Drill Precept", "Special-issue drill cutter emitters are modified to work on any material type.");
         upgrade(LimaTechEquipmentUpgrades.TOOL_VIBRATION_CANCEL, "Resonance-Tuned Servos", "Special lining on this tool's servos dampen vibrations from standard use.");
         upgrade(LimaTechEquipmentUpgrades.TOOL_DIRECT_DROPS, "Mining Subspace Link", "Tool systems interface directly with your inventory, depositing materials without physical collection.");
 
@@ -155,8 +157,8 @@ class LanguageGen extends LimaLanguageProvider
         upgrade(LimaTechEquipmentUpgrades.UNIVERSAL_STEALTH_DAMAGE, "Biometric Obfuscation", "Targeting systems mask your signature, leaving no trace of your involvement. May not be effective against all targets.");
         upgrade(LimaTechEquipmentUpgrades.UNIVERSAL_ENERGY_AMMO, "Weapon Energy Systems", "Reroutes magazine feed to draw from Common Energy reserves. Say goodbye to your ammo stash.");
         upgrade(LimaTechEquipmentUpgrades.UNIVERSAL_INFINITE_AMMO, "//ERR~∞//Magazine", "Ignore the laws of physics with this never-ending ammo source. Try not to cause a mass extinction event, yeah?");
-        upgrade(LimaTechEquipmentUpgrades.WEAPON_ARMOR_PIERCE, "Armor-Piercing Rounds", "Weapon ignores 10% of armor per upgrade rank.");
-        upgrade(LimaTechEquipmentUpgrades.UNIVERSAL_SHIELD_REGEN, "Bubble Shield Regen", "Kills recharge your personal Bubble Shield.");
+        upgrade(LimaTechEquipmentUpgrades.WEAPON_ARMOR_PIERCE, "Armor-Piercing Rounds", "Volatile energy dispersal precepts. Allows weapons to partially breach armor.");
+        upgrade(LimaTechEquipmentUpgrades.WEAPON_SHIELD_REGEN, "Regenerative Link", "Captures enemy energy upon elimination to power medical nano-tech and the bubble shield.");
         upgrade(LimaTechEquipmentUpgrades.WEAPON_DIRECT_DROPS, "Combat Subspace Link", "Weapon systems interface directly with your inventory, depositing loot without physical collection.");
 
         upgrade(LimaTechEquipmentUpgrades.SILK_TOUCH_ENCHANT, "Stabilized Harvest Matrix", "Calibrated to extract intact samples from the terrain.");
@@ -276,6 +278,8 @@ class LanguageGen extends LimaLanguageProvider
         add(LimaTechUpgradeEffectComponents.WEAPON_PROJECTILE_SPEED, "%s projectile speed");
         add(LimaTechUpgradeEffectComponents.TICKS_PER_OPERATION, "%s ticks/operation");
 
+        add(MINING_EFFECTIVE_BLOCKS_EFFECT, "Effective against %s blocks");
+        add(MINING_BASE_SPEED_EFFECT, "Base mining speed: %s");
         add(WEAPON_KNOCKBACK_EFFECT, "%s knockback power");
         add(DYNAMIC_DAMAGE_TAG_EFFECT, "+Damage Tags: %s");
         add(SUPPRESS_VIBRATIONS_EFFECT, "Suppresses %s sculk vibrations");
@@ -283,7 +287,8 @@ class LanguageGen extends LimaLanguageProvider
         add(DIRECT_ENTITY_DROPS_EFFECT, "Directly collects %s entity drops");
         add(ENERGY_AMMO_EFFECT, "Weapon reloads from an internal CE reserve");
         add(INFINITE_AMMO_EFFECT, "Grants weapon infinite ammunition and magazine");
-        add(SHIELD_UPGRADE_EFFECT, "%s Bubble Shield/kill, (max %s)");
+        add(REDUCTION_MODIFIER_EFFECT, "%s %s breach");
+        add(BUBBLE_SHIELD_EFFECT, "%s Bubble Shield/kill, (max %s)");
         add(MOB_EFFECT_UPGRADE_EFFECT, "Applies %s (%s)");
         add(ENCHANTMENT_UPGRADE_EFFECT, "%s %s Enchantment");
         add(GRENADE_UNLOCK_EFFECT, "Can use %s shells");

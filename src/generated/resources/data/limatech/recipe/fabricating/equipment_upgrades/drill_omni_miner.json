@@ -1,0 +1,44 @@
+{
+  "type": "limatech:fabricating",
+  "energy_required": 20000000,
+  "group": "eum/tool",
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "limatech:empty_upgrade_module"
+    },
+    {
+      "count": 1,
+      "item": "minecraft:diamond_shovel"
+    },
+    {
+      "count": 1,
+      "item": "minecraft:diamond_pickaxe"
+    },
+    {
+      "count": 1,
+      "item": "minecraft:diamond_axe"
+    },
+    {
+      "count": 1,
+      "item": "minecraft:diamond_hoe"
+    },
+    {
+      "count": 2,
+      "item": "limatech:niobium_circuit"
+    },
+    {
+      "count": 2,
+      "item": "limatech:titanium_block"
+    }
+  ],
+  "result": {
+    "components": {
+      "limatech:equipment_upgrade": {
+        "upgrade": "limatech:drill_omni_miner"
+      }
+    },
+    "count": 1,
+    "id": "limatech:equipment_upgrade_module"
+  }
+}

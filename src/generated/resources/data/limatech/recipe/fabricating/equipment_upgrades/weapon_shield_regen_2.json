@@ -7,7 +7,7 @@
       "type": "neoforge:components",
       "components": {
         "limatech:equipment_upgrade": {
-          "upgrade": "limatech:universal_shield_regen"
+          "upgrade": "limatech:weapon_shield_regen"
         }
       },
       "count": 1,
@@ -35,7 +35,7 @@
     "components": {
       "limatech:equipment_upgrade": {
         "rank": 2,
-        "upgrade": "limatech:universal_shield_regen"
+        "upgrade": "limatech:weapon_shield_regen"
       }
     },
     "count": 1,

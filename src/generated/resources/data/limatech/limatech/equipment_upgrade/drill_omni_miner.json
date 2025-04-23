@@ -1,0 +1,25 @@
+{
+  "display": {
+    "category": "tools/drill",
+    "description": {
+      "translate": "equipment_upgrade.limatech.drill_omni_miner.desc"
+    },
+    "icon": "limatech:omni_drill_tip",
+    "title": {
+      "color": "#9DF143",
+      "translate": "equipment_upgrade.limatech.drill_omni_miner"
+    }
+  },
+  "effects": {
+    "limatech:mining_rules": [
+      {
+        "effective_blocks": {
+          "type": "neoforge:any"
+        },
+        "priority": 3
+      }
+    ]
+  },
+  "exclusive_set": [],
+  "supported_set": "limatech:ltx_drill"
+}

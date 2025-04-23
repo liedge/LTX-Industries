@@ -122,7 +122,7 @@ public final class LimaTechTags
     {
         private EquipmentUpgrades() {}
 
-        public static final TagKey<EquipmentUpgrade> TOOL_PROFILE_OVERRIDES = tag("tool_profile_overrides");
+        public static final TagKey<EquipmentUpgrade> DRILL_MINING_UPGRADES = tag("drill_mining_upgrades");
         public static final TagKey<EquipmentUpgrade> MINING_DROPS_MODIFIERS = tag("mining_drops_modifiers");
         public static final TagKey<EquipmentUpgrade> AMMO_SOURCE_MODIFIERS = tag("ammo_source_modifiers");
 

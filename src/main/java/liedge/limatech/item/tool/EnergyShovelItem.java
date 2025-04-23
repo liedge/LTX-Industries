@@ -2,6 +2,7 @@ package liedge.limatech.item.tool;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
@@ -24,7 +25,7 @@ public class EnergyShovelItem extends EnergyMiningToolItem
 {
     public EnergyShovelItem(Properties properties, float attackDamage, float attackSpeed)
     {
-        super(properties, attackDamage, attackSpeed, createDefaultTool(BlockTags.MINEABLE_WITH_SHOVEL));
+        super(properties.component(DataComponents.TOOL, createDefaultFixedTool(BlockTags.MINEABLE_WITH_SHOVEL)), attackDamage, attackSpeed);
     }
 
     @Override

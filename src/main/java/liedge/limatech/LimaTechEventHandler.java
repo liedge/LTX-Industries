@@ -133,8 +133,8 @@ public final class LimaTechEventHandler
     @SubscribeEvent
     public static void onBlockDrops(final BlockDropsEvent event)
     {
-        // Don't run if we don't have drops
-        if (event.getDrops().isEmpty()) return;
+        //if (event.getDrops().isEmpty()) return;
+        // Don't cancel event because XP drops are nullified
 
         // Only for players and qualifying upgradable equipment
         if (event.getBreaker() instanceof Player player && event.getTool().getItem() instanceof UpgradableEquipmentItem equipmentItem)

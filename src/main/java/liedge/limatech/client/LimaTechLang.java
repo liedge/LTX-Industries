@@ -58,9 +58,12 @@ public final class LimaTechLang
     public static final Translatable LAST_ATTACKING_PLAYER_ENTITY_TARGET_TOOLTIP = tooltip("entity_target.last_player");
     public static final Translatable ATTRIBUTE_AMOUNT_VALUE_TOOLTIP = prefixKey("complex_value", "attribute_amount");
 
+    public static final Translatable MINING_EFFECTIVE_BLOCKS_EFFECT = upgradeEffect("mining.effective");
+    public static final Translatable MINING_BASE_SPEED_EFFECT = upgradeEffect("mining.speed");
     public static final Translatable WEAPON_KNOCKBACK_EFFECT = upgradeEffect("weapon_knockback");
     public static final Translatable DYNAMIC_DAMAGE_TAG_EFFECT = upgradeEffect("dynamic_tag");
-    public static final Translatable SHIELD_UPGRADE_EFFECT = upgradeEffect("shield");
+    public static final Translatable REDUCTION_MODIFIER_EFFECT = upgradeEffect("reduction_mod");
+    public static final Translatable BUBBLE_SHIELD_EFFECT = upgradeEffect("bubble_shield");
     public static final Translatable MOB_EFFECT_UPGRADE_EFFECT = upgradeEffect("mob_effect");
     public static final Translatable DIRECT_BLOCK_DROPS_EFFECT = upgradeEffect("direct_drops.block");
     public static final Translatable DIRECT_ENTITY_DROPS_EFFECT = upgradeEffect("direct_drops.entity");

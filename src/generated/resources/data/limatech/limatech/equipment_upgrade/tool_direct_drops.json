@@ -1,5 +1,6 @@
 {
   "display": {
+    "category": "tools",
     "description": {
       "translate": "equipment_upgrade.limatech.tool_direct_drops.desc"
     },

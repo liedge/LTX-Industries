@@ -63,7 +63,6 @@ class ItemTagsGen extends LimaTagsProvider.ItemTags
 
         buildTag(SWORDS).add(LTX_SWORD);
         buildTag(SHOVELS).add(LTX_SHOVEL);
-        buildTag(PICKAXES).add(LTX_PICKAXE);
         buildTag(AXES).add(LTX_AXE);
         buildTag(HOES).add(LTX_HOE);
         buildTag(TOOLS_SHEAR).add(LTX_SHEARS);
@@ -84,7 +83,7 @@ class ItemTagsGen extends LimaTagsProvider.ItemTags
         buildTag(LTX_MELEE_WEAPONS).add(LTX_SWORD, LTX_AXE);
         buildTag(LTX_ALL_WEAPONS).addTags(LTX_MELEE_WEAPONS, LTX_PROJECTILE_WEAPONS);
 
-        buildTag(LTX_MINING_TOOLS).add(LTX_PICKAXE, LTX_SHOVEL, LTX_AXE, LTX_HOE);
+        buildTag(LTX_MINING_TOOLS).add(LTX_DRILL, LTX_SHOVEL, LTX_AXE, LTX_HOE);
         buildTag(LTX_ALL_TOOLS).add(LTX_SHEARS, LTX_BRUSH, LTX_FISHING_ROD, LTX_WRENCH, LTX_LIGHTER).addTags(LTX_MINING_TOOLS, LTX_MELEE_WEAPONS);
     }
 }

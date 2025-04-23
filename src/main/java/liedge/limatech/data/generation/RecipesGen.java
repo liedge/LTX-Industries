@@ -3,6 +3,7 @@ package liedge.limatech.data.generation;
 import liedge.limacore.data.generation.LimaRecipeProvider;
 import liedge.limacore.data.generation.recipe.LimaSizedIngredientListRecipeBuilder;
 import liedge.limacore.lib.ModResources;
+import liedge.limacore.lib.function.ObjectIntFunction;
 import liedge.limatech.LimaTech;
 import liedge.limatech.LimaTechTags;
 import liedge.limatech.item.UpgradableEquipmentItem;
@@ -38,7 +39,6 @@ import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.function.BiFunction;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
@@ -108,6 +108,9 @@ class RecipesGen extends LimaRecipeProvider
         orePebblesCooking(NIOBIUM_ORE_PEBBLES, NIOBIUM_INGOT, 1, output);
 
         // Grinding recipes
+        grinding(stackOf(COBBLESTONE)).input(STONE).save(output);
+        grinding(stackOf(GRAVEL)).input(Tags.Items.COBBLESTONES_NORMAL).save(output);
+        grinding(stackOf(SAND)).input(Tags.Items.GRAVELS).save(output);
         grinding(stackOf(DEEPSLATE_POWDER))
                 .input(LimaTechTags.Items.DEEPSLATE_GRINDABLES)
                 .save(output, "grind_deepslate");
@@ -174,6 +177,12 @@ class RecipesGen extends LimaRecipeProvider
                 .group("weapon_ammo").save(output);
 
         // Tools fabricating
+        upgradeableItemFabricating(LTX_DRILL, registries, 300_000)
+                .input(IRON_PICKAXE)
+                .input(TITANIUM_INGOT, 8)
+                .input(COPPER_CIRCUIT, 4)
+                .input(DYES_LIME, 4)
+                .group("ltx/tool").save(output);
         upgradeableItemFabricating(LTX_SWORD, registries, 500_000)
                 .input(DIAMOND_SWORD)
                 .input(TITANIUM_INGOT, 16)
@@ -183,12 +192,6 @@ class RecipesGen extends LimaRecipeProvider
         upgradeableItemFabricating(LTX_SHOVEL, registries, 500_000)
                 .input(DIAMOND_SHOVEL)
                 .input(TITANIUM_INGOT, 8)
-                .input(GOLD_CIRCUIT, 2)
-                .input(DYES_LIME, 4)
-                .group("ltx/tool").save(output);
-        upgradeableItemFabricating(LTX_PICKAXE, registries, 500_000)
-                .input(DIAMOND_PICKAXE)
-                .input(TITANIUM_INGOT, 24)
                 .input(GOLD_CIRCUIT, 2)
                 .input(DYES_LIME, 4)
                 .group("ltx/tool").save(output);
@@ -260,14 +263,22 @@ class RecipesGen extends LimaRecipeProvider
                 .input(NIOBIUM_CIRCUIT, 8)
                 .group("ltx/weapon").save(output);
 
-        equipmentModuleFab(output, registries, "eum/tool", TOOL_OMNI_MINER, 1, 50_000_000, builder -> builder
+        equipmentModuleFab(output, registries, "eum/tool", DRILL_DIAMOND_LEVEL, 1, 300_000, builder -> builder
+                .input(DIAMOND_BLOCK)
+                .input(TITANIUM_INGOT, 4)
+                .input(GOLD_CIRCUIT, 2));
+        equipmentModuleFab(output, registries, "eum/tool", DRILL_NETHERITE_LEVEL, 1, 500_000, builder -> builder
+                .input(eumIngredient(registries, DRILL_DIAMOND_LEVEL, 1))
+                .input(NETHERITE_INGOT, 3)
+                .input(TITANIUM_INGOT, 8)
+                .input(NIOBIUM_CIRCUIT));
+        equipmentModuleFab(output, registries, "eum/tool", DRILL_OMNI_MINER, 1, 20_000_000, builder -> builder
                 .input(DIAMOND_SHOVEL)
                 .input(DIAMOND_PICKAXE)
                 .input(DIAMOND_AXE)
                 .input(DIAMOND_HOE)
-                .input(TITANIUM_INGOT, 32)
                 .input(NIOBIUM_CIRCUIT, 2)
-                .input(LIME_PIGMENT, 8));
+                .input(TITANIUM_BLOCK, 2));
         equipmentModuleFab(output, registries, "eum/tool", TOOL_VIBRATION_CANCEL, 1, 500_000, builder -> builder
                 .input(GOLD_CIRCUIT, 1)
                 .input(TITANIUM_INGOT, 4)
@@ -313,18 +324,18 @@ class RecipesGen extends LimaRecipeProvider
                 .input(ENDER_PEARL, 4)
                 .input(DataComponentIngredient.of(false, DataComponentPredicate.builder().expect(DataComponents.POTION_CONTENTS, new PotionContents(Potions.INVISIBILITY)).build(), POTION)));
 
-        equipmentModuleFab(output, registries, "eum/weapon", UNIVERSAL_SHIELD_REGEN, 1, 1_500_000, builder -> builder
+        equipmentModuleFab(output, registries, "eum/weapon", WEAPON_SHIELD_REGEN, 1, 1_500_000, builder -> builder
                 .input(GOLD_CIRCUIT)
                 .input(GOLDEN_APPLE, 1)
                 .input(DataComponentIngredient.of(false, DataComponentPredicate.builder().expect(DataComponents.POTION_CONTENTS, new PotionContents(Potions.FIRE_RESISTANCE)).build(), POTION))
                 .input(SHIELD)
                 .input(DIAMOND, 4));
-        equipmentModuleFab(output, registries, "eum/weapon", UNIVERSAL_SHIELD_REGEN, 2, 3_000_000, builder -> builder
+        equipmentModuleFab(output, registries, "eum/weapon", WEAPON_SHIELD_REGEN, 2, 3_000_000, builder -> builder
                 .input(GOLD_CIRCUIT, 2)
                 .input(GOLDEN_APPLE, 2)
                 .input(DIAMOND, 8)
                 .input(AMETHYST_SHARD, 2));
-        equipmentModuleFab(output, registries, "eum/weapon", UNIVERSAL_SHIELD_REGEN, 3, 5_000_000, builder -> builder
+        equipmentModuleFab(output, registries, "eum/weapon", WEAPON_SHIELD_REGEN, 3, 5_000_000, builder -> builder
                 .input(GOLD_CIRCUIT, 4)
                 .input(NIOBIUM_CIRCUIT, 2)
                 .input(AMETHYST_SHARD, 8)
@@ -600,16 +611,32 @@ class RecipesGen extends LimaRecipeProvider
         return new FabricatingBuilder(modResources, defaultUpgradableItem(itemSupplier, registries), energyRequired);
     }
 
-    private <U extends UpgradeBase<?, U>, UE extends UpgradeBaseEntry<U>> void upgradeFabricating(RecipeOutput output, HolderLookup.Provider registries, String group, ResourceKey<U> upgradeKey, int upgradeRank, int energyRequired, Supplier<? extends DataComponentType<UE>> entryDataComponent, BiFunction<Holder<U>, Integer, UE> entryFactory, ItemLike moduleItem, boolean addBaseModuleInput, @Nullable String suffix, UnaryOperator<FabricatingBuilder> op)
+    private <U extends UpgradeBase<?, U>, UE extends UpgradeBaseEntry<U>> Ingredient moduleIngredient(HolderLookup.Provider registries, ResourceKey<U> upgradeKey, int upgradeRank, ItemLike moduleItem, DataComponentType<UE> componentType, ObjectIntFunction<Holder<U>, UE> entryFactory)
+    {
+        Holder<U> upgradeHolder = registries.holderOrThrow(upgradeKey);
+        return DataComponentIngredient.of(true, componentType, entryFactory.applyWithInt(upgradeHolder, upgradeRank), moduleItem);
+    }
+
+    private Ingredient eumIngredient(HolderLookup.Provider registries, ResourceKey<EquipmentUpgrade> upgradeKey, int upgradeRank)
+    {
+        return moduleIngredient(registries, upgradeKey, upgradeRank, EQUIPMENT_UPGRADE_MODULE, LimaTechDataComponents.EQUIPMENT_UPGRADE_ENTRY.get(), EquipmentUpgradeEntry::new);
+    }
+
+    private Ingredient mumIngredient(HolderLookup.Provider registries, ResourceKey<MachineUpgrade> upgradeKey, int upgradeRank)
+    {
+        return moduleIngredient(registries, upgradeKey, upgradeRank, MACHINE_UPGRADE_MODULE, LimaTechDataComponents.MACHINE_UPGRADE_ENTRY.get(), MachineUpgradeEntry::new);
+    }
+
+    private <U extends UpgradeBase<?, U>, UE extends UpgradeBaseEntry<U>> void upgradeFabricating(RecipeOutput output, HolderLookup.Provider registries, String group, ResourceKey<U> upgradeKey, int upgradeRank, int energyRequired, DataComponentType<UE> componentType, ObjectIntFunction<Holder<U>, UE> entryFactory, ItemLike moduleItem, boolean addBaseModuleInput, @Nullable String suffix, UnaryOperator<FabricatingBuilder> op)
     {
         Holder<U> upgradeHolder = registries.holderOrThrow(upgradeKey);
         ItemStack result = new ItemStack(moduleItem);
-        result.set(entryDataComponent, entryFactory.apply(upgradeHolder, upgradeRank));
+        result.set(componentType, entryFactory.applyWithInt(upgradeHolder, upgradeRank));
         FabricatingBuilder builder = fabricating(result, energyRequired).group(group);
 
         if (addBaseModuleInput)
         {
-            Ingredient moduleIngredient = upgradeRank == 1 ? Ingredient.of(EMPTY_UPGRADE_MODULE) : DataComponentIngredient.of(true, entryDataComponent, entryFactory.apply(upgradeHolder, upgradeRank - 1), moduleItem);
+            Ingredient moduleIngredient = upgradeRank == 1 ? Ingredient.of(EMPTY_UPGRADE_MODULE) : moduleIngredient(registries, upgradeKey, upgradeRank - 1, moduleItem, componentType, entryFactory);
             builder.input(moduleIngredient);
         }
 
@@ -621,7 +648,7 @@ class RecipesGen extends LimaRecipeProvider
 
     private void equipmentModuleFab(RecipeOutput output, HolderLookup.Provider registries, String group, ResourceKey<EquipmentUpgrade> upgradeKey, int upgradeRank, int energyRequired, boolean addBaseModuleInput, @Nullable String suffix, UnaryOperator<FabricatingBuilder> op)
     {
-        upgradeFabricating(output, registries, group, upgradeKey, upgradeRank, energyRequired, LimaTechDataComponents.EQUIPMENT_UPGRADE_ENTRY, EquipmentUpgradeEntry::new, EQUIPMENT_UPGRADE_MODULE, addBaseModuleInput, suffix, op);
+        upgradeFabricating(output, registries, group, upgradeKey, upgradeRank, energyRequired, LimaTechDataComponents.EQUIPMENT_UPGRADE_ENTRY.get(), EquipmentUpgradeEntry::new, EQUIPMENT_UPGRADE_MODULE, addBaseModuleInput, suffix, op);
     }
 
     private void equipmentModuleFab(RecipeOutput output, HolderLookup.Provider registries, String group, ResourceKey<EquipmentUpgrade> upgradeKey, int upgradeRank, int energyRequired, UnaryOperator<FabricatingBuilder> op)
@@ -631,7 +658,7 @@ class RecipesGen extends LimaRecipeProvider
 
     private void machineModuleFab(RecipeOutput output, HolderLookup.Provider registries, String group, ResourceKey<MachineUpgrade> upgradeKey, int upgradeRank, int energyRequired, boolean addBaseModuleInput, @Nullable String suffix, UnaryOperator<FabricatingBuilder> op)
     {
-        upgradeFabricating(output, registries, group, upgradeKey, upgradeRank, energyRequired, LimaTechDataComponents.MACHINE_UPGRADE_ENTRY, MachineUpgradeEntry::new, MACHINE_UPGRADE_MODULE, addBaseModuleInput, suffix, op);
+        upgradeFabricating(output, registries, group, upgradeKey, upgradeRank, energyRequired, LimaTechDataComponents.MACHINE_UPGRADE_ENTRY.get(), MachineUpgradeEntry::new, MACHINE_UPGRADE_MODULE, addBaseModuleInput, suffix, op);
     }
 
     private void machineModuleFab(RecipeOutput output, HolderLookup.Provider registries, String group, ResourceKey<MachineUpgrade> upgradeKey, int upgradeRank, int energyRequired, UnaryOperator<FabricatingBuilder> op)

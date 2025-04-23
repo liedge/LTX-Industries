@@ -1,6 +1,6 @@
 {
   "type": "limatech:fabricating",
-  "energy_required": 50000000,
+  "energy_required": 500000,
   "group": "eum/tool",
   "ingredients": [
     {
@@ -8,38 +8,33 @@
       "item": "limatech:empty_upgrade_module"
     },
     {
+      "type": "neoforge:components",
+      "components": {
+        "limatech:equipment_upgrade": {
+          "upgrade": "limatech:drill_diamond_level"
+        }
+      },
       "count": 1,
-      "item": "minecraft:diamond_shovel"
+      "items": "limatech:equipment_upgrade_module",
+      "strict": true
     },
     {
-      "count": 1,
-      "item": "minecraft:diamond_pickaxe"
-    },
-    {
-      "count": 1,
-      "item": "minecraft:diamond_axe"
-    },
-    {
-      "count": 1,
-      "item": "minecraft:diamond_hoe"
-    },
-    {
-      "count": 32,
-      "item": "limatech:titanium_ingot"
-    },
-    {
-      "count": 2,
-      "item": "limatech:niobium_circuit"
+      "count": 3,
+      "item": "minecraft:netherite_ingot"
     },
     {
       "count": 8,
-      "item": "limatech:lime_pigment"
+      "item": "limatech:titanium_ingot"
+    },
+    {
+      "count": 1,
+      "item": "limatech:niobium_circuit"
     }
   ],
   "result": {
     "components": {
       "limatech:equipment_upgrade": {
-        "upgrade": "limatech:tool_omni_miner"
+        "upgrade": "limatech:drill_netherite_level"
       }
     },
     "count": 1,

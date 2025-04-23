@@ -37,7 +37,7 @@ class ItemModelGen extends LimaItemModelProvider
         generated(itemFolderLocation("tech_salvage"), EXPLOSIVES_WEAPON_TECH_SALVAGE, TARGETING_TECH_SALVAGE);
 
         emissiveBiLayerModels(generatedModel, LTX_SHEARS, LTX_LIGHTER);
-        emissiveBiLayerModels(handheldModel, LTX_SWORD, LTX_SHOVEL, LTX_PICKAXE, LTX_AXE, LTX_HOE, LTX_WRENCH);
+        emissiveBiLayerModels(handheldModel, LTX_DRILL, LTX_SWORD, LTX_SHOVEL, LTX_AXE, LTX_HOE, LTX_WRENCH);
 
         // Fishing rod
         ModelFile rodModel = new ModelFile.UncheckedModelFile("item/handheld_rod");

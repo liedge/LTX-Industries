@@ -1,18 +1,17 @@
 package liedge.limatech.registry.game;
 
 import liedge.limatech.LimaTech;
-import liedge.limatech.item.*;
+import liedge.limatech.item.EnergyHolderItem;
+import liedge.limatech.item.EquipmentUpgradeModuleItem;
+import liedge.limatech.item.MachineUpgradeModuleItem;
+import liedge.limatech.item.SimpleHintItem;
 import liedge.limatech.item.tool.*;
 import liedge.limatech.item.weapon.*;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.Tier;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
-import net.neoforged.neoforge.common.SimpleTier;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -39,7 +38,7 @@ public final class LimaTechItems
     private static void registerCapabilities(RegisterCapabilitiesEvent event)
     {
         event.registerItem(Capabilities.EnergyStorage.ITEM, (stack, $) -> EnergyHolderItem.createEnergyAccess(stack),
-                LTX_SWORD, LTX_SHOVEL, LTX_PICKAXE, LTX_AXE, LTX_HOE, LTX_SHEARS, LTX_BRUSH, LTX_FISHING_ROD, LTX_LIGHTER, LTX_WRENCH,
+                LTX_DRILL, LTX_SWORD, LTX_SHOVEL, LTX_AXE, LTX_HOE, LTX_SHEARS, LTX_BRUSH, LTX_FISHING_ROD, LTX_LIGHTER, LTX_WRENCH,
                 SUBMACHINE_GUN, SHOTGUN, GRENADE_LAUNCHER, ROCKET_LAUNCHER, MAGNUM);
     }
 
@@ -47,9 +46,6 @@ public final class LimaTechItems
     {
         return ITEMS.getEntries();
     }
-
-    // Mod tiers & rarities
-    private static final Tier TITANIUM_TIER = new SimpleTier(BlockTags.INCORRECT_FOR_IRON_TOOL, 500, 6.25f, 2.1f, 14, () -> Ingredient.of(LimaTechItems.TITANIUM_INGOT));
 
     // Base mod materials
     public static final DeferredItem<Item> RAW_TITANIUM = ITEMS.registerSimpleItem("raw_titanium");
@@ -84,9 +80,9 @@ public final class LimaTechItems
     public static final DeferredItem<Item> NIOBIUM_CIRCUIT = ITEMS.registerSimpleItem("niobium_circuit");
 
     // LTX basic tools
+    public static final DeferredItem<EnergyDrillItem> LTX_DRILL = registerLTXGear("ltx_drill", properties -> new EnergyDrillItem(properties, 5f, -2f));
     public static final DeferredItem<EnergySwordItem> LTX_SWORD = registerLTXGear("ltx_sword", properties -> new EnergySwordItem(properties, 9f, -1.5f));
     public static final DeferredItem<EnergyShovelItem> LTX_SHOVEL = registerLTXGear("ltx_shovel", properties -> new EnergyShovelItem(properties, 7.5f, -2.2f));
-    public static final DeferredItem<EnergyPickaxeItem> LTX_PICKAXE = registerLTXGear("ltx_pickaxe", properties -> new EnergyPickaxeItem(properties, 6f, -2f));
     public static final DeferredItem<EnergyAxeItem> LTX_AXE = registerLTXGear("ltx_axe", properties -> new EnergyAxeItem(properties, 12f, -2.8f));
     public static final DeferredItem<EnergyHoeItem> LTX_HOE = registerLTXGear("ltx_hoe", properties -> new EnergyHoeItem(properties, 3f, -1f));
     public static final DeferredItem<EnergyWrenchItem> LTX_WRENCH = registerLTXGear("ltx_wrench", EnergyWrenchItem::new);

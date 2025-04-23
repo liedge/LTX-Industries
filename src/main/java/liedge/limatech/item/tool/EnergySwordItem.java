@@ -1,6 +1,7 @@
 package liedge.limatech.item.tool;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.level.Level;
@@ -14,7 +15,7 @@ public class EnergySwordItem extends EnergyMiningToolItem
 {
     public EnergySwordItem(Properties properties, float attackDamage, float attackSpeed)
     {
-        super(properties, attackDamage, attackSpeed, SwordItem.createToolProperties());
+        super(properties.component(DataComponents.TOOL, SwordItem.createToolProperties()), attackDamage, attackSpeed);
     }
 
     @Override

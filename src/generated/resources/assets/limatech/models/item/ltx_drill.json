@@ -15,7 +15,7 @@
     ]
   },
   "textures": {
-    "layer0": "limatech:item/ltx_pickaxe_base",
-    "layer1": "limatech:item/ltx_pickaxe_emissive"
+    "layer0": "limatech:item/ltx_drill_base",
+    "layer1": "limatech:item/ltx_drill_emissive"
   }
 }

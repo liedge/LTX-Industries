@@ -1,0 +1,23 @@
+{
+  "display": {
+    "category": "tools/drill",
+    "description": {
+      "translate": "equipment_upgrade.limatech.drill_netherite_level.desc"
+    },
+    "icon": "limatech:netherite_drill_tip",
+    "title": {
+      "translate": "equipment_upgrade.limatech.drill_netherite_level"
+    }
+  },
+  "effects": {
+    "limatech:mining_rules": [
+      {
+        "denied_blocks": "#minecraft:incorrect_for_netherite_tool",
+        "mining_speed": 11.0,
+        "priority": 2
+      }
+    ]
+  },
+  "exclusive_set": "#limatech:drill_mining_upgrades",
+  "supported_set": "limatech:ltx_drill"
+}

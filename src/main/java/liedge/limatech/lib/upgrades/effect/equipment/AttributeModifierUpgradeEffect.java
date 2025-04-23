@@ -28,6 +28,11 @@ public record AttributeModifierUpgradeEffect(Holder<Attribute> attribute, RankBa
         return new AttributeModifierUpgradeEffect(attribute, new RankBasedAttributeModifier(id, LevelBasedValue.constant(value), operation), EquipmentSlotGroup.MAINHAND);
     }
 
+    public static AttributeModifierUpgradeEffect rankBasedMainHand(Holder<Attribute> attribute, ResourceLocation id, LevelBasedValue value, AttributeModifier.Operation operation)
+    {
+        return new AttributeModifierUpgradeEffect(attribute, new RankBasedAttributeModifier(id, value, operation), EquipmentSlotGroup.MAINHAND);
+    }
+
     public ItemAttributeModifiers.Entry makeModifierEntry(int upgradeRank)
     {
         return new ItemAttributeModifiers.Entry(attribute, modifier.get(upgradeRank), slotGroup);

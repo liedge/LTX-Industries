@@ -42,7 +42,7 @@
         "affected": "victim",
         "effect": {
           "type": "limatech:modify_reductions",
-          "amount": 0.9,
+          "amount": -0.1,
           "reduction_type": "armor"
         },
         "enchanted": "attacker"

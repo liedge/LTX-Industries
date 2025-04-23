@@ -25,6 +25,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -40,9 +41,10 @@ import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.neoforged.neoforge.registries.holdersets.AnyHolderSet;
 
+import java.util.Optional;
+
 import static liedge.limatech.LimaTech.RESOURCES;
-import static liedge.limatech.LimaTechTags.EquipmentUpgrades.AMMO_SOURCE_MODIFIERS;
-import static liedge.limatech.LimaTechTags.EquipmentUpgrades.MINING_DROPS_MODIFIERS;
+import static liedge.limatech.LimaTechTags.EquipmentUpgrades.*;
 import static liedge.limatech.lib.upgrades.UpgradeIcon.*;
 import static liedge.limatech.registry.bootstrap.LimaTechEnchantments.AMMO_SCAVENGER;
 import static liedge.limatech.registry.bootstrap.LimaTechEnchantments.RAZOR;
@@ -60,7 +62,9 @@ public final class LimaTechEquipmentUpgrades
     public static final ResourceKey<EquipmentUpgrade> SHOTGUN_DEFAULT = key("shotgun_default");
 
     // Tool upgrades
-    public static final ResourceKey<EquipmentUpgrade> TOOL_OMNI_MINER = key("tool_omni_miner");
+    public static final ResourceKey<EquipmentUpgrade> DRILL_DIAMOND_LEVEL = key("drill_diamond_level");
+    public static final ResourceKey<EquipmentUpgrade> DRILL_NETHERITE_LEVEL = key("drill_netherite_level");
+    public static final ResourceKey<EquipmentUpgrade> DRILL_OMNI_MINER = key("drill_omni_miner");
     public static final ResourceKey<EquipmentUpgrade> TOOL_VIBRATION_CANCEL = key("tool_vibration_cancel");
     public static final ResourceKey<EquipmentUpgrade> TOOL_DIRECT_DROPS = key("tool_direct_drops");
 
@@ -68,6 +72,7 @@ public final class LimaTechEquipmentUpgrades
     public static final ResourceKey<EquipmentUpgrade> WEAPON_VIBRATION_CANCEL = key("weapon_vibration_cancel");
     public static final ResourceKey<EquipmentUpgrade> WEAPON_DIRECT_DROPS = key("weapon_direct_drops");
     public static final ResourceKey<EquipmentUpgrade> WEAPON_ARMOR_PIERCE = key("weapon_armor_pierce");
+    public static final ResourceKey<EquipmentUpgrade> WEAPON_SHIELD_REGEN = key("weapon_shield_regen");
     public static final ResourceKey<EquipmentUpgrade> HIGH_IMPACT_ROUNDS = key("high_impact_rounds");
     public static final ResourceKey<EquipmentUpgrade> MAGNUM_SCALING_ROUNDS = key("magnum_scaling_rounds");
     public static final ResourceKey<EquipmentUpgrade> GRENADE_LAUNCHER_PROJECTILE_SPEED = key("grenade_launcher_projectile_speed");
@@ -83,7 +88,6 @@ public final class LimaTechEquipmentUpgrades
     public static final ResourceKey<EquipmentUpgrade> UNIVERSAL_STEALTH_DAMAGE = key("universal_stealth_damage");
     public static final ResourceKey<EquipmentUpgrade> UNIVERSAL_ENERGY_AMMO = key("universal_energy_ammo");
     public static final ResourceKey<EquipmentUpgrade> UNIVERSAL_INFINITE_AMMO = key("universal_infinite_ammo");
-    public static final ResourceKey<EquipmentUpgrade> UNIVERSAL_SHIELD_REGEN = key("universal_shield_regen");
 
     // Hanabi grenade cores
     public static final ResourceKey<EquipmentUpgrade> FLAME_GRENADE_CORE = key("flame_grenade_core");
@@ -102,6 +106,7 @@ public final class LimaTechEquipmentUpgrades
     {
         // Holder getters
         HolderGetter<Item> items = context.lookup(Registries.ITEM);
+        HolderGetter<Block> blocks = context.lookup(Registries.BLOCK);
         HolderGetter<Enchantment> enchantments = context.lookup(Registries.ENCHANTMENT);
         HolderGetter<GameEvent> gameEvents = context.lookup(Registries.GAME_EVENT);
         HolderGetter<EquipmentUpgrade> holders = context.lookup(LimaTechRegistries.Keys.EQUIPMENT_UPGRADES);
@@ -149,27 +154,44 @@ public final class LimaTechEquipmentUpgrades
                 .supports(LimaTechItems.SHOTGUN)
                 .withEffect(ITEM_ATTRIBUTE_MODIFIERS, AttributeModifierUpgradeEffect.constantMainHand(Attributes.MOVEMENT_SPEED, SHOTGUN_DEFAULT.location().withSuffix("shotgun_speed_boost"), 0.25f, AttributeModifier.Operation.ADD_MULTIPLIED_BASE))
                 .withEffect(ITEM_ATTRIBUTE_MODIFIERS, AttributeModifierUpgradeEffect.constantMainHand(Attributes.STEP_HEIGHT, SHOTGUN_DEFAULT.location().withSuffix("shotgun_step_height_boost"), 1, AttributeModifier.Operation.ADD_VALUE))
-                .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, new ModifyReductionsUpgradeEffect(DamageReductionType.ARMOR, LevelBasedValue.constant(0.9f)))
+                .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, new ModifyReductionsUpgradeEffect(DamageReductionType.ARMOR, LevelBasedValue.constant(-0.1f)))
                 .effectIcon(bottomLeftComposite(itemIcon(LimaTechItems.SHOTGUN), sprite("default")))
                 .category("default/weapon")
                 .register(context);
 
         // Tool upgrades
-        EquipmentUpgrade.builder(TOOL_OMNI_MINER)
+        EquipmentUpgrade.builder(DRILL_DIAMOND_LEVEL)
+                .supports(LimaTechItems.LTX_DRILL)
+                .exclusiveWith(holders, DRILL_MINING_UPGRADES)
+                .withEffect(MINING_RULES, MiningRuleUpgradeEffect.miningLevelAndSpeed(blocks.getOrThrow(BlockTags.INCORRECT_FOR_DIAMOND_TOOL), 9f, 1))
+                .effectIcon(sprite("diamond_drill_tip"))
+                .category("tools/drill")
+                .register(context);
+        EquipmentUpgrade.builder(DRILL_NETHERITE_LEVEL)
+                .supports(LimaTechItems.LTX_DRILL)
+                .exclusiveWith(holders, DRILL_MINING_UPGRADES)
+                .withEffect(MINING_RULES, MiningRuleUpgradeEffect.miningLevelAndSpeed(blocks.getOrThrow(BlockTags.INCORRECT_FOR_NETHERITE_TOOL), 11f, 2))
+                .effectIcon(sprite("netherite_drill_tip"))
+                .category("tools/drill")
+                .register(context);
+        EquipmentUpgrade.builder(DRILL_OMNI_MINER)
                 .createDefaultTitle(LimaTechConstants.LIME_GREEN)
-                .supports(ltxMiningTools)
-                .withSpecialEffect(TOOL_PROFILE, ToolProfileUpgradeEffect.alwaysMinesAndDrops(anyBlockHolderSet, 13f))
-                .effectIcon(sprite("omni_miner"))
+                .supports(LimaTechItems.LTX_DRILL)
+                .withEffect(MINING_RULES, new MiningRuleUpgradeEffect(Optional.of(anyBlockHolderSet), Optional.empty(), Optional.empty(), 3))
+                .effectIcon(sprite("omni_drill_tip"))
+                .category("tools/drill")
                 .register(context);
         EquipmentUpgrade.builder(TOOL_VIBRATION_CANCEL)
                 .supports(items.getOrThrow(LimaTechTags.Items.LTX_ALL_TOOLS))
                 .withEffect(PREVENT_VIBRATION, PreventVibrationUpgradeEffect.suppressHands(gameEvents.getOrThrow(LimaTechTags.GameEvents.HANDHELD_EQUIPMENT)))
                 .effectIcon(sprite("earmuffs"))
+                .category("tools")
                 .register(context);
         EquipmentUpgrade.builder(TOOL_DIRECT_DROPS)
                 .supports(ltxMiningTools)
                 .withEffect(DIRECT_DROPS, DirectDropsUpgradeEffect.blocksOnly(anyItemHolderSet))
                 .effectIcon(sprite("magnet"))
+                .category("tools")
                 .register(context);
 
         // Weapon-specific upgrades
@@ -221,10 +243,10 @@ public final class LimaTechEquipmentUpgrades
         EquipmentUpgrade.builder(WEAPON_ARMOR_PIERCE)
                 .supports(ltxProjectileWeapons)
                 .setMaxRank(3)
-                .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, new ModifyReductionsUpgradeEffect(DamageReductionType.ARMOR, LevelBasedValue.perLevel(0.75f, -0.25f)))
+                .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, new ModifyReductionsUpgradeEffect(DamageReductionType.ARMOR, LevelBasedValue.perLevel(-0.2f)))
                 .effectIcon(sprite("broken_armor"))
                 .register(context);
-        EquipmentUpgrade.builder(UNIVERSAL_SHIELD_REGEN)
+        EquipmentUpgrade.builder(WEAPON_SHIELD_REGEN)
                 .supports(ltxProjectileWeapons)
                 .setMaxRank(3)
                 .withTargetedEffect(EQUIPMENT_KILL, EnchantmentTarget.ATTACKER, EnchantmentTarget.ATTACKER, new BubbleShieldUpgradeEffect(LevelBasedValue.constant(4), LevelBasedValue.perLevel(10)))

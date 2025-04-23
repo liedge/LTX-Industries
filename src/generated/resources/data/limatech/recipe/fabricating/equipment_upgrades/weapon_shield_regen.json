@@ -37,7 +37,7 @@
   "result": {
     "components": {
       "limatech:equipment_upgrade": {
-        "upgrade": "limatech:universal_shield_regen"
+        "upgrade": "limatech:weapon_shield_regen"
       }
     },
     "count": 1,

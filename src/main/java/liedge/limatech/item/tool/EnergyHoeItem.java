@@ -1,6 +1,7 @@
 package liedge.limatech.item.tool;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
@@ -22,7 +23,7 @@ public class EnergyHoeItem extends EnergyMiningToolItem
 {
     public EnergyHoeItem(Properties properties, float attackDamage, float attackSpeed)
     {
-        super(properties, attackDamage, attackSpeed, createDefaultTool(BlockTags.MINEABLE_WITH_HOE));
+        super(properties.component(DataComponents.TOOL, createDefaultFixedTool(BlockTags.MINEABLE_WITH_HOE)), attackDamage, attackSpeed);
     }
 
     @Override

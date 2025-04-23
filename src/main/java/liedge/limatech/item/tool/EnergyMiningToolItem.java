@@ -1,8 +1,5 @@
 package liedge.limatech.item.tool;
 
-import liedge.limatech.lib.upgrades.effect.equipment.ToolProfileUpgradeEffect;
-import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrades;
-import liedge.limatech.registry.game.LimaTechUpgradeEffectComponents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.tags.BlockTags;
@@ -18,7 +15,6 @@ import net.minecraft.world.item.component.Tool;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.loot.LootContext;
 
 import java.util.List;
 
@@ -31,50 +27,29 @@ public abstract class EnergyMiningToolItem extends EnergyBaseToolItem
                 .build();
     }
 
-    protected static Tool createDefaultTool(TagKey<Block> blocks, float miningSpeed)
+    protected static Tool createDefaultFixedTool(TagKey<Block> blocks)
     {
-        List<Tool.Rule> rules = List.of(Tool.Rule.deniesDrops(BlockTags.INCORRECT_FOR_NETHERITE_TOOL), Tool.Rule.minesAndDrops(blocks, miningSpeed));
+        List<Tool.Rule> rules = List.of(Tool.Rule.deniesDrops(BlockTags.INCORRECT_FOR_DIAMOND_TOOL), Tool.Rule.minesAndDrops(blocks, 9f));
         return new Tool(rules, 1f, 1);
     }
 
-    protected static Tool createDefaultTool(TagKey<Block> blocks)
-    {
-        return createDefaultTool(blocks, 9f);
-    }
-
     private final ItemAttributeModifiers defaultModifiers;
-    private final Tool defaultTool;
 
-    protected EnergyMiningToolItem(Properties properties, float poweredAttackDamage, ItemAttributeModifiers defaultModifiers, Tool defaultTool)
+    protected EnergyMiningToolItem(Properties properties, float poweredAttackDamage, ItemAttributeModifiers defaultModifiers)
     {
         super(properties, poweredAttackDamage);
         this.defaultModifiers = defaultModifiers;
-        this.defaultTool = defaultTool;
     }
 
-    protected EnergyMiningToolItem(Properties properties, float poweredAttackDamage, float attackSpeed, Tool defaultTool)
+    protected EnergyMiningToolItem(Properties properties, float poweredAttackDamage, float attackSpeed)
     {
-        this(properties, poweredAttackDamage, createAttributes(attackSpeed), defaultTool);
+        this(properties, poweredAttackDamage, createAttributes(attackSpeed));
     }
 
     @Override
     public ItemAttributeModifiers getDefaultAttributeModifiers(ItemStack stack)
     {
         return defaultModifiers;
-    }
-
-    @Override
-    public void onUpgradeRefresh(LootContext context, ItemStack stack, EquipmentUpgrades upgrades)
-    {
-        super.onUpgradeRefresh(context, stack, upgrades);
-
-        // Refresh tool profile
-        Tool tool = upgrades.effectStream(LimaTechUpgradeEffectComponents.TOOL_PROFILE)
-                .findAny()
-                .map(ToolProfileUpgradeEffect::tool)
-                .orElse(defaultTool);
-
-        stack.set(DataComponents.TOOL, tool);
     }
 
     // Mining/world interaction functions

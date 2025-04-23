@@ -15,6 +15,8 @@ public final class LimaTechServerConfig
     public static final ModConfigSpec.IntValue TOOLS_ENERGY_CAPACITY;
     public static final ModConfigSpec.IntValue TOOLS_ENERGY_PER_ACTION;
 
+    public static final ModConfigSpec.BooleanValue AXE_ALWAYS_CHOPS_LOGS;
+
     public static final ModConfigSpec SERVER_CONFIG_SPEC;
 
     static
@@ -36,6 +38,10 @@ public final class LimaTechServerConfig
                 .defineInRange("tools_energy_capacity", 80_000, 1, Integer.MAX_VALUE);
         TOOLS_ENERGY_PER_ACTION = builder.comment("Base energy cost per action (dig/attack/etc.) of the LTX tools")
                 .defineInRange("tools_energy_per_action", 400, 1, Integer.MAX_VALUE);
+
+        AXE_ALWAYS_CHOPS_LOGS = builder.comment("If set to true the LTX Axe will always vein-mine/chop down ALL log structures regardless of natural leaves presence.",
+                "Off by default. Recommended to keep disabled to limit axe to natural trees only.")
+                .define("axe_always_chops_logs", false);
 
         SERVER_CONFIG_SPEC = builder.build();
     }

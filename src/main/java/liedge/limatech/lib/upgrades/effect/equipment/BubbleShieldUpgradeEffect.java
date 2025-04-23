@@ -39,6 +39,6 @@ public record BubbleShieldUpgradeEffect(LevelBasedValue amount, LevelBasedValue 
     @Override
     public Component getEffectTooltip(int upgradeRank)
     {
-        return LimaTechLang.SHIELD_UPGRADE_EFFECT.translateArgs(flatNumberWithSign(amount.calculate(upgradeRank)).withStyle(BUBBLE_SHIELD_GREEN.chatStyle()), flatNumberWithoutSign(maxShield.calculate(upgradeRank)).withStyle(BUBBLE_SHIELD_GREEN.chatStyle()));
+        return LimaTechLang.BUBBLE_SHIELD_EFFECT.translateArgs(flatNumberWithSign(amount.calculate(upgradeRank)).withStyle(BUBBLE_SHIELD_GREEN.chatStyle()), flatNumberWithoutSign(maxShield.calculate(upgradeRank)).withStyle(BUBBLE_SHIELD_GREEN.chatStyle()));
     }
 }

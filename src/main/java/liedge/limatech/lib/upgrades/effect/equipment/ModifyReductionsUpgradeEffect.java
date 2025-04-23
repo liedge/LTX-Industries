@@ -6,11 +6,10 @@ import liedge.limacore.lib.damage.DamageReductionType;
 import liedge.limacore.lib.damage.LimaCoreDamageComponents;
 import liedge.limacore.lib.damage.ReductionModifier;
 import liedge.limacore.lib.math.MathOperation;
+import liedge.limatech.client.LimaTechLang;
 import liedge.limatech.registry.game.LimaTechEquipmentUpgradeEffects;
 import liedge.limatech.util.LimaTechTooltipUtil;
-import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -29,7 +28,10 @@ public record ModifyReductionsUpgradeEffect(DamageReductionType reductionType, L
     public void applyEquipmentEffect(ServerLevel level, Entity entity, int upgradeRank, LootContext context)
     {
         DamageSource source = context.getParamOrNull(LootContextParams.DAMAGE_SOURCE);
-        if (source != null) source.mergeListElement(LimaCoreDamageComponents.REDUCTION_MODIFIERS, new ReductionModifier(amount.calculate(upgradeRank), MathOperation.MULTIPLY, reductionType));
+        float modifier = amount.calculate(upgradeRank);
+
+        // Use ADD_PERCENT (add multiplied total) and ensure negative multipliers only
+        if (source != null && modifier < 0f) source.mergeListElement(LimaCoreDamageComponents.REDUCTION_MODIFIERS, new ReductionModifier(modifier, MathOperation.ADD_PERCENT, reductionType));
     }
 
     @Override
@@ -41,7 +43,6 @@ public record ModifyReductionsUpgradeEffect(DamageReductionType reductionType, L
     @Override
     public Component getEffectTooltip(int upgradeRank)
     {
-        MutableComponent c = LimaTechTooltipUtil.percentageWithSign(1f - amount.calculate(upgradeRank), false);
-        return c.append(CommonComponents.SPACE).append(reductionType.translate()).append(" reduction");
+        return LimaTechLang.REDUCTION_MODIFIER_EFFECT.translateArgs(LimaTechTooltipUtil.percentageWithSign(amount.calculate(upgradeRank), true), reductionType.translate());
     }
 }

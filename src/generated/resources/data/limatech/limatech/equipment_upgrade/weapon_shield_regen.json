@@ -1,11 +1,11 @@
 {
   "display": {
     "description": {
-      "translate": "equipment_upgrade.limatech.universal_shield_regen.desc"
+      "translate": "equipment_upgrade.limatech.weapon_shield_regen.desc"
     },
     "icon": "limatech:bubble_shield",
     "title": {
-      "translate": "equipment_upgrade.limatech.universal_shield_regen"
+      "translate": "equipment_upgrade.limatech.weapon_shield_regen"
     }
   },
   "effects": {

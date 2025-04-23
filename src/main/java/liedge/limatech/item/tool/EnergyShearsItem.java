@@ -3,6 +3,7 @@ package liedge.limatech.item.tool;
 import liedge.limatech.LimaTechTags;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -27,7 +28,7 @@ public class EnergyShearsItem extends EnergyMiningToolItem
 {
     public EnergyShearsItem(Properties properties)
     {
-        super(properties, 0f, ItemAttributeModifiers.EMPTY, ShearsItem.createToolProperties());
+        super(properties.component(DataComponents.TOOL, ShearsItem.createToolProperties()), 0f, ItemAttributeModifiers.EMPTY);
     }
 
     @Override

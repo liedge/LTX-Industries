@@ -16,8 +16,8 @@
           "type": "limatech:modify_reductions",
           "amount": {
             "type": "minecraft:linear",
-            "base": 0.75,
-            "per_level_above_first": -0.25
+            "base": -0.2,
+            "per_level_above_first": -0.2
           },
           "reduction_type": "armor"
         },
