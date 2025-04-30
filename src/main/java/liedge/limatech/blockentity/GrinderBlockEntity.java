@@ -41,7 +41,7 @@ public class GrinderBlockEntity extends SimpleRecipeMachineBlockEntity<LimaRecip
     @Override
     protected LimaRecipeInput getRecipeInput(Level level)
     {
-        return new LimaRecipeInput(getItemHandler(), 1, 1);
+        return LimaRecipeInput.createSingleSlot(getItemHandler(), 1);
     }
 
     @Override

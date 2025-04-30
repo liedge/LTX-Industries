@@ -1,20 +1,25 @@
 package liedge.limatech.recipe;
 
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import liedge.limacore.network.LimaStreamCodecs;
 import liedge.limacore.recipe.LimaRecipeInput;
 import liedge.limacore.recipe.LimaSimpleSizedIngredientRecipe;
 import liedge.limatech.menu.tooltip.FabricatorIngredientTooltip;
+import liedge.limatech.registry.game.LimaTechBlocks;
 import liedge.limatech.registry.game.LimaTechRecipeSerializers;
 import liedge.limatech.registry.game.LimaTechRecipeTypes;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.stats.RecipeBook;
 import net.minecraft.util.ExtraCodecs;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
@@ -27,6 +32,7 @@ public class FabricatingRecipe extends LimaSimpleSizedIngredientRecipe<LimaRecip
 {
     public static final MapCodec<FabricatingRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> codecStart(instance, 1, 16)
             .and(ExtraCodecs.POSITIVE_INT.fieldOf("energy_required").forGetter(FabricatingRecipe::getEnergyRequired))
+            .and(Codec.BOOL.optionalFieldOf("advancement_locked", false).forGetter(FabricatingRecipe::isAdvancementLocked))
             .and(GROUP_MAP_CODEC.forGetter(FabricatingRecipe::getGroup))
             .apply(instance, FabricatingRecipe::new));
 
@@ -34,22 +40,40 @@ public class FabricatingRecipe extends LimaSimpleSizedIngredientRecipe<LimaRecip
             LimaStreamCodecs.sizedIngredientsStreamCodec(1, 16), FabricatingRecipe::getRecipeIngredients,
             ItemStack.STREAM_CODEC, FabricatingRecipe::getResultItem,
             LimaStreamCodecs.POSITIVE_VAR_INT, FabricatingRecipe::getEnergyRequired,
+            ByteBufCodecs.BOOL, FabricatingRecipe::isAdvancementLocked,
             ByteBufCodecs.STRING_UTF8, FabricatingRecipe::getGroup,
             FabricatingRecipe::new);
 
+    public static boolean validateUnlocked(RecipeBook recipeBook, RecipeHolder<FabricatingRecipe> recipe, Player player)
+    {
+        if (recipe.value().advancementLocked)
+        {
+            return player.isCreative() || recipeBook.contains(recipe);
+        }
+
+        return true;
+    }
+
     private final int energyRequired;
+    private final boolean advancementLocked;
     private final String group;
 
-    public FabricatingRecipe(List<SizedIngredient> ingredients, ItemStack result, int energyRequired, String group)
+    public FabricatingRecipe(List<SizedIngredient> ingredients, ItemStack result, int energyRequired, boolean advancementLocked, String group)
     {
         super(ingredients, result);
         this.energyRequired = energyRequired;
+        this.advancementLocked = advancementLocked;
         this.group = group;
     }
 
     public int getEnergyRequired()
     {
         return energyRequired;
+    }
+
+    public boolean isAdvancementLocked()
+    {
+        return advancementLocked;
     }
 
     public TooltipComponent createIngredientTooltip()
@@ -73,6 +97,18 @@ public class FabricatingRecipe extends LimaSimpleSizedIngredientRecipe<LimaRecip
     public String getGroup()
     {
         return group;
+    }
+
+    @Override
+    public boolean isSpecial()
+    {
+        return false;
+    }
+
+    @Override
+    public ItemStack getToastSymbol()
+    {
+        return LimaTechBlocks.FABRICATOR.toStack();
     }
 
     @Override

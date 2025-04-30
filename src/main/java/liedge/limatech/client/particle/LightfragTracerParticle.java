@@ -70,6 +70,6 @@ public class LightfragTracerParticle extends CustomRenderTypeParticle
     @Override
     protected RenderType getCustomRenderType()
     {
-        return LimaTechRenderTypes.POSITION_COLOR_TRANSLUCENT;
+        return LimaTechRenderTypes.POSITION_COLOR_QUADS;
     }
 }

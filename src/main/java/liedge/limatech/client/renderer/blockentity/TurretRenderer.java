@@ -8,15 +8,13 @@ import liedge.limacore.client.model.BakedQuadGroup;
 import liedge.limatech.blockentity.BaseTurretBlockEntity;
 import liedge.limatech.client.model.baked.DynamicModularItemBakedModel;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.phys.AABB;
 
 public abstract class TurretRenderer<BE extends BaseTurretBlockEntity> extends LimaBlockEntityRenderer<BE>
 {
-    private final RenderType nonEmissiveRenderType;
-    private final RenderType emissiveRenderType;
+    private final DynamicModularItemBakedModel model;
     private final BakedQuadGroup guns;
     private final BakedQuadGroup swivel;
 
@@ -24,10 +22,7 @@ public abstract class TurretRenderer<BE extends BaseTurretBlockEntity> extends L
     {
         super(context);
 
-        DynamicModularItemBakedModel model = LimaCoreClientUtil.getCustomBakedModel(LimaCoreClientUtil.inventoryModelPath(getModelItem()), DynamicModularItemBakedModel.class);
-
-        this.nonEmissiveRenderType = model.getNonEmissiveRenderType();
-        this.emissiveRenderType = model.getEmissiveRenderType();
+        this.model = LimaCoreClientUtil.getCustomBakedModel(LimaCoreClientUtil.inventoryModelPath(getModelItem()), DynamicModularItemBakedModel.class);
         this.guns = model.getSubmodel("guns");
         this.swivel = model.getSubmodel("swivel");
     }
@@ -48,13 +43,13 @@ public abstract class TurretRenderer<BE extends BaseTurretBlockEntity> extends L
         poseStack.mulPose(Axis.YP.rotationDegrees(blockEntity.lerpYRot(partialTick)));
         poseStack.translate(-0.5d, 0, -0.5d);
 
-        swivel.putItemQuadsInBuffer(poseStack, bufferSource, nonEmissiveRenderType, emissiveRenderType, packedLight);
+        swivel.putItemQuadsInBuffer(poseStack, bufferSource, model.getCustomBaseRenderType(), model.getCustomEmissiveRenderType(), packedLight);
 
         poseStack.translate(0.5d, gunsYPivot(), 0.5d);
         poseStack.mulPose(Axis.XP.rotationDegrees(blockEntity.lerpXRot(partialTick)));
         poseStack.translate(-0.5d, -gunsYPivot(), -0.5d);
 
-        guns.putItemQuadsInBuffer(poseStack, bufferSource, nonEmissiveRenderType, emissiveRenderType, packedLight);
+        guns.putItemQuadsInBuffer(poseStack, bufferSource, model.getCustomBaseRenderType(), model.getCustomEmissiveRenderType(), packedLight);
         renderAdditionalGuns(blockEntity, partialTick, poseStack, bufferSource, packedLight);
 
         poseStack.popPose();

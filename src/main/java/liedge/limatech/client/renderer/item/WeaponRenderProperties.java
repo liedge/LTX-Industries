@@ -20,7 +20,6 @@ import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
@@ -37,17 +36,14 @@ public abstract class WeaponRenderProperties<T extends WeaponItem> extends LimaS
         return LimaCoreUtil.castOrThrow(WeaponRenderProperties.class, IClientItemExtensions.of(weaponItem));
     }
 
-    private RenderType nonEmissiveRenderType;
-    private RenderType emissiveRenderType;
+    private DynamicModularItemBakedModel model;
     protected BakedQuadGroup mainSubmodel;
 
     @Override
     protected void onResourceManagerReload(ResourceManager manager, T item)
     {
-        DynamicModularItemBakedModel model = LimaCoreClientUtil.getCustomBakedModel(LimaCoreClientUtil.inventoryModelPath(item), DynamicModularItemBakedModel.class);
+        this.model = LimaCoreClientUtil.getCustomBakedModel(LimaCoreClientUtil.inventoryModelPath(item), DynamicModularItemBakedModel.class);
         this.mainSubmodel = model.getSubmodel("main");
-        this.nonEmissiveRenderType = model.getNonEmissiveRenderType();
-        this.emissiveRenderType = model.getEmissiveRenderType();
         loadWeaponModelParts(item, model);
     }
 
@@ -103,12 +99,12 @@ public abstract class WeaponRenderProperties<T extends WeaponItem> extends LimaS
 
     protected void renderSubModel(BakedQuadGroup submodel, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight)
     {
-        submodel.putItemQuadsInBuffer(poseStack, bufferSource, nonEmissiveRenderType, emissiveRenderType, LimaColor.WHITE, LimaColor.WHITE, packedLight);
+        submodel.putItemQuadsInBuffer(poseStack, bufferSource, model.getCustomBaseRenderType(), model.getCustomEmissiveRenderType(), LimaColor.WHITE, LimaColor.WHITE, packedLight);
     }
 
     protected void renderSubModel(BakedQuadGroup submodel, PoseStack poseStack, MultiBufferSource bufferSource, LimaColor nonEmissiveTint, LimaColor emissiveTint, int packedLight)
     {
-        submodel.putItemQuadsInBuffer(poseStack, bufferSource, nonEmissiveRenderType, emissiveRenderType, nonEmissiveTint, emissiveTint, packedLight);
+        submodel.putItemQuadsInBuffer(poseStack, bufferSource, model.getCustomBaseRenderType(), model.getCustomEmissiveRenderType(), nonEmissiveTint, emissiveTint, packedLight);
     }
 
     protected void renderStaticMagazineFill(T item, ItemStack stack, PoseStack poseStack, MultiBufferSource bufferSource, TranslucentFillModel fillModel, LimaColor color)
@@ -116,7 +112,7 @@ public abstract class WeaponRenderProperties<T extends WeaponItem> extends LimaS
         float fill = Math.min(LimaMathUtil.divideFloat(item.getAmmoLoaded(stack), item.getAmmoCapacity(stack)), 1f);
         if (fill > 0)
         {
-            VertexConsumer buffer = bufferSource.getBuffer(LimaTechRenderTypes.POSITION_COLOR_TRANSLUCENT);
+            VertexConsumer buffer = bufferSource.getBuffer(LimaTechRenderTypes.POSITION_COLOR_QUADS);
             fillModel.renderRotated(buffer, poseStack, color, fill);
         }
     }
@@ -131,7 +127,7 @@ public abstract class WeaponRenderProperties<T extends WeaponItem> extends LimaS
         {
             float mul = controls.getReloadTimer().lerpProgressNotPaused(partialTick);
 
-            VertexConsumer buffer = bufferSource.getBuffer(LimaTechRenderTypes.POSITION_COLOR_TRANSLUCENT);
+            VertexConsumer buffer = bufferSource.getBuffer(LimaTechRenderTypes.POSITION_COLOR_QUADS);
             fillModel.renderRotated(buffer, poseStack, color, mul);
         }
     }

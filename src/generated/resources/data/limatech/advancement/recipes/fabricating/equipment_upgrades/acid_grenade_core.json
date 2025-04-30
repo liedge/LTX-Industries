@@ -1,0 +1,36 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "limatech:fabricating/equipment_upgrades/acid_grenade_core"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "kill_bogged": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "minecraft:bogged"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "kill_bogged"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "limatech:fabricating/equipment_upgrades/acid_grenade_core"
+    ]
+  }
+}

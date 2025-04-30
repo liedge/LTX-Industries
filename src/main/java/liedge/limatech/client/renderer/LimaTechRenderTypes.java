@@ -5,36 +5,29 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import liedge.limatech.LimaTech;
 import net.minecraft.Util;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.resources.ResourceLocation;
 import org.joml.Matrix4f;
 
-import java.util.function.Function;
+import static liedge.limacore.client.renderer.LimaCoreRenderTypes.POSITION_TEX_COLOR_SHADER;
 
 public final class LimaTechRenderTypes
 {
     private LimaTechRenderTypes() {}
 
-    private static final RenderStateShard.ShaderStateShard POSITION_TEX_COLOR_SHADER = new RenderStateShard.ShaderStateShard(GameRenderer::getPositionTexColorShader);
     private static final RenderStateShard.TexturingStateShard FABRICATOR_WIREFRAME_TEXTURING = new RenderStateShard.TexturingStateShard("fabricator_preview_texturing", LimaTechRenderTypes::setupFabricatorWireframeTexturing, RenderSystem::resetTextureMatrix);
 
-    private static final Function<ResourceLocation, RenderType> POSITION_TEX_COLOR = Util.memoize(texture -> {
+    private static RenderType positionColorTranslucent(VertexFormat.Mode mode)
+    {
         RenderType.CompositeState state = RenderType.CompositeState.builder()
-                .setShaderState(POSITION_TEX_COLOR_SHADER)
-                .setTextureState(new RenderStateShard.TextureStateShard(texture, false, false))
+                .setShaderState(RenderStateShard.POSITION_COLOR_SHADER)
                 .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
-                .setCullState(RenderStateShard.NO_CULL)
-                .createCompositeState(true);
-        return RenderType.create("position_tex_color", DefaultVertexFormat.POSITION_TEX_COLOR, VertexFormat.Mode.QUADS, 1536, false, true, state);
-    });
+                .createCompositeState(false);
+        return RenderType.create("position_color_" + mode.name(), DefaultVertexFormat.POSITION_COLOR, mode, 1536, false, true, state);
+    }
 
-    public static final RenderType BUBBLE_SHIELD = RenderType.create("bubble_shield", DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.TRIANGLES, 1536, false, true, RenderType.CompositeState.builder()
-            .setShaderState(RenderStateShard.POSITION_COLOR_SHADER)
-            .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
-            .setOutputState(RenderStateShard.TRANSLUCENT_TARGET)
-            .createCompositeState(false));
+    public static final RenderType POSITION_COLOR_TRIANGLES = positionColorTranslucent(VertexFormat.Mode.TRIANGLES);
+    public static final RenderType POSITION_COLOR_QUADS = positionColorTranslucent(VertexFormat.Mode.QUADS);
 
     public static final RenderType LOCK_ON_INDICATOR = RenderType.create("lock_on_indicator", DefaultVertexFormat.POSITION_TEX_COLOR, VertexFormat.Mode.QUADS, 512, false, false, RenderType.CompositeState.builder()
             .setShaderState(POSITION_TEX_COLOR_SHADER)
@@ -51,17 +44,6 @@ public final class LimaTechRenderTypes
             .setOutputState(RenderStateShard.ITEM_ENTITY_TARGET)
             .setTexturingState(FABRICATOR_WIREFRAME_TEXTURING)
             .createCompositeState(false));
-
-    public static final RenderType POSITION_COLOR_TRANSLUCENT = RenderType.create("position_color_translucent", DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS, 1536, false, true, RenderType.CompositeState.builder()
-            .setShaderState(RenderStateShard.POSITION_COLOR_SHADER)
-            .setWriteMaskState(RenderStateShard.COLOR_DEPTH_WRITE)
-            .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
-            .createCompositeState(true));
-
-    public static RenderType positionTexColor(ResourceLocation texture)
-    {
-        return POSITION_TEX_COLOR.apply(texture);
-    }
 
     // State shard helpers
     private static void setupFabricatorWireframeTexturing()

@@ -26,9 +26,9 @@ public final class WeaponCrosshairLayer extends LimaGuiLayer
     }
 
     @Override
-    protected boolean shouldRender(LocalPlayer player)
+    protected boolean isVisible(LocalPlayer player)
     {
-        return Minecraft.getInstance().options.getCameraType().isFirstPerson() && !player.isSpectator() && !Minecraft.getInstance().options.hideGui && player.getMainHandItem().getItem() instanceof WeaponItem;
+        return super.isVisible(player) && Minecraft.getInstance().options.getCameraType().isFirstPerson() && player.getMainHandItem().getItem() instanceof WeaponItem;
     }
 
     @Override

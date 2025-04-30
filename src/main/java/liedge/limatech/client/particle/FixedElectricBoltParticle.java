@@ -1,25 +1,26 @@
 package liedge.limatech.client.particle;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import liedge.limacore.client.particle.ColorParticleOptions;
 import liedge.limacore.client.particle.CustomRenderTypeParticle;
+import liedge.limacore.lib.LimaColor;
 import liedge.limacore.util.LimaMathUtil;
-import liedge.limatech.LimaTechConstants;
 import liedge.limatech.client.model.custom.EnergyBoltModel;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.world.phys.AABB;
 import org.joml.Matrix4f;
 
 public class FixedElectricBoltParticle extends CustomRenderTypeParticle
 {
+    private final LimaColor boltColor;
     private final EnergyBoltModel boltA;
     private final EnergyBoltModel boltB;
 
     private EnergyBoltModel boltToRender;
 
-    public FixedElectricBoltParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double dx, double dy, double dz)
+    public FixedElectricBoltParticle(ColorParticleOptions options, ClientLevel level, double x, double y, double z, double dx, double dy, double dz)
     {
         super(level, x, y, z);
 
@@ -31,6 +32,7 @@ public class FixedElectricBoltParticle extends CustomRenderTypeParticle
         double sizeDim = LimaMathUtil.distanceBetween(x, y, z, dx, dy, dz);
         setBoundingBox(AABB.ofSize(getPos(), sizeDim, sizeDim, sizeDim));
 
+        this.boltColor = options.color();
         this.boltA = EnergyBoltModel.twoFixedPointBolt(x, y, z, dx, dy, dz, 0.015625f);
         this.boltB = EnergyBoltModel.twoFixedPointBolt(x, y, z, dx, dy, dz, 0.015625f);
         this.boltToRender = boltA;
@@ -50,7 +52,7 @@ public class FixedElectricBoltParticle extends CustomRenderTypeParticle
     @Override
     protected void renderParticle(VertexConsumer buffer, Matrix4f mx4, Camera camera, float partialTicks)
     {
-        boltToRender.renderEnergyBolt(buffer, mx4, LimaTechConstants.ELECTRIC_GREEN, 0.85f);
+        boltToRender.renderEnergyBolt(buffer, mx4, boltColor, 0.85f);
     }
 
     @Override

@@ -38,7 +38,7 @@ public class MagnumWeaponItem extends SemiAutoWeaponItem
             hitResult.entityHits().forEach(hit -> causeInstantDamage(upgrades, player, hit.getEntity(), LimaTechWeaponsConfig.MAGNUM_BASE_DAMAGE.getAsDouble()));
             level.gameEvent(player, LimaTechGameEvents.WEAPON_FIRED, player.getEyePosition());
 
-            LimaNetworkUtil.spawnAlwaysVisibleParticle(level, LimaTechParticles.LIGHTFRAG_TRACER, hitResult.origin(), hitResult.impact().getLocation());
+            LimaNetworkUtil.sendSingleParticle(level, LimaTechParticles.LIGHTFRAG_TRACER, player, true, LimaNetworkUtil.LONG_PARTICLE_DIST, hitResult.origin(), hitResult.impact().getLocation());
         }
 
         level.playSound(player, player, LimaTechSounds.MAGNUM_FIRE.get(), SoundSource.PLAYERS, 1.0f, 0.75f + (player.getRandom().nextFloat() * 0.2f));

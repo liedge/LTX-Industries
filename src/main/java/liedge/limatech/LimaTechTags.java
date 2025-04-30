@@ -35,6 +35,7 @@ public final class LimaTechTags
 
         public static final TagKey<Block> DEEPSLATE_GRINDABLES = RESOURCES.blockTag("deepslate_grindables");
         public static final TagKey<Block> WRENCH_BREAKABLE = RESOURCES.blockTag("wrench_breakable");
+        public static final TagKey<Block> LTX_HOE_BOOSTABLE = RESOURCES.blockTag("ltx_hoe_boostable");
     }
 
     public static final class Items

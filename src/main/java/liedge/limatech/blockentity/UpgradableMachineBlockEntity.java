@@ -5,7 +5,6 @@ import liedge.limacore.capability.energy.EnergyHolderBlockEntity;
 import liedge.limacore.capability.itemhandler.ItemHolderBlockEntity;
 import liedge.limacore.util.LimaMathUtil;
 import liedge.limatech.lib.upgrades.machine.MachineUpgrades;
-import liedge.limatech.registry.game.LimaTechDataComponents;
 import liedge.limatech.registry.game.LimaTechUpgradeEffectComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
@@ -20,28 +19,26 @@ import java.util.Optional;
 
 public interface UpgradableMachineBlockEntity extends SubMenuProviderBlockEntity, ItemHolderBlockEntity
 {
-    static MachineUpgrades getMachineUpgradesFromItem(ItemStack stack)
-    {
-        return stack.getOrDefault(LimaTechDataComponents.MACHINE_UPGRADES, MachineUpgrades.EMPTY);
-    }
-
     MachineUpgrades getUpgrades();
 
     void setUpgrades(MachineUpgrades upgrades);
 
-    default void onUpgradeRefresh(ServerLevel level)
+    default void onUpgradeRefresh(ServerLevel level, MachineUpgrades upgrades)
     {
-        LimaBlockEntity thisBE = getAsLimaBlockEntity();
-        MachineUpgrades upgrades = getUpgrades();
-
+        LimaBlockEntity self = getAsLimaBlockEntity();
         LootParams params = new LootParams.Builder(level)
-                .withParameter(LootContextParams.BLOCK_STATE, thisBE.getBlockState())
-                .withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(thisBE.getBlockPos()))
+                .withParameter(LootContextParams.BLOCK_STATE, self.getBlockState())
+                .withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(self.getBlockPos()))
                 .withParameter(LootContextParams.TOOL, ItemStack.EMPTY)
-                .withOptionalParameter(LootContextParams.BLOCK_ENTITY, thisBE)
+                .withOptionalParameter(LootContextParams.BLOCK_ENTITY, self)
                 .create(LootContextParamSets.BLOCK);
         LootContext context = new LootContext.Builder(params).create(Optional.empty());
 
+        onUpgradeRefresh(context, upgrades);
+    }
+
+    default void onUpgradeRefresh(LootContext context, MachineUpgrades upgrades)
+    {
         // Apply to energy holders, must run here since it is a compounding calculation
         if (this instanceof EnergyHolderBlockEntity energyHolder)
         {

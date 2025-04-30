@@ -2,8 +2,7 @@
   "entries": [
     "limatech:razor_loot_table",
     "limatech:extra_drops",
-    "limatech:enemy_ammo_drops",
-    "limatech:explosives_salvage_loot"
+    "limatech:enemy_ammo_drops"
   ],
   "replace": false
 }

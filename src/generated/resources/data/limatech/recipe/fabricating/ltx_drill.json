@@ -8,6 +8,10 @@
       "item": "minecraft:iron_pickaxe"
     },
     {
+      "count": 1,
+      "item": "minecraft:iron_shovel"
+    },
+    {
       "count": 8,
       "item": "limatech:titanium_ingot"
     },

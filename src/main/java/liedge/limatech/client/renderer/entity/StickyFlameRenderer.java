@@ -2,6 +2,7 @@ package liedge.limatech.client.renderer.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import liedge.limacore.client.renderer.LimaCoreRenderTypes;
 import liedge.limacore.lib.ModResources;
 import liedge.limatech.entity.StickyFlameEntity;
 import net.minecraft.client.Minecraft;
@@ -13,7 +14,6 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
-import net.neoforged.neoforge.client.NeoForgeRenderTypes;
 import org.joml.Matrix4f;
 
 public class StickyFlameRenderer extends EntityRenderer<StickyFlameEntity>
@@ -31,7 +31,7 @@ public class StickyFlameRenderer extends EntityRenderer<StickyFlameEntity>
     @Override
     public void render(StickyFlameEntity entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight)
     {
-        VertexConsumer buffer = bufferSource.getBuffer(NeoForgeRenderTypes.ITEM_UNSORTED_UNLIT_TRANSLUCENT.get());
+        VertexConsumer buffer = bufferSource.getBuffer(LimaCoreRenderTypes.ITEM_POS_TEX_COLOR_TRANSLUCENT);
 
         Matrix4f mx4 = poseStack.last().pose();
 

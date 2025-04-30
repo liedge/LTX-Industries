@@ -1,5 +1,6 @@
 {
   "type": "limatech:fabricating",
+  "advancement_locked": true,
   "energy_required": 5000000,
   "group": "eum/weapon/gl",
   "ingredients": [
@@ -8,30 +9,20 @@
       "item": "limatech:empty_upgrade_module"
     },
     {
-      "count": 16,
+      "count": 6,
       "item": "limatech:gold_circuit"
     },
     {
-      "count": 16,
+      "count": 2,
       "item": "limatech:niobium_circuit"
     },
     {
-      "count": 64,
+      "count": 32,
       "item": "limatech:titanium_ingot"
     },
     {
       "count": 1,
       "item": "minecraft:nether_star"
-    },
-    {
-      "type": "neoforge:components",
-      "components": {
-        "minecraft:potion_contents": {
-          "potion": "minecraft:long_weakness"
-        }
-      },
-      "count": 1,
-      "items": "minecraft:potion"
     }
   ],
   "result": {

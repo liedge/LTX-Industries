@@ -5,7 +5,6 @@ import liedge.limacore.util.LimaItemUtil;
 import liedge.limatech.LimaTech;
 import liedge.limatech.lib.weapons.GrenadeType;
 import liedge.limatech.registry.bootstrap.LimaTechEnchantments;
-import liedge.limatech.util.config.LimaTechServerConfig;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
@@ -18,8 +17,6 @@ import net.minecraft.world.item.enchantment.EnchantmentInstance;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
-
-import java.util.stream.IntStream;
 
 public final class LimaTechCreativeTabs
 {
@@ -53,16 +50,18 @@ public final class LimaTechCreativeTabs
         LimaCreativeTabFillerItem.addHoldersToTab(tabId, parameters, output, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS, LimaTechItems.getRegisteredItems());
 
         HolderLookup<Enchantment> enchantments = parameters.holders().lookupOrThrow(Registries.ENCHANTMENT);
-        boolean enchantedBookConfig = LimaTechServerConfig.GENERATE_ALL_ENCHANTED_BOOK_LEVELS.getAsBoolean();
-        addEnchantedBooks(output, enchantments, LimaTechEnchantments.AMMO_SCAVENGER, enchantedBookConfig);
-        addEnchantedBooks(output, enchantments, LimaTechEnchantments.RAZOR, enchantedBookConfig);
+        addEnchantedBooks(output, enchantments, LimaTechEnchantments.AMMO_SCAVENGER);
+        addEnchantedBooks(output, enchantments, LimaTechEnchantments.RAZOR);
     }
 
-    private static void addEnchantedBooks(CreativeModeTab.Output output, HolderLookup<Enchantment> registries, ResourceKey<Enchantment> enchantment, boolean allLevels)
+    private static void addEnchantedBooks(CreativeModeTab.Output output, HolderLookup<Enchantment> registries, ResourceKey<Enchantment> enchantment)
     {
         Holder<Enchantment> holder = registries.getOrThrow(enchantment);
-        int max = holder.value().getMaxLevel();
-        int min = allLevels ? holder.value().getMinLevel() : max;
-        IntStream.rangeClosed(min, max).mapToObj(lvl -> EnchantedBookItem.createForEnchantment(new EnchantmentInstance(holder, lvl))).forEach(stack -> output.accept(stack, CreativeModeTab.TabVisibility.PARENT_TAB_ONLY));
+        final int max = holder.value().getMaxLevel();
+        for (int i = 1; i <= max; i++)
+        {
+            CreativeModeTab.TabVisibility visibility = i == max ? CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS : CreativeModeTab.TabVisibility.PARENT_TAB_ONLY;
+            output.accept(EnchantedBookItem.createForEnchantment(new EnchantmentInstance(holder, i)), visibility);
+        }
     }
 }

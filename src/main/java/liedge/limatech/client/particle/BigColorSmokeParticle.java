@@ -63,6 +63,6 @@ public class BigColorSmokeParticle extends CampfireSmokeParticle
     @Override
     protected int getLightColor(float partialTick)
     {
-        return LightTexture.FULL_BLOCK;
+        return LightTexture.FULL_BRIGHT;
     }
 }

@@ -6,7 +6,6 @@ import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.client.gui.UnmanagedSprite;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.limacore.util.LimaCollectionsUtil;
-import liedge.limacore.util.LimaRecipesUtil;
 import liedge.limatech.LimaTech;
 import liedge.limatech.LimaTechConstants;
 import liedge.limatech.blockentity.FabricatorBlockEntity;
@@ -17,13 +16,16 @@ import liedge.limatech.menu.FabricatorMenu;
 import liedge.limatech.recipe.FabricatingRecipe;
 import liedge.limatech.registry.game.LimaTechRecipeTypes;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.ClientRecipeBook;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Comparator;
@@ -56,7 +58,18 @@ public class FabricatorScreen extends SidedUpgradableMachineScreen<FabricatorMen
     public FabricatorScreen(FabricatorMenu menu, Inventory inventory, Component title)
     {
         super(menu, inventory, title, 190, 200);
-        this.recipes = LimaRecipesUtil.getSortedRecipesForType(menu.level(), LimaTechRecipeTypes.FABRICATING, Comparator.comparing(holder -> holder.value().getGroup()), Comparator.comparing(holder -> holder.id().getPath()));
+
+        // Read recipes and validate against recipe book
+        LocalPlayer player = (LocalPlayer) inventory.player;
+        Level level = player.level();
+        ClientRecipeBook recipeBook = player.getRecipeBook();
+
+        this.recipes = level.getRecipeManager().getAllRecipesFor(LimaTechRecipeTypes.FABRICATING.get()).stream()
+                .filter(r -> FabricatingRecipe.validateUnlocked(recipeBook, r, player))
+                .sorted(Comparator.<RecipeHolder<FabricatingRecipe>, String>comparing(r -> r.value().getGroup()).thenComparing(r -> r.id().toString()))
+                .toList();
+
+        // Screen setup
         this.recipeRows = LimaCollectionsUtil.splitCollectionToSegments(recipes, SELECTOR_GRID_WIDTH);
         this.scrollWheelDelta = 59 / recipeRows;
         this.inventoryLabelX = 14;

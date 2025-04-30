@@ -1,7 +1,7 @@
 package liedge.limatech.data.generation;
 
 import liedge.limacore.data.generation.LimaRecipeProvider;
-import liedge.limacore.data.generation.recipe.LimaSizedIngredientListRecipeBuilder;
+import liedge.limacore.data.generation.recipe.LimaSizedIngredientsRecipeBuilder;
 import liedge.limacore.lib.ModResources;
 import liedge.limacore.lib.function.ObjectIntFunction;
 import liedge.limatech.LimaTech;
@@ -18,6 +18,10 @@ import liedge.limatech.recipe.GrindingRecipe;
 import liedge.limatech.recipe.MaterialFusingRecipe;
 import liedge.limatech.recipe.RecomposingRecipe;
 import liedge.limatech.registry.game.LimaTechDataComponents;
+import net.minecraft.advancements.critereon.EntityPredicate;
+import net.minecraft.advancements.critereon.KilledTrigger;
+import net.minecraft.advancements.critereon.LocationPredicate;
+import net.minecraft.advancements.critereon.PlayerTrigger;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentPredicate;
@@ -28,12 +32,14 @@ import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.levelgen.structure.BuiltinStructures;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 import org.jetbrains.annotations.Nullable;
@@ -48,7 +54,6 @@ import static liedge.limatech.registry.game.LimaTechBlocks.*;
 import static liedge.limatech.registry.game.LimaTechItems.*;
 import static net.minecraft.world.item.Items.*;
 import static net.neoforged.neoforge.common.Tags.Items.DYES_LIME;
-import static net.neoforged.neoforge.common.Tags.Items.GLASS_BLOCKS;
 
 class RecipesGen extends LimaRecipeProvider
 {
@@ -156,6 +161,19 @@ class RecipesGen extends LimaRecipeProvider
         GLOW_BLOCKS.forEach((color, block) -> fusing(stackOf(block, 8)).input(LimaTechTags.Items.GLOW_BLOCK_MATERIALS, 2).input(color.getTag()).save(output));
 
         // Fabricating recipes
+        fabricating(EXPLOSIVES_WEAPON_TECH_SALVAGE, 500_000)
+                .input(GUNPOWDER, 8)
+                .input(TITANIUM_INGOT, 4)
+                .input(GOLD_CIRCUIT)
+                .group("tech_parts")
+                .requiresAdvancement()
+                .unlockedBy("visited_fortress", PlayerTrigger.TriggerInstance.located(LocationPredicate.Builder.inStructure(registries.holderOrThrow(BuiltinStructures.FORTRESS))))
+                .save(output);
+        fabricating(AUTO_AMMO_CANISTER, 50_000)
+                .input(TITANIUM_INGOT, 1)
+                .input(Ingredient.of(GLOWSTONE_DUST, REDSTONE))
+                .input(DYES_LIME)
+                .group("weapon_ammo").save(output);
         fabricating(ROCKET_TURRET, 2_500_000)
                 .input(TARGETING_TECH_SALVAGE)
                 .input(TITANIUM_INGOT, 32)
@@ -168,17 +186,11 @@ class RecipesGen extends LimaRecipeProvider
                 .input(GOLD_CIRCUIT, 8)
                 .input(NIOBIUM_CIRCUIT, 4)
                 .group("turrets").save(output);
-        fabricating(AUTO_AMMO_CANISTER, 100_000)
-                .input(TITANIUM_INGOT, 3)
-                .input(GUNPOWDER, 4)
-                .input(Ingredient.of(GLOWSTONE_DUST, REDSTONE), 4)
-                .input(DYES_LIME)
-                .input(GLASS_BLOCKS, 2)
-                .group("weapon_ammo").save(output);
 
         // Tools fabricating
         upgradeableItemFabricating(LTX_DRILL, registries, 300_000)
                 .input(IRON_PICKAXE)
+                .input(IRON_SHOVEL)
                 .input(TITANIUM_INGOT, 8)
                 .input(COPPER_CIRCUIT, 4)
                 .input(DYES_LIME, 4)
@@ -460,19 +472,20 @@ class RecipesGen extends LimaRecipeProvider
                 .input(COPPER_CIRCUIT, 8)
                 .input(GOLD_CIRCUIT, 8)
                 .input(TITANIUM_INGOT, 8)
-                .input(LIGHTNING_ROD, 4)
-                .input(BREEZE_ROD, 1));
+                .input(LIGHTNING_ROD, 4));
         equipmentModuleFab(output, registries, "eum/weapon/gl", ACID_GRENADE_CORE, 1, 1_000_000, builder -> builder
-                .input(GOLD_CIRCUIT, 16)
-                .input(NIOBIUM_CIRCUIT, 4)
-                .input(TITANIUM_INGOT, 32)
-                .input(DataComponentIngredient.of(false, DataComponentPredicate.builder().expect(DataComponents.POTION_CONTENTS, new PotionContents(Potions.STRONG_POISON)).build(), POTION)));
+                .input(GOLD_CIRCUIT, 3)
+                .input(NIOBIUM_CIRCUIT, 1)
+                .input(TITANIUM_INGOT, 16)
+                .requiresAdvancement()
+                .unlockedBy("kill_bogged", KilledTrigger.TriggerInstance.playerKilledEntity(EntityPredicate.Builder.entity().of(EntityType.BOGGED))));
         equipmentModuleFab(output, registries, "eum/weapon/gl", NEURO_GRENADE_CORE, 1, 5_000_000, builder -> builder
-                .input(GOLD_CIRCUIT, 16)
-                .input(NIOBIUM_CIRCUIT, 16)
-                .input(TITANIUM_INGOT, 64)
+                .input(GOLD_CIRCUIT, 6)
+                .input(NIOBIUM_CIRCUIT, 2)
+                .input(TITANIUM_INGOT, 32)
                 .input(NETHER_STAR)
-                .input(DataComponentIngredient.of(false, DataComponentPredicate.builder().expect(DataComponents.POTION_CONTENTS, new PotionContents(Potions.LONG_WEAKNESS)).build(), POTION)));
+                .requiresAdvancement()
+                .unlockedBy("kill_warden", KilledTrigger.TriggerInstance.playerKilledEntity(EntityPredicate.Builder.entity().of(EntityType.WARDEN))));
         equipmentModuleFab(output, registries, "eum/weapon", GRENADE_LAUNCHER_PROJECTILE_SPEED, 1, 750_000, builder -> builder
                 .input(GOLD_CIRCUIT)
                 .input(FIREWORK_ROCKET, 9)
@@ -575,9 +588,9 @@ class RecipesGen extends LimaRecipeProvider
         blasting(stackOf(resultItem, resultCount)).input(orePebble).xp(0.5f).save(output, "blast_" + name);
     }
 
-    private LimaSizedIngredientListRecipeBuilder.SimpleBuilder<GrindingRecipe, ?> grinding(ItemStack result)
+    private LimaSizedIngredientsRecipeBuilder.SimpleBuilder<GrindingRecipe, ?> grinding(ItemStack result)
     {
-        return LimaSizedIngredientListRecipeBuilder.simpleBuilder(modResources, result, GrindingRecipe::new);
+        return LimaSizedIngredientsRecipeBuilder.simpleBuilder(modResources, result, GrindingRecipe::new);
     }
 
     private void orePebbleGrinding(ItemLike orePebble, TagKey<Item> oreTag, @Nullable TagKey<Item> rawOreTag, String name, RecipeOutput output)
@@ -586,14 +599,14 @@ class RecipesGen extends LimaRecipeProvider
         if (rawOreTag != null) grinding(stackOf(orePebble, 2)).input(rawOreTag).save(output, "grind_raw_" + name + "_materials");
     }
 
-    private LimaSizedIngredientListRecipeBuilder.SimpleBuilder<RecomposingRecipe, ?> recomposing(ItemStack result)
+    private LimaSizedIngredientsRecipeBuilder.SimpleBuilder<RecomposingRecipe, ?> recomposing(ItemStack result)
     {
-        return LimaSizedIngredientListRecipeBuilder.simpleBuilder(modResources, result, RecomposingRecipe::new);
+        return LimaSizedIngredientsRecipeBuilder.simpleBuilder(modResources, result, RecomposingRecipe::new);
     }
 
-    private LimaSizedIngredientListRecipeBuilder.SimpleBuilder<MaterialFusingRecipe, ?> fusing(ItemStack result)
+    private LimaSizedIngredientsRecipeBuilder.SimpleBuilder<MaterialFusingRecipe, ?> fusing(ItemStack result)
     {
-        return LimaSizedIngredientListRecipeBuilder.simpleBuilder(modResources, result, MaterialFusingRecipe::new);
+        return LimaSizedIngredientsRecipeBuilder.simpleBuilder(modResources, result, MaterialFusingRecipe::new);
     }
 
     private FabricatingBuilder fabricating(ItemLike result, int energyRequired)
@@ -672,9 +685,10 @@ class RecipesGen extends LimaRecipeProvider
     }
 
     // Builder classes
-    private static class FabricatingBuilder extends LimaSizedIngredientListRecipeBuilder.SimpleBuilder<FabricatingRecipe, FabricatingBuilder>
+    private static class FabricatingBuilder extends LimaSizedIngredientsRecipeBuilder.SimpleBuilder<FabricatingRecipe, FabricatingBuilder>
     {
         private final int energyRequired;
+        private boolean advancementLocked = false;
 
         FabricatingBuilder(ModResources resources, ItemStack result, int energyRequired)
         {
@@ -682,10 +696,16 @@ class RecipesGen extends LimaRecipeProvider
             this.energyRequired = energyRequired;
         }
 
+        public FabricatingBuilder requiresAdvancement()
+        {
+            this.advancementLocked = true;
+            return this;
+        }
+
         @Override
         protected FabricatingRecipe buildRecipe()
         {
-            return new FabricatingRecipe(ingredients, resultItem, energyRequired, getGroupOrBlank());
+            return new FabricatingRecipe(ingredients, resultItem, energyRequired, advancementLocked, getGroupOrBlank());
         }
     }
 }

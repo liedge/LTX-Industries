@@ -30,7 +30,7 @@ public class LightfragRenderer extends EntityRenderer<Entity>
         poseStack.mulPose(Axis.YP.rotationDegrees(-entity.getYRot()));
         poseStack.mulPose(Axis.XP.rotationDegrees(180f + entity.getXRot()));
 
-        VertexConsumer buffer = bufferSource.getBuffer(LimaTechRenderTypes.POSITION_COLOR_TRANSLUCENT);
+        VertexConsumer buffer = bufferSource.getBuffer(LimaTechRenderTypes.POSITION_COLOR_QUADS);
         final float alpha = 0.875f;
         Matrix4f mx4 = poseStack.last().pose();
 

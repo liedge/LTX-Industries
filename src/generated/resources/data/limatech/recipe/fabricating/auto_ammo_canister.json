@@ -1,15 +1,11 @@
 {
   "type": "limatech:fabricating",
-  "energy_required": 100000,
+  "energy_required": 50000,
   "group": "weapon_ammo",
   "ingredients": [
     {
-      "count": 3,
+      "count": 1,
       "item": "limatech:titanium_ingot"
-    },
-    {
-      "count": 4,
-      "item": "minecraft:gunpowder"
     },
     {
       "type": "neoforge:compound",
@@ -21,15 +17,11 @@
           "item": "minecraft:redstone"
         }
       ],
-      "count": 4
+      "count": 1
     },
     {
       "count": 1,
       "tag": "c:dyes/lime"
-    },
-    {
-      "count": 2,
-      "tag": "c:glass_blocks"
     }
   ],
   "result": {

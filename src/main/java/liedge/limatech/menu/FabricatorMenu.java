@@ -36,12 +36,19 @@ public class FabricatorMenu extends SidedUpgradableMachineMenu<FabricatorBlockEn
 
         if (holder != null)
         {
-            LimaRecipeInput input = LimaRecipeInput.matchingContainer(new PlayerMainInvWrapper(sender.getInventory()));
-            menuContext.startCrafting(holder, input, sender.isCreative());
+            if (FabricatingRecipe.validateUnlocked(sender.getRecipeBook(), holder, sender))
+            {
+                LimaRecipeInput input = LimaRecipeInput.create(new PlayerMainInvWrapper(sender.getInventory()));
+                menuContext.startCrafting(holder, input, sender.isCreative());
+            }
+            else
+            {
+                LimaTech.LOGGER.warn("Player {} tried to start locked fabricating recipe '{}'.", sender.getName(), id);
+            }
         }
         else
         {
-            LimaTech.LOGGER.warn("Received unknown fabricating recipe iconPath '{}' on server.", id);
+            LimaTech.LOGGER.warn("Received unknown fabricating recipe id '{}' from player {}", id, sender.getName());
         }
     }
 

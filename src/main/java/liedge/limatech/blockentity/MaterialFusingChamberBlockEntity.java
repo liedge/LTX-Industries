@@ -41,13 +41,13 @@ public class MaterialFusingChamberBlockEntity extends SimpleRecipeMachineBlockEn
     @Override
     protected LimaRecipeInput getRecipeInput(Level level)
     {
-        return new LimaRecipeInput(getItemHandler(), 3, 1);
+        return LimaRecipeInput.createWithSize(getItemHandler(), 1, 3);
     }
 
     @Override
     protected boolean isInputSlot(int slot)
     {
-        return slot >= 1 && slot <= 4;
+        return slot > 0 && slot < 4;
     }
 
     @Override

@@ -9,7 +9,6 @@ import liedge.limatech.lib.upgrades.UpgradeBase;
 import liedge.limatech.lib.upgrades.UpgradeBaseEntry;
 import liedge.limatech.menu.tooltip.ItemGridTooltip;
 import liedge.limatech.registry.game.LimaTechItems;
-import liedge.limatech.util.config.LimaTechServerConfig;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderSet;
@@ -136,11 +135,9 @@ public abstract class UpgradeModuleItem<U extends UpgradeBase<?, U>, UE extends 
         if (tabId.equals(creativeTabId()))
         {
             HolderLookup.RegistryLookup<U> registry = parameters.holders().lookupOrThrow(upgradeRegistryKey());
-            boolean generateAll = LimaTechServerConfig.GENERATE_ALL_UPGRADE_RANKS.getAsBoolean();
-
             registry.listElements()
                     .sorted(UpgradeBase.comparingCategoryThenId())
-                    .flatMap(holder -> createPairsStream(holder, generateAll))
+                    .flatMap(this::createPairsStream)
                     .forEach(pair -> {
                         ItemStack stack = new ItemStack(this);
                         stack.set(entryComponentType(), pair.getA());
@@ -149,12 +146,10 @@ public abstract class UpgradeModuleItem<U extends UpgradeBase<?, U>, UE extends 
         }
     }
 
-    private Stream<Pair<UE, CreativeModeTab.TabVisibility>> createPairsStream(Holder<U> holder, boolean generateAll)
+    private Stream<Pair<UE, CreativeModeTab.TabVisibility>> createPairsStream(Holder<U> holder)
     {
         int max = holder.value().maxRank();
-        int min = generateAll ? 1 : max;
-
-        return IntStream.rangeClosed(min, max).mapToObj(rank ->
+        return IntStream.rangeClosed(1, max).mapToObj(rank ->
         {
             CreativeModeTab.TabVisibility vis = rank == max ? CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS : CreativeModeTab.TabVisibility.PARENT_TAB_ONLY;
             return new Pair<>(createUpgradeEntry(holder, rank), vis);

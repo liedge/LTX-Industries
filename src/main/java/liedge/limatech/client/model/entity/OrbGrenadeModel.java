@@ -2,10 +2,10 @@ package liedge.limatech.client.model.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import liedge.limacore.client.renderer.LimaCoreRenderTypes;
 import liedge.limacore.lib.LimaColor;
 import liedge.limacore.util.LimaMathUtil;
 import liedge.limatech.LimaTech;
-import liedge.limatech.client.renderer.LimaTechRenderTypes;
 import liedge.limatech.entity.OrbGrenadeEntity;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.EntityModelSet;
@@ -22,7 +22,7 @@ public class OrbGrenadeModel extends Model
 {
     public static final ResourceLocation TEXTURE = LimaTech.RESOURCES.textureLocation("entity", "orb_grenade");
     private static final RenderType RENDER_TYPE = RenderType.entitySolid(TEXTURE);
-    private static final RenderType EMISSIVE_RENDER_TYPE = LimaTechRenderTypes.positionTexColor(TEXTURE);
+    private static final RenderType EMISSIVE_RENDER_TYPE = LimaCoreRenderTypes.positionTexColorSolid(TEXTURE);
 
     private final ModelPart body;
     private final ModelPart accents;

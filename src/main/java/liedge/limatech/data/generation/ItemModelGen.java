@@ -3,12 +3,14 @@ package liedge.limatech.data.generation;
 import liedge.limacore.data.generation.LimaItemModelProvider;
 import liedge.limacore.lib.ModResources;
 import liedge.limatech.LimaTech;
+import liedge.limatech.client.model.baked.EmissiveBiLayerGeometry;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ItemLike;
+import net.neoforged.neoforge.client.model.generators.CustomLoaderBuilder;
 import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
+import net.neoforged.neoforge.client.model.generators.ModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
-import net.neoforged.neoforge.client.model.generators.loaders.ItemLayerModelBuilder;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import java.util.Arrays;
@@ -69,9 +71,7 @@ class ItemModelGen extends LimaItemModelProvider
                 .parent(parent)
                 .texture("layer0", baseTexture)
                 .texture("layer1", emissiveTexture)
-                .customLoader(ItemLayerModelBuilder::begin)
-                .emissive(15, 15, 1)
-                .renderType("neoforge:item_unlit", 1).end();
+                .customLoader(BiLayerBuilder::new).end();
     }
 
     private void emissiveBiLayerModels(ModelFile parent, ItemLike... items)
@@ -97,5 +97,13 @@ class ItemModelGen extends LimaItemModelProvider
     private void generated(ResourceLocation texture, ItemLike... items)
     {
         Stream.of(items).forEach(i -> generated(i, texture));
+    }
+
+    private static class BiLayerBuilder<T extends ModelBuilder<T>> extends CustomLoaderBuilder<T>
+    {
+        private BiLayerBuilder(T parent, ExistingFileHelper existingFileHelper)
+        {
+            super(EmissiveBiLayerGeometry.LOADER_ID, parent, existingFileHelper, false);
+        }
     }
 }

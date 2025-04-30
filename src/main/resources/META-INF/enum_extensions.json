@@ -1,6 +1,15 @@
 {
   "entries": [
     {
+      "enum": "net/minecraft/client/RecipeBookCategories",
+      "name": "LIMATECH_FABRICATING_CATEGORY",
+      "constructor": "(Ljava/util/function/Supplier;)V",
+      "parameters": {
+        "class": "liedge/limatech/client/LimaTechClientRecipes",
+        "field": "FABRICATING_CATEGORY"
+      }
+    },
+    {
       "enum": "net/minecraft/client/model/HumanoidModel$ArmPose",
       "name": "LIMATECH_TWO_HAND_WEAPON",
       "constructor": "(ZLnet/neoforged/neoforge/client/IArmPoseTransformer;)V",

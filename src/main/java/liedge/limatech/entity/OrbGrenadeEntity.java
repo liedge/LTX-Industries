@@ -1,5 +1,6 @@
 package liedge.limatech.entity;
 
+import liedge.limacore.client.particle.ColorParticleOptions;
 import liedge.limacore.client.particle.ColorSizeParticleOptions;
 import liedge.limacore.util.LimaBlockUtil;
 import liedge.limacore.util.LimaNetworkUtil;
@@ -141,7 +142,7 @@ public class OrbGrenadeEntity extends LimaTraceableProjectile implements IEntity
         // Add electric bolt particles between impact and targets if electric
         if (grenadeType == GrenadeType.ELECTRIC)
         {
-            LimaNetworkUtil.spawnAlwaysVisibleParticle(level, LimaTechParticles.FIXED_ELECTRIC_BOLT, hitLocation, hitEntity.getEyePosition());
+            LimaNetworkUtil.sendSingleParticle(level, new ColorParticleOptions(LimaTechParticles.FIXED_ELECTRIC_BOLT, grenadeType.getColor()), null, true, LimaNetworkUtil.NORMAL_PARTICLE_DIST, hitLocation, hitEntity.getEyePosition());
         }
     }
 
@@ -207,7 +208,7 @@ public class OrbGrenadeEntity extends LimaTraceableProjectile implements IEntity
         if (fireEvent) level.gameEvent(owner, LimaTechGameEvents.PROJECTILE_EXPLODED, hitLocation);
 
         level.playSound(null, hitLocation.x, hitLocation.y, hitLocation.z, LimaTechSounds.GRENADE_EXPLOSIONS.get(grenadeType).get(), SoundSource.PLAYERS, 2.5f, Mth.randomBetween(random, 0.77f, 0.9f));
-        LimaNetworkUtil.spawnAlwaysVisibleParticle(level, new GrenadeExplosionParticleOptions(grenadeType, blastRadius * 2d), hitLocation);
+        LimaNetworkUtil.sendSingleParticle(level, new GrenadeExplosionParticleOptions(grenadeType, blastRadius * 2d), null, true, LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, hitLocation);
         discard();
     }
 

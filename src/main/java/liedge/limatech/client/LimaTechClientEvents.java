@@ -1,6 +1,6 @@
 package liedge.limatech.client;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.*;
 import com.mojang.datafixers.util.Either;
 import com.mojang.math.Axis;
 import liedge.limacore.client.LimaCoreClientUtil;
@@ -104,7 +104,7 @@ public final class LimaTechClientEvents
     @SubscribeEvent
     public static void onLevelStageRender(final RenderLevelStageEvent event)
     {
-        if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_PARTICLES && Minecraft.getInstance().level != null && Minecraft.getInstance().player != null)
+        if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS && Minecraft.getInstance().level != null && Minecraft.getInstance().player != null)
         {
             ClientLevel level = Minecraft.getInstance().level;
             PoseStack poseStack = event.getPoseStack();
@@ -143,7 +143,7 @@ public final class LimaTechClientEvents
                         poseStack.mulPose(Axis.YN.rotationDegrees(entity.getYRot()));
                         poseStack.scale(size, size, size);
 
-                        BubbleShieldRenderer.SHIELD_RENDERER.renderBubbleShield(poseStack, bufferSource.getBuffer(LimaTechRenderTypes.BUBBLE_SHIELD), BUBBLE_SHIELD_GREEN, partialTick);
+                        BubbleShieldRenderer.SHIELD_RENDERER.renderBubbleShield(poseStack, bufferSource.getBuffer(LimaTechRenderTypes.POSITION_COLOR_TRIANGLES), BUBBLE_SHIELD_GREEN, partialTick);
 
                         poseStack.popPose();
                     }

@@ -20,12 +20,6 @@ public final class BubbleShieldLayer extends LimaGuiLayer
     }
 
     @Override
-    protected boolean shouldRender(LocalPlayer player)
-    {
-        return !player.isSpectator() && !Minecraft.getInstance().options.hideGui;
-    }
-
-    @Override
     protected void renderGuiLayer(LocalPlayer player, GuiGraphics graphics, float partialTicks)
     {
         float shieldHealth = player.getData(LimaTechAttachmentTypes.BUBBLE_SHIELD).getShieldHealth();

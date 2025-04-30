@@ -55,7 +55,7 @@ public class ShotgunWeaponItem extends SemiAutoWeaponItem
             {
                 CompoundHitResult hitResult = CompoundHitResult.tracePath(level, player, 10d, 6.5d, hit -> hit.getBoundingBox().getSize() <= 1d ? 0.75d : 0.375d, 5);
                 hitResult.entityHits().forEach(hit -> pelletHits.mergeInt(hit.getEntity(), 1, Integer::sum));
-                LimaNetworkUtil.spawnAlwaysVisibleParticle(level, LimaTechParticles.LIGHTFRAG_TRACER, hitResult.origin(), hitResult.impact().getLocation());
+                LimaNetworkUtil.sendSingleParticle(level, LimaTechParticles.LIGHTFRAG_TRACER, player, true, LimaNetworkUtil.LONG_PARTICLE_DIST, hitResult.origin(), hitResult.impact().getLocation());
             }
 
             final double basePelletDamage = LimaTechWeaponsConfig.SHOTGUN_BASE_PELLET_DAMAGE.getAsDouble();

@@ -9,6 +9,7 @@ import liedge.limatech.client.gui.layer.WeaponCrosshairLayer;
 import liedge.limatech.client.gui.layer.WeaponHUDInfoLayer;
 import liedge.limatech.client.gui.screen.*;
 import liedge.limatech.client.model.baked.DynamicModularItemGeometry;
+import liedge.limatech.client.model.baked.EmissiveBiLayerGeometry;
 import liedge.limatech.client.model.custom.BubbleShieldModel;
 import liedge.limatech.client.model.entity.LimaTechModelLayers;
 import liedge.limatech.client.model.entity.OrbGrenadeModel;
@@ -59,6 +60,12 @@ public final class LimaTechClientSetup
     {
         event.register(EnergyStorageArrayRenderer.TIERED_ESA_COLOR, LimaTechBlocks.ENERGY_STORAGE_ARRAY);
         event.register(EnergyStorageArrayRenderer.INFINITE_ESA_COLOR, LimaTechBlocks.INFINITE_ENERGY_STORAGE_ARRAY);
+    }
+
+    @SubscribeEvent
+    public static void registerRecipeBookCategories(final RegisterRecipeBookCategoriesEvent event)
+    {
+        event.registerRecipeCategoryFinder(LimaTechRecipeTypes.FABRICATING.get(), $ -> LimaTechClientRecipes.FABRICATING_CATEGORY.getValue());
     }
 
     @SubscribeEvent
@@ -138,6 +145,7 @@ public final class LimaTechClientSetup
     @SubscribeEvent
     public static void registerGeometryLoaders(final ModelEvent.RegisterGeometryLoaders event)
     {
+        EmissiveBiLayerGeometry.BI_LAYER_LOADER.registerLoader(event);
         DynamicModularItemGeometry.DYNAMIC_MODEL_LOADER.registerLoader(event);
     }
 

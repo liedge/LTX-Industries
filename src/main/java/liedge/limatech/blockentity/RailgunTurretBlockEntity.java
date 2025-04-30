@@ -69,7 +69,7 @@ public class RailgunTurretBlockEntity extends BaseTurretBlockEntity
 
             LimaTechEntityUtil.hurtWithEnchantedFakePlayer(level, target, owner, getUpgrades(), ignored -> TurretDamageSource.create(level, LimaTechDamageTypes.RAILGUN_TURRET, this, null, owner, start), baseDamage);
 
-            LimaNetworkUtil.spawnAlwaysVisibleParticle(level, LimaTechParticles.RAILGUN_BOLT.get(), start, target.getBoundingBox().getCenter());
+            LimaNetworkUtil.sendSingleParticle(level, LimaTechParticles.RAILGUN_BOLT, owner, true, LimaNetworkUtil.LONG_PARTICLE_DIST, start, target.getBoundingBox().getCenter());
             level.playSound(null, start.x ,start.y, start.z, LimaTechSounds.RAILGUN_BOOM.get(), SoundSource.BLOCKS, 2.5f, Mth.randomBetween(level.random, 0.85f, 0.95f));
 
             targetList.removeTarget(target);

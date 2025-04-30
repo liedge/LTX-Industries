@@ -47,7 +47,7 @@ public class EnergyStorageArrayRenderer extends LimaBlockEntityRenderer<BaseESAB
 
         if (fill > 0)
         {
-            VertexConsumer buffer = bufferSource.getBuffer(LimaTechRenderTypes.POSITION_COLOR_TRANSLUCENT);
+            VertexConsumer buffer = bufferSource.getBuffer(LimaTechRenderTypes.POSITION_COLOR_QUADS);
 
             for (TranslucentFillModel model : fillModels)
             {

@@ -37,7 +37,7 @@ public class ColorFlashParticle extends TextureSheetParticle
     @Override
     public void render(VertexConsumer buffer, Camera renderInfo, float partialTicks)
     {
-        setAlpha(0.6f - (age + partialTicks - 1.0f) * 0.25f * 0.5f);
+        setAlpha(0.75f - (age + partialTicks - 1f) * 0.11666f);
         super.render(buffer, renderInfo, partialTicks);
     }
 
