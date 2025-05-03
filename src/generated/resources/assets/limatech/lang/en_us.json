@@ -209,6 +209,7 @@
   "lima.damage_tag.minecraft.no_knockback": "No Knockback",
   "limatech.ambiguous_holder_set": "certain",
   "limatech.any_holder_set": "all",
+  "limatech.bp_toast_title": "New Fabrication Data",
   "limatech.guidebook.landing_text": "Welcome to LimaTech! This guidebook contains hints, info, and instructions on the basic mechanics of the mod.",
   "limatech.upgrade_rank": "Rank %s/%s",
   "machine_upgrade.limatech.esa_capacity": "Auxiliary Energy Cells",

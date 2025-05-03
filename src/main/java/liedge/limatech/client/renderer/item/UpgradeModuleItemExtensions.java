@@ -33,6 +33,29 @@ public final class UpgradeModuleItemExtensions implements ItemGuiRenderOverride
 
     private UpgradeModuleItemExtensions() {}
 
+    public boolean renderIconWithRankBar(GuiGraphics graphics, UpgradeBaseEntry<?> entry, int x, int y)
+    {
+        UpgradeIcon icon = entry.upgrade().value().display().icon();
+        if (!UpgradeIconRenderers.renderIcon(graphics, icon, x, y)) return false;
+
+        final int rank = entry.upgradeRank();
+        final int maxRank = entry.upgrade().value().maxRank();
+
+        // Render rank bar if applicable
+        if (maxRank > 1 && rank < maxRank)
+        {
+            graphics.pose().pushPose();
+
+            renderGradientBar(graphics, x + 1, y + 1, x + 3, y +  15, 0xff4a4a4a, -16777216);
+            float yo = 14f - 14f * LimaMathUtil.divideFloat(rank, maxRank);
+            renderGradientBar(graphics, x + 1, y + 1 + yo, x + 3, y + 15, UPGRADE_RANK_MAGENTA.packedRGB(), 0xffd13ff0);
+
+            graphics.pose().popPose();
+        }
+
+        return true;
+    }
+
     @Override
     public boolean renderCustomGuiItem(GuiGraphics graphics, ItemStack stack, int x, int y)
     {
@@ -41,25 +64,7 @@ public final class UpgradeModuleItemExtensions implements ItemGuiRenderOverride
             UpgradeBaseEntry<?> entry = stack.get(moduleItem.entryComponentType());
             if (entry != null && shouldShowIcon())
             {
-                UpgradeIcon icon = entry.upgrade().value().display().icon();
-                boolean result = UpgradeIconRenderers.renderIcon(graphics, icon, x, y);
-
-                final int rank = entry.upgradeRank();
-                final int maxRank = entry.upgrade().value().maxRank();
-
-                // Render rank bar if applicable
-                if (maxRank > 1 && rank < maxRank)
-                {
-                    graphics.pose().pushPose();
-
-                    renderGradientBar(graphics, x + 1, y + 1, x + 3, y +  15, 0xff4a4a4a, -16777216);
-                    float yo = 14f - 14f * LimaMathUtil.divideFloat(rank, maxRank);
-                    renderGradientBar(graphics, x + 1, y + 1 + yo, x + 3, y + 15, UPGRADE_RANK_MAGENTA.packedRGB(), 0xffd13ff0);
-
-                    graphics.pose().popPose();
-                }
-
-                return result;
+                return renderIconWithRankBar(graphics, entry, x, y);
             }
         }
 

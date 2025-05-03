@@ -246,6 +246,7 @@ class LanguageGen extends LimaLanguageProvider
         add(AUTO_INPUT_OFF_TOOLTIP, "Auto Input Disabled");
         add(AUTO_INPUT_ON_TOOLTIP, "Auto Input Enabled");
 
+        add(BLUEPRINT_TOAST_MESSAGE, "New Fabrication Data");
         add(EMPTY_ITEM_INVENTORY_TOOLTIP, "No items stored");
         add(ITEM_INVENTORY_TOOLTIP, "Stored Items");
         add(FABRICATOR_CLICK_TO_CRAFT_TOOLTIP, "Click again to craft");

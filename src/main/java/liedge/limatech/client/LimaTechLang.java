@@ -33,6 +33,7 @@ public final class LimaTechLang
     public static final Translatable INLINE_OWNER_TOOLTIP = tooltip("owner");
     public static final Translatable ENERGY_OVERCHARGE_TOOLTIP = tooltip("energy_overcharge");
 
+    public static final Translatable BLUEPRINT_TOAST_MESSAGE = suffixOnlyKey("bp_toast_title");
     public static final Translatable EMPTY_ITEM_INVENTORY_TOOLTIP = tooltip("empty_item_inventory_hint");
     public static final Translatable ITEM_INVENTORY_TOOLTIP = tooltip("item_inventory_hint");
     public static final Translatable FABRICATOR_CLICK_TO_CRAFT_TOOLTIP = tooltip("fabricator_1");
