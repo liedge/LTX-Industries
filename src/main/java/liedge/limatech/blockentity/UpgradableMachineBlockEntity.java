@@ -23,7 +23,7 @@ public interface UpgradableMachineBlockEntity extends SubMenuProviderBlockEntity
 
     void setUpgrades(MachineUpgrades upgrades);
 
-    default void onUpgradeRefresh(ServerLevel level, MachineUpgrades upgrades)
+    default LootContext createUpgradeContext(ServerLevel level)
     {
         LimaBlockEntity self = getAsLimaBlockEntity();
         LootParams params = new LootParams.Builder(level)
@@ -32,9 +32,8 @@ public interface UpgradableMachineBlockEntity extends SubMenuProviderBlockEntity
                 .withParameter(LootContextParams.TOOL, ItemStack.EMPTY)
                 .withOptionalParameter(LootContextParams.BLOCK_ENTITY, self)
                 .create(LootContextParamSets.BLOCK);
-        LootContext context = new LootContext.Builder(params).create(Optional.empty());
 
-        onUpgradeRefresh(context, upgrades);
+        return new LootContext.Builder(params).create(Optional.empty());
     }
 
     default void onUpgradeRefresh(LootContext context, MachineUpgrades upgrades)

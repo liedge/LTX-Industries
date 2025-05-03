@@ -139,7 +139,7 @@ public abstract class SidedItemEnergyMachineBlockEntity extends LimaBlockEntity 
         if (level instanceof ServerLevel serverLevel)
         {
             setChanged();
-            onUpgradeRefresh(serverLevel, upgrades);
+            onUpgradeRefresh(createUpgradeContext(serverLevel), upgrades);
         }
     }
 
@@ -209,7 +209,7 @@ public abstract class SidedItemEnergyMachineBlockEntity extends LimaBlockEntity 
     @Override
     protected void onLoadServer(ServerLevel level)
     {
-        onUpgradeRefresh(level, getUpgrades());
+        onUpgradeRefresh(createUpgradeContext(level), getUpgrades());
     }
 
     @Override
