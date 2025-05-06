@@ -279,6 +279,7 @@
   "tooltip.limatech.entity_target.last_player": "Last Attacking Player",
   "tooltip.limatech.entity_target.this": "Enemy",
   "tooltip.limatech.equipment_upgrade_module": "Equipment Upgrade Module",
+  "tooltip.limatech.fabricator_locked": "This recipe is advancement locked. You must discover it first before being able to use it.",
   "tooltip.limatech.fabricator_selected": "Left click to craft. Right click to encode blueprint (must have blank blueprint in slot).",
   "tooltip.limatech.item_inventory_hint": "Stored Items",
   "tooltip.limatech.machine_upgrade_module": "Machine Upgrade Module",

@@ -1,0 +1,21 @@
+{
+  "type": "limatech:material_fusing",
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "minecraft:gold_ingot"
+    },
+    {
+      "count": 2,
+      "item": "minecraft:redstone"
+    },
+    {
+      "count": 1,
+      "item": "limatech:titanium_nugget"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "limatech:gold_circuit"
+  }
+}

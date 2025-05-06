@@ -1,9 +1,11 @@
 {
-  "type": "limatech:fabricating",
-  "energy_required": 10000000,
-  "group": "mum/gpm",
-  "ingredients": [
-    {
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": {
+      "item": "limatech:gold_circuit"
+    },
+    "m": {
       "type": "neoforge:components",
       "components": {
         "limatech:machine_upgrade": {
@@ -11,30 +13,17 @@
           "upgrade": "limatech:standard_machine_systems"
         }
       },
-      "count": 1,
       "items": "limatech:machine_upgrade_module",
       "strict": true
     },
-    {
-      "count": 1,
-      "item": "limatech:niobium_circuit"
-    },
-    {
-      "count": 2,
-      "item": "limatech:slate_alloy_ingot"
-    },
-    {
-      "count": 8,
-      "item": "limatech:titanium_ingot"
-    },
-    {
-      "count": 4,
-      "item": "minecraft:redstone_block"
-    },
-    {
-      "count": 1,
-      "item": "minecraft:diamond"
+    "r": {
+      "item": "minecraft:redstone"
     }
+  },
+  "pattern": [
+    " r ",
+    "cmc",
+    " r "
   ],
   "result": {
     "components": {

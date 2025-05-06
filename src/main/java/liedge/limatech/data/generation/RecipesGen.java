@@ -54,6 +54,7 @@ import static liedge.limatech.registry.game.LimaTechBlocks.*;
 import static liedge.limatech.registry.game.LimaTechItems.*;
 import static net.minecraft.world.item.Items.*;
 import static net.neoforged.neoforge.common.Tags.Items.DYES_LIME;
+import static net.neoforged.neoforge.common.Tags.Items.GLASS_PANES;
 
 class RecipesGen extends LimaRecipeProvider
 {
@@ -77,10 +78,12 @@ class RecipesGen extends LimaRecipeProvider
         shaped(GOLD_CIRCUIT).input('r', REDSTONE).input('m', GOLD_INGOT).input('t', TITANIUM_NUGGET).patterns("rrr", "mmm", "ttt").save(output);
         shaped(NIOBIUM_CIRCUIT).input('r', REDSTONE).input('m', NIOBIUM_INGOT).input('t', TITANIUM_NUGGET).patterns("rrr", "mmm", "ttt").save(output);
 
-        shaped(EMPTY_UPGRADE_MODULE).input('t', TITANIUM_INGOT).input('c', COPPER_CIRCUIT).input('l', DYES_LIME).patterns("ttt", "tct", "lcl").save(output);
+        shaped(EMPTY_UPGRADE_MODULE).input('t', TITANIUM_INGOT).input('c', COPPER_CIRCUIT).input('g', GLASS_PANES).input('l', DYES_LIME).patterns("ttt", "tgt", "lcl").save(output);
+        shaped(FABRICATION_BLUEPRINT).input('l', DYES_LIME).input('p', PAPER).input('t', TITANIUM_INGOT).input('c', COPPER_CIRCUIT).patterns("lll", "ppp", "tct").save(output);
 
         shaped(defaultUpgradableItem(LTX_WRENCH, registries)).input('t', TITANIUM_INGOT).input('l', DYES_LIME).patterns("t t", " l ", " t ").save(output);
 
+        // Machine recipes
         shaped(ENERGY_STORAGE_ARRAY).input('t', TITANIUM_INGOT).input('c', GOLD_CIRCUIT).input('l', DYES_LIME).input('b', COPPER_BLOCK).patterns("tlt", "cbc", "tlt").save(output);
         shaped(DIGITAL_FURNACE).input('t', TITANIUM_INGOT).input('c', COPPER_CIRCUIT).input('l', DYES_LIME).input('a', FURNACE).patterns("tlt", "cac", "ttt").save(output);
         shaped(GRINDER).input('t', TITANIUM_INGOT).input('c', COPPER_CIRCUIT).input('l', DYES_LIME).input('a', GRINDSTONE).patterns("tlt", "cac", "ttt").save(output);
@@ -88,6 +91,21 @@ class RecipesGen extends LimaRecipeProvider
         shaped(MATERIAL_FUSING_CHAMBER).input('t', TITANIUM_INGOT).input('c', COPPER_CIRCUIT).input('l', DYES_LIME).input('a', BLAST_FURNACE).patterns("tlt", "cac", "ttt").save(output);
         shaped(FABRICATOR).input('t', TITANIUM_INGOT).input('c', COPPER_CIRCUIT).input('l', DYES_LIME).input('a', CRAFTER).patterns("tlt", "cac", "ttt").save(output);
         shaped(EQUIPMENT_UPGRADE_STATION).input('t', TITANIUM_INGOT).input('a', ANVIL).input('l', DYES_LIME).patterns("ttt",  "lal", "ttt").save(output);
+
+        // Standard machine systems
+        final String smsRecipeName = STANDARD_MACHINE_SYSTEMS.location().getPath();
+        shaped(mumStack(registries, STANDARD_MACHINE_SYSTEMS, 1)).input('m', EMPTY_UPGRADE_MODULE).input('r', REDSTONE).input('c', COPPER_CIRCUIT)
+                .patterns(" r ", "cmc", " r ").save(output, smsRecipeName + "_1");
+        shaped(mumStack(registries, STANDARD_MACHINE_SYSTEMS, 2)).input('m', mumIngredient(registries, STANDARD_MACHINE_SYSTEMS, 1)).input('r', REDSTONE).input('c', COPPER_CIRCUIT)
+                .patterns(" r ", "cmc", " r ").save(output, smsRecipeName + "_2");
+        shaped(mumStack(registries, STANDARD_MACHINE_SYSTEMS, 3)).input('m', mumIngredient(registries, STANDARD_MACHINE_SYSTEMS, 2)).input('r', REDSTONE).input('c', COPPER_CIRCUIT)
+                .patterns(" r ", "cmc", " r ").save(output, smsRecipeName + "_3");
+        shaped(mumStack(registries, STANDARD_MACHINE_SYSTEMS, 4)).input('m', mumIngredient(registries, STANDARD_MACHINE_SYSTEMS, 3)).input('r', REDSTONE).input('c', GOLD_CIRCUIT)
+                .patterns(" r ", "cmc", " r ").save(output, smsRecipeName + "_4");
+        shaped(mumStack(registries, STANDARD_MACHINE_SYSTEMS, 5)).input('m', mumIngredient(registries, STANDARD_MACHINE_SYSTEMS, 4)).input('r', REDSTONE).input('c', GOLD_CIRCUIT)
+                .patterns(" r ", "cmc", " r ").save(output, smsRecipeName + "_5");
+        shaped(mumStack(registries, STANDARD_MACHINE_SYSTEMS, 6)).input('m', mumIngredient(registries, STANDARD_MACHINE_SYSTEMS, 5)).input('r', REDSTONE).input('c', GOLD_CIRCUIT)
+                .patterns(" r ", "cmc", " r ").save(output, smsRecipeName + "_6");
 
         GLOW_BLOCKS.forEach((color, deferredBlock) -> shaped(deferredBlock, 4).input('d', color.getTag()).input('g', GLOWSTONE).patterns("dg", "gd").save(output));
         //#endregion
@@ -145,6 +163,9 @@ class RecipesGen extends LimaRecipeProvider
                 .save(output, "extract_titanium_white");
 
         // Material fusing recipes
+        fusing(stackOf(COPPER_CIRCUIT)).input(COPPER_INGOT).input(REDSTONE, 2).input(TITANIUM_NUGGET).save(output);
+        fusing(stackOf(GOLD_CIRCUIT)).input(GOLD_INGOT).input(REDSTONE, 2).input(TITANIUM_NUGGET).save(output);
+        fusing(stackOf(NIOBIUM_CIRCUIT)).input(NIOBIUM_INGOT).input(REDSTONE, 2).input(TITANIUM_NUGGET).save(output);
         fusing(stackOf(SLATE_ALLOY_INGOT))
                 .input(DEEPSLATE_POWDER, 4)
                 .input(NETHERITE_INGOT)
@@ -495,39 +516,8 @@ class RecipesGen extends LimaRecipeProvider
                 .input(FIREWORK_ROCKET, 36)
                 .input(PHANTOM_MEMBRANE, 8));
 
-        machineModuleFab(output, registries, "mum/gpm", STANDARD_MACHINE_SYSTEMS, 1, 100_000, builder -> builder
-                .input(COPPER_CIRCUIT, 1)
-                .input(TITANIUM_INGOT, 2)
-                .input(REDSTONE, 8)
-                .input(IRON_INGOT, 4));
-        machineModuleFab(output, registries, "mum/gpm", STANDARD_MACHINE_SYSTEMS, 2, 400_000, builder -> builder
-                .input(GOLD_CIRCUIT, 1)
-                .input(TITANIUM_INGOT, 4)
-                .input(REDSTONE, 12)
-                .input(LAPIS_LAZULI, 4));
-        machineModuleFab(output, registries, "mum/gpm", STANDARD_MACHINE_SYSTEMS, 3, 700_000, builder -> builder
-                .input(GOLD_CIRCUIT, 2)
-                .input(TITANIUM_INGOT, 6)
-                .input(REDSTONE_BLOCK, 2)
-                .input(OBSIDIAN, 4));
-        machineModuleFab(output, registries, "mum/gpm", STANDARD_MACHINE_SYSTEMS, 4, 10_000_000, builder -> builder
-                .input(NIOBIUM_CIRCUIT, 1)
-                .input(SLATE_ALLOY_INGOT, 2)
-                .input(TITANIUM_INGOT, 8)
-                .input(REDSTONE_BLOCK, 4)
-                .input(DIAMOND, 1));
-        machineModuleFab(output, registries, "mum/gpm", STANDARD_MACHINE_SYSTEMS, 5, 40_000_000, builder -> builder
-                .input(NIOBIUM_CIRCUIT, 2)
-                .input(SLATE_ALLOY_INGOT, 4)
-                .input(EMERALD, 2)
-                .input(CHORUS_FRUIT, 4)
-                .input(SHULKER_SHELL, 2));
-        machineModuleFab(output, registries, "mum/gpm", STANDARD_MACHINE_SYSTEMS, 6, 100_000_000, builder -> builder
-                .input(NIOBIUM_CIRCUIT, 4)
-                .input(SLATE_ALLOY_INGOT, 8)
-                .input(ECHO_SHARD, 2)
-                .input(AMETHYST_SHARD, 4));
-        machineModuleFab(output, registries, "mum/gpm", ULTIMATE_MACHINE_SYSTEMS, 1, 250_000_000, builder -> builder
+        machineModuleFab(output, registries, "mum/gpm", ULTIMATE_MACHINE_SYSTEMS, 1, 250_000_000, false, null, builder -> builder
+                .input(mumIngredient(registries, STANDARD_MACHINE_SYSTEMS, 6))
                 .input(NIOBIUM_CIRCUIT, 8)
                 .input(SLATE_ALLOY_INGOT, 16)
                 .input(NETHER_STAR, 2)
@@ -640,12 +630,27 @@ class RecipesGen extends LimaRecipeProvider
         return moduleIngredient(registries, upgradeKey, upgradeRank, MACHINE_UPGRADE_MODULE, LimaTechDataComponents.MACHINE_UPGRADE_ENTRY.get(), MachineUpgradeEntry::new);
     }
 
+    private <U extends UpgradeBase<?, U>, UE extends UpgradeBaseEntry<U>> ItemStack moduleStack(HolderLookup.Provider registries, ResourceKey<U> upgradeKey, int upgradeRank, ItemLike moduleItem, DataComponentType<UE> componentType, ObjectIntFunction<Holder<U>, UE> entryFactory)
+    {
+        Holder<U> upgrade = registries.holderOrThrow(upgradeKey);
+        ItemStack stack = new ItemStack(moduleItem);
+        stack.set(componentType, entryFactory.applyWithInt(upgrade, upgradeRank));
+        return stack;
+    }
+
+    private ItemStack eumStack(HolderLookup.Provider registries, ResourceKey<EquipmentUpgrade> upgradeKey, int upgradeRank)
+    {
+        return moduleStack(registries, upgradeKey, upgradeRank, EQUIPMENT_UPGRADE_MODULE, LimaTechDataComponents.EQUIPMENT_UPGRADE_ENTRY.get(), EquipmentUpgradeEntry::new);
+    }
+
+    private ItemStack mumStack(HolderLookup.Provider registries, ResourceKey<MachineUpgrade> upgradeKey, int upgradeRank)
+    {
+        return moduleStack(registries, upgradeKey, upgradeRank, MACHINE_UPGRADE_MODULE, LimaTechDataComponents.MACHINE_UPGRADE_ENTRY.get(), MachineUpgradeEntry::new);
+    }
+
     private <U extends UpgradeBase<?, U>, UE extends UpgradeBaseEntry<U>> void upgradeFabricating(RecipeOutput output, HolderLookup.Provider registries, String group, ResourceKey<U> upgradeKey, int upgradeRank, int energyRequired, DataComponentType<UE> componentType, ObjectIntFunction<Holder<U>, UE> entryFactory, ItemLike moduleItem, boolean addBaseModuleInput, @Nullable String suffix, UnaryOperator<FabricatingBuilder> op)
     {
-        Holder<U> upgradeHolder = registries.holderOrThrow(upgradeKey);
-        ItemStack result = new ItemStack(moduleItem);
-        result.set(componentType, entryFactory.applyWithInt(upgradeHolder, upgradeRank));
-        FabricatingBuilder builder = fabricating(result, energyRequired).group(group);
+        FabricatingBuilder builder = fabricating(moduleStack(registries, upgradeKey, upgradeRank, moduleItem, componentType, entryFactory), energyRequired).group(group);
 
         if (addBaseModuleInput)
         {

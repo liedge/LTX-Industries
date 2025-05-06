@@ -4,8 +4,16 @@
   "group": "mum/gpm",
   "ingredients": [
     {
+      "type": "neoforge:components",
+      "components": {
+        "limatech:machine_upgrade": {
+          "rank": 6,
+          "upgrade": "limatech:standard_machine_systems"
+        }
+      },
       "count": 1,
-      "item": "limatech:empty_upgrade_module"
+      "items": "limatech:machine_upgrade_module",
+      "strict": true
     },
     {
       "count": 8,

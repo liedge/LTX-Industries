@@ -1,9 +1,11 @@
 {
-  "type": "limatech:fabricating",
-  "energy_required": 700000,
-  "group": "mum/gpm",
-  "ingredients": [
-    {
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": {
+      "item": "limatech:copper_circuit"
+    },
+    "m": {
       "type": "neoforge:components",
       "components": {
         "limatech:machine_upgrade": {
@@ -11,26 +13,17 @@
           "upgrade": "limatech:standard_machine_systems"
         }
       },
-      "count": 1,
       "items": "limatech:machine_upgrade_module",
       "strict": true
     },
-    {
-      "count": 2,
-      "item": "limatech:gold_circuit"
-    },
-    {
-      "count": 6,
-      "item": "limatech:titanium_ingot"
-    },
-    {
-      "count": 2,
-      "item": "minecraft:redstone_block"
-    },
-    {
-      "count": 4,
-      "item": "minecraft:obsidian"
+    "r": {
+      "item": "minecraft:redstone"
     }
+  },
+  "pattern": [
+    " r ",
+    "cmc",
+    " r "
   ],
   "result": {
     "components": {

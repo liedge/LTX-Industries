@@ -1,40 +1,34 @@
 {
-  "type": "limatech:fabricating",
-  "energy_required": 400000,
-  "group": "mum/gpm",
-  "ingredients": [
-    {
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": {
+      "item": "limatech:gold_circuit"
+    },
+    "m": {
       "type": "neoforge:components",
       "components": {
         "limatech:machine_upgrade": {
+          "rank": 5,
           "upgrade": "limatech:standard_machine_systems"
         }
       },
-      "count": 1,
       "items": "limatech:machine_upgrade_module",
       "strict": true
     },
-    {
-      "count": 1,
-      "item": "limatech:gold_circuit"
-    },
-    {
-      "count": 4,
-      "item": "limatech:titanium_ingot"
-    },
-    {
-      "count": 12,
+    "r": {
       "item": "minecraft:redstone"
-    },
-    {
-      "count": 4,
-      "item": "minecraft:lapis_lazuli"
     }
+  },
+  "pattern": [
+    " r ",
+    "cmc",
+    " r "
   ],
   "result": {
     "components": {
       "limatech:machine_upgrade": {
-        "rank": 2,
+        "rank": 6,
         "upgrade": "limatech:standard_machine_systems"
       }
     },

@@ -8,7 +8,9 @@ import liedge.limatech.client.LimaTechLang;
 import liedge.limatech.client.gui.screen.AutoFabricatorScreen;
 import liedge.limatech.recipe.FabricatingRecipe;
 import liedge.limatech.registry.game.LimaTechBlocks;
+import liedge.limatech.registry.game.LimaTechItems;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.drawable.IDrawableAnimated;
 import mezz.jei.api.gui.drawable.IDrawableStatic;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
@@ -28,6 +30,7 @@ import java.util.function.Supplier;
 
 public class FabricatingJEICategory extends LimaJEICategory<FabricatingRecipe>
 {
+    private final IDrawable bpIcon;
     private final IDrawableStatic progressBackground;
     private final IDrawableAnimated progressForeground;
 
@@ -36,6 +39,7 @@ public class FabricatingJEICategory extends LimaJEICategory<FabricatingRecipe>
         super(helper, typeSupplier, AutoFabricatorScreen.TEXTURE, 30, 27, 148, 67);
         this.progressBackground = widgetDrawable(helper, "fabricator_progress_bg", 5, 22).build();
         this.progressForeground = widgetDrawable(helper, "fabricator_progress", 3, 20).buildAnimated(80, IDrawableAnimated.StartDirection.BOTTOM, false);
+        this.bpIcon = helper.createDrawableItemStack(LimaTechItems.FABRICATION_BLUEPRINT.toStack());
     }
 
     @Override
@@ -49,6 +53,8 @@ public class FabricatingJEICategory extends LimaJEICategory<FabricatingRecipe>
     {
         progressBackground.draw(guiGraphics, 141, 43);
         progressForeground.draw(guiGraphics, 142, 44);
+
+        if (recipe.value().isAdvancementLocked()) bpIcon.draw(guiGraphics, 90, 46);
     }
 
     @Override
@@ -57,6 +63,10 @@ public class FabricatingJEICategory extends LimaJEICategory<FabricatingRecipe>
         if (LimaGuiUtil.isMouseWithinArea(mouseX, mouseY, 141, 43, 5, 22))
         {
             return List.of(LimaTechLang.INLINE_ENERGY_REQUIRED_TOOLTIP.translateArgs(LimaMathUtil.FORMAT_COMMA_INT.format(holder.value().getEnergyRequired())).withStyle(LimaTechConstants.REM_BLUE.chatStyle()));
+        }
+        else if (LimaGuiUtil.isMouseWithinArea(mouseX, mouseY, 90, 46, 16, 16) && holder.value().isAdvancementLocked())
+        {
+            return List.of(LimaTechLang.FABRICATOR_LOCKED_TOOLTIP.translate().withStyle(LimaTechConstants.HOSTILE_ORANGE.chatStyle()));
         }
         else
         {

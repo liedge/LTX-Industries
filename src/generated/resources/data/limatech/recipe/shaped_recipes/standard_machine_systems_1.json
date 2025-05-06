@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": {
+      "item": "limatech:copper_circuit"
+    },
+    "m": {
+      "item": "limatech:empty_upgrade_module"
+    },
+    "r": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "pattern": [
+    " r ",
+    "cmc",
+    " r "
+  ],
+  "result": {
+    "components": {
+      "limatech:machine_upgrade": {
+        "upgrade": "limatech:standard_machine_systems"
+      }
+    },
+    "count": 1,
+    "id": "limatech:machine_upgrade_module"
+  }
+}

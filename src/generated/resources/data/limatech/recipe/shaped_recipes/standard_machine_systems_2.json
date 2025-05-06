@@ -1,41 +1,33 @@
 {
-  "type": "limatech:fabricating",
-  "energy_required": 100000000,
-  "group": "mum/gpm",
-  "ingredients": [
-    {
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": {
+      "item": "limatech:copper_circuit"
+    },
+    "m": {
       "type": "neoforge:components",
       "components": {
         "limatech:machine_upgrade": {
-          "rank": 5,
           "upgrade": "limatech:standard_machine_systems"
         }
       },
-      "count": 1,
       "items": "limatech:machine_upgrade_module",
       "strict": true
     },
-    {
-      "count": 4,
-      "item": "limatech:niobium_circuit"
-    },
-    {
-      "count": 8,
-      "item": "limatech:slate_alloy_ingot"
-    },
-    {
-      "count": 2,
-      "item": "minecraft:echo_shard"
-    },
-    {
-      "count": 4,
-      "item": "minecraft:amethyst_shard"
+    "r": {
+      "item": "minecraft:redstone"
     }
+  },
+  "pattern": [
+    " r ",
+    "cmc",
+    " r "
   ],
   "result": {
     "components": {
       "limatech:machine_upgrade": {
-        "rank": 6,
+        "rank": 2,
         "upgrade": "limatech:standard_machine_systems"
       }
     },

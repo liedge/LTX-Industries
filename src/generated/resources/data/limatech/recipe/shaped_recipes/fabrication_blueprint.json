@@ -5,23 +5,23 @@
     "c": {
       "item": "limatech:copper_circuit"
     },
-    "g": {
-      "tag": "c:glass_panes"
-    },
     "l": {
       "tag": "c:dyes/lime"
+    },
+    "p": {
+      "item": "minecraft:paper"
     },
     "t": {
       "item": "limatech:titanium_ingot"
     }
   },
   "pattern": [
-    "ttt",
-    "tgt",
-    "lcl"
+    "lll",
+    "ppp",
+    "tct"
   ],
   "result": {
     "count": 1,
-    "id": "limatech:empty_upgrade_module"
+    "id": "limatech:fabrication_blueprint"
   }
 }
