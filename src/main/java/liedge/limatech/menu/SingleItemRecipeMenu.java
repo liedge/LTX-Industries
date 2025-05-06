@@ -14,7 +14,7 @@ public abstract class SingleItemRecipeMenu<CTX extends SimpleRecipeMachineBlockE
 
         addSlot(0, 8, 62);
         addSlot(1, 54, 34);
-        addRecipeResultSlot(2, 106, 34, menuContext.machineRecipeType());
+        addRecipeResultSlot(menuContext.getOutputSlot(), 106, 34, menuContext.getRecipeCheck().getRecipeType());
 
         addDefaultPlayerInventoryAndHotbar();
     }
@@ -23,7 +23,8 @@ public abstract class SingleItemRecipeMenu<CTX extends SimpleRecipeMachineBlockE
     public void defineDataWatchers(DataWatcherCollector collector)
     {
         menuContext.getEnergyStorage().keepAllPropertiesSynced(collector);
-        menuContext.keepProcessAndDurationSynced(collector);
+        menuContext.keepTimedProcessPropertiesSynced(collector);
+        menuContext.keepEnergyConsumerPropertiesSynced(collector);
     }
 
     @Override

@@ -6,18 +6,18 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import liedge.limatech.lib.CompoundValueOperation;
 import net.minecraft.network.chat.Component;
 
-public record SimpleValueTooltip(DoubleLevelBasedValue value, boolean invertColors) implements ValueEffectTooltip
+public record SimpleValueTooltip(DoubleLevelBasedValue value, ValueSentiment sentiment) implements ValueEffectTooltip
 {
     public static final MapCodec<SimpleValueTooltip> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             DoubleLevelBasedValue.CODEC.fieldOf("value").forGetter(SimpleValueTooltip::value),
-            Codec.BOOL.optionalFieldOf("invert_color", false).forGetter(SimpleValueTooltip::invertColors))
+            ValueSentiment.CODEC.optionalFieldOf("sentiment", ValueSentiment.POSITIVE).forGetter(SimpleValueTooltip::sentiment))
             .apply(instance, SimpleValueTooltip::new));
     static final Codec<SimpleValueTooltip> FLAT_CODEC = CODEC.codec();
 
     @Override
     public Component get(int upgradeRank, CompoundValueOperation operation)
     {
-        return operation.toValueComponent(value.calculate(upgradeRank), invertColors);
+        return operation.toValueComponent(value.calculate(upgradeRank), sentiment);
     }
 
     @Override

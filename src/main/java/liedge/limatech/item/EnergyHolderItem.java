@@ -71,7 +71,8 @@ public interface EnergyHolderItem
 
     default void appendEquipmentEnergyTooltip(TooltipLineConsumer consumer, ItemStack stack)
     {
-        LimaTechTooltipUtil.appendEquipmentEnergyTooltip(consumer, getEnergyStored(stack), getEnergyCapacity(stack), getEnergyUsage(stack));
+        LimaTechTooltipUtil.appendEnergyWithCapacityTooltip(consumer, getEnergyStored(stack), getEnergyCapacity(stack));
+        LimaTechTooltipUtil.appendEnergyUsageTooltip(consumer, getEnergyUsage(stack));
     }
 
     default void appendStorageEnergyTooltip(TooltipLineConsumer consumer, ItemStack stack)

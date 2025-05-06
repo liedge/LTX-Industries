@@ -39,7 +39,7 @@ public class RocketRenderer<T extends BaseRocketEntity> extends EntityRenderer<T
         poseStack.translate(0, -1.34375d, 0);
 
         VertexConsumer buffer = bufferSource.getBuffer(RENDER_TYPE);
-        model.renderToBuffer(poseStack, buffer, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, LimaTechConstants.LIME_GREEN.packedRGB());
+        model.renderToBuffer(poseStack, buffer, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, LimaTechConstants.LIME_GREEN.argb32());
 
         poseStack.popPose();
     }

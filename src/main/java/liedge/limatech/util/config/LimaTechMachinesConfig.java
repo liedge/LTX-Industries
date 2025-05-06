@@ -26,7 +26,7 @@ public final class LimaTechMachinesConfig
     public static final ModConfigSpec.IntValue MFC_CRAFTING_TIME;
 
     public static final ModConfigSpec.IntValue FABRICATOR_ENERGY_CAPACITY;
-    public static final ModConfigSpec.IntValue FABRICATOR_ENERGY_IO_RATE;
+    public static final ModConfigSpec.IntValue FABRICATOR_ENERGY_USAGE;
 
     public static final ModConfigSpec.IntValue ATMOS_TURRET_ENERGY_CAPACITY;
     public static final ModConfigSpec.IntValue ATMOS_TURRET_ENERGY_PER_TARGET;
@@ -94,10 +94,8 @@ public final class LimaTechMachinesConfig
         builder.push("fabricator");
         FABRICATOR_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Fabricator.")
                 .defineInRange("energy_capacity", 250_000, 1, Integer.MAX_VALUE);
-        FABRICATOR_ENERGY_IO_RATE = builder.comment(
-                        "Base energy IO rate of the Fabricator.",
-                        "This is also the crafting 'speed' of the fabricator since the recipe crafting times are based on energy consumption.")
-                .defineInRange("energy_io_rate", 2500, 1, Integer.MAX_VALUE);
+        FABRICATOR_ENERGY_USAGE = builder.comment("The energy usage of the Fabricator. Affects how quickly the fabricator completes recipes.")
+                .defineInRange("energy_usage", 2500, 1, Integer.MAX_VALUE);
         builder.pop();
 
         // Rocket turret

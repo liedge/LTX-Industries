@@ -35,8 +35,8 @@
     "limatech:energy_usage": [
       {
         "type": "simple",
-        "invert_color": true,
         "op": "multiply",
+        "sentiment": "negative",
         "simple_value": {
           "type": "exponential",
           "base": 1.5,
@@ -51,8 +51,8 @@
     "limatech:ticks_per_operation": [
       {
         "type": "simple",
-        "invert_color": true,
         "op": "multiply",
+        "sentiment": "negative",
         "simple_value": {
           "type": "exponential",
           "base": 0.725,

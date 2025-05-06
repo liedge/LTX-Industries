@@ -7,7 +7,6 @@ import liedge.limatech.registry.game.LimaTechBlockEntities;
 import liedge.limatech.registry.game.LimaTechMenus;
 import liedge.limatech.registry.game.LimaTechRecipeTypes;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -17,13 +16,7 @@ public class MaterialFusingChamberBlockEntity extends SimpleRecipeMachineBlockEn
 {
     public MaterialFusingChamberBlockEntity(BlockPos pos, BlockState state)
     {
-        super(LimaTechBlockEntities.MATERIAL_FUSING_CHAMBER.get(), pos, state, MFC_ENERGY_CAPACITY.getAsInt(), 5);
-    }
-
-    @Override
-    public RecipeType<MaterialFusingRecipe> machineRecipeType()
-    {
-        return LimaTechRecipeTypes.MATERIAL_FUSING.get();
+        super(LimaTechBlockEntities.MATERIAL_FUSING_CHAMBER.get(), LimaTechRecipeTypes.MATERIAL_FUSING.get(), pos, state, MFC_ENERGY_CAPACITY.getAsInt(), 5);
     }
 
     @Override
@@ -45,13 +38,13 @@ public class MaterialFusingChamberBlockEntity extends SimpleRecipeMachineBlockEn
     }
 
     @Override
-    protected boolean isInputSlot(int slot)
+    public boolean isInputSlot(int slot)
     {
         return slot > 0 && slot < 4;
     }
 
     @Override
-    protected int outputSlotIndex()
+    public int getOutputSlot()
     {
         return 4;
     }

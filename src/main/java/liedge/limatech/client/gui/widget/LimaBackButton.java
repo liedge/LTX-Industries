@@ -1,23 +1,31 @@
 package liedge.limatech.client.gui.widget;
 
 import liedge.limacore.client.gui.LimaMenuScreen;
-import liedge.limacore.client.gui.UnmanagedSprite;
+import liedge.limatech.LimaTech;
 import net.minecraft.client.gui.components.Tooltip;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.resources.ResourceLocation;
 
 import static liedge.limatech.client.LimaTechLang.BACK_BUTTON_LABEL;
-import static liedge.limatech.client.gui.widget.ScreenWidgetSprites.BACK_BUTTON_FOCUSED;
-import static liedge.limatech.client.gui.widget.ScreenWidgetSprites.BACK_BUTTON_NOT_FOCUSED;
 
 public class LimaBackButton extends LimaRenderableButton
 {
+    private static final ResourceLocation SPRITE = LimaTech.RESOURCES.location("back_button");
+    private static final ResourceLocation SPRITE_FOCUS = LimaTech.RESOURCES.location("back_button_focus");
+
+
     private final LimaMenuScreen<?> parent;
     private final int buttonId;
+    private final TextureAtlasSprite sprite;
+    private final TextureAtlasSprite spriteFocus;
 
     public LimaBackButton(int x, int y, LimaMenuScreen<?> parent, int buttonId)
     {
         super(x, y, 12, 12, BACK_BUTTON_LABEL.translate());
         this.parent = parent;
         this.buttonId = buttonId;
+        this.sprite = LimaWidgetSprites.sprite(SPRITE);
+        this.spriteFocus = LimaWidgetSprites.sprite(SPRITE_FOCUS);
         setTooltip(Tooltip.create(getMessage()));
     }
 
@@ -28,14 +36,14 @@ public class LimaBackButton extends LimaRenderableButton
     }
 
     @Override
-    protected UnmanagedSprite unfocusedSprite()
+    protected TextureAtlasSprite unfocusedSprite()
     {
-        return BACK_BUTTON_NOT_FOCUSED;
+        return sprite;
     }
 
     @Override
-    protected UnmanagedSprite focusedSprite()
+    protected TextureAtlasSprite focusedSprite()
     {
-        return BACK_BUTTON_FOCUSED;
+        return spriteFocus;
     }
 }

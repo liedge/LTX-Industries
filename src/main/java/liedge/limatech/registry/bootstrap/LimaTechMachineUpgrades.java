@@ -6,6 +6,7 @@ import liedge.limatech.lib.CompoundValueOperation;
 import liedge.limatech.lib.upgrades.effect.equipment.DirectDropsUpgradeEffect;
 import liedge.limatech.lib.upgrades.effect.equipment.EnchantmentUpgradeEffect;
 import liedge.limatech.lib.upgrades.effect.value.DoubleLevelBasedValue;
+import liedge.limatech.lib.upgrades.effect.value.ValueSentiment;
 import liedge.limatech.lib.upgrades.effect.value.ValueUpgradeEffect;
 import liedge.limatech.lib.upgrades.machine.MachineUpgrade;
 import liedge.limatech.registry.LimaTechRegistries;
@@ -69,8 +70,8 @@ public final class LimaTechMachineUpgrades
                 .exclusiveWith(holders, MACHINE_TIER)
                 .withEffect(ENERGY_CAPACITY, ValueUpgradeEffect.createSimple(DoubleLevelBasedValue.linear(0.5d), CompoundValueOperation.ADD_MULTIPLIED_BASE))
                 .withEffect(ENERGY_TRANSFER_RATE, ValueUpgradeEffect.createSimple(DoubleLevelBasedValue.linear(0.5d), CompoundValueOperation.ADD_MULTIPLIED_BASE))
-                .withEffect(ENERGY_USAGE, ValueUpgradeEffect.createSimple(DoubleLevelBasedValue.linearExponent(1.5d), CompoundValueOperation.MULTIPLY, true))
-                .withEffect(TICKS_PER_OPERATION, ValueUpgradeEffect.createSimple(DoubleLevelBasedValue.exponential(0.725d, DoubleLevelBasedValue.linear(1)), CompoundValueOperation.MULTIPLY, true))
+                .withEffect(ENERGY_USAGE, ValueUpgradeEffect.createSimple(DoubleLevelBasedValue.linearExponent(1.5d), CompoundValueOperation.MULTIPLY, ValueSentiment.NEGATIVE))
+                .withEffect(TICKS_PER_OPERATION, ValueUpgradeEffect.createSimple(DoubleLevelBasedValue.exponential(0.725d, DoubleLevelBasedValue.linear(1)), CompoundValueOperation.MULTIPLY, ValueSentiment.NEGATIVE))
                 .setMaxRank(6)
                 .effectIcon(sprite("standard_gear"))
                 .category("gpm")
@@ -82,16 +83,17 @@ public final class LimaTechMachineUpgrades
                 .exclusiveWith(holders, MACHINE_TIER)
                 .withEffect(ENERGY_CAPACITY, ValueUpgradeEffect.createSimple(DoubleLevelBasedValue.constant(8), CompoundValueOperation.MULTIPLY))
                 .withEffect(ENERGY_TRANSFER_RATE, ValueUpgradeEffect.createSimple(DoubleLevelBasedValue.constant(16), CompoundValueOperation.MULTIPLY))
-                .withEffect(ENERGY_USAGE, ValueUpgradeEffect.createSimple(DoubleLevelBasedValue.constant(256), CompoundValueOperation.MULTIPLY, true))
-                .withEffect(TICKS_PER_OPERATION, ValueUpgradeEffect.createSimple(DoubleLevelBasedValue.constant(-1), CompoundValueOperation.ADD_MULTIPLIED_TOTAL, true))
+                .withEffect(ENERGY_USAGE, ValueUpgradeEffect.createSimple(DoubleLevelBasedValue.constant(256), CompoundValueOperation.MULTIPLY, ValueSentiment.NEGATIVE))
+                .withEffect(TICKS_PER_OPERATION, ValueUpgradeEffect.createSimple(DoubleLevelBasedValue.constant(-1), CompoundValueOperation.ADD_MULTIPLIED_TOTAL, ValueSentiment.NEGATIVE))
                 .effectIcon(sprite("ultimate_gear"))
                 .category("gpm")
                 .register(context);
 
         MachineUpgrade.builder(FABRICATOR_UPGRADE)
-                .supports(LimaTechBlockEntities.FABRICATOR)
-                .withEffect(ENERGY_CAPACITY, ValueUpgradeEffect.createSimple(DoubleLevelBasedValue.exponential(2, DoubleLevelBasedValue.linear(2, 1)), CompoundValueOperation.MULTIPLY))
-                .withEffect(ENERGY_TRANSFER_RATE, ValueUpgradeEffect.createSimple(DoubleLevelBasedValue.exponential(2, DoubleLevelBasedValue.linear(2, 1)), CompoundValueOperation.MULTIPLY))
+                .supports(LimaTechBlockEntities.FABRICATOR, LimaTechBlockEntities.AUTO_FABRICATOR)
+                .withEffect(ENERGY_CAPACITY, ValueUpgradeEffect.createSimple(DoubleLevelBasedValue.linear(2), CompoundValueOperation.ADD_MULTIPLIED_BASE))
+                .withEffect(ENERGY_TRANSFER_RATE, ValueUpgradeEffect.createSimple(DoubleLevelBasedValue.linear(3), CompoundValueOperation.ADD_MULTIPLIED_BASE))
+                .withEffect(ENERGY_USAGE, ValueUpgradeEffect.createSimple(DoubleLevelBasedValue.exponential(2, DoubleLevelBasedValue.linear(2, 1)), CompoundValueOperation.MULTIPLY))
                 .setMaxRank(4)
                 .effectIcon(sprite("fabricator_upgrade"))
                 .register(context);

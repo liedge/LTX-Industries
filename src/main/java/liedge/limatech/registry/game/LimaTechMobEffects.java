@@ -27,6 +27,6 @@ public final class LimaTechMobEffects
 
     public static final DeferredHolder<MobEffect, MobEffect> FROSTBITE = MOB_EFFECTS.register("frostbite", FrostbiteMobEffect::new);
     public static final DeferredHolder<MobEffect, MobEffect> CORROSIVE = MOB_EFFECTS.register("corrosive", CorrosiveMobEffect::new);
-    public static final DeferredHolder<MobEffect, MobEffect> NEURO_SUPPRESSED = MOB_EFFECTS.register("neuro_suppressed", id -> new SimpleMobEffect(MobEffectCategory.HARMFUL, LimaTechConstants.NEURO_BLUE.packedRGB())
+    public static final DeferredHolder<MobEffect, MobEffect> NEURO_SUPPRESSED = MOB_EFFECTS.register("neuro_suppressed", id -> new SimpleMobEffect(MobEffectCategory.HARMFUL, LimaTechConstants.NEURO_BLUE.argb32())
             .addAttributeModifier(LimaCoreAttributes.DAMAGE_MULTIPLIER, id.withSuffix(".damage_multiplier"), -0.25d, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
 }

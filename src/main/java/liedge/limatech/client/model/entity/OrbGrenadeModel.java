@@ -54,7 +54,7 @@ public class OrbGrenadeModel extends Model
         caps.render(poseStack, buffer, light, OverlayTexture.NO_OVERLAY);
 
         buffer = bufferSource.getBuffer(EMISSIVE_RENDER_TYPE);
-        accents.render(poseStack, buffer, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, color.packedRGB());
+        accents.render(poseStack, buffer, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, color.argb32());
     }
 
     @Override

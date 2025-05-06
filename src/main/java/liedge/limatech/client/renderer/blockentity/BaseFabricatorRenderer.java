@@ -6,7 +6,7 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Axis;
 import liedge.limacore.client.EmptyVertexConsumer;
 import liedge.limacore.client.LimaBlockEntityRenderer;
-import liedge.limatech.blockentity.FabricatorBlockEntity;
+import liedge.limatech.blockentity.BaseFabricatorBlockEntity;
 import liedge.limatech.client.renderer.LimaTechRenderTypes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -19,22 +19,22 @@ import java.util.Set;
 
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING;
 
-public class FabricatorRenderer extends LimaBlockEntityRenderer<FabricatorBlockEntity>
+public class BaseFabricatorRenderer extends LimaBlockEntityRenderer<BaseFabricatorBlockEntity>
 {
     private static final Set<VertexFormat> VALID_WIREFRAME_FORMATS = Set.of(
             DefaultVertexFormat.BLOCK,
             DefaultVertexFormat.NEW_ENTITY,
             DefaultVertexFormat.POSITION_TEX_COLOR);
 
-    public FabricatorRenderer(BlockEntityRendererProvider.Context context)
+    public BaseFabricatorRenderer(BlockEntityRendererProvider.Context context)
     {
         super(context);
     }
 
     @Override
-    public void render(FabricatorBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int light, int overlay)
+    public void render(BaseFabricatorBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int light, int overlay)
     {
-        ItemStack previewItem = blockEntity.getPreviewItem();
+        ItemStack previewItem = blockEntity.getClientPreviewItem();
 
         if (!previewItem.isEmpty())
         {

@@ -16,13 +16,7 @@ public class DigitalFurnaceBlockEntity extends SimpleRecipeMachineBlockEntity<Si
 {
     public DigitalFurnaceBlockEntity(BlockPos pos, BlockState state)
     {
-        super(LimaTechBlockEntities.DIGITAL_FURNACE.get(), pos, state, DIGITAL_FURNACE_ENERGY_CAPACITY.getAsInt(), 3);
-    }
-
-    @Override
-    public RecipeType<SmeltingRecipe> machineRecipeType()
-    {
-        return RecipeType.SMELTING;
+        super(LimaTechBlockEntities.DIGITAL_FURNACE.get(), RecipeType.SMELTING, pos, state, DIGITAL_FURNACE_ENERGY_CAPACITY.getAsInt(), 3);
     }
 
     @Override
@@ -44,18 +38,6 @@ public class DigitalFurnaceBlockEntity extends SimpleRecipeMachineBlockEntity<Si
     }
 
     @Override
-    protected boolean isInputSlot(int slot)
-    {
-        return slot == 1;
-    }
-
-    @Override
-    protected int outputSlotIndex()
-    {
-        return 2;
-    }
-
-    @Override
     protected void consumeIngredients(SingleRecipeInput recipeInput, SmeltingRecipe recipe, Level level)
     {
         getItemHandler().extractItem(1, 1, false);
@@ -65,5 +47,17 @@ public class DigitalFurnaceBlockEntity extends SimpleRecipeMachineBlockEntity<Si
     public LimaMenuType<?, ?> getMenuType()
     {
         return LimaTechMenus.DIGITAL_FURNACE.get();
+    }
+
+    @Override
+    public boolean isInputSlot(int index)
+    {
+        return index == 1;
+    }
+
+    @Override
+    public int getOutputSlot()
+    {
+        return 2;
     }
 }

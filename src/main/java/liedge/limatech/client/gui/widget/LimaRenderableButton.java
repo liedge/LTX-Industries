@@ -1,10 +1,10 @@
 package liedge.limatech.client.gui.widget;
 
 import liedge.limacore.client.gui.LimaRenderable;
-import liedge.limacore.client.gui.UnmanagedSprite;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractButton;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.network.chat.Component;
 
 public abstract class LimaRenderableButton extends AbstractButton implements LimaRenderable
@@ -53,15 +53,15 @@ public abstract class LimaRenderableButton extends AbstractButton implements Lim
     @Override
     protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick)
     {
-        UnmanagedSprite sprite = isHoveredOrFocused() ? focusedSprite() : unfocusedSprite();
-        sprite.singleBlit(guiGraphics, getX(), getY());
+        TextureAtlasSprite sprite = isHoveredOrFocused() ? focusedSprite() : unfocusedSprite();
+        guiGraphics.blit(getX(), getY(), 0, width, height, sprite);
     }
 
     public abstract void onPress(int button);
 
-    protected abstract UnmanagedSprite unfocusedSprite();
+    protected abstract TextureAtlasSprite unfocusedSprite();
 
-    protected UnmanagedSprite focusedSprite()
+    protected TextureAtlasSprite focusedSprite()
     {
         return unfocusedSprite();
     }

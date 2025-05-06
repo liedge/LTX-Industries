@@ -2,9 +2,12 @@ package liedge.limatech.block;
 
 import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.util.LimaBlockUtil;
-import liedge.limatech.registry.game.LimaTechBlockEntities;
+import liedge.limacore.util.LimaCoreUtil;
+import liedge.limacore.util.LimaRegistryUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
@@ -33,6 +36,8 @@ public class FabricatorBlock extends BaseWrenchEntityBlock
 
     private static final Map<Direction, VoxelShape> SHAPE_MAP = LimaBlockUtil.createHorizontalShapeMap(REFERENCE_SHAPE);
 
+    private LimaBlockEntityType<?> entityType;
+
     public FabricatorBlock(Properties properties)
     {
         super(properties);
@@ -41,7 +46,13 @@ public class FabricatorBlock extends BaseWrenchEntityBlock
     @Override
     public @Nullable LimaBlockEntityType<?> getBlockEntityType(BlockState state)
     {
-        return LimaTechBlockEntities.FABRICATOR.get();
+        if (entityType == null)
+        {
+            ResourceLocation blockId = LimaRegistryUtil.getBlockId(this);
+            this.entityType = LimaCoreUtil.castOrThrow(LimaBlockEntityType.class, LimaRegistryUtil.getNonNullRegistryValue(blockId, BuiltInRegistries.BLOCK_ENTITY_TYPE));
+        }
+
+        return entityType;
     }
 
     @Override

@@ -2,7 +2,7 @@ package liedge.limatech.menu;
 
 import liedge.limacore.capability.itemhandler.ItemHolderBlockEntity;
 import liedge.limacore.inventory.menu.LimaMenuType;
-import liedge.limatech.blockentity.UpgradableMachineBlockEntity;
+import liedge.limatech.blockentity.base.UpgradableMachineBlockEntity;
 import liedge.limatech.blockentity.base.SidedAccessBlockEntity;
 import liedge.limatech.registry.game.LimaTechNetworkSerializers;
 import net.minecraft.world.entity.player.Inventory;

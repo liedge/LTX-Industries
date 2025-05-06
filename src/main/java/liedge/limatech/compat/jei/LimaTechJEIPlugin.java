@@ -90,6 +90,7 @@ public class LimaTechJEIPlugin implements IModPlugin
         registration.addRecipeCatalyst(LimaTechBlocks.RECOMPOSER.toStack(), RECOMPOSING_JEI);
         registration.addRecipeCatalyst(LimaTechBlocks.MATERIAL_FUSING_CHAMBER.toStack(), MATERIAL_FUSING_JEI);
         registration.addRecipeCatalyst(LimaTechBlocks.FABRICATOR.toStack(), FABRICATING_JEI);
+        registration.addRecipeCatalyst(LimaTechBlocks.AUTO_FABRICATOR.toStack(), FABRICATING_JEI);
     }
 
     @Override

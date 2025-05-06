@@ -27,7 +27,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.loot.LootContext;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 
@@ -166,7 +165,7 @@ public class GrenadeLauncherWeaponItem extends SemiAutoWeaponItem implements Scr
     }
 
     @Override
-    public void appendTooltipHintComponents(@Nullable Level level, ItemStack stack, TooltipLineConsumer consumer)
+    public void appendTooltipHintComponents(Level level, ItemStack stack, TooltipLineConsumer consumer)
     {
         consumer.accept(GRENADE_TYPE_TOOLTIP.translateArgs(getGrenadeTypeFromItem(stack).translate()));
         super.appendTooltipHintComponents(level, stack, consumer);

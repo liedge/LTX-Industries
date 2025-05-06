@@ -16,9 +16,9 @@ public abstract class SidedUpgradableMachineScreen<M extends SidedUpgradableMach
     }
 
     @Override
-    protected void addSidebarWidgets()
+    protected void addWidgets()
     {
-        super.addSidebarWidgets();
+        super.addWidgets();
 
         for (BlockEntityInputType type : menu.menuContext().getType().getValidInputTypes())
         {

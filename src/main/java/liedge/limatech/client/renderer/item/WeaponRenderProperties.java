@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import liedge.limacore.client.LimaCoreClientUtil;
 import liedge.limacore.client.LimaSpecialItemRenderer;
+import liedge.limacore.client.gui.LimaGuiUtil;
 import liedge.limacore.client.model.BakedQuadGroup;
 import liedge.limacore.lib.LimaColor;
 import liedge.limacore.util.LimaCoreUtil;
@@ -16,10 +17,12 @@ import liedge.limatech.item.weapon.WeaponItem;
 import liedge.limatech.lib.weapons.ClientWeaponControls;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiSpriteManager;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
@@ -29,8 +32,20 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.Nullable;
 
+import static liedge.limatech.LimaTech.RESOURCES;
+
 public abstract class WeaponRenderProperties<T extends WeaponItem> extends LimaSpecialItemRenderer<T> implements IClientItemExtensions
 {
+    static final ResourceLocation SPREAD_CROSSHAIR_LEFT = RESOURCES.location("spread_crosshair_left");
+    static final ResourceLocation SPREAD_CROSSHAIR_RIGHT = RESOURCES.location("spread_crosshair_right");
+    static final ResourceLocation SPREAD_CROSSHAIR_CENTER = RESOURCES.location("spread_crosshair_center");
+    static final ResourceLocation AOE_CROSSHAIR_UP = RESOURCES.location("aoe_crosshair_up");
+    static final ResourceLocation AOE_CROSSHAIR_DOWN = RESOURCES.location("aoe_crosshair_down");
+    static final ResourceLocation AOE_CROSSHAIR_LEFT = RESOURCES.location("aoe_crosshair_left");
+    static final ResourceLocation AOE_CROSSHAIR_RIGHT = RESOURCES.location("aoe_crosshair_right");
+    static final ResourceLocation MAGNUM_CROSSHAIR_A = RESOURCES.location("magnum_crosshair_a");
+    static final ResourceLocation MAGNUM_CROSSHAIR_B = RESOURCES.location("magnum_crosshair_b");
+
     public static WeaponRenderProperties<?> fromItem(WeaponItem weaponItem)
     {
         return LimaCoreUtil.castOrThrow(WeaponRenderProperties.class, IClientItemExtensions.of(weaponItem));
@@ -38,12 +53,14 @@ public abstract class WeaponRenderProperties<T extends WeaponItem> extends LimaS
 
     private DynamicModularItemBakedModel model;
     protected BakedQuadGroup mainSubmodel;
+    private GuiSpriteManager sprites;
 
     @Override
     protected void onResourceManagerReload(ResourceManager manager, T item)
     {
         this.model = LimaCoreClientUtil.getCustomBakedModel(LimaCoreClientUtil.inventoryModelPath(item), DynamicModularItemBakedModel.class);
         this.mainSubmodel = model.getSubmodel("main");
+        this.sprites = Minecraft.getInstance().getGuiSprites();
         loadWeaponModelParts(item, model);
     }
 
@@ -130,5 +147,10 @@ public abstract class WeaponRenderProperties<T extends WeaponItem> extends LimaS
             VertexConsumer buffer = bufferSource.getBuffer(LimaTechRenderTypes.POSITION_COLOR_QUADS);
             fillModel.renderRotated(buffer, poseStack, color, mul);
         }
+    }
+
+    protected void blitCrosshairSprite(GuiGraphics graphics, float x, float y, int width, int height, LimaColor crosshairColor, ResourceLocation spriteLocation)
+    {
+        LimaGuiUtil.directColorBlit(graphics, x, y, width, height, crosshairColor.red(), crosshairColor.green(), crosshairColor.blue(), 1f, sprites.getSprite(spriteLocation));
     }
 }

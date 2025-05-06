@@ -14,7 +14,7 @@ public class CorrosiveMobEffect extends MobEffect
 {
     public CorrosiveMobEffect(ResourceLocation id)
     {
-        super(MobEffectCategory.HARMFUL, LimaTechConstants.ACID_GREEN.packedRGB());
+        super(MobEffectCategory.HARMFUL, LimaTechConstants.ACID_GREEN.argb32());
         addAttributeModifier(Attributes.ARMOR, id.withSuffix(".armor_strip"), -0.33d, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
         addAttributeModifier(Attributes.ARMOR_TOUGHNESS, id.withSuffix(".armor_toughness_strip"), -0.33d, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
     }

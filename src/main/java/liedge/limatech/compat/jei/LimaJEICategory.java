@@ -1,8 +1,8 @@
 package liedge.limatech.compat.jei;
 
-import liedge.limacore.client.gui.UnmanagedSprite;
 import liedge.limacore.recipe.LimaRecipeType;
 import liedge.limacore.recipe.LimaSizedIngredientRecipe;
+import liedge.limatech.LimaTech;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.drawable.IDrawableBuilder;
@@ -48,9 +48,9 @@ public abstract class LimaJEICategory<R extends LimaSizedIngredientRecipe<?>> im
         return Objects.requireNonNull(Minecraft.getInstance().level, "Minecraft local level is null").registryAccess();
     }
 
-    protected IDrawableBuilder unmanagedSpriteDrawable(IGuiHelper helper, UnmanagedSprite sprite)
+    protected IDrawableBuilder widgetDrawable(IGuiHelper helper, String name, int width, int height)
     {
-        return helper.drawableBuilder(sprite.textureSheet(), sprite.u(), sprite.v(), sprite.width(), sprite.height());
+        return helper.drawableBuilder(LimaTech.RESOURCES.textureLocation("gui/lima_widget", name), 0, 0, width, height).setTextureSize(width, height);
     }
 
     protected void sizedIngredientsSlot(IRecipeLayoutBuilder builder, R recipe, int ingredientIndex, int x, int y)

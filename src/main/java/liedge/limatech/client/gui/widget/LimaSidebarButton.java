@@ -1,37 +1,46 @@
 package liedge.limatech.client.gui.widget;
 
-import liedge.limacore.client.gui.UnmanagedSprite;
+import liedge.limatech.LimaTech;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.network.chat.Component;
-
-import static liedge.limatech.client.gui.widget.ScreenWidgetSprites.SIDEBAR_BUTTON_FOCUSED;
-import static liedge.limatech.client.gui.widget.ScreenWidgetSprites.SIDEBAR_BUTTON_NOT_FOCUSED;
+import net.minecraft.resources.ResourceLocation;
 
 public abstract class LimaSidebarButton extends LimaRenderableButton
 {
-    protected LimaSidebarButton(int x, int y, Component message)
+    public static final int SIDEBAR_BUTTON_WIDTH = 18;
+    public static final int SIDEBAR_BUTTON_HEIGHT = 20;
+    private static final ResourceLocation SPRITE = LimaTech.RESOURCES.location("sidebar_button");
+    private static final ResourceLocation FOCUS_SPRITE = LimaTech.RESOURCES.location("sidebar_button_focus");
+
+    private final TextureAtlasSprite sprite;
+    private final TextureAtlasSprite focusSprite;
+    private final TextureAtlasSprite iconSprite;
+
+    protected LimaSidebarButton(int x, int y, Component message, ResourceLocation iconSpriteLocation)
     {
-        super(x, y, 18, 20, message);
+        super(x, y, SIDEBAR_BUTTON_WIDTH, SIDEBAR_BUTTON_HEIGHT, message);
+        this.sprite = LimaWidgetSprites.sprite(SPRITE);
+        this.focusSprite = LimaWidgetSprites.sprite(FOCUS_SPRITE);
+        this.iconSprite = LimaWidgetSprites.sprite(iconSpriteLocation);
     }
 
     @Override
     protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick)
     {
         super.renderWidget(guiGraphics, mouseX, mouseY, partialTick);
-        iconSprite().singleBlit(guiGraphics, getX(), getY() + 2, 1);
+        guiGraphics.blit(getX(), getY() + 2, 0, 16, 16, iconSprite);
     }
 
     @Override
-    protected UnmanagedSprite unfocusedSprite()
+    protected TextureAtlasSprite unfocusedSprite()
     {
-        return SIDEBAR_BUTTON_NOT_FOCUSED;
+        return sprite;
     }
 
     @Override
-    protected UnmanagedSprite focusedSprite()
+    protected TextureAtlasSprite focusedSprite()
     {
-        return SIDEBAR_BUTTON_FOCUSED;
+        return focusSprite;
     }
-
-    protected abstract UnmanagedSprite iconSprite();
 }

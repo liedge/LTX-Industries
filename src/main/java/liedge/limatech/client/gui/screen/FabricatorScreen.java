@@ -1,50 +1,45 @@
 package liedge.limatech.client.gui.screen;
 
 import liedge.limacore.capability.energy.LimaEnergyUtil;
-import liedge.limacore.client.gui.FillBarWidget;
-import liedge.limacore.client.gui.TooltipLineConsumer;
-import liedge.limacore.client.gui.UnmanagedSprite;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.limacore.util.LimaCollectionsUtil;
-import liedge.limatech.LimaTech;
 import liedge.limatech.LimaTechConstants;
-import liedge.limatech.blockentity.FabricatorBlockEntity;
-import liedge.limatech.client.gui.widget.EnergyGaugeWidget;
-import liedge.limatech.client.gui.widget.ScrollableGUIElement;
-import liedge.limatech.client.gui.widget.ScrollbarWidget;
+import liedge.limatech.client.LimaTechClientRecipes;
+import liedge.limatech.client.gui.widget.*;
 import liedge.limatech.menu.FabricatorMenu;
 import liedge.limatech.recipe.FabricatingRecipe;
-import liedge.limatech.registry.game.LimaTechRecipeTypes;
-import net.minecraft.ChatFormatting;
-import net.minecraft.client.ClientRecipeBook;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
+import org.lwjgl.glfw.GLFW;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
 import static liedge.limacore.client.gui.LimaGuiUtil.isMouseWithinArea;
-import static liedge.limatech.client.LimaTechLang.*;
+import static liedge.limatech.LimaTech.RESOURCES;
+import static liedge.limatech.client.LimaTechLang.INLINE_ENERGY_REQUIRED_TOOLTIP;
+import static liedge.limatech.client.LimaTechLang.FABRICATOR_SELECTED_RECIPE_TOOLTIP;
 
 public class FabricatorScreen extends SidedUpgradableMachineScreen<FabricatorMenu> implements ScrollableGUIElement
 {
     private static final int SELECTOR_GRID_WIDTH = 5;
     private static final int SELECTOR_GRID_HEIGHT = 4;
     private static final int SELECTOR_GRID_SIZE = SELECTOR_GRID_WIDTH * SELECTOR_GRID_HEIGHT;
-    private static final ResourceLocation TEXTURE = LimaTech.RESOURCES.textureLocation("gui", "fabricator");
-    private static final UnmanagedSprite SELECTOR_SPRITE = new UnmanagedSprite(TEXTURE, 190, 22, 18, 18);
-    private static final UnmanagedSprite SELECTOR_SELECTED_SPRITE = new UnmanagedSprite(TEXTURE, 208, 22, 18, 18);
-    private static final UnmanagedSprite SELECTOR_ACTIVE_CRAFTING_SPRITE = new UnmanagedSprite(TEXTURE, 190, 40, 18, 18);
-    private static final UnmanagedSprite SELECTOR_HOVERED_SPRITE = new UnmanagedSprite(TEXTURE, 226, 22, 18, 18);
+
+    private static final ResourceLocation TEXTURE = RESOURCES.textureLocation("gui", "fabricator");
+    private static final ResourceLocation SELECTOR_SPRITE = RESOURCES.location("fabricator_selector");
+    private static final ResourceLocation SELECTOR_CLICK_SPRITE = RESOURCES.location("fabricator_selector_click");
+    private static final ResourceLocation SELECTOR_CRAFTING_SPRITE = RESOURCES.location("fabricator_selector_crafting");
+    private static final ResourceLocation SELECTOR_HOVERED_SPRITE = RESOURCES.location("fabricator_selector_hover");
 
     private final int recipeRows;
     private final int scrollWheelDelta;
@@ -60,20 +55,13 @@ public class FabricatorScreen extends SidedUpgradableMachineScreen<FabricatorMen
         super(menu, inventory, title, 190, 200);
 
         // Read recipes and validate against recipe book
-        LocalPlayer player = (LocalPlayer) inventory.player;
-        Level level = player.level();
-        ClientRecipeBook recipeBook = player.getRecipeBook();
-
-        this.recipes = level.getRecipeManager().getAllRecipesFor(LimaTechRecipeTypes.FABRICATING.get()).stream()
-                .filter(r -> FabricatingRecipe.validateUnlocked(recipeBook, r, player))
-                .sorted(Comparator.<RecipeHolder<FabricatingRecipe>, String>comparing(r -> r.value().getGroup()).thenComparing(r -> r.id().toString()))
-                .toList();
+        this.recipes = LimaTechClientRecipes.getUnlockedFabricatingRecipes((LocalPlayer) inventory.player);
 
         // Screen setup
         this.recipeRows = LimaCollectionsUtil.splitCollectionToSegments(recipes, SELECTOR_GRID_WIDTH);
         this.scrollWheelDelta = 59 / recipeRows;
         this.inventoryLabelX = 14;
-        this.inventoryLabelY = 108;
+        this.inventoryLabelY = 107;
     }
 
     private int selectorLeft()
@@ -111,11 +99,12 @@ public class FabricatorScreen extends SidedUpgradableMachineScreen<FabricatorMen
     @Override
     protected void addWidgets()
     {
-        addRenderableOnly(new EnergyGaugeWidget(menu.menuContext().getEnergyStorage(), leftPos + 10, topPos + 10));
-        addRenderableOnly(new ProgressWidget(leftPos + 61, topPos + 83, menu.menuContext()));
+        super.addWidgets();
+
+        addRenderableOnly(new EnergyGaugeWidget(menu.menuContext().getEnergyStorage(), leftPos + 11, topPos + 10));
+        addRenderableOnly(new FabricatorProgressWidget(leftPos + 61, topPos + 83, menu.menuContext()));
         this.scrollbar = addRenderableWidget(new ScrollbarWidget(leftPos + 168, topPos + 32, 72, this));
         scrollbar.reset(); // Always reset scrollbar after reinitializing
-        addSidebarWidgets();
     }
 
     @Override
@@ -141,25 +130,24 @@ public class FabricatorScreen extends SidedUpgradableMachineScreen<FabricatorMen
 
             FabricatingRecipe gridRecipe = recipes.get(i).value();
 
-            UnmanagedSprite sprite;
-            if (menu.menuContext().isCrafting() && menu.menuContext().getCurrentRecipe().testValue(Minecraft.getInstance().level, r -> gridRecipe == r))
+            ResourceLocation spriteLoc;
+            if(menu.menuContext().isCrafting() && menu.menuContext().getRecipeCheck().getLastUsedRecipe(Minecraft.getInstance().level).map(r -> gridRecipe == r.value()).orElse(false))
             {
-                sprite = SELECTOR_ACTIVE_CRAFTING_SPRITE;
+                spriteLoc = SELECTOR_CRAFTING_SPRITE;
             }
             else if (gridIndex == selectedRecipeIndex)
             {
-                sprite = SELECTOR_SELECTED_SPRITE;
+                spriteLoc = SELECTOR_CLICK_SPRITE;
             }
             else if (isMouseWithinArea(mouseX, mouseY, rx, ry, 18, 18))
             {
-                sprite = SELECTOR_HOVERED_SPRITE;
+                spriteLoc = SELECTOR_HOVERED_SPRITE;
             }
             else
             {
-                sprite = SELECTOR_SPRITE;
+                spriteLoc = SELECTOR_SPRITE;
             }
-            sprite.singleBlit(graphics, rx, ry);
-
+            graphics.blit(rx, ry, 0, 18, 18, LimaWidgetSprites.sprite(spriteLoc));
 
             ItemStack resultStack = gridRecipe.getResultItem(null);
             graphics.renderFakeItem(resultStack, rx + 1, ry + 1);
@@ -186,9 +174,9 @@ public class FabricatorScreen extends SidedUpgradableMachineScreen<FabricatorMen
                     RecipeHolder<FabricatingRecipe> holder = recipes.get(i);
                     List<Component> lines = getTooltipFromItem(Minecraft.getInstance(), holder.value().getResultItem(null));
 
-                    if (gridIndex == selectedRecipeIndex) lines.add(FABRICATOR_CLICK_TO_CRAFT_TOOLTIP.translate().withStyle(LimaTechConstants.LIME_GREEN.chatStyle()));
+                    if (gridIndex == selectedRecipeIndex) lines.add(FABRICATOR_SELECTED_RECIPE_TOOLTIP.translate().withStyle(LimaTechConstants.LIME_GREEN.chatStyle()));
 
-                    lines.add(FABRICATOR_ENERGY_REQUIRED_TOOLTIP.translateArgs(LimaEnergyUtil.formatEnergyWithSuffix(holder.value().getEnergyRequired())).withStyle(LimaTechConstants.REM_BLUE.chatStyle()));
+                    lines.add(INLINE_ENERGY_REQUIRED_TOOLTIP.translateArgs(LimaEnergyUtil.toEnergyString(holder.value().getEnergyRequired())).withStyle(LimaTechConstants.REM_BLUE.chatStyle()));
                     graphics.renderTooltip(font, lines, Optional.of(holder.value().createIngredientTooltip()), x, y);
 
                     return;
@@ -217,7 +205,7 @@ public class FabricatorScreen extends SidedUpgradableMachineScreen<FabricatorMen
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int mouseButton)
     {
-        if (isMouseOverSelector(mouseX, mouseY) && menu.getCarried().isEmpty() && mouseButton == 0)
+        if (isMouseOverSelector(mouseX, mouseY) && menu.getCarried().isEmpty() && (mouseButton == GLFW.GLFW_MOUSE_BUTTON_LEFT || mouseButton == GLFW.GLFW_MOUSE_BUTTON_RIGHT))
         {
             int min = currentScrollRow * SELECTOR_GRID_WIDTH;
             int max = Math.min(min + SELECTOR_GRID_SIZE, recipes.size());
@@ -230,13 +218,23 @@ public class FabricatorScreen extends SidedUpgradableMachineScreen<FabricatorMen
 
                 if (isMouseWithinArea(mouseX, mouseY, rx, ry, 18, 18))
                 {
-                    if (selectedRecipeIndex != gridIndex)
+                    // Left click handling
+                    if (mouseButton == GLFW.GLFW_MOUSE_BUTTON_LEFT)
                     {
-                        selectedRecipeIndex = gridIndex;
+                        Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
+                        if (selectedRecipeIndex != gridIndex)
+                        {
+                            selectedRecipeIndex = gridIndex;
+                        }
+                        else
+                        {
+                            sendCustomButtonData(FabricatorMenu.CRAFT_BUTTON_ID, recipes.get(i).id(), LimaCoreNetworkSerializers.RESOURCE_LOCATION);
+                        }
                     }
-                    else
+                    else if (selectedRecipeIndex == gridIndex) // Right click handling
                     {
-                        sendCustomButtonData(FabricatorMenu.CRAFT_BUTTON_ID, recipes.get(i).id(), LimaCoreNetworkSerializers.RESOURCE_LOCATION);
+                        Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
+                        sendCustomButtonData(FabricatorMenu.ENCODE_BLUEPRINT_BUTTON_ID, recipes.get(i).id(), LimaCoreNetworkSerializers.RESOURCE_LOCATION);
                     }
 
                     return true;
@@ -247,44 +245,5 @@ public class FabricatorScreen extends SidedUpgradableMachineScreen<FabricatorMen
         }
 
         return super.mouseClicked(mouseX, mouseY, mouseButton);
-    }
-
-    private static class ProgressWidget extends FillBarWidget.VerticalBar
-    {
-        private static final UnmanagedSprite BACKGROUND = new UnmanagedSprite(TEXTURE, 190, 0, 5, 22);
-        private static final UnmanagedSprite FOREGROUND = new UnmanagedSprite(TEXTURE, 195, 0, 3, 20);
-
-        private final FabricatorBlockEntity blockEntity;
-
-        ProgressWidget(int x, int y, FabricatorBlockEntity blockEntity)
-        {
-            super(x, y, BACKGROUND);
-            this.blockEntity = blockEntity;
-        }
-
-        @Override
-        protected float getFillPercentage()
-        {
-            return blockEntity.getClientProcessTime() / 100f;
-        }
-
-        @Override
-        protected UnmanagedSprite getForegroundSprite(float fillPercentage)
-        {
-            return FOREGROUND;
-        }
-
-        @Override
-        public boolean hasTooltip()
-        {
-            return blockEntity.isCrafting();
-        }
-
-        @Override
-        public void createWidgetTooltip(TooltipLineConsumer consumer)
-        {
-            int fill = (int) (getFillPercentage() * 100f);
-            consumer.accept(CRAFTING_PROGRESS_TOOLTIP.translateArgs(fill).withStyle(ChatFormatting.GRAY));
-        }
     }
 }

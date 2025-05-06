@@ -12,9 +12,6 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
 
-import static liedge.limatech.client.gui.layer.HUDOverlaySprites.MAGNUM_CROSSHAIR_1;
-import static liedge.limatech.client.gui.layer.HUDOverlaySprites.MAGNUM_CROSSHAIR_2;
-
 public class MagnumRenderProperties extends SimpleWeaponRenderProperties
 {
     private static final float ANIMATION_FACTOR = 1 / 0.75f;
@@ -56,10 +53,10 @@ public class MagnumRenderProperties extends SimpleWeaponRenderProperties
         float xr = centerX + 1 + bloom;
         float yd = centerY + 1 + bloom;
 
-        MAGNUM_CROSSHAIR_1.directColorBlit(graphics, xl, yu, crosshairColor);
-        MAGNUM_CROSSHAIR_2.directColorBlit(graphics, xr, yu, crosshairColor);
-        MAGNUM_CROSSHAIR_2.directColorBlit(graphics, xl, yd, crosshairColor);
-        MAGNUM_CROSSHAIR_1.directColorBlit(graphics, xr, yd, crosshairColor);
+        blitCrosshairSprite(graphics, xl, yu, 5, 5, crosshairColor, MAGNUM_CROSSHAIR_B);
+        blitCrosshairSprite(graphics, xr, yu, 5, 5, crosshairColor, MAGNUM_CROSSHAIR_A);
+        blitCrosshairSprite(graphics, xl, yd, 5, 5, crosshairColor, MAGNUM_CROSSHAIR_A);
+        blitCrosshairSprite(graphics, xr, yd, 5, 5, crosshairColor, MAGNUM_CROSSHAIR_B);
     }
 
     @Override

@@ -23,8 +23,6 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import org.joml.Vector3f;
 
-import static liedge.limatech.client.gui.layer.HUDOverlaySprites.*;
-
 public class GrenadeLauncherRenderProperties extends WeaponRenderProperties<WeaponItem>
 {
     private final Vector3f ornamentPivot = new Vector3f(8f, 9.25f, 10).mul(0.0625f); // 9.96
@@ -59,14 +57,13 @@ public class GrenadeLauncherRenderProperties extends WeaponRenderProperties<Weap
     {
         final int centerX = (screenWidth - 5) / 2;
         final int centerY = (screenHeight - 5) / 2;
-
         float bloom = 4f * LimaTechRenderUtil.animationCurveA(controls.lerpTriggerTimer(weaponItem, partialTicks));
 
-        LAUNCHER_CROSSHAIR_CENTER.directColorBlit(graphics, centerX, centerY, crosshairColor);
-        LAUNCHER_CROSSHAIR_UP.directColorBlit(graphics, centerX - 1, centerY - 4 - bloom, crosshairColor);
-        LAUNCHER_CROSSHAIR_LEFT.directColorBlit(graphics, centerX - 4 - bloom, centerY - 1, crosshairColor);
-        LAUNCHER_CROSSHAIR_RIGHT.directColorBlit(graphics, centerX + 7 + bloom, centerY - 1, crosshairColor);
-        LAUNCHER_CROSSHAIR_DOWN_DROP.directColorBlit(graphics, centerX - 1, centerY + 7, crosshairColor);
+        blitCrosshairSprite(graphics, centerX, centerY, 5, 5, crosshairColor, SPREAD_CROSSHAIR_CENTER);
+        blitCrosshairSprite(graphics, centerX - 1, centerY - 4 - bloom, 7, 2, crosshairColor, AOE_CROSSHAIR_UP);
+        blitCrosshairSprite(graphics, centerX - 1, centerY + 7 + bloom, 7, 2, crosshairColor, AOE_CROSSHAIR_DOWN);
+        blitCrosshairSprite(graphics, centerX - 4 - bloom, centerY - 1, 2, 7, crosshairColor, AOE_CROSSHAIR_LEFT);
+        blitCrosshairSprite(graphics, centerX + 7 + bloom, centerY - 1, 2, 7, crosshairColor, AOE_CROSSHAIR_RIGHT);
     }
 
     @Override

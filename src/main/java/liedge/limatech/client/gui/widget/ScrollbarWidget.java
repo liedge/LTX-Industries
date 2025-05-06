@@ -1,20 +1,30 @@
 package liedge.limatech.client.gui.widget;
 
 import liedge.limacore.client.gui.LimaRenderable;
-import liedge.limacore.client.gui.UnmanagedSprite;
+import liedge.limatech.LimaTech;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
 public class ScrollbarWidget implements LimaRenderable, NarratableEntry, GuiEventListener
 {
+    private static final ResourceLocation SCROLLER_SPRITE = LimaTech.RESOURCES.location("scroller");
+    private static final ResourceLocation FOCUSED_SCROLLER_SPRITE = LimaTech.RESOURCES.location("scroller_focus");
+    private static final ResourceLocation DISABLED_SCROLLER_SPRITE = LimaTech.RESOURCES.location("scroller_disabled");
+
     private final int x;
     private final int y;
     private final int height;
     private final int scrollRange;
     private final ScrollableGUIElement element;
+
+    private final TextureAtlasSprite scrollerSprite;
+    private final TextureAtlasSprite focusScrollerSprite;
+    private final TextureAtlasSprite disabledScrollerSprite;
 
     private boolean scrolling;
     private boolean focused;
@@ -27,27 +37,31 @@ public class ScrollbarWidget implements LimaRenderable, NarratableEntry, GuiEven
         this.height = height;
         this.scrollRange = height - 13;
         this.element = element;
+
+        this.scrollerSprite = LimaWidgetSprites.sprite(SCROLLER_SPRITE);
+        this.focusScrollerSprite = LimaWidgetSprites.sprite(FOCUSED_SCROLLER_SPRITE);
+        this.disabledScrollerSprite = LimaWidgetSprites.sprite(DISABLED_SCROLLER_SPRITE);
     }
 
     private void setPositionFromMouse(double mouseY)
     {
         int relativeMouseY = ((int) mouseY - y) - (13 /2);
-        setScrollPosition(relativeMouseY);
+        setScrollPosition(relativeMouseY, false);
     }
 
-    private void setScrollPosition(int scrollPosition)
+    private void setScrollPosition(int scrollPosition, boolean forceUpdate)
     {
-        int adjusted = Mth.clamp(scrollPosition, 0, scrollRange);
-        if (this.scrollPosition != adjusted)
+        scrollPosition = Mth.clamp(scrollPosition, 0, scrollRange);
+        if (this.scrollPosition != scrollPosition || forceUpdate)
         {
-            this.scrollPosition = adjusted;
-            element.scrollUpdated(adjusted);
+            this.scrollPosition = scrollPosition;
+            element.scrollUpdated(scrollPosition);
         }
     }
 
     public void reset()
     {
-        setScrollPosition(0);
+        setScrollPosition(0, true);
         setFocused(false);
     }
 
@@ -55,7 +69,7 @@ public class ScrollbarWidget implements LimaRenderable, NarratableEntry, GuiEven
     {
         if (!scrolling && element.canScroll())
         {
-            setScrollPosition(scrollPosition + delta);
+            setScrollPosition(scrollPosition + delta, false);
         }
     }
 
@@ -88,12 +102,12 @@ public class ScrollbarWidget implements LimaRenderable, NarratableEntry, GuiEven
     {
         if (element.canScroll())
         {
-            UnmanagedSprite sprite = isFocused() ? ScreenWidgetSprites.SCROLLBAR_FOCUSED : ScreenWidgetSprites.SCROLLBAR_NOT_FOCUSED;
-            sprite.singleBlit(graphics, x, y + scrollPosition);
+            TextureAtlasSprite sprite = isFocused() ? focusScrollerSprite : scrollerSprite;
+            graphics.blit(x, y + scrollPosition, 0, 8, 13, sprite);
         }
         else
         {
-            ScreenWidgetSprites.SCROLLBAR_DISABLED.singleBlit(graphics, x, y);
+            graphics.blit(x, y, 0, 8, 13, disabledScrollerSprite);
         }
     }
 

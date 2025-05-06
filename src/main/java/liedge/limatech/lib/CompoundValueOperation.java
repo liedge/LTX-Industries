@@ -3,6 +3,7 @@ package liedge.limatech.lib;
 import liedge.limacore.data.LimaEnumCodec;
 import liedge.limacore.lib.Translatable;
 import liedge.limatech.LimaTech;
+import liedge.limatech.lib.upgrades.effect.value.ValueSentiment;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.StringRepresentable;
@@ -40,14 +41,14 @@ public enum CompoundValueOperation implements StringRepresentable, Translatable
         };
     }
 
-    public Component toValueComponent(double value, boolean invertColors)
+    public Component toValueComponent(double value, ValueSentiment sentiment)
     {
         Component valueComponent = switch (this)
         {
             case REPLACE_BASE -> flatNumberWithoutSign(value).withStyle(ChatFormatting.GOLD);
-            case FLAT_ADDITION -> flatNumberWithSign(value).withStyle(numSignColor(value, invertColors));
-            case ADD_MULTIPLIED_BASE, ADD_MULTIPLIED_TOTAL -> percentageWithSign(value, invertColors);
-            case MULTIPLY -> flatNumberWithoutSign(value).withStyle(numSignColor(1, value, invertColors));
+            case FLAT_ADDITION -> flatNumberWithSign(value).withStyle(sentiment.get(value));
+            case ADD_MULTIPLIED_BASE, ADD_MULTIPLIED_TOTAL -> percentageWithSign(value).withStyle(sentiment.get(value));
+            case MULTIPLY -> flatNumberWithoutSign(value).withStyle(sentiment.get(1, value));
         };
 
         return translateArgs(valueComponent);

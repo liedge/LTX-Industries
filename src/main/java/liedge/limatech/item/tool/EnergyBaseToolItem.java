@@ -162,7 +162,7 @@ public abstract class EnergyBaseToolItem extends Item implements EnergyHolderIte
     @Override
     public int getBarColor(ItemStack stack)
     {
-        return LimaTechConstants.REM_BLUE.packedRGB();
+        return LimaTechConstants.REM_BLUE.argb32();
     }
 
     @Override

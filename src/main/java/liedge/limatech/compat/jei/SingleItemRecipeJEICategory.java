@@ -3,7 +3,6 @@ package liedge.limatech.compat.jei;
 import liedge.limacore.recipe.LimaRecipeType;
 import liedge.limacore.recipe.LimaSimpleSizedIngredientRecipe;
 import liedge.limatech.client.gui.screen.SingleItemRecipeScreen;
-import liedge.limatech.client.gui.widget.ScreenWidgetSprites;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawableAnimated;
 import mezz.jei.api.gui.drawable.IDrawableStatic;
@@ -25,8 +24,8 @@ public abstract class SingleItemRecipeJEICategory<R extends LimaSimpleSizedIngre
     public SingleItemRecipeJEICategory(IGuiHelper helper, Supplier<? extends LimaRecipeType<R>> gameRecipeType)
     {
         super(helper, gameRecipeType, SingleItemRecipeScreen.SCREEN_TEXTURE, 51, 29, 76, 26);
-        this.progressBackground = unmanagedSpriteDrawable(helper, ScreenWidgetSprites.MACHINE_PROGRESS_BACKGROUND).build();
-        this.progressForeground = unmanagedSpriteDrawable(helper, ScreenWidgetSprites.MACHINE_PROGRESS_FOREGROUND).buildAnimated(100, IDrawableAnimated.StartDirection.LEFT, false);
+        this.progressBackground = widgetDrawable(helper, "crafting_progress_bg", 24, 6).build();
+        this.progressForeground = widgetDrawable(helper, "crafting_progress", 22, 4).buildAnimated(100, IDrawableAnimated.StartDirection.LEFT, false);
     }
 
     @Override

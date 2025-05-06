@@ -25,23 +25,25 @@ public final class LimaTechLang
     public static final Translatable AUTO_INPUT_OFF_TOOLTIP = tooltip("auto_input_off");
     public static final Translatable AUTO_INPUT_ON_TOOLTIP = tooltip("auto_input_on");
 
-    public static final Translatable INLINE_ENERGY_STORED = tooltip("energy_stored");
-    public static final Translatable INLINE_ENERGY_AND_CAPACITY = tooltip("energy_and_capacity");
+    public static final Translatable INLINE_ENERGY = tooltip("energy");
     public static final Translatable INLINE_ENERGY_TRANSFER_RATE = tooltip("energy_transfer_rate");
     public static final Translatable INLINE_ENERGY_USAGE = tooltip("energy_usage");
+    public static final Translatable INLINE_ENERGY_REQUIRED_TOOLTIP = tooltip("energy_required");
     public static final Translatable INLINE_NO_OWNER_TOOLTIP = tooltip("no_owner");
     public static final Translatable INLINE_OWNER_TOOLTIP = tooltip("owner");
     public static final Translatable ENERGY_OVERCHARGE_TOOLTIP = tooltip("energy_overcharge");
 
     public static final Translatable BLUEPRINT_TOAST_MESSAGE = suffixOnlyKey("bp_toast_title");
+    public static final Translatable MACHINE_TICKS_PER_OP_TOOLTIP = tooltip("ticks_per_op");
     public static final Translatable EMPTY_ITEM_INVENTORY_TOOLTIP = tooltip("empty_item_inventory_hint");
     public static final Translatable ITEM_INVENTORY_TOOLTIP = tooltip("item_inventory_hint");
-    public static final Translatable FABRICATOR_CLICK_TO_CRAFT_TOOLTIP = tooltip("fabricator_1");
-    public static final Translatable FABRICATOR_ENERGY_REQUIRED_TOOLTIP = tooltip("fabricator_2");
+    public static final Translatable FABRICATOR_SELECTED_RECIPE_TOOLTIP = tooltip("fabricator_selected");
     public static final Translatable CRAFTING_PROGRESS_TOOLTIP = tooltip("craft_progress");
 
     // Item hints
     public static final Translatable INVALID_UPGRADE_HINT = itemHint("invalid_upgrade");
+    public static final Translatable BLANK_BLUEPRINT_HINT = itemHint("blank_blueprint");
+    public static final Translatable INVALID_BLUEPRINT_HINT = itemHint("invalid_blueprint");
 
     // Static upgrade upgrade titles
     public static final Translatable TOOL_DEFAULT_UPGRADE_TITLE = prefixKey("equipment_upgrade", "tool_default");

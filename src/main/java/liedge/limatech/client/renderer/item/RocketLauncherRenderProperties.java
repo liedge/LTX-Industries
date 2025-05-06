@@ -5,13 +5,11 @@ import liedge.limatech.client.LimaTechRenderUtil;
 import liedge.limatech.client.model.baked.BakedRotation;
 import liedge.limatech.client.model.custom.TranslucentFillModel;
 import liedge.limatech.item.weapon.WeaponItem;
-import liedge.limatech.registry.game.LimaTechItems;
 import liedge.limatech.lib.weapons.ClientWeaponControls;
+import liedge.limatech.registry.game.LimaTechItems;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.Direction;
-
-import static liedge.limatech.client.gui.layer.HUDOverlaySprites.*;
 
 public class RocketLauncherRenderProperties extends SimpleWeaponRenderProperties
 {
@@ -33,11 +31,11 @@ public class RocketLauncherRenderProperties extends SimpleWeaponRenderProperties
         final int centerY = (screenHeight - 5) / 2;
         float bloom = 4f * LimaTechRenderUtil.animationCurveB(controls.lerpTriggerTimer(weaponItem, partialTicks));
 
-        LAUNCHER_CROSSHAIR_CENTER.directColorBlit(graphics, centerX, centerY, crosshairColor);
-        LAUNCHER_CROSSHAIR_UP.directColorBlit(graphics, centerX - 1, centerY - 4 - bloom, crosshairColor);
-        LAUNCHER_CROSSHAIR_DOWN.directColorBlit(graphics, centerX - 1, centerY + 7 + bloom, crosshairColor);
-        LAUNCHER_CROSSHAIR_LEFT.directColorBlit(graphics, centerX - 4 - bloom, centerY - 1, crosshairColor);
-        LAUNCHER_CROSSHAIR_RIGHT.directColorBlit(graphics, centerX + 7 + bloom, centerY - 1, crosshairColor);
+        blitCrosshairSprite(graphics, centerX, centerY, 5, 5, crosshairColor, SPREAD_CROSSHAIR_CENTER);
+        blitCrosshairSprite(graphics, centerX - 1, centerY - 4 - bloom, 7, 2, crosshairColor, AOE_CROSSHAIR_UP);
+        blitCrosshairSprite(graphics, centerX - 1, centerY + 7 + bloom, 7, 2, crosshairColor, AOE_CROSSHAIR_DOWN);
+        blitCrosshairSprite(graphics, centerX - 4 - bloom, centerY - 1, 2, 7, crosshairColor, AOE_CROSSHAIR_LEFT);
+        blitCrosshairSprite(graphics, centerX + 7 + bloom, centerY - 1, 2, 7, crosshairColor, AOE_CROSSHAIR_RIGHT);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package liedge.limatech.blockentity;
+package liedge.limatech.blockentity.base;
 
 import liedge.limacore.blockentity.LimaBlockEntityAccess;
 import liedge.limacore.inventory.menu.LimaMenuProvider;

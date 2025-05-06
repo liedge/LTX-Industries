@@ -22,14 +22,14 @@ public abstract class ValueUpgradeEffect implements EffectTooltipProvider.Single
     public static final Codec<List<ValueUpgradeEffect>> LIST_CODEC = CODEC.listOf();
 
     // Helper factories
-    public static ValueUpgradeEffect createSimple(DoubleLevelBasedValue value, CompoundValueOperation operation, boolean invertColors)
+    public static ValueUpgradeEffect createSimple(DoubleLevelBasedValue value, CompoundValueOperation operation, ValueSentiment sentiment)
     {
-        return new SimpleValue(value, operation, invertColors);
+        return new SimpleValue(value, operation, sentiment);
     }
 
     public static ValueUpgradeEffect createSimple(DoubleLevelBasedValue value, CompoundValueOperation operation)
     {
-        return new SimpleValue(value, operation, false);
+        return new SimpleValue(value, operation, ValueSentiment.POSITIVE);
     }
 
     public static ValueUpgradeEffect create(NumberProvider value, CompoundValueOperation operation, ValueEffectTooltip tooltip)
@@ -90,14 +90,14 @@ public abstract class ValueUpgradeEffect implements EffectTooltipProvider.Single
         private static final MapCodec<SimpleValue> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
                 DoubleLevelBasedValue.CODEC.fieldOf("simple_value").forGetter(o -> o.value),
                 CompoundValueOperation.CODEC.fieldOf("op").forGetter(ValueUpgradeEffect::getOperation),
-                Codec.BOOL.optionalFieldOf("invert_color", false).forGetter(o -> ((SimpleValueTooltip) o.getTooltip()).invertColors()))
+                ValueSentiment.CODEC.optionalFieldOf("sentiment", ValueSentiment.POSITIVE).forGetter(o -> ((SimpleValueTooltip) o.getTooltip()).sentiment()))
                 .apply(instance, SimpleValue::new));
 
         private final DoubleLevelBasedValue value;
 
-        private SimpleValue(DoubleLevelBasedValue value, CompoundValueOperation operation, boolean invertColors)
+        private SimpleValue(DoubleLevelBasedValue value, CompoundValueOperation operation, ValueSentiment sentiment)
         {
-            super(operation, new SimpleValueTooltip(value, invertColors));
+            super(operation, new SimpleValueTooltip(value, sentiment));
             this.value = value;
         }
 

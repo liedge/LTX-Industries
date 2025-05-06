@@ -4,7 +4,6 @@ import liedge.limacore.blockentity.RelativeHorizontalSide;
 import liedge.limacore.client.LimaComponentUtil;
 import liedge.limacore.client.gui.LimaMenuScreen;
 import liedge.limacore.client.gui.TooltipLineConsumer;
-import liedge.limacore.client.gui.UnmanagedSprite;
 import liedge.limacore.lib.Translatable;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.limatech.LimaTech;
@@ -12,8 +11,10 @@ import liedge.limatech.LimaTechConstants;
 import liedge.limatech.blockentity.base.IOController;
 import liedge.limatech.client.gui.widget.LimaBackButton;
 import liedge.limatech.client.gui.widget.LimaRenderableButton;
+import liedge.limatech.client.gui.widget.LimaWidgetSprites;
 import liedge.limatech.menu.IOControllerMenu;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentUtils;
@@ -27,21 +28,30 @@ import static liedge.limatech.client.LimaTechLang.*;
 public class IOControllerScreen extends LimaMenuScreen<IOControllerMenu>
 {
     private static final ResourceLocation TEXTURE = LimaTech.RESOURCES.textureLocation("gui", "io_controller");
-    private static final UnmanagedSprite IO_BUTTON_DISABLED = new UnmanagedSprite(TEXTURE, 176, 0, 16, 16);
-    private static final UnmanagedSprite IO_BUTTON_INPUT = new UnmanagedSprite(TEXTURE, 192, 0, 16, 16);
-    private static final UnmanagedSprite IO_BUTTON_OUTPUT = new UnmanagedSprite(TEXTURE, 208, 0, 16, 16);
-    private static final UnmanagedSprite IO_BUTTON_INPUT_AND_OUTPUT = new UnmanagedSprite(TEXTURE, 224, 0, 16, 16);
-    private static final UnmanagedSprite AUTO_OUTPUT_DISABLED = new UnmanagedSprite(TEXTURE, 176, 16, 14, 14);
-    private static final UnmanagedSprite AUTO_INPUT_DISABLED = new UnmanagedSprite(TEXTURE, 190, 16, 14, 14);
-    private static final UnmanagedSprite AUTO_OUTPUT_ENABLED = new UnmanagedSprite(TEXTURE, 204, 16, 14, 14);
-    private static final UnmanagedSprite AUTO_INPUT_ENABLED = new UnmanagedSprite(TEXTURE, 218, 16, 14, 14);
+
+    private static final ResourceLocation INPUT_SPRITE = LimaTech.RESOURCES.location("io_selector_input");
+    private static final ResourceLocation OUTPUT_SPRITE = LimaTech.RESOURCES.location("io_selector_output");
+    private static final ResourceLocation BOTH_SPRITE = LimaTech.RESOURCES.location("io_selector_both");
+    private static final ResourceLocation DISABLED_SPRITE = LimaTech.RESOURCES.location("io_selector_disabled");
+    private static final ResourceLocation AUTO_OUT_OFF_SPRITE = LimaTech.RESOURCES.location("auto_output_off");
+    private static final ResourceLocation AUTO_OUT_ON_SPRITE = LimaTech.RESOURCES.location("auto_output_on");
+    private static final ResourceLocation AUTO_IN_OFF_SPRITE = LimaTech.RESOURCES.location("auto_input_off");
+    private static final ResourceLocation AUTO_IN_ON_SPRITE = LimaTech.RESOURCES.location("auto_input_on");
 
     private final IOController ioController;
+    private final TextureAtlasSprite inputSprite;
+    private final TextureAtlasSprite outputSprite;
+    private final TextureAtlasSprite bothSprite;
+    private final TextureAtlasSprite disabledSprite;
 
     public IOControllerScreen(IOControllerMenu menu, Inventory inventory, Component title)
     {
-        super(menu, inventory, title, DEFAULT_WIDTH, DEFAULT_HEIGHT, LimaTechConstants.LIME_GREEN.packedRGB());
+        super(menu, inventory, title, DEFAULT_WIDTH, DEFAULT_HEIGHT, LimaTechConstants.LIME_GREEN.argb32());
         this.ioController = menu.getIOControl();
+        this.inputSprite = LimaWidgetSprites.sprite(INPUT_SPRITE);
+        this.outputSprite = LimaWidgetSprites.sprite(OUTPUT_SPRITE);
+        this.bothSprite = LimaWidgetSprites.sprite(BOTH_SPRITE);
+        this.disabledSprite = LimaWidgetSprites.sprite(DISABLED_SPRITE);
     }
 
     @Override
@@ -64,8 +74,8 @@ public class IOControllerScreen extends LimaMenuScreen<IOControllerMenu>
             addRenderableWidget(button);
         }
 
-        if (ioController.allowsAutoInput()) addRenderableWidget(new AutoIOButton(leftPos + 43, topPos + 38, 3, AUTO_INPUT_OFF_TOOLTIP, AUTO_INPUT_ON_TOOLTIP, AUTO_INPUT_DISABLED, AUTO_INPUT_ENABLED, ioController::isAutoInput));
-        if (ioController.allowsAutoOutput()) addRenderableWidget(new AutoIOButton(leftPos + 111, topPos + 38, 4, AUTO_OUTPUT_OFF_TOOLTIP, AUTO_OUTPUT_ON_TOOLTIP, AUTO_OUTPUT_DISABLED, AUTO_OUTPUT_ENABLED, ioController::isAutoOutput));
+        if (ioController.allowsAutoInput()) addRenderableWidget(new AutoIOButton(leftPos + 43, topPos + 38, 3, AUTO_INPUT_OFF_TOOLTIP, AUTO_INPUT_ON_TOOLTIP, AUTO_IN_OFF_SPRITE, AUTO_IN_ON_SPRITE, ioController::isAutoInput));
+        if (ioController.allowsAutoOutput()) addRenderableWidget(new AutoIOButton(leftPos + 111, topPos + 38, 4, AUTO_OUTPUT_OFF_TOOLTIP, AUTO_OUTPUT_ON_TOOLTIP, AUTO_OUT_OFF_SPRITE, AUTO_OUT_ON_SPRITE, ioController::isAutoOutput));
     }
 
     @Override
@@ -98,21 +108,15 @@ public class IOControllerScreen extends LimaMenuScreen<IOControllerMenu>
         }
 
         @Override
-        protected UnmanagedSprite unfocusedSprite()
+        protected TextureAtlasSprite unfocusedSprite()
         {
             return switch (ioController.getSideIOState(side))
             {
-                case DISABLED -> IO_BUTTON_DISABLED;
-                case INPUT_AND_OUTPUT -> IO_BUTTON_INPUT_AND_OUTPUT;
-                case INPUT_ONLY -> IO_BUTTON_INPUT;
-                case OUTPUT_ONLY -> IO_BUTTON_OUTPUT;
+                case DISABLED -> disabledSprite;
+                case INPUT_ONLY -> inputSprite;
+                case OUTPUT_ONLY -> outputSprite;
+                case INPUT_AND_OUTPUT -> bothSprite;
             };
-        }
-
-        @Override
-        protected UnmanagedSprite focusedSprite()
-        {
-            return unfocusedSprite();
         }
 
         @Override
@@ -150,19 +154,19 @@ public class IOControllerScreen extends LimaMenuScreen<IOControllerMenu>
         private final int buttonId;
         private final Component offLabel;
         private final Component onLabel;
-        private final UnmanagedSprite offSprite;
-        private final UnmanagedSprite onSprite;
+        private final TextureAtlasSprite offSprite;
+        private final TextureAtlasSprite onSprite;
         private final BooleanSupplier stateGetter;
 
-        protected AutoIOButton(int x, int y, int buttonId, Translatable offLabel, Translatable onLabel, UnmanagedSprite offSprite, UnmanagedSprite onSprite, BooleanSupplier stateGetter)
+        protected AutoIOButton(int x, int y, int buttonId, Translatable offLabel, Translatable onLabel, ResourceLocation offSpriteLoc, ResourceLocation onSpriteLoc, BooleanSupplier stateGetter)
         {
             super(x, y, 14, 14);
 
             this.buttonId = buttonId;
             this.offLabel = offLabel.translate();
             this.onLabel = onLabel.translate();
-            this.offSprite = offSprite;
-            this.onSprite = onSprite;
+            this.offSprite = LimaWidgetSprites.sprite(offSpriteLoc);
+            this.onSprite = LimaWidgetSprites.sprite(onSpriteLoc);
             this.stateGetter = stateGetter;
         }
 
@@ -173,15 +177,9 @@ public class IOControllerScreen extends LimaMenuScreen<IOControllerMenu>
         }
 
         @Override
-        protected UnmanagedSprite unfocusedSprite()
+        protected TextureAtlasSprite unfocusedSprite()
         {
             return stateGetter.getAsBoolean() ? onSprite : offSprite;
-        }
-
-        @Override
-        protected UnmanagedSprite focusedSprite()
-        {
-            return unfocusedSprite();
         }
 
         @Override

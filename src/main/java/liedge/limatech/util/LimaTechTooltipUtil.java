@@ -18,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.UUID;
 
-import static liedge.limacore.capability.energy.LimaEnergyUtil.formatEnergyWithSuffix;
+import static liedge.limacore.capability.energy.LimaEnergyUtil.*;
 import static liedge.limacore.registry.game.LimaCoreDataComponents.ITEM_CONTAINER;
 import static liedge.limacore.util.LimaMathUtil.*;
 import static liedge.limatech.LimaTech.RESOURCES;
@@ -34,24 +34,28 @@ public final class LimaTechTooltipUtil
 
     public static void appendEnergyOnlyTooltip(TooltipLineConsumer consumer, int energy)
     {
-        consumer.accept(INLINE_ENERGY_STORED.translateArgs(formatEnergyWithSuffix(energy)).withStyle(REM_BLUE.chatStyle()));
+        consumer.accept(INLINE_ENERGY.translateArgs(toEnergyString(energy)).withStyle(REM_BLUE.chatStyle()));
     }
 
     public static void appendEnergyWithCapacityTooltip(TooltipLineConsumer consumer, int energy, int capacity)
     {
-        consumer.accept(INLINE_ENERGY_AND_CAPACITY.translateArgs(formatEnergyWithSuffix(energy), formatEnergyWithSuffix(capacity)).withStyle(REM_BLUE.chatStyle()));
+        consumer.accept(INLINE_ENERGY.translateArgs(toEnergyStoredString(energy, capacity)).withStyle(REM_BLUE.chatStyle()));
     }
 
-    public static void appendEquipmentEnergyTooltip(TooltipLineConsumer consumer, int energy, int capacity, int energyUsage)
+    public static void appendEnergyUsageTooltip(TooltipLineConsumer consumer, int energyUsage)
     {
-        appendEnergyWithCapacityTooltip(consumer, energy, capacity);
-        consumer.accept(INLINE_ENERGY_USAGE.translateArgs(formatEnergyWithSuffix(energyUsage)).withStyle(REM_BLUE.chatStyle()));
+        consumer.accept(INLINE_ENERGY_USAGE.translateArgs(toEnergyString(energyUsage)).withStyle(REM_BLUE.chatStyle()));
+    }
+
+    public static void appendEnergyUsagePerTickTooltip(TooltipLineConsumer consumer, int energyUsage)
+    {
+        consumer.accept(INLINE_ENERGY_USAGE.translateArgs(toEnergyPerTickString(energyUsage)).withStyle(REM_BLUE.chatStyle()));
     }
 
     public static void appendStorageEnergyTooltip(TooltipLineConsumer consumer, int energy, int capacity, int transferRate)
     {
         appendEnergyWithCapacityTooltip(consumer, energy, capacity);
-        consumer.accept(INLINE_ENERGY_TRANSFER_RATE.translateArgs(formatEnergyWithSuffix(transferRate)).withStyle(REM_BLUE.chatStyle()));
+        consumer.accept(INLINE_ENERGY_TRANSFER_RATE.translateArgs(toEnergyPerTickString(transferRate)).withStyle(REM_BLUE.chatStyle()));
     }
 
     public static void appendInventoryPreviewTooltip(TooltipLineConsumer consumer, ItemStack stack)
@@ -66,23 +70,6 @@ public final class LimaTechTooltipUtil
         {
             consumer.accept(EMPTY_ITEM_INVENTORY_TOOLTIP.translate().withStyle(ChatFormatting.GRAY));
         }
-    }
-
-    public static ChatFormatting numSignColor(double zero, double value, boolean invertColors)
-    {
-        if (invertColors)
-        {
-            return value < zero ? ChatFormatting.GREEN : ChatFormatting.RED;
-        }
-        else
-        {
-            return value < zero ? ChatFormatting.RED : ChatFormatting.GREEN;
-        }
-    }
-
-    public static ChatFormatting numSignColor(double value, boolean invertColors)
-    {
-        return numSignColor(0, value, invertColors);
     }
 
     public static String formatFlatNumber(double value)
@@ -102,11 +89,11 @@ public final class LimaTechTooltipUtil
         return Component.literal(formatFlatNumber(value));
     }
 
-    public static MutableComponent percentageWithSign(double value, boolean invertColors)
+    public static MutableComponent percentageWithSign(double value)
     {
         String formattedValue = FORMAT_PERCENTAGE.format(value);
         if (value >= 0) formattedValue = "+" + formattedValue;
-        return Component.literal(formattedValue).withStyle(numSignColor(value, invertColors));
+        return Component.literal(formattedValue);
     }
 
     public static MutableComponent percentageWithoutSign(double value)

@@ -20,8 +20,9 @@ public class TurretScreen extends SidedUpgradableMachineScreen<TurretMenu<?>>
     @Override
     protected void addWidgets()
     {
+        super.addWidgets();
+
         addRenderableOnly(new EnergyGaugeWidget(menu.menuContext().getEnergyStorage(), leftPos + 10, topPos + 10));
-        addSidebarWidgets();
     }
 
     @Override

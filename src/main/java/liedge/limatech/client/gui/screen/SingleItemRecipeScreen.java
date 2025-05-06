@@ -22,7 +22,8 @@ public class SingleItemRecipeScreen<CTX extends SimpleRecipeMachineBlockEntity<?
     @Override
     protected void addWidgets()
     {
-        addSidebarWidgets();
+        super.addWidgets();
+
         addRenderableOnly(new EnergyGaugeWidget(menu.menuContext().getEnergyStorage(), leftPos + 11, topPos + 10));
         addRenderableOnly(new MachineProgressWidget(menu.menuContext(), leftPos + 75, topPos + 39));
     }

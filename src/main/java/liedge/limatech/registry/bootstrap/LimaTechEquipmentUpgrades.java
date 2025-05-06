@@ -12,6 +12,7 @@ import liedge.limatech.lib.CompoundValueOperation;
 import liedge.limatech.lib.upgrades.effect.equipment.*;
 import liedge.limatech.lib.upgrades.effect.value.AttributeAmountTooltip;
 import liedge.limatech.lib.upgrades.effect.value.DoubleLevelBasedValue;
+import liedge.limatech.lib.upgrades.effect.value.ValueSentiment;
 import liedge.limatech.lib.upgrades.effect.value.ValueUpgradeEffect;
 import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrade;
 import liedge.limatech.lib.weapons.GrenadeType;
@@ -272,7 +273,7 @@ public final class LimaTechEquipmentUpgrades
                 .exclusiveWith(holders, MINING_DROPS_MODIFIERS)
                 .setMaxRank(5)
                 .withEffect(ENCHANTMENT_LEVEL, EnchantmentUpgradeEffect.oneLevelPerRank(enchantments.getOrThrow(Enchantments.FORTUNE)))
-                .withEffect(ENERGY_USAGE, ValueUpgradeEffect.createSimple(DoubleLevelBasedValue.linear(0.5d), CompoundValueOperation.ADD_MULTIPLIED_BASE, true))
+                .withEffect(ENERGY_USAGE, ValueUpgradeEffect.createSimple(DoubleLevelBasedValue.linear(0.5d), CompoundValueOperation.ADD_MULTIPLIED_BASE, ValueSentiment.NEGATIVE))
                 .effectIcon(bottomLeftComposite(sprite("pickaxe_head"), sprite("clover")))
                 .category("enchants")
                 .register(context);

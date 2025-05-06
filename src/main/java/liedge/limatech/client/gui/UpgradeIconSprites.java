@@ -8,18 +8,18 @@ import net.minecraft.resources.ResourceLocation;
 
 import static liedge.limatech.LimaTech.RESOURCES;
 
-public final class UpgradeIconTextures extends TextureAtlasHolder
+public final class UpgradeIconSprites extends TextureAtlasHolder
 {
-    private static UpgradeIconTextures instance;
+    private static UpgradeIconSprites instance;
 
-    public static UpgradeIconTextures getUpgradeSprites()
+    public static UpgradeIconSprites getInstance()
     {
-        if (instance == null) instance = new UpgradeIconTextures(Minecraft.getInstance().getTextureManager());
+        if (instance == null) instance = new UpgradeIconSprites(Minecraft.getInstance().getTextureManager());
 
         return instance;
     }
 
-    private UpgradeIconTextures(TextureManager textureManager)
+    private UpgradeIconSprites(TextureManager textureManager)
     {
         super(textureManager, RESOURCES.textureLocation("atlas", "upgrade_icon"), RESOURCES.location("upgrade_icon"));
     }

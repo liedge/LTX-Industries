@@ -2,7 +2,6 @@ package liedge.limatech.compat.jei;
 
 import liedge.limacore.recipe.LimaRecipeType;
 import liedge.limatech.client.gui.screen.MaterialFusingChamberScreen;
-import liedge.limatech.client.gui.widget.ScreenWidgetSprites;
 import liedge.limatech.recipe.MaterialFusingRecipe;
 import liedge.limatech.registry.game.LimaTechBlocks;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
@@ -30,8 +29,8 @@ public class MaterialFusingJEICategory extends LimaJEICategory<MaterialFusingRec
     MaterialFusingJEICategory(IGuiHelper helper, Supplier<LimaRecipeType<MaterialFusingRecipe>> typeSupplier)
     {
         super(helper, typeSupplier, MaterialFusingChamberScreen.SCREEN_TEXTURE, 40, 25, 92, 38);
-        this.progressBackground = unmanagedSpriteDrawable(helper, ScreenWidgetSprites.MACHINE_PROGRESS_BACKGROUND).build();
-        this.progressForeground = unmanagedSpriteDrawable(helper, ScreenWidgetSprites.MACHINE_PROGRESS_FOREGROUND).buildAnimated(100, IDrawableAnimated.StartDirection.LEFT, false);
+        this.progressBackground = widgetDrawable(helper, "crafting_progress_bg", 24, 6).build();
+        this.progressForeground = widgetDrawable(helper, "crafting_progress", 22, 4).buildAnimated(100, IDrawableAnimated.StartDirection.LEFT, false);
     }
 
     @Override

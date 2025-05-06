@@ -32,8 +32,8 @@ public class EnergyStorageArrayRenderer extends LimaBlockEntityRenderer<BaseESAB
             };
 
     public static final BlockColor ESA_BLOCK_COLOR = new ColorHandler();
-    public static final ItemColor TIERED_ESA_COLOR = new ESAItemColor(REM_BLUE.packedRGB());
-    public static final ItemColor INFINITE_ESA_COLOR = new ESAItemColor(CREATIVE_PINK.packedRGB());
+    public static final ItemColor TIERED_ESA_COLOR = new ESAItemColor(REM_BLUE.argb32());
+    public static final ItemColor INFINITE_ESA_COLOR = new ESAItemColor(CREATIVE_PINK.argb32());
 
     public EnergyStorageArrayRenderer(BlockEntityRendererProvider.Context context)
     {
@@ -83,7 +83,7 @@ public class EnergyStorageArrayRenderer extends LimaBlockEntityRenderer<BaseESAB
                     default -> LimaColor.BLACK;
                 };
 
-                return color.packedRGB();
+                return color.argb32();
             }
 
             return 0xFFFFFFFF;

@@ -1,13 +1,13 @@
-package liedge.limatech.blockentity;
+package liedge.limatech.blockentity.base;
 
 import liedge.limacore.blockentity.LimaBlockEntity;
 import liedge.limacore.capability.energy.EnergyHolderBlockEntity;
 import liedge.limacore.capability.itemhandler.ItemHolderBlockEntity;
+import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.util.LimaMathUtil;
 import liedge.limatech.lib.upgrades.machine.MachineUpgrades;
 import liedge.limatech.registry.game.LimaTechUpgradeEffectComponents;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootParams;
@@ -22,6 +22,13 @@ public interface UpgradableMachineBlockEntity extends SubMenuProviderBlockEntity
     MachineUpgrades getUpgrades();
 
     void setUpgrades(MachineUpgrades upgrades);
+
+    default boolean hasStatsTooltips()
+    {
+        return true;
+    }
+
+    default void appendStatsTooltips(TooltipLineConsumer consumer) { }
 
     default LootContext createUpgradeContext(ServerLevel level)
     {
@@ -46,16 +53,6 @@ public interface UpgradableMachineBlockEntity extends SubMenuProviderBlockEntity
 
             energyHolder.getEnergyStorage().setMaxEnergyStored(LimaMathUtil.round(newCapacity));
             energyHolder.getEnergyStorage().setTransferRate(LimaMathUtil.round(newTransferRate));
-        }
-
-        // Apply to timed process machines
-        if (this instanceof TimedProcessMachineBlockEntity processMachine)
-        {
-            double newEnergyUsage = upgrades.applyValue(LimaTechUpgradeEffectComponents.ENERGY_USAGE, context, processMachine.getBaseEnergyUsage());
-            double newProcessingTime = upgrades.applyValue(LimaTechUpgradeEffectComponents.TICKS_PER_OPERATION, context, processMachine.getBaseTicksPerOperation());
-
-            processMachine.setEnergyUsage(LimaMathUtil.round(newEnergyUsage));
-            processMachine.setTicksPerOperation(Math.max(0, Mth.floor(newProcessingTime)));
         }
     }
 }

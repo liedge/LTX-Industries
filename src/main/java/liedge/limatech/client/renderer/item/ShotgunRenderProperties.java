@@ -5,14 +5,11 @@ import liedge.limatech.client.LimaTechRenderUtil;
 import liedge.limatech.client.model.baked.BakedRotation;
 import liedge.limatech.client.model.custom.TranslucentFillModel;
 import liedge.limatech.item.weapon.WeaponItem;
-import liedge.limatech.registry.game.LimaTechItems;
 import liedge.limatech.lib.weapons.ClientWeaponControls;
+import liedge.limatech.registry.game.LimaTechItems;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.Direction;
-
-import static liedge.limatech.client.gui.layer.HUDOverlaySprites.SHOTGUN_CROSSHAIR_LEFT;
-import static liedge.limatech.client.gui.layer.HUDOverlaySprites.SHOTGUN_CROSSHAIR_RIGHT;
 
 public class ShotgunRenderProperties extends SimpleWeaponRenderProperties
 {
@@ -40,8 +37,8 @@ public class ShotgunRenderProperties extends SimpleWeaponRenderProperties
         final int centerY = (screenHeight - 13) / 2;
         float bloom = 2.5f + 3.5f * LimaTechRenderUtil.animationCurveB(controls.lerpTriggerTimer(weaponItem, partialTicks));
 
-        SHOTGUN_CROSSHAIR_LEFT.directColorBlit(graphics, centerX - 6 - bloom, centerY, crosshairColor);
-        SHOTGUN_CROSSHAIR_RIGHT.directColorBlit(graphics, centerX + 1 + bloom, centerY, crosshairColor);
+        blitCrosshairSprite(graphics, centerX - 6 - bloom, centerY, 6, 13, crosshairColor, SPREAD_CROSSHAIR_LEFT);
+        blitCrosshairSprite(graphics, centerX + 1 + bloom, centerY, 6, 13, crosshairColor, SPREAD_CROSSHAIR_RIGHT);
     }
 
     @Override

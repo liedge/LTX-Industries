@@ -7,6 +7,7 @@ import liedge.limacore.lib.damage.LimaCoreDamageComponents;
 import liedge.limacore.lib.damage.ReductionModifier;
 import liedge.limacore.lib.math.MathOperation;
 import liedge.limatech.client.LimaTechLang;
+import liedge.limatech.lib.upgrades.effect.value.ValueSentiment;
 import liedge.limatech.registry.game.LimaTechEquipmentUpgradeEffects;
 import liedge.limatech.util.LimaTechTooltipUtil;
 import net.minecraft.network.chat.Component;
@@ -43,6 +44,7 @@ public record ModifyReductionsUpgradeEffect(DamageReductionType reductionType, L
     @Override
     public Component getEffectTooltip(int upgradeRank)
     {
-        return LimaTechLang.REDUCTION_MODIFIER_EFFECT.translateArgs(LimaTechTooltipUtil.percentageWithSign(amount.calculate(upgradeRank), true), reductionType.translate());
+        float amt = amount.calculate(upgradeRank);
+        return LimaTechLang.REDUCTION_MODIFIER_EFFECT.translateArgs(LimaTechTooltipUtil.percentageWithSign(amt).withStyle(ValueSentiment.POSITIVE.get(amt)), reductionType.translate());
     }
 }

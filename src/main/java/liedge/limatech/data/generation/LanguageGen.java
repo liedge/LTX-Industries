@@ -68,6 +68,7 @@ class LanguageGen extends LimaLanguageProvider
         addBlock(RECOMPOSER, "Recomposer");
         addBlock(MATERIAL_FUSING_CHAMBER, "Material Fusing Chamber");
         addBlock(FABRICATOR, "Fabricator");
+        addBlock(AUTO_FABRICATOR, "Auto Fabricator");
         addBlock(EQUIPMENT_UPGRADE_STATION, "Equipment Upgrade Station");
 
         addBlock(ROCKET_TURRET, ltxName("LTX A/DU %s", "Atmos"));
@@ -119,6 +120,7 @@ class LanguageGen extends LimaLanguageProvider
         addItem(LTX_WRENCH, ltxToolName("Wrench"));
 
         addItem(EMPTY_UPGRADE_MODULE, "Empty Upgrade Module");
+        addItem(FABRICATION_BLUEPRINT, "Fabrication Blueprint");
 
         simpleHintItem(EXPLOSIVES_WEAPON_TECH_SALVAGE, "Salvaged Tech: Explosive Weapon Systems", "Broken components from an explosives handling device. Might be useful in reconstructing explosive weaponry.");
         simpleHintItem(TARGETING_TECH_SALVAGE, "Salvaged Tech: Auto-Targeting Systems", "Broken electronics from a targeting computer. Might be useful in reconstructing guidance systems for weaponry.");
@@ -200,6 +202,7 @@ class LanguageGen extends LimaLanguageProvider
         add(LimaTechMenus.RECOMPOSER, "Recomposer");
         add(LimaTechMenus.MATERIAL_FUSING_CHAMBER, "Material Fusing Chamber");
         add(LimaTechMenus.FABRICATOR, "Fabricator");
+        add(LimaTechMenus.AUTO_FABRICATOR, "Auto Fabricator");
         add(LimaTechMenus.EQUIPMENT_UPGRADE_STATION, "Equipment Upgrade Station");
         add(LimaTechMenus.ROCKET_TURRET, "Atmos Turret");
         add(LimaTechMenus.RAILGUN_TURRET, "Noctis Turret");
@@ -232,9 +235,8 @@ class LanguageGen extends LimaLanguageProvider
         enchantment(LimaTechEnchantments.AMMO_SCAVENGER, "Ammo Scavenger");
 
         //#region Tooltips
-        add(INLINE_ENERGY_STORED, "Energy: %s");
-        add(INLINE_ENERGY_AND_CAPACITY, "Energy: %s/%s");
-        add(INLINE_ENERGY_TRANSFER_RATE, "Energy I/O: %s/t");
+        add(INLINE_ENERGY, "Energy: %s");
+        add(INLINE_ENERGY_TRANSFER_RATE, "Energy I/O: %s");
         add(INLINE_ENERGY_USAGE, "Energy use: %s");
         add(INLINE_NO_OWNER_TOOLTIP, "No Owner");
         add(INLINE_OWNER_TOOLTIP, "Owner: %s");
@@ -247,10 +249,11 @@ class LanguageGen extends LimaLanguageProvider
         add(AUTO_INPUT_ON_TOOLTIP, "Auto Input Enabled");
 
         add(BLUEPRINT_TOAST_MESSAGE, "New Fabrication Data");
+        add(MACHINE_TICKS_PER_OP_TOOLTIP, "Ticks per operation: %s");
         add(EMPTY_ITEM_INVENTORY_TOOLTIP, "No items stored");
         add(ITEM_INVENTORY_TOOLTIP, "Stored Items");
-        add(FABRICATOR_CLICK_TO_CRAFT_TOOLTIP, "Click again to craft");
-        add(FABRICATOR_ENERGY_REQUIRED_TOOLTIP, "Energy required: %s");
+        add(FABRICATOR_SELECTED_RECIPE_TOOLTIP, "Left click to craft. Right click to encode blueprint (must have blank blueprint in slot).");
+        add(INLINE_ENERGY_REQUIRED_TOOLTIP, "Energy required: %s");
         add(CRAFTING_PROGRESS_TOOLTIP, "Crafting: %s%%");
         add(UPGRADE_RANK_TOOLTIP, "Rank %s/%s");
         add(UPGRADE_REMOVE_HINT, "Shift + left click to remove upgrade. Must have space in your inventory.");
@@ -265,6 +268,8 @@ class LanguageGen extends LimaLanguageProvider
         add(CompoundValueOperation.MULTIPLY, "%sx");
 
         add(INVALID_UPGRADE_HINT, "This upgrade data in this module is invalid or corrupted. Shift+Right Click to revert to an empty module.");
+        add(BLANK_BLUEPRINT_HINT, "No blueprint data. Encode at a Fabricator.");
+        add(INVALID_BLUEPRINT_HINT, "The recipe in this blueprint is invalid or corrupted. Shift+Right Click to clear.");
 
         add(THIS_ENTITY_TARGET_TOOLTIP, "Enemy");
         add(ATTACKER_ENTITY_TARGET_TOOLTIP, "User");

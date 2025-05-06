@@ -4,7 +4,7 @@ import liedge.limacore.capability.itemhandler.LimaItemHandlerUtil;
 import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limacore.network.NetworkSerializer;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
-import liedge.limatech.blockentity.UpgradableMachineBlockEntity;
+import liedge.limatech.blockentity.base.UpgradableMachineBlockEntity;
 import liedge.limatech.item.MachineUpgradeModuleItem;
 import liedge.limatech.lib.upgrades.machine.MachineUpgrade;
 import liedge.limatech.lib.upgrades.machine.MachineUpgradeEntry;

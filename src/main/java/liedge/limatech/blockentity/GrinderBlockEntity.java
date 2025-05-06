@@ -7,7 +7,6 @@ import liedge.limatech.registry.game.LimaTechBlockEntities;
 import liedge.limatech.registry.game.LimaTechMenus;
 import liedge.limatech.registry.game.LimaTechRecipeTypes;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -17,13 +16,7 @@ public class GrinderBlockEntity extends SimpleRecipeMachineBlockEntity<LimaRecip
 {
     public GrinderBlockEntity(BlockPos pos, BlockState state)
     {
-        super(LimaTechBlockEntities.GRINDER.get(), pos, state, GRINDER_ENERGY_CAPACITY.getAsInt(), 3);
-    }
-
-    @Override
-    public RecipeType<GrindingRecipe> machineRecipeType()
-    {
-        return LimaTechRecipeTypes.GRINDING.get();
+        super(LimaTechBlockEntities.GRINDER.get(), LimaTechRecipeTypes.GRINDING.get(), pos, state, GRINDER_ENERGY_CAPACITY.getAsInt(), 3);
     }
 
     @Override
@@ -45,18 +38,6 @@ public class GrinderBlockEntity extends SimpleRecipeMachineBlockEntity<LimaRecip
     }
 
     @Override
-    protected boolean isInputSlot(int slot)
-    {
-        return slot == 1;
-    }
-
-    @Override
-    protected int outputSlotIndex()
-    {
-        return 2;
-    }
-
-    @Override
     protected void consumeIngredients(LimaRecipeInput recipeInput, GrindingRecipe recipe, Level level)
     {
         recipe.consumeIngredientsStrictSlots(recipeInput, false, false);
@@ -66,5 +47,17 @@ public class GrinderBlockEntity extends SimpleRecipeMachineBlockEntity<LimaRecip
     public LimaMenuType<?, ?> getMenuType()
     {
         return LimaTechMenus.GRINDER.get();
+    }
+
+    @Override
+    public boolean isInputSlot(int index)
+    {
+        return index == 1;
+    }
+
+    @Override
+    public int getOutputSlot()
+    {
+        return 2;
     }
 }

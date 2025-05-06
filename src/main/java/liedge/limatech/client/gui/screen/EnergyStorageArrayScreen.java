@@ -20,8 +20,9 @@ public class EnergyStorageArrayScreen extends SidedUpgradableMachineScreen<Energ
     @Override
     protected void addWidgets()
     {
+        super.addWidgets();
+
         addRenderableOnly(new EnergyGaugeWidget(menu.menuContext().getEnergyStorage(), leftPos + 11, topPos + 10));
-        addSidebarWidgets();
     }
 
     @Override

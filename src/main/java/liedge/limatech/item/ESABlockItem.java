@@ -64,7 +64,7 @@ public class ESABlockItem extends BlockItem implements EnergyHolderItem, Tooltip
     @Override
     public int getBarColor(ItemStack stack)
     {
-        return LimaTechConstants.REM_BLUE.packedRGB();
+        return LimaTechConstants.REM_BLUE.argb32();
     }
 
     @Override

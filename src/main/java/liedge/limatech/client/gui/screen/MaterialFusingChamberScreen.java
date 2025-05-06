@@ -21,7 +21,8 @@ public class MaterialFusingChamberScreen extends SidedUpgradableMachineScreen<Ma
     @Override
     protected void addWidgets()
     {
-        addSidebarWidgets();
+        super.addWidgets();
+
         addRenderableOnly(new EnergyGaugeWidget(menu.menuContext().getEnergyStorage(), leftPos + 11, topPos + 10));
         addRenderableOnly(new MachineProgressWidget(menu.menuContext(), leftPos + 81, topPos + 41));
     }

@@ -7,7 +7,6 @@ import liedge.limatech.registry.game.LimaTechBlockEntities;
 import liedge.limatech.registry.game.LimaTechMenus;
 import liedge.limatech.registry.game.LimaTechRecipeTypes;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -17,13 +16,7 @@ public class RecomposerBlockEntity extends SimpleRecipeMachineBlockEntity<LimaRe
 {
     public RecomposerBlockEntity(BlockPos pos, BlockState state)
     {
-        super(LimaTechBlockEntities.RECOMPOSER.get(), pos, state, RECOMPOSER_ENERGY_CAPACITY.getAsInt(), 3);
-    }
-
-    @Override
-    public RecipeType<RecomposingRecipe> machineRecipeType()
-    {
-        return LimaTechRecipeTypes.RECOMPOSING.get();
+        super(LimaTechBlockEntities.RECOMPOSER.get(), LimaTechRecipeTypes.RECOMPOSING.get(), pos, state, RECOMPOSER_ENERGY_CAPACITY.getAsInt(), 3);
     }
 
     @Override
@@ -45,13 +38,13 @@ public class RecomposerBlockEntity extends SimpleRecipeMachineBlockEntity<LimaRe
     }
 
     @Override
-    protected boolean isInputSlot(int slot)
+    public boolean isInputSlot(int slot)
     {
         return slot == 1;
     }
 
     @Override
-    protected int outputSlotIndex()
+    public int getOutputSlot()
     {
         return 2;
     }

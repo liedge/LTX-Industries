@@ -7,11 +7,11 @@ import liedge.limatech.registry.game.LimaTechAttachmentTypes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
-
-import static liedge.limatech.client.gui.layer.HUDOverlaySprites.BUBBLE_SHIELD_INDICATOR;
+import net.minecraft.resources.ResourceLocation;
 
 public final class BubbleShieldLayer extends LimaGuiLayer
 {
+    private static final ResourceLocation DISPLAY_SPRITE = LimaTech.RESOURCES.location("bubble_shield_display");
     public static final BubbleShieldLayer BUBBLE_SHIELD_LAYER = new BubbleShieldLayer();
 
     private BubbleShieldLayer()
@@ -32,9 +32,9 @@ public final class BubbleShieldLayer extends LimaGuiLayer
             final int x = (screenWidth / 2) - 91;
             final int y = screenHeight - 62;
 
-            BUBBLE_SHIELD_INDICATOR.singleBlit(graphics, x, y);
+            graphics.blitSprite(DISPLAY_SPRITE, x, y, 37, 13);
 
-            graphics.drawString(Minecraft.getInstance().font, Integer.toString((int) shieldHealth), x + 11, y + 3, LimaTechConstants.BUBBLE_SHIELD_GREEN.packedRGB(), false);
+            graphics.drawString(Minecraft.getInstance().font, Integer.toString((int) shieldHealth), x + 11, y + 3, LimaTechConstants.BUBBLE_SHIELD_GREEN.argb32(), false);
         }
     }
 }

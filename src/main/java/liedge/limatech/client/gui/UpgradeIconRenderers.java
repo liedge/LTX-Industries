@@ -68,7 +68,7 @@ public final class UpgradeIconRenderers
 
     private static boolean renderSpriteIcon(GuiGraphics graphics, ResourceLocation location, int x, int y, int blitOffset, int size)
     {
-        TextureAtlasSprite sprite = UpgradeIconTextures.getUpgradeSprites().getSprite(location);
+        TextureAtlasSprite sprite = UpgradeIconSprites.getInstance().getSprite(location);
         graphics.blit(x, y, blitOffset, size, size, sprite);
         return true;
     }

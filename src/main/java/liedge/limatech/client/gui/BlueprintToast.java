@@ -43,7 +43,7 @@ public final class BlueprintToast implements Toast
     public Visibility render(GuiGraphics graphics, ToastComponent toastComponent, long timeSinceLastVisible)
     {
         graphics.blitSprite(BACKGROUND_SPRITE, 0, 0, width(), height());
-        graphics.drawString(toastComponent.getMinecraft().font, LimaTechLang.BLUEPRINT_TOAST_MESSAGE.translate(), 35, 7, LimaTechConstants.LIME_GREEN.packedRGB(), false);
+        graphics.drawString(toastComponent.getMinecraft().font, LimaTechLang.BLUEPRINT_TOAST_MESSAGE.translate(), 35, 7, LimaTechConstants.LIME_GREEN.argb32(), false);
 
         renderable.render(graphics, 8, 8);
 

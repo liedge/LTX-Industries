@@ -180,7 +180,7 @@ public final class LimaTechClientEvents
         if (stack.getItem() instanceof TooltipShiftHintItem item)
         {
             List<Either<FormattedText, TooltipComponent>> components = event.getTooltipElements();
-            if (Screen.hasShiftDown())
+            if (Screen.hasShiftDown() && Minecraft.getInstance().level != null) // Add non-null check here, no point in running with null level for item tooltips
             {
                 item.appendTooltipHintComponents(Minecraft.getInstance().level, stack, components::add);
             }

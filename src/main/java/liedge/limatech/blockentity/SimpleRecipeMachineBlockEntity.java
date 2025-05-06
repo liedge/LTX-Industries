@@ -7,9 +7,14 @@ import liedge.limacore.capability.energy.LimaEnergyStorage;
 import liedge.limacore.capability.energy.LimaEnergyUtil;
 import liedge.limacore.capability.itemhandler.LimaItemHandlerBase;
 import liedge.limacore.capability.itemhandler.LimaItemHandlerUtil;
+import liedge.limacore.client.gui.TooltipLineConsumer;
+import liedge.limacore.recipe.LimaRecipeCheck;
 import liedge.limacore.util.LimaItemUtil;
-import liedge.limatech.blockentity.base.SidedAccessBlockEntityType;
-import liedge.limatech.blockentity.base.SidedAccessRules;
+import liedge.limatech.blockentity.base.*;
+import liedge.limatech.blockentity.base.TimedProcessMachineBlockEntity;
+import liedge.limatech.client.LimaTechLang;
+import liedge.limatech.lib.upgrades.machine.MachineUpgrades;
+import liedge.limatech.util.LimaTechTooltipUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -22,11 +27,11 @@ import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.loot.LootContext;
 import net.neoforged.neoforge.capabilities.BlockCapabilityCache;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.items.IItemHandler;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -34,7 +39,7 @@ import java.util.Optional;
 
 import static liedge.limatech.block.LimaTechBlockProperties.MACHINE_WORKING;
 
-public abstract class SimpleRecipeMachineBlockEntity<I extends RecipeInput, R extends Recipe<I>> extends SidedItemEnergyMachineBlockEntity implements TimedProcessMachineBlockEntity
+public abstract class SimpleRecipeMachineBlockEntity<I extends RecipeInput, R extends Recipe<I>> extends SidedItemEnergyMachineBlockEntity implements TimedProcessMachineBlockEntity, EnergyConsumerBlockEntity, RecipeMachineBlockEntity<I, R>
 {
     public static final SidedAccessRules ITEM_ACCESS_RULES = SidedAccessRules.allSides(IOAccessSets.ALL_ALLOWED, IOAccess.DISABLED, false, true);
     public static final SidedAccessRules ENERGY_ACCESS_RULES = SidedAccessRules.allSides(IOAccessSets.INPUT_ONLY_OR_DISABLED, IOAccess.INPUT_ONLY, false, false);
@@ -42,23 +47,23 @@ public abstract class SimpleRecipeMachineBlockEntity<I extends RecipeInput, R ex
     private final LimaBlockEntityEnergyStorage machineEnergy;
     private final int baseEnergyCapacity;
     private final int baseEnergyTransferRate;
+    private final LimaRecipeCheck<I, R> recipeCheck;
     private final Map<Direction, BlockCapabilityCache<IItemHandler, Direction>> itemConnections = new EnumMap<>(Direction.class);
 
-    private int energyUsage;
+    private int energyUsage = getBaseEnergyUsage();
     private int machineSpeed = getBaseTicksPerOperation();
     private int craftingProgress;
     private boolean shouldCheckRecipe;
     private boolean crafting;
-
     private int autoOutputTimer = 0;
-    private @Nullable RecipeHolder<R> lastUsedRecipe;
 
-    protected SimpleRecipeMachineBlockEntity(SidedAccessBlockEntityType<?> type, BlockPos pos, BlockState state, int baseEnergyCapacity, int inventorySize)
+    protected SimpleRecipeMachineBlockEntity(SidedAccessBlockEntityType<?> type, RecipeType<R> recipeType, BlockPos pos, BlockState state, int baseEnergyCapacity, int inventorySize)
     {
         super(type, pos, state, inventorySize);
         this.baseEnergyCapacity = baseEnergyCapacity;
         this.baseEnergyTransferRate = baseEnergyCapacity / 20;
         this.machineEnergy = new LimaBlockEntityEnergyStorage(this);
+        this.recipeCheck = LimaRecipeCheck.create(recipeType);
     }
 
     @Override
@@ -129,31 +134,27 @@ public abstract class SimpleRecipeMachineBlockEntity<I extends RecipeInput, R ex
         this.machineSpeed = ticksPerOperation;
     }
 
-    public abstract RecipeType<R> machineRecipeType();
-
-    protected abstract I getRecipeInput(Level level);
-
-    protected abstract boolean isInputSlot(int slot);
-
-    protected abstract int outputSlotIndex();
-
-    protected abstract void consumeIngredients(I recipeInput, R recipe, Level level);
-
-    private boolean checkRecipe(Level level, I recipeInput)
+    @Override
+    public void appendStatsTooltips(TooltipLineConsumer consumer)
     {
-        shouldCheckRecipe = false;
-        Optional<RecipeHolder<R>> holder = level.getRecipeManager().getRecipeFor(machineRecipeType(), recipeInput, level, lastUsedRecipe);
-
-        if (holder.isPresent())
-        {
-            lastUsedRecipe = holder.get();
-            return true;
-        }
-
-        return false;
+        consumer.accept(LimaTechLang.MACHINE_TICKS_PER_OP_TOOLTIP.translateArgs(getTicksPerOperation()));
+        LimaTechTooltipUtil.appendEnergyUsagePerTickTooltip(consumer, getEnergyUsage());
     }
 
-    private void updateCraftingState(Level level, boolean crafting)
+    @Override
+    public LimaRecipeCheck<I, R> getRecipeCheck()
+    {
+        return recipeCheck;
+    }
+
+    @Override
+    public boolean isCrafting()
+    {
+        return crafting;
+    }
+
+    @Override
+    public void setCrafting(boolean crafting)
     {
         if (this.crafting != crafting)
         {
@@ -164,14 +165,19 @@ public abstract class SimpleRecipeMachineBlockEntity<I extends RecipeInput, R ex
             if (state.hasProperty(MACHINE_WORKING))
             {
                 state = state.setValue(MACHINE_WORKING, crafting);
-                level.setBlockAndUpdate(getBlockPos(), state);
+                nonNullLevel().setBlockAndUpdate(getBlockPos(), state);
             }
         }
     }
 
-    private boolean canInsertResultItem(Level level, R recipe)
+    protected abstract I getRecipeInput(Level level);
+
+    protected abstract void consumeIngredients(I recipeInput, R recipe, Level level);
+
+    private Optional<RecipeHolder<R>> checkRecipe(Level level, I recipeInput)
     {
-        return LimaItemUtil.canMergeItemStacks(getItemHandler().getStackInSlot(outputSlotIndex()), recipe.getResultItem(level.registryAccess()));
+        shouldCheckRecipe = false;
+        return recipeCheck.getRecipeFor(recipeInput, level);
     }
 
     @Override
@@ -179,7 +185,7 @@ public abstract class SimpleRecipeMachineBlockEntity<I extends RecipeInput, R ex
     {
         if (handlerIndex == 0)
         {
-            if (slot == outputSlotIndex())
+            if (slot == getOutputSlot())
             {
                 return IOAccess.OUTPUT_ONLY;
             }
@@ -223,23 +229,28 @@ public abstract class SimpleRecipeMachineBlockEntity<I extends RecipeInput, R ex
         I recipeInput = getRecipeInput(level);
         if (shouldCheckRecipe)
         {
-            updateCraftingState(level, checkRecipe(level, recipeInput) && lastUsedRecipe != null && canInsertResultItem(level, lastUsedRecipe.value()));
+            boolean check = checkRecipe(level, recipeInput).map(r -> canInsertRecipeResult(level, r)).orElse(false);
+            setCrafting(check);
         }
 
         // Tick recipe progress
-        if (crafting && lastUsedRecipe != null && canInsertResultItem(level, lastUsedRecipe.value()))
+        RecipeHolder<R> lastUsedRecipe = recipeCheck.getLastUsedRecipe(level).orElse(null);
+        if (crafting && lastUsedRecipe != null && canInsertRecipeResult(level, lastUsedRecipe))
         {
-            if ((getTicksPerOperation() == 0 && LimaEnergyUtil.consumeEnergy(energyStorage, getEnergyUsage(), false)) || craftingProgress >= getTicksPerOperation()) // In zero-tick operations call energy consumption
+            if (LimaEnergyUtil.consumeEnergy(energyStorage, getEnergyUsage(), false))
             {
-                ItemStack craftedItem = lastUsedRecipe.value().assemble(recipeInput, level.registryAccess());
-                getItemHandler().insertItem(outputSlotIndex(), craftedItem, false);
-                consumeIngredients(recipeInput, lastUsedRecipe.value(), level);
-                craftingProgress = 0;
-                shouldCheckRecipe = true; // Check state of recipe after every successful craft.
-            }
-            else if (LimaEnergyUtil.consumeEnergy(energyStorage, getEnergyUsage(), false))
-            {
-                craftingProgress++; // setChanged already called by energy storage extraction
+                craftingProgress++; // Set changed already called by energy storage extraction (which must pass to get here)
+
+                if (craftingProgress >= getTicksPerOperation()) // Fixed the N+1 tick duration, we now have true N tick duration
+                {
+                    ItemStack craftedItem = lastUsedRecipe.value().assemble(recipeInput, level.registryAccess());
+                    getItemHandler().insertItem(getOutputSlot(), craftedItem, false);
+                    consumeIngredients(recipeInput, lastUsedRecipe.value(), level);
+
+                    // Check state of recipe after every successful craft. Last recipe is used first so should be *relatively* quick.
+                    craftingProgress = 0;
+                    shouldCheckRecipe = true;
+                }
             }
         }
         else
@@ -257,7 +268,7 @@ public abstract class SimpleRecipeMachineBlockEntity<I extends RecipeInput, R ex
                     if (getItemControl().getSideIOState(side).allowsOutput())
                     {
                         IItemHandler adjacentInventory = itemConnections.get(side).getCapability();
-                        if (adjacentInventory != null) LimaItemHandlerUtil.transferStackBetweenInventories(getItemHandler(), adjacentInventory, outputSlotIndex());
+                        if (adjacentInventory != null) LimaItemHandlerUtil.transferStackBetweenInventories(getItemHandler(), adjacentInventory, getOutputSlot());
                     }
                 }
 
@@ -268,6 +279,14 @@ public abstract class SimpleRecipeMachineBlockEntity<I extends RecipeInput, R ex
                 autoOutputTimer++;
             }
         }
+    }
+
+    @Override
+    public void onUpgradeRefresh(LootContext context, MachineUpgrades upgrades)
+    {
+        super.onUpgradeRefresh(context, upgrades);
+        TimedProcessMachineBlockEntity.applyUpgrades(this, context, upgrades);
+        EnergyConsumerBlockEntity.applyUpgrades(this, context, upgrades);
     }
 
     @Override

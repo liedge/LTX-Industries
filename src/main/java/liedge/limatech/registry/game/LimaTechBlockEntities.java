@@ -36,7 +36,7 @@ public final class LimaTechBlockEntities
     private static void registerCapabilities(final RegisterCapabilitiesEvent event)
     {
         // Machine capability registration (energy & items)
-        Stream.of(ENERGY_STORAGE_ARRAY, INFINITE_ENERGY_STORAGE_ARRAY, DIGITAL_FURNACE, GRINDER, RECOMPOSER, MATERIAL_FUSING_CHAMBER, FABRICATOR, ROCKET_TURRET, RAILGUN_TURRET).map(DeferredHolder::get).forEach(machineType ->
+        Stream.of(ENERGY_STORAGE_ARRAY, INFINITE_ENERGY_STORAGE_ARRAY, DIGITAL_FURNACE, GRINDER, RECOMPOSER, MATERIAL_FUSING_CHAMBER, FABRICATOR, AUTO_FABRICATOR, ROCKET_TURRET, RAILGUN_TURRET).map(DeferredHolder::get).forEach(machineType ->
         {
             event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, machineType, EnergyHolderBlockEntity::createEnergyIOWrapper);
             event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, machineType, ItemHolderBlockEntity::createItemIOWrapper);
@@ -64,6 +64,7 @@ public final class LimaTechBlockEntities
     public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<RecomposerBlockEntity>> RECOMPOSER = registerSimpleRecipeMachine("recomposer", RecomposerBlockEntity::new, builder -> builder.withBlock(LimaTechBlocks.RECOMPOSER));
     public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<MaterialFusingChamberBlockEntity>> MATERIAL_FUSING_CHAMBER = registerSimpleRecipeMachine("material_fusing_chamber", MaterialFusingChamberBlockEntity::new, builder -> builder.withBlock(LimaTechBlocks.MATERIAL_FUSING_CHAMBER));
     public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<FabricatorBlockEntity>> FABRICATOR = registerSimpleRecipeMachine("fabricator", FabricatorBlockEntity::new, builder -> builder.withBlock(LimaTechBlocks.FABRICATOR));
+    public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<AutoFabricatorBlockEntity>> AUTO_FABRICATOR = registerSimpleRecipeMachine("auto_fabricator", AutoFabricatorBlockEntity::new, builder -> builder.withBlock(LimaTechBlocks.AUTO_FABRICATOR));
     public static final DeferredHolder<BlockEntityType<?>, LimaBlockEntityType<EquipmentUpgradeStationBlockEntity>> EQUIPMENT_UPGRADE_STATION = TYPES.register("equipment_upgrade_station", () -> LimaBlockEntityType.of(EquipmentUpgradeStationBlockEntity::new, LimaTechBlocks.EQUIPMENT_UPGRADE_STATION));
     public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<RocketTurretBlockEntity>> ROCKET_TURRET = registerTurret("rocket_turret", RocketTurretBlockEntity::new, builder -> builder.withBlock(LimaTechBlocks.ROCKET_TURRET));
     public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<RailgunTurretBlockEntity>> RAILGUN_TURRET = registerTurret("railgun_turret", RailgunTurretBlockEntity::new, builder -> builder.withBlock(LimaTechBlocks.RAILGUN_TURRET));

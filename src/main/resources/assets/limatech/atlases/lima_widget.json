@@ -1,0 +1,14 @@
+{
+  "sources": [
+    {
+      "type": "directory",
+      "source": "gui/lima_widget",
+      "prefix": ""
+    },
+    {
+      "type": "single",
+      "resource": "limatech:item/machine_upgrade_module",
+      "sprite": "limatech:machine_upgrade_module"
+    }
+  ]
+}

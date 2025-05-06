@@ -3,11 +3,12 @@ package liedge.limatech.client;
 import liedge.limatech.LimaTech;
 import liedge.limatech.client.gui.ClientFabricatorIngredientTooltip;
 import liedge.limatech.client.gui.ClientItemGridTooltip;
-import liedge.limatech.client.gui.UpgradeIconTextures;
+import liedge.limatech.client.gui.UpgradeIconSprites;
 import liedge.limatech.client.gui.layer.BubbleShieldLayer;
 import liedge.limatech.client.gui.layer.WeaponCrosshairLayer;
 import liedge.limatech.client.gui.layer.WeaponHUDInfoLayer;
 import liedge.limatech.client.gui.screen.*;
+import liedge.limatech.client.gui.widget.LimaWidgetSprites;
 import liedge.limatech.client.model.baked.DynamicModularItemGeometry;
 import liedge.limatech.client.model.baked.EmissiveBiLayerGeometry;
 import liedge.limatech.client.model.custom.BubbleShieldModel;
@@ -19,6 +20,7 @@ import liedge.limatech.client.renderer.blockentity.*;
 import liedge.limatech.client.renderer.entity.OrbGrenadeRenderer;
 import liedge.limatech.client.renderer.entity.RocketRenderer;
 import liedge.limatech.client.renderer.entity.StickyFlameRenderer;
+import liedge.limatech.client.renderer.item.BlueprintItemExtensions;
 import liedge.limatech.client.renderer.item.LimaTechItemRenderers;
 import liedge.limatech.client.renderer.item.UpgradeModuleItemExtensions;
 import liedge.limatech.menu.tooltip.FabricatorIngredientTooltip;
@@ -72,6 +74,7 @@ public final class LimaTechClientSetup
     public static void registerClientExtensions(final RegisterClientExtensionsEvent event)
     {
         event.registerItem(UpgradeModuleItemExtensions.getInstance(), LimaTechItems.EQUIPMENT_UPGRADE_MODULE.get(), LimaTechItems.MACHINE_UPGRADE_MODULE.get());
+        event.registerItem(BlueprintItemExtensions.INSTANCE, LimaTechItems.FABRICATION_BLUEPRINT);
 
         event.registerItem(LimaTechItemRenderers.SUBMACHINE_GUN, LimaTechItems.SUBMACHINE_GUN.get());
         event.registerItem(LimaTechItemRenderers.SHOTGUN, LimaTechItems.SHOTGUN.get());
@@ -91,6 +94,7 @@ public final class LimaTechClientSetup
         event.register(LimaTechMenus.RECOMPOSER.get(), RecomposerScreen::new);
         event.register(LimaTechMenus.MATERIAL_FUSING_CHAMBER.get(), MaterialFusingChamberScreen::new);
         event.register(LimaTechMenus.FABRICATOR.get(), FabricatorScreen::new);
+        event.register(LimaTechMenus.AUTO_FABRICATOR.get(), AutoFabricatorScreen::new);
         event.register(LimaTechMenus.EQUIPMENT_UPGRADE_STATION.get(), EquipmentUpgradeStationScreen::new);
         event.register(LimaTechMenus.ROCKET_TURRET.get(), TurretScreen::new);
         event.register(LimaTechMenus.RAILGUN_TURRET.get(), TurretScreen::new);
@@ -129,7 +133,8 @@ public final class LimaTechClientSetup
         // Block entities
         event.registerBlockEntityRenderer(LimaTechBlockEntities.ENERGY_STORAGE_ARRAY.get(), EnergyStorageArrayRenderer::new);
         event.registerBlockEntityRenderer(LimaTechBlockEntities.INFINITE_ENERGY_STORAGE_ARRAY.get(), EnergyStorageArrayRenderer::new);
-        event.registerBlockEntityRenderer(LimaTechBlockEntities.FABRICATOR.get(), FabricatorRenderer::new);
+        event.registerBlockEntityRenderer(LimaTechBlockEntities.FABRICATOR.get(), BaseFabricatorRenderer::new);
+        event.registerBlockEntityRenderer(LimaTechBlockEntities.AUTO_FABRICATOR.get(), BaseFabricatorRenderer::new);
         event.registerBlockEntityRenderer(LimaTechBlockEntities.EQUIPMENT_UPGRADE_STATION.get(), EquipmentUpgradeStationRenderer::new);
         event.registerBlockEntityRenderer(LimaTechBlockEntities.ROCKET_TURRET.get(), RocketTurretRenderer::new);
         event.registerBlockEntityRenderer(LimaTechBlockEntities.RAILGUN_TURRET.get(), RailgunTurretRenderer::new);
@@ -175,6 +180,7 @@ public final class LimaTechClientSetup
     {
         event.registerReloadListener((ResourceManagerReloadListener) LimaTechItemRenderers::reloadAll);
         event.registerReloadListener(BubbleShieldModel.SHIELD_MODEL);
-        event.registerReloadListener(UpgradeIconTextures.getUpgradeSprites());
+        event.registerReloadListener(LimaWidgetSprites.getInstance());
+        event.registerReloadListener(UpgradeIconSprites.getInstance());
     }
 }

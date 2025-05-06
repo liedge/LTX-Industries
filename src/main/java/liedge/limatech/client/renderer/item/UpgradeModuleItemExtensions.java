@@ -48,7 +48,7 @@ public final class UpgradeModuleItemExtensions implements ItemGuiRenderOverride
 
             renderGradientBar(graphics, x + 1, y + 1, x + 3, y +  15, 0xff4a4a4a, -16777216);
             float yo = 14f - 14f * LimaMathUtil.divideFloat(rank, maxRank);
-            renderGradientBar(graphics, x + 1, y + 1 + yo, x + 3, y + 15, UPGRADE_RANK_MAGENTA.packedRGB(), 0xffd13ff0);
+            renderGradientBar(graphics, x + 1, y + 1 + yo, x + 3, y + 15, UPGRADE_RANK_MAGENTA.argb32(), 0xffd13ff0);
 
             graphics.pose().popPose();
         }

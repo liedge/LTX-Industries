@@ -19,9 +19,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 
-import static liedge.limatech.client.gui.layer.HUDOverlaySprites.AUTO_CROSSHAIR_1;
-import static liedge.limatech.client.gui.layer.HUDOverlaySprites.AUTO_CROSSHAIR_2;
-
 public class SMGRenderProperties extends WeaponRenderProperties<WeaponItem>
 {
     private final TranslucentFillModel magazineFillModel = TranslucentFillModel.create(
@@ -41,8 +38,8 @@ public class SMGRenderProperties extends WeaponRenderProperties<WeaponItem>
     @Override
     public void renderCrosshair(LocalPlayer player, WeaponItem weaponItem, ClientWeaponControls controls, GuiGraphics graphics, float partialTicks, int screenWidth, int screenHeight, LimaColor crosshairColor)
     {
-        final int centerX = (screenWidth - 1) / 2;
-        final int centerY = (screenHeight - 1) / 2;
+        final int centerX = (screenWidth - 5) / 2;
+        final int centerY = (screenHeight - 5) / 2;
 
         float baseBloom;
         if (LimaEntityUtil.isEntityUsingItem(player, InteractionHand.MAIN_HAND))
@@ -57,9 +54,9 @@ public class SMGRenderProperties extends WeaponRenderProperties<WeaponItem>
 
         float bloom = baseBloom + 2f * (controls.isTriggerHeld() ? LimaTechRenderUtil.animationCurveSin(partialTicks) : 0f);
 
-        AUTO_CROSSHAIR_1.directColorBlit(graphics, centerX - 6 - bloom, centerY, crosshairColor);
-        AUTO_CROSSHAIR_1.directColorBlit(graphics, centerX + 1 + bloom, centerY, crosshairColor);
-        AUTO_CROSSHAIR_2.directColorBlit(graphics, centerX, centerY + 1 + bloom, crosshairColor);
+        blitCrosshairSprite(graphics, centerX, centerY, 5, 5, crosshairColor, SPREAD_CROSSHAIR_CENTER);
+        blitCrosshairSprite(graphics, centerX - 4 - bloom, centerY - 4, 6, 13, crosshairColor, SPREAD_CROSSHAIR_LEFT);
+        blitCrosshairSprite(graphics, centerX + 3 + bloom, centerY - 4, 6, 13, crosshairColor, SPREAD_CROSSHAIR_RIGHT);
     }
 
     @Override

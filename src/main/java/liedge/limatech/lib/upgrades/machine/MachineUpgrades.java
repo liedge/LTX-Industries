@@ -3,7 +3,7 @@ package liedge.limatech.lib.upgrades.machine;
 import com.mojang.serialization.Codec;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
-import liedge.limatech.blockentity.UpgradableMachineBlockEntity;
+import liedge.limatech.blockentity.base.UpgradableMachineBlockEntity;
 import liedge.limatech.lib.upgrades.UpgradesContainerBase;
 import liedge.limatech.lib.upgrades.MutableUpgradesContainer;
 import net.minecraft.core.Holder;

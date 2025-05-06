@@ -183,7 +183,7 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
     }
 
     @Override
-    public void appendTooltipHintComponents(@Nullable Level level, ItemStack stack, TooltipLineConsumer consumer)
+    public void appendTooltipHintComponents(Level level, ItemStack stack, TooltipLineConsumer consumer)
     {
         consumer.accept(AMMO_LOADED_TOOLTIP.translateArgs(stack.getOrDefault(WEAPON_AMMO, 0), getAmmoCapacity(stack)).withStyle(LIME_GREEN.chatStyle()));
 

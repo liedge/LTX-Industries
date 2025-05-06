@@ -6,6 +6,7 @@ import liedge.limatech.block.BasicHorizontalMachineBlock;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.data.PackOutput;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
@@ -71,6 +72,7 @@ class BlockStatesGen extends LimaBlockStateProvider
         basicMachine(RECOMPOSER);
         basicMachine(MATERIAL_FUSING_CHAMBER);
         horizontalBlockWithSimpleItem(FABRICATOR);
+        horizontalBlockWithSimpleItem(AUTO_FABRICATOR, blockFolderLocation(FABRICATOR));
         simpleBlockWithItem(EQUIPMENT_UPGRADE_STATION, existingModel(blockFolderLocation(EQUIPMENT_UPGRADE_STATION)));
 
         // Turret
@@ -88,11 +90,16 @@ class BlockStatesGen extends LimaBlockStateProvider
         }
     }
 
-    private void horizontalBlockWithSimpleItem(Holder<Block> holder)
+    private void horizontalBlockWithSimpleItem(Holder<Block> holder, ResourceLocation location)
     {
-        ModelFile model = existingModel(blockFolderLocation(holder));
+        ModelFile model = existingModel(location);
         horizontalBlock(holder.value(), model, 180);
         simpleBlockItem(holder, model);
+    }
+
+    private void horizontalBlockWithSimpleItem(Holder<Block> holder)
+    {
+        horizontalBlockWithSimpleItem(holder, blockFolderLocation(holder));
     }
 
     private void basicMachine(DeferredHolder<Block, ? extends BasicHorizontalMachineBlock> holder)

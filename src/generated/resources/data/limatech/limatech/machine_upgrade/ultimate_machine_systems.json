@@ -28,16 +28,16 @@
     "limatech:energy_usage": [
       {
         "type": "simple",
-        "invert_color": true,
         "op": "multiply",
+        "sentiment": "negative",
         "simple_value": 256.0
       }
     ],
     "limatech:ticks_per_operation": [
       {
         "type": "simple",
-        "invert_color": true,
         "op": "add_multiplied_total",
+        "sentiment": "negative",
         "simple_value": -1.0
       }
     ]

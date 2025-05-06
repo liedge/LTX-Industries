@@ -4,6 +4,7 @@ import liedge.limacore.inventory.menu.BlockEntityAccessMenuType;
 import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limatech.LimaTech;
 import liedge.limatech.blockentity.*;
+import liedge.limatech.blockentity.base.UpgradableMachineBlockEntity;
 import liedge.limatech.menu.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.inventory.MenuType;
@@ -30,6 +31,7 @@ public final class LimaTechMenus
     public static final DeferredHolder<MenuType<?>, LimaMenuType<RecomposerBlockEntity, RecomposerMenu>> RECOMPOSER = TYPES.register("recomposer", id -> BlockEntityAccessMenuType.create(id, RecomposerBlockEntity.class, RecomposerMenu::new));
     public static final DeferredHolder<MenuType<?>, LimaMenuType<MaterialFusingChamberBlockEntity, MaterialFusingChamberMenu>> MATERIAL_FUSING_CHAMBER = TYPES.register("material_fusing_chamber", id -> BlockEntityAccessMenuType.create(id, MaterialFusingChamberBlockEntity.class, MaterialFusingChamberMenu::new));
     public static final DeferredHolder<MenuType<?>, LimaMenuType<FabricatorBlockEntity, FabricatorMenu>> FABRICATOR = TYPES.register("fabricator", id -> BlockEntityAccessMenuType.create(id, FabricatorBlockEntity.class, FabricatorMenu::new));
+    public static final DeferredHolder<MenuType<?>, LimaMenuType<AutoFabricatorBlockEntity, AutoFabricatorMenu>> AUTO_FABRICATOR = TYPES.register("auto_fabricator", id -> BlockEntityAccessMenuType.create(id, AutoFabricatorBlockEntity.class, AutoFabricatorMenu::new));
     public static final DeferredHolder<MenuType<?>, LimaMenuType<EquipmentUpgradeStationBlockEntity, EquipmentUpgradeStationMenu>> EQUIPMENT_UPGRADE_STATION = TYPES.register("equipment_upgrade_station", id -> BlockEntityAccessMenuType.create(id, EquipmentUpgradeStationBlockEntity.class, EquipmentUpgradeStationMenu::new));
     public static final DeferredHolder<MenuType<?>, LimaMenuType<RocketTurretBlockEntity, TurretMenu<RocketTurretBlockEntity>>> ROCKET_TURRET = registerTurret("rocket_turret", RocketTurretBlockEntity.class);
     public static final DeferredHolder<MenuType<?>, LimaMenuType<RailgunTurretBlockEntity, TurretMenu<RailgunTurretBlockEntity>>> RAILGUN_TURRET = registerTurret("railgun_turret", RailgunTurretBlockEntity.class);

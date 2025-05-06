@@ -26,7 +26,8 @@ public class MaterialFusingChamberMenu extends SidedUpgradableMachineMenu<Materi
     public void defineDataWatchers(DataWatcherCollector collector)
     {
         menuContext.getEnergyStorage().keepAllPropertiesSynced(collector);
-        collector.register(menuContext.keepProcessSynced());
+        menuContext.keepTimedProcessPropertiesSynced(collector);
+        menuContext.keepEnergyConsumerPropertiesSynced(collector);
     }
 
     @Override

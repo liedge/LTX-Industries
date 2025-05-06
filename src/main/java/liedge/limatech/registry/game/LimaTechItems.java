@@ -1,10 +1,7 @@
 package liedge.limatech.registry.game;
 
 import liedge.limatech.LimaTech;
-import liedge.limatech.item.EnergyHolderItem;
-import liedge.limatech.item.EquipmentUpgradeModuleItem;
-import liedge.limatech.item.MachineUpgradeModuleItem;
-import liedge.limatech.item.SimpleHintItem;
+import liedge.limatech.item.*;
 import liedge.limatech.item.tool.*;
 import liedge.limatech.item.weapon.*;
 import net.minecraft.world.item.Item;
@@ -107,6 +104,8 @@ public final class LimaTechItems
     public static final DeferredItem<Item> EMPTY_UPGRADE_MODULE = ITEMS.registerSimpleItem("empty_upgrade_module");
     public static final DeferredItem<EquipmentUpgradeModuleItem> EQUIPMENT_UPGRADE_MODULE = ITEMS.registerItem("equipment_upgrade_module", EquipmentUpgradeModuleItem::new, properties().stacksTo(1));
     public static final DeferredItem<MachineUpgradeModuleItem> MACHINE_UPGRADE_MODULE = ITEMS.registerItem("machine_upgrade_module", MachineUpgradeModuleItem::new, properties().stacksTo(1));
+
+    public static final DeferredItem<FabricationBlueprintItem> FABRICATION_BLUEPRINT = ITEMS.registerItem("fabrication_blueprint", FabricationBlueprintItem::new, properties().stacksTo(1));
 
     // LTX Weapons
     public static final DeferredItem<SMGWeaponItem> SUBMACHINE_GUN = registerLTXGear("submachine_gun", SMGWeaponItem::new);

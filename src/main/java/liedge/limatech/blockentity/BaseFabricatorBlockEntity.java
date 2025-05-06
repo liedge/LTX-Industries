@@ -1,0 +1,274 @@
+package liedge.limatech.blockentity;
+
+import liedge.limacore.blockentity.IOAccess;
+import liedge.limacore.capability.energy.LimaBlockEntityEnergyStorage;
+import liedge.limacore.capability.energy.LimaEnergyStorage;
+import liedge.limacore.capability.energy.LimaEnergyUtil;
+import liedge.limacore.capability.itemhandler.LimaItemHandlerUtil;
+import liedge.limacore.client.gui.TooltipLineConsumer;
+import liedge.limacore.network.sync.AutomaticDataWatcher;
+import liedge.limacore.network.sync.LimaDataWatcher;
+import liedge.limacore.recipe.LimaRecipeCheck;
+import liedge.limacore.recipe.LimaRecipeInput;
+import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
+import liedge.limacore.util.LimaItemUtil;
+import liedge.limacore.util.LimaNbtUtil;
+import liedge.limatech.blockentity.base.EnergyConsumerBlockEntity;
+import liedge.limatech.blockentity.base.RecipeMachineBlockEntity;
+import liedge.limatech.blockentity.base.SidedAccessBlockEntityType;
+import liedge.limatech.lib.upgrades.machine.MachineUpgrades;
+import liedge.limatech.recipe.FabricatingRecipe;
+import liedge.limatech.registry.game.LimaTechItems;
+import liedge.limatech.registry.game.LimaTechRecipeTypes;
+import liedge.limatech.util.LimaTechTooltipUtil;
+import liedge.limatech.util.config.LimaTechMachinesConfig;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.neoforged.neoforge.capabilities.BlockCapabilityCache;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.items.IItemHandler;
+
+import java.util.EnumMap;
+import java.util.Map;
+
+public abstract class BaseFabricatorBlockEntity extends SidedItemEnergyMachineBlockEntity implements EnergyConsumerBlockEntity, RecipeMachineBlockEntity<LimaRecipeInput, FabricatingRecipe>
+{
+    public static final int ENERGY_ITEM_SLOT = 0;
+    public static final int OUTPUT_SLOT = 1;
+    public static final int BLUEPRINT_ITEM_SLOT = 2;
+
+    private final LimaBlockEntityEnergyStorage machineEnergy;
+    private final LimaRecipeCheck<LimaRecipeInput, FabricatingRecipe> recipeCheck = LimaRecipeCheck.create(LimaTechRecipeTypes.FABRICATING);
+    private final Map<Direction, BlockCapabilityCache<IItemHandler, Direction>> itemConnections = new EnumMap<>(Direction.class);
+
+    // Common properties
+    private int energyUsage = getBaseEnergyUsage();
+    private boolean crafting;
+    protected int energyCraftProgress;
+    private int autoOutputTimer;
+
+    // Client properties
+    private ItemStack clientPreviewItem = ItemStack.EMPTY;
+
+    protected BaseFabricatorBlockEntity(SidedAccessBlockEntityType<?> type, BlockPos pos, BlockState state, int inventorySize)
+    {
+        super(type, pos, state, inventorySize);
+        this.machineEnergy = new LimaBlockEntityEnergyStorage(this);
+    }
+
+    public ItemStack getClientPreviewItem()
+    {
+        return clientPreviewItem;
+    }
+
+    public int getEnergyCraftProgress()
+    {
+        return energyCraftProgress;
+    }
+
+    public LimaDataWatcher<Integer> keepProgressSynced()
+    {
+        return AutomaticDataWatcher.keepSynced(LimaCoreNetworkSerializers.VAR_INT, this::getEnergyCraftProgress, i -> this.energyCraftProgress = i);
+    }
+
+    @Override
+    public int getBaseEnergyCapacity()
+    {
+        return LimaTechMachinesConfig.FABRICATOR_ENERGY_CAPACITY.getAsInt();
+    }
+
+    @Override
+    public int getBaseEnergyTransferRate()
+    {
+        return getBaseEnergyCapacity() / 20;
+    }
+
+    @Override
+    public LimaEnergyStorage getEnergyStorage()
+    {
+        return machineEnergy;
+    }
+
+    @Override
+    public void appendStatsTooltips(TooltipLineConsumer consumer)
+    {
+        LimaTechTooltipUtil.appendEnergyUsagePerTickTooltip(consumer, getEnergyUsage());
+    }
+
+    @Override
+    public void onUpgradeRefresh(LootContext context, MachineUpgrades upgrades)
+    {
+        super.onUpgradeRefresh(context, upgrades);
+        EnergyConsumerBlockEntity.applyUpgrades(this, context, upgrades);
+    }
+
+    @Override
+    public LimaRecipeCheck<LimaRecipeInput, FabricatingRecipe> getRecipeCheck()
+    {
+        return recipeCheck;
+    }
+
+    @Override
+    public int getOutputSlot()
+    {
+        return OUTPUT_SLOT;
+    }
+
+    @Override
+    public boolean isCrafting()
+    {
+        return crafting;
+    }
+
+    @Override
+    public void setCrafting(boolean crafting)
+    {
+        this.crafting = crafting;
+        setChanged();
+    }
+
+    @Override
+    public void defineDataWatchers(DataWatcherCollector collector)
+    {
+        collector.register(AutomaticDataWatcher.keepSynced(LimaCoreNetworkSerializers.BOOL, this::isCrafting, this::setCrafting));
+        collector.register(AutomaticDataWatcher.keepItemSynced(this::createPreviewItem, stack -> this.clientPreviewItem = stack));
+    }
+
+    @Override
+    public int getBaseEnergyUsage()
+    {
+        return LimaTechMachinesConfig.FABRICATOR_ENERGY_USAGE.getAsInt();
+    }
+
+    @Override
+    public int getEnergyUsage()
+    {
+        return energyUsage;
+    }
+
+    @Override
+    public void setEnergyUsage(int energyUsage)
+    {
+        this.energyUsage = energyUsage;
+    }
+
+    @Override
+    protected void tickServer(ServerLevel level, BlockPos pos, BlockState state)
+    {
+        // Fill energy buffer from energy input slot
+        if (machineEnergy.getEnergyStored() < machineEnergy.getMaxEnergyStored())
+        {
+            IEnergyStorage itemEnergy = getItemHandler().getStackInSlot(ENERGY_ITEM_SLOT).getCapability(Capabilities.EnergyStorage.ITEM);
+            if (itemEnergy != null) LimaEnergyUtil.transferEnergyBetween(itemEnergy, machineEnergy, machineEnergy.getTransferRate(), false);
+        }
+
+        // Fabricators handle logic differently
+        tickServerFabricator(level, pos, state);
+
+        // Auto output item if option available
+        if (getItemControl().isAutoOutput())
+        {
+            if (autoOutputTimer >= 20)
+            {
+                for (Direction side : Direction.values())
+                {
+                    if (getItemControl().getSideIOState(side).allowsOutput())
+                    {
+                        IItemHandler adjacentInventory = itemConnections.get(side).getCapability();
+                        if (adjacentInventory != null) LimaItemHandlerUtil.transferStackBetweenInventories(getItemHandler(), adjacentInventory, 1);
+                    }
+                }
+
+                autoOutputTimer = 0;
+            }
+            else
+            {
+                autoOutputTimer++;
+            }
+        }
+    }
+
+    protected abstract void tickServerFabricator(ServerLevel level, BlockPos pos, BlockState state);
+
+    @Override
+    public boolean isItemValid(int handlerIndex, int slot, ItemStack stack)
+    {
+        if (handlerIndex == 0)
+        {
+            return switch (slot)
+            {
+                case ENERGY_ITEM_SLOT -> LimaItemUtil.hasEnergyCapability(stack);
+                case BLUEPRINT_ITEM_SLOT -> stack.is(LimaTechItems.FABRICATION_BLUEPRINT);
+                default -> true;
+            };
+        }
+
+        return super.isItemValid(handlerIndex, slot, stack);
+    }
+
+    @Override
+    public IOAccess getItemSlotIO(int handlerIndex, int slot)
+    {
+        if (handlerIndex == 0)
+        {
+            if (slot == OUTPUT_SLOT) return IOAccess.OUTPUT_ONLY;
+            else if (isInputSlot(slot)) return IOAccess.INPUT_ONLY;
+            else return IOAccess.DISABLED;
+        }
+
+        return super.getItemSlotIO(handlerIndex, slot);
+    }
+
+    @Override
+    protected void onLoadServer(ServerLevel level)
+    {
+        super.onLoadServer(level);
+
+        for (Direction side : Direction.values())
+        {
+            itemConnections.put(side, createCapabilityCache(Capabilities.ItemHandler.BLOCK, level, side));
+        }
+    }
+
+    @Override
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries)
+    {
+        super.loadAdditional(tag, registries);
+
+        LimaNbtUtil.deserializeString(recipeCheck, registries, tag.get("current_recipe"));
+        crafting = tag.getBoolean("crafting");
+        energyCraftProgress = tag.getInt("recipe_energy");
+    }
+
+    @Override
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries)
+    {
+        super.saveAdditional(tag, registries);
+
+        tag.put("current_recipe", recipeCheck.serializeNBT(registries));
+        tag.putBoolean("crafting", crafting);
+        tag.putInt("recipe_energy", energyCraftProgress);
+    }
+
+    // For data watcher use only, called on server
+    private ItemStack createPreviewItem()
+    {
+        ItemStack currentOutputItem = getItemHandler().getStackInSlot(OUTPUT_SLOT).copy();
+
+        if (isCrafting())
+        {
+            return recipeCheck.getLastUsedRecipe(level).map(r -> r.value().getResultItem()).orElse(currentOutputItem);
+        }
+        else
+        {
+            return currentOutputItem;
+        }
+    }
+}
