@@ -62,7 +62,6 @@ public class SMGWeaponItem extends FullAutoWeaponItem
         return 45;
     }
 
-
     @Override
     public int getFireRate(ItemStack stack)
     {
