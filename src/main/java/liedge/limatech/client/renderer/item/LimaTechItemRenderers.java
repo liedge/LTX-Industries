@@ -33,6 +33,7 @@ public final class LimaTechItemRenderers
     public static final SMGRenderProperties SUBMACHINE_GUN = register(new SMGRenderProperties());
     public static final ShotgunRenderProperties SHOTGUN = register(new ShotgunRenderProperties());
     public static final GrenadeLauncherRenderProperties GRENADE_LAUNCHER = register(new GrenadeLauncherRenderProperties());
+    public static final LinearFusionRenderProperties LINEAR_FUSION_RIFLE = register(new LinearFusionRenderProperties());
     public static final RocketLauncherRenderProperties ROCKET_LAUNCHER = register(new RocketLauncherRenderProperties());
     public static final MagnumRenderProperties MAGNUM = register(new MagnumRenderProperties());
 }

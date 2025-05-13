@@ -36,7 +36,7 @@ public final class LimaTechItems
     {
         event.registerItem(Capabilities.EnergyStorage.ITEM, (stack, $) -> EnergyHolderItem.createEnergyAccess(stack),
                 LTX_DRILL, LTX_SWORD, LTX_SHOVEL, LTX_AXE, LTX_HOE, LTX_SHEARS, LTX_BRUSH, LTX_FISHING_ROD, LTX_LIGHTER, LTX_WRENCH,
-                SUBMACHINE_GUN, SHOTGUN, GRENADE_LAUNCHER, ROCKET_LAUNCHER, MAGNUM);
+                SUBMACHINE_GUN, SHOTGUN, LINEAR_FUSION_RIFLE, GRENADE_LAUNCHER, ROCKET_LAUNCHER, MAGNUM);
     }
 
     static Collection<DeferredHolder<Item, ? extends Item>> getRegisteredItems()
@@ -111,6 +111,7 @@ public final class LimaTechItems
     public static final DeferredItem<SMGWeaponItem> SUBMACHINE_GUN = registerLTXGear("submachine_gun", SMGWeaponItem::new);
     public static final DeferredItem<ShotgunWeaponItem> SHOTGUN = registerLTXGear("shotgun", ShotgunWeaponItem::new);
     public static final DeferredItem<GrenadeLauncherWeaponItem> GRENADE_LAUNCHER = registerLTXGear("grenade_launcher", GrenadeLauncherWeaponItem::new);
+    public static final DeferredItem<LinearFusionWeaponItem> LINEAR_FUSION_RIFLE = registerLTXGear("linear_fusion_rifle", LinearFusionWeaponItem::new);
     public static final DeferredItem<RocketLauncherWeaponItem> ROCKET_LAUNCHER = registerLTXGear("rocket_launcher", RocketLauncherWeaponItem::new);
     public static final DeferredItem<MagnumWeaponItem> MAGNUM = registerLTXGear("magnum", MagnumWeaponItem::new);
 

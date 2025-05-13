@@ -3,6 +3,8 @@
 	"ambientocclusion": false,
 	"texture_size": [32, 32],
 	"loader": "limacore:simple_emissive",
+	"render_type": "solid",
+	"emissive_groups": ["lights"],
 	"textures": {
 		"0": "limatech:block/blank_titanium_machine",
 		"1": "limatech:block/fabricator",
@@ -374,32 +376,38 @@
 		}
 	},
 	"groups": [
-		0,
-		1,
-		2,
-		3,
-		4,
-		5,
-		6,
-		7,
-		8,
-		9,
-		10,
-		11,
-		12,
-		13,
-		14,
-		15,
-		16,
-		17,
-		18,
-		19,
 		{
-			"name": "lights",
-			"origin": [8, 8, 8],
+			"name": "root",
+			"origin": [0, 0, 0],
 			"color": 0,
-			"emissivity": 15,
-			"children": [20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
+			"children": [
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18,
+				19,
+				{
+					"name": "lights",
+					"origin": [8, 8, 8],
+					"color": 0,
+					"children": [20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
+				}
+			]
 		}
 	]
 }

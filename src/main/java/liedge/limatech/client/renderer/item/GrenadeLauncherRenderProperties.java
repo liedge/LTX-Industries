@@ -2,12 +2,12 @@ package liedge.limatech.client.renderer.item;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import liedge.limacore.client.model.BakedQuadGroup;
+import liedge.limacore.client.model.baked.BakedItemLayer;
+import liedge.limacore.client.model.baked.LimaLayerBakedModel;
 import liedge.limacore.lib.LimaColor;
 import liedge.limacore.lib.TickTimer;
 import liedge.limatech.client.LimaTechRenderUtil;
 import liedge.limatech.client.model.baked.BakedRotation;
-import liedge.limatech.client.model.baked.DynamicModularItemBakedModel;
 import liedge.limatech.client.model.custom.TranslucentFillModel;
 import liedge.limatech.item.weapon.GrenadeLauncherWeaponItem;
 import liedge.limatech.item.weapon.WeaponItem;
@@ -29,10 +29,13 @@ public class GrenadeLauncherRenderProperties extends WeaponRenderProperties<Weap
     private final TranslucentFillModel magazineFillModel = TranslucentFillModel.create(6.26f, 10.46f, 12.06f, 9.74f, 15.94f, 15.54f, Direction.Axis.Y,
             BakedRotation.fromAxisAngle(8f, 9.5f, 14.5f, 45, Direction.Axis.X));
 
-    private BakedQuadGroup chamberOrnament;
-    private BakedQuadGroup chamberGlass;
+    private BakedItemLayer chamberBaseLayer;
+    private BakedItemLayer chamberEmissiveLayer;
+    private BakedItemLayer chamberGlassLayer;
     private float ornamentSpin0;
     private float ornamentSpin;
+
+    GrenadeLauncherRenderProperties() {}
 
     public void tickItemRenderer(Player player)
     {
@@ -74,10 +77,11 @@ public class GrenadeLauncherRenderProperties extends WeaponRenderProperties<Weap
     }
 
     @Override
-    protected void loadWeaponModelParts(WeaponItem item, DynamicModularItemBakedModel model)
+    protected void loadWeaponModelParts(WeaponItem item, LimaLayerBakedModel model)
     {
-        chamberOrnament = model.getSubmodel("chamber ornament");
-        chamberGlass = model.getSubmodel("chamber glass");
+        chamberBaseLayer = model.getLayer("chamber base");
+        chamberEmissiveLayer = model.getLayer("chamber emissive");
+        chamberGlassLayer = model.getLayer("chamber glass");
     }
 
     @Override
@@ -85,9 +89,11 @@ public class GrenadeLauncherRenderProperties extends WeaponRenderProperties<Weap
     {
         LimaColor grenadeColor = GrenadeLauncherWeaponItem.getGrenadeTypeFromItem(stack).getColor();
 
-        renderSubModel(chamberOrnament, poseStack, bufferSource, LimaColor.WHITE, grenadeColor, light);
-        renderSubModel(mainSubmodel, poseStack, bufferSource, light);
-        renderSubModel(chamberGlass, poseStack, bufferSource, grenadeColor, LimaColor.WHITE, light);
+        rootBaseLayer.putQuadsInBuffer(poseStack, bufferSource, light);
+        rootEmissiveLayer.putQuadsInBuffer(poseStack, bufferSource, light);
+        chamberBaseLayer.putQuadsInBuffer(poseStack, bufferSource, light);
+        chamberEmissiveLayer.putQuadsInBuffer(poseStack, bufferSource, grenadeColor, light);
+        chamberGlassLayer.putQuadsInBuffer(poseStack, bufferSource, grenadeColor, light);
         renderStaticMagazineFill(item, stack, poseStack, bufferSource, magazineFillModel, grenadeColor);
     }
 
@@ -109,12 +115,14 @@ public class GrenadeLauncherRenderProperties extends WeaponRenderProperties<Weap
         poseStack.mulPose(Axis.ZP.rotationDegrees(Mth.rotLerp(partialTick, ornamentSpin0, ornamentSpin)));
         poseStack.translate(-ornamentPivot.x, -ornamentPivot.y, -ornamentPivot.z);
 
-        renderSubModel(chamberOrnament, poseStack, bufferSource, LimaColor.WHITE, grenadeColor, light);
+        chamberBaseLayer.putQuadsInBuffer(poseStack, bufferSource, light);
+        chamberEmissiveLayer.putQuadsInBuffer(poseStack, bufferSource, grenadeColor, light);
 
         poseStack.popPose();
 
-        renderSubModel(mainSubmodel, poseStack, bufferSource, light);
-        renderSubModel(chamberGlass, poseStack, bufferSource, grenadeColor, LimaColor.WHITE, light);
+        rootBaseLayer.putQuadsInBuffer(poseStack, bufferSource, light);
+        rootEmissiveLayer.putQuadsInBuffer(poseStack, bufferSource, light);
+        chamberGlassLayer.putQuadsInBuffer(poseStack, bufferSource, grenadeColor, light);
         renderAnimatedMagazineFill(item, stack, poseStack, bufferSource, magazineFillModel, grenadeColor, partialTick, controls);
     }
 

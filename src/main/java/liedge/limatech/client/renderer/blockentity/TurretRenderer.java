@@ -4,9 +4,9 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import liedge.limacore.client.LimaBlockEntityRenderer;
 import liedge.limacore.client.LimaCoreClientUtil;
-import liedge.limacore.client.model.BakedQuadGroup;
+import liedge.limacore.client.model.baked.BakedItemLayer;
+import liedge.limacore.client.model.baked.LimaLayerBakedModel;
 import liedge.limatech.blockentity.BaseTurretBlockEntity;
-import liedge.limatech.client.model.baked.DynamicModularItemBakedModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.world.level.ItemLike;
@@ -14,17 +14,20 @@ import net.minecraft.world.phys.AABB;
 
 public abstract class TurretRenderer<BE extends BaseTurretBlockEntity> extends LimaBlockEntityRenderer<BE>
 {
-    private final DynamicModularItemBakedModel model;
-    private final BakedQuadGroup guns;
-    private final BakedQuadGroup swivel;
+    private final BakedItemLayer gunsBase;
+    private final BakedItemLayer gunsEmissive;
+    private final BakedItemLayer swivelBase;
+    private final BakedItemLayer swivelEmissive;
 
     protected TurretRenderer(BlockEntityRendererProvider.Context context)
     {
         super(context);
 
-        this.model = LimaCoreClientUtil.getCustomBakedModel(LimaCoreClientUtil.inventoryModelPath(getModelItem()), DynamicModularItemBakedModel.class);
-        this.guns = model.getSubmodel("guns");
-        this.swivel = model.getSubmodel("swivel");
+        LimaLayerBakedModel model = LimaCoreClientUtil.getCustomBakedModel(LimaCoreClientUtil.inventoryModelPath(getModelItem()), LimaLayerBakedModel.class);
+        this.gunsBase = model.getLayer("guns");
+        this.gunsEmissive = model.getLayer("guns emissive");
+        this.swivelBase = model.getLayer("swivel");
+        this.swivelEmissive = model.getLayer("swivel emissive");
     }
 
     protected abstract ItemLike getModelItem();
@@ -43,13 +46,15 @@ public abstract class TurretRenderer<BE extends BaseTurretBlockEntity> extends L
         poseStack.mulPose(Axis.YP.rotationDegrees(blockEntity.lerpYRot(partialTick)));
         poseStack.translate(-0.5d, 0, -0.5d);
 
-        swivel.putItemQuadsInBuffer(poseStack, bufferSource, model.getCustomBaseRenderType(), model.getCustomEmissiveRenderType(), packedLight);
+        swivelBase.putQuadsInBuffer(poseStack, bufferSource, packedLight);
+        swivelEmissive.putQuadsInBuffer(poseStack, bufferSource, packedLight);
 
         poseStack.translate(0.5d, gunsYPivot(), 0.5d);
         poseStack.mulPose(Axis.XP.rotationDegrees(blockEntity.lerpXRot(partialTick)));
         poseStack.translate(-0.5d, -gunsYPivot(), -0.5d);
 
-        guns.putItemQuadsInBuffer(poseStack, bufferSource, model.getCustomBaseRenderType(), model.getCustomEmissiveRenderType(), packedLight);
+        gunsBase.putQuadsInBuffer(poseStack, bufferSource, packedLight);
+        gunsEmissive.putQuadsInBuffer(poseStack, bufferSource, packedLight);
         renderAdditionalGuns(blockEntity, partialTick, poseStack, bufferSource, packedLight);
 
         poseStack.popPose();

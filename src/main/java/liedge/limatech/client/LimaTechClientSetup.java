@@ -79,6 +79,7 @@ public final class LimaTechClientSetup
         event.registerItem(LimaTechItemRenderers.SUBMACHINE_GUN, LimaTechItems.SUBMACHINE_GUN.get());
         event.registerItem(LimaTechItemRenderers.SHOTGUN, LimaTechItems.SHOTGUN.get());
         event.registerItem(LimaTechItemRenderers.GRENADE_LAUNCHER, LimaTechItems.GRENADE_LAUNCHER.get());
+        event.registerItem(LimaTechItemRenderers.LINEAR_FUSION_RIFLE, LimaTechItems.LINEAR_FUSION_RIFLE.get());
         event.registerItem(LimaTechItemRenderers.ROCKET_LAUNCHER, LimaTechItems.ROCKET_LAUNCHER.get());
         event.registerItem(LimaTechItemRenderers.MAGNUM, LimaTechItems.MAGNUM.get());
     }

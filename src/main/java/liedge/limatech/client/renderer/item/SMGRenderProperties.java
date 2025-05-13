@@ -1,12 +1,12 @@
 package liedge.limatech.client.renderer.item;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import liedge.limacore.client.model.baked.LimaLayerBakedModel;
 import liedge.limacore.lib.LimaColor;
 import liedge.limacore.util.LimaEntityUtil;
 import liedge.limatech.LimaTechConstants;
 import liedge.limatech.client.LimaTechRenderUtil;
 import liedge.limatech.client.model.baked.BakedRotation;
-import liedge.limatech.client.model.baked.DynamicModularItemBakedModel;
 import liedge.limatech.client.model.custom.TranslucentFillModel;
 import liedge.limatech.item.weapon.WeaponItem;
 import liedge.limatech.lib.weapons.ClientWeaponControls;
@@ -63,12 +63,13 @@ public class SMGRenderProperties extends WeaponRenderProperties<WeaponItem>
     public void onWeaponFired(ItemStack stack, WeaponItem weaponItem, ClientWeaponControls controls) {}
 
     @Override
-    protected void loadWeaponModelParts(WeaponItem item, DynamicModularItemBakedModel model) {}
+    protected void loadWeaponModelParts(WeaponItem item, LimaLayerBakedModel model) {}
 
     @Override
     protected void renderStaticWeapon(ItemStack stack, WeaponItem item, ItemDisplayContext displayContext, PoseStack poseStack, MultiBufferSource bufferSource, int light, int overlay)
     {
-        renderSubModel(mainSubmodel, poseStack, bufferSource, light);
+        rootBaseLayer.putQuadsInBuffer(poseStack, bufferSource, light);
+        rootEmissiveLayer.putQuadsInBuffer(poseStack, bufferSource, light);
         renderStaticMagazineFill(item, stack, poseStack, bufferSource, magazineFillModel, LimaTechConstants.LIME_GREEN);
     }
 
@@ -80,7 +81,8 @@ public class SMGRenderProperties extends WeaponRenderProperties<WeaponItem>
             poseStack.translate(0, 0, 0.09375f * LimaTechRenderUtil.animationCurveSin(partialTick));
         }
 
-        renderSubModel(mainSubmodel, poseStack, bufferSource, light);
+        rootBaseLayer.putQuadsInBuffer(poseStack, bufferSource, light);
+        rootEmissiveLayer.putQuadsInBuffer(poseStack, bufferSource, light);
         renderAnimatedMagazineFill(item, stack, poseStack, bufferSource, magazineFillModel, LimaTechConstants.LIME_GREEN, partialTick, controls);
     }
 }

@@ -128,6 +128,7 @@ class LanguageGen extends LimaLanguageProvider
         addItem(SUBMACHINE_GUN, ltxName("LTX 07/SD %s", "Serenity"));
         addItem(SHOTGUN, ltxName("LTX 21/SG %s", "Aurora"));
         addItem(GRENADE_LAUNCHER, ltxName("LTX 33/GL %s", "Hanabi"));
+        addItem(LINEAR_FUSION_RIFLE, ltxName("LTX 38/LF %s", "Stargazer"));
         addItem(ROCKET_LAUNCHER, ltxName("LTX 42/RL %s", "Daybreak"));
         addItem(MAGNUM, ltxName("LTX 77/HX %s", "Nova"));
 
@@ -318,6 +319,7 @@ class LanguageGen extends LimaLanguageProvider
         soundEvent(SUBMACHINE_GUN_LOOP, "Submachine gun firing");
         soundEvent(SHOTGUN_FIRE, "Shotgun fires");
         soundEvent(GRENADE_LAUNCHER_FIRE, "Grenade launched");
+        soundEvent(LINEAR_FUSION_FIRE, "Linear fusion rifle fires");
         soundEvent(ROCKET_LAUNCHER_FIRE, "Rocket launched");
         soundEvent(MAGNUM_FIRE, "Magnum fires");
         soundEvent(ROCKET_EXPLODE, "Rocket explodes");

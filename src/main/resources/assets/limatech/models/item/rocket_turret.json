@@ -1,6 +1,39 @@
 {
 	"credit": "Made with Blockbench",
-	"loader": "limatech:dynamic_model",
+	"loader": "limacore:custom_layers",
+	"render_type": "solid",
+	"layers": [
+		{
+			"name": "base",
+			"groups": ["base"]
+		},
+		{
+			"name": "base lights",
+			"groups": ["base lights"],
+			"emissivity": 15,
+			"render_type": "limacore:custom_emissive"
+		},
+		{
+			"name": "guns",
+			"groups": ["guns"]
+		},
+		{
+			"name": "guns emissive",
+			"groups": ["guns emissive"],
+			"emissivity": 15,
+			"render_type": "limacore:custom_emissive"
+		},
+		{
+			"name": "swivel",
+			"groups": ["swivel"]
+		},
+		{
+			"name": "swivel emissive",
+			"groups": ["swivel emissive"],
+			"emissivity": 15,
+			"render_type": "limacore:custom_emissive"
+		}
+	],
 	"textures": {
 		"particle": "limatech:block/blank_titanium_machine",
 		"base_bottom": "limatech:block/slate_alloy_block",
@@ -677,10 +710,6 @@
 			"scale": [0.5, 0.5, 0.5]
 		}
 	},
-	"submodels": {
-		"guns": ["guns", "gun lights"],
-		"swivel": ["swivel", "swivel lights"]
-	},
 	"groups": [
 		{
 			"name": "base",
@@ -689,10 +718,9 @@
 			"children": [0, 1, 2, 3, 4, 5, 6]
 		},
 		{
-			"name": "lights",
+			"name": "base lights",
 			"origin": [8, 8, 8],
 			"color": 0,
-			"emissivity": 15,
 			"children": [7, 8, 9, 10, 11, 12]
 		},
 		{
@@ -701,18 +729,10 @@
 			"color": 0,
 			"children": [
 				{
-					"name": "gun lights",
+					"name": "guns emissive",
 					"origin": [14, 22, 3],
 					"color": 0,
-					"emissivity": 15,
-					"children": [13, 14, 15, 16, 17, 18, 19, 20]
-				},
-				{
-					"name": "gun lights",
-					"origin": [14, 22, 3],
-					"color": 0,
-					"emissivity": 15,
-					"children": [21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38]
+					"children": [13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38]
 				},
 				39,
 				40,
@@ -737,10 +757,9 @@
 			"color": 0,
 			"children": [
 				{
-					"name": "swivel lights",
+					"name": "swivel emissive",
 					"origin": [9, 22, 4.5],
 					"color": 0,
-					"emissivity": 15,
 					"children": [54]
 				},
 				55,

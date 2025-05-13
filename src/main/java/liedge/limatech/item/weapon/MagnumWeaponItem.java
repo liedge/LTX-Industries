@@ -27,8 +27,6 @@ public class MagnumWeaponItem extends SemiAutoWeaponItem
     @Override
     public void weaponFired(ItemStack heldItem, Player player, Level level, AbstractWeaponControls controls)
     {
-        player.getUsedItemHand();
-
         if (!level.isClientSide())
         {
             double inaccuracy = LimaEntityUtil.isEntityUsingItem(player, InteractionHand.MAIN_HAND) ? 0.15d : 2d;

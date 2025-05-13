@@ -2,6 +2,8 @@
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
 	"loader": "limacore:simple_emissive",
+	"render_type": "solid",
+	"emissive_groups": ["lights"],
 	"textures": {
 		"particle": "limatech:block/blank_titanium_machine",
 		"base": "limatech:block/blank_titanium_machine",
@@ -226,7 +228,6 @@
 			"name": "lights",
 			"origin": [8, 8, 8],
 			"color": 0,
-			"emissivity": 15,
 			"children": [13, 14, 15]
 		}
 	]
