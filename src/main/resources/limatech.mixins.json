@@ -3,5 +3,6 @@
   "package": "liedge.limatech.mixin",
   "compatibilityLevel": "JAVA_21",
   "refmap": "limatech.refmap.json",
-  "client": ["RecipeToastMixin"]
+  "client": [ "RecipeToastMixin" ],
+  "mixins": [ "LivingEntityMixin" ]
 }
