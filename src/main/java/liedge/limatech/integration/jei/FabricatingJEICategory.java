@@ -1,4 +1,4 @@
-package liedge.limatech.compat.jei;
+package liedge.limatech.integration.jei;
 
 import liedge.limacore.client.gui.LimaGuiUtil;
 import liedge.limacore.recipe.LimaRecipeType;

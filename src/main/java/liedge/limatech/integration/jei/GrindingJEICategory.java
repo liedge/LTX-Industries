@@ -1,7 +1,7 @@
-package liedge.limatech.compat.jei;
+package liedge.limatech.integration.jei;
 
 import liedge.limacore.recipe.LimaRecipeType;
-import liedge.limatech.recipe.RecomposingRecipe;
+import liedge.limatech.recipe.GrindingRecipe;
 import liedge.limatech.registry.game.LimaTechBlocks;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.RecipeType;
@@ -10,9 +10,9 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 
 import java.util.function.Supplier;
 
-public class RecomposingJEICategory extends SingleItemRecipeJEICategory<RecomposingRecipe>
+public class GrindingJEICategory extends SingleItemRecipeJEICategory<GrindingRecipe>
 {
-    public RecomposingJEICategory(IGuiHelper helper, Supplier<LimaRecipeType<RecomposingRecipe>> typeSupplier)
+    public GrindingJEICategory(IGuiHelper helper, Supplier<LimaRecipeType<GrindingRecipe>> typeSupplier)
     {
         super(helper, typeSupplier);
     }
@@ -20,12 +20,12 @@ public class RecomposingJEICategory extends SingleItemRecipeJEICategory<Recompos
     @Override
     protected ItemStack categoryIconItemStack()
     {
-        return LimaTechBlocks.RECOMPOSER.toStack();
+        return LimaTechBlocks.GRINDER.toStack();
     }
 
     @Override
-    public RecipeType<RecipeHolder<RecomposingRecipe>> getRecipeType()
+    public RecipeType<RecipeHolder<GrindingRecipe>> getRecipeType()
     {
-        return LimaTechJEIPlugin.RECOMPOSING_JEI;
+        return LimaTechJEIPlugin.GRINDING_JEI;
     }
 }

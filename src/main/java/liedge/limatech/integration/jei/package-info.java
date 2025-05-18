@@ -1,4 +1,4 @@
 @AllNotNull
-package liedge.limatech.compat.jei;
+package liedge.limatech.integration.jei;
 
 import liedge.limacore.AllNotNull;
