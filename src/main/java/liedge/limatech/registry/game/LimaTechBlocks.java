@@ -85,8 +85,8 @@ public final class LimaTechBlocks
     public static final DeferredBlockWithItem<FabricatorBlock, ContentsTooltipBlockItem> AUTO_FABRICATOR = BLOCKS.registerBlockAndItem("auto_fabricator", () -> new FabricatorBlock(machineProperties().noOcclusion()), block -> new ContentsTooltipBlockItem(block, new Item.Properties().stacksTo(1), true, false));
     public static final DeferredBlockWithItem<EquipmentUpgradeStationBlock, ContentsTooltipBlockItem> EQUIPMENT_UPGRADE_STATION = BLOCKS.registerBlockAndItem("equipment_upgrade_station", () -> new EquipmentUpgradeStationBlock(machineProperties().noOcclusion()), block -> new ContentsTooltipBlockItem(block, new Item.Properties().stacksTo(1), false, true));
 
-    public static final DeferredBlockWithItem<TurretBlock, BlockItem> ROCKET_TURRET = BLOCKS.registerBlockAndItem("rocket_turret", () -> new TurretBlock(machineProperties().noOcclusion()), block -> new ContentsTooltipBlockItem(block, new Item.Properties().stacksTo(1).rarity(LimaTechRarities.ltxGearRarity()), true, false));
-    public static final DeferredBlockWithItem<TurretBlock, BlockItem> RAILGUN_TURRET = BLOCKS.registerBlockAndItem("railgun_turret", () -> new TurretBlock(machineProperties().noOcclusion()), block -> new ContentsTooltipBlockItem(block, new Item.Properties().stacksTo(1).rarity(LimaTechRarities.ltxGearRarity()), true, false));
+    public static final DeferredBlockWithItem<TurretBlock, BlockItem> ROCKET_TURRET = BLOCKS.registerBlockAndItem("rocket_turret", () -> new TurretBlock(machineProperties().noOcclusion()), block -> new ContentsTooltipBlockItem(block, new Item.Properties().stacksTo(1).rarity(LimaTechRarities.ltxGearRarity()), true, false, true));
+    public static final DeferredBlockWithItem<TurretBlock, BlockItem> RAILGUN_TURRET = BLOCKS.registerBlockAndItem("railgun_turret", () -> new TurretBlock(machineProperties().noOcclusion()), block -> new ContentsTooltipBlockItem(block, new Item.Properties().stacksTo(1).rarity(LimaTechRarities.ltxGearRarity()), true, false, true));
 
     // Helpers & initializers
     private static BlockBehaviour.Properties machineProperties()

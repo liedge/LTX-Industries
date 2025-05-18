@@ -2,6 +2,7 @@ package liedge.limatech.blockentity;
 
 import com.google.common.collect.ImmutableSet;
 import it.unimi.dsi.fastutil.ints.IntList;
+import liedge.limacore.LimaCommonConstants;
 import liedge.limacore.blockentity.IOAccess;
 import liedge.limacore.blockentity.IOAccessSets;
 import liedge.limacore.blockentity.OwnableBlockEntity;
@@ -23,6 +24,7 @@ import liedge.limatech.lib.TurretTargetList;
 import liedge.limatech.registry.game.LimaTechSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -375,6 +377,27 @@ public abstract class BaseTurretBlockEntity extends SidedItemEnergyMachineBlockE
                 turretYRot = Mth.approachDegrees(turretYRot, angle, 15f);
             }
         }
+    }
+
+    @Override
+    protected void applyImplicitComponents(DataComponentInput componentInput)
+    {
+        super.applyImplicitComponents(componentInput);
+        copyOwnerFromComponent(componentInput::get);
+    }
+
+    @Override
+    protected void collectImplicitComponents(DataComponentMap.Builder components)
+    {
+        super.collectImplicitComponents(components);
+        copyOwnerToComponent(components);
+    }
+
+    @Override
+    public void removeComponentsFromTag(CompoundTag tag)
+    {
+        super.removeComponentsFromTag(tag);
+        tag.remove(LimaCommonConstants.KEY_OWNER);
     }
 
     @Override
