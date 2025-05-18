@@ -54,9 +54,9 @@ public class SMGRenderProperties extends WeaponRenderProperties<WeaponItem>
 
         float bloom = baseBloom + 2f * (controls.isTriggerHeld() ? LimaTechRenderUtil.animationCurveSin(partialTicks) : 0f);
 
-        blitCrosshairSprite(graphics, centerX, centerY, 5, 5, crosshairColor, SPREAD_CROSSHAIR_CENTER);
-        blitCrosshairSprite(graphics, centerX - 4 - bloom, centerY - 4, 6, 13, crosshairColor, SPREAD_CROSSHAIR_LEFT);
-        blitCrosshairSprite(graphics, centerX + 3 + bloom, centerY - 4, 6, 13, crosshairColor, SPREAD_CROSSHAIR_RIGHT);
+        blitSprite(graphics, centerX, centerY, 5, 5, crosshairColor, HOLLOW_DOT);
+        blitSprite(graphics, centerX - 4 - bloom, centerY - 4, 6, 13, crosshairColor, CIRCLE_BRACKET);
+        blitMirroredUSprite(graphics, centerX + 3 + bloom, centerY - 4, 6, 13, crosshairColor, CIRCLE_BRACKET);
     }
 
     @Override

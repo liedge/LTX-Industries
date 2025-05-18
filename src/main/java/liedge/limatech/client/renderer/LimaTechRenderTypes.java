@@ -36,13 +36,19 @@ public final class LimaTechRenderTypes
             .setCullState(RenderStateShard.NO_CULL)
             .createCompositeState(false));
 
-    public static final RenderType FABRICATOR_WIREFRAME = RenderType.create("fabricator_wireframe", DefaultVertexFormat.POSITION_TEX_COLOR, VertexFormat.Mode.QUADS, 1024, false, true, RenderType.CompositeState.builder()
+    public static final RenderType FABRICATOR_WIREFRAME = RenderType.create("fabricator_wireframe", DefaultVertexFormat.POSITION_TEX_COLOR, VertexFormat.Mode.QUADS, 1536, false, true, RenderType.CompositeState.builder()
             .setShaderState(RenderStateShard.RENDERTYPE_ENTITY_GLINT_DIRECT_SHADER)
             .setTextureState(new RenderStateShard.TextureStateShard(LimaTech.RESOURCES.textureLocation("entity", "fabricator_wireframe"), false, false))
             .setTransparencyState(RenderStateShard.GLINT_TRANSPARENCY)
             .setWriteMaskState(RenderStateShard.COLOR_WRITE)
             .setOutputState(RenderStateShard.ITEM_ENTITY_TARGET)
             .setTexturingState(FABRICATOR_WIREFRAME_TEXTURING)
+            .createCompositeState(false));
+
+    public static final RenderType GUI_TRIANGLE_STRIP = RenderType.create("position_color_triangle_strip", DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.TRIANGLE_STRIP, 512, false, false, RenderType.CompositeState.builder()
+            .setShaderState(RenderStateShard.RENDERTYPE_GUI_SHADER)
+            .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
+            .setDepthTestState(RenderStateShard.LEQUAL_DEPTH_TEST)
             .createCompositeState(false));
 
     // State shard helpers

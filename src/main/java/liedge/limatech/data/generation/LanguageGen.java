@@ -319,6 +319,7 @@ class LanguageGen extends LimaLanguageProvider
         soundEvent(SUBMACHINE_GUN_LOOP, "Submachine gun firing");
         soundEvent(SHOTGUN_FIRE, "Shotgun fires");
         soundEvent(GRENADE_LAUNCHER_FIRE, "Grenade launched");
+        soundEvent(LINEAR_FUSION_CHARGE, "Linear fusion rifle charges");
         soundEvent(LINEAR_FUSION_FIRE, "Linear fusion rifle fires");
         soundEvent(ROCKET_LAUNCHER_FIRE, "Rocket launched");
         soundEvent(MAGNUM_FIRE, "Magnum fires");
@@ -361,9 +362,8 @@ class LanguageGen extends LimaLanguageProvider
         namedDamageTag(DamageTypeTags.NO_ANGER, "No Anger");
         namedDamageTag(DamageTypeTags.NO_KNOCKBACK, "No Knockback");
 
-        // Patchouli compatibility
-        add("item.limatech.guidebook", "LimaTech Guidebook");
-        add("limatech.guidebook.landing_text", "Welcome to LimaTech! This guidebook contains hints, info, and instructions on the basic mechanics of the mod.");
+        // GuideME compatibility
+        add("item.limatech.guide_tablet", "LTX Guide Tablet");
 
         // Key mapping
         add(LimaTechKeyMappings.CATEGORY_LIMATECH, "LimaTech");

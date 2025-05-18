@@ -51,7 +51,7 @@ public class ClientWeaponControls extends AbstractWeaponControls
             case ClientboundWeaponControlsPacket.RELOAD_START -> getReloadTimer().startTimer(weaponItem.getReloadSpeed(heldItem));
             case ClientboundWeaponControlsPacket.WEAPON_SHOOT -> shootWeapon(heldItem, player, weaponItem, false);
             case ClientboundWeaponControlsPacket.START_TRIGGER_HOLD -> startHoldingTrigger(heldItem, player, weaponItem);
-            case ClientboundWeaponControlsPacket.STOP_TRIGGER_HOLD -> stopHoldingTrigger(heldItem, player, weaponItem, true, true);
+            case ClientboundWeaponControlsPacket.STOP_TRIGGER_HOLD -> stopHoldingTrigger(heldItem, player, weaponItem, false);
         }
     }
 
@@ -108,7 +108,7 @@ public class ClientWeaponControls extends AbstractWeaponControls
             }
             else
             {
-                releaseTrigger(heldItem, weaponItem, player, true);
+                stopHoldingTrigger(heldItem, player, weaponItem, true);
                 sendPacketToServer(weaponItem, ServerboundWeaponControlsPacket.TRIGGER_RELEASE);
             }
 

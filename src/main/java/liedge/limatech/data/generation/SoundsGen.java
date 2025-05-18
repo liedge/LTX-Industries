@@ -5,9 +5,11 @@ import liedge.limatech.LimaTech;
 import liedge.limatech.lib.weapons.GrenadeType;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.common.data.SoundDefinition;
 
 import static liedge.limatech.registry.game.LimaTechSounds.*;
-import static net.minecraft.sounds.SoundEvents.*;
+import static net.minecraft.sounds.SoundEvents.GENERIC_EXPLODE;
+import static net.minecraft.sounds.SoundEvents.WARDEN_SONIC_BOOM;
 
 class SoundsGen extends LimaSoundDefinitionsProvider
 {
@@ -25,6 +27,10 @@ class SoundsGen extends LimaSoundDefinitionsProvider
         addSingleDirectSound(SUBMACHINE_GUN_LOOP);
         addSingleDirectSound(SHOTGUN_FIRE);
         addSingleDirectSound(GRENADE_LAUNCHER_FIRE);
+        addSingleDirectSound(LINEAR_FUSION_CHARGE);
+        addSound(LINEAR_FUSION_FIRE, def -> def
+                .with(beginSound("linear_fusion_fire0", SoundDefinition.SoundType.SOUND))
+                .with(beginSound("linear_fusion_fire1", SoundDefinition.SoundType.SOUND)));
         addSingleDirectSound(ROCKET_LAUNCHER_FIRE);
         addSingleDirectSound(MAGNUM_FIRE);
         addSingleEventSound(ROCKET_EXPLODE, GENERIC_EXPLODE);

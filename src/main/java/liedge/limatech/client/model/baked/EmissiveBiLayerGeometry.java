@@ -3,10 +3,10 @@ package liedge.limatech.client.model.baked;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-import liedge.limacore.client.model.BakedItemLayer;
-import liedge.limacore.client.model.LimaBasicBakedModel;
-import liedge.limacore.client.model.LimaGeometryLoader;
-import liedge.limacore.client.renderer.LimaCoreRenderTypes;
+import liedge.limacore.client.model.baked.BakedItemLayer;
+import liedge.limacore.client.model.baked.LimaBasicBakedModel;
+import liedge.limacore.client.model.geometry.ElementGroupGeometry;
+import liedge.limacore.client.model.geometry.LimaGeometryLoader;
 import liedge.limatech.LimaTech;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
@@ -59,8 +59,8 @@ public class EmissiveBiLayerGeometry implements IUnbakedGeometry<EmissiveBiLayer
         private Baked(boolean ambientOcclusion, boolean gui3d, boolean useBlockLight, TextureAtlasSprite particleIcon, ItemTransforms transforms, ItemOverrides overrides, List<BakedQuad> baseQuads, List<BakedQuad> emissiveQuads)
         {
             super(ambientOcclusion, gui3d, useBlockLight, particleIcon, transforms, overrides, false, RenderTypeGroup.EMPTY);
-            BakedItemLayer baseLayer = new BakedItemLayer(this, baseQuads, RenderTypeGroup.EMPTY, false);
-            BakedItemLayer emissiveLayer = new BakedItemLayer(this, emissiveQuads, LimaCoreRenderTypes.ITEM_POS_TEX_COLOR_SOLID, LimaCoreRenderTypes.ITEM_POS_TEX_COLOR_SOLID, true);
+            BakedItemLayer baseLayer = new BakedItemLayer(this, baseQuads, RenderTypeGroup.EMPTY);
+            BakedItemLayer emissiveLayer = new BakedItemLayer(this, emissiveQuads, ElementGroupGeometry.customEmissiveRenderTypes());
             this.renderPasses = List.of(baseLayer, emissiveLayer);
         }
 

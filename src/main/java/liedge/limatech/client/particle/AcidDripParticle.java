@@ -1,6 +1,6 @@
 package liedge.limatech.client.particle;
 
-import liedge.limacore.client.LimaCoreClientUtil;
+import liedge.limacore.client.particle.LimaParticleUtil;
 import liedge.limatech.LimaTechConstants;
 import liedge.limatech.registry.game.LimaTechParticles;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -34,7 +34,7 @@ public class AcidDripParticle extends TextureSheetParticle
         this.lifetime = createLandingParticle ? random.nextIntBetweenInclusive(15, 30) : random.nextIntBetweenInclusive(10, 16);
         setSize(0.01f, 0.01f);
         setParticleSpeed(dx, dy, dz);
-        LimaCoreClientUtil.setParticleColor(this, LimaTechConstants.ACID_GREEN);
+        LimaParticleUtil.setColor(this, LimaTechConstants.ACID_GREEN);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package liedge.limatech.item.weapon;
 
 import liedge.limacore.util.LimaEntityUtil;
-import liedge.limacore.util.LimaNetworkUtil;
 import liedge.limatech.entity.CompoundHitResult;
 import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.limatech.lib.weapons.AbstractWeaponControls;
@@ -36,7 +35,7 @@ public class MagnumWeaponItem extends SemiAutoWeaponItem
             hitResult.entityHits().forEach(hit -> causeInstantDamage(upgrades, player, hit.getEntity(), LimaTechWeaponsConfig.MAGNUM_BASE_DAMAGE.getAsDouble()));
             level.gameEvent(player, LimaTechGameEvents.WEAPON_FIRED, player.getEyePosition());
 
-            LimaNetworkUtil.sendSingleParticle(level, LimaTechParticles.LIGHTFRAG_TRACER, player, true, LimaNetworkUtil.LONG_PARTICLE_DIST, hitResult.origin(), hitResult.impact().getLocation());
+            sendTracerParticle(level, LimaTechParticles.LIGHTFRAG_TRACER.get(), player, hitResult.origin(), hitResult.impactLocation(), 0.15625d, 0.03125d, 0.4d);
         }
 
         level.playSound(player, player, LimaTechSounds.MAGNUM_FIRE.get(), SoundSource.PLAYERS, 1.0f, 0.75f + (player.getRandom().nextFloat() * 0.2f));

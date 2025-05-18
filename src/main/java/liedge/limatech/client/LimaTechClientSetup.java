@@ -9,7 +9,6 @@ import liedge.limatech.client.gui.layer.WeaponCrosshairLayer;
 import liedge.limatech.client.gui.layer.WeaponHUDInfoLayer;
 import liedge.limatech.client.gui.screen.*;
 import liedge.limatech.client.gui.widget.LimaWidgetSprites;
-import liedge.limatech.client.model.baked.DynamicModularItemGeometry;
 import liedge.limatech.client.model.baked.EmissiveBiLayerGeometry;
 import liedge.limatech.client.model.custom.BubbleShieldModel;
 import liedge.limatech.client.model.entity.LimaTechModelLayers;
@@ -35,8 +34,7 @@ import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 
-import static liedge.limacore.client.particle.SpriteSetParticleProvider.registerPositionOnly;
-import static liedge.limacore.client.particle.SpriteSetParticleProvider.registerPositionVelocity;
+import static liedge.limacore.client.particle.LimaParticleUtil.*;
 import static liedge.limatech.registry.game.LimaTechParticles.*;
 
 @EventBusSubscriber(modid = LimaTech.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
@@ -104,21 +102,22 @@ public final class LimaTechClientSetup
     @SubscribeEvent
     public static void registerParticleProviders(final RegisterParticleProvidersEvent event)
     {
-        event.registerSpecial(LIGHTFRAG_TRACER.get(), LightfragTracerParticle::new);
-        registerPositionVelocity(event, COLOR_GLITTER, AnimatedGlowParticle::colorGlitter);
+        registerSpecialPosOnly(event, LIGHTFRAG_TRACER, AbstractTracerParticle::createLightfragTracer);
+        registerSpecialPosOnly(event, LINEAR_FUSION_BOLT, AbstractTracerParticle::createLFRBolt);
+        registerSprites(event, COLOR_GLITTER, AnimatedGlowParticle::colorGlitter);
         event.registerSprite(COLOR_FLASH.get(), ColorFlashParticle::new);
-        registerPositionOnly(event, COLOR_FULL_SONIC_BOOM, ColorSonicBoomParticle::fullSonicBoom);
-        registerPositionOnly(event, COLOR_HALF_SONIC_BOOM, ColorSonicBoomParticle::halfSonicBoom);
+        registerSpritesPosOnly(event, COLOR_FULL_SONIC_BOOM, ColorSonicBoomParticle::fullSonicBoom);
+        registerSpritesPosOnly(event, COLOR_HALF_SONIC_BOOM, ColorSonicBoomParticle::halfSonicBoom);
         event.registerSpecial(HALF_SONIC_BOOM_EMITTER.get(), ColorSonicBoomParticle.EmitterParticle::new);
         event.registerSpecial(GROUND_ICICLE.get(), GroundIcicleParticle::new);
-        registerPositionVelocity(event, CRYO_SNOWFLAKE, AnimatedGlowParticle::cryoSnowflake);
-        registerPositionVelocity(event, MINI_ELECTRIC_SPARK, AnimatedGlowParticle::electricSpark);
-        event.registerSpecial(FIXED_ELECTRIC_BOLT.get(), FixedElectricBoltParticle::new);
+        registerSprites(event, CRYO_SNOWFLAKE, AnimatedGlowParticle::cryoSnowflake);
+        registerSprites(event, MINI_ELECTRIC_SPARK, AnimatedGlowParticle::electricSpark);
+        registerSpecialPosOnly(event, FIXED_ELECTRIC_BOLT, FixedElectricBoltParticle::create);
         event.registerSprite(CORROSIVE_DRIP.get(), AcidDripParticle::corrosiveDripParticle);
         event.registerSprite(ACID_FALL.get(), AcidDripParticle::createFallParticle);
         event.registerSprite(ACID_LAND.get(), AcidDripParticle::createLandParticle);
-        registerPositionVelocity(event, NEURO_SMOKE, BigColorSmokeParticle::neuroSmokeParticle);
-        event.registerSpecial(GRENADE_EXPLOSION.get(), GrenadeExplosionParticle::new);
+        registerSprites(event, NEURO_SMOKE, BigColorSmokeParticle::neuroSmokeParticle);
+        registerSpecialPosOnly(event, GRENADE_EXPLOSION, GrenadeExplosionParticle::new);
         event.registerSpecial(RAILGUN_BOLT.get(), RailgunBoltParticle::create);
     }
 
@@ -152,7 +151,6 @@ public final class LimaTechClientSetup
     public static void registerGeometryLoaders(final ModelEvent.RegisterGeometryLoaders event)
     {
         EmissiveBiLayerGeometry.BI_LAYER_LOADER.registerLoader(event);
-        DynamicModularItemGeometry.DYNAMIC_MODEL_LOADER.registerLoader(event);
     }
 
     @SubscribeEvent

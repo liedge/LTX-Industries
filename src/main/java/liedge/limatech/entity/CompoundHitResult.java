@@ -1,5 +1,6 @@
 package liedge.limatech.entity;
 
+import liedge.limacore.util.LimaBlockUtil;
 import liedge.limacore.util.LimaMathUtil;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -21,7 +22,9 @@ public record CompoundHitResult(Vec3 origin, List<EntityHitResult> entityHits, H
     {
         Vec3 origin = sourceEntity.getEyePosition();
         Vec3 path = LimaMathUtil.createMotionVector(sourceEntity, range, deviation);
-        BlockHitResult blockTrace = level.clip(new ClipContext(origin, origin.add(path), blockCollision, fluidCollision, sourceEntity));
+        Vec3 pathEnd = range <= 32 ? origin.add(path) : LimaBlockUtil.traceLoadedChunks(level, origin, path);
+
+        BlockHitResult blockTrace = level.clip(new ClipContext(origin, pathEnd, blockCollision, fluidCollision, sourceEntity));
         Vec3 end = blockTrace.getLocation();
 
         List<EntityHitResult> entityHits = level.getEntities(sourceEntity, sourceEntity.getBoundingBox().expandTowards(path).inflate(0.3d), hit -> LimaTechEntityUtil.isValidWeaponTarget(sourceEntity, hit))
@@ -44,5 +47,15 @@ public record CompoundHitResult(Vec3 origin, List<EntityHitResult> entityHits, H
     public static CompoundHitResult tracePath(Level level, LivingEntity sourceEntity, double range, double deviation, double bbExpansion, int maxHits)
     {
         return tracePath(level, sourceEntity, range, deviation, ignored -> bbExpansion, maxHits);
+    }
+
+    public double traceDistance()
+    {
+        return origin.distanceTo(impactLocation());
+    }
+
+    public Vec3 impactLocation()
+    {
+        return impact.getLocation();
     }
 }

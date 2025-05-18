@@ -38,6 +38,19 @@
     ],
     "subtitle": "subtitle.limatech.grenade_launcher_fire"
   },
+  "linear_fusion_charge": {
+    "sounds": [
+      "limatech:linear_fusion_charge"
+    ],
+    "subtitle": "subtitle.limatech.linear_fusion_charge"
+  },
+  "linear_fusion_fire": {
+    "sounds": [
+      "limatech:linear_fusion_fire0",
+      "limatech:linear_fusion_fire1"
+    ],
+    "subtitle": "subtitle.limatech.linear_fusion_fire"
+  },
   "magnum_fire": {
     "sounds": [
       "limatech:magnum_fire"

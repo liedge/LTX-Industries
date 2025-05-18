@@ -31,11 +31,11 @@ public class RocketLauncherRenderProperties extends SimpleWeaponRenderProperties
         final int centerY = (screenHeight - 5) / 2;
         float bloom = 4f * LimaTechRenderUtil.animationCurveB(controls.lerpTriggerTimer(weaponItem, partialTicks));
 
-        blitCrosshairSprite(graphics, centerX, centerY, 5, 5, crosshairColor, SPREAD_CROSSHAIR_CENTER);
-        blitCrosshairSprite(graphics, centerX - 1, centerY - 4 - bloom, 7, 2, crosshairColor, AOE_CROSSHAIR_UP);
-        blitCrosshairSprite(graphics, centerX - 1, centerY + 7 + bloom, 7, 2, crosshairColor, AOE_CROSSHAIR_DOWN);
-        blitCrosshairSprite(graphics, centerX - 4 - bloom, centerY - 1, 2, 7, crosshairColor, AOE_CROSSHAIR_LEFT);
-        blitCrosshairSprite(graphics, centerX + 7 + bloom, centerY - 1, 2, 7, crosshairColor, AOE_CROSSHAIR_RIGHT);
+        blitSprite(graphics, centerX, centerY, 5, 5, crosshairColor, HOLLOW_DOT);
+        blitMirroredVSprite(graphics, centerX - 1, centerY - 4 - bloom, 7, 2, crosshairColor, AOE_VERTICAL);
+        blitSprite(graphics, centerX - 1, centerY + 7 + bloom, 7, 2, crosshairColor, AOE_VERTICAL);
+        blitSprite(graphics, centerX - 4 - bloom, centerY - 1, 2, 7, crosshairColor, AOE_HORIZONTAL);
+        blitMirroredUSprite(graphics, centerX + 7 + bloom, centerY - 1, 2, 7, crosshairColor, AOE_HORIZONTAL);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package liedge.limatech.client.particle;
 
-import liedge.limacore.client.LimaCoreClientUtil;
 import liedge.limacore.client.particle.ColorSizeParticleOptions;
+import liedge.limacore.client.particle.LimaParticleUtil;
 import liedge.limacore.lib.LimaColor;
 import liedge.limatech.LimaTechConstants;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -40,7 +40,7 @@ public class AnimatedGlowParticle extends SimpleAnimatedParticle
         this.quadSize *= quadSize;
         setParticleSpeed(dx, dy, dz);
         setSpriteFromAge(spriteSet);
-        LimaCoreClientUtil.setParticleColor(this, color);
+        LimaParticleUtil.setColor(this, color);
     }
 
     @Override

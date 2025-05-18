@@ -1,7 +1,6 @@
 package liedge.limatech.item.weapon;
 
 import liedge.limacore.util.LimaEntityUtil;
-import liedge.limacore.util.LimaNetworkUtil;
 import liedge.limatech.entity.CompoundHitResult;
 import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.limatech.lib.weapons.AbstractWeaponControls;
@@ -13,7 +12,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 
 public class SMGWeaponItem extends FullAutoWeaponItem
@@ -29,12 +27,13 @@ public class SMGWeaponItem extends FullAutoWeaponItem
         if (!level.isClientSide())
         {
             double inaccuracy = LimaEntityUtil.isEntityUsingItem(player, InteractionHand.MAIN_HAND) ? 0.25d : 4d;
-            CompoundHitResult hitResult = CompoundHitResult.tracePath(level, player, 12d, inaccuracy, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, e -> 0.2d, 1);
+            CompoundHitResult hitResult = CompoundHitResult.tracePath(level, player, 12, inaccuracy, 0.2d, 1);
             EquipmentUpgrades upgrades = getUpgrades(heldItem);
 
             hitResult.entityHits().forEach(hit -> causeInstantDamage(upgrades, player, hit.getEntity(), LimaTechWeaponsConfig.SMG_BASE_DAMAGE.getAsDouble()));
             level.gameEvent(player, LimaTechGameEvents.WEAPON_FIRED, player.getEyePosition());
-            LimaNetworkUtil.sendSingleParticle(level, LimaTechParticles.LIGHTFRAG_TRACER, player, true, LimaNetworkUtil.LONG_PARTICLE_DIST, hitResult.origin(), hitResult.impact().getLocation());
+
+            sendTracerParticle(level, LimaTechParticles.LIGHTFRAG_TRACER.get(), player, hitResult.origin(), hitResult.impactLocation(), 0.125d, 0.03125d, 0.5d);
         }
     }
 

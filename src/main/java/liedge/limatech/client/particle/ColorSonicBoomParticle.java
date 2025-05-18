@@ -1,11 +1,14 @@
 package liedge.limatech.client.particle;
 
-import liedge.limacore.client.LimaCoreClientUtil;
 import liedge.limacore.client.particle.ColorParticleOptions;
+import liedge.limacore.client.particle.LimaParticleUtil;
 import liedge.limacore.lib.LimaColor;
 import liedge.limatech.registry.game.LimaTechParticles;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.*;
+import net.minecraft.client.particle.NoRenderParticle;
+import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.particle.SpriteSet;
+import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.client.renderer.LightTexture;
 
 public class ColorSonicBoomParticle extends TextureSheetParticle
@@ -33,7 +36,7 @@ public class ColorSonicBoomParticle extends TextureSheetParticle
         this.spriteSet = spriteSet;
         this.quadSize = 1.28125f;
         this.hasPhysics = false;
-        LimaCoreClientUtil.setParticleColor(this, options.color());
+        LimaParticleUtil.setColor(this, options.color());
         setSpriteFromAge(spriteSet);
     }
 

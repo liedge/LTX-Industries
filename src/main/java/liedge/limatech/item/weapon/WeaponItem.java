@@ -6,6 +6,9 @@ import liedge.limacore.data.LimaCoreCodecs;
 import liedge.limacore.item.LimaCreativeTabFillerItem;
 import liedge.limacore.lib.Translatable;
 import liedge.limacore.network.LimaStreamCodecs;
+import liedge.limacore.util.LimaMathUtil;
+import liedge.limacore.util.LimaNetworkUtil;
+import liedge.limatech.client.particle.ColorEndpointParticleOptions;
 import liedge.limatech.entity.LimaTraceableProjectile;
 import liedge.limatech.entity.damage.WeaponDamageSource;
 import liedge.limatech.item.EnergyHolderItem;
@@ -20,6 +23,7 @@ import liedge.limatech.registry.game.LimaTechAttachmentTypes;
 import liedge.limatech.registry.game.LimaTechUpgradeEffectComponents;
 import liedge.limatech.util.LimaTechUtil;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -39,6 +43,7 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.EnchantmentTarget;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.ItemAbilities;
 import org.jetbrains.annotations.Nullable;
 
@@ -77,7 +82,7 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
 
     public void onStartedHoldingTrigger(ItemStack heldItem, Player player, AbstractWeaponControls input) {}
 
-    public void onStoppedHoldingTrigger(ItemStack heldItem, Player player, AbstractWeaponControls input, boolean releasedByPlayer, boolean serverAction) {}
+    public void onStoppedHoldingTrigger(ItemStack heldItem, Player player, AbstractWeaponControls input, boolean releasedByPlayer) {}
 
     public abstract void weaponFired(ItemStack heldItem, Player player, Level level, AbstractWeaponControls controls);
     //#endregion
@@ -180,6 +185,13 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
         LootContext context = LimaTechUtil.emptyLootContext(level);
         double newSpeed = upgrades.applyValue(LimaTechUpgradeEffectComponents.WEAPON_PROJECTILE_SPEED, context, baseSpeed);
         return Mth.clamp(newSpeed, 0.001d, 3.9d);
+    }
+
+    protected void sendTracerParticle(Level level, ParticleType<ColorEndpointParticleOptions> type, Player player, Vec3 start, Vec3 end, double x, double y, double z)
+    {
+        ColorEndpointParticleOptions options = new ColorEndpointParticleOptions(type, LIME_GREEN, end);
+        Vec3 offset = LimaMathUtil.relativePointToRotations(player, x, y, z);
+        LimaNetworkUtil.sendSingleParticle(level, options, player, true, LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, start.add(offset));
     }
 
     @Override

@@ -118,7 +118,7 @@ public final class LimaTechEquipmentUpgrades
 
         // Common holder sets
         HolderSet<Item> ltxMiningTools = items.getOrThrow(LimaTechTags.Items.LTX_MINING_TOOLS);
-        HolderSet<Item> ltxProjectileWeapons = items.getOrThrow(LimaTechTags.Items.LTX_PROJECTILE_WEAPONS);
+        HolderSet<Item> ltxProjectileWeapons = items.getOrThrow(LimaTechTags.Items.LTX_ENERGY_PROJECTILE_WEAPONS);
         HolderSet<Item> ltxAllWeapons = items.getOrThrow(LimaTechTags.Items.LTX_ALL_WEAPONS);
 
         // Built in upgrades

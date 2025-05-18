@@ -22,6 +22,7 @@ import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.InteractionHand;
@@ -36,15 +37,12 @@ import static liedge.limatech.LimaTech.RESOURCES;
 
 public abstract class WeaponRenderProperties<T extends WeaponItem> extends LimaSpecialItemRenderer<T> implements IClientItemExtensions
 {
-    static final ResourceLocation SPREAD_CROSSHAIR_LEFT = RESOURCES.location("spread_crosshair_left");
-    static final ResourceLocation SPREAD_CROSSHAIR_RIGHT = RESOURCES.location("spread_crosshair_right");
-    static final ResourceLocation SPREAD_CROSSHAIR_CENTER = RESOURCES.location("spread_crosshair_center");
-    static final ResourceLocation AOE_CROSSHAIR_UP = RESOURCES.location("aoe_crosshair_up");
-    static final ResourceLocation AOE_CROSSHAIR_DOWN = RESOURCES.location("aoe_crosshair_down");
-    static final ResourceLocation AOE_CROSSHAIR_LEFT = RESOURCES.location("aoe_crosshair_left");
-    static final ResourceLocation AOE_CROSSHAIR_RIGHT = RESOURCES.location("aoe_crosshair_right");
-    static final ResourceLocation MAGNUM_CROSSHAIR_A = RESOURCES.location("magnum_crosshair_a");
-    static final ResourceLocation MAGNUM_CROSSHAIR_B = RESOURCES.location("magnum_crosshair_b");
+    static final ResourceLocation HOLLOW_DOT = RESOURCES.location("crosshair/hollow_dot");
+    static final ResourceLocation CIRCLE_BRACKET = RESOURCES.location("crosshair/circle_bracket");
+    static final ResourceLocation ANGLE_BRACKET = RESOURCES.location("crosshair/angle_bracket");
+    static final ResourceLocation AOE_HORIZONTAL = RESOURCES.location("crosshair/aoe_h");
+    static final ResourceLocation AOE_VERTICAL = RESOURCES.location("crosshair/aoe_v");
+    static final ResourceLocation MAGNUM_CROSSHAIR = RESOURCES.location("crosshair/magnum");
 
     public static WeaponRenderProperties<?> fromItem(WeaponItem weaponItem)
     {
@@ -140,8 +138,20 @@ public abstract class WeaponRenderProperties<T extends WeaponItem> extends LimaS
         }
     }
 
-    protected void blitCrosshairSprite(GuiGraphics graphics, float x, float y, int width, int height, LimaColor crosshairColor, ResourceLocation spriteLocation)
+    protected void blitSprite(GuiGraphics graphics, float x, float y, int width, int height, LimaColor crosshairColor, ResourceLocation spriteLocation)
     {
         LimaGuiUtil.directColorBlit(graphics, x, y, width, height, crosshairColor.red(), crosshairColor.green(), crosshairColor.blue(), 1f, sprites.getSprite(spriteLocation));
+    }
+
+    protected void blitMirroredUSprite(GuiGraphics graphics, float x, float y, int width, int height, LimaColor crosshairColor, ResourceLocation spriteLocation)
+    {
+        TextureAtlasSprite sprite = sprites.getSprite(spriteLocation);
+        LimaGuiUtil.directColorBlit(graphics, sprite.atlasLocation(), x, y, x + width, y + height, 0, sprite.getU1(), sprite.getU0(), sprite.getV0(), sprite.getV1(), crosshairColor.red(), crosshairColor.green(), crosshairColor.blue(), 1f);
+    }
+
+    protected void blitMirroredVSprite(GuiGraphics graphics, float x, float y, int width, int height, LimaColor crosshairColor, ResourceLocation spriteLocation)
+    {
+        TextureAtlasSprite sprite = sprites.getSprite(spriteLocation);
+        LimaGuiUtil.directColorBlit(graphics, sprite.atlasLocation(), x, y, x + width, y + height, 0, sprite.getU0(), sprite.getU1(), sprite.getV1(), sprite.getV0(), crosshairColor.red(), crosshairColor.green(), crosshairColor.blue(), 1f);
     }
 }

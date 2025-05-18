@@ -1,6 +1,6 @@
 package liedge.limatech.client.particle;
 
-import liedge.limacore.client.LimaCoreClientUtil;
+import liedge.limacore.client.particle.LimaParticleUtil;
 import liedge.limacore.lib.LimaColor;
 import liedge.limatech.LimaTechConstants;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -28,7 +28,7 @@ public class BigColorSmokeParticle extends CampfireSmokeParticle
         this.quadSize = originalSize * size;
         this.friction = 0.96f;
         this.lifetime = 60 + random.nextInt(40);
-        LimaCoreClientUtil.setParticleColor(this, color);
+        LimaParticleUtil.setColor(this, color);
         setAlpha(0.9f);
         pickSprite(spriteSet);
     }

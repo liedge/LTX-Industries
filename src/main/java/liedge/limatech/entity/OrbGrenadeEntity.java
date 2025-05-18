@@ -1,10 +1,10 @@
 package liedge.limatech.entity;
 
-import liedge.limacore.client.particle.ColorParticleOptions;
 import liedge.limacore.client.particle.ColorSizeParticleOptions;
 import liedge.limacore.util.LimaBlockUtil;
 import liedge.limacore.util.LimaNetworkUtil;
 import liedge.limatech.LimaTechTags;
+import liedge.limatech.client.particle.ColorEndpointParticleOptions;
 import liedge.limatech.client.particle.GrenadeExplosionParticleOptions;
 import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.limatech.lib.weapons.GrenadeType;
@@ -142,7 +142,8 @@ public class OrbGrenadeEntity extends LimaTraceableProjectile implements IEntity
         // Add electric bolt particles between impact and targets if electric
         if (grenadeType == GrenadeType.ELECTRIC)
         {
-            LimaNetworkUtil.sendSingleParticle(level, new ColorParticleOptions(LimaTechParticles.FIXED_ELECTRIC_BOLT, grenadeType.getColor()), null, true, LimaNetworkUtil.NORMAL_PARTICLE_DIST, hitLocation, hitEntity.getEyePosition());
+            ColorEndpointParticleOptions options = new ColorEndpointParticleOptions(LimaTechParticles.FIXED_ELECTRIC_BOLT, grenadeType.getColor(), hitEntity.getEyePosition());
+            LimaNetworkUtil.sendSingleParticle(level, options, null, true, LimaNetworkUtil.NORMAL_PARTICLE_DIST, hitLocation);
         }
     }
 

@@ -23,7 +23,8 @@ public abstract class AbstractWeaponControls
 
     private int previousSelectedSlot;
     private boolean triggerHeld;
-    private int ticksHoldingTrigger;
+    private int triggerTicks0;
+    private int triggerTicks;
 
     private @Nullable LivingEntity focusedTarget;
     private int targetTicks;
@@ -105,11 +106,12 @@ public abstract class AbstractWeaponControls
             if (weaponItem.canContinueHoldingTrigger(heldItem, player, this))
             {
                 weaponItem.triggerHoldingTick(heldItem, player, this);
-                ticksHoldingTrigger++;
+                triggerTicks0 = triggerTicks;
+                triggerTicks++;
             }
             else
             {
-                releaseTrigger(heldItem, weaponItem, player, false);
+                stopHoldingTrigger(heldItem, player, weaponItem, false);
             }
         }
     }
@@ -120,22 +122,13 @@ public abstract class AbstractWeaponControls
 
         if (oldItem.getItem() instanceof WeaponItem oldWeapon)
         {
-            releaseTrigger(oldItem, oldWeapon, player, false);
+            stopHoldingTrigger(oldItem, player, oldWeapon, false);
         }
     }
 
     protected void pressTrigger(ItemStack heldItem, Player player, WeaponItem weaponItem)
     {
         if (checkNotReloading()) weaponItem.triggerPressed(heldItem, player, this);
-    }
-
-    protected void releaseTrigger(ItemStack heldItem, WeaponItem weaponItem, Player player, boolean releasedByPlayer)
-    {
-        if (isTriggerHeld())
-        {
-            stopHoldingTrigger(heldItem, player, weaponItem, releasedByPlayer, false);
-            ticksHoldingTrigger = 0;
-        }
     }
 
     // Focus target functions
@@ -222,12 +215,14 @@ public abstract class AbstractWeaponControls
         }
     }
 
-    public void stopHoldingTrigger(ItemStack heldItem, Player player, WeaponItem weaponItem, boolean releasedByPlayer, boolean serverAction)
+    public void stopHoldingTrigger(ItemStack heldItem, Player player, WeaponItem weaponItem, boolean releasedByPlayer)
     {
         if (triggerHeld)
         {
             this.triggerHeld = false;
-            weaponItem.onStoppedHoldingTrigger(heldItem, player, this, releasedByPlayer, serverAction);
+            triggerTicks0 = 0;
+            triggerTicks = 0;
+            weaponItem.onStoppedHoldingTrigger(heldItem, player, this, releasedByPlayer);
         }
     }
 
@@ -246,9 +241,14 @@ public abstract class AbstractWeaponControls
         return triggerHeld;
     }
 
+    public float lerpTriggerTicks(float partialTick)
+    {
+        return Mth.lerp(partialTick, triggerTicks0, triggerTicks);
+    }
+
     public int getTicksHoldingTrigger()
     {
-        return ticksHoldingTrigger;
+        return triggerTicks;
     }
 
     public void tickInput(Player player, ItemStack heldItem, @Nullable WeaponItem weaponItem)

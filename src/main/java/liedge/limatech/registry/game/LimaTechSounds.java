@@ -28,6 +28,8 @@ public final class LimaTechSounds
     public static final DeferredHolder<SoundEvent, SoundEvent> SUBMACHINE_GUN_LOOP = registerSound("submachine_gun_loop");
     public static final DeferredHolder<SoundEvent, SoundEvent> SHOTGUN_FIRE = registerSound("shotgun_fire");
     public static final DeferredHolder<SoundEvent, SoundEvent> GRENADE_LAUNCHER_FIRE = registerSound("grenade_launcher_fire");
+    public static final DeferredHolder<SoundEvent, SoundEvent> LINEAR_FUSION_CHARGE = registerSound("linear_fusion_charge");
+    public static final DeferredHolder<SoundEvent, SoundEvent> LINEAR_FUSION_FIRE = registerSound("linear_fusion_fire");
     public static final DeferredHolder<SoundEvent, SoundEvent> ROCKET_LAUNCHER_FIRE = registerSound("rocket_launcher_fire");
     public static final DeferredHolder<SoundEvent, SoundEvent> MAGNUM_FIRE = registerSound("magnum_fire");
     public static final DeferredHolder<SoundEvent, SoundEvent> ROCKET_EXPLODE = registerSound("rocket_explode");

@@ -76,7 +76,7 @@ public class ServerWeaponControls extends AbstractWeaponControls
         switch (clientAction)
         {
             case ServerboundWeaponControlsPacket.TRIGGER_PRESS -> pressTrigger(heldItem, player, weaponItem);
-            case ServerboundWeaponControlsPacket.TRIGGER_RELEASE -> releaseTrigger(heldItem, weaponItem, player, true);
+            case ServerboundWeaponControlsPacket.TRIGGER_RELEASE -> stopHoldingTrigger(heldItem, player, weaponItem, true);
             case ServerboundWeaponControlsPacket.RELOAD_PRESS ->
             {
                 if (canReloadWeapon(heldItem, player, weaponItem))
@@ -140,9 +140,9 @@ public class ServerWeaponControls extends AbstractWeaponControls
     }
 
     @Override
-    public void stopHoldingTrigger(ItemStack heldItem, Player player, WeaponItem weaponItem, boolean releasedByPlayer, boolean serverAction)
+    public void stopHoldingTrigger(ItemStack heldItem, Player player, WeaponItem weaponItem, boolean releasedByPlayer)
     {
-        super.stopHoldingTrigger(heldItem, player, weaponItem, releasedByPlayer, serverAction);
+        super.stopHoldingTrigger(heldItem, player, weaponItem, releasedByPlayer);
         sendPacketToClient(player, weaponItem, ClientboundWeaponControlsPacket.STOP_TRIGGER_HOLD);
     }
 }

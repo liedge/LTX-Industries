@@ -76,7 +76,7 @@ public class RailgunBoltParticle extends NoRenderParticle
                 Vec3 arcStart = LimaMathUtil.relativePointToRotations(xRot, yRot, xo0, yo0, 0f).add(px, py, pz);
                 Vec3 arcEnd = LimaMathUtil.relativePointToRotations(xRot, yRot, xo1, yo1, 1f).add(px, py, pz);
 
-                level.addAlwaysVisibleParticle(new ColorParticleOptions(LimaTechParticles.FIXED_ELECTRIC_BOLT, LimaTechConstants.LIME_GREEN), true, arcStart.x, arcStart.y, arcStart.z, arcEnd.x, arcEnd.y, arcEnd.z);
+                level.addAlwaysVisibleParticle(new ColorEndpointParticleOptions(LimaTechParticles.FIXED_ELECTRIC_BOLT, LimaTechConstants.LIME_GREEN, arcEnd), true, arcStart.x, arcStart.y, arcStart.z, 0, 0, 0);
             }
 
             remove();

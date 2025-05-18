@@ -19,7 +19,7 @@ public class GrenadeExplosionParticle extends NoRenderParticle
     private final GrenadeType grenadeElement;
     private final double explosionSize;
 
-    public GrenadeExplosionParticle(GrenadeExplosionParticleOptions options, ClientLevel level, double x, double y, double z, double dx, double dy, double dz)
+    public GrenadeExplosionParticle(GrenadeExplosionParticleOptions options, ClientLevel level, double x, double y, double z)
     {
         super(level, x, y, z);
         this.grenadeElement = options.element();

@@ -47,7 +47,7 @@ final class LimaTechClientPacketHandler
                 }
                 else
                 {
-                    controls.stopHoldingTrigger(heldItem, player, weaponItem, false, false);
+                    controls.stopHoldingTrigger(heldItem, player, weaponItem, false);
                 }
             }
         }

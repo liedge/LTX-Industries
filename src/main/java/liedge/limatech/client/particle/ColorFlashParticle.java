@@ -1,8 +1,8 @@
 package liedge.limatech.client.particle;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import liedge.limacore.client.LimaCoreClientUtil;
 import liedge.limacore.client.particle.ColorSizeParticleOptions;
+import liedge.limacore.client.particle.LimaParticleUtil;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleRenderType;
@@ -17,7 +17,7 @@ public class ColorFlashParticle extends TextureSheetParticle
     public ColorFlashParticle(ColorSizeParticleOptions options, ClientLevel level, double x, double y, double z, double dx, double dy, double dz)
     {
         super(level, x, y, z);
-        LimaCoreClientUtil.setParticleColor(this, options.color());
+        LimaParticleUtil.setColor(this, options.color());
         this.flashSize = options.size();
         this.lifetime = 4;
     }

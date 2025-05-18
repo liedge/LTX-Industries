@@ -37,8 +37,8 @@ public class ShotgunRenderProperties extends SimpleWeaponRenderProperties
         final int centerY = (screenHeight - 13) / 2;
         float bloom = 3 + 4 * LimaTechRenderUtil.animationCurveB(controls.lerpTriggerTimer(weaponItem, partialTicks));
 
-        blitCrosshairSprite(graphics, centerX - 6 - bloom, centerY, 6, 13, crosshairColor, SPREAD_CROSSHAIR_LEFT);
-        blitCrosshairSprite(graphics, centerX + 1 + bloom, centerY, 6, 13, crosshairColor, SPREAD_CROSSHAIR_RIGHT);
+        blitSprite(graphics, centerX - 6 - bloom, centerY, 6, 13, crosshairColor, CIRCLE_BRACKET);
+        blitMirroredUSprite(graphics, centerX + 1 + bloom, centerY, 6, 13, crosshairColor, CIRCLE_BRACKET);
     }
 
     @Override

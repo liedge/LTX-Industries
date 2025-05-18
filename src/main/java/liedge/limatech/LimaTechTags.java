@@ -73,7 +73,7 @@ public final class LimaTechTags
         // Mod tags
         public static final TagKey<Item> GLOW_BLOCK_MATERIALS = RESOURCES.itemTag("glow_block_materials");
 
-        public static final TagKey<Item> LTX_PROJECTILE_WEAPONS = RESOURCES.itemTag("ltx_weapons/energy");
+        public static final TagKey<Item> LTX_ENERGY_PROJECTILE_WEAPONS = RESOURCES.itemTag("ltx_weapons/energy");
         public static final TagKey<Item> LTX_MELEE_WEAPONS = RESOURCES.itemTag("ltx_weapons/melee");
         public static final TagKey<Item> LTX_ALL_WEAPONS = RESOURCES.itemTag("ltx_weapons/all");
 
