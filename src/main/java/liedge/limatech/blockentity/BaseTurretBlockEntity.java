@@ -14,6 +14,7 @@ import liedge.limacore.client.LimaCoreClientUtil;
 import liedge.limacore.network.sync.AutomaticDataWatcher;
 import liedge.limacore.network.sync.LimaDataWatcher;
 import liedge.limacore.network.sync.ManualDataWatcher;
+import liedge.limacore.registry.game.LimaCoreDataComponents;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.limacore.util.LimaItemUtil;
 import liedge.limacore.util.LimaStreamsUtil;
@@ -383,14 +384,14 @@ public abstract class BaseTurretBlockEntity extends SidedItemEnergyMachineBlockE
     protected void applyImplicitComponents(DataComponentInput componentInput)
     {
         super.applyImplicitComponents(componentInput);
-        copyOwnerFromComponent(componentInput::get);
+        setOwnerUUID(componentInput.get(LimaCoreDataComponents.OWNER));
     }
 
     @Override
     protected void collectImplicitComponents(DataComponentMap.Builder components)
     {
         super.collectImplicitComponents(components);
-        copyOwnerToComponent(components);
+        components.set(LimaCoreDataComponents.OWNER, getOwnerUUID());
     }
 
     @Override
