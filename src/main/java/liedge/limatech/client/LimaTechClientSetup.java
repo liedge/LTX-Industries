@@ -108,8 +108,8 @@ public final class LimaTechClientSetup
         event.registerSprite(COLOR_FLASH.get(), ColorFlashParticle::new);
         registerSpritesPosOnly(event, COLOR_FULL_SONIC_BOOM, ColorSonicBoomParticle::fullSonicBoom);
         registerSpritesPosOnly(event, COLOR_HALF_SONIC_BOOM, ColorSonicBoomParticle::halfSonicBoom);
-        event.registerSpecial(HALF_SONIC_BOOM_EMITTER.get(), ColorSonicBoomParticle.EmitterParticle::new);
-        event.registerSpecial(GROUND_ICICLE.get(), GroundIcicleParticle::new);
+        registerSpecialPosOnly(event, HALF_SONIC_BOOM_EMITTER, ColorSonicBoomParticle.EmitterParticle::new);
+        registerSpecialPosOnly(event, GROUND_ICICLE, GroundIcicleParticle::new);
         registerSprites(event, CRYO_SNOWFLAKE, AnimatedGlowParticle::cryoSnowflake);
         registerSprites(event, MINI_ELECTRIC_SPARK, AnimatedGlowParticle::electricSpark);
         registerSpecialPosOnly(event, FIXED_ELECTRIC_BOLT, FixedElectricBoltParticle::create);
@@ -118,7 +118,7 @@ public final class LimaTechClientSetup
         event.registerSprite(ACID_LAND.get(), AcidDripParticle::createLandParticle);
         registerSprites(event, NEURO_SMOKE, BigColorSmokeParticle::neuroSmokeParticle);
         registerSpecialPosOnly(event, GRENADE_EXPLOSION, GrenadeExplosionParticle::new);
-        event.registerSpecial(RAILGUN_BOLT.get(), RailgunBoltParticle::create);
+        registerSpecialPosOnly(event, RAILGUN_BOLT, RailgunBoltParticle::create);
     }
 
     @SubscribeEvent

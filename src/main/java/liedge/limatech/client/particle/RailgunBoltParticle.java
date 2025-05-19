@@ -1,46 +1,41 @@
 package liedge.limatech.client.particle;
 
 import liedge.limacore.client.particle.ColorParticleOptions;
+import liedge.limacore.lib.LimaColor;
 import liedge.limacore.util.LimaMathUtil;
-import liedge.limatech.LimaTechConstants;
 import liedge.limatech.registry.game.LimaTechParticles;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.NoRenderParticle;
 import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 public class RailgunBoltParticle extends NoRenderParticle
 {
-    public static @Nullable RailgunBoltParticle create(SimpleParticleType type, ClientLevel level, double x, double y, double z, double dx, double dy, double dz)
+    public static @Nullable RailgunBoltParticle create(ColorEndpointParticleOptions options, ClientLevel level, double x, double y, double z)
     {
         Vec3 start = new Vec3(x, y, z);
-        Vec3 end = new Vec3(dx, dy, dz);
-        Vec3 dir = end.subtract(start);
-        double length = dir.length();
+        Vec3 end = options.endpoint();
+        Vec3 path = end.subtract(start);
 
-        if (length > 0 && length <= 70)
-        {
-            return new RailgunBoltParticle(level, start, dir.normalize(), Mth.ceil(length));
-        }
-        else
-        {
-            return null;
-        }
+        double length = path.length();
+
+        return length <= 100 ? new RailgunBoltParticle(level, start, path.normalize(), Mth.ceil(length), options.color()) : null;
     }
 
     private final Vec3 start;
     private final Vec3 direction;
     private final int beamSegments;
+    private final LimaColor color;
 
-    private RailgunBoltParticle(ClientLevel level, Vec3 start, Vec3 direction, int beamSegments)
+    private RailgunBoltParticle(ClientLevel level, Vec3 start, Vec3 direction, int beamSegments, LimaColor color)
     {
         super(level, start.x, start.y, start.z);
         this.start = start;
         this.direction = direction;
         this.beamSegments = beamSegments;
+        this.color = color;
     }
 
     @Override
@@ -48,7 +43,7 @@ public class RailgunBoltParticle extends NoRenderParticle
     {
         if (age == 0)
         {
-            ParticleOptions options = new ColorParticleOptions(LimaTechParticles.COLOR_FULL_SONIC_BOOM, LimaTechConstants.LIME_GREEN);
+            ParticleOptions options = new ColorParticleOptions(LimaTechParticles.COLOR_FULL_SONIC_BOOM, color);
             for (int i = 0; i < beamSegments; i++)
             {
                 double px = start.x + direction.x * i;
@@ -76,7 +71,7 @@ public class RailgunBoltParticle extends NoRenderParticle
                 Vec3 arcStart = LimaMathUtil.relativePointToRotations(xRot, yRot, xo0, yo0, 0f).add(px, py, pz);
                 Vec3 arcEnd = LimaMathUtil.relativePointToRotations(xRot, yRot, xo1, yo1, 1f).add(px, py, pz);
 
-                level.addAlwaysVisibleParticle(new ColorEndpointParticleOptions(LimaTechParticles.FIXED_ELECTRIC_BOLT, LimaTechConstants.LIME_GREEN, arcEnd), true, arcStart.x, arcStart.y, arcStart.z, 0, 0, 0);
+                level.addAlwaysVisibleParticle(new ColorEndpointParticleOptions(LimaTechParticles.FIXED_ELECTRIC_BOLT, color, arcEnd), true, arcStart.x, arcStart.y, arcStart.z, 0, 0, 0);
             }
 
             remove();

@@ -191,7 +191,7 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
     {
         ColorEndpointParticleOptions options = new ColorEndpointParticleOptions(type, LIME_GREEN, end);
         Vec3 offset = LimaMathUtil.relativePointToRotations(player, x, y, z);
-        LimaNetworkUtil.sendSingleParticle(level, options, player, true, LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, start.add(offset));
+        LimaNetworkUtil.sendSingleParticle(level, options, player, LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, start.add(offset));
     }
 
     @Override

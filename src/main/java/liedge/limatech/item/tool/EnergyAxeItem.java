@@ -167,7 +167,7 @@ public class EnergyAxeItem extends EnergyMiningToolItem
             // Spawn electric sparks that drift towards origin
             Vec3 particlePos = Vec3.atCenterOf(pos);
             Vec3 particleDelta = dropsPos.subtract(particlePos).scale(0.1f);
-            LimaNetworkUtil.sendSingleParticle(level, LimaTechParticles.MINI_ELECTRIC_SPARK, player, false, LimaNetworkUtil.NORMAL_PARTICLE_DIST, particlePos, particleDelta);
+            LimaNetworkUtil.sendSingleParticle(level, LimaTechParticles.MINI_ELECTRIC_SPARK, player, LimaNetworkUtil.NORMAL_PARTICLE_DIST, particlePos, particleDelta);
         }
 
         // Fire drops event early and batch all drops into one event. Will not be fired in ServerPlayerGameMode after mineBlock() as origin is already air.

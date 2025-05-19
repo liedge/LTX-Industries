@@ -62,7 +62,7 @@ public class ShotgunWeaponItem extends SemiAutoWeaponItem
 
                 ColorEndpointParticleOptions options = new ColorEndpointParticleOptions(LimaTechParticles.LIGHTFRAG_TRACER, LimaTechConstants.LIME_GREEN, hitResult.impactLocation());
                 Vec3 tracerOffset = LimaMathUtil.relativePointToRotations(player, 0.15625d, 0.03125d, 0.53125d);
-                LimaNetworkUtil.sendSingleParticle(level, options, player, true, LimaNetworkUtil.LONG_PARTICLE_DIST, hitResult.origin().add(tracerOffset));
+                LimaNetworkUtil.sendSingleParticle(level, options, player, LimaNetworkUtil.LONG_PARTICLE_DIST, hitResult.origin().add(tracerOffset));
             }
 
             final double basePelletDamage = LimaTechWeaponsConfig.SHOTGUN_BASE_PELLET_DAMAGE.getAsDouble();

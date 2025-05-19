@@ -33,7 +33,7 @@ public class GroundIcicleParticle extends Particle
     private int light;
     private int prevAge;
 
-    public GroundIcicleParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double dx, double dy, double dz)
+    public GroundIcicleParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z)
     {
         super(level, x, y, z);
         this.sprite = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(ICE_SPRITE_LOCATION);

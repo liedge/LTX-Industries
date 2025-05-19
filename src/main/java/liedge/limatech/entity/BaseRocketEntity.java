@@ -54,7 +54,7 @@ public abstract class BaseRocketEntity extends AutoTrackingProjectile
 
         if (shouldPostGameEvent()) level.gameEvent(owner, LimaTechGameEvents.PROJECTILE_EXPLODED, hitLocation);
         level.playSound(null, hitLocation.x, hitLocation.y, hitLocation.z, LimaTechSounds.ROCKET_EXPLODE.get(), SoundSource.PLAYERS, 4f, 0.9f);
-        LimaNetworkUtil.sendSingleParticle(level, new ColorParticleOptions(LimaTechParticles.HALF_SONIC_BOOM_EMITTER, LimaTechConstants.LIME_GREEN), null, true, LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, hitLocation);
+        LimaNetworkUtil.sendSingleParticle(level, new ColorParticleOptions(LimaTechParticles.HALF_SONIC_BOOM_EMITTER, LimaTechConstants.LIME_GREEN), null, LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, hitLocation);
 
         discard();
     }

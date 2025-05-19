@@ -40,7 +40,7 @@ public final class LimaTechParticles
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> ACID_LAND = registerSimple("acid_land", false);
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> NEURO_SMOKE = registerSimple("neuro_smoke", false);
     public static final DeferredHolder<ParticleType<?>, LimaParticleType<GrenadeExplosionParticleOptions>> GRENADE_EXPLOSION = PARTICLES.register("grenade_explosion", () -> LimaParticleType.create(true, GrenadeExplosionParticleOptions.CODEC, GrenadeExplosionParticleOptions.STREAM_CODEC));
-    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> RAILGUN_BOLT = registerSimple("railgun_bolt", true);
+    public static final DeferredHolder<ParticleType<?>, LimaParticleType<ColorEndpointParticleOptions>> RAILGUN_BOLT = PARTICLES.register("railgun_bolt", () -> ColorEndpointParticleOptions.type(true));
 
     private static DeferredHolder<ParticleType<?>, SimpleParticleType> registerSimple(String name, boolean overrideLimiter)
     {

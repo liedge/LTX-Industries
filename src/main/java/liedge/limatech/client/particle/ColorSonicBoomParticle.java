@@ -69,7 +69,7 @@ public class ColorSonicBoomParticle extends TextureSheetParticle
     {
         private final LimaColor color;
 
-        public EmitterParticle(ColorParticleOptions options, ClientLevel level, double x, double y, double z, double dx, double dy, double dz)
+        public EmitterParticle(ColorParticleOptions options, ClientLevel level, double x, double y, double z)
         {
             super(level, x, y, z);
             this.lifetime = 3;
