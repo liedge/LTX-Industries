@@ -90,7 +90,7 @@ public class ShotgunWeaponItem extends SemiAutoWeaponItem
     @Override
     public int getFireRate(ItemStack stack)
     {
-        return 12;
+        return 10;
     }
 
     @Override
