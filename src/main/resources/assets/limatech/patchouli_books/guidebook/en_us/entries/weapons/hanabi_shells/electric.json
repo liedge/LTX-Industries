@@ -1,9 +1,0 @@
-{
-  "name": "Electric Shells",
-  "sortnum": 1,
-  "category": "limatech:hanabi_shells",
-  "icon": "limatech:textures/upgrade_icon/electric_grenade_core.png",
-  "pages": [
-    "Blast radius: 10.0 (16.0 in rain/water)$(br)Base damage 30.0 (3x in rain/water)$(br2)$(#deff70)$(l)Electric$() shells specialty is humid and underwater environments. The blast radius bonus applies when the $(o)the shell$() hits inside rain or water, the damage bonus applies when $(o)the target$() is inside rain or water."
-  ]
-}

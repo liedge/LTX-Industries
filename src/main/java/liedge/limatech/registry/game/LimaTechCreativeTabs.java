@@ -3,6 +3,7 @@ package liedge.limatech.registry.game;
 import liedge.limacore.item.LimaCreativeTabFillerItem;
 import liedge.limacore.util.LimaItemUtil;
 import liedge.limatech.LimaTech;
+import liedge.limatech.integration.guideme.GuideMEIntegration;
 import liedge.limatech.lib.weapons.GrenadeType;
 import liedge.limatech.registry.bootstrap.LimaTechEnchantments;
 import net.minecraft.core.Holder;
@@ -12,6 +13,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.EnchantedBookItem;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentInstance;
 import net.neoforged.bus.api.IEventBus;
@@ -48,6 +50,10 @@ public final class LimaTechCreativeTabs
     {
         LimaCreativeTabFillerItem.addHoldersToTab(tabId, parameters, output, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS, LimaTechBlocks.getRegisteredBlocks());
         LimaCreativeTabFillerItem.addHoldersToTab(tabId, parameters, output, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS, LimaTechItems.getRegisteredItems());
+
+        // Add GuideME tablet (if installed)
+        ItemStack guideTablet = GuideMEIntegration.createGuideTabletItem();
+        if (!guideTablet.isEmpty()) output.accept(guideTablet, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
 
         HolderLookup<Enchantment> enchantments = parameters.holders().lookupOrThrow(Registries.ENCHANTMENT);
         addEnchantedBooks(output, enchantments, LimaTechEnchantments.AMMO_SCAVENGER);

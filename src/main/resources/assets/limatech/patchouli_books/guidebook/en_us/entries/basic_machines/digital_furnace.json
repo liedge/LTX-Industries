@@ -1,8 +1,0 @@
-{
-  "name": "Digital Furnace",
-  "category": "limatech:basic_machines",
-  "icon": "limatech:digital_furnace",
-  "pages": [
-    "The $(l)Digital Furnace$() smelts items using CE. Not much faster than the regular furnace in stock config but it uses little energy. You might also find it easier to maintain a supply of CE rather than burnable fuels."
-  ]
-}

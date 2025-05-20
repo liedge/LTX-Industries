@@ -1,9 +1,0 @@
-{
-  "name": "Material Fusing Chamber",
-  "category": "limatech:basic_machines",
-  "icon": "limatech:material_fusing_chamber",
-  "pages": [
-    "The $(l)Material Fusing Chamber$() combines up to 3 input materials into 1 compound material, useful for the higher end tech. The input slots are not strict and recipe inputs can be placed in any order.",
-    "It can also automate some basic processes like scrap and gold alloying to Netherite ingots."
-  ]
-}

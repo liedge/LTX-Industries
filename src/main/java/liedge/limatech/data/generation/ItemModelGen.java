@@ -60,9 +60,6 @@ class ItemModelGen extends LimaItemModelProvider
 
         generated(DEEPSLATE_POWDER, SLATE_ALLOY_INGOT, BEDROCK_ALLOY_INGOT, SLATE_ALLOY_NUGGET, COPPER_CIRCUIT, GOLD_CIRCUIT, NIOBIUM_CIRCUIT, AUTO_AMMO_CANISTER, SPECIALIST_AMMO_CANISTER, EXPLOSIVES_AMMO_CANISTER, ROCKET_LAUNCHER_AMMO, MAGNUM_AMMO_CANISTER);
         generated(FABRICATION_BLUEPRINT, EMPTY_UPGRADE_MODULE, EQUIPMENT_UPGRADE_MODULE, MACHINE_UPGRADE_MODULE);
-
-        // Patchouli guidebook model
-        getBuilder("guidebook").parent(generatedModel).texture("layer0", itemFolderLocation("guidebook"));
     }
 
     private ItemModelBuilder emissiveBiLayer(String path, ModelFile parent, ResourceLocation baseTexture, ResourceLocation emissiveTexture)

@@ -363,7 +363,8 @@ class LanguageGen extends LimaLanguageProvider
         namedDamageTag(DamageTypeTags.NO_KNOCKBACK, "No Knockback");
 
         // GuideME compatibility
-        add("item.limatech.guide_tablet", "LTX Guide Tablet");
+        add(modResources.translationKey("item.{}.guide_tablet"), "Guide Tablet");
+        add(modResources.translationKey("hint.{}.guide_tablet"), "To be completed Soon™");
 
         // Key mapping
         add(LimaTechKeyMappings.CATEGORY_LIMATECH, "LimaTech");

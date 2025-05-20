@@ -1,9 +1,0 @@
-{
-  "name": "LightFrag™ Tech",
-  "category": "limatech:weapons",
-  "icon": "limatech:textures/upgrade_icon/lightfrags.png",
-  "pages": [
-    "$(o)LightFrags$(), or Light Fragments, are solidified shards of volatile light. These beautiful yet deadly lime bolts disperse harmlessly on solid surfaces but are catastrophically incompatible with organic matter.",
-    "Being fragments of literal light, they move at blinding speeds with the caveat of only being able to travel a short distance before disintegrating. In game design terms, LightFrag based weapons are $(l)hitscan$(). Moving tracer particles are visual effects only, the path trace is instant."
-  ]
-}

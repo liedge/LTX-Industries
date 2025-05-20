@@ -6,6 +6,7 @@ import liedge.limacore.lib.ModResources;
 import liedge.limacore.lib.function.ObjectIntFunction;
 import liedge.limatech.LimaTech;
 import liedge.limatech.LimaTechTags;
+import liedge.limatech.integration.guideme.GuideMEIntegration;
 import liedge.limatech.item.UpgradableEquipmentItem;
 import liedge.limatech.lib.upgrades.UpgradeBase;
 import liedge.limatech.lib.upgrades.UpgradeBaseEntry;
@@ -41,6 +42,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.levelgen.structure.BuiltinStructures;
 import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.common.conditions.ModLoadedCondition;
 import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 import org.jetbrains.annotations.Nullable;
 
@@ -82,6 +84,13 @@ class RecipesGen extends LimaRecipeProvider
         shaped(FABRICATION_BLUEPRINT).input('l', DYES_LIME).input('p', PAPER).input('t', TITANIUM_INGOT).input('c', COPPER_CIRCUIT).patterns("lll", "ppp", "tct").save(output);
 
         shaped(defaultUpgradableItem(LTX_WRENCH, registries)).input('t', TITANIUM_INGOT).input('l', DYES_LIME).patterns("t t", " l ", " t ").save(output);
+
+        shapeless(GuideMEIntegration.createGuideTabletItem())
+                .condition(new ModLoadedCondition("guideme"))
+                .input(BOOK)
+                .input(TITANIUM_INGOT)
+                .input(DYES_LIME)
+                .save(output, "guide_tablet");
 
         // Machine recipes
         shaped(ENERGY_STORAGE_ARRAY).input('t', TITANIUM_INGOT).input('c', GOLD_CIRCUIT).input('l', DYES_LIME).input('b', COPPER_BLOCK).patterns("tlt", "cbc", "tlt").save(output);
@@ -161,6 +170,10 @@ class RecipesGen extends LimaRecipeProvider
         recomposing(stackOf(WHITE_PIGMENT, 12))
                 .input(TITANIUM_INGOT)
                 .save(output, "extract_titanium_white");
+        recomposing(GuideMEIntegration.createGuideTabletItem())
+                .condition(new ModLoadedCondition("guideme"))
+                .input(BOOK)
+                .save(output, "guide_tablet");
 
         // Material fusing recipes
         fusing(stackOf(COPPER_CIRCUIT)).input(COPPER_INGOT).input(REDSTONE, 2).input(TITANIUM_NUGGET).save(output);

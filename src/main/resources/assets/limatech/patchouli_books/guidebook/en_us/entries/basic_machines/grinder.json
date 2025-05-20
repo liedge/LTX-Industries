@@ -1,8 +1,0 @@
-{
-  "name": "Grinder",
-  "category": "limatech:basic_machines",
-  "icon": "limatech:grinder",
-  "pages": [
-    "The $(l)Grinder$() serves 2 important purposes: to create useful dusts and powders from items and to process ores into ore pebbles. It is recommended you make one early on to boost your resource production."
-  ]
-}

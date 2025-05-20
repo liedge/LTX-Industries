@@ -1,9 +1,0 @@
-{
-  "name": "Razor",
-  "category": "limatech:mod_enchantments",
-  "icon": "limatech:textures/upgrade_icon/razor_enchant.png",
-  "pages": [
-    "Razor is an enchantment for standard Sharp Weapons or LimaTech equipment. This enchantment allows a qualifying mob (or player) to drop their head when killed, at a 10% chance per level. Starting at $(o)Level 5$(), Razor can decapitate the Ender Dragon.",
-    "Level 3 is the maximum level obtainable through the standard enchantment table. Higher levels must be obtained via Equipment Upgrades or another source of enchantments capable of going above the standard max levels."
-  ]
-}
