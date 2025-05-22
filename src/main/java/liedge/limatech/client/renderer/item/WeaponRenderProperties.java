@@ -26,7 +26,6 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
@@ -81,20 +80,6 @@ public abstract class WeaponRenderProperties<T extends WeaponItem> extends LimaS
     public final BlockEntityWithoutLevelRenderer getCustomRenderer()
     {
         return this;
-    }
-
-    @Override
-    public boolean applyForgeHandTransform(PoseStack poseStack, LocalPlayer player, HumanoidArm arm, ItemStack itemInHand, float partialTick, float equipProcess, float swingProcess)
-    {
-        if (player.isUsingItem())
-        {
-            int i = arm == HumanoidArm.RIGHT ? 1 : -1;
-            poseStack.translate(i * 0.56f, -0.52f, -0.72f);
-
-            return true;
-        }
-
-        return false;
     }
 
     @Override
