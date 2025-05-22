@@ -59,7 +59,7 @@ public class GrenadeLauncherWeaponItem extends SemiAutoWeaponItem implements Scr
     public ItemStack createDecorativeStack(GrenadeType grenadeType)
     {
         ItemStack stack = new ItemStack(this);
-        setAmmoLoaded(stack, getAmmoCapacity(stack));
+        setAmmoLoadedMax(stack);
         setGrenadeType(stack, grenadeType);
 
         return stack;

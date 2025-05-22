@@ -22,6 +22,12 @@ public class SMGWeaponItem extends FullAutoWeaponItem
     }
 
     @Override
+    public boolean isOneHanded(ItemStack stack)
+    {
+        return true;
+    }
+
+    @Override
     public void weaponFired(ItemStack heldItem, Player player, Level level, AbstractWeaponControls controls)
     {
         if (!level.isClientSide())

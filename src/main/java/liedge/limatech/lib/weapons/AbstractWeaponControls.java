@@ -128,7 +128,8 @@ public abstract class AbstractWeaponControls
 
     protected void pressTrigger(ItemStack heldItem, Player player, WeaponItem weaponItem)
     {
-        if (checkNotReloading()) weaponItem.triggerPressed(heldItem, player, this);
+        boolean handCheck = player.getOffhandItem().isEmpty() || weaponItem.isOneHanded(heldItem);
+        if (checkNotReloading() && handCheck) weaponItem.triggerPressed(heldItem, player, this);
     }
 
     // Focus target functions

@@ -84,7 +84,7 @@ public class ServerWeaponControls extends AbstractWeaponControls
                     // Instantly reload weapons in creative, start the reload process otherwise
                     if (player.isCreative())
                     {
-                        weaponItem.setAmmoLoaded(heldItem, weaponItem.getAmmoCapacity(heldItem));
+                        weaponItem.setAmmoLoadedMax(heldItem);
                     }
                     else
                     {
@@ -127,7 +127,7 @@ public class ServerWeaponControls extends AbstractWeaponControls
         // Do reload logic
         if (weaponItem != null && getReloadTimer().getTimerState() == TickTimer.State.STOPPED && reloadFlag)
         {
-            if (finalizeReload(heldItem, player, weaponItem)) weaponItem.setAmmoLoaded(heldItem, weaponItem.getAmmoCapacity(heldItem));
+            if (finalizeReload(heldItem, player, weaponItem)) weaponItem.setAmmoLoadedMax(heldItem);
             reloadFlag = false;
         }
     }

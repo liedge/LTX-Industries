@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.data.LimaCoreCodecs;
 import liedge.limacore.item.LimaCreativeTabFillerItem;
+import liedge.limacore.lib.TickTimer;
 import liedge.limacore.lib.Translatable;
 import liedge.limacore.network.LimaStreamCodecs;
 import liedge.limacore.util.LimaMathUtil;
@@ -90,7 +91,7 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
     //#region Weapon properties/behavior
     public boolean canFocusReticle(ItemStack heldItem, Player player, AbstractWeaponControls controls)
     {
-        return controls.canStartShootingWeapon(heldItem, player, this);
+        return controls.getReloadTimer().getTimerState() == TickTimer.State.STOPPED;
     }
 
     public int getAmmoLoaded(ItemStack stack)
@@ -100,7 +101,7 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
 
     public void setAmmoLoaded(ItemStack stack, int newAmmo)
     {
-        stack.set(WEAPON_AMMO, Mth.clamp(newAmmo, 0, getAmmoCapacity(stack)));
+        stack.set(WEAPON_AMMO, Math.max(0, newAmmo));
     }
 
     public void setAmmoLoadedMax(ItemStack stack)
@@ -108,11 +109,19 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
         setAmmoLoaded(stack, getAmmoCapacity(stack));
     }
 
+    public boolean isOneHanded(ItemStack stack)
+    {
+        return false;
+    }
+
     @Override
     public boolean supportsEnergyStorage(ItemStack stack)
     {
         return getAmmoSourceFromItem(stack) == WeaponAmmoSource.COMMON_ENERGY_UNIT;
     }
+
+    @Override
+    public abstract int getBaseEnergyUsage(ItemStack stack); // Force implementation, all weapons can synthesize reloads
 
     @Override
     public int getBaseEnergyTransferRate(ItemStack stack)
@@ -220,7 +229,7 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
     @Override
     public UseAnim getUseAnimation(ItemStack stack)
     {
-        return UseAnim.CUSTOM;
+        return UseAnim.NONE;
     }
 
     @Override
@@ -230,20 +239,16 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
 
         if (usedHand == InteractionHand.MAIN_HAND)
         {
-            ItemStack offhandStack = player.getItemInHand(InteractionHand.OFF_HAND);
-            if (!offhandStack.canPerformAction(ItemAbilities.SHIELD_BLOCK) && canFocusReticle(stack, player, player.getData(LimaTechAttachmentTypes.WEAPON_CONTROLS)))
+            ItemStack offhandItem = player.getOffhandItem();
+
+            boolean handCheck = offhandItem.isEmpty() || isOneHanded(stack);
+            if (handCheck && !offhandItem.canPerformAction(ItemAbilities.SHIELD_BLOCK) && canFocusReticle(stack, player, player.getData(LimaTechAttachmentTypes.WEAPON_CONTROLS)))
             {
                 return ItemUtils.startUsingInstantly(level, player, InteractionHand.MAIN_HAND);
             }
-            else
-            {
-                return InteractionResultHolder.pass(stack);
-            }
         }
-        else
-        {
-            return InteractionResultHolder.fail(stack);
-        }
+
+        return InteractionResultHolder.pass(stack);
     }
 
     @Override
