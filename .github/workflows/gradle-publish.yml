@@ -1,10 +1,15 @@
-name: Build
+name: Build and Publish Gradle Package
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -12,16 +17,23 @@ jobs:
           fetch-depth: 0
           fetch-tags: true
 
-      - name: Setup JDK 21
+      - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'temurin'
 
-      - name: Build with Gradle
+      - name: Setup, build, and publish with gradle
         uses: gradle/actions/setup-gradle@v3
         with:
-          arguments: build
+          arguments: build publish
         env:
           GITHUB_USERNAME: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Keep only latest 4 versions
+        uses: actions/delete-package-versions@v5
+        with:
+          package-name: 'liedge.limatech-1.21'
+          package-type: 'maven'
+          min-versions-to-keep: 4
