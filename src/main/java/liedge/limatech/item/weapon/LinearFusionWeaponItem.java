@@ -68,7 +68,7 @@ public class LinearFusionWeaponItem extends FullAutoWeaponItem
             hitResult.entityHits().forEach(hit -> causeInstantDamage(upgrades, player, hit.getEntity(), LimaTechWeaponsConfig.LFR_BASE_DAMAGE.getAsDouble()));
             level.gameEvent(player, LimaTechGameEvents.WEAPON_FIRED, player.getEyePosition());
 
-            sendTracerParticle(level, LimaTechParticles.LINEAR_FUSION_BOLT.get(), player, hitResult.origin(), hitResult.impactLocation(), 0.125d, 0.046875d, 0.40625d);
+            sendTracerParticle(level, LimaTechParticles.LINEAR_FUSION_BOLT.get(), hitResult.origin(), hitResult.impactLocation());
         }
 
         level.playSound(player, player, LimaTechSounds.LINEAR_FUSION_FIRE.get(), SoundSource.PLAYERS, 2f, 0.9f + (level.random.nextFloat() * 0.125f));

@@ -39,7 +39,7 @@ public class SMGWeaponItem extends FullAutoWeaponItem
             hitResult.entityHits().forEach(hit -> causeInstantDamage(upgrades, player, hit.getEntity(), LimaTechWeaponsConfig.SMG_BASE_DAMAGE.getAsDouble()));
             level.gameEvent(player, LimaTechGameEvents.WEAPON_FIRED, player.getEyePosition());
 
-            sendTracerParticle(level, LimaTechParticles.LIGHTFRAG_TRACER.get(), player, hitResult.origin(), hitResult.impactLocation(), 0.125d, 0.03125d, 0.5d);
+            sendTracerParticle(level, LimaTechParticles.LIGHTFRAG_TRACER.get(), hitResult.origin(), hitResult.impactLocation());
         }
     }
 

@@ -2,10 +2,6 @@ package liedge.limatech.item.weapon;
 
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
-import liedge.limacore.util.LimaMathUtil;
-import liedge.limacore.util.LimaNetworkUtil;
-import liedge.limatech.LimaTechConstants;
-import liedge.limatech.client.particle.ColorEndpointParticleOptions;
 import liedge.limatech.entity.CompoundHitResult;
 import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.limatech.lib.weapons.AbstractWeaponControls;
@@ -21,7 +17,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
 
 public class ShotgunWeaponItem extends SemiAutoWeaponItem
 {
@@ -60,9 +55,7 @@ public class ShotgunWeaponItem extends SemiAutoWeaponItem
                 CompoundHitResult hitResult = CompoundHitResult.tracePath(level, player, 10d, 6.5d, hit -> hit.getBoundingBox().getSize() <= 1d ? 0.75d : 0.375d, 5);
                 hitResult.entityHits().forEach(hit -> pelletHits.mergeInt(hit.getEntity(), 1, Integer::sum));
 
-                ColorEndpointParticleOptions options = new ColorEndpointParticleOptions(LimaTechParticles.LIGHTFRAG_TRACER, LimaTechConstants.LIME_GREEN, hitResult.impactLocation());
-                Vec3 tracerOffset = LimaMathUtil.relativePointToRotations(player, 0.15625d, 0.03125d, 0.53125d);
-                LimaNetworkUtil.sendSingleParticle(level, options, player, LimaNetworkUtil.LONG_PARTICLE_DIST, hitResult.origin().add(tracerOffset));
+                sendTracerParticle(level, LimaTechParticles.LIGHTFRAG_TRACER.get(), hitResult.origin(), hitResult.impactLocation());
             }
 
             final double basePelletDamage = LimaTechWeaponsConfig.SHOTGUN_BASE_PELLET_DAMAGE.getAsDouble();

@@ -2,6 +2,7 @@ package liedge.limatech.client.particle;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
+import liedge.limacore.client.particle.ColorParticleOptions;
 import liedge.limacore.client.particle.CustomRenderTypeParticle;
 import liedge.limacore.lib.LimaColor;
 import liedge.limacore.util.LimaMathUtil;
@@ -21,19 +22,19 @@ public abstract class AbstractTracerParticle extends CustomRenderTypeParticle
 {
     private static final float TRACER_QUAD_SIZE = 0.015625f;
 
-    public static @Nullable AbstractTracerParticle createLightfragTracer(ColorEndpointParticleOptions options, ClientLevel level, double x, double y, double z)
+    public static @Nullable AbstractTracerParticle createLightfragTracer(ColorParticleOptions options, ClientLevel level, double x1, double y1, double z1, double x2, double y2, double z2)
     {
-        Vec3 start = new Vec3(x, y, z);
-        Vec3 end = options.endpoint();
+        Vec3 start = new Vec3(x1, y1, z1);
+        Vec3 end = new Vec3(x2, y2, z2);
         float tracerDistance = (float) start.distanceTo(end);
 
         return tracerDistance <= 100 ? new Lightfrag(level, start, end, options.color(), tracerDistance) : null;
     }
 
-    public static @Nullable AbstractTracerParticle createLFRBolt(ColorEndpointParticleOptions options, ClientLevel level, double x, double y, double z)
+    public static @Nullable AbstractTracerParticle createLFRBolt(ColorParticleOptions options, ClientLevel level, double x1, double y1, double z1, double x2, double y2, double z2)
     {
-        Vec3 start = new Vec3(x, y, z);
-        Vec3 end = options.endpoint();
+        Vec3 start = new Vec3(x1, y1, z1);
+        Vec3 end = new Vec3(x2, y2, z2);
         float tracerDistance = (float) start.distanceTo(end);
 
         return tracerDistance <= 250 ? new LFRBolt(level, start, end, options.color(), tracerDistance) : null;

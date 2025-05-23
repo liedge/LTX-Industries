@@ -102,8 +102,8 @@ public final class LimaTechClientSetup
     @SubscribeEvent
     public static void registerParticleProviders(final RegisterParticleProvidersEvent event)
     {
-        registerSpecialPosOnly(event, LIGHTFRAG_TRACER, AbstractTracerParticle::createLightfragTracer);
-        registerSpecialPosOnly(event, LINEAR_FUSION_BOLT, AbstractTracerParticle::createLFRBolt);
+        event.registerSpecial(LIGHTFRAG_TRACER.get(), AbstractTracerParticle::createLightfragTracer);
+        event.registerSpecial(LINEAR_FUSION_BOLT.get(), AbstractTracerParticle::createLFRBolt);
         registerSprites(event, COLOR_GLITTER, AnimatedGlowParticle::colorGlitter);
         event.registerSprite(COLOR_FLASH.get(), ColorFlashParticle::new);
         registerSpritesPosOnly(event, COLOR_FULL_SONIC_BOOM, ColorSonicBoomParticle::fullSonicBoom);
@@ -112,13 +112,13 @@ public final class LimaTechClientSetup
         registerSpecialPosOnly(event, GROUND_ICICLE, GroundIcicleParticle::new);
         registerSprites(event, CRYO_SNOWFLAKE, AnimatedGlowParticle::cryoSnowflake);
         registerSprites(event, MINI_ELECTRIC_SPARK, AnimatedGlowParticle::electricSpark);
-        registerSpecialPosOnly(event, FIXED_ELECTRIC_BOLT, FixedElectricBoltParticle::create);
+        event.registerSpecial(FIXED_ELECTRIC_BOLT.get(), FixedElectricBoltParticle::create);
         event.registerSprite(CORROSIVE_DRIP.get(), AcidDripParticle::corrosiveDripParticle);
         event.registerSprite(ACID_FALL.get(), AcidDripParticle::createFallParticle);
         event.registerSprite(ACID_LAND.get(), AcidDripParticle::createLandParticle);
         registerSprites(event, NEURO_SMOKE, BigColorSmokeParticle::neuroSmokeParticle);
         registerSpecialPosOnly(event, GRENADE_EXPLOSION, GrenadeExplosionParticle::new);
-        registerSpecialPosOnly(event, RAILGUN_BOLT, RailgunBoltParticle::create);
+        event.registerSpecial(RAILGUN_BOLT.get(), RailgunBoltParticle::create);
     }
 
     @SubscribeEvent

@@ -1,10 +1,10 @@
 package liedge.limatech.entity;
 
+import liedge.limacore.client.particle.ColorParticleOptions;
 import liedge.limacore.client.particle.ColorSizeParticleOptions;
 import liedge.limacore.util.LimaBlockUtil;
 import liedge.limacore.util.LimaNetworkUtil;
 import liedge.limatech.LimaTechTags;
-import liedge.limatech.client.particle.ColorEndpointParticleOptions;
 import liedge.limatech.client.particle.GrenadeExplosionParticleOptions;
 import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.limatech.lib.weapons.GrenadeType;
@@ -142,8 +142,7 @@ public class OrbGrenadeEntity extends LimaTraceableProjectile implements IEntity
         // Add electric bolt particles between impact and targets if electric
         if (grenadeType == GrenadeType.ELECTRIC)
         {
-            ColorEndpointParticleOptions options = new ColorEndpointParticleOptions(LimaTechParticles.FIXED_ELECTRIC_BOLT, grenadeType.getColor(), hitEntity.getEyePosition());
-            LimaNetworkUtil.sendSingleParticle(level, options, null, LimaNetworkUtil.NORMAL_PARTICLE_DIST, hitLocation);
+            LimaNetworkUtil.sendParticle(level, new ColorParticleOptions(LimaTechParticles.FIXED_ELECTRIC_BOLT, grenadeType.getColor()), LimaNetworkUtil.NORMAL_PARTICLE_DIST, hitLocation, hitEntity.getEyePosition());
         }
     }
 
@@ -209,7 +208,7 @@ public class OrbGrenadeEntity extends LimaTraceableProjectile implements IEntity
         if (fireEvent) level.gameEvent(owner, LimaTechGameEvents.PROJECTILE_EXPLODED, hitLocation);
 
         level.playSound(null, hitLocation.x, hitLocation.y, hitLocation.z, LimaTechSounds.GRENADE_EXPLOSIONS.get(grenadeType).get(), SoundSource.PLAYERS, 2.5f, Mth.randomBetween(random, 0.77f, 0.9f));
-        LimaNetworkUtil.sendSingleParticle(level, new GrenadeExplosionParticleOptions(grenadeType, blastRadius * 2d), null, LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, hitLocation);
+        LimaNetworkUtil.sendParticle(level, new GrenadeExplosionParticleOptions(grenadeType, blastRadius * 2d), LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, hitLocation);
         discard();
     }
 

@@ -1,6 +1,7 @@
 package liedge.limatech.client.particle;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import liedge.limacore.client.particle.ColorParticleOptions;
 import liedge.limacore.client.particle.CustomRenderTypeParticle;
 import liedge.limacore.lib.LimaColor;
 import liedge.limacore.util.LimaMathUtil;
@@ -9,20 +10,15 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 
 public class FixedElectricBoltParticle extends CustomRenderTypeParticle
 {
-    public static @Nullable FixedElectricBoltParticle create(ColorEndpointParticleOptions options, ClientLevel level, double x, double y, double z)
+    public static @Nullable FixedElectricBoltParticle create(ColorParticleOptions options, ClientLevel level, double x1, double y1, double z1, double x2, double y2, double z2)
     {
-        Vec3 endpoint = options.endpoint();
-
-        double length = LimaMathUtil.distanceBetween(x, y, z, endpoint.x, endpoint.y, endpoint.z);
-        if (length >= 100) return null;
-
-        return new FixedElectricBoltParticle(level, x, y, z, endpoint,options.color(), length);
+        double length = LimaMathUtil.distanceBetween(x1, y1, z1, x2, y2, z2);
+        return length <= 100 ? new FixedElectricBoltParticle(level, x1, y1, z1, x2, y2, z2, options.color(), length) : null;
     }
 
     private final LimaColor boltColor;
@@ -31,13 +27,13 @@ public class FixedElectricBoltParticle extends CustomRenderTypeParticle
 
     private EnergyBoltModel boltToRender;
 
-    private FixedElectricBoltParticle(ClientLevel level, double x, double y, double z, Vec3 endpoint, LimaColor boltColor, double length)
+    private FixedElectricBoltParticle(ClientLevel level, double x1, double y1, double z1, double x2, double y2, double z2, LimaColor boltColor, double length)
     {
-        super(level, x, y, z);
+        super(level, x1, y1, z1);
 
         this.boltColor = boltColor;
-        this.boltA = EnergyBoltModel.twoFixedPointBolt(x, y, z, endpoint.x, endpoint.y, endpoint.z, 0.015625f);
-        this.boltB = EnergyBoltModel.twoFixedPointBolt(x, y, z, endpoint.x, endpoint.y, endpoint.z, 0.015625f);
+        this.boltA = EnergyBoltModel.twoFixedPointBolt(x1, y1, z1, x2, y2, z2, 0.015625f);
+        this.boltB = EnergyBoltModel.twoFixedPointBolt(x1, y1, z1, x2, y2, z2, 0.015625f);
         this.boltToRender = boltA;
 
         setBoundingBox(AABB.ofSize(getPos(), length, length, length));

@@ -2,14 +2,13 @@ package liedge.limatech.item.weapon;
 
 import com.mojang.serialization.Codec;
 import liedge.limacore.client.gui.TooltipLineConsumer;
+import liedge.limacore.client.particle.ColorParticleOptions;
 import liedge.limacore.data.LimaCoreCodecs;
 import liedge.limacore.item.LimaCreativeTabFillerItem;
 import liedge.limacore.lib.TickTimer;
 import liedge.limacore.lib.Translatable;
 import liedge.limacore.network.LimaStreamCodecs;
-import liedge.limacore.util.LimaMathUtil;
 import liedge.limacore.util.LimaNetworkUtil;
-import liedge.limatech.client.particle.ColorEndpointParticleOptions;
 import liedge.limatech.entity.LimaTraceableProjectile;
 import liedge.limatech.entity.damage.WeaponDamageSource;
 import liedge.limatech.item.EnergyHolderItem;
@@ -196,11 +195,10 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
         return Mth.clamp(newSpeed, 0.001d, 3.9d);
     }
 
-    protected void sendTracerParticle(Level level, ParticleType<ColorEndpointParticleOptions> type, Player player, Vec3 start, Vec3 end, double x, double y, double z)
+    protected void sendTracerParticle(Level level, ParticleType<ColorParticleOptions> type, Vec3 start, Vec3 end)
     {
-        ColorEndpointParticleOptions options = new ColorEndpointParticleOptions(type, LIME_GREEN, end);
-        Vec3 offset = LimaMathUtil.relativePointToRotations(player, x, y, z);
-        LimaNetworkUtil.sendSingleParticle(level, options, player, LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, start.add(offset));
+        ColorParticleOptions option = new ColorParticleOptions(type, LIME_GREEN);
+        LimaNetworkUtil.sendParticle(level, option, LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, start, end);
     }
 
     @Override

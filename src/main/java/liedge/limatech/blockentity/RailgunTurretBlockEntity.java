@@ -1,10 +1,10 @@
 package liedge.limatech.blockentity;
 
+import liedge.limacore.client.particle.ColorParticleOptions;
 import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limacore.util.LimaNetworkUtil;
 import liedge.limatech.LimaTechConstants;
 import liedge.limatech.LimaTechTags;
-import liedge.limatech.client.particle.ColorEndpointParticleOptions;
 import liedge.limatech.entity.LimaTechEntityUtil;
 import liedge.limatech.entity.damage.TurretDamageSource;
 import liedge.limatech.lib.TurretTargetList;
@@ -71,8 +71,7 @@ public class RailgunTurretBlockEntity extends BaseTurretBlockEntity
 
             LimaTechEntityUtil.hurtWithEnchantedFakePlayer(level, target, owner, getUpgrades(), ignored -> TurretDamageSource.create(level, LimaTechDamageTypes.RAILGUN_TURRET, this, null, owner, start), baseDamage);
 
-            ColorEndpointParticleOptions options = new ColorEndpointParticleOptions(LimaTechParticles.RAILGUN_BOLT, LimaTechConstants.LIME_GREEN, target.getBoundingBox().getCenter());
-            LimaNetworkUtil.sendSingleParticle(level, options, owner, LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, start);
+            LimaNetworkUtil.sendParticle(level, new ColorParticleOptions(LimaTechParticles.RAILGUN_BOLT, LimaTechConstants.LIME_GREEN), LimaNetworkUtil.LONG_PARTICLE_DIST, start, target.getBoundingBox().getCenter());
             level.playSound(null, start.x ,start.y, start.z, LimaTechSounds.RAILGUN_BOOM.get(), SoundSource.BLOCKS, 2.5f, Mth.randomBetween(level.random, 0.85f, 0.95f));
 
             targetList.removeTarget(target);

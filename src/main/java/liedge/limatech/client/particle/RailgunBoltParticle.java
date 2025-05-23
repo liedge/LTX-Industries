@@ -13,10 +13,10 @@ import org.jetbrains.annotations.Nullable;
 
 public class RailgunBoltParticle extends NoRenderParticle
 {
-    public static @Nullable RailgunBoltParticle create(ColorEndpointParticleOptions options, ClientLevel level, double x, double y, double z)
+    public static @Nullable RailgunBoltParticle create(ColorParticleOptions options, ClientLevel level, double x1, double y1, double z1, double x2, double y2, double z2)
     {
-        Vec3 start = new Vec3(x, y, z);
-        Vec3 end = options.endpoint();
+        Vec3 start = new Vec3(x1, y1, z1);
+        Vec3 end = new Vec3(x2, y2, z2);
         Vec3 path = end.subtract(start);
 
         double length = path.length();
@@ -71,7 +71,7 @@ public class RailgunBoltParticle extends NoRenderParticle
                 Vec3 arcStart = LimaMathUtil.relativePointToRotations(xRot, yRot, xo0, yo0, 0f).add(px, py, pz);
                 Vec3 arcEnd = LimaMathUtil.relativePointToRotations(xRot, yRot, xo1, yo1, 1f).add(px, py, pz);
 
-                level.addAlwaysVisibleParticle(new ColorEndpointParticleOptions(LimaTechParticles.FIXED_ELECTRIC_BOLT, color, arcEnd), true, arcStart.x, arcStart.y, arcStart.z, 0, 0, 0);
+                level.addAlwaysVisibleParticle(new ColorParticleOptions(LimaTechParticles.FIXED_ELECTRIC_BOLT, color), true, arcStart.x, arcStart.y, arcStart.z, arcEnd.x, arcEnd.y, arcEnd.z);
             }
 
             remove();
