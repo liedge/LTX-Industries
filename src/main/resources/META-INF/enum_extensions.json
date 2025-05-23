@@ -20,6 +20,15 @@
     },
     {
       "enum": "net/minecraft/client/model/HumanoidModel$ArmPose",
+      "name": "LIMATECH_ONE_HAND_WEAPON",
+      "constructor": "(ZLnet/neoforged/neoforge/client/IArmPoseTransformer;)V",
+      "parameters": {
+        "class": "liedge/limatech/client/renderer/LimaTechArmPoses",
+        "field": "ONE_HANDED_WEAPON"
+      }
+    },
+    {
+      "enum": "net/minecraft/client/model/HumanoidModel$ArmPose",
       "name": "LIMATECH_WEAPON_SHIELD_POSE",
       "constructor": "(ZLnet/neoforged/neoforge/client/IArmPoseTransformer;)V",
       "parameters": {

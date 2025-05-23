@@ -30,6 +30,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
+import net.neoforged.neoforge.common.ItemAbilities;
 import org.jetbrains.annotations.Nullable;
 
 import static liedge.limatech.LimaTech.RESOURCES;
@@ -85,7 +86,25 @@ public abstract class WeaponRenderProperties<T extends WeaponItem> extends LimaS
     @Override
     public @Nullable HumanoidModel.ArmPose getArmPose(LivingEntity entity, InteractionHand hand, ItemStack heldItem)
     {
-        return LimaTechArmPoses.TWO_HANDED_WEAPON.getValue();
+        if (hand == InteractionHand.MAIN_HAND && heldItem.getItem() instanceof WeaponItem weaponItem) // Should always be the case, but we'll avoid castOrThrow()
+        {
+            ItemStack offHandStack = entity.getOffhandItem();
+
+            if (offHandStack.isEmpty())
+            {
+                return LimaTechArmPoses.TWO_HANDED_WEAPON.getValue();
+            }
+            else if (entity.isUsingItem() && entity.getUsedItemHand() == InteractionHand.OFF_HAND && offHandStack.canPerformAction(ItemAbilities.SHIELD_BLOCK))
+            {
+                return LimaTechArmPoses.WEAPON_SHIELD_POSE.getValue();
+            }
+            else if (weaponItem.isOneHanded(heldItem))
+            {
+                return LimaTechArmPoses.ONE_HANDED_WEAPON.getValue();
+            }
+        }
+
+        return HumanoidModel.ArmPose.EMPTY; // Neutral pose, weapon at rest (i.e. holding weapon in offhand or holding an offhand item with a two-handed weapon)
     }
 
     public abstract void renderCrosshair(LocalPlayer player, WeaponItem weaponItem, ClientWeaponControls controls, GuiGraphics graphics, float partialTicks, int screenWidth, int screenHeight, LimaColor crosshairColor);
