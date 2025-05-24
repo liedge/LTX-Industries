@@ -6,7 +6,6 @@ import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.limatech.lib.weapons.AbstractWeaponControls;
 import liedge.limatech.registry.game.LimaTechGameEvents;
 import liedge.limatech.registry.game.LimaTechItems;
-import liedge.limatech.registry.game.LimaTechParticles;
 import liedge.limatech.registry.game.LimaTechSounds;
 import liedge.limatech.util.config.LimaTechWeaponsConfig;
 import net.minecraft.sounds.SoundSource;
@@ -35,7 +34,7 @@ public class MagnumWeaponItem extends SemiAutoWeaponItem
             hitResult.entityHits().forEach(hit -> causeInstantDamage(upgrades, player, hit.getEntity(), LimaTechWeaponsConfig.MAGNUM_BASE_DAMAGE.getAsDouble()));
             level.gameEvent(player, LimaTechGameEvents.WEAPON_FIRED, player.getEyePosition());
 
-            sendTracerParticle(level, LimaTechParticles.LIGHTFRAG_TRACER.get(), hitResult.origin(), hitResult.impactLocation());
+            sendTracerParticle(level, hitResult.origin(), hitResult.impactLocation());
         }
 
         level.playSound(player, player, LimaTechSounds.MAGNUM_FIRE.get(), SoundSource.PLAYERS, 1.0f, 0.75f + (player.getRandom().nextFloat() * 0.2f));

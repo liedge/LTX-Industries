@@ -6,7 +6,6 @@ import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.limatech.lib.weapons.AbstractWeaponControls;
 import liedge.limatech.registry.game.LimaTechGameEvents;
 import liedge.limatech.registry.game.LimaTechItems;
-import liedge.limatech.registry.game.LimaTechParticles;
 import liedge.limatech.registry.game.LimaTechSounds;
 import liedge.limatech.util.config.LimaTechWeaponsConfig;
 import net.minecraft.sounds.SoundSource;
@@ -68,7 +67,7 @@ public class LinearFusionWeaponItem extends FullAutoWeaponItem
             hitResult.entityHits().forEach(hit -> causeInstantDamage(upgrades, player, hit.getEntity(), LimaTechWeaponsConfig.LFR_BASE_DAMAGE.getAsDouble()));
             level.gameEvent(player, LimaTechGameEvents.WEAPON_FIRED, player.getEyePosition());
 
-            sendTracerParticle(level, LimaTechParticles.LINEAR_FUSION_BOLT.get(), hitResult.origin(), hitResult.impactLocation());
+            sendTracerParticle(level, hitResult.origin(), hitResult.impactLocation());
         }
 
         level.playSound(player, player, LimaTechSounds.LINEAR_FUSION_FIRE.get(), SoundSource.PLAYERS, 2f, 0.9f + (level.random.nextFloat() * 0.125f));

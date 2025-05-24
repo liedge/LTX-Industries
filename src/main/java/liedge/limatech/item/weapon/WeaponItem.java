@@ -20,10 +20,10 @@ import liedge.limatech.lib.weapons.GlobalWeaponDamageModifiers;
 import liedge.limatech.lib.weapons.WeaponAmmoSource;
 import liedge.limatech.registry.bootstrap.LimaTechDamageTypes;
 import liedge.limatech.registry.game.LimaTechAttachmentTypes;
+import liedge.limatech.registry.game.LimaTechParticles;
 import liedge.limatech.registry.game.LimaTechUpgradeEffectComponents;
 import liedge.limatech.util.LimaTechUtil;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -195,10 +195,9 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
         return Mth.clamp(newSpeed, 0.001d, 3.9d);
     }
 
-    protected void sendTracerParticle(Level level, ParticleType<ColorParticleOptions> type, Vec3 start, Vec3 end)
+    protected void sendTracerParticle(Level level, Vec3 start, Vec3 end)
     {
-        ColorParticleOptions option = new ColorParticleOptions(type, LIME_GREEN);
-        LimaNetworkUtil.sendParticle(level, option, LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, start, end);
+        LimaNetworkUtil.sendParticle(level, new ColorParticleOptions(LimaTechParticles.LIGHTFRAG_TRACER, LIME_GREEN), LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, start, end);
     }
 
     @Override

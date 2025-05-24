@@ -7,7 +7,6 @@ import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.limatech.lib.weapons.AbstractWeaponControls;
 import liedge.limatech.registry.game.LimaTechGameEvents;
 import liedge.limatech.registry.game.LimaTechItems;
-import liedge.limatech.registry.game.LimaTechParticles;
 import liedge.limatech.registry.game.LimaTechSounds;
 import liedge.limatech.util.config.LimaTechWeaponsConfig;
 import net.minecraft.sounds.SoundSource;
@@ -55,7 +54,7 @@ public class ShotgunWeaponItem extends SemiAutoWeaponItem
                 CompoundHitResult hitResult = CompoundHitResult.tracePath(level, player, 10d, 6.5d, hit -> hit.getBoundingBox().getSize() <= 1d ? 0.75d : 0.375d, 5);
                 hitResult.entityHits().forEach(hit -> pelletHits.mergeInt(hit.getEntity(), 1, Integer::sum));
 
-                sendTracerParticle(level, LimaTechParticles.LIGHTFRAG_TRACER.get(), hitResult.origin(), hitResult.impactLocation());
+                sendTracerParticle(level, hitResult.origin(), hitResult.impactLocation());
             }
 
             final double basePelletDamage = LimaTechWeaponsConfig.SHOTGUN_BASE_PELLET_DAMAGE.getAsDouble();

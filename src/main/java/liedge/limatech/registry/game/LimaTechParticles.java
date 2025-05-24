@@ -24,7 +24,6 @@ public final class LimaTechParticles
     }
 
     public static final DeferredHolder<ParticleType<?>, LimaParticleType<ColorParticleOptions>> LIGHTFRAG_TRACER = PARTICLES.register("lightfrag_tracer", () -> ColorParticleOptions.createParticleType(true));
-    public static final DeferredHolder<ParticleType<?>, LimaParticleType<ColorParticleOptions>> LINEAR_FUSION_BOLT = PARTICLES.register("linear_fusion_bolt", () -> ColorParticleOptions.createParticleType(true));
     public static final DeferredHolder<ParticleType<?>, LimaParticleType<ColorSizeParticleOptions>> COLOR_GLITTER = PARTICLES.register("color_glitter", () -> ColorSizeParticleOptions.createParticleType(false));
     public static final DeferredHolder<ParticleType<?>, LimaParticleType<ColorSizeParticleOptions>> COLOR_FLASH = PARTICLES.register("color_flash", () -> ColorSizeParticleOptions.createParticleType(false));
     public static final DeferredHolder<ParticleType<?>, LimaParticleType<ColorParticleOptions>> COLOR_FULL_SONIC_BOOM = PARTICLES.register("color_full_sonic_boom", () -> ColorParticleOptions.createParticleType(false));

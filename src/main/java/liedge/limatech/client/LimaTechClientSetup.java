@@ -102,8 +102,7 @@ public final class LimaTechClientSetup
     @SubscribeEvent
     public static void registerParticleProviders(final RegisterParticleProvidersEvent event)
     {
-        event.registerSpecial(LIGHTFRAG_TRACER.get(), AbstractTracerParticle::createLightfragTracer);
-        event.registerSpecial(LINEAR_FUSION_BOLT.get(), AbstractTracerParticle::createLFRBolt);
+        event.registerSpecial(LIGHTFRAG_TRACER.get(), LightfragTracerParticle::createLightfragTracer);
         registerSprites(event, COLOR_GLITTER, AnimatedGlowParticle::colorGlitter);
         event.registerSprite(COLOR_FLASH.get(), ColorFlashParticle::new);
         registerSpritesPosOnly(event, COLOR_FULL_SONIC_BOOM, ColorSonicBoomParticle::fullSonicBoom);
