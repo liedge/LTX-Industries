@@ -55,7 +55,7 @@ public class MagnumWeaponItem extends SemiAutoWeaponItem
     @Override
     public Item getAmmoItem(ItemStack stack)
     {
-        return LimaTechItems.MAGNUM_AMMO_CANISTER.asItem();
+        return LimaTechItems.HEAVY_AMMO_CANISTER.asItem();
     }
 
     @Override

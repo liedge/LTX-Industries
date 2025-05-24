@@ -70,6 +70,7 @@ class LanguageGen extends LimaLanguageProvider
         addBlock(FABRICATOR, "Fabricator");
         addBlock(AUTO_FABRICATOR, "Auto Fabricator");
         addBlock(EQUIPMENT_UPGRADE_STATION, "Equipment Upgrade Station");
+        addBlock(REPAIR_STATION, "Molecular Rebinder");
 
         addBlock(ROCKET_TURRET, ltxName("LTX A/DU %s", "Atmos"));
         addBlock(RAILGUN_TURRET, ltxName("LTX A/DU %s", "Noctis"));
@@ -135,8 +136,7 @@ class LanguageGen extends LimaLanguageProvider
         simpleHintItem(AUTO_AMMO_CANISTER, "Automatics Ammo Canister", "Stabilized energy suitable for use in low-power high frequency projectile synthesis.");
         simpleHintItem(SPECIALIST_AMMO_CANISTER, "Specialist Ammo Canister", "Concentrated energy suitable for use in medium-power projectile synthesis.");
         simpleHintItem(EXPLOSIVES_AMMO_CANISTER, "Explosives Ammo Canister", "Volatile energy suitable for use in explosive weaponry.");
-        simpleHintItem(ROCKET_LAUNCHER_AMMO, "Daybreak Rockets", "Programmable, compact rockets for use in the Daybreak launcher.");
-        simpleHintItem(MAGNUM_AMMO_CANISTER, "Magnum Ammo Canister", "Highly concentrated, compact energy capable of handling the energy spikes of the Nova magnum.");
+        simpleHintItem(HEAVY_AMMO_CANISTER, "Heavy Ammo Canister", "High power concentrated energy capable of fueling heavy weaponry.");
         //#endregion
 
         //#region Equipment upgrades
@@ -204,6 +204,7 @@ class LanguageGen extends LimaLanguageProvider
         add(LimaTechMenus.MATERIAL_FUSING_CHAMBER, "Material Fusing Chamber");
         add(LimaTechMenus.FABRICATOR, "Fabricator");
         add(LimaTechMenus.AUTO_FABRICATOR, "Auto Fabricator");
+        add(LimaTechMenus.REPAIR_STATION, "Molecular Rebinder");
         add(LimaTechMenus.EQUIPMENT_UPGRADE_STATION, "Equipment Upgrade Station");
         add(LimaTechMenus.ROCKET_TURRET, "Atmos Turret");
         add(LimaTechMenus.RAILGUN_TURRET, "Noctis Turret");

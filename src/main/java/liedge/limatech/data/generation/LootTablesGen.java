@@ -13,7 +13,7 @@ import liedge.limacore.world.loot.number.EnhancedLookupLevelBasedValue;
 import liedge.limacore.world.loot.number.RoundingNumberProvider;
 import liedge.limacore.world.loot.number.TargetedEnchantmentLevelProvider;
 import liedge.limatech.LimaTech;
-import liedge.limatech.block.TurretBlock;
+import liedge.limatech.block.DoubleWrenchBlock;
 import liedge.limatech.lib.weapons.GrenadeType;
 import liedge.limatech.registry.bootstrap.LimaTechEnchantments;
 import liedge.limatech.world.GrenadeSubPredicate;
@@ -100,10 +100,9 @@ class LootTablesGen extends LimaLootTableProvider
                     .when(LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity().subPredicate(HostileEntitySubPredicate.INSTANCE)))
                     .when(LootItemRandomChanceWithEnchantedBonusCondition.randomChanceAndLootingBoost(registries, 0.1f, 0.02f))
                     .add(lootItem(AUTO_AMMO_CANISTER).setWeight(80))
-                    .add(DynamicWeightLootEntry.dynamicWeightItem(SPECIALIST_AMMO_CANISTER, 15).setReplaceWeight(false).setDynamicWeight(TargetedEnchantmentLevelProvider.of(LootContext.EntityTarget.ATTACKER, ammoScavengerEnchantment, LevelBasedValue.perLevel(6f))))
+                    .add(DynamicWeightLootEntry.dynamicWeightItem(SPECIALIST_AMMO_CANISTER, 15).setReplaceWeight(false).setDynamicWeight(TargetedEnchantmentLevelProvider.of(LootContext.EntityTarget.ATTACKER, ammoScavengerEnchantment, LevelBasedValue.perLevel(6))))
                     .add(DynamicWeightLootEntry.dynamicWeightItem(EXPLOSIVES_AMMO_CANISTER, 5).setReplaceWeight(false).setDynamicWeight(TargetedEnchantmentLevelProvider.of(LootContext.EntityTarget.ATTACKER, ammoScavengerEnchantment, LevelBasedValue.perLevel(3))))
-                    .add(DynamicWeightLootEntry.dynamicWeightItem(ROCKET_LAUNCHER_AMMO, 3).setReplaceWeight(false).setDynamicWeight(TargetedEnchantmentLevelProvider.of(LootContext.EntityTarget.ATTACKER, ammoScavengerEnchantment, LevelBasedValue.perLevel(3))))
-                    .add(DynamicWeightLootEntry.dynamicWeightItem(MAGNUM_AMMO_CANISTER, 1).setReplaceWeight(false).setDynamicWeight(TargetedEnchantmentLevelProvider.of(LootContext.EntityTarget.ATTACKER, ammoScavengerEnchantment, LevelBasedValue.perLevel(2))))
+                    .add(DynamicWeightLootEntry.dynamicWeightItem(HEAVY_AMMO_CANISTER, 1).setReplaceWeight(false).setDynamicWeight(TargetedEnchantmentLevelProvider.of(LootContext.EntityTarget.ATTACKER, ammoScavengerEnchantment, LevelBasedValue.perLevel(2))))
                     .setRolls(RoundingNumberProvider.of(TargetedEnchantmentLevelProvider.of(LootContext.EntityTarget.ATTACKER, ammoScavengerEnchantment, EnhancedLookupLevelBasedValue.offsetLookup(4, 1, 2, 1.5f)), LimaRoundingMode.RANDOM));
 
             addTable(ENEMY_AMMO_DROPS, LootTable.lootTable().withPool(ammoDrops));
@@ -160,14 +159,15 @@ class LootTablesGen extends LimaLootTableProvider
             dropSelfWithEntity(FABRICATOR);
             dropSelfWithEntity(AUTO_FABRICATOR);
             dropSelfWithEntity(EQUIPMENT_UPGRADE_STATION);
+            doubleMachineBlockDrop(REPAIR_STATION);
 
-            turretDrop(ROCKET_TURRET);
-            turretDrop(RAILGUN_TURRET);
+            doubleMachineBlockDrop(ROCKET_TURRET);
+            doubleMachineBlockDrop(RAILGUN_TURRET);
         }
 
-        private void turretDrop(Supplier<? extends TurretBlock> turretSupplier)
+        private void doubleMachineBlockDrop(Supplier<? extends DoubleWrenchBlock> blockSupplier)
         {
-            TurretBlock block = turretSupplier.get();
+            DoubleWrenchBlock block = blockSupplier.get();
             add(block, singlePoolTable(applyExplosionCondition(block, singleItemPool(block))
                     .when(matchStateProperty(block, DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER))
                     .apply(SaveBlockEntityFunction.saveBlockEntityData())));

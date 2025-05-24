@@ -134,7 +134,7 @@ public class RocketLauncherWeaponItem extends SemiAutoWeaponItem
     @Override
     public Item getAmmoItem(ItemStack stack)
     {
-        return LimaTechItems.ROCKET_LAUNCHER_AMMO.get();
+        return LimaTechItems.EXPLOSIVES_AMMO_CANISTER.get();
     }
 
     @Override

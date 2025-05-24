@@ -1,6 +1,5 @@
 package liedge.limatech.registry.game;
 
-import liedge.limatech.LimaTech;
 import liedge.limatech.item.*;
 import liedge.limatech.item.tool.*;
 import liedge.limatech.item.weapon.*;
@@ -18,17 +17,20 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Collection;
 import java.util.function.Function;
 
+import static liedge.limatech.LimaTech.RESOURCES;
 import static liedge.limatech.item.LimaTechRarities.ltxGearRarity;
 
 public final class LimaTechItems
 {
     private LimaTechItems() {}
 
-    private static final DeferredRegister.Items ITEMS = LimaTech.RESOURCES.deferredItems();
+    private static final DeferredRegister.Items ITEMS = RESOURCES.deferredItems();
 
     public static void register(IEventBus bus)
     {
         ITEMS.register(bus);
+        ITEMS.addAlias(RESOURCES.location("rocket_launcher_ammo"), RESOURCES.location("explosives_ammo_canister"));
+        ITEMS.addAlias(RESOURCES.location("magnum_ammo_canister"), RESOURCES.location("heavy_ammo_canister"));
         bus.addListener(RegisterCapabilitiesEvent.class, LimaTechItems::registerCapabilities);
     }
 
@@ -119,8 +121,7 @@ public final class LimaTechItems
     public static final DeferredItem<SimpleHintItem> AUTO_AMMO_CANISTER = ITEMS.registerItem("auto_ammo_canister", SimpleHintItem::new);
     public static final DeferredItem<SimpleHintItem> SPECIALIST_AMMO_CANISTER = ITEMS.registerItem("specialist_ammo_canister", SimpleHintItem::new);
     public static final DeferredItem<SimpleHintItem> EXPLOSIVES_AMMO_CANISTER = ITEMS.registerItem("explosives_ammo_canister", SimpleHintItem::new);
-    public static final DeferredItem<SimpleHintItem> ROCKET_LAUNCHER_AMMO = ITEMS.registerItem("rocket_launcher_ammo", SimpleHintItem::new);
-    public static final DeferredItem<SimpleHintItem> MAGNUM_AMMO_CANISTER = ITEMS.registerItem("magnum_ammo_canister", SimpleHintItem::new);
+    public static final DeferredItem<SimpleHintItem> HEAVY_AMMO_CANISTER = ITEMS.registerItem("heavy_ammo_canister", SimpleHintItem::new);
 
     private static <T extends Item> DeferredItem<T> registerLTXGear(String name, Function<Item.Properties, T> constructor)
     {

@@ -491,7 +491,7 @@ class RecipesGen extends LimaRecipeProvider
                 .input(AUTO_AMMO_CANISTER, 16)
                 .input(SPECIALIST_AMMO_CANISTER, 8)
                 .input(EXPLOSIVES_AMMO_CANISTER, 4)
-                .input(MAGNUM_AMMO_CANISTER, 2));
+                .input(HEAVY_AMMO_CANISTER, 2));
 
         equipmentModuleFab(output, registries, "eum/weapon/gl", FLAME_GRENADE_CORE, 1, 250_000, builder -> builder
                 .input(COPPER_CIRCUIT, 16)

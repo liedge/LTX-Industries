@@ -70,25 +70,7 @@
           "type": "limacore:dynamic_weight",
           "child": {
             "type": "minecraft:item",
-            "name": "limatech:rocket_launcher_ammo",
-            "weight": 3
-          },
-          "dynamic_weight": {
-            "type": "limacore:targeted_enchantment_level",
-            "amount": {
-              "type": "minecraft:linear",
-              "base": 3.0,
-              "per_level_above_first": 3.0
-            },
-            "enchantment": "limatech:ammo_scavenger"
-          },
-          "replace_weight": false
-        },
-        {
-          "type": "limacore:dynamic_weight",
-          "child": {
-            "type": "minecraft:item",
-            "name": "limatech:magnum_ammo_canister"
+            "name": "limatech:heavy_ammo_canister"
           },
           "dynamic_weight": {
             "type": "limacore:targeted_enchantment_level",

@@ -21,11 +21,10 @@ enchantment affects the drop chance distribution, check out that page for more s
 
 | Ammo Type      | Drop Chance |
 |----------------|-------------|
-| **Automatics** | 76.9%       |
-| **Specialist** | 14.4%       |
-| **Explosives** | 4.8%        |
-| **Rockets**    | 2.9%        |
-| **Magnum**     | 1.0%        |
+| **Automatics** | 79.2%       |
+| **Specialist** | 14.9%       |
+| **Explosives** | 4.9%        |
+| **Heavy**      | 1.0%        |
 
 ## Energy Reload Synthesis
 Some [upgrade modules](../fundamentals/upgrade_system.md) can allow the weapon to reload using Common Energy rather than an ammo item. It's important

@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "limatech:item/rocket_launcher_ammo"
+    "layer0": "limatech:item/heavy_ammo_canister"
   }
 }
