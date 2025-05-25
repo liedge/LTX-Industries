@@ -24,8 +24,7 @@ public class IOControllerMenu extends LimaMenu<IOControllerMenu.MenuContext>
     {
         super(type, containerId, inventory, menuContext);
 
-        addPlayerInventory(DEFAULT_INV_X, DEFAULT_INV_Y);
-        addPlayerHotbar(DEFAULT_INV_X, DEFAULT_HOTBAR_Y);
+        addDefaultPlayerInventoryAndHotbar();
     }
 
     public IOController getIOControl()

@@ -88,13 +88,14 @@ public final class LimaTechClientSetup
         event.register(LimaTechMenus.MACHINE_UPGRADES.get(), MachineUpgradesScreen::new);
         event.register(LimaTechMenus.MACHINE_IO_CONTROL.get(), IOControllerScreen::new);
         event.register(LimaTechMenus.ENERGY_STORAGE_ARRAY.get(), EnergyStorageArrayScreen::new);
-        event.register(LimaTechMenus.DIGITAL_FURNACE.get(), DigitalFurnaceScreen::new);
-        event.register(LimaTechMenus.GRINDER.get(), GrinderScreen::new);
-        event.register(LimaTechMenus.RECOMPOSER.get(), RecomposerScreen::new);
+        SingleItemRecipeScreen.registerScreen(event, LimaTechMenus.DIGITAL_FURNACE, RecipeScreenType.DIGITAL_FURNACE);
+        SingleItemRecipeScreen.registerScreen(event, LimaTechMenus.GRINDER, RecipeScreenType.GRINDER);
+        SingleItemRecipeScreen.registerScreen(event, LimaTechMenus.RECOMPOSER, RecipeScreenType.RECOMPOSER);
         event.register(LimaTechMenus.MATERIAL_FUSING_CHAMBER.get(), MaterialFusingChamberScreen::new);
         event.register(LimaTechMenus.FABRICATOR.get(), FabricatorScreen::new);
         event.register(LimaTechMenus.AUTO_FABRICATOR.get(), AutoFabricatorScreen::new);
         event.register(LimaTechMenus.EQUIPMENT_UPGRADE_STATION.get(), EquipmentUpgradeStationScreen::new);
+        event.register(LimaTechMenus.MOLECULAR_RECONSTRUCTOR.get(), MolecularReconstructorScreen::new);
         event.register(LimaTechMenus.ROCKET_TURRET.get(), TurretScreen::new);
         event.register(LimaTechMenus.RAILGUN_TURRET.get(), TurretScreen::new);
     }

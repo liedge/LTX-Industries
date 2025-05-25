@@ -3,6 +3,7 @@ package liedge.limatech.registry.game;
 import liedge.limacore.inventory.menu.BlockEntityAccessMenuType;
 import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limatech.LimaTech;
+import liedge.limatech.LimaTechIds;
 import liedge.limatech.blockentity.*;
 import liedge.limatech.blockentity.base.UpgradableMachineBlockEntity;
 import liedge.limatech.menu.*;
@@ -25,16 +26,26 @@ public final class LimaTechMenus
 
     public static final DeferredHolder<MenuType<?>, IOControllerMenu.MenuType> MACHINE_IO_CONTROL = TYPES.register("machine_io_control", IOControllerMenu.MenuType::new);
     public static final DeferredHolder<MenuType<?>, LimaMenuType<UpgradableMachineBlockEntity, MachineUpgradeMenu>> MACHINE_UPGRADES = TYPES.register("machine_upgrades", id -> BlockEntityAccessMenuType.create(id, UpgradableMachineBlockEntity.class, MachineUpgradeMenu::new));
-    public static final DeferredHolder<MenuType<?>, LimaMenuType<BaseESABlockEntity, EnergyStorageArrayMenu>> ENERGY_STORAGE_ARRAY = TYPES.register("energy_storage_array", id -> BlockEntityAccessMenuType.create(id, BaseESABlockEntity.class, EnergyStorageArrayMenu::new));
-    public static final DeferredHolder<MenuType<?>, LimaMenuType<DigitalFurnaceBlockEntity, DigitalFurnaceMenu>> DIGITAL_FURNACE = TYPES.register("digital_furnace", id -> BlockEntityAccessMenuType.create(id, DigitalFurnaceBlockEntity.class, DigitalFurnaceMenu::new));
-    public static final DeferredHolder<MenuType<?>, LimaMenuType<GrinderBlockEntity, GrinderMenu>> GRINDER = TYPES.register("grinder", id -> BlockEntityAccessMenuType.create(id, GrinderBlockEntity.class, GrinderMenu::new));
-    public static final DeferredHolder<MenuType<?>, LimaMenuType<RecomposerBlockEntity, RecomposerMenu>> RECOMPOSER = TYPES.register("recomposer", id -> BlockEntityAccessMenuType.create(id, RecomposerBlockEntity.class, RecomposerMenu::new));
-    public static final DeferredHolder<MenuType<?>, LimaMenuType<MaterialFusingChamberBlockEntity, MaterialFusingChamberMenu>> MATERIAL_FUSING_CHAMBER = TYPES.register("material_fusing_chamber", id -> BlockEntityAccessMenuType.create(id, MaterialFusingChamberBlockEntity.class, MaterialFusingChamberMenu::new));
-    public static final DeferredHolder<MenuType<?>, LimaMenuType<FabricatorBlockEntity, FabricatorMenu>> FABRICATOR = TYPES.register("fabricator", id -> BlockEntityAccessMenuType.create(id, FabricatorBlockEntity.class, FabricatorMenu::new));
-    public static final DeferredHolder<MenuType<?>, LimaMenuType<AutoFabricatorBlockEntity, AutoFabricatorMenu>> AUTO_FABRICATOR = TYPES.register("auto_fabricator", id -> BlockEntityAccessMenuType.create(id, AutoFabricatorBlockEntity.class, AutoFabricatorMenu::new));
-    public static final DeferredHolder<MenuType<?>, LimaMenuType<EquipmentUpgradeStationBlockEntity, EquipmentUpgradeStationMenu>> EQUIPMENT_UPGRADE_STATION = TYPES.register("equipment_upgrade_station", id -> BlockEntityAccessMenuType.create(id, EquipmentUpgradeStationBlockEntity.class, EquipmentUpgradeStationMenu::new));
-    public static final DeferredHolder<MenuType<?>, LimaMenuType<RocketTurretBlockEntity, TurretMenu<RocketTurretBlockEntity>>> ROCKET_TURRET = registerTurret("rocket_turret", RocketTurretBlockEntity.class);
-    public static final DeferredHolder<MenuType<?>, LimaMenuType<RailgunTurretBlockEntity, TurretMenu<RailgunTurretBlockEntity>>> RAILGUN_TURRET = registerTurret("railgun_turret", RailgunTurretBlockEntity.class);
+
+    public static final DeferredHolder<MenuType<?>, LimaMenuType<BaseESABlockEntity, EnergyStorageArrayMenu>> ENERGY_STORAGE_ARRAY = TYPES.register(LimaTechIds.ID_ENERGY_STORAGE_ARRAY, id -> BlockEntityAccessMenuType.create(id, BaseESABlockEntity.class, EnergyStorageArrayMenu::new));
+    public static final DeferredHolder<MenuType<?>, LimaMenuType<DigitalFurnaceBlockEntity, SingleItemRecipeMenu<DigitalFurnaceBlockEntity>>> DIGITAL_FURNACE = registerSingleItemRecipe(LimaTechIds.ID_DIGITAL_FURNACE, DigitalFurnaceBlockEntity.class);
+    public static final DeferredHolder<MenuType<?>, LimaMenuType<GrinderBlockEntity, SingleItemRecipeMenu<GrinderBlockEntity>>> GRINDER = registerSingleItemRecipe(LimaTechIds.ID_GRINDER, GrinderBlockEntity.class);
+    public static final DeferredHolder<MenuType<?>, LimaMenuType<RecomposerBlockEntity, SingleItemRecipeMenu<RecomposerBlockEntity>>> RECOMPOSER = registerSingleItemRecipe(LimaTechIds.ID_RECOMPOSER, RecomposerBlockEntity.class);
+    public static final DeferredHolder<MenuType<?>, LimaMenuType<MaterialFusingChamberBlockEntity, MaterialFusingChamberMenu>> MATERIAL_FUSING_CHAMBER = TYPES.register(LimaTechIds.ID_MATERIAL_FUSING_CHAMBER, id -> BlockEntityAccessMenuType.create(id, MaterialFusingChamberBlockEntity.class, MaterialFusingChamberMenu::new));
+    public static final DeferredHolder<MenuType<?>, LimaMenuType<FabricatorBlockEntity, FabricatorMenu>> FABRICATOR = TYPES.register(LimaTechIds.ID_FABRICATOR, id -> BlockEntityAccessMenuType.create(id, FabricatorBlockEntity.class, FabricatorMenu::new));
+    public static final DeferredHolder<MenuType<?>, LimaMenuType<AutoFabricatorBlockEntity, AutoFabricatorMenu>> AUTO_FABRICATOR = TYPES.register(LimaTechIds.ID_AUTO_FABRICATOR, id -> BlockEntityAccessMenuType.create(id, AutoFabricatorBlockEntity.class, AutoFabricatorMenu::new));
+
+    public static final DeferredHolder<MenuType<?>, LimaMenuType<MolecularReconstructorBlockEntity, MolecularReconstructorMenu>> MOLECULAR_RECONSTRUCTOR = TYPES.register(LimaTechIds.ID_MOLECULAR_RECONSTRUCTOR, id -> BlockEntityAccessMenuType.create(id, MolecularReconstructorBlockEntity.class, MolecularReconstructorMenu::new));
+
+    public static final DeferredHolder<MenuType<?>, LimaMenuType<EquipmentUpgradeStationBlockEntity, EquipmentUpgradeStationMenu>> EQUIPMENT_UPGRADE_STATION = TYPES.register(LimaTechIds.ID_EQUIPMENT_UPGRADE_STATION, id -> BlockEntityAccessMenuType.create(id, EquipmentUpgradeStationBlockEntity.class, EquipmentUpgradeStationMenu::new));
+
+    public static final DeferredHolder<MenuType<?>, LimaMenuType<RocketTurretBlockEntity, TurretMenu<RocketTurretBlockEntity>>> ROCKET_TURRET = registerTurret(LimaTechIds.ID_ROCKET_TURRET, RocketTurretBlockEntity.class);
+    public static final DeferredHolder<MenuType<?>, LimaMenuType<RailgunTurretBlockEntity, TurretMenu<RailgunTurretBlockEntity>>> RAILGUN_TURRET = registerTurret(LimaTechIds.ID_RAILGUN_TURRET, RailgunTurretBlockEntity.class);
+
+    private static <BE extends SimpleRecipeMachineBlockEntity<?, ?>> DeferredHolder<MenuType<?>, LimaMenuType<BE, SingleItemRecipeMenu<BE>>> registerSingleItemRecipe(String name, Class<BE> beClass)
+    {
+        return TYPES.register(name, id -> BlockEntityAccessMenuType.<BE, SingleItemRecipeMenu<BE>>create(id, beClass, SingleItemRecipeMenu::new));
+    }
 
     private static <BE extends BaseTurretBlockEntity> DeferredHolder<MenuType<?>, LimaMenuType<BE, TurretMenu<BE>>> registerTurret(String name, Class<BE> beClass)
     {

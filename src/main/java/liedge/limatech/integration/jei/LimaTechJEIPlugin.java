@@ -2,10 +2,9 @@ package liedge.limatech.integration.jei;
 
 import liedge.limacore.util.LimaRecipesUtil;
 import liedge.limatech.LimaTech;
-import liedge.limatech.client.gui.screen.DigitalFurnaceScreen;
-import liedge.limatech.client.gui.screen.GrinderScreen;
 import liedge.limatech.client.gui.screen.MaterialFusingChamberScreen;
-import liedge.limatech.client.gui.screen.RecomposerScreen;
+import liedge.limatech.client.gui.screen.RecipeScreenType;
+import liedge.limatech.client.gui.screen.SingleItemRecipeScreen;
 import liedge.limatech.item.UpgradeModuleItem;
 import liedge.limatech.lib.upgrades.UpgradeBaseEntry;
 import liedge.limatech.recipe.FabricatingRecipe;
@@ -17,6 +16,8 @@ import liedge.limatech.registry.game.LimaTechItems;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.RecipeTypes;
+import mezz.jei.api.gui.handlers.IGuiClickableArea;
+import mezz.jei.api.gui.handlers.IGuiContainerHandler;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.subtypes.IIngredientSubtypeInterpreter;
 import mezz.jei.api.recipe.RecipeType;
@@ -29,6 +30,7 @@ import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
@@ -96,9 +98,17 @@ public class LimaTechJEIPlugin implements IModPlugin
     @Override
     public void registerGuiHandlers(IGuiHandlerRegistration registration)
     {
-        registration.addRecipeClickArea(DigitalFurnaceScreen.class, 75, 39, 24, 6, RecipeTypes.SMELTING);
-        registration.addRecipeClickArea(GrinderScreen.class, 75, 39, 24, 6, GRINDING_JEI);
-        registration.addRecipeClickArea(RecomposerScreen.class, 75, 39, 24, 6, RECOMPOSING_JEI);
+        registration.addGuiContainerHandler(SingleItemRecipeScreen.class, new IGuiContainerHandler<>()
+        {
+            @Override
+            public Collection<IGuiClickableArea> getGuiClickableAreas(SingleItemRecipeScreen containerScreen, double guiMouseX, double guiMouseY)
+            {
+                RecipeScreenType type = containerScreen.getRecipeScreenType();
+                IGuiClickableArea clickableArea = IGuiClickableArea.createBasic(type.getRecipeAreaX(), type.getRecipeAreaY(), type.getRecipeAreaWidth(), type.getRecipeAreaHeight(), recipeForScreenType(type));
+                return List.of(clickableArea);
+            }
+        });
+
         registration.addRecipeClickArea(MaterialFusingChamberScreen.class, 81, 41, 24, 6, MATERIAL_FUSING_JEI);
     }
 
@@ -108,6 +118,16 @@ public class LimaTechJEIPlugin implements IModPlugin
             UpgradeBaseEntry<?> entry = stack.get(item.entryComponentType());
             return entry != null ? entry.toString() : IIngredientSubtypeInterpreter.NONE;
         });
+    }
+
+    private static RecipeType<?> recipeForScreenType(RecipeScreenType screenType)
+    {
+        return switch (screenType)
+        {
+            case DIGITAL_FURNACE -> RecipeTypes.SMELTING;
+            case GRINDER -> GRINDING_JEI;
+            case RECOMPOSER -> RECOMPOSING_JEI;
+        };
     }
 
     @SuppressWarnings("unchecked")

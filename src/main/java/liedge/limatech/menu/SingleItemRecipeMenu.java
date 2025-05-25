@@ -6,9 +6,9 @@ import liedge.limatech.blockentity.SimpleRecipeMachineBlockEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 
-public abstract class SingleItemRecipeMenu<CTX extends SimpleRecipeMachineBlockEntity<?, ?>> extends SidedUpgradableMachineMenu<CTX>
+public class SingleItemRecipeMenu<CTX extends SimpleRecipeMachineBlockEntity<?, ?>> extends SidedUpgradableMachineMenu<CTX>
 {
-    protected SingleItemRecipeMenu(LimaMenuType<CTX, ?> type, int containerId, Inventory inventory, CTX menuContext)
+    public SingleItemRecipeMenu(LimaMenuType<CTX, ?> type, int containerId, Inventory inventory, CTX menuContext)
     {
         super(type, containerId, inventory, menuContext);
 
