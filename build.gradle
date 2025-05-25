@@ -220,12 +220,6 @@ publishing {
             artifact jar
         }
     }
-
-    repositories {
-        maven {
-            url "file://${project.projectDir}/repo"
-        }
-    }
 }
 
 tasks.withType(JavaCompile).configureEach {

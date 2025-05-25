@@ -1,13 +1,14 @@
-name: Build and Publish Gradle Package
+name: Build and Publish Releases
 
-on: [push]
+on:
+  push:
+    tags:
+      - 'v*'
 
 jobs:
-  build:
-
+  release:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
       packages: write
 
     steps:
@@ -31,6 +32,13 @@ jobs:
           GITHUB_USERNAME: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+  prune_versions:
+    needs: [release]
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+
+    steps:
       - name: Keep only latest 4 versions
         uses: actions/delete-package-versions@v5
         with:
