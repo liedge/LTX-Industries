@@ -74,20 +74,28 @@ class BlockStatesGen extends LimaBlockStateProvider
         horizontalBlockWithSimpleItem(FABRICATOR);
         horizontalBlockWithSimpleItem(AUTO_FABRICATOR, blockFolderLocation(FABRICATOR));
         simpleBlockWithItem(EQUIPMENT_UPGRADE_STATION, existingModel(blockFolderLocation(EQUIPMENT_UPGRADE_STATION)));
+        simpleDoubleMachineBlock(MOLECULAR_RECONSTRUCTOR);
 
         // Turret
-        turretBlock(ROCKET_TURRET);
-        turretBlock(RAILGUN_TURRET);
+        doubleMachineBlock(ROCKET_TURRET, turretBase);
+        doubleMachineBlock(RAILGUN_TURRET, turretBase);
     }
 
-    private void turretBlock(Holder<Block> turret)
+    private void doubleMachineBlock(Holder<Block> doubleBlock, ModelFile baseModel)
     {
-        VariantBlockStateBuilder builder = getVariantBuilder(turret);
+        VariantBlockStateBuilder builder = getVariantBuilder(doubleBlock);
         builder.setModels(builder.partialState().with(DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER), ConfiguredModel.builder().modelFile(machineParticlesOnly).build());
         for (Direction side : Direction.Plane.HORIZONTAL)
         {
-            builder.setModels(builder.partialState().with(DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).with(HORIZONTAL_FACING, side), ConfiguredModel.builder().modelFile(turretBase).rotationY(getRotationY(side, 180)).build());
+            builder.setModels(builder.partialState().with(DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).with(HORIZONTAL_FACING, side), ConfiguredModel.builder().modelFile(baseModel).rotationY(getRotationY(side, 180)).build());
         }
+    }
+
+    private void simpleDoubleMachineBlock(Holder<Block> doubleBlock)
+    {
+        ModelFile model = existingModel(blockFolderLocation(doubleBlock));
+        doubleMachineBlock(doubleBlock, model);
+        simpleBlockItem(doubleBlock, model);
     }
 
     private void horizontalBlockWithSimpleItem(Holder<Block> holder, ResourceLocation location)

@@ -4,6 +4,7 @@ import liedge.limacore.inventory.menu.LimaItemHandlerMenuSlot;
 import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limacore.util.LimaItemUtil;
 import liedge.limatech.blockentity.BaseTurretBlockEntity;
+import liedge.limatech.blockentity.SidedItemEnergyMachineBlockEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 
@@ -13,8 +14,8 @@ public class TurretMenu<BE extends BaseTurretBlockEntity> extends SidedUpgradabl
     {
         super(type, containerId, inventory, menuContext);
 
-        addSlot(0, 8, 62);
-        addSlotsGrid(menuContainer(), 1, 80, 23, 5, 4, (container, index, x, y) -> new LimaItemHandlerMenuSlot(container, index, x, y, false));
+        addSlot(SidedItemEnergyMachineBlockEntity.ENERGY_ITEM_SLOT, 8, 62);
+        addSlotsGrid(menuContainer(), BaseTurretBlockEntity.DROPS_INVENTORY_SLOT_START, 80, 23, 5, 4, (container, index, x, y) -> new LimaItemHandlerMenuSlot(container, index, x, y, false));
 
         addPlayerInventoryAndHotbar(8, 106);
     }

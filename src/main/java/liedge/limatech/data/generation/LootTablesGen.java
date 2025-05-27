@@ -25,7 +25,6 @@ import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.item.enchantment.LevelBasedValue;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -75,7 +74,6 @@ class LootTablesGen extends LimaLootTableProvider
         {
             Holder<Enchantment> ammoScavengerEnchantment = registries.holderOrThrow(LimaTechEnchantments.AMMO_SCAVENGER);
             Holder<Enchantment> razorEnchantment = registries.holderOrThrow(LimaTechEnchantments.RAZOR);
-            Holder<Enchantment> lootingEnchantment = registries.holderOrThrow(Enchantments.LOOTING);
 
             // GLM generic drops
             LootPool.Builder phantomDrops = LootPool.lootPool()
@@ -159,7 +157,7 @@ class LootTablesGen extends LimaLootTableProvider
             dropSelfWithEntity(FABRICATOR);
             dropSelfWithEntity(AUTO_FABRICATOR);
             dropSelfWithEntity(EQUIPMENT_UPGRADE_STATION);
-            doubleMachineBlockDrop(REPAIR_STATION);
+            doubleMachineBlockDrop(MOLECULAR_RECONSTRUCTOR);
 
             doubleMachineBlockDrop(ROCKET_TURRET);
             doubleMachineBlockDrop(RAILGUN_TURRET);

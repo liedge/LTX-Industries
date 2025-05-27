@@ -19,6 +19,9 @@ import java.util.Optional;
 
 public interface UpgradableMachineBlockEntity extends SubMenuProviderBlockEntity, ItemHolderBlockEntity
 {
+    String TAG_KEY_UPGRADES = "upgrades";
+    String TAG_KEY_UPGRADE_SLOT_INVENTORY = "upgrade_slot";
+
     MachineUpgrades getUpgrades();
 
     void setUpgrades(MachineUpgrades upgrades);

@@ -1,28 +1,24 @@
 package liedge.limatech.blockentity;
 
-import com.google.common.collect.ImmutableSet;
 import it.unimi.dsi.fastutil.ints.IntList;
 import liedge.limacore.LimaCommonConstants;
 import liedge.limacore.blockentity.IOAccess;
-import liedge.limacore.blockentity.IOAccessSets;
 import liedge.limacore.blockentity.OwnableBlockEntity;
-import liedge.limacore.blockentity.RelativeHorizontalSide;
-import liedge.limacore.capability.energy.LimaBlockEntityEnergyStorage;
+import liedge.limacore.capability.energy.LimaEnergyStorage;
 import liedge.limacore.capability.energy.LimaEnergyUtil;
-import liedge.limacore.capability.itemhandler.LimaItemHandlerBase;
 import liedge.limacore.client.LimaCoreClientUtil;
+import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.network.sync.AutomaticDataWatcher;
 import liedge.limacore.network.sync.LimaDataWatcher;
 import liedge.limacore.network.sync.ManualDataWatcher;
 import liedge.limacore.registry.game.LimaCoreDataComponents;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
-import liedge.limacore.util.LimaItemUtil;
 import liedge.limacore.util.LimaStreamsUtil;
 import liedge.limatech.blockentity.base.SidedAccessBlockEntityType;
-import liedge.limatech.blockentity.base.SidedAccessRules;
 import liedge.limatech.entity.LimaTechEntityUtil;
 import liedge.limatech.lib.TurretTargetList;
 import liedge.limatech.registry.game.LimaTechSounds;
+import liedge.limatech.util.LimaTechTooltipUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentMap;
@@ -32,15 +28,12 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.energy.IEnergyStorage;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -50,12 +43,10 @@ import static liedge.limacore.util.LimaMathUtil.vec2Length;
 
 public abstract class BaseTurretBlockEntity extends SidedItemEnergyMachineBlockEntity implements OwnableBlockEntity
 {
-    private static final Set<RelativeHorizontalSide> VALID_SIDES = ImmutableSet.copyOf(EnumSet.of(RelativeHorizontalSide.BOTTOM, RelativeHorizontalSide.FRONT, RelativeHorizontalSide.REAR, RelativeHorizontalSide.LEFT, RelativeHorizontalSide.RIGHT));
-    public static final SidedAccessRules ITEM_RULES = SidedAccessRules.builder().setValidSides(VALID_SIDES).setValidIOStates(IOAccessSets.INPUT_XOR_OUTPUT_OR_DISABLED).setDefaultIOState(IOAccess.OUTPUT_ONLY).build();
-    public static final SidedAccessRules ENERGY_RULES = SidedAccessRules.builder().setValidSides(VALID_SIDES).setValidIOStates(IOAccessSets.INPUT_ONLY_OR_DISABLED).setDefaultIOState(IOAccess.INPUT_ONLY).build();
+    public static final int DROPS_INVENTORY_SLOT_START = 1;
+    public static final int DROPS_INVENTORY_SIZE = 20;
 
     // General properties
-    private final LimaBlockEntityEnergyStorage energyStorage;
     protected final Queue<Entity> targetQueue = new ArrayDeque<>();
     private final Vec3 projectileStart;
     private final AABB targetArea;
@@ -80,8 +71,7 @@ public abstract class BaseTurretBlockEntity extends SidedItemEnergyMachineBlockE
 
     protected BaseTurretBlockEntity(SidedAccessBlockEntityType<?> type, BlockPos pos, BlockState state, double startY, double areaXZRadius, double areaYMin, double areaYMax)
     {
-        super(type, pos, state, 21);
-        this.energyStorage = new LimaBlockEntityEnergyStorage(this);
+        super(type, pos, state, DROPS_INVENTORY_SIZE + 1);
         this.projectileStart = new Vec3(pos.getX() + 0.5d, pos.getY() + startY, pos.getZ() + 0.5d);
         this.targetArea = new AABB(projectileStart.x - areaXZRadius, projectileStart.y - areaYMin, projectileStart.z - areaXZRadius, projectileStart.x + areaXZRadius, projectileStart.y + areaYMax, projectileStart.z + areaXZRadius);
 
@@ -147,7 +137,7 @@ public abstract class BaseTurretBlockEntity extends SidedItemEnergyMachineBlockE
             this.ticker0 = 0;
             this.ticker = 0; // Reset timers on client targets refresh
         });
-        this.activeWatcher = ManualDataWatcher.manuallyTrack(LimaCoreNetworkSerializers.BOOL, () -> energyStorage.getEnergyStored() >= getEnergyPerTarget(), b -> this.activeClient = b);
+        this.activeWatcher = ManualDataWatcher.manuallyTrack(LimaCoreNetworkSerializers.BOOL, () -> getEnergyStorage().getEnergyStored() >= getEnergyPerTarget(), b -> this.activeClient = b);
 
         collector.register(targetsWatcher);
         collector.register(activeWatcher);
@@ -167,18 +157,6 @@ public abstract class BaseTurretBlockEntity extends SidedItemEnergyMachineBlockE
     }
 
     @Override
-    public int getBaseEnergyTransferRate()
-    {
-        return getBaseEnergyCapacity() / 20;
-    }
-
-    @Override
-    public LimaBlockEntityEnergyStorage getEnergyStorage()
-    {
-        return energyStorage;
-    }
-
-    @Override
     public void onEnergyChanged()
     {
         super.onEnergyChanged();
@@ -186,14 +164,10 @@ public abstract class BaseTurretBlockEntity extends SidedItemEnergyMachineBlockE
     }
 
     @Override
-    public boolean isItemValid(int handlerIndex, int slot, ItemStack stack)
+    public IOAccess getPrimaryHandlerItemSlotIO(int slot)
     {
-        if (handlerIndex == 0)
-        {
-            return slot != 0 || LimaItemUtil.hasEnergyCapability(stack);
-        }
-
-        return super.isItemValid(handlerIndex, slot, stack);
+        if (slot >= DROPS_INVENTORY_SLOT_START && slot < 21) return IOAccess.OUTPUT_ONLY;
+        else return IOAccess.DISABLED;
     }
 
     @Override
@@ -202,17 +176,13 @@ public abstract class BaseTurretBlockEntity extends SidedItemEnergyMachineBlockE
         // Tick variables
         Player owner = getOwner();
         TurretTargetList targetList = TurretTargetList.getOrDefault(owner);
-        LimaItemHandlerBase inventory = getItemHandler();
+        LimaEnergyStorage energyStorage = getEnergyStorage();
 
         // Fill internal energy buffer from energy item slot
-        if (energyStorage.getEnergyStored() < energyStorage.getMaxEnergyStored())
-        {
-            IEnergyStorage itemEnergy = inventory.getStackInSlot(0).getCapability(Capabilities.EnergyStorage.ITEM);
-            if (itemEnergy != null)
-            {
-                LimaEnergyUtil.transferEnergyBetween(itemEnergy, energyStorage, energyStorage.getTransferRate(), false);
-            }
-        }
+        fillEnergyBuffer();
+
+        // Auto eject items
+        autoOutputItems(100, DROPS_INVENTORY_SLOT_START, DROPS_INVENTORY_SIZE);
 
         // Try to fill targeting queue if turret firing sequence is not active
         if (!turretCharging && targetQueue.isEmpty() && ticker >= getTargetScanTime())
@@ -378,6 +348,12 @@ public abstract class BaseTurretBlockEntity extends SidedItemEnergyMachineBlockE
                 turretYRot = Mth.approachDegrees(turretYRot, angle, 15f);
             }
         }
+    }
+
+    @Override
+    public void appendStatsTooltips(TooltipLineConsumer consumer)
+    {
+        LimaTechTooltipUtil.appendEnergyUsageTooltip(consumer, getEnergyPerTarget());
     }
 
     @Override

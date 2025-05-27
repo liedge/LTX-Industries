@@ -13,6 +13,7 @@
     "limatech:fabricator",
     "limatech:auto_fabricator",
     "limatech:equipment_upgrade_station",
+    "limatech:molecular_reconstructor",
     "limatech:rocket_turret",
     "limatech:railgun_turret"
   ]

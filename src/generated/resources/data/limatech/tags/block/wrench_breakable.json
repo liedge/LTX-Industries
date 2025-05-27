@@ -7,6 +7,7 @@
     "limatech:fabricator",
     "limatech:auto_fabricator",
     "limatech:equipment_upgrade_station",
+    "limatech:molecular_reconstructor",
     "limatech:energy_storage_array",
     "limatech:infinite_energy_storage_array",
     "limatech:rocket_turret",

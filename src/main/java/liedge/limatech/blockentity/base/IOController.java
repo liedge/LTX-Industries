@@ -46,7 +46,7 @@ public final class IOController implements INBTSerializable<CompoundTag>
 
     public IOAccess getSideIOState(RelativeHorizontalSide side)
     {
-        return Objects.requireNonNull(controlMap.get(side), "Side not valid for IO controls");
+        return Objects.requireNonNullElse(controlMap.get(side), IOAccess.DISABLED);
     }
 
     public IOAccess getSideIOState(Direction absoluteSide)
@@ -56,7 +56,11 @@ public final class IOController implements INBTSerializable<CompoundTag>
 
     public void setSideIOState(RelativeHorizontalSide side, IOAccess access)
     {
-        IOAccess oldAccess = setSideIOStateInternal(side, access);
+        // Merged with first call site
+        Preconditions.checkArgument(accessRules.validSides().contains(side), "Side %s is not valid for input type %s.", side, inputType);
+        Preconditions.checkArgument(accessRules.validIOStates().contains(access), "IO access %s not valid for input type %s.", access, inputType);
+        IOAccess oldAccess = controlMap.put(side, access);
+
         if (oldAccess != access) onChanged();
     }
 
@@ -99,28 +103,20 @@ public final class IOController implements INBTSerializable<CompoundTag>
 
     public void toggleAutoInput()
     {
-        if (!autoInput && allowsAutoInput())
+        if (allowsAutoInput())
         {
-            this.autoInput = true;
-            onChanged();
-        }
-        else
-        {
-            this.autoInput = false;
+            boolean previous = autoInput;
+            this.autoInput = !previous;
             onChanged();
         }
     }
 
     public void toggleAutoOutput()
     {
-        if (!autoOutput && allowsAutoOutput())
+        if (allowsAutoOutput())
         {
-            this.autoOutput = true;
-            onChanged();
-        }
-        else
-        {
-            this.autoOutput = false;
+            boolean previous = autoOutput;
+            this.autoOutput = !previous;
             onChanged();
         }
     }
@@ -129,13 +125,6 @@ public final class IOController implements INBTSerializable<CompoundTag>
     {
         if (dataWatcher == null) dataWatcher = ManualDataWatcher.manuallyTrack(LimaCoreNetworkSerializers.COMPOUND_TAG, this::serializeNBT, this::deserializeNBT);
         return dataWatcher;
-    }
-
-    private @Nullable IOAccess setSideIOStateInternal(RelativeHorizontalSide side, IOAccess access)
-    {
-        Preconditions.checkArgument(accessRules.validSides().contains(side), "Side %s is not valid for input type %s.", side, inputType);
-        Preconditions.checkArgument(accessRules.validIOStates().contains(access), "IO access %s not valid for input type %s.", access, inputType);
-        return controlMap.put(side, access);
     }
 
     private void onChanged()
@@ -164,11 +153,13 @@ public final class IOController implements INBTSerializable<CompoundTag>
     {
         for (RelativeHorizontalSide side : accessRules.validSides())
         {
-            setSideIOStateInternal(side, IOAccess.CODEC.byNameOrThrow(tag.getString(side.getSerializedName())));
+            IOAccess access = IOAccess.CODEC.byNameOrThrow(tag.getString(side.getSerializedName()));
+            if (!accessRules.validSides().contains(side) || !accessRules.validIOStates().contains(access)) access = accessRules.defaultIOState();
+            controlMap.put(side, access); // Second call site
         }
 
-        this.autoInput = tag.getBoolean("auto_input");
-        this.autoOutput = tag.getBoolean("auto_output");
+        this.autoInput = allowsAutoInput() && tag.getBoolean("auto_input");
+        this.autoOutput = allowsAutoOutput() && tag.getBoolean("auto_output");
     }
 
     @Override

@@ -70,7 +70,7 @@ class LanguageGen extends LimaLanguageProvider
         addBlock(FABRICATOR, "Fabricator");
         addBlock(AUTO_FABRICATOR, "Auto Fabricator");
         addBlock(EQUIPMENT_UPGRADE_STATION, "Equipment Upgrade Station");
-        addBlock(REPAIR_STATION, "Molecular Rebinder");
+        addBlock(MOLECULAR_RECONSTRUCTOR, "Molecular Reconstructor");
 
         addBlock(ROCKET_TURRET, ltxName("LTX A/DU %s", "Atmos"));
         addBlock(RAILGUN_TURRET, ltxName("LTX A/DU %s", "Noctis"));
@@ -204,7 +204,7 @@ class LanguageGen extends LimaLanguageProvider
         add(LimaTechMenus.MATERIAL_FUSING_CHAMBER, "Material Fusing Chamber");
         add(LimaTechMenus.FABRICATOR, "Fabricator");
         add(LimaTechMenus.AUTO_FABRICATOR, "Auto Fabricator");
-        add(LimaTechMenus.REPAIR_STATION, "Molecular Rebinder");
+        add(LimaTechMenus.MOLECULAR_RECONSTRUCTOR, "Molecular Reconstructor");
         add(LimaTechMenus.EQUIPMENT_UPGRADE_STATION, "Equipment Upgrade Station");
         add(LimaTechMenus.ROCKET_TURRET, "Atmos Turret");
         add(LimaTechMenus.RAILGUN_TURRET, "Noctis Turret");
@@ -257,6 +257,7 @@ class LanguageGen extends LimaLanguageProvider
         add(FABRICATOR_SELECTED_RECIPE_TOOLTIP, "Left click to craft. Right click to encode blueprint (must have blank blueprint in slot).");
         add(FABRICATOR_LOCKED_TOOLTIP, "This recipe is advancement locked. You must discover it first before being able to use it.");
         add(INLINE_ENERGY_REQUIRED_TOOLTIP, "Energy required: %s");
+        add(WORKING_PROGRESS_TOOLTIP, "Working: %s%%");
         add(CRAFTING_PROGRESS_TOOLTIP, "Crafting: %s%%");
         add(UPGRADE_RANK_TOOLTIP, "Rank %s/%s");
         add(UPGRADE_REMOVE_HINT, "Shift + left click to remove upgrade. Must have space in your inventory.");

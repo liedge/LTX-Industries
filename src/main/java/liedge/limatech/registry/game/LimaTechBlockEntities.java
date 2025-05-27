@@ -1,17 +1,15 @@
 package liedge.limatech.registry.game;
 
-import liedge.limacore.blockentity.IOAccess;
-import liedge.limacore.blockentity.IOAccessSets;
-import liedge.limacore.blockentity.LimaBlockEntity;
-import liedge.limacore.blockentity.LimaBlockEntityType;
+import com.google.common.collect.ImmutableSet;
+import liedge.limacore.blockentity.*;
 import liedge.limacore.capability.energy.EnergyHolderBlockEntity;
 import liedge.limacore.capability.itemhandler.ItemHolderBlockEntity;
 import liedge.limatech.LimaTech;
 import liedge.limatech.LimaTechIds;
 import liedge.limatech.blockentity.*;
-import liedge.limatech.blockentity.base.BaseDoubleBlockEntity;
 import liedge.limatech.blockentity.base.BlockEntityInputType;
 import liedge.limatech.blockentity.base.SidedAccessBlockEntityType;
+import liedge.limatech.blockentity.base.SidedAccessRules;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
@@ -20,6 +18,8 @@ import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
+import java.util.EnumSet;
+import java.util.Set;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
@@ -45,6 +45,24 @@ public final class LimaTechBlockEntities
         });
     }
 
+    // Sided Access Rules
+    private static final Set<RelativeHorizontalSide> DOUBLE_BLOCK_VALID_SIDES = ImmutableSet.copyOf(EnumSet.of(RelativeHorizontalSide.BOTTOM, RelativeHorizontalSide.FRONT, RelativeHorizontalSide.REAR, RelativeHorizontalSide.LEFT, RelativeHorizontalSide.RIGHT));
+    private static final SidedAccessRules DOUBLE_MACHINE_ENERGY_RULES = SidedAccessRules.builder()
+            .setValidSides(DOUBLE_BLOCK_VALID_SIDES)
+            .setValidIOStates(IOAccessSets.INPUT_ONLY_OR_DISABLED)
+            .setDefaultIOState(IOAccess.INPUT_ONLY).build();
+    private static final SidedAccessRules DOUBLE_MACHINE_ITEM_RULES = SidedAccessRules.builder()
+            .setValidSides(DOUBLE_BLOCK_VALID_SIDES)
+            .setValidIOStates(IOAccessSets.ALL_ALLOWED)
+            .setDefaultIOState(IOAccess.INPUT_ONLY)
+            .defineAutoOutput(true).build();
+    private static final SidedAccessRules TURRET_ITEM_RULES = SidedAccessRules.builder()
+            .setValidSides(DOUBLE_BLOCK_VALID_SIDES)
+            .setValidIOStates(IOAccessSets.OUTPUT_ONLY_OR_DISABLED)
+            .setDefaultIOState(IOAccess.OUTPUT_ONLY)
+            .defineAutoOutput(true).build();
+
+    // Registrations
     public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<EnergyStorageArrayBlockEntity>> ENERGY_STORAGE_ARRAY = TYPES.register(LimaTechIds.ID_ENERGY_STORAGE_ARRAY, () -> SidedAccessBlockEntityType.Builder.builder(EnergyStorageArrayBlockEntity::new)
             .withBlock(LimaTechBlocks.ENERGY_STORAGE_ARRAY)
             .withSideRules(BlockEntityInputType.ITEMS, BaseESABlockEntity.ITEM_ACCESS_RULES)
@@ -83,17 +101,17 @@ public final class LimaTechBlockEntities
                 .withSideRules(BlockEntityInputType.ENERGY, SimpleRecipeMachineBlockEntity.ENERGY_ACCESS_RULES).build());
     }
 
-    private static <BE extends BaseDoubleBlockEntity> DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<BE>> registerDoubleBlockMachine(String name, BlockEntityType.BlockEntitySupplier<BE> factory, UnaryOperator<SidedAccessBlockEntityType.Builder<BE>> builder)
+    private static <BE extends LimaBlockEntity> DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<BE>> registerDoubleBlockMachine(String name, BlockEntityType.BlockEntitySupplier<BE> factory, UnaryOperator<SidedAccessBlockEntityType.Builder<BE>> builder)
     {
         return TYPES.register(name, () -> builder.apply(SidedAccessBlockEntityType.Builder.builder(factory))
-                .withSideRules(BlockEntityInputType.ITEMS, BaseDoubleBlockEntity.MACHINE_ITEM_RULES)
-                .withSideRules(BlockEntityInputType.ENERGY, BaseDoubleBlockEntity.ENERGY_RULES).build());
+                .withSideRules(BlockEntityInputType.ITEMS, DOUBLE_MACHINE_ITEM_RULES)
+                .withSideRules(BlockEntityInputType.ENERGY, DOUBLE_MACHINE_ENERGY_RULES).build());
     }
 
-    private static <BE extends BaseDoubleBlockEntity> DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<BE>> registerTurret(String name, BlockEntityType.BlockEntitySupplier<BE> factory, UnaryOperator<SidedAccessBlockEntityType.Builder<BE>> builder)
+    private static <BE extends BaseTurretBlockEntity> DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<BE>> registerTurret(String name, BlockEntityType.BlockEntitySupplier<BE> factory, UnaryOperator<SidedAccessBlockEntityType.Builder<BE>> builder)
     {
         return TYPES.register(name, () -> builder.apply(SidedAccessBlockEntityType.Builder.builder(factory))
-                .withSideRules(BlockEntityInputType.ITEMS, BaseDoubleBlockEntity.TURRET_ITEM_RULES)
-                .withSideRules(BlockEntityInputType.ENERGY, BaseDoubleBlockEntity.ENERGY_RULES).build());
+                .withSideRules(BlockEntityInputType.ITEMS, TURRET_ITEM_RULES)
+                .withSideRules(BlockEntityInputType.ENERGY, DOUBLE_MACHINE_ENERGY_RULES).build());
     }
 }

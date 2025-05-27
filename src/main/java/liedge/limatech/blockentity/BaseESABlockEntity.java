@@ -8,9 +8,10 @@ import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limacore.lib.LimaColor;
 import liedge.limacore.util.LimaItemUtil;
 import liedge.limatech.block.LimaTechBlockProperties;
+import liedge.limatech.blockentity.base.BlockEntityInputType;
+import liedge.limatech.blockentity.base.IOController;
 import liedge.limatech.blockentity.base.SidedAccessBlockEntityType;
 import liedge.limatech.blockentity.base.SidedAccessRules;
-import liedge.limatech.blockentity.base.BlockEntityInputType;
 import liedge.limatech.registry.game.LimaTechMenus;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -21,6 +22,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.capabilities.BlockCapabilityCache;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.energy.IEnergyStorage;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -33,9 +35,9 @@ public abstract class BaseESABlockEntity extends SidedItemEnergyMachineBlockEnti
 
     private final Map<Direction, BlockCapabilityCache<IEnergyStorage, Direction>> energyConnections = new EnumMap<>(Direction.class);
 
-    public BaseESABlockEntity(SidedAccessBlockEntityType<?> type, BlockPos pos, BlockState state)
+    public BaseESABlockEntity(SidedAccessBlockEntityType<?> type, BlockPos pos, BlockState state, @Nullable LimaEnergyStorage energyStorage)
     {
-        super(type, pos, state, 5);
+        super(type, pos, state, 5, energyStorage);
     }
 
     public abstract LimaColor getRemoteEnergyFillColor();
@@ -43,41 +45,40 @@ public abstract class BaseESABlockEntity extends SidedItemEnergyMachineBlockEnti
     public abstract float getRemoteEnergyFill();
 
     @Override
-    public IOAccess getItemSlotIO(int handlerIndex, int slot)
+    public boolean hasStatsTooltips()
     {
-        if (handlerIndex == 0)
-        {
-            if (slot == 0)
-            {
-                return IOAccess.INPUT_ONLY;
-            }
-            else if (slot > 0 && slot < 5)
-            {
-                ItemStack slotItem = getItemHandler().getStackInSlot(slot);
-                if (slotItem.isEmpty()) return IOAccess.INPUT_ONLY;
+        return false;
+    }
 
-                IEnergyStorage storage = slotItem.getCapability(Capabilities.EnergyStorage.ITEM);
-                if (storage != null && storage.getEnergyStored() == storage.getMaxEnergyStored()) return IOAccess.OUTPUT_ONLY;
-            }
+    @Override
+    public IOAccess getPrimaryHandlerItemSlotIO(int slot)
+    {
+        if (slot > 0 && slot < 5)
+        {
+            ItemStack slotItem = getItemHandler().getStackInSlot(slot);
+            if (slotItem.isEmpty()) return IOAccess.INPUT_ONLY;
+
+            IEnergyStorage storage = slotItem.getCapability(Capabilities.EnergyStorage.ITEM);
+            if (storage != null && storage.getEnergyStored() == storage.getMaxEnergyStored()) return IOAccess.OUTPUT_ONLY;
         }
 
         return IOAccess.DISABLED;
     }
 
     @Override
+    public @Nullable IEnergyStorage getAdjacentEnergyStorage(Direction side)
+    {
+        return energyConnections.get(side).getCapability();
+    }
+
+    @Override
     protected void tickServer(ServerLevel level, BlockPos pos, BlockState state)
     {
-        LimaEnergyStorage machineEnergy = getEnergyStorage();
-
         // Fill buffer from input slot
-        if (machineEnergy.getEnergyStored() < machineEnergy.getMaxEnergyStored())
-        {
-            IEnergyStorage itemEnergy = getItemHandler().getStackInSlot(0).getCapability(Capabilities.EnergyStorage.ITEM);
-            if (itemEnergy != null)
-                LimaEnergyUtil.transferEnergyBetween(itemEnergy, machineEnergy, machineEnergy.getMaxEnergyStored(), false);
-        }
+        fillEnergyBuffer();
 
         // Charge item in output slot
+        LimaEnergyStorage machineEnergy = getEnergyStorage();
         if (machineEnergy.getEnergyStored() > 0)
         {
             IntStream.rangeClosed(1, 4)
@@ -87,39 +88,27 @@ public abstract class BaseESABlockEntity extends SidedItemEnergyMachineBlockEnti
         }
 
         // Auto output energy if option enabled
-        if (getEnergyControl().isAutoOutput())
-        {
-            Direction.stream().filter(s -> getEnergyControl().getSideIOState(s).allowsOutput()).forEach(side -> {
-                IEnergyStorage sideEnergy = energyConnections.get(side).getCapability();
-                if (sideEnergy != null) LimaEnergyUtil.transferEnergyBetween(machineEnergy, sideEnergy, machineEnergy.getMaxEnergyStored(), false);
-            });
-        }
+        autoOutputEnergy();
+    }
+
+    @Override
+    protected void createConnectionCaches(ServerLevel level, Direction side)
+    {
+        super.createConnectionCaches(level, side);
+        energyConnections.put(side, createCapabilityCache(Capabilities.EnergyStorage.BLOCK, level, side));
     }
 
     @Override
     protected void onLoadServer(ServerLevel level)
     {
         super.onLoadServer(level);
-
-        for (Direction side : Direction.values())
-        {
-            energyConnections.put(side, createCapabilityCache(Capabilities.EnergyStorage.BLOCK, level, side));
-        }
-
         updateAndSyncBlockState(level);
     }
 
     @Override
-    public boolean isItemValid(int handlerIndex, int slot, ItemStack stack)
+    protected boolean isItemValidForPrimaryHandler(int slot, ItemStack stack)
     {
-        if (handlerIndex == 0)
-        {
-            return LimaItemUtil.hasEnergyCapability(stack);
-        }
-        else
-        {
-            return super.isItemValid(handlerIndex, slot, stack);
-        }
+        return LimaItemUtil.hasEnergyCapability(stack);
     }
 
     @Override
@@ -139,10 +128,11 @@ public abstract class BaseESABlockEntity extends SidedItemEnergyMachineBlockEnti
 
     private void updateAndSyncBlockState(Level level)
     {
+        IOController energyControl = getIOController(BlockEntityInputType.ENERGY);
         BlockState state = getBlockState();
         for (Direction side : Direction.values())
         {
-            state = state.setValue(LimaTechBlockProperties.getESASideIOProperty(side), getEnergyControl().getSideIOState(side));
+            state = state.setValue(LimaTechBlockProperties.getESASideIOProperty(side), energyControl.getSideIOState(side));
         }
         level.setBlockAndUpdate(getBlockPos(), state);
     }

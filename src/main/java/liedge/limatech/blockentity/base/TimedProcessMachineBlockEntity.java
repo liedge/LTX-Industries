@@ -11,6 +11,8 @@ import net.minecraft.world.level.storage.loot.LootContext;
 
 public interface TimedProcessMachineBlockEntity
 {
+    String TAG_KEY_PROGRESS = "progress";
+
     static void applyUpgrades(TimedProcessMachineBlockEntity blockEntity, LootContext context, MachineUpgrades upgrades)
     {
         double newProcessingTime = upgrades.applyValue(LimaTechUpgradeEffectComponents.TICKS_PER_OPERATION, context, blockEntity.getBaseTicksPerOperation());
@@ -23,10 +25,7 @@ public interface TimedProcessMachineBlockEntity
 
     int getBaseTicksPerOperation();
 
-    default int getTicksPerOperation()
-    {
-        return getBaseTicksPerOperation();
-    }
+    int getTicksPerOperation();
 
     void setTicksPerOperation(int ticksPerOperation);
 

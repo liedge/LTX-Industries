@@ -39,6 +39,7 @@ public final class LimaTechLang
     public static final Translatable ITEM_INVENTORY_TOOLTIP = tooltip("item_inventory_hint");
     public static final Translatable FABRICATOR_SELECTED_RECIPE_TOOLTIP = tooltip("fabricator_selected");
     public static final Translatable FABRICATOR_LOCKED_TOOLTIP = tooltip("fabricator_locked");
+    public static final Translatable WORKING_PROGRESS_TOOLTIP = tooltip("work_progress");
     public static final Translatable CRAFTING_PROGRESS_TOOLTIP = tooltip("craft_progress");
 
     // Item hints

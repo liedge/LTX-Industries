@@ -1,10 +1,6 @@
 package liedge.limatech.blockentity;
 
 import liedge.limacore.blockentity.IOAccess;
-import liedge.limacore.capability.energy.LimaBlockEntityEnergyStorage;
-import liedge.limacore.capability.energy.LimaEnergyStorage;
-import liedge.limacore.capability.energy.LimaEnergyUtil;
-import liedge.limacore.capability.itemhandler.LimaItemHandlerUtil;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.network.sync.AutomaticDataWatcher;
 import liedge.limacore.network.sync.LimaDataWatcher;
@@ -23,36 +19,24 @@ import liedge.limatech.registry.game.LimaTechRecipeTypes;
 import liedge.limatech.util.LimaTechTooltipUtil;
 import liedge.limatech.util.config.LimaTechMachinesConfig;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootContext;
-import net.neoforged.neoforge.capabilities.BlockCapabilityCache;
-import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.energy.IEnergyStorage;
-import net.neoforged.neoforge.items.IItemHandler;
-
-import java.util.EnumMap;
-import java.util.Map;
 
 public abstract class BaseFabricatorBlockEntity extends SidedItemEnergyMachineBlockEntity implements EnergyConsumerBlockEntity, RecipeMachineBlockEntity<LimaRecipeInput, FabricatingRecipe>
 {
-    public static final int ENERGY_ITEM_SLOT = 0;
     public static final int OUTPUT_SLOT = 1;
     public static final int BLUEPRINT_ITEM_SLOT = 2;
 
-    private final LimaBlockEntityEnergyStorage machineEnergy;
     private final LimaRecipeCheck<LimaRecipeInput, FabricatingRecipe> recipeCheck = LimaRecipeCheck.create(LimaTechRecipeTypes.FABRICATING);
-    private final Map<Direction, BlockCapabilityCache<IItemHandler, Direction>> itemConnections = new EnumMap<>(Direction.class);
 
     // Common properties
     private int energyUsage = getBaseEnergyUsage();
     private boolean crafting;
     protected int energyCraftProgress;
-    private int autoOutputTimer;
 
     // Client properties
     private ItemStack clientPreviewItem = ItemStack.EMPTY;
@@ -60,7 +44,6 @@ public abstract class BaseFabricatorBlockEntity extends SidedItemEnergyMachineBl
     protected BaseFabricatorBlockEntity(SidedAccessBlockEntityType<?> type, BlockPos pos, BlockState state, int inventorySize)
     {
         super(type, pos, state, inventorySize);
-        this.machineEnergy = new LimaBlockEntityEnergyStorage(this);
     }
 
     public ItemStack getClientPreviewItem()
@@ -82,18 +65,6 @@ public abstract class BaseFabricatorBlockEntity extends SidedItemEnergyMachineBl
     public int getBaseEnergyCapacity()
     {
         return LimaTechMachinesConfig.FABRICATOR_ENERGY_CAPACITY.getAsInt();
-    }
-
-    @Override
-    public int getBaseEnergyTransferRate()
-    {
-        return getBaseEnergyCapacity() / 20;
-    }
-
-    @Override
-    public LimaEnergyStorage getEnergyStorage()
-    {
-        return machineEnergy;
     }
 
     @Override
@@ -163,78 +134,34 @@ public abstract class BaseFabricatorBlockEntity extends SidedItemEnergyMachineBl
     protected void tickServer(ServerLevel level, BlockPos pos, BlockState state)
     {
         // Fill energy buffer from energy input slot
-        if (machineEnergy.getEnergyStored() < machineEnergy.getMaxEnergyStored())
-        {
-            IEnergyStorage itemEnergy = getItemHandler().getStackInSlot(ENERGY_ITEM_SLOT).getCapability(Capabilities.EnergyStorage.ITEM);
-            if (itemEnergy != null) LimaEnergyUtil.transferEnergyBetween(itemEnergy, machineEnergy, machineEnergy.getTransferRate(), false);
-        }
+        fillEnergyBuffer();
 
         // Fabricators handle logic differently
         tickServerFabricator(level, pos, state);
 
         // Auto output item if option available
-        if (getItemControl().isAutoOutput())
-        {
-            if (autoOutputTimer >= 20)
-            {
-                for (Direction side : Direction.values())
-                {
-                    if (getItemControl().getSideIOState(side).allowsOutput())
-                    {
-                        IItemHandler adjacentInventory = itemConnections.get(side).getCapability();
-                        if (adjacentInventory != null) LimaItemHandlerUtil.transferStackBetweenInventories(getItemHandler(), adjacentInventory, 1);
-                    }
-                }
-
-                autoOutputTimer = 0;
-            }
-            else
-            {
-                autoOutputTimer++;
-            }
-        }
+        autoOutputItems(20, getOutputSlot(), 1);
     }
 
     protected abstract void tickServerFabricator(ServerLevel level, BlockPos pos, BlockState state);
 
     @Override
-    public boolean isItemValid(int handlerIndex, int slot, ItemStack stack)
+    protected boolean isItemValidForPrimaryHandler(int slot, ItemStack stack)
     {
-        if (handlerIndex == 0)
+        return switch (slot)
         {
-            return switch (slot)
-            {
-                case ENERGY_ITEM_SLOT -> LimaItemUtil.hasEnergyCapability(stack);
-                case BLUEPRINT_ITEM_SLOT -> stack.is(LimaTechItems.FABRICATION_BLUEPRINT);
-                default -> true;
-            };
-        }
-
-        return super.isItemValid(handlerIndex, slot, stack);
+            case ENERGY_ITEM_SLOT -> LimaItemUtil.hasEnergyCapability(stack);
+            case BLUEPRINT_ITEM_SLOT -> stack.is(LimaTechItems.FABRICATION_BLUEPRINT);
+            default -> true;
+        };
     }
 
     @Override
-    public IOAccess getItemSlotIO(int handlerIndex, int slot)
+    public IOAccess getPrimaryHandlerItemSlotIO(int slot)
     {
-        if (handlerIndex == 0)
-        {
-            if (slot == OUTPUT_SLOT) return IOAccess.OUTPUT_ONLY;
-            else if (isInputSlot(slot)) return IOAccess.INPUT_ONLY;
-            else return IOAccess.DISABLED;
-        }
-
-        return super.getItemSlotIO(handlerIndex, slot);
-    }
-
-    @Override
-    protected void onLoadServer(ServerLevel level)
-    {
-        super.onLoadServer(level);
-
-        for (Direction side : Direction.values())
-        {
-            itemConnections.put(side, createCapabilityCache(Capabilities.ItemHandler.BLOCK, level, side));
-        }
+        if (slot == OUTPUT_SLOT) return IOAccess.OUTPUT_ONLY;
+        else if (isInputSlot(slot)) return IOAccess.INPUT_ONLY;
+        else return IOAccess.DISABLED;
     }
 
     @Override

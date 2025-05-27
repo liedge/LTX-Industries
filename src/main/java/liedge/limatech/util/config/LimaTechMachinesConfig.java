@@ -28,6 +28,10 @@ public final class LimaTechMachinesConfig
     public static final ModConfigSpec.IntValue FABRICATOR_ENERGY_CAPACITY;
     public static final ModConfigSpec.IntValue FABRICATOR_ENERGY_USAGE;
 
+    public static final ModConfigSpec.IntValue REPAIRER_ENERGY_CAPACITY;
+    public static final ModConfigSpec.IntValue REPAIRER_ENERGY_USAGE;
+    public static final ModConfigSpec.IntValue REPAIRER_OPERATION_TIME;
+
     public static final ModConfigSpec.IntValue ATMOS_TURRET_ENERGY_CAPACITY;
     public static final ModConfigSpec.IntValue ATMOS_TURRET_ENERGY_PER_TARGET;
     public static final ModConfigSpec.DoubleValue ATMOS_TURRET_ROCKET_DAMAGE;
@@ -96,6 +100,16 @@ public final class LimaTechMachinesConfig
                 .defineInRange("energy_capacity", 250_000, 1, Integer.MAX_VALUE);
         FABRICATOR_ENERGY_USAGE = builder.comment("The energy usage of the Fabricator. Affects how quickly the fabricator completes recipes.")
                 .defineInRange("energy_usage", 2500, 1, Integer.MAX_VALUE);
+        builder.pop();
+
+        // Molecular Reconstructor
+        builder.push("molecular_reconstructor");
+        REPAIRER_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Molecular Reconstructor.")
+                .defineInRange("energy_capacity", 500_000, 1, Integer.MAX_VALUE);
+        REPAIRER_ENERGY_USAGE = builder.comment("Base energy usage per tick of the Molecular Reconstructor.")
+                .defineInRange("energy_usage", 160, 1, Integer.MAX_VALUE);
+        REPAIRER_OPERATION_TIME = builder.comment("Base operation time (in ticks) of the Molecular Reconstructor.")
+                .defineInRange("operation_time", 20, 1, Integer.MAX_VALUE);
         builder.pop();
 
         // Rocket turret

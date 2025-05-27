@@ -1,7 +1,6 @@
 package liedge.limatech.blockentity;
 
 import liedge.limacore.capability.energy.InfiniteEnergyStorage;
-import liedge.limacore.capability.energy.LimaEnergyStorage;
 import liedge.limacore.lib.LimaColor;
 import liedge.limatech.LimaTechConstants;
 import liedge.limatech.registry.game.LimaTechBlockEntities;
@@ -12,7 +11,7 @@ public class InfiniteESABlockEntity extends BaseESABlockEntity
 {
     public InfiniteESABlockEntity(BlockPos pos, BlockState state)
     {
-        super(LimaTechBlockEntities.INFINITE_ENERGY_STORAGE_ARRAY.get(), pos, state);
+        super(LimaTechBlockEntities.INFINITE_ENERGY_STORAGE_ARRAY.get(), pos, state, InfiniteEnergyStorage.INFINITE_ENERGY_STORAGE);
     }
 
     @Override
@@ -37,11 +36,5 @@ public class InfiniteESABlockEntity extends BaseESABlockEntity
     public int getBaseEnergyTransferRate()
     {
         return Integer.MAX_VALUE;
-    }
-
-    @Override
-    public LimaEnergyStorage getEnergyStorage()
-    {
-        return InfiniteEnergyStorage.INFINITE_ENERGY_STORAGE;
     }
 }

@@ -4,9 +4,13 @@ import liedge.limacore.blockentity.IOAccess;
 import liedge.limacore.blockentity.LimaBlockEntity;
 import liedge.limacore.capability.energy.EnergyHolderBlockEntity;
 import liedge.limacore.capability.energy.LimaBlockEntityEnergyStorage;
+import liedge.limacore.capability.energy.LimaEnergyStorage;
+import liedge.limacore.capability.energy.LimaEnergyUtil;
 import liedge.limacore.capability.itemhandler.LimaBlockEntityItemHandler;
 import liedge.limacore.capability.itemhandler.LimaItemHandlerBase;
+import liedge.limacore.capability.itemhandler.LimaItemHandlerUtil;
 import liedge.limacore.inventory.menu.LimaMenuProvider;
+import liedge.limacore.util.LimaItemUtil;
 import liedge.limacore.util.LimaNbtUtil;
 import liedge.limatech.blockentity.base.*;
 import liedge.limatech.lib.upgrades.machine.MachineUpgrades;
@@ -22,6 +26,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.capabilities.BlockCapabilityCache;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.items.IItemHandler;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.EnumMap;
+import java.util.Map;
 
 import static liedge.limacore.LimaCommonConstants.KEY_ENERGY_CONTAINER;
 import static liedge.limacore.LimaCommonConstants.KEY_ITEM_CONTAINER;
@@ -31,19 +43,34 @@ import static net.minecraft.world.level.block.state.properties.BlockStatePropert
 
 public abstract class SidedItemEnergyMachineBlockEntity extends LimaBlockEntity implements LimaMenuProvider, EnergyHolderBlockEntity, UpgradableMachineBlockEntity, SidedAccessBlockEntity
 {
+    // Standardize energy item slot
+    public static final int ENERGY_ITEM_SLOT = 0;
+
     private final LimaBlockEntityItemHandler inventory;
-    private final IOController energyControl;
+    private final LimaEnergyStorage energyStorage;
+
     private final IOController itemControl;
+    private final IOController energyControl;
+    private final Map<Direction, BlockCapabilityCache<IItemHandler, Direction>> itemConnections = new EnumMap<>(Direction.class);
+
     private final LimaBlockEntityItemHandler upgradeModuleSlot;
     private MachineUpgrades upgrades = MachineUpgrades.EMPTY;
 
-    protected SidedItemEnergyMachineBlockEntity(SidedAccessBlockEntityType<?> type, BlockPos pos, BlockState state, int inventorySize)
+    private int itemAutoOutputTimer = 0;
+
+    protected SidedItemEnergyMachineBlockEntity(SidedAccessBlockEntityType<?> type, BlockPos pos, BlockState state, int inventorySize, @Nullable LimaEnergyStorage energyStorage)
     {
         super(type, pos, state);
         this.inventory = new LimaBlockEntityItemHandler(this, inventorySize);
+        this.energyStorage = energyStorage != null ? energyStorage : new LimaBlockEntityEnergyStorage(this);
         this.upgradeModuleSlot = new LimaBlockEntityItemHandler(this, 1, 1);
         this.energyControl = new IOController(this, BlockEntityInputType.ENERGY);
         this.itemControl = new IOController(this, BlockEntityInputType.ITEMS);
+    }
+
+    protected SidedItemEnergyMachineBlockEntity(SidedAccessBlockEntityType<?> type, BlockPos pos, BlockState state, int inventorySize)
+    {
+        this(type, pos, state, inventorySize, null);
     }
 
     // IO control methods/initializers
@@ -85,14 +112,14 @@ public abstract class SidedItemEnergyMachineBlockEntity extends LimaBlockEntity 
         }
     }
 
-    public IOController getItemControl()
+    public @Nullable IItemHandler getAdjacentItemHandler(Direction side)
     {
-        return itemControl;
+        return itemConnections.get(side).getCapability();
     }
 
-    public IOController getEnergyControl()
+    public @Nullable IEnergyStorage getAdjacentEnergyStorage(Direction side)
     {
-        return energyControl;
+        return null;
     }
 
     protected void onIOControlsChangedInternal(BlockEntityInputType inputType, Level level) {}
@@ -115,10 +142,23 @@ public abstract class SidedItemEnergyMachineBlockEntity extends LimaBlockEntity 
         return itemControl.getSideIOState(side);
     }
 
-    @Override
-    public boolean isItemValid(int handlerIndex, int slot, ItemStack stack)
+    protected boolean isItemValidForPrimaryHandler(int slot, ItemStack stack)
     {
-        return true;
+        return slot != ENERGY_ITEM_SLOT || LimaItemUtil.hasEnergyCapability(stack);
+    }
+
+    @Override
+    public final boolean isItemValid(int handlerIndex, int slot, ItemStack stack)
+    {
+        return handlerIndex != 0 || isItemValidForPrimaryHandler(slot, stack);
+    }
+
+    public abstract IOAccess getPrimaryHandlerItemSlotIO(int slot);
+
+    @Override
+    public final IOAccess getItemSlotIO(int handlerIndex, int slot)
+    {
+        return handlerIndex == 0 ? getPrimaryHandlerItemSlotIO(slot) : IOAccess.DISABLED;
     }
 
     // Upgrades methods
@@ -142,10 +182,78 @@ public abstract class SidedItemEnergyMachineBlockEntity extends LimaBlockEntity 
 
     // Energy methods
     @Override
+    public final LimaEnergyStorage getEnergyStorage()
+    {
+        return energyStorage;
+    }
+
+    @Override
     public IOAccess getEnergyIOForSide(Direction side)
     {
         return energyControl.getSideIOState(side);
     }
+
+    @Override
+    public int getBaseEnergyTransferRate() // Unless otherwise needed, default to 1/20th of the base capacity
+    {
+        return getBaseEnergyCapacity() / 20;
+    }
+
+    //#region Tick Helper methods
+    protected void fillEnergyBuffer()
+    {
+        LimaEnergyStorage energy = getEnergyStorage();
+        if (energy.getEnergyStored() < energy.getMaxEnergyStored())
+        {
+            IEnergyStorage itemEnergy = inventory.getStackInSlot(ENERGY_ITEM_SLOT).getCapability(Capabilities.EnergyStorage.ITEM);
+            if (itemEnergy != null) LimaEnergyUtil.transferEnergyBetween(itemEnergy, energy, energy.getTransferRate(), false);
+        }
+    }
+
+    protected void autoOutputItems(int frequency, int outputSlotStart, int outputSlotCount)
+    {
+        if (itemControl.isAutoOutput())
+        {
+            if (itemAutoOutputTimer >= frequency)
+            {
+                for (Direction side : Direction.values())
+                {
+                    if (itemControl.getSideIOState(side).allowsOutput())
+                    {
+                        IItemHandler adjacentInventory = getAdjacentItemHandler(side);
+                        if (adjacentInventory != null)
+                        {
+                            int outputSlotEnd = outputSlotStart + outputSlotCount;
+                            LimaItemHandlerUtil.transferBetweenInventories(this.inventory, adjacentInventory, outputSlotStart, outputSlotEnd);
+                        }
+                    }
+                }
+
+                itemAutoOutputTimer = 0;
+            }
+            else
+            {
+                itemAutoOutputTimer++;
+            }
+        }
+    }
+
+    protected void autoOutputEnergy()
+    {
+        if (energyControl.isAutoOutput())
+        {
+            for (Direction side : Direction.values())
+            {
+                if (energyControl.getSideIOState(side).allowsOutput())
+                {
+                    LimaEnergyStorage thisEnergy = getEnergyStorage();
+                    IEnergyStorage adjacentEnergy = getAdjacentEnergyStorage(side);
+                    if (adjacentEnergy != null) LimaEnergyUtil.transferEnergyBetween(thisEnergy, adjacentEnergy, thisEnergy.getTransferRate(), false);
+                }
+            }
+        }
+    }
+    //#endregion
 
     // Load/Save methods
     @Override
@@ -159,8 +267,6 @@ public abstract class SidedItemEnergyMachineBlockEntity extends LimaBlockEntity 
     @Override
     protected void collectImplicitComponents(DataComponentMap.Builder components)
     {
-        if (getEnergyStorage() instanceof LimaBlockEntityEnergyStorage) components.set(ENERGY, getEnergyStorage().getEnergyStored());
-
         if (getEnergyStorage() instanceof LimaBlockEntityEnergyStorage energyStorage)
         {
             components.set(ENERGY, energyStorage.getEnergyStored());
@@ -176,7 +282,7 @@ public abstract class SidedItemEnergyMachineBlockEntity extends LimaBlockEntity 
     {
         tag.remove(KEY_ENERGY_CONTAINER);
         tag.remove(KEY_ITEM_CONTAINER);
-        tag.remove("upgrades");
+        tag.remove(TAG_KEY_UPGRADES);
     }
 
     @Override
@@ -187,8 +293,8 @@ public abstract class SidedItemEnergyMachineBlockEntity extends LimaBlockEntity 
         if (getEnergyStorage() instanceof LimaBlockEntityEnergyStorage blockEntityEnergy) LimaNbtUtil.deserializeInt(blockEntityEnergy, registries, tag.get(KEY_ENERGY_CONTAINER));
         itemControl.deserializeNBT(registries, tag.getCompound("item_io"));
         energyControl.deserializeNBT(registries, tag.getCompound("energy_io"));
-        upgradeModuleSlot.deserializeNBT(registries, tag.getCompound("upgrade_slot"));
-        upgrades = LimaNbtUtil.tryDecode(MachineUpgrades.CODEC, RegistryOps.create(NbtOps.INSTANCE, registries), tag, "upgrades", MachineUpgrades.EMPTY);
+        upgradeModuleSlot.deserializeNBT(registries, tag.getCompound(TAG_KEY_UPGRADE_SLOT_INVENTORY));
+        upgrades = LimaNbtUtil.tryDecode(MachineUpgrades.CODEC, RegistryOps.create(NbtOps.INSTANCE, registries), tag, TAG_KEY_UPGRADES, MachineUpgrades.EMPTY);
     }
 
     @Override
@@ -199,14 +305,24 @@ public abstract class SidedItemEnergyMachineBlockEntity extends LimaBlockEntity 
         if (getEnergyStorage() instanceof LimaBlockEntityEnergyStorage blockEntityEnergy) tag.put(KEY_ENERGY_CONTAINER, blockEntityEnergy.serializeNBT(registries));
         tag.put("item_io", itemControl.serializeNBT(registries));
         tag.put("energy_io", energyControl.serializeNBT(registries));
-        tag.put("upgrade_slot", upgradeModuleSlot.serializeNBT(registries));
-        LimaNbtUtil.tryEncodeTo(MachineUpgrades.CODEC, RegistryOps.create(NbtOps.INSTANCE, registries), upgrades, tag, "upgrades");
+        tag.put(TAG_KEY_UPGRADE_SLOT_INVENTORY, upgradeModuleSlot.serializeNBT(registries));
+        LimaNbtUtil.tryEncodeTo(MachineUpgrades.CODEC, RegistryOps.create(NbtOps.INSTANCE, registries), upgrades, tag, TAG_KEY_UPGRADES);
+    }
+
+    protected void createConnectionCaches(ServerLevel level, Direction side)
+    {
+        itemConnections.put(side, createCapabilityCache(Capabilities.ItemHandler.BLOCK, level, side));
     }
 
     @Override
     protected void onLoadServer(ServerLevel level)
     {
         onUpgradeRefresh(createUpgradeContext(level), getUpgrades());
+
+        for (Direction side : Direction.values())
+        {
+            createConnectionCaches(level, side);
+        }
     }
 
     @Override

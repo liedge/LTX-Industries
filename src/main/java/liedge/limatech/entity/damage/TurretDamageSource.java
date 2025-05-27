@@ -1,6 +1,7 @@
 package liedge.limatech.entity.damage;
 
 import com.google.common.base.Preconditions;
+import liedge.limacore.capability.itemhandler.LimaItemHandlerUtil;
 import liedge.limatech.blockentity.BaseTurretBlockEntity;
 import liedge.limatech.lib.upgrades.UpgradesContainerBase;
 import liedge.limatech.lib.upgrades.effect.equipment.DirectDropsUpgradeEffect;
@@ -10,7 +11,7 @@ import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.items.wrapper.RangedWrapper;
+import net.neoforged.neoforge.items.IItemHandler;
 import org.jetbrains.annotations.Nullable;
 
 public class TurretDamageSource extends UpgradableDamageSource
@@ -38,6 +39,7 @@ public class TurretDamageSource extends UpgradableDamageSource
     @Override
     public @Nullable DropsRedirect createDropsRedirect()
     {
-        return DropsRedirect.create(new RangedWrapper(blockEntity.getItemHandler(), 1, 21), blockEntity.getProjectileStart(), getUpgrades(), DirectDropsUpgradeEffect.Type.ENTITY_DROPS);
+        IItemHandler inventory = LimaItemHandlerUtil.sizedRangedWrapper(blockEntity.getItemHandler(), BaseTurretBlockEntity.DROPS_INVENTORY_SLOT_START, BaseTurretBlockEntity.DROPS_INVENTORY_SIZE);
+        return DropsRedirect.create(inventory, blockEntity.getProjectileStart(), getUpgrades(), DirectDropsUpgradeEffect.Type.ENTITY_DROPS);
     }
 }

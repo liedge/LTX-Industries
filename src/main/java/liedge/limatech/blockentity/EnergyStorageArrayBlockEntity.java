@@ -1,6 +1,5 @@
 package liedge.limatech.blockentity;
 
-import liedge.limacore.capability.energy.LimaBlockEntityEnergyStorage;
 import liedge.limacore.capability.energy.LimaEnergyUtil;
 import liedge.limacore.lib.LimaColor;
 import liedge.limacore.network.sync.AutomaticDataWatcher;
@@ -16,13 +15,11 @@ import static liedge.limatech.util.config.LimaTechMachinesConfig.ESA_BASE_TRANSF
 
 public class EnergyStorageArrayBlockEntity extends BaseESABlockEntity
 {
-    private final LimaBlockEntityEnergyStorage energyStorage;
     private int remoteEnergyFill;
 
     public EnergyStorageArrayBlockEntity(BlockPos pos, BlockState state)
     {
-        super(LimaTechBlockEntities.ENERGY_STORAGE_ARRAY.get(), pos, state);
-        this.energyStorage = new LimaBlockEntityEnergyStorage(this);
+        super(LimaTechBlockEntities.ENERGY_STORAGE_ARRAY.get(), pos, state, null);
     }
 
     @Override
@@ -47,12 +44,6 @@ public class EnergyStorageArrayBlockEntity extends BaseESABlockEntity
     public int getBaseEnergyTransferRate()
     {
         return ESA_BASE_TRANSFER_RATE.getAsInt();
-    }
-
-    @Override
-    public LimaBlockEntityEnergyStorage getEnergyStorage()
-    {
-        return energyStorage;
     }
 
     @Override
