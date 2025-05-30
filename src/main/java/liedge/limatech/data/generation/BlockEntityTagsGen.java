@@ -25,7 +25,7 @@ class BlockEntityTagsGen extends LimaTagsProvider.RegistryTags<BlockEntityType<?
     @Override
     protected void addTags(HolderLookup.Provider provider)
     {
-        buildTag(GENERAL_PROCESSING_MACHINES).add(DIGITAL_FURNACE, GRINDER, RECOMPOSER, MATERIAL_FUSING_CHAMBER);
+        buildTag(GENERAL_PROCESSING_MACHINES).add(DIGITAL_FURNACE, DIGITAL_SMOKER, DIGITAL_BLAST_FURNACE, GRINDER, RECOMPOSER, MATERIAL_FUSING_CHAMBER);
         buildTag(TURRETS).add(ROCKET_TURRET, RAILGUN_TURRET);
     }
 }

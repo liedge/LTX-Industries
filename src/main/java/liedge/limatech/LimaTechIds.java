@@ -12,6 +12,8 @@ public final class LimaTechIds
     public static final String ID_INFINITE_ENERGY_STORAGE_ARRAY = "infinite_energy_storage_array";
 
     public static final String ID_DIGITAL_FURNACE = "digital_furnace";
+    public static final String ID_DIGITAL_SMOKER = "digital_smoker";
+    public static final String ID_DIGITAL_BLAST_FURNACE = "digital_blast_furnace";
     public static final String ID_GRINDER = "grinder";
     public static final String ID_RECOMPOSER = "recomposer";
     public static final String ID_MATERIAL_FUSING_CHAMBER = "material_fusing_chamber";

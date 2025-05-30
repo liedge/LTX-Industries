@@ -13,7 +13,9 @@ import net.minecraft.core.component.DataComponentType;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
 
 import java.util.List;
 
@@ -33,6 +35,12 @@ public class MachineUpgradeModuleItem extends UpgradeModuleItem<MachineUpgrade, 
     public MachineUpgradeModuleItem(Properties properties)
     {
         super(properties);
+    }
+
+    @Override
+    public InteractionResult useOn(UseOnContext context)
+    {
+        return InteractionResult.CONSUME;
     }
 
     @Override

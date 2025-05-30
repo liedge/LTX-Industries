@@ -4,9 +4,9 @@
     "limatech:deepslate_titanium_ore",
     "limatech:raw_titanium_block",
     "limatech:titanium_block",
-    "limatech:energy_storage_array",
-    "limatech:infinite_energy_storage_array",
     "limatech:digital_furnace",
+    "limatech:digital_smoker",
+    "limatech:digital_blast_furnace",
     "limatech:grinder",
     "limatech:recomposer",
     "limatech:material_fusing_chamber",
@@ -14,6 +14,8 @@
     "limatech:auto_fabricator",
     "limatech:equipment_upgrade_station",
     "limatech:molecular_reconstructor",
+    "limatech:energy_storage_array",
+    "limatech:infinite_energy_storage_array",
     "limatech:rocket_turret",
     "limatech:railgun_turret"
   ]

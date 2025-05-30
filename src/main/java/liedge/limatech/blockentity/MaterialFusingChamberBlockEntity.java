@@ -16,7 +16,13 @@ public class MaterialFusingChamberBlockEntity extends SimpleRecipeMachineBlockEn
 {
     public MaterialFusingChamberBlockEntity(BlockPos pos, BlockState state)
     {
-        super(LimaTechBlockEntities.MATERIAL_FUSING_CHAMBER.get(), LimaTechRecipeTypes.MATERIAL_FUSING.get(), pos, state, MFC_ENERGY_CAPACITY.getAsInt(), 5);
+        super(LimaTechBlockEntities.MATERIAL_FUSING_CHAMBER.get(), LimaTechRecipeTypes.MATERIAL_FUSING.get(), pos, state, 5);
+    }
+
+    @Override
+    public int getBaseEnergyCapacity()
+    {
+        return MFC_ENERGY_CAPACITY.getAsInt();
     }
 
     @Override

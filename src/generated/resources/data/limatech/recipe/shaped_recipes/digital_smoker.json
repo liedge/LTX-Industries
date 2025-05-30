@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "a": {
-      "item": "minecraft:furnace"
+      "item": "minecraft:smoker"
     },
     "c": {
       "item": "limatech:copper_circuit"
@@ -25,6 +25,6 @@
   ],
   "result": {
     "count": 1,
-    "id": "limatech:digital_furnace"
+    "id": "limatech:digital_smoker"
   }
 }

@@ -33,7 +33,6 @@ public abstract class SimpleRecipeMachineBlockEntity<I extends RecipeInput, R ex
     public static final SidedAccessRules ITEM_ACCESS_RULES = SidedAccessRules.allSides(IOAccessSets.ALL_ALLOWED, IOAccess.INPUT_ONLY, false, true);
     public static final SidedAccessRules ENERGY_ACCESS_RULES = SidedAccessRules.allSides(IOAccessSets.INPUT_ONLY_OR_DISABLED, IOAccess.INPUT_ONLY, false, false);
 
-    private final int baseEnergyCapacity;
     private final LimaRecipeCheck<I, R> recipeCheck;
 
     private int energyUsage = getBaseEnergyUsage();
@@ -42,17 +41,10 @@ public abstract class SimpleRecipeMachineBlockEntity<I extends RecipeInput, R ex
     private boolean shouldCheckRecipe;
     private boolean crafting;
 
-    protected SimpleRecipeMachineBlockEntity(SidedAccessBlockEntityType<?> type, RecipeType<R> recipeType, BlockPos pos, BlockState state, int baseEnergyCapacity, int inventorySize)
+    protected SimpleRecipeMachineBlockEntity(SidedAccessBlockEntityType<?> type, RecipeType<R> recipeType, BlockPos pos, BlockState state, int inventorySize)
     {
         super(type, pos, state, inventorySize);
-        this.baseEnergyCapacity = baseEnergyCapacity;
         this.recipeCheck = LimaRecipeCheck.create(recipeType);
-    }
-
-    @Override
-    public int getBaseEnergyCapacity()
-    {
-        return baseEnergyCapacity;
     }
 
     @Override

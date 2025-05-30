@@ -38,7 +38,8 @@ public final class LimaTechBlockEntities
     private static void registerCapabilities(final RegisterCapabilitiesEvent event)
     {
         // Machine capability registration (energy & items)
-        Stream.of(ENERGY_STORAGE_ARRAY, INFINITE_ENERGY_STORAGE_ARRAY, DIGITAL_FURNACE, GRINDER, RECOMPOSER, MATERIAL_FUSING_CHAMBER, FABRICATOR, AUTO_FABRICATOR, MOLECULAR_RECONSTRUCTOR, ROCKET_TURRET, RAILGUN_TURRET).map(DeferredHolder::get).forEach(machineType ->
+        Stream.of(ENERGY_STORAGE_ARRAY, INFINITE_ENERGY_STORAGE_ARRAY, DIGITAL_FURNACE, DIGITAL_SMOKER, DIGITAL_BLAST_FURNACE, GRINDER,
+                RECOMPOSER, MATERIAL_FUSING_CHAMBER, FABRICATOR, AUTO_FABRICATOR, MOLECULAR_RECONSTRUCTOR, ROCKET_TURRET, RAILGUN_TURRET).map(DeferredHolder::get).forEach(machineType ->
         {
             event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, machineType, EnergyHolderBlockEntity::createEnergyIOWrapper);
             event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, machineType, ItemHolderBlockEntity::createItemIOWrapper);
@@ -81,6 +82,8 @@ public final class LimaTechBlockEntities
             .build());
 
     public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<DigitalFurnaceBlockEntity>> DIGITAL_FURNACE = registerSimpleRecipeMachine(LimaTechIds.ID_DIGITAL_FURNACE, DigitalFurnaceBlockEntity::new, builder -> builder.withBlock(LimaTechBlocks.DIGITAL_FURNACE));
+    public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<DigitalSmokerBlockEntity>> DIGITAL_SMOKER = registerSimpleRecipeMachine(LimaTechIds.ID_DIGITAL_SMOKER, DigitalSmokerBlockEntity::new, builder -> builder.withBlock(LimaTechBlocks.DIGITAL_SMOKER));
+    public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<DigitalBlastFurnaceBlockEntity>> DIGITAL_BLAST_FURNACE = registerSimpleRecipeMachine(LimaTechIds.ID_DIGITAL_BLAST_FURNACE, DigitalBlastFurnaceBlockEntity::new, builder -> builder.withBlock(LimaTechBlocks.DIGITAL_BLAST_FURNACE));
     public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<GrinderBlockEntity>> GRINDER = registerSimpleRecipeMachine(LimaTechIds.ID_GRINDER, GrinderBlockEntity::new, builder -> builder.withBlock(LimaTechBlocks.GRINDER));
     public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<RecomposerBlockEntity>> RECOMPOSER = registerSimpleRecipeMachine(LimaTechIds.ID_RECOMPOSER, RecomposerBlockEntity::new, builder -> builder.withBlock(LimaTechBlocks.RECOMPOSER));
     public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<MaterialFusingChamberBlockEntity>> MATERIAL_FUSING_CHAMBER = registerSimpleRecipeMachine(LimaTechIds.ID_MATERIAL_FUSING_CHAMBER, MaterialFusingChamberBlockEntity::new, builder -> builder.withBlock(LimaTechBlocks.MATERIAL_FUSING_CHAMBER));

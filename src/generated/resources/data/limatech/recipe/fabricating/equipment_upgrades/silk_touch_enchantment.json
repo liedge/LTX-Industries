@@ -21,7 +21,7 @@
     },
     {
       "count": 16,
-      "item": "minecraft:glass"
+      "tag": "c:glass_blocks"
     }
   ],
   "result": {

@@ -16,7 +16,13 @@ public class RecomposerBlockEntity extends SimpleRecipeMachineBlockEntity<LimaRe
 {
     public RecomposerBlockEntity(BlockPos pos, BlockState state)
     {
-        super(LimaTechBlockEntities.RECOMPOSER.get(), LimaTechRecipeTypes.RECOMPOSING.get(), pos, state, RECOMPOSER_ENERGY_CAPACITY.getAsInt(), 3);
+        super(LimaTechBlockEntities.RECOMPOSER.get(), LimaTechRecipeTypes.RECOMPOSING.get(), pos, state, 3);
+    }
+
+    @Override
+    public int getBaseEnergyCapacity()
+    {
+        return RECOMPOSER_ENERGY_CAPACITY.getAsInt();
     }
 
     @Override

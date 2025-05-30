@@ -88,6 +88,8 @@ public class LimaTechJEIPlugin implements IModPlugin
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration)
     {
         registration.addRecipeCatalyst(LimaTechBlocks.DIGITAL_FURNACE.toStack(), RecipeTypes.SMELTING);
+        registration.addRecipeCatalyst(LimaTechBlocks.DIGITAL_SMOKER.toStack(), RecipeTypes.SMOKING);
+        registration.addRecipeCatalyst(LimaTechBlocks.DIGITAL_BLAST_FURNACE.toStack(), RecipeTypes.BLASTING);
         registration.addRecipeCatalyst(LimaTechBlocks.GRINDER.toStack(), GRINDING_JEI);
         registration.addRecipeCatalyst(LimaTechBlocks.RECOMPOSER.toStack(), RECOMPOSING_JEI);
         registration.addRecipeCatalyst(LimaTechBlocks.MATERIAL_FUSING_CHAMBER.toStack(), MATERIAL_FUSING_JEI);
@@ -125,6 +127,8 @@ public class LimaTechJEIPlugin implements IModPlugin
         return switch (screenType)
         {
             case DIGITAL_FURNACE -> RecipeTypes.SMELTING;
+            case DIGITAL_SMOKER -> RecipeTypes.SMOKING;
+            case DIGITAL_BLAST_FURNACE -> RecipeTypes.BLASTING;
             case GRINDER -> GRINDING_JEI;
             case RECOMPOSER -> RECOMPOSING_JEI;
         };

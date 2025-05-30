@@ -13,6 +13,14 @@ public final class LimaTechMachinesConfig
     public static final ModConfigSpec.IntValue DIGITAL_FURNACE_ENERGY_USAGE;
     public static final ModConfigSpec.IntValue DIGITAL_FURNACE_CRAFTING_TIME;
 
+    public static final ModConfigSpec.IntValue DIGITAL_SMOKER_ENERGY_CAPACITY;
+    public static final ModConfigSpec.IntValue DIGITAL_SMOKER_ENERGY_USAGE;
+    public static final ModConfigSpec.IntValue DIGITAL_SMOKER_CRAFTING_TIME;
+
+    public static final ModConfigSpec.IntValue DIGITAL_BLAST_FURNACE_ENERGY_CAPACITY;
+    public static final ModConfigSpec.IntValue DIGITAL_BLAST_FURNACE_ENERGY_USAGE;
+    public static final ModConfigSpec.IntValue DIGITAL_BLAST_FURNACE_CRAFTING_TIME;
+
     public static final ModConfigSpec.IntValue GRINDER_ENERGY_CAPACITY;
     public static final ModConfigSpec.IntValue GRINDER_ENERGY_USAGE;
     public static final ModConfigSpec.IntValue GRINDER_CRAFTING_TIME;
@@ -62,6 +70,26 @@ public final class LimaTechMachinesConfig
                 .defineInRange("energy_usage", 60, 1, Integer.MAX_VALUE);
         DIGITAL_FURNACE_CRAFTING_TIME = builder.comment("Base crafting time (in ticks) of the Digital Furnace")
                 .defineInRange("crafting_time", 160, 1, Integer.MAX_VALUE);
+        builder.pop();
+
+        // Digital Smoker
+        builder.push("digital_smoker");
+        DIGITAL_SMOKER_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Digital Smoker")
+                .defineInRange("energy_capacity", 250_000, 1, Integer.MAX_VALUE);
+        DIGITAL_SMOKER_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the Digital Smoker")
+                .defineInRange("energy_usage", 20, 1, Integer.MAX_VALUE);
+        DIGITAL_SMOKER_CRAFTING_TIME = builder.comment("Base crafting time (in ticks) of the Digital Smoker")
+                .defineInRange("crafting_time", 100, 1, Integer.MAX_VALUE);
+        builder.pop();
+
+        // Digital Blast Furnace
+        builder.push("digital_blast_furnace");
+        DIGITAL_BLAST_FURNACE_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Digital Blast Furnace")
+                .defineInRange("energy_capacity", 250_000, 1, Integer.MAX_VALUE);
+        DIGITAL_BLAST_FURNACE_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the Digital Blast Furnace")
+                .defineInRange("energy_usage", 30, 1, Integer.MAX_VALUE);
+        DIGITAL_BLAST_FURNACE_CRAFTING_TIME = builder.comment("Base crafting time (in ticks) of the Digital Blast Furnace")
+                .defineInRange("crafting_time", 100, 1, Integer.MAX_VALUE);
         builder.pop();
 
         // Grinder

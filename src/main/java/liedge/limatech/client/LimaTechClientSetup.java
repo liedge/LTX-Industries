@@ -89,6 +89,8 @@ public final class LimaTechClientSetup
         event.register(LimaTechMenus.MACHINE_IO_CONTROL.get(), IOControllerScreen::new);
         event.register(LimaTechMenus.ENERGY_STORAGE_ARRAY.get(), EnergyStorageArrayScreen::new);
         SingleItemRecipeScreen.registerScreen(event, LimaTechMenus.DIGITAL_FURNACE, RecipeScreenType.DIGITAL_FURNACE);
+        SingleItemRecipeScreen.registerScreen(event, LimaTechMenus.DIGITAL_SMOKER, RecipeScreenType.DIGITAL_SMOKER);
+        SingleItemRecipeScreen.registerScreen(event, LimaTechMenus.DIGITAL_BLAST_FURNACE, RecipeScreenType.DIGITAL_BLAST_FURNACE);
         SingleItemRecipeScreen.registerScreen(event, LimaTechMenus.GRINDER, RecipeScreenType.GRINDER);
         SingleItemRecipeScreen.registerScreen(event, LimaTechMenus.RECOMPOSER, RecipeScreenType.RECOMPOSER);
         event.register(LimaTechMenus.MATERIAL_FUSING_CHAMBER.get(), MaterialFusingChamberScreen::new);

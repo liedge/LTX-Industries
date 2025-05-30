@@ -1,6 +1,8 @@
 {
   "values": [
     "limatech:digital_furnace",
+    "limatech:digital_smoker",
+    "limatech:digital_blast_furnace",
     "limatech:grinder",
     "limatech:recomposer",
     "limatech:material_fusing_chamber"

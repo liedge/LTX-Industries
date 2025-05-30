@@ -64,6 +64,8 @@ class LanguageGen extends LimaLanguageProvider
         addBlock(ENERGY_STORAGE_ARRAY, "Energy Storage Array");
         addBlock(INFINITE_ENERGY_STORAGE_ARRAY, "Energy Storage Array (∞)");
         addBlock(DIGITAL_FURNACE, "Digital Furnace");
+        addBlock(DIGITAL_SMOKER, "Digital Smoker");
+        addBlock(DIGITAL_BLAST_FURNACE, "Digital Blast Furnace");
         addBlock(GRINDER, "Grinder");
         addBlock(RECOMPOSER, "Recomposer");
         addBlock(MATERIAL_FUSING_CHAMBER, "Material Fusing Chamber");
@@ -199,6 +201,8 @@ class LanguageGen extends LimaLanguageProvider
         add(LimaTechMenus.MACHINE_UPGRADES, "Machine Upgrades");
         add(LimaTechMenus.ENERGY_STORAGE_ARRAY, "Energy Storage Array");
         add(LimaTechMenus.DIGITAL_FURNACE, "Digital Furnace");
+        add(LimaTechMenus.DIGITAL_SMOKER, "Digital Smoker");
+        add(LimaTechMenus.DIGITAL_BLAST_FURNACE, "Digital Blast Furnace");
         add(LimaTechMenus.GRINDER, "Grinder");
         add(LimaTechMenus.RECOMPOSER, "Recomposer");
         add(LimaTechMenus.MATERIAL_FUSING_CHAMBER, "Material Fusing Chamber");

@@ -6,7 +6,7 @@
       "item": "limatech:copper_circuit"
     },
     "g": {
-      "item": "minecraft:glass"
+      "tag": "c:glass_blocks"
     },
     "r": {
       "item": "minecraft:lightning_rod"

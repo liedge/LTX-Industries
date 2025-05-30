@@ -6,7 +6,7 @@
       "item": "minecraft:blast_furnace"
     },
     "c": {
-      "item": "limatech:copper_circuit"
+      "item": "limatech:gold_circuit"
     },
     "l": {
       "tag": "c:dyes/lime"

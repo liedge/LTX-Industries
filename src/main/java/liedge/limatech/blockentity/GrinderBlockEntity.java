@@ -16,7 +16,13 @@ public class GrinderBlockEntity extends SimpleRecipeMachineBlockEntity<LimaRecip
 {
     public GrinderBlockEntity(BlockPos pos, BlockState state)
     {
-        super(LimaTechBlockEntities.GRINDER.get(), LimaTechRecipeTypes.GRINDING.get(), pos, state, GRINDER_ENERGY_CAPACITY.getAsInt(), 3);
+        super(LimaTechBlockEntities.GRINDER.get(), LimaTechRecipeTypes.GRINDING.get(), pos, state, 3);
+    }
+
+    @Override
+    public int getBaseEnergyCapacity()
+    {
+        return GRINDER_ENERGY_CAPACITY.getAsInt();
     }
 
     @Override
