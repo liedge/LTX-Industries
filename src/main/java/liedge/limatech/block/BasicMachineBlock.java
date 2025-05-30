@@ -1,6 +1,7 @@
 package liedge.limatech.block;
 
 import liedge.limacore.blockentity.LimaBlockEntityType;
+import liedge.limacore.util.LimaBlockUtil;
 import liedge.limacore.util.LimaCoreUtil;
 import liedge.limacore.util.LimaRegistryUtil;
 import net.minecraft.core.BlockPos;
@@ -19,16 +20,11 @@ import org.jetbrains.annotations.Nullable;
 
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING;
 
-public class BasicHorizontalMachineBlock extends BaseWrenchEntityBlock
+public class BasicMachineBlock extends BaseWrenchEntityBlock
 {
-    public static final VoxelShape BASIC_MACHINE_SHAPE = Shapes.or(
-            // Center frame piece
-            Block.box(0.5d, 0.5d, 0.5d, 15.5d, 15.5d, 15.5d),
-            // Bottom frame pieces
-            Block.box(0, 0, 0, 16, 1, 1),
-            Block.box(0, 0, 15, 16,  1, 16),
-            Block.box(0, 0, 0, 1, 1, 16),
-            Block.box(15, 0, 0, 16, 1, 16),
+    private static final VoxelShape SHAPE = Shapes.or(
+            // Bottom frame base
+            Block.box(0, 0, 0, 16, 4, 16),
             // Vertical frame pieces
             Block.box(0, 0, 0, 1, 16, 1),
             Block.box(15, 0, 0, 16, 16, 1),
@@ -38,11 +34,13 @@ public class BasicHorizontalMachineBlock extends BaseWrenchEntityBlock
             Block.box(0, 15, 0, 16, 16, 1),
             Block.box(0, 15, 15, 16, 16, 16),
             Block.box(0, 15, 0, 1, 16, 16),
-            Block.box(15, 15, 0, 16, 16, 16));
+            Block.box(15, 15, 0, 16, 16, 16),
+            // Center box
+            LimaBlockUtil.dimensionBox(0.5d, 3.5d, 0.5d, 15, 12, 15));
 
     private LimaBlockEntityType<?> entityType;
 
-    public BasicHorizontalMachineBlock(Properties properties)
+    public BasicMachineBlock(Properties properties)
     {
         super(properties);
 
@@ -84,6 +82,6 @@ public class BasicHorizontalMachineBlock extends BaseWrenchEntityBlock
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context)
     {
-        return BASIC_MACHINE_SHAPE;
+        return SHAPE;
     }
 }

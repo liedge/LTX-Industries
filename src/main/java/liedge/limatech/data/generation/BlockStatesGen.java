@@ -2,7 +2,6 @@ package liedge.limatech.data.generation;
 
 import liedge.limacore.data.generation.LimaBlockStateProvider;
 import liedge.limatech.LimaTech;
-import liedge.limatech.block.BasicHorizontalMachineBlock;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.data.PackOutput;
@@ -10,23 +9,24 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
-import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
-import net.neoforged.neoforge.client.model.generators.ModelFile;
-import net.neoforged.neoforge.client.model.generators.VariantBlockStateBuilder;
+import net.neoforged.neoforge.client.model.generators.*;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import net.neoforged.neoforge.registries.DeferredHolder;
+
+import java.util.function.BiFunction;
 
 import static liedge.limacore.util.LimaRegistryUtil.getBlockName;
 import static liedge.limatech.block.LimaTechBlockProperties.MACHINE_WORKING;
 import static liedge.limatech.registry.game.LimaTechBlocks.*;
-import static net.minecraft.world.level.block.state.properties.BlockStateProperties.*;
+import static net.minecraft.world.level.block.state.properties.BlockStateProperties.DOUBLE_BLOCK_HALF;
+import static net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING;
 
 class BlockStatesGen extends LimaBlockStateProvider
 {
     // Existing model references
     private final ModelFile machineParticlesOnly = existingModel(blockFolderLocation("machine_particles"));
     private final ModelFile turretBase = existingModel(blockFolderLocation("turret_base"));
-    private final ModelFile basicMachineModel = existingModel(blockFolderLocation("basic_machine"));
+    private final ModelFile basicMachineSEW = existingModel(blockFolderLocation("basic_machine_sew"));
+    private final ModelFile basicMachineNSEW = existingModel(blockFolderLocation("basic_machine_nsew"));
 
     BlockStatesGen(PackOutput output, ExistingFileHelper helper)
     {
@@ -52,7 +52,7 @@ class BlockStatesGen extends LimaBlockStateProvider
 
         cubeAll(RAW_TITANIUM_BLOCK);
         cubeAll(RAW_NIOBIUM_BLOCK);
-        cubeAll(TITANIUM_BLOCK);
+        cubeAll(TITANIUM_BLOCK, "titanium_block_1");
         cubeAll(NIOBIUM_BLOCK);
         cubeAll(SLATE_ALLOY_BLOCK);
 
@@ -67,10 +67,10 @@ class BlockStatesGen extends LimaBlockStateProvider
         simpleBlockWithItem(INFINITE_ENERGY_STORAGE_ARRAY, esaModel);
 
         // Simple machines
-        basicMachine(DIGITAL_FURNACE);
-        basicMachine(GRINDER);
-        basicMachine(RECOMPOSER);
-        basicMachine(MATERIAL_FUSING_CHAMBER);
+        cookingMachine(DIGITAL_FURNACE);
+        basicMachine(GRINDER, ($, builder) -> builder.parent(basicMachineSEW), ($, builder) -> builder.parent(basicMachineSEW));
+        emissiveFrontMachine(RECOMPOSER);
+        emissiveFrontMachine(MATERIAL_FUSING_CHAMBER);
         horizontalBlockWithSimpleItem(FABRICATOR);
         horizontalBlockWithSimpleItem(AUTO_FABRICATOR, blockFolderLocation(FABRICATOR));
         simpleBlockWithItem(EQUIPMENT_UPGRADE_STATION, existingModel(blockFolderLocation(EQUIPMENT_UPGRADE_STATION)));
@@ -110,12 +110,26 @@ class BlockStatesGen extends LimaBlockStateProvider
         horizontalBlockWithSimpleItem(holder, blockFolderLocation(holder));
     }
 
-    private void basicMachine(DeferredHolder<Block, ? extends BasicHorizontalMachineBlock> holder)
+    private void basicMachine(Holder<Block> holder, BiFunction<ResourceLocation, BlockModelBuilder, BlockModelBuilder> offModelFunc, BiFunction<ResourceLocation, BlockModelBuilder, BlockModelBuilder> onModelFunc)
     {
         String name = getBlockName(holder);
-        ModelFile idleModel = models().getBuilder(name + "_idle").parent(basicMachineModel).texture("front", blockFolderLocation(name + "_idle"));
-        ModelFile workingModel = models().getBuilder(name + "_working").parent(basicMachineModel).texture("front", blockFolderLocation(name + "_working"));
-        horizontalBlock(holder.get(), state -> state.getValue(MACHINE_WORKING) ? workingModel : idleModel);
-        simpleBlockItem(holder, idleModel);
+        ResourceLocation textureStart = blockFolderLocation(name);
+        ModelFile offModel = offModelFunc.apply(textureStart, models().getBuilder(name + "_off").texture("front", textureStart.withSuffix("_off")));
+        ModelFile onModel = onModelFunc.apply(textureStart, models().getBuilder(name + "_on").texture("front", textureStart.withSuffix("_on")));
+        horizontalBlock(holder.value(), state -> state.getValue(MACHINE_WORKING) ? onModel : offModel);
+        simpleBlockItem(holder, offModel);
+    }
+
+    private void emissiveFrontMachine(Holder<Block> holder)
+    {
+        basicMachine(holder, ($, builder) -> builder.parent(basicMachineSEW), (texture, builder) -> builder.parent(basicMachineNSEW).texture("front_emissive", texture.withSuffix("_on_emissive")));
+    }
+
+    private void cookingMachine(Holder<Block> holder)
+    {
+        ResourceLocation basicMachineMesh = blockFolderLocation("basic_machine_mesh");
+        basicMachine(holder,
+                (texture, builder) -> builder.parent(basicMachineSEW).texture("top", basicMachineMesh),
+                (texture, builder) -> builder.parent(basicMachineNSEW).texture("front_emissive", texture.withSuffix("_on_emissive")).texture("top", basicMachineMesh));
     }
 }

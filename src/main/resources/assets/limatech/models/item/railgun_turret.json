@@ -35,7 +35,6 @@
 		}
 	],
 	"textures": {
-		"particle": "limatech:block/blank_titanium_machine",
 		"base_bottom": "limatech:block/slate_alloy_block",
 		"lights": "limatech:block/glows/lime_solid",
 		"side": "limatech:block/turret_base_side",

@@ -5,8 +5,8 @@
 	"render_type": "cutout",
 	"emissive_groups": ["lights"],
 	"textures": {
-		"particle": "limatech:block/blank_titanium_machine",
-		"titanium_base": "limatech:block/blank_titanium_machine",
+		"particle": "limatech:block/titanium_block_0",
+		"titanium_base": "limatech:block/titanium_block_0",
 		"slate_base": "limatech:block/blank_slate_alloy_machine",
 		"lights": "limatech:block/glows/lime_solid",
 		"machine0": "limatech:block/molecular_reconstructor0",

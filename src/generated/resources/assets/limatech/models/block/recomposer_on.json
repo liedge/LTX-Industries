@@ -1,0 +1,7 @@
+{
+  "parent": "limatech:block/basic_machine_nsew",
+  "textures": {
+    "front": "limatech:block/recomposer_on",
+    "front_emissive": "limatech:block/recomposer_on_emissive"
+  }
+}

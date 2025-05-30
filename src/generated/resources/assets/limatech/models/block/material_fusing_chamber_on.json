@@ -1,0 +1,7 @@
+{
+  "parent": "limatech:block/basic_machine_nsew",
+  "textures": {
+    "front": "limatech:block/material_fusing_chamber_on",
+    "front_emissive": "limatech:block/material_fusing_chamber_on_emissive"
+  }
+}

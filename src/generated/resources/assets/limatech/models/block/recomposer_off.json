@@ -1,0 +1,6 @@
+{
+  "parent": "limatech:block/basic_machine_sew",
+  "textures": {
+    "front": "limatech:block/recomposer_off"
+  }
+}

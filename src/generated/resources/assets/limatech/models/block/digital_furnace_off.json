@@ -1,0 +1,7 @@
+{
+  "parent": "limatech:block/basic_machine_sew",
+  "textures": {
+    "front": "limatech:block/digital_furnace_off",
+    "top": "limatech:block/basic_machine_mesh"
+  }
+}
