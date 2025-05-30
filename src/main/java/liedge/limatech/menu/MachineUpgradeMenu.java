@@ -1,6 +1,5 @@
 package liedge.limatech.menu;
 
-import liedge.limacore.capability.itemhandler.LimaItemHandlerUtil;
 import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limacore.network.NetworkSerializer;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
@@ -9,8 +8,9 @@ import liedge.limatech.item.MachineUpgradeModuleItem;
 import liedge.limatech.lib.upgrades.machine.MachineUpgrade;
 import liedge.limatech.lib.upgrades.machine.MachineUpgradeEntry;
 import liedge.limatech.lib.upgrades.machine.MachineUpgrades;
-import liedge.limatech.registry.game.LimaTechNetworkSerializers;
 import liedge.limatech.registry.LimaTechRegistries;
+import liedge.limatech.registry.game.LimaTechNetworkSerializers;
+import liedge.limatech.registry.game.LimaTechSounds;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -18,8 +18,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.items.IItemHandlerModifiable;
-import net.neoforged.neoforge.items.wrapper.PlayerMainInvWrapper;
 
 import static liedge.limatech.registry.game.LimaTechDataComponents.MACHINE_UPGRADE_ENTRY;
 
@@ -27,7 +25,7 @@ public class MachineUpgradeMenu extends UpgradesConfigMenu<UpgradableMachineBloc
 {
     public MachineUpgradeMenu(LimaMenuType<UpgradableMachineBlockEntity, ?> type, int containerId, Inventory inventory, UpgradableMachineBlockEntity menuContext)
     {
-        super(type, containerId, inventory, menuContext);
+        super(type, containerId, inventory, menuContext, 1);
 
         addUpgradeInsertionSlot(0);
         addPlayerInventoryAndHotbar(15, 118);
@@ -47,15 +45,9 @@ public class MachineUpgradeMenu extends UpgradesConfigMenu<UpgradableMachineBloc
     }
 
     @Override
-    protected MachineUpgrades getUpgradesFromContext()
+    protected MachineUpgrades getUpgrades()
     {
         return menuContext.getUpgrades();
-    }
-
-    @Override
-    protected IItemHandlerModifiable menuContainer()
-    {
-        return menuContext.getItemHandler(1);
     }
 
     @Override
@@ -77,7 +69,7 @@ public class MachineUpgradeMenu extends UpgradesConfigMenu<UpgradableMachineBloc
         MachineUpgrades upgrades = menuContext.getUpgrades();
         MachineUpgradeEntry entry = upgradeModuleItem.get(MACHINE_UPGRADE_ENTRY);
 
-        return entry != null && upgrades.canInstallUpgrade(menuContext, entry.upgrade());
+        return entry != null && upgrades.canInstallUpgrade(menuContext, entry);
     }
 
     @Override
@@ -86,34 +78,43 @@ public class MachineUpgradeMenu extends UpgradesConfigMenu<UpgradableMachineBloc
         MachineUpgrades currentUpgrades = menuContext.getUpgrades();
         MachineUpgradeEntry entry = upgradeModuleItem.get(MACHINE_UPGRADE_ENTRY);
 
-        if (entry != null && currentUpgrades.canInstallUpgrade(menuContext, entry.upgrade()))
+        if (entry != null && currentUpgrades.canInstallUpgrade(menuContext, entry))
         {
+            // Get previous rank
+            int previousRank = currentUpgrades.getUpgradeRank(entry.upgrade());
+
+            // Modify the upgrades and consume upgrade module item
             MachineUpgrades newUpgrades = currentUpgrades.toMutableContainer().set(entry).toImmutable();
             menuContext.setUpgrades(newUpgrades);
             menuContainer().extractItem(0, 1, false);
+
+            if (previousRank > 0) ejectModuleItem(getServerUser(), entry.upgrade(), previousRank);
+
+            sendSoundToPlayer(getServerUser(), LimaTechSounds.UPGRADE_INSTALL);
         }
     }
 
     @Override
     protected void tryRemoveUpgrade(ServerPlayer sender, ResourceLocation upgradeId)
     {
-        ResourceKey<MachineUpgrade> upgradeKey = ResourceKey.create(LimaTechRegistries.Keys.MACHINE_UPGRADES, upgradeId);
         MachineUpgrades currentUpgrades = menuContext.getUpgrades();
-        Holder<MachineUpgrade> upgradeHolder = level().registryAccess().holderOrThrow(upgradeKey);
+        Holder<MachineUpgrade> upgradeHolder = level().registryAccess().holderOrThrow(ResourceKey.create(LimaTechRegistries.Keys.MACHINE_UPGRADES, upgradeId));
 
-        int upgradeRank = currentUpgrades.getUpgradeRank(upgradeHolder);
-        if (upgradeRank > 0)
+        int rank = currentUpgrades.getUpgradeRank(upgradeHolder);
+        if (rank > 0)
         {
-            ItemStack upgradeModuleItem = MachineUpgradeModuleItem.createStack(upgradeHolder, upgradeRank);
-            PlayerMainInvWrapper invWrapper = new PlayerMainInvWrapper(playerInventory);
-            int nextSlot = LimaItemHandlerUtil.getNextEmptySlot(invWrapper);
+            MachineUpgrades newUpgrades = currentUpgrades.toMutableContainer().remove(upgradeHolder).toImmutable();
+            menuContext.setUpgrades(newUpgrades);
 
-            if (nextSlot != -1)
-            {
-                MachineUpgrades newUpgrades = currentUpgrades.toMutableContainer().remove(upgradeHolder).toImmutable();
-                menuContext.setUpgrades(newUpgrades);
-                invWrapper.insertItem(nextSlot, upgradeModuleItem, false);
-            }
+            ejectModuleItem(sender, upgradeHolder, rank);
+
+            sendSoundToPlayer(sender, LimaTechSounds.UPGRADE_REMOVE);
         }
+    }
+
+    @Override
+    protected ItemStack createModuleItem(Holder<MachineUpgrade> upgrade, int upgradeRank)
+    {
+        return MachineUpgradeModuleItem.createStack(upgrade, upgradeRank);
     }
 }

@@ -291,22 +291,19 @@ public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
         return internalMap.size();
     }
 
-    public boolean hasUpgrade(Holder<U> upgradeHolder)
+    public boolean canInstallUpgrade(Holder<CTX> contextHolder, UpgradeBaseEntry<U> entry)
     {
-        return internalMap.containsKey(upgradeHolder);
-    }
+        Holder<U> upgrade = entry.upgrade();
 
-    public boolean canInstallUpgrade(Holder<CTX> contextHolder, Holder<U> upgradeHolder)
-    {
-        if (!hasUpgrade(upgradeHolder))
-        {
-            boolean canInstall = upgradeHolder.value().canBeInstalledOn(contextHolder);
-            boolean isCompatibleWithOthers = internalMap.keySet().stream().map(Holder::value).allMatch(upgrade -> upgrade.canBeInstalledAlongside(upgradeHolder));
+        // Check rank
+        if (entry.upgradeRank() <= getUpgradeRank(upgrade)) return false;
 
-            return canInstall && isCompatibleWithOthers;
-        }
+        // Check general context holder set compatibility
+        if (!upgrade.value().canBeInstalledOn(contextHolder)) return false;
 
-        return false;
+        // Check every upgrade for compatibility
+        U existing = upgrade.value();
+        return internalMap.keySet().stream().map(Holder::value).filter(o -> !existing.equals(o)).allMatch(o -> o.canBeInstalledAlongside(upgrade));
     }
 
     public int getUpgradeRank(Holder<U> upgradeHolder)

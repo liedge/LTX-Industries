@@ -27,9 +27,9 @@ public final class EquipmentUpgrades extends UpgradesContainerBase<Item, Equipme
         super(map);
     }
 
-    public boolean canInstallUpgrade(ItemStack equipmentItem, Holder<EquipmentUpgrade> upgradeHolder)
+    public boolean canInstallUpgrade(ItemStack equipmentItem, EquipmentUpgradeEntry entry)
     {
-        return canInstallUpgrade(equipmentItem.getItemHolder(), upgradeHolder);
+        return canInstallUpgrade(equipmentItem.getItemHolder(), entry);
     }
 
     @Override

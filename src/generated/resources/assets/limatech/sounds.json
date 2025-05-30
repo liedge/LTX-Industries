@@ -105,6 +105,18 @@
     ],
     "subtitle": "subtitle.limatech.turret_target_found"
   },
+  "upgrade_install": {
+    "sounds": [
+      "limatech:upgrade_install"
+    ],
+    "subtitle": "subtitle.limatech.upgrade_install"
+  },
+  "upgrade_remove": {
+    "sounds": [
+      "limatech:upgrade_remove"
+    ],
+    "subtitle": "subtitle.limatech.upgrade_remove"
+  },
   "weapon_mode_switch": {
     "sounds": [
       "limatech:weapon_mode_switch"

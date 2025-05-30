@@ -42,6 +42,10 @@ public final class LimaTechLang
     public static final Translatable WORKING_PROGRESS_TOOLTIP = tooltip("work_progress");
     public static final Translatable CRAFTING_PROGRESS_TOOLTIP = tooltip("craft_progress");
 
+    // System Messages
+    public static final Translatable UPGRADE_INSTALL_SUCCESS = prefixKey("msg", "upgrade_success");
+    public static final Translatable UPGRADE_INSTALL_FAIL = prefixKey("msg", "upgrade_fail");
+
     // Item hints
     public static final Translatable INVALID_UPGRADE_HINT = itemHint("invalid_upgrade");
     public static final Translatable BLANK_BLUEPRINT_HINT = itemHint("blank_blueprint");

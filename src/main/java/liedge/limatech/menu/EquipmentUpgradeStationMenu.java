@@ -1,7 +1,6 @@
 package liedge.limatech.menu;
 
 import liedge.limacore.capability.itemhandler.LimaItemHandlerBase;
-import liedge.limacore.capability.itemhandler.LimaItemHandlerUtil;
 import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limacore.network.NetworkSerializer;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
@@ -11,8 +10,9 @@ import liedge.limatech.item.UpgradableEquipmentItem;
 import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrade;
 import liedge.limatech.lib.upgrades.equipment.EquipmentUpgradeEntry;
 import liedge.limatech.lib.upgrades.equipment.EquipmentUpgrades;
-import liedge.limatech.registry.game.LimaTechNetworkSerializers;
 import liedge.limatech.registry.LimaTechRegistries;
+import liedge.limatech.registry.game.LimaTechNetworkSerializers;
+import liedge.limatech.registry.game.LimaTechSounds;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -20,17 +20,16 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.items.IItemHandlerModifiable;
-import net.neoforged.neoforge.items.wrapper.PlayerMainInvWrapper;
 
 import static liedge.limatech.blockentity.EquipmentUpgradeStationBlockEntity.EQUIPMENT_ITEM_SLOT;
 import static liedge.limatech.blockentity.EquipmentUpgradeStationBlockEntity.UPGRADE_INPUT_SLOT;
+import static liedge.limatech.registry.game.LimaTechDataComponents.EQUIPMENT_UPGRADE_ENTRY;
 
 public class EquipmentUpgradeStationMenu extends UpgradesConfigMenu<EquipmentUpgradeStationBlockEntity, EquipmentUpgrade, EquipmentUpgrades>
 {
     public EquipmentUpgradeStationMenu(LimaMenuType<EquipmentUpgradeStationBlockEntity, ?> type, int containerId, Inventory inventory, EquipmentUpgradeStationBlockEntity menuContext)
     {
-        super(type, containerId, inventory, menuContext);
+        super(type, containerId, inventory, menuContext, 0);
 
         addSlot(EQUIPMENT_ITEM_SLOT, 24, 65);
         addUpgradeInsertionSlot(UPGRADE_INPUT_SLOT);
@@ -50,15 +49,9 @@ public class EquipmentUpgradeStationMenu extends UpgradesConfigMenu<EquipmentUpg
     }
 
     @Override
-    protected EquipmentUpgrades getUpgradesFromContext()
+    protected EquipmentUpgrades getUpgrades()
     {
         return UpgradableEquipmentItem.getEquipmentUpgradesFromStack(menuContext.getItemHandler().getStackInSlot(EQUIPMENT_ITEM_SLOT));
-    }
-
-    @Override
-    protected IItemHandlerModifiable menuContainer()
-    {
-        return menuContext.getItemHandler();
     }
 
     @Override
@@ -83,16 +76,16 @@ public class EquipmentUpgradeStationMenu extends UpgradesConfigMenu<EquipmentUpg
     }
 
     @Override
-    protected boolean canInstallUpgrade(ItemStack upgradeItem)
+    protected boolean canInstallUpgrade(ItemStack upgradeModuleItem)
     {
         ItemStack equipmentStack = menuContext.getItemHandler().getStackInSlot(EQUIPMENT_ITEM_SLOT);
 
         if (equipmentStack.getItem() instanceof UpgradableEquipmentItem equipmentItem)
         {
             EquipmentUpgrades upgrades = equipmentItem.getUpgrades(equipmentStack);
-            EquipmentUpgradeEntry data = EquipmentUpgradeEntry.getFromItem(upgradeItem);
+            EquipmentUpgradeEntry entry = upgradeModuleItem.get(EQUIPMENT_UPGRADE_ENTRY);
 
-            return data != null && upgrades.canInstallUpgrade(equipmentStack, data.upgrade());
+            return entry != null && upgrades.canInstallUpgrade(equipmentStack, entry);
         }
 
         return false;
@@ -107,14 +100,22 @@ public class EquipmentUpgradeStationMenu extends UpgradesConfigMenu<EquipmentUpg
         if (equipmentStack.getItem() instanceof UpgradableEquipmentItem equipmentItem)
         {
             EquipmentUpgrades currentUpgrades = equipmentItem.getUpgrades(equipmentStack);
-            EquipmentUpgradeEntry data = EquipmentUpgradeEntry.getFromItem(upgradeModuleItem);
+            EquipmentUpgradeEntry entry = upgradeModuleItem.get(EQUIPMENT_UPGRADE_ENTRY);
 
-            if (data != null && currentUpgrades.canInstallUpgrade(equipmentStack, data.upgrade()))
+            if (entry != null && currentUpgrades.canInstallUpgrade(equipmentStack, entry))
             {
-                EquipmentUpgrades newUpgrades = currentUpgrades.toMutableContainer().set(data.upgrade(), data.upgradeRank()).toImmutable();
+                // Get previous rank
+                int previousRank = currentUpgrades.getUpgradeRank(entry.upgrade());
+
+                // Modify the upgrades and consume upgrade module item
+                EquipmentUpgrades newUpgrades = currentUpgrades.toMutableContainer().set(entry).toImmutable();
                 equipmentItem.setUpgrades(equipmentStack, newUpgrades);
                 beInventory.setStackInSlot(EQUIPMENT_ITEM_SLOT, equipmentStack);
                 beInventory.extractItem(UPGRADE_INPUT_SLOT, 1, false);
+
+                if (previousRank > 0) ejectModuleItem(getServerUser(), entry.upgrade(), previousRank);
+
+                sendSoundToPlayer(getServerUser(), LimaTechSounds.UPGRADE_INSTALL);
             }
         }
     }
@@ -127,26 +128,25 @@ public class EquipmentUpgradeStationMenu extends UpgradesConfigMenu<EquipmentUpg
 
         if (equipmentStack.getItem() instanceof UpgradableEquipmentItem equipmentItem)
         {
-            ResourceKey<EquipmentUpgrade> upgradeKey = ResourceKey.create(LimaTechRegistries.Keys.EQUIPMENT_UPGRADES, upgradeId);
             EquipmentUpgrades currentUpgrades = equipmentItem.getUpgrades(equipmentStack);
-            Holder<EquipmentUpgrade> upgradeHolder = level().registryAccess().holderOrThrow(upgradeKey);
+            Holder<EquipmentUpgrade> upgradeHolder = level().registryAccess().holderOrThrow(ResourceKey.create(LimaTechRegistries.Keys.EQUIPMENT_UPGRADES, upgradeId));
 
-            int upgradeRank = currentUpgrades.getUpgradeRank(upgradeHolder);
-            if (upgradeRank > 0)
+            int rank = currentUpgrades.getUpgradeRank(upgradeHolder);
+            if (rank > 0)
             {
-                ItemStack upgradeModuleItem = EquipmentUpgradeModuleItem.createStack(upgradeHolder, upgradeRank);
+                EquipmentUpgrades newUpgrades = currentUpgrades.toMutableContainer().remove(upgradeHolder).toImmutable();
+                equipmentItem.setUpgrades(equipmentStack, newUpgrades);
+                beInventory.setStackInSlot(EQUIPMENT_ITEM_SLOT, equipmentStack);
 
-                PlayerMainInvWrapper invWrapper = new PlayerMainInvWrapper(playerInventory);
-                int nextSlot = LimaItemHandlerUtil.getNextEmptySlot(invWrapper);
-
-                if (nextSlot != -1)
-                {
-                    EquipmentUpgrades newUpgrades = currentUpgrades.toMutableContainer().remove(upgradeHolder).toImmutable();
-                    equipmentItem.setUpgrades(equipmentStack, newUpgrades);
-                    invWrapper.insertItem(nextSlot, upgradeModuleItem, false);
-                    beInventory.setStackInSlot(EQUIPMENT_ITEM_SLOT, equipmentStack);
-                }
+                ejectModuleItem(sender, upgradeHolder, rank);
+                sendSoundToPlayer(sender, LimaTechSounds.UPGRADE_REMOVE);
             }
         }
+    }
+
+    @Override
+    protected ItemStack createModuleItem(Holder<EquipmentUpgrade> upgrade, int upgradeRank)
+    {
+        return EquipmentUpgradeModuleItem.createStack(upgrade, upgradeRank);
     }
 }

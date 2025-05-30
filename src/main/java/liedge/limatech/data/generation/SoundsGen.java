@@ -21,6 +21,8 @@ class SoundsGen extends LimaSoundDefinitionsProvider
     @Override
     public void registerSounds()
     {
+        addSingleDirectSound(UPGRADE_INSTALL);
+        addSingleDirectSound(UPGRADE_REMOVE);
         addSingleDirectSound(WEAPON_MODE_SWITCH);
         addSingleDirectSound(TURRET_TARGET_FOUND);
 

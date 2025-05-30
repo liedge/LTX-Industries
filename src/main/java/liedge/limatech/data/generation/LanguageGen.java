@@ -275,6 +275,8 @@ class LanguageGen extends LimaLanguageProvider
         add(CompoundValueOperation.ADD_MULTIPLIED_TOTAL, "%s of total");
         add(CompoundValueOperation.MULTIPLY, "%sx");
 
+        add(UPGRADE_INSTALL_SUCCESS, "Installed upgrade.");
+        add(UPGRADE_INSTALL_FAIL, "Can't install upgrade.");
         add(INVALID_UPGRADE_HINT, "This upgrade data in this module is invalid or corrupted. Shift+Right Click to revert to an empty module.");
         add(BLANK_BLUEPRINT_HINT, "No blueprint data. Encode at a Fabricator.");
         add(INVALID_BLUEPRINT_HINT, "The recipe in this blueprint is invalid or corrupted. Shift+Right Click to clear.");
@@ -320,6 +322,8 @@ class LanguageGen extends LimaLanguageProvider
         //#endregion
 
         // Sound subtitles
+        soundEvent(UPGRADE_INSTALL, "Upgrade module installed");
+        soundEvent(UPGRADE_REMOVE, "Upgrade module removed");
         soundEvent(WEAPON_MODE_SWITCH, "Weapon mode switched");
         soundEvent(TURRET_TARGET_FOUND, "Turret finds targets");
         soundEvent(SUBMACHINE_GUN_LOOP, "Submachine gun firing");
