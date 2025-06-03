@@ -3,7 +3,7 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
-    id 'net.neoforged.moddev' version '1.0.14'
+    id 'net.neoforged.moddev' version '2.0.89'
 }
 
 tasks.named('wrapper', Wrapper).configure {
@@ -210,14 +210,31 @@ tasks.withType(ProcessResources).configureEach {
     }
 }
 
+java {
+    withSourcesJar()
+}
+
 // Example configuration to allow publishing using the maven-publish plugin
 publishing {
     publications {
-        register ('modJar', MavenPublication) {
+        register ('modAndSourcesJar', MavenPublication) {
             groupId project.group
             artifactId project.archivesBaseName
             version project.version
+
             artifact jar
+            artifact sourcesJar
+        }
+    }
+
+    repositories {
+        maven {
+            name "github_packages"
+            url uri("https://maven.pkg.github.com/liedge/LimaTech")
+            credentials {
+                username = System.getenv("GITHUB_USERNAME") as String
+                password = System.getenv("GITHUB_TOKEN") as String
+            }
         }
     }
 }
