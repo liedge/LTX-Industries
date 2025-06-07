@@ -5,7 +5,6 @@ import it.unimi.dsi.fastutil.ints.IntList;
 import liedge.limacore.util.LimaEntityUtil;
 import liedge.limatech.LimaTechTags;
 import liedge.limatech.lib.upgrades.UpgradesContainerBase;
-import liedge.limatech.registry.game.LimaTechMobEffects;
 import liedge.limatech.util.config.LimaTechServerConfig;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
@@ -186,12 +185,5 @@ public final class LimaTechEntityUtil
         {
             target.hurt(damageSourceFunction.apply(owner), damage);
         }
-    }
-
-    public static boolean checkIfEntityHasNeuroEffect(@Nullable Entity applyingEntity)
-    {
-        if (applyingEntity instanceof LivingEntity livingEntity) return livingEntity.hasEffect(LimaTechMobEffects.NEURO_SUPPRESSED);
-
-        return false;
     }
 }

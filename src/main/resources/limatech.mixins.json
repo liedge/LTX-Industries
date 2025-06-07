@@ -3,6 +3,5 @@
   "package": "liedge.limatech.mixin",
   "compatibilityLevel": "JAVA_21",
   "refmap": "limatech.refmap.json",
-  "client": [ "HumanoidModelMixin", "MinecraftMixin", "RecipeToastMixin" ],
-  "mixins": [ "LivingEntityMixin" ]
+  "client": [ "HumanoidModelMixin", "MinecraftMixin", "RecipeToastMixin" ]
 }

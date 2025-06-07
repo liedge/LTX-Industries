@@ -13,6 +13,7 @@ import liedge.limatech.network.packet.ClientboundEntityShieldPacket;
 import liedge.limatech.network.packet.ClientboundPlayerShieldPacket;
 import liedge.limatech.registry.game.LimaTechAttachmentTypes;
 import liedge.limatech.registry.game.LimaTechDataComponents;
+import liedge.limatech.registry.game.LimaTechMobEffects;
 import liedge.limatech.registry.game.LimaTechUpgradeEffectComponents;
 import liedge.limatech.util.LimaTechUtil;
 import net.minecraft.server.level.ServerLevel;
@@ -28,10 +29,7 @@ import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.VanillaGameEvent;
-import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
-import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
-import net.neoforged.neoforge.event.entity.living.LivingEquipmentChangeEvent;
-import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
+import net.neoforged.neoforge.event.entity.living.*;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.level.BlockDropsEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
@@ -142,6 +140,15 @@ public final class LimaTechEventHandler
             EquipmentUpgrades upgrades = equipmentItem.getUpgrades(event.getTool());
             DropsRedirect redirect = DropsRedirect.forPlayer(player, upgrades, DirectDropsUpgradeEffect.Type.BLOCK_DROPS);
             if (redirect != null) redirect.captureAndRelocateDrops(event.getDrops(), event::setCanceled);
+        }
+    }
+
+    @SubscribeEvent
+    public static void checkEffectApplicable(final MobEffectEvent.Applicable event)
+    {
+        if (event.getEffectSource() instanceof LivingEntity livingEntity && livingEntity.hasEffect(LimaTechMobEffects.NEURO_SUPPRESSED))
+        {
+            event.setResult(MobEffectEvent.Applicable.Result.DO_NOT_APPLY);
         }
     }
 
