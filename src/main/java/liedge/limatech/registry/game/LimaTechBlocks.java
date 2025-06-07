@@ -18,10 +18,9 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.DropExperienceBlock;
-import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.neoforged.bus.api.IEventBus;
@@ -58,6 +57,9 @@ public final class LimaTechBlocks
         return BLOCKS.getEntriesWithItemsOnly();
     }
 
+    // State Predicates
+    private static final BlockBehaviour.StatePredicate NEVER = (state, level, pos) -> false;
+
     // Ores
     public static final DeferredBlockWithItem<DropExperienceBlock, BlockItem> TITANIUM_ORE = BLOCKS.registerBlockAndSimpleItem("titanium_ore", () -> new DropExperienceBlock(ConstantInt.of(0), of().mapColor(MapColor.STONE).strength(3f).requiresCorrectToolForDrops()));
     public static final DeferredBlockWithItem<DropExperienceBlock, BlockItem> DEEPSLATE_TITANIUM_ORE = BLOCKS.registerBlockAndSimpleItem("deepslate_titanium_ore", () -> new DropExperienceBlock(ConstantInt.of(0), of().mapColor(MapColor.DEEPSLATE).strength(4.5f, 3f).sound(SoundType.DEEPSLATE).requiresCorrectToolForDrops()));
@@ -74,6 +76,8 @@ public final class LimaTechBlocks
 
     // Decoration blocks
     public static final Map<DyeColor, DeferredBlock<Block>> GLOW_BLOCKS = LimaCollectionsUtil.fillAndCreateImmutableEnumMap(DyeColor.class, color -> BLOCKS.registerSimpleBlockAndItem(color.getSerializedName() + "_glow_block", of().mapColor(color).sound(SoundType.GLASS).strength(2f).lightLevel(state -> 15)));
+    public static final DeferredBlockWithItem<Block, BlockItem> TITANIUM_GLASS = BLOCKS.registerBlockAndSimpleItem("titanium_glass", () -> new TransparentBlock(quartzGlassProperties()), new Item.Properties());
+    public static final DeferredBlockWithItem<Block, BlockItem> SLATE_GLASS = BLOCKS.registerBlockAndSimpleItem("slate_glass", () -> new TransparentBlock(quartzGlassProperties()), new Item.Properties());
 
     // Machinery
     public static final DeferredBlockWithItem<EnergyStorageArrayBlock, ESABlockItem> ENERGY_STORAGE_ARRAY = BLOCKS.registerBlockAndItem(LimaTechIds.ID_ENERGY_STORAGE_ARRAY, () -> new EnergyStorageArrayBlock(machineProperties().noOcclusion(), false), block -> new ESABlockItem(block, new Item.Properties().stacksTo(1), false));
@@ -98,5 +102,18 @@ public final class LimaTechBlocks
     private static BlockBehaviour.Properties machineProperties()
     {
         return of().mapColor(MapColor.SNOW).pushReaction(PushReaction.IGNORE).strength(6f, 24f).requiresCorrectToolForDrops();
+    }
+
+    private static BlockBehaviour.Properties quartzGlassProperties()
+    {
+        return of().instrument(NoteBlockInstrument.HAT)
+                .noOcclusion()
+                .sound(SoundType.GLASS)
+                .strength(1f, 1200f)
+                .isValidSpawn(Blocks::never)
+                .isRedstoneConductor(NEVER)
+                .isSuffocating(NEVER)
+                .isViewBlocking(NEVER)
+                .requiresCorrectToolForDrops();
     }
 }

@@ -1,0 +1,17 @@
+{
+  "type": "limatech:material_fusing",
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "limatech:slate_alloy_ingot"
+    },
+    {
+      "count": 3,
+      "tag": "c:gems/quartz"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "limatech:slate_glass"
+  }
+}

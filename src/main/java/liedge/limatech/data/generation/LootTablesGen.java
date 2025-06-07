@@ -147,6 +147,7 @@ class LootTablesGen extends LimaLootTableProvider
                     SLATE_ALLOY_BLOCK);
 
             dropSelf(GLOW_BLOCKS.values());
+            dropSelf(TITANIUM_GLASS, SLATE_GLASS);
 
             dropSelfWithEntity(ENERGY_STORAGE_ARRAY);
             dropSelfWithEntity(INFINITE_ENERGY_STORAGE_ARRAY);

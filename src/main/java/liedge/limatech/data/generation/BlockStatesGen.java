@@ -60,6 +60,8 @@ class BlockStatesGen extends LimaBlockStateProvider
         final ModelFile glowBlockModel = models().withExistingParent("glow_block", "block/block").texture("particle", "#all").ao(false)
                 .element().from(0, 0, 0).to(16, 16, 16).allFaces((side, face) -> face.uvs(0, 0, 16, 16).texture("#all").cullface(side)).emissivity(15, 15).shade(false).end();
         GLOW_BLOCKS.forEach((color, deferredBlock) -> simpleBlockWithItem(deferredBlock, getBlockBuilder(deferredBlock).parent(glowBlockModel).texture("all", blockFolderLocation("glow_blocks/" + color.getSerializedName()))));
+        cubeAll(TITANIUM_GLASS).renderType("cutout");
+        cubeAll(SLATE_GLASS).renderType("cutout");
 
         // Energy storage array
         final ModelFile esaModel = existingModel(blockFolderLocation("energy_storage_array"));

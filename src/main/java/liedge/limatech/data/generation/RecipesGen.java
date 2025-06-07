@@ -194,6 +194,8 @@ class RecipesGen extends LimaRecipeProvider
                 .input(GOLD_INGOT)
                 .save(output);
         GLOW_BLOCKS.forEach((color, block) -> fusing(stackOf(block, 8)).input(LimaTechTags.Items.GLOW_BLOCK_MATERIALS, 2).input(color.getTag()).save(output));
+        fusing(stackOf(TITANIUM_GLASS)).input(TITANIUM_INGOT).input(GEMS_QUARTZ, 3).save(output);
+        fusing(stackOf(SLATE_GLASS)).input(SLATE_ALLOY_INGOT).input(GEMS_QUARTZ, 3).save(output);
 
         // Fabricating recipes
         fabricating(MOLECULAR_RECONSTRUCTOR, 2_000_000)

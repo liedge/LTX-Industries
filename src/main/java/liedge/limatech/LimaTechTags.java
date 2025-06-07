@@ -33,6 +33,8 @@ public final class LimaTechTags
         public static final TagKey<Block> SLATE_ALLOY_STORAGE_BLOCKS = COMMON_NAMESPACE.blockTag("storage_blocks/slate_alloy");
         public static final TagKey<Block> SHEARS_HARVESTABLE = COMMON_NAMESPACE.blockTag("shears_harvestable");
 
+        // Mod Tags
+        public static final TagKey<Block> GLOW_BLOCKS = RESOURCES.blockTag("glow_blocks");
         public static final TagKey<Block> DEEPSLATE_GRINDABLES = RESOURCES.blockTag("deepslate_grindables");
         public static final TagKey<Block> WRENCH_BREAKABLE = RESOURCES.blockTag("wrench_breakable");
         public static final TagKey<Block> LTX_HOE_BOOSTABLE = RESOURCES.blockTag("ltx_hoe_boostable");
@@ -71,6 +73,7 @@ public final class LimaTechTags
         public static final TagKey<Item> DEEPSLATE_DUSTS = COMMON_NAMESPACE.itemTag("dusts/deepslate");
 
         // Mod tags
+        public static final TagKey<Item> GLOW_BLOCKS = RESOURCES.itemTag("glow_blocks");
         public static final TagKey<Item> GLOW_BLOCK_MATERIALS = RESOURCES.itemTag("glow_block_materials");
         public static final TagKey<Item> REPAIR_BLACKLIST = RESOURCES.itemTag("repair_blacklist");
 

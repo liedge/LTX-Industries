@@ -60,6 +60,8 @@ class LanguageGen extends LimaLanguageProvider
         addBlock(SLATE_ALLOY_BLOCK, "Block of Slate Alloy");
 
         GLOW_BLOCKS.forEach((color, deferredBlock) -> addBlock(deferredBlock, localizeSimpleName(color) + " Glow Block"));
+        addBlock(TITANIUM_GLASS, "Titanium Glass");
+        addBlock(SLATE_GLASS, "Slate Glass");
 
         addBlock(ENERGY_STORAGE_ARRAY, "Energy Storage Array");
         addBlock(INFINITE_ENERGY_STORAGE_ARRAY, "Energy Storage Array (∞)");
