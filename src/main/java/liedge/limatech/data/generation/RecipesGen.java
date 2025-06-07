@@ -93,11 +93,11 @@ class RecipesGen extends LimaRecipeProvider
 
         // Machine recipes
         shaped(ENERGY_STORAGE_ARRAY).input('t', TITANIUM_INGOT).input('c', GOLD_CIRCUIT).input('l', DYES_LIME).input('b', COPPER_BLOCK).patterns("tlt", "cbc", "tlt").save(output);
-        shaped(DIGITAL_FURNACE).input('t', TITANIUM_INGOT).input('c', COPPER_CIRCUIT).input('l', DYES_LIME).input('a', FURNACE).input('g', GLASS_BLOCKS).patterns("tgt", "cac", "tlt").save(output);
-        shaped(DIGITAL_SMOKER).input('t', TITANIUM_INGOT).input('c', COPPER_CIRCUIT).input('l', DYES_LIME).input('a', SMOKER).input('g', GLASS_BLOCKS).patterns("tgt", "cac", "tlt").save(output);
-        shaped(DIGITAL_BLAST_FURNACE).input('t', TITANIUM_INGOT).input('c', COPPER_CIRCUIT).input('l', DYES_LIME).input('a', BLAST_FURNACE).input('g', GLASS_BLOCKS).patterns("tgt", "cac", "tlt").save(output);
+        shaped(DIGITAL_FURNACE).input('t', TITANIUM_INGOT).input('c', COPPER_CIRCUIT).input('l', DYES_LIME).input('a', FURNACE).input('g', GLASS_BLOCKS_CHEAP).patterns("tgt", "cac", "tlt").save(output);
+        shaped(DIGITAL_SMOKER).input('t', TITANIUM_INGOT).input('c', COPPER_CIRCUIT).input('l', DYES_LIME).input('a', SMOKER).input('g', GLASS_BLOCKS_CHEAP).patterns("tgt", "cac", "tlt").save(output);
+        shaped(DIGITAL_BLAST_FURNACE).input('t', TITANIUM_INGOT).input('c', COPPER_CIRCUIT).input('l', DYES_LIME).input('a', BLAST_FURNACE).input('g', GLASS_BLOCKS_CHEAP).patterns("tgt", "cac", "tlt").save(output);
         shaped(GRINDER).input('t', TITANIUM_INGOT).input('c', COPPER_CIRCUIT).input('l', DYES_LIME).input('a', GRINDSTONE).patterns("tlt", "cac", "ttt").save(output);
-        shaped(RECOMPOSER).input('t', TITANIUM_INGOT).input('c', COPPER_CIRCUIT).input('r', LIGHTNING_ROD).input('g', GLASS_BLOCKS).patterns("ttt", "rgr", "tct").save(output);
+        shaped(RECOMPOSER).input('t', TITANIUM_INGOT).input('c', COPPER_CIRCUIT).input('r', LIGHTNING_ROD).input('g', GLASS_BLOCKS_CHEAP).patterns("ttt", "rgr", "tct").save(output);
         shaped(MATERIAL_FUSING_CHAMBER).input('t', TITANIUM_INGOT).input('c', GOLD_CIRCUIT).input('l', DYES_LIME).input('a', BLAST_FURNACE).patterns("tlt", "cac", "ttt").save(output);
         shaped(FABRICATOR).input('t', TITANIUM_INGOT).input('c', COPPER_CIRCUIT).input('l', DYES_LIME).input('a', CRAFTER).patterns("tlt", "cac", "ttt").save(output);
         shaped(EQUIPMENT_UPGRADE_STATION).input('t', TITANIUM_INGOT).input('a', ANVIL).input('l', DYES_LIME).patterns("ttt",  "lal", "ttt").save(output);
@@ -194,8 +194,8 @@ class RecipesGen extends LimaRecipeProvider
                 .input(GOLD_INGOT)
                 .save(output);
         GLOW_BLOCKS.forEach((color, block) -> fusing(stackOf(block, 8)).input(LimaTechTags.Items.GLOW_BLOCK_MATERIALS, 2).input(color.getTag()).save(output));
-        fusing(stackOf(TITANIUM_GLASS)).input(TITANIUM_INGOT).input(GEMS_QUARTZ, 3).save(output);
-        fusing(stackOf(SLATE_GLASS)).input(SLATE_ALLOY_INGOT).input(GEMS_QUARTZ, 3).save(output);
+        fusing(stackOf(TITANIUM_GLASS, 2)).input(TITANIUM_INGOT).input(GEMS_QUARTZ, 3).save(output);
+        fusing(stackOf(SLATE_GLASS, 2)).input(SLATE_ALLOY_INGOT).input(GEMS_QUARTZ, 3).save(output);
 
         // Fabricating recipes
         fabricating(MOLECULAR_RECONSTRUCTOR, 2_000_000)
@@ -303,13 +303,19 @@ class RecipesGen extends LimaRecipeProvider
         upgradeableItemFabricating(GRENADE_LAUNCHER, registries, 20_000_000)
                 .input(EXPLOSIVES_WEAPON_TECH_SALVAGE)
                 .input(TITANIUM_INGOT, 32)
-                .input(NIOBIUM_INGOT, 16)
-                .input(GOLD_CIRCUIT, 16)
+                .input(COPPER_CIRCUIT, 24)
+                .input(GOLD_CIRCUIT, 12)
+                .group("ltx/weapon").save(output);
+        upgradeableItemFabricating(LINEAR_FUSION_RIFLE, registries, 25_000_000)
+                .input(TITANIUM_INGOT, 24)
+                .input(TITANIUM_GLASS, 12)
+                .input(COPPER_CIRCUIT, 16)
+                .input(GOLD_CIRCUIT, 8)
                 .group("ltx/weapon").save(output);
         upgradeableItemFabricating(ROCKET_LAUNCHER, registries, 30_000_000)
                 .input(EXPLOSIVES_WEAPON_TECH_SALVAGE)
                 .input(TITANIUM_INGOT, 48)
-                .input(NIOBIUM_INGOT, 16)
+                .input(NIOBIUM_INGOT, 8)
                 .input(GOLD_CIRCUIT, 16)
                 .group("ltx/weapon").save(output);
         upgradeableItemFabricating(MAGNUM, registries, 50_000_000)
@@ -402,7 +408,7 @@ class RecipesGen extends LimaRecipeProvider
                 .input(GOLD_CIRCUIT, 2)
                 .input(EMERALD, 1)
                 .input(SLIME_BALL, 8)
-                .input(GLASS_BLOCKS, 16));
+                .input(TITANIUM_GLASS, 4));
         UnaryOperator<FabricatingBuilder> multi1 = builder -> builder
                 .input(COPPER_CIRCUIT, 4)
                 .input(IRON_INGOT, 4)

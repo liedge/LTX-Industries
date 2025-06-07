@@ -1,27 +1,27 @@
 {
   "type": "limatech:fabricating",
-  "energy_required": 20000000,
+  "energy_required": 25000000,
   "group": "ltx/weapon",
   "ingredients": [
     {
-      "count": 1,
-      "item": "limatech:explosives_weapon_tech_salvage"
-    },
-    {
-      "count": 32,
+      "count": 24,
       "item": "limatech:titanium_ingot"
     },
     {
-      "count": 24,
+      "count": 12,
+      "item": "limatech:titanium_glass"
+    },
+    {
+      "count": 16,
       "item": "limatech:copper_circuit"
     },
     {
-      "count": 12,
+      "count": 8,
       "item": "limatech:gold_circuit"
     }
   ],
   "result": {
     "count": 1,
-    "id": "limatech:grenade_launcher"
+    "id": "limatech:linear_fusion_rifle"
   }
 }

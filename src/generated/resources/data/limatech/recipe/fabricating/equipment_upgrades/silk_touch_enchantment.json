@@ -20,8 +20,8 @@
       "item": "minecraft:slime_ball"
     },
     {
-      "count": 16,
-      "tag": "c:glass_blocks"
+      "count": 4,
+      "item": "limatech:titanium_glass"
     }
   ],
   "result": {
