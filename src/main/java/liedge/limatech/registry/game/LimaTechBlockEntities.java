@@ -96,6 +96,8 @@ public final class LimaTechBlockEntities
     public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<RocketTurretBlockEntity>> ROCKET_TURRET = registerTurret(LimaTechIds.ID_ROCKET_TURRET, RocketTurretBlockEntity::new, builder -> builder.withBlock(LimaTechBlocks.ROCKET_TURRET));
     public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<RailgunTurretBlockEntity>> RAILGUN_TURRET = registerTurret(LimaTechIds.ID_RAILGUN_TURRET, RailgunTurretBlockEntity::new, builder -> builder.withBlock(LimaTechBlocks.RAILGUN_TURRET));
 
+    public static final DeferredHolder<BlockEntityType<?>, LimaBlockEntityType<MeshBlockEntity>> MESH_BLOCK = TYPES.register("mesh_block", () -> LimaBlockEntityType.of(MeshBlockEntity::new, LimaTechBlocks.MESH_BLOCK));
+
     // Helpers
     private static <BE extends LimaBlockEntity> DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<BE>> registerSimpleRecipeMachine(String name, BlockEntityType.BlockEntitySupplier<BE> factory, UnaryOperator<SidedAccessBlockEntityType.Builder<BE>> builder)
     {

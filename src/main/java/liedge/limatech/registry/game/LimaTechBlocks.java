@@ -98,10 +98,22 @@ public final class LimaTechBlocks
     public static final DeferredBlockWithItem<TurretBlock, BlockItem> ROCKET_TURRET = BLOCKS.registerBlockAndItem(LimaTechIds.ID_ROCKET_TURRET, () -> new TurretBlock(machineProperties().noOcclusion()), block -> new ContentsTooltipBlockItem(block, new Item.Properties().stacksTo(1).rarity(LimaTechRarities.ltxGearRarity()), true, false, true));
     public static final DeferredBlockWithItem<TurretBlock, BlockItem> RAILGUN_TURRET = BLOCKS.registerBlockAndItem(LimaTechIds.ID_RAILGUN_TURRET, () -> new TurretBlock(machineProperties().noOcclusion()), block -> new ContentsTooltipBlockItem(block, new Item.Properties().stacksTo(1).rarity(LimaTechRarities.ltxGearRarity()), true, false, true));
 
+    // Technical blocks
+    public static final DeferredBlock<MeshBlock> MESH_BLOCK = BLOCKS.registerBlock("mesh_block", properties -> new MeshBlock(machineProperties(properties).dynamicShape().noOcclusion().noLootTable()));
+
     // Helpers & initializers
+    private static BlockBehaviour.Properties machineProperties(BlockBehaviour.Properties properties)
+    {
+        return properties
+                .mapColor(MapColor.SNOW)
+                .pushReaction(PushReaction.BLOCK)
+                .strength(6f, 32f)
+                .requiresCorrectToolForDrops();
+    }
+
     private static BlockBehaviour.Properties machineProperties()
     {
-        return of().mapColor(MapColor.SNOW).pushReaction(PushReaction.IGNORE).strength(6f, 24f).requiresCorrectToolForDrops();
+        return machineProperties(of());
     }
 
     private static BlockBehaviour.Properties quartzGlassProperties()

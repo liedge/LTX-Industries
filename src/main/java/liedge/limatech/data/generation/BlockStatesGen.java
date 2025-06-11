@@ -17,8 +17,7 @@ import java.util.function.BiFunction;
 import static liedge.limacore.util.LimaRegistryUtil.getBlockName;
 import static liedge.limatech.block.LimaTechBlockProperties.MACHINE_WORKING;
 import static liedge.limatech.registry.game.LimaTechBlocks.*;
-import static net.minecraft.world.level.block.state.properties.BlockStateProperties.DOUBLE_BLOCK_HALF;
-import static net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING;
+import static net.minecraft.world.level.block.state.properties.BlockStateProperties.*;
 
 class BlockStatesGen extends LimaBlockStateProvider
 {
@@ -83,6 +82,9 @@ class BlockStatesGen extends LimaBlockStateProvider
         // Turret
         doubleMachineBlock(ROCKET_TURRET, turretBase);
         doubleMachineBlock(RAILGUN_TURRET, turretBase);
+
+        // Technical blocks
+        getVariantBuilder(MESH_BLOCK).forAllStatesExcept(state -> ConfiguredModel.builder().modelFile(machineParticlesOnly).build(), HORIZONTAL_FACING, WATERLOGGED);
     }
 
     private void doubleMachineBlock(Holder<Block> doubleBlock, ModelFile baseModel)

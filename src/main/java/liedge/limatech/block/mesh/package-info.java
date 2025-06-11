@@ -1,4 +1,4 @@
 @AllNotNull
-package liedge.limatech.lib.multiblock;
+package liedge.limatech.block.mesh;
 
 import liedge.limacore.AllNotNull;
