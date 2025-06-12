@@ -128,18 +128,21 @@ public final class LimaTechEventHandler
         }
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onBlockDrops(final BlockDropsEvent event)
     {
-        //if (event.getDrops().isEmpty()) return;
-        // Don't cancel event because XP drops are nullified
-
         // Only for players and qualifying upgradable equipment
         if (event.getBreaker() instanceof Player player && event.getTool().getItem() instanceof UpgradableEquipmentItem equipmentItem)
         {
             EquipmentUpgrades upgrades = equipmentItem.getUpgrades(event.getTool());
             DropsRedirect redirect = DropsRedirect.forPlayer(player, upgrades, DirectDropsUpgradeEffect.Type.BLOCK_DROPS);
-            if (redirect != null) redirect.captureAndRelocateDrops(event.getDrops(), event::setCanceled);
+            if (redirect != null)
+            {
+                redirect.captureAndRelocateDrops(event.getDrops());
+                int xp = event.getDroppedExperience();
+                event.setDroppedExperience(0);
+                player.giveExperiencePoints(xp);
+            }
         }
     }
 
@@ -152,7 +155,7 @@ public final class LimaTechEventHandler
         }
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onLivingDrops(final LivingDropsEvent event)
     {
         DamageSource damageSource = event.getSource();
@@ -171,7 +174,7 @@ public final class LimaTechEventHandler
         }
 
         // Perform redirection if one was found
-        if (dropsRedirect != null) dropsRedirect.captureAndRelocateDrops(event.getDrops(), event::setCanceled);
+        if (dropsRedirect != null) dropsRedirect.captureAndRelocateDrops(event.getDrops());
     }
 
     // Run this on highest so damage source components in LimaCore can apply properly

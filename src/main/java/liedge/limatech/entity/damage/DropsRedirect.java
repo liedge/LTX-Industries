@@ -18,7 +18,6 @@ import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 import net.neoforged.neoforge.items.wrapper.PlayerMainInvWrapper;
 import net.neoforged.neoforge.registries.holdersets.AnyHolderSet;
-import org.apache.commons.lang3.function.BooleanConsumer;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
@@ -61,7 +60,7 @@ public record DropsRedirect(IItemHandler targetInventory, @Nullable Vec3 newDrop
         return create(new PlayerMainInvWrapper(player.getInventory()), player.getEyePosition(), upgrades, type);
     }
 
-    public void captureAndRelocateDrops(Collection<ItemEntity> itemEntities, BooleanConsumer emptyListener)
+    public void captureAndRelocateDrops(Collection<ItemEntity> itemEntities)
     {
         Iterator<ItemEntity> iterator = itemEntities.iterator();
 
@@ -79,20 +78,19 @@ public record DropsRedirect(IItemHandler targetInventory, @Nullable Vec3 newDrop
             {
                 iterator.remove();
             }
-            else if (original.getCount() != insertRemainder.getCount())
+            else
             {
-                // Partial remaining stack still drops in world
-                // Attempts to relocate partial stack to new location
-                itemEntity.setItem(insertRemainder);
+                // Always relocate drops
                 if (newDropsLocation != null)
                 {
                     itemEntity.setPos(newDropsLocation);
                     itemEntity.setDeltaMovement(Vec3.ZERO);
                 }
+
+                // Replace the stack on partial insert
+                if (original.getCount() != insertRemainder.getCount())
+                    itemEntity.setItem(insertRemainder);
             }
         }
-
-        // Notify if iterator was emptied
-        if (itemEntities.isEmpty()) emptyListener.accept(true);
     }
 }
