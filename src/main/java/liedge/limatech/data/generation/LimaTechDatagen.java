@@ -58,5 +58,6 @@ final class LimaTechDatagen
         generator.addProvider(runClient, new ItemModelGen(output, helper));
         generator.addProvider(runClient, new ParticlesGen(output, helper));
         generator.addProvider(runClient, new SoundsGen(output, helper));
+        generator.addProvider(runClient, new SpriteSourcesGen(output, patchedRegistries, helper));
     }
 }

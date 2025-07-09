@@ -9,6 +9,9 @@ import net.minecraft.resources.ResourceLocation;
 
 public final class LimaWidgetSprites extends TextureAtlasHolder
 {
+    public static final ResourceLocation ATLAS_LOCATION = LimaTech.RESOURCES.location("widgets");
+    private static final ResourceLocation ATLAS_TEXTURE = LimaTech.RESOURCES.textureLocation("atlas", "widgets");
+
     private static LimaWidgetSprites instance;
 
     public static LimaWidgetSprites getInstance()
@@ -24,7 +27,7 @@ public final class LimaWidgetSprites extends TextureAtlasHolder
 
     private LimaWidgetSprites(TextureManager textureManager)
     {
-        super(textureManager, LimaTech.RESOURCES.textureLocation("atlas", "lima_widget"), LimaTech.RESOURCES.location("lima_widget"));
+        super(textureManager, ATLAS_TEXTURE, ATLAS_LOCATION);
     }
 
     @Override
