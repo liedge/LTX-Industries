@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "limatech:item/niobium_circuit"
+    "layer0": "limatech:item/t2_circuit"
   }
 }

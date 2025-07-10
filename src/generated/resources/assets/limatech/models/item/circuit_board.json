@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "limatech:item/gold_circuit"
+    "layer0": "limatech:item/circuit_board"
   }
 }

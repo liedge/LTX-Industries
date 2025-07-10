@@ -74,9 +74,12 @@ public final class LimaTechItems
     public static final DeferredItem<Item> NIOBIUM_ORE_PEBBLES = ITEMS.registerSimpleItem("niobium_ore_pebbles");
 
     // Components
-    public static final DeferredItem<Item> COPPER_CIRCUIT = ITEMS.registerSimpleItem("copper_circuit");
-    public static final DeferredItem<Item> GOLD_CIRCUIT = ITEMS.registerSimpleItem("gold_circuit");
-    public static final DeferredItem<Item> NIOBIUM_CIRCUIT = ITEMS.registerSimpleItem("niobium_circuit");
+    public static final DeferredItem<Item> CIRCUIT_BOARD = ITEMS.registerSimpleItem("circuit_board");
+    public static final DeferredItem<SimpleHintItem> T1_CIRCUIT = registerSimpleHint("t1_circuit");
+    public static final DeferredItem<SimpleHintItem> T2_CIRCUIT = registerSimpleHint("t2_circuit");
+    public static final DeferredItem<SimpleHintItem> T3_CIRCUIT = registerSimpleHint("t3_circuit");
+    public static final DeferredItem<SimpleHintItem> T4_CIRCUIT = registerSimpleHint("t4_circuit");
+    public static final DeferredItem<SimpleHintItem> T5_CIRCUIT = registerSimpleHint("t5_circuit");
 
     // LTX basic tools
     public static final DeferredItem<EnergyDrillItem> LTX_DRILL = registerLTXGear("ltx_drill", properties -> new EnergyDrillItem(properties, 5f, -2f));
@@ -95,12 +98,12 @@ public final class LimaTechItems
 
     // Alloy ingots
     public static final DeferredItem<Item> SLATE_ALLOY_INGOT = ITEMS.registerSimpleItem("slate_alloy_ingot");
-    public static final DeferredItem<Item> BEDROCK_ALLOY_INGOT = ITEMS.registerSimpleItem("bedrock_alloy_ingot");
     public static final DeferredItem<Item> SLATE_ALLOY_NUGGET = ITEMS.registerSimpleItem("slate_alloy_nugget");
+    public static final DeferredItem<Item> BEDROCK_ALLOY_INGOT = ITEMS.registerSimpleItem("bedrock_alloy_ingot");
 
     // Tech salvage modules
-    public static final DeferredItem<SimpleHintItem> EXPLOSIVES_WEAPON_TECH_SALVAGE = ITEMS.registerItem("explosives_weapon_tech_salvage", SimpleHintItem::new, properties().rarity(Rarity.RARE));
-    public static final DeferredItem<SimpleHintItem> TARGETING_TECH_SALVAGE = ITEMS.registerItem("targeting_tech_salvage", SimpleHintItem::new, properties().rarity(Rarity.RARE));
+    public static final DeferredItem<SimpleHintItem> EXPLOSIVES_WEAPON_TECH_SALVAGE = registerSimpleHint("explosives_weapon_tech_salvage", properties().rarity(Rarity.RARE));
+    public static final DeferredItem<SimpleHintItem> TARGETING_TECH_SALVAGE = registerSimpleHint("targeting_tech_salvage", properties().rarity(Rarity.RARE));
 
     // Upgrade
     public static final DeferredItem<Item> EMPTY_UPGRADE_MODULE = ITEMS.registerSimpleItem("empty_upgrade_module");
@@ -118,10 +121,20 @@ public final class LimaTechItems
     public static final DeferredItem<MagnumWeaponItem> MAGNUM = registerLTXGear("magnum", MagnumWeaponItem::new);
 
     // LTX weapon ammo items
-    public static final DeferredItem<SimpleHintItem> AUTO_AMMO_CANISTER = ITEMS.registerItem("auto_ammo_canister", SimpleHintItem::new);
-    public static final DeferredItem<SimpleHintItem> SPECIALIST_AMMO_CANISTER = ITEMS.registerItem("specialist_ammo_canister", SimpleHintItem::new);
-    public static final DeferredItem<SimpleHintItem> EXPLOSIVES_AMMO_CANISTER = ITEMS.registerItem("explosives_ammo_canister", SimpleHintItem::new);
-    public static final DeferredItem<SimpleHintItem> HEAVY_AMMO_CANISTER = ITEMS.registerItem("heavy_ammo_canister", SimpleHintItem::new);
+    public static final DeferredItem<SimpleHintItem> AUTO_AMMO_CANISTER = registerSimpleHint("auto_ammo_canister");
+    public static final DeferredItem<SimpleHintItem> SPECIALIST_AMMO_CANISTER = registerSimpleHint("specialist_ammo_canister");
+    public static final DeferredItem<SimpleHintItem> EXPLOSIVES_AMMO_CANISTER = registerSimpleHint("explosives_ammo_canister");
+    public static final DeferredItem<SimpleHintItem> HEAVY_AMMO_CANISTER = registerSimpleHint("heavy_ammo_canister");
+
+    private static DeferredItem<SimpleHintItem> registerSimpleHint(String name, Item.Properties properties)
+    {
+        return ITEMS.registerItem(name, SimpleHintItem::new, properties);
+    }
+
+    private static DeferredItem<SimpleHintItem> registerSimpleHint(String name)
+    {
+        return registerSimpleHint(name, properties());
+    }
 
     private static <T extends Item> DeferredItem<T> registerLTXGear(String name, Function<Item.Properties, T> constructor)
     {

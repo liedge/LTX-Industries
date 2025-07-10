@@ -96,9 +96,12 @@ class LanguageGen extends LimaLanguageProvider
         addItem(SLATE_ALLOY_INGOT, "Slate Alloy Ingot");
         addItem(BEDROCK_ALLOY_INGOT, "Bedrock Alloy Ingot");
         addItem(SLATE_ALLOY_NUGGET, "Slate Alloy Nugget");
-        addItem(COPPER_CIRCUIT, "Copper Circuit");
-        addItem(GOLD_CIRCUIT, "Gold Circuit");
-        addItem(NIOBIUM_CIRCUIT, "Niobium Circuit");
+        addItem(CIRCUIT_BOARD, "Circuit Board");
+        simpleHintItem(T1_CIRCUIT, "Basic Circuit", "First tier circuit. Sufficient energy and data throughput for most entry-level applications.");
+        simpleHintItem(T2_CIRCUIT, "Enhanced Circuit", "Second tier circuit. Improved energy and data efficiency from higher quality conductors.");
+        simpleHintItem(T3_CIRCUIT, "Precision Circuit", "Third tier circuit. Highest performance on conventional materials. Handles all standard engineering and industrial applications.");
+        simpleHintItem(T4_CIRCUIT, "Nano-Core Processor", "Fourth tier circuit. Exotic crystal-metal nanoarchitecture packed into a small form factor. Near unmatched power delivery and data processing.");
+        simpleHintItem(T5_CIRCUIT, "Real Virtuality Processor", "Fifth and final tier circuit. Can create digital microverses where its calculations don't break the laws of physics. Don't question it.");
 
         addItem(COAL_ORE_PEBBLES, "Coal Ore Pebbles");
         addItem(COPPER_ORE_PEBBLES, "Copper Ore Pebbles");

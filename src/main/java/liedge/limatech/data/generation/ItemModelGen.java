@@ -31,8 +31,34 @@ class ItemModelGen extends LimaItemModelProvider
     @Override
     protected void registerModels()
     {
-        generated(RAW_TITANIUM, TITANIUM_INGOT, TITANIUM_NUGGET, RAW_NIOBIUM, NIOBIUM_INGOT, NIOBIUM_NUGGET,
-                WHITE_PIGMENT, LIGHT_BLUE_PIGMENT, LIME_PIGMENT);
+        // Standard (generated) models
+        generated(RAW_TITANIUM,
+                TITANIUM_INGOT,
+                TITANIUM_NUGGET,
+                RAW_NIOBIUM,
+                NIOBIUM_INGOT,
+                NIOBIUM_NUGGET,
+                WHITE_PIGMENT,
+                LIGHT_BLUE_PIGMENT,
+                LIME_PIGMENT,
+                CIRCUIT_BOARD,
+                T1_CIRCUIT,
+                T2_CIRCUIT,
+                T3_CIRCUIT,
+                T4_CIRCUIT,
+                T5_CIRCUIT,
+                DEEPSLATE_POWDER,
+                SLATE_ALLOY_INGOT,
+                SLATE_ALLOY_NUGGET,
+                BEDROCK_ALLOY_INGOT,
+                EMPTY_UPGRADE_MODULE,
+                EQUIPMENT_UPGRADE_MODULE,
+                MACHINE_UPGRADE_MODULE,
+                FABRICATION_BLUEPRINT,
+                AUTO_AMMO_CANISTER,
+                SPECIALIST_AMMO_CANISTER,
+                EXPLOSIVES_AMMO_CANISTER,
+                HEAVY_AMMO_CANISTER);
 
         orePebbles(COAL_ORE_PEBBLES, COPPER_ORE_PEBBLES, IRON_ORE_PEBBLES, LAPIS_ORE_PEBBLES, REDSTONE_ORE_PEBBLES, GOLD_ORE_PEBBLES, DIAMOND_ORE_PEBBLES, EMERALD_ORE_PEBBLES, QUARTZ_ORE_PEBBLES, NETHERITE_ORE_PEBBLES, TITANIUM_ORE_PEBBLES, NIOBIUM_ORE_PEBBLES);
 
@@ -57,9 +83,6 @@ class ItemModelGen extends LimaItemModelProvider
                 .override().model(brushing0).predicate(BRUSH_BRUSHING, 0.25f).end()
                 .override().model(brushing1).predicate(BRUSH_BRUSHING, 0.5f).end()
                 .override().model(brushing2).predicate(BRUSH_BRUSHING, 0.75f).end();
-
-        generated(DEEPSLATE_POWDER, SLATE_ALLOY_INGOT, BEDROCK_ALLOY_INGOT, SLATE_ALLOY_NUGGET, COPPER_CIRCUIT, GOLD_CIRCUIT, NIOBIUM_CIRCUIT, AUTO_AMMO_CANISTER, SPECIALIST_AMMO_CANISTER, EXPLOSIVES_AMMO_CANISTER, HEAVY_AMMO_CANISTER);
-        generated(FABRICATION_BLUEPRINT, EMPTY_UPGRADE_MODULE, EQUIPMENT_UPGRADE_MODULE, MACHINE_UPGRADE_MODULE);
     }
 
     private ItemModelBuilder emissiveBiLayer(String path, ModelFile parent, ResourceLocation baseTexture, ResourceLocation emissiveTexture)
