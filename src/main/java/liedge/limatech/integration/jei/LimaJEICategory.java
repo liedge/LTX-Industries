@@ -50,7 +50,7 @@ public abstract class LimaJEICategory<R extends LimaSizedIngredientRecipe<?>> im
 
     protected IDrawableBuilder widgetDrawable(IGuiHelper helper, String name, int width, int height)
     {
-        return helper.drawableBuilder(LimaTech.RESOURCES.textureLocation("gui/lima_widget", name), 0, 0, width, height).setTextureSize(width, height);
+        return helper.drawableBuilder(LimaTech.RESOURCES.textureLocation("gui/widget", name), 0, 0, width, height).setTextureSize(width, height);
     }
 
     protected void sizedIngredientsSlot(IRecipeLayoutBuilder builder, R recipe, int ingredientIndex, int x, int y)
