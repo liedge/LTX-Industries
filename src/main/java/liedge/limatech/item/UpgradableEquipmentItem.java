@@ -32,12 +32,16 @@ public interface UpgradableEquipmentItem extends ItemLike
         return stack.getOrDefault(LimaTechDataComponents.EQUIPMENT_UPGRADES, EquipmentUpgrades.EMPTY);
     }
 
+    default ResourceKey<EquipmentUpgrade> getDefaultUpgradeKey()
+    {
+        ResourceLocation id = LimaRegistryUtil.getItemId(this.asItem());
+        return ResourceKey.create(LimaTechRegistries.Keys.EQUIPMENT_UPGRADES, id.withSuffix("_default"));
+    }
+
     default ItemStack createStackWithDefaultUpgrades(HolderLookup.Provider registries)
     {
         ItemStack stack = new ItemStack(this);
-
-        ResourceLocation id = LimaRegistryUtil.getItemId(this.asItem());
-        ResourceKey<EquipmentUpgrade> defaultKey = ResourceKey.create(LimaTechRegistries.Keys.EQUIPMENT_UPGRADES, id.withSuffix("_default"));
+        ResourceKey<EquipmentUpgrade> defaultKey = getDefaultUpgradeKey();
         registries.holder(defaultKey).ifPresent(holder -> setUpgrades(stack, EquipmentUpgrades.builder().set(holder).toImmutable()));
 
         return stack;
