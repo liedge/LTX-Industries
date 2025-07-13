@@ -18,6 +18,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
 import net.neoforged.neoforge.items.wrapper.PlayerMainInvWrapper;
 
 import java.util.Optional;
@@ -64,12 +65,12 @@ public class FabricatorMenu extends SidedUpgradableMachineMenu<FabricatorBlockEn
         validateRecipeAccess(sender, id).ifPresent(holder ->
         {
             LimaItemHandlerBase beInv = menuContext.getItemHandler();
-            if (beInv.getStackInSlot(BLUEPRINT_ITEM_SLOT).is(LimaTechItems.FABRICATION_BLUEPRINT))
+            if (beInv.getStackInSlot(BLUEPRINT_ITEM_SLOT).is(LimaTechItems.EMPTY_FABRICATION_BLUEPRINT))
             {
-                ItemStack encodedBlueprint = new ItemStack(LimaTechItems.FABRICATION_BLUEPRINT.asItem());
-                encodedBlueprint.set(LimaTechDataComponents.BLUEPRINT_RECIPE, id);
+                ItemStack blueprint = new ItemStack(LimaTechItems.FABRICATION_BLUEPRINT.asItem());
+                blueprint.set(LimaTechDataComponents.BLUEPRINT_RECIPE, id);
                 beInv.extractItem(BLUEPRINT_ITEM_SLOT, 1, false);
-                beInv.insertItem(BLUEPRINT_ITEM_SLOT, encodedBlueprint, false);
+                ItemHandlerHelper.giveItemToPlayer(sender, blueprint);
             }
         });
     }
@@ -106,7 +107,7 @@ public class FabricatorMenu extends SidedUpgradableMachineMenu<FabricatorBlockEn
         {
             if (LimaItemUtil.hasEnergyCapability(stack))
                 return quickMoveToContainerSlot(stack, ENERGY_ITEM_SLOT);
-            else if (stack.is(LimaTechItems.FABRICATION_BLUEPRINT) && stack.get(LimaTechDataComponents.BLUEPRINT_RECIPE) == null)
+            else if (stack.is(LimaTechItems.EMPTY_FABRICATION_BLUEPRINT))
                 return quickMoveToContainerSlot(stack, BLUEPRINT_ITEM_SLOT);
             else return false;
         }

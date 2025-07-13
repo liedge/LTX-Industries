@@ -14,7 +14,6 @@ import liedge.limatech.blockentity.base.RecipeMachineBlockEntity;
 import liedge.limatech.blockentity.base.SidedAccessBlockEntityType;
 import liedge.limatech.lib.upgrades.machine.MachineUpgrades;
 import liedge.limatech.recipe.FabricatingRecipe;
-import liedge.limatech.registry.game.LimaTechItems;
 import liedge.limatech.registry.game.LimaTechRecipeTypes;
 import liedge.limatech.util.LimaTechTooltipUtil;
 import liedge.limatech.util.config.LimaTechMachinesConfig;
@@ -23,6 +22,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootContext;
 
@@ -145,13 +145,15 @@ public abstract class BaseFabricatorBlockEntity extends SidedItemEnergyMachineBl
 
     protected abstract void tickServerFabricator(ServerLevel level, BlockPos pos, BlockState state);
 
+    protected abstract ItemLike getValidBlueprintItem();
+
     @Override
     protected boolean isItemValidForPrimaryHandler(int slot, ItemStack stack)
     {
         return switch (slot)
         {
             case ENERGY_ITEM_SLOT -> LimaItemUtil.hasEnergyCapability(stack);
-            case BLUEPRINT_ITEM_SLOT -> stack.is(LimaTechItems.FABRICATION_BLUEPRINT);
+            case BLUEPRINT_ITEM_SLOT -> stack.is(getValidBlueprintItem().asItem());
             default -> true;
         };
     }

@@ -4,10 +4,12 @@ import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limacore.recipe.LimaRecipeInput;
 import liedge.limatech.recipe.FabricatingRecipe;
 import liedge.limatech.registry.game.LimaTechBlockEntities;
+import liedge.limatech.registry.game.LimaTechItems;
 import liedge.limatech.registry.game.LimaTechMenus;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -77,6 +79,12 @@ public class FabricatorBlockEntity extends BaseFabricatorBlockEntity
         {
             stopCrafting(false, level);
         }
+    }
+
+    @Override
+    protected ItemLike getValidBlueprintItem()
+    {
+        return LimaTechItems.EMPTY_FABRICATION_BLUEPRINT;
     }
 
     @Override

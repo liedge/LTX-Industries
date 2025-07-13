@@ -4,15 +4,13 @@ import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limacore.recipe.LimaRecipeInput;
 import liedge.limacore.util.LimaRecipesUtil;
 import liedge.limatech.recipe.FabricatingRecipe;
-import liedge.limatech.registry.game.LimaTechBlockEntities;
-import liedge.limatech.registry.game.LimaTechDataComponents;
-import liedge.limatech.registry.game.LimaTechMenus;
-import liedge.limatech.registry.game.LimaTechRecipeTypes;
+import liedge.limatech.registry.game.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -101,6 +99,12 @@ public class AutoFabricatorBlockEntity extends BaseFabricatorBlockEntity
             // Reset energy just in case crafting was interrupted, but this shouldn't ever happen.
             energyCraftProgress = 0;
         }
+    }
+
+    @Override
+    protected ItemLike getValidBlueprintItem()
+    {
+        return LimaTechItems.FABRICATION_BLUEPRINT;
     }
 
     @Override

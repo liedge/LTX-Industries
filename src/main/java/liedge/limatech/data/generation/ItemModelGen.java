@@ -54,6 +54,7 @@ class ItemModelGen extends LimaItemModelProvider
                 EMPTY_UPGRADE_MODULE,
                 EQUIPMENT_UPGRADE_MODULE,
                 MACHINE_UPGRADE_MODULE,
+                EMPTY_FABRICATION_BLUEPRINT,
                 FABRICATION_BLUEPRINT,
                 AUTO_AMMO_CANISTER,
                 SPECIALIST_AMMO_CANISTER,

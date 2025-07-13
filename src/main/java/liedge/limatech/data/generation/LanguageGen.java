@@ -128,6 +128,7 @@ class LanguageGen extends LimaLanguageProvider
         addItem(LTX_WRENCH, ltxToolName("Wrench"));
 
         addItem(EMPTY_UPGRADE_MODULE, "Empty Upgrade Module");
+        simpleHintItem(EMPTY_FABRICATION_BLUEPRINT, "Empty Fabrication Blueprint", "Encode a Fabrication recipe in a Fabricator.");
         addItem(FABRICATION_BLUEPRINT, "Fabrication Blueprint");
 
         simpleHintItem(EXPLOSIVES_WEAPON_TECH_SALVAGE, "Salvaged Tech: Explosive Weapon Systems", "Broken components from an explosives handling device. Might be useful in reconstructing explosive weaponry.");
@@ -282,8 +283,7 @@ class LanguageGen extends LimaLanguageProvider
 
         add(UPGRADE_INSTALL_SUCCESS, "Installed upgrade.");
         add(UPGRADE_INSTALL_FAIL, "Can't install upgrade.");
-        add(INVALID_UPGRADE_HINT, "This upgrade data in this module is invalid or corrupted. Shift+Right Click to revert to an empty module.");
-        add(BLANK_BLUEPRINT_HINT, "No blueprint data. Encode at a Fabricator.");
+        add(INVALID_UPGRADE_HINT, "The upgrade in this module is invalid or corrupted. Shift+Right Click to clear.");
         add(INVALID_BLUEPRINT_HINT, "The recipe in this blueprint is invalid or corrupted. Shift+Right Click to clear.");
 
         add(THIS_ENTITY_TARGET_TOOLTIP, "Enemy");

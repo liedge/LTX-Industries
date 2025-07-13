@@ -48,7 +48,6 @@ public final class LimaTechLang
 
     // Item hints
     public static final Translatable INVALID_UPGRADE_HINT = itemHint("invalid_upgrade");
-    public static final Translatable BLANK_BLUEPRINT_HINT = itemHint("blank_blueprint");
     public static final Translatable INVALID_BLUEPRINT_HINT = itemHint("invalid_blueprint");
 
     // Static upgrade upgrade titles
