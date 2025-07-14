@@ -36,7 +36,7 @@ import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
-@EventBusSubscriber(modid = LimaTech.MODID, bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(modid = LimaTech.MODID)
 public final class LimaTechEventHandler
 {
     private LimaTechEventHandler() {}

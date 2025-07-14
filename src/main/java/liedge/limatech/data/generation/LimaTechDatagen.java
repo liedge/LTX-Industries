@@ -18,7 +18,7 @@ import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 import java.util.concurrent.CompletableFuture;
 
-@EventBusSubscriber(modid = LimaTech.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = LimaTech.MODID)
 final class LimaTechDatagen
 {
     private LimaTechDatagen() {}

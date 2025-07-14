@@ -37,7 +37,7 @@ import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import static liedge.limacore.client.particle.LimaParticleUtil.*;
 import static liedge.limatech.registry.game.LimaTechParticles.*;
 
-@EventBusSubscriber(modid = LimaTech.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = LimaTech.MODID, value = Dist.CLIENT)
 public final class LimaTechClientSetup
 {
     private LimaTechClientSetup() {}

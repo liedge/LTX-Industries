@@ -43,7 +43,7 @@ import java.util.Objects;
 import static liedge.limatech.LimaTechConstants.BUBBLE_SHIELD_GREEN;
 import static liedge.limatech.registry.game.LimaTechAttachmentTypes.WEAPON_CONTROLS;
 
-@EventBusSubscriber(modid = LimaTech.MODID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
+@EventBusSubscriber(modid = LimaTech.MODID, value = Dist.CLIENT)
 public final class LimaTechClientEvents
 {
     @SubscribeEvent
