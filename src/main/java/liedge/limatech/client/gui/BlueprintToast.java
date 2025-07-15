@@ -1,5 +1,7 @@
 package liedge.limatech.client.gui;
 
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import liedge.limacore.util.LimaMathUtil;
 import liedge.limatech.LimaTech;
 import liedge.limatech.LimaTechConstants;
 import liedge.limatech.client.LimaTechLang;
@@ -13,46 +15,67 @@ import net.minecraft.client.gui.components.toasts.ToastComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.List;
+
 public final class BlueprintToast implements Toast
 {
     private static final ResourceLocation BACKGROUND_SPRITE = LimaTech.RESOURCES.location("blueprint_toast");
-    private static final int DISPLAY_TIME = 5000;
+    private static final double DISPLAY_TIME = 5000.0d;
 
-    private final Renderable renderable;
+    private final List<FabricatingRecipe> recipes = new ObjectArrayList<>();
+    private long lastChanged;
+    private boolean changed;
 
     public BlueprintToast(FabricatingRecipe recipe)
     {
-        ItemStack stack = recipe.getResultItem();
+        recipes.add(recipe);
+    }
 
-        Renderable function = null;
-
-        // Special handling for upgrade modules (always show icon)
-        if (stack.getItem() instanceof UpgradeModuleItem<?,?> moduleItem)
-        {
-            UpgradeBaseEntry<?> entry = stack.get(moduleItem.entryComponentType());
-            if (entry != null) function = (graphics, x, y) -> UpgradeModuleItemExtensions.getInstance().renderIconWithRankBar(graphics, entry, x, y);
-        }
-
-        // Otherwise, render the item stack
-        if (function == null) function = (graphics, x, y) -> graphics.renderFakeItem(stack, x, y);
-
-        this.renderable = function;
+    public void addRecipe(FabricatingRecipe recipe)
+    {
+        recipes.add(recipe);
+        changed = true;
     }
 
     @Override
     public Visibility render(GuiGraphics graphics, ToastComponent toastComponent, long timeSinceLastVisible)
     {
+        // Refresh the last changed timestamp if a recipe was added to the toast
+        if (changed)
+        {
+            lastChanged = timeSinceLastVisible;
+            changed = false;
+        }
+
+        // Hide early if for some reason toast was created with no recipes
+        if (recipes.isEmpty()) return Visibility.HIDE;
+
         graphics.blitSprite(BACKGROUND_SPRITE, 0, 0, width(), height());
         graphics.drawString(toastComponent.getMinecraft().font, LimaTechLang.BLUEPRINT_TOAST_MESSAGE.translate(), 35, 7, LimaTechConstants.LIME_GREEN.argb32(), false);
 
-        renderable.render(graphics, 8, 8);
+        int size = recipes.size();
+        int i = (int) ((double) timeSinceLastVisible / Math.max(1d, LimaMathUtil.divideDouble(DISPLAY_TIME * toastComponent.getNotificationDisplayTimeMultiplier(), size)) % size);
+        FabricatingRecipe recipe = recipes.get(i);
+        ItemStack displayItem = recipe.getResultItem();
 
-        return timeSinceLastVisible >= (double) DISPLAY_TIME * toastComponent.getNotificationDisplayTimeMultiplier() ? Visibility.HIDE : Visibility.SHOW;
-    }
+        // Always render upgrade module icons. Otherwise, render the item normally
+        if (displayItem.getItem() instanceof UpgradeModuleItem<?,?> moduleItem)
+        {
+            UpgradeBaseEntry<?> entry = displayItem.get(moduleItem.entryComponentType());
+            if (entry != null)
+            {
+                UpgradeModuleItemExtensions.getInstance().renderIconWithRankBar(graphics, entry, 8, 8);
+            }
+            else
+            {
+                graphics.renderFakeItem(displayItem, 8, 8);
+            }
+        }
+        else
+        {
+            graphics.renderFakeItem(displayItem, 8, 8);
+        }
 
-    @FunctionalInterface
-    private interface Renderable
-    {
-        void render(GuiGraphics graphics, int x, int y);
+        return (double) (timeSinceLastVisible - lastChanged) >= DISPLAY_TIME * toastComponent.getNotificationDisplayTimeMultiplier() ? Visibility.HIDE : Visibility.SHOW;
     }
 }

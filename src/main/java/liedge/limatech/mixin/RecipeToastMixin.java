@@ -5,6 +5,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import liedge.limatech.client.gui.BlueprintToast;
 import liedge.limatech.recipe.FabricatingRecipe;
 import net.minecraft.client.gui.components.toasts.RecipeToast;
+import net.minecraft.client.gui.components.toasts.Toast;
 import net.minecraft.client.gui.components.toasts.ToastComponent;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,7 +18,15 @@ public abstract class RecipeToastMixin
     {
         if (recipe.value() instanceof FabricatingRecipe fabricatingRecipe)
         {
-            toastComponent.addToast(new BlueprintToast(fabricatingRecipe));
+            BlueprintToast toast = toastComponent.getToast(BlueprintToast.class, Toast.NO_TOKEN);
+            if (toast == null)
+            {
+                toastComponent.addToast(new BlueprintToast(fabricatingRecipe));
+            }
+            else
+            {
+                toast.addRecipe(fabricatingRecipe);
+            }
         }
         else
         {
