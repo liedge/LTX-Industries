@@ -18,6 +18,8 @@ import liedge.limatech.lib.weapons.GrenadeType;
 import liedge.limatech.registry.bootstrap.LimaTechEnchantments;
 import liedge.limatech.world.GrenadeSubPredicate;
 import net.minecraft.advancements.critereon.EntityPredicate;
+import net.minecraft.advancements.critereon.ItemPredicate;
+import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
@@ -26,6 +28,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.LevelBasedValue;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -33,11 +36,9 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.functions.FillPlayerHead;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
-import net.minecraft.world.level.storage.loot.predicates.AnyOfCondition;
-import net.minecraft.world.level.storage.loot.predicates.LootItemEntityPropertyCondition;
-import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
-import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceWithEnchantedBonusCondition;
+import net.minecraft.world.level.storage.loot.predicates.*;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
+import net.neoforged.neoforge.common.Tags;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
@@ -46,6 +47,7 @@ import static liedge.limacore.util.LimaLootUtil.*;
 import static liedge.limatech.registry.LimaTechLootTables.*;
 import static liedge.limatech.registry.game.LimaTechBlocks.*;
 import static liedge.limatech.registry.game.LimaTechItems.*;
+import static net.minecraft.world.level.block.state.properties.BlockStateProperties.BERRIES;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.DOUBLE_BLOCK_HALF;
 
 class LootTablesGen extends LimaLootTableProvider
@@ -148,7 +150,8 @@ class LootTablesGen extends LimaLootTableProvider
 
             dropSelf(GLOW_BLOCKS.values());
             dropSelf(TITANIUM_GLASS, SLATE_GLASS);
-
+            berryVines(BILEVINE);
+            berryVines(BILEVINE_PLANT);
             dropSelfWithEntity(ENERGY_STORAGE_ARRAY);
             dropSelfWithEntity(INFINITE_ENERGY_STORAGE_ARRAY);
             dropSelfWithEntity(DIGITAL_FURNACE);
@@ -164,6 +167,14 @@ class LootTablesGen extends LimaLootTableProvider
 
             doubleMachineBlockDrop(ROCKET_TURRET);
             doubleMachineBlockDrop(RAILGUN_TURRET);
+        }
+
+        private void berryVines(Holder<Block> holder)
+        {
+            LootItemCondition.Builder condition = AnyOfCondition.anyOf(
+                    LootItemBlockStatePropertyCondition.hasBlockStateProperties(holder.value()).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(BERRIES, true)),
+                    MatchTool.toolMatches(ItemPredicate.Builder.item().of(Tags.Items.TOOLS_SHEAR)));
+            add(holder, singlePoolTable(singleItemPool(VITRIOL_BERRIES).when(condition)));
         }
 
         private void doubleMachineBlockDrop(Supplier<? extends DoubleWrenchBlock> blockSupplier)

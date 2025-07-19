@@ -9,7 +9,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
-import net.neoforged.neoforge.client.model.generators.*;
+import net.minecraft.world.level.block.state.properties.Property;
+import net.neoforged.neoforge.client.model.generators.BlockModelBuilder;
+import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
+import net.neoforged.neoforge.client.model.generators.ModelFile;
+import net.neoforged.neoforge.client.model.generators.VariantBlockStateBuilder;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import java.util.function.BiFunction;
@@ -62,6 +66,10 @@ class BlockStatesGen extends LimaBlockStateProvider
         cubeAll(TITANIUM_GLASS).renderType("cutout");
         cubeAll(SLATE_GLASS).renderType("cutout");
 
+        // Bilevine plant
+        berryVines(BILEVINE, AGE_25);
+        berryVines(BILEVINE_PLANT);
+
         // Energy storage array
         final ModelFile esaModel = existingModel(blockFolderLocation("energy_storage_array"));
         simpleBlockWithItem(ENERGY_STORAGE_ARRAY, esaModel);
@@ -85,6 +93,17 @@ class BlockStatesGen extends LimaBlockStateProvider
 
         // Technical blocks
         getVariantBuilder(MESH_BLOCK).forAllStatesExcept(state -> ConfiguredModel.builder().modelFile(machineParticlesOnly).build(), HORIZONTAL_FACING, WATERLOGGED);
+    }
+
+    private void berryVines(Holder<Block> holder, Property<?>... ignoredProperties)
+    {
+        getVariantBuilder(holder).forAllStatesExcept(state ->
+        {
+            String name = getBlockName(holder);
+            if (state.getValue(BERRIES)) name += "_lit";
+            ModelFile model = models().cross(name, blockFolderLocation(name)).renderType("cutout");
+            return ConfiguredModel.builder().modelFile(model).build();
+        }, ignoredProperties);
     }
 
     private void doubleMachineBlock(Holder<Block> doubleBlock, ModelFile baseModel)

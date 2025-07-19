@@ -20,10 +20,7 @@ import liedge.limatech.registry.bootstrap.LimaTechDamageTypes;
 import liedge.limatech.registry.bootstrap.LimaTechEnchantments;
 import liedge.limatech.registry.bootstrap.LimaTechEquipmentUpgrades;
 import liedge.limatech.registry.bootstrap.LimaTechMachineUpgrades;
-import liedge.limatech.registry.game.LimaTechEntities;
-import liedge.limatech.registry.game.LimaTechMenus;
-import liedge.limatech.registry.game.LimaTechMobEffects;
-import liedge.limatech.registry.game.LimaTechUpgradeEffectComponents;
+import liedge.limatech.registry.game.*;
 import liedge.limatech.util.LimaTechTooltipUtil;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
@@ -87,6 +84,7 @@ class LanguageGen extends LimaLanguageProvider
         addItem(RAW_NIOBIUM, "Raw Niobium");
         addItem(NIOBIUM_INGOT, "Niobium Ingot");
         addItem(NIOBIUM_NUGGET, "Niobium Nugget");
+        addItem(VITRIOL_BERRIES, "Vitriol Berries");
 
         addItem(WHITE_PIGMENT, "White Pigment");
         addItem(LIGHT_BLUE_PIGMENT, "Light Blue Pigment");

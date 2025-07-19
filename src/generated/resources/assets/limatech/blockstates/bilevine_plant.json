@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "berries=false": {
+      "model": "limatech:block/bilevine_plant"
+    },
+    "berries=true": {
+      "model": "limatech:block/bilevine_plant_lit"
+    }
+  }
+}

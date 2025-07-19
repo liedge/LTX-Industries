@@ -38,6 +38,7 @@ class ItemModelGen extends LimaItemModelProvider
                 RAW_NIOBIUM,
                 NIOBIUM_INGOT,
                 NIOBIUM_NUGGET,
+                VITRIOL_BERRIES,
                 WHITE_PIGMENT,
                 LIGHT_BLUE_PIGMENT,
                 LIME_PIGMENT,

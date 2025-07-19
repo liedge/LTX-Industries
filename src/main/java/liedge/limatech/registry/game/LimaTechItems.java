@@ -4,6 +4,7 @@ import liedge.limatech.item.*;
 import liedge.limatech.item.tool.*;
 import liedge.limatech.item.weapon.*;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemNameBlockItem;
 import net.minecraft.world.item.Rarity;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.capabilities.Capabilities;
@@ -53,6 +54,7 @@ public final class LimaTechItems
     public static final DeferredItem<Item> RAW_NIOBIUM = ITEMS.registerSimpleItem("raw_niobium");
     public static final DeferredItem<Item> NIOBIUM_INGOT = ITEMS.registerSimpleItem("niobium_ingot");
     public static final DeferredItem<Item> NIOBIUM_NUGGET = ITEMS.registerSimpleItem("niobium_nugget");
+    public static final DeferredItem<ItemNameBlockItem> VITRIOL_BERRIES = ITEMS.registerItem("vitriol_berries", properties -> new ItemNameBlockItem(LimaTechBlocks.BILEVINE.get(), properties));
 
     // Pigments
     public static final DeferredItem<Item> WHITE_PIGMENT = ITEMS.registerSimpleItem("white_pigment");

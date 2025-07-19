@@ -14,10 +14,7 @@ import liedge.limatech.item.EnergyHolderItem;
 import liedge.limatech.item.LimaTechRarities;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.UniformInt;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
@@ -79,6 +76,10 @@ public final class LimaTechBlocks
     public static final DeferredBlockWithItem<Block, BlockItem> TITANIUM_GLASS = BLOCKS.registerBlockAndSimpleItem("titanium_glass", () -> new TransparentBlock(quartzGlassProperties()), new Item.Properties());
     public static final DeferredBlockWithItem<Block, BlockItem> SLATE_GLASS = BLOCKS.registerBlockAndSimpleItem("slate_glass", () -> new TransparentBlock(quartzGlassProperties()), new Item.Properties());
 
+    // Plants
+    public static final DeferredBlock<BerryVinesBlock> BILEVINE = BLOCKS.registerBlock("bilevine", BerryVinesBlock::new, berryVinesProperties());
+    public static final DeferredBlock<BerryVinesPlantBlock> BILEVINE_PLANT = BLOCKS.registerBlock("bilevine_plant", BerryVinesPlantBlock::new, berryVinesProperties());
+
     // Machinery
     public static final DeferredBlockWithItem<EnergyStorageArrayBlock, ESABlockItem> ENERGY_STORAGE_ARRAY = BLOCKS.registerBlockAndItem(LimaTechIds.ID_ENERGY_STORAGE_ARRAY, () -> new EnergyStorageArrayBlock(machineProperties().noOcclusion(), false), block -> new ESABlockItem(block, new Item.Properties().stacksTo(1), false));
     public static final DeferredBlockWithItem<EnergyStorageArrayBlock, ESABlockItem> INFINITE_ENERGY_STORAGE_ARRAY = BLOCKS.registerBlockAndItem(LimaTechIds.ID_INFINITE_ENERGY_STORAGE_ARRAY, () -> new EnergyStorageArrayBlock(machineProperties().noOcclusion(), true), block -> new ESABlockItem(block, new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).component(LimaCoreDataComponents.ENERGY_PROPERTIES, ItemEnergyProperties.INFINITE), true));
@@ -114,6 +115,18 @@ public final class LimaTechBlocks
     private static BlockBehaviour.Properties machineProperties()
     {
         return machineProperties(of());
+    }
+
+    private static BlockBehaviour.Properties berryVinesProperties()
+    {
+        return of()
+                .mapColor(MapColor.WARPED_NYLIUM)
+                .randomTicks()
+                .noCollission()
+                .lightLevel(CaveVines.emission(14))
+                .instabreak()
+                .sound(SoundType.CAVE_VINES)
+                .pushReaction(PushReaction.DESTROY);
     }
 
     private static BlockBehaviour.Properties quartzGlassProperties()
