@@ -230,7 +230,7 @@ publishing {
     repositories {
         maven {
             name "github_packages"
-            url uri("https://maven.pkg.github.com/liedge/LimaTech")
+            url uri("https://maven.pkg.github.com/liedge/LTX-Industries")
             credentials {
                 username = System.getenv("GITHUB_USERNAME") as String
                 password = System.getenv("GITHUB_TOKEN") as String

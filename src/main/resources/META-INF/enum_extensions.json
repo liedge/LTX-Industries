@@ -2,64 +2,64 @@
   "entries": [
     {
       "enum": "net/minecraft/client/RecipeBookCategories",
-      "name": "LIMATECH_FABRICATING_CATEGORY",
+      "name": "LTXI_FABRICATING_CATEGORY",
       "constructor": "(Ljava/util/function/Supplier;)V",
       "parameters": {
-        "class": "liedge/limatech/client/LimaTechClientRecipes",
+        "class": "liedge/ltxindustries/client/LTXIClientRecipes",
         "field": "FABRICATING_CATEGORY"
       }
     },
     {
       "enum": "net/minecraft/client/model/HumanoidModel$ArmPose",
-      "name": "LIMATECH_TWO_HAND_WEAPON",
+      "name": "LTXI_TWO_HAND_WEAPON",
       "constructor": "(ZLnet/neoforged/neoforge/client/IArmPoseTransformer;)V",
       "parameters": {
-        "class": "liedge/limatech/client/renderer/LimaTechArmPoses",
+        "class": "liedge/ltxindustries/client/renderer/LTXIArmPoses",
         "field": "TWO_HANDED_WEAPON"
       }
     },
     {
       "enum": "net/minecraft/client/model/HumanoidModel$ArmPose",
-      "name": "LIMATECH_ONE_HAND_WEAPON",
+      "name": "LTXI_ONE_HAND_WEAPON",
       "constructor": "(ZLnet/neoforged/neoforge/client/IArmPoseTransformer;)V",
       "parameters": {
-        "class": "liedge/limatech/client/renderer/LimaTechArmPoses",
+        "class": "liedge/ltxindustries/client/renderer/LTXIArmPoses",
         "field": "ONE_HANDED_WEAPON"
       }
     },
     {
       "enum": "net/minecraft/client/model/HumanoidModel$ArmPose",
-      "name": "LIMATECH_WEAPON_SHIELD_POSE",
+      "name": "LTXI_WEAPON_SHIELD_POSE",
       "constructor": "(ZLnet/neoforged/neoforge/client/IArmPoseTransformer;)V",
       "parameters": {
-        "class": "liedge/limatech/client/renderer/LimaTechArmPoses",
+        "class": "liedge/ltxindustries/client/renderer/LTXIArmPoses",
         "field": "WEAPON_SHIELD_POSE"
       }
     },
     {
       "enum": "net/minecraft/world/item/Rarity",
-      "name": "LIMATECH_LTX",
+      "name": "LTXI_LTX",
       "constructor": "(ILjava/lang/String;Ljava/util/function/UnaryOperator;)V",
       "parameters": {
-        "class": "liedge/limatech/item/LimaTechRarities",
+        "class": "liedge/ltxindustries/item/LTXIItemRarities",
         "field": "LTX_RARITY"
       }
     },
     {
       "enum": "net/minecraft/world/damagesource/DeathMessageType",
-      "name": "LIMATECH_NO_ITEM_CAUSING_ENTITY_ONLY",
+      "name": "LTXI_NO_ITEM_CAUSING_ENTITY_ONLY",
       "constructor": "(Ljava/lang/String;Lnet/neoforged/neoforge/common/damagesource/IDeathMessageProvider;)V",
       "parameters": {
-        "class": "liedge/limatech/lib/LimaTechDeathMessageTypes",
+        "class": "liedge/ltxindustries/lib/LTXIDeathMessageTypes",
         "field": "NO_ITEM_CAUSING_ENTITY_ONLY"
       }
     },
     {
       "enum": "net/minecraft/world/damagesource/DeathMessageType",
-      "name": "LIMATECH_WEAPON_DAMAGE",
+      "name": "LTXI_WEAPON_DAMAGE",
       "constructor": "(Ljava/lang/String;Lnet/neoforged/neoforge/common/damagesource/IDeathMessageProvider;)V",
       "parameters": {
-        "class": "liedge/limatech/lib/LimaTechDeathMessageTypes",
+        "class": "liedge/ltxindustries/lib/LTXIDeathMessageTypes",
         "field": "WEAPON_DEATH_MESSAGE_TYPE"
       }
     }

@@ -42,6 +42,6 @@ jobs:
       - name: Keep only latest 4 versions
         uses: actions/delete-package-versions@v5
         with:
-          package-name: 'liedge.limatech-1.21'
+          package-name: 'liedge.ltxi-1.21'
           package-type: 'maven'
           min-versions-to-keep: 4
