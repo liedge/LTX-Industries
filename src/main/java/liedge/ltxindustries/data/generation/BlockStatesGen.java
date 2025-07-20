@@ -17,6 +17,7 @@ import net.neoforged.neoforge.client.model.generators.VariantBlockStateBuilder;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import java.util.function.BiFunction;
+import java.util.stream.Stream;
 
 import static liedge.limacore.util.LimaRegistryUtil.getBlockName;
 import static liedge.ltxindustries.block.LTXIBlockProperties.MACHINE_WORKING;
@@ -60,9 +61,14 @@ class BlockStatesGen extends LimaBlockStateProvider
         cubeAll(SLATE_ALLOY_BLOCK);
 
         // Glow blocks
-        final ModelFile glowBlockModel = models().withExistingParent("glow_block", "block/block").texture("particle", "#all").ao(false)
+        final ModelFile neonLightModel = models().withExistingParent("neon_light_base", "block/block").texture("particle", "#all").ao(false)
                 .element().from(0, 0, 0).to(16, 16, 16).allFaces((side, face) -> face.uvs(0, 0, 16, 16).texture("#all").cullface(side)).emissivity(15, 15).shade(false).end();
-        GLOW_BLOCKS.forEach((color, deferredBlock) -> simpleBlockWithItem(deferredBlock, getBlockBuilder(deferredBlock).parent(glowBlockModel).texture("all", blockFolderLocation("glow_blocks/" + color.getSerializedName()))));
+        STANDARD_NEON_LIGHTS.forEach((dyeColor, holder) -> simpleBlockWithItem(holder, getBlockBuilder(holder).parent(neonLightModel).texture("all", blockFolderLocation("neon_light/" + dyeColor.getSerializedName()))));
+        Stream.of(LTX_LIME_NEON_LIGHT, ENERGY_BLUE_NEON_LIGHT, ELECTRIC_CHARTREUSE_NEON_LIGHT, ACID_GREEN_NEON_LIGHT, NEURO_BLUE_NEON_LIGHT).forEach(holder ->
+        {
+            String colorPrefix = getBlockName(holder).split("_neon_light")[0];
+            simpleBlockWithItem(holder, getBlockBuilder(holder).parent(neonLightModel).texture("all", blockFolderLocation("neon_light/" + colorPrefix)));
+        });
         cubeAll(TITANIUM_GLASS).renderType("cutout");
         cubeAll(SLATE_GLASS).renderType("cutout");
 

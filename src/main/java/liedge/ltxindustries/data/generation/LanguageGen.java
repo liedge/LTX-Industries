@@ -2,6 +2,7 @@ package liedge.ltxindustries.data.generation;
 
 import liedge.limacore.data.generation.LimaLanguageProvider;
 import liedge.limacore.lib.ModResources;
+import liedge.limacore.util.LimaRegistryUtil;
 import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
@@ -59,7 +60,12 @@ class LanguageGen extends LimaLanguageProvider
         addBlock(NIOBIUM_BLOCK, "Block of Niobium");
         addBlock(SLATE_ALLOY_BLOCK, "Block of Slate Alloy");
 
-        GLOW_BLOCKS.forEach((color, deferredBlock) -> addBlock(deferredBlock, localizeSimpleName(color) + " Glow Block"));
+        STANDARD_NEON_LIGHTS.forEach((dyeColor, holder) -> addBlock(holder, localizeSimpleName(LimaRegistryUtil.getBlockName(holder))));
+        addBlock(LTX_LIME_NEON_LIGHT, "LTX Lime Neon Light");
+        addBlock(ENERGY_BLUE_NEON_LIGHT, "Energy Blue Neon Light");
+        addBlock(ELECTRIC_CHARTREUSE_NEON_LIGHT, "Electric Chartreuse Neon Light");
+        addBlock(ACID_GREEN_NEON_LIGHT, "Acid Green Neon Light");
+        addBlock(NEURO_BLUE_NEON_LIGHT, "Neuro Blue Neon Light");
         addBlock(TITANIUM_GLASS, "Titanium Glass");
         addBlock(SLATE_GLASS, "Slate Glass");
 

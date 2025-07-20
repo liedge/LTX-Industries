@@ -2,7 +2,6 @@ package liedge.ltxindustries.data.generation;
 
 import liedge.limacore.data.generation.LimaTagsProvider;
 import liedge.ltxindustries.LTXIndustries;
-import liedge.ltxindustries.registry.game.LTXIBlocks;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
@@ -13,7 +12,6 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-import static liedge.ltxindustries.LTXITags.Blocks.GLOW_BLOCKS;
 import static liedge.ltxindustries.LTXITags.Blocks.*;
 import static liedge.ltxindustries.registry.game.LTXIBlocks.*;
 import static net.minecraft.tags.BlockTags.*;
@@ -52,11 +50,14 @@ class BlockTagsGen extends LimaTagsProvider.RegistryTags<Block>
         buildTag(SLATE_ALLOY_STORAGE_BLOCKS).add(SLATE_ALLOY_BLOCK);
         buildTag(SHEARS_HARVESTABLE).add(COBWEB, SHORT_GRASS, FERN, DEAD_BUSH, HANGING_ROOTS, VINE, TRIPWIRE).add(BILEVINE, BILEVINE_PLANT).addTags(WOOL, LEAVES);
 
-        buildTag(IMPERMEABLE).add(TITANIUM_GLASS, SLATE_GLASS).addTag(GLOW_BLOCKS);
+        buildTag(IMPERMEABLE).add(TITANIUM_GLASS, SLATE_GLASS).addTag(NEON_LIGHTS);
         buildTag(WITHER_IMMUNE).add(SLATE_GLASS);
         buildTag(DRAGON_IMMUNE).add(SLATE_GLASS);
 
-        buildTag(GLOW_BLOCKS).addHolders(List.copyOf(LTXIBlocks.GLOW_BLOCKS.values())).copyTo(MINEABLE_WITH_PICKAXE);
+        buildTag(NEON_LIGHTS)
+                .addHolders(List.copyOf(STANDARD_NEON_LIGHTS.values()))
+                .add(LTX_LIME_NEON_LIGHT, ENERGY_BLUE_NEON_LIGHT, ELECTRIC_CHARTREUSE_NEON_LIGHT, ACID_GREEN_NEON_LIGHT, NEURO_BLUE_NEON_LIGHT)
+                .copyTo(MINEABLE_WITH_PICKAXE);
         buildTag(DEEPSLATE_GRINDABLES).add(Blocks.DEEPSLATE, Blocks.COBBLED_DEEPSLATE, Blocks.POLISHED_DEEPSLATE, Blocks.DEEPSLATE_BRICKS, Blocks.CRACKED_DEEPSLATE_BRICKS, Blocks.DEEPSLATE_TILES, Blocks.CRACKED_DEEPSLATE_TILES);
         buildTag(WRENCH_BREAKABLE).add(DIGITAL_FURNACE, DIGITAL_SMOKER, DIGITAL_BLAST_FURNACE, GRINDER, RECOMPOSER, MATERIAL_FUSING_CHAMBER, FABRICATOR,
                 AUTO_FABRICATOR, EQUIPMENT_UPGRADE_STATION, MOLECULAR_RECONSTRUCTOR, ENERGY_STORAGE_ARRAY, INFINITE_ENERGY_STORAGE_ARRAY, ROCKET_TURRET, RAILGUN_TURRET)

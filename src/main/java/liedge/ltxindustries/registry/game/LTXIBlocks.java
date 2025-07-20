@@ -74,8 +74,12 @@ public final class LTXIBlocks
     public static final DeferredBlockWithItem<Block, BlockItem> NIOBIUM_BLOCK = BLOCKS.registerSimpleBlockAndItem("niobium_block", of().mapColor(MapColor.COLOR_LIGHT_GRAY).strength(6f, 9f).sound(SoundType.METAL).requiresCorrectToolForDrops());
     public static final DeferredBlockWithItem<Block, BlockItem> SLATE_ALLOY_BLOCK = BLOCKS.registerSimpleBlockAndItem("slate_alloy_block", of().mapColor(MapColor.COLOR_LIGHT_GRAY).strength(5f, 12f).sound(SoundType.METAL).requiresCorrectToolForDrops());
 
-    // Decoration blocks
-    public static final Map<DyeColor, DeferredBlock<Block>> GLOW_BLOCKS = LimaCollectionsUtil.fillAndCreateImmutableEnumMap(DyeColor.class, color -> BLOCKS.registerSimpleBlockAndItem(color.getSerializedName() + "_glow_block", of().mapColor(color).sound(SoundType.GLASS).strength(2f).lightLevel(state -> 15)));
+    public static final Map<DyeColor, DeferredBlock<Block>> STANDARD_NEON_LIGHTS = LimaCollectionsUtil.fillAndCreateImmutableEnumMap(DyeColor.class, color -> BLOCKS.registerSimpleBlockAndItem(color.getSerializedName() + "_neon_light", neonLightProperties().mapColor(color)));
+    public static final DeferredBlockWithItem<Block, BlockItem> LTX_LIME_NEON_LIGHT = BLOCKS.registerSimpleBlockAndItem("ltx_lime_neon_light", neonLightProperties().mapColor(DyeColor.LIME));
+    public static final DeferredBlockWithItem<Block, BlockItem> ENERGY_BLUE_NEON_LIGHT = BLOCKS.registerSimpleBlockAndItem("energy_blue_neon_light", neonLightProperties().mapColor(MapColor.ICE));
+    public static final DeferredBlockWithItem<Block, BlockItem> ELECTRIC_CHARTREUSE_NEON_LIGHT = BLOCKS.registerSimpleBlockAndItem("electric_chartreuse_neon_light", neonLightProperties().mapColor(DyeColor.LIME));
+    public static final DeferredBlockWithItem<Block, BlockItem> ACID_GREEN_NEON_LIGHT = BLOCKS.registerSimpleBlockAndItem("acid_green_neon_light", neonLightProperties().mapColor(MapColor.PLANT));
+    public static final DeferredBlockWithItem<Block, BlockItem> NEURO_BLUE_NEON_LIGHT = BLOCKS.registerSimpleBlockAndItem("neuro_blue_neon_light", neonLightProperties().mapColor(MapColor.WATER));
     public static final DeferredBlockWithItem<Block, BlockItem> TITANIUM_GLASS = BLOCKS.registerBlockAndSimpleItem("titanium_glass", () -> new TransparentBlock(quartzGlassProperties()), new Item.Properties());
     public static final DeferredBlockWithItem<Block, BlockItem> SLATE_GLASS = BLOCKS.registerBlockAndSimpleItem("slate_glass", () -> new TransparentBlock(quartzGlassProperties()), new Item.Properties());
 
@@ -106,14 +110,12 @@ public final class LTXIBlocks
     public static final DeferredBlock<MeshBlock> MESH_BLOCK = BLOCKS.registerBlock("mesh_block", MeshBlock::new, machineProperties().dynamicShape().noOcclusion().noLootTable());
 
     // Helpers & initializers
-    private static DeferredBlockWithItem<Block, BlockItem> neonLight(String name, MapColor mapColor)
+    private static BlockBehaviour.Properties neonLightProperties()
     {
-        return BLOCKS.registerSimpleBlockAndItem(name, of().sound(SoundType.GLASS).strength(2f).lightLevel(state -> 15).mapColor(mapColor), new Item.Properties());
-    }
-
-    private static DeferredBlockWithItem<Block, BlockItem> neonLight(String name, DyeColor dyeColor)
-    {
-        return neonLight(name, dyeColor.getMapColor());
+        return of()
+                .sound(SoundType.GLASS)
+                .strength(2f)
+                .lightLevel(state -> 15);
     }
 
     private static BlockBehaviour.Properties machineProperties()

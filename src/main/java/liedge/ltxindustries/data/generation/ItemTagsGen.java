@@ -36,7 +36,7 @@ class ItemTagsGen extends LimaTagsProvider.ItemTags
         copyTag(Blocks.NIOBIUM_STORAGE_BLOCKS, NIOBIUM_STORAGE_BLOCKS);
         copyTag(Blocks.SLATE_ALLOY_STORAGE_BLOCKS, SLATE_ALLOY_STORAGE_BLOCKS);
 
-        copyTag(Blocks.GLOW_BLOCKS, GLOW_BLOCKS);
+        copyTag(Blocks.NEON_LIGHTS, NEON_LIGHTS);
         copyTag(Blocks.DEEPSLATE_GRINDABLES, DEEPSLATE_GRINDABLES);
         copyTag(Blocks.WRENCH_BREAKABLE, WRENCH_BREAKABLE);
 
