@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.5,
+  "ingredient": {
+    "item": "ltxi:lapis_ore_pebbles"
+  },
+  "result": {
+    "count": 6,
+    "id": "minecraft:lapis_lazuli"
+  }
+}

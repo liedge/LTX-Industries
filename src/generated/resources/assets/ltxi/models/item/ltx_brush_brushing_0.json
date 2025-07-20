@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:item/brush_brushing_0",
+  "loader": "ltxi:bi_layer",
+  "textures": {
+    "layer0": "ltxi:item/ltx_brush_base",
+    "layer1": "ltxi:item/ltx_brush_emissive"
+  }
+}

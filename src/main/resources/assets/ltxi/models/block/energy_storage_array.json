@@ -5,10 +5,10 @@
 	"render_type": "cutout",
 	"emissive_groups": ["cell lights", "port lights"],
 	"textures": {
-		"particle": "limatech:block/titanium_block_0",
-		"cell": "limatech:block/energy_storage_array",
-		"ports": "limatech:block/small_port",
-		"lights": "limatech:block/glows/lime_solid"
+		"particle": "ltxi:block/titanium_block_0",
+		"cell": "ltxi:block/energy_storage_array",
+		"ports": "ltxi:block/small_port",
+		"lights": "ltxi:solid_lime"
 	},
 	"elements": [
 		{

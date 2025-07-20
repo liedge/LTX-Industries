@@ -1,0 +1,17 @@
+{
+  "type": "ltxi:material_fusing",
+  "ingredients": [
+    {
+      "count": 2,
+      "tag": "ltxi:glow_block_materials"
+    },
+    {
+      "count": 1,
+      "tag": "c:dyes/orange"
+    }
+  ],
+  "result": {
+    "count": 8,
+    "id": "ltxi:orange_glow_block"
+  }
+}

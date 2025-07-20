@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": {
+      "item": "ltxi:t1_circuit"
+    },
+    "l": {
+      "tag": "c:dyes/lime"
+    },
+    "p": {
+      "item": "minecraft:paper"
+    },
+    "t": {
+      "item": "ltxi:titanium_ingot"
+    }
+  },
+  "pattern": [
+    "lll",
+    "ppp",
+    "tct"
+  ],
+  "result": {
+    "count": 2,
+    "id": "ltxi:empty_fabrication_blueprint"
+  }
+}

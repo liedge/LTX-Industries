@@ -32,11 +32,11 @@
 		}
 	],
 	"textures": {
-		"grip_rails": "limatech:item/weapons/grip_and_rails",
-		"lights": "limatech:block/glows/lime_solid",
-		"chamber light": "limatech:block/glows/white_solid",
-		"gun1": "limatech:item/weapons/grenade_launcher_0",
-		"gun2": "limatech:item/weapons/grenade_launcher_1"
+		"grip_rails": "ltxi:item/weapons/grip_and_rails",
+		"lights": "ltxi:solid_lime",
+		"chamber light": "ltxi:block/glows/white_solid",
+		"gun1": "ltxi:item/weapons/grenade_launcher_0",
+		"gun2": "ltxi:item/weapons/grenade_launcher_1"
 	},
 	"elements": [
 		{

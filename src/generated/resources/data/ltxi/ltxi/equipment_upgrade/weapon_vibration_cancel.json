@@ -1,0 +1,21 @@
+{
+  "display": {
+    "description": {
+      "translate": "equipment_upgrade.ltxi.weapon_vibration_cancel.desc"
+    },
+    "icon": "ltxi:earmuffs",
+    "title": {
+      "translate": "equipment_upgrade.ltxi.weapon_vibration_cancel"
+    }
+  },
+  "effects": {
+    "ltxi:prevent_vibration": [
+      {
+        "slot": "mainhand",
+        "target": "#ltxi:weapon_vibrations"
+      }
+    ]
+  },
+  "exclusive_set": [],
+  "supported_set": "#ltxi:ltx_weapons/energy"
+}

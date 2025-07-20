@@ -1,0 +1,40 @@
+{
+  "display": {
+    "description": {
+      "translate": "equipment_upgrade.ltxi.weapon_shield_regen.desc"
+    },
+    "icon": "ltxi:bubble_shield",
+    "title": {
+      "translate": "equipment_upgrade.ltxi.weapon_shield_regen"
+    }
+  },
+  "effects": {
+    "ltxi:on_kill": [
+      {
+        "affected": "attacker",
+        "effect": {
+          "type": "ltxi:bubble_shield",
+          "amount": 4.0,
+          "max_shield": {
+            "type": "minecraft:linear",
+            "base": 10.0,
+            "per_level_above_first": 10.0
+          }
+        },
+        "enchanted": "attacker"
+      },
+      {
+        "affected": "attacker",
+        "effect": {
+          "type": "ltxi:mob_effect",
+          "duration": 60.0,
+          "effect": "minecraft:regeneration"
+        },
+        "enchanted": "attacker"
+      }
+    ]
+  },
+  "exclusive_set": [],
+  "max_rank": 3,
+  "supported_set": "#ltxi:ltx_weapons/energy"
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:item/handheld_rod",
+  "loader": "ltxi:bi_layer",
+  "textures": {
+    "layer0": "ltxi:item/ltx_fishing_rod_cast_base",
+    "layer1": "ltxi:item/ltx_fishing_rod_emissive"
+  }
+}

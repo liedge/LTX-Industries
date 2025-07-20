@@ -1,0 +1,27 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 250000,
+  "group": "circuits",
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "ltxi:circuit_board"
+    },
+    {
+      "count": 4,
+      "item": "minecraft:redstone"
+    },
+    {
+      "count": 2,
+      "item": "minecraft:copper_ingot"
+    },
+    {
+      "count": 2,
+      "item": "ltxi:titanium_ingot"
+    }
+  ],
+  "result": {
+    "count": 2,
+    "id": "ltxi:t1_circuit"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "ltxi:slate_alloy_block"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "id": "ltxi:slate_alloy_ingot"
+  }
+}

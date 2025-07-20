@@ -1,0 +1,19 @@
+{
+  "display": {
+    "category": "grenade_cores",
+    "description": {
+      "translate": "equipment_upgrade.ltxi.neuro_grenade_core.desc"
+    },
+    "icon": "ltxi:neuro_grenade_core",
+    "title": {
+      "translate": "equipment_upgrade.ltxi.neuro_grenade_core"
+    }
+  },
+  "effects": {
+    "ltxi:grenade_unlock": [
+      "neuro"
+    ]
+  },
+  "exclusive_set": [],
+  "supported_set": "ltxi:grenade_launcher"
+}

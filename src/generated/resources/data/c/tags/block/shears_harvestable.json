@@ -7,8 +7,8 @@
     "minecraft:hanging_roots",
     "minecraft:vine",
     "minecraft:tripwire",
-    "limatech:bilevine",
-    "limatech:bilevine_plant",
+    "ltxi:bilevine",
+    "ltxi:bilevine_plant",
     "#minecraft:wool",
     "#minecraft:leaves"
   ]

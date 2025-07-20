@@ -1,0 +1,46 @@
+{
+  "display": {
+    "description": {
+      "translate": "machine_upgrade.ltxi.esa_capacity.desc"
+    },
+    "icon": "ltxi:extra_energy",
+    "title": {
+      "translate": "machine_upgrade.ltxi.esa_capacity"
+    }
+  },
+  "effects": {
+    "ltxi:energy_capacity": [
+      {
+        "type": "simple",
+        "op": "multiply",
+        "simple_value": {
+          "type": "exponential",
+          "base": 2.0,
+          "power": {
+            "type": "linear",
+            "base": 3.0,
+            "per_level_after_first": 1.0
+          }
+        }
+      }
+    ],
+    "ltxi:energy_transfer_rate": [
+      {
+        "type": "simple",
+        "op": "multiply",
+        "simple_value": {
+          "type": "exponential",
+          "base": 2.0,
+          "power": {
+            "type": "linear",
+            "base": 3.0,
+            "per_level_after_first": 1.0
+          }
+        }
+      }
+    ]
+  },
+  "exclusive_set": [],
+  "max_rank": 4,
+  "supported_set": "ltxi:energy_storage_array"
+}

@@ -1,0 +1,13 @@
+{
+  "type": "ltxi:grinding",
+  "ingredients": [
+    {
+      "count": 1,
+      "tag": "c:ores/copper"
+    }
+  ],
+  "result": {
+    "count": 3,
+    "id": "ltxi:copper_ore_pebbles"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=east,half=lower": {
+      "model": "ltxi:block/molecular_reconstructor",
+      "y": 90
+    },
+    "facing=north,half=lower": {
+      "model": "ltxi:block/molecular_reconstructor"
+    },
+    "facing=south,half=lower": {
+      "model": "ltxi:block/molecular_reconstructor",
+      "y": 180
+    },
+    "facing=west,half=lower": {
+      "model": "ltxi:block/molecular_reconstructor",
+      "y": 270
+    },
+    "half=upper": {
+      "model": "ltxi:block/machine_particles"
+    }
+  }
+}

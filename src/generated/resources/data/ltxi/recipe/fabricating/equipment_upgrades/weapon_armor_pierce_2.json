@@ -1,0 +1,40 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 2500000,
+  "group": "eum/weapon",
+  "ingredients": [
+    {
+      "type": "neoforge:components",
+      "components": {
+        "ltxi:equipment_upgrade": {
+          "upgrade": "ltxi:weapon_armor_pierce"
+        }
+      },
+      "count": 1,
+      "items": "ltxi:equipment_upgrade_module",
+      "strict": true
+    },
+    {
+      "count": 2,
+      "item": "ltxi:t3_circuit"
+    },
+    {
+      "count": 32,
+      "item": "minecraft:obsidian"
+    },
+    {
+      "count": 32,
+      "item": "ltxi:titanium_ingot"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:equipment_upgrade": {
+        "rank": 2,
+        "upgrade": "ltxi:weapon_armor_pierce"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:equipment_upgrade_module"
+  }
+}

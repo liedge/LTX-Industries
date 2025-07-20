@@ -1,0 +1,36 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 500000,
+  "group": "eum/tool",
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "ltxi:empty_upgrade_module"
+    },
+    {
+      "count": 1,
+      "item": "ltxi:t3_circuit"
+    },
+    {
+      "count": 4,
+      "item": "ltxi:titanium_ingot"
+    },
+    {
+      "count": 1,
+      "item": "minecraft:sculk_sensor"
+    },
+    {
+      "count": 8,
+      "tag": "minecraft:wool"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:equipment_upgrade": {
+        "upgrade": "ltxi:tool_vibration_cancel"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:equipment_upgrade_module"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 30000000,
+  "group": "ltx/weapon",
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "ltxi:explosives_weapon_tech_salvage"
+    },
+    {
+      "count": 48,
+      "item": "ltxi:titanium_ingot"
+    },
+    {
+      "count": 16,
+      "tag": "c:dyes/lime"
+    },
+    {
+      "count": 8,
+      "item": "ltxi:slate_alloy_ingot"
+    },
+    {
+      "count": 8,
+      "item": "ltxi:t3_circuit"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "ltxi:rocket_launcher"
+  }
+}

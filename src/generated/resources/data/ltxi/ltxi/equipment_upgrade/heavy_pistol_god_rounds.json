@@ -1,0 +1,60 @@
+{
+  "display": {
+    "description": {
+      "translate": "equipment_upgrade.ltxi.heavy_pistol_god_rounds.desc"
+    },
+    "icon": {
+      "type": "composite",
+      "background": {
+        "id": "ltxi:heavy_pistol"
+      },
+      "overlay": "ltxi:powerful_lightfrag",
+      "overlay_size": 10,
+      "x_offset": 0,
+      "y_offset": 6
+    },
+    "title": {
+      "translate": "equipment_upgrade.ltxi.heavy_pistol_god_rounds"
+    }
+  },
+  "effects": {
+    "ltxi:equipment_damage": [
+      {
+        "effect": {
+          "type": "context",
+          "op": "flat_addition",
+          "tooltip": {
+            "type": "attribute_amount",
+            "amount": 0.25,
+            "attribute": "minecraft:generic.max_health",
+            "target": "this"
+          },
+          "value": {
+            "type": "limacore:math_ops",
+            "first": {
+              "type": "limacore:targeted_attribute_value",
+              "attribute": "minecraft:generic.max_health",
+              "target": "this"
+            },
+            "op": "multiply",
+            "second": 0.25
+          }
+        }
+      }
+    ],
+    "ltxi:pre_attack": [
+      {
+        "affected": "victim",
+        "effect": {
+          "type": "ltxi:dynamic_damage_tag",
+          "tags": [
+            "ltxi:bypass_survival_defenses"
+          ]
+        },
+        "enchanted": "attacker"
+      }
+    ]
+  },
+  "exclusive_set": [],
+  "supported_set": "ltxi:heavy_pistol"
+}

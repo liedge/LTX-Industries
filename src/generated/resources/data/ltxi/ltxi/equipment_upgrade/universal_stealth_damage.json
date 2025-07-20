@@ -1,0 +1,27 @@
+{
+  "display": {
+    "description": {
+      "translate": "equipment_upgrade.ltxi.universal_stealth_damage.desc"
+    },
+    "icon": "ltxi:stealth_damage",
+    "title": {
+      "translate": "equipment_upgrade.ltxi.universal_stealth_damage"
+    }
+  },
+  "effects": {
+    "ltxi:pre_attack": [
+      {
+        "affected": "victim",
+        "effect": {
+          "type": "ltxi:dynamic_damage_tag",
+          "tags": [
+            "minecraft:no_anger"
+          ]
+        },
+        "enchanted": "attacker"
+      }
+    ]
+  },
+  "exclusive_set": [],
+  "supported_set": "#ltxi:ltx_weapons/energy"
+}

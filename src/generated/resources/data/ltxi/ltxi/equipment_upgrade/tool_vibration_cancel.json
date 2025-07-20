@@ -1,0 +1,22 @@
+{
+  "display": {
+    "category": "tools",
+    "description": {
+      "translate": "equipment_upgrade.ltxi.tool_vibration_cancel.desc"
+    },
+    "icon": "ltxi:earmuffs",
+    "title": {
+      "translate": "equipment_upgrade.ltxi.tool_vibration_cancel"
+    }
+  },
+  "effects": {
+    "ltxi:prevent_vibration": [
+      {
+        "slot": "hand",
+        "target": "#ltxi:handheld_equipment"
+      }
+    ]
+  },
+  "exclusive_set": [],
+  "supported_set": "#ltxi:ltx_tools/all"
+}

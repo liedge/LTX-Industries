@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": {
+      "item": "ltxi:circuit_board"
+    },
+    "m": {
+      "item": "minecraft:copper_ingot"
+    },
+    "r": {
+      "item": "minecraft:redstone"
+    },
+    "t": {
+      "item": "ltxi:titanium_ingot"
+    }
+  },
+  "pattern": [
+    " t ",
+    "rmr",
+    "mcm"
+  ],
+  "result": {
+    "count": 1,
+    "id": "ltxi:t1_circuit"
+  }
+}

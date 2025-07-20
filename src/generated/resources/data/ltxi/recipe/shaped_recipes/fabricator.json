@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": {
+      "item": "minecraft:crafter"
+    },
+    "e": {
+      "item": "ltxi:t3_circuit"
+    },
+    "l": {
+      "tag": "c:dyes/lime"
+    },
+    "t": {
+      "item": "ltxi:titanium_ingot"
+    }
+  },
+  "pattern": [
+    "tlt",
+    "ece",
+    "tet"
+  ],
+  "result": {
+    "count": 1,
+    "id": "ltxi:fabricator"
+  }
+}

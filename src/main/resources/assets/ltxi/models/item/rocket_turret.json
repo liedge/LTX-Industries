@@ -35,15 +35,15 @@
 		}
 	],
 	"textures": {
-		"base_bottom": "limatech:block/slate_alloy_block",
-		"lights": "limatech:block/glows/lime_solid",
-		"side": "limatech:block/turret_base_side",
-		"back": "limatech:block/turret_base_back",
-		"front": "limatech:block/turret_base_front",
-		"top": "limatech:block/turret_base_top",
-		"gun_0": "limatech:block/rocket_turret_0",
-		"gun_1": "limatech:block/rocket_turret_1",
-		"gun_2": "limatech:block/rocket_turret_2"
+		"base_bottom": "ltxi:block/slate_alloy_block",
+		"lights": "ltxi:solid_lime",
+		"side": "ltxi:block/turret_base_side",
+		"back": "ltxi:block/turret_base_back",
+		"front": "ltxi:block/turret_base_front",
+		"top": "ltxi:block/turret_base_top",
+		"gun_0": "ltxi:block/rocket_turret_0",
+		"gun_1": "ltxi:block/rocket_turret_1",
+		"gun_2": "ltxi:block/rocket_turret_2"
 	},
 	"elements": [
 		{

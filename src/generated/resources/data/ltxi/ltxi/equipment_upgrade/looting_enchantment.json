@@ -1,0 +1,31 @@
+{
+  "display": {
+    "category": "enchants",
+    "description": {
+      "translate": "equipment_upgrade.ltxi.looting_enchantment.desc"
+    },
+    "icon": {
+      "type": "composite",
+      "background": {
+        "id": "ltxi:ltx_sword"
+      },
+      "overlay": "ltxi:clover",
+      "overlay_size": 10,
+      "x_offset": 6,
+      "y_offset": 6
+    },
+    "title": {
+      "translate": "equipment_upgrade.ltxi.looting_enchantment"
+    }
+  },
+  "effects": {
+    "ltxi:enchantments": [
+      {
+        "enchantment": "minecraft:looting"
+      }
+    ]
+  },
+  "exclusive_set": [],
+  "max_rank": 5,
+  "supported_set": "#ltxi:ltx_weapons/all"
+}

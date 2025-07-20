@@ -1,0 +1,9 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#minecraft:is_nether",
+  "features": [
+    "ltxi:fortress_bilevine",
+    "ltxi:bastion_bilevine"
+  ],
+  "step": "vegetal_decoration"
+}

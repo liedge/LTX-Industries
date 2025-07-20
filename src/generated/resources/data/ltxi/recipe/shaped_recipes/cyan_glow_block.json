@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "d": {
+      "tag": "c:dyes/cyan"
+    },
+    "g": {
+      "item": "minecraft:glowstone"
+    }
+  },
+  "pattern": [
+    "dg",
+    "gd"
+  ],
+  "result": {
+    "count": 4,
+    "id": "ltxi:cyan_glow_block"
+  }
+}

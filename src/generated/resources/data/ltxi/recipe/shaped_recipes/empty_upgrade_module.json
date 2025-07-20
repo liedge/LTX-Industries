@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": {
+      "item": "ltxi:circuit_board"
+    },
+    "g": {
+      "tag": "c:glass_blocks/cheap"
+    },
+    "t": {
+      "item": "ltxi:titanium_ingot"
+    }
+  },
+  "pattern": [
+    "ggg",
+    "gcg",
+    "ttt"
+  ],
+  "result": {
+    "count": 1,
+    "id": "ltxi:empty_upgrade_module"
+  }
+}

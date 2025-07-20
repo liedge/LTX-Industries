@@ -1,6 +1,0 @@
-{
-  "parent": "limatech:block/glow_block",
-  "textures": {
-    "all": "limatech:block/glow_blocks/gray"
-  }
-}

@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "a": {
+      "item": "minecraft:grindstone"
+    },
+    "c": {
+      "item": "ltxi:t1_circuit"
+    },
+    "l": {
+      "tag": "c:dyes/lime"
+    },
+    "t": {
+      "item": "ltxi:titanium_ingot"
+    }
+  },
+  "pattern": [
+    "tlt",
+    "cac",
+    "ttt"
+  ],
+  "result": {
+    "count": 1,
+    "id": "ltxi:grinder"
+  }
+}

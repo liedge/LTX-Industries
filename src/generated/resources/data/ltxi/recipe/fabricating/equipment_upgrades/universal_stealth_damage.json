@@ -1,0 +1,42 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 750000,
+  "group": "eum/weapon",
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "ltxi:empty_upgrade_module"
+    },
+    {
+      "count": 1,
+      "item": "ltxi:t4_circuit"
+    },
+    {
+      "count": 12,
+      "item": "minecraft:phantom_membrane"
+    },
+    {
+      "count": 8,
+      "item": "minecraft:ender_pearl"
+    },
+    {
+      "type": "neoforge:components",
+      "components": {
+        "minecraft:potion_contents": {
+          "potion": "minecraft:invisibility"
+        }
+      },
+      "count": 1,
+      "items": "minecraft:potion"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:equipment_upgrade": {
+        "upgrade": "ltxi:universal_stealth_damage"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:equipment_upgrade_module"
+  }
+}

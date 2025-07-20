@@ -1,8 +1,0 @@
-{
-  "parent": "limatech:block/basic_machine_nsew",
-  "textures": {
-    "front": "limatech:block/digital_smoker_on",
-    "front_emissive": "limatech:block/digital_smoker_on_emissive",
-    "top": "limatech:block/basic_machine_mesh"
-  }
-}

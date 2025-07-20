@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_heavy_pistol": {
+      "conditions": {
+        "items": [
+          {
+            "items": "ltxi:heavy_pistol"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "ltxi:fabricating/equipment_upgrades/heavy_pistol_god_rounds"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_heavy_pistol"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "ltxi:fabricating/equipment_upgrades/heavy_pistol_god_rounds"
+    ]
+  }
+}

@@ -1,7 +1,7 @@
 {
   "values": [
-    "limatech:titanium_glass",
-    "limatech:slate_glass",
-    "#limatech:glow_blocks"
+    "ltxi:titanium_glass",
+    "ltxi:slate_glass",
+    "#ltxi:glow_blocks"
   ]
 }

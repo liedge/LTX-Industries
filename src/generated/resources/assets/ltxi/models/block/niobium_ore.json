@@ -1,0 +1,8 @@
+{
+  "parent": "ltxi:block/glowing_ore",
+  "textures": {
+    "0": "ltxi:block/niobium_ore_0",
+    "1": "ltxi:block/niobium_ore_1",
+    "particle": "minecraft:block/end_stone"
+  }
+}

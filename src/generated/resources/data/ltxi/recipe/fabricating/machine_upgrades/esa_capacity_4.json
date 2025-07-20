@@ -1,0 +1,41 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 5000000,
+  "group": "mum/esa",
+  "ingredients": [
+    {
+      "type": "neoforge:components",
+      "components": {
+        "ltxi:machine_upgrade": {
+          "rank": 3,
+          "upgrade": "ltxi:esa_capacity"
+        }
+      },
+      "count": 1,
+      "items": "ltxi:machine_upgrade_module",
+      "strict": true
+    },
+    {
+      "count": 4,
+      "item": "minecraft:lightning_rod"
+    },
+    {
+      "count": 12,
+      "item": "ltxi:niobium_ingot"
+    },
+    {
+      "count": 2,
+      "item": "ltxi:t3_circuit"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:machine_upgrade": {
+        "rank": 4,
+        "upgrade": "ltxi:esa_capacity"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:machine_upgrade_module"
+  }
+}

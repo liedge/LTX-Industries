@@ -5,8 +5,8 @@ import liedge.limacore.registry.DeferredBlockWithItem;
 import liedge.limacore.registry.LimaDeferredBlocksWithItems;
 import liedge.limacore.registry.game.LimaCoreDataComponents;
 import liedge.limacore.util.LimaCollectionsUtil;
-import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.LTXICommonIds;
+import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.block.*;
 import liedge.ltxindustries.item.ContentsTooltipBlockItem;
 import liedge.ltxindustries.item.ESABlockItem;
@@ -14,7 +14,10 @@ import liedge.ltxindustries.item.EnergyHolderItem;
 import liedge.ltxindustries.item.LTXIItemRarities;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.UniformInt;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
@@ -100,21 +103,26 @@ public final class LTXIBlocks
     public static final DeferredBlockWithItem<TurretBlock, BlockItem> RAILGUN_TURRET = BLOCKS.registerBlockAndItem(LTXICommonIds.ID_RAILGUN_TURRET, () -> new TurretBlock(machineProperties().noOcclusion()), block -> new ContentsTooltipBlockItem(block, new Item.Properties().stacksTo(1).rarity(LTXIItemRarities.ltxGearRarity()), true, false, true));
 
     // Technical blocks
-    public static final DeferredBlock<MeshBlock> MESH_BLOCK = BLOCKS.registerBlock("mesh_block", properties -> new MeshBlock(machineProperties(properties).dynamicShape().noOcclusion().noLootTable()));
+    public static final DeferredBlock<MeshBlock> MESH_BLOCK = BLOCKS.registerBlock("mesh_block", MeshBlock::new, machineProperties().dynamicShape().noOcclusion().noLootTable());
 
     // Helpers & initializers
-    private static BlockBehaviour.Properties machineProperties(BlockBehaviour.Properties properties)
+    private static DeferredBlockWithItem<Block, BlockItem> neonLight(String name, MapColor mapColor)
     {
-        return properties
-                .mapColor(MapColor.SNOW)
-                .pushReaction(PushReaction.BLOCK)
-                .strength(6f, 32f)
-                .requiresCorrectToolForDrops();
+        return BLOCKS.registerSimpleBlockAndItem(name, of().sound(SoundType.GLASS).strength(2f).lightLevel(state -> 15).mapColor(mapColor), new Item.Properties());
+    }
+
+    private static DeferredBlockWithItem<Block, BlockItem> neonLight(String name, DyeColor dyeColor)
+    {
+        return neonLight(name, dyeColor.getMapColor());
     }
 
     private static BlockBehaviour.Properties machineProperties()
     {
-        return machineProperties(of());
+        return of()
+                .mapColor(MapColor.SNOW)
+                .pushReaction(PushReaction.BLOCK)
+                .strength(6f, 32f)
+                .requiresCorrectToolForDrops();
     }
 
     private static BlockBehaviour.Properties berryVinesProperties()

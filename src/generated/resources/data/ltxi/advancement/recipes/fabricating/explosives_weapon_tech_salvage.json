@@ -1,0 +1,38 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "ltxi:fabricating/explosives_weapon_tech_salvage"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "visited_fortress": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "location": {
+                "structures": "minecraft:fortress"
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "visited_fortress"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "ltxi:fabricating/explosives_weapon_tech_salvage"
+    ]
+  }
+}

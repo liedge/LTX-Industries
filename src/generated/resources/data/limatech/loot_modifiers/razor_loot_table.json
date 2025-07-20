@@ -1,9 +1,0 @@
-{
-  "type": "neoforge:add_table",
-  "conditions": [
-    {
-      "condition": "minecraft:killed_by_player"
-    }
-  ],
-  "table": "limatech:entity/razor"
-}

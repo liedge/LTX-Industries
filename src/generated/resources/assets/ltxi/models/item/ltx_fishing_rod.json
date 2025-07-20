@@ -1,0 +1,16 @@
+{
+  "parent": "minecraft:item/handheld_rod",
+  "loader": "ltxi:bi_layer",
+  "overrides": [
+    {
+      "model": "ltxi:item/ltx_fishing_rod_cast",
+      "predicate": {
+        "ltxi:cast": 1.0
+      }
+    }
+  ],
+  "textures": {
+    "layer0": "ltxi:item/ltx_fishing_rod_base",
+    "layer1": "ltxi:item/ltx_fishing_rod_emissive"
+  }
+}

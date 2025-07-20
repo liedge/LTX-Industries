@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "berries=false": {
+      "model": "ltxi:block/bilevine_plant"
+    },
+    "berries=true": {
+      "model": "ltxi:block/bilevine_plant_lit"
+    }
+  }
+}

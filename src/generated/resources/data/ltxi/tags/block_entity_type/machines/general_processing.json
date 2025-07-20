@@ -1,0 +1,10 @@
+{
+  "values": [
+    "ltxi:digital_furnace",
+    "ltxi:digital_smoker",
+    "ltxi:digital_blast_furnace",
+    "ltxi:grinder",
+    "ltxi:recomposer",
+    "ltxi:material_fusing_chamber"
+  ]
+}

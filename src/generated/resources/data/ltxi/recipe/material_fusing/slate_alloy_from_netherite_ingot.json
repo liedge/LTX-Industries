@@ -1,0 +1,17 @@
+{
+  "type": "ltxi:material_fusing",
+  "ingredients": [
+    {
+      "count": 4,
+      "item": "ltxi:deepslate_powder"
+    },
+    {
+      "count": 1,
+      "item": "minecraft:netherite_ingot"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "ltxi:slate_alloy_ingot"
+  }
+}

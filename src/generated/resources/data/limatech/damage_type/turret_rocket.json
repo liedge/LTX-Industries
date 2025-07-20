@@ -1,6 +1,0 @@
-{
-  "death_message_type": "limatech:no_item_causing_entity_only",
-  "exhaustion": 0.0,
-  "message_id": "limatech.turret_rocket",
-  "scaling": "when_caused_by_living_non_player"
-}

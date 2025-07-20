@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "ltxi:item/empty_fabrication_blueprint"
+  }
+}

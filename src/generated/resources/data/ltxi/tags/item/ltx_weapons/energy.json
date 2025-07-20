@@ -1,0 +1,10 @@
+{
+  "values": [
+    "ltxi:submachine_gun",
+    "ltxi:shotgun",
+    "ltxi:grenade_launcher",
+    "ltxi:linear_fusion_rifle",
+    "ltxi:rocket_launcher",
+    "ltxi:heavy_pistol"
+  ]
+}

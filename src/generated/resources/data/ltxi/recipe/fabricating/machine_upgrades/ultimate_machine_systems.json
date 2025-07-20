@@ -1,0 +1,40 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 250000000,
+  "group": "mum/gpm",
+  "ingredients": [
+    {
+      "type": "neoforge:components",
+      "components": {
+        "ltxi:machine_upgrade": {
+          "rank": 6,
+          "upgrade": "ltxi:standard_machine_systems"
+        }
+      },
+      "count": 1,
+      "items": "ltxi:machine_upgrade_module",
+      "strict": true
+    },
+    {
+      "count": 2,
+      "item": "ltxi:t5_circuit"
+    },
+    {
+      "count": 16,
+      "item": "minecraft:redstone_block"
+    },
+    {
+      "count": 32,
+      "item": "ltxi:slate_alloy_ingot"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:machine_upgrade": {
+        "upgrade": "ltxi:ultimate_machine_systems"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:machine_upgrade_module"
+  }
+}

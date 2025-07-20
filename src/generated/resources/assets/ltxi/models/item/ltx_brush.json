@@ -1,0 +1,28 @@
+{
+  "parent": "minecraft:item/brush",
+  "loader": "ltxi:bi_layer",
+  "overrides": [
+    {
+      "model": "ltxi:item/ltx_brush_brushing_0",
+      "predicate": {
+        "ltxi:brushing": 0.25
+      }
+    },
+    {
+      "model": "ltxi:item/ltx_brush_brushing_1",
+      "predicate": {
+        "ltxi:brushing": 0.5
+      }
+    },
+    {
+      "model": "ltxi:item/ltx_brush_brushing_2",
+      "predicate": {
+        "ltxi:brushing": 0.75
+      }
+    }
+  ],
+  "textures": {
+    "layer0": "ltxi:item/ltx_brush_base",
+    "layer1": "ltxi:item/ltx_brush_emissive"
+  }
+}

@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:item/handheld_rod",
-  "loader": "limatech:bi_layer",
-  "textures": {
-    "layer0": "limatech:item/ltx_fishing_rod_cast_base",
-    "layer1": "limatech:item/ltx_fishing_rod_emissive"
-  }
-}

@@ -1,0 +1,42 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 250000,
+  "group": "eum/weapon/gl",
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "ltxi:empty_upgrade_module"
+    },
+    {
+      "count": 4,
+      "item": "ltxi:t1_circuit"
+    },
+    {
+      "count": 8,
+      "item": "ltxi:titanium_ingot"
+    },
+    {
+      "count": 16,
+      "item": "minecraft:snow_block"
+    },
+    {
+      "type": "neoforge:components",
+      "components": {
+        "minecraft:potion_contents": {
+          "potion": "minecraft:strong_slowness"
+        }
+      },
+      "count": 1,
+      "items": "minecraft:potion"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:equipment_upgrade": {
+        "upgrade": "ltxi:cryo_grenade_core"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:equipment_upgrade_module"
+  }
+}

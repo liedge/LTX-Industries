@@ -1,0 +1,28 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 400000,
+  "group": "ltx/weapon",
+  "ingredients": [
+    {
+      "count": 24,
+      "item": "ltxi:titanium_ingot"
+    },
+    {
+      "count": 4,
+      "tag": "c:dyes/lime"
+    },
+    {
+      "count": 4,
+      "item": "ltxi:t1_circuit"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:equipment_upgrades": {
+        "ltxi:submachine_gun_default": 1
+      }
+    },
+    "count": 1,
+    "id": "ltxi:submachine_gun"
+  }
+}

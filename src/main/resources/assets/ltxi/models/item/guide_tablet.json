@@ -4,9 +4,9 @@
 	"render_type": "solid",
 	"emissive_groups": ["lights"],
 	"textures": {
-		"0": "limatech:item/guide_tablet0",
-		"1": "limatech:item/guide_tablet1",
-		"light": "limatech:block/glows/lime_solid"
+		"0": "ltxi:item/guide_tablet0",
+		"1": "ltxi:item/guide_tablet1",
+		"light": "ltxi:solid_lime"
 	},
 	"elements": [
 		{

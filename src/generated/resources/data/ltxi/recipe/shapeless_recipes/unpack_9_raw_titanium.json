@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "ltxi:raw_titanium_block"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "id": "ltxi:raw_titanium"
+  }
+}

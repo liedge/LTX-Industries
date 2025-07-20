@@ -1,0 +1,36 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 500000,
+  "group": "eum/enchant",
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "ltxi:empty_upgrade_module"
+    },
+    {
+      "count": 1,
+      "item": "ltxi:t3_circuit"
+    },
+    {
+      "count": 1,
+      "item": "minecraft:emerald"
+    },
+    {
+      "count": 8,
+      "item": "minecraft:slime_ball"
+    },
+    {
+      "count": 4,
+      "item": "ltxi:titanium_glass"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:equipment_upgrade": {
+        "upgrade": "ltxi:silk_touch_enchantment"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:equipment_upgrade_module"
+  }
+}

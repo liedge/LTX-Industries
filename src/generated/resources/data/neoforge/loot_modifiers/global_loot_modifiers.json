@@ -1,8 +1,8 @@
 {
   "entries": [
-    "limatech:enemy_ammo_drops",
-    "limatech:extra_drops",
-    "limatech:razor_loot_table"
+    "ltxi:enemy_ammo_drops",
+    "ltxi:extra_drops",
+    "ltxi:razor_loot_table"
   ],
   "replace": false
 }

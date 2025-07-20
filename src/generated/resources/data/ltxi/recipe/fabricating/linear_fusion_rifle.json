@@ -1,0 +1,31 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 25000000,
+  "group": "ltx/weapon",
+  "ingredients": [
+    {
+      "count": 32,
+      "item": "ltxi:titanium_ingot"
+    },
+    {
+      "count": 12,
+      "tag": "c:dyes/lime"
+    },
+    {
+      "count": 8,
+      "item": "ltxi:titanium_glass"
+    },
+    {
+      "count": 2,
+      "item": "minecraft:amethyst_shard"
+    },
+    {
+      "count": 6,
+      "item": "ltxi:t2_circuit"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "ltxi:linear_fusion_rifle"
+  }
+}

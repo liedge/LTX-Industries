@@ -23,10 +23,10 @@
 		}
 	],
 	"textures": {
-		"grip": "limatech:item/weapons/grip_and_rails",
-		"lights": "limatech:block/glows/lime_solid",
-		"lfr0": "limatech:item/weapons/lfr_0",
-		"lfr1": "limatech:item/weapons/lfr_1",
+		"grip": "ltxi:item/weapons/grip_and_rails",
+		"lights": "ltxi:solid_lime",
+		"lfr0": "ltxi:item/weapons/lfr_0",
+		"lfr1": "ltxi:item/weapons/lfr_1",
 		"glass": "block/black_stained_glass"
 	},
 	"elements": [

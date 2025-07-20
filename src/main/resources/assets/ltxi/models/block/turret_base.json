@@ -5,13 +5,13 @@
 	"render_type": "solid",
 	"emissive_groups": ["lights"],
 	"textures": {
-		"particle": "limatech:block/titanium_block_0",
-		"base_bottom": "limatech:block/slate_alloy_block",
-		"lights": "limatech:block/glows/lime_solid",
-		"side": "limatech:block/turret_base_side",
-		"back": "limatech:block/turret_base_back",
-		"front": "limatech:block/turret_base_front",
-		"top": "limatech:block/turret_base_top"
+		"particle": "ltxi:block/titanium_block_0",
+		"base_bottom": "ltxi:block/slate_alloy_block",
+		"lights": "ltxi:solid_lime",
+		"side": "ltxi:block/turret_base_side",
+		"back": "ltxi:block/turret_base_back",
+		"front": "ltxi:block/turret_base_front",
+		"top": "ltxi:block/turret_base_top"
 	},
 	"elements": [
 		{

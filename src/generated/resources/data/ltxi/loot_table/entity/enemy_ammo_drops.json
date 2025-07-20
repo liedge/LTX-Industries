@@ -1,0 +1,107 @@
+{
+  "type": "minecraft:entity",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "type_specific": {
+              "type": "limacore:hostile_entity"
+            }
+          }
+        },
+        {
+          "condition": "minecraft:random_chance_with_enchanted_bonus",
+          "enchanted_chance": {
+            "type": "minecraft:linear",
+            "base": 0.120000005,
+            "per_level_above_first": 0.02
+          },
+          "enchantment": "minecraft:looting",
+          "unenchanted_chance": 0.1
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "ltxi:lightweight_weapon_energy",
+          "weight": 80
+        },
+        {
+          "type": "limacore:dynamic_weight",
+          "child": {
+            "type": "minecraft:item",
+            "name": "ltxi:specialist_weapon_energy",
+            "weight": 15
+          },
+          "dynamic_weight": {
+            "type": "limacore:targeted_enchantment_level",
+            "amount": {
+              "type": "minecraft:linear",
+              "base": 6.0,
+              "per_level_above_first": 6.0
+            },
+            "enchantment": "ltxi:ammo_scavenger"
+          },
+          "replace_weight": false
+        },
+        {
+          "type": "limacore:dynamic_weight",
+          "child": {
+            "type": "minecraft:item",
+            "name": "ltxi:explosives_weapon_energy",
+            "weight": 5
+          },
+          "dynamic_weight": {
+            "type": "limacore:targeted_enchantment_level",
+            "amount": {
+              "type": "minecraft:linear",
+              "base": 3.0,
+              "per_level_above_first": 3.0
+            },
+            "enchantment": "ltxi:ammo_scavenger"
+          },
+          "replace_weight": false
+        },
+        {
+          "type": "limacore:dynamic_weight",
+          "child": {
+            "type": "minecraft:item",
+            "name": "ltxi:heavy_weapon_energy"
+          },
+          "dynamic_weight": {
+            "type": "limacore:targeted_enchantment_level",
+            "amount": {
+              "type": "minecraft:linear",
+              "base": 2.0,
+              "per_level_above_first": 2.0
+            },
+            "enchantment": "ltxi:ammo_scavenger"
+          },
+          "replace_weight": false
+        }
+      ],
+      "rolls": {
+        "type": "limacore:rounding",
+        "child": {
+          "type": "limacore:targeted_enchantment_level",
+          "amount": {
+            "type": "limacore:enhanced_lookup",
+            "default_above": 2.0,
+            "default_below": 1.0,
+            "level_offset": 4,
+            "values": [
+              1.5
+            ]
+          },
+          "enchantment": "ltxi:ammo_scavenger"
+        },
+        "mode": "random"
+      }
+    }
+  ],
+  "random_sequence": "ltxi:entity/enemy_ammo_drops"
+}

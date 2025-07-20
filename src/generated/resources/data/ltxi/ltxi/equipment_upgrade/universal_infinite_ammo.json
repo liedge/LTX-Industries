@@ -1,0 +1,17 @@
+{
+  "display": {
+    "description": {
+      "translate": "equipment_upgrade.ltxi.universal_infinite_ammo.desc"
+    },
+    "icon": "ltxi:infinite_ammo",
+    "title": {
+      "color": "#FF00FF",
+      "translate": "equipment_upgrade.ltxi.universal_infinite_ammo"
+    }
+  },
+  "effects": {
+    "ltxi:ammo_source": "infinite"
+  },
+  "exclusive_set": "#ltxi:ammo_source_modifiers",
+  "supported_set": "#ltxi:ltx_weapons/energy"
+}

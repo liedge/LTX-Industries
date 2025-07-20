@@ -262,7 +262,7 @@ class RecipesGen extends LimaRecipeProvider
                 .requiresAdvancement()
                 .unlockedBy("visited_fortress", PlayerTrigger.TriggerInstance.located(LocationPredicate.Builder.inStructure(registries.holderOrThrow(BuiltinStructures.FORTRESS))))
                 .save(output);
-        fabricating(AUTO_AMMO_CANISTER, 50_000)
+        fabricating(LIGHTWEIGHT_WEAPON_ENERGY, 50_000)
                 .input(TITANIUM_INGOT, 1)
                 .input(Ingredient.of(GLOWSTONE_DUST, REDSTONE))
                 .input(DYES_LIME)
@@ -367,7 +367,7 @@ class RecipesGen extends LimaRecipeProvider
                 .input(SLATE_ALLOY_INGOT, 8)
                 .input(T3_CIRCUIT, 8)
                 .group("ltx/weapon").save(output);
-        upgradeableItemFabricating(MAGNUM, registries, 50_000_000)
+        upgradeableItemFabricating(HEAVY_PISTOL, registries, 50_000_000)
                 .input(TITANIUM_INGOT, 16)
                 .input(DYES_LIME, 4)
                 .input(SLATE_ALLOY_INGOT, 16)
@@ -531,28 +531,28 @@ class RecipesGen extends LimaRecipeProvider
                 .input(T2_CIRCUIT, 2)
                 .input(TITANIUM_INGOT, 8)
                 .input(GUNPOWDER, 8)
-                .input(AUTO_AMMO_CANISTER, 2));
+                .input(LIGHTWEIGHT_WEAPON_ENERGY, 2));
         equipmentModuleFab(output, registries, "eum/enchant", AMMO_SCAVENGER_ENCHANTMENT, 2, 600_000, builder -> builder
                 .input(T2_CIRCUIT, 4)
                 .input(TITANIUM_INGOT, 12)
                 .input(LAPIS_LAZULI, 16)
-                .input(AUTO_AMMO_CANISTER, 4));
+                .input(LIGHTWEIGHT_WEAPON_ENERGY, 4));
         equipmentModuleFab(output, registries, "eum/enchant", AMMO_SCAVENGER_ENCHANTMENT, 3, 900_000, builder -> builder
                 .input(T3_CIRCUIT, 4)
                 .input(TITANIUM_INGOT, 16)
-                .input(AUTO_AMMO_CANISTER, 8)
-                .input(SPECIALIST_AMMO_CANISTER, 2));
+                .input(LIGHTWEIGHT_WEAPON_ENERGY, 8)
+                .input(SPECIALIST_WEAPON_ENERGY, 2));
         equipmentModuleFab(output, registries, "eum/enchant", AMMO_SCAVENGER_ENCHANTMENT, 4, 1_200_000, builder -> builder
                 .input(T4_CIRCUIT, 2)
-                .input(SPECIALIST_AMMO_CANISTER, 4)
-                .input(EXPLOSIVES_AMMO_CANISTER, 2));
+                .input(SPECIALIST_WEAPON_ENERGY, 4)
+                .input(EXPLOSIVES_WEAPON_ENERGY, 2));
         equipmentModuleFab(output, registries, "eum/enchant", AMMO_SCAVENGER_ENCHANTMENT, 5, 1_500_000, builder -> builder
                 .input(T4_CIRCUIT, 4)
                 .input(SLATE_ALLOY_INGOT, 2)
-                .input(AUTO_AMMO_CANISTER, 16)
-                .input(SPECIALIST_AMMO_CANISTER, 8)
-                .input(EXPLOSIVES_AMMO_CANISTER, 4)
-                .input(HEAVY_AMMO_CANISTER, 2));
+                .input(LIGHTWEIGHT_WEAPON_ENERGY, 16)
+                .input(SPECIALIST_WEAPON_ENERGY, 8)
+                .input(EXPLOSIVES_WEAPON_ENERGY, 4)
+                .input(HEAVY_WEAPON_ENERGY, 2));
 
         equipmentModuleFab(output, registries, "eum/weapon/gl", FLAME_GRENADE_CORE, 1, 250_000, builder -> builder
                 .input(T1_CIRCUIT, 4)
@@ -586,11 +586,11 @@ class RecipesGen extends LimaRecipeProvider
                 .input(T3_CIRCUIT, 3)
                 .input(FIREWORK_ROCKET, 36)
                 .input(PHANTOM_MEMBRANE, 8));
-        equipmentModuleFab(output, registries, "eum/weapon", MAGNUM_SCALING_ROUNDS, 1, 500_000_000, builder -> builder
+        equipmentModuleFab(output, registries, "eum/weapon", HEAVY_PISTOL_GOD_ROUNDS, 1, 500_000_000, builder -> builder
                 .input(T5_CIRCUIT, 4)
                 .input(SLATE_ALLOY_BLOCK, 4)
                 .requiresAdvancement()
-                .unlockedBy(MAGNUM));
+                .unlockedBy(HEAVY_PISTOL));
 
         machineModuleFab(output, registries, "mum/gpm", ULTIMATE_MACHINE_SYSTEMS, 1, 250_000_000, false, null, builder -> builder
                 .input(mumIngredient(registries, STANDARD_MACHINE_SYSTEMS, 6))

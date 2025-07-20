@@ -1,0 +1,24 @@
+{
+  "type": "ltxi:fabricating",
+  "advancement_locked": true,
+  "energy_required": 500000,
+  "group": "tech_parts",
+  "ingredients": [
+    {
+      "count": 8,
+      "item": "minecraft:gunpowder"
+    },
+    {
+      "count": 4,
+      "item": "ltxi:titanium_ingot"
+    },
+    {
+      "count": 1,
+      "item": "ltxi:t2_circuit"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "ltxi:explosives_weapon_tech_salvage"
+  }
+}

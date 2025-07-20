@@ -1,7 +1,7 @@
 {
   "values": [
-    "limatech:titanium_block",
-    "limatech:niobium_block",
-    "limatech:slate_alloy_block"
+    "ltxi:titanium_block",
+    "ltxi:niobium_block",
+    "ltxi:slate_alloy_block"
   ]
 }

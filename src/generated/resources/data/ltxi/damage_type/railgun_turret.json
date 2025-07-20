@@ -1,0 +1,6 @@
+{
+  "death_message_type": "ltxi:no_item_causing_entity_only",
+  "exhaustion": 0.0,
+  "message_id": "ltxi.railgun_turret",
+  "scaling": "when_caused_by_living_non_player"
+}

@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": {
+      "item": "ltxi:t1_circuit"
+    },
+    "m": {
+      "item": "ltxi:empty_upgrade_module"
+    },
+    "r": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "pattern": [
+    " r ",
+    "rmr",
+    " c "
+  ],
+  "result": {
+    "components": {
+      "ltxi:machine_upgrade": {
+        "upgrade": "ltxi:standard_machine_systems"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:machine_upgrade_module"
+  }
+}

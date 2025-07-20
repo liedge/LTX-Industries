@@ -1,0 +1,32 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 1000000,
+  "group": "eum/weapon",
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "ltxi:empty_upgrade_module"
+    },
+    {
+      "count": 2,
+      "item": "ltxi:t2_circuit"
+    },
+    {
+      "count": 8,
+      "item": "minecraft:tnt"
+    },
+    {
+      "count": 2,
+      "item": "minecraft:piston"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:equipment_upgrade": {
+        "upgrade": "ltxi:high_impact_rounds"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:equipment_upgrade_module"
+  }
+}

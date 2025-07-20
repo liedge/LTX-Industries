@@ -6,10 +6,10 @@
 	"render_type": "solid",
 	"emissive_groups": ["lights"],
 	"textures": {
-		"0": "limatech:block/titanium_block_0",
-		"1": "limatech:block/fabricator",
-		"2": "limatech:block/glows/lime_solid",
-		"particle": "limatech:block/titanium_block_0"
+		"0": "ltxi:block/titanium_block_0",
+		"1": "ltxi:block/fabricator",
+		"2": "ltxi:solid_lime",
+		"particle": "ltxi:block/titanium_block_0"
 	},
 	"elements": [
 		{

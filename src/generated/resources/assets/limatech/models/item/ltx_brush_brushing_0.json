@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:item/brush_brushing_0",
-  "loader": "limatech:bi_layer",
-  "textures": {
-    "layer0": "limatech:item/ltx_brush_base",
-    "layer1": "limatech:item/ltx_brush_emissive"
-  }
-}

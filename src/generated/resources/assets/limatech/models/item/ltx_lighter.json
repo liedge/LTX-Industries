@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "loader": "limatech:bi_layer",
-  "textures": {
-    "layer0": "limatech:item/ltx_lighter_base",
-    "layer1": "limatech:item/ltx_lighter_emissive"
-  }
-}

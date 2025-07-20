@@ -1,0 +1,29 @@
+{
+  "type": "ltxi:fabricating",
+  "advancement_locked": true,
+  "energy_required": 500000000,
+  "group": "eum/weapon",
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "ltxi:empty_upgrade_module"
+    },
+    {
+      "count": 4,
+      "item": "ltxi:t5_circuit"
+    },
+    {
+      "count": 4,
+      "item": "ltxi:slate_alloy_block"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:equipment_upgrade": {
+        "upgrade": "ltxi:heavy_pistol_god_rounds"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:equipment_upgrade_module"
+  }
+}

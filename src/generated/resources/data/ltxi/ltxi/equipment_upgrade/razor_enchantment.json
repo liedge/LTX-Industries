@@ -1,0 +1,22 @@
+{
+  "display": {
+    "category": "enchants",
+    "description": {
+      "translate": "equipment_upgrade.ltxi.razor_enchantment.desc"
+    },
+    "icon": "ltxi:razor_enchant",
+    "title": {
+      "translate": "equipment_upgrade.ltxi.razor_enchantment"
+    }
+  },
+  "effects": {
+    "ltxi:enchantments": [
+      {
+        "enchantment": "ltxi:razor"
+      }
+    ]
+  },
+  "exclusive_set": [],
+  "max_rank": 5,
+  "supported_set": "#ltxi:ltx_weapons/all"
+}

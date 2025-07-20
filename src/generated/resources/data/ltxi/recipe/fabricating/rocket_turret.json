@@ -1,0 +1,23 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 2500000,
+  "group": "turrets",
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "ltxi:targeting_tech_salvage"
+    },
+    {
+      "count": 16,
+      "item": "ltxi:titanium_ingot"
+    },
+    {
+      "count": 2,
+      "item": "ltxi:t3_circuit"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "ltxi:rocket_turret"
+  }
+}

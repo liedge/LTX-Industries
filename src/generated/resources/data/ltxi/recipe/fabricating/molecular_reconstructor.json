@@ -1,0 +1,23 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 2000000,
+  "group": "machines",
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "minecraft:anvil"
+    },
+    {
+      "count": 16,
+      "item": "ltxi:titanium_ingot"
+    },
+    {
+      "count": 3,
+      "item": "ltxi:t3_circuit"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "ltxi:molecular_reconstructor"
+  }
+}

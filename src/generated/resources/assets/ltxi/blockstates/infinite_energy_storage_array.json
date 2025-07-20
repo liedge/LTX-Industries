@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "ltxi:block/energy_storage_array"
+    }
+  }
+}

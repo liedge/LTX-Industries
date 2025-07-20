@@ -1,0 +1,17 @@
+{
+  "display": {
+    "description": {
+      "translate": "equipment_upgrade.ltxi.universal_energy_ammo.desc"
+    },
+    "icon": "ltxi:energy_ammo",
+    "title": {
+      "color": "#8BD1F0",
+      "translate": "equipment_upgrade.ltxi.universal_energy_ammo"
+    }
+  },
+  "effects": {
+    "ltxi:ammo_source": "energy"
+  },
+  "exclusive_set": "#ltxi:ammo_source_modifiers",
+  "supported_set": "#ltxi:ltx_weapons/energy"
+}

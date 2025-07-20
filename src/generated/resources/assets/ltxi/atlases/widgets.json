@@ -1,0 +1,15 @@
+{
+  "sources": [
+    {
+      "type": "neoforge:namespaced_directory",
+      "namespace": "ltxi",
+      "prefix": "",
+      "source": "gui/widget"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "ltxi:item/machine_upgrade_module",
+      "sprite": "ltxi:machine_upgrade_module"
+    }
+  ]
+}

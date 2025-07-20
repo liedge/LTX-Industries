@@ -1,0 +1,6 @@
+{
+  "parent": "ltxi:block/basic_machine_sew",
+  "textures": {
+    "front": "ltxi:block/grinder_on"
+  }
+}

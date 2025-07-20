@@ -1,0 +1,23 @@
+{
+  "display": {
+    "category": "grenade_cores",
+    "description": {
+      "translate": "equipment_upgrade.ltxi.omni_grenade_core.desc"
+    },
+    "icon": "ltxi:omni_grenade_core",
+    "title": {
+      "translate": "equipment_upgrade.ltxi.omni_grenade_core"
+    }
+  },
+  "effects": {
+    "ltxi:grenade_unlock": [
+      "flame",
+      "cryo",
+      "electric",
+      "acid",
+      "neuro"
+    ]
+  },
+  "exclusive_set": [],
+  "supported_set": "ltxi:grenade_launcher"
+}

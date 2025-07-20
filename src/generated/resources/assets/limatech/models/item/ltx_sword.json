@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:item/handheld",
-  "loader": "limatech:bi_layer",
-  "textures": {
-    "layer0": "limatech:item/ltx_sword_base",
-    "layer1": "limatech:item/ltx_sword_emissive"
-  }
-}

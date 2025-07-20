@@ -1,7 +1,7 @@
 {
   "values": [
-    "limatech:explosive_grenade",
-    "limatech:rocket_launcher",
-    "limatech:turret_rocket"
+    "ltxi:explosive_grenade",
+    "ltxi:rocket_launcher",
+    "ltxi:turret_rocket"
   ]
 }

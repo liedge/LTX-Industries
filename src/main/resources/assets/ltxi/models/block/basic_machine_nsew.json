@@ -6,10 +6,10 @@
 	"emissive_groups": ["emissive"],
 	"textures": {
 		"particle": "#frame1",
-		"frame1": "limatech:block/titanium_block_0",
-		"frame2": "limatech:block/blank_slate_alloy_machine",
-		"frame3": "limatech:block/basic_machine_side",
-		"frame3_e": "limatech:block/basic_machine_side_emissive",
+		"frame1": "ltxi:block/titanium_block_0",
+		"frame2": "ltxi:block/blank_slate_alloy_machine",
+		"frame3": "ltxi:block/basic_machine_side",
+		"frame3_e": "ltxi:block/basic_machine_side_emissive",
 		"top": "#frame1"
 	},
 	"elements": [

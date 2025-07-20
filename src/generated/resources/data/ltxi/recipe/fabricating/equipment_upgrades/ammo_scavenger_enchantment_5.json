@@ -1,0 +1,53 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 1500000,
+  "group": "eum/enchant",
+  "ingredients": [
+    {
+      "type": "neoforge:components",
+      "components": {
+        "ltxi:equipment_upgrade": {
+          "rank": 4,
+          "upgrade": "ltxi:ammo_scavenger_enchantment"
+        }
+      },
+      "count": 1,
+      "items": "ltxi:equipment_upgrade_module",
+      "strict": true
+    },
+    {
+      "count": 4,
+      "item": "ltxi:t4_circuit"
+    },
+    {
+      "count": 2,
+      "item": "ltxi:slate_alloy_ingot"
+    },
+    {
+      "count": 16,
+      "item": "ltxi:lightweight_weapon_energy"
+    },
+    {
+      "count": 8,
+      "item": "ltxi:specialist_weapon_energy"
+    },
+    {
+      "count": 4,
+      "item": "ltxi:explosives_weapon_energy"
+    },
+    {
+      "count": 2,
+      "item": "ltxi:heavy_weapon_energy"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:equipment_upgrade": {
+        "rank": 5,
+        "upgrade": "ltxi:ammo_scavenger_enchantment"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:equipment_upgrade_module"
+  }
+}

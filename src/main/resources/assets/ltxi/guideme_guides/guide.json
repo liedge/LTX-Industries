@@ -2,16 +2,16 @@
   "item_settings": {
     "display_name": {
       "type": "translatable",
-      "translate": "item.limatech.guide_tablet",
+      "translate": "item.ltxi.guide_tablet",
       "color": "#9DF143"
     },
     "tooltip_lines": [
       {
         "type": "translatable",
-        "translate": "hint.limatech.guide_tablet",
+        "translate": "hint.ltxi.guide_tablet",
         "color": "gray"
       }
     ],
-    "model": "limatech:item/guide_tablet"
+    "model": "ltxi:item/guide_tablet"
   }
 }

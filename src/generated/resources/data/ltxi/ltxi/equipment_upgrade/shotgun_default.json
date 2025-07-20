@@ -1,0 +1,54 @@
+{
+  "display": {
+    "category": "default/weapon",
+    "description": {
+      "translate": "equipment_upgrade.ltxi.shotgun_default.desc"
+    },
+    "icon": {
+      "type": "composite",
+      "background": {
+        "id": "ltxi:shotgun"
+      },
+      "overlay": "ltxi:default",
+      "overlay_size": 10,
+      "x_offset": 0,
+      "y_offset": 6
+    },
+    "title": {
+      "translate": "equipment_upgrade.ltxi.shotgun_default"
+    }
+  },
+  "effects": {
+    "ltxi:attribute_modifiers": [
+      {
+        "attribute": "minecraft:generic.movement_speed",
+        "modifier": {
+          "amount": 0.25,
+          "id": "ltxi:shotgun_defaultshotgun_speed_boost",
+          "operation": "add_multiplied_base"
+        }
+      },
+      {
+        "attribute": "minecraft:generic.step_height",
+        "modifier": {
+          "amount": 1.0,
+          "id": "ltxi:shotgun_defaultshotgun_step_height_boost",
+          "operation": "add_value"
+        }
+      }
+    ],
+    "ltxi:pre_attack": [
+      {
+        "affected": "victim",
+        "effect": {
+          "type": "ltxi:modify_reductions",
+          "amount": -0.1,
+          "reduction_type": "armor"
+        },
+        "enchanted": "attacker"
+      }
+    ]
+  },
+  "exclusive_set": [],
+  "supported_set": "ltxi:shotgun"
+}

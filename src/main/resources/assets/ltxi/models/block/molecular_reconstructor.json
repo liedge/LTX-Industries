@@ -5,14 +5,14 @@
 	"render_type": "cutout",
 	"emissive_groups": ["lights"],
 	"textures": {
-		"particle": "limatech:block/titanium_block_0",
-		"titanium_base": "limatech:block/titanium_block_0",
-		"slate_base": "limatech:block/blank_slate_alloy_machine",
-		"lights": "limatech:block/glows/lime_solid",
-		"machine0": "limatech:block/molecular_reconstructor0",
-		"machine1": "limatech:block/molecular_reconstructor1",
-		"machine2": "limatech:block/molecular_reconstructor2",
-		"machine3": "limatech:block/molecular_reconstructor3"
+		"particle": "ltxi:block/titanium_block_0",
+		"titanium_base": "ltxi:block/titanium_block_0",
+		"slate_base": "ltxi:block/blank_slate_alloy_machine",
+		"lights": "ltxi:solid_lime",
+		"machine0": "ltxi:block/molecular_reconstructor0",
+		"machine1": "ltxi:block/molecular_reconstructor1",
+		"machine2": "ltxi:block/molecular_reconstructor2",
+		"machine3": "ltxi:block/molecular_reconstructor3"
 	},
 	"elements": [
 		{

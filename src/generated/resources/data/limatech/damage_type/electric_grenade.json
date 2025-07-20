@@ -1,6 +1,0 @@
-{
-  "death_message_type": "limatech:weapon",
-  "exhaustion": 0.0,
-  "message_id": "limatech.electric_grenade",
-  "scaling": "when_caused_by_living_non_player"
-}

@@ -1,0 +1,32 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 750000,
+  "group": "eum/weapon",
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "ltxi:empty_upgrade_module"
+    },
+    {
+      "count": 2,
+      "item": "ltxi:t2_circuit"
+    },
+    {
+      "count": 9,
+      "item": "minecraft:firework_rocket"
+    },
+    {
+      "count": 2,
+      "item": "minecraft:phantom_membrane"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:equipment_upgrade": {
+        "upgrade": "ltxi:grenade_launcher_projectile_speed"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:equipment_upgrade_module"
+  }
+}

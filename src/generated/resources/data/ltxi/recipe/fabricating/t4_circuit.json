@@ -1,0 +1,39 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 20000000,
+  "group": "circuits",
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "ltxi:circuit_board"
+    },
+    {
+      "count": 2,
+      "item": "ltxi:t3_circuit"
+    },
+    {
+      "count": 32,
+      "item": "minecraft:redstone"
+    },
+    {
+      "count": 32,
+      "item": "ltxi:titanium_ingot"
+    },
+    {
+      "count": 16,
+      "item": "minecraft:gold_ingot"
+    },
+    {
+      "count": 8,
+      "item": "ltxi:niobium_ingot"
+    },
+    {
+      "count": 8,
+      "item": "minecraft:diamond"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "ltxi:t4_circuit"
+  }
+}

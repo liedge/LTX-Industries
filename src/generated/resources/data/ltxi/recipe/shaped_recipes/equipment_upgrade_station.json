@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "a": {
+      "item": "minecraft:anvil"
+    },
+    "l": {
+      "tag": "c:dyes/lime"
+    },
+    "t": {
+      "item": "ltxi:titanium_ingot"
+    }
+  },
+  "pattern": [
+    "ttt",
+    "lal",
+    "ttt"
+  ],
+  "result": {
+    "count": 1,
+    "id": "ltxi:equipment_upgrade_station"
+  }
+}

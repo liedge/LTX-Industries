@@ -1,0 +1,17 @@
+{
+  "type": "ltxi:material_fusing",
+  "ingredients": [
+    {
+      "count": 4,
+      "item": "minecraft:netherite_scrap"
+    },
+    {
+      "count": 1,
+      "item": "minecraft:gold_ingot"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "minecraft:netherite_ingot"
+  }
+}

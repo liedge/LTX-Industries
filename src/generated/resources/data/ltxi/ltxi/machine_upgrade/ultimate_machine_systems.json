@@ -1,0 +1,47 @@
+{
+  "display": {
+    "category": "gpm",
+    "description": {
+      "translate": "machine_upgrade.ltxi.ultimate_machine_systems.desc"
+    },
+    "icon": "ltxi:ultimate_gear",
+    "title": {
+      "color": "#9DF143",
+      "translate": "machine_upgrade.ltxi.ultimate_machine_systems"
+    }
+  },
+  "effects": {
+    "ltxi:energy_capacity": [
+      {
+        "type": "simple",
+        "op": "multiply",
+        "simple_value": 8.0
+      }
+    ],
+    "ltxi:energy_transfer_rate": [
+      {
+        "type": "simple",
+        "op": "multiply",
+        "simple_value": 16.0
+      }
+    ],
+    "ltxi:energy_usage": [
+      {
+        "type": "simple",
+        "op": "multiply",
+        "sentiment": "negative",
+        "simple_value": 256.0
+      }
+    ],
+    "ltxi:ticks_per_operation": [
+      {
+        "type": "simple",
+        "op": "add_multiplied_total",
+        "sentiment": "negative",
+        "simple_value": -1.0
+      }
+    ]
+  },
+  "exclusive_set": "#ltxi:machine_tier",
+  "supported_set": "#ltxi:machines/general_processing"
+}

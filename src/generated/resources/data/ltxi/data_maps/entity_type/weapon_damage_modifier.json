@@ -1,0 +1,33 @@
+{
+  "values": {
+    "#ltxi:targets/high_threat": [
+      {
+        "op": "add_multiplied_total",
+        "value": -0.8,
+        "weapon": "ltxi:submachine_gun"
+      },
+      {
+        "op": "add_multiplied_total",
+        "value": -0.45,
+        "weapon": "ltxi:shotgun"
+      },
+      {
+        "op": "multiply",
+        "value": 2.0,
+        "weapon": "ltxi:rocket_launcher"
+      }
+    ],
+    "#ltxi:targets/medium_threat": [
+      {
+        "op": "add_multiplied_total",
+        "value": -0.5,
+        "weapon": "ltxi:submachine_gun"
+      },
+      {
+        "op": "add_multiplied_total",
+        "value": -0.4,
+        "weapon": "ltxi:shotgun"
+      }
+    ]
+  }
+}

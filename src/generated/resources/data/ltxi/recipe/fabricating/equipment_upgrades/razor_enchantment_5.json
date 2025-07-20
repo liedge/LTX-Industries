@@ -1,0 +1,57 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 4000000,
+  "group": "eum/enchant",
+  "ingredients": [
+    {
+      "type": "neoforge:components",
+      "components": {
+        "ltxi:equipment_upgrade": {
+          "rank": 4,
+          "upgrade": "ltxi:razor_enchantment"
+        }
+      },
+      "count": 1,
+      "items": "ltxi:equipment_upgrade_module",
+      "strict": true
+    },
+    {
+      "count": 1,
+      "item": "ltxi:t4_circuit"
+    },
+    {
+      "count": 8,
+      "item": "minecraft:zombie_head"
+    },
+    {
+      "count": 8,
+      "item": "minecraft:creeper_head"
+    },
+    {
+      "count": 8,
+      "item": "minecraft:skeleton_skull"
+    },
+    {
+      "count": 8,
+      "item": "minecraft:wither_skeleton_skull"
+    },
+    {
+      "count": 8,
+      "item": "minecraft:piglin_head"
+    },
+    {
+      "count": 1,
+      "item": "minecraft:dragon_head"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:equipment_upgrade": {
+        "rank": 5,
+        "upgrade": "ltxi:razor_enchantment"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:equipment_upgrade_module"
+  }
+}

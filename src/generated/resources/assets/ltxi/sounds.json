@@ -1,0 +1,126 @@
+{
+  "acid_grenade_explode": {
+    "sounds": [
+      "ltxi:acid_grenade_explode"
+    ],
+    "subtitle": "subtitle.ltxi.acid_grenade_explode"
+  },
+  "cryo_grenade_explode": {
+    "sounds": [
+      "ltxi:cryo_grenade_explode"
+    ],
+    "subtitle": "subtitle.ltxi.cryo_grenade_explode"
+  },
+  "electric_grenade_explode": {
+    "sounds": [
+      "ltxi:electric_grenade_explode"
+    ],
+    "subtitle": "subtitle.ltxi.electric_grenade_explode"
+  },
+  "explosive_grenade_explode": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.generic.explode"
+      }
+    ],
+    "subtitle": "subtitle.ltxi.explosive_grenade_explode"
+  },
+  "flame_grenade_explode": {
+    "sounds": [
+      "ltxi:flame_grenade_explode"
+    ],
+    "subtitle": "subtitle.ltxi.flame_grenade_explode"
+  },
+  "grenade_launcher_fire": {
+    "sounds": [
+      "ltxi:grenade_launcher_fire"
+    ],
+    "subtitle": "subtitle.ltxi.grenade_launcher_fire"
+  },
+  "heavy_pistol_fire": {
+    "sounds": [
+      "ltxi:heavy_pistol_fire"
+    ],
+    "subtitle": "subtitle.ltxi.heavy_pistol_fire"
+  },
+  "linear_fusion_charge": {
+    "sounds": [
+      "ltxi:linear_fusion_charge"
+    ],
+    "subtitle": "subtitle.ltxi.linear_fusion_charge"
+  },
+  "linear_fusion_fire": {
+    "sounds": [
+      "ltxi:linear_fusion_fire0",
+      "ltxi:linear_fusion_fire1"
+    ],
+    "subtitle": "subtitle.ltxi.linear_fusion_fire"
+  },
+  "neuro_grenade_explode": {
+    "sounds": [
+      "ltxi:neuro_grenade_explode"
+    ],
+    "subtitle": "subtitle.ltxi.neuro_grenade_explode"
+  },
+  "railgun_boom": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.warden.sonic_boom"
+      }
+    ],
+    "subtitle": "subtitle.ltxi.railgun_boom"
+  },
+  "rocket_explode": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.generic.explode"
+      }
+    ],
+    "subtitle": "subtitle.ltxi.rocket_explode"
+  },
+  "rocket_launcher_fire": {
+    "sounds": [
+      "ltxi:rocket_launcher_fire"
+    ],
+    "subtitle": "subtitle.ltxi.rocket_launcher_fire"
+  },
+  "shotgun_fire": {
+    "sounds": [
+      "ltxi:shotgun_fire"
+    ],
+    "subtitle": "subtitle.ltxi.shotgun_fire"
+  },
+  "submachine_gun_loop": {
+    "sounds": [
+      "ltxi:submachine_gun_loop"
+    ],
+    "subtitle": "subtitle.ltxi.submachine_gun_loop"
+  },
+  "turret_target_found": {
+    "sounds": [
+      "ltxi:turret_target_found"
+    ],
+    "subtitle": "subtitle.ltxi.turret_target_found"
+  },
+  "upgrade_install": {
+    "sounds": [
+      "ltxi:upgrade_install"
+    ],
+    "subtitle": "subtitle.ltxi.upgrade_install"
+  },
+  "upgrade_remove": {
+    "sounds": [
+      "ltxi:upgrade_remove"
+    ],
+    "subtitle": "subtitle.ltxi.upgrade_remove"
+  },
+  "weapon_mode_switch": {
+    "sounds": [
+      "ltxi:weapon_mode_switch"
+    ],
+    "subtitle": "subtitle.ltxi.weapon_mode_switch"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "display": {
+    "category": "tools/drill",
+    "description": {
+      "translate": "equipment_upgrade.ltxi.drill_netherite_level.desc"
+    },
+    "icon": "ltxi:netherite_drill_tip",
+    "title": {
+      "translate": "equipment_upgrade.ltxi.drill_netherite_level"
+    }
+  },
+  "effects": {
+    "ltxi:mining_rules": [
+      {
+        "denied_blocks": "#minecraft:incorrect_for_netherite_tool",
+        "mining_speed": 11.0,
+        "priority": 2
+      }
+    ]
+  },
+  "exclusive_set": "#ltxi:drill_mining_upgrades",
+  "supported_set": "ltxi:ltx_drill"
+}

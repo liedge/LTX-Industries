@@ -1,0 +1,22 @@
+{
+  "display": {
+    "category": "turret",
+    "description": {
+      "translate": "machine_upgrade.ltxi.turret_looting.desc"
+    },
+    "icon": "ltxi:clover",
+    "title": {
+      "translate": "machine_upgrade.ltxi.turret_looting"
+    }
+  },
+  "effects": {
+    "ltxi:enchantments": [
+      {
+        "enchantment": "minecraft:looting"
+      }
+    ]
+  },
+  "exclusive_set": [],
+  "max_rank": 3,
+  "supported_set": "#ltxi:turrets"
+}

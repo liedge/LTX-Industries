@@ -1,0 +1,15 @@
+{
+  "values": [
+    "ltxi:lightfrag",
+    "ltxi:rocket_launcher",
+    "ltxi:explosive_grenade",
+    "ltxi:flame_grenade",
+    "ltxi:cryo_grenade",
+    "ltxi:electric_grenade",
+    "ltxi:acid_grenade",
+    "ltxi:neuro_grenade",
+    "ltxi:sticky_flame",
+    "ltxi:turret_rocket",
+    "ltxi:railgun_turret"
+  ]
+}

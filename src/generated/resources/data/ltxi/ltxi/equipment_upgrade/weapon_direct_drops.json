@@ -1,0 +1,23 @@
+{
+  "display": {
+    "description": {
+      "translate": "equipment_upgrade.ltxi.weapon_direct_drops.desc"
+    },
+    "icon": "ltxi:magnet",
+    "title": {
+      "translate": "equipment_upgrade.ltxi.weapon_direct_drops"
+    }
+  },
+  "effects": {
+    "ltxi:direct_drops": [
+      {
+        "type": "entity",
+        "items": {
+          "type": "neoforge:any"
+        }
+      }
+    ]
+  },
+  "exclusive_set": [],
+  "supported_set": "#ltxi:ltx_weapons/all"
+}

@@ -1,0 +1,13 @@
+{
+  "type": "ltxi:grinding",
+  "ingredients": [
+    {
+      "count": 1,
+      "tag": "c:ores/emerald"
+    }
+  ],
+  "result": {
+    "count": 3,
+    "id": "ltxi:emerald_ore_pebbles"
+  }
+}

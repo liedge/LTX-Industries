@@ -1,0 +1,24 @@
+{
+  "display": {
+    "category": "turret",
+    "description": {
+      "translate": "machine_upgrade.ltxi.turret_loot_collector.desc"
+    },
+    "icon": "ltxi:magnet",
+    "title": {
+      "translate": "machine_upgrade.ltxi.turret_loot_collector"
+    }
+  },
+  "effects": {
+    "ltxi:direct_drops": [
+      {
+        "type": "entity",
+        "items": {
+          "type": "neoforge:any"
+        }
+      }
+    ]
+  },
+  "exclusive_set": [],
+  "supported_set": "#ltxi:turrets"
+}

@@ -1,0 +1,28 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 1000000,
+  "group": "ltx/weapon",
+  "ingredients": [
+    {
+      "count": 32,
+      "item": "ltxi:titanium_ingot"
+    },
+    {
+      "count": 8,
+      "tag": "c:dyes/lime"
+    },
+    {
+      "count": 4,
+      "item": "ltxi:t2_circuit"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:equipment_upgrades": {
+        "ltxi:shotgun_default": 1
+      }
+    },
+    "count": 1,
+    "id": "ltxi:shotgun"
+  }
+}

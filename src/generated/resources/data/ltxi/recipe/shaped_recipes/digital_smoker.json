@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "a": {
+      "item": "minecraft:smoker"
+    },
+    "c": {
+      "item": "ltxi:t1_circuit"
+    },
+    "g": {
+      "tag": "c:glass_blocks/cheap"
+    },
+    "l": {
+      "tag": "c:dyes/lime"
+    },
+    "t": {
+      "item": "ltxi:titanium_ingot"
+    }
+  },
+  "pattern": [
+    "tgt",
+    "cac",
+    "tlt"
+  ],
+  "result": {
+    "count": 1,
+    "id": "ltxi:digital_smoker"
+  }
+}

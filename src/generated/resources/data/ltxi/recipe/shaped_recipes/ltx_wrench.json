@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "l": {
+      "tag": "c:dyes/lime"
+    },
+    "t": {
+      "item": "ltxi:titanium_ingot"
+    }
+  },
+  "pattern": [
+    "t t",
+    " l ",
+    " t "
+  ],
+  "result": {
+    "components": {
+      "ltxi:equipment_upgrades": {
+        "ltxi:ltx_wrench_default": 1
+      }
+    },
+    "count": 1,
+    "id": "ltxi:ltx_wrench"
+  }
+}

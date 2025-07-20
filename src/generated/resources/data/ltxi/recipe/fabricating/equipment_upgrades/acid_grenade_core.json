@@ -1,0 +1,29 @@
+{
+  "type": "ltxi:fabricating",
+  "advancement_locked": true,
+  "energy_required": 1000000,
+  "group": "eum/weapon/gl",
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "ltxi:empty_upgrade_module"
+    },
+    {
+      "count": 8,
+      "item": "ltxi:t3_circuit"
+    },
+    {
+      "count": 16,
+      "item": "ltxi:titanium_ingot"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:equipment_upgrade": {
+        "upgrade": "ltxi:acid_grenade_core"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:equipment_upgrade_module"
+  }
+}

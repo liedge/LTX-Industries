@@ -1,0 +1,13 @@
+{
+  "type": "ltxi:grinding",
+  "ingredients": [
+    {
+      "count": 1,
+      "tag": "c:cobblestones/normal"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "minecraft:gravel"
+  }
+}

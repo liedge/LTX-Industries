@@ -1,0 +1,18 @@
+{
+  "values": [
+    "ltxi:digital_furnace",
+    "ltxi:digital_smoker",
+    "ltxi:digital_blast_furnace",
+    "ltxi:grinder",
+    "ltxi:recomposer",
+    "ltxi:material_fusing_chamber",
+    "ltxi:fabricator",
+    "ltxi:auto_fabricator",
+    "ltxi:equipment_upgrade_station",
+    "ltxi:molecular_reconstructor",
+    "ltxi:energy_storage_array",
+    "ltxi:infinite_energy_storage_array",
+    "ltxi:rocket_turret",
+    "ltxi:railgun_turret"
+  ]
+}

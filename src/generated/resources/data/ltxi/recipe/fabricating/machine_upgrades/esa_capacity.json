@@ -1,0 +1,28 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 250000,
+  "group": "mum/esa",
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "ltxi:empty_upgrade_module"
+    },
+    {
+      "count": 2,
+      "item": "minecraft:lightning_rod"
+    },
+    {
+      "count": 6,
+      "item": "minecraft:copper_ingot"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:machine_upgrade": {
+        "upgrade": "ltxi:esa_capacity"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:machine_upgrade_module"
+  }
+}

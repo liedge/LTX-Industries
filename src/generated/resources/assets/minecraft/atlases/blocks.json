@@ -1,0 +1,9 @@
+{
+  "sources": [
+    {
+      "type": "minecraft:single",
+      "resource": "ltxi:misc/solid_lime",
+      "sprite": "ltxi:solid_lime"
+    }
+  ]
+}

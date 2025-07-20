@@ -1,0 +1,29 @@
+{
+  "display": {
+    "category": "enchants",
+    "description": {
+      "translate": "equipment_upgrade.ltxi.silk_touch_enchantment.desc"
+    },
+    "icon": {
+      "type": "composite",
+      "background": "ltxi:pickaxe_head",
+      "overlay": "ltxi:silk_touch",
+      "overlay_size": 10,
+      "x_offset": 0,
+      "y_offset": 6
+    },
+    "title": {
+      "translate": "equipment_upgrade.ltxi.silk_touch_enchantment"
+    }
+  },
+  "effects": {
+    "ltxi:enchantments": [
+      {
+        "amount": 1.0,
+        "enchantment": "minecraft:silk_touch"
+      }
+    ]
+  },
+  "exclusive_set": "#ltxi:mining_drops_modifiers",
+  "supported_set": "#ltxi:ltx_tools/mining"
+}

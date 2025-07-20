@@ -1,0 +1,49 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 5000000,
+  "group": "mum/fabricator",
+  "ingredients": [
+    {
+      "type": "neoforge:components",
+      "components": {
+        "ltxi:machine_upgrade": {
+          "rank": 2,
+          "upgrade": "ltxi:fabricator_upgrade"
+        }
+      },
+      "count": 1,
+      "items": "ltxi:machine_upgrade_module",
+      "strict": true
+    },
+    {
+      "count": 8,
+      "tag": "c:dyes/lime"
+    },
+    {
+      "count": 1,
+      "item": "minecraft:diamond_block"
+    },
+    {
+      "count": 16,
+      "item": "ltxi:titanium_ingot"
+    },
+    {
+      "count": 1,
+      "item": "ltxi:t4_circuit"
+    },
+    {
+      "count": 16,
+      "item": "minecraft:redstone"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:machine_upgrade": {
+        "rank": 3,
+        "upgrade": "ltxi:fabricator_upgrade"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:machine_upgrade_module"
+  }
+}

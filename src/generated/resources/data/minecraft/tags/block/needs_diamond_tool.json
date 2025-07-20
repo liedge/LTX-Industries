@@ -1,8 +1,8 @@
 {
   "values": [
-    "limatech:niobium_ore",
-    "limatech:raw_niobium_block",
-    "limatech:niobium_block",
-    "limatech:slate_alloy_block"
+    "ltxi:niobium_ore",
+    "ltxi:raw_niobium_block",
+    "ltxi:niobium_block",
+    "ltxi:slate_alloy_block"
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "b": {
+      "item": "minecraft:copper_block"
+    },
+    "c": {
+      "item": "ltxi:t1_circuit"
+    },
+    "l": {
+      "tag": "c:dyes/lime"
+    },
+    "t": {
+      "item": "ltxi:titanium_ingot"
+    }
+  },
+  "pattern": [
+    "tlt",
+    "cbc",
+    "tlt"
+  ],
+  "result": {
+    "count": 1,
+    "id": "ltxi:energy_storage_array"
+  }
+}

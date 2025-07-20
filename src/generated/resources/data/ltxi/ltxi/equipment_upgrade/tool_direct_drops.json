@@ -1,0 +1,24 @@
+{
+  "display": {
+    "category": "tools",
+    "description": {
+      "translate": "equipment_upgrade.ltxi.tool_direct_drops.desc"
+    },
+    "icon": "ltxi:magnet",
+    "title": {
+      "translate": "equipment_upgrade.ltxi.tool_direct_drops"
+    }
+  },
+  "effects": {
+    "ltxi:direct_drops": [
+      {
+        "type": "block",
+        "items": {
+          "type": "neoforge:any"
+        }
+      }
+    ]
+  },
+  "exclusive_set": [],
+  "supported_set": "#ltxi:ltx_tools/mining"
+}

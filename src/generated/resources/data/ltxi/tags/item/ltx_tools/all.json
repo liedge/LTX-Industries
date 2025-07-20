@@ -1,0 +1,11 @@
+{
+  "values": [
+    "ltxi:ltx_shears",
+    "ltxi:ltx_brush",
+    "ltxi:ltx_fishing_rod",
+    "ltxi:ltx_wrench",
+    "ltxi:ltx_lighter",
+    "#ltxi:ltx_tools/mining",
+    "#ltxi:ltx_weapons/melee"
+  ]
+}

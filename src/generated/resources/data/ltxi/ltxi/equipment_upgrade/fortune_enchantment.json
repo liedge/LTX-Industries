@@ -1,0 +1,41 @@
+{
+  "display": {
+    "category": "enchants",
+    "description": {
+      "translate": "equipment_upgrade.ltxi.fortune_enchantment.desc"
+    },
+    "icon": {
+      "type": "composite",
+      "background": "ltxi:pickaxe_head",
+      "overlay": "ltxi:clover",
+      "overlay_size": 10,
+      "x_offset": 0,
+      "y_offset": 6
+    },
+    "title": {
+      "translate": "equipment_upgrade.ltxi.fortune_enchantment"
+    }
+  },
+  "effects": {
+    "ltxi:enchantments": [
+      {
+        "enchantment": "minecraft:fortune"
+      }
+    ],
+    "ltxi:energy_usage": [
+      {
+        "type": "simple",
+        "op": "add_multiplied_base",
+        "sentiment": "negative",
+        "simple_value": {
+          "type": "linear",
+          "base": 0.5,
+          "per_level_after_first": 0.5
+        }
+      }
+    ]
+  },
+  "exclusive_set": "#ltxi:mining_drops_modifiers",
+  "max_rank": 5,
+  "supported_set": "#ltxi:ltx_tools/mining"
+}
