@@ -76,7 +76,7 @@ public class LinearFusionWeaponItem extends FullAutoWeaponItem
     @Override
     public Item getAmmoItem(ItemStack stack)
     {
-        return LTXIItems.SPECIALIST_AMMO_CANISTER.get();
+        return LTXIItems.SPECIALIST_WEAPON_ENERGY.get();
     }
 
     @Override

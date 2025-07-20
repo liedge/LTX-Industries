@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "limatech:item/auto_ammo_canister"
+    "layer0": "ltxi:item/lightweight_weapon_energy"
   }
 }

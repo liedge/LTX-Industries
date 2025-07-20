@@ -73,8 +73,8 @@ class LanguageGen extends LimaLanguageProvider
         addBlock(EQUIPMENT_UPGRADE_STATION, "Equipment Upgrade Station");
         addBlock(MOLECULAR_RECONSTRUCTOR, "Molecular Reconstructor");
 
-        addBlock(ROCKET_TURRET, ltxName("LTX A/DU %s", "Atmos"));
-        addBlock(RAILGUN_TURRET, ltxName("LTX A/DU %s", "Noctis"));
+        addBlock(ROCKET_TURRET, italicName("%s A/DS Turret", "Atmos"));
+        addBlock(RAILGUN_TURRET, italicName("%s A/DS Turret", "Noctis"));
         //#endregion
 
         //#region Items
@@ -113,17 +113,16 @@ class LanguageGen extends LimaLanguageProvider
         addItem(NETHERITE_ORE_PEBBLES, "Netherite Scrap Ore Pebbles");
         addItem(TITANIUM_ORE_PEBBLES, "Titanium Ore Pebbles");
         addItem(NIOBIUM_ORE_PEBBLES, "Niobium Ore Pebbles");
-
-        addItem(LTX_DRILL, ltxToolName("Drill"));
-        addItem(LTX_SWORD, ltxToolName("Sword"));
-        addItem(LTX_SHOVEL, ltxToolName("Shovel"));
-        addItem(LTX_AXE, ltxToolName("Axe"));
-        addItem(LTX_HOE, ltxToolName("Hoe"));
-        addItem(LTX_SHEARS, ltxToolName("Shears"));
-        addItem(LTX_BRUSH, ltxToolName("Brush"));
-        addItem(LTX_FISHING_ROD, ltxToolName("Fishing Rod"));
-        addItem(LTX_LIGHTER, ltxToolName("Lighter"));
-        addItem(LTX_WRENCH, ltxToolName("Wrench"));
+        addItem(LTX_DRILL, "ε-Series Drill");
+        addItem(LTX_SWORD, "ε-Series Sword");
+        addItem(LTX_SHOVEL, "ε-series Shovel");
+        addItem(LTX_AXE, "ε-Series Axe");
+        addItem(LTX_HOE, "ε-Series Hoe");
+        addItem(LTX_SHEARS, "ε-Series Shears");
+        addItem(LTX_BRUSH, "ε-Series Brush");
+        addItem(LTX_FISHING_ROD, "ε-Series Fishing Rod");
+        addItem(LTX_LIGHTER, "ε-Series Lighter");
+        addItem(LTX_WRENCH, "ε-Series Wrench");
 
         addItem(EMPTY_UPGRADE_MODULE, "Empty Upgrade Module");
         simpleHintItem(EMPTY_FABRICATION_BLUEPRINT, "Empty Fabrication Blueprint", "Encode a Fabrication recipe in a Fabricator.");
@@ -132,17 +131,17 @@ class LanguageGen extends LimaLanguageProvider
         simpleHintItem(EXPLOSIVES_WEAPON_TECH_SALVAGE, "Salvaged Tech: Explosive Weapon Systems", "Broken components from an explosives handling device. Might be useful in reconstructing explosive weaponry.");
         simpleHintItem(TARGETING_TECH_SALVAGE, "Salvaged Tech: Auto-Targeting Systems", "Broken electronics from a targeting computer. Might be useful in reconstructing guidance systems for weaponry.");
 
-        addItem(SUBMACHINE_GUN, ltxName("LTX 07/SD %s", "Serenity"));
-        addItem(SHOTGUN, ltxName("LTX 21/SG %s", "Aurora"));
-        addItem(GRENADE_LAUNCHER, ltxName("LTX 33/GL %s", "Hanabi"));
-        addItem(LINEAR_FUSION_RIFLE, ltxName("LTX 38/LF %s", "Stargazer"));
-        addItem(ROCKET_LAUNCHER, ltxName("LTX 42/RL %s", "Daybreak"));
-        addItem(MAGNUM, ltxName("LTX 77/HX %s", "Nova"));
+        addItem(SUBMACHINE_GUN, italicName("%s 07/SD", "Serenity"));
+        addItem(SHOTGUN, italicName("%s 21/SG", "Aurora"));
+        addItem(GRENADE_LAUNCHER, italicName("%s 33/GL", "Hanabi"));
+        addItem(LINEAR_FUSION_RIFLE, italicName("%s 38/LF", "Stargazer"));
+        addItem(ROCKET_LAUNCHER, italicName("%s 42/RL", "Daybreak"));
+        addItem(HEAVY_PISTOL, italicName("%s 77/HX", "Nova"));
 
-        simpleHintItem(AUTO_AMMO_CANISTER, "Automatics Ammo Canister", "Stabilized energy suitable for use in low-power high frequency projectile synthesis.");
-        simpleHintItem(SPECIALIST_AMMO_CANISTER, "Specialist Ammo Canister", "Concentrated energy suitable for use in medium-power projectile synthesis.");
-        simpleHintItem(EXPLOSIVES_AMMO_CANISTER, "Explosives Ammo Canister", "Volatile energy suitable for use in explosive weaponry.");
-        simpleHintItem(HEAVY_AMMO_CANISTER, "Heavy Ammo Canister", "High power concentrated energy capable of fueling heavy weaponry.");
+        simpleHintItem(LIGHTWEIGHT_WEAPON_ENERGY, "Lightweight Weapon Energy", "Stabilized energy optimized for high-frequency, low-intensity weapon systems.");
+        simpleHintItem(SPECIALIST_WEAPON_ENERGY, "Specialist Weapon Energy", "Refined energy suitable for use in medium-power projectile synthesis.");
+        simpleHintItem(EXPLOSIVES_WEAPON_ENERGY, "Explosive Weapon Energy", "Volatile burst energy suitable for use in explosive weaponry.");
+        simpleHintItem(HEAVY_WEAPON_ENERGY, "Heavy Weapon Energy", "High-density energy capable of fueling the most power-intensive weapons.");
         //#endregion
 
         //#region Equipment upgrades
@@ -161,7 +160,7 @@ class LanguageGen extends LimaLanguageProvider
 
         upgrade(LTXIEquipmentUpgrades.WEAPON_VIBRATION_CANCEL, "Echo Suppressor", "Augments weapons and projectiles with an anti-resonance field, erasing vibration signatures");
         upgrade(LTXIEquipmentUpgrades.HIGH_IMPACT_ROUNDS, "High Impact Rounds", "Light-frags with a punch! Send targets flying back regardless of their knockback resistances.");
-        upgrade(LTXIEquipmentUpgrades.MAGNUM_SCALING_ROUNDS, "Stellar Reality Disruptor", "Rip through reality itself with this Nova upgrade. Ensures swift defeat of even the strongest enemies.");
+        upgrade(LTXIEquipmentUpgrades.HEAVY_PISTOL_GOD_ROUNDS, "Stellar Reality Disruptor", "Rip through reality itself with this Nova upgrade. Ensures swift defeat of even the strongest enemies.");
 
         upgrade(LTXIEquipmentUpgrades.UNIVERSAL_STEALTH_DAMAGE, "Biometric Obfuscation", "Targeting systems mask your signature, leaving no trace of your involvement. May not be effective against all targets.");
         upgrade(LTXIEquipmentUpgrades.UNIVERSAL_ENERGY_AMMO, "Weapon Energy Systems", "Reroutes magazine feed to draw from Common Energy reserves. Say goodbye to your ammo stash.");
@@ -335,7 +334,7 @@ class LanguageGen extends LimaLanguageProvider
         soundEvent(LINEAR_FUSION_CHARGE, "Linear fusion rifle charges");
         soundEvent(LINEAR_FUSION_FIRE, "Linear fusion rifle fires");
         soundEvent(ROCKET_LAUNCHER_FIRE, "Rocket launched");
-        soundEvent(MAGNUM_FIRE, "Magnum fires");
+        soundEvent(HEAVY_PISTOL_FIRE, "Heavy pistol fires");
         soundEvent(ROCKET_EXPLODE, "Rocket explodes");
         GRENADE_EXPLOSIONS.forEach((element, holder) -> soundEvent(holder, localizeSimpleName(element) + " grenade explodes"));
         soundEvent(RAILGUN_BOOM, "Railgun booms");
@@ -390,15 +389,10 @@ class LanguageGen extends LimaLanguageProvider
         add(item.get().getShiftHint(), hint);
     }
 
-    private String ltxName(String pattern, String name)
+    private String italicName(String pattern, String name)
     {
         name = "§o" + name + "§r";
         return String.format(pattern, name);
-    }
-
-    private String ltxToolName(String name)
-    {
-        return "LTX ε-Series " + name;
     }
 
     private void noItemCausingEntityOnlyDamageMessage(ResourceKey<DamageType> damageTypeKey, String translation, String unownedTranslation)

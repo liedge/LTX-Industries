@@ -30,8 +30,6 @@ public final class LTXIItems
     public static void register(IEventBus bus)
     {
         ITEMS.register(bus);
-        ITEMS.addAlias(RESOURCES.location("rocket_launcher_ammo"), RESOURCES.location("explosives_ammo_canister"));
-        ITEMS.addAlias(RESOURCES.location("magnum_ammo_canister"), RESOURCES.location("heavy_ammo_canister"));
         bus.addListener(RegisterCapabilitiesEvent.class, LTXIItems::registerCapabilities);
     }
 
@@ -39,7 +37,7 @@ public final class LTXIItems
     {
         event.registerItem(Capabilities.EnergyStorage.ITEM, (stack, $) -> EnergyHolderItem.createEnergyAccess(stack),
                 LTX_DRILL, LTX_SWORD, LTX_SHOVEL, LTX_AXE, LTX_HOE, LTX_SHEARS, LTX_BRUSH, LTX_FISHING_ROD, LTX_LIGHTER, LTX_WRENCH,
-                SUBMACHINE_GUN, SHOTGUN, LINEAR_FUSION_RIFLE, GRENADE_LAUNCHER, ROCKET_LAUNCHER, MAGNUM);
+                SUBMACHINE_GUN, SHOTGUN, LINEAR_FUSION_RIFLE, GRENADE_LAUNCHER, ROCKET_LAUNCHER, HEAVY_PISTOL);
     }
 
     static Collection<DeferredHolder<Item, ? extends Item>> getRegisteredItems()
@@ -121,13 +119,13 @@ public final class LTXIItems
     public static final DeferredItem<GrenadeLauncherWeaponItem> GRENADE_LAUNCHER = registerLTXGear("grenade_launcher", GrenadeLauncherWeaponItem::new);
     public static final DeferredItem<LinearFusionWeaponItem> LINEAR_FUSION_RIFLE = registerLTXGear("linear_fusion_rifle", LinearFusionWeaponItem::new);
     public static final DeferredItem<RocketLauncherWeaponItem> ROCKET_LAUNCHER = registerLTXGear("rocket_launcher", RocketLauncherWeaponItem::new);
-    public static final DeferredItem<MagnumWeaponItem> MAGNUM = registerLTXGear("magnum", MagnumWeaponItem::new);
+    public static final DeferredItem<HeavyPistolWeaponItem> HEAVY_PISTOL = registerLTXGear("heavy_pistol", HeavyPistolWeaponItem::new);
 
-    // LTX weapon ammo items
-    public static final DeferredItem<SimpleHintItem> AUTO_AMMO_CANISTER = registerSimpleHint("auto_ammo_canister");
-    public static final DeferredItem<SimpleHintItem> SPECIALIST_AMMO_CANISTER = registerSimpleHint("specialist_ammo_canister");
-    public static final DeferredItem<SimpleHintItem> EXPLOSIVES_AMMO_CANISTER = registerSimpleHint("explosives_ammo_canister");
-    public static final DeferredItem<SimpleHintItem> HEAVY_AMMO_CANISTER = registerSimpleHint("heavy_ammo_canister");
+    // Weapon ammo items
+    public static final DeferredItem<SimpleHintItem> LIGHTWEIGHT_WEAPON_ENERGY = registerSimpleHint("lightweight_weapon_energy");
+    public static final DeferredItem<SimpleHintItem> SPECIALIST_WEAPON_ENERGY = registerSimpleHint("specialist_weapon_energy");
+    public static final DeferredItem<SimpleHintItem> EXPLOSIVES_WEAPON_ENERGY = registerSimpleHint("explosives_weapon_energy");
+    public static final DeferredItem<SimpleHintItem> HEAVY_WEAPON_ENERGY = registerSimpleHint("heavy_weapon_energy");
 
     private static DeferredItem<SimpleHintItem> registerSimpleHint(String name, Item.Properties properties)
     {

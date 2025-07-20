@@ -34,7 +34,7 @@ class SoundsGen extends LimaSoundDefinitionsProvider
                 .with(beginSound("linear_fusion_fire0", SoundDefinition.SoundType.SOUND))
                 .with(beginSound("linear_fusion_fire1", SoundDefinition.SoundType.SOUND)));
         addSingleDirectSound(ROCKET_LAUNCHER_FIRE);
-        addSingleDirectSound(MAGNUM_FIRE);
+        addSingleDirectSound(HEAVY_PISTOL_FIRE);
         addSingleEventSound(ROCKET_EXPLODE, GENERIC_EXPLODE);
 
         GRENADE_EXPLOSIONS.forEach((element, holder) -> {

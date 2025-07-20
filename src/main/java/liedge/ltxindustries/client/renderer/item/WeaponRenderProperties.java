@@ -42,7 +42,7 @@ public abstract class WeaponRenderProperties<T extends WeaponItem> extends LimaS
     static final ResourceLocation ANGLE_BRACKET = RESOURCES.location("crosshair/angle_bracket");
     static final ResourceLocation AOE_HORIZONTAL = RESOURCES.location("crosshair/aoe_h");
     static final ResourceLocation AOE_VERTICAL = RESOURCES.location("crosshair/aoe_v");
-    static final ResourceLocation MAGNUM_CROSSHAIR = RESOURCES.location("crosshair/magnum");
+    static final ResourceLocation HEAVY_PISTOL_CROSSHAIR = RESOURCES.location("crosshair/heavy_pistol");
 
     public static WeaponRenderProperties<?> fromItem(WeaponItem weaponItem)
     {

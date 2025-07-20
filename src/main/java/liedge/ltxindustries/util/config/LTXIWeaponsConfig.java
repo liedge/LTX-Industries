@@ -43,9 +43,9 @@ public final class LTXIWeaponsConfig
     public static final ModConfigSpec.IntValue ROCKET_LAUNCHER_ENERGY_AMMO_COST;
 
     // Magnum
-    public static final ModConfigSpec.DoubleValue MAGNUM_BASE_DAMAGE;
-    public static final ModConfigSpec.IntValue MAGNUM_ENERGY_CAPACITY;
-    public static final ModConfigSpec.IntValue MAGNUM_ENERGY_AMMO_COST;
+    public static final ModConfigSpec.DoubleValue HEAVY_PISTOL_BASE_DAMAGE;
+    public static final ModConfigSpec.IntValue HEAVY_PISTOL_ENERGY_CAPACITY;
+    public static final ModConfigSpec.IntValue HEAVY_PISTOL_ENERGY_AMMO_COST;
 
     public static final ModConfigSpec WEAPONS_CONFIG_SPEC;
 
@@ -101,10 +101,10 @@ public final class LTXIWeaponsConfig
         builder.pop();
 
         // Magnum
-        builder.push("magnum");
-        MAGNUM_BASE_DAMAGE = builder.comment(baseDamageMsg).defineInRange("base_damage", 75d, MIN_BASE_DAMAGE, MAX_BASE_DAMAGE);
-        MAGNUM_ENERGY_CAPACITY = builder.comment(ceuCapacityMsg).defineInRange("energy_capacity", 20_000_000, 1, Integer.MAX_VALUE);
-        MAGNUM_ENERGY_AMMO_COST = builder.comment(ceuAmmoCostMsg).defineInRange("energy_ammo_cost", 20_000_000, 1, Integer.MAX_VALUE);
+        builder.push("heavy_pistol");
+        HEAVY_PISTOL_BASE_DAMAGE = builder.comment(baseDamageMsg).defineInRange("base_damage", 75d, MIN_BASE_DAMAGE, MAX_BASE_DAMAGE);
+        HEAVY_PISTOL_ENERGY_CAPACITY = builder.comment(ceuCapacityMsg).defineInRange("energy_capacity", 20_000_000, 1, Integer.MAX_VALUE);
+        HEAVY_PISTOL_ENERGY_AMMO_COST = builder.comment(ceuAmmoCostMsg).defineInRange("energy_ammo_cost", 20_000_000, 1, Integer.MAX_VALUE);
         builder.pop();
 
         WEAPONS_CONFIG_SPEC = builder.build();

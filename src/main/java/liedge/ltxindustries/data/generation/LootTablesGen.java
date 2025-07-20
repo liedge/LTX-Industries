@@ -99,10 +99,10 @@ class LootTablesGen extends LimaLootTableProvider
             LootPool.Builder ammoDrops = LootPool.lootPool()
                     .when(LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity().subPredicate(HostileEntitySubPredicate.INSTANCE)))
                     .when(LootItemRandomChanceWithEnchantedBonusCondition.randomChanceAndLootingBoost(registries, 0.1f, 0.02f))
-                    .add(lootItem(AUTO_AMMO_CANISTER).setWeight(80))
-                    .add(DynamicWeightLootEntry.dynamicWeightItem(SPECIALIST_AMMO_CANISTER, 15).setReplaceWeight(false).setDynamicWeight(TargetedEnchantmentLevelProvider.of(LootContext.EntityTarget.ATTACKER, ammoScavengerEnchantment, LevelBasedValue.perLevel(6))))
-                    .add(DynamicWeightLootEntry.dynamicWeightItem(EXPLOSIVES_AMMO_CANISTER, 5).setReplaceWeight(false).setDynamicWeight(TargetedEnchantmentLevelProvider.of(LootContext.EntityTarget.ATTACKER, ammoScavengerEnchantment, LevelBasedValue.perLevel(3))))
-                    .add(DynamicWeightLootEntry.dynamicWeightItem(HEAVY_AMMO_CANISTER, 1).setReplaceWeight(false).setDynamicWeight(TargetedEnchantmentLevelProvider.of(LootContext.EntityTarget.ATTACKER, ammoScavengerEnchantment, LevelBasedValue.perLevel(2))))
+                    .add(lootItem(LIGHTWEIGHT_WEAPON_ENERGY).setWeight(80))
+                    .add(DynamicWeightLootEntry.dynamicWeightItem(SPECIALIST_WEAPON_ENERGY, 15).setReplaceWeight(false).setDynamicWeight(TargetedEnchantmentLevelProvider.of(LootContext.EntityTarget.ATTACKER, ammoScavengerEnchantment, LevelBasedValue.perLevel(6))))
+                    .add(DynamicWeightLootEntry.dynamicWeightItem(EXPLOSIVES_WEAPON_ENERGY, 5).setReplaceWeight(false).setDynamicWeight(TargetedEnchantmentLevelProvider.of(LootContext.EntityTarget.ATTACKER, ammoScavengerEnchantment, LevelBasedValue.perLevel(3))))
+                    .add(DynamicWeightLootEntry.dynamicWeightItem(HEAVY_WEAPON_ENERGY, 1).setReplaceWeight(false).setDynamicWeight(TargetedEnchantmentLevelProvider.of(LootContext.EntityTarget.ATTACKER, ammoScavengerEnchantment, LevelBasedValue.perLevel(2))))
                     .setRolls(RoundingNumberProvider.of(TargetedEnchantmentLevelProvider.of(LootContext.EntityTarget.ATTACKER, ammoScavengerEnchantment, EnhancedLookupLevelBasedValue.offsetLookup(4, 1, 2, 1.5f)), LimaRoundingMode.RANDOM));
 
             addTable(ENEMY_AMMO_DROPS, LootTable.lootTable().withPool(ammoDrops));

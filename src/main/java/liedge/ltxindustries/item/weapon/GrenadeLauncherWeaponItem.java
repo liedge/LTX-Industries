@@ -112,7 +112,7 @@ public class GrenadeLauncherWeaponItem extends SemiAutoWeaponItem implements Scr
     @Override
     public Item getAmmoItem(ItemStack stack)
     {
-        return LTXIItems.EXPLOSIVES_AMMO_CANISTER.asItem();
+        return LTXIItems.EXPLOSIVES_WEAPON_ENERGY.asItem();
     }
 
     @Override

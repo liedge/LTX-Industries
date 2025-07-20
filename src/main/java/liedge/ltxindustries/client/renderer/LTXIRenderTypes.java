@@ -31,7 +31,7 @@ public final class LTXIRenderTypes
 
     public static final RenderType LOCK_ON_INDICATOR = RenderType.create("lock_on_indicator", DefaultVertexFormat.POSITION_TEX_COLOR, VertexFormat.Mode.QUADS, 512, false, false, RenderType.CompositeState.builder()
             .setShaderState(POSITION_TEX_COLOR_SHADER)
-            .setTextureState(new RenderStateShard.TextureStateShard(LTXIndustries.RESOURCES.textureLocation("entity", "target_triangle"), false, false))
+            .setTextureState(new RenderStateShard.TextureStateShard(LTXIndustries.RESOURCES.textureLocation("misc", "target_triangle"), false, false))
             .setDepthTestState(RenderStateShard.NO_DEPTH_TEST)
             .setCullState(RenderStateShard.NO_CULL)
             .createCompositeState(false));

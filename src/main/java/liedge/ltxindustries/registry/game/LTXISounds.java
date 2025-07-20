@@ -33,7 +33,7 @@ public final class LTXISounds
     public static final DeferredHolder<SoundEvent, SoundEvent> LINEAR_FUSION_CHARGE = registerSound("linear_fusion_charge");
     public static final DeferredHolder<SoundEvent, SoundEvent> LINEAR_FUSION_FIRE = registerSound("linear_fusion_fire");
     public static final DeferredHolder<SoundEvent, SoundEvent> ROCKET_LAUNCHER_FIRE = registerSound("rocket_launcher_fire");
-    public static final DeferredHolder<SoundEvent, SoundEvent> MAGNUM_FIRE = registerSound("magnum_fire");
+    public static final DeferredHolder<SoundEvent, SoundEvent> HEAVY_PISTOL_FIRE = registerSound("heavy_pistol_fire");
     public static final DeferredHolder<SoundEvent, SoundEvent> ROCKET_EXPLODE = registerSound("rocket_explode");
     public static final Map<GrenadeType, DeferredHolder<SoundEvent, SoundEvent>> GRENADE_EXPLOSIONS = LimaCollectionsUtil.fillAndCreateImmutableEnumMap(GrenadeType.class, e -> registerSound(e.getSerializedName() + "_grenade_explode"));
     public static final DeferredHolder<SoundEvent, SoundEvent> RAILGUN_BOOM = registerSound("railgun_boom");

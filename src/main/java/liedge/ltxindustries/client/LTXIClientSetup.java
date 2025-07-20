@@ -79,7 +79,7 @@ public final class LTXIClientSetup
         event.registerItem(LTXIItemRenderers.GRENADE_LAUNCHER, LTXIItems.GRENADE_LAUNCHER.get());
         event.registerItem(LTXIItemRenderers.LINEAR_FUSION_RIFLE, LTXIItems.LINEAR_FUSION_RIFLE.get());
         event.registerItem(LTXIItemRenderers.ROCKET_LAUNCHER, LTXIItems.ROCKET_LAUNCHER.get());
-        event.registerItem(LTXIItemRenderers.MAGNUM, LTXIItems.MAGNUM.get());
+        event.registerItem(LTXIItemRenderers.HEAVY_PISTOL, LTXIItems.HEAVY_PISTOL.get());
     }
 
     @SubscribeEvent

@@ -57,7 +57,7 @@ public class SMGWeaponItem extends FullAutoWeaponItem
     @Override
     public Item getAmmoItem(ItemStack stack)
     {
-        return LTXIItems.AUTO_AMMO_CANISTER.asItem();
+        return LTXIItems.LIGHTWEIGHT_WEAPON_ENERGY.asItem();
     }
 
     @Override

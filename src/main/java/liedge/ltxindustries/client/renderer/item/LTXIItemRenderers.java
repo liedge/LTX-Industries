@@ -35,5 +35,5 @@ public final class LTXIItemRenderers
     public static final GrenadeLauncherRenderProperties GRENADE_LAUNCHER = register(new GrenadeLauncherRenderProperties());
     public static final LinearFusionRenderProperties LINEAR_FUSION_RIFLE = register(new LinearFusionRenderProperties());
     public static final RocketLauncherRenderProperties ROCKET_LAUNCHER = register(new RocketLauncherRenderProperties());
-    public static final MagnumRenderProperties MAGNUM = register(new MagnumRenderProperties());
+    public static final HeavyPistolRenderProperties HEAVY_PISTOL = register(new HeavyPistolRenderProperties());
 }

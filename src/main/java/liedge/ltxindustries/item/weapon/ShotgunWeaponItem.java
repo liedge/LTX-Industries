@@ -70,7 +70,7 @@ public class ShotgunWeaponItem extends SemiAutoWeaponItem
     @Override
     public Item getAmmoItem(ItemStack stack)
     {
-        return LTXIItems.SPECIALIST_AMMO_CANISTER.asItem();
+        return LTXIItems.SPECIALIST_WEAPON_ENERGY.asItem();
     }
 
     @Override

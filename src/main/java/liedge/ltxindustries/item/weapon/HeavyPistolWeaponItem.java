@@ -15,9 +15,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-public class MagnumWeaponItem extends SemiAutoWeaponItem
+public class HeavyPistolWeaponItem extends SemiAutoWeaponItem
 {
-    public MagnumWeaponItem(Properties properties)
+    public HeavyPistolWeaponItem(Properties properties)
     {
         super(properties);
     }
@@ -31,31 +31,31 @@ public class MagnumWeaponItem extends SemiAutoWeaponItem
             CompoundHitResult hitResult = CompoundHitResult.tracePath(level, player, 25d, inaccuracy, 0.25d, 1000);
             EquipmentUpgrades upgrades = getUpgrades(heldItem);
 
-            hitResult.entityHits().forEach(hit -> causeInstantDamage(upgrades, player, hit.getEntity(), LTXIWeaponsConfig.MAGNUM_BASE_DAMAGE.getAsDouble()));
+            hitResult.entityHits().forEach(hit -> causeInstantDamage(upgrades, player, hit.getEntity(), LTXIWeaponsConfig.HEAVY_PISTOL_BASE_DAMAGE.getAsDouble()));
             level.gameEvent(player, LTXIGameEvents.WEAPON_FIRED, player.getEyePosition());
 
             sendTracerParticle(level, hitResult.origin(), hitResult.impactLocation());
         }
 
-        level.playSound(player, player, LTXISounds.MAGNUM_FIRE.get(), SoundSource.PLAYERS, 1.0f, 0.75f + (player.getRandom().nextFloat() * 0.2f));
+        level.playSound(player, player, LTXISounds.HEAVY_PISTOL_FIRE.get(), SoundSource.PLAYERS, 1.0f, 0.75f + (player.getRandom().nextFloat() * 0.2f));
     }
 
     @Override
     public int getBaseEnergyCapacity(ItemStack stack)
     {
-        return LTXIWeaponsConfig.MAGNUM_ENERGY_CAPACITY.getAsInt();
+        return LTXIWeaponsConfig.HEAVY_PISTOL_ENERGY_CAPACITY.getAsInt();
     }
 
     @Override
     public int getBaseEnergyUsage(ItemStack stack)
     {
-        return LTXIWeaponsConfig.MAGNUM_ENERGY_CAPACITY.getAsInt();
+        return LTXIWeaponsConfig.HEAVY_PISTOL_ENERGY_CAPACITY.getAsInt();
     }
 
     @Override
     public Item getAmmoItem(ItemStack stack)
     {
-        return LTXIItems.HEAVY_AMMO_CANISTER.asItem();
+        return LTXIItems.HEAVY_WEAPON_ENERGY.asItem();
     }
 
     @Override

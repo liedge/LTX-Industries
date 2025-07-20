@@ -75,7 +75,7 @@ public final class LTXIEquipmentUpgrades
     public static final ResourceKey<EquipmentUpgrade> WEAPON_ARMOR_PIERCE = key("weapon_armor_pierce");
     public static final ResourceKey<EquipmentUpgrade> WEAPON_SHIELD_REGEN = key("weapon_shield_regen");
     public static final ResourceKey<EquipmentUpgrade> HIGH_IMPACT_ROUNDS = key("high_impact_rounds");
-    public static final ResourceKey<EquipmentUpgrade> MAGNUM_SCALING_ROUNDS = key("magnum_scaling_rounds");
+    public static final ResourceKey<EquipmentUpgrade> HEAVY_PISTOL_GOD_ROUNDS = key("heavy_pistol_god_rounds");
     public static final ResourceKey<EquipmentUpgrade> GRENADE_LAUNCHER_PROJECTILE_SPEED = key("grenade_launcher_projectile_speed");
 
     // Enchantments
@@ -197,17 +197,17 @@ public final class LTXIEquipmentUpgrades
 
         // Weapon-specific upgrades
         EquipmentUpgrade.builder(HIGH_IMPACT_ROUNDS)
-                .supports(LTXIItems.SHOTGUN, LTXIItems.MAGNUM)
+                .supports(LTXIItems.SHOTGUN, LTXIItems.HEAVY_PISTOL)
                 .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, DamageAttributesUpgradeEffect.of(Attributes.KNOCKBACK_RESISTANCE, HIGH_IMPACT_ROUNDS.location().withSuffix(".knockback_resist"), LevelBasedValue.constant(-1f), AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL))
                 .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, DamageAttributesUpgradeEffect.of(LimaCoreAttributes.KNOCKBACK_MULTIPLIER, HIGH_IMPACT_ROUNDS.location().withSuffix(".knockback"), LevelBasedValue.perLevel(2f), AttributeModifier.Operation.ADD_VALUE))
                 .effectIcon(sprite("powerful_lightfrag"))
                 .register(context);
-        EquipmentUpgrade.builder(MAGNUM_SCALING_ROUNDS)
-                .supports(LTXIItems.MAGNUM)
+        EquipmentUpgrade.builder(HEAVY_PISTOL_GOD_ROUNDS)
+                .supports(LTXIItems.HEAVY_PISTOL)
                 .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, DynamicDamageTagUpgradeEffect.of(LTXITags.DamageTypes.BYPASS_SURVIVAL_DEFENSES))
                 .withConditionalEffect(EQUIPMENT_DAMAGE, ValueUpgradeEffect.create(MathOpsNumberProvider.of(TargetedAttributeValueProvider.of(LootContext.EntityTarget.THIS, Attributes.MAX_HEALTH), ConstantValue.exactly(0.25f), MathOperation.MULTIPLY), CompoundValueOperation.FLAT_ADDITION,
                         new AttributeAmountTooltip(LootContext.EntityTarget.THIS, Attributes.MAX_HEALTH, LevelBasedValue.constant(0.25f))))
-                .effectIcon(bottomLeftComposite(itemIcon(LTXIItems.MAGNUM), sprite("powerful_lightfrag")))
+                .effectIcon(bottomLeftComposite(itemIcon(LTXIItems.HEAVY_PISTOL), sprite("powerful_lightfrag")))
                 .register(context);
         EquipmentUpgrade.builder(GRENADE_LAUNCHER_PROJECTILE_SPEED)
                 .supports(LTXIItems.GRENADE_LAUNCHER)

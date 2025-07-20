@@ -134,7 +134,7 @@ public class RocketLauncherWeaponItem extends SemiAutoWeaponItem
     @Override
     public Item getAmmoItem(ItemStack stack)
     {
-        return LTXIItems.EXPLOSIVES_AMMO_CANISTER.get();
+        return LTXIItems.EXPLOSIVES_WEAPON_ENERGY.get();
     }
 
     @Override

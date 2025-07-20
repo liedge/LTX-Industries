@@ -17,10 +17,10 @@
 		}
 	],
 	"textures": {
-		"grip_rails": "limatech:item/weapons/grip_and_rails",
-		"gun_lights": "limatech:block/glows/lime_solid",
-		"gun1": "limatech:item/weapons/magnum_0",
-		"gun2": "limatech:item/weapons/magnum_1"
+		"grip_rails": "ltxi:item/weapons/grip_and_rails",
+		"gun_lights": "ltxi:solid_lime",
+		"gun1": "ltxi:item/weapons/magnum_0",
+		"gun2": "ltxi:item/weapons/magnum_1"
 	},
 	"elements": [
 		{
