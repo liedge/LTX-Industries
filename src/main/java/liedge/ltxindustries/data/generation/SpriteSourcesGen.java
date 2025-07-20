@@ -35,6 +35,9 @@ class SpriteSourcesGen extends SpriteSourceProvider
         atlas(UpgradeIconSprites.ATLAS_LOCATION)
                 .addSource(nsDirSource("upgrade_module"))
                 .addSource(machineModuleIcon);
+
+        // Additional block sprites
+        atlas(BLOCKS_ATLAS).addSource(new SingleFile(RESOURCES.location("misc/solid_lime"), Optional.of(RESOURCES.location("solid_lime"))));
     }
 
     private SpriteSource nsDirSource(String path)
