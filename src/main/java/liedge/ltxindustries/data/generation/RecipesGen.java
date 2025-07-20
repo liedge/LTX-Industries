@@ -118,7 +118,7 @@ class RecipesGen extends LimaRecipeProvider
         shaped(mumStack(registries, STANDARD_MACHINE_SYSTEMS, 6)).input('m', mumIngredient(registries, STANDARD_MACHINE_SYSTEMS, 5)).input('r', REDSTONE).input('c', T3_CIRCUIT)
                 .patterns(" r ", "rmr", " c ").save(output, smsRecipeName + "_6");
 
-        GLOW_BLOCKS.forEach((color, deferredBlock) -> shaped(deferredBlock, 4).input('d', color.getTag()).input('g', GLOWSTONE).patterns("dg", "gd").save(output));
+        //GLOW_BLOCKS.forEach((color, deferredBlock) -> shaped(deferredBlock, 4).input('d', color.getTag()).input('g', GLOWSTONE).patterns("dg", "gd").save(output));
         //#endregion
 
         // Smelting/cooking recipes
@@ -191,7 +191,7 @@ class RecipesGen extends LimaRecipeProvider
                 .input(NETHERITE_SCRAP, 4)
                 .input(GOLD_INGOT)
                 .save(output);
-        GLOW_BLOCKS.forEach((color, block) -> fusing(stackOf(block, 8)).input(LTXITags.Items.GLOW_BLOCK_MATERIALS, 2).input(color.getTag()).save(output));
+        //GLOW_BLOCKS.forEach((color, block) -> fusing(stackOf(block, 8)).input(LTXITags.Items.GLOW_BLOCK_MATERIALS, 2).input(color.getTag()).save(output));
         fusing(stackOf(TITANIUM_GLASS, 2)).input(TITANIUM_INGOT).input(GEMS_QUARTZ, 3).save(output);
         fusing(stackOf(SLATE_GLASS, 2)).input(SLATE_ALLOY_INGOT).input(GEMS_QUARTZ, 3).save(output);
 

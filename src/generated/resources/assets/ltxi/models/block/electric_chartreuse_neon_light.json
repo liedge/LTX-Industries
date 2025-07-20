@@ -1,0 +1,6 @@
+{
+  "parent": "ltxi:block/neon_light_base",
+  "textures": {
+    "all": "ltxi:block/neon_light/electric_chartreuse"
+  }
+}

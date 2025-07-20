@@ -34,7 +34,7 @@
 	"textures": {
 		"grip_rails": "ltxi:item/weapons/grip_and_rails",
 		"lights": "ltxi:solid_lime",
-		"chamber light": "ltxi:block/glows/white_solid",
+ 		"chamber light": "neoforge:white",
 		"gun1": "ltxi:item/weapons/grenade_launcher_0",
 		"gun2": "ltxi:item/weapons/grenade_launcher_1"
 	},

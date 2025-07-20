@@ -1,6 +1,0 @@
-{
-  "parent": "ltxi:block/glow_block",
-  "textures": {
-    "all": "ltxi:block/glow_blocks/lime"
-  }
-}
