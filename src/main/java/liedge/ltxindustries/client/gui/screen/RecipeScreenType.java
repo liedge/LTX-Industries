@@ -5,8 +5,7 @@ public enum RecipeScreenType
     DIGITAL_FURNACE(75, 39, 24, 6),
     DIGITAL_SMOKER(75, 39, 24, 6),
     DIGITAL_BLAST_FURNACE(75, 39, 24, 6),
-    GRINDER(75, 39, 24, 6),
-    RECOMPOSER(75, 39, 24, 6);
+    GRINDER(75, 39, 24, 6);
 
     private final int recipeAreaX;
     private final int recipeAreaY;

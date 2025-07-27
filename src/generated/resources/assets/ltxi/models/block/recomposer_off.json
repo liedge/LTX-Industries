@@ -1,6 +1,0 @@
-{
-  "parent": "ltxi:block/basic_machine_sew",
-  "textures": {
-    "front": "ltxi:block/recomposer_off"
-  }
-}

@@ -39,7 +39,7 @@ public final class LTXIBlockEntities
     {
         // Machine capability registration (energy & items)
         Stream.of(ENERGY_STORAGE_ARRAY, INFINITE_ENERGY_STORAGE_ARRAY, DIGITAL_FURNACE, DIGITAL_SMOKER, DIGITAL_BLAST_FURNACE, GRINDER,
-                RECOMPOSER, MATERIAL_FUSING_CHAMBER, FABRICATOR, AUTO_FABRICATOR, MOLECULAR_RECONSTRUCTOR, ROCKET_TURRET, RAILGUN_TURRET).map(DeferredHolder::get).forEach(machineType ->
+                MATERIAL_FUSING_CHAMBER, FABRICATOR, AUTO_FABRICATOR, MOLECULAR_RECONSTRUCTOR, ROCKET_TURRET, RAILGUN_TURRET).map(DeferredHolder::get).forEach(machineType ->
         {
             event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, machineType, EnergyHolderBlockEntity::createEnergyIOWrapper);
             event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, machineType, ItemHolderBlockEntity::createItemIOWrapper);
@@ -85,7 +85,6 @@ public final class LTXIBlockEntities
     public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<DigitalSmokerBlockEntity>> DIGITAL_SMOKER = registerSimpleRecipeMachine(LTXICommonIds.ID_DIGITAL_SMOKER, DigitalSmokerBlockEntity::new, builder -> builder.withBlock(LTXIBlocks.DIGITAL_SMOKER));
     public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<DigitalBlastFurnaceBlockEntity>> DIGITAL_BLAST_FURNACE = registerSimpleRecipeMachine(LTXICommonIds.ID_DIGITAL_BLAST_FURNACE, DigitalBlastFurnaceBlockEntity::new, builder -> builder.withBlock(LTXIBlocks.DIGITAL_BLAST_FURNACE));
     public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<GrinderBlockEntity>> GRINDER = registerSimpleRecipeMachine(LTXICommonIds.ID_GRINDER, GrinderBlockEntity::new, builder -> builder.withBlock(LTXIBlocks.GRINDER));
-    public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<RecomposerBlockEntity>> RECOMPOSER = registerSimpleRecipeMachine(LTXICommonIds.ID_RECOMPOSER, RecomposerBlockEntity::new, builder -> builder.withBlock(LTXIBlocks.RECOMPOSER));
     public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<MaterialFusingChamberBlockEntity>> MATERIAL_FUSING_CHAMBER = registerSimpleRecipeMachine(LTXICommonIds.ID_MATERIAL_FUSING_CHAMBER, MaterialFusingChamberBlockEntity::new, builder -> builder.withBlock(LTXIBlocks.MATERIAL_FUSING_CHAMBER));
     public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<FabricatorBlockEntity>> FABRICATOR = registerSimpleRecipeMachine(LTXICommonIds.ID_FABRICATOR, FabricatorBlockEntity::new, builder -> builder.withBlock(LTXIBlocks.FABRICATOR));
     public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<AutoFabricatorBlockEntity>> AUTO_FABRICATOR = registerSimpleRecipeMachine(LTXICommonIds.ID_AUTO_FABRICATOR, AutoFabricatorBlockEntity::new, builder -> builder.withBlock(LTXIBlocks.AUTO_FABRICATOR));

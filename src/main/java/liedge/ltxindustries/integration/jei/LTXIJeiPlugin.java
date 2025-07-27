@@ -10,7 +10,6 @@ import liedge.ltxindustries.lib.upgrades.UpgradeBaseEntry;
 import liedge.ltxindustries.recipe.FabricatingRecipe;
 import liedge.ltxindustries.recipe.GrindingRecipe;
 import liedge.ltxindustries.recipe.MaterialFusingRecipe;
-import liedge.ltxindustries.recipe.RecomposingRecipe;
 import liedge.ltxindustries.registry.game.LTXIBlocks;
 import liedge.ltxindustries.registry.game.LTXIItems;
 import mezz.jei.api.IModPlugin;
@@ -43,7 +42,6 @@ public class LTXIJeiPlugin implements IModPlugin
     private static final ResourceLocation PLUGIN_ID = LTXIndustries.RESOURCES.location("jei_plugin");
 
     static final RecipeType<RecipeHolder<GrindingRecipe>> GRINDING_JEI = createType(GRINDING);
-    static final RecipeType<RecipeHolder<RecomposingRecipe>> RECOMPOSING_JEI = createType(RECOMPOSING);
     static final RecipeType<RecipeHolder<MaterialFusingRecipe>> MATERIAL_FUSING_JEI = createType(MATERIAL_FUSING);
     static final RecipeType<RecipeHolder<FabricatingRecipe>> FABRICATING_JEI = createType(FABRICATING);
 
@@ -66,7 +64,6 @@ public class LTXIJeiPlugin implements IModPlugin
         IGuiHelper helper = registration.getJeiHelpers().getGuiHelper();
 
         registration.addRecipeCategories(new GrindingJEICategory(helper, GRINDING));
-        registration.addRecipeCategories(new RecomposingJEICategory(helper, RECOMPOSING));
         registration.addRecipeCategories(new MaterialFusingJEICategory(helper, MATERIAL_FUSING));
         registration.addRecipeCategories(new FabricatingJEICategory(helper, FABRICATING));
     }
@@ -78,7 +75,6 @@ public class LTXIJeiPlugin implements IModPlugin
         RecipeManager manager = level.getRecipeManager();
 
         registration.addRecipes(GRINDING_JEI, manager.getAllRecipesFor(GRINDING.get()));
-        registration.addRecipes(RECOMPOSING_JEI, manager.getAllRecipesFor(RECOMPOSING.get()));
         registration.addRecipes(MATERIAL_FUSING_JEI, manager.getAllRecipesFor(MATERIAL_FUSING.get()));
         List<RecipeHolder<FabricatingRecipe>> fabricatingRecipes = LimaRecipesUtil.getSortedRecipesForType(level, FABRICATING, Comparator.comparing(holder -> holder.value().getGroup()), Comparator.comparing(holder -> holder.id().getPath()));
         registration.addRecipes(FABRICATING_JEI, fabricatingRecipes);
@@ -91,7 +87,6 @@ public class LTXIJeiPlugin implements IModPlugin
         registration.addRecipeCatalyst(LTXIBlocks.DIGITAL_SMOKER.toStack(), RecipeTypes.SMOKING);
         registration.addRecipeCatalyst(LTXIBlocks.DIGITAL_BLAST_FURNACE.toStack(), RecipeTypes.BLASTING);
         registration.addRecipeCatalyst(LTXIBlocks.GRINDER.toStack(), GRINDING_JEI);
-        registration.addRecipeCatalyst(LTXIBlocks.RECOMPOSER.toStack(), RECOMPOSING_JEI);
         registration.addRecipeCatalyst(LTXIBlocks.MATERIAL_FUSING_CHAMBER.toStack(), MATERIAL_FUSING_JEI);
         registration.addRecipeCatalyst(LTXIBlocks.FABRICATOR.toStack(), FABRICATING_JEI);
         registration.addRecipeCatalyst(LTXIBlocks.AUTO_FABRICATOR.toStack(), FABRICATING_JEI);
@@ -130,7 +125,6 @@ public class LTXIJeiPlugin implements IModPlugin
             case DIGITAL_SMOKER -> RecipeTypes.SMOKING;
             case DIGITAL_BLAST_FURNACE -> RecipeTypes.BLASTING;
             case GRINDER -> GRINDING_JEI;
-            case RECOMPOSER -> RECOMPOSING_JEI;
         };
     }
 

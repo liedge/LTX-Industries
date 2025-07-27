@@ -86,7 +86,6 @@ class BlockStatesGen extends LimaBlockStateProvider
         cookingMachine(DIGITAL_SMOKER);
         cookingMachine(DIGITAL_BLAST_FURNACE);
         basicMachine(GRINDER, ($, builder) -> builder.parent(basicMachineSEW), ($, builder) -> builder.parent(basicMachineSEW));
-        emissiveFrontMachine(RECOMPOSER);
         emissiveFrontMachine(MATERIAL_FUSING_CHAMBER);
         horizontalBlockWithSimpleItem(FABRICATOR);
         horizontalBlockWithSimpleItem(AUTO_FABRICATOR, blockFolderLocation(FABRICATOR));

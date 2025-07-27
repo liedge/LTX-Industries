@@ -23,7 +23,6 @@ public final class LTXIRecipeSerializers
     }
 
     public static final DeferredHolder<RecipeSerializer<?>, LimaRecipeSerializer<GrindingRecipe>> GRINDING = SERIALIZERS.register("grinding", id -> LimaSimpleSizedIngredientRecipe.maxIngredientsSerializer(id, GrindingRecipe::new, 1));
-    public static final DeferredHolder<RecipeSerializer<?>, LimaRecipeSerializer<RecomposingRecipe>> RECOMPOSING = SERIALIZERS.register("recomposing", id -> LimaSimpleSizedIngredientRecipe.maxIngredientsSerializer(id, RecomposingRecipe::new, 1));
     public static final DeferredHolder<RecipeSerializer<?>, LimaRecipeSerializer<MaterialFusingRecipe>> MATERIAL_FUSING = SERIALIZERS.register("material_fusing", id -> LimaSimpleSizedIngredientRecipe.maxIngredientsSerializer(id, MaterialFusingRecipe::new, 3));
     public static final DeferredHolder<RecipeSerializer<?>, LimaRecipeSerializer<FabricatingRecipe>> FABRICATING = SERIALIZERS.register("fabricating", id -> new LimaRecipeSerializer<>(id, FabricatingRecipe.CODEC, FabricatingRecipe.STREAM_CODEC));
 

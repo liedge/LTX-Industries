@@ -72,7 +72,6 @@ class LanguageGen extends LimaLanguageProvider
         addBlock(DIGITAL_SMOKER, "Digital Smoker");
         addBlock(DIGITAL_BLAST_FURNACE, "Digital Blast Furnace");
         addBlock(GRINDER, "Grinder");
-        addBlock(RECOMPOSER, "Recomposer");
         addBlock(MATERIAL_FUSING_CHAMBER, "Material Fusing Chamber");
         addBlock(FABRICATOR, "Fabricator");
         addBlock(AUTO_FABRICATOR, "Auto Fabricator");
@@ -216,7 +215,6 @@ class LanguageGen extends LimaLanguageProvider
         add(LTXIMenus.DIGITAL_SMOKER, "Digital Smoker");
         add(LTXIMenus.DIGITAL_BLAST_FURNACE, "Digital Blast Furnace");
         add(LTXIMenus.GRINDER, "Grinder");
-        add(LTXIMenus.RECOMPOSER, "Recomposer");
         add(LTXIMenus.MATERIAL_FUSING_CHAMBER, "Material Fusing Chamber");
         add(LTXIMenus.FABRICATOR, "Fabricator");
         add(LTXIMenus.AUTO_FABRICATOR, "Auto Fabricator");
@@ -233,7 +231,6 @@ class LanguageGen extends LimaLanguageProvider
 
         // Recipe types
         add(GRINDING, "Grinding");
-        add(RECOMPOSING, "Recomposing");
         add(MATERIAL_FUSING, "Material Fusing");
         add(FABRICATING, "Fabricating");
 

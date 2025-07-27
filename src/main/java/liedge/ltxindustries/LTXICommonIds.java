@@ -15,7 +15,6 @@ public final class LTXICommonIds
     public static final String ID_DIGITAL_SMOKER = "digital_smoker";
     public static final String ID_DIGITAL_BLAST_FURNACE = "digital_blast_furnace";
     public static final String ID_GRINDER = "grinder";
-    public static final String ID_RECOMPOSER = "recomposer";
     public static final String ID_MATERIAL_FUSING_CHAMBER = "material_fusing_chamber";
     public static final String ID_FABRICATOR = "fabricator";
     public static final String ID_AUTO_FABRICATOR = "auto_fabricator";

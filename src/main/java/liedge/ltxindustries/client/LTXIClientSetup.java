@@ -102,7 +102,6 @@ public final class LTXIClientSetup
         SingleItemRecipeScreen.registerScreen(event, LTXIMenus.DIGITAL_SMOKER, RecipeScreenType.DIGITAL_SMOKER);
         SingleItemRecipeScreen.registerScreen(event, LTXIMenus.DIGITAL_BLAST_FURNACE, RecipeScreenType.DIGITAL_BLAST_FURNACE);
         SingleItemRecipeScreen.registerScreen(event, LTXIMenus.GRINDER, RecipeScreenType.GRINDER);
-        SingleItemRecipeScreen.registerScreen(event, LTXIMenus.RECOMPOSER, RecipeScreenType.RECOMPOSER);
         event.register(LTXIMenus.MATERIAL_FUSING_CHAMBER.get(), MaterialFusingChamberScreen::new);
         event.register(LTXIMenus.FABRICATOR.get(), FabricatorScreen::new);
         event.register(LTXIMenus.AUTO_FABRICATOR.get(), AutoFabricatorScreen::new);

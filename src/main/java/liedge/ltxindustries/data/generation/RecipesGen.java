@@ -98,7 +98,6 @@ class RecipesGen extends LimaRecipeProvider
         shaped(DIGITAL_SMOKER).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('l', DYES_LIME).input('a', SMOKER).input('g', GLASS_BLOCKS_CHEAP).patterns("tgt", "cac", "tlt").save(output);
         shaped(DIGITAL_BLAST_FURNACE).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('l', DYES_LIME).input('a', BLAST_FURNACE).input('g', GLASS_BLOCKS_CHEAP).patterns("tgt", "cac", "tlt").save(output);
         shaped(GRINDER).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('l', DYES_LIME).input('a', GRINDSTONE).patterns("tlt", "cac", "ttt").save(output);
-        shaped(RECOMPOSER).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('r', LIGHTNING_ROD).input('g', GLASS_BLOCKS_CHEAP).patterns("ttt", "rgr", "tct").save(output);
         shaped(MATERIAL_FUSING_CHAMBER).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('l', DYES_LIME).input('a', BLAST_FURNACE).patterns("tlt", "cac", "ttt").save(output);
         shaped(FABRICATOR).input('t', TITANIUM_INGOT).input('e', T3_CIRCUIT).input('l', DYES_LIME).input('c', CRAFTER).patterns("tlt", "ece", "tet").save(output);
         shaped(EQUIPMENT_UPGRADE_STATION).input('t', TITANIUM_INGOT).input('a', ANVIL).input('l', DYES_LIME).patterns("ttt",  "lal", "ttt").save(output);
@@ -161,21 +160,6 @@ class RecipesGen extends LimaRecipeProvider
         orePebbleGrinding(NETHERITE_ORE_PEBBLES, Tags.Items.ORES_NETHERITE_SCRAP, null, "netherite", output);
         orePebbleGrinding(TITANIUM_ORE_PEBBLES, LTXITags.Items.TITANIUM_ORES, LTXITags.Items.RAW_TITANIUM_MATERIALS, "titanium", output);
         orePebbleGrinding(NIOBIUM_ORE_PEBBLES, LTXITags.Items.NIOBIUM_ORES, LTXITags.Items.RAW_NIOBIUM_MATERIALS, "niobium", output);
-
-        // Recomposing Recipes
-        recomposing(stackOf(LIME_PIGMENT, 2))
-                .input(ItemTags.LEAVES, 8)
-                .save(output, "extract_dye_from_leaves");
-        recomposing(stackOf(LIME_PIGMENT))
-                .input(Tags.Items.SEEDS, 8)
-                .save(output, "extract_dye_from_seeds");
-        recomposing(stackOf(WHITE_PIGMENT, 12))
-                .input(TITANIUM_INGOT)
-                .save(output, "extract_titanium_white");
-        recomposing(GuideMEIntegration.createGuideTabletItem())
-                .condition(new ModLoadedCondition("guideme"))
-                .input(BOOK)
-                .save(output, "guide_tablet");
 
         // Material fusing recipes
         fusing(stackOf(SLATE_ALLOY_INGOT))
@@ -657,11 +641,6 @@ class RecipesGen extends LimaRecipeProvider
     {
         grinding(stackOf(orePebble, 3)).input(oreTag).save(output, "grind_" + name + "_ores");
         if (rawOreTag != null) grinding(stackOf(orePebble, 2)).input(rawOreTag).save(output, "grind_raw_" + name + "_materials");
-    }
-
-    private LimaSizedIngredientsRecipeBuilder.SimpleBuilder<RecomposingRecipe, ?> recomposing(ItemStack result)
-    {
-        return LimaSizedIngredientsRecipeBuilder.simpleBuilder(modResources, result, RecomposingRecipe::new);
     }
 
     private LimaSizedIngredientsRecipeBuilder.SimpleBuilder<MaterialFusingRecipe, ?> fusing(ItemStack result)
