@@ -12,6 +12,7 @@ import liedge.ltxindustries.util.config.LTXIClientConfig;
 import liedge.ltxindustries.util.config.LTXIMachinesConfig;
 import liedge.ltxindustries.util.config.LTXIServerConfig;
 import liedge.ltxindustries.util.config.LTXIWeaponsConfig;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.EntityType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -23,6 +24,7 @@ import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.registries.DataPackRegistryEvent;
 import net.neoforged.neoforge.registries.NewRegistryEvent;
+import net.neoforged.neoforge.registries.RegisterEvent;
 import net.neoforged.neoforge.registries.datamaps.RegisterDataMapTypesEvent;
 import org.slf4j.Logger;
 
@@ -43,6 +45,7 @@ public class LTXIndustries
         LTXIDataComponents.register(modBus);
         LTXIEntities.register(modBus);
         LTXIEquipmentUpgradeEffects.register(modBus);
+        LTXIFluids.register(modBus);
         LTXIGameEvents.register(modBus);
         LTXIItems.register(modBus);
         LTXILootRegistries.register(modBus);
@@ -89,6 +92,12 @@ public class LTXIndustries
         private void registerDataMapTypes(final RegisterDataMapTypesEvent event)
         {
             event.register(GlobalWeaponDamageModifiers.DATA_MAP_TYPE);
+        }
+
+        @SubscribeEvent
+        private void registerGameObjects(final RegisterEvent event)
+        {
+            event.register(Registries.FLUID, LTXIFluids::registerFluids);
         }
 
         @SubscribeEvent

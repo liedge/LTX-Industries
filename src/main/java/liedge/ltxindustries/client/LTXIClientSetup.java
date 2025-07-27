@@ -1,5 +1,8 @@
 package liedge.ltxindustries.client;
 
+import liedge.limacore.client.LimaFluidClientExtensions;
+import liedge.limacore.lib.LimaColor;
+import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.client.gui.ClientFabricatorIngredientTooltip;
 import liedge.ltxindustries.client.gui.ClientItemGridTooltip;
@@ -25,6 +28,8 @@ import liedge.ltxindustries.client.renderer.item.UpgradeModuleItemExtensions;
 import liedge.ltxindustries.menu.tooltip.FabricatorIngredientTooltip;
 import liedge.ltxindustries.menu.tooltip.ItemGridTooltip;
 import liedge.ltxindustries.registry.game.*;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -47,6 +52,9 @@ public final class LTXIClientSetup
     {
         // Register item overrides
         event.enqueueWork(LTXIItemOverrides::registerOverrides);
+
+        ItemBlockRenderTypes.setRenderLayer(LTXIFluids.VIRIDIC_ACID.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(LTXIFluids.FLOWING_VIRIDIC_ACID.get(), RenderType.translucent());
     }
 
     @SubscribeEvent
@@ -80,6 +88,8 @@ public final class LTXIClientSetup
         event.registerItem(LTXIItemRenderers.LINEAR_FUSION_RIFLE, LTXIItems.LINEAR_FUSION_RIFLE.get());
         event.registerItem(LTXIItemRenderers.ROCKET_LAUNCHER, LTXIItems.ROCKET_LAUNCHER.get());
         event.registerItem(LTXIItemRenderers.HEAVY_PISTOL, LTXIItems.HEAVY_PISTOL.get());
+
+        event.registerFluidType(LimaFluidClientExtensions.create(LTXIFluids.VIRIDIC_ACID_TYPE, false, null, LimaColor.WHITE, LTXIConstants.ACID_GREEN, 13.5f), LTXIFluids.VIRIDIC_ACID_TYPE);
     }
 
     @SubscribeEvent

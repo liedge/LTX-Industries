@@ -147,6 +147,7 @@
   "equipment_upgrade.ltxi.weapon_shield_regen.desc": "Captures enemy energy upon elimination to power medical nano-tech and the bubble shield.",
   "equipment_upgrade.ltxi.weapon_vibration_cancel": "Echo Suppressor",
   "equipment_upgrade.ltxi.weapon_vibration_cancel.desc": "Augments weapons and projectiles with an anti-resonance field, erasing vibration signatures",
+  "fluid_type.ltxi.viridic_acid": "Viridic Acid",
   "grenade_type.ltxi.acid": "Acid",
   "grenade_type.ltxi.cryo": "Cryo",
   "grenade_type.ltxi.electric": "Electric",

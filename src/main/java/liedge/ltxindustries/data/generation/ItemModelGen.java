@@ -4,6 +4,7 @@ import liedge.limacore.data.generation.LimaItemModelProvider;
 import liedge.limacore.lib.ModResources;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.client.model.baked.EmissiveBiLayerGeometry;
+import liedge.ltxindustries.registry.game.LTXIFluids;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ItemLike;
@@ -11,6 +12,7 @@ import net.neoforged.neoforge.client.model.generators.CustomLoaderBuilder;
 import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
+import net.neoforged.neoforge.client.model.generators.loaders.DynamicFluidContainerModelBuilder;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import java.util.Arrays;
@@ -61,6 +63,13 @@ class ItemModelGen extends LimaItemModelProvider
                 SPECIALIST_WEAPON_ENERGY,
                 EXPLOSIVES_WEAPON_ENERGY,
                 HEAVY_WEAPON_ENERGY);
+
+        // Buckets
+        getBuilder(VIRIDIC_ACID_BUCKET)
+                .parent(existingModel(itemFolderLocation(ModResources.NEOFORGE, "bucket")))
+                .customLoader(DynamicFluidContainerModelBuilder::begin)
+                .fluid(LTXIFluids.VIRIDIC_ACID.get())
+                .end();
 
         orePebbles(COAL_ORE_PEBBLES, COPPER_ORE_PEBBLES, IRON_ORE_PEBBLES, LAPIS_ORE_PEBBLES, REDSTONE_ORE_PEBBLES, GOLD_ORE_PEBBLES, DIAMOND_ORE_PEBBLES, EMERALD_ORE_PEBBLES, QUARTZ_ORE_PEBBLES, NETHERITE_ORE_PEBBLES, TITANIUM_ORE_PEBBLES, NIOBIUM_ORE_PEBBLES);
 

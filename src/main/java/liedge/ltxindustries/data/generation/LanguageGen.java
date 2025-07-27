@@ -21,10 +21,7 @@ import liedge.ltxindustries.registry.bootstrap.LTXIDamageTypes;
 import liedge.ltxindustries.registry.bootstrap.LTXIEnchantments;
 import liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades;
 import liedge.ltxindustries.registry.bootstrap.LTXIMachineUpgrades;
-import liedge.ltxindustries.registry.game.LTXIEntities;
-import liedge.ltxindustries.registry.game.LTXIMenus;
-import liedge.ltxindustries.registry.game.LTXIMobEffects;
-import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
+import liedge.ltxindustries.registry.game.*;
 import liedge.ltxindustries.util.LTXITooltipUtil;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
@@ -85,6 +82,9 @@ class LanguageGen extends LimaLanguageProvider
         addBlock(ROCKET_TURRET, italicName("%s A/DS Turret", "Atmos"));
         addBlock(RAILGUN_TURRET, italicName("%s A/DS Turret", "Noctis"));
         //#endregion
+
+        // Fluids
+        fluidType(LTXIFluids.VIRIDIC_ACID_TYPE, "Viridic Acid");
 
         //#region Items
         addItem(RAW_TITANIUM, "Raw Titanium");

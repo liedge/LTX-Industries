@@ -97,6 +97,9 @@ class BlockStatesGen extends LimaBlockStateProvider
         doubleMachineBlock(ROCKET_TURRET, turretBase);
         doubleMachineBlock(RAILGUN_TURRET, turretBase);
 
+        // Fluids
+        liquidBlock(VIRIDIC_ACID_BLOCK);
+
         // Technical blocks
         getVariantBuilder(MESH_BLOCK).forAllStatesExcept(state -> ConfiguredModel.builder().modelFile(machineParticlesOnly).build(), HORIZONTAL_FACING, WATERLOGGED);
     }

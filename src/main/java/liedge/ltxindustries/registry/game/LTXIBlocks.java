@@ -106,6 +106,18 @@ public final class LTXIBlocks
     public static final DeferredBlockWithItem<TurretBlock, BlockItem> ROCKET_TURRET = BLOCKS.registerBlockAndItem(LTXICommonIds.ID_ROCKET_TURRET, () -> new TurretBlock(machineProperties().noOcclusion()), block -> new ContentsTooltipBlockItem(block, new Item.Properties().stacksTo(1).rarity(LTXIItemRarities.ltxGearRarity()), true, false, true));
     public static final DeferredBlockWithItem<TurretBlock, BlockItem> RAILGUN_TURRET = BLOCKS.registerBlockAndItem(LTXICommonIds.ID_RAILGUN_TURRET, () -> new TurretBlock(machineProperties().noOcclusion()), block -> new ContentsTooltipBlockItem(block, new Item.Properties().stacksTo(1).rarity(LTXIItemRarities.ltxGearRarity()), true, false, true));
 
+    // Fluid blocks
+    public static final DeferredBlock<LiquidBlock> VIRIDIC_ACID_BLOCK = BLOCKS.register("viridic_acid", () -> new LiquidBlock(LTXIFluids.VIRIDIC_ACID.get(), of()
+            .mapColor(MapColor.PLANT)
+            .replaceable()
+            .noCollission()
+            .strength(100f)
+            .pushReaction(PushReaction.DESTROY)
+            .noLootTable()
+            .liquid()
+            .lightLevel(state -> LTXIFluids.VIRIDIC_ACID_LIGHT)
+            .sound(SoundType.EMPTY)));
+
     // Technical blocks
     public static final DeferredBlock<MeshBlock> MESH_BLOCK = BLOCKS.registerBlock("mesh_block", MeshBlock::new, machineProperties().dynamicShape().noOcclusion().noLootTable());
 
