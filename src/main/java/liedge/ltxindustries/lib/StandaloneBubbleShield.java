@@ -42,7 +42,7 @@ public final class StandaloneBubbleShield implements INBTSerializable<FloatTag>,
     {
         if (shieldInvulnerableCooldown > 0) shieldInvulnerableCooldown--;
 
-        if (changed && !shieldedEntity.level().isClientSide())
+        if (changed) // Level side checked in event
         {
             PacketDistributor.sendToPlayersTrackingEntityAndSelf(shieldedEntity, new ClientboundEntityShieldPacket(shieldedEntity.getId(), shieldHealth));
             changed = false;

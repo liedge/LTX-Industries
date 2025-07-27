@@ -25,6 +25,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentTarget;
+import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -120,11 +121,18 @@ public final class LTXIEventHandler
     }
 
     @SubscribeEvent
-    public static void onLivingTick(final EntityTickEvent.Pre event)
+    public static void onPostEntityTick(final EntityTickEvent.Post event)
     {
-        if (event.getEntity() instanceof LivingEntity livingEntity)
+        Entity entity = event.getEntity();
+        Level level = entity.level();
+
+        if (!level.isClientSide())
         {
-            livingEntity.getExistingData(LTXIAttachmentTypes.BUBBLE_SHIELD).ifPresent(shield -> shield.tickShield(livingEntity));
+            // Bubble shield tick
+            if (entity instanceof LivingEntity livingEntity)
+            {
+                livingEntity.getExistingData(LTXIAttachmentTypes.BUBBLE_SHIELD).ifPresent(shield -> shield.tickShield(livingEntity));
+            }
         }
     }
 
