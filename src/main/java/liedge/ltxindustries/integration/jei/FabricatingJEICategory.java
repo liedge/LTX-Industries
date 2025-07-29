@@ -1,16 +1,13 @@
 package liedge.ltxindustries.integration.jei;
 
-import liedge.limacore.client.gui.LimaGuiUtil;
 import liedge.limacore.recipe.LimaRecipeType;
 import liedge.limacore.util.LimaMathUtil;
-import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.client.LTXILangKeys;
-import liedge.ltxindustries.client.gui.screen.AutoFabricatorScreen;
+import liedge.ltxindustries.client.gui.screen.LTXIScreen;
+import liedge.ltxindustries.client.gui.widget.FabricatorProgressWidget;
 import liedge.ltxindustries.recipe.FabricatingRecipe;
 import liedge.ltxindustries.registry.game.LTXIBlocks;
-import liedge.ltxindustries.registry.game.LTXIItems;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
-import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.drawable.IDrawableAnimated;
 import mezz.jei.api.gui.drawable.IDrawableStatic;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
@@ -18,6 +15,7 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
@@ -28,18 +26,19 @@ import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class FabricatingJEICategory extends LimaJEICategory<FabricatingRecipe>
+import static liedge.ltxindustries.LTXIConstants.HOSTILE_ORANGE;
+import static liedge.ltxindustries.LTXIConstants.REM_BLUE;
+
+public class FabricatingJEICategory extends LTXIJeiCategory<FabricatingRecipe>
 {
-    private final IDrawable bpIcon;
     private final IDrawableStatic progressBackground;
     private final IDrawableAnimated progressForeground;
 
     FabricatingJEICategory(IGuiHelper helper, Supplier<LimaRecipeType<FabricatingRecipe>> typeSupplier)
     {
-        super(helper, typeSupplier, AutoFabricatorScreen.TEXTURE, 30, 27, 148, 67);
-        this.progressBackground = widgetDrawable(helper, "fabricator_progress_bg", 5, 22).build();
-        this.progressForeground = widgetDrawable(helper, "fabricator_progress", 3, 20).buildAnimated(80, IDrawableAnimated.StartDirection.BOTTOM, false);
-        this.bpIcon = helper.createDrawableItemStack(LTXIItems.FABRICATION_BLUEPRINT.toStack());
+        super(helper, typeSupplier, 140, 76);
+        this.progressBackground = guiSpriteDrawable(helper, FabricatorProgressWidget.BACKGROUND_SPRITE, FabricatorProgressWidget.BACKGROUND_WIDTH, FabricatorProgressWidget.BACKGROUND_HEIGHT).build();
+        this.progressForeground = guiSpriteDrawable(helper, FabricatorProgressWidget.FILL_SPRITE, FabricatorProgressWidget.FILL_WIDTH, FabricatorProgressWidget.FILL_HEIGHT).buildAnimated(80, IDrawableAnimated.StartDirection.BOTTOM, false);
     }
 
     @Override
@@ -49,29 +48,21 @@ public class FabricatingJEICategory extends LimaJEICategory<FabricatingRecipe>
     }
 
     @Override
-    public void draw(RecipeHolder<FabricatingRecipe> recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY)
+    public void draw(RecipeHolder<FabricatingRecipe> recipeHolder, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY)
     {
-        progressBackground.draw(guiGraphics, 141, 43);
-        progressForeground.draw(guiGraphics, 142, 44);
+        LTXIScreen.blitEmptySlotGrid(guiGraphics, 1, 1, 6, 2);
+        LTXIScreen.blitEmptySlotGrid(guiGraphics, 1, 37, 4, 1);
 
-        if (recipe.value().isAdvancementLocked()) bpIcon.draw(guiGraphics, 90, 46);
-    }
+        LTXIScreen.blitOutputSlotSprite(guiGraphics, 111, 33);
+        progressBackground.draw(guiGraphics, 133, 33);
+        progressForeground.draw(guiGraphics, 134, 34);
 
-    @Override
-    public List<Component> getTooltipStrings(RecipeHolder<FabricatingRecipe> holder, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY)
-    {
-        if (LimaGuiUtil.isMouseWithinArea(mouseX, mouseY, 141, 43, 5, 22))
-        {
-            return List.of(LTXILangKeys.INLINE_ENERGY_REQUIRED_TOOLTIP.translateArgs(LimaMathUtil.FORMAT_COMMA_INT.format(holder.value().getEnergyRequired())).withStyle(LTXIConstants.REM_BLUE.chatStyle()));
-        }
-        else if (LimaGuiUtil.isMouseWithinArea(mouseX, mouseY, 90, 46, 16, 16) && holder.value().isAdvancementLocked())
-        {
-            return List.of(LTXILangKeys.FABRICATOR_LOCKED_TOOLTIP.translate().withStyle(LTXIConstants.HOSTILE_ORANGE.chatStyle()));
-        }
-        else
-        {
-            return List.of();
-        }
+        FabricatingRecipe recipe = recipeHolder.value();
+        Component energyText = LTXILangKeys.INLINE_ENERGY.translateArgs(LimaMathUtil.FORMAT_COMMA_INT.format(recipe.getEnergyRequired()));
+        guiGraphics.drawString(Minecraft.getInstance().font, energyText, 2, 57, REM_BLUE.argb32(), false);
+
+        if (recipe.isAdvancementLocked())
+            guiGraphics.drawString(Minecraft.getInstance().font, LTXILangKeys.ADVANCEMENT_LOCKED_TOOLTIP.translate(), 2, 67, HOSTILE_ORANGE.argb32(), false);
     }
 
     @Override
@@ -83,13 +74,13 @@ public class FabricatingJEICategory extends LimaJEICategory<FabricatingRecipe>
     @Override
     protected void setRecipe(IRecipeLayoutBuilder builder, RecipeHolder<FabricatingRecipe> holder, FabricatingRecipe recipe, IFocusGroup focuses, RegistryAccess registries)
     {
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 123, 46).addItemStack(recipe.getResultItem(null));
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 114, 36).addItemStack(recipe.getResultItem(localRegistryAccess()));
 
         List<SizedIngredient> recipeIngredients = recipe.getRecipeIngredients();
         for (int i = 0; i < recipeIngredients.size(); i++)
         {
-            int x = 3 + (i % 8) * 18;
-            int y = 3 + (i / 8) * 18;
+            int x = 1 + (i % 6) * 18;
+            int y = 1 + (i / 6) * 18;
             sizedIngredientsSlot(builder, recipe, i, x, y);
         }
     }

@@ -13,7 +13,6 @@ public class MaterialFusingChamberMenu extends SidedUpgradableMachineMenu<Materi
     {
         super(type, containerId, inventory, menuContext);
 
-        addSlot(0, 8, 62);
         addSlot(1, 42, 27);
         addSlot(2, 60, 27);
         addSlot(3, 51, 45);

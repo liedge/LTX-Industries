@@ -4,13 +4,14 @@ import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.client.gui.widget.EnergyGaugeWidget;
 import liedge.ltxindustries.client.gui.widget.FabricatorProgressWidget;
 import liedge.ltxindustries.menu.AutoFabricatorMenu;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
 public class AutoFabricatorScreen extends SidedUpgradableMachineScreen<AutoFabricatorMenu>
 {
-    public static final ResourceLocation TEXTURE = LTXIndustries.RESOURCES.textureLocation("gui", "auto_fabricator");
+    private static final ResourceLocation BLUEPRINT_SLOT_SPRITE = LTXIndustries.RESOURCES.location("slot/encoded_blueprint");
 
     public AutoFabricatorScreen(AutoFabricatorMenu menu, Inventory inventory, Component title)
     {
@@ -25,13 +26,19 @@ public class AutoFabricatorScreen extends SidedUpgradableMachineScreen<AutoFabri
     {
         super.addWidgets();
 
-        addRenderableOnly(new EnergyGaugeWidget(menu.menuContext().getEnergyStorage(), leftPos + 11, topPos + 10));
+        addRenderableOnly(new EnergyGaugeWidget(menu.menuContext(), leftPos + 10, topPos + 9));
         addRenderableOnly(new FabricatorProgressWidget(leftPos + 171, topPos + 70, menu.menuContext()));
     }
 
     @Override
-    public ResourceLocation getBgTexture()
+    protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY)
     {
-        return TEXTURE;
+        super.renderBg(guiGraphics, partialTick, mouseX, mouseY);
+
+        blitInventoryAndHotbar(guiGraphics, 14, 97);
+        blitSlotGrid(guiGraphics, 32, 29, 8, 2);
+        blitPowerInSlot(guiGraphics, 7, 52);
+        blitSlotSprite(guiGraphics, BLUEPRINT_SLOT_SPRITE, 119, 72);
+        blitOutputSlot(guiGraphics, 149, 70);
     }
 }

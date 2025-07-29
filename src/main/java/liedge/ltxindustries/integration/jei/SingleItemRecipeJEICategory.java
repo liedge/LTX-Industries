@@ -2,10 +2,8 @@ package liedge.ltxindustries.integration.jei;
 
 import liedge.limacore.recipe.LimaRecipeType;
 import liedge.limacore.recipe.LimaSimpleSizedIngredientRecipe;
-import liedge.ltxindustries.client.gui.screen.SingleItemRecipeScreen;
+import liedge.ltxindustries.client.gui.screen.LTXIScreen;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
-import mezz.jei.api.gui.drawable.IDrawableAnimated;
-import mezz.jei.api.gui.drawable.IDrawableStatic;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
@@ -16,23 +14,21 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 
 import java.util.function.Supplier;
 
-public abstract class SingleItemRecipeJEICategory<R extends LimaSimpleSizedIngredientRecipe<?>> extends LimaJEICategory<R>
+public abstract class SingleItemRecipeJEICategory<R extends LimaSimpleSizedIngredientRecipe<?>> extends LTXIJeiCategory<R>
 {
-    private final IDrawableStatic progressBackground;
-    private final IDrawableAnimated progressForeground;
-
-    public SingleItemRecipeJEICategory(IGuiHelper helper, Supplier<? extends LimaRecipeType<R>> gameRecipeType)
+    public SingleItemRecipeJEICategory(IGuiHelper helper, Supplier<? extends LimaRecipeType<R>> typeSupplier)
     {
-        super(helper, gameRecipeType, SingleItemRecipeScreen.SCREEN_TEXTURE, 51, 29, 76, 26);
-        this.progressBackground = widgetDrawable(helper, "crafting_progress_bg", 24, 6).build();
-        this.progressForeground = widgetDrawable(helper, "crafting_progress", 22, 4).buildAnimated(100, IDrawableAnimated.StartDirection.LEFT, false);
+        super(helper, typeSupplier, 76, 26);
     }
 
     @Override
     public void draw(RecipeHolder<R> recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY)
     {
-        progressBackground.draw(guiGraphics, 24, 10);
-        progressForeground.draw(guiGraphics, 25, 11);
+        LTXIScreen.blitEmptySlotSprite(guiGraphics, 2, 4);
+        LTXIScreen.blitOutputSlotSprite(guiGraphics, 52, 2);
+
+        machineProgressBackground.draw(guiGraphics, 24, 10);
+        machineProgress.draw(guiGraphics, 25, 11);
     }
 
     @Override

@@ -1,25 +1,21 @@
 package liedge.ltxindustries.client.gui.screen;
 
 import liedge.limacore.client.gui.TooltipLineConsumer;
-import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.blockentity.MolecularReconstructorBlockEntity;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.client.gui.widget.EnergyGaugeWidget;
-import liedge.ltxindustries.client.gui.widget.ShortVerticalProgressWidget;
+import liedge.ltxindustries.client.gui.widget.MachineProgressWidget;
 import liedge.ltxindustries.menu.MolecularReconstructorMenu;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
 public class MolecularReconstructorScreen extends SidedUpgradableMachineScreen<MolecularReconstructorMenu>
 {
-    private static final ResourceLocation TEXTURE = LTXIndustries.RESOURCES.textureLocation("gui", "molecular_reconstructor");
-
     public MolecularReconstructorScreen(MolecularReconstructorMenu menu, Inventory inventory, Component title)
     {
         super(menu, inventory, title, DEFAULT_WIDTH, DEFAULT_HEIGHT);
-        this.alignInventoryLabelRight = true;
     }
 
     @Override
@@ -27,30 +23,26 @@ public class MolecularReconstructorScreen extends SidedUpgradableMachineScreen<M
     {
         super.addWidgets();
 
-        addRenderableOnly(new EnergyGaugeWidget(menu.menuContext().getEnergyStorage(), leftPos + 11, topPos + 10));
-        addRenderableOnly(new ProgressBar(leftPos + 76, topPos + 33, menu.menuContext()));
+        addRenderableOnly(new EnergyGaugeWidget(menu.menuContext(), leftPos + 10, topPos + 9));
+        addRenderableOnly(new ProgressBar(menu.menuContext(), leftPos + 75, topPos + 39));
     }
 
     @Override
-    public ResourceLocation getBgTexture()
+    protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY)
     {
-        return TEXTURE;
+        super.renderBg(guiGraphics, partialTick, mouseX, mouseY);
+
+        blitInventoryAndHotbar(guiGraphics, 7, 83);
+        blitPowerInSlot(guiGraphics, 7, 52);
+        blitEmptySlot(guiGraphics, 55, 33);
+        blitOutputSlot(guiGraphics, 101, 31);
     }
 
-    private static class ProgressBar extends ShortVerticalProgressWidget
+    private static class ProgressBar extends MachineProgressWidget
     {
-        private final  MolecularReconstructorBlockEntity blockEntity;
-
-        private ProgressBar(int x, int y, MolecularReconstructorBlockEntity blockEntity)
+        private ProgressBar(MolecularReconstructorBlockEntity blockEntity, int x, int y)
         {
-            super(x, y);
-            this.blockEntity = blockEntity;
-        }
-
-        @Override
-        protected float getFillPercentage()
-        {
-            return blockEntity.getProcessTimePercent();
+            super(blockEntity, x, y);
         }
 
         @Override

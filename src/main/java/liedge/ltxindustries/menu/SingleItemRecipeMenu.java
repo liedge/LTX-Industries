@@ -12,7 +12,6 @@ public class SingleItemRecipeMenu<CTX extends SimpleRecipeMachineBlockEntity<?, 
     {
         super(type, containerId, inventory, menuContext);
 
-        addSlot(0, 8, 62);
         addSlot(1, 54, 34);
         addRecipeResultSlot(menuContext.getOutputSlot(), 106, 34, menuContext.getRecipeCheck().getRecipeType());
 

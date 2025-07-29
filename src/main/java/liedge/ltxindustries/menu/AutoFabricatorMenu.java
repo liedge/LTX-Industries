@@ -16,8 +16,7 @@ public class AutoFabricatorMenu extends SidedUpgradableMachineMenu<AutoFabricato
     {
         super(type, containerId, inventory, menuContext);
 
-        addSlot(BaseFabricatorBlockEntity.ENERGY_ITEM_SLOT, 8, 62);
-        addRecipeResultSlot(BaseFabricatorBlockEntity.OUTPUT_SLOT, 153, 73, LTXIRecipeTypes.FABRICATING);
+        addRecipeResultSlot(BaseFabricatorBlockEntity.OUTPUT_SLOT, 152, 73, LTXIRecipeTypes.FABRICATING);
         addSlot(BaseFabricatorBlockEntity.BLUEPRINT_ITEM_SLOT, 120, 73);
         addSlotsGrid(3, 33, 30, 8, 2);
         addPlayerInventoryAndHotbar(15, 98);

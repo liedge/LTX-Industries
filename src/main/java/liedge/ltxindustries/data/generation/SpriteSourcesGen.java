@@ -1,12 +1,11 @@
 package liedge.ltxindustries.data.generation;
 
+import liedge.limacore.lib.ModResources;
 import liedge.ltxindustries.client.gui.UpgradeIconSprites;
-import liedge.ltxindustries.client.gui.widget.LTXIWidgetSprites;
 import net.minecraft.client.renderer.texture.atlas.SpriteSource;
 import net.minecraft.client.renderer.texture.atlas.sources.SingleFile;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.textures.NamespacedDirectoryLister;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.common.data.SpriteSourceProvider;
@@ -29,15 +28,16 @@ class SpriteSourcesGen extends SpriteSourceProvider
     {
         SpriteSource machineModuleIcon = itemSheetCopy("machine_upgrade_module");
 
-        atlas(LTXIWidgetSprites.ATLAS_LOCATION)
-                .addSource(nsDirSource("gui/widget"))
-                .addSource(machineModuleIcon);
+        // Mod atlas definitions
         atlas(UpgradeIconSprites.ATLAS_LOCATION)
                 .addSource(nsDirSource("upgrade_module"))
                 .addSource(machineModuleIcon);
 
-        // Additional block sprites
-        atlas(BLOCKS_ATLAS).addSource(new SingleFile(RESOURCES.location("misc/solid_lime"), Optional.of(RESOURCES.location("solid_lime"))));
+        // Vanilla atlas modifications
+        atlas(ModResources.MC.location("gui"))
+                .addSource(machineModuleIcon)
+                .addSource(singleSprite("gui/light_panel", "slot/empty"));
+        atlas(BLOCKS_ATLAS).addSource(singleSprite("misc/solid_lime", "solid_lime"));
     }
 
     private SpriteSource nsDirSource(String path)
@@ -45,9 +45,13 @@ class SpriteSourcesGen extends SpriteSourceProvider
         return new NamespacedDirectoryLister(MODID, path, "");
     }
 
+    private SpriteSource singleSprite(String path, String name)
+    {
+        return new SingleFile(RESOURCES.location(path), Optional.of(RESOURCES.location(name)));
+    }
+
     private SpriteSource itemSheetCopy(String name)
     {
-        ResourceLocation loc = RESOURCES.location(name);
-        return new SingleFile(loc.withPrefix("item/"), Optional.of(loc));
+        return singleSprite("item/" + name, name);
     }
 }

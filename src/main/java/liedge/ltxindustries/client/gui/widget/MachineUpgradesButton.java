@@ -7,7 +7,7 @@ import liedge.ltxindustries.registry.game.LTXIMenus;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.resources.ResourceLocation;
 
-public class MachineUpgradesButton extends LimaSidebarButton
+public class MachineUpgradesButton extends LimaSidebarButton.RightSided
 {
     private static final ResourceLocation ICON_SPRITE = LTXIndustries.RESOURCES.location("machine_upgrade_module");
 
@@ -15,7 +15,7 @@ public class MachineUpgradesButton extends LimaSidebarButton
 
     public MachineUpgradesButton(int x, int y, LimaMenuScreen<?> parent)
     {
-        super(x, y, LTXIMenus.MACHINE_UPGRADES.get().translate(), ICON_SPRITE);
+        super(x, y, LTXIMenus.MACHINE_UPGRADES.get().translate());
         this.parent = parent;
         setTooltip(Tooltip.create(getMessage()));
     }
@@ -24,5 +24,11 @@ public class MachineUpgradesButton extends LimaSidebarButton
     public void onPress(int button)
     {
         parent.sendUnitButtonData(UpgradableMachineMenu.UPGRADES_BUTTON_ID);
+    }
+
+    @Override
+    protected ResourceLocation iconSprite()
+    {
+        return ICON_SPRITE;
     }
 }

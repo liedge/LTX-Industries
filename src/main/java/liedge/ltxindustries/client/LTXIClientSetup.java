@@ -11,7 +11,6 @@ import liedge.ltxindustries.client.gui.layer.BubbleShieldLayer;
 import liedge.ltxindustries.client.gui.layer.WeaponCrosshairLayer;
 import liedge.ltxindustries.client.gui.layer.WeaponHUDInfoLayer;
 import liedge.ltxindustries.client.gui.screen.*;
-import liedge.ltxindustries.client.gui.widget.LTXIWidgetSprites;
 import liedge.ltxindustries.client.model.baked.EmissiveBiLayerGeometry;
 import liedge.ltxindustries.client.model.custom.BubbleShieldModel;
 import liedge.ltxindustries.client.model.entity.LTXIModelLayers;
@@ -190,7 +189,6 @@ public final class LTXIClientSetup
     {
         event.registerReloadListener((ResourceManagerReloadListener) LTXIItemRenderers::reloadAll);
         event.registerReloadListener(BubbleShieldModel.SHIELD_MODEL);
-        event.registerReloadListener(LTXIWidgetSprites.getInstance());
         event.registerReloadListener(UpgradeIconSprites.getInstance());
     }
 }

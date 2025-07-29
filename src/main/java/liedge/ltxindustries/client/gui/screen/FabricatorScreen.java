@@ -26,8 +26,8 @@ import java.util.Optional;
 
 import static liedge.limacore.client.gui.LimaGuiUtil.isMouseWithinArea;
 import static liedge.ltxindustries.LTXIndustries.RESOURCES;
-import static liedge.ltxindustries.client.LTXILangKeys.INLINE_ENERGY_REQUIRED_TOOLTIP;
 import static liedge.ltxindustries.client.LTXILangKeys.FABRICATOR_SELECTED_RECIPE_TOOLTIP;
+import static liedge.ltxindustries.client.LTXILangKeys.INLINE_ENERGY_REQUIRED_TOOLTIP;
 
 public class FabricatorScreen extends SidedUpgradableMachineScreen<FabricatorMenu> implements ScrollableGUIElement
 {
@@ -35,11 +35,10 @@ public class FabricatorScreen extends SidedUpgradableMachineScreen<FabricatorMen
     private static final int SELECTOR_GRID_HEIGHT = 4;
     private static final int SELECTOR_GRID_SIZE = SELECTOR_GRID_WIDTH * SELECTOR_GRID_HEIGHT;
 
-    private static final ResourceLocation TEXTURE = RESOURCES.textureLocation("gui", "fabricator");
-    private static final ResourceLocation SELECTOR_SPRITE = RESOURCES.location("fabricator_selector");
-    private static final ResourceLocation SELECTOR_CLICK_SPRITE = RESOURCES.location("fabricator_selector_click");
-    private static final ResourceLocation SELECTOR_CRAFTING_SPRITE = RESOURCES.location("fabricator_selector_crafting");
-    private static final ResourceLocation SELECTOR_HOVERED_SPRITE = RESOURCES.location("fabricator_selector_hover");
+    private static final ResourceLocation BLUEPRINT_SLOT_SPRITE = RESOURCES.location("slot/blank_blueprint");
+    private static final ResourceLocation SELECTOR_SPRITE = RESOURCES.location("widget/fabricator_selector");
+    private static final ResourceLocation SELECTOR_FOCUSED_SPRITE = RESOURCES.location("widget/fabricator_selector_focus");
+    private static final ResourceLocation SELECTOR_ACTIVE_SPRITE = RESOURCES.location("widget/fabricator_selector_active");
 
     private final int recipeRows;
     private final int scrollWheelDelta;
@@ -101,22 +100,24 @@ public class FabricatorScreen extends SidedUpgradableMachineScreen<FabricatorMen
     {
         super.addWidgets();
 
-        addRenderableOnly(new EnergyGaugeWidget(menu.menuContext().getEnergyStorage(), leftPos + 11, topPos + 10));
+        addRenderableOnly(new EnergyGaugeWidget(menu.menuContext(), leftPos + 10, topPos + 9));
         addRenderableOnly(new FabricatorProgressWidget(leftPos + 61, topPos + 83, menu.menuContext()));
         this.scrollbar = addRenderableWidget(new ScrollbarWidget(leftPos + 168, topPos + 32, 72, this));
         scrollbar.reset(); // Always reset scrollbar after reinitializing
     }
 
     @Override
-    public ResourceLocation getBgTexture()
-    {
-        return TEXTURE;
-    }
-
-    @Override
     protected void renderBg(GuiGraphics graphics, float partialTick, int mouseX, int mouseY)
     {
         super.renderBg(graphics, partialTick, mouseX, mouseY);
+
+        // Background sprites
+        blitInventoryAndHotbar(graphics, 14, 117);
+        blitPowerInSlot(graphics, 7, 52);
+        blitSlotSprite(graphics, BLUEPRINT_SLOT_SPRITE, 42, 60);
+        blitOutputSlot(graphics, 39, 83);
+        blitDarkPanel(graphics, 75, 31, 92, 74);
+        blitLightPanel(graphics, 167, 31, 10, 74);
 
         // Render recipe selector grid
         int min = currentScrollRow * SELECTOR_GRID_WIDTH;
@@ -130,24 +131,24 @@ public class FabricatorScreen extends SidedUpgradableMachineScreen<FabricatorMen
 
             FabricatingRecipe gridRecipe = recipes.get(i).value();
 
-            ResourceLocation spriteLoc;
-            if(menu.menuContext().isCrafting() && menu.menuContext().getRecipeCheck().getLastUsedRecipe(Minecraft.getInstance().level).map(r -> gridRecipe == r.value()).orElse(false))
+            ResourceLocation sprite;
+            if (menu.menuContext().isCrafting() && menu.menuContext().getRecipeCheck().getLastUsedRecipe(Minecraft.getInstance().level).map(r -> gridRecipe == r.value()).orElse(false))
             {
-                spriteLoc = SELECTOR_CRAFTING_SPRITE;
+                sprite = SELECTOR_ACTIVE_SPRITE;
             }
             else if (gridIndex == selectedRecipeIndex)
             {
-                spriteLoc = SELECTOR_CLICK_SPRITE;
+                sprite = EMPTY_SLOT_SPRITE;
             }
             else if (isMouseWithinArea(mouseX, mouseY, rx, ry, 18, 18))
             {
-                spriteLoc = SELECTOR_HOVERED_SPRITE;
+                sprite = SELECTOR_FOCUSED_SPRITE;
             }
             else
             {
-                spriteLoc = SELECTOR_SPRITE;
+                sprite = SELECTOR_SPRITE;
             }
-            graphics.blit(rx, ry, 0, 18, 18, LTXIWidgetSprites.sprite(spriteLoc));
+            graphics.blitSprite(sprite, rx, ry, 18, 18);
 
             ItemStack resultStack = gridRecipe.getResultItem(null);
             graphics.renderFakeItem(resultStack, rx + 1, ry + 1);

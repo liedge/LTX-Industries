@@ -6,25 +6,18 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
 public class ScrollbarWidget implements LimaRenderable, NarratableEntry, GuiEventListener
 {
-    private static final ResourceLocation SCROLLER_SPRITE = LTXIndustries.RESOURCES.location("scroller");
-    private static final ResourceLocation FOCUSED_SCROLLER_SPRITE = LTXIndustries.RESOURCES.location("scroller_focus");
-    private static final ResourceLocation DISABLED_SCROLLER_SPRITE = LTXIndustries.RESOURCES.location("scroller_disabled");
+    private static final ResourceLocation SCROLLER_SPRITE = LTXIndustries.RESOURCES.location("widget/scroller");
 
     private final int x;
     private final int y;
     private final int height;
     private final int scrollRange;
     private final ScrollableGUIElement element;
-
-    private final TextureAtlasSprite scrollerSprite;
-    private final TextureAtlasSprite focusScrollerSprite;
-    private final TextureAtlasSprite disabledScrollerSprite;
 
     private boolean scrolling;
     private boolean focused;
@@ -37,10 +30,6 @@ public class ScrollbarWidget implements LimaRenderable, NarratableEntry, GuiEven
         this.height = height;
         this.scrollRange = height - 13;
         this.element = element;
-
-        this.scrollerSprite = LTXIWidgetSprites.sprite(SCROLLER_SPRITE);
-        this.focusScrollerSprite = LTXIWidgetSprites.sprite(FOCUSED_SCROLLER_SPRITE);
-        this.disabledScrollerSprite = LTXIWidgetSprites.sprite(DISABLED_SCROLLER_SPRITE);
     }
 
     private void setPositionFromMouse(double mouseY)
@@ -100,15 +89,7 @@ public class ScrollbarWidget implements LimaRenderable, NarratableEntry, GuiEven
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks)
     {
-        if (element.canScroll())
-        {
-            TextureAtlasSprite sprite = isFocused() ? focusScrollerSprite : scrollerSprite;
-            graphics.blit(x, y + scrollPosition, 0, 8, 13, sprite);
-        }
-        else
-        {
-            graphics.blit(x, y, 0, 8, 13, disabledScrollerSprite);
-        }
+        graphics.blitSprite(SCROLLER_SPRITE, x, y + scrollPosition, 8, 13);
     }
 
     @Override

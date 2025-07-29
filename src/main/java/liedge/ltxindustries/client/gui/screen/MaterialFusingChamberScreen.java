@@ -1,21 +1,17 @@
 package liedge.ltxindustries.client.gui.screen;
 
-import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.client.gui.widget.EnergyGaugeWidget;
 import liedge.ltxindustries.client.gui.widget.MachineProgressWidget;
 import liedge.ltxindustries.menu.MaterialFusingChamberMenu;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
 public class MaterialFusingChamberScreen extends SidedUpgradableMachineScreen<MaterialFusingChamberMenu>
 {
-    public static final ResourceLocation SCREEN_TEXTURE = LTXIndustries.RESOURCES.textureLocation("gui", "material_fusing_chamber");
-
     public MaterialFusingChamberScreen(MaterialFusingChamberMenu menu, Inventory inventory, Component title)
     {
         super(menu, inventory, title, DEFAULT_WIDTH, DEFAULT_HEIGHT);
-        this.alignInventoryLabelRight = true;
     }
 
     @Override
@@ -23,13 +19,20 @@ public class MaterialFusingChamberScreen extends SidedUpgradableMachineScreen<Ma
     {
         super.addWidgets();
 
-        addRenderableOnly(new EnergyGaugeWidget(menu.menuContext().getEnergyStorage(), leftPos + 11, topPos + 10));
+        addRenderableOnly(new EnergyGaugeWidget(menu.menuContext(), leftPos + 10, topPos + 9));
         addRenderableOnly(new MachineProgressWidget(menu.menuContext(), leftPos + 81, topPos + 41));
     }
 
     @Override
-    public ResourceLocation getBgTexture()
+    protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY)
     {
-        return SCREEN_TEXTURE;
+        super.renderBg(guiGraphics, partialTick, mouseX, mouseY);
+
+        blitInventoryAndHotbar(guiGraphics, 7, 83);
+        blitPowerInSlot(guiGraphics, 7, 52);
+        blitEmptySlot(guiGraphics, 41, 26);
+        blitEmptySlot(guiGraphics, 59, 26);
+        blitEmptySlot(guiGraphics, 50, 44);
+        blitOutputSlot(guiGraphics,109, 33);
     }
 }

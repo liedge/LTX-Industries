@@ -2,7 +2,6 @@ package liedge.ltxindustries.menu;
 
 import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limacore.network.NetworkSerializer;
-import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.ltxindustries.blockentity.base.UpgradableMachineBlockEntity;
 import liedge.ltxindustries.item.MachineUpgradeModuleItem;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrade;
@@ -23,6 +22,8 @@ import static liedge.ltxindustries.registry.game.LTXIDataComponents.MACHINE_UPGR
 
 public class MachineUpgradeMenu extends UpgradesConfigMenu<UpgradableMachineBlockEntity, MachineUpgrade, MachineUpgrades>
 {
+    public static final int BACK_BUTTON_ID = 1;
+
     public MachineUpgradeMenu(LimaMenuType<UpgradableMachineBlockEntity, ?> type, int containerId, Inventory inventory, UpgradableMachineBlockEntity menuContext)
     {
         super(type, containerId, inventory, menuContext, 1);
@@ -34,8 +35,8 @@ public class MachineUpgradeMenu extends UpgradesConfigMenu<UpgradableMachineBloc
     @Override
     protected void defineButtonEventHandlers(EventHandlerBuilder builder)
     {
-        builder.handleUnitAction(0, menuContext::returnToPrimaryMenuScreen);
-        builder.handleAction(1, LimaCoreNetworkSerializers.RESOURCE_LOCATION, this::tryRemoveUpgrade);
+        super.defineButtonEventHandlers(builder);
+        builder.handleUnitAction(BACK_BUTTON_ID, menuContext::returnToPrimaryMenuScreen);
     }
 
     @Override

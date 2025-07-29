@@ -1,26 +1,28 @@
 package liedge.ltxindustries.client.gui.screen;
 
 import liedge.ltxindustries.LTXIndustries;
-import liedge.ltxindustries.client.gui.widget.LimaBackButton;
+import liedge.ltxindustries.client.gui.widget.SubMenuBackButton;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrade;
 import liedge.ltxindustries.menu.MachineUpgradeMenu;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
 public class MachineUpgradesScreen extends UpgradesConfigScreen<MachineUpgrade, MachineUpgradeMenu>
 {
-    private static final ResourceLocation TEXTURE = LTXIndustries.RESOURCES.textureLocation("gui", "machine_upgrades");
+    private static final ResourceLocation SLOT_SPRITE = LTXIndustries.RESOURCES.location("slot/machine_module");
 
     public MachineUpgradesScreen(MachineUpgradeMenu menu, Inventory inventory, Component title)
     {
         super(menu, inventory, title);
+        this.leftPadding = 18;
     }
 
     @Override
-    protected int upgradeRemovalButtonId()
+    protected void blitSlotSprites(GuiGraphics graphics)
     {
-        return 1;
+        blitSlotSprite(graphics, SLOT_SPRITE, 23, 86);
     }
 
     @Override
@@ -28,12 +30,6 @@ public class MachineUpgradesScreen extends UpgradesConfigScreen<MachineUpgrade, 
     {
         super.addWidgets();
 
-        addRenderableWidget(new LimaBackButton(leftPos + 6, topPos + 6, this, 0));
-    }
-
-    @Override
-    public ResourceLocation getBgTexture()
-    {
-        return TEXTURE;
+        addRenderableWidget(new SubMenuBackButton(leftPos - leftPadding, topPos + 3, this, MachineUpgradeMenu.BACK_BUTTON_ID));
     }
 }

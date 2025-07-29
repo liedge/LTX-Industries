@@ -268,7 +268,7 @@ class LanguageGen extends LimaLanguageProvider
         add(EMPTY_ITEM_INVENTORY_TOOLTIP, "No items stored");
         add(ITEM_INVENTORY_TOOLTIP, "Stored Items");
         add(FABRICATOR_SELECTED_RECIPE_TOOLTIP, "Left click to craft. Right click to encode blueprint (must have blank blueprint in slot).");
-        add(FABRICATOR_LOCKED_TOOLTIP, "This recipe is advancement locked. You must discover it first before being able to use it.");
+        add(ADVANCEMENT_LOCKED_TOOLTIP, "Requires Advancement");
         add(INLINE_ENERGY_REQUIRED_TOOLTIP, "Energy required: %s");
         add(WORKING_PROGRESS_TOOLTIP, "Working: %s%%");
         add(CRAFTING_PROGRESS_TOOLTIP, "Crafting: %s%%");

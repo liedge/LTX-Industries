@@ -3,33 +3,40 @@ package liedge.ltxindustries.client.gui.widget;
 import liedge.limacore.client.gui.FillBarWidget;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.blockentity.base.TimedProcessMachineBlockEntity;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
 
 public class MachineProgressWidget extends FillBarWidget.HorizontalBar
 {
-    private static final ResourceLocation BG_SPRITE = LTXIndustries.RESOURCES.location("crafting_progress_bg");
-    private static final ResourceLocation FG_SPRITE = LTXIndustries.RESOURCES.location("crafting_progress");
+    public static final ResourceLocation BACKGROUND_SPRITE = LTXIndustries.RESOURCES.location("widget/machine_progress_background");
+    public static final ResourceLocation FILL_SPRITE = LTXIndustries.RESOURCES.location("widget/machine_progress_fill");
+    public static final int BACKGROUND_WIDTH = 24;
+    public static final int BACKGROUND_HEIGHT = 6;
+    public static final int FILL_WIDTH = 22;
+    public static final int FILL_HEIGHT = 4;
 
-    private final TimedProcessMachineBlockEntity machine;
-    private final TextureAtlasSprite foregroundSprite;
+    protected final TimedProcessMachineBlockEntity blockEntity;
 
-    public MachineProgressWidget(TimedProcessMachineBlockEntity machine, int x, int y)
+    public MachineProgressWidget(TimedProcessMachineBlockEntity blockEntity, int x, int y)
     {
-        super(x, y, 24, 6, 22, 4, LTXIWidgetSprites.sprite(BG_SPRITE));
-        this.machine = machine;
-        this.foregroundSprite = LTXIWidgetSprites.sprite(FG_SPRITE);
+        super(x, y, BACKGROUND_WIDTH, BACKGROUND_HEIGHT, FILL_WIDTH, FILL_HEIGHT);
+        this.blockEntity = blockEntity;
     }
 
     @Override
     protected float getFillPercentage()
     {
-        return machine.getProcessTimePercent();
+        return blockEntity.getProcessTimePercent();
     }
 
     @Override
-    protected TextureAtlasSprite getForegroundSprite(float fillPercentage)
+    protected ResourceLocation getBackgroundSprite()
     {
-        return foregroundSprite;
+        return BACKGROUND_SPRITE;
+    }
+
+    @Override
+    protected ResourceLocation getForegroundSprite(float fillPercentage)
+    {
+        return FILL_SPRITE;
     }
 }

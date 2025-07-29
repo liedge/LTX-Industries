@@ -4,14 +4,12 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import liedge.limacore.client.gui.LimaMenuScreen;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.limacore.util.LimaMathUtil;
 import liedge.limacore.util.LimaRegistryUtil;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.client.gui.UpgradeIconRenderers;
-import liedge.ltxindustries.client.gui.widget.LTXIWidgetSprites;
 import liedge.ltxindustries.client.gui.widget.ScrollableGUIElement;
 import liedge.ltxindustries.client.gui.widget.ScrollbarWidget;
 import liedge.ltxindustries.lib.upgrades.UpgradeBase;
@@ -19,7 +17,6 @@ import liedge.ltxindustries.menu.UpgradesConfigMenu;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -30,17 +27,15 @@ import java.util.List;
 import java.util.Optional;
 
 import static liedge.limacore.client.gui.LimaGuiUtil.isMouseWithinArea;
-import static liedge.ltxindustries.LTXIConstants.*;
+import static liedge.ltxindustries.LTXIConstants.OUTPUT_ORANGE;
+import static liedge.ltxindustries.LTXIConstants.UPGRADE_RANK_MAGENTA;
 
-public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, U>, M extends UpgradesConfigMenu<?, U, ?>> extends LimaMenuScreen<M> implements ScrollableGUIElement
+public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, U>, M extends UpgradesConfigMenu<?, U, ?>> extends LTXIScreen<M> implements ScrollableGUIElement
 {
-    private static final ResourceLocation SELECTOR_SPRITE = LTXIndustries.RESOURCES.location("upgrade_selector");
-    private static final ResourceLocation SELECTOR_SPRITE_FOCUS = LTXIndustries.RESOURCES.location("upgrade_selector_focus");
+    private static final ResourceLocation SELECTOR_SPRITE = LTXIndustries.RESOURCES.location("widget/upgrade_selector");
+    private static final ResourceLocation SELECTOR_SPRITE_FOCUS = LTXIndustries.RESOURCES.location("widget/upgrade_selector_focus");
     private static final int SELECTOR_WIDTH = 104;
     private static final int SELECTOR_HEIGHT = 20;
-
-    private final TextureAtlasSprite selectorSprite;
-    private final TextureAtlasSprite selectorSpriteFocus;
 
     private int upgradeCount;
     private int scrollWheelDelta = 1;
@@ -49,13 +44,10 @@ public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, U>, M extend
 
     protected UpgradesConfigScreen(M menu, Inventory inventory, Component title)
     {
-        super(menu, inventory, title, 190, 200, LIME_GREEN.argb32());
+        super(menu, inventory, title, 190, 200);
 
         this.inventoryLabelX = 14;
         this.inventoryLabelY = 108;
-
-        this.selectorSprite = LTXIWidgetSprites.sprite(SELECTOR_SPRITE);
-        this.selectorSpriteFocus = LTXIWidgetSprites.sprite(SELECTOR_SPRITE_FOCUS);
     }
 
     private int selectorLeft()
@@ -73,7 +65,7 @@ public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, U>, M extend
         return isMouseWithinArea(mouseX, mouseY, selectorLeft(), selectorTop(), 104, 80);
     }
 
-    protected abstract int upgradeRemovalButtonId();
+    protected abstract void blitSlotSprites(GuiGraphics graphics);
 
     @Override
     protected void addWidgets()
@@ -115,6 +107,12 @@ public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, U>, M extend
     {
         super.renderBg(graphics, partialTick, mouseX, mouseY);
 
+        // Background sprites
+        blitInventoryAndHotbar(graphics, 14, 117);
+        blitDarkPanel(graphics, 60, 22, 106, 82);
+        blitLightPanel(graphics, 166, 22, 10, 82);
+        blitSlotSprites(graphics);
+
         List<Object2IntMap.Entry<Holder<U>>> remoteUpgrades = menu.getRemoteUpgrades();
 
         // Render upgrades
@@ -129,8 +127,8 @@ public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, U>, M extend
                 int ix = leftPos + 61;
                 int iy = selectorTop() + 20 * upgradeIndex;
 
-                TextureAtlasSprite sprite = isMouseWithinArea(mouseX, mouseY, ix, iy, SELECTOR_WIDTH, SELECTOR_HEIGHT) ? selectorSpriteFocus : selectorSprite;
-                graphics.blit(ix, iy, 0, SELECTOR_WIDTH, SELECTOR_HEIGHT, sprite);
+                ResourceLocation sprite = isMouseWithinArea(mouseX, mouseY, ix, iy, SELECTOR_WIDTH, SELECTOR_HEIGHT) ? SELECTOR_SPRITE_FOCUS : SELECTOR_SPRITE;
+                graphics.blitSprite(sprite, ix, iy, SELECTOR_WIDTH, SELECTOR_HEIGHT);
 
                 Object2IntMap.Entry<Holder<U>> entry = remoteUpgrades.get(i);
                 U upgrade = entry.getKey().value();
@@ -158,7 +156,7 @@ public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, U>, M extend
 
 
                 // Render rank bar
-                float xo = 70f * LimaMathUtil.divideFloat(entry.getIntValue(), upgrade.maxRank());
+                float xo = 75f * LimaMathUtil.divideFloat(entry.getIntValue(), upgrade.maxRank());
                 int leftColor;
                 int rightColor;
 
@@ -239,7 +237,7 @@ public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, U>, M extend
 
                     if (mouseY >= iy && mouseY < (iy + 20))
                     {
-                        sendCustomButtonData(upgradeRemovalButtonId(), LimaRegistryUtil.getNonNullRegistryId(remoteUpgrades.get(i).getKey()), LimaCoreNetworkSerializers.RESOURCE_LOCATION);
+                        sendCustomButtonData(UpgradesConfigMenu.UPGRADE_REMOVAL_BUTTON_ID, LimaRegistryUtil.getNonNullRegistryId(remoteUpgrades.get(i).getKey()), LimaCoreNetworkSerializers.RESOURCE_LOCATION);
                     }
                 }
             }

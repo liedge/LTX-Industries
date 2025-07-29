@@ -1,5 +1,6 @@
 package liedge.ltxindustries.client.gui.widget;
 
+import liedge.limacore.capability.energy.EnergyHolderBlockEntity;
 import liedge.limacore.capability.energy.LimaEnergyStorage;
 import liedge.limacore.capability.energy.LimaEnergyUtil;
 import liedge.limacore.client.gui.FillBarWidget;
@@ -7,27 +8,27 @@ import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.util.LTXITooltipUtil;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
 
 import static liedge.ltxindustries.LTXIConstants.HOSTILE_ORANGE;
 
 public class EnergyGaugeWidget extends FillBarWidget.VerticalBar
 {
-    private static final ResourceLocation BG_SPRITE = LTXIndustries.RESOURCES.location("energy_gauge_bg");
-    private static final ResourceLocation FG_SPRITE_NORMAL = LTXIndustries.RESOURCES.location("energy_gauge_normal");
-    private static final ResourceLocation FG_SPRITE_OVERCHARGE = LTXIndustries.RESOURCES.location("energy_gauge_overcharge");
+    private static final ResourceLocation BG_SPRITE = LTXIndustries.RESOURCES.location("widget/energy_bar_background");
+    private static final ResourceLocation FG_SPRITE_NORMAL = LTXIndustries.RESOURCES.location("widget/energy_bar_fill");
+    private static final ResourceLocation FG_SPRITE_OVERCHARGE = LTXIndustries.RESOURCES.location("widget/energy_bar_overcharge_fill");
 
     private final LimaEnergyStorage energyStorage;
-    private final TextureAtlasSprite foregroundSprite;
-    private final TextureAtlasSprite overchargedForegroundSprite;
 
     public EnergyGaugeWidget(LimaEnergyStorage energyStorage, int x, int y)
     {
-        super(x, y, 10, 48, 8, 46, LTXIWidgetSprites.sprite(BG_SPRITE));
+        super(x, y, 12, 40, 10, 38);
         this.energyStorage = energyStorage;
-        this.foregroundSprite = LTXIWidgetSprites.sprite(FG_SPRITE_NORMAL);
-        this.overchargedForegroundSprite = LTXIWidgetSprites.sprite(FG_SPRITE_OVERCHARGE);
+    }
+
+    public EnergyGaugeWidget(EnergyHolderBlockEntity blockEntity, int x, int y)
+    {
+        this(blockEntity.getEnergyStorage(), x, y);
     }
 
     @Override
@@ -37,9 +38,15 @@ public class EnergyGaugeWidget extends FillBarWidget.VerticalBar
     }
 
     @Override
-    protected TextureAtlasSprite getForegroundSprite(float fillPercentage)
+    protected ResourceLocation getBackgroundSprite()
     {
-        return fillPercentage > 1f ? overchargedForegroundSprite : foregroundSprite;
+        return BG_SPRITE;
+    }
+
+    @Override
+    protected ResourceLocation getForegroundSprite(float fillPercentage)
+    {
+        return fillPercentage > 1f ? FG_SPRITE_OVERCHARGE : FG_SPRITE_NORMAL;
     }
 
     @Override

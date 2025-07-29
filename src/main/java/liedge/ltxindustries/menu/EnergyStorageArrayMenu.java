@@ -12,7 +12,6 @@ public class EnergyStorageArrayMenu extends SidedUpgradableMachineMenu<BaseESABl
     {
         super(type, containerId, inventory, menuContext);
 
-        addSlot(0, 8, 62);
         addSlotsGrid(1, 56, 37, 4, 1);
 
         addDefaultPlayerInventoryAndHotbar();

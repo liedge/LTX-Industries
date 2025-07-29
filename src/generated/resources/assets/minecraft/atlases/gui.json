@@ -1,0 +1,14 @@
+{
+  "sources": [
+    {
+      "type": "minecraft:single",
+      "resource": "ltxi:item/machine_upgrade_module",
+      "sprite": "ltxi:machine_upgrade_module"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "ltxi:gui/light_panel",
+      "sprite": "ltxi:slot/empty"
+    }
+  ]
+}

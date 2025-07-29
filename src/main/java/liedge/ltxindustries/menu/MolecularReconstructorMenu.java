@@ -14,9 +14,8 @@ public class MolecularReconstructorMenu extends SidedUpgradableMachineMenu<Molec
     {
         super(type, containerId, inventory, menuContext);
 
-        addSlot(SidedItemEnergyMachineBlockEntity.ENERGY_ITEM_SLOT, 8, 62);
-        addSlot(MolecularReconstructorBlockEntity.REPAIR_INPUT_SLOT, 59, 34);
-        addSlot(MolecularReconstructorBlockEntity.REPAIR_OUTPUT_SLOT, 98, 34, false);
+        addSlot(MolecularReconstructorBlockEntity.REPAIR_INPUT_SLOT, 56, 34);
+        addSlot(MolecularReconstructorBlockEntity.REPAIR_OUTPUT_SLOT, 104, 34, false);
 
         addDefaultPlayerInventoryAndHotbar();
     }

@@ -20,6 +20,12 @@ import java.util.Objects;
 
 public class IOControllerMenu extends LimaMenu<IOControllerMenu.MenuContext>
 {
+    public static final int BACK_BUTTON_ID = 0;
+    public static final int CYCLE_FORWARD_BUTTON_ID = 1;
+    public static final int CYCLE_BACKWARD_BUTTON_ID = 2;
+    public static final int TOGGLE_AUTO_INPUT_BUTTON_ID = 3;
+    public static final int TOGGLE_AUTO_OUTPUT_BUTTON_ID = 4;
+
     private IOControllerMenu(LimaMenuType<MenuContext, ?> type, int containerId, Inventory inventory, MenuContext menuContext)
     {
         super(type, containerId, inventory, menuContext);
@@ -48,11 +54,11 @@ public class IOControllerMenu extends LimaMenu<IOControllerMenu.MenuContext>
     protected void defineButtonEventHandlers(EventHandlerBuilder builder)
     {
         IOController ioControl = getIOControl();
-        builder.handleUnitAction(0, menuContext.blockEntity::returnToPrimaryMenuScreen);
-        builder.handleAction(1, LimaCoreNetworkSerializers.RELATIVE_SIDE, (sender, side) -> ioControl.cycleSideIOState(side, true));
-        builder.handleAction(2, LimaCoreNetworkSerializers.RELATIVE_SIDE, (sender, side) -> ioControl.cycleSideIOState(side, false));
-        builder.handleUnitAction(3, sender -> ioControl.toggleAutoInput());
-        builder.handleUnitAction(4, sender -> ioControl.toggleAutoOutput());
+        builder.handleUnitAction(BACK_BUTTON_ID, menuContext.blockEntity::returnToPrimaryMenuScreen);
+        builder.handleAction(CYCLE_FORWARD_BUTTON_ID, LimaCoreNetworkSerializers.RELATIVE_SIDE, (sender, side) -> ioControl.cycleSideIOState(side, true));
+        builder.handleAction(CYCLE_BACKWARD_BUTTON_ID, LimaCoreNetworkSerializers.RELATIVE_SIDE, (sender, side) -> ioControl.cycleSideIOState(side, false));
+        builder.handleUnitAction(TOGGLE_AUTO_INPUT_BUTTON_ID, sender -> ioControl.toggleAutoInput());
+        builder.handleUnitAction(TOGGLE_AUTO_OUTPUT_BUTTON_ID, sender -> ioControl.toggleAutoOutput());
     }
 
     @Override

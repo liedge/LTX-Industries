@@ -8,6 +8,7 @@ import liedge.limacore.inventory.menu.LimaMenu;
 import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limacore.network.NetworkSerializer;
 import liedge.limacore.network.sync.AutomaticDataWatcher;
+import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.ltxindustries.lib.upgrades.UpgradeBase;
 import liedge.ltxindustries.lib.upgrades.UpgradesContainerBase;
 import net.minecraft.core.BlockPos;
@@ -29,6 +30,8 @@ import java.util.List;
 
 public abstract class UpgradesConfigMenu<CTX extends ItemHolderBlockEntity, U extends UpgradeBase<?, U>, UC extends UpgradesContainerBase<?, U>> extends LimaMenu<CTX>
 {
+    public static final int UPGRADE_REMOVAL_BUTTON_ID = 0;
+
     private int quickTransferSlot = -1;
 
     private final List<Object2IntMap.Entry<Holder<U>>> remoteUpgrades = new ObjectArrayList<>();
@@ -79,7 +82,10 @@ public abstract class UpgradesConfigMenu<CTX extends ItemHolderBlockEntity, U ex
     }
 
     @Override
-    protected abstract void defineButtonEventHandlers(EventHandlerBuilder builder);
+    protected void defineButtonEventHandlers(EventHandlerBuilder builder)
+    {
+        builder.handleAction(UPGRADE_REMOVAL_BUTTON_ID, LimaCoreNetworkSerializers.RESOURCE_LOCATION, this::tryRemoveUpgrade);
+    }
 
     protected abstract NetworkSerializer<UC> getUpgradesSerializer();
 

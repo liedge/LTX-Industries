@@ -36,8 +36,7 @@ public class FabricatorMenu extends SidedUpgradableMachineMenu<FabricatorBlockEn
         super(type, containerId, inventory, context);
 
         // Slots
-        addSlot(ENERGY_ITEM_SLOT, 8, 61);
-        addRecipeResultSlot(BaseFabricatorBlockEntity.OUTPUT_SLOT, 43, 86, LTXIRecipeTypes.FABRICATING);
+        addRecipeResultSlot(BaseFabricatorBlockEntity.OUTPUT_SLOT, 42, 86, LTXIRecipeTypes.FABRICATING);
         addSlot(BLUEPRINT_ITEM_SLOT, 43, 61);
 
         addPlayerInventoryAndHotbar(15, 118);

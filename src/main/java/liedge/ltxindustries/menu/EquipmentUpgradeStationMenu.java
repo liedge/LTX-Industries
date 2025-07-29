@@ -3,7 +3,6 @@ package liedge.ltxindustries.menu;
 import liedge.limacore.capability.itemhandler.LimaItemHandlerBase;
 import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limacore.network.NetworkSerializer;
-import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.ltxindustries.blockentity.EquipmentUpgradeStationBlockEntity;
 import liedge.ltxindustries.item.EquipmentUpgradeModuleItem;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
@@ -34,12 +33,6 @@ public class EquipmentUpgradeStationMenu extends UpgradesConfigMenu<EquipmentUpg
         addSlot(EQUIPMENT_ITEM_SLOT, 24, 65);
         addUpgradeInsertionSlot(UPGRADE_INPUT_SLOT);
         addPlayerInventoryAndHotbar(15, 118);
-    }
-
-    @Override
-    protected void defineButtonEventHandlers(EventHandlerBuilder builder)
-    {
-        builder.handleAction(0, LimaCoreNetworkSerializers.RESOURCE_LOCATION, this::tryRemoveUpgrade);
     }
 
     @Override
