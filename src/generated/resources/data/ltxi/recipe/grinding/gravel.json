@@ -6,8 +6,15 @@
       "tag": "c:cobblestones/normal"
     }
   ],
-  "result": {
-    "count": 1,
-    "id": "minecraft:gravel"
-  }
+  "item_results": [
+    {
+      "count": 1,
+      "id": "minecraft:gravel"
+    },
+    {
+      "chance": 0.33,
+      "count": 1,
+      "id": "minecraft:flint"
+    }
+  ]
 }

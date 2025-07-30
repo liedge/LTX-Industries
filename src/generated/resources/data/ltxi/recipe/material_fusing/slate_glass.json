@@ -10,8 +10,10 @@
       "tag": "c:gems/quartz"
     }
   ],
-  "result": {
-    "count": 2,
-    "id": "ltxi:slate_glass"
-  }
+  "item_results": [
+    {
+      "count": 2,
+      "id": "ltxi:slate_glass"
+    }
+  ]
 }

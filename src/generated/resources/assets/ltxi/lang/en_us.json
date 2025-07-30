@@ -310,6 +310,7 @@
   "tooltip.ltxi.item_inventory_hint": "Stored Items",
   "tooltip.ltxi.machine_upgrade_module": "Machine Upgrade Module",
   "tooltip.ltxi.no_owner": "No Owner",
+  "tooltip.ltxi.output_chance": "Output chance: ",
   "tooltip.ltxi.owner": "Owner: %s",
   "tooltip.ltxi.selected_grenade_type": "%s shells equipped",
   "tooltip.ltxi.shift_hint_tooltip": "Hold SHIFT for extra info",

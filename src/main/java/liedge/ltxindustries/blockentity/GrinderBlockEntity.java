@@ -12,11 +12,35 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import static liedge.ltxindustries.util.config.LTXIMachinesConfig.*;
 
-public class GrinderBlockEntity extends SimpleRecipeMachineBlockEntity<LimaRecipeInput, GrindingRecipe>
+public class GrinderBlockEntity extends LimaRecipeMachineBlockEntity<LimaRecipeInput, GrindingRecipe>
 {
     public GrinderBlockEntity(BlockPos pos, BlockState state)
     {
-        super(LTXIBlockEntities.GRINDER.get(), LTXIRecipeTypes.GRINDING.get(), pos, state, 3);
+        super(LTXIBlockEntities.GRINDER.get(), LTXIRecipeTypes.GRINDING.get(), pos, state, 5);
+    }
+
+    @Override
+    public int inputSlotsStart()
+    {
+        return 1;
+    }
+
+    @Override
+    public int inputSlotsCount()
+    {
+        return 1;
+    }
+
+    @Override
+    public int outputSlotsStart()
+    {
+        return 2;
+    }
+
+    @Override
+    public int outputSlotsCount()
+    {
+        return 3;
     }
 
     @Override
@@ -53,17 +77,5 @@ public class GrinderBlockEntity extends SimpleRecipeMachineBlockEntity<LimaRecip
     public LimaMenuType<?, ?> getMenuType()
     {
         return LTXIMenus.GRINDER.get();
-    }
-
-    @Override
-    public boolean isInputSlot(int index)
-    {
-        return index == 1;
-    }
-
-    @Override
-    public int getOutputSlot()
-    {
-        return 2;
     }
 }

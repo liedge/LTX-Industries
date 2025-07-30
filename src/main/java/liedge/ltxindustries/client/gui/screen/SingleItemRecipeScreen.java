@@ -1,6 +1,6 @@
 package liedge.ltxindustries.client.gui.screen;
 
-import liedge.ltxindustries.blockentity.SimpleRecipeMachineBlockEntity;
+import liedge.ltxindustries.blockentity.StateBlockRecipeMachineBlockEntity;
 import liedge.ltxindustries.client.gui.widget.EnergyGaugeWidget;
 import liedge.ltxindustries.client.gui.widget.MachineProgressWidget;
 import liedge.ltxindustries.menu.SidedUpgradableMachineMenu;
@@ -12,10 +12,10 @@ import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 
 import java.util.function.Supplier;
 
-public class SingleItemRecipeScreen<CTX extends SimpleRecipeMachineBlockEntity<?, ?>, M extends SidedUpgradableMachineMenu<CTX>> extends SidedUpgradableMachineScreen<M>
+public class SingleItemRecipeScreen<CTX extends StateBlockRecipeMachineBlockEntity<?, ?>, M extends SidedUpgradableMachineMenu<CTX>> extends SidedUpgradableMachineScreen<M>
 {
     @SuppressWarnings("RedundantTypeArguments")
-    public static <CTX extends SimpleRecipeMachineBlockEntity<?, ?>, M extends SidedUpgradableMachineMenu<CTX>> void registerScreen(RegisterMenuScreensEvent event, Supplier<? extends MenuType<M>> menuTypeSupplier, RecipeScreenType recipeScreenType)
+    public static <CTX extends StateBlockRecipeMachineBlockEntity<?, ?>, M extends SidedUpgradableMachineMenu<CTX>> void registerScreen(RegisterMenuScreensEvent event, Supplier<? extends MenuType<M>> menuTypeSupplier, RecipeScreenType recipeScreenType)
     {
         event.<M, SingleItemRecipeScreen<CTX, M>>register(menuTypeSupplier.get(), (menu, inventory, title) -> new SingleItemRecipeScreen<>(menu, inventory, title, recipeScreenType));
     }

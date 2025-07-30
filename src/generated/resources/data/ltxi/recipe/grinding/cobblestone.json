@@ -6,8 +6,10 @@
       "item": "minecraft:stone"
     }
   ],
-  "result": {
-    "count": 1,
-    "id": "minecraft:cobblestone"
-  }
+  "item_results": [
+    {
+      "count": 1,
+      "id": "minecraft:cobblestone"
+    }
+  ]
 }

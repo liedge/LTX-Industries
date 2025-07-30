@@ -32,7 +32,7 @@ public final class BlueprintItemExtensions implements ItemGuiRenderOverride
                 RecipeHolder<FabricatingRecipe> recipe = LimaRecipesUtil.getRecipeById(Minecraft.getInstance().level, id, LTXIRecipeTypes.FABRICATING).orElse(null);
                 if (recipe != null)
                 {
-                    ItemStack result = recipe.value().getResultItem();
+                    ItemStack result = recipe.value().getFabricatingResultItem();
                     graphics.renderFakeItem(result, x, y);
                     graphics.renderItemDecorations(Minecraft.getInstance().font, result, x, y);
                     return true;

@@ -6,8 +6,10 @@
       "tag": "c:ores/diamond"
     }
   ],
-  "result": {
-    "count": 3,
-    "id": "ltxi:diamond_ore_pebbles"
-  }
+  "item_results": [
+    {
+      "count": 3,
+      "id": "ltxi:diamond_ore_pebbles"
+    }
+  ]
 }

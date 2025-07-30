@@ -21,6 +21,18 @@ public class FabricatorBlockEntity extends BaseFabricatorBlockEntity
     }
 
     @Override
+    public int inputSlotsStart()
+    {
+        return -1;
+    }
+
+    @Override
+    public int inputSlotsCount()
+    {
+        return 0;
+    }
+
+    @Override
     public boolean isInputSlot(int index)
     {
         return false;
@@ -30,7 +42,7 @@ public class FabricatorBlockEntity extends BaseFabricatorBlockEntity
     {
         FabricatingRecipe recipe = holder.value();
 
-        if (!isCrafting() && canInsertRecipeResult(level, recipe))
+        if (!isCrafting() && canInsertRecipeResults(level, recipe))
         {
             if (forceStart)
             {
@@ -48,10 +60,12 @@ public class FabricatorBlockEntity extends BaseFabricatorBlockEntity
 
     private void stopCrafting(boolean insertResult, Level level)
     {
-        getRecipeCheck().getLastUsedRecipe(level).ifPresent(holder -> {
-            FabricatingRecipe recipe = holder.value();
-
-            if (insertResult) getItemHandler().insertItem(OUTPUT_SLOT, recipe.assemble(null, level.registryAccess()), false);
+        getRecipeCheck().getLastUsedRecipe(level).ifPresent(holder ->
+        {
+            if (insertResult)
+            {
+                getItemHandler().insertItem(FABRICATOR_OUTPUT_SLOT, holder.value().generateFabricatingResult(level.random), false);
+            }
 
             energyCraftProgress = 0;
             setCrafting(false);

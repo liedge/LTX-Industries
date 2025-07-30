@@ -3,7 +3,6 @@ package liedge.ltxindustries.integration.jei;
 import liedge.limacore.recipe.LimaRecipeType;
 import liedge.ltxindustries.client.gui.screen.LTXIScreen;
 import liedge.ltxindustries.recipe.MaterialFusingRecipe;
-import liedge.ltxindustries.registry.game.LTXIBlocks;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
@@ -12,7 +11,6 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.neoforged.neoforge.common.crafting.SizedIngredient;
 
@@ -46,15 +44,9 @@ public class MaterialFusingJEICategory extends LTXIJeiCategory<MaterialFusingRec
     }
 
     @Override
-    protected ItemStack categoryIconItemStack()
-    {
-        return LTXIBlocks.MATERIAL_FUSING_CHAMBER.toStack();
-    }
-
-    @Override
     protected void setRecipe(IRecipeLayoutBuilder builder, RecipeHolder<MaterialFusingRecipe> holder, MaterialFusingRecipe recipe, IFocusGroup focuses, RegistryAccess registries)
     {
-        List<SizedIngredient> recipeIngredients = recipe.getRecipeIngredients();
+        List<SizedIngredient> recipeIngredients = recipe.getItemIngredients();
         for (int i = 0; i < recipeIngredients.size(); i++)
         {
             switch (i)
@@ -64,6 +56,6 @@ public class MaterialFusingJEICategory extends LTXIJeiCategory<MaterialFusingRec
                 case 2 -> sizedIngredientsSlot(builder, recipe, i, 11, 20);
             }
         }
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 72, 11).addItemStack(recipe.getResultItem(registries));
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 72, 11).addItemStack(recipe.getFirstResult().item());
     }
 }

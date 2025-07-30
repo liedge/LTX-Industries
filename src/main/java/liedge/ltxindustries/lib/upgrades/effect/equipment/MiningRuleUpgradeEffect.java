@@ -2,7 +2,7 @@ package liedge.ltxindustries.lib.upgrades.effect.equipment;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import liedge.limacore.util.LimaMathUtil;
+import liedge.limacore.util.LimaTextUtil;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.lib.upgrades.effect.EffectTooltipProvider;
 import liedge.ltxindustries.util.LTXITooltipUtil;
@@ -41,6 +41,6 @@ public record MiningRuleUpgradeEffect(Optional<HolderSet<Block>> effectiveBlocks
     public void appendEffectLines(int upgradeRank, Consumer<Component> linesConsumer)
     {
         effectiveBlocks.ifPresent(set -> linesConsumer.accept(LTXILangKeys.MINING_EFFECTIVE_BLOCKS_EFFECT.translateArgs(LTXITooltipUtil.translateHolderSet(set))));
-        miningSpeed.ifPresent(speed -> linesConsumer.accept(LTXILangKeys.MINING_BASE_SPEED_EFFECT.translateArgs(Component.literal(LimaMathUtil.FORMAT_2_ROUND_FLOOR.format(speed)).withStyle(ChatFormatting.AQUA))));
+        miningSpeed.ifPresent(speed -> linesConsumer.accept(LTXILangKeys.MINING_BASE_SPEED_EFFECT.translateArgs(Component.literal(LimaTextUtil.format2PlaceDecimal(speed)).withStyle(ChatFormatting.AQUA))));
     }
 }

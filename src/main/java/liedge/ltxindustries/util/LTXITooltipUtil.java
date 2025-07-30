@@ -20,9 +20,9 @@ import java.util.UUID;
 
 import static liedge.limacore.capability.energy.LimaEnergyUtil.*;
 import static liedge.limacore.registry.game.LimaCoreDataComponents.ITEM_CONTAINER;
-import static liedge.limacore.util.LimaMathUtil.*;
-import static liedge.ltxindustries.LTXIndustries.RESOURCES;
+import static liedge.limacore.util.LimaTextUtil.*;
 import static liedge.ltxindustries.LTXIConstants.REM_BLUE;
+import static liedge.ltxindustries.LTXIndustries.RESOURCES;
 import static liedge.ltxindustries.client.LTXILangKeys.*;
 
 public final class LTXITooltipUtil
@@ -74,7 +74,7 @@ public final class LTXITooltipUtil
 
     public static String formatFlatNumber(double value)
     {
-        return value < 1000 ? FORMAT_2_ROUND_FLOOR.format(value) : FORMAT_COMMA_INT.format(value);
+        return value < 1000 ? format2PlaceDecimal(value) : formatWholeNumber(value);
     }
 
     public static MutableComponent flatNumberWithSign(double value)
@@ -91,14 +91,14 @@ public final class LTXITooltipUtil
 
     public static MutableComponent percentageWithSign(double value)
     {
-        String formattedValue = FORMAT_PERCENTAGE.format(value);
+        String formattedValue = formatPercentage(value);
         if (value >= 0) formattedValue = "+" + formattedValue;
         return Component.literal(formattedValue);
     }
 
     public static MutableComponent percentageWithoutSign(double value)
     {
-        return Component.literal(FORMAT_PERCENTAGE.format(value));
+        return Component.literal(formatPercentage(value));
     }
 
     public static MutableComponent makeOwnerComponent(@Nullable UUID uuid)

@@ -1,12 +1,11 @@
 package liedge.ltxindustries.integration.jei;
 
 import liedge.limacore.recipe.LimaRecipeType;
-import liedge.limacore.util.LimaMathUtil;
+import liedge.limacore.util.LimaTextUtil;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.client.gui.screen.LTXIScreen;
 import liedge.ltxindustries.client.gui.widget.FabricatorProgressWidget;
 import liedge.ltxindustries.recipe.FabricatingRecipe;
-import liedge.ltxindustries.registry.game.LTXIBlocks;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawableAnimated;
 import mezz.jei.api.gui.drawable.IDrawableStatic;
@@ -19,7 +18,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.neoforged.neoforge.common.crafting.SizedIngredient;
 
@@ -58,7 +56,7 @@ public class FabricatingJEICategory extends LTXIJeiCategory<FabricatingRecipe>
         progressForeground.draw(guiGraphics, 134, 34);
 
         FabricatingRecipe recipe = recipeHolder.value();
-        Component energyText = LTXILangKeys.INLINE_ENERGY.translateArgs(LimaMathUtil.FORMAT_COMMA_INT.format(recipe.getEnergyRequired()));
+        Component energyText = LTXILangKeys.INLINE_ENERGY.translateArgs(LimaTextUtil.formatWholeNumber(recipe.getEnergyRequired()));
         guiGraphics.drawString(Minecraft.getInstance().font, energyText, 2, 57, REM_BLUE.argb32(), false);
 
         if (recipe.isAdvancementLocked())
@@ -66,17 +64,11 @@ public class FabricatingJEICategory extends LTXIJeiCategory<FabricatingRecipe>
     }
 
     @Override
-    protected ItemStack categoryIconItemStack()
-    {
-        return LTXIBlocks.FABRICATOR.toStack();
-    }
-
-    @Override
     protected void setRecipe(IRecipeLayoutBuilder builder, RecipeHolder<FabricatingRecipe> holder, FabricatingRecipe recipe, IFocusGroup focuses, RegistryAccess registries)
     {
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 114, 36).addItemStack(recipe.getResultItem(localRegistryAccess()));
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 114, 36).addItemStack(recipe.getFabricatingResultItem());
 
-        List<SizedIngredient> recipeIngredients = recipe.getRecipeIngredients();
+        List<SizedIngredient> recipeIngredients = recipe.getItemIngredients();
         for (int i = 0; i < recipeIngredients.size(); i++)
         {
             int x = 1 + (i % 6) * 18;

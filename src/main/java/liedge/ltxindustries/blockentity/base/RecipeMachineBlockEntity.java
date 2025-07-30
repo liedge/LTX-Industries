@@ -2,7 +2,6 @@ package liedge.ltxindustries.blockentity.base;
 
 import liedge.limacore.capability.itemhandler.ItemHolderBlockEntity;
 import liedge.limacore.recipe.LimaRecipeCheck;
-import liedge.limacore.util.LimaItemUtil;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeInput;
@@ -12,22 +11,34 @@ public interface RecipeMachineBlockEntity<I extends RecipeInput, R extends Recip
 {
     LimaRecipeCheck<I, R> getRecipeCheck();
 
-    boolean isInputSlot(int index);
+    int inputSlotsStart();
 
-    int getOutputSlot();
+    int inputSlotsCount();
+
+    default boolean isInputSlot(int index)
+    {
+        int start = inputSlotsStart();
+        return index >= start && index < (start + inputSlotsCount());
+    }
+
+    int outputSlotsStart();
+
+    int outputSlotsCount();
+
+    default boolean isOutputSlot(int index)
+    {
+        int start = outputSlotsStart();
+        return index >= start && index < (start + outputSlotsCount());
+    }
 
     boolean isCrafting();
 
     void setCrafting(boolean crafting);
 
-    // Helper methods
-    default boolean canInsertRecipeResult(Level level, R recipe)
-    {
-        return LimaItemUtil.canMergeItemStacks(getItemHandler().getStackInSlot(getOutputSlot()), recipe.getResultItem(level.registryAccess()));
-    }
+    boolean canInsertRecipeResults(Level level, R recipe);
 
-    default boolean canInsertRecipeResult(Level level, RecipeHolder<R> recipeHolder)
+    default boolean canInsertRecipeResults(Level level, RecipeHolder<R> recipeHolder)
     {
-        return canInsertRecipeResult(level, recipeHolder.value());
+        return canInsertRecipeResults(level, recipeHolder.value());
     }
 }

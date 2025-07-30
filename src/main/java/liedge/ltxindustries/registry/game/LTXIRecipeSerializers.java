@@ -1,9 +1,12 @@
 package liedge.ltxindustries.registry.game;
 
 import liedge.limacore.recipe.LimaRecipeSerializer;
-import liedge.limacore.recipe.LimaSimpleSizedIngredientRecipe;
+import liedge.limacore.util.LimaRecipesUtil;
 import liedge.ltxindustries.LTXIndustries;
-import liedge.ltxindustries.recipe.*;
+import liedge.ltxindustries.recipe.DefaultUpgradeModuleRecipe;
+import liedge.ltxindustries.recipe.FabricatingRecipe;
+import liedge.ltxindustries.recipe.GrindingRecipe;
+import liedge.ltxindustries.recipe.MaterialFusingRecipe;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
@@ -22,8 +25,8 @@ public final class LTXIRecipeSerializers
         SERIALIZERS.register(bus);
     }
 
-    public static final DeferredHolder<RecipeSerializer<?>, LimaRecipeSerializer<GrindingRecipe>> GRINDING = SERIALIZERS.register("grinding", id -> LimaSimpleSizedIngredientRecipe.maxIngredientsSerializer(id, GrindingRecipe::new, 1));
-    public static final DeferredHolder<RecipeSerializer<?>, LimaRecipeSerializer<MaterialFusingRecipe>> MATERIAL_FUSING = SERIALIZERS.register("material_fusing", id -> LimaSimpleSizedIngredientRecipe.maxIngredientsSerializer(id, MaterialFusingRecipe::new, 3));
+    public static final DeferredHolder<RecipeSerializer<?>, LimaRecipeSerializer<GrindingRecipe>> GRINDING = SERIALIZERS.register("grinding", id -> LimaRecipesUtil.simpleCustomSerializer(id, GrindingRecipe::new, 1, 3));
+    public static final DeferredHolder<RecipeSerializer<?>, LimaRecipeSerializer<MaterialFusingRecipe>> MATERIAL_FUSING = SERIALIZERS.register("material_fusing", id -> LimaRecipesUtil.simpleCustomSerializer(id, MaterialFusingRecipe::new, 3, 1));
     public static final DeferredHolder<RecipeSerializer<?>, LimaRecipeSerializer<FabricatingRecipe>> FABRICATING = SERIALIZERS.register("fabricating", id -> new LimaRecipeSerializer<>(id, FabricatingRecipe.CODEC, FabricatingRecipe.STREAM_CODEC));
 
     public static final DeferredHolder<RecipeSerializer<?>, SimpleCraftingRecipeSerializer<DefaultUpgradeModuleRecipe>> DEFAULT_UPGRADE_MODULE = SERIALIZERS.register("default_upgrade_module", () -> new SimpleCraftingRecipeSerializer<>(DefaultUpgradeModuleRecipe::new));

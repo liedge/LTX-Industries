@@ -6,8 +6,10 @@
       "tag": "c:ores/niobium"
     }
   ],
-  "result": {
-    "count": 3,
-    "id": "ltxi:niobium_ore_pebbles"
-  }
+  "item_results": [
+    {
+      "count": 3,
+      "id": "ltxi:niobium_ore_pebbles"
+    }
+  ]
 }

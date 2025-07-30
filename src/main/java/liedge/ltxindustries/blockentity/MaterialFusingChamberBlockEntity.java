@@ -12,11 +12,35 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import static liedge.ltxindustries.util.config.LTXIMachinesConfig.*;
 
-public class MaterialFusingChamberBlockEntity extends SimpleRecipeMachineBlockEntity<LimaRecipeInput, MaterialFusingRecipe>
+public class MaterialFusingChamberBlockEntity extends LimaRecipeMachineBlockEntity<LimaRecipeInput, MaterialFusingRecipe>
 {
     public MaterialFusingChamberBlockEntity(BlockPos pos, BlockState state)
     {
         super(LTXIBlockEntities.MATERIAL_FUSING_CHAMBER.get(), LTXIRecipeTypes.MATERIAL_FUSING.get(), pos, state, 5);
+    }
+
+    @Override
+    public int inputSlotsStart()
+    {
+        return 1;
+    }
+
+    @Override
+    public int inputSlotsCount()
+    {
+        return 3;
+    }
+
+    @Override
+    public int outputSlotsStart()
+    {
+        return 4;
+    }
+
+    @Override
+    public int outputSlotsCount()
+    {
+        return 1;
     }
 
     @Override
@@ -41,18 +65,6 @@ public class MaterialFusingChamberBlockEntity extends SimpleRecipeMachineBlockEn
     protected LimaRecipeInput getRecipeInput(Level level)
     {
         return LimaRecipeInput.createWithSize(getItemHandler(), 1, 3);
-    }
-
-    @Override
-    public boolean isInputSlot(int slot)
-    {
-        return slot > 0 && slot < 4;
-    }
-
-    @Override
-    public int getOutputSlot()
-    {
-        return 4;
     }
 
     @Override

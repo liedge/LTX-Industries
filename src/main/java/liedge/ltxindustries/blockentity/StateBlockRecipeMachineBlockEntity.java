@@ -15,7 +15,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeInput;
@@ -28,7 +27,7 @@ import java.util.Optional;
 
 import static liedge.ltxindustries.block.LTXIBlockProperties.MACHINE_WORKING;
 
-public abstract class SimpleRecipeMachineBlockEntity<I extends RecipeInput, R extends Recipe<I>> extends SidedItemEnergyMachineBlockEntity implements TimedProcessMachineBlockEntity, EnergyConsumerBlockEntity, RecipeMachineBlockEntity<I, R>
+public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, R extends Recipe<I>> extends SidedItemEnergyMachineBlockEntity implements TimedProcessMachineBlockEntity, EnergyConsumerBlockEntity, RecipeMachineBlockEntity<I, R>
 {
     public static final SidedAccessRules ITEM_ACCESS_RULES = SidedAccessRules.allSides(IOAccessSets.ALL_ALLOWED, IOAccess.INPUT_ONLY, false, true);
     public static final SidedAccessRules ENERGY_ACCESS_RULES = SidedAccessRules.allSides(IOAccessSets.INPUT_ONLY_OR_DISABLED, IOAccess.INPUT_ONLY, false, false);
@@ -41,7 +40,7 @@ public abstract class SimpleRecipeMachineBlockEntity<I extends RecipeInput, R ex
     private boolean shouldCheckRecipe;
     private boolean crafting;
 
-    protected SimpleRecipeMachineBlockEntity(SidedAccessBlockEntityType<?> type, RecipeType<R> recipeType, BlockPos pos, BlockState state, int inventorySize)
+    protected StateBlockRecipeMachineBlockEntity(SidedAccessBlockEntityType<?> type, RecipeType<R> recipeType, BlockPos pos, BlockState state, int inventorySize)
     {
         super(type, pos, state, inventorySize);
         this.recipeCheck = LimaRecipeCheck.create(recipeType);
@@ -126,6 +125,8 @@ public abstract class SimpleRecipeMachineBlockEntity<I extends RecipeInput, R ex
 
     protected abstract void consumeIngredients(I recipeInput, R recipe, Level level);
 
+    protected abstract void insertRecipeResults(Level level, LimaItemHandlerBase machineInventory, R recipe, I recipeInput);
+
     private Optional<RecipeHolder<R>> checkRecipe(Level level, I recipeInput)
     {
         shouldCheckRecipe = false;
@@ -135,8 +136,8 @@ public abstract class SimpleRecipeMachineBlockEntity<I extends RecipeInput, R ex
     @Override
     public IOAccess getPrimaryHandlerItemSlotIO(int slot)
     {
-        if (slot == getOutputSlot()) return IOAccess.OUTPUT_ONLY;
-        else if (isInputSlot(slot)) return IOAccess.INPUT_ONLY;
+        if (isInputSlot(slot)) return IOAccess.INPUT_ONLY;
+        else if (isOutputSlot(slot)) return IOAccess.OUTPUT_ONLY;
         else return IOAccess.DISABLED;
     }
 
@@ -160,13 +161,13 @@ public abstract class SimpleRecipeMachineBlockEntity<I extends RecipeInput, R ex
         I recipeInput = getRecipeInput(level);
         if (shouldCheckRecipe)
         {
-            boolean check = checkRecipe(level, recipeInput).map(r -> canInsertRecipeResult(level, r)).orElse(false);
+            boolean check = checkRecipe(level, recipeInput).map(r -> canInsertRecipeResults(level, r)).orElse(false);
             setCrafting(check);
         }
 
         // Tick recipe progress
         RecipeHolder<R> lastUsedRecipe = recipeCheck.getLastUsedRecipe(level).orElse(null);
-        if (crafting && lastUsedRecipe != null && canInsertRecipeResult(level, lastUsedRecipe))
+        if (crafting && lastUsedRecipe != null && canInsertRecipeResults(level, lastUsedRecipe))
         {
             if (LimaEnergyUtil.consumeEnergy(energyStorage, getEnergyUsage(), false))
             {
@@ -174,8 +175,7 @@ public abstract class SimpleRecipeMachineBlockEntity<I extends RecipeInput, R ex
 
                 if (craftingProgress >= getTicksPerOperation()) // Fixed the N+1 tick duration, we now have true N tick duration
                 {
-                    ItemStack craftedItem = lastUsedRecipe.value().assemble(recipeInput, level.registryAccess());
-                    inventory.insertItem(getOutputSlot(), craftedItem, false);
+                    insertRecipeResults(level, inventory, lastUsedRecipe.value(), recipeInput);
                     consumeIngredients(recipeInput, lastUsedRecipe.value(), level);
 
                     // Check state of recipe after every successful craft. Last recipe is used first so should be *relatively* quick.
@@ -189,8 +189,8 @@ public abstract class SimpleRecipeMachineBlockEntity<I extends RecipeInput, R ex
             craftingProgress = 0;
         }
 
-        // Auto output item if option available
-        autoOutputItems(20, getOutputSlot(), 1);
+        // Push auto outputs via sides every 20 ticks, if option enabled
+        autoOutputItems(20, outputSlotsStart(), outputSlotsCount());
     }
 
     @Override

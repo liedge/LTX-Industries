@@ -150,7 +150,7 @@ public class FabricatorScreen extends SidedUpgradableMachineScreen<FabricatorMen
             }
             graphics.blitSprite(sprite, rx, ry, 18, 18);
 
-            ItemStack resultStack = gridRecipe.getResultItem(null);
+            ItemStack resultStack = gridRecipe.getFabricatingResultItem();
             graphics.renderFakeItem(resultStack, rx + 1, ry + 1);
             graphics.renderItemDecorations(font, resultStack, rx + 1, ry + 1);
         }
@@ -173,7 +173,7 @@ public class FabricatorScreen extends SidedUpgradableMachineScreen<FabricatorMen
                 if (isMouseWithinArea(x, y, rx, ry, 18, 18))
                 {
                     RecipeHolder<FabricatingRecipe> holder = recipes.get(i);
-                    List<Component> lines = getTooltipFromItem(Minecraft.getInstance(), holder.value().getResultItem(null));
+                    List<Component> lines = getTooltipFromItem(Minecraft.getInstance(), holder.value().getFabricatingResultItem());
 
                     if (gridIndex == selectedRecipeIndex) lines.add(FABRICATOR_SELECTED_RECIPE_TOOLTIP.translate().withStyle(LTXIConstants.LIME_GREEN.chatStyle()));
 

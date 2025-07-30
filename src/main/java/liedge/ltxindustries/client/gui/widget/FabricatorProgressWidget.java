@@ -68,7 +68,7 @@ public class FabricatorProgressWidget extends FillBarWidget.VerticalBar
             int progress = (int) (fill * 100f);
 
             consumer.accept(LTXILangKeys.CRAFTING_PROGRESS_TOOLTIP.translateArgs(progress).withStyle(ChatFormatting.GRAY));
-            consumer.accept(ItemGridTooltip.createSingle(recipe.getResultItem(), true));
+            consumer.accept(ItemGridTooltip.createSingle(recipe.getFabricatingResultItem(), true));
         }
     }
 }

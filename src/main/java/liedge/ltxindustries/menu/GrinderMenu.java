@@ -2,19 +2,20 @@ package liedge.ltxindustries.menu;
 
 import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limacore.util.LimaItemUtil;
-import liedge.ltxindustries.blockentity.SimpleRecipeMachineBlockEntity;
+import liedge.ltxindustries.blockentity.GrinderBlockEntity;
+import liedge.ltxindustries.blockentity.SidedItemEnergyMachineBlockEntity;
+import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 
-public class SingleItemRecipeMenu<CTX extends SimpleRecipeMachineBlockEntity<?, ?>> extends SidedUpgradableMachineMenu<CTX>
+public class GrinderMenu extends SidedUpgradableMachineMenu<GrinderBlockEntity>
 {
-    public SingleItemRecipeMenu(LimaMenuType<CTX, ?> type, int containerId, Inventory inventory, CTX menuContext)
+    public GrinderMenu(LimaMenuType<GrinderBlockEntity, ?> type, int containerId, Inventory inventory, GrinderBlockEntity menuContext)
     {
         super(type, containerId, inventory, menuContext);
 
-        addSlot(1, 54, 34);
-        addRecipeResultSlot(menuContext.getOutputSlot(), 106, 34, menuContext.getRecipeCheck().getRecipeType());
-
+        addSlot(1, 44, 36);
+        addRecipeResultSlotsGrid(2, 102, 36, 3, 1, LTXIRecipeTypes.GRINDING);
         addDefaultPlayerInventoryAndHotbar();
     }
 
@@ -29,11 +30,11 @@ public class SingleItemRecipeMenu<CTX extends SimpleRecipeMachineBlockEntity<?, 
     @Override
     protected boolean quickMoveInternal(int index, ItemStack stack)
     {
-        if (index < 2)
+        if (index == SidedItemEnergyMachineBlockEntity.ENERGY_ITEM_SLOT || menuContext.isInputSlot(index))
         {
             return quickMoveToAllInventory(stack, false);
         }
-        else if (index == 2)
+        else if (menuContext.isOutputSlot(index))
         {
             return quickMoveToAllInventory(stack, true);
         }
@@ -41,7 +42,7 @@ public class SingleItemRecipeMenu<CTX extends SimpleRecipeMachineBlockEntity<?, 
         {
             if (LimaItemUtil.hasEnergyCapability(stack))
             {
-                return quickMoveToContainerSlot(stack, 0);
+                return quickMoveToContainerSlot(stack, SidedItemEnergyMachineBlockEntity.ENERGY_ITEM_SLOT);
             }
             else
             {

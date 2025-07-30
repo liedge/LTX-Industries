@@ -2,6 +2,7 @@ package liedge.ltxindustries.integration.jei;
 
 import liedge.limacore.util.LimaRecipesUtil;
 import liedge.ltxindustries.LTXIndustries;
+import liedge.ltxindustries.client.gui.screen.GrinderScreen;
 import liedge.ltxindustries.client.gui.screen.MaterialFusingChamberScreen;
 import liedge.ltxindustries.client.gui.screen.RecipeScreenType;
 import liedge.ltxindustries.client.gui.screen.SingleItemRecipeScreen;
@@ -106,6 +107,7 @@ public class LTXIJeiPlugin implements IModPlugin
             }
         });
 
+        registration.addRecipeClickArea(GrinderScreen.class, 69, 41, 24, 6, GRINDING_JEI);
         registration.addRecipeClickArea(MaterialFusingChamberScreen.class, 81, 41, 24, 6, MATERIAL_FUSING_JEI);
     }
 
@@ -124,7 +126,6 @@ public class LTXIJeiPlugin implements IModPlugin
             case DIGITAL_FURNACE -> RecipeTypes.SMELTING;
             case DIGITAL_SMOKER -> RecipeTypes.SMOKING;
             case DIGITAL_BLAST_FURNACE -> RecipeTypes.BLASTING;
-            case GRINDER -> GRINDING_JEI;
         };
     }
 

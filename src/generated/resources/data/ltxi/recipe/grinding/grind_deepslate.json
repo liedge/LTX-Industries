@@ -6,8 +6,10 @@
       "tag": "ltxi:deepslate_grindables"
     }
   ],
-  "result": {
-    "count": 1,
-    "id": "ltxi:deepslate_powder"
-  }
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:deepslate_powder"
+    }
+  ]
 }

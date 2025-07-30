@@ -36,7 +36,7 @@ public class FabricatorMenu extends SidedUpgradableMachineMenu<FabricatorBlockEn
         super(type, containerId, inventory, context);
 
         // Slots
-        addRecipeResultSlot(BaseFabricatorBlockEntity.OUTPUT_SLOT, 42, 86, LTXIRecipeTypes.FABRICATING);
+        addRecipeResultSlot(BaseFabricatorBlockEntity.FABRICATOR_OUTPUT_SLOT, 42, 86, LTXIRecipeTypes.FABRICATING);
         addSlot(BLUEPRINT_ITEM_SLOT, 43, 61);
 
         addPlayerInventoryAndHotbar(15, 118);
@@ -94,7 +94,7 @@ public class FabricatorMenu extends SidedUpgradableMachineMenu<FabricatorBlockEn
     @Override
     protected boolean quickMoveInternal(int slot, ItemStack stack)
     {
-        if (slot == BaseFabricatorBlockEntity.OUTPUT_SLOT)
+        if (slot == BaseFabricatorBlockEntity.FABRICATOR_OUTPUT_SLOT)
         {
             return quickMoveToAllInventory(stack, true);
         }

@@ -1,11 +1,13 @@
 package liedge.ltxindustries.data.generation;
 
+import com.google.common.base.Preconditions;
 import liedge.limacore.data.generation.LimaRecipeProvider;
-import liedge.limacore.data.generation.recipe.LimaSizedIngredientsRecipeBuilder;
+import liedge.limacore.data.generation.recipe.LimaCustomRecipeBuilder;
 import liedge.limacore.lib.ModResources;
 import liedge.limacore.lib.function.ObjectIntFunction;
-import liedge.ltxindustries.LTXIndustries;
+import liedge.limacore.recipe.ItemResult;
 import liedge.ltxindustries.LTXITags;
+import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.integration.guideme.GuideMEIntegration;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
 import liedge.ltxindustries.lib.upgrades.UpgradeBase;
@@ -14,7 +16,10 @@ import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgradeEntry;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrade;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgradeEntry;
-import liedge.ltxindustries.recipe.*;
+import liedge.ltxindustries.recipe.DefaultUpgradeModuleRecipe;
+import liedge.ltxindustries.recipe.FabricatingRecipe;
+import liedge.ltxindustries.recipe.GrindingRecipe;
+import liedge.ltxindustries.recipe.MaterialFusingRecipe;
 import liedge.ltxindustries.registry.game.LTXIDataComponents;
 import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.advancements.critereon.KilledTrigger;
@@ -141,12 +146,10 @@ class RecipesGen extends LimaRecipeProvider
         orePebblesCooking(NIOBIUM_ORE_PEBBLES, NIOBIUM_INGOT, 1, output);
 
         // Grinding recipes
-        grinding(stackOf(COBBLESTONE)).input(STONE).save(output);
-        grinding(stackOf(GRAVEL)).input(Tags.Items.COBBLESTONES_NORMAL).save(output);
-        grinding(stackOf(SAND)).input(Tags.Items.GRAVELS).save(output);
-        grinding(stackOf(DEEPSLATE_POWDER))
-                .input(LTXITags.Items.DEEPSLATE_GRINDABLES)
-                .save(output, "grind_deepslate");
+        grinding().input(STONE).output(COBBLESTONE).save(output);
+        grinding().input(COBBLESTONES_NORMAL).output(GRAVEL).output(FLINT, 1, 0.33f).save(output);
+        grinding().input(Tags.Items.GRAVELS).output(SAND).save(output);
+        grinding().input(LTXITags.Items.DEEPSLATE_GRINDABLES).output(DEEPSLATE_POWDER).save(output, "grind_deepslate");
 
         orePebbleGrinding(COAL_ORE_PEBBLES, Tags.Items.ORES_COAL, null, "coal", output);
         orePebbleGrinding(COPPER_ORE_PEBBLES, Tags.Items.ORES_COPPER, Tags.Items.RAW_MATERIALS_COPPER, "copper", output);
@@ -162,47 +165,52 @@ class RecipesGen extends LimaRecipeProvider
         orePebbleGrinding(NIOBIUM_ORE_PEBBLES, LTXITags.Items.NIOBIUM_ORES, LTXITags.Items.RAW_NIOBIUM_MATERIALS, "niobium", output);
 
         // Material fusing recipes
-        fusing(stackOf(SLATE_ALLOY_INGOT))
+        fusing()
                 .input(DEEPSLATE_POWDER, 4)
                 .input(NETHERITE_INGOT)
+                .output(SLATE_ALLOY_INGOT)
                 .save(output, "slate_alloy_from_netherite_ingot");
-        fusing(stackOf(SLATE_ALLOY_INGOT))
+        fusing()
                 .input(DEEPSLATE_POWDER, 4)
                 .input(NETHERITE_SCRAP, 2)
                 .input(GOLD_INGOT)
+                .output(SLATE_ALLOY_INGOT)
                 .save(output, "slate_alloy_from_netherite_alloying");
-        fusing(stackOf(NETHERITE_INGOT))
+        fusing()
                 .input(NETHERITE_SCRAP, 4)
                 .input(GOLD_INGOT)
+                .output(NETHERITE_INGOT)
                 .save(output);
-        //GLOW_BLOCKS.forEach((color, block) -> fusing(stackOf(block, 8)).input(LTXITags.Items.GLOW_BLOCK_MATERIALS, 2).input(color.getTag()).save(output));
-        fusing(stackOf(TITANIUM_GLASS, 2)).input(TITANIUM_INGOT).input(GEMS_QUARTZ, 3).save(output);
-        fusing(stackOf(SLATE_GLASS, 2)).input(SLATE_ALLOY_INGOT).input(GEMS_QUARTZ, 3).save(output);
+        fusing().input(TITANIUM_INGOT).input(GEMS_QUARTZ, 3).output(TITANIUM_GLASS, 2).save(output);
+        fusing().input(SLATE_ALLOY_INGOT).input(GEMS_QUARTZ, 3).output(SLATE_GLASS, 2).save(output);
 
         // Fabricating recipes
-        fabricating(stackOf(T1_CIRCUIT, 2), 250_000)
+        fabricating(250_000)
                 .input(CIRCUIT_BOARD)
                 .input(REDSTONE, 4)
                 .input(COPPER_INGOT, 2)
                 .input(TITANIUM_INGOT, 2)
+                .output(T1_CIRCUIT, 2)
                 .group("circuits")
                 .save(output);
-        fabricating(stackOf(T2_CIRCUIT, 2), 500_000)
+        fabricating(500_000)
                 .input(CIRCUIT_BOARD)
                 .input(REDSTONE, 6)
                 .input(GOLD_INGOT, 4)
                 .input(TITANIUM_INGOT, 4)
+                .output(T2_CIRCUIT, 2)
                 .group("circuits")
                 .save(output);
-        fabricating(stackOf(T3_CIRCUIT, 2), 1_000_000)
+        fabricating(1_000_000)
                 .input(CIRCUIT_BOARD)
                 .input(REDSTONE, 8)
                 .input(GOLD_INGOT, 2)
                 .input(QUARTZ, 8)
                 .input(TITANIUM_INGOT, 8)
+                .output(T3_CIRCUIT, 2)
                 .group("circuits")
                 .save(output);
-        fabricating(T4_CIRCUIT, 20_000_000)
+        fabricating(20_000_000)
                 .input(CIRCUIT_BOARD)
                 .input(T3_CIRCUIT, 2)
                 .input(REDSTONE, 32)
@@ -210,9 +218,10 @@ class RecipesGen extends LimaRecipeProvider
                 .input(GOLD_INGOT, 16)
                 .input(NIOBIUM_INGOT, 8)
                 .input(DIAMOND, 8)
+                .output(T4_CIRCUIT)
                 .group("circuits")
                 .save(output);
-        fabricating(T5_CIRCUIT, 100_000_000)
+        fabricating(100_000_000)
                 .input(CIRCUIT_BOARD)
                 .input(T4_CIRCUIT, 2)
                 .input(REDSTONE, 64)
@@ -221,45 +230,52 @@ class RecipesGen extends LimaRecipeProvider
                 .input(NIOBIUM_INGOT, 24)
                 .input(ECHO_SHARD, 8)
                 .input(AMETHYST_SHARD, 16)
+                .output(T5_CIRCUIT)
                 .group("circuits")
                 .save(output);
-        fabricating(AUTO_FABRICATOR, 300_000)
+        fabricating(300_000)
                 .input(FABRICATOR)
                 .input(T3_CIRCUIT, 2)
                 .input(TITANIUM_GLASS, 4)
+                .output(AUTO_FABRICATOR)
                 .group("machines")
                 .requiresAdvancement()
                 .unlockedBy(T4_CIRCUIT)
                 .save(output);
-        fabricating(MOLECULAR_RECONSTRUCTOR, 2_000_000)
+        fabricating(2_000_000)
                 .input(ANVIL)
                 .input(TITANIUM_INGOT, 16)
                 .input(T3_CIRCUIT, 3)
+                .output(MOLECULAR_RECONSTRUCTOR)
                 .group("machines")
                 .save(output);
 
-        fabricating(EXPLOSIVES_WEAPON_TECH_SALVAGE, 500_000)
+        fabricating(500_000)
                 .input(GUNPOWDER, 8)
                 .input(TITANIUM_INGOT, 4)
                 .input(T2_CIRCUIT)
+                .output(EXPLOSIVES_WEAPON_TECH_SALVAGE)
                 .group("tech_parts")
                 .requiresAdvancement()
                 .unlockedBy("visited_fortress", PlayerTrigger.TriggerInstance.located(LocationPredicate.Builder.inStructure(registries.holderOrThrow(BuiltinStructures.FORTRESS))))
                 .save(output);
-        fabricating(LIGHTWEIGHT_WEAPON_ENERGY, 50_000)
+        fabricating(50_000)
                 .input(TITANIUM_INGOT, 1)
                 .input(Ingredient.of(GLOWSTONE_DUST, REDSTONE))
                 .input(DYES_LIME)
+                .output(LIGHTWEIGHT_WEAPON_ENERGY)
                 .group("weapon_ammo").save(output);
-        fabricating(ROCKET_TURRET, 2_500_000)
+        fabricating(2_500_000)
                 .input(TARGETING_TECH_SALVAGE)
                 .input(TITANIUM_INGOT, 16)
                 .input(T3_CIRCUIT, 2)
+                .output(ROCKET_TURRET)
                 .group("turrets").save(output);
-        fabricating(RAILGUN_TURRET, 5_000_000)
+        fabricating(5_000_000)
                 .input(TARGETING_TECH_SALVAGE)
                 .input(TITANIUM_INGOT, 16)
                 .input(T4_CIRCUIT, 2)
+                .output(RAILGUN_TURRET)
                 .group("turrets").save(output);
 
         // Tools fabricating
@@ -632,35 +648,30 @@ class RecipesGen extends LimaRecipeProvider
         blasting(stackOf(resultItem, resultCount)).input(orePebble).xp(0.5f).save(output, "blast_" + name);
     }
 
-    private LimaSizedIngredientsRecipeBuilder.SimpleBuilder<GrindingRecipe, ?> grinding(ItemStack result)
+    private LimaCustomRecipeBuilder<GrindingRecipe, ?> grinding()
     {
-        return LimaSizedIngredientsRecipeBuilder.simpleBuilder(modResources, result, GrindingRecipe::new);
+        return LimaCustomRecipeBuilder.simpleBuilder(modResources, GrindingRecipe::new);
     }
 
     private void orePebbleGrinding(ItemLike orePebble, TagKey<Item> oreTag, @Nullable TagKey<Item> rawOreTag, String name, RecipeOutput output)
     {
-        grinding(stackOf(orePebble, 3)).input(oreTag).save(output, "grind_" + name + "_ores");
-        if (rawOreTag != null) grinding(stackOf(orePebble, 2)).input(rawOreTag).save(output, "grind_raw_" + name + "_materials");
+        grinding().input(oreTag).output(orePebble, 3).save(output, "grind_" + name + "_ores");
+        if (rawOreTag != null) grinding().input(rawOreTag).output(orePebble, 2).save(output, "grind_raw_" + name + "_materials");
     }
 
-    private LimaSizedIngredientsRecipeBuilder.SimpleBuilder<MaterialFusingRecipe, ?> fusing(ItemStack result)
+    private LimaCustomRecipeBuilder<MaterialFusingRecipe, ?> fusing()
     {
-        return LimaSizedIngredientsRecipeBuilder.simpleBuilder(modResources, result, MaterialFusingRecipe::new);
+        return LimaCustomRecipeBuilder.simpleBuilder(modResources, MaterialFusingRecipe::new);
     }
 
-    private FabricatingBuilder fabricating(ItemLike result, int energyRequired)
+    private FabricatingBuilder fabricating(int energyRequired)
     {
-        return fabricating(stackOf(result), energyRequired);
-    }
-
-    private FabricatingBuilder fabricating(ItemStack result, int energyRequired)
-    {
-        return new FabricatingBuilder(modResources, result, energyRequired);
+        return new FabricatingBuilder(modResources, energyRequired);
     }
 
     private FabricatingBuilder upgradeableItemFabricating(Supplier<? extends UpgradableEquipmentItem> itemSupplier, HolderLookup.Provider registries, int energyRequired)
     {
-        return new FabricatingBuilder(modResources, defaultUpgradableItem(itemSupplier, registries), energyRequired);
+        return fabricating(energyRequired).output(defaultUpgradableItem(itemSupplier, registries));
     }
 
     private <U extends UpgradeBase<?, U>, UE extends UpgradeBaseEntry<U>> Ingredient moduleIngredient(HolderLookup.Provider registries, ResourceKey<U> upgradeKey, int upgradeRank, ItemLike moduleItem, DataComponentType<UE> componentType, ObjectIntFunction<Holder<U>, UE> entryFactory)
@@ -699,7 +710,7 @@ class RecipesGen extends LimaRecipeProvider
 
     private <U extends UpgradeBase<?, U>, UE extends UpgradeBaseEntry<U>> void upgradeFabricating(RecipeOutput output, HolderLookup.Provider registries, String group, ResourceKey<U> upgradeKey, int upgradeRank, int energyRequired, DataComponentType<UE> componentType, ObjectIntFunction<Holder<U>, UE> entryFactory, ItemLike moduleItem, boolean addBaseModuleInput, @Nullable String suffix, UnaryOperator<FabricatingBuilder> op)
     {
-        FabricatingBuilder builder = fabricating(moduleStack(registries, upgradeKey, upgradeRank, moduleItem, componentType, entryFactory), energyRequired).group(group);
+        FabricatingBuilder builder = fabricating(energyRequired).group(group).output(moduleStack(registries, upgradeKey, upgradeRank, moduleItem, componentType, entryFactory));
 
         if (addBaseModuleInput)
         {
@@ -739,14 +750,14 @@ class RecipesGen extends LimaRecipeProvider
     }
 
     // Builder classes
-    private static class FabricatingBuilder extends LimaSizedIngredientsRecipeBuilder.SimpleBuilder<FabricatingRecipe, FabricatingBuilder>
+    private static class FabricatingBuilder extends LimaCustomRecipeBuilder<FabricatingRecipe, FabricatingBuilder>
     {
         private final int energyRequired;
         private boolean advancementLocked = false;
 
-        FabricatingBuilder(ModResources resources, ItemStack result, int energyRequired)
+        FabricatingBuilder(ModResources resources, int energyRequired)
         {
-            super(resources, result);
+            super(resources);
             this.energyRequired = energyRequired;
         }
 
@@ -759,7 +770,10 @@ class RecipesGen extends LimaRecipeProvider
         @Override
         protected FabricatingRecipe buildRecipe()
         {
-            return new FabricatingRecipe(ingredients, resultItem, energyRequired, advancementLocked, getGroupOrBlank());
+            Preconditions.checkState(itemResults.size() == 1, "Fabricating recipe must have only 1 output");
+            ItemResult result = itemResults.getFirst();
+
+            return new FabricatingRecipe(itemIngredients, result, energyRequired, advancementLocked, getGroupOrBlank());
         }
     }
 }

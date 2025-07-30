@@ -14,8 +14,10 @@
       "item": "minecraft:gold_ingot"
     }
   ],
-  "result": {
-    "count": 1,
-    "id": "ltxi:slate_alloy_ingot"
-  }
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:slate_alloy_ingot"
+    }
+  ]
 }

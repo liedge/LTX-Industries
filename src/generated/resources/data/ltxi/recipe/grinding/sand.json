@@ -6,8 +6,10 @@
       "tag": "c:gravels"
     }
   ],
-  "result": {
-    "count": 1,
-    "id": "minecraft:sand"
-  }
+  "item_results": [
+    {
+      "count": 1,
+      "id": "minecraft:sand"
+    }
+  ]
 }

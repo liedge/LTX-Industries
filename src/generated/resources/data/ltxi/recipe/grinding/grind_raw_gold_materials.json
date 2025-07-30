@@ -6,8 +6,10 @@
       "tag": "c:raw_materials/gold"
     }
   ],
-  "result": {
-    "count": 2,
-    "id": "ltxi:gold_ore_pebbles"
-  }
+  "item_results": [
+    {
+      "count": 2,
+      "id": "ltxi:gold_ore_pebbles"
+    }
+  ]
 }

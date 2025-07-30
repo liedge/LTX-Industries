@@ -101,8 +101,8 @@ public final class LTXIBlockEntities
     private static <BE extends LimaBlockEntity> DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<BE>> registerSimpleRecipeMachine(String name, BlockEntityType.BlockEntitySupplier<BE> factory, UnaryOperator<SidedAccessBlockEntityType.Builder<BE>> builder)
     {
         return TYPES.register(name, () -> builder.apply(SidedAccessBlockEntityType.Builder.builder(factory))
-                .withSideRules(BlockEntityInputType.ITEMS, SimpleRecipeMachineBlockEntity.ITEM_ACCESS_RULES)
-                .withSideRules(BlockEntityInputType.ENERGY, SimpleRecipeMachineBlockEntity.ENERGY_ACCESS_RULES).build());
+                .withSideRules(BlockEntityInputType.ITEMS, StateBlockRecipeMachineBlockEntity.ITEM_ACCESS_RULES)
+                .withSideRules(BlockEntityInputType.ENERGY, StateBlockRecipeMachineBlockEntity.ENERGY_ACCESS_RULES).build());
     }
 
     private static <BE extends LimaBlockEntity> DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<BE>> registerDoubleBlockMachine(String name, BlockEntityType.BlockEntitySupplier<BE> factory, UnaryOperator<SidedAccessBlockEntityType.Builder<BE>> builder)

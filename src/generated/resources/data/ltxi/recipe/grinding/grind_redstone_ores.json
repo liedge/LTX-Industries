@@ -6,8 +6,10 @@
       "tag": "c:ores/redstone"
     }
   ],
-  "result": {
-    "count": 3,
-    "id": "ltxi:redstone_ore_pebbles"
-  }
+  "item_results": [
+    {
+      "count": 3,
+      "id": "ltxi:redstone_ore_pebbles"
+    }
+  ]
 }

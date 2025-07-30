@@ -3,19 +3,21 @@ package liedge.ltxindustries.recipe;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import liedge.limacore.data.LimaCoreCodecs;
 import liedge.limacore.network.LimaStreamCodecs;
+import liedge.limacore.recipe.ItemResult;
+import liedge.limacore.recipe.LimaCustomRecipe;
 import liedge.limacore.recipe.LimaRecipeInput;
-import liedge.limacore.recipe.LimaSimpleSizedIngredientRecipe;
 import liedge.ltxindustries.menu.tooltip.FabricatorIngredientTooltip;
 import liedge.ltxindustries.registry.game.LTXIBlocks;
 import liedge.ltxindustries.registry.game.LTXIRecipeSerializers;
 import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.stats.RecipeBook;
 import net.minecraft.util.ExtraCodecs;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
@@ -28,20 +30,22 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class FabricatingRecipe extends LimaSimpleSizedIngredientRecipe<LimaRecipeInput>
+public class FabricatingRecipe extends LimaCustomRecipe<LimaRecipeInput>
 {
-    public static final MapCodec<FabricatingRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> codecStart(instance, 1, 16)
-            .and(ExtraCodecs.POSITIVE_INT.fieldOf("energy_required").forGetter(FabricatingRecipe::getEnergyRequired))
-            .and(Codec.BOOL.optionalFieldOf("advancement_locked", false).forGetter(FabricatingRecipe::isAdvancementLocked))
-            .and(GROUP_MAP_CODEC.forGetter(FabricatingRecipe::getGroup))
+    public static final MapCodec<FabricatingRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+            LimaCoreCodecs.sizedIngredients(16).forGetter(LimaCustomRecipe::getItemIngredients),
+            ItemResult.CODEC.fieldOf("result").forGetter(LimaCustomRecipe::getFirstResult),
+            ExtraCodecs.POSITIVE_INT.fieldOf("energy_required").forGetter(FabricatingRecipe::getEnergyRequired),
+            Codec.BOOL.optionalFieldOf("advancement_locked", false).forGetter(FabricatingRecipe::isAdvancementLocked),
+            GROUP_MAP_CODEC.forGetter(FabricatingRecipe::getGroup))
             .apply(instance, FabricatingRecipe::new));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, FabricatingRecipe> STREAM_CODEC = StreamCodec.composite(
-            LimaStreamCodecs.sizedIngredientsStreamCodec(1, 16), FabricatingRecipe::getRecipeIngredients,
-            ItemStack.STREAM_CODEC, FabricatingRecipe::getResultItem,
+            LimaStreamCodecs.sizedIngredients(16), LimaCustomRecipe::getItemIngredients,
+            ItemResult.STREAM_CODEC, LimaCustomRecipe::getFirstResult,
             LimaStreamCodecs.POSITIVE_VAR_INT, FabricatingRecipe::getEnergyRequired,
             ByteBufCodecs.BOOL, FabricatingRecipe::isAdvancementLocked,
-            ByteBufCodecs.STRING_UTF8, FabricatingRecipe::getGroup,
+            ByteBufCodecs.STRING_UTF8, LimaCustomRecipe::getGroup,
             FabricatingRecipe::new);
 
     public static boolean validateUnlocked(RecipeBook recipeBook, RecipeHolder<FabricatingRecipe> recipe, Player player)
@@ -58,9 +62,9 @@ public class FabricatingRecipe extends LimaSimpleSizedIngredientRecipe<LimaRecip
     private final boolean advancementLocked;
     private final String group;
 
-    public FabricatingRecipe(List<SizedIngredient> ingredients, ItemStack result, int energyRequired, boolean advancementLocked, String group)
+    public FabricatingRecipe(List<SizedIngredient> ingredients, ItemResult result, int energyRequired, boolean advancementLocked, String group)
     {
-        super(ingredients, result);
+        super(ingredients, List.of(result));
         this.energyRequired = energyRequired;
         this.advancementLocked = advancementLocked;
         this.group = group;
@@ -78,13 +82,17 @@ public class FabricatingRecipe extends LimaSimpleSizedIngredientRecipe<LimaRecip
 
     public TooltipComponent createIngredientTooltip()
     {
-        return new FabricatorIngredientTooltip(getRecipeIngredients());
+        return new FabricatorIngredientTooltip(getItemIngredients());
     }
 
-    @Override
-    public ItemStack assemble(@Nullable LimaRecipeInput input, HolderLookup.Provider registries)
+    public ItemStack generateFabricatingResult(RandomSource random)
     {
-        return getResultItem().copy();
+        return getFirstResult().generateResult(random);
+    }
+
+    public ItemStack getFabricatingResultItem()
+    {
+        return getFirstResult().item();
     }
 
     @Override

@@ -51,7 +51,7 @@ public class FabricationBlueprintItem extends Item implements TooltipShiftHintIt
             if (holder.isPresent())
             {
                 FabricatingRecipe recipe = holder.get().value();
-                ItemStack result = recipe.getResultItem();
+                ItemStack result = recipe.getFabricatingResultItem();
                 MutableComponent resultName = result.getHoverName().copy().withStyle(result.getRarity().getStyleModifier());
                 if (result.getCount() > 1) resultName.append(" x" + result.getCount());
 

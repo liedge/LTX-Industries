@@ -23,12 +23,13 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootContext;
 
 public abstract class BaseFabricatorBlockEntity extends SidedItemEnergyMachineBlockEntity implements EnergyConsumerBlockEntity, RecipeMachineBlockEntity<LimaRecipeInput, FabricatingRecipe>
 {
-    public static final int OUTPUT_SLOT = 1;
+    public static final int FABRICATOR_OUTPUT_SLOT = 1;
     public static final int BLUEPRINT_ITEM_SLOT = 2;
 
     private final LimaRecipeCheck<LimaRecipeInput, FabricatingRecipe> recipeCheck = LimaRecipeCheck.create(LTXIRecipeTypes.FABRICATING);
@@ -87,9 +88,21 @@ public abstract class BaseFabricatorBlockEntity extends SidedItemEnergyMachineBl
     }
 
     @Override
-    public int getOutputSlot()
+    public int outputSlotsStart()
     {
-        return OUTPUT_SLOT;
+        return FABRICATOR_OUTPUT_SLOT;
+    }
+
+    @Override
+    public int outputSlotsCount()
+    {
+        return 1;
+    }
+
+    @Override
+    public boolean canInsertRecipeResults(Level level, FabricatingRecipe recipe)
+    {
+        return LimaItemUtil.canMergeItemStacks(getItemHandler().getStackInSlot(FABRICATOR_OUTPUT_SLOT), recipe.getFabricatingResultItem());
     }
 
     @Override
@@ -140,7 +153,7 @@ public abstract class BaseFabricatorBlockEntity extends SidedItemEnergyMachineBl
         tickServerFabricator(level, pos, state);
 
         // Auto output item if option available
-        autoOutputItems(20, getOutputSlot(), 1);
+        autoOutputItems(20, outputSlotsStart(), outputSlotsCount());
     }
 
     protected abstract void tickServerFabricator(ServerLevel level, BlockPos pos, BlockState state);
@@ -161,7 +174,7 @@ public abstract class BaseFabricatorBlockEntity extends SidedItemEnergyMachineBl
     @Override
     public IOAccess getPrimaryHandlerItemSlotIO(int slot)
     {
-        if (slot == OUTPUT_SLOT) return IOAccess.OUTPUT_ONLY;
+        if (slot == FABRICATOR_OUTPUT_SLOT) return IOAccess.OUTPUT_ONLY;
         else if (isInputSlot(slot)) return IOAccess.INPUT_ONLY;
         else return IOAccess.DISABLED;
     }
@@ -189,11 +202,11 @@ public abstract class BaseFabricatorBlockEntity extends SidedItemEnergyMachineBl
     // For data watcher use only, called on server
     private ItemStack createPreviewItem()
     {
-        ItemStack currentOutputItem = getItemHandler().getStackInSlot(OUTPUT_SLOT).copy();
+        ItemStack currentOutputItem = getItemHandler().getStackInSlot(FABRICATOR_OUTPUT_SLOT).copy();
 
         if (isCrafting())
         {
-            return recipeCheck.getLastUsedRecipe(level).map(r -> r.value().getResultItem()).orElse(currentOutputItem);
+            return recipeCheck.getLastUsedRecipe(level).map(r -> r.value().getFabricatingResultItem()).orElse(currentOutputItem);
         }
         else
         {

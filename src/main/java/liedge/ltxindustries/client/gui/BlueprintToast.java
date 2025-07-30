@@ -56,7 +56,7 @@ public final class BlueprintToast implements Toast
         int size = recipes.size();
         int i = (int) ((double) timeSinceLastVisible / Math.max(1d, LimaMathUtil.divideDouble(DISPLAY_TIME * toastComponent.getNotificationDisplayTimeMultiplier(), size)) % size);
         FabricatingRecipe recipe = recipes.get(i);
-        ItemStack displayItem = recipe.getResultItem();
+        ItemStack displayItem = recipe.getFabricatingResultItem();
 
         // Always render upgrade module icons. Otherwise, render the item normally
         if (displayItem.getItem() instanceof UpgradeModuleItem<?,?> moduleItem)

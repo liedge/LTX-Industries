@@ -1,33 +1,38 @@
 package liedge.ltxindustries.integration.jei;
 
+import liedge.limacore.recipe.ItemResult;
+import liedge.limacore.recipe.LimaCustomRecipe;
 import liedge.limacore.recipe.LimaRecipeType;
-import liedge.limacore.recipe.LimaSizedIngredientRecipe;
+import liedge.limacore.util.LimaTextUtil;
+import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.client.gui.widget.MachineProgressWidget;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.drawable.IDrawableAnimated;
 import mezz.jei.api.gui.drawable.IDrawableBuilder;
 import mezz.jei.api.gui.drawable.IDrawableStatic;
+import mezz.jei.api.gui.ingredient.IRecipeSlotTooltipCallback;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FastColor;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-public abstract class LTXIJeiCategory<R extends LimaSizedIngredientRecipe<?>> implements IRecipeCategory<RecipeHolder<R>>
+public abstract class LTXIJeiCategory<R extends LimaCustomRecipe<?>> implements IRecipeCategory<RecipeHolder<R>>
 {
     private final IDrawable background;
-    private final IDrawable icon;
     private final Component title;
 
     // Commonly used drawables
@@ -37,7 +42,6 @@ public abstract class LTXIJeiCategory<R extends LimaSizedIngredientRecipe<?>> im
     protected LTXIJeiCategory(IGuiHelper helper, LimaRecipeType<R> gameRecipeType, int width, int height)
     {
         this.background = new SolidColorDrawable(width, height, FastColor.ARGB32.opaque(0x2e2e2e));
-        this.icon = helper.createDrawableItemStack(categoryIconItemStack());
         this.title = gameRecipeType.translate();
 
         this.machineProgressBackground = guiSpriteDrawable(helper, MachineProgressWidget.BACKGROUND_SPRITE, MachineProgressWidget.BACKGROUND_WIDTH, MachineProgressWidget.BACKGROUND_HEIGHT).build();
@@ -48,8 +52,6 @@ public abstract class LTXIJeiCategory<R extends LimaSizedIngredientRecipe<?>> im
     {
         this(helper, typeSupplier.get(), width, height);
     }
-
-    protected abstract ItemStack categoryIconItemStack();
 
     protected abstract void setRecipe(IRecipeLayoutBuilder builder, RecipeHolder<R> holder, R recipe, IFocusGroup focuses, RegistryAccess registries);
 
@@ -70,7 +72,25 @@ public abstract class LTXIJeiCategory<R extends LimaSizedIngredientRecipe<?>> im
 
     protected void sizedIngredientsSlot(IRecipeLayoutBuilder builder, R recipe, int ingredientIndex, int x, int y)
     {
-        builder.addSlot(RecipeIngredientRole.INPUT, x, y).addItemStacks(List.of(recipe.getRecipeIngredient(ingredientIndex).getItems()));
+        builder.addSlot(RecipeIngredientRole.INPUT, x, y).addItemStacks(List.of(recipe.getItemIngredient(ingredientIndex).getItems()));
+    }
+
+    protected void itemResultSlot(IRecipeLayoutBuilder builder, R recipe, int resultIndex, int x, int y)
+    {
+        ItemResult result = recipe.getItemResult(resultIndex);
+        IRecipeSlotBuilder slotBuilder = builder.addSlot(RecipeIngredientRole.OUTPUT, x, y)
+                .addItemStack(result.item());
+        if (result.chance() != 1f)
+        {
+            String formattedChance = LimaTextUtil.format1PlacePercentage(result.chance());
+            slotBuilder.setOverlay(new SmallFontDrawable(formattedChance, ChatFormatting.YELLOW), 1, 1).addTooltipCallback(outputChanceTooltip(formattedChance));
+        }
+    }
+
+    private IRecipeSlotTooltipCallback outputChanceTooltip(String formattedChance)
+    {
+        Component tooltip = LTXILangKeys.OUTPUT_CHANCE_TOOLTIP.translate().append(formattedChance).withStyle(ChatFormatting.YELLOW);
+        return (view, lines) -> lines.add(tooltip);
     }
 
     @Override
@@ -92,8 +112,8 @@ public abstract class LTXIJeiCategory<R extends LimaSizedIngredientRecipe<?>> im
     }
 
     @Override
-    public IDrawable getIcon()
+    public @Nullable IDrawable getIcon()
     {
-        return icon;
+        return null;
     }
 }

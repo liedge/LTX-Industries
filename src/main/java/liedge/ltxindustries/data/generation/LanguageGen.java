@@ -268,10 +268,13 @@ class LanguageGen extends LimaLanguageProvider
         add(EMPTY_ITEM_INVENTORY_TOOLTIP, "No items stored");
         add(ITEM_INVENTORY_TOOLTIP, "Stored Items");
         add(FABRICATOR_SELECTED_RECIPE_TOOLTIP, "Left click to craft. Right click to encode blueprint (must have blank blueprint in slot).");
-        add(ADVANCEMENT_LOCKED_TOOLTIP, "Requires Advancement");
         add(INLINE_ENERGY_REQUIRED_TOOLTIP, "Energy required: %s");
         add(WORKING_PROGRESS_TOOLTIP, "Working: %s%%");
         add(CRAFTING_PROGRESS_TOOLTIP, "Crafting: %s%%");
+
+        add(OUTPUT_CHANCE_TOOLTIP, "Output chance: ");
+        add(ADVANCEMENT_LOCKED_TOOLTIP, "Requires Advancement");
+
         add(UPGRADE_RANK_TOOLTIP, "Rank %s/%s");
         add(UPGRADE_REMOVE_HINT, "Shift + left click to remove upgrade. Must have space in your inventory.");
         add(UPGRADE_COMPATIBILITY_TOOLTIP, "Compatible with:");

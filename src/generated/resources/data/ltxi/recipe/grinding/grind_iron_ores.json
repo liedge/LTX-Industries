@@ -6,8 +6,10 @@
       "tag": "c:ores/iron"
     }
   ],
-  "result": {
-    "count": 3,
-    "id": "ltxi:iron_ore_pebbles"
-  }
+  "item_results": [
+    {
+      "count": 3,
+      "id": "ltxi:iron_ore_pebbles"
+    }
+  ]
 }

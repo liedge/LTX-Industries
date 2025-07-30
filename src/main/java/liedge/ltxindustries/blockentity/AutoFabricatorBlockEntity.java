@@ -45,6 +45,18 @@ public class AutoFabricatorBlockEntity extends BaseFabricatorBlockEntity
     }
 
     @Override
+    public int inputSlotsStart()
+    {
+        return 3;
+    }
+
+    @Override
+    public int inputSlotsCount()
+    {
+        return 16;
+    }
+
+    @Override
     protected void tickServerFabricator(ServerLevel level, BlockPos pos, BlockState state)
     {
         // Update blueprint status (if necessary)
@@ -63,7 +75,7 @@ public class AutoFabricatorBlockEntity extends BaseFabricatorBlockEntity
                 FabricatingRecipe recipe = optional.get().value();
 
                 LimaRecipeInput input = createRecipeInput();
-                if (canInsertRecipeResult(level, recipe) && recipe.matches(input, level)) // Preliminary check
+                if (canInsertRecipeResults(level, recipe) && recipe.matches(input, level)) // Preliminary check
                 {
                     recipe.consumeIngredientsLenientSlots(input, false);
                     check = true; // We consume ingredients here and start crafting. Last used recipe will persist until crafting completes.
@@ -75,7 +87,7 @@ public class AutoFabricatorBlockEntity extends BaseFabricatorBlockEntity
 
         // Tick recipe progress
         FabricatingRecipe recipe = getRecipeCheck().getLastUsedRecipe(level).map(RecipeHolder::value).orElse(null);
-        if (isCrafting() && recipe != null && canInsertRecipeResult(level, recipe))
+        if (isCrafting() && recipe != null && canInsertRecipeResults(level, recipe))
         {
             // Accumulate energy for recipe
             if (energyCraftProgress < recipe.getEnergyRequired())
@@ -85,8 +97,7 @@ public class AutoFabricatorBlockEntity extends BaseFabricatorBlockEntity
             }
             else // When done crafting
             {
-                ItemStack craftedItem = recipe.assemble(null, level.registryAccess()); // We don't need the input to assemble the result item
-                getItemHandler().insertItem(OUTPUT_SLOT, craftedItem, false);
+                getItemHandler().insertItem(FABRICATOR_OUTPUT_SLOT, recipe.generateFabricatingResult(level.random), false);
 
                 // Reset state & check recipe after every craft
                 energyCraftProgress = 0;
@@ -111,12 +122,6 @@ public class AutoFabricatorBlockEntity extends BaseFabricatorBlockEntity
     public LimaMenuType<?, ?> getMenuType()
     {
         return LTXIMenus.AUTO_FABRICATOR.get();
-    }
-
-    @Override
-    public boolean isInputSlot(int index)
-    {
-        return index > 2 && index < 19;
     }
 
     @Override
