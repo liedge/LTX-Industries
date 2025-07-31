@@ -1,7 +1,6 @@
 package liedge.ltxindustries.item;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import liedge.limacore.capability.energy.ItemEnergyProperties;
 import liedge.limacore.registry.game.LimaCoreDataComponents;
 import liedge.limacore.util.LimaMathUtil;
 import liedge.limacore.util.LimaRegistryUtil;
@@ -65,11 +64,9 @@ public interface UpgradableEquipmentItem extends ItemLike
             int transferRate = LimaMathUtil.round(upgrades.applyValue(LTXIUpgradeEffectComponents.ENERGY_TRANSFER_RATE, context, holderItem.getBaseEnergyTransferRate(stack)));
             int energyUsage = LimaMathUtil.round(upgrades.applyValue(LTXIUpgradeEffectComponents.ENERGY_USAGE, context, holderItem.getBaseEnergyUsage(stack)));
 
-            stack.set(LimaCoreDataComponents.ENERGY_PROPERTIES, new ItemEnergyProperties(capacity, transferRate, energyUsage));
-        }
-        else
-        {
-            stack.remove(LimaCoreDataComponents.ENERGY_PROPERTIES);
+            stack.set(LimaCoreDataComponents.ENERGY_CAPACITY, capacity);
+            stack.set(LimaCoreDataComponents.ENERGY_TRANSFER_RATE, transferRate);
+            stack.set(LimaCoreDataComponents.ENERGY_USAGE, energyUsage);
         }
     }
 

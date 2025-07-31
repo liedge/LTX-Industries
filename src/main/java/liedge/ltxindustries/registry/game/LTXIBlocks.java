@@ -1,17 +1,12 @@
 package liedge.ltxindustries.registry.game;
 
-import liedge.limacore.capability.energy.ItemEnergyProperties;
 import liedge.limacore.registry.DeferredBlockWithItem;
 import liedge.limacore.registry.LimaDeferredBlocksWithItems;
-import liedge.limacore.registry.game.LimaCoreDataComponents;
 import liedge.limacore.util.LimaCollectionsUtil;
 import liedge.ltxindustries.LTXICommonIds;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.block.*;
-import liedge.ltxindustries.item.ContentsTooltipBlockItem;
-import liedge.ltxindustries.item.ESABlockItem;
-import liedge.ltxindustries.item.EnergyHolderItem;
-import liedge.ltxindustries.item.LTXIItemRarities;
+import liedge.ltxindustries.item.*;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.item.BlockItem;
@@ -88,8 +83,8 @@ public final class LTXIBlocks
     public static final DeferredBlock<BerryVinesPlantBlock> BILEVINE_PLANT = BLOCKS.registerBlock("bilevine_plant", BerryVinesPlantBlock::new, berryVinesProperties());
 
     // Machinery
-    public static final DeferredBlockWithItem<EnergyStorageArrayBlock, ESABlockItem> ENERGY_STORAGE_ARRAY = BLOCKS.registerBlockAndItem(LTXICommonIds.ID_ENERGY_STORAGE_ARRAY, () -> new EnergyStorageArrayBlock(machineProperties().noOcclusion(), false), block -> new ESABlockItem(block, new Item.Properties().stacksTo(1), false));
-    public static final DeferredBlockWithItem<EnergyStorageArrayBlock, ESABlockItem> INFINITE_ENERGY_STORAGE_ARRAY = BLOCKS.registerBlockAndItem(LTXICommonIds.ID_INFINITE_ENERGY_STORAGE_ARRAY, () -> new EnergyStorageArrayBlock(machineProperties().noOcclusion(), true), block -> new ESABlockItem(block, new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).component(LimaCoreDataComponents.ENERGY_PROPERTIES, ItemEnergyProperties.INFINITE), true));
+    public static final DeferredBlockWithItem<EnergyStorageArrayBlock, ESABlockItem> ENERGY_STORAGE_ARRAY = BLOCKS.registerBlockAndItem(LTXICommonIds.ID_ENERGY_STORAGE_ARRAY, () -> new EnergyStorageArrayBlock(machineProperties().noOcclusion(), false), block -> new ESABlockItem(block, new Item.Properties().stacksTo(1)));
+    public static final DeferredBlockWithItem<EnergyStorageArrayBlock, InfiniteESABlockItem> INFINITE_ENERGY_STORAGE_ARRAY = BLOCKS.registerBlockAndItem(LTXICommonIds.ID_INFINITE_ENERGY_STORAGE_ARRAY, () -> new EnergyStorageArrayBlock(machineProperties().noOcclusion(), true), block -> new InfiniteESABlockItem(block, new Item.Properties().stacksTo(1).rarity(Rarity.EPIC)));
     public static final DeferredBlockWithItem<BasicMachineBlock, ContentsTooltipBlockItem> DIGITAL_FURNACE = BLOCKS.registerBlockAndItem(LTXICommonIds.ID_DIGITAL_FURNACE, () -> new BasicMachineBlock(machineProperties()), block -> new ContentsTooltipBlockItem(block, new Item.Properties().stacksTo(1), true, true));
     public static final DeferredBlockWithItem<BasicMachineBlock, ContentsTooltipBlockItem> DIGITAL_SMOKER = BLOCKS.registerBlockAndItem(LTXICommonIds.ID_DIGITAL_SMOKER, () -> new BasicMachineBlock(machineProperties()), block -> new ContentsTooltipBlockItem(block, new Item.Properties().stacksTo(1), true, true));
     public static final DeferredBlockWithItem<BasicMachineBlock, ContentsTooltipBlockItem> DIGITAL_BLAST_FURNACE = BLOCKS.registerBlockAndItem(LTXICommonIds.ID_DIGITAL_BLAST_FURNACE, () -> new BasicMachineBlock(machineProperties()), block -> new ContentsTooltipBlockItem(block, new Item.Properties().stacksTo(1), true, true));

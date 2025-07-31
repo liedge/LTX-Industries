@@ -18,6 +18,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.resources.RegistryOps;
@@ -260,20 +261,16 @@ public abstract class SidedItemEnergyMachineBlockEntity extends LimaBlockEntity 
     protected void applyImplicitComponents(DataComponentInput componentInput)
     {
         if (getEnergyStorage() instanceof LimaBlockEntityEnergyStorage) getEnergyStorage().setEnergyStored(componentInput.getOrDefault(ENERGY, 0));
-        inventory.copyFromComponent(componentInput.getOrDefault(ITEM_CONTAINER, ItemContainerContents.EMPTY));
+        inventory.copyFromComponent(componentInput.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY));
         setUpgrades(componentInput.getOrDefault(MACHINE_UPGRADES, MachineUpgrades.EMPTY));
     }
 
     @Override
     protected void collectImplicitComponents(DataComponentMap.Builder components)
     {
-        if (getEnergyStorage() instanceof LimaBlockEntityEnergyStorage limaEnergy)
-        {
-            components.set(ENERGY, limaEnergy.getEnergyStored());
-            components.set(ENERGY_PROPERTIES, limaEnergy.copyProperties());
-        }
+        if (getEnergyStorage() instanceof LimaBlockEntityEnergyStorage limaEnergy) limaEnergy.writeComponents(components);
 
-        components.set(ITEM_CONTAINER, inventory.copyToComponent());
+        components.set(DataComponents.CONTAINER, inventory.copyToComponent());
         components.set(MACHINE_UPGRADES, upgrades);
     }
 

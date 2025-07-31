@@ -5,6 +5,7 @@ import liedge.limacore.lib.Translatable;
 import liedge.ltxindustries.menu.tooltip.ItemGridTooltip;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.HolderSet;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentUtils;
 import net.minecraft.network.chat.MutableComponent;
@@ -19,7 +20,6 @@ import java.util.List;
 import java.util.UUID;
 
 import static liedge.limacore.capability.energy.LimaEnergyUtil.*;
-import static liedge.limacore.registry.game.LimaCoreDataComponents.ITEM_CONTAINER;
 import static liedge.limacore.util.LimaTextUtil.*;
 import static liedge.ltxindustries.LTXIConstants.REM_BLUE;
 import static liedge.ltxindustries.LTXIndustries.RESOURCES;
@@ -60,7 +60,7 @@ public final class LTXITooltipUtil
 
     public static void appendInventoryPreviewTooltip(TooltipLineConsumer consumer, ItemStack stack)
     {
-        List<ItemStack> inventory = stack.getOrDefault(ITEM_CONTAINER, ItemContainerContents.EMPTY).nonEmptyStream().toList();
+        List<ItemStack> inventory = stack.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY).nonEmptyStream().toList();
         if (!inventory.isEmpty())
         {
             consumer.accept(ITEM_INVENTORY_TOOLTIP.translate().withStyle(ChatFormatting.GRAY));

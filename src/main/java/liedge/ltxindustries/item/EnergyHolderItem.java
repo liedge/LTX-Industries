@@ -1,6 +1,5 @@
 package liedge.ltxindustries.item;
 
-import liedge.limacore.capability.energy.ItemEnergyProperties;
 import liedge.limacore.capability.energy.LimaComponentEnergyStorage;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.util.LimaCoreUtil;
@@ -9,8 +8,7 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 import org.jetbrains.annotations.Nullable;
 
-import static liedge.limacore.registry.game.LimaCoreDataComponents.ENERGY;
-import static liedge.limacore.registry.game.LimaCoreDataComponents.ENERGY_PROPERTIES;
+import static liedge.limacore.registry.game.LimaCoreDataComponents.*;
 
 public interface EnergyHolderItem
 {
@@ -34,27 +32,19 @@ public interface EnergyHolderItem
         return stack.getOrDefault(ENERGY, 0);
     }
 
-    default ItemEnergyProperties getEnergyProperties(ItemStack stack)
-    {
-        return stack.getOrDefault(ENERGY_PROPERTIES, ItemEnergyProperties.EMPTY);
-    }
-
     default int getEnergyCapacity(ItemStack stack)
     {
-        ItemEnergyProperties properties = getEnergyProperties(stack);
-        return properties == ItemEnergyProperties.EMPTY ? getBaseEnergyCapacity(stack) : properties.capacity();
+        return stack.getOrDefault(ENERGY_CAPACITY, getBaseEnergyCapacity(stack));
     }
 
     default int getEnergyTransferRate(ItemStack stack)
     {
-        ItemEnergyProperties properties = getEnergyProperties(stack);
-        return properties == ItemEnergyProperties.EMPTY ? getBaseEnergyTransferRate(stack) : properties.transferRate();
+        return stack.getOrDefault(ENERGY_TRANSFER_RATE, getBaseEnergyTransferRate(stack));
     }
 
     default int getEnergyUsage(ItemStack stack)
     {
-        ItemEnergyProperties properties = getEnergyProperties(stack);
-        return properties == ItemEnergyProperties.EMPTY ? getBaseEnergyUsage(stack) : properties.energyUsage();
+        return stack.getOrDefault(ENERGY_USAGE, getBaseEnergyUsage(stack));
     }
 
     default boolean supportsEnergyStorage(ItemStack stack)
@@ -64,9 +54,7 @@ public interface EnergyHolderItem
 
     default IEnergyStorage getOrCreateEnergyStorage(ItemStack stack)
     {
-        ItemEnergyProperties properties = getEnergyProperties(stack);
-        if (properties == ItemEnergyProperties.EMPTY) properties = new ItemEnergyProperties(getBaseEnergyCapacity(stack), getBaseEnergyTransferRate(stack), getBaseEnergyUsage(stack));
-        return new LimaComponentEnergyStorage(stack, properties);
+        return LimaComponentEnergyStorage.createFromItem(stack, getBaseEnergyCapacity(stack), getBaseEnergyTransferRate(stack));
     }
 
     default void appendEquipmentEnergyTooltip(TooltipLineConsumer consumer, ItemStack stack)

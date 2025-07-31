@@ -1,6 +1,5 @@
 package liedge.ltxindustries.item;
 
-import liedge.limacore.capability.energy.ItemEnergyProperties;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.item.LimaCreativeTabFillerItem;
 import liedge.limacore.util.LimaMathUtil;
@@ -10,19 +9,13 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.neoforged.neoforge.energy.IEnergyStorage;
 import org.jetbrains.annotations.Nullable;
-
-import static liedge.limacore.capability.energy.InfiniteEnergyStorage.INFINITE_ENERGY_STORAGE;
 
 public class ESABlockItem extends BlockItem implements EnergyHolderItem, TooltipShiftHintItem, LimaCreativeTabFillerItem
 {
-    private final boolean infinite;
-
-    public ESABlockItem(Block block, Properties properties, boolean infinite)
+    public ESABlockItem(Block block, Properties properties)
     {
         super(block, properties);
-        this.infinite = infinite;
     }
 
     @Override
@@ -38,27 +31,9 @@ public class ESABlockItem extends BlockItem implements EnergyHolderItem, Tooltip
     }
 
     @Override
-    public int getEnergyStored(ItemStack stack)
-    {
-        return infinite ? Integer.MAX_VALUE : EnergyHolderItem.super.getEnergyStored(stack);
-    }
-
-    @Override
-    public ItemEnergyProperties getEnergyProperties(ItemStack stack)
-    {
-        return infinite ? ItemEnergyProperties.INFINITE : EnergyHolderItem.super.getEnergyProperties(stack);
-    }
-
-    @Override
-    public IEnergyStorage getOrCreateEnergyStorage(ItemStack stack)
-    {
-        return infinite ? INFINITE_ENERGY_STORAGE : EnergyHolderItem.super.getOrCreateEnergyStorage(stack);
-    }
-
-    @Override
     public boolean isBarVisible(ItemStack stack)
     {
-        return !infinite;
+        return true;
     }
 
     @Override

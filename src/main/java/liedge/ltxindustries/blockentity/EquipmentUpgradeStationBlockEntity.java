@@ -17,13 +17,13 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.level.block.state.BlockState;
 
 import static liedge.limacore.LimaCommonConstants.KEY_ITEM_CONTAINER;
-import static liedge.limacore.registry.game.LimaCoreDataComponents.ITEM_CONTAINER;
 
 public class EquipmentUpgradeStationBlockEntity extends LimaBlockEntity implements ItemHolderBlockEntity, LimaMenuProvider
 {
@@ -79,13 +79,13 @@ public class EquipmentUpgradeStationBlockEntity extends LimaBlockEntity implemen
     @Override
     protected void applyImplicitComponents(DataComponentInput componentInput)
     {
-        inventory.copyFromComponent(componentInput.getOrDefault(ITEM_CONTAINER, ItemContainerContents.EMPTY));
+        inventory.copyFromComponent(componentInput.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY));
     }
 
     @Override
     protected void collectImplicitComponents(DataComponentMap.Builder components)
     {
-        components.set(ITEM_CONTAINER, inventory.copyToComponent());
+        components.set(DataComponents.CONTAINER, inventory.copyToComponent());
     }
 
     @Override
