@@ -8,8 +8,8 @@ import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.registry.game.LTXIMenus;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -17,25 +17,7 @@ public class FabricatorBlockEntity extends BaseFabricatorBlockEntity
 {
     public FabricatorBlockEntity(BlockPos pos, BlockState state)
     {
-        super(LTXIBlockEntities.FABRICATOR.get(), pos, state, 3);
-    }
-
-    @Override
-    public int inputSlotsStart()
-    {
-        return -1;
-    }
-
-    @Override
-    public int inputSlotsCount()
-    {
-        return 0;
-    }
-
-    @Override
-    public boolean isInputSlot(int index)
-    {
-        return false;
+        super(LTXIBlockEntities.FABRICATOR.get(), pos, state, 0);
     }
 
     public void startCrafting(Level level, RecipeHolder<FabricatingRecipe> holder, LimaRecipeInput input, boolean forceStart)
@@ -64,7 +46,7 @@ public class FabricatorBlockEntity extends BaseFabricatorBlockEntity
         {
             if (insertResult)
             {
-                getItemHandler().insertItem(FABRICATOR_OUTPUT_SLOT, holder.value().generateFabricatingResult(level.random), false);
+                getOutputInventory().insertItem(0, holder.value().generateFabricatingResult(level.random), false);
             }
 
             energyCraftProgress = 0;
@@ -96,9 +78,9 @@ public class FabricatorBlockEntity extends BaseFabricatorBlockEntity
     }
 
     @Override
-    protected ItemLike getValidBlueprintItem()
+    public Item getValidBlueprintItem()
     {
-        return LTXIItems.EMPTY_FABRICATION_BLUEPRINT;
+        return LTXIItems.EMPTY_FABRICATION_BLUEPRINT.get();
     }
 
     @Override

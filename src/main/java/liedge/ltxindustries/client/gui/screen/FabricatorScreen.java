@@ -29,7 +29,7 @@ import static liedge.ltxindustries.LTXIndustries.RESOURCES;
 import static liedge.ltxindustries.client.LTXILangKeys.FABRICATOR_SELECTED_RECIPE_TOOLTIP;
 import static liedge.ltxindustries.client.LTXILangKeys.INLINE_ENERGY_REQUIRED_TOOLTIP;
 
-public class FabricatorScreen extends SidedUpgradableMachineScreen<FabricatorMenu> implements ScrollableGUIElement
+public class FabricatorScreen extends LTXIMachineScreen<FabricatorMenu> implements ScrollableGUIElement
 {
     private static final int SELECTOR_GRID_WIDTH = 5;
     private static final int SELECTOR_GRID_HEIGHT = 4;
@@ -100,7 +100,6 @@ public class FabricatorScreen extends SidedUpgradableMachineScreen<FabricatorMen
     {
         super.addWidgets();
 
-        addRenderableOnly(new EnergyGaugeWidget(menu.menuContext(), leftPos + 10, topPos + 9));
         addRenderableOnly(new FabricatorProgressWidget(leftPos + 61, topPos + 83, menu.menuContext()));
         this.scrollbar = addRenderableWidget(new ScrollbarWidget(leftPos + 168, topPos + 32, 72, this));
         scrollbar.reset(); // Always reset scrollbar after reinitializing

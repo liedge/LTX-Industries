@@ -1,13 +1,15 @@
 package liedge.ltxindustries.blockentity;
 
-import liedge.limacore.blockentity.IOAccess;
-import liedge.limacore.blockentity.IOAccessSets;
 import liedge.limacore.capability.energy.LimaEnergyStorage;
 import liedge.limacore.capability.energy.LimaEnergyUtil;
-import liedge.limacore.capability.itemhandler.LimaItemHandlerBase;
+import liedge.limacore.capability.itemhandler.BlockInventoryType;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.recipe.LimaRecipeCheck;
-import liedge.ltxindustries.blockentity.base.*;
+import liedge.ltxindustries.blockentity.base.EnergyConsumerBlockEntity;
+import liedge.ltxindustries.blockentity.base.RecipeMachineBlockEntity;
+import liedge.ltxindustries.blockentity.base.SidedAccessBlockEntityType;
+import liedge.ltxindustries.blockentity.base.TimedProcessMachineBlockEntity;
+import liedge.ltxindustries.blockentity.template.ProductionMachineBlockEntity;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrades;
 import liedge.ltxindustries.util.LTXITooltipUtil;
@@ -27,11 +29,8 @@ import java.util.Optional;
 
 import static liedge.ltxindustries.block.LTXIBlockProperties.MACHINE_WORKING;
 
-public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, R extends Recipe<I>> extends SidedItemEnergyMachineBlockEntity implements TimedProcessMachineBlockEntity, EnergyConsumerBlockEntity, RecipeMachineBlockEntity<I, R>
+public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, R extends Recipe<I>> extends ProductionMachineBlockEntity implements TimedProcessMachineBlockEntity, EnergyConsumerBlockEntity, RecipeMachineBlockEntity<I, R>
 {
-    public static final SidedAccessRules ITEM_ACCESS_RULES = SidedAccessRules.allSides(IOAccessSets.ALL_ALLOWED, IOAccess.INPUT_ONLY, false, true);
-    public static final SidedAccessRules ENERGY_ACCESS_RULES = SidedAccessRules.allSides(IOAccessSets.INPUT_ONLY_OR_DISABLED, IOAccess.INPUT_ONLY, false, false);
-
     private final LimaRecipeCheck<I, R> recipeCheck;
 
     private int energyUsage = getBaseEnergyUsage();
@@ -40,9 +39,9 @@ public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, 
     private boolean shouldCheckRecipe;
     private boolean crafting;
 
-    protected StateBlockRecipeMachineBlockEntity(SidedAccessBlockEntityType<?> type, RecipeType<R> recipeType, BlockPos pos, BlockState state, int inventorySize)
+    protected StateBlockRecipeMachineBlockEntity(SidedAccessBlockEntityType<?> type, RecipeType<R> recipeType, BlockPos pos, BlockState state, int inputSlots, int outputSlots)
     {
-        super(type, pos, state, inventorySize);
+        super(type, pos, state, 2, inputSlots, outputSlots);
         this.recipeCheck = LimaRecipeCheck.create(recipeType);
     }
 
@@ -125,7 +124,7 @@ public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, 
 
     protected abstract void consumeIngredients(I recipeInput, R recipe, Level level);
 
-    protected abstract void insertRecipeResults(Level level, LimaItemHandlerBase machineInventory, R recipe, I recipeInput);
+    protected abstract void insertRecipeResults(Level level, R recipe, I recipeInput);
 
     private Optional<RecipeHolder<R>> checkRecipe(Level level, I recipeInput)
     {
@@ -134,25 +133,16 @@ public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, 
     }
 
     @Override
-    public IOAccess getPrimaryHandlerItemSlotIO(int slot)
+    public void onItemSlotChanged(BlockInventoryType inventoryType, int slot)
     {
-        if (isInputSlot(slot)) return IOAccess.INPUT_ONLY;
-        else if (isOutputSlot(slot)) return IOAccess.OUTPUT_ONLY;
-        else return IOAccess.DISABLED;
-    }
-
-    @Override
-    public void onItemSlotChanged(int handlerIndex, int slot)
-    {
-        super.onItemSlotChanged(handlerIndex, slot);
-        if (handlerIndex == 0 && slot != 0) shouldCheckRecipe = true;
+        super.onItemSlotChanged(inventoryType, slot);
+        if (inventoryType == BlockInventoryType.INPUT || inventoryType == BlockInventoryType.OUTPUT) shouldCheckRecipe = true;
     }
 
     @Override
     protected void tickServer(ServerLevel level, BlockPos pos, BlockState state)
     {
         LimaEnergyStorage energyStorage = getEnergyStorage();
-        LimaItemHandlerBase inventory = getItemHandler();
 
         // Fill internal energy buffer from energy item slot
         fillEnergyBuffer();
@@ -175,7 +165,7 @@ public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, 
 
                 if (craftingProgress >= getTicksPerOperation()) // Fixed the N+1 tick duration, we now have true N tick duration
                 {
-                    insertRecipeResults(level, inventory, lastUsedRecipe.value(), recipeInput);
+                    insertRecipeResults(level, lastUsedRecipe.value(), recipeInput);
                     consumeIngredients(recipeInput, lastUsedRecipe.value(), level);
 
                     // Check state of recipe after every successful craft. Last recipe is used first so should be *relatively* quick.
@@ -190,7 +180,7 @@ public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, 
         }
 
         // Push auto outputs via sides every 20 ticks, if option enabled
-        autoOutputItems(20, outputSlotsStart(), outputSlotsCount());
+        autoOutputItems(20, getOutputInventory());
     }
 
     @Override

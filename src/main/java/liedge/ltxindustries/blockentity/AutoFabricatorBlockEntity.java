@@ -1,5 +1,6 @@
 package liedge.ltxindustries.blockentity;
 
+import liedge.limacore.capability.itemhandler.BlockInventoryType;
 import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limacore.recipe.LimaRecipeInput;
 import liedge.limacore.util.LimaRecipesUtil;
@@ -8,9 +9,9 @@ import liedge.ltxindustries.registry.game.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -23,37 +24,20 @@ public class AutoFabricatorBlockEntity extends BaseFabricatorBlockEntity
 
     public AutoFabricatorBlockEntity(BlockPos pos, BlockState state)
     {
-        super(LTXIBlockEntities.AUTO_FABRICATOR.get(), pos, state, 19);
+        super(LTXIBlockEntities.AUTO_FABRICATOR.get(), pos, state, 16);
     }
 
     private void updateBlueprint(Level level)
     {
         shouldCheckBlueprint = false;
 
-        ItemStack bpItem = getItemHandler().getStackInSlot(BLUEPRINT_ITEM_SLOT);
+        ItemStack bpItem = getAuxInventory().getStackInSlot(AUX_BLUEPRINT_SLOT);
         ResourceLocation bpId = bpItem.get(LTXIDataComponents.BLUEPRINT_RECIPE);
         RecipeHolder<FabricatingRecipe> holder = null;
 
         if (bpId != null) holder = LimaRecipesUtil.getRecipeById(level, bpId, LTXIRecipeTypes.FABRICATING).orElse(null);
 
         getRecipeCheck().setLastUsedRecipe(holder);
-    }
-
-    private LimaRecipeInput createRecipeInput()
-    {
-        return LimaRecipeInput.createWithSize(getItemHandler(), 3, 16);
-    }
-
-    @Override
-    public int inputSlotsStart()
-    {
-        return 3;
-    }
-
-    @Override
-    public int inputSlotsCount()
-    {
-        return 16;
     }
 
     @Override
@@ -74,7 +58,7 @@ public class AutoFabricatorBlockEntity extends BaseFabricatorBlockEntity
             {
                 FabricatingRecipe recipe = optional.get().value();
 
-                LimaRecipeInput input = createRecipeInput();
+                LimaRecipeInput input = LimaRecipeInput.create(getInputInventory());
                 if (canInsertRecipeResults(level, recipe) && recipe.matches(input, level)) // Preliminary check
                 {
                     recipe.consumeIngredientsLenientSlots(input, false);
@@ -97,7 +81,7 @@ public class AutoFabricatorBlockEntity extends BaseFabricatorBlockEntity
             }
             else // When done crafting
             {
-                getItemHandler().insertItem(FABRICATOR_OUTPUT_SLOT, recipe.generateFabricatingResult(level.random), false);
+                getOutputInventory().insertItem(0, recipe.generateFabricatingResult(level.random), false);
 
                 // Reset state & check recipe after every craft
                 energyCraftProgress = 0;
@@ -113,9 +97,9 @@ public class AutoFabricatorBlockEntity extends BaseFabricatorBlockEntity
     }
 
     @Override
-    protected ItemLike getValidBlueprintItem()
+    public Item getValidBlueprintItem()
     {
-        return LTXIItems.FABRICATION_BLUEPRINT;
+        return LTXIItems.FABRICATION_BLUEPRINT.get();
     }
 
     @Override
@@ -125,21 +109,17 @@ public class AutoFabricatorBlockEntity extends BaseFabricatorBlockEntity
     }
 
     @Override
-    public void onItemSlotChanged(int handlerIndex, int slot)
+    public void onItemSlotChanged(BlockInventoryType inventoryType, int slot)
     {
-        super.onItemSlotChanged(handlerIndex, slot);
-
-        if (handlerIndex == 0)
+        super.onItemSlotChanged(inventoryType, slot);
+        if (inventoryType == BlockInventoryType.INPUT || inventoryType == BlockInventoryType.OUTPUT)
         {
-            if (slot == BLUEPRINT_ITEM_SLOT)
-            {
-                shouldCheckBlueprint = true;
-                shouldCheckRecipe = true;
-            }
-            else if (slot != ENERGY_ITEM_SLOT)
-            {
-                shouldCheckRecipe = true;
-            }
+            shouldCheckRecipe = true;
+        }
+        else if (inventoryType == BlockInventoryType.AUXILIARY && slot == AUX_BLUEPRINT_SLOT)
+        {
+            shouldCheckRecipe = true;
+            shouldCheckBlueprint = true;
         }
     }
 }

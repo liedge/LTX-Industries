@@ -89,7 +89,7 @@ class BlockStatesGen extends LimaBlockStateProvider
         emissiveFrontMachine(MATERIAL_FUSING_CHAMBER);
         horizontalBlockWithSimpleItem(FABRICATOR);
         horizontalBlockWithSimpleItem(AUTO_FABRICATOR, blockFolderLocation(FABRICATOR));
-        simpleBlockWithItem(EQUIPMENT_UPGRADE_STATION, existingModel(blockFolderLocation(EQUIPMENT_UPGRADE_STATION)));
+        simpleBlockWithItem(EQUIPMENT_UPGRADE_STATION);
         simpleDoubleMachineBlock(MOLECULAR_RECONSTRUCTOR);
 
         // Turret

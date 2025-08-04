@@ -19,7 +19,7 @@ public class SimpleHintItem extends Item implements TooltipShiftHintItem
 
     public Translatable getShiftHint()
     {
-        if (shiftHint == null) shiftHint = new Translatable.TranslationHolder(getDescriptionId() + ".hint");
+        if (shiftHint == null) shiftHint = Translatable.standalone(getDescriptionId() + ".hint");
         return shiftHint;
     }
 

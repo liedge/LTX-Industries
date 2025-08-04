@@ -3,8 +3,9 @@ package liedge.ltxindustries.menu;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.capability.itemhandler.ItemHolderBlockEntity;
+import liedge.limacore.capability.itemhandler.LimaBlockEntityItemHandler;
+import liedge.limacore.inventory.menu.LimaItemHandlerMenu;
 import liedge.limacore.inventory.menu.LimaItemHandlerMenuSlot;
-import liedge.limacore.inventory.menu.LimaMenu;
 import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limacore.network.NetworkSerializer;
 import liedge.limacore.network.sync.AutomaticDataWatcher;
@@ -23,36 +24,37 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import net.neoforged.neoforge.items.wrapper.PlayerMainInvWrapper;
 
 import java.util.List;
 
-public abstract class UpgradesConfigMenu<CTX extends ItemHolderBlockEntity, U extends UpgradeBase<?, U>, UC extends UpgradesContainerBase<?, U>> extends LimaMenu<CTX>
+public abstract class UpgradesConfigMenu<CTX extends ItemHolderBlockEntity, U extends UpgradeBase<?, U>, UC extends UpgradesContainerBase<?, U>> extends LimaItemHandlerMenu<CTX>
 {
     public static final int UPGRADE_REMOVAL_BUTTON_ID = 0;
 
     private int quickTransferSlot = -1;
 
     private final List<Object2IntMap.Entry<Holder<U>>> remoteUpgrades = new ObjectArrayList<>();
-    private final int handlerIndex;
+    protected final LimaBlockEntityItemHandler moduleSourceInventory;
+    protected final int moduleSlot;
     private boolean screenUpdate = true;
 
-    protected UpgradesConfigMenu(LimaMenuType<CTX, ?> type, int containerId, Inventory inventory, CTX menuContext, int handlerIndex)
+    protected UpgradesConfigMenu(LimaMenuType<CTX, ?> type, int containerId, Inventory inventory, CTX menuContext, LimaBlockEntityItemHandler moduleSourceInventory, int moduleSlot)
     {
         super(type, containerId, inventory, menuContext);
-        this.handlerIndex = handlerIndex;
+
+        this.moduleSourceInventory = moduleSourceInventory;
+        this.moduleSlot = moduleSlot;
+        addSlot(new InsertSlot(24, 87));
     }
 
     @Override
     public final ItemStack quickMoveStack(Player player, int index)
     {
         // Capture the quick transfer slot if applicable
-        int size = menuContainer().getSlots();
-        if (index >= size)
+        if (index >= inventoryStart)
         {
-            int shiftedIndex = index - size;
-            this.quickTransferSlot = shiftedIndex < 27 ? shiftedIndex + 9 : shiftedIndex - 27;
+            this.quickTransferSlot = slots.get(index).getContainerSlot();
         }
         else
         {
@@ -76,12 +78,6 @@ public abstract class UpgradesConfigMenu<CTX extends ItemHolderBlockEntity, U ex
     }
 
     @Override
-    protected final IItemHandlerModifiable menuContainer()
-    {
-        return menuContext.getItemHandler(handlerIndex);
-    }
-
-    @Override
     protected void defineButtonEventHandlers(EventHandlerBuilder builder)
     {
         builder.handleAction(UPGRADE_REMOVAL_BUTTON_ID, LimaCoreNetworkSerializers.RESOURCE_LOCATION, this::tryRemoveUpgrade);
@@ -96,11 +92,6 @@ public abstract class UpgradesConfigMenu<CTX extends ItemHolderBlockEntity, U ex
     protected abstract void tryInstallUpgrade(ItemStack upgradeModuleItem, ServerLevel level);
 
     protected abstract void tryRemoveUpgrade(ServerPlayer sender, ResourceLocation upgradeId);
-
-    protected void addUpgradeInsertionSlot(int slotIndex)
-    {
-        addSlot(new InsertSlot(slotIndex, 24, 87));
-    }
 
     protected abstract ItemStack createModuleItem(Holder<U> upgrade, int upgradeRank);
 
@@ -151,9 +142,9 @@ public abstract class UpgradesConfigMenu<CTX extends ItemHolderBlockEntity, U ex
 
     private class InsertSlot extends LimaItemHandlerMenuSlot
     {
-        public InsertSlot(int slotIndex, int xPos, int yPos)
+        public InsertSlot(int xPos, int yPos)
         {
-            super(menuContainer(), slotIndex, xPos, yPos);
+            super(moduleSourceInventory, moduleSlot, xPos, yPos);
         }
 
         @Override

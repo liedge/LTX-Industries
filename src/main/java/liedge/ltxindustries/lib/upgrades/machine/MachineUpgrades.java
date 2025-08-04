@@ -3,7 +3,7 @@ package liedge.ltxindustries.lib.upgrades.machine;
 import com.mojang.serialization.Codec;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
-import liedge.ltxindustries.blockentity.base.UpgradableMachineBlockEntity;
+import liedge.ltxindustries.blockentity.base.UpgradesHolderBlockEntity;
 import liedge.ltxindustries.lib.upgrades.MutableUpgradesContainer;
 import liedge.ltxindustries.lib.upgrades.UpgradesContainerBase;
 import net.minecraft.core.Holder;
@@ -29,7 +29,7 @@ public final class MachineUpgrades extends UpgradesContainerBase<BlockEntityType
         super(internalMap);
     }
 
-    public boolean canInstallUpgrade(UpgradableMachineBlockEntity blockEntity, MachineUpgradeEntry entry)
+    public boolean canInstallUpgrade(UpgradesHolderBlockEntity blockEntity, MachineUpgradeEntry entry)
     {
         Holder<BlockEntityType<?>> contextHolder = Objects.requireNonNull(blockEntity.getAsLimaBlockEntity().getType().builtInRegistryHolder());
         return canInstallUpgrade(contextHolder, entry);

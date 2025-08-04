@@ -2,7 +2,6 @@ package liedge.ltxindustries.blockentity;
 
 import it.unimi.dsi.fastutil.ints.IntList;
 import liedge.limacore.LimaCommonConstants;
-import liedge.limacore.blockentity.IOAccess;
 import liedge.limacore.blockentity.OwnableBlockEntity;
 import liedge.limacore.capability.energy.LimaEnergyStorage;
 import liedge.limacore.capability.energy.LimaEnergyUtil;
@@ -15,6 +14,7 @@ import liedge.limacore.registry.game.LimaCoreDataComponents;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.limacore.util.LimaStreamsUtil;
 import liedge.ltxindustries.blockentity.base.SidedAccessBlockEntityType;
+import liedge.ltxindustries.blockentity.template.ProductionMachineBlockEntity;
 import liedge.ltxindustries.entity.LTXIEntityUtil;
 import liedge.ltxindustries.lib.TurretTargetList;
 import liedge.ltxindustries.registry.game.LTXISounds;
@@ -41,11 +41,8 @@ import java.util.*;
 import static liedge.limacore.util.LimaMathUtil.toDeg;
 import static liedge.limacore.util.LimaMathUtil.vec2Length;
 
-public abstract class BaseTurretBlockEntity extends SidedItemEnergyMachineBlockEntity implements OwnableBlockEntity
+public abstract class BaseTurretBlockEntity extends ProductionMachineBlockEntity implements OwnableBlockEntity
 {
-    public static final int DROPS_INVENTORY_SLOT_START = 1;
-    public static final int DROPS_INVENTORY_SIZE = 20;
-
     // General properties
     protected final Queue<Entity> targetQueue = new ArrayDeque<>();
     private final Vec3 projectileStart;
@@ -71,7 +68,7 @@ public abstract class BaseTurretBlockEntity extends SidedItemEnergyMachineBlockE
 
     protected BaseTurretBlockEntity(SidedAccessBlockEntityType<?> type, BlockPos pos, BlockState state, double startY, double areaXZRadius, double areaYMin, double areaYMax)
     {
-        super(type, pos, state, DROPS_INVENTORY_SIZE + 1);
+        super(type, pos, state, 2, 0, 20);
         this.projectileStart = new Vec3(pos.getX() + 0.5d, pos.getY() + startY, pos.getZ() + 0.5d);
         this.targetArea = new AABB(projectileStart.x - areaXZRadius, projectileStart.y - areaYMin, projectileStart.z - areaXZRadius, projectileStart.x + areaXZRadius, projectileStart.y + areaYMax, projectileStart.z + areaXZRadius);
 
@@ -164,13 +161,6 @@ public abstract class BaseTurretBlockEntity extends SidedItemEnergyMachineBlockE
     }
 
     @Override
-    public IOAccess getPrimaryHandlerItemSlotIO(int slot)
-    {
-        if (slot >= DROPS_INVENTORY_SLOT_START && slot < 21) return IOAccess.OUTPUT_ONLY;
-        else return IOAccess.DISABLED;
-    }
-
-    @Override
     protected void tickServer(ServerLevel level, BlockPos pos, BlockState state)
     {
         // Tick variables
@@ -182,7 +172,7 @@ public abstract class BaseTurretBlockEntity extends SidedItemEnergyMachineBlockE
         fillEnergyBuffer();
 
         // Auto eject items
-        autoOutputItems(100, DROPS_INVENTORY_SLOT_START, DROPS_INVENTORY_SIZE);
+        autoOutputItems(100, getOutputInventory());
 
         // Try to fill targeting queue if turret firing sequence is not active
         if (!turretCharging && targetQueue.isEmpty() && ticker >= getTargetScanTime())

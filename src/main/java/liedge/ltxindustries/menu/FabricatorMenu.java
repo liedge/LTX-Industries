@@ -1,6 +1,6 @@
 package liedge.ltxindustries.menu;
 
-import liedge.limacore.capability.itemhandler.LimaItemHandlerBase;
+import liedge.limacore.capability.itemhandler.LimaBlockEntityItemHandler;
 import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limacore.recipe.LimaRecipeInput;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
@@ -23,10 +23,7 @@ import net.neoforged.neoforge.items.wrapper.PlayerMainInvWrapper;
 
 import java.util.Optional;
 
-import static liedge.ltxindustries.blockentity.BaseFabricatorBlockEntity.BLUEPRINT_ITEM_SLOT;
-import static liedge.ltxindustries.blockentity.BaseFabricatorBlockEntity.ENERGY_ITEM_SLOT;
-
-public class FabricatorMenu extends SidedUpgradableMachineMenu<FabricatorBlockEntity>
+public class FabricatorMenu extends LTXIMachineMenu.EnergyMachineMenu<FabricatorBlockEntity>
 {
     public static final int CRAFT_BUTTON_ID = 2;
     public static final int ENCODE_BLUEPRINT_BUTTON_ID = 3;
@@ -36,8 +33,8 @@ public class FabricatorMenu extends SidedUpgradableMachineMenu<FabricatorBlockEn
         super(type, containerId, inventory, context);
 
         // Slots
-        addRecipeResultSlot(BaseFabricatorBlockEntity.FABRICATOR_OUTPUT_SLOT, 42, 86, LTXIRecipeTypes.FABRICATING);
-        addSlot(BLUEPRINT_ITEM_SLOT, 43, 61);
+        addHandlerRecipeOutputSlot(context.getOutputInventory(), 0, 42, 86, LTXIRecipeTypes.FABRICATING);
+        addHandlerSlot(context.getAuxInventory(), BaseFabricatorBlockEntity.AUX_BLUEPRINT_SLOT, 43, 61);
 
         addPlayerInventoryAndHotbar(15, 118);
     }
@@ -63,12 +60,12 @@ public class FabricatorMenu extends SidedUpgradableMachineMenu<FabricatorBlockEn
     {
         validateRecipeAccess(sender, id).ifPresent(holder ->
         {
-            LimaItemHandlerBase beInv = menuContext.getItemHandler();
-            if (beInv.getStackInSlot(BLUEPRINT_ITEM_SLOT).is(LTXIItems.EMPTY_FABRICATION_BLUEPRINT))
+            LimaBlockEntityItemHandler auxInventory = menuContext().getAuxInventory();
+            if (auxInventory.getStackInSlot(BaseFabricatorBlockEntity.AUX_BLUEPRINT_SLOT).is(menuContext.getValidBlueprintItem()))
             {
                 ItemStack blueprint = new ItemStack(LTXIItems.FABRICATION_BLUEPRINT.asItem());
                 blueprint.set(LTXIDataComponents.BLUEPRINT_RECIPE, id);
-                beInv.extractItem(BLUEPRINT_ITEM_SLOT, 1, false);
+                auxInventory.extractItem(BaseFabricatorBlockEntity.AUX_BLUEPRINT_SLOT, 1, false);
                 ItemHandlerHelper.giveItemToPlayer(sender, blueprint);
             }
         });
@@ -94,20 +91,16 @@ public class FabricatorMenu extends SidedUpgradableMachineMenu<FabricatorBlockEn
     @Override
     protected boolean quickMoveInternal(int slot, ItemStack stack)
     {
-        if (slot == BaseFabricatorBlockEntity.FABRICATOR_OUTPUT_SLOT)
+        if (slot < inventoryStart)
         {
-            return quickMoveToAllInventory(stack, true);
-        }
-        else if (slot < 3)
-        {
-            return quickMoveToAllInventory(stack, false);
+            return quickMoveToAllInventory(stack, slot == 1);
         }
         else
         {
             if (LimaItemUtil.hasEnergyCapability(stack))
-                return quickMoveToContainerSlot(stack, ENERGY_ITEM_SLOT);
-            else if (stack.is(LTXIItems.EMPTY_FABRICATION_BLUEPRINT))
-                return quickMoveToContainerSlot(stack, BLUEPRINT_ITEM_SLOT);
+                return quickMoveToContainerSlot(stack, ENERGY_SLOT_INDEX);
+            else if (stack.is(menuContext.getValidBlueprintItem()))
+                return quickMoveToContainerSlot(stack, 2);
             else return false;
         }
     }

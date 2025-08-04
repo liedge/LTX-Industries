@@ -1,5 +1,6 @@
 package liedge.ltxindustries.menu;
 
+import liedge.limacore.capability.itemhandler.LimaBlockEntityItemHandler;
 import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limacore.util.LimaItemUtil;
 import liedge.ltxindustries.blockentity.MaterialFusingChamberBlockEntity;
@@ -7,16 +8,17 @@ import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 
-public class MaterialFusingChamberMenu extends SidedUpgradableMachineMenu<MaterialFusingChamberBlockEntity>
+public class MaterialFusingChamberMenu extends LTXIMachineMenu.EnergyMachineMenu<MaterialFusingChamberBlockEntity>
 {
     public MaterialFusingChamberMenu(LimaMenuType<MaterialFusingChamberBlockEntity, ?> type, int containerId, Inventory inventory, MaterialFusingChamberBlockEntity menuContext)
     {
         super(type, containerId, inventory, menuContext);
 
-        addSlot(1, 42, 27);
-        addSlot(2, 60, 27);
-        addSlot(3, 51, 45);
-        addRecipeResultSlot(4, 112, 36, LTXIRecipeTypes.MATERIAL_FUSING);
+        LimaBlockEntityItemHandler inputInv = menuContext.getInputInventory();
+        addHandlerSlot(inputInv, 0, 42, 27);
+        addHandlerSlot(inputInv, 1, 60, 27);
+        addHandlerSlot(inputInv, 2, 51, 45);
+        addHandlerRecipeOutputSlot(menuContext.getOutputInventory(), 0, 112, 36, LTXIRecipeTypes.MATERIAL_FUSING);
 
         addDefaultPlayerInventoryAndHotbar();
     }
@@ -32,11 +34,11 @@ public class MaterialFusingChamberMenu extends SidedUpgradableMachineMenu<Materi
     @Override
     protected boolean quickMoveInternal(int index, ItemStack stack)
     {
-        if (index >= 0 && index < 4)
+        if (index < 4)
         {
             return quickMoveToAllInventory(stack, false);
         }
-        else if (index == 4)
+        else if (index < inventoryStart)
         {
             return quickMoveToAllInventory(stack, true);
         }
@@ -44,7 +46,7 @@ public class MaterialFusingChamberMenu extends SidedUpgradableMachineMenu<Materi
         {
             if (LimaItemUtil.hasEnergyCapability(stack))
             {
-                return quickMoveToContainerSlot(stack, 0);
+                return quickMoveToContainerSlot(stack, ENERGY_SLOT_INDEX);
             }
             else
             {

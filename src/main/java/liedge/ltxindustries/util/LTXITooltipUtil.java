@@ -58,8 +58,10 @@ public final class LTXITooltipUtil
         consumer.accept(INLINE_ENERGY_TRANSFER_RATE.translateArgs(toEnergyPerTickString(transferRate)).withStyle(REM_BLUE.chatStyle()));
     }
 
+    @Deprecated
     public static void appendInventoryPreviewTooltip(TooltipLineConsumer consumer, ItemStack stack)
     {
+        // Can we even do preview tooltips with split inventories anymore?
         List<ItemStack> inventory = stack.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY).nonEmptyStream().toList();
         if (!inventory.isEmpty())
         {

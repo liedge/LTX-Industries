@@ -11,26 +11,6 @@ public interface RecipeMachineBlockEntity<I extends RecipeInput, R extends Recip
 {
     LimaRecipeCheck<I, R> getRecipeCheck();
 
-    int inputSlotsStart();
-
-    int inputSlotsCount();
-
-    default boolean isInputSlot(int index)
-    {
-        int start = inputSlotsStart();
-        return index >= start && index < (start + inputSlotsCount());
-    }
-
-    int outputSlotsStart();
-
-    int outputSlotsCount();
-
-    default boolean isOutputSlot(int index)
-    {
-        int start = outputSlotsStart();
-        return index >= start && index < (start + outputSlotsCount());
-    }
-
     boolean isCrafting();
 
     void setCrafting(boolean crafting);

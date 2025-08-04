@@ -1,11 +1,10 @@
 package liedge.ltxindustries.blockentity;
 
-import com.google.common.base.Preconditions;
 import liedge.limacore.blockentity.IOAccess;
 import liedge.limacore.blockentity.LimaBlockEntity;
+import liedge.limacore.capability.itemhandler.BlockInventoryType;
 import liedge.limacore.capability.itemhandler.ItemHolderBlockEntity;
 import liedge.limacore.capability.itemhandler.LimaBlockEntityItemHandler;
-import liedge.limacore.capability.itemhandler.LimaItemHandlerBase;
 import liedge.limacore.inventory.menu.LimaMenuProvider;
 import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limacore.network.sync.AutomaticDataWatcher;
@@ -16,27 +15,27 @@ import liedge.ltxindustries.registry.game.LTXIMenus;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.component.DataComponentMap;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.items.IItemHandler;
+import org.jetbrains.annotations.Nullable;
 
 import static liedge.limacore.LimaCommonConstants.KEY_ITEM_CONTAINER;
 
 public class EquipmentUpgradeStationBlockEntity extends LimaBlockEntity implements ItemHolderBlockEntity, LimaMenuProvider
 {
     public static final int EQUIPMENT_ITEM_SLOT = 0;
-    public static final int UPGRADE_INPUT_SLOT = 1;
+    public static final int UPGRADE_MODULE_SLOT = 1;
 
-    private final LimaBlockEntityItemHandler inventory = new LimaBlockEntityItemHandler(this, 2);
+    private final LimaBlockEntityItemHandler inventory;
 
     private ItemStack previewItem = ItemStack.EMPTY;
 
     public EquipmentUpgradeStationBlockEntity(BlockPos pos, BlockState state)
     {
         super(LTXIBlockEntities.EQUIPMENT_UPGRADE_STATION.get(), pos, state);
+        this.inventory = new LimaBlockEntityItemHandler(this, 2, BlockInventoryType.GENERAL);
     }
 
     public ItemStack getPreviewItem()
@@ -44,54 +43,45 @@ public class EquipmentUpgradeStationBlockEntity extends LimaBlockEntity implemen
         return previewItem;
     }
 
-    @Override
-    public void defineDataWatchers(DataWatcherCollector collector)
+    public LimaBlockEntityItemHandler getStationInventory()
     {
-        collector.register(AutomaticDataWatcher.keepItemSynced(() -> getItemHandler().getStackInSlot(EQUIPMENT_ITEM_SLOT).copy(), stack -> this.previewItem = stack));
-    }
-
-    @Override
-    public LimaItemHandlerBase getItemHandler(int handlerIndex) throws IndexOutOfBoundsException
-    {
-        Preconditions.checkElementIndex(handlerIndex, 1, "Item Handlers");
         return inventory;
     }
 
     @Override
-    public boolean isItemValid(int handlerIndex, int slot, ItemStack stack)
+    public void defineDataWatchers(DataWatcherCollector collector)
     {
-        if (slot == EQUIPMENT_ITEM_SLOT)
-        {
-            return stack.getItem() instanceof UpgradableEquipmentItem; // All upgradeable equipment
-        }
-        else
-        {
-            return stack.getItem() instanceof EquipmentUpgradeModuleItem;
-        }
+        collector.register(AutomaticDataWatcher.keepItemSynced(() -> inventory.getStackInSlot(EQUIPMENT_ITEM_SLOT).copy(), stack -> this.previewItem = stack));
     }
 
     @Override
-    public IOAccess getItemHandlerSideIO(Direction side)
+    public @Nullable LimaBlockEntityItemHandler getItemHandler(BlockInventoryType inventoryType)
+    {
+        return null;
+    }
+
+    @Override
+    public boolean isItemValid(BlockInventoryType inventoryType, int slot, ItemStack stack)
+    {
+        if (inventoryType == BlockInventoryType.GENERAL)
+        {
+            if (slot == EQUIPMENT_ITEM_SLOT) return stack.getItem() instanceof UpgradableEquipmentItem; // All upgradeable equipment
+            else return stack.getItem() instanceof EquipmentUpgradeModuleItem;
+        }
+
+        return true;
+    }
+
+    @Override
+    public IOAccess getSideIOForItems(@Nullable Direction side)
     {
         return IOAccess.DISABLED;
     }
 
     @Override
-    protected void applyImplicitComponents(DataComponentInput componentInput)
+    public @Nullable IItemHandler createItemIOWrapper(@Nullable Direction side)
     {
-        inventory.copyFromComponent(componentInput.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY));
-    }
-
-    @Override
-    protected void collectImplicitComponents(DataComponentMap.Builder components)
-    {
-        components.set(DataComponents.CONTAINER, inventory.copyToComponent());
-    }
-
-    @Override
-    public void removeComponentsFromTag(CompoundTag tag)
-    {
-        tag.remove(KEY_ITEM_CONTAINER);
+        return null;
     }
 
     @Override

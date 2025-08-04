@@ -2,10 +2,10 @@ package liedge.ltxindustries.registry.game;
 
 import liedge.limacore.inventory.menu.BlockEntityAccessMenuType;
 import liedge.limacore.inventory.menu.LimaMenuType;
-import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.LTXICommonIds;
+import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.blockentity.*;
-import liedge.ltxindustries.blockentity.base.UpgradableMachineBlockEntity;
+import liedge.ltxindustries.blockentity.template.LTXIMachineBlockEntity;
 import liedge.ltxindustries.menu.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.inventory.MenuType;
@@ -25,7 +25,7 @@ public final class LTXIMenus
     }
 
     public static final DeferredHolder<MenuType<?>, IOControllerMenu.MenuType> MACHINE_IO_CONTROL = TYPES.register("machine_io_control", IOControllerMenu.MenuType::new);
-    public static final DeferredHolder<MenuType<?>, LimaMenuType<UpgradableMachineBlockEntity, MachineUpgradeMenu>> MACHINE_UPGRADES = TYPES.register("machine_upgrades", id -> BlockEntityAccessMenuType.create(id, UpgradableMachineBlockEntity.class, MachineUpgradeMenu::new));
+    public static final DeferredHolder<MenuType<?>, LimaMenuType<LTXIMachineBlockEntity, MachineUpgradeMenu>> MACHINE_UPGRADES = TYPES.register("machine_upgrades", id -> BlockEntityAccessMenuType.create(id, LTXIMachineBlockEntity.class, MachineUpgradeMenu::new));
 
     public static final DeferredHolder<MenuType<?>, LimaMenuType<BaseESABlockEntity, EnergyStorageArrayMenu>> ENERGY_STORAGE_ARRAY = TYPES.register(LTXICommonIds.ID_ENERGY_STORAGE_ARRAY, id -> BlockEntityAccessMenuType.create(id, BaseESABlockEntity.class, EnergyStorageArrayMenu::new));
     public static final DeferredHolder<MenuType<?>, LimaMenuType<DigitalFurnaceBlockEntity, BaseCookingMachineMenu<DigitalFurnaceBlockEntity>>> DIGITAL_FURNACE = registerCookingMenu(LTXICommonIds.ID_DIGITAL_FURNACE, DigitalFurnaceBlockEntity.class);

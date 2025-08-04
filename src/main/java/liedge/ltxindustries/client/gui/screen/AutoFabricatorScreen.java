@@ -1,7 +1,6 @@
 package liedge.ltxindustries.client.gui.screen;
 
 import liedge.ltxindustries.LTXIndustries;
-import liedge.ltxindustries.client.gui.widget.EnergyGaugeWidget;
 import liedge.ltxindustries.client.gui.widget.FabricatorProgressWidget;
 import liedge.ltxindustries.menu.AutoFabricatorMenu;
 import net.minecraft.client.gui.GuiGraphics;
@@ -9,7 +8,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
-public class AutoFabricatorScreen extends SidedUpgradableMachineScreen<AutoFabricatorMenu>
+public class AutoFabricatorScreen extends LTXIMachineScreen<AutoFabricatorMenu>
 {
     private static final ResourceLocation BLUEPRINT_SLOT_SPRITE = LTXIndustries.RESOURCES.location("slot/encoded_blueprint");
 
@@ -25,8 +24,6 @@ public class AutoFabricatorScreen extends SidedUpgradableMachineScreen<AutoFabri
     protected void addWidgets()
     {
         super.addWidgets();
-
-        addRenderableOnly(new EnergyGaugeWidget(menu.menuContext(), leftPos + 10, topPos + 9));
         addRenderableOnly(new FabricatorProgressWidget(leftPos + 171, topPos + 70, menu.menuContext()));
     }
 

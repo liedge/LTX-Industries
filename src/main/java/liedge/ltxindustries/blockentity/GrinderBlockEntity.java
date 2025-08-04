@@ -1,46 +1,20 @@
 package liedge.ltxindustries.blockentity;
 
 import liedge.limacore.inventory.menu.LimaMenuType;
-import liedge.limacore.recipe.LimaRecipeInput;
 import liedge.ltxindustries.recipe.GrindingRecipe;
 import liedge.ltxindustries.registry.game.LTXIBlockEntities;
 import liedge.ltxindustries.registry.game.LTXIMenus;
 import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
 import static liedge.ltxindustries.util.config.LTXIMachinesConfig.*;
 
-public class GrinderBlockEntity extends LimaRecipeMachineBlockEntity<LimaRecipeInput, GrindingRecipe>
+public class GrinderBlockEntity extends LimaRecipeMachineBlockEntity<GrindingRecipe>
 {
     public GrinderBlockEntity(BlockPos pos, BlockState state)
     {
-        super(LTXIBlockEntities.GRINDER.get(), LTXIRecipeTypes.GRINDING.get(), pos, state, 5);
-    }
-
-    @Override
-    public int inputSlotsStart()
-    {
-        return 1;
-    }
-
-    @Override
-    public int inputSlotsCount()
-    {
-        return 1;
-    }
-
-    @Override
-    public int outputSlotsStart()
-    {
-        return 2;
-    }
-
-    @Override
-    public int outputSlotsCount()
-    {
-        return 3;
+        super(LTXIBlockEntities.GRINDER.get(), LTXIRecipeTypes.GRINDING.get(), pos, state, 1, 3);
     }
 
     @Override
@@ -59,18 +33,6 @@ public class GrinderBlockEntity extends LimaRecipeMachineBlockEntity<LimaRecipeI
     public int getBaseTicksPerOperation()
     {
         return GRINDER_CRAFTING_TIME.getAsInt();
-    }
-
-    @Override
-    protected LimaRecipeInput getRecipeInput(Level level)
-    {
-        return LimaRecipeInput.createSingleSlot(getItemHandler(), 1);
-    }
-
-    @Override
-    protected void consumeIngredients(LimaRecipeInput recipeInput, GrindingRecipe recipe, Level level)
-    {
-        recipe.consumeIngredientsStrictSlots(recipeInput, false, false);
     }
 
     @Override

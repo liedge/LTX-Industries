@@ -4,8 +4,7 @@ import liedge.limacore.util.LimaRecipesUtil;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.client.gui.screen.GrinderScreen;
 import liedge.ltxindustries.client.gui.screen.MaterialFusingChamberScreen;
-import liedge.ltxindustries.client.gui.screen.RecipeScreenType;
-import liedge.ltxindustries.client.gui.screen.SingleItemRecipeScreen;
+import liedge.ltxindustries.client.gui.screen.BaseCookingMenuScreen;
 import liedge.ltxindustries.item.UpgradeModuleItem;
 import liedge.ltxindustries.lib.upgrades.UpgradeBaseEntry;
 import liedge.ltxindustries.recipe.FabricatingRecipe;
@@ -96,13 +95,13 @@ public class LTXIJeiPlugin implements IModPlugin
     @Override
     public void registerGuiHandlers(IGuiHandlerRegistration registration)
     {
-        registration.addGuiContainerHandler(SingleItemRecipeScreen.class, new IGuiContainerHandler<>()
+        registration.addGuiContainerHandler(BaseCookingMenuScreen.class, new IGuiContainerHandler<>()
         {
             @Override
-            public Collection<IGuiClickableArea> getGuiClickableAreas(SingleItemRecipeScreen containerScreen, double guiMouseX, double guiMouseY)
+            public Collection<IGuiClickableArea> getGuiClickableAreas(BaseCookingMenuScreen containerScreen, double guiMouseX, double guiMouseY)
             {
-                RecipeScreenType type = containerScreen.getRecipeScreenType();
-                IGuiClickableArea clickableArea = IGuiClickableArea.createBasic(type.getRecipeAreaX(), type.getRecipeAreaY(), type.getRecipeAreaWidth(), type.getRecipeAreaHeight(), recipeForScreenType(type));
+                BaseCookingMenuScreen.CookingType cookingType = containerScreen.getCookingType();
+                IGuiClickableArea clickableArea = IGuiClickableArea.createBasic(75, 39, 24, 6, cookingRecipeType(cookingType));
                 return List.of(clickableArea);
             }
         });
@@ -119,13 +118,13 @@ public class LTXIJeiPlugin implements IModPlugin
         });
     }
 
-    private static RecipeType<?> recipeForScreenType(RecipeScreenType screenType)
+    private static RecipeType<?> cookingRecipeType(BaseCookingMenuScreen.CookingType cookingType)
     {
-        return switch (screenType)
+        return switch (cookingType)
         {
-            case DIGITAL_FURNACE -> RecipeTypes.SMELTING;
-            case DIGITAL_SMOKER -> RecipeTypes.SMOKING;
-            case DIGITAL_BLAST_FURNACE -> RecipeTypes.BLASTING;
+            case SMELTING -> RecipeTypes.SMELTING;
+            case SMOKING -> RecipeTypes.SMOKING;
+            case BLASTING -> RecipeTypes.BLASTING;
         };
     }
 

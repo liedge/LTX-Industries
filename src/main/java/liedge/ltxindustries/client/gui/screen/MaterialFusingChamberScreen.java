@@ -1,13 +1,12 @@
 package liedge.ltxindustries.client.gui.screen;
 
-import liedge.ltxindustries.client.gui.widget.EnergyGaugeWidget;
 import liedge.ltxindustries.client.gui.widget.MachineProgressWidget;
 import liedge.ltxindustries.menu.MaterialFusingChamberMenu;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
-public class MaterialFusingChamberScreen extends SidedUpgradableMachineScreen<MaterialFusingChamberMenu>
+public class MaterialFusingChamberScreen extends LTXIMachineScreen<MaterialFusingChamberMenu>
 {
     public MaterialFusingChamberScreen(MaterialFusingChamberMenu menu, Inventory inventory, Component title)
     {
@@ -18,8 +17,6 @@ public class MaterialFusingChamberScreen extends SidedUpgradableMachineScreen<Ma
     protected void addWidgets()
     {
         super.addWidgets();
-
-        addRenderableOnly(new EnergyGaugeWidget(menu.menuContext(), leftPos + 10, topPos + 9));
         addRenderableOnly(new MachineProgressWidget(menu.menuContext(), leftPos + 81, topPos + 41));
     }
 

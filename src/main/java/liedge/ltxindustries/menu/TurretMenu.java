@@ -7,21 +7,20 @@ import liedge.ltxindustries.blockentity.BaseTurretBlockEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 
-public class TurretMenu<BE extends BaseTurretBlockEntity> extends SidedUpgradableMachineMenu<BE>
+public class TurretMenu<BE extends BaseTurretBlockEntity> extends LTXIMachineMenu.EnergyMachineMenu<BE>
 {
     public TurretMenu(LimaMenuType<BE, ?> type, int containerId, Inventory inventory, BE menuContext)
     {
         super(type, containerId, inventory, menuContext);
 
-        addSlotsGrid(menuContainer(), BaseTurretBlockEntity.DROPS_INVENTORY_SLOT_START, 80, 23, 5, 4, (container, index, x, y) -> new LimaItemHandlerMenuSlot(container, index, x, y, false));
-
+        addSlotsGrid(menuContext.getOutputInventory(), 0, 80, 23, 5, 4, (ctr, slot, sx, sy) -> new LimaItemHandlerMenuSlot(ctr, slot, sx, sy, false));
         addPlayerInventoryAndHotbar(8, 106);
     }
 
     @Override
     protected boolean quickMoveInternal(int index, ItemStack stack)
     {
-        if (index >= 0 && index < 21)
+        if (index < inventoryStart)
         {
             return quickMoveToAllInventory(stack, false);
         }
@@ -29,8 +28,10 @@ public class TurretMenu<BE extends BaseTurretBlockEntity> extends SidedUpgradabl
         {
             return quickMoveToContainerSlot(stack, 0);
         }
-
-        return false;
+        else
+        {
+            return false;
+        }
     }
 
     @Override

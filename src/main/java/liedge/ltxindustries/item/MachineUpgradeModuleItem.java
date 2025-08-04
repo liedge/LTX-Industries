@@ -3,7 +3,7 @@ package liedge.ltxindustries.item;
 import liedge.limacore.lib.Translatable;
 import liedge.limacore.util.LimaBlockUtil;
 import liedge.ltxindustries.LTXIConstants;
-import liedge.ltxindustries.blockentity.base.UpgradableMachineBlockEntity;
+import liedge.ltxindustries.blockentity.base.UpgradesHolderBlockEntity;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrade;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgradeEntry;
@@ -54,7 +54,7 @@ public class MachineUpgradeModuleItem extends UpgradeModuleItem<MachineUpgrade, 
         Player player = context.getPlayer();
 
         MachineUpgradeEntry entry = stack.get(entryComponentType());
-        UpgradableMachineBlockEntity blockEntity = LimaBlockUtil.getSafeBlockEntity(level, context.getClickedPos(), UpgradableMachineBlockEntity.class);
+        UpgradesHolderBlockEntity blockEntity = LimaBlockUtil.getSafeBlockEntity(level, context.getClickedPos(), UpgradesHolderBlockEntity.class);
 
         if (entry != null && blockEntity != null && player != null)
         {

@@ -1,7 +1,5 @@
 package liedge.ltxindustries.blockentity;
 
-import liedge.limacore.capability.itemhandler.LimaItemHandlerBase;
-import liedge.limacore.capability.itemhandler.LimaItemHandlerUtil;
 import liedge.limacore.recipe.LimaCustomRecipe;
 import liedge.limacore.recipe.LimaRecipeInput;
 import liedge.ltxindustries.blockentity.base.SidedAccessBlockEntityType;
@@ -10,14 +8,27 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
 
 import java.util.List;
 
-public abstract class LimaRecipeMachineBlockEntity<I extends LimaRecipeInput, R extends LimaCustomRecipe<I>> extends StateBlockRecipeMachineBlockEntity<I, R>
+public abstract class LimaRecipeMachineBlockEntity<R extends LimaCustomRecipe<LimaRecipeInput>> extends StateBlockRecipeMachineBlockEntity<LimaRecipeInput, R>
 {
-    protected LimaRecipeMachineBlockEntity(SidedAccessBlockEntityType<?> type, RecipeType<R> recipeType, BlockPos pos, BlockState state, int inventorySize)
+    protected LimaRecipeMachineBlockEntity(SidedAccessBlockEntityType<?> type, RecipeType<R> recipeType, BlockPos pos, BlockState state, int inputSlots, int outputSlots)
     {
-        super(type, recipeType, pos, state, inventorySize);
+        super(type, recipeType, pos, state, inputSlots, outputSlots);
+    }
+
+    @Override
+    protected LimaRecipeInput getRecipeInput(Level level)
+    {
+        return LimaRecipeInput.create(getInputInventory());
+    }
+
+    @Override
+    protected void consumeIngredients(LimaRecipeInput recipeInput, R recipe, Level level)
+    {
+        recipe.consumeIngredientsLenientSlots(recipeInput, false);
     }
 
     @Override
@@ -25,12 +36,9 @@ public abstract class LimaRecipeMachineBlockEntity<I extends LimaRecipeInput, R 
     {
         List<ItemStack> results = recipe.getPossibleItemResults();
 
-        final int start = outputSlotsStart();
-        final int end = start + outputSlotsCount();
-
         for (ItemStack stack : results)
         {
-            if (!LimaItemHandlerUtil.insertItemIntoSlots(getItemHandler(), stack, start, end, true).isEmpty())
+            if (!ItemHandlerHelper.insertItem(getOutputInventory(), stack, true).isEmpty())
                 return false;
         }
 
@@ -38,16 +46,13 @@ public abstract class LimaRecipeMachineBlockEntity<I extends LimaRecipeInput, R 
     }
 
     @Override
-    protected void insertRecipeResults(Level level, LimaItemHandlerBase machineInventory, R recipe, I recipeInput)
+    protected void insertRecipeResults(Level level, R recipe, LimaRecipeInput recipeInput)
     {
         List<ItemStack> results = recipe.generateItemResults(recipeInput, level.registryAccess(), level.random);
 
-        final int start = outputSlotsStart();
-        final int end = start + outputSlotsCount();
-
         for (ItemStack stack : results)
         {
-            LimaItemHandlerUtil.insertItemIntoSlots(machineInventory, stack, start, end, false);
+            ItemHandlerHelper.insertItem(getOutputInventory(), stack, false);
         }
     }
 }

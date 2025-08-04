@@ -1,6 +1,5 @@
 package liedge.ltxindustries.blockentity;
 
-import liedge.limacore.blockentity.IOAccess;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.network.sync.AutomaticDataWatcher;
 import liedge.limacore.network.sync.LimaDataWatcher;
@@ -12,6 +11,7 @@ import liedge.limacore.util.LimaNbtUtil;
 import liedge.ltxindustries.blockentity.base.EnergyConsumerBlockEntity;
 import liedge.ltxindustries.blockentity.base.RecipeMachineBlockEntity;
 import liedge.ltxindustries.blockentity.base.SidedAccessBlockEntityType;
+import liedge.ltxindustries.blockentity.template.ProductionMachineBlockEntity;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrades;
 import liedge.ltxindustries.recipe.FabricatingRecipe;
 import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
@@ -21,20 +21,18 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootContext;
 
-public abstract class BaseFabricatorBlockEntity extends SidedItemEnergyMachineBlockEntity implements EnergyConsumerBlockEntity, RecipeMachineBlockEntity<LimaRecipeInput, FabricatingRecipe>
+public abstract class BaseFabricatorBlockEntity extends ProductionMachineBlockEntity implements EnergyConsumerBlockEntity, RecipeMachineBlockEntity<LimaRecipeInput, FabricatingRecipe>
 {
-    public static final int FABRICATOR_OUTPUT_SLOT = 1;
-    public static final int BLUEPRINT_ITEM_SLOT = 2;
-
-    private final LimaRecipeCheck<LimaRecipeInput, FabricatingRecipe> recipeCheck = LimaRecipeCheck.create(LTXIRecipeTypes.FABRICATING);
+    public static final int AUX_BLUEPRINT_SLOT = 2;
 
     // Common properties
+    private final LimaRecipeCheck<LimaRecipeInput, FabricatingRecipe> recipeCheck = LimaRecipeCheck.create(LTXIRecipeTypes.FABRICATING);
     private int energyUsage = getBaseEnergyUsage();
     private boolean crafting;
     protected int energyCraftProgress;
@@ -42,9 +40,9 @@ public abstract class BaseFabricatorBlockEntity extends SidedItemEnergyMachineBl
     // Client properties
     private ItemStack clientPreviewItem = ItemStack.EMPTY;
 
-    protected BaseFabricatorBlockEntity(SidedAccessBlockEntityType<?> type, BlockPos pos, BlockState state, int inventorySize)
+    protected BaseFabricatorBlockEntity(SidedAccessBlockEntityType<?> type, BlockPos pos, BlockState state, int inputSlots)
     {
-        super(type, pos, state, inventorySize);
+        super(type, pos, state, 3, inputSlots, 1);
     }
 
     public ItemStack getClientPreviewItem()
@@ -88,21 +86,9 @@ public abstract class BaseFabricatorBlockEntity extends SidedItemEnergyMachineBl
     }
 
     @Override
-    public int outputSlotsStart()
-    {
-        return FABRICATOR_OUTPUT_SLOT;
-    }
-
-    @Override
-    public int outputSlotsCount()
-    {
-        return 1;
-    }
-
-    @Override
     public boolean canInsertRecipeResults(Level level, FabricatingRecipe recipe)
     {
-        return LimaItemUtil.canMergeItemStacks(getItemHandler().getStackInSlot(FABRICATOR_OUTPUT_SLOT), recipe.getFabricatingResultItem());
+        return LimaItemUtil.canMergeItemStacks(getOutputInventory().getStackInSlot(0), recipe.getFabricatingResultItem());
     }
 
     @Override
@@ -153,30 +139,17 @@ public abstract class BaseFabricatorBlockEntity extends SidedItemEnergyMachineBl
         tickServerFabricator(level, pos, state);
 
         // Auto output item if option available
-        autoOutputItems(20, outputSlotsStart(), outputSlotsCount());
+        autoOutputItems(20, getOutputInventory());
     }
 
     protected abstract void tickServerFabricator(ServerLevel level, BlockPos pos, BlockState state);
 
-    protected abstract ItemLike getValidBlueprintItem();
+    public abstract Item getValidBlueprintItem();
 
     @Override
-    protected boolean isItemValidForPrimaryHandler(int slot, ItemStack stack)
+    protected boolean isItemValidForAuxInventory(int slot, ItemStack stack)
     {
-        return switch (slot)
-        {
-            case ENERGY_ITEM_SLOT -> LimaItemUtil.hasEnergyCapability(stack);
-            case BLUEPRINT_ITEM_SLOT -> stack.is(getValidBlueprintItem().asItem());
-            default -> true;
-        };
-    }
-
-    @Override
-    public IOAccess getPrimaryHandlerItemSlotIO(int slot)
-    {
-        if (slot == FABRICATOR_OUTPUT_SLOT) return IOAccess.OUTPUT_ONLY;
-        else if (isInputSlot(slot)) return IOAccess.INPUT_ONLY;
-        else return IOAccess.DISABLED;
+        return slot == AUX_BLUEPRINT_SLOT ? stack.is(getValidBlueprintItem()) : super.isItemValidForAuxInventory(slot, stack);
     }
 
     @Override
@@ -202,7 +175,7 @@ public abstract class BaseFabricatorBlockEntity extends SidedItemEnergyMachineBl
     // For data watcher use only, called on server
     private ItemStack createPreviewItem()
     {
-        ItemStack currentOutputItem = getItemHandler().getStackInSlot(FABRICATOR_OUTPUT_SLOT).copy();
+        ItemStack currentOutputItem = getOutputInventory().getStackInSlot(0).copy();
 
         if (isCrafting())
         {

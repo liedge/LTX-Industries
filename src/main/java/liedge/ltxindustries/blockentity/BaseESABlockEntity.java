@@ -1,9 +1,10 @@
 package liedge.ltxindustries.blockentity;
 
 import liedge.limacore.blockentity.IOAccess;
-import liedge.limacore.blockentity.IOAccessSets;
 import liedge.limacore.capability.energy.LimaEnergyStorage;
 import liedge.limacore.capability.energy.LimaEnergyUtil;
+import liedge.limacore.capability.itemhandler.BlockInventoryType;
+import liedge.limacore.capability.itemhandler.LimaBlockEntityItemHandler;
 import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limacore.lib.LimaColor;
 import liedge.limacore.util.LimaItemUtil;
@@ -11,7 +12,7 @@ import liedge.ltxindustries.block.LTXIBlockProperties;
 import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
 import liedge.ltxindustries.blockentity.base.IOController;
 import liedge.ltxindustries.blockentity.base.SidedAccessBlockEntityType;
-import liedge.ltxindustries.blockentity.base.SidedAccessRules;
+import liedge.ltxindustries.blockentity.template.EnergyMachineBlockEntity;
 import liedge.ltxindustries.registry.game.LTXIMenus;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -22,27 +23,31 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.capabilities.BlockCapabilityCache;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.items.IItemHandler;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumMap;
 import java.util.Map;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
-public abstract class BaseESABlockEntity extends SidedItemEnergyMachineBlockEntity
+public abstract class BaseESABlockEntity extends EnergyMachineBlockEntity
 {
-    public static final SidedAccessRules ITEM_ACCESS_RULES = SidedAccessRules.allSides(IOAccessSets.ALL_ALLOWED, IOAccess.DISABLED, false, false);
-
+    private final LimaBlockEntityItemHandler chargingInventory;
     private final Map<Direction, BlockCapabilityCache<IEnergyStorage, Direction>> energyConnections = new EnumMap<>(Direction.class);
 
     public BaseESABlockEntity(SidedAccessBlockEntityType<?> type, BlockPos pos, BlockState state, @Nullable LimaEnergyStorage energyStorage)
     {
-        super(type, pos, state, 5, energyStorage);
+        super(type, pos, state, energyStorage);
+        this.chargingInventory = new LimaBlockEntityItemHandler(this, 4, BlockInventoryType.GENERAL);
     }
 
     public abstract LimaColor getRemoteEnergyFillColor();
 
     public abstract float getRemoteEnergyFill();
+
+    public LimaBlockEntityItemHandler getChargingInventory()
+    {
+        return chargingInventory;
+    }
 
     @Override
     public boolean hasStatsTooltips()
@@ -51,22 +56,46 @@ public abstract class BaseESABlockEntity extends SidedItemEnergyMachineBlockEnti
     }
 
     @Override
-    public IOAccess getPrimaryHandlerItemSlotIO(int slot)
+    public @Nullable LimaBlockEntityItemHandler getItemHandler(BlockInventoryType inventoryType)
     {
-        if (slot > 0 && slot < 5)
+        return switch (inventoryType)
         {
-            ItemStack slotItem = getItemHandler().getStackInSlot(slot);
-            if (slotItem.isEmpty()) return IOAccess.INPUT_ONLY;
+            case GENERAL -> chargingInventory;
+            case AUXILIARY -> getAuxInventory();
+            default -> null;
+        };
+    }
 
-            IEnergyStorage storage = slotItem.getCapability(Capabilities.EnergyStorage.ITEM);
-            if (storage != null && storage.getEnergyStored() == storage.getMaxEnergyStored()) return IOAccess.OUTPUT_ONLY;
-        }
+    @Override
+    public boolean isItemValid(BlockInventoryType inventoryType, int slot, ItemStack stack)
+    {
+        return inventoryType == BlockInventoryType.GENERAL ? LimaItemUtil.hasEnergyCapability(stack) : super.isItemValid(inventoryType, slot, stack);
+    }
+
+    @Override
+    public IOAccess getItemHandlerSlotIO(BlockInventoryType type, int slot)
+    {
+        return type == BlockInventoryType.GENERAL ? checkStackEnergy(chargingInventory.getStackInSlot(slot)) : IOAccess.DISABLED;
+    }
+
+    private IOAccess checkStackEnergy(ItemStack stack)
+    {
+        if (stack.isEmpty()) return IOAccess.INPUT_ONLY;
+
+        IEnergyStorage storage = stack.getCapability(Capabilities.EnergyStorage.ITEM);
+        if (storage == null || storage.getEnergyStored() >= storage.getMaxEnergyStored()) return IOAccess.OUTPUT_ONLY;
 
         return IOAccess.DISABLED;
     }
 
     @Override
-    public @Nullable IEnergyStorage getAdjacentEnergyStorage(Direction side)
+    public @Nullable IItemHandler createItemIOWrapper(@Nullable Direction side)
+    {
+        return chargingInventory.createIOWrapper(getSideIOForItems(side));
+    }
+
+    @Override
+    public @Nullable IEnergyStorage getNeighborEnergyStorage(Direction side)
     {
         return energyConnections.get(side).getCapability();
     }
@@ -77,17 +106,23 @@ public abstract class BaseESABlockEntity extends SidedItemEnergyMachineBlockEnti
         // Fill buffer from input slot
         fillEnergyBuffer();
 
-        // Charge item in output slot
+        // Charge items in the charging inventory
         LimaEnergyStorage machineEnergy = getEnergyStorage();
         if (machineEnergy.getEnergyStored() > 0)
         {
-            IntStream.rangeClosed(1, 4)
-                    .mapToObj(i -> getItemHandler().getStackInSlot(i).getCapability(Capabilities.EnergyStorage.ITEM))
-                    .flatMap(Stream::ofNullable)
-                    .forEach(itemEnergy -> LimaEnergyUtil.transferEnergyBetween(machineEnergy, itemEnergy, machineEnergy.getEnergyStored(), false));
+            for (int i = 0; i < chargingInventory.getSlots(); i++)
+            {
+                ItemStack stack = chargingInventory.getStackInSlot(i);
+                IEnergyStorage stackEnergy = stack.getCapability(Capabilities.EnergyStorage.ITEM);
+                if (stackEnergy != null)
+                {
+                    LimaEnergyUtil.transferEnergyBetween(machineEnergy, stackEnergy, machineEnergy.getEnergyStored(), false);
+                }
+            }
         }
 
         // Auto output energy if option enabled
+        autoOutputItems(100, chargingInventory, stack -> checkStackEnergy(stack).allowsOutput());
         autoOutputEnergy();
     }
 
@@ -106,12 +141,6 @@ public abstract class BaseESABlockEntity extends SidedItemEnergyMachineBlockEnti
     }
 
     @Override
-    protected boolean isItemValidForPrimaryHandler(int slot, ItemStack stack)
-    {
-        return LimaItemUtil.hasEnergyCapability(stack);
-    }
-
-    @Override
     public void defineDataWatchers(DataWatcherCollector collector) {}
 
     @Override
@@ -121,9 +150,9 @@ public abstract class BaseESABlockEntity extends SidedItemEnergyMachineBlockEnti
     }
 
     @Override
-    protected void onIOControlsChangedInternal(BlockEntityInputType inputType, Level level)
+    protected void onIOControlsChanged(BlockEntityInputType inputType, Level level)
     {
-        updateAndSyncBlockState(level);
+        if (inputType == BlockEntityInputType.ENERGY) updateAndSyncBlockState(level);
     }
 
     private void updateAndSyncBlockState(Level level)

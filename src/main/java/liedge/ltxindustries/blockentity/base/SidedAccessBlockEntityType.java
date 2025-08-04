@@ -13,6 +13,11 @@ import java.util.function.UnaryOperator;
 
 public final class SidedAccessBlockEntityType<BE extends LimaBlockEntity> extends LimaBlockEntityType<BE>
 {
+    public static <BE extends LimaBlockEntity> Builder<BE> sidedBuilder(BlockEntitySupplier<BE> factory)
+    {
+        return new Builder<>(factory);
+    }
+
     private final Map<BlockEntityInputType, SidedAccessRules> accessRules;
     private final Set<BlockEntityInputType> validInputTypes;
 
@@ -35,11 +40,6 @@ public final class SidedAccessBlockEntityType<BE extends LimaBlockEntity> extend
 
     public static class Builder<BE extends LimaBlockEntity> extends AbstractBuilder<BE, SidedAccessBlockEntityType<BE>, Builder<BE>>
     {
-        public static <BE extends LimaBlockEntity> Builder<BE> builder(BlockEntitySupplier<BE> factory)
-        {
-            return new Builder<>(factory);
-        }
-
         private final Map<BlockEntityInputType, SidedAccessRules> ruleMap = new EnumMap<>(BlockEntityInputType.class);
 
         private Builder(BlockEntitySupplier<BE> factory)

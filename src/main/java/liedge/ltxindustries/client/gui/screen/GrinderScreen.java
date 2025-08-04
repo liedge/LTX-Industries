@@ -1,13 +1,12 @@
 package liedge.ltxindustries.client.gui.screen;
 
-import liedge.ltxindustries.client.gui.widget.EnergyGaugeWidget;
 import liedge.ltxindustries.client.gui.widget.MachineProgressWidget;
 import liedge.ltxindustries.menu.GrinderMenu;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
-public class GrinderScreen extends SidedUpgradableMachineScreen<GrinderMenu>
+public class GrinderScreen extends LTXIMachineScreen<GrinderMenu>
 {
     public GrinderScreen(GrinderMenu menu, Inventory inventory, Component title)
     {
@@ -18,8 +17,6 @@ public class GrinderScreen extends SidedUpgradableMachineScreen<GrinderMenu>
     protected void addWidgets()
     {
         super.addWidgets();
-
-        addRenderableOnly(new EnergyGaugeWidget(menu.menuContext(), leftPos + 10, topPos + 9));
         addRenderableOnly(new MachineProgressWidget(menu.menuContext(), leftPos + 69, topPos + 41));
     }
 

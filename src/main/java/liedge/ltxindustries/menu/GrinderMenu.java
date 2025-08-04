@@ -3,19 +3,18 @@ package liedge.ltxindustries.menu;
 import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limacore.util.LimaItemUtil;
 import liedge.ltxindustries.blockentity.GrinderBlockEntity;
-import liedge.ltxindustries.blockentity.SidedItemEnergyMachineBlockEntity;
 import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 
-public class GrinderMenu extends SidedUpgradableMachineMenu<GrinderBlockEntity>
+public class GrinderMenu extends LTXIMachineMenu.EnergyMachineMenu<GrinderBlockEntity>
 {
     public GrinderMenu(LimaMenuType<GrinderBlockEntity, ?> type, int containerId, Inventory inventory, GrinderBlockEntity menuContext)
     {
         super(type, containerId, inventory, menuContext);
 
-        addSlot(1, 44, 36);
-        addRecipeResultSlotsGrid(2, 102, 36, 3, 1, LTXIRecipeTypes.GRINDING);
+        addHandlerSlot(menuContext.getInputInventory(), 0, 44, 36);
+        addHandlerRecipeOutputSlotGrid(menuContext.getOutputInventory(), 0, 102, 36, 3, 1, LTXIRecipeTypes.GRINDING);
         addDefaultPlayerInventoryAndHotbar();
     }
 
@@ -30,11 +29,11 @@ public class GrinderMenu extends SidedUpgradableMachineMenu<GrinderBlockEntity>
     @Override
     protected boolean quickMoveInternal(int index, ItemStack stack)
     {
-        if (index == SidedItemEnergyMachineBlockEntity.ENERGY_ITEM_SLOT || menuContext.isInputSlot(index))
+        if (index < menuContext.getInputInventory().getSlots() + 1)
         {
             return quickMoveToAllInventory(stack, false);
         }
-        else if (menuContext.isOutputSlot(index))
+        else if (index < inventoryStart)
         {
             return quickMoveToAllInventory(stack, true);
         }
@@ -42,7 +41,7 @@ public class GrinderMenu extends SidedUpgradableMachineMenu<GrinderBlockEntity>
         {
             if (LimaItemUtil.hasEnergyCapability(stack))
             {
-                return quickMoveToContainerSlot(stack, SidedItemEnergyMachineBlockEntity.ENERGY_ITEM_SLOT);
+                return quickMoveToContainerSlot(stack, ENERGY_SLOT_INDEX);
             }
             else
             {

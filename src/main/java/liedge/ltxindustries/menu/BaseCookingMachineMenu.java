@@ -3,18 +3,18 @@ package liedge.ltxindustries.menu;
 import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limacore.util.LimaItemUtil;
 import liedge.ltxindustries.blockentity.BaseCookingBlockEntity;
-import liedge.ltxindustries.blockentity.SidedItemEnergyMachineBlockEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 
-public class BaseCookingMachineMenu<CTX extends BaseCookingBlockEntity<?>> extends SidedUpgradableMachineMenu<CTX>
+public class BaseCookingMachineMenu<CTX extends BaseCookingBlockEntity<?>> extends LTXIMachineMenu.EnergyMachineMenu<CTX>
 {
     public BaseCookingMachineMenu(LimaMenuType<CTX, ?> type, int containerId, Inventory inventory, CTX menuContext)
     {
         super(type, containerId, inventory, menuContext);
 
-        addSlot(BaseCookingBlockEntity.INPUT_SLOT, 54, 34);
-        addRecipeResultSlot(BaseCookingBlockEntity.OUTPUT_SLOT, 106, 34, menuContext.getRecipeCheck().getRecipeType());
+        addHandlerSlot(menuContext.getInputInventory(), 0, 54, 34);
+        addHandlerRecipeOutputSlot(menuContext.getOutputInventory(), 0, 106, 34, menuContext.getRecipeCheck().getRecipeType());
+
         addDefaultPlayerInventoryAndHotbar();
     }
 
@@ -29,11 +29,11 @@ public class BaseCookingMachineMenu<CTX extends BaseCookingBlockEntity<?>> exten
     @Override
     protected boolean quickMoveInternal(int index, ItemStack stack)
     {
-        if (index < BaseCookingBlockEntity.OUTPUT_SLOT)
+        if (index < 2)
         {
             return quickMoveToAllInventory(stack, false);
         }
-        else if (index == BaseCookingBlockEntity.OUTPUT_SLOT)
+        else if (index == 2)
         {
             return quickMoveToAllInventory(stack, true);
         }
@@ -41,11 +41,11 @@ public class BaseCookingMachineMenu<CTX extends BaseCookingBlockEntity<?>> exten
         {
             if (LimaItemUtil.hasEnergyCapability(stack))
             {
-                return quickMoveToContainerSlot(stack, SidedItemEnergyMachineBlockEntity.ENERGY_ITEM_SLOT);
+                return quickMoveToContainerSlot(stack, ENERGY_SLOT_INDEX);
             }
             else
             {
-                return quickMoveToContainerSlot(stack, BaseCookingBlockEntity.INPUT_SLOT);
+                return quickMoveToContainerSlot(stack, 1);
             }
         }
     }

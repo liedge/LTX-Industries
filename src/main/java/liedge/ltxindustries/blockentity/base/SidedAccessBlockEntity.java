@@ -12,10 +12,10 @@ public interface SidedAccessBlockEntity extends SubMenuProviderBlockEntity
      * Retrieves the {@link IOController} for the given {@code inputType}. Implementations of this interface must
      * provide a valid controller for all {@link BlockEntityInputType} in {@link SidedAccessBlockEntityType#getValidInputTypes()}.
      * @param inputType The input type
-     * @throws IllegalArgumentException If the block entity does not support the provided input type
+     * @throws UnsupportedOperationException If the block entity does not support the provided input type
      * @return The IO controller
      */
-    IOController getIOController(BlockEntityInputType inputType) throws IllegalArgumentException;
+    IOController getIOController(BlockEntityInputType inputType) throws UnsupportedOperationException;
 
     Direction getFacing();
 

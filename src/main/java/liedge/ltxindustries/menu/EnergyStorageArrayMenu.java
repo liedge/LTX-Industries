@@ -6,13 +6,13 @@ import liedge.ltxindustries.blockentity.BaseESABlockEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 
-public class EnergyStorageArrayMenu extends SidedUpgradableMachineMenu<BaseESABlockEntity>
+public class EnergyStorageArrayMenu extends LTXIMachineMenu.EnergyMachineMenu<BaseESABlockEntity>
 {
     public EnergyStorageArrayMenu(LimaMenuType<BaseESABlockEntity, ?> type, int containerId, Inventory inventory, BaseESABlockEntity menuContext)
     {
         super(type, containerId, inventory, menuContext);
 
-        addSlotsGrid(1, 56, 37, 4, 1);
+        addHandlerSlotsGrid(menuContext().getChargingInventory(), 0, 56, 37, 4, 1);
 
         addDefaultPlayerInventoryAndHotbar();
     }

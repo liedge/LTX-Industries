@@ -14,7 +14,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.items.IItemHandlerModifiable;
 
 import java.util.Objects;
 
@@ -59,12 +58,6 @@ public class IOControllerMenu extends LimaMenu<IOControllerMenu.MenuContext>
         builder.handleAction(CYCLE_BACKWARD_BUTTON_ID, LimaCoreNetworkSerializers.RELATIVE_SIDE, (sender, side) -> ioControl.cycleSideIOState(side, false));
         builder.handleUnitAction(TOGGLE_AUTO_INPUT_BUTTON_ID, sender -> ioControl.toggleAutoInput());
         builder.handleUnitAction(TOGGLE_AUTO_OUTPUT_BUTTON_ID, sender -> ioControl.toggleAutoOutput());
-    }
-
-    @Override
-    protected IItemHandlerModifiable menuContainer()
-    {
-        throw new UnsupportedOperationException();
     }
 
     public static class MenuType extends LimaMenuType<MenuContext, IOControllerMenu>

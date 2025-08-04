@@ -1,24 +1,15 @@
 package liedge.ltxindustries.client.gui.screen;
 
-import liedge.ltxindustries.client.gui.widget.EnergyGaugeWidget;
 import liedge.ltxindustries.menu.EnergyStorageArrayMenu;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
-public class EnergyStorageArrayScreen extends SidedUpgradableMachineScreen<EnergyStorageArrayMenu>
+public class EnergyStorageArrayScreen extends LTXIMachineScreen<EnergyStorageArrayMenu>
 {
     public EnergyStorageArrayScreen(EnergyStorageArrayMenu menu, Inventory inventory, Component title)
     {
         super(menu, inventory, title, DEFAULT_WIDTH, DEFAULT_HEIGHT);
-    }
-
-    @Override
-    protected void addWidgets()
-    {
-        super.addWidgets();
-
-        addRenderableOnly(new EnergyGaugeWidget(menu.menuContext(), leftPos + 10, topPos + 9));
     }
 
     @Override

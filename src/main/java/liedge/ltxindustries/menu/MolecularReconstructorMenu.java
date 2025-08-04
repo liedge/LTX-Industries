@@ -4,18 +4,17 @@ import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limacore.util.LimaItemUtil;
 import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.blockentity.MolecularReconstructorBlockEntity;
-import liedge.ltxindustries.blockentity.SidedItemEnergyMachineBlockEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 
-public class MolecularReconstructorMenu extends SidedUpgradableMachineMenu<MolecularReconstructorBlockEntity>
+public class MolecularReconstructorMenu extends LTXIMachineMenu.EnergyMachineMenu<MolecularReconstructorBlockEntity>
 {
     public MolecularReconstructorMenu(LimaMenuType<MolecularReconstructorBlockEntity, ?> type, int containerId, Inventory inventory, MolecularReconstructorBlockEntity menuContext)
     {
         super(type, containerId, inventory, menuContext);
 
-        addSlot(MolecularReconstructorBlockEntity.REPAIR_INPUT_SLOT, 56, 34);
-        addSlot(MolecularReconstructorBlockEntity.REPAIR_OUTPUT_SLOT, 104, 34, false);
+        addHandlerSlot(menuContext.getInputInventory(), 0, 56, 34);
+        addHandlerSlot(menuContext.getOutputInventory(), 0, 104, 34, false);
 
         addDefaultPlayerInventoryAndHotbar();
     }
@@ -23,19 +22,19 @@ public class MolecularReconstructorMenu extends SidedUpgradableMachineMenu<Molec
     @Override
     protected boolean quickMoveInternal(int index, ItemStack stack)
     {
-        if (index <= MolecularReconstructorBlockEntity.REPAIR_OUTPUT_SLOT)
+        if (index < inventoryStart)
         {
-            return quickMoveToAllInventory(stack, index == MolecularReconstructorBlockEntity.REPAIR_OUTPUT_SLOT);
+            return quickMoveToAllInventory(stack, false);
         }
         else
         {
             if (LimaItemUtil.hasEnergyCapability(stack))
             {
-                return quickMoveToContainerSlot(stack, SidedItemEnergyMachineBlockEntity.ENERGY_ITEM_SLOT);
+                return quickMoveToContainerSlot(stack, ENERGY_SLOT_INDEX);
             }
             else if (stack.isDamaged() && !stack.is(LTXITags.Items.REPAIR_BLACKLIST))
             {
-                return quickMoveToContainerSlot(stack, MolecularReconstructorBlockEntity.REPAIR_INPUT_SLOT);
+                return quickMoveToContainerSlot(stack, 1);
             }
         }
 

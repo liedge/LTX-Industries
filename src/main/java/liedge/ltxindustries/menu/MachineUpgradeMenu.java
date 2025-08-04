@@ -2,7 +2,7 @@ package liedge.ltxindustries.menu;
 
 import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limacore.network.NetworkSerializer;
-import liedge.ltxindustries.blockentity.base.UpgradableMachineBlockEntity;
+import liedge.ltxindustries.blockentity.template.LTXIMachineBlockEntity;
 import liedge.ltxindustries.item.MachineUpgradeModuleItem;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrade;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgradeEntry;
@@ -20,15 +20,14 @@ import net.minecraft.world.item.ItemStack;
 
 import static liedge.ltxindustries.registry.game.LTXIDataComponents.MACHINE_UPGRADE_ENTRY;
 
-public class MachineUpgradeMenu extends UpgradesConfigMenu<UpgradableMachineBlockEntity, MachineUpgrade, MachineUpgrades>
+public class MachineUpgradeMenu extends UpgradesConfigMenu<LTXIMachineBlockEntity, MachineUpgrade, MachineUpgrades>
 {
     public static final int BACK_BUTTON_ID = 1;
 
-    public MachineUpgradeMenu(LimaMenuType<UpgradableMachineBlockEntity, ?> type, int containerId, Inventory inventory, UpgradableMachineBlockEntity menuContext)
+    public MachineUpgradeMenu(LimaMenuType<LTXIMachineBlockEntity, ?> type, int containerId, Inventory inventory, LTXIMachineBlockEntity menuContext)
     {
-        super(type, containerId, inventory, menuContext, 1);
+        super(type, containerId, inventory, menuContext, menuContext.getAuxInventory(), LTXIMachineBlockEntity.AUX_MODULE_ITEM_SLOT);
 
-        addUpgradeInsertionSlot(0);
         addPlayerInventoryAndHotbar(15, 118);
     }
 
@@ -87,7 +86,7 @@ public class MachineUpgradeMenu extends UpgradesConfigMenu<UpgradableMachineBloc
             // Modify the upgrades and consume upgrade module item
             MachineUpgrades newUpgrades = currentUpgrades.toMutableContainer().set(entry).toImmutable();
             menuContext.setUpgrades(newUpgrades);
-            menuContainer().extractItem(0, 1, false);
+            moduleSourceInventory.extractItem(moduleSlot, 1, false);
 
             if (previousRank > 0) ejectModuleItem(getServerUser(), entry.upgrade(), previousRank);
 

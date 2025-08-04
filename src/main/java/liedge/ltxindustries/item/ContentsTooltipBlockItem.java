@@ -10,31 +10,32 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.Nullable;
 
-public class ContentsTooltipBlockItem extends BlockItem implements TooltipShiftHintItem
+public final class ContentsTooltipBlockItem extends BlockItem implements TooltipShiftHintItem
 {
+    public static BlockItem energyTooltipItem(Block block, Properties properties)
+    {
+        return new ContentsTooltipBlockItem(block, properties, true, false);
+    }
+
+    public static BlockItem energyOwnerTooltipItem(Block block, Properties properties)
+    {
+        return new ContentsTooltipBlockItem(block, properties, true, true);
+    }
+
     private final boolean showEnergy;
-    private final boolean showItems;
     private final boolean showOwner;
 
-    public ContentsTooltipBlockItem(Block block, Properties properties, boolean showEnergy, boolean showItems, boolean showOwner)
+    private ContentsTooltipBlockItem(Block block, Properties properties, boolean showEnergy, boolean showOwner)
     {
         super(block, properties);
         this.showEnergy = showEnergy;
-        this.showItems = showItems;
         this.showOwner = showOwner;
-    }
-
-    public ContentsTooltipBlockItem(Block block, Properties properties, boolean showEnergy, boolean showItems)
-    {
-        this(block, properties, showEnergy, showItems, false);
     }
 
     @Override
     public void appendTooltipHintComponents(@Nullable Level level, ItemStack stack, TooltipLineConsumer consumer)
     {
         if (showEnergy) LTXITooltipUtil.appendEnergyOnlyTooltip(consumer, stack.getOrDefault(LimaCoreDataComponents.ENERGY, 0));
-
-        if (showItems) LTXITooltipUtil.appendInventoryPreviewTooltip(consumer, stack);
 
         if (showOwner) consumer.accept(LTXITooltipUtil.makeOwnerComponent(stack.get(LimaCoreDataComponents.OWNER)).withStyle(ChatFormatting.GRAY));
     }

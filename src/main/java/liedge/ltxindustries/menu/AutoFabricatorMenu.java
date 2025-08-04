@@ -5,40 +5,35 @@ import liedge.limacore.util.LimaItemUtil;
 import liedge.ltxindustries.blockentity.AutoFabricatorBlockEntity;
 import liedge.ltxindustries.blockentity.BaseFabricatorBlockEntity;
 import liedge.ltxindustries.registry.game.LTXIDataComponents;
-import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 
-public class AutoFabricatorMenu extends SidedUpgradableMachineMenu<AutoFabricatorBlockEntity>
+public class AutoFabricatorMenu extends LTXIMachineMenu.EnergyMachineMenu<AutoFabricatorBlockEntity>
 {
     public AutoFabricatorMenu(LimaMenuType<AutoFabricatorBlockEntity, ?> type, int containerId, Inventory inventory, AutoFabricatorBlockEntity menuContext)
     {
         super(type, containerId, inventory, menuContext);
 
-        addRecipeResultSlot(BaseFabricatorBlockEntity.FABRICATOR_OUTPUT_SLOT, 152, 73, LTXIRecipeTypes.FABRICATING);
-        addSlot(BaseFabricatorBlockEntity.BLUEPRINT_ITEM_SLOT, 120, 73);
-        addSlotsGrid(3, 33, 30, 8, 2);
+        addHandlerRecipeOutputSlot(menuContext.getOutputInventory(), 0, 152, 73, LTXIRecipeTypes.FABRICATING);
+        addHandlerSlot(menuContext.getAuxInventory(), BaseFabricatorBlockEntity.AUX_BLUEPRINT_SLOT, 120, 73);
+        addHandlerSlotsGrid(menuContext.getInputInventory(), 0, 33, 30, 8, 2);
         addPlayerInventoryAndHotbar(15, 98);
     }
 
     @Override
     protected boolean quickMoveInternal(int index, ItemStack stack)
     {
-        if (index == BaseFabricatorBlockEntity.FABRICATOR_OUTPUT_SLOT)
+        if (index < inventoryStart)
         {
-            return quickMoveToAllInventory(stack, true);
-        }
-        else if (index < 19)
-        {
-            return quickMoveToAllInventory(stack, false);
+            return quickMoveToAllInventory(stack, index == 1);
         }
         else
         {
             if (LimaItemUtil.hasEnergyCapability(stack))
-                return quickMoveToContainerSlot(stack, BaseFabricatorBlockEntity.ENERGY_ITEM_SLOT);
-            else if (stack.is(LTXIItems.FABRICATION_BLUEPRINT) && stack.get(LTXIDataComponents.BLUEPRINT_RECIPE) != null)
-                return quickMoveToContainerSlot(stack, BaseFabricatorBlockEntity.BLUEPRINT_ITEM_SLOT);
+                return quickMoveToContainerSlot(stack, ENERGY_SLOT_INDEX);
+            else if (stack.is(menuContext.getValidBlueprintItem()) && stack.get(LTXIDataComponents.BLUEPRINT_RECIPE) != null)
+                return quickMoveToContainerSlot(stack, 2);
             else
                 return quickMoveToContainerSlots(stack, 3, 19, false);
         }
