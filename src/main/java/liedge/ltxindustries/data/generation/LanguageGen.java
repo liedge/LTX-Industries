@@ -208,26 +208,18 @@ class LanguageGen extends LimaLanguageProvider
         creativeTab(EQUIPMENT_MODULES_TAB, "LTXI Equipment Upgrades");
         creativeTab(MACHINE_MODULES_TAB, "LTXI Machine Upgrades");
 
-        //#region Menu titles
-        add(LTXIMenus.MACHINE_UPGRADES, "Machine Upgrades");
-        add(LTXIMenus.ENERGY_STORAGE_ARRAY, "Energy Storage Array");
-        add(LTXIMenus.DIGITAL_FURNACE, "Digital Furnace");
-        add(LTXIMenus.DIGITAL_SMOKER, "Digital Smoker");
-        add(LTXIMenus.DIGITAL_BLAST_FURNACE, "Digital Blast Furnace");
-        add(LTXIMenus.GRINDER, "Grinder");
-        add(LTXIMenus.MATERIAL_FUSING_CHAMBER, "Material Fusing Chamber");
-        add(LTXIMenus.FABRICATOR, "Fabricator");
-        add(LTXIMenus.AUTO_FABRICATOR, "Auto Fabricator");
-        add(LTXIMenus.MOLECULAR_RECONSTRUCTOR, "Molecular Reconstructor");
-        add(LTXIMenus.EQUIPMENT_UPGRADE_STATION, "Equipment Upgrade Station");
-        add(LTXIMenus.ROCKET_TURRET, "Atmos Turret");
-        add(LTXIMenus.RAILGUN_TURRET, "Noctis Turret");
-        //#endregion
+        // Menu titles
+        menuTitle(LTXIMenus.MACHINE_UPGRADES, "Machine Upgrades");
+        menuTitle(LTXIMenus.ROCKET_TURRET, "Atmos Turret");
+        menuTitle(LTXIMenus.RAILGUN_TURRET, "Noctis Turret");
 
         // Machine input types
-        add(BlockEntityInputType.ITEMS, "Items IO Control");
-        add(BlockEntityInputType.ENERGY, "Energy IO Control");
-        add(BlockEntityInputType.FLUIDS, "Fluids IO Control");
+        add(BlockEntityInputType.ITEMS.getMenuTitle(), "Items IO Control");
+        add(BlockEntityInputType.ITEMS.getSidebarTooltip(), "Configure Item IO");
+        add(BlockEntityInputType.ENERGY.getMenuTitle(), "Energy IO Control");
+        add(BlockEntityInputType.ENERGY.getSidebarTooltip(), "Configure Energy IO");
+        add(BlockEntityInputType.FLUIDS.getMenuTitle(), "Fluids IO Control");
+        add(BlockEntityInputType.FLUIDS.getSidebarTooltip(), "Configure Fluid IO");
 
         // Recipe types
         add(GRINDING, "Grinding");
@@ -262,6 +254,7 @@ class LanguageGen extends LimaLanguageProvider
         add(AUTO_OUTPUT_ON_TOOLTIP, "Auto Output Enabled");
         add(AUTO_INPUT_OFF_TOOLTIP, "Auto Input Disabled");
         add(AUTO_INPUT_ON_TOOLTIP, "Auto Input Enabled");
+        add(MACHINE_UPGRADES_SIDEBAR_TOOLTIP, "Manage Upgrade Modules");
 
         add(BLUEPRINT_TOAST_MESSAGE, "New Fabrication Data");
         add(MACHINE_TICKS_PER_OP_TOOLTIP, "Ticks per operation: %s");

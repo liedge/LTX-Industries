@@ -10,9 +10,9 @@ import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
-public abstract class BaseCookingBlockEntity<R extends AbstractCookingRecipe> extends StateBlockRecipeMachineBlockEntity<SingleRecipeInput, R>
+public abstract class CookingBlockEntity<R extends AbstractCookingRecipe> extends StateBlockRecipeMachineBlockEntity<SingleRecipeInput, R>
 {
-    protected BaseCookingBlockEntity(SidedAccessBlockEntityType<?> type, RecipeType<R> recipeType, BlockPos pos, BlockState state)
+    protected CookingBlockEntity(SidedAccessBlockEntityType<?> type, RecipeType<R> recipeType, BlockPos pos, BlockState state)
     {
         super(type, recipeType, pos, state, 1, 1);
     }

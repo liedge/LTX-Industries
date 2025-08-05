@@ -1,6 +1,6 @@
 package liedge.ltxindustries.blockentity.base;
 
-import liedge.limacore.inventory.menu.LimaMenuProvider;
+import liedge.limacore.menu.LimaMenuProvider;
 import liedge.ltxindustries.menu.IOControllerMenu;
 import liedge.ltxindustries.registry.game.LTXIMenus;
 import net.minecraft.core.Direction;
@@ -26,6 +26,6 @@ public interface SidedAccessBlockEntity extends SubMenuProviderBlockEntity
     default void openIOControlMenuScreen(Player player, BlockEntityInputType inputType)
     {
         IOControllerMenu.MenuContext context = new IOControllerMenu.MenuContext(this, inputType);
-        LimaMenuProvider.openStandaloneMenu(player, LTXIMenus.MACHINE_IO_CONTROL.get(), context);
+        LimaMenuProvider.create(LTXIMenus.MACHINE_IO_CONTROL.get(), context, context.inputType().getMenuTitle().translate(), false).openMenuScreen(player);
     }
 }

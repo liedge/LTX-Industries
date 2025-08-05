@@ -1,7 +1,6 @@
 package liedge.ltxindustries.registry.game;
 
-import liedge.limacore.inventory.menu.BlockEntityAccessMenuType;
-import liedge.limacore.inventory.menu.LimaMenuType;
+import liedge.limacore.menu.BlockEntityMenuType;
 import liedge.ltxindustries.LTXICommonIds;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.blockentity.*;
@@ -25,31 +24,31 @@ public final class LTXIMenus
     }
 
     public static final DeferredHolder<MenuType<?>, IOControllerMenu.MenuType> MACHINE_IO_CONTROL = TYPES.register("machine_io_control", IOControllerMenu.MenuType::new);
-    public static final DeferredHolder<MenuType<?>, LimaMenuType<LTXIMachineBlockEntity, MachineUpgradeMenu>> MACHINE_UPGRADES = TYPES.register("machine_upgrades", id -> BlockEntityAccessMenuType.create(id, LTXIMachineBlockEntity.class, MachineUpgradeMenu::new));
+    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<LTXIMachineBlockEntity, MachineUpgradeMenu>> MACHINE_UPGRADES = TYPES.register("machine_upgrades", id -> BlockEntityMenuType.create(id, LTXIMachineBlockEntity.class, MachineUpgradeMenu::new));
 
-    public static final DeferredHolder<MenuType<?>, LimaMenuType<BaseESABlockEntity, EnergyStorageArrayMenu>> ENERGY_STORAGE_ARRAY = TYPES.register(LTXICommonIds.ID_ENERGY_STORAGE_ARRAY, id -> BlockEntityAccessMenuType.create(id, BaseESABlockEntity.class, EnergyStorageArrayMenu::new));
-    public static final DeferredHolder<MenuType<?>, LimaMenuType<DigitalFurnaceBlockEntity, BaseCookingMachineMenu<DigitalFurnaceBlockEntity>>> DIGITAL_FURNACE = registerCookingMenu(LTXICommonIds.ID_DIGITAL_FURNACE, DigitalFurnaceBlockEntity.class);
-    public static final DeferredHolder<MenuType<?>, LimaMenuType<DigitalSmokerBlockEntity, BaseCookingMachineMenu<DigitalSmokerBlockEntity>>> DIGITAL_SMOKER = registerCookingMenu(LTXICommonIds.ID_DIGITAL_SMOKER, DigitalSmokerBlockEntity.class);
-    public static final DeferredHolder<MenuType<?>, LimaMenuType<DigitalBlastFurnaceBlockEntity, BaseCookingMachineMenu<DigitalBlastFurnaceBlockEntity>>> DIGITAL_BLAST_FURNACE = registerCookingMenu(LTXICommonIds.ID_DIGITAL_BLAST_FURNACE, DigitalBlastFurnaceBlockEntity.class);
-    public static final DeferredHolder<MenuType<?>, LimaMenuType<GrinderBlockEntity, GrinderMenu>> GRINDER = TYPES.register(LTXICommonIds.ID_GRINDER, id -> BlockEntityAccessMenuType.create(id, GrinderBlockEntity.class, GrinderMenu::new));
-    public static final DeferredHolder<MenuType<?>, LimaMenuType<MaterialFusingChamberBlockEntity, MaterialFusingChamberMenu>> MATERIAL_FUSING_CHAMBER = TYPES.register(LTXICommonIds.ID_MATERIAL_FUSING_CHAMBER, id -> BlockEntityAccessMenuType.create(id, MaterialFusingChamberBlockEntity.class, MaterialFusingChamberMenu::new));
-    public static final DeferredHolder<MenuType<?>, LimaMenuType<FabricatorBlockEntity, FabricatorMenu>> FABRICATOR = TYPES.register(LTXICommonIds.ID_FABRICATOR, id -> BlockEntityAccessMenuType.create(id, FabricatorBlockEntity.class, FabricatorMenu::new));
-    public static final DeferredHolder<MenuType<?>, LimaMenuType<AutoFabricatorBlockEntity, AutoFabricatorMenu>> AUTO_FABRICATOR = TYPES.register(LTXICommonIds.ID_AUTO_FABRICATOR, id -> BlockEntityAccessMenuType.create(id, AutoFabricatorBlockEntity.class, AutoFabricatorMenu::new));
+    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<BaseESABlockEntity, EnergyStorageArrayMenu>> ENERGY_STORAGE_ARRAY = TYPES.register(LTXICommonIds.ID_ENERGY_STORAGE_ARRAY, () -> BlockEntityMenuType.create(BaseESABlockEntity.class, EnergyStorageArrayMenu::new));
+    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<DigitalFurnaceBlockEntity, CookingMachineMenu<DigitalFurnaceBlockEntity>>> DIGITAL_FURNACE = registerCookingMenu(LTXICommonIds.ID_DIGITAL_FURNACE, DigitalFurnaceBlockEntity.class);
+    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<DigitalSmokerBlockEntity, CookingMachineMenu<DigitalSmokerBlockEntity>>> DIGITAL_SMOKER = registerCookingMenu(LTXICommonIds.ID_DIGITAL_SMOKER, DigitalSmokerBlockEntity.class);
+    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<DigitalBlastFurnaceBlockEntity, CookingMachineMenu<DigitalBlastFurnaceBlockEntity>>> DIGITAL_BLAST_FURNACE = registerCookingMenu(LTXICommonIds.ID_DIGITAL_BLAST_FURNACE, DigitalBlastFurnaceBlockEntity.class);
+    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<GrinderBlockEntity, GrinderMenu>> GRINDER = TYPES.register(LTXICommonIds.ID_GRINDER, () -> BlockEntityMenuType.create(GrinderBlockEntity.class, GrinderMenu::new));
+    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<MaterialFusingChamberBlockEntity, MaterialFusingChamberMenu>> MATERIAL_FUSING_CHAMBER = TYPES.register(LTXICommonIds.ID_MATERIAL_FUSING_CHAMBER, () -> BlockEntityMenuType.create(MaterialFusingChamberBlockEntity.class, MaterialFusingChamberMenu::new));
+    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<FabricatorBlockEntity, FabricatorMenu>> FABRICATOR = TYPES.register(LTXICommonIds.ID_FABRICATOR, () -> BlockEntityMenuType.create(FabricatorBlockEntity.class, FabricatorMenu::new));
+    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<AutoFabricatorBlockEntity, AutoFabricatorMenu>> AUTO_FABRICATOR = TYPES.register(LTXICommonIds.ID_AUTO_FABRICATOR, () -> BlockEntityMenuType.create(AutoFabricatorBlockEntity.class, AutoFabricatorMenu::new));
 
-    public static final DeferredHolder<MenuType<?>, LimaMenuType<MolecularReconstructorBlockEntity, MolecularReconstructorMenu>> MOLECULAR_RECONSTRUCTOR = TYPES.register(LTXICommonIds.ID_MOLECULAR_RECONSTRUCTOR, id -> BlockEntityAccessMenuType.create(id, MolecularReconstructorBlockEntity.class, MolecularReconstructorMenu::new));
+    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<MolecularReconstructorBlockEntity, MolecularReconstructorMenu>> MOLECULAR_RECONSTRUCTOR = TYPES.register(LTXICommonIds.ID_MOLECULAR_RECONSTRUCTOR, () -> BlockEntityMenuType.create(MolecularReconstructorBlockEntity.class, MolecularReconstructorMenu::new));
 
-    public static final DeferredHolder<MenuType<?>, LimaMenuType<EquipmentUpgradeStationBlockEntity, EquipmentUpgradeStationMenu>> EQUIPMENT_UPGRADE_STATION = TYPES.register(LTXICommonIds.ID_EQUIPMENT_UPGRADE_STATION, id -> BlockEntityAccessMenuType.create(id, EquipmentUpgradeStationBlockEntity.class, EquipmentUpgradeStationMenu::new));
+    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<EquipmentUpgradeStationBlockEntity, EquipmentUpgradeStationMenu>> EQUIPMENT_UPGRADE_STATION = TYPES.register(LTXICommonIds.ID_EQUIPMENT_UPGRADE_STATION, () -> BlockEntityMenuType.create(EquipmentUpgradeStationBlockEntity.class, EquipmentUpgradeStationMenu::new));
 
-    public static final DeferredHolder<MenuType<?>, LimaMenuType<RocketTurretBlockEntity, TurretMenu<RocketTurretBlockEntity>>> ROCKET_TURRET = registerTurret(LTXICommonIds.ID_ROCKET_TURRET, RocketTurretBlockEntity.class);
-    public static final DeferredHolder<MenuType<?>, LimaMenuType<RailgunTurretBlockEntity, TurretMenu<RailgunTurretBlockEntity>>> RAILGUN_TURRET = registerTurret(LTXICommonIds.ID_RAILGUN_TURRET, RailgunTurretBlockEntity.class);
+    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<RocketTurretBlockEntity, TurretMenu<RocketTurretBlockEntity>>> ROCKET_TURRET = registerTurret(LTXICommonIds.ID_ROCKET_TURRET, RocketTurretBlockEntity.class);
+    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<RailgunTurretBlockEntity, TurretMenu<RailgunTurretBlockEntity>>> RAILGUN_TURRET = registerTurret(LTXICommonIds.ID_RAILGUN_TURRET, RailgunTurretBlockEntity.class);
 
-    private static <BE extends BaseCookingBlockEntity<?>> DeferredHolder<MenuType<?>, LimaMenuType<BE, BaseCookingMachineMenu<BE>>> registerCookingMenu(String name, Class<BE> beClass)
+    private static <BE extends CookingBlockEntity<?>> DeferredHolder<MenuType<?>, BlockEntityMenuType<BE, CookingMachineMenu<BE>>> registerCookingMenu(String name, Class<BE> beClass)
     {
-        return TYPES.register(name, id -> BlockEntityAccessMenuType.<BE, BaseCookingMachineMenu<BE>>create(id, beClass, BaseCookingMachineMenu::new));
+        return TYPES.register(name, () -> BlockEntityMenuType.<BE, CookingMachineMenu<BE>>create(beClass, CookingMachineMenu::new));
     }
 
-    private static <BE extends BaseTurretBlockEntity> DeferredHolder<MenuType<?>, LimaMenuType<BE, TurretMenu<BE>>> registerTurret(String name, Class<BE> beClass)
+    private static <BE extends BaseTurretBlockEntity> DeferredHolder<MenuType<?>, BlockEntityMenuType<BE, TurretMenu<BE>>> registerTurret(String name, Class<BE> beClass)
     {
-        return TYPES.register(name, id -> BlockEntityAccessMenuType.<BE, TurretMenu<BE>>create(id, beClass, TurretMenu::new));
+        return TYPES.register(name, id -> BlockEntityMenuType.<BE, TurretMenu<BE>>create(id, beClass, TurretMenu::new));
     }
 }

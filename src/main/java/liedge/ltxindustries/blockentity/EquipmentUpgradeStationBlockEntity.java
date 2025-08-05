@@ -5,13 +5,10 @@ import liedge.limacore.blockentity.LimaBlockEntity;
 import liedge.limacore.capability.itemhandler.BlockInventoryType;
 import liedge.limacore.capability.itemhandler.ItemHolderBlockEntity;
 import liedge.limacore.capability.itemhandler.LimaBlockEntityItemHandler;
-import liedge.limacore.inventory.menu.LimaMenuProvider;
-import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limacore.network.sync.AutomaticDataWatcher;
 import liedge.ltxindustries.item.EquipmentUpgradeModuleItem;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
 import liedge.ltxindustries.registry.game.LTXIBlockEntities;
-import liedge.ltxindustries.registry.game.LTXIMenus;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -23,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 
 import static liedge.limacore.LimaCommonConstants.KEY_ITEM_CONTAINER;
 
-public class EquipmentUpgradeStationBlockEntity extends LimaBlockEntity implements ItemHolderBlockEntity, LimaMenuProvider
+public class EquipmentUpgradeStationBlockEntity extends LimaBlockEntity implements ItemHolderBlockEntity
 {
     public static final int EQUIPMENT_ITEM_SLOT = 0;
     public static final int UPGRADE_MODULE_SLOT = 1;
@@ -96,11 +93,5 @@ public class EquipmentUpgradeStationBlockEntity extends LimaBlockEntity implemen
     {
         super.saveAdditional(tag, registries);
         tag.put(KEY_ITEM_CONTAINER, inventory.serializeNBT(registries));
-    }
-
-    @Override
-    public LimaMenuType<?, ?> getMenuType()
-    {
-        return LTXIMenus.EQUIPMENT_UPGRADE_STATION.get();
     }
 }

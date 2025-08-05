@@ -1,6 +1,6 @@
 package liedge.ltxindustries.menu;
 
-import liedge.limacore.inventory.menu.LimaMenuType;
+import liedge.limacore.menu.LimaMenuType;
 import liedge.limacore.util.LimaItemUtil;
 import liedge.ltxindustries.blockentity.GrinderBlockEntity;
 import liedge.ltxindustries.registry.game.LTXIRecipeTypes;

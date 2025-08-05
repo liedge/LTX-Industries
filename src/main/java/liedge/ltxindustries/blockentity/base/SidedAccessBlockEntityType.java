@@ -5,8 +5,11 @@ import liedge.limacore.blockentity.LimaBlockEntity;
 import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.util.LimaCollectionsUtil;
 import liedge.limacore.util.LimaRegistryUtil;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.level.block.Block;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.function.UnaryOperator;
@@ -21,9 +24,9 @@ public final class SidedAccessBlockEntityType<BE extends LimaBlockEntity> extend
     private final Map<BlockEntityInputType, SidedAccessRules> accessRules;
     private final Set<BlockEntityInputType> validInputTypes;
 
-    public SidedAccessBlockEntityType(BlockEntitySupplier<BE> factory, Set<Block> validBlocks, Map<BlockEntityInputType, SidedAccessRules> accessRules)
+    private SidedAccessBlockEntityType(BlockEntitySupplier<BE> factory, Set<Block> validBlocks, Map<BlockEntityInputType, SidedAccessRules> accessRules, @Nullable Holder<MenuType<?>> menuTypeHolder)
     {
-        super(factory, validBlocks);
+        super(factory, validBlocks, menuTypeHolder);
         this.accessRules = accessRules;
         this.validInputTypes = Collections.unmodifiableSet(accessRules.keySet());
     }
@@ -59,9 +62,9 @@ public final class SidedAccessBlockEntityType<BE extends LimaBlockEntity> extend
         }
 
         @Override
-        protected SidedAccessBlockEntityType<BE> build(BlockEntitySupplier<BE> factory, Set<Block> validBlocks)
+        public SidedAccessBlockEntityType<BE> build()
         {
-            return new SidedAccessBlockEntityType<>(factory, validBlocks, ImmutableMap.copyOf(ruleMap));
+            return new SidedAccessBlockEntityType<>(factory, getValidBlocks(), ImmutableMap.copyOf(ruleMap), menuTypeHolder);
         }
     }
 }

@@ -1,7 +1,7 @@
 package liedge.ltxindustries.block;
 
 import liedge.limacore.blockentity.LimaBlockEntityType;
-import liedge.limacore.inventory.menu.LimaMenuProvider;
+import liedge.limacore.menu.LimaMenuProvider;
 import liedge.limacore.util.LimaBlockUtil;
 import liedge.ltxindustries.blockentity.MeshBlockEntity;
 import liedge.ltxindustries.registry.game.LTXIBlockEntities;

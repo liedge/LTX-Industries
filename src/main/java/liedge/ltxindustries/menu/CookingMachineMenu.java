@@ -1,14 +1,14 @@
 package liedge.ltxindustries.menu;
 
-import liedge.limacore.inventory.menu.LimaMenuType;
+import liedge.limacore.menu.LimaMenuType;
 import liedge.limacore.util.LimaItemUtil;
-import liedge.ltxindustries.blockentity.BaseCookingBlockEntity;
+import liedge.ltxindustries.blockentity.CookingBlockEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 
-public class BaseCookingMachineMenu<CTX extends BaseCookingBlockEntity<?>> extends LTXIMachineMenu.EnergyMachineMenu<CTX>
+public class CookingMachineMenu<CTX extends CookingBlockEntity<?>> extends LTXIMachineMenu.EnergyMachineMenu<CTX>
 {
-    public BaseCookingMachineMenu(LimaMenuType<CTX, ?> type, int containerId, Inventory inventory, CTX menuContext)
+    public CookingMachineMenu(LimaMenuType<CTX, ?> type, int containerId, Inventory inventory, CTX menuContext)
     {
         super(type, containerId, inventory, menuContext);
 

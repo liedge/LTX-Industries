@@ -6,7 +6,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.neoforged.neoforge.network.codec.NeoForgeStreamCodecs;
 
-public enum BlockEntityInputType implements Translatable
+public enum BlockEntityInputType
 {
     ITEMS("items"),
     ENERGY("energy"),
@@ -14,16 +14,22 @@ public enum BlockEntityInputType implements Translatable
 
     public static final StreamCodec<FriendlyByteBuf, BlockEntityInputType> STREAM_CODEC = NeoForgeStreamCodecs.enumCodec(BlockEntityInputType.class);
 
-    private final String translationKey;
+    private final Translatable menuTitle;
+    private final Translatable sidebarTooltip;
 
     BlockEntityInputType(String name)
     {
-        this.translationKey = LTXIndustries.RESOURCES.translationKey("input_type", "{}", name);
+        this.menuTitle = LTXIndustries.RESOURCES.translationHolder("input_type.{}", name, "title");
+        this.sidebarTooltip = LTXIndustries.RESOURCES.translationHolder("input_type.{}", name, "tooltip");
     }
 
-    @Override
-    public String descriptionId()
+    public Translatable getMenuTitle()
     {
-        return translationKey;
+        return menuTitle;
+    }
+
+    public Translatable getSidebarTooltip()
+    {
+        return sidebarTooltip;
     }
 }

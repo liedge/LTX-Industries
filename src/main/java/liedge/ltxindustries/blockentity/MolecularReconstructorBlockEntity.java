@@ -3,7 +3,6 @@ package liedge.ltxindustries.blockentity;
 import liedge.limacore.capability.energy.LimaEnergyUtil;
 import liedge.limacore.capability.itemhandler.LimaBlockEntityItemHandler;
 import liedge.limacore.client.gui.TooltipLineConsumer;
-import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.blockentity.base.EnergyConsumerBlockEntity;
 import liedge.ltxindustries.blockentity.base.TimedProcessMachineBlockEntity;
@@ -11,7 +10,6 @@ import liedge.ltxindustries.blockentity.template.ProductionMachineBlockEntity;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrades;
 import liedge.ltxindustries.registry.game.LTXIBlockEntities;
-import liedge.ltxindustries.registry.game.LTXIMenus;
 import liedge.ltxindustries.util.LTXITooltipUtil;
 import liedge.ltxindustries.util.config.LTXIMachinesConfig;
 import net.minecraft.core.BlockPos;
@@ -38,12 +36,6 @@ public class MolecularReconstructorBlockEntity extends ProductionMachineBlockEnt
     public int getBaseEnergyCapacity()
     {
         return LTXIMachinesConfig.REPAIRER_ENERGY_CAPACITY.getAsInt();
-    }
-
-    @Override
-    public LimaMenuType<?, ?> getMenuType()
-    {
-        return LTXIMenus.MOLECULAR_RECONSTRUCTOR.get();
     }
 
     @Override

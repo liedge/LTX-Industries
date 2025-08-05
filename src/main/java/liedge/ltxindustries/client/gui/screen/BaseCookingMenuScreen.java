@@ -1,22 +1,22 @@
 package liedge.ltxindustries.client.gui.screen;
 
 import liedge.ltxindustries.client.gui.widget.MachineProgressWidget;
-import liedge.ltxindustries.menu.BaseCookingMachineMenu;
+import liedge.ltxindustries.menu.CookingMachineMenu;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
-public class BaseCookingMenuScreen extends LTXIMachineScreen<BaseCookingMachineMenu<?>>
+public class BaseCookingMenuScreen extends LTXIMachineScreen<CookingMachineMenu<?>>
 {
-    public static MenuScreens.ScreenConstructor<BaseCookingMachineMenu<?>, BaseCookingMenuScreen> provider(CookingType cookingType)
+    public static MenuScreens.ScreenConstructor<CookingMachineMenu<?>, BaseCookingMenuScreen> provider(CookingType cookingType)
     {
         return (menu, inventory, title) -> new BaseCookingMenuScreen(menu, inventory, title, cookingType);
     }
 
     private final CookingType cookingType;
 
-    private BaseCookingMenuScreen(BaseCookingMachineMenu<?> menu, Inventory inventory, Component title, CookingType cookingType)
+    private BaseCookingMenuScreen(CookingMachineMenu<?> menu, Inventory inventory, Component title, CookingType cookingType)
     {
         super(menu, inventory, title, DEFAULT_WIDTH, DEFAULT_HEIGHT);
         this.cookingType = cookingType;

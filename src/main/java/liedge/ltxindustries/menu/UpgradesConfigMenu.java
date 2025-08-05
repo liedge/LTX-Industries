@@ -4,9 +4,9 @@ import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.capability.itemhandler.ItemHolderBlockEntity;
 import liedge.limacore.capability.itemhandler.LimaBlockEntityItemHandler;
-import liedge.limacore.inventory.menu.LimaItemHandlerMenu;
-import liedge.limacore.inventory.menu.LimaItemHandlerMenuSlot;
-import liedge.limacore.inventory.menu.LimaMenuType;
+import liedge.limacore.menu.LimaItemHandlerMenu;
+import liedge.limacore.menu.LimaMenuType;
+import liedge.limacore.menu.slot.LimaHandlerSlot;
 import liedge.limacore.network.NetworkSerializer;
 import liedge.limacore.network.sync.AutomaticDataWatcher;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
@@ -140,7 +140,7 @@ public abstract class UpgradesConfigMenu<CTX extends ItemHolderBlockEntity, U ex
         return false;
     }
 
-    private class InsertSlot extends LimaItemHandlerMenuSlot
+    private class InsertSlot extends LimaHandlerSlot
     {
         public InsertSlot(int xPos, int yPos)
         {

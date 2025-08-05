@@ -20,7 +20,7 @@ public class OpenIOControlButton extends LimaSidebarButton.RightSided
 
     public OpenIOControlButton(int x, int y, LimaMenuScreen<?> parent, int buttonId, BlockEntityInputType inputType)
     {
-        super(x, y, inputType.translate());
+        super(x, y, inputType.getSidebarTooltip().translate());
         this.parent = parent;
         this.buttonId = buttonId;
         this.inputType = inputType;

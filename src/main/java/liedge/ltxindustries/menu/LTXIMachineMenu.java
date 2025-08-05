@@ -1,8 +1,8 @@
 package liedge.ltxindustries.menu;
 
-import liedge.limacore.inventory.menu.LimaItemHandlerMenu;
-import liedge.limacore.inventory.menu.LimaMenuProvider;
-import liedge.limacore.inventory.menu.LimaMenuType;
+import liedge.limacore.menu.LimaItemHandlerMenu;
+import liedge.limacore.menu.LimaMenuProvider;
+import liedge.limacore.menu.LimaMenuType;
 import liedge.ltxindustries.blockentity.template.EnergyMachineBlockEntity;
 import liedge.ltxindustries.blockentity.template.LTXIMachineBlockEntity;
 import liedge.ltxindustries.registry.game.LTXIMenus;
@@ -24,7 +24,8 @@ public abstract class LTXIMachineMenu<CTX extends LTXIMachineBlockEntity> extend
     @Override
     protected void defineButtonEventHandlers(EventHandlerBuilder builder)
     {
-        builder.handleUnitAction(UPGRADES_BUTTON_ID, sender -> LimaMenuProvider.openStandaloneMenu(sender, LTXIMenus.MACHINE_UPGRADES.get(), menuContext));
+        builder.handleUnitAction(UPGRADES_BUTTON_ID,
+                sender -> LimaMenuProvider.create(LTXIMenus.MACHINE_UPGRADES.get(), menuContext, null, false).openMenuScreen(sender));
         builder.handleAction(IO_CONTROLS_BUTTON_ID, LTXINetworkSerializers.MACHINE_INPUT_TYPE, menuContext::openIOControlMenuScreen);
     }
 

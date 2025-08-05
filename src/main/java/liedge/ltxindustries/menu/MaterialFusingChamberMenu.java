@@ -1,7 +1,7 @@
 package liedge.ltxindustries.menu;
 
 import liedge.limacore.capability.itemhandler.LimaBlockEntityItemHandler;
-import liedge.limacore.inventory.menu.LimaMenuType;
+import liedge.limacore.menu.LimaMenuType;
 import liedge.limacore.util.LimaItemUtil;
 import liedge.ltxindustries.blockentity.MaterialFusingChamberBlockEntity;
 import liedge.ltxindustries.registry.game.LTXIRecipeTypes;

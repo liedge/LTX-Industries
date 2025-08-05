@@ -1,11 +1,13 @@
 package liedge.ltxindustries.blockentity;
 
 import liedge.limacore.capability.itemhandler.BlockInventoryType;
-import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limacore.recipe.LimaRecipeInput;
 import liedge.limacore.util.LimaRecipesUtil;
 import liedge.ltxindustries.recipe.FabricatingRecipe;
-import liedge.ltxindustries.registry.game.*;
+import liedge.ltxindustries.registry.game.LTXIBlockEntities;
+import liedge.ltxindustries.registry.game.LTXIDataComponents;
+import liedge.ltxindustries.registry.game.LTXIItems;
+import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -100,12 +102,6 @@ public class AutoFabricatorBlockEntity extends BaseFabricatorBlockEntity
     public Item getValidBlueprintItem()
     {
         return LTXIItems.FABRICATION_BLUEPRINT.get();
-    }
-
-    @Override
-    public LimaMenuType<?, ?> getMenuType()
-    {
-        return LTXIMenus.AUTO_FABRICATOR.get();
     }
 
     @Override

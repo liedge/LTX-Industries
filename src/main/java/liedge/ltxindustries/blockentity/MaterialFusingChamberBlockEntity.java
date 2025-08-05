@@ -1,9 +1,7 @@
 package liedge.ltxindustries.blockentity;
 
-import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.ltxindustries.recipe.MaterialFusingRecipe;
 import liedge.ltxindustries.registry.game.LTXIBlockEntities;
-import liedge.ltxindustries.registry.game.LTXIMenus;
 import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
@@ -33,11 +31,5 @@ public class MaterialFusingChamberBlockEntity extends LimaRecipeMachineBlockEnti
     public int getBaseTicksPerOperation()
     {
         return MFC_CRAFTING_TIME.getAsInt();
-    }
-
-    @Override
-    public LimaMenuType<?, ?> getMenuType()
-    {
-        return LTXIMenus.MATERIAL_FUSING_CHAMBER.get();
     }
 }

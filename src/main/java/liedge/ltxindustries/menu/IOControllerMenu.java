@@ -1,7 +1,7 @@
 package liedge.ltxindustries.menu;
 
-import liedge.limacore.inventory.menu.LimaMenu;
-import liedge.limacore.inventory.menu.LimaMenuType;
+import liedge.limacore.menu.LimaMenu;
+import liedge.limacore.menu.LimaMenuType;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.limacore.util.LimaBlockUtil;
 import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
@@ -9,8 +9,6 @@ import liedge.ltxindustries.blockentity.base.IOController;
 import liedge.ltxindustries.blockentity.base.SidedAccessBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -60,17 +58,11 @@ public class IOControllerMenu extends LimaMenu<IOControllerMenu.MenuContext>
         builder.handleUnitAction(TOGGLE_AUTO_OUTPUT_BUTTON_ID, sender -> ioControl.toggleAutoOutput());
     }
 
-    public static class MenuType extends LimaMenuType<MenuContext, IOControllerMenu>
+    public static final class MenuType extends LimaMenuType<MenuContext, IOControllerMenu>
     {
-        public MenuType(ResourceLocation registryId)
+        public MenuType()
         {
-            super(registryId, MenuContext.class, IOControllerMenu::new);
-        }
-
-        @Override
-        public MutableComponent getMenuTitle(Object uncheckedContext)
-        {
-            return checkContext(uncheckedContext).inputType.translate();
+            super(MenuContext.class, IOControllerMenu::new, null);
         }
 
         @Override

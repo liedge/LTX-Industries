@@ -1,11 +1,9 @@
 package liedge.ltxindustries.blockentity;
 
-import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.entity.BaseRocketEntity;
 import liedge.ltxindustries.lib.TurretTargetList;
 import liedge.ltxindustries.registry.game.LTXIBlockEntities;
-import liedge.ltxindustries.registry.game.LTXIMenus;
 import liedge.ltxindustries.registry.game.LTXISounds;
 import liedge.ltxindustries.util.config.LTXIMachinesConfig;
 import net.minecraft.core.BlockPos;
@@ -80,11 +78,5 @@ public class RocketTurretBlockEntity extends BaseTurretBlockEntity
     public int getBaseEnergyCapacity()
     {
         return LTXIMachinesConfig.ATMOS_TURRET_ENERGY_CAPACITY.getAsInt();
-    }
-
-    @Override
-    public LimaMenuType<?, ?> getMenuType()
-    {
-        return LTXIMenus.ROCKET_TURRET.get();
     }
 }

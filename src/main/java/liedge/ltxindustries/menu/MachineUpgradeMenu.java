@@ -1,6 +1,6 @@
 package liedge.ltxindustries.menu;
 
-import liedge.limacore.inventory.menu.LimaMenuType;
+import liedge.limacore.menu.LimaMenuType;
 import liedge.limacore.network.NetworkSerializer;
 import liedge.ltxindustries.blockentity.template.LTXIMachineBlockEntity;
 import liedge.ltxindustries.item.MachineUpgradeModuleItem;

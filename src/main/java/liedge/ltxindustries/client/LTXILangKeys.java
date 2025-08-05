@@ -24,6 +24,7 @@ public final class LTXILangKeys
     public static final Translatable AUTO_OUTPUT_ON_TOOLTIP = tooltip("auto_output_on");
     public static final Translatable AUTO_INPUT_OFF_TOOLTIP = tooltip("auto_input_off");
     public static final Translatable AUTO_INPUT_ON_TOOLTIP = tooltip("auto_input_on");
+    public static final Translatable MACHINE_UPGRADES_SIDEBAR_TOOLTIP = tooltip("machine_upgrades");
 
     public static final Translatable INLINE_ENERGY = tooltip("energy");
     public static final Translatable INLINE_ENERGY_TRANSFER_RATE = tooltip("energy_transfer_rate");

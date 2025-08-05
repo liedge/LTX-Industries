@@ -6,7 +6,6 @@ import liedge.limacore.blockentity.LimaBlockEntity;
 import liedge.limacore.capability.itemhandler.BlockInventoryType;
 import liedge.limacore.capability.itemhandler.LimaBlockEntityItemHandler;
 import liedge.limacore.capability.itemhandler.LimaItemHandlerUtil;
-import liedge.limacore.inventory.menu.LimaMenuProvider;
 import liedge.limacore.util.LimaItemUtil;
 import liedge.limacore.util.LimaNbtUtil;
 import liedge.ltxindustries.blockentity.base.*;
@@ -36,7 +35,7 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.function.Predicate;
 
-public sealed abstract class LTXIMachineBlockEntity extends LimaBlockEntity implements LimaMenuProvider, SidedAccessBlockEntity, UpgradesHolderBlockEntity permits EnergyMachineBlockEntity
+public sealed abstract class LTXIMachineBlockEntity extends LimaBlockEntity implements SidedAccessBlockEntity, UpgradesHolderBlockEntity permits EnergyMachineBlockEntity
 {
     // Recommended standard inventory indices for machines
     public static final int AUX_MODULE_ITEM_SLOT = 0;

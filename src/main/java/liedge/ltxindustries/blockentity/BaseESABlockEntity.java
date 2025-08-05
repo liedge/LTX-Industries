@@ -5,17 +5,18 @@ import liedge.limacore.capability.energy.LimaEnergyStorage;
 import liedge.limacore.capability.energy.LimaEnergyUtil;
 import liedge.limacore.capability.itemhandler.BlockInventoryType;
 import liedge.limacore.capability.itemhandler.LimaBlockEntityItemHandler;
-import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limacore.lib.LimaColor;
+import liedge.limacore.menu.BlockEntityMenuType;
 import liedge.limacore.util.LimaItemUtil;
 import liedge.ltxindustries.block.LTXIBlockProperties;
 import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
 import liedge.ltxindustries.blockentity.base.IOController;
 import liedge.ltxindustries.blockentity.base.SidedAccessBlockEntityType;
 import liedge.ltxindustries.blockentity.template.EnergyMachineBlockEntity;
-import liedge.ltxindustries.registry.game.LTXIMenus;
+import liedge.ltxindustries.registry.game.LTXIBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -144,15 +145,15 @@ public abstract class BaseESABlockEntity extends EnergyMachineBlockEntity
     public void defineDataWatchers(DataWatcherCollector collector) {}
 
     @Override
-    public LimaMenuType<?, ?> getMenuType()
-    {
-        return LTXIMenus.ENERGY_STORAGE_ARRAY.get();
-    }
-
-    @Override
     protected void onIOControlsChanged(BlockEntityInputType inputType, Level level)
     {
         if (inputType == BlockEntityInputType.ENERGY) updateAndSyncBlockState(level);
+    }
+
+    @Override
+    public Component getMenuTitle(BlockEntityMenuType<?, ?> menuType)
+    {
+        return LTXIBlocks.ENERGY_STORAGE_ARRAY.get().getName();
     }
 
     private void updateAndSyncBlockState(Level level)

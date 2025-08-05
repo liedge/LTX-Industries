@@ -1,15 +1,13 @@
 package liedge.ltxindustries.blockentity;
 
-import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.ltxindustries.registry.game.LTXIBlockEntities;
-import liedge.ltxindustries.registry.game.LTXIMenus;
 import liedge.ltxindustries.util.config.LTXIMachinesConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SmokingRecipe;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class DigitalSmokerBlockEntity extends BaseCookingBlockEntity<SmokingRecipe>
+public class DigitalSmokerBlockEntity extends CookingBlockEntity<SmokingRecipe>
 {
     public DigitalSmokerBlockEntity(BlockPos pos, BlockState state)
     {
@@ -20,12 +18,6 @@ public class DigitalSmokerBlockEntity extends BaseCookingBlockEntity<SmokingReci
     public int getBaseEnergyCapacity()
     {
         return LTXIMachinesConfig.DIGITAL_SMOKER_ENERGY_CAPACITY.getAsInt();
-    }
-
-    @Override
-    public LimaMenuType<?, ?> getMenuType()
-    {
-        return LTXIMenus.DIGITAL_SMOKER.get();
     }
 
     @Override

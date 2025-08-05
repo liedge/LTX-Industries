@@ -1,7 +1,6 @@
 package liedge.ltxindustries.blockentity;
 
 import liedge.limacore.client.particle.ColorParticleOptions;
-import liedge.limacore.inventory.menu.LimaMenuType;
 import liedge.limacore.util.LimaNetworkUtil;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.LTXITags;
@@ -10,7 +9,6 @@ import liedge.ltxindustries.entity.damage.TurretDamageSource;
 import liedge.ltxindustries.lib.TurretTargetList;
 import liedge.ltxindustries.registry.bootstrap.LTXIDamageTypes;
 import liedge.ltxindustries.registry.game.LTXIBlockEntities;
-import liedge.ltxindustries.registry.game.LTXIMenus;
 import liedge.ltxindustries.registry.game.LTXIParticles;
 import liedge.ltxindustries.registry.game.LTXISounds;
 import liedge.ltxindustries.util.config.LTXIMachinesConfig;
@@ -84,11 +82,5 @@ public class RailgunTurretBlockEntity extends BaseTurretBlockEntity
     public int getBaseEnergyCapacity()
     {
         return LTXIMachinesConfig.NOCTIS_TURRET_ENERGY_CAPACITY.getAsInt();
-    }
-
-    @Override
-    public LimaMenuType<?, ?> getMenuType()
-    {
-        return LTXIMenus.RAILGUN_TURRET.get();
     }
 }

@@ -2,7 +2,7 @@ package liedge.ltxindustries.client.gui.screen;
 
 import liedge.limacore.client.gui.LimaGuiUtil;
 import liedge.limacore.client.gui.LimaMenuScreen;
-import liedge.limacore.inventory.menu.LimaMenu;
+import liedge.limacore.menu.LimaMenu;
 import liedge.ltxindustries.LTXIConstants;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
