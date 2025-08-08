@@ -34,7 +34,7 @@ public class FabricatingRecipe extends LimaCustomRecipe<LimaRecipeInput>
 {
     public static final MapCodec<FabricatingRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             LimaCoreCodecs.sizedIngredients(16).forGetter(LimaCustomRecipe::getItemIngredients),
-            ItemResult.CODEC.fieldOf("result").forGetter(LimaCustomRecipe::getFirstResult),
+            ItemResult.CODEC.fieldOf("result").forGetter(LimaCustomRecipe::getFirstItemResult),
             ExtraCodecs.POSITIVE_INT.fieldOf("energy_required").forGetter(FabricatingRecipe::getEnergyRequired),
             Codec.BOOL.optionalFieldOf("advancement_locked", false).forGetter(FabricatingRecipe::isAdvancementLocked),
             GROUP_MAP_CODEC.forGetter(FabricatingRecipe::getGroup))
@@ -42,7 +42,7 @@ public class FabricatingRecipe extends LimaCustomRecipe<LimaRecipeInput>
 
     public static final StreamCodec<RegistryFriendlyByteBuf, FabricatingRecipe> STREAM_CODEC = StreamCodec.composite(
             LimaStreamCodecs.sizedIngredients(16), LimaCustomRecipe::getItemIngredients,
-            ItemResult.STREAM_CODEC, LimaCustomRecipe::getFirstResult,
+            ItemResult.STREAM_CODEC, LimaCustomRecipe::getFirstItemResult,
             LimaStreamCodecs.POSITIVE_VAR_INT, FabricatingRecipe::getEnergyRequired,
             ByteBufCodecs.BOOL, FabricatingRecipe::isAdvancementLocked,
             ByteBufCodecs.STRING_UTF8, LimaCustomRecipe::getGroup,
@@ -87,18 +87,18 @@ public class FabricatingRecipe extends LimaCustomRecipe<LimaRecipeInput>
 
     public ItemStack generateFabricatingResult(RandomSource random)
     {
-        return getFirstResult().generateResult(random);
+        return getFirstItemResult().generateResult(random);
     }
 
     public ItemStack getFabricatingResultItem()
     {
-        return getFirstResult().item();
+        return getFirstItemResult().item();
     }
 
     @Override
     public boolean matches(LimaRecipeInput input, @Nullable Level level)
     {
-        return consumeIngredientsLenientSlots(input, true);
+        return consumeItemIngredients(input, true);
     }
 
     @Override

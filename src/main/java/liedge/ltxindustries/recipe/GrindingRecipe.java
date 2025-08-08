@@ -7,6 +7,7 @@ import liedge.limacore.recipe.LimaRecipeType;
 import liedge.ltxindustries.registry.game.LTXIRecipeSerializers;
 import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.crafting.SizedIngredient;
 
 import java.util.List;
@@ -16,6 +17,12 @@ public class GrindingRecipe extends LimaCustomRecipe<LimaRecipeInput>
     public GrindingRecipe(List<SizedIngredient> ingredients, List<ItemResult> itemResults)
     {
         super(ingredients, itemResults);
+    }
+
+    @Override
+    public boolean matches(LimaRecipeInput input, Level level)
+    {
+        return consumeItemIngredients(input, true);
     }
 
     @Override

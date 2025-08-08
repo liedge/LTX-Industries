@@ -36,7 +36,7 @@ public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, 
     private int energyUsage = getBaseEnergyUsage();
     private int machineSpeed = getBaseTicksPerOperation();
     private int craftingProgress;
-    private boolean shouldCheckRecipe;
+    protected boolean shouldCheckRecipe;
     private boolean crafting;
 
     protected StateBlockRecipeMachineBlockEntity(SidedAccessBlockEntityType<?> type, RecipeType<R> recipeType, BlockPos pos, BlockState state, int inputSlots, int outputSlots)

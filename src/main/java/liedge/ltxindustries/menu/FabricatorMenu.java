@@ -50,10 +50,7 @@ public class FabricatorMenu extends LTXIMachineMenu.EnergyMachineMenu<Fabricator
 
     private void receiveCraftCommand(ServerPlayer sender, ResourceLocation id)
     {
-        validateRecipeAccess(sender, id).ifPresent(holder -> {
-            LimaRecipeInput input = LimaRecipeInput.create(new PlayerMainInvWrapper(sender.getInventory()));
-            menuContext.startCrafting(sender.level(), holder, input, sender.isCreative());
-        });
+        validateRecipeAccess(sender, id).ifPresent(holder -> menuContext.startCrafting(sender.level(), holder, LimaRecipeInput.of(new PlayerMainInvWrapper(sender.getInventory())), sender.isCreative()));
     }
 
     private void receiveEncodeCommand(ServerPlayer sender, ResourceLocation id)

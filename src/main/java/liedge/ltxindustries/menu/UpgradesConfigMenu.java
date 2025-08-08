@@ -12,14 +12,10 @@ import liedge.limacore.network.sync.AutomaticDataWatcher;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.ltxindustries.lib.upgrades.UpgradeBase;
 import liedge.ltxindustries.lib.upgrades.UpgradesContainerBase;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -115,13 +111,6 @@ public abstract class UpgradesConfigMenu<CTX extends ItemHolderBlockEntity, U ex
             itemEntity.setDeltaMovement(itemEntity.getDeltaMovement().multiply(0, 1, 0));
             player.level().addFreshEntity(itemEntity);
         }
-    }
-
-    protected void sendSoundToPlayer(ServerPlayer player, Holder<SoundEvent> sound)
-    {
-        BlockPos pos = menuContext.getAsLimaBlockEntity().getBlockPos();
-        ClientboundSoundPacket packet = new ClientboundSoundPacket(sound, SoundSource.PLAYERS, pos.getX() + 0.5d, pos.getY() + 0.5d, pos.getZ() + 0.5d, 1f, 1f, player.getRandom().nextLong());
-        player.connection.send(packet);
     }
 
     public List<Object2IntMap.Entry<Holder<U>>> getRemoteUpgrades()

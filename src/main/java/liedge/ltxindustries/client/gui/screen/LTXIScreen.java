@@ -21,19 +21,39 @@ public abstract class LTXIScreen<M extends LimaMenu<?>> extends LimaMenuScreen<M
 
     // Common sprites
     protected static final ResourceLocation EMPTY_SLOT_SPRITE = RESOURCES.location("slot/empty");
+    private static final ResourceLocation FLUID_SLOT_SPRITE = RESOURCES.location("slot/fluid");
     private static final ResourceLocation POWER_IN_SLOT = RESOURCES.location("slot/power_in");
     protected static final ResourceLocation POWER_OUT_SLOT = RESOURCES.location("slot/power_out");
     private static final ResourceLocation BIG_OUTPUT_SLOT = RESOURCES.location("slot/big_output");
 
+    // Dimensions
+    private static final int BG_CORNER_SIZE = 4;
+    private static final int TITLE_BAR_HEIGHT = 15;
+
+    private int titleBarWidth;
+    private int titleBarX;
+
     protected LTXIScreen(M menu, Inventory inventory, Component title, int primaryWidth, int primaryHeight)
     {
         super(menu, inventory, title, primaryWidth, primaryHeight, LTXIConstants.LIME_GREEN.argb32());
+        this.topPadding = TITLE_BAR_HEIGHT;
+        this.titleLabelY = -9;
+    }
+
+    @Override
+    protected void positionLabels()
+    {
+        super.positionLabels();
+
+        this.titleBarWidth = Math.min(primaryWidth - 8, font.width(title) + 18);
+        this.titleBarX = (primaryWidth - titleBarWidth) / 2;
     }
 
     @Override
     protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY)
     {
-        nineSliceBlit(guiGraphics, CONTAINER_BASE_TEXTURE, 4, 0, 0, primaryWidth, primaryHeight, 16, 16);
+        nineSliceBlit(guiGraphics, CONTAINER_BASE_TEXTURE, BG_CORNER_SIZE, 0, 0, primaryWidth, primaryHeight, 16, 16);
+        LimaGuiUtil.nineSliceNoBottomBlit(guiGraphics, CONTAINER_BASE_TEXTURE, BG_CORNER_SIZE, leftPos + titleBarX, topPos - topPadding, titleBarWidth, TITLE_BAR_HEIGHT, 16, 16);
     }
 
     protected void blitSlotGrid(GuiGraphics graphics, int x, int y, int width, int height)
@@ -60,6 +80,11 @@ public abstract class LTXIScreen<M extends LimaMenu<?>> extends LimaMenuScreen<M
     protected void blitEmptySlot(GuiGraphics graphics, int x, int y)
     {
         blitSlotSprite(graphics, EMPTY_SLOT_SPRITE, x, y);
+    }
+
+    protected void blitFluidSlot(GuiGraphics graphics, int x, int y)
+    {
+        blitSlotSprite(graphics, FLUID_SLOT_SPRITE, x, y);
     }
 
     protected void blitPowerInSlot(GuiGraphics graphics, int x, int y)
@@ -91,6 +116,11 @@ public abstract class LTXIScreen<M extends LimaMenu<?>> extends LimaMenuScreen<M
     public static void blitEmptySlotSprite(GuiGraphics graphics, int x, int y)
     {
         graphics.blitSprite(EMPTY_SLOT_SPRITE, x, y, 18, 18);
+    }
+
+    public static void blitFluidSlotSprite(GuiGraphics graphics, int x, int y)
+    {
+        graphics.blitSprite(FLUID_SLOT_SPRITE, x, y, 18, 18);
     }
 
     public static void blitOutputSlotSprite(GuiGraphics graphics, int x, int y)

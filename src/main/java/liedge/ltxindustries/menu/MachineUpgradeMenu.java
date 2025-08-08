@@ -90,7 +90,7 @@ public class MachineUpgradeMenu extends UpgradesConfigMenu<LTXIMachineBlockEntit
 
             if (previousRank > 0) ejectModuleItem(getServerUser(), entry.upgrade(), previousRank);
 
-            sendSoundToPlayer(getServerUser(), LTXISounds.UPGRADE_INSTALL);
+            sendSoundToPlayer(getServerUser(), LTXISounds.UPGRADE_INSTALL, 1f, 1f);
         }
     }
 
@@ -108,7 +108,7 @@ public class MachineUpgradeMenu extends UpgradesConfigMenu<LTXIMachineBlockEntit
 
             ejectModuleItem(sender, upgradeHolder, rank);
 
-            sendSoundToPlayer(sender, LTXISounds.UPGRADE_REMOVE);
+            sendSoundToPlayer(sender, LTXISounds.UPGRADE_REMOVE, 1f, 1f);
         }
     }
 
