@@ -12,7 +12,7 @@ public class MaterialFusingChamberBlockEntity extends LimaRecipeMachineBlockEnti
 {
     public MaterialFusingChamberBlockEntity(BlockPos pos, BlockState state)
     {
-        super(LTXIBlockEntities.MATERIAL_FUSING_CHAMBER.get(), LTXIRecipeTypes.MATERIAL_FUSING.get(), pos, state, 3, 1);
+        super(LTXIBlockEntities.MATERIAL_FUSING_CHAMBER.get(), LTXIRecipeTypes.MATERIAL_FUSING.get(), pos, state, 3, 2, 1);
     }
 
     @Override

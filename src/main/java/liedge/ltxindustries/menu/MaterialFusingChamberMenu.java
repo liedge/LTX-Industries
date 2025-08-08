@@ -1,6 +1,5 @@
 package liedge.ltxindustries.menu;
 
-import liedge.limacore.capability.itemhandler.LimaBlockEntityItemHandler;
 import liedge.limacore.menu.LimaMenuType;
 import liedge.limacore.util.LimaItemUtil;
 import liedge.ltxindustries.blockentity.MaterialFusingChamberBlockEntity;
@@ -14,11 +13,9 @@ public class MaterialFusingChamberMenu extends LTXIMachineMenu.EnergyMachineMenu
     {
         super(type, containerId, inventory, menuContext);
 
-        LimaBlockEntityItemHandler inputInv = menuContext.getInputInventory();
-        addHandlerSlot(inputInv, 0, 42, 27);
-        addHandlerSlot(inputInv, 1, 60, 27);
-        addHandlerSlot(inputInv, 2, 51, 45);
-        addHandlerRecipeOutputSlot(menuContext.getOutputInventory(), 0, 112, 36, LTXIRecipeTypes.MATERIAL_FUSING);
+        addHandlerSlotsGrid(menuContext.getInputInventory(), 0, 40, 27, 3, 1);
+        addHandlerRecipeOutputSlot(menuContext.getOutputInventory(), 0, 134, 36, LTXIRecipeTypes.MATERIAL_FUSING);
+        addFluidSlot(menuContext.getFluidHandler(), 0, 40, 45);
 
         addDefaultPlayerInventoryAndHotbar();
     }
@@ -29,6 +26,7 @@ public class MaterialFusingChamberMenu extends LTXIMachineMenu.EnergyMachineMenu
         menuContext.getEnergyStorage().keepAllPropertiesSynced(collector);
         menuContext.keepTimedProcessPropertiesSynced(collector);
         menuContext.keepEnergyConsumerPropertiesSynced(collector);
+        menuContext.getFluidHandler().syncAllTanks(collector);
     }
 
     @Override

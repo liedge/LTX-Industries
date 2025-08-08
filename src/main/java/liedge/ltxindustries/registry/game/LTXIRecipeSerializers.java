@@ -26,7 +26,7 @@ public final class LTXIRecipeSerializers
     }
 
     public static final DeferredHolder<RecipeSerializer<?>, LimaRecipeSerializer<GrindingRecipe>> GRINDING = SERIALIZERS.register("grinding", id -> LimaRecipesUtil.simpleCustomSerializer(id, GrindingRecipe::new, 1, 3));
-    public static final DeferredHolder<RecipeSerializer<?>, LimaRecipeSerializer<MaterialFusingRecipe>> MATERIAL_FUSING = SERIALIZERS.register("material_fusing", id -> LimaRecipesUtil.simpleCustomSerializer(id, MaterialFusingRecipe::new, 3, 1));
+    public static final DeferredHolder<RecipeSerializer<?>, LimaRecipeSerializer<MaterialFusingRecipe>> MATERIAL_FUSING = SERIALIZERS.register("material_fusing", id -> LimaRecipeSerializer.of(id, MaterialFusingRecipe.CODEC, MaterialFusingRecipe.STREAM_CODEC));
     public static final DeferredHolder<RecipeSerializer<?>, LimaRecipeSerializer<FabricatingRecipe>> FABRICATING = SERIALIZERS.register("fabricating", id -> new LimaRecipeSerializer<>(id, FabricatingRecipe.CODEC, FabricatingRecipe.STREAM_CODEC));
 
     public static final DeferredHolder<RecipeSerializer<?>, SimpleCraftingRecipeSerializer<DefaultUpgradeModuleRecipe>> DEFAULT_UPGRADE_MODULE = SERIALIZERS.register("default_upgrade_module", () -> new SimpleCraftingRecipeSerializer<>(DefaultUpgradeModuleRecipe::new));

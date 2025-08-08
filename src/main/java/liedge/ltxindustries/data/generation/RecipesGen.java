@@ -661,7 +661,7 @@ class RecipesGen extends LimaRecipeProvider
 
     private LimaCustomRecipeBuilder<MaterialFusingRecipe, ?> fusing()
     {
-        return LimaCustomRecipeBuilder.simpleBuilder(modResources, MaterialFusingRecipe::new);
+        return LimaCustomRecipeBuilder.simpleBuilder(modResources, (p1, p2, p3, p4) -> new MaterialFusingRecipe(p1, p2, p3));
     }
 
     private FabricatingBuilder fabricating(int energyRequired)

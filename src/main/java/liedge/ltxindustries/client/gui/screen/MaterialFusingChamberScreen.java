@@ -17,7 +17,7 @@ public class MaterialFusingChamberScreen extends LTXIMachineScreen<MaterialFusin
     protected void addWidgets()
     {
         super.addWidgets();
-        addRenderableOnly(new MachineProgressWidget(menu.menuContext(), leftPos + 81, topPos + 41));
+        addRenderableOnly(new MachineProgressWidget(menu.menuContext(), leftPos + 101, topPos + 40));
     }
 
     @Override
@@ -27,9 +27,8 @@ public class MaterialFusingChamberScreen extends LTXIMachineScreen<MaterialFusin
 
         blitInventoryAndHotbar(guiGraphics, 7, 83);
         blitPowerInSlot(guiGraphics, 7, 52);
-        blitEmptySlot(guiGraphics, 41, 26);
-        blitEmptySlot(guiGraphics, 59, 26);
-        blitEmptySlot(guiGraphics, 50, 44);
-        blitOutputSlot(guiGraphics,109, 33);
+        blitSlotGrid(guiGraphics, 39, 26, 3, 1);
+        blitFluidSlot(guiGraphics, 39, 44);
+        blitEmptySlot(guiGraphics, 133, 35);
     }
 }
