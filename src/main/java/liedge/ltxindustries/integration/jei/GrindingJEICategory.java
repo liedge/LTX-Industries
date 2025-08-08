@@ -22,23 +22,19 @@ public class GrindingJEICategory extends LTXIJeiCategory<GrindingRecipe>
     }
 
     @Override
-    public void draw(RecipeHolder<GrindingRecipe> recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY)
-    {
-        LTXIScreen.blitEmptySlotSprite(guiGraphics, 3, 3);
-        LTXIScreen.blitEmptySlotGrid(guiGraphics, 61, 3, 3, 1);
-        machineProgressBackground.draw(guiGraphics, 29, 9);
-        machineProgress.draw(guiGraphics, 30, 10);
-    }
-
-    @Override
     protected void setRecipe(IRecipeLayoutBuilder builder, RecipeHolder<GrindingRecipe> holder, GrindingRecipe recipe, IFocusGroup focuses, RegistryAccess registries)
     {
         sizedIngredientsSlot(builder, recipe, 0, 4, 4);
+        itemResultSlotsGrid(builder, recipe, 62, 4, 3);
+    }
 
-        for (int i = 0; i < recipe.getItemResults().size(); i++)
-        {
-            itemResultSlot(builder, recipe, i, 62 + i * 18, 4);
-        }
+    @Override
+    protected void drawRecipe(RecipeHolder<GrindingRecipe> recipeHolder, IRecipeSlotsView view, GuiGraphics graphics, double mouseX, double mouseY)
+    {
+        LTXIScreen.blitEmptySlotSprite(graphics, 3, 3);
+        LTXIScreen.blitEmptySlotGrid(graphics, 61, 3, 3, 1);
+        machineProgressBackground.draw(graphics, 29, 9);
+        machineProgress.draw(graphics, 30, 10);
     }
 
     @Override

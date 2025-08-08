@@ -12,18 +12,23 @@ import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.drawable.IDrawableAnimated;
 import mezz.jei.api.gui.drawable.IDrawableBuilder;
 import mezz.jei.api.gui.drawable.IDrawableStatic;
-import mezz.jei.api.gui.ingredient.IRecipeSlotTooltipCallback;
+import mezz.jei.api.gui.ingredient.IRecipeSlotRichTooltipCallback;
+import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
+import mezz.jei.api.neoforge.NeoForgeTypes;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.FastColor;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.neoforged.neoforge.common.crafting.SizedIngredient;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -32,7 +37,8 @@ import java.util.function.Supplier;
 
 public abstract class LTXIJeiCategory<R extends LimaCustomRecipe<?>> implements IRecipeCategory<RecipeHolder<R>>
 {
-    private final IDrawable background;
+    private final int width;
+    private final int height;
     private final Component title;
 
     // Commonly used drawables
@@ -41,7 +47,8 @@ public abstract class LTXIJeiCategory<R extends LimaCustomRecipe<?>> implements 
 
     protected LTXIJeiCategory(IGuiHelper helper, LimaRecipeType<R> gameRecipeType, int width, int height)
     {
-        this.background = new SolidColorDrawable(width, height, FastColor.ARGB32.opaque(0x2e2e2e));
+        this.width = width;
+        this.height = height;
         this.title = gameRecipeType.translate();
 
         this.machineProgressBackground = guiSpriteDrawable(helper, MachineProgressWidget.BACKGROUND_SPRITE, MachineProgressWidget.BACKGROUND_WIDTH, MachineProgressWidget.BACKGROUND_HEIGHT).build();
@@ -54,6 +61,8 @@ public abstract class LTXIJeiCategory<R extends LimaCustomRecipe<?>> implements 
     }
 
     protected abstract void setRecipe(IRecipeLayoutBuilder builder, RecipeHolder<R> holder, R recipe, IFocusGroup focuses, RegistryAccess registries);
+
+    protected abstract void drawRecipe(RecipeHolder<R> recipeHolder, IRecipeSlotsView view, GuiGraphics graphics, double mouseX, double mouseY);
 
     protected final RegistryAccess localRegistryAccess()
     {
@@ -75,6 +84,29 @@ public abstract class LTXIJeiCategory<R extends LimaCustomRecipe<?>> implements 
         builder.addSlot(RecipeIngredientRole.INPUT, x, y).addItemStacks(List.of(recipe.getItemIngredient(ingredientIndex).getItems()));
     }
 
+    protected void sizedIngredientSlotsGrid(IRecipeLayoutBuilder builder, R recipe, int x, int y, int columns)
+    {
+        List<SizedIngredient> ingredients = recipe.getItemIngredients();
+        for (int i = 0; i < ingredients.size(); i++)
+        {
+            int sx = x + (i % columns) * 18;
+            int sy = y + (i / columns) * 18;
+            sizedIngredientsSlot(builder, recipe, i, sx, sy);
+        }
+    }
+
+    protected void fluidIngredientSlot(IRecipeLayoutBuilder builder, R recipe, int ingredientIndex, int x, int y)
+    {
+        IRecipeSlotBuilder slotBuilder = builder.addSlot(RecipeIngredientRole.INPUT, x, y).setCustomRenderer(NeoForgeTypes.FLUID_STACK, FluidIngredientRenderer.INSTANCE);
+        SizedFluidIngredient ingredient = recipe.getFluidIngredient(ingredientIndex);
+
+        FluidStack[] fluids = ingredient.getFluids();
+        for (FluidStack stack : fluids)
+        {
+            slotBuilder.addFluidStack(stack.getFluid(), stack.getAmount());
+        }
+    }
+
     protected void itemResultSlot(IRecipeLayoutBuilder builder, R recipe, int resultIndex, int x, int y)
     {
         ItemResult result = recipe.getItemResult(resultIndex);
@@ -83,14 +115,44 @@ public abstract class LTXIJeiCategory<R extends LimaCustomRecipe<?>> implements 
         if (result.chance() != 1f)
         {
             String formattedChance = LimaTextUtil.format1PlacePercentage(result.chance());
-            slotBuilder.setOverlay(new SmallFontDrawable(formattedChance, ChatFormatting.YELLOW), 1, 1).addTooltipCallback(outputChanceTooltip(formattedChance));
+            slotBuilder.setOverlay(new SmallFontDrawable(formattedChance, ChatFormatting.YELLOW), 1, 1).addRichTooltipCallback(outputChanceTooltip(formattedChance));
         }
     }
 
-    private IRecipeSlotTooltipCallback outputChanceTooltip(String formattedChance)
+    protected void itemResultSlotsGrid(IRecipeLayoutBuilder builder, R recipe, int x, int y, int columns)
+    {
+        List<ItemResult> results = recipe.getItemResults();
+        for (int i = 0; i < results.size(); i++)
+        {
+            int sx = x + (i % columns) * 18;
+            int sy = y + (i / columns) * 18;
+            itemResultSlot(builder, recipe, i, sx, sy);
+        }
+    }
+
+    private IRecipeSlotRichTooltipCallback outputChanceTooltip(String formattedChance)
     {
         Component tooltip = LTXILangKeys.OUTPUT_CHANCE_TOOLTIP.translate().append(formattedChance).withStyle(ChatFormatting.YELLOW);
-        return (view, lines) -> lines.add(tooltip);
+        return (view, builder) -> builder.add(tooltip);
+    }
+
+    @Override
+    public int getWidth()
+    {
+        return width;
+    }
+
+    @Override
+    public int getHeight()
+    {
+        return height;
+    }
+
+    @Override
+    public final void draw(RecipeHolder<R> recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY)
+    {
+        guiGraphics.fill(0, 0, width, height, 0xff2e2e2e);
+        drawRecipe(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
     }
 
     @Override
@@ -103,12 +165,6 @@ public abstract class LTXIJeiCategory<R extends LimaCustomRecipe<?>> implements 
     public Component getTitle()
     {
         return title;
-    }
-
-    @Override
-    public IDrawable getBackground()
-    {
-        return background;
     }
 
     @Override

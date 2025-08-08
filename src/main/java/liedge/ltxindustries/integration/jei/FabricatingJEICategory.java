@@ -19,9 +19,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.crafting.RecipeHolder;
-import net.neoforged.neoforge.common.crafting.SizedIngredient;
 
-import java.util.List;
 import java.util.function.Supplier;
 
 import static liedge.ltxindustries.LTXIConstants.HOSTILE_ORANGE;
@@ -46,34 +44,27 @@ public class FabricatingJEICategory extends LTXIJeiCategory<FabricatingRecipe>
     }
 
     @Override
-    public void draw(RecipeHolder<FabricatingRecipe> recipeHolder, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY)
-    {
-        LTXIScreen.blitEmptySlotGrid(guiGraphics, 1, 1, 6, 2);
-        LTXIScreen.blitEmptySlotGrid(guiGraphics, 1, 37, 4, 1);
-
-        LTXIScreen.blitOutputSlotSprite(guiGraphics, 111, 33);
-        progressBackground.draw(guiGraphics, 133, 33);
-        progressForeground.draw(guiGraphics, 134, 34);
-
-        FabricatingRecipe recipe = recipeHolder.value();
-        Component energyText = LTXILangKeys.INLINE_ENERGY.translateArgs(LimaTextUtil.formatWholeNumber(recipe.getEnergyRequired()));
-        guiGraphics.drawString(Minecraft.getInstance().font, energyText, 2, 57, REM_BLUE.argb32(), false);
-
-        if (recipe.isAdvancementLocked())
-            guiGraphics.drawString(Minecraft.getInstance().font, LTXILangKeys.ADVANCEMENT_LOCKED_TOOLTIP.translate(), 2, 67, HOSTILE_ORANGE.argb32(), false);
-    }
-
-    @Override
     protected void setRecipe(IRecipeLayoutBuilder builder, RecipeHolder<FabricatingRecipe> holder, FabricatingRecipe recipe, IFocusGroup focuses, RegistryAccess registries)
     {
         builder.addSlot(RecipeIngredientRole.OUTPUT, 114, 36).addItemStack(recipe.getFabricatingResultItem());
+        sizedIngredientSlotsGrid(builder, recipe, 2, 2, 6);
+    }
 
-        List<SizedIngredient> recipeIngredients = recipe.getItemIngredients();
-        for (int i = 0; i < recipeIngredients.size(); i++)
-        {
-            int x = 1 + (i % 6) * 18;
-            int y = 1 + (i / 6) * 18;
-            sizedIngredientsSlot(builder, recipe, i, x, y);
-        }
+    @Override
+    protected void drawRecipe(RecipeHolder<FabricatingRecipe> recipeHolder, IRecipeSlotsView view, GuiGraphics graphics, double mouseX, double mouseY)
+    {
+        LTXIScreen.blitEmptySlotGrid(graphics, 1, 1, 6, 2);
+        LTXIScreen.blitEmptySlotGrid(graphics, 1, 37, 4, 1);
+
+        LTXIScreen.blitOutputSlotSprite(graphics, 111, 33);
+        progressBackground.draw(graphics, 133, 33);
+        progressForeground.draw(graphics, 134, 34);
+
+        FabricatingRecipe recipe = recipeHolder.value();
+        Component energyText = LTXILangKeys.INLINE_ENERGY.translateArgs(LimaTextUtil.formatWholeNumber(recipe.getEnergyRequired()));
+        graphics.drawString(Minecraft.getInstance().font, energyText, 2, 57, REM_BLUE.argb32(), false);
+
+        if (recipe.isAdvancementLocked())
+            graphics.drawString(Minecraft.getInstance().font, LTXILangKeys.ADVANCEMENT_LOCKED_TOOLTIP.translate(), 2, 67, HOSTILE_ORANGE.argb32(), false);
     }
 }

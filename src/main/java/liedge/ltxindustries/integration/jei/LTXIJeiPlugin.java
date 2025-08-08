@@ -2,15 +2,14 @@ package liedge.ltxindustries.integration.jei;
 
 import liedge.limacore.util.LimaRecipesUtil;
 import liedge.ltxindustries.LTXIndustries;
+import liedge.ltxindustries.client.gui.screen.BaseCookingMenuScreen;
 import liedge.ltxindustries.client.gui.screen.GrinderScreen;
 import liedge.ltxindustries.client.gui.screen.MaterialFusingChamberScreen;
-import liedge.ltxindustries.client.gui.screen.BaseCookingMenuScreen;
-import liedge.ltxindustries.item.UpgradeModuleItem;
-import liedge.ltxindustries.lib.upgrades.UpgradeBaseEntry;
 import liedge.ltxindustries.recipe.FabricatingRecipe;
 import liedge.ltxindustries.recipe.GrindingRecipe;
 import liedge.ltxindustries.recipe.MaterialFusingRecipe;
 import liedge.ltxindustries.registry.game.LTXIBlocks;
+import liedge.ltxindustries.registry.game.LTXIDataComponents;
 import liedge.ltxindustries.registry.game.LTXIItems;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
@@ -18,7 +17,6 @@ import mezz.jei.api.constants.RecipeTypes;
 import mezz.jei.api.gui.handlers.IGuiClickableArea;
 import mezz.jei.api.gui.handlers.IGuiContainerHandler;
 import mezz.jei.api.helpers.IGuiHelper;
-import mezz.jei.api.ingredients.subtypes.IIngredientSubtypeInterpreter;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.registration.*;
 import net.minecraft.client.Minecraft;
@@ -54,8 +52,8 @@ public class LTXIJeiPlugin implements IModPlugin
     @Override
     public void registerItemSubtypes(ISubtypeRegistration registration)
     {
-        registerUpgradeModuleSubtype(registration, LTXIItems.EQUIPMENT_UPGRADE_MODULE.get());
-        registerUpgradeModuleSubtype(registration, LTXIItems.MACHINE_UPGRADE_MODULE.get());
+        registration.registerSubtypeInterpreter(LTXIItems.EQUIPMENT_UPGRADE_MODULE.get(), new ModuleSubtypeInterpreter<>(LTXIDataComponents.EQUIPMENT_UPGRADE_ENTRY));
+        registration.registerSubtypeInterpreter(LTXIItems.MACHINE_UPGRADE_MODULE.get(), new ModuleSubtypeInterpreter<>(LTXIDataComponents.MACHINE_UPGRADE_ENTRY));
     }
 
     @Override
@@ -107,15 +105,7 @@ public class LTXIJeiPlugin implements IModPlugin
         });
 
         registration.addRecipeClickArea(GrinderScreen.class, 69, 41, 24, 6, GRINDING_JEI);
-        registration.addRecipeClickArea(MaterialFusingChamberScreen.class, 81, 41, 24, 6, MATERIAL_FUSING_JEI);
-    }
-
-    private void registerUpgradeModuleSubtype(ISubtypeRegistration registration, UpgradeModuleItem<?, ?> item)
-    {
-        registration.registerSubtypeInterpreter(item, (stack, $) -> {
-            UpgradeBaseEntry<?> entry = stack.get(item.entryComponentType());
-            return entry != null ? entry.toString() : IIngredientSubtypeInterpreter.NONE;
-        });
+        registration.addRecipeClickArea(MaterialFusingChamberScreen.class, 104, 40, 24, 6, MATERIAL_FUSING_JEI);
     }
 
     private static RecipeType<?> cookingRecipeType(BaseCookingMenuScreen.CookingType cookingType)
