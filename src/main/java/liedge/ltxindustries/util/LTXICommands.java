@@ -51,9 +51,9 @@ public final class LTXICommands
                                     {
                                         switch (action)
                                         {
-                                            case "set" -> user.setShieldHealth(amt);
-                                            case "give" -> user.addShieldHealth(amt, BubbleShieldUser.MAX_SHIELD_HEALTH);
-                                            case "remove" -> user.removeShieldHealth(amt, 0f);
+                                            case "set" -> user.setShieldHealth(player, amt);
+                                            case "give" -> user.addShieldHealth(player, amt, BubbleShieldUser.MAX_SHIELD_HEALTH);
+                                            case "remove" -> user.reduceShieldHealth(player, amt, 0f);
                                         }
                                     }
 

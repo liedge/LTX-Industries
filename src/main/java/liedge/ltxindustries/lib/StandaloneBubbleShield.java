@@ -1,22 +1,32 @@
 package liedge.ltxindustries.lib;
 
+import io.netty.buffer.ByteBuf;
 import liedge.ltxindustries.entity.BubbleShieldUser;
-import liedge.ltxindustries.network.packet.ClientboundEntityShieldPacket;
+import liedge.ltxindustries.registry.game.LTXIAttachmentTypes;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.FloatTag;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.util.INBTSerializable;
-import net.neoforged.neoforge.network.PacketDistributor;
 
 public final class StandaloneBubbleShield implements INBTSerializable<FloatTag>, BubbleShieldUser
 {
+    public static final StreamCodec<ByteBuf, StandaloneBubbleShield> STREAM_CODEC = ByteBufCodecs.FLOAT.map(StandaloneBubbleShield::new, StandaloneBubbleShield::getShieldHealth);
+
     private float shieldHealth;
     private int shieldInvulnerableCooldown;
-    private boolean changed = false;
+
+    private StandaloneBubbleShield(float shieldHealth)
+    {
+        this.shieldHealth = shieldHealth;
+    }
+
+    public StandaloneBubbleShield() {}
 
     @Override
     public float getShieldHealth()
@@ -25,32 +35,39 @@ public final class StandaloneBubbleShield implements INBTSerializable<FloatTag>,
     }
 
     @Override
-    public void setShieldHealth(float shieldHealth)
+    public void setShieldHealth(LivingEntity entity, float shieldHealth)
     {
         this.shieldHealth = Mth.clamp(shieldHealth, 0f, MAX_SHIELD_HEALTH);
-        changed = true;
+        entity.syncData(LTXIAttachmentTypes.BUBBLE_SHIELD);
     }
 
     @Override
-    public void modifyShieldHealth(float amount, float minShield, float maxShield)
+    public void addShieldHealth(LivingEntity entity, float amount, float maxShield)
     {
-        float newShield = Mth.clamp(shieldHealth + amount, minShield, maxShield);
-        if (newShield != shieldHealth) setShieldHealth(newShield);
+        if (shieldHealth < maxShield)
+        {
+            float newShield = Math.min(shieldHealth + Math.max(amount, 0), maxShield);
+            setShieldHealth(entity, newShield);
+        }
+    }
+
+    @Override
+    public void reduceShieldHealth(LivingEntity entity, float amount, float minShield)
+    {
+        if (shieldHealth > minShield)
+        {
+            float newShield = Math.max(shieldHealth - Math.max(amount, 0), minShield);
+            setShieldHealth(entity, newShield);
+        }
     }
 
     public void tickShield(LivingEntity shieldedEntity)
     {
         if (shieldInvulnerableCooldown > 0) shieldInvulnerableCooldown--;
-
-        if (changed) // Level side checked in event
-        {
-            PacketDistributor.sendToPlayersTrackingEntityAndSelf(shieldedEntity, new ClientboundEntityShieldPacket(shieldedEntity.getId(), shieldHealth));
-            changed = false;
-        }
     }
 
     @Override
-    public boolean blockDamage(Level level, DamageSource source, float amount)
+    public boolean blockDamage(LivingEntity entity, Level level, DamageSource source, float amount)
     {
         // Serverside only, and doesn't block void damage
         if (!level.isClientSide() && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY) && shieldHealth > 0)
@@ -58,7 +75,7 @@ public final class StandaloneBubbleShield implements INBTSerializable<FloatTag>,
             // Should bypass cooldown be allowed?
             if (shieldInvulnerableCooldown == 0 || source.is(DamageTypeTags.BYPASSES_COOLDOWN))
             {
-                removeShieldHealth(amount, 0);
+                reduceShieldHealth(entity, amount, 0);
                 shieldInvulnerableCooldown = 20;
             }
 

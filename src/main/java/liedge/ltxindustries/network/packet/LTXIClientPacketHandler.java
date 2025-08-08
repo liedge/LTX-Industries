@@ -1,8 +1,6 @@
 package liedge.ltxindustries.network.packet;
 
 import liedge.limacore.client.LimaCoreClientUtil;
-import liedge.ltxindustries.LTXICapabilities;
-import liedge.ltxindustries.entity.BubbleShieldUser;
 import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.lib.weapons.ClientWeaponControls;
 import net.minecraft.world.entity.LivingEntity;
@@ -13,23 +11,6 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 final class LTXIClientPacketHandler
 {
     private LTXIClientPacketHandler() {}
-
-    private static void setLocalShieldHealth(LivingEntity entity, float shieldHealth)
-    {
-        BubbleShieldUser shield = entity.getCapability(LTXICapabilities.ENTITY_BUBBLE_SHIELD);
-        if (shield != null) shield.setShieldHealth(shieldHealth);
-    }
-
-    public static void handlePlayerShieldPacket(ClientboundPlayerShieldPacket packet, IPayloadContext context)
-    {
-        setLocalShieldHealth(context.player(), packet.shieldHealth());
-    }
-
-    public static void handleEntityShieldPacket(ClientboundEntityShieldPacket packet, IPayloadContext context)
-    {
-        LivingEntity entity = LimaCoreClientUtil.getClientEntity(packet.entityId(), LivingEntity.class);
-        if (entity != null) setLocalShieldHealth(entity, packet.shieldHealth());
-    }
 
     public static void handleWeaponsControlPacket(ClientboundWeaponControlsPacket packet, IPayloadContext context)
     {

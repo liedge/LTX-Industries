@@ -9,6 +9,7 @@ import liedge.ltxindustries.registry.game.LTXIEquipmentUpgradeEffects;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.enchantment.LevelBasedValue;
 import net.minecraft.world.level.storage.loot.LootContext;
 
@@ -26,8 +27,11 @@ public record BubbleShieldUpgradeEffect(LevelBasedValue amount, LevelBasedValue 
     @Override
     public void applyEquipmentEffect(ServerLevel level, Entity entity, int upgradeRank, LootContext context)
     {
-        BubbleShieldUser user = entity.getCapability(LTXICapabilities.ENTITY_BUBBLE_SHIELD);
-        if (user != null) user.addShieldHealth(amount.calculate(upgradeRank), maxShield.calculate(upgradeRank));
+        if (entity instanceof LivingEntity livingEntity)
+        {
+            BubbleShieldUser user = entity.getCapability(LTXICapabilities.ENTITY_BUBBLE_SHIELD);
+            if (user != null) user.addShieldHealth(livingEntity, amount.calculate(upgradeRank), maxShield.calculate(upgradeRank));
+        }
     }
 
     @Override

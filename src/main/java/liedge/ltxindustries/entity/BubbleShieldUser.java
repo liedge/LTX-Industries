@@ -1,6 +1,7 @@
 package liedge.ltxindustries.entity;
 
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 
 public interface BubbleShieldUser
@@ -9,19 +10,11 @@ public interface BubbleShieldUser
 
     float getShieldHealth();
 
-    void setShieldHealth(float shieldHealth);
+    void setShieldHealth(LivingEntity entity, float shieldHealth);
 
-    void modifyShieldHealth(float amount, float minShield, float maxShield);
+    void addShieldHealth(LivingEntity entity, float amount, float maxShield);
 
-    default void addShieldHealth(float amount, float maxShield)
-    {
-        modifyShieldHealth(amount, getShieldHealth(), maxShield);
-    }
+    void reduceShieldHealth(LivingEntity entity, float amount, float minShield);
 
-    default void removeShieldHealth(float amount, float minShield)
-    {
-        modifyShieldHealth(-amount, minShield, getShieldHealth());
-    }
-
-    boolean blockDamage(Level level, DamageSource source, float amount);
+    boolean blockDamage(LivingEntity entity, Level level, DamageSource source, float amount);
 }

@@ -9,8 +9,6 @@ import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.lib.upgrades.UpgradesContainerBase;
 import liedge.ltxindustries.lib.upgrades.effect.equipment.DirectDropsUpgradeEffect;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
-import liedge.ltxindustries.network.packet.ClientboundEntityShieldPacket;
-import liedge.ltxindustries.network.packet.ClientboundPlayerShieldPacket;
 import liedge.ltxindustries.registry.game.LTXIAttachmentTypes;
 import liedge.ltxindustries.registry.game.LTXIDataComponents;
 import liedge.ltxindustries.registry.game.LTXIMobEffects;
@@ -31,11 +29,9 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.VanillaGameEvent;
 import net.neoforged.neoforge.event.entity.living.*;
-import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.level.BlockDropsEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
-import net.neoforged.neoforge.network.PacketDistributor;
 
 @EventBusSubscriber(modid = LTXIndustries.MODID)
 public final class LTXIEventHandler
@@ -90,34 +86,6 @@ public final class LTXIEventHandler
         ItemStack heldItem = player.getMainHandItem();
         WeaponItem weaponItem = LimaCoreUtil.castOrNull(WeaponItem.class, heldItem.getItem());
         player.getData(LTXIAttachmentTypes.WEAPON_CONTROLS).tickInput(player, heldItem, weaponItem);
-    }
-
-    @SubscribeEvent
-    public static void onPlayerChangedDimension(final PlayerEvent.PlayerChangedDimensionEvent event)
-    {
-        ClientboundPlayerShieldPacket.sendPacketToPlayer(event.getEntity());
-    }
-
-    @SubscribeEvent
-    public static void onStartTrackingEntity(final PlayerEvent.StartTracking event)
-    {
-        Entity entity = event.getTarget();
-
-        if (!entity.level().isClientSide())
-        {
-            BubbleShieldUser shield = entity.getCapability(LTXICapabilities.ENTITY_BUBBLE_SHIELD);
-            if (shield != null)
-            {
-                ClientboundEntityShieldPacket packet = new ClientboundEntityShieldPacket(entity.getId(), shield.getShieldHealth());
-                PacketDistributor.sendToPlayersTrackingEntityAndSelf(entity, packet);
-            }
-        }
-    }
-
-    @SubscribeEvent
-    public static void onPlayerLogin(final PlayerEvent.PlayerLoggedInEvent event)
-    {
-        ClientboundPlayerShieldPacket.sendPacketToPlayer(event.getEntity());
     }
 
     @SubscribeEvent
@@ -211,7 +179,7 @@ public final class LTXIEventHandler
             BubbleShieldUser shieldUser = hurtEntity.getCapability(LTXICapabilities.ENTITY_BUBBLE_SHIELD);
             if (shieldUser != null)
             {
-                if (shieldUser.blockDamage(hurtEntity.level(), event.getSource(), event.getAmount())) event.setCanceled(true);
+                if (shieldUser.blockDamage(hurtEntity, hurtEntity.level(), event.getSource(), event.getAmount())) event.setCanceled(true);
             }
         }
     }

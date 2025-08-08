@@ -25,7 +25,8 @@ public final class LTXIAttachmentTypes
         ATTACHMENTS.register(bus);
     }
 
-    public static final DeferredHolder<AttachmentType<?>, AttachmentType<StandaloneBubbleShield>> BUBBLE_SHIELD = ATTACHMENTS.register("bubble_shield", () -> AttachmentType.serializable(StandaloneBubbleShield::new).build());
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<StandaloneBubbleShield>> BUBBLE_SHIELD = ATTACHMENTS.register("bubble_shield", () -> AttachmentType.serializable(StandaloneBubbleShield::new)
+            .sync(StandaloneBubbleShield.STREAM_CODEC).build());
 
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<AbstractWeaponControls>> WEAPON_CONTROLS = ATTACHMENTS.register("weapon_controls", () -> AttachmentType.builder(holder -> {
         Player player = LimaCoreUtil.castOrThrow(Player.class, holder, () -> new IllegalStateException("Weapon controls attachment can only be added to players."));
