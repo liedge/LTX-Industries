@@ -166,7 +166,6 @@ dependencies {
     implementation("liedge:limacore-${minecraft_version}:${limacore_version}")
 
     // compile against the JEI API but do not include it at runtime
-    compileOnly("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
     compileOnly("mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}")
     // at runtime, use the full JEI jar for NeoForge
     runtimeOnly("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
@@ -201,6 +200,7 @@ tasks.withType(ProcessResources).configureEach {
             mod_authors            : mod_authors,
             mod_description        : mod_description,
             limacore_version_range  : limacore_version_range,
+            jei_version_range   : jei_version_range,
             guideme_version_range   : guideme_version_range
     ]
     inputs.properties replaceProperties

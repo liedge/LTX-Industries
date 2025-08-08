@@ -97,10 +97,17 @@ config="${mod_id}.mixins.json"
     side="BOTH"
 
 [[dependencies.${mod_id}]]
+    modId = "jei"
+    type = "optional"
+    versionRange = "${jei_version_range}"
+    ordering = "NONE"
+    side = "BOTH"
+
+[[dependencies.${mod_id}]]
     modId="guideme"
     type = "optional"
     versionRange = "${guideme_version_range}"
-    ordering = "AFTER"
+    ordering = "NONE"
     side = "BOTH"
 
 # Features are specific properties of the game environment, that you may want to declare you require. This example declares
