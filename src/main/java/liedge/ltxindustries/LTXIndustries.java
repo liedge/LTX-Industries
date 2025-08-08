@@ -5,7 +5,7 @@ import liedge.limacore.lib.ModResources;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrade;
 import liedge.ltxindustries.lib.weapons.GlobalWeaponDamageModifiers;
-import liedge.ltxindustries.network.packet.LTXIPacketsRegistration;
+import liedge.ltxindustries.network.packet.*;
 import liedge.ltxindustries.registry.LTXIRegistries;
 import liedge.ltxindustries.registry.game.*;
 import liedge.ltxindustries.util.config.LTXIClientConfig;
@@ -22,11 +22,15 @@ import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import net.neoforged.neoforge.registries.DataPackRegistryEvent;
 import net.neoforged.neoforge.registries.NewRegistryEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
 import net.neoforged.neoforge.registries.datamaps.RegisterDataMapTypesEvent;
 import org.slf4j.Logger;
+
+import static liedge.limacore.util.LimaNetworkUtil.registerPlayToClient;
+import static liedge.limacore.util.LimaNetworkUtil.registerPlayToServer;
 
 @Mod(LTXIndustries.MODID)
 public class LTXIndustries
@@ -78,7 +82,15 @@ public class LTXIndustries
         @SubscribeEvent
         private void registerPayloadHandlers(final RegisterPayloadHandlersEvent event)
         {
-            LTXIPacketsRegistration.registerPacketHandlers(event.registrar(MODID).versioned("1.0.0"));
+            PayloadRegistrar registrar = event.registrar(MODID);
+
+            // Clientbound Packets
+            registerPlayToClient(registrar, ClientboundWeaponControlsPacket.TYPE, ClientboundWeaponControlsPacket.STREAM_CODEC);
+            registerPlayToClient(registrar, ClientboundFocusTargetPacket.TYPE, ClientboundFocusTargetPacket.STREAM_CODEC);
+
+            // Serverbound Packets
+            registerPlayToServer(registrar, ServerboundItemModeSwitchPacket.TYPE, ServerboundItemModeSwitchPacket.STREAM_CODEC);
+            registerPlayToServer(registrar, ServerboundWeaponControlsPacket.TYPE, ServerboundWeaponControlsPacket.STREAM_CODEC);
         }
 
         @SubscribeEvent

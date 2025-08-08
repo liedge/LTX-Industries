@@ -7,13 +7,12 @@ import liedge.ltxindustries.lib.weapons.AbstractWeaponControls;
 import liedge.ltxindustries.registry.game.LTXIAttachmentTypes;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 final class LTXIServerPacketHandler
 {
     private LTXIServerPacketHandler() {}
 
-    public static void handleWeaponControlsPacket(ServerboundWeaponControlsPacket packet, IPayloadContext context, ServerPlayer sender)
+    static void handleWeaponControlsPacket(ServerboundWeaponControlsPacket packet, ServerPlayer sender)
     {
         ItemStack heldItem = sender.getMainHandItem();
         if (heldItem.is(packet.weaponItem()))
@@ -22,7 +21,7 @@ final class LTXIServerPacketHandler
         }
     }
 
-    public static void handleModeSwitchPacket(ServerboundItemModeSwitchPacket packet, IPayloadContext context, ServerPlayer sender)
+    static void handleModeSwitchPacket(ServerboundItemModeSwitchPacket packet, ServerPlayer sender)
     {
         if (sender.getInventory().selected == packet.slot())
         {

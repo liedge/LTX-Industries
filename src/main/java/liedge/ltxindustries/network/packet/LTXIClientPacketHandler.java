@@ -6,13 +6,12 @@ import liedge.ltxindustries.lib.weapons.ClientWeaponControls;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 final class LTXIClientPacketHandler
 {
     private LTXIClientPacketHandler() {}
 
-    public static void handleWeaponsControlPacket(ClientboundWeaponControlsPacket packet, IPayloadContext context)
+    static void handleWeaponsControlPacket(ClientboundWeaponControlsPacket packet)
     {
         Player player = LimaCoreClientUtil.getClientEntity(packet.playerId(), Player.class);
         if (player != null)
@@ -34,7 +33,7 @@ final class LTXIClientPacketHandler
         }
     }
 
-    public static void handleFocusTargetPacket(ClientboundFocusTargetPacket packet, IPayloadContext context)
+    static void handleFocusTargetPacket(ClientboundFocusTargetPacket packet)
     {
         Player player = LimaCoreClientUtil.getClientEntity(packet.playerId(), Player.class);
         LivingEntity livingEntity = LimaCoreClientUtil.getClientEntity(packet.entityId(), LivingEntity.class);
