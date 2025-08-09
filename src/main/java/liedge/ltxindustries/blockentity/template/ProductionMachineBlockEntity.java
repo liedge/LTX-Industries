@@ -1,6 +1,6 @@
 package liedge.ltxindustries.blockentity.template;
 
-import liedge.limacore.capability.itemhandler.BlockInventoryType;
+import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.capability.itemhandler.LimaBlockEntityItemHandler;
 import liedge.ltxindustries.blockentity.base.SidedAccessBlockEntityType;
 import net.minecraft.core.BlockPos;
@@ -21,8 +21,8 @@ public abstract class ProductionMachineBlockEntity extends EnergyMachineBlockEnt
     {
         super(type, pos, state, null, auxInventorySize);
 
-        this.inputInventory = inputSlots > 0 ? new LimaBlockEntityItemHandler(this, inputSlots, BlockInventoryType.INPUT) : null;
-        this.outputInventory = new LimaBlockEntityItemHandler(this, outputSlots, BlockInventoryType.OUTPUT);
+        this.inputInventory = inputSlots > 0 ? new LimaBlockEntityItemHandler(this, inputSlots, BlockContentsType.INPUT) : null;
+        this.outputInventory = new LimaBlockEntityItemHandler(this, outputSlots, BlockContentsType.OUTPUT);
     }
 
     public LimaBlockEntityItemHandler getInputInventory()
@@ -36,15 +36,15 @@ public abstract class ProductionMachineBlockEntity extends EnergyMachineBlockEnt
     }
 
     @Override
-    public boolean isItemValid(BlockInventoryType inventoryType, int slot, ItemStack stack)
+    public boolean isItemValid(BlockContentsType contentsType, int slot, ItemStack stack)
     {
-        if (inventoryType == BlockInventoryType.INPUT)
+        if (contentsType == BlockContentsType.INPUT)
         {
             return isItemValidForInputInventory(slot, stack);
         }
         else
         {
-            return super.isItemValid(inventoryType, slot, stack);
+            return super.isItemValid(contentsType, slot, stack);
         }
     }
 
@@ -54,9 +54,9 @@ public abstract class ProductionMachineBlockEntity extends EnergyMachineBlockEnt
     }
 
     @Override
-    public @Nullable LimaBlockEntityItemHandler getItemHandler(BlockInventoryType inventoryType)
+    public @Nullable LimaBlockEntityItemHandler getItemHandler(BlockContentsType contentsType)
     {
-        return switch (inventoryType)
+        return switch (contentsType)
         {
             case GENERAL -> null;
             case AUXILIARY -> getAuxInventory();

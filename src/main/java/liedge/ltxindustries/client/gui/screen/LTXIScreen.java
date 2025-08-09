@@ -58,7 +58,12 @@ public abstract class LTXIScreen<M extends LimaMenu<?>> extends LimaMenuScreen<M
 
     protected void blitSlotGrid(GuiGraphics graphics, int x, int y, int width, int height)
     {
-        graphics.blit(SLOT_TILE_TEXTURE, leftPos + x, topPos + y, 0, 0, width * 18, height * 18);
+        blitEmptySlotGrid(graphics, leftPos + x, topPos + y, width, height);
+    }
+
+    protected void blitFluidGrid(GuiGraphics graphics, int x, int y, int width, int height)
+    {
+        blitFluidSlotGrid(graphics, leftPos + x, topPos + y, width, height);
     }
 
     protected void blitInventoryAndHotbar(GuiGraphics graphics, int x, int y)
@@ -131,5 +136,10 @@ public abstract class LTXIScreen<M extends LimaMenu<?>> extends LimaMenuScreen<M
     public static void blitEmptySlotGrid(GuiGraphics graphics, int x, int y, int width, int height)
     {
         graphics.blit(SLOT_TILE_TEXTURE, x, y, 0, 0, width * 18, height * 18);
+    }
+
+    public static void blitFluidSlotGrid(GuiGraphics graphics, int x, int y, int width, int height)
+    {
+        graphics.blit(SLOT_TILE_TEXTURE, x, y, 0, 162, width * 18, height * 18);
     }
 }

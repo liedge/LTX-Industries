@@ -1,8 +1,8 @@
 package liedge.ltxindustries.blockentity;
 
+import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.capability.energy.LimaEnergyStorage;
 import liedge.limacore.capability.energy.LimaEnergyUtil;
-import liedge.limacore.capability.itemhandler.BlockInventoryType;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.recipe.LimaRecipeCheck;
 import liedge.ltxindustries.blockentity.base.EnergyConsumerBlockEntity;
@@ -133,10 +133,10 @@ public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, 
     }
 
     @Override
-    public void onItemSlotChanged(BlockInventoryType inventoryType, int slot)
+    public void onItemSlotChanged(BlockContentsType contentsType, int slot)
     {
-        super.onItemSlotChanged(inventoryType, slot);
-        if (inventoryType == BlockInventoryType.INPUT || inventoryType == BlockInventoryType.OUTPUT) shouldCheckRecipe = true;
+        super.onItemSlotChanged(contentsType, slot);
+        if (contentsType == BlockContentsType.INPUT || contentsType == BlockContentsType.OUTPUT) shouldCheckRecipe = true;
     }
 
     @Override

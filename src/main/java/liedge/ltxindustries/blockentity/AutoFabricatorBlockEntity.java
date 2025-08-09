@@ -1,6 +1,6 @@
 package liedge.ltxindustries.blockentity;
 
-import liedge.limacore.capability.itemhandler.BlockInventoryType;
+import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.recipe.LimaRecipeInput;
 import liedge.limacore.util.LimaRecipesUtil;
 import liedge.ltxindustries.recipe.FabricatingRecipe;
@@ -105,14 +105,14 @@ public class AutoFabricatorBlockEntity extends BaseFabricatorBlockEntity
     }
 
     @Override
-    public void onItemSlotChanged(BlockInventoryType inventoryType, int slot)
+    public void onItemSlotChanged(BlockContentsType contentsType, int slot)
     {
-        super.onItemSlotChanged(inventoryType, slot);
-        if (inventoryType == BlockInventoryType.INPUT || inventoryType == BlockInventoryType.OUTPUT)
+        super.onItemSlotChanged(contentsType, slot);
+        if (contentsType == BlockContentsType.INPUT || contentsType == BlockContentsType.OUTPUT)
         {
             shouldCheckRecipe = true;
         }
-        else if (inventoryType == BlockInventoryType.AUXILIARY && slot == AUX_BLUEPRINT_SLOT)
+        else if (contentsType == BlockContentsType.AUXILIARY && slot == AUX_BLUEPRINT_SLOT)
         {
             shouldCheckRecipe = true;
             shouldCheckBlueprint = true;

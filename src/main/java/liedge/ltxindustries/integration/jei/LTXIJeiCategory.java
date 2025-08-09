@@ -121,12 +121,27 @@ public abstract class LTXIJeiCategory<R extends LimaCustomRecipe<?>> implements 
 
     protected void itemResultSlotsGrid(IRecipeLayoutBuilder builder, R recipe, int x, int y, int columns)
     {
-        List<ItemResult> results = recipe.getItemResults();
-        for (int i = 0; i < results.size(); i++)
+        for (int i = 0; i < recipe.getItemResults().size(); i++)
         {
             int sx = x + (i % columns) * 18;
             int sy = y + (i / columns) * 18;
             itemResultSlot(builder, recipe, i, sx, sy);
+        }
+    }
+
+    protected void fluidResultSlot(IRecipeLayoutBuilder builder, R recipe, int resultIndex, int x, int y)
+    {
+        FluidStack result = recipe.getFluidResult(resultIndex);
+        builder.addSlot(RecipeIngredientRole.OUTPUT, x, y).setCustomRenderer(NeoForgeTypes.FLUID_STACK, FluidIngredientRenderer.INSTANCE).addFluidStack(result.getFluid(), result.getAmount());
+    }
+
+    protected void fluidResultSlotsGrid(IRecipeLayoutBuilder builder, R recipe, int x, int y, int columns)
+    {
+        for (int i = 0; i < recipe.getFluidResults().size(); i++)
+        {
+            int sx = x + (i % columns) * 18;
+            int sy = y + (i / columns) * 18;
+            fluidResultSlot(builder, recipe, i, sx, sy);
         }
     }
 

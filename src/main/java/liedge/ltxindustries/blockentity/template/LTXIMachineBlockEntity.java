@@ -1,9 +1,9 @@
 package liedge.ltxindustries.blockentity.template;
 
 import liedge.limacore.LimaCommonConstants;
+import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.blockentity.IOAccess;
 import liedge.limacore.blockentity.LimaBlockEntity;
-import liedge.limacore.capability.itemhandler.BlockInventoryType;
 import liedge.limacore.capability.itemhandler.LimaBlockEntityItemHandler;
 import liedge.limacore.capability.itemhandler.LimaItemHandlerUtil;
 import liedge.limacore.util.LimaItemUtil;
@@ -59,7 +59,7 @@ public sealed abstract class LTXIMachineBlockEntity extends LimaBlockEntity impl
         super(type, pos, state);
 
         this.itemController = new IOController(this, BlockEntityInputType.ITEMS);
-        this.auxInventory = new LimaBlockEntityItemHandler(this, auxInventorySize, BlockInventoryType.AUXILIARY);
+        this.auxInventory = new LimaBlockEntityItemHandler(this, auxInventorySize, BlockContentsType.AUXILIARY);
     }
 
     public LimaBlockEntityItemHandler getAuxInventory()
@@ -212,7 +212,7 @@ public sealed abstract class LTXIMachineBlockEntity extends LimaBlockEntity impl
         super.loadAdditional(tag, registries);
 
         CompoundTag inventoriesTag = tag.getCompound(LimaCommonConstants.KEY_ITEM_CONTAINER);
-        for (BlockInventoryType type : BlockInventoryType.values())
+        for (BlockContentsType type : BlockContentsType.values())
         {
             LimaBlockEntityItemHandler handler = getItemHandler(type);
             if (handler != null && inventoriesTag.contains(type.getSerializedName())) handler.deserializeNBT(registries, inventoriesTag.getCompound(type.getSerializedName()));
@@ -228,7 +228,7 @@ public sealed abstract class LTXIMachineBlockEntity extends LimaBlockEntity impl
         super.saveAdditional(tag, registries);
 
         CompoundTag inventoriesTag = new CompoundTag();
-        for (BlockInventoryType type : BlockInventoryType.values())
+        for (BlockContentsType type : BlockContentsType.values())
         {
             LimaBlockEntityItemHandler handler = getItemHandler(type);
             if (handler != null) inventoriesTag.put(type.getSerializedName(), handler.serializeNBT(registries));
@@ -244,9 +244,9 @@ public sealed abstract class LTXIMachineBlockEntity extends LimaBlockEntity impl
     // Misc/Helpers
 
     @Override
-    public boolean isItemValid(BlockInventoryType inventoryType, int slot, ItemStack stack)
+    public boolean isItemValid(BlockContentsType contentsType, int slot, ItemStack stack)
     {
-        return inventoryType != BlockInventoryType.AUXILIARY || isItemValidForAuxInventory(slot, stack);
+        return contentsType != BlockContentsType.AUXILIARY || isItemValidForAuxInventory(slot, stack);
     }
 
     protected boolean isItemValidForAuxInventory(int slot, ItemStack stack)

@@ -1,8 +1,8 @@
 package liedge.ltxindustries.blockentity;
 
+import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.blockentity.IOAccess;
 import liedge.limacore.blockentity.LimaBlockEntity;
-import liedge.limacore.capability.itemhandler.BlockInventoryType;
 import liedge.limacore.capability.itemhandler.ItemHolderBlockEntity;
 import liedge.limacore.capability.itemhandler.LimaBlockEntityItemHandler;
 import liedge.limacore.network.sync.AutomaticDataWatcher;
@@ -32,7 +32,7 @@ public class EquipmentUpgradeStationBlockEntity extends LimaBlockEntity implemen
     public EquipmentUpgradeStationBlockEntity(BlockPos pos, BlockState state)
     {
         super(LTXIBlockEntities.EQUIPMENT_UPGRADE_STATION.get(), pos, state);
-        this.inventory = new LimaBlockEntityItemHandler(this, 2, BlockInventoryType.GENERAL);
+        this.inventory = new LimaBlockEntityItemHandler(this, 2, BlockContentsType.GENERAL);
     }
 
     public ItemStack getPreviewItem()
@@ -52,15 +52,15 @@ public class EquipmentUpgradeStationBlockEntity extends LimaBlockEntity implemen
     }
 
     @Override
-    public @Nullable LimaBlockEntityItemHandler getItemHandler(BlockInventoryType inventoryType)
+    public @Nullable LimaBlockEntityItemHandler getItemHandler(BlockContentsType contentsType)
     {
         return null;
     }
 
     @Override
-    public boolean isItemValid(BlockInventoryType inventoryType, int slot, ItemStack stack)
+    public boolean isItemValid(BlockContentsType contentsType, int slot, ItemStack stack)
     {
-        if (inventoryType == BlockInventoryType.GENERAL)
+        if (contentsType == BlockContentsType.GENERAL)
         {
             if (slot == EQUIPMENT_ITEM_SLOT) return stack.getItem() instanceof UpgradableEquipmentItem; // All upgradeable equipment
             else return stack.getItem() instanceof EquipmentUpgradeModuleItem;

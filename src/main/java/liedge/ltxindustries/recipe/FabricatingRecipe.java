@@ -24,21 +24,20 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.crafting.SizedIngredient;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class FabricatingRecipe extends LimaCustomRecipe<LimaRecipeInput>
+public final class FabricatingRecipe extends LimaCustomRecipe<LimaRecipeInput>
 {
-    public static final MapCodec<FabricatingRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+    public static final MapCodec<FabricatingRecipe> CODEC = RecordCodecBuilder.<FabricatingRecipe>mapCodec(instance -> instance.group(
             LimaCoreCodecs.sizedIngredients(16).forGetter(LimaCustomRecipe::getItemIngredients),
             ItemResult.CODEC.fieldOf("result").forGetter(LimaCustomRecipe::getFirstItemResult),
             ExtraCodecs.POSITIVE_INT.fieldOf("energy_required").forGetter(FabricatingRecipe::getEnergyRequired),
             Codec.BOOL.optionalFieldOf("advancement_locked", false).forGetter(FabricatingRecipe::isAdvancementLocked),
             GROUP_MAP_CODEC.forGetter(FabricatingRecipe::getGroup))
-            .apply(instance, FabricatingRecipe::new));
+            .apply(instance, FabricatingRecipe::new))
+            .validate(LimaCustomRecipe::checkNotEmpty);
 
     public static final StreamCodec<RegistryFriendlyByteBuf, FabricatingRecipe> STREAM_CODEC = StreamCodec.composite(
             LimaStreamCodecs.sizedIngredients(16), LimaCustomRecipe::getItemIngredients,
@@ -96,12 +95,6 @@ public class FabricatingRecipe extends LimaCustomRecipe<LimaRecipeInput>
     }
 
     @Override
-    public boolean matches(LimaRecipeInput input, @Nullable Level level)
-    {
-        return consumeItemIngredients(input, true);
-    }
-
-    @Override
     public String getGroup()
     {
         return group;
@@ -120,7 +113,7 @@ public class FabricatingRecipe extends LimaCustomRecipe<LimaRecipeInput>
     }
 
     @Override
-    public final RecipeType<?> getType()
+    public RecipeType<?> getType()
     {
         return LTXIRecipeTypes.FABRICATING.get();
     }

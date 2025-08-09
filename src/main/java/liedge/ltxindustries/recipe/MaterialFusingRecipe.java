@@ -13,20 +13,19 @@ import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.crafting.SizedIngredient;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 
 import java.util.List;
 
-public class MaterialFusingRecipe extends LimaCustomRecipe<LimaRecipeInput>
+public final class MaterialFusingRecipe extends LimaCustomRecipe<LimaRecipeInput>
 {
-    public static final MapCodec<MaterialFusingRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+    public static final MapCodec<MaterialFusingRecipe> CODEC = RecordCodecBuilder.<MaterialFusingRecipe>mapCodec(instance -> instance.group(
             LimaCoreCodecs.sizedIngredients(3).forGetter(LimaCustomRecipe::getItemIngredients),
             LimaCoreCodecs.sizedFluidIngredients(0, 1).forGetter(LimaCustomRecipe::getFluidIngredients),
             ItemResult.listMapCodec(1).forGetter(LimaCustomRecipe::getItemResults))
-            .apply(instance, MaterialFusingRecipe::new));
+            .apply(instance, MaterialFusingRecipe::new))
+            .validate(LimaCustomRecipe::checkNotEmpty);
     public static final StreamCodec<RegistryFriendlyByteBuf, MaterialFusingRecipe> STREAM_CODEC = StreamCodec.composite(
             LimaStreamCodecs.sizedIngredients(3),
             LimaCustomRecipe::getItemIngredients,
@@ -39,12 +38,6 @@ public class MaterialFusingRecipe extends LimaCustomRecipe<LimaRecipeInput>
     public MaterialFusingRecipe(List<SizedIngredient> ingredients, List<SizedFluidIngredient> fluidIngredients, List<ItemResult> itemResults)
     {
         super(ingredients, fluidIngredients, itemResults, List.of());
-    }
-
-    @Override
-    public boolean matches(LimaRecipeInput input, Level level)
-    {
-        return consumeItemIngredients(input, true) && consumeFluidIngredients(input, IFluidHandler.FluidAction.SIMULATE);
     }
 
     @Override

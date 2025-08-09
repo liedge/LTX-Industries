@@ -1,9 +1,9 @@
 package liedge.ltxindustries.blockentity;
 
+import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.blockentity.IOAccess;
 import liedge.limacore.capability.energy.LimaEnergyStorage;
 import liedge.limacore.capability.energy.LimaEnergyUtil;
-import liedge.limacore.capability.itemhandler.BlockInventoryType;
 import liedge.limacore.capability.itemhandler.LimaBlockEntityItemHandler;
 import liedge.limacore.lib.LimaColor;
 import liedge.limacore.menu.BlockEntityMenuType;
@@ -38,7 +38,7 @@ public abstract class BaseESABlockEntity extends EnergyMachineBlockEntity
     public BaseESABlockEntity(SidedAccessBlockEntityType<?> type, BlockPos pos, BlockState state, @Nullable LimaEnergyStorage energyStorage)
     {
         super(type, pos, state, energyStorage);
-        this.chargingInventory = new LimaBlockEntityItemHandler(this, 4, BlockInventoryType.GENERAL);
+        this.chargingInventory = new LimaBlockEntityItemHandler(this, 4, BlockContentsType.GENERAL);
     }
 
     public abstract LimaColor getRemoteEnergyFillColor();
@@ -57,9 +57,9 @@ public abstract class BaseESABlockEntity extends EnergyMachineBlockEntity
     }
 
     @Override
-    public @Nullable LimaBlockEntityItemHandler getItemHandler(BlockInventoryType inventoryType)
+    public @Nullable LimaBlockEntityItemHandler getItemHandler(BlockContentsType contentsType)
     {
-        return switch (inventoryType)
+        return switch (contentsType)
         {
             case GENERAL -> chargingInventory;
             case AUXILIARY -> getAuxInventory();
@@ -68,15 +68,15 @@ public abstract class BaseESABlockEntity extends EnergyMachineBlockEntity
     }
 
     @Override
-    public boolean isItemValid(BlockInventoryType inventoryType, int slot, ItemStack stack)
+    public boolean isItemValid(BlockContentsType contentsType, int slot, ItemStack stack)
     {
-        return inventoryType == BlockInventoryType.GENERAL ? LimaItemUtil.hasEnergyCapability(stack) : super.isItemValid(inventoryType, slot, stack);
+        return contentsType == BlockContentsType.GENERAL ? LimaItemUtil.hasEnergyCapability(stack) : super.isItemValid(contentsType, slot, stack);
     }
 
     @Override
-    public IOAccess getItemHandlerSlotIO(BlockInventoryType type, int slot)
+    public IOAccess getItemHandlerSlotIO(BlockContentsType contentsType, int slot)
     {
-        return type == BlockInventoryType.GENERAL ? checkStackEnergy(chargingInventory.getStackInSlot(slot)) : IOAccess.DISABLED;
+        return contentsType == BlockContentsType.GENERAL ? checkStackEnergy(chargingInventory.getStackInSlot(slot)) : IOAccess.DISABLED;
     }
 
     private IOAccess checkStackEnergy(ItemStack stack)

@@ -1,5 +1,7 @@
 package liedge.ltxindustries.blockentity;
 
+import liedge.limacore.LimaCommonConstants;
+import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.capability.fluid.FluidHolderBlockEntity;
 import liedge.limacore.capability.fluid.LimaBlockEntityFluidHandler;
 import liedge.limacore.recipe.LimaCustomRecipe;
@@ -8,6 +10,7 @@ import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
 import liedge.ltxindustries.blockentity.base.IOController;
 import liedge.ltxindustries.blockentity.base.SidedAccessBlockEntityType;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
@@ -21,39 +24,36 @@ import net.neoforged.neoforge.items.ItemHandlerHelper;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Objects;
-
-import static liedge.limacore.LimaCommonConstants.KEY_FLUID_TANKS;
 
 public abstract class LimaRecipeMachineBlockEntity<R extends LimaCustomRecipe<LimaRecipeInput>> extends StateBlockRecipeMachineBlockEntity<LimaRecipeInput, R> implements FluidHolderBlockEntity
 {
-    private final @Nullable LimaBlockEntityFluidHandler fluidHandler;
+    private final @Nullable LimaBlockEntityFluidHandler inputFluids;
+    private final @Nullable LimaBlockEntityFluidHandler outputFluids;
     private final @Nullable IOController fluidController;
 
-    protected LimaRecipeMachineBlockEntity(SidedAccessBlockEntityType<?> type, RecipeType<R> recipeType, BlockPos pos, BlockState state, int inputSlots, int outputSlots, int fluidTanks)
+    protected LimaRecipeMachineBlockEntity(SidedAccessBlockEntityType<?> type, RecipeType<R> recipeType, BlockPos pos, BlockState state, int inputSlots, int outputSlots, int inputTanks, int outputTanks)
     {
         super(type, recipeType, pos, state, inputSlots, outputSlots);
-        if (fluidTanks > 0)
-        {
-            this.fluidHandler = new LimaBlockEntityFluidHandler(this, fluidTanks);
-            this.fluidController = new IOController(this, BlockEntityInputType.FLUIDS);
-        }
-        else
-        {
-            this.fluidHandler = null;
-            this.fluidController = null;
-        }
+
+        this.inputFluids = inputTanks > 0 ? new LimaBlockEntityFluidHandler(this, inputTanks, BlockContentsType.INPUT) : null;
+        this.outputFluids = outputTanks > 0 ? new LimaBlockEntityFluidHandler(this, outputTanks, BlockContentsType.OUTPUT) : null;
+        this.fluidController = inputFluids != null || outputFluids != null ? new IOController(this, BlockEntityInputType.FLUIDS) : null;
     }
 
     protected LimaRecipeMachineBlockEntity(SidedAccessBlockEntityType<?> type, RecipeType<R> recipeType, BlockPos pos, BlockState state, int inputSlots, int outputSlots)
     {
-        this(type, recipeType, pos, state, inputSlots, outputSlots, 0);
+        this(type, recipeType, pos, state, inputSlots, outputSlots, 0, 0);
     }
 
     @Override
-    public LimaBlockEntityFluidHandler getFluidHandler()
+    public @Nullable LimaBlockEntityFluidHandler getFluidHandler(BlockContentsType contentsType)
     {
-        return Objects.requireNonNull(fluidHandler, "Machine does not support fluid handling.");
+        return switch (contentsType)
+        {
+            case INPUT -> inputFluids;
+            case OUTPUT -> outputFluids;
+            default -> null;
+        };
     }
 
     @Override
@@ -63,52 +63,69 @@ public abstract class LimaRecipeMachineBlockEntity<R extends LimaCustomRecipe<Li
     }
 
     @Override
-    public void onFluidsChanged(int tank)
+    public void onFluidsChanged(BlockContentsType contentsType, int tank)
     {
         setChanged();
         this.shouldCheckRecipe = true;
     }
 
     @Override
-    public int getBaseFluidCapacity(int tank)
+    public int getBaseFluidCapacity(BlockContentsType contentsType, int tank)
     {
-        return 32000;
+        return contentsType == BlockContentsType.INPUT ? 32000 : 64000;
     }
 
     @Override
-    public int getBaseFluidTransferRate(int tank)
+    public int getBaseFluidTransferRate(BlockContentsType contentsType, int tank)
     {
         return 8000;
     }
 
     @Override
-    public boolean isValidFluid(int tank, FluidStack fluidStack)
+    public boolean isValidFluid(BlockContentsType contentsType, int tank, FluidStack stack)
     {
         return true;
     }
 
     @Override
+    public @Nullable IFluidHandler createFluidIOWrapper(@Nullable Direction side)
+    {
+        return wrapInputOutputTanks(side);
+    }
+
+    @Override
     protected LimaRecipeInput getRecipeInput(Level level)
     {
-        return fluidHandler != null ? LimaRecipeInput.of(getInputInventory(), fluidHandler) : LimaRecipeInput.of(getInputInventory());
+        return LimaRecipeInput.create(getItemHandler(BlockContentsType.INPUT), inputFluids);
     }
 
     @Override
     protected void consumeIngredients(LimaRecipeInput recipeInput, R recipe, Level level)
     {
         recipe.consumeItemIngredients(recipeInput, false);
-        if (fluidHandler != null) recipe.consumeFluidIngredients(recipeInput, IFluidHandler.FluidAction.EXECUTE);
+        recipe.consumeFluidIngredients(recipeInput, IFluidHandler.FluidAction.EXECUTE);
     }
 
     @Override
     public boolean canInsertRecipeResults(Level level, R recipe)
     {
+        // Check item results
         List<ItemStack> results = recipe.getPossibleItemResults();
-
         for (ItemStack stack : results)
         {
             if (!ItemHandlerHelper.insertItem(getOutputInventory(), stack, true).isEmpty())
                 return false;
+        }
+
+        // Check fluid results
+        if (outputFluids != null)
+        {
+            List<FluidStack> fluidResults = recipe.getFluidResults();
+            for (FluidStack stack : fluidResults)
+            {
+                if (outputFluids.fillAny(stack, IFluidHandler.FluidAction.SIMULATE, true) != stack.getAmount())
+                    return false;
+            }
         }
 
         return true;
@@ -117,11 +134,21 @@ public abstract class LimaRecipeMachineBlockEntity<R extends LimaCustomRecipe<Li
     @Override
     protected void insertRecipeResults(Level level, R recipe, LimaRecipeInput recipeInput)
     {
+        // Insert item results
         List<ItemStack> results = recipe.generateItemResults(recipeInput, level.registryAccess(), level.random);
-
         for (ItemStack stack : results)
         {
             ItemHandlerHelper.insertItem(getOutputInventory(), stack, false);
+        }
+
+        // Insert fluid results
+        if (outputFluids != null)
+        {
+            List<FluidStack> fluidResults = recipe.generateFluidResults(recipeInput, level.registryAccess());
+            for (FluidStack stack : fluidResults)
+            {
+                outputFluids.fillAny(stack, IFluidHandler.FluidAction.EXECUTE, true);
+            }
         }
     }
 
@@ -130,11 +157,17 @@ public abstract class LimaRecipeMachineBlockEntity<R extends LimaCustomRecipe<Li
     {
         super.loadAdditional(tag, registries);
 
-        if (fluidHandler != null && fluidController != null)
+        if (tag.contains(LimaCommonConstants.KEY_FLUID_TANKS, Tag.TAG_COMPOUND))
         {
-            fluidHandler.deserializeNBT(registries, tag.getList(KEY_FLUID_TANKS, Tag.TAG_COMPOUND));
-            fluidController.deserializeNBT(registries, tag.getCompound(KEY_FLUID_IO));
+            CompoundTag tanksTag = tag.getCompound(LimaCommonConstants.KEY_FLUID_TANKS);
+            for (BlockContentsType type : BlockContentsType.values())
+            {
+                LimaBlockEntityFluidHandler handler = getFluidHandler(type);
+                if (handler != null && tanksTag.contains(type.getSerializedName())) handler.deserializeNBT(registries, tanksTag.getList(type.getSerializedName(), Tag.TAG_COMPOUND));
+            }
         }
+
+        if (fluidController != null) fluidController.deserializeNBT(registries, tag.getCompound(KEY_FLUID_IO));
     }
 
     @Override
@@ -142,10 +175,14 @@ public abstract class LimaRecipeMachineBlockEntity<R extends LimaCustomRecipe<Li
     {
         super.saveAdditional(tag, registries);
 
-        if (fluidHandler != null && fluidController != null)
+        CompoundTag tanksTag = new CompoundTag();
+        for (BlockContentsType type : BlockContentsType.values())
         {
-            tag.put(KEY_FLUID_TANKS, fluidHandler.serializeNBT(registries));
-            tag.put(KEY_FLUID_IO, fluidController.serializeNBT(registries));
+            LimaBlockEntityFluidHandler handler = getFluidHandler(type);
+            if (handler != null) tanksTag.put(type.getSerializedName(), handler.serializeNBT(registries));
         }
+        if (!tanksTag.isEmpty()) tag.put(LimaCommonConstants.KEY_FLUID_TANKS, tanksTag);
+
+        if (fluidController != null) tag.put(KEY_FLUID_IO, fluidController.serializeNBT(registries));
     }
 }
