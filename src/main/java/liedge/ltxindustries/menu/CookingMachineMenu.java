@@ -12,8 +12,8 @@ public class CookingMachineMenu<CTX extends CookingBlockEntity<?>> extends LTXIM
     {
         super(type, containerId, inventory, menuContext);
 
-        addHandlerSlot(menuContext.getInputInventory(), 0, 54, 34);
-        addHandlerRecipeOutputSlot(menuContext.getOutputInventory(), 0, 106, 34, menuContext.getRecipeCheck().getRecipeType());
+        addHandlerSlot(menuContext.getInputInventory(), 0, 50, 34);
+        addHandlerRecipeOutputSlot(menuContext.getOutputInventory(), 0, 108, 34, menuContext.getRecipeCheck().getRecipeType());
 
         addDefaultPlayerInventoryAndHotbar();
     }

@@ -22,14 +22,22 @@ public final class LTXIClientRecipes
     public static final EnumProxy<RecipeBookCategories> FABRICATING_CATEGORY = new EnumProxy<>(RecipeBookCategories.class,
             (Supplier<List<ItemStack>>) () -> List.of(LTXIBlocks.FABRICATOR.toStack()));
 
+    private static final Comparator<RecipeHolder<FabricatingRecipe>> FABRICATING_COMPARATOR = Comparator.<RecipeHolder<FabricatingRecipe>, String>comparing(holder -> holder.value().getGroup())
+            .thenComparing(RecipeHolder::id);
+
+    public static Comparator<RecipeHolder<FabricatingRecipe>> comparingFabricationRecipes()
+    {
+        return FABRICATING_COMPARATOR;
+    }
+
     public static List<RecipeHolder<FabricatingRecipe>> getUnlockedFabricatingRecipes(LocalPlayer player)
     {
         Level level = player.level();
         ClientRecipeBook book = player.getRecipeBook();
 
         return level.getRecipeManager().getAllRecipesFor(LTXIRecipeTypes.FABRICATING.get()).stream()
-                .filter(r -> FabricatingRecipe.validateUnlocked(book, r, player))
-                .sorted(Comparator.<RecipeHolder<FabricatingRecipe>, String>comparing(r -> r.value().getGroup()).thenComparing(r -> r.id().toString()))
+                .filter(holder -> FabricatingRecipe.validateUnlocked(book, holder, player))
+                .sorted(comparingFabricationRecipes())
                 .toList();
     }
 }
