@@ -154,9 +154,9 @@ public abstract class BaseTurretBlockEntity extends ProductionMachineBlockEntity
     }
 
     @Override
-    public void onEnergyChanged()
+    public void onEnergyChanged(int previousEnergy)
     {
-        super.onEnergyChanged();
+        setChanged();
         activeWatcher.setChanged(true);
     }
 

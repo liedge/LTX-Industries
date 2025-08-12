@@ -36,7 +36,8 @@ public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, 
     private int energyUsage = getBaseEnergyUsage();
     private int machineSpeed = getBaseTicksPerOperation();
     private int craftingProgress;
-    protected boolean shouldCheckRecipe;
+    private boolean shouldCheckRecipe;
+    private boolean shouldCheckOutput;
     private boolean crafting;
 
     protected StateBlockRecipeMachineBlockEntity(SidedAccessBlockEntityType<?> type, RecipeType<R> recipeType, BlockPos pos, BlockState state, int inputSlots, int outputSlots)
@@ -126,17 +127,41 @@ public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, 
 
     protected abstract void insertRecipeResults(Level level, R recipe, I recipeInput);
 
-    private Optional<RecipeHolder<R>> checkRecipe(Level level, I recipeInput)
+    @Override
+    public void onEnergyChanged(int previousEnergy)
     {
-        shouldCheckRecipe = false;
-        return recipeCheck.getRecipeFor(recipeInput, level);
+        setChanged();
+        if (previousEnergy < getEnergyUsage() && getEnergyStorage().getEnergyStored() >= getEnergyUsage())
+            shouldCheckRecipe = true;
     }
 
     @Override
     public void onItemSlotChanged(BlockContentsType contentsType, int slot)
     {
-        super.onItemSlotChanged(contentsType, slot);
-        if (contentsType == BlockContentsType.INPUT || contentsType == BlockContentsType.OUTPUT) shouldCheckRecipe = true;
+        setChanged();
+        if (contentsType == BlockContentsType.INPUT)
+        {
+            shouldCheckRecipe = true;
+        }
+        else if (contentsType == BlockContentsType.OUTPUT && !crafting)
+        {
+            shouldCheckRecipe = true;
+            shouldCheckOutput = true;
+        }
+    }
+
+    public void onFluidsChanged(BlockContentsType contentsType, int tank)
+    {
+        setChanged();
+        if (contentsType == BlockContentsType.INPUT)
+        {
+            shouldCheckRecipe = true;
+        }
+        else if (contentsType == BlockContentsType.OUTPUT && !crafting)
+        {
+            shouldCheckRecipe = true;
+            shouldCheckOutput = true;
+        }
     }
 
     @Override
@@ -148,16 +173,22 @@ public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, 
         fillEnergyBuffer();
 
         // Perform recipe check if required - set crafting state accordingly
-        I recipeInput = getRecipeInput(level);
         if (shouldCheckRecipe)
         {
-            boolean check = checkRecipe(level, recipeInput).map(r -> canInsertRecipeResults(level, r)).orElse(false);
-            setCrafting(check);
+            Optional<RecipeHolder<R>> lookup = recipeCheck.getRecipeFor(getRecipeInput(level), level);
+            boolean recipeCheck = lookup.isPresent() && (!shouldCheckOutput || canInsertRecipeResults(level, lookup.get().value()));
+
+            if (!recipeCheck) craftingProgress = 0;
+
+            shouldCheckRecipe = false;
+            shouldCheckOutput = false;
+
+            setCrafting(recipeCheck && energyStorage.getEnergyStored() >= getEnergyUsage());
         }
 
         // Tick recipe progress
         RecipeHolder<R> lastUsedRecipe = recipeCheck.getLastUsedRecipe(level).orElse(null);
-        if (crafting && lastUsedRecipe != null && canInsertRecipeResults(level, lastUsedRecipe))
+        if (crafting && lastUsedRecipe != null)
         {
             if (LimaEnergyUtil.consumeEnergy(energyStorage, getEnergyUsage(), false))
             {
@@ -165,18 +196,20 @@ public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, 
 
                 if (craftingProgress >= getTicksPerOperation()) // Fixed the N+1 tick duration, we now have true N tick duration
                 {
+                    I recipeInput = getRecipeInput(level);
                     insertRecipeResults(level, lastUsedRecipe.value(), recipeInput);
                     consumeIngredients(recipeInput, lastUsedRecipe.value(), level);
 
                     // Check state of recipe after every successful craft. Last recipe is used first so should be *relatively* quick.
                     craftingProgress = 0;
                     shouldCheckRecipe = true;
+                    shouldCheckOutput = true;
                 }
             }
-        }
-        else
-        {
-            craftingProgress = 0;
+            else
+            {
+                setCrafting(false);
+            }
         }
 
         // Push auto outputs via sides every 20 ticks, if option enabled
@@ -196,6 +229,7 @@ public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, 
     {
         super.onLoadServer(level);
         this.shouldCheckRecipe = true;
+        this.shouldCheckOutput = true;
     }
 
     @Override

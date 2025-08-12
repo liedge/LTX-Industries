@@ -4,6 +4,7 @@ import liedge.limacore.LimaCommonConstants;
 import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.capability.fluid.FluidHolderBlockEntity;
 import liedge.limacore.capability.fluid.LimaBlockEntityFluidHandler;
+import liedge.limacore.capability.fluid.LimaFluidHandler;
 import liedge.limacore.recipe.LimaCustomRecipe;
 import liedge.limacore.recipe.LimaRecipeInput;
 import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
@@ -21,6 +22,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -63,13 +65,6 @@ public abstract class LimaRecipeMachineBlockEntity<R extends LimaCustomRecipe<Li
     }
 
     @Override
-    public void onFluidsChanged(BlockContentsType contentsType, int tank)
-    {
-        setChanged();
-        this.shouldCheckRecipe = true;
-    }
-
-    @Override
     public int getBaseFluidCapacity(BlockContentsType contentsType, int tank)
     {
         return contentsType == BlockContentsType.INPUT ? 32000 : 64000;
@@ -102,8 +97,8 @@ public abstract class LimaRecipeMachineBlockEntity<R extends LimaCustomRecipe<Li
     @Override
     protected void consumeIngredients(LimaRecipeInput recipeInput, R recipe, Level level)
     {
-        recipe.consumeItemIngredients(recipeInput, false);
-        recipe.consumeFluidIngredients(recipeInput, IFluidHandler.FluidAction.EXECUTE);
+        recipe.consumeItemIngredients(recipeInput);
+        recipe.consumeFluidIngredients(recipeInput);
     }
 
     @Override
@@ -111,24 +106,47 @@ public abstract class LimaRecipeMachineBlockEntity<R extends LimaCustomRecipe<Li
     {
         // Check item results
         List<ItemStack> results = recipe.getPossibleItemResults();
-        for (ItemStack stack : results)
+        boolean itemCheck = switch (results.size())
         {
-            if (!ItemHandlerHelper.insertItem(getOutputInventory(), stack, true).isEmpty())
-                return false;
-        }
+            case 0 -> true;
+            case 1 -> ItemHandlerHelper.insertItem(getOutputInventory(), results.getFirst(), true).isEmpty();
+            default ->
+            {
+                ItemStackHandler interim = getOutputInventory().copyHandler();
+                for (ItemStack stack : results)
+                {
+                    if (!ItemHandlerHelper.insertItem(interim, stack, false).isEmpty()) yield false;
+                }
+                yield true;
+            }
+        };
 
-        // Check fluid results
+        boolean fluidCheck = true;
         if (outputFluids != null)
         {
             List<FluidStack> fluidResults = recipe.getFluidResults();
-            for (FluidStack stack : fluidResults)
+            fluidCheck = switch (fluidResults.size())
             {
-                if (outputFluids.fillAny(stack, IFluidHandler.FluidAction.SIMULATE, true) != stack.getAmount())
-                    return false;
-            }
+                case 0 -> true;
+                case 1 ->
+                {
+                    FluidStack first = fluidResults.getFirst();
+                    yield outputFluids.fillAny(first, IFluidHandler.FluidAction.SIMULATE, true) == first.getAmount();
+                }
+                default ->
+                {
+                    LimaFluidHandler interim = outputFluids.copyHandler();
+                    for (FluidStack stack : fluidResults)
+                    {
+                        if (interim.fillAny(stack, IFluidHandler.FluidAction.EXECUTE, true) != stack.getAmount())
+                            yield false;
+                    }
+                    yield true;
+                }
+            };
         }
 
-        return true;
+        return itemCheck && fluidCheck;
     }
 
     @Override

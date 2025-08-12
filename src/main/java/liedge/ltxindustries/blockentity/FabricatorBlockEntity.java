@@ -31,7 +31,7 @@ public class FabricatorBlockEntity extends BaseFabricatorBlockEntity
             }
             else if (recipe.matches(input, level))
             {
-                recipe.consumeItemIngredients(input, false);
+                recipe.consumeItemIngredients(input);
                 setCrafting(true);
                 getRecipeCheck().setLastUsedRecipe(holder);
             }

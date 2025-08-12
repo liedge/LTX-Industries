@@ -10,8 +10,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.IItemHandler;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Objects;
-
 public abstract class ProductionMachineBlockEntity extends EnergyMachineBlockEntity
 {
     private final @Nullable LimaBlockEntityItemHandler inputInventory;
@@ -27,7 +25,7 @@ public abstract class ProductionMachineBlockEntity extends EnergyMachineBlockEnt
 
     public LimaBlockEntityItemHandler getInputInventory()
     {
-        return Objects.requireNonNull(inputInventory, "Machine does not have an input inventory.");
+        return getItemHandlerOrThrow(BlockContentsType.INPUT);
     }
 
     public LimaBlockEntityItemHandler getOutputInventory()
