@@ -1,6 +1,6 @@
 {
 	"credit": "Made with Blockbench",
-	"loader": "limacore:custom_layers",
+	"loader": "limacore:item_layers",
 	"render_type": "cutout",
 	"layers": [
 		{

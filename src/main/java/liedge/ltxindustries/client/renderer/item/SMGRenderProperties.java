@@ -1,7 +1,7 @@
 package liedge.ltxindustries.client.renderer.item;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import liedge.limacore.client.model.baked.LimaLayerBakedModel;
+import liedge.limacore.client.model.baked.ItemLayerBakedModel;
 import liedge.limacore.lib.LimaColor;
 import liedge.limacore.util.LimaEntityUtil;
 import liedge.ltxindustries.LTXIConstants;
@@ -63,7 +63,7 @@ public class SMGRenderProperties extends WeaponRenderProperties<WeaponItem>
     public void onWeaponFired(ItemStack stack, WeaponItem weaponItem, ClientWeaponControls controls) {}
 
     @Override
-    protected void loadWeaponModelParts(WeaponItem item, LimaLayerBakedModel model) {}
+    protected void loadWeaponModelParts(WeaponItem item, ItemLayerBakedModel model) {}
 
     @Override
     protected void renderStaticWeapon(ItemStack stack, WeaponItem item, ItemDisplayContext displayContext, PoseStack poseStack, MultiBufferSource bufferSource, int light, int overlay)

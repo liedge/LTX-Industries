@@ -1,9 +1,17 @@
 {
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
-	"loader": "limacore:simple_emissive",
+	"loader": "limacore:block_layers",
 	"render_type": "cutout",
-	"emissive_groups": ["lights"],
+	"layers": [
+		[
+			"root"
+		],
+		{
+			"groups": ["lights"],
+			"emissivity": 15
+		}
+	],
 	"textures": {
 		"particle": "ltxi:block/titanium_block_0",
 		"titanium_base": "ltxi:block/titanium_block_0",

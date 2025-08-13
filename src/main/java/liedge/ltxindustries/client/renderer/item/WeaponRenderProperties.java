@@ -6,7 +6,7 @@ import liedge.limacore.client.LimaCoreClientUtil;
 import liedge.limacore.client.LimaSpecialItemRenderer;
 import liedge.limacore.client.gui.LimaGuiUtil;
 import liedge.limacore.client.model.baked.BakedItemLayer;
-import liedge.limacore.client.model.baked.LimaLayerBakedModel;
+import liedge.limacore.client.model.baked.ItemLayerBakedModel;
 import liedge.limacore.lib.LimaColor;
 import liedge.limacore.util.LimaCoreUtil;
 import liedge.limacore.util.LimaMathUtil;
@@ -56,7 +56,7 @@ public abstract class WeaponRenderProperties<T extends WeaponItem> extends LimaS
     @Override
     protected void onResourceManagerReload(ResourceManager manager, T item)
     {
-        LimaLayerBakedModel model = LimaCoreClientUtil.getCustomBakedModel(LimaCoreClientUtil.inventoryModelPath(item), LimaLayerBakedModel.class);
+        ItemLayerBakedModel model = LimaCoreClientUtil.getCustomBakedModel(LimaCoreClientUtil.inventoryModelPath(item), ItemLayerBakedModel.class);
         this.rootBaseLayer = model.getLayer("root");
         this.rootEmissiveLayer = model.getLayer("root emissive");
         this.sprites = Minecraft.getInstance().getGuiSprites();
@@ -111,7 +111,7 @@ public abstract class WeaponRenderProperties<T extends WeaponItem> extends LimaS
 
     public abstract void onWeaponFired(ItemStack stack, WeaponItem weaponItem, ClientWeaponControls controls);
 
-    protected abstract void loadWeaponModelParts(T item, LimaLayerBakedModel model);
+    protected abstract void loadWeaponModelParts(T item, ItemLayerBakedModel model);
 
     protected abstract void renderStaticWeapon(ItemStack stack, T item, ItemDisplayContext displayContext, PoseStack poseStack, MultiBufferSource bufferSource, int light, int overlay);
 

@@ -5,7 +5,7 @@ import com.mojang.math.Axis;
 import liedge.limacore.client.LimaBlockEntityRenderer;
 import liedge.limacore.client.LimaCoreClientUtil;
 import liedge.limacore.client.model.baked.BakedItemLayer;
-import liedge.limacore.client.model.baked.LimaLayerBakedModel;
+import liedge.limacore.client.model.baked.ItemLayerBakedModel;
 import liedge.ltxindustries.blockentity.BaseTurretBlockEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
@@ -23,7 +23,7 @@ public abstract class TurretRenderer<BE extends BaseTurretBlockEntity> extends L
     {
         super(context);
 
-        LimaLayerBakedModel model = LimaCoreClientUtil.getCustomBakedModel(LimaCoreClientUtil.inventoryModelPath(getModelItem()), LimaLayerBakedModel.class);
+        ItemLayerBakedModel model = LimaCoreClientUtil.getCustomBakedModel(LimaCoreClientUtil.inventoryModelPath(getModelItem()), ItemLayerBakedModel.class);
         this.gunsBase = model.getLayer("guns");
         this.gunsEmissive = model.getLayer("guns emissive");
         this.swivelBase = model.getLayer("swivel");

@@ -1,8 +1,19 @@
 {
 	"credit": "Made with Blockbench",
-	"loader": "limacore:simple_emissive",
+	"loader": "limacore:item_layers",
 	"render_type": "solid",
-	"emissive_groups": ["lights"],
+	"layers": [
+		{
+			"name": "root",
+			"groups": ["root"]
+		},
+		{
+			"name": "lights",
+			"groups": ["lights"],
+			"emissivity": 15,
+			"render_type": "limacore:custom_emissive"
+		}
+	],
 	"textures": {
 		"0": "ltxi:item/guide_tablet0",
 		"1": "ltxi:item/guide_tablet1",

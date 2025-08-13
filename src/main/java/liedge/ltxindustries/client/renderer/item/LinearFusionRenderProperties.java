@@ -3,7 +3,7 @@ package liedge.ltxindustries.client.renderer.item;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import liedge.limacore.client.model.baked.BakedItemLayer;
-import liedge.limacore.client.model.baked.LimaLayerBakedModel;
+import liedge.limacore.client.model.baked.ItemLayerBakedModel;
 import liedge.limacore.lib.LimaColor;
 import liedge.limacore.util.LimaMathUtil;
 import liedge.ltxindustries.LTXIConstants;
@@ -35,7 +35,7 @@ public class LinearFusionRenderProperties extends SimpleWeaponRenderProperties
     }
 
     @Override
-    protected void loadWeaponModelParts(WeaponItem item, LimaLayerBakedModel model)
+    protected void loadWeaponModelParts(WeaponItem item, ItemLayerBakedModel model)
     {
         barrelGlassLayer = model.getLayer("barrel glass");
     }

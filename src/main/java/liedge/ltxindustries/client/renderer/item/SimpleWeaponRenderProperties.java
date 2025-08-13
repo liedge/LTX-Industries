@@ -2,7 +2,7 @@ package liedge.ltxindustries.client.renderer.item;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import liedge.limacore.client.model.baked.LimaLayerBakedModel;
+import liedge.limacore.client.model.baked.ItemLayerBakedModel;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.client.model.custom.TranslucentFillModel;
 import liedge.ltxindustries.item.weapon.WeaponItem;
@@ -41,7 +41,7 @@ abstract class SimpleWeaponRenderProperties extends WeaponRenderProperties<Weapo
     }
 
     @Override
-    protected void loadWeaponModelParts(WeaponItem item, LimaLayerBakedModel model) {}
+    protected void loadWeaponModelParts(WeaponItem item, ItemLayerBakedModel model) {}
 
     @Override
     protected final void renderStaticWeapon(ItemStack stack, WeaponItem item, ItemDisplayContext displayContext, PoseStack poseStack, MultiBufferSource bufferSource, int light, int overlay)

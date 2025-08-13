@@ -3,7 +3,7 @@ package liedge.ltxindustries.client.renderer.item;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import liedge.limacore.client.model.baked.BakedItemLayer;
-import liedge.limacore.client.model.baked.LimaLayerBakedModel;
+import liedge.limacore.client.model.baked.ItemLayerBakedModel;
 import liedge.limacore.lib.LimaColor;
 import liedge.limacore.lib.TickTimer;
 import liedge.ltxindustries.client.LTXIRenderUtil;
@@ -77,7 +77,7 @@ public class GrenadeLauncherRenderProperties extends WeaponRenderProperties<Weap
     }
 
     @Override
-    protected void loadWeaponModelParts(WeaponItem item, LimaLayerBakedModel model)
+    protected void loadWeaponModelParts(WeaponItem item, ItemLayerBakedModel model)
     {
         chamberBaseLayer = model.getLayer("chamber base");
         chamberEmissiveLayer = model.getLayer("chamber emissive");

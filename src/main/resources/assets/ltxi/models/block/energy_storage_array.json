@@ -1,9 +1,17 @@
 {
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
-	"loader": "limacore:simple_emissive",
+	"loader": "limacore:block_layers",
 	"render_type": "cutout",
-	"emissive_groups": ["cell lights", "port lights"],
+	"layers": [
+		[
+			"cells", "ports"
+		],
+		{
+			"groups": ["cell lights", "port lights"],
+			"emissivity": 15
+		}
+	],
 	"textures": {
 		"particle": "ltxi:block/titanium_block_0",
 		"cell": "ltxi:block/energy_storage_array",
