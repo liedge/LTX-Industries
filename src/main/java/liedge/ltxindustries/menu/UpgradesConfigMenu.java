@@ -4,7 +4,7 @@ import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.capability.itemhandler.ItemHolderBlockEntity;
 import liedge.limacore.capability.itemhandler.LimaBlockEntityItemHandler;
-import liedge.limacore.menu.LimaItemHandlerMenu;
+import liedge.limacore.menu.BlockEntityMenu;
 import liedge.limacore.menu.LimaMenuType;
 import liedge.limacore.menu.slot.LimaHandlerSlot;
 import liedge.limacore.network.NetworkSerializer;
@@ -24,7 +24,7 @@ import net.neoforged.neoforge.items.wrapper.PlayerMainInvWrapper;
 
 import java.util.List;
 
-public abstract class UpgradesConfigMenu<CTX extends ItemHolderBlockEntity, U extends UpgradeBase<?, U>, UC extends UpgradesContainerBase<?, U>> extends LimaItemHandlerMenu<CTX>
+public abstract class UpgradesConfigMenu<CTX extends ItemHolderBlockEntity, U extends UpgradeBase<?, U>, UC extends UpgradesContainerBase<?, U>> extends BlockEntityMenu<CTX>
 {
     public static final int UPGRADE_REMOVAL_BUTTON_ID = 0;
 
@@ -133,7 +133,7 @@ public abstract class UpgradesConfigMenu<CTX extends ItemHolderBlockEntity, U ex
     {
         public InsertSlot(int xPos, int yPos)
         {
-            super(moduleSourceInventory, moduleSlot, xPos, yPos);
+            super(moduleSourceInventory, moduleSlot, xPos, yPos, true, UpgradesConfigMenu.this::canInstallUpgrade);
         }
 
         @Override

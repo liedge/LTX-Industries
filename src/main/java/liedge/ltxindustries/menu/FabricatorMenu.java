@@ -1,10 +1,10 @@
 package liedge.ltxindustries.menu;
 
+import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.capability.itemhandler.LimaBlockEntityItemHandler;
 import liedge.limacore.menu.LimaMenuType;
 import liedge.limacore.recipe.LimaRecipeInput;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
-import liedge.limacore.util.LimaItemUtil;
 import liedge.limacore.util.LimaRecipesUtil;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.blockentity.BaseFabricatorBlockEntity;
@@ -23,7 +23,7 @@ import net.neoforged.neoforge.items.wrapper.PlayerMainInvWrapper;
 
 import java.util.Optional;
 
-public class FabricatorMenu extends LTXIMachineMenu.EnergyMachineMenu<FabricatorBlockEntity>
+public class FabricatorMenu extends LTXIMachineMenu.RecipeEnergyMachineMenu<FabricatorBlockEntity>
 {
     public static final int CRAFT_BUTTON_ID = 2;
     public static final int ENCODE_BLUEPRINT_BUTTON_ID = 3;
@@ -33,8 +33,8 @@ public class FabricatorMenu extends LTXIMachineMenu.EnergyMachineMenu<Fabricator
         super(type, containerId, inventory, context);
 
         // Slots
-        addHandlerRecipeOutputSlot(context.getOutputInventory(), 0, 42, 86, LTXIRecipeTypes.FABRICATING);
-        addHandlerSlot(context.getAuxInventory(), BaseFabricatorBlockEntity.AUX_BLUEPRINT_SLOT, 43, 61);
+        addRecipeOutputSlot(0, 42, 86);
+        addSlot(BlockContentsType.AUXILIARY, BaseFabricatorBlockEntity.AUX_BLUEPRINT_SLOT, 43, 61, stack -> stack.is(menuContext().getValidBlueprintItem()));
 
         addPlayerInventoryAndHotbar(15, 118);
     }
@@ -83,22 +83,5 @@ public class FabricatorMenu extends LTXIMachineMenu.EnergyMachineMenu<Fabricator
         super.defineButtonEventHandlers(builder);
         builder.handleAction(CRAFT_BUTTON_ID, LimaCoreNetworkSerializers.RESOURCE_LOCATION, this::receiveCraftCommand);
         builder.handleAction(ENCODE_BLUEPRINT_BUTTON_ID, LimaCoreNetworkSerializers.RESOURCE_LOCATION, this::receiveEncodeCommand);
-    }
-
-    @Override
-    protected boolean quickMoveInternal(int slot, ItemStack stack)
-    {
-        if (slot < inventoryStart)
-        {
-            return quickMoveToAllInventory(stack, slot == 1);
-        }
-        else
-        {
-            if (LimaItemUtil.hasEnergyCapability(stack))
-                return quickMoveToContainerSlot(stack, ENERGY_SLOT_INDEX);
-            else if (stack.is(menuContext.getValidBlueprintItem()))
-                return quickMoveToContainerSlot(stack, 2);
-            else return false;
-        }
     }
 }

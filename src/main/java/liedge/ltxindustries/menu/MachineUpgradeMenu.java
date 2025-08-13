@@ -51,19 +51,6 @@ public class MachineUpgradeMenu extends UpgradesConfigMenu<LTXIMachineBlockEntit
     }
 
     @Override
-    protected boolean quickMoveInternal(int index, ItemStack stack)
-    {
-        if (stack.getItem() instanceof MachineUpgradeModuleItem && canInstallUpgrade(stack))
-        {
-            return quickMoveToContainerSlot(stack, 0);
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    @Override
     protected boolean canInstallUpgrade(ItemStack upgradeModuleItem)
     {
         MachineUpgrades upgrades = menuContext.getUpgrades();

@@ -5,7 +5,6 @@ import liedge.limacore.menu.slot.LimaHandlerSlot;
 import liedge.limacore.util.LimaItemUtil;
 import liedge.ltxindustries.blockentity.BaseTurretBlockEntity;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.item.ItemStack;
 
 public class TurretMenu<BE extends BaseTurretBlockEntity> extends LTXIMachineMenu.EnergyMachineMenu<BE>
 {
@@ -13,25 +12,8 @@ public class TurretMenu<BE extends BaseTurretBlockEntity> extends LTXIMachineMen
     {
         super(type, containerId, inventory, menuContext);
 
-        addSlotsGrid(menuContext.getOutputInventory(), 0, 80, 23, 5, 4, (ctr, slot, sx, sy) -> new LimaHandlerSlot(ctr, slot, sx, sy, false));
+        addSlotsGrid(menuContext.getOutputInventory(), 0, 80, 23, 5, 4, (ctr, slot, sx, sy) -> new LimaHandlerSlot(ctr, slot, sx, sy, false, LimaItemUtil.ALWAYS_FALSE));
         addPlayerInventoryAndHotbar(8, 106);
-    }
-
-    @Override
-    protected boolean quickMoveInternal(int index, ItemStack stack)
-    {
-        if (index < inventoryStart)
-        {
-            return quickMoveToAllInventory(stack, false);
-        }
-        else if (LimaItemUtil.hasEnergyCapability(stack))
-        {
-            return quickMoveToContainerSlot(stack, 0);
-        }
-        else
-        {
-            return false;
-        }
     }
 
     @Override

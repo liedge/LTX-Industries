@@ -1,5 +1,6 @@
 package liedge.ltxindustries.menu;
 
+import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.menu.LimaMenuType;
 import liedge.limacore.network.NetworkSerializer;
 import liedge.ltxindustries.blockentity.EquipmentUpgradeStationBlockEntity;
@@ -27,9 +28,9 @@ public class EquipmentUpgradeStationMenu extends UpgradesConfigMenu<EquipmentUpg
 {
     public EquipmentUpgradeStationMenu(LimaMenuType<EquipmentUpgradeStationBlockEntity, ?> type, int containerId, Inventory inventory, EquipmentUpgradeStationBlockEntity menuContext)
     {
-        super(type, containerId, inventory, menuContext, menuContext.getStationInventory(), UPGRADE_MODULE_SLOT);
+        super(type, containerId, inventory, menuContext, menuContext.getItemHandlerOrThrow(BlockContentsType.GENERAL), UPGRADE_MODULE_SLOT);
 
-        addHandlerSlot(menuContext.getStationInventory(), EQUIPMENT_ITEM_SLOT, 24, 65);
+        addSlot(BlockContentsType.GENERAL, EQUIPMENT_ITEM_SLOT, 24, 65, stack -> stack.getItem() instanceof UpgradableEquipmentItem);
         addPlayerInventoryAndHotbar(15, 118);
     }
 
@@ -43,27 +44,6 @@ public class EquipmentUpgradeStationMenu extends UpgradesConfigMenu<EquipmentUpg
     protected EquipmentUpgrades getUpgrades()
     {
         return UpgradableEquipmentItem.getEquipmentUpgradesFromStack(moduleSourceInventory.getStackInSlot(EQUIPMENT_ITEM_SLOT));
-    }
-
-    @Override
-    protected boolean quickMoveInternal(int index, ItemStack stack)
-    {
-        if (index == 1)
-        {
-            return quickMoveToAllInventory(stack, true);
-        }
-        else if (stack.getItem() instanceof UpgradableEquipmentItem)
-        {
-            return quickMoveToContainerSlot(stack, 1);
-        }
-        else if (stack.getItem() instanceof EquipmentUpgradeModuleItem && canInstallUpgrade(stack))
-        {
-            return quickMoveToContainerSlot(stack, 0);
-        }
-        else
-        {
-            return false;
-        }
     }
 
     @Override

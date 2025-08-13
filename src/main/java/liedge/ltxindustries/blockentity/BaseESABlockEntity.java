@@ -45,11 +45,6 @@ public abstract class BaseESABlockEntity extends EnergyMachineBlockEntity
 
     public abstract float getRemoteEnergyFill();
 
-    public LimaBlockEntityItemHandler getChargingInventory()
-    {
-        return chargingInventory;
-    }
-
     @Override
     public boolean hasStatsTooltips()
     {

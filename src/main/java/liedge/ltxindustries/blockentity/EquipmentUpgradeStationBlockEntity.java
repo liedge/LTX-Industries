@@ -40,11 +40,6 @@ public class EquipmentUpgradeStationBlockEntity extends LimaBlockEntity implemen
         return previewItem;
     }
 
-    public LimaBlockEntityItemHandler getStationInventory()
-    {
-        return inventory;
-    }
-
     @Override
     public void defineDataWatchers(DataWatcherCollector collector)
     {
@@ -54,7 +49,7 @@ public class EquipmentUpgradeStationBlockEntity extends LimaBlockEntity implemen
     @Override
     public @Nullable LimaBlockEntityItemHandler getItemHandler(BlockContentsType contentsType)
     {
-        return null;
+        return contentsType == BlockContentsType.GENERAL ? inventory : null;
     }
 
     @Override
