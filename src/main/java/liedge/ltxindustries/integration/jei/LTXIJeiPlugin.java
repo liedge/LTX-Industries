@@ -1,15 +1,16 @@
 package liedge.ltxindustries.integration.jei;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import liedge.limacore.client.gui.LimaMenuScreen;
 import liedge.limacore.recipe.LimaCustomRecipe;
 import liedge.limacore.recipe.LimaRecipeType;
 import liedge.limacore.util.LimaRecipesUtil;
 import liedge.limacore.util.LimaRegistryUtil;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.client.LTXIClientRecipes;
-import liedge.ltxindustries.client.gui.screen.BaseCookingMenuScreen;
-import liedge.ltxindustries.client.gui.screen.GrinderScreen;
-import liedge.ltxindustries.client.gui.screen.MaterialFusingChamberScreen;
+import liedge.ltxindustries.client.gui.screen.RecipeLayoutScreen;
+import liedge.ltxindustries.menu.layout.RecipeLayouts;
+import liedge.ltxindustries.menu.layout.RecipeMenuLayout;
 import liedge.ltxindustries.recipe.FabricatingRecipe;
 import liedge.ltxindustries.recipe.GrindingRecipe;
 import liedge.ltxindustries.recipe.MaterialFusingRecipe;
@@ -22,19 +23,19 @@ import mezz.jei.api.constants.RecipeTypes;
 import mezz.jei.api.gui.handlers.IGuiClickableArea;
 import mezz.jei.api.gui.handlers.IGuiContainerHandler;
 import mezz.jei.api.helpers.IGuiHelper;
+import mezz.jei.api.neoforge.NeoForgeTypes;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.registration.*;
+import mezz.jei.api.runtime.IClickableIngredient;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 import static liedge.ltxindustries.registry.game.LTXIRecipeTypes.*;
 
@@ -81,10 +82,9 @@ public class LTXIJeiPlugin implements IModPlugin
     public void registerCategories(IRecipeCategoryRegistration registration)
     {
         IGuiHelper helper = registration.getJeiHelpers().getGuiHelper();
-
-        registration.addRecipeCategories(new GrindingJEICategory(helper, GRINDING));
-        registration.addRecipeCategories(new MaterialFusingJEICategory(helper, MATERIAL_FUSING));
-        registration.addRecipeCategories(new FabricatingJEICategory(helper, FABRICATING));
+        registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, GRINDING, GRINDING_JEI, RecipeLayouts.GRINDER));
+        registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, MATERIAL_FUSING, MATERIAL_FUSING_JEI, RecipeLayouts.MATERIAL_FUSING_CHAMBER));
+        registration.addRecipeCategories(new FabricatingJeiCategory(helper, FABRICATING));
     }
 
     @Override
@@ -114,22 +114,30 @@ public class LTXIJeiPlugin implements IModPlugin
     @Override
     public void registerGuiHandlers(IGuiHandlerRegistration registration)
     {
-        registration.addGuiContainerHandler(BaseCookingMenuScreen.class, new IGuiContainerHandler<>()
+        registration.addGuiContainerHandler(LimaMenuScreen.class, new IGuiContainerHandler<>()
         {
             @Override
-            public Collection<IGuiClickableArea> getGuiClickableAreas(BaseCookingMenuScreen containerScreen, double guiMouseX, double guiMouseY)
+            public Optional<IClickableIngredient<?>> getClickableIngredientUnderMouse(LimaMenuScreen containerScreen, double mouseX, double mouseY)
+            {
+                return Optional.ofNullable(containerScreen.getHoveredFluidSlot()).flatMap(slot ->
+                        registration.getJeiHelpers().getIngredientManager().createClickableIngredient(NeoForgeTypes.FLUID_STACK, slot.getFluid(), new Rect2i(containerScreen.getGuiLeft() + slot.x(), containerScreen.getGuiTop() + slot.y(), 16, 16), false));
+            }
+        });
+
+        registration.addGuiContainerHandler(RecipeLayoutScreen.class, new IGuiContainerHandler<>()
+        {
+            @Override
+            public Collection<IGuiClickableArea> getGuiClickableAreas(RecipeLayoutScreen containerScreen, double guiMouseX, double guiMouseY)
             {
                 ResourceLocation typeId;
                 net.minecraft.world.item.crafting.RecipeType<?> gameType = containerScreen.getMenu().menuContext().getRecipeCheck().getRecipeType();
                 if (gameType instanceof LimaRecipeType<?> limaType) typeId = limaType.id();
                 else typeId = LimaRegistryUtil.getNonNullRegistryId(gameType, BuiltInRegistries.RECIPE_TYPE);
 
-                IGuiClickableArea clickableArea = IGuiClickableArea.createBasic(75, 39, 24, 6, Objects.requireNonNull(JEI_RECIPE_TYPES.get(typeId)));
-                return List.of(clickableArea);
+                RecipeMenuLayout layout = containerScreen.getMenu().getLayout();
+                RecipeType<?> jeiType = JEI_RECIPE_TYPES.get(typeId);
+                return jeiType != null ? List.of(IGuiClickableArea.createBasic(layout.progressBarX(), layout.progressBarY(), 24, 6, jeiType)) : List.of();
             }
         });
-
-        registration.addRecipeClickArea(GrinderScreen.class, 69, 41, 24, 6, GRINDING_JEI);
-        registration.addRecipeClickArea(MaterialFusingChamberScreen.class, 104, 40, 24, 6, MATERIAL_FUSING_JEI);
     }
 }

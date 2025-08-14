@@ -14,7 +14,7 @@ public abstract class CookingBlockEntity<R extends AbstractCookingRecipe> extend
 {
     protected CookingBlockEntity(SidedAccessBlockEntityType<?> type, RecipeType<R> recipeType, BlockPos pos, BlockState state)
     {
-        super(type, recipeType, pos, state, 1, 1);
+        super(type, recipeType, pos, state, 1, 1, 0, 0);
     }
 
     @Override

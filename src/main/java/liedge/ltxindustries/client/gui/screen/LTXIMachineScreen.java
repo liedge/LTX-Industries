@@ -1,5 +1,6 @@
 package liedge.ltxindustries.client.gui.screen;
 
+import liedge.limacore.capability.energy.EnergyHolderBlockEntity;
 import liedge.limacore.client.gui.LimaRenderable;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.ltxindustries.LTXIndustries;
@@ -15,7 +16,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
-public abstract class LTXIMachineScreen<M extends LTXIMachineMenu.EnergyMachineMenu<?>> extends LTXIScreen<M>
+public abstract class LTXIMachineScreen<M extends LTXIMachineMenu<?>> extends LTXIScreen<M>
 {
     private static final ResourceLocation STATS_WIDGET_SPRITE = LTXIndustries.RESOURCES.location("widget/machine_stats");
 
@@ -32,7 +33,8 @@ public abstract class LTXIMachineScreen<M extends LTXIMachineMenu.EnergyMachineM
     protected void addWidgets()
     {
         // Energy bar is in the same place every time, for now
-        addRenderableOnly(new EnergyGaugeWidget(menu.menuContext(), leftPos + 10, topPos + 9));
+        if (menu.menuContext() instanceof EnergyHolderBlockEntity energyMachine)
+            addRenderableOnly(new EnergyGaugeWidget(energyMachine, leftPos + 10, topPos + 9));
 
         // Left sidebar widgets
         addRenderableWidget(new MachineUpgradesButton(rightPos, topPos + 3, this));

@@ -44,6 +44,7 @@ public class IOControllerScreen extends LTXIScreen<IOControllerMenu>
     {
         super(menu, inventory, title, DEFAULT_WIDTH, DEFAULT_HEIGHT);
         this.ioController = menu.getIOControl();
+        this.inventoryLabelY = 73;
         this.leftPadding = 18;
         this.rightPadding = 18;
     }

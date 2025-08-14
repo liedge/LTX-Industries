@@ -12,7 +12,7 @@ public class GrinderBlockEntity extends LimaRecipeMachineBlockEntity<GrindingRec
 {
     public GrinderBlockEntity(BlockPos pos, BlockState state)
     {
-        super(LTXIBlockEntities.GRINDER.get(), LTXIRecipeTypes.GRINDING.get(), pos, state, 1, 3);
+        super(LTXIBlockEntities.GRINDER.get(), LTXIRecipeTypes.GRINDING.get(), pos, state, 1, 3, 0, 0);
     }
 
     @Override

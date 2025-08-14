@@ -97,11 +97,11 @@ public final class LTXIClientSetup
         event.register(LTXIMenus.MACHINE_UPGRADES.get(), MachineUpgradesScreen::new);
         event.register(LTXIMenus.MACHINE_IO_CONTROL.get(), IOControllerScreen::new);
         event.register(LTXIMenus.ENERGY_STORAGE_ARRAY.get(), EnergyStorageArrayScreen::new);
-        event.register(LTXIMenus.DIGITAL_FURNACE.get(), BaseCookingMenuScreen.provider(BaseCookingMenuScreen.CookingType.SMELTING));
-        event.register(LTXIMenus.DIGITAL_SMOKER.get(), BaseCookingMenuScreen.provider(BaseCookingMenuScreen.CookingType.SMOKING));
-        event.register(LTXIMenus.DIGITAL_BLAST_FURNACE.get(), BaseCookingMenuScreen.provider(BaseCookingMenuScreen.CookingType.BLASTING));
-        event.register(LTXIMenus.GRINDER.get(), GrinderScreen::new);
-        event.register(LTXIMenus.MATERIAL_FUSING_CHAMBER.get(), MaterialFusingChamberScreen::new);
+        event.register(LTXIMenus.DIGITAL_FURNACE.get(), RecipeLayoutScreen::new);
+        event.register(LTXIMenus.DIGITAL_SMOKER.get(), RecipeLayoutScreen::new);
+        event.register(LTXIMenus.DIGITAL_BLAST_FURNACE.get(), RecipeLayoutScreen::new);
+        event.register(LTXIMenus.GRINDER.get(), RecipeLayoutScreen::new);
+        event.register(LTXIMenus.MATERIAL_FUSING_CHAMBER.get(), RecipeLayoutScreen::new);
         event.register(LTXIMenus.FABRICATOR.get(), FabricatorScreen::new);
         event.register(LTXIMenus.AUTO_FABRICATOR.get(), AutoFabricatorScreen::new);
         event.register(LTXIMenus.EQUIPMENT_UPGRADE_STATION.get(), EquipmentUpgradeStationScreen::new);

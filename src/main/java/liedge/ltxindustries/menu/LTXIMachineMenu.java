@@ -5,7 +5,6 @@ import liedge.limacore.menu.BlockEntityMenu;
 import liedge.limacore.menu.LimaMenuProvider;
 import liedge.limacore.menu.LimaMenuType;
 import liedge.limacore.util.LimaItemUtil;
-import liedge.ltxindustries.blockentity.StateBlockRecipeMachineBlockEntity;
 import liedge.ltxindustries.blockentity.base.RecipeMachineBlockEntity;
 import liedge.ltxindustries.blockentity.template.EnergyMachineBlockEntity;
 import liedge.ltxindustries.blockentity.template.LTXIMachineBlockEntity;

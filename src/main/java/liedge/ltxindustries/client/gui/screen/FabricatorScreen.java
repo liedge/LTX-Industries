@@ -7,6 +7,7 @@ import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.client.LTXIClientRecipes;
 import liedge.ltxindustries.client.gui.widget.*;
 import liedge.ltxindustries.menu.FabricatorMenu;
+import liedge.ltxindustries.menu.layout.LayoutSlot;
 import liedge.ltxindustries.recipe.FabricatingRecipe;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -137,7 +138,7 @@ public class FabricatorScreen extends LTXIMachineScreen<FabricatorMenu> implemen
             }
             else if (gridIndex == selectedRecipeIndex)
             {
-                sprite = EMPTY_SLOT_SPRITE;
+                sprite = LayoutSlot.ITEM_SLOT_SPRITE;
             }
             else if (isMouseWithinArea(mouseX, mouseY, rx, ry, 18, 18))
             {

@@ -25,12 +25,12 @@ import java.util.function.Supplier;
 import static liedge.ltxindustries.LTXIConstants.HOSTILE_ORANGE;
 import static liedge.ltxindustries.LTXIConstants.REM_BLUE;
 
-public class FabricatingJEICategory extends LTXIJeiCategory<FabricatingRecipe>
+class FabricatingJeiCategory extends LTXIJeiCategory<FabricatingRecipe>
 {
     private final IDrawableStatic progressBackground;
     private final IDrawableAnimated progressForeground;
 
-    FabricatingJEICategory(IGuiHelper helper, Supplier<LimaRecipeType<FabricatingRecipe>> typeSupplier)
+    FabricatingJeiCategory(IGuiHelper helper, Supplier<LimaRecipeType<FabricatingRecipe>> typeSupplier)
     {
         super(helper, typeSupplier, 140, 76);
         this.progressBackground = guiSpriteDrawable(helper, FabricatorProgressWidget.BACKGROUND_SPRITE, FabricatorProgressWidget.BACKGROUND_WIDTH, FabricatorProgressWidget.BACKGROUND_HEIGHT).build();

@@ -4,6 +4,7 @@ import liedge.limacore.client.gui.LimaGuiUtil;
 import liedge.limacore.client.gui.LimaMenuScreen;
 import liedge.limacore.menu.LimaMenu;
 import liedge.ltxindustries.LTXIConstants;
+import liedge.ltxindustries.menu.layout.LayoutSlot;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -20,8 +21,6 @@ public abstract class LTXIScreen<M extends LimaMenu<?>> extends LimaMenuScreen<M
     private static final ResourceLocation DARK_PANEL_TEXTURE = RESOURCES.textureLocation("gui", "dark_panel");
 
     // Common sprites
-    protected static final ResourceLocation EMPTY_SLOT_SPRITE = RESOURCES.location("slot/empty");
-    private static final ResourceLocation FLUID_SLOT_SPRITE = RESOURCES.location("slot/fluid");
     private static final ResourceLocation POWER_IN_SLOT = RESOURCES.location("slot/power_in");
     protected static final ResourceLocation POWER_OUT_SLOT = RESOURCES.location("slot/power_out");
     private static final ResourceLocation BIG_OUTPUT_SLOT = RESOURCES.location("slot/big_output");
@@ -61,11 +60,6 @@ public abstract class LTXIScreen<M extends LimaMenu<?>> extends LimaMenuScreen<M
         blitEmptySlotGrid(graphics, leftPos + x, topPos + y, width, height);
     }
 
-    protected void blitFluidGrid(GuiGraphics graphics, int x, int y, int width, int height)
-    {
-        blitFluidSlotGrid(graphics, leftPos + x, topPos + y, width, height);
-    }
-
     protected void blitInventoryAndHotbar(GuiGraphics graphics, int x, int y)
     {
         blitSlotGrid(graphics, x, y, 9, 3);
@@ -84,12 +78,7 @@ public abstract class LTXIScreen<M extends LimaMenu<?>> extends LimaMenuScreen<M
 
     protected void blitEmptySlot(GuiGraphics graphics, int x, int y)
     {
-        blitSlotSprite(graphics, EMPTY_SLOT_SPRITE, x, y);
-    }
-
-    protected void blitFluidSlot(GuiGraphics graphics, int x, int y)
-    {
-        blitSlotSprite(graphics, FLUID_SLOT_SPRITE, x, y);
+        blitSlotSprite(graphics, LayoutSlot.ITEM_SLOT_SPRITE, x, y);
     }
 
     protected void blitPowerInSlot(GuiGraphics graphics, int x, int y)
@@ -118,16 +107,6 @@ public abstract class LTXIScreen<M extends LimaMenu<?>> extends LimaMenuScreen<M
     }
 
     // Blit helpers (public for JEI use)
-    public static void blitEmptySlotSprite(GuiGraphics graphics, int x, int y)
-    {
-        graphics.blitSprite(EMPTY_SLOT_SPRITE, x, y, 18, 18);
-    }
-
-    public static void blitFluidSlotSprite(GuiGraphics graphics, int x, int y)
-    {
-        graphics.blitSprite(FLUID_SLOT_SPRITE, x, y, 18, 18);
-    }
-
     public static void blitOutputSlotSprite(GuiGraphics graphics, int x, int y)
     {
         graphics.blitSprite(BIG_OUTPUT_SLOT, x, y, 22, 22);
@@ -136,10 +115,5 @@ public abstract class LTXIScreen<M extends LimaMenu<?>> extends LimaMenuScreen<M
     public static void blitEmptySlotGrid(GuiGraphics graphics, int x, int y, int width, int height)
     {
         graphics.blit(SLOT_TILE_TEXTURE, x, y, 0, 0, width * 18, height * 18);
-    }
-
-    public static void blitFluidSlotGrid(GuiGraphics graphics, int x, int y, int width, int height)
-    {
-        graphics.blit(SLOT_TILE_TEXTURE, x, y, 0, 162, width * 18, height * 18);
     }
 }
