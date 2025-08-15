@@ -4,6 +4,16 @@
       "type": "minecraft:single",
       "resource": "ltxi:misc/solid_lime",
       "sprite": "ltxi:solid_lime"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "ltxi:misc/lime_fluid",
+      "sprite": "ltxi:lime_fluid"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "ltxi:misc/flowing_lime_fluid",
+      "sprite": "ltxi:flowing_lime_fluid"
     }
   ]
 }

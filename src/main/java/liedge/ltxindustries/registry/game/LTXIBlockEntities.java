@@ -52,7 +52,8 @@ public final class LTXIBlockEntities
                 RAILGUN_TURRET)
                 .map(DeferredHolder::get).forEach(type -> registerItemEnergyCaps(event, type));
 
-        registerItemEnergyFluidCaps(event, MATERIAL_FUSING_CHAMBER.get());
+        Stream.of(MATERIAL_FUSING_CHAMBER, ELECTROCENTRIFUGE, MIXER, CHEM_LAB)
+                .map(DeferredHolder::get).forEach(type -> registerItemEnergyFluidCaps(event, type));
     }
 
     private static <T extends LimaBlockEntity & ItemHolderBlockEntity & EnergyHolderBlockEntity> void registerItemEnergyCaps(RegisterCapabilitiesEvent event, BlockEntityType<? extends T> type)
@@ -70,6 +71,7 @@ public final class LTXIBlockEntities
     //#region Sided Access Rules
     private static final SidedAccessRules MACHINE_ITEM_RULES = SidedAccessRules.allSides(IOAccessSets.ALL_ALLOWED, IOAccess.INPUT_ONLY, false, true);
     private static final SidedAccessRules MACHINE_ENERGY_RULES = SidedAccessRules.allSides(IOAccessSets.INPUT_ONLY_OR_DISABLED, IOAccess.INPUT_ONLY, false, false);
+    private static final SidedAccessRules MACHINE_FLUID_RULES = SidedAccessRules.allSides(IOAccessSets.ALL_ALLOWED, IOAccess.INPUT_ONLY, false, true);
     private static final SidedAccessRules FABRICATOR_ITEM_RULES = SidedAccessRules.allSides(IOAccessSets.OUTPUT_ONLY_OR_DISABLED, IOAccess.OUTPUT_ONLY, false, true);
     private static final SidedAccessRules MACHINE_FLUID_INPUT_ONLY = SidedAccessRules.allSides(IOAccessSets.INPUT_ONLY_OR_DISABLED, IOAccess.INPUT_ONLY, false, false);
 
@@ -110,6 +112,12 @@ public final class LTXIBlockEntities
     public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<GrinderBlockEntity>> GRINDER = registerItemEnergyMachine(LTXICommonIds.ID_GRINDER, GrinderBlockEntity::new, builder -> builder.withBlock(LTXIBlocks.GRINDER).hasMenu(LTXIMenus.GRINDER));
     public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<MaterialFusingChamberBlockEntity>> MATERIAL_FUSING_CHAMBER = registerItemEnergyFluidMachine(LTXICommonIds.ID_MATERIAL_FUSING_CHAMBER, MaterialFusingChamberBlockEntity::new, MACHINE_ITEM_RULES, MACHINE_ENERGY_RULES, MACHINE_FLUID_INPUT_ONLY,
             builder -> builder.withBlock(LTXIBlocks.MATERIAL_FUSING_CHAMBER).hasMenu(LTXIMenus.MATERIAL_FUSING_CHAMBER));
+    public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<ElectroCentrifugeBlockEntity>> ELECTROCENTRIFUGE = registerItemEnergyFluidMachine(LTXICommonIds.ID_ELECTROCENTRIFUGE, ElectroCentrifugeBlockEntity::new, MACHINE_ITEM_RULES, MACHINE_ENERGY_RULES, MACHINE_FLUID_RULES,
+            builder -> builder.withBlock(LTXIBlocks.ELECTROCENTRIFUGE).hasMenu(LTXIMenus.ELECTROCENTRIFUGE));
+    public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<MixerBlockEntity>> MIXER = registerItemEnergyFluidMachine(LTXICommonIds.ID_MIXER, MixerBlockEntity::new, MACHINE_ITEM_RULES, MACHINE_ENERGY_RULES, MACHINE_FLUID_RULES,
+            builder -> builder.withBlock(LTXIBlocks.MIXER).hasMenu(LTXIMenus.MIXER));
+    public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<ChemLabBlockEntity>> CHEM_LAB = registerItemEnergyFluidMachine(LTXICommonIds.ID_CHEM_LAB, ChemLabBlockEntity::new, MACHINE_ITEM_RULES, MACHINE_ENERGY_RULES, MACHINE_FLUID_RULES,
+            builder -> builder.withBlock(LTXIBlocks.CHEM_LAB).hasMenu(LTXIMenus.CHEM_LAB));
     public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<FabricatorBlockEntity>> FABRICATOR = registerItemEnergyMachine(LTXICommonIds.ID_FABRICATOR, FabricatorBlockEntity::new, FABRICATOR_ITEM_RULES, MACHINE_ENERGY_RULES, builder -> builder.withBlock(LTXIBlocks.FABRICATOR).hasMenu(LTXIMenus.FABRICATOR));
     public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<AutoFabricatorBlockEntity>> AUTO_FABRICATOR = registerItemEnergyMachine(LTXICommonIds.ID_AUTO_FABRICATOR, AutoFabricatorBlockEntity::new, builder -> builder.withBlock(LTXIBlocks.AUTO_FABRICATOR).hasMenu(LTXIMenus.AUTO_FABRICATOR));
 

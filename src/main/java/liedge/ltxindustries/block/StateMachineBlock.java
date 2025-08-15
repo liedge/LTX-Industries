@@ -14,35 +14,37 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Map;
+import java.util.function.Function;
+
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING;
 
-public class BasicMachineBlock extends BaseWrenchEntityBlock
+public class StateMachineBlock extends BaseWrenchEntityBlock
 {
-    private static final VoxelShape SHAPE = Shapes.or(
-            // Bottom frame base
-            Block.box(0, 0, 0, 16, 4, 16),
-            // Vertical frame pieces
-            Block.box(0, 0, 0, 1, 16, 1),
-            Block.box(15, 0, 0, 16, 16, 1),
-            Block.box(0, 0, 15, 1, 16, 16),
-            Block.box(15, 0, 15, 16, 16, 16),
-            // Top frame pieces
-            Block.box(0, 15, 0, 16, 16, 1),
-            Block.box(0, 15, 15, 16, 16, 16),
-            Block.box(0, 15, 0, 1, 16, 16),
-            Block.box(15, 15, 0, 16, 16, 16),
-            // Center box
-            LimaBlockUtil.dimensionBox(0.5d, 3.5d, 0.5d, 15, 12, 15));
+    public static StateMachineBlock staticShape(Properties properties, VoxelShape shape, boolean tickClient)
+    {
+        return new StateMachineBlock(properties, $ -> shape, tickClient);
+    }
+
+    public static StateMachineBlock rotatingShape(Properties properties, VoxelShape referenceShape, boolean tickClient)
+    {
+        Map<Direction, VoxelShape> shapeMap = LimaBlockUtil.createHorizontalShapeMap(referenceShape);
+        return new StateMachineBlock(properties, shapeMap::get, tickClient);
+    }
 
     private LimaBlockEntityType<?> entityType;
+    private final Function<Direction, VoxelShape> shapeFunction;
+    private final boolean tickClient;
 
-    public BasicMachineBlock(Properties properties)
+    private StateMachineBlock(Properties properties, Function<Direction, VoxelShape> shapeFunction, boolean tickClient)
     {
         super(properties);
+
+        this.shapeFunction = shapeFunction;
+        this.tickClient = tickClient;
 
         registerDefaultState(getStateDefinition().any()
                 .setValue(HORIZONTAL_FACING, Direction.NORTH)
@@ -68,6 +70,12 @@ public class BasicMachineBlock extends BaseWrenchEntityBlock
     }
 
     @Override
+    protected boolean shouldTickClient(BlockState state)
+    {
+        return tickClient;
+    }
+
+    @Override
     public BlockState getStateForPlacement(BlockPlaceContext context)
     {
         return defaultBlockState().setValue(HORIZONTAL_FACING, context.getHorizontalDirection().getOpposite());
@@ -82,6 +90,6 @@ public class BasicMachineBlock extends BaseWrenchEntityBlock
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context)
     {
-        return SHAPE;
+        return shapeFunction.apply(state.getValue(HORIZONTAL_FACING));
     }
 }

@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=east,working=false": {
+      "model": "ltxi:block/mixer_off",
+      "y": 90
+    },
+    "facing=east,working=true": {
+      "model": "ltxi:block/mixer_on",
+      "y": 90
+    },
+    "facing=north,working=false": {
+      "model": "ltxi:block/mixer_off"
+    },
+    "facing=north,working=true": {
+      "model": "ltxi:block/mixer_on"
+    },
+    "facing=south,working=false": {
+      "model": "ltxi:block/mixer_off",
+      "y": 180
+    },
+    "facing=south,working=true": {
+      "model": "ltxi:block/mixer_on",
+      "y": 180
+    },
+    "facing=west,working=false": {
+      "model": "ltxi:block/mixer_off",
+      "y": 270
+    },
+    "facing=west,working=true": {
+      "model": "ltxi:block/mixer_on",
+      "y": 270
+    }
+  }
+}

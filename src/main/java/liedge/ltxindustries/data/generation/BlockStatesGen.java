@@ -87,6 +87,9 @@ class BlockStatesGen extends LimaBlockStateProvider
         cookingMachine(DIGITAL_BLAST_FURNACE);
         basicMachine(GRINDER, ($, builder) -> builder.parent(basicMachineSEW), ($, builder) -> builder.parent(basicMachineSEW));
         emissiveFrontMachine(MATERIAL_FUSING_CHAMBER);
+        stateMachineBase(ELECTROCENTRIFUGE);
+        stateMachineBase(MIXER);
+        stateMachineBase(CHEM_LAB);
         horizontalBlockWithSimpleItem(FABRICATOR);
         horizontalBlockWithSimpleItem(AUTO_FABRICATOR, blockFolderLocation(FABRICATOR));
         simpleBlockWithItem(EQUIPMENT_UPGRADE_STATION);
@@ -141,6 +144,14 @@ class BlockStatesGen extends LimaBlockStateProvider
     private void horizontalBlockWithSimpleItem(Holder<Block> holder)
     {
         horizontalBlockWithSimpleItem(holder, blockFolderLocation(holder));
+    }
+
+    private void stateMachineBase(Holder<Block> holder)
+    {
+        ResourceLocation pathBase = blockFolderLocation(holder);
+        ModelFile offModel = models().getExistingFile(pathBase.withSuffix("_off"));
+        ModelFile onModel = models().getExistingFile(pathBase.withSuffix("_on"));
+        horizontalBlock(holder.value(), state -> state.getValue(MACHINE_WORKING) ? onModel : offModel);
     }
 
     private void basicMachine(Holder<Block> holder, BiFunction<ResourceLocation, BlockModelBuilder, BlockModelBuilder> offModelFunc, BiFunction<ResourceLocation, BlockModelBuilder, BlockModelBuilder> onModelFunc)

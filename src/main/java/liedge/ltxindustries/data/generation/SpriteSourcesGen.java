@@ -37,7 +37,10 @@ class SpriteSourcesGen extends SpriteSourceProvider
         atlas(ModResources.MC.location("gui"))
                 .addSource(machineModuleIcon)
                 .addSource(singleSprite("gui/light_panel", "slot/empty"));
-        atlas(BLOCKS_ATLAS).addSource(singleSprite("misc/solid_lime", "solid_lime"));
+        atlas(BLOCKS_ATLAS)
+                .addSource(singleSprite("misc/solid_lime", "solid_lime"))
+                .addSource(singleSprite("misc/lime_fluid", "lime_fluid"))
+                .addSource(singleSprite("misc/flowing_lime_fluid", "flowing_lime_fluid"));
     }
 
     private SpriteSource nsDirSource(String path)

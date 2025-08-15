@@ -102,6 +102,9 @@ public final class LTXIClientSetup
         event.register(LTXIMenus.DIGITAL_BLAST_FURNACE.get(), RecipeLayoutScreen::new);
         event.register(LTXIMenus.GRINDER.get(), RecipeLayoutScreen::new);
         event.register(LTXIMenus.MATERIAL_FUSING_CHAMBER.get(), RecipeLayoutScreen::new);
+        event.register(LTXIMenus.ELECTROCENTRIFUGE.get(), RecipeLayoutScreen::new);
+        event.register(LTXIMenus.MIXER.get(), RecipeLayoutScreen::new);
+        event.register(LTXIMenus.CHEM_LAB.get(), RecipeLayoutScreen::new);
         event.register(LTXIMenus.FABRICATOR.get(), FabricatorScreen::new);
         event.register(LTXIMenus.AUTO_FABRICATOR.get(), AutoFabricatorScreen::new);
         event.register(LTXIMenus.EQUIPMENT_UPGRADE_STATION.get(), EquipmentUpgradeStationScreen::new);
@@ -143,6 +146,8 @@ public final class LTXIClientSetup
         // Block entities
         event.registerBlockEntityRenderer(LTXIBlockEntities.ENERGY_STORAGE_ARRAY.get(), EnergyStorageArrayRenderer::new);
         event.registerBlockEntityRenderer(LTXIBlockEntities.INFINITE_ENERGY_STORAGE_ARRAY.get(), EnergyStorageArrayRenderer::new);
+        event.registerBlockEntityRenderer(LTXIBlockEntities.ELECTROCENTRIFUGE.get(), ElectroCentrifugeRenderer::new);
+        event.registerBlockEntityRenderer(LTXIBlockEntities.MIXER.get(), MixerRenderer::new);
         event.registerBlockEntityRenderer(LTXIBlockEntities.FABRICATOR.get(), BaseFabricatorRenderer::new);
         event.registerBlockEntityRenderer(LTXIBlockEntities.AUTO_FABRICATOR.get(), BaseFabricatorRenderer::new);
         event.registerBlockEntityRenderer(LTXIBlockEntities.EQUIPMENT_UPGRADE_STATION.get(), EquipmentUpgradeStationRenderer::new);

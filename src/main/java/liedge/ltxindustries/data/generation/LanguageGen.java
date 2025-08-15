@@ -73,6 +73,9 @@ class LanguageGen extends LimaLanguageProvider
         addBlock(DIGITAL_BLAST_FURNACE, "Digital Blast Furnace");
         addBlock(GRINDER, "Grinder");
         addBlock(MATERIAL_FUSING_CHAMBER, "Material Fusing Chamber");
+        addBlock(ELECTROCENTRIFUGE, "ElectroCentrifuge");
+        addBlock(MIXER, "Mixer");
+        addBlock(CHEM_LAB, "Chem Lab");
         addBlock(FABRICATOR, "Fabricator");
         addBlock(AUTO_FABRICATOR, "Auto Fabricator");
         addBlock(EQUIPMENT_UPGRADE_STATION, "Equipment Upgrade Station");
@@ -224,6 +227,9 @@ class LanguageGen extends LimaLanguageProvider
         // Recipe types
         add(GRINDING, "Grinding");
         add(MATERIAL_FUSING, "Material Fusing");
+        add(ELECTRO_CENTRIFUGING, "ElectroCentrifuging");
+        add(MIXING, "Mixing");
+        add(CHEMICAL_REACTING, "Chemical Reacting");
         add(FABRICATING, "Fabricating");
 
         // Entity type names

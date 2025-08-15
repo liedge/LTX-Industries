@@ -6,6 +6,7 @@ import liedge.limacore.capability.energy.LimaEnergyStorage;
 import liedge.limacore.capability.energy.LimaEnergyUtil;
 import liedge.limacore.capability.fluid.FluidHolderBlockEntity;
 import liedge.limacore.capability.fluid.LimaBlockEntityFluidHandler;
+import liedge.limacore.capability.fluid.LimaFluidUtil;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.recipe.LimaRecipeCheck;
 import liedge.ltxindustries.blockentity.base.*;
@@ -26,10 +27,14 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootContext;
+import net.neoforged.neoforge.capabilities.BlockCapabilityCache;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.EnumMap;
+import java.util.Map;
 import java.util.Optional;
 
 import static liedge.ltxindustries.block.LTXIBlockProperties.MACHINE_WORKING;
@@ -37,9 +42,13 @@ import static liedge.ltxindustries.block.LTXIBlockProperties.MACHINE_WORKING;
 public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, R extends Recipe<I>> extends ProductionMachineBlockEntity
         implements FluidHolderBlockEntity, TimedProcessMachineBlockEntity, EnergyConsumerBlockEntity, RecipeMachineBlockEntity<I, R>
 {
+    public static final int INPUT_TANK_CAPACITY = 32_000;
+    public static final int OUTPUT_TANK_CAPACITY = 64_000;
+
     private final @Nullable LimaBlockEntityFluidHandler inputFluids;
     private final @Nullable LimaBlockEntityFluidHandler outputFluids;
     private final @Nullable IOController fluidController;
+    private final Map<Direction, BlockCapabilityCache<IFluidHandler, Direction>> fluidConnections = new EnumMap<>(Direction.class);
     private final LimaRecipeCheck<I, R> recipeCheck;
 
     private int energyUsage = getBaseEnergyUsage();
@@ -48,6 +57,7 @@ public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, 
     private boolean shouldCheckRecipe;
     private boolean shouldCheckOutput;
     private boolean crafting;
+    private int autoFluidOutputTimer = 0;
 
     protected StateBlockRecipeMachineBlockEntity(SidedAccessBlockEntityType<?> type, RecipeType<R> recipeType, BlockPos pos, BlockState state, int inputSlots, int outputSlots, int inputTanks, int outputTanks)
     {
@@ -177,7 +187,7 @@ public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, 
     @Override
     public int getBaseFluidCapacity(BlockContentsType contentsType, int tank)
     {
-        return contentsType == BlockContentsType.INPUT ? 32_000 : 64_000;
+        return contentsType == BlockContentsType.INPUT ? INPUT_TANK_CAPACITY : OUTPUT_TANK_CAPACITY;
     }
 
     @Override
@@ -216,6 +226,40 @@ public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, 
         {
             shouldCheckRecipe = true;
             shouldCheckOutput = true;
+        }
+    }
+
+    @Override
+    public @Nullable IFluidHandler getNeighborFluidHandler(Direction side)
+    {
+        return fluidConnections.get(side).getCapability();
+    }
+
+    private void autoOutputFluids()
+    {
+        if (outputFluids != null && fluidController != null && fluidController.isAutoOutput())
+        {
+            for (Direction side : Direction.values())
+            {
+                if (fluidController.getSideIOState(side).allowsOutput())
+                {
+                    IFluidHandler neighborFluids = getNeighborFluidHandler(side);
+                    if (neighborFluids != null) LimaFluidUtil.transferFluidsBetween(outputFluids, neighborFluids, OUTPUT_TANK_CAPACITY, IFluidHandler.FluidAction.EXECUTE);
+                }
+            }
+        }
+    }
+
+    private void autoOutputFluids(int frequency)
+    {
+        if (autoFluidOutputTimer >= frequency)
+        {
+            autoOutputFluids();
+            autoFluidOutputTimer = 0;
+        }
+        else
+        {
+            autoFluidOutputTimer++;
         }
     }
 
@@ -269,6 +313,7 @@ public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, 
 
         // Push auto outputs via sides every 20 ticks, if option enabled
         autoOutputItems(20, getOutputInventory());
+        autoOutputFluids(20);
     }
 
     @Override
@@ -277,6 +322,13 @@ public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, 
         super.onUpgradeRefresh(context, upgrades);
         TimedProcessMachineBlockEntity.applyUpgrades(this, context, upgrades);
         EnergyConsumerBlockEntity.applyUpgrades(this, context, upgrades);
+    }
+
+    @Override
+    protected void createConnectionCaches(ServerLevel level, Direction side)
+    {
+        super.createConnectionCaches(level, side);
+        fluidConnections.put(side, createCapabilityCache(Capabilities.FluidHandler.BLOCK, level, side));
     }
 
     @Override

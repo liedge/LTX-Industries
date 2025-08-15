@@ -16,10 +16,7 @@ import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgradeEntry;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrade;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgradeEntry;
-import liedge.ltxindustries.recipe.DefaultUpgradeModuleRecipe;
-import liedge.ltxindustries.recipe.FabricatingRecipe;
-import liedge.ltxindustries.recipe.GrindingRecipe;
-import liedge.ltxindustries.recipe.MaterialFusingRecipe;
+import liedge.ltxindustries.recipe.*;
 import liedge.ltxindustries.registry.game.LTXIDataComponents;
 import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.advancements.critereon.KilledTrigger;
@@ -661,7 +658,22 @@ class RecipesGen extends LimaRecipeProvider
 
     private LimaCustomRecipeBuilder<MaterialFusingRecipe, ?> fusing()
     {
-        return LimaCustomRecipeBuilder.simpleBuilder(modResources, (p1, p2, p3, p4) -> new MaterialFusingRecipe(p1, p2, p3));
+        return LimaCustomRecipeBuilder.simpleBuilder(modResources, MaterialFusingRecipe::new);
+    }
+
+    private LimaCustomRecipeBuilder<ElectroCentrifugingRecipe, ?> electroCentrifuging()
+    {
+        return LimaCustomRecipeBuilder.simpleBuilder(modResources, ElectroCentrifugingRecipe::new);
+    }
+
+    private LimaCustomRecipeBuilder<MixingRecipe, ?> mixing()
+    {
+        return LimaCustomRecipeBuilder.simpleBuilder(modResources, MixingRecipe::new);
+    }
+
+    private LimaCustomRecipeBuilder<ChemicalReactingRecipe, ?> chemLab()
+    {
+        return LimaCustomRecipeBuilder.simpleBuilder(modResources, ChemicalReactingRecipe::new);
     }
 
     private FabricatingBuilder fabricating(int energyRequired)

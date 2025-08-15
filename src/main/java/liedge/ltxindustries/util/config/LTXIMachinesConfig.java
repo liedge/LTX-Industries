@@ -25,13 +25,21 @@ public final class LTXIMachinesConfig
     public static final ModConfigSpec.IntValue GRINDER_ENERGY_USAGE;
     public static final ModConfigSpec.IntValue GRINDER_CRAFTING_TIME;
 
-    public static final ModConfigSpec.IntValue RECOMPOSER_ENERGY_CAPACITY;
-    public static final ModConfigSpec.IntValue RECOMPOSER_ENERGY_USAGE;
-    public static final ModConfigSpec.IntValue RECOMPOSER_CRAFTING_TIME;
-
     public static final ModConfigSpec.IntValue MFC_ENERGY_CAPACITY;
     public static final ModConfigSpec.IntValue MFC_ENERGY_USAGE;
     public static final ModConfigSpec.IntValue MFC_CRAFTING_TIME;
+
+    public static final ModConfigSpec.IntValue ELECTROCENTRIFUGE_ENERGY_CAPACITY;
+    public static final ModConfigSpec.IntValue ELECTROCENTRIFUGE_ENERGY_USAGE;
+    public static final ModConfigSpec.IntValue ELECTROCENTRIFUGE_CRAFTING_TIME;
+
+    public static final ModConfigSpec.IntValue MIXER_ENERGY_CAPACITY;
+    public static final ModConfigSpec.IntValue MIXER_ENERGY_USAGE;
+    public static final ModConfigSpec.IntValue MIXER_CRAFTING_TIME;
+
+    public static final ModConfigSpec.IntValue CHEM_LAB_ENERGY_CAPACITY;
+    public static final ModConfigSpec.IntValue CHEM_LAB_ENERGY_USAGE;
+    public static final ModConfigSpec.IntValue CHEM_LAB_CRAFTING_TIME;
 
     public static final ModConfigSpec.IntValue FABRICATOR_ENERGY_CAPACITY;
     public static final ModConfigSpec.IntValue FABRICATOR_ENERGY_USAGE;
@@ -102,16 +110,6 @@ public final class LTXIMachinesConfig
                 .defineInRange("crafting_time", 160, 1, Integer.MAX_VALUE);
         builder.pop();
 
-        // Recomposer
-        builder.push("recomposer");
-        RECOMPOSER_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Recomposer")
-                .defineInRange("energy_capacity", 250_000, 1, Integer.MAX_VALUE);
-        RECOMPOSER_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the Recomposer")
-                .defineInRange("energy_usage", 120, 1, Integer.MAX_VALUE);
-        RECOMPOSER_CRAFTING_TIME = builder.comment("Base crafting time (in ticks) of the Recomposer")
-                .defineInRange("crafting_time", 160, 1, Integer.MAX_VALUE);
-        builder.pop();
-
         // Material Fusing Chamber
         builder.push("material_fusing_chamber");
         MFC_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Material Fusing Chamber")
@@ -120,6 +118,36 @@ public final class LTXIMachinesConfig
                 .defineInRange("energy_usage", 120, 1, Integer.MAX_VALUE);
         MFC_CRAFTING_TIME = builder.comment("Base crafting time (in ticks) of the Material Fusing Chamber")
                 .defineInRange("crafting_time", 160, 1, Integer.MAX_VALUE);
+        builder.pop();
+
+        // ElectroCentrifuge
+        builder.push("electrocentrifuge");
+        ELECTROCENTRIFUGE_ENERGY_CAPACITY = builder.comment("Base energy capacity of the ElectroCentrifuge")
+                .defineInRange("energy_capacity", 500_000, 1, Integer.MAX_VALUE);
+        ELECTROCENTRIFUGE_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the ElectroCentrifuge")
+                .defineInRange("energy_usage", 120, 1, Integer.MAX_VALUE);
+        ELECTROCENTRIFUGE_CRAFTING_TIME = builder.comment("Base crafting time (in ticks) of the ElectroCentrifuge")
+                .defineInRange("crafting_time", 200, 1, Integer.MAX_VALUE);
+        builder.pop();
+
+        // Mixer
+        builder.push("mixer");
+        MIXER_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Mixer")
+                .defineInRange("energy_capacity", 500_000, 1, Integer.MAX_VALUE);
+        MIXER_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the Mixer")
+                .defineInRange("energy_usage", 100, 1, Integer.MAX_VALUE);
+        MIXER_CRAFTING_TIME = builder.comment("Base crafting time (in ticks) of the Mixer")
+                .defineInRange("crafting_time", 200, 1, Integer.MAX_VALUE);
+        builder.pop();
+
+        // Chem Lab
+        builder.push("chem_lab");
+        CHEM_LAB_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Chem Lab")
+                .defineInRange("energy_capacity", 500_000, 1, Integer.MAX_VALUE);
+        CHEM_LAB_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the Chem Lab")
+                .defineInRange("energy_usage", 160, 1, Integer.MAX_VALUE);
+        CHEM_LAB_CRAFTING_TIME = builder.comment("Base crafting time (in ticks) of the Chem Lab")
+                .defineInRange("crafting_time", 200, 1, Integer.MAX_VALUE);
         builder.pop();
 
         // Fabricator

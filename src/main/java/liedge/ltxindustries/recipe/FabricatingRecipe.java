@@ -31,7 +31,7 @@ import java.util.List;
 public final class FabricatingRecipe extends LimaCustomRecipe<LimaRecipeInput>
 {
     public static final MapCodec<FabricatingRecipe> CODEC = RecordCodecBuilder.<FabricatingRecipe>mapCodec(instance -> instance.group(
-            LimaCoreCodecs.sizedIngredients(16).forGetter(LimaCustomRecipe::getItemIngredients),
+            LimaCoreCodecs.sizedIngredients(1, 16).forGetter(LimaCustomRecipe::getItemIngredients),
             ItemResult.CODEC.fieldOf("result").forGetter(LimaCustomRecipe::getFirstItemResult),
             ExtraCodecs.POSITIVE_INT.fieldOf("energy_required").forGetter(FabricatingRecipe::getEnergyRequired),
             Codec.BOOL.optionalFieldOf("advancement_locked", false).forGetter(FabricatingRecipe::isAdvancementLocked),
