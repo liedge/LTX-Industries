@@ -1,13 +1,8 @@
 package liedge.ltxindustries.block;
 
-import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.util.LimaBlockUtil;
-import liedge.limacore.util.LimaCoreUtil;
-import liedge.limacore.util.LimaRegistryUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
@@ -15,7 +10,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 import java.util.function.Function;
@@ -35,7 +29,6 @@ public class StateMachineBlock extends BaseWrenchEntityBlock
         return new StateMachineBlock(properties, shapeMap::get, tickClient);
     }
 
-    private LimaBlockEntityType<?> entityType;
     private final Function<Direction, VoxelShape> shapeFunction;
     private final boolean tickClient;
 
@@ -49,18 +42,6 @@ public class StateMachineBlock extends BaseWrenchEntityBlock
         registerDefaultState(getStateDefinition().any()
                 .setValue(HORIZONTAL_FACING, Direction.NORTH)
                 .setValue(LTXIBlockProperties.MACHINE_WORKING, false));
-    }
-
-    @Override
-    public @Nullable LimaBlockEntityType<?> getBlockEntityType(BlockState state)
-    {
-        if (entityType == null)
-        {
-            ResourceLocation blockId = LimaRegistryUtil.getBlockId(this);
-            this.entityType = LimaCoreUtil.castOrThrow(LimaBlockEntityType.class, LimaRegistryUtil.getNonNullRegistryValue(blockId, BuiltInRegistries.BLOCK_ENTITY_TYPE));
-        }
-
-        return entityType;
     }
 
     @Override

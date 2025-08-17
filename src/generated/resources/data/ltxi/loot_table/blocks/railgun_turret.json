@@ -6,13 +6,6 @@
       "conditions": [
         {
           "condition": "minecraft:survives_explosion"
-        },
-        {
-          "block": "ltxi:railgun_turret",
-          "condition": "minecraft:block_state_property",
-          "properties": {
-            "half": "lower"
-          }
         }
       ],
       "entries": [

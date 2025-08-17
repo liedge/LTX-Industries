@@ -166,10 +166,10 @@ class LootTablesGen extends LimaLootTableProvider
             dropSelfWithEntity(FABRICATOR);
             dropSelfWithEntity(AUTO_FABRICATOR);
             dropSelfWithEntity(EQUIPMENT_UPGRADE_STATION);
-            doubleMachineBlockDrop(MOLECULAR_RECONSTRUCTOR);
+            dropSelfWithEntity(MOLECULAR_RECONSTRUCTOR);
 
-            doubleMachineBlockDrop(ROCKET_TURRET);
-            doubleMachineBlockDrop(RAILGUN_TURRET);
+            dropSelfWithEntity(ROCKET_TURRET);
+            dropSelfWithEntity(RAILGUN_TURRET);
         }
 
         private void berryVines(Holder<Block> holder)
@@ -178,14 +178,6 @@ class LootTablesGen extends LimaLootTableProvider
                     LootItemBlockStatePropertyCondition.hasBlockStateProperties(holder.value()).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(BERRIES, true)),
                     MatchTool.toolMatches(ItemPredicate.Builder.item().of(Tags.Items.TOOLS_SHEAR)));
             add(holder, singlePoolTable(singleItemPool(VITRIOL_BERRIES).when(condition)));
-        }
-
-        private void doubleMachineBlockDrop(Supplier<? extends DoubleWrenchBlock> blockSupplier)
-        {
-            DoubleWrenchBlock block = blockSupplier.get();
-            add(block, singlePoolTable(applyExplosionCondition(block, singleItemPool(block))
-                    .when(matchStateProperty(block, DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER))
-                    .apply(SaveBlockEntityFunction.saveBlockEntityData())));
         }
     }
 }

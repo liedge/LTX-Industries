@@ -30,7 +30,7 @@ public final class LTXIBlockMeshes
     private static final BiMap<ResourceLocation, BlockMesh> REGISTRY = Util.make(() -> {
         ImmutableBiMap.Builder<ResourceLocation, BlockMesh> builder = new ImmutableBiMap.Builder<>();
 
-        BlockMesh doubleVertical = BlockMesh.builder().add(0, 0, 0, BlockMeshPartType.PRIMARY).add(0, 1, 0, BlockMeshPartType.DUMMY).build();
+        BlockMesh doubleVertical = BlockMesh.builder().add(0, 0, 0, BlockMeshPartType.PRIMARY).add(0, 1, 0).build();
         BlockMesh tripleVertical = BlockMesh.builder().add(0, 0, 0, BlockMeshPartType.PRIMARY).add(0, 1, 0).add(0, 2, 0).build();
 
         builder.put(DOUBLE_VERTICAL, doubleVertical);

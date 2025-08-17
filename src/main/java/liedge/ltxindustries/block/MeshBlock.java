@@ -22,7 +22,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
-public class MeshBlock extends BaseMeshBlock
+public final class MeshBlock extends BaseMeshBlock
 {
     public MeshBlock(Properties properties)
     {
@@ -37,7 +37,7 @@ public class MeshBlock extends BaseMeshBlock
     }
 
     @Override
-    public @Nullable LimaBlockEntityType<?> getBlockEntityType(BlockState state)
+    public LimaBlockEntityType<?> getBlockEntityType(BlockState state)
     {
         return LTXIBlockEntities.MESH_BLOCK.get();
     }
@@ -46,7 +46,7 @@ public class MeshBlock extends BaseMeshBlock
     public @Nullable LimaMenuProvider getMenuProvider(BlockState state, Level level, BlockPos pos)
     {
         BlockPos primaryPos = getPrimaryPos(level, pos, state);
-        return primaryPos != null ? LimaBlockUtil.getSafeBlockEntity(level, primaryPos, LimaMenuProvider.class) : null;
+        return primaryPos != null ? blockEntityMenuProvider(level, primaryPos) : null;
     }
 
     @Override
@@ -58,10 +58,23 @@ public class MeshBlock extends BaseMeshBlock
         {
             BlockState primaryState = level.getBlockState(primaryPos);
             if (primaryState.getBlock() instanceof PrimaryMeshBlock primaryMeshBlock)
-                return primaryMeshBlock.getCloneItemStack(state, target, level, pos, player);
+                return primaryMeshBlock.getCloneItemStack(primaryState, target, level, primaryPos, player);
         }
 
         return ItemStack.EMPTY;
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    protected float getDestroyProgress(BlockState state, Player player, BlockGetter level, BlockPos pos)
+    {
+        if (level instanceof LevelReader)
+        {
+            BlockPos primaryPos = getPrimaryPos((LevelReader) level, pos, state);
+            if (primaryPos != null) return level.getBlockState(primaryPos).getDestroyProgress(player, level, primaryPos);
+        }
+
+        return super.getDestroyProgress(state, player, level, pos);
     }
 
     @Override
@@ -149,7 +162,6 @@ public class MeshBlock extends BaseMeshBlock
             if (primaryState.getBlock() instanceof PrimaryMeshBlock primaryMeshBlock)
             {
                 primaryMeshBlock.handleWrenchDismantle(level, primaryPos, primaryState, player, tool, simulate);
-                return null; // Block removal will be handled by primary block wrench removal
             }
         }
 

@@ -112,7 +112,8 @@ public abstract class BaseTurretBlockEntity extends ProductionMachineBlockEntity
         return targetQueue;
     }
 
-    public void onRemovedFromLevel()
+    @Override
+    public void onRemovedFromLevel(Level level, BlockPos pos, BlockState oldState, BlockState newState)
     {
         TurretTargetList targetList = TurretTargetList.getOrDefault(getOwner());
         targetList.removeTarget(currentTarget);

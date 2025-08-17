@@ -1,22 +1,19 @@
 {
   "variants": {
-    "facing=east,half=lower": {
+    "facing=east": {
       "model": "ltxi:block/turret_base",
       "y": 90
     },
-    "facing=north,half=lower": {
+    "facing=north": {
       "model": "ltxi:block/turret_base"
     },
-    "facing=south,half=lower": {
+    "facing=south": {
       "model": "ltxi:block/turret_base",
       "y": 180
     },
-    "facing=west,half=lower": {
+    "facing=west": {
       "model": "ltxi:block/turret_base",
       "y": 270
-    },
-    "half=upper": {
-      "model": "ltxi:block/machine_particles"
     }
   }
 }

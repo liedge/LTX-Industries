@@ -24,14 +24,18 @@ import java.util.Objects;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.WATERLOGGED;
 
-public abstract class PrimaryMeshBlock extends BaseMeshBlock
+public class PrimaryMeshBlock extends BaseMeshBlock
 {
     private final BlockMesh blockMesh;
+    private final VoxelShape identityShape;
+    private final boolean tickClient;
 
-    protected PrimaryMeshBlock(Properties properties, ResourceLocation blockMeshId)
+    public PrimaryMeshBlock(Properties properties, ResourceLocation blockMeshId, VoxelShape identityShape, boolean tickClient)
     {
         super(properties);
         this.blockMesh = Objects.requireNonNull(LTXIBlockMeshes.getBlockMesh(blockMeshId));
+        this.identityShape = identityShape;
+        this.tickClient = tickClient;
     }
 
     public BlockMesh getBlockMesh()
@@ -40,7 +44,22 @@ public abstract class PrimaryMeshBlock extends BaseMeshBlock
     }
 
     @Override
-    protected abstract VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context);
+    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context)
+    {
+        return identityShape;
+    }
+
+    @Override
+    protected boolean shouldTickServer(BlockState state)
+    {
+        return true;
+    }
+
+    @Override
+    protected boolean shouldTickClient(BlockState state)
+    {
+        return tickClient;
+    }
 
     @Override
     public @Nullable BlockState getStateForPlacement(BlockPlaceContext context)

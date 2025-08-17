@@ -2,18 +2,15 @@ package liedge.ltxindustries.data.generation;
 
 import liedge.limacore.data.generation.LimaBlockStateProvider;
 import liedge.ltxindustries.LTXIndustries;
-import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.neoforged.neoforge.client.model.generators.BlockModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
-import net.neoforged.neoforge.client.model.generators.VariantBlockStateBuilder;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import java.util.function.BiFunction;
@@ -93,11 +90,12 @@ class BlockStatesGen extends LimaBlockStateProvider
         horizontalBlockWithSimpleItem(FABRICATOR);
         horizontalBlockWithSimpleItem(AUTO_FABRICATOR, blockFolderLocation(FABRICATOR));
         simpleBlockWithItem(EQUIPMENT_UPGRADE_STATION);
-        simpleDoubleMachineBlock(MOLECULAR_RECONSTRUCTOR);
+        primaryMeshBlock(MOLECULAR_RECONSTRUCTOR);
+        simpleBlockItem(MOLECULAR_RECONSTRUCTOR);
 
         // Turret
-        doubleMachineBlock(ROCKET_TURRET, turretBase);
-        doubleMachineBlock(RAILGUN_TURRET, turretBase);
+        primaryMeshBlock(ROCKET_TURRET, turretBase);
+        primaryMeshBlock(RAILGUN_TURRET, turretBase);
 
         // Fluids
         liquidBlock(VIRIDIC_ACID_BLOCK);
@@ -115,23 +113,6 @@ class BlockStatesGen extends LimaBlockStateProvider
             ModelFile model = models().cross(name, blockFolderLocation(name)).renderType("cutout");
             return ConfiguredModel.builder().modelFile(model).build();
         }, ignoredProperties);
-    }
-
-    private void doubleMachineBlock(Holder<Block> doubleBlock, ModelFile baseModel)
-    {
-        VariantBlockStateBuilder builder = getVariantBuilder(doubleBlock);
-        builder.setModels(builder.partialState().with(DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER), ConfiguredModel.builder().modelFile(machineParticlesOnly).build());
-        for (Direction side : Direction.Plane.HORIZONTAL)
-        {
-            builder.setModels(builder.partialState().with(DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER).with(HORIZONTAL_FACING, side), ConfiguredModel.builder().modelFile(baseModel).rotationY(getRotationY(side, 180)).build());
-        }
-    }
-
-    private void simpleDoubleMachineBlock(Holder<Block> doubleBlock)
-    {
-        ModelFile model = existingModel(blockFolderLocation(doubleBlock));
-        doubleMachineBlock(doubleBlock, model);
-        simpleBlockItem(doubleBlock, model);
     }
 
     private void horizontalBlockWithSimpleItem(Holder<Block> holder, ResourceLocation location)
@@ -152,6 +133,16 @@ class BlockStatesGen extends LimaBlockStateProvider
         ModelFile offModel = models().getExistingFile(pathBase.withSuffix("_off"));
         ModelFile onModel = models().getExistingFile(pathBase.withSuffix("_on"));
         horizontalBlock(holder.value(), state -> state.getValue(MACHINE_WORKING) ? onModel : offModel);
+    }
+
+    private void primaryMeshBlock(Holder<Block> holder, ModelFile model)
+    {
+        getVariantBuilder(holder).forAllStatesExcept(state -> ConfiguredModel.builder().modelFile(model).rotationY(getRotationY(state.getValue(HORIZONTAL_FACING), 180)).build(), WATERLOGGED);
+    }
+
+    private void primaryMeshBlock(Holder<Block> holder)
+    {
+        primaryMeshBlock(holder, existingModel(blockFolderLocation(holder)));
     }
 
     private void basicMachine(Holder<Block> holder, BiFunction<ResourceLocation, BlockModelBuilder, BlockModelBuilder> offModelFunc, BiFunction<ResourceLocation, BlockModelBuilder, BlockModelBuilder> onModelFunc)
