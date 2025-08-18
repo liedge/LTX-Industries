@@ -66,8 +66,8 @@ class LanguageGen extends LimaLanguageProvider
         addBlock(TITANIUM_GLASS, "Titanium Glass");
         addBlock(SLATE_GLASS, "Slate Glass");
 
-        addBlock(ENERGY_STORAGE_ARRAY, "Energy Storage Array");
-        addBlock(INFINITE_ENERGY_STORAGE_ARRAY, "Energy Storage Array (∞)");
+        addBlock(ENERGY_CELL_ARRAY, "Energy Cell Array");
+        addBlock(INFINITE_ENERGY_CELL_ARRAY, "Energy Cell Array (∞)");
         addBlock(DIGITAL_FURNACE, "Digital Furnace");
         addBlock(DIGITAL_SMOKER, "Digital Smoker");
         addBlock(DIGITAL_BLAST_FURNACE, "Digital Blast Furnace");
@@ -197,7 +197,7 @@ class LanguageGen extends LimaLanguageProvider
         //#endregion
 
         //#region Machine upgrades
-        upgrade(LTXIMachineUpgrades.ESA_CAPACITY_UPGRADE, "Auxiliary Energy Cells", "Increases the energy capacity and transfer rate of the Energy Storage Array.");
+        upgrade(LTXIMachineUpgrades.ECA_CAPACITY_UPGRADE, "Auxiliary Energy Cells", "Increases the energy capacity and transfer rate of the Energy Cell Array.");
         upgrade(LTXIMachineUpgrades.STANDARD_MACHINE_SYSTEMS, "Standard Machine Systems", "Core modular systems designed for balanced efficiency.");
         upgrade(LTXIMachineUpgrades.ULTIMATE_MACHINE_SYSTEMS, "Ultimate Machine Systems", "The pinnacle of engineering precision! Achieves near-instantaneous crafting at the cost of immense energy consumption.");
         upgrade(LTXIMachineUpgrades.FABRICATOR_UPGRADE, "Enhanced Tool Head", "Elevate your Fabricator's manufacturing capabilities with superior internal components.");

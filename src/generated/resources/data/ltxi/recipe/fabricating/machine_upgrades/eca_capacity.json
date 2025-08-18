@@ -1,7 +1,7 @@
 {
   "type": "ltxi:fabricating",
   "energy_required": 250000,
-  "group": "mum/esa",
+  "group": "mum/eca",
   "ingredients": [
     {
       "count": 1,
@@ -19,7 +19,7 @@
   "result": {
     "components": {
       "ltxi:machine_upgrade": {
-        "upgrade": "ltxi:esa_capacity"
+        "upgrade": "ltxi:eca_capacity"
       }
     },
     "count": 1,

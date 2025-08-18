@@ -34,7 +34,7 @@ public final class LTXIMachineUpgrades
     private LTXIMachineUpgrades() {}
 
     // Built-in upgrade resource keys
-    public static final ResourceKey<MachineUpgrade> ESA_CAPACITY_UPGRADE = key("esa_capacity");
+    public static final ResourceKey<MachineUpgrade> ECA_CAPACITY_UPGRADE = key("eca_capacity");
     public static final ResourceKey<MachineUpgrade> STANDARD_MACHINE_SYSTEMS = key("standard_machine_systems");
     public static final ResourceKey<MachineUpgrade> ULTIMATE_MACHINE_SYSTEMS = key("ultimate_machine_systems");
     public static final ResourceKey<MachineUpgrade> FABRICATOR_UPGRADE = key("fabricator_upgrade");
@@ -57,8 +57,8 @@ public final class LTXIMachineUpgrades
         // AnyHolderSets
         HolderSet<Item> anyItemHolderSet = new AnyHolderSet<>(BuiltInRegistries.ITEM.asLookup());
 
-        MachineUpgrade.builder(ESA_CAPACITY_UPGRADE)
-                .supports(LTXIBlockEntities.ENERGY_STORAGE_ARRAY)
+        MachineUpgrade.builder(ECA_CAPACITY_UPGRADE)
+                .supports(LTXIBlockEntities.ENERGY_CELL_ARRAY)
                 .withEffect(LTXIUpgradeEffectComponents.ENERGY_CAPACITY, ValueUpgradeEffect.createSimple(DoubleLevelBasedValue.exponential(2, DoubleLevelBasedValue.linear(3, 1)), CompoundValueOperation.MULTIPLY))
                 .withEffect(LTXIUpgradeEffectComponents.ENERGY_TRANSFER_RATE, ValueUpgradeEffect.createSimple(DoubleLevelBasedValue.exponential(2, DoubleLevelBasedValue.linear(3, 1)), CompoundValueOperation.MULTIPLY))
                 .setMaxRank(4)

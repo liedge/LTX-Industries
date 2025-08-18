@@ -57,19 +57,6 @@ public final class LTXIClientSetup
     }
 
     @SubscribeEvent
-    public static void registerBlockColorHandlers(final RegisterColorHandlersEvent.Block event)
-    {
-        event.register(EnergyStorageArrayRenderer.ESA_BLOCK_COLOR, LTXIBlocks.ENERGY_STORAGE_ARRAY.get(), LTXIBlocks.INFINITE_ENERGY_STORAGE_ARRAY.get());
-    }
-
-    @SubscribeEvent
-    public static void registerItemColorHandlers(final RegisterColorHandlersEvent.Item event)
-    {
-        event.register(EnergyStorageArrayRenderer.TIERED_ESA_COLOR, LTXIBlocks.ENERGY_STORAGE_ARRAY);
-        event.register(EnergyStorageArrayRenderer.INFINITE_ESA_COLOR, LTXIBlocks.INFINITE_ENERGY_STORAGE_ARRAY);
-    }
-
-    @SubscribeEvent
     public static void registerRecipeBookCategories(final RegisterRecipeBookCategoriesEvent event)
     {
         event.registerRecipeCategoryFinder(LTXIRecipeTypes.FABRICATING.get(), $ -> LTXIClientRecipes.FABRICATING_CATEGORY.getValue());
@@ -96,7 +83,7 @@ public final class LTXIClientSetup
     {
         event.register(LTXIMenus.MACHINE_UPGRADES.get(), MachineUpgradesScreen::new);
         event.register(LTXIMenus.MACHINE_IO_CONTROL.get(), IOControllerScreen::new);
-        event.register(LTXIMenus.ENERGY_STORAGE_ARRAY.get(), EnergyStorageArrayScreen::new);
+        event.register(LTXIMenus.ENERGY_CELL_ARRAY.get(), EnergyCellArrayScreen::new);
         event.register(LTXIMenus.DIGITAL_FURNACE.get(), RecipeLayoutScreen::new);
         event.register(LTXIMenus.DIGITAL_SMOKER.get(), RecipeLayoutScreen::new);
         event.register(LTXIMenus.DIGITAL_BLAST_FURNACE.get(), RecipeLayoutScreen::new);
@@ -144,8 +131,8 @@ public final class LTXIClientSetup
         event.registerEntityRenderer(LTXIEntities.STICKY_FLAME.get(), StickyFlameRenderer::new);
 
         // Block entities
-        event.registerBlockEntityRenderer(LTXIBlockEntities.ENERGY_STORAGE_ARRAY.get(), EnergyStorageArrayRenderer::new);
-        event.registerBlockEntityRenderer(LTXIBlockEntities.INFINITE_ENERGY_STORAGE_ARRAY.get(), EnergyStorageArrayRenderer::new);
+        event.registerBlockEntityRenderer(LTXIBlockEntities.ENERGY_CELL_ARRAY.get(), EnergyCellArrayRenderer::new);
+        event.registerBlockEntityRenderer(LTXIBlockEntities.INFINITE_ENERGY_CELL_ARRAY.get(), EnergyCellArrayRenderer::new);
         event.registerBlockEntityRenderer(LTXIBlockEntities.ELECTROCENTRIFUGE.get(), ElectroCentrifugeRenderer::new);
         event.registerBlockEntityRenderer(LTXIBlockEntities.MIXER.get(), MixerRenderer::new);
         event.registerBlockEntityRenderer(LTXIBlockEntities.FABRICATOR.get(), BaseFabricatorRenderer::new);

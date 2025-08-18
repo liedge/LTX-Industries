@@ -8,9 +8,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 
-public class InfiniteESABlockItem extends BlockItem implements EnergyHolderItem, TooltipShiftHintItem
+public class InfiniteECABlockItem extends BlockItem implements EnergyHolderItem, TooltipShiftHintItem
 {
-    public InfiniteESABlockItem(Block block, Properties properties)
+    public InfiniteECABlockItem(Block block, Properties properties)
     {
         super(block, properties);
     }

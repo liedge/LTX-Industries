@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "ltxi:block/infinite_energy_cell_array",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "ltxi:block/infinite_energy_cell_array"
+    },
+    "facing=south": {
+      "model": "ltxi:block/infinite_energy_cell_array",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "ltxi:block/infinite_energy_cell_array",
+      "y": 270
+    }
+  }
+}

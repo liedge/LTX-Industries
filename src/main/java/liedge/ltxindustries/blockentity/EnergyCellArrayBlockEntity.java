@@ -10,16 +10,16 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.state.BlockState;
 
-import static liedge.ltxindustries.util.config.LTXIMachinesConfig.ESA_BASE_ENERGY_CAPACITY;
-import static liedge.ltxindustries.util.config.LTXIMachinesConfig.ESA_BASE_TRANSFER_RATE;
+import static liedge.ltxindustries.util.config.LTXIMachinesConfig.ECA_BASE_ENERGY_CAPACITY;
+import static liedge.ltxindustries.util.config.LTXIMachinesConfig.ECA_BASE_TRANSFER_RATE;
 
-public class EnergyStorageArrayBlockEntity extends BaseESABlockEntity
+public class EnergyCellArrayBlockEntity extends BaseECABlockEntity
 {
     private int remoteEnergyFill;
 
-    public EnergyStorageArrayBlockEntity(BlockPos pos, BlockState state)
+    public EnergyCellArrayBlockEntity(BlockPos pos, BlockState state)
     {
-        super(LTXIBlockEntities.ENERGY_STORAGE_ARRAY.get(), pos, state, null);
+        super(LTXIBlockEntities.ENERGY_CELL_ARRAY.get(), pos, state, null);
     }
 
     @Override
@@ -37,13 +37,13 @@ public class EnergyStorageArrayBlockEntity extends BaseESABlockEntity
     @Override
     public int getBaseEnergyCapacity()
     {
-        return ESA_BASE_ENERGY_CAPACITY.getAsInt();
+        return ECA_BASE_ENERGY_CAPACITY.getAsInt();
     }
 
     @Override
     public int getBaseEnergyTransferRate()
     {
-        return ESA_BASE_TRANSFER_RATE.getAsInt();
+        return ECA_BASE_TRANSFER_RATE.getAsInt();
     }
 
     @Override

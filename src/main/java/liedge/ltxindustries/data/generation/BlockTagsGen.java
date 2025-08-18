@@ -71,8 +71,8 @@ class BlockTagsGen extends LimaTagsProvider.RegistryTags<Block>
                 AUTO_FABRICATOR,
                 EQUIPMENT_UPGRADE_STATION,
                 MOLECULAR_RECONSTRUCTOR,
-                ENERGY_STORAGE_ARRAY,
-                INFINITE_ENERGY_STORAGE_ARRAY,
+                        ENERGY_CELL_ARRAY,
+                        INFINITE_ENERGY_CELL_ARRAY,
                 ROCKET_TURRET,
                 RAILGUN_TURRET)
                 .copyTo(MINEABLE_WITH_PICKAXE, NEEDS_STONE_TOOL);

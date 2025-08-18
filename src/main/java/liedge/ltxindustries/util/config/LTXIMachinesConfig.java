@@ -6,8 +6,8 @@ public final class LTXIMachinesConfig
 {
     private LTXIMachinesConfig() {}
 
-    public static final ModConfigSpec.IntValue ESA_BASE_ENERGY_CAPACITY;
-    public static final ModConfigSpec.IntValue ESA_BASE_TRANSFER_RATE;
+    public static final ModConfigSpec.IntValue ECA_BASE_ENERGY_CAPACITY;
+    public static final ModConfigSpec.IntValue ECA_BASE_TRANSFER_RATE;
 
     public static final ModConfigSpec.IntValue DIGITAL_FURNACE_ENERGY_CAPACITY;
     public static final ModConfigSpec.IntValue DIGITAL_FURNACE_ENERGY_USAGE;
@@ -62,11 +62,11 @@ public final class LTXIMachinesConfig
     {
         ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
 
-        // Energy Storage Array (ESA)
-        builder.push("energy_storage_array");
-        ESA_BASE_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Energy Storage Array")
+        // Energy Cell Array (ECA)
+        builder.push("energy_cell_array");
+        ECA_BASE_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Energy Cell Array")
                         .defineInRange("energy_capacity", 1_000_000, 1, Integer.MAX_VALUE);
-        ESA_BASE_TRANSFER_RATE = builder.comment("Base transfer rate (per tick) of the Energy Storage Array")
+        ECA_BASE_TRANSFER_RATE = builder.comment("Base transfer rate (per tick) of the Energy Cell Array")
                         .defineInRange("transfer_rate", 10_000, 1, Integer.MAX_VALUE);
         builder.pop();
 

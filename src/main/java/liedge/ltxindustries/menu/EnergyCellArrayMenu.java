@@ -3,12 +3,12 @@ package liedge.ltxindustries.menu;
 import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.menu.LimaMenuType;
 import liedge.limacore.util.LimaItemUtil;
-import liedge.ltxindustries.blockentity.BaseESABlockEntity;
+import liedge.ltxindustries.blockentity.BaseECABlockEntity;
 import net.minecraft.world.entity.player.Inventory;
 
-public class EnergyStorageArrayMenu extends LTXIMachineMenu.EnergyMachineMenu<BaseESABlockEntity>
+public class EnergyCellArrayMenu extends LTXIMachineMenu.EnergyMachineMenu<BaseECABlockEntity>
 {
-    public EnergyStorageArrayMenu(LimaMenuType<BaseESABlockEntity, ?> type, int containerId, Inventory inventory, BaseESABlockEntity menuContext)
+    public EnergyCellArrayMenu(LimaMenuType<BaseECABlockEntity, ?> type, int containerId, Inventory inventory, BaseECABlockEntity menuContext)
     {
         super(type, containerId, inventory, menuContext, false);
 

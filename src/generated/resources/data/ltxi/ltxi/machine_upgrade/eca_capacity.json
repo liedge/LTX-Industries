@@ -1,11 +1,11 @@
 {
   "display": {
     "description": {
-      "translate": "machine_upgrade.ltxi.esa_capacity.desc"
+      "translate": "machine_upgrade.ltxi.eca_capacity.desc"
     },
     "icon": "ltxi:extra_energy",
     "title": {
-      "translate": "machine_upgrade.ltxi.esa_capacity"
+      "translate": "machine_upgrade.ltxi.eca_capacity"
     }
   },
   "effects": {
@@ -42,5 +42,5 @@
   },
   "exclusive_set": [],
   "max_rank": 4,
-  "supported_set": "ltxi:energy_storage_array"
+  "supported_set": "ltxi:energy_cell_array"
 }

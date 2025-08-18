@@ -8,9 +8,6 @@ import liedge.limacore.capability.itemhandler.LimaBlockEntityItemHandler;
 import liedge.limacore.lib.LimaColor;
 import liedge.limacore.menu.BlockEntityMenuType;
 import liedge.limacore.util.LimaItemUtil;
-import liedge.ltxindustries.block.LTXIBlockProperties;
-import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
-import liedge.ltxindustries.blockentity.base.IOController;
 import liedge.ltxindustries.blockentity.base.SidedAccessBlockEntityType;
 import liedge.ltxindustries.blockentity.template.EnergyMachineBlockEntity;
 import liedge.ltxindustries.registry.game.LTXIBlocks;
@@ -19,7 +16,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.capabilities.BlockCapabilityCache;
 import net.neoforged.neoforge.capabilities.Capabilities;
@@ -30,12 +26,12 @@ import org.jetbrains.annotations.Nullable;
 import java.util.EnumMap;
 import java.util.Map;
 
-public abstract class BaseESABlockEntity extends EnergyMachineBlockEntity
+public abstract class BaseECABlockEntity extends EnergyMachineBlockEntity
 {
     private final LimaBlockEntityItemHandler chargingInventory;
     private final Map<Direction, BlockCapabilityCache<IEnergyStorage, Direction>> energyConnections = new EnumMap<>(Direction.class);
 
-    public BaseESABlockEntity(SidedAccessBlockEntityType<?> type, BlockPos pos, BlockState state, @Nullable LimaEnergyStorage energyStorage)
+    public BaseECABlockEntity(SidedAccessBlockEntityType<?> type, BlockPos pos, BlockState state, @Nullable LimaEnergyStorage energyStorage)
     {
         super(type, pos, state, energyStorage);
         this.chargingInventory = new LimaBlockEntityItemHandler(this, 4, BlockContentsType.GENERAL);
@@ -130,35 +126,11 @@ public abstract class BaseESABlockEntity extends EnergyMachineBlockEntity
     }
 
     @Override
-    protected void onLoadServer(ServerLevel level)
-    {
-        super.onLoadServer(level);
-        updateAndSyncBlockState(level);
-    }
-
-    @Override
     public void defineDataWatchers(DataWatcherCollector collector) {}
-
-    @Override
-    protected void onIOControlsChanged(BlockEntityInputType inputType, Level level)
-    {
-        if (inputType == BlockEntityInputType.ENERGY) updateAndSyncBlockState(level);
-    }
 
     @Override
     public Component getMenuTitle(BlockEntityMenuType<?, ?> menuType)
     {
-        return LTXIBlocks.ENERGY_STORAGE_ARRAY.get().getName();
-    }
-
-    private void updateAndSyncBlockState(Level level)
-    {
-        IOController energyControl = getIOController(BlockEntityInputType.ENERGY);
-        BlockState state = getBlockState();
-        for (Direction side : Direction.values())
-        {
-            state = state.setValue(LTXIBlockProperties.getESASideIOProperty(side), energyControl.getSideIOState(side));
-        }
-        level.setBlockAndUpdate(getBlockPos(), state);
+        return LTXIBlocks.ENERGY_CELL_ARRAY.get().getName();
     }
 }

@@ -73,10 +73,9 @@ class BlockStatesGen extends LimaBlockStateProvider
         berryVines(BILEVINE, AGE_25);
         berryVines(BILEVINE_PLANT);
 
-        // Energy storage array
-        final ModelFile esaModel = existingModel(blockFolderLocation("energy_storage_array"));
-        simpleBlockWithItem(ENERGY_STORAGE_ARRAY, esaModel);
-        simpleBlockWithItem(INFINITE_ENERGY_STORAGE_ARRAY, esaModel);
+        // Energy cell array
+        horizontalBlock(ENERGY_CELL_ARRAY.get(), existingModel(blockFolderLocation(ENERGY_CELL_ARRAY)));
+        horizontalBlock(INFINITE_ENERGY_CELL_ARRAY.get(), existingModel(blockFolderLocation(INFINITE_ENERGY_CELL_ARRAY)));
 
         // Simple machines
         cookingMachine(DIGITAL_FURNACE);

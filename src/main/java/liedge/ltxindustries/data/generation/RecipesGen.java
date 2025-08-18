@@ -95,7 +95,7 @@ class RecipesGen extends LimaRecipeProvider
                 .save(output, "guide_tablet");
 
         // Machine recipes
-        shaped(ENERGY_STORAGE_ARRAY).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('l', DYES_LIME).input('b', COPPER_BLOCK).patterns("tlt", "cbc", "tlt").save(output);
+        shaped(ENERGY_CELL_ARRAY).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('l', DYES_LIME).input('b', COPPER_BLOCK).patterns("tlt", "cbc", "tlt").save(output);
         shaped(DIGITAL_FURNACE).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('l', DYES_LIME).input('a', FURNACE).input('g', GLASS_BLOCKS_CHEAP).patterns("tgt", "cac", "tlt").save(output);
         shaped(DIGITAL_SMOKER).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('l', DYES_LIME).input('a', SMOKER).input('g', GLASS_BLOCKS_CHEAP).patterns("tgt", "cac", "tlt").save(output);
         shaped(DIGITAL_BLAST_FURNACE).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('l', DYES_LIME).input('a', BLAST_FURNACE).input('g', GLASS_BLOCKS_CHEAP).patterns("tgt", "cac", "tlt").save(output);
@@ -595,18 +595,18 @@ class RecipesGen extends LimaRecipeProvider
                 .input(REDSTONE_BLOCK, 16)
                 .input(SLATE_ALLOY_INGOT, 32));
 
-        machineModuleFab(output, registries, "mum/esa", ESA_CAPACITY_UPGRADE, 1, 250_000, builder -> builder
+        machineModuleFab(output, registries, "mum/eca", ECA_CAPACITY_UPGRADE, 1, 250_000, builder -> builder
                 .input(LIGHTNING_ROD, 2)
                 .input(COPPER_INGOT, 6));
-        machineModuleFab(output, registries, "mum/esa", ESA_CAPACITY_UPGRADE, 2, 500_000, builder -> builder
+        machineModuleFab(output, registries, "mum/eca", ECA_CAPACITY_UPGRADE, 2, 500_000, builder -> builder
                 .input(LIGHTNING_ROD, 2)
                 .input(COPPER_INGOT, 6)
                 .input(T2_CIRCUIT, 2));
-        machineModuleFab(output, registries, "mum/esa", ESA_CAPACITY_UPGRADE, 3, 1_000_000, builder -> builder
+        machineModuleFab(output, registries, "mum/eca", ECA_CAPACITY_UPGRADE, 3, 1_000_000, builder -> builder
                 .input(LIGHTNING_ROD, 4)
                 .input(GOLD_INGOT, 12)
                 .input(T2_CIRCUIT, 2));
-        machineModuleFab(output, registries, "mum/esa", ESA_CAPACITY_UPGRADE, 4, 5_000_000, builder -> builder
+        machineModuleFab(output, registries, "mum/eca", ECA_CAPACITY_UPGRADE, 4, 5_000_000, builder -> builder
                 .input(LIGHTNING_ROD, 4)
                 .input(NIOBIUM_INGOT, 12)
                 .input(T3_CIRCUIT, 2));

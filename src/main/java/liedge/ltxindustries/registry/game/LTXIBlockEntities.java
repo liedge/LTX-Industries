@@ -39,8 +39,8 @@ public final class LTXIBlockEntities
     private static void registerCapabilities(final RegisterCapabilitiesEvent event)
     {
         // Machine capability registration (energy & items)
-        Stream.of(ENERGY_STORAGE_ARRAY,
-                INFINITE_ENERGY_STORAGE_ARRAY,
+        Stream.of(ENERGY_CELL_ARRAY,
+                        INFINITE_ENERGY_CELL_ARRAY,
                 DIGITAL_FURNACE,
                 DIGITAL_SMOKER,
                 DIGITAL_BLAST_FURNACE,
@@ -93,15 +93,15 @@ public final class LTXIBlockEntities
     //#endregion
 
     //#region Registrations
-    public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<EnergyStorageArrayBlockEntity>> ENERGY_STORAGE_ARRAY = TYPES.register(LTXICommonIds.ID_ENERGY_STORAGE_ARRAY, () -> SidedAccessBlockEntityType.sidedBuilder(EnergyStorageArrayBlockEntity::new)
-            .withBlock(LTXIBlocks.ENERGY_STORAGE_ARRAY)
-            .hasMenu(LTXIMenus.ENERGY_STORAGE_ARRAY)
+    public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<EnergyCellArrayBlockEntity>> ENERGY_CELL_ARRAY = TYPES.register(LTXICommonIds.ID_ENERGY_CELL_ARRAY, () -> SidedAccessBlockEntityType.sidedBuilder(EnergyCellArrayBlockEntity::new)
+            .withBlock(LTXIBlocks.ENERGY_CELL_ARRAY)
+            .hasMenu(LTXIMenus.ENERGY_CELL_ARRAY)
             .withSideRules(BlockEntityInputType.ITEMS, MACHINE_ITEM_RULES)
             .withSideRules(BlockEntityInputType.ENERGY, builder -> builder.setValidIOStates(IOAccessSets.INPUT_XOR_OUTPUT_OR_DISABLED).setDefaultIOState(IOAccess.INPUT_ONLY).defineAutoOutput(true, true))
             .build());
-    public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<InfiniteESABlockEntity>> INFINITE_ENERGY_STORAGE_ARRAY = TYPES.register(LTXICommonIds.ID_INFINITE_ENERGY_STORAGE_ARRAY, () -> SidedAccessBlockEntityType.sidedBuilder(InfiniteESABlockEntity::new)
-            .withBlock(LTXIBlocks.INFINITE_ENERGY_STORAGE_ARRAY)
-            .hasMenu(LTXIMenus.ENERGY_STORAGE_ARRAY)
+    public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<InfiniteECABlockEntity>> INFINITE_ENERGY_CELL_ARRAY = TYPES.register(LTXICommonIds.ID_INFINITE_ENERGY_CELL_ARRAY, () -> SidedAccessBlockEntityType.sidedBuilder(InfiniteECABlockEntity::new)
+            .withBlock(LTXIBlocks.INFINITE_ENERGY_CELL_ARRAY)
+            .hasMenu(LTXIMenus.ENERGY_CELL_ARRAY)
             .withSideRules(BlockEntityInputType.ITEMS, MACHINE_ITEM_RULES)
             .withSideRules(BlockEntityInputType.ENERGY, builder -> builder.setValidIOStates(IOAccessSets.OUTPUT_ONLY_OR_DISABLED).setDefaultIOState(IOAccess.OUTPUT_ONLY).defineAutoOutput(true, true))
             .build());

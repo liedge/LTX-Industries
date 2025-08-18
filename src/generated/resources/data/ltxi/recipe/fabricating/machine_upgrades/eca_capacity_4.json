@@ -1,14 +1,14 @@
 {
   "type": "ltxi:fabricating",
   "energy_required": 5000000,
-  "group": "mum/esa",
+  "group": "mum/eca",
   "ingredients": [
     {
       "type": "neoforge:components",
       "components": {
         "ltxi:machine_upgrade": {
           "rank": 3,
-          "upgrade": "ltxi:esa_capacity"
+          "upgrade": "ltxi:eca_capacity"
         }
       },
       "count": 1,
@@ -32,7 +32,7 @@
     "components": {
       "ltxi:machine_upgrade": {
         "rank": 4,
-        "upgrade": "ltxi:esa_capacity"
+        "upgrade": "ltxi:eca_capacity"
       }
     },
     "count": 1,

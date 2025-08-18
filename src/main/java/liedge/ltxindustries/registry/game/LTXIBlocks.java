@@ -45,7 +45,7 @@ public final class LTXIBlocks
     private static void registerCapabilities(RegisterCapabilitiesEvent event)
     {
         // Energy container block items
-        event.registerItem(Capabilities.EnergyStorage.ITEM, (stack, $) -> EnergyHolderItem.createEnergyAccess(stack), ENERGY_STORAGE_ARRAY, INFINITE_ENERGY_STORAGE_ARRAY);
+        event.registerItem(Capabilities.EnergyStorage.ITEM, (stack, $) -> EnergyHolderItem.createEnergyAccess(stack), ENERGY_CELL_ARRAY, INFINITE_ENERGY_CELL_ARRAY);
     }
 
     static Collection<DeferredHolder<Block, ? extends Block>> getRegisteredBlocks()
@@ -84,8 +84,8 @@ public final class LTXIBlocks
     public static final DeferredBlock<BerryVinesPlantBlock> BILEVINE_PLANT = BLOCKS.registerBlock("bilevine_plant", BerryVinesPlantBlock::new, berryVinesProperties());
 
     // Machinery
-    public static final DeferredBlockWithItem<EnergyStorageArrayBlock, ESABlockItem> ENERGY_STORAGE_ARRAY = BLOCKS.registerBlockAndItem(LTXICommonIds.ID_ENERGY_STORAGE_ARRAY, () -> new EnergyStorageArrayBlock(machineProperties().noOcclusion(), false), block -> new ESABlockItem(block, new Item.Properties().stacksTo(1)));
-    public static final DeferredBlockWithItem<EnergyStorageArrayBlock, InfiniteESABlockItem> INFINITE_ENERGY_STORAGE_ARRAY = BLOCKS.registerBlockAndItem(LTXICommonIds.ID_INFINITE_ENERGY_STORAGE_ARRAY, () -> new EnergyStorageArrayBlock(machineProperties().noOcclusion(), true), block -> new InfiniteESABlockItem(block, new Item.Properties().stacksTo(1).rarity(Rarity.EPIC)));
+    public static final DeferredBlockWithItem<EnergyCellArrayBlock, ECABlockItem> ENERGY_CELL_ARRAY = BLOCKS.registerBlockAndItem(LTXICommonIds.ID_ENERGY_CELL_ARRAY, () -> new EnergyCellArrayBlock(machineProperties().noOcclusion()), block -> new ECABlockItem(block, new Item.Properties().stacksTo(1)));
+    public static final DeferredBlockWithItem<EnergyCellArrayBlock, InfiniteECABlockItem> INFINITE_ENERGY_CELL_ARRAY = BLOCKS.registerBlockAndItem(LTXICommonIds.ID_INFINITE_ENERGY_CELL_ARRAY, () -> new EnergyCellArrayBlock(machineProperties().noOcclusion()), block -> new InfiniteECABlockItem(block, new Item.Properties().stacksTo(1).rarity(Rarity.EPIC)));
     public static final DeferredBlockWithItem<StateMachineBlock, BlockItem> DIGITAL_FURNACE = BLOCKS.registerBlockAndItem(LTXICommonIds.ID_DIGITAL_FURNACE, () -> StateMachineBlock.staticShape(machineProperties(), LTXIBlockShapes.COOKING_MACHINE, false), block -> ContentsTooltipBlockItem.energyTooltipItem(block, new Item.Properties().stacksTo(1)));
     public static final DeferredBlockWithItem<StateMachineBlock, BlockItem> DIGITAL_SMOKER = BLOCKS.registerBlockAndItem(LTXICommonIds.ID_DIGITAL_SMOKER, () -> StateMachineBlock.staticShape(machineProperties(), LTXIBlockShapes.COOKING_MACHINE, false), block -> ContentsTooltipBlockItem.energyTooltipItem(block, new Item.Properties().stacksTo(1)));
     public static final DeferredBlockWithItem<StateMachineBlock, BlockItem> DIGITAL_BLAST_FURNACE = BLOCKS.registerBlockAndItem(LTXICommonIds.ID_DIGITAL_BLAST_FURNACE, () -> StateMachineBlock.staticShape(machineProperties(), LTXIBlockShapes.COOKING_MACHINE, false), block -> ContentsTooltipBlockItem.energyTooltipItem(block, new Item.Properties().stacksTo(1)));

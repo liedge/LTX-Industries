@@ -153,8 +153,8 @@ class LootTablesGen extends LimaLootTableProvider
             dropSelf(TITANIUM_GLASS, SLATE_GLASS);
             berryVines(BILEVINE);
             berryVines(BILEVINE_PLANT);
-            dropSelfWithEntity(ENERGY_STORAGE_ARRAY);
-            dropSelfWithEntity(INFINITE_ENERGY_STORAGE_ARRAY);
+            dropSelfWithEntity(ENERGY_CELL_ARRAY);
+            dropSelfWithEntity(INFINITE_ENERGY_CELL_ARRAY);
             dropSelfWithEntity(DIGITAL_FURNACE);
             dropSelfWithEntity(DIGITAL_SMOKER);
             dropSelfWithEntity(DIGITAL_BLAST_FURNACE);

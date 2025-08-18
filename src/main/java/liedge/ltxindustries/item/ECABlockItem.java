@@ -11,9 +11,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.Nullable;
 
-public class ESABlockItem extends BlockItem implements EnergyHolderItem, TooltipShiftHintItem, LimaCreativeTabFillerItem
+public class ECABlockItem extends BlockItem implements EnergyHolderItem, TooltipShiftHintItem, LimaCreativeTabFillerItem
 {
-    public ESABlockItem(Block block, Properties properties)
+    public ECABlockItem(Block block, Properties properties)
     {
         super(block, properties);
     }
@@ -21,13 +21,13 @@ public class ESABlockItem extends BlockItem implements EnergyHolderItem, Tooltip
     @Override
     public int getBaseEnergyCapacity(ItemStack stack)
     {
-        return LTXIMachinesConfig.ESA_BASE_ENERGY_CAPACITY.getAsInt();
+        return LTXIMachinesConfig.ECA_BASE_ENERGY_CAPACITY.getAsInt();
     }
 
     @Override
     public int getBaseEnergyTransferRate(ItemStack stack)
     {
-        return LTXIMachinesConfig.ESA_BASE_TRANSFER_RATE.getAsInt();
+        return LTXIMachinesConfig.ECA_BASE_TRANSFER_RATE.getAsInt();
     }
 
     @Override

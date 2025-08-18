@@ -1,13 +1,13 @@
 package liedge.ltxindustries.client.gui.screen;
 
-import liedge.ltxindustries.menu.EnergyStorageArrayMenu;
+import liedge.ltxindustries.menu.EnergyCellArrayMenu;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
-public class EnergyStorageArrayScreen extends LTXIMachineScreen<EnergyStorageArrayMenu>
+public class EnergyCellArrayScreen extends LTXIMachineScreen<EnergyCellArrayMenu>
 {
-    public EnergyStorageArrayScreen(EnergyStorageArrayMenu menu, Inventory inventory, Component title)
+    public EnergyCellArrayScreen(EnergyCellArrayMenu menu, Inventory inventory, Component title)
     {
         super(menu, inventory, title, DEFAULT_WIDTH, DEFAULT_HEIGHT);
     }

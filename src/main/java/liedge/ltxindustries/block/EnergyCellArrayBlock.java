@@ -1,10 +1,6 @@
 package liedge.ltxindustries.block;
 
-import liedge.limacore.blockentity.IOAccess;
-import liedge.limacore.blockentity.LimaBlockEntityType;
-import liedge.ltxindustries.registry.game.LTXIBlockEntities;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
@@ -12,27 +8,16 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.jetbrains.annotations.Nullable;
 
-import static liedge.ltxindustries.block.LTXIBlockProperties.getESASideIOProperty;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING;
 
-public class EnergyStorageArrayBlock extends BaseWrenchEntityBlock
+public class EnergyCellArrayBlock extends BaseWrenchEntityBlock
 {
     private static final VoxelShape SHAPE = Block.box(0.5d, 0.5d, 0.5d, 15.5d, 15.5d, 15.5d);
 
-    private final boolean infinite;
-
-    public EnergyStorageArrayBlock(Properties properties, boolean infinite)
+    public EnergyCellArrayBlock(Properties properties)
     {
         super(properties);
-        this.infinite = infinite;
-    }
-
-    @Override
-    public @Nullable LimaBlockEntityType<?> getBlockEntityType(BlockState state)
-    {
-        return infinite ? LTXIBlockEntities.INFINITE_ENERGY_STORAGE_ARRAY.get() : LTXIBlockEntities.ENERGY_STORAGE_ARRAY.get();
     }
 
     @Override
@@ -50,22 +35,12 @@ public class EnergyStorageArrayBlock extends BaseWrenchEntityBlock
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context)
     {
-        BlockState state = defaultBlockState().setValue(HORIZONTAL_FACING, context.getHorizontalDirection().getOpposite());
-        for (Direction side : Direction.values())
-        {
-            state = state.setValue(getESASideIOProperty(side), IOAccess.INPUT_ONLY);
-        }
-
-        return state;
+        return defaultBlockState().setValue(HORIZONTAL_FACING, context.getHorizontalDirection().getOpposite());
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
     {
         builder.add(HORIZONTAL_FACING);
-        for (Direction side : Direction.values())
-        {
-            builder.add(getESASideIOProperty(side));
-        }
     }
 }

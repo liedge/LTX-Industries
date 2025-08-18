@@ -8,8 +8,8 @@ public final class LTXICommonIds
     private LTXICommonIds() {}
 
     // Machines (for shared menus, block entity type, block, etc.)
-    public static final String ID_ENERGY_STORAGE_ARRAY = "energy_storage_array";
-    public static final String ID_INFINITE_ENERGY_STORAGE_ARRAY = "infinite_energy_storage_array";
+    public static final String ID_ENERGY_CELL_ARRAY = "energy_cell_array";
+    public static final String ID_INFINITE_ENERGY_CELL_ARRAY = "infinite_energy_cell_array";
 
     public static final String ID_DIGITAL_FURNACE = "digital_furnace";
     public static final String ID_DIGITAL_SMOKER = "digital_smoker";

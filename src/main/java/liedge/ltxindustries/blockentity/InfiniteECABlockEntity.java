@@ -7,11 +7,11 @@ import liedge.ltxindustries.registry.game.LTXIBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class InfiniteESABlockEntity extends BaseESABlockEntity
+public class InfiniteECABlockEntity extends BaseECABlockEntity
 {
-    public InfiniteESABlockEntity(BlockPos pos, BlockState state)
+    public InfiniteECABlockEntity(BlockPos pos, BlockState state)
     {
-        super(LTXIBlockEntities.INFINITE_ENERGY_STORAGE_ARRAY.get(), pos, state, InfiniteEnergyStorage.INFINITE_ENERGY_STORAGE);
+        super(LTXIBlockEntities.INFINITE_ENERGY_CELL_ARRAY.get(), pos, state, InfiniteEnergyStorage.INFINITE_ENERGY_STORAGE);
     }
 
     @Override

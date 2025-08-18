@@ -1,13 +1,14 @@
 {
   "type": "ltxi:fabricating",
-  "energy_required": 500000,
-  "group": "mum/esa",
+  "energy_required": 1000000,
+  "group": "mum/eca",
   "ingredients": [
     {
       "type": "neoforge:components",
       "components": {
         "ltxi:machine_upgrade": {
-          "upgrade": "ltxi:esa_capacity"
+          "rank": 2,
+          "upgrade": "ltxi:eca_capacity"
         }
       },
       "count": 1,
@@ -15,12 +16,12 @@
       "strict": true
     },
     {
-      "count": 2,
+      "count": 4,
       "item": "minecraft:lightning_rod"
     },
     {
-      "count": 6,
-      "item": "minecraft:copper_ingot"
+      "count": 12,
+      "item": "minecraft:gold_ingot"
     },
     {
       "count": 2,
@@ -30,8 +31,8 @@
   "result": {
     "components": {
       "ltxi:machine_upgrade": {
-        "rank": 2,
-        "upgrade": "ltxi:esa_capacity"
+        "rank": 3,
+        "upgrade": "ltxi:eca_capacity"
       }
     },
     "count": 1,

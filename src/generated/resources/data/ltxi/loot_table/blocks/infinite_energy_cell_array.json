@@ -11,7 +11,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "ltxi:energy_storage_array"
+          "name": "ltxi:infinite_energy_cell_array"
         }
       ],
       "functions": [
@@ -22,5 +22,5 @@
       "rolls": 1.0
     }
   ],
-  "random_sequence": "ltxi:blocks/energy_storage_array"
+  "random_sequence": "ltxi:blocks/infinite_energy_cell_array"
 }
