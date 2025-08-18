@@ -32,7 +32,7 @@ public final class LTXIFluids
     }
 
     // Light levels
-    public static final int VIRIDIC_ACID_LIGHT = 5;
+    public static final int VIRIDIC_ACID_LIGHT = 7;
 
     // Fluid Types
     public static final DeferredHolder<FluidType, FluidType> VIRIDIC_ACID_TYPE = TYPES.register("viridic_acid", () -> new FluidType(FluidType.Properties.create().lightLevel(VIRIDIC_ACID_LIGHT)));

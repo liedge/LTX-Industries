@@ -53,7 +53,7 @@ class BlockStatesGen extends LimaBlockStateProvider
 
         cubeAll(RAW_TITANIUM_BLOCK);
         cubeAll(RAW_NIOBIUM_BLOCK);
-        cubeAll(TITANIUM_BLOCK, "titanium_block_1");
+        cubeAll(TITANIUM_BLOCK);
         cubeAll(NIOBIUM_BLOCK);
         cubeAll(SLATESTEEL_BLOCK);
 

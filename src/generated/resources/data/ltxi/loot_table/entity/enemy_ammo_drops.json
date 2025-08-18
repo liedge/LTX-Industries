@@ -5,13 +5,10 @@
       "bonus_rolls": 0.0,
       "conditions": [
         {
-          "condition": "minecraft:entity_properties",
-          "entity": "this",
-          "predicate": {
-            "type_specific": {
-              "type": "limacore:hostile_entity"
-            }
-          }
+          "condition": "limacore:hostility",
+          "first": "this",
+          "min": "hostile",
+          "second": "attacker"
         },
         {
           "condition": "minecraft:random_chance_with_enchanted_bonus",

@@ -120,7 +120,7 @@ class ItemModelGen extends LimaItemModelProvider
         for (ItemLike item : pebbles)
         {
             String name = getItemName(item.asItem()).split("_")[0];
-            generated(item, itemFolderLocation("ore_pebbles/" + name));
+            generated(item, itemFolderLocation("ore_pebble/" + name));
         }
     }
 

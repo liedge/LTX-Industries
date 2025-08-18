@@ -35,7 +35,7 @@
 		}
 	],
 	"textures": {
-		"base_bottom": "ltxi:block/slate_alloy_block",
+		"base_bottom": "ltxi:block/slatesteel_block",
 		"lights": "ltxi:solid_lime",
 		"side": "ltxi:block/turret_base_side",
 		"back": "ltxi:block/turret_base_back",

@@ -3,17 +3,16 @@ package liedge.ltxindustries.data.generation;
 import liedge.limacore.data.generation.loot.LimaBlockLootSubProvider;
 import liedge.limacore.data.generation.loot.LimaLootSubProvider;
 import liedge.limacore.data.generation.loot.LimaLootTableProvider;
+import liedge.limacore.lib.MobHostility;
 import liedge.limacore.lib.math.LimaRoundingMode;
 import liedge.limacore.util.LimaLootUtil;
 import liedge.limacore.world.loot.DynamicWeightLootEntry;
-import liedge.limacore.world.loot.EnchantmentLevelSubPredicate;
-import liedge.limacore.world.loot.HostileEntitySubPredicate;
-import liedge.limacore.world.loot.SaveBlockEntityFunction;
+import liedge.limacore.world.loot.EnchantmentLevelEntityPredicate;
+import liedge.limacore.world.loot.EntityHostilityLootCondition;
 import liedge.limacore.world.loot.number.EnhancedLookupLevelBasedValue;
 import liedge.limacore.world.loot.number.RoundingNumberProvider;
 import liedge.limacore.world.loot.number.TargetedEnchantmentLevelProvider;
 import liedge.ltxindustries.LTXIndustries;
-import liedge.ltxindustries.block.DoubleWrenchBlock;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
 import liedge.ltxindustries.registry.bootstrap.LTXIEnchantments;
 import liedge.ltxindustries.world.GrenadeSubPredicate;
@@ -29,7 +28,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.LevelBasedValue;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -41,14 +39,12 @@ import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.neoforged.neoforge.common.Tags;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Supplier;
 
 import static liedge.limacore.util.LimaLootUtil.*;
 import static liedge.ltxindustries.registry.LTXILootTables.*;
 import static liedge.ltxindustries.registry.game.LTXIBlocks.*;
 import static liedge.ltxindustries.registry.game.LTXIItems.*;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.BERRIES;
-import static net.minecraft.world.level.block.state.properties.BlockStateProperties.DOUBLE_BLOCK_HALF;
 
 class LootTablesGen extends LimaLootTableProvider
 {
@@ -87,7 +83,7 @@ class LootTablesGen extends LimaLootTableProvider
                     .when(needsEntityType(EntityType.WARDEN))
                     .when(AnyOfCondition.anyOf(
                             LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.DIRECT_ATTACKER, EntityPredicate.Builder.entity().subPredicate(new GrenadeSubPredicate(GrenadeType.ACID))),
-                            entityEnchantmentLevels(LootContext.EntityTarget.ATTACKER, EnchantmentLevelSubPredicate.atLeast(razorEnchantment, 3))))
+                            entityEnchantmentLevels(LootContext.EntityTarget.ATTACKER, EnchantmentLevelEntityPredicate.atLeast(razorEnchantment, 3))))
                     .apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 2)))
                     .add(lootItem(Items.ECHO_SHARD));
 
@@ -97,7 +93,7 @@ class LootTablesGen extends LimaLootTableProvider
 
             // Ammo drops table
             LootPool.Builder ammoDrops = LootPool.lootPool()
-                    .when(LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity().subPredicate(HostileEntitySubPredicate.INSTANCE)))
+                    .when(EntityHostilityLootCondition.atLeast(MobHostility.HOSTILE))
                     .when(LootItemRandomChanceWithEnchantedBonusCondition.randomChanceAndLootingBoost(registries, 0.1f, 0.02f))
                     .add(lootItem(LIGHTWEIGHT_WEAPON_ENERGY).setWeight(80))
                     .add(DynamicWeightLootEntry.dynamicWeightItem(SPECIALIST_WEAPON_ENERGY, 15).setReplaceWeight(false).setDynamicWeight(TargetedEnchantmentLevelProvider.of(LootContext.EntityTarget.ATTACKER, ammoScavengerEnchantment, LevelBasedValue.perLevel(6))))
