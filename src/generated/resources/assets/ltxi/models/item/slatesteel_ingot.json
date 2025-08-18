@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "ltxi:item/deepslate_powder"
+    "layer0": "ltxi:item/slatesteel_ingot"
   }
 }

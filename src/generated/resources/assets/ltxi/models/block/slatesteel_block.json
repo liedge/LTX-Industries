@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "ltxi:block/slate_alloy_block"
+    "all": "ltxi:block/slatesteel_block"
   }
 }

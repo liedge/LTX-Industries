@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "ltxi:slate_alloy_block"
+          "name": "ltxi:slatesteel_block"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "ltxi:blocks/slate_alloy_block"
+  "random_sequence": "ltxi:blocks/slatesteel_block"
 }

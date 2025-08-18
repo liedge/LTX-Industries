@@ -3,11 +3,11 @@
   "category": "misc",
   "ingredients": [
     {
-      "item": "ltxi:slate_alloy_block"
+      "item": "ltxi:slatesteel_block"
     }
   ],
   "result": {
     "count": 9,
-    "id": "ltxi:slate_alloy_ingot"
+    "id": "ltxi:slatesteel_ingot"
   }
 }

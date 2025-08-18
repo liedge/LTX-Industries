@@ -68,7 +68,7 @@ public final class LTXIBlocks
     // Ingot storage blocks
     public static final DeferredBlockWithItem<Block, BlockItem> TITANIUM_BLOCK = BLOCKS.registerSimpleBlockAndItem("titanium_block", of().mapColor(MapColor.COLOR_LIGHT_GRAY).strength(5f, 6f).sound(SoundType.METAL).requiresCorrectToolForDrops());
     public static final DeferredBlockWithItem<Block, BlockItem> NIOBIUM_BLOCK = BLOCKS.registerSimpleBlockAndItem("niobium_block", of().mapColor(MapColor.COLOR_LIGHT_GRAY).strength(6f, 9f).sound(SoundType.METAL).requiresCorrectToolForDrops());
-    public static final DeferredBlockWithItem<Block, BlockItem> SLATE_ALLOY_BLOCK = BLOCKS.registerSimpleBlockAndItem("slate_alloy_block", of().mapColor(MapColor.COLOR_LIGHT_GRAY).strength(5f, 12f).sound(SoundType.METAL).requiresCorrectToolForDrops());
+    public static final DeferredBlockWithItem<Block, BlockItem> SLATESTEEL_BLOCK = BLOCKS.registerSimpleBlockAndItem("slatesteel_block", of().mapColor(MapColor.COLOR_LIGHT_GRAY).strength(5f, 12f).sound(SoundType.METAL).requiresCorrectToolForDrops());
 
     public static final Map<DyeColor, DeferredBlock<Block>> STANDARD_NEON_LIGHTS = LimaCollectionsUtil.fillAndCreateImmutableEnumMap(DyeColor.class, color -> BLOCKS.registerSimpleBlockAndItem(color.getSerializedName() + "_neon_light", neonLightProperties().mapColor(color)));
     public static final DeferredBlockWithItem<Block, BlockItem> LTX_LIME_NEON_LIGHT = BLOCKS.registerSimpleBlockAndItem("ltx_lime_neon_light", neonLightProperties().mapColor(DyeColor.LIME));

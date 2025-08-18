@@ -55,7 +55,7 @@ class LanguageGen extends LimaLanguageProvider
         addBlock(RAW_NIOBIUM_BLOCK, "Block of Raw Niobium");
         addBlock(TITANIUM_BLOCK, "Block of Titanium");
         addBlock(NIOBIUM_BLOCK, "Block of Niobium");
-        addBlock(SLATE_ALLOY_BLOCK, "Block of Slate Alloy");
+        addBlock(SLATESTEEL_BLOCK, "Block of Slatesteel");
 
         STANDARD_NEON_LIGHTS.forEach((dyeColor, holder) -> addBlock(holder, localizeSimpleName(LimaRegistryUtil.getBlockName(holder))));
         addBlock(LTX_LIME_NEON_LIGHT, "LTX Lime Neon Light");
@@ -101,10 +101,9 @@ class LanguageGen extends LimaLanguageProvider
         addItem(LIGHT_BLUE_PIGMENT, "Light Blue Pigment");
         addItem(LIME_PIGMENT, "Lime Pigment");
 
-        addItem(DEEPSLATE_POWDER, "Deepslate Powder");
-        addItem(SLATE_ALLOY_INGOT, "Slate Alloy Ingot");
-        addItem(BEDROCK_ALLOY_INGOT, "Bedrock Alloy Ingot");
-        addItem(SLATE_ALLOY_NUGGET, "Slate Alloy Nugget");
+        addItem(DEEPSLATE_DUST, "Deepslate Dust");
+        addItem(SLATESTEEL_INGOT, "Slatesteel Ingot");
+        addItem(SLATESTEEL_NUGGET, "Slatesteel Nugget");
         addItem(CIRCUIT_BOARD, "Circuit Board");
         simpleHintItem(T1_CIRCUIT, "Basic Circuit", "First tier circuit. Sufficient energy and data throughput for most entry-level applications.");
         simpleHintItem(T2_CIRCUIT, "Enhanced Circuit", "Second tier circuit. Improved energy and data efficiency from higher quality conductors.");

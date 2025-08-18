@@ -30,7 +30,7 @@ public final class LTXITags
         public static final TagKey<Block> RAW_NIOBIUM_STORAGE_BLOCKS = COMMON_NAMESPACE.blockTag("storage_blocks/raw_niobium");
         public static final TagKey<Block> TITANIUM_STORAGE_BLOCKS = COMMON_NAMESPACE.blockTag("storage_blocks/titanium");
         public static final TagKey<Block> NIOBIUM_STORAGE_BLOCKS = COMMON_NAMESPACE.blockTag("storage_blocks/niobium");
-        public static final TagKey<Block> SLATE_ALLOY_STORAGE_BLOCKS = COMMON_NAMESPACE.blockTag("storage_blocks/slate_alloy");
+        public static final TagKey<Block> SLATESTEEL_STORAGE_BLOCKS = COMMON_NAMESPACE.blockTag("storage_blocks/slatesteel");
         public static final TagKey<Block> SHEARS_HARVESTABLE = COMMON_NAMESPACE.blockTag("shears_harvestable");
 
         // Mod Tags
@@ -51,7 +51,7 @@ public final class LTXITags
         public static final TagKey<Item> RAW_NIOBIUM_STORAGE_BLOCKS = copy(Blocks.RAW_NIOBIUM_STORAGE_BLOCKS);
         public static final TagKey<Item> TITANIUM_STORAGE_BLOCKS = copy(Blocks.TITANIUM_STORAGE_BLOCKS);
         public static final TagKey<Item> NIOBIUM_STORAGE_BLOCKS = copy(Blocks.NIOBIUM_STORAGE_BLOCKS);
-        public static final TagKey<Item> SLATE_ALLOY_STORAGE_BLOCKS = copy(Blocks.SLATE_ALLOY_STORAGE_BLOCKS);
+        public static final TagKey<Item> SLATESTEEL_STORAGE_BLOCKS = copy(Blocks.SLATESTEEL_STORAGE_BLOCKS);
         public static final TagKey<Item> DEEPSLATE_GRINDABLES = copy(Blocks.DEEPSLATE_GRINDABLES);
         public static final TagKey<Item> WRENCH_BREAKABLE = copy(Blocks.WRENCH_BREAKABLE);
 
@@ -62,12 +62,12 @@ public final class LTXITags
         // Ingots
         public static final TagKey<Item> TITANIUM_INGOTS = COMMON_NAMESPACE.itemTag("ingots/titanium");
         public static final TagKey<Item> NIOBIUM_INGOTS = COMMON_NAMESPACE.itemTag("ingots/niobium");
-        public static final TagKey<Item> SLATE_ALLOY_INGOTS = COMMON_NAMESPACE.itemTag("ingots/slate_alloy");
+        public static final TagKey<Item> SLATESTEEL_INGOTS = COMMON_NAMESPACE.itemTag("ingots/slatesteel");
 
         // Nuggets
         public static final TagKey<Item> TITANIUM_NUGGETS = COMMON_NAMESPACE.itemTag("nuggets/titanium");
         public static final TagKey<Item> NIOBIUM_NUGGETS = COMMON_NAMESPACE.itemTag("nuggets/niobium");
-        public static final TagKey<Item> SLATE_ALLOY_NUGGETS = COMMON_NAMESPACE.itemTag("nuggets/slate_alloy");
+        public static final TagKey<Item> SLATESTEEL_NUGGETS = COMMON_NAMESPACE.itemTag("nuggets/slatesteel");
 
         // Dusts
         public static final TagKey<Item> DEEPSLATE_DUSTS = COMMON_NAMESPACE.itemTag("dusts/deepslate");

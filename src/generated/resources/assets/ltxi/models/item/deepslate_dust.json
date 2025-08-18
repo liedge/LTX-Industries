@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "ltxi:item/slate_alloy_nugget"
+    "layer0": "ltxi:item/deepslate_dust"
   }
 }

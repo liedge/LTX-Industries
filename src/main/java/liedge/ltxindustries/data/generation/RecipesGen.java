@@ -75,7 +75,7 @@ class RecipesGen extends LimaRecipeProvider
 
         nuggetIngotBlockRecipes(output, "titanium", TITANIUM_NUGGET, TITANIUM_INGOT, TITANIUM_BLOCK);
         nuggetIngotBlockRecipes(output, "niobium", NIOBIUM_NUGGET, NIOBIUM_INGOT, NIOBIUM_BLOCK);
-        nuggetIngotBlockRecipes(output, "slate_alloy", SLATE_ALLOY_NUGGET, SLATE_ALLOY_INGOT, SLATE_ALLOY_BLOCK);
+        nuggetIngotBlockRecipes(output, "slatesteel", SLATESTEEL_NUGGET, SLATESTEEL_INGOT, SLATESTEEL_BLOCK);
 
         shaped(CIRCUIT_BOARD, 2).input('p', PAPER).input('r', REDSTONE).input('c', COPPER_INGOT).patterns("rcr", "ppp").save(output);
         shaped(T1_CIRCUIT).input('c', CIRCUIT_BOARD).input('m', COPPER_INGOT).input('t', TITANIUM_INGOT).input('r', REDSTONE).patterns(" t ", "rmr", "mcm").save(output);
@@ -146,7 +146,7 @@ class RecipesGen extends LimaRecipeProvider
         grinding().input(STONE).output(COBBLESTONE).save(output);
         grinding().input(COBBLESTONES_NORMAL).output(GRAVEL).output(FLINT, 1, 0.33f).save(output);
         grinding().input(Tags.Items.GRAVELS).output(SAND).save(output);
-        grinding().input(LTXITags.Items.DEEPSLATE_GRINDABLES).output(DEEPSLATE_POWDER).save(output, "grind_deepslate");
+        grinding().input(LTXITags.Items.DEEPSLATE_GRINDABLES).output(DEEPSLATE_DUST).save(output, "grind_deepslate");
 
         orePebbleGrinding(COAL_ORE_PEBBLES, Tags.Items.ORES_COAL, null, "coal", output);
         orePebbleGrinding(COPPER_ORE_PEBBLES, Tags.Items.ORES_COPPER, Tags.Items.RAW_MATERIALS_COPPER, "copper", output);
@@ -163,23 +163,12 @@ class RecipesGen extends LimaRecipeProvider
 
         // Material fusing recipes
         fusing()
-                .input(DEEPSLATE_POWDER, 4)
-                .input(NETHERITE_INGOT)
-                .output(SLATE_ALLOY_INGOT)
-                .save(output, "slate_alloy_from_netherite_ingot");
-        fusing()
-                .input(DEEPSLATE_POWDER, 4)
-                .input(NETHERITE_SCRAP, 2)
-                .input(GOLD_INGOT)
-                .output(SLATE_ALLOY_INGOT)
-                .save(output, "slate_alloy_from_netherite_alloying");
-        fusing()
                 .input(NETHERITE_SCRAP, 4)
                 .input(GOLD_INGOT)
                 .output(NETHERITE_INGOT)
                 .save(output);
         fusing().input(TITANIUM_INGOT).input(GEMS_QUARTZ, 3).output(TITANIUM_GLASS, 2).save(output);
-        fusing().input(SLATE_ALLOY_INGOT).input(GEMS_QUARTZ, 3).output(SLATE_GLASS, 2).save(output);
+        fusing().input(SLATESTEEL_INGOT).input(GEMS_QUARTZ, 3).output(SLATE_GLASS, 2).save(output);
 
         // Fabricating recipes
         fabricating(250_000)
@@ -361,13 +350,13 @@ class RecipesGen extends LimaRecipeProvider
                 .input(EXPLOSIVES_WEAPON_TECH_SALVAGE)
                 .input(TITANIUM_INGOT, 48)
                 .input(DYES_LIME, 16)
-                .input(SLATE_ALLOY_INGOT, 8)
+                .input(SLATESTEEL_INGOT, 8)
                 .input(T3_CIRCUIT, 8)
                 .group("ltx/weapon").save(output);
         upgradeableItemFabricating(HEAVY_PISTOL, registries, 50_000_000)
                 .input(TITANIUM_INGOT, 16)
                 .input(DYES_LIME, 4)
-                .input(SLATE_ALLOY_INGOT, 16)
+                .input(SLATESTEEL_INGOT, 16)
                 .input(T4_CIRCUIT, 2)
                 .requiresAdvancement()
                 .unlockedBy("kill_boss", KilledTrigger.TriggerInstance.playerKilledEntity(EntityPredicate.Builder.entity().of(LTXITags.EntityTypes.HIGH_THREAT_TARGETS)))
@@ -415,7 +404,7 @@ class RecipesGen extends LimaRecipeProvider
         equipmentModuleFab(output, registries, "eum/weapon", WEAPON_ARMOR_PIERCE, 3, 5_000_000, builder -> builder
                 .input(T4_CIRCUIT, 2)
                 .input(OBSIDIAN, 64)
-                .input(SLATE_ALLOY_INGOT, 4));
+                .input(SLATESTEEL_INGOT, 4));
 
         equipmentModuleFab(output, registries, "eum/weapon", HIGH_IMPACT_ROUNDS, 1, 1_000_000, builder -> builder
                 .input(T2_CIRCUIT, 2)
@@ -545,7 +534,7 @@ class RecipesGen extends LimaRecipeProvider
                 .input(EXPLOSIVES_WEAPON_ENERGY, 2));
         equipmentModuleFab(output, registries, "eum/enchant", AMMO_SCAVENGER_ENCHANTMENT, 5, 1_500_000, builder -> builder
                 .input(T4_CIRCUIT, 4)
-                .input(SLATE_ALLOY_INGOT, 2)
+                .input(SLATESTEEL_INGOT, 2)
                 .input(LIGHTWEIGHT_WEAPON_ENERGY, 16)
                 .input(SPECIALIST_WEAPON_ENERGY, 8)
                 .input(EXPLOSIVES_WEAPON_ENERGY, 4)
@@ -585,7 +574,7 @@ class RecipesGen extends LimaRecipeProvider
                 .input(PHANTOM_MEMBRANE, 8));
         equipmentModuleFab(output, registries, "eum/weapon", HEAVY_PISTOL_GOD_ROUNDS, 1, 500_000_000, builder -> builder
                 .input(T5_CIRCUIT, 4)
-                .input(SLATE_ALLOY_BLOCK, 4)
+                .input(SLATESTEEL_BLOCK, 4)
                 .requiresAdvancement()
                 .unlockedBy(HEAVY_PISTOL));
 
@@ -593,7 +582,7 @@ class RecipesGen extends LimaRecipeProvider
                 .input(mumIngredient(registries, STANDARD_MACHINE_SYSTEMS, 6))
                 .input(T5_CIRCUIT, 2)
                 .input(REDSTONE_BLOCK, 16)
-                .input(SLATE_ALLOY_INGOT, 32));
+                .input(SLATESTEEL_INGOT, 32));
 
         machineModuleFab(output, registries, "mum/eca", ECA_CAPACITY_UPGRADE, 1, 250_000, builder -> builder
                 .input(LIGHTNING_ROD, 2)

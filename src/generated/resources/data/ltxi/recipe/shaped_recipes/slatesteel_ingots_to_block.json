@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "#": {
-      "item": "ltxi:slate_alloy_ingot"
+      "item": "ltxi:slatesteel_ingot"
     }
   },
   "pattern": [
@@ -13,6 +13,6 @@
   ],
   "result": {
     "count": 1,
-    "id": "ltxi:slate_alloy_block"
+    "id": "ltxi:slatesteel_block"
   }
 }

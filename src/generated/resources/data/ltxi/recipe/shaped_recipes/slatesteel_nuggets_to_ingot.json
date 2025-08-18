@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "#": {
-      "item": "ltxi:slate_alloy_nugget"
+      "item": "ltxi:slatesteel_nugget"
     }
   },
   "pattern": [
@@ -13,6 +13,6 @@
   ],
   "result": {
     "count": 1,
-    "id": "ltxi:slate_alloy_ingot"
+    "id": "ltxi:slatesteel_ingot"
   }
 }
