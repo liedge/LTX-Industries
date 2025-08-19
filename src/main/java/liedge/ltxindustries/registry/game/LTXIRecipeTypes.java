@@ -26,6 +26,7 @@ public final class LTXIRecipeTypes
     public static final DeferredHolder<RecipeType<?>, LimaRecipeType<MaterialFusingRecipe>> MATERIAL_FUSING = registerType(LTXICommonIds.ID_MATERIAL_FUSING_RECIPE);
     public static final DeferredHolder<RecipeType<?>, LimaRecipeType<ElectroCentrifugingRecipe>> ELECTRO_CENTRIFUGING = registerType(LTXICommonIds.ID_ELECTRO_CENTRIFUGING_RECIPE);
     public static final DeferredHolder<RecipeType<?>, LimaRecipeType<MixingRecipe>> MIXING = registerType(LTXICommonIds.ID_MIXING_RECIPE);
+    public static final DeferredHolder<RecipeType<?>, LimaRecipeType<EnergizingRecipe>> ENERGIZING = registerType(LTXICommonIds.ID_ENERGIZING_RECIPE);
     public static final DeferredHolder<RecipeType<?>, LimaRecipeType<ChemicalReactingRecipe>> CHEMICAL_REACTING = registerType(LTXICommonIds.ID_CHEMICAL_REACTING);
     public static final DeferredHolder<RecipeType<?>, LimaRecipeType<FabricatingRecipe>> FABRICATING = registerType(LTXICommonIds.ID_FABRICATING_RECIPE);
 

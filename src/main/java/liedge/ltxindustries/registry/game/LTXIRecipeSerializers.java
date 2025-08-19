@@ -29,6 +29,8 @@ public final class LTXIRecipeSerializers
             builder.withOptionalItemIngredients(1).withOptionalFluidIngredients(1).withOptionalItemResults(4).withOptionalFluidResults(2));
     public static final DeferredHolder<RecipeSerializer<?>, LimaRecipeSerializer<MixingRecipe>> MIXING = SERIALIZERS.registerSerializer(LTXICommonIds.ID_MIXING_RECIPE, MixingRecipe::new, builder ->
             builder.withOptionalItemIngredients(4).withOptionalFluidIngredients(2).withOptionalItemResults(1).withOptionalFluidResults(1));
+    public static final DeferredHolder<RecipeSerializer<?>, LimaRecipeSerializer<EnergizingRecipe>> ENERGIZING = SERIALIZERS.registerSerializer(LTXICommonIds.ID_ENERGIZING_RECIPE, EnergizingRecipe::new, builder ->
+            builder.withItemIngredients(1).withItemResults(1));
     public static final DeferredHolder<RecipeSerializer<?>, LimaRecipeSerializer<ChemicalReactingRecipe>> CHEMICAL_REACTING = SERIALIZERS.registerSerializer(LTXICommonIds.ID_CHEMICAL_REACTING, ChemicalReactingRecipe::new, builder ->
             builder.withOptionalItemIngredients(3).withOptionalFluidIngredients(3).withOptionalItemResults(2).withOptionalFluidResults(2));
     public static final DeferredHolder<RecipeSerializer<?>, LimaRecipeSerializer<FabricatingRecipe>> FABRICATING = SERIALIZERS.register(LTXICommonIds.ID_FABRICATING_RECIPE, id -> LimaRecipeSerializer.of(id, FabricatingRecipe.CODEC, FabricatingRecipe.STREAM_CODEC));

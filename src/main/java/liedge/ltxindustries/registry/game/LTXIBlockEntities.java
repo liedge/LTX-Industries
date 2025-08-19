@@ -45,6 +45,7 @@ public final class LTXIBlockEntities
                 DIGITAL_SMOKER,
                 DIGITAL_BLAST_FURNACE,
                 GRINDER,
+                VOLTAIC_INJECTOR,
                 FABRICATOR,
                 AUTO_FABRICATOR,
                 MOLECULAR_RECONSTRUCTOR,
@@ -116,6 +117,7 @@ public final class LTXIBlockEntities
             builder -> builder.withBlock(LTXIBlocks.ELECTROCENTRIFUGE).hasMenu(LTXIMenus.ELECTROCENTRIFUGE));
     public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<MixerBlockEntity>> MIXER = registerItemEnergyFluidMachine(LTXICommonIds.ID_MIXER, MixerBlockEntity::new, MACHINE_ITEM_RULES, MACHINE_ENERGY_RULES, MACHINE_FLUID_RULES,
             builder -> builder.withBlock(LTXIBlocks.MIXER).hasMenu(LTXIMenus.MIXER));
+    public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<VoltaicInjectorBlockEntity>> VOLTAIC_INJECTOR = registerItemEnergyMachine(LTXICommonIds.ID_VOLTAIC_INJECTOR, VoltaicInjectorBlockEntity::new, builder -> builder.withBlock(LTXIBlocks.VOLTAIC_INJECTOR).hasMenu(LTXIMenus.VOLTAIC_INJECTOR));
     public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<ChemLabBlockEntity>> CHEM_LAB = registerItemEnergyFluidMachine(LTXICommonIds.ID_CHEM_LAB, ChemLabBlockEntity::new, MACHINE_ITEM_RULES, MACHINE_ENERGY_RULES, MACHINE_FLUID_RULES,
             builder -> builder.withBlock(LTXIBlocks.CHEM_LAB).hasMenu(LTXIMenus.CHEM_LAB));
     public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<FabricatorBlockEntity>> FABRICATOR = registerItemEnergyMachine(LTXICommonIds.ID_FABRICATOR, FabricatorBlockEntity::new, FABRICATOR_ITEM_RULES, MACHINE_ENERGY_RULES, builder -> builder.withBlock(LTXIBlocks.FABRICATOR).hasMenu(LTXIMenus.FABRICATOR));

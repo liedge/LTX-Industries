@@ -47,6 +47,14 @@ public final class LTXIBlockShapes
             dimensionBox(1.5d, 13, 1.5d, 13, 2, 13),
             dimensionBox(3, 15, 3, 10, 1, 10));
 
+    public static final VoxelShape VOLTAIC_INJECTOR = Shapes.or(
+            dimensionBox(1, 0, 1, 14, 3, 14),
+            dimensionBox(2, 3, 2, 12, 1, 12),
+            dimensionBox(1, 13, 1, 14, 2, 14),
+            dimensionBox(2, 15, 2, 12, 1, 12),
+            dimensionBox(5, 1, 14, 6, 13, 2),
+            dimensionBox(5, 12, 0.5d, 6, 4, 1));
+
     public static final VoxelShape CHEM_LAB = Shapes.or(
             Block.box(0, 0, 0, 16, 5, 16),
             dimensionBox(6, 5, 0, 10, 10, 16),

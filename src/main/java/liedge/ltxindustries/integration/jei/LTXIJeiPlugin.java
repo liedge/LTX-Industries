@@ -63,6 +63,7 @@ public class LTXIJeiPlugin implements IModPlugin
     static final RecipeType<RecipeHolder<MaterialFusingRecipe>> MATERIAL_FUSING_JEI = registerType(MATERIAL_FUSING);
     static final RecipeType<RecipeHolder<ElectroCentrifugingRecipe>> ELECTRO_CENTRIFUGING_JEI = registerType(ELECTRO_CENTRIFUGING);
     static final RecipeType<RecipeHolder<MixingRecipe>> MIXING_JEI = registerType(MIXING);
+    static final RecipeType<RecipeHolder<EnergizingRecipe>> ENERGIZING_JEI = registerType(ENERGIZING);
     static final RecipeType<RecipeHolder<ChemicalReactingRecipe>> CHEMICAL_REACTING_JEI = registerType(CHEMICAL_REACTING);
     static final RecipeType<RecipeHolder<FabricatingRecipe>> FABRICATING_JEI = registerType(FABRICATING);
 
@@ -87,6 +88,7 @@ public class LTXIJeiPlugin implements IModPlugin
         registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, MATERIAL_FUSING, MATERIAL_FUSING_JEI, RecipeLayouts.MATERIAL_FUSING_CHAMBER));
         registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, ELECTRO_CENTRIFUGING, ELECTRO_CENTRIFUGING_JEI, RecipeLayouts.ELECTROCENTRIFUGE));
         registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, MIXING, MIXING_JEI, RecipeLayouts.MIXER));
+        registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, ENERGIZING, ENERGIZING_JEI, RecipeLayouts.COOKING_LAYOUT));
         registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, CHEMICAL_REACTING, CHEMICAL_REACTING_JEI, RecipeLayouts.CHEM_LAB));
         registration.addRecipeCategories(new FabricatingJeiCategory(helper, FABRICATING));
     }
@@ -101,6 +103,7 @@ public class LTXIJeiPlugin implements IModPlugin
         registration.addRecipes(MATERIAL_FUSING_JEI, manager.getAllRecipesFor(MATERIAL_FUSING.get()));
         registration.addRecipes(ELECTRO_CENTRIFUGING_JEI, manager.getAllRecipesFor(ELECTRO_CENTRIFUGING.get()));
         registration.addRecipes(MIXING_JEI, manager.getAllRecipesFor(MIXING.get()));
+        registration.addRecipes(ENERGIZING_JEI, manager.getAllRecipesFor(ENERGIZING.get()));
         registration.addRecipes(CHEMICAL_REACTING_JEI, manager.getAllRecipesFor(CHEMICAL_REACTING.get()));
 
         List<RecipeHolder<FabricatingRecipe>> fabricatingRecipes = LimaRecipesUtil.getSortedRecipesForType(level, FABRICATING, LTXIClientRecipes.comparingFabricationRecipes());
@@ -117,6 +120,7 @@ public class LTXIJeiPlugin implements IModPlugin
         registration.addRecipeCatalyst(LTXIBlocks.MATERIAL_FUSING_CHAMBER, MATERIAL_FUSING_JEI);
         registration.addRecipeCatalyst(LTXIBlocks.ELECTROCENTRIFUGE, ELECTRO_CENTRIFUGING_JEI);
         registration.addRecipeCatalyst(LTXIBlocks.MIXER, MIXING_JEI);
+        registration.addRecipeCatalyst(LTXIBlocks.VOLTAIC_INJECTOR, ENERGIZING_JEI);
         registration.addRecipeCatalyst(LTXIBlocks.CHEM_LAB, CHEMICAL_REACTING_JEI);
         registration.addRecipeCatalyst(LTXIBlocks.FABRICATOR, FABRICATING_JEI);
         registration.addRecipeCatalyst(LTXIBlocks.AUTO_FABRICATOR, FABRICATING_JEI);

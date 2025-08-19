@@ -67,6 +67,7 @@ class BlockTagsGen extends LimaTagsProvider.RegistryTags<Block>
                 MATERIAL_FUSING_CHAMBER,
                 ELECTROCENTRIFUGE,
                 MIXER,
+                VOLTAIC_INJECTOR,
                 CHEM_LAB,
                 FABRICATOR,
                 AUTO_FABRICATOR,

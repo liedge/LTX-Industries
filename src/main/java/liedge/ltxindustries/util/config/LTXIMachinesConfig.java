@@ -37,6 +37,10 @@ public final class LTXIMachinesConfig
     public static final ModConfigSpec.IntValue MIXER_ENERGY_USAGE;
     public static final ModConfigSpec.IntValue MIXER_CRAFTING_TIME;
 
+    public static final ModConfigSpec.IntValue VOLTAIC_INJECTOR_ENERGY_CAPACITY;
+    public static final ModConfigSpec.IntValue VOLTAIC_INJECTOR_ENERGY_USAGE;
+    public static final ModConfigSpec.IntValue VOLTAIC_INJECTOR_CRAFTING_TIME;
+
     public static final ModConfigSpec.IntValue CHEM_LAB_ENERGY_CAPACITY;
     public static final ModConfigSpec.IntValue CHEM_LAB_ENERGY_USAGE;
     public static final ModConfigSpec.IntValue CHEM_LAB_CRAFTING_TIME;
@@ -138,6 +142,16 @@ public final class LTXIMachinesConfig
                 .defineInRange("energy_usage", 100, 1, Integer.MAX_VALUE);
         MIXER_CRAFTING_TIME = builder.comment("Base crafting time (in ticks) of the Mixer")
                 .defineInRange("crafting_time", 200, 1, Integer.MAX_VALUE);
+        builder.pop();
+
+        // Voltaic Injector
+        builder.push("voltaic_injector");
+        VOLTAIC_INJECTOR_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Voltaic Injector")
+                .defineInRange("energy_capacity", 250_000, 1, Integer.MAX_VALUE);
+        VOLTAIC_INJECTOR_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the Voltaic Injector")
+                .defineInRange("energy_usage", 80, 1, Integer.MAX_VALUE);
+        VOLTAIC_INJECTOR_CRAFTING_TIME = builder.comment("Base crafting time (in ticks) of the Voltaic Injector")
+                .defineInRange("crafting_time", 160, 1, Integer.MAX_VALUE);
         builder.pop();
 
         // Chem Lab

@@ -108,6 +108,7 @@ public final class LTXIClientSetup
         event.register(LTXIMenus.MATERIAL_FUSING_CHAMBER.get(), RecipeLayoutScreen::new);
         event.register(LTXIMenus.ELECTROCENTRIFUGE.get(), RecipeLayoutScreen::new);
         event.register(LTXIMenus.MIXER.get(), RecipeLayoutScreen::new);
+        event.register(LTXIMenus.VOLTAIC_INJECTOR.get(), RecipeLayoutScreen::new);
         event.register(LTXIMenus.CHEM_LAB.get(), RecipeLayoutScreen::new);
         event.register(LTXIMenus.FABRICATOR.get(), FabricatorScreen::new);
         event.register(LTXIMenus.AUTO_FABRICATOR.get(), AutoFabricatorScreen::new);

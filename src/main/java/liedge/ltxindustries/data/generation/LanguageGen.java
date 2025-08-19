@@ -75,6 +75,7 @@ class LanguageGen extends LimaLanguageProvider
         addBlock(MATERIAL_FUSING_CHAMBER, "Material Fusing Chamber");
         addBlock(ELECTROCENTRIFUGE, "ElectroCentrifuge");
         addBlock(MIXER, "Mixer");
+        addBlock(VOLTAIC_INJECTOR, "Voltaic Injector");
         addBlock(CHEM_LAB, "Chem Lab");
         addBlock(FABRICATOR, "Fabricator");
         addBlock(AUTO_FABRICATOR, "Auto Fabricator");
@@ -238,6 +239,7 @@ class LanguageGen extends LimaLanguageProvider
         add(MATERIAL_FUSING, "Material Fusing");
         add(ELECTRO_CENTRIFUGING, "ElectroCentrifuging");
         add(MIXING, "Mixing");
+        add(ENERGIZING, "Energizing");
         add(CHEMICAL_REACTING, "Chemical Reacting");
         add(FABRICATING, "Fabricating");
 
