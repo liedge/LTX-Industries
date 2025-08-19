@@ -58,10 +58,6 @@ class ItemTagsGen extends LimaTagsProvider.ItemTags
         buildTag(SLATESTEEL_NUGGETS).add(SLATESTEEL_NUGGET);
         buildTag(NUGGETS).addTags(TITANIUM_NUGGETS, NIOBIUM_NUGGETS, SLATESTEEL_NUGGETS);
 
-        buildTag(DYES_WHITE).add(WHITE_PIGMENT);
-        buildTag(DYES_LIGHT_BLUE).add(LIGHT_BLUE_PIGMENT);
-        buildTag(DYES_LIME).add(LIME_PIGMENT);
-
         buildTag(SWORDS).add(LTX_SWORD);
         buildTag(SHOVELS).add(LTX_SHOVEL);
         buildTag(AXES).add(LTX_AXE);

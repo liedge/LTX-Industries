@@ -56,9 +56,11 @@ public final class LTXIItems
     public static final DeferredItem<BucketItem> VIRIDIC_ACID_BUCKET = ITEMS.registerItem("viridic_acid_bucket", properties -> new BucketItem(LTXIFluids.VIRIDIC_ACID.get(), properties), properties().stacksTo(1));
 
     // Pigments
-    public static final DeferredItem<Item> WHITE_PIGMENT = ITEMS.registerSimpleItem("white_pigment");
-    public static final DeferredItem<Item> LIGHT_BLUE_PIGMENT = ITEMS.registerSimpleItem("light_blue_pigment");
-    public static final DeferredItem<Item> LIME_PIGMENT = ITEMS.registerSimpleItem("lime_pigment");
+    public static final DeferredItem<Item> LTX_LIME_PIGMENT = ITEMS.registerSimpleItem("ltx_lime_pigment");
+    public static final DeferredItem<Item> ENERGY_BLUE_PIGMENT = ITEMS.registerSimpleItem("energy_blue_pigment");
+    public static final DeferredItem<Item> ELECTRIC_CHARTREUSE_PIGMENT = ITEMS.registerSimpleItem("electric_chartreuse_pigment");
+    public static final DeferredItem<Item> VIRIDIC_GREEN_PIGMENT = ITEMS.registerSimpleItem("viridic_green_pigment");
+    public static final DeferredItem<Item> NEURO_BLUE_PIGMENT = ITEMS.registerSimpleItem("neuro_blue_pigment");
 
     // Ore pebbles
     public static final DeferredItem<Item> COAL_ORE_PEBBLES = ITEMS.registerSimpleItem("coal_ore_pebbles");
@@ -95,7 +97,12 @@ public final class LTXIItems
     public static final DeferredItem<EnergyLighterItem> LTX_LIGHTER = registerLTXGear("ltx_lighter", EnergyLighterItem::new);
 
     // Processed resources
+    public static final DeferredItem<Item> CARBON_DUST = ITEMS.registerSimpleItem("carbon_dust");
+    public static final DeferredItem<Item> RESINOUS_BIOMASS = ITEMS.registerSimpleItem("resinous_biomass");
+    public static final DeferredItem<Item> ACIDIC_BIOMASS = ITEMS.registerSimpleItem("acidic_biomass");
     public static final DeferredItem<Item> DEEPSLATE_DUST = ITEMS.registerSimpleItem("deepslate_dust");
+    public static final DeferredItem<Item> MONOMER_CHEMICAL = ITEMS.registerSimpleItem("monomer_chemical");
+    public static final DeferredItem<Item> POLYMER_INGOT = ITEMS.registerSimpleItem("polymer_ingot");
 
     // Alloy ingots
     public static final DeferredItem<Item> SLATESTEEL_INGOT = ITEMS.registerSimpleItem("slatesteel_ingot");

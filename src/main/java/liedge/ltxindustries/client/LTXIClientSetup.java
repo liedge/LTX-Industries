@@ -29,6 +29,7 @@ import liedge.ltxindustries.menu.tooltip.ItemGridTooltip;
 import liedge.ltxindustries.registry.game.*;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -37,8 +38,13 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
+import net.neoforged.neoforge.registries.DeferredHolder;
+
+import java.util.function.IntFunction;
+import java.util.stream.Stream;
 
 import static liedge.limacore.client.particle.LimaParticleUtil.*;
+import static liedge.ltxindustries.LTXIndustries.RESOURCES;
 import static liedge.ltxindustries.registry.game.LTXIParticles.*;
 
 @EventBusSubscriber(modid = LTXIndustries.MODID, value = Dist.CLIENT)
@@ -52,8 +58,8 @@ public final class LTXIClientSetup
         // Register item overrides
         event.enqueueWork(LTXIItemOverrides::registerOverrides);
 
-        ItemBlockRenderTypes.setRenderLayer(LTXIFluids.VIRIDIC_ACID.get(), RenderType.translucent());
-        ItemBlockRenderTypes.setRenderLayer(LTXIFluids.FLOWING_VIRIDIC_ACID.get(), RenderType.translucent());
+        Stream.of(LTXIFluids.VIRIDIC_ACID, LTXIFluids.FLOWING_VIRIDIC_ACID, LTXIFluids.HYDROGEN, LTXIFluids.FLOWING_HYDROGEN, LTXIFluids.OXYGEN, LTXIFluids.FLOWING_OXYGEN)
+                .map(DeferredHolder::value).forEach(fluid -> ItemBlockRenderTypes.setRenderLayer(fluid, RenderType.translucent()));
     }
 
     @SubscribeEvent
@@ -76,6 +82,17 @@ public final class LTXIClientSetup
         event.registerItem(LTXIItemRenderers.HEAVY_PISTOL, LTXIItems.HEAVY_PISTOL.get());
 
         event.registerFluidType(LimaFluidClientExtensions.create(LTXIFluids.VIRIDIC_ACID_TYPE, false, null, LimaColor.WHITE, LTXIConstants.ACID_GREEN, 13.5f), LTXIFluids.VIRIDIC_ACID_TYPE);
+
+        // Gases
+        final ResourceLocation gasTexture = RESOURCES.location("block/gas");
+        IntFunction<LimaFluidClientExtensions> gasExtensions = rgb ->
+        {
+            LimaColor color = LimaColor.createOpaque(rgb);
+            // Just set fog distance to 0, gases don't have blocks
+            return new LimaFluidClientExtensions(gasTexture, gasTexture, null, null, color.argb32(), LimaFluidClientExtensions.fogTintFromColor(color), 0f);
+        };
+        event.registerFluidType(gasExtensions.apply(0xe7e7e7), LTXIFluids.HYDROGEN_TYPE);
+        event.registerFluidType(gasExtensions.apply(0x91a5d5), LTXIFluids.OXYGEN_TYPE);
     }
 
     @SubscribeEvent

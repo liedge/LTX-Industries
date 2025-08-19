@@ -2,9 +2,9 @@ package liedge.ltxindustries.data.generation;
 
 import liedge.limacore.data.generation.LimaLanguageProvider;
 import liedge.limacore.lib.ModResources;
-import liedge.limacore.util.LimaRegistryUtil;
 import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.LTXIndustries;
+import liedge.ltxindustries.block.NeonLightColor;
 import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
 import liedge.ltxindustries.client.LTXIKeyMappings;
 import liedge.ltxindustries.client.LTXILangKeys;
@@ -57,12 +57,12 @@ class LanguageGen extends LimaLanguageProvider
         addBlock(NIOBIUM_BLOCK, "Block of Niobium");
         addBlock(SLATESTEEL_BLOCK, "Block of Slatesteel");
 
-        STANDARD_NEON_LIGHTS.forEach((dyeColor, holder) -> addBlock(holder, localizeSimpleName(LimaRegistryUtil.getBlockName(holder))));
-        addBlock(LTX_LIME_NEON_LIGHT, "LTX Lime Neon Light");
-        addBlock(ENERGY_BLUE_NEON_LIGHT, "Energy Blue Neon Light");
-        addBlock(ELECTRIC_CHARTREUSE_NEON_LIGHT, "Electric Chartreuse Neon Light");
-        addBlock(ACID_GREEN_NEON_LIGHT, "Acid Green Neon Light");
-        addBlock(NEURO_BLUE_NEON_LIGHT, "Neuro Blue Neon Light");
+        NEON_LIGHTS.forEach((color, holder) ->
+        {
+            String name = color == NeonLightColor.LTX_LIME ? "LTX Lime" : localizeSimpleName(color.toString());
+            name += " Neon Light";
+            addBlock(holder, name);
+        });
         addBlock(TITANIUM_GLASS, "Titanium Glass");
         addBlock(SLATE_GLASS, "Slate Glass");
 
@@ -87,6 +87,8 @@ class LanguageGen extends LimaLanguageProvider
 
         // Fluids
         fluidType(LTXIFluids.VIRIDIC_ACID_TYPE, "Viridic Acid");
+        fluidType(LTXIFluids.HYDROGEN_TYPE, "Hydrogen");
+        fluidType(LTXIFluids.OXYGEN_TYPE, "Oxygen");
 
         //#region Items
         addItem(RAW_TITANIUM, "Raw Titanium");
@@ -96,12 +98,20 @@ class LanguageGen extends LimaLanguageProvider
         addItem(NIOBIUM_INGOT, "Niobium Ingot");
         addItem(NIOBIUM_NUGGET, "Niobium Nugget");
         addItem(VITRIOL_BERRIES, "Vitriol Berries");
+        addItem(VIRIDIC_ACID_BUCKET, "Viridic Acid Bucket");
 
-        addItem(WHITE_PIGMENT, "White Pigment");
-        addItem(LIGHT_BLUE_PIGMENT, "Light Blue Pigment");
-        addItem(LIME_PIGMENT, "Lime Pigment");
+        addItem(LTX_LIME_PIGMENT, "LTX Lime Pigment");
+        addItem(ENERGY_BLUE_PIGMENT, "Energy Blue Pigment");
+        addItem(ELECTRIC_CHARTREUSE_PIGMENT, "Electric Chartreuse Pigment");
+        addItem(VIRIDIC_GREEN_PIGMENT, "Viridic Green Pigment");
+        addItem(NEURO_BLUE_PIGMENT, "Neuro Blue Pigment");
 
+        addItem(CARBON_DUST, "Carbon Dust");
+        addItem(RESINOUS_BIOMASS, "Resinous Biomass");
+        addItem(ACIDIC_BIOMASS, "Acidic Biomass");
         addItem(DEEPSLATE_DUST, "Deepslate Dust");
+        addItem(MONOMER_CHEMICAL, "Monomer Solution");
+        addItem(POLYMER_INGOT, "Polymer Bar");
         addItem(SLATESTEEL_INGOT, "Slatesteel Ingot");
         addItem(SLATESTEEL_NUGGET, "Slatesteel Nugget");
         addItem(CIRCUIT_BOARD, "Circuit Board");

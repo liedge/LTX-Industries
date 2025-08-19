@@ -11,6 +11,9 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import net.neoforged.neoforge.registries.RegisterEvent;
 
+import java.util.function.Supplier;
+import java.util.function.UnaryOperator;
+
 public final class LTXIFluids
 {
     private LTXIFluids() {}
@@ -24,11 +27,9 @@ public final class LTXIFluids
 
     public static void registerFluids(RegisterEvent.RegisterHelper<Fluid> helper)
     {
-        BaseFlowingFluid.Properties viridicAcidProps = new BaseFlowingFluid.Properties(VIRIDIC_ACID_TYPE::value, VIRIDIC_ACID::value, FLOWING_VIRIDIC_ACID::value)
-                .block(LTXIBlocks.VIRIDIC_ACID_BLOCK)
-                .bucket(LTXIItems.VIRIDIC_ACID_BUCKET);
-        helper.register(VIRIDIC_ACID.getId(), new BaseFlowingFluid.Source(viridicAcidProps));
-        helper.register(FLOWING_VIRIDIC_ACID.getId(), new BaseFlowingFluid.Flowing(viridicAcidProps));
+        registerFluid(helper, VIRIDIC_ACID_TYPE, VIRIDIC_ACID, FLOWING_VIRIDIC_ACID, properties -> properties.block(LTXIBlocks.VIRIDIC_ACID_BLOCK).bucket(LTXIItems.VIRIDIC_ACID_BUCKET));
+        registerFluid(helper, HYDROGEN_TYPE, HYDROGEN, FLOWING_HYDROGEN, UnaryOperator.identity());
+        registerFluid(helper, OXYGEN_TYPE, OXYGEN, FLOWING_OXYGEN, UnaryOperator.identity());
     }
 
     // Light levels
@@ -36,12 +37,32 @@ public final class LTXIFluids
 
     // Fluid Types
     public static final DeferredHolder<FluidType, FluidType> VIRIDIC_ACID_TYPE = TYPES.register("viridic_acid", () -> new FluidType(FluidType.Properties.create().lightLevel(VIRIDIC_ACID_LIGHT)));
+    public static final DeferredHolder<FluidType, FluidType> HYDROGEN_TYPE = TYPES.register("hydrogen", () -> new FluidType(FluidType.Properties.create()));
+    public static final DeferredHolder<FluidType, FluidType> OXYGEN_TYPE = TYPES.register("oxygen", () -> new FluidType(FluidType.Properties.create()));
 
-    public static final DeferredHolder<Fluid, BaseFlowingFluid.Source> VIRIDIC_ACID = fluidHolder("viridic_acid");
-    public static final DeferredHolder<Fluid, BaseFlowingFluid.Flowing> FLOWING_VIRIDIC_ACID = fluidHolder("flowing_viridic_acid");
+    // Fluids
+    public static final DeferredHolder<Fluid, BaseFlowingFluid.Source> VIRIDIC_ACID = source(VIRIDIC_ACID_TYPE);
+    public static final DeferredHolder<Fluid, BaseFlowingFluid.Flowing> FLOWING_VIRIDIC_ACID = flowing(VIRIDIC_ACID_TYPE);
+    public static final DeferredHolder<Fluid, BaseFlowingFluid.Source> HYDROGEN = source(HYDROGEN_TYPE);
+    public static final DeferredHolder<Fluid, BaseFlowingFluid.Flowing> FLOWING_HYDROGEN = flowing(HYDROGEN_TYPE);
+    public static final DeferredHolder<Fluid, BaseFlowingFluid.Source> OXYGEN = source(OXYGEN_TYPE);
+    public static final DeferredHolder<Fluid, BaseFlowingFluid.Flowing> FLOWING_OXYGEN = flowing(OXYGEN_TYPE);
 
-    private static <T extends BaseFlowingFluid> DeferredHolder<Fluid, T> fluidHolder(String name)
+    private static DeferredHolder<Fluid, BaseFlowingFluid.Source> source(DeferredHolder<FluidType, ?> typeHolder)
     {
-        return DeferredHolder.create(Registries.FLUID, LTXIndustries.RESOURCES.location(name));
+        return DeferredHolder.create(Registries.FLUID, typeHolder.getId());
+    }
+
+    private static DeferredHolder<Fluid, BaseFlowingFluid.Flowing> flowing(DeferredHolder<FluidType, ?> typeHolder)
+    {
+        return DeferredHolder.create(Registries.FLUID, typeHolder.getId().withPrefix("flowing_"));
+    }
+
+    private static void registerFluid(RegisterEvent.RegisterHelper<Fluid> helper, Supplier<FluidType> typeSupplier,
+                                      DeferredHolder<Fluid, BaseFlowingFluid.Source> sourceHolder, DeferredHolder<Fluid, BaseFlowingFluid.Flowing> flowingHolder, UnaryOperator<BaseFlowingFluid.Properties> propertiesOp)
+    {
+        BaseFlowingFluid.Properties properties = propertiesOp.apply(new BaseFlowingFluid.Properties(typeSupplier, sourceHolder, flowingHolder));
+        helper.register(sourceHolder.getId(), new BaseFlowingFluid.Source(properties));
+        helper.register(flowingHolder.getId(), new BaseFlowingFluid.Flowing(properties));
     }
 }

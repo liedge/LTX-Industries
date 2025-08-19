@@ -1,7 +1,9 @@
 package liedge.ltxindustries.data.generation;
 
 import liedge.limacore.data.generation.LimaTagsProvider;
+import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.LTXIndustries;
+import liedge.ltxindustries.registry.game.LTXIBlocks;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
@@ -50,13 +52,12 @@ class BlockTagsGen extends LimaTagsProvider.RegistryTags<Block>
         buildTag(SLATESTEEL_STORAGE_BLOCKS).add(SLATESTEEL_BLOCK);
         buildTag(SHEARS_HARVESTABLE).add(COBWEB, SHORT_GRASS, FERN, DEAD_BUSH, HANGING_ROOTS, VINE, TRIPWIRE).add(BILEVINE, BILEVINE_PLANT).addTags(WOOL, LEAVES);
 
-        buildTag(IMPERMEABLE).add(TITANIUM_GLASS, SLATE_GLASS).addTag(NEON_LIGHTS);
+        buildTag(IMPERMEABLE).add(TITANIUM_GLASS, SLATE_GLASS).addTag(LTXITags.Blocks.NEON_LIGHTS);
         buildTag(WITHER_IMMUNE).add(SLATE_GLASS);
         buildTag(DRAGON_IMMUNE).add(SLATE_GLASS);
 
-        buildTag(NEON_LIGHTS)
-                .addHolders(List.copyOf(STANDARD_NEON_LIGHTS.values()))
-                .add(LTX_LIME_NEON_LIGHT, ENERGY_BLUE_NEON_LIGHT, ELECTRIC_CHARTREUSE_NEON_LIGHT, ACID_GREEN_NEON_LIGHT, NEURO_BLUE_NEON_LIGHT)
+        buildTag(LTXITags.Blocks.NEON_LIGHTS)
+                .addHolders(List.copyOf(LTXIBlocks.NEON_LIGHTS.values()))
                 .copyTo(MINEABLE_WITH_PICKAXE);
         buildTag(DEEPSLATE_GRINDABLES).add(Blocks.DEEPSLATE, Blocks.COBBLED_DEEPSLATE, Blocks.POLISHED_DEEPSLATE, Blocks.DEEPSLATE_BRICKS, Blocks.CRACKED_DEEPSLATE_BRICKS, Blocks.DEEPSLATE_TILES, Blocks.CRACKED_DEEPSLATE_TILES);
         buildTag(WRENCH_BREAKABLE).add(DIGITAL_FURNACE,

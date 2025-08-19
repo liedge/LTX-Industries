@@ -1,6 +1,6 @@
 {
   "parent": "ltxi:block/neon_light_base",
   "textures": {
-    "all": "ltxi:block/neon_light/acid_green"
+    "all": "ltxi:block/neon_light/viridic_green"
   }
 }

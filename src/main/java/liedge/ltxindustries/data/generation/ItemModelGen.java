@@ -41,16 +41,18 @@ class ItemModelGen extends LimaItemModelProvider
                 NIOBIUM_INGOT,
                 NIOBIUM_NUGGET,
                 VITRIOL_BERRIES,
-                WHITE_PIGMENT,
-                LIGHT_BLUE_PIGMENT,
-                LIME_PIGMENT,
                 CIRCUIT_BOARD,
                 T1_CIRCUIT,
                 T2_CIRCUIT,
                 T3_CIRCUIT,
                 T4_CIRCUIT,
                 T5_CIRCUIT,
+                CARBON_DUST,
+                RESINOUS_BIOMASS,
+                ACIDIC_BIOMASS,
                 DEEPSLATE_DUST,
+                MONOMER_CHEMICAL,
+                POLYMER_INGOT,
                 SLATESTEEL_INGOT,
                 SLATESTEEL_NUGGET,
                 EMPTY_UPGRADE_MODULE,
@@ -70,6 +72,7 @@ class ItemModelGen extends LimaItemModelProvider
                 .fluid(LTXIFluids.VIRIDIC_ACID.get())
                 .end();
 
+        pigments(LTX_LIME_PIGMENT, ENERGY_BLUE_PIGMENT, ELECTRIC_CHARTREUSE_PIGMENT, VIRIDIC_GREEN_PIGMENT, NEURO_BLUE_PIGMENT);
         orePebbles(COAL_ORE_PEBBLES, COPPER_ORE_PEBBLES, IRON_ORE_PEBBLES, LAPIS_ORE_PEBBLES, REDSTONE_ORE_PEBBLES, GOLD_ORE_PEBBLES, DIAMOND_ORE_PEBBLES, EMERALD_ORE_PEBBLES, QUARTZ_ORE_PEBBLES, NETHERITE_ORE_PEBBLES, TITANIUM_ORE_PEBBLES, NIOBIUM_ORE_PEBBLES);
 
         generated(itemFolderLocation("tech_salvage"), EXPLOSIVES_WEAPON_TECH_SALVAGE, TARGETING_TECH_SALVAGE);
@@ -113,6 +116,15 @@ class ItemModelGen extends LimaItemModelProvider
     {
         String name = getItemName(itemLike.asItem());
         emissiveBiLayer(name, parent, itemFolderLocation(name + "_base"), itemFolderLocation(name + "_emissive"));
+    }
+
+    private void pigments(ItemLike... pigments)
+    {
+        for (ItemLike item : pigments)
+        {
+            String name = getItemName(item.asItem()).split("_pigment")[0];
+            generated(item, itemFolderLocation("pigment/" + name));
+        }
     }
 
     private void orePebbles(ItemLike... pebbles)
