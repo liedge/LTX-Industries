@@ -24,6 +24,12 @@ public abstract class CookingBlockEntity<R extends AbstractCookingRecipe> extend
     }
 
     @Override
+    protected int getBaseRecipeCraftingTime(R recipe)
+    {
+        return recipe.getCookingTime();
+    }
+
+    @Override
     protected void consumeIngredients(SingleRecipeInput recipeInput, R recipe, Level level)
     {
         getInputInventory().extractItem(0, 1, false);

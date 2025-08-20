@@ -7,7 +7,7 @@ import liedge.ltxindustries.util.config.LTXIMachinesConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class ChemLabBlockEntity extends LimaRecipeMachineBlockEntity<ChemicalReactingRecipe>
+public class ChemLabBlockEntity extends LTXIRecipeMachineBlockEntity<ChemicalReactingRecipe>
 {
     public ChemLabBlockEntity(BlockPos pos, BlockState state)
     {
@@ -24,11 +24,5 @@ public class ChemLabBlockEntity extends LimaRecipeMachineBlockEntity<ChemicalRea
     public int getBaseEnergyUsage()
     {
         return LTXIMachinesConfig.CHEM_LAB_ENERGY_USAGE.getAsInt();
-    }
-
-    @Override
-    public int getBaseTicksPerOperation()
-    {
-        return LTXIMachinesConfig.CHEM_LAB_CRAFTING_TIME.getAsInt();
     }
 }

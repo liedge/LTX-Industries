@@ -10,7 +10,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class MixerBlockEntity extends LimaRecipeMachineBlockEntity<MixingRecipe>
+public class MixerBlockEntity extends LTXIRecipeMachineBlockEntity<MixingRecipe>
 {
     private int spinSpeed = 0;
     private float impellerYRot0;
@@ -31,12 +31,6 @@ public class MixerBlockEntity extends LimaRecipeMachineBlockEntity<MixingRecipe>
     public int getBaseEnergyUsage()
     {
         return LTXIMachinesConfig.MIXER_ENERGY_USAGE.getAsInt();
-    }
-
-    @Override
-    public int getBaseTicksPerOperation()
-    {
-        return LTXIMachinesConfig.MIXER_CRAFTING_TIME.getAsInt();
     }
 
     @Override

@@ -145,6 +145,7 @@ class LootTablesGen extends LimaLootTableProvider
                     SLATESTEEL_BLOCK);
 
             dropSelf(NEON_LIGHTS.values());
+            dropSelf(TITANIUM_PANEL);
             dropSelf(TITANIUM_GLASS, SLATE_GLASS);
             berryVines(BILEVINE);
             berryVines(BILEVINE_PLANT);

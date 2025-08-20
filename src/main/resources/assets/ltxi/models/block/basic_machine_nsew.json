@@ -12,7 +12,7 @@
 	],
 	"textures": {
 		"particle": "#frame1",
-		"frame1": "ltxi:block/titanium_block_0",
+		"frame1": "ltxi:block/titanium_panel",
 		"frame2": "ltxi:block/blank_slate_alloy_machine",
 		"frame3": "ltxi:block/basic_machine_side",
 		"frame3_e": "ltxi:block/basic_machine_side_emissive",

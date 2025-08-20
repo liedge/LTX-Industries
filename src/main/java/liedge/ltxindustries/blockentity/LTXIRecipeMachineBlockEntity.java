@@ -1,11 +1,10 @@
 package liedge.ltxindustries.blockentity;
 
 import liedge.limacore.blockentity.BlockContentsType;
-import liedge.limacore.capability.fluid.LimaBlockEntityFluidHandler;
 import liedge.limacore.capability.fluid.LimaFluidHandler;
-import liedge.limacore.recipe.LimaCustomRecipe;
 import liedge.limacore.recipe.LimaRecipeInput;
 import liedge.ltxindustries.blockentity.base.SidedAccessBlockEntityType;
+import liedge.ltxindustries.recipe.LTXIRecipe;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -18,9 +17,9 @@ import net.neoforged.neoforge.items.ItemStackHandler;
 
 import java.util.List;
 
-public abstract class LimaRecipeMachineBlockEntity<R extends LimaCustomRecipe<LimaRecipeInput>> extends StateBlockRecipeMachineBlockEntity<LimaRecipeInput, R>
+public abstract class LTXIRecipeMachineBlockEntity<R extends LTXIRecipe> extends StateBlockRecipeMachineBlockEntity<LimaRecipeInput, R>
 {
-    protected LimaRecipeMachineBlockEntity(SidedAccessBlockEntityType<?> type, RecipeType<R> recipeType, BlockPos pos, BlockState state, int inputSlots, int outputSlots, int inputTanks, int outputTanks)
+    protected LTXIRecipeMachineBlockEntity(SidedAccessBlockEntityType<?> type, RecipeType<R> recipeType, BlockPos pos, BlockState state, int inputSlots, int outputSlots, int inputTanks, int outputTanks)
     {
         super(type, recipeType, pos, state, inputSlots, outputSlots, inputTanks, outputTanks);
     }
@@ -29,6 +28,12 @@ public abstract class LimaRecipeMachineBlockEntity<R extends LimaCustomRecipe<Li
     protected LimaRecipeInput getRecipeInput(Level level)
     {
         return LimaRecipeInput.create(getItemHandler(BlockContentsType.INPUT), getFluidHandler(BlockContentsType.INPUT));
+    }
+
+    @Override
+    protected int getBaseRecipeCraftingTime(R recipe)
+    {
+        return recipe.getCraftTime();
     }
 
     @Override
@@ -58,31 +63,27 @@ public abstract class LimaRecipeMachineBlockEntity<R extends LimaCustomRecipe<Li
             }
         };
 
-        boolean fluidCheck = true;
-        LimaBlockEntityFluidHandler outputFluids = getFluidHandler(BlockContentsType.OUTPUT);
-        if (outputFluids != null)
+        // Check fluid results
+        List<FluidStack> fluidResults = recipe.getFluidResults();
+        boolean fluidCheck = switch (fluidResults.size())
         {
-            List<FluidStack> fluidResults = recipe.getFluidResults();
-            fluidCheck = switch (fluidResults.size())
+            case 0 -> true;
+            case 1 ->
             {
-                case 0 -> true;
-                case 1 ->
+                FluidStack first = fluidResults.getFirst();
+                yield getFluidHandlerOrThrow(BlockContentsType.OUTPUT).fillAny(first, IFluidHandler.FluidAction.SIMULATE, true) == first.getAmount();
+            }
+            default ->
+            {
+                LimaFluidHandler interim = getFluidHandlerOrThrow(BlockContentsType.OUTPUT).copyHandler();
+                for (FluidStack stack : fluidResults)
                 {
-                    FluidStack first = fluidResults.getFirst();
-                    yield outputFluids.fillAny(first, IFluidHandler.FluidAction.SIMULATE, true) == first.getAmount();
+                    if (interim.fillAny(stack, IFluidHandler.FluidAction.EXECUTE, true) != stack.getAmount())
+                        yield false;
                 }
-                default ->
-                {
-                    LimaFluidHandler interim = outputFluids.copyHandler();
-                    for (FluidStack stack : fluidResults)
-                    {
-                        if (interim.fillAny(stack, IFluidHandler.FluidAction.EXECUTE, true) != stack.getAmount())
-                            yield false;
-                    }
-                    yield true;
-                }
-            };
-        }
+                yield true;
+            }
+        };
 
         return itemCheck && fluidCheck;
     }

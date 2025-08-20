@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import static liedge.ltxindustries.util.config.LTXIMachinesConfig.*;
 
-public class MaterialFusingChamberBlockEntity extends LimaRecipeMachineBlockEntity<MaterialFusingRecipe>
+public class MaterialFusingChamberBlockEntity extends LTXIRecipeMachineBlockEntity<MaterialFusingRecipe>
 {
     public MaterialFusingChamberBlockEntity(BlockPos pos, BlockState state)
     {
@@ -25,11 +25,5 @@ public class MaterialFusingChamberBlockEntity extends LimaRecipeMachineBlockEnti
     public int getBaseEnergyUsage()
     {
         return MFC_ENERGY_USAGE.getAsInt();
-    }
-
-    @Override
-    public int getBaseTicksPerOperation()
-    {
-        return MFC_CRAFTING_TIME.getAsInt();
     }
 }

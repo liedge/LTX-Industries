@@ -37,6 +37,7 @@ import java.util.function.Supplier;
 
 public abstract class LTXIJeiCategory<R extends LimaCustomRecipe<?>> implements IRecipeCategory<RecipeHolder<R>>
 {
+    protected final IGuiHelper helper;
     private final int width;
     private final int height;
     private final Component title;
@@ -47,12 +48,13 @@ public abstract class LTXIJeiCategory<R extends LimaCustomRecipe<?>> implements 
 
     protected LTXIJeiCategory(IGuiHelper helper, LimaRecipeType<R> gameRecipeType, int width, int height)
     {
+        this.helper = helper;
         this.width = width;
         this.height = height;
         this.title = gameRecipeType.translate();
 
-        this.machineProgressBackground = guiSpriteDrawable(helper, MachineProgressWidget.BACKGROUND_SPRITE, MachineProgressWidget.BACKGROUND_WIDTH, MachineProgressWidget.BACKGROUND_HEIGHT).build();
-        this.machineProgress = guiSpriteDrawable(helper, MachineProgressWidget.FILL_SPRITE, MachineProgressWidget.FILL_WIDTH, MachineProgressWidget.FILL_HEIGHT).buildAnimated(100, IDrawableAnimated.StartDirection.LEFT, false);
+        this.machineProgressBackground = guiSpriteDrawable(MachineProgressWidget.BACKGROUND_SPRITE, MachineProgressWidget.BACKGROUND_WIDTH, MachineProgressWidget.BACKGROUND_HEIGHT).build();
+        this.machineProgress = guiSpriteDrawable(MachineProgressWidget.FILL_SPRITE, MachineProgressWidget.FILL_WIDTH, MachineProgressWidget.FILL_HEIGHT).buildAnimated(100, IDrawableAnimated.StartDirection.LEFT, false);
     }
 
     protected LTXIJeiCategory(IGuiHelper helper, Supplier<? extends LimaRecipeType<R>> typeSupplier, int width, int height)
@@ -74,7 +76,7 @@ public abstract class LTXIJeiCategory<R extends LimaCustomRecipe<?>> implements 
         return spriteLocation.withPath(path -> String.format("textures/gui/sprites/%s.png", path));
     }
 
-    protected IDrawableBuilder guiSpriteDrawable(IGuiHelper helper, ResourceLocation spriteLocation, int width, int height)
+    protected IDrawableBuilder guiSpriteDrawable(ResourceLocation spriteLocation, int width, int height)
     {
         return helper.drawableBuilder(unwrapGuiSpriteTexture(spriteLocation), 0, 0, width, height).setTextureSize(width, height);
     }

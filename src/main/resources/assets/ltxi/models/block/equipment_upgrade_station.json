@@ -13,11 +13,11 @@
 		}
 	],
 	"textures": {
-		"0": "ltxi:block/titanium_block_0",
+		"0": "ltxi:block/titanium_panel",
 		"1": "ltxi:block/mod_table_side",
 		"2": "ltxi:block/mod_table_top",
 		"3": "ltxi:solid_lime",
-		"particle": "ltxi:block/titanium_block_0"
+		"particle": "ltxi:block/titanium_panel"
 	},
 	"elements": [
 		{

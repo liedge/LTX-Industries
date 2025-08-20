@@ -25,10 +25,4 @@ public class DigitalBlastFurnaceBlockEntity extends CookingBlockEntity<BlastingR
     {
         return LTXIMachinesConfig.DIGITAL_BLAST_FURNACE_ENERGY_USAGE.getAsInt();
     }
-
-    @Override
-    public int getBaseTicksPerOperation()
-    {
-        return LTXIMachinesConfig.DIGITAL_BLAST_FURNACE_CRAFTING_TIME.getAsInt();
-    }
 }

@@ -18,7 +18,7 @@
 		}
 	],
 	"textures": {
-		"particle": "ltxi:block/titanium_block_0",
+		"particle": "ltxi:block/titanium_panel",
 		"lights": "ltxi:solid_lime",
 		"eca": "ltxi:block/energy_cell_array"
 	},

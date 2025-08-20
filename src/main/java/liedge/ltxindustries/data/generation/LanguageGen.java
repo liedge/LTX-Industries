@@ -63,6 +63,7 @@ class LanguageGen extends LimaLanguageProvider
             name += " Neon Light";
             addBlock(holder, name);
         });
+        addBlock(TITANIUM_PANEL, "Titanium Panel");
         addBlock(TITANIUM_GLASS, "Titanium Glass");
         addBlock(SLATE_GLASS, "Slate Glass");
 
@@ -281,6 +282,7 @@ class LanguageGen extends LimaLanguageProvider
         add(INLINE_ENERGY_REQUIRED_TOOLTIP, "Energy required: %s");
         add(WORKING_PROGRESS_TOOLTIP, "Working: %s%%");
         add(CRAFTING_PROGRESS_TOOLTIP, "Crafting: %s%%");
+        add(JEI_CRAFTING_TIME_TOOLTIP, "%ss | %st");
 
         add(OUTPUT_CHANCE_TOOLTIP, "Output chance: ");
         add(ADVANCEMENT_LOCKED_TOOLTIP, "Requires Advancement");

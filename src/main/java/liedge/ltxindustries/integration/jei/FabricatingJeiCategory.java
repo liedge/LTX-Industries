@@ -33,8 +33,8 @@ class FabricatingJeiCategory extends LTXIJeiCategory<FabricatingRecipe>
     FabricatingJeiCategory(IGuiHelper helper, Supplier<LimaRecipeType<FabricatingRecipe>> typeSupplier)
     {
         super(helper, typeSupplier, 140, 76);
-        this.progressBackground = guiSpriteDrawable(helper, FabricatorProgressWidget.BACKGROUND_SPRITE, FabricatorProgressWidget.BACKGROUND_WIDTH, FabricatorProgressWidget.BACKGROUND_HEIGHT).build();
-        this.progressForeground = guiSpriteDrawable(helper, FabricatorProgressWidget.FILL_SPRITE, FabricatorProgressWidget.FILL_WIDTH, FabricatorProgressWidget.FILL_HEIGHT).buildAnimated(80, IDrawableAnimated.StartDirection.BOTTOM, false);
+        this.progressBackground = guiSpriteDrawable(FabricatorProgressWidget.BACKGROUND_SPRITE, FabricatorProgressWidget.BACKGROUND_WIDTH, FabricatorProgressWidget.BACKGROUND_HEIGHT).build();
+        this.progressForeground = guiSpriteDrawable(FabricatorProgressWidget.FILL_SPRITE, FabricatorProgressWidget.FILL_WIDTH, FabricatorProgressWidget.FILL_HEIGHT).buildAnimated(80, IDrawableAnimated.StartDirection.BOTTOM, false);
     }
 
     @Override

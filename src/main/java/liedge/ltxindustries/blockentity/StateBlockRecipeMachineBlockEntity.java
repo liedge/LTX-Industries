@@ -9,17 +9,24 @@ import liedge.limacore.capability.fluid.LimaBlockEntityFluidHandler;
 import liedge.limacore.capability.fluid.LimaFluidUtil;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.recipe.LimaRecipeCheck;
+import liedge.limacore.util.LimaRegistryUtil;
+import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.blockentity.base.*;
 import liedge.ltxindustries.blockentity.template.ProductionMachineBlockEntity;
-import liedge.ltxindustries.client.LTXILangKeys;
+import liedge.ltxindustries.lib.upgrades.EffectRankPair;
+import liedge.ltxindustries.lib.upgrades.effect.value.ValueUpgradeEffect;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrades;
+import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import liedge.ltxindustries.util.LTXITooltipUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeInput;
@@ -33,14 +40,13 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.EnumMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.function.DoubleUnaryOperator;
 
 import static liedge.ltxindustries.block.LTXIBlockProperties.MACHINE_WORKING;
 
 public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, R extends Recipe<I>> extends ProductionMachineBlockEntity
-        implements FluidHolderBlockEntity, TimedProcessMachineBlockEntity, EnergyConsumerBlockEntity, RecipeMachineBlockEntity<I, R>
+        implements FluidHolderBlockEntity, VariableTimedProcessBlockEntity, EnergyConsumerBlockEntity, RecipeMachineBlockEntity<I, R>
 {
     public static final int INPUT_TANK_CAPACITY = 32_000;
     public static final int OUTPUT_TANK_CAPACITY = 64_000;
@@ -52,12 +58,13 @@ public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, 
     private final LimaRecipeCheck<I, R> recipeCheck;
 
     private int energyUsage = getBaseEnergyUsage();
-    private int machineSpeed = getBaseTicksPerOperation();
+    private DoubleUnaryOperator recipeTimeFunction = DoubleUnaryOperator.identity();
+    private int recipeCraftingTime;
     private int craftingProgress;
-    private boolean shouldCheckRecipe;
-    private boolean shouldCheckOutput;
     private boolean crafting;
     private int autoFluidOutputTimer = 0;
+    private boolean shouldCheckRecipe;
+    private boolean shouldCheckCraftingTime;
 
     protected StateBlockRecipeMachineBlockEntity(SidedAccessBlockEntityType<?> type, RecipeType<R> recipeType, BlockPos pos, BlockState state, int inputSlots, int outputSlots, int inputTanks, int outputTanks)
     {
@@ -98,19 +105,18 @@ public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, 
     @Override
     public int getTicksPerOperation()
     {
-        return machineSpeed;
+        return recipeCraftingTime;
     }
 
     @Override
     public void setTicksPerOperation(int ticksPerOperation)
     {
-        this.machineSpeed = ticksPerOperation;
+        this.recipeCraftingTime = ticksPerOperation;
     }
 
     @Override
     public void appendStatsTooltips(TooltipLineConsumer consumer)
     {
-        consumer.accept(LTXILangKeys.MACHINE_TICKS_PER_OP_TOOLTIP.translateArgs(getTicksPerOperation()));
         LTXITooltipUtil.appendEnergyUsagePerTickTooltip(consumer, getEnergyUsage());
     }
 
@@ -145,6 +151,8 @@ public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, 
 
     protected abstract I getRecipeInput(Level level);
 
+    protected abstract int getBaseRecipeCraftingTime(R recipe);
+
     protected abstract void consumeIngredients(I recipeInput, R recipe, Level level);
 
     protected abstract void insertRecipeResults(Level level, R recipe, I recipeInput);
@@ -161,14 +169,9 @@ public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, 
     public void onItemSlotChanged(BlockContentsType contentsType, int slot)
     {
         setChanged();
-        if (contentsType == BlockContentsType.INPUT)
+        if (contentsType == BlockContentsType.INPUT || (contentsType == BlockContentsType.OUTPUT && !crafting))
         {
             shouldCheckRecipe = true;
-        }
-        else if (contentsType == BlockContentsType.OUTPUT && !crafting)
-        {
-            shouldCheckRecipe = true;
-            shouldCheckOutput = true;
         }
     }
 
@@ -218,14 +221,9 @@ public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, 
     public void onFluidsChanged(BlockContentsType contentsType, int tank)
     {
         setChanged();
-        if (contentsType == BlockContentsType.INPUT)
+        if (contentsType == BlockContentsType.INPUT || (contentsType == BlockContentsType.OUTPUT && !crafting))
         {
             shouldCheckRecipe = true;
-        }
-        else if (contentsType == BlockContentsType.OUTPUT && !crafting)
-        {
-            shouldCheckRecipe = true;
-            shouldCheckOutput = true;
         }
     }
 
@@ -244,7 +242,7 @@ public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, 
                 if (fluidController.getSideIOState(side).allowsOutput())
                 {
                     IFluidHandler neighborFluids = getNeighborFluidHandler(side);
-                    if (neighborFluids != null) LimaFluidUtil.transferFluidsBetween(outputFluids, neighborFluids, OUTPUT_TANK_CAPACITY, IFluidHandler.FluidAction.EXECUTE);
+                    if (neighborFluids != null) LimaFluidUtil.transferFluidsFromLimaTank(outputFluids, neighborFluids, OUTPUT_TANK_CAPACITY, IFluidHandler.FluidAction.EXECUTE);
                 }
             }
         }
@@ -274,15 +272,34 @@ public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, 
         // Perform recipe check if required - set crafting state accordingly
         if (shouldCheckRecipe)
         {
+            Optional<RecipeHolder<R>> lastUsed = recipeCheck.getLastUsedRecipe(level);
             Optional<RecipeHolder<R>> lookup = recipeCheck.getRecipeFor(getRecipeInput(level), level);
-            boolean recipeCheck = lookup.isPresent() && (!shouldCheckOutput || canInsertRecipeResults(level, lookup.get().value()));
 
-            if (!recipeCheck) craftingProgress = 0;
+            boolean hasValidRecipe = false;
+
+            if (lookup.isPresent())
+            {
+                RecipeHolder<R> recipeHolder = lookup.get();
+                boolean recipeChanged = lastUsed.filter(recipeHolder::equals).isEmpty();
+
+                if (recipeChanged) this.shouldCheckCraftingTime = true;
+
+                hasValidRecipe = canInsertRecipeResults(level, recipeHolder);
+                if (hasValidRecipe && shouldCheckCraftingTime)
+                {
+                    int baseTime = getBaseRecipeCraftingTime(recipeHolder.value());
+                    int time = Math.max(0, Mth.floor(recipeTimeFunction.applyAsDouble(baseTime)));
+                    setTicksPerOperation(time);
+                    shouldCheckCraftingTime = false;
+                    LTXIndustries.LOGGER.debug("Recomputed recipe process time for type {} to {}", LimaRegistryUtil.getNonNullRegistryId(this.recipeCheck.getRecipeType(), BuiltInRegistries.RECIPE_TYPE), time);
+                }
+            }
+
+            if (!hasValidRecipe) craftingProgress = 0;
 
             shouldCheckRecipe = false;
-            shouldCheckOutput = false;
 
-            setCrafting(recipeCheck && energyStorage.getEnergyStored() >= getEnergyUsage());
+            setCrafting(hasValidRecipe && energyStorage.getEnergyStored() >= getEnergyUsage());
         }
 
         // Tick recipe progress
@@ -302,7 +319,6 @@ public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, 
                     // Check state of recipe after every successful craft. Last recipe is used first so should be *relatively* quick.
                     craftingProgress = 0;
                     shouldCheckRecipe = true;
-                    shouldCheckOutput = true;
                 }
             }
             else
@@ -320,8 +336,10 @@ public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, 
     public void onUpgradeRefresh(LootContext context, MachineUpgrades upgrades)
     {
         super.onUpgradeRefresh(context, upgrades);
-        TimedProcessMachineBlockEntity.applyUpgrades(this, context, upgrades);
         EnergyConsumerBlockEntity.applyUpgrades(this, context, upgrades);
+        this.recipeTimeFunction = createRecipeTimeFunction(LTXIUpgradeEffectComponents.TICKS_PER_OPERATION.get(), context);
+        this.shouldCheckCraftingTime = true;
+        this.shouldCheckRecipe = true;
     }
 
     @Override
@@ -336,7 +354,6 @@ public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, 
     {
         super.onLoadServer(level);
         this.shouldCheckRecipe = true;
-        this.shouldCheckOutput = true;
     }
 
     @Override
@@ -373,5 +390,22 @@ public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, 
         if (!tanksTag.isEmpty()) tag.put(LimaCommonConstants.KEY_FLUID_TANKS, tanksTag);
 
         if (fluidController != null) tag.put(KEY_FLUID_IO, fluidController.serializeNBT(registries));
+    }
+
+    private DoubleUnaryOperator createRecipeTimeFunction(DataComponentType<List<ValueUpgradeEffect>> type, LootContext context)
+    {
+        List<EffectRankPair<ValueUpgradeEffect>> list = this.getUpgrades().boxedFlatStream(type).sorted(Comparator.comparing(entry -> entry.effect().getOperation())).toList();
+
+        if (list.isEmpty()) return DoubleUnaryOperator.identity();
+
+        return base ->
+        {
+            double total = base;
+            for (EffectRankPair<ValueUpgradeEffect> pair : list)
+            {
+                total = pair.effect().apply(context, pair.upgradeRank(), base, total);
+            }
+            return total;
+        };
     }
 }

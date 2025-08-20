@@ -13,7 +13,7 @@
 		}
 	],
 	"textures": {
-		"particle": "ltxi:block/titanium_block_0",
+		"particle": "ltxi:block/titanium_panel",
 		"base_bottom": "ltxi:block/slatesteel_block",
 		"lights": "ltxi:solid_lime",
 		"side": "ltxi:block/turret_base_side",

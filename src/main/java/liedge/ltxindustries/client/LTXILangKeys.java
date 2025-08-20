@@ -41,6 +41,7 @@ public final class LTXILangKeys
     public static final Translatable FABRICATOR_SELECTED_RECIPE_TOOLTIP = tooltip("fabricator_selected");
     public static final Translatable WORKING_PROGRESS_TOOLTIP = tooltip("work_progress");
     public static final Translatable CRAFTING_PROGRESS_TOOLTIP = tooltip("craft_progress");
+    public static final Translatable JEI_CRAFTING_TIME_TOOLTIP = tooltip("jei_craft_time");
 
     public static final Translatable OUTPUT_CHANCE_TOOLTIP = tooltip("output_chance");
     public static final Translatable ADVANCEMENT_LOCKED_TOOLTIP = tooltip("advancement_locked");

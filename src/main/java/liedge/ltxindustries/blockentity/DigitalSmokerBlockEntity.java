@@ -25,10 +25,4 @@ public class DigitalSmokerBlockEntity extends CookingBlockEntity<SmokingRecipe>
     {
         return LTXIMachinesConfig.DIGITAL_SMOKER_ENERGY_USAGE.getAsInt();
     }
-
-    @Override
-    public int getBaseTicksPerOperation()
-    {
-        return LTXIMachinesConfig.DIGITAL_SMOKER_CRAFTING_TIME.getAsInt();
-    }
 }

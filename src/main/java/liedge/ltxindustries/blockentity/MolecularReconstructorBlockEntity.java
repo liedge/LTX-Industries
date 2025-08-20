@@ -5,7 +5,7 @@ import liedge.limacore.capability.itemhandler.LimaBlockEntityItemHandler;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.blockentity.base.EnergyConsumerBlockEntity;
-import liedge.ltxindustries.blockentity.base.TimedProcessMachineBlockEntity;
+import liedge.ltxindustries.blockentity.base.FixedTimedProcessBlockEntity;
 import liedge.ltxindustries.blockentity.template.ProductionMachineBlockEntity;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrades;
@@ -21,7 +21,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootContext;
 
-public class MolecularReconstructorBlockEntity extends ProductionMachineBlockEntity implements EnergyConsumerBlockEntity, TimedProcessMachineBlockEntity
+public class MolecularReconstructorBlockEntity extends ProductionMachineBlockEntity implements EnergyConsumerBlockEntity, FixedTimedProcessBlockEntity
 {
     private int energyUsage = getBaseEnergyUsage();
     private int machineSpeed = getBaseTicksPerOperation();
@@ -152,7 +152,7 @@ public class MolecularReconstructorBlockEntity extends ProductionMachineBlockEnt
     public void onUpgradeRefresh(LootContext context, MachineUpgrades upgrades)
     {
         super.onUpgradeRefresh(context, upgrades);
-        TimedProcessMachineBlockEntity.applyUpgrades(this, context, upgrades);
+        FixedTimedProcessBlockEntity.applyUpgrades(this, context, upgrades);
         EnergyConsumerBlockEntity.applyUpgrades(this, context, upgrades);
     }
 

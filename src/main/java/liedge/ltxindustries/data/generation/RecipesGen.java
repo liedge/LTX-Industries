@@ -634,9 +634,9 @@ class RecipesGen extends LimaRecipeProvider
         blasting(stackOf(resultItem, resultCount)).input(orePebble).xp(0.5f).save(output, "blast_" + name);
     }
 
-    private LimaCustomRecipeBuilder<GrindingRecipe, ?> grinding()
+    private LTXIBuilder<GrindingRecipe> grinding()
     {
-        return LimaCustomRecipeBuilder.simpleBuilder(modResources, GrindingRecipe::new);
+        return new LTXIBuilder<>(modResources, GrindingRecipe::new);
     }
 
     private void orePebbleGrinding(ItemLike orePebble, TagKey<Item> oreTag, @Nullable TagKey<Item> rawOreTag, String name, RecipeOutput output)
@@ -645,24 +645,24 @@ class RecipesGen extends LimaRecipeProvider
         if (rawOreTag != null) grinding().input(rawOreTag).output(orePebble, 2).save(output, "grind_raw_" + name + "_materials");
     }
 
-    private LimaCustomRecipeBuilder<MaterialFusingRecipe, ?> fusing()
+    private LTXIBuilder<MaterialFusingRecipe> fusing()
     {
-        return LimaCustomRecipeBuilder.simpleBuilder(modResources, MaterialFusingRecipe::new);
+        return new LTXIBuilder<>(modResources, MaterialFusingRecipe::new);
     }
 
-    private LimaCustomRecipeBuilder<ElectroCentrifugingRecipe, ?> electroCentrifuging()
+    private LTXIBuilder<ElectroCentrifugingRecipe> electroCentrifuging()
     {
-        return LimaCustomRecipeBuilder.simpleBuilder(modResources, ElectroCentrifugingRecipe::new);
+        return new LTXIBuilder<>(modResources, ElectroCentrifugingRecipe::new);
     }
 
-    private LimaCustomRecipeBuilder<MixingRecipe, ?> mixing()
+    private LTXIBuilder<MixingRecipe> mixing()
     {
-        return LimaCustomRecipeBuilder.simpleBuilder(modResources, MixingRecipe::new);
+        return new LTXIBuilder<>(modResources, MixingRecipe::new);
     }
 
-    private LimaCustomRecipeBuilder<ChemicalReactingRecipe, ?> chemLab()
+    private LTXIBuilder<ChemicalReactingRecipe> chemLab()
     {
-        return LimaCustomRecipeBuilder.simpleBuilder(modResources, ChemicalReactingRecipe::new);
+        return new LTXIBuilder<>(modResources, ChemicalReactingRecipe::new);
     }
 
     private FabricatingBuilder fabricating(int energyRequired)
@@ -775,6 +775,30 @@ class RecipesGen extends LimaRecipeProvider
             ItemResult result = itemResults.getFirst();
 
             return new FabricatingRecipe(itemIngredients, result, energyRequired, advancementLocked, getGroupOrBlank());
+        }
+    }
+
+    private static class LTXIBuilder<R extends LTXIRecipe> extends LimaCustomRecipeBuilder<R, LTXIBuilder<R>>
+    {
+        private final LTXIRecipe.LTXIRecipeFactory<R> factory;
+        private int craftTime = LTXIRecipe.DEFAULT_CRAFTING_TIME;
+
+        LTXIBuilder(ModResources modResources, LTXIRecipe.LTXIRecipeFactory<R> factory)
+        {
+            super(modResources);
+            this.factory = factory;
+        }
+
+        LTXIBuilder<R> time(int craftTime)
+        {
+            this.craftTime = craftTime;
+            return this;
+        }
+
+        @Override
+        protected R buildRecipe()
+        {
+            return factory.apply(itemIngredients, fluidIngredients, itemResults, fluidResults, craftTime);
         }
     }
 }

@@ -13,7 +13,7 @@
 		}
 	],
 	"textures": {
-		"particle": "ltxi:block/titanium_block_0",
+		"particle": "ltxi:block/titanium_panel",
 		"main": "ltxi:block/electrocentrifuge",
 		"lights": "ltxi:solid_lime"
 	},

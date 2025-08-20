@@ -7,7 +7,7 @@ import liedge.ltxindustries.util.config.LTXIMachinesConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class VoltaicInjectorBlockEntity extends LimaRecipeMachineBlockEntity<EnergizingRecipe>
+public class VoltaicInjectorBlockEntity extends LTXIRecipeMachineBlockEntity<EnergizingRecipe>
 {
     public VoltaicInjectorBlockEntity(BlockPos pos, BlockState state)
     {
@@ -24,11 +24,5 @@ public class VoltaicInjectorBlockEntity extends LimaRecipeMachineBlockEntity<Ene
     public int getBaseEnergyUsage()
     {
         return LTXIMachinesConfig.VOLTAIC_INJECTOR_ENERGY_USAGE.getAsInt();
-    }
-
-    @Override
-    public int getBaseTicksPerOperation()
-    {
-        return LTXIMachinesConfig.VOLTAIC_INJECTOR_CRAFTING_TIME.getAsInt();
     }
 }

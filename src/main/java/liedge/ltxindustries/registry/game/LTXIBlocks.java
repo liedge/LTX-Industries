@@ -11,6 +11,7 @@ import liedge.ltxindustries.item.*;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.block.*;
@@ -69,7 +70,9 @@ public final class LTXIBlocks
     public static final DeferredBlockWithItem<Block, BlockItem> NIOBIUM_BLOCK = BLOCKS.registerSimpleBlockAndItem("niobium_block", of().mapColor(MapColor.COLOR_LIGHT_GRAY).strength(6f, 9f).sound(SoundType.METAL).requiresCorrectToolForDrops());
     public static final DeferredBlockWithItem<Block, BlockItem> SLATESTEEL_BLOCK = BLOCKS.registerSimpleBlockAndItem("slatesteel_block", of().mapColor(MapColor.COLOR_LIGHT_GRAY).strength(5f, 12f).sound(SoundType.METAL).requiresCorrectToolForDrops());
 
+    // Building blocks
     public static final Map<NeonLightColor, DeferredBlock<Block>> NEON_LIGHTS = LimaCollectionsUtil.fillAndCreateImmutableEnumMap(NeonLightColor.class, color -> BLOCKS.registerSimpleBlockAndItem(color.toString() + "_neon_light", neonLightProperties().mapColor(color.getMapColor())));
+    public static final DeferredBlockWithItem<Block, BlockItem> TITANIUM_PANEL = BLOCKS.registerSimpleBlockAndItem("titanium_panel", of().mapColor(DyeColor.WHITE).strength(2f).sound(SoundType.COPPER).requiresCorrectToolForDrops());
     public static final DeferredBlockWithItem<Block, BlockItem> TITANIUM_GLASS = BLOCKS.registerBlockAndSimpleItem("titanium_glass", () -> new TransparentBlock(quartzGlassProperties()), new Item.Properties());
     public static final DeferredBlockWithItem<Block, BlockItem> SLATE_GLASS = BLOCKS.registerBlockAndSimpleItem("slate_glass", () -> new TransparentBlock(quartzGlassProperties()), new Item.Properties());
 

@@ -24,6 +24,6 @@ public class MolecularReconstructorMenu extends LTXIMachineMenu.EnergyMachineMen
     {
         menuContext.getEnergyStorage().keepAllPropertiesSynced(collector);
         menuContext.keepEnergyConsumerPropertiesSynced(collector);
-        menuContext.keepTimedProcessPropertiesSynced(collector);
+        menuContext.keepTimedProcessSynced(collector);
     }
 }

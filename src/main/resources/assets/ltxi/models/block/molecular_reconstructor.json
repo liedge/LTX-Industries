@@ -13,8 +13,8 @@
 		}
 	],
 	"textures": {
-		"particle": "ltxi:block/titanium_block_0",
-		"titanium_base": "ltxi:block/titanium_block_0",
+		"particle": "ltxi:block/titanium_panel",
+		"titanium_base": "ltxi:block/titanium_panel",
 		"slate_base": "ltxi:block/blank_slate_alloy_machine",
 		"lights": "ltxi:solid_lime",
 		"machine0": "ltxi:block/molecular_reconstructor0",

@@ -11,39 +11,30 @@ public final class LTXIMachinesConfig
 
     public static final ModConfigSpec.IntValue DIGITAL_FURNACE_ENERGY_CAPACITY;
     public static final ModConfigSpec.IntValue DIGITAL_FURNACE_ENERGY_USAGE;
-    public static final ModConfigSpec.IntValue DIGITAL_FURNACE_CRAFTING_TIME;
 
     public static final ModConfigSpec.IntValue DIGITAL_SMOKER_ENERGY_CAPACITY;
     public static final ModConfigSpec.IntValue DIGITAL_SMOKER_ENERGY_USAGE;
-    public static final ModConfigSpec.IntValue DIGITAL_SMOKER_CRAFTING_TIME;
 
     public static final ModConfigSpec.IntValue DIGITAL_BLAST_FURNACE_ENERGY_CAPACITY;
     public static final ModConfigSpec.IntValue DIGITAL_BLAST_FURNACE_ENERGY_USAGE;
-    public static final ModConfigSpec.IntValue DIGITAL_BLAST_FURNACE_CRAFTING_TIME;
 
     public static final ModConfigSpec.IntValue GRINDER_ENERGY_CAPACITY;
     public static final ModConfigSpec.IntValue GRINDER_ENERGY_USAGE;
-    public static final ModConfigSpec.IntValue GRINDER_CRAFTING_TIME;
 
     public static final ModConfigSpec.IntValue MFC_ENERGY_CAPACITY;
     public static final ModConfigSpec.IntValue MFC_ENERGY_USAGE;
-    public static final ModConfigSpec.IntValue MFC_CRAFTING_TIME;
 
     public static final ModConfigSpec.IntValue ELECTROCENTRIFUGE_ENERGY_CAPACITY;
     public static final ModConfigSpec.IntValue ELECTROCENTRIFUGE_ENERGY_USAGE;
-    public static final ModConfigSpec.IntValue ELECTROCENTRIFUGE_CRAFTING_TIME;
 
     public static final ModConfigSpec.IntValue MIXER_ENERGY_CAPACITY;
     public static final ModConfigSpec.IntValue MIXER_ENERGY_USAGE;
-    public static final ModConfigSpec.IntValue MIXER_CRAFTING_TIME;
 
     public static final ModConfigSpec.IntValue VOLTAIC_INJECTOR_ENERGY_CAPACITY;
     public static final ModConfigSpec.IntValue VOLTAIC_INJECTOR_ENERGY_USAGE;
-    public static final ModConfigSpec.IntValue VOLTAIC_INJECTOR_CRAFTING_TIME;
 
     public static final ModConfigSpec.IntValue CHEM_LAB_ENERGY_CAPACITY;
     public static final ModConfigSpec.IntValue CHEM_LAB_ENERGY_USAGE;
-    public static final ModConfigSpec.IntValue CHEM_LAB_CRAFTING_TIME;
 
     public static final ModConfigSpec.IntValue FABRICATOR_ENERGY_CAPACITY;
     public static final ModConfigSpec.IntValue FABRICATOR_ENERGY_USAGE;
@@ -80,8 +71,6 @@ public final class LTXIMachinesConfig
                 .defineInRange("energy_capacity", 250_000, 1, Integer.MAX_VALUE);
         DIGITAL_FURNACE_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the Digital Furnace")
                 .defineInRange("energy_usage", 60, 1, Integer.MAX_VALUE);
-        DIGITAL_FURNACE_CRAFTING_TIME = builder.comment("Base crafting time (in ticks) of the Digital Furnace")
-                .defineInRange("crafting_time", 160, 1, Integer.MAX_VALUE);
         builder.pop();
 
         // Digital Smoker
@@ -90,8 +79,6 @@ public final class LTXIMachinesConfig
                 .defineInRange("energy_capacity", 250_000, 1, Integer.MAX_VALUE);
         DIGITAL_SMOKER_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the Digital Smoker")
                 .defineInRange("energy_usage", 20, 1, Integer.MAX_VALUE);
-        DIGITAL_SMOKER_CRAFTING_TIME = builder.comment("Base crafting time (in ticks) of the Digital Smoker")
-                .defineInRange("crafting_time", 100, 1, Integer.MAX_VALUE);
         builder.pop();
 
         // Digital Blast Furnace
@@ -100,8 +87,6 @@ public final class LTXIMachinesConfig
                 .defineInRange("energy_capacity", 250_000, 1, Integer.MAX_VALUE);
         DIGITAL_BLAST_FURNACE_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the Digital Blast Furnace")
                 .defineInRange("energy_usage", 30, 1, Integer.MAX_VALUE);
-        DIGITAL_BLAST_FURNACE_CRAFTING_TIME = builder.comment("Base crafting time (in ticks) of the Digital Blast Furnace")
-                .defineInRange("crafting_time", 100, 1, Integer.MAX_VALUE);
         builder.pop();
 
         // Grinder
@@ -110,8 +95,6 @@ public final class LTXIMachinesConfig
                 .defineInRange("energy_capacity", 250_000, 1, Integer.MAX_VALUE);
         GRINDER_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the Grinder")
                 .defineInRange("energy_usage", 80, 1, Integer.MAX_VALUE);
-        GRINDER_CRAFTING_TIME = builder.comment("Base crafting time (in ticks) of the Grinder")
-                .defineInRange("crafting_time", 160, 1, Integer.MAX_VALUE);
         builder.pop();
 
         // Material Fusing Chamber
@@ -120,8 +103,6 @@ public final class LTXIMachinesConfig
                 .defineInRange("energy_capacity", 250_000, 1, Integer.MAX_VALUE);
         MFC_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the Material Fusing Chamber")
                 .defineInRange("energy_usage", 120, 1, Integer.MAX_VALUE);
-        MFC_CRAFTING_TIME = builder.comment("Base crafting time (in ticks) of the Material Fusing Chamber")
-                .defineInRange("crafting_time", 160, 1, Integer.MAX_VALUE);
         builder.pop();
 
         // ElectroCentrifuge
@@ -130,8 +111,6 @@ public final class LTXIMachinesConfig
                 .defineInRange("energy_capacity", 500_000, 1, Integer.MAX_VALUE);
         ELECTROCENTRIFUGE_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the ElectroCentrifuge")
                 .defineInRange("energy_usage", 120, 1, Integer.MAX_VALUE);
-        ELECTROCENTRIFUGE_CRAFTING_TIME = builder.comment("Base crafting time (in ticks) of the ElectroCentrifuge")
-                .defineInRange("crafting_time", 200, 1, Integer.MAX_VALUE);
         builder.pop();
 
         // Mixer
@@ -140,8 +119,6 @@ public final class LTXIMachinesConfig
                 .defineInRange("energy_capacity", 500_000, 1, Integer.MAX_VALUE);
         MIXER_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the Mixer")
                 .defineInRange("energy_usage", 100, 1, Integer.MAX_VALUE);
-        MIXER_CRAFTING_TIME = builder.comment("Base crafting time (in ticks) of the Mixer")
-                .defineInRange("crafting_time", 200, 1, Integer.MAX_VALUE);
         builder.pop();
 
         // Voltaic Injector
@@ -150,8 +127,6 @@ public final class LTXIMachinesConfig
                 .defineInRange("energy_capacity", 250_000, 1, Integer.MAX_VALUE);
         VOLTAIC_INJECTOR_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the Voltaic Injector")
                 .defineInRange("energy_usage", 80, 1, Integer.MAX_VALUE);
-        VOLTAIC_INJECTOR_CRAFTING_TIME = builder.comment("Base crafting time (in ticks) of the Voltaic Injector")
-                .defineInRange("crafting_time", 160, 1, Integer.MAX_VALUE);
         builder.pop();
 
         // Chem Lab
@@ -160,8 +135,6 @@ public final class LTXIMachinesConfig
                 .defineInRange("energy_capacity", 500_000, 1, Integer.MAX_VALUE);
         CHEM_LAB_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the Chem Lab")
                 .defineInRange("energy_usage", 160, 1, Integer.MAX_VALUE);
-        CHEM_LAB_CRAFTING_TIME = builder.comment("Base crafting time (in ticks) of the Chem Lab")
-                .defineInRange("crafting_time", 200, 1, Integer.MAX_VALUE);
         builder.pop();
 
         // Fabricator

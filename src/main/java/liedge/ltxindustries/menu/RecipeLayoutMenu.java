@@ -53,7 +53,7 @@ public final class RecipeLayoutMenu<CTX extends StateBlockRecipeMachineBlockEnti
     public void defineDataWatchers(DataWatcherCollector collector)
     {
         menuContext.getEnergyStorage().keepAllPropertiesSynced(collector);
-        menuContext.keepTimedProcessPropertiesSynced(collector);
+        menuContext.keepTimedProcessSynced(collector);
         menuContext.keepEnergyConsumerPropertiesSynced(collector);
 
         LimaBlockEntityFluidHandler inputFluids = menuContext.getFluidHandler(BlockContentsType.INPUT);

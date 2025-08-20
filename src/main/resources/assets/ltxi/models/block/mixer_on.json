@@ -19,7 +19,7 @@
 		}
 	],
 	"textures": {
-		"particle": "ltxi:block/titanium_block_0",
+		"particle": "ltxi:block/titanium_panel",
 		"mixer_0": "ltxi:block/mixer_0",
 		"mixer_1": "ltxi:block/mixer_1",
 		"lights": "ltxi:solid_lime"

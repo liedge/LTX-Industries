@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import static liedge.ltxindustries.util.config.LTXIMachinesConfig.*;
 
-public class GrinderBlockEntity extends LimaRecipeMachineBlockEntity<GrindingRecipe>
+public class GrinderBlockEntity extends LTXIRecipeMachineBlockEntity<GrindingRecipe>
 {
     public GrinderBlockEntity(BlockPos pos, BlockState state)
     {
@@ -25,11 +25,5 @@ public class GrinderBlockEntity extends LimaRecipeMachineBlockEntity<GrindingRec
     public int getBaseEnergyUsage()
     {
         return GRINDER_ENERGY_USAGE.getAsInt();
-    }
-
-    @Override
-    public int getBaseTicksPerOperation()
-    {
-        return GRINDER_CRAFTING_TIME.getAsInt();
     }
 }

@@ -10,7 +10,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class ElectroCentrifugeBlockEntity extends LimaRecipeMachineBlockEntity<ElectroCentrifugingRecipe>
+public class ElectroCentrifugeBlockEntity extends LTXIRecipeMachineBlockEntity<ElectroCentrifugingRecipe>
 {
     private int spinSpeed = 0;
     private float tubesYRot0;
@@ -31,12 +31,6 @@ public class ElectroCentrifugeBlockEntity extends LimaRecipeMachineBlockEntity<E
     public int getBaseEnergyUsage()
     {
         return LTXIMachinesConfig.ELECTROCENTRIFUGE_ENERGY_USAGE.getAsInt();
-    }
-
-    @Override
-    public int getBaseTicksPerOperation()
-    {
-        return LTXIMachinesConfig.ELECTROCENTRIFUGE_CRAFTING_TIME.getAsInt();
     }
 
     @Override

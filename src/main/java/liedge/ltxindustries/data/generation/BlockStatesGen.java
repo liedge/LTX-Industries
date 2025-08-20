@@ -60,6 +60,7 @@ class BlockStatesGen extends LimaBlockStateProvider
         final ModelFile neonLightModel = models().withExistingParent("neon_light_base", "block/block").texture("particle", "#all").ao(false)
                 .element().from(0, 0, 0).to(16, 16, 16).allFaces((side, face) -> face.uvs(0, 0, 16, 16).texture("#all").cullface(side)).emissivity(15, 15).shade(false).end();
         NEON_LIGHTS.forEach((color, holder) -> simpleBlockWithItem(holder, getBlockBuilder(holder).parent(neonLightModel).texture("all", blockFolderLocation("neon_light/" + color.toString()))));
+        cubeAll(TITANIUM_PANEL);
         cubeAll(TITANIUM_GLASS).renderType("cutout");
         cubeAll(SLATE_GLASS).renderType("cutout");
 
