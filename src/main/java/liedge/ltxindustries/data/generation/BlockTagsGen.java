@@ -30,7 +30,7 @@ class BlockTagsGen extends LimaTagsProvider.RegistryTags<Block>
     @Override
     protected void addTags(HolderLookup.Provider lookup)
     {
-        buildTag(MINEABLE_WITH_PICKAXE).add(TITANIUM_PANEL, TITANIUM_GLASS, SLATE_GLASS);
+        buildTag(MINEABLE_WITH_PICKAXE).add(TITANIUM_PANEL, SMOOTH_TITANIUM_PANEL, TITANIUM_GLASS);
 
         buildTag(NEEDS_STONE_TOOL).add(TITANIUM_ORE, DEEPSLATE_TITANIUM_ORE, RAW_TITANIUM_BLOCK, TITANIUM_BLOCK, MESH_BLOCK).copyTo(MINEABLE_WITH_PICKAXE);
         buildTag(NEEDS_DIAMOND_TOOL).add(NIOBIUM_ORE, RAW_NIOBIUM_BLOCK, NIOBIUM_BLOCK, SLATESTEEL_BLOCK).copyTo(MINEABLE_WITH_PICKAXE);
@@ -52,9 +52,7 @@ class BlockTagsGen extends LimaTagsProvider.RegistryTags<Block>
         buildTag(SLATESTEEL_STORAGE_BLOCKS).add(SLATESTEEL_BLOCK);
         buildTag(SHEARS_HARVESTABLE).add(COBWEB, SHORT_GRASS, FERN, DEAD_BUSH, HANGING_ROOTS, VINE, TRIPWIRE).add(BILEVINE, BILEVINE_PLANT).addTags(WOOL, LEAVES);
 
-        buildTag(IMPERMEABLE).add(TITANIUM_PANEL, TITANIUM_GLASS, SLATE_GLASS).addTag(LTXITags.Blocks.NEON_LIGHTS);
-        buildTag(WITHER_IMMUNE).add(SLATE_GLASS);
-        buildTag(DRAGON_IMMUNE).add(SLATE_GLASS);
+        buildTag(IMPERMEABLE).add(TITANIUM_PANEL, SMOOTH_TITANIUM_PANEL, TITANIUM_GLASS).addTag(LTXITags.Blocks.NEON_LIGHTS);
 
         buildTag(LTXITags.Blocks.NEON_LIGHTS)
                 .addHolders(List.copyOf(LTXIBlocks.NEON_LIGHTS.values()))

@@ -64,8 +64,8 @@ class LanguageGen extends LimaLanguageProvider
             addBlock(holder, name);
         });
         addBlock(TITANIUM_PANEL, "Titanium Panel");
+        addBlock(SMOOTH_TITANIUM_PANEL, "Smooth Titanium Panel");
         addBlock(TITANIUM_GLASS, "Titanium Glass");
-        addBlock(SLATE_GLASS, "Slate Glass");
 
         addBlock(ENERGY_CELL_ARRAY, "Energy Cell Array");
         addBlock(INFINITE_ENERGY_CELL_ARRAY, "Energy Cell Array (∞)");

@@ -1,8 +1,8 @@
 {
   "values": [
     "ltxi:titanium_panel",
+    "ltxi:smooth_titanium_panel",
     "ltxi:titanium_glass",
-    "ltxi:slate_glass",
     "#ltxi:neon_lights"
   ]
 }

@@ -73,8 +73,8 @@ public final class LTXIBlocks
     // Building blocks
     public static final Map<NeonLightColor, DeferredBlock<Block>> NEON_LIGHTS = LimaCollectionsUtil.fillAndCreateImmutableEnumMap(NeonLightColor.class, color -> BLOCKS.registerSimpleBlockAndItem(color.toString() + "_neon_light", neonLightProperties().mapColor(color.getMapColor())));
     public static final DeferredBlockWithItem<Block, BlockItem> TITANIUM_PANEL = BLOCKS.registerSimpleBlockAndItem("titanium_panel", of().mapColor(DyeColor.WHITE).strength(2f).sound(SoundType.COPPER).requiresCorrectToolForDrops());
+    public static final DeferredBlockWithItem<Block, BlockItem> SMOOTH_TITANIUM_PANEL = BLOCKS.registerSimpleBlockAndItem("smooth_titanium_panel", of().mapColor(DyeColor.WHITE).strength(2f).sound(SoundType.COPPER).requiresCorrectToolForDrops());
     public static final DeferredBlockWithItem<Block, BlockItem> TITANIUM_GLASS = BLOCKS.registerBlockAndSimpleItem("titanium_glass", () -> new TransparentBlock(quartzGlassProperties()), new Item.Properties());
-    public static final DeferredBlockWithItem<Block, BlockItem> SLATE_GLASS = BLOCKS.registerBlockAndSimpleItem("slate_glass", () -> new TransparentBlock(quartzGlassProperties()), new Item.Properties());
 
     // Plants
     public static final DeferredBlock<BerryVinesBlock> BILEVINE = BLOCKS.registerBlock("bilevine", BerryVinesBlock::new, berryVinesProperties());

@@ -1,8 +1,8 @@
 {
   "values": [
     "ltxi:titanium_panel",
+    "ltxi:smooth_titanium_panel",
     "ltxi:titanium_glass",
-    "ltxi:slate_glass",
     "ltxi:titanium_ore",
     "ltxi:deepslate_titanium_ore",
     "ltxi:raw_titanium_block",
