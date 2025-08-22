@@ -1,0 +1,15 @@
+{
+  "type": "ltxi:grinding",
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "ltxi:vitriol_berries"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:acidic_biomass"
+    }
+  ]
+}

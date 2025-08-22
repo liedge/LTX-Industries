@@ -1,0 +1,20 @@
+{
+  "type": "ltxi:material_fusing",
+  "craft_time": 80,
+  "ingredients": [
+    {
+      "count": 2,
+      "tag": "ltxi:neon_light_materials"
+    },
+    {
+      "count": 1,
+      "tag": "c:dyes/brown"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 8,
+      "id": "ltxi:brown_neon_light"
+    }
+  ]
+}

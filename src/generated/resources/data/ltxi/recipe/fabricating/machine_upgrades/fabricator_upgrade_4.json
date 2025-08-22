@@ -17,11 +17,11 @@
     },
     {
       "count": 8,
-      "tag": "c:dyes/lime"
+      "item": "ltxi:ltx_lime_pigment"
     },
     {
-      "count": 1,
-      "item": "minecraft:diamond_block"
+      "count": 8,
+      "item": "minecraft:amethyst_shard"
     },
     {
       "count": 16,

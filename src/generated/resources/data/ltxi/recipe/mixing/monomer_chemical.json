@@ -1,0 +1,21 @@
+{
+  "type": "ltxi:mixing",
+  "fluid_ingredients": [
+    {
+      "amount": 250,
+      "fluid": "ltxi:viridic_acid"
+    }
+  ],
+  "ingredients": [
+    {
+      "count": 2,
+      "item": "ltxi:resinous_biomass"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:monomer_chemical"
+    }
+  ]
+}

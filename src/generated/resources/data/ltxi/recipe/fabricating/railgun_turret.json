@@ -8,8 +8,12 @@
       "item": "ltxi:targeting_tech_salvage"
     },
     {
-      "count": 16,
+      "count": 32,
       "item": "ltxi:titanium_ingot"
+    },
+    {
+      "count": 16,
+      "item": "ltxi:slatesteel_ingot"
     },
     {
       "count": 2,

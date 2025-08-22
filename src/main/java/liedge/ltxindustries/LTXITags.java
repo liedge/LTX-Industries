@@ -74,7 +74,7 @@ public final class LTXITags
 
         // Mod tags
         public static final TagKey<Item> NEON_LIGHTS = RESOURCES.itemTag("neon_lights");
-        public static final TagKey<Item> GLOW_BLOCK_MATERIALS = RESOURCES.itemTag("glow_block_materials");
+        public static final TagKey<Item> NEON_LIGHT_MATERIALS = RESOURCES.itemTag("neon_light_materials");
         public static final TagKey<Item> REPAIR_BLACKLIST = RESOURCES.itemTag("repair_blacklist");
 
         public static final TagKey<Item> LTX_ENERGY_PROJECTILE_WEAPONS = RESOURCES.itemTag("ltx_weapons/energy");

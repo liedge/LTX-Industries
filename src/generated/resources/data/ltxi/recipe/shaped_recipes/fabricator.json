@@ -2,23 +2,23 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "c": {
-      "item": "minecraft:crafter"
+    "a": {
+      "item": "minecraft:crafting_table"
     },
-    "e": {
+    "c": {
       "item": "ltxi:t3_circuit"
     },
-    "l": {
-      "tag": "c:dyes/lime"
+    "p": {
+      "item": "ltxi:polymer_ingot"
     },
     "t": {
       "item": "ltxi:titanium_ingot"
     }
   },
   "pattern": [
-    "tlt",
-    "ece",
-    "tet"
+    "pcp",
+    "cac",
+    "ttt"
   ],
   "result": {
     "count": 1,

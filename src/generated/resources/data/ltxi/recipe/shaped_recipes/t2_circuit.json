@@ -2,6 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
+    "b": {
+      "item": "minecraft:copper_ingot"
+    },
     "c": {
       "item": "ltxi:t1_circuit"
     },
@@ -9,16 +12,16 @@
       "item": "minecraft:gold_ingot"
     },
     "r": {
-      "item": "minecraft:redstone"
+      "item": "minecraft:repeater"
     },
     "t": {
       "item": "ltxi:titanium_ingot"
     }
   },
   "pattern": [
-    "r r",
-    "trt",
-    "mcm"
+    " r ",
+    "mcm",
+    "tbt"
   ],
   "result": {
     "count": 1,

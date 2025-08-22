@@ -1,6 +1,6 @@
 {
   "type": "ltxi:fabricating",
-  "energy_required": 400000,
+  "energy_required": 500000,
   "group": "ltx/weapon",
   "ingredients": [
     {
@@ -9,10 +9,10 @@
     },
     {
       "count": 4,
-      "tag": "c:dyes/lime"
+      "item": "ltxi:ltx_lime_pigment"
     },
     {
-      "count": 4,
+      "count": 2,
       "item": "ltxi:t1_circuit"
     }
   ],

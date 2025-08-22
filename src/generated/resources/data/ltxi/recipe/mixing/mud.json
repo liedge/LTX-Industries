@@ -1,0 +1,22 @@
+{
+  "type": "ltxi:mixing",
+  "craft_time": 120,
+  "fluid_ingredients": [
+    {
+      "amount": 1000,
+      "fluid": "minecraft:water"
+    }
+  ],
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "minecraft:dirt"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "minecraft:mud"
+    }
+  ]
+}

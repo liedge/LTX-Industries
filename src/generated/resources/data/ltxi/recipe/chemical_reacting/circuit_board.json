@@ -1,0 +1,19 @@
+{
+  "type": "ltxi:chemical_reacting",
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "ltxi:polymer_ingot"
+    },
+    {
+      "count": 1,
+      "item": "minecraft:copper_ingot"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:circuit_board"
+    }
+  ]
+}

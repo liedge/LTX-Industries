@@ -8,17 +8,17 @@
     "c": {
       "item": "ltxi:t1_circuit"
     },
-    "l": {
-      "tag": "c:dyes/lime"
+    "r": {
+      "item": "minecraft:lightning_rod"
     },
     "t": {
       "item": "ltxi:titanium_ingot"
     }
   },
   "pattern": [
-    "tlt",
+    "trt",
     "cbc",
-    "tlt"
+    "trt"
   ],
   "result": {
     "count": 1,

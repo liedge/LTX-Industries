@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "a": {
+      "item": "minecraft:crafter"
+    },
+    "c": {
+      "item": "ltxi:t3_circuit"
+    },
+    "g": {
+      "item": "ltxi:titanium_glass"
+    },
+    "p": {
+      "item": "ltxi:polymer_ingot"
+    },
+    "s": {
+      "item": "ltxi:slatesteel_ingot"
+    },
+    "t": {
+      "item": "ltxi:titanium_ingot"
+    }
+  },
+  "pattern": [
+    "pcp",
+    "gag",
+    "tst"
+  ],
+  "result": {
+    "count": 1,
+    "id": "ltxi:auto_fabricator"
+  }
+}

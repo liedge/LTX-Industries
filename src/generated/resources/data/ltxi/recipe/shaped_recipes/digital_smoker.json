@@ -11,17 +11,14 @@
     "g": {
       "tag": "c:glass_blocks/cheap"
     },
-    "l": {
-      "tag": "c:dyes/lime"
-    },
     "t": {
       "item": "ltxi:titanium_ingot"
     }
   },
   "pattern": [
-    "tgt",
-    "cac",
-    "tlt"
+    "tct",
+    "gag",
+    "tct"
   ],
   "result": {
     "count": 1,

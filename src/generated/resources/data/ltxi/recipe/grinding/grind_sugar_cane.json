@@ -1,0 +1,19 @@
+{
+  "type": "ltxi:grinding",
+  "ingredients": [
+    {
+      "count": 1,
+      "tag": "c:crops/sugar_cane"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:resinous_biomass"
+    },
+    {
+      "count": 2,
+      "id": "minecraft:sugar"
+    }
+  ]
+}

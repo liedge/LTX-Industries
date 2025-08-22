@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "a": {
+      "item": "minecraft:brewing_stand"
+    },
+    "c": {
+      "item": "ltxi:t3_circuit"
+    },
+    "g": {
+      "item": "ltxi:titanium_glass"
+    },
+    "t": {
+      "item": "ltxi:titanium_ingot"
+    }
+  },
+  "pattern": [
+    "tct",
+    "gag",
+    "tct"
+  ],
+  "result": {
+    "count": 1,
+    "id": "ltxi:chem_lab"
+  }
+}

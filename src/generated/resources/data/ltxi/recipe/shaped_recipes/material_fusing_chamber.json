@@ -6,19 +6,19 @@
       "item": "minecraft:blast_furnace"
     },
     "c": {
-      "item": "ltxi:t1_circuit"
+      "item": "ltxi:t2_circuit"
     },
-    "l": {
-      "tag": "c:dyes/lime"
+    "o": {
+      "item": "minecraft:obsidian"
     },
     "t": {
       "item": "ltxi:titanium_ingot"
     }
   },
   "pattern": [
-    "tlt",
-    "cac",
-    "ttt"
+    "tct",
+    "oao",
+    "tct"
   ],
   "result": {
     "count": 1,

@@ -1,6 +1,7 @@
 package liedge.ltxindustries.data.generation;
 
 import com.google.common.base.Preconditions;
+import com.mojang.datafixers.util.Either;
 import liedge.limacore.data.generation.LimaRecipeProvider;
 import liedge.limacore.data.generation.recipe.LimaCustomRecipeBuilder;
 import liedge.limacore.lib.ModResources;
@@ -8,6 +9,7 @@ import liedge.limacore.lib.function.ObjectIntFunction;
 import liedge.limacore.recipe.ItemResult;
 import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.LTXIndustries;
+import liedge.ltxindustries.block.NeonLightColor;
 import liedge.ltxindustries.integration.guideme.GuideMEIntegration;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
 import liedge.ltxindustries.lib.upgrades.UpgradeBase;
@@ -18,6 +20,7 @@ import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrade;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgradeEntry;
 import liedge.ltxindustries.recipe.*;
 import liedge.ltxindustries.registry.game.LTXIDataComponents;
+import liedge.ltxindustries.registry.game.LTXIFluids;
 import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.advancements.critereon.KilledTrigger;
 import net.minecraft.advancements.critereon.LocationPredicate;
@@ -38,18 +41,23 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.alchemy.Potions;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.levelgen.structure.BuiltinStructures;
+import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.conditions.ModLoadedCondition;
+import net.neoforged.neoforge.common.crafting.CompoundIngredient;
 import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
+import static liedge.ltxindustries.LTXITags.Items.NEON_LIGHT_MATERIALS;
 import static liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades.*;
 import static liedge.ltxindustries.registry.bootstrap.LTXIMachineUpgrades.*;
 import static liedge.ltxindustries.registry.game.LTXIBlocks.*;
@@ -77,12 +85,14 @@ class RecipesGen extends LimaRecipeProvider
         nuggetIngotBlockRecipes(output, "niobium", NIOBIUM_NUGGET, NIOBIUM_INGOT, NIOBIUM_BLOCK);
         nuggetIngotBlockRecipes(output, "slatesteel", SLATESTEEL_NUGGET, SLATESTEEL_INGOT, SLATESTEEL_BLOCK);
 
-        shaped(CIRCUIT_BOARD, 2).input('p', PAPER).input('r', REDSTONE).input('c', COPPER_INGOT).patterns("rcr", "ppp").save(output);
-        shaped(T1_CIRCUIT).input('c', CIRCUIT_BOARD).input('m', COPPER_INGOT).input('t', TITANIUM_INGOT).input('r', REDSTONE).patterns(" t ", "rmr", "mcm").save(output);
-        shaped(T2_CIRCUIT).input('c', T1_CIRCUIT).input('m', GOLD_INGOT).input('t', TITANIUM_INGOT).input('r', REDSTONE).patterns("r r", "trt", "mcm").save(output);
-        shaped(T3_CIRCUIT).input('c', T2_CIRCUIT).input('m', QUARTZ).input('t', TITANIUM_INGOT).input('r', REDSTONE).patterns("mrm", "tct", "mrm").save(output);
+        shaped(TITANIUM_PANEL, 32).input('t', TITANIUM_INGOT).input('f', POLYMER_INGOT).patterns("tft", "f f", "tft").bookCategory(CraftingBookCategory.BUILDING).save(output);
+        shaped(SMOOTH_TITANIUM_PANEL, 32).input('t', TITANIUM_INGOT).input('f', POLYMER_INGOT).patterns("ftf", "t t", "ftf").bookCategory(CraftingBookCategory.BUILDING).save(output);
 
-        shaped(EMPTY_UPGRADE_MODULE).input('t', TITANIUM_INGOT).input('c', CIRCUIT_BOARD).input('g', GLASS_BLOCKS_CHEAP).patterns("ggg", "gcg", "ttt").save(output);
+        shaped(T1_CIRCUIT).input('c', STONE_PRESSURE_PLATE).input('m', COPPER_INGOT).input('r', REDSTONE).input('t', TITANIUM_INGOT).patterns("tmt", "mcm", "rmr").save(output);
+        shaped(T2_CIRCUIT).input('c', T1_CIRCUIT).input('m', GOLD_INGOT).input('r', REPEATER).input('t', TITANIUM_INGOT).input('b', COPPER_INGOT).patterns(" r ", "mcm", "tbt").save(output);
+        shaped(T3_CIRCUIT).input('c', T2_CIRCUIT).input('r', COMPARATOR).input('t', TITANIUM_INGOT).input('b', COPPER_INGOT).patterns(" r ", "rcr", "tbt").save(output);
+
+        shaped(EMPTY_UPGRADE_MODULE).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('g', GLASS_BLOCKS_CHEAP).patterns("ggg", "gcg", "ttt").save(output);
         shaped(EMPTY_FABRICATION_BLUEPRINT, 2).input('l', DYES_LIME).input('p', PAPER).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).patterns("lll", "ppp", "tct").save(output);
 
         shaped(defaultUpgradableItem(LTX_WRENCH, registries)).input('t', TITANIUM_INGOT).input('l', DYES_LIME).patterns("t t", " l ", " t ").save(output);
@@ -95,13 +105,19 @@ class RecipesGen extends LimaRecipeProvider
                 .save(output, "guide_tablet");
 
         // Machine recipes
-        shaped(ENERGY_CELL_ARRAY).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('l', DYES_LIME).input('b', COPPER_BLOCK).patterns("tlt", "cbc", "tlt").save(output);
-        shaped(DIGITAL_FURNACE).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('l', DYES_LIME).input('a', FURNACE).input('g', GLASS_BLOCKS_CHEAP).patterns("tgt", "cac", "tlt").save(output);
-        shaped(DIGITAL_SMOKER).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('l', DYES_LIME).input('a', SMOKER).input('g', GLASS_BLOCKS_CHEAP).patterns("tgt", "cac", "tlt").save(output);
-        shaped(DIGITAL_BLAST_FURNACE).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('l', DYES_LIME).input('a', BLAST_FURNACE).input('g', GLASS_BLOCKS_CHEAP).patterns("tgt", "cac", "tlt").save(output);
-        shaped(GRINDER).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('l', DYES_LIME).input('a', GRINDSTONE).patterns("tlt", "cac", "ttt").save(output);
-        shaped(MATERIAL_FUSING_CHAMBER).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('l', DYES_LIME).input('a', BLAST_FURNACE).patterns("tlt", "cac", "ttt").save(output);
-        shaped(FABRICATOR).input('t', TITANIUM_INGOT).input('e', T3_CIRCUIT).input('l', DYES_LIME).input('c', CRAFTER).patterns("tlt", "ece", "tet").save(output);
+        shaped(ENERGY_CELL_ARRAY).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('r', LIGHTNING_ROD).input('b', COPPER_BLOCK).patterns("trt", "cbc", "trt").save(output);
+        shaped(DIGITAL_FURNACE).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('a', FURNACE).input('g', GLASS_BLOCKS_CHEAP).patterns("tct", "gag", "tct").save(output);
+        shaped(DIGITAL_SMOKER).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('a', SMOKER).input('g', GLASS_BLOCKS_CHEAP).patterns("tct", "gag", "tct").save(output);
+        shaped(DIGITAL_BLAST_FURNACE).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('a', BLAST_FURNACE).input('g', GLASS_BLOCKS_CHEAP).patterns("tct", "gag", "tct").save(output);
+        shaped(GRINDER).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('a', GRINDSTONE).input('i', IRON_INGOT).patterns("tct", "iai", "tct").save(output);
+        shaped(MATERIAL_FUSING_CHAMBER).input('t', TITANIUM_INGOT).input('c', T2_CIRCUIT).input('a', BLAST_FURNACE).input('o', OBSIDIAN).patterns("tct", "oao", "tct").save(output);
+        shaped(ELECTROCENTRIFUGE).input('t', TITANIUM_INGOT).input('c', T2_CIRCUIT).input('a', CAULDRON).input('g', TITANIUM_GLASS).patterns("gcg", "gag", "tct").save(output);
+        shaped(MIXER).input('t', TITANIUM_INGOT).input('c', T2_CIRCUIT).input('a', CAULDRON).input('g', TITANIUM_GLASS).patterns("tct", "gag", "tct").save(output);
+        shaped(VOLTAIC_INJECTOR).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('a', STONE_PRESSURE_PLATE).input('r', LIGHTNING_ROD).patterns("tct", "rar", "tct").save(output);
+        shaped(CHEM_LAB).input('t', TITANIUM_INGOT).input('c', T3_CIRCUIT).input('a', BREWING_STAND).input('g', TITANIUM_GLASS).patterns("tct", "gag", "tct").save(output);
+        shaped(FABRICATOR).input('p', POLYMER_INGOT).input('t', TITANIUM_INGOT).input('c', T3_CIRCUIT).input('a', CRAFTING_TABLE).patterns("pcp", "cac", "ttt").save(output);
+        shaped(AUTO_FABRICATOR).input('p', POLYMER_INGOT).input('t', TITANIUM_INGOT).input('c', T3_CIRCUIT).input('s', SLATESTEEL_INGOT).input('g', TITANIUM_GLASS).input('a', CRAFTER)
+                .patterns("pcp", "gag", "tst").save(output);
         shaped(EQUIPMENT_UPGRADE_STATION).input('t', TITANIUM_INGOT).input('a', ANVIL).input('l', DYES_LIME).patterns("ttt",  "lal", "ttt").save(output);
 
         // Standard machine systems
@@ -119,7 +135,7 @@ class RecipesGen extends LimaRecipeProvider
         shaped(mumStack(registries, STANDARD_MACHINE_SYSTEMS, 6)).input('m', mumIngredient(registries, STANDARD_MACHINE_SYSTEMS, 5)).input('r', REDSTONE).input('c', T3_CIRCUIT)
                 .patterns(" r ", "rmr", " c ").save(output, smsRecipeName + "_6");
 
-        //GLOW_BLOCKS.forEach((color, deferredBlock) -> shaped(deferredBlock, 4).input('d', color.getTag()).input('g', GLOWSTONE).patterns("dg", "gd").save(output));
+        NEON_LIGHTS.forEach((color, holder) -> shaped(holder, 4).input('d', neonLightDye(color)).input('g', GLOWSTONE).patterns("dg", "gd").save(output));
         //#endregion
 
         // Smelting/cooking recipes
@@ -142,33 +158,12 @@ class RecipesGen extends LimaRecipeProvider
         orePebblesCooking(TITANIUM_ORE_PEBBLES, TITANIUM_INGOT, 1, output);
         orePebblesCooking(NIOBIUM_ORE_PEBBLES, NIOBIUM_INGOT, 1, output);
 
-        // Grinding recipes
-        grinding().input(STONE).output(COBBLESTONE).save(output);
-        grinding().input(COBBLESTONES_NORMAL).output(GRAVEL).output(FLINT, 1, 0.33f).save(output);
-        grinding().input(Tags.Items.GRAVELS).output(SAND).save(output);
-        grinding().input(LTXITags.Items.DEEPSLATE_GRINDABLES).output(DEEPSLATE_DUST).save(output, "grind_deepslate");
-
-        orePebbleGrinding(COAL_ORE_PEBBLES, Tags.Items.ORES_COAL, null, "coal", output);
-        orePebbleGrinding(COPPER_ORE_PEBBLES, Tags.Items.ORES_COPPER, Tags.Items.RAW_MATERIALS_COPPER, "copper", output);
-        orePebbleGrinding(IRON_ORE_PEBBLES, Tags.Items.ORES_IRON, Tags.Items.RAW_MATERIALS_IRON, "iron", output);
-        orePebbleGrinding(LAPIS_ORE_PEBBLES, Tags.Items.ORES_LAPIS, null, "lapis", output);
-        orePebbleGrinding(REDSTONE_ORE_PEBBLES, Tags.Items.ORES_REDSTONE, null, "redstone", output);
-        orePebbleGrinding(GOLD_ORE_PEBBLES, Tags.Items.ORES_GOLD, Tags.Items.RAW_MATERIALS_GOLD, "gold", output);
-        orePebbleGrinding(DIAMOND_ORE_PEBBLES, Tags.Items.ORES_DIAMOND, null, "diamond", output);
-        orePebbleGrinding(EMERALD_ORE_PEBBLES, Tags.Items.ORES_EMERALD, null, "emerald", output);
-        orePebbleGrinding(QUARTZ_ORE_PEBBLES, Tags.Items.ORES_QUARTZ, null, "quartz", output);
-        orePebbleGrinding(NETHERITE_ORE_PEBBLES, Tags.Items.ORES_NETHERITE_SCRAP, null, "netherite", output);
-        orePebbleGrinding(TITANIUM_ORE_PEBBLES, LTXITags.Items.TITANIUM_ORES, LTXITags.Items.RAW_TITANIUM_MATERIALS, "titanium", output);
-        orePebbleGrinding(NIOBIUM_ORE_PEBBLES, LTXITags.Items.NIOBIUM_ORES, LTXITags.Items.RAW_NIOBIUM_MATERIALS, "niobium", output);
-
-        // Material fusing recipes
-        fusing()
-                .input(NETHERITE_SCRAP, 4)
-                .input(GOLD_INGOT)
-                .output(NETHERITE_INGOT)
-                .save(output);
-        fusing().input(TITANIUM_INGOT).input(GEMS_QUARTZ, 3).output(TITANIUM_GLASS, 2).save(output);
-        fusing().input(SLATESTEEL_INGOT).input(GEMS_QUARTZ, 3).output(SLATE_GLASS, 2).save(output);
+        grindingRecipes(output);
+        mfcRecipes(output);
+        electroCentrifugingRecipes(output);
+        mixingRecipes(output);
+        energizingRecipes(output);
+        chemLabRecipes(output);
 
         // Fabricating recipes
         fabricating(250_000)
@@ -199,10 +194,11 @@ class RecipesGen extends LimaRecipeProvider
         fabricating(20_000_000)
                 .input(CIRCUIT_BOARD)
                 .input(T3_CIRCUIT, 2)
-                .input(REDSTONE, 32)
-                .input(TITANIUM_INGOT, 32)
-                .input(GOLD_INGOT, 16)
+                .input(TITANIUM_INGOT, 8)
+                .input(SLATESTEEL_INGOT, 12)
                 .input(NIOBIUM_INGOT, 8)
+                .input(POLYMER_INGOT, 16)
+                .input(REDSTONE, 32)
                 .input(DIAMOND, 8)
                 .output(T4_CIRCUIT)
                 .group("circuits")
@@ -210,28 +206,21 @@ class RecipesGen extends LimaRecipeProvider
         fabricating(100_000_000)
                 .input(CIRCUIT_BOARD)
                 .input(T4_CIRCUIT, 2)
-                .input(REDSTONE, 64)
-                .input(TITANIUM_INGOT, 64)
-                .input(TITANIUM_INGOT, 32)
-                .input(NIOBIUM_INGOT, 24)
+                .input(TITANIUM_INGOT, 16)
+                .input(SLATESTEEL_INGOT, 24)
+                .input(POLYMER_INGOT, 48)
+                .input(NIOBIUM_INGOT, 16)
+                .input(REDSTONE, 48)
                 .input(ECHO_SHARD, 8)
                 .input(AMETHYST_SHARD, 16)
                 .output(T5_CIRCUIT)
                 .group("circuits")
                 .save(output);
-        fabricating(300_000)
-                .input(FABRICATOR)
-                .input(T3_CIRCUIT, 2)
-                .input(TITANIUM_GLASS, 4)
-                .output(AUTO_FABRICATOR)
-                .group("machines")
-                .requiresAdvancement()
-                .unlockedBy(T4_CIRCUIT)
-                .save(output);
         fabricating(2_000_000)
                 .input(ANVIL)
-                .input(TITANIUM_INGOT, 16)
-                .input(T3_CIRCUIT, 3)
+                .input(TITANIUM_INGOT, 20)
+                .input(SLATESTEEL_BLOCK)
+                .input(T4_CIRCUIT)
                 .output(MOLECULAR_RECONSTRUCTOR)
                 .group("machines")
                 .save(output);
@@ -245,21 +234,17 @@ class RecipesGen extends LimaRecipeProvider
                 .requiresAdvancement()
                 .unlockedBy("visited_fortress", PlayerTrigger.TriggerInstance.located(LocationPredicate.Builder.inStructure(registries.holderOrThrow(BuiltinStructures.FORTRESS))))
                 .save(output);
-        fabricating(50_000)
-                .input(TITANIUM_INGOT, 1)
-                .input(Ingredient.of(GLOWSTONE_DUST, REDSTONE))
-                .input(DYES_LIME)
-                .output(LIGHTWEIGHT_WEAPON_ENERGY)
-                .group("weapon_ammo").save(output);
         fabricating(2_500_000)
                 .input(TARGETING_TECH_SALVAGE)
-                .input(TITANIUM_INGOT, 16)
+                .input(TITANIUM_INGOT, 32)
+                .input(SLATESTEEL_INGOT, 16)
                 .input(T3_CIRCUIT, 2)
                 .output(ROCKET_TURRET)
                 .group("turrets").save(output);
         fabricating(5_000_000)
                 .input(TARGETING_TECH_SALVAGE)
-                .input(TITANIUM_INGOT, 16)
+                .input(TITANIUM_INGOT, 32)
+                .input(SLATESTEEL_INGOT, 16)
                 .input(T4_CIRCUIT, 2)
                 .output(RAILGUN_TURRET)
                 .group("turrets").save(output);
@@ -270,94 +255,99 @@ class RecipesGen extends LimaRecipeProvider
                 .input(IRON_SHOVEL)
                 .input(TITANIUM_INGOT, 8)
                 .input(T2_CIRCUIT, 2)
-                .input(DYES_LIME, 4)
+                .input(LTX_LIME_PIGMENT, 4)
                 .group("ltx/tool").save(output);
         upgradeableItemFabricating(LTX_SWORD, registries, 500_000)
                 .input(DIAMOND_SWORD)
                 .input(TITANIUM_INGOT, 6)
                 .input(T2_CIRCUIT, 2)
-                .input(DYES_LIME, 4)
+                .input(LTX_LIME_PIGMENT, 4)
                 .group("ltx/tool").save(output);
         upgradeableItemFabricating(LTX_SHOVEL, registries, 500_000)
                 .input(DIAMOND_SHOVEL)
                 .input(TITANIUM_INGOT, 3)
                 .input(T2_CIRCUIT, 2)
-                .input(DYES_LIME, 4)
+                .input(LTX_LIME_PIGMENT, 4)
                 .group("ltx/tool").save(output);
         upgradeableItemFabricating(LTX_AXE, registries, 500_000)
                 .input(DIAMOND_AXE)
                 .input(TITANIUM_INGOT, 9)
                 .input(T2_CIRCUIT, 2)
-                .input(DYES_LIME, 4)
+                .input(LTX_LIME_PIGMENT, 4)
                 .group("ltx/tool").save(output);
         upgradeableItemFabricating(LTX_HOE, registries, 500_000)
                 .input(DIAMOND_HOE)
                 .input(TITANIUM_INGOT, 3)
                 .input(T2_CIRCUIT, 2)
-                .input(DYES_LIME, 4)
+                .input(LTX_LIME_PIGMENT, 4)
                 .group("ltx/tool").save(output);
         upgradeableItemFabricating(LTX_SHEARS, registries, 300_000)
                 .input(SHEARS)
                 .input(TITANIUM_INGOT, 6)
                 .input(T1_CIRCUIT, 2)
-                .input(DYES_LIME, 2)
+                .input(LTX_LIME_PIGMENT, 2)
                 .group("ltx/tool").save(output);
         upgradeableItemFabricating(LTX_BRUSH, registries, 300_000)
                 .input(BRUSH)
                 .input(TITANIUM_INGOT, 3)
                 .input(T1_CIRCUIT, 2)
-                .input(DYES_LIME, 2)
+                .input(LTX_LIME_PIGMENT, 2)
                 .group("ltx/tool").save(output);
         upgradeableItemFabricating(LTX_FISHING_ROD, registries, 300_000)
                 .input(FISHING_ROD)
                 .input(TITANIUM_INGOT, 6)
                 .input(T1_CIRCUIT, 2)
-                .input(DYES_LIME, 2)
+                .input(LTX_LIME_PIGMENT, 2)
                 .group("ltx/tool").save(output);
         upgradeableItemFabricating(LTX_LIGHTER, registries, 300_000)
                 .input(FLINT_AND_STEEL)
                 .input(TITANIUM_INGOT, 3)
                 .input(T1_CIRCUIT, 2)
-                .input(DYES_LIME, 2)
+                .input(LTX_LIME_PIGMENT, 2)
                 .group("ltx/tool").save(output);
 
         // Weapons fabrication
-        upgradeableItemFabricating(SUBMACHINE_GUN, registries, 400_000)
+        upgradeableItemFabricating(SUBMACHINE_GUN, registries, 500_000)
                 .input(TITANIUM_INGOT, 24)
-                .input(DYES_LIME, 4)
-                .input(T1_CIRCUIT, 4)
+                .input(LTX_LIME_PIGMENT, 4)
+                .input(T1_CIRCUIT, 2)
                 .group("ltx/weapon").save(output);
         upgradeableItemFabricating(SHOTGUN, registries, 1_000_000)
-                .input(TITANIUM_INGOT, 32)
-                .input(DYES_LIME, 8)
+                .input(TITANIUM_INGOT, 24)
+                .input(POLYMER_INGOT, 16)
+                .input(LTX_LIME_PIGMENT, 8)
                 .input(T2_CIRCUIT, 4)
                 .group("ltx/weapon").save(output);
         upgradeableItemFabricating(GRENADE_LAUNCHER, registries, 20_000_000)
+                .input(TITANIUM_INGOT, 24)
+                .input(POLYMER_INGOT, 24)
+                .input(SLATESTEEL_INGOT, 8)
+                .input(LTX_LIME_PIGMENT, 12)
                 .input(EXPLOSIVES_WEAPON_TECH_SALVAGE)
-                .input(TITANIUM_INGOT, 32)
-                .input(DYES_LIME, 12)
                 .input(TITANIUM_GLASS, 6)
                 .input(T2_CIRCUIT, 6)
                 .group("ltx/weapon").save(output);
         upgradeableItemFabricating(LINEAR_FUSION_RIFLE, registries, 25_000_000)
-                .input(TITANIUM_INGOT, 32)
-                .input(DYES_LIME, 12)
+                .input(TITANIUM_INGOT, 24)
+                .input(POLYMER_INGOT, 32)
+                .input(LTX_LIME_PIGMENT, 12)
                 .input(TITANIUM_GLASS, 8)
                 .input(AMETHYST_SHARD, 2)
                 .input(T2_CIRCUIT, 6)
                 .group("ltx/weapon").save(output);
         upgradeableItemFabricating(ROCKET_LAUNCHER, registries, 30_000_000)
-                .input(EXPLOSIVES_WEAPON_TECH_SALVAGE)
                 .input(TITANIUM_INGOT, 48)
-                .input(DYES_LIME, 16)
-                .input(SLATESTEEL_INGOT, 8)
+                .input(SLATESTEEL_INGOT, 24)
+                .input(LTX_LIME_PIGMENT, 16)
+                .input(EXPLOSIVES_WEAPON_TECH_SALVAGE)
                 .input(T3_CIRCUIT, 8)
                 .group("ltx/weapon").save(output);
         upgradeableItemFabricating(HEAVY_PISTOL, registries, 50_000_000)
                 .input(TITANIUM_INGOT, 16)
-                .input(DYES_LIME, 4)
-                .input(SLATESTEEL_INGOT, 16)
-                .input(T4_CIRCUIT, 2)
+                .input(POLYMER_INGOT, 24)
+                .input(SLATESTEEL_INGOT, 8)
+                .input(LTX_LIME_PIGMENT, 8)
+                .input(T4_CIRCUIT, 1)
                 .requiresAdvancement()
                 .unlockedBy("kill_boss", KilledTrigger.TriggerInstance.playerKilledEntity(EntityPredicate.Builder.entity().of(LTXITags.EntityTypes.HIGH_THREAT_TARGETS)))
                 .group("ltx/weapon").save(output);
@@ -601,29 +591,107 @@ class RecipesGen extends LimaRecipeProvider
                 .input(T3_CIRCUIT, 2));
 
         machineModuleFab(output, registries, "mum/fabricator", FABRICATOR_UPGRADE, 1, 500_000, builder -> builder
-                .input(DYES_LIME, 4)
+                .input(LTX_LIME_PIGMENT, 4)
                 .input(DIAMOND, 2)
-                .input(TITANIUM_INGOT, 6)
+                .input(TITANIUM_INGOT, 8)
                 .input(T2_CIRCUIT, 2)
-                .input(REDSTONE, 4));
+                .input(REDSTONE, 8));
         machineModuleFab(output, registries, "mum/fabricator", FABRICATOR_UPGRADE, 2, 1_000_000, builder -> builder
-                .input(DYES_LIME, 4)
-                .input(DIAMOND, 2)
-                .input(TITANIUM_INGOT, 6)
-                .input(T3_CIRCUIT, 3)
+                .input(LTX_LIME_PIGMENT, 4)
+                .input(DIAMOND, 4)
+                .input(TITANIUM_INGOT, 8)
+                .input(T3_CIRCUIT, 2)
                 .input(REDSTONE, 8));
         machineModuleFab(output, registries, "mum/fabricator", FABRICATOR_UPGRADE, 3, 5_000_000, builder -> builder
-                .input(DYES_LIME, 8)
-                .input(DIAMOND_BLOCK)
+                .input(LTX_LIME_PIGMENT, 8)
+                .input(AMETHYST_SHARD, 4)
                 .input(TITANIUM_INGOT, 16)
                 .input(T4_CIRCUIT)
-                .input(REDSTONE, 16));
+                .input(REDSTONE, 32));
         machineModuleFab(output, registries, "mum/fabricator", FABRICATOR_UPGRADE, 4, 10_000_000, builder -> builder
-                .input(DYES_LIME, 8)
-                .input(DIAMOND_BLOCK)
+                .input(LTX_LIME_PIGMENT, 8)
+                .input(AMETHYST_SHARD, 8)
                 .input(TITANIUM_INGOT, 16)
                 .input(T4_CIRCUIT, 2)
                 .input(REDSTONE, 32));
+    }
+
+    private void grindingRecipes(RecipeOutput output)
+    {
+        grinding().input(STONE).output(COBBLESTONE).save(output);
+        grinding().input(COBBLESTONES_NORMAL).output(GRAVEL).output(FLINT, 1, 0.25f).save(output);
+        grinding().input(Tags.Items.GRAVELS).output(SAND).save(output);
+        grinding().input(CROPS_SUGAR_CANE).output(RESINOUS_BIOMASS).output(SUGAR, 2).save(output, "grind_sugar_cane");
+        grinding().input(BAMBOO).output(RESINOUS_BIOMASS).save(output, "grind_bamboo");
+        grinding().input(VITRIOL_BERRIES).output(ACIDIC_BIOMASS).save(output);
+        grinding().input(CompoundIngredient.of(Ingredient.of(CHARCOAL), Ingredient.of(ItemTags.COALS))).output(CARBON_DUST).save(output);
+        grinding().input(LTXITags.Items.DEEPSLATE_GRINDABLES).output(DEEPSLATE_DUST).save(output, "grind_deepslate");
+
+        orePebbleGrinding(COAL_ORE_PEBBLES, Tags.Items.ORES_COAL, null, "coal", output);
+        orePebbleGrinding(COPPER_ORE_PEBBLES, Tags.Items.ORES_COPPER, Tags.Items.RAW_MATERIALS_COPPER, "copper", output);
+        orePebbleGrinding(IRON_ORE_PEBBLES, Tags.Items.ORES_IRON, Tags.Items.RAW_MATERIALS_IRON, "iron", output);
+        orePebbleGrinding(LAPIS_ORE_PEBBLES, Tags.Items.ORES_LAPIS, null, "lapis", output);
+        orePebbleGrinding(REDSTONE_ORE_PEBBLES, Tags.Items.ORES_REDSTONE, null, "redstone", output);
+        orePebbleGrinding(GOLD_ORE_PEBBLES, Tags.Items.ORES_GOLD, Tags.Items.RAW_MATERIALS_GOLD, "gold", output);
+        orePebbleGrinding(DIAMOND_ORE_PEBBLES, Tags.Items.ORES_DIAMOND, null, "diamond", output);
+        orePebbleGrinding(EMERALD_ORE_PEBBLES, Tags.Items.ORES_EMERALD, null, "emerald", output);
+        orePebbleGrinding(QUARTZ_ORE_PEBBLES, Tags.Items.ORES_QUARTZ, null, "quartz", output);
+        grinding().input(ORES_NETHERITE_SCRAP).output(NETHERITE_ORE_PEBBLES, 2).save(output, "grind_debris");
+        orePebbleGrinding(TITANIUM_ORE_PEBBLES, LTXITags.Items.TITANIUM_ORES, LTXITags.Items.RAW_TITANIUM_MATERIALS, "titanium", output);
+        orePebbleGrinding(NIOBIUM_ORE_PEBBLES, LTXITags.Items.NIOBIUM_ORES, LTXITags.Items.RAW_NIOBIUM_MATERIALS, "niobium", output);
+    }
+
+    private void mfcRecipes(RecipeOutput output)
+    {
+        fusing().input(NETHERITE_ORE_PEBBLES, 2).input(GOLD_INGOT).output(NETHERITE_INGOT).save(output, "pebble_netherite");
+        fusing().input(NETHERITE_SCRAP, 4).input(GOLD_INGOT, 1).output(NETHERITE_INGOT).save(output, "scrap_netherite");
+        NEON_LIGHTS.forEach((color, holder) -> fusing().input(NEON_LIGHT_MATERIALS, 2).input(neonLightDye(color)).time(80).output(holder, 8).save(output));
+        fusing().input(IRON_INGOT).input(CARBON_DUST).input(DEEPSLATE_DUST, 4).fluidInput(LTXIFluids.OXYGEN, 250).time(400).output(SLATESTEEL_INGOT).save(output);
+        fusing().input(TITANIUM_INGOT).input(GEMS_QUARTZ, 3).output(TITANIUM_GLASS, 2).save(output);
+    }
+
+    private void electroCentrifugingRecipes(RecipeOutput output)
+    {
+        electroCentrifuging().input(DYES_LIME).output(LTX_LIME_PIGMENT).save(output);
+        electroCentrifuging().input(ACIDIC_BIOMASS).output(VIRIDIC_GREEN_PIGMENT, 4).time(120).save(output);
+
+        electroCentrifuging()
+                .input(MUD)
+                .output(DIRT)
+                .output(CLAY_BALL)
+                .output(MANGROVE_PROPAGULE, 1, 0.05f)
+                .fluidOutput(Fluids.WATER, 1000)
+                .time(120)
+                .save(output, "split_mud");
+
+        electroCentrifuging()
+                .fluidInput(Fluids.WATER, 1000)
+                .fluidOutput(LTXIFluids.HYDROGEN, 1000)
+                .fluidOutput(LTXIFluids.OXYGEN, 500)
+                .time(300)
+                .save(output, "water_electrolyzing");
+    }
+
+    private void mixingRecipes(RecipeOutput output)
+    {
+        mixing().input(DIRT).fluidInput(Fluids.WATER, 1000).output(MUD).time(120).save(output);
+        mixing().input(ACIDIC_BIOMASS, 4).fluidInput(Fluids.WATER, 1000).fluidOutput(LTXIFluids.VIRIDIC_ACID, 1000).save(output);
+        mixing().input(RESINOUS_BIOMASS, 2).fluidInput(LTXIFluids.VIRIDIC_ACID, 250).output(MONOMER_CHEMICAL).save(output);
+    }
+
+
+    private void energizingRecipes(RecipeOutput output)
+    {
+        energizing().input(LTX_LIME_PIGMENT).output(ELECTRIC_CHARTREUSE_PIGMENT).time(120).save(output);
+        energizing().input(DYES_LIGHT_BLUE).output(ENERGY_BLUE_PIGMENT).time(120).save(output);
+        energizing().input(DYES_BLUE).output(NEURO_BLUE_PIGMENT).time(120).save(output);
+    }
+
+
+    private void chemLabRecipes(RecipeOutput output)
+    {
+        chemLab().input(MONOMER_CHEMICAL).fluidInput(LTXIFluids.OXYGEN, 100).output(POLYMER_INGOT).save(output);
+        chemLab().input(POLYMER_INGOT).input(COPPER_INGOT).output(CIRCUIT_BOARD).save(output);
     }
 
     // Helpers
@@ -658,6 +726,11 @@ class RecipesGen extends LimaRecipeProvider
     private LTXIBuilder<MixingRecipe> mixing()
     {
         return new LTXIBuilder<>(modResources, MixingRecipe::new);
+    }
+
+    private LTXIBuilder<EnergizingRecipe> energizing()
+    {
+        return new LTXIBuilder<>(modResources, EnergizingRecipe::new);
     }
 
     private LTXIBuilder<ChemicalReactingRecipe> chemLab()
@@ -748,6 +821,20 @@ class RecipesGen extends LimaRecipeProvider
     private ItemStack defaultUpgradableItem(Supplier<? extends UpgradableEquipmentItem> itemSupplier, HolderLookup.Provider registries)
     {
         return itemSupplier.get().createStackWithDefaultUpgrades(registries);
+    }
+
+    private Ingredient neonLightDye(NeonLightColor color)
+    {
+        Either<ItemLike, TagKey<Item>> either = switch (color)
+        {
+            case LTX_LIME -> Either.left(LTX_LIME_PIGMENT);
+            case ENERGY_BLUE -> Either.left(ENERGY_BLUE_PIGMENT);
+            case ELECTRIC_CHARTREUSE -> Either.left(ELECTRIC_CHARTREUSE_PIGMENT);
+            case VIRIDIC_GREEN -> Either.left(VIRIDIC_GREEN_PIGMENT);
+            case NEURO_BLUE -> Either.left(NEURO_BLUE_PIGMENT);
+            default -> Either.right(Objects.requireNonNull(color.getDyeColor()).getTag());
+        };
+        return either.map(Ingredient::of, Ingredient::of);
     }
 
     // Builder classes

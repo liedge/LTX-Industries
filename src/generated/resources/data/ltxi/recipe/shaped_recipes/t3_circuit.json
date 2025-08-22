@@ -2,23 +2,23 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
+    "b": {
+      "item": "minecraft:copper_ingot"
+    },
     "c": {
       "item": "ltxi:t2_circuit"
     },
-    "m": {
-      "item": "minecraft:quartz"
-    },
     "r": {
-      "item": "minecraft:redstone"
+      "item": "minecraft:comparator"
     },
     "t": {
       "item": "ltxi:titanium_ingot"
     }
   },
   "pattern": [
-    "mrm",
-    "tct",
-    "mrm"
+    " r ",
+    "rcr",
+    "tbt"
   ],
   "result": {
     "count": 1,

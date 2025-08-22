@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "c": {
-      "item": "ltxi:circuit_board"
+      "item": "minecraft:stone_pressure_plate"
     },
     "m": {
       "item": "minecraft:copper_ingot"
@@ -16,9 +16,9 @@
     }
   },
   "pattern": [
-    " t ",
-    "rmr",
-    "mcm"
+    "tmt",
+    "mcm",
+    "rmr"
   ],
   "result": {
     "count": 1,

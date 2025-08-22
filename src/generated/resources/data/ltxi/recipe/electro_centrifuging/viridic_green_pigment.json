@@ -1,0 +1,16 @@
+{
+  "type": "ltxi:electro_centrifuging",
+  "craft_time": 120,
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "ltxi:acidic_biomass"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 4,
+      "id": "ltxi:viridic_green_pigment"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "type": "ltxi:energizing",
+  "craft_time": 120,
+  "ingredients": [
+    {
+      "count": 1,
+      "tag": "c:dyes/blue"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:neuro_blue_pigment"
+    }
+  ]
+}

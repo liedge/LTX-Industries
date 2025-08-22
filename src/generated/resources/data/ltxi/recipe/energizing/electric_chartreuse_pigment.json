@@ -1,0 +1,16 @@
+{
+  "type": "ltxi:energizing",
+  "craft_time": 120,
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "ltxi:ltx_lime_pigment"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:electric_chartreuse_pigment"
+    }
+  ]
+}

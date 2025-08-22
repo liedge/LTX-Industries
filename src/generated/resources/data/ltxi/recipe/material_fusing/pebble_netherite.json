@@ -1,0 +1,19 @@
+{
+  "type": "ltxi:material_fusing",
+  "ingredients": [
+    {
+      "count": 2,
+      "item": "ltxi:netherite_ore_pebbles"
+    },
+    {
+      "count": 1,
+      "item": "minecraft:gold_ingot"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "minecraft:netherite_ingot"
+    }
+  ]
+}

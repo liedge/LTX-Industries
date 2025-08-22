@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "a": {
+      "item": "minecraft:stone_pressure_plate"
+    },
+    "c": {
+      "item": "ltxi:t1_circuit"
+    },
+    "r": {
+      "item": "minecraft:lightning_rod"
+    },
+    "t": {
+      "item": "ltxi:titanium_ingot"
+    }
+  },
+  "pattern": [
+    "tct",
+    "rar",
+    "tct"
+  ],
+  "result": {
+    "count": 1,
+    "id": "ltxi:voltaic_injector"
+  }
+}

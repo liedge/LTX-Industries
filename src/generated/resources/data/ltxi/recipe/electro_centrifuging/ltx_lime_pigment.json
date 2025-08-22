@@ -1,0 +1,15 @@
+{
+  "type": "ltxi:electro_centrifuging",
+  "ingredients": [
+    {
+      "count": 1,
+      "tag": "c:dyes/lime"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:ltx_lime_pigment"
+    }
+  ]
+}

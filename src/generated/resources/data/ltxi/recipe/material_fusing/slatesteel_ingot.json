@@ -1,0 +1,30 @@
+{
+  "type": "ltxi:material_fusing",
+  "craft_time": 400,
+  "fluid_ingredients": [
+    {
+      "amount": 250,
+      "fluid": "ltxi:oxygen"
+    }
+  ],
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "minecraft:iron_ingot"
+    },
+    {
+      "count": 1,
+      "item": "ltxi:carbon_dust"
+    },
+    {
+      "count": 4,
+      "item": "ltxi:deepslate_dust"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:slatesteel_ingot"
+    }
+  ]
+}

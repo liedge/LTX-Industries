@@ -12,7 +12,7 @@
       "id": "minecraft:gravel"
     },
     {
-      "chance": 0.33,
+      "chance": 0.25,
       "count": 1,
       "id": "minecraft:flint"
     }

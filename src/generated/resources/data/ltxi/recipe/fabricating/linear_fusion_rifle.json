@@ -4,12 +4,16 @@
   "group": "ltx/weapon",
   "ingredients": [
     {
-      "count": 32,
+      "count": 24,
       "item": "ltxi:titanium_ingot"
     },
     {
+      "count": 32,
+      "item": "ltxi:polymer_ingot"
+    },
+    {
       "count": 12,
-      "tag": "c:dyes/lime"
+      "item": "ltxi:ltx_lime_pigment"
     },
     {
       "count": 8,

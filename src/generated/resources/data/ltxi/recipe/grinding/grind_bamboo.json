@@ -1,0 +1,15 @@
+{
+  "type": "ltxi:grinding",
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "minecraft:bamboo"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:resinous_biomass"
+    }
+  ]
+}

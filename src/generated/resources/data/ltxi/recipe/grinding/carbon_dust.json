@@ -1,0 +1,23 @@
+{
+  "type": "ltxi:grinding",
+  "ingredients": [
+    {
+      "type": "neoforge:compound",
+      "children": [
+        {
+          "item": "minecraft:charcoal"
+        },
+        {
+          "tag": "minecraft:coals"
+        }
+      ],
+      "count": 1
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:carbon_dust"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "type": "ltxi:chemical_reacting",
+  "fluid_ingredients": [
+    {
+      "amount": 100,
+      "fluid": "ltxi:oxygen"
+    }
+  ],
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "ltxi:monomer_chemical"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:polymer_ingot"
+    }
+  ]
+}
