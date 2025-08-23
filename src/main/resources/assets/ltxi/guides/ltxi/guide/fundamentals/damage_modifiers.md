@@ -2,6 +2,7 @@
 navigation:
     title: "Damage Modifiers"
     parent: fundamentals/index.md
+    position: 2
 ---
 
 # Global Damage Modifiers

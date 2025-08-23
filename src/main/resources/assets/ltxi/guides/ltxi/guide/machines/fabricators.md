@@ -3,6 +3,12 @@ navigation:
     title: "Fabrication"
     icon: fabricator
     parent: machines/index.md
+    position: 30
+item_ids:
+    - fabricator
+    - auto_fabricator
+    - empty_fabrication_blueprint
+    - fabrication_blueprint
 ---
 
 # Tech Fabrication
@@ -12,7 +18,15 @@ For that, you'll need to make a Fabricator. Fabricators take up to 16 ingredient
 product.
 
 ## Fabricator
-<BlockImage id="fabricator" scale="2" />
+<GameScene zoom={3} interactive={false}>
+<Block id="fabricator" y="-1" x="0" />
+<Block id="mesh_block" y="-1" x="-1" />
+<Block id="mesh_block" y="0" x="0" />
+<Block id="mesh_block" y="0" x="-1" />
+<BlockAnnotation x="0" y="-1" z="0" color="#8bd1f0">
+Items and Energy can only be connected to the front, left, rear, and bottom of this block!
+</BlockAnnotation>
+</GameScene>
 
 Also referred to as the manual Fabricator, this is the first fabrication machine you'll make. You may view the available
 recipes in the recipe view grid. To select a recipe, left click once. Once selected, left click again to craft or right

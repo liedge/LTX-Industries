@@ -1,21 +1,20 @@
 ---
 navigation:
     title: "Turrets"
-    position: 3
+    position: 21
 ---
 
-# A/DU Turrets
+# A/DS Turrets
 
-The Automated Defensive Unit product line, or **LTX A/DU** is our area defense machinery series. The turrets are
-*[double block machines](../machines/double_block_machines.md)* and accept [Machine Upgrade Modules](../fundamentals/upgrade_system.md)
-like the rest of our industrial machine line.
+The Automated Defense System product line, A/DS, specializes in keeping an area free of threats. All turrets are
+[upgradeable machines](../fundamentals/upgrade_system.md).
 
 ## Available Turrets
 - [*Atmos*](rocket_turret.md)
 - [*Noctis*](railgun_turret.md)
 
 ## Ammunition
-Supply them with energy, that's it. The 20 slots on the right hand side are **take-only*, used when a direct drop
+Supply them with energy, that's it. The 20 slots on the right hand side are **take-only**, used when a direct drop
 collection upgrade module is installed.
 
 ## Targeting

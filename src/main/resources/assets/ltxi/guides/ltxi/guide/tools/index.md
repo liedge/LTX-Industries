@@ -2,7 +2,7 @@
 navigation:
     title: Tools
     icon: ltx_drill
-    position: 3
+    position: 30
 ---
 
 # Tools

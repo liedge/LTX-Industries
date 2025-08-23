@@ -1,7 +1,7 @@
 ---
 navigation:
     title: Weapons
-    position: 3
+    position: 30
 ---
 
 # LTX Named Series Gear

@@ -2,6 +2,7 @@
 navigation:
     title: "Mob Effects"
     parent: fundamentals/index.md
+    position: 2
 ---
 
 # Mob Effects (Potion Effects)

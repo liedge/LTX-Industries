@@ -691,7 +691,7 @@ class RecipesGen extends LimaRecipeProvider
     private void chemLabRecipes(RecipeOutput output)
     {
         chemLab().input(MONOMER_CHEMICAL).fluidInput(LTXIFluids.OXYGEN, 100).output(POLYMER_INGOT).save(output);
-        chemLab().input(POLYMER_INGOT).input(COPPER_INGOT).output(CIRCUIT_BOARD).save(output);
+        chemLab().input(POLYMER_INGOT).input(COPPER_INGOT, 2).fluidInput(LTXIFluids.VIRIDIC_ACID, 125).output(CIRCUIT_BOARD).save(output);
     }
 
     // Helpers

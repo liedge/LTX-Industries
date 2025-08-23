@@ -1,7 +1,7 @@
 ---
 navigation:
     title: Enchantments
-    position: 3
+    position: 11
 ---
 
 # Enchantments

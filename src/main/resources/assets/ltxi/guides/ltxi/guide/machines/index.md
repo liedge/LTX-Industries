@@ -1,7 +1,7 @@
 ---
 navigation:
     title: Machinery
-    position: 3
+    position: 20
 ---
 
 # Machines

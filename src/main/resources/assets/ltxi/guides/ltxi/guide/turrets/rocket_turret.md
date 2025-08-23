@@ -3,13 +3,17 @@ navigation:
     title: Atmos
     icon: rocket_turret
     parent: turrets/index.md
+    position: 0
 ---
 
 # LTX A/DU *Atmos*
 
-<GameScene zoom={4} interactive={true}>
-<Block id="rocket_turret" p:half="upper" />
-<Block id="rocket_turret" p:half="lower" y="-1" />
+<GameScene zoom={4} interactive={false}>
+<Block id="mesh_block" y="0" />
+<Block id="rocket_turret" y="-1" />
+<BlockAnnotation x="0" y="-1" z="0" color="#8bd1f0">
+Items and Energy can only be connected to this block!
+</BlockAnnotation>
 </GameScene>
 
 ## Stats

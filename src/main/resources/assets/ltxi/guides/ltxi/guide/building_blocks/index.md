@@ -1,7 +1,7 @@
 ---
 navigation:
     title: Building Blocks
-    position: 3
+    position: 10
 ---
 
 # Building Blocks
