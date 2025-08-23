@@ -2,6 +2,8 @@ package liedge.ltxindustries.block.mesh;
 
 import com.google.common.base.Preconditions;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import it.unimi.dsi.fastutil.objects.ObjectList;
+import it.unimi.dsi.fastutil.objects.ObjectLists;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -33,6 +35,11 @@ public final class BlockMesh
     public MeshPosition getPrimary()
     {
         return primary;
+    }
+
+    public List<MeshPosition> getMeshPositions()
+    {
+        return meshPositions;
     }
 
     public MeshPosition getMeshPosition(int index)
@@ -126,7 +133,7 @@ public final class BlockMesh
 
     static class Builder
     {
-        private final List<MeshPosition> meshPositions = new ObjectArrayList<>();
+        private final ObjectList<MeshPosition> meshPositions = new ObjectArrayList<>();
         private final Set<Vec3i> usedPos = new ObjectOpenHashSet<>();
 
         public Builder add(int x, int y, int z, BlockMeshPartType type)
@@ -149,7 +156,7 @@ public final class BlockMesh
             List<MeshPosition> primaries = meshPositions.stream().filter(o -> o.type() == BlockMeshPartType.PRIMARY).toList();
             Preconditions.checkState(primaries.size() == 1, "Block mesh contains invalid number of primary positions: " + primaries.size());
 
-            return new BlockMesh(meshPositions, primaries.getFirst());
+            return new BlockMesh(ObjectLists.unmodifiable(meshPositions), primaries.getFirst());
         }
     }
 }

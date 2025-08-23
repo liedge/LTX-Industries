@@ -1,7 +1,6 @@
 package liedge.ltxindustries.blockentity;
 
 import liedge.limacore.blockentity.LimaBlockEntity;
-import liedge.limacore.util.LimaBlockUtil;
 import liedge.limacore.util.LimaNbtUtil;
 import liedge.ltxindustries.block.mesh.BlockMesh;
 import liedge.ltxindustries.block.mesh.LTXIBlockMeshes;
@@ -10,13 +9,10 @@ import liedge.ltxindustries.registry.game.LTXIBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 public final class MeshBlockEntity extends LimaBlockEntity
@@ -29,8 +25,6 @@ public final class MeshBlockEntity extends LimaBlockEntity
     private int meshIndex = -1;
     @Nullable
     private MeshPosition meshPosition;
-    @Nullable
-    private VoxelShape shape;
     @Nullable
     private BlockPos primaryPos;
 
@@ -73,30 +67,6 @@ public final class MeshBlockEntity extends LimaBlockEntity
     {
         this.meshPosition = meshPosition;
         this.meshIndex = meshPosition.index();
-    }
-
-    public @Nullable VoxelShape getMeshShape(LevelReader level, BlockState state, BlockPos pos)
-    {
-        if (this.shape == null)
-        {
-            BlockPos primaryPos = getPrimaryPos(pos, state);
-            BlockMesh blockMesh = getBlockMesh();
-            MeshPosition meshPosition = getMeshPosition();
-            Direction facing = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
-
-            if (primaryPos != null && blockMesh != null && meshPosition != null)
-            {
-                VoxelShape identityShape = level.getBlockState(primaryPos).getShape(level, primaryPos);
-
-                identityShape = LimaBlockUtil.rotateYClockwise(identityShape, LimaBlockUtil.rotationYFromDirection(facing));
-                Vec3i offset = blockMesh.computeMeshOffset(meshPosition, blockMesh.getPrimary(), facing.getOpposite());
-                identityShape = LimaBlockUtil.moveShape(identityShape, offset.getX(), offset.getY(), offset.getZ());
-
-                this.shape = identityShape;
-            }
-        }
-
-        return this.shape;
     }
 
     public @Nullable BlockPos getPrimaryPos(BlockPos pos, BlockState state)

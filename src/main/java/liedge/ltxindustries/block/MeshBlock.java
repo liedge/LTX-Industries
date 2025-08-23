@@ -3,6 +3,7 @@ package liedge.ltxindustries.block;
 import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.menu.LimaMenuProvider;
 import liedge.limacore.util.LimaBlockUtil;
+import liedge.ltxindustries.block.mesh.MeshPosition;
 import liedge.ltxindustries.blockentity.MeshBlockEntity;
 import liedge.ltxindustries.registry.game.LTXIBlockEntities;
 import net.minecraft.core.BlockPos;
@@ -21,6 +22,8 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
+
+import static net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING;
 
 public final class MeshBlock extends BaseMeshBlock
 {
@@ -177,15 +180,19 @@ public final class MeshBlock extends BaseMeshBlock
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context)
     {
-        VoxelShape shape = null;
-
-        if (level instanceof LevelReader levelReader)
+        MeshBlockEntity blockEntity = LimaBlockUtil.getBlockEntity(level, pos, MeshBlockEntity.class);
+        if (blockEntity != null)
         {
-            MeshBlockEntity blockEntity = LimaBlockUtil.getSafeBlockEntity(levelReader, pos, MeshBlockEntity.class);
-            if (blockEntity != null) shape = blockEntity.getMeshShape(levelReader, state, pos);
+            BlockPos primaryPos = blockEntity.getPrimaryPos(pos, state);
+            MeshPosition meshPosition = blockEntity.getMeshPosition();
+
+            if (primaryPos != null && meshPosition != null && level.getBlockState(primaryPos).getBlock() instanceof PrimaryMeshBlock primaryBlock)
+            {
+                return primaryBlock.getMeshBlockShape(state.getValue(HORIZONTAL_FACING), meshPosition);
+            }
         }
 
-        return shape != null ? shape : Shapes.empty();
+        return Shapes.empty();
     }
 
     private @Nullable BlockPos getPrimaryPos(LevelReader level, BlockPos pos, BlockState state)

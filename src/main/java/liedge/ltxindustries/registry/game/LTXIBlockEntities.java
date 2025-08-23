@@ -73,8 +73,16 @@ public final class LTXIBlockEntities
     private static final SidedAccessRules MACHINE_ITEM_RULES = SidedAccessRules.allSides(IOAccessSets.ALL_ALLOWED, IOAccess.INPUT_ONLY, false, true);
     private static final SidedAccessRules MACHINE_ENERGY_RULES = SidedAccessRules.allSides(IOAccessSets.INPUT_ONLY_OR_DISABLED, IOAccess.INPUT_ONLY, false, false);
     private static final SidedAccessRules MACHINE_FLUID_RULES = SidedAccessRules.allSides(IOAccessSets.ALL_ALLOWED, IOAccess.INPUT_ONLY, false, true);
-    private static final SidedAccessRules FABRICATOR_ITEM_RULES = SidedAccessRules.allSides(IOAccessSets.OUTPUT_ONLY_OR_DISABLED, IOAccess.OUTPUT_ONLY, false, true);
     private static final SidedAccessRules MACHINE_FLUID_INPUT_ONLY = SidedAccessRules.allSides(IOAccessSets.INPUT_ONLY_OR_DISABLED, IOAccess.INPUT_ONLY, false, false);
+
+    private static final Set<RelativeHorizontalSide> FABRICATOR_VALID_SIDES = ImmutableSet.copyOf(EnumSet.of(RelativeHorizontalSide.BOTTOM, RelativeHorizontalSide.FRONT, RelativeHorizontalSide.REAR, RelativeHorizontalSide.LEFT));
+    private static final SidedAccessRules FABRICATOR_ITEM_RULES = SidedAccessRules.builder()
+            .setValidSides(FABRICATOR_VALID_SIDES).setValidIOStates(IOAccessSets.OUTPUT_ONLY_OR_DISABLED)
+            .setDefaultIOState(IOAccess.OUTPUT_ONLY)
+            .defineAutoInput(true).build();
+    private static final SidedAccessRules FABRICATOR_ENERGY_RULES = SidedAccessRules.builder()
+            .setValidSides(FABRICATOR_VALID_SIDES).setValidIOStates(IOAccessSets.INPUT_ONLY_OR_DISABLED)
+            .setDefaultIOState(IOAccess.INPUT_ONLY).build();
 
     private static final Set<RelativeHorizontalSide> DOUBLE_BLOCK_VALID_SIDES = ImmutableSet.copyOf(EnumSet.of(RelativeHorizontalSide.BOTTOM, RelativeHorizontalSide.FRONT, RelativeHorizontalSide.REAR, RelativeHorizontalSide.LEFT, RelativeHorizontalSide.RIGHT));
     private static final SidedAccessRules DOUBLE_MACHINE_ENERGY_RULES = SidedAccessRules.builder()
@@ -120,7 +128,7 @@ public final class LTXIBlockEntities
     public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<VoltaicInjectorBlockEntity>> VOLTAIC_INJECTOR = registerItemEnergyMachine(LTXICommonIds.ID_VOLTAIC_INJECTOR, VoltaicInjectorBlockEntity::new, builder -> builder.withBlock(LTXIBlocks.VOLTAIC_INJECTOR).hasMenu(LTXIMenus.VOLTAIC_INJECTOR));
     public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<ChemLabBlockEntity>> CHEM_LAB = registerItemEnergyFluidMachine(LTXICommonIds.ID_CHEM_LAB, ChemLabBlockEntity::new, MACHINE_ITEM_RULES, MACHINE_ENERGY_RULES, MACHINE_FLUID_RULES,
             builder -> builder.withBlock(LTXIBlocks.CHEM_LAB).hasMenu(LTXIMenus.CHEM_LAB));
-    public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<FabricatorBlockEntity>> FABRICATOR = registerItemEnergyMachine(LTXICommonIds.ID_FABRICATOR, FabricatorBlockEntity::new, FABRICATOR_ITEM_RULES, MACHINE_ENERGY_RULES, builder -> builder.withBlock(LTXIBlocks.FABRICATOR).hasMenu(LTXIMenus.FABRICATOR));
+    public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<FabricatorBlockEntity>> FABRICATOR = registerItemEnergyMachine(LTXICommonIds.ID_FABRICATOR, FabricatorBlockEntity::new, FABRICATOR_ITEM_RULES, FABRICATOR_ENERGY_RULES, builder -> builder.withBlock(LTXIBlocks.FABRICATOR).hasMenu(LTXIMenus.FABRICATOR));
     public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<AutoFabricatorBlockEntity>> AUTO_FABRICATOR = registerItemEnergyMachine(LTXICommonIds.ID_AUTO_FABRICATOR, AutoFabricatorBlockEntity::new, builder -> builder.withBlock(LTXIBlocks.AUTO_FABRICATOR).hasMenu(LTXIMenus.AUTO_FABRICATOR));
 
     public static final DeferredHolder<BlockEntityType<?>, SidedAccessBlockEntityType<MolecularReconstructorBlockEntity>> MOLECULAR_RECONSTRUCTOR = registerItemEnergyMachine(LTXICommonIds.ID_MOLECULAR_RECONSTRUCTOR, MolecularReconstructorBlockEntity::new, DOUBLE_MACHINE_ITEM_RULES, DOUBLE_MACHINE_ENERGY_RULES, builder -> builder.withBlock(LTXIBlocks.MOLECULAR_RECONSTRUCTOR).hasMenu(LTXIMenus.MOLECULAR_RECONSTRUCTOR));

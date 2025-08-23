@@ -64,6 +64,16 @@ public final class LTXIBlockShapes
     //#endregion
 
     //#region Multi-block/mesh shapes
+    public static final VoxelShape FABRICATOR = Shapes.or(
+            dimensionBox(-16, 0, 0, 32, 2, 16),
+            dimensionBox(-15, 2, 1, 30, 11, 14),
+            dimensionBox(-16, 13, 0, 32, 2, 16),
+            dimensionBox(-1, 15, 2, 12, 2, 12),
+            dimensionBox(11, 15, 7, 2, 12, 2),
+            dimensionBox(-3, 15, 7, 2, 12, 2),
+            dimensionBox(-3, 27, 7, 16, 2, 2),
+            dimensionBox(-14, 15, 4.25d, 10, 8.25d, 6.5d));
+
     public static final VoxelShape GENERAL_TURRET = Shapes.or(
             // Base
             Block.box(0, 0, 0, 16, 1, 16),

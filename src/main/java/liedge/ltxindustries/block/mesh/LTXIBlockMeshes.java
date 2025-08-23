@@ -24,15 +24,18 @@ public final class LTXIBlockMeshes
         return Objects.requireNonNull(REGISTRY.inverse().get(mesh), "Unregistered mesh.");
     }
 
+    public static final ResourceLocation WIDE_STATION = RESOURCES.location("wide_station");
     public static final ResourceLocation DOUBLE_VERTICAL = RESOURCES.location("double_vertical");
     public static final ResourceLocation TRIPLE_VERTICAL = RESOURCES.location("triple_vertical");
 
     private static final BiMap<ResourceLocation, BlockMesh> REGISTRY = Util.make(() -> {
         ImmutableBiMap.Builder<ResourceLocation, BlockMesh> builder = new ImmutableBiMap.Builder<>();
 
+        BlockMesh wideStation = BlockMesh.builder().add(0, 0, 0, BlockMeshPartType.PRIMARY).add(0, 1, 0).add(-1, 0, 0).add(-1, 1, 0).build();
         BlockMesh doubleVertical = BlockMesh.builder().add(0, 0, 0, BlockMeshPartType.PRIMARY).add(0, 1, 0).build();
         BlockMesh tripleVertical = BlockMesh.builder().add(0, 0, 0, BlockMeshPartType.PRIMARY).add(0, 1, 0).add(0, 2, 0).build();
 
+        builder.put(WIDE_STATION, wideStation);
         builder.put(DOUBLE_VERTICAL, doubleVertical);
         builder.put(TRIPLE_VERTICAL, tripleVertical);
 

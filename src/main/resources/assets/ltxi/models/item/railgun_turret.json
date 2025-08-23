@@ -90,7 +90,7 @@
 				"south": {"uv": [0, 1, 16, 13], "texture": "#back"},
 				"west": {"uv": [0, 1, 16, 13], "texture": "#side"},
 				"up": {"uv": [0, 0, 16, 16], "texture": "#top"},
-				"down": {"uv": [0, 0, 16, 16], "texture": "#particle"}
+				"down": {"uv": [0, 0, 16, 16], "texture": "#base_bottom"}
 			}
 		},
 		{

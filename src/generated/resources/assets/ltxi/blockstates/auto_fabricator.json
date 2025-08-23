@@ -1,18 +1,18 @@
 {
   "variants": {
     "facing=east": {
-      "model": "ltxi:block/fabricator",
+      "model": "ltxi:block/auto_fabricator",
       "y": 90
     },
     "facing=north": {
-      "model": "ltxi:block/fabricator"
+      "model": "ltxi:block/auto_fabricator"
     },
     "facing=south": {
-      "model": "ltxi:block/fabricator",
+      "model": "ltxi:block/auto_fabricator",
       "y": 180
     },
     "facing=west": {
-      "model": "ltxi:block/fabricator",
+      "model": "ltxi:block/auto_fabricator",
       "y": 270
     }
   }

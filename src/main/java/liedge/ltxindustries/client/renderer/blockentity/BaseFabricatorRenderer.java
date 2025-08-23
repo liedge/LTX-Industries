@@ -26,9 +26,14 @@ public class BaseFabricatorRenderer extends LimaBlockEntityRenderer<BaseFabricat
             DefaultVertexFormat.NEW_ENTITY,
             DefaultVertexFormat.POSITION_TEX_COLOR);
 
-    public BaseFabricatorRenderer(BlockEntityRendererProvider.Context context)
+    private final double xOffset;
+    private final double yOffset;
+
+    public BaseFabricatorRenderer(BlockEntityRendererProvider.Context context, double xOffset, double yOffset)
     {
         super(context);
+        this.xOffset = xOffset;
+        this.yOffset = yOffset;
     }
 
     @Override
@@ -42,7 +47,7 @@ public class BaseFabricatorRenderer extends LimaBlockEntityRenderer<BaseFabricat
 
             Direction facing = blockEntity.getBlockState().getValue(HORIZONTAL_FACING);
 
-            poseStack.translate(0.5d, 0.25d, 0.5d);
+            poseStack.translate(0.5d, yOffset, 0.5d);
 
             float angle = switch (facing)
             {
@@ -54,6 +59,7 @@ public class BaseFabricatorRenderer extends LimaBlockEntityRenderer<BaseFabricat
 
             poseStack.mulPose(Axis.YP.rotationDegrees(angle));
             poseStack.mulPose(Axis.XP.rotationDegrees(90f));
+            poseStack.translate(xOffset, 0, 0);
             poseStack.scale(0.4375f, 0.4375f, 0.4375f);
 
             MultiBufferSource wireframeBufferSource = renderType -> {
