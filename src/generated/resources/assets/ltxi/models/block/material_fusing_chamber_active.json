@@ -1,0 +1,7 @@
+{
+  "parent": "ltxi:block/basic_machine_nsew",
+  "textures": {
+    "front": "ltxi:block/material_fusing_chamber_active",
+    "front_emissive": "ltxi:block/material_fusing_chamber_active_emissive"
+  }
+}

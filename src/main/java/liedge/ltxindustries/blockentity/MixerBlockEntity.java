@@ -36,7 +36,7 @@ public class MixerBlockEntity extends LTXIRecipeMachineBlockEntity<MixingRecipe>
     @Override
     protected void tickClient(Level level, BlockPos pos, BlockState state)
     {
-        if (state.getValue(LTXIBlockProperties.MACHINE_WORKING))
+        if (state.getValue(LTXIBlockProperties.BINARY_MACHINE_STATE).isActive())
         {
             if (spinSpeed < 40) spinSpeed += 4;
 

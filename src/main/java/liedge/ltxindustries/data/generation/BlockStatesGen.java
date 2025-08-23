@@ -1,7 +1,9 @@
 package liedge.ltxindustries.data.generation;
 
+import com.mojang.datafixers.util.Function3;
 import liedge.limacore.data.generation.LimaBlockStateProvider;
 import liedge.ltxindustries.LTXIndustries;
+import liedge.ltxindustries.block.MachineState;
 import net.minecraft.core.Holder;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
@@ -13,10 +15,10 @@ import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
-import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import static liedge.limacore.util.LimaRegistryUtil.getBlockName;
-import static liedge.ltxindustries.block.LTXIBlockProperties.MACHINE_WORKING;
+import static liedge.ltxindustries.block.LTXIBlockProperties.BINARY_MACHINE_STATE;
 import static liedge.ltxindustries.registry.game.LTXIBlocks.*;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.*;
 
@@ -76,7 +78,7 @@ class BlockStatesGen extends LimaBlockStateProvider
         cookingMachine(DIGITAL_FURNACE);
         cookingMachine(DIGITAL_SMOKER);
         cookingMachine(DIGITAL_BLAST_FURNACE);
-        basicMachine(GRINDER, ($, builder) -> builder.parent(basicMachineSEW), ($, builder) -> builder.parent(basicMachineSEW));
+        basicFrameStateMachine(GRINDER, (state, $, builder) -> builder.parent(basicMachineSEW));
         emissiveFrontMachine(MATERIAL_FUSING_CHAMBER);
         stateMachineBase(ELECTROCENTRIFUGE);
         stateMachineBase(MIXER);
@@ -123,17 +125,21 @@ class BlockStatesGen extends LimaBlockStateProvider
         horizontalBlockWithSimpleItem(holder, blockFolderLocation(holder));
     }
 
+    private void stateMachine(Holder<Block> holder, Function<MachineState, ModelFile> modelMapper)
+    {
+        getVariantBuilder(holder).forAllStatesExcept(state -> ConfiguredModel.builder().modelFile(modelMapper.apply(state.getValue(BINARY_MACHINE_STATE))).rotationY(getRotationY(state.getValue(HORIZONTAL_FACING))).build(),
+                WATERLOGGED);
+    }
+
     private void stateMachineBase(Holder<Block> holder)
     {
         ResourceLocation pathBase = blockFolderLocation(holder);
-        ModelFile offModel = models().getExistingFile(pathBase.withSuffix("_off"));
-        ModelFile onModel = models().getExistingFile(pathBase.withSuffix("_on"));
-        horizontalBlock(holder.value(), state -> state.getValue(MACHINE_WORKING) ? onModel : offModel);
+        stateMachine(holder, state -> models().getExistingFile(pathBase.withSuffix("_" + state.getSerializedName())));
     }
 
     private void primaryMeshBlock(Holder<Block> holder, ModelFile model)
     {
-        getVariantBuilder(holder).forAllStatesExcept(state -> ConfiguredModel.builder().modelFile(model).rotationY(getRotationY(state.getValue(HORIZONTAL_FACING), 180)).build(), WATERLOGGED);
+        getVariantBuilder(holder).forAllStatesExcept(state -> ConfiguredModel.builder().modelFile(model).rotationY(getRotationY(state.getValue(HORIZONTAL_FACING))).build(), WATERLOGGED);
     }
 
     private void primaryMeshBlock(Holder<Block> holder)
@@ -141,26 +147,34 @@ class BlockStatesGen extends LimaBlockStateProvider
         primaryMeshBlock(holder, existingModel(blockFolderLocation(holder)));
     }
 
-    private void basicMachine(Holder<Block> holder, BiFunction<ResourceLocation, BlockModelBuilder, BlockModelBuilder> offModelFunc, BiFunction<ResourceLocation, BlockModelBuilder, BlockModelBuilder> onModelFunc)
+    private void basicFrameStateMachine(Holder<Block> holder, Function3<MachineState, ResourceLocation, BlockModelBuilder, BlockModelBuilder> operator)
     {
-        String name = getBlockName(holder);
-        ResourceLocation textureStart = blockFolderLocation(name);
-        ModelFile offModel = offModelFunc.apply(textureStart, models().getBuilder(name + "_off").texture("front", textureStart.withSuffix("_off")));
-        ModelFile onModel = onModelFunc.apply(textureStart, models().getBuilder(name + "_on").texture("front", textureStart.withSuffix("_on")));
-        horizontalBlock(holder.value(), state -> state.getValue(MACHINE_WORKING) ? onModel : offModel);
-        simpleBlockItem(holder, offModel);
+        Function<MachineState, String> nameFunction = state -> getBlockName(holder) + "_" + state.getSerializedName();
+        ResourceLocation pathBase = blockFolderLocation(holder);
+        stateMachine(holder, state -> operator.apply(state, pathBase, models().getBuilder(nameFunction.apply(state)).texture("front", pathBase.withSuffix("_" + state.getSerializedName()))));
+        simpleBlockItem(holder, models().getBuilder(nameFunction.apply(MachineState.IDLE)));
     }
 
     private void emissiveFrontMachine(Holder<Block> holder)
     {
-        basicMachine(holder, ($, builder) -> builder.parent(basicMachineSEW), (texture, builder) -> builder.parent(basicMachineNSEW).texture("front_emissive", texture.withSuffix("_on_emissive")));
+        basicFrameStateMachine(holder, (state, pathBase, builder) ->
+        {
+            if (state == MachineState.IDLE)
+                return builder.parent(basicMachineSEW);
+            else
+                return builder.parent(basicMachineNSEW).texture("front_emissive", pathBase.withSuffix("_" + state.getSerializedName() + "_emissive"));
+        });
     }
 
     private void cookingMachine(Holder<Block> holder)
     {
         ResourceLocation basicMachineMesh = blockFolderLocation("basic_machine_mesh");
-        basicMachine(holder,
-                (texture, builder) -> builder.parent(basicMachineSEW).texture("top", basicMachineMesh),
-                (texture, builder) -> builder.parent(basicMachineNSEW).texture("front_emissive", texture.withSuffix("_on_emissive")).texture("top", basicMachineMesh));
+        basicFrameStateMachine(holder, (state, pathBase, builder) ->
+        {
+            if (state == MachineState.IDLE)
+                return builder.parent(basicMachineSEW).texture("top", basicMachineMesh);
+            else
+                return builder.parent(basicMachineNSEW).texture("front_emissive", pathBase.withSuffix("_" + state.getSerializedName() + "_emissive")).texture("top", basicMachineMesh);
+        });
     }
 }

@@ -11,6 +11,7 @@ import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.recipe.LimaRecipeCheck;
 import liedge.limacore.util.LimaRegistryUtil;
 import liedge.ltxindustries.LTXIndustries;
+import liedge.ltxindustries.block.MachineState;
 import liedge.ltxindustries.blockentity.base.*;
 import liedge.ltxindustries.blockentity.template.ProductionMachineBlockEntity;
 import liedge.ltxindustries.lib.upgrades.EffectRankPair;
@@ -43,7 +44,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.function.DoubleUnaryOperator;
 
-import static liedge.ltxindustries.block.LTXIBlockProperties.MACHINE_WORKING;
+import static liedge.ltxindustries.block.LTXIBlockProperties.BINARY_MACHINE_STATE;
 
 public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, R extends Recipe<I>> extends ProductionMachineBlockEntity
         implements FluidHolderBlockEntity, VariableTimedProcessBlockEntity, EnergyConsumerBlockEntity, RecipeMachineBlockEntity<I, R>
@@ -140,12 +141,8 @@ public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, 
             this.crafting = crafting;
             setChanged();
 
-            BlockState state = getBlockState();
-            if (state.hasProperty(MACHINE_WORKING))
-            {
-                state = state.setValue(MACHINE_WORKING, crafting);
-                nonNullLevel().setBlockAndUpdate(getBlockPos(), state);
-            }
+            BlockState newState = getBlockState().setValue(BINARY_MACHINE_STATE, crafting ? MachineState.ACTIVE : MachineState.IDLE);
+            nonNullLevel().setBlockAndUpdate(getBlockPos(), newState);
         }
     }
 

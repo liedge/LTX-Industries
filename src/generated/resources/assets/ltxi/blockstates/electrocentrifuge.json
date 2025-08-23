@@ -1,33 +1,33 @@
 {
   "variants": {
-    "facing=east,working=false": {
-      "model": "ltxi:block/electrocentrifuge_off",
+    "facing=east,machine_state=active": {
+      "model": "ltxi:block/electrocentrifuge_active",
       "y": 90
     },
-    "facing=east,working=true": {
-      "model": "ltxi:block/electrocentrifuge_on",
+    "facing=east,machine_state=idle": {
+      "model": "ltxi:block/electrocentrifuge_idle",
       "y": 90
     },
-    "facing=north,working=false": {
-      "model": "ltxi:block/electrocentrifuge_off"
+    "facing=north,machine_state=active": {
+      "model": "ltxi:block/electrocentrifuge_active"
     },
-    "facing=north,working=true": {
-      "model": "ltxi:block/electrocentrifuge_on"
+    "facing=north,machine_state=idle": {
+      "model": "ltxi:block/electrocentrifuge_idle"
     },
-    "facing=south,working=false": {
-      "model": "ltxi:block/electrocentrifuge_off",
+    "facing=south,machine_state=active": {
+      "model": "ltxi:block/electrocentrifuge_active",
       "y": 180
     },
-    "facing=south,working=true": {
-      "model": "ltxi:block/electrocentrifuge_on",
+    "facing=south,machine_state=idle": {
+      "model": "ltxi:block/electrocentrifuge_idle",
       "y": 180
     },
-    "facing=west,working=false": {
-      "model": "ltxi:block/electrocentrifuge_off",
+    "facing=west,machine_state=active": {
+      "model": "ltxi:block/electrocentrifuge_active",
       "y": 270
     },
-    "facing=west,working=true": {
-      "model": "ltxi:block/electrocentrifuge_on",
+    "facing=west,machine_state=idle": {
+      "model": "ltxi:block/electrocentrifuge_idle",
       "y": 270
     }
   }

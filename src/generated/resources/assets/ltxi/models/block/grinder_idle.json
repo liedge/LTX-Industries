@@ -1,6 +1,6 @@
 {
   "parent": "ltxi:block/basic_machine_sew",
   "textures": {
-    "front": "ltxi:block/material_fusing_chamber_off"
+    "front": "ltxi:block/grinder_idle"
   }
 }

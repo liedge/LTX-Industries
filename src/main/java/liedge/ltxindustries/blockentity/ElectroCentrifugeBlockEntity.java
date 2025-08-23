@@ -36,7 +36,7 @@ public class ElectroCentrifugeBlockEntity extends LTXIRecipeMachineBlockEntity<E
     @Override
     protected void tickClient(Level level, BlockPos pos, BlockState state)
     {
-        if (state.getValue(LTXIBlockProperties.MACHINE_WORKING))
+        if (state.getValue(LTXIBlockProperties.BINARY_MACHINE_STATE).isActive())
         {
             if (spinSpeed < 30) spinSpeed += 3;
 
