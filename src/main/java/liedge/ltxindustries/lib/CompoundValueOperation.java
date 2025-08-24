@@ -10,6 +10,7 @@ import net.minecraft.util.StringRepresentable;
 
 import static liedge.ltxindustries.util.LTXITooltipUtil.*;
 
+@Deprecated(forRemoval = true)
 public enum CompoundValueOperation implements StringRepresentable, Translatable
 {
     REPLACE_BASE("replace_base"),

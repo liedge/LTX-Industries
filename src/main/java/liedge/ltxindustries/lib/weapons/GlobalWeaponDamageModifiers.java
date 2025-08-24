@@ -3,9 +3,9 @@ package liedge.ltxindustries.lib.weapons;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import liedge.limacore.lib.math.MathOperation;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.item.weapon.WeaponItem;
-import liedge.ltxindustries.lib.CompoundValueOperation;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.Entity;
@@ -47,23 +47,23 @@ public final class GlobalWeaponDamageModifiers
 
             for (WeaponDamageModifier modifier : toApply)
             {
-                totalDamage = modifier.operation.computeDouble(baseDamage, totalDamage, modifier.value.getFloat(context));
+                totalDamage = modifier.operation.applyCompoundingDouble(totalDamage, baseDamage, modifier.value.getFloat(context));
             }
         }
 
         return totalDamage;
     }
 
-    public record WeaponDamageModifier(Optional<WeaponItem> weaponItem, Optional<LootItemCondition> condition, NumberProvider value, CompoundValueOperation operation) implements Comparable<WeaponDamageModifier>
+    public record WeaponDamageModifier(Optional<WeaponItem> weaponItem, Optional<LootItemCondition> condition, NumberProvider value, MathOperation operation) implements Comparable<WeaponDamageModifier>
     {
         public static final Codec<WeaponDamageModifier> CODEC = RecordCodecBuilder.create(instance -> instance.group(
                 WeaponItem.CODEC.optionalFieldOf("weapon").forGetter(WeaponDamageModifier::weaponItem),
                 LootItemCondition.DIRECT_CODEC.optionalFieldOf("condition").forGetter(WeaponDamageModifier::condition),
                 NumberProviders.CODEC.fieldOf("value").forGetter(WeaponDamageModifier::value),
-                CompoundValueOperation.CODEC.fieldOf("op").forGetter(WeaponDamageModifier::operation))
+                MathOperation.COMPOUND_OP_CODEC.fieldOf("op").forGetter(WeaponDamageModifier::operation))
                 .apply(instance, WeaponDamageModifier::new));
 
-        public static Builder modifier(CompoundValueOperation operation)
+        public static Builder modifier(MathOperation operation)
         {
             return new Builder(operation);
         }
@@ -79,9 +79,9 @@ public final class GlobalWeaponDamageModifiers
             private WeaponItem weaponItem;
             private NumberProvider amount;
             private final List<LootItemCondition> conditions = new ObjectArrayList<>();
-            private final CompoundValueOperation operation;
+            private final MathOperation operation;
 
-            private Builder(CompoundValueOperation operation)
+            private Builder(MathOperation operation)
             {
                 this.operation = operation;
             }

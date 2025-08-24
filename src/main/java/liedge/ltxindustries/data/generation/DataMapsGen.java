@@ -1,7 +1,7 @@
 package liedge.ltxindustries.data.generation;
 
+import liedge.limacore.lib.math.MathOperation;
 import liedge.ltxindustries.LTXITags;
-import liedge.ltxindustries.lib.CompoundValueOperation;
 import liedge.ltxindustries.lib.weapons.GlobalWeaponDamageModifiers;
 import liedge.ltxindustries.registry.game.LTXIGameEvents;
 import net.minecraft.core.HolderLookup;
@@ -40,13 +40,12 @@ class DataMapsGen extends DataMapProvider
         // Weapon damage modifiers
         builder(GlobalWeaponDamageModifiers.DATA_MAP_TYPE)
                 .add(LTXITags.EntityTypes.HIGH_THREAT_TARGETS, makeModifierList(
-                        modifier(CompoundValueOperation.ADD_MULTIPLIED_TOTAL).forWeapon(SUBMACHINE_GUN).withConstantAmount(-0.8f),
-                        modifier(CompoundValueOperation.ADD_MULTIPLIED_TOTAL).forWeapon(SHOTGUN).withConstantAmount(-0.45f),
-                        modifier(CompoundValueOperation.MULTIPLY).forWeapon(ROCKET_LAUNCHER).withConstantAmount(2f)
+                        modifier(MathOperation.ADD_TOTAL_PERCENT).forWeapon(SUBMACHINE_GUN).withConstantAmount(-0.8f),
+                        modifier(MathOperation.ADD_TOTAL_PERCENT).forWeapon(SHOTGUN).withConstantAmount(-0.45f)
                 ), false)
                 .add(LTXITags.EntityTypes.MEDIUM_THREAT_TARGETS, makeModifierList(
-                        modifier(CompoundValueOperation.ADD_MULTIPLIED_TOTAL).forWeapon(SUBMACHINE_GUN).withConstantAmount(-0.5f),
-                        modifier(CompoundValueOperation.ADD_MULTIPLIED_TOTAL).forWeapon(SHOTGUN).withConstantAmount(-0.4f)
+                        modifier(MathOperation.ADD_TOTAL_PERCENT).forWeapon(SUBMACHINE_GUN).withConstantAmount(-0.5f),
+                        modifier(MathOperation.ADD_TOTAL_PERCENT).forWeapon(SHOTGUN).withConstantAmount(-0.4f)
                 ), false);
     }
 }

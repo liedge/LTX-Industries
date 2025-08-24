@@ -20,4 +20,3 @@ The global damage modifiers apply **after all upgrades**.
 | Submachine Gun  | Medium Threat | -50%     |
 | Shotgun         | High Threat   | -45%     |
 | Shotgun         | Medium Threat | -40%     |
-| Rocket Launcher | High Threat   | 2x       |
