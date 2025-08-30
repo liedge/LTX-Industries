@@ -21,6 +21,8 @@ import net.minecraft.world.item.enchantment.LevelBasedValue;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 
+import java.util.function.Consumer;
+
 public record DamageAttributesUpgradeEffect(Holder<Attribute> attribute, RankBasedAttributeModifier modifier) implements EquipmentUpgradeEffect
 {
     public static final MapCodec<DamageAttributesUpgradeEffect> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
@@ -47,8 +49,8 @@ public record DamageAttributesUpgradeEffect(Holder<Attribute> attribute, RankBas
     }
 
     @Override
-    public Component getEffectTooltip(int upgradeRank)
+    public void addUpgradeTooltips(int upgradeRank, Consumer<Component> lines)
     {
-        return attribute.value().toComponent(modifier.get(upgradeRank), TooltipFlag.NORMAL).withStyle(ChatFormatting.GRAY);
+        lines.accept(attribute.value().toComponent(modifier.get(upgradeRank), TooltipFlag.NORMAL).withStyle(ChatFormatting.GRAY));
     }
 }

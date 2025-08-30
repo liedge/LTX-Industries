@@ -3,7 +3,7 @@ package liedge.ltxindustries.lib.upgrades.effect.equipment;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import liedge.ltxindustries.client.LTXILangKeys;
-import liedge.ltxindustries.lib.upgrades.effect.EffectTooltipProvider;
+import liedge.ltxindustries.lib.upgrades.effect.UpgradeTooltipsProvider;
 import liedge.ltxindustries.util.LTXITooltipUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
@@ -18,7 +18,9 @@ import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
-public record PreventVibrationUpgradeEffect(EquipmentSlotGroup slotGroup, HolderSet<GameEvent> targetVibrations) implements EffectTooltipProvider.SingleLine
+import java.util.function.Consumer;
+
+public record PreventVibrationUpgradeEffect(EquipmentSlotGroup slotGroup, HolderSet<GameEvent> targetVibrations) implements UpgradeTooltipsProvider
 {
     public static final Codec<PreventVibrationUpgradeEffect> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             EquipmentSlotGroup.CODEC.optionalFieldOf("slot", EquipmentSlotGroup.ANY).forGetter(PreventVibrationUpgradeEffect::slotGroup),
@@ -58,10 +60,10 @@ public record PreventVibrationUpgradeEffect(EquipmentSlotGroup slotGroup, Holder
     }
 
     @Override
-    public Component getEffectTooltip(int upgradeRank)
+    public void addUpgradeTooltips(int upgradeRank, Consumer<Component> lines)
     {
         MutableComponent slotTooltip = Component.translatable("item.modifiers." + slotGroup.getSerializedName()).append(CommonComponents.SPACE);
         slotTooltip.append(LTXILangKeys.SUPPRESS_VIBRATIONS_EFFECT.translateArgs(LTXITooltipUtil.translateHolderSet(targetVibrations)));
-        return slotTooltip.withStyle(ChatFormatting.DARK_AQUA);
+        lines.accept(slotTooltip.withStyle(ChatFormatting.DARK_AQUA));
     }
 }

@@ -1,7 +1,6 @@
 package liedge.ltxindustries.data.generation;
 
 import liedge.limacore.data.generation.LimaLanguageProvider;
-import liedge.limacore.lib.ModResources;
 import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.block.NeonLightColor;
@@ -12,7 +11,6 @@ import liedge.ltxindustries.item.SimpleHintItem;
 import liedge.ltxindustries.item.TooltipShiftHintItem;
 import liedge.ltxindustries.item.weapon.GrenadeLauncherWeaponItem;
 import liedge.ltxindustries.item.weapon.WeaponItem;
-import liedge.ltxindustries.lib.CompoundValueOperation;
 import liedge.ltxindustries.lib.upgrades.UpgradeBase;
 import liedge.ltxindustries.lib.upgrades.UpgradeBaseBuilder;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
@@ -21,7 +19,10 @@ import liedge.ltxindustries.registry.bootstrap.LTXIDamageTypes;
 import liedge.ltxindustries.registry.bootstrap.LTXIEnchantments;
 import liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades;
 import liedge.ltxindustries.registry.bootstrap.LTXIMachineUpgrades;
-import liedge.ltxindustries.registry.game.*;
+import liedge.ltxindustries.registry.game.LTXIEntities;
+import liedge.ltxindustries.registry.game.LTXIFluids;
+import liedge.ltxindustries.registry.game.LTXIMenus;
+import liedge.ltxindustries.registry.game.LTXIMobEffects;
 import liedge.ltxindustries.util.LTXITooltipUtil;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
@@ -293,33 +294,23 @@ class LanguageGen extends LimaLanguageProvider
         add(EQUIPMENT_UPGRADE_MODULE_TOOLTIP, "Equipment Upgrade Module");
         add(MACHINE_UPGRADE_MODULE_TOOLTIP, "Machine Upgrade Module");
 
-        add(CompoundValueOperation.REPLACE_BASE, "Sets %s as new base");
-        add(CompoundValueOperation.FLAT_ADDITION, "%s");
-        add(CompoundValueOperation.ADD_MULTIPLIED_BASE, "%s of base");
-        add(CompoundValueOperation.ADD_MULTIPLIED_TOTAL, "%s of total");
-        add(CompoundValueOperation.MULTIPLY, "%sx");
-
         add(UPGRADE_INSTALL_SUCCESS, "Installed upgrade.");
         add(UPGRADE_INSTALL_FAIL, "Can't install upgrade.");
         add(INVALID_UPGRADE_HINT, "The upgrade in this module is invalid or corrupted. Shift+Right Click to clear.");
         add(INVALID_BLUEPRINT_HINT, "The recipe in this blueprint is invalid or corrupted. Shift+Right Click to clear.");
 
-        add(THIS_ENTITY_TARGET_TOOLTIP, "Enemy");
-        add(ATTACKER_ENTITY_TARGET_TOOLTIP, "User");
-        add(DIRECT_ATTACKER_ENTITY_TARGET_TOOLTIP, "Projectile");
-        add(LAST_ATTACKING_PLAYER_ENTITY_TARGET_TOOLTIP, "Last Attacking Player");
-        add(ATTRIBUTE_AMOUNT_VALUE_TOOLTIP, "%s of %s %s");
+        add(ENERGY_CAPACITY_UPGRADE, "%s energy capacity");
+        add(ENERGY_TRANSFER_UPGRADE, "%s energy transfer rate");
+        add(ENERGY_USAGE_UPGRADE, "%s energy usage");
+        add(MACHINE_SPEED_UPGRADE, "%s machine speed");
+        add(ENERGY_PER_RECIPE_UPGRADE, "Avg. energy per recipe: %s");
+        add(INSTANT_PROCESSING_UPGRADE, "Instant machine operation");
+        add(PROJECTILE_SPEED_UPGRADE, "%s projectile speed");
+        add(ATTRIBUTE_SCALED_DAMAGE_UPGRADE, "%s of target's %s as extra damage");
 
-        add(LTXIUpgradeEffectComponents.ENERGY_CAPACITY, "%s CE capacity");
-        add(LTXIUpgradeEffectComponents.ENERGY_TRANSFER_RATE, "%s CE transfer rate/tick");
-        add(LTXIUpgradeEffectComponents.ENERGY_USAGE, "%s CE usage");
-        add(LTXIUpgradeEffectComponents.EQUIPMENT_DAMAGE, "%s damage");
-        add(LTXIUpgradeEffectComponents.WEAPON_PROJECTILE_SPEED, "%s projectile speed");
-        add(LTXIUpgradeEffectComponents.TICKS_PER_OPERATION, "%s ticks/operation");
-
+        add(MINIMUM_MACHINE_SPEED_EFFECT, "Minimum speed: %s ticks");
         add(MINING_EFFECTIVE_BLOCKS_EFFECT, "Effective against %s blocks");
         add(MINING_BASE_SPEED_EFFECT, "Base mining speed: %s");
-        add(WEAPON_KNOCKBACK_EFFECT, "%s knockback power");
         add(DYNAMIC_DAMAGE_TAG_EFFECT, "+Damage Tags: %s");
         add(SUPPRESS_VIBRATIONS_EFFECT, "Suppresses %s sculk vibrations");
         add(DIRECT_BLOCK_DROPS_EFFECT, "Directly collects %s block drops");
@@ -423,13 +414,18 @@ class LanguageGen extends LimaLanguageProvider
 
     private void upgrade(ResourceKey<? extends UpgradeBase<?, ?>> key, String title, String description)
     {
-        add(ModResources.registryPrefixedIdLangKey(key), title);
-        add(ModResources.registryPrefixVariantIdLangKey(key, UpgradeBaseBuilder.DEFAULT_DESCRIPTION_SUFFIX), description);
+        add(UpgradeBaseBuilder.defaultTitleKey(key), title);
+        add(UpgradeBaseBuilder.defaultDescriptionKey(key), description);
     }
 
     private void upgradeDescOnly(ResourceKey<? extends UpgradeBase<?, ?>> key, String description)
     {
-        add(ModResources.registryPrefixVariantIdLangKey(key, UpgradeBaseBuilder.DEFAULT_DESCRIPTION_SUFFIX), description);
+        add(UpgradeBaseBuilder.defaultDescriptionKey(key), description);
+    }
+
+    private void upgradeTooltip(ResourceKey<? extends UpgradeBase<?, ?>> key, int index, String value)
+    {
+        add(UpgradeBaseBuilder.tooltipKey(key, index), value);
     }
 
     private void namedDamageTag(TagKey<DamageType> tagKey, String value)

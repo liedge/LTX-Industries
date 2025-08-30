@@ -2,8 +2,8 @@ package liedge.ltxindustries.lib.upgrades.effect.equipment;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import liedge.ltxindustries.lib.upgrades.effect.EffectTooltipProvider;
 import liedge.ltxindustries.lib.upgrades.effect.RankBasedAttributeModifier;
+import liedge.ltxindustries.lib.upgrades.effect.UpgradeTooltipsProvider;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
@@ -15,7 +15,9 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.enchantment.LevelBasedValue;
 
-public record AttributeModifierUpgradeEffect(Holder<Attribute> attribute, RankBasedAttributeModifier modifier, EquipmentSlotGroup slotGroup) implements EffectTooltipProvider.SingleLine
+import java.util.function.Consumer;
+
+public record AttributeModifierUpgradeEffect(Holder<Attribute> attribute, RankBasedAttributeModifier modifier, EquipmentSlotGroup slotGroup) implements UpgradeTooltipsProvider
 {
     public static final Codec<AttributeModifierUpgradeEffect> CODEC = RecordCodecBuilder.create(instance -> instance.group(
                     Attribute.CODEC.fieldOf("attribute").forGetter(AttributeModifierUpgradeEffect::attribute),
@@ -39,8 +41,8 @@ public record AttributeModifierUpgradeEffect(Holder<Attribute> attribute, RankBa
     }
 
     @Override
-    public Component getEffectTooltip(int upgradeRank)
+    public void addUpgradeTooltips(int upgradeRank, Consumer<Component> lines)
     {
-        return attribute.value().toComponent(modifier.get(upgradeRank), TooltipFlag.NORMAL).withStyle(ChatFormatting.DARK_GREEN);
+        lines.accept(attribute.value().toComponent(modifier.get(upgradeRank), TooltipFlag.NORMAL).withStyle(ChatFormatting.DARK_GREEN));
     }
 }

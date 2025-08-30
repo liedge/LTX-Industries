@@ -1,4 +1,4 @@
-package liedge.ltxindustries.lib.upgrades.effect.value;
+package liedge.ltxindustries.lib.upgrades.effect;
 
 import liedge.limacore.data.LimaEnumCodec;
 import net.minecraft.ChatFormatting;
@@ -23,14 +23,14 @@ public enum ValueSentiment implements StringRepresentable
         this.positiveColor = positiveColor;
     }
 
-    public ChatFormatting get(double zero, double value)
+    public ChatFormatting apply(double zero, double value)
     {
         return value < zero ? negativeColor : positiveColor;
     }
 
-    public ChatFormatting get(double value)
+    public ChatFormatting apply(double value)
     {
-        return get(0, value);
+        return apply(0, value);
     }
 
     @Override

@@ -8,17 +8,20 @@ import liedge.limacore.world.loot.number.TargetedAttributeValueProvider;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.client.LTXILangKeys;
-import liedge.ltxindustries.lib.CompoundValueOperation;
+import liedge.ltxindustries.lib.upgrades.TooltipArgument;
+import liedge.ltxindustries.lib.upgrades.UpgradeIcon;
+import liedge.ltxindustries.lib.upgrades.UpgradeTooltip;
+import liedge.ltxindustries.lib.upgrades.effect.DoubleLevelBasedValue;
+import liedge.ltxindustries.lib.upgrades.effect.TooltipValueFormat;
+import liedge.ltxindustries.lib.upgrades.effect.ValueSentiment;
+import liedge.ltxindustries.lib.upgrades.effect.ValueUpgradeEffect;
 import liedge.ltxindustries.lib.upgrades.effect.equipment.*;
-import liedge.ltxindustries.lib.upgrades.effect.value.AttributeAmountTooltip;
-import liedge.ltxindustries.lib.upgrades.effect.value.DoubleLevelBasedValue;
-import liedge.ltxindustries.lib.upgrades.effect.value.ValueSentiment;
-import liedge.ltxindustries.lib.upgrades.effect.value.ValueUpgradeEffect;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
 import liedge.ltxindustries.lib.weapons.WeaponAmmoSource;
 import liedge.ltxindustries.registry.LTXIRegistries;
 import liedge.ltxindustries.registry.game.LTXIItems;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -44,8 +47,8 @@ import net.neoforged.neoforge.registries.holdersets.AnyHolderSet;
 
 import java.util.Optional;
 
-import static liedge.ltxindustries.LTXIndustries.RESOURCES;
 import static liedge.ltxindustries.LTXITags.EquipmentUpgrades.*;
+import static liedge.ltxindustries.LTXIndustries.RESOURCES;
 import static liedge.ltxindustries.lib.upgrades.UpgradeIcon.*;
 import static liedge.ltxindustries.registry.bootstrap.LTXIEnchantments.AMMO_SCAVENGER;
 import static liedge.ltxindustries.registry.bootstrap.LTXIEnchantments.RAZOR;
@@ -120,6 +123,9 @@ public final class LTXIEquipmentUpgrades
         HolderSet<Item> ltxMiningTools = items.getOrThrow(LTXITags.Items.LTX_MINING_TOOLS);
         HolderSet<Item> ltxProjectileWeapons = items.getOrThrow(LTXITags.Items.LTX_ENERGY_PROJECTILE_WEAPONS);
         HolderSet<Item> ltxAllWeapons = items.getOrThrow(LTXITags.Items.LTX_ALL_WEAPONS);
+        
+        // Common sprites
+        UpgradeIcon defaultSprite = sprite("default");
 
         // Built in upgrades
         final Component defaultToolTitle = LTXILangKeys.TOOL_DEFAULT_UPGRADE_TITLE.translate().withStyle(LTXIConstants.LIME_GREEN.chatStyle());
@@ -127,28 +133,28 @@ public final class LTXIEquipmentUpgrades
                 .setTitle(defaultToolTitle)
                 .supports(LTXIItems.LTX_SHOVEL)
                 .withEffect(ENCHANTMENT_LEVEL, EnchantmentUpgradeEffect.constantLevel(enchantments.getOrThrow(Enchantments.SILK_TOUCH), 1))
-                .effectIcon(bottomRightComposite(itemIcon(LTXIItems.LTX_SHOVEL), sprite("default")))
+                .effectIcon(bottomRightComposite(itemIcon(LTXIItems.LTX_SHOVEL), defaultSprite))
                 .category("default/tool")
                 .register(context);
         EquipmentUpgrade.builder(LTX_AXE_DEFAULT)
                 .setTitle(defaultToolTitle)
                 .supports(LTXIItems.LTX_AXE)
                 .withEffect(ENCHANTMENT_LEVEL, EnchantmentUpgradeEffect.constantLevel(enchantments.getOrThrow(RAZOR), 1))
-                .effectIcon(bottomRightComposite(itemIcon(LTXIItems.LTX_AXE), sprite("default")))
+                .effectIcon(bottomRightComposite(itemIcon(LTXIItems.LTX_AXE), defaultSprite))
                 .category("default/tool")
                 .register(context);
         EquipmentUpgrade.builder(LTX_WRENCH_DEFAULT)
                 .setTitle(defaultToolTitle)
                 .supports(LTXIItems.LTX_WRENCH)
                 .withEffect(DIRECT_DROPS, DirectDropsUpgradeEffect.blocksOnly(items.getOrThrow(LTXITags.Items.WRENCH_BREAKABLE)))
-                .effectIcon(bottomRightComposite(itemIcon(LTXIItems.LTX_WRENCH), sprite("default")))
+                .effectIcon(bottomRightComposite(itemIcon(LTXIItems.LTX_WRENCH), defaultSprite))
                 .category("default/tool")
                 .register(context);
         EquipmentUpgrade.builder(SUBMACHINE_GUN_DEFAULT)
                 .supports(LTXIItems.SUBMACHINE_GUN)
                 .withEffect(PREVENT_VIBRATION, PreventVibrationUpgradeEffect.suppressMainHand(gameEvents.getOrThrow(LTXITags.GameEvents.WEAPON_VIBRATIONS)))
                 .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, DynamicDamageTagUpgradeEffect.of(DamageTypeTags.NO_ANGER, DamageTypeTags.NO_KNOCKBACK))
-                .effectIcon(bottomLeftComposite(itemIcon(LTXIItems.SUBMACHINE_GUN), sprite("default")))
+                .effectIcon(bottomLeftComposite(itemIcon(LTXIItems.SUBMACHINE_GUN), defaultSprite))
                 .category("default/weapon")
                 .register(context);
         EquipmentUpgrade.builder(SHOTGUN_DEFAULT)
@@ -156,7 +162,7 @@ public final class LTXIEquipmentUpgrades
                 .withEffect(ITEM_ATTRIBUTE_MODIFIERS, AttributeModifierUpgradeEffect.constantMainHand(Attributes.MOVEMENT_SPEED, SHOTGUN_DEFAULT.location().withSuffix("shotgun_speed_boost"), 0.25f, AttributeModifier.Operation.ADD_MULTIPLIED_BASE))
                 .withEffect(ITEM_ATTRIBUTE_MODIFIERS, AttributeModifierUpgradeEffect.constantMainHand(Attributes.STEP_HEIGHT, SHOTGUN_DEFAULT.location().withSuffix("shotgun_step_height_boost"), 1, AttributeModifier.Operation.ADD_VALUE))
                 .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, new ModifyReductionsUpgradeEffect(DamageReductionType.ARMOR, LevelBasedValue.constant(-0.1f)))
-                .effectIcon(bottomLeftComposite(itemIcon(LTXIItems.SHOTGUN), sprite("default")))
+                .effectIcon(bottomLeftComposite(itemIcon(LTXIItems.SHOTGUN), defaultSprite))
                 .category("default/weapon")
                 .register(context);
 
@@ -205,14 +211,17 @@ public final class LTXIEquipmentUpgrades
         EquipmentUpgrade.builder(HEAVY_PISTOL_GOD_ROUNDS)
                 .supports(LTXIItems.HEAVY_PISTOL)
                 .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, DynamicDamageTagUpgradeEffect.of(LTXITags.DamageTypes.BYPASS_SURVIVAL_DEFENSES))
-                .withConditionalEffect(EQUIPMENT_DAMAGE, ValueUpgradeEffect.create(MathOpsNumberProvider.of(TargetedAttributeValueProvider.of(LootContext.EntityTarget.THIS, Attributes.MAX_HEALTH), ConstantValue.exactly(0.25f), MathOperation.MULTIPLY), CompoundValueOperation.FLAT_ADDITION,
-                        new AttributeAmountTooltip(LootContext.EntityTarget.THIS, Attributes.MAX_HEALTH, LevelBasedValue.constant(0.25f))))
+                .withConditionalEffect(EQUIPMENT_DAMAGE, ValueUpgradeEffect.of(MathOpsNumberProvider.of(TargetedAttributeValueProvider.of(LootContext.EntityTarget.THIS, Attributes.MAX_HEALTH), ConstantValue.exactly(0.25f), MathOperation.MULTIPLY), MathOperation.ADD))
+                .tooltip(UpgradeTooltip.of(LTXILangKeys.ATTRIBUTE_SCALED_DAMAGE_UPGRADE,
+                        TooltipArgument.of(DoubleLevelBasedValue.constant(0.25d), ValueSentiment.POSITIVE, TooltipValueFormat.SIGNED_PERCENTAGE),
+                        TooltipArgument.of(Component.translatable(Attributes.MAX_HEALTH.value().getDescriptionId()).withStyle(ChatFormatting.DARK_RED))))
                 .effectIcon(bottomLeftComposite(itemIcon(LTXIItems.HEAVY_PISTOL), sprite("powerful_lightfrag")))
                 .register(context);
         EquipmentUpgrade.builder(GRENADE_LAUNCHER_PROJECTILE_SPEED)
                 .supports(LTXIItems.GRENADE_LAUNCHER)
                 .setMaxRank(2)
-                .withEffect(WEAPON_PROJECTILE_SPEED, ValueUpgradeEffect.createSimple(DoubleLevelBasedValue.linear(0.5d), CompoundValueOperation.FLAT_ADDITION))
+                .withEffect(WEAPON_PROJECTILE_SPEED, ValueUpgradeEffect.of(DoubleLevelBasedValue.linear(0.5d), MathOperation.ADD))
+                .tooltip(UpgradeTooltip.of(LTXILangKeys.PROJECTILE_SPEED_UPGRADE, TooltipArgument.of(DoubleLevelBasedValue.linear(0.5d), ValueSentiment.POSITIVE, TooltipValueFormat.SIGNED_FLAT_NUMBER)))
                 .effectIcon(sprite("grenade_speed_boost"))
                 .register(context);
 
@@ -273,7 +282,7 @@ public final class LTXIEquipmentUpgrades
                 .exclusiveWith(holders, MINING_DROPS_MODIFIERS)
                 .setMaxRank(5)
                 .withEffect(ENCHANTMENT_LEVEL, EnchantmentUpgradeEffect.oneLevelPerRank(enchantments.getOrThrow(Enchantments.FORTUNE)))
-                .withEffect(ENERGY_USAGE, ValueUpgradeEffect.createSimple(DoubleLevelBasedValue.linear(0.5d), CompoundValueOperation.ADD_MULTIPLIED_BASE, ValueSentiment.NEGATIVE))
+                .withEffect(ENERGY_USAGE, ValueUpgradeEffect.of(DoubleLevelBasedValue.linear(0.5d), MathOperation.ADD_PERCENT))
                 .effectIcon(bottomLeftComposite(sprite("pickaxe_head"), sprite("clover")))
                 .category("enchants")
                 .register(context);

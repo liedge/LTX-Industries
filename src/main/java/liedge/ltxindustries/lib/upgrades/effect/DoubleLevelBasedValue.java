@@ -1,9 +1,10 @@
-package liedge.ltxindustries.lib.upgrades.effect.value;
+package liedge.ltxindustries.lib.upgrades.effect;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import liedge.limacore.data.LimaEnumCodec;
+import liedge.limacore.lib.math.MathOperation;
 import net.minecraft.util.StringRepresentable;
 
 /**
@@ -42,6 +43,11 @@ public interface DoubleLevelBasedValue
     static Exponential linearExponent(double base)
     {
         return exponential(base, linear(1));
+    }
+
+    static MathOps mathOp(DoubleLevelBasedValue left, DoubleLevelBasedValue right, MathOperation operation)
+    {
+        return new MathOps(left, right, operation);
     }
 
     double calculate(int level);
@@ -127,12 +133,34 @@ public interface DoubleLevelBasedValue
         }
     }
 
+    record MathOps(DoubleLevelBasedValue left, DoubleLevelBasedValue right, MathOperation operation) implements DoubleLevelBasedValue
+    {
+        public static final MapCodec<MathOps> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+                DoubleLevelBasedValue.CODEC.fieldOf("left").forGetter(MathOps::left),
+                DoubleLevelBasedValue.CODEC.fieldOf("right").forGetter(MathOps::right),
+                MathOperation.SINGLE_OP_CODEC.fieldOf("op").forGetter(MathOps::operation))
+                .apply(instance, MathOps::new));
+
+        @Override
+        public double calculate(int level)
+        {
+            return operation.applyAsDouble(left.calculate(level), right.calculate(level));
+        }
+
+        @Override
+        public Type getType()
+        {
+            return Type.MATH_OPERATION;
+        }
+    }
+
     enum Type implements StringRepresentable
     {
         CONSTANT("constant", ConstantValue.CODEC),
         LINEAR("linear", LinearValue.CODEC),
         FRACTION("fraction", Fraction.CODEC),
-        EXPONENTIAL("exponential", Exponential.CODEC);
+        EXPONENTIAL("exponential", Exponential.CODEC),
+        MATH_OPERATION("math_ops", MathOps.CODEC);
 
         public static final LimaEnumCodec<Type> CODEC = LimaEnumCodec.create(Type.class);
 

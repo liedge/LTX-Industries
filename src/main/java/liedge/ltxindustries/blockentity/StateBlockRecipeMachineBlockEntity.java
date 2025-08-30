@@ -12,13 +12,12 @@ import liedge.ltxindustries.blockentity.base.SidedAccessBlockEntityType;
 import liedge.ltxindustries.blockentity.base.VariableTimedProcessBlockEntity;
 import liedge.ltxindustries.blockentity.template.ProductionMachineBlockEntity;
 import liedge.ltxindustries.lib.upgrades.EffectRankPair;
-import liedge.ltxindustries.lib.upgrades.effect.value.ValueUpgradeEffect;
+import liedge.ltxindustries.lib.upgrades.effect.ValueUpgradeEffect;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrades;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import liedge.ltxindustries.util.LTXITooltipUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.component.DataComponentType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
@@ -33,7 +32,7 @@ import net.minecraft.world.level.storage.loot.LootContext;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.DoubleUnaryOperator;
+import java.util.function.IntUnaryOperator;
 
 import static liedge.ltxindustries.block.LTXIBlockProperties.BINARY_MACHINE_STATE;
 
@@ -42,7 +41,7 @@ public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, 
 {
     private final LimaRecipeCheck<I, R> recipeCheck;
     private int energyUsage = getBaseEnergyUsage();
-    private DoubleUnaryOperator recipeTimeFunction = DoubleUnaryOperator.identity();
+    private IntUnaryOperator recipeTimeFunction = IntUnaryOperator.identity();
     private int recipeCraftingTime;
     private int craftingProgress;
     private boolean crafting;
@@ -189,7 +188,7 @@ public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, 
                 if (hasValidRecipe && shouldCheckCraftingTime)
                 {
                     int baseTime = getBaseRecipeCraftingTime(recipeHolder.value());
-                    int time = Math.max(0, Mth.floor(recipeTimeFunction.applyAsDouble(baseTime)));
+                    int time = recipeTimeFunction.applyAsInt(baseTime);
                     setTicksPerOperation(time);
                     shouldCheckCraftingTime = false;
                 }
@@ -237,7 +236,7 @@ public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, 
     {
         super.onUpgradeRefresh(context, upgrades);
         EnergyConsumerBlockEntity.applyUpgrades(this, context, upgrades);
-        this.recipeTimeFunction = createRecipeTimeFunction(LTXIUpgradeEffectComponents.TICKS_PER_OPERATION.get(), context);
+        this.recipeTimeFunction = createRecipeTimeFunction(context);
         this.shouldCheckCraftingTime = true;
         this.shouldCheckRecipe = true;
     }
@@ -263,20 +262,25 @@ public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, 
         tag.putInt(TAG_KEY_PROGRESS, craftingProgress);
     }
 
-    private DoubleUnaryOperator createRecipeTimeFunction(DataComponentType<List<ValueUpgradeEffect>> type, LootContext context)
+    private IntUnaryOperator createRecipeTimeFunction(LootContext context)
     {
-        List<EffectRankPair<ValueUpgradeEffect>> list = this.getUpgrades().boxedFlatStream(type).sorted(Comparator.comparing(entry -> entry.effect().getOperation())).toList();
+        MachineUpgrades upgrades = getUpgrades();
+        int minSpeed = upgrades.effectStream(LTXIUpgradeEffectComponents.MINIMUM_MACHINE_SPEED).min(Comparator.naturalOrder()).orElse(0);
+        List<EffectRankPair<ValueUpgradeEffect>> list = upgrades.boxedFlatStream(LTXIUpgradeEffectComponents.TICKS_PER_OPERATION.get()).sorted(Comparator.comparing(entry -> entry.effect().operation())).toList();
 
-        if (list.isEmpty()) return DoubleUnaryOperator.identity();
+        if (list.isEmpty()) return IntUnaryOperator.identity();
 
         return base ->
         {
+            if (base <= minSpeed) return base;
+
             double total = base;
             for (EffectRankPair<ValueUpgradeEffect> pair : list)
             {
                 total = pair.effect().apply(context, pair.upgradeRank(), base, total);
             }
-            return total;
+
+            return Math.max(minSpeed, Mth.floor(total));
         };
     }
 }

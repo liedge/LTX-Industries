@@ -60,6 +60,11 @@ public interface UpgradeBase<CTX, U extends UpgradeBase<CTX, U>>
 
     default void applyEffectsTooltips(int upgradeRank, Consumer<Component> consumer)
     {
+        for (UpgradeTooltip tooltip : display().tooltips())
+        {
+            consumer.accept(LimaComponentUtil.BULLET_1_INDENT.copy().withStyle(ChatFormatting.GRAY).append(tooltip.get(upgradeRank)));
+        }
+
         for (TypedDataComponent<?> dataComponent : effects())
         {
             processBuiltInTooltips(dataComponent, upgradeRank, component -> consumer.accept(LimaComponentUtil.BULLET_1_INDENT.copy().withStyle(ChatFormatting.GRAY).append(component)));

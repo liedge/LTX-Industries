@@ -6,14 +6,62 @@
     "icon": "ltxi:fabricator_upgrade",
     "title": {
       "translate": "machine_upgrade.ltxi.fabricator_upgrade"
-    }
+    },
+    "tooltips": [
+      {
+        "args": [
+          {
+            "format": "signed_percentage",
+            "sentiment": "positive",
+            "value": {
+              "type": "linear",
+              "base": 2.0,
+              "per_level_after_first": 2.0
+            }
+          }
+        ],
+        "key": "upgrade_effect.ltxi.energy_capacity"
+      },
+      {
+        "args": [
+          {
+            "format": "signed_percentage",
+            "sentiment": "positive",
+            "value": {
+              "type": "linear",
+              "base": 3.0,
+              "per_level_after_first": 3.0
+            }
+          }
+        ],
+        "key": "upgrade_effect.ltxi.energy_transfer"
+      },
+      {
+        "args": [
+          {
+            "format": "multiplicative",
+            "sentiment": "positive",
+            "value": {
+              "type": "exponential",
+              "base": 2.0,
+              "power": {
+                "type": "linear",
+                "base": 2.0,
+                "per_level_after_first": 1.0
+              }
+            }
+          }
+        ],
+        "key": "upgrade_effect.ltxi.energy_usage"
+      }
+    ]
   },
   "effects": {
     "ltxi:energy_capacity": [
       {
         "type": "simple",
-        "op": "add_multiplied_base",
-        "simple_value": {
+        "op": "add_percent",
+        "value": {
           "type": "linear",
           "base": 2.0,
           "per_level_after_first": 2.0
@@ -23,8 +71,8 @@
     "ltxi:energy_transfer_rate": [
       {
         "type": "simple",
-        "op": "add_multiplied_base",
-        "simple_value": {
+        "op": "add_percent",
+        "value": {
           "type": "linear",
           "base": 3.0,
           "per_level_after_first": 3.0
@@ -35,7 +83,7 @@
       {
         "type": "simple",
         "op": "multiply",
-        "simple_value": {
+        "value": {
           "type": "exponential",
           "base": 2.0,
           "power": {

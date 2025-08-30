@@ -26,6 +26,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
@@ -40,6 +41,7 @@ public final class UpgradeBaseBuilder<CTX, U extends UpgradeBase<CTX, U>> implem
 
     private Component title;
     private Component description;
+    private final List<UpgradeTooltip> tooltips = new ObjectArrayList<>();
     private UpgradeIcon icon = UpgradeIcon.noRenderIcon();
     private String category = UpgradeDisplayInfo.NO_CATEGORY;
 
@@ -82,6 +84,22 @@ public final class UpgradeBaseBuilder<CTX, U extends UpgradeBase<CTX, U>> implem
     {
         this.description = operator.apply(defaultDescription());
         return this;
+    }
+
+    public UpgradeBaseBuilder<CTX, U> tooltip(UpgradeTooltip tooltip)
+    {
+        this.tooltips.add(tooltip);
+        return this;
+    }
+
+    public UpgradeBaseBuilder<CTX, U> tooltip(int index, Function<String, UpgradeTooltip> function)
+    {
+        return tooltip(function.apply(tooltipKey(key, index)));
+    }
+
+    public UpgradeBaseBuilder<CTX, U> tooltip(Component component)
+    {
+        return tooltip(UpgradeTooltip.of(component));
     }
 
     public UpgradeBaseBuilder<CTX, U> setMaxRank(int maxRank)
@@ -218,7 +236,7 @@ public final class UpgradeBaseBuilder<CTX, U extends UpgradeBase<CTX, U>> implem
     @Override
     public U build()
     {
-        UpgradeDisplayInfo displayInfo = new UpgradeDisplayInfo(title, description, icon, category);
+        UpgradeDisplayInfo displayInfo = new UpgradeDisplayInfo(title, description, tooltips, icon, category);
         return factory.apply(displayInfo, maxRank, supportedSet, exclusiveSet, effectMapBuilder.build());
     }
 
@@ -234,11 +252,26 @@ public final class UpgradeBaseBuilder<CTX, U extends UpgradeBase<CTX, U>> implem
 
     private MutableComponent defaultTitle()
     {
-        return Component.translatable(ModResources.registryPrefixedIdLangKey(key));
+        return Component.translatable(defaultTitleKey(key));
     }
 
     private MutableComponent defaultDescription()
     {
-        return Component.translatable(suffixTranslationKey(DEFAULT_DESCRIPTION_SUFFIX));
+        return Component.translatable(defaultDescriptionKey(key));
+    }
+
+    public static String defaultTitleKey(ResourceKey<? extends UpgradeBase<?, ?>> key)
+    {
+        return ModResources.registryPrefixedIdLangKey(key);
+    }
+
+    public static String defaultDescriptionKey(ResourceKey<? extends UpgradeBase<?, ?>> key)
+    {
+        return ModResources.registryPrefixVariantIdLangKey(key, DEFAULT_DESCRIPTION_SUFFIX);
+    }
+
+    public static String tooltipKey(ResourceKey<? extends UpgradeBase<?, ?>> key, int index)
+    {
+        return ModResources.registryPrefixVariantIdLangKey(key, "tooltip" + index);
     }
 }

@@ -15,20 +15,30 @@
     },
     "title": {
       "translate": "equipment_upgrade.ltxi.heavy_pistol_god_rounds"
-    }
+    },
+    "tooltips": [
+      {
+        "args": [
+          {
+            "format": "signed_percentage",
+            "sentiment": "positive",
+            "value": 0.25
+          },
+          {
+            "color": "dark_red",
+            "translate": "attribute.name.generic.max_health"
+          }
+        ],
+        "key": "upgrade_effect.ltxi.attribute_scaled_damage"
+      }
+    ]
   },
   "effects": {
     "ltxi:equipment_damage": [
       {
         "effect": {
           "type": "context",
-          "op": "flat_addition",
-          "tooltip": {
-            "type": "attribute_amount",
-            "amount": 0.25,
-            "attribute": "minecraft:generic.max_health",
-            "target": "this"
-          },
+          "op": "add",
           "value": {
             "type": "limacore:math_ops",
             "first": {

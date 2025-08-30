@@ -6,7 +6,7 @@ import liedge.limacore.lib.OrderedEnum;
 import liedge.limacore.lib.Translatable;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.client.LTXILangKeys;
-import liedge.ltxindustries.lib.upgrades.effect.EffectTooltipProvider;
+import liedge.ltxindustries.lib.upgrades.effect.UpgradeTooltipsProvider;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -14,9 +14,11 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.StringRepresentable;
 import net.neoforged.neoforge.network.codec.NeoForgeStreamCodecs;
 
+import java.util.function.Consumer;
+
 import static liedge.ltxindustries.LTXIConstants.*;
 
-public enum GrenadeType implements StringRepresentable, Translatable, OrderedEnum<GrenadeType>, EffectTooltipProvider.SingleLine
+public enum GrenadeType implements StringRepresentable, Translatable, OrderedEnum<GrenadeType>, UpgradeTooltipsProvider
 {
     EXPLOSIVE("explosive", EXPLOSIVE_GRAY),
     FLAME("flame", FLAME_ORANGE),
@@ -63,8 +65,8 @@ public enum GrenadeType implements StringRepresentable, Translatable, OrderedEnu
     }
 
     @Override
-    public Component getEffectTooltip(int upgradeRank)
+    public void addUpgradeTooltips(int upgradeRank, Consumer<Component> lines)
     {
-        return LTXILangKeys.GRENADE_UNLOCK_EFFECT.translateArgs(this.translate());
+        lines.accept(LTXILangKeys.GRENADE_UNLOCK_EFFECT.translateArgs(translate()));
     }
 }

@@ -19,6 +19,8 @@ import net.minecraft.world.item.enchantment.LevelBasedValue;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 
+import java.util.function.Consumer;
+
 public record MobEffectUpgradeEffect(Holder<MobEffect> effect, LevelBasedValue duration, LevelBasedValue amplifier) implements EquipmentUpgradeEffect
 {
     public static final MapCodec<MobEffectUpgradeEffect> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
@@ -51,7 +53,7 @@ public record MobEffectUpgradeEffect(Holder<MobEffect> effect, LevelBasedValue d
     }
 
     @Override
-    public Component getEffectTooltip(int upgradeRank)
+    public void addUpgradeTooltips(int upgradeRank, Consumer<Component> lines)
     {
         MutableComponent nameComponent = effect.value().getDisplayName().copy();
 
@@ -64,6 +66,6 @@ public record MobEffectUpgradeEffect(Holder<MobEffect> effect, LevelBasedValue d
         int duration = Math.round(this.duration.calculate(upgradeRank));
         Component durationComponent = Component.literal(StringUtil.formatTickDuration(duration, 20));
 
-        return LTXILangKeys.MOB_EFFECT_UPGRADE_EFFECT.translateArgs(nameComponent, durationComponent).withStyle(ChatFormatting.GOLD);
+        lines.accept(LTXILangKeys.MOB_EFFECT_UPGRADE_EFFECT.translateArgs(nameComponent, durationComponent).withStyle(ChatFormatting.GOLD));
     }
 }

@@ -3,7 +3,7 @@ package liedge.ltxindustries.lib.upgrades.effect.equipment;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import liedge.ltxindustries.client.LTXILangKeys;
-import liedge.ltxindustries.lib.upgrades.effect.EffectTooltipProvider;
+import liedge.ltxindustries.lib.upgrades.effect.UpgradeTooltipsProvider;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
@@ -12,7 +12,9 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.item.enchantment.LevelBasedValue;
 
-public record EnchantmentUpgradeEffect(Holder<Enchantment> enchantment, LevelBasedValue amount) implements EffectTooltipProvider.SingleLine
+import java.util.function.Consumer;
+
+public record EnchantmentUpgradeEffect(Holder<Enchantment> enchantment, LevelBasedValue amount) implements UpgradeTooltipsProvider
 {
     public static final Codec<EnchantmentUpgradeEffect> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Enchantment.CODEC.fieldOf("enchantment").forGetter(EnchantmentUpgradeEffect::enchantment),
@@ -40,8 +42,9 @@ public record EnchantmentUpgradeEffect(Holder<Enchantment> enchantment, LevelBas
     }
 
     @Override
-    public Component getEffectTooltip(int upgradeRank)
+    public void addUpgradeTooltips(int upgradeRank, Consumer<Component> lines)
     {
-        return LTXILangKeys.ENCHANTMENT_UPGRADE_EFFECT.translateArgs(enchantment.value().description(), Component.translatable("enchantment.level." + getValue(upgradeRank))).withStyle(ChatFormatting.DARK_PURPLE);
+        Component tooltip = LTXILangKeys.ENCHANTMENT_UPGRADE_EFFECT.translateArgs(enchantment.value().description(), Component.translatable("enchantment.level." + getValue(upgradeRank))).withStyle(ChatFormatting.DARK_PURPLE);
+        lines.accept(tooltip);
     }
 }

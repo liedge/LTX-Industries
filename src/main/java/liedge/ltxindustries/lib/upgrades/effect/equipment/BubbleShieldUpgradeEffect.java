@@ -13,6 +13,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.enchantment.LevelBasedValue;
 import net.minecraft.world.level.storage.loot.LootContext;
 
+import java.util.function.Consumer;
+
 import static liedge.ltxindustries.LTXIConstants.BUBBLE_SHIELD_GREEN;
 import static liedge.ltxindustries.util.LTXITooltipUtil.flatNumberWithSign;
 import static liedge.ltxindustries.util.LTXITooltipUtil.flatNumberWithoutSign;
@@ -41,8 +43,9 @@ public record BubbleShieldUpgradeEffect(LevelBasedValue amount, LevelBasedValue 
     }
 
     @Override
-    public Component getEffectTooltip(int upgradeRank)
+    public void addUpgradeTooltips(int upgradeRank, Consumer<Component> lines)
     {
-        return LTXILangKeys.BUBBLE_SHIELD_EFFECT.translateArgs(flatNumberWithSign(amount.calculate(upgradeRank)).withStyle(BUBBLE_SHIELD_GREEN.chatStyle()), flatNumberWithoutSign(maxShield.calculate(upgradeRank)).withStyle(BUBBLE_SHIELD_GREEN.chatStyle()));
+        Component tooltip = LTXILangKeys.BUBBLE_SHIELD_EFFECT.translateArgs(flatNumberWithSign(amount.calculate(upgradeRank)).withStyle(BUBBLE_SHIELD_GREEN.chatStyle()), flatNumberWithoutSign(maxShield.calculate(upgradeRank)).withStyle(BUBBLE_SHIELD_GREEN.chatStyle()));
+        lines.accept(tooltip);
     }
 }

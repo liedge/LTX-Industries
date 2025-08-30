@@ -7,9 +7,10 @@ import liedge.limacore.lib.damage.LimaCoreDamageComponents;
 import liedge.limacore.lib.damage.ReductionModifier;
 import liedge.limacore.lib.math.MathOperation;
 import liedge.ltxindustries.client.LTXILangKeys;
-import liedge.ltxindustries.lib.upgrades.effect.value.ValueSentiment;
+import liedge.ltxindustries.lib.upgrades.effect.TooltipValueFormat;
+import liedge.ltxindustries.lib.upgrades.effect.ValueSentiment;
 import liedge.ltxindustries.registry.game.LTXIEquipmentUpgradeEffects;
-import liedge.ltxindustries.util.LTXITooltipUtil;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
@@ -17,6 +18,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.enchantment.LevelBasedValue;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+
+import java.util.function.Consumer;
 
 public record ModifyReductionsUpgradeEffect(DamageReductionType reductionType, LevelBasedValue amount) implements EquipmentUpgradeEffect
 {
@@ -42,9 +45,10 @@ public record ModifyReductionsUpgradeEffect(DamageReductionType reductionType, L
     }
 
     @Override
-    public Component getEffectTooltip(int upgradeRank)
+    public void addUpgradeTooltips(int upgradeRank, Consumer<Component> lines)
     {
-        float amt = amount.calculate(upgradeRank);
-        return LTXILangKeys.REDUCTION_MODIFIER_EFFECT.translateArgs(LTXITooltipUtil.percentageWithSign(amt).withStyle(ValueSentiment.POSITIVE.get(amt)), reductionType.translate());
+        float tooltipAmount = Math.abs(amount.calculate(upgradeRank));
+        Component tooltip = LTXILangKeys.REDUCTION_MODIFIER_EFFECT.translateArgs(TooltipValueFormat.PERCENTAGE.apply(tooltipAmount, ValueSentiment.POSITIVE), reductionType.translate().withStyle(ChatFormatting.LIGHT_PURPLE));
+        lines.accept(tooltip);
     }
 }

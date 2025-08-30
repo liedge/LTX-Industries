@@ -6,7 +6,7 @@ import liedge.limacore.data.LimaEnumCodec;
 import liedge.limacore.lib.Translatable;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.client.LTXILangKeys;
-import liedge.ltxindustries.lib.upgrades.effect.EffectTooltipProvider;
+import liedge.ltxindustries.lib.upgrades.effect.UpgradeTooltipsProvider;
 import liedge.ltxindustries.util.LTXITooltipUtil;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryCodecs;
@@ -15,7 +15,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.Item;
 
-public record DirectDropsUpgradeEffect(HolderSet<Item> items, Type type) implements EffectTooltipProvider.SingleLine
+import java.util.function.Consumer;
+
+public record DirectDropsUpgradeEffect(HolderSet<Item> items, Type type) implements UpgradeTooltipsProvider
 {
     public static final Codec<DirectDropsUpgradeEffect> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             RegistryCodecs.homogeneousList(Registries.ITEM).fieldOf("items").forGetter(DirectDropsUpgradeEffect::items),
@@ -33,10 +35,10 @@ public record DirectDropsUpgradeEffect(HolderSet<Item> items, Type type) impleme
     }
 
     @Override
-    public Component getEffectTooltip(int upgradeRank)
+    public void addUpgradeTooltips(int upgradeRank, Consumer<Component> lines)
     {
         Translatable tooltip = type == Type.BLOCK_DROPS ? LTXILangKeys.DIRECT_BLOCK_DROPS_EFFECT : LTXILangKeys.DIRECT_ENTITY_DROPS_EFFECT;
-        return tooltip.translateArgs(LTXITooltipUtil.translateHolderSet(items)).withStyle(LTXIConstants.LIME_GREEN.chatStyle());
+        lines.accept(tooltip.translateArgs(LTXITooltipUtil.translateHolderSet(items)).withStyle(LTXIConstants.LIME_GREEN.chatStyle()));
     }
 
     public enum Type implements StringRepresentable

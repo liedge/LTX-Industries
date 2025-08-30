@@ -10,7 +10,7 @@ import liedge.limacore.network.LimaStreamCodecs;
 import liedge.limacore.util.LimaRegistryUtil;
 import liedge.limacore.util.LimaStreamsUtil;
 import liedge.ltxindustries.lib.upgrades.effect.equipment.EquipmentUpgradeEffect;
-import liedge.ltxindustries.lib.upgrades.effect.value.ValueUpgradeEffect;
+import liedge.ltxindustries.lib.upgrades.effect.ValueUpgradeEffect;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import liedge.ltxindustries.util.LTXIUtil;
 import net.minecraft.core.Holder;
@@ -220,7 +220,7 @@ public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
     //#region Value computing helpers
     public double applyValue(DataComponentType<List<ValueUpgradeEffect>> type, LootContext context, double base, double total)
     {
-        List<EffectRankPair<ValueUpgradeEffect>> list = boxedFlatStream(type).sorted(Comparator.comparing(entry -> entry.effect().getOperation())).collect(LimaStreamsUtil.toObjectList());
+        List<EffectRankPair<ValueUpgradeEffect>> list = boxedFlatStream(type).sorted(Comparator.comparing(entry -> entry.effect().operation())).collect(LimaStreamsUtil.toObjectList());
         double result = total;
 
         for (EffectRankPair<ValueUpgradeEffect> pair : list)
@@ -249,7 +249,7 @@ public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
 
     public double applyConditionalValue(DataComponentType<List<ConditionalEffect<ValueUpgradeEffect>>> type, IntFunction<LootContext> contextFunction, double base, double total)
     {
-        List<EffectRankPair<ConditionalEffect<ValueUpgradeEffect>>> list = boxedFlatStream(type).sorted(Comparator.comparing(pair -> pair.effect().effect().getOperation())).collect(LimaStreamsUtil.toObjectList());
+        List<EffectRankPair<ConditionalEffect<ValueUpgradeEffect>>> list = boxedFlatStream(type).sorted(Comparator.comparing(pair -> pair.effect().effect().operation())).collect(LimaStreamsUtil.toObjectList());
         double result = total;
 
         for (EffectRankPair<ConditionalEffect<ValueUpgradeEffect>> pair : list)

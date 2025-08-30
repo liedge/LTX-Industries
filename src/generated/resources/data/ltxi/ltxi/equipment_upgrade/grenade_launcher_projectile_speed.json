@@ -6,14 +6,29 @@
     "icon": "ltxi:grenade_speed_boost",
     "title": {
       "translate": "equipment_upgrade.ltxi.grenade_launcher_projectile_speed"
-    }
+    },
+    "tooltips": [
+      {
+        "args": [
+          {
+            "sentiment": "positive",
+            "value": {
+              "type": "linear",
+              "base": 0.5,
+              "per_level_after_first": 0.5
+            }
+          }
+        ],
+        "key": "upgrade_effect.ltxi.projectile_speed"
+      }
+    ]
   },
   "effects": {
     "ltxi:weapon_projectile_speed": [
       {
         "type": "simple",
-        "op": "flat_addition",
-        "simple_value": {
+        "op": "add",
+        "value": {
           "type": "linear",
           "base": 0.5,
           "per_level_after_first": 0.5

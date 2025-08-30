@@ -7,14 +7,97 @@
     "icon": "ltxi:standard_gear",
     "title": {
       "translate": "machine_upgrade.ltxi.standard_machine_systems"
-    }
+    },
+    "tooltips": [
+      {
+        "args": [
+          {
+            "format": "signed_percentage",
+            "sentiment": "positive",
+            "value": {
+              "type": "linear",
+              "base": 0.5,
+              "per_level_after_first": 0.5
+            }
+          }
+        ],
+        "key": "upgrade_effect.ltxi.energy_capacity"
+      },
+      {
+        "args": [
+          {
+            "format": "signed_percentage",
+            "sentiment": "positive",
+            "value": {
+              "type": "linear",
+              "base": 0.5,
+              "per_level_after_first": 0.5
+            }
+          }
+        ],
+        "key": "upgrade_effect.ltxi.energy_transfer"
+      },
+      {
+        "args": [
+          {
+            "format": "multiplicative",
+            "sentiment": "positive",
+            "value": {
+              "type": "exponential",
+              "base": 0.725,
+              "power": {
+                "type": "linear",
+                "base": 1.0,
+                "per_level_after_first": 1.0
+              }
+            }
+          }
+        ],
+        "key": "upgrade_effect.ltxi.machine_speed"
+      },
+      {
+        "args": [
+          {
+            "format": "multiplicative",
+            "value": {
+              "type": "exponential",
+              "base": 1.5,
+              "power": {
+                "type": "linear",
+                "base": 1.0,
+                "per_level_after_first": 1.0
+              }
+            }
+          }
+        ],
+        "key": "upgrade_effect.ltxi.energy_usage"
+      },
+      {
+        "args": [
+          {
+            "format": "multiplicative",
+            "sentiment": "negative",
+            "value": {
+              "type": "exponential",
+              "base": 1.0875,
+              "power": {
+                "type": "linear",
+                "base": 1.0,
+                "per_level_after_first": 1.0
+              }
+            }
+          }
+        ],
+        "key": "upgrade_effect.ltxi.energy_per_recipe"
+      }
+    ]
   },
   "effects": {
     "ltxi:energy_capacity": [
       {
         "type": "simple",
-        "op": "add_multiplied_base",
-        "simple_value": {
+        "op": "add_percent",
+        "value": {
           "type": "linear",
           "base": 0.5,
           "per_level_after_first": 0.5
@@ -24,8 +107,8 @@
     "ltxi:energy_transfer_rate": [
       {
         "type": "simple",
-        "op": "add_multiplied_base",
-        "simple_value": {
+        "op": "add_percent",
+        "value": {
           "type": "linear",
           "base": 0.5,
           "per_level_after_first": 0.5
@@ -36,8 +119,7 @@
       {
         "type": "simple",
         "op": "multiply",
-        "sentiment": "negative",
-        "simple_value": {
+        "value": {
           "type": "exponential",
           "base": 1.5,
           "power": {
@@ -48,12 +130,12 @@
         }
       }
     ],
+    "ltxi:minimum_speed": 5,
     "ltxi:ticks_per_operation": [
       {
         "type": "simple",
         "op": "multiply",
-        "sentiment": "negative",
-        "simple_value": {
+        "value": {
           "type": "exponential",
           "base": 0.725,
           "power": {

@@ -7,7 +7,6 @@ import liedge.ltxindustries.registry.game.LTXIEquipmentUpgradeEffects;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.ComponentUtils;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageSource;
@@ -18,6 +17,7 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
 
 public record DynamicDamageTagUpgradeEffect(List<TagKey<DamageType>> tags) implements EquipmentUpgradeEffect
 {
@@ -48,9 +48,12 @@ public record DynamicDamageTagUpgradeEffect(List<TagKey<DamageType>> tags) imple
     }
 
     @Override
-    public Component getEffectTooltip(int upgradeRank)
+    public void addUpgradeTooltips(int upgradeRank, Consumer<Component> lines)
     {
-        Component tagsComponent = ComponentUtils.formatList(tags, o -> Component.translatable(LTXILangKeys.namedDamageTagKey(o)));
-        return LTXILangKeys.DYNAMIC_DAMAGE_TAG_EFFECT.translateArgs(tagsComponent).withStyle(ChatFormatting.AQUA);
+        for (TagKey<DamageType> tag : tags)
+        {
+            Component tagComponent = Component.translatable(LTXILangKeys.namedDamageTagKey(tag));
+            lines.accept(LTXILangKeys.DYNAMIC_DAMAGE_TAG_EFFECT.translateArgs(tagComponent).withStyle(ChatFormatting.AQUA));
+        }
     }
 }

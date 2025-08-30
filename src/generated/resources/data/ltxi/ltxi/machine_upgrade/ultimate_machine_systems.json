@@ -8,37 +8,72 @@
     "title": {
       "color": "#9DF143",
       "translate": "machine_upgrade.ltxi.ultimate_machine_systems"
-    }
+    },
+    "tooltips": [
+      {
+        "args": [
+          {
+            "format": "multiplicative",
+            "sentiment": "positive",
+            "value": 8.0
+          }
+        ],
+        "key": "upgrade_effect.ltxi.energy_capacity"
+      },
+      {
+        "args": [
+          {
+            "format": "multiplicative",
+            "sentiment": "positive",
+            "value": 16.0
+          }
+        ],
+        "key": "upgrade_effect.ltxi.energy_transfer"
+      },
+      {
+        "args": [
+          {
+            "format": "multiplicative",
+            "sentiment": "negative",
+            "value": 256.0
+          }
+        ],
+        "key": "upgrade_effect.ltxi.energy_usage"
+      },
+      {
+        "color": "#9DF143",
+        "translate": "upgrade_effect.ltxi.instant_process"
+      }
+    ]
   },
   "effects": {
     "ltxi:energy_capacity": [
       {
         "type": "simple",
         "op": "multiply",
-        "simple_value": 8.0
+        "value": 8.0
       }
     ],
     "ltxi:energy_transfer_rate": [
       {
         "type": "simple",
         "op": "multiply",
-        "simple_value": 16.0
+        "value": 16.0
       }
     ],
     "ltxi:energy_usage": [
       {
         "type": "simple",
         "op": "multiply",
-        "sentiment": "negative",
-        "simple_value": 256.0
+        "value": 512.0
       }
     ],
+    "ltxi:minimum_speed": 0,
     "ltxi:ticks_per_operation": [
       {
         "type": "simple",
-        "op": "add_multiplied_total",
-        "sentiment": "negative",
-        "simple_value": -1.0
+        "op": "multiply",
+        "value": 0.0
       }
     ]
   },
