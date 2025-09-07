@@ -18,5 +18,5 @@
   },
   "exclusive_set": [],
   "max_rank": 5,
-  "supported_set": "#ltxi:ltx_weapons/all"
+  "supported_set": "#ltxi:weapons"
 }

@@ -120,9 +120,9 @@ public final class LTXIEquipmentUpgrades
         HolderSet<Item> anyItemHolderSet = new AnyHolderSet<>(BuiltInRegistries.ITEM.asLookup());
 
         // Common holder sets
-        HolderSet<Item> ltxMiningTools = items.getOrThrow(LTXITags.Items.LTX_MINING_TOOLS);
-        HolderSet<Item> ltxProjectileWeapons = items.getOrThrow(LTXITags.Items.LTX_ENERGY_PROJECTILE_WEAPONS);
-        HolderSet<Item> ltxAllWeapons = items.getOrThrow(LTXITags.Items.LTX_ALL_WEAPONS);
+        HolderSet<Item> ltxMiningTools = items.getOrThrow(LTXITags.Items.MINING_TOOLS);
+        HolderSet<Item> ltxProjectileWeapons = items.getOrThrow(LTXITags.Items.ENERGY_PROJECTILE_WEAPONS);
+        HolderSet<Item> ltxAllWeapons = items.getOrThrow(LTXITags.Items.ALL_WEAPONS);
         
         // Common sprites
         UpgradeIcon defaultSprite = sprite("default");
@@ -189,7 +189,7 @@ public final class LTXIEquipmentUpgrades
                 .category("tools/drill")
                 .register(context);
         EquipmentUpgrade.builder(TOOL_VIBRATION_CANCEL)
-                .supports(items.getOrThrow(LTXITags.Items.LTX_ALL_TOOLS))
+                .supports(items.getOrThrow(LTXITags.Items.ALL_TOOLS))
                 .withEffect(PREVENT_VIBRATION, PreventVibrationUpgradeEffect.suppressHands(gameEvents.getOrThrow(LTXITags.GameEvents.HANDHELD_EQUIPMENT)))
                 .effectIcon(sprite("earmuffs"))
                 .category("tools")

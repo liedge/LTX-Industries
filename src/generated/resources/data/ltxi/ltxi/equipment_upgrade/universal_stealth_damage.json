@@ -23,5 +23,5 @@
     ]
   },
   "exclusive_set": [],
-  "supported_set": "#ltxi:ltx_weapons/energy"
+  "supported_set": "#ltxi:weapons/energy_projectile"
 }

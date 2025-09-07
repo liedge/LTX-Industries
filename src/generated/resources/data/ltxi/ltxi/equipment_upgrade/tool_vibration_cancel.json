@@ -18,5 +18,5 @@
     ]
   },
   "exclusive_set": [],
-  "supported_set": "#ltxi:ltx_tools/all"
+  "supported_set": "#ltxi:tools"
 }

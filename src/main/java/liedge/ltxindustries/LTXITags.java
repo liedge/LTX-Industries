@@ -77,12 +77,16 @@ public final class LTXITags
         public static final TagKey<Item> NEON_LIGHT_MATERIALS = RESOURCES.itemTag("neon_light_materials");
         public static final TagKey<Item> REPAIR_BLACKLIST = RESOURCES.itemTag("repair_blacklist");
 
-        public static final TagKey<Item> LTX_ENERGY_PROJECTILE_WEAPONS = RESOURCES.itemTag("ltx_weapons/energy");
-        public static final TagKey<Item> LTX_MELEE_WEAPONS = RESOURCES.itemTag("ltx_weapons/melee");
-        public static final TagKey<Item> LTX_ALL_WEAPONS = RESOURCES.itemTag("ltx_weapons/all");
+        public static final TagKey<Item> ALL_WEAPONS = RESOURCES.itemTag("weapons");
+        public static final TagKey<Item> ENERGY_PROJECTILE_WEAPONS = RESOURCES.itemTag("weapons/energy_projectile");
+        public static final TagKey<Item> MELEE_WEAPONS = RESOURCES.itemTag("weapons/melee");
+        public static final TagKey<Item> LIGHTWEIGHT_WEAPONS = RESOURCES.itemTag("weapons/lightweight");
+        public static final TagKey<Item> SPECIALIST_WEAPONS = RESOURCES.itemTag("weapons/specialist");
+        public static final TagKey<Item> EXPLOSIVE_WEAPONS = RESOURCES.itemTag("weapons/explosive");
+        public static final TagKey<Item> HEAVY_WEAPONS = RESOURCES.itemTag("weapons/heavy");
 
-        public static final TagKey<Item> LTX_MINING_TOOLS = RESOURCES.itemTag("ltx_tools/mining");
-        public static final TagKey<Item> LTX_ALL_TOOLS = RESOURCES.itemTag("ltx_tools/all");
+        public static final TagKey<Item> ALL_TOOLS = RESOURCES.itemTag("tools");
+        public static final TagKey<Item> MINING_TOOLS = RESOURCES.itemTag("tools/mining");
 
         private static TagKey<Item> copy(TagKey<Block> blockTag)
         {

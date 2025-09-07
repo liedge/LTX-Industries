@@ -5,7 +5,7 @@
     "ltxi:ltx_fishing_rod",
     "ltxi:ltx_wrench",
     "ltxi:ltx_lighter",
-    "#ltxi:ltx_tools/mining",
-    "#ltxi:ltx_weapons/melee"
+    "#ltxi:tools/mining",
+    "#ltxi:weapons/melee"
   ]
 }
