@@ -1,0 +1,22 @@
+{
+  "display": {
+    "category": "enchants",
+    "description": {
+      "translate": "equipment_upgrade.ltxi.enchantment.ammo_scavenger.desc"
+    },
+    "icon": "ltxi:ammo_scavenger",
+    "title": {
+      "translate": "equipment_upgrade.ltxi.enchantment.ammo_scavenger"
+    }
+  },
+  "effects": {
+    "ltxi:enchantments": [
+      {
+        "enchantment": "ltxi:ammo_scavenger"
+      }
+    ]
+  },
+  "exclusive_set": [],
+  "max_rank": 5,
+  "supported_set": "#ltxi:weapons"
+}

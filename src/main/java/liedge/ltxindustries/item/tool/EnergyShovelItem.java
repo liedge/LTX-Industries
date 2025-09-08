@@ -1,8 +1,11 @@
 package liedge.ltxindustries.item.tool;
 
+import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
+import liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
@@ -32,6 +35,12 @@ public class EnergyShovelItem extends EnergyMiningToolItem
     protected Set<ItemAbility> getAvailableAbilities()
     {
         return ItemAbilities.DEFAULT_SHOVEL_ACTIONS;
+    }
+
+    @Override
+    public @Nullable ResourceKey<EquipmentUpgrade> getDefaultUpgradeKey()
+    {
+        return LTXIEquipmentUpgrades.LTX_SHOVEL_DEFAULT;
     }
 
     @Override

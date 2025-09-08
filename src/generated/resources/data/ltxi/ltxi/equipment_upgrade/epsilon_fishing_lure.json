@@ -1,0 +1,35 @@
+{
+  "display": {
+    "category": "tools",
+    "description": {
+      "translate": "equipment_upgrade.ltxi.epsilon_fishing_lure.desc"
+    },
+    "icon": {
+      "type": "composite",
+      "background": {
+        "id": "ltxi:ltx_fishing_rod"
+      },
+      "overlay": "ltxi:plus_overlay",
+      "overlay_size": 9,
+      "x_offset": 6,
+      "y_offset": 6
+    },
+    "title": {
+      "color": "#9DF143",
+      "translate": "equipment_upgrade.ltxi.epsilon_fishing_lure"
+    }
+  },
+  "effects": {
+    "ltxi:enchantments": [
+      {
+        "enchantment": "minecraft:lure"
+      },
+      {
+        "enchantment": "minecraft:luck_of_the_sea"
+      }
+    ]
+  },
+  "exclusive_set": [],
+  "max_rank": 5,
+  "supported_set": "ltxi:ltx_fishing_rod"
+}

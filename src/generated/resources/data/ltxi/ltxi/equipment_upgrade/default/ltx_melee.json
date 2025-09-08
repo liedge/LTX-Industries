@@ -1,0 +1,34 @@
+{
+  "display": {
+    "category": "default/tool",
+    "description": {
+      "translate": "equipment_upgrade.ltxi.default.ltx_melee.desc"
+    },
+    "icon": {
+      "type": "composite",
+      "background": "ltxi:razor",
+      "overlay": "ltxi:default_overlay",
+      "overlay_size": 7,
+      "x_offset": 8,
+      "y_offset": 8
+    },
+    "title": {
+      "color": "#9DF143",
+      "translate": "equipment_upgrade.ltxi.tool_default"
+    }
+  },
+  "effects": {
+    "ltxi:enchantments": [
+      {
+        "amount": 1.0,
+        "enchantment": "ltxi:razor"
+      },
+      {
+        "amount": 1.0,
+        "enchantment": "minecraft:looting"
+      }
+    ]
+  },
+  "exclusive_set": [],
+  "supported_set": "#ltxi:weapons/melee"
+}

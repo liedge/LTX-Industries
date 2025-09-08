@@ -1,6 +1,6 @@
 {
   "values": [
-    "ltxi:silk_touch_enchantment",
-    "ltxi:fortune_enchantment"
+    "ltxi:enchantment/silk_touch",
+    "ltxi:enchantment/fortune"
   ]
 }

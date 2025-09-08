@@ -39,6 +39,7 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentTarget;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.item.enchantment.LevelBasedValue;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -46,6 +47,7 @@ import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.neoforged.neoforge.registries.holdersets.AnyHolderSet;
 
 import java.util.Optional;
+import java.util.function.Function;
 
 import static liedge.ltxindustries.LTXITags.EquipmentUpgrades.*;
 import static liedge.ltxindustries.LTXIndustries.RESOURCES;
@@ -59,13 +61,14 @@ public final class LTXIEquipmentUpgrades
     private LTXIEquipmentUpgrades() {}
 
     // Built-in upgrades
-    public static final ResourceKey<EquipmentUpgrade> LTX_SHOVEL_DEFAULT = key("ltx_shovel_default");
-    public static final ResourceKey<EquipmentUpgrade> LTX_AXE_DEFAULT = key("ltx_axe_default");
-    public static final ResourceKey<EquipmentUpgrade> LTX_WRENCH_DEFAULT = key("ltx_wrench_default");
-    public static final ResourceKey<EquipmentUpgrade> SUBMACHINE_GUN_DEFAULT = key("submachine_gun_default");
-    public static final ResourceKey<EquipmentUpgrade> SHOTGUN_DEFAULT = key("shotgun_default");
+    public static final ResourceKey<EquipmentUpgrade> LTX_SHOVEL_DEFAULT = key("default/ltx_shovel");
+    public static final ResourceKey<EquipmentUpgrade> LTX_WRENCH_DEFAULT = key("default/ltx_wrench");
+    public static final ResourceKey<EquipmentUpgrade> LTX_MELEE_DEFAULT = key("default/ltx_melee");
+    public static final ResourceKey<EquipmentUpgrade> SUBMACHINE_GUN_DEFAULT = key("default/submachine_gun");
+    public static final ResourceKey<EquipmentUpgrade> SHOTGUN_DEFAULT = key("default/shotgun");
 
     // Tool upgrades
+    public static final ResourceKey<EquipmentUpgrade> EPSILON_FISHING_LURE = key("epsilon_fishing_lure");
     public static final ResourceKey<EquipmentUpgrade> DRILL_DIAMOND_LEVEL = key("drill_diamond_level");
     public static final ResourceKey<EquipmentUpgrade> DRILL_NETHERITE_LEVEL = key("drill_netherite_level");
     public static final ResourceKey<EquipmentUpgrade> DRILL_OMNI_MINER = key("drill_omni_miner");
@@ -76,22 +79,26 @@ public final class LTXIEquipmentUpgrades
     public static final ResourceKey<EquipmentUpgrade> WEAPON_VIBRATION_CANCEL = key("weapon_vibration_cancel");
     public static final ResourceKey<EquipmentUpgrade> WEAPON_DIRECT_DROPS = key("weapon_direct_drops");
     public static final ResourceKey<EquipmentUpgrade> WEAPON_ARMOR_PIERCE = key("weapon_armor_pierce");
+    public static final ResourceKey<EquipmentUpgrade> LIGHTWEIGHT_ENERGY_ADAPTER = key("lightweight_energy_adapter");
+    public static final ResourceKey<EquipmentUpgrade> SPECIALIST_ENERGY_ADAPTER = key("specialist_energy_adapter");
+    public static final ResourceKey<EquipmentUpgrade> EXPLOSIVES_ENERGY_ADAPTER = key("explosives_energy_adapter");
+    public static final ResourceKey<EquipmentUpgrade> HEAVY_ENERGY_ADAPTER = key("heavy_energy_adapter");
+    public static final ResourceKey<EquipmentUpgrade> UNIVERSAL_INFINITE_AMMO = key("universal_infinite_ammo");
+
     public static final ResourceKey<EquipmentUpgrade> WEAPON_SHIELD_REGEN = key("weapon_shield_regen");
     public static final ResourceKey<EquipmentUpgrade> HIGH_IMPACT_ROUNDS = key("high_impact_rounds");
     public static final ResourceKey<EquipmentUpgrade> HEAVY_PISTOL_GOD_ROUNDS = key("heavy_pistol_god_rounds");
     public static final ResourceKey<EquipmentUpgrade> GRENADE_LAUNCHER_PROJECTILE_SPEED = key("grenade_launcher_projectile_speed");
 
     // Enchantments
-    public static final ResourceKey<EquipmentUpgrade> SILK_TOUCH_ENCHANT = key("silk_touch_enchantment");
-    public static final ResourceKey<EquipmentUpgrade> FORTUNE_ENCHANTMENT = key("fortune_enchantment");
-    public static final ResourceKey<EquipmentUpgrade> LOOTING_ENCHANTMENT = key("looting_enchantment");
-    public static final ResourceKey<EquipmentUpgrade> AMMO_SCAVENGER_ENCHANTMENT = key("ammo_scavenger_enchantment");
-    public static final ResourceKey<EquipmentUpgrade> RAZOR_ENCHANTMENT = key("razor_enchantment");
+    public static final ResourceKey<EquipmentUpgrade> SILK_TOUCH_ENCHANTMENT = key("enchantment/silk_touch");
+    public static final ResourceKey<EquipmentUpgrade> FORTUNE_ENCHANTMENT = key("enchantment/fortune");
+    public static final ResourceKey<EquipmentUpgrade> LOOTING_ENCHANTMENT = key("enchantment/looting");
+    public static final ResourceKey<EquipmentUpgrade> AMMO_SCAVENGER_ENCHANTMENT = key("enchantment/ammo_scavenger");
+    public static final ResourceKey<EquipmentUpgrade> RAZOR_ENCHANTMENT = key("enchantment/razor");
 
     // Universal upgrades
     public static final ResourceKey<EquipmentUpgrade> UNIVERSAL_STEALTH_DAMAGE = key("universal_stealth_damage");
-    public static final ResourceKey<EquipmentUpgrade> UNIVERSAL_ENERGY_AMMO = key("universal_energy_ammo");
-    public static final ResourceKey<EquipmentUpgrade> UNIVERSAL_INFINITE_AMMO = key("universal_infinite_ammo");
 
     // Hanabi grenade cores
     public static final ResourceKey<EquipmentUpgrade> FLAME_GRENADE_CORE = key("flame_grenade_core");
@@ -125,7 +132,7 @@ public final class LTXIEquipmentUpgrades
         HolderSet<Item> ltxAllWeapons = items.getOrThrow(LTXITags.Items.ALL_WEAPONS);
         
         // Common sprites
-        UpgradeIcon defaultSprite = sprite("default");
+        Function<ItemLike, UpgradeIcon> defaultModuleIcon = item -> bottomRightComposite(itemIcon(item), sprite("default_overlay"), 7);
 
         // Built in upgrades
         final Component defaultToolTitle = LTXILangKeys.TOOL_DEFAULT_UPGRADE_TITLE.translate().withStyle(LTXIConstants.LIME_GREEN.chatStyle());
@@ -133,28 +140,29 @@ public final class LTXIEquipmentUpgrades
                 .setTitle(defaultToolTitle)
                 .supports(LTXIItems.LTX_SHOVEL)
                 .withEffect(ENCHANTMENT_LEVEL, EnchantmentUpgradeEffect.constantLevel(enchantments.getOrThrow(Enchantments.SILK_TOUCH), 1))
-                .effectIcon(bottomRightComposite(itemIcon(LTXIItems.LTX_SHOVEL), defaultSprite))
-                .category("default/tool")
-                .register(context);
-        EquipmentUpgrade.builder(LTX_AXE_DEFAULT)
-                .setTitle(defaultToolTitle)
-                .supports(LTXIItems.LTX_AXE)
-                .withEffect(ENCHANTMENT_LEVEL, EnchantmentUpgradeEffect.constantLevel(enchantments.getOrThrow(RAZOR), 1))
-                .effectIcon(bottomRightComposite(itemIcon(LTXIItems.LTX_AXE), defaultSprite))
+                .effectIcon(defaultModuleIcon.apply(LTXIItems.LTX_SHOVEL))
                 .category("default/tool")
                 .register(context);
         EquipmentUpgrade.builder(LTX_WRENCH_DEFAULT)
                 .setTitle(defaultToolTitle)
                 .supports(LTXIItems.LTX_WRENCH)
                 .withEffect(DIRECT_DROPS, DirectDropsUpgradeEffect.blocksOnly(items.getOrThrow(LTXITags.Items.WRENCH_BREAKABLE)))
-                .effectIcon(bottomRightComposite(itemIcon(LTXIItems.LTX_WRENCH), defaultSprite))
+                .effectIcon(defaultModuleIcon.apply(LTXIItems.LTX_WRENCH))
+                .category("default/tool")
+                .register(context);
+        EquipmentUpgrade.builder(LTX_MELEE_DEFAULT)
+                .setTitle(defaultToolTitle)
+                .supports(items.getOrThrow(LTXITags.Items.MELEE_WEAPONS))
+                .withEffect(ENCHANTMENT_LEVEL, EnchantmentUpgradeEffect.constantLevel(enchantments.getOrThrow(RAZOR), 1))
+                .withEffect(ENCHANTMENT_LEVEL, EnchantmentUpgradeEffect.constantLevel(enchantments.getOrThrow(Enchantments.LOOTING), 1))
+                .effectIcon(bottomRightComposite(sprite("razor"), sprite("default_overlay"), 7))
                 .category("default/tool")
                 .register(context);
         EquipmentUpgrade.builder(SUBMACHINE_GUN_DEFAULT)
                 .supports(LTXIItems.SUBMACHINE_GUN)
                 .withEffect(PREVENT_VIBRATION, PreventVibrationUpgradeEffect.suppressMainHand(gameEvents.getOrThrow(LTXITags.GameEvents.WEAPON_VIBRATIONS)))
                 .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, DynamicDamageTagUpgradeEffect.of(DamageTypeTags.NO_ANGER, DamageTypeTags.NO_KNOCKBACK))
-                .effectIcon(bottomLeftComposite(itemIcon(LTXIItems.SUBMACHINE_GUN), defaultSprite))
+                .effectIcon(defaultModuleIcon.apply(LTXIItems.SUBMACHINE_GUN))
                 .category("default/weapon")
                 .register(context);
         EquipmentUpgrade.builder(SHOTGUN_DEFAULT)
@@ -162,11 +170,20 @@ public final class LTXIEquipmentUpgrades
                 .withEffect(ITEM_ATTRIBUTE_MODIFIERS, AttributeModifierUpgradeEffect.constantMainHand(Attributes.MOVEMENT_SPEED, SHOTGUN_DEFAULT.location().withSuffix("shotgun_speed_boost"), 0.25f, AttributeModifier.Operation.ADD_MULTIPLIED_BASE))
                 .withEffect(ITEM_ATTRIBUTE_MODIFIERS, AttributeModifierUpgradeEffect.constantMainHand(Attributes.STEP_HEIGHT, SHOTGUN_DEFAULT.location().withSuffix("shotgun_step_height_boost"), 1, AttributeModifier.Operation.ADD_VALUE))
                 .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, new ModifyReductionsUpgradeEffect(DamageReductionType.ARMOR, LevelBasedValue.constant(-0.1f)))
-                .effectIcon(bottomLeftComposite(itemIcon(LTXIItems.SHOTGUN), defaultSprite))
+                .effectIcon(defaultModuleIcon.apply(LTXIItems.SHOTGUN))
                 .category("default/weapon")
                 .register(context);
 
         // Tool upgrades
+        EquipmentUpgrade.builder(EPSILON_FISHING_LURE)
+                .createDefaultTitle(LTXIConstants.LIME_GREEN)
+                .supports(LTXIItems.LTX_FISHING_ROD)
+                .setMaxRank(5)
+                .withEffect(ENCHANTMENT_LEVEL, EnchantmentUpgradeEffect.oneLevelPerRank(enchantments.getOrThrow(Enchantments.LURE)))
+                .withEffect(ENCHANTMENT_LEVEL, EnchantmentUpgradeEffect.oneLevelPerRank(enchantments.getOrThrow(Enchantments.LUCK_OF_THE_SEA)))
+                .effectIcon(bottomRightComposite(itemIcon(LTXIItems.LTX_FISHING_ROD), sprite("plus_overlay"), 9))
+                .category("tools")
+                .register(context);
         EquipmentUpgrade.builder(DRILL_DIAMOND_LEVEL)
                 .supports(LTXIItems.LTX_DRILL)
                 .exclusiveWith(holders, DRILL_MINING_UPGRADES)
@@ -215,7 +232,7 @@ public final class LTXIEquipmentUpgrades
                 .tooltip(UpgradeTooltip.of(LTXILangKeys.ATTRIBUTE_SCALED_DAMAGE_UPGRADE,
                         TooltipArgument.of(DoubleLevelBasedValue.constant(0.25d), ValueSentiment.POSITIVE, TooltipValueFormat.SIGNED_PERCENTAGE),
                         TooltipArgument.of(Component.translatable(Attributes.MAX_HEALTH.value().getDescriptionId()).withStyle(ChatFormatting.DARK_RED))))
-                .effectIcon(bottomLeftComposite(itemIcon(LTXIItems.HEAVY_PISTOL), sprite("powerful_lightfrag")))
+                .effectIcon(bottomRightComposite(itemIcon(LTXIItems.HEAVY_PISTOL), sprite("plus_overlay"), 9))
                 .register(context);
         EquipmentUpgrade.builder(GRENADE_LAUNCHER_PROJECTILE_SPEED)
                 .supports(LTXIItems.GRENADE_LAUNCHER)
@@ -236,12 +253,48 @@ public final class LTXIEquipmentUpgrades
                 .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, DynamicDamageTagUpgradeEffect.of(DamageTypeTags.NO_ANGER))
                 .effectIcon(sprite("stealth_damage"))
                 .register(context);
-        EquipmentUpgrade.builder(UNIVERSAL_ENERGY_AMMO)
-                .createDefaultTitle(LTXIConstants.REM_BLUE)
+        EquipmentUpgrade.builder(WEAPON_DIRECT_DROPS)
+                .supports(ltxAllWeapons)
+                .withEffect(DIRECT_DROPS, DirectDropsUpgradeEffect.entityDrops(anyItemHolderSet))
+                .effectIcon(sprite("magnet"))
+                .register(context);
+        EquipmentUpgrade.builder(WEAPON_ARMOR_PIERCE)
                 .supports(ltxProjectileWeapons)
+                .setMaxRank(3)
+                .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, new ModifyReductionsUpgradeEffect(DamageReductionType.ARMOR, LevelBasedValue.perLevel(-0.2f)))
+                .effectIcon(sprite("broken_armor"))
+                .register(context);
+        EquipmentUpgrade.builder(LIGHTWEIGHT_ENERGY_ADAPTER)
+                .createDefaultTitle(LTXIConstants.REM_BLUE)
+                .supports(items, LTXITags.Items.LIGHTWEIGHT_WEAPONS)
                 .exclusiveWith(holders, AMMO_SOURCE_MODIFIERS)
                 .withSpecialEffect(AMMO_SOURCE, WeaponAmmoSource.COMMON_ENERGY_UNIT)
-                .effectIcon(sprite("energy_ammo"))
+                .effectIcon(sprite(LIGHTWEIGHT_ENERGY_ADAPTER.location().getPath()))
+                .category("weapon/ammo")
+                .register(context);
+        EquipmentUpgrade.builder(SPECIALIST_ENERGY_ADAPTER)
+                .createDefaultTitle(LTXIConstants.REM_BLUE)
+                .supports(items, LTXITags.Items.SPECIALIST_WEAPONS)
+                .exclusiveWith(holders, AMMO_SOURCE_MODIFIERS)
+                .withSpecialEffect(AMMO_SOURCE, WeaponAmmoSource.COMMON_ENERGY_UNIT)
+                .effectIcon(sprite(SPECIALIST_ENERGY_ADAPTER.location().getPath()))
+                .category("weapon/ammo")
+                .register(context);
+        EquipmentUpgrade.builder(EXPLOSIVES_ENERGY_ADAPTER)
+                .createDefaultTitle(LTXIConstants.REM_BLUE)
+                .supports(items, LTXITags.Items.EXPLOSIVE_WEAPONS)
+                .exclusiveWith(holders, AMMO_SOURCE_MODIFIERS)
+                .withSpecialEffect(AMMO_SOURCE, WeaponAmmoSource.COMMON_ENERGY_UNIT)
+                .effectIcon(sprite(EXPLOSIVES_ENERGY_ADAPTER.location().getPath()))
+                .category("weapon/ammo")
+                .register(context);
+        EquipmentUpgrade.builder(HEAVY_ENERGY_ADAPTER)
+                .createDefaultTitle(LTXIConstants.REM_BLUE)
+                .supports(items, LTXITags.Items.HEAVY_WEAPONS)
+                .exclusiveWith(holders, AMMO_SOURCE_MODIFIERS)
+                .withSpecialEffect(AMMO_SOURCE, WeaponAmmoSource.COMMON_ENERGY_UNIT)
+                .effectIcon(sprite(HEAVY_ENERGY_ADAPTER.location().getPath()))
+                .category("weapon/ammo")
                 .register(context);
         EquipmentUpgrade.builder(UNIVERSAL_INFINITE_AMMO)
                 .createDefaultTitle(LTXIConstants.CREATIVE_PINK)
@@ -249,12 +302,7 @@ public final class LTXIEquipmentUpgrades
                 .exclusiveWith(holders, AMMO_SOURCE_MODIFIERS)
                 .withSpecialEffect(AMMO_SOURCE, WeaponAmmoSource.INFINITE)
                 .effectIcon(sprite("infinite_ammo"))
-                .register(context);
-        EquipmentUpgrade.builder(WEAPON_ARMOR_PIERCE)
-                .supports(ltxProjectileWeapons)
-                .setMaxRank(3)
-                .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, new ModifyReductionsUpgradeEffect(DamageReductionType.ARMOR, LevelBasedValue.perLevel(-0.2f)))
-                .effectIcon(sprite("broken_armor"))
+                .category("weapon/ammo")
                 .register(context);
         EquipmentUpgrade.builder(WEAPON_SHIELD_REGEN)
                 .supports(ltxProjectileWeapons)
@@ -263,18 +311,13 @@ public final class LTXIEquipmentUpgrades
                 .withTargetedEffect(EQUIPMENT_KILL, EnchantmentTarget.ATTACKER, EnchantmentTarget.ATTACKER, MobEffectUpgradeEffect.create(MobEffects.REGENERATION, LevelBasedValue.constant(60)))
                 .effectIcon(sprite("bubble_shield"))
                 .register(context);
-        EquipmentUpgrade.builder(WEAPON_DIRECT_DROPS)
-                .supports(ltxAllWeapons)
-                .withEffect(DIRECT_DROPS, DirectDropsUpgradeEffect.entityDrops(anyItemHolderSet))
-                .effectIcon(sprite("magnet"))
-                .register(context);
 
         // Enchantments
-        EquipmentUpgrade.builder(SILK_TOUCH_ENCHANT)
+        EquipmentUpgrade.builder(SILK_TOUCH_ENCHANTMENT)
                 .supports(ltxMiningTools)
                 .exclusiveWith(holders, MINING_DROPS_MODIFIERS)
                 .withEffect(ENCHANTMENT_LEVEL, EnchantmentUpgradeEffect.constantLevel(enchantments.getOrThrow(Enchantments.SILK_TOUCH), 1))
-                .effectIcon(bottomLeftComposite(sprite("pickaxe_head"), sprite("silk_touch")))
+                .effectIcon(bottomRightComposite(itemIcon(LTXIItems.LTX_DRILL), sprite("silk_overlay"), 8))
                 .category("enchants")
                 .register(context);
         EquipmentUpgrade.builder(FORTUNE_ENCHANTMENT)
@@ -283,14 +326,14 @@ public final class LTXIEquipmentUpgrades
                 .setMaxRank(5)
                 .withEffect(ENCHANTMENT_LEVEL, EnchantmentUpgradeEffect.oneLevelPerRank(enchantments.getOrThrow(Enchantments.FORTUNE)))
                 .withEffect(ENERGY_USAGE, ValueUpgradeEffect.of(DoubleLevelBasedValue.linear(0.5d), MathOperation.ADD_PERCENT))
-                .effectIcon(bottomLeftComposite(sprite("pickaxe_head"), sprite("clover")))
+                .effectIcon(bottomRightComposite(itemIcon(LTXIItems.LTX_DRILL), sprite("luck_overlay"), 7))
                 .category("enchants")
                 .register(context);
         EquipmentUpgrade.builder(LOOTING_ENCHANTMENT)
                 .supports(ltxAllWeapons)
                 .setMaxRank(5)
                 .withEffect(ENCHANTMENT_LEVEL, EnchantmentUpgradeEffect.oneLevelPerRank(enchantments.getOrThrow(Enchantments.LOOTING)))
-                .effectIcon(bottomRightComposite(itemIcon(LTXIItems.LTX_SWORD), sprite("clover")))
+                .effectIcon(bottomRightComposite(itemIcon(LTXIItems.LTX_SWORD), sprite("luck_overlay"), 7))
                 .category("enchants")
                 .register(context);
         EquipmentUpgrade.builder(AMMO_SCAVENGER_ENCHANTMENT)
@@ -304,7 +347,7 @@ public final class LTXIEquipmentUpgrades
                 .supports(ltxAllWeapons)
                 .setMaxRank(5)
                 .withEffect(ENCHANTMENT_LEVEL, EnchantmentUpgradeEffect.oneLevelPerRank(enchantments.getOrThrow(RAZOR)))
-                .effectIcon(sprite("razor_enchant"))
+                .effectIcon(sprite("razor"))
                 .category("enchants")
                 .register(context);
 

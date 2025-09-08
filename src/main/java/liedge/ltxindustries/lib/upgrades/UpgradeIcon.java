@@ -48,14 +48,15 @@ public interface UpgradeIcon
         return new CompositeIcon(background, overlay, overlaySize, xOffset, yOffset);
     }
 
-    static CompositeIcon bottomLeftComposite(UpgradeIcon background, UpgradeIcon overlay)
+    static CompositeIcon bottomRightComposite(UpgradeIcon background, UpgradeIcon overlay, int overlaySize, int padding)
     {
-        return new CompositeIcon(background, overlay, 10, 0, 6);
+        int offset = 16 - overlaySize - padding;
+        return UpgradeIcon.compositeIcon(background, overlay, overlaySize, offset, offset);
     }
 
-    static CompositeIcon bottomRightComposite(UpgradeIcon background, UpgradeIcon overlay)
+    static CompositeIcon bottomRightComposite(UpgradeIcon background, UpgradeIcon overlay, int overlaySize)
     {
-        return compositeIcon(background, overlay, 10, 6, 6);
+        return bottomRightComposite(background, overlay, overlaySize, 1);
     }
 
     Type getType();

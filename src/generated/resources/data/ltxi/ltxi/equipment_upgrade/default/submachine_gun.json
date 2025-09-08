@@ -1,0 +1,44 @@
+{
+  "display": {
+    "category": "default/weapon",
+    "description": {
+      "translate": "equipment_upgrade.ltxi.default.submachine_gun.desc"
+    },
+    "icon": {
+      "type": "composite",
+      "background": {
+        "id": "ltxi:submachine_gun"
+      },
+      "overlay": "ltxi:default_overlay",
+      "overlay_size": 7,
+      "x_offset": 8,
+      "y_offset": 8
+    },
+    "title": {
+      "translate": "equipment_upgrade.ltxi.default.submachine_gun"
+    }
+  },
+  "effects": {
+    "ltxi:pre_attack": [
+      {
+        "affected": "victim",
+        "effect": {
+          "type": "ltxi:dynamic_damage_tag",
+          "tags": [
+            "minecraft:no_anger",
+            "minecraft:no_knockback"
+          ]
+        },
+        "enchanted": "attacker"
+      }
+    ],
+    "ltxi:prevent_vibration": [
+      {
+        "slot": "mainhand",
+        "target": "#ltxi:weapon_vibrations"
+      }
+    ]
+  },
+  "exclusive_set": [],
+  "supported_set": "ltxi:submachine_gun"
+}

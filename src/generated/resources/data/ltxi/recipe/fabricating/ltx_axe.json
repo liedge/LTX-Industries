@@ -23,7 +23,7 @@
   "result": {
     "components": {
       "ltxi:equipment_upgrades": {
-        "ltxi:ltx_axe_default": 1
+        "ltxi:default/ltx_melee": 1
       }
     },
     "count": 1,

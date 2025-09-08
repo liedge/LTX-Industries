@@ -37,15 +37,16 @@ public class DefaultUpgradeModuleRecipe extends CustomRecipe
             {
                 if (stack.getItem() instanceof UpgradableEquipmentItem equipmentItem)
                 {
+                    // Always check for duplicates
+                    if (foundEquipment) return true;
+
                     Registry<EquipmentUpgrade> registry = level.registryAccess().registryOrThrow(LTXIRegistries.Keys.EQUIPMENT_UPGRADES);
                     ResourceKey<EquipmentUpgrade> defaultKey = equipmentItem.getDefaultUpgradeKey();
 
-                    if (registry.containsKey(defaultKey))
-                    {
-                        if (!foundEquipment)
-                            foundEquipment = true;
-                        else return false;
-                    }
+                    if (defaultKey == null || !registry.containsKey(defaultKey))
+                        return false;
+
+                    foundEquipment = true;
                 }
                 else if (stack.is(LTXIItems.EMPTY_UPGRADE_MODULE))
                 {
@@ -76,8 +77,7 @@ public class DefaultUpgradeModuleRecipe extends CustomRecipe
             {
                 if (stack.getItem() instanceof UpgradableEquipmentItem equipmentItem)
                 {
-                    ResourceKey<EquipmentUpgrade> defaultKey = equipmentItem.getDefaultUpgradeKey();
-                    Optional<Holder.Reference<EquipmentUpgrade>> holder = registries.holder(defaultKey);
+                    Optional<Holder<EquipmentUpgrade>> holder = Optional.ofNullable(equipmentItem.getDefaultUpgradeKey()).flatMap(registries::holder);
 
                     if (holder.isPresent())
                     {

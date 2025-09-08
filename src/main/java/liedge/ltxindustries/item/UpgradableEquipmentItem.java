@@ -3,16 +3,13 @@ package liedge.ltxindustries.item;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.registry.game.LimaCoreDataComponents;
 import liedge.limacore.util.LimaMathUtil;
-import liedge.limacore.util.LimaRegistryUtil;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
-import liedge.ltxindustries.registry.LTXIRegistries;
 import liedge.ltxindustries.registry.game.LTXIDataComponents;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -21,8 +18,10 @@ import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.storage.loot.LootContext;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UpgradableEquipmentItem extends ItemLike
 {
@@ -31,18 +30,15 @@ public interface UpgradableEquipmentItem extends ItemLike
         return stack.getOrDefault(LTXIDataComponents.EQUIPMENT_UPGRADES, EquipmentUpgrades.EMPTY);
     }
 
-    default ResourceKey<EquipmentUpgrade> getDefaultUpgradeKey()
+    default @Nullable ResourceKey<EquipmentUpgrade> getDefaultUpgradeKey()
     {
-        ResourceLocation id = LimaRegistryUtil.getItemId(this.asItem());
-        return ResourceKey.create(LTXIRegistries.Keys.EQUIPMENT_UPGRADES, id.withSuffix("_default"));
+        return null;
     }
 
     default ItemStack createStackWithDefaultUpgrades(HolderLookup.Provider registries)
     {
         ItemStack stack = new ItemStack(this);
-        ResourceKey<EquipmentUpgrade> defaultKey = getDefaultUpgradeKey();
-        registries.holder(defaultKey).ifPresent(holder -> setUpgrades(stack, EquipmentUpgrades.builder().set(holder).toImmutable()));
-
+        Optional.ofNullable(getDefaultUpgradeKey()).flatMap(registries::holder).ifPresent(holder -> setUpgrades(stack, EquipmentUpgrades.builder().set(holder).toImmutable()));
         return stack;
     }
 

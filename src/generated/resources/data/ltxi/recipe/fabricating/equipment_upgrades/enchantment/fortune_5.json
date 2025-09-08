@@ -1,0 +1,53 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 10000000,
+  "group": "eum/enchant",
+  "ingredients": [
+    {
+      "type": "neoforge:components",
+      "components": {
+        "ltxi:equipment_upgrade": {
+          "rank": 4,
+          "upgrade": "ltxi:enchantment/fortune"
+        }
+      },
+      "count": 1,
+      "items": "ltxi:equipment_upgrade_module",
+      "strict": true
+    },
+    {
+      "count": 2,
+      "item": "ltxi:t4_circuit"
+    },
+    {
+      "count": 1,
+      "item": "minecraft:emerald_block"
+    },
+    {
+      "count": 1,
+      "item": "minecraft:diamond_block"
+    },
+    {
+      "count": 6,
+      "item": "minecraft:amethyst_block"
+    },
+    {
+      "count": 2,
+      "item": "minecraft:nether_star"
+    },
+    {
+      "count": 8,
+      "item": "minecraft:lapis_block"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:equipment_upgrade": {
+        "rank": 5,
+        "upgrade": "ltxi:enchantment/fortune"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:equipment_upgrade_module"
+  }
+}

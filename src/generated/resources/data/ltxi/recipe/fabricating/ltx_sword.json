@@ -21,6 +21,11 @@
     }
   ],
   "result": {
+    "components": {
+      "ltxi:equipment_upgrades": {
+        "ltxi:default/ltx_melee": 1
+      }
+    },
     "count": 1,
     "id": "ltxi:ltx_sword"
   }

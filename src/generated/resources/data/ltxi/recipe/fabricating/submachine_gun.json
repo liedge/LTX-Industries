@@ -19,7 +19,7 @@
   "result": {
     "components": {
       "ltxi:equipment_upgrades": {
-        "ltxi:submachine_gun_default": 1
+        "ltxi:default/submachine_gun": 1
       }
     },
     "count": 1,

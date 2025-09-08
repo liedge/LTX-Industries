@@ -15,6 +15,7 @@ import liedge.ltxindustries.lib.upgrades.effect.equipment.EnchantmentUpgradeEffe
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrade;
 import liedge.ltxindustries.registry.LTXIRegistries;
 import liedge.ltxindustries.registry.game.LTXIBlockEntities;
+import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
@@ -30,7 +31,7 @@ import net.neoforged.neoforge.registries.holdersets.AnyHolderSet;
 
 import static liedge.ltxindustries.LTXITags.MachineUpgrades.MACHINE_TIER;
 import static liedge.ltxindustries.LTXIndustries.RESOURCES;
-import static liedge.ltxindustries.lib.upgrades.UpgradeIcon.sprite;
+import static liedge.ltxindustries.lib.upgrades.UpgradeIcon.*;
 import static liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents.*;
 
 public final class LTXIMachineUpgrades
@@ -124,7 +125,7 @@ public final class LTXIMachineUpgrades
                 .supports(blockEntities, LTXITags.BlockEntities.TURRETS)
                 .withEffect(ENCHANTMENT_LEVEL, EnchantmentUpgradeEffect.oneLevelPerRank(enchantments.getOrThrow(Enchantments.LOOTING)))
                 .setMaxRank(3)
-                .effectIcon(sprite("clover"))
+                .effectIcon(bottomRightComposite(itemIcon(LTXIItems.LTX_SWORD), sprite("luck_overlay"), 7))
                 .category("turret")
                 .register(context);
 
@@ -132,7 +133,7 @@ public final class LTXIMachineUpgrades
                 .supports(blockEntities, LTXITags.BlockEntities.TURRETS)
                 .setMaxRank(2)
                 .withEffect(ENCHANTMENT_LEVEL, EnchantmentUpgradeEffect.oneLevelPerRank(enchantments.getOrThrow(LTXIEnchantments.RAZOR)))
-                .effectIcon(sprite("razor_enchant"))
+                .effectIcon(sprite("razor"))
                 .category("turret")
                 .register(context);
 

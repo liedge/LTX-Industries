@@ -427,7 +427,7 @@ class RecipesGen extends LimaRecipeProvider
                 .input(AMETHYST_SHARD, 8)
                 .input(ENCHANTED_GOLDEN_APPLE));
 
-        equipmentModuleFab(output, registries, "eum/enchant", SILK_TOUCH_ENCHANT, 1, 500_000, builder -> builder
+        equipmentModuleFab(output, registries, "eum/enchant", SILK_TOUCH_ENCHANTMENT, 1, 500_000, builder -> builder
                 .input(T3_CIRCUIT)
                 .input(EMERALD, 1)
                 .input(SLIME_BALL, 8)

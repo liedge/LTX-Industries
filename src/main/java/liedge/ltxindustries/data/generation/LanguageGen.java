@@ -170,29 +170,33 @@ class LanguageGen extends LimaLanguageProvider
         //#region Equipment upgrades
         add(TOOL_DEFAULT_UPGRADE_TITLE, "ε Core Systems");
         upgradeDescOnly(LTXIEquipmentUpgrades.LTX_SHOVEL_DEFAULT, "Standard issue operating system. Excavator emitter preserves topographical integrity.");
-        upgradeDescOnly(LTXIEquipmentUpgrades.LTX_AXE_DEFAULT, "Standard issue operating system. Cutter emitters have a low but functional chance to sever anatomical curiosities.");
-        upgradeDescOnly(LTXIEquipmentUpgrades.LTX_WRENCH_DEFAULT, "Standard issue operating system. Designed to facilitate industrial logistics.");
+        upgradeDescOnly(LTXIEquipmentUpgrades.LTX_WRENCH_DEFAULT, "Standard issue operating system. Enables lossless dismantling and retrieval of machines.");
+        upgradeDescOnly(LTXIEquipmentUpgrades.LTX_MELEE_DEFAULT, "Standard issue operating system. Tool energy blade is optimized for efficient severing and disintegration of organic matter.");
         upgrade(LTXIEquipmentUpgrades.SUBMACHINE_GUN_DEFAULT, "Serenity Intrinsics", "Serenity's small light-frags zip right through targets without a trace.");
         upgrade(LTXIEquipmentUpgrades.SHOTGUN_DEFAULT, "Aurora Intrinsics", "Aurora's combat precepts, specialized in fast assault and scout operations.");
 
+        upgrade(LTXIEquipmentUpgrades.EPSILON_FISHING_LURE, "ε Anglers' Kit", "ε series' signature lure attracts more valuable aquatic specimens faster than regular bait.");
         upgrade(LTXIEquipmentUpgrades.DRILL_DIAMOND_LEVEL, "Diamond Drill Core", "Diamond plating allows the drill to harvest diamond-level materials.");
         upgrade(LTXIEquipmentUpgrades.DRILL_NETHERITE_LEVEL, "Netherite Drill Core", "The composite alloy plating on the drill allows harvesting of netherite-level materials.");
-        upgrade(LTXIEquipmentUpgrades.DRILL_OMNI_MINER, "Omni-Drill Precept", "Special-issue drill cutter emitters are modified to work on any material type.");
+        upgrade(LTXIEquipmentUpgrades.DRILL_OMNI_MINER, "Omni-Drill Precept", "Special-issue drill augur. Modified to work on any material type.");
         upgrade(LTXIEquipmentUpgrades.TOOL_VIBRATION_CANCEL, "Resonance-Tuned Servos", "Special lining on this tool's servos dampen vibrations from standard use.");
         upgrade(LTXIEquipmentUpgrades.TOOL_DIRECT_DROPS, "Mining Subspace Link", "Tool systems interface directly with your inventory, depositing materials without physical collection.");
 
         upgrade(LTXIEquipmentUpgrades.WEAPON_VIBRATION_CANCEL, "Echo Suppressor", "Augments weapons and projectiles with an anti-resonance field, erasing vibration signatures");
+        upgrade(LTXIEquipmentUpgrades.WEAPON_DIRECT_DROPS, "Combat Subspace Link", "Weapon systems interface directly with your inventory, depositing loot without physical collection.");
+        upgrade(LTXIEquipmentUpgrades.WEAPON_ARMOR_PIERCE, "Armor-Piercing Rounds", "Volatile energy dispersal precepts. Allows weapons to partially breach armor.");
+        upgrade(LTXIEquipmentUpgrades.LIGHTWEIGHT_ENERGY_ADAPTER, "Lightweight Energy Adapter", "Reroutes the energy feed system of Lightweight weaponry to use Common Energy.");
+        upgrade(LTXIEquipmentUpgrades.SPECIALIST_ENERGY_ADAPTER, "Specialist Energy Adapter", "Reroutes the energy feed system of Specialist weaponry to use Common Energy.");
+        upgrade(LTXIEquipmentUpgrades.EXPLOSIVES_ENERGY_ADAPTER, "Explosives Energy Adapter", "Reroutes the energy feed system of Explosives weaponry to use Common Energy.");
+        upgrade(LTXIEquipmentUpgrades.HEAVY_ENERGY_ADAPTER, "Heavy Energy Adapter", "Reroutes the energy feed system of Heavy weaponry to use Common Energy.");
+        upgrade(LTXIEquipmentUpgrades.UNIVERSAL_INFINITE_AMMO, "//ERR~∞//Magazine", "Ignore the laws of physics with this never-ending ammo source. Try not to cause a mass extinction event.");
         upgrade(LTXIEquipmentUpgrades.HIGH_IMPACT_ROUNDS, "High Impact Rounds", "Light-frags with a punch! Send targets flying back regardless of their knockback resistances.");
         upgrade(LTXIEquipmentUpgrades.HEAVY_PISTOL_GOD_ROUNDS, "Stellar Reality Disruptor", "Rip through reality itself with this Nova upgrade. Ensures swift defeat of even the strongest enemies.");
 
         upgrade(LTXIEquipmentUpgrades.UNIVERSAL_STEALTH_DAMAGE, "Biometric Obfuscation", "Targeting systems mask your signature, leaving no trace of your involvement. May not be effective against all targets.");
-        upgrade(LTXIEquipmentUpgrades.UNIVERSAL_ENERGY_AMMO, "Weapon Energy Systems", "Reroutes magazine feed to draw from Common Energy reserves. Say goodbye to your ammo stash.");
-        upgrade(LTXIEquipmentUpgrades.UNIVERSAL_INFINITE_AMMO, "//ERR~∞//Magazine", "Ignore the laws of physics with this never-ending ammo source. Try not to cause a mass extinction event, yeah?");
-        upgrade(LTXIEquipmentUpgrades.WEAPON_ARMOR_PIERCE, "Armor-Piercing Rounds", "Volatile energy dispersal precepts. Allows weapons to partially breach armor.");
         upgrade(LTXIEquipmentUpgrades.WEAPON_SHIELD_REGEN, "Regenerative Link", "Captures enemy energy upon elimination to power medical nano-tech and the bubble shield.");
-        upgrade(LTXIEquipmentUpgrades.WEAPON_DIRECT_DROPS, "Combat Subspace Link", "Weapon systems interface directly with your inventory, depositing loot without physical collection.");
 
-        upgrade(LTXIEquipmentUpgrades.SILK_TOUCH_ENCHANT, "Stabilized Harvest Matrix", "Calibrated to extract intact samples from the terrain.");
+        upgrade(LTXIEquipmentUpgrades.SILK_TOUCH_ENCHANTMENT, "Stabilized Harvest Matrix", "Calibrated to extract intact samples from the terrain.");
         upgrade(LTXIEquipmentUpgrades.FORTUNE_ENCHANTMENT, "Overclocked Harvest Matrix", "Calibrated to extract superior quantities of valuable resources.");
         upgrade(LTXIEquipmentUpgrades.LOOTING_ENCHANTMENT, "Combat Yield Protocol", "Calibrated to maximize structural integrity of salvageable biomaterials.");
         upgrade(LTXIEquipmentUpgrades.AMMO_SCAVENGER_ENCHANTMENT, "Munition Trace Unit", "Improves detection of high-grade LTX ammunition in the field.");

@@ -4,11 +4,14 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import liedge.limacore.capability.energy.LimaEnergyUtil;
 import liedge.limacore.util.LimaNetworkUtil;
+import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
+import liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades;
 import liedge.ltxindustries.registry.game.LTXIParticles;
 import liedge.ltxindustries.util.config.LTXIServerConfig;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -54,6 +57,12 @@ public class EnergyAxeItem extends EnergyMiningToolItem
     protected Set<ItemAbility> getAvailableAbilities()
     {
         return ItemAbilities.DEFAULT_AXE_ACTIONS;
+    }
+
+    @Override
+    public @Nullable ResourceKey<EquipmentUpgrade> getDefaultUpgradeKey()
+    {
+        return LTXIEquipmentUpgrades.LTX_MELEE_DEFAULT;
     }
 
     @Override

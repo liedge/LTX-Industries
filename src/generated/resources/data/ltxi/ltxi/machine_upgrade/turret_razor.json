@@ -4,7 +4,7 @@
     "description": {
       "translate": "machine_upgrade.ltxi.turret_razor.desc"
     },
-    "icon": "ltxi:razor_enchant",
+    "icon": "ltxi:razor",
     "title": {
       "translate": "machine_upgrade.ltxi.turret_razor"
     }

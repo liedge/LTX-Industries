@@ -1,5 +1,6 @@
 {
   "display": {
+    "category": "weapon/ammo",
     "description": {
       "translate": "equipment_upgrade.ltxi.universal_infinite_ammo.desc"
     },

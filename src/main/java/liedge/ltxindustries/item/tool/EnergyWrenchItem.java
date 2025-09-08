@@ -1,8 +1,11 @@
 package liedge.ltxindustries.item.tool;
 
 import liedge.ltxindustries.item.LTXIItemAbilities;
+import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
+import liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -27,6 +30,12 @@ public class EnergyWrenchItem extends EnergyBaseToolItem
     protected Set<ItemAbility> getAvailableAbilities()
     {
         return LTXIItemAbilities.WRENCH_ABILITIES;
+    }
+
+    @Override
+    public @Nullable ResourceKey<EquipmentUpgrade> getDefaultUpgradeKey()
+    {
+        return LTXIEquipmentUpgrades.LTX_WRENCH_DEFAULT;
     }
 
     @Override

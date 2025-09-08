@@ -8,9 +8,9 @@
       "background": {
         "id": "ltxi:heavy_pistol"
       },
-      "overlay": "ltxi:powerful_lightfrag",
-      "overlay_size": 10,
-      "x_offset": 0,
+      "overlay": "ltxi:plus_overlay",
+      "overlay_size": 9,
+      "x_offset": 6,
       "y_offset": 6
     },
     "title": {

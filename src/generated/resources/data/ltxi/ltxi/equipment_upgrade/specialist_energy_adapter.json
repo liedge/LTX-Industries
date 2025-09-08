@@ -1,0 +1,18 @@
+{
+  "display": {
+    "category": "weapon/ammo",
+    "description": {
+      "translate": "equipment_upgrade.ltxi.specialist_energy_adapter.desc"
+    },
+    "icon": "ltxi:specialist_energy_adapter",
+    "title": {
+      "color": "#8BD1F0",
+      "translate": "equipment_upgrade.ltxi.specialist_energy_adapter"
+    }
+  },
+  "effects": {
+    "ltxi:ammo_source": "energy"
+  },
+  "exclusive_set": "#ltxi:ammo_source_modifiers",
+  "supported_set": "#ltxi:weapons/specialist"
+}

@@ -23,7 +23,7 @@
   "result": {
     "components": {
       "ltxi:equipment_upgrades": {
-        "ltxi:shotgun_default": 1
+        "ltxi:default/shotgun": 1
       }
     },
     "count": 1,
