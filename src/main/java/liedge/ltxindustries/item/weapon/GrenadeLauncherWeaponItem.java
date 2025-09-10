@@ -4,26 +4,21 @@ import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.lib.OrderedEnum;
 import liedge.limacore.lib.Translatable;
-import liedge.ltxindustries.LTXIndustries;
+import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.entity.OrbGrenadeEntity;
 import liedge.ltxindustries.item.ScrollModeSwitchItem;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.ltxindustries.lib.weapons.AbstractWeaponControls;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
 import liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades;
-import liedge.ltxindustries.registry.game.LTXIGameEvents;
-import liedge.ltxindustries.registry.game.LTXIItems;
-import liedge.ltxindustries.registry.game.LTXISounds;
-import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
+import liedge.ltxindustries.registry.game.*;
 import liedge.ltxindustries.util.config.LTXIWeaponsConfig;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -34,7 +29,7 @@ import static liedge.ltxindustries.registry.game.LTXIDataComponents.GRENADE_TYPE
 
 public class GrenadeLauncherWeaponItem extends SemiAutoWeaponItem implements ScrollModeSwitchItem
 {
-    public static final Translatable GRENADE_TYPE_TOOLTIP = LTXIndustries.RESOURCES.translationHolder("tooltip.{}.selected_grenade_type");
+    public static final Translatable GRENADE_TYPE_TOOLTIP = LTXILangKeys.tooltip("equipped_grenade");
 
     public static GrenadeType getGrenadeTypeFromItem(ItemStack stack)
     {
@@ -43,7 +38,7 @@ public class GrenadeLauncherWeaponItem extends SemiAutoWeaponItem implements Scr
 
     public GrenadeLauncherWeaponItem(Properties properties)
     {
-        super(properties);
+        super(properties, 6, 1.5d, 50, LTXIItems.EXPLOSIVES_WEAPON_ENERGY, 1, 0);
     }
 
     public void setGrenadeType(ItemStack stack, GrenadeType grenadeType)
@@ -95,13 +90,13 @@ public class GrenadeLauncherWeaponItem extends SemiAutoWeaponItem implements Scr
     @Override
     public void weaponFired(ItemStack heldItem, Player player, Level level, AbstractWeaponControls controls)
     {
-        if (level instanceof ServerLevel serverLevel)
+        if (!level.isClientSide())
         {
             EquipmentUpgrades upgrades = getUpgrades(heldItem);
 
             OrbGrenadeEntity grenade = new OrbGrenadeEntity(level, getGrenadeTypeFromItem(heldItem), upgrades);
             grenade.setOwner(player);
-            grenade.aimAndSetPosFromShooter(player, calculateProjectileSpeed(serverLevel, upgrades, 1.5d), 0.35d);
+            grenade.aimAndSetPosFromShooter(player, Math.min(heldItem.getOrDefault(LTXIDataComponents.WEAPON_RANGE, getWeaponRange(heldItem)), MAX_PROJECTILE_SPEED), 0d);
             level.addFreshEntity(grenade);
             level.gameEvent(player, LTXIGameEvents.WEAPON_FIRED, player.getEyePosition());
         }
@@ -110,27 +105,9 @@ public class GrenadeLauncherWeaponItem extends SemiAutoWeaponItem implements Scr
     }
 
     @Override
-    public Item getAmmoItem(ItemStack stack)
-    {
-        return LTXIItems.EXPLOSIVES_WEAPON_ENERGY.asItem();
-    }
-
-    @Override
-    public int getAmmoCapacity(ItemStack stack)
-    {
-        return 6;
-    }
-
-    @Override
     public int getFireRate(ItemStack stack)
     {
         return 15;
-    }
-
-    @Override
-    public int getReloadSpeed(ItemStack stack)
-    {
-        return 40;
     }
 
     @Override

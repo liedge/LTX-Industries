@@ -8,22 +8,26 @@ import liedge.limacore.item.LimaCreativeTabFillerItem;
 import liedge.limacore.lib.TickTimer;
 import liedge.limacore.lib.Translatable;
 import liedge.limacore.network.LimaStreamCodecs;
+import liedge.limacore.util.LimaMathUtil;
 import liedge.limacore.util.LimaNetworkUtil;
+import liedge.ltxindustries.client.LTXILangKeys;
+import liedge.ltxindustries.entity.CompoundHitResult;
+import liedge.ltxindustries.entity.DynamicClipContext;
 import liedge.ltxindustries.entity.LimaTraceableProjectile;
 import liedge.ltxindustries.entity.damage.WeaponDamageSource;
 import liedge.ltxindustries.item.EnergyHolderItem;
 import liedge.ltxindustries.item.TooltipShiftHintItem;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
+import liedge.ltxindustries.lib.upgrades.effect.ValueUpgradeEffect;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.ltxindustries.lib.weapons.AbstractWeaponControls;
 import liedge.ltxindustries.lib.weapons.GlobalWeaponDamageModifiers;
-import liedge.ltxindustries.lib.weapons.WeaponAmmoSource;
+import liedge.ltxindustries.lib.weapons.WeaponReloadSource;
 import liedge.ltxindustries.registry.bootstrap.LTXIDamageTypes;
-import liedge.ltxindustries.registry.game.LTXIAttachmentTypes;
-import liedge.ltxindustries.registry.game.LTXIParticles;
-import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
+import liedge.ltxindustries.registry.game.*;
 import liedge.ltxindustries.util.LTXIUtil;
-import net.minecraft.ChatFormatting;
+import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -31,7 +35,6 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.damagesource.DamageSource;
@@ -48,26 +51,46 @@ import net.neoforged.neoforge.common.ItemAbilities;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Comparator;
+import java.util.List;
+import java.util.function.Supplier;
 
-import static liedge.ltxindustries.LTXIndustries.RESOURCES;
-import static liedge.ltxindustries.LTXIConstants.*;
-import static liedge.ltxindustries.registry.game.LTXIDataComponents.WEAPON_AMMO;
-import static liedge.ltxindustries.registry.game.LTXIDataComponents.WEAPON_AMMO_SOURCE;
+import static liedge.ltxindustries.LTXIConstants.LIME_GREEN;
 
 public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaCreativeTabFillerItem, TooltipShiftHintItem, UpgradableEquipmentItem
 {
     public static final Codec<WeaponItem> CODEC = LimaCoreCodecs.classCastRegistryCodec(BuiltInRegistries.ITEM, WeaponItem.class);
     public static final StreamCodec<RegistryFriendlyByteBuf, WeaponItem> STREAM_CODEC = LimaStreamCodecs.classCastRegistryStreamCodec(Registries.ITEM, WeaponItem.class);
-    public static final Translatable AMMO_LOADED_TOOLTIP = RESOURCES.translationHolder("tooltip.{}.ammo_loaded");
+    public static final Translatable AMMO_LOADED_TOOLTIP = LTXILangKeys.tooltip("ammo_loaded");
+    public static final double MAX_PROJECTILE_SPEED = 3.9d;
 
-    public static WeaponAmmoSource getAmmoSourceFromItem(ItemStack stack)
+    private final int baseMagCapacity;
+    private final double baseRange;
+    private final int baseReloadSpeed;
+    private final WeaponReloadSource baseReloadSource;
+    private final int baseMaxHits;
+    private final double basePunchTrough;
+
+    protected WeaponItem(Properties properties, int baseMagCapacity, double baseRange, int baseReloadSpeed, WeaponReloadSource baseReloadSource, int baseMaxHits, double basePunchThrough)
     {
-        return stack.getOrDefault(WEAPON_AMMO_SOURCE, WeaponAmmoSource.NORMAL);
+        super(properties
+                .component(LTXIDataComponents.MAGAZINE_CAPACITY, baseMagCapacity)
+                .component(LTXIDataComponents.WEAPON_RANGE, baseRange)
+                .component(LTXIDataComponents.RELOAD_SPEED, baseReloadSpeed)
+                .component(LTXIDataComponents.RELOAD_SOURCE, baseReloadSource)
+                .component(LTXIDataComponents.MAX_HITS, baseMaxHits)
+                .component(LTXIDataComponents.PUNCH_THROUGH, basePunchThrough));
+
+        this.baseMagCapacity = baseMagCapacity;
+        this.baseRange = baseRange;
+        this.baseReloadSpeed = baseReloadSpeed;
+        this.baseReloadSource = baseReloadSource;
+        this.baseMaxHits = baseMaxHits;
+        this.basePunchTrough = basePunchThrough;
     }
 
-    protected WeaponItem(Properties properties)
+    protected WeaponItem(Properties properties, int baseMagCapacity, double baseRange, int baseReloadSpeed, Holder<Item> defaultAmmoItem, int baseMaxHits, double basePunchTrough)
     {
-        super(properties);
+        this(properties, baseMagCapacity, baseRange, baseReloadSpeed, WeaponReloadSource.withItem(defaultAmmoItem), baseMaxHits, basePunchTrough);
     }
 
     //#region Weapon user events
@@ -95,17 +118,22 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
 
     public int getAmmoLoaded(ItemStack stack)
     {
-        return stack.getOrDefault(WEAPON_AMMO, 0);
+        return stack.getOrDefault(LTXIDataComponents.WEAPON_AMMO, 0);
     }
 
     public void setAmmoLoaded(ItemStack stack, int newAmmo)
     {
-        stack.set(WEAPON_AMMO, Math.max(0, newAmmo));
+        stack.set(LTXIDataComponents.WEAPON_AMMO, Math.max(0, newAmmo));
     }
 
     public void setAmmoLoadedMax(ItemStack stack)
     {
         setAmmoLoaded(stack, getAmmoCapacity(stack));
+    }
+
+    public final int getAmmoCapacity(ItemStack stack)
+    {
+        return stack.getOrDefault(LTXIDataComponents.MAGAZINE_CAPACITY, baseMagCapacity);
     }
 
     public boolean isOneHanded(ItemStack stack)
@@ -116,7 +144,7 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
     @Override
     public boolean supportsEnergyStorage(ItemStack stack)
     {
-        return getAmmoSourceFromItem(stack) == WeaponAmmoSource.COMMON_ENERGY_UNIT;
+        return getReloadSource(stack).getType() == WeaponReloadSource.Type.COMMON_ENERGY;
     }
 
     @Override
@@ -128,21 +156,49 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
         return getBaseEnergyCapacity(stack) / 20;
     }
 
-    public abstract Item getAmmoItem(ItemStack stack);
-
-    public abstract int getAmmoCapacity(ItemStack stack);
-
     public abstract int getFireRate(ItemStack stack);
 
-    public abstract int getReloadSpeed(ItemStack stack);
+    public double getWeaponRange(ItemStack stack)
+    {
+        return stack.getOrDefault(LTXIDataComponents.WEAPON_RANGE, baseRange);
+    }
+
+    public int getReloadSpeed(ItemStack stack)
+    {
+        return stack.getOrDefault(LTXIDataComponents.RELOAD_SPEED, baseReloadSpeed);
+    }
+
+    public WeaponReloadSource getReloadSource(ItemStack stack)
+    {
+        return stack.getOrDefault(LTXIDataComponents.RELOAD_SOURCE, baseReloadSource);
+    }
+
+    public int getEntityMaxHits(ItemStack stack)
+    {
+        return stack.getOrDefault(LTXIDataComponents.MAX_HITS, baseMaxHits);
+    }
+
+    public double getBlockPierceDistance(ItemStack stack)
+    {
+        return stack.getOrDefault(LTXIDataComponents.PUNCH_THROUGH, basePunchTrough);
+    }
     //#endregion
 
     @Override
     public void onUpgradeRefresh(LootContext context, ItemStack stack, EquipmentUpgrades upgrades)
     {
-        // Refresh ammo types
-        WeaponAmmoSource source = upgrades.effectStream(LTXIUpgradeEffectComponents.AMMO_SOURCE).max(Comparator.naturalOrder()).orElse(WeaponAmmoSource.NORMAL);
-        stack.set(WEAPON_AMMO_SOURCE, source);
+        // Apply modifiers for weapon base stats
+        applyIntStat(stack, upgrades, context, baseMagCapacity, LTXIDataComponents.MAGAZINE_CAPACITY, LTXIUpgradeEffectComponents.MAGAZINE_CAPACITY);
+        applyDoubleStat(stack, upgrades, context, baseRange, LTXIDataComponents.WEAPON_RANGE, LTXIUpgradeEffectComponents.WEAPON_RANGE);
+        applyIntStat(stack, upgrades, context, baseReloadSpeed, LTXIDataComponents.RELOAD_SPEED, LTXIUpgradeEffectComponents.RELOAD_SPEED);
+        applyIntStat(stack, upgrades, context, baseMaxHits, LTXIDataComponents.MAX_HITS, LTXIUpgradeEffectComponents.MAX_HITS);
+        applyDoubleStat(stack, upgrades, context, basePunchTrough, LTXIDataComponents.PUNCH_THROUGH, LTXIUpgradeEffectComponents.BLOCK_PIERCE_DISTANCE);
+
+        // Refresh reload source
+        WeaponReloadSource reloadSource = upgrades.effectStream(LTXIUpgradeEffectComponents.RELOAD_SOURCE)
+                .max(Comparator.comparing(WeaponReloadSource::getType))
+                .orElse(baseReloadSource);
+        stack.set(LTXIDataComponents.RELOAD_SOURCE, reloadSource);
 
         // Run base after to allow CE ammo type to properly work
         UpgradableEquipmentItem.super.onUpgradeRefresh(context, stack, upgrades);
@@ -169,10 +225,23 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
         return false;
     }
 
-    protected void causeInstantDamage(EquipmentUpgrades upgrades, LivingEntity attacker, Entity targetEntity, double baseDamage)
+    protected void causeLightfragDamage(EquipmentUpgrades upgrades, LivingEntity attacker, Entity targetEntity, double baseDamage)
     {
         WeaponDamageSource source = WeaponDamageSource.handheldInstantDamage(LTXIDamageTypes.LIGHTFRAG, attacker, this, upgrades);
         hurtEntity(attacker, targetEntity, upgrades, source, baseDamage);
+    }
+
+    protected void traceLightfrag(ItemStack stack, Player player, Level level, double baseDamage, double inaccuracy, double bbExpansion)
+    {
+        if (!level.isClientSide())
+        {
+            CompoundHitResult hitResult = CompoundHitResult.tracePath(level, player, getWeaponRange(stack), inaccuracy, getEntityMaxHits(stack), getBlockPierceDistance(stack), DynamicClipContext.FluidCollisionPredicate.NONE, bbExpansion);
+            EquipmentUpgrades upgrades = getUpgrades(stack);
+
+            hitResult.entityHits().forEach(hit -> causeLightfragDamage(upgrades, player, hit.getEntity(), baseDamage));
+            level.gameEvent(player, LTXIGameEvents.WEAPON_FIRED, player.getEyePosition());
+            sendTracerParticle(level, hitResult.origin(), hitResult.impactLocation());
+        }
     }
 
     public void causeProjectileDamage(EquipmentUpgrades upgrades, LimaTraceableProjectile projectile, @Nullable LivingEntity attacker, ResourceKey<DamageType> damageTypeKey, Entity targetEntity, double baseDamage)
@@ -188,13 +257,6 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
         }
     }
 
-    protected double calculateProjectileSpeed(ServerLevel level, EquipmentUpgrades upgrades, double baseSpeed)
-    {
-        LootContext context = LTXIUtil.emptyLootContext(level);
-        double newSpeed = upgrades.applyValue(LTXIUpgradeEffectComponents.WEAPON_PROJECTILE_SPEED, context, baseSpeed);
-        return Mth.clamp(newSpeed, 0.001d, 3.9d);
-    }
-
     protected void sendTracerParticle(Level level, Vec3 start, Vec3 end)
     {
         LimaNetworkUtil.sendParticle(level, new ColorParticleOptions(LTXIParticles.LIGHTFRAG_TRACER, LIME_GREEN), LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, start, end);
@@ -203,18 +265,12 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
     @Override
     public void appendTooltipHintComponents(Level level, ItemStack stack, TooltipLineConsumer consumer)
     {
-        consumer.accept(AMMO_LOADED_TOOLTIP.translateArgs(stack.getOrDefault(WEAPON_AMMO, 0), getAmmoCapacity(stack)).withStyle(LIME_GREEN.chatStyle()));
+        consumer.accept(AMMO_LOADED_TOOLTIP.translateArgs(stack.getOrDefault(LTXIDataComponents.WEAPON_AMMO, 0), getAmmoCapacity(stack)).withStyle(LIME_GREEN.chatStyle()));
 
-        WeaponAmmoSource ammoSource = getAmmoSourceFromItem(stack);
-        switch (ammoSource)
-        {
-            case NORMAL -> consumer.accept(ammoSource.getItemTooltip().translateArgs(getAmmoItem(stack).getDescription()).withStyle(ChatFormatting.GRAY));
-            case COMMON_ENERGY_UNIT -> {
-                consumer.accept(ammoSource.getItemTooltip().translate().withStyle(REM_BLUE.chatStyle()));
-                appendEquipmentEnergyTooltip(consumer, stack);
-            }
-            case INFINITE -> consumer.accept(ammoSource.getItemTooltip().translate().withStyle(CREATIVE_PINK.chatStyle()));
-        }
+        WeaponReloadSource reloadSource = getReloadSource(stack);
+        consumer.accept(reloadSource.getItemTooltip());
+        if (reloadSource.getType() == WeaponReloadSource.Type.COMMON_ENERGY)
+            appendEquipmentEnergyTooltip(consumer, stack);
     }
 
     @Override
@@ -279,5 +335,19 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
     public boolean isEnchantable(ItemStack stack)
     {
         return false;
+    }
+
+    private void applyDoubleStat(ItemStack stack, EquipmentUpgrades upgrades, LootContext context, double baseFallback, Supplier<? extends DataComponentType<Double>> type, Supplier<? extends DataComponentType<List<ValueUpgradeEffect>>> effectType)
+    {
+        double base = components().getOrDefault(type.get(), baseFallback);
+        double value = upgrades.applyValue(effectType, context, base);
+        stack.set(type, value);
+    }
+
+    private void applyIntStat(ItemStack stack, EquipmentUpgrades upgrades, LootContext context, int baseFallback, Supplier<? extends DataComponentType<Integer>> type, Supplier<? extends DataComponentType<List<ValueUpgradeEffect>>> effectType)
+    {
+        int base = components().getOrDefault(type.get(), baseFallback);
+        int value = LimaMathUtil.round(upgrades.applyValue(effectType, context, base));
+        stack.set(type, value);
     }
 }

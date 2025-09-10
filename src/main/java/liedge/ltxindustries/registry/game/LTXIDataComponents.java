@@ -7,7 +7,7 @@ import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgradeEntry;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrades;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
-import liedge.ltxindustries.lib.weapons.WeaponAmmoSource;
+import liedge.ltxindustries.lib.weapons.WeaponReloadSource;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.resources.ResourceLocation;
@@ -25,6 +25,7 @@ public final class LTXIDataComponents
     public static void register(IEventBus bus)
     {
         TYPES.register(bus);
+        TYPES.addAlias(LTXIndustries.RESOURCES.location("weapon_ammo"), WEAPON_AMMO.getId());
     }
 
     // Normal data components
@@ -35,7 +36,13 @@ public final class LTXIDataComponents
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> LAST_EQUIPMENT_HASH = TYPES.registerComponentType("last_equipment_hash", builder -> builder.persistent(Codec.INT).cacheEncoding()); // No network sync, unnecessary
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<ResourceLocation>> BLUEPRINT_RECIPE = TYPES.registerComponentType("blueprint_recipe", builder -> builder.persistent(ResourceLocation.CODEC).networkSynchronized(ResourceLocation.STREAM_CODEC).cacheEncoding());
 
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> WEAPON_AMMO = TYPES.registerComponentType("weapon_ammo", builder -> builder.persistent(ExtraCodecs.intRange(0, 1000)).networkSynchronized(ByteBufCodecs.VAR_INT));
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<WeaponAmmoSource>> WEAPON_AMMO_SOURCE = TYPES.registerComponentType("ammo_source", builder -> builder.persistent(WeaponAmmoSource.CODEC).networkSynchronized(WeaponAmmoSource.STREAM_CODEC));
+    // Weapon components
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> WEAPON_AMMO = TYPES.registerComponentType("ammo", builder -> builder.persistent(ExtraCodecs.intRange(0, 1000)).networkSynchronized(ByteBufCodecs.VAR_INT));
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> MAGAZINE_CAPACITY = TYPES.registerComponentType("magazine_capacity", builder -> builder.persistent(ExtraCodecs.intRange(0, 1000)));
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Double>> WEAPON_RANGE = TYPES.registerComponentType("range", builder -> builder.persistent(Codec.doubleRange(0, 250)).networkSynchronized(ByteBufCodecs.DOUBLE));
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> RELOAD_SPEED = TYPES.registerComponentType("reload_speed", builder -> builder.persistent(Codec.intRange(0, 500)).networkSynchronized(ByteBufCodecs.VAR_INT));
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<WeaponReloadSource>> RELOAD_SOURCE = TYPES.registerComponentType("reload_source", builder -> builder.persistent(WeaponReloadSource.CODEC).networkSynchronized(WeaponReloadSource.STREAM_CODEC));
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> MAX_HITS = TYPES.registerComponentType("max_hits", builder -> builder.persistent(ExtraCodecs.POSITIVE_INT).networkSynchronized(ByteBufCodecs.VAR_INT));
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Double>> PUNCH_THROUGH = TYPES.registerComponentType("punch_through", builder -> builder.persistent(Codec.doubleRange(0d, 512d)).networkSynchronized(ByteBufCodecs.DOUBLE));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<GrenadeType>> GRENADE_TYPE = TYPES.registerComponentType("grenade_type", builder -> builder.persistent(GrenadeType.CODEC).networkSynchronized(GrenadeType.STREAM_CODEC));
 }

@@ -1,4 +1,4 @@
-package liedge.ltxindustries.lib.weapons;
+package liedge.ltxindustries.entity;
 
 import liedge.limacore.util.LimaBlockUtil;
 import net.minecraft.core.BlockPos;
@@ -16,26 +16,21 @@ import net.neoforged.neoforge.fluids.FluidType;
 
 import java.util.Optional;
 
-public final class WeaponClipContext extends ClipContext
+public final class DynamicClipContext extends ClipContext
 {
     private final double[] collisionBypass;
     private final FluidCollisionPredicate fluidCollision;
 
-    public WeaponClipContext(Vec3 from, Vec3 to, Entity entity, FluidCollisionPredicate fluidCollision, double[] collisionBypass)
+    public DynamicClipContext(Vec3 from, Vec3 to, Entity entity, FluidCollisionPredicate fluidCollision, double[] collisionBypass)
     {
         super(from, to, Block.COLLIDER, Fluid.NONE, entity);
         this.fluidCollision = fluidCollision;
         this.collisionBypass = collisionBypass;
     }
 
-    public WeaponClipContext(Vec3 from, Vec3 to, Entity entity, double bypassAmount)
+    public DynamicClipContext(Vec3 from, Vec3 to, Entity entity, FluidCollisionPredicate fluidCollision, double bypassAmount)
     {
-        this(from, to, entity, FluidCollisionPredicate.NONE, new double[]{bypassAmount});
-    }
-
-    public WeaponClipContext(Vec3 from, Vec3 to, Entity entity)
-    {
-        this(from, to, entity, 0d);
+        this(from, to, entity, fluidCollision, new double[]{bypassAmount});
     }
 
     @Override
@@ -75,7 +70,7 @@ public final class WeaponClipContext extends ClipContext
     @Override
     public VoxelShape getFluidShape(FluidState state, BlockGetter level, BlockPos pos)
     {
-        return fluidCollision.apply(state, level, pos) ? state.getShape(level, pos) : Shapes.empty();
+        return fluidCollision.test(state, level, pos) ? state.getShape(level, pos) : Shapes.empty();
     }
 
     @FunctionalInterface
@@ -85,26 +80,26 @@ public final class WeaponClipContext extends ClipContext
         FluidCollisionPredicate ANY = (state, level, pos) -> true;
         FluidCollisionPredicate SOURCE_ONLY = (state, level, pos) -> state.isSource();
 
-        static FluidCollisionPredicate matchType(FluidType type)
+        static FluidCollisionPredicate any(FluidType type)
         {
             return (state, level, pos) -> state.getFluidType().equals(type);
         }
 
-        static FluidCollisionPredicate matchTypeSourceOnly(FluidType type)
+        static FluidCollisionPredicate any(TagKey<net.minecraft.world.level.material.Fluid> tag)
+        {
+            return (state, level, pos) -> state.is(tag);
+        }
+
+        static FluidCollisionPredicate sourceOnly(FluidType type)
         {
             return (state, level, pos) -> state.isSource() && state.getFluidType().equals(type);
         }
 
-        static FluidCollisionPredicate matchTag(TagKey<net.minecraft.world.level.material.Fluid> tagKey)
-        {
-            return (state, level, pos) -> state.is(tagKey);
-        }
-
-        static FluidCollisionPredicate matchTagSourceOnly(TagKey<net.minecraft.world.level.material.Fluid> tagKey)
+        static FluidCollisionPredicate sourceOnly(TagKey<net.minecraft.world.level.material.Fluid> tagKey)
         {
             return (state, level, pos) -> state.isSource() && state.is(tagKey);
         }
 
-        boolean apply(FluidState state, BlockGetter level, BlockPos pos);
+        boolean test(FluidState state, BlockGetter level, BlockPos pos);
     }
 }

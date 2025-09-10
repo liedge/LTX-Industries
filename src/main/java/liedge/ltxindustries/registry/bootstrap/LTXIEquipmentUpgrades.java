@@ -18,7 +18,7 @@ import liedge.ltxindustries.lib.upgrades.effect.ValueUpgradeEffect;
 import liedge.ltxindustries.lib.upgrades.effect.equipment.*;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
-import liedge.ltxindustries.lib.weapons.WeaponAmmoSource;
+import liedge.ltxindustries.lib.weapons.WeaponReloadSource;
 import liedge.ltxindustries.registry.LTXIRegistries;
 import liedge.ltxindustries.registry.game.LTXIItems;
 import net.minecraft.ChatFormatting;
@@ -237,7 +237,7 @@ public final class LTXIEquipmentUpgrades
         EquipmentUpgrade.builder(GRENADE_LAUNCHER_PROJECTILE_SPEED)
                 .supports(LTXIItems.GRENADE_LAUNCHER)
                 .setMaxRank(2)
-                .withEffect(WEAPON_PROJECTILE_SPEED, ValueUpgradeEffect.of(DoubleLevelBasedValue.linear(0.5d), MathOperation.ADD))
+                .withEffect(WEAPON_RANGE, ValueUpgradeEffect.of(DoubleLevelBasedValue.linear(0.5d), MathOperation.ADD))
                 .tooltip(UpgradeTooltip.of(LTXILangKeys.PROJECTILE_SPEED_UPGRADE, TooltipArgument.of(DoubleLevelBasedValue.linear(0.5d), ValueSentiment.POSITIVE, TooltipValueFormat.SIGNED_FLAT_NUMBER)))
                 .effectIcon(sprite("grenade_speed_boost"))
                 .register(context);
@@ -268,7 +268,7 @@ public final class LTXIEquipmentUpgrades
                 .createDefaultTitle(LTXIConstants.REM_BLUE)
                 .supports(items, LTXITags.Items.LIGHTWEIGHT_WEAPONS)
                 .exclusiveWith(holders, AMMO_SOURCE_MODIFIERS)
-                .withSpecialEffect(AMMO_SOURCE, WeaponAmmoSource.COMMON_ENERGY_UNIT)
+                .withSpecialEffect(RELOAD_SOURCE, WeaponReloadSource.commonEnergy())
                 .effectIcon(sprite(LIGHTWEIGHT_ENERGY_ADAPTER.location().getPath()))
                 .category("weapon/ammo")
                 .register(context);
@@ -276,7 +276,7 @@ public final class LTXIEquipmentUpgrades
                 .createDefaultTitle(LTXIConstants.REM_BLUE)
                 .supports(items, LTXITags.Items.SPECIALIST_WEAPONS)
                 .exclusiveWith(holders, AMMO_SOURCE_MODIFIERS)
-                .withSpecialEffect(AMMO_SOURCE, WeaponAmmoSource.COMMON_ENERGY_UNIT)
+                .withSpecialEffect(RELOAD_SOURCE, WeaponReloadSource.commonEnergy())
                 .effectIcon(sprite(SPECIALIST_ENERGY_ADAPTER.location().getPath()))
                 .category("weapon/ammo")
                 .register(context);
@@ -284,7 +284,7 @@ public final class LTXIEquipmentUpgrades
                 .createDefaultTitle(LTXIConstants.REM_BLUE)
                 .supports(items, LTXITags.Items.EXPLOSIVE_WEAPONS)
                 .exclusiveWith(holders, AMMO_SOURCE_MODIFIERS)
-                .withSpecialEffect(AMMO_SOURCE, WeaponAmmoSource.COMMON_ENERGY_UNIT)
+                .withSpecialEffect(RELOAD_SOURCE, WeaponReloadSource.commonEnergy())
                 .effectIcon(sprite(EXPLOSIVES_ENERGY_ADAPTER.location().getPath()))
                 .category("weapon/ammo")
                 .register(context);
@@ -292,7 +292,7 @@ public final class LTXIEquipmentUpgrades
                 .createDefaultTitle(LTXIConstants.REM_BLUE)
                 .supports(items, LTXITags.Items.HEAVY_WEAPONS)
                 .exclusiveWith(holders, AMMO_SOURCE_MODIFIERS)
-                .withSpecialEffect(AMMO_SOURCE, WeaponAmmoSource.COMMON_ENERGY_UNIT)
+                .withSpecialEffect(RELOAD_SOURCE, WeaponReloadSource.commonEnergy())
                 .effectIcon(sprite(HEAVY_ENERGY_ADAPTER.location().getPath()))
                 .category("weapon/ammo")
                 .register(context);
@@ -300,7 +300,7 @@ public final class LTXIEquipmentUpgrades
                 .createDefaultTitle(LTXIConstants.CREATIVE_PINK)
                 .supports(ltxProjectileWeapons)
                 .exclusiveWith(holders, AMMO_SOURCE_MODIFIERS)
-                .withSpecialEffect(AMMO_SOURCE, WeaponAmmoSource.INFINITE)
+                .withSpecialEffect(RELOAD_SOURCE, WeaponReloadSource.infiniteAmmo())
                 .effectIcon(sprite("infinite_ammo"))
                 .category("weapon/ammo")
                 .register(context);

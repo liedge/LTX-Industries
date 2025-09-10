@@ -6,7 +6,7 @@ import liedge.ltxindustries.lib.upgrades.effect.UpgradeDataComponentType;
 import liedge.ltxindustries.lib.upgrades.effect.ValueUpgradeEffect;
 import liedge.ltxindustries.lib.upgrades.effect.equipment.*;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
-import liedge.ltxindustries.lib.weapons.WeaponAmmoSource;
+import liedge.ltxindustries.lib.weapons.WeaponReloadSource;
 import liedge.ltxindustries.registry.LTXIRegistries;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.util.ExtraCodecs;
@@ -43,13 +43,15 @@ public final class LTXIUpgradeEffectComponents
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<TargetedConditionalEffect<EquipmentUpgradeEffect>>>> EQUIPMENT_PRE_ATTACK = COMPONENTS.register("pre_attack", () -> UpgradeDataComponentType.targetedConditionalListOf(EquipmentUpgradeEffect.CODEC, LootContextParamSets.ENTITY));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<TargetedConditionalEffect<EquipmentUpgradeEffect>>>> EQUIPMENT_KILL = COMPONENTS.register("on_kill", () -> UpgradeDataComponentType.targetedConditionalListOf(EquipmentUpgradeEffect.CODEC, LootContextParamSets.ENTITY));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<GrenadeType>>> GRENADE_UNLOCK = COMPONENTS.register("grenade_unlock", () -> UpgradeDataComponentType.listOf(GrenadeType.CODEC));
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<WeaponAmmoSource>> AMMO_SOURCE = COMPONENTS.register("ammo_source", () -> UpgradeDataComponentType.of(WeaponAmmoSource.CODEC.restricted(List.of(WeaponAmmoSource.COMMON_ENERGY_UNIT, WeaponAmmoSource.INFINITE))));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<PreventVibrationUpgradeEffect>>> PREVENT_VIBRATION = COMPONENTS.register("prevent_vibration", () -> UpgradeDataComponentType.listOf(PreventVibrationUpgradeEffect.CODEC));
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ConditionalEffect<ValueUpgradeEffect>>>> EQUIPMENT_DAMAGE = COMPONENTS.registerConditionalValue("equipment_damage", LootContextParamSets.ENCHANTED_DAMAGE);
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ValueUpgradeEffect>>> ENTITY_PUNCH_THROUGH = COMPONENTS.registerValue("entity_punch_through");
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ValueUpgradeEffect>>> BLOCK_PUNCH_THROUGH = COMPONENTS.registerValue("block_punch_through");
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ValueUpgradeEffect>>> WEAPON_PROJECTILE_SPEED = COMPONENTS.registerValue("weapon_projectile_speed");
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ValueUpgradeEffect>>> MAGAZINE_CAPACITY = COMPONENTS.registerValue("magazine_capacity");
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ValueUpgradeEffect>>> WEAPON_RANGE = COMPONENTS.registerValue("weapon_range");
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ValueUpgradeEffect>>> RELOAD_SPEED = COMPONENTS.registerValue("reload_speed");
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<WeaponReloadSource>> RELOAD_SOURCE = COMPONENTS.register("reload_source", () -> UpgradeDataComponentType.of(WeaponReloadSource.CODEC));
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ValueUpgradeEffect>>> MAX_HITS = COMPONENTS.registerValue("max_hits");
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ValueUpgradeEffect>>> BLOCK_PIERCE_DISTANCE = COMPONENTS.registerValue("punch_through");
 
     // Machine related
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ValueUpgradeEffect>>> MACHINE_ENERGY_PRODUCTION = COMPONENTS.registerValue("energy_production");

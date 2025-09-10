@@ -24,7 +24,7 @@
     ]
   },
   "effects": {
-    "ltxi:weapon_projectile_speed": [
+    "ltxi:weapon_range": [
       {
         "type": "simple",
         "op": "add",

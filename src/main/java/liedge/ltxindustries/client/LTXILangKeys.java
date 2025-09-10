@@ -11,6 +11,8 @@ public final class LTXILangKeys
 {
     private LTXILangKeys() {}
 
+    public static final String UPGRADE_EFFECT_PREFIX = "upgrade_effect";
+
     // Death messages
     public static final Translatable INVALID_WEAPON_DEATH_MESSAGE = RESOURCES.translationHolder("death.attack.{}.unknown_weapon");
     public static final Translatable STRAY_PROJECTILE_DEATH_MESSAGE = RESOURCES.translationHolder("death.attack.{}.stray_projectile");
@@ -82,8 +84,6 @@ public final class LTXILangKeys
     public static final Translatable DIRECT_BLOCK_DROPS_EFFECT = upgradeEffect("direct_drops.block");
     public static final Translatable DIRECT_ENTITY_DROPS_EFFECT = upgradeEffect("direct_drops.entity");
     public static final Translatable SUPPRESS_VIBRATIONS_EFFECT = upgradeEffect("suppress_vibrations");
-    public static final Translatable ENERGY_AMMO_EFFECT = upgradeEffect("energy_ammo");
-    public static final Translatable INFINITE_AMMO_EFFECT = upgradeEffect("infinite_ammo");
     public static final Translatable ENCHANTMENT_UPGRADE_EFFECT = upgradeEffect("enchantment");
     public static final Translatable GRENADE_UNLOCK_EFFECT = upgradeEffect("grenade_unlock");
 
@@ -107,13 +107,13 @@ public final class LTXILangKeys
         return prefixKey("hint", key);
     }
 
-    private static Translatable tooltip(String key)
+    public static Translatable tooltip(String key)
     {
         return prefixKey("tooltip", key);
     }
 
-    private static Translatable upgradeEffect(String key)
+    public static Translatable upgradeEffect(String key)
     {
-        return prefixKey("upgrade_effect", key);
+        return prefixKey(UPGRADE_EFFECT_PREFIX, key);
     }
 }

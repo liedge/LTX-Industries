@@ -1,14 +1,16 @@
 package liedge.ltxindustries.item.weapon;
 
 import liedge.ltxindustries.lib.weapons.AbstractWeaponControls;
+import net.minecraft.core.Holder;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 public abstract class FullAutoWeaponItem extends WeaponItem
 {
-    protected FullAutoWeaponItem(Properties properties)
+    protected FullAutoWeaponItem(Properties properties, int baseMagCapacity, double baseRange, int baseReloadSpeed, Holder<Item> defaultAmmoItem, int baseMaxHits, double basePunchTrough)
     {
-        super(properties);
+        super(properties, baseMagCapacity, baseRange, baseReloadSpeed, defaultAmmoItem, baseMaxHits, basePunchTrough);
     }
 
     @Override

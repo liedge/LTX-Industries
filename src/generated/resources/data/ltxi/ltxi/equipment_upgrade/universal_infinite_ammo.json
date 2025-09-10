@@ -11,7 +11,9 @@
     }
   },
   "effects": {
-    "ltxi:ammo_source": "infinite"
+    "ltxi:reload_source": {
+      "type": "infinite"
+    }
   },
   "exclusive_set": "#ltxi:ammo_source_modifiers",
   "supported_set": "#ltxi:weapons/energy_projectile"

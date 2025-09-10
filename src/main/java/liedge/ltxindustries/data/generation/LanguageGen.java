@@ -14,7 +14,7 @@ import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.lib.upgrades.UpgradeBase;
 import liedge.ltxindustries.lib.upgrades.UpgradeBaseBuilder;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
-import liedge.ltxindustries.lib.weapons.WeaponAmmoSource;
+import liedge.ltxindustries.lib.weapons.WeaponReloadSource;
 import liedge.ltxindustries.registry.bootstrap.LTXIDamageTypes;
 import liedge.ltxindustries.registry.bootstrap.LTXIEnchantments;
 import liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades;
@@ -161,10 +161,10 @@ class LanguageGen extends LimaLanguageProvider
         addItem(ROCKET_LAUNCHER, italicName("%s 42/RL", "Daybreak"));
         addItem(HEAVY_PISTOL, italicName("%s 77/HX", "Nova"));
 
-        simpleHintItem(LIGHTWEIGHT_WEAPON_ENERGY, "Lightweight Weapon Energy", "Stabilized energy optimized for high-frequency, low-intensity weapon systems.");
-        simpleHintItem(SPECIALIST_WEAPON_ENERGY, "Specialist Weapon Energy", "Refined energy suitable for use in medium-power projectile synthesis.");
-        simpleHintItem(EXPLOSIVES_WEAPON_ENERGY, "Explosive Weapon Energy", "Volatile burst energy suitable for use in explosive weaponry.");
-        simpleHintItem(HEAVY_WEAPON_ENERGY, "Heavy Weapon Energy", "High-density energy capable of fueling the most power-intensive weapons.");
+        simpleHintItem(LIGHTWEIGHT_WEAPON_ENERGY, "Lightweight Weapon Energy", "Consumable energy cell for powering Lightweight-class weaponry.");
+        simpleHintItem(SPECIALIST_WEAPON_ENERGY, "Specialist Weapon Energy", "Consumable energy cell for powering Specialist-class weaponry.");
+        simpleHintItem(EXPLOSIVES_WEAPON_ENERGY, "Explosive Weapon Energy", "Consumable energy cell for powering Explosive-class weaponry.");
+        simpleHintItem(HEAVY_WEAPON_ENERGY, "Heavy Weapon Energy", "Consumable energy cell for powering Heavy-class weaponry.");
         //#endregion
 
         //#region Equipment upgrades
@@ -189,7 +189,7 @@ class LanguageGen extends LimaLanguageProvider
         upgrade(LTXIEquipmentUpgrades.SPECIALIST_ENERGY_ADAPTER, "Specialist Energy Adapter", "Reroutes the energy feed system of Specialist weaponry to use Common Energy.");
         upgrade(LTXIEquipmentUpgrades.EXPLOSIVES_ENERGY_ADAPTER, "Explosives Energy Adapter", "Reroutes the energy feed system of Explosives weaponry to use Common Energy.");
         upgrade(LTXIEquipmentUpgrades.HEAVY_ENERGY_ADAPTER, "Heavy Energy Adapter", "Reroutes the energy feed system of Heavy weaponry to use Common Energy.");
-        upgrade(LTXIEquipmentUpgrades.UNIVERSAL_INFINITE_AMMO, "//ERR~∞//Magazine", "Ignore the laws of physics with this never-ending ammo source. Try not to cause a mass extinction event.");
+        upgrade(LTXIEquipmentUpgrades.UNIVERSAL_INFINITE_AMMO, "//ERR~MAG-Z!!-NE//∞", "Ignore the laws of physics with this never-ending ammo source. Try not to cause a mass extinction event.");
         upgrade(LTXIEquipmentUpgrades.HIGH_IMPACT_ROUNDS, "High Impact Rounds", "Light-frags with a punch! Send targets flying back regardless of their knockback resistances.");
         upgrade(LTXIEquipmentUpgrades.HEAVY_PISTOL_GOD_ROUNDS, "Stellar Reality Disruptor", "Rip through reality itself with this Nova upgrade. Ensures swift defeat of even the strongest enemies.");
 
@@ -319,8 +319,6 @@ class LanguageGen extends LimaLanguageProvider
         add(SUPPRESS_VIBRATIONS_EFFECT, "Suppresses %s sculk vibrations");
         add(DIRECT_BLOCK_DROPS_EFFECT, "Directly collects %s block drops");
         add(DIRECT_ENTITY_DROPS_EFFECT, "Directly collects %s entity drops");
-        add(ENERGY_AMMO_EFFECT, "Weapon reloads from an internal CE reserve");
-        add(INFINITE_AMMO_EFFECT, "Grants weapon infinite ammunition and magazine");
         add(REDUCTION_MODIFIER_EFFECT, "%s %s breach");
         add(BUBBLE_SHIELD_EFFECT, "%s Bubble Shield/kill, (max %s)");
         add(MOB_EFFECT_UPGRADE_EFFECT, "Applies %s (%s)");
@@ -328,9 +326,12 @@ class LanguageGen extends LimaLanguageProvider
         add(GRENADE_UNLOCK_EFFECT, "Can use %s shells");
 
         add(TooltipShiftHintItem.HINT_HOVER_TOOLTIP, "Hold SHIFT for extra info");
-        add(WeaponAmmoSource.NORMAL.getItemTooltip(), "Reloads with %s");
-        add(WeaponAmmoSource.COMMON_ENERGY_UNIT.getItemTooltip(), "Synthesizes ammo from Common Energy Units");
-        add(WeaponAmmoSource.INFINITE.getItemTooltip(), "This weapon has infinite ammo!");
+        add(WeaponReloadSource.Type.ITEM.getItemTooltip(), "Reloads with %s");
+        add(WeaponReloadSource.Type.ITEM.getUpgradeTooltip(), "Replaces reload item: %s");
+        add(WeaponReloadSource.Type.COMMON_ENERGY.getItemTooltip(), "Reloads from Common Energy battery");
+        add(WeaponReloadSource.Type.COMMON_ENERGY.getUpgradeTooltip(), "Weapon reloads from an internal CE battery");
+        add(WeaponReloadSource.Type.INFINITE.getItemTooltip(), "This weapon has infinite ammo!");
+        add(WeaponReloadSource.Type.INFINITE.getUpgradeTooltip(), "Grants weapon an infinite, never-draining magazine");
 
         add(WeaponItem.AMMO_LOADED_TOOLTIP, "Ammo: %s/%s");
         add(GrenadeLauncherWeaponItem.GRENADE_TYPE_TOOLTIP, "%s shells equipped");

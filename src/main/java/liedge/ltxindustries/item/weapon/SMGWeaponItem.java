@@ -1,18 +1,14 @@
 package liedge.ltxindustries.item.weapon;
 
 import liedge.limacore.util.LimaEntityUtil;
-import liedge.ltxindustries.entity.CompoundHitResult;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
-import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.ltxindustries.lib.weapons.AbstractWeaponControls;
 import liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades;
-import liedge.ltxindustries.registry.game.LTXIGameEvents;
 import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.util.config.LTXIWeaponsConfig;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
@@ -21,7 +17,7 @@ public class SMGWeaponItem extends FullAutoWeaponItem
 {
     public SMGWeaponItem(Properties properties)
     {
-        super(properties);
+        super(properties, 45, 12.5d, 20, LTXIItems.LIGHTWEIGHT_WEAPON_ENERGY, 1, 0);
     }
 
     @Override
@@ -39,17 +35,8 @@ public class SMGWeaponItem extends FullAutoWeaponItem
     @Override
     public void weaponFired(ItemStack heldItem, Player player, Level level, AbstractWeaponControls controls)
     {
-        if (!level.isClientSide())
-        {
-            double inaccuracy = LimaEntityUtil.isEntityUsingItem(player, InteractionHand.MAIN_HAND) ? 0.25d : 4d;
-            CompoundHitResult hitResult = CompoundHitResult.tracePath(level, player, 12, inaccuracy, 0.2d, 1);
-            EquipmentUpgrades upgrades = getUpgrades(heldItem);
-
-            hitResult.entityHits().forEach(hit -> causeInstantDamage(upgrades, player, hit.getEntity(), LTXIWeaponsConfig.SMG_BASE_DAMAGE.getAsDouble()));
-            level.gameEvent(player, LTXIGameEvents.WEAPON_FIRED, player.getEyePosition());
-
-            if (level.random.nextFloat() <= 0.6f) sendTracerParticle(level, hitResult.origin(), hitResult.impactLocation());
-        }
+        double inaccuracy = LimaEntityUtil.isEntityUsingItem(player, InteractionHand.MAIN_HAND) ? 0.25d : 4d;
+        traceLightfrag(heldItem, player, level, LTXIWeaponsConfig.SMG_BASE_DAMAGE.getAsDouble(), inaccuracy, 0.2d);
     }
 
     @Override
@@ -65,26 +52,8 @@ public class SMGWeaponItem extends FullAutoWeaponItem
     }
 
     @Override
-    public Item getAmmoItem(ItemStack stack)
-    {
-        return LTXIItems.LIGHTWEIGHT_WEAPON_ENERGY.asItem();
-    }
-
-    @Override
-    public int getAmmoCapacity(ItemStack stack)
-    {
-        return 45;
-    }
-
-    @Override
     public int getFireRate(ItemStack stack)
     {
         return 0;
-    }
-
-    @Override
-    public int getReloadSpeed(ItemStack stack)
-    {
-        return 20;
     }
 }

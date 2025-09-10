@@ -4,17 +4,16 @@ import liedge.ltxindustries.entity.BaseRocketEntity;
 import liedge.ltxindustries.entity.LTXIEntityUtil;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.ltxindustries.lib.weapons.AbstractWeaponControls;
+import liedge.ltxindustries.registry.game.LTXIDataComponents;
 import liedge.ltxindustries.registry.game.LTXIGameEvents;
 import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.registry.game.LTXISounds;
 import liedge.ltxindustries.util.config.LTXIWeaponsConfig;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
@@ -30,7 +29,7 @@ public class RocketLauncherWeaponItem extends SemiAutoWeaponItem
 {
     public RocketLauncherWeaponItem(Properties properties)
     {
-        super(properties);
+        super(properties, 2, 1.5d, 60, LTXIItems.EXPLOSIVES_WEAPON_ENERGY, 1, 0);
     }
 
     private boolean isInTargetScanPath(Player player, Entity target)
@@ -113,7 +112,7 @@ public class RocketLauncherWeaponItem extends SemiAutoWeaponItem
     @Override
     public void weaponFired(ItemStack heldItem, Player player, Level level, AbstractWeaponControls controls)
     {
-        if (level instanceof ServerLevel serverLevel)
+        if (!level.isClientSide())
         {
             EquipmentUpgrades upgrades = getUpgrades(heldItem);
 
@@ -121,7 +120,7 @@ public class RocketLauncherWeaponItem extends SemiAutoWeaponItem
             missile.setOwner(player);
 
             LivingEntity focusedTarget = controls.getFocusedTarget();
-            missile.aimAndSetPosFromShooter(player, calculateProjectileSpeed(serverLevel, upgrades, 2.75d), 0d);
+            missile.aimAndSetPosFromShooter(player, Math.min(heldItem.getOrDefault(LTXIDataComponents.WEAPON_RANGE, getWeaponRange(heldItem)), MAX_PROJECTILE_SPEED), 0d);
             if (focusedTarget != null && controls.getTargetTicks() > 20) missile.setTargetEntity(focusedTarget);
 
             level.addFreshEntity(missile);
@@ -132,26 +131,8 @@ public class RocketLauncherWeaponItem extends SemiAutoWeaponItem
     }
 
     @Override
-    public Item getAmmoItem(ItemStack stack)
-    {
-        return LTXIItems.EXPLOSIVES_WEAPON_ENERGY.get();
-    }
-
-    @Override
-    public int getAmmoCapacity(ItemStack stack)
-    {
-        return 2;
-    }
-
-    @Override
     public int getFireRate(ItemStack stack)
     {
         return 30;
-    }
-
-    @Override
-    public int getReloadSpeed(ItemStack stack)
-    {
-        return 60;
     }
 }

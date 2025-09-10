@@ -8,12 +8,9 @@ import liedge.limacore.util.LimaCoreUtil;
 import liedge.ltxindustries.item.weapon.WeaponItem;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.stream.Stream;
 
 public abstract class AbstractWeaponControls
 {
@@ -31,19 +28,14 @@ public abstract class AbstractWeaponControls
     private int targetTicks0;
 
     // #region Weapon item functions
-    protected boolean isInfiniteAmmo(Player player, WeaponAmmoSource ammoSource)
+    protected boolean isInfiniteAmmo(ItemStack heldItem, Player player, WeaponItem weaponItem)
     {
-        return player.isCreative() || ammoSource == WeaponAmmoSource.INFINITE;
-    }
-
-    protected boolean isInfiniteAmmo(ItemStack heldItem, Player player)
-    {
-        return isInfiniteAmmo(player, WeaponItem.getAmmoSourceFromItem(heldItem));
+        return player.isCreative() || weaponItem.getReloadSource(heldItem).getType() == WeaponReloadSource.Type.INFINITE;
     }
 
     protected boolean hasAmmoRemaining(ItemStack heldItem, Player player, WeaponItem weaponItem)
     {
-        return isInfiniteAmmo(heldItem, player) || weaponItem.getAmmoLoaded(heldItem) > 0;
+        return isInfiniteAmmo(heldItem, player, weaponItem) || weaponItem.getAmmoLoaded(heldItem) > 0;
     }
     //#endregion
 
@@ -52,30 +44,11 @@ public abstract class AbstractWeaponControls
         return reloadTimer.getTimerState() == TickTimer.State.STOPPED;
     }
 
-    protected Stream<ItemStack> inventoryAndOffhandStream(Player player)
-    {
-        Inventory inventory = player.getInventory();
-        return Stream.concat(inventory.items.stream(), inventory.offhand.stream());
-    }
-
     protected boolean canReloadWeapon(ItemStack heldItem, Player player, WeaponItem weaponItem)
     {
         if (weaponItem.getAmmoLoaded(heldItem) < weaponItem.getAmmoCapacity(heldItem) && !isTriggerHeld() && checkNotReloading())
         {
-            WeaponAmmoSource ammoSource = WeaponItem.getAmmoSourceFromItem(heldItem);
-
-            if (isInfiniteAmmo(player, ammoSource))
-            {
-                return true;
-            }
-            else if (ammoSource == WeaponAmmoSource.COMMON_ENERGY_UNIT)
-            {
-                return weaponItem.getEnergyStored(heldItem) >= weaponItem.getEnergyUsage(heldItem);
-            }
-            else
-            {
-                return inventoryAndOffhandStream(player).anyMatch(stack -> stack.is(weaponItem.getAmmoItem(heldItem)));
-            }
+            return player.isCreative() || weaponItem.getReloadSource(heldItem).canReload(heldItem, player, weaponItem);
         }
 
         return false;

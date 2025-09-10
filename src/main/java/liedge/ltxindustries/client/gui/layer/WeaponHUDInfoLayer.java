@@ -5,15 +5,15 @@ import liedge.limacore.client.LimaComponentUtil;
 import liedge.limacore.client.gui.LimaGuiLayer;
 import liedge.limacore.util.LimaMathUtil;
 import liedge.ltxindustries.item.weapon.WeaponItem;
-import liedge.ltxindustries.lib.weapons.WeaponAmmoSource;
+import liedge.ltxindustries.lib.weapons.WeaponReloadSource;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
-import static liedge.ltxindustries.LTXIndustries.RESOURCES;
 import static liedge.ltxindustries.LTXIConstants.*;
+import static liedge.ltxindustries.LTXIndustries.RESOURCES;
 
 public final class WeaponHUDInfoLayer extends LimaGuiLayer
 {
@@ -39,15 +39,15 @@ public final class WeaponHUDInfoLayer extends LimaGuiLayer
     {
         ItemStack heldItem = player.getMainHandItem();
         WeaponItem weaponItem = (WeaponItem) heldItem.getItem();
-        WeaponAmmoSource ammoSource = WeaponItem.getAmmoSourceFromItem(heldItem);
+        WeaponReloadSource reloadSource = weaponItem.getReloadSource(heldItem);
 
         int ammo = weaponItem.getAmmoLoaded(heldItem);
-        int ammoTextColor = (ammo > 0 || ammoSource == WeaponAmmoSource.INFINITE) ? LIME_GREEN.argb32() : 16733525;
+        int ammoTextColor = (ammo > 0 || reloadSource.getType() == WeaponReloadSource.Type.INFINITE) ? LIME_GREEN.argb32() : 16733525;
         int x = 10;
 
         PoseStack poseStack = graphics.pose();
 
-        if (ammoSource == WeaponAmmoSource.NORMAL)
+        if (reloadSource.getType() == WeaponReloadSource.Type.ITEM)
         {
             int y = (graphics.guiHeight() - 13) / 2;
             graphics.blitSprite(AMMO_DISPLAY_SPRITE, x, y, 49, 13);
@@ -61,7 +61,7 @@ public final class WeaponHUDInfoLayer extends LimaGuiLayer
 
             poseStack.popPose();
         }
-        else if (ammoSource == WeaponAmmoSource.COMMON_ENERGY_UNIT)
+        else if (reloadSource.getType() == WeaponReloadSource.Type.COMMON_ENERGY)
         {
             int y = (graphics.guiHeight() - 23) / 2;
             int energy = (int) (LimaMathUtil.divideFloat(weaponItem.getEnergyStored(heldItem), weaponItem.getEnergyCapacity(heldItem)) * 100f);

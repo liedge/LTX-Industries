@@ -1,6 +1,5 @@
 package liedge.ltxindustries.lib.weapons;
 
-import liedge.limacore.capability.energy.LimaEnergyUtil;
 import liedge.limacore.lib.TickTimer;
 import liedge.limacore.util.LimaEntityUtil;
 import liedge.ltxindustries.item.weapon.WeaponItem;
@@ -12,8 +11,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.Nullable;
 
@@ -36,41 +33,6 @@ public class ServerWeaponControls extends AbstractWeaponControls
         sendPacketToClient(player, new ClientboundWeaponControlsPacket(player.getId(), weaponItem, action));
     }
 
-    /**
-     * Finishes the reload process. Ammo item or energy unit consumption happens here. This is only ran on the server side.
-     * @param heldItem The item stack of the weapon item
-     * @param player The player
-     * @param weaponItem The weapon item
-     * @return Whether the reload can finish. If true, weapon ammo will be reloaded
-     */
-    private boolean finalizeReload(ItemStack heldItem, Player player, WeaponItem weaponItem)
-    {
-        WeaponAmmoSource source = WeaponItem.getAmmoSourceFromItem(heldItem);
-        if (source == WeaponAmmoSource.INFINITE)
-        {
-            return true;
-        }
-        else if (source == WeaponAmmoSource.COMMON_ENERGY_UNIT)
-        {
-            IEnergyStorage weaponEnergy = heldItem.getCapability(Capabilities.EnergyStorage.ITEM);
-            return weaponEnergy != null && LimaEnergyUtil.consumeEnergy(weaponEnergy, weaponItem.getEnergyUsage(heldItem), true);
-        }
-        else
-        {
-            for (int i = 0; i < player.getInventory().getContainerSize(); i++)
-            {
-                ItemStack invItem = player.getInventory().getItem(i);
-                if (invItem.is(weaponItem.getAmmoItem(heldItem)))
-                {
-                    player.getInventory().removeItem(i, 1);
-                    return true;
-                }
-            }
-
-            return false;
-        }
-    }
-
     public void handleClientAction(ItemStack heldItem, ServerPlayer player, WeaponItem weaponItem, byte clientAction)
     {
         switch (clientAction)
@@ -81,8 +43,8 @@ public class ServerWeaponControls extends AbstractWeaponControls
             {
                 if (canReloadWeapon(heldItem, player, weaponItem))
                 {
-                    // Instantly reload weapons in creative, start the reload process otherwise
-                    if (player.isCreative())
+                    // Instantly reload weapons if infinite ammo is available, start the reload process otherwise
+                    if (isInfiniteAmmo(heldItem, player, weaponItem))
                     {
                         weaponItem.setAmmoLoadedMax(heldItem);
                     }
@@ -107,7 +69,7 @@ public class ServerWeaponControls extends AbstractWeaponControls
     {
         super.shootWeapon(heldItem, player, weaponItem, sendClientUpdate);
 
-        if (!isInfiniteAmmo(heldItem, player))
+        if (!isInfiniteAmmo(heldItem, player, weaponItem))
         {
             int ammo = weaponItem.getAmmoLoaded(heldItem);
             weaponItem.setAmmoLoaded(heldItem, ammo - 1);
@@ -127,7 +89,11 @@ public class ServerWeaponControls extends AbstractWeaponControls
         // Do reload logic
         if (weaponItem != null && getReloadTimer().getTimerState() == TickTimer.State.STOPPED && reloadFlag)
         {
-            if (finalizeReload(heldItem, player, weaponItem)) weaponItem.setAmmoLoadedMax(heldItem);
+            if (weaponItem.getReloadSource(heldItem).performReload(heldItem, player, weaponItem))
+            {
+                weaponItem.setAmmoLoadedMax(heldItem);
+            }
+
             reloadFlag = false;
         }
     }

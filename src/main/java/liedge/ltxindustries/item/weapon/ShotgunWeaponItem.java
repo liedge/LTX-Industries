@@ -3,6 +3,7 @@ package liedge.ltxindustries.item.weapon;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import liedge.ltxindustries.entity.CompoundHitResult;
+import liedge.ltxindustries.entity.DynamicClipContext;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.ltxindustries.lib.weapons.AbstractWeaponControls;
@@ -16,7 +17,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
@@ -25,7 +25,7 @@ public class ShotgunWeaponItem extends SemiAutoWeaponItem
 {
     public ShotgunWeaponItem(Properties properties)
     {
-        super(properties);
+        super(properties, 5, 10d, 40, LTXIItems.SPECIALIST_WEAPON_ENERGY, 5, 0.33d);
     }
 
     @Override
@@ -61,7 +61,8 @@ public class ShotgunWeaponItem extends SemiAutoWeaponItem
 
             for (int i = 0; i < 7; i++)
             {
-                CompoundHitResult hitResult = CompoundHitResult.tracePath(level, player, 10d, 6.5d, hit -> hit.getBoundingBox().getSize() <= 1d ? 0.75d : 0.375d, 5);
+                CompoundHitResult hitResult = CompoundHitResult.tracePath(level, player, getWeaponRange(heldItem), 6.5d, getEntityMaxHits(heldItem), getBlockPierceDistance(heldItem), DynamicClipContext.FluidCollisionPredicate.NONE,
+                        hit -> hit.getBoundingBox().getSize() <= 1d ? 0.75d : 0.375d);
                 hitResult.entityHits().forEach(hit -> pelletHits.mergeInt(hit.getEntity(), 1, Integer::sum));
 
                 sendTracerParticle(level, hitResult.origin(), hitResult.impactLocation());
@@ -70,7 +71,7 @@ public class ShotgunWeaponItem extends SemiAutoWeaponItem
             final double basePelletDamage = LTXIWeaponsConfig.SHOTGUN_BASE_PELLET_DAMAGE.getAsDouble();
             EquipmentUpgrades upgrades = getUpgrades(heldItem);
 
-            pelletHits.forEach((hitEntity, pellets) -> causeInstantDamage(upgrades, player, hitEntity, basePelletDamage * pellets));
+            pelletHits.forEach((hitEntity, pellets) -> causeLightfragDamage(upgrades, player, hitEntity, basePelletDamage * pellets));
             level.gameEvent(player, LTXIGameEvents.WEAPON_FIRED, player.getEyePosition());
         }
 
@@ -78,26 +79,8 @@ public class ShotgunWeaponItem extends SemiAutoWeaponItem
     }
 
     @Override
-    public Item getAmmoItem(ItemStack stack)
-    {
-        return LTXIItems.SPECIALIST_WEAPON_ENERGY.asItem();
-    }
-
-    @Override
-    public int getAmmoCapacity(ItemStack stack)
-    {
-        return 5;
-    }
-
-    @Override
     public int getFireRate(ItemStack stack)
     {
         return 10;
-    }
-
-    @Override
-    public int getReloadSpeed(ItemStack stack)
-    {
-        return 30;
     }
 }
