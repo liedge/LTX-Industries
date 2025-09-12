@@ -1,17 +1,13 @@
 {
   "type": "ltxi:fabricating",
-  "energy_required": 500000,
+  "energy_required": 250000,
   "group": "eum/tool",
   "ingredients": [
-    {
-      "count": 1,
-      "item": "ltxi:empty_upgrade_module"
-    },
     {
       "type": "neoforge:components",
       "components": {
         "ltxi:equipment_upgrade": {
-          "upgrade": "ltxi:drill_diamond_level"
+          "upgrade": "ltxi:epsilon_fishing_lure"
         }
       },
       "count": 1,
@@ -19,22 +15,27 @@
       "strict": true
     },
     {
-      "count": 3,
-      "item": "minecraft:netherite_ingot"
+      "count": 2,
+      "item": "ltxi:t1_circuit"
     },
     {
       "count": 8,
-      "item": "ltxi:titanium_ingot"
+      "item": "minecraft:string"
+    },
+    {
+      "count": 4,
+      "item": "minecraft:cod"
     },
     {
       "count": 2,
-      "item": "ltxi:t3_circuit"
+      "item": "minecraft:salmon"
     }
   ],
   "result": {
     "components": {
       "ltxi:equipment_upgrade": {
-        "upgrade": "ltxi:drill_netherite_level"
+        "rank": 2,
+        "upgrade": "ltxi:epsilon_fishing_lure"
       }
     },
     "count": 1,

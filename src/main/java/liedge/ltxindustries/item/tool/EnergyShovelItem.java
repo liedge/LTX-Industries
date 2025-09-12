@@ -4,7 +4,6 @@ import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
 import liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -12,6 +11,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.Tool;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -22,13 +22,15 @@ import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.common.ItemAbility;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Set;
 
-public class EnergyShovelItem extends EnergyMiningToolItem
+public class EnergyShovelItem extends EnergyBreakerToolItem
 {
     public EnergyShovelItem(Properties properties, float attackDamage, float attackSpeed)
     {
-        super(properties.component(DataComponents.TOOL, createDefaultFixedTool(BlockTags.MINEABLE_WITH_SHOVEL)), attackDamage, attackSpeed);
+        super(properties, attackDamage, attackSpeed, Tool.Rule.deniesDrops(BlockTags.INCORRECT_FOR_DIAMOND_TOOL),
+                speed -> List.of(Tool.Rule.minesAndDrops(BlockTags.MINEABLE_WITH_SHOVEL, speed)));
     }
 
     @Override

@@ -1,6 +1,6 @@
 {
   "type": "ltxi:fabricating",
-  "energy_required": 20000000,
+  "energy_required": 500000,
   "group": "eum/tool",
   "ingredients": [
     {
@@ -8,34 +8,30 @@
       "item": "ltxi:empty_upgrade_module"
     },
     {
-      "count": 1,
-      "item": "minecraft:diamond_shovel"
-    },
-    {
-      "count": 1,
-      "item": "minecraft:diamond_pickaxe"
-    },
-    {
-      "count": 1,
-      "item": "minecraft:diamond_axe"
-    },
-    {
-      "count": 1,
-      "item": "minecraft:diamond_hoe"
-    },
-    {
-      "count": 4,
+      "count": 2,
       "item": "ltxi:t3_circuit"
     },
     {
-      "count": 2,
-      "item": "ltxi:titanium_block"
+      "count": 3,
+      "item": "minecraft:diamond"
+    },
+    {
+      "count": 1,
+      "item": "minecraft:netherite_ingot"
+    },
+    {
+      "count": 8,
+      "item": "ltxi:titanium_ingot"
+    },
+    {
+      "count": 4,
+      "item": "ltxi:slatesteel_ingot"
     }
   ],
   "result": {
     "components": {
       "ltxi:equipment_upgrade": {
-        "upgrade": "ltxi:drill_omni_miner"
+        "upgrade": "ltxi:tool_netherite_level"
       }
     },
     "count": 1,

@@ -24,7 +24,7 @@ class EquipmentUpgradesTagsGen extends LimaTagsProvider<EquipmentUpgrade>
     @Override
     protected void addTags(HolderLookup.Provider provider)
     {
-        buildTag(DRILL_MINING_UPGRADES).add(DRILL_DIAMOND_LEVEL, DRILL_NETHERITE_LEVEL);
+        buildTag(MINING_LEVEL_UPGRADES).add(TOOL_NETHERITE_LEVEL);
         buildTag(MINING_DROPS_MODIFIERS).add(SILK_TOUCH_ENCHANTMENT, FORTUNE_ENCHANTMENT);
         buildTag(AMMO_SOURCE_MODIFIERS).add(LIGHTWEIGHT_ENERGY_ADAPTER, SPECIALIST_ENERGY_ADAPTER, EXPLOSIVES_ENERGY_ADAPTER, HEAVY_ENERGY_ADAPTER, UNIVERSAL_INFINITE_AMMO);
     }

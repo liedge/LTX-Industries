@@ -169,16 +169,15 @@ class LanguageGen extends LimaLanguageProvider
 
         //#region Equipment upgrades
         add(TOOL_DEFAULT_UPGRADE_TITLE, "ε Core Systems");
-        upgradeDescOnly(LTXIEquipmentUpgrades.LTX_SHOVEL_DEFAULT, "Standard issue operating system. Excavator emitter preserves topographical integrity.");
+        upgradeDescOnly(LTXIEquipmentUpgrades.LTX_SHOVEL_DEFAULT, "Standard issue operating system. Tool energy cutter preserves topographical integrity.");
         upgradeDescOnly(LTXIEquipmentUpgrades.LTX_WRENCH_DEFAULT, "Standard issue operating system. Enables lossless dismantling and retrieval of machines.");
         upgradeDescOnly(LTXIEquipmentUpgrades.LTX_MELEE_DEFAULT, "Standard issue operating system. Tool energy blade is optimized for efficient severing and disintegration of organic matter.");
         upgrade(LTXIEquipmentUpgrades.SUBMACHINE_GUN_DEFAULT, "Serenity Intrinsics", "Serenity's small light-frags zip right through targets without a trace.");
         upgrade(LTXIEquipmentUpgrades.SHOTGUN_DEFAULT, "Aurora Intrinsics", "Aurora's combat precepts, specialized in fast assault and scout operations.");
 
         upgrade(LTXIEquipmentUpgrades.EPSILON_FISHING_LURE, "ε Anglers' Kit", "ε series' signature lure attracts more valuable aquatic specimens faster than regular bait.");
-        upgrade(LTXIEquipmentUpgrades.DRILL_DIAMOND_LEVEL, "Diamond Drill Core", "Diamond plating allows the drill to harvest diamond-level materials.");
-        upgrade(LTXIEquipmentUpgrades.DRILL_NETHERITE_LEVEL, "Netherite Drill Core", "The composite alloy plating on the drill allows harvesting of netherite-level materials.");
-        upgrade(LTXIEquipmentUpgrades.DRILL_OMNI_MINER, "Omni-Drill Precept", "Special-issue drill augur. Modified to work on any material type.");
+        upgrade(LTXIEquipmentUpgrades.TOOL_NETHERITE_LEVEL, "Netherite-Core Tool Head", "Upgrades mining tier to Netherite level and increases mining speed.");
+        upgrade(LTXIEquipmentUpgrades.EPSILON_OMNI_DRILL, "ε Experimental Drill", "Special-issue drill augur. Modified to work on any material type.");
         upgrade(LTXIEquipmentUpgrades.TOOL_VIBRATION_CANCEL, "Resonance-Tuned Servos", "Special lining on this tool's servos dampen vibrations from standard use.");
         upgrade(LTXIEquipmentUpgrades.TOOL_DIRECT_DROPS, "Mining Subspace Link", "Tool systems interface directly with your inventory, depositing materials without physical collection.");
 
@@ -196,6 +195,7 @@ class LanguageGen extends LimaLanguageProvider
         upgrade(LTXIEquipmentUpgrades.UNIVERSAL_STEALTH_DAMAGE, "Biometric Obfuscation", "Targeting systems mask your signature, leaving no trace of your involvement. May not be effective against all targets.");
         upgrade(LTXIEquipmentUpgrades.WEAPON_SHIELD_REGEN, "Regenerative Link", "Captures enemy energy upon elimination to power medical nano-tech and the bubble shield.");
 
+        upgrade(LTXIEquipmentUpgrades.EFFICIENCY_ENCHANTMENT, "Overclocked Energy Cutters", "Enhances the power feed to the tool's energy cutter.");
         upgrade(LTXIEquipmentUpgrades.SILK_TOUCH_ENCHANTMENT, "Stabilized Harvest Matrix", "Calibrated to extract intact samples from the terrain.");
         upgrade(LTXIEquipmentUpgrades.FORTUNE_ENCHANTMENT, "Overclocked Harvest Matrix", "Calibrated to extract superior quantities of valuable resources.");
         upgrade(LTXIEquipmentUpgrades.LOOTING_ENCHANTMENT, "Combat Yield Protocol", "Calibrated to maximize structural integrity of salvageable biomaterials.");

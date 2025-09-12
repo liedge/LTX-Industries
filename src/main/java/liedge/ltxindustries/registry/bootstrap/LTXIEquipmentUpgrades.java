@@ -35,6 +35,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentTarget;
 import net.minecraft.world.item.enchantment.Enchantments;
@@ -48,6 +49,7 @@ import net.neoforged.neoforge.registries.holdersets.AnyHolderSet;
 
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.UnaryOperator;
 
 import static liedge.ltxindustries.LTXITags.EquipmentUpgrades.*;
 import static liedge.ltxindustries.LTXIndustries.RESOURCES;
@@ -69,9 +71,8 @@ public final class LTXIEquipmentUpgrades
 
     // Tool upgrades
     public static final ResourceKey<EquipmentUpgrade> EPSILON_FISHING_LURE = key("epsilon_fishing_lure");
-    public static final ResourceKey<EquipmentUpgrade> DRILL_DIAMOND_LEVEL = key("drill_diamond_level");
-    public static final ResourceKey<EquipmentUpgrade> DRILL_NETHERITE_LEVEL = key("drill_netherite_level");
-    public static final ResourceKey<EquipmentUpgrade> DRILL_OMNI_MINER = key("drill_omni_miner");
+    public static final ResourceKey<EquipmentUpgrade> TOOL_NETHERITE_LEVEL = key("tool_netherite_level");
+    public static final ResourceKey<EquipmentUpgrade> EPSILON_OMNI_DRILL = key("epsilon_omni_drill");
     public static final ResourceKey<EquipmentUpgrade> TOOL_VIBRATION_CANCEL = key("tool_vibration_cancel");
     public static final ResourceKey<EquipmentUpgrade> TOOL_DIRECT_DROPS = key("tool_direct_drops");
 
@@ -91,6 +92,7 @@ public final class LTXIEquipmentUpgrades
     public static final ResourceKey<EquipmentUpgrade> GRENADE_LAUNCHER_PROJECTILE_SPEED = key("grenade_launcher_projectile_speed");
 
     // Enchantments
+    public static final ResourceKey<EquipmentUpgrade> EFFICIENCY_ENCHANTMENT = key("enchantment/efficiency");
     public static final ResourceKey<EquipmentUpgrade> SILK_TOUCH_ENCHANTMENT = key("enchantment/silk_touch");
     public static final ResourceKey<EquipmentUpgrade> FORTUNE_ENCHANTMENT = key("enchantment/fortune");
     public static final ResourceKey<EquipmentUpgrade> LOOTING_ENCHANTMENT = key("enchantment/looting");
@@ -133,6 +135,8 @@ public final class LTXIEquipmentUpgrades
         
         // Common sprites
         Function<ItemLike, UpgradeIcon> defaultModuleIcon = item -> bottomRightComposite(itemIcon(item), sprite("default_overlay"), 7);
+        UnaryOperator<UpgradeIcon> luckOverlay = icon -> bottomRightComposite(icon, sprite("luck_overlay"), 7);
+
 
         // Built in upgrades
         final Component defaultToolTitle = LTXILangKeys.TOOL_DEFAULT_UPGRADE_TITLE.translate().withStyle(LTXIConstants.LIME_GREEN.chatStyle());
@@ -184,25 +188,18 @@ public final class LTXIEquipmentUpgrades
                 .effectIcon(bottomRightComposite(itemIcon(LTXIItems.LTX_FISHING_ROD), sprite("plus_overlay"), 9))
                 .category("tools")
                 .register(context);
-        EquipmentUpgrade.builder(DRILL_DIAMOND_LEVEL)
-                .supports(LTXIItems.LTX_DRILL)
-                .exclusiveWith(holders, DRILL_MINING_UPGRADES)
-                .withEffect(MINING_RULES, MiningRuleUpgradeEffect.miningLevelAndSpeed(blocks.getOrThrow(BlockTags.INCORRECT_FOR_DIAMOND_TOOL), 9f, 1))
-                .effectIcon(sprite("diamond_drill_tip"))
-                .category("tools/drill")
-                .register(context);
-        EquipmentUpgrade.builder(DRILL_NETHERITE_LEVEL)
-                .supports(LTXIItems.LTX_DRILL)
-                .exclusiveWith(holders, DRILL_MINING_UPGRADES)
+        EquipmentUpgrade.builder(TOOL_NETHERITE_LEVEL)
+                .supports(ltxMiningTools)
+                .exclusiveWith(holders, MINING_LEVEL_UPGRADES)
                 .withEffect(MINING_RULES, MiningRuleUpgradeEffect.miningLevelAndSpeed(blocks.getOrThrow(BlockTags.INCORRECT_FOR_NETHERITE_TOOL), 11f, 2))
-                .effectIcon(sprite("netherite_drill_tip"))
-                .category("tools/drill")
+                .effectIcon(bottomRightComposite(itemIcon(Items.NETHERITE_PICKAXE), sprite("green_arrow_overlay"), 9))
+                .category("tools")
                 .register(context);
-        EquipmentUpgrade.builder(DRILL_OMNI_MINER)
+        EquipmentUpgrade.builder(EPSILON_OMNI_DRILL)
                 .createDefaultTitle(LTXIConstants.LIME_GREEN)
                 .supports(LTXIItems.LTX_DRILL)
                 .withEffect(MINING_RULES, new MiningRuleUpgradeEffect(Optional.of(anyBlockHolderSet), Optional.empty(), Optional.empty(), 3))
-                .effectIcon(sprite("omni_drill_tip"))
+                .effectIcon(sprite("purple_drill_head"))
                 .category("tools/drill")
                 .register(context);
         EquipmentUpgrade.builder(TOOL_VIBRATION_CANCEL)
@@ -313,6 +310,13 @@ public final class LTXIEquipmentUpgrades
                 .register(context);
 
         // Enchantments
+        EquipmentUpgrade.builder(EFFICIENCY_ENCHANTMENT)
+                .supports(ltxMiningTools)
+                .setMaxRank(5)
+                .withEffect(ENCHANTMENT_LEVEL, EnchantmentUpgradeEffect.oneLevelPerRank(enchantments.getOrThrow(Enchantments.EFFICIENCY)))
+                .effectIcon(bottomRightComposite(itemIcon(LTXIItems.LTX_DRILL), sprite("yellow_arrow_overlay"), 9))
+                .category("enchants")
+                .register(context);
         EquipmentUpgrade.builder(SILK_TOUCH_ENCHANTMENT)
                 .supports(ltxMiningTools)
                 .exclusiveWith(holders, MINING_DROPS_MODIFIERS)
@@ -325,15 +329,14 @@ public final class LTXIEquipmentUpgrades
                 .exclusiveWith(holders, MINING_DROPS_MODIFIERS)
                 .setMaxRank(5)
                 .withEffect(ENCHANTMENT_LEVEL, EnchantmentUpgradeEffect.oneLevelPerRank(enchantments.getOrThrow(Enchantments.FORTUNE)))
-                .withEffect(ENERGY_USAGE, ValueUpgradeEffect.of(DoubleLevelBasedValue.linear(0.5d), MathOperation.ADD_PERCENT))
-                .effectIcon(bottomRightComposite(itemIcon(LTXIItems.LTX_DRILL), sprite("luck_overlay"), 7))
+                .effectIcon(luckOverlay.apply(itemIcon(LTXIItems.LTX_DRILL)))
                 .category("enchants")
                 .register(context);
         EquipmentUpgrade.builder(LOOTING_ENCHANTMENT)
                 .supports(ltxAllWeapons)
                 .setMaxRank(5)
                 .withEffect(ENCHANTMENT_LEVEL, EnchantmentUpgradeEffect.oneLevelPerRank(enchantments.getOrThrow(Enchantments.LOOTING)))
-                .effectIcon(bottomRightComposite(itemIcon(LTXIItems.LTX_SWORD), sprite("luck_overlay"), 7))
+                .effectIcon(luckOverlay.apply(itemIcon(LTXIItems.LTX_SWORD)))
                 .category("enchants")
                 .register(context);
         EquipmentUpgrade.builder(AMMO_SCAVENGER_ENCHANTMENT)

@@ -2,30 +2,30 @@
   "display": {
     "category": "enchants",
     "description": {
-      "translate": "equipment_upgrade.ltxi.enchantment.fortune.desc"
+      "translate": "equipment_upgrade.ltxi.enchantment.efficiency.desc"
     },
     "icon": {
       "type": "composite",
       "background": {
         "id": "ltxi:ltx_drill"
       },
-      "overlay": "ltxi:luck_overlay",
-      "overlay_size": 7,
-      "x_offset": 8,
-      "y_offset": 8
+      "overlay": "ltxi:yellow_arrow_overlay",
+      "overlay_size": 9,
+      "x_offset": 6,
+      "y_offset": 6
     },
     "title": {
-      "translate": "equipment_upgrade.ltxi.enchantment.fortune"
+      "translate": "equipment_upgrade.ltxi.enchantment.efficiency"
     }
   },
   "effects": {
     "ltxi:enchantments": [
       {
-        "enchantment": "minecraft:fortune"
+        "enchantment": "minecraft:efficiency"
       }
     ]
   },
-  "exclusive_set": "#ltxi:mining_drops_modifiers",
+  "exclusive_set": [],
   "max_rank": 5,
   "supported_set": "#ltxi:tools/mining"
 }

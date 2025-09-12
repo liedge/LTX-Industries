@@ -250,59 +250,61 @@ class RecipesGen extends LimaRecipeProvider
                 .group("turrets").save(output);
 
         // Tools fabricating
-        upgradeableItemFabricating(LTX_DRILL, registries, 300_000)
-                .input(IRON_PICKAXE)
-                .input(IRON_SHOVEL)
-                .input(TITANIUM_INGOT, 8)
-                .input(T2_CIRCUIT, 2)
-                .input(LTX_LIME_PIGMENT, 4)
-                .group("ltx/tool").save(output);
-        upgradeableItemFabricating(LTX_SWORD, registries, 500_000)
-                .input(DIAMOND_SWORD)
-                .input(TITANIUM_INGOT, 6)
-                .input(T2_CIRCUIT, 2)
-                .input(LTX_LIME_PIGMENT, 4)
-                .group("ltx/tool").save(output);
-        upgradeableItemFabricating(LTX_SHOVEL, registries, 500_000)
-                .input(DIAMOND_SHOVEL)
-                .input(TITANIUM_INGOT, 3)
-                .input(T2_CIRCUIT, 2)
-                .input(LTX_LIME_PIGMENT, 4)
-                .group("ltx/tool").save(output);
-        upgradeableItemFabricating(LTX_AXE, registries, 500_000)
-                .input(DIAMOND_AXE)
+        upgradeableItemFabricating(LTX_DRILL, registries, 1_000_000)
+                .input(T3_CIRCUIT)
                 .input(TITANIUM_INGOT, 9)
-                .input(T2_CIRCUIT, 2)
+                .input(SLATESTEEL_INGOT, 3)
+                .input(LTX_LIME_PIGMENT, 6)
+                .group("ltx/tool").save(output);
+        upgradeableItemFabricating(LTX_SWORD, registries, 1_000_000)
+                .input(T3_CIRCUIT)
+                .input(TITANIUM_INGOT, 6)
+                .input(SLATESTEEL_INGOT, 2)
                 .input(LTX_LIME_PIGMENT, 4)
                 .group("ltx/tool").save(output);
-        upgradeableItemFabricating(LTX_HOE, registries, 500_000)
-                .input(DIAMOND_HOE)
+        upgradeableItemFabricating(LTX_SHOVEL, registries, 1_000_000)
+                .input(T3_CIRCUIT)
                 .input(TITANIUM_INGOT, 3)
-                .input(T2_CIRCUIT, 2)
+                .input(SLATESTEEL_INGOT, 1)
+                .input(LTX_LIME_PIGMENT, 2)
+                .group("ltx/tool").save(output);
+        upgradeableItemFabricating(LTX_AXE, registries, 1_000_000)
+                .input(T3_CIRCUIT)
+                .input(TITANIUM_INGOT, 9)
+                .input(SLATESTEEL_INGOT, 3)
+                .input(LTX_LIME_PIGMENT, 6)
+                .group("ltx/tool").save(output);
+        upgradeableItemFabricating(LTX_HOE, registries, 1_000_000)
+                .input(T3_CIRCUIT)
+                .input(TITANIUM_INGOT, 6)
+                .input(SLATESTEEL_INGOT, 2)
                 .input(LTX_LIME_PIGMENT, 4)
                 .group("ltx/tool").save(output);
-        upgradeableItemFabricating(LTX_SHEARS, registries, 300_000)
-                .input(SHEARS)
+        upgradeableItemFabricating(LTX_SHEARS, registries, 500_000)
+                .input(T2_CIRCUIT)
                 .input(TITANIUM_INGOT, 6)
-                .input(T1_CIRCUIT, 2)
+                .input(SLATESTEEL_INGOT, 2)
                 .input(LTX_LIME_PIGMENT, 2)
                 .group("ltx/tool").save(output);
-        upgradeableItemFabricating(LTX_BRUSH, registries, 300_000)
-                .input(BRUSH)
+        upgradeableItemFabricating(LTX_BRUSH, registries, 500_000)
+                .input(T2_CIRCUIT)
                 .input(TITANIUM_INGOT, 3)
-                .input(T1_CIRCUIT, 2)
+                .input(SLATESTEEL_INGOT)
+                .input(FEATHER, 3)
                 .input(LTX_LIME_PIGMENT, 2)
                 .group("ltx/tool").save(output);
-        upgradeableItemFabricating(LTX_FISHING_ROD, registries, 300_000)
-                .input(FISHING_ROD)
+        upgradeableItemFabricating(LTX_FISHING_ROD, registries, 500_000)
+                .input(T2_CIRCUIT)
                 .input(TITANIUM_INGOT, 6)
-                .input(T1_CIRCUIT, 2)
-                .input(LTX_LIME_PIGMENT, 2)
+                .input(SLATESTEEL_INGOT, 2)
+                .input(STRING, 2)
+                .input(LTX_LIME_PIGMENT, 4)
                 .group("ltx/tool").save(output);
-        upgradeableItemFabricating(LTX_LIGHTER, registries, 300_000)
-                .input(FLINT_AND_STEEL)
+        upgradeableItemFabricating(LTX_LIGHTER, registries, 500_000)
+                .input(T2_CIRCUIT)
                 .input(TITANIUM_INGOT, 3)
-                .input(T1_CIRCUIT, 2)
+                .input(SLATESTEEL_INGOT)
+                .input(FLINT)
                 .input(LTX_LIME_PIGMENT, 2)
                 .group("ltx/tool").save(output);
 
@@ -352,23 +354,46 @@ class RecipesGen extends LimaRecipeProvider
                 .unlockedBy("kill_boss", KilledTrigger.TriggerInstance.playerKilledEntity(EntityPredicate.Builder.entity().of(LTXITags.EntityTypes.HIGH_THREAT_TARGETS)))
                 .group("ltx/weapon").save(output);
 
-        equipmentModuleFab(output, registries, "eum/tool", DRILL_DIAMOND_LEVEL, 1, 300_000, builder -> builder
-                .input(DIAMOND_BLOCK)
-                .input(TITANIUM_INGOT, 4)
-                .input(T2_CIRCUIT, 2));
-        equipmentModuleFab(output, registries, "eum/tool", DRILL_NETHERITE_LEVEL, 1, 500_000, builder -> builder
-                .input(eumIngredient(registries, DRILL_DIAMOND_LEVEL, 1))
-                .input(NETHERITE_INGOT, 3)
-                .input(TITANIUM_INGOT, 8)
-                .input(T3_CIRCUIT, 2));
-        equipmentModuleFab(output, registries, "eum/tool", DRILL_OMNI_MINER, 1, 20_000_000, builder -> builder
-                .input(DIAMOND_SHOVEL)
-                .input(DIAMOND_PICKAXE)
-                .input(DIAMOND_AXE)
-                .input(DIAMOND_HOE)
+        final String eumTools = "eum/tool";
+        equipmentModuleFab(output, registries, eumTools, EPSILON_FISHING_LURE, 1, 100_000, builder -> builder
+                .input(T1_CIRCUIT)
+                .input(STRING, 4)
+                .input(COD, 2));
+        equipmentModuleFab(output, registries, eumTools, EPSILON_FISHING_LURE, 2, 250_000, builder -> builder
+                .input(T1_CIRCUIT, 2)
+                .input(STRING, 8)
+                .input(COD, 4)
+                .input(SALMON, 2));
+        equipmentModuleFab(output, registries, eumTools, EPSILON_FISHING_LURE, 3, 500_000, builder -> builder
+                .input(T2_CIRCUIT, 2)
+                .input(TITANIUM_INGOT, 2)
+                .input(STRING, 8)
+                .input(PUFFERFISH, 2));
+        equipmentModuleFab(output, registries, eumTools, EPSILON_FISHING_LURE, 4, 1_000_000, builder -> builder
+                .input(T3_CIRCUIT, 2)
+                .input(SLATESTEEL_INGOT, 2)
+                .input(STRING, 4)
+                .input(CARBON_DUST, 12)
+                .input(LTX_LIME_PIGMENT, 6)
+                .input(PRISMARINE_CRYSTALS, 2));
+        equipmentModuleFab(output, registries, eumTools, EPSILON_FISHING_LURE, 5, 2_000_000, builder -> builder
                 .input(T3_CIRCUIT, 4)
-                .input(TITANIUM_BLOCK, 2));
-        equipmentModuleFab(output, registries, "eum/tool", TOOL_VIBRATION_CANCEL, 1, 500_000, builder -> builder
+                .input(SLATESTEEL_INGOT, 4)
+                .input(POLYMER_INGOT, 8)
+                .input(STRING, 8)
+                .input(CARBON_DUST, 24)
+                .input(LTX_LIME_PIGMENT, 12)
+                .input(HEART_OF_THE_SEA));
+        equipmentModuleFab(output, registries, eumTools, TOOL_NETHERITE_LEVEL, 1, 500_000, builder -> builder
+                .input(T3_CIRCUIT, 2)
+                .input(DIAMOND, 3)
+                .input(NETHERITE_INGOT)
+                .input(TITANIUM_INGOT, 8)
+                .input(SLATESTEEL_INGOT, 4));
+        equipmentModuleFab(output, registries, eumTools, EPSILON_OMNI_DRILL, 1, 20_000_000, builder -> builder
+                .input(T4_CIRCUIT)
+                .input(LTX_LIME_PIGMENT, 16));
+        equipmentModuleFab(output, registries, eumTools, TOOL_VIBRATION_CANCEL, 1, 500_000, builder -> builder
                 .input(T3_CIRCUIT)
                 .input(TITANIUM_INGOT, 4)
                 .input(SCULK_SENSOR, 1)
@@ -427,6 +452,31 @@ class RecipesGen extends LimaRecipeProvider
                 .input(AMETHYST_SHARD, 8)
                 .input(ENCHANTED_GOLDEN_APPLE));
 
+        equipmentModuleFab(output, registries, "eum/enchant", EFFICIENCY_ENCHANTMENT, 1, 250_000, builder -> builder
+                .input(T1_CIRCUIT, 2)
+                .input(REDSTONE, 4));
+        equipmentModuleFab(output, registries, "eum/enchant", EFFICIENCY_ENCHANTMENT, 2, 500_000, builder -> builder
+                .input(T1_CIRCUIT, 4)
+                .input(REDSTONE, 8));
+        equipmentModuleFab(output, registries, "eum/enchant", EFFICIENCY_ENCHANTMENT, 3, 750_000, builder -> builder
+                .input(T2_CIRCUIT, 2)
+                .input(REDSTONE, 8)
+                .input(BLAZE_POWDER, 4)
+                .input(TITANIUM_INGOT, 4));
+        equipmentModuleFab(output, registries, "eum/enchant", EFFICIENCY_ENCHANTMENT, 4, 1_000_000, builder -> builder
+                .input(T3_CIRCUIT, 2)
+                .input(REDSTONE, 8)
+                .input(BLAZE_POWDER, 8)
+                .input(TITANIUM_INGOT, 8)
+                .input(SLATESTEEL_INGOT, 4)
+                .input(POLYMER_INGOT, 8));
+        equipmentModuleFab(output, registries, "eum/enchant", EFFICIENCY_ENCHANTMENT, 5, 2_000_000, builder -> builder
+                .input(T3_CIRCUIT, 4)
+                .input(REDSTONE, 8)
+                .input(BLAZE_POWDER, 12)
+                .input(TITANIUM_INGOT, 12)
+                .input(SLATESTEEL_INGOT, 8)
+                .input(POLYMER_INGOT, 16));
         equipmentModuleFab(output, registries, "eum/enchant", SILK_TOUCH_ENCHANTMENT, 1, 500_000, builder -> builder
                 .input(T3_CIRCUIT)
                 .input(EMERALD, 1)

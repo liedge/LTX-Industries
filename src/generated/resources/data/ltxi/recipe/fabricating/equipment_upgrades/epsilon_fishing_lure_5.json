@@ -1,0 +1,57 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 2000000,
+  "group": "eum/tool",
+  "ingredients": [
+    {
+      "type": "neoforge:components",
+      "components": {
+        "ltxi:equipment_upgrade": {
+          "rank": 4,
+          "upgrade": "ltxi:epsilon_fishing_lure"
+        }
+      },
+      "count": 1,
+      "items": "ltxi:equipment_upgrade_module",
+      "strict": true
+    },
+    {
+      "count": 4,
+      "item": "ltxi:t3_circuit"
+    },
+    {
+      "count": 4,
+      "item": "ltxi:slatesteel_ingot"
+    },
+    {
+      "count": 8,
+      "item": "ltxi:polymer_ingot"
+    },
+    {
+      "count": 8,
+      "item": "minecraft:string"
+    },
+    {
+      "count": 24,
+      "item": "ltxi:carbon_dust"
+    },
+    {
+      "count": 12,
+      "item": "ltxi:ltx_lime_pigment"
+    },
+    {
+      "count": 1,
+      "item": "minecraft:heart_of_the_sea"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:equipment_upgrade": {
+        "rank": 5,
+        "upgrade": "ltxi:epsilon_fishing_lure"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:equipment_upgrade_module"
+  }
+}

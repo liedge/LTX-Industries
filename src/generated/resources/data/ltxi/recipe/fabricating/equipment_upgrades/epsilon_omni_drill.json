@@ -1,0 +1,28 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 20000000,
+  "group": "eum/tool",
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "ltxi:empty_upgrade_module"
+    },
+    {
+      "count": 1,
+      "item": "ltxi:t4_circuit"
+    },
+    {
+      "count": 16,
+      "item": "ltxi:ltx_lime_pigment"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:equipment_upgrade": {
+        "upgrade": "ltxi:epsilon_omni_drill"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:equipment_upgrade_module"
+  }
+}

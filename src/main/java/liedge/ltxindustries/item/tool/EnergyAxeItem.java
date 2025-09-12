@@ -44,13 +44,14 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 
-public class EnergyAxeItem extends EnergyMiningToolItem
+public class EnergyAxeItem extends EnergyBreakerToolItem
 {
     private static final int MAX_LOGS_TO_BREAK = 128;
 
     public EnergyAxeItem(Properties properties, float attackDamage, float attackSpeed)
     {
-        super(properties.component(DataComponents.TOOL, createDefaultFixedTool(BlockTags.MINEABLE_WITH_AXE)), attackDamage, attackSpeed);
+        super(properties, attackDamage, attackSpeed, Tool.Rule.deniesDrops(BlockTags.INCORRECT_FOR_DIAMOND_TOOL),
+                speed -> List.of(Tool.Rule.minesAndDrops(BlockTags.MINEABLE_WITH_AXE, speed)));
     }
 
     @Override

@@ -94,9 +94,16 @@ public abstract class EnergyBaseToolItem extends Item implements EnergyHolderIte
     }
 
     @Override
+    public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker)
+    {
+        return poweredAttackDamage > 0 && hasEnergyForAction(stack);
+    }
+
+    @Override
     public void postHurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker)
     {
-        if (!attacker.level().isClientSide() && attacker instanceof Player) consumeActionEnergy((Player) attacker, stack);
+        if (poweredAttackDamage > 0 && !attacker.level().isClientSide() && attacker instanceof Player)
+            consumeActionEnergy((Player) attacker, stack);
     }
 
     // Tool actions

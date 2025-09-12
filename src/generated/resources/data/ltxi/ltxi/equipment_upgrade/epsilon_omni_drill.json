@@ -2,12 +2,12 @@
   "display": {
     "category": "tools/drill",
     "description": {
-      "translate": "equipment_upgrade.ltxi.drill_omni_miner.desc"
+      "translate": "equipment_upgrade.ltxi.epsilon_omni_drill.desc"
     },
-    "icon": "ltxi:omni_drill_tip",
+    "icon": "ltxi:purple_drill_head",
     "title": {
       "color": "#9DF143",
-      "translate": "equipment_upgrade.ltxi.drill_omni_miner"
+      "translate": "equipment_upgrade.ltxi.epsilon_omni_drill"
     }
   },
   "effects": {
