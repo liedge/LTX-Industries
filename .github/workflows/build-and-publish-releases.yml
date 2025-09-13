@@ -4,6 +4,7 @@ on:
   push:
     tags:
       - 'v*'
+  workflow_dispatch:
 
 jobs:
   release:
@@ -24,10 +25,11 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
-      - name: Setup, build, and publish with gradle
-        uses: gradle/actions/setup-gradle@v3
-        with:
-          arguments: build publish
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Build and publish with the Gradle Wrapper
+        run: ./gradlew build publish
         env:
           GITHUB_USERNAME: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
