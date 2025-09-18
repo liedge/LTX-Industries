@@ -3,6 +3,7 @@ package liedge.ltxindustries.integration.guideme;
 import guideme.Guides;
 import liedge.limacore.AllNotNull;
 import liedge.ltxindustries.LTXIndustries;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.fml.ModList;
@@ -27,7 +28,9 @@ public final class GuideMEIntegration
         }
         else
         {
-            return Guides.createGuideItem(GUIDE_ID);
+            ItemStack stack = Guides.createGuideItem(GUIDE_ID);
+            stack.set(DataComponents.MAX_STACK_SIZE, 1);
+            return stack;
         }
     }
 }

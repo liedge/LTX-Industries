@@ -15,9 +15,13 @@
     "model": "ltxi:item/guide_tablet"
   },
   "custom_colors": {
-    "ltxi:energy_blue": {
+    "ltxi:energy": {
       "dark_mode": "#8bd1f0",
       "light_mode": "#8bd1f0"
+    },
+    "ltxi:electric": {
+      "dark_mode": "#deff70",
+      "light_mode": "#deff70"
     }
   }
 }

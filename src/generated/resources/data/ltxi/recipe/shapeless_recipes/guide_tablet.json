@@ -20,7 +20,8 @@
   ],
   "result": {
     "components": {
-      "guideme:guide_id": "ltxi:guide"
+      "guideme:guide_id": "ltxi:guide",
+      "minecraft:max_stack_size": 1
     },
     "count": 1,
     "id": "guideme:guide"
