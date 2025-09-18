@@ -66,9 +66,11 @@ class BlockStatesGen extends LimaBlockStateProvider
         cubeAll(SMOOTH_TITANIUM_PANEL);
         cubeAll(TITANIUM_GLASS).renderType("cutout");
 
-        // Bilevine plant
+        // Plants
+        sparkFruit(SPARK_FRUIT);
         berryVines(BILEVINE, AGE_25);
         berryVines(BILEVINE_PLANT);
+        simpleBlock(GLOOM_SHROOM, existingModel(blockFolderLocation(GLOOM_SHROOM)));
 
         // Energy cell array
         horizontalBlock(ENERGY_CELL_ARRAY.get(), existingModel(blockFolderLocation(ENERGY_CELL_ARRAY)));
@@ -100,6 +102,17 @@ class BlockStatesGen extends LimaBlockStateProvider
 
         // Technical blocks
         getVariantBuilder(MESH_BLOCK).forAllStatesExcept(state -> ConfiguredModel.builder().modelFile(machineParticlesOnly).build(), HORIZONTAL_FACING, WATERLOGGED);
+    }
+
+    private void sparkFruit(Holder<Block> holder)
+    {
+        getVariantBuilder(holder).forAllStates(state ->
+        {
+            String name = getBlockName(holder);
+            int age = state.getValue(AGE_2);
+            ModelFile model = existingModel(blockFolderLocation(name + "_" + age));
+            return ConfiguredModel.builder().modelFile(model).build();
+        });
     }
 
     private void berryVines(Holder<Block> holder, Property<?>... ignoredProperties)

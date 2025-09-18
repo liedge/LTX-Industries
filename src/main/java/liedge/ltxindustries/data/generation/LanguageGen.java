@@ -19,10 +19,7 @@ import liedge.ltxindustries.registry.bootstrap.LTXIDamageTypes;
 import liedge.ltxindustries.registry.bootstrap.LTXIEnchantments;
 import liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades;
 import liedge.ltxindustries.registry.bootstrap.LTXIMachineUpgrades;
-import liedge.ltxindustries.registry.game.LTXIEntities;
-import liedge.ltxindustries.registry.game.LTXIFluids;
-import liedge.ltxindustries.registry.game.LTXIMenus;
-import liedge.ltxindustries.registry.game.LTXIMobEffects;
+import liedge.ltxindustries.registry.game.*;
 import liedge.ltxindustries.util.LTXITooltipUtil;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
@@ -33,6 +30,8 @@ import net.neoforged.neoforge.registries.DeferredItem;
 
 import static liedge.ltxindustries.client.LTXILangKeys.*;
 import static liedge.ltxindustries.registry.game.LTXIBlocks.*;
+import static liedge.ltxindustries.registry.game.LTXIBlocks.GLOOM_SHROOM;
+import static liedge.ltxindustries.registry.game.LTXIBlocks.SPARK_FRUIT;
 import static liedge.ltxindustries.registry.game.LTXICreativeTabs.*;
 import static liedge.ltxindustries.registry.game.LTXIItems.*;
 import static liedge.ltxindustries.registry.game.LTXIRecipeTypes.*;
@@ -67,6 +66,11 @@ class LanguageGen extends LimaLanguageProvider
         addBlock(TITANIUM_PANEL, "Titanium Panel");
         addBlock(SMOOTH_TITANIUM_PANEL, "Smooth Titanium Panel");
         addBlock(TITANIUM_GLASS, "Titanium Glass");
+
+        addBlock(SPARK_FRUIT, "Spark Fruit");
+        addBlock(BILEVINE, "Bilevine");
+        addBlock(BILEVINE_PLANT, "Bilevine");
+        addBlock(GLOOM_SHROOM, "Gloom Shroom");
 
         addBlock(ENERGY_CELL_ARRAY, "Energy Cell Array");
         addBlock(INFINITE_ENERGY_CELL_ARRAY, "Energy Cell Array (∞)");
@@ -113,10 +117,14 @@ class LanguageGen extends LimaLanguageProvider
         addItem(RESINOUS_BIOMASS, "Resinous Biomass");
         addItem(ACIDIC_BIOMASS, "Acidic Biomass");
         addItem(DEEPSLATE_DUST, "Deepslate Dust");
+        addItem(ELECTRIC_CHEMICAL, "Electrolyte Blend");
         addItem(MONOMER_CHEMICAL, "Monomer Solution");
-        addItem(POLYMER_INGOT, "Polymer Bar");
+        addItem(VIRIDIC_WEAPON_CHEMICAL, "Weapons-Grade Viridic Acid");
+        addItem(SCULK_CHEMICAL, "Echo Serum");
+        addItem(NEURO_CHEMICAL, "Neuro-Suppressant");
         addItem(SLATESTEEL_INGOT, "Slatesteel Ingot");
         addItem(SLATESTEEL_NUGGET, "Slatesteel Nugget");
+        addItem(POLYMER_INGOT, "Polymer Bar");
         addItem(CIRCUIT_BOARD, "Circuit Board");
         simpleHintItem(T1_CIRCUIT, "Basic Circuit", "First tier circuit. Sufficient energy and data throughput for most entry-level applications.");
         simpleHintItem(T2_CIRCUIT, "Enhanced Circuit", "Second tier circuit. Improved energy and data efficiency from higher quality conductors.");

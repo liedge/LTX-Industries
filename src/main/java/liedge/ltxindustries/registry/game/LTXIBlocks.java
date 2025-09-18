@@ -10,12 +10,10 @@ import liedge.ltxindustries.block.mesh.LTXIBlockMeshes;
 import liedge.ltxindustries.item.*;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.UniformInt;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
@@ -77,8 +75,10 @@ public final class LTXIBlocks
     public static final DeferredBlockWithItem<Block, BlockItem> TITANIUM_GLASS = BLOCKS.registerBlockAndSimpleItem("titanium_glass", () -> new TransparentBlock(quartzGlassProperties()), new Item.Properties());
 
     // Plants
+    public static final DeferredBlock<SparkFruitBlock> SPARK_FRUIT = BLOCKS.registerBlock("spark_fruit", SparkFruitBlock::new, of().mapColor(MapColor.PLANT).randomTicks().strength(0.2f, 3.0f).sound(SoundType.WET_GRASS).noOcclusion().pushReaction(PushReaction.DESTROY).lightLevel(state -> state.getValue(BlockStateProperties.AGE_2)== 2 ? 7 : 0));
     public static final DeferredBlock<BerryVinesBlock> BILEVINE = BLOCKS.registerBlock("bilevine", BerryVinesBlock::new, berryVinesProperties());
     public static final DeferredBlock<BerryVinesPlantBlock> BILEVINE_PLANT = BLOCKS.registerBlock("bilevine_plant", BerryVinesPlantBlock::new, berryVinesProperties());
+    public static final DeferredBlock<GloomShroomBlock> GLOOM_SHROOM = BLOCKS.registerBlock("gloom_shroom", GloomShroomBlock::new, of().mapColor(MapColor.COLOR_BLUE).instabreak().noCollission().sound(SoundType.FUNGUS).pushReaction(PushReaction.DESTROY));
 
     // Machinery
     public static final DeferredBlockWithItem<EnergyCellArrayBlock, ECABlockItem> ENERGY_CELL_ARRAY = BLOCKS.registerBlockAndItem(LTXICommonIds.ID_ENERGY_CELL_ARRAY, () -> new EnergyCellArrayBlock(machineProperties().noOcclusion()), block -> new ECABlockItem(block, new Item.Properties().stacksTo(1)));

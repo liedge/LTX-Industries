@@ -1,0 +1,44 @@
+{
+	"format_version": "1.9.0",
+	"credit": "Made with Blockbench",
+	"textures": {
+		"0": "ltxi:block/spark_fruit_0",
+		"particle": "ltxi:block/spark_fruit_0"
+	},
+	"elements": [
+		{
+			"name": "stem",
+			"from": [7, 13, 8],
+			"to": [9, 16, 8],
+			"rotation": {"angle": -45, "axis": "y", "origin": [8, 14.5, 8]},
+			"faces": {
+				"north": {"uv": [0, 13, 2, 16], "texture": "#0"},
+				"south": {"uv": [0, 13, 2, 16], "texture": "#0"}
+			}
+		},
+		{
+			"name": "stem",
+			"from": [7, 13, 8],
+			"to": [9, 16, 8],
+			"rotation": {"angle": 45, "axis": "y", "origin": [8, 14.5, 8]},
+			"faces": {
+				"north": {"uv": [0, 13, 2, 16], "texture": "#0"},
+				"south": {"uv": [0, 13, 2, 16], "texture": "#0"}
+			}
+		},
+		{
+			"name": "fruit",
+			"from": [5.5, 7, 5.5],
+			"to": [10.5, 13, 10.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [5.5, 7, 5.5]},
+			"faces": {
+				"north": {"uv": [11, 0, 16, 6], "texture": "#0"},
+				"east": {"uv": [11, 0, 16, 6], "texture": "#0"},
+				"south": {"uv": [11, 0, 16, 6], "texture": "#0"},
+				"west": {"uv": [11, 0, 16, 6], "texture": "#0"},
+				"up": {"uv": [0, 0, 5, 5], "texture": "#0"},
+				"down": {"uv": [0, 0, 5, 5], "texture": "#0"}
+			}
+		}
+	]
+}

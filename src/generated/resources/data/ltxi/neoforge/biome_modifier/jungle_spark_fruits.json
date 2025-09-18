@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#minecraft:is_jungle",
+  "features": "ltxi:jungle_spark_fruits",
+  "step": "vegetal_decoration"
+}

@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "minecraft:deep_dark",
+  "features": "ltxi:underground_gloom_shrooms",
+  "step": "vegetal_decoration"
+}

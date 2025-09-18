@@ -17,6 +17,8 @@ import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.BlockColumnConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
+import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.stateproviders.RandomizedIntStateProvider;
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
 
@@ -31,7 +33,9 @@ public final class LTXIConfiguredFeatures
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> TITANIUM_ORE_CONFIG = key("titanium_ore");
     public static final ResourceKey<ConfiguredFeature<?, ?>> NIOBIUM_ORE_CONFIG = key("niobium_ore");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> SPARK_FRUIT_CONFIG = key("jungle_spark_fruits");
     public static final ResourceKey<ConfiguredFeature<?, ?>> BILEVINE_CONFIG = key("bilevine");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> GLOOM_SHROOM_CONFIG = key("underground_gloom_shrooms");
 
     private static ResourceKey<ConfiguredFeature<?, ?>> key(String name)
     {
@@ -40,12 +44,16 @@ public final class LTXIConfiguredFeatures
 
     public static void bootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context)
     {
+        // Ores
         ConfiguredFeature<?, ?> titaniumOre = new ConfiguredFeature<>(Feature.ORE, oreConfig(10, tagMatchOreTarget(BlockTags.STONE_ORE_REPLACEABLES, LTXIBlocks.TITANIUM_ORE), tagMatchOreTarget(BlockTags.DEEPSLATE_ORE_REPLACEABLES, LTXIBlocks.DEEPSLATE_TITANIUM_ORE)));
         ConfiguredFeature<?, ?> niobiumOre = new ConfiguredFeature<>(Feature.ORE, oreConfig(3, singleBlockOreTarget(Blocks.END_STONE, LTXIBlocks.NIOBIUM_ORE)));
 
+        // Spark fruit
+        ConfiguredFeature<?, ?> sparkFruits = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(new RandomizedIntStateProvider(BlockStateProvider.simple(LTXIBlocks.SPARK_FRUIT.get()), BlockStateProperties.AGE_2, UniformInt.of(0, 2))));
+
+        // Bilevine
         BlockState bilevineState = LTXIBlocks.BILEVINE.get().defaultBlockState();
         BlockState bilevinePlantState = LTXIBlocks.BILEVINE_PLANT.get().defaultBlockState();
-
         WeightedStateProvider bilevinePlantProvider = new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder()
                 .add(bilevinePlantState, 5)
                 .add(bilevinePlantState.setValue(CaveVines.BERRIES, true), 1));
@@ -60,8 +68,13 @@ public final class LTXIConfiguredFeatures
                         BlockColumnConfiguration.layer(ConstantInt.of(1), bilevineProvider)),
                 Direction.DOWN, BlockPredicate.ONLY_IN_AIR_PREDICATE, true));
 
+        // Gloom Shroom
+        ConfiguredFeature<?, ?> gloomShroom = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(BlockStateProvider.simple(LTXIBlocks.GLOOM_SHROOM.get())));
+
         context.register(TITANIUM_ORE_CONFIG, titaniumOre);
         context.register(NIOBIUM_ORE_CONFIG, niobiumOre);
+        context.register(SPARK_FRUIT_CONFIG, sparkFruits);
         context.register(BILEVINE_CONFIG, bilevine);
+        context.register(GLOOM_SHROOM_CONFIG, gloomShroom);
     }
 }

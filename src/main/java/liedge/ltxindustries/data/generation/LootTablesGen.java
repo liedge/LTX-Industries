@@ -15,6 +15,7 @@ import liedge.limacore.world.loot.number.TargetedEnchantmentLevelProvider;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
 import liedge.ltxindustries.registry.bootstrap.LTXIEnchantments;
+import liedge.ltxindustries.registry.game.LTXIBlocks;
 import liedge.ltxindustries.world.GrenadeSubPredicate;
 import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.advancements.critereon.ItemPredicate;
@@ -26,15 +27,18 @@ import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.item.enchantment.LevelBasedValue;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
 import net.minecraft.world.level.storage.loot.functions.FillPlayerHead;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.predicates.*;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.neoforged.neoforge.common.Tags;
 
@@ -43,7 +47,9 @@ import java.util.concurrent.CompletableFuture;
 import static liedge.limacore.util.LimaLootUtil.*;
 import static liedge.ltxindustries.registry.LTXILootTables.*;
 import static liedge.ltxindustries.registry.game.LTXIBlocks.*;
+import static liedge.ltxindustries.registry.game.LTXIBlocks.SPARK_FRUIT;
 import static liedge.ltxindustries.registry.game.LTXIItems.*;
+import static net.minecraft.world.level.block.state.properties.BlockStateProperties.AGE_2;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.BERRIES;
 
 class LootTablesGen extends LimaLootTableProvider
@@ -146,8 +152,10 @@ class LootTablesGen extends LimaLootTableProvider
 
             dropSelf(NEON_LIGHTS.values());
             dropSelf(TITANIUM_PANEL, SMOOTH_TITANIUM_PANEL, TITANIUM_GLASS);
+            sparkFruit(SPARK_FRUIT);
             berryVines(BILEVINE);
             berryVines(BILEVINE_PLANT);
+            dropSelf(LTXIBlocks.GLOOM_SHROOM);
             dropSelfWithEntity(ENERGY_CELL_ARRAY);
             dropSelfWithEntity(INFINITE_ENERGY_CELL_ARRAY);
             dropSelfWithEntity(DIGITAL_FURNACE);
@@ -166,6 +174,16 @@ class LootTablesGen extends LimaLootTableProvider
 
             dropSelfWithEntity(ROCKET_TURRET);
             dropSelfWithEntity(RAILGUN_TURRET);
+        }
+
+        private void sparkFruit(Holder<Block> holder)
+        {
+            LootItemCondition.Builder fullGrown = LootItemBlockStatePropertyCondition.hasBlockStateProperties(holder.value())
+                    .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(AGE_2, 2));
+            add(holder, singlePoolTable(singleItemPool(holder.value())
+                    .setRolls(ConstantValue.exactly(1))
+                    .apply(SetItemCountFunction.setCount(ConstantValue.exactly(3))).when(fullGrown))
+                    .apply(ApplyBonusCount.addUniformBonusCount(registries.holderOrThrow(Enchantments.FORTUNE)).when(fullGrown)));
         }
 
         private void berryVines(Holder<Block> holder)

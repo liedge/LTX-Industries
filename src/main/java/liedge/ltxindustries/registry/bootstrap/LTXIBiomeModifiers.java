@@ -23,7 +23,9 @@ public final class LTXIBiomeModifiers
 
     public static final ResourceKey<BiomeModifier> TITANIUM_ORE_BIOMES = key("titanium_ore");
     public static final ResourceKey<BiomeModifier> NIOBIUM_ORE_BIOMES = key("niobium_ore");
+    public static final ResourceKey<BiomeModifier> SPARK_FRUIT_BIOMES = key("jungle_spark_fruits");
     public static final ResourceKey<BiomeModifier> BILEVINE_BIOMES = key("bilevine");
+    public static final ResourceKey<BiomeModifier> GLOOM_SHROOM_BIOMES = key("underground_gloom_shrooms");
 
     private static ResourceKey<BiomeModifier> key(String name)
     {
@@ -45,13 +47,25 @@ public final class LTXIBiomeModifiers
                 keyHolderSet(placements, NIOBIUM_ORE_PLACEMENT),
                 GenerationStep.Decoration.UNDERGROUND_ORES);
 
+        BiomeModifier sparkFruits = new BiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_JUNGLE),
+                keyHolderSet(placements, SPARK_FRUIT_PLACEMENT),
+                GenerationStep.Decoration.VEGETAL_DECORATION);
+
         BiomeModifier bilevine = new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(BiomeTags.IS_NETHER),
                 keyHolderSet(placements, FORTRESS_BILEVINE, BASTION_BILEVINE),
                 GenerationStep.Decoration.VEGETAL_DECORATION);
 
+        BiomeModifier gloomShrooms = new BiomeModifiers.AddFeaturesBiomeModifier(
+                keyHolderSet(biomes, Biomes.DEEP_DARK),
+                keyHolderSet(placements, GLOOM_SHROOM_PLACEMENT),
+                GenerationStep.Decoration.VEGETAL_DECORATION);
+
         context.register(TITANIUM_ORE_BIOMES, titaniumOre);
         context.register(NIOBIUM_ORE_BIOMES, niobiumOre);
+        context.register(SPARK_FRUIT_BIOMES, sparkFruits);
         context.register(BILEVINE_BIOMES, bilevine);
+        context.register(GLOOM_SHROOM_BIOMES, gloomShrooms);
     }
 }
