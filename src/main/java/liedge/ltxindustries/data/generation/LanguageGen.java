@@ -53,6 +53,8 @@ class LanguageGen extends LimaLanguageProvider
         addBlock(NIOBIUM_ORE, "Niobium Ore");
         addBlock(RAW_TITANIUM_BLOCK, "Block of Raw Titanium");
         addBlock(RAW_NIOBIUM_BLOCK, "Block of Raw Niobium");
+        addBlock(RAW_TITANIUM_CLUSTER, "Raw Titanium Cluster");
+        addBlock(RAW_NIOBIUM_CLUSTER, "Raw Niobium Cluster");
         addBlock(TITANIUM_BLOCK, "Block of Titanium");
         addBlock(NIOBIUM_BLOCK, "Block of Niobium");
         addBlock(SLATESTEEL_BLOCK, "Block of Slatesteel");

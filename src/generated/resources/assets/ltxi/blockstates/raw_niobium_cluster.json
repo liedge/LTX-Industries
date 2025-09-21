@@ -1,0 +1,30 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "ltxi:block/raw_niobium_cluster",
+      "x": 180
+    },
+    "facing=east": {
+      "model": "ltxi:block/raw_niobium_cluster",
+      "x": 90,
+      "y": 90
+    },
+    "facing=north": {
+      "model": "ltxi:block/raw_niobium_cluster",
+      "x": 90
+    },
+    "facing=south": {
+      "model": "ltxi:block/raw_niobium_cluster",
+      "x": 90,
+      "y": 180
+    },
+    "facing=up": {
+      "model": "ltxi:block/raw_niobium_cluster"
+    },
+    "facing=west": {
+      "model": "ltxi:block/raw_niobium_cluster",
+      "x": 90,
+      "y": 270
+    }
+  }
+}

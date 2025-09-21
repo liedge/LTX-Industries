@@ -2,8 +2,10 @@ package liedge.ltxindustries.data.generation;
 
 import com.mojang.datafixers.util.Function3;
 import liedge.limacore.data.generation.LimaBlockStateProvider;
+import liedge.limacore.lib.ModResources;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.block.MachineState;
+import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
@@ -54,6 +56,8 @@ class BlockStatesGen extends LimaBlockStateProvider
 
         cubeAll(RAW_TITANIUM_BLOCK);
         cubeAll(RAW_NIOBIUM_BLOCK);
+        oreCluster(RAW_TITANIUM_CLUSTER, blockFolderLocation(ModResources.MC, "basalt_top"), RAW_TITANIUM_BLOCK);
+        oreCluster(RAW_NIOBIUM_CLUSTER, blockFolderLocation(Blocks.END_STONE), RAW_NIOBIUM_BLOCK);
         cubeAll(TITANIUM_BLOCK);
         cubeAll(NIOBIUM_BLOCK);
         cubeAll(SLATESTEEL_BLOCK);
@@ -102,6 +106,34 @@ class BlockStatesGen extends LimaBlockStateProvider
 
         // Technical blocks
         getVariantBuilder(MESH_BLOCK).forAllStatesExcept(state -> ConfiguredModel.builder().modelFile(machineParticlesOnly).build(), HORIZONTAL_FACING, WATERLOGGED);
+    }
+
+    private void oreCluster(Holder<Block> clusterBlock, ResourceLocation baseTexture, Holder<Block> rawOreBlock)
+    {
+        ModelFile model = getBlockBuilder(clusterBlock)
+                .parent(existingModel(blockFolderLocation("raw_ore_cluster")))
+                .texture("base", baseTexture)
+                .texture("ore", blockFolderLocation(rawOreBlock));
+
+        getVariantBuilder(clusterBlock).forAllStatesExcept(state ->
+        {
+            ConfiguredModel.Builder<?> builder = ConfiguredModel.builder().modelFile(model);
+            Direction facing = state.getValue(FACING);
+
+            if (facing == Direction.DOWN)
+            {
+                builder.rotationX(180);
+            }
+            else if (facing != Direction.UP)
+            {
+                builder.rotationX(90);
+                builder.rotationY(getRotationY(facing));
+            }
+
+            return builder.build();
+        }, WATERLOGGED);
+
+        simpleBlockItem(clusterBlock, model);
     }
 
     private void sparkFruit(Holder<Block> holder)

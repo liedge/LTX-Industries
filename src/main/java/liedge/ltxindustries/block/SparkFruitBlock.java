@@ -33,7 +33,7 @@ public class SparkFruitBlock extends Block implements BonemealableBlock
     public SparkFruitBlock(Properties properties)
     {
         super(properties);
-        registerDefaultState(this.stateDefinition.any().setValue(AGE_2, 0));
+        registerDefaultState(getStateDefinition().any().setValue(AGE_2, 0));
     }
 
     @Override

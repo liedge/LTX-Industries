@@ -21,11 +21,12 @@ public final class LTXIBiomeModifiers
 {
     private LTXIBiomeModifiers() {}
 
-    public static final ResourceKey<BiomeModifier> TITANIUM_ORE_BIOMES = key("titanium_ore");
-    public static final ResourceKey<BiomeModifier> NIOBIUM_ORE_BIOMES = key("niobium_ore");
-    public static final ResourceKey<BiomeModifier> SPARK_FRUIT_BIOMES = key("jungle_spark_fruits");
-    public static final ResourceKey<BiomeModifier> BILEVINE_BIOMES = key("bilevine");
-    public static final ResourceKey<BiomeModifier> GLOOM_SHROOM_BIOMES = key("underground_gloom_shrooms");
+    public static final ResourceKey<BiomeModifier> OVERWORLD_ORES = key("overworld_ores");
+    public static final ResourceKey<BiomeModifier> BASALT_DELTA_ORES = key("basalt_delta_ores");
+    public static final ResourceKey<BiomeModifier> OUTER_END_ORES = key("outer_end_ores");
+    public static final ResourceKey<BiomeModifier> JUNGLE_VEGETATION = key("jungle_vegetation");
+    public static final ResourceKey<BiomeModifier> NETHER_VEGETATION = key("nether_vegetation");
+    public static final ResourceKey<BiomeModifier> DEEP_DARK_VEGETATION = key("deep_dark_vegetation");
 
     private static ResourceKey<BiomeModifier> key(String name)
     {
@@ -44,7 +45,12 @@ public final class LTXIBiomeModifiers
 
         BiomeModifier niobiumOre = new net.neoforged.neoforge.common.world.BiomeModifiers.AddFeaturesBiomeModifier(
                 keyHolderSet(biomes, Biomes.END_HIGHLANDS, Biomes.END_MIDLANDS, Biomes.END_BARRENS, Biomes.SMALL_END_ISLANDS),
-                keyHolderSet(placements, NIOBIUM_ORE_PLACEMENT),
+                keyHolderSet(placements, NIOBIUM_ORE_PLACEMENT, NIOBIUM_CLUSTERS_PLACEMENT),
+                GenerationStep.Decoration.UNDERGROUND_ORES);
+
+        BiomeModifier basaltDeltas = new BiomeModifiers.AddFeaturesBiomeModifier(
+                keyHolderSet(biomes, Biomes.BASALT_DELTAS),
+                keyHolderSet(placements, TITANIUM_CLUSTERS_PLACEMENT),
                 GenerationStep.Decoration.UNDERGROUND_ORES);
 
         BiomeModifier sparkFruits = new BiomeModifiers.AddFeaturesBiomeModifier(
@@ -62,10 +68,11 @@ public final class LTXIBiomeModifiers
                 keyHolderSet(placements, GLOOM_SHROOM_PLACEMENT),
                 GenerationStep.Decoration.VEGETAL_DECORATION);
 
-        context.register(TITANIUM_ORE_BIOMES, titaniumOre);
-        context.register(NIOBIUM_ORE_BIOMES, niobiumOre);
-        context.register(SPARK_FRUIT_BIOMES, sparkFruits);
-        context.register(BILEVINE_BIOMES, bilevine);
-        context.register(GLOOM_SHROOM_BIOMES, gloomShrooms);
+        context.register(OVERWORLD_ORES, titaniumOre);
+        context.register(BASALT_DELTA_ORES, basaltDeltas);
+        context.register(OUTER_END_ORES, niobiumOre);
+        context.register(JUNGLE_VEGETATION, sparkFruits);
+        context.register(NETHER_VEGETATION, bilevine);
+        context.register(DEEP_DARK_VEGETATION, gloomShrooms);
     }
 }

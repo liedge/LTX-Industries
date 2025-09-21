@@ -40,7 +40,10 @@ class ItemTagsGen extends LimaTagsProvider.ItemTags
         copyTag(Blocks.DEEPSLATE_GRINDABLES, DEEPSLATE_GRINDABLES);
         copyTag(Blocks.WRENCH_BREAKABLE, WRENCH_BREAKABLE);
 
+        copyTag(Tags.Blocks.ORES, ORES);
+        copyTag(Blocks.ORE_CLUSTERS, ORE_CLUSTERS);
         copyTag(Tags.Blocks.ORE_RATES_SINGULAR, ORE_RATES_SINGULAR);
+        copyTag(Tags.Blocks.ORE_RATES_DENSE, ORE_RATES_DENSE);
         copyTag(Tags.Blocks.ORES_IN_GROUND_STONE, ORES_IN_GROUND_STONE);
         copyTag(Tags.Blocks.ORES_IN_GROUND_DEEPSLATE, ORES_IN_GROUND_DEEPSLATE);
 

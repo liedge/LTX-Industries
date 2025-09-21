@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "minecraft:basalt_deltas",
+  "features": "ltxi:titanium_clusters",
+  "step": "underground_ores"
+}

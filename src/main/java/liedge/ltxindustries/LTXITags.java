@@ -34,6 +34,7 @@ public final class LTXITags
         public static final TagKey<Block> SHEARS_HARVESTABLE = COMMON_NAMESPACE.blockTag("shears_harvestable");
 
         // Mod Tags
+        public static final TagKey<Block> ORE_CLUSTERS = RESOURCES.blockTag("ore_clusters");
         public static final TagKey<Block> NEON_LIGHTS = RESOURCES.blockTag("neon_lights");
         public static final TagKey<Block> DEEPSLATE_GRINDABLES = RESOURCES.blockTag("deepslate_grindables");
         public static final TagKey<Block> WRENCH_BREAKABLE = RESOURCES.blockTag("wrench_breakable");
@@ -52,6 +53,8 @@ public final class LTXITags
         public static final TagKey<Item> TITANIUM_STORAGE_BLOCKS = copy(Blocks.TITANIUM_STORAGE_BLOCKS);
         public static final TagKey<Item> NIOBIUM_STORAGE_BLOCKS = copy(Blocks.NIOBIUM_STORAGE_BLOCKS);
         public static final TagKey<Item> SLATESTEEL_STORAGE_BLOCKS = copy(Blocks.SLATESTEEL_STORAGE_BLOCKS);
+        public static final TagKey<Item> ORE_CLUSTERS = copy(Blocks.ORE_CLUSTERS);
+        public static final TagKey<Item> NEON_LIGHTS = copy(Blocks.NEON_LIGHTS);
         public static final TagKey<Item> DEEPSLATE_GRINDABLES = copy(Blocks.DEEPSLATE_GRINDABLES);
         public static final TagKey<Item> WRENCH_BREAKABLE = copy(Blocks.WRENCH_BREAKABLE);
 
@@ -73,7 +76,6 @@ public final class LTXITags
         public static final TagKey<Item> DEEPSLATE_DUSTS = COMMON_NAMESPACE.itemTag("dusts/deepslate");
 
         // Mod tags
-        public static final TagKey<Item> NEON_LIGHTS = RESOURCES.itemTag("neon_lights");
         public static final TagKey<Item> NEON_LIGHT_MATERIALS = RESOURCES.itemTag("neon_light_materials");
         public static final TagKey<Item> REPAIR_BLACKLIST = RESOURCES.itemTag("repair_blacklist");
 

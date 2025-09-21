@@ -62,6 +62,8 @@ public final class LTXIBlocks
     // Raw ore blocks
     public static final DeferredBlockWithItem<Block, BlockItem> RAW_TITANIUM_BLOCK = BLOCKS.registerSimpleBlockAndItem("raw_titanium_block", of().mapColor(MapColor.COLOR_LIGHT_GRAY).strength(5f, 6f).requiresCorrectToolForDrops());
     public static final DeferredBlockWithItem<Block, BlockItem> RAW_NIOBIUM_BLOCK = BLOCKS.registerSimpleBlockAndItem("raw_niobium_block", of().mapColor(MapColor.COLOR_PURPLE).strength(5f, 9f).requiresCorrectToolForDrops());
+    public static final DeferredBlockWithItem<SurfaceStickingBlock, BlockItem> RAW_TITANIUM_CLUSTER = BLOCKS.registerBlockAndSimpleItem("raw_titanium_cluster", () -> new SurfaceStickingBlock(of().mapColor(MapColor.COLOR_LIGHT_GRAY).strength(5f, 6f).requiresCorrectToolForDrops().noOcclusion(), LTXIBlockShapes.RAW_ORE_CLUSTER, false));
+    public static final DeferredBlockWithItem<SurfaceStickingBlock, BlockItem> RAW_NIOBIUM_CLUSTER = BLOCKS.registerBlockAndSimpleItem("raw_niobium_cluster", () -> new SurfaceStickingBlock(of().mapColor(MapColor.COLOR_PURPLE).strength(5f, 9f).requiresCorrectToolForDrops().noOcclusion(), LTXIBlockShapes.RAW_ORE_CLUSTER, false));
 
     // Ingot storage blocks
     public static final DeferredBlockWithItem<Block, BlockItem> TITANIUM_BLOCK = BLOCKS.registerSimpleBlockAndItem("titanium_block", of().mapColor(MapColor.COLOR_LIGHT_GRAY).strength(5f, 6f).sound(SoundType.METAL).requiresCorrectToolForDrops());

@@ -1,0 +1,15 @@
+{
+  "type": "ltxi:grinding",
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "ltxi:raw_titanium_cluster"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 5,
+      "id": "ltxi:raw_titanium"
+    }
+  ]
+}

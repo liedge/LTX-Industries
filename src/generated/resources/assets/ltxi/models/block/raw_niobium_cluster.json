@@ -1,0 +1,7 @@
+{
+  "parent": "ltxi:block/raw_ore_cluster",
+  "textures": {
+    "base": "minecraft:block/end_stone",
+    "ore": "ltxi:block/raw_niobium_block"
+  }
+}

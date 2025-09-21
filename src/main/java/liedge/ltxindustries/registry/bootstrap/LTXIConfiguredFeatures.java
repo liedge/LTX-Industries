@@ -1,5 +1,6 @@
 package liedge.ltxindustries.registry.bootstrap;
 
+import liedge.limacore.world.generation.PlaceOnSideFeature;
 import liedge.ltxindustries.registry.game.LTXIBlocks;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
@@ -33,6 +34,8 @@ public final class LTXIConfiguredFeatures
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> TITANIUM_ORE_CONFIG = key("titanium_ore");
     public static final ResourceKey<ConfiguredFeature<?, ?>> NIOBIUM_ORE_CONFIG = key("niobium_ore");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> TITANIUM_CLUSTERS_CONFIG = key("titanium_clusters");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> NIOBIUM_CLUSTERS_CONFIG = key("niobium_clusters");
     public static final ResourceKey<ConfiguredFeature<?, ?>> SPARK_FRUIT_CONFIG = key("jungle_spark_fruits");
     public static final ResourceKey<ConfiguredFeature<?, ?>> BILEVINE_CONFIG = key("bilevine");
     public static final ResourceKey<ConfiguredFeature<?, ?>> GLOOM_SHROOM_CONFIG = key("underground_gloom_shrooms");
@@ -47,6 +50,8 @@ public final class LTXIConfiguredFeatures
         // Ores
         ConfiguredFeature<?, ?> titaniumOre = new ConfiguredFeature<>(Feature.ORE, oreConfig(10, tagMatchOreTarget(BlockTags.STONE_ORE_REPLACEABLES, LTXIBlocks.TITANIUM_ORE), tagMatchOreTarget(BlockTags.DEEPSLATE_ORE_REPLACEABLES, LTXIBlocks.DEEPSLATE_TITANIUM_ORE)));
         ConfiguredFeature<?, ?> niobiumOre = new ConfiguredFeature<>(Feature.ORE, oreConfig(3, singleBlockOreTarget(Blocks.END_STONE, LTXIBlocks.NIOBIUM_ORE)));
+        ConfiguredFeature<?, ?> titaniumClusters = PlaceOnSideFeature.placeOnSide(simpleState(LTXIBlocks.RAW_TITANIUM_CLUSTER), Direction.UP);
+        ConfiguredFeature<?, ?> niobiumClusters = PlaceOnSideFeature.placeOnAnySide(simpleState(LTXIBlocks.RAW_NIOBIUM_CLUSTER));
 
         // Spark fruit
         ConfiguredFeature<?, ?> sparkFruits = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(new RandomizedIntStateProvider(BlockStateProvider.simple(LTXIBlocks.SPARK_FRUIT.get()), BlockStateProperties.AGE_2, UniformInt.of(0, 2))));
@@ -73,6 +78,8 @@ public final class LTXIConfiguredFeatures
 
         context.register(TITANIUM_ORE_CONFIG, titaniumOre);
         context.register(NIOBIUM_ORE_CONFIG, niobiumOre);
+        context.register(TITANIUM_CLUSTERS_CONFIG, titaniumClusters);
+        context.register(NIOBIUM_CLUSTERS_CONFIG, niobiumClusters);
         context.register(SPARK_FRUIT_CONFIG, sparkFruits);
         context.register(BILEVINE_CONFIG, bilevine);
         context.register(GLOOM_SHROOM_CONFIG, gloomShroom);

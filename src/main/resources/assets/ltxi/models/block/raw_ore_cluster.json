@@ -1,0 +1,70 @@
+{
+	"credit": "Made with Blockbench",
+	"ambientocclusion": false,
+	"parent": "block/block",
+	"textures": {
+		"particle": "#ore"
+	},
+	"elements": [
+		{
+			"name": "base",
+			"from": [1, 0, 1],
+			"to": [15, 2, 15],
+			"faces": {
+				"north": {"uv": [1, 14, 15, 16], "texture": "#base"},
+				"east": {"uv": [1, 14, 15, 16], "texture": "#base"},
+				"south": {"uv": [1, 14, 15, 16], "texture": "#base"},
+				"west": {"uv": [1, 14, 15, 16], "texture": "#base"},
+				"up": {"uv": [1, 1, 15, 15], "texture": "#base"},
+				"down": {"uv": [1, 1, 15, 15], "texture": "#base", "cullface": "down"}
+			}
+		},
+		{
+			"name": "ore 1",
+			"from": [2, 2, 3],
+			"to": [8, 8, 9],
+			"faces": {
+				"north": {"uv": [8, 8, 14, 14], "texture": "#ore"},
+				"east": {"uv": [7, 8, 13, 14], "texture": "#ore"},
+				"south": {"uv": [2, 8, 8, 14], "texture": "#ore"},
+				"west": {"uv": [3, 8, 9, 14], "texture": "#ore"},
+				"up": {"uv": [2, 3, 8, 9], "texture": "#ore"}
+			}
+		},
+		{
+			"name": "ore 2",
+			"from": [5, 2, 4],
+			"to": [13, 10, 12],
+			"faces": {
+				"north": {"uv": [3, 6, 11, 14], "texture": "#ore"},
+				"east": {"uv": [4, 6, 12, 14], "texture": "#ore"},
+				"south": {"uv": [5, 6, 13, 14], "texture": "#ore"},
+				"west": {"uv": [4, 6, 12, 14], "texture": "#ore"},
+				"up": {"uv": [5, 4, 13, 12], "texture": "#ore"}
+			}
+		},
+		{
+			"name": "ore 3",
+			"from": [3, 2, 6],
+			"to": [11, 5, 14],
+			"faces": {
+				"east": {"uv": [2, 11, 10, 14], "texture": "#ore"},
+				"south": {"uv": [3, 11, 11, 14], "texture": "#ore"},
+				"west": {"uv": [6, 11, 14, 14], "texture": "#ore"},
+				"up": {"uv": [3, 6, 11, 14], "texture": "#ore"}
+			}
+		},
+		{
+			"name": "ore 4",
+			"from": [6, 10, 5],
+			"to": [12, 16, 11],
+			"faces": {
+				"north": {"uv": [4, 0, 10, 6], "texture": "#ore"},
+				"east": {"uv": [5, 0, 11, 6], "texture": "#ore"},
+				"south": {"uv": [6, 0, 12, 6], "texture": "#ore"},
+				"west": {"uv": [5, 0, 11, 6], "texture": "#ore"},
+				"up": {"uv": [6, 5, 12, 11], "texture": "#ore", "cullface": "up"}
+			}
+		}
+	]
+}

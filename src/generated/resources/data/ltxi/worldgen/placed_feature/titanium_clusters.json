@@ -1,9 +1,9 @@
 {
-  "feature": "ltxi:bilevine",
+  "feature": "ltxi:titanium_clusters",
   "placement": [
     {
       "type": "minecraft:count",
-      "count": 24
+      "count": 8
     },
     {
       "type": "minecraft:in_square"
@@ -13,7 +13,7 @@
       "height": {
         "type": "minecraft:uniform",
         "max_inclusive": {
-          "absolute": 256
+          "below_top": 0
         },
         "min_inclusive": {
           "above_bottom": 0
@@ -32,13 +32,22 @@
             "predicates": [
               {
                 "type": "minecraft:has_sturdy_face",
-                "direction": "down"
+                "direction": "up"
               },
               {
                 "type": "minecraft:replaceable",
                 "offset": [
                   0,
-                  -1,
+                  1,
+                  0
+                ]
+              },
+              {
+                "type": "minecraft:matching_fluids",
+                "fluids": "minecraft:empty",
+                "offset": [
+                  0,
+                  1,
                   0
                 ]
               }
@@ -48,13 +57,7 @@
       }
     },
     {
-      "type": "minecraft:random_offset",
-      "xz_spread": 0,
-      "y_spread": -1
-    },
-    {
-      "type": "limacore:in_structure",
-      "structures": "minecraft:bastion_remnant"
+      "type": "minecraft:biome"
     }
   ]
 }

@@ -1,47 +1,48 @@
 {
   "type": "minecraft:block",
-  "functions": [
-    {
-      "conditions": [
-        {
-          "block": "ltxi:spark_fruit",
-          "condition": "minecraft:block_state_property",
-          "properties": {
-            "age": "2"
-          }
-        }
-      ],
-      "enchantment": "minecraft:fortune",
-      "formula": "minecraft:uniform_bonus_count",
-      "function": "minecraft:apply_bonus",
-      "parameters": {
-        "bonusMultiplier": 1
-      }
-    }
-  ],
   "pools": [
     {
       "bonus_rolls": 0.0,
-      "conditions": [
-        {
-          "block": "ltxi:spark_fruit",
-          "condition": "minecraft:block_state_property",
-          "properties": {
-            "age": "2"
-          }
-        }
-      ],
       "entries": [
         {
           "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "conditions": [
+                {
+                  "block": "ltxi:spark_fruit",
+                  "condition": "minecraft:block_state_property",
+                  "properties": {
+                    "age": "2"
+                  }
+                }
+              ],
+              "count": 3.0,
+              "function": "minecraft:set_count"
+            },
+            {
+              "conditions": [
+                {
+                  "block": "ltxi:spark_fruit",
+                  "condition": "minecraft:block_state_property",
+                  "properties": {
+                    "age": "2"
+                  }
+                }
+              ],
+              "enchantment": "minecraft:fortune",
+              "formula": "minecraft:uniform_bonus_count",
+              "function": "minecraft:apply_bonus",
+              "parameters": {
+                "bonusMultiplier": 1
+              }
+            },
+            {
+              "function": "minecraft:explosion_decay"
+            }
+          ],
           "name": "ltxi:spark_fruit"
-        }
-      ],
-      "functions": [
-        {
-          "add": false,
-          "count": 3.0,
-          "function": "minecraft:set_count"
         }
       ],
       "rolls": 1.0

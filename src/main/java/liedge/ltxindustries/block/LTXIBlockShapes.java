@@ -12,6 +12,10 @@ public final class LTXIBlockShapes
     private LTXIBlockShapes() {}
 
     //#region Single block shapes
+    public static final VoxelShape RAW_ORE_CLUSTER = Shapes.or(
+            dimensionBox(1, 0, 1, 14, 2, 14),
+            dimensionBox(2, 2, 2, 12, 16, 12));
+
     public static final VoxelShape COOKING_MACHINE = Shapes.or(
             // Bottom frame base
             Block.box(0, 0, 0, 16, 4, 16),

@@ -689,6 +689,8 @@ class RecipesGen extends LimaRecipeProvider
         grinding().input(ORES_NETHERITE_SCRAP).output(NETHERITE_ORE_PEBBLES, 2).save(output, "grind_debris");
         orePebbleGrinding(TITANIUM_ORE_PEBBLES, LTXITags.Items.TITANIUM_ORES, LTXITags.Items.RAW_TITANIUM_MATERIALS, "titanium", output);
         orePebbleGrinding(NIOBIUM_ORE_PEBBLES, LTXITags.Items.NIOBIUM_ORES, LTXITags.Items.RAW_NIOBIUM_MATERIALS, "niobium", output);
+        grinding().input(RAW_TITANIUM_CLUSTER).output(RAW_TITANIUM, 5).save(output, "grind_titanium_clusters");
+        grinding().input(RAW_NIOBIUM_CLUSTER).output(RAW_NIOBIUM, 5).save(output, "grind_niobium_clusters");
     }
 
     private void mfcRecipes(RecipeOutput output)

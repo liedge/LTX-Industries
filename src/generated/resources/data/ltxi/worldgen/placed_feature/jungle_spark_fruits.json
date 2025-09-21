@@ -21,12 +21,9 @@
       }
     },
     {
-      "type": "limacore:random_vertical_scan",
-      "allowed_search_condition": {
-        "type": "minecraft:true"
-      },
-      "filter_on_fail": false,
+      "type": "limacore:random_axis_scan",
       "radius": 16,
+      "search_axis": "y",
       "target_condition": {
         "type": "minecraft:all_of",
         "predicates": [

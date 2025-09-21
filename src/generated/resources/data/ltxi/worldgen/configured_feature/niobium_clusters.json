@@ -1,0 +1,24 @@
+{
+  "type": "limacore:place_on_side",
+  "config": {
+    "facing_property": "facing",
+    "to_place": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "ltxi:raw_niobium_cluster",
+        "Properties": {
+          "facing": "up",
+          "waterlogged": "false"
+        }
+      }
+    },
+    "valid_faces": [
+      "down",
+      "up",
+      "north",
+      "south",
+      "west",
+      "east"
+    ]
+  }
+}

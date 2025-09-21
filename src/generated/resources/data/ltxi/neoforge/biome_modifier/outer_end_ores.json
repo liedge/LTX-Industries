@@ -6,6 +6,9 @@
     "minecraft:end_barrens",
     "minecraft:small_end_islands"
   ],
-  "features": "ltxi:niobium_ore",
+  "features": [
+    "ltxi:niobium_ore",
+    "ltxi:niobium_clusters"
+  ],
   "step": "underground_ores"
 }

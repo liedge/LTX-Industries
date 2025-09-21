@@ -18,7 +18,6 @@ import liedge.ltxindustries.registry.bootstrap.LTXIEnchantments;
 import liedge.ltxindustries.registry.game.LTXIBlocks;
 import liedge.ltxindustries.world.GrenadeSubPredicate;
 import net.minecraft.advancements.critereon.EntityPredicate;
-import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
@@ -29,6 +28,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.item.enchantment.LevelBasedValue;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -40,14 +40,15 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.predicates.*;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
-import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.common.ItemAbilities;
+import net.neoforged.neoforge.common.loot.CanItemPerformAbility;
 
 import java.util.concurrent.CompletableFuture;
 
 import static liedge.limacore.util.LimaLootUtil.*;
 import static liedge.ltxindustries.registry.LTXILootTables.*;
-import static liedge.ltxindustries.registry.game.LTXIBlocks.*;
 import static liedge.ltxindustries.registry.game.LTXIBlocks.SPARK_FRUIT;
+import static liedge.ltxindustries.registry.game.LTXIBlocks.*;
 import static liedge.ltxindustries.registry.game.LTXIItems.*;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.AGE_2;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.BERRIES;
@@ -140,6 +141,9 @@ class LootTablesGen extends LimaLootTableProvider
         @Override
         protected void generate()
         {
+            // Enchantments
+            Holder<Enchantment> fortune = registries.holderOrThrow(Enchantments.FORTUNE);
+
             oreDrop(TITANIUM_ORE, RAW_TITANIUM);
             oreDrop(DEEPSLATE_TITANIUM_ORE, RAW_TITANIUM);
             oreDrop(NIOBIUM_ORE, RAW_NIOBIUM);
@@ -149,10 +153,17 @@ class LootTablesGen extends LimaLootTableProvider
                     TITANIUM_BLOCK,
                     NIOBIUM_BLOCK,
                     SLATESTEEL_BLOCK);
+            oreCluster(RAW_TITANIUM_CLUSTER, RAW_TITANIUM);
+            oreCluster(RAW_NIOBIUM_CLUSTER, RAW_NIOBIUM);
 
             dropSelf(NEON_LIGHTS.values());
             dropSelf(TITANIUM_PANEL, SMOOTH_TITANIUM_PANEL, TITANIUM_GLASS);
-            sparkFruit(SPARK_FRUIT);
+            add(SPARK_FRUIT, block -> {
+                LootItemCondition.Builder fullGrown = LootItemBlockStatePropertyCondition.hasBlockStateProperties(block).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(AGE_2, 2));
+                return singleItemTable(applyExplosionDecay(block, lootItem(block)
+                        .apply(SetItemCountFunction.setCount(ConstantValue.exactly(3)).when(fullGrown))
+                        .apply(ApplyBonusCount.addUniformBonusCount(fortune).when(fullGrown))));
+            });
             berryVines(BILEVINE);
             berryVines(BILEVINE_PLANT);
             dropSelf(LTXIBlocks.GLOOM_SHROOM);
@@ -176,22 +187,16 @@ class LootTablesGen extends LimaLootTableProvider
             dropSelfWithEntity(RAILGUN_TURRET);
         }
 
-        private void sparkFruit(Holder<Block> holder)
+        private void oreCluster(Holder<Block> oreCluster, ItemLike rawOre)
         {
-            LootItemCondition.Builder fullGrown = LootItemBlockStatePropertyCondition.hasBlockStateProperties(holder.value())
-                    .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(AGE_2, 2));
-            add(holder, singlePoolTable(singleItemPool(holder.value())
-                    .setRolls(ConstantValue.exactly(1))
-                    .apply(SetItemCountFunction.setCount(ConstantValue.exactly(3))).when(fullGrown))
-                    .apply(ApplyBonusCount.addUniformBonusCount(registries.holderOrThrow(Enchantments.FORTUNE)).when(fullGrown)));
+            add(oreCluster, block -> createSilkTouchDispatchTable(block, applyExplosionDecay(block, lootItem(rawOre).apply(SetItemCountFunction.setCount(UniformGenerator.between(3, 5))))));
         }
 
         private void berryVines(Holder<Block> holder)
         {
-            LootItemCondition.Builder condition = AnyOfCondition.anyOf(
-                    LootItemBlockStatePropertyCondition.hasBlockStateProperties(holder.value()).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(BERRIES, true)),
-                    MatchTool.toolMatches(ItemPredicate.Builder.item().of(Tags.Items.TOOLS_SHEAR)));
-            add(holder, singlePoolTable(singleItemPool(VITRIOL_BERRIES).when(condition)));
+            add(holder, block -> singleItemTable(lootItem(VITRIOL_BERRIES).when(AnyOfCondition.anyOf(
+                    LootItemBlockStatePropertyCondition.hasBlockStateProperties(block).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(BERRIES, true)),
+                    CanItemPerformAbility.canItemPerformAbility(ItemAbilities.SHEARS_DIG)))));
         }
     }
 }
