@@ -57,10 +57,10 @@ public interface UpgradableEquipmentItem extends ItemLike
         if (this instanceof EnergyHolderItem holderItem && holderItem.supportsEnergyStorage(stack))
         {
             int capacity = LimaMathUtil.round(upgrades.applyValue(LTXIUpgradeEffectComponents.ENERGY_CAPACITY, context, holderItem.getBaseEnergyCapacity(stack)));
+            stack.set(LimaCoreDataComponents.ENERGY_CAPACITY, capacity);
+
             int transferRate = LimaMathUtil.round(upgrades.applyValue(LTXIUpgradeEffectComponents.ENERGY_TRANSFER_RATE, context, holderItem.getBaseEnergyTransferRate(stack)));
             int energyUsage = LimaMathUtil.round(upgrades.applyValue(LTXIUpgradeEffectComponents.ENERGY_USAGE, context, holderItem.getBaseEnergyUsage(stack)));
-
-            stack.set(LimaCoreDataComponents.ENERGY_CAPACITY, capacity);
             stack.set(LimaCoreDataComponents.ENERGY_TRANSFER_RATE, transferRate);
             stack.set(LimaCoreDataComponents.ENERGY_USAGE, energyUsage);
         }
