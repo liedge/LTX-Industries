@@ -40,18 +40,6 @@ public class SMGWeaponItem extends FullAutoWeaponItem
     }
 
     @Override
-    public int getBaseEnergyCapacity(ItemStack stack)
-    {
-        return LTXIWeaponsConfig.SMG_ENERGY_CAPACITY.getAsInt();
-    }
-
-    @Override
-    public int getBaseEnergyUsage(ItemStack stack)
-    {
-        return LTXIWeaponsConfig.SMG_ENERGY_AMMO_COST.getAsInt();
-    }
-
-    @Override
     public int getFireRate(ItemStack stack)
     {
         return 0;

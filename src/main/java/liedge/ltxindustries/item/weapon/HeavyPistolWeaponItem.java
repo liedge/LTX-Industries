@@ -27,18 +27,6 @@ public class HeavyPistolWeaponItem extends SemiAutoWeaponItem
     }
 
     @Override
-    public int getBaseEnergyCapacity(ItemStack stack)
-    {
-        return LTXIWeaponsConfig.HEAVY_PISTOL_ENERGY_CAPACITY.getAsInt();
-    }
-
-    @Override
-    public int getBaseEnergyUsage(ItemStack stack)
-    {
-        return LTXIWeaponsConfig.HEAVY_PISTOL_ENERGY_CAPACITY.getAsInt();
-    }
-
-    @Override
     public int getFireRate(ItemStack stack)
     {
         return 13;

@@ -8,7 +8,6 @@ import liedge.ltxindustries.registry.game.LTXIDataComponents;
 import liedge.ltxindustries.registry.game.LTXIGameEvents;
 import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.registry.game.LTXISounds;
-import liedge.ltxindustries.util.config.LTXIWeaponsConfig;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -95,18 +94,6 @@ public class RocketLauncherWeaponItem extends SemiAutoWeaponItem
         {
             player.getData(WEAPON_CONTROLS).asServerControls().setFocusedTargetAndNotify(player, null);
         }
-    }
-
-    @Override
-    public int getBaseEnergyCapacity(ItemStack stack)
-    {
-        return LTXIWeaponsConfig.ROCKET_LAUNCHER_ENERGY_CAPACITY.getAsInt();
-    }
-
-    @Override
-    public int getBaseEnergyUsage(ItemStack stack)
-    {
-        return LTXIWeaponsConfig.ROCKET_LAUNCHER_ENERGY_AMMO_COST.getAsInt();
     }
 
     @Override

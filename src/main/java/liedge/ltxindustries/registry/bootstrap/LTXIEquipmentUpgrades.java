@@ -51,6 +51,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
+import static liedge.ltxindustries.LTXIConstants.REM_BLUE;
 import static liedge.ltxindustries.LTXITags.EquipmentUpgrades.*;
 import static liedge.ltxindustries.LTXIndustries.RESOURCES;
 import static liedge.ltxindustries.lib.upgrades.UpgradeIcon.*;
@@ -261,38 +262,67 @@ public final class LTXIEquipmentUpgrades
                 .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, new ModifyReductionsUpgradeEffect(DamageReductionType.ARMOR, LevelBasedValue.perLevel(-0.2f)))
                 .effectIcon(sprite("broken_armor"))
                 .register(context);
+
+        DoubleLevelBasedValue lightweightEnergyCapacity = DoubleLevelBasedValue.constant(100_000);
+        DoubleLevelBasedValue lightweightEnergyUsage = DoubleLevelBasedValue.constant(10_000);
         EquipmentUpgrade.builder(LIGHTWEIGHT_ENERGY_ADAPTER)
-                .createDefaultTitle(LTXIConstants.REM_BLUE)
+                .createDefaultTitle(REM_BLUE)
                 .supports(items, LTXITags.Items.LIGHTWEIGHT_WEAPONS)
                 .exclusiveWith(holders, AMMO_SOURCE_MODIFIERS)
+                .withEffect(ENERGY_CAPACITY, ValueUpgradeEffect.of(lightweightEnergyCapacity, MathOperation.REPLACE))
+                .withEffect(ENERGY_USAGE, ValueUpgradeEffect.of(lightweightEnergyUsage, MathOperation.REPLACE))
                 .withSpecialEffect(RELOAD_SOURCE, WeaponReloadSource.commonEnergy())
+                .tooltip(UpgradeTooltip.of(LTXILangKeys.ENERGY_CAPACITY_UPGRADE, REM_BLUE.chatStyle(), TooltipArgument.of(lightweightEnergyCapacity, ValueSentiment.NEUTRAL, TooltipValueFormat.FLAT_NUMBER)))
+                .tooltip(UpgradeTooltip.of(LTXILangKeys.ENERGY_USAGE_UPGRADE, REM_BLUE.chatStyle(), TooltipArgument.of(lightweightEnergyUsage, ValueSentiment.NEUTRAL, TooltipValueFormat.FLAT_NUMBER)))
                 .effectIcon(sprite(LIGHTWEIGHT_ENERGY_ADAPTER.location().getPath()))
                 .category("weapon/ammo")
                 .register(context);
+
+        DoubleLevelBasedValue specialistEnergyCapacity = DoubleLevelBasedValue.constant(5_000_000);
+        DoubleLevelBasedValue specialistEnergyUsage = DoubleLevelBasedValue.constant(1_000_000);
         EquipmentUpgrade.builder(SPECIALIST_ENERGY_ADAPTER)
-                .createDefaultTitle(LTXIConstants.REM_BLUE)
+                .createDefaultTitle(REM_BLUE)
                 .supports(items, LTXITags.Items.SPECIALIST_WEAPONS)
                 .exclusiveWith(holders, AMMO_SOURCE_MODIFIERS)
+                .withEffect(ENERGY_CAPACITY, ValueUpgradeEffect.of(specialistEnergyCapacity, MathOperation.REPLACE))
+                .withEffect(ENERGY_USAGE, ValueUpgradeEffect.of(specialistEnergyUsage, MathOperation.REPLACE))
                 .withSpecialEffect(RELOAD_SOURCE, WeaponReloadSource.commonEnergy())
+                .tooltip(UpgradeTooltip.of(LTXILangKeys.ENERGY_CAPACITY_UPGRADE, REM_BLUE.chatStyle(), TooltipArgument.of(specialistEnergyCapacity, ValueSentiment.NEUTRAL, TooltipValueFormat.FLAT_NUMBER)))
+                .tooltip(UpgradeTooltip.of(LTXILangKeys.ENERGY_USAGE_UPGRADE, REM_BLUE.chatStyle(), TooltipArgument.of(specialistEnergyUsage, ValueSentiment.NEUTRAL, TooltipValueFormat.FLAT_NUMBER)))
                 .effectIcon(sprite(SPECIALIST_ENERGY_ADAPTER.location().getPath()))
                 .category("weapon/ammo")
                 .register(context);
+
+        DoubleLevelBasedValue explosivesEnergyCapacity = DoubleLevelBasedValue.constant(20_000_000);
+        DoubleLevelBasedValue explosivesEnergyUsage = DoubleLevelBasedValue.constant(10_000_000);
         EquipmentUpgrade.builder(EXPLOSIVES_ENERGY_ADAPTER)
-                .createDefaultTitle(LTXIConstants.REM_BLUE)
+                .createDefaultTitle(REM_BLUE)
                 .supports(items, LTXITags.Items.EXPLOSIVE_WEAPONS)
                 .exclusiveWith(holders, AMMO_SOURCE_MODIFIERS)
+                .withEffect(ENERGY_CAPACITY, ValueUpgradeEffect.of(explosivesEnergyCapacity, MathOperation.REPLACE))
+                .withEffect(ENERGY_USAGE, ValueUpgradeEffect.of(explosivesEnergyUsage, MathOperation.REPLACE))
                 .withSpecialEffect(RELOAD_SOURCE, WeaponReloadSource.commonEnergy())
+                .tooltip(UpgradeTooltip.of(LTXILangKeys.ENERGY_CAPACITY_UPGRADE, REM_BLUE.chatStyle(), TooltipArgument.of(explosivesEnergyCapacity, ValueSentiment.NEUTRAL, TooltipValueFormat.FLAT_NUMBER)))
+                .tooltip(UpgradeTooltip.of(LTXILangKeys.ENERGY_USAGE_UPGRADE, REM_BLUE.chatStyle(), TooltipArgument.of(explosivesEnergyUsage, ValueSentiment.NEUTRAL, TooltipValueFormat.FLAT_NUMBER)))
                 .effectIcon(sprite(EXPLOSIVES_ENERGY_ADAPTER.location().getPath()))
                 .category("weapon/ammo")
                 .register(context);
+
+        DoubleLevelBasedValue heavyEnergyCapacity = DoubleLevelBasedValue.constant(50_000_000);
+        DoubleLevelBasedValue heavyEnergyUsage = DoubleLevelBasedValue.constant(25_000_000);
         EquipmentUpgrade.builder(HEAVY_ENERGY_ADAPTER)
-                .createDefaultTitle(LTXIConstants.REM_BLUE)
+                .createDefaultTitle(REM_BLUE)
                 .supports(items, LTXITags.Items.HEAVY_WEAPONS)
                 .exclusiveWith(holders, AMMO_SOURCE_MODIFIERS)
+                .withEffect(ENERGY_CAPACITY, ValueUpgradeEffect.of(heavyEnergyCapacity, MathOperation.REPLACE))
+                .withEffect(ENERGY_USAGE, ValueUpgradeEffect.of(heavyEnergyUsage, MathOperation.REPLACE))
                 .withSpecialEffect(RELOAD_SOURCE, WeaponReloadSource.commonEnergy())
+                .tooltip(UpgradeTooltip.of(LTXILangKeys.ENERGY_CAPACITY_UPGRADE, REM_BLUE.chatStyle(), TooltipArgument.of(heavyEnergyCapacity, ValueSentiment.NEUTRAL, TooltipValueFormat.FLAT_NUMBER)))
+                .tooltip(UpgradeTooltip.of(LTXILangKeys.ENERGY_USAGE_UPGRADE, REM_BLUE.chatStyle(), TooltipArgument.of(heavyEnergyUsage, ValueSentiment.NEUTRAL, TooltipValueFormat.FLAT_NUMBER)))
                 .effectIcon(sprite(HEAVY_ENERGY_ADAPTER.location().getPath()))
                 .category("weapon/ammo")
                 .register(context);
+
         EquipmentUpgrade.builder(UNIVERSAL_INFINITE_AMMO)
                 .createDefaultTitle(LTXIConstants.CREATIVE_PINK)
                 .supports(ltxProjectileWeapons)

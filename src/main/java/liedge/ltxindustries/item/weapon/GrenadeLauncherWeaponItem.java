@@ -12,7 +12,6 @@ import liedge.ltxindustries.lib.weapons.AbstractWeaponControls;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
 import liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades;
 import liedge.ltxindustries.registry.game.*;
-import liedge.ltxindustries.util.config.LTXIWeaponsConfig;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
@@ -73,18 +72,6 @@ public class GrenadeLauncherWeaponItem extends SemiAutoWeaponItem implements Scr
         GrenadeType currentlyEquipped = getGrenadeTypeFromItem(stack);
         boolean shouldReset = upgrades.effectFlatStream(LTXIUpgradeEffectComponents.GRENADE_UNLOCK.get()).noneMatch(currentlyEquipped::equals);
         if (shouldReset) setGrenadeType(stack, GrenadeType.EXPLOSIVE);
-    }
-
-    @Override
-    public int getBaseEnergyCapacity(ItemStack stack)
-    {
-        return LTXIWeaponsConfig.GRENADE_LAUNCHER_ENERGY_CAPACITY.getAsInt();
-    }
-
-    @Override
-    public int getBaseEnergyUsage(ItemStack stack)
-    {
-        return LTXIWeaponsConfig.GRENADE_LAUNCHER_ENERGY_AMMO_COST.getAsInt();
     }
 
     @Override

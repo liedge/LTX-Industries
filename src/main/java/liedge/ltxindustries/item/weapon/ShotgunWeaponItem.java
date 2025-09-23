@@ -41,18 +41,6 @@ public class ShotgunWeaponItem extends SemiAutoWeaponItem
     }
 
     @Override
-    public int getBaseEnergyCapacity(ItemStack stack)
-    {
-        return LTXIWeaponsConfig.SHOTGUN_ENERGY_CAPACITY.getAsInt();
-    }
-
-    @Override
-    public int getBaseEnergyUsage(ItemStack stack)
-    {
-        return LTXIWeaponsConfig.SHOTGUN_ENERGY_AMMO_COST.getAsInt();
-    }
-
-    @Override
     public void weaponFired(ItemStack heldItem, Player player, Level level, AbstractWeaponControls controls)
     {
         if (!level.isClientSide())

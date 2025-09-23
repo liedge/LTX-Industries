@@ -110,6 +110,32 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
     public abstract void weaponFired(ItemStack heldItem, Player player, Level level, AbstractWeaponControls controls);
     //#endregion
 
+    //#region Energy handling properties
+    @Override
+    public boolean supportsEnergyStorage(ItemStack stack)
+    {
+        return getReloadSource(stack).getType() == WeaponReloadSource.Type.COMMON_ENERGY;
+    }
+
+    @Override
+    public final int getBaseEnergyCapacity(ItemStack stack)
+    {
+        return 1;
+    }
+
+    @Override
+    public final int getBaseEnergyUsage(ItemStack stack)
+    {
+        return 1;
+    }
+
+    @Override
+    public final int getBaseEnergyTransferRate(ItemStack stack)
+    {
+        return getEnergyCapacity(stack) / 20;
+    }
+    //#endregion
+
     //#region Weapon properties/behavior
     public boolean canFocusReticle(ItemStack heldItem, Player player, AbstractWeaponControls controls)
     {
@@ -139,21 +165,6 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
     public boolean isOneHanded(ItemStack stack)
     {
         return false;
-    }
-
-    @Override
-    public boolean supportsEnergyStorage(ItemStack stack)
-    {
-        return getReloadSource(stack).getType() == WeaponReloadSource.Type.COMMON_ENERGY;
-    }
-
-    @Override
-    public abstract int getBaseEnergyUsage(ItemStack stack); // Force implementation, all weapons can synthesize reloads
-
-    @Override
-    public int getBaseEnergyTransferRate(ItemStack stack)
-    {
-        return getBaseEnergyCapacity(stack) / 20;
     }
 
     public abstract int getFireRate(ItemStack stack);

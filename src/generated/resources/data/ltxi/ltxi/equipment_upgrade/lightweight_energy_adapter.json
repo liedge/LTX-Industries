@@ -8,9 +8,49 @@
     "title": {
       "color": "#8BD1F0",
       "translate": "equipment_upgrade.ltxi.lightweight_energy_adapter"
-    }
+    },
+    "tooltips": [
+      {
+        "args": [
+          {
+            "format": "flat",
+            "value": 100000.0
+          }
+        ],
+        "key": "upgrade_effect.ltxi.energy_capacity",
+        "style": {
+          "color": "#8BD1F0"
+        }
+      },
+      {
+        "args": [
+          {
+            "format": "flat",
+            "value": 10000.0
+          }
+        ],
+        "key": "upgrade_effect.ltxi.energy_usage",
+        "style": {
+          "color": "#8BD1F0"
+        }
+      }
+    ]
   },
   "effects": {
+    "ltxi:energy_capacity": [
+      {
+        "type": "simple",
+        "op": "replace",
+        "value": 100000.0
+      }
+    ],
+    "ltxi:energy_usage": [
+      {
+        "type": "simple",
+        "op": "replace",
+        "value": 10000.0
+      }
+    ],
     "ltxi:reload_source": {
       "type": "energy"
     }

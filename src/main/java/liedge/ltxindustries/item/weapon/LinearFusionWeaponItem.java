@@ -57,16 +57,4 @@ public class LinearFusionWeaponItem extends FullAutoWeaponItem
     {
         return 3;
     }
-
-    @Override
-    public int getBaseEnergyCapacity(ItemStack stack)
-    {
-        return LTXIWeaponsConfig.LFR_ENERGY_CAPACITY.getAsInt();
-    }
-
-    @Override
-    public int getBaseEnergyUsage(ItemStack stack)
-    {
-        return LTXIWeaponsConfig.LFR_ENERGY_AMMO_COST.getAsInt();
-    }
 }
