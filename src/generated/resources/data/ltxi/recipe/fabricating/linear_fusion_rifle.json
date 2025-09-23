@@ -29,6 +29,11 @@
     }
   ],
   "result": {
+    "components": {
+      "ltxi:equipment_upgrades": {
+        "ltxi:default/linear_fusion_rifle": 1
+      }
+    },
     "count": 1,
     "id": "ltxi:linear_fusion_rifle"
   }

@@ -134,12 +134,12 @@ public final class LTXIItems
     public static final DeferredItem<FabricationBlueprintItem> FABRICATION_BLUEPRINT = ITEMS.registerItem("fabrication_blueprint", FabricationBlueprintItem::new, properties().stacksTo(1));
 
     // LTX Weapons
-    public static final DeferredItem<SMGWeaponItem> SUBMACHINE_GUN = registerLTXGear("submachine_gun", SMGWeaponItem::new);
-    public static final DeferredItem<ShotgunWeaponItem> SHOTGUN = registerLTXGear("shotgun", ShotgunWeaponItem::new);
-    public static final DeferredItem<GrenadeLauncherWeaponItem> GRENADE_LAUNCHER = registerLTXGear("grenade_launcher", GrenadeLauncherWeaponItem::new);
-    public static final DeferredItem<LinearFusionWeaponItem> LINEAR_FUSION_RIFLE = registerLTXGear("linear_fusion_rifle", LinearFusionWeaponItem::new);
-    public static final DeferredItem<RocketLauncherWeaponItem> ROCKET_LAUNCHER = registerLTXGear("rocket_launcher", RocketLauncherWeaponItem::new);
-    public static final DeferredItem<HeavyPistolWeaponItem> HEAVY_PISTOL = registerLTXGear("heavy_pistol", HeavyPistolWeaponItem::new);
+    public static final DeferredItem<SubmachineGunItem> SUBMACHINE_GUN = registerLTXGear("submachine_gun", SubmachineGunItem::new);
+    public static final DeferredItem<ShotgunItem> SHOTGUN = registerLTXGear("shotgun", ShotgunItem::new);
+    public static final DeferredItem<GrenadeLauncherItem> GRENADE_LAUNCHER = registerLTXGear("grenade_launcher", GrenadeLauncherItem::new);
+    public static final DeferredItem<LinearFusionRifleItem> LINEAR_FUSION_RIFLE = registerLTXGear("linear_fusion_rifle", LinearFusionRifleItem::new);
+    public static final DeferredItem<RocketLauncherItem> ROCKET_LAUNCHER = registerLTXGear("rocket_launcher", RocketLauncherItem::new);
+    public static final DeferredItem<HeavyPistolItem> HEAVY_PISTOL = registerLTXGear("heavy_pistol", HeavyPistolItem::new);
 
     // Weapon ammo items
     public static final DeferredItem<SimpleHintItem> LIGHTWEIGHT_WEAPON_ENERGY = registerSimpleHint("lightweight_weapon_energy");

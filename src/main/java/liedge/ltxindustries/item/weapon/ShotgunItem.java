@@ -21,9 +21,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
-public class ShotgunWeaponItem extends SemiAutoWeaponItem
+public class ShotgunItem extends SemiAutoWeaponItem
 {
-    public ShotgunWeaponItem(Properties properties)
+    public ShotgunItem(Properties properties)
     {
         super(properties, 5, 10d, 40, LTXIItems.SPECIALIST_WEAPON_ENERGY, 5, 0.33d);
     }

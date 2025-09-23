@@ -1,19 +1,29 @@
 package liedge.ltxindustries.item.weapon;
 
+import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
 import liedge.ltxindustries.lib.weapons.AbstractWeaponControls;
+import liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades;
 import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.registry.game.LTXISounds;
 import liedge.ltxindustries.util.config.LTXIWeaponsConfig;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.Nullable;
 
-public class LinearFusionWeaponItem extends FullAutoWeaponItem
+public class LinearFusionRifleItem extends FullAutoWeaponItem
 {
-    public LinearFusionWeaponItem(Properties properties)
+    public LinearFusionRifleItem(Properties properties)
     {
         super(properties, 5, 200, 40, LTXIItems.SPECIALIST_WEAPON_ENERGY, 2, 0.33d);
+    }
+
+    @Override
+    public @Nullable ResourceKey<EquipmentUpgrade> getDefaultUpgradeKey()
+    {
+        return LTXIEquipmentUpgrades.LFR_DEFAULT;
     }
 
     @Override

@@ -9,7 +9,7 @@ import liedge.ltxindustries.client.LTXIKeyMappings;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.item.SimpleHintItem;
 import liedge.ltxindustries.item.TooltipShiftHintItem;
-import liedge.ltxindustries.item.weapon.GrenadeLauncherWeaponItem;
+import liedge.ltxindustries.item.weapon.GrenadeLauncherItem;
 import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.lib.upgrades.UpgradeBase;
 import liedge.ltxindustries.lib.upgrades.UpgradeBaseBuilder;
@@ -184,6 +184,9 @@ class LanguageGen extends LimaLanguageProvider
         upgradeDescOnly(LTXIEquipmentUpgrades.LTX_MELEE_DEFAULT, "Standard issue operating system. Tool energy blade is optimized for efficient severing and disintegration of organic matter.");
         upgrade(LTXIEquipmentUpgrades.SUBMACHINE_GUN_DEFAULT, "Serenity Intrinsics", "Serenity's small light-frags zip right through targets without a trace.");
         upgrade(LTXIEquipmentUpgrades.SHOTGUN_DEFAULT, "Aurora Intrinsics", "Aurora's combat precepts, specialized in fast assault and scout operations.");
+        upgrade(LTXIEquipmentUpgrades.LFR_DEFAULT, "Stargazer Intrinsics", "Stargazer's systems are calibrated for precise long-range engagements.");
+        upgradeTooltip(LTXIEquipmentUpgrades.LFR_DEFAULT, 0, "%s bonus damage when at least 40m away from target");
+        upgradeTooltip(LTXIEquipmentUpgrades.LFR_DEFAULT, 1, "%s bonus damage when standing still and sneaking");
 
         upgrade(LTXIEquipmentUpgrades.EPSILON_FISHING_LURE, "ε Anglers' Kit", "ε series' signature lure attracts more valuable aquatic specimens faster than regular bait.");
         upgrade(LTXIEquipmentUpgrades.TOOL_NETHERITE_LEVEL, "Netherite-Core Tool Head", "Upgrades mining tier to Netherite level and increases mining speed.");
@@ -344,7 +347,7 @@ class LanguageGen extends LimaLanguageProvider
         add(WeaponReloadSource.Type.INFINITE.getUpgradeTooltip(), "Grants weapon an infinite, never-draining magazine");
 
         add(WeaponItem.AMMO_LOADED_TOOLTIP, "Ammo: %s/%s");
-        add(GrenadeLauncherWeaponItem.GRENADE_TYPE_TOOLTIP, "%s shells equipped");
+        add(GrenadeLauncherItem.GRENADE_TYPE_TOOLTIP, "%s shells equipped");
 
         add(LTXITooltipUtil.ALL_HOLDER_SET, "all");
         add(LTXITooltipUtil.AMBIGUOUS_HOLDER_SET, "certain");
@@ -355,13 +358,13 @@ class LanguageGen extends LimaLanguageProvider
         soundEvent(UPGRADE_REMOVE, "Upgrade module removed");
         soundEvent(WEAPON_MODE_SWITCH, "Weapon mode switched");
         soundEvent(TURRET_TARGET_FOUND, "Turret finds targets");
-        soundEvent(SUBMACHINE_GUN_LOOP, "Submachine gun firing");
-        soundEvent(SHOTGUN_FIRE, "Shotgun fires");
-        soundEvent(GRENADE_LAUNCHER_FIRE, "Grenade launched");
-        soundEvent(LINEAR_FUSION_CHARGE, "Linear fusion rifle charges");
-        soundEvent(LINEAR_FUSION_FIRE, "Linear fusion rifle fires");
-        soundEvent(ROCKET_LAUNCHER_FIRE, "Rocket launched");
-        soundEvent(HEAVY_PISTOL_FIRE, "Heavy pistol fires");
+        soundEvent(SUBMACHINE_GUN_LOOP, "Serenity firing");
+        soundEvent(SHOTGUN_FIRE, "Aurora fires");
+        soundEvent(GRENADE_LAUNCHER_FIRE, "Hanabi fires");
+        soundEvent(LINEAR_FUSION_CHARGE, "Stargazer charges");
+        soundEvent(LINEAR_FUSION_FIRE, "Stargazer fires");
+        soundEvent(ROCKET_LAUNCHER_FIRE, "Daybreak fires");
+        soundEvent(HEAVY_PISTOL_FIRE, "Nova fires");
         soundEvent(ROCKET_EXPLODE, "Rocket explodes");
         GRENADE_EXPLOSIONS.forEach((element, holder) -> soundEvent(holder, localizeSimpleName(element) + " grenade explodes"));
         soundEvent(RAILGUN_BOOM, "Railgun booms");

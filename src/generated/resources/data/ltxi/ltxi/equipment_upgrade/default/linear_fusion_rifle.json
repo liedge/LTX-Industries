@@ -1,0 +1,87 @@
+{
+  "display": {
+    "category": "default/weapon",
+    "description": {
+      "translate": "equipment_upgrade.ltxi.default.linear_fusion_rifle.desc"
+    },
+    "icon": {
+      "type": "composite",
+      "background": {
+        "id": "ltxi:linear_fusion_rifle"
+      },
+      "overlay": "ltxi:default_overlay",
+      "overlay_size": 7,
+      "x_offset": 8,
+      "y_offset": 8
+    },
+    "title": {
+      "translate": "equipment_upgrade.ltxi.default.linear_fusion_rifle"
+    },
+    "tooltips": [
+      {
+        "args": [
+          {
+            "sentiment": "positive",
+            "value": 25.0
+          }
+        ],
+        "key": "equipment_upgrade.ltxi.default.linear_fusion_rifle.tooltip0"
+      },
+      {
+        "args": [
+          {
+            "format": "signed_percentage",
+            "sentiment": "positive",
+            "value": 0.25
+          }
+        ],
+        "key": "equipment_upgrade.ltxi.default.linear_fusion_rifle.tooltip1"
+      }
+    ]
+  },
+  "effects": {
+    "ltxi:equipment_damage": [
+      {
+        "effect": {
+          "type": "simple",
+          "op": "add",
+          "value": 25.0
+        },
+        "requirements": {
+          "condition": "minecraft:entity_properties",
+          "entity": "attacker",
+          "predicate": {
+            "distance": {
+              "absolute": {
+                "min": 40.0
+              }
+            }
+          }
+        }
+      },
+      {
+        "effect": {
+          "type": "simple",
+          "op": "add_total_percent",
+          "value": 0.25
+        },
+        "requirements": {
+          "condition": "minecraft:entity_properties",
+          "entity": "attacker",
+          "predicate": {
+            "flags": {
+              "is_sneaking": true
+            },
+            "movement": {
+              "speed": {
+                "max": 0.001
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "exclusive_set": [],
+  "supported_set": "ltxi:linear_fusion_rifle"
+}

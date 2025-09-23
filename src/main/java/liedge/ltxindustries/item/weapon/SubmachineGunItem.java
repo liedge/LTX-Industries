@@ -13,9 +13,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
-public class SMGWeaponItem extends FullAutoWeaponItem
+public class SubmachineGunItem extends FullAutoWeaponItem
 {
-    public SMGWeaponItem(Properties properties)
+    public SubmachineGunItem(Properties properties)
     {
         super(properties, 45, 12.5d, 20, LTXIItems.LIGHTWEIGHT_WEAPON_ENERGY, 1, 0);
     }

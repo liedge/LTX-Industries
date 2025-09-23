@@ -26,7 +26,7 @@ import java.util.Set;
 
 import static liedge.ltxindustries.registry.game.LTXIDataComponents.GRENADE_TYPE;
 
-public class GrenadeLauncherWeaponItem extends SemiAutoWeaponItem implements ScrollModeSwitchItem
+public class GrenadeLauncherItem extends SemiAutoWeaponItem implements ScrollModeSwitchItem
 {
     public static final Translatable GRENADE_TYPE_TOOLTIP = LTXILangKeys.tooltip("equipped_grenade");
 
@@ -35,7 +35,7 @@ public class GrenadeLauncherWeaponItem extends SemiAutoWeaponItem implements Scr
         return stack.getOrDefault(GRENADE_TYPE, GrenadeType.EXPLOSIVE);
     }
 
-    public GrenadeLauncherWeaponItem(Properties properties)
+    public GrenadeLauncherItem(Properties properties)
     {
         super(properties, 6, 1.5d, 50, LTXIItems.EXPLOSIVES_WEAPON_ENERGY, 1, 0);
     }
@@ -107,7 +107,7 @@ public class GrenadeLauncherWeaponItem extends SemiAutoWeaponItem implements Scr
         availableTypes.add(GrenadeType.EXPLOSIVE); // Always allow equipping explosive shells
         upgrades.forEachEffect(LTXIUpgradeEffectComponents.GRENADE_UNLOCK, (effect, rank) -> availableTypes.add(effect));
 
-        GrenadeType currentType = GrenadeLauncherWeaponItem.getGrenadeTypeFromItem(stack);
+        GrenadeType currentType = GrenadeLauncherItem.getGrenadeTypeFromItem(stack);
         GrenadeType toSwitch = forward ? OrderedEnum.nextAvailable(availableTypes, currentType) : OrderedEnum.previousAvailable(availableTypes, currentType);
         if (!currentType.equals(toSwitch))
         {

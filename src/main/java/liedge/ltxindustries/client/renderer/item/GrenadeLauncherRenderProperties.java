@@ -9,7 +9,7 @@ import liedge.limacore.lib.TickTimer;
 import liedge.ltxindustries.client.LTXIRenderUtil;
 import liedge.ltxindustries.client.model.baked.BakedRotation;
 import liedge.ltxindustries.client.model.custom.TranslucentFillModel;
-import liedge.ltxindustries.item.weapon.GrenadeLauncherWeaponItem;
+import liedge.ltxindustries.item.weapon.GrenadeLauncherItem;
 import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.lib.weapons.ClientWeaponControls;
 import liedge.ltxindustries.registry.game.LTXIItems;
@@ -87,7 +87,7 @@ public class GrenadeLauncherRenderProperties extends WeaponRenderProperties<Weap
     @Override
     protected void renderStaticWeapon(ItemStack stack, WeaponItem item, ItemDisplayContext displayContext, PoseStack poseStack, MultiBufferSource bufferSource, int light, int overlay)
     {
-        LimaColor grenadeColor = GrenadeLauncherWeaponItem.getGrenadeTypeFromItem(stack).getColor();
+        LimaColor grenadeColor = GrenadeLauncherItem.getGrenadeTypeFromItem(stack).getColor();
 
         rootBaseLayer.putQuadsInBuffer(poseStack, bufferSource, light);
         rootEmissiveLayer.putQuadsInBuffer(poseStack, bufferSource, light);
@@ -100,7 +100,7 @@ public class GrenadeLauncherRenderProperties extends WeaponRenderProperties<Weap
     @Override
     protected void renderWeaponFirstPerson(ItemStack stack, WeaponItem item, ItemDisplayContext displayContext, PoseStack poseStack, MultiBufferSource bufferSource, int light, int overlay, float partialTick, ClientWeaponControls controls)
     {
-        LimaColor grenadeColor = GrenadeLauncherWeaponItem.getGrenadeTypeFromItem(stack).getColor();
+        LimaColor grenadeColor = GrenadeLauncherItem.getGrenadeTypeFromItem(stack).getColor();
 
         float mul = LTXIRenderUtil.animationCurveA(controls.getAnimationTimerA().lerpProgressNotPaused(partialTick));
         if (mul > 0)

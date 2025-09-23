@@ -68,7 +68,7 @@ public final class LTXIWeaponsConfig
         builder.pop();
 
         builder.push("linear_fusion_rifle");
-        LFR_BASE_DAMAGE = builder.comment(baseDamageMsg).defineInRange("base_damage", 45d, MIN_BASE_DAMAGE, MAX_BASE_DAMAGE);
+        LFR_BASE_DAMAGE = builder.comment(baseDamageMsg).defineInRange("base_damage", 25d, MIN_BASE_DAMAGE, MAX_BASE_DAMAGE);
         builder.pop();
 
         // Rocket Launcher

@@ -11,9 +11,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-public class HeavyPistolWeaponItem extends SemiAutoWeaponItem
+public class HeavyPistolItem extends SemiAutoWeaponItem
 {
-    public HeavyPistolWeaponItem(Properties properties)
+    public HeavyPistolItem(Properties properties)
     {
         super(properties, 7, 25, 30, LTXIItems.HEAVY_WEAPON_ENERGY, 100, 1d);
     }

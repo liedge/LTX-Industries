@@ -24,9 +24,9 @@ import java.util.Optional;
 
 import static liedge.ltxindustries.registry.game.LTXIAttachmentTypes.WEAPON_CONTROLS;
 
-public class RocketLauncherWeaponItem extends SemiAutoWeaponItem
+public class RocketLauncherItem extends SemiAutoWeaponItem
 {
-    public RocketLauncherWeaponItem(Properties properties)
+    public RocketLauncherItem(Properties properties)
     {
         super(properties, 2, 1.5d, 60, LTXIItems.EXPLOSIVES_WEAPON_ENERGY, 1, 0);
     }

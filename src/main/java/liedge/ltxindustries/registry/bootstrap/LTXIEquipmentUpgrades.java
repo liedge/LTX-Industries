@@ -22,6 +22,7 @@ import liedge.ltxindustries.lib.weapons.WeaponReloadSource;
 import liedge.ltxindustries.registry.LTXIRegistries;
 import liedge.ltxindustries.registry.game.LTXIItems;
 import net.minecraft.ChatFormatting;
+import net.minecraft.advancements.critereon.*;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -44,6 +45,7 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.predicates.LootItemEntityPropertyCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.neoforged.neoforge.registries.holdersets.AnyHolderSet;
 
@@ -69,6 +71,7 @@ public final class LTXIEquipmentUpgrades
     public static final ResourceKey<EquipmentUpgrade> LTX_MELEE_DEFAULT = key("default/ltx_melee");
     public static final ResourceKey<EquipmentUpgrade> SUBMACHINE_GUN_DEFAULT = key("default/submachine_gun");
     public static final ResourceKey<EquipmentUpgrade> SHOTGUN_DEFAULT = key("default/shotgun");
+    public static final ResourceKey<EquipmentUpgrade> LFR_DEFAULT = key("default/linear_fusion_rifle");
 
     // Tool upgrades
     public static final ResourceKey<EquipmentUpgrade> EPSILON_FISHING_LURE = key("epsilon_fishing_lure");
@@ -176,6 +179,20 @@ public final class LTXIEquipmentUpgrades
                 .withEffect(ITEM_ATTRIBUTE_MODIFIERS, AttributeModifierUpgradeEffect.constantMainHand(Attributes.STEP_HEIGHT, SHOTGUN_DEFAULT.location().withSuffix("shotgun_step_height_boost"), 1, AttributeModifier.Operation.ADD_VALUE))
                 .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, new ModifyReductionsUpgradeEffect(DamageReductionType.ARMOR, LevelBasedValue.constant(-0.1f)))
                 .effectIcon(defaultModuleIcon.apply(LTXIItems.SHOTGUN))
+                .category("default/weapon")
+                .register(context);
+        EquipmentUpgrade.builder(LFR_DEFAULT)
+                .supports(LTXIItems.LINEAR_FUSION_RIFLE)
+                .withConditionalEffect(EQUIPMENT_DAMAGE, ValueUpgradeEffect.of(DoubleLevelBasedValue.constant(25), MathOperation.ADD),
+                        LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.ATTACKER, EntityPredicate.Builder.entity()
+                                .distance(DistancePredicate.absolute(MinMaxBounds.Doubles.atLeast(40.0d)))))
+                .withConditionalEffect(EQUIPMENT_DAMAGE, ValueUpgradeEffect.of(DoubleLevelBasedValue.constant(0.25d), MathOperation.ADD_TOTAL_PERCENT),
+                        LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.ATTACKER, EntityPredicate.Builder.entity()
+                                .moving(MovementPredicate.speed(MinMaxBounds.Doubles.atMost(1e-3d)))
+                                .flags(EntityFlagsPredicate.Builder.flags().setCrouching(true))))
+                .tooltip(0, key -> UpgradeTooltip.of(key, TooltipArgument.of(DoubleLevelBasedValue.constant(25), ValueSentiment.POSITIVE, TooltipValueFormat.SIGNED_FLAT_NUMBER)))
+                .tooltip(1, key -> UpgradeTooltip.of(key, TooltipArgument.of(DoubleLevelBasedValue.constant(0.25d), ValueSentiment.POSITIVE, TooltipValueFormat.SIGNED_PERCENTAGE)))
+                .effectIcon(defaultModuleIcon.apply(LTXIItems.LINEAR_FUSION_RIFLE))
                 .category("default/weapon")
                 .register(context);
 
