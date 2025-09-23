@@ -9,6 +9,7 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.data.LimaCoreCodecs;
 import liedge.limacore.lib.LimaColor;
 import liedge.ltxindustries.LTXIndustries;
+import liedge.ltxindustries.client.LTXIndustriesClient;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.util.GsonHelper;
@@ -44,11 +45,11 @@ public final class BubbleShieldModel implements ResourceManagerReloadListener
         }
         catch (JsonParseException | IllegalStateException | IOException ex)
         {
-            LTXIndustries.LOGGER.error("bubble_shield_model.json didn't decode correctly, it might be missing, corrupted, or modified by a data-pack. Don't do that.", ex);
+            LTXIndustriesClient.CLIENT_LOGGER.error("bubble_shield_model.json didn't decode correctly, it might be missing, corrupted, or modified by a data-pack. Don't do that.", ex);
             throw new IllegalStateException("Failed to loaded bubble shield model.", ex);
         }
 
-        LTXIndustries.LOGGER.info("Loaded bubble shield model.");
+        LTXIndustriesClient.CLIENT_LOGGER.info("Loaded bubble shield model.");
     }
 
     public void renderFaces(int[] geometryIndexes, VertexConsumer buffer, Matrix4f mx4, LimaColor color, float alpha)
