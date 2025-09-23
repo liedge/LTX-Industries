@@ -5,12 +5,13 @@ import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.util.LimaCoreUtil;
 import liedge.ltxindustries.util.LTXITooltipUtil;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ItemLike;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 import org.jetbrains.annotations.Nullable;
 
 import static liedge.limacore.registry.game.LimaCoreDataComponents.*;
 
-public interface EnergyHolderItem
+public interface EnergyHolderItem extends ItemLike
 {
     static @Nullable IEnergyStorage createEnergyAccess(ItemStack stack)
     {

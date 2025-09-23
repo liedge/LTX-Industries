@@ -3,7 +3,9 @@ package liedge.ltxindustries.registry.game;
 import liedge.ltxindustries.item.*;
 import liedge.ltxindustries.item.tool.*;
 import liedge.ltxindustries.item.weapon.*;
+import net.minecraft.core.Holder;
 import net.minecraft.world.item.*;
+import net.minecraft.world.level.ItemLike;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
@@ -33,9 +35,12 @@ public final class LTXIItems
 
     private static void registerCapabilities(RegisterCapabilitiesEvent event)
     {
-        event.registerItem(Capabilities.EnergyStorage.ITEM, (stack, $) -> EnergyHolderItem.createEnergyAccess(stack),
-                LTX_DRILL, LTX_SWORD, LTX_SHOVEL, LTX_AXE, LTX_HOE, LTX_SHEARS, LTX_BRUSH, LTX_FISHING_ROD, LTX_LIGHTER, LTX_WRENCH,
-                SUBMACHINE_GUN, SHOTGUN, LINEAR_FUSION_RIFLE, GRENADE_LAUNCHER, ROCKET_LAUNCHER, HEAVY_PISTOL);
+        // Auto-register all energy-capable items
+        for (Holder<Item> holder : ITEMS.getEntries())
+        {
+            ItemLike item = holder.value();
+            if (item instanceof EnergyHolderItem) event.registerItem(Capabilities.EnergyStorage.ITEM, (stack, ignored) -> EnergyHolderItem.createEnergyAccess(stack), item);
+        }
     }
 
     static Collection<DeferredHolder<Item, ? extends Item>> getRegisteredItems()
