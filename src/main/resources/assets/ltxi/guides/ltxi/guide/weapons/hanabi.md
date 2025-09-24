@@ -15,7 +15,6 @@ navigation:
 - Projectile Speed: 30 m/s
 - Trigger: Semi Auto
 - Trigger Cooldown: 0.75 sec
-- Reload Speed: 2 sec
 
 ## Shells
 

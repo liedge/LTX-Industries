@@ -347,6 +347,7 @@ class LanguageGen extends LimaLanguageProvider
         add(WeaponReloadSource.Type.INFINITE.getUpgradeTooltip(), "Grants weapon an infinite, never-draining magazine");
 
         add(WeaponItem.AMMO_LOADED_TOOLTIP, "Ammo: %s/%s");
+        add(WeaponItem.RELOAD_SPEED_TOOLTIP, "Reload speed: %ss");
         add(GrenadeLauncherItem.GRENADE_TYPE_TOOLTIP, "%s shells equipped");
 
         add(LTXITooltipUtil.ALL_HOLDER_SET, "all");

@@ -30,7 +30,8 @@ public final class LTXIWeaponsConfig
     public static final ModConfigSpec.DoubleValue LFR_BASE_DAMAGE;
 
     // Rocket Launcher
-    public static final ModConfigSpec.DoubleValue ROCKET_LAUNCHER_BASE_DAMAGE;
+    public static final ModConfigSpec.DoubleValue ROCKET_LAUNCHER_BASE_IMPACT_DAMAGE;
+    public static final ModConfigSpec.DoubleValue ROCKET_LAUNCHER_BASE_SPLASH_DAMAGE;
 
     // Magnum
     public static final ModConfigSpec.DoubleValue HEAVY_PISTOL_BASE_DAMAGE;
@@ -73,7 +74,8 @@ public final class LTXIWeaponsConfig
 
         // Rocket Launcher
         builder.push("rocket_launcher");
-        ROCKET_LAUNCHER_BASE_DAMAGE = builder.comment(baseDamageMsg).defineInRange("base_damage", 80.0d, MIN_BASE_DAMAGE, MAX_BASE_DAMAGE);
+        ROCKET_LAUNCHER_BASE_IMPACT_DAMAGE = builder.comment("Base direct hit damage of rockets").defineInRange("base_impact_damage", 100.0d, MIN_BASE_DAMAGE, MAX_BASE_DAMAGE);
+        ROCKET_LAUNCHER_BASE_SPLASH_DAMAGE = builder.comment("Base splash (AOE) damage of rockets").defineInRange("base_splash_damage", 40.0d, MIN_BASE_DAMAGE, MAX_BASE_DAMAGE);
         builder.pop();
 
         // Magnum

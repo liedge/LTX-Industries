@@ -99,7 +99,7 @@ public class StickyFlameEntity extends LimaTraceableEntity
             {
                 LivingEntity owner = getOwner();
 
-                getEntitiesInAOE(level, getBoundingBox(), owner).forEach(hit ->
+                getEntitiesInAOE(level, getBoundingBox(), owner, null).forEach(hit ->
                 {
                     // Use weapon damage for owned flames
                     if (LTXIItems.GRENADE_LAUNCHER.get().causeProjectileDamage(getLauncherItem(), this, owner, LTXIDamageTypes.STICKY_FLAME, hit, 4d))

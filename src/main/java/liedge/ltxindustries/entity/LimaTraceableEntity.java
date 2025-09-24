@@ -26,6 +26,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 import static liedge.ltxindustries.LTXIConstants.KEY_UPGRADES_CONTAINER;
@@ -84,15 +85,15 @@ public abstract class LimaTraceableEntity extends Entity implements TraceableEnt
     }
 
     // AOE Helpers
-    protected List<Entity> getEntitiesInAOE(Level level, AABB aabb, @Nullable LivingEntity owner)
+    protected List<Entity> getEntitiesInAOE(Level level, AABB aabb, @Nullable LivingEntity owner, @Nullable Entity directHit)
     {
-        return level.getEntities(this, aabb, e -> LTXIEntityUtil.isValidWeaponTarget(owner, e));
+        return level.getEntities(this, aabb, e -> LTXIEntityUtil.isValidWeaponTarget(owner, e) && !Objects.equals(directHit, e));
     }
 
-    protected List<Entity> getEntitiesInAOE(Level level, Vec3 hitLocation, double radius, @Nullable LivingEntity owner)
+    protected List<Entity> getEntitiesInAOE(Level level, Vec3 hitLocation, double radius, @Nullable LivingEntity owner, @Nullable Entity directHit)
     {
         radius *= 2;
-        return getEntitiesInAOE(level, AABB.ofSize(hitLocation, radius, radius, radius), owner);
+        return getEntitiesInAOE(level, AABB.ofSize(hitLocation, radius, radius, radius), owner, directHit);
     }
 
     // Serialization

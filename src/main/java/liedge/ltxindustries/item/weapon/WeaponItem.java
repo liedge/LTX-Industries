@@ -18,19 +18,22 @@ import liedge.ltxindustries.entity.damage.UpgradableEquipmentDamageSource;
 import liedge.ltxindustries.item.EnergyHolderItem;
 import liedge.ltxindustries.item.TooltipShiftHintItem;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
+import liedge.ltxindustries.lib.EquipmentDamageModifiers;
 import liedge.ltxindustries.lib.upgrades.effect.ValueUpgradeEffect;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.ltxindustries.lib.weapons.AbstractWeaponControls;
-import liedge.ltxindustries.lib.EquipmentDamageModifiers;
 import liedge.ltxindustries.lib.weapons.WeaponReloadSource;
 import liedge.ltxindustries.registry.bootstrap.LTXIDamageTypes;
 import liedge.ltxindustries.registry.game.*;
+import liedge.ltxindustries.util.LTXITooltipUtil;
 import liedge.ltxindustries.util.LTXIUtil;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -59,7 +62,10 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
 {
     public static final Codec<WeaponItem> CODEC = LimaCoreCodecs.classCastRegistryCodec(BuiltInRegistries.ITEM, WeaponItem.class);
     public static final StreamCodec<RegistryFriendlyByteBuf, WeaponItem> STREAM_CODEC = LimaStreamCodecs.classCastRegistryStreamCodec(Registries.ITEM, WeaponItem.class);
+
     public static final Translatable AMMO_LOADED_TOOLTIP = LTXILangKeys.tooltip("ammo_loaded");
+    public static final Translatable RELOAD_SPEED_TOOLTIP = LTXILangKeys.tooltip("reload_speed");
+
     public static final double MAX_PROJECTILE_SPEED = 3.9d;
 
     private final int baseMagCapacity;
@@ -275,7 +281,8 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
     @Override
     public void appendTooltipHintComponents(Level level, ItemStack stack, TooltipLineConsumer consumer)
     {
-        consumer.accept(AMMO_LOADED_TOOLTIP.translateArgs(stack.getOrDefault(LTXIDataComponents.WEAPON_AMMO, 0), getAmmoCapacity(stack)).withStyle(LIME_GREEN.chatStyle()));
+        consumer.accept(AMMO_LOADED_TOOLTIP.translateArgs(Component.literal(Integer.toString(getAmmoLoaded(stack))).withStyle(LIME_GREEN.chatStyle()), getAmmoCapacity(stack)).withStyle(ChatFormatting.GRAY));
+        consumer.accept(RELOAD_SPEED_TOOLTIP.translateArgs(LTXITooltipUtil.flatNumberWithoutSign(getReloadSpeed(stack) / 20d).withStyle(LIME_GREEN.chatStyle())).withStyle(ChatFormatting.GRAY));
 
         WeaponReloadSource reloadSource = getReloadSource(stack);
         consumer.accept(reloadSource.getItemTooltip());

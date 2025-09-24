@@ -10,9 +10,9 @@ navigation:
 <ItemImage id="rocket_launcher" scale="3" />
 
 ## Stats
-- Base Damage: 80.0
+- Base Direct Hit Damage: 100.0
+- Base Splash Damage: 40.0
 - Projectile: Rockets
-- Projectile Speed: 55 m/s
+- Projectile Speed: 30 m/s
 - Trigger: Semi Auto
 - Trigger Cooldown: 1.5 sec
-- Reload Speed: 3 sec

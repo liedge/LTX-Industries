@@ -18,4 +18,3 @@ range. As a downside, it will [struggle](../fundamentals/damage_modifiers.md) ag
 - Projectile: [LightFrag](lightfrags.md)
 - Trigger: Automatic
 - Fire Rate: 1200 RPM
-- Reload Speed: 1 sec

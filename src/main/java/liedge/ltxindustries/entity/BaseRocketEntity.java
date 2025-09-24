@@ -27,6 +27,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
@@ -38,7 +39,7 @@ public abstract class BaseRocketEntity extends AutoTrackingProjectile
         super(type, level);
     }
 
-    protected abstract void damageTarget(Level level, @Nullable LivingEntity owner, Entity targetEntity, Vec3 hitLocation);
+    protected abstract void damageTarget(Level level, @Nullable LivingEntity owner, Entity targetEntity, Vec3 hitLocation, boolean isDirectHit);
 
     @Override
     public int getLifetime()
@@ -50,8 +51,12 @@ public abstract class BaseRocketEntity extends AutoTrackingProjectile
     protected void onProjectileHit(Level level, HitResult hitResult, Vec3 hitLocation)
     {
         LivingEntity owner = getOwner();
+        Entity directHit = hitResult.getType() == HitResult.Type.ENTITY ? ((EntityHitResult) hitResult).getEntity() : null;
 
-        getEntitiesInAOE(level, hitLocation, 3d, owner).forEach(hitEntity -> damageTarget(level, owner, hitEntity, hitLocation));
+        if (directHit != null) damageTarget(level, owner, directHit, hitLocation, true);
+
+        getEntitiesInAOE(level, hitLocation, 3d, owner, directHit).forEach(aoeHit -> damageTarget(level, owner, aoeHit, hitLocation, false));
+
         level.playSound(null, hitLocation.x, hitLocation.y, hitLocation.z, LTXISounds.ROCKET_EXPLODE.get(), SoundSource.PLAYERS, 4f, 0.9f);
         LimaNetworkUtil.sendParticle(level, new ColorParticleOptions(LTXIParticles.HALF_SONIC_BOOM_EMITTER, LTXIConstants.LIME_GREEN), LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, hitLocation);
     }
@@ -98,7 +103,7 @@ public abstract class BaseRocketEntity extends AutoTrackingProjectile
         }
 
         @Override
-        protected void damageTarget(Level level, @Nullable LivingEntity owner, Entity targetEntity, Vec3 hitLocation)
+        protected void damageTarget(Level level, @Nullable LivingEntity owner, Entity targetEntity, Vec3 hitLocation, boolean isDirectHit)
         {
             float baseDamage = (float) LTXIMachinesConfig.ATMOS_TURRET_ROCKET_DAMAGE.getAsDouble();
 
@@ -145,9 +150,10 @@ public abstract class BaseRocketEntity extends AutoTrackingProjectile
         }
 
         @Override
-        protected void damageTarget(Level level, @Nullable LivingEntity owner, Entity targetEntity, Vec3 hitLocation)
+        protected void damageTarget(Level level, @Nullable LivingEntity owner, Entity targetEntity, Vec3 hitLocation, boolean isDirectHit)
         {
-            LTXIItems.ROCKET_LAUNCHER.get().causeProjectileDamage(getLauncherItem(), this, owner, LTXIDamageTypes.ROCKET_LAUNCHER, targetEntity, LTXIWeaponsConfig.ROCKET_LAUNCHER_BASE_DAMAGE.getAsDouble());
+            double baseDamage = isDirectHit ? LTXIWeaponsConfig.ROCKET_LAUNCHER_BASE_IMPACT_DAMAGE.getAsDouble() : LTXIWeaponsConfig.ROCKET_LAUNCHER_BASE_SPLASH_DAMAGE.getAsDouble();
+            LTXIItems.ROCKET_LAUNCHER.get().causeProjectileDamage(getLauncherItem(), this, owner, LTXIDamageTypes.ROCKET_LAUNCHER, targetEntity, baseDamage);
         }
     }
 }

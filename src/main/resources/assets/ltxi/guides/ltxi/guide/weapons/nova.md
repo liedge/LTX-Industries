@@ -15,4 +15,3 @@ navigation:
 - Projectile: [LightFrag](lightfrags.md)
 - Trigger: Semi Auto
 - Trigger Cooldown: 0.65 sec
-- Reload Speed: 1.5 sec

@@ -173,7 +173,7 @@ public class OrbGrenadeEntity extends LimaTraceableProjectile implements IEntity
         LivingEntity owner = getOwner();
 
         double blastRadius = getBlastRadius();
-        List<Entity> hits = getEntitiesInAOE(level, hitLocation, blastRadius, owner); // Use new helper
+        List<Entity> hits = getEntitiesInAOE(level, hitLocation, blastRadius, owner, null); // Use new helper
 
         // Spawn AOE entity
         if (grenadeType == GrenadeType.FLAME)

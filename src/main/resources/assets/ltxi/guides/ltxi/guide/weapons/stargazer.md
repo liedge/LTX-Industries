@@ -16,4 +16,3 @@ navigation:
 - Trigger: Charge-up fusion
 - Charge Time: 0.5 sec
 - Trigger Cooldown: 0.25 sec
-- Reload Speed: 1.5 sec
