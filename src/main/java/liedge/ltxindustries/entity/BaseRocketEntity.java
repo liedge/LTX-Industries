@@ -9,10 +9,12 @@ import liedge.limacore.util.LimaNetworkUtil;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.blockentity.RocketTurretBlockEntity;
 import liedge.ltxindustries.entity.damage.TurretDamageSource;
-import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrades;
 import liedge.ltxindustries.registry.bootstrap.LTXIDamageTypes;
-import liedge.ltxindustries.registry.game.*;
+import liedge.ltxindustries.registry.game.LTXIEntities;
+import liedge.ltxindustries.registry.game.LTXIItems;
+import liedge.ltxindustries.registry.game.LTXIParticles;
+import liedge.ltxindustries.registry.game.LTXISounds;
 import liedge.ltxindustries.util.config.LTXIMachinesConfig;
 import liedge.ltxindustries.util.config.LTXIWeaponsConfig;
 import net.minecraft.core.BlockPos;
@@ -23,6 +25,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -34,8 +37,6 @@ public abstract class BaseRocketEntity extends AutoTrackingProjectile
     {
         super(type, level);
     }
-
-    protected abstract boolean shouldPostGameEvent();
 
     protected abstract void damageTarget(Level level, @Nullable LivingEntity owner, Entity targetEntity, Vec3 hitLocation);
 
@@ -51,12 +52,8 @@ public abstract class BaseRocketEntity extends AutoTrackingProjectile
         LivingEntity owner = getOwner();
 
         getEntitiesInAOE(level, hitLocation, 3d, owner).forEach(hitEntity -> damageTarget(level, owner, hitEntity, hitLocation));
-
-        if (shouldPostGameEvent()) level.gameEvent(owner, LTXIGameEvents.PROJECTILE_EXPLODED, hitLocation);
         level.playSound(null, hitLocation.x, hitLocation.y, hitLocation.z, LTXISounds.ROCKET_EXPLODE.get(), SoundSource.PLAYERS, 4f, 0.9f);
         LimaNetworkUtil.sendParticle(level, new ColorParticleOptions(LTXIParticles.HALF_SONIC_BOOM_EMITTER, LTXIConstants.LIME_GREEN), LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, hitLocation);
-
-        discard();
     }
 
     @Override
@@ -95,7 +92,7 @@ public abstract class BaseRocketEntity extends AutoTrackingProjectile
         }
 
         @Override
-        protected boolean shouldPostGameEvent()
+        protected boolean shouldImpactPostGameEvent(Level level, HitResult hitResult, Vec3 hitLocation)
         {
             return true;
         }
@@ -105,7 +102,7 @@ public abstract class BaseRocketEntity extends AutoTrackingProjectile
         {
             float baseDamage = (float) LTXIMachinesConfig.ATMOS_TURRET_ROCKET_DAMAGE.getAsDouble();
 
-            RocketTurretBlockEntity be = LimaBlockUtil.getSafeBlockEntity(level, turretPos, RocketTurretBlockEntity.class);
+            RocketTurretBlockEntity be = turretPos != null ? LimaBlockUtil.getSafeBlockEntity(level, turretPos, RocketTurretBlockEntity.class) : null;
             if (be != null)
             {
                 // Auto-wrap player owners with a Fake Player instance that has the turret's enchantments
@@ -136,43 +133,21 @@ public abstract class BaseRocketEntity extends AutoTrackingProjectile
 
     public static class DaybreakRocket extends BaseRocketEntity
     {
-        private EquipmentUpgrades upgrades = EquipmentUpgrades.EMPTY;
-
         public DaybreakRocket(EntityType<?> type, Level level)
         {
             super(type, level);
         }
 
-        public DaybreakRocket(Level level, EquipmentUpgrades upgrades)
+        public DaybreakRocket(Level level, ItemStack launcherItem)
         {
             this(LTXIEntities.DAYBREAK_ROCKET.get(), level);
-            this.upgrades = upgrades;
-        }
-
-        @Override
-        protected boolean shouldPostGameEvent()
-        {
-            return upgrades.noneMatch(LTXIUpgradeEffectComponents.PREVENT_VIBRATION.get(), (effect, $) -> effect.apply(null, LTXIGameEvents.PROJECTILE_EXPLODED));
+            setLauncherItem(launcherItem);
         }
 
         @Override
         protected void damageTarget(Level level, @Nullable LivingEntity owner, Entity targetEntity, Vec3 hitLocation)
         {
-            LTXIItems.ROCKET_LAUNCHER.get().causeProjectileDamage(upgrades, this, owner, LTXIDamageTypes.ROCKET_LAUNCHER, targetEntity, LTXIWeaponsConfig.ROCKET_LAUNCHER_BASE_DAMAGE.getAsDouble());
-        }
-
-        @Override
-        protected void readAdditionalSaveData(CompoundTag tag)
-        {
-            super.readAdditionalSaveData(tag);
-            upgrades = readEquipmentUpgrades(tag);
-        }
-
-        @Override
-        protected void addAdditionalSaveData(CompoundTag tag)
-        {
-            super.addAdditionalSaveData(tag);
-            writeEquipmentUpgrades(upgrades, tag);
+            LTXIItems.ROCKET_LAUNCHER.get().causeProjectileDamage(getLauncherItem(), this, owner, LTXIDamageTypes.ROCKET_LAUNCHER, targetEntity, LTXIWeaponsConfig.ROCKET_LAUNCHER_BASE_DAMAGE.getAsDouble());
         }
     }
 }

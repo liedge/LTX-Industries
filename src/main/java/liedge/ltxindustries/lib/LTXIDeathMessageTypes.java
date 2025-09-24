@@ -1,7 +1,7 @@
 package liedge.ltxindustries.lib;
 
 import liedge.ltxindustries.client.LTXILangKeys;
-import liedge.ltxindustries.entity.damage.WeaponDamageSource;
+import liedge.ltxindustries.entity.damage.UpgradableEquipmentDamageSource;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DeathMessageType;
@@ -32,14 +32,14 @@ public final class LTXIDeathMessageTypes
 
     public static final EnumProxy<DeathMessageType> WEAPON_DEATH_MESSAGE_TYPE = new EnumProxy<>(DeathMessageType.class, "ltxi:weapon", (IDeathMessageProvider) (killedEntity, lastEntry, sigFall) -> {
         DamageSource source = lastEntry.source();
-        if (source instanceof WeaponDamageSource weaponDamageSource)
+        if (source instanceof UpgradableEquipmentDamageSource upgradableSource)
         {
             Entity causingEntity = source.getEntity();
             String translationKey = "death.attack." + source.getMsgId();
 
             if (causingEntity != null)
             {
-                return Component.translatable(translationKey, killedEntity.getDisplayName(), causingEntity.getDisplayName(), weaponDamageSource.weaponItem().getDescription());
+                return Component.translatable(translationKey, killedEntity.getDisplayName(), causingEntity.getDisplayName(), upgradableSource.getWeaponItem().getItem().getDescription());
             }
             else
             {

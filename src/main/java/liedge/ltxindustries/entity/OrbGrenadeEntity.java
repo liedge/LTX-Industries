@@ -6,10 +6,12 @@ import liedge.limacore.util.LimaBlockUtil;
 import liedge.limacore.util.LimaNetworkUtil;
 import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.client.particle.GrenadeExplosionParticleOptions;
-import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
 import liedge.ltxindustries.registry.bootstrap.LTXIDamageTypes;
-import liedge.ltxindustries.registry.game.*;
+import liedge.ltxindustries.registry.game.LTXIEntities;
+import liedge.ltxindustries.registry.game.LTXIItems;
+import liedge.ltxindustries.registry.game.LTXIParticles;
+import liedge.ltxindustries.registry.game.LTXISounds;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceKey;
@@ -20,6 +22,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -35,7 +38,6 @@ import static liedge.ltxindustries.util.config.LTXIWeaponsConfig.*;
 public class OrbGrenadeEntity extends LimaTraceableProjectile implements IEntityWithComplexSpawn
 {
     private GrenadeType grenadeType = GrenadeType.EXPLOSIVE;
-    private EquipmentUpgrades upgrades = EquipmentUpgrades.EMPTY;
     private float spin0;
     private float spin;
 
@@ -44,11 +46,11 @@ public class OrbGrenadeEntity extends LimaTraceableProjectile implements IEntity
         super(type, level);
     }
 
-    public OrbGrenadeEntity(Level level, GrenadeType grenadeType, EquipmentUpgrades upgrades)
+    public OrbGrenadeEntity(Level level, GrenadeType grenadeType, ItemStack launcherItem)
     {
         this(LTXIEntities.ORB_GRENADE.get(), level);
         this.grenadeType = grenadeType;
-        this.upgrades = upgrades;
+        setLauncherItem(launcherItem);
     }
 
     public GrenadeType getGrenadeType()
@@ -181,7 +183,7 @@ public class OrbGrenadeEntity extends LimaTraceableProjectile implements IEntity
                 int offsetX = (i % 3) - 1;
                 int offsetZ = (i / 3) - 1;
 
-                StickyFlameEntity flames = new StickyFlameEntity(level, upgrades);
+                StickyFlameEntity flames = new StickyFlameEntity(level, getLauncherItem());
                 flames.setOwner(owner);
                 flames.setPos(hitLocation.x + 2f * offsetX, hitLocation.y, hitLocation.z + 2f * offsetZ);
                 level.addFreshEntity(flames);
@@ -197,19 +199,14 @@ public class OrbGrenadeEntity extends LimaTraceableProjectile implements IEntity
 
             // Deal damage to entities
             final double baseDamage = getBaseDamage() * getDamageMultiplier(hitEntity);
-            LTXIItems.GRENADE_LAUNCHER.get().causeProjectileDamage(upgrades, this, owner, getDamageType(), hitEntity, baseDamage);
+            LTXIItems.GRENADE_LAUNCHER.get().causeProjectileDamage(getLauncherItem(), this, owner, getDamageType(), hitEntity, baseDamage);
 
             // Spawn any additional particle effects on hit entities (if applicable)
             spawnHitEntityParticles(level, hitLocation, hitEntity);
         });
 
-        // Fire the sculk event if no suppression upgrade is present
-        boolean fireEvent = upgrades.noneMatch(LTXIUpgradeEffectComponents.PREVENT_VIBRATION.get(), (effect, $) -> effect.apply(null, LTXIGameEvents.PROJECTILE_EXPLODED));
-        if (fireEvent) level.gameEvent(owner, LTXIGameEvents.PROJECTILE_EXPLODED, hitLocation);
-
         level.playSound(null, hitLocation.x, hitLocation.y, hitLocation.z, LTXISounds.GRENADE_EXPLOSIONS.get(grenadeType).get(), SoundSource.PLAYERS, 2.5f, Mth.randomBetween(random, 0.77f, 0.9f));
         LimaNetworkUtil.sendParticle(level, new GrenadeExplosionParticleOptions(grenadeType, blastRadius * 2d), LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, hitLocation);
-        discard();
     }
 
     @Override
@@ -234,7 +231,6 @@ public class OrbGrenadeEntity extends LimaTraceableProjectile implements IEntity
     protected void readAdditionalSaveData(CompoundTag tag)
     {
         super.readAdditionalSaveData(tag);
-        upgrades = readEquipmentUpgrades(tag);
         setGrenadeType(GrenadeType.CODEC.byNameOrElse(tag.getString("grenade_type"), GrenadeType.EXPLOSIVE));
     }
 
@@ -242,7 +238,6 @@ public class OrbGrenadeEntity extends LimaTraceableProjectile implements IEntity
     protected void addAdditionalSaveData(CompoundTag tag)
     {
         super.addAdditionalSaveData(tag);
-        writeEquipmentUpgrades(upgrades, tag);
         tag.putString("grenade_type", grenadeType.getSerializedName());
     }
 

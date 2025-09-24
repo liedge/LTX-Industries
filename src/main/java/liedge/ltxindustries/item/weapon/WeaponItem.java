@@ -13,8 +13,8 @@ import liedge.limacore.util.LimaNetworkUtil;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.entity.CompoundHitResult;
 import liedge.ltxindustries.entity.DynamicClipContext;
-import liedge.ltxindustries.entity.LimaTraceableProjectile;
-import liedge.ltxindustries.entity.damage.WeaponDamageSource;
+import liedge.ltxindustries.entity.LimaTraceableEntity;
+import liedge.ltxindustries.entity.damage.UpgradableEquipmentDamageSource;
 import liedge.ltxindustries.item.EnergyHolderItem;
 import liedge.ltxindustries.item.TooltipShiftHintItem;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
@@ -37,7 +37,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -215,12 +214,13 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
         UpgradableEquipmentItem.super.onUpgradeRefresh(context, stack, upgrades);
     }
 
-    public boolean hurtEntity(LivingEntity attacker, Entity target, EquipmentUpgrades upgrades, DamageSource damageSource, double baseDamage)
+    private boolean hurtEntity(LivingEntity attacker, Entity target, UpgradableEquipmentDamageSource damageSource, double baseDamage)
     {
         if (attacker.level() instanceof ServerLevel level)
         {
-            // Create the loot context
+            // Create the loot context and get the upgrades
             LootContext context = LTXIUtil.entityLootContext(level, target, damageSource, attacker);
+            EquipmentUpgrades upgrades = getUpgrades(damageSource.getWeaponItem());
 
             // Run pre attack effects here
             upgrades.applyDamageContextEffects(LTXIUpgradeEffectComponents.EQUIPMENT_PRE_ATTACK, level, EnchantmentTarget.ATTACKER, target, attacker, damageSource);
@@ -236,10 +236,23 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
         return false;
     }
 
-    protected void causeLightfragDamage(EquipmentUpgrades upgrades, LivingEntity attacker, Entity targetEntity, double baseDamage)
+    protected void causeLightfragDamage(ItemStack heldItem, LivingEntity attacker, Entity targetEntity, double baseDamage)
     {
-        WeaponDamageSource source = WeaponDamageSource.handheldInstantDamage(LTXIDamageTypes.LIGHTFRAG, attacker, this, upgrades);
-        hurtEntity(attacker, targetEntity, upgrades, source, baseDamage);
+        UpgradableEquipmentDamageSource source = UpgradableEquipmentDamageSource.directDamage(LTXIDamageTypes.LIGHTFRAG, attacker, heldItem);
+        hurtEntity(attacker, targetEntity, source, baseDamage);
+    }
+
+    public boolean causeProjectileDamage(ItemStack weaponItem, LimaTraceableEntity projectile, @Nullable LivingEntity attacker, ResourceKey<DamageType> damageTypeKey, Entity targetEntity, double baseDamage)
+    {
+        UpgradableEquipmentDamageSource source = UpgradableEquipmentDamageSource.projectileDamage(damageTypeKey, projectile, attacker, weaponItem);
+        if (attacker != null)
+        {
+            return hurtEntity(attacker, targetEntity, source, baseDamage);
+        }
+        else
+        {
+            return targetEntity.hurt(source, (float) baseDamage);
+        }
     }
 
     protected void traceLightfrag(ItemStack stack, Player player, Level level, double baseDamage, double inaccuracy, double bbExpansion)
@@ -247,24 +260,9 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
         if (!level.isClientSide())
         {
             CompoundHitResult hitResult = CompoundHitResult.tracePath(level, player, getWeaponRange(stack), inaccuracy, getEntityMaxHits(stack), getBlockPierceDistance(stack), DynamicClipContext.FluidCollisionPredicate.NONE, bbExpansion);
-            EquipmentUpgrades upgrades = getUpgrades(stack);
-
-            hitResult.entityHits().forEach(hit -> causeLightfragDamage(upgrades, player, hit.getEntity(), baseDamage));
+            hitResult.entityHits().forEach(hit -> causeLightfragDamage(stack, player, hit.getEntity(), baseDamage));
             level.gameEvent(player, LTXIGameEvents.WEAPON_FIRED, player.getEyePosition());
             sendTracerParticle(level, hitResult.origin(), hitResult.impactLocation());
-        }
-    }
-
-    public void causeProjectileDamage(EquipmentUpgrades upgrades, LimaTraceableProjectile projectile, @Nullable LivingEntity attacker, ResourceKey<DamageType> damageTypeKey, Entity targetEntity, double baseDamage)
-    {
-        WeaponDamageSource source = WeaponDamageSource.projectileDamage(damageTypeKey, projectile, attacker, this, upgrades);
-        if (attacker != null)
-        {
-            hurtEntity(attacker, targetEntity, upgrades, source, baseDamage);
-        }
-        else
-        {
-            targetEntity.hurt(source, (float) baseDamage);
         }
     }
 

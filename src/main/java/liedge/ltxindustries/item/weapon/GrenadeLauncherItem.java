@@ -79,9 +79,7 @@ public class GrenadeLauncherItem extends SemiAutoWeaponItem implements ScrollMod
     {
         if (!level.isClientSide())
         {
-            EquipmentUpgrades upgrades = getUpgrades(heldItem);
-
-            OrbGrenadeEntity grenade = new OrbGrenadeEntity(level, getGrenadeTypeFromItem(heldItem), upgrades);
+            OrbGrenadeEntity grenade = new OrbGrenadeEntity(level, getGrenadeTypeFromItem(heldItem), heldItem);
             grenade.setOwner(player);
             grenade.aimAndSetPosFromShooter(player, Math.min(heldItem.getOrDefault(LTXIDataComponents.WEAPON_RANGE, getWeaponRange(heldItem)), MAX_PROJECTILE_SPEED), 0d);
             level.addFreshEntity(grenade);

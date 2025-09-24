@@ -1,21 +1,17 @@
 package liedge.ltxindustries.entity;
 
 import liedge.limacore.util.LimaMathUtil;
-import liedge.ltxindustries.entity.damage.UpgradablePlayerDamageSource;
-import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.ltxindustries.registry.bootstrap.LTXIDamageTypes;
 import liedge.ltxindustries.registry.game.LTXIEntities;
 import liedge.ltxindustries.registry.game.LTXIItems;
-import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.PushReaction;
@@ -26,17 +22,16 @@ import net.minecraft.world.phys.Vec3;
 public class StickyFlameEntity extends LimaTraceableEntity
 {
     private boolean stuckOnBlock;
-    private EquipmentUpgrades upgrades = EquipmentUpgrades.EMPTY;
 
     public StickyFlameEntity(EntityType<?> entityType, Level level)
     {
         super(entityType, level);
     }
 
-    public StickyFlameEntity(Level level, EquipmentUpgrades upgrades)
+    public StickyFlameEntity(Level level, ItemStack launcherItem)
     {
         this(LTXIEntities.STICKY_FLAME.get(), level);
-        this.upgrades = upgrades;
+        setLauncherItem(launcherItem);
     }
 
     @Override
@@ -106,18 +101,10 @@ public class StickyFlameEntity extends LimaTraceableEntity
 
                 getEntitiesInAOE(level, getBoundingBox(), owner).forEach(hit ->
                 {
-                    Holder<DamageType> damageType = level.registryAccess().holderOrThrow(LTXIDamageTypes.STICKY_FLAME);
-
                     // Use weapon damage for owned flames
-                    if (owner != null)
+                    if (LTXIItems.GRENADE_LAUNCHER.get().causeProjectileDamage(getLauncherItem(), this, owner, LTXIDamageTypes.STICKY_FLAME, hit, 4d))
                     {
-                        UpgradablePlayerDamageSource source = new UpgradablePlayerDamageSource(damageType, this, owner, upgrades);
-                        if (LTXIItems.GRENADE_LAUNCHER.get().hurtEntity(owner, hit, upgrades, source, 4d)) hit.setRemainingFireTicks(200);
-                    }
-                    else
-                    {
-                        DamageSource source = new DamageSource(damageType, this, null);
-                        if (hit.hurt(source, 4f)) hit.setRemainingFireTicks(200);
+                        hit.setRemainingFireTicks(400);
                     }
                 });
             }
@@ -142,7 +129,6 @@ public class StickyFlameEntity extends LimaTraceableEntity
     {
         super.readAdditionalSaveData(tag);
         stuckOnBlock = tag.getBoolean("stuck");
-        upgrades = readEquipmentUpgrades(tag);
     }
 
     @Override
@@ -150,6 +136,5 @@ public class StickyFlameEntity extends LimaTraceableEntity
     {
         super.addAdditionalSaveData(tag);
         tag.putBoolean("stuck", stuckOnBlock);
-        writeEquipmentUpgrades(upgrades, tag);
     }
 }

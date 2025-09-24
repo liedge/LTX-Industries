@@ -19,5 +19,5 @@ public final class LTXIGameEvents
     }
 
     public static final DeferredHolder<GameEvent, GameEvent> WEAPON_FIRED = GAME_EVENTS.register("weapon_fired", () -> new GameEvent(32));
-    public static final DeferredHolder<GameEvent, GameEvent> PROJECTILE_EXPLODED = GAME_EVENTS.register("projectile_exploded", () -> new GameEvent(32));
+    public static final DeferredHolder<GameEvent, GameEvent> PROJECTILE_IMPACT = GAME_EVENTS.register("projectile_impact", () -> new GameEvent(32));
 }

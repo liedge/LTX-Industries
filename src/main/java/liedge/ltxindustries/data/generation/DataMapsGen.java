@@ -15,7 +15,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
 import static liedge.ltxindustries.lib.weapons.GlobalWeaponDamageModifiers.WeaponDamageModifier.modifier;
-import static liedge.ltxindustries.registry.game.LTXIItems.*;
+import static liedge.ltxindustries.registry.game.LTXIItems.SHOTGUN;
+import static liedge.ltxindustries.registry.game.LTXIItems.SUBMACHINE_GUN;
 
 class DataMapsGen extends DataMapProvider
 {
@@ -35,7 +36,7 @@ class DataMapsGen extends DataMapProvider
         // Vibration frequencies
         builder(NeoForgeDataMaps.VIBRATION_FREQUENCIES)
                 .add(LTXIGameEvents.WEAPON_FIRED, new VibrationFrequency(3), false)
-                .add(LTXIGameEvents.PROJECTILE_EXPLODED, new VibrationFrequency(15), false);
+                .add(LTXIGameEvents.PROJECTILE_IMPACT, new VibrationFrequency(2), false);
 
         // Weapon damage modifiers
         builder(GlobalWeaponDamageModifiers.DATA_MAP_TYPE)

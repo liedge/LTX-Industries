@@ -1,6 +1,6 @@
 {
   "values": [
     "ltxi:weapon_fired",
-    "ltxi:projectile_exploded"
+    "ltxi:projectile_impact"
   ]
 }

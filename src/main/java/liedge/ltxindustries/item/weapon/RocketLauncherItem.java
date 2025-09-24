@@ -2,7 +2,6 @@ package liedge.ltxindustries.item.weapon;
 
 import liedge.ltxindustries.entity.BaseRocketEntity;
 import liedge.ltxindustries.entity.LTXIEntityUtil;
-import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.ltxindustries.lib.weapons.AbstractWeaponControls;
 import liedge.ltxindustries.registry.game.LTXIDataComponents;
 import liedge.ltxindustries.registry.game.LTXIGameEvents;
@@ -101,9 +100,7 @@ public class RocketLauncherItem extends SemiAutoWeaponItem
     {
         if (!level.isClientSide())
         {
-            EquipmentUpgrades upgrades = getUpgrades(heldItem);
-
-            BaseRocketEntity.DaybreakRocket missile = new BaseRocketEntity.DaybreakRocket(level, upgrades);
+            BaseRocketEntity.DaybreakRocket missile = new BaseRocketEntity.DaybreakRocket(level, heldItem);
             missile.setOwner(player);
 
             LivingEntity focusedTarget = controls.getFocusedTarget();

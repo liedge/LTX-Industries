@@ -5,7 +5,6 @@ import it.unimi.dsi.fastutil.objects.ObjectSet;
 import liedge.limacore.LimaCommonConstants;
 import liedge.limacore.util.LimaBlockUtil;
 import liedge.limacore.util.LimaNbtUtil;
-import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrades;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
@@ -16,6 +15,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.TraceableEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.AABB;
@@ -32,14 +32,27 @@ import static liedge.ltxindustries.LTXIConstants.KEY_UPGRADES_CONTAINER;
 
 public abstract class LimaTraceableEntity extends Entity implements TraceableEntity
 {
+    private static final String LAUNCHER_ITEM_KEY = "launcher";
+
     private final ObjectSet<FluidType> touchingFluidTypes = new ObjectOpenHashSet<>();
 
     private @Nullable UUID ownerUUID;
     private @Nullable LivingEntity owner;
+    private ItemStack launcherItem = ItemStack.EMPTY;
 
     protected LimaTraceableEntity(EntityType<?> entityType, Level level)
     {
         super(entityType, level);
+    }
+
+    public ItemStack getLauncherItem()
+    {
+        return launcherItem;
+    }
+
+    public void setLauncherItem(ItemStack launcherItem)
+    {
+        this.launcherItem = launcherItem;
     }
 
     @Override
@@ -88,6 +101,7 @@ public abstract class LimaTraceableEntity extends Entity implements TraceableEnt
     {
         tickCount = tag.getInt("age");
         ownerUUID = LimaNbtUtil.getOptionalUUID(tag, LimaCommonConstants.KEY_OWNER);
+        launcherItem = ItemStack.parseOptional(registryAccess(), tag.getCompound(LAUNCHER_ITEM_KEY));
     }
 
     @Override
@@ -95,6 +109,7 @@ public abstract class LimaTraceableEntity extends Entity implements TraceableEnt
     {
         tag.putInt("age", tickCount);
         LimaNbtUtil.putOptionalUUID(tag, LimaCommonConstants.KEY_OWNER, ownerUUID);
+        if (!launcherItem.isEmpty()) tag.put(LAUNCHER_ITEM_KEY, launcherItem.save(registryAccess()));
     }
 
     protected RegistryOps<Tag> createRegistryOps()
@@ -102,19 +117,9 @@ public abstract class LimaTraceableEntity extends Entity implements TraceableEnt
         return RegistryOps.create(NbtOps.INSTANCE, registryAccess());
     }
 
-    protected EquipmentUpgrades readEquipmentUpgrades(CompoundTag tag)
-    {
-        return LimaNbtUtil.tryDecode(EquipmentUpgrades.CODEC, createRegistryOps(), tag, KEY_UPGRADES_CONTAINER, EquipmentUpgrades.EMPTY);
-    }
-
     protected MachineUpgrades readMachineUpgrades(CompoundTag tag)
     {
         return LimaNbtUtil.tryDecode(MachineUpgrades.CODEC, createRegistryOps(), tag, KEY_UPGRADES_CONTAINER, MachineUpgrades.EMPTY);
-    }
-
-    protected void writeEquipmentUpgrades(EquipmentUpgrades upgrades, CompoundTag tag)
-    {
-        LimaNbtUtil.tryEncodeTo(EquipmentUpgrades.CODEC, createRegistryOps(), upgrades, tag, KEY_UPGRADES_CONTAINER);
     }
 
     protected void writeMachineUpgrades(MachineUpgrades upgrades, CompoundTag tag)

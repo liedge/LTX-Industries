@@ -5,7 +5,6 @@ import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import liedge.ltxindustries.entity.CompoundHitResult;
 import liedge.ltxindustries.entity.DynamicClipContext;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
-import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.ltxindustries.lib.weapons.AbstractWeaponControls;
 import liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades;
 import liedge.ltxindustries.registry.game.LTXIGameEvents;
@@ -57,9 +56,7 @@ public class ShotgunItem extends SemiAutoWeaponItem
             }
 
             final double basePelletDamage = LTXIWeaponsConfig.SHOTGUN_BASE_PELLET_DAMAGE.getAsDouble();
-            EquipmentUpgrades upgrades = getUpgrades(heldItem);
-
-            pelletHits.forEach((hitEntity, pellets) -> causeLightfragDamage(upgrades, player, hitEntity, basePelletDamage * pellets));
+            pelletHits.forEach((hitEntity, pellets) -> causeLightfragDamage(heldItem, player, hitEntity, basePelletDamage * pellets));
             level.gameEvent(player, LTXIGameEvents.WEAPON_FIRED, player.getEyePosition());
         }
 

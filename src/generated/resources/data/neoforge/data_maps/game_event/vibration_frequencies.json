@@ -1,7 +1,7 @@
 {
   "values": {
-    "ltxi:projectile_exploded": {
-      "frequency": 15
+    "ltxi:projectile_impact": {
+      "frequency": 2
     },
     "ltxi:weapon_fired": {
       "frequency": 3

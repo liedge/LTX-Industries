@@ -1,6 +1,9 @@
 package liedge.ltxindustries.entity;
 
 import liedge.limacore.util.LimaMathUtil;
+import liedge.ltxindustries.item.UpgradableEquipmentItem;
+import liedge.ltxindustries.registry.game.LTXIGameEvents;
+import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
@@ -65,6 +68,16 @@ public abstract class LimaTraceableProjectile extends LimaTraceableEntity
         return 0f;
     }
 
+    protected HitResult tracePath(Level level)
+    {
+        return LTXIEntityUtil.traceProjectileEntityPath(level, this, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, getBoundingBox().getSize());
+    }
+
+    protected boolean shouldImpactPostGameEvent(Level level, HitResult hitResult, Vec3 hitLocation)
+    {
+        return UpgradableEquipmentItem.getEquipmentUpgradesFromStack(getLauncherItem()).noneMatch(LTXIUpgradeEffectComponents.PREVENT_VIBRATION.get(), (effect, rank) -> effect.apply(null, LTXIGameEvents.PROJECTILE_IMPACT));
+    }
+
     protected abstract void onProjectileHit(Level level, HitResult hitResult, Vec3 hitLocation);
 
     protected abstract void tickProjectile(Level level, boolean isClientSide);
@@ -92,6 +105,7 @@ public abstract class LimaTraceableProjectile extends LimaTraceableEntity
         if (tickCount >= getLifetime())
         {
             this.discard();
+            return;
         }
 
         // Do fluid calculations
@@ -135,12 +149,20 @@ public abstract class LimaTraceableProjectile extends LimaTraceableEntity
 
         if (!isClientSide)
         {
-            HitResult hitResult = LTXIEntityUtil.traceProjectileEntityPath(level, this, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, getBoundingBox().getSize());
+            HitResult hitResult = tracePath(level);
             if (hitResult.getType() != HitResult.Type.MISS)
             {
                 Vec3 hitLocation = hitResult.getLocation();
                 setPos(hitLocation);
                 onProjectileHit(level, hitResult, hitLocation);
+
+                if (shouldImpactPostGameEvent(level, hitResult, hitLocation))
+                {
+                    level.gameEvent(getOwner(), LTXIGameEvents.PROJECTILE_IMPACT, hitLocation);
+                }
+
+                this.discard();
+                return;
             }
         }
 
