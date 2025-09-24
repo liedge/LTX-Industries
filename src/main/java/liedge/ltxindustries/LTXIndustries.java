@@ -4,7 +4,6 @@ import com.mojang.logging.LogUtils;
 import liedge.limacore.lib.ModResources;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrade;
-import liedge.ltxindustries.lib.weapons.GlobalWeaponDamageModifiers;
 import liedge.ltxindustries.network.packet.ClientboundFocusTargetPacket;
 import liedge.ltxindustries.network.packet.ClientboundWeaponControlsPacket;
 import liedge.ltxindustries.network.packet.ServerboundItemModeSwitchPacket;
@@ -29,7 +28,6 @@ import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import net.neoforged.neoforge.registries.DataPackRegistryEvent;
 import net.neoforged.neoforge.registries.NewRegistryEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
-import net.neoforged.neoforge.registries.datamaps.RegisterDataMapTypesEvent;
 import org.slf4j.Logger;
 
 import static liedge.limacore.util.LimaNetworkUtil.registerPlayToClient;
@@ -101,12 +99,6 @@ public class LTXIndustries
         {
             // Entity capabilities
             event.registerEntity(LTXICapabilities.ENTITY_BUBBLE_SHIELD, EntityType.PLAYER, (player, $) -> player.getData(LTXIAttachmentTypes.BUBBLE_SHIELD));
-        }
-
-        @SubscribeEvent
-        private void registerDataMapTypes(final RegisterDataMapTypesEvent event)
-        {
-            event.register(GlobalWeaponDamageModifiers.DATA_MAP_TYPE);
         }
 
         @SubscribeEvent

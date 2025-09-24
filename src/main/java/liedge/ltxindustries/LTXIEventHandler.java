@@ -9,6 +9,7 @@ import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.lib.upgrades.UpgradesContainerBase;
 import liedge.ltxindustries.lib.upgrades.effect.equipment.DirectDropsUpgradeEffect;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
+import liedge.ltxindustries.lib.EquipmentDamageModifiers;
 import liedge.ltxindustries.registry.game.LTXIAttachmentTypes;
 import liedge.ltxindustries.registry.game.LTXIDataComponents;
 import liedge.ltxindustries.registry.game.LTXIMobEffects;
@@ -27,6 +28,7 @@ import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.VanillaGameEvent;
 import net.neoforged.neoforge.event.entity.living.*;
 import net.neoforged.neoforge.event.level.BlockDropsEvent;
@@ -37,6 +39,12 @@ import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 public final class LTXIEventHandler
 {
     private LTXIEventHandler() {}
+
+    @SubscribeEvent
+    public static void registerReloadListeners(final AddReloadListenerEvent event)
+    {
+        event.addListener(EquipmentDamageModifiers.getInstance());
+    }
 
     @SubscribeEvent
     public static void onVanillaGameEvent(final VanillaGameEvent event)

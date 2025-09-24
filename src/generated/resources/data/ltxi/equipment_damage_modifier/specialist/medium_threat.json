@@ -1,0 +1,14 @@
+{
+  "condition": {
+    "condition": "minecraft:entity_properties",
+    "entity": "this",
+    "predicate": {
+      "type": "#ltxi:targets/medium_threat"
+    }
+  },
+  "equipment_predicate": {
+    "items": "#ltxi:weapons/specialist"
+  },
+  "op": "add_total_percent",
+  "value": -0.25
+}

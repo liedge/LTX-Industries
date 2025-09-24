@@ -9,6 +9,8 @@ import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.item.EnergyHolderItem;
 import liedge.ltxindustries.item.TooltipShiftHintItem;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
+import liedge.ltxindustries.lib.EquipmentDamageModifiers;
+import liedge.ltxindustries.util.LTXIUtil;
 import liedge.ltxindustries.util.config.LTXIServerConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -24,6 +26,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.loot.LootContext;
 import net.neoforged.neoforge.common.ItemAbility;
 import org.jetbrains.annotations.Nullable;
 
@@ -80,13 +83,14 @@ public abstract class EnergyBaseToolItem extends Item implements EnergyHolderIte
     @Override
     public float getAttackDamageBonus(Entity target, float damage, DamageSource damageSource)
     {
-        // Living attackers only
-        if (damageSource.getDirectEntity() instanceof LivingEntity attacker && !attacker.level().isClientSide())
+        if (getPoweredAttackDamage() > 0 && damageSource.getDirectEntity() instanceof LivingEntity attacker && attacker.level() instanceof ServerLevel level)
         {
             ItemStack stack = attacker.getWeaponItem();
             if (stack.is(this) && hasEnergyForAction(stack))
             {
-                return getUpgradedDamage((ServerLevel) attacker.level(), getUpgrades(stack), target, damageSource, getPoweredAttackDamage());
+                double upgradedDamage = getUpgradedDamage(level, getUpgrades(stack), target, damageSource, getPoweredAttackDamage());
+                LootContext context = LTXIUtil.entityLootContext(level, target, damageSource, attacker);
+                return (float) EquipmentDamageModifiers.getInstance().apply(stack, context, getPoweredAttackDamage(), upgradedDamage);
             }
         }
 

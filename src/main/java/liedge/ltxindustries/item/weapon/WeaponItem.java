@@ -21,7 +21,7 @@ import liedge.ltxindustries.item.UpgradableEquipmentItem;
 import liedge.ltxindustries.lib.upgrades.effect.ValueUpgradeEffect;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.ltxindustries.lib.weapons.AbstractWeaponControls;
-import liedge.ltxindustries.lib.weapons.GlobalWeaponDamageModifiers;
+import liedge.ltxindustries.lib.EquipmentDamageModifiers;
 import liedge.ltxindustries.lib.weapons.WeaponReloadSource;
 import liedge.ltxindustries.registry.bootstrap.LTXIDamageTypes;
 import liedge.ltxindustries.registry.game.*;
@@ -220,14 +220,15 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
         {
             // Create the loot context and get the upgrades
             LootContext context = LTXIUtil.entityLootContext(level, target, damageSource, attacker);
-            EquipmentUpgrades upgrades = getUpgrades(damageSource.getWeaponItem());
+            ItemStack weaponItem = damageSource.getWeaponItem();
+            EquipmentUpgrades upgrades = getUpgrades(weaponItem);
 
             // Run pre attack effects here
             upgrades.applyDamageContextEffects(LTXIUpgradeEffectComponents.EQUIPMENT_PRE_ATTACK, level, EnchantmentTarget.ATTACKER, target, attacker, damageSource);
 
             // Get upgraded damage, then apply global damage modifiers
-            double damage = getUpgradedDamage(level, upgrades, target, damageSource, baseDamage);
-            damage = GlobalWeaponDamageModifiers.applyGlobalModifiers(this, target, context, baseDamage, damage);
+            double damage = EquipmentDamageModifiers.getInstance().apply(weaponItem, context, baseDamage,
+                    getUpgradedDamage(level, upgrades, target, damageSource, baseDamage));
 
             // Only hurt if we have non-negligible damage
             return damage > 1e-4 && target.hurt(damageSource, (float) damage);

@@ -63,6 +63,7 @@ final class LTXIDatagen
         generator.addProvider(runServer, new LootModifiersGen(output, patchedRegistries));
         generator.addProvider(runServer, new RecipesGen(output, patchedRegistries));
         generator.addProvider(runServer, new DataMapsGen(output, patchedRegistries));
+        generator.addProvider(runServer, new DamageModsGen(output, patchedRegistries, helper));
 
         // Client assets
         generator.addProvider(runClient, new LanguageGen(output));
