@@ -30,10 +30,10 @@ public final class LTXIItemRenderers
     }
 
     // Weapons
-    public static final SMGRenderProperties SUBMACHINE_GUN = register(new SMGRenderProperties());
-    public static final ShotgunRenderProperties SHOTGUN = register(new ShotgunRenderProperties());
-    public static final GrenadeLauncherRenderProperties GRENADE_LAUNCHER = register(new GrenadeLauncherRenderProperties());
-    public static final LinearFusionRenderProperties LINEAR_FUSION_RIFLE = register(new LinearFusionRenderProperties());
-    public static final RocketLauncherRenderProperties ROCKET_LAUNCHER = register(new RocketLauncherRenderProperties());
-    public static final HeavyPistolRenderProperties HEAVY_PISTOL = register(new HeavyPistolRenderProperties());
+    public static final SMGRenderer SUBMACHINE_GUN = register(new SMGRenderer());
+    public static final ShotgunRenderer SHOTGUN = register(new ShotgunRenderer());
+    public static final GrenadeLauncherRenderer GRENADE_LAUNCHER = register(new GrenadeLauncherRenderer());
+    public static final LinearFusionRenderer LINEAR_FUSION_RIFLE = register(new LinearFusionRenderer());
+    public static final RocketLauncherRenderer ROCKET_LAUNCHER = register(new RocketLauncherRenderer());
+    public static final HeavyPistolRenderer HEAVY_PISTOL = register(new HeavyPistolRenderer());
 }

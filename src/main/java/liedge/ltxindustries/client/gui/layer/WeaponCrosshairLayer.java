@@ -4,7 +4,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import liedge.limacore.client.gui.LimaGuiLayer;
 import liedge.limacore.client.gui.LimaGuiUtil;
-import liedge.ltxindustries.client.renderer.item.WeaponRenderProperties;
+import liedge.ltxindustries.client.renderer.item.WeaponRenderer;
 import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.lib.weapons.ClientWeaponControls;
 import liedge.ltxindustries.util.config.LTXIClientConfig;
@@ -65,7 +65,7 @@ public final class WeaponCrosshairLayer extends LimaGuiLayer
                         GlStateManager.DestFactor.ZERO);
             }
 
-            WeaponRenderProperties.fromItem(weaponItem).renderCrosshair(player, weaponItem, controls, graphics, partialTicks, screenWidth, screenHeight, LTXIClientConfig.getCrosshairColor());
+            WeaponRenderer.fromItem(weaponItem).renderCrosshair(player, weaponItem, controls, graphics, partialTicks, screenWidth, screenHeight, LTXIClientConfig.getCrosshairColor());
 
             RenderSystem.defaultBlendFunc();
         }

@@ -76,7 +76,7 @@ public final class BubbleShieldRenderer
 
         private void putInBuffer(VertexConsumer buffer, Matrix4f mx4, LimaColor color, float partialTick)
         {
-            float alpha = animationTimer.getTimerState() == TickTimer.State.STOPPED ? 0.125f : Mth.clamp(LTXIRenderUtil.animationCurveC(animationTimer.lerpPausedProgress(partialTick)), 0.125f, 0.8f);
+            float alpha = animationTimer.getTimerState() == TickTimer.State.STOPPED ? 0.125f : Mth.clamp(LTXIRenderUtil.linearThresholdCurve(animationTimer.lerpPausedProgress(partialTick), 0.3f), 0.125f, 0.8f);
             BubbleShieldModel.SHIELD_MODEL.renderFaces(geometryIndexes, buffer, mx4, color, alpha);
         }
     }

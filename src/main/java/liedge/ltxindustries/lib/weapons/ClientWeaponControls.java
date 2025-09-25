@@ -3,7 +3,7 @@ package liedge.ltxindustries.lib.weapons;
 import liedge.limacore.lib.TickTimer;
 import liedge.limacore.util.LimaCoreUtil;
 import liedge.ltxindustries.client.AutomaticWeaponSoundInstance;
-import liedge.ltxindustries.client.renderer.item.WeaponRenderProperties;
+import liedge.ltxindustries.client.renderer.item.WeaponRenderer;
 import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.network.packet.ClientboundWeaponControlsPacket;
 import liedge.ltxindustries.network.packet.ServerboundWeaponControlsPacket;
@@ -80,7 +80,7 @@ public class ClientWeaponControls extends AbstractWeaponControls
     public void shootWeapon(ItemStack heldItem, Player player, WeaponItem weaponItem, boolean sendClientUpdate)
     {
         super.shootWeapon(heldItem, player, weaponItem, sendClientUpdate);
-        WeaponRenderProperties.fromItem(weaponItem).onWeaponFired(heldItem, weaponItem, this);
+        WeaponRenderer.fromItem(weaponItem).onWeaponFired(heldItem, weaponItem, this);
     }
 
     @Override

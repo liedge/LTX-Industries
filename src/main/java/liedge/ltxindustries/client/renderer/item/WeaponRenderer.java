@@ -35,7 +35,7 @@ import org.jetbrains.annotations.Nullable;
 
 import static liedge.ltxindustries.LTXIndustries.RESOURCES;
 
-public abstract class WeaponRenderProperties<T extends WeaponItem> extends LimaSpecialItemRenderer<T> implements IClientItemExtensions
+public abstract class WeaponRenderer<T extends WeaponItem> extends LimaSpecialItemRenderer<T> implements IClientItemExtensions
 {
     static final ResourceLocation HOLLOW_DOT = RESOURCES.location("crosshair/hollow_dot");
     static final ResourceLocation CIRCLE_BRACKET = RESOURCES.location("crosshair/circle_bracket");
@@ -44,9 +44,9 @@ public abstract class WeaponRenderProperties<T extends WeaponItem> extends LimaS
     static final ResourceLocation AOE_VERTICAL = RESOURCES.location("crosshair/aoe_v");
     static final ResourceLocation HEAVY_PISTOL_CROSSHAIR = RESOURCES.location("crosshair/heavy_pistol");
 
-    public static WeaponRenderProperties<?> fromItem(WeaponItem weaponItem)
+    public static WeaponRenderer<?> fromItem(WeaponItem weaponItem)
     {
-        return LimaCoreUtil.castOrThrow(WeaponRenderProperties.class, IClientItemExtensions.of(weaponItem));
+        return LimaCoreUtil.castOrThrow(WeaponRenderer.class, IClientItemExtensions.of(weaponItem));
     }
 
     protected BakedItemLayer rootBaseLayer;

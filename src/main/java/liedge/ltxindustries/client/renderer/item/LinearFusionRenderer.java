@@ -22,14 +22,14 @@ import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import org.joml.Matrix4f;
 
-public class LinearFusionRenderProperties extends SimpleWeaponRenderProperties
+public class LinearFusionRenderer extends SimpleWeaponRenderer
 {
     private final TranslucentFillModel magazineFillModel = TranslucentFillModel.create(7.01f, -0.49f, 4.76f, 8.99f, 6.49f, 7.74f, Direction.Axis.Y,
             BakedRotation.fromAxisAngle(8f, 6.5f, 8f, -22.5f, Direction.Axis.X));
 
     private BakedItemLayer barrelGlassLayer;
 
-    LinearFusionRenderProperties()
+    LinearFusionRenderer()
     {
         super(5f, 0.6f, 4);
     }

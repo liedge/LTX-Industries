@@ -11,7 +11,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.Direction;
 
-public class ShotgunRenderProperties extends SimpleWeaponRenderProperties
+public class ShotgunRenderer extends SimpleWeaponRenderer
 {
     private final TranslucentFillModel magazineFillModel = TranslucentFillModel.create(
             6.76f, 2.76f, 3.51f,
@@ -19,7 +19,7 @@ public class ShotgunRenderProperties extends SimpleWeaponRenderProperties
             Direction.Axis.Y,
             BakedRotation.fromAxisAngle(8f, 9f, 13.5f, -22.5f, Direction.Axis.X));
 
-    ShotgunRenderProperties()
+    ShotgunRenderer()
     {
         super(5f, 0.75f, 5);
     }

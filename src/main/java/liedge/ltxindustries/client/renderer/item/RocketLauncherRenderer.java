@@ -11,7 +11,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.Direction;
 
-public class RocketLauncherRenderProperties extends SimpleWeaponRenderProperties
+public class RocketLauncherRenderer extends SimpleWeaponRenderer
 {
     private final TranslucentFillModel magazineFillModel = TranslucentFillModel.create(
             6.51f, 0.51f, 5.76f,
@@ -19,7 +19,7 @@ public class RocketLauncherRenderProperties extends SimpleWeaponRenderProperties
             Direction.Axis.Y,
             BakedRotation.fromAxisAngle(8f, 7f, 7f, -22.5f, Direction.Axis.X));
 
-    RocketLauncherRenderProperties()
+    RocketLauncherRenderer()
     {
         super(3f, 0.8f, 10);
     }

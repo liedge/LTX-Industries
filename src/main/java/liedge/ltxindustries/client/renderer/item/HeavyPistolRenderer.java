@@ -14,13 +14,13 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
 
-public class HeavyPistolRenderProperties extends SimpleWeaponRenderProperties
+public class HeavyPistolRenderer extends SimpleWeaponRenderer
 {
     private static final float ANIMATION_FACTOR = 1 / 0.75f;
 
     private final TranslucentFillModel magazineFillModel = TranslucentFillModel.create(7.01f, 9.01f, 7.51f, 8.99f, 10.99f, 13.49f, Direction.Axis.Z);
 
-    HeavyPistolRenderProperties()
+    HeavyPistolRenderer()
     {
         super(17.5f, 0.375f, 6);
     }

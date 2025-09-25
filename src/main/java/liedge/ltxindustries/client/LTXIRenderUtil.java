@@ -19,31 +19,36 @@ import static liedge.ltxindustries.LTXIConstants.LIME_GREEN;
 
 public final class LTXIRenderUtil
 {
-    private static final float ANIMATION_B_FACTOR = 1 / 0.9f;
-    private static final float ANIMATION_C_FACTOR = 1 / 0.7f;
-
     public static final Direction[] ALL_SIDES = Direction.values();
 
     private LTXIRenderUtil() {}
 
-    public static float animationCurveSin(float delta)
+    public static float sineAnimationCurve(float delta)
     {
         return Mth.sin(Mth.PI * delta);
     }
 
+    public static float linearThresholdCurve(float delta, float threshold)
+    {
+        if (delta <= threshold)
+        {
+            return delta / threshold;
+        }
+        else
+        {
+            float slope = 1f / (1f - threshold);
+            return 1f - (delta - threshold) * slope;
+        }
+    }
+
     public static float animationCurveA(float delta)
     {
-        return delta <= 0.2f ? delta / 0.2f : 1 - ((delta - 0.2f) * 1.25f);
+        return linearThresholdCurve(delta, 0.2f);
     }
 
     public static float animationCurveB(float delta)
     {
-        return delta <= 0.1f ? delta / 0.1f : 1 - ((delta - 0.1f) * ANIMATION_B_FACTOR);
-    }
-
-    public static float animationCurveC(float delta)
-    {
-        return delta <= 0.3f ? delta / 0.3f : 1 - ((delta - 0.3f) * ANIMATION_C_FACTOR);
+        return linearThresholdCurve(delta, 0.1f);
     }
 
     public static void renderLockOnIndicatorOnEntity(Entity entity, PoseStack poseStack, MultiBufferSource bufferSource, Camera camera, double xOffset, double yOffset, double zOffset, float partialTick, float lerpLockProgress)

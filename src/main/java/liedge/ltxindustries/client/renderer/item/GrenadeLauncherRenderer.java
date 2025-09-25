@@ -23,7 +23,7 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import org.joml.Vector3f;
 
-public class GrenadeLauncherRenderProperties extends WeaponRenderProperties<WeaponItem>
+public class GrenadeLauncherRenderer extends WeaponRenderer<WeaponItem>
 {
     private final Vector3f ornamentPivot = new Vector3f(8f, 9.25f, 10).mul(0.0625f); // 9.96
     private final TranslucentFillModel magazineFillModel = TranslucentFillModel.create(6.26f, 10.46f, 12.06f, 9.74f, 15.94f, 15.54f, Direction.Axis.Y,
@@ -35,7 +35,7 @@ public class GrenadeLauncherRenderProperties extends WeaponRenderProperties<Weap
     private float ornamentSpin0;
     private float ornamentSpin;
 
-    GrenadeLauncherRenderProperties() {}
+    GrenadeLauncherRenderer() {}
 
     public void tickItemRenderer(Player player)
     {
@@ -44,7 +44,7 @@ public class GrenadeLauncherRenderProperties extends WeaponRenderProperties<Weap
 
         if (animationB.getTimerState() == TickTimer.State.RUNNING)
         {
-            speed = 0.95f * LTXIRenderUtil.animationCurveSin(animationB.getProgressPercent());
+            speed = 0.95f * LTXIRenderUtil.sineAnimationCurve(animationB.getProgressPercent());
         }
         else
         {

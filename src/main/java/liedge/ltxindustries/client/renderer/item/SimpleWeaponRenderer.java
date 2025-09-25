@@ -11,13 +11,13 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 
-abstract class SimpleWeaponRenderProperties extends WeaponRenderProperties<WeaponItem>
+abstract class SimpleWeaponRenderer extends WeaponRenderer<WeaponItem>
 {
     private final float recoilAngle;
     private final float recoilDistance;
     private final int recoilAnimationTime;
 
-    SimpleWeaponRenderProperties(float recoilAngle, float recoilDistance, int recoilAnimationTime)
+    SimpleWeaponRenderer(float recoilAngle, float recoilDistance, int recoilAnimationTime)
     {
         this.recoilAngle = recoilAngle;
         this.recoilDistance = recoilDistance;

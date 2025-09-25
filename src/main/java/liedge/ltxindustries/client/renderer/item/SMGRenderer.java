@@ -19,7 +19,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 
-public class SMGRenderProperties extends WeaponRenderProperties<WeaponItem>
+public class SMGRenderer extends WeaponRenderer<WeaponItem>
 {
     private final TranslucentFillModel magazineFillModel = TranslucentFillModel.create(
             7.01f, 1.52f, 6.01f,
@@ -27,7 +27,7 @@ public class SMGRenderProperties extends WeaponRenderProperties<WeaponItem>
             Direction.Axis.Y,
             BakedRotation.fromAxisAngle(8f, 9f, 13.5f, -22.5f, Direction.Axis.X));
 
-    SMGRenderProperties() {}
+    SMGRenderer() {}
 
     @Override
     protected WeaponItem getRenderableItem()
@@ -52,7 +52,7 @@ public class SMGRenderProperties extends WeaponRenderProperties<WeaponItem>
             baseBloom = 3f;
         }
 
-        float bloom = baseBloom + 2f * (controls.isTriggerHeld() ? LTXIRenderUtil.animationCurveSin(partialTicks) : 0f);
+        float bloom = baseBloom + 2f * (controls.isTriggerHeld() ? LTXIRenderUtil.sineAnimationCurve(partialTicks) : 0f);
 
         blitSprite(graphics, centerX, centerY, 5, 5, crosshairColor, HOLLOW_DOT);
         blitSprite(graphics, centerX - 4 - bloom, centerY - 4, 6, 13, crosshairColor, CIRCLE_BRACKET);
@@ -78,7 +78,7 @@ public class SMGRenderProperties extends WeaponRenderProperties<WeaponItem>
     {
         if (controls.isTriggerHeld())
         {
-            poseStack.translate(0, 0, 0.09375f * LTXIRenderUtil.animationCurveSin(partialTick));
+            poseStack.translate(0, 0, 0.09375f * LTXIRenderUtil.sineAnimationCurve(partialTick));
         }
 
         rootBaseLayer.putQuadsInBuffer(poseStack, bufferSource, light);
