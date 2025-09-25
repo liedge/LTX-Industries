@@ -3,7 +3,6 @@ package liedge.ltxindustries.item.weapon;
 import liedge.ltxindustries.entity.BaseRocketEntity;
 import liedge.ltxindustries.entity.LTXIEntityUtil;
 import liedge.ltxindustries.lib.weapons.AbstractWeaponControls;
-import liedge.ltxindustries.registry.game.LTXIDataComponents;
 import liedge.ltxindustries.registry.game.LTXIGameEvents;
 import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.registry.game.LTXISounds;
@@ -104,7 +103,7 @@ public class RocketLauncherItem extends SemiAutoWeaponItem
             missile.setOwner(player);
 
             LivingEntity focusedTarget = controls.getFocusedTarget();
-            missile.aimAndSetPosFromShooter(player, Math.min(heldItem.getOrDefault(LTXIDataComponents.WEAPON_RANGE, getWeaponRange(heldItem)), MAX_PROJECTILE_SPEED), 0d);
+            missile.aimAndSetPosFromShooter(player, getProjectileWeaponRange(heldItem), 0d);
             if (focusedTarget != null && controls.getTargetTicks() > 20) missile.setTargetEntity(focusedTarget);
 
             level.addFreshEntity(missile);

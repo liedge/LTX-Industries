@@ -38,6 +38,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.damagesource.DamageType;
@@ -177,6 +178,11 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
     public double getWeaponRange(ItemStack stack)
     {
         return stack.getOrDefault(LTXIDataComponents.WEAPON_RANGE, baseRange);
+    }
+
+    public double getProjectileWeaponRange(ItemStack stack)
+    {
+        return Mth.clamp(getWeaponRange(stack), 0, MAX_PROJECTILE_SPEED);
     }
 
     public int getReloadSpeed(ItemStack stack)
