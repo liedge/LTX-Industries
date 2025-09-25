@@ -7,7 +7,6 @@ import liedge.limacore.lib.MobHostility;
 import liedge.limacore.lib.math.LimaRoundingMode;
 import liedge.limacore.util.LimaLootUtil;
 import liedge.limacore.world.loot.DynamicWeightLootEntry;
-import liedge.limacore.world.loot.EnchantmentLevelEntityPredicate;
 import liedge.limacore.world.loot.EntityHostilityLootCondition;
 import liedge.limacore.world.loot.number.EnhancedLookupLevelBasedValue;
 import liedge.limacore.world.loot.number.RoundingNumberProvider;
@@ -45,7 +44,8 @@ import net.neoforged.neoforge.common.loot.CanItemPerformAbility;
 
 import java.util.concurrent.CompletableFuture;
 
-import static liedge.limacore.util.LimaLootUtil.*;
+import static liedge.limacore.util.LimaLootUtil.needsEntityTag;
+import static liedge.limacore.util.LimaLootUtil.needsEntityType;
 import static liedge.ltxindustries.registry.LTXILootTables.*;
 import static liedge.ltxindustries.registry.game.LTXIBlocks.SPARK_FRUIT;
 import static liedge.ltxindustries.registry.game.LTXIBlocks.*;
@@ -88,11 +88,8 @@ class LootTablesGen extends LimaLootTableProvider
 
             LootPool.Builder wardenDrops = LootPool.lootPool()
                     .when(needsEntityType(EntityType.WARDEN))
-                    .when(AnyOfCondition.anyOf(
-                            LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.DIRECT_ATTACKER, EntityPredicate.Builder.entity().subPredicate(new GrenadeSubPredicate(GrenadeType.ACID))),
-                            entityEnchantmentLevels(LootContext.EntityTarget.ATTACKER, EnchantmentLevelEntityPredicate.atLeast(razorEnchantment, 3))))
-                    .apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 2)))
-                    .add(lootItem(Items.ECHO_SHARD));
+                    .when(LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.DIRECT_ATTACKER, EntityPredicate.Builder.entity().subPredicate(new GrenadeSubPredicate(GrenadeType.ACID))))
+                    .add(lootItem(NEURO_CHEMICAL));
 
             addTable(ENTITY_EXTRA_DROPS, LootTable.lootTable()
                     .withPool(phantomDrops)

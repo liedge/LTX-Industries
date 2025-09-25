@@ -113,6 +113,7 @@ public final class LTXIItems
     public static final DeferredItem<Item> ELECTRIC_CHEMICAL = ITEMS.registerSimpleItem("electric_chemical");
     public static final DeferredItem<Item> MONOMER_CHEMICAL = ITEMS.registerSimpleItem("monomer_chemical");
     public static final DeferredItem<Item> VIRIDIC_WEAPON_CHEMICAL = ITEMS.registerSimpleItem("viridic_weapon_chemical");
+    public static final DeferredItem<Item> CHORUS_CHEMICAL = ITEMS.registerSimpleItem("chorus_chemical");
     public static final DeferredItem<Item> SCULK_CHEMICAL = ITEMS.registerSimpleItem("sculk_chemical");
     public static final DeferredItem<Item> NEURO_CHEMICAL = ITEMS.registerSimpleItem("neuro_chemical");
 

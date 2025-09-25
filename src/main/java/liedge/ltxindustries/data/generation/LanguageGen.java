@@ -122,6 +122,7 @@ class LanguageGen extends LimaLanguageProvider
         addItem(ELECTRIC_CHEMICAL, "Electrolyte Blend");
         addItem(MONOMER_CHEMICAL, "Monomer Solution");
         addItem(VIRIDIC_WEAPON_CHEMICAL, "Weapons-Grade Viridic Acid");
+        addItem(CHORUS_CHEMICAL, "Chorus Extract");
         addItem(SCULK_CHEMICAL, "Echo Serum");
         addItem(NEURO_CHEMICAL, "Neuro-Suppressant");
         addItem(SLATESTEEL_INGOT, "Slatesteel Ingot");
@@ -188,6 +189,7 @@ class LanguageGen extends LimaLanguageProvider
         upgradeTooltip(LTXIEquipmentUpgrades.LFR_DEFAULT, 0, "%s bonus damage when at least 40m away from target");
         upgradeTooltip(LTXIEquipmentUpgrades.LFR_DEFAULT, 1, "%s bonus damage when standing still and sneaking");
 
+        upgrade(LTXIEquipmentUpgrades.TOOL_ENERGY_UPGRADE, "Augmented ε Battery", "Maximize your ε-Series tool's field uptime with this enhanced battery.");
         upgrade(LTXIEquipmentUpgrades.EPSILON_FISHING_LURE, "ε Anglers' Kit", "ε series' signature lure attracts more valuable aquatic specimens faster than regular bait.");
         upgrade(LTXIEquipmentUpgrades.TOOL_NETHERITE_LEVEL, "Netherite-Core Tool Head", "Upgrades mining tier to Netherite level and increases mining speed.");
         upgrade(LTXIEquipmentUpgrades.EPSILON_OMNI_DRILL, "ε Experimental Drill", "Special-issue drill augur. Modified to work on any material type.");

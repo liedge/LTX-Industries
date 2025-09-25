@@ -15,10 +15,13 @@
           {
             "format": "multiplicative",
             "sentiment": "positive",
-            "value": 8.0
+            "value": 16.0
           }
         ],
-        "key": "upgrade_effect.ltxi.energy_capacity"
+        "key": "upgrade_effect.ltxi.energy_capacity",
+        "style": {
+          "color": "#8BD1F0"
+        }
       },
       {
         "args": [
@@ -28,17 +31,23 @@
             "value": 16.0
           }
         ],
-        "key": "upgrade_effect.ltxi.energy_transfer"
+        "key": "upgrade_effect.ltxi.energy_transfer",
+        "style": {
+          "color": "#8BD1F0"
+        }
       },
       {
         "args": [
           {
             "format": "multiplicative",
             "sentiment": "negative",
-            "value": 256.0
+            "value": 512.0
           }
         ],
-        "key": "upgrade_effect.ltxi.energy_usage"
+        "key": "upgrade_effect.ltxi.energy_usage",
+        "style": {
+          "color": "#8BD1F0"
+        }
       },
       {
         "color": "#9DF143",
@@ -51,7 +60,7 @@
       {
         "type": "simple",
         "op": "multiply",
-        "value": 8.0
+        "value": 16.0
       }
     ],
     "ltxi:energy_transfer_rate": [

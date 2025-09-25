@@ -1,7 +1,6 @@
 {
   "type": "ltxi:fabricating",
-  "advancement_locked": true,
-  "energy_required": 5000000,
+  "energy_required": 50000000,
   "group": "eum/weapon/gl",
   "ingredients": [
     {
@@ -14,11 +13,19 @@
     },
     {
       "count": 32,
-      "item": "ltxi:titanium_ingot"
+      "item": "ltxi:titanium_glass"
     },
     {
-      "count": 1,
-      "item": "minecraft:nether_star"
+      "count": 16,
+      "item": "ltxi:slatesteel_ingot"
+    },
+    {
+      "count": 24,
+      "item": "ltxi:polymer_ingot"
+    },
+    {
+      "count": 8,
+      "item": "ltxi:neuro_chemical"
     }
   ],
   "result": {

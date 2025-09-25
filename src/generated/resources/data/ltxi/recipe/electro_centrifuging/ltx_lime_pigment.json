@@ -1,5 +1,6 @@
 {
   "type": "ltxi:electro_centrifuging",
+  "craft_time": 120,
   "ingredients": [
     {
       "count": 1,

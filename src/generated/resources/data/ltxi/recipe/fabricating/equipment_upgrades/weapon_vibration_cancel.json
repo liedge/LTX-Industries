@@ -16,12 +16,16 @@
       "item": "ltxi:titanium_ingot"
     },
     {
-      "count": 2,
-      "item": "minecraft:echo_shard"
+      "count": 16,
+      "item": "ltxi:polymer_ingot"
     },
     {
       "count": 16,
       "tag": "minecraft:wool"
+    },
+    {
+      "count": 8,
+      "item": "ltxi:sculk_chemical"
     }
   ],
   "result": {

@@ -9,7 +9,6 @@ import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.lib.upgrades.TooltipArgument;
-import liedge.ltxindustries.lib.upgrades.UpgradeIcon;
 import liedge.ltxindustries.lib.upgrades.UpgradeTooltip;
 import liedge.ltxindustries.lib.upgrades.effect.DoubleLevelBasedValue;
 import liedge.ltxindustries.lib.upgrades.effect.TooltipValueFormat;
@@ -41,7 +40,6 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentTarget;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.item.enchantment.LevelBasedValue;
-import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -50,13 +48,14 @@ import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.neoforged.neoforge.registries.holdersets.AnyHolderSet;
 
 import java.util.Optional;
-import java.util.function.Function;
-import java.util.function.UnaryOperator;
 
+import static liedge.ltxindustries.LTXIConstants.LIME_GREEN;
 import static liedge.ltxindustries.LTXIConstants.REM_BLUE;
 import static liedge.ltxindustries.LTXITags.EquipmentUpgrades.*;
 import static liedge.ltxindustries.LTXIndustries.RESOURCES;
-import static liedge.ltxindustries.lib.upgrades.UpgradeIcon.*;
+import static liedge.ltxindustries.data.generation.LTXIBootstrapUtil.*;
+import static liedge.ltxindustries.lib.upgrades.UpgradeIcon.itemIcon;
+import static liedge.ltxindustries.lib.upgrades.UpgradeIcon.sprite;
 import static liedge.ltxindustries.registry.bootstrap.LTXIEnchantments.AMMO_SCAVENGER;
 import static liedge.ltxindustries.registry.bootstrap.LTXIEnchantments.RAZOR;
 import static liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents.*;
@@ -74,6 +73,7 @@ public final class LTXIEquipmentUpgrades
     public static final ResourceKey<EquipmentUpgrade> LFR_DEFAULT = key("default/linear_fusion_rifle");
 
     // Tool upgrades
+    public static final ResourceKey<EquipmentUpgrade> TOOL_ENERGY_UPGRADE = key("tool_energy_upgrade");
     public static final ResourceKey<EquipmentUpgrade> EPSILON_FISHING_LURE = key("epsilon_fishing_lure");
     public static final ResourceKey<EquipmentUpgrade> TOOL_NETHERITE_LEVEL = key("tool_netherite_level");
     public static final ResourceKey<EquipmentUpgrade> EPSILON_OMNI_DRILL = key("epsilon_omni_drill");
@@ -133,29 +133,25 @@ public final class LTXIEquipmentUpgrades
         HolderSet<Item> anyItemHolderSet = new AnyHolderSet<>(BuiltInRegistries.ITEM.asLookup());
 
         // Common holder sets
+        HolderSet<Item> ltxAllTools = items.getOrThrow(LTXITags.Items.ALL_TOOLS);
         HolderSet<Item> ltxMiningTools = items.getOrThrow(LTXITags.Items.MINING_TOOLS);
         HolderSet<Item> ltxProjectileWeapons = items.getOrThrow(LTXITags.Items.ENERGY_PROJECTILE_WEAPONS);
         HolderSet<Item> ltxAllWeapons = items.getOrThrow(LTXITags.Items.ALL_WEAPONS);
-        
-        // Common sprites
-        Function<ItemLike, UpgradeIcon> defaultModuleIcon = item -> bottomRightComposite(itemIcon(item), sprite("default_overlay"), 7);
-        UnaryOperator<UpgradeIcon> luckOverlay = icon -> bottomRightComposite(icon, sprite("luck_overlay"), 7);
-
 
         // Built in upgrades
-        final Component defaultToolTitle = LTXILangKeys.TOOL_DEFAULT_UPGRADE_TITLE.translate().withStyle(LTXIConstants.LIME_GREEN.chatStyle());
+        final Component defaultToolTitle = LTXILangKeys.TOOL_DEFAULT_UPGRADE_TITLE.translate().withStyle(LIME_GREEN.chatStyle());
         EquipmentUpgrade.builder(LTX_SHOVEL_DEFAULT)
                 .setTitle(defaultToolTitle)
                 .supports(LTXIItems.LTX_SHOVEL)
                 .withEffect(ENCHANTMENT_LEVEL, EnchantmentUpgradeEffect.constantLevel(enchantments.getOrThrow(Enchantments.SILK_TOUCH), 1))
-                .effectIcon(defaultModuleIcon.apply(LTXIItems.LTX_SHOVEL))
+                .effectIcon(defaultModuleIcon(LTXIItems.LTX_SHOVEL))
                 .category("default/tool")
                 .register(context);
         EquipmentUpgrade.builder(LTX_WRENCH_DEFAULT)
                 .setTitle(defaultToolTitle)
                 .supports(LTXIItems.LTX_WRENCH)
                 .withEffect(DIRECT_DROPS, DirectDropsUpgradeEffect.blocksOnly(items.getOrThrow(LTXITags.Items.WRENCH_BREAKABLE)))
-                .effectIcon(defaultModuleIcon.apply(LTXIItems.LTX_WRENCH))
+                .effectIcon(defaultModuleIcon(LTXIItems.LTX_WRENCH))
                 .category("default/tool")
                 .register(context);
         EquipmentUpgrade.builder(LTX_MELEE_DEFAULT)
@@ -170,7 +166,7 @@ public final class LTXIEquipmentUpgrades
                 .supports(LTXIItems.SUBMACHINE_GUN)
                 .withEffect(PREVENT_VIBRATION, PreventVibrationUpgradeEffect.suppressMainHand(gameEvents.getOrThrow(LTXITags.GameEvents.WEAPON_VIBRATIONS)))
                 .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, DynamicDamageTagUpgradeEffect.of(DamageTypeTags.NO_ANGER, DamageTypeTags.NO_KNOCKBACK))
-                .effectIcon(defaultModuleIcon.apply(LTXIItems.SUBMACHINE_GUN))
+                .effectIcon(defaultModuleIcon(LTXIItems.SUBMACHINE_GUN))
                 .category("default/weapon")
                 .register(context);
         EquipmentUpgrade.builder(SHOTGUN_DEFAULT)
@@ -178,7 +174,7 @@ public final class LTXIEquipmentUpgrades
                 .withEffect(ITEM_ATTRIBUTE_MODIFIERS, AttributeModifierUpgradeEffect.constantMainHand(Attributes.MOVEMENT_SPEED, SHOTGUN_DEFAULT.location().withSuffix("shotgun_speed_boost"), 0.25f, AttributeModifier.Operation.ADD_MULTIPLIED_BASE))
                 .withEffect(ITEM_ATTRIBUTE_MODIFIERS, AttributeModifierUpgradeEffect.constantMainHand(Attributes.STEP_HEIGHT, SHOTGUN_DEFAULT.location().withSuffix("shotgun_step_height_boost"), 1, AttributeModifier.Operation.ADD_VALUE))
                 .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, new ModifyReductionsUpgradeEffect(DamageReductionType.ARMOR, LevelBasedValue.constant(-0.1f)))
-                .effectIcon(defaultModuleIcon.apply(LTXIItems.SHOTGUN))
+                .effectIcon(defaultModuleIcon(LTXIItems.SHOTGUN))
                 .category("default/weapon")
                 .register(context);
         EquipmentUpgrade.builder(LFR_DEFAULT)
@@ -192,13 +188,25 @@ public final class LTXIEquipmentUpgrades
                                 .flags(EntityFlagsPredicate.Builder.flags().setCrouching(true))))
                 .tooltip(0, key -> UpgradeTooltip.of(key, TooltipArgument.of(DoubleLevelBasedValue.constant(25), ValueSentiment.POSITIVE, TooltipValueFormat.SIGNED_FLAT_NUMBER)))
                 .tooltip(1, key -> UpgradeTooltip.of(key, TooltipArgument.of(DoubleLevelBasedValue.constant(0.25d), ValueSentiment.POSITIVE, TooltipValueFormat.SIGNED_PERCENTAGE)))
-                .effectIcon(defaultModuleIcon.apply(LTXIItems.LINEAR_FUSION_RIFLE))
+                .effectIcon(defaultModuleIcon(LTXIItems.LINEAR_FUSION_RIFLE))
                 .category("default/weapon")
                 .register(context);
 
         // Tool upgrades
+        DoubleLevelBasedValue toolEnergy = DoubleLevelBasedValue.exponential(2, DoubleLevelBasedValue.linear(2, 1));
+        EquipmentUpgrade.builder(TOOL_ENERGY_UPGRADE)
+                .createDefaultTitle(REM_BLUE)
+                .supports(ltxAllTools)
+                .setMaxRank(4)
+                .withEffect(ENERGY_CAPACITY, ValueUpgradeEffect.of(toolEnergy, MathOperation.MULTIPLY))
+                .withEffect(ENERGY_TRANSFER_RATE, ValueUpgradeEffect.of(toolEnergy, MathOperation.MULTIPLY))
+                .tooltip(energyCapacityTooltip(toolEnergy, ValueSentiment.POSITIVE, TooltipValueFormat.MULTIPLICATIVE))
+                .tooltip(energyTransferTooltip(toolEnergy, ValueSentiment.POSITIVE, TooltipValueFormat.MULTIPLICATIVE))
+                .effectIcon(sprite("extra_energy"))
+                .category("tools")
+                .register(context);
         EquipmentUpgrade.builder(EPSILON_FISHING_LURE)
-                .createDefaultTitle(LTXIConstants.LIME_GREEN)
+                .createDefaultTitle(LIME_GREEN)
                 .supports(LTXIItems.LTX_FISHING_ROD)
                 .setMaxRank(5)
                 .withEffect(ENCHANTMENT_LEVEL, EnchantmentUpgradeEffect.oneLevelPerRank(enchantments.getOrThrow(Enchantments.LURE)))
@@ -214,7 +222,7 @@ public final class LTXIEquipmentUpgrades
                 .category("tools")
                 .register(context);
         EquipmentUpgrade.builder(EPSILON_OMNI_DRILL)
-                .createDefaultTitle(LTXIConstants.LIME_GREEN)
+                .createDefaultTitle(LIME_GREEN)
                 .supports(LTXIItems.LTX_DRILL)
                 .withEffect(MINING_RULES, new MiningRuleUpgradeEffect(Optional.of(anyBlockHolderSet), Optional.empty(), Optional.empty(), 3))
                 .effectIcon(sprite("purple_drill_head"))
@@ -247,7 +255,7 @@ public final class LTXIEquipmentUpgrades
                 .tooltip(UpgradeTooltip.of(LTXILangKeys.ATTRIBUTE_SCALED_DAMAGE_UPGRADE,
                         TooltipArgument.of(DoubleLevelBasedValue.constant(0.25d), ValueSentiment.POSITIVE, TooltipValueFormat.SIGNED_PERCENTAGE),
                         TooltipArgument.of(Component.translatable(Attributes.MAX_HEALTH.value().getDescriptionId()).withStyle(ChatFormatting.DARK_RED))))
-                .effectIcon(bottomRightComposite(itemIcon(LTXIItems.HEAVY_PISTOL), sprite("plus_overlay"), 9))
+                .effectIcon(spriteOverItemIcon(LTXIItems.HEAVY_PISTOL, "plus_overlay", 9))
                 .register(context);
         EquipmentUpgrade.builder(GRENADE_LAUNCHER_PROJECTILE_SPEED)
                 .supports(LTXIItems.GRENADE_LAUNCHER)
@@ -289,8 +297,8 @@ public final class LTXIEquipmentUpgrades
                 .withEffect(ENERGY_CAPACITY, ValueUpgradeEffect.of(lightweightEnergyCapacity, MathOperation.REPLACE))
                 .withEffect(ENERGY_USAGE, ValueUpgradeEffect.of(lightweightEnergyUsage, MathOperation.REPLACE))
                 .withSpecialEffect(RELOAD_SOURCE, WeaponReloadSource.commonEnergy())
-                .tooltip(UpgradeTooltip.of(LTXILangKeys.ENERGY_CAPACITY_UPGRADE, REM_BLUE.chatStyle(), TooltipArgument.of(lightweightEnergyCapacity, ValueSentiment.NEUTRAL, TooltipValueFormat.FLAT_NUMBER)))
-                .tooltip(UpgradeTooltip.of(LTXILangKeys.ENERGY_USAGE_UPGRADE, REM_BLUE.chatStyle(), TooltipArgument.of(lightweightEnergyUsage, ValueSentiment.NEUTRAL, TooltipValueFormat.FLAT_NUMBER)))
+                .tooltip(energyCapacityTooltip(lightweightEnergyCapacity, ValueSentiment.NEUTRAL, TooltipValueFormat.FLAT_NUMBER))
+                .tooltip(energyUsageTooltip(lightweightEnergyUsage, ValueSentiment.NEUTRAL, TooltipValueFormat.FLAT_NUMBER))
                 .effectIcon(sprite(LIGHTWEIGHT_ENERGY_ADAPTER.location().getPath()))
                 .category("weapon/ammo")
                 .register(context);
@@ -304,8 +312,8 @@ public final class LTXIEquipmentUpgrades
                 .withEffect(ENERGY_CAPACITY, ValueUpgradeEffect.of(specialistEnergyCapacity, MathOperation.REPLACE))
                 .withEffect(ENERGY_USAGE, ValueUpgradeEffect.of(specialistEnergyUsage, MathOperation.REPLACE))
                 .withSpecialEffect(RELOAD_SOURCE, WeaponReloadSource.commonEnergy())
-                .tooltip(UpgradeTooltip.of(LTXILangKeys.ENERGY_CAPACITY_UPGRADE, REM_BLUE.chatStyle(), TooltipArgument.of(specialistEnergyCapacity, ValueSentiment.NEUTRAL, TooltipValueFormat.FLAT_NUMBER)))
-                .tooltip(UpgradeTooltip.of(LTXILangKeys.ENERGY_USAGE_UPGRADE, REM_BLUE.chatStyle(), TooltipArgument.of(specialistEnergyUsage, ValueSentiment.NEUTRAL, TooltipValueFormat.FLAT_NUMBER)))
+                .tooltip(energyCapacityTooltip(specialistEnergyCapacity, ValueSentiment.NEUTRAL, TooltipValueFormat.FLAT_NUMBER))
+                .tooltip(energyUsageTooltip(specialistEnergyUsage, ValueSentiment.NEUTRAL, TooltipValueFormat.FLAT_NUMBER))
                 .effectIcon(sprite(SPECIALIST_ENERGY_ADAPTER.location().getPath()))
                 .category("weapon/ammo")
                 .register(context);
@@ -319,8 +327,8 @@ public final class LTXIEquipmentUpgrades
                 .withEffect(ENERGY_CAPACITY, ValueUpgradeEffect.of(explosivesEnergyCapacity, MathOperation.REPLACE))
                 .withEffect(ENERGY_USAGE, ValueUpgradeEffect.of(explosivesEnergyUsage, MathOperation.REPLACE))
                 .withSpecialEffect(RELOAD_SOURCE, WeaponReloadSource.commonEnergy())
-                .tooltip(UpgradeTooltip.of(LTXILangKeys.ENERGY_CAPACITY_UPGRADE, REM_BLUE.chatStyle(), TooltipArgument.of(explosivesEnergyCapacity, ValueSentiment.NEUTRAL, TooltipValueFormat.FLAT_NUMBER)))
-                .tooltip(UpgradeTooltip.of(LTXILangKeys.ENERGY_USAGE_UPGRADE, REM_BLUE.chatStyle(), TooltipArgument.of(explosivesEnergyUsage, ValueSentiment.NEUTRAL, TooltipValueFormat.FLAT_NUMBER)))
+                .tooltip(energyCapacityTooltip(explosivesEnergyCapacity, ValueSentiment.NEUTRAL, TooltipValueFormat.FLAT_NUMBER))
+                .tooltip(energyUsageTooltip(explosivesEnergyUsage, ValueSentiment.NEUTRAL, TooltipValueFormat.FLAT_NUMBER))
                 .effectIcon(sprite(EXPLOSIVES_ENERGY_ADAPTER.location().getPath()))
                 .category("weapon/ammo")
                 .register(context);
@@ -334,8 +342,8 @@ public final class LTXIEquipmentUpgrades
                 .withEffect(ENERGY_CAPACITY, ValueUpgradeEffect.of(heavyEnergyCapacity, MathOperation.REPLACE))
                 .withEffect(ENERGY_USAGE, ValueUpgradeEffect.of(heavyEnergyUsage, MathOperation.REPLACE))
                 .withSpecialEffect(RELOAD_SOURCE, WeaponReloadSource.commonEnergy())
-                .tooltip(UpgradeTooltip.of(LTXILangKeys.ENERGY_CAPACITY_UPGRADE, REM_BLUE.chatStyle(), TooltipArgument.of(heavyEnergyCapacity, ValueSentiment.NEUTRAL, TooltipValueFormat.FLAT_NUMBER)))
-                .tooltip(UpgradeTooltip.of(LTXILangKeys.ENERGY_USAGE_UPGRADE, REM_BLUE.chatStyle(), TooltipArgument.of(heavyEnergyUsage, ValueSentiment.NEUTRAL, TooltipValueFormat.FLAT_NUMBER)))
+                .tooltip(energyCapacityTooltip(heavyEnergyCapacity, ValueSentiment.NEUTRAL, TooltipValueFormat.FLAT_NUMBER))
+                .tooltip(energyUsageTooltip(heavyEnergyUsage, ValueSentiment.NEUTRAL, TooltipValueFormat.FLAT_NUMBER))
                 .effectIcon(sprite(HEAVY_ENERGY_ADAPTER.location().getPath()))
                 .category("weapon/ammo")
                 .register(context);
@@ -376,14 +384,14 @@ public final class LTXIEquipmentUpgrades
                 .exclusiveWith(holders, MINING_DROPS_MODIFIERS)
                 .setMaxRank(5)
                 .withEffect(ENCHANTMENT_LEVEL, EnchantmentUpgradeEffect.oneLevelPerRank(enchantments.getOrThrow(Enchantments.FORTUNE)))
-                .effectIcon(luckOverlay.apply(itemIcon(LTXIItems.LTX_DRILL)))
+                .effectIcon(luckOverlayIcon(LTXIItems.LTX_DRILL))
                 .category("enchants")
                 .register(context);
         EquipmentUpgrade.builder(LOOTING_ENCHANTMENT)
                 .supports(ltxAllWeapons)
                 .setMaxRank(5)
                 .withEffect(ENCHANTMENT_LEVEL, EnchantmentUpgradeEffect.oneLevelPerRank(enchantments.getOrThrow(Enchantments.LOOTING)))
-                .effectIcon(luckOverlay.apply(itemIcon(LTXIItems.LTX_SWORD)))
+                .effectIcon(luckOverlayIcon(LTXIItems.LTX_SWORD))
                 .category("enchants")
                 .register(context);
         EquipmentUpgrade.builder(AMMO_SCAVENGER_ENCHANTMENT)

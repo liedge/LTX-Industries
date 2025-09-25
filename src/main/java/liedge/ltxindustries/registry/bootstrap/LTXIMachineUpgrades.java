@@ -29,8 +29,10 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.neoforge.registries.holdersets.AnyHolderSet;
 
+import static liedge.ltxindustries.LTXIConstants.REM_BLUE;
 import static liedge.ltxindustries.LTXITags.MachineUpgrades.MACHINE_TIER;
 import static liedge.ltxindustries.LTXIndustries.RESOURCES;
+import static liedge.ltxindustries.data.generation.LTXIBootstrapUtil.*;
 import static liedge.ltxindustries.lib.upgrades.UpgradeIcon.*;
 import static liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents.*;
 
@@ -62,14 +64,15 @@ public final class LTXIMachineUpgrades
         // AnyHolderSets
         HolderSet<Item> anyItemHolderSet = new AnyHolderSet<>(BuiltInRegistries.ITEM.asLookup());
 
-        DoubleLevelBasedValue esaScaling = DoubleLevelBasedValue.exponential(2, DoubleLevelBasedValue.linear(3, 1));
+        DoubleLevelBasedValue ecaScaling = DoubleLevelBasedValue.exponential(2, DoubleLevelBasedValue.linear(3, 1));
         MachineUpgrade.builder(ECA_CAPACITY_UPGRADE)
+                .createDefaultTitle(REM_BLUE)
                 .supports(LTXIBlockEntities.ENERGY_CELL_ARRAY)
-                .withEffect(LTXIUpgradeEffectComponents.ENERGY_CAPACITY, ValueUpgradeEffect.of(esaScaling, MathOperation.MULTIPLY))
-                .withEffect(LTXIUpgradeEffectComponents.ENERGY_TRANSFER_RATE, ValueUpgradeEffect.of(esaScaling, MathOperation.MULTIPLY))
-                .tooltip(UpgradeTooltip.of(LTXILangKeys.ENERGY_CAPACITY_UPGRADE, TooltipArgument.of(esaScaling, ValueSentiment.POSITIVE, TooltipValueFormat.MULTIPLICATIVE)))
-                .tooltip(UpgradeTooltip.of(LTXILangKeys.ENERGY_TRANSFER_UPGRADE, TooltipArgument.of(esaScaling, ValueSentiment.POSITIVE, TooltipValueFormat.MULTIPLICATIVE)))
-                .setMaxRank(4)
+                .withEffect(LTXIUpgradeEffectComponents.ENERGY_CAPACITY, ValueUpgradeEffect.of(ecaScaling, MathOperation.MULTIPLY))
+                .withEffect(LTXIUpgradeEffectComponents.ENERGY_TRANSFER_RATE, ValueUpgradeEffect.of(ecaScaling, MathOperation.MULTIPLY))
+                .tooltip(energyCapacityTooltip(ecaScaling, ValueSentiment.POSITIVE, TooltipValueFormat.MULTIPLICATIVE))
+                .tooltip(energyTransferTooltip(ecaScaling, ValueSentiment.POSITIVE, TooltipValueFormat.MULTIPLICATIVE))
+                .setMaxRank(5)
                 .effectIcon(sprite("extra_energy"))
                 .register(context);
 
@@ -82,41 +85,46 @@ public final class LTXIMachineUpgrades
                 .withEffect(TICKS_PER_OPERATION, ValueUpgradeEffect.of(DoubleLevelBasedValue.linearExponent(0.725d), MathOperation.MULTIPLY))
                 .withEffect(ENERGY_USAGE, ValueUpgradeEffect.of(DoubleLevelBasedValue.linearExponent(1.5d), MathOperation.MULTIPLY))
                 .withSpecialEffect(MINIMUM_MACHINE_SPEED, 5)
-                .tooltip(UpgradeTooltip.of(LTXILangKeys.ENERGY_CAPACITY_UPGRADE, TooltipArgument.of(smsEnergyStorage, ValueSentiment.POSITIVE, TooltipValueFormat.SIGNED_PERCENTAGE)))
-                .tooltip(UpgradeTooltip.of(LTXILangKeys.ENERGY_TRANSFER_UPGRADE, TooltipArgument.of(smsEnergyStorage, ValueSentiment.POSITIVE, TooltipValueFormat.SIGNED_PERCENTAGE)))
+                .tooltip(energyCapacityTooltip(smsEnergyStorage, ValueSentiment.POSITIVE, TooltipValueFormat.SIGNED_PERCENTAGE))
+                .tooltip(energyTransferTooltip(smsEnergyStorage, ValueSentiment.POSITIVE, TooltipValueFormat.SIGNED_PERCENTAGE))
+                .tooltip(energyUsageTooltip(DoubleLevelBasedValue.linearExponent(1.5d), ValueSentiment.NEUTRAL, TooltipValueFormat.MULTIPLICATIVE))
                 .tooltip(UpgradeTooltip.of(LTXILangKeys.MACHINE_SPEED_UPGRADE, TooltipArgument.of(DoubleLevelBasedValue.linearExponent(0.725d), ValueSentiment.POSITIVE, TooltipValueFormat.MULTIPLICATIVE)))
-                .tooltip(UpgradeTooltip.of(LTXILangKeys.ENERGY_USAGE_UPGRADE, TooltipArgument.of(DoubleLevelBasedValue.linearExponent(1.5d), ValueSentiment.NEUTRAL, TooltipValueFormat.MULTIPLICATIVE)))
                 .tooltip(UpgradeTooltip.of(LTXILangKeys.ENERGY_PER_RECIPE_UPGRADE, TooltipArgument.of(DoubleLevelBasedValue.linearExponent(1.0875d), ValueSentiment.NEGATIVE, TooltipValueFormat.MULTIPLICATIVE)))
                 .setMaxRank(6)
                 .effectIcon(sprite("standard_gear"))
                 .category("gpm")
                 .register(context);
 
+        DoubleLevelBasedValue umsEnergyStorage = DoubleLevelBasedValue.constant(16);
+        DoubleLevelBasedValue umsEnergyUsage = DoubleLevelBasedValue.constant(512);
         MachineUpgrade.builder(ULTIMATE_MACHINE_SYSTEMS)
                 .createDefaultTitle(LTXIConstants.LIME_GREEN)
                 .supports(blockEntities, LTXITags.BlockEntities.GENERAL_PROCESSING_MACHINES)
                 .exclusiveWith(holders, MACHINE_TIER)
-                .withEffect(ENERGY_CAPACITY, ValueUpgradeEffect.of(DoubleLevelBasedValue.constant(8), MathOperation.MULTIPLY))
-                .withEffect(ENERGY_TRANSFER_RATE, ValueUpgradeEffect.of(DoubleLevelBasedValue.constant(16), MathOperation.MULTIPLY))
-                .withEffect(ENERGY_USAGE, ValueUpgradeEffect.of(DoubleLevelBasedValue.constant(512), MathOperation.MULTIPLY))
+                .withEffect(ENERGY_CAPACITY, ValueUpgradeEffect.of(umsEnergyStorage, MathOperation.MULTIPLY))
+                .withEffect(ENERGY_TRANSFER_RATE, ValueUpgradeEffect.of(umsEnergyStorage, MathOperation.MULTIPLY))
+                .withEffect(ENERGY_USAGE, ValueUpgradeEffect.of(umsEnergyUsage, MathOperation.MULTIPLY))
                 .withEffect(TICKS_PER_OPERATION, ValueUpgradeEffect.of(DoubleLevelBasedValue.constant(0), MathOperation.MULTIPLY))
                 .withSpecialEffect(MINIMUM_MACHINE_SPEED, 0)
-                .tooltip(UpgradeTooltip.of(LTXILangKeys.ENERGY_CAPACITY_UPGRADE, TooltipArgument.of(DoubleLevelBasedValue.constant(8), ValueSentiment.POSITIVE, TooltipValueFormat.MULTIPLICATIVE)))
-                .tooltip(UpgradeTooltip.of(LTXILangKeys.ENERGY_TRANSFER_UPGRADE, TooltipArgument.of(DoubleLevelBasedValue.constant(16), ValueSentiment.POSITIVE, TooltipValueFormat.MULTIPLICATIVE)))
-                .tooltip(UpgradeTooltip.of(LTXILangKeys.ENERGY_USAGE_UPGRADE, TooltipArgument.of(DoubleLevelBasedValue.constant(256), ValueSentiment.NEGATIVE, TooltipValueFormat.MULTIPLICATIVE)))
+                .tooltip(energyCapacityTooltip(umsEnergyStorage, ValueSentiment.POSITIVE, TooltipValueFormat.MULTIPLICATIVE))
+                .tooltip(energyTransferTooltip(umsEnergyStorage, ValueSentiment.POSITIVE, TooltipValueFormat.MULTIPLICATIVE))
+                .tooltip(energyUsageTooltip(umsEnergyUsage, ValueSentiment.NEGATIVE, TooltipValueFormat.MULTIPLICATIVE))
                 .tooltip(LTXILangKeys.INSTANT_PROCESSING_UPGRADE.translate().withStyle(LTXIConstants.LIME_GREEN.chatStyle()))
                 .effectIcon(sprite("ultimate_gear"))
                 .category("gpm")
                 .register(context);
 
+        DoubleLevelBasedValue fabCapacity = DoubleLevelBasedValue.linear(2);
+        DoubleLevelBasedValue fabTransfer = DoubleLevelBasedValue.linear(3);
+        DoubleLevelBasedValue fabUsage = DoubleLevelBasedValue.exponential(2, DoubleLevelBasedValue.linear(2, 1));
         MachineUpgrade.builder(FABRICATOR_UPGRADE)
                 .supports(LTXIBlockEntities.FABRICATOR, LTXIBlockEntities.AUTO_FABRICATOR)
-                .withEffect(ENERGY_CAPACITY, ValueUpgradeEffect.of(DoubleLevelBasedValue.linear(2), MathOperation.ADD_PERCENT))
-                .withEffect(ENERGY_TRANSFER_RATE, ValueUpgradeEffect.of(DoubleLevelBasedValue.linear(3), MathOperation.ADD_PERCENT))
-                .withEffect(ENERGY_USAGE, ValueUpgradeEffect.of(DoubleLevelBasedValue.exponential(2, DoubleLevelBasedValue.linear(2, 1)), MathOperation.MULTIPLY))
-                .tooltip(UpgradeTooltip.of(LTXILangKeys.ENERGY_CAPACITY_UPGRADE, TooltipArgument.of(DoubleLevelBasedValue.linear(2), ValueSentiment.POSITIVE, TooltipValueFormat.SIGNED_PERCENTAGE)))
-                .tooltip(UpgradeTooltip.of(LTXILangKeys.ENERGY_TRANSFER_UPGRADE, TooltipArgument.of(DoubleLevelBasedValue.linear(3), ValueSentiment.POSITIVE, TooltipValueFormat.SIGNED_PERCENTAGE)))
-                .tooltip(UpgradeTooltip.of(LTXILangKeys.ENERGY_USAGE_UPGRADE, TooltipArgument.of(DoubleLevelBasedValue.exponential(2, DoubleLevelBasedValue.linear(2, 1)), ValueSentiment.POSITIVE, TooltipValueFormat.MULTIPLICATIVE)))
+                .withEffect(ENERGY_CAPACITY, ValueUpgradeEffect.of(fabCapacity, MathOperation.ADD_PERCENT))
+                .withEffect(ENERGY_TRANSFER_RATE, ValueUpgradeEffect.of(fabTransfer, MathOperation.ADD_PERCENT))
+                .withEffect(ENERGY_USAGE, ValueUpgradeEffect.of(fabUsage, MathOperation.MULTIPLY))
+                .tooltip(energyCapacityTooltip(fabCapacity, ValueSentiment.POSITIVE, TooltipValueFormat.SIGNED_PERCENTAGE))
+                .tooltip(energyTransferTooltip(fabTransfer, ValueSentiment.POSITIVE, TooltipValueFormat.SIGNED_PERCENTAGE))
+                .tooltip(energyUsageTooltip(fabUsage, ValueSentiment.POSITIVE, TooltipValueFormat.MULTIPLICATIVE))
                 .setMaxRank(4)
                 .effectIcon(sprite("fabricator_upgrade"))
                 .register(context);
@@ -125,7 +133,7 @@ public final class LTXIMachineUpgrades
                 .supports(blockEntities, LTXITags.BlockEntities.TURRETS)
                 .withEffect(ENCHANTMENT_LEVEL, EnchantmentUpgradeEffect.oneLevelPerRank(enchantments.getOrThrow(Enchantments.LOOTING)))
                 .setMaxRank(3)
-                .effectIcon(bottomRightComposite(itemIcon(LTXIItems.LTX_SWORD), sprite("luck_overlay"), 7))
+                .effectIcon(luckOverlayIcon(LTXIItems.LTX_SWORD))
                 .category("turret")
                 .register(context);
 

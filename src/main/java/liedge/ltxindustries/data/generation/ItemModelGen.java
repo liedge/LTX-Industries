@@ -56,6 +56,7 @@ class ItemModelGen extends LimaItemModelProvider
                 ELECTRIC_CHEMICAL,
                 MONOMER_CHEMICAL,
                 VIRIDIC_WEAPON_CHEMICAL,
+                CHORUS_CHEMICAL,
                 SCULK_CHEMICAL,
                 NEURO_CHEMICAL,
                 SLATESTEEL_INGOT,

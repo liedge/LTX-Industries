@@ -32,12 +32,12 @@
       "item": "minecraft:redstone"
     },
     {
-      "count": 8,
-      "item": "minecraft:echo_shard"
+      "count": 12,
+      "item": "minecraft:amethyst_shard"
     },
     {
-      "count": 16,
-      "item": "minecraft:amethyst_shard"
+      "count": 8,
+      "item": "ltxi:sculk_chemical"
     }
   ],
   "result": {

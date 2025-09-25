@@ -21,5 +21,4 @@ navigation:
 
 ### Extra Loot Severing
 - Rabbit Foot: 33% drop chance per level
-- Warden, **Level 3+ Only**: Drops 1-2 echo shards.
 - Ender Dragon, **Level 4+ Only**: Dragon Head, 50% chance per level ≥ 4.

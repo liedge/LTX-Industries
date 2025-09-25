@@ -1,0 +1,22 @@
+{
+  "type": "ltxi:electro_centrifuging",
+  "craft_time": 300,
+  "fluid_ingredients": [
+    {
+      "amount": 250,
+      "fluid": "ltxi:viridic_acid"
+    }
+  ],
+  "ingredients": [
+    {
+      "count": 2,
+      "item": "minecraft:chorus_fruit"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:chorus_chemical"
+    }
+  ]
+}

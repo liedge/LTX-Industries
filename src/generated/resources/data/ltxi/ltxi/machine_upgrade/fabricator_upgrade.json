@@ -20,7 +20,10 @@
             }
           }
         ],
-        "key": "upgrade_effect.ltxi.energy_capacity"
+        "key": "upgrade_effect.ltxi.energy_capacity",
+        "style": {
+          "color": "#8BD1F0"
+        }
       },
       {
         "args": [
@@ -34,7 +37,10 @@
             }
           }
         ],
-        "key": "upgrade_effect.ltxi.energy_transfer"
+        "key": "upgrade_effect.ltxi.energy_transfer",
+        "style": {
+          "color": "#8BD1F0"
+        }
       },
       {
         "args": [
@@ -52,7 +58,10 @@
             }
           }
         ],
-        "key": "upgrade_effect.ltxi.energy_usage"
+        "key": "upgrade_effect.ltxi.energy_usage",
+        "style": {
+          "color": "#8BD1F0"
+        }
       }
     ]
   },

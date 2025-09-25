@@ -1,7 +1,6 @@
 {
   "type": "ltxi:fabricating",
-  "advancement_locked": true,
-  "energy_required": 1000000,
+  "energy_required": 25000000,
   "group": "eum/weapon/gl",
   "ingredients": [
     {
@@ -9,12 +8,24 @@
       "item": "ltxi:empty_upgrade_module"
     },
     {
-      "count": 8,
-      "item": "ltxi:t3_circuit"
+      "count": 2,
+      "item": "ltxi:t4_circuit"
+    },
+    {
+      "count": 32,
+      "item": "ltxi:titanium_glass"
     },
     {
       "count": 16,
-      "item": "ltxi:titanium_ingot"
+      "item": "ltxi:slatesteel_ingot"
+    },
+    {
+      "count": 24,
+      "item": "ltxi:polymer_ingot"
+    },
+    {
+      "count": 16,
+      "item": "ltxi:viridic_weapon_chemical"
     }
   ],
   "result": {

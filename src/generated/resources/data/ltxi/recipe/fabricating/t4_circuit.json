@@ -20,10 +20,6 @@
       "item": "ltxi:slatesteel_ingot"
     },
     {
-      "count": 8,
-      "item": "ltxi:niobium_ingot"
-    },
-    {
       "count": 16,
       "item": "ltxi:polymer_ingot"
     },
@@ -33,7 +29,15 @@
     },
     {
       "count": 8,
+      "item": "ltxi:niobium_ingot"
+    },
+    {
+      "count": 8,
       "item": "minecraft:diamond"
+    },
+    {
+      "count": 4,
+      "item": "ltxi:chorus_chemical"
     }
   ],
   "result": {

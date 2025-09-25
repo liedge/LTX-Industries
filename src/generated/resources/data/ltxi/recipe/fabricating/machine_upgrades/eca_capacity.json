@@ -9,10 +9,18 @@
     },
     {
       "count": 2,
-      "item": "minecraft:lightning_rod"
+      "item": "ltxi:t1_circuit"
     },
     {
-      "count": 6,
+      "count": 4,
+      "item": "ltxi:titanium_ingot"
+    },
+    {
+      "count": 4,
+      "item": "ltxi:electric_chemical"
+    },
+    {
+      "count": 4,
       "item": "minecraft:copper_ingot"
     }
   ],

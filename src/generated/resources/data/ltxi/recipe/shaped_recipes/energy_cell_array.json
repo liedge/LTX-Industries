@@ -8,17 +8,17 @@
     "c": {
       "item": "ltxi:t1_circuit"
     },
-    "r": {
-      "item": "minecraft:lightning_rod"
+    "e": {
+      "item": "ltxi:electric_chemical"
     },
     "t": {
       "item": "ltxi:titanium_ingot"
     }
   },
   "pattern": [
-    "trt",
-    "cbc",
-    "trt"
+    "tct",
+    "ebe",
+    "tct"
   ],
   "result": {
     "count": 1,

@@ -12,20 +12,24 @@
       "item": "ltxi:t4_circuit"
     },
     {
+      "count": 16,
+      "item": "ltxi:titanium_ingot"
+    },
+    {
+      "count": 8,
+      "item": "ltxi:slatesteel_ingot"
+    },
+    {
       "count": 1,
       "item": "minecraft:nether_star"
     },
     {
-      "count": 1,
-      "item": "minecraft:ender_chest"
+      "count": 8,
+      "item": "ltxi:chorus_chemical"
     },
     {
       "count": 8,
       "item": "minecraft:ender_pearl"
-    },
-    {
-      "count": 1,
-      "item": "minecraft:echo_shard"
     }
   ],
   "result": {

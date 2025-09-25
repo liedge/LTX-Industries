@@ -1,13 +1,13 @@
 {
   "type": "ltxi:fabricating",
-  "energy_required": 1000000,
+  "energy_required": 20000000,
   "group": "mum/eca",
   "ingredients": [
     {
       "type": "neoforge:components",
       "components": {
         "ltxi:machine_upgrade": {
-          "rank": 2,
+          "rank": 4,
           "upgrade": "ltxi:eca_capacity"
         }
       },
@@ -17,25 +17,37 @@
     },
     {
       "count": 4,
-      "item": "ltxi:t2_circuit"
-    },
-    {
-      "count": 8,
-      "item": "ltxi:titanium_ingot"
+      "item": "ltxi:t3_circuit"
     },
     {
       "count": 16,
+      "item": "ltxi:titanium_ingot"
+    },
+    {
+      "count": 8,
+      "item": "ltxi:slatesteel_ingot"
+    },
+    {
+      "count": 12,
+      "item": "ltxi:polymer_ingot"
+    },
+    {
+      "count": 48,
       "item": "ltxi:electric_chemical"
     },
     {
       "count": 8,
-      "item": "minecraft:gold_ingot"
+      "item": "ltxi:niobium_ingot"
+    },
+    {
+      "count": 8,
+      "item": "ltxi:chorus_chemical"
     }
   ],
   "result": {
     "components": {
       "ltxi:machine_upgrade": {
-        "rank": 3,
+        "rank": 5,
         "upgrade": "ltxi:eca_capacity"
       }
     },

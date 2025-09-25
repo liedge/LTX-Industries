@@ -21,6 +21,7 @@ import liedge.ltxindustries.lib.upgrades.machine.MachineUpgradeEntry;
 import liedge.ltxindustries.recipe.*;
 import liedge.ltxindustries.registry.game.LTXIDataComponents;
 import liedge.ltxindustries.registry.game.LTXIFluids;
+import liedge.ltxindustries.registry.game.LTXIItems;
 import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.advancements.critereon.KilledTrigger;
 import net.minecraft.advancements.critereon.LocationPredicate;
@@ -36,7 +37,6 @@ import net.minecraft.data.recipes.SpecialRecipeBuilder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.alchemy.PotionContents;
@@ -61,6 +61,8 @@ import static liedge.ltxindustries.LTXITags.Items.NEON_LIGHT_MATERIALS;
 import static liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades.*;
 import static liedge.ltxindustries.registry.bootstrap.LTXIMachineUpgrades.*;
 import static liedge.ltxindustries.registry.game.LTXIBlocks.*;
+import static liedge.ltxindustries.registry.game.LTXIFluids.HYDROGEN;
+import static liedge.ltxindustries.registry.game.LTXIFluids.VIRIDIC_ACID;
 import static liedge.ltxindustries.registry.game.LTXIItems.*;
 import static net.minecraft.world.item.Items.*;
 import static net.neoforged.neoforge.common.Tags.Items.*;
@@ -105,7 +107,7 @@ class RecipesGen extends LimaRecipeProvider
                 .save(output, "guide_tablet");
 
         // Machine recipes
-        shaped(ENERGY_CELL_ARRAY).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('r', LIGHTNING_ROD).input('b', COPPER_BLOCK).patterns("trt", "cbc", "trt").save(output);
+        shaped(ENERGY_CELL_ARRAY).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('e', ELECTRIC_CHEMICAL).input('b', COPPER_BLOCK).patterns("tct", "ebe", "tct").save(output);
         shaped(DIGITAL_FURNACE).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('a', FURNACE).input('g', GLASS_BLOCKS_CHEAP).patterns("tct", "gag", "tct").save(output);
         shaped(DIGITAL_SMOKER).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('a', SMOKER).input('g', GLASS_BLOCKS_CHEAP).patterns("tct", "gag", "tct").save(output);
         shaped(DIGITAL_BLAST_FURNACE).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('a', BLAST_FURNACE).input('g', GLASS_BLOCKS_CHEAP).patterns("tct", "gag", "tct").save(output);
@@ -196,10 +198,11 @@ class RecipesGen extends LimaRecipeProvider
                 .input(T3_CIRCUIT, 2)
                 .input(TITANIUM_INGOT, 8)
                 .input(SLATESTEEL_INGOT, 12)
-                .input(NIOBIUM_INGOT, 8)
                 .input(POLYMER_INGOT, 16)
                 .input(REDSTONE, 32)
+                .input(NIOBIUM_INGOT, 8)
                 .input(DIAMOND, 8)
+                .input(CHORUS_CHEMICAL, 4)
                 .output(T4_CIRCUIT)
                 .group("circuits")
                 .save(output);
@@ -211,8 +214,8 @@ class RecipesGen extends LimaRecipeProvider
                 .input(POLYMER_INGOT, 48)
                 .input(NIOBIUM_INGOT, 16)
                 .input(REDSTONE, 48)
-                .input(ECHO_SHARD, 8)
-                .input(AMETHYST_SHARD, 16)
+                .input(AMETHYST_SHARD, 12)
+                .input(SCULK_CHEMICAL, 8)
                 .output(T5_CIRCUIT)
                 .group("circuits")
                 .save(output);
@@ -355,6 +358,28 @@ class RecipesGen extends LimaRecipeProvider
                 .group("ltx/weapon").save(output);
 
         final String eumTools = "eum/tool";
+        equipmentModuleFab(output, registries, eumTools, TOOL_ENERGY_UPGRADE, 1, 100_000, builder -> builder
+                .input(T1_CIRCUIT)
+                .input(TITANIUM_INGOT, 2)
+                .input(POLYMER_INGOT, 4)
+                .input(ELECTRIC_CHEMICAL, 4));
+        equipmentModuleFab(output, registries, eumTools, TOOL_ENERGY_UPGRADE, 2, 250_000, builder -> builder
+                .input(T2_CIRCUIT)
+                .input(TITANIUM_INGOT, 4)
+                .input(POLYMER_INGOT, 8)
+                .input(ELECTRIC_CHEMICAL, 8));
+        equipmentModuleFab(output, registries, eumTools, TOOL_ENERGY_UPGRADE, 3, 500_000, builder -> builder
+                .input(T3_CIRCUIT)
+                .input(TITANIUM_INGOT, 8)
+                .input(POLYMER_INGOT, 16)
+                .input(GOLD_INGOT, 4)
+                .input(ELECTRIC_CHEMICAL, 16));
+        equipmentModuleFab(output, registries, eumTools, TOOL_ENERGY_UPGRADE, 4, 1_000_000, builder -> builder
+                .input(T3_CIRCUIT, 2)
+                .input(TITANIUM_INGOT, 8)
+                .input(POLYMER_INGOT, 24)
+                .input(NIOBIUM_INGOT, 2)
+                .input(ELECTRIC_CHEMICAL, 32));
         equipmentModuleFab(output, registries, eumTools, EPSILON_FISHING_LURE, 1, 100_000, builder -> builder
                 .input(T1_CIRCUIT)
                 .input(STRING, 4)
@@ -394,17 +419,19 @@ class RecipesGen extends LimaRecipeProvider
                 .input(T4_CIRCUIT)
                 .input(LTX_LIME_PIGMENT, 16));
         equipmentModuleFab(output, registries, eumTools, TOOL_VIBRATION_CANCEL, 1, 500_000, builder -> builder
-                .input(T3_CIRCUIT)
-                .input(TITANIUM_INGOT, 4)
-                .input(SCULK_SENSOR, 1)
-                .input(ItemTags.WOOL, 8));
+                .input(T3_CIRCUIT, 2)
+                .input(TITANIUM_INGOT, 8)
+                .input(POLYMER_INGOT, 8)
+                .input(ItemTags.WOOL, 8)
+                .input(SCULK_CHEMICAL, 4));
 
         UnaryOperator<FabricatingBuilder> directDrops = builder -> builder
                 .input(T4_CIRCUIT)
+                .input(TITANIUM_INGOT, 16)
+                .input(SLATESTEEL_INGOT, 8)
                 .input(NETHER_STAR)
-                .input(ENDER_CHEST)
-                .input(ENDER_PEARL, 8)
-                .input(ECHO_SHARD);
+                .input(CHORUS_CHEMICAL, 8)
+                .input(ENDER_PEARL, 8);
         equipmentModuleFab(output, registries, "eum/tool", TOOL_DIRECT_DROPS, 1, 15_000_000, directDrops);
         equipmentModuleFab(output, registries, "eum/weapon", WEAPON_DIRECT_DROPS, 1, 15_000_000, directDrops);
 
@@ -428,8 +455,9 @@ class RecipesGen extends LimaRecipeProvider
         equipmentModuleFab(output, registries, "eum/weapon", WEAPON_VIBRATION_CANCEL, 1, 500_000, builder -> builder
                 .input(T3_CIRCUIT, 2)
                 .input(TITANIUM_INGOT, 16)
-                .input(ECHO_SHARD, 2)
-                .input(ItemTags.WOOL, 16));
+                .input(POLYMER_INGOT, 16)
+                .input(ItemTags.WOOL, 16)
+                .input(SCULK_CHEMICAL, 8));
         equipmentModuleFab(output, registries, "eum/weapon", UNIVERSAL_STEALTH_DAMAGE, 1, 750_000, builder -> builder
                 .input(T4_CIRCUIT)
                 .input(PHANTOM_MEMBRANE, 12)
@@ -580,30 +608,34 @@ class RecipesGen extends LimaRecipeProvider
                 .input(EXPLOSIVES_WEAPON_ENERGY, 4)
                 .input(HEAVY_WEAPON_ENERGY, 2));
 
-        equipmentModuleFab(output, registries, "eum/weapon/gl", FLAME_GRENADE_CORE, 1, 250_000, builder -> builder
-                .input(T1_CIRCUIT, 4)
-                .input(TITANIUM_INGOT, 8)
-                .input(FIRE_CHARGE, 21));
-        equipmentModuleFab(output, registries, "eum/weapon/gl", CRYO_GRENADE_CORE, 1, 250_000, builder -> builder
-                .input(T1_CIRCUIT, 4)
-                .input(TITANIUM_INGOT, 8)
-                .input(SNOW_BLOCK, 16)
-                .input(DataComponentIngredient.of(false, DataComponentPredicate.builder().expect(DataComponents.POTION_CONTENTS, new PotionContents(Potions.STRONG_SLOWNESS)).build(), POTION)));
-        equipmentModuleFab(output, registries, "eum/weapon/gl", ELECTRIC_GRENADE_CORE, 1, 500_000, builder -> builder
-                .input(T2_CIRCUIT, 6)
-                .input(TITANIUM_INGOT, 8)
-                .input(LIGHTNING_ROD, 4));
-        equipmentModuleFab(output, registries, "eum/weapon/gl", ACID_GRENADE_CORE, 1, 1_000_000, builder -> builder
-                .input(T3_CIRCUIT, 8)
-                .input(TITANIUM_INGOT, 16)
-                .requiresAdvancement()
-                .unlockedBy("kill_bogged", KilledTrigger.TriggerInstance.playerKilledEntity(EntityPredicate.Builder.entity().of(EntityType.BOGGED))));
-        equipmentModuleFab(output, registries, "eum/weapon/gl", NEURO_GRENADE_CORE, 1, 5_000_000, builder -> builder
+        equipmentModuleFab(output, registries, "eum/weapon/gl", FLAME_GRENADE_CORE, 1, 2_500_000, builder -> builder
+                .input(T3_CIRCUIT, 2)
+                .input(TITANIUM_INGOT, 4)
+                .input(TITANIUM_GLASS, 8)
+                .input(BLAZE_POWDER, 16));
+        equipmentModuleFab(output, registries, "eum/weapon/gl", CRYO_GRENADE_CORE, 1, 2_500_000, builder -> builder
+                .input(T3_CIRCUIT, 2)
+                .input(TITANIUM_INGOT, 4)
+                .input(TITANIUM_GLASS, 8)
+                .input(ICE, 16));
+        equipmentModuleFab(output, registries, "eum/weapon/gl", ELECTRIC_GRENADE_CORE, 1, 5_000_000, builder -> builder
+                .input(T3_CIRCUIT, 2)
+                .input(TITANIUM_GLASS, 16)
+                .input(SLATESTEEL_INGOT, 8)
+                .input(POLYMER_INGOT, 12)
+                .input(ELECTRIC_CHEMICAL, 32));
+        equipmentModuleFab(output, registries, "eum/weapon/gl", ACID_GRENADE_CORE, 1, 25_000_000, builder -> builder
                 .input(T4_CIRCUIT, 2)
-                .input(TITANIUM_INGOT, 32)
-                .input(NETHER_STAR)
-                .requiresAdvancement()
-                .unlockedBy("kill_warden", KilledTrigger.TriggerInstance.playerKilledEntity(EntityPredicate.Builder.entity().of(EntityType.WARDEN))));
+                .input(TITANIUM_GLASS, 32)
+                .input(SLATESTEEL_INGOT, 16)
+                .input(POLYMER_INGOT, 24)
+                .input(VIRIDIC_WEAPON_CHEMICAL, 16));
+        equipmentModuleFab(output, registries, "eum/weapon/gl", NEURO_GRENADE_CORE, 1, 50_000_000, builder -> builder
+                .input(T4_CIRCUIT, 2)
+                .input(TITANIUM_GLASS, 32)
+                .input(SLATESTEEL_INGOT, 16)
+                .input(POLYMER_INGOT, 24)
+                .input(NEURO_CHEMICAL, 8));
         equipmentModuleFab(output, registries, "eum/weapon", GRENADE_LAUNCHER_PROJECTILE_SPEED, 1, 750_000, builder -> builder
                 .input(T2_CIRCUIT, 2)
                 .input(FIREWORK_ROCKET, 9)
@@ -612,11 +644,6 @@ class RecipesGen extends LimaRecipeProvider
                 .input(T3_CIRCUIT, 3)
                 .input(FIREWORK_ROCKET, 36)
                 .input(PHANTOM_MEMBRANE, 8));
-        equipmentModuleFab(output, registries, "eum/weapon", HEAVY_PISTOL_GOD_ROUNDS, 1, 500_000_000, builder -> builder
-                .input(T5_CIRCUIT, 4)
-                .input(SLATESTEEL_BLOCK, 4)
-                .requiresAdvancement()
-                .unlockedBy(HEAVY_PISTOL));
 
         machineModuleFab(output, registries, "mum/gpm", ULTIMATE_MACHINE_SYSTEMS, 1, 250_000_000, false, null, builder -> builder
                 .input(mumIngredient(registries, STANDARD_MACHINE_SYSTEMS, 6))
@@ -625,20 +652,34 @@ class RecipesGen extends LimaRecipeProvider
                 .input(SLATESTEEL_INGOT, 32));
 
         machineModuleFab(output, registries, "mum/eca", ECA_CAPACITY_UPGRADE, 1, 250_000, builder -> builder
-                .input(LIGHTNING_ROD, 2)
-                .input(COPPER_INGOT, 6));
+                .input(T1_CIRCUIT, 2)
+                .input(TITANIUM_INGOT, 4)
+                .input(ELECTRIC_CHEMICAL, 4)
+                .input(COPPER_INGOT, 4));
         machineModuleFab(output, registries, "mum/eca", ECA_CAPACITY_UPGRADE, 2, 500_000, builder -> builder
-                .input(LIGHTNING_ROD, 2)
-                .input(COPPER_INGOT, 6)
-                .input(T2_CIRCUIT, 2));
+                .input(T2_CIRCUIT, 2)
+                .input(TITANIUM_INGOT, 4)
+                .input(ELECTRIC_CHEMICAL, 8)
+                .input(COPPER_INGOT, 8));
         machineModuleFab(output, registries, "mum/eca", ECA_CAPACITY_UPGRADE, 3, 1_000_000, builder -> builder
-                .input(LIGHTNING_ROD, 4)
-                .input(GOLD_INGOT, 12)
-                .input(T2_CIRCUIT, 2));
+                .input(T2_CIRCUIT, 4)
+                .input(TITANIUM_INGOT, 8)
+                .input(ELECTRIC_CHEMICAL, 16)
+                .input(GOLD_INGOT, 8));
         machineModuleFab(output, registries, "mum/eca", ECA_CAPACITY_UPGRADE, 4, 5_000_000, builder -> builder
-                .input(LIGHTNING_ROD, 4)
-                .input(NIOBIUM_INGOT, 12)
-                .input(T3_CIRCUIT, 2));
+                .input(T3_CIRCUIT, 2)
+                .input(TITANIUM_INGOT, 12)
+                .input(SLATESTEEL_INGOT, 4)
+                .input(ELECTRIC_CHEMICAL, 24)
+                .input(NIOBIUM_INGOT, 4));
+        machineModuleFab(output, registries, "mum/eca", ECA_CAPACITY_UPGRADE, 5, 20_000_000, builder -> builder
+                .input(T3_CIRCUIT, 4)
+                .input(TITANIUM_INGOT, 16)
+                .input(SLATESTEEL_INGOT, 8)
+                .input(POLYMER_INGOT, 12)
+                .input(ELECTRIC_CHEMICAL, 48)
+                .input(NIOBIUM_INGOT, 8)
+                .input(CHORUS_CHEMICAL, 8));
 
         machineModuleFab(output, registries, "mum/fabricator", FABRICATOR_UPGRADE, 1, 500_000, builder -> builder
                 .input(LTX_LIME_PIGMENT, 4)
@@ -673,6 +714,7 @@ class RecipesGen extends LimaRecipeProvider
         grinding().input(Tags.Items.GRAVELS).output(SAND).save(output);
         grinding().input(CROPS_SUGAR_CANE).output(RESINOUS_BIOMASS).output(SUGAR, 2).save(output, "grind_sugar_cane");
         grinding().input(BAMBOO).output(RESINOUS_BIOMASS).save(output, "grind_bamboo");
+        grinding().input(LTXIItems.SPARK_FRUIT).output(ELECTRIC_CHEMICAL).save(output);
         grinding().input(VITRIOL_BERRIES).output(ACIDIC_BIOMASS).save(output);
         grinding().input(CompoundIngredient.of(Ingredient.of(CHARCOAL), Ingredient.of(ItemTags.COALS))).output(CARBON_DUST).save(output);
         grinding().input(LTXITags.Items.DEEPSLATE_GRINDABLES).output(DEEPSLATE_DUST).save(output, "grind_deepslate");
@@ -691,6 +733,7 @@ class RecipesGen extends LimaRecipeProvider
         orePebbleGrinding(NIOBIUM_ORE_PEBBLES, LTXITags.Items.NIOBIUM_ORES, LTXITags.Items.RAW_NIOBIUM_MATERIALS, "niobium", output);
         grinding().input(RAW_TITANIUM_CLUSTER).output(RAW_TITANIUM, 5).save(output, "grind_titanium_clusters");
         grinding().input(RAW_NIOBIUM_CLUSTER).output(RAW_NIOBIUM, 5).save(output, "grind_niobium_clusters");
+        grinding().input(LTXIItems.GLOOM_SHROOM).output(NEURO_BLUE_PIGMENT, 2).time(120).save(output, "shrooms_to_dye");
     }
 
     private void mfcRecipes(RecipeOutput output)
@@ -700,11 +743,12 @@ class RecipesGen extends LimaRecipeProvider
         NEON_LIGHTS.forEach((color, holder) -> fusing().input(NEON_LIGHT_MATERIALS, 2).input(neonLightDye(color)).time(80).output(holder, 8).save(output));
         fusing().input(IRON_INGOT).input(CARBON_DUST).input(DEEPSLATE_DUST, 4).fluidInput(LTXIFluids.OXYGEN, 250).time(400).output(SLATESTEEL_INGOT).save(output);
         fusing().input(TITANIUM_INGOT).input(GEMS_QUARTZ, 3).output(TITANIUM_GLASS, 2).save(output);
+        fusing().input(AMETHYST_SHARD).input(SCULK_CHEMICAL, 4).output(ECHO_SHARD).time(400).save(output);
     }
 
     private void electroCentrifugingRecipes(RecipeOutput output)
     {
-        electroCentrifuging().input(DYES_LIME).output(LTX_LIME_PIGMENT).save(output);
+        electroCentrifuging().input(DYES_LIME).output(LTX_LIME_PIGMENT).time(120).save(output);
         electroCentrifuging().input(ACIDIC_BIOMASS).output(VIRIDIC_GREEN_PIGMENT, 4).time(120).save(output);
 
         electroCentrifuging()
@@ -722,13 +766,28 @@ class RecipesGen extends LimaRecipeProvider
                 .fluidOutput(LTXIFluids.OXYGEN, 500)
                 .time(300)
                 .save(output, "water_electrolyzing");
+
+        electroCentrifuging()
+                .fluidInput(VIRIDIC_ACID, 250)
+                .input(CHORUS_FRUIT, 2)
+                .output(CHORUS_CHEMICAL)
+                .time(300)
+                .save(output, "chorus_fruit_extraction");
+
+        electroCentrifuging()
+                .fluidInput(VIRIDIC_ACID, 2000)
+                .input(LTXIItems.GLOOM_SHROOM)
+                .output(SCULK_CHEMICAL)
+                .output(NEURO_CHEMICAL, 1, 0.05f)
+                .time(400)
+                .save(output, "gloom_shroom_extraction");
     }
 
     private void mixingRecipes(RecipeOutput output)
     {
         mixing().input(DIRT).fluidInput(Fluids.WATER, 1000).output(MUD).time(120).save(output);
-        mixing().input(ACIDIC_BIOMASS, 4).fluidInput(Fluids.WATER, 1000).fluidOutput(LTXIFluids.VIRIDIC_ACID, 1000).save(output);
-        mixing().input(RESINOUS_BIOMASS, 2).fluidInput(LTXIFluids.VIRIDIC_ACID, 250).output(MONOMER_CHEMICAL).save(output);
+        mixing().input(ACIDIC_BIOMASS, 4).fluidInput(Fluids.WATER, 1000).fluidOutput(VIRIDIC_ACID, 1000).save(output);
+        mixing().input(RESINOUS_BIOMASS, 2).fluidInput(VIRIDIC_ACID, 250).output(MONOMER_CHEMICAL).save(output);
     }
 
 
@@ -736,14 +795,20 @@ class RecipesGen extends LimaRecipeProvider
     {
         energizing().input(LTX_LIME_PIGMENT).output(ELECTRIC_CHARTREUSE_PIGMENT).time(120).save(output);
         energizing().input(DYES_LIGHT_BLUE).output(ENERGY_BLUE_PIGMENT).time(120).save(output);
-        energizing().input(DYES_BLUE).output(NEURO_BLUE_PIGMENT).time(120).save(output);
     }
 
 
     private void chemLabRecipes(RecipeOutput output)
     {
         chemLab().input(MONOMER_CHEMICAL).fluidInput(LTXIFluids.OXYGEN, 100).output(POLYMER_INGOT).save(output);
-        chemLab().input(POLYMER_INGOT).input(COPPER_INGOT, 2).fluidInput(LTXIFluids.VIRIDIC_ACID, 125).output(CIRCUIT_BOARD).save(output);
+        chemLab().input(POLYMER_INGOT).input(COPPER_INGOT, 2).fluidInput(VIRIDIC_ACID, 125).output(CIRCUIT_BOARD).save(output);
+        chemLab()
+                .input(ELECTRIC_CHEMICAL, 2)
+                .fluidInput(VIRIDIC_ACID, 8000)
+                .fluidInput(HYDROGEN, 2000)
+                .output(VIRIDIC_WEAPON_CHEMICAL)
+                .time(900)
+                .save(output);
     }
 
     // Helpers

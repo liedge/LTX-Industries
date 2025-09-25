@@ -1,15 +1,15 @@
 {
-  "type": "ltxi:energizing",
+  "type": "ltxi:grinding",
   "craft_time": 120,
   "ingredients": [
     {
       "count": 1,
-      "tag": "c:dyes/blue"
+      "item": "ltxi:gloom_shroom"
     }
   ],
   "item_results": [
     {
-      "count": 1,
+      "count": 2,
       "id": "ltxi:neuro_blue_pigment"
     }
   ]

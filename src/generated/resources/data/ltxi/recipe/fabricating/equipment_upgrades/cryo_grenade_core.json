@@ -1,6 +1,6 @@
 {
   "type": "ltxi:fabricating",
-  "energy_required": 250000,
+  "energy_required": 2500000,
   "group": "eum/weapon/gl",
   "ingredients": [
     {
@@ -8,26 +8,20 @@
       "item": "ltxi:empty_upgrade_module"
     },
     {
-      "count": 4,
-      "item": "ltxi:t1_circuit"
+      "count": 2,
+      "item": "ltxi:t3_circuit"
     },
     {
-      "count": 8,
+      "count": 4,
       "item": "ltxi:titanium_ingot"
     },
     {
-      "count": 16,
-      "item": "minecraft:snow_block"
+      "count": 8,
+      "item": "ltxi:titanium_glass"
     },
     {
-      "type": "neoforge:components",
-      "components": {
-        "minecraft:potion_contents": {
-          "potion": "minecraft:strong_slowness"
-        }
-      },
-      "count": 1,
-      "items": "minecraft:potion"
+      "count": 16,
+      "item": "minecraft:ice"
     }
   ],
   "result": {

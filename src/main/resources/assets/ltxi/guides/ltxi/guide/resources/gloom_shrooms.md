@@ -62,3 +62,5 @@ paradoxical [Real Virtuality Circuit](circuits.md).
 The Gloom Shroom's defense mechanism evokes the debilitating power of the Deep Dark's Warden. We'd call it a toxin,
 but it does not fit any known criteria to be classified as such. It can be used to craft the
 [Neuro Gas](../weapons/hanabi.md#neuro) shells for the *Hanabi*.
+
+Defeating a Warden with *Hanabi*'s [Acid Shells](../weapons/hanabi.md#acid) guarantees 1 Neuro-Suppressant vial drop.

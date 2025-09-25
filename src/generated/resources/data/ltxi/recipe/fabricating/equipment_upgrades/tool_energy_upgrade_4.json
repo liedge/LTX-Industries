@@ -1,18 +1,18 @@
 {
   "type": "ltxi:fabricating",
-  "energy_required": 5000000,
-  "group": "mum/eca",
+  "energy_required": 1000000,
+  "group": "eum/tool",
   "ingredients": [
     {
       "type": "neoforge:components",
       "components": {
-        "ltxi:machine_upgrade": {
+        "ltxi:equipment_upgrade": {
           "rank": 3,
-          "upgrade": "ltxi:eca_capacity"
+          "upgrade": "ltxi:tool_energy_upgrade"
         }
       },
       "count": 1,
-      "items": "ltxi:machine_upgrade_module",
+      "items": "ltxi:equipment_upgrade_module",
       "strict": true
     },
     {
@@ -20,30 +20,30 @@
       "item": "ltxi:t3_circuit"
     },
     {
-      "count": 12,
+      "count": 8,
       "item": "ltxi:titanium_ingot"
     },
     {
-      "count": 4,
-      "item": "ltxi:slatesteel_ingot"
-    },
-    {
       "count": 24,
-      "item": "ltxi:electric_chemical"
+      "item": "ltxi:polymer_ingot"
     },
     {
-      "count": 4,
+      "count": 2,
       "item": "ltxi:niobium_ingot"
+    },
+    {
+      "count": 32,
+      "item": "ltxi:electric_chemical"
     }
   ],
   "result": {
     "components": {
-      "ltxi:machine_upgrade": {
+      "ltxi:equipment_upgrade": {
         "rank": 4,
-        "upgrade": "ltxi:eca_capacity"
+        "upgrade": "ltxi:tool_energy_upgrade"
       }
     },
     "count": 1,
-    "id": "ltxi:machine_upgrade_module"
+    "id": "ltxi:equipment_upgrade_module"
   }
 }

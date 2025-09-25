@@ -1,0 +1,26 @@
+{
+  "type": "ltxi:chemical_reacting",
+  "craft_time": 900,
+  "fluid_ingredients": [
+    {
+      "amount": 8000,
+      "fluid": "ltxi:viridic_acid"
+    },
+    {
+      "amount": 2000,
+      "fluid": "ltxi:hydrogen"
+    }
+  ],
+  "ingredients": [
+    {
+      "count": 2,
+      "item": "ltxi:electric_chemical"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:viridic_weapon_chemical"
+    }
+  ]
+}

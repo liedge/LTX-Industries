@@ -1,12 +1,13 @@
 {
   "display": {
+    "category": "tools",
     "description": {
-      "translate": "machine_upgrade.ltxi.eca_capacity.desc"
+      "translate": "equipment_upgrade.ltxi.tool_energy_upgrade.desc"
     },
     "icon": "ltxi:extra_energy",
     "title": {
       "color": "#8BD1F0",
-      "translate": "machine_upgrade.ltxi.eca_capacity"
+      "translate": "equipment_upgrade.ltxi.tool_energy_upgrade"
     },
     "tooltips": [
       {
@@ -19,7 +20,7 @@
               "base": 2.0,
               "power": {
                 "type": "linear",
-                "base": 3.0,
+                "base": 2.0,
                 "per_level_after_first": 1.0
               }
             }
@@ -40,7 +41,7 @@
               "base": 2.0,
               "power": {
                 "type": "linear",
-                "base": 3.0,
+                "base": 2.0,
                 "per_level_after_first": 1.0
               }
             }
@@ -63,7 +64,7 @@
           "base": 2.0,
           "power": {
             "type": "linear",
-            "base": 3.0,
+            "base": 2.0,
             "per_level_after_first": 1.0
           }
         }
@@ -78,7 +79,7 @@
           "base": 2.0,
           "power": {
             "type": "linear",
-            "base": 3.0,
+            "base": 2.0,
             "per_level_after_first": 1.0
           }
         }
@@ -86,6 +87,6 @@
     ]
   },
   "exclusive_set": [],
-  "max_rank": 5,
-  "supported_set": "ltxi:energy_cell_array"
+  "max_rank": 4,
+  "supported_set": "#ltxi:tools"
 }

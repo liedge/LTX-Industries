@@ -1,0 +1,20 @@
+{
+  "type": "ltxi:material_fusing",
+  "craft_time": 400,
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "minecraft:amethyst_shard"
+    },
+    {
+      "count": 4,
+      "item": "ltxi:sculk_chemical"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "minecraft:echo_shard"
+    }
+  ]
+}

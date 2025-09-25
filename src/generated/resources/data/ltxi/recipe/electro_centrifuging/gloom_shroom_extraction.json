@@ -1,0 +1,27 @@
+{
+  "type": "ltxi:electro_centrifuging",
+  "craft_time": 400,
+  "fluid_ingredients": [
+    {
+      "amount": 2000,
+      "fluid": "ltxi:viridic_acid"
+    }
+  ],
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "ltxi:gloom_shroom"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:sculk_chemical"
+    },
+    {
+      "chance": 0.05,
+      "count": 1,
+      "id": "ltxi:neuro_chemical"
+    }
+  ]
+}

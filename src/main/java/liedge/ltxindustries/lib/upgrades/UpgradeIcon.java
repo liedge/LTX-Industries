@@ -48,17 +48,6 @@ public interface UpgradeIcon
         return new CompositeIcon(background, overlay, overlaySize, xOffset, yOffset);
     }
 
-    static CompositeIcon bottomRightComposite(UpgradeIcon background, UpgradeIcon overlay, int overlaySize, int padding)
-    {
-        int offset = 16 - overlaySize - padding;
-        return UpgradeIcon.compositeIcon(background, overlay, overlaySize, offset, offset);
-    }
-
-    static CompositeIcon bottomRightComposite(UpgradeIcon background, UpgradeIcon overlay, int overlaySize)
-    {
-        return bottomRightComposite(background, overlay, overlaySize, 1);
-    }
-
     Type getType();
 
     final class NoRenderIcon implements UpgradeIcon

@@ -4,11 +4,19 @@
   "group": "eum/tool",
   "ingredients": [
     {
+      "type": "neoforge:components",
+      "components": {
+        "ltxi:equipment_upgrade": {
+          "rank": 2,
+          "upgrade": "ltxi:tool_energy_upgrade"
+        }
+      },
       "count": 1,
-      "item": "ltxi:empty_upgrade_module"
+      "items": "ltxi:equipment_upgrade_module",
+      "strict": true
     },
     {
-      "count": 2,
+      "count": 1,
       "item": "ltxi:t3_circuit"
     },
     {
@@ -16,22 +24,23 @@
       "item": "ltxi:titanium_ingot"
     },
     {
-      "count": 8,
+      "count": 16,
       "item": "ltxi:polymer_ingot"
     },
     {
-      "count": 8,
-      "tag": "minecraft:wool"
+      "count": 4,
+      "item": "minecraft:gold_ingot"
     },
     {
-      "count": 4,
-      "item": "ltxi:sculk_chemical"
+      "count": 16,
+      "item": "ltxi:electric_chemical"
     }
   ],
   "result": {
     "components": {
       "ltxi:equipment_upgrade": {
-        "upgrade": "ltxi:tool_vibration_cancel"
+        "rank": 3,
+        "upgrade": "ltxi:tool_energy_upgrade"
       }
     },
     "count": 1,

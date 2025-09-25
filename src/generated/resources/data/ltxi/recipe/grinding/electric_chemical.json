@@ -1,0 +1,15 @@
+{
+  "type": "ltxi:grinding",
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "ltxi:spark_fruit"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:electric_chemical"
+    }
+  ]
+}
