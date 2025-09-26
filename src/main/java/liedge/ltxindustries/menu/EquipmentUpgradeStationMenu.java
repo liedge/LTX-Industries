@@ -12,6 +12,7 @@ import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.ltxindustries.registry.LTXIRegistries;
 import liedge.ltxindustries.registry.game.LTXINetworkSerializers;
 import liedge.ltxindustries.registry.game.LTXISounds;
+import liedge.ltxindustries.util.LTXIUtil;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -79,7 +80,7 @@ public class EquipmentUpgradeStationMenu extends UpgradesConfigMenu<EquipmentUpg
 
                 // Modify the upgrades and consume upgrade module item
                 EquipmentUpgrades newUpgrades = currentUpgrades.toMutableContainer().set(entry).toImmutable();
-                equipmentItem.setUpgrades(equipmentStack, newUpgrades);
+                setUpgradesAndRefresh(level, equipmentStack, equipmentItem, newUpgrades);
                 moduleSourceInventory.setStackInSlot(EQUIPMENT_ITEM_SLOT, equipmentStack);
                 moduleSourceInventory.extractItem(UPGRADE_MODULE_SLOT, 1, false);
 
@@ -104,7 +105,7 @@ public class EquipmentUpgradeStationMenu extends UpgradesConfigMenu<EquipmentUpg
             if (rank > 0)
             {
                 EquipmentUpgrades newUpgrades = currentUpgrades.toMutableContainer().remove(upgradeHolder).toImmutable();
-                equipmentItem.setUpgrades(equipmentStack, newUpgrades);
+                setUpgradesAndRefresh(sender.serverLevel(), equipmentStack, equipmentItem, newUpgrades);
                 moduleSourceInventory.setStackInSlot(EQUIPMENT_ITEM_SLOT, equipmentStack);
 
                 ejectModuleItem(sender, upgradeHolder, rank);
@@ -117,5 +118,11 @@ public class EquipmentUpgradeStationMenu extends UpgradesConfigMenu<EquipmentUpg
     protected ItemStack createModuleItem(Holder<EquipmentUpgrade> upgrade, int upgradeRank)
     {
         return EquipmentUpgradeModuleItem.createStack(upgrade, upgradeRank);
+    }
+
+    private void setUpgradesAndRefresh(ServerLevel level, ItemStack stack, UpgradableEquipmentItem equipmentItem, EquipmentUpgrades newUpgrades)
+    {
+        equipmentItem.setUpgrades(stack, newUpgrades);
+        equipmentItem.onUpgradeRefresh(LTXIUtil.emptyLootContext(level), stack, newUpgrades);
     }
 }

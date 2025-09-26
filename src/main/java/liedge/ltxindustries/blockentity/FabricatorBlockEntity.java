@@ -38,13 +38,13 @@ public class FabricatorBlockEntity extends BaseFabricatorBlockEntity
         }
     }
 
-    private void stopCrafting(boolean insertResult, Level level)
+    private void stopCrafting(boolean insertResult, ServerLevel level)
     {
         getRecipeCheck().getLastUsedRecipe(level).ifPresent(holder ->
         {
             if (insertResult)
             {
-                getOutputInventory().insertItem(0, holder.value().generateFabricatingResult(level.random), false);
+                getOutputInventory().insertItem(0, holder.value().generateItemResult(level), false);
             }
 
             energyCraftProgress = 0;

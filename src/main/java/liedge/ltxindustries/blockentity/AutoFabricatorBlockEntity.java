@@ -83,7 +83,7 @@ public class AutoFabricatorBlockEntity extends BaseFabricatorBlockEntity
             }
             else // When done crafting
             {
-                getOutputInventory().insertItem(0, recipe.generateFabricatingResult(level.random), false);
+                getOutputInventory().insertItem(0, recipe.generateItemResult(level), false);
 
                 // Reset state & check recipe after every craft
                 energyCraftProgress = 0;

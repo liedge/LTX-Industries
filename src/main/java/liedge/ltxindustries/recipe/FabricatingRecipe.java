@@ -8,16 +8,18 @@ import liedge.limacore.network.LimaStreamCodecs;
 import liedge.limacore.recipe.ItemResult;
 import liedge.limacore.recipe.LimaCustomRecipe;
 import liedge.limacore.recipe.LimaRecipeInput;
+import liedge.ltxindustries.item.UpgradableEquipmentItem;
 import liedge.ltxindustries.menu.tooltip.FabricatorIngredientTooltip;
 import liedge.ltxindustries.registry.game.LTXIBlocks;
 import liedge.ltxindustries.registry.game.LTXIRecipeSerializers;
 import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
+import liedge.ltxindustries.util.LTXIUtil;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.stats.RecipeBook;
 import net.minecraft.util.ExtraCodecs;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
@@ -84,9 +86,15 @@ public final class FabricatingRecipe extends LimaCustomRecipe<LimaRecipeInput>
         return new FabricatorIngredientTooltip(getItemIngredients());
     }
 
-    public ItemStack generateFabricatingResult(RandomSource random)
+    public ItemStack generateItemResult(ServerLevel level)
     {
-        return getFirstItemResult().generateResult(random);
+        ItemStack stack = getFirstItemResult().generateResult(level.random);
+        if (stack.getItem() instanceof UpgradableEquipmentItem equipmentItem)
+        {
+            equipmentItem.onUpgradeRefresh(LTXIUtil.emptyLootContext(level), stack, equipmentItem.getUpgrades(stack));
+        }
+
+        return stack;
     }
 
     public ItemStack getFabricatingResultItem()
