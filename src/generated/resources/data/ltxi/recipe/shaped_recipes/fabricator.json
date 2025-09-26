@@ -8,15 +8,12 @@
     "c": {
       "item": "ltxi:t3_circuit"
     },
-    "p": {
-      "item": "ltxi:polymer_ingot"
-    },
     "t": {
       "item": "ltxi:titanium_ingot"
     }
   },
   "pattern": [
-    "pcp",
+    "tct",
     "cac",
     "ttt"
   ],

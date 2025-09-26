@@ -1,0 +1,32 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 250000,
+  "group": "ltx/weapon",
+  "ingredients": [
+    {
+      "count": 8,
+      "item": "ltxi:titanium_ingot"
+    },
+    {
+      "count": 3,
+      "tag": "c:dyes/lime"
+    },
+    {
+      "count": 8,
+      "item": "minecraft:glowstone_dust"
+    },
+    {
+      "count": 2,
+      "item": "ltxi:t1_circuit"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:equipment_upgrades": {
+        "ltxi:default/glowstick_launcher": 1
+      }
+    },
+    "count": 1,
+    "id": "ltxi:glowstick_launcher"
+  }
+}

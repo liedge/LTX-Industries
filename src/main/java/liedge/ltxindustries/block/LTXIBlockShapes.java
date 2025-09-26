@@ -16,6 +16,8 @@ public final class LTXIBlockShapes
             dimensionBox(1, 0, 1, 14, 2, 14),
             dimensionBox(2, 2, 2, 12, 16, 12));
 
+    public static final VoxelShape GLOWSTICK = dimensionBox(7, 0, 7, 2, 8, 2);
+
     public static final VoxelShape COOKING_MACHINE = Shapes.or(
             // Bottom frame base
             Block.box(0, 0, 0, 16, 4, 16),

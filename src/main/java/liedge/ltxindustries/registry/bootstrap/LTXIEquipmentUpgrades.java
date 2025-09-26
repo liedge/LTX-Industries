@@ -68,6 +68,7 @@ public final class LTXIEquipmentUpgrades
     public static final ResourceKey<EquipmentUpgrade> LTX_SHOVEL_DEFAULT = key("default/ltx_shovel");
     public static final ResourceKey<EquipmentUpgrade> LTX_WRENCH_DEFAULT = key("default/ltx_wrench");
     public static final ResourceKey<EquipmentUpgrade> LTX_MELEE_DEFAULT = key("default/ltx_melee");
+    public static final ResourceKey<EquipmentUpgrade> GLOWSTICK_LAUNCHER_DEFAULT = key("default/glowstick_launcher");
     public static final ResourceKey<EquipmentUpgrade> SUBMACHINE_GUN_DEFAULT = key("default/submachine_gun");
     public static final ResourceKey<EquipmentUpgrade> SHOTGUN_DEFAULT = key("default/shotgun");
     public static final ResourceKey<EquipmentUpgrade> LFR_DEFAULT = key("default/linear_fusion_rifle");
@@ -161,6 +162,20 @@ public final class LTXIEquipmentUpgrades
                 .withEffect(ENCHANTMENT_LEVEL, EnchantmentUpgradeEffect.constantLevel(enchantments.getOrThrow(Enchantments.LOOTING), 1))
                 .effectIcon(bottomRightComposite(sprite("razor"), sprite("default_overlay"), 7))
                 .category("default/tool")
+                .register(context);
+
+        DoubleLevelBasedValue gslEnergyCap = DoubleLevelBasedValue.constant(50_000);
+        DoubleLevelBasedValue gslEnergyUse = DoubleLevelBasedValue.constant(5000);
+        EquipmentUpgrade.builder(GLOWSTICK_LAUNCHER_DEFAULT)
+                .supports(LTXIItems.GLOWSTICK_LAUNCHER)
+                .exclusiveWith(holders, AMMO_SOURCE_MODIFIERS)
+                .withEffect(ENERGY_CAPACITY, ValueUpgradeEffect.of(gslEnergyCap, MathOperation.REPLACE))
+                .withEffect(ENERGY_USAGE, ValueUpgradeEffect.of(gslEnergyUse, MathOperation.REPLACE))
+                .withSpecialEffect(RELOAD_SOURCE, WeaponReloadSource.commonEnergy())
+                .tooltip(energyCapacityTooltip(gslEnergyCap, ValueSentiment.NEUTRAL, TooltipValueFormat.FLAT_NUMBER))
+                .tooltip(energyUsageTooltip(gslEnergyUse, ValueSentiment.NEUTRAL, TooltipValueFormat.FLAT_NUMBER))
+                .effectIcon(defaultModuleIcon(LTXIItems.GLOWSTICK_LAUNCHER))
+                .category("default/weapon")
                 .register(context);
         EquipmentUpgrade.builder(SUBMACHINE_GUN_DEFAULT)
                 .supports(LTXIItems.SUBMACHINE_GUN)

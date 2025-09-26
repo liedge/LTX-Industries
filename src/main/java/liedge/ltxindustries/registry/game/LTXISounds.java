@@ -27,6 +27,7 @@ public final class LTXISounds
     public static final DeferredHolder<SoundEvent, SoundEvent> WEAPON_MODE_SWITCH = registerSound("weapon_mode_switch");
     public static final DeferredHolder<SoundEvent, SoundEvent> TURRET_TARGET_FOUND = registerSound("turret_target_found");
 
+    public static final DeferredHolder<SoundEvent, SoundEvent> GLOWSTICK_LAUNCHER_FIRE = registerSound("glowstick_launcher_fire");
     public static final DeferredHolder<SoundEvent, SoundEvent> SUBMACHINE_GUN_LOOP = registerSound("submachine_gun_loop");
     public static final DeferredHolder<SoundEvent, SoundEvent> SHOTGUN_FIRE = registerSound("shotgun_fire");
     public static final DeferredHolder<SoundEvent, SoundEvent> GRENADE_LAUNCHER_FIRE = registerSound("grenade_launcher_fire");

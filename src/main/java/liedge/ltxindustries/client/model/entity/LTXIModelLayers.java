@@ -12,6 +12,7 @@ public final class LTXIModelLayers
         return new ModelLayerLocation(LTXIndustries.RESOURCES.location(name), "main");
     }
 
+    public static final ModelLayerLocation GLOWSTICK_PROJECTILE = mainLayer("glowstick_projectile");
     public static final ModelLayerLocation ROCKET = mainLayer("rocket");
     public static final ModelLayerLocation ORB_GRENADE = mainLayer("orb_grenade");
 }

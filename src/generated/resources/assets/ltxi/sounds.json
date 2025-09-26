@@ -32,6 +32,16 @@
     ],
     "subtitle": "subtitle.ltxi.flame_grenade_explode"
   },
+  "glowstick_launcher_fire": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "ltxi:grenade_launcher_fire",
+        "pitch": 1.25
+      }
+    ],
+    "subtitle": "subtitle.ltxi.glowstick_launcher_fire"
+  },
   "grenade_launcher_fire": {
     "sounds": [
       "ltxi:grenade_launcher_fire"

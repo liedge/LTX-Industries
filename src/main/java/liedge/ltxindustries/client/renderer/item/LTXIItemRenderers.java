@@ -30,6 +30,7 @@ public final class LTXIItemRenderers
     }
 
     // Weapons
+    public static final GlowstickLauncherRenderer GLOWSTICK_LAUNCHER = register(new GlowstickLauncherRenderer());
     public static final SMGRenderer SUBMACHINE_GUN = register(new SMGRenderer());
     public static final ShotgunRenderer SHOTGUN = register(new ShotgunRenderer());
     public static final GrenadeLauncherRenderer GRENADE_LAUNCHER = register(new GrenadeLauncherRenderer());

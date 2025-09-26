@@ -92,6 +92,8 @@ class LanguageGen extends LimaLanguageProvider
 
         addBlock(ROCKET_TURRET, italicName("%s A/DS Turret", "Atmos"));
         addBlock(RAILGUN_TURRET, italicName("%s A/DS Turret", "Noctis"));
+
+        addBlock(GLOWSTICK, "Glowstick");
         //#endregion
 
         // Fluids
@@ -166,6 +168,7 @@ class LanguageGen extends LimaLanguageProvider
         simpleHintItem(TARGETING_TECH_SALVAGE, "Salvaged Tech: Auto-Targeting Systems", "Broken electronics from a targeting computer. Might be useful in reconstructing guidance systems for weaponry.");
 
         addItem(SUBMACHINE_GUN, italicName("%s 07/SD", "Serenity"));
+        addItem(GLOWSTICK_LAUNCHER, italicName("%s 05/ID", "Wayfinder"));
         addItem(SHOTGUN, italicName("%s 21/SG", "Aurora"));
         addItem(GRENADE_LAUNCHER, italicName("%s 33/GL", "Hanabi"));
         addItem(LINEAR_FUSION_RIFLE, italicName("%s 38/LF", "Stargazer"));
@@ -183,6 +186,7 @@ class LanguageGen extends LimaLanguageProvider
         upgradeDescOnly(LTXIEquipmentUpgrades.LTX_SHOVEL_DEFAULT, "Standard issue operating system. Tool energy cutter preserves topographical integrity.");
         upgradeDescOnly(LTXIEquipmentUpgrades.LTX_WRENCH_DEFAULT, "Standard issue operating system. Enables lossless dismantling and retrieval of machines.");
         upgradeDescOnly(LTXIEquipmentUpgrades.LTX_MELEE_DEFAULT, "Standard issue operating system. Tool energy blade is optimized for efficient severing and disintegration of organic matter.");
+        upgrade(LTXIEquipmentUpgrades.GLOWSTICK_LAUNCHER_DEFAULT, "Wayfinder Intrinsics", "Wayfinder's energy feed system ships pre-configured to use Common Energy.");
         upgrade(LTXIEquipmentUpgrades.SUBMACHINE_GUN_DEFAULT, "Serenity Intrinsics", "Serenity's small light-frags zip right through targets without a trace.");
         upgrade(LTXIEquipmentUpgrades.SHOTGUN_DEFAULT, "Aurora Intrinsics", "Aurora's combat precepts, specialized in fast assault and scout operations.");
         upgrade(LTXIEquipmentUpgrades.LFR_DEFAULT, "Stargazer Intrinsics", "Stargazer's systems are calibrated for precise long-range engagements.");
@@ -265,6 +269,7 @@ class LanguageGen extends LimaLanguageProvider
         add(FABRICATING, "Fabricating");
 
         // Entity type names
+        addEntityType(LTXIEntities.GLOWSTICK_PROJECTILE, "Wayfinder Glowstick");
         addEntityType(LTXIEntities.ORB_GRENADE, "Orb Grenade");
         addEntityType(LTXIEntities.DAYBREAK_ROCKET, "Daybreak Rocket");
         addEntityType(LTXIEntities.TURRET_ROCKET, "Turret Rocket");
@@ -361,6 +366,7 @@ class LanguageGen extends LimaLanguageProvider
         soundEvent(UPGRADE_REMOVE, "Upgrade module removed");
         soundEvent(WEAPON_MODE_SWITCH, "Weapon mode switched");
         soundEvent(TURRET_TARGET_FOUND, "Turret finds targets");
+        soundEvent(GLOWSTICK_LAUNCHER_FIRE, "Wayfinder fires");
         soundEvent(SUBMACHINE_GUN_LOOP, "Serenity firing");
         soundEvent(SHOTGUN_FIRE, "Aurora fires");
         soundEvent(GRENADE_LAUNCHER_FIRE, "Hanabi fires");

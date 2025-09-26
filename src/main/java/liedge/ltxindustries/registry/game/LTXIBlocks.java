@@ -117,6 +117,7 @@ public final class LTXIBlocks
             .sound(SoundType.EMPTY)));
 
     // Technical blocks
+    public static final DeferredBlock<SurfaceStickingBlock> GLOWSTICK = BLOCKS.registerBlock("glowstick", properties -> new SurfaceStickingBlock(properties, LTXIBlockShapes.GLOWSTICK, true), of().noCollission().instabreak().pushReaction(PushReaction.DESTROY).lightLevel(state -> 15).noLootTable());
     public static final DeferredBlock<MeshBlock> MESH_BLOCK = BLOCKS.registerBlock("mesh_block", MeshBlock::new, machineProperties().dynamicShape().noOcclusion().noLootTable());
 
     // Helpers & initializers

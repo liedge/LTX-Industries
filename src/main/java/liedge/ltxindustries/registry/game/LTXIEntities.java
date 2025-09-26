@@ -1,10 +1,7 @@
 package liedge.ltxindustries.registry.game;
 
 import liedge.ltxindustries.LTXIndustries;
-import liedge.ltxindustries.entity.LimaTraceableProjectile;
-import liedge.ltxindustries.entity.BaseRocketEntity;
-import liedge.ltxindustries.entity.OrbGrenadeEntity;
-import liedge.ltxindustries.entity.StickyFlameEntity;
+import liedge.ltxindustries.entity.*;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -27,6 +24,7 @@ public final class LTXIEntities
     }
 
     // Entity types
+    public static final DeferredHolder<EntityType<?>, EntityType<GlowstickProjectileEntity>> GLOWSTICK_PROJECTILE = projectile("glowstick_projectile", GlowstickProjectileEntity::new, 0.25f, 0.25f, 10);
     public static final DeferredHolder<EntityType<?>, EntityType<OrbGrenadeEntity>> ORB_GRENADE = projectile("orb_grenade", OrbGrenadeEntity::new, 0.4f, 0.4f, 2);
     public static final DeferredHolder<EntityType<?>, EntityType<BaseRocketEntity.DaybreakRocket>> DAYBREAK_ROCKET = projectile("daybreak_rocket", BaseRocketEntity.DaybreakRocket::new, 0.6f, 0.6f, 2);
     public static final DeferredHolder<EntityType<?>, EntityType<BaseRocketEntity.TurretRocket>> TURRET_ROCKET = projectile("turret_rocket", BaseRocketEntity.TurretRocket::new, 0.6f, 0.6f, 2);

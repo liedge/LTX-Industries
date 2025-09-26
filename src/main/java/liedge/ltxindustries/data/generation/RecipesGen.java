@@ -117,7 +117,7 @@ class RecipesGen extends LimaRecipeProvider
         shaped(MIXER).input('t', TITANIUM_INGOT).input('c', T2_CIRCUIT).input('a', CAULDRON).input('g', TITANIUM_GLASS).patterns("tct", "gag", "tct").save(output);
         shaped(VOLTAIC_INJECTOR).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('a', STONE_PRESSURE_PLATE).input('r', LIGHTNING_ROD).patterns("tct", "rar", "tct").save(output);
         shaped(CHEM_LAB).input('t', TITANIUM_INGOT).input('c', T3_CIRCUIT).input('a', BREWING_STAND).input('g', TITANIUM_GLASS).patterns("tct", "gag", "tct").save(output);
-        shaped(FABRICATOR).input('p', POLYMER_INGOT).input('t', TITANIUM_INGOT).input('c', T3_CIRCUIT).input('a', CRAFTING_TABLE).patterns("pcp", "cac", "ttt").save(output);
+        shaped(FABRICATOR).input('t', TITANIUM_INGOT).input('c', T3_CIRCUIT).input('a', CRAFTING_TABLE).patterns("tct", "cac", "ttt").save(output);
         shaped(AUTO_FABRICATOR).input('p', POLYMER_INGOT).input('t', TITANIUM_INGOT).input('c', T3_CIRCUIT).input('s', SLATESTEEL_INGOT).input('g', TITANIUM_GLASS).input('a', CRAFTER)
                 .patterns("pcp", "gag", "tst").save(output);
         shaped(EQUIPMENT_UPGRADE_STATION).input('t', TITANIUM_INGOT).input('a', ANVIL).input('l', DYES_LIME).patterns("ttt",  "lal", "ttt").save(output);
@@ -312,6 +312,12 @@ class RecipesGen extends LimaRecipeProvider
                 .group("ltx/tool").save(output);
 
         // Weapons fabrication
+        upgradeableItemFabricating(GLOWSTICK_LAUNCHER, registries, 250_000)
+                .input(TITANIUM_INGOT, 8)
+                .input(DYES_LIME, 3)
+                .input(GLOWSTONE_DUST, 8)
+                .input(T1_CIRCUIT, 2)
+                .group("ltx/weapon").save(output);
         upgradeableItemFabricating(SUBMACHINE_GUN, registries, 500_000)
                 .input(TITANIUM_INGOT, 24)
                 .input(LTX_LIME_PIGMENT, 4)

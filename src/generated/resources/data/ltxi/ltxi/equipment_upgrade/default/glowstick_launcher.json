@@ -1,0 +1,68 @@
+{
+  "display": {
+    "category": "default/weapon",
+    "description": {
+      "translate": "equipment_upgrade.ltxi.default.glowstick_launcher.desc"
+    },
+    "icon": {
+      "type": "composite",
+      "background": {
+        "id": "ltxi:glowstick_launcher"
+      },
+      "overlay": "ltxi:default_overlay",
+      "overlay_size": 7,
+      "x_offset": 8,
+      "y_offset": 8
+    },
+    "title": {
+      "translate": "equipment_upgrade.ltxi.default.glowstick_launcher"
+    },
+    "tooltips": [
+      {
+        "args": [
+          {
+            "format": "flat",
+            "value": 50000.0
+          }
+        ],
+        "key": "upgrade_effect.ltxi.energy_capacity",
+        "style": {
+          "color": "#8BD1F0"
+        }
+      },
+      {
+        "args": [
+          {
+            "format": "flat",
+            "value": 5000.0
+          }
+        ],
+        "key": "upgrade_effect.ltxi.energy_usage",
+        "style": {
+          "color": "#8BD1F0"
+        }
+      }
+    ]
+  },
+  "effects": {
+    "ltxi:energy_capacity": [
+      {
+        "type": "simple",
+        "op": "replace",
+        "value": 50000.0
+      }
+    ],
+    "ltxi:energy_usage": [
+      {
+        "type": "simple",
+        "op": "replace",
+        "value": 5000.0
+      }
+    ],
+    "ltxi:reload_source": {
+      "type": "energy"
+    }
+  },
+  "exclusive_set": "#ltxi:ammo_source_modifiers",
+  "supported_set": "ltxi:glowstick_launcher"
+}

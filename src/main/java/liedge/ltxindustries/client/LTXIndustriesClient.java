@@ -14,11 +14,13 @@ import liedge.ltxindustries.client.gui.layer.WeaponHUDInfoLayer;
 import liedge.ltxindustries.client.gui.screen.*;
 import liedge.ltxindustries.client.model.baked.EmissiveBiLayerGeometry;
 import liedge.ltxindustries.client.model.custom.BubbleShieldModel;
+import liedge.ltxindustries.client.model.entity.GlowstickProjectileModel;
 import liedge.ltxindustries.client.model.entity.LTXIModelLayers;
 import liedge.ltxindustries.client.model.entity.OrbGrenadeModel;
 import liedge.ltxindustries.client.model.entity.RocketModel;
 import liedge.ltxindustries.client.particle.*;
 import liedge.ltxindustries.client.renderer.blockentity.*;
+import liedge.ltxindustries.client.renderer.entity.GlowstickProjectileRenderer;
 import liedge.ltxindustries.client.renderer.entity.OrbGrenadeRenderer;
 import liedge.ltxindustries.client.renderer.entity.RocketRenderer;
 import liedge.ltxindustries.client.renderer.entity.StickyFlameRenderer;
@@ -88,6 +90,7 @@ public class LTXIndustriesClient
             event.registerItem(UpgradeModuleItemExtensions.getInstance(), LTXIItems.EQUIPMENT_UPGRADE_MODULE.get(), LTXIItems.MACHINE_UPGRADE_MODULE.get());
             event.registerItem(BlueprintItemExtensions.INSTANCE, LTXIItems.FABRICATION_BLUEPRINT);
 
+            event.registerItem(LTXIItemRenderers.GLOWSTICK_LAUNCHER, LTXIItems.GLOWSTICK_LAUNCHER.get());
             event.registerItem(LTXIItemRenderers.SUBMACHINE_GUN, LTXIItems.SUBMACHINE_GUN.get());
             event.registerItem(LTXIItemRenderers.SHOTGUN, LTXIItems.SHOTGUN.get());
             event.registerItem(LTXIItemRenderers.GRENADE_LAUNCHER, LTXIItems.GRENADE_LAUNCHER.get());
@@ -157,6 +160,7 @@ public class LTXIndustriesClient
         public void registerEntityRenderers(final EntityRenderersEvent.RegisterRenderers event)
         {
             // Entities
+            event.registerEntityRenderer(LTXIEntities.GLOWSTICK_PROJECTILE.get(), GlowstickProjectileRenderer::new);
             event.registerEntityRenderer(LTXIEntities.ORB_GRENADE.get(), OrbGrenadeRenderer::new);
             event.registerEntityRenderer(LTXIEntities.DAYBREAK_ROCKET.get(), RocketRenderer::new);
             event.registerEntityRenderer(LTXIEntities.TURRET_ROCKET.get(), RocketRenderer::new);
@@ -177,6 +181,7 @@ public class LTXIndustriesClient
         @SubscribeEvent
         public void registerLayerDefinitions(final EntityRenderersEvent.RegisterLayerDefinitions event)
         {
+            event.registerLayerDefinition(LTXIModelLayers.GLOWSTICK_PROJECTILE, GlowstickProjectileModel::defineLayer);
             event.registerLayerDefinition(LTXIModelLayers.ORB_GRENADE, OrbGrenadeModel::defineLayer);
             event.registerLayerDefinition(LTXIModelLayers.ROCKET, RocketModel::defineLayer);
         }

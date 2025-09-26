@@ -11,6 +11,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.neoforged.neoforge.client.model.generators.BlockModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
@@ -105,19 +106,15 @@ class BlockStatesGen extends LimaBlockStateProvider
         liquidBlock(VIRIDIC_ACID_BLOCK);
 
         // Technical blocks
+        surfaceStickingBlock(GLOWSTICK, state -> existingModel(blockFolderLocation(state.getBlock())));
         getVariantBuilder(MESH_BLOCK).forAllStatesExcept(state -> ConfiguredModel.builder().modelFile(machineParticlesOnly).build(), HORIZONTAL_FACING, WATERLOGGED);
     }
 
-    private void oreCluster(Holder<Block> clusterBlock, ResourceLocation baseTexture, Holder<Block> rawOreBlock)
+    private void surfaceStickingBlock(Holder<Block> holder, Function<BlockState, ModelFile> modelFunction)
     {
-        ModelFile model = getBlockBuilder(clusterBlock)
-                .parent(existingModel(blockFolderLocation("raw_ore_cluster")))
-                .texture("base", baseTexture)
-                .texture("ore", blockFolderLocation(rawOreBlock));
-
-        getVariantBuilder(clusterBlock).forAllStatesExcept(state ->
+        getVariantBuilder(holder).forAllStatesExcept(state ->
         {
-            ConfiguredModel.Builder<?> builder = ConfiguredModel.builder().modelFile(model);
+            ConfiguredModel.Builder<?> builder = ConfiguredModel.builder().modelFile(modelFunction.apply(state));
             Direction facing = state.getValue(FACING);
 
             if (facing == Direction.DOWN)
@@ -132,7 +129,16 @@ class BlockStatesGen extends LimaBlockStateProvider
 
             return builder.build();
         }, WATERLOGGED);
+    }
 
+    private void oreCluster(Holder<Block> clusterBlock, ResourceLocation baseTexture, Holder<Block> rawOreBlock)
+    {
+        ModelFile model = getBlockBuilder(clusterBlock)
+                .parent(existingModel(blockFolderLocation("raw_ore_cluster")))
+                .texture("base", baseTexture)
+                .texture("ore", blockFolderLocation(rawOreBlock));
+
+        surfaceStickingBlock(clusterBlock, ignored -> model);
         simpleBlockItem(clusterBlock, model);
     }
 

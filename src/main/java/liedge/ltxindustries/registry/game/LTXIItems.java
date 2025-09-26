@@ -134,7 +134,8 @@ public final class LTXIItems
     public static final DeferredItem<SimpleHintItem> EMPTY_FABRICATION_BLUEPRINT = registerSimpleHint("empty_fabrication_blueprint");
     public static final DeferredItem<FabricationBlueprintItem> FABRICATION_BLUEPRINT = ITEMS.registerItem("fabrication_blueprint", FabricationBlueprintItem::new, properties().stacksTo(1));
 
-    // LTX Weapons
+    // Signature weapons
+    public static final DeferredItem<GlowstickLauncherItem> GLOWSTICK_LAUNCHER = registerLTXGear("glowstick_launcher", GlowstickLauncherItem::new);
     public static final DeferredItem<SubmachineGunItem> SUBMACHINE_GUN = registerLTXGear("submachine_gun", SubmachineGunItem::new);
     public static final DeferredItem<ShotgunItem> SHOTGUN = registerLTXGear("shotgun", ShotgunItem::new);
     public static final DeferredItem<GrenadeLauncherItem> GRENADE_LAUNCHER = registerLTXGear("grenade_launcher", GrenadeLauncherItem::new);
