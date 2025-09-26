@@ -3,10 +3,10 @@ navigation:
     title: Hanabi
     icon: grenade_launcher
     parent: weapons/index.md
-    position: 12
+    position: 133
 ---
 
-# LTX 33/GL *Hanabi*
+# *Hanabi* 33/GL
 <ItemImage id="grenade_launcher" scale="3" />
 
 ## Stats

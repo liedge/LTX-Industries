@@ -3,10 +3,10 @@ navigation:
     title: Stargazer
     icon: linear_fusion_rifle
     parent: weapons/index.md
-    position: 13
+    position: 138
 ---
 
-# LTX 38/LF *Stargazer*
+# *Stargazer* 38/LF
 <ItemImage id="linear_fusion_rifle" scale="3" />
 
 ## Stats

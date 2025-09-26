@@ -24,7 +24,7 @@ entirely mismatched.
 
 </GameScene>
 
-Inconveniently, Titanium and Niobium raw ore chunks spawn in much more dangerous locations than their[normal counterpart](ores.md).
+Inconveniently, Titanium and Niobium raw ore chunks spawn in much more dangerous locations than their [normal counterpart](ores.md).
 
 ### Titanium
 

@@ -3,10 +3,10 @@ navigation:
     title: Aurora
     icon: shotgun
     parent: weapons/index.md
-    position: 11
+    position: 121
 ---
 
-# LTX 21/SG *Aurora*
+# *Aurora* 21/SG
 <ItemImage id="shotgun" scale="3" />
 
 ## Stats

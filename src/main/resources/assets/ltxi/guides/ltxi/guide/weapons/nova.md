@@ -3,10 +3,10 @@ navigation:
     title: Nova
     icon: heavy_pistol
     parent: weapons/index.md
-    position: 15
+    position: 177
 ---
 
-# LTX 77/HX *Nova*
+# *Nova* 77/HX
 <ItemImage id="heavy_pistol" scale="3" />
 
 ## Stats

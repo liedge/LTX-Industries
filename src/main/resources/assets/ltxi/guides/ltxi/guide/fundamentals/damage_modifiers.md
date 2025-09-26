@@ -14,9 +14,9 @@ The global damage modifiers apply **after all upgrades**.
 
 ## Damage modifier table
 
-| Weapon          | Target Type   | Modifier |
-|-----------------|---------------|----------|
-| Submachine Gun  | High Threat   | -80%     |
-| Submachine Gun  | Medium Threat | -50%     |
-| Shotgun         | High Threat   | -45%     |
-| Shotgun         | Medium Threat | -40%     |
+| Weapon(s)   | Target Type   | Modifier |
+|-------------|---------------|----------|
+| Lightweight | High Threat   | -80%     |
+| Lightweight | Medium Threat | -50%     |
+| Specialist  | High Threat   | -40%     |
+| Specialist  | Medium Threat | -25%     |

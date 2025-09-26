@@ -3,10 +3,10 @@ navigation:
     title: Serenity
     icon: submachine_gun
     parent: weapons/index.md
-    position: 10
+    position: 107
 ---
 
-# LTX 07/SD *Serenity*
+# *Serenity* 07/SD
 <ItemImage id="submachine_gun" scale="3" />
 
 Don't let its size fool you, *Serenity*'s LightFrags are engineered to tear apart low threat, unarmored enemies at close

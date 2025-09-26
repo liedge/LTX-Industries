@@ -3,10 +3,10 @@ navigation:
     title: Daybreak
     icon: rocket_launcher
     parent: weapons/index.md
-    position: 14
+    position: 142
 ---
 
-# LTX 42/RL *Daybreak*
+# *Daybreak* 42/RL
 <ItemImage id="rocket_launcher" scale="3" />
 
 ## Stats
