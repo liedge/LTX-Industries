@@ -12,6 +12,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.material.Fluid;
 
 import static liedge.limacore.lib.ModResources.COMMON_NAMESPACE;
 import static liedge.ltxindustries.LTXIndustries.RESOURCES;
@@ -93,6 +94,19 @@ public final class LTXITags
         private static TagKey<Item> copy(TagKey<Block> blockTag)
         {
             return ItemTags.create(blockTag.location());
+        }
+    }
+
+    public static final class Fluids
+    {
+        private Fluids() {}
+
+        public static final TagKey<Fluid> HYDROGEN_FLUIDS = common("hydrogen");
+        public static final TagKey<Fluid> OXYGEN_FLUIDS = common("oxygen");
+
+        private static TagKey<Fluid> common(String name)
+        {
+            return COMMON_NAMESPACE.tagKey(Registries.FLUID, name);
         }
     }
 

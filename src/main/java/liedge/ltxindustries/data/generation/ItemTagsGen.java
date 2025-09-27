@@ -1,8 +1,8 @@
 package liedge.ltxindustries.data.generation;
 
 import liedge.limacore.data.generation.LimaTagsProvider;
-import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.LTXITags.Blocks;
+import liedge.ltxindustries.LTXIndustries;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.block.Block;
@@ -75,7 +75,7 @@ class ItemTagsGen extends LimaTagsProvider.ItemTags
         buildTag(BEACON_PAYMENT_ITEMS).add(TITANIUM_INGOT, NIOBIUM_INGOT, SLATESTEEL_INGOT); // Only add this mod's ingots
 
         buildTag(DEEPSLATE_DUSTS).add(DEEPSLATE_DUST);
-        buildTag(DUSTS).addTag(DEEPSLATE_DUSTS);
+        buildTag(DUSTS).add(CARBON_DUST).addTag(DEEPSLATE_DUSTS);
 
         buildTag(NEON_LIGHT_MATERIALS).add(GLOWSTONE, GLOW_INK_SAC, GLOW_BERRIES);
 

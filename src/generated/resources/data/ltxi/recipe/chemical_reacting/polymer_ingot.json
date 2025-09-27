@@ -3,7 +3,7 @@
   "fluid_ingredients": [
     {
       "amount": 100,
-      "fluid": "ltxi:oxygen"
+      "tag": "c:oxygen"
     }
   ],
   "ingredients": [

@@ -57,11 +57,12 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
+import static liedge.ltxindustries.LTXITags.Fluids.HYDROGEN_FLUIDS;
+import static liedge.ltxindustries.LTXITags.Fluids.OXYGEN_FLUIDS;
 import static liedge.ltxindustries.LTXITags.Items.NEON_LIGHT_MATERIALS;
 import static liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades.*;
 import static liedge.ltxindustries.registry.bootstrap.LTXIMachineUpgrades.*;
 import static liedge.ltxindustries.registry.game.LTXIBlocks.*;
-import static liedge.ltxindustries.registry.game.LTXIFluids.HYDROGEN;
 import static liedge.ltxindustries.registry.game.LTXIFluids.VIRIDIC_ACID;
 import static liedge.ltxindustries.registry.game.LTXIItems.*;
 import static net.minecraft.world.item.Items.*;
@@ -747,7 +748,7 @@ class RecipesGen extends LimaRecipeProvider
         fusing().input(NETHERITE_ORE_PEBBLES, 2).input(GOLD_INGOT).output(NETHERITE_INGOT).save(output, "pebble_netherite");
         fusing().input(NETHERITE_SCRAP, 4).input(GOLD_INGOT, 1).output(NETHERITE_INGOT).save(output, "scrap_netherite");
         NEON_LIGHTS.forEach((color, holder) -> fusing().input(NEON_LIGHT_MATERIALS, 2).input(neonLightDye(color)).time(80).output(holder, 8).save(output));
-        fusing().input(IRON_INGOT).input(CARBON_DUST).input(DEEPSLATE_DUST, 4).fluidInput(LTXIFluids.OXYGEN, 250).time(400).output(SLATESTEEL_INGOT).save(output);
+        fusing().input(IRON_INGOT).input(CARBON_DUST).input(DEEPSLATE_DUST, 4).fluidInput(OXYGEN_FLUIDS, 250).time(400).output(SLATESTEEL_INGOT).save(output);
         fusing().input(TITANIUM_INGOT).input(GEMS_QUARTZ, 3).output(TITANIUM_GLASS, 2).save(output);
         fusing().input(AMETHYST_SHARD).input(SCULK_CHEMICAL, 4).output(ECHO_SHARD).time(400).save(output);
     }
@@ -806,12 +807,12 @@ class RecipesGen extends LimaRecipeProvider
 
     private void chemLabRecipes(RecipeOutput output)
     {
-        chemLab().input(MONOMER_CHEMICAL).fluidInput(LTXIFluids.OXYGEN, 100).output(POLYMER_INGOT).save(output);
+        chemLab().input(MONOMER_CHEMICAL).fluidInput(OXYGEN_FLUIDS, 100).output(POLYMER_INGOT).save(output);
         chemLab().input(POLYMER_INGOT).input(COPPER_INGOT, 2).fluidInput(VIRIDIC_ACID, 125).output(CIRCUIT_BOARD).save(output);
         chemLab()
                 .input(ELECTRIC_CHEMICAL, 2)
                 .fluidInput(VIRIDIC_ACID, 8000)
-                .fluidInput(HYDROGEN, 2000)
+                .fluidInput(HYDROGEN_FLUIDS, 2000)
                 .output(VIRIDIC_WEAPON_CHEMICAL)
                 .time(900)
                 .save(output);
