@@ -1,7 +1,7 @@
 package liedge.ltxindustries.blockentity;
 
 import liedge.ltxindustries.LTXITags;
-import liedge.ltxindustries.entity.BaseRocketEntity;
+import liedge.ltxindustries.entity.TurretRocketEntity;
 import liedge.ltxindustries.lib.TurretTargetList;
 import liedge.ltxindustries.registry.game.LTXIBlockEntities;
 import liedge.ltxindustries.registry.game.LTXISounds;
@@ -60,7 +60,7 @@ public class RocketTurretBlockEntity extends BaseTurretBlockEntity
         if (ticker >= 5)
         {
             Vec3 start = getProjectileStart();
-            BaseRocketEntity.TurretRocket rocket = new BaseRocketEntity.TurretRocket(level, this);
+            TurretRocketEntity rocket = new TurretRocketEntity(level, this);
             rocket.setOwner(owner);
             rocket.setPos(start);
             rocket.aimTowardsEntity(target, 2.5f, 0);

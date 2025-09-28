@@ -2,30 +2,14 @@ package liedge.ltxindustries.entity;
 
 import liedge.limacore.client.particle.ColorParticleOptions;
 import liedge.limacore.client.particle.ColorSizeParticleOptions;
-import liedge.limacore.data.LimaCoreCodecs;
-import liedge.limacore.util.LimaBlockUtil;
-import liedge.limacore.util.LimaNbtUtil;
 import liedge.limacore.util.LimaNetworkUtil;
 import liedge.ltxindustries.LTXIConstants;
-import liedge.ltxindustries.blockentity.RocketTurretBlockEntity;
-import liedge.ltxindustries.entity.damage.TurretDamageSource;
-import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrades;
-import liedge.ltxindustries.registry.bootstrap.LTXIDamageTypes;
-import liedge.ltxindustries.registry.game.LTXIEntities;
-import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.registry.game.LTXIParticles;
 import liedge.ltxindustries.registry.game.LTXISounds;
-import liedge.ltxindustries.util.config.LTXIMachinesConfig;
-import liedge.ltxindustries.util.config.LTXIWeaponsConfig;
-import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtOps;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -71,89 +55,6 @@ public abstract class BaseRocketEntity extends AutoTrackingProjectile
             double dx = getX() + (random.nextDouble() - random.nextDouble()) * 0.35d;
             double dz = getZ() + (random.nextDouble() - random.nextDouble()) * 0.35d;
             level.addAlwaysVisibleParticle(new ColorSizeParticleOptions(LTXIParticles.COLOR_GLITTER, LTXIConstants.LIME_GREEN, 1.75f), true, dx, getY(0.5d), dz, 0, 0, 0);
-        }
-    }
-
-    public static class TurretRocket extends BaseRocketEntity
-    {
-        private MachineUpgrades upgrades = MachineUpgrades.EMPTY;
-        private @Nullable BlockPos turretPos;
-
-        public TurretRocket(EntityType<?> type, Level level, @Nullable BlockPos turretPos)
-        {
-            super(type, level);
-            this.turretPos = turretPos;
-        }
-
-        public TurretRocket(EntityType<?> type, Level level)
-        {
-            this(type, level, null);
-        }
-
-        public TurretRocket(Level level, RocketTurretBlockEntity blockEntity)
-        {
-            this(LTXIEntities.TURRET_ROCKET.get(), level, blockEntity.getBlockPos());
-            this.upgrades = blockEntity.getUpgrades();
-        }
-
-        @Override
-        protected boolean shouldImpactPostGameEvent(Level level, HitResult hitResult, Vec3 hitLocation)
-        {
-            return true;
-        }
-
-        @Override
-        protected void damageTarget(Level level, @Nullable LivingEntity owner, Entity targetEntity, Vec3 hitLocation, boolean isDirectHit)
-        {
-            float baseDamage = (float) LTXIMachinesConfig.ATMOS_TURRET_ROCKET_DAMAGE.getAsDouble();
-
-            RocketTurretBlockEntity be = turretPos != null ? LimaBlockUtil.getSafeBlockEntity(level, turretPos, RocketTurretBlockEntity.class) : null;
-            if (be != null)
-            {
-                // Auto-wrap player owners with a Fake Player instance that has the turret's enchantments
-                LTXIEntityUtil.hurtWithEnchantedFakePlayer((ServerLevel) level, targetEntity, owner, be.getUpgrades(), le -> TurretDamageSource.create(level, LTXIDamageTypes.TURRET_ROCKET, be, this, le, null), baseDamage);
-            }
-            else
-            {
-                targetEntity.hurt(level.damageSources().source(LTXIDamageTypes.TURRET_ROCKET, this, owner), baseDamage); // Standard damage source if parent turret is missing/invalid
-            }
-        }
-
-        @Override
-        protected void readAdditionalSaveData(CompoundTag tag)
-        {
-            super.readAdditionalSaveData(tag);
-            upgrades = readMachineUpgrades(tag);
-            if (tag.contains("turret_pos")) turretPos = LimaNbtUtil.strictDecode(BlockPos.CODEC, NbtOps.INSTANCE, tag, "turret_pos");
-        }
-
-        @Override
-        protected void addAdditionalSaveData(CompoundTag tag)
-        {
-            super.addAdditionalSaveData(tag);
-            writeMachineUpgrades(upgrades, tag);
-            if (turretPos != null) tag.put("turret_pos", LimaCoreCodecs.strictEncode(BlockPos.CODEC, NbtOps.INSTANCE, turretPos));
-        }
-    }
-
-    public static class DaybreakRocket extends BaseRocketEntity
-    {
-        public DaybreakRocket(EntityType<?> type, Level level)
-        {
-            super(type, level);
-        }
-
-        public DaybreakRocket(Level level, ItemStack launcherItem)
-        {
-            this(LTXIEntities.DAYBREAK_ROCKET.get(), level);
-            setLauncherItem(launcherItem);
-        }
-
-        @Override
-        protected void damageTarget(Level level, @Nullable LivingEntity owner, Entity targetEntity, Vec3 hitLocation, boolean isDirectHit)
-        {
-            double baseDamage = isDirectHit ? LTXIWeaponsConfig.ROCKET_LAUNCHER_BASE_IMPACT_DAMAGE.getAsDouble() : LTXIWeaponsConfig.ROCKET_LAUNCHER_BASE_SPLASH_DAMAGE.getAsDouble();
-            LTXIItems.ROCKET_LAUNCHER.get().causeProjectileDamage(getLauncherItem(), this, owner, LTXIDamageTypes.ROCKET_LAUNCHER, targetEntity, baseDamage);
         }
     }
 }
