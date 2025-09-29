@@ -48,7 +48,7 @@ public class ShotgunItem extends SemiAutoWeaponItem
 
             for (int i = 0; i < 7; i++)
             {
-                CompoundHitResult hitResult = CompoundHitResult.tracePath(level, player, getWeaponRange(heldItem), 6.5d, getEntityMaxHits(heldItem), getBlockPierceDistance(heldItem), DynamicClipContext.FluidCollisionPredicate.NONE,
+                CompoundHitResult hitResult = CompoundHitResult.tracePath(level, player, getUpgrades(heldItem), getWeaponRange(heldItem), 6.5d, getEntityMaxHits(heldItem), getBlockPierceDistance(heldItem), DynamicClipContext.FluidCollisionPredicate.NONE,
                         hit -> hit.getBoundingBox().getSize() <= 1d ? 0.75d : 0.375d);
                 hitResult.entityHits().forEach(hit -> pelletHits.mergeInt(hit.getEntity(), 1, Integer::sum));
 

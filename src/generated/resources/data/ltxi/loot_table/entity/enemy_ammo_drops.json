@@ -7,7 +7,7 @@
         {
           "condition": "limacore:hostility",
           "first": "this",
-          "min": "hostile",
+          "min": "neutral_enemy",
           "second": "attacker"
         },
         {

@@ -22,7 +22,7 @@ public class EquipmentRocketEntity extends BaseRocketEntity
     public EquipmentRocketEntity(Level level, ItemStack launcherItem)
     {
         this(LTXIEntities.DAYBREAK_ROCKET.get(), level);
-        setLauncherItem(launcherItem);
+        setLauncherItem(launcherItem.copy());
     }
 
     @Override

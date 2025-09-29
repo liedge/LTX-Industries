@@ -272,7 +272,7 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
     {
         if (!level.isClientSide())
         {
-            CompoundHitResult hitResult = CompoundHitResult.tracePath(level, player, getWeaponRange(stack), inaccuracy, getEntityMaxHits(stack), getBlockPierceDistance(stack), DynamicClipContext.FluidCollisionPredicate.NONE, bbExpansion);
+            CompoundHitResult hitResult = CompoundHitResult.tracePath(level, player, getUpgrades(stack), getWeaponRange(stack), inaccuracy, getEntityMaxHits(stack), getBlockPierceDistance(stack), DynamicClipContext.FluidCollisionPredicate.NONE, bbExpansion);
             hitResult.entityHits().forEach(hit -> causeLightfragDamage(stack, player, hit.getEntity(), baseDamage));
             level.gameEvent(player, LTXIGameEvents.WEAPON_FIRED, player.getEyePosition());
             sendTracerParticle(level, hitResult.origin(), hitResult.impactLocation());

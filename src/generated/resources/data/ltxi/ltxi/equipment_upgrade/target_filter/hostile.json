@@ -1,0 +1,25 @@
+{
+  "display": {
+    "category": "target_filters",
+    "description": {
+      "translate": "equipment_upgrade.ltxi.target_filter.hostile.desc"
+    },
+    "icon": "ltxi:hostile_targets",
+    "title": {
+      "color": "#FC501C",
+      "translate": "equipment_upgrade.ltxi.target_filter.hostile"
+    }
+  },
+  "effects": {
+    "ltxi:target_conditions": [
+      {
+        "condition": "limacore:hostility",
+        "first": "this",
+        "min": "hostile",
+        "second": "attacker"
+      }
+    ]
+  },
+  "exclusive_set": [],
+  "supported_set": "#ltxi:weapons"
+}

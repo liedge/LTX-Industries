@@ -208,6 +208,8 @@ class LanguageGen extends LimaLanguageProvider
         upgrade(LTXIEquipmentUpgrades.EXPLOSIVES_ENERGY_ADAPTER, "Explosives Energy Adapter", "Reroutes the energy feed system of Explosives weaponry to use Common Energy.");
         upgrade(LTXIEquipmentUpgrades.HEAVY_ENERGY_ADAPTER, "Heavy Energy Adapter", "Reroutes the energy feed system of Heavy weaponry to use Common Energy.");
         upgrade(LTXIEquipmentUpgrades.UNIVERSAL_INFINITE_AMMO, "//ERR~MAG-Z!!-NE//∞", "Ignore the laws of physics with this never-ending ammo source. Try not to cause a mass extinction event.");
+        upgrade(LTXIEquipmentUpgrades.NEUTRAL_ENEMY_TARGET_FILTER, "Engagement Protocol: Preemption", "Weapon systems restrict engagement to neutral enemies and hostile targets.");
+        upgrade(LTXIEquipmentUpgrades.HOSTILE_TARGET_FILTER, "Engagement Protocol: Rectification", "Weapon systems restrict engagement to actively hostile targets.");
         upgrade(LTXIEquipmentUpgrades.HIGH_IMPACT_ROUNDS, "High Impact Rounds", "Light-frags with a punch! Send targets flying back regardless of their knockback resistances.");
         upgrade(LTXIEquipmentUpgrades.HEAVY_PISTOL_GOD_ROUNDS, "Stellar Reality Disruptor", "Rip through reality itself with this Nova upgrade. Ensures swift defeat of even the strongest enemies.");
 

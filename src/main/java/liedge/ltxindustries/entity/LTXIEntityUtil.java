@@ -2,10 +2,13 @@ package liedge.ltxindustries.entity;
 
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
+import liedge.limacore.util.LimaCoreUtil;
 import liedge.limacore.util.LimaEntityUtil;
 import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.lib.upgrades.UpgradesContainerBase;
 import liedge.ltxindustries.registry.game.LTXICriterionTriggers;
+import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
+import liedge.ltxindustries.util.LTXIUtil;
 import liedge.ltxindustries.util.config.LTXIServerConfig;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
@@ -21,15 +24,20 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.phys.*;
 import net.neoforged.neoforge.common.util.FakePlayerFactory;
+import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.entity.PartEntity;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.List;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public final class LTXIEntityUtil
@@ -68,12 +76,42 @@ public final class LTXIEntityUtil
         return true;
     }
 
-    public static boolean isValidWeaponTarget(@Nullable Entity attackingEntity, Entity target)
+    public static boolean checkTurretTargetValidity(@Nullable Entity attackingEntity, Entity target, UpgradesContainerBase<?, ?> upgrades, Predicate<Entity> defaultTurretTargets)
     {
-        return isValidWeaponTarget(attackingEntity, target, 0);
+        if (!checkBaseTargetValidity(attackingEntity, target)) return false;
+
+        TriState result = checkUpgradeTargetValidity(attackingEntity, target, upgrades);
+        return result.isDefault() ? defaultTurretTargets.test(target) : result.isTrue();
     }
 
-    private static boolean isValidWeaponTarget(@Nullable Entity attackingEntity, Entity target, int recursionDepth)
+    public static boolean checkWeaponTargetValidity(@Nullable Entity attackingEntity, Entity target, UpgradesContainerBase<?, ?> upgrades)
+    {
+        return checkBaseTargetValidity(attackingEntity, target) && !checkUpgradeTargetValidity(attackingEntity, target, upgrades).isFalse();
+    }
+
+    public static TriState checkUpgradeTargetValidity(@Nullable Entity attackingEntity, Entity target, UpgradesContainerBase<?, ?> upgrades)
+    {
+        ServerLevel level = LimaCoreUtil.castOrThrow(ServerLevel.class, target.level(), "Upgrades target check called on client.");
+        LootContext context = LTXIUtil.chestLootContext(level, target, attackingEntity);
+
+        List<LootItemCondition> conditions = upgrades.effectFlatStream(LTXIUpgradeEffectComponents.TARGET_CONDITIONS).toList();
+        if (conditions.isEmpty())
+        {
+            return TriState.DEFAULT;
+        }
+        else
+        {
+            boolean result = conditions.stream().allMatch(o -> o.test(context));
+            return result ? TriState.TRUE : TriState.FALSE;
+        }
+    }
+
+    public static boolean checkBaseTargetValidity(@Nullable Entity attackingEntity, Entity target)
+    {
+        return checkBaseTargetValidity(attackingEntity, target, 0);
+    }
+
+    private static boolean checkBaseTargetValidity(@Nullable Entity attackingEntity, Entity target, int recursionDepth)
     {
         if (recursionDepth > MAX_ENTITY_CHECK_RECURSION) return false;
 
@@ -92,7 +130,7 @@ public final class LTXIEntityUtil
             case OwnableEntity ownable when validAttacker && ownable.getOwner() == attackingEntity -> false;
 
             // Don't hurt part entities if their parent entity is dead
-            case PartEntity<?> part when !isValidWeaponTarget(attackingEntity, part.getParent(), recursionDepth + 1) -> false;
+            case PartEntity<?> part when !checkBaseTargetValidity(attackingEntity, part.getParent(), recursionDepth + 1) -> false;
 
             // Check pvp rules if target is a player
             case Player player when !checkPlayerPVPRule(attackingEntity, player) -> false;
@@ -142,14 +180,14 @@ public final class LTXIEntityUtil
         }
     }
 
-    public static <T extends Entity & TraceableEntity> HitResult traceProjectileEntityPath(Level level, T projectile, ClipContext.Block blockCollision, ClipContext.Fluid fluidCollision, double bbExpansion)
+    public static HitResult traceProjectileEntityPath(Level level, LimaTraceableEntity projectile, ClipContext.Block blockCollision, ClipContext.Fluid fluidCollision, double bbExpansion)
     {
         Vec3 origin = projectile.position();
         Vec3 path = projectile.getDeltaMovement();
         BlockHitResult blockTrace = level.clip(new ClipContext(origin, origin.add(path), blockCollision, fluidCollision, projectile));
         Vec3 impact = blockTrace.getLocation();
 
-        EntityHitResult entityTrace = level.getEntities(projectile, projectile.getBoundingBox().expandTowards(path).inflate(0.3d), hit -> isValidWeaponTarget(projectile.getOwner(), hit))
+        EntityHitResult entityTrace = level.getEntities(projectile, projectile.getBoundingBox().expandTowards(path).inflate(0.3d), hit -> checkWeaponTargetValidity(projectile.getOwner(), hit, projectile.getUpgrades()))
                 .stream()
                 .sorted(Comparator.comparingDouble(hit -> hit.distanceToSqr(origin)))
                 .flatMap(hit -> Stream.ofNullable(clipEntityBoundingBox(hit, origin, impact, bbExpansion)))

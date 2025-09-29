@@ -97,7 +97,7 @@ class LootTablesGen extends LimaLootTableProvider
 
             // Ammo drops table
             LootPool.Builder ammoDrops = LootPool.lootPool()
-                    .when(EntityHostilityLootCondition.atLeast(MobHostility.HOSTILE))
+                    .when(EntityHostilityLootCondition.atLeast(MobHostility.NEUTRAL_ENEMY))
                     .when(LootItemRandomChanceWithEnchantedBonusCondition.randomChanceAndLootingBoost(registries, 0.1f, 0.02f))
                     .add(lootItem(LIGHTWEIGHT_WEAPON_ENERGY).setWeight(80))
                     .add(DynamicWeightLootEntry.dynamicWeightItem(SPECIALIST_WEAPON_ENERGY, 15).setReplaceWeight(false).setDynamicWeight(TargetedEnchantmentLevelProvider.of(LootContext.EntityTarget.ATTACKER, ammoScavengerEnchantment, LevelBasedValue.perLevel(6))))

@@ -186,7 +186,7 @@ public abstract class BaseTurretBlockEntity extends ProductionMachineBlockEntity
             if (maxTargets > 0)
             {
                 level.getProfiler().push("turretTargetScan");
-                List<Entity> foundTargets = level.getEntities(owner, getTargetArea(), e -> isValidTarget(e) && LTXIEntityUtil.isValidWeaponTarget(owner, e) && !targetList.containsTarget(e))
+                List<Entity> foundTargets = level.getEntities(owner, getTargetArea(), e -> LTXIEntityUtil.checkTurretTargetValidity(owner, e, getUpgrades(), this::isValidTarget) && !targetList.containsTarget(e))
                         .stream()
                         .sorted(targetsComparator())
                         .distinct()

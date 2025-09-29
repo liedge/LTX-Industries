@@ -50,7 +50,7 @@ public class OrbGrenadeEntity extends LimaTraceableProjectile implements IEntity
     {
         this(LTXIEntities.ORB_GRENADE.get(), level);
         this.grenadeType = grenadeType;
-        setLauncherItem(launcherItem);
+        setLauncherItem(launcherItem.copy());
     }
 
     public GrenadeType getGrenadeType()

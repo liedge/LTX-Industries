@@ -10,6 +10,7 @@ import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.neoforged.neoforge.registries.holdersets.OrHolderSet;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +22,16 @@ public final class LTXIUtil
     public static LootContext emptyLootContext(ServerLevel level)
     {
         LootParams params = new LootParams.Builder(level).create(LootContextParamSets.EMPTY);
+        return new LootContext.Builder(params).create(Optional.empty());
+    }
+
+    public static LootContext chestLootContext(ServerLevel level, Entity target, @Nullable Entity attacker)
+    {
+        LootParams params = new LootParams.Builder(level)
+                .withParameter(LootContextParams.ORIGIN, target.position())
+                .withOptionalParameter(LootContextParams.THIS_ENTITY, target)
+                .withOptionalParameter(LootContextParams.ATTACKING_ENTITY, attacker)
+                .create(LootContextParamSets.CHEST);
         return new LootContext.Builder(params).create(Optional.empty());
     }
 

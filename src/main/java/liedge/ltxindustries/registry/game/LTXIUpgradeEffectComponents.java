@@ -14,6 +14,7 @@ import net.minecraft.world.item.enchantment.ConditionalEffect;
 import net.minecraft.world.item.enchantment.TargetedConditionalEffect;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
@@ -35,6 +36,7 @@ public final class LTXIUpgradeEffectComponents
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ValueUpgradeEffect>>> ENERGY_TRANSFER_RATE = COMPONENTS.registerValue("energy_transfer_rate");
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ValueUpgradeEffect>>> ENERGY_USAGE = COMPONENTS.registerValue("energy_usage");
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<DirectDropsUpgradeEffect>>> DIRECT_DROPS = COMPONENTS.register("direct_drops", () -> UpgradeDataComponentType.listOf(DirectDropsUpgradeEffect.CODEC));
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<LootItemCondition>>> TARGET_CONDITIONS = COMPONENTS.register("target_conditions", () -> UpgradeDataComponentType.custom(ConditionalEffect.conditionCodec(LootContextParamSets.CHEST).listOf()));
 
     // Equipment related
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<EnchantmentUpgradeEffect>>> ENCHANTMENT_LEVEL = COMPONENTS.register("enchantments", () -> UpgradeDataComponentType.listOf(EnchantmentUpgradeEffect.CODEC));
@@ -55,7 +57,7 @@ public final class LTXIUpgradeEffectComponents
 
     // Machine related
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ValueUpgradeEffect>>> MACHINE_ENERGY_PRODUCTION = COMPONENTS.registerValue("energy_production");
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> MINIMUM_MACHINE_SPEED = COMPONENTS.register("minimum_speed", () -> UpgradeDataComponentType.of(ExtraCodecs.NON_NEGATIVE_INT,
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> MINIMUM_MACHINE_SPEED = COMPONENTS.register("minimum_speed", () -> UpgradeDataComponentType.custom(ExtraCodecs.NON_NEGATIVE_INT,
             (i, lines) -> lines.accept(LTXILangKeys.MINIMUM_MACHINE_SPEED_EFFECT.translateArgs(i))));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ValueUpgradeEffect>>> TICKS_PER_OPERATION = COMPONENTS.registerValue("ticks_per_operation");
 

@@ -1,7 +1,6 @@
 package liedge.ltxindustries.entity;
 
 import liedge.limacore.util.LimaMathUtil;
-import liedge.ltxindustries.item.UpgradableEquipmentItem;
 import liedge.ltxindustries.registry.game.LTXIGameEvents;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -71,11 +70,6 @@ public abstract class LimaTraceableProjectile extends LimaTraceableEntity
     protected HitResult tracePath(Level level)
     {
         return LTXIEntityUtil.traceProjectileEntityPath(level, this, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, getBoundingBox().getSize());
-    }
-
-    protected boolean shouldImpactPostGameEvent(Level level, HitResult hitResult, Vec3 hitLocation)
-    {
-        return UpgradableEquipmentItem.getEquipmentUpgradesFromStack(getLauncherItem()).noneMatch(LTXIUpgradeEffectComponents.PREVENT_VIBRATION.get(), (effect, rank) -> effect.apply(null, LTXIGameEvents.PROJECTILE_IMPACT));
     }
 
     protected abstract void onProjectileHit(Level level, HitResult hitResult, Vec3 hitLocation);
@@ -156,7 +150,8 @@ public abstract class LimaTraceableProjectile extends LimaTraceableEntity
                 setPos(hitLocation);
                 onProjectileHit(level, hitResult, hitLocation);
 
-                if (shouldImpactPostGameEvent(level, hitResult, hitLocation))
+                boolean postGameEvent = getUpgrades().noneMatch(LTXIUpgradeEffectComponents.PREVENT_VIBRATION.get(), (effect, rank) -> effect.apply(null, LTXIGameEvents.PROJECTILE_IMPACT));
+                if (postGameEvent)
                 {
                     level.gameEvent(getOwner(), LTXIGameEvents.PROJECTILE_IMPACT, hitLocation);
                 }

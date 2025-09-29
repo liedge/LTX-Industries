@@ -5,6 +5,8 @@ import it.unimi.dsi.fastutil.objects.ObjectSet;
 import liedge.limacore.LimaCommonConstants;
 import liedge.limacore.util.LimaBlockUtil;
 import liedge.limacore.util.LimaNbtUtil;
+import liedge.ltxindustries.item.UpgradableEquipmentItem;
+import liedge.ltxindustries.lib.upgrades.UpgradesContainerBase;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrades;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
@@ -46,7 +48,7 @@ public abstract class LimaTraceableEntity extends Entity implements TraceableEnt
         super(entityType, level);
     }
 
-    public ItemStack getLauncherItem()
+    protected ItemStack getLauncherItem()
     {
         return launcherItem;
     }
@@ -54,6 +56,11 @@ public abstract class LimaTraceableEntity extends Entity implements TraceableEnt
     public void setLauncherItem(ItemStack launcherItem)
     {
         this.launcherItem = launcherItem;
+    }
+
+    public UpgradesContainerBase<?, ?> getUpgrades()
+    {
+        return UpgradableEquipmentItem.getEquipmentUpgradesFromStack(getLauncherItem());
     }
 
     @Override
@@ -87,7 +94,7 @@ public abstract class LimaTraceableEntity extends Entity implements TraceableEnt
     // AOE Helpers
     protected List<Entity> getEntitiesInAOE(Level level, AABB aabb, @Nullable LivingEntity owner, @Nullable Entity directHit)
     {
-        return level.getEntities(this, aabb, e -> LTXIEntityUtil.isValidWeaponTarget(owner, e) && !Objects.equals(directHit, e));
+        return level.getEntities(this, aabb, e -> LTXIEntityUtil.checkWeaponTargetValidity(owner, e, getUpgrades()) && !Objects.equals(directHit, e));
     }
 
     protected List<Entity> getEntitiesInAOE(Level level, Vec3 hitLocation, double radius, @Nullable LivingEntity owner, @Nullable Entity directHit)

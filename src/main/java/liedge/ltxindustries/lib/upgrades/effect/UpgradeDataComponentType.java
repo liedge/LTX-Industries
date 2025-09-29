@@ -8,7 +8,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.enchantment.ConditionalEffect;
 import net.minecraft.world.item.enchantment.TargetedConditionalEffect;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -18,19 +17,24 @@ public abstract class UpgradeDataComponentType<T> extends LimaDataComponentType<
 {
     public static final Codec<DataComponentType<?>> CODEC = Codec.lazyInitialized(LTXIRegistries.UPGRADE_COMPONENT_TYPES::byNameCodec);
 
-    public static <T extends UpgradeTooltipsProvider> UpgradeDataComponentType<T> of(Codec<T> codec)
+    public static <T> UpgradeDataComponentType<T> custom(Codec<T> codec)
     {
-        return new DirectSingleType<>(codec);
+        return new CustomType<>(codec, CustomType.NO_TOOLTIP_OP);
     }
 
-    public static <T> UpgradeDataComponentType<T> of(Codec<T> codec, @Nullable BiConsumer<T, Consumer<Component>> tooltipFunction)
+    public static <T> UpgradeDataComponentType<T> custom(Codec<T> codec, BiConsumer<? super T, Consumer<Component>> tooltipFunction)
     {
-        return new CustomSingleType<>(codec, tooltipFunction);
+        return new CustomType<>(codec, tooltipFunction);
+    }
+
+    public static <T extends UpgradeTooltipsProvider> UpgradeDataComponentType<T> of(Codec<T> codec)
+    {
+        return new SingleType<>(codec);
     }
 
     public static <T extends UpgradeTooltipsProvider> UpgradeDataComponentType<List<T>> listOf(Codec<T> elementCodec)
     {
-        return new DirectListType<>(elementCodec.listOf());
+        return new ListType<>(elementCodec.listOf());
     }
 
     public static <T extends UpgradeTooltipsProvider> UpgradeDataComponentType<List<ConditionalEffect<T>>> conditionalListOf(Codec<T> elementCodec, LootContextParamSet params)
@@ -40,7 +44,7 @@ public abstract class UpgradeDataComponentType<T> extends LimaDataComponentType<
 
     public static <T extends UpgradeTooltipsProvider> UpgradeDataComponentType<List<TargetedConditionalEffect<T>>> targetedConditionalListOf(Codec<T> elementCodec, LootContextParamSet params)
     {
-        return new TargetedListType<>(TargetedConditionalEffect.codec(elementCodec, params).listOf());
+        return new TargetedConditionalListType<>(TargetedConditionalEffect.codec(elementCodec, params).listOf());
     }
 
     private UpgradeDataComponentType(Codec<T> codec)
@@ -50,9 +54,28 @@ public abstract class UpgradeDataComponentType<T> extends LimaDataComponentType<
 
     public abstract void appendTooltipLines(T data, int upgradeRank, Consumer<Component> lines);
 
-    private static class DirectSingleType<T extends UpgradeTooltipsProvider> extends UpgradeDataComponentType<T>
+    private static class CustomType<T> extends UpgradeDataComponentType<T>
     {
-        public DirectSingleType(Codec<T> codec)
+        private static final BiConsumer<Object, Consumer<Component>> NO_TOOLTIP_OP = (p1, p2) -> {};
+
+        private final BiConsumer<? super T, Consumer<Component>> tooltipFunction;
+
+        CustomType(Codec<T> codec, BiConsumer<? super T, Consumer<Component>> tooltipFunction)
+        {
+            super(codec);
+            this.tooltipFunction = tooltipFunction;
+        }
+
+        @Override
+        public void appendTooltipLines(T data, int upgradeRank, Consumer<Component> lines)
+        {
+            tooltipFunction.accept(data, lines);
+        }
+    }
+
+    private static class SingleType<T extends UpgradeTooltipsProvider> extends UpgradeDataComponentType<T>
+    {
+        public SingleType(Codec<T> codec)
         {
             super(codec);
         }
@@ -64,28 +87,9 @@ public abstract class UpgradeDataComponentType<T> extends LimaDataComponentType<
         }
     }
 
-    private static class CustomSingleType<T> extends UpgradeDataComponentType<T>
+    private static class ListType<T extends UpgradeTooltipsProvider> extends UpgradeDataComponentType<List<T>>
     {
-        private static final BiConsumer<Object, Consumer<Component>> NO_TOOLTIP_OP = (p1, p2) -> {};
-
-        private final BiConsumer<? super T, Consumer<Component>> tooltipFunction;
-
-        CustomSingleType(Codec<T> codec, @Nullable BiConsumer<T, Consumer<Component>> tooltipFunction)
-        {
-            super(codec);
-            this.tooltipFunction = tooltipFunction != null ? tooltipFunction : NO_TOOLTIP_OP;
-        }
-
-        @Override
-        public void appendTooltipLines(T data, int upgradeRank, Consumer<Component> lines)
-        {
-            tooltipFunction.accept(data, lines);
-        }
-    }
-
-    private static class DirectListType<T extends UpgradeTooltipsProvider> extends UpgradeDataComponentType<List<T>>
-    {
-        public DirectListType(Codec<List<T>> codec)
+        public ListType(Codec<List<T>> codec)
         {
             super(codec);
         }
@@ -117,9 +121,9 @@ public abstract class UpgradeDataComponentType<T> extends LimaDataComponentType<
         }
     }
 
-    private static class TargetedListType<T extends UpgradeTooltipsProvider> extends UpgradeDataComponentType<List<TargetedConditionalEffect<T>>>
+    private static class TargetedConditionalListType<T extends UpgradeTooltipsProvider> extends UpgradeDataComponentType<List<TargetedConditionalEffect<T>>>
     {
-        public TargetedListType(Codec<List<TargetedConditionalEffect<T>>> codec)
+        public TargetedConditionalListType(Codec<List<TargetedConditionalEffect<T>>> codec)
         {
             super(codec);
         }

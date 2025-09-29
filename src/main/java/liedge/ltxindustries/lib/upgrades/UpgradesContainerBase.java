@@ -291,6 +291,11 @@ public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
         return internalMap.size();
     }
 
+    public boolean isEmpty()
+    {
+        return internalMap.isEmpty();
+    }
+
     public boolean canInstallUpgrade(Holder<CTX> contextHolder, UpgradeBaseEntry<U> entry)
     {
         Holder<U> upgrade = entry.upgrade();

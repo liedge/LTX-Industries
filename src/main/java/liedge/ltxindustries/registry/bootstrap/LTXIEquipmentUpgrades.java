@@ -1,8 +1,10 @@
 package liedge.ltxindustries.registry.bootstrap;
 
+import liedge.limacore.lib.MobHostility;
 import liedge.limacore.lib.damage.DamageReductionType;
 import liedge.limacore.lib.math.MathOperation;
 import liedge.limacore.registry.game.LimaCoreAttributes;
+import liedge.limacore.world.loot.EntityHostilityLootCondition;
 import liedge.limacore.world.loot.number.MathOpsNumberProvider;
 import liedge.limacore.world.loot.number.TargetedAttributeValueProvider;
 import liedge.ltxindustries.LTXIConstants;
@@ -49,8 +51,7 @@ import net.neoforged.neoforge.registries.holdersets.AnyHolderSet;
 
 import java.util.Optional;
 
-import static liedge.ltxindustries.LTXIConstants.LIME_GREEN;
-import static liedge.ltxindustries.LTXIConstants.REM_BLUE;
+import static liedge.ltxindustries.LTXIConstants.*;
 import static liedge.ltxindustries.LTXITags.EquipmentUpgrades.*;
 import static liedge.ltxindustries.LTXIndustries.RESOURCES;
 import static liedge.ltxindustries.data.generation.LTXIBootstrapUtil.*;
@@ -90,7 +91,9 @@ public final class LTXIEquipmentUpgrades
     public static final ResourceKey<EquipmentUpgrade> EXPLOSIVES_ENERGY_ADAPTER = key("explosives_energy_adapter");
     public static final ResourceKey<EquipmentUpgrade> HEAVY_ENERGY_ADAPTER = key("heavy_energy_adapter");
     public static final ResourceKey<EquipmentUpgrade> UNIVERSAL_INFINITE_AMMO = key("universal_infinite_ammo");
-
+    public static final ResourceKey<EquipmentUpgrade> UNIVERSAL_STEALTH_DAMAGE = key("universal_stealth_damage");
+    public static final ResourceKey<EquipmentUpgrade> NEUTRAL_ENEMY_TARGET_FILTER = key("target_filter/neutral_enemy");
+    public static final ResourceKey<EquipmentUpgrade> HOSTILE_TARGET_FILTER = key("target_filter/hostile");
     public static final ResourceKey<EquipmentUpgrade> WEAPON_SHIELD_REGEN = key("weapon_shield_regen");
     public static final ResourceKey<EquipmentUpgrade> HIGH_IMPACT_ROUNDS = key("high_impact_rounds");
     public static final ResourceKey<EquipmentUpgrade> HEAVY_PISTOL_GOD_ROUNDS = key("heavy_pistol_god_rounds");
@@ -103,9 +106,6 @@ public final class LTXIEquipmentUpgrades
     public static final ResourceKey<EquipmentUpgrade> LOOTING_ENCHANTMENT = key("enchantment/looting");
     public static final ResourceKey<EquipmentUpgrade> AMMO_SCAVENGER_ENCHANTMENT = key("enchantment/ammo_scavenger");
     public static final ResourceKey<EquipmentUpgrade> RAZOR_ENCHANTMENT = key("enchantment/razor");
-
-    // Universal upgrades
-    public static final ResourceKey<EquipmentUpgrade> UNIVERSAL_STEALTH_DAMAGE = key("universal_stealth_damage");
 
     // Hanabi grenade cores
     public static final ResourceKey<EquipmentUpgrade> FLAME_GRENADE_CORE = key("flame_grenade_core");
@@ -370,6 +370,20 @@ public final class LTXIEquipmentUpgrades
                 .withSpecialEffect(RELOAD_SOURCE, WeaponReloadSource.infiniteAmmo())
                 .effectIcon(sprite("infinite_ammo"))
                 .category("weapon/ammo")
+                .register(context);
+        EquipmentUpgrade.builder(NEUTRAL_ENEMY_TARGET_FILTER)
+                .createDefaultTitle(HOSTILE_ORANGE)
+                .supports(ltxAllWeapons)
+                .withEffect(TARGET_CONDITIONS, EntityHostilityLootCondition.atLeast(MobHostility.NEUTRAL_ENEMY).build())
+                .effectIcon(sprite("neutral_enemy_targets"))
+                .category("target_filters")
+                .register(context);
+        EquipmentUpgrade.builder(HOSTILE_TARGET_FILTER)
+                .createDefaultTitle(HOSTILE_ORANGE)
+                .supports(ltxAllWeapons)
+                .withEffect(TARGET_CONDITIONS, EntityHostilityLootCondition.atLeast(MobHostility.HOSTILE).build())
+                .effectIcon(sprite("hostile_targets"))
+                .category("target_filters")
                 .register(context);
         EquipmentUpgrade.builder(WEAPON_SHIELD_REGEN)
                 .supports(ltxProjectileWeapons)

@@ -471,6 +471,13 @@ class RecipesGen extends LimaRecipeProvider
                 .input(ENDER_PEARL, 8)
                 .input(DataComponentIngredient.of(false, DataComponentPredicate.builder().expect(DataComponents.POTION_CONTENTS, new PotionContents(Potions.INVISIBILITY)).build(), POTION)));
 
+        UnaryOperator<FabricatingBuilder> targetFilter = builder -> builder
+                .input(T2_CIRCUIT)
+                .input(TITANIUM_INGOT, 8)
+                .input(PHANTOM_MEMBRANE, 2)
+                .input(ENDER_PEARL, 2);
+        equipmentModuleFab(output, registries, "eum/weapon", NEUTRAL_ENEMY_TARGET_FILTER, 1, 225_000, targetFilter);
+        equipmentModuleFab(output, registries, "eum/weapon", HOSTILE_TARGET_FILTER, 1, 225_000, targetFilter);
         equipmentModuleFab(output, registries, "eum/weapon", WEAPON_SHIELD_REGEN, 1, 1_500_000, builder -> builder
                 .input(T3_CIRCUIT, 2)
                 .input(GOLDEN_APPLE, 1)

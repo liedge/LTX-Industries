@@ -2,6 +2,7 @@ package liedge.ltxindustries.entity;
 
 import liedge.limacore.util.LimaBlockUtil;
 import liedge.limacore.util.LimaMathUtil;
+import liedge.ltxindustries.lib.upgrades.UpgradesContainerBase;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
@@ -17,7 +18,7 @@ import java.util.stream.Stream;
 
 public record CompoundHitResult(Vec3 origin, List<EntityHitResult> entityHits, HitResult impact)
 {
-    public static CompoundHitResult tracePath(Level level, LivingEntity sourceEntity, double range, double deviation, int maxHits, double blockPierceDistance,
+    public static CompoundHitResult tracePath(Level level, LivingEntity sourceEntity, UpgradesContainerBase<?, ?> upgrades, double range, double deviation, int maxHits, double blockPierceDistance,
                                               DynamicClipContext.FluidCollisionPredicate fluidCollision, ToDoubleFunction<Entity> bbExpansionFunction)
     {
         // Path points
@@ -30,7 +31,7 @@ public record CompoundHitResult(Vec3 origin, List<EntityHitResult> entityHits, H
         BlockHitResult blockTrace = level.clip(new DynamicClipContext(origin, pathEnd, sourceEntity, fluidCollision, blockPierceDistance));
         end = blockTrace.getLocation();
 
-        List<EntityHitResult> entityHits = level.getEntities(sourceEntity, sourceEntity.getBoundingBox().expandTowards(path).inflate(0.3d), hit -> LTXIEntityUtil.isValidWeaponTarget(sourceEntity, hit))
+        List<EntityHitResult> entityHits = level.getEntities(sourceEntity, sourceEntity.getBoundingBox().expandTowards(path).inflate(0.3d), hit -> LTXIEntityUtil.checkWeaponTargetValidity(sourceEntity, hit, upgrades))
                 .stream()
                 .sorted(Comparator.comparingDouble(hit -> hit.distanceToSqr(origin)))
                 .flatMap(hit -> Stream.ofNullable(LTXIEntityUtil.clipEntityBoundingBox(hit, origin, end, bbExpansionFunction.applyAsDouble(hit))))
@@ -42,10 +43,10 @@ public record CompoundHitResult(Vec3 origin, List<EntityHitResult> entityHits, H
         return new CompoundHitResult(origin, entityHits, impact);
     }
 
-    public static CompoundHitResult tracePath(Level level, LivingEntity sourceEntity, double range, double deviation, int maxHits, double blockPierceDistance,
+    public static CompoundHitResult tracePath(Level level, LivingEntity sourceEntity, UpgradesContainerBase<?, ?> upgrades, double range, double deviation, int maxHits, double blockPierceDistance,
                                               DynamicClipContext.FluidCollisionPredicate fluidCollision, double bbExpansion)
     {
-        return tracePath(level, sourceEntity, range, deviation, maxHits, blockPierceDistance, fluidCollision, ignored -> bbExpansion);
+        return tracePath(level, sourceEntity, upgrades, range, deviation, maxHits, blockPierceDistance, fluidCollision, ignored -> bbExpansion);
     }
 
     public double traceDistance()

@@ -2,14 +2,15 @@ package liedge.ltxindustries;
 
 import liedge.limacore.util.LimaCoreUtil;
 import liedge.ltxindustries.entity.BubbleShieldUser;
+import liedge.ltxindustries.entity.LTXIEntityUtil;
 import liedge.ltxindustries.entity.damage.DropsRedirect;
 import liedge.ltxindustries.entity.damage.UpgradableDamageSource;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
 import liedge.ltxindustries.item.weapon.WeaponItem;
+import liedge.ltxindustries.lib.EquipmentDamageModifiers;
 import liedge.ltxindustries.lib.upgrades.UpgradesContainerBase;
 import liedge.ltxindustries.lib.upgrades.effect.equipment.DirectDropsUpgradeEffect;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
-import liedge.ltxindustries.lib.EquipmentDamageModifiers;
 import liedge.ltxindustries.registry.game.LTXIAttachmentTypes;
 import liedge.ltxindustries.registry.game.LTXIDataComponents;
 import liedge.ltxindustries.registry.game.LTXIMobEffects;
@@ -28,9 +29,11 @@ import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.VanillaGameEvent;
 import net.neoforged.neoforge.event.entity.living.*;
+import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
 import net.neoforged.neoforge.event.level.BlockDropsEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
@@ -136,6 +139,23 @@ public final class LTXIEventHandler
         if (event.getEffectSource() instanceof LivingEntity livingEntity && livingEntity.hasEffect(LTXIMobEffects.NEURO_SUPPRESSED))
         {
             event.setResult(MobEffectEvent.Applicable.Result.DO_NOT_APPLY);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerAttackEntity(final AttackEntityEvent event)
+    {
+        // TODO: Fix/modify sweep attacks because they ignore the target filters.
+
+        Player player = event.getEntity();
+        if (!player.level().isClientSide())
+        {
+            ItemStack stack = player.getMainHandItem();
+            if (stack.getItem() instanceof UpgradableEquipmentItem equipmentItem)
+            {
+                TriState result = LTXIEntityUtil.checkUpgradeTargetValidity(player, event.getTarget(), equipmentItem.getUpgrades(stack));
+                if (result.isFalse()) event.setCanceled(true);
+            }
         }
     }
 

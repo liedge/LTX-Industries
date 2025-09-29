@@ -1,0 +1,36 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 225000,
+  "group": "eum/weapon",
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "ltxi:empty_upgrade_module"
+    },
+    {
+      "count": 1,
+      "item": "ltxi:t2_circuit"
+    },
+    {
+      "count": 8,
+      "item": "ltxi:titanium_ingot"
+    },
+    {
+      "count": 2,
+      "item": "minecraft:phantom_membrane"
+    },
+    {
+      "count": 2,
+      "item": "minecraft:ender_pearl"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:equipment_upgrade": {
+        "upgrade": "ltxi:target_filter/neutral_enemy"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:equipment_upgrade_module"
+  }
+}
