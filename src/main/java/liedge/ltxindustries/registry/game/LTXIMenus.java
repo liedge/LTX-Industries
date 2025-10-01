@@ -25,7 +25,7 @@ public final class LTXIMenus
         TYPES.register(bus);
     }
 
-    public static final DeferredHolder<MenuType<?>, IOControllerMenu.MenuType> MACHINE_IO_CONTROL = TYPES.register("machine_io_control", IOControllerMenu.MenuType::new);
+    public static final DeferredHolder<MenuType<?>, BlockIOConfigurationMenu.MenuType> BLOCK_IO_CONFIGURATION = TYPES.register("block_io_configuration", BlockIOConfigurationMenu.MenuType::new);
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<LTXIMachineBlockEntity, MachineUpgradeMenu>> MACHINE_UPGRADES = TYPES.register("machine_upgrades", id -> BlockEntityMenuType.create(id, LTXIMachineBlockEntity.class, MachineUpgradeMenu::new));
 
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<BaseECABlockEntity, EnergyCellArrayMenu>> ENERGY_CELL_ARRAY = TYPES.register(LTXICommonIds.ID_ENERGY_CELL_ARRAY, () -> BlockEntityMenuType.create(BaseECABlockEntity.class, EnergyCellArrayMenu::new));

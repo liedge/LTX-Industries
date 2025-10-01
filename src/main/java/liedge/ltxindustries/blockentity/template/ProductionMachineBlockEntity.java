@@ -7,8 +7,8 @@ import liedge.limacore.capability.fluid.LimaBlockEntityFluidHandler;
 import liedge.limacore.capability.fluid.LimaFluidUtil;
 import liedge.limacore.capability.itemhandler.LimaBlockEntityItemHandler;
 import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
-import liedge.ltxindustries.blockentity.base.IOController;
-import liedge.ltxindustries.blockentity.base.SidedAccessBlockEntityType;
+import liedge.ltxindustries.blockentity.base.BlockIOConfiguration;
+import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -37,11 +37,11 @@ public abstract class ProductionMachineBlockEntity extends EnergyMachineBlockEnt
 
     private final @Nullable LimaBlockEntityFluidHandler inputFluids;
     private final @Nullable LimaBlockEntityFluidHandler outputFluids;
-    private final @Nullable IOController fluidController;
+    private @Nullable BlockIOConfiguration fluidsIOConfig;
     private final Map<Direction, BlockCapabilityCache<IFluidHandler, Direction>> fluidConnections = new EnumMap<>(Direction.class);
     private int autoFluidOutputTimer = 0;
 
-    protected ProductionMachineBlockEntity(SidedAccessBlockEntityType<?> type, BlockPos pos, BlockState state, int auxInventorySize, int inputSlots, int outputSlots, int inputTanks, int outputTanks)
+    protected ProductionMachineBlockEntity(ConfigurableIOBlockEntityType<?> type, BlockPos pos, BlockState state, int auxInventorySize, int inputSlots, int outputSlots, int inputTanks, int outputTanks)
     {
         super(type, pos, state, null, auxInventorySize);
 
@@ -49,10 +49,10 @@ public abstract class ProductionMachineBlockEntity extends EnergyMachineBlockEnt
         this.outputInventory = outputSlots > 0 ? new LimaBlockEntityItemHandler(this, outputSlots, BlockContentsType.OUTPUT) : null;
         this.inputFluids = inputTanks > 0 ? new LimaBlockEntityFluidHandler(this, inputTanks, BlockContentsType.INPUT) : null;
         this.outputFluids = outputTanks > 0 ? new LimaBlockEntityFluidHandler(this, outputTanks, BlockContentsType.OUTPUT) : null;
-        this.fluidController = inputFluids != null || outputFluids != null ? new IOController(this, BlockEntityInputType.FLUIDS) : null;
+        this.fluidsIOConfig = (inputFluids != null || outputFluids != null) ? BlockIOConfiguration.create(type, BlockEntityInputType.FLUIDS) : null;
     }
 
-    protected ProductionMachineBlockEntity(SidedAccessBlockEntityType<?> type, BlockPos pos, BlockState state, int auxInventorySize, int inputSlots, int outputSlots)
+    protected ProductionMachineBlockEntity(ConfigurableIOBlockEntityType<?> type, BlockPos pos, BlockState state, int auxInventorySize, int inputSlots, int outputSlots)
     {
         this(type, pos, state, auxInventorySize, inputSlots, outputSlots, 0, 0);
     }
@@ -146,9 +146,15 @@ public abstract class ProductionMachineBlockEntity extends EnergyMachineBlockEnt
     }
 
     @Override
-    protected IOController getFluidIOController()
+    protected @Nullable BlockIOConfiguration getFluidIOConfiguration()
     {
-        return fluidController != null ? fluidController : super.getFluidIOController();
+        return fluidsIOConfig;
+    }
+
+    @Override
+    protected void setFluidIOConfiguration(BlockIOConfiguration configuration)
+    {
+        this.fluidsIOConfig = configuration;
     }
 
     @Override
@@ -165,11 +171,11 @@ public abstract class ProductionMachineBlockEntity extends EnergyMachineBlockEnt
 
     protected void autoOutputFluids()
     {
-        if (outputFluids != null && fluidController != null && fluidController.isAutoOutput())
+        if (outputFluids != null && fluidsIOConfig != null && fluidsIOConfig.autoOutput())
         {
             for (Direction side : Direction.values())
             {
-                if (fluidController.getSideIOState(side).allowsOutput())
+                if (fluidsIOConfig.getIOAccess(getFacing(), side).allowsOutput())
                 {
                     IFluidHandler neighborFluids = getNeighborFluidHandler(side);
                     if (neighborFluids != null) LimaFluidUtil.transferFluidsFromLimaTank(outputFluids, neighborFluids, OUTPUT_TANK_CAPACITY, IFluidHandler.FluidAction.EXECUTE);
@@ -218,8 +224,6 @@ public abstract class ProductionMachineBlockEntity extends EnergyMachineBlockEnt
                 if (handler != null && tanksTag.contains(type.getSerializedName())) handler.deserializeNBT(registries, tanksTag.getList(type.getSerializedName(), Tag.TAG_COMPOUND));
             }
         }
-
-        if (fluidController != null) fluidController.deserializeNBT(registries, tag.getCompound(KEY_FLUID_IO));
     }
 
     @Override
@@ -234,7 +238,5 @@ public abstract class ProductionMachineBlockEntity extends EnergyMachineBlockEnt
             if (handler != null) tanksTag.put(type.getSerializedName(), handler.serializeNBT(registries));
         }
         if (!tanksTag.isEmpty()) tag.put(LimaCommonConstants.KEY_FLUID_TANKS, tanksTag);
-
-        if (fluidController != null) tag.put(KEY_FLUID_IO, fluidController.serializeNBT(registries));
     }
 }

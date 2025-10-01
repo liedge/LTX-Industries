@@ -116,7 +116,7 @@ public class LTXIndustriesClient
         public void registerMenuScreens(final RegisterMenuScreensEvent event)
         {
             event.register(LTXIMenus.MACHINE_UPGRADES.get(), MachineUpgradesScreen::new);
-            event.register(LTXIMenus.MACHINE_IO_CONTROL.get(), IOControllerScreen::new);
+            event.register(LTXIMenus.BLOCK_IO_CONFIGURATION.get(), BlockIOConfigurationScreen::new);
             event.register(LTXIMenus.ENERGY_CELL_ARRAY.get(), EnergyCellArrayScreen::new);
             event.register(LTXIMenus.DIGITAL_FURNACE.get(), RecipeLayoutScreen::new);
             event.register(LTXIMenus.DIGITAL_SMOKER.get(), RecipeLayoutScreen::new);

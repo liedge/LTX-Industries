@@ -8,8 +8,8 @@ import liedge.limacore.capability.energy.LimaEnergyUtil;
 import liedge.limacore.registry.game.LimaCoreDataComponents;
 import liedge.limacore.util.LimaNbtUtil;
 import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
-import liedge.ltxindustries.blockentity.base.IOController;
-import liedge.ltxindustries.blockentity.base.SidedAccessBlockEntityType;
+import liedge.ltxindustries.blockentity.base.BlockIOConfiguration;
+import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -25,18 +25,18 @@ import static liedge.limacore.LimaCommonConstants.KEY_ENERGY_CONTAINER;
 public abstract non-sealed class EnergyMachineBlockEntity extends LTXIMachineBlockEntity implements EnergyHolderBlockEntity
 {
     private final LimaEnergyStorage energyStorage;
-    private final IOController energyController;
+    private BlockIOConfiguration energyIOConfig;
 
-    protected EnergyMachineBlockEntity(SidedAccessBlockEntityType<?> type, BlockPos pos, BlockState state, @Nullable LimaEnergyStorage energyStorage, int auxInventorySize)
+    protected EnergyMachineBlockEntity(ConfigurableIOBlockEntityType<?> type, BlockPos pos, BlockState state, @Nullable LimaEnergyStorage energyStorage, int auxInventorySize)
     {
         super(type, pos, state, auxInventorySize);
         Preconditions.checkArgument(auxInventorySize > 1, "Auxiliary inventory for powered machines must have at least 2 slots.");
 
         this.energyStorage = energyStorage != null ? energyStorage : new LimaBlockEntityEnergyStorage(this);
-        this.energyController = new IOController(this, BlockEntityInputType.ENERGY);
+        this.energyIOConfig = BlockIOConfiguration.create(type, BlockEntityInputType.ENERGY);
     }
 
-    protected EnergyMachineBlockEntity(SidedAccessBlockEntityType<?> type, BlockPos pos, BlockState state, @Nullable LimaEnergyStorage energyStorage)
+    protected EnergyMachineBlockEntity(ConfigurableIOBlockEntityType<?> type, BlockPos pos, BlockState state, @Nullable LimaEnergyStorage energyStorage)
     {
         this(type, pos, state, energyStorage, 2);
     }
@@ -53,11 +53,11 @@ public abstract non-sealed class EnergyMachineBlockEntity extends LTXIMachineBlo
 
     protected void autoOutputEnergy()
     {
-        if (energyController.isAutoOutput())
+        if (energyIOConfig.autoOutput())
         {
             for (Direction side : Direction.values())
             {
-                if (energyController.getSideIOState(side).allowsOutput())
+                if (energyIOConfig.getIOAccess(getFacing(), side).allowsOutput())
                 {
                     LimaEnergyStorage energy = getEnergyStorage();
                     IEnergyStorage neighborEnergy = getNeighborEnergyStorage(side);
@@ -68,9 +68,15 @@ public abstract non-sealed class EnergyMachineBlockEntity extends LTXIMachineBlo
     }
 
     @Override
-    protected IOController getEnergyIOController()
+    protected BlockIOConfiguration getEnergyIOConfiguration()
     {
-        return energyController;
+        return energyIOConfig;
+    }
+
+    @Override
+    protected void setEnergyIOConfiguration(BlockIOConfiguration configuration)
+    {
+        this.energyIOConfig = configuration;
     }
 
     @Override
@@ -115,7 +121,6 @@ public abstract non-sealed class EnergyMachineBlockEntity extends LTXIMachineBlo
         super.loadAdditional(tag, registries);
 
         if (getEnergyStorage() instanceof LimaBlockEntityEnergyStorage blockEntityEnergy) LimaNbtUtil.deserializeInt(blockEntityEnergy, registries, tag.get(KEY_ENERGY_CONTAINER));
-        energyController.deserializeNBT(registries, tag.getCompound(KEY_ENERGY_IO));
     }
 
     @Override
@@ -124,6 +129,5 @@ public abstract non-sealed class EnergyMachineBlockEntity extends LTXIMachineBlo
         super.saveAdditional(tag, registries);
 
         if (getEnergyStorage() instanceof LimaBlockEntityEnergyStorage blockEntityEnergy) tag.put(KEY_ENERGY_CONTAINER, blockEntityEnergy.serializeNBT(registries));
-        tag.put(KEY_ENERGY_IO, energyController.serializeNBT(registries));
     }
 }

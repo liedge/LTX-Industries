@@ -42,10 +42,10 @@ public abstract class LTXIMachineScreen<M extends LTXIMachineMenu<?>> extends LT
 
         // Right sidebar widgets
         int sidebarY = 23;
-        for (BlockEntityInputType type : menu.menuContext().getType().getValidInputTypes())
+        for (BlockEntityInputType type : menu.menuContext().getConfigurableInputTypes())
         {
             addRenderableWidget(new OpenIOControlButton(rightPos, topPos + sidebarY, this, LTXIMachineMenu.IO_CONTROLS_BUTTON_ID, type));
-            sidebarY += 20; // Auto position descending buttons
+            sidebarY += LimaSidebarButton.SIDEBAR_BUTTON_HEIGHT;
         }
     }
 

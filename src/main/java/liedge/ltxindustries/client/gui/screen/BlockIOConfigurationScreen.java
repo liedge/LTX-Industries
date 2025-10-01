@@ -6,12 +6,11 @@ import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.lib.Translatable;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.ltxindustries.LTXIConstants;
-import liedge.ltxindustries.blockentity.base.IOController;
+import liedge.ltxindustries.blockentity.base.BlockIOConfiguration;
 import liedge.ltxindustries.client.gui.widget.LimaRenderableButton;
 import liedge.ltxindustries.client.gui.widget.LimaSidebarButton;
 import liedge.ltxindustries.client.gui.widget.SubMenuBackButton;
-import liedge.ltxindustries.menu.IOControllerMenu;
-import net.minecraft.ChatFormatting;
+import liedge.ltxindustries.menu.BlockIOConfigurationMenu;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
@@ -23,10 +22,9 @@ import org.lwjgl.glfw.GLFW;
 import java.util.function.BooleanSupplier;
 
 import static liedge.ltxindustries.LTXIndustries.RESOURCES;
-import static liedge.ltxindustries.client.LTXILangKeys.AUTO_OUTPUT_OFF_TOOLTIP;
-import static liedge.ltxindustries.client.LTXILangKeys.AUTO_OUTPUT_ON_TOOLTIP;
+import static liedge.ltxindustries.client.LTXILangKeys.*;
 
-public class IOControllerScreen extends LTXIScreen<IOControllerMenu>
+public class BlockIOConfigurationScreen extends LTXIScreen<BlockIOConfigurationMenu>
 {
     private static final ResourceLocation BUTTON_GRID_TEXTURE = RESOURCES.textureLocation("gui", "io_button_grid");
     private static final ResourceLocation INPUT_SPRITE = RESOURCES.location("widget/io_selector_input");
@@ -35,26 +33,28 @@ public class IOControllerScreen extends LTXIScreen<IOControllerMenu>
     private static final ResourceLocation DISABLED_SPRITE = RESOURCES.location("widget/io_selector_disabled");
     private static final ResourceLocation AUTO_OUT_DISABLED_SPRITE = RESOURCES.location("widget/auto_output_disabled");
     private static final ResourceLocation AUTO_OUT_ENABLED_SPRITE = RESOURCES.location("widget/auto_output_enabled");
-    private static final ResourceLocation AUTO_IN_OFF_SPRITE = RESOURCES.location("widget/auto_input_off");
-    private static final ResourceLocation AUTO_IN_ON_SPRITE = RESOURCES.location("widget/auto_input_on");
+    private static final ResourceLocation AUTO_IN_DISABLED_SPRITE = RESOURCES.location("widget/auto_input_disabled");
+    private static final ResourceLocation AUTO_IN_ENABLED_SPRITE = RESOURCES.location("widget/auto_input_enabled");
 
-    private final IOController ioController;
-
-    public IOControllerScreen(IOControllerMenu menu, Inventory inventory, Component title)
+    public BlockIOConfigurationScreen(BlockIOConfigurationMenu menu, Inventory inventory, Component title)
     {
         super(menu, inventory, title, DEFAULT_WIDTH, DEFAULT_HEIGHT);
-        this.ioController = menu.getIOControl();
         this.inventoryLabelY = 73;
         this.leftPadding = 18;
         this.rightPadding = 18;
     }
 
+    private BlockIOConfiguration getIOConfiguration()
+    {
+        return menu.getIOConfiguration();
+    }
+
     @Override
     protected void addWidgets()
     {
-        addRenderableWidget(new SubMenuBackButton(leftPos - leftPadding, topPos + 3, this, IOControllerMenu.BACK_BUTTON_ID));
+        addRenderableWidget(new SubMenuBackButton(leftPos - leftPadding, topPos + 3, this, BlockIOConfigurationMenu.BACK_BUTTON_ID));
 
-        for (RelativeHorizontalSide side : ioController.getAccessRules().validSides())
+        for (RelativeHorizontalSide side : menu.getIOConfigRules().validSides())
         {
             IOButton button = switch (side)
             {
@@ -69,8 +69,16 @@ public class IOControllerScreen extends LTXIScreen<IOControllerMenu>
             addRenderableWidget(button);
         }
 
-        //if (ioController.allowsAutoInput()) addRenderableWidget(new AutoIOButton(leftPos + 43, topPos + 38, 3, AUTO_INPUT_OFF_TOOLTIP, AUTO_INPUT_ON_TOOLTIP, AUTO_IN_OFF_SPRITE, AUTO_IN_ON_SPRITE, ioController::isAutoInput));
-        if (ioController.allowsAutoOutput()) addRenderableWidget(new AutoIOButton(rightPos, topPos + 3, IOControllerMenu.TOGGLE_AUTO_OUTPUT_BUTTON_ID, AUTO_OUTPUT_OFF_TOOLTIP, AUTO_OUTPUT_ON_TOOLTIP, AUTO_OUT_DISABLED_SPRITE, AUTO_OUT_ENABLED_SPRITE, ioController::isAutoOutput));
+        int rightSidebarY = topPos + 3;
+        if (menu.getIOConfigRules().allowsAutoInput())
+        {
+            addRenderableWidget(new AutoIOButton(rightPos, rightSidebarY, BlockIOConfigurationMenu.TOGGLE_AUTO_INPUT_BUTTON_ID, AUTO_INPUT_OFF_TOOLTIP, AUTO_INPUT_ON_TOOLTIP, AUTO_IN_DISABLED_SPRITE, AUTO_IN_ENABLED_SPRITE, () -> getIOConfiguration().autoInput()));
+            rightSidebarY += LimaSidebarButton.SIDEBAR_BUTTON_HEIGHT;
+        }
+        if (menu.getIOConfigRules().allowsAutoOutput())
+        {
+            addRenderableWidget(new AutoIOButton(rightPos, rightSidebarY, BlockIOConfigurationMenu.TOGGLE_AUTO_OUTPUT_BUTTON_ID, AUTO_OUTPUT_OFF_TOOLTIP, AUTO_OUTPUT_ON_TOOLTIP, AUTO_OUT_DISABLED_SPRITE, AUTO_OUT_ENABLED_SPRITE, () -> getIOConfiguration().autoOutput()));
+        }
     }
 
     @Override
@@ -97,18 +105,18 @@ public class IOControllerScreen extends LTXIScreen<IOControllerMenu>
         {
             if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT)
             {
-                sendCustomButtonData(IOControllerMenu.CYCLE_FORWARD_BUTTON_ID, side, LimaCoreNetworkSerializers.RELATIVE_SIDE);
+                sendCustomButtonData(BlockIOConfigurationMenu.CYCLE_FORWARD_BUTTON_ID, side, LimaCoreNetworkSerializers.RELATIVE_SIDE);
             }
             else
             {
-                sendCustomButtonData(IOControllerMenu.CYCLE_BACKWARD_BUTTON_ID, side, LimaCoreNetworkSerializers.RELATIVE_SIDE);
+                sendCustomButtonData(BlockIOConfigurationMenu.CYCLE_BACKWARD_BUTTON_ID, side, LimaCoreNetworkSerializers.RELATIVE_SIDE);
             }
         }
 
         @Override
         protected ResourceLocation unfocusedSprite()
         {
-            return switch (ioController.getSideIOState(side))
+            return switch (getIOConfiguration().getIOAccess(side))
             {
                 case DISABLED -> DISABLED_SPRITE;
                 case INPUT_ONLY -> INPUT_SPRITE;
@@ -128,10 +136,10 @@ public class IOControllerScreen extends LTXIScreen<IOControllerMenu>
         {
             Component sideTooltip = side.translate().withStyle(LTXIConstants.LIME_GREEN.chatStyle())
                     .append(CommonComponents.SPACE)
-                    .append(ComponentUtils.wrapInSquareBrackets(LimaComponentUtil.localizeDirection(side.resolveAbsoluteSide(menu.menuContext().blockEntity().getFacing())).translate().withStyle(ChatFormatting.GRAY)));
+                    .append(ComponentUtils.wrapInSquareBrackets(LimaComponentUtil.localizeDirection(side.resolveAbsoluteSide(menu.menuContext().blockEntity().getFacing())).translate()));
 
             consumer.accept(sideTooltip);
-            consumer.accept(ioController.getSideIOState(side).translate());
+            consumer.accept(getIOConfiguration().getIOAccess(side).translate());
         }
 
         @Override

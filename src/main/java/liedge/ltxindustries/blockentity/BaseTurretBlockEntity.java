@@ -13,7 +13,7 @@ import liedge.limacore.network.sync.ManualDataWatcher;
 import liedge.limacore.registry.game.LimaCoreDataComponents;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.limacore.util.LimaStreamsUtil;
-import liedge.ltxindustries.blockentity.base.SidedAccessBlockEntityType;
+import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
 import liedge.ltxindustries.blockentity.template.ProductionMachineBlockEntity;
 import liedge.ltxindustries.entity.LTXIEntityUtil;
 import liedge.ltxindustries.lib.TurretTargetList;
@@ -66,7 +66,7 @@ public abstract class BaseTurretBlockEntity extends ProductionMachineBlockEntity
     private double targetDistance;
     private boolean lookingAtTarget;
 
-    protected BaseTurretBlockEntity(SidedAccessBlockEntityType<?> type, BlockPos pos, BlockState state, double startY, double areaXZRadius, double areaYMin, double areaYMax)
+    protected BaseTurretBlockEntity(ConfigurableIOBlockEntityType<?> type, BlockPos pos, BlockState state, double startY, double areaXZRadius, double areaYMin, double areaYMax)
     {
         super(type, pos, state, 2, 0, 20);
         this.projectileStart = new Vec3(pos.getX() + 0.5d, pos.getY() + startY, pos.getZ() + 0.5d);

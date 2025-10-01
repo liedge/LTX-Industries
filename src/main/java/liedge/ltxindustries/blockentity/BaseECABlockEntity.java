@@ -8,7 +8,7 @@ import liedge.limacore.capability.itemhandler.LimaBlockEntityItemHandler;
 import liedge.limacore.lib.LimaColor;
 import liedge.limacore.menu.BlockEntityMenuType;
 import liedge.limacore.util.LimaItemUtil;
-import liedge.ltxindustries.blockentity.base.SidedAccessBlockEntityType;
+import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
 import liedge.ltxindustries.blockentity.template.EnergyMachineBlockEntity;
 import liedge.ltxindustries.registry.game.LTXIBlocks;
 import net.minecraft.core.BlockPos;
@@ -31,7 +31,7 @@ public abstract class BaseECABlockEntity extends EnergyMachineBlockEntity
     private final LimaBlockEntityItemHandler chargingInventory;
     private final Map<Direction, BlockCapabilityCache<IEnergyStorage, Direction>> energyConnections = new EnumMap<>(Direction.class);
 
-    public BaseECABlockEntity(SidedAccessBlockEntityType<?> type, BlockPos pos, BlockState state, @Nullable LimaEnergyStorage energyStorage)
+    public BaseECABlockEntity(ConfigurableIOBlockEntityType<?> type, BlockPos pos, BlockState state, @Nullable LimaEnergyStorage energyStorage)
     {
         super(type, pos, state, energyStorage);
         this.chargingInventory = new LimaBlockEntityItemHandler(this, 4, BlockContentsType.GENERAL);

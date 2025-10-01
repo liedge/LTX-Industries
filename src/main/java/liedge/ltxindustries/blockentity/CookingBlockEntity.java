@@ -1,7 +1,7 @@
 package liedge.ltxindustries.blockentity;
 
 import liedge.limacore.util.LimaItemUtil;
-import liedge.ltxindustries.blockentity.base.SidedAccessBlockEntityType;
+import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public abstract class CookingBlockEntity<R extends AbstractCookingRecipe> extends StateBlockRecipeMachineBlockEntity<SingleRecipeInput, R>
 {
-    protected CookingBlockEntity(SidedAccessBlockEntityType<?> type, RecipeType<R> recipeType, BlockPos pos, BlockState state)
+    protected CookingBlockEntity(ConfigurableIOBlockEntityType<?> type, RecipeType<R> recipeType, BlockPos pos, BlockState state)
     {
         super(type, recipeType, pos, state, 1, 1, 0, 0);
     }

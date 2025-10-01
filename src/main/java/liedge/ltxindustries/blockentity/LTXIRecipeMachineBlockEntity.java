@@ -3,7 +3,7 @@ package liedge.ltxindustries.blockentity;
 import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.capability.fluid.LimaFluidHandler;
 import liedge.limacore.recipe.LimaRecipeInput;
-import liedge.ltxindustries.blockentity.base.SidedAccessBlockEntityType;
+import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
 import liedge.ltxindustries.recipe.LTXIRecipe;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
@@ -19,7 +19,7 @@ import java.util.List;
 
 public abstract class LTXIRecipeMachineBlockEntity<R extends LTXIRecipe> extends StateBlockRecipeMachineBlockEntity<LimaRecipeInput, R>
 {
-    protected LTXIRecipeMachineBlockEntity(SidedAccessBlockEntityType<?> type, RecipeType<R> recipeType, BlockPos pos, BlockState state, int inputSlots, int outputSlots, int inputTanks, int outputTanks)
+    protected LTXIRecipeMachineBlockEntity(ConfigurableIOBlockEntityType<?> type, RecipeType<R> recipeType, BlockPos pos, BlockState state, int inputSlots, int outputSlots, int inputTanks, int outputTanks)
     {
         super(type, recipeType, pos, state, inputSlots, outputSlots, inputTanks, outputTanks);
     }

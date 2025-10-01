@@ -10,7 +10,7 @@ import liedge.limacore.util.LimaItemUtil;
 import liedge.limacore.util.LimaNbtUtil;
 import liedge.ltxindustries.blockentity.base.EnergyConsumerBlockEntity;
 import liedge.ltxindustries.blockentity.base.RecipeMachineBlockEntity;
-import liedge.ltxindustries.blockentity.base.SidedAccessBlockEntityType;
+import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
 import liedge.ltxindustries.blockentity.template.ProductionMachineBlockEntity;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrades;
 import liedge.ltxindustries.recipe.FabricatingRecipe;
@@ -40,7 +40,7 @@ public abstract class BaseFabricatorBlockEntity extends ProductionMachineBlockEn
     // Client properties
     private ItemStack clientPreviewItem = ItemStack.EMPTY;
 
-    protected BaseFabricatorBlockEntity(SidedAccessBlockEntityType<?> type, BlockPos pos, BlockState state, int inputSlots)
+    protected BaseFabricatorBlockEntity(ConfigurableIOBlockEntityType<?> type, BlockPos pos, BlockState state, int inputSlots)
     {
         super(type, pos, state, 3, inputSlots, 1);
     }

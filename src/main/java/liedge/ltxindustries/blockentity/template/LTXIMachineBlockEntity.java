@@ -1,11 +1,13 @@
 package liedge.ltxindustries.blockentity.template;
 
+import com.mojang.serialization.DynamicOps;
 import liedge.limacore.LimaCommonConstants;
 import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.blockentity.IOAccess;
 import liedge.limacore.blockentity.LimaBlockEntity;
 import liedge.limacore.capability.itemhandler.LimaBlockEntityItemHandler;
 import liedge.limacore.capability.itemhandler.LimaItemHandlerUtil;
+import liedge.limacore.data.LimaCoreCodecs;
 import liedge.limacore.util.LimaItemUtil;
 import liedge.limacore.util.LimaNbtUtil;
 import liedge.ltxindustries.blockentity.base.*;
@@ -18,10 +20,10 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
+import net.minecraft.nbt.Tag;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.neoforged.neoforge.capabilities.BlockCapabilityCache;
@@ -31,34 +33,32 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.items.IItemHandler;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.function.Predicate;
 
-public sealed abstract class LTXIMachineBlockEntity extends LimaBlockEntity implements SidedAccessBlockEntity, UpgradesHolderBlockEntity permits EnergyMachineBlockEntity
+public sealed abstract class LTXIMachineBlockEntity extends LimaBlockEntity implements ConfigurableIOBlockEntity, UpgradesHolderBlockEntity permits EnergyMachineBlockEntity
 {
     // Recommended standard inventory indices for machines
     public static final int AUX_MODULE_ITEM_SLOT = 0;
     public static final int AUX_ENERGY_ITEM_SLOT = 1;
 
-    // Commonly used keys. Not required but recommended for unified serialization
-    protected static final String KEY_ITEM_IO = "item_io";
-    protected static final String KEY_ENERGY_IO = "energy_io";
-    protected static final String KEY_FLUID_IO = "fluid_io";
-
-    private final IOController itemController;
+    private final ConfigurableIOBlockEntityType<?> type;
     private final Map<Direction, BlockCapabilityCache<IItemHandler, Direction>> itemConnections = new EnumMap<>(Direction.class);
 
     private final LimaBlockEntityItemHandler auxInventory;
+    private BlockIOConfiguration itemIOConfig;
     private MachineUpgrades upgrades = MachineUpgrades.EMPTY;
 
     private int autoItemOutputTimer;
 
-    protected LTXIMachineBlockEntity(SidedAccessBlockEntityType<?> type, BlockPos pos, BlockState state, int auxInventorySize)
+    protected LTXIMachineBlockEntity(ConfigurableIOBlockEntityType<?> type, BlockPos pos, BlockState state, int auxInventorySize)
     {
         super(type, pos, state);
 
-        this.itemController = new IOController(this, BlockEntityInputType.ITEMS);
+        this.type = type;
+        this.itemIOConfig = BlockIOConfiguration.create(type, BlockEntityInputType.ITEMS);
         this.auxInventory = new LimaBlockEntityItemHandler(this, auxInventorySize, BlockContentsType.AUXILIARY);
     }
 
@@ -76,72 +76,84 @@ public sealed abstract class LTXIMachineBlockEntity extends LimaBlockEntity impl
     }
 
     @Override
-    public final IOController getIOController(BlockEntityInputType inputType) throws UnsupportedOperationException
+    public Collection<BlockEntityInputType> getConfigurableInputTypes()
+    {
+        return type.getValidInputTypes();
+    }
+
+    @Override
+    public IOConfigurationRules getIOConfigRules(BlockEntityInputType inputType)
+    {
+        return type.getIOConfigRules(inputType);
+    }
+
+    @Override
+    public final @Nullable BlockIOConfiguration getIOConfiguration(BlockEntityInputType inputType)
     {
         return switch (inputType)
         {
-            case ITEMS -> getItemIOController();
-            case ENERGY -> getEnergyIOController();
-            case FLUIDS -> getFluidIOController();
+            case ITEMS -> getItemIOConfiguration();
+            case ENERGY -> getEnergyIOConfiguration();
+            case FLUIDS -> getFluidIOConfiguration();
         };
     }
 
     @Override
-    public void onIOControlsChanged(BlockEntityInputType inputType)
+    public void setIOConfiguration(BlockEntityInputType inputType, BlockIOConfiguration configuration)
     {
-        if (level != null && !level.isClientSide())
+        switch (inputType)
         {
-            invalidateCapabilities();
-            setChanged();
-            onIOControlsChanged(inputType, level);
+            case ITEMS -> setItemIOConfiguration(configuration);
+            case ENERGY -> setEnergyIOConfiguration(configuration);
+            case FLUIDS -> setFluidIOConfiguration(configuration);
         }
-    }
 
-    protected void onIOControlsChanged(BlockEntityInputType inputType, Level level) {}
-
-    @Override
-    public void onBlockStateUpdated(BlockPos pos, BlockState oldState, BlockState newState)
-    {
         if (level != null && !level.isClientSide())
         {
             invalidateCapabilities();
             setChanged();
-            onIOControlsChanged(BlockEntityInputType.ITEMS, level);
-            onIOControlsChanged(BlockEntityInputType.ENERGY, level);
-            onIOControlsChanged(BlockEntityInputType.FLUIDS, level);
         }
     }
 
     @Override
     public IOAccess getSideIOForItems(@Nullable Direction side)
     {
-        return side != null ? getItemIOController().getSideIOState(side) : IOAccess.DISABLED;
+        return side != null ? itemIOConfig.getIOAccess(getFacing(), side) : IOAccess.DISABLED;
     }
 
     public IOAccess getSideIOForEnergy(@Nullable Direction side)
     {
-        return side != null ? getEnergyIOController().getSideIOState(side) : IOAccess.DISABLED;
+        return side != null ? getIOConfigurationOrThrow(BlockEntityInputType.ENERGY).getIOAccess(getFacing(), side) : IOAccess.DISABLED;
     }
 
     public IOAccess getSideIOForFluids(@Nullable Direction side)
     {
-        return side != null ? getFluidIOController().getSideIOState(side) : IOAccess.DISABLED;
+        return side != null ? getIOConfigurationOrThrow(BlockEntityInputType.FLUIDS).getIOAccess(getFacing(), side) : IOAccess.DISABLED;
     }
 
-    protected IOController getItemIOController()
+    protected BlockIOConfiguration getItemIOConfiguration()
     {
-        return itemController;
+        return itemIOConfig;
     }
 
-    protected IOController getEnergyIOController()
+    protected void setItemIOConfiguration(BlockIOConfiguration configuration)
     {
-        throw new UnsupportedOperationException("Machine does not support energy handling.");
+        this.itemIOConfig = configuration;
     }
 
-    protected IOController getFluidIOController()
+    protected @Nullable BlockIOConfiguration getEnergyIOConfiguration()
     {
-        throw new UnsupportedOperationException("Machine does not support fluid handling.");
+        return null;
     }
+
+    protected void setEnergyIOConfiguration(BlockIOConfiguration configuration) { }
+
+    protected @Nullable BlockIOConfiguration getFluidIOConfiguration()
+    {
+        return null;
+    }
+
+    protected void setFluidIOConfiguration(BlockIOConfiguration configuration) { }
 
     public @Nullable IItemHandler getNeighborItemHandler(Direction side)
     {
@@ -210,7 +222,9 @@ public sealed abstract class LTXIMachineBlockEntity extends LimaBlockEntity impl
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries)
     {
         super.loadAdditional(tag, registries);
+        DynamicOps<Tag> ops = RegistryOps.create(NbtOps.INSTANCE, registries);
 
+        // Load inventories
         CompoundTag inventoriesTag = tag.getCompound(LimaCommonConstants.KEY_ITEM_CONTAINER);
         for (BlockContentsType type : BlockContentsType.values())
         {
@@ -218,15 +232,28 @@ public sealed abstract class LTXIMachineBlockEntity extends LimaBlockEntity impl
             if (handler != null && inventoriesTag.contains(type.getSerializedName())) handler.deserializeNBT(registries, inventoriesTag.getCompound(type.getSerializedName()));
         }
 
-        itemController.deserializeNBT(registries, tag.getCompound(KEY_ITEM_IO));
-        upgrades = LimaNbtUtil.tryDecode(MachineUpgrades.CODEC, RegistryOps.create(NbtOps.INSTANCE, registries), tag, TAG_KEY_UPGRADES, MachineUpgrades.EMPTY);
+        // Load upgrades
+        this.upgrades = LimaNbtUtil.tryDecode(MachineUpgrades.CODEC, ops, tag, TAG_KEY_UPGRADES, MachineUpgrades.EMPTY);
+
+        // Load IO configurations
+        CompoundTag ioConfigsTag = tag.getCompound(KEY_IO_CONFIGS);
+        for (BlockEntityInputType inputType : getConfigurableInputTypes())
+        {
+            if (ioConfigsTag.contains(inputType.getSerializedName(), Tag.TAG_COMPOUND))
+            {
+                BlockIOConfiguration config = LimaCoreCodecs.tryDecode(BlockIOConfiguration.CODEC, ops, ioConfigsTag.getCompound(inputType.getSerializedName()));
+                if (config != null) setIOConfiguration(inputType, config);
+            }
+        }
     }
 
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries)
     {
         super.saveAdditional(tag, registries);
+        DynamicOps<Tag> ops = RegistryOps.create(NbtOps.INSTANCE, registries);
 
+        // Save inventories
         CompoundTag inventoriesTag = new CompoundTag();
         for (BlockContentsType type : BlockContentsType.values())
         {
@@ -235,8 +262,17 @@ public sealed abstract class LTXIMachineBlockEntity extends LimaBlockEntity impl
         }
         tag.put(LimaCommonConstants.KEY_ITEM_CONTAINER, inventoriesTag);
 
-        tag.put(KEY_ITEM_IO, itemController.serializeNBT(registries));
-        LimaNbtUtil.tryEncodeTo(MachineUpgrades.CODEC, RegistryOps.create(NbtOps.INSTANCE, registries), upgrades, tag, TAG_KEY_UPGRADES);
+        // Save upgrades
+        LimaNbtUtil.tryEncodeTo(MachineUpgrades.CODEC, ops, upgrades, tag, TAG_KEY_UPGRADES);
+
+        // Save IO configurations
+        CompoundTag ioConfigsTag = new CompoundTag();
+        for (BlockEntityInputType inputType : getConfigurableInputTypes())
+        {
+            BlockIOConfiguration configuration = getIOConfigurationOrThrow(inputType);
+            LimaCoreCodecs.tryEncodeTo(BlockIOConfiguration.CODEC, ops, configuration, cNBT -> ioConfigsTag.put(inputType.getSerializedName(), cNBT));
+        }
+        tag.put(KEY_IO_CONFIGS, ioConfigsTag);
     }
 
     //#endregion
@@ -261,11 +297,11 @@ public sealed abstract class LTXIMachineBlockEntity extends LimaBlockEntity impl
 
     protected void autoOutputItems(IItemHandler internalInventory, Predicate<ItemStack> predicate)
     {
-        if (itemController.isAutoOutput())
+        if (itemIOConfig.autoOutput())
         {
             for (Direction side : Direction.values())
             {
-                if (itemController.getSideIOState(side).allowsOutput())
+                if (itemIOConfig.getIOAccess(getFacing(), side).allowsOutput())
                 {
                     IItemHandler neighborInv = getNeighborItemHandler(side);
                     if (neighborInv != null) LimaItemHandlerUtil.transferItemsBetween(internalInventory, neighborInv, predicate);
@@ -301,11 +337,5 @@ public sealed abstract class LTXIMachineBlockEntity extends LimaBlockEntity impl
         {
             createConnectionCaches(level, side);
         }
-    }
-
-    @Override
-    public SidedAccessBlockEntityType<?> getType()
-    {
-        return (SidedAccessBlockEntityType<?>) super.getType();
     }
 }
