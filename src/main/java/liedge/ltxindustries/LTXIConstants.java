@@ -19,6 +19,7 @@ public final class LTXIConstants
     public static final LimaColor HOSTILE_ORANGE = LimaColor.createOpaque(0xfc501c);
     public static final LimaColor INPUT_BLUE = LimaColor.createOpaque(0x007ddd);
     public static final LimaColor OUTPUT_ORANGE = LimaColor.createOpaque(0xfa9a00);
+    public static final LimaColor INPUT_OUTPUT_GREEN = LimaColor.createOpaque(0x007f46);
     public static final LimaColor CREATIVE_PINK = LimaColor.createOpaque(0xff00ff);
 
     // Elemental colors

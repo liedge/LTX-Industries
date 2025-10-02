@@ -1,5 +1,6 @@
 package liedge.ltxindustries.registry.game;
 
+import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
 import liedge.ltxindustries.item.*;
 import liedge.ltxindustries.item.tool.*;
 import liedge.ltxindustries.item.weapon.*;
@@ -131,8 +132,12 @@ public final class LTXIItems
     public static final DeferredItem<EquipmentUpgradeModuleItem> EQUIPMENT_UPGRADE_MODULE = ITEMS.registerItem("equipment_upgrade_module", EquipmentUpgradeModuleItem::new, properties().stacksTo(1));
     public static final DeferredItem<MachineUpgradeModuleItem> MACHINE_UPGRADE_MODULE = ITEMS.registerItem("machine_upgrade_module", MachineUpgradeModuleItem::new, properties().stacksTo(1));
 
+    // Data holding 'cards'
     public static final DeferredItem<SimpleHintItem> EMPTY_FABRICATION_BLUEPRINT = registerSimpleHint("empty_fabrication_blueprint");
     public static final DeferredItem<FabricationBlueprintItem> FABRICATION_BLUEPRINT = ITEMS.registerItem("fabrication_blueprint", FabricationBlueprintItem::new, properties().stacksTo(1));
+    public static final DeferredItem<IOConfigCardItem> ITEMS_IO_CONFIG_CARD = ITEMS.registerItem("items_io_config_card", properties -> new IOConfigCardItem(properties, BlockEntityInputType.ITEMS), properties().stacksTo(1));
+    public static final DeferredItem<IOConfigCardItem> ENERGY_IO_CONFIG_CARD = ITEMS.registerItem("energy_io_config_card", properties -> new IOConfigCardItem(properties, BlockEntityInputType.ENERGY), properties().stacksTo(1));
+    public static final DeferredItem<IOConfigCardItem> FLUIDS_IO_CONFIG_CARD = ITEMS.registerItem("fluids_io_config_card", properties -> new IOConfigCardItem(properties, BlockEntityInputType.FLUIDS), properties().stacksTo(1));
 
     // Signature weapons
     public static final DeferredItem<GlowstickLauncherItem> GLOWSTICK_LAUNCHER = registerLTXGear("glowstick_launcher", GlowstickLauncherItem::new);

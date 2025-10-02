@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "ltxi:item/fluids_io_config_card"
+  }
+}

@@ -4,12 +4,13 @@ import com.mojang.serialization.Codec;
 import liedge.limacore.data.LimaEnumCodec;
 import liedge.limacore.lib.Translatable;
 import liedge.ltxindustries.LTXIndustries;
+import liedge.ltxindustries.client.LTXILangKeys;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.StringRepresentable;
 import net.neoforged.neoforge.network.codec.NeoForgeStreamCodecs;
 
-public enum BlockEntityInputType implements StringRepresentable
+public enum BlockEntityInputType implements StringRepresentable, Translatable
 {
     ITEMS("items"),
     ENERGY("energy"),
@@ -17,16 +18,15 @@ public enum BlockEntityInputType implements StringRepresentable
 
     public static final Codec<BlockEntityInputType> CODEC = LimaEnumCodec.create(BlockEntityInputType.class);
     public static final StreamCodec<FriendlyByteBuf, BlockEntityInputType> STREAM_CODEC = NeoForgeStreamCodecs.enumCodec(BlockEntityInputType.class);
+    public static final Translatable SIDEBAR_TOOLTIP = LTXILangKeys.tooltip("configure_io");
 
     private final String name;
-    private final Translatable menuTitle;
-    private final Translatable sidebarTooltip;
+    private final String descriptionId;
 
     BlockEntityInputType(String name)
     {
         this.name = name;
-        this.menuTitle = LTXIndustries.RESOURCES.translationHolder("input_type.{}", name, "title");
-        this.sidebarTooltip = LTXIndustries.RESOURCES.translationHolder("input_type.{}", name, "tooltip");
+        this.descriptionId = LTXIndustries.RESOURCES.translationKey("input_type.{}", name);
     }
 
     @Override
@@ -35,13 +35,9 @@ public enum BlockEntityInputType implements StringRepresentable
         return name;
     }
 
-    public Translatable getMenuTitle()
+    @Override
+    public String descriptionId()
     {
-        return menuTitle;
-    }
-
-    public Translatable getSidebarTooltip()
-    {
-        return sidebarTooltip;
+        return descriptionId;
     }
 }

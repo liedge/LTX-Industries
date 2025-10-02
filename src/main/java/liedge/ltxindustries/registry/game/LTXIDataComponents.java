@@ -2,6 +2,7 @@ package liedge.ltxindustries.registry.game;
 
 import com.mojang.serialization.Codec;
 import liedge.ltxindustries.LTXIndustries;
+import liedge.ltxindustries.blockentity.base.BlockIOConfiguration;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgradeEntry;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgradeEntry;
@@ -35,6 +36,7 @@ public final class LTXIDataComponents
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<MachineUpgradeEntry>> MACHINE_UPGRADE_ENTRY = TYPES.registerComponentType("machine_upgrade", builder -> builder.persistent(MachineUpgradeEntry.CODEC).networkSynchronized(MachineUpgradeEntry.STREAM_CODEC).cacheEncoding());
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> LAST_EQUIPMENT_HASH = TYPES.registerComponentType("last_equipment_hash", builder -> builder.persistent(Codec.INT)); // No network sync, unnecessary
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<ResourceLocation>> BLUEPRINT_RECIPE = TYPES.registerComponentType("blueprint_recipe", builder -> builder.persistent(ResourceLocation.CODEC).networkSynchronized(ResourceLocation.STREAM_CODEC));
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<BlockIOConfiguration>> BLOCK_IO_CONFIGURATION = TYPES.registerComponentType("block_io_config", builder -> builder.persistent(BlockIOConfiguration.CODEC).networkSynchronized(BlockIOConfiguration.STREAM_CODEC).cacheEncoding());
 
     // Weapon components
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> WEAPON_AMMO = TYPES.registerComponentType("ammo", builder -> builder.persistent(ExtraCodecs.intRange(0, 1000)).networkSynchronized(ByteBufCodecs.VAR_INT));

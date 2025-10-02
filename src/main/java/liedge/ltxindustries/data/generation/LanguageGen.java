@@ -19,7 +19,10 @@ import liedge.ltxindustries.registry.bootstrap.LTXIDamageTypes;
 import liedge.ltxindustries.registry.bootstrap.LTXIEnchantments;
 import liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades;
 import liedge.ltxindustries.registry.bootstrap.LTXIMachineUpgrades;
-import liedge.ltxindustries.registry.game.*;
+import liedge.ltxindustries.registry.game.LTXIEntities;
+import liedge.ltxindustries.registry.game.LTXIFluids;
+import liedge.ltxindustries.registry.game.LTXIMenus;
+import liedge.ltxindustries.registry.game.LTXIMobEffects;
 import liedge.ltxindustries.util.LTXITooltipUtil;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
@@ -163,6 +166,9 @@ class LanguageGen extends LimaLanguageProvider
         addItem(EMPTY_UPGRADE_MODULE, "Empty Upgrade Module");
         simpleHintItem(EMPTY_FABRICATION_BLUEPRINT, "Empty Fabrication Blueprint", "Encode a Fabrication recipe in a Fabricator.");
         addItem(FABRICATION_BLUEPRINT, "Fabrication Blueprint");
+        addItem(ITEMS_IO_CONFIG_CARD, "Items IO Config Card");
+        addItem(ENERGY_IO_CONFIG_CARD, "Energy IO Config Card");
+        addItem(FLUIDS_IO_CONFIG_CARD, "Fluids IO Config Card");
 
         simpleHintItem(EXPLOSIVES_WEAPON_TECH_SALVAGE, "Salvaged Tech: Explosive Weapon Systems", "Broken components from an explosives handling device. Might be useful in reconstructing explosive weaponry.");
         simpleHintItem(TARGETING_TECH_SALVAGE, "Salvaged Tech: Auto-Targeting Systems", "Broken electronics from a targeting computer. Might be useful in reconstructing guidance systems for weaponry.");
@@ -252,14 +258,13 @@ class LanguageGen extends LimaLanguageProvider
         menuTitle(LTXIMenus.MACHINE_UPGRADES, "Machine Upgrades");
         menuTitle(LTXIMenus.ROCKET_TURRET, "Atmos Turret");
         menuTitle(LTXIMenus.RAILGUN_TURRET, "Noctis Turret");
+        menuTitle(LTXIMenus.BLOCK_IO_CONFIGURATION, "%s IO Config");
 
         // Machine input types
-        add(BlockEntityInputType.ITEMS.getMenuTitle(), "Items IO Control");
-        add(BlockEntityInputType.ITEMS.getSidebarTooltip(), "Configure Item IO");
-        add(BlockEntityInputType.ENERGY.getMenuTitle(), "Energy IO Control");
-        add(BlockEntityInputType.ENERGY.getSidebarTooltip(), "Configure Energy IO");
-        add(BlockEntityInputType.FLUIDS.getMenuTitle(), "Fluids IO Control");
-        add(BlockEntityInputType.FLUIDS.getSidebarTooltip(), "Configure Fluid IO");
+        add(BlockEntityInputType.ITEMS, "Items");
+        add(BlockEntityInputType.ENERGY, "Energy");
+        add(BlockEntityInputType.FLUIDS, "Fluids");
+        add(BlockEntityInputType.SIDEBAR_TOOLTIP, "Configure %s IO");
 
         // Recipe types
         add(GRINDING, "Grinding");
@@ -324,6 +329,13 @@ class LanguageGen extends LimaLanguageProvider
         add(UPGRADE_INSTALL_FAIL, "Can't install upgrade.");
         add(INVALID_UPGRADE_HINT, "The upgrade in this module is invalid or corrupted. Shift+Right Click to clear.");
         add(INVALID_BLUEPRINT_HINT, "The recipe in this blueprint is invalid or corrupted. Shift+Right Click to clear.");
+        add(EMPTY_IO_CARD_HINT, "No IO configuration data stored. Shift+Right Click a machine to copy.");
+        add(ENCODED_IO_CARD_HINT, "Shift+Right Click on a compatible machine to paste settings, or in the air to clear.");
+        add(IO_CARD_CLEARED, "IO config cleared.");
+        add(IO_CARD_COPIED, "Machine IO config copied.");
+        add(IO_CARD_PASTED, "Applied IO config to machine.");
+        add(IO_CARD_INVALID_SETUP, "Machine does not support this IO config.");
+        add(IO_CARD_INVALID_TYPE, "Machine does not support %s.");
 
         add(ENERGY_CAPACITY_UPGRADE, "%s energy capacity");
         add(ENERGY_TRANSFER_UPGRADE, "%s energy transfer rate");

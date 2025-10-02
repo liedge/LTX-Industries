@@ -11,6 +11,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 public sealed interface BlockIOConfiguration permits BlockIOMap
@@ -61,4 +62,8 @@ public sealed interface BlockIOConfiguration permits BlockIOMap
     BlockIOConfiguration toggleAutoInput();
 
     BlockIOConfiguration toggleAutoOutput();
+
+    boolean isValidForRules(IOConfigurationRules rules);
+
+    void forEach(BiConsumer<RelativeHorizontalSide, IOAccess> consumer);
 }

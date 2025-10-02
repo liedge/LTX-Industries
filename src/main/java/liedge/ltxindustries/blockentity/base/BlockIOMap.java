@@ -11,6 +11,7 @@ import net.minecraft.network.codec.StreamCodec;
 
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.function.BiConsumer;
 
 record BlockIOMap(Map<RelativeHorizontalSide, IOAccess> map, boolean autoInput, boolean autoOutput) implements BlockIOConfiguration
 {
@@ -69,5 +70,23 @@ record BlockIOMap(Map<RelativeHorizontalSide, IOAccess> map, boolean autoInput, 
     public BlockIOConfiguration toggleAutoOutput()
     {
         return new BlockIOMap(map, autoInput, !autoOutput);
+    }
+
+    @Override
+    public boolean isValidForRules(IOConfigurationRules rules)
+    {
+        boolean mapTest = map.entrySet().stream().allMatch(entry -> rules.validSides().contains(entry.getKey()) && rules.validIOAccesses().contains(entry.getValue()));
+        boolean autoIOTest = (!autoInput || rules.allowsAutoInput()) && (!autoOutput || rules.allowsAutoOutput());
+
+        return mapTest && autoIOTest;
+    }
+
+    @Override
+    public void forEach(BiConsumer<RelativeHorizontalSide, IOAccess> consumer)
+    {
+        for (var entry : map.entrySet())
+        {
+            consumer.accept(entry.getKey(), entry.getValue());
+        }
     }
 }

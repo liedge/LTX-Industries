@@ -46,12 +46,19 @@ public final class LTXILangKeys
     public static final Translatable ADVANCEMENT_LOCKED_TOOLTIP = tooltip("advancement_locked");
 
     // System Messages
-    public static final Translatable UPGRADE_INSTALL_SUCCESS = prefixKey("msg", "upgrade_success");
-    public static final Translatable UPGRADE_INSTALL_FAIL = prefixKey("msg", "upgrade_fail");
+    public static final Translatable UPGRADE_INSTALL_SUCCESS = sysMsg("upgrade_success");
+    public static final Translatable UPGRADE_INSTALL_FAIL = sysMsg("upgrade_fail");
+    public static final Translatable IO_CARD_CLEARED = sysMsg("io_card.cleared");
+    public static final Translatable IO_CARD_COPIED = sysMsg("io_card.copied");
+    public static final Translatable IO_CARD_PASTED = sysMsg("io_card.pasted");
+    public static final Translatable IO_CARD_INVALID_SETUP = sysMsg("io_card.invalid_setup");
+    public static final Translatable IO_CARD_INVALID_TYPE = sysMsg("io_card.invalid_type");
 
     // Item hints
     public static final Translatable INVALID_UPGRADE_HINT = itemHint("invalid_upgrade");
     public static final Translatable INVALID_BLUEPRINT_HINT = itemHint("invalid_blueprint");
+    public static final Translatable EMPTY_IO_CARD_HINT = itemHint("io_card.empty");
+    public static final Translatable ENCODED_IO_CARD_HINT = itemHint("io_card.encoded");
 
     // Static upgrade upgrade titles
     public static final Translatable TOOL_DEFAULT_UPGRADE_TITLE = prefixKey("equipment_upgrade", "tool_default");
@@ -100,6 +107,11 @@ public final class LTXILangKeys
     private static Translatable suffixOnlyKey(String suffix)
     {
         return RESOURCES.translationHolder("{}", suffix);
+    }
+
+    private static Translatable sysMsg(String key)
+    {
+        return prefixKey("msg", key);
     }
 
     private static Translatable itemHint(String key)
