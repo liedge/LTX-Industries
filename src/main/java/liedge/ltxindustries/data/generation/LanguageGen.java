@@ -334,6 +334,7 @@ class LanguageGen extends LimaLanguageProvider
         add(IO_CARD_CLEARED, "IO config cleared.");
         add(IO_CARD_COPIED, "Machine IO config copied.");
         add(IO_CARD_PASTED, "Applied IO config to machine.");
+        add(IO_CARD_SAME_CONFIG, "IO config already applied.");
         add(IO_CARD_INVALID_SETUP, "Machine does not support this IO config.");
         add(IO_CARD_INVALID_TYPE, "Machine does not support %s.");
 

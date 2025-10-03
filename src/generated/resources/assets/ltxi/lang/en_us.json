@@ -300,6 +300,7 @@
   "msg.ltxi.io_card.invalid_setup": "Machine does not support this IO config.",
   "msg.ltxi.io_card.invalid_type": "Machine does not support %s.",
   "msg.ltxi.io_card.pasted": "Applied IO config to machine.",
+  "msg.ltxi.io_card.same_config": "IO config already applied.",
   "msg.ltxi.upgrade_fail": "Can't install upgrade.",
   "msg.ltxi.upgrade_success": "Installed upgrade.",
   "recipe_type.ltxi.chemical_reacting": "Chemical Reacting",

@@ -97,6 +97,9 @@ class RecipesGen extends LimaRecipeProvider
 
         shaped(EMPTY_UPGRADE_MODULE).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('g', GLASS_BLOCKS_CHEAP).patterns("ggg", "gcg", "ttt").save(output);
         shaped(EMPTY_FABRICATION_BLUEPRINT, 2).input('l', DYES_LIME).input('p', PAPER).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).patterns("lll", "ppp", "tct").save(output);
+        shaped(ITEMS_IO_CONFIG_CARD).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('m', CHEST).patterns(" m ", "tct", " t ").save(output);
+        shaped(ENERGY_IO_CONFIG_CARD).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('m', BUCKET).patterns(" m ", "tct", " t ").save(output);
+        shaped(FLUIDS_IO_CONFIG_CARD).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('m', ELECTRIC_CHEMICAL).patterns(" m ", "tct", " t ").save(output);
 
         shaped(defaultUpgradableItem(LTX_WRENCH, registries)).input('t', TITANIUM_INGOT).input('l', DYES_LIME).patterns("t t", " l ", " t ").save(output);
 

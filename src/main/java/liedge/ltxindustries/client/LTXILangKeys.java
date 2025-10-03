@@ -51,6 +51,7 @@ public final class LTXILangKeys
     public static final Translatable IO_CARD_CLEARED = sysMsg("io_card.cleared");
     public static final Translatable IO_CARD_COPIED = sysMsg("io_card.copied");
     public static final Translatable IO_CARD_PASTED = sysMsg("io_card.pasted");
+    public static final Translatable IO_CARD_SAME_CONFIG = sysMsg("io_card.same_config");
     public static final Translatable IO_CARD_INVALID_SETUP = sysMsg("io_card.invalid_setup");
     public static final Translatable IO_CARD_INVALID_TYPE = sysMsg("io_card.invalid_type");
 

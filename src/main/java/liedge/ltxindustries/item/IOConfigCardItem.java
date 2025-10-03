@@ -65,17 +65,28 @@ public class IOConfigCardItem extends Item implements TooltipShiftHintItem
             {
                 if (blockEntity.getConfigurableInputTypes().contains(cardInputType))
                 {
+                    BlockIOConfiguration currentConfig = blockEntity.getIOConfigurationOrThrow(cardInputType);
+
                     // Pull into card item if blank
                     if (configuration == null)
                     {
-                        stack.set(LTXIDataComponents.BLOCK_IO_CONFIGURATION, blockEntity.getIOConfigurationOrThrow(cardInputType));
+                        stack.set(LTXIDataComponents.BLOCK_IO_CONFIGURATION, currentConfig);
                         player.displayClientMessage(LTXILangKeys.IO_CARD_COPIED.translate().withStyle(ChatFormatting.AQUA), true);
                     }
-                    else if (configuration.isValidForRules(blockEntity.getIOConfigRules(cardInputType))) // Imprint onto machine
+                    // Imprint onto machine
+                    else if (configuration.isValidForRules(blockEntity.getIOConfigRules(cardInputType)))
                     {
-                        blockEntity.setIOConfiguration(cardInputType, configuration);
-                        player.displayClientMessage(LTXILangKeys.IO_CARD_PASTED.translate().withStyle(LTXIConstants.LIME_GREEN.chatStyle()), true);
+                        if (!currentConfig.equals(configuration))
+                        {
+                            blockEntity.setIOConfiguration(cardInputType, configuration);
+                            player.displayClientMessage(LTXILangKeys.IO_CARD_PASTED.translate().withStyle(LTXIConstants.LIME_GREEN.chatStyle()), true);
+                        }
+                        else
+                        {
+                            player.displayClientMessage(LTXILangKeys.IO_CARD_SAME_CONFIG.translate().withStyle(ChatFormatting.YELLOW), true);
+                        }
                     }
+                    // Config not valid for machine
                     else
                     {
                         player.displayClientMessage(LTXILangKeys.IO_CARD_INVALID_SETUP.translate().withStyle(LTXIConstants.HOSTILE_ORANGE.chatStyle()), true);

@@ -82,7 +82,7 @@ public class MachineUpgradeModuleItem extends UpgradeModuleItem<MachineUpgrade, 
                 }
             }
 
-            return InteractionResult.sidedSuccess(!level.isClientSide());
+            return InteractionResult.sidedSuccess(level.isClientSide());
         }
 
         return InteractionResult.CONSUME;

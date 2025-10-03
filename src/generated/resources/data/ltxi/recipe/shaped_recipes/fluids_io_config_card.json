@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": {
+      "item": "ltxi:t1_circuit"
+    },
+    "m": {
+      "item": "ltxi:electric_chemical"
+    },
+    "t": {
+      "item": "ltxi:titanium_ingot"
+    }
+  },
+  "pattern": [
+    " m ",
+    "tct",
+    " t "
+  ],
+  "result": {
+    "count": 1,
+    "id": "ltxi:fluids_io_config_card"
+  }
+}
