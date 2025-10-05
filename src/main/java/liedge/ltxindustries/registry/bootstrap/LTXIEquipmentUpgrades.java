@@ -197,7 +197,7 @@ public final class LTXIEquipmentUpgrades
                 .withConditionalEffect(EQUIPMENT_DAMAGE, ValueUpgradeEffect.of(DoubleLevelBasedValue.constant(25), MathOperation.ADD),
                         LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.ATTACKER, EntityPredicate.Builder.entity()
                                 .distance(DistancePredicate.absolute(MinMaxBounds.Doubles.atLeast(40.0d)))))
-                .withConditionalEffect(EQUIPMENT_DAMAGE, ValueUpgradeEffect.of(DoubleLevelBasedValue.constant(0.25d), MathOperation.ADD_TOTAL_PERCENT),
+                .withConditionalEffect(EQUIPMENT_DAMAGE, ValueUpgradeEffect.of(DoubleLevelBasedValue.constant(0.25d), MathOperation.ADD_PERCENT_OF_TOTAL),
                         LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.ATTACKER, EntityPredicate.Builder.entity()
                                 .moving(MovementPredicate.speed(MinMaxBounds.Doubles.atMost(1e-3d)))
                                 .flags(EntityFlagsPredicate.Builder.flags().setCrouching(true))))

@@ -3,8 +3,8 @@ package liedge.ltxindustries.item.tool;
 import liedge.limacore.capability.energy.LimaEnergyUtil;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.item.LimaCreativeTabFillerItem;
+import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.registry.game.LimaCoreDataComponents;
-import liedge.limacore.util.LimaMathUtil;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.item.EnergyHolderItem;
 import liedge.ltxindustries.item.TooltipShiftHintItem;
@@ -179,7 +179,7 @@ public abstract class EnergyBaseToolItem extends Item implements EnergyHolderIte
     @Override
     public int getBarWidth(ItemStack stack)
     {
-        float fill = Math.min(LimaMathUtil.divideFloat(getEnergyStored(stack), getEnergyCapacity(stack)), 1f);
+        float fill = Math.min(LimaCoreMath.divideFloat(getEnergyStored(stack), getEnergyCapacity(stack)), 1f);
         return Math.round(13f * fill);
     }
 

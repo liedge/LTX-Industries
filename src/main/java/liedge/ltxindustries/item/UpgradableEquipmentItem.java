@@ -1,8 +1,8 @@
 package liedge.ltxindustries.item;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.registry.game.LimaCoreDataComponents;
-import liedge.limacore.util.LimaMathUtil;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.ltxindustries.registry.game.LTXIDataComponents;
@@ -56,11 +56,11 @@ public interface UpgradableEquipmentItem extends ItemLike
         // Apply to energy capability holder items only
         if (this instanceof EnergyHolderItem holderItem && holderItem.supportsEnergyStorage(stack))
         {
-            int capacity = LimaMathUtil.round(upgrades.applyValue(LTXIUpgradeEffectComponents.ENERGY_CAPACITY, context, holderItem.getBaseEnergyCapacity(stack)));
+            int capacity = LimaCoreMath.round(upgrades.applyValue(LTXIUpgradeEffectComponents.ENERGY_CAPACITY, context, holderItem.getBaseEnergyCapacity(stack)));
             stack.set(LimaCoreDataComponents.ENERGY_CAPACITY, capacity);
 
-            int transferRate = LimaMathUtil.round(upgrades.applyValue(LTXIUpgradeEffectComponents.ENERGY_TRANSFER_RATE, context, holderItem.getBaseEnergyTransferRate(stack)));
-            int energyUsage = LimaMathUtil.round(upgrades.applyValue(LTXIUpgradeEffectComponents.ENERGY_USAGE, context, holderItem.getBaseEnergyUsage(stack)));
+            int transferRate = LimaCoreMath.round(upgrades.applyValue(LTXIUpgradeEffectComponents.ENERGY_TRANSFER_RATE, context, holderItem.getBaseEnergyTransferRate(stack)));
+            int energyUsage = LimaCoreMath.round(upgrades.applyValue(LTXIUpgradeEffectComponents.ENERGY_USAGE, context, holderItem.getBaseEnergyUsage(stack)));
             stack.set(LimaCoreDataComponents.ENERGY_TRANSFER_RATE, transferRate);
             stack.set(LimaCoreDataComponents.ENERGY_USAGE, energyUsage);
         }

@@ -2,7 +2,7 @@ package liedge.ltxindustries.client.renderer.item;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import liedge.limacore.client.ItemGuiRenderOverride;
-import liedge.limacore.util.LimaMathUtil;
+import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.ltxindustries.client.gui.UpgradeIconRenderers;
 import liedge.ltxindustries.item.UpgradeModuleItem;
 import liedge.ltxindustries.lib.upgrades.UpgradeBaseEntry;
@@ -47,7 +47,7 @@ public final class UpgradeModuleItemExtensions implements ItemGuiRenderOverride
             graphics.pose().pushPose();
 
             renderGradientBar(graphics, x + 1, y + 1, x + 3, y +  15, 0xff4a4a4a, -16777216);
-            float yo = 14f - 14f * LimaMathUtil.divideFloat(rank, maxRank);
+            float yo = 14f - 14f * LimaCoreMath.divideFloat(rank, maxRank);
             renderGradientBar(graphics, x + 1, y + 1 + yo, x + 3, y + 15, UPGRADE_RANK_MAGENTA.argb32(), 0xffd13ff0);
 
             graphics.pose().popPose();

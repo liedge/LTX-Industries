@@ -2,7 +2,7 @@ package liedge.ltxindustries.client.particle;
 
 import liedge.limacore.client.particle.ColorParticleOptions;
 import liedge.limacore.lib.LimaColor;
-import liedge.limacore.util.LimaMathUtil;
+import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.ltxindustries.registry.game.LTXIParticles;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.NoRenderParticle;
@@ -54,8 +54,8 @@ public class RailgunBoltParticle extends NoRenderParticle
         }
         else if (age >= 10)
         {
-            float xRot = LimaMathUtil.getXRot(direction);
-            float yRot = LimaMathUtil.getYRot(direction);
+            float xRot = LimaCoreMath.getXRot(direction);
+            float yRot = LimaCoreMath.getYRot(direction);
 
             for (int i = 0; i < beamSegments; i++)
             {
@@ -68,8 +68,8 @@ public class RailgunBoltParticle extends NoRenderParticle
                 float xo1 = (random.nextFloat() - random.nextFloat()) * 1.1f;
                 float yo1 = (random.nextFloat() - random.nextFloat()) * 1.1f;
 
-                Vec3 arcStart = LimaMathUtil.relativePointToRotations(xRot, yRot, xo0, yo0, 0f).add(px, py, pz);
-                Vec3 arcEnd = LimaMathUtil.relativePointToRotations(xRot, yRot, xo1, yo1, 1f).add(px, py, pz);
+                Vec3 arcStart = LimaCoreMath.relativePointToRotations(xRot, yRot, xo0, yo0, 0f).add(px, py, pz);
+                Vec3 arcEnd = LimaCoreMath.relativePointToRotations(xRot, yRot, xo1, yo1, 1f).add(px, py, pz);
 
                 level.addAlwaysVisibleParticle(new ColorParticleOptions(LTXIParticles.FIXED_ELECTRIC_BOLT, color), true, arcStart.x, arcStart.y, arcStart.z, arcEnd.x, arcEnd.y, arcEnd.z);
             }

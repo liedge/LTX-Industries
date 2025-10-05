@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import liedge.limacore.client.renderer.LimaCoreRenderTypes;
 import liedge.limacore.lib.LimaColor;
-import liedge.limacore.util.LimaMathUtil;
+import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.entity.OrbGrenadeEntity;
 import net.minecraft.client.model.Model;
@@ -39,7 +39,7 @@ public class OrbGrenadeModel extends Model
 
     public void animateFromEntity(OrbGrenadeEntity entity, float partialTick)
     {
-        float xRot = LimaMathUtil.toRad(entity.lerpSpinAnimation(partialTick));
+        float xRot = LimaCoreMath.toRad(entity.lerpSpinAnimation(partialTick));
 
         body.xRot = xRot;
         accents.xRot = xRot;

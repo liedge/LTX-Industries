@@ -2,9 +2,9 @@ package liedge.ltxindustries.client.particle;
 
 import liedge.limacore.client.particle.ColorParticleOptions;
 import liedge.limacore.client.particle.ColorSizeParticleOptions;
-import liedge.limacore.util.LimaMathUtil;
-import liedge.ltxindustries.registry.game.LTXIParticles;
+import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
+import liedge.ltxindustries.registry.game.LTXIParticles;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.NoRenderParticle;
@@ -100,7 +100,7 @@ public class GrenadeExplosionParticle extends NoRenderParticle
                     double dx = (double) j + (random.nextDouble() - random.nextDouble()) * 0.5d;
                     double dy = (double) i + (random.nextDouble() - random.nextDouble()) * 0.5d;
                     double dz = (double) k + (random.nextDouble() - random.nextDouble()) * 0.5d;
-                    double d1 = LimaMathUtil.vec3Length(dx, dy, dz) / speed + random.nextGaussian() * 0.05d;
+                    double d1 = LimaCoreMath.vec3Length(dx, dy, dz) / speed + random.nextGaussian() * 0.05d;
 
                     Particle particle = Minecraft.getInstance().particleEngine.createParticle(options, x, y, z, 0, 0, 0);
                     if (particle != null)
@@ -123,7 +123,7 @@ public class GrenadeExplosionParticle extends NoRenderParticle
                     double dx = (double) j + (random.nextDouble() - random.nextDouble()) * 0.5d;
                     double dy = (double) i + (random.nextDouble() - random.nextDouble()) * 0.5d;
                     double dz = (double) k + (random.nextDouble() - random.nextDouble()) * 0.5d;
-                    double d1 = LimaMathUtil.vec3Length(dx, dy, dz) / speed + random.nextGaussian() * 0.05d;
+                    double d1 = LimaCoreMath.vec3Length(dx, dy, dz) / speed + random.nextGaussian() * 0.05d;
 
                     level.addAlwaysVisibleParticle(particle, true, x, y, z, dx / d1, Math.min(dy / d1, 0.5d), dz / d1);
                 }

@@ -8,8 +8,8 @@ import liedge.limacore.client.gui.LimaGuiUtil;
 import liedge.limacore.client.model.baked.BakedItemLayer;
 import liedge.limacore.client.model.baked.ItemLayerBakedModel;
 import liedge.limacore.lib.LimaColor;
+import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.util.LimaCoreUtil;
-import liedge.limacore.util.LimaMathUtil;
 import liedge.ltxindustries.client.model.custom.TranslucentFillModel;
 import liedge.ltxindustries.client.renderer.LTXIArmPoses;
 import liedge.ltxindustries.client.renderer.LTXIRenderTypes;
@@ -119,7 +119,7 @@ public abstract class WeaponRenderer<T extends WeaponItem> extends LimaSpecialIt
 
     protected void renderStaticMagazineFill(T item, ItemStack stack, PoseStack poseStack, MultiBufferSource bufferSource, TranslucentFillModel fillModel, LimaColor color)
     {
-        float fill = Math.min(LimaMathUtil.divideFloat(item.getAmmoLoaded(stack), item.getAmmoCapacity(stack)), 1f);
+        float fill = Math.min(LimaCoreMath.divideFloat(item.getAmmoLoaded(stack), item.getAmmoCapacity(stack)), 1f);
         if (fill > 0)
         {
             VertexConsumer buffer = bufferSource.getBuffer(LTXIRenderTypes.POSITION_COLOR_QUADS);

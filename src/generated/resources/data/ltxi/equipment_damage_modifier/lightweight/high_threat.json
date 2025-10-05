@@ -9,6 +9,6 @@
   "equipment_predicate": {
     "items": "#ltxi:weapons/lightweight"
   },
-  "op": "add_total_percent",
+  "op": "add_percent_of_total",
   "value": -0.8
 }

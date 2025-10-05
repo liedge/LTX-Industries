@@ -69,7 +69,7 @@
     "ltxi:energy_capacity": [
       {
         "type": "simple",
-        "op": "add_percent",
+        "op": "add_percent_of_base",
         "value": {
           "type": "linear",
           "base": 2.0,
@@ -80,7 +80,7 @@
     "ltxi:energy_transfer_rate": [
       {
         "type": "simple",
-        "op": "add_percent",
+        "op": "add_percent_of_base",
         "value": {
           "type": "linear",
           "base": 3.0,

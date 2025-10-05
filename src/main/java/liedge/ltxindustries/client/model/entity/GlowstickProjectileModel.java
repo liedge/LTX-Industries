@@ -12,7 +12,7 @@ import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.util.Mth;
 
-import static liedge.limacore.util.LimaMathUtil.toRad;
+import static liedge.limacore.lib.math.LimaCoreMath.toRad;
 
 public class GlowstickProjectileModel extends Model
 {

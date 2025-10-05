@@ -4,8 +4,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
-import liedge.limacore.util.LimaMathUtil;
 import liedge.limacore.util.LimaRegistryUtil;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.client.LTXILangKeys;
@@ -156,7 +156,7 @@ public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, U>, M extend
 
 
                 // Render rank bar
-                float xo = 75f * LimaMathUtil.divideFloat(entry.getIntValue(), upgrade.maxRank());
+                float xo = 75f * LimaCoreMath.divideFloat(entry.getIntValue(), upgrade.maxRank());
                 int leftColor;
                 int rightColor;
 

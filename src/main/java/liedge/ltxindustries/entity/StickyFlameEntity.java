@@ -1,6 +1,6 @@
 package liedge.ltxindustries.entity;
 
-import liedge.limacore.util.LimaMathUtil;
+import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.ltxindustries.registry.bootstrap.LTXIDamageTypes;
 import liedge.ltxindustries.registry.game.LTXIEntities;
 import liedge.ltxindustries.registry.game.LTXIItems;
@@ -111,7 +111,7 @@ public class StickyFlameEntity extends LimaTraceableEntity
         }
         else
         {
-            if (LimaMathUtil.rollRandomChance(0.05d))
+            if (LimaCoreMath.rollRandomChance(0.05d))
             {
                 level.addParticle(ParticleTypes.CAMPFIRE_COSY_SMOKE, getRandomX(0.5f), getRandomY(), getRandomZ(0.5f), 0, 0.2d, 0);
             }

@@ -3,7 +3,7 @@ package liedge.ltxindustries.client.gui.layer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import liedge.limacore.client.LimaComponentUtil;
 import liedge.limacore.client.gui.LimaGuiLayer;
-import liedge.limacore.util.LimaMathUtil;
+import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.lib.weapons.WeaponReloadSource;
 import net.minecraft.client.Minecraft;
@@ -64,7 +64,7 @@ public final class WeaponHUDInfoLayer extends LimaGuiLayer
         else if (reloadSource.getType() == WeaponReloadSource.Type.COMMON_ENERGY)
         {
             int y = (graphics.guiHeight() - 23) / 2;
-            int energy = (int) (LimaMathUtil.divideFloat(weaponItem.getEnergyStored(heldItem), weaponItem.getEnergyCapacity(heldItem)) * 100f);
+            int energy = (int) (LimaCoreMath.divideFloat(weaponItem.getEnergyStored(heldItem), weaponItem.getEnergyCapacity(heldItem)) * 100f);
             String energyText = energy + "%";
 
             graphics.blitSprite(ENERGY_AMMO_DISPLAY_SPRITE, x, y, 49, 23);

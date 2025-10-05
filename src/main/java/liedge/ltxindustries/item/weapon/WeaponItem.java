@@ -7,8 +7,8 @@ import liedge.limacore.data.LimaCoreCodecs;
 import liedge.limacore.item.LimaCreativeTabFillerItem;
 import liedge.limacore.lib.TickTimer;
 import liedge.limacore.lib.Translatable;
+import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.network.LimaStreamCodecs;
-import liedge.limacore.util.LimaMathUtil;
 import liedge.limacore.util.LimaNetworkUtil;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.entity.CompoundHitResult;
@@ -370,7 +370,7 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
     private void applyIntStat(ItemStack stack, EquipmentUpgrades upgrades, LootContext context, int baseFallback, Supplier<? extends DataComponentType<Integer>> type, Supplier<? extends DataComponentType<List<ValueUpgradeEffect>>> effectType)
     {
         int base = components().getOrDefault(type.get(), baseFallback);
-        int value = LimaMathUtil.round(upgrades.applyValue(effectType, context, base));
+        int value = LimaCoreMath.round(upgrades.applyValue(effectType, context, base));
         stack.set(type, value);
     }
 }

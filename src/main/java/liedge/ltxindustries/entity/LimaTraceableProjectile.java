@@ -1,6 +1,6 @@
 package liedge.ltxindustries.entity;
 
-import liedge.limacore.util.LimaMathUtil;
+import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.ltxindustries.registry.game.LTXIGameEvents;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -15,7 +15,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector2f;
 
-import static liedge.limacore.util.LimaMathUtil.*;
+import static liedge.limacore.lib.math.LimaCoreMath.*;
 
 public abstract class LimaTraceableProjectile extends LimaTraceableEntity
 {
@@ -29,7 +29,7 @@ public abstract class LimaTraceableProjectile extends LimaTraceableEntity
     {
         setPos(shooter.getEyePosition());
         Vec3 motion = createMotionVector(shooter, speed, inaccuracy);
-        setRot(LimaMathUtil.getYRot(motion), LimaMathUtil.getXRot(motion));
+        setRot(LimaCoreMath.getYRot(motion), LimaCoreMath.getXRot(motion));
         setDeltaMovement(motion);
     }
 

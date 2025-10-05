@@ -5,7 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import liedge.limacore.client.model.baked.BakedItemLayer;
 import liedge.limacore.client.model.baked.ItemLayerBakedModel;
 import liedge.limacore.lib.LimaColor;
-import liedge.limacore.util.LimaMathUtil;
+import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.client.LTXIRenderUtil;
 import liedge.ltxindustries.client.model.baked.BakedRotation;
@@ -93,7 +93,7 @@ public class LinearFusionRenderer extends SimpleWeaponRenderer
     {
         VertexConsumer buffer = graphics.bufferSource().getBuffer(RenderType.gui());
         Matrix4f mx4 = graphics.pose().last().pose();
-        float rad = LimaMathUtil.toRad(angleDegrees);
+        float rad = LimaCoreMath.toRad(angleDegrees);
 
         float dx = Mth.cos(rad);
         float dy = -Mth.sin(rad);
@@ -120,7 +120,7 @@ public class LinearFusionRenderer extends SimpleWeaponRenderer
         float endAngle = -120f + (210f * arcLength);
         for (float a = -120f; a <= endAngle; a += 5)
         {
-            float rad = LimaMathUtil.toRad(a);
+            float rad = LimaCoreMath.toRad(a);
             float cos = Mth.cos(rad);
             float sin = Mth.sin(rad);
 

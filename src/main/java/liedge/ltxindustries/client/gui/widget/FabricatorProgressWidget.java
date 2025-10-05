@@ -2,7 +2,7 @@ package liedge.ltxindustries.client.gui.widget;
 
 import liedge.limacore.client.gui.FillBarWidget;
 import liedge.limacore.client.gui.TooltipLineConsumer;
-import liedge.limacore.util.LimaMathUtil;
+import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.blockentity.BaseFabricatorBlockEntity;
 import liedge.ltxindustries.client.LTXILangKeys;
@@ -36,7 +36,7 @@ public class FabricatorProgressWidget extends FillBarWidget.VerticalBar
     protected float getFillPercentage()
     {
         int recipeEnergy = blockEntity.getRecipeCheck().getLastUsedRecipe(Minecraft.getInstance().level).map(holder -> holder.value().getEnergyRequired()).orElse(0);
-        return LimaMathUtil.divideFloat(blockEntity.getEnergyCraftProgress(), recipeEnergy);
+        return LimaCoreMath.divideFloat(blockEntity.getEnergyCraftProgress(), recipeEnergy);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class FabricatorProgressWidget extends FillBarWidget.VerticalBar
         if (optional.isPresent())
         {
             FabricatingRecipe recipe = optional.get().value();
-            float fill = LimaMathUtil.divideFloat(blockEntity.getEnergyCraftProgress(), recipe.getEnergyRequired());
+            float fill = LimaCoreMath.divideFloat(blockEntity.getEnergyCraftProgress(), recipe.getEnergyRequired());
             int progress = (int) (fill * 100f);
 
             consumer.accept(LTXILangKeys.CRAFTING_PROGRESS_TOOLTIP.translateArgs(progress).withStyle(ChatFormatting.GRAY));

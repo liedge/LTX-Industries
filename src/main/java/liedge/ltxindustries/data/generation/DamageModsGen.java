@@ -47,10 +47,10 @@ class DamageModsGen extends JsonCodecProvider<EquipmentDamageModifier>
     @Override
     protected void gather()
     {
-        add("lightweight/high_threat", EquipmentDamageModifier.builder(-0.8f, MathOperation.ADD_TOTAL_PERCENT).forEquipmentTag(LIGHTWEIGHT_WEAPONS).againstEntities(HIGH_THREAT_TARGETS));
-        add("lightweight/medium_threat", EquipmentDamageModifier.builder(-0.5f, MathOperation.ADD_TOTAL_PERCENT).forEquipmentTag(LIGHTWEIGHT_WEAPONS).againstEntities(MEDIUM_THREAT_TARGETS));
-        add("specialist/high_threat", EquipmentDamageModifier.builder(-0.4f, MathOperation.ADD_TOTAL_PERCENT).forEquipmentTag(SPECIALIST_WEAPONS).againstEntities(HIGH_THREAT_TARGETS));
-        add("specialist/medium_threat", EquipmentDamageModifier.builder(-0.25f, MathOperation.ADD_TOTAL_PERCENT).forEquipmentTag(SPECIALIST_WEAPONS).againstEntities(MEDIUM_THREAT_TARGETS));
+        add("lightweight/high_threat", EquipmentDamageModifier.builder(-0.8f, MathOperation.ADD_PERCENT_OF_TOTAL).forEquipmentTag(LIGHTWEIGHT_WEAPONS).againstEntities(HIGH_THREAT_TARGETS));
+        add("lightweight/medium_threat", EquipmentDamageModifier.builder(-0.5f, MathOperation.ADD_PERCENT_OF_TOTAL).forEquipmentTag(LIGHTWEIGHT_WEAPONS).againstEntities(MEDIUM_THREAT_TARGETS));
+        add("specialist/high_threat", EquipmentDamageModifier.builder(-0.4f, MathOperation.ADD_PERCENT_OF_TOTAL).forEquipmentTag(SPECIALIST_WEAPONS).againstEntities(HIGH_THREAT_TARGETS));
+        add("specialist/medium_threat", EquipmentDamageModifier.builder(-0.25f, MathOperation.ADD_PERCENT_OF_TOTAL).forEquipmentTag(SPECIALIST_WEAPONS).againstEntities(MEDIUM_THREAT_TARGETS));
     }
 
     @Override

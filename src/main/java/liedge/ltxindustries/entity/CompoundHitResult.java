@@ -1,7 +1,7 @@
 package liedge.ltxindustries.entity;
 
+import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.util.LimaBlockUtil;
-import liedge.limacore.util.LimaMathUtil;
 import liedge.ltxindustries.lib.upgrades.UpgradesContainerBase;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -23,7 +23,7 @@ public record CompoundHitResult(Vec3 origin, List<EntityHitResult> entityHits, H
     {
         // Path points
         Vec3 origin = sourceEntity.getEyePosition();
-        Vec3 path = LimaMathUtil.createMotionVector(sourceEntity, range, deviation);
+        Vec3 path = LimaCoreMath.createMotionVector(sourceEntity, range, deviation);
         Vec3 pathEnd = range <= 32 ? origin.add(path) : LimaBlockUtil.traceLoadedChunks(level, origin, path);
         Vec3 end;
 

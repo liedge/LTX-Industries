@@ -7,8 +7,8 @@ import it.unimi.dsi.fastutil.ints.IntLists;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.lib.LimaColor;
 import liedge.limacore.lib.TickTimer;
+import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.util.LimaCollectionsUtil;
-import liedge.limacore.util.LimaMathUtil;
 import liedge.ltxindustries.client.LTXIRenderUtil;
 import liedge.ltxindustries.client.model.custom.BubbleShieldModel;
 import net.minecraft.util.Mth;
@@ -28,7 +28,7 @@ public final class BubbleShieldRenderer
     {
         ArrayDeque<Integer> deque = new ArrayDeque<>();
         IntList indexes = LimaCollectionsUtil.toIntList(IntStream.range(0, BubbleShieldModel.SHIELD_POLYGON_COUNT));
-        IntLists.shuffle(indexes, LimaMathUtil.RANDOM).forEach(deque::push);
+        IntLists.shuffle(indexes, LimaCoreMath.RANDOM).forEach(deque::push);
 
         for (int i = 0; i < 16; i++)
         {
@@ -68,9 +68,9 @@ public final class BubbleShieldRenderer
         private void tick()
         {
             animationTimer.tickTimer();
-            if (animationTimer.getTimerState() == TickTimer.State.STOPPED && LimaMathUtil.rollRandomChance(0.08d))
+            if (animationTimer.getTimerState() == TickTimer.State.STOPPED && LimaCoreMath.rollRandomChance(0.08d))
             {
-                animationTimer.startTimer(LimaMathUtil.nextIntBetweenInclusive(12, 18), false);
+                animationTimer.startTimer(LimaCoreMath.nextIntBetweenInclusive(12, 18), false);
             }
         }
 

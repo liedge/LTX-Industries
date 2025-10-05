@@ -1,9 +1,9 @@
 package liedge.ltxindustries.blockentity.base;
 
+import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.network.sync.AutomaticDataWatcher;
 import liedge.limacore.network.sync.DataWatcherHolder;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
-import liedge.limacore.util.LimaMathUtil;
 
 public interface VariableTimedProcessBlockEntity
 {
@@ -19,7 +19,7 @@ public interface VariableTimedProcessBlockEntity
 
     default float getProcessTimePercent()
     {
-        return LimaMathUtil.divideFloat(getCurrentProcessTime(), getTicksPerOperation());
+        return LimaCoreMath.divideFloat(getCurrentProcessTime(), getTicksPerOperation());
     }
 
     default void keepTimedProcessSynced(DataWatcherHolder.DataWatcherCollector collector)

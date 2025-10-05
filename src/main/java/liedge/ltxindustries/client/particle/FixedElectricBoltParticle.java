@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import liedge.limacore.client.particle.ColorParticleOptions;
 import liedge.limacore.client.particle.CustomRenderTypeParticle;
 import liedge.limacore.lib.LimaColor;
-import liedge.limacore.util.LimaMathUtil;
+import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.ltxindustries.client.model.custom.EnergyBoltModel;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -17,7 +17,7 @@ public class FixedElectricBoltParticle extends CustomRenderTypeParticle
 {
     public static @Nullable FixedElectricBoltParticle create(ColorParticleOptions options, ClientLevel level, double x1, double y1, double z1, double x2, double y2, double z2)
     {
-        double length = LimaMathUtil.distanceBetween(x1, y1, z1, x2, y2, z2);
+        double length = LimaCoreMath.distanceBetween(x1, y1, z1, x2, y2, z2);
         return length <= 100 ? new FixedElectricBoltParticle(level, x1, y1, z1, x2, y2, z2, options.color(), length) : null;
     }
 

@@ -1,6 +1,6 @@
 package liedge.ltxindustries.client.renderer;
 
-import liedge.limacore.util.LimaMathUtil;
+import liedge.limacore.lib.math.LimaCoreMath;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.util.Mth;
@@ -11,11 +11,11 @@ import net.neoforged.neoforge.client.IArmPoseTransformer;
 
 public final class LTXIArmPoses
 {
-    private static final float UPPER_PITCH_LIMIT = LimaMathUtil.toRad(80f);
-    private static final float SHIELD_LOWER_PITCH_LIMIT = LimaMathUtil.toRad(25f);
-    private static final float MAIN_YAW_OFFSET = LimaMathUtil.toRad(6f);
-    private static final float OFFHAND_YAW_OFFSET = LimaMathUtil.toRad(35f);
-    private static final float MAIN_PITCH_OFFSET = LimaMathUtil.toRad(3f);
+    private static final float UPPER_PITCH_LIMIT = LimaCoreMath.toRad(80f);
+    private static final float SHIELD_LOWER_PITCH_LIMIT = LimaCoreMath.toRad(25f);
+    private static final float MAIN_YAW_OFFSET = LimaCoreMath.toRad(6f);
+    private static final float OFFHAND_YAW_OFFSET = LimaCoreMath.toRad(35f);
+    private static final float MAIN_PITCH_OFFSET = LimaCoreMath.toRad(3f);
 
     private LTXIArmPoses() {}
 

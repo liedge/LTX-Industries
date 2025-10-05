@@ -13,7 +13,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import org.joml.Matrix4f;
 
-import static liedge.limacore.util.LimaMathUtil.toRad;
+import static liedge.limacore.lib.math.LimaCoreMath.toRad;
 import static liedge.ltxindustries.LTXIConstants.HOSTILE_ORANGE;
 import static liedge.ltxindustries.LTXIConstants.LIME_GREEN;
 

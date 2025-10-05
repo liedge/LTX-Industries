@@ -1,7 +1,7 @@
 package liedge.ltxindustries.util.config;
 
 import liedge.limacore.lib.LimaColor;
-import liedge.limacore.util.LimaMathUtil;
+import liedge.limacore.lib.math.LimaCoreMath;
 import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
@@ -32,7 +32,7 @@ public final class LTXIClientConfig
         if (event.getConfig().getSpec() == CLIENT_CONFIG_SPEC)
         {
             solidCrosshairColor = SOLID_COLOR_CROSSHAIR.get();
-            crosshairColor = solidCrosshairColor ? LimaMathUtil.tryParseHexadecimal(WEAPON_CROSSHAIR_COLOR.get()).map(LimaColor::createOpaque).orElse(LimaColor.WHITE) : LimaColor.WHITE;
+            crosshairColor = solidCrosshairColor ? LimaCoreMath.tryParseHexadecimal(WEAPON_CROSSHAIR_COLOR.get()).map(LimaColor::createOpaque).orElse(LimaColor.WHITE) : LimaColor.WHITE;
         }
     }
 

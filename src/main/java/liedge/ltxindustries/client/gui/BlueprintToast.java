@@ -1,9 +1,9 @@
 package liedge.ltxindustries.client.gui;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import liedge.limacore.util.LimaMathUtil;
-import liedge.ltxindustries.LTXIndustries;
+import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.ltxindustries.LTXIConstants;
+import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.client.renderer.item.UpgradeModuleItemExtensions;
 import liedge.ltxindustries.item.UpgradeModuleItem;
@@ -54,7 +54,7 @@ public final class BlueprintToast implements Toast
         graphics.drawString(toastComponent.getMinecraft().font, LTXILangKeys.BLUEPRINT_TOAST_MESSAGE.translate(), 35, 7, LTXIConstants.LIME_GREEN.argb32(), false);
 
         int size = recipes.size();
-        int i = (int) ((double) timeSinceLastVisible / Math.max(1d, LimaMathUtil.divideDouble(DISPLAY_TIME * toastComponent.getNotificationDisplayTimeMultiplier(), size)) % size);
+        int i = (int) ((double) timeSinceLastVisible / Math.max(1d, LimaCoreMath.divideDouble(DISPLAY_TIME * toastComponent.getNotificationDisplayTimeMultiplier(), size)) % size);
         FabricatingRecipe recipe = recipes.get(i);
         ItemStack displayItem = recipe.getFabricatingResultItem();
 

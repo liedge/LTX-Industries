@@ -38,8 +38,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
-import static liedge.limacore.util.LimaMathUtil.toDeg;
-import static liedge.limacore.util.LimaMathUtil.vec2Length;
+import static liedge.limacore.lib.math.LimaCoreMath.toDeg;
+import static liedge.limacore.lib.math.LimaCoreMath.vec2Length;
 
 public abstract class BaseTurretBlockEntity extends ProductionMachineBlockEntity implements OwnableBlockEntity
 {

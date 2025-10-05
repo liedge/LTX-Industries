@@ -5,8 +5,8 @@ import com.mojang.math.Axis;
 import liedge.limacore.client.particle.ColorParticleOptions;
 import liedge.limacore.client.particle.CustomRenderTypeParticle;
 import liedge.limacore.lib.LimaColor;
+import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.lib.math.LimaRoundingMode;
-import liedge.limacore.util.LimaMathUtil;
 import liedge.ltxindustries.client.LTXIRenderUtil;
 import liedge.ltxindustries.client.renderer.LTXIRenderTypes;
 import net.minecraft.client.Camera;
@@ -46,20 +46,20 @@ public class LightfragTracerParticle extends CustomRenderTypeParticle
     {
         super(level, start.x, start.y, start.z);
 
-        Vector2f angles = LimaMathUtil.xyRotBetweenPoints(start, end); // Using old start doesn't matter for angles
-        int n = LimaMathUtil.round(tracerDistance / 20d, LimaRoundingMode.NATURAL) * 2;
+        Vector2f angles = LimaCoreMath.xyRotBetweenPoints(start, end); // Using old start doesn't matter for angles
+        int n = LimaCoreMath.round(tracerDistance / 20d, LimaRoundingMode.NATURAL) * 2;
         this.lifetime = Mth.clamp(n, 2, 12);
 
         //Math.min(Mth.ceil(tracerDistance / 20f), 7);
         this.trailLength = 0.750f * lifetime;
-        Vec3 motion = LimaMathUtil.createMotionVector(angles, 1d); // Normalized motion vector
+        Vec3 motion = LimaCoreMath.createMotionVector(angles, 1d); // Normalized motion vector
 
         // Move start point to offset trail length
         start = start.add(motion.scale(trailLength));
         setPos(start.x, start.y, start.z);
 
         // Get the final motion vector with trail length taken into account
-        motion = motion.scale(LimaMathUtil.divideDouble(tracerDistance - trailLength, lifetime));
+        motion = motion.scale(LimaCoreMath.divideDouble(tracerDistance - trailLength, lifetime));
         setParticleSpeed(motion.x, motion.y, motion.z);
 
         this.xRot = Axis.XP.rotationDegrees(angles.x);

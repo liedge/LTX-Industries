@@ -34,8 +34,8 @@ public record ModifyReductionsUpgradeEffect(DamageReductionType reductionType, L
         DamageSource source = context.getParamOrNull(LootContextParams.DAMAGE_SOURCE);
         float modifier = amount.calculate(upgradeRank);
 
-        // Use ADD_PERCENT (add multiplied total) and ensure negative multipliers only
-        if (source != null && modifier < 0f) source.mergeListElement(LimaCoreDamageComponents.REDUCTION_MODIFIERS, new ReductionModifier(modifier, MathOperation.ADD_PERCENT, reductionType));
+        // Use MULTIPLY_AND_ADD (add multiplied total) and ensure negative multipliers only
+        if (source != null && modifier < 0f) source.mergeListElement(LimaCoreDamageComponents.REDUCTION_MODIFIERS, new ReductionModifier(modifier, MathOperation.MULTIPLY_AND_ADD, reductionType));
     }
 
     @Override

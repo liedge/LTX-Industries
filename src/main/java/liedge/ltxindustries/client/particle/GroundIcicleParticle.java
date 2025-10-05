@@ -2,7 +2,7 @@ package liedge.ltxindustries.client.particle;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import liedge.limacore.lib.ModResources;
-import liedge.limacore.util.LimaMathUtil;
+import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.ltxindustries.client.LTXIRenderUtil;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
@@ -92,7 +92,7 @@ public class GroundIcicleParticle extends Particle
         mx4.translate(px, py, pz);
         mx4.scale(baseSize);
 
-        float ageLerp = LimaMathUtil.divideFloatLerp(partialTick, prevAge, age, lifetime);
+        float ageLerp = LimaCoreMath.divideFloatLerp(partialTick, prevAge, age, lifetime);
         float sizeFade = (ageLerp <= 0.2f) ? ageLerp / 0.2f : 1 - ((ageLerp / 0.8f) - 0.25f) * 0.333f;
 
         float xz11 = -0.0625f * sizeFade;
