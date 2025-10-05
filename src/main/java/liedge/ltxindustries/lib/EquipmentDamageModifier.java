@@ -21,7 +21,6 @@ import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.NumberProvider;
 import net.minecraft.world.level.storage.loot.providers.number.NumberProviders;
 import net.neoforged.neoforge.common.conditions.ConditionalOps;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -50,9 +49,9 @@ public record EquipmentDamageModifier(Optional<ItemPredicate> equipmentPredicate
     }
 
     @Override
-    public int compareTo(@NotNull EquipmentDamageModifier o)
+    public int compareTo(EquipmentDamageModifier o)
     {
-        return this.operation.compareTo(o.operation);
+        return MathOperation.PRIORITY_COMPARATOR.compare(this.operation, o.operation);
     }
 
     @Override

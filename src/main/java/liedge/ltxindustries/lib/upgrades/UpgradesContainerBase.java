@@ -6,6 +6,7 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.data.LimaCoreCodecs;
 import liedge.limacore.lib.function.ObjectIntConsumer;
 import liedge.limacore.lib.function.ObjectIntFunction;
+import liedge.limacore.lib.math.MathOperation;
 import liedge.limacore.network.LimaStreamCodecs;
 import liedge.limacore.util.LimaRegistryUtil;
 import liedge.limacore.util.LimaStreamsUtil;
@@ -220,7 +221,7 @@ public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
     //#region Value computing helpers
     public double applyValue(DataComponentType<List<ValueUpgradeEffect>> type, LootContext context, double base, double total)
     {
-        List<EffectRankPair<ValueUpgradeEffect>> list = boxedFlatStream(type).sorted(Comparator.comparing(entry -> entry.effect().operation())).collect(LimaStreamsUtil.toObjectList());
+        List<EffectRankPair<ValueUpgradeEffect>> list = boxedFlatStream(type).sorted(MathOperation.comparingPriority(p -> p.effect().operation())).collect(LimaStreamsUtil.toObjectList());
         double result = total;
 
         for (EffectRankPair<ValueUpgradeEffect> pair : list)
@@ -249,7 +250,7 @@ public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
 
     public double applyConditionalValue(DataComponentType<List<ConditionalEffect<ValueUpgradeEffect>>> type, IntFunction<LootContext> contextFunction, double base, double total)
     {
-        List<EffectRankPair<ConditionalEffect<ValueUpgradeEffect>>> list = boxedFlatStream(type).sorted(Comparator.comparing(pair -> pair.effect().effect().operation())).collect(LimaStreamsUtil.toObjectList());
+        List<EffectRankPair<ConditionalEffect<ValueUpgradeEffect>>> list = boxedFlatStream(type).sorted(MathOperation.comparingPriority(p -> p.effect().effect().operation())).collect(LimaStreamsUtil.toObjectList());
         double result = total;
 
         for (EffectRankPair<ConditionalEffect<ValueUpgradeEffect>> pair : list)
