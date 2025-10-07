@@ -9,36 +9,22 @@
     }
   },
   "effects": {
-    "ltxi:pre_attack": [
+    "ltxi:damage_attribute_modifier": [
       {
-        "affected": "victim",
-        "effect": {
-          "type": "ltxi:damage_attribute",
-          "attribute": "minecraft:generic.knockback_resistance",
-          "modifier": {
-            "amount": -1.0,
-            "id": "ltxi:high_impact_rounds.knockback_resist",
-            "operation": "add_multiplied_total"
-          }
-        },
-        "enchanted": "attacker"
+        "attribute": "minecraft:generic.knockback_resistance",
+        "modifier": {
+          "amount": -1.0,
+          "id": "ltxi:high_impact_rounds.knockback_resistance",
+          "operation": "add_multiplied_total"
+        }
       },
       {
-        "affected": "victim",
-        "effect": {
-          "type": "ltxi:damage_attribute",
-          "attribute": "limacore:knockback_multiplier",
-          "modifier": {
-            "amount": {
-              "type": "minecraft:linear",
-              "base": 2.0,
-              "per_level_above_first": 2.0
-            },
-            "id": "ltxi:high_impact_rounds.knockback",
-            "operation": "add_value"
-          }
-        },
-        "enchanted": "attacker"
+        "attribute": "limacore:knockback_multiplier",
+        "modifier": {
+          "amount": 2.0,
+          "id": "ltxi:high_impact_rounds.knockback",
+          "operation": "add_value"
+        }
       }
     ]
   },

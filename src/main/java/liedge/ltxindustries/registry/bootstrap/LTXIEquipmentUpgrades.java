@@ -188,7 +188,7 @@ public final class LTXIEquipmentUpgrades
                 .supports(LTXIItems.SHOTGUN)
                 .withEffect(ITEM_ATTRIBUTE_MODIFIERS, AttributeModifierUpgradeEffect.constantMainHand(Attributes.MOVEMENT_SPEED, SHOTGUN_DEFAULT.location().withSuffix("shotgun_speed_boost"), 0.25f, AttributeModifier.Operation.ADD_MULTIPLIED_BASE))
                 .withEffect(ITEM_ATTRIBUTE_MODIFIERS, AttributeModifierUpgradeEffect.constantMainHand(Attributes.STEP_HEIGHT, SHOTGUN_DEFAULT.location().withSuffix("shotgun_step_height_boost"), 1, AttributeModifier.Operation.ADD_VALUE))
-                .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, new ModifyReductionsUpgradeEffect(DamageReductionType.ARMOR, LevelBasedValue.constant(-0.1f)))
+                .withEffect(DAMAGE_REDUCTION_MODIFIER, new ModifyReductionsUpgradeEffect(DamageReductionType.ARMOR, LevelBasedValue.constant(-0.1f)))
                 .effectIcon(defaultModuleIcon(LTXIItems.SHOTGUN))
                 .category("default/weapon")
                 .register(context);
@@ -259,8 +259,8 @@ public final class LTXIEquipmentUpgrades
         // Weapon-specific upgrades
         EquipmentUpgrade.builder(HIGH_IMPACT_ROUNDS)
                 .supports(LTXIItems.SHOTGUN, LTXIItems.HEAVY_PISTOL)
-                .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, DamageAttributesUpgradeEffect.of(Attributes.KNOCKBACK_RESISTANCE, HIGH_IMPACT_ROUNDS.location().withSuffix(".knockback_resist"), LevelBasedValue.constant(-1f), AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL))
-                .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, DamageAttributesUpgradeEffect.of(LimaCoreAttributes.KNOCKBACK_MULTIPLIER, HIGH_IMPACT_ROUNDS.location().withSuffix(".knockback"), LevelBasedValue.perLevel(2f), AttributeModifier.Operation.ADD_VALUE))
+                .withEffect(DAMAGE_ATTRIBUTE_MODIFIERS, DamageAttributesUpgradeEffect.of(Attributes.KNOCKBACK_RESISTANCE, HIGH_IMPACT_ROUNDS, "knockback_resistance", LevelBasedValue.constant(-1f), AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL))
+                .withEffect(DAMAGE_ATTRIBUTE_MODIFIERS, DamageAttributesUpgradeEffect.of(LimaCoreAttributes.KNOCKBACK_MULTIPLIER, HIGH_IMPACT_ROUNDS, "knockback", LevelBasedValue.constant(2f), AttributeModifier.Operation.ADD_VALUE))
                 .effectIcon(sprite("powerful_lightfrag"))
                 .register(context);
         EquipmentUpgrade.builder(HEAVY_PISTOL_GOD_ROUNDS)
@@ -299,7 +299,7 @@ public final class LTXIEquipmentUpgrades
         EquipmentUpgrade.builder(WEAPON_ARMOR_PIERCE)
                 .supports(ltxProjectileWeapons)
                 .setMaxRank(3)
-                .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, new ModifyReductionsUpgradeEffect(DamageReductionType.ARMOR, LevelBasedValue.perLevel(-0.2f)))
+                .withEffect(DAMAGE_REDUCTION_MODIFIER, new ModifyReductionsUpgradeEffect(DamageReductionType.ARMOR, LevelBasedValue.perLevel(-0.2f)))
                 .effectIcon(sprite("broken_armor"))
                 .register(context);
 

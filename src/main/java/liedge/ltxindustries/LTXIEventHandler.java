@@ -1,10 +1,12 @@
 package liedge.ltxindustries;
 
+import liedge.limacore.event.DamageAttributeModifiersEvent;
 import liedge.limacore.util.LimaCoreUtil;
 import liedge.ltxindustries.entity.BubbleShieldUser;
 import liedge.ltxindustries.entity.LTXIEntityUtil;
 import liedge.ltxindustries.entity.damage.DropsRedirect;
 import liedge.ltxindustries.entity.damage.UpgradableDamageSource;
+import liedge.ltxindustries.entity.damage.UpgradableEquipmentDamageSource;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
 import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.lib.EquipmentDamageModifiers;
@@ -18,6 +20,7 @@ import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import liedge.ltxindustries.util.LTXIUtil;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -37,6 +40,8 @@ import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
 import net.neoforged.neoforge.event.level.BlockDropsEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+
+import javax.annotation.Nullable;
 
 @EventBusSubscriber(modid = LTXIndustries.MODID)
 public final class LTXIEventHandler
@@ -186,13 +191,23 @@ public final class LTXIEventHandler
     public static void onLivingIncomingDamageHighest(final LivingIncomingDamageEvent event)
     {
         DamageSource source = event.getSource();
+        UpgradesContainerBase<?, ?> upgrades = getUpgradesFromDamage(source);
+
+        if (upgrades == null) return;
 
         // Process pre-attack upgrade effects for melee attacks here
-        if (source.getDirectEntity() instanceof LivingEntity attacker && !attacker.level().isClientSide() && attacker.getWeaponItem().getItem() instanceof UpgradableEquipmentItem equipmentItem && source.is(DamageTypeTags.IS_PLAYER_ATTACK))
+        if (source.getDirectEntity() instanceof LivingEntity attacker && !attacker.level().isClientSide() && source.is(DamageTypeTags.IS_PLAYER_ATTACK))
         {
-            EquipmentUpgrades upgrades = equipmentItem.getUpgrades(attacker.getWeaponItem());
             upgrades.applyDamageContextEffects(LTXIUpgradeEffectComponents.EQUIPMENT_PRE_ATTACK, (ServerLevel) attacker.level(), EnchantmentTarget.ATTACKER, event.getEntity(), attacker, source);
         }
+
+        // Apply damage reduction modifiers
+        //upgrades.effectFlatStream();
+        upgrades.forEachEffect(LTXIUpgradeEffectComponents.DAMAGE_REDUCTION_MODIFIER, (effect, rank) ->
+        {
+            float modifier = Mth.clamp(effect.amount().calculate(rank), -1f, 0f);
+            event.addReductionModifier(effect.reductionType().getReduction(), (container, reduction) -> reduction + (reduction * modifier));
+        });
     }
 
     // Run bubble shield checks on lowest to first apply damage modifiers
@@ -209,6 +224,16 @@ public final class LTXIEventHandler
             {
                 if (shieldUser.blockDamage(hurtEntity, hurtEntity.level(), event.getSource(), event.getAmount())) event.setCanceled(true);
             }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onDamageAttributeModifiers(final DamageAttributeModifiersEvent event)
+    {
+        UpgradesContainerBase<?, ?> upgrades = getUpgradesFromDamage(event.getDamageSource());
+        if (upgrades != null)
+        {
+            upgrades.forEachEffect(LTXIUpgradeEffectComponents.DAMAGE_ATTRIBUTE_MODIFIERS, (effect, rank) -> event.addAttributeModifier(effect.attribute(), effect.createModifier(rank)));
         }
     }
 
@@ -235,5 +260,21 @@ public final class LTXIEventHandler
             // Apply on kill effects
             if (upgrades != null) upgrades.applyDamageContextEffects(LTXIUpgradeEffectComponents.EQUIPMENT_KILL, (ServerLevel) attacker.level(), EnchantmentTarget.ATTACKER, event.getEntity(), attacker, damageSource);
         }
+    }
+
+    @Nullable
+    private static UpgradesContainerBase<?, ?> getUpgradesFromDamage(DamageSource source)
+    {
+        if (source instanceof UpgradableEquipmentDamageSource upgradableSource)
+        {
+            return upgradableSource.getUpgrades();
+        }
+        else
+        {
+            ItemStack stack = source.getWeaponItem();
+            if (stack != null && stack.getItem() instanceof UpgradableEquipmentItem equipmentItem) return equipmentItem.getUpgrades(stack);
+        }
+
+        return null;
     }
 }

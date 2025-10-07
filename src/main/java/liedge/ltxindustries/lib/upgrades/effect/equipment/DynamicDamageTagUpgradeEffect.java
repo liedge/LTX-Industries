@@ -1,7 +1,6 @@
 package liedge.ltxindustries.lib.upgrades.effect.equipment;
 
 import com.mojang.serialization.MapCodec;
-import liedge.limacore.lib.damage.LimaCoreDamageComponents;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.registry.game.LTXIEquipmentUpgradeEffects;
 import net.minecraft.ChatFormatting;
@@ -38,7 +37,7 @@ public record DynamicDamageTagUpgradeEffect(List<TagKey<DamageType>> tags) imple
     public void applyEquipmentEffect(ServerLevel level, Entity entity, int upgradeRank, LootContext context)
     {
         DamageSource damageSource = context.getParamOrNull(LootContextParams.DAMAGE_SOURCE);
-        if (damageSource != null) damageSource.mergeSet(LimaCoreDamageComponents.DYNAMIC_TAGS, tags);
+        if (damageSource != null) tags.forEach(damageSource::limaCore$addDynamicTag);
     }
 
     @Override

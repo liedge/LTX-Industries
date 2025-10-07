@@ -9,19 +9,14 @@
     }
   },
   "effects": {
-    "ltxi:pre_attack": [
+    "ltxi:damage_reduction_modifier": [
       {
-        "affected": "victim",
-        "effect": {
-          "type": "ltxi:modify_reductions",
-          "amount": {
-            "type": "minecraft:linear",
-            "base": -0.2,
-            "per_level_above_first": -0.2
-          },
-          "reduction_type": "armor"
+        "amount": {
+          "type": "minecraft:linear",
+          "base": -0.2,
+          "per_level_above_first": -0.2
         },
-        "enchanted": "attacker"
+        "reduction_type": "armor"
       }
     ]
   },

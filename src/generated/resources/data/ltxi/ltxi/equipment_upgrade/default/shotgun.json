@@ -37,15 +37,10 @@
         }
       }
     ],
-    "ltxi:pre_attack": [
+    "ltxi:damage_reduction_modifier": [
       {
-        "affected": "victim",
-        "effect": {
-          "type": "ltxi:modify_reductions",
-          "amount": -0.1,
-          "reduction_type": "armor"
-        },
-        "enchanted": "attacker"
+        "amount": -0.1,
+        "reduction_type": "armor"
       }
     ]
   },

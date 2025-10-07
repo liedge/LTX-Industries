@@ -20,9 +20,7 @@ public final class LTXIEquipmentUpgradeEffects
         TYPES.register(bus);
     }
 
-    public static final DeferredHolder<MapCodec<? extends EquipmentUpgradeEffect>, MapCodec<DamageAttributesUpgradeEffect>> DAMAGE_ATTRIBUTES_EQUIPMENT_EFFECT = TYPES.register("damage_attribute", () -> DamageAttributesUpgradeEffect.CODEC);
     public static final DeferredHolder<MapCodec<? extends EquipmentUpgradeEffect>, MapCodec<DynamicDamageTagUpgradeEffect>> DYNAMIC_DAMAGE_TAG_EQUIPMENT_EFFECT = TYPES.register("dynamic_damage_tag", () -> DynamicDamageTagUpgradeEffect.CODEC);
-    public static final DeferredHolder<MapCodec<? extends EquipmentUpgradeEffect>, MapCodec<ModifyReductionsUpgradeEffect>> MODIFY_DAMAGE_REDUCTIONS = TYPES.register("modify_reductions", () -> ModifyReductionsUpgradeEffect.CODEC);
     public static final DeferredHolder<MapCodec<? extends EquipmentUpgradeEffect>, MapCodec<BubbleShieldUpgradeEffect>> BUBBLE_SHIELD_EQUIPMENT_EFFECT = TYPES.register("bubble_shield", () -> BubbleShieldUpgradeEffect.CODEC);
     public static final DeferredHolder<MapCodec<? extends EquipmentUpgradeEffect>, MapCodec<MobEffectUpgradeEffect>> MOB_EFFECT_EQUIPMENT_EFFECT = TYPES.register("mob_effect", () -> MobEffectUpgradeEffect.CODEC);
 }
