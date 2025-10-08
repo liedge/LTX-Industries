@@ -8,12 +8,12 @@ import liedge.limacore.lib.function.ObjectIntConsumer;
 import liedge.limacore.lib.function.ObjectIntFunction;
 import liedge.limacore.lib.math.MathOperation;
 import liedge.limacore.network.LimaStreamCodecs;
+import liedge.limacore.util.LimaLootUtil;
 import liedge.limacore.util.LimaRegistryUtil;
 import liedge.limacore.util.LimaStreamsUtil;
 import liedge.ltxindustries.lib.upgrades.effect.equipment.EquipmentUpgradeEffect;
 import liedge.ltxindustries.lib.upgrades.effect.ValueUpgradeEffect;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
-import liedge.ltxindustries.util.LTXIUtil;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.component.DataComponentType;
@@ -102,7 +102,7 @@ public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
 
     public void applyDamageContextEffects(DataComponentType<List<TargetedConditionalEffect<EquipmentUpgradeEffect>>> type, ServerLevel level, EnchantmentTarget effectTarget, Entity targetEntity, LivingEntity attacker, DamageSource damageSource)
     {
-        LootContext context = LTXIUtil.entityLootContext(level, targetEntity, damageSource, attacker);
+        LootContext context = LimaLootUtil.entityLootContext(level, targetEntity, damageSource, attacker);
 
         for (Object2IntMap.Entry<Holder<U>> entry : internalMap.object2IntEntrySet())
         {
@@ -214,7 +214,7 @@ public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
             }
         }
 
-        return LTXIUtil.mergeHolderSets(sets);
+        return LimaRegistryUtil.mergeHolderSets(sets);
     }
     //#endregion
 

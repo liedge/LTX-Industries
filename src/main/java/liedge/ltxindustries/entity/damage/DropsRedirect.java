@@ -2,11 +2,11 @@ package liedge.ltxindustries.entity.damage;
 
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import liedge.limacore.util.LimaRegistryUtil;
 import liedge.ltxindustries.lib.upgrades.UpgradeBase;
 import liedge.ltxindustries.lib.upgrades.UpgradesContainerBase;
 import liedge.ltxindustries.lib.upgrades.effect.equipment.DirectDropsUpgradeEffect;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
-import liedge.ltxindustries.util.LTXIUtil;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -45,7 +45,7 @@ public record DropsRedirect(IItemHandler targetInventory, @Nullable Vec3 newDrop
             }
         }
 
-        return LTXIUtil.mergeHolderSets(sets);
+        return LimaRegistryUtil.mergeHolderSets(sets);
     }
 
     public static <U extends UpgradeBase<?, U>> @Nullable DropsRedirect create(IItemHandler targetInventory, @Nullable Vec3 newDropsLocation, UpgradesContainerBase<?, U> upgrades, DirectDropsUpgradeEffect.Type type)

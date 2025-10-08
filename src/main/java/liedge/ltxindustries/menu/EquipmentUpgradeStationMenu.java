@@ -3,6 +3,7 @@ package liedge.ltxindustries.menu;
 import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.menu.LimaMenuType;
 import liedge.limacore.network.NetworkSerializer;
+import liedge.limacore.util.LimaLootUtil;
 import liedge.ltxindustries.blockentity.EquipmentUpgradeStationBlockEntity;
 import liedge.ltxindustries.item.EquipmentUpgradeModuleItem;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
@@ -12,7 +13,6 @@ import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.ltxindustries.registry.LTXIRegistries;
 import liedge.ltxindustries.registry.game.LTXINetworkSerializers;
 import liedge.ltxindustries.registry.game.LTXISounds;
-import liedge.ltxindustries.util.LTXIUtil;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -123,6 +123,6 @@ public class EquipmentUpgradeStationMenu extends UpgradesConfigMenu<EquipmentUpg
     private void setUpgradesAndRefresh(ServerLevel level, ItemStack stack, UpgradableEquipmentItem equipmentItem, EquipmentUpgrades newUpgrades)
     {
         equipmentItem.setUpgrades(stack, newUpgrades);
-        equipmentItem.onUpgradeRefresh(LTXIUtil.emptyLootContext(level), stack, newUpgrades);
+        equipmentItem.onUpgradeRefresh(LimaLootUtil.emptyLootContext(level), stack, newUpgrades);
     }
 }

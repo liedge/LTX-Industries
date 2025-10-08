@@ -1,7 +1,7 @@
 package liedge.ltxindustries.registry.game;
 
+import liedge.limacore.advancement.ItemBrokenTrigger;
 import liedge.ltxindustries.LTXIndustries;
-import liedge.ltxindustries.advancement.AcidArmorBrokenTrigger;
 import net.minecraft.advancements.CriterionTrigger;
 import net.minecraft.core.registries.Registries;
 import net.neoforged.bus.api.IEventBus;
@@ -19,5 +19,5 @@ public final class LTXICriterionTriggers
         TRIGGERS.register(bus);
     }
 
-    public static final DeferredHolder<CriterionTrigger<?>, AcidArmorBrokenTrigger> ACID_ARMOR_BROKEN = TRIGGERS.register("acid_armor_broken", AcidArmorBrokenTrigger::new);
+    public static final DeferredHolder<CriterionTrigger<?>, ItemBrokenTrigger> ITEM_BROKEN_BY_ACID = TRIGGERS.register("item_broken_by_acid", ItemBrokenTrigger::new);
 }

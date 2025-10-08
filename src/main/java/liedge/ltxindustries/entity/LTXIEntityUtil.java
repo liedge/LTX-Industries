@@ -4,11 +4,11 @@ import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
 import liedge.limacore.util.LimaCoreUtil;
 import liedge.limacore.util.LimaEntityUtil;
+import liedge.limacore.util.LimaLootUtil;
 import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.lib.upgrades.UpgradesContainerBase;
 import liedge.ltxindustries.registry.game.LTXICriterionTriggers;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
-import liedge.ltxindustries.util.LTXIUtil;
 import liedge.ltxindustries.util.config.LTXIServerConfig;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
@@ -30,7 +30,6 @@ import net.minecraft.world.phys.*;
 import net.neoforged.neoforge.common.util.FakePlayerFactory;
 import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.entity.PartEntity;
-import org.apache.commons.lang3.mutable.MutableInt;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
@@ -92,7 +91,7 @@ public final class LTXIEntityUtil
     public static TriState checkUpgradeTargetValidity(@Nullable Entity attackingEntity, Entity target, UpgradesContainerBase<?, ?> upgrades)
     {
         ServerLevel level = LimaCoreUtil.castOrThrow(ServerLevel.class, target.level(), "Upgrades target check called on client.");
-        LootContext context = LTXIUtil.chestLootContext(level, target, attackingEntity);
+        LootContext context = LimaLootUtil.chestLootContext(level, target, attackingEntity);
 
         List<LootItemCondition> conditions = upgrades.effectFlatStream(LTXIUpgradeEffectComponents.TARGET_CONDITIONS).toList();
         if (conditions.isEmpty())
@@ -227,8 +226,6 @@ public final class LTXIEntityUtil
 
     public static void damageArmorWithAcid(ServerLevel serverLevel, @Nullable ServerPlayer attackingPlayer, LivingEntity entity, int minDamage, float damagePercent)
     {
-        MutableInt itemsBroken = new MutableInt(0);
-
         for (EquipmentSlot slot : EquipmentSlot.values())
         {
             if (!EquipmentSlotGroup.ARMOR.test(slot)) continue;
@@ -239,13 +236,10 @@ public final class LTXIEntityUtil
                 int durabilityDamage = Math.max(minDamage, Mth.floor(stack.getMaxDamage() * damagePercent));
                 stack.hurtAndBreak(durabilityDamage, serverLevel, entity, item ->
                 {
-                    itemsBroken.add(1);
                     entity.onEquippedItemBroken(item, slot);
+                    if (attackingPlayer != null) LTXICriterionTriggers.ITEM_BROKEN_BY_ACID.get().trigger(attackingPlayer, stack, slot);
                 });
             }
         }
-
-        if (itemsBroken.intValue() > 0 && attackingPlayer != null)
-            LTXICriterionTriggers.ACID_ARMOR_BROKEN.get().trigger(attackingPlayer, itemsBroken.intValue());
     }
 }

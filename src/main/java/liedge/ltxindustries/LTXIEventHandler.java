@@ -2,6 +2,7 @@ package liedge.ltxindustries;
 
 import liedge.limacore.event.DamageAttributeModifiersEvent;
 import liedge.limacore.util.LimaCoreUtil;
+import liedge.limacore.util.LimaLootUtil;
 import liedge.ltxindustries.entity.BubbleShieldUser;
 import liedge.ltxindustries.entity.LTXIEntityUtil;
 import liedge.ltxindustries.entity.damage.DropsRedirect;
@@ -17,7 +18,6 @@ import liedge.ltxindustries.registry.game.LTXIAttachmentTypes;
 import liedge.ltxindustries.registry.game.LTXIDataComponents;
 import liedge.ltxindustries.registry.game.LTXIMobEffects;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
-import liedge.ltxindustries.util.LTXIUtil;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
@@ -89,7 +89,7 @@ public final class LTXIEventHandler
             // Run check if last upgrades hash-print is null or different
             if (lastHash == null || lastHash != upgrades.hashCode())
             {
-                equipmentItem.onUpgradeRefresh(LTXIUtil.emptyLootContext(level), stack, upgrades);
+                equipmentItem.onUpgradeRefresh(LimaLootUtil.emptyLootContext(level), stack, upgrades);
                 stack.set(LTXIDataComponents.LAST_EQUIPMENT_HASH, upgrades.hashCode());
             }
         }
@@ -202,7 +202,6 @@ public final class LTXIEventHandler
         }
 
         // Apply damage reduction modifiers
-        //upgrades.effectFlatStream();
         upgrades.forEachEffect(LTXIUpgradeEffectComponents.DAMAGE_REDUCTION_MODIFIER, (effect, rank) ->
         {
             float modifier = Mth.clamp(effect.amount().calculate(rank), -1f, 0f);

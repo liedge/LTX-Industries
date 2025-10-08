@@ -9,6 +9,7 @@ import liedge.limacore.lib.TickTimer;
 import liedge.limacore.lib.Translatable;
 import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.network.LimaStreamCodecs;
+import liedge.limacore.util.LimaLootUtil;
 import liedge.limacore.util.LimaNetworkUtil;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.entity.CompoundHitResult;
@@ -26,7 +27,6 @@ import liedge.ltxindustries.lib.weapons.WeaponReloadSource;
 import liedge.ltxindustries.registry.bootstrap.LTXIDamageTypes;
 import liedge.ltxindustries.registry.game.*;
 import liedge.ltxindustries.util.LTXITooltipUtil;
-import liedge.ltxindustries.util.LTXIUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentType;
@@ -231,7 +231,7 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
         if (attacker.level() instanceof ServerLevel level)
         {
             // Create the loot context and get the upgrades
-            LootContext context = LTXIUtil.entityLootContext(level, target, damageSource, attacker);
+            LootContext context = LimaLootUtil.entityLootContext(level, target, damageSource, attacker);
             ItemStack weaponItem = damageSource.getWeaponItem();
             EquipmentUpgrades upgrades = getUpgrades(weaponItem);
 

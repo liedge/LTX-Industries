@@ -5,12 +5,12 @@ import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.item.LimaCreativeTabFillerItem;
 import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.registry.game.LimaCoreDataComponents;
+import liedge.limacore.util.LimaLootUtil;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.item.EnergyHolderItem;
 import liedge.ltxindustries.item.TooltipShiftHintItem;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
 import liedge.ltxindustries.lib.EquipmentDamageModifiers;
-import liedge.ltxindustries.util.LTXIUtil;
 import liedge.ltxindustries.util.config.LTXIServerConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -89,7 +89,7 @@ public abstract class EnergyBaseToolItem extends Item implements EnergyHolderIte
             if (stack.is(this) && hasEnergyForAction(stack))
             {
                 double upgradedDamage = getUpgradedDamage(level, getUpgrades(stack), target, damageSource, getPoweredAttackDamage());
-                LootContext context = LTXIUtil.entityLootContext(level, target, damageSource, attacker);
+                LootContext context = LimaLootUtil.entityLootContext(level, target, damageSource, attacker);
                 return (float) EquipmentDamageModifiers.getInstance().apply(stack, context, getPoweredAttackDamage(), upgradedDamage);
             }
         }
