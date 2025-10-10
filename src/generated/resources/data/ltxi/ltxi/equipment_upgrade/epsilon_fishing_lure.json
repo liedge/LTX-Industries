@@ -20,7 +20,7 @@
     }
   },
   "effects": {
-    "ltxi:enchantments": [
+    "ltxi:enchantment_levels": [
       {
         "enchantment": "minecraft:lure"
       },

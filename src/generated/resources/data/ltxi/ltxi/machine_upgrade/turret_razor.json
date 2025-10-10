@@ -10,7 +10,7 @@
     }
   },
   "effects": {
-    "ltxi:enchantments": [
+    "ltxi:enchantment_levels": [
       {
         "enchantment": "ltxi:razor"
       }

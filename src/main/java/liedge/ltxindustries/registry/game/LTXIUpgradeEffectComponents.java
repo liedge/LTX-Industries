@@ -39,7 +39,7 @@ public final class LTXIUpgradeEffectComponents
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<LootItemCondition>>> TARGET_CONDITIONS = COMPONENTS.register("target_conditions", () -> UpgradeDataComponentType.custom(ConditionalEffect.conditionCodec(LootContextParamSets.CHEST).listOf()));
 
     // Equipment related
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<EnchantmentUpgradeEffect>>> ENCHANTMENT_LEVEL = COMPONENTS.register("enchantments", () -> UpgradeDataComponentType.listOf(EnchantmentUpgradeEffect.CODEC));
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<EnchantmentLevelsUpgradeEffect>>> ENCHANTMENT_LEVELS = COMPONENTS.register("enchantment_levels", () -> UpgradeDataComponentType.listOf(EnchantmentLevelsUpgradeEffect.CODEC));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<AttributeModifierUpgradeEffect>>> ITEM_ATTRIBUTE_MODIFIERS = COMPONENTS.register("attribute_modifiers", () -> UpgradeDataComponentType.listOf(AttributeModifierUpgradeEffect.CODEC));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<MiningRuleUpgradeEffect>>> MINING_RULES = COMPONENTS.register("mining_rules", () -> UpgradeDataComponentType.listOf(MiningRuleUpgradeEffect.CODEC));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<TargetedConditionalEffect<EquipmentUpgradeEffect>>>> EQUIPMENT_PRE_ATTACK = COMPONENTS.register("pre_attack", () -> UpgradeDataComponentType.targetedConditionalListOf(EquipmentUpgradeEffect.CODEC, LootContextParamSets.ENTITY));

@@ -11,8 +11,9 @@ import liedge.limacore.network.LimaStreamCodecs;
 import liedge.limacore.util.LimaLootUtil;
 import liedge.limacore.util.LimaRegistryUtil;
 import liedge.limacore.util.LimaStreamsUtil;
-import liedge.ltxindustries.lib.upgrades.effect.equipment.EquipmentUpgradeEffect;
 import liedge.ltxindustries.lib.upgrades.effect.ValueUpgradeEffect;
+import liedge.ltxindustries.lib.upgrades.effect.equipment.EnchantmentLevelsUpgradeEffect;
+import liedge.ltxindustries.lib.upgrades.effect.equipment.EquipmentUpgradeEffect;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
@@ -184,13 +185,20 @@ public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
             return data.stream().map(effect -> new EffectRankPair<>(effect, entry.getIntValue()));
         });
     }
+
+    public <T> Stream<EffectRankPair<T>> boxedFlatStream(Supplier<? extends DataComponentType<List<T>>> typeSupplier)
+    {
+        return boxedFlatStream(typeSupplier.get());
+    }
     //#endregion
 
     //#region Specialized iteration helpers
     public ItemEnchantments getEnchantments()
     {
         ItemEnchantments.Mutable builder = new ItemEnchantments.Mutable(ItemEnchantments.EMPTY.withTooltip(false));
-        forEachEffect(LTXIUpgradeEffectComponents.ENCHANTMENT_LEVEL, (effect, rank) -> effect.applyEnchantment(builder, rank));
+        boxedFlatStream(LTXIUpgradeEffectComponents.ENCHANTMENT_LEVELS)
+                .sorted(Comparator.comparing(EffectRankPair::effect, EnchantmentLevelsUpgradeEffect.DESCENDING_MAX_LEVELS_COMPARATOR))
+                .forEach(pair -> pair.effect().applyEnchantment(builder, pair.upgradeRank()));
         return builder.keySet().isEmpty() ? ItemEnchantments.EMPTY : builder.toImmutable();
     }
 

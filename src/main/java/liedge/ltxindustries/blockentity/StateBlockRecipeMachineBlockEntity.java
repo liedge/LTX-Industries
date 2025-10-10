@@ -266,7 +266,7 @@ public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, 
     {
         MachineUpgrades upgrades = getUpgrades();
         int minSpeed = upgrades.effectStream(LTXIUpgradeEffectComponents.MINIMUM_MACHINE_SPEED).min(Comparator.naturalOrder()).orElse(0);
-        List<EffectRankPair<ValueUpgradeEffect>> list = upgrades.boxedFlatStream(LTXIUpgradeEffectComponents.TICKS_PER_OPERATION.get()).sorted(Comparator.comparing(entry -> entry.effect().operation())).toList();
+        List<EffectRankPair<ValueUpgradeEffect>> list = upgrades.boxedFlatStream(LTXIUpgradeEffectComponents.TICKS_PER_OPERATION).sorted(Comparator.comparing(entry -> entry.effect().operation())).toList();
 
         if (list.isEmpty()) return IntUnaryOperator.identity();
 

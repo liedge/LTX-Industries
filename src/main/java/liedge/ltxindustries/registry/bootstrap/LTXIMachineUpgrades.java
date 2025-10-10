@@ -11,7 +11,7 @@ import liedge.ltxindustries.lib.upgrades.effect.TooltipValueFormat;
 import liedge.ltxindustries.lib.upgrades.effect.ValueSentiment;
 import liedge.ltxindustries.lib.upgrades.effect.ValueUpgradeEffect;
 import liedge.ltxindustries.lib.upgrades.effect.equipment.DirectDropsUpgradeEffect;
-import liedge.ltxindustries.lib.upgrades.effect.equipment.EnchantmentUpgradeEffect;
+import liedge.ltxindustries.lib.upgrades.effect.equipment.EnchantmentLevelsUpgradeEffect;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrade;
 import liedge.ltxindustries.registry.LTXIRegistries;
 import liedge.ltxindustries.registry.game.LTXIBlockEntities;
@@ -131,7 +131,7 @@ public final class LTXIMachineUpgrades
 
         MachineUpgrade.builder(TURRET_LOOTING)
                 .supports(blockEntities, LTXITags.BlockEntities.TURRETS)
-                .withEffect(ENCHANTMENT_LEVEL, EnchantmentUpgradeEffect.oneLevelPerRank(enchantments.getOrThrow(Enchantments.LOOTING)))
+                .withEffect(ENCHANTMENT_LEVELS, EnchantmentLevelsUpgradeEffect.rankLinear(enchantments.getOrThrow(Enchantments.LOOTING)))
                 .setMaxRank(3)
                 .effectIcon(luckOverlayIcon(LTXIItems.LTX_SWORD))
                 .category("turret")
@@ -140,7 +140,7 @@ public final class LTXIMachineUpgrades
         MachineUpgrade.builder(TURRET_RAZOR)
                 .supports(blockEntities, LTXITags.BlockEntities.TURRETS)
                 .setMaxRank(2)
-                .withEffect(ENCHANTMENT_LEVEL, EnchantmentUpgradeEffect.oneLevelPerRank(enchantments.getOrThrow(LTXIEnchantments.RAZOR)))
+                .withEffect(ENCHANTMENT_LEVELS, EnchantmentLevelsUpgradeEffect.rankLinear(enchantments.getOrThrow(LTXIEnchantments.RAZOR)))
                 .effectIcon(sprite("razor"))
                 .category("turret")
                 .register(context);

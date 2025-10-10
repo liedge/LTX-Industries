@@ -20,10 +20,10 @@
     }
   },
   "effects": {
-    "ltxi:enchantments": [
+    "ltxi:enchantment_levels": [
       {
-        "amount": 1.0,
-        "enchantment": "minecraft:silk_touch"
+        "enchantment": "minecraft:silk_touch",
+        "levels": 1.0
       }
     ]
   },

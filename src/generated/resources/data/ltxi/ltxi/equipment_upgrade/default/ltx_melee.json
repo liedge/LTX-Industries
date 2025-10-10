@@ -18,14 +18,22 @@
     }
   },
   "effects": {
-    "ltxi:enchantments": [
+    "ltxi:damage_reduction_modifier": [
       {
-        "amount": 1.0,
-        "enchantment": "ltxi:razor"
+        "amount": -0.1,
+        "reduction_type": "armor"
+      }
+    ],
+    "ltxi:enchantment_levels": [
+      {
+        "enchantment": "ltxi:razor",
+        "levels": 1.0,
+        "max_level": 5
       },
       {
-        "amount": 1.0,
-        "enchantment": "minecraft:looting"
+        "enchantment": "minecraft:looting",
+        "levels": 1.0,
+        "max_level": 5
       }
     ]
   },
