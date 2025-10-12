@@ -2,11 +2,13 @@ package liedge.ltxindustries.registry.bootstrap;
 
 import liedge.limacore.lib.MobHostility;
 import liedge.limacore.lib.damage.DamageReductionType;
+import liedge.limacore.lib.math.CompareOperation;
 import liedge.limacore.lib.math.MathOperation;
 import liedge.limacore.registry.game.LimaCoreAttributes;
-import liedge.limacore.world.loot.EntityHostilityLootCondition;
+import liedge.limacore.world.loot.condition.EntityHostilityLootCondition;
+import liedge.limacore.world.loot.condition.NumberComparisonLootCondition;
+import liedge.limacore.world.loot.number.EntityAttributeValueProvider;
 import liedge.limacore.world.loot.number.MathOpsNumberProvider;
-import liedge.limacore.world.loot.number.TargetedAttributeValueProvider;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.client.LTXILangKeys;
@@ -34,6 +36,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
@@ -160,7 +163,11 @@ public final class LTXIEquipmentUpgrades
                 .supports(items.getOrThrow(LTXITags.Items.MELEE_WEAPONS))
                 .withEffect(ENCHANTMENT_LEVELS, EnchantmentLevelsUpgradeEffect.fixed(enchantments.getOrThrow(RAZOR), 1, 5))
                 .withEffect(ENCHANTMENT_LEVELS, EnchantmentLevelsUpgradeEffect.fixed(enchantments.getOrThrow(Enchantments.LOOTING), 1, 5))
-                .withEffect(DAMAGE_REDUCTION_MODIFIER, new ModifyReductionsUpgradeEffect(DamageReductionType.ARMOR, LevelBasedValue.constant(-0.1f)))
+                .withConditionalEffect(EQUIPMENT_DAMAGE, ValueUpgradeEffect.of(DoubleLevelBasedValue.constant(0.2d), MathOperation.ADD_PERCENT_OF_TOTAL), NumberComparisonLootCondition.comparingValues(
+                        EntityAttributeValueProvider.totalValue(LootContext.EntityTarget.THIS, Attributes.ARMOR),
+                        EntityAttributeValueProvider.baseValue(LootContext.EntityTarget.THIS, Attributes.ARMOR),
+                        CompareOperation.LESS_THAN_OR_EQUALS))
+                .tooltip(0, key -> UpgradeTooltip.of(key, TooltipArgument.of(DoubleLevelBasedValue.constant(0.2d), ValueSentiment.POSITIVE, TooltipValueFormat.SIGNED_PERCENTAGE)))
                 .effectIcon(bottomRightComposite(sprite("razor"), sprite("default_overlay"), 7))
                 .category("default/tool")
                 .register(context);
@@ -187,8 +194,9 @@ public final class LTXIEquipmentUpgrades
                 .register(context);
         EquipmentUpgrade.builder(SHOTGUN_DEFAULT)
                 .supports(LTXIItems.SHOTGUN)
-                .withEffect(ITEM_ATTRIBUTE_MODIFIERS, AttributeModifierUpgradeEffect.constantMainHand(Attributes.MOVEMENT_SPEED, SHOTGUN_DEFAULT.location().withSuffix("shotgun_speed_boost"), 0.25f, AttributeModifier.Operation.ADD_MULTIPLIED_BASE))
-                .withEffect(ITEM_ATTRIBUTE_MODIFIERS, AttributeModifierUpgradeEffect.constantMainHand(Attributes.STEP_HEIGHT, SHOTGUN_DEFAULT.location().withSuffix("shotgun_step_height_boost"), 1, AttributeModifier.Operation.ADD_VALUE))
+                .itemAttributes(Attributes.MOVEMENT_SPEED, "speed", LevelBasedValue.constant(0.25f), AttributeModifier.Operation.ADD_MULTIPLIED_BASE, EquipmentSlotGroup.MAINHAND)
+                .itemAttributes(Attributes.STEP_HEIGHT, "step_height", LevelBasedValue.constant(1), AttributeModifier.Operation.ADD_VALUE, EquipmentSlotGroup.MAINHAND)
+                .itemAttributes(Attributes.SAFE_FALL_DISTANCE, "safe_fall_dist", LevelBasedValue.constant(3), AttributeModifier.Operation.ADD_VALUE, EquipmentSlotGroup.MAINHAND)
                 .withEffect(DAMAGE_REDUCTION_MODIFIER, new ModifyReductionsUpgradeEffect(DamageReductionType.ARMOR, LevelBasedValue.constant(-0.1f)))
                 .effectIcon(defaultModuleIcon(LTXIItems.SHOTGUN))
                 .category("default/weapon")
@@ -260,14 +268,14 @@ public final class LTXIEquipmentUpgrades
         // Weapon-specific upgrades
         EquipmentUpgrade.builder(HIGH_IMPACT_ROUNDS)
                 .supports(LTXIItems.SHOTGUN, LTXIItems.HEAVY_PISTOL)
-                .withEffect(DAMAGE_ATTRIBUTE_MODIFIERS, DamageAttributesUpgradeEffect.of(Attributes.KNOCKBACK_RESISTANCE, HIGH_IMPACT_ROUNDS, "knockback_resistance", LevelBasedValue.constant(-1f), AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL))
-                .withEffect(DAMAGE_ATTRIBUTE_MODIFIERS, DamageAttributesUpgradeEffect.of(LimaCoreAttributes.KNOCKBACK_MULTIPLIER, HIGH_IMPACT_ROUNDS, "knockback", LevelBasedValue.constant(2f), AttributeModifier.Operation.ADD_VALUE))
+                .damageAttributes(Attributes.KNOCKBACK_RESISTANCE, "knockback_resistance", LevelBasedValue.constant(-1f), AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)
+                .damageAttributes(LimaCoreAttributes.KNOCKBACK_MULTIPLIER, "knockback", LevelBasedValue.constant(2f), AttributeModifier.Operation.ADD_VALUE)
                 .effectIcon(sprite("powerful_lightfrag"))
                 .register(context);
         EquipmentUpgrade.builder(HEAVY_PISTOL_GOD_ROUNDS)
                 .supports(LTXIItems.HEAVY_PISTOL)
                 .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, DynamicDamageTagUpgradeEffect.of(LTXITags.DamageTypes.BYPASS_SURVIVAL_DEFENSES))
-                .withConditionalEffect(EQUIPMENT_DAMAGE, ValueUpgradeEffect.of(MathOpsNumberProvider.of(TargetedAttributeValueProvider.of(LootContext.EntityTarget.THIS, Attributes.MAX_HEALTH), ConstantValue.exactly(0.25f), MathOperation.MULTIPLY), MathOperation.ADD))
+                .withConditionalEffect(EQUIPMENT_DAMAGE, ValueUpgradeEffect.of(MathOpsNumberProvider.of(EntityAttributeValueProvider.totalValue(LootContext.EntityTarget.THIS, Attributes.MAX_HEALTH), ConstantValue.exactly(0.25f), MathOperation.MULTIPLY), MathOperation.ADD))
                 .tooltip(UpgradeTooltip.of(LTXILangKeys.ATTRIBUTE_SCALED_DAMAGE_UPGRADE,
                         TooltipArgument.of(DoubleLevelBasedValue.constant(0.25d), ValueSentiment.POSITIVE, TooltipValueFormat.SIGNED_PERCENTAGE),
                         TooltipArgument.of(Component.translatable(Attributes.MAX_HEALTH.value().getDescriptionId()).withStyle(ChatFormatting.DARK_RED))))

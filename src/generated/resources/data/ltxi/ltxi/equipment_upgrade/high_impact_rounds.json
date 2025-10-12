@@ -9,7 +9,7 @@
     }
   },
   "effects": {
-    "ltxi:damage_attribute_modifier": [
+    "ltxi:damage_attribute_modifiers": [
       {
         "attribute": "minecraft:generic.knockback_resistance",
         "modifier": {

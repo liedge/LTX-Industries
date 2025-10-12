@@ -15,15 +15,21 @@
     "title": {
       "color": "#9DF143",
       "translate": "equipment_upgrade.ltxi.tool_default"
-    }
+    },
+    "tooltips": [
+      {
+        "args": [
+          {
+            "format": "signed_percentage",
+            "sentiment": "positive",
+            "value": 0.2
+          }
+        ],
+        "key": "equipment_upgrade.ltxi.default.ltx_melee.tooltip0"
+      }
+    ]
   },
   "effects": {
-    "ltxi:damage_reduction_modifier": [
-      {
-        "amount": -0.1,
-        "reduction_type": "armor"
-      }
-    ],
     "ltxi:enchantment_levels": [
       {
         "enchantment": "ltxi:razor",
@@ -34,6 +40,30 @@
         "enchantment": "minecraft:looting",
         "levels": 1.0,
         "max_level": 5
+      }
+    ],
+    "ltxi:equipment_damage": [
+      {
+        "effect": {
+          "type": "simple",
+          "op": "add_percent_of_total",
+          "value": 0.2
+        },
+        "requirements": {
+          "condition": "limacore:number_comparison",
+          "first": {
+            "type": "limacore:entity_attribute_value",
+            "attribute": "minecraft:generic.armor",
+            "target": "this"
+          },
+          "operation": "less_than_or_equals",
+          "second": {
+            "type": "limacore:entity_attribute_value",
+            "attribute": "minecraft:generic.armor",
+            "base": true,
+            "target": "this"
+          }
+        }
       }
     ]
   },

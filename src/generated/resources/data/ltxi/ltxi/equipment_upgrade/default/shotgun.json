@@ -19,28 +19,39 @@
     }
   },
   "effects": {
-    "ltxi:attribute_modifiers": [
+    "ltxi:damage_reduction_modifier": [
+      {
+        "amount": -0.1,
+        "reduction_type": "armor"
+      }
+    ],
+    "ltxi:item_attribute_modifiers": [
       {
         "attribute": "minecraft:generic.movement_speed",
         "modifier": {
           "amount": 0.25,
-          "id": "ltxi:default/shotgunshotgun_speed_boost",
+          "id": "ltxi:default/shotgun.speed",
           "operation": "add_multiplied_base"
-        }
+        },
+        "slots": "mainhand"
       },
       {
         "attribute": "minecraft:generic.step_height",
         "modifier": {
           "amount": 1.0,
-          "id": "ltxi:default/shotgunshotgun_step_height_boost",
+          "id": "ltxi:default/shotgun.step_height",
           "operation": "add_value"
-        }
-      }
-    ],
-    "ltxi:damage_reduction_modifier": [
+        },
+        "slots": "mainhand"
+      },
       {
-        "amount": -0.1,
-        "reduction_type": "armor"
+        "attribute": "minecraft:generic.safe_fall_distance",
+        "modifier": {
+          "amount": 3.0,
+          "id": "ltxi:default/shotgun.safe_fall_dist",
+          "operation": "add_value"
+        },
+        "slots": "mainhand"
       }
     ]
   },

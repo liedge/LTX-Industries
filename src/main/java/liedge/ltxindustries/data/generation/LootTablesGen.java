@@ -7,10 +7,11 @@ import liedge.limacore.lib.MobHostility;
 import liedge.limacore.lib.math.LimaRoundingMode;
 import liedge.limacore.util.LimaLootUtil;
 import liedge.limacore.world.loot.DynamicWeightLootEntry;
-import liedge.limacore.world.loot.EntityHostilityLootCondition;
-import liedge.limacore.world.loot.number.EnhancedLookupLevelBasedValue;
+import liedge.limacore.world.loot.condition.EntityHostilityLootCondition;
+import liedge.limacore.world.loot.level.RangedLookupLevelBasedValue;
+import liedge.limacore.world.loot.number.EntityEnchantmentLevelProvider;
+import liedge.limacore.world.loot.number.LevelBasedNumberProvider;
 import liedge.limacore.world.loot.number.RoundingNumberProvider;
-import liedge.limacore.world.loot.number.TargetedEnchantmentLevelProvider;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
 import liedge.ltxindustries.registry.bootstrap.LTXIEnchantments;
@@ -38,17 +39,19 @@ import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.predicates.*;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.world.level.storage.loot.providers.number.NumberProvider;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.common.loot.CanItemPerformAbility;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Function;
 
 import static liedge.limacore.util.LimaLootUtil.needsEntityTag;
 import static liedge.limacore.util.LimaLootUtil.needsEntityType;
 import static liedge.ltxindustries.registry.LTXILootTables.*;
-import static liedge.ltxindustries.registry.game.LTXIBlocks.SPARK_FRUIT;
 import static liedge.ltxindustries.registry.game.LTXIBlocks.*;
+import static liedge.ltxindustries.registry.game.LTXIBlocks.SPARK_FRUIT;
 import static liedge.ltxindustries.registry.game.LTXIItems.*;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.AGE_2;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.BERRIES;
@@ -75,7 +78,7 @@ class LootTablesGen extends LimaLootTableProvider
         }
 
         @Override
-        protected void generateTables(HolderLookup.Provider registries)
+        protected void generateTables()
         {
             Holder<Enchantment> ammoScavengerEnchantment = registries.holderOrThrow(LTXIEnchantments.AMMO_SCAVENGER);
             Holder<Enchantment> razorEnchantment = registries.holderOrThrow(LTXIEnchantments.RAZOR);
@@ -96,14 +99,15 @@ class LootTablesGen extends LimaLootTableProvider
                     .withPool(wardenDrops));
 
             // Ammo drops table
+            Function<LevelBasedValue, NumberProvider> ammoWeights = lbv -> LevelBasedNumberProvider.of(EntityEnchantmentLevelProvider.enchantLevel(LootContext.EntityTarget.ATTACKER, ammoScavengerEnchantment), lbv);
             LootPool.Builder ammoDrops = LootPool.lootPool()
                     .when(EntityHostilityLootCondition.atLeast(MobHostility.NEUTRAL_ENEMY))
                     .when(LootItemRandomChanceWithEnchantedBonusCondition.randomChanceAndLootingBoost(registries, 0.1f, 0.02f))
                     .add(lootItem(LIGHTWEIGHT_WEAPON_ENERGY).setWeight(80))
-                    .add(DynamicWeightLootEntry.dynamicWeightItem(SPECIALIST_WEAPON_ENERGY, 15).setReplaceWeight(false).setDynamicWeight(TargetedEnchantmentLevelProvider.of(LootContext.EntityTarget.ATTACKER, ammoScavengerEnchantment, LevelBasedValue.perLevel(6))))
-                    .add(DynamicWeightLootEntry.dynamicWeightItem(EXPLOSIVES_WEAPON_ENERGY, 5).setReplaceWeight(false).setDynamicWeight(TargetedEnchantmentLevelProvider.of(LootContext.EntityTarget.ATTACKER, ammoScavengerEnchantment, LevelBasedValue.perLevel(3))))
-                    .add(DynamicWeightLootEntry.dynamicWeightItem(HEAVY_WEAPON_ENERGY, 1).setReplaceWeight(false).setDynamicWeight(TargetedEnchantmentLevelProvider.of(LootContext.EntityTarget.ATTACKER, ammoScavengerEnchantment, LevelBasedValue.perLevel(2))))
-                    .setRolls(RoundingNumberProvider.of(TargetedEnchantmentLevelProvider.of(LootContext.EntityTarget.ATTACKER, ammoScavengerEnchantment, EnhancedLookupLevelBasedValue.offsetLookup(4, 1, 2, 1.5f)), LimaRoundingMode.RANDOM));
+                    .add(DynamicWeightLootEntry.dynamicWeightItem(SPECIALIST_WEAPON_ENERGY, 15).setReplaceWeight(false).setDynamicWeight(ammoWeights.apply(LevelBasedValue.perLevel(6))))
+                    .add(DynamicWeightLootEntry.dynamicWeightItem(EXPLOSIVES_WEAPON_ENERGY, 5).setReplaceWeight(false).setDynamicWeight(ammoWeights.apply(LevelBasedValue.perLevel(3))))
+                    .add(DynamicWeightLootEntry.dynamicWeightItem(HEAVY_WEAPON_ENERGY, 1).setReplaceWeight(false).setDynamicWeight(ammoWeights.apply(LevelBasedValue.perLevel(2))))
+                    .setRolls(RoundingNumberProvider.of(ammoWeights.apply(RangedLookupLevelBasedValue.lookupStartingAtLevel(3, 1f, 1.5f, 2f)), LimaRoundingMode.RANDOM));
 
             addTable(ENEMY_AMMO_DROPS, LootTable.lootTable().withPool(ammoDrops));
 
@@ -118,7 +122,7 @@ class LootTablesGen extends LimaLootTableProvider
                     .add(lootItem(Items.PLAYER_HEAD).when(needsEntityType(EntityType.PLAYER)).apply(FillPlayerHead.fillPlayerHead(LootContext.EntityTarget.THIS)));
             LootPool.Builder razorDragonHead = LootPool.lootPool()
                     .when(needsEntityType(EntityType.ENDER_DRAGON))
-                    .when(LimaLootUtil.randomChanceWithEnchantBonus(razorEnchantment, 0f, EnhancedLookupLevelBasedValue.offsetLookup(4, 0f, 1f, 0.5f)))
+                    .when(LimaLootUtil.randomChanceWithEnchantBonus(razorEnchantment, 0f, RangedLookupLevelBasedValue.lookupStartingAtLevel(3, 0f, 0.5f, 1f)))
                     .add(lootItem(Items.DRAGON_HEAD));
             LootPool.Builder razorRabbitFoot = LootPool.lootPool()
                     .when(needsEntityType(EntityType.RABBIT))

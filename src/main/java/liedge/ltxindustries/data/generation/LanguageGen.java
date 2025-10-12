@@ -192,6 +192,7 @@ class LanguageGen extends LimaLanguageProvider
         upgradeDescOnly(LTXIEquipmentUpgrades.LTX_SHOVEL_DEFAULT, "Standard issue operating system. Tool energy cutter preserves topographical integrity.");
         upgradeDescOnly(LTXIEquipmentUpgrades.LTX_WRENCH_DEFAULT, "Standard issue operating system. Enables lossless dismantling and retrieval of machines.");
         upgradeDescOnly(LTXIEquipmentUpgrades.LTX_MELEE_DEFAULT, "Standard issue operating system. Tool energy blade is optimized for efficient severing and disintegration of organic matter.");
+        upgradeTooltip(LTXIEquipmentUpgrades.LTX_MELEE_DEFAULT, 0, "%s bonus damage against unarmored targets");
         upgrade(LTXIEquipmentUpgrades.GLOWSTICK_LAUNCHER_DEFAULT, "Wayfinder Intrinsics", "Wayfinder's energy feed system ships pre-configured to use Common Energy.");
         upgrade(LTXIEquipmentUpgrades.SUBMACHINE_GUN_DEFAULT, "Serenity Intrinsics", "Serenity's small light-frags zip right through targets without a trace.");
         upgrade(LTXIEquipmentUpgrades.SHOTGUN_DEFAULT, "Aurora Intrinsics", "Aurora's combat precepts, specialized in fast assault and scout operations.");
@@ -324,6 +325,7 @@ class LanguageGen extends LimaLanguageProvider
         add(UPGRADE_COMPATIBILITY_TOOLTIP, "Compatible with:");
         add(EQUIPMENT_UPGRADE_MODULE_TOOLTIP, "Equipment Upgrade Module");
         add(MACHINE_UPGRADE_MODULE_TOOLTIP, "Machine Upgrade Module");
+        add(DAMAGE_ATTRIBUTES_EFFECT_PREFIX, "Against target: ");
 
         add(UPGRADE_INSTALL_SUCCESS, "Installed upgrade.");
         add(UPGRADE_INSTALL_FAIL, "Can't install upgrade.");

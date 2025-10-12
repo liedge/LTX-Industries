@@ -126,12 +126,12 @@
         {
           "condition": "minecraft:random_chance_with_enchanted_bonus",
           "enchanted_chance": {
-            "type": "limacore:enhanced_lookup",
-            "default_above": 1.0,
-            "default_below": 0.0,
-            "level_offset": 4,
+            "type": "limacore:ranged_lookup",
+            "level_offset": 2,
             "values": [
-              0.5
+              0.0,
+              0.5,
+              1.0
             ]
           },
           "enchantment": "ltxi:razor",

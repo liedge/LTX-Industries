@@ -50,7 +50,7 @@ public interface UpgradableEquipmentItem extends ItemLike
         // Refresh attribute modifiers
         List<ItemAttributeModifiers.Entry> modifierEntries = new ObjectArrayList<>();
         modifierEntries.addAll(this.asItem().getDefaultAttributeModifiers(stack).modifiers());
-        upgrades.forEachEffect(LTXIUpgradeEffectComponents.ITEM_ATTRIBUTE_MODIFIERS, (effect, rank) -> modifierEntries.add(effect.makeModifierEntry(rank)));
+        upgrades.forEachEffect(LTXIUpgradeEffectComponents.ITEM_ATTRIBUTE_MODIFIERS, (effect, rank) -> modifierEntries.add(effect.createModifierEntry(rank)));
         stack.set(DataComponents.ATTRIBUTE_MODIFIERS, new ItemAttributeModifiers(modifierEntries, true));
 
         // Apply to energy capability holder items only

@@ -70,6 +70,7 @@ public final class LTXILangKeys
     public static final Translatable UPGRADE_COMPATIBILITY_TOOLTIP = tooltip("upgrade_compatibility");
     public static final Translatable EQUIPMENT_UPGRADE_MODULE_TOOLTIP = tooltip("equipment_upgrade_module");
     public static final Translatable MACHINE_UPGRADE_MODULE_TOOLTIP = tooltip("machine_upgrade_module");
+    public static final Translatable DAMAGE_ATTRIBUTES_EFFECT_PREFIX = tooltip("damage_attributes_prefix");
 
     // Upgrade effects
     public static final Translatable ENERGY_CAPACITY_UPGRADE = upgradeEffect("energy_capacity");

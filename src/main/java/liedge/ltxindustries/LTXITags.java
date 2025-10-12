@@ -101,13 +101,8 @@ public final class LTXITags
     {
         private Fluids() {}
 
-        public static final TagKey<Fluid> HYDROGEN_FLUIDS = common("hydrogen");
-        public static final TagKey<Fluid> OXYGEN_FLUIDS = common("oxygen");
-
-        private static TagKey<Fluid> common(String name)
-        {
-            return COMMON_NAMESPACE.tagKey(Registries.FLUID, name);
-        }
+        public static final TagKey<Fluid> HYDROGEN_FLUIDS = COMMON_NAMESPACE.fluidTag("hydrogen");
+        public static final TagKey<Fluid> OXYGEN_FLUIDS = COMMON_NAMESPACE.fluidTag("oxygen");
     }
 
     public static final class EntityTypes

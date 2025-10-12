@@ -42,7 +42,7 @@
           "value": {
             "type": "limacore:math_ops",
             "first": {
-              "type": "limacore:targeted_attribute_value",
+              "type": "limacore:entity_attribute_value",
               "attribute": "minecraft:generic.max_health",
               "target": "this"
             },

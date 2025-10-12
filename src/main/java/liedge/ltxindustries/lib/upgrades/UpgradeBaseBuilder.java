@@ -5,6 +5,10 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.data.BootstrapObjectBuilder;
 import liedge.limacore.lib.LimaColor;
 import liedge.limacore.lib.ModResources;
+import liedge.ltxindustries.lib.upgrades.effect.equipment.AttributeModifierUpgradeEffect;
+import liedge.ltxindustries.lib.upgrades.effect.equipment.DamageAttributesUpgradeEffect;
+import liedge.ltxindustries.lib.upgrades.effect.equipment.ItemAttributesUpgradeEffect;
+import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
@@ -13,11 +17,16 @@ import net.minecraft.core.component.DataComponentType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.util.Unit;
+import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.enchantment.ConditionalEffect;
 import net.minecraft.world.item.enchantment.EnchantmentTarget;
+import net.minecraft.world.item.enchantment.LevelBasedValue;
 import net.minecraft.world.item.enchantment.TargetedConditionalEffect;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import org.apache.commons.lang3.StringUtils;
@@ -141,6 +150,7 @@ public final class UpgradeBaseBuilder<CTX, U extends UpgradeBase<CTX, U>> implem
         return exclusiveWith(holders.getOrThrow(tagKey));
     }
 
+    //#region Effect addition helpers
     public <T> UpgradeBaseBuilder<CTX, U> withEffect(DataComponentType<List<T>> type, T effect)
     {
         getEffectsList(type).add(effect);
@@ -214,6 +224,24 @@ public final class UpgradeBaseBuilder<CTX, U extends UpgradeBase<CTX, U>> implem
     {
         return withUnitEffect(typeSupplier.get());
     }
+
+    // Specialty effects
+    private <T extends AttributeModifierUpgradeEffect> UpgradeBaseBuilder<CTX, U> attributeEffect(Supplier<? extends DataComponentType<List<T>>> typeSupplier, String name, Function<ResourceLocation, T> function)
+    {
+        ResourceLocation modifierId = key.location().withSuffix('.' + name);
+        return withEffect(typeSupplier, function.apply(modifierId));
+    }
+
+    public UpgradeBaseBuilder<CTX, U> itemAttributes(Holder<Attribute> attribute, String name, LevelBasedValue amount, AttributeModifier.Operation operation, EquipmentSlotGroup slots)
+    {
+        return attributeEffect(LTXIUpgradeEffectComponents.ITEM_ATTRIBUTE_MODIFIERS, name, id -> ItemAttributesUpgradeEffect.create(attribute, id, amount, operation, slots));
+    }
+
+    public UpgradeBaseBuilder<CTX, U> damageAttributes(Holder<Attribute> attribute, String name, LevelBasedValue amount, AttributeModifier.Operation operation)
+    {
+        return attributeEffect(LTXIUpgradeEffectComponents.DAMAGE_ATTRIBUTE_MODIFIERS, name, id -> DamageAttributesUpgradeEffect.create(attribute, id, amount, operation));
+    }
+    //#endregion
 
     public UpgradeBaseBuilder<CTX, U> effectIcon(UpgradeIcon icon)
     {
