@@ -1,8 +1,8 @@
-package liedge.ltxindustries.lib.upgrades.effect.equipment;
+package liedge.ltxindustries.lib.upgrades.effect.entity;
 
 import com.mojang.serialization.MapCodec;
 import liedge.ltxindustries.client.LTXILangKeys;
-import liedge.ltxindustries.registry.game.LTXIEquipmentUpgradeEffects;
+import liedge.ltxindustries.registry.game.LTXIEntityUpgradeEffects;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -18,7 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
-public record DynamicDamageTagUpgradeEffect(List<TagKey<DamageType>> tags) implements EquipmentUpgradeEffect
+public record DynamicDamageTagUpgradeEffect(List<TagKey<DamageType>> tags) implements EntityUpgradeEffect
 {
     public static final MapCodec<DynamicDamageTagUpgradeEffect> CODEC = TagKey.codec(Registries.DAMAGE_TYPE).listOf().fieldOf("tags").xmap(DynamicDamageTagUpgradeEffect::new, DynamicDamageTagUpgradeEffect::tags);
 
@@ -34,16 +34,16 @@ public record DynamicDamageTagUpgradeEffect(List<TagKey<DamageType>> tags) imple
     }
 
     @Override
-    public void applyEquipmentEffect(ServerLevel level, Entity entity, int upgradeRank, LootContext context)
+    public void applyEntityEffect(ServerLevel level, Entity entity, int upgradeRank, LootContext context)
     {
         DamageSource damageSource = context.getParamOrNull(LootContextParams.DAMAGE_SOURCE);
         if (damageSource != null) tags.forEach(damageSource::limaCore$addDynamicTag);
     }
 
     @Override
-    public MapCodec<? extends EquipmentUpgradeEffect> codec()
+    public EntityUpgradeEffectType<?> getType()
     {
-        return LTXIEquipmentUpgradeEffects.DYNAMIC_DAMAGE_TAG_EQUIPMENT_EFFECT.get();
+        return LTXIEntityUpgradeEffects.DYNAMIC_DAMAGE_TAG_EQUIPMENT_EFFECT.get();
     }
 
     @Override

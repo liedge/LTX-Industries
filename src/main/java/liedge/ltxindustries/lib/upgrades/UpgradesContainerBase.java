@@ -11,9 +11,9 @@ import liedge.limacore.network.LimaStreamCodecs;
 import liedge.limacore.util.LimaLootUtil;
 import liedge.limacore.util.LimaRegistryUtil;
 import liedge.limacore.util.LimaStreamsUtil;
-import liedge.ltxindustries.lib.upgrades.effect.ValueUpgradeEffect;
+import liedge.ltxindustries.lib.upgrades.effect.value.ValueUpgradeEffect;
 import liedge.ltxindustries.lib.upgrades.effect.equipment.EnchantmentLevelsUpgradeEffect;
-import liedge.ltxindustries.lib.upgrades.effect.equipment.EquipmentUpgradeEffect;
+import liedge.ltxindustries.lib.upgrades.effect.entity.EntityUpgradeEffect;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
@@ -101,14 +101,14 @@ public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
         forEachConditionalEffect(typeSupplier.get(), context, consumer);
     }
 
-    public void applyDamageContextEffects(DataComponentType<List<TargetedConditionalEffect<EquipmentUpgradeEffect>>> type, ServerLevel level, EnchantmentTarget effectTarget, Entity targetEntity, LivingEntity attacker, DamageSource damageSource)
+    public void applyDamageContextEffects(DataComponentType<List<TargetedConditionalEffect<EntityUpgradeEffect>>> type, ServerLevel level, EnchantmentTarget effectTarget, Entity targetEntity, LivingEntity attacker, DamageSource damageSource)
     {
         LootContext context = LimaLootUtil.entityLootContext(level, targetEntity, damageSource, attacker);
 
         for (Object2IntMap.Entry<Holder<U>> entry : internalMap.object2IntEntrySet())
         {
-            List<TargetedConditionalEffect<EquipmentUpgradeEffect>> list = entry.getKey().value().getListEffect(type);
-            for (TargetedConditionalEffect<EquipmentUpgradeEffect> conditionalEffect : list)
+            List<TargetedConditionalEffect<EntityUpgradeEffect>> list = entry.getKey().value().getListEffect(type);
+            for (TargetedConditionalEffect<EntityUpgradeEffect> conditionalEffect : list)
             {
                 if (conditionalEffect.enchanted() == effectTarget && conditionalEffect.matches(context))
                 {
@@ -119,13 +119,13 @@ public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
                         case VICTIM -> targetEntity;
                     };
 
-                    if (entity != null) conditionalEffect.effect().applyEquipmentEffect(level, entity, entry.getIntValue(), context);
+                    if (entity != null) conditionalEffect.effect().applyEntityEffect(level, entity, entry.getIntValue(), context);
                 }
             }
         }
     }
 
-    public void applyDamageContextEffects(Supplier<? extends DataComponentType<List<TargetedConditionalEffect<EquipmentUpgradeEffect>>>> typeSupplier, ServerLevel level, EnchantmentTarget effectTarget, Entity targetEntity, LivingEntity attacker, DamageSource damageSource)
+    public void applyDamageContextEffects(Supplier<? extends DataComponentType<List<TargetedConditionalEffect<EntityUpgradeEffect>>>> typeSupplier, ServerLevel level, EnchantmentTarget effectTarget, Entity targetEntity, LivingEntity attacker, DamageSource damageSource)
     {
         applyDamageContextEffects(typeSupplier.get(), level, effectTarget, targetEntity, attacker, damageSource);
     }

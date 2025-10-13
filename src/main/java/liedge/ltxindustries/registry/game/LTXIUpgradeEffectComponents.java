@@ -3,7 +3,8 @@ package liedge.ltxindustries.registry.game;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.lib.upgrades.effect.UpgradeDataComponentType;
-import liedge.ltxindustries.lib.upgrades.effect.ValueUpgradeEffect;
+import liedge.ltxindustries.lib.upgrades.effect.value.ValueUpgradeEffect;
+import liedge.ltxindustries.lib.upgrades.effect.entity.EntityUpgradeEffect;
 import liedge.ltxindustries.lib.upgrades.effect.equipment.*;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
 import liedge.ltxindustries.lib.weapons.WeaponReloadSource;
@@ -42,8 +43,8 @@ public final class LTXIUpgradeEffectComponents
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<EnchantmentLevelsUpgradeEffect>>> ENCHANTMENT_LEVELS = COMPONENTS.register("enchantment_levels", () -> UpgradeDataComponentType.listOf(EnchantmentLevelsUpgradeEffect.CODEC));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ItemAttributesUpgradeEffect>>> ITEM_ATTRIBUTE_MODIFIERS = COMPONENTS.register("item_attribute_modifiers", () -> UpgradeDataComponentType.listOf(ItemAttributesUpgradeEffect.CODEC));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<MiningRuleUpgradeEffect>>> MINING_RULES = COMPONENTS.register("mining_rules", () -> UpgradeDataComponentType.listOf(MiningRuleUpgradeEffect.CODEC));
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<TargetedConditionalEffect<EquipmentUpgradeEffect>>>> EQUIPMENT_PRE_ATTACK = COMPONENTS.register("pre_attack", () -> UpgradeDataComponentType.targetedConditionalListOf(EquipmentUpgradeEffect.CODEC, LootContextParamSets.ENTITY));
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<TargetedConditionalEffect<EquipmentUpgradeEffect>>>> EQUIPMENT_KILL = COMPONENTS.register("on_kill", () -> UpgradeDataComponentType.targetedConditionalListOf(EquipmentUpgradeEffect.CODEC, LootContextParamSets.ENTITY));
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<TargetedConditionalEffect<EntityUpgradeEffect>>>> EQUIPMENT_PRE_ATTACK = COMPONENTS.register("pre_attack", () -> UpgradeDataComponentType.targetedConditionalListOf(EntityUpgradeEffect.CODEC, LootContextParamSets.ENTITY));
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<TargetedConditionalEffect<EntityUpgradeEffect>>>> EQUIPMENT_KILL = COMPONENTS.register("on_kill", () -> UpgradeDataComponentType.targetedConditionalListOf(EntityUpgradeEffect.CODEC, LootContextParamSets.ENTITY));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<DamageAttributesUpgradeEffect>>> DAMAGE_ATTRIBUTE_MODIFIERS = COMPONENTS.register("damage_attribute_modifiers", () -> UpgradeDataComponentType.listOf(DamageAttributesUpgradeEffect.CODEC));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ModifyReductionsUpgradeEffect>>> DAMAGE_REDUCTION_MODIFIER = COMPONENTS.register("damage_reduction_modifier", () -> UpgradeDataComponentType.listOf(ModifyReductionsUpgradeEffect.CODEC));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<GrenadeType>>> GRENADE_UNLOCK = COMPONENTS.register("grenade_unlock", () -> UpgradeDataComponentType.listOf(GrenadeType.CODEC));
@@ -72,12 +73,12 @@ public final class LTXIUpgradeEffectComponents
 
         public DeferredHolder<DataComponentType<?>, DataComponentType<List<ValueUpgradeEffect>>> registerValue(String name)
         {
-            return register(name, () -> UpgradeDataComponentType.listOf(ValueUpgradeEffect.CODEC));
+            return register(name, () -> UpgradeDataComponentType.custom(ValueUpgradeEffect.CODEC.listOf()));
         }
 
         public DeferredHolder<DataComponentType<?>, DataComponentType<List<ConditionalEffect<ValueUpgradeEffect>>>> registerConditionalValue(String name, LootContextParamSet params)
         {
-            return register(name, () -> UpgradeDataComponentType.conditionalListOf(ValueUpgradeEffect.CODEC, params));
+            return register(name, () -> UpgradeDataComponentType.custom(ConditionalEffect.codec(ValueUpgradeEffect.CODEC, params).listOf()));
         }
     }
 }

@@ -3,7 +3,7 @@ package liedge.ltxindustries.lib.upgrades;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import liedge.limacore.data.LimaCoreCodecs;
-import liedge.ltxindustries.lib.upgrades.effect.DoubleLevelBasedValue;
+import liedge.ltxindustries.lib.upgrades.effect.value.DoubleLevelBasedValue;
 import liedge.ltxindustries.lib.upgrades.effect.TooltipValueFormat;
 import liedge.ltxindustries.lib.upgrades.effect.ValueSentiment;
 import net.minecraft.network.chat.Component;

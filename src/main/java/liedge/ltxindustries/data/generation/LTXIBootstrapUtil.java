@@ -4,7 +4,7 @@ import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.lib.upgrades.TooltipArgument;
 import liedge.ltxindustries.lib.upgrades.UpgradeIcon;
 import liedge.ltxindustries.lib.upgrades.UpgradeTooltip;
-import liedge.ltxindustries.lib.upgrades.effect.DoubleLevelBasedValue;
+import liedge.ltxindustries.lib.upgrades.effect.value.DoubleLevelBasedValue;
 import liedge.ltxindustries.lib.upgrades.effect.TooltipValueFormat;
 import liedge.ltxindustries.lib.upgrades.effect.ValueSentiment;
 import net.minecraft.world.level.ItemLike;

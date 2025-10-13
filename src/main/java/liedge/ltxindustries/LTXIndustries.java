@@ -49,7 +49,7 @@ public class LTXIndustries
         LTXICreativeTabs.register(modBus);
         LTXIDataComponents.register(modBus);
         LTXIEntities.register(modBus);
-        LTXIEquipmentUpgradeEffects.register(modBus);
+        LTXIEntityUpgradeEffects.register(modBus);
         LTXIFluids.register(modBus);
         LTXIGameEvents.register(modBus);
         LTXIItems.register(modBus);
@@ -111,7 +111,7 @@ public class LTXIndustries
         private void registerCustomRegistries(final NewRegistryEvent event)
         {
             event.register(LTXIRegistries.UPGRADE_COMPONENT_TYPES);
-            event.register(LTXIRegistries.EQUIPMENT_UPGRADE_EFFECT_TYPES);
+            event.register(LTXIRegistries.ENTITY_UPGRADE_EFFECT_TYPES);
         }
 
         @SubscribeEvent

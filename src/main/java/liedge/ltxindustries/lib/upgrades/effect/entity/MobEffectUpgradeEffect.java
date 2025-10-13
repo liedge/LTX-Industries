@@ -1,9 +1,9 @@
-package liedge.ltxindustries.lib.upgrades.effect.equipment;
+package liedge.ltxindustries.lib.upgrades.effect.entity;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import liedge.ltxindustries.client.LTXILangKeys;
-import liedge.ltxindustries.registry.game.LTXIEquipmentUpgradeEffects;
+import liedge.ltxindustries.registry.game.LTXIEntityUpgradeEffects;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.CommonComponents;
@@ -21,7 +21,7 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 
 import java.util.function.Consumer;
 
-public record MobEffectUpgradeEffect(Holder<MobEffect> effect, LevelBasedValue duration, LevelBasedValue amplifier) implements EquipmentUpgradeEffect
+public record MobEffectUpgradeEffect(Holder<MobEffect> effect, LevelBasedValue duration, LevelBasedValue amplifier) implements EntityUpgradeEffect
 {
     public static final MapCodec<MobEffectUpgradeEffect> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             MobEffect.CODEC.fieldOf("effect").forGetter(MobEffectUpgradeEffect::effect),
@@ -35,7 +35,7 @@ public record MobEffectUpgradeEffect(Holder<MobEffect> effect, LevelBasedValue d
     }
 
     @Override
-    public void applyEquipmentEffect(ServerLevel level, Entity entity, int upgradeRank, LootContext context)
+    public void applyEntityEffect(ServerLevel level, Entity entity, int upgradeRank, LootContext context)
     {
         if (entity instanceof LivingEntity livingEntity)
         {
@@ -47,9 +47,9 @@ public record MobEffectUpgradeEffect(Holder<MobEffect> effect, LevelBasedValue d
     }
 
     @Override
-    public MapCodec<? extends EquipmentUpgradeEffect> codec()
+    public EntityUpgradeEffectType<?> getType()
     {
-        return LTXIEquipmentUpgradeEffects.MOB_EFFECT_EQUIPMENT_EFFECT.get();
+        return LTXIEntityUpgradeEffects.MOB_EFFECT_EQUIPMENT_EFFECT.get();
     }
 
     @Override

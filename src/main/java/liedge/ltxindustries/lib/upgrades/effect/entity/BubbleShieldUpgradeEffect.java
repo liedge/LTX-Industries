@@ -1,11 +1,11 @@
-package liedge.ltxindustries.lib.upgrades.effect.equipment;
+package liedge.ltxindustries.lib.upgrades.effect.entity;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import liedge.ltxindustries.LTXICapabilities;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.entity.BubbleShieldUser;
-import liedge.ltxindustries.registry.game.LTXIEquipmentUpgradeEffects;
+import liedge.ltxindustries.registry.game.LTXIEntityUpgradeEffects;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -19,7 +19,7 @@ import static liedge.ltxindustries.LTXIConstants.BUBBLE_SHIELD_GREEN;
 import static liedge.ltxindustries.util.LTXITooltipUtil.flatNumberWithSign;
 import static liedge.ltxindustries.util.LTXITooltipUtil.flatNumberWithoutSign;
 
-public record BubbleShieldUpgradeEffect(LevelBasedValue amount, LevelBasedValue maxShield) implements EquipmentUpgradeEffect
+public record BubbleShieldUpgradeEffect(LevelBasedValue amount, LevelBasedValue maxShield) implements EntityUpgradeEffect
 {
     public static final MapCodec<BubbleShieldUpgradeEffect> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             LevelBasedValue.CODEC.fieldOf("amount").forGetter(BubbleShieldUpgradeEffect::amount),
@@ -27,7 +27,7 @@ public record BubbleShieldUpgradeEffect(LevelBasedValue amount, LevelBasedValue 
             .apply(instance, BubbleShieldUpgradeEffect::new));
 
     @Override
-    public void applyEquipmentEffect(ServerLevel level, Entity entity, int upgradeRank, LootContext context)
+    public void applyEntityEffect(ServerLevel level, Entity entity, int upgradeRank, LootContext context)
     {
         if (entity instanceof LivingEntity livingEntity)
         {
@@ -37,9 +37,9 @@ public record BubbleShieldUpgradeEffect(LevelBasedValue amount, LevelBasedValue 
     }
 
     @Override
-    public MapCodec<? extends EquipmentUpgradeEffect> codec()
+    public EntityUpgradeEffectType<?> getType()
     {
-        return LTXIEquipmentUpgradeEffects.BUBBLE_SHIELD_EQUIPMENT_EFFECT.get();
+        return LTXIEntityUpgradeEffects.BUBBLE_SHIELD_EQUIPMENT_EFFECT.get();
     }
 
     @Override

@@ -2,7 +2,7 @@ package liedge.ltxindustries.lib.upgrades.effect.equipment;
 
 import com.mojang.datafixers.Products;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import liedge.ltxindustries.lib.upgrades.effect.RankBasedAttributeModifier;
+import liedge.ltxindustries.lib.upgrades.effect.value.RankBasedAttributeModifier;
 import liedge.ltxindustries.lib.upgrades.effect.UpgradeTooltipsProvider;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;

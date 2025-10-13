@@ -1,4 +1,4 @@
-package liedge.ltxindustries.lib.upgrades.effect;
+package liedge.ltxindustries.lib.upgrades.effect.value;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
