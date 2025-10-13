@@ -175,7 +175,7 @@ public abstract class BaseFabricatorBlockEntity extends ProductionMachineBlockEn
     // For data watcher use only, called on server
     private ItemStack createPreviewItem()
     {
-        ItemStack currentOutputItem = getOutputInventory().getStackInSlot(0).copy();
+        ItemStack currentOutputItem = getOutputInventory().getStackInSlot(0);
 
         if (isCrafting())
         {

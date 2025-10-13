@@ -13,7 +13,7 @@ import net.minecraft.util.StringRepresentable;
  */
 public interface DoubleLevelBasedValue
 {
-    Codec<DoubleLevelBasedValue> CODEC = Codec.lazyInitialized(() -> Type.CODEC.flatDispatch(ConstantValue.class, ConstantValue.FLAT_CODEC, DoubleLevelBasedValue::getType, Type::getCodec));
+    Codec<DoubleLevelBasedValue> CODEC = Codec.lazyInitialized(() -> Type.CODEC.dispatchWithInline(ConstantValue.class, ConstantValue.INLINE_CODEC, DoubleLevelBasedValue::getType, Type::getCodec));
 
     static ConstantValue constant(double value)
     {
@@ -56,8 +56,8 @@ public interface DoubleLevelBasedValue
 
     record ConstantValue(double value) implements DoubleLevelBasedValue
     {
-        private static final Codec<ConstantValue> FLAT_CODEC = Codec.DOUBLE.xmap(ConstantValue::new, ConstantValue::value);
-        private static final MapCodec<ConstantValue> CODEC = FLAT_CODEC.fieldOf("value");
+        private static final Codec<ConstantValue> INLINE_CODEC = Codec.DOUBLE.xmap(ConstantValue::new, ConstantValue::value);
+        private static final MapCodec<ConstantValue> CODEC = INLINE_CODEC.fieldOf("value");
 
         @Override
         public double calculate(int level)

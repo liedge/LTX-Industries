@@ -15,7 +15,7 @@ import static liedge.ltxindustries.LTXIndustries.RESOURCES;
 
 public interface UpgradeIcon
 {
-    Codec<UpgradeIcon> CODEC = Type.CODEC.flatDispatch(SpriteSheetIcon.class, SpriteSheetIcon.CODEC, UpgradeIcon::getType, Type::getCodec);
+    Codec<UpgradeIcon> CODEC = Type.CODEC.dispatchWithInline(SpriteSheetIcon.class, SpriteSheetIcon.INLINE_CODEC, UpgradeIcon::getType, Type::getCodec);
     ResourceLocation DEFAULT_ICON_LOCATION = RESOURCES.location("default");
 
     static NoRenderIcon noRenderIcon()
@@ -66,8 +66,8 @@ public interface UpgradeIcon
 
     record SpriteSheetIcon(ResourceLocation location) implements UpgradeIcon
     {
-        private static final Codec<SpriteSheetIcon> CODEC = ResourceLocation.CODEC.xmap(SpriteSheetIcon::new, SpriteSheetIcon::location);
-        private static final MapCodec<SpriteSheetIcon> MAP_CODEC = CODEC.fieldOf("sprite");
+        private static final Codec<SpriteSheetIcon> INLINE_CODEC = ResourceLocation.CODEC.xmap(SpriteSheetIcon::new, SpriteSheetIcon::location);
+        private static final MapCodec<SpriteSheetIcon> MAP_CODEC = INLINE_CODEC.fieldOf("sprite");
 
         @Override
         public Type getType()
@@ -90,7 +90,7 @@ public interface UpgradeIcon
 
     record CompositeIcon(UpgradeIcon background, UpgradeIcon overlay, int overlaySize, int xOffset, int yOffset) implements UpgradeIcon
     {
-        private static final Codec<UpgradeIcon> SUB_CODEC = LimaCoreCodecs.xorSubclassCodec(SpriteSheetIcon.CODEC, ItemStackIcon.CODEC, SpriteSheetIcon.class, ItemStackIcon.class);
+        private static final Codec<UpgradeIcon> SUB_CODEC = LimaCoreCodecs.xorSubclassCodec(SpriteSheetIcon.INLINE_CODEC, ItemStackIcon.CODEC, SpriteSheetIcon.class, ItemStackIcon.class);
         private static final MapCodec<CompositeIcon> MAP_CODEC = RecordCodecBuilder.<CompositeIcon>mapCodec(instance -> instance.group(
                 SUB_CODEC.fieldOf("background").forGetter(CompositeIcon::background),
                 SUB_CODEC.fieldOf("overlay").forGetter(CompositeIcon::overlay),

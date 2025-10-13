@@ -43,7 +43,7 @@ public class EquipmentUpgradeStationBlockEntity extends LimaBlockEntity implemen
     @Override
     public void defineDataWatchers(DataWatcherCollector collector)
     {
-        collector.register(AutomaticDataWatcher.keepItemSynced(() -> inventory.getStackInSlot(EQUIPMENT_ITEM_SLOT).copy(), stack -> this.previewItem = stack));
+        collector.register(AutomaticDataWatcher.keepItemSynced(() -> inventory.getStackInSlot(EQUIPMENT_ITEM_SLOT), stack -> this.previewItem = stack));
     }
 
     @Override
