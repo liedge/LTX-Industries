@@ -8,6 +8,7 @@ import liedge.limacore.client.LimaComponentUtil;
 import liedge.limacore.network.LimaStreamCodecs;
 import liedge.limacore.util.LimaRegistryUtil;
 import liedge.ltxindustries.lib.upgrades.effect.UpgradeDataComponentType;
+import liedge.ltxindustries.lib.upgrades.tooltip.UpgradeTooltip;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;

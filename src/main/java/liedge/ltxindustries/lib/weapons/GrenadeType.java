@@ -6,7 +6,7 @@ import liedge.limacore.lib.OrderedEnum;
 import liedge.limacore.lib.Translatable;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.client.LTXILangKeys;
-import liedge.ltxindustries.lib.upgrades.effect.UpgradeTooltipsProvider;
+import liedge.ltxindustries.lib.upgrades.tooltip.UpgradeTooltipsProvider;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;

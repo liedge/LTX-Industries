@@ -9,7 +9,7 @@ import liedge.limacore.lib.Translatable;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.item.weapon.WeaponItem;
-import liedge.ltxindustries.lib.upgrades.effect.UpgradeTooltipsProvider;
+import liedge.ltxindustries.lib.upgrades.tooltip.UpgradeTooltipsProvider;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;

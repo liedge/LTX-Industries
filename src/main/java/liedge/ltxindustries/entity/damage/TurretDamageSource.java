@@ -3,7 +3,7 @@ package liedge.ltxindustries.entity.damage;
 import com.google.common.base.Preconditions;
 import liedge.ltxindustries.blockentity.BaseTurretBlockEntity;
 import liedge.ltxindustries.lib.upgrades.UpgradesContainerBase;
-import liedge.ltxindustries.lib.upgrades.effect.equipment.DirectDropsUpgradeEffect;
+import liedge.ltxindustries.lib.upgrades.effect.DirectDropsUpgradeEffect;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.damagesource.DamageType;

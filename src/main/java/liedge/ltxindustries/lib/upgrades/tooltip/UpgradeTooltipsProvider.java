@@ -1,4 +1,4 @@
-package liedge.ltxindustries.lib.upgrades.effect;
+package liedge.ltxindustries.lib.upgrades.tooltip;
 
 import net.minecraft.network.chat.Component;
 

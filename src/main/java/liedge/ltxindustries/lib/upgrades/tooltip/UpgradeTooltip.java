@@ -1,4 +1,4 @@
-package liedge.ltxindustries.lib.upgrades;
+package liedge.ltxindustries.lib.upgrades.tooltip;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -10,7 +10,7 @@ import net.minecraft.network.chat.Style;
 
 import java.util.List;
 
-public sealed interface UpgradeTooltip permits UpgradeTooltip.StaticTooltip, UpgradeTooltip.DynamicTooltip
+public sealed interface UpgradeTooltip permits UpgradeTooltip.StaticTooltip, UpgradeTooltip.ArgsTooltip
 {
     static UpgradeTooltip of(Component component)
     {
@@ -19,7 +19,7 @@ public sealed interface UpgradeTooltip permits UpgradeTooltip.StaticTooltip, Upg
 
     static UpgradeTooltip of(String key, Style style, TooltipArgument... args)
     {
-        return new DynamicTooltip(key, style, List.of(args));
+        return new ArgsTooltip(key, style, List.of(args));
     }
 
     static UpgradeTooltip of(String key, TooltipArgument... args)
@@ -37,7 +37,7 @@ public sealed interface UpgradeTooltip permits UpgradeTooltip.StaticTooltip, Upg
         return of(translatable.descriptionId(), args);
     }
 
-    Codec<UpgradeTooltip> CODEC = LimaCoreCodecs.xorSubclassCodec(StaticTooltip.CODEC, DynamicTooltip.CODEC, StaticTooltip.class, DynamicTooltip.class);
+    Codec<UpgradeTooltip> CODEC = LimaCoreCodecs.xorSubclassCodec(StaticTooltip.CODEC, ArgsTooltip.CODEC, StaticTooltip.class, ArgsTooltip.class);
 
     Component get(int upgradeRank);
 
@@ -52,30 +52,19 @@ public sealed interface UpgradeTooltip permits UpgradeTooltip.StaticTooltip, Upg
         }
     }
 
-    final class DynamicTooltip implements UpgradeTooltip
+    record ArgsTooltip(String key, Style style, List<TooltipArgument> args) implements UpgradeTooltip
     {
-        private static final Codec<DynamicTooltip> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-                Codec.STRING.fieldOf("key").forGetter(o -> o.key),
-                Style.Serializer.CODEC.optionalFieldOf("style", Style.EMPTY).forGetter(o -> o.style),
-                TooltipArgument.CODEC.listOf(1, 16).fieldOf("args").forGetter(o -> o.args))
-                .apply(instance, DynamicTooltip::new));
-
-        private final String key;
-        private final Style style;
-        private final List<TooltipArgument> args;
-
-        public DynamicTooltip(String key, Style style, List<TooltipArgument> args)
-        {
-            this.key = key;
-            this.style = style;
-            this.args = args;
-        }
+        private static final Codec<ArgsTooltip> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+                Codec.STRING.fieldOf("key").forGetter(ArgsTooltip::key),
+                Style.Serializer.CODEC.optionalFieldOf("style", Style.EMPTY).forGetter(ArgsTooltip::style),
+                TooltipArgument.CODEC.listOf(1, 8).fieldOf("args").forGetter(ArgsTooltip::args))
+                .apply(instance, ArgsTooltip::new));
 
         @Override
         public Component get(int upgradeRank)
         {
-            Object[] varargs = args.stream().map(o -> o.get(upgradeRank)).toArray();
-            return Component.translatable(key, varargs).withStyle(style);
+            Object[] resolvedArgs = args.stream().map(a -> a.get(upgradeRank)).toArray();
+            return Component.translatable(key, resolvedArgs).withStyle(style);
         }
     }
 }

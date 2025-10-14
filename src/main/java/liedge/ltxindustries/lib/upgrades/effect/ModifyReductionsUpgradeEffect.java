@@ -1,12 +1,12 @@
-package liedge.ltxindustries.lib.upgrades.effect.equipment;
+package liedge.ltxindustries.lib.upgrades.effect;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import liedge.limacore.lib.damage.DamageReductionType;
 import liedge.ltxindustries.client.LTXILangKeys;
-import liedge.ltxindustries.lib.upgrades.effect.TooltipValueFormat;
-import liedge.ltxindustries.lib.upgrades.effect.UpgradeTooltipsProvider;
-import liedge.ltxindustries.lib.upgrades.effect.ValueSentiment;
+import liedge.ltxindustries.lib.upgrades.tooltip.UpgradeTooltipsProvider;
+import liedge.ltxindustries.lib.upgrades.tooltip.ValueFormat;
+import liedge.ltxindustries.lib.upgrades.tooltip.ValueSentiment;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.enchantment.LevelBasedValue;
@@ -24,7 +24,7 @@ public record ModifyReductionsUpgradeEffect(DamageReductionType reductionType, L
     public void addUpgradeTooltips(int upgradeRank, Consumer<Component> lines)
     {
         float tooltipAmount = Math.abs(amount.calculate(upgradeRank));
-        Component tooltip = LTXILangKeys.REDUCTION_MODIFIER_EFFECT.translateArgs(TooltipValueFormat.PERCENTAGE.apply(tooltipAmount, ValueSentiment.POSITIVE), reductionType.translate().withStyle(ChatFormatting.LIGHT_PURPLE));
+        Component tooltip = LTXILangKeys.REDUCTION_MODIFIER_EFFECT.translateArgs(ValueFormat.PERCENTAGE.apply(tooltipAmount, ValueSentiment.POSITIVE), reductionType.translate().withStyle(ChatFormatting.LIGHT_PURPLE));
         lines.accept(tooltip);
     }
 }

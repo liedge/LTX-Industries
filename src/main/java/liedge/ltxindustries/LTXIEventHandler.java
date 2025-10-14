@@ -12,7 +12,7 @@ import liedge.ltxindustries.item.UpgradableEquipmentItem;
 import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.lib.EquipmentDamageModifiers;
 import liedge.ltxindustries.lib.upgrades.UpgradesContainerBase;
-import liedge.ltxindustries.lib.upgrades.effect.equipment.DirectDropsUpgradeEffect;
+import liedge.ltxindustries.lib.upgrades.effect.DirectDropsUpgradeEffect;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.ltxindustries.registry.game.LTXIAttachmentTypes;
 import liedge.ltxindustries.registry.game.LTXIDataComponents;

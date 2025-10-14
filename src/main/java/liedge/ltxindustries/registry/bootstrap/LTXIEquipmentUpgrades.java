@@ -12,16 +12,13 @@ import liedge.limacore.world.loot.number.MathOpsNumberProvider;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.client.LTXILangKeys;
-import liedge.ltxindustries.lib.upgrades.TooltipArgument;
-import liedge.ltxindustries.lib.upgrades.UpgradeTooltip;
+import liedge.ltxindustries.lib.upgrades.effect.*;
+import liedge.ltxindustries.lib.upgrades.tooltip.*;
 import liedge.ltxindustries.lib.upgrades.effect.value.DoubleLevelBasedValue;
-import liedge.ltxindustries.lib.upgrades.effect.TooltipValueFormat;
-import liedge.ltxindustries.lib.upgrades.effect.ValueSentiment;
 import liedge.ltxindustries.lib.upgrades.effect.value.ValueUpgradeEffect;
 import liedge.ltxindustries.lib.upgrades.effect.entity.BubbleShieldUpgradeEffect;
 import liedge.ltxindustries.lib.upgrades.effect.entity.DynamicDamageTagUpgradeEffect;
 import liedge.ltxindustries.lib.upgrades.effect.entity.MobEffectUpgradeEffect;
-import liedge.ltxindustries.lib.upgrades.effect.equipment.*;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
 import liedge.ltxindustries.lib.weapons.WeaponReloadSource;
@@ -170,7 +167,7 @@ public final class LTXIEquipmentUpgrades
                         EntityAttributeValueProvider.totalValue(LootContext.EntityTarget.THIS, Attributes.ARMOR),
                         EntityAttributeValueProvider.baseValue(LootContext.EntityTarget.THIS, Attributes.ARMOR),
                         CompareOperation.LESS_THAN_OR_EQUALS))
-                .tooltip(0, key -> UpgradeTooltip.of(key, TooltipArgument.of(DoubleLevelBasedValue.constant(0.2d), ValueSentiment.POSITIVE, TooltipValueFormat.SIGNED_PERCENTAGE)))
+                .tooltip(0, key -> UpgradeTooltip.of(key, ValueArgument.of(DoubleLevelBasedValue.constant(0.2d), ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE)))
                 .effectIcon(bottomRightComposite(sprite("razor"), sprite("default_overlay"), 7))
                 .category("default/tool")
                 .register(context);
@@ -183,8 +180,8 @@ public final class LTXIEquipmentUpgrades
                 .withEffect(ENERGY_CAPACITY, ValueUpgradeEffect.of(gslEnergyCap, MathOperation.REPLACE))
                 .withEffect(ENERGY_USAGE, ValueUpgradeEffect.of(gslEnergyUse, MathOperation.REPLACE))
                 .withSpecialEffect(RELOAD_SOURCE, WeaponReloadSource.commonEnergy())
-                .tooltip(energyCapacityTooltip(gslEnergyCap, ValueSentiment.NEUTRAL, TooltipValueFormat.FLAT_NUMBER))
-                .tooltip(energyUsageTooltip(gslEnergyUse, ValueSentiment.NEUTRAL, TooltipValueFormat.FLAT_NUMBER))
+                .tooltip(energyCapacityTooltip(gslEnergyCap, ValueFormat.FLAT_NUMBER, ValueSentiment.NEUTRAL))
+                .tooltip(energyUsageTooltip(gslEnergyUse, ValueFormat.FLAT_NUMBER, ValueSentiment.NEUTRAL))
                 .effectIcon(defaultModuleIcon(LTXIItems.GLOWSTICK_LAUNCHER))
                 .category("default/weapon")
                 .register(context);
@@ -213,8 +210,8 @@ public final class LTXIEquipmentUpgrades
                         LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.ATTACKER, EntityPredicate.Builder.entity()
                                 .moving(MovementPredicate.speed(MinMaxBounds.Doubles.atMost(1e-3d)))
                                 .flags(EntityFlagsPredicate.Builder.flags().setCrouching(true))))
-                .tooltip(0, key -> UpgradeTooltip.of(key, TooltipArgument.of(DoubleLevelBasedValue.constant(25), ValueSentiment.POSITIVE, TooltipValueFormat.SIGNED_FLAT_NUMBER)))
-                .tooltip(1, key -> UpgradeTooltip.of(key, TooltipArgument.of(DoubleLevelBasedValue.constant(0.25d), ValueSentiment.POSITIVE, TooltipValueFormat.SIGNED_PERCENTAGE)))
+                .tooltip(0, key -> UpgradeTooltip.of(key, ValueArgument.of(DoubleLevelBasedValue.constant(25), ValueFormat.SIGNED_FLAT_NUMBER, ValueSentiment.POSITIVE)))
+                .tooltip(1, key -> UpgradeTooltip.of(key, ValueArgument.of(DoubleLevelBasedValue.constant(0.25d), ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE)))
                 .effectIcon(defaultModuleIcon(LTXIItems.LINEAR_FUSION_RIFLE))
                 .category("default/weapon")
                 .register(context);
@@ -227,8 +224,8 @@ public final class LTXIEquipmentUpgrades
                 .setMaxRank(4)
                 .withEffect(ENERGY_CAPACITY, ValueUpgradeEffect.of(toolEnergy, MathOperation.MULTIPLY))
                 .withEffect(ENERGY_TRANSFER_RATE, ValueUpgradeEffect.of(toolEnergy, MathOperation.MULTIPLY))
-                .tooltip(energyCapacityTooltip(toolEnergy, ValueSentiment.POSITIVE, TooltipValueFormat.MULTIPLICATIVE))
-                .tooltip(energyTransferTooltip(toolEnergy, ValueSentiment.POSITIVE, TooltipValueFormat.MULTIPLICATIVE))
+                .tooltip(energyCapacityTooltip(toolEnergy, ValueFormat.MULTIPLICATIVE, ValueSentiment.POSITIVE))
+                .tooltip(energyTransferTooltip(toolEnergy, ValueFormat.MULTIPLICATIVE, ValueSentiment.POSITIVE))
                 .effectIcon(sprite("extra_energy"))
                 .category("tools")
                 .register(context);
@@ -280,7 +277,7 @@ public final class LTXIEquipmentUpgrades
                 .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, DynamicDamageTagUpgradeEffect.of(LTXITags.DamageTypes.BYPASS_SURVIVAL_DEFENSES))
                 .withConditionalEffect(EQUIPMENT_DAMAGE, ValueUpgradeEffect.of(MathOpsNumberProvider.of(EntityAttributeValueProvider.totalValue(LootContext.EntityTarget.THIS, Attributes.MAX_HEALTH), ConstantValue.exactly(0.25f), MathOperation.MULTIPLY), MathOperation.ADD))
                 .tooltip(UpgradeTooltip.of(LTXILangKeys.ATTRIBUTE_SCALED_DAMAGE_UPGRADE,
-                        TooltipArgument.of(DoubleLevelBasedValue.constant(0.25d), ValueSentiment.POSITIVE, TooltipValueFormat.SIGNED_PERCENTAGE),
+                        ValueArgument.of(DoubleLevelBasedValue.constant(0.25d), ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE),
                         TooltipArgument.of(Component.translatable(Attributes.MAX_HEALTH.value().getDescriptionId()).withStyle(ChatFormatting.DARK_RED))))
                 .effectIcon(spriteOverItemIcon(LTXIItems.HEAVY_PISTOL, "plus_overlay", 9))
                 .register(context);
@@ -288,7 +285,7 @@ public final class LTXIEquipmentUpgrades
                 .supports(LTXIItems.GRENADE_LAUNCHER)
                 .setMaxRank(2)
                 .withEffect(WEAPON_RANGE, ValueUpgradeEffect.of(DoubleLevelBasedValue.linear(0.5d), MathOperation.ADD))
-                .tooltip(UpgradeTooltip.of(LTXILangKeys.PROJECTILE_SPEED_UPGRADE, TooltipArgument.of(DoubleLevelBasedValue.linear(0.5d), ValueSentiment.POSITIVE, TooltipValueFormat.SIGNED_FLAT_NUMBER)))
+                .tooltip(UpgradeTooltip.of(LTXILangKeys.PROJECTILE_SPEED_UPGRADE, ValueArgument.of(DoubleLevelBasedValue.linear(0.5d), ValueFormat.SIGNED_FLAT_NUMBER, ValueSentiment.POSITIVE)))
                 .effectIcon(sprite("grenade_speed_boost"))
                 .register(context);
 
@@ -324,8 +321,8 @@ public final class LTXIEquipmentUpgrades
                 .withEffect(ENERGY_CAPACITY, ValueUpgradeEffect.of(lightweightEnergyCapacity, MathOperation.REPLACE))
                 .withEffect(ENERGY_USAGE, ValueUpgradeEffect.of(lightweightEnergyUsage, MathOperation.REPLACE))
                 .withSpecialEffect(RELOAD_SOURCE, WeaponReloadSource.commonEnergy())
-                .tooltip(energyCapacityTooltip(lightweightEnergyCapacity, ValueSentiment.NEUTRAL, TooltipValueFormat.FLAT_NUMBER))
-                .tooltip(energyUsageTooltip(lightweightEnergyUsage, ValueSentiment.NEUTRAL, TooltipValueFormat.FLAT_NUMBER))
+                .tooltip(energyCapacityTooltip(lightweightEnergyCapacity, ValueFormat.FLAT_NUMBER, ValueSentiment.NEUTRAL))
+                .tooltip(energyUsageTooltip(lightweightEnergyUsage, ValueFormat.FLAT_NUMBER, ValueSentiment.NEUTRAL))
                 .effectIcon(sprite(LIGHTWEIGHT_ENERGY_ADAPTER.location().getPath()))
                 .category("weapon/ammo")
                 .register(context);
@@ -339,8 +336,8 @@ public final class LTXIEquipmentUpgrades
                 .withEffect(ENERGY_CAPACITY, ValueUpgradeEffect.of(specialistEnergyCapacity, MathOperation.REPLACE))
                 .withEffect(ENERGY_USAGE, ValueUpgradeEffect.of(specialistEnergyUsage, MathOperation.REPLACE))
                 .withSpecialEffect(RELOAD_SOURCE, WeaponReloadSource.commonEnergy())
-                .tooltip(energyCapacityTooltip(specialistEnergyCapacity, ValueSentiment.NEUTRAL, TooltipValueFormat.FLAT_NUMBER))
-                .tooltip(energyUsageTooltip(specialistEnergyUsage, ValueSentiment.NEUTRAL, TooltipValueFormat.FLAT_NUMBER))
+                .tooltip(energyCapacityTooltip(specialistEnergyCapacity, ValueFormat.FLAT_NUMBER, ValueSentiment.NEUTRAL))
+                .tooltip(energyUsageTooltip(specialistEnergyUsage, ValueFormat.FLAT_NUMBER, ValueSentiment.NEUTRAL))
                 .effectIcon(sprite(SPECIALIST_ENERGY_ADAPTER.location().getPath()))
                 .category("weapon/ammo")
                 .register(context);
@@ -354,8 +351,8 @@ public final class LTXIEquipmentUpgrades
                 .withEffect(ENERGY_CAPACITY, ValueUpgradeEffect.of(explosivesEnergyCapacity, MathOperation.REPLACE))
                 .withEffect(ENERGY_USAGE, ValueUpgradeEffect.of(explosivesEnergyUsage, MathOperation.REPLACE))
                 .withSpecialEffect(RELOAD_SOURCE, WeaponReloadSource.commonEnergy())
-                .tooltip(energyCapacityTooltip(explosivesEnergyCapacity, ValueSentiment.NEUTRAL, TooltipValueFormat.FLAT_NUMBER))
-                .tooltip(energyUsageTooltip(explosivesEnergyUsage, ValueSentiment.NEUTRAL, TooltipValueFormat.FLAT_NUMBER))
+                .tooltip(energyCapacityTooltip(explosivesEnergyCapacity, ValueFormat.FLAT_NUMBER, ValueSentiment.NEUTRAL))
+                .tooltip(energyUsageTooltip(explosivesEnergyUsage, ValueFormat.FLAT_NUMBER, ValueSentiment.NEUTRAL))
                 .effectIcon(sprite(EXPLOSIVES_ENERGY_ADAPTER.location().getPath()))
                 .category("weapon/ammo")
                 .register(context);
@@ -369,8 +366,8 @@ public final class LTXIEquipmentUpgrades
                 .withEffect(ENERGY_CAPACITY, ValueUpgradeEffect.of(heavyEnergyCapacity, MathOperation.REPLACE))
                 .withEffect(ENERGY_USAGE, ValueUpgradeEffect.of(heavyEnergyUsage, MathOperation.REPLACE))
                 .withSpecialEffect(RELOAD_SOURCE, WeaponReloadSource.commonEnergy())
-                .tooltip(energyCapacityTooltip(heavyEnergyCapacity, ValueSentiment.NEUTRAL, TooltipValueFormat.FLAT_NUMBER))
-                .tooltip(energyUsageTooltip(heavyEnergyUsage, ValueSentiment.NEUTRAL, TooltipValueFormat.FLAT_NUMBER))
+                .tooltip(energyCapacityTooltip(heavyEnergyCapacity, ValueFormat.FLAT_NUMBER, ValueSentiment.NEUTRAL))
+                .tooltip(energyUsageTooltip(heavyEnergyUsage, ValueFormat.FLAT_NUMBER, ValueSentiment.NEUTRAL))
                 .effectIcon(sprite(HEAVY_ENERGY_ADAPTER.location().getPath()))
                 .category("weapon/ammo")
                 .register(context);

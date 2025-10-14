@@ -1,4 +1,4 @@
-package liedge.ltxindustries.lib.upgrades.effect.equipment;
+package liedge.ltxindustries.lib.upgrades.effect;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -6,7 +6,7 @@ import liedge.limacore.data.LimaEnumCodec;
 import liedge.limacore.lib.Translatable;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.client.LTXILangKeys;
-import liedge.ltxindustries.lib.upgrades.effect.UpgradeTooltipsProvider;
+import liedge.ltxindustries.lib.upgrades.tooltip.UpgradeTooltipsProvider;
 import liedge.ltxindustries.util.LTXITooltipUtil;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryCodecs;

@@ -1,4 +1,4 @@
-package liedge.ltxindustries.lib.upgrades.effect.equipment;
+package liedge.ltxindustries.lib.upgrades.effect;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;

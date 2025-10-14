@@ -1,4 +1,4 @@
-package liedge.ltxindustries.lib.upgrades.effect;
+package liedge.ltxindustries.lib.upgrades.tooltip;
 
 import liedge.limacore.data.LimaEnumCodec;
 import net.minecraft.ChatFormatting;

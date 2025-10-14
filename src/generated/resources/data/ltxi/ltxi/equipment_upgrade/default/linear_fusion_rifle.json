@@ -21,6 +21,7 @@
       {
         "args": [
           {
+            "format": "signed_flat",
             "sentiment": "positive",
             "value": 25.0
           }

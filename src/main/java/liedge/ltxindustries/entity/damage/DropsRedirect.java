@@ -5,7 +5,7 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.util.LimaRegistryUtil;
 import liedge.ltxindustries.lib.upgrades.UpgradeBase;
 import liedge.ltxindustries.lib.upgrades.UpgradesContainerBase;
-import liedge.ltxindustries.lib.upgrades.effect.equipment.DirectDropsUpgradeEffect;
+import liedge.ltxindustries.lib.upgrades.effect.DirectDropsUpgradeEffect;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;

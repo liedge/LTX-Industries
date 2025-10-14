@@ -1,7 +1,7 @@
 package liedge.ltxindustries.item.tool;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import liedge.ltxindustries.lib.upgrades.effect.equipment.MiningRuleUpgradeEffect;
+import liedge.ltxindustries.lib.upgrades.effect.MiningRuleUpgradeEffect;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import net.minecraft.core.BlockPos;

@@ -1,9 +1,9 @@
-package liedge.ltxindustries.lib.upgrades.effect.equipment;
+package liedge.ltxindustries.lib.upgrades.effect;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import liedge.ltxindustries.client.LTXILangKeys;
-import liedge.ltxindustries.lib.upgrades.effect.UpgradeTooltipsProvider;
+import liedge.ltxindustries.lib.upgrades.tooltip.UpgradeTooltipsProvider;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;

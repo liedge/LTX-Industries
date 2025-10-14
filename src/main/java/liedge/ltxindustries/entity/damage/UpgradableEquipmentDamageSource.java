@@ -2,7 +2,7 @@ package liedge.ltxindustries.entity.damage;
 
 import liedge.limacore.util.LimaCoreUtil;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
-import liedge.ltxindustries.lib.upgrades.effect.equipment.DirectDropsUpgradeEffect;
+import liedge.ltxindustries.lib.upgrades.effect.DirectDropsUpgradeEffect;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.damagesource.DamageType;

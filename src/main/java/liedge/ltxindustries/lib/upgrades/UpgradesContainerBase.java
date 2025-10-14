@@ -12,7 +12,7 @@ import liedge.limacore.util.LimaLootUtil;
 import liedge.limacore.util.LimaRegistryUtil;
 import liedge.limacore.util.LimaStreamsUtil;
 import liedge.ltxindustries.lib.upgrades.effect.value.ValueUpgradeEffect;
-import liedge.ltxindustries.lib.upgrades.effect.equipment.EnchantmentLevelsUpgradeEffect;
+import liedge.ltxindustries.lib.upgrades.effect.EnchantmentLevelsUpgradeEffect;
 import liedge.ltxindustries.lib.upgrades.effect.entity.EntityUpgradeEffect;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import net.minecraft.core.Holder;

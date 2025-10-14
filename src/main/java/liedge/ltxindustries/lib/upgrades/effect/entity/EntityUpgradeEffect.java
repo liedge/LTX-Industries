@@ -1,7 +1,7 @@
 package liedge.ltxindustries.lib.upgrades.effect.entity;
 
 import com.mojang.serialization.Codec;
-import liedge.ltxindustries.lib.upgrades.effect.UpgradeTooltipsProvider;
+import liedge.ltxindustries.lib.upgrades.tooltip.UpgradeTooltipsProvider;
 import liedge.ltxindustries.registry.LTXIRegistries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;

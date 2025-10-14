@@ -12,6 +12,7 @@ import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
 import liedge.ltxindustries.blockentity.base.VariableTimedProcessBlockEntity;
 import liedge.ltxindustries.blockentity.template.ProductionMachineBlockEntity;
 import liedge.ltxindustries.lib.upgrades.EffectRankPair;
+import liedge.ltxindustries.lib.upgrades.effect.MinimumSpeedUpgradeEffect;
 import liedge.ltxindustries.lib.upgrades.effect.value.ValueUpgradeEffect;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrades;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
@@ -265,7 +266,7 @@ public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, 
     private IntUnaryOperator createRecipeTimeFunction(LootContext context)
     {
         MachineUpgrades upgrades = getUpgrades();
-        int minSpeed = upgrades.effectStream(LTXIUpgradeEffectComponents.MINIMUM_MACHINE_SPEED).min(Comparator.naturalOrder()).orElse(0);
+        int minSpeed = upgrades.effectStream(LTXIUpgradeEffectComponents.MINIMUM_MACHINE_SPEED).mapToInt(MinimumSpeedUpgradeEffect::minimumSpeed).min().orElse(0);
         List<EffectRankPair<ValueUpgradeEffect>> list = upgrades.boxedFlatStream(LTXIUpgradeEffectComponents.TICKS_PER_OPERATION).sorted(Comparator.comparing(entry -> entry.effect().operation())).toList();
 
         if (list.isEmpty()) return IntUnaryOperator.identity();

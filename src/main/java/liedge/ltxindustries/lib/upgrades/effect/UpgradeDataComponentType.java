@@ -2,6 +2,7 @@ package liedge.ltxindustries.lib.upgrades.effect;
 
 import com.mojang.serialization.Codec;
 import liedge.limacore.data.LimaDataComponentType;
+import liedge.ltxindustries.lib.upgrades.tooltip.UpgradeTooltipsProvider;
 import liedge.ltxindustries.registry.LTXIRegistries;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.network.chat.Component;
@@ -10,7 +11,6 @@ import net.minecraft.world.item.enchantment.TargetedConditionalEffect;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
 
 import java.util.List;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public abstract class UpgradeDataComponentType<T> extends LimaDataComponentType<T>
@@ -19,30 +19,25 @@ public abstract class UpgradeDataComponentType<T> extends LimaDataComponentType<
 
     public static <T> UpgradeDataComponentType<T> custom(Codec<T> codec)
     {
-        return new CustomType<>(codec, CustomType.NO_TOOLTIP_OP);
+        return new CustomType<>(codec);
     }
 
-    public static <T> UpgradeDataComponentType<T> custom(Codec<T> codec, BiConsumer<? super T, Consumer<Component>> tooltipFunction)
-    {
-        return new CustomType<>(codec, tooltipFunction);
-    }
-
-    public static <T extends UpgradeTooltipsProvider> UpgradeDataComponentType<T> of(Codec<T> codec)
+    public static <T extends UpgradeTooltipsProvider> UpgradeDataComponentType<T> withTooltip(Codec<T> codec)
     {
         return new SingleType<>(codec);
     }
 
-    public static <T extends UpgradeTooltipsProvider> UpgradeDataComponentType<List<T>> listOf(Codec<T> elementCodec)
+    public static <T extends UpgradeTooltipsProvider> UpgradeDataComponentType<List<T>> listWithTooltip(Codec<T> elementCodec)
     {
         return new ListType<>(elementCodec.listOf());
     }
 
-    public static <T extends UpgradeTooltipsProvider> UpgradeDataComponentType<List<ConditionalEffect<T>>> conditionalListOf(Codec<T> elementCodec, LootContextParamSet params)
+    public static <T extends UpgradeTooltipsProvider> UpgradeDataComponentType<List<ConditionalEffect<T>>> conditionalListWithTooltip(Codec<T> elementCodec, LootContextParamSet params)
     {
         return new ConditionalListType<>(ConditionalEffect.codec(elementCodec, params).listOf());
     }
 
-    public static <T extends UpgradeTooltipsProvider> UpgradeDataComponentType<List<TargetedConditionalEffect<T>>> targetedConditionalListOf(Codec<T> elementCodec, LootContextParamSet params)
+    public static <T extends UpgradeTooltipsProvider> UpgradeDataComponentType<List<TargetedConditionalEffect<T>>> targetedConditionalListWithTooltip(Codec<T> elementCodec, LootContextParamSet params)
     {
         return new TargetedConditionalListType<>(TargetedConditionalEffect.codec(elementCodec, params).listOf());
     }
@@ -56,21 +51,13 @@ public abstract class UpgradeDataComponentType<T> extends LimaDataComponentType<
 
     private static class CustomType<T> extends UpgradeDataComponentType<T>
     {
-        private static final BiConsumer<Object, Consumer<Component>> NO_TOOLTIP_OP = (p1, p2) -> {};
-
-        private final BiConsumer<? super T, Consumer<Component>> tooltipFunction;
-
-        CustomType(Codec<T> codec, BiConsumer<? super T, Consumer<Component>> tooltipFunction)
+        CustomType(Codec<T> codec)
         {
             super(codec);
-            this.tooltipFunction = tooltipFunction;
         }
 
         @Override
-        public void appendTooltipLines(T data, int upgradeRank, Consumer<Component> lines)
-        {
-            tooltipFunction.accept(data, lines);
-        }
+        public void appendTooltipLines(T data, int upgradeRank, Consumer<Component> lines) { }
     }
 
     private static class SingleType<T extends UpgradeTooltipsProvider> extends UpgradeDataComponentType<T>

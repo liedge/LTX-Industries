@@ -2,6 +2,7 @@ package liedge.ltxindustries.lib.upgrades;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import liedge.ltxindustries.lib.upgrades.tooltip.UpgradeTooltip;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
 import org.jetbrains.annotations.NotNull;
