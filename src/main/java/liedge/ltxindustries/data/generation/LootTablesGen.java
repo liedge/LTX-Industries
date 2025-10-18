@@ -107,7 +107,7 @@ class LootTablesGen extends LimaLootTableProvider
                     .add(DynamicWeightLootEntry.dynamicWeightItem(SPECIALIST_WEAPON_ENERGY, 15).setReplaceWeight(false).setDynamicWeight(ammoWeights.apply(LevelBasedValue.perLevel(6))))
                     .add(DynamicWeightLootEntry.dynamicWeightItem(EXPLOSIVES_WEAPON_ENERGY, 5).setReplaceWeight(false).setDynamicWeight(ammoWeights.apply(LevelBasedValue.perLevel(3))))
                     .add(DynamicWeightLootEntry.dynamicWeightItem(HEAVY_WEAPON_ENERGY, 1).setReplaceWeight(false).setDynamicWeight(ammoWeights.apply(LevelBasedValue.perLevel(2))))
-                    .setRolls(RoundingNumberProvider.of(ammoWeights.apply(RangedLookupLevelBasedValue.lookupStartingAtLevel(3, 1f, 1.5f, 2f)), LimaRoundingMode.RANDOM));
+                    .setRolls(RoundingNumberProvider.of(ammoWeights.apply(RangedLookupLevelBasedValue.lookupAfterLevel(3, 1f, 1.5f, 2f)), LimaRoundingMode.RANDOM));
 
             addTable(ENEMY_AMMO_DROPS, LootTable.lootTable().withPool(ammoDrops));
 
@@ -122,7 +122,7 @@ class LootTablesGen extends LimaLootTableProvider
                     .add(lootItem(Items.PLAYER_HEAD).when(needsEntityType(EntityType.PLAYER)).apply(FillPlayerHead.fillPlayerHead(LootContext.EntityTarget.THIS)));
             LootPool.Builder razorDragonHead = LootPool.lootPool()
                     .when(needsEntityType(EntityType.ENDER_DRAGON))
-                    .when(LimaLootUtil.randomChanceWithEnchantBonus(razorEnchantment, 0f, RangedLookupLevelBasedValue.lookupStartingAtLevel(3, 0f, 0.5f, 1f)))
+                    .when(LimaLootUtil.randomChanceWithEnchantBonus(razorEnchantment, 0f, RangedLookupLevelBasedValue.lookupAfterLevelOrBelow(4, 0f, 0.5f, 1f)))
                     .add(lootItem(Items.DRAGON_HEAD));
             LootPool.Builder razorRabbitFoot = LootPool.lootPool()
                     .when(needsEntityType(EntityType.RABBIT))

@@ -127,9 +127,9 @@
           "condition": "minecraft:random_chance_with_enchanted_bonus",
           "enchanted_chance": {
             "type": "limacore:ranged_lookup",
-            "level_offset": 2,
+            "default_below": 0.0,
+            "level_offset": 3,
             "values": [
-              0.0,
               0.5,
               1.0
             ]

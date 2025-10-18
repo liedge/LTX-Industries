@@ -14,7 +14,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Fluid;
 
-import static liedge.limacore.lib.ModResources.COMMON_NAMESPACE;
+import static liedge.limacore.lib.ModResources.COMMON;
 import static liedge.ltxindustries.LTXIndustries.RESOURCES;
 
 public final class LTXITags
@@ -25,14 +25,14 @@ public final class LTXITags
     {
         private Blocks() {}
 
-        public static final TagKey<Block> TITANIUM_ORES = COMMON_NAMESPACE.blockTag("ores/titanium");
-        public static final TagKey<Block> NIOBIUM_ORES = COMMON_NAMESPACE.blockTag("ores/niobium");
-        public static final TagKey<Block> RAW_TITANIUM_STORAGE_BLOCKS = COMMON_NAMESPACE.blockTag("storage_blocks/raw_titanium");
-        public static final TagKey<Block> RAW_NIOBIUM_STORAGE_BLOCKS = COMMON_NAMESPACE.blockTag("storage_blocks/raw_niobium");
-        public static final TagKey<Block> TITANIUM_STORAGE_BLOCKS = COMMON_NAMESPACE.blockTag("storage_blocks/titanium");
-        public static final TagKey<Block> NIOBIUM_STORAGE_BLOCKS = COMMON_NAMESPACE.blockTag("storage_blocks/niobium");
-        public static final TagKey<Block> SLATESTEEL_STORAGE_BLOCKS = COMMON_NAMESPACE.blockTag("storage_blocks/slatesteel");
-        public static final TagKey<Block> SHEARS_HARVESTABLE = COMMON_NAMESPACE.blockTag("shears_harvestable");
+        public static final TagKey<Block> TITANIUM_ORES = COMMON.blockTag("ores/titanium");
+        public static final TagKey<Block> NIOBIUM_ORES = COMMON.blockTag("ores/niobium");
+        public static final TagKey<Block> RAW_TITANIUM_STORAGE_BLOCKS = COMMON.blockTag("storage_blocks/raw_titanium");
+        public static final TagKey<Block> RAW_NIOBIUM_STORAGE_BLOCKS = COMMON.blockTag("storage_blocks/raw_niobium");
+        public static final TagKey<Block> TITANIUM_STORAGE_BLOCKS = COMMON.blockTag("storage_blocks/titanium");
+        public static final TagKey<Block> NIOBIUM_STORAGE_BLOCKS = COMMON.blockTag("storage_blocks/niobium");
+        public static final TagKey<Block> SLATESTEEL_STORAGE_BLOCKS = COMMON.blockTag("storage_blocks/slatesteel");
+        public static final TagKey<Block> SHEARS_HARVESTABLE = COMMON.blockTag("shears_harvestable");
 
         // Mod Tags
         public static final TagKey<Block> ORE_CLUSTERS = RESOURCES.blockTag("ore_clusters");
@@ -60,21 +60,21 @@ public final class LTXITags
         public static final TagKey<Item> WRENCH_BREAKABLE = copy(Blocks.WRENCH_BREAKABLE);
 
         // Raw materials
-        public static final TagKey<Item> RAW_TITANIUM_MATERIALS = COMMON_NAMESPACE.itemTag("raw_materials/titanium");
-        public static final TagKey<Item> RAW_NIOBIUM_MATERIALS = COMMON_NAMESPACE.itemTag("raw_materials/niobium");
+        public static final TagKey<Item> RAW_TITANIUM_MATERIALS = COMMON.itemTag("raw_materials/titanium");
+        public static final TagKey<Item> RAW_NIOBIUM_MATERIALS = COMMON.itemTag("raw_materials/niobium");
 
         // Ingots
-        public static final TagKey<Item> TITANIUM_INGOTS = COMMON_NAMESPACE.itemTag("ingots/titanium");
-        public static final TagKey<Item> NIOBIUM_INGOTS = COMMON_NAMESPACE.itemTag("ingots/niobium");
-        public static final TagKey<Item> SLATESTEEL_INGOTS = COMMON_NAMESPACE.itemTag("ingots/slatesteel");
+        public static final TagKey<Item> TITANIUM_INGOTS = COMMON.itemTag("ingots/titanium");
+        public static final TagKey<Item> NIOBIUM_INGOTS = COMMON.itemTag("ingots/niobium");
+        public static final TagKey<Item> SLATESTEEL_INGOTS = COMMON.itemTag("ingots/slatesteel");
 
         // Nuggets
-        public static final TagKey<Item> TITANIUM_NUGGETS = COMMON_NAMESPACE.itemTag("nuggets/titanium");
-        public static final TagKey<Item> NIOBIUM_NUGGETS = COMMON_NAMESPACE.itemTag("nuggets/niobium");
-        public static final TagKey<Item> SLATESTEEL_NUGGETS = COMMON_NAMESPACE.itemTag("nuggets/slatesteel");
+        public static final TagKey<Item> TITANIUM_NUGGETS = COMMON.itemTag("nuggets/titanium");
+        public static final TagKey<Item> NIOBIUM_NUGGETS = COMMON.itemTag("nuggets/niobium");
+        public static final TagKey<Item> SLATESTEEL_NUGGETS = COMMON.itemTag("nuggets/slatesteel");
 
         // Dusts
-        public static final TagKey<Item> DEEPSLATE_DUSTS = COMMON_NAMESPACE.itemTag("dusts/deepslate");
+        public static final TagKey<Item> DEEPSLATE_DUSTS = COMMON.itemTag("dusts/deepslate");
 
         // Mod tags
         public static final TagKey<Item> NEON_LIGHT_MATERIALS = RESOURCES.itemTag("neon_light_materials");
@@ -101,8 +101,8 @@ public final class LTXITags
     {
         private Fluids() {}
 
-        public static final TagKey<Fluid> HYDROGEN_FLUIDS = COMMON_NAMESPACE.fluidTag("hydrogen");
-        public static final TagKey<Fluid> OXYGEN_FLUIDS = COMMON_NAMESPACE.fluidTag("oxygen");
+        public static final TagKey<Fluid> HYDROGEN_FLUIDS = COMMON.fluidTag("hydrogen");
+        public static final TagKey<Fluid> OXYGEN_FLUIDS = COMMON.fluidTag("oxygen");
     }
 
     public static final class EntityTypes

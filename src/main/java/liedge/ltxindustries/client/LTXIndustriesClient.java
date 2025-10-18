@@ -50,11 +50,8 @@ import java.util.function.IntFunction;
 import java.util.stream.Stream;
 
 import static liedge.limacore.client.particle.LimaParticleUtil.*;
-import static liedge.limacore.client.particle.LimaParticleUtil.registerSpecialPosOnly;
-import static liedge.limacore.client.particle.LimaParticleUtil.registerSprites;
 import static liedge.ltxindustries.LTXIndustries.RESOURCES;
 import static liedge.ltxindustries.registry.game.LTXIParticles.*;
-import static liedge.ltxindustries.registry.game.LTXIParticles.RAILGUN_BOLT;
 
 @Mod(value = LTXIndustries.MODID, dist = Dist.CLIENT)
 public class LTXIndustriesClient
