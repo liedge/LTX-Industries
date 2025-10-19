@@ -1,6 +1,7 @@
 package liedge.ltxindustries.blockentity;
 
 import liedge.ltxindustries.block.LTXIBlockProperties;
+import liedge.ltxindustries.blockentity.template.LTXIRecipeMachineBlockEntity;
 import liedge.ltxindustries.recipe.MixingRecipe;
 import liedge.ltxindustries.registry.game.LTXIBlockEntities;
 import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
@@ -10,7 +11,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class MixerBlockEntity extends LTXIRecipeMachineBlockEntity<MixingRecipe>
+public class MixerBlockEntity extends LTXIRecipeMachineBlockEntity.StateMachine<MixingRecipe>
 {
     private int spinSpeed = 0;
     private float impellerYRot0;

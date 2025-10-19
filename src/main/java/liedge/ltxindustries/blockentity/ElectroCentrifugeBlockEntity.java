@@ -1,6 +1,7 @@
 package liedge.ltxindustries.blockentity;
 
 import liedge.ltxindustries.block.LTXIBlockProperties;
+import liedge.ltxindustries.blockentity.template.LTXIRecipeMachineBlockEntity;
 import liedge.ltxindustries.recipe.ElectroCentrifugingRecipe;
 import liedge.ltxindustries.registry.game.LTXIBlockEntities;
 import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
@@ -10,7 +11,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class ElectroCentrifugeBlockEntity extends LTXIRecipeMachineBlockEntity<ElectroCentrifugingRecipe>
+public class ElectroCentrifugeBlockEntity extends LTXIRecipeMachineBlockEntity.StateMachine<ElectroCentrifugingRecipe>
 {
     private int spinSpeed = 0;
     private float tubesYRot0;

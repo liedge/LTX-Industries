@@ -3,12 +3,12 @@ package liedge.ltxindustries.menu;
 import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.capability.fluid.LimaBlockEntityFluidHandler;
 import liedge.limacore.menu.LimaMenuType;
-import liedge.ltxindustries.blockentity.StateBlockRecipeMachineBlockEntity;
+import liedge.ltxindustries.blockentity.template.BaseRecipeMachineBlockEntity;
 import liedge.ltxindustries.menu.layout.LayoutSlot;
 import liedge.ltxindustries.menu.layout.RecipeMenuLayout;
 import net.minecraft.world.entity.player.Inventory;
 
-public final class RecipeLayoutMenu<CTX extends StateBlockRecipeMachineBlockEntity<?, ?>> extends LTXIMachineMenu.EnergyMachineMenu<CTX>
+public final class RecipeLayoutMenu<CTX extends BaseRecipeMachineBlockEntity<?, ?>> extends LTXIMachineMenu.EnergyMachineMenu<CTX>
 {
     private final RecipeMenuLayout layout;
 

@@ -1,7 +1,10 @@
 package liedge.ltxindustries.blockentity;
 
 import liedge.limacore.util.LimaItemUtil;
+import liedge.ltxindustries.block.LTXIBlockProperties;
+import liedge.ltxindustries.block.MachineState;
 import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
+import liedge.ltxindustries.blockentity.template.BaseRecipeMachineBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
@@ -10,7 +13,7 @@ import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
-public abstract class CookingBlockEntity<R extends AbstractCookingRecipe> extends StateBlockRecipeMachineBlockEntity<SingleRecipeInput, R>
+public abstract class CookingBlockEntity<R extends AbstractCookingRecipe> extends BaseRecipeMachineBlockEntity<SingleRecipeInput, R>
 {
     protected CookingBlockEntity(ConfigurableIOBlockEntityType<?> type, RecipeType<R> recipeType, BlockPos pos, BlockState state)
     {
@@ -46,5 +49,12 @@ public abstract class CookingBlockEntity<R extends AbstractCookingRecipe> extend
     {
         ItemStack result = recipe.assemble(recipeInput, level.registryAccess());
         getOutputInventory().insertItem(0, result, false);
+    }
+
+    @Override
+    protected void onCraftingStateChanged(boolean newCraftingState)
+    {
+        BlockState newState = getBlockState().setValue(LTXIBlockProperties.BINARY_MACHINE_STATE, MachineState.of(newCraftingState));
+        nonNullLevel().setBlockAndUpdate(getBlockPos(), newState);
     }
 }

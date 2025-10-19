@@ -23,24 +23,24 @@ public final class LTXIRecipeSerializers
         SERIALIZERS.register(bus);
     }
 
-    public static final DeferredHolder<RecipeSerializer<?>, LimaRecipeSerializer<GrindingRecipe>> GRINDING = register(LTXICommonIds.ID_GRINDING_RECIPE, GrindingRecipe::new, builder ->
+    public static final DeferredHolder<RecipeSerializer<?>, LTXIRecipeSerializer<GrindingRecipe>> GRINDING = register(LTXICommonIds.ID_GRINDING_RECIPE, GrindingRecipe::new, builder ->
             builder.withItemIngredients(1).withItemResults(3));
-    public static final DeferredHolder<RecipeSerializer<?>, LimaRecipeSerializer<MaterialFusingRecipe>> MATERIAL_FUSING = register(LTXICommonIds.ID_MATERIAL_FUSING_RECIPE, MaterialFusingRecipe::new, builder ->
+    public static final DeferredHolder<RecipeSerializer<?>, LTXIRecipeSerializer<MaterialFusingRecipe>> MATERIAL_FUSING = register(LTXICommonIds.ID_MATERIAL_FUSING_RECIPE, MaterialFusingRecipe::new, builder ->
             builder.withItemIngredients(3).withOptionalFluidIngredients(1).withItemResults(1));
-    public static final DeferredHolder<RecipeSerializer<?>, LimaRecipeSerializer<ElectroCentrifugingRecipe>> ELECTRO_CENTRIFUGING = register(LTXICommonIds.ID_ELECTRO_CENTRIFUGING_RECIPE, ElectroCentrifugingRecipe::new, builder ->
+    public static final DeferredHolder<RecipeSerializer<?>, LTXIRecipeSerializer<ElectroCentrifugingRecipe>> ELECTRO_CENTRIFUGING = register(LTXICommonIds.ID_ELECTRO_CENTRIFUGING_RECIPE, ElectroCentrifugingRecipe::new, builder ->
             builder.withOptionalItemIngredients(1).withOptionalFluidIngredients(1).withOptionalItemResults(4).withOptionalFluidResults(2));
-    public static final DeferredHolder<RecipeSerializer<?>, LimaRecipeSerializer<MixingRecipe>> MIXING = register(LTXICommonIds.ID_MIXING_RECIPE, MixingRecipe::new, builder ->
+    public static final DeferredHolder<RecipeSerializer<?>, LTXIRecipeSerializer<MixingRecipe>> MIXING = register(LTXICommonIds.ID_MIXING_RECIPE, MixingRecipe::new, builder ->
             builder.withOptionalItemIngredients(4).withOptionalFluidIngredients(2).withOptionalItemResults(1).withOptionalFluidResults(1));
-    public static final DeferredHolder<RecipeSerializer<?>, LimaRecipeSerializer<EnergizingRecipe>> ENERGIZING = register(LTXICommonIds.ID_ENERGIZING_RECIPE, EnergizingRecipe::new, builder ->
+    public static final DeferredHolder<RecipeSerializer<?>, LTXIRecipeSerializer<EnergizingRecipe>> ENERGIZING = register(LTXICommonIds.ID_ENERGIZING_RECIPE, EnergizingRecipe::new, builder ->
             builder.withItemIngredients(1).withItemResults(1));
-    public static final DeferredHolder<RecipeSerializer<?>, LimaRecipeSerializer<ChemicalReactingRecipe>> CHEMICAL_REACTING = register(LTXICommonIds.ID_CHEMICAL_REACTING, ChemicalReactingRecipe::new, builder ->
+    public static final DeferredHolder<RecipeSerializer<?>, LTXIRecipeSerializer<ChemicalReactingRecipe>> CHEMICAL_REACTING = register(LTXICommonIds.ID_CHEMICAL_REACTING, ChemicalReactingRecipe::new, builder ->
             builder.withOptionalItemIngredients(3).withOptionalFluidIngredients(3).withOptionalItemResults(2).withOptionalFluidResults(2));
     public static final DeferredHolder<RecipeSerializer<?>, LimaRecipeSerializer<FabricatingRecipe>> FABRICATING = SERIALIZERS.register(LTXICommonIds.ID_FABRICATING_RECIPE, id -> LimaRecipeSerializer.of(id, FabricatingRecipe.CODEC, FabricatingRecipe.STREAM_CODEC));
 
     public static final DeferredHolder<RecipeSerializer<?>, SimpleCraftingRecipeSerializer<DefaultUpgradeModuleRecipe>> DEFAULT_UPGRADE_MODULE = SERIALIZERS.register("default_upgrade_module", () -> new SimpleCraftingRecipeSerializer<>(DefaultUpgradeModuleRecipe::new));
 
-    private static <R extends LTXIRecipe> DeferredHolder<RecipeSerializer<?>, LimaRecipeSerializer<R>> register(String name, LTXIRecipe.LTXIRecipeFactory<R> factory, UnaryOperator<LTXIRecipe.SerializerBuilder<R>> op)
+    private static <R extends LTXIRecipe> DeferredHolder<RecipeSerializer<?>, LTXIRecipeSerializer<R>> register(String name, LTXIRecipe.LTXIRecipeFactory<R> factory, UnaryOperator<LTXIRecipeSerializer.Builder<R>> op)
     {
-        return SERIALIZERS.register(name, id -> op.apply(LTXIRecipe.serializerBuilder(factory)).build(id));
+        return SERIALIZERS.register(name, id -> op.apply(LTXIRecipeSerializer.builder(factory)).build(id));
     }
 }

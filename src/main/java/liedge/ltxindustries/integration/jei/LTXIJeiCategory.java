@@ -3,6 +3,7 @@ package liedge.ltxindustries.integration.jei;
 import liedge.limacore.recipe.ItemResult;
 import liedge.limacore.recipe.LimaCustomRecipe;
 import liedge.limacore.recipe.LimaRecipeType;
+import liedge.limacore.recipe.ingredient.ConsumeChanceIngredient;
 import liedge.limacore.util.LimaTextUtil;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.client.gui.widget.MachineProgressWidget;
@@ -12,7 +13,6 @@ import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.drawable.IDrawableAnimated;
 import mezz.jei.api.gui.drawable.IDrawableBuilder;
 import mezz.jei.api.gui.drawable.IDrawableStatic;
-import mezz.jei.api.gui.ingredient.IRecipeSlotRichTooltipCallback;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.neoforge.NeoForgeTypes;
@@ -83,7 +83,25 @@ public abstract class LTXIJeiCategory<R extends LimaCustomRecipe<?>> implements 
 
     protected void sizedIngredientsSlot(IRecipeLayoutBuilder builder, R recipe, int ingredientIndex, int x, int y)
     {
-        builder.addSlot(RecipeIngredientRole.INPUT, x, y).addItemStacks(List.of(recipe.getItemIngredient(ingredientIndex).getItems()));
+        SizedIngredient sizedIngredient = recipe.getItemIngredient(ingredientIndex);
+
+        IRecipeSlotBuilder slot = builder.addSlot(RecipeIngredientRole.INPUT, x, y)
+                .addItemStacks(List.of(sizedIngredient.getItems()));
+
+        if (sizedIngredient.ingredient().getCustomIngredient() instanceof ConsumeChanceIngredient chanceIngredient)
+        {
+            if (chanceIngredient.consumeChance() == 0)
+            {
+                slot.addRichTooltipCallback((view, lines) -> lines.add(LTXILangKeys.INPUT_NOT_CONSUMED_TOOLTIP.translate().withStyle(ChatFormatting.GREEN)));
+                slot.setOverlay(new SmallFontDrawable("NC", ChatFormatting.GREEN), 1, 1);
+            }
+            else
+            {
+                String formattedChance = LimaTextUtil.format1PlacePercentage(chanceIngredient.consumeChance());
+                slot.addRichTooltipCallback((view, lines) -> lines.add(LTXILangKeys.INPUT_CONSUME_CHANCE_TOOLTIP.translateArgs(formattedChance).withStyle(ChatFormatting.YELLOW)));
+                slot.setOverlay(new SmallFontDrawable(formattedChance, ChatFormatting.YELLOW), 1, 1);
+            }
+        }
     }
 
     protected void sizedIngredientSlotsGrid(IRecipeLayoutBuilder builder, R recipe, int x, int y, int columns)
@@ -112,12 +130,13 @@ public abstract class LTXIJeiCategory<R extends LimaCustomRecipe<?>> implements 
     protected void itemResultSlot(IRecipeLayoutBuilder builder, R recipe, int resultIndex, int x, int y)
     {
         ItemResult result = recipe.getItemResult(resultIndex);
-        IRecipeSlotBuilder slotBuilder = builder.addSlot(RecipeIngredientRole.OUTPUT, x, y)
-                .addItemStack(result.item());
+        IRecipeSlotBuilder slot = builder.addSlot(RecipeIngredientRole.OUTPUT, x, y).addItemStack(result.item());
         if (result.chance() != 1f)
         {
             String formattedChance = LimaTextUtil.format1PlacePercentage(result.chance());
-            slotBuilder.setOverlay(new SmallFontDrawable(formattedChance, ChatFormatting.YELLOW), 1, 1).addRichTooltipCallback(outputChanceTooltip(formattedChance));
+            slot
+                    .setOverlay(new SmallFontDrawable(formattedChance, ChatFormatting.YELLOW), 1, 1)
+                    .addRichTooltipCallback((view, lines) -> lines.add(LTXILangKeys.OUTPUT_CHANCE_TOOLTIP.translate().append(formattedChance).withStyle(ChatFormatting.YELLOW)));
         }
     }
 
@@ -125,12 +144,6 @@ public abstract class LTXIJeiCategory<R extends LimaCustomRecipe<?>> implements 
     {
         FluidStack result = recipe.getFluidResult(resultIndex);
         builder.addSlot(RecipeIngredientRole.OUTPUT, x, y).setCustomRenderer(NeoForgeTypes.FLUID_STACK, FluidIngredientRenderer.INSTANCE).addFluidStack(result.getFluid(), result.getAmount());
-    }
-
-    private IRecipeSlotRichTooltipCallback outputChanceTooltip(String formattedChance)
-    {
-        Component tooltip = LTXILangKeys.OUTPUT_CHANCE_TOOLTIP.translate().append(formattedChance).withStyle(ChatFormatting.YELLOW);
-        return (view, builder) -> builder.add(tooltip);
     }
 
     @Override

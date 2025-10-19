@@ -1,8 +1,10 @@
-package liedge.ltxindustries.blockentity;
+package liedge.ltxindustries.blockentity.template;
 
 import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.capability.fluid.LimaFluidHandler;
 import liedge.limacore.recipe.LimaRecipeInput;
+import liedge.ltxindustries.block.LTXIBlockProperties;
+import liedge.ltxindustries.block.MachineState;
 import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
 import liedge.ltxindustries.recipe.LTXIRecipe;
 import net.minecraft.core.BlockPos;
@@ -17,7 +19,7 @@ import net.neoforged.neoforge.items.ItemStackHandler;
 
 import java.util.List;
 
-public abstract class LTXIRecipeMachineBlockEntity<R extends LTXIRecipe> extends StateBlockRecipeMachineBlockEntity<LimaRecipeInput, R>
+public abstract class LTXIRecipeMachineBlockEntity<R extends LTXIRecipe> extends BaseRecipeMachineBlockEntity<LimaRecipeInput, R>
 {
     protected LTXIRecipeMachineBlockEntity(ConfigurableIOBlockEntityType<?> type, RecipeType<R> recipeType, BlockPos pos, BlockState state, int inputSlots, int outputSlots, int inputTanks, int outputTanks)
     {
@@ -39,7 +41,7 @@ public abstract class LTXIRecipeMachineBlockEntity<R extends LTXIRecipe> extends
     @Override
     protected void consumeIngredients(LimaRecipeInput recipeInput, R recipe, Level level)
     {
-        recipe.consumeItemIngredients(recipeInput);
+        recipe.consumeItemIngredients(recipeInput, level.getRandom());
         recipe.consumeFluidIngredients(recipeInput);
     }
 
@@ -107,6 +109,21 @@ public abstract class LTXIRecipeMachineBlockEntity<R extends LTXIRecipe> extends
             {
                 outputFluids.fillAny(stack, IFluidHandler.FluidAction.EXECUTE, true);
             }
+        }
+    }
+
+    public static abstract class StateMachine<R extends LTXIRecipe> extends LTXIRecipeMachineBlockEntity<R>
+    {
+        protected StateMachine(ConfigurableIOBlockEntityType<?> type, RecipeType<R> recipeType, BlockPos pos, BlockState state, int inputSlots, int outputSlots, int inputTanks, int outputTanks)
+        {
+            super(type, recipeType, pos, state, inputSlots, outputSlots, inputTanks, outputTanks);
+        }
+
+        @Override
+        protected void onCraftingStateChanged(boolean newCraftingState)
+        {
+            BlockState newState = getBlockState().setValue(LTXIBlockProperties.BINARY_MACHINE_STATE, MachineState.of(newCraftingState));
+            nonNullLevel().setBlockAndUpdate(getBlockPos(), newState);
         }
     }
 }

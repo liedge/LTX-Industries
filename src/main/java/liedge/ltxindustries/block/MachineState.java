@@ -10,6 +10,11 @@ public enum MachineState implements StringRepresentable
 
     private final String name;
 
+    public static MachineState of(boolean active)
+    {
+        return active ? ACTIVE : IDLE;
+    }
+
     MachineState(String name)
     {
         this.name = name;

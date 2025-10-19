@@ -63,7 +63,7 @@ public class AutoFabricatorBlockEntity extends BaseFabricatorBlockEntity
                 LimaRecipeInput input = LimaRecipeInput.of(getInputInventory());
                 if (canInsertRecipeResults(level, recipe) && recipe.matches(input, level)) // Preliminary check
                 {
-                    recipe.consumeItemIngredients(input);
+                    recipe.consumeItemIngredients(input, level.getRandom());
                     check = true; // We consume ingredients here and start crafting. Last used recipe will persist until crafting completes.
                 }
             }

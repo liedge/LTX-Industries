@@ -1,5 +1,6 @@
 package liedge.ltxindustries.blockentity;
 
+import liedge.ltxindustries.blockentity.template.LTXIRecipeMachineBlockEntity;
 import liedge.ltxindustries.recipe.ChemicalReactingRecipe;
 import liedge.ltxindustries.registry.game.LTXIBlockEntities;
 import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
@@ -7,7 +8,7 @@ import liedge.ltxindustries.util.config.LTXIMachinesConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class ChemLabBlockEntity extends LTXIRecipeMachineBlockEntity<ChemicalReactingRecipe>
+public class ChemLabBlockEntity extends LTXIRecipeMachineBlockEntity.StateMachine<ChemicalReactingRecipe>
 {
     public ChemLabBlockEntity(BlockPos pos, BlockState state)
     {

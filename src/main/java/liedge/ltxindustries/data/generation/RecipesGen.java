@@ -22,6 +22,7 @@ import liedge.ltxindustries.recipe.*;
 import liedge.ltxindustries.registry.game.LTXIDataComponents;
 import liedge.ltxindustries.registry.game.LTXIFluids;
 import liedge.ltxindustries.registry.game.LTXIItems;
+import liedge.ltxindustries.registry.game.LTXIRecipeSerializers;
 import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.advancements.critereon.KilledTrigger;
 import net.minecraft.advancements.critereon.LocationPredicate;
@@ -838,7 +839,7 @@ class RecipesGen extends LimaRecipeProvider
 
     private LTXIBuilder<GrindingRecipe> grinding()
     {
-        return new LTXIBuilder<>(modResources, GrindingRecipe::new);
+        return new LTXIBuilder<>(modResources, LTXIRecipeSerializers.GRINDING);
     }
 
     private void orePebbleGrinding(ItemLike orePebble, TagKey<Item> oreTag, @Nullable TagKey<Item> rawOreTag, String name, RecipeOutput output)
@@ -849,27 +850,27 @@ class RecipesGen extends LimaRecipeProvider
 
     private LTXIBuilder<MaterialFusingRecipe> fusing()
     {
-        return new LTXIBuilder<>(modResources, MaterialFusingRecipe::new);
+        return new LTXIBuilder<>(modResources, LTXIRecipeSerializers.MATERIAL_FUSING);
     }
 
     private LTXIBuilder<ElectroCentrifugingRecipe> electroCentrifuging()
     {
-        return new LTXIBuilder<>(modResources, ElectroCentrifugingRecipe::new);
+        return new LTXIBuilder<>(modResources, LTXIRecipeSerializers.ELECTRO_CENTRIFUGING);
     }
 
     private LTXIBuilder<MixingRecipe> mixing()
     {
-        return new LTXIBuilder<>(modResources, MixingRecipe::new);
+        return new LTXIBuilder<>(modResources, LTXIRecipeSerializers.MIXING);
     }
 
     private LTXIBuilder<EnergizingRecipe> energizing()
     {
-        return new LTXIBuilder<>(modResources, EnergizingRecipe::new);
+        return new LTXIBuilder<>(modResources, LTXIRecipeSerializers.ENERGIZING);
     }
 
     private LTXIBuilder<ChemicalReactingRecipe> chemLab()
     {
-        return new LTXIBuilder<>(modResources, ChemicalReactingRecipe::new);
+        return new LTXIBuilder<>(modResources, LTXIRecipeSerializers.CHEMICAL_REACTING);
     }
 
     private FabricatingBuilder fabricating(int energyRequired)
@@ -1001,13 +1002,14 @@ class RecipesGen extends LimaRecipeProvider
 
     private static class LTXIBuilder<R extends LTXIRecipe> extends LimaCustomRecipeBuilder<R, LTXIBuilder<R>>
     {
-        private final LTXIRecipe.LTXIRecipeFactory<R> factory;
-        private int craftTime = LTXIRecipe.DEFAULT_CRAFTING_TIME;
+        private final LTXIRecipeSerializer<R> serializer;
+        private int craftTime;
 
-        LTXIBuilder(ModResources modResources, LTXIRecipe.LTXIRecipeFactory<R> factory)
+        LTXIBuilder(ModResources resources, Supplier<? extends LTXIRecipeSerializer<R>> serializerSupplier)
         {
-            super(modResources);
-            this.factory = factory;
+            super(resources);
+            this.serializer = serializerSupplier.get();
+            this.craftTime = serializer.defaultTime();
         }
 
         LTXIBuilder<R> time(int craftTime)
@@ -1019,7 +1021,7 @@ class RecipesGen extends LimaRecipeProvider
         @Override
         protected R buildRecipe()
         {
-            return factory.apply(itemIngredients, fluidIngredients, itemResults, fluidResults, craftTime);
+            return serializer.factory().apply(itemIngredients, fluidIngredients, itemResults, fluidResults, craftTime);
         }
     }
 }

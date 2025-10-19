@@ -317,6 +317,8 @@ class LanguageGen extends LimaLanguageProvider
         add(CRAFTING_PROGRESS_TOOLTIP, "Crafting: %s%%");
         add(JEI_CRAFTING_TIME_TOOLTIP, "%ss | %st");
 
+        add(INPUT_NOT_CONSUMED_TOOLTIP, "Input not consumed");
+        add(INPUT_CONSUME_CHANCE_TOOLTIP, "Input consume chance: %s");
         add(OUTPUT_CHANCE_TOOLTIP, "Output chance: ");
         add(ADVANCEMENT_LOCKED_TOOLTIP, "Requires Advancement");
 

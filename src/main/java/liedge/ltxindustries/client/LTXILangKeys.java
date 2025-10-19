@@ -42,6 +42,8 @@ public final class LTXILangKeys
     public static final Translatable CRAFTING_PROGRESS_TOOLTIP = tooltip("craft_progress");
     public static final Translatable JEI_CRAFTING_TIME_TOOLTIP = tooltip("jei_craft_time");
 
+    public static final Translatable INPUT_NOT_CONSUMED_TOOLTIP = tooltip("input.nc");
+    public static final Translatable INPUT_CONSUME_CHANCE_TOOLTIP = tooltip("input.cc");
     public static final Translatable OUTPUT_CHANCE_TOOLTIP = tooltip("output_chance");
     public static final Translatable ADVANCEMENT_LOCKED_TOOLTIP = tooltip("advancement_locked");
 

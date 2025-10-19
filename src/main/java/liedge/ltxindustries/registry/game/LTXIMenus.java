@@ -5,6 +5,7 @@ import liedge.ltxindustries.LTXICommonIds;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.blockentity.*;
 import liedge.ltxindustries.blockentity.template.LTXIMachineBlockEntity;
+import liedge.ltxindustries.blockentity.template.BaseRecipeMachineBlockEntity;
 import liedge.ltxindustries.menu.*;
 import liedge.ltxindustries.menu.layout.RecipeLayouts;
 import liedge.ltxindustries.menu.layout.RecipeMenuLayout;
@@ -48,7 +49,7 @@ public final class LTXIMenus
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<RocketTurretBlockEntity, TurretMenu<RocketTurretBlockEntity>>> ROCKET_TURRET = registerTurret(LTXICommonIds.ID_ROCKET_TURRET, RocketTurretBlockEntity.class);
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<RailgunTurretBlockEntity, TurretMenu<RailgunTurretBlockEntity>>> RAILGUN_TURRET = registerTurret(LTXICommonIds.ID_RAILGUN_TURRET, RailgunTurretBlockEntity.class);
 
-    private static <BE extends StateBlockRecipeMachineBlockEntity<?, ?>> DeferredHolder<MenuType<?>, BlockEntityMenuType<BE, RecipeLayoutMenu<BE>>> registerLayoutRecipeMenu(String name, Class<BE> beClass, RecipeMenuLayout layout)
+    private static <BE extends BaseRecipeMachineBlockEntity<?, ?>> DeferredHolder<MenuType<?>, BlockEntityMenuType<BE, RecipeLayoutMenu<BE>>> registerLayoutRecipeMenu(String name, Class<BE> beClass, RecipeMenuLayout layout)
     {
         //noinspection RedundantTypeArguments
         return TYPES.register(name, () -> BlockEntityMenuType.<BE, RecipeLayoutMenu<BE>>create(beClass, (type, containerId, inventory, menuContext) -> new RecipeLayoutMenu<>(type, containerId, inventory, menuContext, layout)));

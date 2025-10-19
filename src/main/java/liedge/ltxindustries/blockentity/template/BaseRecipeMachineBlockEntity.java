@@ -1,16 +1,14 @@
-package liedge.ltxindustries.blockentity;
+package liedge.ltxindustries.blockentity.template;
 
 import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.capability.energy.LimaEnergyStorage;
 import liedge.limacore.capability.energy.LimaEnergyUtil;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.recipe.LimaRecipeCheck;
-import liedge.ltxindustries.block.MachineState;
 import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
 import liedge.ltxindustries.blockentity.base.EnergyConsumerBlockEntity;
 import liedge.ltxindustries.blockentity.base.RecipeMachineBlockEntity;
 import liedge.ltxindustries.blockentity.base.VariableTimedProcessBlockEntity;
-import liedge.ltxindustries.blockentity.template.ProductionMachineBlockEntity;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrades;
 import liedge.ltxindustries.util.LTXITooltipUtil;
 import net.minecraft.core.BlockPos;
@@ -28,9 +26,7 @@ import net.minecraft.world.level.storage.loot.LootContext;
 import java.util.Optional;
 import java.util.function.IntUnaryOperator;
 
-import static liedge.ltxindustries.block.LTXIBlockProperties.BINARY_MACHINE_STATE;
-
-public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, R extends Recipe<I>> extends ProductionMachineBlockEntity
+public abstract class BaseRecipeMachineBlockEntity<I extends RecipeInput, R extends Recipe<I>> extends ProductionMachineBlockEntity
         implements VariableTimedProcessBlockEntity, EnergyConsumerBlockEntity, RecipeMachineBlockEntity<I, R>
 {
     private final LimaRecipeCheck<I, R> recipeCheck;
@@ -42,7 +38,7 @@ public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, 
     private boolean shouldCheckRecipe;
     private boolean shouldCheckCraftingTime;
 
-    protected StateBlockRecipeMachineBlockEntity(ConfigurableIOBlockEntityType<?> type, RecipeType<R> recipeType, BlockPos pos, BlockState state, int inputSlots, int outputSlots, int inputTanks, int outputTanks)
+    protected BaseRecipeMachineBlockEntity(ConfigurableIOBlockEntityType<?> type, RecipeType<R> recipeType, BlockPos pos, BlockState state, int inputSlots, int outputSlots, int inputTanks, int outputTanks)
     {
         super(type, pos, state, 2, inputSlots, outputSlots, inputTanks, outputTanks);
         this.recipeCheck = LimaRecipeCheck.create(recipeType);
@@ -113,10 +109,18 @@ public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, 
             this.crafting = crafting;
             setChanged();
 
-            BlockState newState = getBlockState().setValue(BINARY_MACHINE_STATE, crafting ? MachineState.ACTIVE : MachineState.IDLE);
-            nonNullLevel().setBlockAndUpdate(getBlockPos(), newState);
+            onCraftingStateChanged(crafting);
         }
     }
+
+    /*
+    protected void onCraftingStateChanged(boolean newCraftingState)
+    {
+        BlockState newState = getBlockState().setValue(LTXIBlockProperties.BINARY_MACHINE_STATE, newCraftingState ? MachineState.ACTIVE : MachineState.IDLE);
+        nonNullLevel().setBlockAndUpdate(getBlockPos(), newState);
+    }
+    */
+    protected abstract void onCraftingStateChanged(boolean newCraftingState);
 
     protected abstract I getRecipeInput(Level level);
 

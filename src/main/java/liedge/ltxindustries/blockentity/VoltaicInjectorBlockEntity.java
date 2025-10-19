@@ -1,5 +1,6 @@
 package liedge.ltxindustries.blockentity;
 
+import liedge.ltxindustries.blockentity.template.LTXIRecipeMachineBlockEntity;
 import liedge.ltxindustries.recipe.EnergizingRecipe;
 import liedge.ltxindustries.registry.game.LTXIBlockEntities;
 import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
@@ -7,7 +8,7 @@ import liedge.ltxindustries.util.config.LTXIMachinesConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class VoltaicInjectorBlockEntity extends LTXIRecipeMachineBlockEntity<EnergizingRecipe>
+public class VoltaicInjectorBlockEntity extends LTXIRecipeMachineBlockEntity.StateMachine<EnergizingRecipe>
 {
     public VoltaicInjectorBlockEntity(BlockPos pos, BlockState state)
     {

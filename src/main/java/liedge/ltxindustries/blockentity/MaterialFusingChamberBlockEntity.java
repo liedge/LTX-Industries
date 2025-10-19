@@ -1,5 +1,6 @@
 package liedge.ltxindustries.blockentity;
 
+import liedge.ltxindustries.blockentity.template.LTXIRecipeMachineBlockEntity;
 import liedge.ltxindustries.recipe.MaterialFusingRecipe;
 import liedge.ltxindustries.registry.game.LTXIBlockEntities;
 import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
@@ -8,7 +9,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import static liedge.ltxindustries.util.config.LTXIMachinesConfig.*;
 
-public class MaterialFusingChamberBlockEntity extends LTXIRecipeMachineBlockEntity<MaterialFusingRecipe>
+public class MaterialFusingChamberBlockEntity extends LTXIRecipeMachineBlockEntity.StateMachine<MaterialFusingRecipe>
 {
     public MaterialFusingChamberBlockEntity(BlockPos pos, BlockState state)
     {
