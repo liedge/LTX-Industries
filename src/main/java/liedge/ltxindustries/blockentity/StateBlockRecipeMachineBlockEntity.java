@@ -6,22 +6,17 @@ import liedge.limacore.capability.energy.LimaEnergyUtil;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.recipe.LimaRecipeCheck;
 import liedge.ltxindustries.block.MachineState;
+import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
 import liedge.ltxindustries.blockentity.base.EnergyConsumerBlockEntity;
 import liedge.ltxindustries.blockentity.base.RecipeMachineBlockEntity;
-import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
 import liedge.ltxindustries.blockentity.base.VariableTimedProcessBlockEntity;
 import liedge.ltxindustries.blockentity.template.ProductionMachineBlockEntity;
-import liedge.ltxindustries.lib.upgrades.EffectRankPair;
-import liedge.ltxindustries.lib.upgrades.effect.MinimumSpeedUpgradeEffect;
-import liedge.ltxindustries.lib.upgrades.effect.value.ValueUpgradeEffect;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrades;
-import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import liedge.ltxindustries.util.LTXITooltipUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.Mth;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeInput;
@@ -30,8 +25,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootContext;
 
-import java.util.Comparator;
-import java.util.List;
 import java.util.Optional;
 import java.util.function.IntUnaryOperator;
 
@@ -237,7 +230,7 @@ public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, 
     {
         super.onUpgradeRefresh(context, upgrades);
         EnergyConsumerBlockEntity.applyUpgrades(this, context, upgrades);
-        this.recipeTimeFunction = createRecipeTimeFunction(context);
+        this.recipeTimeFunction = createCachedSpeedFunction(upgrades, context);
         this.shouldCheckCraftingTime = true;
         this.shouldCheckRecipe = true;
     }
@@ -261,27 +254,5 @@ public abstract class StateBlockRecipeMachineBlockEntity<I extends RecipeInput, 
     {
         super.saveAdditional(tag, registries);
         tag.putInt(TAG_KEY_PROGRESS, craftingProgress);
-    }
-
-    private IntUnaryOperator createRecipeTimeFunction(LootContext context)
-    {
-        MachineUpgrades upgrades = getUpgrades();
-        int minSpeed = upgrades.effectStream(LTXIUpgradeEffectComponents.MINIMUM_MACHINE_SPEED).mapToInt(MinimumSpeedUpgradeEffect::minimumSpeed).min().orElse(0);
-        List<EffectRankPair<ValueUpgradeEffect>> list = upgrades.boxedFlatStream(LTXIUpgradeEffectComponents.TICKS_PER_OPERATION).sorted(Comparator.comparing(entry -> entry.effect().operation())).toList();
-
-        if (list.isEmpty()) return IntUnaryOperator.identity();
-
-        return base ->
-        {
-            if (base <= minSpeed) return base;
-
-            double total = base;
-            for (EffectRankPair<ValueUpgradeEffect> pair : list)
-            {
-                total = pair.effect().apply(context, pair.upgradeRank(), base, total);
-            }
-
-            return Math.max(minSpeed, Mth.floor(total));
-        };
     }
 }

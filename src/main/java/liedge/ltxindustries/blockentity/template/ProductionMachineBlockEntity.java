@@ -6,17 +6,25 @@ import liedge.limacore.capability.fluid.FluidHolderBlockEntity;
 import liedge.limacore.capability.fluid.LimaBlockEntityFluidHandler;
 import liedge.limacore.capability.fluid.LimaFluidUtil;
 import liedge.limacore.capability.itemhandler.LimaBlockEntityItemHandler;
+import liedge.limacore.lib.math.MathOperation;
 import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
 import liedge.ltxindustries.blockentity.base.BlockIOConfiguration;
 import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
+import liedge.ltxindustries.lib.upgrades.EffectRankPair;
+import liedge.ltxindustries.lib.upgrades.effect.MinimumSpeedUpgradeEffect;
+import liedge.ltxindustries.lib.upgrades.effect.value.ValueUpgradeEffect;
+import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrades;
+import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.loot.LootContext;
 import net.neoforged.neoforge.capabilities.BlockCapabilityCache;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -25,7 +33,9 @@ import net.neoforged.neoforge.items.IItemHandler;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
+import java.util.function.IntUnaryOperator;
 
 public abstract class ProductionMachineBlockEntity extends EnergyMachineBlockEntity implements FluidHolderBlockEntity
 {
@@ -238,5 +248,29 @@ public abstract class ProductionMachineBlockEntity extends EnergyMachineBlockEnt
             if (handler != null) tanksTag.put(type.getSerializedName(), handler.serializeNBT(registries));
         }
         if (!tanksTag.isEmpty()) tag.put(LimaCommonConstants.KEY_FLUID_TANKS, tanksTag);
+    }
+
+    // Helper
+    protected static IntUnaryOperator createCachedSpeedFunction(MachineUpgrades upgrades, LootContext context)
+    {
+        int minSpeed = upgrades.effectStream(LTXIUpgradeEffectComponents.MINIMUM_MACHINE_SPEED).mapToInt(MinimumSpeedUpgradeEffect::minimumSpeed).min().orElse(0);
+        List<EffectRankPair<ValueUpgradeEffect>> list = upgrades.boxedFlatStream(LTXIUpgradeEffectComponents.TICKS_PER_OPERATION)
+                .sorted(MathOperation.comparingPriority(o -> o.effect().operation()))
+                .toList();
+
+        if (list.isEmpty()) return IntUnaryOperator.identity();
+
+        return base ->
+        {
+            if (base <= minSpeed) return base;
+
+            double total = base;
+            for (EffectRankPair<ValueUpgradeEffect> pair : list)
+            {
+                total = pair.effect().apply(context, pair.upgradeRank(), base, total);
+            }
+
+            return Math.max(minSpeed, Mth.floor(total));
+        };
     }
 }
