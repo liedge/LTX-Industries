@@ -22,4 +22,8 @@ public final class RecipeLayouts
             .fluidIn(34, 44).fluidIn(52, 44).fluidIn(70, 44)
             .itemOut(128, 26).itemOut(146, 26)
             .fluidOut(128, 44).fluidOut(146, 44).build(95, 40);
+    public static final RecipeMenuLayout DIGITAL_GARDEN = RecipeMenuLayout.builder()
+            .itemIn(52, 26).fluidIn(52, 44)
+            .itemOut(110, 26).itemOut(128, 26).itemOut(110, 44).itemOut(128, 44)
+            .build(77, 40);
 }

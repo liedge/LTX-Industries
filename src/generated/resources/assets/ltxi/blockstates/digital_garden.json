@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "ltxi:block/digital_garden",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "ltxi:block/digital_garden"
+    },
+    "facing=south": {
+      "model": "ltxi:block/digital_garden",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "ltxi:block/digital_garden",
+      "y": 270
+    }
+  }
+}

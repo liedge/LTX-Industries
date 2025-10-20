@@ -36,6 +36,8 @@ public final class LTXIRecipeSerializers
     public static final DeferredHolder<RecipeSerializer<?>, LTXIRecipeSerializer<ChemicalReactingRecipe>> CHEMICAL_REACTING = register(LTXICommonIds.ID_CHEMICAL_REACTING, ChemicalReactingRecipe::new, builder ->
             builder.withOptionalItemIngredients(3).withOptionalFluidIngredients(3).withOptionalItemResults(2).withOptionalFluidResults(2));
     public static final DeferredHolder<RecipeSerializer<?>, LimaRecipeSerializer<FabricatingRecipe>> FABRICATING = SERIALIZERS.register(LTXICommonIds.ID_FABRICATING_RECIPE, id -> LimaRecipeSerializer.of(id, FabricatingRecipe.CODEC, FabricatingRecipe.STREAM_CODEC));
+    public static final DeferredHolder<RecipeSerializer<?>, LTXIRecipeSerializer<GardenSimulatingRecipe>> GARDEN_SIMULATING = register(LTXICommonIds.ID_GARDEN_SIMULATING_RECIPE, GardenSimulatingRecipe::new, builder ->
+            builder.defaultTime(600).withItemIngredients(1).withOptionalFluidIngredients(1).withItemResults(4));
 
     public static final DeferredHolder<RecipeSerializer<?>, SimpleCraftingRecipeSerializer<DefaultUpgradeModuleRecipe>> DEFAULT_UPGRADE_MODULE = SERIALIZERS.register("default_upgrade_module", () -> new SimpleCraftingRecipeSerializer<>(DefaultUpgradeModuleRecipe::new));
 

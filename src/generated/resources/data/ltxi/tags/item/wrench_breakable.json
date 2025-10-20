@@ -1,7 +1,6 @@
 {
   "values": [
     "ltxi:digital_furnace",
-    "ltxi:digital_smoker",
     "ltxi:digital_blast_furnace",
     "ltxi:grinder",
     "ltxi:material_fusing_chamber",
@@ -11,6 +10,7 @@
     "ltxi:chem_lab",
     "ltxi:fabricator",
     "ltxi:auto_fabricator",
+    "ltxi:digital_garden",
     "ltxi:equipment_upgrade_station",
     "ltxi:molecular_reconstructor",
     "ltxi:energy_cell_array",

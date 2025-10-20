@@ -25,6 +25,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.function.Supplier;
 
 import static net.minecraft.world.level.block.state.BlockBehaviour.Properties.of;
 
@@ -82,25 +83,25 @@ public final class LTXIBlocks
     public static final DeferredBlock<BerryVinesPlantBlock> BILEVINE_PLANT = BLOCKS.registerBlock("bilevine_plant", BerryVinesPlantBlock::new, berryVinesProperties());
     public static final DeferredBlock<GloomShroomBlock> GLOOM_SHROOM = BLOCKS.registerBlock("gloom_shroom", GloomShroomBlock::new, of().mapColor(MapColor.COLOR_BLUE).instabreak().noCollission().sound(SoundType.FUNGUS).pushReaction(PushReaction.DESTROY));
 
+    // Helper stations
+    public static final DeferredBlockWithItem<EquipmentUpgradeStationBlock, BlockItem> EQUIPMENT_UPGRADE_STATION = BLOCKS.registerBlockAndSimpleItem(LTXICommonIds.ID_EQUIPMENT_UPGRADE_STATION, () -> new EquipmentUpgradeStationBlock(machineProperties().noOcclusion()), new Item.Properties().stacksTo(1));
+
     // Machinery
     public static final DeferredBlockWithItem<EnergyCellArrayBlock, ECABlockItem> ENERGY_CELL_ARRAY = BLOCKS.registerBlockAndItem(LTXICommonIds.ID_ENERGY_CELL_ARRAY, () -> new EnergyCellArrayBlock(machineProperties().noOcclusion()), block -> new ECABlockItem(block, new Item.Properties().stacksTo(1)));
     public static final DeferredBlockWithItem<EnergyCellArrayBlock, InfiniteECABlockItem> INFINITE_ENERGY_CELL_ARRAY = BLOCKS.registerBlockAndItem(LTXICommonIds.ID_INFINITE_ENERGY_CELL_ARRAY, () -> new EnergyCellArrayBlock(machineProperties().noOcclusion()), block -> new InfiniteECABlockItem(block, new Item.Properties().stacksTo(1).rarity(Rarity.EPIC)));
-    public static final DeferredBlockWithItem<StateMachineBlock, BlockItem> DIGITAL_FURNACE = BLOCKS.registerBlockAndItem(LTXICommonIds.ID_DIGITAL_FURNACE, () -> StateMachineBlock.staticShape(machineProperties(), LTXIBlockShapes.COOKING_MACHINE, false), block -> ContentsTooltipBlockItem.energyTooltipItem(block, new Item.Properties().stacksTo(1)));
-    public static final DeferredBlockWithItem<StateMachineBlock, BlockItem> DIGITAL_SMOKER = BLOCKS.registerBlockAndItem(LTXICommonIds.ID_DIGITAL_SMOKER, () -> StateMachineBlock.staticShape(machineProperties(), LTXIBlockShapes.COOKING_MACHINE, false), block -> ContentsTooltipBlockItem.energyTooltipItem(block, new Item.Properties().stacksTo(1)));
-    public static final DeferredBlockWithItem<StateMachineBlock, BlockItem> DIGITAL_BLAST_FURNACE = BLOCKS.registerBlockAndItem(LTXICommonIds.ID_DIGITAL_BLAST_FURNACE, () -> StateMachineBlock.staticShape(machineProperties(), LTXIBlockShapes.COOKING_MACHINE, false), block -> ContentsTooltipBlockItem.energyTooltipItem(block, new Item.Properties().stacksTo(1)));
-    public static final DeferredBlockWithItem<StateMachineBlock, BlockItem> GRINDER = BLOCKS.registerBlockAndItem(LTXICommonIds.ID_GRINDER, () -> StateMachineBlock.staticShape(machineProperties(), LTXIBlockShapes.COOKING_MACHINE, false), block -> ContentsTooltipBlockItem.energyTooltipItem(block, new Item.Properties().stacksTo(1)));
-    public static final DeferredBlockWithItem<StateMachineBlock, BlockItem> MATERIAL_FUSING_CHAMBER = BLOCKS.registerBlockAndItem(LTXICommonIds.ID_MATERIAL_FUSING_CHAMBER, () -> StateMachineBlock.staticShape(machineProperties(), LTXIBlockShapes.COOKING_MACHINE, false), block -> ContentsTooltipBlockItem.energyTooltipItem(block, new Item.Properties().stacksTo(1)));
-    public static final DeferredBlockWithItem<StateMachineBlock, BlockItem> ELECTROCENTRIFUGE = BLOCKS.registerBlockAndItem(LTXICommonIds.ID_ELECTROCENTRIFUGE, () -> StateMachineBlock.staticShape(machineProperties().noOcclusion(), LTXIBlockShapes.ELECTROCENTRIFUGE, true), block -> ContentsTooltipBlockItem.energyTooltipItem(block, new Item.Properties().stacksTo(1)));
-    public static final DeferredBlockWithItem<StateMachineBlock, BlockItem> MIXER = BLOCKS.registerBlockAndItem(LTXICommonIds.ID_MIXER, () -> StateMachineBlock.rotatingShape(machineProperties().noOcclusion(), LTXIBlockShapes.MIXER, true), block -> ContentsTooltipBlockItem.energyTooltipItem(block, new Item.Properties().stacksTo(1)));
-    public static final DeferredBlockWithItem<StateMachineBlock, BlockItem> VOLTAIC_INJECTOR = BLOCKS.registerBlockAndItem(LTXICommonIds.ID_VOLTAIC_INJECTOR, () -> StateMachineBlock.rotatingShape(machineProperties().noOcclusion(), LTXIBlockShapes.VOLTAIC_INJECTOR, false), block -> ContentsTooltipBlockItem.energyTooltipItem(block, new Item.Properties().stacksTo(1)));
-    public static final DeferredBlockWithItem<StateMachineBlock, BlockItem> CHEM_LAB = BLOCKS.registerBlockAndItem(LTXICommonIds.ID_CHEM_LAB, () -> StateMachineBlock.rotatingShape(machineProperties().noOcclusion(), LTXIBlockShapes.CHEM_LAB, false), block -> ContentsTooltipBlockItem.energyTooltipItem(block, new Item.Properties().stacksTo(1)));
-    public static final DeferredBlockWithItem<PrimaryMeshBlock, BlockItem> FABRICATOR = BLOCKS.registerBlockAndItem(LTXICommonIds.ID_FABRICATOR, () -> PrimaryMeshBlock.create(machineProperties().noOcclusion(), LTXIBlockMeshes.WIDE_STATION, LTXIBlockShapes.FABRICATOR, true), block -> ContentsTooltipBlockItem.energyTooltipItem(block, new Item.Properties().stacksTo(1)));
-    public static final DeferredBlockWithItem<FabricatorBlock, BlockItem> AUTO_FABRICATOR = BLOCKS.registerBlockAndItem(LTXICommonIds.ID_AUTO_FABRICATOR, () -> new FabricatorBlock(machineProperties().noOcclusion()), block -> ContentsTooltipBlockItem.energyTooltipItem(block, new Item.Properties().stacksTo(1)));
-
-    public static final DeferredBlockWithItem<PrimaryMeshBlock, BlockItem> MOLECULAR_RECONSTRUCTOR = BLOCKS.registerBlockAndItem(LTXICommonIds.ID_MOLECULAR_RECONSTRUCTOR, () -> PrimaryMeshBlock.create(machineProperties().noOcclusion(), LTXIBlockMeshes.DOUBLE_VERTICAL, LTXIBlockShapes.MOLECULAR_RECONSTRUCTOR, false), block -> ContentsTooltipBlockItem.energyTooltipItem(block, new Item.Properties().stacksTo(1)));
-
-    public static final DeferredBlockWithItem<EquipmentUpgradeStationBlock, BlockItem> EQUIPMENT_UPGRADE_STATION = BLOCKS.registerBlockAndSimpleItem(LTXICommonIds.ID_EQUIPMENT_UPGRADE_STATION, () -> new EquipmentUpgradeStationBlock(machineProperties().noOcclusion()), new Item.Properties().stacksTo(1));
-
+    public static final DeferredBlockWithItem<StateMachineBlock, BlockItem> DIGITAL_FURNACE = registerWithEnergyTooltip(LTXICommonIds.ID_DIGITAL_FURNACE, () -> StateMachineBlock.staticShape(machineProperties(), LTXIBlockShapes.COOKING_MACHINE, false));
+    public static final DeferredBlockWithItem<StateMachineBlock, BlockItem> DIGITAL_SMOKER = registerWithEnergyTooltip(LTXICommonIds.ID_DIGITAL_SMOKER, () -> StateMachineBlock.staticShape(machineProperties(), LTXIBlockShapes.COOKING_MACHINE, false));
+    public static final DeferredBlockWithItem<StateMachineBlock, BlockItem> DIGITAL_BLAST_FURNACE = registerWithEnergyTooltip(LTXICommonIds.ID_DIGITAL_BLAST_FURNACE, () -> StateMachineBlock.staticShape(machineProperties(), LTXIBlockShapes.COOKING_MACHINE, false));
+    public static final DeferredBlockWithItem<StateMachineBlock, BlockItem> GRINDER = registerWithEnergyTooltip(LTXICommonIds.ID_GRINDER, () -> StateMachineBlock.staticShape(machineProperties(), LTXIBlockShapes.COOKING_MACHINE, false));
+    public static final DeferredBlockWithItem<StateMachineBlock, BlockItem> MATERIAL_FUSING_CHAMBER = registerWithEnergyTooltip(LTXICommonIds.ID_MATERIAL_FUSING_CHAMBER, () -> StateMachineBlock.staticShape(machineProperties(), LTXIBlockShapes.COOKING_MACHINE, false));
+    public static final DeferredBlockWithItem<StateMachineBlock, BlockItem> ELECTROCENTRIFUGE = registerWithEnergyTooltip(LTXICommonIds.ID_ELECTROCENTRIFUGE, () -> StateMachineBlock.staticShape(machineProperties().noOcclusion(), LTXIBlockShapes.ELECTROCENTRIFUGE, true));
+    public static final DeferredBlockWithItem<StateMachineBlock, BlockItem> MIXER = registerWithEnergyTooltip(LTXICommonIds.ID_MIXER, () -> StateMachineBlock.rotatingShape(machineProperties().noOcclusion(), LTXIBlockShapes.MIXER, true));
+    public static final DeferredBlockWithItem<StateMachineBlock, BlockItem> VOLTAIC_INJECTOR = registerWithEnergyTooltip(LTXICommonIds.ID_VOLTAIC_INJECTOR, () -> StateMachineBlock.rotatingShape(machineProperties().noOcclusion(), LTXIBlockShapes.VOLTAIC_INJECTOR, false));
+    public static final DeferredBlockWithItem<StateMachineBlock, BlockItem> CHEM_LAB = registerWithEnergyTooltip(LTXICommonIds.ID_CHEM_LAB, () -> StateMachineBlock.rotatingShape(machineProperties().noOcclusion(), LTXIBlockShapes.CHEM_LAB, false));
+    public static final DeferredBlockWithItem<PrimaryMeshBlock, BlockItem> FABRICATOR = registerWithEnergyTooltip(LTXICommonIds.ID_FABRICATOR, () -> PrimaryMeshBlock.create(machineProperties().noOcclusion(), LTXIBlockMeshes.WIDE_STATION, LTXIBlockShapes.FABRICATOR, true));
+    public static final DeferredBlockWithItem<FabricatorBlock, BlockItem> AUTO_FABRICATOR = registerWithEnergyTooltip(LTXICommonIds.ID_AUTO_FABRICATOR, () -> new FabricatorBlock(machineProperties().noOcclusion()));
+    public static final DeferredBlockWithItem<PrimaryMeshBlock, BlockItem> MOLECULAR_RECONSTRUCTOR = registerWithEnergyTooltip(LTXICommonIds.ID_MOLECULAR_RECONSTRUCTOR, () -> PrimaryMeshBlock.create(machineProperties().noOcclusion(), LTXIBlockMeshes.DOUBLE_VERTICAL, LTXIBlockShapes.MOLECULAR_RECONSTRUCTOR, false));
+    public static final DeferredBlockWithItem<PrimaryMeshBlock, BlockItem> DIGITAL_GARDEN = registerWithEnergyTooltip(LTXICommonIds.ID_DIGITAL_GARDEN, () -> PrimaryMeshBlock.create(machineProperties().noCollission(), LTXIBlockMeshes.DOUBLE_VERTICAL, LTXIBlockShapes.DIGITAL_GARDEN, false));
     public static final DeferredBlockWithItem<PrimaryMeshBlock, BlockItem> ROCKET_TURRET = BLOCKS.registerBlockAndItem(LTXICommonIds.ID_ROCKET_TURRET, () -> PrimaryMeshBlock.create(machineProperties().noOcclusion(), LTXIBlockMeshes.DOUBLE_VERTICAL, LTXIBlockShapes.GENERAL_TURRET, true), block -> ContentsTooltipBlockItem.energyOwnerTooltipItem(block, new Item.Properties().stacksTo(1).rarity(LTXIItemRarities.ltxGearRarity())));
     public static final DeferredBlockWithItem<PrimaryMeshBlock, BlockItem> RAILGUN_TURRET = BLOCKS.registerBlockAndItem(LTXICommonIds.ID_RAILGUN_TURRET, () -> PrimaryMeshBlock.create(machineProperties().noOcclusion(), LTXIBlockMeshes.DOUBLE_VERTICAL, LTXIBlockShapes.GENERAL_TURRET, true), block -> ContentsTooltipBlockItem.energyOwnerTooltipItem(block, new Item.Properties().stacksTo(1).rarity(LTXIItemRarities.ltxGearRarity())));
 
@@ -161,5 +162,10 @@ public final class LTXIBlocks
                 .isSuffocating(NEVER)
                 .isViewBlocking(NEVER)
                 .requiresCorrectToolForDrops();
+    }
+
+    private static <T extends Block> DeferredBlockWithItem<T, BlockItem> registerWithEnergyTooltip(String name, Supplier<T> supplier)
+    {
+        return BLOCKS.registerBlockAndItem(name, supplier, block -> ContentsTooltipBlockItem.energyTooltipItem(block, new Item.Properties().stacksTo(1)));
     }
 }

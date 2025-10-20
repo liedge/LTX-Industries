@@ -36,6 +36,9 @@ public final class LTXIMachinesConfig
     public static final ModConfigSpec.IntValue CHEM_LAB_ENERGY_CAPACITY;
     public static final ModConfigSpec.IntValue CHEM_LAB_ENERGY_USAGE;
 
+    public static final ModConfigSpec.IntValue DIGITAL_GARDEN_ENERGY_CAPACITY;
+    public static final ModConfigSpec.IntValue DIGITAL_GARDEN_ENERGY_USAGE;
+
     public static final ModConfigSpec.IntValue FABRICATOR_ENERGY_CAPACITY;
     public static final ModConfigSpec.IntValue FABRICATOR_ENERGY_USAGE;
 
@@ -135,6 +138,14 @@ public final class LTXIMachinesConfig
                 .defineInRange("energy_capacity", 500_000, 1, Integer.MAX_VALUE);
         CHEM_LAB_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the Chem Lab")
                 .defineInRange("energy_usage", 160, 1, Integer.MAX_VALUE);
+        builder.pop();
+
+        // Digital Garden
+        builder.push("digital_garden");
+        DIGITAL_GARDEN_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Bio/ARU Garden")
+                .defineInRange("energy_capacity", 250_000, 1, Integer.MAX_VALUE);
+        DIGITAL_GARDEN_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the Bio/ARU Garden")
+                .defineInRange("energy_usage", 200, 1, Integer.MAX_VALUE);
         builder.pop();
 
         // Fabricator

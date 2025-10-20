@@ -24,6 +24,7 @@ public final class LTXICommonIds
     public static final String ID_AUTO_FABRICATOR = "auto_fabricator";
     public static final String ID_MOLECULAR_RECONSTRUCTOR = "molecular_reconstructor";
     public static final String ID_EQUIPMENT_UPGRADE_STATION = "equipment_upgrade_station";
+    public static final String ID_DIGITAL_GARDEN = "digital_garden";
 
     public static final String ID_ROCKET_TURRET = "rocket_turret";
     public static final String ID_RAILGUN_TURRET = "railgun_turret";
@@ -36,4 +37,5 @@ public final class LTXICommonIds
     public static final String ID_ENERGIZING_RECIPE = "energizing";
     public static final String ID_CHEMICAL_REACTING = "chemical_reacting";
     public static final String ID_FABRICATING_RECIPE = "fabricating";
+    public static final String ID_GARDEN_SIMULATING_RECIPE = "garden_simulating";
 }

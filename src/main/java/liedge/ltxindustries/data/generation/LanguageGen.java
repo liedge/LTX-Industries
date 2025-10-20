@@ -92,6 +92,7 @@ class LanguageGen extends LimaLanguageProvider
         addBlock(AUTO_FABRICATOR, "Auto Fabricator");
         addBlock(EQUIPMENT_UPGRADE_STATION, "Equipment Upgrade Station");
         addBlock(MOLECULAR_RECONSTRUCTOR, "Molecular Reconstructor");
+        addBlock(DIGITAL_GARDEN, "Bio/ARU Garden");
 
         addBlock(ROCKET_TURRET, italicName("%s A/DS Turret", "Atmos"));
         addBlock(RAILGUN_TURRET, italicName("%s A/DS Turret", "Noctis"));
@@ -274,6 +275,7 @@ class LanguageGen extends LimaLanguageProvider
         add(MIXING, "Mixing");
         add(ENERGIZING, "Energizing");
         add(CHEMICAL_REACTING, "Chemical Reacting");
+        add(GARDEN_SIMULATING, "Garden Simulating");
         add(FABRICATING, "Fabricating");
 
         // Entity type names

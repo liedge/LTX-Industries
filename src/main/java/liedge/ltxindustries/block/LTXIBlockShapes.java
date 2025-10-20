@@ -1,6 +1,5 @@
 package liedge.ltxindustries.block;
 
-import liedge.limacore.util.LimaBlockUtil;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -98,14 +97,25 @@ public final class LTXIBlockShapes
             // Base
             Block.box(0, 0, 0, 16, 8, 16),
             // Platform
-            LimaBlockUtil.dimensionBox(2, 8, 2, 12, 2, 12),
+            dimensionBox(2, 8, 2, 12, 2, 12),
             // Pillars
-            LimaBlockUtil.dimensionBox(1, 8, 1, 3, 13, 3),
-            LimaBlockUtil.dimensionBox(12, 8, 1, 3, 13, 3),
-            LimaBlockUtil.dimensionBox(1, 8, 12, 3, 13, 3),
-            LimaBlockUtil.dimensionBox(12, 8, 12, 3, 13, 3),
+            dimensionBox(1, 8, 1, 3, 13, 3),
+            dimensionBox(12, 8, 1, 3, 13, 3),
+            dimensionBox(1, 8, 12, 3, 13, 3),
+            dimensionBox(12, 8, 12, 3, 13, 3),
             // Top
-            LimaBlockUtil.dimensionBox(0.5d, 21, 0.5d, 15, 4, 15),
-            LimaBlockUtil.dimensionBox(2, 25, 2, 12, 2, 12));
+            dimensionBox(0.5d, 21, 0.5d, 15, 4, 15),
+            dimensionBox(2, 25, 2, 12, 2, 12));
+
+    public static final VoxelShape DIGITAL_GARDEN = Shapes.or(
+            // Base
+            Block.box(0, 0, 0, 16, 10, 16),
+            dimensionBox(0.5d, 10, 0.5d, 15, 3, 15),
+            // Back panel
+            dimensionBox(0.5d, 13, 13.5d, 15, 16, 2),
+            // Window
+            dimensionBox(1, 13, 1, 14, 16, 12.5d),
+            // Top
+            dimensionBox(0, 29, 0, 16, 3, 16));
     //#endregion
 }

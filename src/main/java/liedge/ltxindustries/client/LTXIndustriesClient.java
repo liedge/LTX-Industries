@@ -30,6 +30,8 @@ import liedge.ltxindustries.client.renderer.item.UpgradeModuleItemExtensions;
 import liedge.ltxindustries.menu.tooltip.FabricatorIngredientTooltip;
 import liedge.ltxindustries.menu.tooltip.ItemGridTooltip;
 import liedge.ltxindustries.registry.game.*;
+import net.minecraft.client.color.block.BlockColor;
+import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
@@ -128,6 +130,7 @@ public class LTXIndustriesClient
             event.register(LTXIMenus.AUTO_FABRICATOR.get(), AutoFabricatorScreen::new);
             event.register(LTXIMenus.EQUIPMENT_UPGRADE_STATION.get(), EquipmentUpgradeStationScreen::new);
             event.register(LTXIMenus.MOLECULAR_RECONSTRUCTOR.get(), MolecularReconstructorScreen::new);
+            event.register(LTXIMenus.DIGITAL_GARDEN.get(), RecipeLayoutScreen::new);
             event.register(LTXIMenus.ROCKET_TURRET.get(), TurretScreen::new);
             event.register(LTXIMenus.RAILGUN_TURRET.get(), TurretScreen::new);
         }
@@ -171,6 +174,7 @@ public class LTXIndustriesClient
             event.registerBlockEntityRenderer(LTXIBlockEntities.FABRICATOR.get(), ctx -> new BaseFabricatorRenderer(ctx, -0.1875d, 1.0625d));
             event.registerBlockEntityRenderer(LTXIBlockEntities.AUTO_FABRICATOR.get(), ctx -> new BaseFabricatorRenderer(ctx, 0, 0.25d));
             event.registerBlockEntityRenderer(LTXIBlockEntities.EQUIPMENT_UPGRADE_STATION.get(), EquipmentUpgradeStationRenderer::new);
+            event.registerBlockEntityRenderer(LTXIBlockEntities.DIGITAL_GARDEN.get(), DigitalGardenRenderer::new);
             event.registerBlockEntityRenderer(LTXIBlockEntities.ROCKET_TURRET.get(), RocketTurretRenderer::new);
             event.registerBlockEntityRenderer(LTXIBlockEntities.RAILGUN_TURRET.get(), RailgunTurretRenderer::new);
         }
@@ -181,6 +185,13 @@ public class LTXIndustriesClient
             event.registerLayerDefinition(LTXIModelLayers.GLOWSTICK_PROJECTILE, GlowstickProjectileModel::defineLayer);
             event.registerLayerDefinition(LTXIModelLayers.ORB_GRENADE, OrbGrenadeModel::defineLayer);
             event.registerLayerDefinition(LTXIModelLayers.ROCKET, RocketModel::defineLayer);
+        }
+
+        @SubscribeEvent
+        public void registerBlockColors(final RegisterColorHandlersEvent.Block event)
+        {
+            final BlockColor water = (state, level, pos, tintIndex) -> (level != null && pos != null && tintIndex == 1) ? BiomeColors.getAverageWaterColor(level, pos) : -1;
+            event.register(water, LTXIBlocks.DIGITAL_GARDEN.get());
         }
 
         @SubscribeEvent

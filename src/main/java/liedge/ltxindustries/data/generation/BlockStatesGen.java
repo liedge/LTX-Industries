@@ -97,6 +97,7 @@ class BlockStatesGen extends LimaBlockStateProvider
         simpleBlockWithItem(EQUIPMENT_UPGRADE_STATION);
         primaryMeshBlock(MOLECULAR_RECONSTRUCTOR);
         simpleBlockItem(MOLECULAR_RECONSTRUCTOR);
+        primaryMeshBlock(DIGITAL_GARDEN);
 
         // Turret
         primaryMeshBlock(ROCKET_TURRET, turretBase);

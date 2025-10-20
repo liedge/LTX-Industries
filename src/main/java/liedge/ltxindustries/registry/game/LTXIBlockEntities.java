@@ -100,6 +100,8 @@ public final class LTXIBlockEntities
     //#endregion
 
     //#region Registrations
+    public static final DeferredHolder<BlockEntityType<?>, LimaBlockEntityType<EquipmentUpgradeStationBlockEntity>> EQUIPMENT_UPGRADE_STATION = TYPES.register(LTXICommonIds.ID_EQUIPMENT_UPGRADE_STATION, () -> LimaBlockEntityType.of(EquipmentUpgradeStationBlockEntity::new, LTXIBlocks.EQUIPMENT_UPGRADE_STATION, LTXIMenus.EQUIPMENT_UPGRADE_STATION));
+
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<EnergyCellArrayBlockEntity>> ENERGY_CELL_ARRAY = TYPES.register(LTXICommonIds.ID_ENERGY_CELL_ARRAY, () -> ConfigurableIOBlockEntityType.sidedBuilder(EnergyCellArrayBlockEntity::new)
             .withBlock(LTXIBlocks.ENERGY_CELL_ARRAY)
             .hasMenu(LTXIMenus.ENERGY_CELL_ARRAY)
@@ -128,9 +130,8 @@ public final class LTXIBlockEntities
             builder -> builder.withBlock(LTXIBlocks.CHEM_LAB).hasMenu(LTXIMenus.CHEM_LAB));
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<FabricatorBlockEntity>> FABRICATOR = registerItemEnergyMachine(LTXICommonIds.ID_FABRICATOR, FabricatorBlockEntity::new, FABRICATOR_ITEM_RULES, FABRICATOR_ENERGY_RULES, builder -> builder.withBlock(LTXIBlocks.FABRICATOR).hasMenu(LTXIMenus.FABRICATOR));
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<AutoFabricatorBlockEntity>> AUTO_FABRICATOR = registerItemEnergyMachine(LTXICommonIds.ID_AUTO_FABRICATOR, AutoFabricatorBlockEntity::new, builder -> builder.withBlock(LTXIBlocks.AUTO_FABRICATOR).hasMenu(LTXIMenus.AUTO_FABRICATOR));
-
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<MolecularReconstructorBlockEntity>> MOLECULAR_RECONSTRUCTOR = registerItemEnergyMachine(LTXICommonIds.ID_MOLECULAR_RECONSTRUCTOR, MolecularReconstructorBlockEntity::new, DOUBLE_MACHINE_ITEM_RULES, DOUBLE_MACHINE_ENERGY_RULES, builder -> builder.withBlock(LTXIBlocks.MOLECULAR_RECONSTRUCTOR).hasMenu(LTXIMenus.MOLECULAR_RECONSTRUCTOR));
-    public static final DeferredHolder<BlockEntityType<?>, LimaBlockEntityType<EquipmentUpgradeStationBlockEntity>> EQUIPMENT_UPGRADE_STATION = TYPES.register(LTXICommonIds.ID_EQUIPMENT_UPGRADE_STATION, () -> LimaBlockEntityType.of(EquipmentUpgradeStationBlockEntity::new, LTXIBlocks.EQUIPMENT_UPGRADE_STATION, LTXIMenus.EQUIPMENT_UPGRADE_STATION));
+    public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<DigitalGardenBlockEntity>> DIGITAL_GARDEN = registerItemEnergyFluidMachine(LTXICommonIds.ID_DIGITAL_GARDEN, DigitalGardenBlockEntity::new, DOUBLE_MACHINE_ITEM_RULES, DOUBLE_MACHINE_ENERGY_RULES, DOUBLE_MACHINE_ENERGY_RULES, builder -> builder.withBlock(LTXIBlocks.DIGITAL_GARDEN).hasMenu(LTXIMenus.DIGITAL_GARDEN));
 
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<RocketTurretBlockEntity>> ROCKET_TURRET = registerTurret(LTXICommonIds.ID_ROCKET_TURRET, RocketTurretBlockEntity::new, builder -> builder.withBlock(LTXIBlocks.ROCKET_TURRET).hasMenu(LTXIMenus.ROCKET_TURRET));
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<RailgunTurretBlockEntity>> RAILGUN_TURRET = registerTurret(LTXICommonIds.ID_RAILGUN_TURRET, RailgunTurretBlockEntity::new, builder -> builder.withBlock(LTXIBlocks.RAILGUN_TURRET).hasMenu(LTXIMenus.RAILGUN_TURRET));

@@ -60,8 +60,8 @@ class BlockTagsGen extends LimaTagsProvider.RegistryTags<Block>
                 .addHolders(List.copyOf(LTXIBlocks.NEON_LIGHTS.values()))
                 .copyTo(MINEABLE_WITH_PICKAXE);
         buildTag(DEEPSLATE_GRINDABLES).add(Blocks.DEEPSLATE, Blocks.COBBLED_DEEPSLATE, Blocks.POLISHED_DEEPSLATE, Blocks.DEEPSLATE_BRICKS, Blocks.CRACKED_DEEPSLATE_BRICKS, Blocks.DEEPSLATE_TILES, Blocks.CRACKED_DEEPSLATE_TILES);
-        buildTag(WRENCH_BREAKABLE).add(DIGITAL_FURNACE,
-                DIGITAL_SMOKER,
+        buildTag(WRENCH_BREAKABLE).add(
+                DIGITAL_FURNACE,
                 DIGITAL_BLAST_FURNACE,
                 GRINDER,
                 MATERIAL_FUSING_CHAMBER,
@@ -71,10 +71,11 @@ class BlockTagsGen extends LimaTagsProvider.RegistryTags<Block>
                 CHEM_LAB,
                 FABRICATOR,
                 AUTO_FABRICATOR,
+                DIGITAL_GARDEN,
                 EQUIPMENT_UPGRADE_STATION,
                 MOLECULAR_RECONSTRUCTOR,
-                        ENERGY_CELL_ARRAY,
-                        INFINITE_ENERGY_CELL_ARRAY,
+                ENERGY_CELL_ARRAY,
+                INFINITE_ENERGY_CELL_ARRAY,
                 ROCKET_TURRET,
                 RAILGUN_TURRET)
                 .copyTo(MINEABLE_WITH_PICKAXE, NEEDS_STONE_TOOL);
