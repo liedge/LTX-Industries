@@ -171,6 +171,7 @@ class RecipesGen extends LimaRecipeProvider
         mixingRecipes(output);
         energizingRecipes(output);
         chemLabRecipes(output);
+        gardenSimRecipes(output);
 
         // Fabricating recipes
         fabricating(250_000)
@@ -223,6 +224,14 @@ class RecipesGen extends LimaRecipeProvider
                 .input(SCULK_CHEMICAL, 8)
                 .output(T5_CIRCUIT)
                 .group("circuits")
+                .save(output);
+        fabricating(1_000_000)
+                .input(T4_CIRCUIT)
+                .input(TITANIUM_INGOT, 16)
+                .input(POLYMER_INGOT, 24)
+                .input(TITANIUM_GLASS, 12)
+                .output(DIGITAL_GARDEN)
+                .group("machines")
                 .save(output);
         fabricating(2_000_000)
                 .input(ANVIL)
@@ -829,6 +838,59 @@ class RecipesGen extends LimaRecipeProvider
                 .save(output);
     }
 
+    private void gardenSimRecipes(RecipeOutput output)
+    {
+        // Crops
+        garden().growSeed(WHEAT_SEEDS, WHEAT, 1).water(250).save(output);
+        garden().reproduce(POTATO, 2).water(250).save(output);
+        garden().reproduce(CARROT, 2).water(250).save(output);
+        garden().growSeed(BEETROOT_SEEDS, BEETROOT, 2).water(250).save(output);
+        garden().reproduce(SWEET_BERRIES).water(250).save(output);
+        garden().reproduce(COCOA_BEANS, 2).water(500).save(output);
+        garden().growSeed(PUMPKIN_SEEDS, PUMPKIN, 1).water(1000).save(output);
+        garden().growSeed(MELON_SEEDS, MELON, 1).water(1000).save(output);
+        garden().reproduce(GLOW_BERRIES).water(250).save(output);
+        garden().reproduce(BAMBOO).water(500).save(output);
+        garden().reproduce(SUGAR_CANE).water(500).save(output);
+        garden().reproduce(CACTUS).water(125).save(output);
+        garden().reproduce(KELP).water(1000).save(output);
+        garden().reproduce(SEA_PICKLE, 2).water(1000).save(output);
+        garden().reproduce(NETHER_WART).water(250).save(output);
+        garden().growSeed(CHORUS_FLOWER, CHORUS_FRUIT, 2).water(1000).save(output);
+
+        // Flowers
+        garden().reproduce(DANDELION).water(125).time(300).save(output);
+        garden().reproduce(POPPY).water(125).time(300).save(output);
+        garden().reproduce(BLUE_ORCHID).water(125).time(300).save(output);
+        garden().reproduce(ALLIUM).water(125).time(300).save(output);
+        garden().reproduce(AZURE_BLUET).water(125).time(300).save(output);
+        garden().reproduce(RED_TULIP).water(125).time(300).save(output);
+        garden().reproduce(ORANGE_TULIP).water(125).time(300).save(output);
+        garden().reproduce(WHITE_TULIP).water(125).time(300).save(output);
+        garden().reproduce(PINK_TULIP).water(125).time(300).save(output);
+        garden().reproduce(OXEYE_DAISY).water(125).time(300).save(output);
+        garden().reproduce(CORNFLOWER).water(125).time(300).save(output);
+        garden().reproduce(LILY_OF_THE_VALLEY).water(125).time(300).save(output);
+        garden().reproduce(WITHER_ROSE).water(500).save(output);
+        garden().growSeed(TORCHFLOWER_SEEDS, TORCHFLOWER, 1).water(500).save(output);
+        garden().reproduce(SUNFLOWER).water(250).time(300).save(output);
+        garden().reproduce(LILAC).water(250).time(300).save(output);
+        garden().reproduce(PEONY).water(250).time(300).save(output);
+        garden().reproduce(ROSE_BUSH).water(250).time(300).save(output);
+        garden().growSeed(PITCHER_POD, PITCHER_PLANT, 1).water(500).save(output);
+
+        // Shrooms
+        garden().reproduce(RED_MUSHROOM).water(250).save(output);
+        garden().reproduce(BROWN_MUSHROOM).water(250).save(output);
+        garden().reproduce(CRIMSON_FUNGUS).water(250).save(output);
+        garden().reproduce(WARPED_FUNGUS).water(250).save(output);
+
+        // LTXI
+        garden().reproduce(LTXIItems.SPARK_FRUIT).water(500).save(output);
+        garden().reproduce(LTXIItems.VITRIOL_BERRIES).water(1000).save(output);
+        garden().reproduce(LTXIItems.GLOOM_SHROOM).water(10_000).time(1200).save(output);
+    }
+
     // Helpers
     private void orePebblesCooking(ItemLike orePebble, ItemLike resultItem, int resultCount, RecipeOutput output)
     {
@@ -871,6 +933,11 @@ class RecipesGen extends LimaRecipeProvider
     private LTXIBuilder<ChemicalReactingRecipe> chemLab()
     {
         return new LTXIBuilder<>(modResources, LTXIRecipeSerializers.CHEMICAL_REACTING);
+    }
+
+    private GardenBuilder garden()
+    {
+        return new GardenBuilder(modResources);
     }
 
     private FabricatingBuilder fabricating(int energyRequired)
@@ -1022,6 +1089,37 @@ class RecipesGen extends LimaRecipeProvider
         protected R buildRecipe()
         {
             return serializer.factory().apply(itemIngredients, fluidIngredients, itemResults, fluidResults, craftTime);
+        }
+    }
+
+    private static class GardenBuilder extends LTXIBuilder<GardenSimulatingRecipe>
+    {
+        GardenBuilder(ModResources modResources)
+        {
+            super(modResources, LTXIRecipeSerializers.GARDEN_SIMULATING);
+        }
+
+        GardenBuilder water(int amount)
+        {
+            fluidInput(Fluids.WATER, amount);
+            return this;
+        }
+
+        GardenBuilder reproduce(ItemLike cropItem, int outputCount)
+        {
+            randomInput(cropItem, 1, 0).output(cropItem, outputCount);
+            return this;
+        }
+
+        GardenBuilder reproduce(ItemLike cropItem)
+        {
+            return reproduce(cropItem, 1);
+        }
+
+        GardenBuilder growSeed(ItemLike seeds, ItemLike produce, int outputCount)
+        {
+            randomInput(seeds, 1, 0).output(produce, outputCount);
+            return this;
         }
     }
 }
