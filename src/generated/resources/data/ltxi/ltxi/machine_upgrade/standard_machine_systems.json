@@ -166,5 +166,5 @@
   },
   "exclusive_set": "#ltxi:machine_tier",
   "max_rank": 6,
-  "supported_set": "#ltxi:machines/general_processing"
+  "supported_set": "#ltxi:upgradable/standard"
 }

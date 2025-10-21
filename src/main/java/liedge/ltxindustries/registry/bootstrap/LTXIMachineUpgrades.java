@@ -76,7 +76,7 @@ public final class LTXIMachineUpgrades
 
         DoubleLevelBasedValue smsEnergyStorage = DoubleLevelBasedValue.linear(0.5d);
         MachineUpgrade.builder(STANDARD_MACHINE_SYSTEMS)
-                .supports(blockEntities, LTXITags.BlockEntities.GENERAL_PROCESSING_MACHINES)
+                .supports(blockEntities, LTXITags.BlockEntities.STANDARD_UPGRADABLE_MACHINES)
                 .exclusiveWith(holders, MACHINE_TIER)
                 .withEffect(ENERGY_CAPACITY, ValueUpgradeEffect.of(smsEnergyStorage, MathOperation.ADD_PERCENT_OF_BASE))
                 .withEffect(ENERGY_TRANSFER_RATE, ValueUpgradeEffect.of(smsEnergyStorage, MathOperation.ADD_PERCENT_OF_BASE))
@@ -97,7 +97,7 @@ public final class LTXIMachineUpgrades
         DoubleLevelBasedValue umsEnergyUsage = DoubleLevelBasedValue.constant(512);
         MachineUpgrade.builder(ULTIMATE_MACHINE_SYSTEMS)
                 .createDefaultTitle(LTXIConstants.LIME_GREEN)
-                .supports(blockEntities, LTXITags.BlockEntities.GENERAL_PROCESSING_MACHINES)
+                .supports(blockEntities, LTXITags.BlockEntities.ULTIMATE_UPGRADABLE_MACHINES)
                 .exclusiveWith(holders, MACHINE_TIER)
                 .withEffect(ENERGY_CAPACITY, ValueUpgradeEffect.of(umsEnergyStorage, MathOperation.MULTIPLY))
                 .withEffect(ENERGY_TRANSFER_RATE, ValueUpgradeEffect.of(umsEnergyStorage, MathOperation.MULTIPLY))

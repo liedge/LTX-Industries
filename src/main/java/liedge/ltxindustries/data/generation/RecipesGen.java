@@ -732,6 +732,16 @@ class RecipesGen extends LimaRecipeProvider
                 .input(TITANIUM_INGOT, 16)
                 .input(T4_CIRCUIT, 2)
                 .input(REDSTONE, 32));
+
+        machineModuleFab(output, registries, "mum/turret", TURRET_LOOT_COLLECTOR, 1, 10_000_000, builder -> builder
+                .input(T3_CIRCUIT, 3)
+                .input(TITANIUM_INGOT, 12)
+                .input(SLATESTEEL_INGOT, 6)
+                .input(CHORUS_CHEMICAL, 4)
+                .input(ENDER_PEARL, 4));
+        machineModuleFab(output, registries, "mum/turret", TURRET_LOOTING, 1, 125_000, multi1);
+        machineModuleFab(output, registries, "mum/turret", TURRET_LOOTING, 2, 250_000, multi2);
+        machineModuleFab(output, registries, "mum/turret", TURRET_LOOTING, 3, 500_000, multi3);
     }
 
     private void grindingRecipes(RecipeOutput output)

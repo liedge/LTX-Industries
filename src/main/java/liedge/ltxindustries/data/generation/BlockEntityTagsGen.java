@@ -11,8 +11,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.CompletableFuture;
 
-import static liedge.ltxindustries.LTXITags.BlockEntities.GENERAL_PROCESSING_MACHINES;
-import static liedge.ltxindustries.LTXITags.BlockEntities.TURRETS;
+import static liedge.ltxindustries.LTXITags.BlockEntities.*;
 import static liedge.ltxindustries.registry.game.LTXIBlockEntities.*;
 
 class BlockEntityTagsGen extends LimaTagsProvider.RegistryTags<BlockEntityType<?>>
@@ -26,6 +25,8 @@ class BlockEntityTagsGen extends LimaTagsProvider.RegistryTags<BlockEntityType<?
     protected void addTags(HolderLookup.Provider provider)
     {
         buildTag(GENERAL_PROCESSING_MACHINES).add(DIGITAL_FURNACE, DIGITAL_SMOKER, DIGITAL_BLAST_FURNACE, GRINDER, MATERIAL_FUSING_CHAMBER, ELECTROCENTRIFUGE, MIXER, VOLTAIC_INJECTOR, CHEM_LAB);
+        buildTag(STANDARD_UPGRADABLE_MACHINES).add(DIGITAL_GARDEN).addTag(GENERAL_PROCESSING_MACHINES);
+        buildTag(ULTIMATE_UPGRADABLE_MACHINES).addTag(GENERAL_PROCESSING_MACHINES);
         buildTag(TURRETS).add(ROCKET_TURRET, RAILGUN_TURRET);
     }
 }

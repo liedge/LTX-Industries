@@ -1,0 +1,49 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 500000,
+  "group": "mum/turret",
+  "ingredients": [
+    {
+      "type": "neoforge:components",
+      "components": {
+        "ltxi:machine_upgrade": {
+          "rank": 2,
+          "upgrade": "ltxi:turret_looting"
+        }
+      },
+      "count": 1,
+      "items": "ltxi:machine_upgrade_module",
+      "strict": true
+    },
+    {
+      "count": 4,
+      "item": "ltxi:t3_circuit"
+    },
+    {
+      "count": 8,
+      "item": "ltxi:titanium_ingot"
+    },
+    {
+      "count": 2,
+      "item": "minecraft:emerald"
+    },
+    {
+      "count": 2,
+      "item": "minecraft:diamond"
+    },
+    {
+      "count": 2,
+      "item": "minecraft:lapis_block"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:machine_upgrade": {
+        "rank": 3,
+        "upgrade": "ltxi:turret_looting"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:machine_upgrade_module"
+  }
+}

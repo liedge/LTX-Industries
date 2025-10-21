@@ -130,6 +130,8 @@ public final class LTXITags
         private BlockEntities() {}
 
         public static final TagKey<BlockEntityType<?>> GENERAL_PROCESSING_MACHINES = tag("machines/general_processing");
+        public static final TagKey<BlockEntityType<?>> STANDARD_UPGRADABLE_MACHINES = tag("upgradable/standard");
+        public static final TagKey<BlockEntityType<?>> ULTIMATE_UPGRADABLE_MACHINES = tag("upgradable/ultimate");
         public static final TagKey<BlockEntityType<?>> TURRETS = tag("turrets");
 
         private static TagKey<BlockEntityType<?>> tag(String name)

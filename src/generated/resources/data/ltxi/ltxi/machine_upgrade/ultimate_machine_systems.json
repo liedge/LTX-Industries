@@ -95,5 +95,5 @@
     ]
   },
   "exclusive_set": "#ltxi:machine_tier",
-  "supported_set": "#ltxi:machines/general_processing"
+  "supported_set": "#ltxi:upgradable/ultimate"
 }
