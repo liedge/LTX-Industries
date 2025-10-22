@@ -1,10 +1,12 @@
 package liedge.ltxindustries.integration.jei;
 
-import liedge.limacore.recipe.ItemResult;
 import liedge.limacore.recipe.LimaCustomRecipe;
 import liedge.limacore.recipe.LimaRecipeType;
 import liedge.limacore.recipe.ingredient.ConsumeChanceIngredient;
+import liedge.limacore.recipe.result.ItemResult;
+import liedge.limacore.recipe.result.ItemResultType;
 import liedge.limacore.util.LimaTextUtil;
+import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.client.gui.widget.MachineProgressWidget;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
@@ -92,14 +94,14 @@ public abstract class LTXIJeiCategory<R extends LimaCustomRecipe<?>> implements 
         {
             if (chanceIngredient.consumeChance() == 0)
             {
-                slot.addRichTooltipCallback((view, lines) -> lines.add(LTXILangKeys.INPUT_NOT_CONSUMED_TOOLTIP.translate().withStyle(ChatFormatting.GREEN)));
-                slot.setOverlay(new SmallFontDrawable("NC", ChatFormatting.GREEN), 1, 1);
+                slot.setOverlay(ScaledFontDrawable.withStyle("NC", ChatFormatting.GREEN, 0.5f), 1, 1)
+                        .addRichTooltipCallback((view, lines) -> lines.add(LTXILangKeys.INPUT_NOT_CONSUMED_TOOLTIP.translate().withStyle(ChatFormatting.GREEN)));
             }
             else
             {
                 String formattedChance = LimaTextUtil.format1PlacePercentage(chanceIngredient.consumeChance());
-                slot.addRichTooltipCallback((view, lines) -> lines.add(LTXILangKeys.INPUT_CONSUME_CHANCE_TOOLTIP.translateArgs(formattedChance).withStyle(ChatFormatting.YELLOW)));
-                slot.setOverlay(new SmallFontDrawable(formattedChance, ChatFormatting.YELLOW), 1, 1);
+                slot.setOverlay(ScaledFontDrawable.withStyle(formattedChance, ChatFormatting.YELLOW, 0.5f), 1, 1)
+                        .addRichTooltipCallback((view, lines) -> lines.add(LTXILangKeys.INPUT_CONSUME_CHANCE_TOOLTIP.translateArgs(formattedChance).withStyle(ChatFormatting.YELLOW)));
             }
         }
     }
@@ -130,13 +132,32 @@ public abstract class LTXIJeiCategory<R extends LimaCustomRecipe<?>> implements 
     protected void itemResultSlot(IRecipeLayoutBuilder builder, R recipe, int resultIndex, int x, int y)
     {
         ItemResult result = recipe.getItemResult(resultIndex);
-        IRecipeSlotBuilder slot = builder.addSlot(RecipeIngredientRole.OUTPUT, x, y).addItemStack(result.item());
-        if (result.chance() != 1f)
+        IRecipeSlotBuilder slot = builder.addSlot(RecipeIngredientRole.OUTPUT, x, y).addItemStack(result.getGuiPreviewResult());
+
+        // Append optional output tooltips
+        if (!result.requiredOutput())
         {
-            String formattedChance = LimaTextUtil.format1PlacePercentage(result.chance());
-            slot
-                    .setOverlay(new SmallFontDrawable(formattedChance, ChatFormatting.YELLOW), 1, 1)
+            slot.addRichTooltipCallback((view, lines) -> lines.add(LTXILangKeys.OUTPUT_OPTIONAL_TOOLTIP.translate().withStyle(LTXIConstants.OUTPUT_ORANGE.chatStyle())));
+        }
+
+        // Append non-standard overlays and tooltips
+        ItemResultType type = result.getType();
+        if (type == ItemResultType.RANDOM_CHANCE)
+        {
+            String formattedChance = LimaTextUtil.format1PlacePercentage(result.resultChance());
+            slot.setOverlay(ScaledFontDrawable.withStyle(formattedChance, ChatFormatting.YELLOW, 0.5f), 1, 1)
                     .addRichTooltipCallback((view, lines) -> lines.add(LTXILangKeys.OUTPUT_CHANCE_TOOLTIP.translate().append(formattedChance).withStyle(ChatFormatting.YELLOW)));
+        }
+        else if (type == ItemResultType.VARIABLE_COUNT)
+        {
+            String formattedCount = result.minimumCount() + "-" + result.maximumCount();
+
+            int countWidth = Minecraft.getInstance().font.width(formattedCount);
+            float scale = countWidth > 15 ? 15f / countWidth : 1;
+            IDrawable count = ScaledFontDrawable.plainText(formattedCount, scale);
+
+            slot.setOverlay(count, 16 - count.getWidth(), 17 - count.getHeight())
+                    .addRichTooltipCallback((view, lines) -> lines.add(LTXILangKeys.OUTPUT_VARIABLE_COUNT_TOOLTIP.translate().append(formattedCount)));
         }
     }
 

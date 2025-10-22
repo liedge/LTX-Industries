@@ -1,6 +1,6 @@
 package liedge.ltxindustries.recipe;
 
-import liedge.limacore.recipe.ItemResult;
+import liedge.limacore.recipe.result.ItemResult;
 import liedge.ltxindustries.registry.game.LTXIRecipeSerializers;
 import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
 import net.minecraft.world.item.crafting.RecipeSerializer;

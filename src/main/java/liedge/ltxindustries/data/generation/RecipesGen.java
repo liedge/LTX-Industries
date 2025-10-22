@@ -6,7 +6,7 @@ import liedge.limacore.data.generation.LimaRecipeProvider;
 import liedge.limacore.data.generation.recipe.LimaCustomRecipeBuilder;
 import liedge.limacore.lib.ModResources;
 import liedge.limacore.lib.function.ObjectIntFunction;
-import liedge.limacore.recipe.ItemResult;
+import liedge.limacore.recipe.result.ItemResult;
 import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.block.NeonLightColor;
@@ -747,7 +747,7 @@ class RecipesGen extends LimaRecipeProvider
     private void grindingRecipes(RecipeOutput output)
     {
         grinding().input(STONE).output(COBBLESTONE).save(output);
-        grinding().input(COBBLESTONES_NORMAL).output(GRAVEL).output(FLINT, 1, 0.25f).save(output);
+        grinding().input(COBBLESTONES_NORMAL).output(GRAVEL).optionalRandomOutput(FLINT, 1, 0.25f).save(output);
         grinding().input(Tags.Items.GRAVELS).output(SAND).save(output);
         grinding().input(CROPS_SUGAR_CANE).output(RESINOUS_BIOMASS).output(SUGAR, 2).save(output, "grind_sugar_cane");
         grinding().input(BAMBOO).output(RESINOUS_BIOMASS).save(output, "grind_bamboo");
@@ -781,6 +781,7 @@ class RecipesGen extends LimaRecipeProvider
         fusing().input(IRON_INGOT).input(CARBON_DUST).input(DEEPSLATE_DUST, 4).fluidInput(OXYGEN_FLUIDS, 250).time(400).output(SLATESTEEL_INGOT).save(output);
         fusing().input(TITANIUM_INGOT).input(GEMS_QUARTZ, 3).output(TITANIUM_GLASS, 2).save(output);
         fusing().input(AMETHYST_SHARD).input(SCULK_CHEMICAL, 4).output(ECHO_SHARD).time(400).save(output);
+        fusing().randomInput(SCULK_CATALYST, 1, 0f).randomInput(SCULK_CHEMICAL, 1, 0.5f).input(DIRT).output(SCULK).save(output);
     }
 
     private void electroCentrifugingRecipes(RecipeOutput output)
@@ -791,8 +792,8 @@ class RecipesGen extends LimaRecipeProvider
         electroCentrifuging()
                 .input(MUD)
                 .output(DIRT)
-                .output(CLAY_BALL)
-                .output(MANGROVE_PROPAGULE, 1, 0.05f)
+                .variableCountOutput(CLAY_BALL, 1, 3)
+                .optionalRandomOutput(MANGROVE_PROPAGULE, 1, 0.05f)
                 .fluidOutput(Fluids.WATER, 1000)
                 .time(120)
                 .save(output, "split_mud");
@@ -815,7 +816,7 @@ class RecipesGen extends LimaRecipeProvider
                 .fluidInput(VIRIDIC_ACID, 2000)
                 .input(LTXIItems.GLOOM_SHROOM)
                 .output(SCULK_CHEMICAL)
-                .output(NEURO_CHEMICAL, 1, 0.05f)
+                .randomOutput(NEURO_CHEMICAL, 1, 0.05f)
                 .time(400)
                 .save(output, "gloom_shroom_extraction");
     }

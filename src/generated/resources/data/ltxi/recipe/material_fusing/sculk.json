@@ -1,0 +1,31 @@
+{
+  "type": "ltxi:material_fusing",
+  "ingredients": [
+    {
+      "type": "limacore:consume_chance",
+      "child": {
+        "item": "minecraft:sculk_catalyst"
+      },
+      "consume_chance": 0.0,
+      "count": 1
+    },
+    {
+      "type": "limacore:consume_chance",
+      "child": {
+        "item": "ltxi:sculk_chemical"
+      },
+      "consume_chance": 0.5,
+      "count": 1
+    },
+    {
+      "count": 1,
+      "item": "minecraft:dirt"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "minecraft:sculk"
+    }
+  ]
+}

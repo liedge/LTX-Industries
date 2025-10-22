@@ -5,7 +5,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import liedge.limacore.data.LimaCoreCodecs;
 import liedge.limacore.network.LimaStreamCodecs;
-import liedge.limacore.recipe.ItemResult;
+import liedge.limacore.recipe.result.ItemResult;
 import liedge.limacore.recipe.LimaCustomRecipe;
 import liedge.limacore.recipe.LimaRecipeInput;
 import liedge.limacore.util.LimaLootUtil;
@@ -99,7 +99,7 @@ public final class FabricatingRecipe extends LimaCustomRecipe<LimaRecipeInput>
 
     public ItemStack getFabricatingResultItem()
     {
-        return getFirstItemResult().item();
+        return getFirstItemResult().getMaximumResult();
     }
 
     @Override

@@ -12,9 +12,13 @@
       "id": "minecraft:gravel"
     },
     {
+      "type": "random_chance",
       "chance": 0.25,
-      "count": 1,
-      "id": "minecraft:flint"
+      "item": {
+        "count": 1,
+        "id": "minecraft:flint"
+      },
+      "required": false
     }
   ]
 }

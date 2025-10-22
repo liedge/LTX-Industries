@@ -60,7 +60,7 @@ public class AutoFabricatorBlockEntity extends BaseFabricatorBlockEntity
             {
                 FabricatingRecipe recipe = optional.get().value();
 
-                LimaRecipeInput input = LimaRecipeInput.of(getInputInventory());
+                LimaRecipeInput input = LimaRecipeInput.create(getInputInventory(), null);
                 if (canInsertRecipeResults(level, recipe) && recipe.matches(input, level)) // Preliminary check
                 {
                     recipe.consumeItemIngredients(input, level.getRandom());

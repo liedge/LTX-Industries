@@ -1,6 +1,6 @@
 package liedge.ltxindustries.recipe;
 
-import liedge.limacore.recipe.ItemResult;
+import liedge.limacore.recipe.result.ItemResult;
 import liedge.limacore.recipe.LimaRecipeType;
 import liedge.ltxindustries.registry.game.LTXIRecipeSerializers;
 import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
@@ -11,7 +11,7 @@ import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 
 import java.util.List;
 
-public class GrindingRecipe extends LTXIRecipe
+public final class GrindingRecipe extends LTXIRecipe
 {
     public GrindingRecipe(List<SizedIngredient> itemIngredients, List<SizedFluidIngredient> fluidIngredients, List<ItemResult> itemResults, List<FluidStack> fluidResults, int craftTime)
     {

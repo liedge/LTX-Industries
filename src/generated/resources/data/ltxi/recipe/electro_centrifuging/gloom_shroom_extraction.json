@@ -19,9 +19,12 @@
       "id": "ltxi:sculk_chemical"
     },
     {
+      "type": "random_chance",
       "chance": 0.05,
-      "count": 1,
-      "id": "ltxi:neuro_chemical"
+      "item": {
+        "count": 1,
+        "id": "ltxi:neuro_chemical"
+      }
     }
   ]
 }

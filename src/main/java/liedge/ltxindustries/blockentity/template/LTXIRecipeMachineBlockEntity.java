@@ -3,6 +3,7 @@ package liedge.ltxindustries.blockentity.template;
 import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.capability.fluid.LimaFluidHandler;
 import liedge.limacore.recipe.LimaRecipeInput;
+import liedge.limacore.recipe.result.ItemResult;
 import liedge.ltxindustries.block.LTXIBlockProperties;
 import liedge.ltxindustries.block.MachineState;
 import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
@@ -49,17 +50,18 @@ public abstract class LTXIRecipeMachineBlockEntity<R extends LTXIRecipe> extends
     public boolean canInsertRecipeResults(Level level, R recipe)
     {
         // Check item results
-        List<ItemStack> results = recipe.getPossibleItemResults();
-        boolean itemCheck = switch (results.size())
+        List<ItemResult> itemResults = recipe.getItemResults();
+        boolean itemCheck = switch (itemResults.size())
         {
             case 0 -> true;
-            case 1 -> ItemHandlerHelper.insertItem(getOutputInventory(), results.getFirst(), true).isEmpty();
+            case 1 -> ItemHandlerHelper.insertItem(getOutputInventory(), itemResults.getFirst().getMaximumResult(), true).isEmpty();
             default ->
             {
                 ItemStackHandler interim = getOutputInventory().copyHandler();
-                for (ItemStack stack : results)
+                for (ItemResult result : itemResults)
                 {
-                    if (!ItemHandlerHelper.insertItem(interim, stack, false).isEmpty()) yield false;
+                    ItemStack maxOutput = result.getMaximumResult();
+                    if (result.requiredOutput() && !ItemHandlerHelper.insertItem(interim, maxOutput, false).isEmpty()) yield false;
                 }
                 yield true;
             }

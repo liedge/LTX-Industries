@@ -1,7 +1,7 @@
 package liedge.ltxindustries.recipe;
 
 import com.mojang.datafixers.util.Function5;
-import liedge.limacore.recipe.ItemResult;
+import liedge.limacore.recipe.result.ItemResult;
 import liedge.limacore.recipe.LimaCustomRecipe;
 import liedge.limacore.recipe.LimaRecipeInput;
 import net.neoforged.neoforge.common.crafting.SizedIngredient;

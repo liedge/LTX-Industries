@@ -322,6 +322,8 @@ class LanguageGen extends LimaLanguageProvider
         add(INPUT_NOT_CONSUMED_TOOLTIP, "Input not consumed");
         add(INPUT_CONSUME_CHANCE_TOOLTIP, "Input consume chance: %s");
         add(OUTPUT_CHANCE_TOOLTIP, "Output chance: ");
+        add(OUTPUT_VARIABLE_COUNT_TOOLTIP, "Outputs ");
+        add(OUTPUT_OPTIONAL_TOOLTIP, "Optional output - discarded if not enough space");
         add(ADVANCEMENT_LOCKED_TOOLTIP, "Requires Advancement");
 
         add(UPGRADE_RANK_TOOLTIP, "Rank %s/%s");
