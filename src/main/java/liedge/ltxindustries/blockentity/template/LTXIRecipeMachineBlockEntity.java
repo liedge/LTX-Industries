@@ -2,13 +2,21 @@ package liedge.ltxindustries.blockentity.template;
 
 import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.capability.fluid.LimaFluidHandler;
-import liedge.limacore.recipe.LimaRecipeInput;
 import liedge.limacore.recipe.result.ItemResult;
+import liedge.limacore.util.LimaNbtUtil;
 import liedge.ltxindustries.block.LTXIBlockProperties;
 import liedge.ltxindustries.block.MachineState;
 import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
+import liedge.ltxindustries.blockentity.base.RecipeModeHolderBlockEntity;
 import liedge.ltxindustries.recipe.LTXIRecipe;
+import liedge.ltxindustries.recipe.LTXIRecipeInput;
+import liedge.ltxindustries.recipe.RecipeMode;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.resources.RegistryOps;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
@@ -17,20 +25,48 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 import net.neoforged.neoforge.items.ItemStackHandler;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public abstract class LTXIRecipeMachineBlockEntity<R extends LTXIRecipe> extends BaseRecipeMachineBlockEntity<LimaRecipeInput, R>
+public abstract class LTXIRecipeMachineBlockEntity<R extends LTXIRecipe> extends BaseRecipeMachineBlockEntity<LTXIRecipeInput, R> implements RecipeModeHolderBlockEntity
 {
+    @Nullable
+    private Holder<RecipeMode> mode;
+
     protected LTXIRecipeMachineBlockEntity(ConfigurableIOBlockEntityType<?> type, RecipeType<R> recipeType, BlockPos pos, BlockState state, int inputSlots, int outputSlots, int inputTanks, int outputTanks)
     {
         super(type, recipeType, pos, state, inputSlots, outputSlots, inputTanks, outputTanks);
     }
 
     @Override
-    protected LimaRecipeInput getRecipeInput(Level level)
+    public @Nullable Holder<RecipeMode> getMode()
     {
-        return LimaRecipeInput.create(getItemHandler(BlockContentsType.INPUT), getFluidHandler(BlockContentsType.INPUT));
+        return mode;
+    }
+
+    @Override
+    public void setMode(@Nullable Holder<RecipeMode> mode)
+    {
+        this.mode = mode;
+
+        if (checkServerSide())
+        {
+            setChanged();
+            reCheckRecipe();
+        }
+    }
+
+    @Override
+    public RecipeType<?> getRecipeTypeForMode()
+    {
+        return getRecipeCheck().getRecipeType();
+    }
+
+    @Override
+    protected LTXIRecipeInput getRecipeInput(Level level)
+    {
+        return new LTXIRecipeInput(getItemHandler(BlockContentsType.INPUT), getFluidHandler(BlockContentsType.INPUT), mode);
     }
 
     @Override
@@ -40,7 +76,7 @@ public abstract class LTXIRecipeMachineBlockEntity<R extends LTXIRecipe> extends
     }
 
     @Override
-    protected void consumeIngredients(LimaRecipeInput recipeInput, R recipe, Level level)
+    protected void consumeIngredients(LTXIRecipeInput recipeInput, R recipe, Level level)
     {
         recipe.consumeItemIngredients(recipeInput, level.getRandom());
         recipe.consumeFluidIngredients(recipeInput);
@@ -93,7 +129,7 @@ public abstract class LTXIRecipeMachineBlockEntity<R extends LTXIRecipe> extends
     }
 
     @Override
-    protected void insertRecipeResults(Level level, R recipe, LimaRecipeInput recipeInput)
+    protected void insertRecipeResults(Level level, R recipe, LTXIRecipeInput recipeInput)
     {
         // Insert item results
         List<ItemStack> results = recipe.generateItemResults(recipeInput, level.registryAccess(), level.random);
@@ -112,6 +148,20 @@ public abstract class LTXIRecipeMachineBlockEntity<R extends LTXIRecipe> extends
                 outputFluids.fillAny(stack, IFluidHandler.FluidAction.EXECUTE, true);
             }
         }
+    }
+
+    @Override
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries)
+    {
+        super.loadAdditional(tag, registries);
+        this.mode = LimaNbtUtil.tryDecode(RecipeMode.CODEC, RegistryOps.create(NbtOps.INSTANCE, registries), tag, TAG_KEY_RECIPE_MODE);
+    }
+
+    @Override
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries)
+    {
+        super.saveAdditional(tag, registries);
+        LimaNbtUtil.tryEncodeTo(RecipeMode.CODEC, RegistryOps.create(NbtOps.INSTANCE, registries), this.mode, tag, TAG_KEY_RECIPE_MODE);
     }
 
     public static abstract class StateMachine<R extends LTXIRecipe> extends LTXIRecipeMachineBlockEntity<R>

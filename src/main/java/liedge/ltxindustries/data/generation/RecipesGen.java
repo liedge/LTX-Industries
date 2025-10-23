@@ -28,6 +28,7 @@ import net.minecraft.advancements.critereon.KilledTrigger;
 import net.minecraft.advancements.critereon.LocationPredicate;
 import net.minecraft.advancements.critereon.PlayerTrigger;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentPredicate;
 import net.minecraft.core.component.DataComponentType;
@@ -171,7 +172,7 @@ class RecipesGen extends LimaRecipeProvider
         mixingRecipes(output);
         energizingRecipes(output);
         chemLabRecipes(output);
-        gardenSimRecipes(output);
+        gardenSimRecipes(output, registries);
 
         // Fabricating recipes
         fabricating(250_000)
@@ -849,7 +850,7 @@ class RecipesGen extends LimaRecipeProvider
                 .save(output);
     }
 
-    private void gardenSimRecipes(RecipeOutput output)
+    private void gardenSimRecipes(RecipeOutput output, HolderLookup.Provider registries)
     {
         // Crops
         garden().growSeed(WHEAT_SEEDS, WHEAT, 1).water(250).save(output);
@@ -1082,6 +1083,8 @@ class RecipesGen extends LimaRecipeProvider
     {
         private final LTXIRecipeSerializer<R> serializer;
         private int craftTime;
+        @Nullable
+        private Holder<RecipeMode> mode;
 
         LTXIBuilder(ModResources resources, Supplier<? extends LTXIRecipeSerializer<R>> serializerSupplier)
         {
@@ -1096,10 +1099,21 @@ class RecipesGen extends LimaRecipeProvider
             return this;
         }
 
+        LTXIBuilder<R> needsMode(Holder<RecipeMode> mode)
+        {
+            this.mode = mode;
+            return this;
+        }
+
+        LTXIBuilder<R> needsMode(HolderGetter<RecipeMode> holders, ResourceKey<RecipeMode> key)
+        {
+            return needsMode(holders.getOrThrow(key));
+        }
+
         @Override
         protected R buildRecipe()
         {
-            return serializer.factory().apply(itemIngredients, fluidIngredients, itemResults, fluidResults, craftTime);
+            return serializer.factory().create(itemIngredients, fluidIngredients, itemResults, fluidResults, craftTime, mode);
         }
     }
 

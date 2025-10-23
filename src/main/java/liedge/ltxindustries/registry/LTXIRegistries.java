@@ -3,6 +3,7 @@ package liedge.ltxindustries.registry;
 import liedge.ltxindustries.lib.upgrades.effect.entity.EntityUpgradeEffectType;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrade;
+import liedge.ltxindustries.recipe.RecipeMode;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.resources.ResourceKey;
@@ -27,5 +28,6 @@ public final class LTXIRegistries
         // Data registries
         public static final ResourceKey<Registry<EquipmentUpgrade>> EQUIPMENT_UPGRADES = RESOURCES.registryResourceKey("equipment_upgrade");
         public static final ResourceKey<Registry<MachineUpgrade>> MACHINE_UPGRADES = RESOURCES.registryResourceKey("machine_upgrade");
+        public static final ResourceKey<Registry<RecipeMode>> RECIPE_MODES = RESOURCES.registryResourceKey("recipe_mode");
     }
 }

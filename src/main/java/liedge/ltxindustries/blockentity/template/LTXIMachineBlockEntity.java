@@ -7,8 +7,6 @@ import liedge.limacore.blockentity.IOAccess;
 import liedge.limacore.blockentity.LimaBlockEntity;
 import liedge.limacore.capability.itemhandler.LimaBlockEntityItemHandler;
 import liedge.limacore.capability.itemhandler.LimaItemHandlerUtil;
-import liedge.limacore.data.LimaCoreCodecs;
-import liedge.limacore.util.LimaCollectionsUtil;
 import liedge.limacore.util.LimaItemUtil;
 import liedge.limacore.util.LimaNbtUtil;
 import liedge.ltxindustries.blockentity.base.*;
@@ -44,14 +42,6 @@ public sealed abstract class LTXIMachineBlockEntity extends LimaBlockEntity impl
     // Recommended standard inventory indices for machines
     public static final int AUX_MODULE_ITEM_SLOT = 0;
     public static final int AUX_ENERGY_ITEM_SLOT = 1;
-
-    // TODO: Remove by next 1-2 major versions
-    private static final Map<BlockEntityInputType, String> LEGACY_IO_KEYS = LimaCollectionsUtil.fillAndCreateEnumMap(BlockEntityInputType.class, type -> switch (type)
-    {
-        case ITEMS -> "item_io";
-        case ENERGY -> "energy_io";
-        case FLUIDS -> "fluid_io";
-    });
 
     private final ConfigurableIOBlockEntityType<?> type;
     private final Map<Direction, BlockCapabilityCache<IItemHandler, Direction>> itemConnections = new EnumMap<>(Direction.class);
@@ -244,40 +234,12 @@ public sealed abstract class LTXIMachineBlockEntity extends LimaBlockEntity impl
         // Load upgrades
         this.upgrades = LimaNbtUtil.tryDecode(MachineUpgrades.CODEC, ops, tag, TAG_KEY_UPGRADES, MachineUpgrades.EMPTY);
 
-        // Convert legacy IO configurations TODO: Remove by next 1-2 major versions
-        boolean loadedLegacyIO = false;
-        for (var entry : LEGACY_IO_KEYS.entrySet())
-        {
-            if (tag.contains(entry.getValue(), Tag.TAG_COMPOUND))
-            {
-                CompoundTag toDecode = new CompoundTag();
-                CompoundTag oldIOTag = tag.getCompound(entry.getValue());
-                toDecode.put("sides", oldIOTag);
-
-                if (oldIOTag.contains("auto_input", Tag.TAG_BYTE)) toDecode.putBoolean("auto_input", oldIOTag.getBoolean("auto_input"));
-                if (oldIOTag.contains("auto_output", Tag.TAG_BYTE)) toDecode.putBoolean("auto_output", oldIOTag.getBoolean("auto_output"));
-
-                BlockIOConfiguration converted = LimaCoreCodecs.tryDecode(BlockIOConfiguration.CODEC, ops, toDecode);
-                if (converted != null)
-                {
-                    setIOConfiguration(entry.getKey(), converted);
-                    loadedLegacyIO = true;
-                }
-            }
-        }
-
         // Load IO configurations
-        if (!loadedLegacyIO)
+        CompoundTag ioConfigsTag = tag.getCompound(KEY_IO_CONFIGS);
+        for (BlockEntityInputType inputType : getConfigurableInputTypes())
         {
-            CompoundTag ioConfigsTag = tag.getCompound(KEY_IO_CONFIGS);
-            for (BlockEntityInputType inputType : getConfigurableInputTypes())
-            {
-                if (ioConfigsTag.contains(inputType.getSerializedName(), Tag.TAG_COMPOUND))
-                {
-                    BlockIOConfiguration config = LimaCoreCodecs.tryDecode(BlockIOConfiguration.CODEC, ops, ioConfigsTag.getCompound(inputType.getSerializedName()));
-                    if (config != null && config.isValidForRules(type.getIOConfigRules(inputType))) setIOConfiguration(inputType, config);
-                }
-            }
+            BlockIOConfiguration config = LimaNbtUtil.tryDecode(BlockIOConfiguration.CODEC, ops, ioConfigsTag, inputType.getSerializedName());
+            if (config != null && config.isValidForRules(type.getIOConfigRules(inputType))) setIOConfiguration(inputType, config);
         }
     }
 
@@ -304,7 +266,7 @@ public sealed abstract class LTXIMachineBlockEntity extends LimaBlockEntity impl
         for (BlockEntityInputType inputType : getConfigurableInputTypes())
         {
             BlockIOConfiguration configuration = getIOConfigurationOrThrow(inputType);
-            LimaCoreCodecs.tryEncodeTo(BlockIOConfiguration.CODEC, ops, configuration, cNBT -> ioConfigsTag.put(inputType.getSerializedName(), cNBT));
+            LimaNbtUtil.tryEncodeTo(BlockIOConfiguration.CODEC, ops, configuration, ioConfigsTag, inputType.getSerializedName());
         }
         tag.put(KEY_IO_CONFIGS, ioConfigsTag);
     }

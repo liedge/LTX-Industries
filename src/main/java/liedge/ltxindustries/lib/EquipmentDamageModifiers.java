@@ -18,7 +18,6 @@ import net.neoforged.neoforge.common.conditions.ConditionalOps;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 public final class EquipmentDamageModifiers extends SimpleJsonResourceReloadListener
 {
@@ -63,7 +62,8 @@ public final class EquipmentDamageModifiers extends SimpleJsonResourceReloadList
         // Read all modifiers
         for (JsonElement json : object.values())
         {
-            LimaCoreCodecs.tryDecode(EquipmentDamageModifier.CODEC, ops, json, Optional.empty()).ifPresent(list::add);
+            EquipmentDamageModifier modifier = LimaCoreCodecs.tryFlatDecode(EquipmentDamageModifier.CODEC, ops, json);
+            if (modifier != null) list.add(modifier);
         }
 
         LTXIndustries.LOGGER.info("Loaded {} equipment damage modifiers.", list.size());

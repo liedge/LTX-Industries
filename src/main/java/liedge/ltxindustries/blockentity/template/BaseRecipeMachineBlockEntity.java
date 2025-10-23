@@ -113,13 +113,6 @@ public abstract class BaseRecipeMachineBlockEntity<I extends RecipeInput, R exte
         }
     }
 
-    /*
-    protected void onCraftingStateChanged(boolean newCraftingState)
-    {
-        BlockState newState = getBlockState().setValue(LTXIBlockProperties.BINARY_MACHINE_STATE, newCraftingState ? MachineState.ACTIVE : MachineState.IDLE);
-        nonNullLevel().setBlockAndUpdate(getBlockPos(), newState);
-    }
-    */
     protected abstract void onCraftingStateChanged(boolean newCraftingState);
 
     protected abstract I getRecipeInput(Level level);
@@ -130,12 +123,17 @@ public abstract class BaseRecipeMachineBlockEntity<I extends RecipeInput, R exte
 
     protected abstract void insertRecipeResults(Level level, R recipe, I recipeInput);
 
+    protected void reCheckRecipe()
+    {
+        this.shouldCheckRecipe = true;
+    }
+
     @Override
     public void onEnergyChanged(int previousEnergy)
     {
         setChanged();
         if (previousEnergy < getEnergyUsage() && getEnergyStorage().getEnergyStored() >= getEnergyUsage())
-            shouldCheckRecipe = true;
+            reCheckRecipe();
     }
 
     @Override
@@ -144,7 +142,7 @@ public abstract class BaseRecipeMachineBlockEntity<I extends RecipeInput, R exte
         setChanged();
         if (contentsType == BlockContentsType.INPUT || (contentsType == BlockContentsType.OUTPUT && !crafting))
         {
-            shouldCheckRecipe = true;
+            reCheckRecipe();
         }
     }
 
@@ -155,7 +153,7 @@ public abstract class BaseRecipeMachineBlockEntity<I extends RecipeInput, R exte
         super.onFluidsChanged(contentsType, tank);
         if (contentsType == BlockContentsType.INPUT || (contentsType == BlockContentsType.OUTPUT && !crafting))
         {
-            shouldCheckRecipe = true;
+            reCheckRecipe();
         }
     }
 
@@ -215,7 +213,7 @@ public abstract class BaseRecipeMachineBlockEntity<I extends RecipeInput, R exte
 
                     // Check state of recipe after every successful craft. Last recipe is used first so should be *relatively* quick.
                     craftingProgress = 0;
-                    shouldCheckRecipe = true;
+                    reCheckRecipe();
                 }
             }
             else
@@ -236,14 +234,14 @@ public abstract class BaseRecipeMachineBlockEntity<I extends RecipeInput, R exte
         EnergyConsumerBlockEntity.applyUpgrades(this, context, upgrades);
         this.recipeTimeFunction = createCachedSpeedFunction(upgrades, context);
         this.shouldCheckCraftingTime = true;
-        this.shouldCheckRecipe = true;
+        reCheckRecipe();
     }
 
     @Override
     protected void onLoadServer(ServerLevel level)
     {
         super.onLoadServer(level);
-        this.shouldCheckRecipe = true;
+        reCheckRecipe();
     }
 
     @Override

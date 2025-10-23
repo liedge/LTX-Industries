@@ -41,7 +41,7 @@ public final class LTXIRecipeSerializers
 
     public static final DeferredHolder<RecipeSerializer<?>, SimpleCraftingRecipeSerializer<DefaultUpgradeModuleRecipe>> DEFAULT_UPGRADE_MODULE = SERIALIZERS.register("default_upgrade_module", () -> new SimpleCraftingRecipeSerializer<>(DefaultUpgradeModuleRecipe::new));
 
-    private static <R extends LTXIRecipe> DeferredHolder<RecipeSerializer<?>, LTXIRecipeSerializer<R>> register(String name, LTXIRecipe.LTXIRecipeFactory<R> factory, UnaryOperator<LTXIRecipeSerializer.Builder<R>> op)
+    private static <R extends LTXIRecipe> DeferredHolder<RecipeSerializer<?>, LTXIRecipeSerializer<R>> register(String name, LTXIRecipeSupplier<R> factory, UnaryOperator<LTXIRecipeSerializer.Builder<R>> op)
     {
         return SERIALIZERS.register(name, id -> op.apply(LTXIRecipeSerializer.builder(factory)).build(id));
     }

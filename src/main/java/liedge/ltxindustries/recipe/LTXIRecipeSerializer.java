@@ -7,24 +7,27 @@ import liedge.limacore.network.LimaStreamCodecs;
 import liedge.limacore.recipe.LimaCustomRecipe;
 import liedge.limacore.recipe.LimaRecipeSerializerBuilder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 
-public record LTXIRecipeSerializer<R extends LTXIRecipe>(MapCodec<R> codec, StreamCodec<RegistryFriendlyByteBuf, R> streamCodec, LTXIRecipe.LTXIRecipeFactory<R> factory, int defaultTime) implements RecipeSerializer<R>
+import java.util.Optional;
+
+public record LTXIRecipeSerializer<R extends LTXIRecipe>(MapCodec<R> codec, StreamCodec<RegistryFriendlyByteBuf, R> streamCodec, LTXIRecipeSupplier<R> factory, int defaultTime) implements RecipeSerializer<R>
 {
-    public static <R extends LTXIRecipe> Builder<R> builder(LTXIRecipe.LTXIRecipeFactory<R> factory)
+    public static <R extends LTXIRecipe> Builder<R> builder(LTXIRecipeSupplier<R> factory)
     {
         return new Builder<>(factory);
     }
 
     public static final class Builder<R extends LTXIRecipe> extends LimaRecipeSerializerBuilder<R, LTXIRecipeSerializer<R>, Builder<R>>
     {
-        private final LTXIRecipe.LTXIRecipeFactory<R> factory;
+        private final LTXIRecipeSupplier<R> factory;
         private int defaultCraftTime = LTXIRecipe.DEFAULT_CRAFTING_TIME;
 
-        private Builder(LTXIRecipe.LTXIRecipeFactory<R> factory)
+        private Builder(LTXIRecipeSupplier<R> factory)
         {
             this.factory = factory;
         }
@@ -41,6 +44,7 @@ public record LTXIRecipeSerializer<R extends LTXIRecipe>(MapCodec<R> codec, Stre
         {
             MapCodec<R> mapCodec = RecordCodecBuilder.<R>mapCodec(instance -> commonFields(instance)
                     .and(ExtraCodecs.POSITIVE_INT.optionalFieldOf("craft_time", defaultCraftTime).forGetter(LTXIRecipe::getCraftTime))
+                    .and(RecipeMode.CODEC.optionalFieldOf("mode").forGetter(o -> Optional.ofNullable(o.getMode())))
                     .apply(instance, factory))
                     .validate(LimaCustomRecipe::checkNotEmpty);
 
@@ -55,6 +59,8 @@ public record LTXIRecipeSerializer<R extends LTXIRecipe>(MapCodec<R> codec, Stre
                     LimaCustomRecipe::getFluidResults,
                     LimaStreamCodecs.POSITIVE_VAR_INT,
                     LTXIRecipe::getCraftTime,
+                    ByteBufCodecs.optional(RecipeMode.STREAM_CODEC),
+                    o -> Optional.ofNullable(o.getMode()),
                     factory);
 
             return new LTXIRecipeSerializer<>(mapCodec, streamCodec, factory, defaultCraftTime);

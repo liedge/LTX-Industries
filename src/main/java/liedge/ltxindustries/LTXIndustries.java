@@ -8,6 +8,7 @@ import liedge.ltxindustries.network.packet.ClientboundFocusTargetPacket;
 import liedge.ltxindustries.network.packet.ClientboundWeaponControlsPacket;
 import liedge.ltxindustries.network.packet.ServerboundItemModeSwitchPacket;
 import liedge.ltxindustries.network.packet.ServerboundWeaponControlsPacket;
+import liedge.ltxindustries.recipe.RecipeMode;
 import liedge.ltxindustries.registry.LTXIRegistries;
 import liedge.ltxindustries.registry.game.*;
 import liedge.ltxindustries.util.config.LTXIClientConfig;
@@ -119,6 +120,7 @@ public class LTXIndustries
         {
             event.dataPackRegistry(LTXIRegistries.Keys.EQUIPMENT_UPGRADES, EquipmentUpgrade.DIRECT_CODEC, EquipmentUpgrade.DIRECT_CODEC);
             event.dataPackRegistry(LTXIRegistries.Keys.MACHINE_UPGRADES, MachineUpgrade.DIRECT_CODEC, MachineUpgrade.DIRECT_CODEC);
+            event.dataPackRegistry(LTXIRegistries.Keys.RECIPE_MODES, RecipeMode.DIRECT_CODEC, RecipeMode.DIRECT_CODEC);
         }
     }
 }
