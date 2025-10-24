@@ -1,6 +1,6 @@
 package liedge.ltxindustries.client.gui.widget;
 
-import liedge.limacore.client.gui.LimaRenderable;
+import liedge.limacore.client.gui.BaseLimaRenderable;
 import liedge.ltxindustries.LTXIndustries;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.events.GuiEventListener;
@@ -9,13 +9,12 @@ import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
-public class ScrollbarWidget implements LimaRenderable, NarratableEntry, GuiEventListener
+public class ScrollbarWidget extends BaseLimaRenderable implements NarratableEntry, GuiEventListener
 {
+    private static final int SCROLLER_WIDTH = 8;
+    static final int SCROLLER_HEIGHT = 13;
     private static final ResourceLocation SCROLLER_SPRITE = LTXIndustries.RESOURCES.location("widget/scroller");
 
-    private final int x;
-    private final int y;
-    private final int height;
     private final int scrollRange;
     private final ScrollableGUIElement element;
 
@@ -25,16 +24,14 @@ public class ScrollbarWidget implements LimaRenderable, NarratableEntry, GuiEven
 
     public ScrollbarWidget(int x, int y, int height, ScrollableGUIElement element)
     {
-        this.x = x;
-        this.y = y;
-        this.height = height;
-        this.scrollRange = height - 13;
+        super(x, y, SCROLLER_WIDTH, height);
+        this.scrollRange = height - SCROLLER_HEIGHT;
         this.element = element;
     }
 
     private void setPositionFromMouse(double mouseY)
     {
-        int relativeMouseY = ((int) mouseY - y) - (13 /2);
+        int relativeMouseY = ((int) mouseY - getY()) - (SCROLLER_HEIGHT / 2);
         setScrollPosition(relativeMouseY, false);
     }
 
@@ -63,33 +60,9 @@ public class ScrollbarWidget implements LimaRenderable, NarratableEntry, GuiEven
     }
 
     @Override
-    public int getX()
-    {
-        return x;
-    }
-
-    @Override
-    public int getY()
-    {
-        return y;
-    }
-
-    @Override
-    public int getWidth()
-    {
-        return 8;
-    }
-
-    @Override
-    public int getHeight()
-    {
-        return height;
-    }
-
-    @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks)
     {
-        graphics.blitSprite(SCROLLER_SPRITE, x, y + scrollPosition, 8, 13);
+        graphics.blitSprite(SCROLLER_SPRITE, getX(), getY() + scrollPosition, SCROLLER_WIDTH, SCROLLER_HEIGHT);
     }
 
     @Override
@@ -144,11 +117,5 @@ public class ScrollbarWidget implements LimaRenderable, NarratableEntry, GuiEven
         }
 
         return false;
-    }
-
-    @Override
-    public boolean isMouseOver(double mouseX, double mouseY)
-    {
-        return LimaRenderable.super.isMouseOver(mouseX, mouseY);
     }
 }

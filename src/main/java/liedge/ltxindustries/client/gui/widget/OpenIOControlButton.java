@@ -4,6 +4,7 @@ import liedge.limacore.client.gui.LimaMenuScreen;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
 import liedge.ltxindustries.registry.game.LTXINetworkSerializers;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.resources.ResourceLocation;
 
@@ -40,8 +41,8 @@ public class OpenIOControlButton extends LimaSidebarButton.RightSided
     }
 
     @Override
-    protected ResourceLocation iconSprite()
+    protected void renderContents(GuiGraphics graphics, int guiX, int guiY)
     {
-        return icon;
+        renderSprite(graphics, icon, guiX, guiY);
     }
 }

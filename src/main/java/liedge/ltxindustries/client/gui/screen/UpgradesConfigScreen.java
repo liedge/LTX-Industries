@@ -75,6 +75,12 @@ public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, U>, M extend
     }
 
     @Override
+    public int getScrollDelta()
+    {
+        return scrollWheelDelta;
+    }
+
+    @Override
     public boolean canScroll()
     {
         return upgradeCount > 4;

@@ -24,6 +24,9 @@ public abstract class LTXIScreen<M extends LimaMenu<?>> extends LimaMenuScreen<M
     private static final ResourceLocation POWER_IN_SLOT = RESOURCES.location("slot/power_in");
     protected static final ResourceLocation POWER_OUT_SLOT = RESOURCES.location("slot/power_out");
     private static final ResourceLocation BIG_OUTPUT_SLOT = RESOURCES.location("slot/big_output");
+    static final ResourceLocation GRID_UNIT = RESOURCES.location("widget/grid_unit");
+    static final ResourceLocation GRID_UNIT_FOCUSED = RESOURCES.location("widget/grid_unit_focus");
+    static final ResourceLocation GRID_UNIT_SELECTED = RESOURCES.location("widget/grid_unit_selected");
 
     // Dimensions
     private static final int BG_CORNER_SIZE = 4;

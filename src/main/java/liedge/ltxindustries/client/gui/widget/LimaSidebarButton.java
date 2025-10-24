@@ -24,7 +24,8 @@ public abstract class LimaSidebarButton extends LimaRenderableButton
     protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick)
     {
         super.renderWidget(guiGraphics, mouseX, mouseY, partialTick);
-        guiGraphics.blitSprite(iconSprite(), getX() + getIconXOffset(), getY() + 2, 16, 16);
+        int xOffset = isLeftSided() ? 2 : 0;
+        renderContents(guiGraphics, getX() + xOffset, getY() + 2);
     }
 
     @Override
@@ -36,9 +37,14 @@ public abstract class LimaSidebarButton extends LimaRenderableButton
     @Override
     protected abstract ResourceLocation focusedSprite();
 
-    protected abstract int getIconXOffset();
+    protected abstract void renderContents(GuiGraphics graphics, int guiX, int guiY);
 
-    protected abstract ResourceLocation iconSprite();
+    protected abstract boolean isLeftSided();
+
+    protected void renderSprite(GuiGraphics graphics, ResourceLocation sprite, int x, int y)
+    {
+        graphics.blitSprite(sprite, x, y, 16, 16);
+    }
 
     public static abstract class LeftSided extends LimaSidebarButton
     {
@@ -60,9 +66,9 @@ public abstract class LimaSidebarButton extends LimaRenderableButton
         }
 
         @Override
-        protected int getIconXOffset()
+        protected boolean isLeftSided()
         {
-            return 2;
+            return true;
         }
     }
 
@@ -86,9 +92,9 @@ public abstract class LimaSidebarButton extends LimaRenderableButton
         }
 
         @Override
-        protected int getIconXOffset()
+        protected boolean isLeftSided()
         {
-            return 0;
+            return false;
         }
     }
 }

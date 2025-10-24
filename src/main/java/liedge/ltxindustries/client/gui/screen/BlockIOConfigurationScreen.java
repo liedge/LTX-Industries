@@ -183,12 +183,6 @@ public class BlockIOConfigurationScreen extends LTXIScreen<BlockIOConfigurationM
         }
 
         @Override
-        protected ResourceLocation iconSprite()
-        {
-            return stateGetter.getAsBoolean() ? onSprite : offSprite;
-        }
-
-        @Override
         public boolean hasTooltip()
         {
             return true;
@@ -199,6 +193,13 @@ public class BlockIOConfigurationScreen extends LTXIScreen<BlockIOConfigurationM
         {
             Component label = stateGetter.getAsBoolean() ? onLabel : offLabel;
             consumer.accept(label);
+        }
+
+        @Override
+        protected void renderContents(GuiGraphics graphics, int guiX, int guiY)
+        {
+            ResourceLocation sprite = stateGetter.getAsBoolean() ? onSprite : offSprite;
+            renderSprite(graphics, sprite, guiX, guiY);
         }
     }
 }

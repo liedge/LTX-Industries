@@ -2,8 +2,8 @@ package liedge.ltxindustries.client.gui.screen;
 
 import liedge.limacore.capability.energy.LimaEnergyUtil;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
-import liedge.limacore.util.LimaCollectionsUtil;
 import liedge.ltxindustries.LTXIConstants;
+import liedge.ltxindustries.blockentity.BaseFabricatorBlockEntity;
 import liedge.ltxindustries.client.LTXIClientRecipes;
 import liedge.ltxindustries.client.gui.widget.*;
 import liedge.ltxindustries.menu.FabricatorMenu;
@@ -30,24 +30,13 @@ import static liedge.ltxindustries.LTXIndustries.RESOURCES;
 import static liedge.ltxindustries.client.LTXILangKeys.FABRICATOR_SELECTED_RECIPE_TOOLTIP;
 import static liedge.ltxindustries.client.LTXILangKeys.INLINE_ENERGY_REQUIRED_TOOLTIP;
 
-public class FabricatorScreen extends LTXIMachineScreen<FabricatorMenu> implements ScrollableGUIElement
+public class FabricatorScreen extends LTXIMachineScreen<FabricatorMenu>
 {
-    private static final int SELECTOR_GRID_WIDTH = 5;
-    private static final int SELECTOR_GRID_HEIGHT = 4;
-    private static final int SELECTOR_GRID_SIZE = SELECTOR_GRID_WIDTH * SELECTOR_GRID_HEIGHT;
-
     private static final ResourceLocation BLUEPRINT_SLOT_SPRITE = RESOURCES.location("slot/blank_blueprint");
-    private static final ResourceLocation SELECTOR_SPRITE = RESOURCES.location("widget/fabricator_selector");
-    private static final ResourceLocation SELECTOR_FOCUSED_SPRITE = RESOURCES.location("widget/fabricator_selector_focus");
-    private static final ResourceLocation SELECTOR_ACTIVE_SPRITE = RESOURCES.location("widget/fabricator_selector_active");
 
-    private final int recipeRows;
-    private final int scrollWheelDelta;
     private final List<RecipeHolder<FabricatingRecipe>> recipes;
 
-    private int currentScrollRow;
-    private int selectedRecipeIndex = -1;
-
+    private @Nullable SelectorGrid selectorGrid;
     private @Nullable ScrollbarWidget scrollbar;
 
     public FabricatorScreen(FabricatorMenu menu, Inventory inventory, Component title)
@@ -58,42 +47,8 @@ public class FabricatorScreen extends LTXIMachineScreen<FabricatorMenu> implemen
         this.recipes = LTXIClientRecipes.getUnlockedFabricatingRecipes((LocalPlayer) inventory.player);
 
         // Screen setup
-        this.recipeRows = LimaCollectionsUtil.splitCollectionToSegments(recipes, SELECTOR_GRID_WIDTH);
-        this.scrollWheelDelta = 59 / recipeRows;
         this.inventoryLabelX = 14;
         this.inventoryLabelY = 107;
-    }
-
-    private int selectorLeft()
-    {
-        return leftPos + 76;
-    }
-
-    private int selectorTop()
-    {
-        return topPos + 32;
-    }
-
-    private boolean isMouseOverSelector(double mouseX, double mouseY)
-    {
-        return isMouseWithinArea(mouseX, mouseY, selectorLeft(), selectorTop(), 90, 72);
-    }
-
-    @Override
-    public boolean canScroll()
-    {
-        return recipeRows > 4;
-    }
-
-    @Override
-    public void scrollUpdated(int scrollPosition)
-    {
-        int newScrollRow = Math.min(scrollPosition / scrollWheelDelta, recipeRows - 1);
-        if (newScrollRow != currentScrollRow)
-        {
-            currentScrollRow = newScrollRow;
-            selectedRecipeIndex = -1;
-        }
     }
 
     @Override
@@ -102,7 +57,8 @@ public class FabricatorScreen extends LTXIMachineScreen<FabricatorMenu> implemen
         super.addWidgets();
 
         addRenderableOnly(new FabricatorProgressWidget(leftPos + 61, topPos + 83, menu.menuContext()));
-        this.scrollbar = addRenderableWidget(new ScrollbarWidget(leftPos + 168, topPos + 32, 72, this));
+        this.selectorGrid = addRenderableOnly(new SelectorGrid(this, recipes, leftPos + 76, topPos + 32));
+        this.scrollbar = addRenderableWidget(new ScrollbarWidget(leftPos + 168, topPos + 32, 72, selectorGrid));
         scrollbar.reset(); // Always reset scrollbar after reinitializing
     }
 
@@ -118,71 +74,14 @@ public class FabricatorScreen extends LTXIMachineScreen<FabricatorMenu> implemen
         blitOutputSlot(graphics, 39, 83);
         blitDarkPanel(graphics, 75, 31, 92, 74);
         blitLightPanel(graphics, 167, 31, 10, 74);
-
-        // Render recipe selector grid
-        int min = currentScrollRow * SELECTOR_GRID_WIDTH;
-        int max = Math.min(min + SELECTOR_GRID_SIZE, recipes.size());
-
-        for (int i = min; i < max; i++)
-        {
-            int gridIndex = i - min;
-            int rx = selectorLeft() + (gridIndex % SELECTOR_GRID_WIDTH) * 18;
-            int ry = selectorTop() + (gridIndex / SELECTOR_GRID_WIDTH) * 18;
-
-            FabricatingRecipe gridRecipe = recipes.get(i).value();
-
-            ResourceLocation sprite;
-            if (menu.menuContext().isCrafting() && menu.menuContext().getRecipeCheck().getLastUsedRecipe(Minecraft.getInstance().level).map(r -> gridRecipe == r.value()).orElse(false))
-            {
-                sprite = SELECTOR_ACTIVE_SPRITE;
-            }
-            else if (gridIndex == selectedRecipeIndex)
-            {
-                sprite = LayoutSlot.ITEM_SLOT_SPRITE;
-            }
-            else if (isMouseWithinArea(mouseX, mouseY, rx, ry, 18, 18))
-            {
-                sprite = SELECTOR_FOCUSED_SPRITE;
-            }
-            else
-            {
-                sprite = SELECTOR_SPRITE;
-            }
-            graphics.blitSprite(sprite, rx, ry, 18, 18);
-
-            ItemStack resultStack = gridRecipe.getFabricatingResultItem();
-            graphics.renderFakeItem(resultStack, rx + 1, ry + 1);
-            graphics.renderItemDecorations(font, resultStack, rx + 1, ry + 1);
-        }
     }
 
     @Override
     protected void renderTooltip(GuiGraphics graphics, int x, int y)
     {
-        if (menu.getCarried().isEmpty() && isMouseOverSelector(x, y))
+        if (menu.getCarried().isEmpty() && selectorGrid != null)
         {
-            int min = currentScrollRow * SELECTOR_GRID_WIDTH;
-            int max = Math.min(min + SELECTOR_GRID_SIZE, recipes.size());
-
-            for (int i = min; i < max; i++)
-            {
-                int gridIndex = i - min;
-                int rx = selectorLeft() + (gridIndex % SELECTOR_GRID_WIDTH) * 18;
-                int ry = selectorTop() + (gridIndex / SELECTOR_GRID_WIDTH) * 18;
-
-                if (isMouseWithinArea(x, y, rx, ry, 18, 18))
-                {
-                    RecipeHolder<FabricatingRecipe> holder = recipes.get(i);
-                    List<Component> lines = getTooltipFromItem(Minecraft.getInstance(), holder.value().getFabricatingResultItem());
-
-                    if (gridIndex == selectedRecipeIndex) lines.add(FABRICATOR_SELECTED_RECIPE_TOOLTIP.translate().withStyle(LTXIConstants.LIME_GREEN.chatStyle()));
-
-                    lines.add(INLINE_ENERGY_REQUIRED_TOOLTIP.translateArgs(LimaEnergyUtil.toEnergyString(holder.value().getEnergyRequired())).withStyle(LTXIConstants.REM_BLUE.chatStyle()));
-                    graphics.renderTooltip(font, lines, Optional.of(holder.value().createIngredientTooltip()), x, y);
-
-                    return;
-                }
-            }
+            selectorGrid.renderTooltips(graphics, x, y);
         }
         else
         {
@@ -193,9 +92,9 @@ public class FabricatorScreen extends LTXIMachineScreen<FabricatorMenu> implemen
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY)
     {
-        if (isMouseOverSelector(mouseX, mouseY) && scrollbar != null)
+        if (selectorGrid != null && scrollbar != null && selectorGrid.isMouseOver(mouseX, mouseY))
         {
-            int delta = scrollWheelDelta * (int) -Math.signum(scrollY);
+            int delta = selectorGrid.getScrollDelta() * (int) -Math.signum(scrollY);
             scrollbar.moveScrollbar(delta);
             return true;
         }
@@ -206,45 +105,98 @@ public class FabricatorScreen extends LTXIMachineScreen<FabricatorMenu> implemen
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int mouseButton)
     {
-        if (isMouseOverSelector(mouseX, mouseY) && menu.getCarried().isEmpty() && (mouseButton == GLFW.GLFW_MOUSE_BUTTON_LEFT || mouseButton == GLFW.GLFW_MOUSE_BUTTON_RIGHT))
+        if (menu.getCarried().isEmpty() && (mouseButton == GLFW.GLFW_MOUSE_BUTTON_LEFT || mouseButton == GLFW.GLFW_MOUSE_BUTTON_RIGHT) && selectorGrid != null)
         {
-            int min = currentScrollRow * SELECTOR_GRID_WIDTH;
-            int max = Math.min(min + SELECTOR_GRID_SIZE, recipes.size());
-
-            for (int i = min; i < max; i++)
-            {
-                int gridIndex = i - min;
-                int rx = selectorLeft() + (gridIndex % SELECTOR_GRID_WIDTH) * 18;
-                int ry = selectorTop() + (gridIndex / SELECTOR_GRID_WIDTH) * 18;
-
-                if (isMouseWithinArea(mouseX, mouseY, rx, ry, 18, 18))
-                {
-                    // Left click handling
-                    if (mouseButton == GLFW.GLFW_MOUSE_BUTTON_LEFT)
-                    {
-                        Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
-                        if (selectedRecipeIndex != gridIndex)
-                        {
-                            selectedRecipeIndex = gridIndex;
-                        }
-                        else
-                        {
-                            sendCustomButtonData(FabricatorMenu.CRAFT_BUTTON_ID, recipes.get(i).id(), LimaCoreNetworkSerializers.RESOURCE_LOCATION);
-                        }
-                    }
-                    else if (selectedRecipeIndex == gridIndex) // Right click handling
-                    {
-                        Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
-                        sendCustomButtonData(FabricatorMenu.ENCODE_BLUEPRINT_BUTTON_ID, recipes.get(i).id(), LimaCoreNetworkSerializers.RESOURCE_LOCATION);
-                    }
-
-                    return true;
-                }
-            }
-
-            return true;
+            if (selectorGrid.clickGrid(mouseX, mouseY, mouseButton)) return true;
         }
 
         return super.mouseClicked(mouseX, mouseY, mouseButton);
+    }
+
+    private static class SelectorGrid extends ScrollGridRenderable<RecipeHolder<FabricatingRecipe>>
+    {
+        private final FabricatorScreen parent;
+        private final BaseFabricatorBlockEntity blockEntity;
+        private int selectedRecipe = -1;
+
+        SelectorGrid(FabricatorScreen parent, List<RecipeHolder<FabricatingRecipe>> elements, int x, int y)
+        {
+            super(elements, x, y, 18, 18, 5, 4, 72);
+            this.parent = parent;
+            this.blockEntity = parent.menu.menuContext();
+        }
+
+        @Override
+        protected void scrollRowChanged(int newScrollRow)
+        {
+            super.scrollRowChanged(newScrollRow);
+            this.selectedRecipe = -1;
+        }
+
+        @Override
+        protected void renderElement(GuiGraphics graphics, RecipeHolder<FabricatingRecipe> element, int posX, int posY, int gridIndex, int mouseX, int mouseY, float partialTick)
+        {
+            FabricatingRecipe recipe = element.value();
+
+            ResourceLocation sprite;
+            if (blockEntity.isCrafting() && blockEntity.getRecipeCheck().getLastUsedRecipe(Minecraft.getInstance().level).map(r -> r.value() == recipe).orElse(false))
+            {
+                sprite = GRID_UNIT_SELECTED;
+            }
+            else if (gridIndex == selectedRecipe)
+            {
+                sprite = LayoutSlot.ITEM_SLOT_SPRITE;
+            }
+            else if (isMouseWithinArea(mouseX, mouseY, posX, posY, 18, 18))
+            {
+                sprite = GRID_UNIT_FOCUSED;
+            }
+            else
+            {
+                sprite = GRID_UNIT;
+            }
+            graphics.blitSprite(sprite, posX, posY, 18, 18);
+
+            ItemStack resultStack = recipe.getFabricatingResultItem();
+            graphics.renderFakeItem(resultStack, posX + 1, posY + 1);
+            graphics.renderItemDecorations(Minecraft.getInstance().font, resultStack, posX + 1, posY + 1);
+        }
+
+        @Override
+        protected void renderElementTooltip(GuiGraphics graphics, RecipeHolder<FabricatingRecipe> element, int mouseX, int mouseY, int gridIndex, int elementIndex)
+        {
+            FabricatingRecipe recipe = element.value();
+
+            List<Component> lines = getTooltipFromItem(Minecraft.getInstance(), recipe.getFabricatingResultItem());
+
+            if (gridIndex == selectedRecipe) lines.add(FABRICATOR_SELECTED_RECIPE_TOOLTIP.translate().withStyle(LTXIConstants.LIME_GREEN.chatStyle()));
+
+            lines.add(INLINE_ENERGY_REQUIRED_TOOLTIP.translateArgs(LimaEnergyUtil.toEnergyString(recipe.getEnergyRequired())).withStyle(LTXIConstants.REM_BLUE.chatStyle()));
+            graphics.renderTooltip(Minecraft.getInstance().font, lines, Optional.of(recipe.createIngredientTooltip()), mouseX, mouseY);
+        }
+
+        @Override
+        protected void onElementClicked(RecipeHolder<FabricatingRecipe> element, double mouseX, double mouseY, int button, int gridIndex, int elementIndex)
+        {
+            // Left click handling
+            if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT)
+            {
+                Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
+
+                if (selectedRecipe != gridIndex)
+                {
+                    selectedRecipe = gridIndex;
+                }
+                else
+                {
+                    parent.sendCustomButtonData(FabricatorMenu.CRAFT_BUTTON_ID, element.id(), LimaCoreNetworkSerializers.RESOURCE_LOCATION);
+                }
+            }
+            else if (selectedRecipe == gridIndex)
+            {
+                Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
+                parent.sendCustomButtonData(FabricatorMenu.ENCODE_BLUEPRINT_BUTTON_ID, element.id(), LimaCoreNetworkSerializers.RESOURCE_LOCATION);
+            }
+        }
     }
 }

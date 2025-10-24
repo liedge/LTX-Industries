@@ -4,6 +4,7 @@ import liedge.limacore.client.gui.LimaMenuScreen;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.menu.LTXIMachineMenu;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.resources.ResourceLocation;
 
@@ -27,8 +28,8 @@ public class MachineUpgradesButton extends LimaSidebarButton.RightSided
     }
 
     @Override
-    protected ResourceLocation iconSprite()
+    protected void renderContents(GuiGraphics graphics, int guiX, int guiY)
     {
-        return ICON_SPRITE;
+        renderSprite(graphics, ICON_SPRITE, guiX, guiY);
     }
 }
