@@ -5,7 +5,9 @@ import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.blockentity.BaseFabricatorBlockEntity;
 import liedge.ltxindustries.client.LTXIClientRecipes;
-import liedge.ltxindustries.client.gui.widget.*;
+import liedge.ltxindustries.client.gui.widget.BaseScrollGridRenderable;
+import liedge.ltxindustries.client.gui.widget.FabricatorProgressWidget;
+import liedge.ltxindustries.client.gui.widget.ScrollbarWidget;
 import liedge.ltxindustries.menu.FabricatorMenu;
 import liedge.ltxindustries.menu.layout.LayoutSlot;
 import liedge.ltxindustries.recipe.FabricatingRecipe;
@@ -25,7 +27,6 @@ import org.lwjgl.glfw.GLFW;
 import java.util.List;
 import java.util.Optional;
 
-import static liedge.limacore.client.gui.LimaGuiUtil.isMouseWithinArea;
 import static liedge.ltxindustries.LTXIndustries.RESOURCES;
 import static liedge.ltxindustries.client.LTXILangKeys.FABRICATOR_SELECTED_RECIPE_TOOLTIP;
 import static liedge.ltxindustries.client.LTXILangKeys.INLINE_ENERGY_REQUIRED_TOOLTIP;
@@ -57,7 +58,7 @@ public class FabricatorScreen extends LTXIMachineScreen<FabricatorMenu>
         super.addWidgets();
 
         addRenderableOnly(new FabricatorProgressWidget(leftPos + 61, topPos + 83, menu.menuContext()));
-        this.selectorGrid = addRenderableOnly(new SelectorGrid(this, recipes, leftPos + 76, topPos + 32));
+        this.selectorGrid = addRenderableOnly(new SelectorGrid(leftPos + 76, topPos + 32, this));
         this.scrollbar = addRenderableWidget(new ScrollbarWidget(leftPos + 168, topPos + 32, 72, selectorGrid));
         scrollbar.reset(); // Always reset scrollbar after reinitializing
     }
@@ -81,12 +82,10 @@ public class FabricatorScreen extends LTXIMachineScreen<FabricatorMenu>
     {
         if (menu.getCarried().isEmpty() && selectorGrid != null)
         {
-            selectorGrid.renderTooltips(graphics, x, y);
+            if (selectorGrid.renderTooltips(graphics, x, y)) return;
         }
-        else
-        {
-            super.renderTooltip(graphics, x, y);
-        }
+
+        super.renderTooltip(graphics, x, y);
     }
 
     @Override
@@ -94,9 +93,7 @@ public class FabricatorScreen extends LTXIMachineScreen<FabricatorMenu>
     {
         if (selectorGrid != null && scrollbar != null && selectorGrid.isMouseOver(mouseX, mouseY))
         {
-            int delta = selectorGrid.getScrollDelta() * (int) -Math.signum(scrollY);
-            scrollbar.moveScrollbar(delta);
-            return true;
+            if (scrollbar.moveScrollBar(scrollY)) return true;
         }
 
         return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
@@ -107,34 +104,35 @@ public class FabricatorScreen extends LTXIMachineScreen<FabricatorMenu>
     {
         if (menu.getCarried().isEmpty() && (mouseButton == GLFW.GLFW_MOUSE_BUTTON_LEFT || mouseButton == GLFW.GLFW_MOUSE_BUTTON_RIGHT) && selectorGrid != null)
         {
-            if (selectorGrid.clickGrid(mouseX, mouseY, mouseButton)) return true;
+            if (selectorGrid.onGridClicked(mouseX, mouseY, mouseButton)) return true;
         }
 
         return super.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
-    private static class SelectorGrid extends ScrollGridRenderable<RecipeHolder<FabricatingRecipe>>
+    private static class SelectorGrid extends BaseScrollGridRenderable.FixedElements<RecipeHolder<FabricatingRecipe>>
     {
         private final FabricatorScreen parent;
         private final BaseFabricatorBlockEntity blockEntity;
+
         private int selectedRecipe = -1;
 
-        SelectorGrid(FabricatorScreen parent, List<RecipeHolder<FabricatingRecipe>> elements, int x, int y)
+        SelectorGrid(int x, int y, FabricatorScreen parent)
         {
-            super(elements, x, y, 18, 18, 5, 4, 72);
+            super(x, y, 18, 18, 5, 4, parent.recipes);
             this.parent = parent;
             this.blockEntity = parent.menu.menuContext();
         }
 
         @Override
-        protected void scrollRowChanged(int newScrollRow)
+        protected void onScrollRowChanged(int newScrollRow)
         {
-            super.scrollRowChanged(newScrollRow);
+            super.onScrollRowChanged(newScrollRow);
             this.selectedRecipe = -1;
         }
 
         @Override
-        protected void renderElement(GuiGraphics graphics, RecipeHolder<FabricatingRecipe> element, int posX, int posY, int gridIndex, int mouseX, int mouseY, float partialTick)
+        public void renderElement(GuiGraphics graphics, RecipeHolder<FabricatingRecipe> element, int posX, int posY, int gridIndex, int elementIndex, int mouseX, int mouseY)
         {
             FabricatingRecipe recipe = element.value();
 
@@ -147,7 +145,7 @@ public class FabricatorScreen extends LTXIMachineScreen<FabricatorMenu>
             {
                 sprite = LayoutSlot.ITEM_SLOT_SPRITE;
             }
-            else if (isMouseWithinArea(mouseX, mouseY, posX, posY, 18, 18))
+            else if (isMouseOverElement(mouseX, mouseY, posX, posY))
             {
                 sprite = GRID_UNIT_FOCUSED;
             }
@@ -163,7 +161,7 @@ public class FabricatorScreen extends LTXIMachineScreen<FabricatorMenu>
         }
 
         @Override
-        protected void renderElementTooltip(GuiGraphics graphics, RecipeHolder<FabricatingRecipe> element, int mouseX, int mouseY, int gridIndex, int elementIndex)
+        public void renderElementTooltip(GuiGraphics graphics, RecipeHolder<FabricatingRecipe> element, int mouseX, int mouseY, int gridIndex, int elementIndex)
         {
             FabricatingRecipe recipe = element.value();
 
@@ -176,7 +174,7 @@ public class FabricatorScreen extends LTXIMachineScreen<FabricatorMenu>
         }
 
         @Override
-        protected void onElementClicked(RecipeHolder<FabricatingRecipe> element, double mouseX, double mouseY, int button, int gridIndex, int elementIndex)
+        public void onElementClicked(RecipeHolder<FabricatingRecipe> element, double mouseX, double mouseY, int button, int gridIndex, int elementIndex)
         {
             // Left click handling
             if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT)

@@ -51,12 +51,25 @@ public class ScrollbarWidget extends BaseLimaRenderable implements NarratableEnt
         setFocused(false);
     }
 
+    @Deprecated(forRemoval = true)
     public void moveScrollbar(int delta)
     {
         if (!scrolling && element.canScroll())
         {
             setScrollPosition(scrollPosition + delta, false);
         }
+    }
+
+    public boolean moveScrollBar(double scrollWheelY)
+    {
+        if (!scrolling && element.canScroll())
+        {
+            int delta = element.getScrollDelta() * (int) -Math.signum(scrollWheelY);
+            setScrollPosition(scrollPosition + delta, false);
+            return true;
+        }
+
+        return false;
     }
 
     @Override
