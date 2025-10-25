@@ -9,8 +9,8 @@ import liedge.limacore.util.LimaRegistryUtil;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.client.LTXIClientRecipes;
 import liedge.ltxindustries.client.gui.screen.RecipeLayoutScreen;
+import liedge.ltxindustries.menu.layout.RecipeLayout;
 import liedge.ltxindustries.menu.layout.RecipeLayouts;
-import liedge.ltxindustries.menu.layout.RecipeMenuLayout;
 import liedge.ltxindustries.recipe.*;
 import liedge.ltxindustries.registry.game.LTXIBlocks;
 import liedge.ltxindustries.registry.game.LTXIDataComponents;
@@ -153,7 +153,7 @@ public class LTXIJeiPlugin implements IModPlugin
                 if (gameType instanceof LimaRecipeType<?> limaType) typeId = limaType.id();
                 else typeId = LimaRegistryUtil.getNonNullRegistryId(gameType, BuiltInRegistries.RECIPE_TYPE);
 
-                RecipeMenuLayout layout = containerScreen.getMenu().getLayout();
+                RecipeLayout layout = containerScreen.getMenu().getLayout();
                 RecipeType<?> jeiType = JEI_RECIPE_TYPES.get(typeId);
                 return jeiType != null ? List.of(IGuiClickableArea.createBasic(layout.progressBarX(), layout.progressBarY(), 24, 6, jeiType)) : List.of();
             }

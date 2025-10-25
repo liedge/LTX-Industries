@@ -6,7 +6,7 @@ import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.client.gui.screen.RecipeLayoutScreen;
 import liedge.ltxindustries.menu.layout.LayoutSlot;
-import liedge.ltxindustries.menu.layout.RecipeMenuLayout;
+import liedge.ltxindustries.menu.layout.RecipeLayout;
 import liedge.ltxindustries.recipe.LTXIRecipe;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
@@ -25,20 +25,15 @@ import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 final class RecipeLayoutJeiCategory<R extends LTXIRecipe> extends LTXIJeiCategory<R>
 {
     private static final int PADDING = 3;
 
-    static <R extends LTXIRecipe> RecipeLayoutJeiCategory<R> create(IGuiHelper helper, Supplier<LimaRecipeType<R>> typeSupplier, RecipeType<RecipeHolder<R>> jeiRecipeType, RecipeMenuLayout layout)
+    static <R extends LTXIRecipe> RecipeLayoutJeiCategory<R> create(IGuiHelper helper, Supplier<LimaRecipeType<R>> typeSupplier, RecipeType<RecipeHolder<R>> jeiRecipeType, RecipeLayout layout)
     {
-        IntSummaryStatistics xss = Stream.of(layout.itemInputSlots(), layout.itemOutputSlots(), layout.fluidInputSlots(), layout.fluidOutputSlots())
-                .flatMap(List::stream)
-                .collect(Collectors.summarizingInt(LayoutSlot::x));
-        IntSummaryStatistics yss = Stream.of(layout.itemInputSlots(), layout.itemOutputSlots(), layout.fluidInputSlots(), layout.fluidOutputSlots())
-                .flatMap(List::stream)
-                .collect(Collectors.summarizingInt(LayoutSlot::y));
+        IntSummaryStatistics xss = layout.streamSlots().collect(Collectors.summarizingInt(LayoutSlot::x));
+        IntSummaryStatistics yss = layout.streamSlots().collect(Collectors.summarizingInt(LayoutSlot::y));
 
         int width = (xss.getMax() - xss.getMin()) + 18 + PADDING * 2;
         int height = (yss.getMax() - yss.getMin()) + 29 + PADDING * 2;
@@ -49,11 +44,11 @@ final class RecipeLayoutJeiCategory<R extends LTXIRecipe> extends LTXIJeiCategor
     }
 
     private final RecipeType<RecipeHolder<R>> jeiRecipeType;
-    private final RecipeMenuLayout layout;
+    private final RecipeLayout layout;
     private final int xOffset;
     private final int yOffset;
 
-    private RecipeLayoutJeiCategory(IGuiHelper helper, LimaRecipeType<R> recipeType, RecipeType<RecipeHolder<R>> jeiRecipeType, RecipeMenuLayout layout, int width, int height, int xOffset, int yOffset)
+    private RecipeLayoutJeiCategory(IGuiHelper helper, LimaRecipeType<R> recipeType, RecipeType<RecipeHolder<R>> jeiRecipeType, RecipeLayout layout, int width, int height, int xOffset, int yOffset)
     {
         super(helper, recipeType, width, height);
         this.jeiRecipeType = jeiRecipeType;
@@ -65,28 +60,33 @@ final class RecipeLayoutJeiCategory<R extends LTXIRecipe> extends LTXIJeiCategor
     @Override
     protected void setRecipe(IRecipeLayoutBuilder builder, RecipeHolder<R> holder, R recipe, IFocusGroup focuses, RegistryAccess registries)
     {
-        for (int i = 0; i < recipe.getItemIngredients().size(); i++)
+        for (LayoutSlot.Type slotType : LayoutSlot.Type.values())
         {
-            LayoutSlot slot = layout.itemInputSlots().get(i);
-            sizedIngredientsSlot(builder, recipe, i, slot.x() - xOffset, slot.y() - yOffset);
-        }
+            List<LayoutSlot> layoutSlots = layout.getSlotsForType(slotType);
+            int slotMax = switch(slotType)
+            {
+                case ITEM_INPUT -> recipe.getItemIngredients().size();
+                case FLUID_INPUT -> recipe.getFluidIngredients().size();
+                case ITEM_OUTPUT -> recipe.getItemResults().size();
+                case FLUID_OUTPUT -> recipe.getFluidResults().size();
+                case RECIPE_MODE -> 1;
+            };
+            slotMax = Math.min(layoutSlots.size(), slotMax);
 
-        for (int i = 0; i < recipe.getItemResults().size(); i++)
-        {
-            LayoutSlot slot = layout.itemOutputSlots().get(i);
-            itemResultSlot(builder, recipe, i, slot.x() - xOffset, slot.y() - yOffset);
-        }
+            for (int i = 0; i < slotMax; i++)
+            {
+                LayoutSlot s = layoutSlots.get(i);
+                int sx = s.x() - xOffset;
+                int sy = s.y() - yOffset;
 
-        for (int i = 0; i < recipe.getFluidIngredients().size(); i++)
-        {
-            LayoutSlot slot = layout.fluidInputSlots().get(i);
-            fluidIngredientSlot(builder, recipe, i, slot.x() - xOffset, slot.y() - yOffset);
-        }
-
-        for (int i = 0; i < recipe.getFluidResults().size(); i++)
-        {
-            LayoutSlot slot = layout.fluidOutputSlots().get(i);
-            fluidResultSlot(builder, recipe, i, slot.x() - xOffset, slot.y() - yOffset);
+                switch (s.type())
+                {
+                    case ITEM_INPUT -> sizedIngredientsSlot(builder, recipe, i, sx, sy);
+                    case ITEM_OUTPUT -> itemResultSlot(builder, recipe, i, sx, sy);
+                    case FLUID_INPUT -> fluidIngredientSlot(builder, recipe, i, sx, sy);
+                    case FLUID_OUTPUT -> fluidResultSlot(builder, recipe, i, sx, sy);
+                }
+            }
         }
     }
 

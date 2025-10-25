@@ -5,46 +5,44 @@ import liedge.limacore.capability.fluid.LimaBlockEntityFluidHandler;
 import liedge.limacore.menu.LimaMenuType;
 import liedge.ltxindustries.blockentity.template.BaseRecipeMachineBlockEntity;
 import liedge.ltxindustries.menu.layout.LayoutSlot;
-import liedge.ltxindustries.menu.layout.RecipeMenuLayout;
+import liedge.ltxindustries.menu.layout.RecipeLayout;
 import net.minecraft.world.entity.player.Inventory;
+
+import java.util.List;
 
 public final class RecipeLayoutMenu<CTX extends BaseRecipeMachineBlockEntity<?, ?>> extends LTXIMachineMenu.EnergyMachineMenu<CTX>
 {
-    private final RecipeMenuLayout layout;
+    private final RecipeLayout layout;
 
-    public RecipeLayoutMenu(LimaMenuType<CTX, ?> type, int containerId, Inventory inventory, CTX menuContext, RecipeMenuLayout layout)
+    public RecipeLayoutMenu(LimaMenuType<CTX, ?> type, int containerId, Inventory inventory, CTX menuContext, RecipeLayout layout)
     {
         super(type, containerId, inventory, menuContext);
         this.layout = layout;
 
-        for (int i = 0; i < layout.itemInputSlots().size(); i++)
+        for (LayoutSlot.Type slotType : LayoutSlot.Type.values())
         {
-            LayoutSlot slot = layout.itemInputSlots().get(i);
-            addSlot(BlockContentsType.INPUT, i, slot.x(), slot.y());
-        }
+            BlockContentsType contentsType = slotType.getContentsType();
+            if (contentsType == null) continue;
 
-        for (int i = 0; i < layout.itemOutputSlots().size(); i++)
-        {
-            LayoutSlot slot = layout.itemOutputSlots().get(i);
-            addRecipeOutputSlot(i, slot.x(), slot.y(), menuContext.getRecipeCheck().getRecipeType());
-        }
+            List<LayoutSlot> layoutSlots = layout.getSlotsForType(slotType);
+            for (int i = 0; i < layoutSlots.size(); i++)
+            {
+                LayoutSlot s = layoutSlots.get(i);
 
-        for (int i = 0; i < layout.fluidInputSlots().size(); i++)
-        {
-            LayoutSlot slot = layout.fluidInputSlots().get(i);
-            addFluidSlot(menuContext.getFluidHandlerOrThrow(BlockContentsType.INPUT), i, slot.x(), slot.y());
-        }
-
-        for (int i = 0; i < layout.fluidOutputSlots().size(); i++)
-        {
-            LayoutSlot slot = layout.fluidOutputSlots().get(i);
-            addFluidSlot(menuContext.getFluidHandlerOrThrow(BlockContentsType.OUTPUT), i, slot.x(), slot.y(), false);
+                switch (slotType)
+                {
+                    case ITEM_INPUT -> addSlot(contentsType, i, s.x(), s.y());
+                    case ITEM_OUTPUT -> addRecipeOutputSlot(i, s.x(), s.y(), menuContext.getRecipeCheck().getRecipeType());
+                    case FLUID_INPUT -> addFluidSlot(menuContext.getFluidHandlerOrThrow(contentsType), i, s.x(), s.y(), true);
+                    case FLUID_OUTPUT -> addFluidSlot(menuContext.getFluidHandlerOrThrow(contentsType), i, s.x(), s.y(), false);
+                }
+            }
         }
 
         addDefaultPlayerInventoryAndHotbar();
     }
 
-    public RecipeMenuLayout getLayout()
+    public RecipeLayout getLayout()
     {
         return layout;
     }

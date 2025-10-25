@@ -3,8 +3,8 @@ package liedge.ltxindustries.client.gui.screen;
 import liedge.limacore.menu.LimaMenu;
 import liedge.ltxindustries.client.gui.widget.MachineProgressWidget;
 import liedge.ltxindustries.menu.RecipeLayoutMenu;
-import liedge.ltxindustries.menu.layout.RecipeMenuLayout;
 import liedge.ltxindustries.menu.layout.LayoutSlot;
+import liedge.ltxindustries.menu.layout.RecipeLayout;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
@@ -13,7 +13,7 @@ import java.util.List;
 
 public final class RecipeLayoutScreen extends LTXIMachineScreen<RecipeLayoutMenu<?>>
 {
-    private final RecipeMenuLayout layout;
+    private final RecipeLayout layout;
 
     public RecipeLayoutScreen(RecipeLayoutMenu<?> menu, Inventory inventory, Component title)
     {
@@ -39,19 +39,19 @@ public final class RecipeLayoutScreen extends LTXIMachineScreen<RecipeLayoutMenu
         renderLayout(guiGraphics, leftPos, topPos, layout);
     }
 
-    public static void renderLayout(GuiGraphics graphics, int screenX, int screenY, RecipeMenuLayout layout)
+    public static void renderLayout(GuiGraphics graphics, int screenX, int screenY, RecipeLayout layout)
     {
-        renderLayoutSlots(graphics, screenX, screenY, layout.itemInputSlots());
-        renderLayoutSlots(graphics, screenX, screenY, layout.itemOutputSlots());
-        renderLayoutSlots(graphics, screenX, screenY, layout.fluidInputSlots());
-        renderLayoutSlots(graphics, screenX, screenY, layout.fluidOutputSlots());
-    }
-
-    private static void renderLayoutSlots(GuiGraphics graphics, int screenX, int screenY, List<LayoutSlot> slots)
-    {
-        for (LayoutSlot slot : slots)
+        for (LayoutSlot.Type slotType : LayoutSlot.Type.values())
         {
-            graphics.blitSprite(slot.sprite(), screenX + slot.x() - 1, screenY + slot.y() - 1, 18, 18);
+            if (slotType.getContentsType() == null) continue;
+            List<LayoutSlot> layoutSlots = layout.getSlotsForType(slotType);
+
+            for (LayoutSlot slot : layoutSlots)
+            {
+                int sx = screenX + slot.x() - 1;
+                int sy = screenY + slot.y() - 1;
+                graphics.blitSprite(slot.type().getSprite(), sx, sy, 18, 18);
+            }
         }
     }
 }
