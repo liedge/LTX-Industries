@@ -1,7 +1,7 @@
 package liedge.ltxindustries.lib.upgrades;
 
+import it.unimi.dsi.fastutil.objects.Object2IntLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import liedge.ltxindustries.LTXIndustries;
 import net.minecraft.core.Holder;
 
@@ -9,23 +9,18 @@ import java.util.function.Function;
 
 public final class MutableUpgradesContainer<U extends UpgradeBase<?, U>, T extends UpgradesContainerBase<?, U>>
 {
-    private final Object2IntMap<Holder<U>> map;
+    private final Object2IntMap<Holder<U>> map = new Object2IntLinkedOpenHashMap<>();
     private final Function<Object2IntMap<Holder<U>>, T> containerFactory;
-
-    private MutableUpgradesContainer(Object2IntMap<Holder<U>> map, Function<Object2IntMap<Holder<U>>, T> containerFactory)
-    {
-        this.map = map;
-        this.containerFactory = containerFactory;
-    }
 
     public MutableUpgradesContainer(Function<Object2IntMap<Holder<U>>, T> containerFactory)
     {
-        this(new Object2IntOpenHashMap<>(), containerFactory);
+        this.containerFactory = containerFactory;
     }
 
     public MutableUpgradesContainer(T container, Function<Object2IntMap<Holder<U>>, T> containerFactory)
     {
-        this(new Object2IntOpenHashMap<>(container.internalMap), containerFactory);
+        this(containerFactory);
+        map.putAll(container.getMapForCloning());
     }
 
     public MutableUpgradesContainer<U, T> set(Holder<U> upgrade, int upgradeRank)

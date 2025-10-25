@@ -32,6 +32,7 @@ import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.item.enchantment.TargetedConditionalEffect;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.neoforged.neoforge.registries.holdersets.AnyHolderSet;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.*;
 import java.util.function.Function;
@@ -44,15 +45,15 @@ public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
 {
     protected static <CTX, U extends UpgradeBase<CTX, U>, T extends UpgradesContainerBase<CTX, U>> Codec<T> createCodec(Codec<Holder<U>> upgradeCodec, Function<Object2IntMap<Holder<U>>, T> factory)
     {
-        return LimaCoreCodecs.object2IntMap(upgradeCodec, UpgradeBase.UPGRADE_RANK_CODEC).xmap(factory, o -> o.internalMap);
+        return LimaCoreCodecs.object2IntLinkedHashMap(upgradeCodec, UpgradeBase.UPGRADE_RANK_CODEC).xmap(factory, UpgradesContainerBase::getMapForCloning);
     }
 
     protected static <CTX, U extends UpgradeBase<CTX, U>, T extends UpgradesContainerBase<CTX, U>> StreamCodec<RegistryFriendlyByteBuf, T> createStreamCodec(StreamCodec<RegistryFriendlyByteBuf, Holder<U>> upgradeStreamCodec, Function<Object2IntMap<Holder<U>>, T> factory)
     {
-        return LimaStreamCodecs.object2IntMap(upgradeStreamCodec, UpgradeBase.UPGRADE_RANK_STREAM_CODEC).map(factory, o -> o.internalMap);
+        return LimaStreamCodecs.object2IntLinkedMap(upgradeStreamCodec, UpgradeBase.UPGRADE_RANK_STREAM_CODEC).map(factory, UpgradesContainerBase::getMapForCloning);
     }
 
-    final Object2IntMap<Holder<U>> internalMap;
+    private final Object2IntMap<Holder<U>> internalMap;
     private final int mapHash;
 
     protected UpgradesContainerBase(Object2IntMap<Holder<U>> internalMap)
@@ -330,9 +331,15 @@ public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
         return Collections.unmodifiableSet(internalMap.object2IntEntrySet());
     }
 
-    Stream<Object2IntMap.Entry<Holder<U>>> entryStream()
+    private Stream<Object2IntMap.Entry<Holder<U>>> entryStream()
     {
         return internalMap.object2IntEntrySet().stream();
+    }
+
+    @ApiStatus.Internal
+    Object2IntMap<Holder<U>> getMapForCloning()
+    {
+        return internalMap;
     }
 
     @Override
