@@ -44,7 +44,8 @@ final class LTXIDatagen
                 .add(Registries.ENCHANTMENT, LTXIEnchantments::bootstrap)
                 .add(LTXIRegistries.Keys.EQUIPMENT_UPGRADES, LTXIEquipmentUpgrades::bootstrap)
                 .add(LTXIRegistries.Keys.MACHINE_UPGRADES, LTXIMachineUpgrades::bootstrap)
-                .add(Registries.PLACED_FEATURE, LTXIPlacedFeatures::bootstrap));
+                .add(Registries.PLACED_FEATURE, LTXIPlacedFeatures::bootstrap)
+                .add(LTXIRegistries.Keys.RECIPE_MODES, LTXIRecipeModes::bootstrap));
         CompletableFuture<HolderLookup.Provider> patchedRegistries = dataRegistriesProvider.getRegistryProvider();
 
         // Server data

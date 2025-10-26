@@ -1,5 +1,6 @@
 package liedge.ltxindustries.integration.jei;
 
+import liedge.limacore.client.gui.LimaGuiUtil;
 import liedge.limacore.recipe.LimaRecipeType;
 import liedge.limacore.util.LimaTextUtil;
 import liedge.ltxindustries.LTXIConstants;
@@ -8,18 +9,27 @@ import liedge.ltxindustries.client.gui.screen.RecipeLayoutScreen;
 import liedge.ltxindustries.menu.layout.LayoutSlot;
 import liedge.ltxindustries.menu.layout.RecipeLayout;
 import liedge.ltxindustries.recipe.LTXIRecipe;
+import liedge.ltxindustries.recipe.RecipeMode;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.gui.builder.ITooltipBuilder;
+import mezz.jei.api.gui.drawable.IDrawable;
+import mezz.jei.api.gui.drawable.IDrawableStatic;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.gui.placement.HorizontalAlignment;
 import mezz.jei.api.gui.placement.VerticalAlignment;
 import mezz.jei.api.gui.widgets.IRecipeExtrasBuilder;
+import mezz.jei.api.gui.widgets.IRecipeWidget;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeType;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.navigation.ScreenPosition;
+import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.IntSummaryStatistics;
 import java.util.List;
@@ -48,6 +58,11 @@ final class RecipeLayoutJeiCategory<R extends LTXIRecipe> extends LTXIJeiCategor
     private final int xOffset;
     private final int yOffset;
 
+    // Mode stuff
+    private final IDrawableStatic modeBackground;
+    private final IDrawableStatic modeOverlay;
+    private final @Nullable ScreenPosition modePos;
+
     private RecipeLayoutJeiCategory(IGuiHelper helper, LimaRecipeType<R> recipeType, RecipeType<RecipeHolder<R>> jeiRecipeType, RecipeLayout layout, int width, int height, int xOffset, int yOffset)
     {
         super(helper, recipeType, width, height);
@@ -55,6 +70,10 @@ final class RecipeLayoutJeiCategory<R extends LTXIRecipe> extends LTXIJeiCategor
         this.layout = layout;
         this.xOffset = xOffset;
         this.yOffset = yOffset;
+
+        this.modeBackground = guiSpriteDrawable(LayoutSlot.Type.RECIPE_MODE.getSprite(), 18, 18).build();
+        this.modeOverlay = guiSpriteDrawable(RecipeLayoutScreen.MODE_OVERLAY_SPRITE, 16, 16).build();
+        this.modePos = layout.streamSlots().filter(o -> o.type() == LayoutSlot.Type.RECIPE_MODE).findFirst().map(o -> new ScreenPosition(o.x() - xOffset, o.y() - yOffset)).orElse(null);
     }
 
     @Override
@@ -102,6 +121,8 @@ final class RecipeLayoutJeiCategory<R extends LTXIRecipe> extends LTXIJeiCategor
                 .setTextAlignment(HorizontalAlignment.LEFT)
                 .setTextAlignment(VerticalAlignment.BOTTOM)
                 .setColor(LTXIConstants.LIME_GREEN.argb32());
+
+        if (modePos != null) builder.addWidget(new RecipeModeWidget(modePos, modeBackground, modeOverlay, recipeHolder.value().getMode()));
     }
 
     @Override
@@ -120,5 +141,36 @@ final class RecipeLayoutJeiCategory<R extends LTXIRecipe> extends LTXIJeiCategor
     public RecipeType<RecipeHolder<R>> getRecipeType()
     {
         return jeiRecipeType;
+    }
+
+    private record RecipeModeWidget(ScreenPosition position, IDrawable background, IDrawable overlay, @Nullable Holder<RecipeMode> mode) implements IRecipeWidget
+    {
+        @Override
+        public ScreenPosition getPosition()
+        {
+            return position;
+        }
+
+        @Override
+        public void drawWidget(GuiGraphics graphics, double mouseX, double mouseY)
+        {
+            background.draw(graphics, -1, -1);
+            if (mode != null)
+                graphics.renderFakeItem(mode.value().displayItem(), 0, 0);
+            else
+                overlay.draw(graphics, 0, 0);
+        }
+
+        @Override
+        public void getTooltip(ITooltipBuilder tooltip, double mouseX, double mouseY)
+        {
+            if (LimaGuiUtil.isMouseWithinArea(mouseX, mouseY, 0, 0, 16, 16))
+            {
+                if (mode != null)
+                    tooltip.add(LTXILangKeys.JEI_RECIPE_MODE_NEEDED.translateArgs(mode.value().displayName()));
+                else
+                    tooltip.add(LTXILangKeys.JEI_NO_RECIPE_MODE_NEEDED.translate().withStyle(ChatFormatting.GRAY));
+            }
+        }
     }
 }

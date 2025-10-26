@@ -85,13 +85,13 @@ public class LTXIJeiPlugin implements IModPlugin
     public void registerCategories(IRecipeCategoryRegistration registration)
     {
         IGuiHelper helper = registration.getJeiHelpers().getGuiHelper();
-        registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, GRINDING, GRINDING_JEI, RecipeLayouts.GRINDER));
-        registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, MATERIAL_FUSING, MATERIAL_FUSING_JEI, RecipeLayouts.MATERIAL_FUSING_CHAMBER));
-        registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, ELECTRO_CENTRIFUGING, ELECTRO_CENTRIFUGING_JEI, RecipeLayouts.ELECTROCENTRIFUGE));
-        registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, MIXING, MIXING_JEI, RecipeLayouts.MIXER));
-        registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, ENERGIZING, ENERGIZING_JEI, RecipeLayouts.COOKING_LAYOUT));
-        registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, CHEMICAL_REACTING, CHEMICAL_REACTING_JEI, RecipeLayouts.CHEM_LAB));
-        registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, GARDEN_SIMULATING, GARDEN_SIMULATING_JEI, RecipeLayouts.DIGITAL_GARDEN));
+        registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, GRINDING, GRINDING_JEI, RecipeLayouts.GRINDING));
+        registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, MATERIAL_FUSING, MATERIAL_FUSING_JEI, RecipeLayouts.FUSING));
+        registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, ELECTRO_CENTRIFUGING, ELECTRO_CENTRIFUGING_JEI, RecipeLayouts.ELECTRO_CENTRIFUGING));
+        registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, MIXING, MIXING_JEI, RecipeLayouts.MIXING));
+        registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, ENERGIZING, ENERGIZING_JEI, RecipeLayouts.ENERGIZING));
+        registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, CHEMICAL_REACTING, CHEMICAL_REACTING_JEI, RecipeLayouts.CHEMICAL_REACTING));
+        registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, GARDEN_SIMULATING, GARDEN_SIMULATING_JEI, RecipeLayouts.GARDEN_SIMULATING));
         registration.addRecipeCategories(new FabricatingJeiCategory(helper, FABRICATING));
     }
 

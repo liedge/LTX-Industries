@@ -18,12 +18,17 @@ public final class LTXILangKeys
     public static final Translatable STRAY_PROJECTILE_DEATH_MESSAGE = RESOURCES.translationHolder("death.attack.{}.stray_projectile");
 
     // GUI Tooltips
+    public static final Translatable NONE_UNIVERSAL_TOOLTIP = tooltip("none");
     public static final Translatable BACK_BUTTON_LABEL = tooltip("back_button");
     public static final Translatable AUTO_OUTPUT_OFF_TOOLTIP = tooltip("auto_output_off");
     public static final Translatable AUTO_OUTPUT_ON_TOOLTIP = tooltip("auto_output_on");
     public static final Translatable AUTO_INPUT_OFF_TOOLTIP = tooltip("auto_input_off");
     public static final Translatable AUTO_INPUT_ON_TOOLTIP = tooltip("auto_input_on");
     public static final Translatable MACHINE_UPGRADES_SIDEBAR_TOOLTIP = tooltip("machine_upgrades");
+    public static final Translatable RECIPE_MODES_TITLE_OR_TOOLTIP = tooltip("recipe_mode");
+    public static final Translatable RECIPE_MODE_CURRENT_MODE = tooltip("recipe_mode.current");
+    public static final Translatable JEI_RECIPE_MODE_NEEDED = tooltip("jei.mode.needed");
+    public static final Translatable JEI_NO_RECIPE_MODE_NEEDED = tooltip("jei.mode.not_needed");
 
     public static final Translatable INLINE_ENERGY = tooltip("energy");
     public static final Translatable INLINE_ENERGY_TRANSFER_RATE = tooltip("energy_transfer_rate");

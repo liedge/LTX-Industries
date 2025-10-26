@@ -1,6 +1,7 @@
 package liedge.ltxindustries.data.generation;
 
 import liedge.limacore.data.generation.LimaLanguageProvider;
+import liedge.limacore.lib.ModResources;
 import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.block.NeonLightColor;
@@ -15,6 +16,7 @@ import liedge.ltxindustries.lib.upgrades.UpgradeBase;
 import liedge.ltxindustries.lib.upgrades.UpgradeBaseBuilder;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
 import liedge.ltxindustries.lib.weapons.WeaponReloadSource;
+import liedge.ltxindustries.recipe.RecipeMode;
 import liedge.ltxindustries.registry.bootstrap.LTXIDamageTypes;
 import liedge.ltxindustries.registry.bootstrap.LTXIEnchantments;
 import liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades;
@@ -257,10 +259,10 @@ class LanguageGen extends LimaLanguageProvider
         creativeTab(MACHINE_MODULES_TAB, "LTXI Machine Upgrades");
 
         // Menu titles
+        menuTitle(LTXIMenus.BLOCK_IO_CONFIGURATION, "%s IO Config");
         menuTitle(LTXIMenus.MACHINE_UPGRADES, "Machine Upgrades");
         menuTitle(LTXIMenus.ROCKET_TURRET, "Atmos Turret");
         menuTitle(LTXIMenus.RAILGUN_TURRET, "Noctis Turret");
-        menuTitle(LTXIMenus.BLOCK_IO_CONFIGURATION, "%s IO Config");
 
         // Machine input types
         add(BlockEntityInputType.ITEMS, "Items");
@@ -277,6 +279,8 @@ class LanguageGen extends LimaLanguageProvider
         add(CHEMICAL_REACTING, "Chemical Reacting");
         add(GARDEN_SIMULATING, "Garden Simulating");
         add(FABRICATING, "Fabricating");
+
+        // Recipe sub-modes
 
         // Entity type names
         addEntityType(LTXIEntities.GLOWSTICK_PROJECTILE, "Wayfinder Glowstick");
@@ -302,12 +306,17 @@ class LanguageGen extends LimaLanguageProvider
         add(INLINE_OWNER_TOOLTIP, "Owner: %s");
         add(ENERGY_OVERCHARGE_TOOLTIP, "Energy Overcharged! Your energy stored is more than your current capacity.");
 
+        add(NONE_UNIVERSAL_TOOLTIP, "None");
         add(BACK_BUTTON_LABEL, "Back");
         add(AUTO_OUTPUT_OFF_TOOLTIP, "Auto Output Disabled");
         add(AUTO_OUTPUT_ON_TOOLTIP, "Auto Output Enabled");
         add(AUTO_INPUT_OFF_TOOLTIP, "Auto Input Disabled");
         add(AUTO_INPUT_ON_TOOLTIP, "Auto Input Enabled");
         add(MACHINE_UPGRADES_SIDEBAR_TOOLTIP, "Manage Upgrade Modules");
+        add(RECIPE_MODES_TITLE_OR_TOOLTIP, "Recipe Modes");
+        add(RECIPE_MODE_CURRENT_MODE, "Current mode: %s");
+        add(JEI_RECIPE_MODE_NEEDED, "Needs mode: %s");
+        add(JEI_NO_RECIPE_MODE_NEEDED, "No recipe mode needed.");
 
         add(BLUEPRINT_TOAST_MESSAGE, "New Fabrication Data");
         add(MACHINE_TICKS_PER_OP_TOOLTIP, "Ticks per operation: %s");
@@ -476,6 +485,11 @@ class LanguageGen extends LimaLanguageProvider
     private void upgradeTooltip(ResourceKey<? extends UpgradeBase<?, ?>> key, int index, String value)
     {
         add(UpgradeBaseBuilder.tooltipKey(key, index), value);
+    }
+
+    private void recipeMode(ResourceKey<RecipeMode> key, String value)
+    {
+        add(ModResources.registryPrefixedIdLangKey(key), value);
     }
 
     private void namedDamageTag(TagKey<DamageType> tagKey, String value)
