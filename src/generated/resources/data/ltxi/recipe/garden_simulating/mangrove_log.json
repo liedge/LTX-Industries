@@ -1,0 +1,26 @@
+{
+  "type": "ltxi:garden_simulating",
+  "fluid_ingredients": [
+    {
+      "amount": 1000,
+      "fluid": "minecraft:water"
+    }
+  ],
+  "ingredients": [
+    {
+      "type": "limacore:consume_chance",
+      "child": {
+        "item": "minecraft:mangrove_propagule"
+      },
+      "consume_chance": 0.0,
+      "count": 1
+    }
+  ],
+  "item_results": [
+    {
+      "count": 4,
+      "id": "minecraft:mangrove_log"
+    }
+  ],
+  "mode": "ltxi:lumber"
+}

@@ -1,0 +1,11 @@
+{
+  "display_item": {
+    "count": 1,
+    "id": "ltxi:electric_chemical"
+  },
+  "display_name": {
+    "color": "#DEFF70",
+    "translate": "recipe_mode.ltxi.electrolyze"
+  },
+  "recipe_type": "ltxi:electro_centrifuging"
+}

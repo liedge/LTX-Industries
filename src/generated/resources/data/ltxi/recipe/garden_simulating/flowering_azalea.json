@@ -1,0 +1,26 @@
+{
+  "type": "ltxi:garden_simulating",
+  "craft_time": 300,
+  "fluid_ingredients": [
+    {
+      "amount": 500,
+      "fluid": "minecraft:water"
+    }
+  ],
+  "ingredients": [
+    {
+      "type": "limacore:consume_chance",
+      "child": {
+        "item": "minecraft:flowering_azalea"
+      },
+      "consume_chance": 0.0,
+      "count": 1
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "minecraft:flowering_azalea"
+    }
+  ]
+}

@@ -17,10 +17,7 @@ import liedge.ltxindustries.lib.upgrades.UpgradeBaseBuilder;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
 import liedge.ltxindustries.lib.weapons.WeaponReloadSource;
 import liedge.ltxindustries.recipe.RecipeMode;
-import liedge.ltxindustries.registry.bootstrap.LTXIDamageTypes;
-import liedge.ltxindustries.registry.bootstrap.LTXIEnchantments;
-import liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades;
-import liedge.ltxindustries.registry.bootstrap.LTXIMachineUpgrades;
+import liedge.ltxindustries.registry.bootstrap.*;
 import liedge.ltxindustries.registry.game.LTXIEntities;
 import liedge.ltxindustries.registry.game.LTXIFluids;
 import liedge.ltxindustries.registry.game.LTXIMenus;
@@ -281,6 +278,10 @@ class LanguageGen extends LimaLanguageProvider
         add(FABRICATING, "Fabricating");
 
         // Recipe sub-modes
+        recipeMode(LTXIRecipeModes.ECF_ELECTROLYZE, "Electrolyze");
+        recipeMode(LTXIRecipeModes.GS_WOODS, "Woods");
+        recipeMode(LTXIRecipeModes.GS_ORCHARD, "Orchard");
+        recipeMode(LTXIRecipeModes.GS_FOLIAGE, "Foliage");
 
         // Entity type names
         addEntityType(LTXIEntities.GLOWSTICK_PROJECTILE, "Wayfinder Glowstick");

@@ -16,5 +16,6 @@
       "amount": 500,
       "id": "ltxi:oxygen"
     }
-  ]
+  ],
+  "mode": "ltxi:electrolyze"
 }

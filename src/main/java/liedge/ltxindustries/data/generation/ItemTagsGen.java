@@ -78,6 +78,7 @@ class ItemTagsGen extends LimaTagsProvider.ItemTags
         buildTag(DUSTS).add(CARBON_DUST).addTag(DEEPSLATE_DUSTS);
 
         buildTag(NEON_LIGHT_MATERIALS).add(GLOWSTONE, GLOW_INK_SAC, GLOW_BERRIES);
+        buildTag(APPLE_SAPLINGS).add(OAK_SAPLING, DARK_OAK_SAPLING);
 
         buildTag(LIGHTWEIGHT_WEAPONS).add(GLOWSTICK_LAUNCHER, SUBMACHINE_GUN);
         buildTag(SPECIALIST_WEAPONS).add(SHOTGUN, LINEAR_FUSION_RIFLE);

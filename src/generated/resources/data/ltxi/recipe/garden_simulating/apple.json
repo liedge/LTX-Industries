@@ -1,0 +1,26 @@
+{
+  "type": "ltxi:garden_simulating",
+  "fluid_ingredients": [
+    {
+      "amount": 1000,
+      "fluid": "minecraft:water"
+    }
+  ],
+  "ingredients": [
+    {
+      "type": "limacore:consume_chance",
+      "child": {
+        "tag": "ltxi:apple_saplings"
+      },
+      "consume_chance": 0.0,
+      "count": 1
+    }
+  ],
+  "item_results": [
+    {
+      "count": 3,
+      "id": "minecraft:apple"
+    }
+  ],
+  "mode": "ltxi:orchard"
+}

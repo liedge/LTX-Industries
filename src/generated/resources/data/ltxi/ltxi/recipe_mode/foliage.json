@@ -1,0 +1,10 @@
+{
+  "display_item": {
+    "count": 1,
+    "id": "minecraft:oak_leaves"
+  },
+  "display_name": {
+    "translate": "recipe_mode.ltxi.foliage"
+  },
+  "recipe_type": "ltxi:garden_simulating"
+}

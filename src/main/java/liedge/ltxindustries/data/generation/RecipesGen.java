@@ -19,6 +19,7 @@ import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgradeEntry;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrade;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgradeEntry;
 import liedge.ltxindustries.recipe.*;
+import liedge.ltxindustries.registry.bootstrap.LTXIRecipeModes;
 import liedge.ltxindustries.registry.game.LTXIDataComponents;
 import liedge.ltxindustries.registry.game.LTXIFluids;
 import liedge.ltxindustries.registry.game.LTXIItems;
@@ -61,6 +62,7 @@ import java.util.function.UnaryOperator;
 
 import static liedge.ltxindustries.LTXITags.Fluids.HYDROGEN_FLUIDS;
 import static liedge.ltxindustries.LTXITags.Fluids.OXYGEN_FLUIDS;
+import static liedge.ltxindustries.LTXITags.Items.APPLE_SAPLINGS;
 import static liedge.ltxindustries.LTXITags.Items.NEON_LIGHT_MATERIALS;
 import static liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades.*;
 import static liedge.ltxindustries.registry.bootstrap.LTXIMachineUpgrades.*;
@@ -168,7 +170,7 @@ class RecipesGen extends LimaRecipeProvider
 
         grindingRecipes(output);
         mfcRecipes(output);
-        electroCentrifugingRecipes(output);
+        electroCentrifugingRecipes(output, registries);
         mixingRecipes(output);
         energizingRecipes(output);
         chemLabRecipes(output);
@@ -785,8 +787,12 @@ class RecipesGen extends LimaRecipeProvider
         fusing().randomInput(SCULK_CATALYST, 1, 0f).randomInput(SCULK_CHEMICAL, 1, 0.5f).input(DIRT).output(SCULK).save(output);
     }
 
-    private void electroCentrifugingRecipes(RecipeOutput output)
+    private void electroCentrifugingRecipes(RecipeOutput output, HolderLookup.Provider registries)
     {
+        // Modes
+        Holder<RecipeMode> electrolyze = registries.holderOrThrow(LTXIRecipeModes.ECF_ELECTROLYZE);
+
+        // Recipes
         electroCentrifuging().input(DYES_LIME).output(LTX_LIME_PIGMENT).time(120).save(output);
         electroCentrifuging().input(ACIDIC_BIOMASS).output(VIRIDIC_GREEN_PIGMENT, 4).time(120).save(output);
 
@@ -800,6 +806,7 @@ class RecipesGen extends LimaRecipeProvider
                 .save(output, "split_mud");
 
         electroCentrifuging()
+                .needsMode(electrolyze)
                 .fluidInput(Fluids.WATER, 1000)
                 .fluidOutput(LTXIFluids.HYDROGEN, 1000)
                 .fluidOutput(LTXIFluids.OXYGEN, 500)
@@ -890,12 +897,45 @@ class RecipesGen extends LimaRecipeProvider
         garden().reproduce(PEONY).water(250).time(300).save(output);
         garden().reproduce(ROSE_BUSH).water(250).time(300).save(output);
         garden().growSeed(PITCHER_POD, PITCHER_PLANT, 1).water(500).save(output);
+        garden().reproduce(AZALEA).water(500).time(300).save(output);
+        garden().reproduce(FLOWERING_AZALEA).water(500).time(300).save(output);
 
         // Shrooms
         garden().reproduce(RED_MUSHROOM).water(250).save(output);
         garden().reproduce(BROWN_MUSHROOM).water(250).save(output);
         garden().reproduce(CRIMSON_FUNGUS).water(250).save(output);
         garden().reproduce(WARPED_FUNGUS).water(250).save(output);
+
+        // Woods
+        Holder<RecipeMode> woods = registries.holderOrThrow(LTXIRecipeModes.GS_WOODS);
+        garden().needsMode(woods).growSeed(OAK_SAPLING, OAK_LOG, 4).water(1000).save(output);
+        garden().needsMode(woods).growSeed(BIRCH_SAPLING, BIRCH_LOG, 4).water(1000).save(output);
+        garden().needsMode(woods).growSeed(SPRUCE_SAPLING, SPRUCE_LOG, 4).water(1000).save(output);
+        garden().needsMode(woods).growSeed(JUNGLE_SAPLING, JUNGLE_LOG, 4).water(1000).save(output);
+        garden().needsMode(woods).growSeed(DARK_OAK_SAPLING, DARK_OAK_LOG, 4).water(1000).save(output);
+        garden().needsMode(woods).growSeed(ACACIA_SAPLING, ACACIA_LOG, 4).water(1000).save(output);
+        garden().needsMode(woods).growSeed(CHERRY_SAPLING, CHERRY_LOG, 4).water(1000).save(output);
+        garden().needsMode(woods).growSeed(MANGROVE_PROPAGULE, MANGROVE_LOG, 4).water(1000).save(output);
+        garden().needsMode(woods).growSeed(CRIMSON_FUNGUS, CRIMSON_STEM, 4).water(1000).save(output);
+        garden().needsMode(woods).growSeed(WARPED_FUNGUS, WARPED_STEM, 4).water(1000).save(output);
+
+        // Orchard
+        garden().needsMode(registries.holderOrThrow(LTXIRecipeModes.GS_ORCHARD)).growSeed(APPLE_SAPLINGS, APPLE, 3).water(1000).save(output);
+
+        // Foliage
+        Holder<RecipeMode> foliage = registries.holderOrThrow(LTXIRecipeModes.GS_FOLIAGE);
+        garden().needsMode(foliage).growSeed(OAK_SAPLING, OAK_LEAVES, 8).water(1500).time(300).save(output);
+        garden().needsMode(foliage).growSeed(BIRCH_SAPLING, BIRCH_LEAVES, 8).water(1500).time(300).save(output);
+        garden().needsMode(foliage).growSeed(SPRUCE_SAPLING, SPRUCE_LEAVES, 8).water(1500).time(300).save(output);
+        garden().needsMode(foliage).growSeed(JUNGLE_SAPLING, JUNGLE_LEAVES, 8).water(1500).time(300).save(output);
+        garden().needsMode(foliage).growSeed(DARK_OAK_SAPLING, DARK_OAK_LEAVES, 8).water(1500).time(300).save(output);
+        garden().needsMode(foliage).growSeed(ACACIA_SAPLING, ACACIA_LEAVES, 8).water(1500).time(300).save(output);
+        garden().needsMode(foliage).growSeed(CHERRY_SAPLING, CHERRY_LEAVES, 8).water(1500).time(300).save(output);
+        garden().needsMode(foliage).growSeed(AZALEA, AZALEA_LEAVES, 8).water(1500).time(300).save(output);
+        garden().needsMode(foliage).growSeed(FLOWERING_AZALEA, FLOWERING_AZALEA_LEAVES, 8).water(1500).time(300).save(output);
+        garden().needsMode(foliage).growSeed(MANGROVE_PROPAGULE, MANGROVE_LEAVES, 8).water(1500).time(300).save(output);
+        garden().needsMode(foliage).growSeed(CRIMSON_FUNGUS, NETHER_WART_BLOCK, 2).water(1500).time(300).save(output);
+        garden().needsMode(foliage).growSeed(WARPED_FUNGUS, WARPED_WART_BLOCK, 2).water(1500).time(300).save(output);
 
         // LTXI
         garden().reproduce(LTXIItems.SPARK_FRUIT).water(500).save(output);
@@ -1124,6 +1164,18 @@ class RecipesGen extends LimaRecipeProvider
             super(modResources, LTXIRecipeSerializers.GARDEN_SIMULATING);
         }
 
+        @Override
+        GardenBuilder needsMode(Holder<RecipeMode> mode)
+        {
+            return (GardenBuilder) super.needsMode(mode);
+        }
+
+        @Override
+        GardenBuilder needsMode(HolderGetter<RecipeMode> holders, ResourceKey<RecipeMode> key)
+        {
+            return (GardenBuilder) super.needsMode(holders, key);
+        }
+
         GardenBuilder water(int amount)
         {
             fluidInput(Fluids.WATER, amount);
@@ -1144,6 +1196,12 @@ class RecipesGen extends LimaRecipeProvider
         GardenBuilder growSeed(ItemLike seeds, ItemLike produce, int outputCount)
         {
             randomInput(seeds, 1, 0).output(produce, outputCount);
+            return this;
+        }
+
+        GardenBuilder growSeed(TagKey<Item> seedTag, ItemLike produce, int outputCount)
+        {
+            randomInput(seedTag, 1, 0).output(produce, outputCount);
             return this;
         }
     }

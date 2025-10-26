@@ -1,0 +1,26 @@
+{
+  "type": "ltxi:garden_simulating",
+  "fluid_ingredients": [
+    {
+      "amount": 1000,
+      "fluid": "minecraft:water"
+    }
+  ],
+  "ingredients": [
+    {
+      "type": "limacore:consume_chance",
+      "child": {
+        "item": "minecraft:spruce_sapling"
+      },
+      "consume_chance": 0.0,
+      "count": 1
+    }
+  ],
+  "item_results": [
+    {
+      "count": 4,
+      "id": "minecraft:spruce_log"
+    }
+  ],
+  "mode": "ltxi:lumber"
+}
