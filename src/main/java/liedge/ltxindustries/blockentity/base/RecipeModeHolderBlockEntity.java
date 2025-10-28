@@ -19,7 +19,7 @@ public interface RecipeModeHolderBlockEntity extends ItemHolderBlockEntity, SubM
 
     void setMode(@Nullable Holder<RecipeMode> mode);
 
-    RecipeType<?> getRecipeTypeForMode();
+    Holder<RecipeType<?>> getRecipeTypeHolder();
 
     default LimaDataWatcher<Optional<Holder<RecipeMode>>> keepRecipeModeSynced()
     {

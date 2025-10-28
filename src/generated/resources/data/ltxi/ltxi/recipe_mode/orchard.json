@@ -1,10 +1,9 @@
 {
   "display_item": {
-    "count": 1,
     "id": "minecraft:apple"
   },
   "display_name": {
     "translate": "recipe_mode.ltxi.orchard"
   },
-  "recipe_type": "ltxi:garden_simulating"
+  "recipe_types": "ltxi:garden_simulating"
 }

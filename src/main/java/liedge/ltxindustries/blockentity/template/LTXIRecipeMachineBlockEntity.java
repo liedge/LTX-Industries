@@ -14,6 +14,7 @@ import liedge.ltxindustries.recipe.RecipeMode;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.resources.RegistryOps;
@@ -58,9 +59,9 @@ public abstract class LTXIRecipeMachineBlockEntity<R extends LTXIRecipe> extends
     }
 
     @Override
-    public RecipeType<?> getRecipeTypeForMode()
+    public Holder<RecipeType<?>> getRecipeTypeHolder()
     {
-        return getRecipeCheck().getRecipeType();
+        return BuiltInRegistries.RECIPE_TYPE.wrapAsHolder(getRecipeCheck().getRecipeType());
     }
 
     @Override

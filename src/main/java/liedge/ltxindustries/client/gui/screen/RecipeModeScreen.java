@@ -44,11 +44,10 @@ public class RecipeModeScreen extends LTXIScreen<RecipeModeMenu>
         this.options = new ObjectArrayList<>();
         options.add(new SelectorOption(Items.BARRIER.getDefaultInstance(), null));
 
-        final RecipeType<?> machineRecipeType = menu.menuContext().getRecipeTypeForMode();
-
+        final Holder<RecipeType<?>> holder = menu.menuContext().getRecipeTypeHolder();
         inventory.player.level().registryAccess().registry(LTXIRegistries.Keys.RECIPE_MODES).stream()
                 .flatMap(Registry::holders)
-                .filter(o -> o.value().recipeType().equals(machineRecipeType))
+                .filter(o -> o.value().recipeTypes().contains(holder))
                 .limit(23)
                 .map(o -> new SelectorOption(o.value().displayItem(), o))
                 .forEach(options::add);

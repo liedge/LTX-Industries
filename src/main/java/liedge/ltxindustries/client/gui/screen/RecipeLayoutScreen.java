@@ -39,10 +39,10 @@ public final class RecipeLayoutScreen extends LTXIMachineScreen<RecipeLayoutMenu
 
         if (menu.menuContext() instanceof RecipeModeHolderBlockEntity blockEntity)
         {
-            RecipeType<?> recipeType = blockEntity.getRecipeTypeForMode();
+            Holder<RecipeType<?>> holder = blockEntity.getRecipeTypeHolder();
             boolean check = inventory.player.level().registryAccess().registry(LTXIRegistries.Keys.RECIPE_MODES).stream()
                     .flatMap(Registry::holders)
-                    .anyMatch(holder -> holder.value().recipeType().equals(recipeType));
+                    .anyMatch(o -> o.value().recipeTypes().contains(holder));
             this.modeHolder = check ? blockEntity : null;
         }
         else

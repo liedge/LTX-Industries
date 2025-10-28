@@ -8,7 +8,9 @@ import liedge.limacore.lib.LimaColor;
 import liedge.ltxindustries.registry.LTXIRegistries;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.RegistryCodecs;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
@@ -21,14 +23,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.ItemLike;
 
-import java.util.Objects;
-
-public record RecipeMode(RecipeType<?> recipeType, Component displayName, ItemStack displayItem)
+public record RecipeMode(HolderSet<RecipeType<?>> recipeTypes, Component displayName, ItemStack displayItem)
 {
     public static final Codec<RecipeMode> DIRECT_CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            BuiltInRegistries.RECIPE_TYPE.byNameCodec().fieldOf("recipe_type").forGetter(RecipeMode::recipeType),
+            RegistryCodecs.homogeneousList(Registries.RECIPE_TYPE).fieldOf("recipe_types").forGetter(RecipeMode::recipeTypes),
             ComponentSerialization.CODEC.fieldOf("display_name").forGetter(RecipeMode::displayName),
-            ItemStack.CODEC.fieldOf("display_item").forGetter(RecipeMode::displayItem))
+            ItemStack.SINGLE_ITEM_CODEC.fieldOf("display_item").forGetter(RecipeMode::displayItem))
             .apply(instance, RecipeMode::new));
     public static final Codec<Holder<RecipeMode>> CODEC = RegistryFixedCodec.create(LTXIRegistries.Keys.RECIPE_MODES);
     public static final StreamCodec<RegistryFriendlyByteBuf, Holder<RecipeMode>> STREAM_CODEC = ByteBufCodecs.holderRegistry(LTXIRegistries.Keys.RECIPE_MODES);
@@ -41,7 +41,7 @@ public record RecipeMode(RecipeType<?> recipeType, Component displayName, ItemSt
     public static final class Builder implements BootstrapObjectBuilder<RecipeMode>
     {
         private final ResourceKey<RecipeMode> key;
-        private RecipeType<?> recipeType;
+        private HolderSet<RecipeType<?>> recipeTypes;
         private Component displayName;
         private ItemStack displayItem;
 
@@ -64,15 +64,21 @@ public record RecipeMode(RecipeType<?> recipeType, Component displayName, ItemSt
             return this;
         }
 
-        public Builder forType(RecipeType<?> recipeType)
+        public Builder forTypes(HolderSet<RecipeType<?>> holderSet)
         {
-            this.recipeType = recipeType;
+            this.recipeTypes = holderSet;
             return this;
         }
 
-        public Builder forType(Holder<RecipeType<?>> typeHolder)
+        @SafeVarargs
+        public final Builder forTypes(Holder<RecipeType<?>>... holders)
         {
-            return forType(typeHolder.value());
+            return forTypes(HolderSet.direct(holders));
+        }
+
+        public Builder forType(Holder<RecipeType<?>> holder)
+        {
+            return forTypes(HolderSet.direct(holder));
         }
 
         public Builder icon(ItemStack displayItem)
@@ -95,10 +101,10 @@ public record RecipeMode(RecipeType<?> recipeType, Component displayName, ItemSt
         @Override
         public RecipeMode build()
         {
-            Objects.requireNonNull(recipeType, "Missing recipe type.");
+            Preconditions.checkState(recipeTypes != null && recipeTypes.size() > 0, "Empty recipe types holder set.");
             Preconditions.checkState(!displayItem.isEmpty(), "Empty display item.");
 
-            return new RecipeMode(recipeType, displayName, displayItem);
+            return new RecipeMode(recipeTypes, displayName, displayItem);
         }
 
         private MutableComponent defaultName()
