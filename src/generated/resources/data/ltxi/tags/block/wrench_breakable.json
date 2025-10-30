@@ -1,6 +1,7 @@
 {
   "values": [
     "ltxi:digital_furnace",
+    "ltxi:digital_smoker",
     "ltxi:digital_blast_furnace",
     "ltxi:grinder",
     "ltxi:material_fusing_chamber",
@@ -16,6 +17,7 @@
     "ltxi:energy_cell_array",
     "ltxi:infinite_energy_cell_array",
     "ltxi:rocket_turret",
-    "ltxi:railgun_turret"
+    "ltxi:railgun_turret",
+    "ltxi:mesh_block"
   ]
 }

@@ -6,22 +6,6 @@
     "ltxi:raw_titanium_cluster",
     "ltxi:titanium_block",
     "ltxi:mesh_block",
-    "ltxi:digital_furnace",
-    "ltxi:digital_blast_furnace",
-    "ltxi:grinder",
-    "ltxi:material_fusing_chamber",
-    "ltxi:electrocentrifuge",
-    "ltxi:mixer",
-    "ltxi:voltaic_injector",
-    "ltxi:chem_lab",
-    "ltxi:fabricator",
-    "ltxi:auto_fabricator",
-    "ltxi:digital_garden",
-    "ltxi:equipment_upgrade_station",
-    "ltxi:molecular_reconstructor",
-    "ltxi:energy_cell_array",
-    "ltxi:infinite_energy_cell_array",
-    "ltxi:rocket_turret",
-    "ltxi:railgun_turret"
+    "#ltxi:wrench_breakable"
   ]
 }

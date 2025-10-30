@@ -36,7 +36,7 @@ public final class LTXITags
 
         // Mod Tags
         public static final TagKey<Block> ORE_CLUSTERS = RESOURCES.blockTag("ore_clusters");
-        public static final TagKey<Block> NEON_LIGHTS = RESOURCES.blockTag("neon_lights");
+        public static final TagKey<Block> NEON_LIGHT_BLOCKS = RESOURCES.blockTag("neon_lights");
         public static final TagKey<Block> DEEPSLATE_GRINDABLES = RESOURCES.blockTag("deepslate_grindables");
         public static final TagKey<Block> WRENCH_BREAKABLE = RESOURCES.blockTag("wrench_breakable");
         public static final TagKey<Block> LTX_HOE_BOOSTABLE = RESOURCES.blockTag("ltx_hoe_boostable");
@@ -55,7 +55,7 @@ public final class LTXITags
         public static final TagKey<Item> NIOBIUM_STORAGE_BLOCKS = copy(Blocks.NIOBIUM_STORAGE_BLOCKS);
         public static final TagKey<Item> SLATESTEEL_STORAGE_BLOCKS = copy(Blocks.SLATESTEEL_STORAGE_BLOCKS);
         public static final TagKey<Item> ORE_CLUSTERS = copy(Blocks.ORE_CLUSTERS);
-        public static final TagKey<Item> NEON_LIGHTS = copy(Blocks.NEON_LIGHTS);
+        public static final TagKey<Item> NEON_LIGHT_BLOCKS = copy(Blocks.NEON_LIGHT_BLOCKS);
         public static final TagKey<Item> DEEPSLATE_GRINDABLES = copy(Blocks.DEEPSLATE_GRINDABLES);
         public static final TagKey<Item> WRENCH_BREAKABLE = copy(Blocks.WRENCH_BREAKABLE);
 

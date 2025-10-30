@@ -1,9 +1,8 @@
 package liedge.ltxindustries.data.generation;
 
 import liedge.limacore.data.generation.LimaTagsProvider;
-import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.LTXIndustries;
-import liedge.ltxindustries.registry.game.LTXIBlocks;
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
@@ -30,10 +29,33 @@ class BlockTagsGen extends LimaTagsProvider.RegistryTags<Block>
     @Override
     protected void addTags(HolderLookup.Provider lookup)
     {
-        buildTag(MINEABLE_WITH_PICKAXE).add(TITANIUM_PANEL, SMOOTH_TITANIUM_PANEL, TITANIUM_GLASS);
+        buildTag(WRENCH_BREAKABLE).add(
+                DIGITAL_FURNACE,
+                DIGITAL_SMOKER,
+                DIGITAL_BLAST_FURNACE,
+                GRINDER,
+                MATERIAL_FUSING_CHAMBER,
+                ELECTROCENTRIFUGE,
+                MIXER,
+                VOLTAIC_INJECTOR,
+                CHEM_LAB,
+                FABRICATOR,
+                AUTO_FABRICATOR,
+                DIGITAL_GARDEN,
+                EQUIPMENT_UPGRADE_STATION,
+                MOLECULAR_RECONSTRUCTOR,
+                ENERGY_CELL_ARRAY,
+                INFINITE_ENERGY_CELL_ARRAY,
+                ROCKET_TURRET,
+                RAILGUN_TURRET,
+                MESH_BLOCK);
+        buildTag(NEON_LIGHT_BLOCKS).addHolders(List.copyOf(NEON_LIGHTS.values()));
 
-        buildTag(NEEDS_STONE_TOOL).add(TITANIUM_ORE, DEEPSLATE_TITANIUM_ORE, RAW_TITANIUM_BLOCK, RAW_TITANIUM_CLUSTER, TITANIUM_BLOCK, MESH_BLOCK).copyTo(MINEABLE_WITH_PICKAXE);
-        buildTag(NEEDS_DIAMOND_TOOL).add(NIOBIUM_ORE, RAW_NIOBIUM_BLOCK, RAW_NIOBIUM_CLUSTER, NIOBIUM_BLOCK, SLATESTEEL_BLOCK).copyTo(MINEABLE_WITH_PICKAXE);
+        List<Holder<Block>> stonePickaxeBreakable = List.of(TITANIUM_ORE, DEEPSLATE_TITANIUM_ORE, RAW_TITANIUM_BLOCK, RAW_TITANIUM_CLUSTER, TITANIUM_BLOCK, MESH_BLOCK);
+        List<Holder<Block>> diamondPickaxeBreakable = List.of(NIOBIUM_ORE, RAW_NIOBIUM_BLOCK, RAW_NIOBIUM_CLUSTER, NIOBIUM_BLOCK, SLATESTEEL_BLOCK);
+        buildTag(MINEABLE_WITH_PICKAXE).add(TITANIUM_PANEL, SMOOTH_TITANIUM_PANEL, TITANIUM_GLASS).addTags(WRENCH_BREAKABLE, NEON_LIGHT_BLOCKS).addHolders(stonePickaxeBreakable).addHolders(diamondPickaxeBreakable);
+        buildTag(NEEDS_STONE_TOOL).addHolders(stonePickaxeBreakable).addTags(WRENCH_BREAKABLE);
+        buildTag(NEEDS_DIAMOND_TOOL).addHolders(diamondPickaxeBreakable);
 
         buildTag(BEACON_BASE_BLOCKS).add(TITANIUM_BLOCK, NIOBIUM_BLOCK, SLATESTEEL_BLOCK);
 
@@ -54,33 +76,9 @@ class BlockTagsGen extends LimaTagsProvider.RegistryTags<Block>
         buildTag(SLATESTEEL_STORAGE_BLOCKS).add(SLATESTEEL_BLOCK);
         buildTag(SHEARS_HARVESTABLE).add(COBWEB, SHORT_GRASS, FERN, DEAD_BUSH, HANGING_ROOTS, VINE, TRIPWIRE).add(BILEVINE, BILEVINE_PLANT).addTags(WOOL, LEAVES);
 
-        buildTag(IMPERMEABLE).add(TITANIUM_PANEL, SMOOTH_TITANIUM_PANEL, TITANIUM_GLASS).addTag(LTXITags.Blocks.NEON_LIGHTS);
-
-        buildTag(LTXITags.Blocks.NEON_LIGHTS)
-                .addHolders(List.copyOf(LTXIBlocks.NEON_LIGHTS.values()))
-                .copyTo(MINEABLE_WITH_PICKAXE);
+        buildTag(IMPERMEABLE).add(TITANIUM_PANEL, SMOOTH_TITANIUM_PANEL, TITANIUM_GLASS).addTag(NEON_LIGHT_BLOCKS);
         buildTag(DEEPSLATE_GRINDABLES).add(Blocks.DEEPSLATE, Blocks.COBBLED_DEEPSLATE, Blocks.POLISHED_DEEPSLATE, Blocks.DEEPSLATE_BRICKS, Blocks.CRACKED_DEEPSLATE_BRICKS, Blocks.DEEPSLATE_TILES, Blocks.CRACKED_DEEPSLATE_TILES);
-        buildTag(WRENCH_BREAKABLE).add(
-                DIGITAL_FURNACE,
-                DIGITAL_BLAST_FURNACE,
-                GRINDER,
-                MATERIAL_FUSING_CHAMBER,
-                ELECTROCENTRIFUGE,
-                MIXER,
-                VOLTAIC_INJECTOR,
-                CHEM_LAB,
-                FABRICATOR,
-                AUTO_FABRICATOR,
-                DIGITAL_GARDEN,
-                EQUIPMENT_UPGRADE_STATION,
-                MOLECULAR_RECONSTRUCTOR,
-                ENERGY_CELL_ARRAY,
-                INFINITE_ENERGY_CELL_ARRAY,
-                ROCKET_TURRET,
-                RAILGUN_TURRET)
-                .copyTo(MINEABLE_WITH_PICKAXE, NEEDS_STONE_TOOL);
         buildTag(LTX_HOE_BOOSTABLE).addTag(CROPS);
-
         buildTag(STORAGE_BLOCKS).addTags(RAW_TITANIUM_STORAGE_BLOCKS, RAW_NIOBIUM_STORAGE_BLOCKS, TITANIUM_STORAGE_BLOCKS, NIOBIUM_STORAGE_BLOCKS, SLATESTEEL_STORAGE_BLOCKS);
     }
 }
