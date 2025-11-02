@@ -71,73 +71,73 @@ public final class LTXIMachinesConfig
         // Digital Furnace
         builder.push("digital_furnace");
         DIGITAL_FURNACE_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Digital Furnace")
-                .defineInRange("energy_capacity", 250_000, 1, Integer.MAX_VALUE);
+                .defineInRange("energy_capacity", 100_000, 1, Integer.MAX_VALUE);
         DIGITAL_FURNACE_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the Digital Furnace")
-                .defineInRange("energy_usage", 60, 1, Integer.MAX_VALUE);
+                .defineInRange("energy_usage", 25, 1, Integer.MAX_VALUE);
         builder.pop();
 
         // Digital Smoker
         builder.push("digital_smoker");
         DIGITAL_SMOKER_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Digital Smoker")
-                .defineInRange("energy_capacity", 250_000, 1, Integer.MAX_VALUE);
+                .defineInRange("energy_capacity", 100_000, 1, Integer.MAX_VALUE);
         DIGITAL_SMOKER_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the Digital Smoker")
-                .defineInRange("energy_usage", 20, 1, Integer.MAX_VALUE);
+                .defineInRange("energy_usage", 10, 1, Integer.MAX_VALUE);
         builder.pop();
 
         // Digital Blast Furnace
         builder.push("digital_blast_furnace");
         DIGITAL_BLAST_FURNACE_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Digital Blast Furnace")
-                .defineInRange("energy_capacity", 250_000, 1, Integer.MAX_VALUE);
+                .defineInRange("energy_capacity", 100_000, 1, Integer.MAX_VALUE);
         DIGITAL_BLAST_FURNACE_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the Digital Blast Furnace")
-                .defineInRange("energy_usage", 30, 1, Integer.MAX_VALUE);
+                .defineInRange("energy_usage", 15, 1, Integer.MAX_VALUE);
         builder.pop();
 
         // Grinder
         builder.push("grinder");
         GRINDER_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Grinder")
-                .defineInRange("energy_capacity", 250_000, 1, Integer.MAX_VALUE);
+                .defineInRange("energy_capacity", 100_000, 1, Integer.MAX_VALUE);
         GRINDER_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the Grinder")
-                .defineInRange("energy_usage", 80, 1, Integer.MAX_VALUE);
+                .defineInRange("energy_usage", 30, 1, Integer.MAX_VALUE);
         builder.pop();
 
         // Material Fusing Chamber
         builder.push("material_fusing_chamber");
         MFC_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Material Fusing Chamber")
-                .defineInRange("energy_capacity", 250_000, 1, Integer.MAX_VALUE);
+                .defineInRange("energy_capacity", 100_000, 1, Integer.MAX_VALUE);
         MFC_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the Material Fusing Chamber")
-                .defineInRange("energy_usage", 120, 1, Integer.MAX_VALUE);
+                .defineInRange("energy_usage", 30, 1, Integer.MAX_VALUE);
         builder.pop();
 
         // ElectroCentrifuge
         builder.push("electrocentrifuge");
         ELECTROCENTRIFUGE_ENERGY_CAPACITY = builder.comment("Base energy capacity of the ElectroCentrifuge")
-                .defineInRange("energy_capacity", 500_000, 1, Integer.MAX_VALUE);
+                .defineInRange("energy_capacity", 100_000, 1, Integer.MAX_VALUE);
         ELECTROCENTRIFUGE_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the ElectroCentrifuge")
-                .defineInRange("energy_usage", 120, 1, Integer.MAX_VALUE);
+                .defineInRange("energy_usage", 40, 1, Integer.MAX_VALUE);
         builder.pop();
 
         // Mixer
         builder.push("mixer");
         MIXER_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Mixer")
-                .defineInRange("energy_capacity", 500_000, 1, Integer.MAX_VALUE);
+                .defineInRange("energy_capacity", 100_000, 1, Integer.MAX_VALUE);
         MIXER_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the Mixer")
-                .defineInRange("energy_usage", 100, 1, Integer.MAX_VALUE);
+                .defineInRange("energy_usage", 30, 1, Integer.MAX_VALUE);
         builder.pop();
 
         // Voltaic Injector
         builder.push("voltaic_injector");
         VOLTAIC_INJECTOR_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Voltaic Injector")
-                .defineInRange("energy_capacity", 250_000, 1, Integer.MAX_VALUE);
+                .defineInRange("energy_capacity", 100_000, 1, Integer.MAX_VALUE);
         VOLTAIC_INJECTOR_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the Voltaic Injector")
-                .defineInRange("energy_usage", 80, 1, Integer.MAX_VALUE);
+                .defineInRange("energy_usage", 25, 1, Integer.MAX_VALUE);
         builder.pop();
 
         // Chem Lab
         builder.push("chem_lab");
         CHEM_LAB_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Chem Lab")
-                .defineInRange("energy_capacity", 500_000, 1, Integer.MAX_VALUE);
+                .defineInRange("energy_capacity", 250_000, 1, Integer.MAX_VALUE);
         CHEM_LAB_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the Chem Lab")
-                .defineInRange("energy_usage", 160, 1, Integer.MAX_VALUE);
+                .defineInRange("energy_usage", 80, 1, Integer.MAX_VALUE);
         builder.pop();
 
         // Digital Garden
@@ -145,7 +145,7 @@ public final class LTXIMachinesConfig
         DIGITAL_GARDEN_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Bio/ARU Garden")
                 .defineInRange("energy_capacity", 250_000, 1, Integer.MAX_VALUE);
         DIGITAL_GARDEN_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the Bio/ARU Garden")
-                .defineInRange("energy_usage", 200, 1, Integer.MAX_VALUE);
+                .defineInRange("energy_usage", 100, 1, Integer.MAX_VALUE);
         builder.pop();
 
         // Fabricator
@@ -161,7 +161,7 @@ public final class LTXIMachinesConfig
         REPAIRER_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Molecular Reconstructor.")
                 .defineInRange("energy_capacity", 500_000, 1, Integer.MAX_VALUE);
         REPAIRER_ENERGY_USAGE = builder.comment("Base energy usage per tick of the Molecular Reconstructor.")
-                .defineInRange("energy_usage", 160, 1, Integer.MAX_VALUE);
+                .defineInRange("energy_usage", 80, 1, Integer.MAX_VALUE);
         REPAIRER_OPERATION_TIME = builder.comment("Base operation time (in ticks) of the Molecular Reconstructor.")
                 .defineInRange("operation_time", 20, 1, Integer.MAX_VALUE);
         builder.pop();
