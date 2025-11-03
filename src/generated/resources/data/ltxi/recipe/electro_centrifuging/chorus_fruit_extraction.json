@@ -18,5 +18,6 @@
       "count": 1,
       "id": "ltxi:chorus_chemical"
     }
-  ]
+  ],
+  "mode": "ltxi:chemical_dissolve"
 }

@@ -4,7 +4,7 @@
   "ingredients": [
     {
       "count": 1,
-      "tag": "c:dyes/light_blue"
+      "tag": "c:dyes/blue"
     }
   ],
   "item_results": [
@@ -12,5 +12,6 @@
       "count": 1,
       "id": "ltxi:energy_blue_pigment"
     }
-  ]
+  ],
+  "mode": "ltxi:dye_extraction"
 }

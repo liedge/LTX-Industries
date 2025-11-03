@@ -64,8 +64,7 @@ import java.util.function.UnaryOperator;
 
 import static liedge.ltxindustries.LTXITags.Fluids.HYDROGEN_FLUIDS;
 import static liedge.ltxindustries.LTXITags.Fluids.OXYGEN_FLUIDS;
-import static liedge.ltxindustries.LTXITags.Items.APPLE_SAPLINGS;
-import static liedge.ltxindustries.LTXITags.Items.NEON_LIGHT_MATERIALS;
+import static liedge.ltxindustries.LTXITags.Items.*;
 import static liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades.*;
 import static liedge.ltxindustries.registry.bootstrap.LTXIMachineUpgrades.*;
 import static liedge.ltxindustries.registry.game.LTXIBlocks.*;
@@ -170,11 +169,11 @@ class RecipesGen extends LimaRecipeProvider
         orePebblesCooking(TITANIUM_ORE_PEBBLES, TITANIUM_INGOT, 1, output);
         orePebblesCooking(NIOBIUM_ORE_PEBBLES, NIOBIUM_INGOT, 1, output);
 
-        grindingRecipes(output);
+        grindingRecipes(output, registries);
         mfcRecipes(output);
         electroCentrifugingRecipes(output, registries);
         mixingRecipes(output);
-        energizingRecipes(output);
+        energizingRecipes(output, registries);
         chemLabRecipes(output);
         gardenSimRecipes(output, registries);
 
@@ -749,8 +748,9 @@ class RecipesGen extends LimaRecipeProvider
         machineModuleFab(output, registries, "mum/turret", TURRET_LOOTING, 3, 500_000, multi3);
     }
 
-    private void grindingRecipes(RecipeOutput output)
+    private void grindingRecipes(RecipeOutput output, HolderLookup.Provider registries)
     {
+        // Resource things
         grinding().input(STONE).output(COBBLESTONE).save(output);
         grinding().input(COBBLESTONES_NORMAL).output(GRAVEL).optionalRandomOutput(FLINT, 1, 0.25f).save(output);
         grinding().input(Tags.Items.GRAVELS).output(SAND).save(output);
@@ -760,6 +760,11 @@ class RecipesGen extends LimaRecipeProvider
         grinding().input(VITRIOL_BERRIES).output(ACIDIC_BIOMASS).save(output);
         grinding().input(CompoundIngredient.of(Ingredient.of(CHARCOAL), Ingredient.of(ItemTags.COALS))).output(CARBON_DUST).save(output);
         grinding().input(LTXITags.Items.DEEPSLATE_GRINDABLES).output(DEEPSLATE_DUST).save(output, "grind_deepslate");
+
+        // Dyes
+        Holder<RecipeMode> dyes = registries.holderOrThrow(LTXIRecipeModes.DYE_EXTRACTION);
+        grinding().input(GREEN_GROUP_DYE_SOURCES, 4).randomOutput(GREEN_DYE, 1, 0.8f).randomOutput(LIME_DYE, 1, 0.5f).needsMode(dyes).time(120).save(output, "extract_green_group_dyes");
+        grinding().input(SEA_PICKLE).output(LIME_DYE, 2).needsMode(dyes).time(120).save(output);
 
         orePebbleGrinding(COAL_ORE_PEBBLES, Tags.Items.ORES_COAL, null, "coal", output);
         orePebbleGrinding(COPPER_ORE_PEBBLES, Tags.Items.ORES_COPPER, Tags.Items.RAW_MATERIALS_COPPER, "copper", output);
@@ -799,11 +804,16 @@ class RecipesGen extends LimaRecipeProvider
     {
         // Modes
         Holder<RecipeMode> electrolyze = registries.holderOrThrow(LTXIRecipeModes.ECF_ELECTROLYZE);
+        Holder<RecipeMode> dyes = registries.holderOrThrow(LTXIRecipeModes.DYE_EXTRACTION);
+        Holder<RecipeMode> dissolution = registries.holderOrThrow(LTXIRecipeModes.CHEM_DISSOLUTION);
+
+        // Dyes
+        electroCentrifuging().input(DYES_LIME).output(LTX_LIME_PIGMENT).time(120).needsMode(dyes).save(output);
+        electroCentrifuging().input(VITRIOL_BERRIES).output(VIRIDIC_GREEN_PIGMENT, 2).time(120).needsMode(dyes).save(output);
+        electroCentrifuging().input(LTXIItems.SPARK_FRUIT).output(ELECTRIC_CHARTREUSE_PIGMENT, 2).time(120).needsMode(dyes).save(output);
+        electroCentrifuging().input(LTXIItems.GLOOM_SHROOM).output(NEURO_BLUE_PIGMENT, 2).time(120).needsMode(dyes).save(output);
 
         // Recipes
-        electroCentrifuging().input(DYES_LIME).output(LTX_LIME_PIGMENT).time(120).save(output);
-        electroCentrifuging().input(ACIDIC_BIOMASS).output(VIRIDIC_GREEN_PIGMENT, 4).time(120).save(output);
-
         electroCentrifuging()
                 .input(MUD)
                 .output(DIRT)
@@ -822,6 +832,7 @@ class RecipesGen extends LimaRecipeProvider
                 .save(output, "water_electrolyzing");
 
         electroCentrifuging()
+                .needsMode(dissolution)
                 .fluidInput(VIRIDIC_ACID, 250)
                 .input(CHORUS_FRUIT, 2)
                 .output(CHORUS_CHEMICAL)
@@ -829,6 +840,7 @@ class RecipesGen extends LimaRecipeProvider
                 .save(output, "chorus_fruit_extraction");
 
         electroCentrifuging()
+                .needsMode(dissolution)
                 .fluidInput(VIRIDIC_ACID, 2000)
                 .input(LTXIItems.GLOOM_SHROOM)
                 .output(SCULK_CHEMICAL)
@@ -845,16 +857,17 @@ class RecipesGen extends LimaRecipeProvider
     }
 
 
-    private void energizingRecipes(RecipeOutput output)
+    private void energizingRecipes(RecipeOutput output, HolderLookup.Provider registries)
     {
-        energizing().input(LTX_LIME_PIGMENT).output(ELECTRIC_CHARTREUSE_PIGMENT).time(120).save(output);
-        energizing().input(DYES_LIGHT_BLUE).output(ENERGY_BLUE_PIGMENT).time(120).save(output);
+        Holder<RecipeMode> dyes = registries.holderOrThrow(LTXIRecipeModes.DYE_EXTRACTION);
+        energizing().input(DYES_LIGHT_BLUE).output(ENERGY_BLUE_PIGMENT).needsMode(dyes).time(120).save(output, "energize_light_blue_dyes");
+        energizing().input(DYES_BLUE).output(ENERGY_BLUE_PIGMENT).needsMode(dyes).time(120).save(output, "energize_blue_dyes");
     }
 
 
     private void chemLabRecipes(RecipeOutput output)
     {
-        chemLab().input(MONOMER_CHEMICAL).fluidInput(OXYGEN_FLUIDS, 100).output(POLYMER_INGOT).save(output);
+        chemLab().input(MONOMER_CHEMICAL).fluidInput(OXYGEN_FLUIDS, 125).output(POLYMER_INGOT).save(output);
         chemLab().input(POLYMER_INGOT).input(COPPER_INGOT, 2).fluidInput(VIRIDIC_ACID, 125).output(CIRCUIT_BOARD).save(output);
         chemLab()
                 .input(ELECTRIC_CHEMICAL, 2)

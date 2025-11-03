@@ -4,13 +4,14 @@
   "ingredients": [
     {
       "count": 1,
-      "item": "ltxi:acidic_biomass"
+      "item": "ltxi:vitriol_berries"
     }
   ],
   "item_results": [
     {
-      "count": 4,
+      "count": 2,
       "id": "ltxi:viridic_green_pigment"
     }
-  ]
+  ],
+  "mode": "ltxi:dye_extraction"
 }

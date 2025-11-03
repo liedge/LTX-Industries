@@ -16,8 +16,10 @@ import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
 import liedge.ltxindustries.registry.bootstrap.LTXIEnchantments;
 import liedge.ltxindustries.registry.game.LTXIBlocks;
+import liedge.ltxindustries.registry.game.LTXIMobEffects;
 import liedge.ltxindustries.world.GrenadeSubPredicate;
 import net.minecraft.advancements.critereon.EntityPredicate;
+import net.minecraft.advancements.critereon.MobEffectsPredicate;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
@@ -89,9 +91,11 @@ class LootTablesGen extends LimaLootTableProvider
                     .when(LootItemRandomChanceCondition.randomChance(0.1f))
                     .add(lootItem(TARGETING_TECH_SALVAGE));
 
+            LootItemCondition.Builder acidFinalBlow = LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.DIRECT_ATTACKER, EntityPredicate.Builder.entity().subPredicate(new GrenadeSubPredicate(GrenadeType.ACID)));
+            LootItemCondition.Builder corrodingCheck = LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity().effects(MobEffectsPredicate.Builder.effects().and(LTXIMobEffects.CORROSIVE)));
             LootPool.Builder wardenDrops = LootPool.lootPool()
                     .when(needsEntityType(EntityType.WARDEN))
-                    .when(LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.DIRECT_ATTACKER, EntityPredicate.Builder.entity().subPredicate(new GrenadeSubPredicate(GrenadeType.ACID))))
+                    .when(AnyOfCondition.anyOf(acidFinalBlow, corrodingCheck))
                     .add(lootItem(NEURO_CHEMICAL));
 
             addTable(ENTITY_EXTRA_DROPS, LootTable.lootTable()

@@ -1,0 +1,29 @@
+{
+  "type": "ltxi:grinding",
+  "craft_time": 120,
+  "ingredients": [
+    {
+      "count": 4,
+      "tag": "ltxi:dye_sources/green_group"
+    }
+  ],
+  "item_results": [
+    {
+      "type": "random_chance",
+      "chance": 0.8,
+      "item": {
+        "count": 1,
+        "id": "minecraft:green_dye"
+      }
+    },
+    {
+      "type": "random_chance",
+      "chance": 0.5,
+      "item": {
+        "count": 1,
+        "id": "minecraft:lime_dye"
+      }
+    }
+  ],
+  "mode": "ltxi:dye_extraction"
+}

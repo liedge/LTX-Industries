@@ -63,4 +63,5 @@ The Gloom Shroom's defense mechanism evokes the debilitating power of the Deep D
 but it does not fit any known criteria to be classified as such. It can be used to craft the
 [Neuro Gas](../weapons/hanabi.md#neuro) shells for the *Hanabi*.
 
-Defeating a Warden with *Hanabi*'s [Acid Shells](../weapons/hanabi.md#acid) guarantees 1 Neuro-Suppressant vial drop.
+Killing a Warden with *Hanabi*'s [Acid Shells](../weapons/hanabi.md#acid) **OR** while it is affected by the
+[Corrosive](../fundamentals/mob_effects.md#corroding) mob effect guarantees 1 Neuro-Suppressant vial drop.

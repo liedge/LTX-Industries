@@ -2,7 +2,7 @@
   "type": "ltxi:chemical_reacting",
   "fluid_ingredients": [
     {
-      "amount": 100,
+      "amount": 125,
       "tag": "c:oxygen"
     }
   ],

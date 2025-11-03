@@ -77,6 +77,7 @@ class ItemTagsGen extends LimaTagsProvider.ItemTags
         buildTag(DEEPSLATE_DUSTS).add(DEEPSLATE_DUST);
         buildTag(DUSTS).add(CARBON_DUST).addTag(DEEPSLATE_DUSTS);
 
+        buildTag(GREEN_GROUP_DYE_SOURCES).add(SHORT_GRASS, TALL_GRASS, FERN, LARGE_FERN).addTags(LEAVES, SAPLINGS);
         buildTag(NEON_LIGHT_MATERIALS).add(GLOWSTONE, GLOW_INK_SAC, GLOW_BERRIES);
         buildTag(APPLE_SAPLINGS).add(OAK_SAPLING, DARK_OAK_SAPLING);
 

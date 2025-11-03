@@ -26,5 +26,6 @@
         "id": "ltxi:neuro_chemical"
       }
     }
-  ]
+  ],
+  "mode": "ltxi:chemical_dissolve"
 }

@@ -77,6 +77,8 @@ public final class LTXITags
         public static final TagKey<Item> DEEPSLATE_DUSTS = COMMON.itemTag("dusts/deepslate");
 
         // Mod tags
+        public static final TagKey<Item> GREEN_GROUP_DYE_SOURCES = RESOURCES.itemTag("dye_sources/green_group");
+
         public static final TagKey<Item> NEON_LIGHT_MATERIALS = RESOURCES.itemTag("neon_light_materials");
         public static final TagKey<Item> APPLE_SAPLINGS = RESOURCES.itemTag("apple_saplings");
         public static final TagKey<Item> REPAIR_BLACKLIST = RESOURCES.itemTag("repair_blacklist");

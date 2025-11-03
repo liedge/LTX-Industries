@@ -4,13 +4,13 @@
   "ingredients": [
     {
       "count": 1,
-      "tag": "c:dyes/lime"
+      "item": "ltxi:gloom_shroom"
     }
   ],
   "item_results": [
     {
-      "count": 1,
-      "id": "ltxi:ltx_lime_pigment"
+      "count": 2,
+      "id": "ltxi:neuro_blue_pigment"
     }
   ],
   "mode": "ltxi:dye_extraction"
