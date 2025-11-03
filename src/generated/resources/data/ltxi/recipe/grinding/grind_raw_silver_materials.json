@@ -1,0 +1,24 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "c:raw_materials/silver"
+      }
+    }
+  ],
+  "type": "ltxi:grinding",
+  "ingredients": [
+    {
+      "count": 1,
+      "tag": "c:raw_materials/silver"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 2,
+      "id": "ltxi:silver_ore_pebbles"
+    }
+  ]
+}

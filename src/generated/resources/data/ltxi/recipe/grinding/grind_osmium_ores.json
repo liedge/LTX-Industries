@@ -1,0 +1,24 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "c:ores/osmium"
+      }
+    }
+  ],
+  "type": "ltxi:grinding",
+  "ingredients": [
+    {
+      "count": 1,
+      "tag": "c:ores/osmium"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 3,
+      "id": "ltxi:osmium_ore_pebbles"
+    }
+  ]
+}

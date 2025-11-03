@@ -1,0 +1,24 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "c:ores/lead"
+      }
+    }
+  ],
+  "type": "ltxi:grinding",
+  "ingredients": [
+    {
+      "count": 1,
+      "tag": "c:ores/lead"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 3,
+      "id": "ltxi:lead_ore_pebbles"
+    }
+  ]
+}

@@ -83,6 +83,12 @@ public final class LTXIItems
     public static final DeferredItem<Item> NETHERITE_ORE_PEBBLES = ITEMS.registerSimpleItem("netherite_ore_pebbles");
     public static final DeferredItem<Item> TITANIUM_ORE_PEBBLES = ITEMS.registerSimpleItem("titanium_ore_pebbles");
     public static final DeferredItem<Item> NIOBIUM_ORE_PEBBLES = ITEMS.registerSimpleItem("niobium_ore_pebbles");
+    public static final DeferredItem<Item> TIN_ORE_PEBBLES = ITEMS.registerSimpleItem("tin_ore_pebbles");
+    public static final DeferredItem<Item> OSMIUM_ORE_PEBBLES = ITEMS.registerSimpleItem("osmium_ore_pebbles");
+    public static final DeferredItem<Item> NICKEL_ORE_PEBBLES = ITEMS.registerSimpleItem("nickel_ore_pebbles");
+    public static final DeferredItem<Item> LEAD_ORE_PEBBLES = ITEMS.registerSimpleItem("lead_ore_pebbles");
+    public static final DeferredItem<Item> SILVER_ORE_PEBBLES = ITEMS.registerSimpleItem("silver_ore_pebbles");
+    public static final DeferredItem<Item> URANIUM_ORE_PEBBLES = ITEMS.registerSimpleItem("uranium_ore_pebbles");
 
     // Components
     public static final DeferredItem<Item> CIRCUIT_BOARD = ITEMS.registerSimpleItem("circuit_board");

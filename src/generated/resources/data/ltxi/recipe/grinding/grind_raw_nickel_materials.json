@@ -1,0 +1,24 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "c:raw_materials/nickel"
+      }
+    }
+  ],
+  "type": "ltxi:grinding",
+  "ingredients": [
+    {
+      "count": 1,
+      "tag": "c:raw_materials/nickel"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 2,
+      "id": "ltxi:nickel_ore_pebbles"
+    }
+  ]
+}

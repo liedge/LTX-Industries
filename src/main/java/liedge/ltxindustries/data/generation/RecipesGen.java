@@ -51,6 +51,8 @@ import net.minecraft.world.level.levelgen.structure.BuiltinStructures;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.conditions.ModLoadedCondition;
+import net.neoforged.neoforge.common.conditions.NotCondition;
+import net.neoforged.neoforge.common.conditions.TagEmptyCondition;
 import net.neoforged.neoforge.common.crafting.CompoundIngredient;
 import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 import org.jetbrains.annotations.Nullable;
@@ -771,6 +773,12 @@ class RecipesGen extends LimaRecipeProvider
         grinding().input(ORES_NETHERITE_SCRAP).output(NETHERITE_ORE_PEBBLES, 2).save(output, "grind_debris");
         orePebbleGrinding(TITANIUM_ORE_PEBBLES, LTXITags.Items.TITANIUM_ORES, LTXITags.Items.RAW_TITANIUM_MATERIALS, "titanium", output);
         orePebbleGrinding(NIOBIUM_ORE_PEBBLES, LTXITags.Items.NIOBIUM_ORES, LTXITags.Items.RAW_NIOBIUM_MATERIALS, "niobium", output);
+        orePebbleGrinding(TIN_ORE_PEBBLES, ModResources.COMMON.itemTag("ores/tin"), ModResources.COMMON.itemTag("raw_materials/tin"), "tin", output, true);
+        orePebbleGrinding(OSMIUM_ORE_PEBBLES, ModResources.COMMON.itemTag("ores/osmium"), ModResources.COMMON.itemTag("raw_materials/osmium"), "osmium", output, true);
+        orePebbleGrinding(NICKEL_ORE_PEBBLES, ModResources.COMMON.itemTag("ores/nickel"), ModResources.COMMON.itemTag("raw_materials/nickel"), "nickel", output, true);
+        orePebbleGrinding(LEAD_ORE_PEBBLES, ModResources.COMMON.itemTag("ores/lead"), ModResources.COMMON.itemTag("raw_materials/lead"), "lead", output, true);
+        orePebbleGrinding(SILVER_ORE_PEBBLES, ModResources.COMMON.itemTag("ores/silver"), ModResources.COMMON.itemTag("raw_materials/silver"), "silver", output, true);
+        orePebbleGrinding(URANIUM_ORE_PEBBLES, ModResources.COMMON.itemTag("ores/uranium"), ModResources.COMMON.itemTag("raw_materials/uranium"), "uranium", output, true);
         grinding().input(RAW_TITANIUM_CLUSTER).output(RAW_TITANIUM, 5).save(output, "grind_titanium_clusters");
         grinding().input(RAW_NIOBIUM_CLUSTER).output(RAW_NIOBIUM, 5).save(output, "grind_niobium_clusters");
         grinding().input(LTXIItems.GLOOM_SHROOM).output(NEURO_BLUE_PIGMENT, 2).time(120).save(output, "shrooms_to_dye");
@@ -956,10 +964,25 @@ class RecipesGen extends LimaRecipeProvider
         return new LTXIBuilder<>(modResources, LTXIRecipeSerializers.GRINDING);
     }
 
+    private void orePebbleGrinding(ItemLike orePebble, TagKey<Item> oreTag, @Nullable TagKey<Item> rawOreTag, String name, RecipeOutput output, boolean optional)
+    {
+        // Ore block recipe
+        LTXIBuilder<?> oreRecipe = grinding().input(oreTag).output(orePebble, 3);
+        if (optional) oreRecipe.condition(new NotCondition(new TagEmptyCondition(oreTag)));
+        oreRecipe.save(output, "grind_" + name + "_ores");
+
+        // Raw material recipe
+        if (rawOreTag != null)
+        {
+            LTXIBuilder<?> rawMatRecipe = grinding().input(rawOreTag).output(orePebble, 2);
+            if (optional) rawMatRecipe.condition(new NotCondition(new TagEmptyCondition(rawOreTag)));
+            rawMatRecipe.save(output, "grind_raw_" + name + "_materials");
+        }
+    }
+
     private void orePebbleGrinding(ItemLike orePebble, TagKey<Item> oreTag, @Nullable TagKey<Item> rawOreTag, String name, RecipeOutput output)
     {
-        grinding().input(oreTag).output(orePebble, 3).save(output, "grind_" + name + "_ores");
-        if (rawOreTag != null) grinding().input(rawOreTag).output(orePebble, 2).save(output, "grind_raw_" + name + "_materials");
+        orePebbleGrinding(orePebble, oreTag, rawOreTag, name, output, false);
     }
 
     private LTXIBuilder<MaterialFusingRecipe> fusing()

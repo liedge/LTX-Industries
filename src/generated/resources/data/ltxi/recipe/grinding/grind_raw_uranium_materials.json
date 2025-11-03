@@ -1,0 +1,24 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "c:raw_materials/uranium"
+      }
+    }
+  ],
+  "type": "ltxi:grinding",
+  "ingredients": [
+    {
+      "count": 1,
+      "tag": "c:raw_materials/uranium"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 2,
+      "id": "ltxi:uranium_ore_pebbles"
+    }
+  ]
+}

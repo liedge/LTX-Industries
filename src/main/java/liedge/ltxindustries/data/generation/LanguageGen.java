@@ -152,6 +152,12 @@ class LanguageGen extends LimaLanguageProvider
         addItem(NETHERITE_ORE_PEBBLES, "Netherite Scrap Ore Pebbles");
         addItem(TITANIUM_ORE_PEBBLES, "Titanium Ore Pebbles");
         addItem(NIOBIUM_ORE_PEBBLES, "Niobium Ore Pebbles");
+        addItem(TIN_ORE_PEBBLES, "Tin Ore Pebbles");
+        addItem(OSMIUM_ORE_PEBBLES, "Osmium Ore Pebbles");
+        addItem(NICKEL_ORE_PEBBLES, "Nickel Ore Pebbles");
+        addItem(LEAD_ORE_PEBBLES, "Lead Ore Pebbles");
+        addItem(SILVER_ORE_PEBBLES, "Silver Ore Pebbles");
+        addItem(URANIUM_ORE_PEBBLES, "Uranium Ore Pebbles");
         addItem(LTX_DRILL, "ε-Series Drill");
         addItem(LTX_SWORD, "ε-Series Sword");
         addItem(LTX_SHOVEL, "ε-series Shovel");

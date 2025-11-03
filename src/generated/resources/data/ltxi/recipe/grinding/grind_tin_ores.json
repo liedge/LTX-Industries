@@ -1,0 +1,24 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "c:ores/tin"
+      }
+    }
+  ],
+  "type": "ltxi:grinding",
+  "ingredients": [
+    {
+      "count": 1,
+      "tag": "c:ores/tin"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 3,
+      "id": "ltxi:tin_ore_pebbles"
+    }
+  ]
+}
