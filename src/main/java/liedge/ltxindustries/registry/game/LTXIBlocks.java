@@ -76,6 +76,8 @@ public final class LTXIBlocks
     public static final DeferredBlockWithItem<Block, BlockItem> TITANIUM_PANEL = BLOCKS.registerSimpleBlockAndItem("titanium_panel", of().mapColor(DyeColor.WHITE).strength(2f).sound(SoundType.COPPER).requiresCorrectToolForDrops());
     public static final DeferredBlockWithItem<Block, BlockItem> SMOOTH_TITANIUM_PANEL = BLOCKS.registerSimpleBlockAndItem("smooth_titanium_panel", of().mapColor(DyeColor.WHITE).strength(2f).sound(SoundType.COPPER).requiresCorrectToolForDrops());
     public static final DeferredBlockWithItem<Block, BlockItem> TITANIUM_GLASS = BLOCKS.registerBlockAndSimpleItem("titanium_glass", () -> new TransparentBlock(quartzGlassProperties()), new Item.Properties());
+    public static final DeferredBlockWithItem<Block, BlockItem> SLATESTEEL_PANEL = BLOCKS.registerSimpleBlockAndItem("slatesteel_panel", of().mapColor(DyeColor.GRAY).strength(3f).sound(SoundType.METAL).requiresCorrectToolForDrops());
+    public static final DeferredBlockWithItem<Block, BlockItem> SMOOTH_SLATESTEEL_PANEL = BLOCKS.registerSimpleBlockAndItem("smooth_slatesteel_panel", of().mapColor(DyeColor.GRAY).strength(3f).sound(SoundType.METAL).requiresCorrectToolForDrops());
 
     // Plants
     public static final DeferredBlock<SparkFruitBlock> SPARK_FRUIT = BLOCKS.registerBlock("spark_fruit", SparkFruitBlock::new, of().mapColor(MapColor.PLANT).randomTicks().strength(0.2f, 3.0f).sound(SoundType.WET_GRASS).noOcclusion().pushReaction(PushReaction.DESTROY).lightLevel(state -> state.getValue(BlockStateProperties.AGE_2)== 2 ? 7 : 0));

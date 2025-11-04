@@ -95,6 +95,8 @@ class RecipesGen extends LimaRecipeProvider
 
         shaped(TITANIUM_PANEL, 32).input('t', TITANIUM_INGOT).input('f', POLYMER_INGOT).patterns("tft", "f f", "tft").bookCategory(CraftingBookCategory.BUILDING).save(output);
         shaped(SMOOTH_TITANIUM_PANEL, 32).input('t', TITANIUM_INGOT).input('f', POLYMER_INGOT).patterns("ftf", "t t", "ftf").bookCategory(CraftingBookCategory.BUILDING).save(output);
+        shaped(SLATESTEEL_PANEL, 32).input('s', SLATESTEEL_INGOT).input('f', POLYMER_INGOT).patterns("sfs", "f f", "sfs").bookCategory(CraftingBookCategory.BUILDING).save(output);
+        shaped(SMOOTH_SLATESTEEL_PANEL, 32).input('s', SLATESTEEL_INGOT).input('f', POLYMER_INGOT).patterns("fsf", "s s", "fsf").bookCategory(CraftingBookCategory.BUILDING).save(output);
 
         shaped(T1_CIRCUIT).input('c', STONE_PRESSURE_PLATE).input('m', COPPER_INGOT).input('r', REDSTONE).input('t', TITANIUM_INGOT).patterns("tmt", "mcm", "rmr").save(output);
         shaped(T2_CIRCUIT).input('c', T1_CIRCUIT).input('m', GOLD_INGOT).input('r', REPEATER).input('t', TITANIUM_INGOT).input('b', COPPER_INGOT).patterns(" r ", "mcm", "tbt").save(output);

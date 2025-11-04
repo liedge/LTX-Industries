@@ -3,6 +3,8 @@
     "ltxi:titanium_panel",
     "ltxi:smooth_titanium_panel",
     "ltxi:titanium_glass",
+    "ltxi:slatesteel_panel",
+    "ltxi:smooth_slatesteel_panel",
     "#ltxi:neon_lights"
   ]
 }

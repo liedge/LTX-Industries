@@ -15,7 +15,7 @@
 	"textures": {
 		"particle": "ltxi:block/titanium_panel",
 		"titanium_base": "ltxi:block/titanium_panel",
-		"slate_base": "ltxi:block/blank_slate_alloy_machine",
+		"slate_base": "ltxi:block/slatesteel_panel",
 		"lights": "ltxi:solid_lime",
 		"machine0": "ltxi:block/molecular_reconstructor0",
 		"machine1": "ltxi:block/molecular_reconstructor1",

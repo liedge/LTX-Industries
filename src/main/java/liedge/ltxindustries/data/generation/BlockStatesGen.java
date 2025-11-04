@@ -70,6 +70,8 @@ class BlockStatesGen extends LimaBlockStateProvider
         cubeAll(TITANIUM_PANEL);
         cubeAll(SMOOTH_TITANIUM_PANEL);
         cubeAll(TITANIUM_GLASS).renderType("cutout");
+        cubeAll(SLATESTEEL_PANEL);
+        cubeAll(SMOOTH_SLATESTEEL_PANEL);
 
         // Plants
         sparkFruit(SPARK_FRUIT);
