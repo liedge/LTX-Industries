@@ -1,9 +1,12 @@
 package liedge.ltxindustries.client.gui.layer;
 
+import liedge.limacore.client.gui.HorizontalAlignment;
 import liedge.limacore.client.gui.LimaGuiLayer;
-import liedge.ltxindustries.LTXIndustries;
+import liedge.limacore.client.gui.VerticalAlignment;
 import liedge.ltxindustries.LTXIConstants;
+import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.registry.game.LTXIAttachmentTypes;
+import liedge.ltxindustries.util.config.LTXIClientConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
@@ -24,13 +27,12 @@ public final class BubbleShieldLayer extends LimaGuiLayer
     {
         float shieldHealth = player.getData(LTXIAttachmentTypes.BUBBLE_SHIELD).getShieldHealth();
 
-        int screenWidth = graphics.guiWidth();
-        int screenHeight = graphics.guiHeight();
-
         if (shieldHealth > 0)
         {
-            final int x = (screenWidth / 2) - 91;
-            final int y = screenHeight - 62;
+            HorizontalAlignment ha = LTXIClientConfig.getShieldHorizontalAlign();
+            VerticalAlignment va = LTXIClientConfig.getShieldVerticalAlign();
+            int x = ha.getAbsoluteX(37, graphics.guiWidth(), LTXIClientConfig.SHIELD_HUD_X_OFFSET.getAsInt());
+            int y = va.getAbsoluteY(13, graphics.guiHeight(), LTXIClientConfig.SHIELD_HUD_Y_OFFSET.getAsInt());
 
             graphics.blitSprite(DISPLAY_SPRITE, x, y, 37, 13);
 

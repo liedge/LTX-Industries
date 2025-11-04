@@ -23,7 +23,7 @@ public final class UpgradeModuleItemExtensions implements ItemGuiRenderOverride
 
     private static boolean shouldShowIcon()
     {
-        return Minecraft.getInstance().screen != null && (Screen.hasShiftDown() || LTXIClientConfig.alwaysShowUpgradeIcons());
+        return Minecraft.getInstance().screen != null && (Screen.hasShiftDown() || LTXIClientConfig.ALWAYS_SHOW_UPGRADE_ICONS.getAsBoolean());
     }
 
     public static UpgradeModuleItemExtensions getInstance()

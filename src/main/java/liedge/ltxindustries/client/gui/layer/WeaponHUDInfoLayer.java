@@ -2,10 +2,13 @@ package liedge.ltxindustries.client.gui.layer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import liedge.limacore.client.LimaComponentUtil;
+import liedge.limacore.client.gui.HorizontalAlignment;
 import liedge.limacore.client.gui.LimaGuiLayer;
+import liedge.limacore.client.gui.VerticalAlignment;
 import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.lib.weapons.WeaponReloadSource;
+import liedge.ltxindustries.util.config.LTXIClientConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
@@ -43,13 +46,17 @@ public final class WeaponHUDInfoLayer extends LimaGuiLayer
 
         int ammo = weaponItem.getAmmoLoaded(heldItem);
         int ammoTextColor = (ammo > 0 || reloadSource.getType() == WeaponReloadSource.Type.INFINITE) ? LIME_GREEN.argb32() : 16733525;
-        int x = 10;
 
         PoseStack poseStack = graphics.pose();
+        HorizontalAlignment xAlign = LTXIClientConfig.getWeaponHorizontalAlign();
+        int xo = LTXIClientConfig.WEAPON_HUD_X_OFFSET.getAsInt();
+        VerticalAlignment yAlign = LTXIClientConfig.getWeaponVerticalAlign();
+        int yo = LTXIClientConfig.WEAPON_HUD_Y_OFFSET.getAsInt();
 
         if (reloadSource.getType() == WeaponReloadSource.Type.ITEM)
         {
-            int y = (graphics.guiHeight() - 13) / 2;
+            int x = xAlign.getAbsoluteX(49, graphics.guiWidth(), xo);
+            int y = yAlign.getAbsoluteY(13, graphics.guiHeight(), yo);
             graphics.blitSprite(AMMO_DISPLAY_SPRITE, x, y, 49, 13);
             graphics.drawString(Minecraft.getInstance().font, Integer.toString(ammo), x + 5, y + 3, ammoTextColor);
 
@@ -63,9 +70,8 @@ public final class WeaponHUDInfoLayer extends LimaGuiLayer
         }
         else if (reloadSource.getType() == WeaponReloadSource.Type.COMMON_ENERGY)
         {
-            int y = (graphics.guiHeight() - 23) / 2;
-            int energy = (int) (LimaCoreMath.divideFloat(weaponItem.getEnergyStored(heldItem), weaponItem.getEnergyCapacity(heldItem)) * 100f);
-            String energyText = energy + "%";
+            int x = xAlign.getAbsoluteX(49, graphics.guiWidth(), xo);
+            int y = yAlign.getAbsoluteY(23, graphics.guiHeight(), yo);
 
             graphics.blitSprite(ENERGY_AMMO_DISPLAY_SPRITE, x, y, 49, 23);
             graphics.drawString(Minecraft.getInstance().font, Integer.toString(ammo), x + 5, y + 3, ammoTextColor);
@@ -76,6 +82,8 @@ public final class WeaponHUDInfoLayer extends LimaGuiLayer
             poseStack.scale(0.8f, 0.8f, 1f);
             graphics.drawString(Minecraft.getInstance().font, Integer.toString(weaponItem.getAmmoCapacity(heldItem)), 0, 0, 0x9a9a9a, false);
 
+            int energy = (int) (LimaCoreMath.divideFloat(weaponItem.getEnergyStored(heldItem), weaponItem.getEnergyCapacity(heldItem)) * 100f);
+            String energyText = energy + "%";
             int width = Minecraft.getInstance().font.width(energyText);
             graphics.drawString(Minecraft.getInstance().font, energyText, -4 + (24 - width) / 2, 12, REM_BLUE.argb32(), false);
 
@@ -83,7 +91,8 @@ public final class WeaponHUDInfoLayer extends LimaGuiLayer
         }
         else
         {
-            int y = (graphics.guiHeight() - 13) / 2;
+            int x = xAlign.getAbsoluteX(47, graphics.guiWidth(), xo);
+            int y = yAlign.getAbsoluteY(13, graphics.guiHeight(), yo);
             graphics.blitSprite(INFINITE_AMMO_DISPLAY_SPRITE, x, y, 47, 13);
             graphics.drawString(Minecraft.getInstance().font, Integer.toString(ammo), x + 5, y + 3, ammoTextColor);
 

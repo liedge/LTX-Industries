@@ -56,7 +56,7 @@ public final class WeaponCrosshairLayer extends LimaGuiLayer
         }
         else
         {
-            if (!LTXIClientConfig.isSolidCrosshairColor())
+            if (!LTXIClientConfig.SOLID_COLOR_CROSSHAIR.getAsBoolean())
             {
                 RenderSystem.blendFuncSeparate(
                         GlStateManager.SourceFactor.ONE_MINUS_DST_COLOR,
