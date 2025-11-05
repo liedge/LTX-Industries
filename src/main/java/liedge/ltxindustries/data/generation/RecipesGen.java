@@ -100,7 +100,6 @@ class RecipesGen extends LimaRecipeProvider
 
         shaped(T1_CIRCUIT).input('c', STONE_PRESSURE_PLATE).input('m', COPPER_INGOT).input('r', REDSTONE).input('t', TITANIUM_INGOT).patterns("tmt", "mcm", "rmr").save(output);
         shaped(T2_CIRCUIT).input('c', T1_CIRCUIT).input('m', GOLD_INGOT).input('r', REPEATER).input('t', TITANIUM_INGOT).input('b', COPPER_INGOT).patterns(" r ", "mcm", "tbt").save(output);
-        shaped(T3_CIRCUIT).input('c', T2_CIRCUIT).input('r', COMPARATOR).input('t', TITANIUM_INGOT).input('b', COPPER_INGOT).patterns(" r ", "rcr", "tbt").save(output);
 
         shaped(EMPTY_UPGRADE_MODULE).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('g', GLASS_BLOCKS_CHEAP).patterns("ggg", "gcg", "ttt").save(output);
         shaped(EMPTY_FABRICATION_BLUEPRINT, 2).input('l', DYES_LIME).input('p', PAPER).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).patterns("lll", "ppp", "tct").save(output);
@@ -127,7 +126,8 @@ class RecipesGen extends LimaRecipeProvider
         shaped(ELECTROCENTRIFUGE).input('t', TITANIUM_INGOT).input('c', T2_CIRCUIT).input('a', CAULDRON).input('g', TITANIUM_GLASS).patterns("gcg", "gag", "tct").save(output);
         shaped(MIXER).input('t', TITANIUM_INGOT).input('c', T2_CIRCUIT).input('a', CAULDRON).input('g', TITANIUM_GLASS).patterns("tct", "gag", "tct").save(output);
         shaped(VOLTAIC_INJECTOR).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('a', STONE_PRESSURE_PLATE).input('r', LIGHTNING_ROD).patterns("tct", "rar", "tct").save(output);
-        shaped(CHEM_LAB).input('t', TITANIUM_INGOT).input('c', T3_CIRCUIT).input('a', BREWING_STAND).input('g', TITANIUM_GLASS).patterns("tct", "gag", "tct").save(output);
+        shaped(CHEM_LAB).input('t', TITANIUM_INGOT).input('c', T2_CIRCUIT).input('a', BREWING_STAND).input('g', TITANIUM_GLASS).patterns("tct", "gag", "tct").save(output);
+        shaped(ASSEMBLER).input('t', TITANIUM_INGOT).input('c', T2_CIRCUIT).input('a', CRAFTER).input('s', SLATESTEEL_INGOT).patterns("tct", "sas", "tct").save(output);
         shaped(FABRICATOR).input('t', TITANIUM_INGOT).input('c', T3_CIRCUIT).input('a', CRAFTING_TABLE).patterns("tct", "cac", "ttt").save(output);
         shaped(AUTO_FABRICATOR).input('p', POLYMER_INGOT).input('t', TITANIUM_INGOT).input('c', T3_CIRCUIT).input('s', SLATESTEEL_INGOT).input('g', TITANIUM_GLASS).input('a', CRAFTER)
                 .patterns("pcp", "gag", "tst").save(output);
@@ -177,34 +177,10 @@ class RecipesGen extends LimaRecipeProvider
         mixingRecipes(output);
         energizingRecipes(output, registries);
         chemLabRecipes(output);
+        assemblingRecipes(output, registries);
         gardenSimRecipes(output, registries);
 
         // Fabricating recipes
-        fabricating(250_000)
-                .input(CIRCUIT_BOARD)
-                .input(REDSTONE, 4)
-                .input(COPPER_INGOT, 2)
-                .input(TITANIUM_INGOT, 2)
-                .output(T1_CIRCUIT, 2)
-                .group("circuits")
-                .save(output);
-        fabricating(500_000)
-                .input(CIRCUIT_BOARD)
-                .input(REDSTONE, 6)
-                .input(GOLD_INGOT, 4)
-                .input(TITANIUM_INGOT, 4)
-                .output(T2_CIRCUIT, 2)
-                .group("circuits")
-                .save(output);
-        fabricating(1_000_000)
-                .input(CIRCUIT_BOARD)
-                .input(REDSTONE, 8)
-                .input(GOLD_INGOT, 2)
-                .input(QUARTZ, 8)
-                .input(TITANIUM_INGOT, 8)
-                .output(T3_CIRCUIT, 2)
-                .group("circuits")
-                .save(output);
         fabricating(20_000_000)
                 .input(CIRCUIT_BOARD)
                 .input(T3_CIRCUIT, 2)
@@ -880,6 +856,37 @@ class RecipesGen extends LimaRecipeProvider
                 .save(output);
     }
 
+    private void assemblingRecipes(RecipeOutput output, HolderLookup.Provider registries)
+    {
+        assembling()
+                .input(CIRCUIT_BOARD)
+                .input(TITANIUM_INGOT, 2)
+                .input(REDSTONE, 4)
+                .input(COPPER_INGOT, 2)
+                .output(T1_CIRCUIT, 2)
+                .save(output);
+
+        assembling()
+                .input(CIRCUIT_BOARD)
+                .input(TITANIUM_INGOT, 4)
+                .input(REDSTONE, 8)
+                .input(GOLD_INGOT, 2)
+                .output(T2_CIRCUIT, 2)
+                .time(300)
+                .save(output);
+
+        assembling()
+                .input(CIRCUIT_BOARD)
+                .input(T2_CIRCUIT)
+                .input(TITANIUM_INGOT, 6)
+                .input(REDSTONE, 12)
+                .input(QUARTZ, 8)
+                .input(ELECTRIC_CHEMICAL, 4)
+                .output(T3_CIRCUIT)
+                .time(400)
+                .save(output);
+    }
+
     private void gardenSimRecipes(RecipeOutput output, HolderLookup.Provider registries)
     {
         // Modes
@@ -1037,6 +1044,11 @@ class RecipesGen extends LimaRecipeProvider
     private LTXIBuilder<ChemicalReactingRecipe> chemLab()
     {
         return new LTXIBuilder<>(modResources, LTXIRecipeSerializers.CHEMICAL_REACTING);
+    }
+
+    private LTXIBuilder<AssemblingRecipe> assembling()
+    {
+        return new LTXIBuilder<>(modResources, LTXIRecipeSerializers.ASSEMBLING);
     }
 
     private GardenBuilder garden()

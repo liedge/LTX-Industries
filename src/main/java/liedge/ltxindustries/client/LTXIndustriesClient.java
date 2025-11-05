@@ -128,6 +128,7 @@ public class LTXIndustriesClient
             event.register(LTXIMenus.MIXER.get(), RecipeLayoutScreen::new);
             event.register(LTXIMenus.VOLTAIC_INJECTOR.get(), RecipeLayoutScreen::new);
             event.register(LTXIMenus.CHEM_LAB.get(), RecipeLayoutScreen::new);
+            event.register(LTXIMenus.ASSEMBLER.get(), RecipeLayoutScreen::new);
             event.register(LTXIMenus.FABRICATOR.get(), FabricatorScreen::new);
             event.register(LTXIMenus.AUTO_FABRICATOR.get(), AutoFabricatorScreen::new);
             event.register(LTXIMenus.EQUIPMENT_UPGRADE_STATION.get(), EquipmentUpgradeStationScreen::new);

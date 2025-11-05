@@ -2,26 +2,26 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "b": {
-      "item": "minecraft:copper_ingot"
+    "a": {
+      "item": "minecraft:crafter"
     },
     "c": {
       "item": "ltxi:t2_circuit"
     },
-    "r": {
-      "item": "minecraft:comparator"
+    "s": {
+      "item": "ltxi:slatesteel_ingot"
     },
     "t": {
       "item": "ltxi:titanium_ingot"
     }
   },
   "pattern": [
-    " r ",
-    "rcr",
-    "tbt"
+    "tct",
+    "sas",
+    "tct"
   ],
   "result": {
     "count": 1,
-    "id": "ltxi:t3_circuit"
+    "id": "ltxi:assembler"
   }
 }

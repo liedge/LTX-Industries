@@ -65,6 +65,7 @@ public class LTXIJeiPlugin implements IModPlugin
     static final RecipeType<RecipeHolder<MixingRecipe>> MIXING_JEI = registerType(MIXING);
     static final RecipeType<RecipeHolder<EnergizingRecipe>> ENERGIZING_JEI = registerType(ENERGIZING);
     static final RecipeType<RecipeHolder<ChemicalReactingRecipe>> CHEMICAL_REACTING_JEI = registerType(CHEMICAL_REACTING);
+    static final RecipeType<RecipeHolder<AssemblingRecipe>> ASSEMBLING_JEI = registerType(ASSEMBLING);
     static final RecipeType<RecipeHolder<GardenSimulatingRecipe>> GARDEN_SIMULATING_JEI = registerType(GARDEN_SIMULATING);
     static final RecipeType<RecipeHolder<FabricatingRecipe>> FABRICATING_JEI = registerType(FABRICATING);
 
@@ -91,6 +92,7 @@ public class LTXIJeiPlugin implements IModPlugin
         registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, MIXING, MIXING_JEI, RecipeLayouts.MIXING));
         registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, ENERGIZING, ENERGIZING_JEI, RecipeLayouts.ENERGIZING));
         registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, CHEMICAL_REACTING, CHEMICAL_REACTING_JEI, RecipeLayouts.CHEMICAL_REACTING));
+        registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, ASSEMBLING, ASSEMBLING_JEI, RecipeLayouts.ASSEMBLING));
         registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, GARDEN_SIMULATING, GARDEN_SIMULATING_JEI, RecipeLayouts.GARDEN_SIMULATING));
         registration.addRecipeCategories(new FabricatingJeiCategory(helper, FABRICATING));
     }
@@ -107,6 +109,7 @@ public class LTXIJeiPlugin implements IModPlugin
         registration.addRecipes(MIXING_JEI, manager.getAllRecipesFor(MIXING.get()));
         registration.addRecipes(ENERGIZING_JEI, manager.getAllRecipesFor(ENERGIZING.get()));
         registration.addRecipes(CHEMICAL_REACTING_JEI, manager.getAllRecipesFor(CHEMICAL_REACTING.get()));
+        registration.addRecipes(ASSEMBLING_JEI, manager.getAllRecipesFor(ASSEMBLING.get()));
         registration.addRecipes(GARDEN_SIMULATING_JEI, manager.getAllRecipesFor(GARDEN_SIMULATING.get()));
 
         List<RecipeHolder<FabricatingRecipe>> fabricatingRecipes = LimaRecipesUtil.getSortedRecipesForType(level, FABRICATING, LTXIClientRecipes.comparingFabricationRecipes());
@@ -125,6 +128,7 @@ public class LTXIJeiPlugin implements IModPlugin
         registration.addRecipeCatalyst(LTXIBlocks.MIXER, MIXING_JEI);
         registration.addRecipeCatalyst(LTXIBlocks.VOLTAIC_INJECTOR, ENERGIZING_JEI);
         registration.addRecipeCatalyst(LTXIBlocks.CHEM_LAB, CHEMICAL_REACTING_JEI);
+        registration.addRecipeCatalyst(LTXIBlocks.ASSEMBLER, ASSEMBLING_JEI);
         registration.addRecipeCatalyst(LTXIBlocks.DIGITAL_GARDEN, GARDEN_SIMULATING_JEI);
         registration.addRecipeCatalyst(LTXIBlocks.FABRICATOR, FABRICATING_JEI);
         registration.addRecipeCatalyst(LTXIBlocks.AUTO_FABRICATOR, FABRICATING_JEI);

@@ -1,4 +1,5 @@
 {
+  "block.ltxi.assembler": "Assembler",
   "block.ltxi.auto_fabricator": "Auto Fabricator",
   "block.ltxi.bilevine": "Bilevine",
   "block.ltxi.bilevine_plant": "Bilevine",
@@ -320,6 +321,7 @@
   "recipe_mode.ltxi.foliage": "Foliage",
   "recipe_mode.ltxi.lumber": "Woods",
   "recipe_mode.ltxi.orchard": "Orchard",
+  "recipe_type.ltxi.assembling": "Assembling",
   "recipe_type.ltxi.chemical_reacting": "Chemical Reacting",
   "recipe_type.ltxi.electro_centrifuging": "ElectroCentrifuging",
   "recipe_type.ltxi.energizing": "Energizing",

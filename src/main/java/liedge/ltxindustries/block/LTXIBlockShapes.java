@@ -66,6 +66,26 @@ public final class LTXIBlockShapes
             dimensionBox(1, 5, 1, 4, 9, 4),
             dimensionBox(1, 5, 6, 4, 9, 4),
             dimensionBox(1, 5, 11, 4, 9, 4));
+
+    public static final VoxelShape ASSEMBLER = Shapes.or(
+            // Feet & base
+            dimensionBox(0, 0, 0, 4, 2, 4),
+            dimensionBox(12, 0, 0, 4, 2, 4),
+            dimensionBox(0, 0, 12, 4, 2, 4),
+            dimensionBox(12, 0, 12, 4, 2, 4),
+            dimensionBox(0, 2, 0, 16, 2, 16),
+            // Vertical frame pieces
+            dimensionBox(14, 4, 0, 2, 10, 2),
+            dimensionBox(14, 4, 14, 2, 10, 2),
+            dimensionBox(0, 4, 14, 2, 10, 2),
+            dimensionBox(0, 4, 0, 2, 10, 2),
+            // Top frame pieces
+            dimensionBox(0, 14, 0, 16, 2, 2),
+            dimensionBox(0, 14, 14, 16, 2, 2),
+            dimensionBox(14, 14, 2, 2, 2, 12),
+            dimensionBox(0, 14, 2, 2, 2, 12),
+            // Inner cube
+            dimensionBox(0.5d, 3.5d, 0.5d, 15, 12, 15));
     //#endregion
 
     //#region Multi-block/mesh shapes

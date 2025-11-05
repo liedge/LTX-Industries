@@ -39,6 +39,7 @@ class BlockTagsGen extends LimaTagsProvider.RegistryTags<Block>
                 MIXER,
                 VOLTAIC_INJECTOR,
                 CHEM_LAB,
+                ASSEMBLER,
                 FABRICATOR,
                 AUTO_FABRICATOR,
                 DIGITAL_GARDEN,

@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=east,machine_state=active": {
+      "model": "ltxi:block/assembler_active",
+      "y": 90
+    },
+    "facing=east,machine_state=idle": {
+      "model": "ltxi:block/assembler_idle",
+      "y": 90
+    },
+    "facing=north,machine_state=active": {
+      "model": "ltxi:block/assembler_active"
+    },
+    "facing=north,machine_state=idle": {
+      "model": "ltxi:block/assembler_idle"
+    },
+    "facing=south,machine_state=active": {
+      "model": "ltxi:block/assembler_active",
+      "y": 180
+    },
+    "facing=south,machine_state=idle": {
+      "model": "ltxi:block/assembler_idle",
+      "y": 180
+    },
+    "facing=west,machine_state=active": {
+      "model": "ltxi:block/assembler_active",
+      "y": 270
+    },
+    "facing=west,machine_state=idle": {
+      "model": "ltxi:block/assembler_idle",
+      "y": 270
+    }
+  }
+}

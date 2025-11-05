@@ -33,6 +33,11 @@ public final class RecipeLayouts
             .fluidIn(34, 44).fluidIn(52, 44).fluidIn(70, 44)
             .itemOut(128, 26).itemOut(146, 26)
             .fluidOut(128, 44).fluidOut(146, 44).build(95, 40);
+    public static final RecipeLayout ASSEMBLING = RecipeLayout.builder()
+            .modeSlot(25, 35)
+            .slotGrid(43, 17, 3, 2, LayoutSlot.Type.ITEM_INPUT)
+            .fluidIn(43, 53)
+            .itemOut(137, 36).build(104, 40);
     public static final RecipeLayout GARDEN_SIMULATING = RecipeLayout.builder()
             .modeSlot(34, 35)
             .itemIn(52, 26).fluidIn(52, 44)

@@ -1,0 +1,28 @@
+{
+  "type": "ltxi:assembling",
+  "craft_time": 300,
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "ltxi:circuit_board"
+    },
+    {
+      "count": 4,
+      "item": "ltxi:titanium_ingot"
+    },
+    {
+      "count": 8,
+      "item": "minecraft:redstone"
+    },
+    {
+      "count": 2,
+      "item": "minecraft:gold_ingot"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 2,
+      "id": "ltxi:t2_circuit"
+    }
+  ]
+}

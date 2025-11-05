@@ -183,6 +183,7 @@ class LootTablesGen extends LimaLootTableProvider
             dropSelfWithEntity(MIXER);
             dropSelfWithEntity(VOLTAIC_INJECTOR);
             dropSelfWithEntity(CHEM_LAB);
+            dropSelfWithEntity(ASSEMBLER);
             dropSelfWithEntity(FABRICATOR);
             dropSelfWithEntity(AUTO_FABRICATOR);
             dropSelfWithEntity(EQUIPMENT_UPGRADE_STATION);

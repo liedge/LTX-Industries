@@ -20,6 +20,7 @@ public final class LTXICommonIds
     public static final String ID_MIXER = "mixer";
     public static final String ID_VOLTAIC_INJECTOR = "voltaic_injector";
     public static final String ID_CHEM_LAB = "chem_lab";
+    public static final String ID_ASSEMBLER = "assembler";
     public static final String ID_FABRICATOR = "fabricator";
     public static final String ID_AUTO_FABRICATOR = "auto_fabricator";
     public static final String ID_MOLECULAR_RECONSTRUCTOR = "molecular_reconstructor";
@@ -36,6 +37,7 @@ public final class LTXICommonIds
     public static final String ID_MIXING_RECIPE = "mixing";
     public static final String ID_ENERGIZING_RECIPE = "energizing";
     public static final String ID_CHEMICAL_REACTING = "chemical_reacting";
+    public static final String ID_ASSEMBLING_RECIPE = "assembling";
     public static final String ID_FABRICATING_RECIPE = "fabricating";
     public static final String ID_GARDEN_SIMULATING_RECIPE = "garden_simulating";
 }

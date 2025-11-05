@@ -9,6 +9,7 @@
     "ltxi:mixer",
     "ltxi:voltaic_injector",
     "ltxi:chem_lab",
+    "ltxi:assembler",
     "ltxi:fabricator",
     "ltxi:auto_fabricator",
     "ltxi:digital_garden",

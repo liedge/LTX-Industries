@@ -70,9 +70,8 @@ public final class LTXIBlockEntities
     }
 
     //#region Sided Access Rules
-    private static final IOConfigurationRules MACHINE_ITEM_FLUID_RULES = IOConfigurationRules.builder().forAllSides().permits(IOAccessSets.ALL_ALLOWED).withDefaultIOAccess(IOAccess.INPUT_ONLY).allowsAutoOutput().build();
-    private static final IOConfigurationRules MACHINE_ENERGY_RULES = IOConfigurationRules.builder().forAllSides().permits(IOAccessSets.INPUT_ONLY_OR_DISABLED).withDefaultIOAccess(IOAccess.INPUT_ONLY).build();
-    private static final IOConfigurationRules MACHINE_FLUID_INPUT_ONLY = IOConfigurationRules.builder().forAllSides().permits(IOAccessSets.INPUT_ONLY_OR_DISABLED).withDefaultIOAccess(IOAccess.INPUT_ONLY).build();
+    private static final IOConfigurationRules MACHINE_STANDARD_IO = IOConfigurationRules.builder().forAllSides().permits(IOAccessSets.ALL_ALLOWED).withDefaultIOAccess(IOAccess.INPUT_ONLY).allowsAutoOutput().build();
+    private static final IOConfigurationRules MACHINE_INPUT_ONLY = IOConfigurationRules.builder().forAllSides().permits(IOAccessSets.INPUT_ONLY_OR_DISABLED).withDefaultIOAccess(IOAccess.INPUT_ONLY).build();
 
     private static final Set<RelativeHorizontalSide> FABRICATOR_VALID_SIDES = ImmutableSet.copyOf(EnumSet.of(RelativeHorizontalSide.BOTTOM, RelativeHorizontalSide.FRONT, RelativeHorizontalSide.REAR, RelativeHorizontalSide.LEFT));
     private static final IOConfigurationRules FABRICATOR_ITEM_RULES = IOConfigurationRules.builder()
@@ -105,13 +104,13 @@ public final class LTXIBlockEntities
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<EnergyCellArrayBlockEntity>> ENERGY_CELL_ARRAY = TYPES.register(LTXICommonIds.ID_ENERGY_CELL_ARRAY, () -> ConfigurableIOBlockEntityType.sidedBuilder(EnergyCellArrayBlockEntity::new)
             .withBlock(LTXIBlocks.ENERGY_CELL_ARRAY)
             .hasMenu(LTXIMenus.ENERGY_CELL_ARRAY)
-            .withConfigRules(BlockEntityInputType.ITEMS, MACHINE_ITEM_FLUID_RULES)
+            .withConfigRules(BlockEntityInputType.ITEMS, MACHINE_STANDARD_IO)
             .withConfigRules(BlockEntityInputType.ENERGY, builder -> builder.forAllSides().permits(IOAccessSets.INPUT_XOR_OUTPUT_OR_DISABLED).withDefaultIOAccess(IOAccess.INPUT_ONLY).autoOutputByDefault())
             .build());
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<InfiniteECABlockEntity>> INFINITE_ENERGY_CELL_ARRAY = TYPES.register(LTXICommonIds.ID_INFINITE_ENERGY_CELL_ARRAY, () -> ConfigurableIOBlockEntityType.sidedBuilder(InfiniteECABlockEntity::new)
             .withBlock(LTXIBlocks.INFINITE_ENERGY_CELL_ARRAY)
             .hasMenu(LTXIMenus.ENERGY_CELL_ARRAY)
-            .withConfigRules(BlockEntityInputType.ITEMS, MACHINE_ITEM_FLUID_RULES)
+            .withConfigRules(BlockEntityInputType.ITEMS, MACHINE_STANDARD_IO)
             .withConfigRules(BlockEntityInputType.ENERGY, builder -> builder.forAllSides().permits(IOAccessSets.OUTPUT_ONLY_OR_DISABLED).withDefaultIOAccess(IOAccess.OUTPUT_ONLY).autoOutputByDefault())
             .build());
 
@@ -119,15 +118,16 @@ public final class LTXIBlockEntities
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<DigitalSmokerBlockEntity>> DIGITAL_SMOKER = registerItemEnergyMachine(LTXICommonIds.ID_DIGITAL_SMOKER, DigitalSmokerBlockEntity::new, builder -> builder.withBlock(LTXIBlocks.DIGITAL_SMOKER).hasMenu(LTXIMenus.DIGITAL_SMOKER));
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<DigitalBlastFurnaceBlockEntity>> DIGITAL_BLAST_FURNACE = registerItemEnergyMachine(LTXICommonIds.ID_DIGITAL_BLAST_FURNACE, DigitalBlastFurnaceBlockEntity::new, builder -> builder.withBlock(LTXIBlocks.DIGITAL_BLAST_FURNACE).hasMenu(LTXIMenus.DIGITAL_BLAST_FURNACE));
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<GrinderBlockEntity>> GRINDER = registerItemEnergyMachine(LTXICommonIds.ID_GRINDER, GrinderBlockEntity::new, builder -> builder.withBlock(LTXIBlocks.GRINDER).hasMenu(LTXIMenus.GRINDER));
-    public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<MaterialFusingChamberBlockEntity>> MATERIAL_FUSING_CHAMBER = registerItemEnergyFluidMachine(LTXICommonIds.ID_MATERIAL_FUSING_CHAMBER, MaterialFusingChamberBlockEntity::new, MACHINE_ITEM_FLUID_RULES, MACHINE_ENERGY_RULES, MACHINE_FLUID_INPUT_ONLY,
+    public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<MaterialFusingChamberBlockEntity>> MATERIAL_FUSING_CHAMBER = registerItemEnergyFluidMachine(LTXICommonIds.ID_MATERIAL_FUSING_CHAMBER, MaterialFusingChamberBlockEntity::new, MACHINE_STANDARD_IO, MACHINE_INPUT_ONLY, MACHINE_INPUT_ONLY,
             builder -> builder.withBlock(LTXIBlocks.MATERIAL_FUSING_CHAMBER).hasMenu(LTXIMenus.MATERIAL_FUSING_CHAMBER));
-    public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<ElectroCentrifugeBlockEntity>> ELECTROCENTRIFUGE = registerItemEnergyFluidMachine(LTXICommonIds.ID_ELECTROCENTRIFUGE, ElectroCentrifugeBlockEntity::new, MACHINE_ITEM_FLUID_RULES, MACHINE_ENERGY_RULES, MACHINE_ITEM_FLUID_RULES,
+    public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<ElectroCentrifugeBlockEntity>> ELECTROCENTRIFUGE = registerItemEnergyFluidMachine(LTXICommonIds.ID_ELECTROCENTRIFUGE, ElectroCentrifugeBlockEntity::new, MACHINE_STANDARD_IO, MACHINE_INPUT_ONLY, MACHINE_STANDARD_IO,
             builder -> builder.withBlock(LTXIBlocks.ELECTROCENTRIFUGE).hasMenu(LTXIMenus.ELECTROCENTRIFUGE));
-    public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<MixerBlockEntity>> MIXER = registerItemEnergyFluidMachine(LTXICommonIds.ID_MIXER, MixerBlockEntity::new, MACHINE_ITEM_FLUID_RULES, MACHINE_ENERGY_RULES, MACHINE_ITEM_FLUID_RULES,
+    public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<MixerBlockEntity>> MIXER = registerItemEnergyFluidMachine(LTXICommonIds.ID_MIXER, MixerBlockEntity::new, MACHINE_STANDARD_IO, MACHINE_INPUT_ONLY, MACHINE_STANDARD_IO,
             builder -> builder.withBlock(LTXIBlocks.MIXER).hasMenu(LTXIMenus.MIXER));
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<VoltaicInjectorBlockEntity>> VOLTAIC_INJECTOR = registerItemEnergyMachine(LTXICommonIds.ID_VOLTAIC_INJECTOR, VoltaicInjectorBlockEntity::new, builder -> builder.withBlock(LTXIBlocks.VOLTAIC_INJECTOR).hasMenu(LTXIMenus.VOLTAIC_INJECTOR));
-    public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<ChemLabBlockEntity>> CHEM_LAB = registerItemEnergyFluidMachine(LTXICommonIds.ID_CHEM_LAB, ChemLabBlockEntity::new, MACHINE_ITEM_FLUID_RULES, MACHINE_ENERGY_RULES, MACHINE_ITEM_FLUID_RULES,
+    public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<ChemLabBlockEntity>> CHEM_LAB = registerItemEnergyFluidMachine(LTXICommonIds.ID_CHEM_LAB, ChemLabBlockEntity::new, MACHINE_STANDARD_IO, MACHINE_INPUT_ONLY, MACHINE_STANDARD_IO,
             builder -> builder.withBlock(LTXIBlocks.CHEM_LAB).hasMenu(LTXIMenus.CHEM_LAB));
+    public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<AssemblerBlockEntity>> ASSEMBLER = registerItemEnergyFluidMachine(LTXICommonIds.ID_ASSEMBLER, AssemblerBlockEntity::new, MACHINE_STANDARD_IO, MACHINE_INPUT_ONLY, MACHINE_INPUT_ONLY, builder -> builder.withBlock(LTXIBlocks.ASSEMBLER).hasMenu(LTXIMenus.ASSEMBLER));
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<FabricatorBlockEntity>> FABRICATOR = registerItemEnergyMachine(LTXICommonIds.ID_FABRICATOR, FabricatorBlockEntity::new, FABRICATOR_ITEM_RULES, FABRICATOR_ENERGY_RULES, builder -> builder.withBlock(LTXIBlocks.FABRICATOR).hasMenu(LTXIMenus.FABRICATOR));
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<AutoFabricatorBlockEntity>> AUTO_FABRICATOR = registerItemEnergyMachine(LTXICommonIds.ID_AUTO_FABRICATOR, AutoFabricatorBlockEntity::new, builder -> builder.withBlock(LTXIBlocks.AUTO_FABRICATOR).hasMenu(LTXIMenus.AUTO_FABRICATOR));
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<MolecularReconstructorBlockEntity>> MOLECULAR_RECONSTRUCTOR = registerItemEnergyMachine(LTXICommonIds.ID_MOLECULAR_RECONSTRUCTOR, MolecularReconstructorBlockEntity::new, DOUBLE_MACHINE_ITEM_RULES, DOUBLE_MACHINE_ENERGY_RULES, builder -> builder.withBlock(LTXIBlocks.MOLECULAR_RECONSTRUCTOR).hasMenu(LTXIMenus.MOLECULAR_RECONSTRUCTOR));
@@ -155,7 +155,7 @@ public final class LTXIBlockEntities
 
     private static <BE extends LimaBlockEntity> DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<BE>> registerItemEnergyMachine(String name, BlockEntityType.BlockEntitySupplier<BE> beFactory, UnaryOperator<ConfigurableIOBlockEntityType.Builder<BE>> builderOp)
     {
-        return registerItemEnergyMachine(name, beFactory, MACHINE_ITEM_FLUID_RULES, MACHINE_ENERGY_RULES, builderOp);
+        return registerItemEnergyMachine(name, beFactory, MACHINE_STANDARD_IO, MACHINE_INPUT_ONLY, builderOp);
     }
 
     private static <BE extends BaseTurretBlockEntity> DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<BE>> registerTurret(String name, BlockEntityType.BlockEntitySupplier<BE> beFactory, UnaryOperator<ConfigurableIOBlockEntityType.Builder<BE>> builderOp)

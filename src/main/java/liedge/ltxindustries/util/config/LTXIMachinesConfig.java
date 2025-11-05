@@ -36,6 +36,9 @@ public final class LTXIMachinesConfig
     public static final ModConfigSpec.IntValue CHEM_LAB_ENERGY_CAPACITY;
     public static final ModConfigSpec.IntValue CHEM_LAB_ENERGY_USAGE;
 
+    public static final ModConfigSpec.IntValue ASSEMBLER_ENERGY_CAPACITY;
+    public static final ModConfigSpec.IntValue ASSEMBLER_ENERGY_USAGE;
+
     public static final ModConfigSpec.IntValue DIGITAL_GARDEN_ENERGY_CAPACITY;
     public static final ModConfigSpec.IntValue DIGITAL_GARDEN_ENERGY_USAGE;
 
@@ -137,6 +140,14 @@ public final class LTXIMachinesConfig
         CHEM_LAB_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Chem Lab")
                 .defineInRange("energy_capacity", 250_000, 1, Integer.MAX_VALUE);
         CHEM_LAB_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the Chem Lab")
+                .defineInRange("energy_usage", 80, 1, Integer.MAX_VALUE);
+        builder.pop();
+
+        // Assembler
+        builder.push("assembler");
+        ASSEMBLER_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Assembler")
+                .defineInRange("energy_capacity", 250_000, 1, Integer.MAX_VALUE);
+        ASSEMBLER_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the Assembler")
                 .defineInRange("energy_usage", 80, 1, Integer.MAX_VALUE);
         builder.pop();
 

@@ -1,5 +1,6 @@
 package liedge.ltxindustries.menu.layout;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectList;
@@ -31,9 +32,24 @@ public sealed interface RecipeLayout permits MenuLayoutMap
 
         private Builder() {}
 
+        public Builder slotGrid(int x0, int y0, int width, int height, LayoutSlot.Type slotType)
+        {
+            Preconditions.checkArgument(width > 0 && height > 0);
+
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    put(slotType, x0 + x * 18, y0 + y * 18);
+                }
+            }
+
+            return this;
+        }
+
         public Builder itemIn(int x, int y)
         {
-            return put(LayoutSlot.Type.ITEM_INPUT, x,  y);
+            return put(LayoutSlot.Type.ITEM_INPUT, x, y);
         }
 
         public Builder itemOut(int x, int y)
