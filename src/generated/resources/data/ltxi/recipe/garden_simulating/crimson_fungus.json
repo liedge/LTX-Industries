@@ -1,5 +1,6 @@
 {
   "type": "ltxi:garden_simulating",
+  "craft_time": 300,
   "fluid_ingredients": [
     {
       "amount": 250,
@@ -21,5 +22,6 @@
       "count": 1,
       "id": "minecraft:crimson_fungus"
     }
-  ]
+  ],
+  "mode": "ltxi:farming"
 }

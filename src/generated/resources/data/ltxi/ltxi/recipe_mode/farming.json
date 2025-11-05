@@ -1,0 +1,9 @@
+{
+  "display_item": {
+    "id": "minecraft:wheat"
+  },
+  "display_name": {
+    "translate": "recipe_mode.ltxi.farming"
+  },
+  "recipe_types": "ltxi:garden_simulating"
+}

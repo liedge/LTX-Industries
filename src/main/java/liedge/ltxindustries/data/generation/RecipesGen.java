@@ -882,23 +882,29 @@ class RecipesGen extends LimaRecipeProvider
 
     private void gardenSimRecipes(RecipeOutput output, HolderLookup.Provider registries)
     {
+        // Modes
+        Holder<RecipeMode> farming = registries.holderOrThrow(LTXIRecipeModes.GS_FARMING);
+        Holder<RecipeMode> woods = registries.holderOrThrow(LTXIRecipeModes.GS_WOODS);
+        Holder<RecipeMode> orchard = registries.holderOrThrow(LTXIRecipeModes.GS_ORCHARD);
+        Holder<RecipeMode> foliage = registries.holderOrThrow(LTXIRecipeModes.GS_FOLIAGE);
+
         // Crops
-        garden().growSeed(WHEAT_SEEDS, WHEAT, 1).water(250).save(output);
-        garden().reproduce(POTATO, 2).water(250).save(output);
-        garden().reproduce(CARROT, 2).water(250).save(output);
-        garden().growSeed(BEETROOT_SEEDS, BEETROOT, 2).water(250).save(output);
-        garden().reproduce(SWEET_BERRIES).water(250).save(output);
-        garden().reproduce(COCOA_BEANS, 2).water(500).save(output);
-        garden().growSeed(PUMPKIN_SEEDS, PUMPKIN, 1).water(1000).save(output);
-        garden().growSeed(MELON_SEEDS, MELON, 1).water(1000).save(output);
-        garden().reproduce(GLOW_BERRIES).water(250).save(output);
-        garden().reproduce(BAMBOO).water(500).save(output);
-        garden().reproduce(SUGAR_CANE).water(500).save(output);
-        garden().reproduce(CACTUS).water(125).save(output);
-        garden().reproduce(KELP).water(1000).save(output);
-        garden().reproduce(SEA_PICKLE, 2).water(1000).save(output);
-        garden().reproduce(NETHER_WART).water(250).save(output);
-        garden().growSeed(CHORUS_FLOWER, CHORUS_FRUIT, 2).water(1000).save(output);
+        garden().needsMode(farming).growSeed(WHEAT_SEEDS, WHEAT, 1).water(250).save(output);
+        garden().needsMode(farming).reproduce(POTATO, 2).water(250).save(output);
+        garden().needsMode(farming).reproduce(CARROT, 2).water(250).save(output);
+        garden().needsMode(farming).growSeed(BEETROOT_SEEDS, BEETROOT, 2).water(250).save(output);
+        garden().needsMode(farming).reproduce(SWEET_BERRIES).water(250).save(output);
+        garden().needsMode(farming).reproduce(COCOA_BEANS, 2).water(500).save(output);
+        garden().needsMode(farming).growSeed(PUMPKIN_SEEDS, PUMPKIN, 1).water(1000).save(output);
+        garden().needsMode(farming).growSeed(MELON_SEEDS, MELON, 1).water(1000).save(output);
+        garden().needsMode(farming).reproduce(GLOW_BERRIES).water(250).save(output);
+        garden().needsMode(farming).reproduce(BAMBOO).water(500).save(output);
+        garden().needsMode(farming).reproduce(SUGAR_CANE).water(500).save(output);
+        garden().needsMode(farming).reproduce(CACTUS).water(125).save(output);
+        garden().needsMode(farming).reproduce(KELP).water(1000).save(output);
+        garden().needsMode(farming).reproduce(SEA_PICKLE, 2).water(1000).save(output);
+        garden().needsMode(farming).reproduce(NETHER_WART).water(250).save(output);
+        garden().needsMode(farming).growSeed(CHORUS_FLOWER, CHORUS_FRUIT, 2).water(1000).save(output);
 
         // Flowers
         garden().reproduce(DANDELION).water(125).time(300).save(output);
@@ -920,17 +926,26 @@ class RecipesGen extends LimaRecipeProvider
         garden().reproduce(PEONY).water(250).time(300).save(output);
         garden().reproduce(ROSE_BUSH).water(250).time(300).save(output);
         garden().growSeed(PITCHER_POD, PITCHER_PLANT, 1).water(500).save(output);
-        garden().reproduce(AZALEA).water(500).time(300).save(output);
-        garden().reproduce(FLOWERING_AZALEA).water(500).time(300).save(output);
 
         // Shrooms
-        garden().reproduce(RED_MUSHROOM).water(250).save(output);
-        garden().reproduce(BROWN_MUSHROOM).water(250).save(output);
-        garden().reproduce(CRIMSON_FUNGUS).water(250).save(output);
-        garden().reproduce(WARPED_FUNGUS).water(250).save(output);
+        garden().needsMode(farming).reproduce(RED_MUSHROOM).water(250).save(output);
+        garden().needsMode(farming).reproduce(BROWN_MUSHROOM).water(250).save(output);
+
+        // Saplings
+        garden().needsMode(farming).reproduce(OAK_SAPLING).water(250).time(300).save(output);
+        garden().needsMode(farming).reproduce(BIRCH_SAPLING).water(250).time(300).save(output);
+        garden().needsMode(farming).reproduce(SPRUCE_SAPLING).water(250).time(300).save(output);
+        garden().needsMode(farming).reproduce(JUNGLE_SAPLING).water(250).time(300).save(output);
+        garden().needsMode(farming).reproduce(DARK_OAK_SAPLING).water(250).time(300).save(output);
+        garden().needsMode(farming).reproduce(ACACIA_SAPLING).water(250).time(300).save(output);
+        garden().needsMode(farming).reproduce(CHERRY_SAPLING).water(250).time(300).save(output);
+        garden().needsMode(farming).reproduce(MANGROVE_PROPAGULE).water(250).time(300).save(output);
+        garden().needsMode(farming).reproduce(AZALEA).water(250).time(300).save(output);
+        garden().needsMode(farming).reproduce(FLOWERING_AZALEA).water(250).time(300).save(output);
+        garden().needsMode(farming).reproduce(CRIMSON_FUNGUS).water(250).time(300).save(output);
+        garden().needsMode(farming).reproduce(WARPED_FUNGUS).water(250).time(300).save(output);
 
         // Woods
-        Holder<RecipeMode> woods = registries.holderOrThrow(LTXIRecipeModes.GS_WOODS);
         garden().needsMode(woods).growSeed(OAK_SAPLING, OAK_LOG, 4).water(1000).save(output);
         garden().needsMode(woods).growSeed(BIRCH_SAPLING, BIRCH_LOG, 4).water(1000).save(output);
         garden().needsMode(woods).growSeed(SPRUCE_SAPLING, SPRUCE_LOG, 4).water(1000).save(output);
@@ -943,10 +958,9 @@ class RecipesGen extends LimaRecipeProvider
         garden().needsMode(woods).growSeed(WARPED_FUNGUS, WARPED_STEM, 4).water(1000).save(output);
 
         // Orchard
-        garden().needsMode(registries.holderOrThrow(LTXIRecipeModes.GS_ORCHARD)).growSeed(APPLE_SAPLINGS, APPLE, 3).water(1000).save(output);
+        garden().needsMode(orchard).growSeed(APPLE_SAPLINGS, APPLE, 3).water(1000).save(output);
 
         // Foliage
-        Holder<RecipeMode> foliage = registries.holderOrThrow(LTXIRecipeModes.GS_FOLIAGE);
         garden().needsMode(foliage).growSeed(OAK_SAPLING, OAK_LEAVES, 8).water(1500).time(300).save(output);
         garden().needsMode(foliage).growSeed(BIRCH_SAPLING, BIRCH_LEAVES, 8).water(1500).time(300).save(output);
         garden().needsMode(foliage).growSeed(SPRUCE_SAPLING, SPRUCE_LEAVES, 8).water(1500).time(300).save(output);

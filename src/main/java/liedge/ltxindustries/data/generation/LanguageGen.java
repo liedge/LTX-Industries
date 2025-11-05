@@ -289,6 +289,7 @@ class LanguageGen extends LimaLanguageProvider
         recipeMode(LTXIRecipeModes.DYE_EXTRACTION, "Dye Extraction");
         recipeMode(LTXIRecipeModes.CHEM_DISSOLUTION, "Dissolution");
         recipeMode(LTXIRecipeModes.ECF_ELECTROLYZE, "Electrolyze");
+        recipeMode(LTXIRecipeModes.GS_FARMING, "Farming");
         recipeMode(LTXIRecipeModes.GS_WOODS, "Woods");
         recipeMode(LTXIRecipeModes.GS_ORCHARD, "Orchard");
         recipeMode(LTXIRecipeModes.GS_FOLIAGE, "Foliage");

@@ -19,6 +19,8 @@ public final class LTXIRecipeModes
     public static final ResourceKey<RecipeMode> DYE_EXTRACTION = key("dye_extraction");
     public static final ResourceKey<RecipeMode> CHEM_DISSOLUTION = key("chemical_dissolve");
     public static final ResourceKey<RecipeMode> ECF_ELECTROLYZE = key("electrolyze");
+
+    public static final ResourceKey<RecipeMode> GS_FARMING = key("farming");
     public static final ResourceKey<RecipeMode> GS_WOODS = key("lumber");
     public static final ResourceKey<RecipeMode> GS_ORCHARD = key("orchard");
     public static final ResourceKey<RecipeMode> GS_FOLIAGE = key("foliage");
@@ -33,6 +35,8 @@ public final class LTXIRecipeModes
         builder(DYE_EXTRACTION).forTypes(GRINDING, ELECTRO_CENTRIFUGING, ENERGIZING).icon(Items.LIME_DYE).register(context);
         builder(CHEM_DISSOLUTION).forTypes(ELECTRO_CENTRIFUGING, MIXING, CHEMICAL_REACTING).icon(LTXIItems.VIRIDIC_ACID_BUCKET).register(context);
         builder(ECF_ELECTROLYZE).forType(ELECTRO_CENTRIFUGING).icon(LTXIItems.ELECTRIC_CHEMICAL).styledName(LTXIConstants.ELECTRIC_GREEN).register(context);
+
+        builder(GS_FARMING).forType(GARDEN_SIMULATING).icon(Items.WHEAT).register(context);
         builder(GS_WOODS).forType(GARDEN_SIMULATING).icon(Items.OAK_LOG).register(context);
         builder(GS_ORCHARD).forType(GARDEN_SIMULATING).icon(Items.APPLE).register(context);
         builder(GS_FOLIAGE).forType(GARDEN_SIMULATING).icon(Items.OAK_LEAVES).register(context);
