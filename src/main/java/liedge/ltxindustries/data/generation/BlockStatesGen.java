@@ -96,7 +96,7 @@ class BlockStatesGen extends LimaBlockStateProvider
         stateMachineBase(ASSEMBLER);
         primaryMeshBlock(FABRICATOR);
         simpleBlockItem(FABRICATOR);
-        horizontalBlockWithSimpleItem(AUTO_FABRICATOR);
+        horizontalBlock(AUTO_FABRICATOR);
         simpleBlockWithItem(EQUIPMENT_UPGRADE_STATION);
         primaryMeshBlock(MOLECULAR_RECONSTRUCTOR);
         simpleBlockItem(MOLECULAR_RECONSTRUCTOR);
@@ -168,16 +168,10 @@ class BlockStatesGen extends LimaBlockStateProvider
         }, ignoredProperties);
     }
 
-    private void horizontalBlockWithSimpleItem(Holder<Block> holder, ResourceLocation location)
+    private void horizontalBlock(Holder<Block> holder)
     {
-        ModelFile model = existingModel(location);
+        ModelFile model = existingModel(blockFolderLocation(holder));
         horizontalBlock(holder.value(), model, 180);
-        simpleBlockItem(holder, model);
-    }
-
-    private void horizontalBlockWithSimpleItem(Holder<Block> holder)
-    {
-        horizontalBlockWithSimpleItem(holder, blockFolderLocation(holder));
     }
 
     private void stateMachine(Holder<Block> holder, Function<MachineState, ModelFile> modelMapper)

@@ -3,13 +3,18 @@
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
 	"texture_size": [32, 32],
-    "loader": "limacore:block_layers",
+    "loader": "limacore:item_layers",
     "render_type": "cutout",
     "layers": [
-        ["frame"],
         {
+            "name": "frame",
+            "groups": ["frame"]
+        },
+        {
+            "name": "lights",
             "groups": ["lights"],
-            "emissivity": 15
+            "emissivity": 15,
+            "render_type": "limacore:custom_emissive"
         }
     ],
 	"textures": {
@@ -17,7 +22,6 @@
         "frame1": "ltxi:block/auto_fabricator",
 		"lights": "ltxi:solid_lime",
 		"slate_panel": "ltxi:block/slatesteel_panel",
-		"particle": "ltxi:block/titanium_panel",
 		"ti_panel": "ltxi:block/titanium_panel"
 	},
 	"elements": [
@@ -813,6 +817,41 @@
 			}
 		}
 	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [75, 45, 0],
+			"translation": [0, 2.5, 0],
+			"scale": [0.375, 0.375, 0.375]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [75, 45, 0],
+			"translation": [0, 2.5, 0],
+			"scale": [0.375, 0.375, 0.375]
+		},
+		"firstperson_righthand": {
+			"rotation": [0, 135, 0],
+			"translation": [0, 1, 0],
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"firstperson_lefthand": {
+			"rotation": [0, 135, 0],
+			"translation": [0, 1, 0],
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"ground": {
+			"scale": [0.25, 0.25, 0.25]
+		},
+		"gui": {
+			"rotation": [30, 135, 0],
+			"scale": [0.625, 0.625, 0.625]
+		},
+		"fixed": {
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"on_shelf": {
+			"rotation": [0, -180, 0]
+		}
+	},
 	"groups": [
 		{
 			"name": "frame",
