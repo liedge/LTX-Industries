@@ -8,11 +8,11 @@
   ],
   "ingredients": [
     {
-      "type": "limacore:consume_chance",
+      "type": "limacore:deterministic",
+      "chance": 0.0,
       "child": {
         "item": "minecraft:pitcher_pod"
       },
-      "consume_chance": 0.0,
       "count": 1
     }
   ],

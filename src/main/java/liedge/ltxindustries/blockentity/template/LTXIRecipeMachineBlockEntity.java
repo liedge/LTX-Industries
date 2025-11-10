@@ -80,7 +80,7 @@ public abstract class LTXIRecipeMachineBlockEntity<R extends LTXIRecipe> extends
     protected void consumeIngredients(LTXIRecipeInput recipeInput, R recipe, Level level)
     {
         recipe.consumeItemIngredients(recipeInput, level.getRandom());
-        recipe.consumeFluidIngredients(recipeInput);
+        recipe.consumeFluidIngredients(recipeInput, level.getRandom());
     }
 
     @Override

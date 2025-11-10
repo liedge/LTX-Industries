@@ -9,11 +9,11 @@
   ],
   "ingredients": [
     {
-      "type": "limacore:consume_chance",
+      "type": "limacore:deterministic",
+      "chance": 0.0,
       "child": {
         "item": "minecraft:acacia_sapling"
       },
-      "consume_chance": 0.0,
       "count": 1
     }
   ],

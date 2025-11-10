@@ -2,7 +2,7 @@ package liedge.ltxindustries.integration.jei;
 
 import liedge.limacore.recipe.LimaCustomRecipe;
 import liedge.limacore.recipe.LimaRecipeType;
-import liedge.limacore.recipe.ingredient.ConsumeChanceIngredient;
+import liedge.limacore.recipe.ingredient.DeterministicIngredient;
 import liedge.limacore.recipe.result.ItemResult;
 import liedge.limacore.recipe.result.ItemResultType;
 import liedge.limacore.util.LimaTextUtil;
@@ -83,26 +83,30 @@ public abstract class LTXIJeiCategory<R extends LimaCustomRecipe<?>> implements 
         return helper.drawableBuilder(unwrapGuiSpriteTexture(spriteLocation), 0, 0, width, height).setTextureSize(width, height);
     }
 
+    private void deterministicOverlay(IRecipeSlotBuilder slot, DeterministicIngredient<?> ingredient)
+    {
+        if (ingredient.consumeChance() == 0)
+        {
+            slot.setOverlay(ScaledFontDrawable.withStyle("NC", ChatFormatting.GREEN, 0.5f), 1, 1)
+                    .addRichTooltipCallback((view, lines) -> lines.add(LTXILangKeys.INPUT_NOT_CONSUMED_TOOLTIP.translate().withStyle(ChatFormatting.GREEN)));
+        }
+        else
+        {
+            String formattedChance = LimaTextUtil.format1PlacePercentage(ingredient.consumeChance());
+            slot.setOverlay(ScaledFontDrawable.withStyle(formattedChance, ChatFormatting.YELLOW, 0.5f), 1, 1)
+                    .addRichTooltipCallback((view, lines) -> lines.add(LTXILangKeys.INPUT_CONSUME_CHANCE_TOOLTIP.translateArgs(formattedChance).withStyle(ChatFormatting.YELLOW)));
+        }
+    }
+
     protected void sizedIngredientsSlot(IRecipeLayoutBuilder builder, R recipe, int ingredientIndex, int x, int y)
     {
         SizedIngredient sizedIngredient = recipe.getItemIngredient(ingredientIndex);
-
         IRecipeSlotBuilder slot = builder.addSlot(RecipeIngredientRole.INPUT, x, y)
                 .addItemStacks(List.of(sizedIngredient.getItems()));
 
-        if (sizedIngredient.ingredient().getCustomIngredient() instanceof ConsumeChanceIngredient chanceIngredient)
+        if (sizedIngredient.ingredient().getCustomIngredient() instanceof DeterministicIngredient<?> ingredient)
         {
-            if (chanceIngredient.consumeChance() == 0)
-            {
-                slot.setOverlay(ScaledFontDrawable.withStyle("NC", ChatFormatting.GREEN, 0.5f), 1, 1)
-                        .addRichTooltipCallback((view, lines) -> lines.add(LTXILangKeys.INPUT_NOT_CONSUMED_TOOLTIP.translate().withStyle(ChatFormatting.GREEN)));
-            }
-            else
-            {
-                String formattedChance = LimaTextUtil.format1PlacePercentage(chanceIngredient.consumeChance());
-                slot.setOverlay(ScaledFontDrawable.withStyle(formattedChance, ChatFormatting.YELLOW, 0.5f), 1, 1)
-                        .addRichTooltipCallback((view, lines) -> lines.add(LTXILangKeys.INPUT_CONSUME_CHANCE_TOOLTIP.translateArgs(formattedChance).withStyle(ChatFormatting.YELLOW)));
-            }
+            deterministicOverlay(slot, ingredient);
         }
     }
 
@@ -119,13 +123,17 @@ public abstract class LTXIJeiCategory<R extends LimaCustomRecipe<?>> implements 
 
     protected void fluidIngredientSlot(IRecipeLayoutBuilder builder, R recipe, int ingredientIndex, int x, int y)
     {
-        IRecipeSlotBuilder slotBuilder = builder.addSlot(RecipeIngredientRole.INPUT, x, y).setCustomRenderer(NeoForgeTypes.FLUID_STACK, FluidIngredientRenderer.INSTANCE);
-        SizedFluidIngredient ingredient = recipe.getFluidIngredient(ingredientIndex);
+        SizedFluidIngredient sizedIngredient = recipe.getFluidIngredient(ingredientIndex);
+        IRecipeSlotBuilder slot = builder.addSlot(RecipeIngredientRole.INPUT, x, y).setCustomRenderer(NeoForgeTypes.FLUID_STACK, FluidIngredientRenderer.INSTANCE);
 
-        FluidStack[] fluids = ingredient.getFluids();
-        for (FluidStack stack : fluids)
+        for (FluidStack stack : sizedIngredient.getFluids())
         {
-            slotBuilder.addFluidStack(stack.getFluid(), stack.getAmount());
+            slot.addFluidStack(stack.getFluid(), stack.getAmount(), stack.getComponentsPatch());
+        }
+
+        if (sizedIngredient.ingredient() instanceof DeterministicIngredient<?> ingredient)
+        {
+            deterministicOverlay(slot, ingredient);
         }
     }
 
