@@ -104,11 +104,10 @@ public abstract class BaseRecipeMachineBlockEntity<I extends RecipeInput, R exte
     @Override
     public void setCrafting(boolean crafting)
     {
-        if (this.crafting != crafting)
+        if (isCrafting() != crafting)
         {
             this.crafting = crafting;
             setChanged();
-
             onCraftingStateChanged(crafting);
         }
     }

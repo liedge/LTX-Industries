@@ -38,9 +38,10 @@ public final class LTXIBlockEntities
 
     private static void registerCapabilities(final RegisterCapabilitiesEvent event)
     {
-        // Machine capability registration (energy & items)
-        Stream.of(ENERGY_CELL_ARRAY,
-                        INFINITE_ENERGY_CELL_ARRAY,
+        // Machine capability registration (item, energy)
+        Stream.of(
+                ENERGY_CELL_ARRAY,
+                INFINITE_ENERGY_CELL_ARRAY,
                 DIGITAL_FURNACE,
                 DIGITAL_SMOKER,
                 DIGITAL_BLAST_FURNACE,
@@ -53,7 +54,13 @@ public final class LTXIBlockEntities
                 RAILGUN_TURRET)
                 .map(DeferredHolder::get).forEach(type -> registerItemEnergyCaps(event, type));
 
-        Stream.of(MATERIAL_FUSING_CHAMBER, ELECTROCENTRIFUGE, MIXER, CHEM_LAB)
+        // Machine capability registration (item, energy, fluid)
+        Stream.of(
+                MATERIAL_FUSING_CHAMBER,
+                        ELECTROCENTRIFUGE,
+                        MIXER,
+                        CHEM_LAB,
+                        ASSEMBLER)
                 .map(DeferredHolder::get).forEach(type -> registerItemEnergyFluidCaps(event, type));
     }
 

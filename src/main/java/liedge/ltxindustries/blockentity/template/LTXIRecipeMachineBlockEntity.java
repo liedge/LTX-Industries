@@ -178,5 +178,12 @@ public abstract class LTXIRecipeMachineBlockEntity<R extends LTXIRecipe> extends
             BlockState newState = getBlockState().setValue(LTXIBlockProperties.BINARY_MACHINE_STATE, MachineState.of(newCraftingState));
             nonNullLevel().setBlockAndUpdate(getBlockPos(), newState);
         }
+
+        @Override
+        public boolean isCrafting()
+        {
+            boolean state = level != null && level.getBlockState(getBlockPos()).getValue(LTXIBlockProperties.BINARY_MACHINE_STATE) != MachineState.IDLE;
+            return state || super.isCrafting();
+        }
     }
 }
