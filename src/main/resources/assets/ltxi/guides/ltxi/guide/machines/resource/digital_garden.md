@@ -3,7 +3,7 @@ navigation:
     title: "Bio/ARU Garden"
     icon: digital_garden
     parent: machines/resource/index.md
-    position: 1
+    position: 2
 item_ids:
   - digital_garden
 ---

@@ -90,6 +90,7 @@ class LanguageGen extends LimaLanguageProvider
         addBlock(VOLTAIC_INJECTOR, "Voltaic Injector");
         addBlock(CHEM_LAB, "Chem Lab");
         addBlock(ASSEMBLER, "Assembler");
+        addBlock(GEO_SYNTHESIZER, "Geo Synthesizer");
         addBlock(FABRICATOR, "Fabricator");
         addBlock(AUTO_FABRICATOR, "Auto Fabricator");
         addBlock(EQUIPMENT_UPGRADE_STATION, "Equipment Upgrade Station");
@@ -285,6 +286,7 @@ class LanguageGen extends LimaLanguageProvider
         add(CHEMICAL_REACTING, "Chemical Reacting");
         add(GARDEN_SIMULATING, "Garden Simulating");
         add(ASSEMBLING, "Assembling");
+        add(GEO_SYNTHESIS, "Geo Synthesis");
         add(FABRICATING, "Fabricating");
 
         // Recipe sub-modes

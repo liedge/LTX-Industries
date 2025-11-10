@@ -86,6 +86,12 @@ public final class LTXIBlockShapes
             dimensionBox(0, 14, 2, 2, 2, 12),
             // Inner cube
             dimensionBox(0.5d, 3.5d, 0.5d, 15, 12, 15));
+
+    public static final VoxelShape GEO_SYNTHESIZER = Shapes.or(
+            dimensionBox(0, 0, 1, 16, 2, 14),
+            dimensionBox(0.5d, 2, 1.5d, 15, 6, 13),
+            dimensionBox(0, 8, 1, 16, 2, 14),
+            dimensionBox(4, 5, 0.5d, 8, 11, 15));
     //#endregion
 
     //#region Multi-block/mesh shapes

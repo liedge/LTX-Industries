@@ -38,6 +38,8 @@ public final class LTXIRecipeSerializers
     public static final DeferredHolder<RecipeSerializer<?>, LTXIRecipeSerializer<AssemblingRecipe>> ASSEMBLING = register(LTXICommonIds.ID_ASSEMBLING_RECIPE, AssemblingRecipe::new, builder ->
             builder.withItemIngredients(6).withOptionalFluidIngredients(1).withItemResults(1));
     public static final DeferredHolder<RecipeSerializer<?>, LimaRecipeSerializer<FabricatingRecipe>> FABRICATING = SERIALIZERS.register(LTXICommonIds.ID_FABRICATING_RECIPE, id -> LimaRecipeSerializer.of(id, FabricatingRecipe.CODEC, FabricatingRecipe.STREAM_CODEC));
+    public static final DeferredHolder<RecipeSerializer<?>, LTXIRecipeSerializer<GeoSynthesisRecipe>> GEO_SYNTHESIS = register(LTXICommonIds.ID_GEO_SYNTHESIS_RECIPE, GeoSynthesisRecipe::new, builder ->
+            builder.defaultTime(60).withItemIngredients(1).withFluidIngredients(2, 2).withItemResults(1));
     public static final DeferredHolder<RecipeSerializer<?>, LTXIRecipeSerializer<GardenSimulatingRecipe>> GARDEN_SIMULATING = register(LTXICommonIds.ID_GARDEN_SIMULATING_RECIPE, GardenSimulatingRecipe::new, builder ->
             builder.defaultTime(600).withItemIngredients(1).withOptionalFluidIngredients(1).withItemResults(4));
 

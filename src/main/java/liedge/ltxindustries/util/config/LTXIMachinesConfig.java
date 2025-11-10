@@ -39,6 +39,9 @@ public final class LTXIMachinesConfig
     public static final ModConfigSpec.IntValue ASSEMBLER_ENERGY_CAPACITY;
     public static final ModConfigSpec.IntValue ASSEMBLER_ENERGY_USAGE;
 
+    public static final ModConfigSpec.IntValue GEO_SYNTHESIZER_CAPACITY;
+    public static final ModConfigSpec.IntValue GEO_SYNTHESIZER_ENERGY_USAGE;
+
     public static final ModConfigSpec.IntValue DIGITAL_GARDEN_ENERGY_CAPACITY;
     public static final ModConfigSpec.IntValue DIGITAL_GARDEN_ENERGY_USAGE;
 
@@ -149,6 +152,14 @@ public final class LTXIMachinesConfig
                 .defineInRange("energy_capacity", 250_000, 1, Integer.MAX_VALUE);
         ASSEMBLER_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the Assembler")
                 .defineInRange("energy_usage", 80, 1, Integer.MAX_VALUE);
+        builder.pop();
+
+        // Geo Synthesizer
+        builder.push("geo_synthesizer");
+        GEO_SYNTHESIZER_CAPACITY = builder.comment("Base energy capacity of the Geo Synthesizer")
+                .defineInRange("energy_capacity", 100_000, 1, Integer.MAX_VALUE);
+        GEO_SYNTHESIZER_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the Geo Synthesizer")
+                .defineInRange("energy_usage", 10, 1, Integer.MAX_VALUE);
         builder.pop();
 
         // Digital Garden

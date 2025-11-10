@@ -94,6 +94,7 @@ class BlockStatesGen extends LimaBlockStateProvider
         stateMachineBase(VOLTAIC_INJECTOR);
         stateMachineBase(CHEM_LAB);
         stateMachineBase(ASSEMBLER);
+        stateMachineBase(GEO_SYNTHESIZER);
         primaryMeshBlock(FABRICATOR);
         simpleBlockItem(FABRICATOR);
         horizontalBlock(AUTO_FABRICATOR);

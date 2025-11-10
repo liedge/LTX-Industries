@@ -9,6 +9,7 @@
     "ltxi:mixer",
     "ltxi:voltaic_injector",
     "ltxi:chem_lab",
-    "ltxi:assembler"
+    "ltxi:assembler",
+    "ltxi:geo_synthesizer"
   ]
 }

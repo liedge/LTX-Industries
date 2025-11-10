@@ -128,6 +128,7 @@ class RecipesGen extends LimaRecipeProvider
         shaped(VOLTAIC_INJECTOR).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('a', STONE_PRESSURE_PLATE).input('r', LIGHTNING_ROD).patterns("tct", "rar", "tct").save(output);
         shaped(CHEM_LAB).input('t', TITANIUM_INGOT).input('c', T2_CIRCUIT).input('a', BREWING_STAND).input('g', TITANIUM_GLASS).patterns("tct", "gag", "tct").save(output);
         shaped(ASSEMBLER).input('t', TITANIUM_INGOT).input('c', T2_CIRCUIT).input('a', CRAFTER).input('s', SLATESTEEL_INGOT).patterns("tct", "sas", "tct").save(output);
+        shaped(GEO_SYNTHESIZER).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('a', COBBLESTONE).input('s', BUCKET).patterns("tct", "sas", "tct").save(output);
         shaped(FABRICATOR).input('t', TITANIUM_INGOT).input('c', T3_CIRCUIT).input('a', CRAFTING_TABLE).patterns("tct", "cac", "ttt").save(output);
         shaped(AUTO_FABRICATOR).input('p', POLYMER_INGOT).input('t', TITANIUM_INGOT).input('c', T3_CIRCUIT).input('s', SLATESTEEL_INGOT).input('g', TITANIUM_GLASS).input('a', CRAFTER)
                 .patterns("pcp", "gag", "tst").save(output);
@@ -178,6 +179,7 @@ class RecipesGen extends LimaRecipeProvider
         energizingRecipes(output, registries);
         chemLabRecipes(output);
         assemblingRecipes(output, registries);
+        geoSynthesisRecipes(output);
         gardenSimRecipes(output, registries);
 
         // Fabricating recipes
@@ -887,6 +889,21 @@ class RecipesGen extends LimaRecipeProvider
                 .save(output);
     }
 
+    private void geoSynthesisRecipes(RecipeOutput output)
+    {
+        geoSynthesis().randomInput(COBBLESTONE, 1, 0f).randomFluidInput(Fluids.WATER, 1000, 0f).randomFluidInput(Fluids.LAVA, 1000, 0f).output(COBBLESTONE).save(output);
+        geoSynthesis().randomInput(STONE, 1, 0f).randomFluidInput(Fluids.WATER, 1000, 0f).randomFluidInput(Fluids.LAVA, 1000, 0f).output(STONE).save(output);
+        geoSynthesis().randomInput(COBBLED_DEEPSLATE, 1, 0f).randomFluidInput(Fluids.WATER, 1000, 0f).randomFluidInput(Fluids.LAVA, 1000, 0f).output(COBBLED_DEEPSLATE).save(output);
+        geoSynthesis().randomInput(DEEPSLATE, 1, 0f).randomFluidInput(Fluids.WATER, 1000, 0f).randomFluidInput(Fluids.LAVA, 1000, 0f).output(DEEPSLATE).save(output);
+        geoSynthesis().randomInput(GRANITE, 1, 0f).randomFluidInput(Fluids.WATER, 1000, 0f).randomFluidInput(Fluids.LAVA, 1000, 0f).output(GRANITE).save(output);
+        geoSynthesis().randomInput(DIORITE, 1, 0f).randomFluidInput(Fluids.WATER, 1000, 0f).randomFluidInput(Fluids.LAVA, 1000, 0f).output(DIORITE).save(output);
+        geoSynthesis().randomInput(ANDESITE, 1, 0f).randomFluidInput(Fluids.WATER, 1000, 0f).randomFluidInput(Fluids.LAVA, 1000, 0f).output(ANDESITE).save(output);
+        geoSynthesis().randomInput(DRIPSTONE_BLOCK, 1, 0f).randomFluidInput(VIRIDIC_ACID, 1000, 0f).randomFluidInput(Fluids.WATER, 1000, 0f).output(DRIPSTONE_BLOCK).save(output);
+        geoSynthesis().randomInput(BASALT, 1, 0f).randomFluidInput(Fluids.WATER, 1000, 0f).randomFluidInput(Fluids.LAVA, 1000, 0f).output(BASALT).save(output);
+        geoSynthesis().randomInput(BLACKSTONE, 1, 0f).randomFluidInput(Fluids.WATER, 1000, 0f).randomFluidInput(Fluids.LAVA, 1000, 0f).output(BLACKSTONE).save(output);
+        geoSynthesis().randomInput(OBSIDIAN, 1, 0f).randomFluidInput(Fluids.WATER, 1000, 0f).fluidInput(Fluids.LAVA, 1000).time(120).output(OBSIDIAN).save(output);
+    }
+
     private void gardenSimRecipes(RecipeOutput output, HolderLookup.Provider registries)
     {
         // Modes
@@ -1049,6 +1066,11 @@ class RecipesGen extends LimaRecipeProvider
     private LTXIBuilder<AssemblingRecipe> assembling()
     {
         return new LTXIBuilder<>(modResources, LTXIRecipeSerializers.ASSEMBLING);
+    }
+
+    private LTXIBuilder<GeoSynthesisRecipe> geoSynthesis()
+    {
+        return new LTXIBuilder<>(modResources, LTXIRecipeSerializers.GEO_SYNTHESIS);
     }
 
     private GardenBuilder garden()

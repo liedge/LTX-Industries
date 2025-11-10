@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "a": {
+      "item": "minecraft:cobblestone"
+    },
+    "c": {
+      "item": "ltxi:t1_circuit"
+    },
+    "s": {
+      "item": "minecraft:bucket"
+    },
+    "t": {
+      "item": "ltxi:titanium_ingot"
+    }
+  },
+  "pattern": [
+    "tct",
+    "sas",
+    "tct"
+  ],
+  "result": {
+    "count": 1,
+    "id": "ltxi:geo_synthesizer"
+  }
+}

@@ -60,7 +60,8 @@ public final class LTXIBlockEntities
                         ELECTROCENTRIFUGE,
                         MIXER,
                         CHEM_LAB,
-                        ASSEMBLER)
+                        ASSEMBLER,
+                        GEO_SYNTHESIZER)
                 .map(DeferredHolder::get).forEach(type -> registerItemEnergyFluidCaps(event, type));
     }
 
@@ -135,6 +136,7 @@ public final class LTXIBlockEntities
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<ChemLabBlockEntity>> CHEM_LAB = registerItemEnergyFluidMachine(LTXICommonIds.ID_CHEM_LAB, ChemLabBlockEntity::new, MACHINE_STANDARD_IO, MACHINE_INPUT_ONLY, MACHINE_STANDARD_IO,
             builder -> builder.withBlock(LTXIBlocks.CHEM_LAB).hasMenu(LTXIMenus.CHEM_LAB));
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<AssemblerBlockEntity>> ASSEMBLER = registerItemEnergyFluidMachine(LTXICommonIds.ID_ASSEMBLER, AssemblerBlockEntity::new, MACHINE_STANDARD_IO, MACHINE_INPUT_ONLY, MACHINE_INPUT_ONLY, builder -> builder.withBlock(LTXIBlocks.ASSEMBLER).hasMenu(LTXIMenus.ASSEMBLER));
+    public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<GeoSynthesizerBlockEntity>> GEO_SYNTHESIZER = registerItemEnergyFluidMachine(LTXICommonIds.ID_GEO_SYNTHESIZER, GeoSynthesizerBlockEntity::new, MACHINE_STANDARD_IO, MACHINE_INPUT_ONLY, MACHINE_INPUT_ONLY, builder -> builder.withBlock(LTXIBlocks.GEO_SYNTHESIZER).hasMenu(LTXIMenus.GEO_SYNTHESIZER));
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<FabricatorBlockEntity>> FABRICATOR = registerItemEnergyMachine(LTXICommonIds.ID_FABRICATOR, FabricatorBlockEntity::new, FABRICATOR_ITEM_RULES, FABRICATOR_ENERGY_RULES, builder -> builder.withBlock(LTXIBlocks.FABRICATOR).hasMenu(LTXIMenus.FABRICATOR));
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<AutoFabricatorBlockEntity>> AUTO_FABRICATOR = registerItemEnergyMachine(LTXICommonIds.ID_AUTO_FABRICATOR, AutoFabricatorBlockEntity::new, builder -> builder.withBlock(LTXIBlocks.AUTO_FABRICATOR).hasMenu(LTXIMenus.AUTO_FABRICATOR));
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<MolecularReconstructorBlockEntity>> MOLECULAR_RECONSTRUCTOR = registerItemEnergyMachine(LTXICommonIds.ID_MOLECULAR_RECONSTRUCTOR, MolecularReconstructorBlockEntity::new, DOUBLE_MACHINE_ITEM_RULES, DOUBLE_MACHINE_ENERGY_RULES, builder -> builder.withBlock(LTXIBlocks.MOLECULAR_RECONSTRUCTOR).hasMenu(LTXIMenus.MOLECULAR_RECONSTRUCTOR));

@@ -10,6 +10,7 @@
     "ltxi:voltaic_injector",
     "ltxi:chem_lab",
     "ltxi:assembler",
+    "ltxi:geo_synthesizer",
     "ltxi:fabricator",
     "ltxi:auto_fabricator",
     "ltxi:digital_garden",

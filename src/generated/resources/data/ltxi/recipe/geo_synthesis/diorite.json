@@ -1,0 +1,37 @@
+{
+  "type": "ltxi:geo_synthesis",
+  "fluid_ingredients": [
+    {
+      "type": "limacore:deterministic",
+      "amount": 1000,
+      "chance": 0.0,
+      "child": {
+        "fluid": "minecraft:water"
+      }
+    },
+    {
+      "type": "limacore:deterministic",
+      "amount": 1000,
+      "chance": 0.0,
+      "child": {
+        "fluid": "minecraft:lava"
+      }
+    }
+  ],
+  "ingredients": [
+    {
+      "type": "limacore:deterministic",
+      "chance": 0.0,
+      "child": {
+        "item": "minecraft:diorite"
+      },
+      "count": 1
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "minecraft:diorite"
+    }
+  ]
+}

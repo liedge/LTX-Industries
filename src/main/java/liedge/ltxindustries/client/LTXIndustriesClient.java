@@ -129,6 +129,7 @@ public class LTXIndustriesClient
             event.register(LTXIMenus.VOLTAIC_INJECTOR.get(), RecipeLayoutScreen::new);
             event.register(LTXIMenus.CHEM_LAB.get(), RecipeLayoutScreen::new);
             event.register(LTXIMenus.ASSEMBLER.get(), RecipeLayoutScreen::new);
+            event.register(LTXIMenus.GEO_SYNTHESIZER.get(), RecipeLayoutScreen::new);
             event.register(LTXIMenus.FABRICATOR.get(), FabricatorScreen::new);
             event.register(LTXIMenus.AUTO_FABRICATOR.get(), AutoFabricatorScreen::new);
             event.register(LTXIMenus.EQUIPMENT_UPGRADE_STATION.get(), EquipmentUpgradeStationScreen::new);
@@ -194,7 +195,7 @@ public class LTXIndustriesClient
         public void registerBlockColors(final RegisterColorHandlersEvent.Block event)
         {
             final BlockColor water = (state, level, pos, tintIndex) -> (level != null && pos != null && tintIndex == 1) ? BiomeColors.getAverageWaterColor(level, pos) : -1;
-            event.register(water, LTXIBlocks.DIGITAL_GARDEN.get());
+            event.register(water, LTXIBlocks.GEO_SYNTHESIZER.get(), LTXIBlocks.DIGITAL_GARDEN.get());
         }
 
         @SubscribeEvent
