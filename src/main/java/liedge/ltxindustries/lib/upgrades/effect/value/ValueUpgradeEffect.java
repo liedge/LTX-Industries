@@ -1,30 +1,52 @@
 package liedge.ltxindustries.lib.upgrades.effect.value;
 
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.mojang.serialization.MapCodec;
+import liedge.limacore.data.LimaEnumCodec;
 import liedge.limacore.lib.math.MathOperation;
+import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.storage.loot.LootContext;
-import net.minecraft.world.level.storage.loot.providers.number.NumberProvider;
 
-public record ValueUpgradeEffect(UpgradeContextValue value, MathOperation operation)
+public sealed interface ValueUpgradeEffect permits SimpleValueEffect, ContextValueEffect
 {
-    public static final Codec<ValueUpgradeEffect> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            UpgradeContextValue.CODEC.fieldOf("value").forGetter(ValueUpgradeEffect::value),
-            MathOperation.COMPOUND_OP_CODEC.fieldOf("op").forGetter(ValueUpgradeEffect::operation))
-            .apply(instance, ValueUpgradeEffect::new));
+    Codec<ValueUpgradeEffect> CODEC = Type.CODEC.dispatch(ValueUpgradeEffect::getType, Type::getCodec);
 
-    public static ValueUpgradeEffect of(UpgradeDoubleValue value, MathOperation operation)
+    double get(LootContext context, int upgradeRank);
+
+    MathOperation operation();
+
+    Type getType();
+
+    default double apply(LootContext context, int upgradeRank, double base, double total)
     {
-        return new ValueUpgradeEffect(UpgradeContextValue.of(value), operation);
+        return operation().applyCompoundingDouble(total, base, get(context, upgradeRank));
     }
 
-    public static ValueUpgradeEffect of(NumberProvider value, MathOperation operation)
+    enum Type implements StringRepresentable
     {
-        return new ValueUpgradeEffect(UpgradeContextValue.of(value), operation);
-    }
+        SIMPLE("simple", SimpleValueEffect.CODEC),
+        LOOT_CONTEXT("loot_context", ContextValueEffect.CODEC);
 
-    public double apply(LootContext context, int upgradeRank, double base, double total)
-    {
-        return operation.applyCompoundingDouble(total, base, value.get(context, upgradeRank));
+        public static final LimaEnumCodec<Type> CODEC = LimaEnumCodec.create(Type.class);
+
+        private final String name;
+        private final MapCodec<? extends ValueUpgradeEffect> codec;
+
+        Type(String name, MapCodec<? extends ValueUpgradeEffect> codec)
+        {
+            this.name = name;
+            this.codec = codec;
+        }
+
+        @Override
+        public String getSerializedName()
+        {
+            return name;
+        }
+
+        public MapCodec<? extends ValueUpgradeEffect> getCodec()
+        {
+            return codec;
+        }
     }
 }

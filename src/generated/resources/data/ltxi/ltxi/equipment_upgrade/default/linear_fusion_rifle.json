@@ -44,11 +44,9 @@
     "ltxi:equipment_damage": [
       {
         "effect": {
+          "type": "simple",
           "op": "add",
-          "value": {
-            "type": "level_based",
-            "value": 25.0
-          }
+          "value": 25.0
         },
         "requirements": {
           "condition": "minecraft:entity_properties",
@@ -64,11 +62,9 @@
       },
       {
         "effect": {
+          "type": "simple",
           "op": "add_percent_of_total",
-          "value": {
-            "type": "level_based",
-            "value": 0.25
-          }
+          "value": 0.25
         },
         "requirements": {
           "condition": "minecraft:entity_properties",

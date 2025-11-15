@@ -39,20 +39,16 @@
   "effects": {
     "ltxi:energy_capacity": [
       {
+        "type": "simple",
         "op": "replace",
-        "value": {
-          "type": "level_based",
-          "value": 2.0E7
-        }
+        "value": 2.0E7
       }
     ],
     "ltxi:energy_usage": [
       {
+        "type": "simple",
         "op": "replace",
-        "value": {
-          "type": "level_based",
-          "value": 1.0E7
-        }
+        "value": 1.0E7
       }
     ],
     "ltxi:reload_source": {

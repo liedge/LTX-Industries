@@ -57,34 +57,30 @@
   "effects": {
     "ltxi:energy_capacity": [
       {
+        "type": "simple",
         "op": "multiply",
         "value": {
-          "type": "level_based",
-          "value": {
-            "type": "exponential",
+          "type": "exponential",
+          "base": 2.0,
+          "power": {
+            "type": "linear",
             "base": 2.0,
-            "power": {
-              "type": "linear",
-              "base": 2.0,
-              "increment": 1.0
-            }
+            "increment": 1.0
           }
         }
       }
     ],
     "ltxi:energy_transfer_rate": [
       {
+        "type": "simple",
         "op": "multiply",
         "value": {
-          "type": "level_based",
-          "value": {
-            "type": "exponential",
+          "type": "exponential",
+          "base": 2.0,
+          "power": {
+            "type": "linear",
             "base": 2.0,
-            "power": {
-              "type": "linear",
-              "base": 2.0,
-              "increment": 1.0
-            }
+            "increment": 1.0
           }
         }
       }

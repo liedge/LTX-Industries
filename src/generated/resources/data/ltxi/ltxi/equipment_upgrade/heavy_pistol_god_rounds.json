@@ -37,19 +37,17 @@
     "ltxi:equipment_damage": [
       {
         "effect": {
+          "type": "loot_context",
           "op": "add",
           "value": {
-            "type": "loot_context",
-            "value": {
-              "type": "limacore:math_ops",
-              "first": {
-                "type": "limacore:entity_attribute_value",
-                "attribute": "minecraft:generic.max_health",
-                "target": "this"
-              },
-              "op": "multiply",
-              "second": 0.25
-            }
+            "type": "limacore:math_ops",
+            "first": {
+              "type": "limacore:entity_attribute_value",
+              "attribute": "minecraft:generic.max_health",
+              "target": "this"
+            },
+            "op": "multiply",
+            "second": 0.25
           }
         }
       }

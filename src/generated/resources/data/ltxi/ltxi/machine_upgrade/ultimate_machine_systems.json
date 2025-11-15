@@ -58,39 +58,31 @@
   "effects": {
     "ltxi:energy_capacity": [
       {
+        "type": "simple",
         "op": "multiply",
-        "value": {
-          "type": "level_based",
-          "value": 16.0
-        }
+        "value": 16.0
       }
     ],
     "ltxi:energy_transfer_rate": [
       {
+        "type": "simple",
         "op": "multiply",
-        "value": {
-          "type": "level_based",
-          "value": 16.0
-        }
+        "value": 16.0
       }
     ],
     "ltxi:energy_usage": [
       {
+        "type": "simple",
         "op": "multiply",
-        "value": {
-          "type": "level_based",
-          "value": 512.0
-        }
+        "value": 512.0
       }
     ],
     "ltxi:minimum_speed": 0,
     "ltxi:ticks_per_operation": [
       {
+        "type": "simple",
         "op": "multiply",
-        "value": {
-          "type": "level_based",
-          "value": 0.0
-        }
+        "value": 0.0
       }
     ]
   },

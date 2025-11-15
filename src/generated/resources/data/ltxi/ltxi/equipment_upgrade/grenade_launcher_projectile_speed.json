@@ -27,14 +27,12 @@
   "effects": {
     "ltxi:weapon_range": [
       {
+        "type": "simple",
         "op": "add",
         "value": {
-          "type": "level_based",
-          "value": {
-            "type": "linear",
-            "base": 0.5,
-            "increment": 0.5
-          }
+          "type": "linear",
+          "base": 0.5,
+          "increment": 0.5
         }
       }
     ]
