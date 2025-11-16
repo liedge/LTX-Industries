@@ -13,7 +13,7 @@ public record ValueUpgradeEffect(UpgradeContextValue value, MathOperation operat
             MathOperation.COMPOUND_OP_CODEC.fieldOf("op").forGetter(ValueUpgradeEffect::operation))
             .apply(instance, ValueUpgradeEffect::new));
 
-    public static ValueUpgradeEffect of(DoubleLevelBasedValue value, MathOperation operation)
+    public static ValueUpgradeEffect of(UpgradeDoubleValue value, MathOperation operation)
     {
         return new ValueUpgradeEffect(UpgradeContextValue.of(value), operation);
     }

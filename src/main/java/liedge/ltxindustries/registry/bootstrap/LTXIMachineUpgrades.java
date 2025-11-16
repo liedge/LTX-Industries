@@ -4,13 +4,15 @@ import liedge.limacore.lib.math.MathOperation;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.client.LTXILangKeys;
-import liedge.ltxindustries.lib.upgrades.effect.MinimumSpeedUpgradeEffect;
-import liedge.ltxindustries.lib.upgrades.tooltip.*;
-import liedge.ltxindustries.lib.upgrades.effect.value.DoubleLevelBasedValue;
-import liedge.ltxindustries.lib.upgrades.effect.value.ValueUpgradeEffect;
 import liedge.ltxindustries.lib.upgrades.effect.DirectDropsUpgradeEffect;
 import liedge.ltxindustries.lib.upgrades.effect.EnchantmentLevelsUpgradeEffect;
+import liedge.ltxindustries.lib.upgrades.effect.MinimumSpeedUpgradeEffect;
+import liedge.ltxindustries.lib.upgrades.effect.value.*;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrade;
+import liedge.ltxindustries.lib.upgrades.tooltip.UpgradeTooltip;
+import liedge.ltxindustries.lib.upgrades.tooltip.ValueArgument;
+import liedge.ltxindustries.lib.upgrades.tooltip.ValueFormat;
+import liedge.ltxindustries.lib.upgrades.tooltip.ValueSentiment;
 import liedge.ltxindustries.registry.LTXIRegistries;
 import liedge.ltxindustries.registry.game.LTXIBlockEntities;
 import liedge.ltxindustries.registry.game.LTXIItems;
@@ -31,7 +33,7 @@ import static liedge.ltxindustries.LTXIConstants.REM_BLUE;
 import static liedge.ltxindustries.LTXITags.MachineUpgrades.MACHINE_TIER;
 import static liedge.ltxindustries.LTXIndustries.RESOURCES;
 import static liedge.ltxindustries.data.generation.LTXIBootstrapUtil.*;
-import static liedge.ltxindustries.lib.upgrades.UpgradeIcon.*;
+import static liedge.ltxindustries.lib.upgrades.UpgradeIcon.sprite;
 import static liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents.*;
 
 public final class LTXIMachineUpgrades
@@ -62,7 +64,7 @@ public final class LTXIMachineUpgrades
         // AnyHolderSets
         HolderSet<Item> anyItemHolderSet = new AnyHolderSet<>(BuiltInRegistries.ITEM.asLookup());
 
-        DoubleLevelBasedValue ecaScaling = DoubleLevelBasedValue.exponential(2, DoubleLevelBasedValue.linear(3, 1));
+        UpgradeDoubleValue ecaScaling = ExponentialDouble.of(2, LinearDouble.of(3, 1));
         MachineUpgrade.builder(ECA_CAPACITY_UPGRADE)
                 .createDefaultTitle(REM_BLUE)
                 .supports(LTXIBlockEntities.ENERGY_CELL_ARRAY)
@@ -74,27 +76,27 @@ public final class LTXIMachineUpgrades
                 .effectIcon(sprite("extra_energy"))
                 .register(context);
 
-        DoubleLevelBasedValue smsEnergyStorage = DoubleLevelBasedValue.linear(0.5d);
+        UpgradeDoubleValue smsEnergyStorage = LinearDouble.of(0.5d);
         MachineUpgrade.builder(STANDARD_MACHINE_SYSTEMS)
                 .supports(blockEntities, LTXITags.BlockEntities.STANDARD_UPGRADABLE_MACHINES)
                 .exclusiveWith(holders, MACHINE_TIER)
                 .withEffect(ENERGY_CAPACITY, ValueUpgradeEffect.of(smsEnergyStorage, MathOperation.ADD_PERCENT_OF_BASE))
                 .withEffect(ENERGY_TRANSFER_RATE, ValueUpgradeEffect.of(smsEnergyStorage, MathOperation.ADD_PERCENT_OF_BASE))
-                .withEffect(TICKS_PER_OPERATION, ValueUpgradeEffect.of(DoubleLevelBasedValue.linearExponent(0.725d), MathOperation.MULTIPLY))
-                .withEffect(ENERGY_USAGE, ValueUpgradeEffect.of(DoubleLevelBasedValue.linearExponent(1.5d), MathOperation.MULTIPLY))
+                .withEffect(TICKS_PER_OPERATION, ValueUpgradeEffect.of(ExponentialDouble.linearExponent(0.725d), MathOperation.MULTIPLY))
+                .withEffect(ENERGY_USAGE, ValueUpgradeEffect.of(ExponentialDouble.linearExponent(1.5d), MathOperation.MULTIPLY))
                 .withSpecialEffect(MINIMUM_MACHINE_SPEED, MinimumSpeedUpgradeEffect.atLeast(5))
                 .tooltip(energyCapacityTooltip(smsEnergyStorage, ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE))
                 .tooltip(energyTransferTooltip(smsEnergyStorage, ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE))
-                .tooltip(energyUsageTooltip(DoubleLevelBasedValue.linearExponent(1.5d), ValueFormat.MULTIPLICATIVE, ValueSentiment.NEUTRAL))
-                .tooltip(UpgradeTooltip.of(LTXILangKeys.MACHINE_SPEED_UPGRADE, ValueArgument.of(DoubleLevelBasedValue.linearExponent(0.725d), ValueFormat.MULTIPLICATIVE, ValueSentiment.POSITIVE)))
-                .tooltip(UpgradeTooltip.of(LTXILangKeys.ENERGY_PER_RECIPE_UPGRADE, ValueArgument.of(DoubleLevelBasedValue.linearExponent(1.0875d), ValueFormat.MULTIPLICATIVE, ValueSentiment.NEGATIVE)))
+                .tooltip(energyUsageTooltip(ExponentialDouble.linearExponent(1.5d), ValueFormat.MULTIPLICATIVE, ValueSentiment.NEUTRAL))
+                .tooltip(UpgradeTooltip.of(LTXILangKeys.MACHINE_SPEED_UPGRADE, ValueArgument.of(ExponentialDouble.linearExponent(0.725d), ValueFormat.MULTIPLICATIVE, ValueSentiment.POSITIVE)))
+                .tooltip(UpgradeTooltip.of(LTXILangKeys.ENERGY_PER_RECIPE_UPGRADE, ValueArgument.of(ExponentialDouble.linearExponent(1.0875d), ValueFormat.MULTIPLICATIVE, ValueSentiment.NEGATIVE)))
                 .setMaxRank(6)
                 .effectIcon(sprite("standard_gear"))
                 .category("gpm")
                 .register(context);
 
-        DoubleLevelBasedValue umsEnergyStorage = DoubleLevelBasedValue.constant(16);
-        DoubleLevelBasedValue umsEnergyUsage = DoubleLevelBasedValue.constant(512);
+        UpgradeDoubleValue umsEnergyStorage = ConstantDouble.of(16);
+        UpgradeDoubleValue umsEnergyUsage = ConstantDouble.of(512);
         MachineUpgrade.builder(ULTIMATE_MACHINE_SYSTEMS)
                 .createDefaultTitle(LTXIConstants.LIME_GREEN)
                 .supports(blockEntities, LTXITags.BlockEntities.ULTIMATE_UPGRADABLE_MACHINES)
@@ -102,7 +104,7 @@ public final class LTXIMachineUpgrades
                 .withEffect(ENERGY_CAPACITY, ValueUpgradeEffect.of(umsEnergyStorage, MathOperation.MULTIPLY))
                 .withEffect(ENERGY_TRANSFER_RATE, ValueUpgradeEffect.of(umsEnergyStorage, MathOperation.MULTIPLY))
                 .withEffect(ENERGY_USAGE, ValueUpgradeEffect.of(umsEnergyUsage, MathOperation.MULTIPLY))
-                .withEffect(TICKS_PER_OPERATION, ValueUpgradeEffect.of(DoubleLevelBasedValue.constant(0), MathOperation.MULTIPLY))
+                .withEffect(TICKS_PER_OPERATION, ValueUpgradeEffect.of(ConstantDouble.of(0), MathOperation.MULTIPLY))
                 .withSpecialEffect(MINIMUM_MACHINE_SPEED, MinimumSpeedUpgradeEffect.atLeast(0))
                 .tooltip(energyCapacityTooltip(umsEnergyStorage, ValueFormat.MULTIPLICATIVE, ValueSentiment.POSITIVE))
                 .tooltip(energyTransferTooltip(umsEnergyStorage, ValueFormat.MULTIPLICATIVE, ValueSentiment.POSITIVE))
@@ -112,9 +114,9 @@ public final class LTXIMachineUpgrades
                 .category("gpm")
                 .register(context);
 
-        DoubleLevelBasedValue fabCapacity = DoubleLevelBasedValue.linear(2);
-        DoubleLevelBasedValue fabTransfer = DoubleLevelBasedValue.linear(3);
-        DoubleLevelBasedValue fabUsage = DoubleLevelBasedValue.exponential(2, DoubleLevelBasedValue.linear(2, 1));
+        UpgradeDoubleValue fabCapacity = LinearDouble.of(2);
+        UpgradeDoubleValue fabTransfer = LinearDouble.of(3);
+        UpgradeDoubleValue fabUsage = ExponentialDouble.of(2, LinearDouble.of(2, 1));
         MachineUpgrade.builder(FABRICATOR_UPGRADE)
                 .supports(LTXIBlockEntities.FABRICATOR, LTXIBlockEntities.AUTO_FABRICATOR)
                 .withEffect(ENERGY_CAPACITY, ValueUpgradeEffect.of(fabCapacity, MathOperation.ADD_PERCENT_OF_BASE))

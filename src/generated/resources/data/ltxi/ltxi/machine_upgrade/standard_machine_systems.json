@@ -17,7 +17,7 @@
             "value": {
               "type": "linear",
               "base": 0.5,
-              "per_level_after_first": 0.5
+              "increment": 0.5
             }
           }
         ],
@@ -34,7 +34,7 @@
             "value": {
               "type": "linear",
               "base": 0.5,
-              "per_level_after_first": 0.5
+              "increment": 0.5
             }
           }
         ],
@@ -53,7 +53,7 @@
               "power": {
                 "type": "linear",
                 "base": 1.0,
-                "per_level_after_first": 1.0
+                "increment": 1.0
               }
             }
           }
@@ -74,7 +74,7 @@
               "power": {
                 "type": "linear",
                 "base": 1.0,
-                "per_level_after_first": 1.0
+                "increment": 1.0
               }
             }
           }
@@ -92,7 +92,7 @@
               "power": {
                 "type": "linear",
                 "base": 1.0,
-                "per_level_after_first": 1.0
+                "increment": 1.0
               }
             }
           }
@@ -110,7 +110,7 @@
           "value": {
             "type": "linear",
             "base": 0.5,
-            "per_level_after_first": 0.5
+            "increment": 0.5
           }
         }
       }
@@ -123,7 +123,7 @@
           "value": {
             "type": "linear",
             "base": 0.5,
-            "per_level_after_first": 0.5
+            "increment": 0.5
           }
         }
       }
@@ -139,7 +139,7 @@
             "power": {
               "type": "linear",
               "base": 1.0,
-              "per_level_after_first": 1.0
+              "increment": 1.0
             }
           }
         }
@@ -157,7 +157,7 @@
             "power": {
               "type": "linear",
               "base": 1.0,
-              "per_level_after_first": 1.0
+              "increment": 1.0
             }
           }
         }

@@ -21,7 +21,7 @@
               "power": {
                 "type": "linear",
                 "base": 2.0,
-                "per_level_after_first": 1.0
+                "increment": 1.0
               }
             }
           }
@@ -42,7 +42,7 @@
               "power": {
                 "type": "linear",
                 "base": 2.0,
-                "per_level_after_first": 1.0
+                "increment": 1.0
               }
             }
           }
@@ -66,7 +66,7 @@
             "power": {
               "type": "linear",
               "base": 2.0,
-              "per_level_after_first": 1.0
+              "increment": 1.0
             }
           }
         }
@@ -83,7 +83,7 @@
             "power": {
               "type": "linear",
               "base": 2.0,
-              "per_level_after_first": 1.0
+              "increment": 1.0
             }
           }
         }

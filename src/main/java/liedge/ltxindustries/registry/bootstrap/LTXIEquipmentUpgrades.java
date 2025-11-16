@@ -13,13 +13,12 @@ import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.lib.upgrades.effect.*;
-import liedge.ltxindustries.lib.upgrades.tooltip.*;
-import liedge.ltxindustries.lib.upgrades.effect.value.DoubleLevelBasedValue;
-import liedge.ltxindustries.lib.upgrades.effect.value.ValueUpgradeEffect;
 import liedge.ltxindustries.lib.upgrades.effect.entity.BubbleShieldUpgradeEffect;
 import liedge.ltxindustries.lib.upgrades.effect.entity.DynamicDamageTagUpgradeEffect;
 import liedge.ltxindustries.lib.upgrades.effect.entity.MobEffectUpgradeEffect;
+import liedge.ltxindustries.lib.upgrades.effect.value.*;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
+import liedge.ltxindustries.lib.upgrades.tooltip.*;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
 import liedge.ltxindustries.lib.weapons.WeaponReloadSource;
 import liedge.ltxindustries.registry.LTXIRegistries;
@@ -163,17 +162,17 @@ public final class LTXIEquipmentUpgrades
                 .supports(items.getOrThrow(LTXITags.Items.MELEE_WEAPONS))
                 .withEffect(ENCHANTMENT_LEVELS, EnchantmentLevelsUpgradeEffect.fixed(enchantments.getOrThrow(RAZOR), 1, 5))
                 .withEffect(ENCHANTMENT_LEVELS, EnchantmentLevelsUpgradeEffect.fixed(enchantments.getOrThrow(Enchantments.LOOTING), 1, 5))
-                .withConditionalEffect(EQUIPMENT_DAMAGE, ValueUpgradeEffect.of(DoubleLevelBasedValue.constant(0.2d), MathOperation.ADD_PERCENT_OF_TOTAL), NumberComparisonLootCondition.comparingValues(
+                .withConditionalEffect(EQUIPMENT_DAMAGE, ValueUpgradeEffect.of(ConstantDouble.of(0.2d), MathOperation.ADD_PERCENT_OF_TOTAL), NumberComparisonLootCondition.comparingValues(
                         EntityAttributeValueProvider.totalValue(LootContext.EntityTarget.THIS, Attributes.ARMOR),
                         EntityAttributeValueProvider.baseValue(LootContext.EntityTarget.THIS, Attributes.ARMOR),
                         CompareOperation.LESS_THAN_OR_EQUALS))
-                .tooltip(0, key -> UpgradeTooltip.of(key, ValueArgument.of(DoubleLevelBasedValue.constant(0.2d), ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE)))
+                .tooltip(0, key -> UpgradeTooltip.of(key, ValueArgument.of(ConstantDouble.of(0.2d), ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE)))
                 .effectIcon(bottomRightComposite(sprite("razor"), sprite("default_overlay"), 7))
                 .category("default/tool")
                 .register(context);
 
-        DoubleLevelBasedValue gslEnergyCap = DoubleLevelBasedValue.constant(50_000);
-        DoubleLevelBasedValue gslEnergyUse = DoubleLevelBasedValue.constant(5000);
+        UpgradeDoubleValue gslEnergyCap = ConstantDouble.of(50_000);
+        UpgradeDoubleValue gslEnergyUse = ConstantDouble.of(5000);
         EquipmentUpgrade.builder(GLOWSTICK_LAUNCHER_DEFAULT)
                 .supports(LTXIItems.GLOWSTICK_LAUNCHER)
                 .exclusiveWith(holders, AMMO_SOURCE_MODIFIERS)
@@ -203,21 +202,21 @@ public final class LTXIEquipmentUpgrades
                 .register(context);
         EquipmentUpgrade.builder(LFR_DEFAULT)
                 .supports(LTXIItems.LINEAR_FUSION_RIFLE)
-                .withConditionalEffect(EQUIPMENT_DAMAGE, ValueUpgradeEffect.of(DoubleLevelBasedValue.constant(25), MathOperation.ADD),
+                .withConditionalEffect(EQUIPMENT_DAMAGE, ValueUpgradeEffect.of(ConstantDouble.of(25), MathOperation.ADD),
                         LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.ATTACKER, EntityPredicate.Builder.entity()
                                 .distance(DistancePredicate.absolute(MinMaxBounds.Doubles.atLeast(40.0d)))))
-                .withConditionalEffect(EQUIPMENT_DAMAGE, ValueUpgradeEffect.of(DoubleLevelBasedValue.constant(0.25d), MathOperation.ADD_PERCENT_OF_TOTAL),
+                .withConditionalEffect(EQUIPMENT_DAMAGE, ValueUpgradeEffect.of(ConstantDouble.of(0.25d), MathOperation.ADD_PERCENT_OF_TOTAL),
                         LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.ATTACKER, EntityPredicate.Builder.entity()
                                 .moving(MovementPredicate.speed(MinMaxBounds.Doubles.atMost(1e-3d)))
                                 .flags(EntityFlagsPredicate.Builder.flags().setCrouching(true))))
-                .tooltip(0, key -> UpgradeTooltip.of(key, ValueArgument.of(DoubleLevelBasedValue.constant(25), ValueFormat.SIGNED_FLAT_NUMBER, ValueSentiment.POSITIVE)))
-                .tooltip(1, key -> UpgradeTooltip.of(key, ValueArgument.of(DoubleLevelBasedValue.constant(0.25d), ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE)))
+                .tooltip(0, key -> UpgradeTooltip.of(key, ValueArgument.of(ConstantDouble.of(25), ValueFormat.SIGNED_FLAT_NUMBER, ValueSentiment.POSITIVE)))
+                .tooltip(1, key -> UpgradeTooltip.of(key, ValueArgument.of(ConstantDouble.of(0.25d), ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE)))
                 .effectIcon(defaultModuleIcon(LTXIItems.LINEAR_FUSION_RIFLE))
                 .category("default/weapon")
                 .register(context);
 
         // Tool upgrades
-        DoubleLevelBasedValue toolEnergy = DoubleLevelBasedValue.exponential(2, DoubleLevelBasedValue.linear(2, 1));
+        UpgradeDoubleValue toolEnergy = ExponentialDouble.of(2, LinearDouble.of(2, 1));
         EquipmentUpgrade.builder(TOOL_ENERGY_UPGRADE)
                 .createDefaultTitle(REM_BLUE)
                 .supports(ltxAllTools)
@@ -277,15 +276,15 @@ public final class LTXIEquipmentUpgrades
                 .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, DynamicDamageTagUpgradeEffect.of(LTXITags.DamageTypes.BYPASS_SURVIVAL_DEFENSES))
                 .withConditionalEffect(EQUIPMENT_DAMAGE, ValueUpgradeEffect.of(MathOpsNumberProvider.of(EntityAttributeValueProvider.totalValue(LootContext.EntityTarget.THIS, Attributes.MAX_HEALTH), ConstantValue.exactly(0.25f), MathOperation.MULTIPLY), MathOperation.ADD))
                 .tooltip(UpgradeTooltip.of(LTXILangKeys.ATTRIBUTE_SCALED_DAMAGE_UPGRADE,
-                        ValueArgument.of(DoubleLevelBasedValue.constant(0.25d), ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE),
+                        ValueArgument.of(ConstantDouble.of(0.25d), ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE),
                         TooltipArgument.of(Component.translatable(Attributes.MAX_HEALTH.value().getDescriptionId()).withStyle(ChatFormatting.DARK_RED))))
                 .effectIcon(spriteOverItemIcon(LTXIItems.HEAVY_PISTOL, "plus_overlay", 9))
                 .register(context);
         EquipmentUpgrade.builder(GRENADE_LAUNCHER_PROJECTILE_SPEED)
                 .supports(LTXIItems.GRENADE_LAUNCHER)
                 .setMaxRank(2)
-                .withEffect(WEAPON_RANGE, ValueUpgradeEffect.of(DoubleLevelBasedValue.linear(0.5d), MathOperation.ADD))
-                .tooltip(UpgradeTooltip.of(LTXILangKeys.PROJECTILE_SPEED_UPGRADE, ValueArgument.of(DoubleLevelBasedValue.linear(0.5d), ValueFormat.SIGNED_FLAT_NUMBER, ValueSentiment.POSITIVE)))
+                .withEffect(WEAPON_RANGE, ValueUpgradeEffect.of(LinearDouble.of(0.5d), MathOperation.ADD))
+                .tooltip(UpgradeTooltip.of(LTXILangKeys.PROJECTILE_SPEED_UPGRADE, ValueArgument.of(LinearDouble.of(0.5d), ValueFormat.SIGNED_FLAT_NUMBER, ValueSentiment.POSITIVE)))
                 .effectIcon(sprite("grenade_speed_boost"))
                 .register(context);
 
@@ -312,8 +311,8 @@ public final class LTXIEquipmentUpgrades
                 .effectIcon(sprite("broken_armor"))
                 .register(context);
 
-        DoubleLevelBasedValue lightweightEnergyCapacity = DoubleLevelBasedValue.constant(100_000);
-        DoubleLevelBasedValue lightweightEnergyUsage = DoubleLevelBasedValue.constant(10_000);
+        UpgradeDoubleValue lightweightEnergyCapacity = ConstantDouble.of(100_000);
+        UpgradeDoubleValue lightweightEnergyUsage = ConstantDouble.of(10_000);
         EquipmentUpgrade.builder(LIGHTWEIGHT_ENERGY_ADAPTER)
                 .createDefaultTitle(REM_BLUE)
                 .supports(items, LTXITags.Items.LIGHTWEIGHT_WEAPONS)
@@ -327,8 +326,8 @@ public final class LTXIEquipmentUpgrades
                 .category("weapon/ammo")
                 .register(context);
 
-        DoubleLevelBasedValue specialistEnergyCapacity = DoubleLevelBasedValue.constant(5_000_000);
-        DoubleLevelBasedValue specialistEnergyUsage = DoubleLevelBasedValue.constant(1_000_000);
+        UpgradeDoubleValue specialistEnergyCapacity = ConstantDouble.of(5_000_000);
+        UpgradeDoubleValue specialistEnergyUsage = ConstantDouble.of(1_000_000);
         EquipmentUpgrade.builder(SPECIALIST_ENERGY_ADAPTER)
                 .createDefaultTitle(REM_BLUE)
                 .supports(items, LTXITags.Items.SPECIALIST_WEAPONS)
@@ -342,8 +341,8 @@ public final class LTXIEquipmentUpgrades
                 .category("weapon/ammo")
                 .register(context);
 
-        DoubleLevelBasedValue explosivesEnergyCapacity = DoubleLevelBasedValue.constant(20_000_000);
-        DoubleLevelBasedValue explosivesEnergyUsage = DoubleLevelBasedValue.constant(10_000_000);
+        UpgradeDoubleValue explosivesEnergyCapacity = ConstantDouble.of(20_000_000);
+        UpgradeDoubleValue explosivesEnergyUsage = ConstantDouble.of(10_000_000);
         EquipmentUpgrade.builder(EXPLOSIVES_ENERGY_ADAPTER)
                 .createDefaultTitle(REM_BLUE)
                 .supports(items, LTXITags.Items.EXPLOSIVE_WEAPONS)
@@ -357,8 +356,8 @@ public final class LTXIEquipmentUpgrades
                 .category("weapon/ammo")
                 .register(context);
 
-        DoubleLevelBasedValue heavyEnergyCapacity = DoubleLevelBasedValue.constant(50_000_000);
-        DoubleLevelBasedValue heavyEnergyUsage = DoubleLevelBasedValue.constant(25_000_000);
+        UpgradeDoubleValue heavyEnergyCapacity = ConstantDouble.of(50_000_000);
+        UpgradeDoubleValue heavyEnergyUsage = ConstantDouble.of(25_000_000);
         EquipmentUpgrade.builder(HEAVY_ENERGY_ADAPTER)
                 .createDefaultTitle(REM_BLUE)
                 .supports(items, LTXITags.Items.HEAVY_WEAPONS)

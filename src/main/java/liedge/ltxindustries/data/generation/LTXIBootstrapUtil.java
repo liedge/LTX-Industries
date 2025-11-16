@@ -3,7 +3,7 @@ package liedge.ltxindustries.data.generation;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.lib.upgrades.tooltip.*;
 import liedge.ltxindustries.lib.upgrades.UpgradeIcon;
-import liedge.ltxindustries.lib.upgrades.effect.value.DoubleLevelBasedValue;
+import liedge.ltxindustries.lib.upgrades.effect.value.UpgradeDoubleValue;
 import net.minecraft.world.level.ItemLike;
 
 import static liedge.ltxindustries.LTXIConstants.REM_BLUE;
@@ -42,17 +42,17 @@ public final class LTXIBootstrapUtil
     }
 
     // Upgrade tooltips
-    public static UpgradeTooltip energyCapacityTooltip(DoubleLevelBasedValue value, ValueFormat format, ValueSentiment sentiment)
+    public static UpgradeTooltip energyCapacityTooltip(UpgradeDoubleValue value, ValueFormat format, ValueSentiment sentiment)
     {
         return UpgradeTooltip.of(LTXILangKeys.ENERGY_CAPACITY_UPGRADE, REM_BLUE.chatStyle(), ValueArgument.of(value, format, sentiment));
     }
 
-    public static UpgradeTooltip energyTransferTooltip(DoubleLevelBasedValue value, ValueFormat format, ValueSentiment sentiment)
+    public static UpgradeTooltip energyTransferTooltip(UpgradeDoubleValue value, ValueFormat format, ValueSentiment sentiment)
     {
         return UpgradeTooltip.of(LTXILangKeys.ENERGY_TRANSFER_UPGRADE, REM_BLUE.chatStyle(), ValueArgument.of(value, format, sentiment));
     }
 
-    public static UpgradeTooltip energyUsageTooltip(DoubleLevelBasedValue value, ValueFormat format, ValueSentiment sentiment)
+    public static UpgradeTooltip energyUsageTooltip(UpgradeDoubleValue value, ValueFormat format, ValueSentiment sentiment)
     {
         return UpgradeTooltip.of(LTXILangKeys.ENERGY_USAGE_UPGRADE, REM_BLUE.chatStyle(), ValueArgument.of(value, format, sentiment));
     }

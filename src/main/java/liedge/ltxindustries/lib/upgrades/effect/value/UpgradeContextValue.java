@@ -12,7 +12,7 @@ public interface UpgradeContextValue
 {
     Codec<UpgradeContextValue> CODEC = Type.CODEC.dispatch(UpgradeContextValue::getType, Type::getCodec);
 
-    static UpgradeContextValue of(DoubleLevelBasedValue value)
+    static UpgradeContextValue of(UpgradeDoubleValue value)
     {
         return new SimpleValue(value);
     }
@@ -26,9 +26,9 @@ public interface UpgradeContextValue
 
     Type getType();
 
-    record SimpleValue(DoubleLevelBasedValue value) implements UpgradeContextValue
+    record SimpleValue(UpgradeDoubleValue value) implements UpgradeContextValue
     {
-        private static final MapCodec<SimpleValue> CODEC = DoubleLevelBasedValue.CODEC.fieldOf("value").xmap(SimpleValue::new, SimpleValue::value);
+        private static final MapCodec<SimpleValue> CODEC = UpgradeDoubleValue.CODEC.fieldOf("value").xmap(SimpleValue::new, SimpleValue::value);
 
         @Override
         public double get(LootContext context, int upgradeRank)

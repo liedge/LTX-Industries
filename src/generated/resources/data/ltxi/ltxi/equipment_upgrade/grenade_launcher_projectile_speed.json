@@ -16,7 +16,7 @@
             "value": {
               "type": "linear",
               "base": 0.5,
-              "per_level_after_first": 0.5
+              "increment": 0.5
             }
           }
         ],
@@ -33,7 +33,7 @@
           "value": {
             "type": "linear",
             "base": 0.5,
-            "per_level_after_first": 0.5
+            "increment": 0.5
           }
         }
       }
