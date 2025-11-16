@@ -11,8 +11,10 @@
     },
     "tooltips": [
       {
+        "type": "custom_args",
         "args": [
           {
+            "type": "value",
             "format": "multiplicative",
             "sentiment": "positive",
             "value": {
@@ -32,8 +34,10 @@
         }
       },
       {
+        "type": "custom_args",
         "args": [
           {
+            "type": "value",
             "format": "multiplicative",
             "sentiment": "positive",
             "value": {

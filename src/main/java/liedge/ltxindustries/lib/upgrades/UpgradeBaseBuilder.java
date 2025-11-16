@@ -8,7 +8,8 @@ import liedge.limacore.lib.ModResources;
 import liedge.ltxindustries.lib.upgrades.effect.AttributeModifierUpgradeEffect;
 import liedge.ltxindustries.lib.upgrades.effect.DamageAttributesUpgradeEffect;
 import liedge.ltxindustries.lib.upgrades.effect.ItemAttributesUpgradeEffect;
-import liedge.ltxindustries.lib.upgrades.tooltip.UpgradeTooltip;
+import liedge.ltxindustries.lib.upgrades.tooltip.StaticTooltip;
+import liedge.ltxindustries.lib.upgrades.tooltip.UpgradeComponentLike;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
@@ -51,7 +52,7 @@ public final class UpgradeBaseBuilder<CTX, U extends UpgradeBase<CTX, U>> implem
 
     private Component title;
     private Component description;
-    private final List<UpgradeTooltip> tooltips = new ObjectArrayList<>();
+    private final List<UpgradeComponentLike> tooltips = new ObjectArrayList<>();
     private UpgradeIcon icon = UpgradeIcon.noRenderIcon();
     private String category = UpgradeDisplayInfo.NO_CATEGORY;
 
@@ -96,20 +97,20 @@ public final class UpgradeBaseBuilder<CTX, U extends UpgradeBase<CTX, U>> implem
         return this;
     }
 
-    public UpgradeBaseBuilder<CTX, U> tooltip(UpgradeTooltip tooltip)
+    public UpgradeBaseBuilder<CTX, U> tooltip(UpgradeComponentLike tooltip)
     {
         this.tooltips.add(tooltip);
         return this;
     }
 
-    public UpgradeBaseBuilder<CTX, U> tooltip(int index, Function<String, UpgradeTooltip> function)
+    public UpgradeBaseBuilder<CTX, U> tooltip(int index, Function<String, UpgradeComponentLike> function)
     {
         return tooltip(function.apply(tooltipKey(key, index)));
     }
 
     public UpgradeBaseBuilder<CTX, U> tooltip(Component component)
     {
-        return tooltip(UpgradeTooltip.of(component));
+        return tooltip(StaticTooltip.of(component));
     }
 
     public UpgradeBaseBuilder<CTX, U> setMaxRank(int maxRank)

@@ -18,8 +18,10 @@
     },
     "tooltips": [
       {
+        "type": "custom_args",
         "args": [
           {
+            "type": "value",
             "format": "signed_percentage",
             "sentiment": "positive",
             "value": 0.2

@@ -19,8 +19,10 @@
     },
     "tooltips": [
       {
+        "type": "custom_args",
         "args": [
           {
+            "type": "value",
             "format": "signed_flat",
             "sentiment": "positive",
             "value": 25.0
@@ -29,8 +31,10 @@
         "key": "equipment_upgrade.ltxi.default.linear_fusion_rifle.tooltip0"
       },
       {
+        "type": "custom_args",
         "args": [
           {
+            "type": "value",
             "format": "signed_percentage",
             "sentiment": "positive",
             "value": 0.25

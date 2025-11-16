@@ -10,8 +10,10 @@
     },
     "tooltips": [
       {
+        "type": "custom_args",
         "args": [
           {
+            "type": "value",
             "format": "signed_percentage",
             "sentiment": "positive",
             "value": {
@@ -27,8 +29,10 @@
         }
       },
       {
+        "type": "custom_args",
         "args": [
           {
+            "type": "value",
             "format": "signed_percentage",
             "sentiment": "positive",
             "value": {
@@ -44,8 +48,10 @@
         }
       },
       {
+        "type": "custom_args",
         "args": [
           {
+            "type": "value",
             "format": "multiplicative",
             "value": {
               "type": "exponential",
@@ -64,8 +70,10 @@
         }
       },
       {
+        "type": "custom_args",
         "args": [
           {
+            "type": "value",
             "format": "multiplicative",
             "sentiment": "positive",
             "value": {
@@ -82,8 +90,10 @@
         "key": "upgrade_effect.ltxi.machine_speed"
       },
       {
+        "type": "custom_args",
         "args": [
           {
+            "type": "value",
             "format": "multiplicative",
             "sentiment": "negative",
             "value": {

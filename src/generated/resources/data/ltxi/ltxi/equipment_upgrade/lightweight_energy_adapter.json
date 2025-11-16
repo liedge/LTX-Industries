@@ -11,8 +11,10 @@
     },
     "tooltips": [
       {
+        "type": "custom_args",
         "args": [
           {
+            "type": "value",
             "format": "flat",
             "value": 100000.0
           }
@@ -23,8 +25,10 @@
         }
       },
       {
+        "type": "custom_args",
         "args": [
           {
+            "type": "value",
             "format": "flat",
             "value": 10000.0
           }

@@ -8,7 +8,7 @@ import liedge.limacore.client.LimaComponentUtil;
 import liedge.limacore.network.LimaStreamCodecs;
 import liedge.limacore.util.LimaRegistryUtil;
 import liedge.ltxindustries.lib.upgrades.effect.UpgradeDataComponentType;
-import liedge.ltxindustries.lib.upgrades.tooltip.UpgradeTooltip;
+import liedge.ltxindustries.lib.upgrades.tooltip.UpgradeComponentLike;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
@@ -61,7 +61,7 @@ public interface UpgradeBase<CTX, U extends UpgradeBase<CTX, U>>
 
     default void applyEffectsTooltips(int upgradeRank, Consumer<Component> consumer)
     {
-        for (UpgradeTooltip tooltip : display().tooltips())
+        for (UpgradeComponentLike tooltip : display().tooltips())
         {
             consumer.accept(LimaComponentUtil.BULLET_1_INDENT.copy().withStyle(ChatFormatting.GRAY).append(tooltip.get(upgradeRank)));
         }

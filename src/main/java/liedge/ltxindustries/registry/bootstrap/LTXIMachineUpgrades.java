@@ -9,8 +9,8 @@ import liedge.ltxindustries.lib.upgrades.effect.EnchantmentLevelsUpgradeEffect;
 import liedge.ltxindustries.lib.upgrades.effect.MinimumSpeedUpgradeEffect;
 import liedge.ltxindustries.lib.upgrades.effect.value.*;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrade;
-import liedge.ltxindustries.lib.upgrades.tooltip.UpgradeTooltip;
-import liedge.ltxindustries.lib.upgrades.tooltip.ValueArgument;
+import liedge.ltxindustries.lib.upgrades.tooltip.TranslatableTooltip;
+import liedge.ltxindustries.lib.upgrades.tooltip.ValueComponent;
 import liedge.ltxindustries.lib.upgrades.tooltip.ValueFormat;
 import liedge.ltxindustries.lib.upgrades.tooltip.ValueSentiment;
 import liedge.ltxindustries.registry.LTXIRegistries;
@@ -88,8 +88,8 @@ public final class LTXIMachineUpgrades
                 .tooltip(energyCapacityTooltip(smsEnergyStorage, ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE))
                 .tooltip(energyTransferTooltip(smsEnergyStorage, ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE))
                 .tooltip(energyUsageTooltip(ExponentialDouble.linearExponent(1.5d), ValueFormat.MULTIPLICATIVE, ValueSentiment.NEUTRAL))
-                .tooltip(UpgradeTooltip.of(LTXILangKeys.MACHINE_SPEED_UPGRADE, ValueArgument.of(ExponentialDouble.linearExponent(0.725d), ValueFormat.MULTIPLICATIVE, ValueSentiment.POSITIVE)))
-                .tooltip(UpgradeTooltip.of(LTXILangKeys.ENERGY_PER_RECIPE_UPGRADE, ValueArgument.of(ExponentialDouble.linearExponent(1.0875d), ValueFormat.MULTIPLICATIVE, ValueSentiment.NEGATIVE)))
+                .tooltip(TranslatableTooltip.create(LTXILangKeys.MACHINE_SPEED_UPGRADE, ValueComponent.of(ExponentialDouble.linearExponent(0.725d), ValueFormat.MULTIPLICATIVE, ValueSentiment.POSITIVE)))
+                .tooltip(TranslatableTooltip.create(LTXILangKeys.ENERGY_PER_RECIPE_UPGRADE, ValueComponent.of(ExponentialDouble.linearExponent(1.0875d), ValueFormat.MULTIPLICATIVE, ValueSentiment.NEGATIVE)))
                 .setMaxRank(6)
                 .effectIcon(sprite("standard_gear"))
                 .category("gpm")

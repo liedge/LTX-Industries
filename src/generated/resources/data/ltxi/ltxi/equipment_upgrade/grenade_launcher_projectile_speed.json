@@ -9,8 +9,10 @@
     },
     "tooltips": [
       {
+        "type": "custom_args",
         "args": [
           {
+            "type": "value",
             "format": "signed_flat",
             "sentiment": "positive",
             "value": {

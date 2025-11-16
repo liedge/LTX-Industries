@@ -42,18 +42,18 @@ public final class LTXIBootstrapUtil
     }
 
     // Upgrade tooltips
-    public static UpgradeTooltip energyCapacityTooltip(UpgradeDoubleValue value, ValueFormat format, ValueSentiment sentiment)
+    public static UpgradeComponentLike energyCapacityTooltip(UpgradeDoubleValue value, ValueFormat format, ValueSentiment sentiment)
     {
-        return UpgradeTooltip.of(LTXILangKeys.ENERGY_CAPACITY_UPGRADE, REM_BLUE.chatStyle(), ValueArgument.of(value, format, sentiment));
+        return TranslatableTooltip.create(LTXILangKeys.ENERGY_CAPACITY_UPGRADE, REM_BLUE.chatStyle(), ValueComponent.of(value, format, sentiment));
     }
 
-    public static UpgradeTooltip energyTransferTooltip(UpgradeDoubleValue value, ValueFormat format, ValueSentiment sentiment)
+    public static UpgradeComponentLike energyTransferTooltip(UpgradeDoubleValue value, ValueFormat format, ValueSentiment sentiment)
     {
-        return UpgradeTooltip.of(LTXILangKeys.ENERGY_TRANSFER_UPGRADE, REM_BLUE.chatStyle(), ValueArgument.of(value, format, sentiment));
+        return TranslatableTooltip.create(LTXILangKeys.ENERGY_TRANSFER_UPGRADE, REM_BLUE.chatStyle(), ValueComponent.of(value, format, sentiment));
     }
 
-    public static UpgradeTooltip energyUsageTooltip(UpgradeDoubleValue value, ValueFormat format, ValueSentiment sentiment)
+    public static UpgradeComponentLike energyUsageTooltip(UpgradeDoubleValue value, ValueFormat format, ValueSentiment sentiment)
     {
-        return UpgradeTooltip.of(LTXILangKeys.ENERGY_USAGE_UPGRADE, REM_BLUE.chatStyle(), ValueArgument.of(value, format, sentiment));
+        return TranslatableTooltip.create(LTXILangKeys.ENERGY_USAGE_UPGRADE, REM_BLUE.chatStyle(), ValueComponent.of(value, format, sentiment));
     }
 }
