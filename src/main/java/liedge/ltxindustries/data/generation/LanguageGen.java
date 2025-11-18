@@ -137,6 +137,8 @@ class LanguageGen extends LimaLanguageProvider
         addItem(SLATESTEEL_INGOT, "Slatesteel Ingot");
         addItem(SLATESTEEL_NUGGET, "Slatesteel Nugget");
         addItem(POLYMER_INGOT, "Polymer Bar");
+        addItem(TITANIUM_GEAR, "Titanium Gear");
+        addItem(SLATESTEEL_GEAR, "Slatesteel Gear");
         addItem(CIRCUIT_BOARD, "Circuit Board");
         simpleHintItem(T1_CIRCUIT, "Basic Circuit", "First tier circuit. Sufficient energy and data throughput for most entry-level applications.");
         simpleHintItem(T2_CIRCUIT, "Enhanced Circuit", "Second tier circuit. Improved energy and data efficiency from higher quality conductors.");

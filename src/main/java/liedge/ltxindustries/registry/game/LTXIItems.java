@@ -91,6 +91,8 @@ public final class LTXIItems
     public static final DeferredItem<Item> URANIUM_ORE_PEBBLES = ITEMS.registerSimpleItem("uranium_ore_pebbles");
 
     // Components
+    public static final DeferredItem<Item> TITANIUM_GEAR = ITEMS.registerSimpleItem("titanium_gear");
+    public static final DeferredItem<Item> SLATESTEEL_GEAR = ITEMS.registerSimpleItem("slatesteel_gear");
     public static final DeferredItem<Item> CIRCUIT_BOARD = ITEMS.registerSimpleItem("circuit_board");
     public static final DeferredItem<SimpleHintItem> T1_CIRCUIT = registerSimpleHint("t1_circuit");
     public static final DeferredItem<SimpleHintItem> T2_CIRCUIT = registerSimpleHint("t2_circuit");

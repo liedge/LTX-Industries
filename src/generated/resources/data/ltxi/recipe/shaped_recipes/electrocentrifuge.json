@@ -9,6 +9,9 @@
       "item": "ltxi:t2_circuit"
     },
     "g": {
+      "item": "ltxi:titanium_gear"
+    },
+    "s": {
       "item": "ltxi:titanium_glass"
     },
     "t": {
@@ -17,7 +20,7 @@
   },
   "pattern": [
     "gcg",
-    "gag",
+    "sas",
     "tct"
   ],
   "result": {

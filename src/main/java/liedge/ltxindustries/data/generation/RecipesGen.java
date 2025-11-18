@@ -98,6 +98,8 @@ class RecipesGen extends LimaRecipeProvider
         shaped(SLATESTEEL_PANEL, 32).input('s', SLATESTEEL_INGOT).input('f', POLYMER_INGOT).patterns("sfs", "f f", "sfs").bookCategory(CraftingBookCategory.BUILDING).save(output);
         shaped(SMOOTH_SLATESTEEL_PANEL, 32).input('s', SLATESTEEL_INGOT).input('f', POLYMER_INGOT).patterns("fsf", "s s", "fsf").bookCategory(CraftingBookCategory.BUILDING).save(output);
 
+        shaped(TITANIUM_GEAR).input('i', TITANIUM_INGOT).input('n', NUGGETS_IRON).patterns("ini", "n n", "ini").save(output);
+        shaped(SLATESTEEL_GEAR).input('i', SLATESTEEL_INGOT).input('n', NUGGETS_IRON).patterns("ini", "n n", "ini").save(output);
         shaped(T1_CIRCUIT).input('c', STONE_PRESSURE_PLATE).input('m', COPPER_INGOT).input('r', REDSTONE).input('t', TITANIUM_INGOT).patterns("tmt", "mcm", "rmr").save(output);
         shaped(T2_CIRCUIT).input('c', T1_CIRCUIT).input('m', GOLD_INGOT).input('r', REPEATER).input('t', TITANIUM_INGOT).input('b', COPPER_INGOT).patterns(" r ", "mcm", "tbt").save(output);
 
@@ -118,20 +120,20 @@ class RecipesGen extends LimaRecipeProvider
 
         // Machine recipes
         shaped(ENERGY_CELL_ARRAY).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('e', ELECTRIC_CHEMICAL).input('b', COPPER_BLOCK).patterns("tct", "ebe", "tct").save(output);
-        shaped(DIGITAL_FURNACE).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('a', FURNACE).input('g', GLASS_BLOCKS_CHEAP).patterns("tct", "gag", "tct").save(output);
-        shaped(DIGITAL_SMOKER).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('a', SMOKER).input('g', GLASS_BLOCKS_CHEAP).patterns("tct", "gag", "tct").save(output);
-        shaped(DIGITAL_BLAST_FURNACE).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('a', BLAST_FURNACE).input('g', GLASS_BLOCKS_CHEAP).patterns("tct", "gag", "tct").save(output);
-        shaped(GRINDER).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('a', GRINDSTONE).input('i', IRON_INGOT).patterns("tct", "iai", "tct").save(output);
-        shaped(MATERIAL_FUSING_CHAMBER).input('t', TITANIUM_INGOT).input('c', T2_CIRCUIT).input('a', BLAST_FURNACE).input('o', OBSIDIAN).patterns("tct", "oao", "tct").save(output);
-        shaped(ELECTROCENTRIFUGE).input('t', TITANIUM_INGOT).input('c', T2_CIRCUIT).input('a', CAULDRON).input('g', TITANIUM_GLASS).patterns("gcg", "gag", "tct").save(output);
-        shaped(MIXER).input('t', TITANIUM_INGOT).input('c', T2_CIRCUIT).input('a', CAULDRON).input('g', TITANIUM_GLASS).patterns("tct", "gag", "tct").save(output);
-        shaped(VOLTAIC_INJECTOR).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('a', STONE_PRESSURE_PLATE).input('r', LIGHTNING_ROD).patterns("tct", "rar", "tct").save(output);
-        shaped(CHEM_LAB).input('t', TITANIUM_INGOT).input('c', T2_CIRCUIT).input('a', BREWING_STAND).input('g', TITANIUM_GLASS).patterns("tct", "gag", "tct").save(output);
-        shaped(ASSEMBLER).input('t', TITANIUM_INGOT).input('c', T2_CIRCUIT).input('a', CRAFTER).input('s', SLATESTEEL_INGOT).patterns("tct", "sas", "tct").save(output);
-        shaped(GEO_SYNTHESIZER).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('a', COBBLESTONE).input('s', BUCKET).patterns("tct", "sas", "tct").save(output);
-        shaped(FABRICATOR).input('t', TITANIUM_INGOT).input('c', T3_CIRCUIT).input('a', CRAFTING_TABLE).patterns("tct", "cac", "ttt").save(output);
-        shaped(AUTO_FABRICATOR).input('p', POLYMER_INGOT).input('t', TITANIUM_INGOT).input('c', T3_CIRCUIT).input('s', SLATESTEEL_INGOT).input('g', TITANIUM_GLASS).input('a', CRAFTER)
-                .patterns("pcp", "gag", "tst").save(output);
+        shaped(DIGITAL_FURNACE).input('t', TITANIUM_INGOT).input('g', TITANIUM_GEAR).input('c', T1_CIRCUIT).input('a', FURNACE).input('s', GLASS_BLOCKS_CHEAP).patterns("tct", "sas", "gcg").save(output);
+        shaped(DIGITAL_SMOKER).input('t', TITANIUM_INGOT).input('g', TITANIUM_GEAR).input('c', T1_CIRCUIT).input('a', SMOKER).input('s', GLASS_BLOCKS_CHEAP).patterns("tct", "sas", "gcg").save(output);
+        shaped(DIGITAL_BLAST_FURNACE).input('t', TITANIUM_INGOT).input('g', TITANIUM_GEAR).input('c', T1_CIRCUIT).input('a', BLAST_FURNACE).input('s', GLASS_BLOCKS_CHEAP).patterns("tct", "sas", "gcg").save(output);
+        shaped(GRINDER).input('t', TITANIUM_INGOT).input('g', TITANIUM_GEAR).input('c', T1_CIRCUIT).input('s', IRON_INGOT).patterns("tct", "sgs", "gcg").save(output);
+        shaped(MATERIAL_FUSING_CHAMBER).input('t', TITANIUM_INGOT).input('g', TITANIUM_GEAR).input('c', T1_CIRCUIT).input('a', BLAST_FURNACE).input('s', OBSIDIAN).patterns("tct", "sas", "gcg").save(output);
+        shaped(ELECTROCENTRIFUGE).input('t', TITANIUM_INGOT).input('g', TITANIUM_GEAR).input('c', T2_CIRCUIT).input('a', CAULDRON).input('s', TITANIUM_GLASS).patterns("gcg", "sas", "tct").save(output);
+        shaped(MIXER).input('t', TITANIUM_INGOT).input('g', TITANIUM_GEAR).input('c', T2_CIRCUIT).input('a', CAULDRON).input('s', TITANIUM_GLASS).patterns("tct", "sas", "gcg").save(output);
+        shaped(VOLTAIC_INJECTOR).input('t', TITANIUM_INGOT).input('g', TITANIUM_GEAR).input('c', T1_CIRCUIT).input('a', LIGHTNING_ROD).input('s', COPPER_INGOT).patterns("tct", "sas", "gcg").save(output);
+        shaped(CHEM_LAB).input('t', TITANIUM_INGOT).input('g', TITANIUM_GEAR).input('c', T2_CIRCUIT).input('a', SLATESTEEL_GEAR).input('s', TITANIUM_GLASS).patterns("tct", "sas", "gcg").save(output);
+        shaped(ASSEMBLER).input('t', TITANIUM_INGOT).input('g', SLATESTEEL_GEAR).input('c', T2_CIRCUIT).input('a', CRAFTER).input('s', POLYMER_INGOT).patterns("tct", "sas", "gcg").save(output);
+        shaped(GEO_SYNTHESIZER).input('t', TITANIUM_INGOT).input('g', TITANIUM_GEAR).input('c', T1_CIRCUIT).input('a', COBBLESTONE).input('s', BUCKET).patterns("tct", "sas", "gcg").save(output);
+        shaped(FABRICATOR).input('t', TITANIUM_INGOT).input('c', T3_CIRCUIT).input('a', CRAFTING_TABLE).input('g', SLATESTEEL_GEAR).patterns("tct", "cac", "gtg").save(output);
+        shaped(AUTO_FABRICATOR).input('p', POLYMER_INGOT).input('t', TITANIUM_INGOT).input('c', T3_CIRCUIT).input('g', SLATESTEEL_GEAR).input('s', TITANIUM_GLASS).input('a', CRAFTER)
+                .patterns("pcp", "sas", "tgt").save(output);
         shaped(EQUIPMENT_UPGRADE_STATION).input('t', TITANIUM_INGOT).input('a', ANVIL).input('l', DYES_LIME).patterns("ttt",  "lal", "ttt").save(output);
 
         // Standard machine systems
@@ -211,17 +213,20 @@ class RecipesGen extends LimaRecipeProvider
                 .save(output);
         fabricating(1_000_000)
                 .input(T4_CIRCUIT)
-                .input(TITANIUM_INGOT, 16)
-                .input(POLYMER_INGOT, 24)
-                .input(TITANIUM_GLASS, 12)
+                .input(TITANIUM_INGOT, 8)
+                .input(POLYMER_INGOT, 8)
+                .input(TITANIUM_GEAR, 2)
+                .input(SLATESTEEL_GEAR)
+                .input(TITANIUM_GLASS, 16)
                 .output(DIGITAL_GARDEN)
                 .group("machines")
                 .save(output);
-        fabricating(2_000_000)
-                .input(ANVIL)
-                .input(TITANIUM_INGOT, 20)
-                .input(SLATESTEEL_BLOCK)
+        fabricating(10_000_000)
                 .input(T4_CIRCUIT)
+                .input(ANVIL)
+                .input(TITANIUM_BLOCK)
+                .input(TITANIUM_GEAR, 2)
+                .input(SLATESTEEL_GEAR, 4)
                 .output(MOLECULAR_RECONSTRUCTOR)
                 .group("machines")
                 .save(output);

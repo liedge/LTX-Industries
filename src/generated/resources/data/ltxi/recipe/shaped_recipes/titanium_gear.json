@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "i": {
+      "item": "ltxi:titanium_ingot"
+    },
+    "n": {
+      "tag": "c:nuggets/iron"
+    }
+  },
+  "pattern": [
+    "ini",
+    "n n",
+    "ini"
+  ],
+  "result": {
+    "count": 1,
+    "id": "ltxi:titanium_gear"
+  }
+}

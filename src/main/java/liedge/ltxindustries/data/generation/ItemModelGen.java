@@ -43,6 +43,8 @@ class ItemModelGen extends LimaItemModelProvider
                 SPARK_FRUIT,
                 VITRIOL_BERRIES,
                 GLOOM_SHROOM,
+                TITANIUM_GEAR,
+                SLATESTEEL_GEAR,
                 CIRCUIT_BOARD,
                 T1_CIRCUIT,
                 T2_CIRCUIT,

@@ -9,13 +9,13 @@
       "item": "ltxi:t3_circuit"
     },
     "g": {
-      "item": "ltxi:titanium_glass"
+      "item": "ltxi:slatesteel_gear"
     },
     "p": {
       "item": "ltxi:polymer_ingot"
     },
     "s": {
-      "item": "ltxi:slatesteel_ingot"
+      "item": "ltxi:titanium_glass"
     },
     "t": {
       "item": "ltxi:titanium_ingot"
@@ -23,8 +23,8 @@
   },
   "pattern": [
     "pcp",
-    "gag",
-    "tst"
+    "sas",
+    "tgt"
   ],
   "result": {
     "count": 1,

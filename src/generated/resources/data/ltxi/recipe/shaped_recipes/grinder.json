@@ -2,13 +2,13 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "a": {
-      "item": "minecraft:grindstone"
-    },
     "c": {
       "item": "ltxi:t1_circuit"
     },
-    "i": {
+    "g": {
+      "item": "ltxi:titanium_gear"
+    },
+    "s": {
       "item": "minecraft:iron_ingot"
     },
     "t": {
@@ -17,8 +17,8 @@
   },
   "pattern": [
     "tct",
-    "iai",
-    "tct"
+    "sgs",
+    "gcg"
   ],
   "result": {
     "count": 1,

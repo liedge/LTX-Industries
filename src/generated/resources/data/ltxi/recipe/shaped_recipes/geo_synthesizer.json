@@ -8,6 +8,9 @@
     "c": {
       "item": "ltxi:t1_circuit"
     },
+    "g": {
+      "item": "ltxi:titanium_gear"
+    },
     "s": {
       "item": "minecraft:bucket"
     },
@@ -18,7 +21,7 @@
   "pattern": [
     "tct",
     "sas",
-    "tct"
+    "gcg"
   ],
   "result": {
     "count": 1,

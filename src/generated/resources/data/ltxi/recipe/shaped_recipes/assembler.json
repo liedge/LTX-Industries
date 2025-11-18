@@ -8,8 +8,11 @@
     "c": {
       "item": "ltxi:t2_circuit"
     },
+    "g": {
+      "item": "ltxi:slatesteel_gear"
+    },
     "s": {
-      "item": "ltxi:slatesteel_ingot"
+      "item": "ltxi:polymer_ingot"
     },
     "t": {
       "item": "ltxi:titanium_ingot"
@@ -18,7 +21,7 @@
   "pattern": [
     "tct",
     "sas",
-    "tct"
+    "gcg"
   ],
   "result": {
     "count": 1,

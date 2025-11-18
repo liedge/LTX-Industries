@@ -3,13 +3,16 @@
   "category": "misc",
   "key": {
     "a": {
-      "item": "minecraft:stone_pressure_plate"
+      "item": "minecraft:lightning_rod"
     },
     "c": {
       "item": "ltxi:t1_circuit"
     },
-    "r": {
-      "item": "minecraft:lightning_rod"
+    "g": {
+      "item": "ltxi:titanium_gear"
+    },
+    "s": {
+      "item": "minecraft:copper_ingot"
     },
     "t": {
       "item": "ltxi:titanium_ingot"
@@ -17,8 +20,8 @@
   },
   "pattern": [
     "tct",
-    "rar",
-    "tct"
+    "sas",
+    "gcg"
   ],
   "result": {
     "count": 1,

@@ -9,6 +9,9 @@
       "item": "ltxi:t1_circuit"
     },
     "g": {
+      "item": "ltxi:titanium_gear"
+    },
+    "s": {
       "tag": "c:glass_blocks/cheap"
     },
     "t": {
@@ -17,8 +20,8 @@
   },
   "pattern": [
     "tct",
-    "gag",
-    "tct"
+    "sas",
+    "gcg"
   ],
   "result": {
     "count": 1,

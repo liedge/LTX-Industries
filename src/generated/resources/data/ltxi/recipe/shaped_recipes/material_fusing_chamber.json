@@ -6,9 +6,12 @@
       "item": "minecraft:blast_furnace"
     },
     "c": {
-      "item": "ltxi:t2_circuit"
+      "item": "ltxi:t1_circuit"
     },
-    "o": {
+    "g": {
+      "item": "ltxi:titanium_gear"
+    },
+    "s": {
       "item": "minecraft:obsidian"
     },
     "t": {
@@ -17,8 +20,8 @@
   },
   "pattern": [
     "tct",
-    "oao",
-    "tct"
+    "sas",
+    "gcg"
   ],
   "result": {
     "count": 1,
