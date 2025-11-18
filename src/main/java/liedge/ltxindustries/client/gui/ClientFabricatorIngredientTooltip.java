@@ -1,14 +1,14 @@
 package liedge.ltxindustries.client.gui;
 
+import liedge.limacore.recipe.ingredient.LimaSizedItemIngredient;
 import liedge.ltxindustries.menu.tooltip.FabricatorIngredientTooltip;
 import net.minecraft.Util;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.common.crafting.SizedIngredient;
 
-public final class ClientFabricatorIngredientTooltip extends ClientGridTooltip<SizedIngredient>
+public final class ClientFabricatorIngredientTooltip extends ClientGridTooltip<LimaSizedItemIngredient>
 {
     public ClientFabricatorIngredientTooltip(FabricatorIngredientTooltip tooltip)
     {
@@ -22,9 +22,9 @@ public final class ClientFabricatorIngredientTooltip extends ClientGridTooltip<S
     }
 
     @Override
-    protected void renderGridElement(SizedIngredient element, Font font, int rx, int ry, GuiGraphics graphics)
+    protected void renderGridElement(LimaSizedItemIngredient element, Font font, int rx, int ry, GuiGraphics graphics)
     {
-        ItemStack[] items = element.getItems();
+        ItemStack[] items = element.getCachedValues();
         int itemCount = items.length;
         int index;
 

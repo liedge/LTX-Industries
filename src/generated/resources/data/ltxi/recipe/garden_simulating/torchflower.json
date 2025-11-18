@@ -8,12 +8,9 @@
   ],
   "ingredients": [
     {
-      "type": "limacore:deterministic",
-      "chance": 0.0,
-      "child": {
-        "item": "minecraft:torchflower_seeds"
-      },
-      "count": 1
+      "consume_chance": 0.0,
+      "count": 1,
+      "item": "minecraft:torchflower_seeds"
     }
   ],
   "item_results": [

@@ -1,20 +1,20 @@
 package liedge.ltxindustries.menu.tooltip;
 
-import net.neoforged.neoforge.common.crafting.SizedIngredient;
+import liedge.limacore.recipe.ingredient.LimaSizedItemIngredient;
 
 import java.util.List;
 
-public final class FabricatorIngredientTooltip implements GridTooltip<SizedIngredient>
+public final class FabricatorIngredientTooltip implements GridTooltip<LimaSizedItemIngredient>
 {
-    private final List<SizedIngredient> ingredients;
+    private final List<LimaSizedItemIngredient> ingredients;
 
-    public FabricatorIngredientTooltip(List<SizedIngredient> ingredients)
+    public FabricatorIngredientTooltip(List<LimaSizedItemIngredient> ingredients)
     {
         this.ingredients = ingredients;
     }
 
     @Override
-    public List<SizedIngredient> gridElements()
+    public List<LimaSizedItemIngredient> gridElements()
     {
         return ingredients;
     }

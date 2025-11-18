@@ -3,11 +3,11 @@ package liedge.ltxindustries.recipe;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import liedge.limacore.data.LimaCoreCodecs;
 import liedge.limacore.network.LimaStreamCodecs;
-import liedge.limacore.recipe.result.ItemResult;
 import liedge.limacore.recipe.LimaCustomRecipe;
 import liedge.limacore.recipe.LimaRecipeInput;
+import liedge.limacore.recipe.ingredient.LimaSizedItemIngredient;
+import liedge.limacore.recipe.result.ItemResult;
 import liedge.limacore.util.LimaLootUtil;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
 import liedge.ltxindustries.menu.tooltip.FabricatorIngredientTooltip;
@@ -26,14 +26,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.neoforged.neoforge.common.crafting.SizedIngredient;
 
 import java.util.List;
 
 public final class FabricatingRecipe extends LimaCustomRecipe<LimaRecipeInput>
 {
     public static final MapCodec<FabricatingRecipe> CODEC = RecordCodecBuilder.<FabricatingRecipe>mapCodec(instance -> instance.group(
-            LimaCoreCodecs.sizedIngredients(1, 16).forGetter(LimaCustomRecipe::getItemIngredients),
+            LimaSizedItemIngredient.listMapCodec(1, 16).forGetter(LimaCustomRecipe::getItemIngredients),
             ItemResult.CODEC.fieldOf("result").forGetter(LimaCustomRecipe::getFirstItemResult),
             ExtraCodecs.POSITIVE_INT.fieldOf("energy_required").forGetter(FabricatingRecipe::getEnergyRequired),
             Codec.BOOL.optionalFieldOf("advancement_locked", false).forGetter(FabricatingRecipe::isAdvancementLocked),
@@ -42,7 +41,7 @@ public final class FabricatingRecipe extends LimaCustomRecipe<LimaRecipeInput>
             .validate(LimaCustomRecipe::checkNotEmpty);
 
     public static final StreamCodec<RegistryFriendlyByteBuf, FabricatingRecipe> STREAM_CODEC = StreamCodec.composite(
-            LimaStreamCodecs.sizedIngredients(16), LimaCustomRecipe::getItemIngredients,
+            LimaSizedItemIngredient.listStreamCodec(1, 16), LimaCustomRecipe::getItemIngredients,
             ItemResult.STREAM_CODEC, LimaCustomRecipe::getFirstItemResult,
             LimaStreamCodecs.POSITIVE_VAR_INT, FabricatingRecipe::getEnergyRequired,
             ByteBufCodecs.BOOL, FabricatingRecipe::isAdvancementLocked,
@@ -63,7 +62,7 @@ public final class FabricatingRecipe extends LimaCustomRecipe<LimaRecipeInput>
     private final boolean advancementLocked;
     private final String group;
 
-    public FabricatingRecipe(List<SizedIngredient> ingredients, ItemResult result, int energyRequired, boolean advancementLocked, String group)
+    public FabricatingRecipe(List<LimaSizedItemIngredient> ingredients, ItemResult result, int energyRequired, boolean advancementLocked, String group)
     {
         super(ingredients, List.of(result));
         this.energyRequired = energyRequired;

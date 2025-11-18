@@ -9,12 +9,9 @@
   ],
   "ingredients": [
     {
-      "type": "limacore:deterministic",
-      "chance": 0.0,
-      "child": {
-        "item": "minecraft:dark_oak_sapling"
-      },
-      "count": 1
+      "consume_chance": 0.0,
+      "count": 1,
+      "item": "minecraft:dark_oak_sapling"
     }
   ],
   "item_results": [

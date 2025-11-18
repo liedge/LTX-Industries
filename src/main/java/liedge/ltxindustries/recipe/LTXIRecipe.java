@@ -1,14 +1,14 @@
 package liedge.ltxindustries.recipe;
 
 import liedge.limacore.recipe.LimaCustomRecipe;
+import liedge.limacore.recipe.ingredient.LimaSizedFluidIngredient;
+import liedge.limacore.recipe.ingredient.LimaSizedItemIngredient;
 import liedge.limacore.recipe.result.ItemResult;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -22,7 +22,7 @@ public abstract class LTXIRecipe extends LimaCustomRecipe<LTXIRecipeInput>
     @Nullable
     private final Holder<RecipeMode> mode;
 
-    protected LTXIRecipe(List<SizedIngredient> itemIngredients, List<SizedFluidIngredient> fluidIngredients, List<ItemResult> itemResults, List<FluidStack> fluidResults, int craftTime, @Nullable Holder<RecipeMode> mode)
+    protected LTXIRecipe(List<LimaSizedItemIngredient> itemIngredients, List<LimaSizedFluidIngredient> fluidIngredients, List<ItemResult> itemResults, List<FluidStack> fluidResults, int craftTime, @Nullable Holder<RecipeMode> mode)
     {
         super(itemIngredients, fluidIngredients, itemResults, fluidResults);
         this.craftTime = craftTime;
