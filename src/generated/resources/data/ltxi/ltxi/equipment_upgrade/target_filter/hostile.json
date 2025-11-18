@@ -13,9 +13,11 @@
   "effects": {
     "ltxi:target_conditions": [
       {
+        "bounds": {
+          "min": "hostile"
+        },
         "condition": "limacore:hostility",
         "first": "this",
-        "min": "hostile",
         "second": "attacker"
       }
     ]

@@ -30,6 +30,6 @@ public class AutoFabricatorMenu extends LTXIMachineMenu.RecipeEnergyMachineMenu<
         menuContext.getEnergyStorage().keepAllPropertiesSynced(collector);
         menuContext.keepEnergyConsumerPropertiesSynced(collector);
         collector.register(menuContext.keepProgressSynced());
-        collector.register(menuContext.getRecipeCheck().createDataWatcher());
+        collector.register(menuContext.getRecipeCheck().keepLastUsedSynced());
     }
 }

@@ -5,9 +5,11 @@
       "bonus_rolls": 0.0,
       "conditions": [
         {
+          "bounds": {
+            "min": "neutral_enemy"
+          },
           "condition": "limacore:hostility",
           "first": "this",
-          "min": "neutral_enemy",
           "second": "attacker"
         },
         {

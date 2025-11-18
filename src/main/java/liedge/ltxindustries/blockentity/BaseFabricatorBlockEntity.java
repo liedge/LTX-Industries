@@ -157,7 +157,7 @@ public abstract class BaseFabricatorBlockEntity extends ProductionMachineBlockEn
     {
         super.loadAdditional(tag, registries);
 
-        LimaNbtUtil.deserializeString(recipeCheck, registries, tag.get("current_recipe"));
+        recipeCheck.setLastUsedRecipeId(LimaNbtUtil.getOptionalResourceLocation(tag, "current_recipe"));
         crafting = tag.getBoolean("crafting");
         energyCraftProgress = tag.getInt("recipe_energy");
     }
@@ -167,7 +167,7 @@ public abstract class BaseFabricatorBlockEntity extends ProductionMachineBlockEn
     {
         super.saveAdditional(tag, registries);
 
-        tag.put("current_recipe", recipeCheck.serializeNBT(registries));
+        LimaNbtUtil.putOptionalResourceLocation(tag, "current_recipe", recipeCheck.getLastUsedRecipeId());
         tag.putBoolean("crafting", crafting);
         tag.putInt("recipe_energy", energyCraftProgress);
     }
