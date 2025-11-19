@@ -52,6 +52,24 @@ public abstract class CookingBlockEntity<R extends AbstractCookingRecipe> extend
     }
 
     @Override
+    protected void craftRecipe(Level level, R recipe, int maxOperations)
+    {
+        for (int i = 0; i < maxOperations; i++)
+        {
+            // Cannot re-use vanilla inputs for cooking recipes
+            SingleRecipeInput input = getRecipeInput(level);
+            if (i > 0)
+            {
+                boolean canContinue = recipe.matches(input, level) && canInsertRecipeResults(level, recipe);
+                if (!canContinue) break;
+            }
+
+            insertRecipeResults(level, recipe, input);
+            consumeIngredients(input, recipe, level);
+        }
+    }
+
+    @Override
     protected void onCraftingStateChanged(boolean newCraftingState)
     {
         BlockState newState = getBlockState().setValue(LTXIBlockProperties.BINARY_MACHINE_STATE, MachineState.of(newCraftingState));

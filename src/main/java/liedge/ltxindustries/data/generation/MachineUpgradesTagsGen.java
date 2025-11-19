@@ -12,8 +12,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.concurrent.CompletableFuture;
 
 import static liedge.ltxindustries.LTXITags.MachineUpgrades.MACHINE_TIER;
-import static liedge.ltxindustries.registry.bootstrap.LTXIMachineUpgrades.STANDARD_MACHINE_SYSTEMS;
-import static liedge.ltxindustries.registry.bootstrap.LTXIMachineUpgrades.ULTIMATE_MACHINE_SYSTEMS;
+import static liedge.ltxindustries.LTXITags.MachineUpgrades.PARALLEL_OPS_UPGRADES;
+import static liedge.ltxindustries.registry.bootstrap.LTXIMachineUpgrades.*;
 
 class MachineUpgradesTagsGen extends LimaTagsProvider<MachineUpgrade>
 {
@@ -26,5 +26,6 @@ class MachineUpgradesTagsGen extends LimaTagsProvider<MachineUpgrade>
     protected void addTags(HolderLookup.Provider provider)
     {
         buildTag(MACHINE_TIER).add(STANDARD_MACHINE_SYSTEMS, ULTIMATE_MACHINE_SYSTEMS);
+        buildTag(PARALLEL_OPS_UPGRADES).add(GPM_PARALLEL, GEO_SYNTHESIZER_PARALLEL);
     }
 }

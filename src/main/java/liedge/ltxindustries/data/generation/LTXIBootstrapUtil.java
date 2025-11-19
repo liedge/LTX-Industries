@@ -41,6 +41,16 @@ public final class LTXIBootstrapUtil
         return spriteOverItemIcon(item, "luck_overlay", 7);
     }
 
+    public static UpgradeIcon plusOverlay(UpgradeIcon bg)
+    {
+        return bottomRightComposite(bg, sprite("plus_overlay"), 9);
+    }
+
+    public static UpgradeIcon greenArrowOverlay(UpgradeIcon bg)
+    {
+        return bottomRightComposite(bg, sprite("green_arrow_overlay"), 9);
+    }
+
     // Upgrade tooltips
     public static UpgradeComponentLike energyCapacityTooltip(UpgradeDoubleValue value, ValueFormat format, ValueSentiment sentiment)
     {
@@ -55,5 +65,10 @@ public final class LTXIBootstrapUtil
     public static UpgradeComponentLike energyUsageTooltip(UpgradeDoubleValue value, ValueFormat format, ValueSentiment sentiment)
     {
         return TranslatableTooltip.create(LTXILangKeys.ENERGY_USAGE_UPGRADE, REM_BLUE.chatStyle(), ValueComponent.of(value, format, sentiment));
+    }
+
+    public static UpgradeComponentLike parallelOpsTooltip(UpgradeDoubleValue value, ValueFormat format, ValueSentiment sentiment)
+    {
+        return TranslatableTooltip.create(LTXILangKeys.PARALLEL_OPERATIONS_UPGRADE, ValueComponent.of(value, format, sentiment));
     }
 }

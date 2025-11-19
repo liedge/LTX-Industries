@@ -217,7 +217,7 @@ public final class LTXIEquipmentUpgrades
                 .register(context);
 
         // Tool upgrades
-        UpgradeDoubleValue toolEnergy = ExponentialDouble.of(2, LinearDouble.of(2, 1));
+        UpgradeDoubleValue toolEnergy = ExponentialDouble.of(2, LinearDouble.oneIncrement(2));
         EquipmentUpgrade.builder(TOOL_ENERGY_UPGRADE)
                 .createDefaultTitle(REM_BLUE)
                 .supports(ltxAllTools)
@@ -235,14 +235,14 @@ public final class LTXIEquipmentUpgrades
                 .setMaxRank(5)
                 .withEffect(ENCHANTMENT_LEVELS, EnchantmentLevelsUpgradeEffect.rankLinear(enchantments.getOrThrow(Enchantments.LURE)))
                 .withEffect(ENCHANTMENT_LEVELS, EnchantmentLevelsUpgradeEffect.rankLinear(enchantments.getOrThrow(Enchantments.LUCK_OF_THE_SEA)))
-                .effectIcon(bottomRightComposite(itemIcon(LTXIItems.LTX_FISHING_ROD), sprite("plus_overlay"), 9))
+                .effectIcon(plusOverlay(itemIcon(LTXIItems.LTX_FISHING_ROD)))
                 .category("tools")
                 .register(context);
         EquipmentUpgrade.builder(TOOL_NETHERITE_LEVEL)
                 .supports(ltxMiningTools)
                 .exclusiveWith(holders, MINING_LEVEL_UPGRADES)
                 .withEffect(MINING_RULES, MiningRuleUpgradeEffect.miningLevelAndSpeed(blocks.getOrThrow(BlockTags.INCORRECT_FOR_NETHERITE_TOOL), 11f, 2))
-                .effectIcon(bottomRightComposite(itemIcon(Items.NETHERITE_PICKAXE), sprite("green_arrow_overlay"), 9))
+                .effectIcon(greenArrowOverlay(itemIcon(Items.NETHERITE_PICKAXE)))
                 .category("tools")
                 .register(context);
         EquipmentUpgrade.builder(EPSILON_OMNI_DRILL)
@@ -279,13 +279,13 @@ public final class LTXIEquipmentUpgrades
                 .tooltip(TranslatableTooltip.create(LTXILangKeys.ATTRIBUTE_SCALED_DAMAGE_UPGRADE,
                         ValueComponent.of(ConstantDouble.of(0.25d), ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE),
                         StaticTooltip.of(Component.translatable(Attributes.MAX_HEALTH.value().getDescriptionId()).withStyle(ChatFormatting.DARK_RED))))
-                .effectIcon(spriteOverItemIcon(LTXIItems.HEAVY_PISTOL, "plus_overlay", 9))
+                .effectIcon(plusOverlay(itemIcon(LTXIItems.HEAVY_PISTOL)))
                 .register(context);
         EquipmentUpgrade.builder(GRENADE_LAUNCHER_PROJECTILE_SPEED)
                 .supports(LTXIItems.GRENADE_LAUNCHER)
                 .setMaxRank(2)
-                .withEffect(WEAPON_RANGE, SimpleValueEffect.of(LinearDouble.of(0.5d), MathOperation.ADD))
-                .tooltip(TranslatableTooltip.create(LTXILangKeys.PROJECTILE_SPEED_UPGRADE, ValueComponent.of(LinearDouble.of(0.5d), ValueFormat.SIGNED_FLAT_NUMBER, ValueSentiment.POSITIVE)))
+                .withEffect(WEAPON_RANGE, SimpleValueEffect.of(LinearDouble.linearIncrement(0.5d), MathOperation.ADD))
+                .tooltip(TranslatableTooltip.create(LTXILangKeys.PROJECTILE_SPEED_UPGRADE, ValueComponent.of(LinearDouble.linearIncrement(0.5d), ValueFormat.SIGNED_FLAT_NUMBER, ValueSentiment.POSITIVE)))
                 .effectIcon(sprite("grenade_speed_boost"))
                 .register(context);
 

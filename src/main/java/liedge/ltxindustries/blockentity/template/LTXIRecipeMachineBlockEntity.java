@@ -152,6 +152,28 @@ public abstract class LTXIRecipeMachineBlockEntity<R extends LTXIRecipe> extends
     }
 
     @Override
+    protected void craftRecipe(Level level, R recipe, int maxOperations)
+    {
+        LTXIRecipeInput input = getRecipeInput(level);
+
+        boolean a = recipe.getItemIngredients().stream().allMatch(o -> o.getConsumeChance() == 0f);
+        boolean b = recipe.getFluidIngredients().stream().allMatch(o -> o.getConsumeChance() == 0f);
+        boolean skipInputCheck = a && b;
+
+        for (int i = 0 ; i < maxOperations; i++)
+        {
+            if (i > 0)
+            {
+                boolean canContinue = (skipInputCheck || recipe.matches(input, level)) && canInsertRecipeResults(level, recipe);
+                if (!canContinue) break;
+            }
+
+            insertRecipeResults(level, recipe, input);
+            consumeIngredients(input, recipe, level);
+        }
+    }
+
+    @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries)
     {
         super.loadAdditional(tag, registries);

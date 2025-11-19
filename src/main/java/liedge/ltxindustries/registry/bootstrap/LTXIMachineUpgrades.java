@@ -15,8 +15,10 @@ import liedge.ltxindustries.lib.upgrades.tooltip.ValueFormat;
 import liedge.ltxindustries.lib.upgrades.tooltip.ValueSentiment;
 import liedge.ltxindustries.registry.LTXIRegistries;
 import liedge.ltxindustries.registry.game.LTXIBlockEntities;
+import liedge.ltxindustries.registry.game.LTXIBlocks;
 import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -31,8 +33,10 @@ import net.neoforged.neoforge.registries.holdersets.AnyHolderSet;
 
 import static liedge.ltxindustries.LTXIConstants.REM_BLUE;
 import static liedge.ltxindustries.LTXITags.MachineUpgrades.MACHINE_TIER;
+import static liedge.ltxindustries.LTXITags.MachineUpgrades.PARALLEL_OPS_UPGRADES;
 import static liedge.ltxindustries.LTXIndustries.RESOURCES;
 import static liedge.ltxindustries.data.generation.LTXIBootstrapUtil.*;
+import static liedge.ltxindustries.lib.upgrades.UpgradeIcon.itemIcon;
 import static liedge.ltxindustries.lib.upgrades.UpgradeIcon.sprite;
 import static liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents.*;
 
@@ -44,7 +48,11 @@ public final class LTXIMachineUpgrades
     public static final ResourceKey<MachineUpgrade> ECA_CAPACITY_UPGRADE = key("eca_capacity");
     public static final ResourceKey<MachineUpgrade> STANDARD_MACHINE_SYSTEMS = key("standard_machine_systems");
     public static final ResourceKey<MachineUpgrade> ULTIMATE_MACHINE_SYSTEMS = key("ultimate_machine_systems");
+    public static final ResourceKey<MachineUpgrade> GPM_PARALLEL = key("gpm_parallel");
     public static final ResourceKey<MachineUpgrade> FABRICATOR_UPGRADE = key("fabricator_upgrade");
+
+    // Machine unique
+    public static final ResourceKey<MachineUpgrade> GEO_SYNTHESIZER_PARALLEL = key("geo_synthesizer_parallel");
 
     public static final ResourceKey<MachineUpgrade> TURRET_LOOTING = key("turret_looting");
     public static final ResourceKey<MachineUpgrade> TURRET_RAZOR = key("turret_razor");
@@ -64,7 +72,7 @@ public final class LTXIMachineUpgrades
         // AnyHolderSets
         HolderSet<Item> anyItemHolderSet = new AnyHolderSet<>(BuiltInRegistries.ITEM.asLookup());
 
-        UpgradeDoubleValue ecaScaling = ExponentialDouble.of(2, LinearDouble.of(3, 1));
+        UpgradeDoubleValue ecaScaling = ExponentialDouble.of(2, LinearDouble.oneIncrement(3));
         MachineUpgrade.builder(ECA_CAPACITY_UPGRADE)
                 .createDefaultTitle(REM_BLUE)
                 .supports(LTXIBlockEntities.ENERGY_CELL_ARRAY)
@@ -76,7 +84,7 @@ public final class LTXIMachineUpgrades
                 .effectIcon(sprite("extra_energy"))
                 .register(context);
 
-        UpgradeDoubleValue smsEnergyStorage = LinearDouble.of(0.5d);
+        UpgradeDoubleValue smsEnergyStorage = LinearDouble.linearIncrement(0.5d);
         MachineUpgrade.builder(STANDARD_MACHINE_SYSTEMS)
                 .supports(blockEntities, LTXITags.BlockEntities.STANDARD_UPGRADABLE_MACHINES)
                 .exclusiveWith(holders, MACHINE_TIER)
@@ -88,10 +96,10 @@ public final class LTXIMachineUpgrades
                 .tooltip(energyCapacityTooltip(smsEnergyStorage, ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE))
                 .tooltip(energyTransferTooltip(smsEnergyStorage, ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE))
                 .tooltip(energyUsageTooltip(ExponentialDouble.linearExponent(1.5d), ValueFormat.MULTIPLICATIVE, ValueSentiment.NEUTRAL))
-                .tooltip(TranslatableTooltip.create(LTXILangKeys.MACHINE_SPEED_UPGRADE, ValueComponent.of(ExponentialDouble.linearExponent(0.725d), ValueFormat.MULTIPLICATIVE, ValueSentiment.POSITIVE)))
+                .tooltip(TranslatableTooltip.create(LTXILangKeys.MACHINE_SPEED_UPGRADE, ValueComponent.of(ExponentialDouble.negativeLinearExponent(0.725d), ValueFormat.MULTIPLICATIVE, ValueSentiment.POSITIVE)))
                 .tooltip(TranslatableTooltip.create(LTXILangKeys.ENERGY_PER_RECIPE_UPGRADE, ValueComponent.of(ExponentialDouble.linearExponent(1.0875d), ValueFormat.MULTIPLICATIVE, ValueSentiment.NEGATIVE)))
                 .setMaxRank(6)
-                .effectIcon(sprite("standard_gear"))
+                .effectIcon(greenArrowOverlay(sprite("titanium_gear")))
                 .category("gpm")
                 .register(context);
 
@@ -114,9 +122,21 @@ public final class LTXIMachineUpgrades
                 .category("gpm")
                 .register(context);
 
-        UpgradeDoubleValue fabCapacity = LinearDouble.of(2);
-        UpgradeDoubleValue fabTransfer = LinearDouble.of(3);
-        UpgradeDoubleValue fabUsage = ExponentialDouble.of(2, LinearDouble.of(2, 1));
+        UpgradeDoubleValue gpmParallelOps = LinearDouble.linearIncrement(2);
+        MachineUpgrade.builder(GPM_PARALLEL)
+                .createDefaultTitle(o -> o.withStyle(ChatFormatting.LIGHT_PURPLE))
+                .supports(blockEntities, LTXITags.BlockEntities.GENERAL_PROCESSING_MACHINES)
+                .exclusiveWith(holders, PARALLEL_OPS_UPGRADES)
+                .withEffect(PARALLEL_OPERATIONS, SimpleValueEffect.of(gpmParallelOps, MathOperation.REPLACE))
+                .tooltip(parallelOpsTooltip(gpmParallelOps, ValueFormat.FLAT_NUMBER, ValueSentiment.POSITIVE))
+                .setMaxRank(4)
+                .effectIcon(plusOverlay(sprite("titanium_gear")))
+                .category("gpm")
+                .register(context);
+
+        UpgradeDoubleValue fabCapacity = LinearDouble.linearIncrement(2);
+        UpgradeDoubleValue fabTransfer = LinearDouble.linearIncrement(3);
+        UpgradeDoubleValue fabUsage = ExponentialDouble.of(2, LinearDouble.oneIncrement(2));
         MachineUpgrade.builder(FABRICATOR_UPGRADE)
                 .supports(LTXIBlockEntities.FABRICATOR, LTXIBlockEntities.AUTO_FABRICATOR)
                 .withEffect(ENERGY_CAPACITY, SimpleValueEffect.of(fabCapacity, MathOperation.ADD_PERCENT_OF_BASE))
@@ -127,6 +147,18 @@ public final class LTXIMachineUpgrades
                 .tooltip(energyUsageTooltip(fabUsage, ValueFormat.MULTIPLICATIVE, ValueSentiment.POSITIVE))
                 .setMaxRank(4)
                 .effectIcon(sprite("fabricator_upgrade"))
+                .register(context);
+
+        UpgradeDoubleValue geoSynthParallel = ExponentialDouble.of(2, LinearDouble.oneIncrement(4));
+        MachineUpgrade.builder(GEO_SYNTHESIZER_PARALLEL)
+                .createDefaultTitle(o -> o.withStyle(ChatFormatting.AQUA))
+                .supports(LTXIBlockEntities.GEO_SYNTHESIZER)
+                .exclusiveWith(holders, PARALLEL_OPS_UPGRADES)
+                .withEffect(PARALLEL_OPERATIONS, SimpleValueEffect.of(geoSynthParallel, MathOperation.REPLACE))
+                .tooltip(parallelOpsTooltip(geoSynthParallel, ValueFormat.FLAT_NUMBER, ValueSentiment.POSITIVE))
+                .setMaxRank(3)
+                .effectIcon(plusOverlay(itemIcon(LTXIBlocks.GEO_SYNTHESIZER)))
+                .category("machine_unique")
                 .register(context);
 
         MachineUpgrade.builder(TURRET_LOOTING)

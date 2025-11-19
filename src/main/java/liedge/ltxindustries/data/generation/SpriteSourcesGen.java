@@ -31,7 +31,9 @@ class SpriteSourcesGen extends SpriteSourceProvider
         // Mod atlas definitions
         atlas(UpgradeIconSprites.ATLAS_LOCATION)
                 .addSource(nsDirSource("upgrade_module"))
-                .addSource(machineModuleIcon);
+                .addSource(machineModuleIcon)
+                .addSource(itemSheetCopy("titanium_gear"))
+                .addSource(itemSheetCopy("slatesteel_gear"));
 
         // Vanilla atlas modifications
         atlas(ModResources.MC.location("gui"))

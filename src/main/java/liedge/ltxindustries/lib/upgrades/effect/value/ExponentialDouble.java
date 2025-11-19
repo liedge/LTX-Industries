@@ -18,12 +18,12 @@ public record ExponentialDouble(double base, UpgradeDoubleValue power) implement
 
     public static ExponentialDouble linearExponent(double base)
     {
-        return of(base, LinearDouble.of(1));
+        return of(base, LinearDouble.linearIncrement(1));
     }
 
     public static ExponentialDouble negativeLinearExponent(double base)
     {
-        return of(base, LinearDouble.of(-1));
+        return of(base, LinearDouble.linearIncrement(-1));
     }
 
     @Override

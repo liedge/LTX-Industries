@@ -10,11 +10,13 @@ import liedge.ltxindustries.blockentity.base.EnergyConsumerBlockEntity;
 import liedge.ltxindustries.blockentity.base.RecipeMachineBlockEntity;
 import liedge.ltxindustries.blockentity.base.VariableTimedProcessBlockEntity;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrades;
+import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import liedge.ltxindustries.util.LTXITooltipUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeInput;
@@ -33,6 +35,7 @@ public abstract class BaseRecipeMachineBlockEntity<I extends RecipeInput, R exte
     private int energyUsage = getBaseEnergyUsage();
     private IntUnaryOperator recipeTimeFunction = IntUnaryOperator.identity();
     private int recipeCraftingTime;
+    private int operationCount = 1;
     private int craftingProgress;
     private boolean crafting;
     private boolean shouldCheckRecipe;
@@ -122,6 +125,8 @@ public abstract class BaseRecipeMachineBlockEntity<I extends RecipeInput, R exte
 
     protected abstract void insertRecipeResults(Level level, R recipe, I recipeInput);
 
+    protected abstract void craftRecipe(Level level, R recipe, int maxOperations);
+
     protected void reCheckRecipe()
     {
         this.shouldCheckRecipe = true;
@@ -206,11 +211,8 @@ public abstract class BaseRecipeMachineBlockEntity<I extends RecipeInput, R exte
 
                 if (craftingProgress >= getTicksPerOperation()) // Fixed the N+1 tick duration, we now have true N tick duration
                 {
-                    I recipeInput = getRecipeInput(level);
-                    insertRecipeResults(level, lastUsedRecipe.value(), recipeInput);
-                    consumeIngredients(recipeInput, lastUsedRecipe.value(), level);
-
                     // Check state of recipe after every successful craft. Last recipe is used first so should be *relatively* quick.
+                    craftRecipe(level, lastUsedRecipe.value(), this.operationCount);
                     craftingProgress = 0;
                     reCheckRecipe();
                 }
@@ -232,6 +234,9 @@ public abstract class BaseRecipeMachineBlockEntity<I extends RecipeInput, R exte
         super.onUpgradeRefresh(context, upgrades);
         EnergyConsumerBlockEntity.applyUpgrades(this, context, upgrades);
         this.recipeTimeFunction = createCachedSpeedFunction(upgrades, context);
+        int parallel = Mth.floor(upgrades.applyValue(LTXIUpgradeEffectComponents.PARALLEL_OPERATIONS, context, 1));
+        this.operationCount = Mth.clamp(parallel, 1, 64);
+
         this.shouldCheckCraftingTime = true;
         reCheckRecipe();
     }

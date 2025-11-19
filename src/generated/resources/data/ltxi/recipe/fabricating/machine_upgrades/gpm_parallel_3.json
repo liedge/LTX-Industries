@@ -1,0 +1,49 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 50000000,
+  "group": "mum/gpm",
+  "ingredients": [
+    {
+      "type": "neoforge:components",
+      "components": {
+        "ltxi:machine_upgrade": {
+          "rank": 2,
+          "upgrade": "ltxi:gpm_parallel"
+        }
+      },
+      "count": 1,
+      "items": "ltxi:machine_upgrade_module",
+      "strict": true
+    },
+    {
+      "count": 2,
+      "item": "ltxi:t3_circuit"
+    },
+    {
+      "count": 3,
+      "item": "ltxi:titanium_gear"
+    },
+    {
+      "count": 3,
+      "item": "ltxi:slatesteel_gear"
+    },
+    {
+      "count": 3,
+      "item": "ltxi:polymer_ingot"
+    },
+    {
+      "count": 4,
+      "item": "ltxi:chorus_chemical"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:machine_upgrade": {
+        "rank": 3,
+        "upgrade": "ltxi:gpm_parallel"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:machine_upgrade_module"
+  }
+}

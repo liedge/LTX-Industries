@@ -59,6 +59,7 @@ public final class LTXIUpgradeEffectComponents
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ValueUpgradeEffect>>> MACHINE_ENERGY_PRODUCTION = COMPONENTS.registerValue("energy_production");
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<MinimumSpeedUpgradeEffect>> MINIMUM_MACHINE_SPEED = COMPONENTS.register("minimum_speed", () -> UpgradeDataComponentType.withTooltip(MinimumSpeedUpgradeEffect.CODEC));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ValueUpgradeEffect>>> TICKS_PER_OPERATION = COMPONENTS.registerValue("ticks_per_operation");
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ValueUpgradeEffect>>> PARALLEL_OPERATIONS = COMPONENTS.registerValue("parallel_operations");
 
     private static class DeferredRegister extends net.neoforged.neoforge.registries.DeferredRegister.DataComponents
     {

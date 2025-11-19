@@ -1,0 +1,44 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": {
+      "item": "ltxi:t3_circuit"
+    },
+    "g": {
+      "item": "ltxi:slatesteel_gear"
+    },
+    "l": {
+      "item": "minecraft:magma_block"
+    },
+    "m": {
+      "type": "neoforge:components",
+      "components": {
+        "ltxi:machine_upgrade": {
+          "rank": 2,
+          "upgrade": "ltxi:geo_synthesizer_parallel"
+        }
+      },
+      "items": "ltxi:machine_upgrade_module",
+      "strict": true
+    },
+    "w": {
+      "item": "minecraft:blue_ice"
+    }
+  },
+  "pattern": [
+    "wgl",
+    "cmc",
+    "lgw"
+  ],
+  "result": {
+    "components": {
+      "ltxi:machine_upgrade": {
+        "rank": 3,
+        "upgrade": "ltxi:geo_synthesizer_parallel"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:machine_upgrade_module"
+  }
+}

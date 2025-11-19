@@ -1,0 +1,54 @@
+{
+  "display": {
+    "category": "gpm",
+    "description": {
+      "translate": "machine_upgrade.ltxi.gpm_parallel.desc"
+    },
+    "icon": {
+      "type": "composite",
+      "background": "ltxi:titanium_gear",
+      "overlay": "ltxi:plus_overlay",
+      "overlay_size": 9,
+      "x_offset": 6,
+      "y_offset": 6
+    },
+    "title": {
+      "color": "light_purple",
+      "translate": "machine_upgrade.ltxi.gpm_parallel"
+    },
+    "tooltips": [
+      {
+        "type": "custom_args",
+        "args": [
+          {
+            "type": "value",
+            "format": "flat",
+            "sentiment": "positive",
+            "value": {
+              "type": "linear",
+              "base": 2.0,
+              "increment": 2.0
+            }
+          }
+        ],
+        "key": "upgrade_effect.ltxi.parallel"
+      }
+    ]
+  },
+  "effects": {
+    "ltxi:parallel_operations": [
+      {
+        "type": "simple",
+        "op": "replace",
+        "value": {
+          "type": "linear",
+          "base": 2.0,
+          "increment": 2.0
+        }
+      }
+    ]
+  },
+  "exclusive_set": "#ltxi:parallel",
+  "max_rank": 4,
+  "supported_set": "#ltxi:machines/general_processing"
+}

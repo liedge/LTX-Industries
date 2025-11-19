@@ -4,7 +4,14 @@
     "description": {
       "translate": "machine_upgrade.ltxi.standard_machine_systems.desc"
     },
-    "icon": "ltxi:standard_gear",
+    "icon": {
+      "type": "composite",
+      "background": "ltxi:titanium_gear",
+      "overlay": "ltxi:green_arrow_overlay",
+      "overlay_size": 9,
+      "x_offset": 6,
+      "y_offset": 6
+    },
     "title": {
       "translate": "machine_upgrade.ltxi.standard_machine_systems"
     },
@@ -81,8 +88,8 @@
               "base": 0.725,
               "power": {
                 "type": "linear",
-                "base": 1.0,
-                "increment": 1.0
+                "base": -1.0,
+                "increment": -1.0
               }
             }
           }

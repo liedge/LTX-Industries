@@ -154,6 +154,18 @@ class RecipesGen extends LimaRecipeProvider
         upgradeShaped(output, registries, STANDARD_MACHINE_SYSTEMS, 6, builder -> builder
                 .input('r', REDSTONE).input('c', T3_CIRCUIT).patterns(" r ", "rmr", " c "));
 
+        upgradeShaped(output, registries, GPM_PARALLEL, 1, builder -> builder
+                .input('g', TITANIUM_GEAR).input('c', T1_CIRCUIT).patterns(" c ", "gmg", " c "));
+        upgradeShaped(output, registries, GPM_PARALLEL, 2, builder -> builder
+                .input('g', TITANIUM_GEAR).input('s', SLATESTEEL_GEAR).input('c', T2_CIRCUIT).patterns("gcg", "sms", "gcg"));
+
+        upgradeShaped(output, registries, GEO_SYNTHESIZER_PARALLEL, 1, builder -> builder
+                .input('w', WATER_BUCKET).input('l', LAVA_BUCKET).input('c', T1_CIRCUIT).input('t', TITANIUM_INGOT).patterns("twt", "cmc", "tlt"));
+        upgradeShaped(output, registries, GEO_SYNTHESIZER_PARALLEL, 2, builder -> builder
+                .input('w', PACKED_ICE).input('l', MAGMA_BLOCK).input('c', T2_CIRCUIT).input('g', TITANIUM_GEAR).patterns("wgl", "cmc", "lgw"));
+        upgradeShaped(output, registries, GEO_SYNTHESIZER_PARALLEL, 3, builder -> builder
+                .input('w', BLUE_ICE).input('l', MAGMA_BLOCK).input('c', T3_CIRCUIT).input('g', SLATESTEEL_GEAR).patterns("wgl", "cmc", "lgw"));
+
         NEON_LIGHTS.forEach((color, holder) -> shaped(holder, 4).input('d', neonLightDye(color)).input('g', GLOWSTONE).patterns("dg", "gd").save(output));
         //#endregion
 
@@ -672,6 +684,19 @@ class RecipesGen extends LimaRecipeProvider
                 .input(T5_CIRCUIT, 2)
                 .input(REDSTONE_BLOCK, 16)
                 .input(SLATESTEEL_INGOT, 32));
+
+        upgradeFabricating(output, registries, "mum/gpm", GPM_PARALLEL, 3, 50_000_000, builder -> builder
+                .input(T3_CIRCUIT, 2)
+                .input(TITANIUM_GEAR, 3)
+                .input(SLATESTEEL_GEAR, 3)
+                .input(POLYMER_INGOT, 3)
+                .input(CHORUS_CHEMICAL, 4));
+        upgradeFabricating(output, registries, "mum/gpm", GPM_PARALLEL, 4, 100_000_000, builder -> builder
+                .input(T4_CIRCUIT, 2)
+                .input(TITANIUM_GEAR, 4)
+                .input(SLATESTEEL_GEAR, 4)
+                .input(POLYMER_INGOT, 8)
+                .input(SCULK_CHEMICAL, 4));
 
         upgradeFabricating(output, registries, "mum/eca", ECA_CAPACITY_UPGRADE, 1, 250_000, builder -> builder
                 .input(T1_CIRCUIT, 2)

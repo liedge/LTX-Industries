@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": {
+      "item": "ltxi:t1_circuit"
+    },
+    "l": {
+      "item": "minecraft:lava_bucket"
+    },
+    "m": {
+      "item": "ltxi:empty_upgrade_module"
+    },
+    "t": {
+      "item": "ltxi:titanium_ingot"
+    },
+    "w": {
+      "item": "minecraft:water_bucket"
+    }
+  },
+  "pattern": [
+    "twt",
+    "cmc",
+    "tlt"
+  ],
+  "result": {
+    "components": {
+      "ltxi:machine_upgrade": {
+        "upgrade": "ltxi:geo_synthesizer_parallel"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:machine_upgrade_module"
+  }
+}

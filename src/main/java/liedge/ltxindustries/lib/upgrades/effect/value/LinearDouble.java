@@ -16,9 +16,14 @@ public record LinearDouble(double base, double increment) implements UpgradeDoub
         return new LinearDouble(base, increment);
     }
 
-    public static LinearDouble of(double baseAndIncrement)
+    public static LinearDouble linearIncrement(double baseAndIncrement)
     {
         return of(baseAndIncrement, baseAndIncrement);
+    }
+
+    public static LinearDouble oneIncrement(double base)
+    {
+        return of(base, 1);
     }
 
     @Override

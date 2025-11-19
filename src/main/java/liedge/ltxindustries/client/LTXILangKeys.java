@@ -85,6 +85,7 @@ public final class LTXILangKeys
     public static final Translatable ENERGY_CAPACITY_UPGRADE = upgradeEffect("energy_capacity");
     public static final Translatable ENERGY_TRANSFER_UPGRADE = upgradeEffect("energy_transfer");
     public static final Translatable ENERGY_USAGE_UPGRADE = upgradeEffect("energy_usage");
+    public static final Translatable PARALLEL_OPERATIONS_UPGRADE = upgradeEffect("parallel");
     public static final Translatable MACHINE_SPEED_UPGRADE = upgradeEffect("machine_speed");
     public static final Translatable ENERGY_PER_RECIPE_UPGRADE = upgradeEffect("energy_per_recipe");
     public static final Translatable INSTANT_PROCESSING_UPGRADE = upgradeEffect("instant_process");

@@ -162,6 +162,7 @@ public final class LTXITags
         private MachineUpgrades() {}
 
         public static final TagKey<MachineUpgrade> MACHINE_TIER = tag("machine_tier");
+        public static final TagKey<MachineUpgrade> PARALLEL_OPS_UPGRADES = tag("parallel");
 
         private static TagKey<MachineUpgrade> tag(String name)
         {

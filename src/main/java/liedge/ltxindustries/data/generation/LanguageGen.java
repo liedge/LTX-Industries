@@ -254,9 +254,11 @@ class LanguageGen extends LimaLanguageProvider
 
         //#region Machine upgrades
         upgrade(LTXIMachineUpgrades.ECA_CAPACITY_UPGRADE, "Auxiliary Energy Cells", "Increases the energy capacity and transfer rate of the Energy Cell Array.");
-        upgrade(LTXIMachineUpgrades.STANDARD_MACHINE_SYSTEMS, "Standard Machine Systems", "Core modular systems designed for balanced efficiency.");
-        upgrade(LTXIMachineUpgrades.ULTIMATE_MACHINE_SYSTEMS, "Ultimate Machine Systems", "The pinnacle of engineering precision! Achieves near-instantaneous crafting at the cost of immense energy consumption.");
+        upgrade(LTXIMachineUpgrades.STANDARD_MACHINE_SYSTEMS, "GPM Standard Systems", "Core modular systems designed for balanced efficiency.");
+        upgrade(LTXIMachineUpgrades.ULTIMATE_MACHINE_SYSTEMS, "GPM Ultimate Systems", "The pinnacle of engineering precision! Achieves near-instantaneous crafting at the cost of immense energy consumption.");
+        upgrade(LTXIMachineUpgrades.GPM_PARALLEL, "GPM Multi-Threading", "Parallelized task framework that completes multiple operations per cycle, as input and output constraints permit.");
         upgrade(LTXIMachineUpgrades.FABRICATOR_UPGRADE, "Enhanced Tool Head", "Elevate your Fabricator's manufacturing capabilities with superior internal components.");
+        upgrade(LTXIMachineUpgrades.GEO_SYNTHESIZER_PARALLEL, "Lithic Co-Processor", "A specialized parallel processor for producing geological material.");
         upgrade(LTXIMachineUpgrades.TURRET_LOOTING, "Efficient Target Disposal", "Smarter turret targeting systems allow for increased loot drops from eliminated targets.");
         upgrade(LTXIMachineUpgrades.TURRET_RAZOR, "Headhunter Scope", "Precise turret calibration enables the collection of anatomical curiosities.");
         upgrade(LTXIMachineUpgrades.TURRET_LOOT_COLLECTOR, "Matter SubLink", "Loot is sent directly to the turret’s storage. If full, items appear at the turret’s base.");
@@ -376,6 +378,7 @@ class LanguageGen extends LimaLanguageProvider
         add(ENERGY_CAPACITY_UPGRADE, "%s energy capacity");
         add(ENERGY_TRANSFER_UPGRADE, "%s energy transfer rate");
         add(ENERGY_USAGE_UPGRADE, "%s energy usage");
+        add(PARALLEL_OPERATIONS_UPGRADE, "%s operations per cycle");
         add(MACHINE_SPEED_UPGRADE, "%s machine speed");
         add(ENERGY_PER_RECIPE_UPGRADE, "Avg. energy per recipe: %s");
         add(INSTANT_PROCESSING_UPGRADE, "Instant machine operation");
