@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import com.mojang.datafixers.util.Either;
 import liedge.limacore.data.generation.LimaRecipeProvider;
 import liedge.limacore.data.generation.recipe.LimaCustomRecipeBuilder;
+import liedge.limacore.data.generation.recipe.LimaShapedRecipeBuilder;
 import liedge.limacore.lib.ModResources;
 import liedge.limacore.lib.function.ObjectIntFunction;
 import liedge.limacore.recipe.result.ItemResult;
@@ -19,6 +20,7 @@ import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgradeEntry;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrade;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgradeEntry;
 import liedge.ltxindustries.recipe.*;
+import liedge.ltxindustries.registry.LTXIRegistries;
 import liedge.ltxindustries.registry.bootstrap.LTXIRecipeModes;
 import liedge.ltxindustries.registry.game.LTXIDataComponents;
 import liedge.ltxindustries.registry.game.LTXIFluids;
@@ -66,7 +68,9 @@ import static liedge.ltxindustries.LTXITags.Fluids.HYDROGEN_FLUIDS;
 import static liedge.ltxindustries.LTXITags.Fluids.OXYGEN_FLUIDS;
 import static liedge.ltxindustries.LTXITags.Items.*;
 import static liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades.*;
+import static liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades.GRENADE_LAUNCHER_PROJECTILE_SPEED;
 import static liedge.ltxindustries.registry.bootstrap.LTXIMachineUpgrades.*;
+import static liedge.ltxindustries.registry.bootstrap.LTXIMachineUpgrades.TURRET_LOOTING;
 import static liedge.ltxindustries.registry.game.LTXIBlocks.*;
 import static liedge.ltxindustries.registry.game.LTXIFluids.VIRIDIC_ACID;
 import static liedge.ltxindustries.registry.game.LTXIItems.*;
@@ -137,19 +141,18 @@ class RecipesGen extends LimaRecipeProvider
         shaped(EQUIPMENT_UPGRADE_STATION).input('t', TITANIUM_INGOT).input('a', ANVIL).input('l', DYES_LIME).patterns("ttt",  "lal", "ttt").save(output);
 
         // Standard machine systems
-        final String smsRecipeName = STANDARD_MACHINE_SYSTEMS.location().getPath();
-        shaped(mumStack(registries, STANDARD_MACHINE_SYSTEMS, 1)).input('m', EMPTY_UPGRADE_MODULE).input('r', REDSTONE).input('c', T1_CIRCUIT)
-                .patterns(" r ", "rmr", " c ").save(output, smsRecipeName + "_1");
-        shaped(mumStack(registries, STANDARD_MACHINE_SYSTEMS, 2)).input('m', mumIngredient(registries, STANDARD_MACHINE_SYSTEMS, 1)).input('r', REDSTONE).input('c', T1_CIRCUIT)
-                .patterns(" r ", "rmr", " c ").save(output, smsRecipeName + "_2");
-        shaped(mumStack(registries, STANDARD_MACHINE_SYSTEMS, 3)).input('m', mumIngredient(registries, STANDARD_MACHINE_SYSTEMS, 2)).input('r', REDSTONE).input('c', T2_CIRCUIT)
-                .patterns(" r ", "rmr", " c ").save(output, smsRecipeName + "_3");
-        shaped(mumStack(registries, STANDARD_MACHINE_SYSTEMS, 4)).input('m', mumIngredient(registries, STANDARD_MACHINE_SYSTEMS, 3)).input('r', REDSTONE).input('c', T2_CIRCUIT)
-                .patterns(" r ", "rmr", " c ").save(output, smsRecipeName + "_4");
-        shaped(mumStack(registries, STANDARD_MACHINE_SYSTEMS, 5)).input('m', mumIngredient(registries, STANDARD_MACHINE_SYSTEMS, 4)).input('r', REDSTONE).input('c', T3_CIRCUIT)
-                .patterns(" r ", "rmr", " c ").save(output, smsRecipeName + "_5");
-        shaped(mumStack(registries, STANDARD_MACHINE_SYSTEMS, 6)).input('m', mumIngredient(registries, STANDARD_MACHINE_SYSTEMS, 5)).input('r', REDSTONE).input('c', T3_CIRCUIT)
-                .patterns(" r ", "rmr", " c ").save(output, smsRecipeName + "_6");
+        upgradeShaped(output, registries, STANDARD_MACHINE_SYSTEMS, 1, builder -> builder
+                .input('r', REDSTONE).input('c', T1_CIRCUIT).patterns(" r ", "rmr", " c "));
+        upgradeShaped(output, registries, STANDARD_MACHINE_SYSTEMS, 2, builder -> builder
+                .input('r', REDSTONE).input('c', T1_CIRCUIT).patterns(" r ", "rmr", " c "));
+        upgradeShaped(output, registries, STANDARD_MACHINE_SYSTEMS, 3, builder -> builder
+                .input('r', REDSTONE).input('c', T2_CIRCUIT).patterns(" r ", "rmr", " c "));
+        upgradeShaped(output, registries, STANDARD_MACHINE_SYSTEMS, 4, builder -> builder
+                .input('r', REDSTONE).input('c', T2_CIRCUIT).patterns(" r ", "rmr", " c "));
+        upgradeShaped(output, registries, STANDARD_MACHINE_SYSTEMS, 5, builder -> builder
+                .input('r', REDSTONE).input('c', T3_CIRCUIT).patterns(" r ", "rmr", " c "));
+        upgradeShaped(output, registries, STANDARD_MACHINE_SYSTEMS, 6, builder -> builder
+                .input('r', REDSTONE).input('c', T3_CIRCUIT).patterns(" r ", "rmr", " c "));
 
         NEON_LIGHTS.forEach((color, holder) -> shaped(holder, 4).input('d', neonLightDye(color)).input('g', GLOWSTONE).patterns("dg", "gd").save(output));
         //#endregion
@@ -174,6 +177,7 @@ class RecipesGen extends LimaRecipeProvider
         orePebblesCooking(TITANIUM_ORE_PEBBLES, TITANIUM_INGOT, 1, output);
         orePebblesCooking(NIOBIUM_ORE_PEBBLES, NIOBIUM_INGOT, 1, output);
 
+        fabricatingRecipes(output, registries);
         grindingRecipes(output, registries);
         mfcRecipes(output);
         electroCentrifugingRecipes(output, registries);
@@ -183,8 +187,10 @@ class RecipesGen extends LimaRecipeProvider
         assemblingRecipes(output, registries);
         geoSynthesisRecipes(output);
         gardenSimRecipes(output, registries);
+    }
 
-        // Fabricating recipes
+    private void fabricatingRecipes(RecipeOutput output, HolderLookup.Provider registries)
+    {
         fabricating(20_000_000)
                 .input(CIRCUIT_BOARD)
                 .input(T3_CIRCUIT, 2)
@@ -367,50 +373,50 @@ class RecipesGen extends LimaRecipeProvider
                 .group("ltx/weapon").save(output);
 
         final String eumTools = "eum/tool";
-        equipmentModuleFab(output, registries, eumTools, TOOL_ENERGY_UPGRADE, 1, 100_000, builder -> builder
+        upgradeFabricating(output, registries, eumTools, TOOL_ENERGY_UPGRADE, 1, 100_000, builder -> builder
                 .input(T1_CIRCUIT)
                 .input(TITANIUM_INGOT, 2)
                 .input(POLYMER_INGOT, 4)
                 .input(ELECTRIC_CHEMICAL, 4));
-        equipmentModuleFab(output, registries, eumTools, TOOL_ENERGY_UPGRADE, 2, 250_000, builder -> builder
+        upgradeFabricating(output, registries, eumTools, TOOL_ENERGY_UPGRADE, 2, 250_000, builder -> builder
                 .input(T2_CIRCUIT)
                 .input(TITANIUM_INGOT, 4)
                 .input(POLYMER_INGOT, 8)
                 .input(ELECTRIC_CHEMICAL, 8));
-        equipmentModuleFab(output, registries, eumTools, TOOL_ENERGY_UPGRADE, 3, 500_000, builder -> builder
+        upgradeFabricating(output, registries, eumTools, TOOL_ENERGY_UPGRADE, 3, 500_000, builder -> builder
                 .input(T3_CIRCUIT)
                 .input(TITANIUM_INGOT, 8)
                 .input(POLYMER_INGOT, 16)
                 .input(GOLD_INGOT, 4)
                 .input(ELECTRIC_CHEMICAL, 16));
-        equipmentModuleFab(output, registries, eumTools, TOOL_ENERGY_UPGRADE, 4, 1_000_000, builder -> builder
+        upgradeFabricating(output, registries, eumTools, TOOL_ENERGY_UPGRADE, 4, 1_000_000, builder -> builder
                 .input(T3_CIRCUIT, 2)
                 .input(TITANIUM_INGOT, 8)
                 .input(POLYMER_INGOT, 24)
                 .input(NIOBIUM_INGOT, 2)
                 .input(ELECTRIC_CHEMICAL, 32));
-        equipmentModuleFab(output, registries, eumTools, EPSILON_FISHING_LURE, 1, 100_000, builder -> builder
+        upgradeFabricating(output, registries, eumTools, EPSILON_FISHING_LURE, 1, 100_000, builder -> builder
                 .input(T1_CIRCUIT)
                 .input(STRING, 4)
                 .input(COD, 2));
-        equipmentModuleFab(output, registries, eumTools, EPSILON_FISHING_LURE, 2, 250_000, builder -> builder
+        upgradeFabricating(output, registries, eumTools, EPSILON_FISHING_LURE, 2, 250_000, builder -> builder
                 .input(T1_CIRCUIT, 2)
                 .input(STRING, 8)
                 .input(COD, 4)
                 .input(SALMON, 2));
-        equipmentModuleFab(output, registries, eumTools, EPSILON_FISHING_LURE, 3, 500_000, builder -> builder
+        upgradeFabricating(output, registries, eumTools, EPSILON_FISHING_LURE, 3, 500_000, builder -> builder
                 .input(T2_CIRCUIT, 2)
                 .input(TITANIUM_INGOT, 2)
                 .input(STRING, 8)
                 .input(PUFFERFISH, 2));
-        equipmentModuleFab(output, registries, eumTools, EPSILON_FISHING_LURE, 4, 1_000_000, builder -> builder
+        upgradeFabricating(output, registries, eumTools, EPSILON_FISHING_LURE, 4, 1_000_000, builder -> builder
                 .input(T3_CIRCUIT, 2)
                 .input(SLATESTEEL_INGOT, 2)
                 .input(STRING, 4)
                 .input(CARBON_DUST, 12)
                 .input(LTX_LIME_PIGMENT, 6)
                 .input(PRISMARINE_CRYSTALS, 2));
-        equipmentModuleFab(output, registries, eumTools, EPSILON_FISHING_LURE, 5, 2_000_000, builder -> builder
+        upgradeFabricating(output, registries, eumTools, EPSILON_FISHING_LURE, 5, 2_000_000, builder -> builder
                 .input(T3_CIRCUIT, 4)
                 .input(SLATESTEEL_INGOT, 4)
                 .input(POLYMER_INGOT, 8)
@@ -418,16 +424,16 @@ class RecipesGen extends LimaRecipeProvider
                 .input(CARBON_DUST, 24)
                 .input(LTX_LIME_PIGMENT, 12)
                 .input(HEART_OF_THE_SEA));
-        equipmentModuleFab(output, registries, eumTools, TOOL_NETHERITE_LEVEL, 1, 500_000, builder -> builder
+        upgradeFabricating(output, registries, eumTools, TOOL_NETHERITE_LEVEL, 1, 500_000, builder -> builder
                 .input(T3_CIRCUIT, 2)
                 .input(DIAMOND, 3)
                 .input(NETHERITE_INGOT)
                 .input(TITANIUM_INGOT, 8)
                 .input(SLATESTEEL_INGOT, 4));
-        equipmentModuleFab(output, registries, eumTools, EPSILON_OMNI_DRILL, 1, 20_000_000, builder -> builder
+        upgradeFabricating(output, registries, eumTools, EPSILON_OMNI_DRILL, 1, 20_000_000, builder -> builder
                 .input(T4_CIRCUIT)
                 .input(LTX_LIME_PIGMENT, 16));
-        equipmentModuleFab(output, registries, eumTools, TOOL_VIBRATION_CANCEL, 1, 500_000, builder -> builder
+        upgradeFabricating(output, registries, eumTools, TOOL_VIBRATION_CANCEL, 1, 500_000, builder -> builder
                 .input(T3_CIRCUIT, 2)
                 .input(TITANIUM_INGOT, 8)
                 .input(POLYMER_INGOT, 8)
@@ -441,33 +447,33 @@ class RecipesGen extends LimaRecipeProvider
                 .input(NETHER_STAR)
                 .input(CHORUS_CHEMICAL, 8)
                 .input(ENDER_PEARL, 8);
-        equipmentModuleFab(output, registries, "eum/tool", TOOL_DIRECT_DROPS, 1, 15_000_000, directDrops);
-        equipmentModuleFab(output, registries, "eum/weapon", WEAPON_DIRECT_DROPS, 1, 15_000_000, directDrops);
+        upgradeFabricating(output, registries, "eum/tool", TOOL_DIRECT_DROPS, 1, 15_000_000, directDrops);
+        upgradeFabricating(output, registries, "eum/weapon", WEAPON_DIRECT_DROPS, 1, 15_000_000, directDrops);
 
-        equipmentModuleFab(output, registries, "eum/weapon", WEAPON_ARMOR_PIERCE, 1, 1_000_000, builder -> builder
+        upgradeFabricating(output, registries, "eum/weapon", WEAPON_ARMOR_PIERCE, 1, 1_000_000, builder -> builder
                 .input(T2_CIRCUIT, 2)
                 .input(OBSIDIAN, 8)
                 .input(TITANIUM_INGOT, 8));
-        equipmentModuleFab(output, registries, "eum/weapon", WEAPON_ARMOR_PIERCE, 2, 2_500_000, builder -> builder
+        upgradeFabricating(output, registries, "eum/weapon", WEAPON_ARMOR_PIERCE, 2, 2_500_000, builder -> builder
                 .input(T3_CIRCUIT, 2)
                 .input(OBSIDIAN, 32)
                 .input(TITANIUM_INGOT, 32));
-        equipmentModuleFab(output, registries, "eum/weapon", WEAPON_ARMOR_PIERCE, 3, 5_000_000, builder -> builder
+        upgradeFabricating(output, registries, "eum/weapon", WEAPON_ARMOR_PIERCE, 3, 5_000_000, builder -> builder
                 .input(T4_CIRCUIT, 2)
                 .input(OBSIDIAN, 64)
                 .input(SLATESTEEL_INGOT, 4));
 
-        equipmentModuleFab(output, registries, "eum/weapon", HIGH_IMPACT_ROUNDS, 1, 1_000_000, builder -> builder
+        upgradeFabricating(output, registries, "eum/weapon", HIGH_IMPACT_ROUNDS, 1, 1_000_000, builder -> builder
                 .input(T2_CIRCUIT, 2)
                 .input(TNT, 8)
                 .input(PISTON, 2));
-        equipmentModuleFab(output, registries, "eum/weapon", WEAPON_VIBRATION_CANCEL, 1, 500_000, builder -> builder
+        upgradeFabricating(output, registries, "eum/weapon", WEAPON_VIBRATION_CANCEL, 1, 500_000, builder -> builder
                 .input(T3_CIRCUIT, 2)
                 .input(TITANIUM_INGOT, 16)
                 .input(POLYMER_INGOT, 16)
                 .input(ItemTags.WOOL, 16)
                 .input(SCULK_CHEMICAL, 8));
-        equipmentModuleFab(output, registries, "eum/weapon", UNIVERSAL_STEALTH_DAMAGE, 1, 750_000, builder -> builder
+        upgradeFabricating(output, registries, "eum/weapon", UNIVERSAL_STEALTH_DAMAGE, 1, 750_000, builder -> builder
                 .input(T4_CIRCUIT)
                 .input(PHANTOM_MEMBRANE, 12)
                 .input(ENDER_PEARL, 8)
@@ -478,50 +484,50 @@ class RecipesGen extends LimaRecipeProvider
                 .input(TITANIUM_INGOT, 8)
                 .input(PHANTOM_MEMBRANE, 2)
                 .input(ENDER_PEARL, 2);
-        equipmentModuleFab(output, registries, "eum/weapon", NEUTRAL_ENEMY_TARGET_FILTER, 1, 225_000, targetFilter);
-        equipmentModuleFab(output, registries, "eum/weapon", HOSTILE_TARGET_FILTER, 1, 225_000, targetFilter);
-        equipmentModuleFab(output, registries, "eum/weapon", WEAPON_SHIELD_REGEN, 1, 1_500_000, builder -> builder
+        upgradeFabricating(output, registries, "eum/weapon", NEUTRAL_ENEMY_TARGET_FILTER, 1, 225_000, targetFilter);
+        upgradeFabricating(output, registries, "eum/weapon", HOSTILE_TARGET_FILTER, 1, 225_000, targetFilter);
+        upgradeFabricating(output, registries, "eum/weapon", WEAPON_SHIELD_REGEN, 1, 1_500_000, builder -> builder
                 .input(T3_CIRCUIT, 2)
                 .input(GOLDEN_APPLE, 1)
                 .input(DataComponentIngredient.of(false, DataComponentPredicate.builder().expect(DataComponents.POTION_CONTENTS, new PotionContents(Potions.FIRE_RESISTANCE)).build(), POTION))
                 .input(SHIELD)
                 .input(DIAMOND, 4));
-        equipmentModuleFab(output, registries, "eum/weapon", WEAPON_SHIELD_REGEN, 2, 3_000_000, builder -> builder
+        upgradeFabricating(output, registries, "eum/weapon", WEAPON_SHIELD_REGEN, 2, 3_000_000, builder -> builder
                 .input(T3_CIRCUIT, 4)
                 .input(GOLDEN_APPLE, 2)
                 .input(DIAMOND, 8)
                 .input(AMETHYST_SHARD, 2));
-        equipmentModuleFab(output, registries, "eum/weapon", WEAPON_SHIELD_REGEN, 3, 5_000_000, builder -> builder
+        upgradeFabricating(output, registries, "eum/weapon", WEAPON_SHIELD_REGEN, 3, 5_000_000, builder -> builder
                 .input(T4_CIRCUIT, 1)
                 .input(AMETHYST_SHARD, 8)
                 .input(ENCHANTED_GOLDEN_APPLE));
 
-        equipmentModuleFab(output, registries, "eum/enchant", EFFICIENCY_ENCHANTMENT, 1, 250_000, builder -> builder
+        upgradeFabricating(output, registries, "eum/enchant", EFFICIENCY_ENCHANTMENT, 1, 250_000, builder -> builder
                 .input(T1_CIRCUIT, 2)
                 .input(REDSTONE, 4));
-        equipmentModuleFab(output, registries, "eum/enchant", EFFICIENCY_ENCHANTMENT, 2, 500_000, builder -> builder
+        upgradeFabricating(output, registries, "eum/enchant", EFFICIENCY_ENCHANTMENT, 2, 500_000, builder -> builder
                 .input(T1_CIRCUIT, 4)
                 .input(REDSTONE, 8));
-        equipmentModuleFab(output, registries, "eum/enchant", EFFICIENCY_ENCHANTMENT, 3, 750_000, builder -> builder
+        upgradeFabricating(output, registries, "eum/enchant", EFFICIENCY_ENCHANTMENT, 3, 750_000, builder -> builder
                 .input(T2_CIRCUIT, 2)
                 .input(REDSTONE, 8)
                 .input(BLAZE_POWDER, 4)
                 .input(TITANIUM_INGOT, 4));
-        equipmentModuleFab(output, registries, "eum/enchant", EFFICIENCY_ENCHANTMENT, 4, 1_000_000, builder -> builder
+        upgradeFabricating(output, registries, "eum/enchant", EFFICIENCY_ENCHANTMENT, 4, 1_000_000, builder -> builder
                 .input(T3_CIRCUIT, 2)
                 .input(REDSTONE, 8)
                 .input(BLAZE_POWDER, 8)
                 .input(TITANIUM_INGOT, 8)
                 .input(SLATESTEEL_INGOT, 4)
                 .input(POLYMER_INGOT, 8));
-        equipmentModuleFab(output, registries, "eum/enchant", EFFICIENCY_ENCHANTMENT, 5, 2_000_000, builder -> builder
+        upgradeFabricating(output, registries, "eum/enchant", EFFICIENCY_ENCHANTMENT, 5, 2_000_000, builder -> builder
                 .input(T3_CIRCUIT, 4)
                 .input(REDSTONE, 8)
                 .input(BLAZE_POWDER, 12)
                 .input(TITANIUM_INGOT, 12)
                 .input(SLATESTEEL_INGOT, 8)
                 .input(POLYMER_INGOT, 16));
-        equipmentModuleFab(output, registries, "eum/enchant", SILK_TOUCH_ENCHANTMENT, 1, 500_000, builder -> builder
+        upgradeFabricating(output, registries, "eum/enchant", SILK_TOUCH_ENCHANTMENT, 1, 500_000, builder -> builder
                 .input(T3_CIRCUIT)
                 .input(EMERALD, 1)
                 .input(SLIME_BALL, 8)
@@ -556,39 +562,39 @@ class RecipesGen extends LimaRecipeProvider
                 .input(AMETHYST_BLOCK, 6)
                 .input(NETHER_STAR, 2)
                 .input(LAPIS_BLOCK, 8);
-        equipmentModuleFab(output, registries, "eum/enchant", LOOTING_ENCHANTMENT, 1, 125_000, multi1);
-        equipmentModuleFab(output, registries, "eum/enchant", FORTUNE_ENCHANTMENT, 1, 125_000, multi1);
-        equipmentModuleFab(output, registries, "eum/enchant", LOOTING_ENCHANTMENT, 2, 250_000, multi2);
-        equipmentModuleFab(output, registries, "eum/enchant", FORTUNE_ENCHANTMENT, 2, 250_000, multi2);
-        equipmentModuleFab(output, registries, "eum/enchant", LOOTING_ENCHANTMENT, 3, 500_000, multi3);
-        equipmentModuleFab(output, registries, "eum/enchant", FORTUNE_ENCHANTMENT, 3, 500_000, multi3);
-        equipmentModuleFab(output, registries, "eum/enchant", LOOTING_ENCHANTMENT, 4, 1_000_000, multi4);
-        equipmentModuleFab(output, registries, "eum/enchant", FORTUNE_ENCHANTMENT, 4, 1_000_000, multi4);
-        equipmentModuleFab(output, registries, "eum/enchant", LOOTING_ENCHANTMENT, 5, 10_000_000, multi5);
-        equipmentModuleFab(output, registries, "eum/enchant", FORTUNE_ENCHANTMENT, 5, 10_000_000, multi5);
+        upgradeFabricating(output, registries, "eum/enchant", LOOTING_ENCHANTMENT, 1, 125_000, multi1);
+        upgradeFabricating(output, registries, "eum/enchant", FORTUNE_ENCHANTMENT, 1, 125_000, multi1);
+        upgradeFabricating(output, registries, "eum/enchant", LOOTING_ENCHANTMENT, 2, 250_000, multi2);
+        upgradeFabricating(output, registries, "eum/enchant", FORTUNE_ENCHANTMENT, 2, 250_000, multi2);
+        upgradeFabricating(output, registries, "eum/enchant", LOOTING_ENCHANTMENT, 3, 500_000, multi3);
+        upgradeFabricating(output, registries, "eum/enchant", FORTUNE_ENCHANTMENT, 3, 500_000, multi3);
+        upgradeFabricating(output, registries, "eum/enchant", LOOTING_ENCHANTMENT, 4, 1_000_000, multi4);
+        upgradeFabricating(output, registries, "eum/enchant", FORTUNE_ENCHANTMENT, 4, 1_000_000, multi4);
+        upgradeFabricating(output, registries, "eum/enchant", LOOTING_ENCHANTMENT, 5, 10_000_000, multi5);
+        upgradeFabricating(output, registries, "eum/enchant", FORTUNE_ENCHANTMENT, 5, 10_000_000, multi5);
 
-        equipmentModuleFab(output, registries, "eum/enchant", RAZOR_ENCHANTMENT, 1, 250_000, builder -> builder
+        upgradeFabricating(output, registries, "eum/enchant", RAZOR_ENCHANTMENT, 1, 250_000, builder -> builder
                 .input(T1_CIRCUIT, 2)
                 .input(TITANIUM_INGOT, 8)
                 .input(ZOMBIE_HEAD)
                 .input(CREEPER_HEAD)
                 .input(SKELETON_SKULL));
-        equipmentModuleFab(output, registries,"eum/enchant", RAZOR_ENCHANTMENT, 2, 500_000, builder -> builder
+        upgradeFabricating(output, registries,"eum/enchant", RAZOR_ENCHANTMENT, 2, 500_000, builder -> builder
                 .input(T2_CIRCUIT, 2)
                 .input(DIAMOND, 2)
                 .input(ZOMBIE_HEAD, 2)
                 .input(CREEPER_HEAD, 2)
                 .input(SKELETON_SKULL, 2));
-        equipmentModuleFab(output, registries, "eum/enchant", RAZOR_ENCHANTMENT, 3, 1_000_000, builder -> builder
+        upgradeFabricating(output, registries, "eum/enchant", RAZOR_ENCHANTMENT, 3, 1_000_000, builder -> builder
                 .input(T3_CIRCUIT, 2)
                 .input(ZOMBIE_HEAD, 4)
                 .input(SKELETON_SKULL, 4)
                 .input(CREEPER_HEAD, 4));
-        equipmentModuleFab(output, registries, "eum/enchant", RAZOR_ENCHANTMENT, 4, 2_00_000, builder -> builder
+        upgradeFabricating(output, registries, "eum/enchant", RAZOR_ENCHANTMENT, 4, 2_00_000, builder -> builder
                 .input(T3_CIRCUIT, 4)
                 .input(WITHER_SKELETON_SKULL, 6)
                 .input(PIGLIN_HEAD, 6));
-        equipmentModuleFab(output, registries, "eum/enchant", RAZOR_ENCHANTMENT, 5, 4_000_000, builder -> builder
+        upgradeFabricating(output, registries, "eum/enchant", RAZOR_ENCHANTMENT, 5, 4_000_000, builder -> builder
                 .input(T4_CIRCUIT)
                 .input(ZOMBIE_HEAD, 8)
                 .input(CREEPER_HEAD, 8)
@@ -597,26 +603,26 @@ class RecipesGen extends LimaRecipeProvider
                 .input(PIGLIN_HEAD, 8)
                 .input(DRAGON_HEAD, 1));
 
-        equipmentModuleFab(output, registries, "eum/enchant", AMMO_SCAVENGER_ENCHANTMENT, 1, 300_000, builder -> builder
+        upgradeFabricating(output, registries, "eum/enchant", AMMO_SCAVENGER_ENCHANTMENT, 1, 300_000, builder -> builder
                 .input(T2_CIRCUIT, 2)
                 .input(TITANIUM_INGOT, 8)
                 .input(GUNPOWDER, 8)
                 .input(LIGHTWEIGHT_WEAPON_ENERGY, 2));
-        equipmentModuleFab(output, registries, "eum/enchant", AMMO_SCAVENGER_ENCHANTMENT, 2, 600_000, builder -> builder
+        upgradeFabricating(output, registries, "eum/enchant", AMMO_SCAVENGER_ENCHANTMENT, 2, 600_000, builder -> builder
                 .input(T2_CIRCUIT, 4)
                 .input(TITANIUM_INGOT, 12)
                 .input(LAPIS_LAZULI, 16)
                 .input(LIGHTWEIGHT_WEAPON_ENERGY, 4));
-        equipmentModuleFab(output, registries, "eum/enchant", AMMO_SCAVENGER_ENCHANTMENT, 3, 900_000, builder -> builder
+        upgradeFabricating(output, registries, "eum/enchant", AMMO_SCAVENGER_ENCHANTMENT, 3, 900_000, builder -> builder
                 .input(T3_CIRCUIT, 4)
                 .input(TITANIUM_INGOT, 16)
                 .input(LIGHTWEIGHT_WEAPON_ENERGY, 8)
                 .input(SPECIALIST_WEAPON_ENERGY, 2));
-        equipmentModuleFab(output, registries, "eum/enchant", AMMO_SCAVENGER_ENCHANTMENT, 4, 1_200_000, builder -> builder
+        upgradeFabricating(output, registries, "eum/enchant", AMMO_SCAVENGER_ENCHANTMENT, 4, 1_200_000, builder -> builder
                 .input(T4_CIRCUIT, 2)
                 .input(SPECIALIST_WEAPON_ENERGY, 4)
                 .input(EXPLOSIVES_WEAPON_ENERGY, 2));
-        equipmentModuleFab(output, registries, "eum/enchant", AMMO_SCAVENGER_ENCHANTMENT, 5, 1_500_000, builder -> builder
+        upgradeFabricating(output, registries, "eum/enchant", AMMO_SCAVENGER_ENCHANTMENT, 5, 1_500_000, builder -> builder
                 .input(T4_CIRCUIT, 4)
                 .input(SLATESTEEL_INGOT, 2)
                 .input(LIGHTWEIGHT_WEAPON_ENERGY, 16)
@@ -624,71 +630,71 @@ class RecipesGen extends LimaRecipeProvider
                 .input(EXPLOSIVES_WEAPON_ENERGY, 4)
                 .input(HEAVY_WEAPON_ENERGY, 2));
 
-        equipmentModuleFab(output, registries, "eum/weapon/gl", FLAME_GRENADE_CORE, 1, 2_500_000, builder -> builder
+        upgradeFabricating(output, registries, "eum/weapon/gl", FLAME_GRENADE_CORE, 1, 2_500_000, builder -> builder
                 .input(T3_CIRCUIT, 2)
                 .input(TITANIUM_INGOT, 4)
                 .input(TITANIUM_GLASS, 8)
                 .input(BLAZE_POWDER, 16));
-        equipmentModuleFab(output, registries, "eum/weapon/gl", CRYO_GRENADE_CORE, 1, 2_500_000, builder -> builder
+        upgradeFabricating(output, registries, "eum/weapon/gl", CRYO_GRENADE_CORE, 1, 2_500_000, builder -> builder
                 .input(T3_CIRCUIT, 2)
                 .input(TITANIUM_INGOT, 4)
                 .input(TITANIUM_GLASS, 8)
                 .input(ICE, 16));
-        equipmentModuleFab(output, registries, "eum/weapon/gl", ELECTRIC_GRENADE_CORE, 1, 5_000_000, builder -> builder
+        upgradeFabricating(output, registries, "eum/weapon/gl", ELECTRIC_GRENADE_CORE, 1, 5_000_000, builder -> builder
                 .input(T3_CIRCUIT, 2)
                 .input(TITANIUM_GLASS, 16)
                 .input(SLATESTEEL_INGOT, 8)
                 .input(POLYMER_INGOT, 12)
                 .input(ELECTRIC_CHEMICAL, 32));
-        equipmentModuleFab(output, registries, "eum/weapon/gl", ACID_GRENADE_CORE, 1, 25_000_000, builder -> builder
+        upgradeFabricating(output, registries, "eum/weapon/gl", ACID_GRENADE_CORE, 1, 25_000_000, builder -> builder
                 .input(T4_CIRCUIT, 2)
                 .input(TITANIUM_GLASS, 32)
                 .input(SLATESTEEL_INGOT, 16)
                 .input(POLYMER_INGOT, 24)
                 .input(VIRIDIC_WEAPON_CHEMICAL, 16));
-        equipmentModuleFab(output, registries, "eum/weapon/gl", NEURO_GRENADE_CORE, 1, 50_000_000, builder -> builder
+        upgradeFabricating(output, registries, "eum/weapon/gl", NEURO_GRENADE_CORE, 1, 50_000_000, builder -> builder
                 .input(T4_CIRCUIT, 2)
                 .input(TITANIUM_GLASS, 32)
                 .input(SLATESTEEL_INGOT, 16)
                 .input(POLYMER_INGOT, 24)
                 .input(NEURO_CHEMICAL, 8));
-        equipmentModuleFab(output, registries, "eum/weapon", GRENADE_LAUNCHER_PROJECTILE_SPEED, 1, 750_000, builder -> builder
+        upgradeFabricating(output, registries, "eum/weapon", GRENADE_LAUNCHER_PROJECTILE_SPEED, 1, 750_000, builder -> builder
                 .input(T2_CIRCUIT, 2)
                 .input(FIREWORK_ROCKET, 9)
                 .input(PHANTOM_MEMBRANE, 2));
-        equipmentModuleFab(output, registries, "eum/weapon", GRENADE_LAUNCHER_PROJECTILE_SPEED, 2, 2_000_000, builder -> builder
+        upgradeFabricating(output, registries, "eum/weapon", GRENADE_LAUNCHER_PROJECTILE_SPEED, 2, 2_000_000, builder -> builder
                 .input(T3_CIRCUIT, 3)
                 .input(FIREWORK_ROCKET, 36)
                 .input(PHANTOM_MEMBRANE, 8));
 
-        machineModuleFab(output, registries, "mum/gpm", ULTIMATE_MACHINE_SYSTEMS, 1, 250_000_000, false, null, builder -> builder
-                .input(mumIngredient(registries, STANDARD_MACHINE_SYSTEMS, 6))
+        upgradeFabricating(output, registries, "mum/gpm", ULTIMATE_MACHINE_SYSTEMS, 1, 250_000_000, false, builder -> builder
+                .input(moduleIngredient(registries, STANDARD_MACHINE_SYSTEMS, 6))
                 .input(T5_CIRCUIT, 2)
                 .input(REDSTONE_BLOCK, 16)
                 .input(SLATESTEEL_INGOT, 32));
 
-        machineModuleFab(output, registries, "mum/eca", ECA_CAPACITY_UPGRADE, 1, 250_000, builder -> builder
+        upgradeFabricating(output, registries, "mum/eca", ECA_CAPACITY_UPGRADE, 1, 250_000, builder -> builder
                 .input(T1_CIRCUIT, 2)
                 .input(TITANIUM_INGOT, 4)
                 .input(ELECTRIC_CHEMICAL, 4)
                 .input(COPPER_INGOT, 4));
-        machineModuleFab(output, registries, "mum/eca", ECA_CAPACITY_UPGRADE, 2, 500_000, builder -> builder
+        upgradeFabricating(output, registries, "mum/eca", ECA_CAPACITY_UPGRADE, 2, 500_000, builder -> builder
                 .input(T2_CIRCUIT, 2)
                 .input(TITANIUM_INGOT, 4)
                 .input(ELECTRIC_CHEMICAL, 8)
                 .input(COPPER_INGOT, 8));
-        machineModuleFab(output, registries, "mum/eca", ECA_CAPACITY_UPGRADE, 3, 1_000_000, builder -> builder
+        upgradeFabricating(output, registries, "mum/eca", ECA_CAPACITY_UPGRADE, 3, 1_000_000, builder -> builder
                 .input(T2_CIRCUIT, 4)
                 .input(TITANIUM_INGOT, 8)
                 .input(ELECTRIC_CHEMICAL, 16)
                 .input(GOLD_INGOT, 8));
-        machineModuleFab(output, registries, "mum/eca", ECA_CAPACITY_UPGRADE, 4, 5_000_000, builder -> builder
+        upgradeFabricating(output, registries, "mum/eca", ECA_CAPACITY_UPGRADE, 4, 5_000_000, builder -> builder
                 .input(T3_CIRCUIT, 2)
                 .input(TITANIUM_INGOT, 12)
                 .input(SLATESTEEL_INGOT, 4)
                 .input(ELECTRIC_CHEMICAL, 24)
                 .input(NIOBIUM_INGOT, 4));
-        machineModuleFab(output, registries, "mum/eca", ECA_CAPACITY_UPGRADE, 5, 20_000_000, builder -> builder
+        upgradeFabricating(output, registries, "mum/eca", ECA_CAPACITY_UPGRADE, 5, 20_000_000, builder -> builder
                 .input(T3_CIRCUIT, 4)
                 .input(TITANIUM_INGOT, 16)
                 .input(SLATESTEEL_INGOT, 8)
@@ -697,40 +703,40 @@ class RecipesGen extends LimaRecipeProvider
                 .input(NIOBIUM_INGOT, 8)
                 .input(CHORUS_CHEMICAL, 8));
 
-        machineModuleFab(output, registries, "mum/fabricator", FABRICATOR_UPGRADE, 1, 500_000, builder -> builder
+        upgradeFabricating(output, registries, "mum/fabricator", FABRICATOR_UPGRADE, 1, 500_000, builder -> builder
                 .input(LTX_LIME_PIGMENT, 4)
                 .input(DIAMOND, 2)
                 .input(TITANIUM_INGOT, 8)
                 .input(T2_CIRCUIT, 2)
                 .input(REDSTONE, 8));
-        machineModuleFab(output, registries, "mum/fabricator", FABRICATOR_UPGRADE, 2, 1_000_000, builder -> builder
+        upgradeFabricating(output, registries, "mum/fabricator", FABRICATOR_UPGRADE, 2, 1_000_000, builder -> builder
                 .input(LTX_LIME_PIGMENT, 4)
                 .input(DIAMOND, 4)
                 .input(TITANIUM_INGOT, 8)
                 .input(T3_CIRCUIT, 2)
                 .input(REDSTONE, 8));
-        machineModuleFab(output, registries, "mum/fabricator", FABRICATOR_UPGRADE, 3, 5_000_000, builder -> builder
+        upgradeFabricating(output, registries, "mum/fabricator", FABRICATOR_UPGRADE, 3, 5_000_000, builder -> builder
                 .input(LTX_LIME_PIGMENT, 8)
                 .input(AMETHYST_SHARD, 4)
                 .input(TITANIUM_INGOT, 16)
                 .input(T4_CIRCUIT)
                 .input(REDSTONE, 32));
-        machineModuleFab(output, registries, "mum/fabricator", FABRICATOR_UPGRADE, 4, 10_000_000, builder -> builder
+        upgradeFabricating(output, registries, "mum/fabricator", FABRICATOR_UPGRADE, 4, 10_000_000, builder -> builder
                 .input(LTX_LIME_PIGMENT, 8)
                 .input(AMETHYST_SHARD, 8)
                 .input(TITANIUM_INGOT, 16)
                 .input(T4_CIRCUIT, 2)
                 .input(REDSTONE, 32));
 
-        machineModuleFab(output, registries, "mum/turret", TURRET_LOOT_COLLECTOR, 1, 10_000_000, builder -> builder
+        upgradeFabricating(output, registries, "mum/turret", TURRET_LOOT_COLLECTOR, 1, 10_000_000, builder -> builder
                 .input(T3_CIRCUIT, 3)
                 .input(TITANIUM_INGOT, 12)
                 .input(SLATESTEEL_INGOT, 6)
                 .input(CHORUS_CHEMICAL, 4)
                 .input(ENDER_PEARL, 4));
-        machineModuleFab(output, registries, "mum/turret", TURRET_LOOTING, 1, 125_000, multi1);
-        machineModuleFab(output, registries, "mum/turret", TURRET_LOOTING, 2, 250_000, multi2);
-        machineModuleFab(output, registries, "mum/turret", TURRET_LOOTING, 3, 500_000, multi3);
+        upgradeFabricating(output, registries, "mum/turret", TURRET_LOOTING, 1, 125_000, multi1);
+        upgradeFabricating(output, registries, "mum/turret", TURRET_LOOTING, 2, 250_000, multi2);
+        upgradeFabricating(output, registries, "mum/turret", TURRET_LOOTING, 3, 500_000, multi3);
     }
 
     private void grindingRecipes(RecipeOutput output, HolderLookup.Provider registries)
@@ -1099,68 +1105,68 @@ class RecipesGen extends LimaRecipeProvider
         return DataComponentIngredient.of(true, componentType, entryFactory.applyWithInt(upgradeHolder, upgradeRank), moduleItem);
     }
 
-    private Ingredient eumIngredient(HolderLookup.Provider registries, ResourceKey<EquipmentUpgrade> upgradeKey, int upgradeRank)
+    @SuppressWarnings("unchecked")
+    private Ingredient moduleIngredient(HolderLookup.Provider registries, ResourceKey<? extends UpgradeBase<?, ?>> upgradeKey, int upgradeRank)
     {
-        return moduleIngredient(registries, upgradeKey, upgradeRank, EQUIPMENT_UPGRADE_MODULE, LTXIDataComponents.EQUIPMENT_UPGRADE_ENTRY.get(), EquipmentUpgradeEntry::new);
+        Ingredient result = null;
+
+        if (upgradeKey.registry().equals(LTXIRegistries.Keys.EQUIPMENT_UPGRADES.location()))
+        {
+            Holder<EquipmentUpgrade> holder = (Holder<EquipmentUpgrade>) registries.holderOrThrow(upgradeKey);
+            result = DataComponentIngredient.of(true, LTXIDataComponents.EQUIPMENT_UPGRADE_ENTRY, new EquipmentUpgradeEntry(holder, upgradeRank), EQUIPMENT_UPGRADE_MODULE);
+        }
+        else if (upgradeKey.registry().equals(LTXIRegistries.Keys.MACHINE_UPGRADES.location()))
+        {
+            Holder<MachineUpgrade> holder = (Holder<MachineUpgrade>) registries.holderOrThrow(upgradeKey);
+            result = DataComponentIngredient.of(true, LTXIDataComponents.MACHINE_UPGRADE_ENTRY, new MachineUpgradeEntry(holder, upgradeRank), MACHINE_UPGRADE_MODULE);
+        }
+
+        return Objects.requireNonNull(result);
     }
 
-    private Ingredient mumIngredient(HolderLookup.Provider registries, ResourceKey<MachineUpgrade> upgradeKey, int upgradeRank)
+    @SuppressWarnings("unchecked")
+    private ItemStack moduleStack(HolderLookup.Provider registries, ResourceKey<? extends UpgradeBase<?, ?>> upgradeKey, int upgradeRank)
     {
-        return moduleIngredient(registries, upgradeKey, upgradeRank, MACHINE_UPGRADE_MODULE, LTXIDataComponents.MACHINE_UPGRADE_ENTRY.get(), MachineUpgradeEntry::new);
+        ItemStack result = null;
+
+        if (upgradeKey.registry().equals(LTXIRegistries.Keys.EQUIPMENT_UPGRADES.location()))
+        {
+            result = EQUIPMENT_UPGRADE_MODULE.toStack();
+            result.set(LTXIDataComponents.EQUIPMENT_UPGRADE_ENTRY, new EquipmentUpgradeEntry((Holder<EquipmentUpgrade>) registries.holderOrThrow(upgradeKey), upgradeRank));
+        }
+        else if (upgradeKey.registry().equals(LTXIRegistries.Keys.MACHINE_UPGRADES.location()))
+        {
+            result = MACHINE_UPGRADE_MODULE.toStack();
+            result.set(LTXIDataComponents.MACHINE_UPGRADE_ENTRY, new MachineUpgradeEntry((Holder<MachineUpgrade>) registries.holderOrThrow(upgradeKey), upgradeRank));
+        }
+
+        return Objects.requireNonNull(result);
     }
 
-    private <U extends UpgradeBase<?, U>, UE extends UpgradeBaseEntry<U>> ItemStack moduleStack(HolderLookup.Provider registries, ResourceKey<U> upgradeKey, int upgradeRank, ItemLike moduleItem, DataComponentType<UE> componentType, ObjectIntFunction<Holder<U>, UE> entryFactory)
+    private void upgradeShaped(RecipeOutput output, HolderLookup.Provider registries, ResourceKey<? extends UpgradeBase<?, ?>> upgradeKey, int upgradeRank, UnaryOperator<LimaShapedRecipeBuilder> op)
     {
-        Holder<U> upgrade = registries.holderOrThrow(upgradeKey);
-        ItemStack stack = new ItemStack(moduleItem);
-        stack.set(componentType, entryFactory.applyWithInt(upgrade, upgradeRank));
-        return stack;
+        Ingredient module = upgradeRank == 1 ? Ingredient.of(EMPTY_UPGRADE_MODULE) : moduleIngredient(registries, upgradeKey, upgradeRank - 1);
+        LimaShapedRecipeBuilder builder = shaped(moduleStack(registries, upgradeKey, upgradeRank)).input('m', module);
+        op.apply(builder).save(output, upgradeKey.location().getPath() + "_" + upgradeRank);
     }
 
-    private ItemStack eumStack(HolderLookup.Provider registries, ResourceKey<EquipmentUpgrade> upgradeKey, int upgradeRank)
+    private void upgradeFabricating(RecipeOutput output, HolderLookup.Provider registries, String group, ResourceKey<? extends UpgradeBase<?, ?>> upgradeKey, int upgradeRank, int energyRequired, boolean addBaseModuleInput, UnaryOperator<FabricatingBuilder> op)
     {
-        return moduleStack(registries, upgradeKey, upgradeRank, EQUIPMENT_UPGRADE_MODULE, LTXIDataComponents.EQUIPMENT_UPGRADE_ENTRY.get(), EquipmentUpgradeEntry::new);
-    }
-
-    private ItemStack mumStack(HolderLookup.Provider registries, ResourceKey<MachineUpgrade> upgradeKey, int upgradeRank)
-    {
-        return moduleStack(registries, upgradeKey, upgradeRank, MACHINE_UPGRADE_MODULE, LTXIDataComponents.MACHINE_UPGRADE_ENTRY.get(), MachineUpgradeEntry::new);
-    }
-
-    private <U extends UpgradeBase<?, U>, UE extends UpgradeBaseEntry<U>> void upgradeFabricating(RecipeOutput output, HolderLookup.Provider registries, String group, ResourceKey<U> upgradeKey, int upgradeRank, int energyRequired, DataComponentType<UE> componentType, ObjectIntFunction<Holder<U>, UE> entryFactory, ItemLike moduleItem, boolean addBaseModuleInput, @Nullable String suffix, UnaryOperator<FabricatingBuilder> op)
-    {
-        FabricatingBuilder builder = fabricating(energyRequired).group(group).output(moduleStack(registries, upgradeKey, upgradeRank, moduleItem, componentType, entryFactory));
+        FabricatingBuilder builder = fabricating(energyRequired).group(group).output(moduleStack(registries, upgradeKey, upgradeRank));
 
         if (addBaseModuleInput)
         {
-            Ingredient moduleIngredient = upgradeRank == 1 ? Ingredient.of(EMPTY_UPGRADE_MODULE) : moduleIngredient(registries, upgradeKey, upgradeRank - 1, moduleItem, componentType, entryFactory);
+            Ingredient moduleIngredient = upgradeRank == 1 ? Ingredient.of(EMPTY_UPGRADE_MODULE) : moduleIngredient(registries, upgradeKey, upgradeRank - 1);
             builder.input(moduleIngredient);
         }
 
-        String name = upgradeKey.registry().getPath() + "s/" + upgradeKey.location().getPath();
-        if (upgradeRank > 1) name = name + "_" + upgradeRank;
-        if (suffix != null) name += suffix;
+        String name = upgradeKey.registry().getPath() + "s/" + upgradeKey.location().getPath() + "_" + upgradeRank;
         op.apply(builder).save(output, name);
     }
 
-    private void equipmentModuleFab(RecipeOutput output, HolderLookup.Provider registries, String group, ResourceKey<EquipmentUpgrade> upgradeKey, int upgradeRank, int energyRequired, boolean addBaseModuleInput, @Nullable String suffix, UnaryOperator<FabricatingBuilder> op)
+    private void upgradeFabricating(RecipeOutput output, HolderLookup.Provider registries, String group, ResourceKey<? extends UpgradeBase<?, ?>> upgradeKey, int upgradeRank, int energyRequired, UnaryOperator<FabricatingBuilder> op)
     {
-        upgradeFabricating(output, registries, group, upgradeKey, upgradeRank, energyRequired, LTXIDataComponents.EQUIPMENT_UPGRADE_ENTRY.get(), EquipmentUpgradeEntry::new, EQUIPMENT_UPGRADE_MODULE, addBaseModuleInput, suffix, op);
-    }
-
-    private void equipmentModuleFab(RecipeOutput output, HolderLookup.Provider registries, String group, ResourceKey<EquipmentUpgrade> upgradeKey, int upgradeRank, int energyRequired, UnaryOperator<FabricatingBuilder> op)
-    {
-        equipmentModuleFab(output, registries, group, upgradeKey, upgradeRank, energyRequired, true, null, op);
-    }
-
-    private void machineModuleFab(RecipeOutput output, HolderLookup.Provider registries, String group, ResourceKey<MachineUpgrade> upgradeKey, int upgradeRank, int energyRequired, boolean addBaseModuleInput, @Nullable String suffix, UnaryOperator<FabricatingBuilder> op)
-    {
-        upgradeFabricating(output, registries, group, upgradeKey, upgradeRank, energyRequired, LTXIDataComponents.MACHINE_UPGRADE_ENTRY.get(), MachineUpgradeEntry::new, MACHINE_UPGRADE_MODULE, addBaseModuleInput, suffix, op);
-    }
-
-    private void machineModuleFab(RecipeOutput output, HolderLookup.Provider registries, String group, ResourceKey<MachineUpgrade> upgradeKey, int upgradeRank, int energyRequired, UnaryOperator<FabricatingBuilder> op)
-    {
-        machineModuleFab(output, registries, group, upgradeKey, upgradeRank, energyRequired, true, null, op);
+        upgradeFabricating(output, registries, group, upgradeKey, upgradeRank, energyRequired, true, op);
     }
 
     private ItemStack defaultUpgradableItem(Supplier<? extends UpgradableEquipmentItem> itemSupplier, HolderLookup.Provider registries)
