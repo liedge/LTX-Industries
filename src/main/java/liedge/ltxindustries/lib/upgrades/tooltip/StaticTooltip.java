@@ -1,14 +1,12 @@
 package liedge.ltxindustries.lib.upgrades.tooltip;
 
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
 
 public record StaticTooltip(Component component) implements UpgradeComponentLike
 {
-    static final Codec<StaticTooltip> INLINE_CODEC = ComponentSerialization.CODEC.xmap(StaticTooltip::new, StaticTooltip::component);
-    static final MapCodec<StaticTooltip> CODEC = INLINE_CODEC.fieldOf("component");
+    static final MapCodec<StaticTooltip> CODEC = ComponentSerialization.CODEC.xmap(StaticTooltip::new, StaticTooltip::component).fieldOf("tooltip");
 
     public static StaticTooltip of(Component component)
     {

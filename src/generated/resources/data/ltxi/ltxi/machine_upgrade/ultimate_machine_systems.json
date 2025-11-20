@@ -56,8 +56,11 @@
         }
       },
       {
-        "color": "#9DF143",
-        "translate": "upgrade_effect.ltxi.instant_process"
+        "type": "static",
+        "tooltip": {
+          "color": "#9DF143",
+          "translate": "upgrade_effect.ltxi.instant_process"
+        }
       }
     ]
   },

@@ -8,7 +8,7 @@ import net.minecraft.util.StringRepresentable;
 
 public interface UpgradeComponentLike
 {
-    Codec<UpgradeComponentLike> CODEC = Codec.lazyInitialized(() -> Type.CODEC.dispatchWithInline(StaticTooltip.class, StaticTooltip.INLINE_CODEC, UpgradeComponentLike::getType, Type::getCodec));
+    Codec<UpgradeComponentLike> CODEC = Codec.lazyInitialized(() -> Type.CODEC.dispatch(UpgradeComponentLike::getType, Type::getCodec));
 
     Component get(int upgradeRank);
 

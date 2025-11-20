@@ -27,8 +27,11 @@
             "value": 0.25
           },
           {
-            "color": "dark_red",
-            "translate": "attribute.name.generic.max_health"
+            "type": "static",
+            "tooltip": {
+              "color": "dark_red",
+              "translate": "attribute.name.generic.max_health"
+            }
           }
         ],
         "key": "upgrade_effect.ltxi.attribute_scaled_damage"
