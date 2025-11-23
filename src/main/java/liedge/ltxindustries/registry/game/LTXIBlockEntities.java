@@ -57,11 +57,12 @@ public final class LTXIBlockEntities
         // Machine capability registration (item, energy, fluid)
         Stream.of(
                 MATERIAL_FUSING_CHAMBER,
-                        ELECTROCENTRIFUGE,
-                        MIXER,
-                        CHEM_LAB,
-                        ASSEMBLER,
-                        GEO_SYNTHESIZER)
+                ELECTROCENTRIFUGE,
+                MIXER,
+                CHEM_LAB,
+                ASSEMBLER,
+                GEO_SYNTHESIZER,
+                DIGITAL_GARDEN)
                 .map(DeferredHolder::get).forEach(type -> registerItemEnergyFluidCaps(event, type));
     }
 
