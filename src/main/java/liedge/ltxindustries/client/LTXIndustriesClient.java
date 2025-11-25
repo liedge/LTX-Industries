@@ -12,7 +12,6 @@ import liedge.ltxindustries.client.gui.layer.BubbleShieldLayer;
 import liedge.ltxindustries.client.gui.layer.WeaponCrosshairLayer;
 import liedge.ltxindustries.client.gui.layer.WeaponHUDInfoLayer;
 import liedge.ltxindustries.client.gui.screen.*;
-import liedge.ltxindustries.client.model.baked.EmissiveBiLayerGeometry;
 import liedge.ltxindustries.client.model.custom.BubbleShieldModel;
 import liedge.ltxindustries.client.model.entity.GlowstickProjectileModel;
 import liedge.ltxindustries.client.model.entity.LTXIModelLayers;
@@ -45,6 +44,7 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
+import net.neoforged.neoforge.client.model.DynamicFluidContainerModel;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import org.slf4j.Logger;
 
@@ -192,16 +192,16 @@ public class LTXIndustriesClient
         }
 
         @SubscribeEvent
+        public void registerItemColors(final RegisterColorHandlersEvent.Item event)
+        {
+            event.register(new DynamicFluidContainerModel.Colors(), LTXIItems.HYDROGEN_BUCKET, LTXIItems.OXYGEN_BUCKET);
+        }
+
+        @SubscribeEvent
         public void registerBlockColors(final RegisterColorHandlersEvent.Block event)
         {
             final BlockColor water = (state, level, pos, tintIndex) -> (level != null && pos != null && tintIndex == 1) ? BiomeColors.getAverageWaterColor(level, pos) : -1;
             event.register(water, LTXIBlocks.GEO_SYNTHESIZER.get(), LTXIBlocks.DIGITAL_GARDEN.get());
-        }
-
-        @SubscribeEvent
-        public void registerGeometryLoaders(final ModelEvent.RegisterGeometryLoaders event)
-        {
-            EmissiveBiLayerGeometry.BI_LAYER_LOADER.registerLoader(event);
         }
 
         @SubscribeEvent

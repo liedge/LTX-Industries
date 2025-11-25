@@ -28,8 +28,8 @@ public final class LTXIFluids
     public static void registerFluids(RegisterEvent.RegisterHelper<Fluid> helper)
     {
         registerFluid(helper, VIRIDIC_ACID_TYPE, VIRIDIC_ACID, FLOWING_VIRIDIC_ACID, properties -> properties.block(LTXIBlocks.VIRIDIC_ACID_BLOCK).bucket(LTXIItems.VIRIDIC_ACID_BUCKET));
-        registerFluid(helper, HYDROGEN_TYPE, HYDROGEN, FLOWING_HYDROGEN, UnaryOperator.identity());
-        registerFluid(helper, OXYGEN_TYPE, OXYGEN, FLOWING_OXYGEN, UnaryOperator.identity());
+        registerFluid(helper, HYDROGEN_TYPE, HYDROGEN, FLOWING_HYDROGEN, properties -> properties.bucket(LTXIItems.HYDROGEN_BUCKET));
+        registerFluid(helper, OXYGEN_TYPE, OXYGEN, FLOWING_OXYGEN, properties -> properties.bucket(LTXIItems.OXYGEN_BUCKET));
     }
 
     // Light levels

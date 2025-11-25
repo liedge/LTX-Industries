@@ -1,0 +1,6 @@
+{
+  "parent": "neoforge:item/bucket",
+  "apply_tint": true,
+  "fluid": "ltxi:oxygen",
+  "loader": "neoforge:fluid_container"
+}

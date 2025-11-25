@@ -117,6 +117,8 @@ class LanguageGen extends LimaLanguageProvider
         addItem(NIOBIUM_NUGGET, "Niobium Nugget");
         addItem(VITRIOL_BERRIES, "Vitriol Berries");
         addItem(VIRIDIC_ACID_BUCKET, "Viridic Acid Bucket");
+        addItem(HYDROGEN_BUCKET, "Hydrogen Bucket");
+        addItem(OXYGEN_BUCKET, "Oxygen Bucket");
 
         addItem(LTX_LIME_PIGMENT, "LTX Lime Pigment");
         addItem(ENERGY_BLUE_PIGMENT, "Energy Blue Pigment");

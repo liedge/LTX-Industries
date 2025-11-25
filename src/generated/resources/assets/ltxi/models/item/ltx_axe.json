@@ -1,6 +1,14 @@
 {
   "parent": "minecraft:item/handheld",
-  "loader": "ltxi:bi_layer",
+  "loader": "neoforge:item_layers",
+  "neoforge_data": {
+    "layers": {}
+  },
+  "render_types": {
+    "limacore:emissive": [
+      1
+    ]
+  },
   "textures": {
     "layer0": "ltxi:item/ltx_axe_base",
     "layer1": "ltxi:item/ltx_axe_emissive"

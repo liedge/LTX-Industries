@@ -1,6 +1,9 @@
 {
   "parent": "minecraft:item/brush",
-  "loader": "ltxi:bi_layer",
+  "loader": "neoforge:item_layers",
+  "neoforge_data": {
+    "layers": {}
+  },
   "overrides": [
     {
       "model": "ltxi:item/ltx_brush_brushing_0",
@@ -21,6 +24,11 @@
       }
     }
   ],
+  "render_types": {
+    "limacore:emissive": [
+      1
+    ]
+  },
   "textures": {
     "layer0": "ltxi:item/ltx_brush_base",
     "layer1": "ltxi:item/ltx_brush_emissive"

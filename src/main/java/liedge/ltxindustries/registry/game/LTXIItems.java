@@ -62,6 +62,8 @@ public final class LTXIItems
 
     // Buckets
     public static final DeferredItem<BucketItem> VIRIDIC_ACID_BUCKET = ITEMS.registerItem("viridic_acid_bucket", properties -> new BucketItem(LTXIFluids.VIRIDIC_ACID.get(), properties), properties().stacksTo(1));
+    public static final DeferredItem<BucketItem> HYDROGEN_BUCKET = ITEMS.registerItem("hydrogen_bucket", properties -> new BucketItem(LTXIFluids.HYDROGEN.get(), properties), properties().stacksTo(1));
+    public static final DeferredItem<BucketItem> OXYGEN_BUCKET = ITEMS.registerItem("oxygen_bucket", properties -> new BucketItem(LTXIFluids.OXYGEN.get(), properties), properties().stacksTo(1));
 
     // Pigments
     public static final DeferredItem<Item> LTX_LIME_PIGMENT = ITEMS.registerSimpleItem("ltx_lime_pigment");

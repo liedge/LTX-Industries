@@ -11,7 +11,7 @@
 			"name": "base lights",
 			"groups": ["base lights"],
 			"emissivity": 15,
-			"render_type": "limacore:custom_emissive"
+			"render_type": "limacore:emissive"
 		},
 		{
 			"name": "guns",
@@ -21,7 +21,7 @@
 			"name": "guns emissive",
 			"groups": ["guns emissive"],
 			"emissivity": 15,
-			"render_type": "limacore:custom_emissive"
+			"render_type": "limacore:emissive"
 		},
 		{
 			"name": "swivel",
@@ -31,7 +31,7 @@
 			"name": "swivel emissive",
 			"groups": ["swivel emissive"],
 			"emissivity": 15,
-			"render_type": "limacore:custom_emissive"
+			"render_type": "limacore:emissive"
 		}
 	],
 	"textures": {

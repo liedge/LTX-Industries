@@ -1,6 +1,9 @@
 {
   "parent": "minecraft:item/handheld_rod",
-  "loader": "ltxi:bi_layer",
+  "loader": "neoforge:item_layers",
+  "neoforge_data": {
+    "layers": {}
+  },
   "overrides": [
     {
       "model": "ltxi:item/ltx_fishing_rod_cast",
@@ -9,6 +12,11 @@
       }
     }
   ],
+  "render_types": {
+    "limacore:emissive": [
+      1
+    ]
+  },
   "textures": {
     "layer0": "ltxi:item/ltx_fishing_rod_base",
     "layer1": "ltxi:item/ltx_fishing_rod_emissive"

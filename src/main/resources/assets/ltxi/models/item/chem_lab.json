@@ -13,7 +13,7 @@
 			"name": "lights",
 			"groups": ["lights"],
 			"emissivity": 15,
-			"render_type": "limacore:custom_emissive"
+			"render_type": "limacore:emissive"
 		},
 		{
 			"name": "tubes",
