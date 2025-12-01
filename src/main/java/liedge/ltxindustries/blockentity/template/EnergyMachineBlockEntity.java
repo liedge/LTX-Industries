@@ -20,6 +20,8 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
+
 import static liedge.limacore.LimaCommonConstants.KEY_ENERGY_CONTAINER;
 
 public abstract non-sealed class EnergyMachineBlockEntity extends LTXIMachineBlockEntity implements EnergyHolderBlockEntity
@@ -74,9 +76,12 @@ public abstract non-sealed class EnergyMachineBlockEntity extends LTXIMachineBlo
     }
 
     @Override
-    protected void setEnergyIOConfiguration(BlockIOConfiguration configuration)
+    protected boolean setEnergyIOConfiguration(BlockIOConfiguration configuration)
     {
+        if (Objects.equals(this.energyIOConfig, configuration)) return false;
+
         this.energyIOConfig = configuration;
+        return true;
     }
 
     @Override

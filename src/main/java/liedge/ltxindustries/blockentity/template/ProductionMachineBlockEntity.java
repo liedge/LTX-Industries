@@ -35,6 +35,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.IntUnaryOperator;
 
 public abstract class ProductionMachineBlockEntity extends EnergyMachineBlockEntity implements FluidHolderBlockEntity
@@ -162,9 +163,12 @@ public abstract class ProductionMachineBlockEntity extends EnergyMachineBlockEnt
     }
 
     @Override
-    protected void setFluidIOConfiguration(BlockIOConfiguration configuration)
+    protected boolean setFluidIOConfiguration(BlockIOConfiguration configuration)
     {
+        if (Objects.equals(this.fluidsIOConfig, configuration)) return false;
+
         this.fluidsIOConfig = configuration;
+        return true;
     }
 
     @Override

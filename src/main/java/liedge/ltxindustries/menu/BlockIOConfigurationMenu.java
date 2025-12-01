@@ -1,16 +1,20 @@
 package liedge.ltxindustries.menu;
 
+import liedge.limacore.blockentity.LimaBlockEntity;
 import liedge.limacore.menu.LimaMenu;
 import liedge.limacore.menu.LimaMenuType;
 import liedge.limacore.network.sync.AutomaticDataWatcher;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.limacore.util.LimaBlockUtil;
+import liedge.limacore.util.LimaRegistryUtil;
+import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
 import liedge.ltxindustries.blockentity.base.BlockIOConfiguration;
 import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntity;
 import liedge.ltxindustries.blockentity.base.IOConfigurationRules;
 import liedge.ltxindustries.registry.game.LTXINetworkSerializers;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -41,7 +45,16 @@ public class BlockIOConfigurationMenu extends LimaMenu<BlockIOConfigurationMenu.
 
     private void setIOConfiguration(BlockIOConfiguration configuration)
     {
-        menuContext.blockEntity.setIOConfiguration(menuContext.inputType, configuration);
+        boolean changed = menuContext.blockEntity.setIOConfiguration(menuContext.inputType, configuration);
+        if (!changed)
+        {
+            LimaBlockEntity be = menuContext.blockEntity.getAsLimaBlockEntity();
+            LTXIndustries.LOGGER.warn("Attempted to apply an invalid IO configuration in menu screen for block entity type {} at {}. {} Configuration: {}",
+                    LimaRegistryUtil.getNonNullRegistryId(be.getType(), BuiltInRegistries.BLOCK_ENTITY_TYPE),
+                    be.getBlockPos(),
+                    menuContext.inputType.getSerializedName(),
+                    configuration);
+        }
     }
 
     public IOConfigurationRules getIOConfigRules()

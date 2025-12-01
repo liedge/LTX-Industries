@@ -35,6 +35,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collection;
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 public sealed abstract class LTXIMachineBlockEntity extends LimaBlockEntity implements ConfigurableIOBlockEntity, UpgradesHolderBlockEntity permits EnergyMachineBlockEntity
@@ -98,20 +99,27 @@ public sealed abstract class LTXIMachineBlockEntity extends LimaBlockEntity impl
     }
 
     @Override
-    public void setIOConfiguration(BlockEntityInputType inputType, BlockIOConfiguration configuration)
+    public boolean setIOConfiguration(BlockEntityInputType inputType, BlockIOConfiguration configuration)
     {
-        switch (inputType)
+        if (getConfigurableInputTypes().contains(inputType) && configuration.isValidForRules(getIOConfigRules(inputType)))
         {
-            case ITEMS -> setItemIOConfiguration(configuration);
-            case ENERGY -> setEnergyIOConfiguration(configuration);
-            case FLUIDS -> setFluidIOConfiguration(configuration);
+            boolean changed = switch (inputType)
+            {
+                case ITEMS -> setItemIOConfiguration(configuration);
+                case ENERGY -> setEnergyIOConfiguration(configuration);
+                case FLUIDS -> setFluidIOConfiguration(configuration);
+            };
+
+            if (changed)
+            {
+                invalidateCapabilities();
+                setChanged();
+            }
+
+            return changed;
         }
 
-        if (level != null && !level.isClientSide())
-        {
-            invalidateCapabilities();
-            setChanged();
-        }
+        return false;
     }
 
     @Override
@@ -135,9 +143,12 @@ public sealed abstract class LTXIMachineBlockEntity extends LimaBlockEntity impl
         return itemIOConfig;
     }
 
-    protected void setItemIOConfiguration(BlockIOConfiguration configuration)
+    protected boolean setItemIOConfiguration(BlockIOConfiguration configuration)
     {
+        if (Objects.equals(this.itemIOConfig, configuration)) return false;
+
         this.itemIOConfig = configuration;
+        return true;
     }
 
     protected @Nullable BlockIOConfiguration getEnergyIOConfiguration()
@@ -145,14 +156,20 @@ public sealed abstract class LTXIMachineBlockEntity extends LimaBlockEntity impl
         return null;
     }
 
-    protected void setEnergyIOConfiguration(BlockIOConfiguration configuration) { }
+    protected boolean setEnergyIOConfiguration(BlockIOConfiguration configuration)
+    {
+        return false;
+    }
 
     protected @Nullable BlockIOConfiguration getFluidIOConfiguration()
     {
         return null;
     }
 
-    protected void setFluidIOConfiguration(BlockIOConfiguration configuration) { }
+    protected boolean setFluidIOConfiguration(BlockIOConfiguration configuration)
+    {
+        return false;
+    }
 
     public @Nullable IItemHandler getNeighborItemHandler(Direction side)
     {
@@ -239,7 +256,7 @@ public sealed abstract class LTXIMachineBlockEntity extends LimaBlockEntity impl
         for (BlockEntityInputType inputType : getConfigurableInputTypes())
         {
             BlockIOConfiguration config = LimaNbtUtil.tryDecode(BlockIOConfiguration.CODEC, ops, ioConfigsTag, inputType.getSerializedName());
-            if (config != null && config.isValidForRules(type.getIOConfigRules(inputType))) setIOConfiguration(inputType, config);
+            if (config != null) setIOConfiguration(inputType, config);
         }
     }
 

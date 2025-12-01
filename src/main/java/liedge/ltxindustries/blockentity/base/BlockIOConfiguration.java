@@ -17,14 +17,23 @@ public sealed interface BlockIOConfiguration permits BlockIOMap
     Codec<BlockIOConfiguration> CODEC = BlockIOMap.CODEC.xmap(Function.identity(), o -> (BlockIOMap) o);
     StreamCodec<FriendlyByteBuf, BlockIOConfiguration> STREAM_CODEC = BlockIOMap.STREAM_CODEC.map(Function.identity(), o -> (BlockIOMap) o);
 
-    static BlockIOConfiguration create(IOConfigurationRules rules)
+    static BlockIOConfiguration create(IOConfigurationRules rules, Function<RelativeHorizontalSide, IOAccess> mapper)
     {
         EnumMap<RelativeHorizontalSide, IOAccess> map = new EnumMap<>(RelativeHorizontalSide.class);
+
         for (RelativeHorizontalSide side : rules.validSides())
         {
-            map.put(side, rules.defaultIOAccess());
+            IOAccess access = mapper.apply(side);
+            if (!rules.validIOAccesses().contains(access)) access = rules.defaultIOAccess();
+            map.put(side, access);
         }
+
         return new BlockIOMap(map, rules.defaultAutoInput(), rules.defaultAutoOutput());
+    }
+
+    static BlockIOConfiguration create(IOConfigurationRules rules)
+    {
+        return create(rules, ignored -> rules.defaultIOAccess());
     }
 
     static BlockIOConfiguration create(ConfigurableIOBlockEntityType<?> type, BlockEntityInputType inputType)

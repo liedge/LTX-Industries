@@ -74,22 +74,15 @@ public class IOConfigCardItem extends Item implements TooltipShiftHintItem
                         player.displayClientMessage(LTXILangKeys.IO_CARD_COPIED.translate().withStyle(ChatFormatting.AQUA), true);
                     }
                     // Imprint onto machine
-                    else if (configuration.isValidForRules(blockEntity.getIOConfigRules(cardInputType)))
-                    {
-                        if (!currentConfig.equals(configuration))
-                        {
-                            blockEntity.setIOConfiguration(cardInputType, configuration);
-                            player.displayClientMessage(LTXILangKeys.IO_CARD_PASTED.translate().withStyle(LTXIConstants.LIME_GREEN.chatStyle()), true);
-                        }
-                        else
-                        {
-                            player.displayClientMessage(LTXILangKeys.IO_CARD_SAME_CONFIG.translate().withStyle(ChatFormatting.YELLOW), true);
-                        }
-                    }
-                    // Config not valid for machine
                     else
                     {
-                        player.displayClientMessage(LTXILangKeys.IO_CARD_INVALID_SETUP.translate().withStyle(LTXIConstants.HOSTILE_ORANGE.chatStyle()), true);
+                        boolean applied = blockEntity.setIOConfiguration(cardInputType, configuration);
+                        if (applied)
+                            player.displayClientMessage(LTXILangKeys.IO_CARD_PASTED.translate().withStyle(LTXIConstants.LIME_GREEN.chatStyle()), true);
+                        else if (currentConfig.equals(configuration))
+                            player.displayClientMessage(LTXILangKeys.IO_CARD_SAME_CONFIG.translate().withStyle(ChatFormatting.YELLOW), true);
+                        else
+                            player.displayClientMessage(LTXILangKeys.IO_CARD_INVALID_SETUP.translate().withStyle(LTXIConstants.HOSTILE_ORANGE.chatStyle()), true);
                     }
                 }
                 else

@@ -30,7 +30,7 @@ public interface ConfigurableIOBlockEntity extends SubMenuProviderBlockEntity
             throw new IllegalArgumentException("Block entity does not support " + inputType.getSerializedName() + " IO configurations.");
     }
 
-    void setIOConfiguration(BlockEntityInputType inputType, BlockIOConfiguration configuration);
+    boolean setIOConfiguration(BlockEntityInputType inputType, BlockIOConfiguration configuration);
 
     IOConfigurationRules getIOConfigRules(BlockEntityInputType inputType);
 
