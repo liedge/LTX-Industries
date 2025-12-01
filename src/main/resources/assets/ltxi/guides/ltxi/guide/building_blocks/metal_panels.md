@@ -19,6 +19,6 @@ navigation:
 <BlockImage id="smooth_slatesteel_panel" scale="3" />
 </Row>
 
-What do you do if you want to build your base out of the stylish white Titanium or sleek dark Slatesteel, but it's
-not realistic to gather that much material? Roll it paper thin and stuff it full of plastic! These panels have terrible
-explosion resistance, but in turn have high crafting yields.
+Polymer-metal composites make for great facility building blocks. Once a [polymer production line](../resources/polymer.md)
+has been established, Titanium and Slatesteel panels can be produced in large quantities with ease. These have a blast
+resistance of **36.0**, strong enough to withstand a point-blank TNT blast as well as most common hostile mob explosions.

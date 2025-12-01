@@ -53,10 +53,18 @@ class BlockTagsGen extends LimaTagsProvider.RegistryTags<Block>
                 MESH_BLOCK);
         buildTag(NEON_LIGHT_BLOCKS).addHolders(List.copyOf(NEON_LIGHTS.values()));
 
-        List<Holder<Block>> stonePickaxeBreakable = List.of(TITANIUM_ORE, DEEPSLATE_TITANIUM_ORE, RAW_TITANIUM_BLOCK, RAW_TITANIUM_CLUSTER, TITANIUM_BLOCK, MESH_BLOCK);
-        List<Holder<Block>> diamondPickaxeBreakable = List.of(NIOBIUM_ORE, RAW_NIOBIUM_BLOCK, RAW_NIOBIUM_CLUSTER, NIOBIUM_BLOCK, SLATESTEEL_BLOCK);
-        buildTag(MINEABLE_WITH_PICKAXE).add(TITANIUM_PANEL, SMOOTH_TITANIUM_PANEL, TITANIUM_GLASS, SLATESTEEL_PANEL, SMOOTH_SLATESTEEL_PANEL).addTags(WRENCH_BREAKABLE, NEON_LIGHT_BLOCKS).addHolders(stonePickaxeBreakable).addHolders(diamondPickaxeBreakable);
-        buildTag(NEEDS_STONE_TOOL).addHolders(stonePickaxeBreakable).addTags(WRENCH_BREAKABLE);
+        List<Holder<Block>> ironPickaxeBreakable = List.of(TITANIUM_ORE, DEEPSLATE_TITANIUM_ORE, RAW_TITANIUM_BLOCK, RAW_TITANIUM_CLUSTER, TITANIUM_BLOCK, SLATESTEEL_BLOCK);
+        List<Holder<Block>> diamondPickaxeBreakable = List.of(NIOBIUM_ORE, RAW_NIOBIUM_BLOCK, RAW_NIOBIUM_CLUSTER, NIOBIUM_BLOCK);
+        buildTag(MINEABLE_WITH_PICKAXE).add(
+                TITANIUM_PANEL,
+                SMOOTH_TITANIUM_PANEL,
+                TITANIUM_GLASS,
+                SLATESTEEL_PANEL,
+                SMOOTH_SLATESTEEL_PANEL)
+                .addTags(WRENCH_BREAKABLE, NEON_LIGHT_BLOCKS)
+                .addHolders(ironPickaxeBreakable)
+                .addHolders(diamondPickaxeBreakable);
+        buildTag(NEEDS_IRON_TOOL).addHolders(ironPickaxeBreakable);
         buildTag(NEEDS_DIAMOND_TOOL).addHolders(diamondPickaxeBreakable);
 
         buildTag(BEACON_BASE_BLOCKS).add(TITANIUM_BLOCK, NIOBIUM_BLOCK, SLATESTEEL_BLOCK);

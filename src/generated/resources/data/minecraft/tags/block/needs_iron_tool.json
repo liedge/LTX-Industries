@@ -5,7 +5,6 @@
     "ltxi:raw_titanium_block",
     "ltxi:raw_titanium_cluster",
     "ltxi:titanium_block",
-    "ltxi:mesh_block",
-    "#ltxi:wrench_breakable"
+    "ltxi:slatesteel_block"
   ]
 }
