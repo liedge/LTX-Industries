@@ -14,8 +14,16 @@ item_ids:
 # Tech Fabrication
 
 Most of the upgrades and gear are too complex to be made in general processing machines or a crafting table.
-For that, you'll need to make a Fabricator. Fabricators take up to 16 ingredients and use energy to assemble the final
-product.
+For that, you'll need to make a Fabricator. Fabricating recipes are unique amongst all the LTXI recipe types, consult
+the recipe data spec below.
+
+## Recipe Spec
+- Inputs: 1-16 items
+- Output: 1 item
+- Energy cost: varies per recipe, **used in place of crafting time**
+
+Due to the lack of crafting time, the Fabricator speed is a much simpler function of the recipe energy cost and the
+**Energy Usage** machine stat. You may consider it a positive-sentiment stat for this machine.
 
 ## Fabricator
 <GameScene zoom={3} interactive={false}>
@@ -33,25 +41,32 @@ recipes in the recipe view grid. To select a recipe, left click once. Once selec
 click to encode the recipe into an **Empty Fabrication Blueprint**. This Fabricator has no input slots, it will take the
 ingredients directly from your inventory for hassle-free crafting.
 
-### Fabrication Blueprint
+## Fabrication Blueprint
 <ItemGrid>
 <ItemIcon id="empty_fabrication_blueprint" />
 <ItemIcon id="fabrication_blueprint" />
 </ItemGrid>
 
-Encoded **Fabrication Blueprints** hold a Fabrication recipe for use in the Auto Fabricator. Hold Shift when viewing the
-tooltip to display the recipe's information. Shift + Right click to clear the encoded recipe.
+Encoded **Fabrication Blueprints** hold a Fabrication recipe for use in the Auto Fabricator or AE2 Pattern Providers.
+Hold Shift when viewing the tooltip to display the recipe's information. Shift + Right click to clear the encoded recipe.
 
 ## Auto Fabricator
 <BlockImage id="auto_fabricator" scale="2" />
 
 A more specialized version of the Fabricator. It makes up for its lack of versatility in ease of automation. Unlike the
-regular fabricator, it has 16 ingredient input slots as it does not pull from your inventory. You must place a
-**Fabrication Blueprint** in the blueprint slot and provide the machine with the required ingredients. As long as it has
-ingredients, it will continuously craft the provided recipe.
+regular fabricator, it has 16 ingredient input slots as it does not pull from your inventory.
 
-### AE2 Tip
+### Single blueprint-based operation
+You must place an encoded Fabrication Blueprint in the blueprint slot and supply the machine with the required ingredients
+via your desired item transport method. As long as it has enough ingredients and energy, it will continuously craft the
+provided recipe.
 
-You can automate this machine with just the Pattern Provider. Set the block face where the pattern provider will go
-to Input/Output (dark green) and enable Auto-Output. Make sure to **enable blocking mode** on the Pattern Provider to
-ensure proper ingredient feeding.
+### AE2 Pattern Provider integration
+AE2's **Pattern Providers** have native compatibility with the Auto Fabricator and encoded Fabrication Blueprints. **Note!
+The blueprint slot must be empty, or else the Pattern Provider will not recognize the Auto Fabricator as a valid crafting
+machine.**
+
+- Blueprints are patterns. Insert these directly into the Pattern Provider's pattern slots, no need for Processing patterns.
+- Compound ingredient/tag/substitution support by default.
+- Blocking mode is not necessary, item and blueprint feeding is managed automatically.
+- Item IO Configuration is re-configured on every pattern push. It will auto-output on the pattern provider side and disable the rest.

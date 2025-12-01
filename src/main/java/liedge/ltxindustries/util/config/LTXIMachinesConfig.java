@@ -47,6 +47,7 @@ public final class LTXIMachinesConfig
 
     public static final ModConfigSpec.IntValue FABRICATOR_ENERGY_CAPACITY;
     public static final ModConfigSpec.IntValue FABRICATOR_ENERGY_USAGE;
+    public static final ModConfigSpec.BooleanValue FABRICATOR_AE2_AUTO_RECONFIGURE_IO;
 
     public static final ModConfigSpec.IntValue REPAIRER_ENERGY_CAPACITY;
     public static final ModConfigSpec.IntValue REPAIRER_ENERGY_USAGE;
@@ -176,6 +177,8 @@ public final class LTXIMachinesConfig
                 .defineInRange("energy_capacity", 250_000, 1, Integer.MAX_VALUE);
         FABRICATOR_ENERGY_USAGE = builder.comment("The energy usage of the Fabricator. Affects how quickly the fabricator completes recipes.")
                 .defineInRange("energy_usage", 2500, 1, Integer.MAX_VALUE);
+        FABRICATOR_AE2_AUTO_RECONFIGURE_IO = builder.comment("If set to true, AE2 Pattern Providers will automatically re-configure the Auto Fabricator's IO item configuration when inserting a pattern.")
+                .define("ae2_pattern_auto_reconfigure", true);
         builder.pop();
 
         // Molecular Reconstructor
