@@ -7,6 +7,7 @@ import appeng.api.implementations.blockentities.PatternContainerGroup;
 import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.KeyCounter;
 import liedge.limacore.blockentity.IOAccess;
+import liedge.limacore.blockentity.RelativeHorizontalSide;
 import liedge.ltxindustries.blockentity.AutoFabricatorBlockEntity;
 import liedge.ltxindustries.blockentity.BaseFabricatorBlockEntity;
 import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
@@ -53,9 +54,10 @@ public final class AutoFabricatorCraftingMachine implements ICraftingMachine
                 // If enabled, auto-reconfigure the item IO config
                 if (LTXIMachinesConfig.FABRICATOR_AE2_AUTO_RECONFIGURE_IO.getAsBoolean())
                 {
-                    BlockIOConfiguration configuration = BlockIOConfiguration.create(blockEntity.getIOConfigRules(BlockEntityInputType.ITEMS), side ->
-                            side.resolveAbsoluteSide(blockEntity.getFacing()) == ejectionDirection ? IOAccess.OUTPUT_ONLY : IOAccess.DISABLED);
-                    if (!configuration.autoOutput()) configuration = configuration.toggleAutoOutput();
+                    RelativeHorizontalSide beSide = RelativeHorizontalSide.of(blockEntity.getFacing(), ejectionDirection);
+                    BlockIOConfiguration configuration = BlockIOConfiguration.create(blockEntity.getIOConfigRules(BlockEntityInputType.ITEMS),
+                            side -> side == beSide ? IOAccess.OUTPUT_ONLY : IOAccess.DISABLED)
+                            .setAutoOutput(true);
                     blockEntity.setIOConfiguration(BlockEntityInputType.ITEMS, configuration);
                 }
 

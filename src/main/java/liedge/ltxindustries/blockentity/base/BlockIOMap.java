@@ -61,15 +61,17 @@ record BlockIOMap(Map<RelativeHorizontalSide, IOAccess> map, boolean autoInput, 
     }
 
     @Override
-    public BlockIOConfiguration toggleAutoInput()
+    public BlockIOConfiguration setAutoInput(boolean autoInput)
     {
-        return new BlockIOMap(map, !autoInput, autoOutput);
+        if (this.autoInput == autoInput) return this;
+        else return new BlockIOMap(this.map, autoInput, this.autoOutput);
     }
 
     @Override
-    public BlockIOConfiguration toggleAutoOutput()
+    public BlockIOConfiguration setAutoOutput(boolean autoOutput)
     {
-        return new BlockIOMap(map, autoInput, !autoOutput);
+        if (this.autoOutput == autoOutput) return this;
+        else return new BlockIOMap(this.map, this.autoInput, autoOutput);
     }
 
     @Override

@@ -58,9 +58,19 @@ public sealed interface BlockIOConfiguration permits BlockIOMap
 
     boolean autoOutput();
 
-    BlockIOConfiguration toggleAutoInput();
+    BlockIOConfiguration setAutoInput(boolean autoInput);
 
-    BlockIOConfiguration toggleAutoOutput();
+    BlockIOConfiguration setAutoOutput(boolean autoOutput);
+
+    default BlockIOConfiguration toggleAutoInput()
+    {
+        return setAutoInput(!autoInput());
+    }
+
+    default BlockIOConfiguration toggleAutoOutput()
+    {
+        return setAutoOutput(!autoOutput());
+    }
 
     boolean isValidForRules(IOConfigurationRules rules);
 
