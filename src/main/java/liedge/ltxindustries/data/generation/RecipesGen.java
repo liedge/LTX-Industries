@@ -99,8 +99,10 @@ class RecipesGen extends LimaRecipeProvider
 
         shaped(TITANIUM_PANEL, 32).input('t', TITANIUM_INGOT).input('f', POLYMER_INGOT).patterns("tft", "f f", "tft").bookCategory(CraftingBookCategory.BUILDING).save(output);
         shaped(SMOOTH_TITANIUM_PANEL, 32).input('t', TITANIUM_INGOT).input('f', POLYMER_INGOT).patterns("ftf", "t t", "ftf").bookCategory(CraftingBookCategory.BUILDING).save(output);
+        shaped(TILED_TITANIUM_PANEL, 4).input('p', TITANIUM_PANEL).patterns("pp", "pp").bookCategory(CraftingBookCategory.BUILDING).save(output);
         shaped(SLATESTEEL_PANEL, 32).input('s', SLATESTEEL_INGOT).input('f', POLYMER_INGOT).patterns("sfs", "f f", "sfs").bookCategory(CraftingBookCategory.BUILDING).save(output);
         shaped(SMOOTH_SLATESTEEL_PANEL, 32).input('s', SLATESTEEL_INGOT).input('f', POLYMER_INGOT).patterns("fsf", "s s", "fsf").bookCategory(CraftingBookCategory.BUILDING).save(output);
+        shaped(TILED_SLATESTEEL_PANEL, 4).input('p', SLATESTEEL_PANEL).patterns("pp", "pp").bookCategory(CraftingBookCategory.BUILDING).save(output);
 
         shaped(TITANIUM_GEAR).input('i', TITANIUM_INGOT).input('n', NUGGETS_IRON).patterns("ini", "n n", "ini").save(output);
         shaped(SLATESTEEL_GEAR).input('i', SLATESTEEL_INGOT).input('n', NUGGETS_IRON).patterns("ini", "n n", "ini").save(output);

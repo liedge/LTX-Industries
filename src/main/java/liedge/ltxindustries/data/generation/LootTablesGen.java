@@ -163,7 +163,7 @@ class LootTablesGen extends LimaLootTableProvider
             oreCluster(RAW_NIOBIUM_CLUSTER, RAW_NIOBIUM);
 
             dropSelf(NEON_LIGHTS.values());
-            dropSelf(TITANIUM_PANEL, SMOOTH_TITANIUM_PANEL, TITANIUM_GLASS, SLATESTEEL_PANEL, SMOOTH_SLATESTEEL_PANEL);
+            dropSelf(TITANIUM_PANEL, SMOOTH_TITANIUM_PANEL, TILED_TITANIUM_PANEL, TITANIUM_GLASS, SLATESTEEL_PANEL, SMOOTH_SLATESTEEL_PANEL, TILED_SLATESTEEL_PANEL);
             add(SPARK_FRUIT, block -> {
                 LootItemCondition.Builder fullGrown = LootItemBlockStatePropertyCondition.hasBlockStateProperties(block).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(AGE_2, 2));
                 return singleItemTable(applyExplosionDecay(block, lootItem(block)

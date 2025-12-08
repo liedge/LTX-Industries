@@ -176,7 +176,7 @@ dependencies {
 
     // AE2
     compileOnly("org.appliedenergistics:appliedenergistics2:${ae2_version}:api")
-    runtimeOnly("org.appliedenergistics:appliedenergistics2:${ae2_version}")
+    //runtimeOnly("org.appliedenergistics:appliedenergistics2:${ae2_version}") Testing only
 
     // Example project dependency using a sister or child project:
     // implementation project(":myproject")

@@ -11,12 +11,14 @@ navigation:
 <Row>
 <BlockImage id="titanium_panel" scale="3"/>
 <BlockImage id="smooth_titanium_panel" scale="3"/>
+<BlockImage id="tiled_titanium_panel" scale="3" />
 </Row>
 
 ## Slatesteel
 <Row>
 <BlockImage id="slatesteel_panel" scale="3" />
 <BlockImage id="smooth_slatesteel_panel" scale="3" />
+<BlockImage id="tiled_slatesteel_panel" scale="3" />
 </Row>
 
 Polymer-metal composites make for great facility building blocks. Once a [polymer production line](../resources/polymer.md)

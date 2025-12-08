@@ -69,9 +69,11 @@ class BlockStatesGen extends LimaBlockStateProvider
         NEON_LIGHTS.forEach((color, holder) -> simpleBlockWithItem(holder, getBlockBuilder(holder).parent(neonLightModel).texture("all", blockFolderLocation("neon_light/" + color.toString()))));
         cubeAll(TITANIUM_PANEL);
         cubeAll(SMOOTH_TITANIUM_PANEL);
+        cubeAll(TILED_TITANIUM_PANEL);
         cubeAll(TITANIUM_GLASS).renderType("cutout");
         cubeAll(SLATESTEEL_PANEL);
         cubeAll(SMOOTH_SLATESTEEL_PANEL);
+        cubeAll(TILED_SLATESTEEL_PANEL);
 
         // Plants
         sparkFruit(SPARK_FRUIT);
