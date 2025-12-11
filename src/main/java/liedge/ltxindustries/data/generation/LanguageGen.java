@@ -236,7 +236,7 @@ class LanguageGen extends LimaLanguageProvider
         upgrade(LTXIEquipmentUpgrades.HIGH_IMPACT_ROUNDS, "High Impact Rounds", "Light-frags with a punch! Send targets flying back regardless of their knockback resistances.");
         upgrade(LTXIEquipmentUpgrades.HEAVY_PISTOL_GOD_ROUNDS, "Stellar Reality Disruptor", "Rip through reality itself with this Nova upgrade. Ensures swift defeat of even the strongest enemies.");
 
-        upgrade(LTXIEquipmentUpgrades.UNIVERSAL_STEALTH_DAMAGE, "Biometric Obfuscation", "Targeting systems mask your signature, leaving no trace of your involvement. May not be effective against all targets.");
+        upgrade(LTXIEquipmentUpgrades.UNIVERSAL_STEALTH_DAMAGE, "Biometric Obfuscation", "Masks your traceable signature, preventing retaliatory anger from targets.");
         upgrade(LTXIEquipmentUpgrades.WEAPON_SHIELD_REGEN, "Regenerative Link", "Captures enemy energy upon elimination to power medical nano-tech and the bubble shield.");
 
         upgrade(LTXIEquipmentUpgrades.EFFICIENCY_ENCHANTMENT, "Overclocked Energy Cutters", "Enhances the power feed to the tool's energy cutter.");

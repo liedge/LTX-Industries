@@ -107,12 +107,12 @@ class LootTablesGen extends LimaLootTableProvider
             Function<LevelBasedValue, NumberProvider> ammoWeights = lbv -> LevelBasedNumberProvider.of(EntityEnchantmentLevelProvider.enchantLevel(LootContext.EntityTarget.ATTACKER, ammoScavengerEnchantment), lbv);
             LootPool.Builder ammoDrops = LootPool.lootPool()
                     .when(EntityHostilityLootCondition.create(ComparableBounds.atLeast(MobHostility.NEUTRAL_ENEMY)))
-                    .when(LootItemRandomChanceWithEnchantedBonusCondition.randomChanceAndLootingBoost(registries, 0.1f, 0.02f))
+                    .when(LootItemRandomChanceWithEnchantedBonusCondition.randomChanceAndLootingBoost(registries, 0.25f, 0.025f))
                     .add(lootItem(LIGHTWEIGHT_WEAPON_ENERGY).setWeight(80))
                     .add(DynamicWeightLootEntry.dynamicWeightItem(SPECIALIST_WEAPON_ENERGY, 15).setReplaceWeight(false).setDynamicWeight(ammoWeights.apply(LevelBasedValue.perLevel(6))))
                     .add(DynamicWeightLootEntry.dynamicWeightItem(EXPLOSIVES_WEAPON_ENERGY, 5).setReplaceWeight(false).setDynamicWeight(ammoWeights.apply(LevelBasedValue.perLevel(3))))
                     .add(DynamicWeightLootEntry.dynamicWeightItem(HEAVY_WEAPON_ENERGY, 1).setReplaceWeight(false).setDynamicWeight(ammoWeights.apply(LevelBasedValue.perLevel(2))))
-                    .setRolls(RoundingNumberProvider.of(ammoWeights.apply(RangedLookupLevelBasedValue.lookupAfterLevel(3, 1f, 1.5f, 2f)), LimaRoundingMode.RANDOM));
+                    .setRolls(RoundingNumberProvider.of(ammoWeights.apply(RangedLookupLevelBasedValue.lookupAfterLevelOrBelow(1, 1f, 1.2f, 1.4f, 1.6f, 1.8f, 2f)), LimaRoundingMode.RANDOM));
 
             addTable(ENEMY_AMMO_DROPS, LootTable.lootTable().withPool(ammoDrops));
 

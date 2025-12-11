@@ -12,6 +12,6 @@ navigation:
 ## Stats
 - Base Damage: 9.0 x pellet, 63.0 max
 - Range: 10.0
-- Projectile: 7 [LightFrag](lightfrags.md) pellets
+- Projectile: 7 [LightFrag](index.md#lightfrags) pellets
 - Trigger: Semi Auto
 - Trigger Cooldown: 0.5 sec

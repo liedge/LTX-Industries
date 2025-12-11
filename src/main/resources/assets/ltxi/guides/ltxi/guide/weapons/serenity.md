@@ -15,6 +15,6 @@ range. As a downside, it will [struggle](../fundamentals/damage_modifiers.md) ag
 ## Stats
 - Base Damage: 3.0
 - Range: 12.0
-- Projectile: [LightFrag](lightfrags.md)
+- Projectile: [LightFrag](index.md#lightfrags)
 - Trigger: Automatic
 - Fire Rate: 1200 RPM

@@ -16,11 +16,11 @@
           "condition": "minecraft:random_chance_with_enchanted_bonus",
           "enchanted_chance": {
             "type": "minecraft:linear",
-            "base": 0.120000005,
-            "per_level_above_first": 0.02
+            "base": 0.275,
+            "per_level_above_first": 0.025
           },
           "enchantment": "minecraft:looting",
-          "unenchanted_chance": 0.1
+          "unenchanted_chance": 0.25
         }
       ],
       "entries": [
@@ -101,10 +101,12 @@
           "type": "limacore:level_based",
           "formula": {
             "type": "limacore:ranged_lookup",
-            "level_offset": 2,
+            "default_below": 1.0,
             "values": [
-              1.0,
-              1.5,
+              1.2,
+              1.4,
+              1.6,
+              1.8,
               2.0
             ]
           },

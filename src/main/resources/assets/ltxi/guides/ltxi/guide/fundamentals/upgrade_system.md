@@ -3,7 +3,7 @@ navigation:
     title: "Upgrade System"
     icon: empty_upgrade_module
     parent: fundamentals/index.md
-    position: 2
+    position: 1
 item_ids:
     - empty_upgrade_module
     - equipment_upgrade_module

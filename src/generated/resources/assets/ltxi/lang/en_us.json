@@ -167,7 +167,7 @@
   "equipment_upgrade.ltxi.universal_infinite_ammo": "//ERR~MAG-Z!!-NE//∞",
   "equipment_upgrade.ltxi.universal_infinite_ammo.desc": "Ignore the laws of physics with this never-ending ammo source. Try not to cause a mass extinction event.",
   "equipment_upgrade.ltxi.universal_stealth_damage": "Biometric Obfuscation",
-  "equipment_upgrade.ltxi.universal_stealth_damage.desc": "Targeting systems mask your signature, leaving no trace of your involvement. May not be effective against all targets.",
+  "equipment_upgrade.ltxi.universal_stealth_damage.desc": "Masks your traceable signature, preventing retaliatory anger from targets.",
   "equipment_upgrade.ltxi.weapon_armor_pierce": "Armor-Piercing Rounds",
   "equipment_upgrade.ltxi.weapon_armor_pierce.desc": "Volatile energy dispersal precepts. Allows weapons to partially breach armor.",
   "equipment_upgrade.ltxi.weapon_direct_drops": "Combat Subspace Link",

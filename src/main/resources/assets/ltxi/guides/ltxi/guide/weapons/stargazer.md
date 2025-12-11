@@ -12,7 +12,7 @@ navigation:
 ## Stats
 - Base Damage: 45.0
 - Range: 200.0
-- Projectile: [LightFrag](lightfrags.md)
+- Projectile: [LightFrag](index.md#lightfrags)
 - Trigger: Charge-up fusion
 - Charge Time: 0.5 sec
 - Trigger Cooldown: 0.25 sec

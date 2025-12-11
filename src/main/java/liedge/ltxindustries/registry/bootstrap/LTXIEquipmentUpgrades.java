@@ -201,17 +201,18 @@ public final class LTXIEquipmentUpgrades
                 .effectIcon(defaultModuleIcon(LTXIItems.SHOTGUN))
                 .category("default/weapon")
                 .register(context);
+        UpgradeDoubleValue lfrBonusDmg = ConstantDouble.of(25);
         EquipmentUpgrade.builder(LFR_DEFAULT)
                 .supports(LTXIItems.LINEAR_FUSION_RIFLE)
-                .withConditionalEffect(EQUIPMENT_DAMAGE, SimpleValueEffect.of(ConstantDouble.of(25), MathOperation.ADD),
+                .withConditionalEffect(EQUIPMENT_DAMAGE, SimpleValueEffect.of(lfrBonusDmg, MathOperation.ADD),
                         LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.ATTACKER, EntityPredicate.Builder.entity()
                                 .distance(DistancePredicate.absolute(MinMaxBounds.Doubles.atLeast(40.0d)))))
-                .withConditionalEffect(EQUIPMENT_DAMAGE, SimpleValueEffect.of(ConstantDouble.of(0.25d), MathOperation.ADD_PERCENT_OF_TOTAL),
+                .withConditionalEffect(EQUIPMENT_DAMAGE, SimpleValueEffect.of(lfrBonusDmg, MathOperation.ADD),
                         LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.ATTACKER, EntityPredicate.Builder.entity()
                                 .moving(MovementPredicate.speed(MinMaxBounds.Doubles.atMost(1e-3d)))
                                 .flags(EntityFlagsPredicate.Builder.flags().setCrouching(true))))
-                .tooltip(0, key -> TranslatableTooltip.create(key, ValueComponent.of(ConstantDouble.of(25), ValueFormat.SIGNED_FLAT_NUMBER, ValueSentiment.POSITIVE)))
-                .tooltip(1, key -> TranslatableTooltip.create(key, ValueComponent.of(ConstantDouble.of(0.25d), ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE)))
+                .tooltip(0, key -> TranslatableTooltip.create(key, ValueComponent.of(lfrBonusDmg, ValueFormat.SIGNED_FLAT_NUMBER, ValueSentiment.POSITIVE)))
+                .tooltip(1, key -> TranslatableTooltip.create(key, ValueComponent.of(lfrBonusDmg, ValueFormat.SIGNED_FLAT_NUMBER, ValueSentiment.POSITIVE)))
                 .effectIcon(defaultModuleIcon(LTXIItems.LINEAR_FUSION_RIFLE))
                 .category("default/weapon")
                 .register(context);
@@ -296,7 +297,7 @@ public final class LTXIEquipmentUpgrades
                 .effectIcon(sprite("earmuffs"))
                 .register(context);
         EquipmentUpgrade.builder(UNIVERSAL_STEALTH_DAMAGE)
-                .supports(ltxProjectileWeapons)
+                .supports(ltxAllWeapons)
                 .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, DynamicDamageTagUpgradeEffect.of(DamageTypeTags.NO_ANGER))
                 .effectIcon(sprite("stealth_damage"))
                 .register(context);

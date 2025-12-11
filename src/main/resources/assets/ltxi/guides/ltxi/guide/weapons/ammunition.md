@@ -7,29 +7,43 @@ navigation:
 
 # Ammunition Mechanics
 
-Weapons will need ammo, obviously. Ammo items have a 10% chance to drop from defeated hostile mobs. This drop chance is
-affected by **Looting** (+2% chance per level).
+All signature-series weapons function off of their internal magazine feed system. There are **3** weapon reload sources:
+Items, <Color id="energy">Energy</Color>, and <Color id="light_purple">Infinite</Color>. Reload sources can be changed
+via [upgrade modules](../fundamentals/upgrade_system.md).
 
-### Important reload tip!
-Ammo in the magazine is **lost on reload**. To avoid loss of valuable ammo for the stronger weapons, avoid reloading
-when not empty if possible.
+> Warning: Any remaining charge in the magazine is **lost** upon a reload. Avoid unnecessary reloads, particularly on
+> Explosive or Heavy weapons!
 
-## Drop Loot Table
+## Reload Source: Items
 
-When an ammo item drops, it can roll into the following items below. The [Ammo Scavenger](../enchantments/ammo_scavenger.md)
-enchantment affects the drop chance distribution, check out that page for more specifics.
+<ItemGrid>
+<ItemIcon id="lightweight_weapon_energy" />
+<ItemIcon id="specialist_weapon_energy" />
+<ItemIcon id="explosives_weapon_energy" />
+<ItemIcon id="heavy_weapon_energy" />
+</ItemGrid>
 
-| Ammo Type       | Drop Chance |
+By default, weapons use a specific Item to recharge. Weapon energy items have a 25% chance to drop from mobs
+of <Color id="red">Neutral-Enemy</Color> hostility or greater. **Looting** adds 2.5% per level to the drop rate.
+
+### Weapon energy distribution
+
+| Type            | Probability |
 |-----------------|-------------|
 | **Lightweight** | 79.2%       |
 | **Specialist**  | 14.9%       |
 | **Explosives**  | 4.9%        |
 | **Heavy**       | 1.0%        |
 
-## Energy Reload Synthesis
-Some [upgrade modules](../fundamentals/upgrade_system.md) can allow the weapon to reload using Common Energy rather than an ammo item. It's important
-to note, that weapons using CE as a reload source cannot use ammo items anymore.
+The [Ammo Scavenger](../enchantments/ammo_scavenger.md) enchantment affects the drop chance distribution, as well as
+the amount of items that can drop. See that page for a more detailed breakdown.
 
-## Infinite Ammo
-Some [upgrade modules](../fundamentals/upgrade_system.md) grant the weapon infinite ammo. The weapon can reload instantly
-and does not consume ammo from the magazine.
+## Reload Source: Energy
+
+The weapon will consume <Color id="energy">Common Energy</Color> to **recharge the magazine**. It will not power the weapon
+directly. The amount consumed to reload is determined by the equipment's **Energy Usage** stat.
+
+## Reload Source: Infinite
+
+The weapon gains an infinite magazine with this reload source. When equipped, the weapon can *always* fire, even if the
+magazine is 'empty'.

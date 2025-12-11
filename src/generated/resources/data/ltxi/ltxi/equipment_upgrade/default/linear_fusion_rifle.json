@@ -35,9 +35,9 @@
         "args": [
           {
             "type": "value",
-            "format": "signed_percentage",
+            "format": "signed_flat",
             "sentiment": "positive",
-            "value": 0.25
+            "value": 25.0
           }
         ],
         "key": "equipment_upgrade.ltxi.default.linear_fusion_rifle.tooltip1"
@@ -67,8 +67,8 @@
       {
         "effect": {
           "type": "simple",
-          "op": "add_percent_of_total",
-          "value": 0.25
+          "op": "add",
+          "value": 25.0
         },
         "requirements": {
           "condition": "minecraft:entity_properties",

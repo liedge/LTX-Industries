@@ -11,7 +11,7 @@ navigation:
 
 - **Enchantment Table Compatibility**: `#minecraft:enchantable/sharp_weapon` (Swords & Axes)
 - **Enchantment Table Max Level**: 3
-- **LTX Gear Compatibility:** All Weapons (Melee & Energy Projectile)
+- **Upgrade Module Compatibility**: **ε-series** melee and all **signature series**
 
 ## Effects
 

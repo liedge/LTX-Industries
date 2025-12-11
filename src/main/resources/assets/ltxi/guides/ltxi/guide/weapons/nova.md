@@ -12,6 +12,6 @@ navigation:
 ## Stats
 - Base Damage: 75.0
 - Range: 25.0
-- Projectile: [LightFrag](lightfrags.md)
+- Projectile: [LightFrag](index.md#lightfrags)
 - Trigger: Semi Auto
 - Trigger Cooldown: 0.65 sec
