@@ -2,7 +2,9 @@ package liedge.ltxindustries.blockentity.template;
 
 import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.capability.fluid.LimaFluidHandler;
+import liedge.limacore.recipe.result.FluidResult;
 import liedge.limacore.recipe.result.ItemResult;
+import liedge.limacore.recipe.result.ResultPriority;
 import liedge.limacore.util.LimaNbtUtil;
 import liedge.ltxindustries.block.LTXIBlockProperties;
 import liedge.ltxindustries.block.MachineState;
@@ -91,36 +93,36 @@ public abstract class LTXIRecipeMachineBlockEntity<R extends LTXIRecipe> extends
         boolean itemCheck = switch (itemResults.size())
         {
             case 0 -> true;
-            case 1 -> ItemHandlerHelper.insertItem(getOutputInventory(), itemResults.getFirst().getMaximumResult(), true).isEmpty();
+            case 1 -> ItemHandlerHelper.insertItem(getOutputInventory(), itemResults.getFirst().getMaxStack(), true).isEmpty();
             default ->
             {
                 ItemStackHandler interim = getOutputInventory().copyHandler();
                 for (ItemResult result : itemResults)
                 {
-                    ItemStack maxOutput = result.getMaximumResult();
-                    if (result.requiredOutput() && !ItemHandlerHelper.insertItem(interim, maxOutput, false).isEmpty()) yield false;
+                    ItemStack maxOutput = result.getMaxStack();
+                    if (result.getPriority() == ResultPriority.PRIMARY && !ItemHandlerHelper.insertItem(interim, maxOutput, false).isEmpty()) yield false;
                 }
                 yield true;
             }
         };
 
         // Check fluid results
-        List<FluidStack> fluidResults = recipe.getFluidResults();
+        List<FluidResult> fluidResults = recipe.getFluidResults();
         boolean fluidCheck = switch (fluidResults.size())
         {
             case 0 -> true;
             case 1 ->
             {
-                FluidStack first = fluidResults.getFirst();
+                FluidStack first = fluidResults.getFirst().getMaxStack();
                 yield getFluidHandlerOrThrow(BlockContentsType.OUTPUT).fillAny(first, IFluidHandler.FluidAction.SIMULATE, true) == first.getAmount();
             }
             default ->
             {
                 LimaFluidHandler interim = getFluidHandlerOrThrow(BlockContentsType.OUTPUT).copyHandler();
-                for (FluidStack stack : fluidResults)
+                for (FluidResult result : fluidResults)
                 {
-                    if (interim.fillAny(stack, IFluidHandler.FluidAction.EXECUTE, true) != stack.getAmount())
-                        yield false;
+                    FluidStack maxOutput = result.getMaxStack();
+                    if (result.getPriority() == ResultPriority.PRIMARY && interim.fillAny(maxOutput, IFluidHandler.FluidAction.EXECUTE, true) != maxOutput.getAmount()) yield false;
                 }
                 yield true;
             }
@@ -143,7 +145,7 @@ public abstract class LTXIRecipeMachineBlockEntity<R extends LTXIRecipe> extends
         LimaFluidHandler outputFluids = getFluidHandler(BlockContentsType.OUTPUT);
         if (outputFluids != null)
         {
-            List<FluidStack> fluidResults = recipe.generateFluidResults(recipeInput, level.registryAccess());
+            List<FluidStack> fluidResults = recipe.generateFluidResults(recipeInput, level.registryAccess(), level.random);
             for (FluidStack stack : fluidResults)
             {
                 outputFluids.fillAny(stack, IFluidHandler.FluidAction.EXECUTE, true);

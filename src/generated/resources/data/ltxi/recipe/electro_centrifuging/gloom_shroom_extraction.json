@@ -19,12 +19,9 @@
       "id": "ltxi:sculk_chemical"
     },
     {
-      "type": "random_chance",
       "chance": 0.05,
-      "item": {
-        "count": 1,
-        "id": "ltxi:neuro_chemical"
-      }
+      "count": 1,
+      "id": "ltxi:neuro_chemical"
     }
   ],
   "mode": "ltxi:chemical_dissolve"

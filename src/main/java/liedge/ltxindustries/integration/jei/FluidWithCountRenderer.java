@@ -14,16 +14,22 @@ import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.List;
 
-final class FluidIngredientRenderer implements IIngredientRenderer<FluidStack>
+final class FluidWithCountRenderer implements IIngredientRenderer<FluidStack>
 {
-    static final FluidIngredientRenderer INSTANCE = new FluidIngredientRenderer();
+    static final FluidWithCountRenderer INSTANCE = new FluidWithCountRenderer();
 
-    private FluidIngredientRenderer() {}
+    private FluidWithCountRenderer() {}
 
     @Override
     public void render(GuiGraphics guiGraphics, FluidStack ingredient)
     {
-        LimaGuiUtil.renderFluidWithAmount(guiGraphics, ingredient, 0, 0);
+        render(guiGraphics, ingredient, 0, 0);
+    }
+
+    @Override
+    public void render(GuiGraphics guiGraphics, FluidStack ingredient, int posX, int posY)
+    {
+        LimaGuiUtil.renderFluidWithAmount(guiGraphics, ingredient, posX, posY);
     }
 
     @Override

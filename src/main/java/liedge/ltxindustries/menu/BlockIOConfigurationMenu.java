@@ -43,10 +43,14 @@ public class BlockIOConfigurationMenu extends LimaMenu<BlockIOConfigurationMenu.
         return menuContext.blockEntity.getIOConfigurationOrThrow(menuContext.inputType);
     }
 
-    private void setIOConfiguration(BlockIOConfiguration configuration)
+    private boolean setConfig(BlockIOConfiguration configuration)
     {
-        boolean changed = menuContext.blockEntity.setIOConfiguration(menuContext.inputType, configuration);
-        if (!changed)
+        return menuContext.blockEntity.setIOConfiguration(menuContext.inputType, configuration);
+    }
+
+    private void setConfigLogged(BlockIOConfiguration configuration)
+    {
+        if (!setConfig(configuration))
         {
             LimaBlockEntity be = menuContext.blockEntity.getAsLimaBlockEntity();
             LTXIndustries.LOGGER.warn("Attempted to apply an invalid IO configuration in menu screen for block entity type {} at {}. {} Configuration: {}",
@@ -71,7 +75,7 @@ public class BlockIOConfigurationMenu extends LimaMenu<BlockIOConfigurationMenu.
     @Override
     public void defineDataWatchers(DataWatcherCollector collector)
     {
-        collector.register(AutomaticDataWatcher.keepSynced(LTXINetworkSerializers.BLOCK_IO_CONFIG, this::getIOConfiguration, this::setIOConfiguration));
+        collector.register(AutomaticDataWatcher.keepSynced(LTXINetworkSerializers.BLOCK_IO_CONFIG, this::getIOConfiguration, this::setConfig));
     }
 
     @Override
@@ -79,11 +83,11 @@ public class BlockIOConfigurationMenu extends LimaMenu<BlockIOConfigurationMenu.
     {
         builder.handleUnitAction(BACK_BUTTON_ID, menuContext.blockEntity::returnToPrimaryMenuScreen);
         builder.handleAction(CYCLE_FORWARD_BUTTON_ID, LimaCoreNetworkSerializers.RELATIVE_SIDE, (sender, side) ->
-                setIOConfiguration(getIOConfiguration().cycleIOAccess(side, getIOConfigRules(), true)));
+                setConfigLogged(getIOConfiguration().cycleIOAccess(side, getIOConfigRules(), true)));
         builder.handleAction(CYCLE_BACKWARD_BUTTON_ID, LimaCoreNetworkSerializers.RELATIVE_SIDE, (sender, side) ->
-                setIOConfiguration(getIOConfiguration().cycleIOAccess(side, getIOConfigRules(), false)));
-        builder.handleUnitAction(TOGGLE_AUTO_INPUT_BUTTON_ID, sender -> setIOConfiguration(getIOConfiguration().toggleAutoInput()));
-        builder.handleUnitAction(TOGGLE_AUTO_OUTPUT_BUTTON_ID, sender -> setIOConfiguration(getIOConfiguration().toggleAutoOutput()));
+                setConfigLogged(getIOConfiguration().cycleIOAccess(side, getIOConfigRules(), false)));
+        builder.handleUnitAction(TOGGLE_AUTO_INPUT_BUTTON_ID, sender -> setConfigLogged(getIOConfiguration().toggleAutoInput()));
+        builder.handleUnitAction(TOGGLE_AUTO_OUTPUT_BUTTON_ID, sender -> setConfigLogged(getIOConfiguration().toggleAutoOutput()));
     }
 
     public static final class MenuType extends LimaMenuType<MenuContext, BlockIOConfigurationMenu>

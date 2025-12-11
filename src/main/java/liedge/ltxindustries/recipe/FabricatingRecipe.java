@@ -98,7 +98,7 @@ public final class FabricatingRecipe extends LimaCustomRecipe<LimaRecipeInput>
 
     public ItemStack getFabricatingResultItem()
     {
-        return getFirstItemResult().getMaximumResult();
+        return getFirstItemResult().getMaxStack();
     }
 
     @Override

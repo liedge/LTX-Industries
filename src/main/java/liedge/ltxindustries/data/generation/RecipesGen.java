@@ -8,6 +8,8 @@ import liedge.limacore.data.generation.recipe.LimaShapedRecipeBuilder;
 import liedge.limacore.lib.ModResources;
 import liedge.limacore.lib.function.ObjectIntFunction;
 import liedge.limacore.recipe.result.ItemResult;
+import liedge.limacore.recipe.result.ResultCount;
+import liedge.limacore.recipe.result.ResultPriority;
 import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.block.NeonLightColor;
@@ -770,7 +772,7 @@ class RecipesGen extends LimaRecipeProvider
     {
         // Resource things
         grinding().input(STONE).output(COBBLESTONE).save(output);
-        grinding().input(COBBLESTONES_NORMAL).output(GRAVEL).optionalRandomOutput(FLINT, 1, 0.25f).save(output);
+        grinding().input(COBBLESTONES_NORMAL).output(GRAVEL).output(FLINT, ResultCount.exactly(1), 0.25f, ResultPriority.SECONDARY).save(output);
         grinding().input(Tags.Items.GRAVELS).output(SAND).save(output);
         grinding().input(CROPS_SUGAR_CANE).output(RESINOUS_BIOMASS).output(SUGAR, 2).save(output, "grind_sugar_cane");
         grinding().input(BAMBOO).output(RESINOUS_BIOMASS).save(output, "grind_bamboo");
@@ -781,7 +783,7 @@ class RecipesGen extends LimaRecipeProvider
 
         // Dyes
         Holder<RecipeMode> dyes = registries.holderOrThrow(LTXIRecipeModes.DYE_EXTRACTION);
-        grinding().input(GREEN_GROUP_DYE_SOURCES, 4).randomOutput(GREEN_DYE, 1, 0.8f).randomOutput(LIME_DYE, 1, 0.5f).needsMode(dyes).time(120).save(output, "extract_green_group_dyes");
+        grinding().input(GREEN_GROUP_DYE_SOURCES, 4).output(GREEN_DYE, ResultCount.exactly(1), 0.8f).output(LIME_DYE, ResultCount.exactly(1), 0.5f).needsMode(dyes).time(120).save(output, "extract_green_group_dyes");
         grinding().input(SEA_PICKLE).output(LIME_DYE, 2).needsMode(dyes).time(120).save(output);
 
         orePebbleGrinding(COAL_ORE_PEBBLES, Tags.Items.ORES_COAL, null, "coal", output);
@@ -835,8 +837,8 @@ class RecipesGen extends LimaRecipeProvider
         electroCentrifuging()
                 .input(MUD)
                 .output(DIRT)
-                .variableCountOutput(CLAY_BALL, 1, 3)
-                .optionalRandomOutput(MANGROVE_PROPAGULE, 1, 0.05f)
+                .output(CLAY_BALL, ResultCount.between(1, 3))
+                .output(MANGROVE_PROPAGULE, ResultCount.exactly(1), 0.05f, ResultPriority.SECONDARY)
                 .fluidOutput(Fluids.WATER, 1000)
                 .time(120)
                 .save(output, "split_mud");
@@ -862,7 +864,7 @@ class RecipesGen extends LimaRecipeProvider
                 .fluidInput(VIRIDIC_ACID, 2000)
                 .input(LTXIItems.GLOOM_SHROOM)
                 .output(SCULK_CHEMICAL)
-                .randomOutput(NEURO_CHEMICAL, 1, 0.05f)
+                .output(NEURO_CHEMICAL, ResultCount.exactly(1), 0.05f)
                 .time(400)
                 .save(output, "gloom_shroom_extraction");
     }

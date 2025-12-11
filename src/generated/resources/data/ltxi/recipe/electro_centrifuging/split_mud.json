@@ -19,19 +19,17 @@
       "id": "minecraft:dirt"
     },
     {
-      "type": "variable_count",
-      "item": "minecraft:clay_ball",
-      "max_count": 3,
-      "min_count": 1
+      "count": {
+        "max": 3,
+        "min": 1
+      },
+      "id": "minecraft:clay_ball"
     },
     {
-      "type": "random_chance",
       "chance": 0.05,
-      "item": {
-        "count": 1,
-        "id": "minecraft:mangrove_propagule"
-      },
-      "required": false
+      "count": 1,
+      "id": "minecraft:mangrove_propagule",
+      "priority": "secondary"
     }
   ]
 }

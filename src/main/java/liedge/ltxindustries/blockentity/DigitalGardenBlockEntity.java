@@ -49,7 +49,7 @@ public class DigitalGardenBlockEntity extends LTXIRecipeMachineBlockEntity<Garde
     {
         if (isCrafting())
         {
-            return getRecipeCheck().getLastUsedRecipe(level).map(r -> r.value().getFirstItemResult().getGuiPreviewResult()).orElse(ItemStack.EMPTY);
+            return getRecipeCheck().getLastUsedRecipe(level).map(r -> r.value().getFirstItemResult().getDisplayStack()).orElse(ItemStack.EMPTY);
         }
 
         return ItemStack.EMPTY;
