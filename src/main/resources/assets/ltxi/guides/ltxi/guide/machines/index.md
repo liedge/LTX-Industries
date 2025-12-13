@@ -1,6 +1,7 @@
 ---
 navigation:
     title: Machinery
+    icon: auto_fabricator
     position: 20
 ---
 

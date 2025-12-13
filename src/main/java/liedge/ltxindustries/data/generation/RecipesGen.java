@@ -28,10 +28,6 @@ import liedge.ltxindustries.registry.game.LTXIDataComponents;
 import liedge.ltxindustries.registry.game.LTXIFluids;
 import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.registry.game.LTXIRecipeSerializers;
-import net.minecraft.advancements.critereon.EntityPredicate;
-import net.minecraft.advancements.critereon.KilledTrigger;
-import net.minecraft.advancements.critereon.LocationPredicate;
-import net.minecraft.advancements.critereon.PlayerTrigger;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderLookup;
@@ -51,7 +47,6 @@ import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.levelgen.structure.BuiltinStructures;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.conditions.ModLoadedCondition;
@@ -70,9 +65,7 @@ import static liedge.ltxindustries.LTXITags.Fluids.HYDROGEN_FLUIDS;
 import static liedge.ltxindustries.LTXITags.Fluids.OXYGEN_FLUIDS;
 import static liedge.ltxindustries.LTXITags.Items.*;
 import static liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades.*;
-import static liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades.GRENADE_LAUNCHER_PROJECTILE_SPEED;
 import static liedge.ltxindustries.registry.bootstrap.LTXIMachineUpgrades.*;
-import static liedge.ltxindustries.registry.bootstrap.LTXIMachineUpgrades.TURRET_LOOTING;
 import static liedge.ltxindustries.registry.game.LTXIBlocks.*;
 import static liedge.ltxindustries.registry.game.LTXIFluids.VIRIDIC_ACID;
 import static liedge.ltxindustries.registry.game.LTXIItems.*;
@@ -254,26 +247,30 @@ class RecipesGen extends LimaRecipeProvider
                 .save(output);
 
         fabricating(500_000)
-                .input(GUNPOWDER, 8)
-                .input(TITANIUM_INGOT, 4)
-                .input(T2_CIRCUIT)
+                .input(T3_CIRCUIT)
+                .input(TITANIUM_INGOT, 8)
+                .input(GUNPOWDER, 16)
+                .input(BLAZE_POWDER, 12)
+                .input(ELECTRIC_CHEMICAL, 8)
                 .output(EXPLOSIVES_WEAPON_TECH_SALVAGE)
                 .group("tech_parts")
-                .requiresAdvancement()
-                .unlockedBy("visited_fortress", PlayerTrigger.TriggerInstance.located(LocationPredicate.Builder.inStructure(registries.holderOrThrow(BuiltinStructures.FORTRESS))))
                 .save(output);
         fabricating(2_500_000)
-                .input(TARGETING_TECH_SALVAGE)
-                .input(TITANIUM_INGOT, 32)
-                .input(SLATESTEEL_INGOT, 16)
                 .input(T3_CIRCUIT, 2)
+                .input(TARGETING_TECH_SALVAGE)
+                .input(TITANIUM_INGOT, 24)
+                .input(TITANIUM_GEAR, 6)
+                .input(SLATESTEEL_GEAR, 2)
                 .output(ROCKET_TURRET)
                 .group("turrets").save(output);
         fabricating(5_000_000)
+                .input(T4_CIRCUIT, 1)
                 .input(TARGETING_TECH_SALVAGE)
                 .input(TITANIUM_INGOT, 32)
-                .input(SLATESTEEL_INGOT, 16)
-                .input(T4_CIRCUIT, 2)
+                .input(POLYMER_INGOT, 12)
+                .input(SLATESTEEL_INGOT, 8)
+                .input(TITANIUM_GEAR, 8)
+                .input(SLATESTEEL_GEAR, 4)
                 .output(RAILGUN_TURRET)
                 .group("turrets").save(output);
 
@@ -378,14 +375,12 @@ class RecipesGen extends LimaRecipeProvider
                 .input(EXPLOSIVES_WEAPON_TECH_SALVAGE)
                 .input(T3_CIRCUIT, 8)
                 .group("ltx/weapon").save(output);
-        upgradeableItemFabricating(HEAVY_PISTOL, registries, 50_000_000)
-                .input(TITANIUM_INGOT, 16)
-                .input(POLYMER_INGOT, 24)
-                .input(SLATESTEEL_INGOT, 8)
-                .input(LTX_LIME_PIGMENT, 8)
+        upgradeableItemFabricating(HEAVY_PISTOL, registries, 75_000_000)
                 .input(T4_CIRCUIT, 1)
-                .requiresAdvancement()
-                .unlockedBy("kill_boss", KilledTrigger.TriggerInstance.playerKilledEntity(EntityPredicate.Builder.entity().of(LTXITags.EntityTypes.HIGH_THREAT_TARGETS)))
+                .input(TITANIUM_INGOT, 32)
+                .input(POLYMER_INGOT, 24)
+                .input(SLATESTEEL_INGOT, 16)
+                .input(LTX_LIME_PIGMENT, 8)
                 .group("ltx/weapon").save(output);
 
         final String eumTools = "eum/tool";
@@ -1221,7 +1216,6 @@ class RecipesGen extends LimaRecipeProvider
     private static class FabricatingBuilder extends LimaCustomRecipeBuilder<FabricatingRecipe, FabricatingBuilder>
     {
         private final int energyRequired;
-        private boolean advancementLocked = false;
 
         FabricatingBuilder(ModResources resources, int energyRequired)
         {
@@ -1229,19 +1223,15 @@ class RecipesGen extends LimaRecipeProvider
             this.energyRequired = energyRequired;
         }
 
-        public FabricatingBuilder requiresAdvancement()
-        {
-            this.advancementLocked = true;
-            return this;
-        }
-
         @Override
         protected FabricatingRecipe buildRecipe()
         {
+            Preconditions.checkState(fluidIngredients.isEmpty(), "Fabricating recipes do not support fluid inputs.");
+            Preconditions.checkState(fluidResults.isEmpty(), "Fabricating recipes do not support fluid outputs.");
             Preconditions.checkState(itemResults.size() == 1, "Fabricating recipe must have only 1 output");
             ItemResult result = itemResults.getFirst();
 
-            return new FabricatingRecipe(itemIngredients, result, energyRequired, advancementLocked, getGroupOrBlank());
+            return new FabricatingRecipe(itemIngredients, result, energyRequired, getGroupOrBlank());
         }
     }
 

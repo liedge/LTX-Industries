@@ -357,7 +357,6 @@ class LanguageGen extends LimaLanguageProvider
         add(OUTPUT_CHANCE_TOOLTIP, "Output chance: ");
         add(OUTPUT_VARIABLE_COUNT_TOOLTIP, "Outputs between: ");
         add(OUTPUT_NON_PRIMARY_TOOLTIP, "Non-primary outputs are discarded when space is limited.");
-        add(ADVANCEMENT_LOCKED_TOOLTIP, "Requires Advancement");
 
         add(UPGRADE_RANK_TOOLTIP, "Rank %s/%s");
         add(UPGRADE_REMOVE_HINT, "Shift + left click to remove upgrade. Must have space in your inventory.");

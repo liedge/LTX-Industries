@@ -13,7 +13,7 @@ item_ids:
 
 # Modular Upgrade System
 
-Our machinery and LTX gear can be enhanced with upgrade modules! Hold Shift on the module item to see what it does and
+Our machinery and equipment can be enhanced with upgrade modules! Hold Shift on the module item to see what it does and
 on what machines/equipment you can install it on.
 
 ## Machine Upgrade Module

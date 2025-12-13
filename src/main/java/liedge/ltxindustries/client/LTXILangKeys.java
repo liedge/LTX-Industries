@@ -52,7 +52,6 @@ public final class LTXILangKeys
     public static final Translatable OUTPUT_CHANCE_TOOLTIP = tooltip("output.chance");
     public static final Translatable OUTPUT_VARIABLE_COUNT_TOOLTIP = tooltip("output.variable");
     public static final Translatable OUTPUT_NON_PRIMARY_TOOLTIP = tooltip("output.non_primary");
-    public static final Translatable ADVANCEMENT_LOCKED_TOOLTIP = tooltip("advancement_locked");
 
     // System Messages
     public static final Translatable UPGRADE_INSTALL_SUCCESS = sysMsg("upgrade_success");

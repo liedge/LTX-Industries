@@ -78,12 +78,6 @@ public class LTXIndustriesClient
         }
 
         @SubscribeEvent
-        public void registerRecipeBookCategories(final RegisterRecipeBookCategoriesEvent event)
-        {
-            event.registerRecipeCategoryFinder(LTXIRecipeTypes.FABRICATING.get(), $ -> LTXIClientRecipes.FABRICATING_CATEGORY.getValue());
-        }
-
-        @SubscribeEvent
         public void registerClientExtensions(final RegisterClientExtensionsEvent event)
         {
             event.registerItem(UpgradeModuleItemExtensions.getInstance(), LTXIItems.EQUIPMENT_UPGRADE_MODULE.get(), LTXIItems.MACHINE_UPGRADE_MODULE.get());

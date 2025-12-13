@@ -365,7 +365,6 @@
   "tag.game_event.ltxi.handheld_equipment": "handheld tool",
   "tag.game_event.ltxi.weapon_vibrations": "weaponry",
   "tag.item.ltxi.wrench_breakable": "wrench-breakable",
-  "tooltip.ltxi.advancement_locked": "Requires Advancement",
   "tooltip.ltxi.ammo_loaded": "Ammo: %s/%s",
   "tooltip.ltxi.auto_input_off": "Auto Input Disabled",
   "tooltip.ltxi.auto_input_on": "Auto Input Enabled",

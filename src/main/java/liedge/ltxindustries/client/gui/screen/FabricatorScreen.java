@@ -4,7 +4,6 @@ import liedge.limacore.capability.energy.LimaEnergyUtil;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.blockentity.BaseFabricatorBlockEntity;
-import liedge.ltxindustries.client.LTXIClientRecipes;
 import liedge.ltxindustries.client.gui.widget.BaseScrollGridRenderable;
 import liedge.ltxindustries.client.gui.widget.FabricatorProgressWidget;
 import liedge.ltxindustries.client.gui.widget.ScrollbarWidget;
@@ -13,7 +12,6 @@ import liedge.ltxindustries.menu.layout.LayoutSlot;
 import liedge.ltxindustries.recipe.FabricatingRecipe;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -44,8 +42,8 @@ public class FabricatorScreen extends LTXIMachineScreen<FabricatorMenu>
     {
         super(menu, inventory, title, 190, 200);
 
-        // Read recipes and validate against recipe book
-        this.recipes = LTXIClientRecipes.getUnlockedFabricatingRecipes((LocalPlayer) inventory.player);
+        // Read recipes
+        this.recipes = FabricatingRecipe.getSortedRecipes(inventory.player.level());
 
         // Screen setup
         this.inventoryLabelX = 14;

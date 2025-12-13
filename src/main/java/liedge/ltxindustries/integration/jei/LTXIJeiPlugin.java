@@ -4,10 +4,8 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import liedge.limacore.client.gui.LimaMenuScreen;
 import liedge.limacore.recipe.LimaCustomRecipe;
 import liedge.limacore.recipe.LimaRecipeType;
-import liedge.limacore.util.LimaRecipesUtil;
 import liedge.limacore.util.LimaRegistryUtil;
 import liedge.ltxindustries.LTXIndustries;
-import liedge.ltxindustries.client.LTXIClientRecipes;
 import liedge.ltxindustries.client.gui.screen.RecipeLayoutScreen;
 import liedge.ltxindustries.menu.layout.RecipeLayout;
 import liedge.ltxindustries.menu.layout.RecipeLayouts;
@@ -115,7 +113,7 @@ public class LTXIJeiPlugin implements IModPlugin
         registration.addRecipes(GEO_SYNTHESIS_JEI, manager.getAllRecipesFor(GEO_SYNTHESIS.get()));
         registration.addRecipes(GARDEN_SIMULATING_JEI, manager.getAllRecipesFor(GARDEN_SIMULATING.get()));
 
-        List<RecipeHolder<FabricatingRecipe>> fabricatingRecipes = LimaRecipesUtil.getSortedRecipesForType(level, FABRICATING, LTXIClientRecipes.comparingFabricationRecipes());
+        List<RecipeHolder<FabricatingRecipe>> fabricatingRecipes = FabricatingRecipe.getSortedRecipes(level);
         registration.addRecipes(FABRICATING_JEI, fabricatingRecipes);
     }
 

@@ -1,15 +1,6 @@
 {
   "entries": [
     {
-      "enum": "net/minecraft/client/RecipeBookCategories",
-      "name": "LTXI_FABRICATING_CATEGORY",
-      "constructor": "(Ljava/util/function/Supplier;)V",
-      "parameters": {
-        "class": "liedge/ltxindustries/client/LTXIClientRecipes",
-        "field": "FABRICATING_CATEGORY"
-      }
-    },
-    {
       "enum": "net/minecraft/client/model/HumanoidModel$ArmPose",
       "name": "LTXI_TWO_HAND_WEAPON",
       "constructor": "(ZLnet/neoforged/neoforge/client/IArmPoseTransformer;)V",

@@ -13,7 +13,7 @@ item_ids:
 
 # Tech Fabrication
 
-Most of the upgrades and gear are too complex to be made in general processing machines or a crafting table.
+Some of the upgrades and gear are too complex to be made in general processing machines or a crafting table.
 For that, you'll need to make a Fabricator. Fabricating recipes are unique amongst all the LTXI recipe types, consult
 the recipe data spec below.
 
@@ -53,13 +53,14 @@ Hold Shift when viewing the tooltip to display the recipe's information. Shift +
 ## Auto Fabricator
 <BlockImage id="auto_fabricator" scale="2" />
 
-A more specialized version of the Fabricator. It makes up for its lack of versatility in ease of automation. Unlike the
-regular fabricator, it has 16 ingredient input slots as it does not pull from your inventory.
+A more specialized version of the Fabricator. It makes up for its lack of recipe variety with ease of automation. Unlike
+the regular fabricator, it has 16 ingredient input slots can not pull from your inventory.
 
 ### Single blueprint-based operation
-You must place an encoded Fabrication Blueprint in the blueprint slot and supply the machine with the required ingredients
-via your desired item transport method. As long as it has enough ingredients and energy, it will continuously craft the
-provided recipe.
+
+Place an encoded Fabrication Blueprint in the blueprint slot to operate in this mode. You must supply the correct ingredient
+amounts via your preferred item transport method. As long as it has enough ingredients and energy, it will continuously
+craft the blueprint recipe.
 
 ### AE2 Pattern Provider integration
 AE2's **Pattern Providers** have native compatibility with the Auto Fabricator and encoded Fabrication Blueprints. **Note!

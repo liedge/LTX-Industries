@@ -1,11 +1,14 @@
 {
   "type": "ltxi:fabricating",
-  "advancement_locked": true,
-  "energy_required": 50000000,
+  "energy_required": 75000000,
   "group": "ltx/weapon",
   "ingredients": [
     {
-      "count": 16,
+      "count": 1,
+      "item": "ltxi:t4_circuit"
+    },
+    {
+      "count": 32,
       "item": "ltxi:titanium_ingot"
     },
     {
@@ -13,16 +16,12 @@
       "item": "ltxi:polymer_ingot"
     },
     {
-      "count": 8,
+      "count": 16,
       "item": "ltxi:slatesteel_ingot"
     },
     {
       "count": 8,
       "item": "ltxi:ltx_lime_pigment"
-    },
-    {
-      "count": 1,
-      "item": "ltxi:t4_circuit"
     }
   ],
   "result": {

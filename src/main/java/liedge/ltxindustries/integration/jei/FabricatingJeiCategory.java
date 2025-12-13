@@ -22,7 +22,6 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 
 import java.util.function.Supplier;
 
-import static liedge.ltxindustries.LTXIConstants.HOSTILE_ORANGE;
 import static liedge.ltxindustries.LTXIConstants.REM_BLUE;
 
 class FabricatingJeiCategory extends LTXIJeiCategory<FabricatingRecipe>
@@ -32,7 +31,7 @@ class FabricatingJeiCategory extends LTXIJeiCategory<FabricatingRecipe>
 
     FabricatingJeiCategory(IGuiHelper helper, Supplier<LimaRecipeType<FabricatingRecipe>> typeSupplier)
     {
-        super(helper, typeSupplier, 140, 76);
+        super(helper, typeSupplier, 140, 66);
         this.progressBackground = guiSpriteDrawable(FabricatorProgressWidget.BACKGROUND_SPRITE, FabricatorProgressWidget.BACKGROUND_WIDTH, FabricatorProgressWidget.BACKGROUND_HEIGHT).build();
         this.progressForeground = guiSpriteDrawable(FabricatorProgressWidget.FILL_SPRITE, FabricatorProgressWidget.FILL_WIDTH, FabricatorProgressWidget.FILL_HEIGHT).buildAnimated(80, IDrawableAnimated.StartDirection.BOTTOM, false);
     }
@@ -63,8 +62,5 @@ class FabricatingJeiCategory extends LTXIJeiCategory<FabricatingRecipe>
         FabricatingRecipe recipe = recipeHolder.value();
         Component energyText = LTXILangKeys.INLINE_ENERGY.translateArgs(LimaTextUtil.formatWholeNumber(recipe.getEnergyRequired()));
         graphics.drawString(Minecraft.getInstance().font, energyText, 2, 57, REM_BLUE.argb32(), false);
-
-        if (recipe.isAdvancementLocked())
-            graphics.drawString(Minecraft.getInstance().font, LTXILangKeys.ADVANCEMENT_LOCKED_TOOLTIP.translate(), 2, 67, HOSTILE_ORANGE.argb32(), false);
     }
 }

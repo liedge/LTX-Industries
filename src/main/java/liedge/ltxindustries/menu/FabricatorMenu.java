@@ -6,10 +6,8 @@ import liedge.limacore.menu.LimaMenuType;
 import liedge.limacore.recipe.LimaRecipeInput;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.limacore.util.LimaRecipesUtil;
-import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.blockentity.BaseFabricatorBlockEntity;
 import liedge.ltxindustries.blockentity.FabricatorBlockEntity;
-import liedge.ltxindustries.recipe.FabricatingRecipe;
 import liedge.ltxindustries.registry.game.LTXIDataComponents;
 import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
@@ -17,11 +15,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeHolder;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 import net.neoforged.neoforge.items.wrapper.PlayerMainInvWrapper;
-
-import java.util.Optional;
 
 public class FabricatorMenu extends LTXIMachineMenu.RecipeEnergyMachineMenu<FabricatorBlockEntity>
 {
@@ -39,23 +34,14 @@ public class FabricatorMenu extends LTXIMachineMenu.RecipeEnergyMachineMenu<Fabr
         addPlayerInventoryAndHotbar(15, 118);
     }
 
-    private Optional<RecipeHolder<FabricatingRecipe>> validateRecipeAccess(ServerPlayer sender, ResourceLocation id)
-    {
-        return LimaRecipesUtil.getRecipeById(sender.level(), id, LTXIRecipeTypes.FABRICATING).filter(holder -> FabricatingRecipe.validateUnlocked(sender.getRecipeBook(), holder, sender))
-                .or(() -> {
-                    LTXIndustries.LOGGER.warn("Player {} tried to access undefined or locked Fabricating recipe '{}'", sender.getName(), id);
-                    return Optional.empty();
-                });
-    }
-
     private void receiveCraftCommand(ServerPlayer sender, ResourceLocation id)
     {
-        validateRecipeAccess(sender, id).ifPresent(holder -> menuContext.startCrafting(sender.level(), holder, LimaRecipeInput.create(new PlayerMainInvWrapper(sender.getInventory()), null), sender.isCreative()));
+        LimaRecipesUtil.getRecipeById(sender.level(), id, LTXIRecipeTypes.FABRICATING).ifPresent(holder -> menuContext.startCrafting(sender.level(), holder, LimaRecipeInput.create(new PlayerMainInvWrapper(sender.getInventory()), null), sender.isCreative()));
     }
 
     private void receiveEncodeCommand(ServerPlayer sender, ResourceLocation id)
     {
-        validateRecipeAccess(sender, id).ifPresent(holder ->
+        LimaRecipesUtil.getRecipeById(sender.level(), id, LTXIRecipeTypes.FABRICATING).ifPresent(holder ->
         {
             LimaBlockEntityItemHandler auxInventory = menuContext().getAuxInventory();
             if (auxInventory.getStackInSlot(BaseFabricatorBlockEntity.AUX_BLUEPRINT_SLOT).is(menuContext.getValidBlueprintItem()))

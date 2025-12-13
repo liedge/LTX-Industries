@@ -4,20 +4,24 @@
   "group": "turrets",
   "ingredients": [
     {
+      "count": 2,
+      "item": "ltxi:t3_circuit"
+    },
+    {
       "count": 1,
       "item": "ltxi:targeting_tech_salvage"
     },
     {
-      "count": 32,
+      "count": 24,
       "item": "ltxi:titanium_ingot"
     },
     {
-      "count": 16,
-      "item": "ltxi:slatesteel_ingot"
+      "count": 6,
+      "item": "ltxi:titanium_gear"
     },
     {
       "count": 2,
-      "item": "ltxi:t3_circuit"
+      "item": "ltxi:slatesteel_gear"
     }
   ],
   "result": {
