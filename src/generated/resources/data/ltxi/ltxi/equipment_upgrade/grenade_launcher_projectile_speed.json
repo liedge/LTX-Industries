@@ -3,7 +3,14 @@
     "description": {
       "translate": "equipment_upgrade.ltxi.grenade_launcher_projectile_speed.desc"
     },
-    "icon": "ltxi:grenade_speed_boost",
+    "icon": {
+      "type": "composite",
+      "background": "ltxi:orb_grenade",
+      "overlay": "ltxi:yellow_arrow_overlay",
+      "overlay_size": 9,
+      "x_offset": 6,
+      "y_offset": 6
+    },
     "title": {
       "translate": "equipment_upgrade.ltxi.grenade_launcher_projectile_speed"
     },

@@ -36,6 +36,8 @@ public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, U>, M extend
 {
     private static final ResourceLocation SELECTOR_SPRITE = LTXIndustries.RESOURCES.location("widget/upgrade_selector");
     private static final ResourceLocation SELECTOR_SPRITE_FOCUS = LTXIndustries.RESOURCES.location("widget/upgrade_selector_focus");
+    public static final ResourceLocation EQUIPMENT_MODULE_SPRITE = LTXIndustries.RESOURCES.location("equipment_upgrade_module");
+    public static final ResourceLocation MACHINE_MODULE_SPRITE = LTXIndustries.RESOURCES.location("machine_upgrade_module");
 
     private @Nullable ScrollbarWidget scrollbar;
     private @Nullable SelectorList<U> selectorList;
@@ -49,6 +51,8 @@ public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, U>, M extend
     }
 
     protected abstract void blitSlotSprites(GuiGraphics graphics);
+
+    protected abstract ResourceLocation fallbackModuleSprite();
 
     @Override
     protected void addWidgets()
@@ -139,7 +143,13 @@ public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, U>, M extend
             ResourceLocation sprite = isMouseOverElement(mouseX, mouseY, posX, posY) ? SELECTOR_SPRITE_FOCUS : SELECTOR_SPRITE;
             graphics.blitSprite(sprite, posX, posY, elementWidth(), elementHeight());
 
-            UpgradeIconRenderers.renderWithSpriteFallback(graphics, upgrade.display().icon(), posX + 2, posY + 2);
+            // Render icon
+            int iconX = posX + 2;
+            int iconY = posY + 2;
+            if (!UpgradeIconRenderers.renderIcon(graphics, upgrade.display().icon(), iconX, iconY))
+            {
+                graphics.blitSprite(parent.fallbackModuleSprite(), iconX, iconY, 16, 16);
+            }
 
             // Render title
             int titleX = posX + 22;

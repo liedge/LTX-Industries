@@ -16,7 +16,6 @@ import static liedge.ltxindustries.LTXIndustries.RESOURCES;
 public interface UpgradeIcon
 {
     Codec<UpgradeIcon> CODEC = Type.CODEC.dispatchWithInline(SpriteSheetIcon.class, SpriteSheetIcon.INLINE_CODEC, UpgradeIcon::getType, Type::getCodec);
-    ResourceLocation DEFAULT_ICON_LOCATION = RESOURCES.location("default");
 
     static NoRenderIcon noRenderIcon()
     {

@@ -19,8 +19,8 @@ import static liedge.ltxindustries.LTXIndustries.RESOURCES;
 
 public final class WeaponCrosshairLayer extends LimaGuiLayer
 {
-    private static final ResourceLocation RELOAD_SPRITE = RESOURCES.location("reload_display_outer");
-    private static final ResourceLocation RELOAD_SPRITE_INNER = RESOURCES.location("reload_display_inner");
+    private static final ResourceLocation RELOAD_SPRITE = RESOURCES.location("hud/reload");
+    private static final ResourceLocation RELOAD_SPRITE_FILL = RESOURCES.location("hud/reload_fill");
 
     public static final WeaponCrosshairLayer CROSSHAIR_LAYER = new WeaponCrosshairLayer();
 
@@ -47,12 +47,12 @@ public final class WeaponCrosshairLayer extends LimaGuiLayer
 
         if (controls.getReloadTimer().isRunningClient())
         {
-            final int centerX = (screenWidth - 35) / 2;
-            final int centerY = (screenHeight - 15) / 2;
+            final int centerX = (screenWidth - 21) / 2;
+            final int centerY = (screenHeight - 9) / 2;
 
-            graphics.blitSprite(RELOAD_SPRITE, centerX, centerY, 35, 15);
-            TextureAtlasSprite innerSprite = Minecraft.getInstance().getGuiSprites().getSprite(RELOAD_SPRITE_INNER);
-            LimaGuiUtil.partialHorizontalBlit(graphics, centerX + 17, centerY + 6, 16, 3, controls.getReloadTimer().lerpProgressNotPaused(partialTicks), innerSprite);
+            graphics.blitSprite(RELOAD_SPRITE, centerX, centerY, 21, 9);
+            TextureAtlasSprite fillSprite = Minecraft.getInstance().getGuiSprites().getSprite(RELOAD_SPRITE_FILL);
+            LimaGuiUtil.partialHorizontalBlit(graphics, centerX + 5, centerY + 3, 14, 3, controls.getReloadTimer().lerpProgressNotPaused(partialTicks), fillSprite);
         }
         else
         {

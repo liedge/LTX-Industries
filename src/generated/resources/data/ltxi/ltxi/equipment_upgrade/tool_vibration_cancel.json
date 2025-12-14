@@ -4,7 +4,16 @@
     "description": {
       "translate": "equipment_upgrade.ltxi.tool_vibration_cancel.desc"
     },
-    "icon": "ltxi:earmuffs",
+    "icon": {
+      "type": "composite",
+      "background": {
+        "id": "minecraft:sculk_sensor"
+      },
+      "overlay": "ltxi:red_x_overlay",
+      "overlay_size": 9,
+      "x_offset": 6,
+      "y_offset": 6
+    },
     "title": {
       "translate": "equipment_upgrade.ltxi.tool_vibration_cancel"
     }

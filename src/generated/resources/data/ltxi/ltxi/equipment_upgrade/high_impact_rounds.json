@@ -3,7 +3,14 @@
     "description": {
       "translate": "equipment_upgrade.ltxi.high_impact_rounds.desc"
     },
-    "icon": "ltxi:powerful_lightfrag",
+    "icon": {
+      "type": "composite",
+      "background": "ltxi:lightfrags",
+      "overlay": "ltxi:yellow_arrow_overlay",
+      "overlay_size": 9,
+      "x_offset": 6,
+      "y_offset": 6
+    },
     "title": {
       "translate": "equipment_upgrade.ltxi.high_impact_rounds"
     }

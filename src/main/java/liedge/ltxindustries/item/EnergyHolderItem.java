@@ -2,8 +2,10 @@ package liedge.ltxindustries.item;
 
 import liedge.limacore.capability.energy.LimaComponentEnergyStorage;
 import liedge.limacore.client.gui.TooltipLineConsumer;
+import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.util.LimaCoreUtil;
 import liedge.ltxindustries.util.LTXITooltipUtil;
+import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import net.neoforged.neoforge.energy.IEnergyStorage;
@@ -46,6 +48,12 @@ public interface EnergyHolderItem extends ItemLike
     default int getEnergyUsage(ItemStack stack)
     {
         return stack.getOrDefault(ENERGY_USAGE, getBaseEnergyUsage(stack));
+    }
+
+    default float getChargePercentage(ItemStack stack)
+    {
+        float fill = LimaCoreMath.divideFloat(getEnergyStored(stack), getEnergyCapacity(stack));
+        return Mth.clamp(fill, 0f, 1f);
     }
 
     default boolean supportsEnergyStorage(ItemStack stack)

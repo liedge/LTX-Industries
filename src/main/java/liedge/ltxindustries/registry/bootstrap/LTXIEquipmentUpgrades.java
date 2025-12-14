@@ -256,7 +256,7 @@ public final class LTXIEquipmentUpgrades
         EquipmentUpgrade.builder(TOOL_VIBRATION_CANCEL)
                 .supports(items.getOrThrow(LTXITags.Items.ALL_TOOLS))
                 .withEffect(PREVENT_VIBRATION, PreventVibrationUpgradeEffect.suppressHands(gameEvents.getOrThrow(LTXITags.GameEvents.HANDHELD_EQUIPMENT)))
-                .effectIcon(sprite("earmuffs"))
+                .effectIcon(redXOverlay(itemIcon(Items.SCULK_SENSOR)))
                 .category("tools")
                 .register(context);
         EquipmentUpgrade.builder(TOOL_DIRECT_DROPS)
@@ -271,7 +271,7 @@ public final class LTXIEquipmentUpgrades
                 .supports(LTXIItems.SHOTGUN, LTXIItems.HEAVY_PISTOL)
                 .damageAttributes(Attributes.KNOCKBACK_RESISTANCE, "knockback_resistance", LevelBasedValue.constant(-1f), AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)
                 .damageAttributes(LimaCoreAttributes.KNOCKBACK_MULTIPLIER, "knockback", LevelBasedValue.constant(2f), AttributeModifier.Operation.ADD_VALUE)
-                .effectIcon(sprite("powerful_lightfrag"))
+                .effectIcon(yellowArrowOverlay(sprite("lightfrags")))
                 .register(context);
         EquipmentUpgrade.builder(HEAVY_PISTOL_GOD_ROUNDS)
                 .supports(LTXIItems.HEAVY_PISTOL)
@@ -287,14 +287,14 @@ public final class LTXIEquipmentUpgrades
                 .setMaxRank(2)
                 .withEffect(WEAPON_RANGE, SimpleValueEffect.of(LinearDouble.linearIncrement(0.5d), MathOperation.ADD))
                 .tooltip(TranslatableTooltip.create(LTXILangKeys.PROJECTILE_SPEED_UPGRADE, ValueComponent.of(LinearDouble.linearIncrement(0.5d), ValueFormat.SIGNED_FLAT_NUMBER, ValueSentiment.POSITIVE)))
-                .effectIcon(sprite("grenade_speed_boost"))
+                .effectIcon(yellowArrowOverlay(sprite("orb_grenade")))
                 .register(context);
 
         // Universal upgrades
         EquipmentUpgrade.builder(WEAPON_VIBRATION_CANCEL)
                 .supports(ltxProjectileWeapons)
                 .withEffect(PREVENT_VIBRATION, PreventVibrationUpgradeEffect.suppressMainHand(gameEvents.getOrThrow(LTXITags.GameEvents.WEAPON_VIBRATIONS)))
-                .effectIcon(sprite("earmuffs"))
+                .effectIcon(redXOverlay(itemIcon(Items.SCULK_SENSOR)))
                 .register(context);
         EquipmentUpgrade.builder(UNIVERSAL_STEALTH_DAMAGE)
                 .supports(ltxAllWeapons)
@@ -310,7 +310,7 @@ public final class LTXIEquipmentUpgrades
                 .supports(ltxProjectileWeapons)
                 .setMaxRank(3)
                 .withEffect(DAMAGE_REDUCTION_MODIFIER, new ModifyReductionsUpgradeEffect(DamageReductionType.ARMOR, LevelBasedValue.perLevel(-0.2f)))
-                .effectIcon(sprite("broken_armor"))
+                .effectIcon(sprite("corroded_armor"))
                 .register(context);
 
         UpgradeDoubleValue lightweightEnergyCapacity = ConstantDouble.of(100_000);
@@ -408,7 +408,7 @@ public final class LTXIEquipmentUpgrades
                 .supports(ltxMiningTools)
                 .setMaxRank(5)
                 .withEffect(ENCHANTMENT_LEVELS, EnchantmentLevelsUpgradeEffect.rankLinear(enchantments.getOrThrow(Enchantments.EFFICIENCY)))
-                .effectIcon(bottomRightComposite(itemIcon(LTXIItems.LTX_DRILL), sprite("yellow_arrow_overlay"), 9))
+                .effectIcon(yellowArrowOverlay(itemIcon(LTXIItems.LTX_DRILL)))
                 .category("enchants")
                 .register(context);
         EquipmentUpgrade.builder(SILK_TOUCH_ENCHANTMENT)

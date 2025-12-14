@@ -8,11 +8,6 @@
     },
     {
       "type": "minecraft:single",
-      "resource": "ltxi:item/machine_upgrade_module",
-      "sprite": "ltxi:machine_upgrade_module"
-    },
-    {
-      "type": "minecraft:single",
       "resource": "ltxi:item/titanium_gear",
       "sprite": "ltxi:titanium_gear"
     },

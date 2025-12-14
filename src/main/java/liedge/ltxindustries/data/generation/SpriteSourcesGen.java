@@ -26,18 +26,16 @@ class SpriteSourcesGen extends SpriteSourceProvider
     @Override
     protected void gather()
     {
-        SpriteSource machineModuleIcon = itemSheetCopy("machine_upgrade_module");
-
         // Mod atlas definitions
         atlas(UpgradeIconSprites.ATLAS_LOCATION)
                 .addSource(nsDirSource("upgrade_module"))
-                .addSource(machineModuleIcon)
                 .addSource(itemSheetCopy("titanium_gear"))
                 .addSource(itemSheetCopy("slatesteel_gear"));
 
         // Vanilla atlas modifications
         atlas(ModResources.MC.location("gui"))
-                .addSource(machineModuleIcon)
+                .addSource(itemSheetCopy("equipment_upgrade_module"))
+                .addSource(itemSheetCopy("machine_upgrade_module"))
                 .addSource(singleSprite("gui/light_panel", "slot/empty"));
         atlas(BLOCKS_ATLAS)
                 .addSource(singleSprite("misc/solid_lime", "solid_lime"))

@@ -8,13 +8,14 @@ import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.registry.game.LTXIAttachmentTypes;
 import liedge.ltxindustries.util.config.LTXIClientConfig;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.resources.ResourceLocation;
 
 public final class BubbleShieldLayer extends LimaGuiLayer
 {
-    private static final ResourceLocation DISPLAY_SPRITE = LTXIndustries.RESOURCES.location("bubble_shield_display");
+    private static final ResourceLocation DISPLAY_SPRITE = LTXIndustries.RESOURCES.location("hud/shield");
     public static final BubbleShieldLayer BUBBLE_SHIELD_LAYER = new BubbleShieldLayer();
 
     private BubbleShieldLayer()
@@ -29,14 +30,16 @@ public final class BubbleShieldLayer extends LimaGuiLayer
 
         if (shieldHealth > 0)
         {
-            HorizontalAlignment ha = LTXIClientConfig.getShieldHorizontalAlign();
-            VerticalAlignment va = LTXIClientConfig.getShieldVerticalAlign();
-            int x = ha.getAbsoluteX(37, graphics.guiWidth(), LTXIClientConfig.SHIELD_HUD_X_OFFSET.getAsInt());
-            int y = va.getAbsoluteY(13, graphics.guiHeight(), LTXIClientConfig.SHIELD_HUD_Y_OFFSET.getAsInt());
+            Font font = Minecraft.getInstance().font;
+            HorizontalAlignment xAlign = LTXIClientConfig.getShieldHorizontalAlign();
+            VerticalAlignment yAlign = LTXIClientConfig.getShieldVerticalAlign();
+            int x = xAlign.getAbsoluteX(33, graphics.guiWidth(), LTXIClientConfig.SHIELD_HUD_X_OFFSET.getAsInt());
+            int y = yAlign.getAbsoluteY(13, graphics.guiHeight(), LTXIClientConfig.SHIELD_HUD_Y_OFFSET.getAsInt());
 
-            graphics.blitSprite(DISPLAY_SPRITE, x, y, 37, 13);
-
-            graphics.drawString(Minecraft.getInstance().font, Integer.toString((int) shieldHealth), x + 11, y + 3, LTXIConstants.BUBBLE_SHIELD_GREEN.argb32(), false);
+            String shieldStr = Integer.toString((int) shieldHealth);
+            int shieldX0 = font.width(shieldStr) / 2;
+            graphics.blitSprite(DISPLAY_SPRITE, x, y, 33, 13);
+            graphics.drawString(font, shieldStr, x + 19 - shieldX0, y + 3, LTXIConstants.BUBBLE_SHIELD_BLUE.argb32(), false);
         }
     }
 }

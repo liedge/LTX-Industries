@@ -23,25 +23,10 @@ public final class UpgradeIconRenderers
      * @param y GUI y position
      * @return The rendering result
      */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean renderIcon(GuiGraphics graphics, UpgradeIcon icon, int x, int y)
     {
         return INSTANCE.renderInternal(graphics, x, y, icon);
-    }
-
-    /**
-     * Calls {@link UpgradeIconRenderers#renderIcon(GuiGraphics, UpgradeIcon, int, int)} and renders the default
-     * upgrade sprite icon if icon rendering failed.
-     * @param graphics GuiGraphics, used in most GUI rendering contexts
-     * @param icon The upgrade icon
-     * @param x GUI X position
-     * @param y GUI Y position
-     */
-    public static void renderWithSpriteFallback(GuiGraphics graphics, UpgradeIcon icon, int x, int y)
-    {
-        if (!renderIcon(graphics, icon, x, y))
-        {
-            renderSpriteIcon(graphics, UpgradeIcon.DEFAULT_ICON_LOCATION, x, y, 0, 16);
-        }
     }
 
     private final Map<UpgradeIcon.Type, IconRenderer<?>> renderers = new Object2ObjectOpenHashMap<>();

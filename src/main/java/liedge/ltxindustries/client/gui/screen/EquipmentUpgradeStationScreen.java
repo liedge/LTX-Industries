@@ -23,4 +23,10 @@ public class EquipmentUpgradeStationScreen extends UpgradesConfigScreen<Equipmen
         blitSlotSprite(graphics, SLOT_SPRITE, 23, 86);
         blitOutputSlot(graphics, 21, 62);
     }
+
+    @Override
+    protected ResourceLocation fallbackModuleSprite()
+    {
+        return UpgradesConfigScreen.EQUIPMENT_MODULE_SPRITE;
+    }
 }

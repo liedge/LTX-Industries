@@ -51,6 +51,16 @@ public final class LTXIBootstrapUtil
         return bottomRightComposite(bg, sprite("green_arrow_overlay"), 9);
     }
 
+    public static UpgradeIcon yellowArrowOverlay(UpgradeIcon bg)
+    {
+        return bottomRightComposite(bg, sprite("yellow_arrow_overlay"), 9);
+    }
+
+    public static UpgradeIcon redXOverlay(UpgradeIcon bg)
+    {
+        return bottomRightComposite(bg, sprite("red_x_overlay"), 9);
+    }
+
     // Upgrade tooltips
     public static UpgradeComponentLike energyCapacityTooltip(UpgradeDoubleValue value, ValueFormat format, ValueSentiment sentiment)
     {

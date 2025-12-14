@@ -2,7 +2,6 @@ package liedge.ltxindustries.item;
 
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.item.LimaCreativeTabFillerItem;
-import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.util.config.LTXIMachinesConfig;
 import net.minecraft.world.item.BlockItem;
@@ -45,8 +44,7 @@ public class ECABlockItem extends BlockItem implements EnergyHolderItem, Tooltip
     @Override
     public int getBarWidth(ItemStack stack)
     {
-        float fill = Math.min(LimaCoreMath.divideFloat(getEnergyStored(stack), getEnergyCapacity(stack)), 1f);
-        return Math.round(13f * fill);
+        return Math.round(13f * getChargePercentage(stack));
     }
 
     @Override

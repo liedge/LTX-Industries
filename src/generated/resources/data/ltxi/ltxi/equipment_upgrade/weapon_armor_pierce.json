@@ -3,7 +3,7 @@
     "description": {
       "translate": "equipment_upgrade.ltxi.weapon_armor_pierce.desc"
     },
-    "icon": "ltxi:broken_armor",
+    "icon": "ltxi:corroded_armor",
     "title": {
       "translate": "equipment_upgrade.ltxi.weapon_armor_pierce"
     }

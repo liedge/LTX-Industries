@@ -26,6 +26,12 @@ public class MachineUpgradesScreen extends UpgradesConfigScreen<MachineUpgrade, 
     }
 
     @Override
+    protected ResourceLocation fallbackModuleSprite()
+    {
+        return UpgradesConfigScreen.MACHINE_MODULE_SPRITE;
+    }
+
+    @Override
     protected void addWidgets()
     {
         super.addWidgets();
