@@ -3,7 +3,7 @@ package liedge.ltxindustries.data.generation;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.lib.upgrades.tooltip.*;
 import liedge.ltxindustries.lib.upgrades.UpgradeIcon;
-import liedge.ltxindustries.lib.upgrades.effect.value.UpgradeDoubleValue;
+import liedge.ltxindustries.lib.upgrades.value.UpgradeDoubleValue;
 import net.minecraft.world.level.ItemLike;
 
 import static liedge.ltxindustries.LTXIConstants.REM_BLUE;

@@ -13,7 +13,7 @@
       {
         "affected": "attacker",
         "effect": {
-          "type": "ltxi:bubble_shield",
+          "type": "ltxi:restore_shield",
           "amount": 4.0,
           "max_shield": {
             "type": "minecraft:linear",
@@ -26,7 +26,7 @@
       {
         "affected": "attacker",
         "effect": {
-          "type": "ltxi:mob_effect",
+          "type": "ltxi:apply_effect",
           "duration": 60.0,
           "effect": "minecraft:regeneration"
         },

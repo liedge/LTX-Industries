@@ -3,7 +3,7 @@ package liedge.ltxindustries.lib.upgrades.tooltip;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import liedge.ltxindustries.lib.upgrades.effect.value.UpgradeDoubleValue;
+import liedge.ltxindustries.lib.upgrades.value.UpgradeDoubleValue;
 import net.minecraft.network.chat.Component;
 
 public record ValueComponent(UpgradeDoubleValue value, ValueFormat format, ValueSentiment sentiment, int zero) implements UpgradeComponentLike

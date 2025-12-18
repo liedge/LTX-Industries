@@ -3,7 +3,7 @@ package liedge.ltxindustries.registry.game;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.lib.upgrades.effect.*;
 import liedge.ltxindustries.lib.upgrades.effect.entity.EntityUpgradeEffect;
-import liedge.ltxindustries.lib.upgrades.effect.value.ValueUpgradeEffect;
+import liedge.ltxindustries.lib.upgrades.effect.ValueUpgradeEffect;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
 import liedge.ltxindustries.lib.weapons.WeaponReloadSource;
 import liedge.ltxindustries.registry.LTXIRegistries;

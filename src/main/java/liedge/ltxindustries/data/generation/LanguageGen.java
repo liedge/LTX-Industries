@@ -398,7 +398,8 @@ class LanguageGen extends LimaLanguageProvider
         add(REDUCTION_MODIFIER_EFFECT, "%s %s breach");
         add(BUBBLE_SHIELD_EFFECT, "%s Bubble Shield/kill, (max %s)");
         add(MOB_EFFECT_UPGRADE_EFFECT, "Applies %s (%s)");
-        add(ENCHANTMENT_UPGRADE_EFFECT, "+%s %s levels (max. %s)");
+        add(ENCHANTMENT_UPGRADE_EFFECT, "+%s %s levels");
+        add(CAPPED_ENCHANTMENT_UPGRADE_EFFECT, "+%s %s levels (max %s)");
         add(GRENADE_UNLOCK_EFFECT, "Can use %s shells");
 
         add(TooltipShiftHintItem.HINT_HOVER_TOOLTIP, "Hold SHIFT for extra info");

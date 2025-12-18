@@ -48,7 +48,6 @@
     "ltxi:equipment_damage": [
       {
         "effect": {
-          "type": "simple",
           "op": "add",
           "value": 25.0
         },
@@ -66,7 +65,6 @@
       },
       {
         "effect": {
-          "type": "simple",
           "op": "add",
           "value": 25.0
         },

@@ -61,7 +61,12 @@ public record EnchantmentLevelsUpgradeEffect(Holder<Enchantment> enchantment, Le
     public void addUpgradeTooltips(int upgradeRank, Consumer<Component> lines)
     {
         Component enchantmentName = enchantment.value().description().copy().withStyle(ChatFormatting.DARK_PURPLE);
-        Component tooltip = LTXILangKeys.ENCHANTMENT_UPGRADE_EFFECT.translateArgs(getValue(upgradeRank), enchantmentName, Component.literal(Integer.toString(maxLevel)).withStyle(ChatFormatting.YELLOW));
+        int levels = getValue(upgradeRank);
+
+        Component tooltip = maxLevel == Enchantment.MAX_LEVEL
+                ? LTXILangKeys.ENCHANTMENT_UPGRADE_EFFECT.translateArgs(levels, enchantmentName)
+                : LTXILangKeys.CAPPED_ENCHANTMENT_UPGRADE_EFFECT.translateArgs(levels, enchantmentName, Component.literal(Integer.toString(maxLevel)).withStyle(ChatFormatting.YELLOW));
+
         lines.accept(tooltip);
     }
 }

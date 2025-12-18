@@ -21,17 +21,17 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 
 import java.util.function.Consumer;
 
-public record MobEffectUpgradeEffect(Holder<MobEffect> effect, LevelBasedValue duration, LevelBasedValue amplifier) implements EntityUpgradeEffect
+public record ApplyEffectUpgradeEffect(Holder<MobEffect> effect, LevelBasedValue duration, LevelBasedValue amplifier) implements EntityUpgradeEffect
 {
-    public static final MapCodec<MobEffectUpgradeEffect> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            MobEffect.CODEC.fieldOf("effect").forGetter(MobEffectUpgradeEffect::effect),
-            LevelBasedValue.CODEC.fieldOf("duration").forGetter(MobEffectUpgradeEffect::duration),
-            LevelBasedValue.CODEC.optionalFieldOf("amplifier", LevelBasedValue.constant(0)).forGetter(MobEffectUpgradeEffect::amplifier))
-            .apply(instance, MobEffectUpgradeEffect::new));
+    public static final MapCodec<ApplyEffectUpgradeEffect> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+            MobEffect.CODEC.fieldOf("effect").forGetter(ApplyEffectUpgradeEffect::effect),
+            LevelBasedValue.CODEC.fieldOf("duration").forGetter(ApplyEffectUpgradeEffect::duration),
+            LevelBasedValue.CODEC.optionalFieldOf("amplifier", LevelBasedValue.constant(0)).forGetter(ApplyEffectUpgradeEffect::amplifier))
+            .apply(instance, ApplyEffectUpgradeEffect::new));
 
-    public static MobEffectUpgradeEffect create(Holder<MobEffect> effect, LevelBasedValue duration)
+    public static ApplyEffectUpgradeEffect create(Holder<MobEffect> effect, LevelBasedValue duration)
     {
-        return new MobEffectUpgradeEffect(effect, duration, LevelBasedValue.constant(0f));
+        return new ApplyEffectUpgradeEffect(effect, duration, LevelBasedValue.constant(0f));
     }
 
     @Override
@@ -49,7 +49,7 @@ public record MobEffectUpgradeEffect(Holder<MobEffect> effect, LevelBasedValue d
     @Override
     public EntityUpgradeEffectType<?> getType()
     {
-        return LTXIEntityUpgradeEffects.MOB_EFFECT_EQUIPMENT_EFFECT.get();
+        return LTXIEntityUpgradeEffects.APPLY_MOB_EFFECT.get();
     }
 
     @Override

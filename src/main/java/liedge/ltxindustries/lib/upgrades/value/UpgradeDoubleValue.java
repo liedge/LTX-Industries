@@ -1,19 +1,31 @@
-package liedge.ltxindustries.lib.upgrades.effect.value;
+package liedge.ltxindustries.lib.upgrades.value;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import liedge.limacore.data.LimaEnumCodec;
 import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.level.storage.loot.LootContext;
 
 /**
  * Similar to {@link net.minecraft.world.item.enchantment.LevelBasedValue} but with double data type to avoid
  * precision loss.
  */
-public interface UpgradeDoubleValue
+public interface UpgradeDoubleValue extends UpgradeValueProvider
 {
-    Codec<UpgradeDoubleValue> CODEC = Codec.lazyInitialized(() -> Type.CODEC.dispatchWithInline(ConstantDouble.class, ConstantDouble.INLINE_CODEC, UpgradeDoubleValue::getType, Type::getCodec));
+    static Codec<UpgradeDoubleValue> codec(String typeKey)
+    {
+        return Codec.lazyInitialized(() -> Type.CODEC.dispatchWithInline(typeKey, ConstantDouble.class, ConstantDouble.INLINE_CODEC, UpgradeDoubleValue::getType, Type::getCodec));
+    }
+
+    Codec<UpgradeDoubleValue> CODEC = codec("type");
 
     double calculate(int upgradeRank);
+
+    @Override
+    default double get(LootContext context, int rank)
+    {
+        return calculate(rank);
+    }
 
     Type getType();
 

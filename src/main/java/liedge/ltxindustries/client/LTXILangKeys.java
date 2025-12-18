@@ -103,6 +103,7 @@ public final class LTXILangKeys
     public static final Translatable DIRECT_ENTITY_DROPS_EFFECT = upgradeEffect("direct_drops.entity");
     public static final Translatable SUPPRESS_VIBRATIONS_EFFECT = upgradeEffect("suppress_vibrations");
     public static final Translatable ENCHANTMENT_UPGRADE_EFFECT = upgradeEffect("enchantment");
+    public static final Translatable CAPPED_ENCHANTMENT_UPGRADE_EFFECT = upgradeEffect("enchantment.capped");
     public static final Translatable GRENADE_UNLOCK_EFFECT = upgradeEffect("grenade_unlock");
 
     public static String namedDamageTagKey(TagKey<DamageType> tagKey)

@@ -23,7 +23,7 @@
       {
         "affected": "victim",
         "effect": {
-          "type": "ltxi:dynamic_damage_tag",
+          "type": "ltxi:modify_damage_tags",
           "tags": [
             "minecraft:no_anger",
             "minecraft:no_knockback"

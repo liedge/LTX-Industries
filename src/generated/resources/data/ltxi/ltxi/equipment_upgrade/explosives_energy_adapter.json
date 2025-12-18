@@ -43,14 +43,12 @@
   "effects": {
     "ltxi:energy_capacity": [
       {
-        "type": "simple",
         "op": "replace",
         "value": 2.0E7
       }
     ],
     "ltxi:energy_usage": [
       {
-        "type": "simple",
         "op": "replace",
         "value": 1.0E7
       }

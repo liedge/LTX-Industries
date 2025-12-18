@@ -19,12 +19,12 @@ import static liedge.ltxindustries.LTXIConstants.BUBBLE_SHIELD_BLUE;
 import static liedge.ltxindustries.util.LTXITooltipUtil.flatNumberWithSign;
 import static liedge.ltxindustries.util.LTXITooltipUtil.flatNumberWithoutSign;
 
-public record BubbleShieldUpgradeEffect(LevelBasedValue amount, LevelBasedValue maxShield) implements EntityUpgradeEffect
+public record RestoreShieldUpgradeEffect(LevelBasedValue amount, LevelBasedValue maxShield) implements EntityUpgradeEffect
 {
-    public static final MapCodec<BubbleShieldUpgradeEffect> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            LevelBasedValue.CODEC.fieldOf("amount").forGetter(BubbleShieldUpgradeEffect::amount),
-            LevelBasedValue.CODEC.optionalFieldOf("max_shield", LevelBasedValue.constant(BubbleShieldUser.MAX_SHIELD_HEALTH)).forGetter(BubbleShieldUpgradeEffect::maxShield))
-            .apply(instance, BubbleShieldUpgradeEffect::new));
+    public static final MapCodec<RestoreShieldUpgradeEffect> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+            LevelBasedValue.CODEC.fieldOf("amount").forGetter(RestoreShieldUpgradeEffect::amount),
+            LevelBasedValue.CODEC.optionalFieldOf("max_shield", LevelBasedValue.constant(BubbleShieldUser.MAX_SHIELD_HEALTH)).forGetter(RestoreShieldUpgradeEffect::maxShield))
+            .apply(instance, RestoreShieldUpgradeEffect::new));
 
     @Override
     public void applyEntityEffect(ServerLevel level, Entity entity, int upgradeRank, LootContext context)
@@ -39,7 +39,7 @@ public record BubbleShieldUpgradeEffect(LevelBasedValue amount, LevelBasedValue 
     @Override
     public EntityUpgradeEffectType<?> getType()
     {
-        return LTXIEntityUpgradeEffects.BUBBLE_SHIELD_EQUIPMENT_EFFECT.get();
+        return LTXIEntityUpgradeEffects.RESTORE_BUBBLE_SHIELD.get();
     }
 
     @Override

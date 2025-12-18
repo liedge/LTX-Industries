@@ -18,19 +18,19 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
-public record DynamicDamageTagUpgradeEffect(List<TagKey<DamageType>> tags) implements EntityUpgradeEffect
+public record ModifyDamageTagsUpgradeEffect(List<TagKey<DamageType>> tags) implements EntityUpgradeEffect
 {
-    public static final MapCodec<DynamicDamageTagUpgradeEffect> CODEC = TagKey.codec(Registries.DAMAGE_TYPE).listOf().fieldOf("tags").xmap(DynamicDamageTagUpgradeEffect::new, DynamicDamageTagUpgradeEffect::tags);
+    public static final MapCodec<ModifyDamageTagsUpgradeEffect> CODEC = TagKey.codec(Registries.DAMAGE_TYPE).listOf().fieldOf("tags").xmap(ModifyDamageTagsUpgradeEffect::new, ModifyDamageTagsUpgradeEffect::tags);
 
-    public static DynamicDamageTagUpgradeEffect of(TagKey<DamageType> key)
+    public static ModifyDamageTagsUpgradeEffect of(TagKey<DamageType> key)
     {
-        return new DynamicDamageTagUpgradeEffect(List.of(key));
+        return new ModifyDamageTagsUpgradeEffect(List.of(key));
     }
 
     @SafeVarargs
-    public static DynamicDamageTagUpgradeEffect of(TagKey<DamageType>... keys)
+    public static ModifyDamageTagsUpgradeEffect of(TagKey<DamageType>... keys)
     {
-        return new DynamicDamageTagUpgradeEffect(Arrays.asList(keys));
+        return new ModifyDamageTagsUpgradeEffect(Arrays.asList(keys));
     }
 
     @Override
@@ -43,7 +43,7 @@ public record DynamicDamageTagUpgradeEffect(List<TagKey<DamageType>> tags) imple
     @Override
     public EntityUpgradeEffectType<?> getType()
     {
-        return LTXIEntityUpgradeEffects.DYNAMIC_DAMAGE_TAG_EQUIPMENT_EFFECT.get();
+        return LTXIEntityUpgradeEffects.MODIFY_DAMAGE_TAGS.get();
     }
 
     @Override

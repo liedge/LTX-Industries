@@ -42,15 +42,14 @@
     "ltxi:equipment_damage": [
       {
         "effect": {
-          "type": "loot_context",
           "op": "add",
           "value": {
-            "type": "limacore:math_ops",
             "first": {
               "type": "limacore:entity_attribute_value",
               "attribute": "minecraft:generic.max_health",
               "target": "this"
             },
+            "minecraft:type": "limacore:math_ops",
             "op": "multiply",
             "second": 0.25
           }
@@ -61,7 +60,7 @@
       {
         "affected": "victim",
         "effect": {
-          "type": "ltxi:dynamic_damage_tag",
+          "type": "ltxi:modify_damage_tags",
           "tags": [
             "ltxi:bypass_survival_defenses"
           ]

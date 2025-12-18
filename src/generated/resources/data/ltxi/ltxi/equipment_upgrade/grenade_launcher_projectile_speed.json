@@ -36,12 +36,11 @@
   "effects": {
     "ltxi:weapon_range": [
       {
-        "type": "simple",
         "op": "add",
         "value": {
-          "type": "linear",
           "base": 0.5,
-          "increment": 0.5
+          "increment": 0.5,
+          "ltxi:type": "linear"
         }
       }
     ]
