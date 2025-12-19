@@ -3,7 +3,6 @@ package liedge.ltxindustries;
 import liedge.limacore.event.DamageAttributeModifiersEvent;
 import liedge.limacore.util.LimaCoreUtil;
 import liedge.limacore.util.LimaLootUtil;
-import liedge.ltxindustries.entity.BubbleShieldUser;
 import liedge.ltxindustries.entity.LTXIEntityUtil;
 import liedge.ltxindustries.entity.damage.DropsRedirect;
 import liedge.ltxindustries.entity.damage.UpgradableDamageSource;
@@ -11,6 +10,7 @@ import liedge.ltxindustries.entity.damage.UpgradableEquipmentDamageSource;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
 import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.lib.EquipmentDamageModifiers;
+import liedge.ltxindustries.lib.shield.EntityBubbleShield;
 import liedge.ltxindustries.lib.upgrades.UpgradesContainerBase;
 import liedge.ltxindustries.lib.upgrades.effect.DirectDropsUpgradeEffect;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
@@ -22,13 +22,12 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentTarget;
-import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -38,7 +37,6 @@ import net.neoforged.neoforge.event.VanillaGameEvent;
 import net.neoforged.neoforge.event.entity.living.*;
 import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
 import net.neoforged.neoforge.event.level.BlockDropsEvent;
-import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
 import javax.annotation.Nullable;
@@ -99,25 +97,14 @@ public final class LTXIEventHandler
     public static void onPlayerTick(final PlayerTickEvent.Pre event)
     {
         Player player = event.getEntity();
+
+        // Weapon system tick
         ItemStack heldItem = player.getMainHandItem();
         WeaponItem weaponItem = LimaCoreUtil.castOrNull(WeaponItem.class, heldItem.getItem());
         player.getData(LTXIAttachmentTypes.WEAPON_CONTROLS).tickInput(player, heldItem, weaponItem);
-    }
 
-    @SubscribeEvent
-    public static void onPostEntityTick(final EntityTickEvent.Post event)
-    {
-        Entity entity = event.getEntity();
-        Level level = entity.level();
-
-        if (!level.isClientSide())
-        {
-            // Bubble shield tick
-            if (entity instanceof LivingEntity livingEntity)
-            {
-                livingEntity.getExistingData(LTXIAttachmentTypes.BUBBLE_SHIELD).ifPresent(shield -> shield.tickShield(livingEntity));
-            }
-        }
+        // Shield tick
+        player.getData(LTXIAttachmentTypes.PLAYER_SHIELD).tick(player);
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
@@ -141,9 +128,24 @@ public final class LTXIEventHandler
     @SubscribeEvent
     public static void checkEffectApplicable(final MobEffectEvent.Applicable event)
     {
-        if (event.getEffectSource() instanceof LivingEntity livingEntity && livingEntity.hasEffect(LTXIMobEffects.NEURO_SUPPRESSED))
+        if (event.getEffectSource() instanceof LivingEntity attacker && attacker.hasEffect(LTXIMobEffects.NEURO_SUPPRESSED))
         {
             event.setResult(MobEffectEvent.Applicable.Result.DO_NOT_APPLY);
+        }
+
+        if (event.getApplicationResult() && !event.getEffectInstance().getEffect().value().isBeneficial())
+        {
+            LivingEntity entity = event.getEntity();
+
+            // TODO: Armor block?
+
+            // Bubble shield block
+            EntityBubbleShield shield = entity.getCapability(LTXICapabilities.ENTITY_BUBBLE_SHIELD);
+            MobEffectInstance effectInstance = event.getEffectInstance();
+            if (shield != null && shield.blockMobEffect(entity, entity.level(), effectInstance))
+            {
+                event.setResult(MobEffectEvent.Applicable.Result.DO_NOT_APPLY);
+            }
         }
     }
 
@@ -214,14 +216,14 @@ public final class LTXIEventHandler
     public static void onLivingIncomingDamageLowest(final LivingIncomingDamageEvent event)
     {
         LivingEntity hurtEntity = event.getEntity();
-
-        // Process bubble shield checks
         if (!hurtEntity.level().isClientSide())
         {
-            BubbleShieldUser shieldUser = hurtEntity.getCapability(LTXICapabilities.ENTITY_BUBBLE_SHIELD);
-            if (shieldUser != null)
+            EntityBubbleShield shield = hurtEntity.getCapability(LTXICapabilities.ENTITY_BUBBLE_SHIELD);
+            if (shield != null)
             {
-                if (shieldUser.blockDamage(hurtEntity, hurtEntity.level(), event.getSource(), event.getAmount())) event.setCanceled(true);
+                float newDamage = shield.blockDamage(hurtEntity, hurtEntity.level(), event.getSource(), event.getAmount());
+                event.setAmount(newDamage);
+                if (newDamage <= 0) event.setCanceled(true);
             }
         }
     }

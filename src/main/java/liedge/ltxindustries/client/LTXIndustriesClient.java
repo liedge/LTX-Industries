@@ -8,9 +8,9 @@ import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.client.gui.ClientFabricatorIngredientTooltip;
 import liedge.ltxindustries.client.gui.ClientItemGridTooltip;
 import liedge.ltxindustries.client.gui.UpgradeIconSprites;
+import liedge.ltxindustries.client.gui.layer.AmmoCounterLayer;
 import liedge.ltxindustries.client.gui.layer.BubbleShieldLayer;
 import liedge.ltxindustries.client.gui.layer.WeaponCrosshairLayer;
-import liedge.ltxindustries.client.gui.layer.AmmoCounterLayer;
 import liedge.ltxindustries.client.gui.screen.*;
 import liedge.ltxindustries.client.model.custom.BubbleShieldModel;
 import liedge.ltxindustries.client.model.entity.GlowstickProjectileModel;
@@ -152,6 +152,7 @@ public class LTXIndustriesClient
             registerSprites(event, NEURO_SMOKE, BigColorSmokeParticle::neuroSmokeParticle);
             registerSpecialPosOnly(event, GRENADE_EXPLOSION, GrenadeExplosionParticle::new);
             event.registerSpecial(RAILGUN_BOLT.get(), RailgunBoltParticle::create);
+            registerSpecialPosOnly(event, SHIELD_BREAK, ShieldBreakParticle::new);
         }
 
         @SubscribeEvent

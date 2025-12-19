@@ -24,6 +24,7 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import net.neoforged.neoforge.registries.DataPackRegistryEvent;
@@ -45,6 +46,7 @@ public class LTXIndustries
     {
         // Deferred register initialization
         LTXIAttachmentTypes.register(modBus);
+        LTXIAttributes.register(modBus);
         LTXIBlockEntities.register(modBus);
         LTXIBlocks.register(modBus);
         LTXICreativeTabs.register(modBus);
@@ -99,7 +101,7 @@ public class LTXIndustries
         private void registerCapabilities(final RegisterCapabilitiesEvent event)
         {
             // Entity capabilities
-            event.registerEntity(LTXICapabilities.ENTITY_BUBBLE_SHIELD, EntityType.PLAYER, (player, $) -> player.getData(LTXIAttachmentTypes.BUBBLE_SHIELD));
+            LTXICapabilities.registerShieldCapability(event);
         }
 
         @SubscribeEvent
@@ -121,6 +123,11 @@ public class LTXIndustries
             event.dataPackRegistry(LTXIRegistries.Keys.EQUIPMENT_UPGRADES, EquipmentUpgrade.DIRECT_CODEC, EquipmentUpgrade.DIRECT_CODEC);
             event.dataPackRegistry(LTXIRegistries.Keys.MACHINE_UPGRADES, MachineUpgrade.DIRECT_CODEC, MachineUpgrade.DIRECT_CODEC);
             event.dataPackRegistry(LTXIRegistries.Keys.RECIPE_MODES, RecipeMode.DIRECT_CODEC, RecipeMode.DIRECT_CODEC);
+        }
+        @SubscribeEvent
+        private void modifyEntityAttributes(final EntityAttributeModificationEvent event)
+        {
+            event.add(EntityType.PLAYER, LTXIAttributes.SHIELD_CAPACITY);
         }
     }
 }

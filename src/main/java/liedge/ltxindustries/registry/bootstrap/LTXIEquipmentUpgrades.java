@@ -14,9 +14,7 @@ import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.lib.upgrades.effect.*;
-import liedge.ltxindustries.lib.upgrades.effect.entity.RestoreShieldUpgradeEffect;
 import liedge.ltxindustries.lib.upgrades.effect.entity.ModifyDamageTagsUpgradeEffect;
-import liedge.ltxindustries.lib.upgrades.effect.entity.ApplyEffectUpgradeEffect;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
 import liedge.ltxindustries.lib.upgrades.tooltip.*;
 import liedge.ltxindustries.lib.upgrades.value.ConstantDouble;
@@ -38,7 +36,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.DamageTypeTags;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -100,7 +97,6 @@ public final class LTXIEquipmentUpgrades
     public static final ResourceKey<EquipmentUpgrade> UNIVERSAL_STEALTH_DAMAGE = key("universal_stealth_damage");
     public static final ResourceKey<EquipmentUpgrade> NEUTRAL_ENEMY_TARGET_FILTER = key("target_filter/neutral_enemy");
     public static final ResourceKey<EquipmentUpgrade> HOSTILE_TARGET_FILTER = key("target_filter/hostile");
-    public static final ResourceKey<EquipmentUpgrade> WEAPON_SHIELD_REGEN = key("weapon_shield_regen");
     public static final ResourceKey<EquipmentUpgrade> HIGH_IMPACT_ROUNDS = key("high_impact_rounds");
     public static final ResourceKey<EquipmentUpgrade> HEAVY_PISTOL_GOD_ROUNDS = key("heavy_pistol_god_rounds");
     public static final ResourceKey<EquipmentUpgrade> GRENADE_LAUNCHER_PROJECTILE_SPEED = key("grenade_launcher_projectile_speed");
@@ -397,13 +393,6 @@ public final class LTXIEquipmentUpgrades
                 .withEffect(TARGET_CONDITIONS, EntityHostilityLootCondition.create(ComparableBounds.atLeast(MobHostility.HOSTILE)).build())
                 .effectIcon(sprite("hostile_targets"))
                 .category("target_filters")
-                .register(context);
-        EquipmentUpgrade.builder(WEAPON_SHIELD_REGEN)
-                .supports(ltxProjectileWeapons)
-                .setMaxRank(3)
-                .withTargetedEffect(EQUIPMENT_KILL, EnchantmentTarget.ATTACKER, EnchantmentTarget.ATTACKER, new RestoreShieldUpgradeEffect(LevelBasedValue.constant(4), LevelBasedValue.perLevel(10)))
-                .withTargetedEffect(EQUIPMENT_KILL, EnchantmentTarget.ATTACKER, EnchantmentTarget.ATTACKER, ApplyEffectUpgradeEffect.create(MobEffects.REGENERATION, LevelBasedValue.constant(60)))
-                .effectIcon(sprite("bubble_shield"))
                 .register(context);
 
         // Enchantments

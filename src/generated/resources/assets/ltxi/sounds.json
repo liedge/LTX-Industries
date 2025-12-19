@@ -97,6 +97,12 @@
     ],
     "subtitle": "subtitle.ltxi.rocket_launcher_fire"
   },
+  "shield_break": {
+    "sounds": [
+      "ltxi:shield_break"
+    ],
+    "subtitle": "subtitle.ltxi.shield_break"
+  },
   "shotgun_fire": {
     "sounds": [
       "ltxi:shotgun_fire"

@@ -26,7 +26,7 @@ public final class BubbleShieldLayer extends LimaGuiLayer
     @Override
     protected void renderGuiLayer(LocalPlayer player, GuiGraphics graphics, float partialTicks)
     {
-        float shieldHealth = player.getData(LTXIAttachmentTypes.BUBBLE_SHIELD).getShieldHealth();
+        float shieldHealth = player.getData(LTXIAttachmentTypes.BUBBLE_SHIELD_HEALTH);
 
         if (shieldHealth > 0)
         {

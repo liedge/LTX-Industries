@@ -497,21 +497,6 @@ class RecipesGen extends LimaRecipeProvider
                 .input(ENDER_PEARL, 2);
         upgradeFabricating(output, registries, "eum/weapon", NEUTRAL_ENEMY_TARGET_FILTER, 1, 225_000, targetFilter);
         upgradeFabricating(output, registries, "eum/weapon", HOSTILE_TARGET_FILTER, 1, 225_000, targetFilter);
-        upgradeFabricating(output, registries, "eum/weapon", WEAPON_SHIELD_REGEN, 1, 1_500_000, builder -> builder
-                .input(T3_CIRCUIT, 2)
-                .input(GOLDEN_APPLE, 1)
-                .input(DataComponentIngredient.of(false, DataComponentPredicate.builder().expect(DataComponents.POTION_CONTENTS, new PotionContents(Potions.FIRE_RESISTANCE)).build(), POTION))
-                .input(SHIELD)
-                .input(DIAMOND, 4));
-        upgradeFabricating(output, registries, "eum/weapon", WEAPON_SHIELD_REGEN, 2, 3_000_000, builder -> builder
-                .input(T3_CIRCUIT, 4)
-                .input(GOLDEN_APPLE, 2)
-                .input(DIAMOND, 8)
-                .input(AMETHYST_SHARD, 2));
-        upgradeFabricating(output, registries, "eum/weapon", WEAPON_SHIELD_REGEN, 3, 5_000_000, builder -> builder
-                .input(T4_CIRCUIT, 1)
-                .input(AMETHYST_SHARD, 8)
-                .input(ENCHANTED_GOLDEN_APPLE));
 
         upgradeFabricating(output, registries, "eum/enchant", EFFICIENCY_ENCHANTMENT, 1, 250_000, builder -> builder
                 .input(T1_CIRCUIT, 2)

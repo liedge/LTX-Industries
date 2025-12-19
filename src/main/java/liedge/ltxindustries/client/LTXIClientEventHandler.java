@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Either;
 import com.mojang.math.Axis;
 import liedge.limacore.client.LimaCoreClientUtil;
+import liedge.limacore.util.LimaEntityUtil;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.client.renderer.BubbleShieldRenderer;
@@ -16,6 +17,7 @@ import liedge.ltxindustries.lib.weapons.AbstractWeaponControls;
 import liedge.ltxindustries.lib.weapons.ClientWeaponControls;
 import liedge.ltxindustries.network.packet.ServerboundItemModeSwitchPacket;
 import liedge.ltxindustries.registry.game.LTXIAttachmentTypes;
+import liedge.ltxindustries.registry.game.LTXIAttributes;
 import liedge.ltxindustries.registry.game.LTXIItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -24,12 +26,12 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.network.chat.FormattedText;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -135,41 +137,35 @@ public final class LTXIClientEventHandler
             float partialTick = event.getPartialTick().getGameTimeDeltaPartialTick(true);
             AbstractWeaponControls controls = Minecraft.getInstance().player.getData(WEAPON_CONTROLS);
 
-            // TODO Rework bubble shield rendering
+            // Render bubble shield pass
             for (Entity entity : level.entitiesForRendering())
             {
-                // Render bubble shield pass
-                if (entity.hasData(LTXIAttachmentTypes.BUBBLE_SHIELD))
+                if (entity == Minecraft.getInstance().player && (Minecraft.getInstance().options.getCameraType().isFirstPerson() || entity.isSpectator())) continue;
+
+                boolean isPlayer = entity instanceof Player;
+                float shieldHealth = entity.getData(LTXIAttachmentTypes.BUBBLE_SHIELD_HEALTH);
+                if (shieldHealth <= 0)
                 {
-                    if (entity == Minecraft.getInstance().player && (Minecraft.getInstance().options.getCameraType().isFirstPerson() || entity.isSpectator())) continue;
-
-                    float shieldHealth = entity.getData(LTXIAttachmentTypes.BUBBLE_SHIELD).getShieldHealth();
-
-                    if (shieldHealth != 0)
-                    {
-                        poseStack.pushPose();
-
-                        AABB bb = entity.getBoundingBox();
-                        float size;
-                        if (entity instanceof Player)
-                        {
-                            size = 1.9f;
-                        }
-                        else
-                        {
-                            size = (float) Math.max(Math.max(bb.getXsize(), bb.getYsize()), bb.getZsize());
-                        }
-
-                        double[] pos = LTXIRenderUtil.lerpEntityCenter(entity, camVec.x, camVec.y, camVec.z, partialTick);
-                        poseStack.translate(pos[0], pos[1], pos[2]);
-                        poseStack.mulPose(Axis.YN.rotationDegrees(entity.getYRot()));
-                        poseStack.scale(size, size, size);
-
-                        BubbleShieldRenderer.SHIELD_RENDERER.renderBubbleShield(poseStack, bufferSource.getBuffer(LTXIRenderTypes.POSITION_COLOR_TRIANGLES), LTXIConstants.BUBBLE_SHIELD_BLUE, partialTick);
-
-                        poseStack.popPose();
-                    }
+                    continue;
                 }
+                else if (isPlayer)
+                {
+                    float capacity = (float) LimaEntityUtil.getAttributeValueSafe(entity, LTXIAttributes.SHIELD_CAPACITY);
+                    if (capacity > 0 && Mth.equal(shieldHealth, capacity)) continue;
+                }
+
+                poseStack.pushPose();
+
+                float scale = isPlayer ? 1.9f : (float) LimaEntityUtil.getLargestBBDimension(entity);
+
+                double[] pos = LTXIRenderUtil.lerpEntityCenter(entity, camVec.x, camVec.y, camVec.z, partialTick);
+                poseStack.translate(pos[0], pos[1], pos[2]);
+                poseStack.mulPose(Axis.YN.rotationDegrees(entity.getYRot()));
+                poseStack.scale(scale, scale, scale);
+
+                BubbleShieldRenderer.SHIELD_RENDERER.renderBubbleShield(poseStack, bufferSource.getBuffer(LTXIRenderTypes.POSITION_COLOR_TRIANGLES), LTXIConstants.BUBBLE_SHIELD_BLUE, partialTick);
+
+                poseStack.popPose();
             }
 
             // Render lock-on indicator

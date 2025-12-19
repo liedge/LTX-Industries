@@ -39,6 +39,7 @@ public final class LTXIParticles
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> NEURO_SMOKE = registerSimple("neuro_smoke", false);
     public static final DeferredHolder<ParticleType<?>, LimaParticleType<GrenadeExplosionParticleOptions>> GRENADE_EXPLOSION = PARTICLES.register("grenade_explosion", () -> LimaParticleType.create(true, GrenadeExplosionParticleOptions.CODEC, GrenadeExplosionParticleOptions.STREAM_CODEC));
     public static final DeferredHolder<ParticleType<?>, LimaParticleType<ColorParticleOptions>> RAILGUN_BOLT = PARTICLES.register("railgun_bolt", () -> ColorParticleOptions.createParticleType(true));
+    public static final DeferredHolder<ParticleType<?>, LimaParticleType<ColorSizeParticleOptions>> SHIELD_BREAK = PARTICLES.register("shield_break", () -> ColorSizeParticleOptions.createParticleType(true));
 
     private static DeferredHolder<ParticleType<?>, SimpleParticleType> registerSimple(String name, boolean overrideLimiter)
     {

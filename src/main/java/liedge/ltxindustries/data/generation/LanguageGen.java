@@ -18,10 +18,7 @@ import liedge.ltxindustries.lib.weapons.GrenadeType;
 import liedge.ltxindustries.lib.weapons.WeaponReloadSource;
 import liedge.ltxindustries.recipe.RecipeMode;
 import liedge.ltxindustries.registry.bootstrap.*;
-import liedge.ltxindustries.registry.game.LTXIEntities;
-import liedge.ltxindustries.registry.game.LTXIFluids;
-import liedge.ltxindustries.registry.game.LTXIMenus;
-import liedge.ltxindustries.registry.game.LTXIMobEffects;
+import liedge.ltxindustries.registry.game.*;
 import liedge.ltxindustries.util.LTXITooltipUtil;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
@@ -49,6 +46,9 @@ class LanguageGen extends LimaLanguageProvider
     @Override
     protected void addTranslations()
     {
+        // Attributes
+        add(LTXIAttributes.SHIELD_CAPACITY.get().getDescriptionId(), "Passive Bubble Shield");
+
         //#region Blocks
         addBlock(TITANIUM_ORE, "Titanium Ore");
         addBlock(DEEPSLATE_TITANIUM_ORE, "Deepslate Titanium Ore");
@@ -237,7 +237,6 @@ class LanguageGen extends LimaLanguageProvider
         upgrade(LTXIEquipmentUpgrades.HEAVY_PISTOL_GOD_ROUNDS, "Stellar Reality Disruptor", "Rip through reality itself with this Nova upgrade. Ensures swift defeat of even the strongest enemies.");
 
         upgrade(LTXIEquipmentUpgrades.UNIVERSAL_STEALTH_DAMAGE, "Biometric Obfuscation", "Masks your traceable signature, preventing retaliatory anger from targets.");
-        upgrade(LTXIEquipmentUpgrades.WEAPON_SHIELD_REGEN, "Regenerative Link", "Captures enemy energy upon elimination to power medical nano-tech and the bubble shield.");
 
         upgrade(LTXIEquipmentUpgrades.EFFICIENCY_ENCHANTMENT, "Overclocked Energy Cutters", "Enhances the power feed to the tool's energy cutter.");
         upgrade(LTXIEquipmentUpgrades.SILK_TOUCH_ENCHANTMENT, "Stabilized Harvest Matrix", "Calibrated to extract intact samples from the terrain.");
@@ -377,6 +376,7 @@ class LanguageGen extends LimaLanguageProvider
         add(IO_CARD_SAME_CONFIG, "IO config already applied.");
         add(IO_CARD_INVALID_SETUP, "Machine does not support this IO config.");
         add(IO_CARD_INVALID_TYPE, "Machine does not support %s.");
+        add(SHIELD_COMMAND_MSG, "Modified %s entity shields");
 
         add(ENERGY_CAPACITY_UPGRADE, "%s energy capacity");
         add(ENERGY_TRANSFER_UPGRADE, "%s energy transfer rate");
@@ -396,7 +396,7 @@ class LanguageGen extends LimaLanguageProvider
         add(DIRECT_BLOCK_DROPS_EFFECT, "Directly collects %s block drops");
         add(DIRECT_ENTITY_DROPS_EFFECT, "Directly collects %s entity drops");
         add(REDUCTION_MODIFIER_EFFECT, "%s %s breach");
-        add(BUBBLE_SHIELD_EFFECT, "%s Bubble Shield/kill, (max %s)");
+        add(BUBBLE_SHIELD_EFFECT, "%s Bubble Shield/kill (%s max overcharge)");
         add(MOB_EFFECT_UPGRADE_EFFECT, "Applies %s (%s)");
         add(ENCHANTMENT_UPGRADE_EFFECT, "+%s %s levels");
         add(CAPPED_ENCHANTMENT_UPGRADE_EFFECT, "+%s %s levels (max %s)");
@@ -423,6 +423,7 @@ class LanguageGen extends LimaLanguageProvider
         soundEvent(UPGRADE_REMOVE, "Upgrade module removed");
         soundEvent(WEAPON_MODE_SWITCH, "Weapon mode switched");
         soundEvent(TURRET_TARGET_FOUND, "Turret finds targets");
+        soundEvent(BUBBLE_SHIELD_BREAK, "Bubble shield breaks");
         soundEvent(GLOWSTICK_LAUNCHER_FIRE, "Wayfinder fires");
         soundEvent(SUBMACHINE_GUN_LOOP, "Serenity firing");
         soundEvent(SHOTGUN_FIRE, "Aurora fires");

@@ -62,6 +62,7 @@ public final class LTXILangKeys
     public static final Translatable IO_CARD_SAME_CONFIG = sysMsg("io_card.same_config");
     public static final Translatable IO_CARD_INVALID_SETUP = sysMsg("io_card.invalid_setup");
     public static final Translatable IO_CARD_INVALID_TYPE = sysMsg("io_card.invalid_type");
+    public static final Translatable SHIELD_COMMAND_MSG = sysMsg("shield_command");
 
     // Item hints
     public static final Translatable INVALID_UPGRADE_HINT = itemHint("invalid_upgrade");

@@ -1,12 +1,14 @@
 package liedge.ltxindustries.registry.game;
 
+import com.mojang.serialization.Codec;
 import liedge.limacore.util.LimaCoreUtil;
 import liedge.ltxindustries.LTXIndustries;
-import liedge.ltxindustries.lib.StandaloneBubbleShield;
 import liedge.ltxindustries.lib.TurretTargetList;
+import liedge.ltxindustries.lib.shield.PlayerBubbleShield;
 import liedge.ltxindustries.lib.weapons.AbstractWeaponControls;
 import liedge.ltxindustries.lib.weapons.ClientWeaponControls;
 import liedge.ltxindustries.lib.weapons.ServerWeaponControls;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.attachment.AttachmentType;
@@ -25,13 +27,14 @@ public final class LTXIAttachmentTypes
         ATTACHMENTS.register(bus);
     }
 
-    public static final DeferredHolder<AttachmentType<?>, AttachmentType<StandaloneBubbleShield>> BUBBLE_SHIELD = ATTACHMENTS.register("bubble_shield", () -> AttachmentType.serializable(StandaloneBubbleShield::new)
-            .sync(StandaloneBubbleShield.STREAM_CODEC).build());
+    // Persistent data
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<Float>> BUBBLE_SHIELD_HEALTH = ATTACHMENTS.register("shield_health", () -> AttachmentType.builder(() -> 0f).serialize(Codec.FLOAT).sync(ByteBufCodecs.FLOAT).build());
 
+    // Transient 'live'/functional attachments
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<PlayerBubbleShield>> PLAYER_SHIELD = ATTACHMENTS.register("player_shield", () -> AttachmentType.builder(PlayerBubbleShield::new).build());
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<AbstractWeaponControls>> WEAPON_CONTROLS = ATTACHMENTS.register("weapon_controls", () -> AttachmentType.builder(holder -> {
         Player player = LimaCoreUtil.castOrThrow(Player.class, holder, () -> new IllegalStateException("Weapon controls attachment can only be added to players."));
         return player.level().isClientSide() ? new ClientWeaponControls() : new ServerWeaponControls();
     }).build());
-
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<TurretTargetList>> TARGET_LIST = ATTACHMENTS.register("target_list", () -> AttachmentType.builder(TurretTargetList::create).build());
 }

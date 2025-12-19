@@ -25,6 +25,7 @@ class SoundsGen extends LimaSoundDefinitionsProvider
         addSingleDirectSound(UPGRADE_REMOVE);
         addSingleDirectSound(WEAPON_MODE_SWITCH);
         addSingleDirectSound(TURRET_TARGET_FOUND);
+        addSingleDirectSound(BUBBLE_SHIELD_BREAK);
 
         addSound(GLOWSTICK_LAUNCHER_FIRE, def -> def.with(beginSound(GRENADE_LAUNCHER_FIRE, SoundDefinition.SoundType.EVENT).pitch(1.25f)));
         addSingleDirectSound(SUBMACHINE_GUN_LOOP);

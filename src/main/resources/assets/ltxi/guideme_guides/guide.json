@@ -22,6 +22,10 @@
     "ltxi:electric": {
       "dark_mode": "#deff70",
       "light_mode": "#deff70"
+    },
+    "ltxi:shield": {
+      "dark_mode": "#74f7ec",
+      "light_mode": "#74fec"
     }
   }
 }

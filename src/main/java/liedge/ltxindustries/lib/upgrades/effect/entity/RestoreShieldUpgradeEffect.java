@@ -4,7 +4,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import liedge.ltxindustries.LTXICapabilities;
 import liedge.ltxindustries.client.LTXILangKeys;
-import liedge.ltxindustries.entity.BubbleShieldUser;
+import liedge.ltxindustries.lib.shield.EntityBubbleShield;
 import liedge.ltxindustries.registry.game.LTXIEntityUpgradeEffects;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -19,11 +19,11 @@ import static liedge.ltxindustries.LTXIConstants.BUBBLE_SHIELD_BLUE;
 import static liedge.ltxindustries.util.LTXITooltipUtil.flatNumberWithSign;
 import static liedge.ltxindustries.util.LTXITooltipUtil.flatNumberWithoutSign;
 
-public record RestoreShieldUpgradeEffect(LevelBasedValue amount, LevelBasedValue maxShield) implements EntityUpgradeEffect
+public record RestoreShieldUpgradeEffect(LevelBasedValue amount, LevelBasedValue maxOvercharge) implements EntityUpgradeEffect
 {
     public static final MapCodec<RestoreShieldUpgradeEffect> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             LevelBasedValue.CODEC.fieldOf("amount").forGetter(RestoreShieldUpgradeEffect::amount),
-            LevelBasedValue.CODEC.optionalFieldOf("max_shield", LevelBasedValue.constant(BubbleShieldUser.MAX_SHIELD_HEALTH)).forGetter(RestoreShieldUpgradeEffect::maxShield))
+            LevelBasedValue.CODEC.optionalFieldOf("max_overcharge", LevelBasedValue.constant(0)).forGetter(RestoreShieldUpgradeEffect::maxOvercharge))
             .apply(instance, RestoreShieldUpgradeEffect::new));
 
     @Override
@@ -31,8 +31,8 @@ public record RestoreShieldUpgradeEffect(LevelBasedValue amount, LevelBasedValue
     {
         if (entity instanceof LivingEntity livingEntity)
         {
-            BubbleShieldUser user = entity.getCapability(LTXICapabilities.ENTITY_BUBBLE_SHIELD);
-            if (user != null) user.addShieldHealth(livingEntity, amount.calculate(upgradeRank), maxShield.calculate(upgradeRank));
+            EntityBubbleShield shield = entity.getCapability(LTXICapabilities.ENTITY_BUBBLE_SHIELD);
+            if (shield != null) shield.addShieldHealth(livingEntity, amount.calculate(upgradeRank), maxOvercharge.calculate(upgradeRank));
         }
     }
 
@@ -45,7 +45,9 @@ public record RestoreShieldUpgradeEffect(LevelBasedValue amount, LevelBasedValue
     @Override
     public void addUpgradeTooltips(int upgradeRank, Consumer<Component> lines)
     {
-        Component tooltip = LTXILangKeys.BUBBLE_SHIELD_EFFECT.translateArgs(flatNumberWithSign(amount.calculate(upgradeRank)).withStyle(BUBBLE_SHIELD_BLUE.chatStyle()), flatNumberWithoutSign(maxShield.calculate(upgradeRank)).withStyle(BUBBLE_SHIELD_BLUE.chatStyle()));
+        Component tooltip = LTXILangKeys.BUBBLE_SHIELD_EFFECT.translateArgs(
+                flatNumberWithSign(amount.calculate(upgradeRank)).withStyle(BUBBLE_SHIELD_BLUE.chatStyle()),
+                flatNumberWithoutSign(maxOvercharge.calculate(upgradeRank)).withStyle(BUBBLE_SHIELD_BLUE.chatStyle()));
         lines.accept(tooltip);
     }
 }
