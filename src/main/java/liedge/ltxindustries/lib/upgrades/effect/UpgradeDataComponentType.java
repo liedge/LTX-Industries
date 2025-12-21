@@ -22,22 +22,27 @@ public abstract class UpgradeDataComponentType<T> extends LimaDataComponentType<
         return new CustomType<>(codec);
     }
 
-    public static <T extends UpgradeTooltipsProvider> UpgradeDataComponentType<T> withTooltip(Codec<T> codec)
+    public static <T> UpgradeDataComponentType<List<T>> customList(Codec<T> elementCodec)
+    {
+        return custom(elementCodec.listOf());
+    }
+
+    public static <T extends UpgradeTooltipsProvider> UpgradeDataComponentType<T> create(Codec<T> codec)
     {
         return new SingleType<>(codec);
     }
 
-    public static <T extends UpgradeTooltipsProvider> UpgradeDataComponentType<List<T>> listWithTooltip(Codec<T> elementCodec)
+    public static <T extends UpgradeTooltipsProvider> UpgradeDataComponentType<List<T>> createList(Codec<T> elementCodec)
     {
         return new ListType<>(elementCodec.listOf());
     }
 
-    public static <T extends UpgradeTooltipsProvider> UpgradeDataComponentType<List<ConditionalEffect<T>>> conditionalListWithTooltip(Codec<T> elementCodec, LootContextParamSet params)
+    public static <T extends UpgradeTooltipsProvider> UpgradeDataComponentType<List<ConditionalEffect<T>>> createConditional(Codec<T> elementCodec, LootContextParamSet params)
     {
         return new ConditionalListType<>(ConditionalEffect.codec(elementCodec, params).listOf());
     }
 
-    public static <T extends UpgradeTooltipsProvider> UpgradeDataComponentType<List<TargetedConditionalEffect<T>>> targetedConditionalListWithTooltip(Codec<T> elementCodec, LootContextParamSet params)
+    public static <T extends UpgradeTooltipsProvider> UpgradeDataComponentType<List<TargetedConditionalEffect<T>>> createTargeted(Codec<T> elementCodec, LootContextParamSet params)
     {
         return new TargetedConditionalListType<>(TargetedConditionalEffect.codec(elementCodec, params).listOf());
     }

@@ -82,14 +82,16 @@ public abstract class EnergyBaseToolItem extends Item implements EnergyHolderIte
     @Override
     public float getAttackDamageBonus(Entity target, float damage, DamageSource damageSource)
     {
-        if (getPoweredAttackDamage() > 0 && damageSource.getDirectEntity() instanceof LivingEntity attacker && attacker.level() instanceof ServerLevel level)
+        final float baseDamage = getPoweredAttackDamage();
+
+        if (baseDamage > 0 && target.level() instanceof ServerLevel level)
         {
-            ItemStack stack = attacker.getWeaponItem();
-            if (stack.is(this) && hasEnergyForAction(stack))
+            ItemStack stack = damageSource.getWeaponItem();
+            if (stack != null && stack.is(this) && hasEnergyForAction(stack))
             {
-                double upgradedDamage = getUpgradedDamage(level, getUpgrades(stack), target, damageSource, getPoweredAttackDamage());
-                LootContext context = LimaLootUtil.entityLootContext(level, target, damageSource, attacker);
-                return (float) EquipmentDamageModifiers.getInstance().apply(stack, context, getPoweredAttackDamage(), upgradedDamage);
+                LootContext context = LimaLootUtil.entityLootContext(level, target, damageSource);
+                double upgradedDamage = getUpgradedDamage(getUpgrades(stack), context, baseDamage);
+                return (float) EquipmentDamageModifiers.getInstance().apply(stack, context, baseDamage, upgradedDamage);
             }
         }
 

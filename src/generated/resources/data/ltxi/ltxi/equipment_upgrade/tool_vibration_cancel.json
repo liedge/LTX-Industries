@@ -19,7 +19,7 @@
     }
   },
   "effects": {
-    "ltxi:prevent_vibration": [
+    "ltxi:suppress_vibrations": [
       {
         "slot": "hand",
         "target": "#ltxi:handheld_equipment"

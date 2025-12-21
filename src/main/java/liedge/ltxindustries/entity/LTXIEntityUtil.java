@@ -93,7 +93,7 @@ public final class LTXIEntityUtil
         ServerLevel level = LimaCoreUtil.castOrThrow(ServerLevel.class, target.level(), "Upgrades target check called on client.");
         LootContext context = LimaLootUtil.chestLootContext(level, target, attackingEntity);
 
-        List<LootItemCondition> conditions = upgrades.effectFlatStream(LTXIUpgradeEffectComponents.TARGET_CONDITIONS).toList();
+        List<LootItemCondition> conditions = upgrades.listEffectStream(LTXIUpgradeEffectComponents.TARGET_CONDITIONS).toList();
         if (conditions.isEmpty())
         {
             return TriState.DEFAULT;

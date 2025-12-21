@@ -15,32 +15,32 @@ import net.minecraft.world.item.enchantment.LevelBasedValue;
 import java.util.Comparator;
 import java.util.function.Consumer;
 
-public record EnchantmentLevelsUpgradeEffect(Holder<Enchantment> enchantment, LevelBasedValue levels, int maxLevel) implements UpgradeTooltipsProvider
+public record AddEnchantmentLevels(Holder<Enchantment> enchantment, LevelBasedValue levels, int maxLevel) implements UpgradeTooltipsProvider
 {
-    public static final Codec<EnchantmentLevelsUpgradeEffect> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            Enchantment.CODEC.fieldOf("enchantment").forGetter(EnchantmentLevelsUpgradeEffect::enchantment),
-            LevelBasedValue.CODEC.optionalFieldOf("levels", LevelBasedValue.perLevel(1)).forGetter(EnchantmentLevelsUpgradeEffect::levels),
-            Codec.intRange(1, Enchantment.MAX_LEVEL).optionalFieldOf("max_level", Enchantment.MAX_LEVEL).forGetter(EnchantmentLevelsUpgradeEffect::maxLevel))
-            .apply(instance, EnchantmentLevelsUpgradeEffect::new));
+    public static final Codec<AddEnchantmentLevels> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+            Enchantment.CODEC.fieldOf("enchantment").forGetter(AddEnchantmentLevels::enchantment),
+            LevelBasedValue.CODEC.optionalFieldOf("levels", LevelBasedValue.perLevel(1)).forGetter(AddEnchantmentLevels::levels),
+            Codec.intRange(1, Enchantment.MAX_LEVEL).optionalFieldOf("max_level", Enchantment.MAX_LEVEL).forGetter(AddEnchantmentLevels::maxLevel))
+            .apply(instance, AddEnchantmentLevels::new));
 
-    public static final Comparator<EnchantmentLevelsUpgradeEffect> DESCENDING_MAX_LEVELS_COMPARATOR = Comparator.comparingInt(EnchantmentLevelsUpgradeEffect::maxLevel).reversed();
+    public static final Comparator<AddEnchantmentLevels> DESCENDING_MAX_LEVELS_COMPARATOR = Comparator.comparingInt(AddEnchantmentLevels::maxLevel).reversed();
 
-    public static EnchantmentLevelsUpgradeEffect fixed(Holder<Enchantment> enchantment, int level, int maxLevel)
+    public static AddEnchantmentLevels fixed(Holder<Enchantment> enchantment, int level, int maxLevel)
     {
-        return new EnchantmentLevelsUpgradeEffect(enchantment, LevelBasedValue.constant(level), maxLevel);
+        return new AddEnchantmentLevels(enchantment, LevelBasedValue.constant(level), maxLevel);
     }
 
-    public static EnchantmentLevelsUpgradeEffect fixed(Holder<Enchantment> enchantment, int level)
+    public static AddEnchantmentLevels fixed(Holder<Enchantment> enchantment, int level)
     {
         return fixed(enchantment, level, Enchantment.MAX_LEVEL);
     }
 
-    public static EnchantmentLevelsUpgradeEffect rankLinear(Holder<Enchantment> enchantment, int maxLevel)
+    public static AddEnchantmentLevels rankLinear(Holder<Enchantment> enchantment, int maxLevel)
     {
-        return new EnchantmentLevelsUpgradeEffect(enchantment, LevelBasedValue.perLevel(1), maxLevel);
+        return new AddEnchantmentLevels(enchantment, LevelBasedValue.perLevel(1), maxLevel);
     }
 
-    public static EnchantmentLevelsUpgradeEffect rankLinear(Holder<Enchantment> enchantment)
+    public static AddEnchantmentLevels rankLinear(Holder<Enchantment> enchantment)
     {
         return rankLinear(enchantment, Enchantment.MAX_LEVEL);
     }

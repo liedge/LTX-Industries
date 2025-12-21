@@ -10,12 +10,9 @@
     }
   },
   "effects": {
-    "ltxi:direct_drops": [
+    "ltxi:capture_block_drops": [
       {
-        "type": "block",
-        "items": {
-          "type": "neoforge:any"
-        }
+        "type": "neoforge:any"
       }
     ]
   },

@@ -234,7 +234,7 @@ public abstract class BaseRecipeMachineBlockEntity<I extends RecipeInput, R exte
         super.onUpgradeRefresh(context, upgrades);
         EnergyConsumerBlockEntity.applyUpgrades(this, context, upgrades);
         this.recipeTimeFunction = createCachedSpeedFunction(upgrades, context);
-        int parallel = Mth.floor(upgrades.applyValue(LTXIUpgradeEffectComponents.PARALLEL_OPERATIONS, context, 1));
+        int parallel = Mth.floor(upgrades.runValueOps(LTXIUpgradeEffectComponents.PARALLEL_OPERATIONS, context, 1));
         this.operationCount = Mth.clamp(parallel, 1, 64);
 
         this.shouldCheckCraftingTime = true;

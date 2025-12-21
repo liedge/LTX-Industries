@@ -1,5 +1,6 @@
 package liedge.ltxindustries.item.tool;
 
+import liedge.ltxindustries.item.LTXIItemAbilities;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
 import liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades;
 import net.minecraft.core.BlockPos;
@@ -10,7 +11,6 @@ import net.minecraft.world.item.component.Tool;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.common.ItemAbility;
 import org.jetbrains.annotations.Nullable;
 
@@ -29,7 +29,7 @@ public class EnergySwordItem extends EnergyBreakerToolItem
     @Override
     protected Set<ItemAbility> getAvailableAbilities()
     {
-        return ItemAbilities.DEFAULT_SWORD_ACTIONS;
+        return LTXIItemAbilities.SWORD_NO_SWEEP;
     }
 
     @Override

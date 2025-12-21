@@ -20,11 +20,8 @@
     }
   },
   "effects": {
-    "ltxi:direct_drops": [
-      {
-        "type": "block",
-        "items": "#ltxi:wrench_breakable"
-      }
+    "ltxi:capture_block_drops": [
+      "#ltxi:wrench_breakable"
     ]
   },
   "exclusive_set": [],

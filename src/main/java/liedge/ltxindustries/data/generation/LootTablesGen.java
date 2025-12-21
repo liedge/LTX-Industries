@@ -20,6 +20,7 @@ import liedge.ltxindustries.registry.game.LTXIBlocks;
 import liedge.ltxindustries.registry.game.LTXIMobEffects;
 import liedge.ltxindustries.world.GrenadeSubPredicate;
 import net.minecraft.advancements.critereon.EntityPredicate;
+import net.minecraft.advancements.critereon.MinMaxBounds;
 import net.minecraft.advancements.critereon.MobEffectsPredicate;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.core.Holder;
@@ -47,6 +48,7 @@ import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.common.loot.CanItemPerformAbility;
 
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 
@@ -93,7 +95,9 @@ class LootTablesGen extends LimaLootTableProvider
                     .add(lootItem(TARGETING_TECH_SALVAGE));
 
             LootItemCondition.Builder acidFinalBlow = LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.DIRECT_ATTACKER, EntityPredicate.Builder.entity().subPredicate(new GrenadeSubPredicate(GrenadeType.ACID)));
-            LootItemCondition.Builder corrodingCheck = LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity().effects(MobEffectsPredicate.Builder.effects().and(LTXIMobEffects.CORROSIVE)));
+            MobEffectsPredicate.MobEffectInstancePredicate amp2 = new MobEffectsPredicate.MobEffectInstancePredicate(MinMaxBounds.Ints.atLeast(2), MinMaxBounds.Ints.ANY, Optional.empty(), Optional.empty());
+            LootItemCondition.Builder corrodingCheck = LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity().effects(
+                    MobEffectsPredicate.Builder.effects().and(LTXIMobEffects.CORROSIVE, amp2)));
             LootPool.Builder wardenDrops = LootPool.lootPool()
                     .when(needsEntityType(EntityType.WARDEN))
                     .when(AnyOfCondition.anyOf(acidFinalBlow, corrodingCheck))

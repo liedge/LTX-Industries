@@ -23,6 +23,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -131,22 +132,16 @@ public abstract class EnergyBreakerToolItem extends EnergyBaseToolItem
         return rules;
     }
 
-    private Tool getDefaultTool()
-    {
-        Tool tool = this.components().get(DataComponents.TOOL);
-        return tool != null ? tool : createDefaultTool(defaultDenyRule, allowRulesFunction.apply(DEFAULT_MINING_SPEED));
-    }
-
     @Override
     public void onUpgradeRefresh(LootContext context, ItemStack stack, EquipmentUpgrades upgrades)
     {
         super.onUpgradeRefresh(context, stack, upgrades);
 
         // Retrieve mining upgrade effects, revert to default tool if empty
-        List<MiningRuleUpgradeEffect> effects = upgrades.effectFlatStream(LTXIUpgradeEffectComponents.MINING_RULES).sorted().toList();
+        List<MiningRuleUpgradeEffect> effects = upgrades.listEffectStream(LTXIUpgradeEffectComponents.MINING_RULES).sorted().toList();
         if (effects.isEmpty())
         {
-            stack.set(DataComponents.TOOL, getDefaultTool());
+            stack.set(DataComponents.TOOL, Objects.requireNonNull(components().get(DataComponents.TOOL), "Missing default Tool component"));
             return;
         }
 

@@ -6,8 +6,8 @@ import liedge.limacore.data.BootstrapObjectBuilder;
 import liedge.limacore.lib.LimaColor;
 import liedge.limacore.lib.ModResources;
 import liedge.ltxindustries.lib.upgrades.effect.AttributeModifierUpgradeEffect;
-import liedge.ltxindustries.lib.upgrades.effect.DamageAttributesUpgradeEffect;
-import liedge.ltxindustries.lib.upgrades.effect.ItemAttributesUpgradeEffect;
+import liedge.ltxindustries.lib.upgrades.effect.AddDamageAttributes;
+import liedge.ltxindustries.lib.upgrades.effect.AddItemAttributes;
 import liedge.ltxindustries.lib.upgrades.tooltip.StaticTooltip;
 import liedge.ltxindustries.lib.upgrades.tooltip.UpgradeComponentLike;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
@@ -236,12 +236,12 @@ public final class UpgradeBaseBuilder<CTX, U extends UpgradeBase<CTX, U>> implem
 
     public UpgradeBaseBuilder<CTX, U> itemAttributes(Holder<Attribute> attribute, String name, LevelBasedValue amount, AttributeModifier.Operation operation, EquipmentSlotGroup slots)
     {
-        return attributeEffect(LTXIUpgradeEffectComponents.ITEM_ATTRIBUTE_MODIFIERS, name, id -> ItemAttributesUpgradeEffect.create(attribute, id, amount, operation, slots));
+        return attributeEffect(LTXIUpgradeEffectComponents.ADD_ITEM_ATTRIBUTES, name, id -> AddItemAttributes.create(attribute, id, amount, operation, slots));
     }
 
     public UpgradeBaseBuilder<CTX, U> damageAttributes(Holder<Attribute> attribute, String name, LevelBasedValue amount, AttributeModifier.Operation operation)
     {
-        return attributeEffect(LTXIUpgradeEffectComponents.DAMAGE_ATTRIBUTE_MODIFIERS, name, id -> DamageAttributesUpgradeEffect.create(attribute, id, amount, operation));
+        return attributeEffect(LTXIUpgradeEffectComponents.ADD_DAMAGE_ATTRIBUTES, name, id -> AddDamageAttributes.create(attribute, id, amount, operation));
     }
     //#endregion
 

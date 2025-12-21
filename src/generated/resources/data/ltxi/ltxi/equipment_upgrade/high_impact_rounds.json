@@ -16,7 +16,7 @@
     }
   },
   "effects": {
-    "ltxi:damage_attribute_modifiers": [
+    "ltxi:add_damage_attributes": [
       {
         "attribute": "minecraft:generic.knockback_resistance",
         "modifier": {

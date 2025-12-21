@@ -19,12 +19,22 @@ import static liedge.ltxindustries.LTXIConstants.BUBBLE_SHIELD_BLUE;
 import static liedge.ltxindustries.util.LTXITooltipUtil.flatNumberWithSign;
 import static liedge.ltxindustries.util.LTXITooltipUtil.flatNumberWithoutSign;
 
-public record RestoreShieldUpgradeEffect(LevelBasedValue amount, LevelBasedValue maxOvercharge) implements EntityUpgradeEffect
+public record RestoreShield(LevelBasedValue amount, LevelBasedValue maxOvercharge) implements EntityUpgradeEffect
 {
-    public static final MapCodec<RestoreShieldUpgradeEffect> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            LevelBasedValue.CODEC.fieldOf("amount").forGetter(RestoreShieldUpgradeEffect::amount),
-            LevelBasedValue.CODEC.optionalFieldOf("max_overcharge", LevelBasedValue.constant(0)).forGetter(RestoreShieldUpgradeEffect::maxOvercharge))
-            .apply(instance, RestoreShieldUpgradeEffect::new));
+    public static final MapCodec<RestoreShield> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+            LevelBasedValue.CODEC.fieldOf("amount").forGetter(RestoreShield::amount),
+            LevelBasedValue.CODEC.optionalFieldOf("max_overcharge", LevelBasedValue.constant(0)).forGetter(RestoreShield::maxOvercharge))
+            .apply(instance, RestoreShield::new));
+
+    public static RestoreShield restore(LevelBasedValue amount, LevelBasedValue maxOvercharge)
+    {
+        return new RestoreShield(amount, maxOvercharge);
+    }
+
+    public static RestoreShield restore(LevelBasedValue amount)
+    {
+        return new RestoreShield(amount, LevelBasedValue.constant(0));
+    }
 
     @Override
     public void applyEntityEffect(ServerLevel level, Entity entity, int upgradeRank, LootContext context)

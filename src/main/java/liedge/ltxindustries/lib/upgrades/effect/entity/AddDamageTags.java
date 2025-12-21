@@ -18,19 +18,19 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
-public record ModifyDamageTagsUpgradeEffect(List<TagKey<DamageType>> tags) implements EntityUpgradeEffect
+public record AddDamageTags(List<TagKey<DamageType>> tags) implements EntityUpgradeEffect
 {
-    public static final MapCodec<ModifyDamageTagsUpgradeEffect> CODEC = TagKey.codec(Registries.DAMAGE_TYPE).listOf().fieldOf("tags").xmap(ModifyDamageTagsUpgradeEffect::new, ModifyDamageTagsUpgradeEffect::tags);
+    public static final MapCodec<AddDamageTags> CODEC = TagKey.codec(Registries.DAMAGE_TYPE).listOf().fieldOf("tags").xmap(AddDamageTags::new, AddDamageTags::tags);
 
-    public static ModifyDamageTagsUpgradeEffect of(TagKey<DamageType> key)
+    public static AddDamageTags addTags(TagKey<DamageType> key)
     {
-        return new ModifyDamageTagsUpgradeEffect(List.of(key));
+        return new AddDamageTags(List.of(key));
     }
 
     @SafeVarargs
-    public static ModifyDamageTagsUpgradeEffect of(TagKey<DamageType>... keys)
+    public static AddDamageTags addTags(TagKey<DamageType>... keys)
     {
-        return new ModifyDamageTagsUpgradeEffect(Arrays.asList(keys));
+        return new AddDamageTags(Arrays.asList(keys));
     }
 
     @Override

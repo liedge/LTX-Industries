@@ -21,17 +21,22 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 
 import java.util.function.Consumer;
 
-public record ApplyEffectUpgradeEffect(Holder<MobEffect> effect, LevelBasedValue duration, LevelBasedValue amplifier) implements EntityUpgradeEffect
+public record ApplyMobEffect(Holder<MobEffect> effect, LevelBasedValue duration, LevelBasedValue amplifier) implements EntityUpgradeEffect
 {
-    public static final MapCodec<ApplyEffectUpgradeEffect> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            MobEffect.CODEC.fieldOf("effect").forGetter(ApplyEffectUpgradeEffect::effect),
-            LevelBasedValue.CODEC.fieldOf("duration").forGetter(ApplyEffectUpgradeEffect::duration),
-            LevelBasedValue.CODEC.optionalFieldOf("amplifier", LevelBasedValue.constant(0)).forGetter(ApplyEffectUpgradeEffect::amplifier))
-            .apply(instance, ApplyEffectUpgradeEffect::new));
+    public static final MapCodec<ApplyMobEffect> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+            MobEffect.CODEC.fieldOf("effect").forGetter(ApplyMobEffect::effect),
+            LevelBasedValue.CODEC.fieldOf("duration").forGetter(ApplyMobEffect::duration),
+            LevelBasedValue.CODEC.optionalFieldOf("amplifier", LevelBasedValue.constant(0)).forGetter(ApplyMobEffect::amplifier))
+            .apply(instance, ApplyMobEffect::new));
 
-    public static ApplyEffectUpgradeEffect create(Holder<MobEffect> effect, LevelBasedValue duration)
+    public static ApplyMobEffect applyEffect(Holder<MobEffect> effect, LevelBasedValue duration, LevelBasedValue amplifier)
     {
-        return new ApplyEffectUpgradeEffect(effect, duration, LevelBasedValue.constant(0f));
+        return new ApplyMobEffect(effect, duration, amplifier);
+    }
+
+    public static ApplyMobEffect applyEffect(Holder<MobEffect> effect, LevelBasedValue duration)
+    {
+        return applyEffect(effect, duration, LevelBasedValue.constant(0));
     }
 
     @Override

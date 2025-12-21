@@ -19,13 +19,7 @@
     }
   },
   "effects": {
-    "ltxi:damage_reduction_modifier": [
-      {
-        "amount": -0.1,
-        "reduction_type": "armor"
-      }
-    ],
-    "ltxi:item_attribute_modifiers": [
+    "ltxi:add_item_attributes": [
       {
         "attribute": "minecraft:generic.movement_speed",
         "modifier": {
@@ -52,6 +46,14 @@
           "operation": "add_value"
         },
         "slots": "mainhand"
+      }
+    ],
+    "ltxi:reduction_breach": [
+      {
+        "effect": {
+          "amount": 0.15,
+          "reduction": "armor"
+        }
       }
     ]
   },

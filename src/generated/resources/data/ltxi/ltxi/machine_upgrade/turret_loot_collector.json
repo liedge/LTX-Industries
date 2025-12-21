@@ -10,14 +10,7 @@
     }
   },
   "effects": {
-    "ltxi:direct_drops": [
-      {
-        "type": "entity",
-        "items": {
-          "type": "neoforge:any"
-        }
-      }
-    ]
+    "ltxi:capture_mob_drops": {}
   },
   "exclusive_set": [],
   "supported_set": "#ltxi:turrets"

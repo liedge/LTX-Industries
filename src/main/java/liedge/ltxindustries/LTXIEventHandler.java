@@ -6,13 +6,12 @@ import liedge.limacore.util.LimaLootUtil;
 import liedge.ltxindustries.entity.LTXIEntityUtil;
 import liedge.ltxindustries.entity.damage.DropsRedirect;
 import liedge.ltxindustries.entity.damage.UpgradableDamageSource;
-import liedge.ltxindustries.entity.damage.UpgradableEquipmentDamageSource;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
 import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.lib.EquipmentDamageModifiers;
 import liedge.ltxindustries.lib.shield.EntityBubbleShield;
+import liedge.ltxindustries.lib.upgrades.UpgradeContexts;
 import liedge.ltxindustries.lib.upgrades.UpgradesContainerBase;
-import liedge.ltxindustries.lib.upgrades.effect.DirectDropsUpgradeEffect;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.ltxindustries.registry.game.LTXIAttachmentTypes;
 import liedge.ltxindustries.registry.game.LTXIDataComponents;
@@ -28,9 +27,11 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentTarget;
+import net.minecraft.world.level.storage.loot.LootContext;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.common.damagesource.DamageContainer;
 import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.VanillaGameEvent;
@@ -39,7 +40,9 @@ import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
 import net.neoforged.neoforge.event.level.BlockDropsEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
-import javax.annotation.Nullable;
+import java.util.EnumMap;
+import java.util.Map;
+import java.util.function.BiConsumer;
 
 @EventBusSubscriber(modid = LTXIndustries.MODID)
 public final class LTXIEventHandler
@@ -58,19 +61,15 @@ public final class LTXIEventHandler
         // Players only
         if (event.getCause() instanceof Player player)
         {
-            boolean cancelEvent = false;
-
             for (EquipmentSlot slot : EquipmentSlot.values())
             {
                 EquipmentUpgrades upgrades = UpgradableEquipmentItem.getEquipmentUpgradesFromStack(player.getItemBySlot(slot));
-                if (upgrades.anyMatch(LTXIUpgradeEffectComponents.PREVENT_VIBRATION.get(), (effect, ignored) -> effect.apply(slot, event.getVanillaEvent())))
+                if (upgrades.anyMatch(LTXIUpgradeEffectComponents.SUPPRESS_VIBRATIONS.get(), (effect, ignored) -> effect.test(slot, event.getVanillaEvent())))
                 {
-                    cancelEvent = true;
+                    event.setCanceled(true);
                     break;
                 }
             }
-
-            event.setCanceled(cancelEvent);
         }
     }
 
@@ -78,9 +77,9 @@ public final class LTXIEventHandler
     public static void onEquipmentChanged(final LivingEquipmentChangeEvent event)
     {
         // Only run serverside and on upgradable equipment items
-        if (event.getEntity().level() instanceof ServerLevel level && event.getTo().getItem() instanceof UpgradableEquipmentItem equipmentItem)
+        ItemStack stack = event.getTo();
+        if (event.getEntity().level() instanceof ServerLevel level && stack.getItem() instanceof UpgradableEquipmentItem equipmentItem)
         {
-            ItemStack stack = event.getTo();
             EquipmentUpgrades upgrades = equipmentItem.getUpgrades(stack);
             Integer lastHash = stack.get(LTXIDataComponents.LAST_EQUIPMENT_HASH);
 
@@ -103,8 +102,19 @@ public final class LTXIEventHandler
         WeaponItem weaponItem = LimaCoreUtil.castOrNull(WeaponItem.class, heldItem.getItem());
         player.getData(LTXIAttachmentTypes.WEAPON_CONTROLS).tickInput(player, heldItem, weaponItem);
 
-        // Shield tick
-        player.getData(LTXIAttachmentTypes.PLAYER_SHIELD).tick(player);
+        // Shield & equipment tick
+        if (player.level() instanceof ServerLevel serverLevel)
+        {
+            player.getData(LTXIAttachmentTypes.PLAYER_SHIELD).tick(player);
+
+            LootContext tickContext = UpgradeContexts.entityContext(serverLevel, player);
+            for (EquipmentSlot slot : EquipmentSlot.values())
+            {
+                EquipmentUpgrades upgrades = UpgradableEquipmentItem.getEquipmentUpgradesFromStack(player.getItemBySlot(slot));
+                upgrades.forEachConditionalEffect(LTXIUpgradeEffectComponents.EQUIPMENT_TICK, tickContext, (effect, rank) ->
+                        effect.applyEntityEffect(serverLevel, player, rank, tickContext));
+            }
+        }
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
@@ -114,7 +124,7 @@ public final class LTXIEventHandler
         if (event.getBreaker() instanceof Player player && event.getTool().getItem() instanceof UpgradableEquipmentItem equipmentItem)
         {
             EquipmentUpgrades upgrades = equipmentItem.getUpgrades(event.getTool());
-            DropsRedirect redirect = DropsRedirect.forPlayer(player, upgrades, DirectDropsUpgradeEffect.Type.BLOCK_DROPS);
+            DropsRedirect redirect = DropsRedirect.forBlocks(player, upgrades);
             if (redirect != null)
             {
                 redirect.captureAndRelocateDrops(event.getDrops());
@@ -152,8 +162,6 @@ public final class LTXIEventHandler
     @SubscribeEvent
     public static void onPlayerAttackEntity(final AttackEntityEvent event)
     {
-        // TODO: Fix/modify sweep attacks because they ignore the target filters.
-
         Player player = event.getEntity();
         if (!player.level().isClientSide())
         {
@@ -181,7 +189,7 @@ public final class LTXIEventHandler
         else if (damageSource.getDirectEntity() instanceof Player player && player.getWeaponItem().getItem() instanceof UpgradableEquipmentItem equipmentItem && damageSource.is(DamageTypeTags.IS_PLAYER_ATTACK))
         {
             EquipmentUpgrades upgrades = equipmentItem.getUpgrades(player.getWeaponItem());
-            dropsRedirect = DropsRedirect.forPlayer(player, upgrades, DirectDropsUpgradeEffect.Type.ENTITY_DROPS);
+            dropsRedirect = DropsRedirect.forMobDrops(player, upgrades);
         }
 
         // Perform redirection if one was found
@@ -192,22 +200,30 @@ public final class LTXIEventHandler
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onLivingIncomingDamageHighest(final LivingIncomingDamageEvent event)
     {
-        DamageSource source = event.getSource();
-        UpgradesContainerBase<?, ?> upgrades = getUpgradesFromDamage(source);
+        LivingEntity targetEntity = event.getEntity();
+        if (!(targetEntity.level() instanceof ServerLevel level)) return;
 
-        if (upgrades == null) return;
+        LootContext context = LimaLootUtil.entityLootContext(level, targetEntity, event.getSource());
 
-        // Process pre-attack upgrade effects for melee attacks here
-        if (source.getDirectEntity() instanceof LivingEntity attacker && !attacker.level().isClientSide() && source.is(DamageTypeTags.IS_PLAYER_ATTACK))
+        for (EquipmentSlot slot : EquipmentSlot.values())
         {
-            upgrades.applyDamageContextEffects(LTXIUpgradeEffectComponents.EQUIPMENT_PRE_ATTACK, (ServerLevel) attacker.level(), EnchantmentTarget.ATTACKER, event.getEntity(), attacker, source);
+            EquipmentUpgrades upgrades = UpgradableEquipmentItem.getEquipmentUpgradesFromStack(targetEntity.getItemBySlot(slot));
+            upgrades.applyDamageEntityEffects(LTXIUpgradeEffectComponents.EQUIPMENT_PRE_ATTACK, level, context, EnchantmentTarget.VICTIM);
         }
 
-        // Apply damage reduction modifiers
-        upgrades.forEachEffect(LTXIUpgradeEffectComponents.DAMAGE_REDUCTION_MODIFIER, (effect, rank) ->
+        applyDamageUpgrades(event.getSource(), ($, upgrades) ->
         {
-            float modifier = Mth.clamp(effect.amount().calculate(rank), -1f, 0f);
-            event.addReductionModifier(effect.reductionType().getReduction(), (container, reduction) -> reduction + (reduction * modifier));
+            upgrades.applyDamageEntityEffects(LTXIUpgradeEffectComponents.EQUIPMENT_PRE_ATTACK, level, context, EnchantmentTarget.ATTACKER);
+
+            Map<DamageContainer.Reduction, Float> reductions = new EnumMap<>(DamageContainer.Reduction.class);
+            upgrades.forEachConditionalEffect(LTXIUpgradeEffectComponents.REDUCTION_BREACH, context, (effect, rank) ->
+                    reductions.merge(effect.reduction().getReduction(), effect.get(rank), Float::sum));
+
+            for (var entry : reductions.entrySet())
+            {
+                float modifier = Mth.clamp(-entry.getValue(), -1f, 0f);
+                event.addReductionModifier(entry.getKey(), (type, reduction) -> reduction + (reduction * modifier));
+            }
         });
     }
 
@@ -231,51 +247,30 @@ public final class LTXIEventHandler
     @SubscribeEvent
     public static void onDamageAttributeModifiers(final DamageAttributeModifiersEvent event)
     {
-        UpgradesContainerBase<?, ?> upgrades = getUpgradesFromDamage(event.getDamageSource());
-        if (upgrades != null)
-        {
-            upgrades.forEachEffect(LTXIUpgradeEffectComponents.DAMAGE_ATTRIBUTE_MODIFIERS, (effect, rank) -> event.addAttributeModifier(effect.attribute(), effect.createModifier(rank)));
-        }
+        applyDamageUpgrades(event.getDamageSource(), (level, upgrades) ->
+                upgrades.forEachEffect(LTXIUpgradeEffectComponents.ADD_DAMAGE_ATTRIBUTES, (effect, rank) -> event.addAttributeModifier(effect.attribute(), effect.createModifier(rank))));
     }
 
     @SubscribeEvent
     public static void onLivingDeath(final LivingDeathEvent event)
     {
-        DamageSource damageSource = event.getSource();
-
-        if (damageSource.getEntity() instanceof LivingEntity attacker && !attacker.level().isClientSide())
-        {
-            UpgradesContainerBase<?, ?> upgrades = null;
-
-            // Get upgrades from upgradable sources
-            if (damageSource instanceof UpgradableDamageSource upgradableSource)
-            {
-                upgrades = upgradableSource.getUpgrades();
-            }
-            // Otherwise get them from held item if melee attack
-            else if (damageSource.getDirectEntity() == attacker && attacker.getWeaponItem().getItem() instanceof UpgradableEquipmentItem equipmentItem && damageSource.is(DamageTypeTags.IS_PLAYER_ATTACK))
-            {
-                upgrades = equipmentItem.getUpgrades(attacker.getWeaponItem());
-            }
-
-            // Apply on kill effects
-            if (upgrades != null) upgrades.applyDamageContextEffects(LTXIUpgradeEffectComponents.EQUIPMENT_KILL, (ServerLevel) attacker.level(), EnchantmentTarget.ATTACKER, event.getEntity(), attacker, damageSource);
-        }
+        applyDamageUpgrades(event.getSource(), (level, upgrades) ->
+                upgrades.applyDamageEntityEffects(LTXIUpgradeEffectComponents.EQUIPMENT_KILL, level, LimaLootUtil.entityLootContext(level, event.getEntity(), event.getSource()), EnchantmentTarget.ATTACKER));
     }
 
-    @Nullable
-    private static UpgradesContainerBase<?, ?> getUpgradesFromDamage(DamageSource source)
+    private static void applyDamageUpgrades(DamageSource source, BiConsumer<ServerLevel, UpgradesContainerBase<?, ?>> visitor)
     {
-        if (source instanceof UpgradableEquipmentDamageSource upgradableSource)
+        if (source.getEntity() instanceof LivingEntity attacker && attacker.level() instanceof ServerLevel level)
         {
-            return upgradableSource.getUpgrades();
+            if (attacker != source.getDirectEntity() && source instanceof UpgradableDamageSource upgradableSource)
+            {
+                visitor.accept(level, upgradableSource.getUpgrades());
+            }
+            else
+            {
+                EquipmentUpgrades upgrades = UpgradableEquipmentItem.getEquipmentUpgradesFromStack(attacker.getItemBySlot(EquipmentSlot.MAINHAND));
+                visitor.accept(level, upgrades);
+            }
         }
-        else
-        {
-            ItemStack stack = source.getWeaponItem();
-            if (stack != null && stack.getItem() instanceof UpgradableEquipmentItem equipmentItem) return equipmentItem.getUpgrades(stack);
-        }
-
-        return null;
     }
 }

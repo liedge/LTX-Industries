@@ -100,8 +100,8 @@ public final class LTXILangKeys
     public static final Translatable REDUCTION_MODIFIER_EFFECT = upgradeEffect("reduction_mod");
     public static final Translatable BUBBLE_SHIELD_EFFECT = upgradeEffect("bubble_shield");
     public static final Translatable MOB_EFFECT_UPGRADE_EFFECT = upgradeEffect("mob_effect");
-    public static final Translatable DIRECT_BLOCK_DROPS_EFFECT = upgradeEffect("direct_drops.block");
-    public static final Translatable DIRECT_ENTITY_DROPS_EFFECT = upgradeEffect("direct_drops.entity");
+    public static final Translatable CAPTURE_BLOCK_DROPS_EFFECT = upgradeEffect("capture_block_drops");
+    public static final Translatable CAPTURE_MOB_DROPS_EFFECT = upgradeEffect("capture_mob_drops");
     public static final Translatable SUPPRESS_VIBRATIONS_EFFECT = upgradeEffect("suppress_vibrations");
     public static final Translatable ENCHANTMENT_UPGRADE_EFFECT = upgradeEffect("enchantment");
     public static final Translatable CAPPED_ENCHANTMENT_UPGRADE_EFFECT = upgradeEffect("enchantment.capped");

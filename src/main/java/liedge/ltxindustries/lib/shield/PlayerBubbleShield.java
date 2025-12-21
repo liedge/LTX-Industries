@@ -16,8 +16,6 @@ public final class PlayerBubbleShield implements EntityBubbleShield
 
     public void tick(Player player)
     {
-        if (player.level().isClientSide()) return;
-
         if (invulnerabilityTicks > 0) invulnerabilityTicks--;
 
         if (rechargeDelay > 0)

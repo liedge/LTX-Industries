@@ -11,8 +11,8 @@ import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
 import liedge.ltxindustries.blockentity.base.BlockIOConfiguration;
 import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
 import liedge.ltxindustries.lib.upgrades.EffectRankPair;
-import liedge.ltxindustries.lib.upgrades.effect.MinimumSpeedUpgradeEffect;
-import liedge.ltxindustries.lib.upgrades.effect.ValueUpgradeEffect;
+import liedge.ltxindustries.lib.upgrades.effect.MinimumMachineSpeed;
+import liedge.ltxindustries.lib.upgrades.effect.ValueOperation;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrades;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import net.minecraft.core.BlockPos;
@@ -257,19 +257,18 @@ public abstract class ProductionMachineBlockEntity extends EnergyMachineBlockEnt
     // Helper
     protected static IntUnaryOperator createCachedSpeedFunction(MachineUpgrades upgrades, LootContext context)
     {
-        int minSpeed = upgrades.effectStream(LTXIUpgradeEffectComponents.MINIMUM_MACHINE_SPEED).mapToInt(MinimumSpeedUpgradeEffect::minimumSpeed).min().orElse(0);
-        List<EffectRankPair<ValueUpgradeEffect>> list = upgrades.boxedFlatStream(LTXIUpgradeEffectComponents.TICKS_PER_OPERATION)
+        List<EffectRankPair<ValueOperation>> list = upgrades.effectPairs(LTXIUpgradeEffectComponents.TICKS_PER_OPERATION)
                 .sorted(MathOperation.comparingPriority(o -> o.effect().operation()))
                 .toList();
-
         if (list.isEmpty()) return IntUnaryOperator.identity();
 
+        final int minSpeed = upgrades.effectStream(LTXIUpgradeEffectComponents.MINIMUM_MACHINE_SPEED).mapToInt(MinimumMachineSpeed::minimumSpeed).min().orElse(0);
         return base ->
         {
             if (base <= minSpeed) return base;
 
             double total = base;
-            for (EffectRankPair<ValueUpgradeEffect> pair : list)
+            for (EffectRankPair<ValueOperation> pair : list)
             {
                 total = pair.effect().apply(context, pair.upgradeRank(), base, total);
             }

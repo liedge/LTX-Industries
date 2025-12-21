@@ -4,10 +4,10 @@ import liedge.limacore.lib.math.MathOperation;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.client.LTXILangKeys;
-import liedge.ltxindustries.lib.upgrades.effect.DirectDropsUpgradeEffect;
-import liedge.ltxindustries.lib.upgrades.effect.EnchantmentLevelsUpgradeEffect;
-import liedge.ltxindustries.lib.upgrades.effect.MinimumSpeedUpgradeEffect;
-import liedge.ltxindustries.lib.upgrades.effect.ValueUpgradeEffect;
+import liedge.ltxindustries.lib.upgrades.effect.AddEnchantmentLevels;
+import liedge.ltxindustries.lib.upgrades.effect.CaptureMobDrops;
+import liedge.ltxindustries.lib.upgrades.effect.MinimumMachineSpeed;
+import liedge.ltxindustries.lib.upgrades.effect.ValueOperation;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrade;
 import liedge.ltxindustries.lib.upgrades.tooltip.TranslatableTooltip;
 import liedge.ltxindustries.lib.upgrades.tooltip.ValueComponent;
@@ -24,16 +24,12 @@ import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.HolderGetter;
-import net.minecraft.core.HolderSet;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.neoforged.neoforge.registries.holdersets.AnyHolderSet;
 
 import static liedge.ltxindustries.LTXIConstants.REM_BLUE;
 import static liedge.ltxindustries.LTXITags.MachineUpgrades.MACHINE_TIER;
@@ -73,15 +69,12 @@ public final class LTXIMachineUpgrades
         HolderGetter<Enchantment> enchantments = context.lookup(Registries.ENCHANTMENT);
         HolderGetter<BlockEntityType<?>> blockEntities = context.lookup(Registries.BLOCK_ENTITY_TYPE);
 
-        // AnyHolderSets
-        HolderSet<Item> anyItemHolderSet = new AnyHolderSet<>(BuiltInRegistries.ITEM.asLookup());
-
         UpgradeDoubleValue ecaScaling = ExponentialDouble.of(2, LinearDouble.oneIncrement(3));
         MachineUpgrade.builder(ECA_CAPACITY_UPGRADE)
                 .createDefaultTitle(REM_BLUE)
                 .supports(LTXIBlockEntities.ENERGY_CELL_ARRAY)
-                .withEffect(LTXIUpgradeEffectComponents.ENERGY_CAPACITY, ValueUpgradeEffect.of(ecaScaling, MathOperation.MULTIPLY))
-                .withEffect(LTXIUpgradeEffectComponents.ENERGY_TRANSFER_RATE, ValueUpgradeEffect.of(ecaScaling, MathOperation.MULTIPLY))
+                .withEffect(LTXIUpgradeEffectComponents.ENERGY_CAPACITY, ValueOperation.of(ecaScaling, MathOperation.MULTIPLY))
+                .withEffect(LTXIUpgradeEffectComponents.ENERGY_TRANSFER_RATE, ValueOperation.of(ecaScaling, MathOperation.MULTIPLY))
                 .tooltip(energyCapacityTooltip(ecaScaling, ValueFormat.MULTIPLICATIVE, ValueSentiment.POSITIVE))
                 .tooltip(energyTransferTooltip(ecaScaling, ValueFormat.MULTIPLICATIVE, ValueSentiment.POSITIVE))
                 .setMaxRank(5)
@@ -92,11 +85,11 @@ public final class LTXIMachineUpgrades
         MachineUpgrade.builder(STANDARD_MACHINE_SYSTEMS)
                 .supports(blockEntities, LTXITags.BlockEntities.STANDARD_UPGRADABLE_MACHINES)
                 .exclusiveWith(holders, MACHINE_TIER)
-                .withEffect(ENERGY_CAPACITY, ValueUpgradeEffect.of(smsEnergyStorage, MathOperation.ADD_PERCENT_OF_BASE))
-                .withEffect(ENERGY_TRANSFER_RATE, ValueUpgradeEffect.of(smsEnergyStorage, MathOperation.ADD_PERCENT_OF_BASE))
-                .withEffect(TICKS_PER_OPERATION, ValueUpgradeEffect.of(ExponentialDouble.linearExponent(0.725d), MathOperation.MULTIPLY))
-                .withEffect(ENERGY_USAGE, ValueUpgradeEffect.of(ExponentialDouble.linearExponent(1.5d), MathOperation.MULTIPLY))
-                .withSpecialEffect(MINIMUM_MACHINE_SPEED, MinimumSpeedUpgradeEffect.atLeast(5))
+                .withEffect(ENERGY_CAPACITY, ValueOperation.of(smsEnergyStorage, MathOperation.ADD_PERCENT_OF_BASE))
+                .withEffect(ENERGY_TRANSFER_RATE, ValueOperation.of(smsEnergyStorage, MathOperation.ADD_PERCENT_OF_BASE))
+                .withEffect(TICKS_PER_OPERATION, ValueOperation.of(ExponentialDouble.linearExponent(0.725d), MathOperation.MULTIPLY))
+                .withEffect(ENERGY_USAGE, ValueOperation.of(ExponentialDouble.linearExponent(1.5d), MathOperation.MULTIPLY))
+                .withSpecialEffect(MINIMUM_MACHINE_SPEED, MinimumMachineSpeed.atLeast(5))
                 .tooltip(energyCapacityTooltip(smsEnergyStorage, ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE))
                 .tooltip(energyTransferTooltip(smsEnergyStorage, ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE))
                 .tooltip(energyUsageTooltip(ExponentialDouble.linearExponent(1.5d), ValueFormat.MULTIPLICATIVE, ValueSentiment.NEUTRAL))
@@ -113,11 +106,11 @@ public final class LTXIMachineUpgrades
                 .createDefaultTitle(LTXIConstants.LIME_GREEN)
                 .supports(blockEntities, LTXITags.BlockEntities.ULTIMATE_UPGRADABLE_MACHINES)
                 .exclusiveWith(holders, MACHINE_TIER)
-                .withEffect(ENERGY_CAPACITY, ValueUpgradeEffect.of(umsEnergyStorage, MathOperation.MULTIPLY))
-                .withEffect(ENERGY_TRANSFER_RATE, ValueUpgradeEffect.of(umsEnergyStorage, MathOperation.MULTIPLY))
-                .withEffect(ENERGY_USAGE, ValueUpgradeEffect.of(umsEnergyUsage, MathOperation.MULTIPLY))
-                .withEffect(TICKS_PER_OPERATION, ValueUpgradeEffect.of(ConstantDouble.of(0), MathOperation.MULTIPLY))
-                .withSpecialEffect(MINIMUM_MACHINE_SPEED, MinimumSpeedUpgradeEffect.atLeast(0))
+                .withEffect(ENERGY_CAPACITY, ValueOperation.of(umsEnergyStorage, MathOperation.MULTIPLY))
+                .withEffect(ENERGY_TRANSFER_RATE, ValueOperation.of(umsEnergyStorage, MathOperation.MULTIPLY))
+                .withEffect(ENERGY_USAGE, ValueOperation.of(umsEnergyUsage, MathOperation.MULTIPLY))
+                .withEffect(TICKS_PER_OPERATION, ValueOperation.of(ConstantDouble.of(0), MathOperation.MULTIPLY))
+                .withSpecialEffect(MINIMUM_MACHINE_SPEED, MinimumMachineSpeed.atLeast(0))
                 .tooltip(energyCapacityTooltip(umsEnergyStorage, ValueFormat.MULTIPLICATIVE, ValueSentiment.POSITIVE))
                 .tooltip(energyTransferTooltip(umsEnergyStorage, ValueFormat.MULTIPLICATIVE, ValueSentiment.POSITIVE))
                 .tooltip(energyUsageTooltip(umsEnergyUsage, ValueFormat.MULTIPLICATIVE, ValueSentiment.NEGATIVE))
@@ -131,7 +124,7 @@ public final class LTXIMachineUpgrades
                 .createDefaultTitle(o -> o.withStyle(ChatFormatting.LIGHT_PURPLE))
                 .supports(blockEntities, LTXITags.BlockEntities.GENERAL_PROCESSING_MACHINES)
                 .exclusiveWith(holders, PARALLEL_OPS_UPGRADES)
-                .withEffect(PARALLEL_OPERATIONS, ValueUpgradeEffect.of(gpmParallelOps, MathOperation.REPLACE))
+                .withEffect(PARALLEL_OPERATIONS, ValueOperation.of(gpmParallelOps, MathOperation.REPLACE))
                 .tooltip(parallelOpsTooltip(gpmParallelOps, ValueFormat.FLAT_NUMBER, ValueSentiment.POSITIVE))
                 .setMaxRank(4)
                 .effectIcon(plusOverlay(sprite("titanium_gear")))
@@ -143,9 +136,9 @@ public final class LTXIMachineUpgrades
         UpgradeDoubleValue fabUsage = ExponentialDouble.of(2, LinearDouble.oneIncrement(2));
         MachineUpgrade.builder(FABRICATOR_UPGRADE)
                 .supports(LTXIBlockEntities.FABRICATOR, LTXIBlockEntities.AUTO_FABRICATOR)
-                .withEffect(ENERGY_CAPACITY, ValueUpgradeEffect.of(fabCapacity, MathOperation.ADD_PERCENT_OF_BASE))
-                .withEffect(ENERGY_TRANSFER_RATE, ValueUpgradeEffect.of(fabTransfer, MathOperation.ADD_PERCENT_OF_BASE))
-                .withEffect(ENERGY_USAGE, ValueUpgradeEffect.of(fabUsage, MathOperation.MULTIPLY))
+                .withEffect(ENERGY_CAPACITY, ValueOperation.of(fabCapacity, MathOperation.ADD_PERCENT_OF_BASE))
+                .withEffect(ENERGY_TRANSFER_RATE, ValueOperation.of(fabTransfer, MathOperation.ADD_PERCENT_OF_BASE))
+                .withEffect(ENERGY_USAGE, ValueOperation.of(fabUsage, MathOperation.MULTIPLY))
                 .tooltip(energyCapacityTooltip(fabCapacity, ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE))
                 .tooltip(energyTransferTooltip(fabTransfer, ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE))
                 .tooltip(energyUsageTooltip(fabUsage, ValueFormat.MULTIPLICATIVE, ValueSentiment.POSITIVE))
@@ -158,7 +151,7 @@ public final class LTXIMachineUpgrades
                 .createDefaultTitle(o -> o.withStyle(ChatFormatting.AQUA))
                 .supports(LTXIBlockEntities.GEO_SYNTHESIZER)
                 .exclusiveWith(holders, PARALLEL_OPS_UPGRADES)
-                .withEffect(PARALLEL_OPERATIONS, ValueUpgradeEffect.of(geoSynthParallel, MathOperation.REPLACE))
+                .withEffect(PARALLEL_OPERATIONS, ValueOperation.of(geoSynthParallel, MathOperation.REPLACE))
                 .tooltip(parallelOpsTooltip(geoSynthParallel, ValueFormat.FLAT_NUMBER, ValueSentiment.POSITIVE))
                 .setMaxRank(3)
                 .effectIcon(plusOverlay(itemIcon(LTXIBlocks.GEO_SYNTHESIZER)))
@@ -167,7 +160,7 @@ public final class LTXIMachineUpgrades
 
         MachineUpgrade.builder(TURRET_LOOTING)
                 .supports(blockEntities, LTXITags.BlockEntities.TURRETS)
-                .withEffect(ENCHANTMENT_LEVELS, EnchantmentLevelsUpgradeEffect.rankLinear(enchantments.getOrThrow(Enchantments.LOOTING)))
+                .withEffect(ENCHANTMENT_LEVELS, AddEnchantmentLevels.rankLinear(enchantments.getOrThrow(Enchantments.LOOTING)))
                 .setMaxRank(3)
                 .effectIcon(luckOverlayIcon(LTXIItems.LTX_SWORD))
                 .category("turret")
@@ -176,14 +169,14 @@ public final class LTXIMachineUpgrades
         MachineUpgrade.builder(TURRET_RAZOR)
                 .supports(blockEntities, LTXITags.BlockEntities.TURRETS)
                 .setMaxRank(2)
-                .withEffect(ENCHANTMENT_LEVELS, EnchantmentLevelsUpgradeEffect.rankLinear(enchantments.getOrThrow(LTXIEnchantments.RAZOR)))
+                .withEffect(ENCHANTMENT_LEVELS, AddEnchantmentLevels.rankLinear(enchantments.getOrThrow(LTXIEnchantments.RAZOR)))
                 .effectIcon(sprite("razor"))
                 .category("turret")
                 .register(context);
 
         MachineUpgrade.builder(TURRET_LOOT_COLLECTOR)
                 .supports(blockEntities, LTXITags.BlockEntities.TURRETS)
-                .withEffect(DIRECT_DROPS, DirectDropsUpgradeEffect.entityDrops(anyItemHolderSet))
+                .withSpecialEffect(CAPTURE_MOB_DROPS, CaptureMobDrops.INSTANCE)
                 .effectIcon(sprite("magnet"))
                 .category("turret")
                 .register(context);

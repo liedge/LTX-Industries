@@ -70,7 +70,7 @@ public class GrenadeLauncherItem extends SemiAutoWeaponItem implements ScrollMod
     {
         super.onUpgradeRefresh(context, stack, upgrades);
         GrenadeType currentlyEquipped = getGrenadeTypeFromItem(stack);
-        boolean shouldReset = upgrades.effectFlatStream(LTXIUpgradeEffectComponents.GRENADE_UNLOCK.get()).noneMatch(currentlyEquipped::equals);
+        boolean shouldReset = upgrades.listEffectStream(LTXIUpgradeEffectComponents.GRENADE_UNLOCK).noneMatch(currentlyEquipped::equals);
         if (shouldReset) setGrenadeType(stack, GrenadeType.EXPLOSIVE);
     }
 

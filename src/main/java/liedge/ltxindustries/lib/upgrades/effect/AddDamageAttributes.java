@@ -12,13 +12,13 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.enchantment.LevelBasedValue;
 
-public record DamageAttributesUpgradeEffect(Holder<Attribute> attribute, RankBasedAttributeModifier modifier) implements AttributeModifierUpgradeEffect
+public record AddDamageAttributes(Holder<Attribute> attribute, RankBasedAttributeModifier modifier) implements AttributeModifierUpgradeEffect
 {
-    public static final Codec<DamageAttributesUpgradeEffect> CODEC = RecordCodecBuilder.create(instance -> AttributeModifierUpgradeEffect.commonFields(instance).apply(instance, DamageAttributesUpgradeEffect::new));
+    public static final Codec<AddDamageAttributes> CODEC = RecordCodecBuilder.create(instance -> AttributeModifierUpgradeEffect.commonFields(instance).apply(instance, AddDamageAttributes::new));
 
-    public static DamageAttributesUpgradeEffect create(Holder<Attribute> attribute, ResourceLocation modifierId, LevelBasedValue amount, AttributeModifier.Operation operation)
+    public static AddDamageAttributes create(Holder<Attribute> attribute, ResourceLocation modifierId, LevelBasedValue amount, AttributeModifier.Operation operation)
     {
-        return new DamageAttributesUpgradeEffect(attribute, new RankBasedAttributeModifier(modifierId, amount, operation));
+        return new AddDamageAttributes(attribute, new RankBasedAttributeModifier(modifierId, amount, operation));
     }
 
     @Override

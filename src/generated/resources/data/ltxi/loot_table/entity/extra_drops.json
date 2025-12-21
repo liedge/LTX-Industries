@@ -52,7 +52,11 @@
               "entity": "this",
               "predicate": {
                 "effects": {
-                  "ltxi:corrosive": {}
+                  "ltxi:corrosive": {
+                    "amplifier": {
+                      "min": 2
+                    }
+                  }
                 }
               }
             }

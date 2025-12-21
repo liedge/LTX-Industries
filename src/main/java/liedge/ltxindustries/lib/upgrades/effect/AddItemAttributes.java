@@ -13,15 +13,15 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.enchantment.LevelBasedValue;
 
-public record ItemAttributesUpgradeEffect(Holder<Attribute> attribute, RankBasedAttributeModifier modifier, EquipmentSlotGroup slots) implements AttributeModifierUpgradeEffect
+public record AddItemAttributes(Holder<Attribute> attribute, RankBasedAttributeModifier modifier, EquipmentSlotGroup slots) implements AttributeModifierUpgradeEffect
 {
-    public static final Codec<ItemAttributesUpgradeEffect> CODEC = RecordCodecBuilder.create(instance -> AttributeModifierUpgradeEffect.commonFields(instance)
-            .and(EquipmentSlotGroup.CODEC.fieldOf("slots").forGetter(ItemAttributesUpgradeEffect::slots))
-            .apply(instance, ItemAttributesUpgradeEffect::new));
+    public static final Codec<AddItemAttributes> CODEC = RecordCodecBuilder.create(instance -> AttributeModifierUpgradeEffect.commonFields(instance)
+            .and(EquipmentSlotGroup.CODEC.fieldOf("slots").forGetter(AddItemAttributes::slots))
+            .apply(instance, AddItemAttributes::new));
 
-    public static ItemAttributesUpgradeEffect create(Holder<Attribute> attribute, ResourceLocation modifierId, LevelBasedValue amount, AttributeModifier.Operation operation, EquipmentSlotGroup slots)
+    public static AddItemAttributes create(Holder<Attribute> attribute, ResourceLocation modifierId, LevelBasedValue amount, AttributeModifier.Operation operation, EquipmentSlotGroup slots)
     {
-        return new ItemAttributesUpgradeEffect(attribute, new RankBasedAttributeModifier(modifierId, amount, operation), slots);
+        return new AddItemAttributes(attribute, new RankBasedAttributeModifier(modifierId, amount, operation), slots);
     }
 
     @Override

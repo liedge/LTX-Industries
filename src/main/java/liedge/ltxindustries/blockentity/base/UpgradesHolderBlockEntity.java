@@ -50,8 +50,8 @@ public interface UpgradesHolderBlockEntity extends SubMenuProviderBlockEntity, I
         // Apply to energy holders, must run here since it is a compounding calculation
         if (this instanceof EnergyHolderBlockEntity energyHolder)
         {
-            double newCapacity = upgrades.applyValue(LTXIUpgradeEffectComponents.ENERGY_CAPACITY, context, energyHolder.getBaseEnergyCapacity());
-            double newTransferRate = upgrades.applyValue(LTXIUpgradeEffectComponents.ENERGY_TRANSFER_RATE, context, energyHolder.getBaseEnergyTransferRate());
+            double newCapacity = upgrades.runValueOps(LTXIUpgradeEffectComponents.ENERGY_CAPACITY, context, energyHolder.getBaseEnergyCapacity());
+            double newTransferRate = upgrades.runValueOps(LTXIUpgradeEffectComponents.ENERGY_TRANSFER_RATE, context, energyHolder.getBaseEnergyTransferRate());
 
             energyHolder.getEnergyStorage().setMaxEnergyStored(LimaCoreMath.round(newCapacity));
             energyHolder.getEnergyStorage().setTransferRate(LimaCoreMath.round(newTransferRate));

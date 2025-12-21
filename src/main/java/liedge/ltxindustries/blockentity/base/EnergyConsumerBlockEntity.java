@@ -12,7 +12,7 @@ public interface EnergyConsumerBlockEntity
 {
     static void applyUpgrades(EnergyConsumerBlockEntity blockEntity, LootContext context, MachineUpgrades upgrades)
     {
-        double newEnergyUsage = upgrades.applyValue(LTXIUpgradeEffectComponents.ENERGY_USAGE, context, blockEntity.getBaseEnergyUsage());
+        double newEnergyUsage = upgrades.runValueOps(LTXIUpgradeEffectComponents.ENERGY_USAGE, context, blockEntity.getBaseEnergyUsage());
         blockEntity.setEnergyUsage(Math.max(0, LimaCoreMath.round(newEnergyUsage)));
     }
 

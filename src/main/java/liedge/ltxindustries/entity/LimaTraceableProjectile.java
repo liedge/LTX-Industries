@@ -8,6 +8,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
@@ -150,7 +151,7 @@ public abstract class LimaTraceableProjectile extends LimaTraceableEntity
                 setPos(hitLocation);
                 onProjectileHit(level, hitResult, hitLocation);
 
-                boolean postGameEvent = getUpgrades().noneMatch(LTXIUpgradeEffectComponents.PREVENT_VIBRATION.get(), (effect, rank) -> effect.apply(null, LTXIGameEvents.PROJECTILE_IMPACT));
+                boolean postGameEvent = getUpgrades().noneMatch(LTXIUpgradeEffectComponents.SUPPRESS_VIBRATIONS.get(), (effect, rank) -> effect.test(EquipmentSlot.MAINHAND, LTXIGameEvents.PROJECTILE_IMPACT));
                 if (postGameEvent)
                 {
                     level.gameEvent(getOwner(), LTXIGameEvents.PROJECTILE_IMPACT, hitLocation);

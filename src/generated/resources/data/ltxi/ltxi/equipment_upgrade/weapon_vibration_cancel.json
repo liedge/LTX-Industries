@@ -18,7 +18,7 @@
     }
   },
   "effects": {
-    "ltxi:prevent_vibration": [
+    "ltxi:suppress_vibrations": [
       {
         "slot": "mainhand",
         "target": "#ltxi:weapon_vibrations"

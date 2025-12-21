@@ -16,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Optional;
 import java.util.function.Consumer;
 
+// TODO: Re-write modular tools
 public record MiningRuleUpgradeEffect(Optional<HolderSet<Block>> effectiveBlocks, Optional<HolderSet<Block>> deniedBlocks, Optional<Float> miningSpeed, int priority) implements UpgradeTooltipsProvider, Comparable<MiningRuleUpgradeEffect>
 {
     public static final Codec<MiningRuleUpgradeEffect> CODEC = RecordCodecBuilder.create(instance -> instance.group(

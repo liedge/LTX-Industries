@@ -461,19 +461,6 @@ class RecipesGen extends LimaRecipeProvider
         upgradeFabricating(output, registries, "eum/tool", TOOL_DIRECT_DROPS, 1, 15_000_000, directDrops);
         upgradeFabricating(output, registries, "eum/weapon", WEAPON_DIRECT_DROPS, 1, 15_000_000, directDrops);
 
-        upgradeFabricating(output, registries, "eum/weapon", WEAPON_ARMOR_PIERCE, 1, 1_000_000, builder -> builder
-                .input(T2_CIRCUIT, 2)
-                .input(OBSIDIAN, 8)
-                .input(TITANIUM_INGOT, 8));
-        upgradeFabricating(output, registries, "eum/weapon", WEAPON_ARMOR_PIERCE, 2, 2_500_000, builder -> builder
-                .input(T3_CIRCUIT, 2)
-                .input(OBSIDIAN, 32)
-                .input(TITANIUM_INGOT, 32));
-        upgradeFabricating(output, registries, "eum/weapon", WEAPON_ARMOR_PIERCE, 3, 5_000_000, builder -> builder
-                .input(T4_CIRCUIT, 2)
-                .input(OBSIDIAN, 64)
-                .input(SLATESTEEL_INGOT, 4));
-
         upgradeFabricating(output, registries, "eum/weapon", HIGH_IMPACT_ROUNDS, 1, 1_000_000, builder -> builder
                 .input(T2_CIRCUIT, 2)
                 .input(TNT, 8)

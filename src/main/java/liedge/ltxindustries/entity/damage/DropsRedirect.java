@@ -1,13 +1,9 @@
 package liedge.ltxindustries.entity.damage;
 
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import liedge.limacore.util.LimaRegistryUtil;
-import liedge.ltxindustries.lib.upgrades.UpgradeBase;
+import com.google.common.base.Predicates;
 import liedge.ltxindustries.lib.upgrades.UpgradesContainerBase;
-import liedge.ltxindustries.lib.upgrades.effect.DirectDropsUpgradeEffect;
+import liedge.ltxindustries.lib.upgrades.effect.CaptureBlockDrops;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
-import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -17,47 +13,30 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 import net.neoforged.neoforge.items.wrapper.PlayerMainInvWrapper;
-import net.neoforged.neoforge.registries.holdersets.AnyHolderSet;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 import java.util.function.Predicate;
 
 public record DropsRedirect(IItemHandler targetInventory, @Nullable Vec3 newDropsLocation, Predicate<ItemEntity> predicate)
 {
-    private static <U extends UpgradeBase<?, U>> HolderSet<Item> mergeSets(UpgradesContainerBase<?, U> upgrades, DirectDropsUpgradeEffect.Type type)
+    public static @Nullable DropsRedirect forMobDrops(IItemHandler targetInventory, @Nullable Vec3 newDropsLocation, UpgradesContainerBase<?, ?> upgrades)
     {
-        List<HolderSet<Item>> sets = new ObjectArrayList<>();
-
-        for (Object2IntMap.Entry<Holder<U>> entry : upgrades.toEntrySet())
-        {
-            List<DirectDropsUpgradeEffect> effects = entry.getKey().value().getListEffect(LTXIUpgradeEffectComponents.DIRECT_DROPS.get());
-            for (DirectDropsUpgradeEffect effect : effects)
-            {
-                if (effect.type() == type)
-                {
-                    HolderSet<Item> set = effect.items();
-                    if (set instanceof AnyHolderSet<Item>) return set;
-                    else sets.add(set);
-                }
-            }
-        }
-
-        return LimaRegistryUtil.mergeHolderSets(sets);
+        if (!upgrades.upgradeEffectTypePresent(LTXIUpgradeEffectComponents.CAPTURE_MOB_DROPS.get())) return null;
+        return new DropsRedirect(targetInventory, newDropsLocation, Predicates.alwaysTrue());
     }
 
-    public static <U extends UpgradeBase<?, U>> @Nullable DropsRedirect create(IItemHandler targetInventory, @Nullable Vec3 newDropsLocation, UpgradesContainerBase<?, U> upgrades, DirectDropsUpgradeEffect.Type type)
+    public static @Nullable DropsRedirect forMobDrops(Player player,UpgradesContainerBase<?, ?> upgrades)
     {
-        HolderSet<Item> set = mergeSets(upgrades, type);
-        if (set.equals(HolderSet.empty())) return null;
-        return new DropsRedirect(targetInventory, newDropsLocation, ie -> set.contains(ie.getItem().getItemHolder()));
+        return forMobDrops(new PlayerMainInvWrapper(player.getInventory()), player.getEyePosition(), upgrades);
     }
 
-    public static @Nullable DropsRedirect forPlayer(Player player, UpgradesContainerBase<?, ?> upgrades, DirectDropsUpgradeEffect.Type type)
+    public static @Nullable DropsRedirect forBlocks(Player player, UpgradesContainerBase<?, ?> upgrades)
     {
-        return create(new PlayerMainInvWrapper(player.getInventory()), player.getEyePosition(), upgrades, type);
+        HolderSet<Item> holders = upgrades.mergeEffectHolderSets(LTXIUpgradeEffectComponents.CAPTURE_BLOCK_DROPS, CaptureBlockDrops::items);
+        if (holders.equals(HolderSet.empty())) return null;
+        return new DropsRedirect(new PlayerMainInvWrapper(player.getInventory()), player.getEyePosition(), ie -> holders.contains(ie.getItem().getItemHolder()));
     }
 
     public void captureAndRelocateDrops(Collection<ItemEntity> itemEntities)

@@ -225,7 +225,6 @@ class LanguageGen extends LimaLanguageProvider
 
         upgrade(LTXIEquipmentUpgrades.WEAPON_VIBRATION_CANCEL, "Echo Suppressor", "Augments weapons and projectiles with an anti-resonance field, erasing vibration signatures");
         upgrade(LTXIEquipmentUpgrades.WEAPON_DIRECT_DROPS, "Combat Subspace Link", "Weapon systems interface directly with your inventory, depositing loot without physical collection.");
-        upgrade(LTXIEquipmentUpgrades.WEAPON_ARMOR_PIERCE, "Armor-Piercing Rounds", "Volatile energy dispersal precepts. Allows weapons to partially breach armor.");
         upgrade(LTXIEquipmentUpgrades.LIGHTWEIGHT_ENERGY_ADAPTER, "Lightweight Energy Adapter", "Reroutes the energy feed system of Lightweight weaponry to use Common Energy.");
         upgrade(LTXIEquipmentUpgrades.SPECIALIST_ENERGY_ADAPTER, "Specialist Energy Adapter", "Reroutes the energy feed system of Specialist weaponry to use Common Energy.");
         upgrade(LTXIEquipmentUpgrades.EXPLOSIVES_ENERGY_ADAPTER, "Explosives Energy Adapter", "Reroutes the energy feed system of Explosives weaponry to use Common Energy.");
@@ -393,8 +392,8 @@ class LanguageGen extends LimaLanguageProvider
         add(MINING_BASE_SPEED_EFFECT, "Base mining speed: %s");
         add(DYNAMIC_DAMAGE_TAG_EFFECT, "+Damage Tags: %s");
         add(SUPPRESS_VIBRATIONS_EFFECT, "Suppresses %s sculk vibrations");
-        add(DIRECT_BLOCK_DROPS_EFFECT, "Directly collects %s block drops");
-        add(DIRECT_ENTITY_DROPS_EFFECT, "Directly collects %s entity drops");
+        add(CAPTURE_BLOCK_DROPS_EFFECT, "Captures %s block drops to your inventory");
+        add(CAPTURE_MOB_DROPS_EFFECT, "Captures mob drops to your inventory");
         add(REDUCTION_MODIFIER_EFFECT, "%s %s breach");
         add(BUBBLE_SHIELD_EFFECT, "%s Bubble Shield/kill (%s max overcharge)");
         add(MOB_EFFECT_UPGRADE_EFFECT, "Applies %s (%s)");

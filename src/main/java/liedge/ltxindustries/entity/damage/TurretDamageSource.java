@@ -3,7 +3,6 @@ package liedge.ltxindustries.entity.damage;
 import com.google.common.base.Preconditions;
 import liedge.ltxindustries.blockentity.BaseTurretBlockEntity;
 import liedge.ltxindustries.lib.upgrades.UpgradesContainerBase;
-import liedge.ltxindustries.lib.upgrades.effect.DirectDropsUpgradeEffect;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.damagesource.DamageType;
@@ -37,6 +36,6 @@ public class TurretDamageSource extends UpgradableDamageSource
     @Override
     public @Nullable DropsRedirect createDropsRedirect()
     {
-        return DropsRedirect.create(blockEntity.getOutputInventory(), blockEntity.getProjectileStart(), getUpgrades(), DirectDropsUpgradeEffect.Type.ENTITY_DROPS);
+        return DropsRedirect.forMobDrops(blockEntity.getOutputInventory(), blockEntity.getProjectileStart(), getUpgrades());
     }
 }

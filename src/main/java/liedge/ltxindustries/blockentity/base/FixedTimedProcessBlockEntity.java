@@ -9,7 +9,7 @@ public interface FixedTimedProcessBlockEntity extends VariableTimedProcessBlockE
 {
     static void applyUpgrades(FixedTimedProcessBlockEntity blockEntity, LootContext context, MachineUpgrades upgrades)
     {
-        double newProcessingTime = upgrades.applyValue(LTXIUpgradeEffectComponents.TICKS_PER_OPERATION, context, blockEntity.getBaseTicksPerOperation());
+        double newProcessingTime = upgrades.runValueOps(LTXIUpgradeEffectComponents.TICKS_PER_OPERATION, context, blockEntity.getBaseTicksPerOperation());
         blockEntity.setTicksPerOperation(Math.max(0, Mth.floor(newProcessingTime)));
     }
 

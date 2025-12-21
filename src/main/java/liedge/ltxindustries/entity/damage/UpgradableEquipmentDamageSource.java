@@ -2,14 +2,12 @@ package liedge.ltxindustries.entity.damage;
 
 import liedge.limacore.util.LimaCoreUtil;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
-import liedge.ltxindustries.lib.upgrades.effect.DirectDropsUpgradeEffect;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public final class UpgradableEquipmentDamageSource extends UpgradableDamageSource
@@ -35,7 +33,7 @@ public final class UpgradableEquipmentDamageSource extends UpgradableDamageSourc
     }
 
     @Override
-    public @NotNull ItemStack getWeaponItem()
+    public ItemStack getWeaponItem()
     {
         return weaponItem;
     }
@@ -50,6 +48,6 @@ public final class UpgradableEquipmentDamageSource extends UpgradableDamageSourc
     public @Nullable DropsRedirect createDropsRedirect()
     {
         Player player = LimaCoreUtil.castOrNull(Player.class, getEntity());
-        return player != null ? DropsRedirect.forPlayer(player, upgrades, DirectDropsUpgradeEffect.Type.ENTITY_DROPS) : null;
+        return player != null ? DropsRedirect.forMobDrops(player, upgrades) : null;
     }
 }

@@ -20,7 +20,7 @@ import liedge.ltxindustries.item.EnergyHolderItem;
 import liedge.ltxindustries.item.TooltipShiftHintItem;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
 import liedge.ltxindustries.lib.EquipmentDamageModifiers;
-import liedge.ltxindustries.lib.upgrades.effect.ValueUpgradeEffect;
+import liedge.ltxindustries.lib.upgrades.effect.ValueOperation;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.ltxindustries.lib.weapons.AbstractWeaponControls;
 import liedge.ltxindustries.lib.weapons.WeaponReloadSource;
@@ -46,7 +46,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.enchantment.EnchantmentTarget;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.phys.Vec3;
@@ -231,16 +230,12 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
         if (attacker.level() instanceof ServerLevel level)
         {
             // Create the loot context and get the upgrades
-            LootContext context = LimaLootUtil.entityLootContext(level, target, damageSource, attacker);
+            LootContext context = LimaLootUtil.entityLootContext(level, target, damageSource);
             ItemStack weaponItem = damageSource.getWeaponItem();
             EquipmentUpgrades upgrades = getUpgrades(weaponItem);
 
-            // Run pre attack effects here
-            upgrades.applyDamageContextEffects(LTXIUpgradeEffectComponents.EQUIPMENT_PRE_ATTACK, level, EnchantmentTarget.ATTACKER, target, attacker, damageSource);
-
             // Get upgraded damage, then apply global damage modifiers
-            double damage = EquipmentDamageModifiers.getInstance().apply(weaponItem, context, baseDamage,
-                    getUpgradedDamage(level, upgrades, target, damageSource, baseDamage));
+            double damage = EquipmentDamageModifiers.getInstance().apply(weaponItem, context, baseDamage, getUpgradedDamage(upgrades, context, baseDamage));
 
             // Only hurt if we have non-negligible damage
             return damage > 1e-4 && target.hurt(damageSource, (float) damage);
@@ -360,17 +355,17 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
         return false;
     }
 
-    private void applyDoubleStat(ItemStack stack, EquipmentUpgrades upgrades, LootContext context, double baseFallback, Supplier<? extends DataComponentType<Double>> type, Supplier<? extends DataComponentType<List<ValueUpgradeEffect>>> effectType)
+    private void applyDoubleStat(ItemStack stack, EquipmentUpgrades upgrades, LootContext context, double baseFallback, Supplier<? extends DataComponentType<Double>> type, Supplier<? extends DataComponentType<List<ValueOperation>>> effectType)
     {
         double base = components().getOrDefault(type.get(), baseFallback);
-        double value = upgrades.applyValue(effectType, context, base);
+        double value = upgrades.runValueOps(effectType, context, base);
         stack.set(type, value);
     }
 
-    private void applyIntStat(ItemStack stack, EquipmentUpgrades upgrades, LootContext context, int baseFallback, Supplier<? extends DataComponentType<Integer>> type, Supplier<? extends DataComponentType<List<ValueUpgradeEffect>>> effectType)
+    private void applyIntStat(ItemStack stack, EquipmentUpgrades upgrades, LootContext context, int baseFallback, Supplier<? extends DataComponentType<Integer>> type, Supplier<? extends DataComponentType<List<ValueOperation>>> effectType)
     {
         int base = components().getOrDefault(type.get(), baseFallback);
-        int value = LimaCoreMath.round(upgrades.applyValue(effectType, context, base));
+        int value = LimaCoreMath.round(upgrades.runValueOps(effectType, context, base));
         stack.set(type, value);
     }
 }

@@ -8,13 +8,13 @@ import net.minecraft.util.ExtraCodecs;
 
 import java.util.function.Consumer;
 
-public record MinimumSpeedUpgradeEffect(int minimumSpeed) implements UpgradeTooltipsProvider
+public record MinimumMachineSpeed(int minimumSpeed) implements UpgradeTooltipsProvider
 {
-    public static final Codec<MinimumSpeedUpgradeEffect> CODEC = ExtraCodecs.NON_NEGATIVE_INT.xmap(MinimumSpeedUpgradeEffect::new, MinimumSpeedUpgradeEffect::minimumSpeed);
+    public static final Codec<MinimumMachineSpeed> CODEC = ExtraCodecs.NON_NEGATIVE_INT.xmap(MinimumMachineSpeed::new, MinimumMachineSpeed::minimumSpeed);
 
-    public static MinimumSpeedUpgradeEffect atLeast(int minimumSpeed)
+    public static MinimumMachineSpeed atLeast(int minimumSpeed)
     {
-        return new MinimumSpeedUpgradeEffect(minimumSpeed);
+        return new MinimumMachineSpeed(minimumSpeed);
     }
 
     @Override
