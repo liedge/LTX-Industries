@@ -5,7 +5,7 @@ import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import liedge.ltxindustries.entity.CompoundHitResult;
 import liedge.ltxindustries.entity.DynamicClipContext;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
-import liedge.ltxindustries.lib.weapons.AbstractWeaponControls;
+import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
 import liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades;
 import liedge.ltxindustries.registry.game.LTXIGameEvents;
 import liedge.ltxindustries.registry.game.LTXIItems;
@@ -34,13 +34,13 @@ public class ShotgunItem extends SemiAutoWeaponItem
     }
 
     @Override
-    public boolean canFocusReticle(ItemStack heldItem, Player player, AbstractWeaponControls controls)
+    public boolean canFocusReticle(ItemStack heldItem, Player player, LTXIExtendedInput controls)
     {
         return false;
     }
 
     @Override
-    public void weaponFired(ItemStack heldItem, Player player, Level level, AbstractWeaponControls controls)
+    public void weaponFired(ItemStack heldItem, Player player, Level level, LTXIExtendedInput controls)
     {
         if (!level.isClientSide())
         {

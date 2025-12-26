@@ -6,7 +6,7 @@ import liedge.limacore.client.model.baked.ItemLayerBakedModel;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.client.model.custom.TranslucentFillModel;
 import liedge.ltxindustries.item.weapon.WeaponItem;
-import liedge.ltxindustries.lib.weapons.ClientWeaponControls;
+import liedge.ltxindustries.lib.weapons.ClientExtendedInput;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
@@ -35,7 +35,7 @@ abstract class SimpleWeaponRenderer extends WeaponRenderer<WeaponItem>
     }
 
     @Override
-    public void onWeaponFired(ItemStack stack, WeaponItem weaponItem, ClientWeaponControls controls)
+    public void onWeaponFired(ItemStack stack, WeaponItem weaponItem, ClientExtendedInput controls)
     {
         controls.getAnimationTimerA().startTimer(recoilAnimationTime);
     }
@@ -51,7 +51,7 @@ abstract class SimpleWeaponRenderer extends WeaponRenderer<WeaponItem>
     }
 
     @Override
-    protected final void renderWeaponFirstPerson(ItemStack stack, WeaponItem item, ItemDisplayContext displayContext, PoseStack poseStack, MultiBufferSource bufferSource, int light, int overlay, float partialTick, ClientWeaponControls controls)
+    protected final void renderWeaponFirstPerson(ItemStack stack, WeaponItem item, ItemDisplayContext displayContext, PoseStack poseStack, MultiBufferSource bufferSource, int light, int overlay, float partialTick, ClientExtendedInput controls)
     {
         float mul = applyAnimationCurve(controls.getAnimationTimerA().lerpProgressNotPaused(partialTick));
         poseStack.translate(0, 0, recoilDistance * mul);

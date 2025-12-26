@@ -1,12 +1,13 @@
 package liedge.ltxindustries.lib.weapons;
 
 import liedge.limacore.lib.TickTimer;
+import liedge.limacore.util.LimaCoreUtil;
 import liedge.limacore.util.LimaEntityUtil;
 import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.network.packet.ClientboundFocusTargetPacket;
 import liedge.ltxindustries.network.packet.ClientboundWeaponControlsPacket;
 import liedge.ltxindustries.network.packet.ServerboundWeaponControlsPacket;
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import liedge.ltxindustries.registry.game.LTXIAttachmentTypes;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -14,23 +15,24 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.Nullable;
 
-public class ServerWeaponControls extends AbstractWeaponControls
+public class ServerExtendedInput extends LTXIExtendedInput
 {
+    public static ServerExtendedInput of(Player player)
+    {
+        LTXIExtendedInput input = player.getData(LTXIAttachmentTypes.INPUT_EXTENSIONS);
+        return LimaCoreUtil.castOrThrow(ServerExtendedInput.class, input, "Accessed server extended input on client");
+    }
+
     private boolean reloadFlag;
 
-    public ServerWeaponControls()
+    public ServerExtendedInput()
     {
         getReloadTimer().withStopCallback(success -> reloadFlag = success);
     }
 
-    private void sendPacketToClient(Player player, CustomPacketPayload packet)
-    {
-        PacketDistributor.sendToPlayersTrackingEntityAndSelf(player, packet);
-    }
-
     private void sendPacketToClient(Player player, WeaponItem weaponItem, byte action)
     {
-        sendPacketToClient(player, new ClientboundWeaponControlsPacket(player.getId(), weaponItem, action));
+        PacketDistributor.sendToPlayersTrackingEntityAndSelf(player, new ClientboundWeaponControlsPacket(player.getId(), weaponItem, action));
     }
 
     public void handleClientAction(ItemStack heldItem, ServerPlayer player, WeaponItem weaponItem, byte clientAction)
@@ -58,10 +60,11 @@ public class ServerWeaponControls extends AbstractWeaponControls
         }
     }
 
-    public void setFocusedTargetAndNotify(Player player, @Nullable LivingEntity focusedTarget)
+    @Override
+    public void setFocusedTarget(Player player, @Nullable LivingEntity focusedTarget)
     {
-        setFocusedTarget(focusedTarget);
-        sendPacketToClient(player, new ClientboundFocusTargetPacket(player.getId(), LimaEntityUtil.getEntityId(focusedTarget)));
+        super.setFocusedTarget(player, focusedTarget);
+        PacketDistributor.sendToPlayersTrackingEntityAndSelf(player, new ClientboundFocusTargetPacket(player.getId(), LimaEntityUtil.getEntityId(focusedTarget)));
     }
 
     @Override

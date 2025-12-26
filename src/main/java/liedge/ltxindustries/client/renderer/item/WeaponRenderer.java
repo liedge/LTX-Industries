@@ -14,7 +14,7 @@ import liedge.ltxindustries.client.model.custom.TranslucentFillModel;
 import liedge.ltxindustries.client.renderer.LTXIArmPoses;
 import liedge.ltxindustries.client.renderer.LTXIRenderTypes;
 import liedge.ltxindustries.item.weapon.WeaponItem;
-import liedge.ltxindustries.lib.weapons.ClientWeaponControls;
+import liedge.ltxindustries.lib.weapons.ClientExtendedInput;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.GuiSpriteManager;
@@ -68,7 +68,7 @@ public abstract class WeaponRenderer<T extends WeaponItem> extends LimaSpecialIt
     {
         if (isFirstPersonMainHand(displayContext) && Minecraft.getInstance().player != null)
         {
-            ClientWeaponControls controls = ClientWeaponControls.of(Minecraft.getInstance().player);
+            ClientExtendedInput controls = ClientExtendedInput.of(Minecraft.getInstance().player);
             renderWeaponFirstPerson(stack, item, displayContext, poseStack, bufferSource, light, overlay, partialTick, controls);
         }
         else
@@ -107,15 +107,15 @@ public abstract class WeaponRenderer<T extends WeaponItem> extends LimaSpecialIt
         return HumanoidModel.ArmPose.EMPTY; // Neutral pose, weapon at rest (i.e. holding weapon in offhand or holding an offhand item with a two-handed weapon)
     }
 
-    public abstract void renderCrosshair(LocalPlayer player, WeaponItem weaponItem, ClientWeaponControls controls, GuiGraphics graphics, float partialTicks, int screenWidth, int screenHeight, LimaColor crosshairColor);
+    public abstract void renderCrosshair(LocalPlayer player, WeaponItem weaponItem, ClientExtendedInput controls, GuiGraphics graphics, float partialTicks, int screenWidth, int screenHeight, LimaColor crosshairColor);
 
-    public abstract void onWeaponFired(ItemStack stack, WeaponItem weaponItem, ClientWeaponControls controls);
+    public abstract void onWeaponFired(ItemStack stack, WeaponItem weaponItem, ClientExtendedInput controls);
 
     protected abstract void loadWeaponModelParts(T item, ItemLayerBakedModel model);
 
     protected abstract void renderStaticWeapon(ItemStack stack, T item, ItemDisplayContext displayContext, PoseStack poseStack, MultiBufferSource bufferSource, int light, int overlay);
 
-    protected abstract void renderWeaponFirstPerson(ItemStack stack, T item, ItemDisplayContext displayContext, PoseStack poseStack, MultiBufferSource bufferSource, int light, int overlay, float partialTick, ClientWeaponControls controls);
+    protected abstract void renderWeaponFirstPerson(ItemStack stack, T item, ItemDisplayContext displayContext, PoseStack poseStack, MultiBufferSource bufferSource, int light, int overlay, float partialTick, ClientExtendedInput controls);
 
     protected void renderStaticMagazineFill(T item, ItemStack stack, PoseStack poseStack, MultiBufferSource bufferSource, TranslucentFillModel fillModel, LimaColor color)
     {
@@ -127,7 +127,7 @@ public abstract class WeaponRenderer<T extends WeaponItem> extends LimaSpecialIt
         }
     }
 
-    protected void renderAnimatedMagazineFill(T item, ItemStack stack, PoseStack poseStack, MultiBufferSource bufferSource, TranslucentFillModel fillModel, LimaColor color, float partialTick, ClientWeaponControls controls)
+    protected void renderAnimatedMagazineFill(T item, ItemStack stack, PoseStack poseStack, MultiBufferSource bufferSource, TranslucentFillModel fillModel, LimaColor color, float partialTick, ClientExtendedInput controls)
     {
         if (!controls.getReloadTimer().isRunningClient())
         {

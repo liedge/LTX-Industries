@@ -6,7 +6,7 @@ import liedge.limacore.client.gui.LimaGuiLayer;
 import liedge.limacore.client.gui.LimaGuiUtil;
 import liedge.ltxindustries.client.renderer.item.WeaponRenderer;
 import liedge.ltxindustries.item.weapon.WeaponItem;
-import liedge.ltxindustries.lib.weapons.ClientWeaponControls;
+import liedge.ltxindustries.lib.weapons.ClientExtendedInput;
 import liedge.ltxindustries.util.config.LTXIClientConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -43,7 +43,7 @@ public final class WeaponCrosshairLayer extends LimaGuiLayer
 
         ItemStack heldItem = player.getMainHandItem();
         WeaponItem weaponItem = (WeaponItem) heldItem.getItem();
-        ClientWeaponControls controls = ClientWeaponControls.of(player);
+        ClientExtendedInput controls = ClientExtendedInput.of(player);
 
         if (controls.getReloadTimer().isRunningClient())
         {

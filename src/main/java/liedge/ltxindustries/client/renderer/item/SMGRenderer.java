@@ -9,7 +9,7 @@ import liedge.ltxindustries.client.LTXIRenderUtil;
 import liedge.ltxindustries.client.model.baked.BakedRotation;
 import liedge.ltxindustries.client.model.custom.TranslucentFillModel;
 import liedge.ltxindustries.item.weapon.WeaponItem;
-import liedge.ltxindustries.lib.weapons.ClientWeaponControls;
+import liedge.ltxindustries.lib.weapons.ClientExtendedInput;
 import liedge.ltxindustries.registry.game.LTXIItems;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
@@ -36,7 +36,7 @@ public class SMGRenderer extends WeaponRenderer<WeaponItem>
     }
 
     @Override
-    public void renderCrosshair(LocalPlayer player, WeaponItem weaponItem, ClientWeaponControls controls, GuiGraphics graphics, float partialTicks, int screenWidth, int screenHeight, LimaColor crosshairColor)
+    public void renderCrosshair(LocalPlayer player, WeaponItem weaponItem, ClientExtendedInput controls, GuiGraphics graphics, float partialTicks, int screenWidth, int screenHeight, LimaColor crosshairColor)
     {
         final int centerX = (screenWidth - 5) / 2;
         final int centerY = (screenHeight - 5) / 2;
@@ -60,7 +60,7 @@ public class SMGRenderer extends WeaponRenderer<WeaponItem>
     }
 
     @Override
-    public void onWeaponFired(ItemStack stack, WeaponItem weaponItem, ClientWeaponControls controls) {}
+    public void onWeaponFired(ItemStack stack, WeaponItem weaponItem, ClientExtendedInput controls) {}
 
     @Override
     protected void loadWeaponModelParts(WeaponItem item, ItemLayerBakedModel model) {}
@@ -74,7 +74,7 @@ public class SMGRenderer extends WeaponRenderer<WeaponItem>
     }
 
     @Override
-    protected void renderWeaponFirstPerson(ItemStack stack, WeaponItem item, ItemDisplayContext displayContext, PoseStack poseStack, MultiBufferSource bufferSource, int light, int overlay, float partialTick, ClientWeaponControls controls)
+    protected void renderWeaponFirstPerson(ItemStack stack, WeaponItem item, ItemDisplayContext displayContext, PoseStack poseStack, MultiBufferSource bufferSource, int light, int overlay, float partialTick, ClientExtendedInput controls)
     {
         if (controls.isTriggerHeld())
         {

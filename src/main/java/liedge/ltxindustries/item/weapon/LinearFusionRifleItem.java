@@ -1,7 +1,7 @@
 package liedge.ltxindustries.item.weapon;
 
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
-import liedge.ltxindustries.lib.weapons.AbstractWeaponControls;
+import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
 import liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades;
 import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.registry.game.LTXISounds;
@@ -27,7 +27,7 @@ public class LinearFusionRifleItem extends FullAutoWeaponItem
     }
 
     @Override
-    public void triggerHoldingTick(ItemStack heldItem, Player player, AbstractWeaponControls input)
+    public void triggerHoldingTick(ItemStack heldItem, Player player, LTXIExtendedInput input)
     {
         int triggerTicks = input.getTicksHoldingTrigger();
         if (triggerTicks == 1)
@@ -43,7 +43,7 @@ public class LinearFusionRifleItem extends FullAutoWeaponItem
     }
 
     @Override
-    public boolean canContinueHoldingTrigger(ItemStack heldItem, Player player, AbstractWeaponControls input)
+    public boolean canContinueHoldingTrigger(ItemStack heldItem, Player player, LTXIExtendedInput input)
     {
         if (player.level().isClientSide())
         {
@@ -56,7 +56,7 @@ public class LinearFusionRifleItem extends FullAutoWeaponItem
     }
 
     @Override
-    public void weaponFired(ItemStack heldItem, Player player, Level level, AbstractWeaponControls controls)
+    public void weaponFired(ItemStack heldItem, Player player, Level level, LTXIExtendedInput controls)
     {
         traceLightfrag(heldItem, player, level, LTXIWeaponsConfig.LFR_BASE_DAMAGE.getAsDouble(), 0d, 0.125d);
         level.playSound(player, player, LTXISounds.LINEAR_FUSION_FIRE.get(), SoundSource.PLAYERS, 2f, 0.9f + (level.random.nextFloat() * 0.125f));

@@ -13,6 +13,7 @@ public final class LTXIClientConfig
     private static final ModConfigSpec.ConfigValue<String> WEAPON_CROSSHAIR_COLOR;
 
     public static final ModConfigSpec.BooleanValue ALWAYS_SHOW_UPGRADE_ICONS;
+    public static final ModConfigSpec.BooleanValue INVERT_MODE_SWITCH_SCROLL;
 
     // Weapon HUD
     private static final HorizontalAlignment DEFAULT_WEAPON_HUD_X_ALIGN = HorizontalAlignment.LEFT;
@@ -87,6 +88,9 @@ public final class LTXIClientConfig
 
         ALWAYS_SHOW_UPGRADE_ICONS = builder.comment("Whether upgrade module icons are always shown instead of needing to hold down SHIFT. (Defaults to false)")
                 .define("always_show_upgrade_icons", false);
+
+        INVERT_MODE_SWITCH_SCROLL = builder.comment("Inverts the scroll direction for switching between equipment modes. By default, scroll down cycles forward.")
+                .define("invert_mode_switch_scroll", false);
 
         builder.push("weapon_hud");
         WEAPON_HUD_HORIZONTAL_ALIGN = builder.comment("The horizontal alignment of the weapon ammo HUD overlay.")

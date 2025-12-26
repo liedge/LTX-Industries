@@ -15,19 +15,20 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.PacketDistributor;
 
-public class ClientWeaponControls extends AbstractWeaponControls
+public class ClientExtendedInput extends LTXIExtendedInput
 {
-    public static ClientWeaponControls of(Player player)
+    public static ClientExtendedInput of(Player player)
     {
-        AbstractWeaponControls controls = player.getData(LTXIAttachmentTypes.WEAPON_CONTROLS);
-        return LimaCoreUtil.castOrThrow(ClientWeaponControls.class, controls, "Attempted to access client weapon controls on server.");
+        LTXIExtendedInput input = player.getData(LTXIAttachmentTypes.INPUT_EXTENSIONS);
+        return LimaCoreUtil.castOrThrow(ClientExtendedInput.class, input, "Accessed client extended input on server");
     }
 
     private final TickTimer animationTimerA = new TickTimer();
     private final TickTimer animationTimerB = new TickTimer();
+    private final TickTimer modeSwitchTimer = new TickTimer();
     private boolean previousLeftInput;
 
-    public ClientWeaponControls() {}
+    public ClientExtendedInput() {}
 
     private void sendPacketToServer(WeaponItem weaponItem, byte action)
     {
@@ -60,12 +61,18 @@ public class ClientWeaponControls extends AbstractWeaponControls
         if (canReloadWeapon(heldItem, player, weaponItem)) sendPacketToServer(weaponItem, ServerboundWeaponControlsPacket.RELOAD_PRESS);
     }
 
+    public TickTimer getModeSwitchTimer()
+    {
+        return modeSwitchTimer;
+    }
+
     @Override
     protected void onSelectedSlotChanged(Player player, ItemStack oldItem, ItemStack newItem)
     {
         super.onSelectedSlotChanged(player, oldItem, newItem);
         animationTimerA.stopTimer();
         animationTimerB.stopTimer();
+        modeSwitchTimer.stopTimer();
     }
 
     @Override
@@ -74,6 +81,7 @@ public class ClientWeaponControls extends AbstractWeaponControls
         super.tickTimers();
         animationTimerA.tickTimer();
         animationTimerB.tickTimer();
+        modeSwitchTimer.tickTimer();
     }
 
     @Override

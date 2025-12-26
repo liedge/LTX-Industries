@@ -22,7 +22,7 @@ import liedge.ltxindustries.item.UpgradableEquipmentItem;
 import liedge.ltxindustries.lib.EquipmentDamageModifiers;
 import liedge.ltxindustries.lib.upgrades.effect.ValueOperation;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
-import liedge.ltxindustries.lib.weapons.AbstractWeaponControls;
+import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
 import liedge.ltxindustries.lib.weapons.WeaponReloadSource;
 import liedge.ltxindustries.registry.bootstrap.LTXIDamageTypes;
 import liedge.ltxindustries.registry.game.*;
@@ -99,20 +99,20 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
     }
 
     //#region Weapon user events
-    public abstract void triggerPressed(ItemStack heldItem, Player player, AbstractWeaponControls input);
+    public abstract void triggerPressed(ItemStack heldItem, Player player, LTXIExtendedInput input);
 
     // TODO: Re-introduce later if necessary, kept for reference
     //public abstract void triggerRelease(ItemStack heldItem, Player player, AbstractWeaponControls input, boolean releasedByPlayer);
 
-    public abstract boolean canContinueHoldingTrigger(ItemStack heldItem, Player player, AbstractWeaponControls input);
+    public abstract boolean canContinueHoldingTrigger(ItemStack heldItem, Player player, LTXIExtendedInput input);
 
-    public void triggerHoldingTick(ItemStack heldItem, Player player, AbstractWeaponControls input) {}
+    public void triggerHoldingTick(ItemStack heldItem, Player player, LTXIExtendedInput input) {}
 
-    public void onStartedHoldingTrigger(ItemStack heldItem, Player player, AbstractWeaponControls input) {}
+    public void onStartedHoldingTrigger(ItemStack heldItem, Player player, LTXIExtendedInput input) {}
 
-    public void onStoppedHoldingTrigger(ItemStack heldItem, Player player, AbstractWeaponControls input, boolean releasedByPlayer) {}
+    public void onStoppedHoldingTrigger(ItemStack heldItem, Player player, LTXIExtendedInput input, boolean releasedByPlayer) {}
 
-    public abstract void weaponFired(ItemStack heldItem, Player player, Level level, AbstractWeaponControls controls);
+    public abstract void weaponFired(ItemStack heldItem, Player player, Level level, LTXIExtendedInput controls);
     //#endregion
 
     //#region Energy handling properties
@@ -142,7 +142,7 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
     //#endregion
 
     //#region Weapon properties/behavior
-    public boolean canFocusReticle(ItemStack heldItem, Player player, AbstractWeaponControls controls)
+    public boolean canFocusReticle(ItemStack heldItem, Player player, LTXIExtendedInput controls)
     {
         return controls.getReloadTimer().getTimerState() == TickTimer.State.STOPPED;
     }
@@ -313,7 +313,7 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
             ItemStack offhandItem = player.getOffhandItem();
 
             boolean handCheck = offhandItem.isEmpty() || isOneHanded(stack);
-            if (handCheck && !offhandItem.canPerformAction(ItemAbilities.SHIELD_BLOCK) && canFocusReticle(stack, player, player.getData(LTXIAttachmentTypes.WEAPON_CONTROLS)))
+            if (handCheck && !offhandItem.canPerformAction(ItemAbilities.SHIELD_BLOCK) && canFocusReticle(stack, player, player.getData(LTXIAttachmentTypes.INPUT_EXTENSIONS)))
             {
                 return ItemUtils.startUsingInstantly(level, player, InteractionHand.MAIN_HAND);
             }

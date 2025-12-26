@@ -2,7 +2,7 @@ package liedge.ltxindustries.item.weapon;
 
 import liedge.limacore.util.LimaEntityUtil;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
-import liedge.ltxindustries.lib.weapons.AbstractWeaponControls;
+import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
 import liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades;
 import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.util.config.LTXIWeaponsConfig;
@@ -33,7 +33,7 @@ public class SubmachineGunItem extends FullAutoWeaponItem
     }
 
     @Override
-    public void weaponFired(ItemStack heldItem, Player player, Level level, AbstractWeaponControls controls)
+    public void weaponFired(ItemStack heldItem, Player player, Level level, LTXIExtendedInput controls)
     {
         double inaccuracy = LimaEntityUtil.isEntityUsingItem(player, InteractionHand.MAIN_HAND) ? 0.25d : 4d;
         traceLightfrag(heldItem, player, level, LTXIWeaponsConfig.SMG_BASE_DAMAGE.getAsDouble(), inaccuracy, 0.2d);

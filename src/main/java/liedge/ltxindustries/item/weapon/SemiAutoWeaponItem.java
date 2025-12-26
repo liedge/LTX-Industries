@@ -1,6 +1,6 @@
 package liedge.ltxindustries.item.weapon;
 
-import liedge.ltxindustries.lib.weapons.AbstractWeaponControls;
+import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
 import net.minecraft.core.Holder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -14,7 +14,7 @@ public abstract class SemiAutoWeaponItem extends WeaponItem
     }
 
     @Override
-    public void triggerPressed(ItemStack heldItem, Player player, AbstractWeaponControls input)
+    public void triggerPressed(ItemStack heldItem, Player player, LTXIExtendedInput input)
     {
         if (!player.level().isClientSide() && input.canStartShootingWeapon(heldItem, player, this))
         {
@@ -23,7 +23,7 @@ public abstract class SemiAutoWeaponItem extends WeaponItem
     }
 
     @Override
-    public boolean canContinueHoldingTrigger(ItemStack heldItem, Player player, AbstractWeaponControls input)
+    public boolean canContinueHoldingTrigger(ItemStack heldItem, Player player, LTXIExtendedInput input)
     {
         return false;
     }

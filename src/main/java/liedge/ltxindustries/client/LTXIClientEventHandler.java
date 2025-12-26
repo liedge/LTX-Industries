@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Either;
 import com.mojang.math.Axis;
 import liedge.limacore.client.LimaCoreClientUtil;
+import liedge.limacore.lib.TickTimer;
 import liedge.limacore.util.LimaEntityUtil;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.LTXIndustries;
@@ -13,12 +14,13 @@ import liedge.ltxindustries.client.renderer.item.LTXIItemRenderers;
 import liedge.ltxindustries.item.ScrollModeSwitchItem;
 import liedge.ltxindustries.item.TooltipShiftHintItem;
 import liedge.ltxindustries.item.weapon.WeaponItem;
-import liedge.ltxindustries.lib.weapons.AbstractWeaponControls;
-import liedge.ltxindustries.lib.weapons.ClientWeaponControls;
+import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
+import liedge.ltxindustries.lib.weapons.ClientExtendedInput;
 import liedge.ltxindustries.network.packet.ServerboundItemModeSwitchPacket;
 import liedge.ltxindustries.registry.game.LTXIAttachmentTypes;
 import liedge.ltxindustries.registry.game.LTXIAttributes;
 import liedge.ltxindustries.registry.game.LTXIItems;
+import liedge.ltxindustries.util.config.LTXIClientConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
@@ -43,7 +45,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import java.util.List;
 import java.util.Objects;
 
-import static liedge.ltxindustries.registry.game.LTXIAttachmentTypes.WEAPON_CONTROLS;
+import static liedge.ltxindustries.registry.game.LTXIAttachmentTypes.INPUT_EXTENSIONS;
 
 @EventBusSubscriber(modid = LTXIndustries.MODID, value = Dist.CLIENT)
 public final class LTXIClientEventHandler
@@ -99,12 +101,17 @@ public final class LTXIClientEventHandler
         if (player != null && !player.isSpectator() && player.input.shiftKeyDown)
         {
             ItemStack heldItem = player.getMainHandItem();
-            if (heldItem.getItem() instanceof ScrollModeSwitchItem)
+            double deltaY = event.getScrollDeltaY();
+            if (heldItem.getItem() instanceof ScrollModeSwitchItem item && deltaY != 0)
             {
-                int x = (int) Math.signum(event.getScrollDeltaX());
-                int y = (int) Math.signum(event.getScrollDeltaY());
-                int delta = (x == 0) ? -y : x;
-                PacketDistributor.sendToServer(new ServerboundItemModeSwitchPacket(player.getInventory().selected, delta));
+                TickTimer cooldown = ClientExtendedInput.of(player).getModeSwitchTimer();
+                if (cooldown.getTimerState() == TickTimer.State.STOPPED)
+                {
+                    boolean forward = LTXIClientConfig.INVERT_MODE_SWITCH_SCROLL.getAsBoolean() ? deltaY > 0 : deltaY < 0;
+                    PacketDistributor.sendToServer(new ServerboundItemModeSwitchPacket(player.getInventory().selected, forward));
+                    cooldown.startTimer(item.getSwitchCooldown());
+                }
+
                 event.setCanceled(true);
             }
         }
@@ -120,7 +127,7 @@ public final class LTXIClientEventHandler
             ItemStack heldItem = player.getMainHandItem();
             if (heldItem.getItem() instanceof WeaponItem weaponItem)
             {
-                ClientWeaponControls.of(player).handleReloadInput(player, heldItem, weaponItem);
+                ClientExtendedInput.of(player).handleReloadInput(player, heldItem, weaponItem);
             }
         }
     }
@@ -135,7 +142,7 @@ public final class LTXIClientEventHandler
             MultiBufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
             Vec3 camVec = event.getCamera().getPosition();
             float partialTick = event.getPartialTick().getGameTimeDeltaPartialTick(true);
-            AbstractWeaponControls controls = Minecraft.getInstance().player.getData(WEAPON_CONTROLS);
+            LTXIExtendedInput controls = Minecraft.getInstance().player.getData(INPUT_EXTENSIONS);
 
             // Render bubble shield pass
             for (Entity entity : level.entitiesForRendering())

@@ -1,7 +1,7 @@
 package liedge.ltxindustries.item.weapon;
 
 import liedge.limacore.util.LimaEntityUtil;
-import liedge.ltxindustries.lib.weapons.AbstractWeaponControls;
+import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
 import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.registry.game.LTXISounds;
 import liedge.ltxindustries.util.config.LTXIWeaponsConfig;
@@ -19,7 +19,7 @@ public class HeavyPistolItem extends SemiAutoWeaponItem
     }
 
     @Override
-    public void weaponFired(ItemStack heldItem, Player player, Level level, AbstractWeaponControls controls)
+    public void weaponFired(ItemStack heldItem, Player player, Level level, LTXIExtendedInput controls)
     {
         double inaccuracy = LimaEntityUtil.isEntityUsingItem(player, InteractionHand.MAIN_HAND) ? 0.15d : 2d;
         traceLightfrag(heldItem, player, level, LTXIWeaponsConfig.HEAVY_PISTOL_BASE_DAMAGE.getAsDouble(), inaccuracy, 0.25d);

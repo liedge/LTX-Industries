@@ -3,7 +3,7 @@ package liedge.ltxindustries.item.weapon;
 import liedge.ltxindustries.entity.EquipmentRocketEntity;
 import liedge.ltxindustries.entity.LTXIEntityUtil;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
-import liedge.ltxindustries.lib.weapons.AbstractWeaponControls;
+import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
 import liedge.ltxindustries.registry.game.LTXIGameEvents;
 import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.registry.game.LTXISounds;
@@ -21,7 +21,7 @@ import net.minecraft.world.phys.Vec3;
 import java.util.Comparator;
 import java.util.Optional;
 
-import static liedge.ltxindustries.registry.game.LTXIAttachmentTypes.WEAPON_CONTROLS;
+import static liedge.ltxindustries.registry.game.LTXIAttachmentTypes.INPUT_EXTENSIONS;
 
 public class RocketLauncherItem extends SemiAutoWeaponItem
 {
@@ -47,7 +47,7 @@ public class RocketLauncherItem extends SemiAutoWeaponItem
     }
 
     @Override
-    public boolean canFocusReticle(ItemStack heldItem, Player player, AbstractWeaponControls controls)
+    public boolean canFocusReticle(ItemStack heldItem, Player player, LTXIExtendedInput controls)
     {
         boolean canTryFocus = super.canFocusReticle(heldItem, player, controls);
         Level level = player.level();
@@ -68,7 +68,7 @@ public class RocketLauncherItem extends SemiAutoWeaponItem
 
             if (entity.isPresent() && entity.get() instanceof LivingEntity livingEntity)
             {
-                if (!player.level().isClientSide()) controls.asServerControls().setFocusedTargetAndNotify(player, livingEntity);
+                if (!player.level().isClientSide()) controls.setFocusedTarget(player, livingEntity);
 
                 return true;
             }
@@ -80,7 +80,7 @@ public class RocketLauncherItem extends SemiAutoWeaponItem
     @Override
     public void onUseTick(Level level, LivingEntity livingEntity, ItemStack stack, int remainingUseDuration)
     {
-        livingEntity.getExistingData(WEAPON_CONTROLS).ifPresent(controls -> {
+        livingEntity.getExistingData(INPUT_EXTENSIONS).ifPresent(controls -> {
             if (controls.getFocusedTarget() != null && !LTXIEntityUtil.isEntityAlive(controls.getFocusedTarget()))
             {
                 livingEntity.stopUsingItem();
@@ -93,12 +93,12 @@ public class RocketLauncherItem extends SemiAutoWeaponItem
     {
         if (entity instanceof Player player && !player.level().isClientSide())
         {
-            player.getData(WEAPON_CONTROLS).asServerControls().setFocusedTargetAndNotify(player, null);
+            player.getData(INPUT_EXTENSIONS).setFocusedTarget(player, null);
         }
     }
 
     @Override
-    public void weaponFired(ItemStack heldItem, Player player, Level level, AbstractWeaponControls controls)
+    public void weaponFired(ItemStack heldItem, Player player, Level level, LTXIExtendedInput controls)
     {
         if (!level.isClientSide())
         {

@@ -4,7 +4,6 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectIterator;
 import liedge.limacore.lib.TickTimer;
-import liedge.limacore.util.LimaCoreUtil;
 import liedge.ltxindustries.item.weapon.WeaponItem;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
@@ -12,11 +11,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class AbstractWeaponControls
+public abstract class LTXIExtendedInput
 {
     private final Object2ObjectMap<WeaponItem, TickTimer> triggerTimers = new Object2ObjectOpenHashMap<>();
     private final TickTimer reloadTimer = new TickTimer();
-    private final TickTimer modeSwitchCooldownTimer = new TickTimer();
 
     private int previousSelectedSlot;
     private boolean triggerHeld;
@@ -69,7 +67,6 @@ public abstract class AbstractWeaponControls
         }
 
         reloadTimer.tickTimer();
-        modeSwitchCooldownTimer.tickTimer();
     }
 
     protected void triggerTick(ItemStack heldItem, Player player, WeaponItem weaponItem)
@@ -111,7 +108,7 @@ public abstract class AbstractWeaponControls
         return focusedTarget;
     }
 
-    public void setFocusedTarget(@Nullable LivingEntity focusedTarget)
+    public void setFocusedTarget(Player player, @Nullable LivingEntity focusedTarget)
     {
         this.focusedTarget = focusedTarget;
     }
@@ -169,11 +166,6 @@ public abstract class AbstractWeaponControls
         return canContinueShootingWeapon(heldItem, player, weaponItem) && getTriggerState(weaponItem) == TickTimer.State.STOPPED;
     }
 
-    public ServerWeaponControls asServerControls()
-    {
-        return LimaCoreUtil.castOrThrow(ServerWeaponControls.class, this, () -> new ClassCastException("Attempted to access server weapon controls on client."));
-    }
-
     public void shootWeapon(ItemStack heldItem, Player player, WeaponItem weaponItem, boolean sendClientUpdate)
     {
         weaponItem.weaponFired(heldItem, player, player.level(), this);
@@ -203,11 +195,6 @@ public abstract class AbstractWeaponControls
     public TickTimer getReloadTimer()
     {
         return reloadTimer;
-    }
-
-    public TickTimer getModeSwitchCooldownTimer()
-    {
-        return modeSwitchCooldownTimer;
     }
 
     public boolean isTriggerHeld()

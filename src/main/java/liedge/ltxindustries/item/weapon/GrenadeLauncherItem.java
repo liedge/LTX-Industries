@@ -8,7 +8,7 @@ import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.entity.OrbGrenadeEntity;
 import liedge.ltxindustries.item.ScrollModeSwitchItem;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
-import liedge.ltxindustries.lib.weapons.AbstractWeaponControls;
+import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
 import liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades;
 import liedge.ltxindustries.registry.game.*;
@@ -60,7 +60,7 @@ public class GrenadeLauncherItem extends SemiAutoWeaponItem implements ScrollMod
     }
 
     @Override
-    public boolean canFocusReticle(ItemStack heldItem, Player player, AbstractWeaponControls controls)
+    public boolean canFocusReticle(ItemStack heldItem, Player player, LTXIExtendedInput controls)
     {
         return false;
     }
@@ -75,7 +75,7 @@ public class GrenadeLauncherItem extends SemiAutoWeaponItem implements ScrollMod
     }
 
     @Override
-    public void weaponFired(ItemStack heldItem, Player player, Level level, AbstractWeaponControls controls)
+    public void weaponFired(ItemStack heldItem, Player player, Level level, LTXIExtendedInput controls)
     {
         if (!level.isClientSide())
         {
@@ -96,10 +96,8 @@ public class GrenadeLauncherItem extends SemiAutoWeaponItem implements ScrollMod
     }
 
     @Override
-    public void switchItemMode(ItemStack stack, Player player, int delta)
+    public void switchItemMode(Player player, ItemStack stack, boolean forward)
     {
-        final boolean forward = delta == 1;
-
         EquipmentUpgrades upgrades = getUpgrades(stack);
         Set<GrenadeType> availableTypes = new ObjectOpenHashSet<>();
         availableTypes.add(GrenadeType.EXPLOSIVE); // Always allow equipping explosive shells
@@ -112,6 +110,12 @@ public class GrenadeLauncherItem extends SemiAutoWeaponItem implements ScrollMod
             setGrenadeType(stack, toSwitch);
             player.level().playSound(null, player, LTXISounds.WEAPON_MODE_SWITCH.get(), SoundSource.PLAYERS, 1.0f, 1.0f);
         }
+    }
+
+    @Override
+    public int getSwitchCooldown()
+    {
+        return 5;
     }
 
     @Override

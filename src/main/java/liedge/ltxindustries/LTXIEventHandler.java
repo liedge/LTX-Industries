@@ -100,7 +100,7 @@ public final class LTXIEventHandler
         // Weapon system tick
         ItemStack heldItem = player.getMainHandItem();
         WeaponItem weaponItem = LimaCoreUtil.castOrNull(WeaponItem.class, heldItem.getItem());
-        player.getData(LTXIAttachmentTypes.WEAPON_CONTROLS).tickInput(player, heldItem, weaponItem);
+        player.getData(LTXIAttachmentTypes.INPUT_EXTENSIONS).tickInput(player, heldItem, weaponItem);
 
         // Shield & equipment tick
         if (player.level() instanceof ServerLevel serverLevel)

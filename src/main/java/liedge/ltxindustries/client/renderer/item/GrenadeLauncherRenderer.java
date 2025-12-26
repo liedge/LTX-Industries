@@ -11,7 +11,7 @@ import liedge.ltxindustries.client.model.baked.BakedRotation;
 import liedge.ltxindustries.client.model.custom.TranslucentFillModel;
 import liedge.ltxindustries.item.weapon.GrenadeLauncherItem;
 import liedge.ltxindustries.item.weapon.WeaponItem;
-import liedge.ltxindustries.lib.weapons.ClientWeaponControls;
+import liedge.ltxindustries.lib.weapons.ClientExtendedInput;
 import liedge.ltxindustries.registry.game.LTXIItems;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
@@ -39,7 +39,7 @@ public class GrenadeLauncherRenderer extends WeaponRenderer<WeaponItem>
 
     public void tickItemRenderer(Player player)
     {
-        TickTimer animationB = ClientWeaponControls.of(player).getAnimationTimerB();
+        TickTimer animationB = ClientExtendedInput.of(player).getAnimationTimerB();
         float speed;
 
         if (animationB.getTimerState() == TickTimer.State.RUNNING)
@@ -56,7 +56,7 @@ public class GrenadeLauncherRenderer extends WeaponRenderer<WeaponItem>
     }
 
     @Override
-    public void renderCrosshair(LocalPlayer player, WeaponItem weaponItem, ClientWeaponControls controls, GuiGraphics graphics, float partialTicks, int screenWidth, int screenHeight, LimaColor crosshairColor)
+    public void renderCrosshair(LocalPlayer player, WeaponItem weaponItem, ClientExtendedInput controls, GuiGraphics graphics, float partialTicks, int screenWidth, int screenHeight, LimaColor crosshairColor)
     {
         final int centerX = (screenWidth - 5) / 2;
         final int centerY = (screenHeight - 5) / 2;
@@ -70,7 +70,7 @@ public class GrenadeLauncherRenderer extends WeaponRenderer<WeaponItem>
     }
 
     @Override
-    public void onWeaponFired(ItemStack stack, WeaponItem weaponItem, ClientWeaponControls controls)
+    public void onWeaponFired(ItemStack stack, WeaponItem weaponItem, ClientExtendedInput controls)
     {
         controls.getAnimationTimerA().startTimer(6);
         controls.getAnimationTimerB().startTimer(10);
@@ -98,7 +98,7 @@ public class GrenadeLauncherRenderer extends WeaponRenderer<WeaponItem>
     }
 
     @Override
-    protected void renderWeaponFirstPerson(ItemStack stack, WeaponItem item, ItemDisplayContext displayContext, PoseStack poseStack, MultiBufferSource bufferSource, int light, int overlay, float partialTick, ClientWeaponControls controls)
+    protected void renderWeaponFirstPerson(ItemStack stack, WeaponItem item, ItemDisplayContext displayContext, PoseStack poseStack, MultiBufferSource bufferSource, int light, int overlay, float partialTick, ClientExtendedInput controls)
     {
         LimaColor grenadeColor = GrenadeLauncherItem.getGrenadeTypeFromItem(stack).getColor();
 

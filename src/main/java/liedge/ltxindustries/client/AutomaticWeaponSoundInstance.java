@@ -31,7 +31,7 @@ public class AutomaticWeaponSoundInstance extends AbstractTickableSoundInstance
             this.y = player.getY();
             this.z = player.getZ();
 
-            if (!shouldStop && !player.getData(LTXIAttachmentTypes.WEAPON_CONTROLS).isTriggerHeld())
+            if (!shouldStop && !player.getData(LTXIAttachmentTypes.INPUT_EXTENSIONS).isTriggerHeld())
             {
                 shouldStop = true;
             }

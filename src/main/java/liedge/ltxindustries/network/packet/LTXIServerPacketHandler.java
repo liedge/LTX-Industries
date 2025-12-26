@@ -1,10 +1,7 @@
 package liedge.ltxindustries.network.packet;
 
-import liedge.limacore.lib.TickTimer;
 import liedge.ltxindustries.item.ScrollModeSwitchItem;
-import liedge.ltxindustries.item.weapon.WeaponItem;
-import liedge.ltxindustries.lib.weapons.AbstractWeaponControls;
-import liedge.ltxindustries.registry.game.LTXIAttachmentTypes;
+import liedge.ltxindustries.lib.weapons.ServerExtendedInput;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 
@@ -17,7 +14,7 @@ final class LTXIServerPacketHandler
         ItemStack heldItem = sender.getMainHandItem();
         if (heldItem.is(packet.weaponItem()))
         {
-            sender.getData(LTXIAttachmentTypes.WEAPON_CONTROLS).asServerControls().handleClientAction(heldItem, sender, packet.weaponItem(), packet.action());
+            ServerExtendedInput.of(sender).handleClientAction(heldItem, sender, packet.weaponItem(), packet.action());
         }
     }
 
@@ -29,20 +26,7 @@ final class LTXIServerPacketHandler
 
             if (heldItem.getItem() instanceof ScrollModeSwitchItem item)
             {
-                if (heldItem.getItem() instanceof WeaponItem)
-                {
-                    AbstractWeaponControls controls = sender.getData(LTXIAttachmentTypes.WEAPON_CONTROLS);
-
-                    if (controls.getModeSwitchCooldownTimer().getTimerState() == TickTimer.State.STOPPED)
-                    {
-                        controls.getModeSwitchCooldownTimer().startTimer(5);
-                        item.switchItemMode(heldItem, sender, packet.delta());
-                    }
-                }
-                else
-                {
-                    item.switchItemMode(heldItem, sender, packet.delta());
-                }
+                item.switchItemMode(sender, heldItem, packet.forward());
             }
         }
     }

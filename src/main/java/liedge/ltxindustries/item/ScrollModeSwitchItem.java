@@ -5,5 +5,7 @@ import net.minecraft.world.item.ItemStack;
 
 public interface ScrollModeSwitchItem
 {
-    void switchItemMode(ItemStack stack, Player player, int delta);
+    void switchItemMode(Player player, ItemStack stack, boolean forward);
+
+    int getSwitchCooldown();
 }

@@ -2,7 +2,7 @@ package liedge.ltxindustries.network.packet;
 
 import liedge.limacore.client.LimaCoreClientUtil;
 import liedge.ltxindustries.item.weapon.WeaponItem;
-import liedge.ltxindustries.lib.weapons.ClientWeaponControls;
+import liedge.ltxindustries.lib.weapons.ClientExtendedInput;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -19,7 +19,7 @@ final class LTXIClientPacketHandler
             ItemStack heldItem = player.getMainHandItem();
             if (heldItem.getItem() instanceof WeaponItem weaponItem)
             {
-                ClientWeaponControls controls = ClientWeaponControls.of(player);
+                ClientExtendedInput controls = ClientExtendedInput.of(player);
 
                 if (packet.weaponItem() == weaponItem)
                 {
@@ -38,9 +38,6 @@ final class LTXIClientPacketHandler
         Player player = LimaCoreClientUtil.getClientEntity(packet.playerId(), Player.class);
         LivingEntity livingEntity = LimaCoreClientUtil.getClientEntity(packet.entityId(), LivingEntity.class);
 
-        if (player != null)
-        {
-            ClientWeaponControls.of(player).setFocusedTarget(livingEntity);
-        }
+        if (player != null) ClientExtendedInput.of(player).setFocusedTarget(player, livingEntity);
     }
 }
