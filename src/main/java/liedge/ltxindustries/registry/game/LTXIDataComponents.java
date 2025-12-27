@@ -3,6 +3,7 @@ package liedge.ltxindustries.registry.game;
 import com.mojang.serialization.Codec;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.blockentity.base.BlockIOConfiguration;
+import liedge.ltxindustries.item.tool.ToolSpeed;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgradeEntry;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgradeEntry;
@@ -29,14 +30,17 @@ public final class LTXIDataComponents
         TYPES.addAlias(LTXIndustries.RESOURCES.location("weapon_ammo"), WEAPON_AMMO.getId());
     }
 
-    // Normal data components
+    // Upgrade components
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<EquipmentUpgrades>> EQUIPMENT_UPGRADES = TYPES.registerComponentType("equipment_upgrades", builder -> builder.persistent(EquipmentUpgrades.CODEC).networkSynchronized(EquipmentUpgrades.STREAM_CODEC).cacheEncoding());
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<MachineUpgrades>> MACHINE_UPGRADES = TYPES.registerComponentType("machine_upgrades", builder -> builder.persistent(MachineUpgrades.CODEC).networkSynchronized(MachineUpgrades.STREAM_CODEC).cacheEncoding());
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<EquipmentUpgradeEntry>> EQUIPMENT_UPGRADE_ENTRY = TYPES.registerComponentType("equipment_upgrade", builder -> builder.persistent(EquipmentUpgradeEntry.CODEC).networkSynchronized(EquipmentUpgradeEntry.STREAM_CODEC).cacheEncoding());
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<MachineUpgradeEntry>> MACHINE_UPGRADE_ENTRY = TYPES.registerComponentType("machine_upgrade", builder -> builder.persistent(MachineUpgradeEntry.CODEC).networkSynchronized(MachineUpgradeEntry.STREAM_CODEC).cacheEncoding());
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> LAST_EQUIPMENT_HASH = TYPES.registerComponentType("last_equipment_hash", builder -> builder.persistent(Codec.INT)); // No network sync, unnecessary
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> LAST_EQUIPMENT_HASH = TYPES.registerComponentType("last_equipment_hash", builder -> builder.persistent(Codec.INT));
+
+    // Misc components
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<ResourceLocation>> BLUEPRINT_RECIPE = TYPES.registerComponentType("blueprint_recipe", builder -> builder.persistent(ResourceLocation.CODEC).networkSynchronized(ResourceLocation.STREAM_CODEC));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<BlockIOConfiguration>> BLOCK_IO_CONFIGURATION = TYPES.registerComponentType("block_io_config", builder -> builder.persistent(BlockIOConfiguration.CODEC).networkSynchronized(BlockIOConfiguration.STREAM_CODEC).cacheEncoding());
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<ToolSpeed>> TOOL_SPEED = TYPES.registerComponentType("tool_speed", builder -> builder.persistent(ToolSpeed.CODEC).networkSynchronized(ToolSpeed.STREAM_CODEC));
 
     // Weapon components
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> WEAPON_AMMO = TYPES.registerComponentType("ammo", builder -> builder.persistent(ExtraCodecs.intRange(0, 1000)).networkSynchronized(ByteBufCodecs.VAR_INT));

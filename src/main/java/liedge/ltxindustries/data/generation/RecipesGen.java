@@ -110,7 +110,7 @@ class RecipesGen extends LimaRecipeProvider
         shaped(ENERGY_IO_CONFIG_CARD).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('m', ELECTRIC_CHEMICAL).patterns(" m ", "tct", " t ").save(output);
         shaped(FLUIDS_IO_CONFIG_CARD).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('m', BUCKET).patterns(" m ", "tct", " t ").save(output);
 
-        shaped(defaultUpgradableItem(LTX_WRENCH, registries)).input('t', TITANIUM_INGOT).input('l', DYES_LIME).patterns("t t", " l ", " t ").save(output);
+        shaped(defaultUpgradableItem(LTX_WRENCH, registries)).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).patterns("t t", " c ", " t ").save(output);
 
         shapeless(GuideMEIntegration.createGuideTabletItem())
                 .condition(new ModLoadedCondition("guideme"))
@@ -277,32 +277,36 @@ class RecipesGen extends LimaRecipeProvider
         // Tools fabricating
         upgradeableItemFabricating(LTX_DRILL, registries, 1_000_000)
                 .input(T3_CIRCUIT)
-                .input(TITANIUM_INGOT, 9)
-                .input(SLATESTEEL_INGOT, 3)
+                .input(TITANIUM_INGOT, 24)
+                .input(POLYMER_INGOT, 6)
+                .input(SLATESTEEL_GEAR, 3)
                 .input(LTX_LIME_PIGMENT, 6)
                 .group("ltx/tool").save(output);
         upgradeableItemFabricating(LTX_SWORD, registries, 1_000_000)
                 .input(T3_CIRCUIT)
-                .input(TITANIUM_INGOT, 6)
+                .input(TITANIUM_INGOT, 16)
                 .input(SLATESTEEL_INGOT, 2)
                 .input(LTX_LIME_PIGMENT, 4)
                 .group("ltx/tool").save(output);
         upgradeableItemFabricating(LTX_SHOVEL, registries, 1_000_000)
                 .input(T3_CIRCUIT)
-                .input(TITANIUM_INGOT, 3)
-                .input(SLATESTEEL_INGOT, 1)
+                .input(TITANIUM_INGOT, 8)
+                .input(POLYMER_INGOT, 2)
+                .input(SLATESTEEL_GEAR)
                 .input(LTX_LIME_PIGMENT, 2)
                 .group("ltx/tool").save(output);
         upgradeableItemFabricating(LTX_AXE, registries, 1_000_000)
                 .input(T3_CIRCUIT)
-                .input(TITANIUM_INGOT, 9)
-                .input(SLATESTEEL_INGOT, 3)
+                .input(TITANIUM_INGOT, 24)
+                .input(POLYMER_INGOT, 6)
+                .input(SLATESTEEL_GEAR, 3)
                 .input(LTX_LIME_PIGMENT, 6)
                 .group("ltx/tool").save(output);
         upgradeableItemFabricating(LTX_HOE, registries, 1_000_000)
                 .input(T3_CIRCUIT)
-                .input(TITANIUM_INGOT, 6)
-                .input(SLATESTEEL_INGOT, 2)
+                .input(TITANIUM_INGOT, 16)
+                .input(POLYMER_INGOT, 4)
+                .input(SLATESTEEL_GEAR, 2)
                 .input(LTX_LIME_PIGMENT, 4)
                 .group("ltx/tool").save(output);
         upgradeableItemFabricating(LTX_SHEARS, registries, 500_000)
@@ -443,7 +447,10 @@ class RecipesGen extends LimaRecipeProvider
                 .input(SLATESTEEL_INGOT, 4));
         upgradeFabricating(output, registries, eumTools, EPSILON_OMNI_DRILL, 1, 20_000_000, builder -> builder
                 .input(T4_CIRCUIT)
-                .input(LTX_LIME_PIGMENT, 16));
+                .input(TITANIUM_INGOT, 32)
+                .input(POLYMER_INGOT, 16)
+                .input(SLATESTEEL_GEAR, 2)
+                .input(LTX_LIME_PIGMENT, 8));
         upgradeFabricating(output, registries, eumTools, TOOL_VIBRATION_CANCEL, 1, 500_000, builder -> builder
                 .input(T3_CIRCUIT, 2)
                 .input(TITANIUM_INGOT, 8)

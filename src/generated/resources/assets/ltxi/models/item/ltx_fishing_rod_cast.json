@@ -11,6 +11,6 @@
   },
   "textures": {
     "layer0": "ltxi:item/ltx_fishing_rod_cast_base",
-    "layer1": "ltxi:item/ltx_fishing_rod_emissive"
+    "layer1": "ltxi:item/ltx_fishing_rod_cast_emissive"
   }
 }

@@ -1,9 +1,7 @@
 {
   "values": [
-    "ltxi:ltx_drill",
-    "ltxi:ltx_shovel",
-    "ltxi:ltx_axe",
-    "ltxi:ltx_hoe",
+    "#ltxi:tools/modular_mining",
+    "ltxi:ltx_shears",
     "ltxi:ltx_wrench"
   ]
 }

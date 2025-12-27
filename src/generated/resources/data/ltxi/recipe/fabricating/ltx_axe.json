@@ -8,12 +8,16 @@
       "item": "ltxi:t3_circuit"
     },
     {
-      "count": 9,
+      "count": 24,
       "item": "ltxi:titanium_ingot"
     },
     {
+      "count": 6,
+      "item": "ltxi:polymer_ingot"
+    },
+    {
       "count": 3,
-      "item": "ltxi:slatesteel_ingot"
+      "item": "ltxi:slatesteel_gear"
     },
     {
       "count": 6,

@@ -11,7 +11,6 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.component.Tool;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -25,12 +24,11 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Set;
 
-public class EnergyShovelItem extends EnergyBreakerToolItem
+public class EnergyShovelItem extends ModularEnergyMiningItem
 {
-    public EnergyShovelItem(Properties properties, float attackDamage, float attackSpeed)
+    public EnergyShovelItem(Properties properties, float poweredAttackDamage, float attackSpeed)
     {
-        super(properties, attackDamage, attackSpeed, Tool.Rule.deniesDrops(BlockTags.INCORRECT_FOR_DIAMOND_TOOL),
-                speed -> List.of(Tool.Rule.minesAndDrops(BlockTags.MINEABLE_WITH_SHOVEL, speed)));
+        super(properties, poweredAttackDamage, attackSpeed, List.of(BlockTags.MINEABLE_WITH_SHOVEL));
     }
 
     @Override

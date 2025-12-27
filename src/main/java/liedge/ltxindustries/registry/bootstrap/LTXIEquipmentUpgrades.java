@@ -10,7 +10,6 @@ import liedge.limacore.world.loot.condition.EntityHostilityLootCondition;
 import liedge.limacore.world.loot.condition.NumberComparisonLootCondition;
 import liedge.limacore.world.loot.number.EntityAttributeValueProvider;
 import liedge.limacore.world.loot.number.MathOpsNumberProvider;
-import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.lib.upgrades.effect.*;
@@ -51,8 +50,6 @@ import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.predicates.LootItemEntityPropertyCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.neoforged.neoforge.registries.holdersets.AnyHolderSet;
-
-import java.util.Optional;
 
 import static liedge.ltxindustries.LTXIConstants.*;
 import static liedge.ltxindustries.LTXITags.EquipmentUpgrades.*;
@@ -159,7 +156,7 @@ public final class LTXIEquipmentUpgrades
                 .register(context);
         EquipmentUpgrade.builder(LTX_MELEE_DEFAULT)
                 .setTitle(defaultToolTitle)
-                .supports(items.getOrThrow(LTXITags.Items.MELEE_WEAPONS))
+                .supports(meleeWeapons)
                 .withEffect(ENCHANTMENT_LEVELS, AddEnchantmentLevels.fixed(enchantments.getOrThrow(RAZOR), 1, 5))
                 .withEffect(ENCHANTMENT_LEVELS, AddEnchantmentLevels.fixed(enchantments.getOrThrow(Enchantments.LOOTING), 1, 5))
                 .withConditionalEffect(EQUIPMENT_DAMAGE, ValueOperation.of(ConstantDouble.of(0.2d), MathOperation.ADD_PERCENT_OF_TOTAL), NumberComparisonLootCondition.comparingValues(
@@ -239,16 +236,16 @@ public final class LTXIEquipmentUpgrades
                 .category("tools")
                 .register(context);
         EquipmentUpgrade.builder(TOOL_NETHERITE_LEVEL)
-                .supports(miningTools)
+                .supports(items.getOrThrow(LTXITags.Items.MODULAR_MINING_TOOLS))
                 .exclusiveWith(holders, MINING_LEVEL_UPGRADES)
-                .withEffect(MINING_RULES, MiningRuleUpgradeEffect.miningLevelAndSpeed(blocks.getOrThrow(BlockTags.INCORRECT_FOR_NETHERITE_TOOL), 11f, 2))
+                .withEffect(MODULAR_TOOL, ModularTool.limitedTo(blocks.getOrThrow(BlockTags.INCORRECT_FOR_NETHERITE_TOOL)))
                 .effectIcon(greenArrowOverlay(itemIcon(Items.NETHERITE_PICKAXE)))
                 .category("tools")
                 .register(context);
         EquipmentUpgrade.builder(EPSILON_OMNI_DRILL)
                 .createDefaultTitle(LIME_GREEN)
-                .supports(LTXIItems.LTX_DRILL)
-                .withEffect(MINING_RULES, new MiningRuleUpgradeEffect(Optional.of(anyBlockHolderSet), Optional.empty(), Optional.empty(), 3))
+                .supports(items.getOrThrow(LTXITags.Items.MODULAR_MINING_TOOLS))
+                .withEffect(MODULAR_TOOL, ModularTool.effectiveOn(anyBlockHolderSet))
                 .effectIcon(sprite("purple_drill_head"))
                 .category("tools/drill")
                 .register(context);
@@ -367,7 +364,7 @@ public final class LTXIEquipmentUpgrades
                 .register(context);
 
         EquipmentUpgrade.builder(UNIVERSAL_INFINITE_AMMO)
-                .createDefaultTitle(LTXIConstants.CREATIVE_PINK)
+                .createDefaultTitle(CREATIVE_PINK)
                 .supports(projectileWeapons)
                 .exclusiveWith(holders, AMMO_SOURCE_MODIFIERS)
                 .withSpecialEffect(RELOAD_SOURCE, WeaponReloadSource.infiniteAmmo())

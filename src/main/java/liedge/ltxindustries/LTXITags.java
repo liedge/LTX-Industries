@@ -93,6 +93,7 @@ public final class LTXITags
 
         public static final TagKey<Item> ALL_TOOLS = RESOURCES.itemTag("tools");
         public static final TagKey<Item> MINING_TOOLS = RESOURCES.itemTag("tools/mining");
+        public static final TagKey<Item> MODULAR_MINING_TOOLS = RESOURCES.itemTag("tools/modular_mining");
 
         private static TagKey<Item> copy(TagKey<Block> blockTag)
         {

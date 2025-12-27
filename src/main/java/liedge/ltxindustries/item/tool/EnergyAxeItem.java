@@ -44,14 +44,13 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 
-public class EnergyAxeItem extends EnergyBreakerToolItem
+public class EnergyAxeItem extends ModularEnergyMiningItem
 {
     private static final int MAX_LOGS_TO_BREAK = 128;
 
-    public EnergyAxeItem(Properties properties, float attackDamage, float attackSpeed)
+    public EnergyAxeItem(Properties properties, float poweredAttackDamage, float attackSpeed)
     {
-        super(properties, attackDamage, attackSpeed, Tool.Rule.deniesDrops(BlockTags.INCORRECT_FOR_DIAMOND_TOOL),
-                speed -> List.of(Tool.Rule.minesAndDrops(BlockTags.MINEABLE_WITH_AXE, speed)));
+        super(properties, poweredAttackDamage, attackSpeed, List.of(BlockTags.MINEABLE_WITH_AXE));
     }
 
     @Override
@@ -103,7 +102,7 @@ public class EnergyAxeItem extends EnergyBreakerToolItem
         {
             if (player instanceof ServerPlayer serverPlayer)
             {
-                CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, stack);
+                CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, stack);
                 consumeActionEnergy(serverPlayer, stack);
             }
 

@@ -19,14 +19,12 @@
     }
   },
   "effects": {
-    "ltxi:mining_rules": [
+    "ltxi:modular_tool": [
       {
-        "denied_blocks": "#minecraft:incorrect_for_netherite_tool",
-        "mining_speed": 11.0,
-        "priority": 2
+        "limit": "#minecraft:incorrect_for_netherite_tool"
       }
     ]
   },
   "exclusive_set": "#ltxi:mining_levels",
-  "supported_set": "#ltxi:tools/mining"
+  "supported_set": "#ltxi:tools/modular_mining"
 }

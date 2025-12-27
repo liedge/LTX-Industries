@@ -10,6 +10,7 @@ import liedge.ltxindustries.client.LTXIKeyMappings;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.item.SimpleHintItem;
 import liedge.ltxindustries.item.TooltipShiftHintItem;
+import liedge.ltxindustries.item.tool.ToolSpeed;
 import liedge.ltxindustries.item.weapon.GrenadeLauncherItem;
 import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.lib.upgrades.UpgradeBase;
@@ -170,7 +171,7 @@ class LanguageGen extends LimaLanguageProvider
         addItem(URANIUM_ORE_PEBBLES, "Uranium Ore Pebbles");
         addItem(LTX_DRILL, "ε-Series Drill");
         addItem(LTX_SWORD, "ε-Series Sword");
-        addItem(LTX_SHOVEL, "ε-series Shovel");
+        addItem(LTX_SHOVEL, "ε-Series Shovel");
         addItem(LTX_AXE, "ε-Series Axe");
         addItem(LTX_HOE, "ε-Series Hoe");
         addItem(LTX_SHEARS, "ε-Series Shears");
@@ -217,9 +218,9 @@ class LanguageGen extends LimaLanguageProvider
         upgradeTooltip(LTXIEquipmentUpgrades.LFR_DEFAULT, 1, "%s bonus damage when standing still and sneaking");
 
         upgrade(LTXIEquipmentUpgrades.TOOL_ENERGY_UPGRADE, "Augmented ε Battery", "Maximize your ε-Series tool's field uptime with this enhanced battery.");
-        upgrade(LTXIEquipmentUpgrades.EPSILON_FISHING_LURE, "ε Anglers' Kit", "ε series' signature lure attracts more valuable aquatic specimens faster than regular bait.");
-        upgrade(LTXIEquipmentUpgrades.TOOL_NETHERITE_LEVEL, "Netherite-Core Tool Head", "Upgrades mining tier to Netherite level and increases mining speed.");
-        upgrade(LTXIEquipmentUpgrades.EPSILON_OMNI_DRILL, "ε Experimental Drill", "Special-issue drill augur. Modified to work on any material type.");
+        upgrade(LTXIEquipmentUpgrades.EPSILON_FISHING_LURE, "ε Anglers' Kit", "Upgraded lure for the ε-Series fishing rod. Attracts more valuable aquatic specimens faster than regular bait.");
+        upgrade(LTXIEquipmentUpgrades.TOOL_NETHERITE_LEVEL, "Netherite-Core Tool Head", "Upgraded tool cutters can harvest Netherite-level materials.");
+        upgrade(LTXIEquipmentUpgrades.EPSILON_OMNI_DRILL, "ε Cutter Rev.000", "Restored prototype ε mining tech with bypassed safeties. Makes modular mining tools effective against all material types.");
         upgrade(LTXIEquipmentUpgrades.TOOL_VIBRATION_CANCEL, "Resonance-Tuned Servos", "Special lining on this tool's servos dampen vibrations from standard use.");
         upgrade(LTXIEquipmentUpgrades.TOOL_DIRECT_DROPS, "Mining Subspace Link", "Tool systems interface directly with your inventory, depositing materials without physical collection.");
 
@@ -435,11 +436,9 @@ class LanguageGen extends LimaLanguageProvider
         GRENADE_EXPLOSIONS.forEach((element, holder) -> soundEvent(holder, localizeSimpleName(element) + " grenade explodes"));
         soundEvent(RAILGUN_BOOM, "Railgun booms");
 
-        // Orb grenade elements
-        for (GrenadeType element : GrenadeType.values())
-        {
-            add(element, localizeSimpleName(element));
-        }
+        // Enum types
+        addEnum(GrenadeType.class);
+        addEnum(ToolSpeed.class);
 
         // Damage types
         add(INVALID_WEAPON_DEATH_MESSAGE, "%s was killed by an invalid LTX weapon");

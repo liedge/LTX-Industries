@@ -25,6 +25,7 @@ import liedge.ltxindustries.client.renderer.entity.RocketRenderer;
 import liedge.ltxindustries.client.renderer.entity.StickyFlameRenderer;
 import liedge.ltxindustries.client.renderer.item.BlueprintItemExtensions;
 import liedge.ltxindustries.client.renderer.item.LTXIItemRenderers;
+import liedge.ltxindustries.client.renderer.item.MiningToolExtensions;
 import liedge.ltxindustries.client.renderer.item.UpgradeModuleItemExtensions;
 import liedge.ltxindustries.menu.tooltip.FabricatorIngredientTooltip;
 import liedge.ltxindustries.menu.tooltip.ItemGridTooltip;
@@ -82,6 +83,7 @@ public class LTXIndustriesClient
         {
             event.registerItem(UpgradeModuleItemExtensions.getInstance(), LTXIItems.EQUIPMENT_UPGRADE_MODULE.get(), LTXIItems.MACHINE_UPGRADE_MODULE.get());
             event.registerItem(BlueprintItemExtensions.INSTANCE, LTXIItems.FABRICATION_BLUEPRINT);
+            event.registerItem(MiningToolExtensions.INSTANCE, LTXIItems.LTX_DRILL, LTXIItems.LTX_SHOVEL, LTXIItems.LTX_AXE, LTXIItems.LTX_HOE);
 
             event.registerItem(LTXIItemRenderers.GLOWSTICK_LAUNCHER, LTXIItems.GLOWSTICK_LAUNCHER.get());
             event.registerItem(LTXIItemRenderers.SUBMACHINE_GUN, LTXIItems.SUBMACHINE_GUN.get());

@@ -93,11 +93,9 @@ class ItemModelGen extends LimaItemModelProvider
 
         // Fishing rod
         final String fishingRodName = getItemName(LTX_FISHING_ROD);
-        ModelFile baseRodModel = existingModel(itemFolderLocation(ModResources.MC, "handheld_rod"));
-        ResourceLocation fishingRodEmissiveTex = itemFolderLocation(fishingRodName + "_emissive");
-        ModelFile castRod = emissiveBiLayer(fishingRodName + "_cast", baseRodModel, itemFolderLocation(fishingRodName + "_cast_base"), fishingRodEmissiveTex);
-        emissiveBiLayer(fishingRodName, baseRodModel, itemFolderLocation(fishingRodName + "_base"), fishingRodEmissiveTex)
-                .override().model(castRod).predicate(FISHING_ROD_CAST, 1f).end();
+        ModelFile handheldRod = existingModel(itemFolderLocation(ModResources.MC, "handheld_rod"));
+        ModelFile castFishingRod = emissiveBiLayer(fishingRodName + "_cast", handheldRod);
+        emissiveBiLayer(fishingRodName, handheldRod).override().model(castFishingRod).predicate(FISHING_ROD_CAST, 1f).end();
 
         // Brush
         final String brushName = getItemName(LTX_BRUSH);
@@ -130,12 +128,17 @@ class ItemModelGen extends LimaItemModelProvider
         return emissiveBiLayer(getBuilder(path), parent, baseTexture, emissiveTexture);
     }
 
+    private ItemModelBuilder emissiveBiLayer(String modelName, ModelFile parent)
+    {
+        ResourceLocation texBase = itemFolderLocation(modelName);
+        return emissiveBiLayer(modelName, parent, texBase.withSuffix("_base"), texBase.withSuffix("_emissive"));
+    }
+
     private void emissiveBiLayerModels(ModelFile parent, ItemLike... items)
     {
         for (ItemLike item : items)
         {
-            ResourceLocation path = itemFolderLocation(item);
-            emissiveBiLayer(getBuilder(item), parent, path.withSuffix("_base"), path.withSuffix("_emissive"));
+            emissiveBiLayer(getItemName(item.asItem()), parent);
         }
     }
 

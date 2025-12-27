@@ -6,10 +6,12 @@ import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
 import liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.component.Tool;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
@@ -22,11 +24,17 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Set;
 
-public class EnergyWrenchItem extends EnergyBreakerToolItem
+public class EnergyWrenchItem extends BaseEnergyMiningItem
 {
+    private static Tool toolProperties()
+    {
+        return new Tool(List.of(Tool.Rule.minesAndDrops(LTXITags.Blocks.WRENCH_BREAKABLE, 15f)),
+                1f, 1);
+    }
+
     public EnergyWrenchItem(Properties properties)
     {
-        super(properties, speed -> List.of(Tool.Rule.minesAndDrops(LTXITags.Blocks.WRENCH_BREAKABLE, speed)));
+        super(properties.component(DataComponents.TOOL, toolProperties()), 0f, ItemAttributeModifiers.EMPTY);
     }
 
     @Override

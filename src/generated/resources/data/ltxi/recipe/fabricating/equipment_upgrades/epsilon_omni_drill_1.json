@@ -12,7 +12,19 @@
       "item": "ltxi:t4_circuit"
     },
     {
+      "count": 32,
+      "item": "ltxi:titanium_ingot"
+    },
+    {
       "count": 16,
+      "item": "ltxi:polymer_ingot"
+    },
+    {
+      "count": 2,
+      "item": "ltxi:slatesteel_gear"
+    },
+    {
+      "count": 8,
       "item": "ltxi:ltx_lime_pigment"
     }
   ],

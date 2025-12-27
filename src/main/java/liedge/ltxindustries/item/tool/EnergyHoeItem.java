@@ -12,7 +12,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
-import net.minecraft.world.item.component.Tool;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -27,12 +26,11 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Set;
 
-public class EnergyHoeItem extends EnergyBreakerToolItem
+public class EnergyHoeItem extends ModularEnergyMiningItem
 {
-    public EnergyHoeItem(Properties properties, float attackDamage, float attackSpeed)
+    public EnergyHoeItem(Properties properties, float poweredAttackDamage, float attackSpeed)
     {
-        super(properties, attackDamage, attackSpeed, Tool.Rule.deniesDrops(BlockTags.INCORRECT_FOR_DIAMOND_TOOL),
-                speed -> List.of(Tool.Rule.minesAndDrops(BlockTags.MINEABLE_WITH_HOE, speed)));
+        super(properties, poweredAttackDamage, attackSpeed, List.of(BlockTags.MINEABLE_WITH_HOE));
     }
 
     @Override

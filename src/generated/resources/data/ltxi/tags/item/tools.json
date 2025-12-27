@@ -1,10 +1,14 @@
 {
   "values": [
+    "ltxi:ltx_drill",
+    "ltxi:ltx_sword",
+    "ltxi:ltx_shovel",
+    "ltxi:ltx_axe",
+    "ltxi:ltx_hoe",
+    "ltxi:ltx_wrench",
     "ltxi:ltx_shears",
     "ltxi:ltx_brush",
     "ltxi:ltx_fishing_rod",
-    "ltxi:ltx_lighter",
-    "#ltxi:tools/mining",
-    "#ltxi:weapons/melee"
+    "ltxi:ltx_lighter"
   ]
 }

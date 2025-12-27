@@ -11,15 +11,14 @@
     }
   },
   "effects": {
-    "ltxi:mining_rules": [
+    "ltxi:modular_tool": [
       {
-        "effective_blocks": {
+        "effective": {
           "type": "neoforge:any"
-        },
-        "priority": 3
+        }
       }
     ]
   },
   "exclusive_set": [],
-  "supported_set": "ltxi:ltx_drill"
+  "supported_set": "#ltxi:tools/modular_mining"
 }

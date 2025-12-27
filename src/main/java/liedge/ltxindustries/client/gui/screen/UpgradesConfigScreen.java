@@ -1,9 +1,9 @@
 package liedge.ltxindustries.client.gui.screen;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import liedge.limacore.client.gui.LimaGuiUtil;
 import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.limacore.util.LimaRegistryUtil;
@@ -23,7 +23,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Matrix4f;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.List;
@@ -187,7 +186,7 @@ public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, U>, M extend
                 rightColor = UPGRADE_RANK_MAGENTA.argb32();
             }
 
-            renderGradientBar(graphics, posX + 21, posY + 15, posX + 21 + xo, posY + 19, leftColor, rightColor);
+            LimaGuiUtil.fillHorizontalGradient(graphics, RenderType.guiOverlay(), posX + 21, posY + 15, posX + 21 + xo, posY + 19, leftColor, rightColor);
         }
 
         @Override
@@ -214,19 +213,6 @@ public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, U>, M extend
             {
                 parent.sendCustomButtonData(UpgradesConfigMenu.UPGRADE_REMOVAL_BUTTON_ID, LimaRegistryUtil.getNonNullRegistryId(element.getKey()), LimaCoreNetworkSerializers.RESOURCE_LOCATION);
             }
-        }
-
-        private void renderGradientBar(GuiGraphics graphics, float x1, float y1, float x2, float y2, int leftColor, int rightColor)
-        {
-            Matrix4f mx4 = graphics.pose().last().pose();
-            VertexConsumer buffer = graphics.bufferSource().getBuffer(RenderType.guiOverlay());
-
-            buffer.addVertex(mx4, x1, y1, 0).setColor(leftColor);
-            buffer.addVertex(mx4, x1, y2, 0).setColor(leftColor);
-            buffer.addVertex(mx4, x2, y2, 0).setColor(rightColor);
-            buffer.addVertex(mx4, x2, y1, 0).setColor(rightColor);
-
-            graphics.flush();
         }
     }
 }

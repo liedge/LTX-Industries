@@ -1,8 +1,9 @@
 package liedge.ltxindustries.client.renderer.item;
 
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import liedge.limacore.client.ItemGuiRenderOverride;
+import liedge.limacore.client.gui.LimaGuiUtil;
 import liedge.limacore.lib.math.LimaCoreMath;
+import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.client.gui.UpgradeIconRenderers;
 import liedge.ltxindustries.item.UpgradeModuleItem;
 import liedge.ltxindustries.lib.upgrades.UpgradeBaseEntry;
@@ -13,9 +14,6 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.item.ItemStack;
-import org.joml.Matrix4f;
-
-import static liedge.ltxindustries.LTXIConstants.UPGRADE_RANK_MAGENTA;
 
 public final class UpgradeModuleItemExtensions implements ItemGuiRenderOverride
 {
@@ -46,9 +44,9 @@ public final class UpgradeModuleItemExtensions implements ItemGuiRenderOverride
         {
             graphics.pose().pushPose();
 
-            renderGradientBar(graphics, x + 1, y + 1, x + 3, y +  15, 0xff4a4a4a, -16777216);
+            LimaGuiUtil.fillVerticalGradient(graphics, RenderType.gui(), x + 1, y + 1, x + 3, y + 15, 300, 0xff4a4a4a, -16777216);
             float yo = 14f - 14f * LimaCoreMath.divideFloat(rank, maxRank);
-            renderGradientBar(graphics, x + 1, y + 1 + yo, x + 3, y + 15, UPGRADE_RANK_MAGENTA.argb32(), 0xffd13ff0);
+            LimaGuiUtil.fillVerticalGradient(graphics, RenderType.gui(), x + 1, y + 1 + yo, x + 3, y + 15, 300, LTXIConstants.UPGRADE_RANK_MAGENTA.argb32(), 0xffd13ff0);
 
             graphics.pose().popPose();
         }
@@ -69,18 +67,5 @@ public final class UpgradeModuleItemExtensions implements ItemGuiRenderOverride
         }
 
         return false;
-    }
-
-    private void renderGradientBar(GuiGraphics graphics, float x1, float y1, float x2, float y2, int topColor, int bottomColor)
-    {
-        Matrix4f mx4 = graphics.pose().last().pose();
-        VertexConsumer buffer = graphics.bufferSource().getBuffer(RenderType.gui());
-
-        buffer.addVertex(mx4, x1, y1, 300).setColor(topColor);
-        buffer.addVertex(mx4, x1, y2, 300).setColor(bottomColor);
-        buffer.addVertex(mx4, x2, y2, 300).setColor(bottomColor);
-        buffer.addVertex(mx4, x2, y1, 300).setColor(topColor);
-
-        graphics.flush();
     }
 }
