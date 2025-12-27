@@ -15,13 +15,13 @@ public final class LTXIClientConfig
     public static final ModConfigSpec.BooleanValue ALWAYS_SHOW_UPGRADE_ICONS;
     public static final ModConfigSpec.BooleanValue INVERT_MODE_SWITCH_SCROLL;
 
-    // Weapon HUD
-    private static final HorizontalAlignment DEFAULT_WEAPON_HUD_X_ALIGN = HorizontalAlignment.LEFT;
-    private static final VerticalAlignment DEFAULT_WEAPON_HUD_Y_ALIGN = VerticalAlignment.CENTER;
-    private static final ModConfigSpec.ConfigValue<String> WEAPON_HUD_HORIZONTAL_ALIGN;
-    public static final ModConfigSpec.IntValue WEAPON_HUD_X_OFFSET;
-    private static final ModConfigSpec.ConfigValue<String> WEAPON_HUD_VERTICAL_ALIGN;
-    public static final ModConfigSpec.IntValue WEAPON_HUD_Y_OFFSET;
+    // Equipment HUD
+    private static final HorizontalAlignment DEFAULT_EQUIPMENT_HUD_X_ALIGN = HorizontalAlignment.LEFT;
+    private static final VerticalAlignment DEFAULT_EQUIPMENT_HUD_Y_ALIGN = VerticalAlignment.CENTER;
+    private static final ModConfigSpec.ConfigValue<String> EQUIPMENT_HUD_HORIZONTAL_ALIGN;
+    public static final ModConfigSpec.IntValue EQUIPMENT_HUD_X_OFFSET;
+    private static final ModConfigSpec.ConfigValue<String> EQUIPMENT_HUD_VERTICAL_ALIGN;
+    public static final ModConfigSpec.IntValue EQUIPMENT_HUD_Y_OFFSET;
 
     // Shield health HUD
     private static final HorizontalAlignment DEFAULT_SHIELD_HUD_X_ALIGN = HorizontalAlignment.CENTER;
@@ -35,8 +35,8 @@ public final class LTXIClientConfig
 
     // Cached values
     private static LimaColor crosshairColor = LimaColor.WHITE;
-    private static HorizontalAlignment weaponHorizontalAlign = DEFAULT_WEAPON_HUD_X_ALIGN;
-    private static VerticalAlignment weaponVerticalAlign = DEFAULT_WEAPON_HUD_Y_ALIGN;
+    private static HorizontalAlignment equipmentHUDXAlign = DEFAULT_EQUIPMENT_HUD_X_ALIGN;
+    private static VerticalAlignment equipmentHUDYAlign = DEFAULT_EQUIPMENT_HUD_Y_ALIGN;
     private static HorizontalAlignment shieldHorizontalAlign = DEFAULT_SHIELD_HUD_X_ALIGN;
     private static VerticalAlignment shieldVerticalAlign = DEFAULT_SHIELD_HUD_Y_ALIGN;
 
@@ -45,8 +45,8 @@ public final class LTXIClientConfig
         if (event.getConfig().getSpec() == CLIENT_CONFIG_SPEC)
         {
             crosshairColor = SOLID_COLOR_CROSSHAIR.get() ? LimaCoreMath.tryParseHexadecimal(WEAPON_CROSSHAIR_COLOR.get()).map(LimaColor::createOpaque).orElse(LimaColor.WHITE) : LimaColor.WHITE;
-            weaponHorizontalAlign = HorizontalAlignment.CODEC.byNameOrElse(WEAPON_HUD_HORIZONTAL_ALIGN.get(), DEFAULT_WEAPON_HUD_X_ALIGN);
-            weaponVerticalAlign = VerticalAlignment.CODEC.byNameOrElse(WEAPON_HUD_VERTICAL_ALIGN.get(), DEFAULT_WEAPON_HUD_Y_ALIGN);
+            equipmentHUDXAlign = HorizontalAlignment.CODEC.byNameOrElse(EQUIPMENT_HUD_HORIZONTAL_ALIGN.get(), DEFAULT_EQUIPMENT_HUD_X_ALIGN);
+            equipmentHUDYAlign = VerticalAlignment.CODEC.byNameOrElse(EQUIPMENT_HUD_VERTICAL_ALIGN.get(), DEFAULT_EQUIPMENT_HUD_Y_ALIGN);
             shieldHorizontalAlign = HorizontalAlignment.CODEC.byNameOrElse(SHIELD_HUD_HORIZONTAL_ALIGN.get(), DEFAULT_SHIELD_HUD_X_ALIGN);
             shieldVerticalAlign = VerticalAlignment.CODEC.byNameOrElse(SHIELD_HUD_VERTICAL_ALIGN.get(), DEFAULT_SHIELD_HUD_Y_ALIGN);
         }
@@ -57,14 +57,14 @@ public final class LTXIClientConfig
         return crosshairColor;
     }
 
-    public static HorizontalAlignment getWeaponHorizontalAlign()
+    public static HorizontalAlignment getEquipmentHUDXAlign()
     {
-        return weaponHorizontalAlign;
+        return equipmentHUDXAlign;
     }
 
-    public static VerticalAlignment getWeaponVerticalAlign()
+    public static VerticalAlignment getEquipmentHUDYAlign()
     {
-        return weaponVerticalAlign;
+        return equipmentHUDYAlign;
     }
 
     public static HorizontalAlignment getShieldHorizontalAlign()
@@ -92,16 +92,16 @@ public final class LTXIClientConfig
         INVERT_MODE_SWITCH_SCROLL = builder.comment("Inverts the scroll direction for switching between equipment modes. By default, scroll down cycles forward.")
                 .define("invert_mode_switch_scroll", false);
 
-        builder.push("weapon_hud");
-        WEAPON_HUD_HORIZONTAL_ALIGN = builder.comment("The horizontal alignment of the weapon ammo HUD overlay.")
+        builder.push("equipment_hud").comment("HUD element positioning for equipment items (weapon ammo, tool speed, etc.)");
+        EQUIPMENT_HUD_HORIZONTAL_ALIGN = builder.comment("The horizontal alignment of equipment items' HUD overlay.")
                 .comment("Valid: left, center, right")
                 .define("horizontal_align", HorizontalAlignment.LEFT.getSerializedName());
-        WEAPON_HUD_X_OFFSET = builder.comment("The x offset from the horizontal alignment point.")
+        EQUIPMENT_HUD_X_OFFSET = builder.comment("The x offset from the horizontal alignment point.")
                 .defineInRange("x_offset", 10, Integer.MIN_VALUE, Integer.MAX_VALUE);
-        WEAPON_HUD_VERTICAL_ALIGN = builder.comment("The vertical alignment of the weapon ammo HUD overlay.")
+        EQUIPMENT_HUD_VERTICAL_ALIGN = builder.comment("The vertical alignment of the equipment items' HUD overlay.")
                 .comment("Valid: top, center, bottom")
                 .define("vertical_align", VerticalAlignment.CENTER.getSerializedName());
-        WEAPON_HUD_Y_OFFSET = builder.comment("The y offset from the vertical alignment point.")
+        EQUIPMENT_HUD_Y_OFFSET = builder.comment("The y offset from the vertical alignment point.")
                 .defineInRange("y_offset", 0, Integer.MIN_VALUE, Integer.MAX_VALUE);
         builder.pop();
 

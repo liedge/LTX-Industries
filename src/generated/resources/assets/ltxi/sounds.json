@@ -17,6 +17,12 @@
     ],
     "subtitle": "subtitle.ltxi.electric_grenade_explode"
   },
+  "equipment_mode_switch": {
+    "sounds": [
+      "ltxi:equipment_mode_switch"
+    ],
+    "subtitle": "subtitle.ltxi.equipment_mode_switch"
+  },
   "explosive_grenade_explode": {
     "sounds": [
       {
@@ -132,11 +138,5 @@
       "ltxi:upgrade_remove"
     ],
     "subtitle": "subtitle.ltxi.upgrade_remove"
-  },
-  "weapon_mode_switch": {
-    "sounds": [
-      "ltxi:weapon_mode_switch"
-    ],
-    "subtitle": "subtitle.ltxi.weapon_mode_switch"
   }
 }

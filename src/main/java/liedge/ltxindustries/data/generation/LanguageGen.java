@@ -420,7 +420,7 @@ class LanguageGen extends LimaLanguageProvider
         // Sound subtitles
         soundEvent(UPGRADE_INSTALL, "Upgrade module installed");
         soundEvent(UPGRADE_REMOVE, "Upgrade module removed");
-        soundEvent(WEAPON_MODE_SWITCH, "Weapon mode switched");
+        soundEvent(EQUIPMENT_MODE_SWITCH, "Equipment mode switched");
         soundEvent(TURRET_TARGET_FOUND, "Turret finds targets");
         soundEvent(BUBBLE_SHIELD_BREAK, "Bubble shield breaks");
         soundEvent(GLOWSTICK_LAUNCHER_FIRE, "Wayfinder fires");

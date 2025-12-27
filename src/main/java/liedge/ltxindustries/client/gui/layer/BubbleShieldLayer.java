@@ -16,7 +16,7 @@ import net.minecraft.resources.ResourceLocation;
 public final class BubbleShieldLayer extends LimaGuiLayer
 {
     private static final ResourceLocation DISPLAY_SPRITE = LTXIndustries.RESOURCES.location("hud/shield");
-    public static final BubbleShieldLayer BUBBLE_SHIELD_LAYER = new BubbleShieldLayer();
+    public static final BubbleShieldLayer INSTANCE = new BubbleShieldLayer();
 
     private BubbleShieldLayer()
     {

@@ -22,7 +22,7 @@ public final class WeaponCrosshairLayer extends LimaGuiLayer
     private static final ResourceLocation RELOAD_SPRITE = RESOURCES.location("hud/reload");
     private static final ResourceLocation RELOAD_SPRITE_FILL = RESOURCES.location("hud/reload_fill");
 
-    public static final WeaponCrosshairLayer CROSSHAIR_LAYER = new WeaponCrosshairLayer();
+    public static final WeaponCrosshairLayer INSTANCE = new WeaponCrosshairLayer();
 
     private WeaponCrosshairLayer()
     {

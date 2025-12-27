@@ -105,17 +105,13 @@ public class GrenadeLauncherItem extends SemiAutoWeaponItem implements ScrollMod
 
         GrenadeType currentType = GrenadeLauncherItem.getGrenadeTypeFromItem(stack);
         GrenadeType toSwitch = forward ? OrderedEnum.nextAvailable(availableTypes, currentType) : OrderedEnum.previousAvailable(availableTypes, currentType);
-        if (!currentType.equals(toSwitch))
-        {
-            setGrenadeType(stack, toSwitch);
-            player.level().playSound(null, player, LTXISounds.WEAPON_MODE_SWITCH.get(), SoundSource.PLAYERS, 1.0f, 1.0f);
-        }
+        if (!currentType.equals(toSwitch)) setGrenadeType(stack, toSwitch);
     }
 
     @Override
     public int getSwitchCooldown()
     {
-        return 5;
+        return 6;
     }
 
     @Override

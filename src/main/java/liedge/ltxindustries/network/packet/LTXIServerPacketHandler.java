@@ -2,6 +2,7 @@ package liedge.ltxindustries.network.packet;
 
 import liedge.ltxindustries.item.ScrollModeSwitchItem;
 import liedge.ltxindustries.lib.weapons.ServerExtendedInput;
+import liedge.ltxindustries.registry.game.LTXISounds;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 
@@ -27,6 +28,7 @@ final class LTXIServerPacketHandler
             if (heldItem.getItem() instanceof ScrollModeSwitchItem item)
             {
                 item.switchItemMode(sender, heldItem, packet.forward());
+                sender.playSound(LTXISounds.EQUIPMENT_MODE_SWITCH.get(), 1f, 1f);
             }
         }
     }

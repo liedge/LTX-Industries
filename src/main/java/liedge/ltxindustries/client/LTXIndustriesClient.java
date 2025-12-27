@@ -8,8 +8,8 @@ import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.client.gui.ClientFabricatorIngredientTooltip;
 import liedge.ltxindustries.client.gui.ClientItemGridTooltip;
 import liedge.ltxindustries.client.gui.UpgradeIconSprites;
-import liedge.ltxindustries.client.gui.layer.AmmoCounterLayer;
 import liedge.ltxindustries.client.gui.layer.BubbleShieldLayer;
+import liedge.ltxindustries.client.gui.layer.EquipmentHUDLayer;
 import liedge.ltxindustries.client.gui.layer.WeaponCrosshairLayer;
 import liedge.ltxindustries.client.gui.screen.*;
 import liedge.ltxindustries.client.model.custom.BubbleShieldModel;
@@ -208,9 +208,9 @@ public class LTXIndustriesClient
         @SubscribeEvent
         public void registerGuiOverlays(final RegisterGuiLayersEvent event)
         {
-            BubbleShieldLayer.BUBBLE_SHIELD_LAYER.registerAbove(event, VanillaGuiLayers.PLAYER_HEALTH);
-            AmmoCounterLayer.AMMO_COUNTER_LAYER.registerAbove(event, VanillaGuiLayers.HOTBAR);
-            WeaponCrosshairLayer.CROSSHAIR_LAYER.registerAbove(event, VanillaGuiLayers.CROSSHAIR);
+            BubbleShieldLayer.INSTANCE.registerAbove(event, VanillaGuiLayers.ARMOR_LEVEL);
+            EquipmentHUDLayer.INSTANCE.registerAbove(event, VanillaGuiLayers.HOTBAR);
+            WeaponCrosshairLayer.INSTANCE.registerAbove(event, VanillaGuiLayers.CROSSHAIR);
         }
 
         @SubscribeEvent

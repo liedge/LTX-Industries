@@ -14,12 +14,13 @@ import liedge.ltxindustries.client.renderer.item.LTXIItemRenderers;
 import liedge.ltxindustries.item.ScrollModeSwitchItem;
 import liedge.ltxindustries.item.TooltipShiftHintItem;
 import liedge.ltxindustries.item.weapon.WeaponItem;
-import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
 import liedge.ltxindustries.lib.weapons.ClientExtendedInput;
+import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
 import liedge.ltxindustries.network.packet.ServerboundItemModeSwitchPacket;
 import liedge.ltxindustries.registry.game.LTXIAttachmentTypes;
 import liedge.ltxindustries.registry.game.LTXIAttributes;
 import liedge.ltxindustries.registry.game.LTXIItems;
+import liedge.ltxindustries.registry.game.LTXISounds;
 import liedge.ltxindustries.util.config.LTXIClientConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -109,6 +110,7 @@ public final class LTXIClientEventHandler
                 {
                     boolean forward = LTXIClientConfig.INVERT_MODE_SWITCH_SCROLL.getAsBoolean() ? deltaY > 0 : deltaY < 0;
                     PacketDistributor.sendToServer(new ServerboundItemModeSwitchPacket(player.getInventory().selected, forward));
+                    player.playSound(LTXISounds.EQUIPMENT_MODE_SWITCH.get(), 1f, 1f);
                     cooldown.startTimer(item.getSwitchCooldown());
                 }
 

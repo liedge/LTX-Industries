@@ -23,7 +23,7 @@ class SoundsGen extends LimaSoundDefinitionsProvider
     {
         addSingleDirectSound(UPGRADE_INSTALL);
         addSingleDirectSound(UPGRADE_REMOVE);
-        addSingleDirectSound(WEAPON_MODE_SWITCH);
+        addSingleDirectSound(EQUIPMENT_MODE_SWITCH);
         addSingleDirectSound(TURRET_TARGET_FOUND);
         addSingleDirectSound(BUBBLE_SHIELD_BREAK);
 
