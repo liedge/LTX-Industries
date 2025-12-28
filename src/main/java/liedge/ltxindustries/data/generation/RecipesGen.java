@@ -455,6 +455,9 @@ class RecipesGen extends LimaRecipeProvider
                 .input(POLYMER_INGOT, 16)
                 .input(SLATESTEEL_GEAR, 2)
                 .input(LTX_LIME_PIGMENT, 8));
+        upgradeFabricating(output, registries, eumTools, TREE_VEIN_MINE, 1, 250_00, builder -> builder
+                .input(T1_CIRCUIT)
+                .input(TITANIUM_GEAR, 2));
         upgradeFabricating(output, registries, eumTools, TOOL_VIBRATION_CANCEL, 1, 500_000, builder -> builder
                 .input(T3_CIRCUIT, 2)
                 .input(TITANIUM_INGOT, 8)

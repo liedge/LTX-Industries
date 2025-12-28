@@ -79,6 +79,7 @@ public final class LTXIEquipmentUpgrades
     public static final ResourceKey<EquipmentUpgrade> EPSILON_FISHING_LURE = key("epsilon_fishing_lure");
     public static final ResourceKey<EquipmentUpgrade> TOOL_NETHERITE_LEVEL = key("tool_netherite_level");
     public static final ResourceKey<EquipmentUpgrade> EPSILON_OMNI_DRILL = key("epsilon_omni_drill");
+    public static final ResourceKey<EquipmentUpgrade> TREE_VEIN_MINE = key("tree_vein_mine");
     public static final ResourceKey<EquipmentUpgrade> TOOL_VIBRATION_CANCEL = key("tool_vibration_cancel");
     public static final ResourceKey<EquipmentUpgrade> TOOL_DIRECT_DROPS = key("tool_direct_drops");
 
@@ -133,6 +134,7 @@ public final class LTXIEquipmentUpgrades
         // Common holder sets
         HolderSet<Item> allTools = items.getOrThrow(LTXITags.Items.ALL_TOOLS);
         HolderSet<Item> miningTools = items.getOrThrow(LTXITags.Items.MINING_TOOLS);
+        HolderSet<Item> modularMiningTools = items.getOrThrow(LTXITags.Items.MODULAR_MINING_TOOLS);
         HolderSet<Item> meleeWeapons = items.getOrThrow(LTXITags.Items.MELEE_WEAPONS);
         HolderSet<Item> projectileWeapons = items.getOrThrow(LTXITags.Items.ENERGY_PROJECTILE_WEAPONS);
         HolderSet<Item> allWeapons = items.getOrThrow(LTXITags.Items.ALL_WEAPONS);
@@ -243,7 +245,7 @@ public final class LTXIEquipmentUpgrades
                 .category("tools")
                 .register(context);
         EquipmentUpgrade.builder(TOOL_NETHERITE_LEVEL)
-                .supports(items.getOrThrow(LTXITags.Items.MODULAR_MINING_TOOLS))
+                .supports(modularMiningTools)
                 .exclusiveWith(holders, MINING_LEVEL_UPGRADES)
                 .withEffect(MODULAR_TOOL, ModularTool.limitedTo(blocks.getOrThrow(BlockTags.INCORRECT_FOR_NETHERITE_TOOL)))
                 .effectIcon(greenArrowOverlay(itemIcon(Items.NETHERITE_PICKAXE)))
@@ -251,10 +253,17 @@ public final class LTXIEquipmentUpgrades
                 .register(context);
         EquipmentUpgrade.builder(EPSILON_OMNI_DRILL)
                 .createDefaultTitle(LIME_GREEN)
-                .supports(items.getOrThrow(LTXITags.Items.MODULAR_MINING_TOOLS))
+                .supports(modularMiningTools)
                 .withEffect(MODULAR_TOOL, ModularTool.effectiveOn(anyBlockHolderSet))
                 .effectIcon(sprite("purple_drill_head"))
                 .category("tools/drill")
+                .register(context);
+        EquipmentUpgrade.builder(TREE_VEIN_MINE)
+                .supports(LTXIItems.LTX_AXE)
+                .withEffect(VEIN_MINE, VeinMine.create(BlockPredicate.Builder.block().of(BlockTags.LOGS), BlockPredicate.Builder.block().of(BlockTags.LEAVES), VeinMine.MAX_BLOCK_LIMIT, false))
+                .tooltip(0, key -> StaticTooltip.of(Component.translatable(key)))
+                .effectIcon(veinMineOverlay(itemIcon(Items.OAK_LOG)))
+                .category("tools")
                 .register(context);
         EquipmentUpgrade.builder(TOOL_VIBRATION_CANCEL)
                 .supports(items.getOrThrow(LTXITags.Items.ALL_TOOLS))

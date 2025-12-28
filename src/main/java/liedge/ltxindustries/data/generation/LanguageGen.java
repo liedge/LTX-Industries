@@ -222,6 +222,8 @@ class LanguageGen extends LimaLanguageProvider
         upgrade(LTXIEquipmentUpgrades.EPSILON_FISHING_LURE, "ε Anglers' Kit", "Upgraded lure for the ε-Series fishing rod. Attracts more valuable aquatic specimens faster than regular bait.");
         upgrade(LTXIEquipmentUpgrades.TOOL_NETHERITE_LEVEL, "Netherite-Core Tool Head", "Upgraded tool cutters can harvest Netherite-level materials.");
         upgrade(LTXIEquipmentUpgrades.EPSILON_OMNI_DRILL, "ε Cutter Rev.000", "Restored prototype ε mining tech with bypassed safeties. Makes modular mining tools effective against all material types.");
+        upgrade(LTXIEquipmentUpgrades.TREE_VEIN_MINE, "Lumber Felling Unit", "Automatic harvesting algorithm for the ε-Series Axe's energy cutter. May cause localized deforestation.");
+        upgradeTooltip(LTXIEquipmentUpgrades.TREE_VEIN_MINE, 0, "Vein-mines trees, up to 256 logs");
         upgrade(LTXIEquipmentUpgrades.TOOL_VIBRATION_CANCEL, "Resonance-Tuned Servos", "Special lining on this tool's servos dampen vibrations from standard use.");
         upgrade(LTXIEquipmentUpgrades.TOOL_DIRECT_DROPS, "Mining Subspace Link", "Tool systems interface directly with your inventory, depositing materials without physical collection.");
 

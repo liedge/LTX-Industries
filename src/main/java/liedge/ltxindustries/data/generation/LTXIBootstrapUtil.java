@@ -63,6 +63,11 @@ public final class LTXIBootstrapUtil
         return bottomRightOverlay(bg, "red_x_overlay", 9);
     }
 
+    public static UpgradeIcon veinMineOverlay(UpgradeIcon bg)
+    {
+        return bottomRightOverlay(bg, "vein_mine_overlay", 10, 6);
+    }
+
     // Upgrade tooltips
     public static UpgradeComponentLike energyCapacityTooltip(UpgradeDoubleValue value, ValueFormat format, ValueSentiment sentiment)
     {

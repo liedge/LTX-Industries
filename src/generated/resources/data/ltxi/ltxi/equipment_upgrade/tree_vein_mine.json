@@ -1,0 +1,46 @@
+{
+  "display": {
+    "category": "tools",
+    "description": {
+      "translate": "equipment_upgrade.ltxi.tree_vein_mine.desc"
+    },
+    "icon": {
+      "type": "overlay",
+      "background": {
+        "id": "minecraft:oak_log"
+      },
+      "height": 6,
+      "overlay": "ltxi:vein_mine_overlay",
+      "width": 10,
+      "x_offset": 5,
+      "y_offset": 9
+    },
+    "title": {
+      "translate": "equipment_upgrade.ltxi.tree_vein_mine"
+    },
+    "tooltips": [
+      {
+        "type": "static",
+        "tooltip": {
+          "translate": "equipment_upgrade.ltxi.tree_vein_mine.tooltip0"
+        }
+      }
+    ]
+  },
+  "effects": {
+    "ltxi:vein_mine": [
+      {
+        "condition": {
+          "blocks": "#minecraft:leaves"
+        },
+        "max_blocks": 256,
+        "needs_same_block": false,
+        "target": {
+          "blocks": "#minecraft:logs"
+        }
+      }
+    ]
+  },
+  "exclusive_set": [],
+  "supported_set": "ltxi:ltx_axe"
+}

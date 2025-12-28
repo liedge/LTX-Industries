@@ -13,7 +13,6 @@ public final class LTXIServerConfig
     // Tools
     public static final ModConfigSpec.IntValue TOOLS_ENERGY_CAPACITY;
     public static final ModConfigSpec.IntValue TOOLS_ENERGY_PER_ACTION;
-    public static final ModConfigSpec.BooleanValue AXE_ALWAYS_CHOPS_LOGS;
 
     // Armor/shield
     public static final ModConfigSpec.DoubleValue SHIELD_EFFECT_BLOCK_COST;
@@ -32,10 +31,6 @@ public final class LTXIServerConfig
                 .defineInRange("tools_energy_capacity", 80_000, 1, Integer.MAX_VALUE);
         TOOLS_ENERGY_PER_ACTION = builder.comment("Base energy cost per action (dig/attack/etc.) of the LTX tools")
                 .defineInRange("tools_energy_per_action", 400, 1, Integer.MAX_VALUE);
-
-        AXE_ALWAYS_CHOPS_LOGS = builder.comment("If set to true the LTX Axe will always vein-mine/chop down ALL log structures regardless of natural leaves presence.",
-                "Off by default. Recommended to keep disabled to limit axe to natural trees only.")
-                .define("axe_always_chops_logs", false);
 
         SHIELD_EFFECT_BLOCK_COST = builder.comment("How much shield health it costs to block a mob effect. Affects both entity and player shields")
                 .defineInRange("shield_effect_block_cost", 2d, 0d, EntityBubbleShield.GLOBAL_MAX_SHIELD);
