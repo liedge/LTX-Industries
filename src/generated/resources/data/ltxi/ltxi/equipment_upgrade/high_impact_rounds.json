@@ -4,10 +4,11 @@
       "translate": "equipment_upgrade.ltxi.high_impact_rounds.desc"
     },
     "icon": {
-      "type": "composite",
+      "type": "overlay",
       "background": "ltxi:lightfrags",
+      "height": 9,
       "overlay": "ltxi:yellow_arrow_overlay",
-      "overlay_size": 9,
+      "width": 9,
       "x_offset": 6,
       "y_offset": 6
     },

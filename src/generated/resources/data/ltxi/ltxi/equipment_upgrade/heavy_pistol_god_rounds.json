@@ -4,12 +4,13 @@
       "translate": "equipment_upgrade.ltxi.heavy_pistol_god_rounds.desc"
     },
     "icon": {
-      "type": "composite",
+      "type": "overlay",
       "background": {
         "id": "ltxi:heavy_pistol"
       },
+      "height": 9,
       "overlay": "ltxi:plus_overlay",
-      "overlay_size": 9,
+      "width": 9,
       "x_offset": 6,
       "y_offset": 6
     },

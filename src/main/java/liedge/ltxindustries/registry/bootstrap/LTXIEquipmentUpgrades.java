@@ -164,7 +164,7 @@ public final class LTXIEquipmentUpgrades
                         EntityAttributeValueProvider.baseValue(LootContext.EntityTarget.THIS, Attributes.ARMOR),
                         CompareOperation.LESS_THAN_OR_EQUALS))
                 .tooltip(0, key -> TranslatableTooltip.create(key, ValueComponent.of(ConstantDouble.of(0.2d), ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE)))
-                .effectIcon(bottomRightComposite(sprite("razor"), sprite("default_overlay"), 7))
+                .effectIcon(defaultOverlay(sprite("razor")))
                 .category("default/tool")
                 .register(context);
 
@@ -398,7 +398,7 @@ public final class LTXIEquipmentUpgrades
                 .supports(miningTools)
                 .exclusiveWith(holders, MINING_DROPS_MODIFIERS)
                 .withEffect(ENCHANTMENT_LEVELS, AddEnchantmentLevels.fixed(enchantments.getOrThrow(Enchantments.SILK_TOUCH), 1))
-                .effectIcon(bottomRightComposite(itemIcon(LTXIItems.LTX_DRILL), sprite("silk_overlay"), 8))
+                .effectIcon(bottomRightOverlay(itemIcon(LTXIItems.LTX_DRILL), "silk_overlay", 8))
                 .category("enchants")
                 .register(context);
         EquipmentUpgrade.builder(FORTUNE_ENCHANTMENT)
@@ -406,14 +406,14 @@ public final class LTXIEquipmentUpgrades
                 .exclusiveWith(holders, MINING_DROPS_MODIFIERS)
                 .setMaxRank(5)
                 .withEffect(ENCHANTMENT_LEVELS, AddEnchantmentLevels.rankLinear(enchantments.getOrThrow(Enchantments.FORTUNE)))
-                .effectIcon(luckOverlayIcon(LTXIItems.LTX_DRILL))
+                .effectIcon(luckOverlay(LTXIItems.LTX_DRILL))
                 .category("enchants")
                 .register(context);
         EquipmentUpgrade.builder(LOOTING_ENCHANTMENT)
                 .supports(allWeapons)
                 .setMaxRank(5)
                 .withEffect(ENCHANTMENT_LEVELS, AddEnchantmentLevels.rankLinear(enchantments.getOrThrow(Enchantments.LOOTING)))
-                .effectIcon(luckOverlayIcon(LTXIItems.LTX_SWORD))
+                .effectIcon(luckOverlay(LTXIItems.LTX_SWORD))
                 .category("enchants")
                 .register(context);
         EquipmentUpgrade.builder(AMMO_SCAVENGER_ENCHANTMENT)

@@ -5,12 +5,13 @@
       "translate": "equipment_upgrade.ltxi.epsilon_fishing_lure.desc"
     },
     "icon": {
-      "type": "composite",
+      "type": "overlay",
       "background": {
         "id": "ltxi:ltx_fishing_rod"
       },
+      "height": 9,
       "overlay": "ltxi:plus_overlay",
-      "overlay_size": 9,
+      "width": 9,
       "x_offset": 6,
       "y_offset": 6
     },

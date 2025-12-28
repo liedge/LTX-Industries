@@ -1,5 +1,6 @@
 package liedge.ltxindustries.data.generation;
 
+import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.lib.upgrades.tooltip.*;
 import liedge.ltxindustries.lib.upgrades.UpgradeIcon;
@@ -7,58 +8,59 @@ import liedge.ltxindustries.lib.upgrades.value.UpgradeDoubleValue;
 import net.minecraft.world.level.ItemLike;
 
 import static liedge.ltxindustries.LTXIConstants.REM_BLUE;
-import static liedge.ltxindustries.lib.upgrades.UpgradeIcon.itemIcon;
-import static liedge.ltxindustries.lib.upgrades.UpgradeIcon.sprite;
+import static liedge.ltxindustries.lib.upgrades.UpgradeIcon.*;
 
 public final class LTXIBootstrapUtil
 {
     private LTXIBootstrapUtil() {}
 
     // Helper UpgradeIcon factories
-    public static UpgradeIcon bottomRightComposite(UpgradeIcon background, UpgradeIcon overlay, int overlaySize, int padding)
+    public static UpgradeIcon bottomRightOverlay(UpgradeIcon background, String overlayPath, int width, int height)
     {
-        int offset = 16 - overlaySize - padding;
-        return UpgradeIcon.compositeIcon(background, overlay, overlaySize, offset, offset);
+        int xo = 16 - width - 1;
+        int yo = 16 - height - 1;
+
+        return UpgradeIcon.overlayIcon(background, LTXIndustries.RESOURCES.location(overlayPath), width, height, xo, yo);
     }
 
-    public static UpgradeIcon bottomRightComposite(UpgradeIcon background, UpgradeIcon overlay, int overlaySize)
+    public static UpgradeIcon bottomRightOverlay(UpgradeIcon background, String overlayPath, int squareSize)
     {
-        return bottomRightComposite(background, overlay, overlaySize, 1);
+        return bottomRightOverlay(background, overlayPath, squareSize, squareSize);
     }
 
-    public static UpgradeIcon spriteOverItemIcon(ItemLike bgItem, String spritePath, int spriteSize)
+    public static UpgradeIcon defaultOverlay(UpgradeIcon background)
     {
-        return bottomRightComposite(itemIcon(bgItem), sprite(spritePath), spriteSize);
+        return bottomRightOverlay(background, "default_overlay", 7);
     }
 
     public static UpgradeIcon defaultModuleIcon(ItemLike item)
     {
-        return spriteOverItemIcon(item, "default_overlay", 7);
+        return defaultOverlay(itemIcon(item));
     }
 
-    public static UpgradeIcon luckOverlayIcon(ItemLike item)
+    public static UpgradeIcon luckOverlay(ItemLike item)
     {
-        return spriteOverItemIcon(item, "luck_overlay", 7);
+        return bottomRightOverlay(itemIcon(item), "luck_overlay", 7);
     }
 
     public static UpgradeIcon plusOverlay(UpgradeIcon bg)
     {
-        return bottomRightComposite(bg, sprite("plus_overlay"), 9);
+        return bottomRightOverlay(bg, "plus_overlay", 9);
     }
 
     public static UpgradeIcon greenArrowOverlay(UpgradeIcon bg)
     {
-        return bottomRightComposite(bg, sprite("green_arrow_overlay"), 9);
+        return bottomRightOverlay(bg, "green_arrow_overlay", 9);
     }
 
     public static UpgradeIcon yellowArrowOverlay(UpgradeIcon bg)
     {
-        return bottomRightComposite(bg, sprite("yellow_arrow_overlay"), 9);
+        return bottomRightOverlay(bg, "yellow_arrow_overlay", 9);
     }
 
     public static UpgradeIcon redXOverlay(UpgradeIcon bg)
     {
-        return bottomRightComposite(bg, sprite("red_x_overlay"), 9);
+        return bottomRightOverlay(bg, "red_x_overlay", 9);
     }
 
     // Upgrade tooltips

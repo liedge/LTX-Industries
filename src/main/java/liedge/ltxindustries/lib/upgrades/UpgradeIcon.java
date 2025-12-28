@@ -42,9 +42,9 @@ public interface UpgradeIcon
         return itemIcon(new ItemStack(itemLike));
     }
 
-    static CompositeIcon compositeIcon(UpgradeIcon background, UpgradeIcon overlay, int overlaySize, int xOffset, int yOffset)
+    static SpriteOverlayIcon overlayIcon(UpgradeIcon background, ResourceLocation overlay, int width, int height, int xOffset, int yOffset)
     {
-        return new CompositeIcon(background, overlay, overlaySize, xOffset, yOffset);
+        return new SpriteOverlayIcon(background, overlay, width, height, xOffset, yOffset);
     }
 
     Type getType();
@@ -87,29 +87,35 @@ public interface UpgradeIcon
         }
     }
 
-    record CompositeIcon(UpgradeIcon background, UpgradeIcon overlay, int overlaySize, int xOffset, int yOffset) implements UpgradeIcon
+    record SpriteOverlayIcon(UpgradeIcon background, ResourceLocation overlay, int width, int height, int xOffset, int yOffset) implements UpgradeIcon
     {
-        private static final Codec<UpgradeIcon> SUB_CODEC = LimaCoreCodecs.xorSubclassCodec(SpriteSheetIcon.INLINE_CODEC, ItemStackIcon.CODEC, SpriteSheetIcon.class, ItemStackIcon.class);
-        private static final MapCodec<CompositeIcon> MAP_CODEC = RecordCodecBuilder.<CompositeIcon>mapCodec(instance -> instance.group(
-                SUB_CODEC.fieldOf("background").forGetter(CompositeIcon::background),
-                SUB_CODEC.fieldOf("overlay").forGetter(CompositeIcon::overlay),
-                Codec.intRange(4, 16).fieldOf("overlay_size").forGetter(CompositeIcon::overlaySize),
-                Codec.INT.fieldOf("x_offset").forGetter(CompositeIcon::xOffset),
-                Codec.INT.fieldOf("y_offset").forGetter(CompositeIcon::yOffset))
-                .apply(instance, CompositeIcon::new)).validate(CompositeIcon::validate);
+        private static final Codec<UpgradeIcon> BACKGROUND_CODEC = LimaCoreCodecs.xorSubclassCodec(SpriteSheetIcon.INLINE_CODEC, ItemStackIcon.CODEC, SpriteSheetIcon.class, ItemStackIcon.class);
+        private static final Codec<Integer> DIMS_CODEC = Codec.intRange(1, 16);
 
-        private static DataResult<CompositeIcon> validate(CompositeIcon icon)
+        private static DataResult<SpriteOverlayIcon> validate(SpriteOverlayIcon value)
         {
-            int maxOffset = 16 - icon.overlaySize;
-            if (icon.xOffset < 0 || icon.xOffset > maxOffset) return DataResult.error(() -> "X offset out of valid range [0," + maxOffset + ")");
-            if (icon.yOffset < 0 || icon.yOffset > maxOffset) return DataResult.error(() -> "Y offset out of valid range [0," + maxOffset + ")");
-            return DataResult.success(icon);
+            int maxXO = 16 - value.width;
+            int maxYO = 16 - value.height;
+
+            if (value.xOffset < 0 || value.xOffset > maxXO) return DataResult.error(() -> "X offset out of valid range [0," + maxXO + ")");
+            if (value.yOffset < 0 || value.yOffset > maxYO) return DataResult.error(() -> "Y offset out of valid range [0," + maxYO + ")");
+            else return DataResult.success(value);
         }
+
+        private static final MapCodec<SpriteOverlayIcon> CODEC = RecordCodecBuilder.<SpriteOverlayIcon>mapCodec(instance -> instance.group(
+                BACKGROUND_CODEC.fieldOf("background").forGetter(SpriteOverlayIcon::background),
+                ResourceLocation.CODEC.fieldOf("overlay").forGetter(SpriteOverlayIcon::overlay),
+                DIMS_CODEC.fieldOf("width").forGetter(SpriteOverlayIcon::width),
+                DIMS_CODEC.fieldOf("height").forGetter(SpriteOverlayIcon::height),
+                DIMS_CODEC.fieldOf("x_offset").forGetter(SpriteOverlayIcon::xOffset),
+                DIMS_CODEC.fieldOf("y_offset").forGetter(SpriteOverlayIcon::yOffset))
+                .apply(instance, SpriteOverlayIcon::new))
+                .validate(SpriteOverlayIcon::validate);
 
         @Override
         public Type getType()
         {
-            return Type.COMPOSITE;
+            return Type.SPRITE_OVERLAY;
         }
     }
 
@@ -118,7 +124,7 @@ public interface UpgradeIcon
         NO_RENDER("no_render", NoRenderIcon.MAP_CODEC),
         UPGRADE_SPRITE("upgrade_sprite", SpriteSheetIcon.MAP_CODEC),
         ITEM_STACK("item_stack", ItemStackIcon.MAP_CODEC),
-        COMPOSITE("composite", CompositeIcon.MAP_CODEC);
+        SPRITE_OVERLAY("overlay", SpriteOverlayIcon.CODEC);
 
         public static final LimaEnumCodec<Type> CODEC = LimaEnumCodec.create(Type.class);
 

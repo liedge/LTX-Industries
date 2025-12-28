@@ -5,10 +5,11 @@
       "translate": "machine_upgrade.ltxi.standard_machine_systems.desc"
     },
     "icon": {
-      "type": "composite",
+      "type": "overlay",
       "background": "ltxi:titanium_gear",
+      "height": 9,
       "overlay": "ltxi:green_arrow_overlay",
-      "overlay_size": 9,
+      "width": 9,
       "x_offset": 6,
       "y_offset": 6
     },

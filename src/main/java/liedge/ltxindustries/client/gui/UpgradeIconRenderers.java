@@ -1,13 +1,11 @@
 package liedge.ltxindustries.client.gui;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import liedge.limacore.client.ItemGuiRenderOverride;
 import liedge.ltxindustries.lib.upgrades.UpgradeIcon;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
 
 import java.util.Map;
 
@@ -34,9 +32,9 @@ public final class UpgradeIconRenderers
     private UpgradeIconRenderers()
     {
         this.<UpgradeIcon.NoRenderIcon>registerRenderer(UpgradeIcon.Type.NO_RENDER, (graphics, x, y, icon) -> false);
-        this.<UpgradeIcon.SpriteSheetIcon>registerRenderer(UpgradeIcon.Type.UPGRADE_SPRITE, (graphics, x, y, icon) -> renderSpriteIcon(graphics, icon.location(), x, y, 150, 16));
-        this.<UpgradeIcon.ItemStackIcon>registerRenderer(UpgradeIcon.Type.ITEM_STACK, (graphics, x, y, icon) -> renderItemStackIcon(graphics, icon.stack(), x, y));
-        this.registerRenderer(UpgradeIcon.Type.COMPOSITE, UpgradeIconRenderers::renderCompositeIcon);
+        this.<UpgradeIcon.SpriteSheetIcon>registerRenderer(UpgradeIcon.Type.UPGRADE_SPRITE, (graphics, x, y, icon) -> renderSpriteIcon(graphics, icon.location(), x, y, 150, 16, 16));
+        this.registerRenderer(UpgradeIcon.Type.ITEM_STACK, UpgradeIconRenderers::renderItemStackIcon);
+        this.registerRenderer(UpgradeIcon.Type.SPRITE_OVERLAY, UpgradeIconRenderers::renderOverlayIcon);
     }
 
     private <T extends UpgradeIcon> void registerRenderer(UpgradeIcon.Type type, IconRenderer<T> iconRenderer)
@@ -51,53 +49,29 @@ public final class UpgradeIconRenderers
         return renderer.render(graphics, x, y, (T) uncheckedIcon);
     }
 
-    private static boolean renderSpriteIcon(GuiGraphics graphics, ResourceLocation location, int x, int y, int blitOffset, int size)
+    private static boolean renderSpriteIcon(GuiGraphics graphics, ResourceLocation location, int x, int y, int blitOffset, int width, int height)
     {
         TextureAtlasSprite sprite = UpgradeIconSprites.getInstance().getSprite(location);
-        graphics.blit(x, y, blitOffset, size, size, sprite);
+        graphics.blit(x, y, blitOffset, width, height, sprite);
         return true;
     }
 
-    private static boolean renderItemStackIcon(GuiGraphics graphics, ItemStack stack, int x, int y)
+    private static boolean renderItemStackIcon(GuiGraphics graphics, int x, int y, UpgradeIcon.ItemStackIcon icon)
     {
-        if (stack.getItem() instanceof ItemGuiRenderOverride) return false;
+        if (icon.stack().getItem() instanceof ItemGuiRenderOverride) return false;
 
-        graphics.renderFakeItem(stack, x, y);
+        graphics.renderFakeItem(icon.stack(), x, y);
         return true;
     }
 
-    private static boolean renderCompositeIcon(GuiGraphics graphics, int x, int y, UpgradeIcon.CompositeIcon icon)
+    private static boolean renderOverlayIcon(GuiGraphics graphics, int x, int y, UpgradeIcon.SpriteOverlayIcon icon)
     {
         if (!renderIcon(graphics, icon.background(), x, y)) return false;
 
-        int nx = x + icon.xOffset();
-        int ny = y + icon.yOffset();
+        int ix = x + icon.xOffset();
+        int iy = y + icon.yOffset();
 
-        return switch (icon.overlay())
-        {
-            case UpgradeIcon.SpriteSheetIcon sprite -> renderSpriteIcon(graphics, sprite.location(), nx, ny, 200, icon.overlaySize());
-            case UpgradeIcon.ItemStackIcon item -> renderSizedItemStack(graphics, item.stack(), nx, ny, icon.overlaySize());
-            default -> false;
-        };
-    }
-
-    private static boolean renderSizedItemStack(GuiGraphics graphics, ItemStack stack, int x, int y, int size)
-    {
-        if (stack.getItem() instanceof ItemGuiRenderOverride) return false;
-
-        PoseStack poseStack = graphics.pose();
-
-        poseStack.pushPose();
-
-        poseStack.translate(x, y, 50); // Position at GUI X and Y + offsets and blitOffset
-        float f = size / 16f;
-        poseStack.scale(f, f, 1f);
-
-        graphics.renderFakeItem(stack, 0, 0); // 0, 0 as item is already positioned by poseStack
-
-        poseStack.popPose();
-
-        return true;
+        return renderSpriteIcon(graphics, icon.overlay(), ix, iy, 200, icon.width(), icon.height());
     }
 
     @FunctionalInterface

@@ -5,12 +5,13 @@
       "translate": "machine_upgrade.ltxi.turret_looting.desc"
     },
     "icon": {
-      "type": "composite",
+      "type": "overlay",
       "background": {
         "id": "ltxi:ltx_sword"
       },
+      "height": 7,
       "overlay": "ltxi:luck_overlay",
-      "overlay_size": 7,
+      "width": 7,
       "x_offset": 8,
       "y_offset": 8
     },

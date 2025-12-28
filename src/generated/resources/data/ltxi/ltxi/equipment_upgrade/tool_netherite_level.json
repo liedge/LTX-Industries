@@ -5,12 +5,13 @@
       "translate": "equipment_upgrade.ltxi.tool_netherite_level.desc"
     },
     "icon": {
-      "type": "composite",
+      "type": "overlay",
       "background": {
         "id": "minecraft:netherite_pickaxe"
       },
+      "height": 9,
       "overlay": "ltxi:green_arrow_overlay",
-      "overlay_size": 9,
+      "width": 9,
       "x_offset": 6,
       "y_offset": 6
     },

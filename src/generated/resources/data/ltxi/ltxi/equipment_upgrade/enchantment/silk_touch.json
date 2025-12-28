@@ -5,12 +5,13 @@
       "translate": "equipment_upgrade.ltxi.enchantment.silk_touch.desc"
     },
     "icon": {
-      "type": "composite",
+      "type": "overlay",
       "background": {
         "id": "ltxi:ltx_drill"
       },
+      "height": 8,
       "overlay": "ltxi:silk_overlay",
-      "overlay_size": 8,
+      "width": 8,
       "x_offset": 7,
       "y_offset": 7
     },

@@ -5,12 +5,13 @@
       "translate": "machine_upgrade.ltxi.geo_synthesizer_parallel.desc"
     },
     "icon": {
-      "type": "composite",
+      "type": "overlay",
       "background": {
         "id": "ltxi:geo_synthesizer"
       },
+      "height": 9,
       "overlay": "ltxi:plus_overlay",
-      "overlay_size": 9,
+      "width": 9,
       "x_offset": 6,
       "y_offset": 6
     },
