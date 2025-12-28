@@ -20,6 +20,24 @@
     }
   },
   "effects": {
+    "ltxi:add_damage_attributes": [
+      {
+        "attribute": "minecraft:generic.knockback_resistance",
+        "modifier": {
+          "amount": -0.5,
+          "id": "ltxi:default/shotgun.knockback_resist",
+          "operation": "add_multiplied_total"
+        }
+      },
+      {
+        "attribute": "limacore:knockback_multiplier",
+        "modifier": {
+          "amount": 0.5,
+          "id": "ltxi:default/shotgun.knockback",
+          "operation": "add_value"
+        }
+      }
+    ],
     "ltxi:add_item_attributes": [
       {
         "attribute": "minecraft:generic.movement_speed",
@@ -47,14 +65,6 @@
           "operation": "add_value"
         },
         "slots": "mainhand"
-      }
-    ],
-    "ltxi:reduction_breach": [
-      {
-        "effect": {
-          "amount": 0.15,
-          "reduction": "armor"
-        }
       }
     ]
   },

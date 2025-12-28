@@ -3,6 +3,7 @@ package liedge.ltxindustries.lib.upgrades.effect;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import liedge.ltxindustries.lib.upgrades.value.RankBasedAttributeModifier;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
@@ -27,6 +28,7 @@ public record AddItemAttributes(Holder<Attribute> attribute, RankBasedAttributeM
     @Override
     public MutableComponent tooltipPrefix()
     {
-        return Component.translatable("item.modifiers." + slots.getSerializedName()).append(CommonComponents.SPACE);
+        MutableComponent prefix = Component.translatable("item.modifiers." + slots.getSerializedName()).withStyle(ChatFormatting.GREEN);
+        return prefix.append(CommonComponents.SPACE);
     }
 }

@@ -2,8 +2,9 @@ package liedge.ltxindustries.lib.upgrades.effect;
 
 import com.mojang.datafixers.Products;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import liedge.ltxindustries.lib.upgrades.value.RankBasedAttributeModifier;
 import liedge.ltxindustries.lib.upgrades.tooltip.UpgradeTooltipsProvider;
+import liedge.ltxindustries.lib.upgrades.value.RankBasedAttributeModifier;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -45,7 +46,7 @@ public interface AttributeModifierUpgradeEffect extends UpgradeTooltipsProvider
     @Override
     default void addUpgradeTooltips(int upgradeRank, Consumer<Component> lines)
     {
-        Component attributeText = attribute().value().toComponent(createModifier(upgradeRank), TooltipFlag.NORMAL);
+        Component attributeText = attribute().value().toComponent(createModifier(upgradeRank), TooltipFlag.NORMAL).withStyle(ChatFormatting.GRAY);
         lines.accept(tooltipPrefix().append(attributeText));
     }
 }

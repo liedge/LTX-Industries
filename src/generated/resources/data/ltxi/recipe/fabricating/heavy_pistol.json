@@ -25,6 +25,11 @@
     }
   ],
   "result": {
+    "components": {
+      "ltxi:equipment_upgrades": {
+        "ltxi:default/heavy_pistol": 1
+      }
+    },
     "count": 1,
     "id": "ltxi:heavy_pistol"
   }

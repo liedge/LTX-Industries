@@ -6,7 +6,6 @@ import liedge.ltxindustries.LTXICommonIds;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.recipe.*;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
@@ -42,8 +41,6 @@ public final class LTXIRecipeSerializers
             builder.defaultTime(60).withItemIngredients(1).withFluidIngredients(2, 2).withItemResults(1));
     public static final DeferredHolder<RecipeSerializer<?>, LTXIRecipeSerializer<GardenSimulatingRecipe>> GARDEN_SIMULATING = register(LTXICommonIds.ID_GARDEN_SIMULATING_RECIPE, GardenSimulatingRecipe::new, builder ->
             builder.defaultTime(600).withItemIngredients(1).withOptionalFluidIngredients(1).withItemResults(4));
-
-    public static final DeferredHolder<RecipeSerializer<?>, SimpleCraftingRecipeSerializer<DefaultUpgradeModuleRecipe>> DEFAULT_UPGRADE_MODULE = SERIALIZERS.register("default_upgrade_module", () -> new SimpleCraftingRecipeSerializer<>(DefaultUpgradeModuleRecipe::new));
 
     private static <R extends LTXIRecipe> DeferredHolder<RecipeSerializer<?>, LTXIRecipeSerializer<R>> register(String name, LTXIRecipeSupplier<R> factory, UnaryOperator<LTXIRecipeSerializer.Builder<R>> op)
     {

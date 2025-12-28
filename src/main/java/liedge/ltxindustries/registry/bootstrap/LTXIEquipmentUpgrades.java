@@ -2,7 +2,6 @@ package liedge.ltxindustries.registry.bootstrap;
 
 import liedge.limacore.advancement.ComparableBounds;
 import liedge.limacore.lib.MobHostility;
-import liedge.limacore.lib.damage.DamageReductionType;
 import liedge.limacore.lib.math.CompareOperation;
 import liedge.limacore.lib.math.MathOperation;
 import liedge.limacore.registry.game.LimaCoreAttributes;
@@ -73,6 +72,7 @@ public final class LTXIEquipmentUpgrades
     public static final ResourceKey<EquipmentUpgrade> SUBMACHINE_GUN_DEFAULT = key("default/submachine_gun");
     public static final ResourceKey<EquipmentUpgrade> SHOTGUN_DEFAULT = key("default/shotgun");
     public static final ResourceKey<EquipmentUpgrade> LFR_DEFAULT = key("default/linear_fusion_rifle");
+    public static final ResourceKey<EquipmentUpgrade> HEAVY_PISTOL_DEFAULT = key("default/heavy_pistol");
 
     // Tool upgrades
     public static final ResourceKey<EquipmentUpgrade> TOOL_ENERGY_UPGRADE = key("tool_energy_upgrade");
@@ -93,7 +93,6 @@ public final class LTXIEquipmentUpgrades
     public static final ResourceKey<EquipmentUpgrade> UNIVERSAL_STEALTH_DAMAGE = key("universal_stealth_damage");
     public static final ResourceKey<EquipmentUpgrade> NEUTRAL_ENEMY_TARGET_FILTER = key("target_filter/neutral_enemy");
     public static final ResourceKey<EquipmentUpgrade> HOSTILE_TARGET_FILTER = key("target_filter/hostile");
-    public static final ResourceKey<EquipmentUpgrade> HIGH_IMPACT_ROUNDS = key("high_impact_rounds");
     public static final ResourceKey<EquipmentUpgrade> HEAVY_PISTOL_GOD_ROUNDS = key("heavy_pistol_god_rounds");
     public static final ResourceKey<EquipmentUpgrade> GRENADE_LAUNCHER_PROJECTILE_SPEED = key("grenade_launcher_projectile_speed");
 
@@ -193,7 +192,8 @@ public final class LTXIEquipmentUpgrades
                 .itemAttributes(Attributes.MOVEMENT_SPEED, "speed", LevelBasedValue.constant(0.25f), AttributeModifier.Operation.ADD_MULTIPLIED_BASE, EquipmentSlotGroup.MAINHAND)
                 .itemAttributes(Attributes.STEP_HEIGHT, "step_height", LevelBasedValue.constant(1), AttributeModifier.Operation.ADD_VALUE, EquipmentSlotGroup.MAINHAND)
                 .itemAttributes(Attributes.SAFE_FALL_DISTANCE, "safe_fall_dist", LevelBasedValue.constant(3), AttributeModifier.Operation.ADD_VALUE, EquipmentSlotGroup.MAINHAND)
-                .withConditionalEffect(REDUCTION_BREACH, BreachDamageReduction.create(DamageReductionType.ARMOR, LevelBasedValue.constant(0.15f)))
+                .damageAttributes(Attributes.KNOCKBACK_RESISTANCE, "knockback_resist", LevelBasedValue.constant(-0.5f), AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)
+                .damageAttributes(LimaCoreAttributes.KNOCKBACK_MULTIPLIER, "knockback", LevelBasedValue.constant(0.5f), AttributeModifier.Operation.ADD_VALUE)
                 .effectIcon(defaultModuleIcon(LTXIItems.SHOTGUN))
                 .category("default/weapon")
                 .register(context);
@@ -210,6 +210,13 @@ public final class LTXIEquipmentUpgrades
                 .tooltip(0, key -> TranslatableTooltip.create(key, ValueComponent.of(lfrBonusDmg, ValueFormat.SIGNED_FLAT_NUMBER, ValueSentiment.POSITIVE)))
                 .tooltip(1, key -> TranslatableTooltip.create(key, ValueComponent.of(lfrBonusDmg, ValueFormat.SIGNED_FLAT_NUMBER, ValueSentiment.POSITIVE)))
                 .effectIcon(defaultModuleIcon(LTXIItems.LINEAR_FUSION_RIFLE))
+                .category("default/weapon")
+                .register(context);
+        EquipmentUpgrade.builder(HEAVY_PISTOL_DEFAULT)
+                .supports(LTXIItems.HEAVY_PISTOL)
+                .damageAttributes(Attributes.KNOCKBACK_RESISTANCE, "knockback_resist", LevelBasedValue.constant(-1), AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)
+                .damageAttributes(LimaCoreAttributes.KNOCKBACK_MULTIPLIER, "knockback", LevelBasedValue.constant(2f), AttributeModifier.Operation.ADD_VALUE)
+                .effectIcon(defaultModuleIcon(LTXIItems.HEAVY_PISTOL))
                 .category("default/weapon")
                 .register(context);
 
@@ -263,12 +270,6 @@ public final class LTXIEquipmentUpgrades
                 .register(context);
 
         // Weapon-specific upgrades
-        EquipmentUpgrade.builder(HIGH_IMPACT_ROUNDS)
-                .supports(LTXIItems.SHOTGUN, LTXIItems.HEAVY_PISTOL)
-                .damageAttributes(Attributes.KNOCKBACK_RESISTANCE, "knockback_resistance", LevelBasedValue.constant(-1f), AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)
-                .damageAttributes(LimaCoreAttributes.KNOCKBACK_MULTIPLIER, "knockback", LevelBasedValue.constant(2f), AttributeModifier.Operation.ADD_VALUE)
-                .effectIcon(yellowArrowOverlay(sprite("lightfrags")))
-                .register(context);
         EquipmentUpgrade.builder(HEAVY_PISTOL_GOD_ROUNDS)
                 .supports(LTXIItems.HEAVY_PISTOL)
                 .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, AddDamageTags.addTags(LTXITags.DamageTypes.BYPASS_SURVIVAL_DEFENSES))

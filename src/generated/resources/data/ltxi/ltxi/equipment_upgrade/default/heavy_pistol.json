@@ -1,19 +1,22 @@
 {
   "display": {
+    "category": "default/weapon",
     "description": {
-      "translate": "equipment_upgrade.ltxi.high_impact_rounds.desc"
+      "translate": "equipment_upgrade.ltxi.default.heavy_pistol.desc"
     },
     "icon": {
       "type": "overlay",
-      "background": "ltxi:lightfrags",
-      "height": 9,
-      "overlay": "ltxi:yellow_arrow_overlay",
-      "width": 9,
-      "x_offset": 6,
-      "y_offset": 6
+      "background": {
+        "id": "ltxi:heavy_pistol"
+      },
+      "height": 7,
+      "overlay": "ltxi:default_overlay",
+      "width": 7,
+      "x_offset": 8,
+      "y_offset": 8
     },
     "title": {
-      "translate": "equipment_upgrade.ltxi.high_impact_rounds"
+      "translate": "equipment_upgrade.ltxi.default.heavy_pistol"
     }
   },
   "effects": {
@@ -22,7 +25,7 @@
         "attribute": "minecraft:generic.knockback_resistance",
         "modifier": {
           "amount": -1.0,
-          "id": "ltxi:high_impact_rounds.knockback_resistance",
+          "id": "ltxi:default/heavy_pistol.knockback_resist",
           "operation": "add_multiplied_total"
         }
       },
@@ -30,15 +33,12 @@
         "attribute": "limacore:knockback_multiplier",
         "modifier": {
           "amount": 2.0,
-          "id": "ltxi:high_impact_rounds.knockback",
+          "id": "ltxi:default/heavy_pistol.knockback",
           "operation": "add_value"
         }
       }
     ]
   },
   "exclusive_set": [],
-  "supported_set": [
-    "ltxi:shotgun",
-    "ltxi:heavy_pistol"
-  ]
+  "supported_set": "ltxi:heavy_pistol"
 }

@@ -5,7 +5,7 @@ import liedge.limacore.client.LimaFluidClientExtensions;
 import liedge.limacore.lib.LimaColor;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.LTXIndustries;
-import liedge.ltxindustries.client.gui.ClientFabricatorIngredientTooltip;
+import liedge.ltxindustries.client.gui.ClientRecipeIngredientsTooltip;
 import liedge.ltxindustries.client.gui.ClientItemGridTooltip;
 import liedge.ltxindustries.client.gui.UpgradeIconSprites;
 import liedge.ltxindustries.client.gui.layer.BubbleShieldLayer;
@@ -27,7 +27,7 @@ import liedge.ltxindustries.client.renderer.item.BlueprintItemExtensions;
 import liedge.ltxindustries.client.renderer.item.LTXIItemRenderers;
 import liedge.ltxindustries.client.renderer.item.MiningToolExtensions;
 import liedge.ltxindustries.client.renderer.item.UpgradeModuleItemExtensions;
-import liedge.ltxindustries.menu.tooltip.FabricatorIngredientTooltip;
+import liedge.ltxindustries.menu.tooltip.RecipeIngredientsTooltip;
 import liedge.ltxindustries.menu.tooltip.ItemGridTooltip;
 import liedge.ltxindustries.registry.game.*;
 import net.minecraft.client.color.block.BlockColor;
@@ -219,7 +219,7 @@ public class LTXIndustriesClient
         public void registerTooltipComponentFactories(final RegisterClientTooltipComponentFactoriesEvent event)
         {
             event.register(ItemGridTooltip.class, ClientItemGridTooltip::new);
-            event.register(FabricatorIngredientTooltip.class, ClientFabricatorIngredientTooltip::new);
+            event.register(RecipeIngredientsTooltip.class, ClientRecipeIngredientsTooltip::new);
         }
 
         @SubscribeEvent

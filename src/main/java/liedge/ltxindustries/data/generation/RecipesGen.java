@@ -6,7 +6,6 @@ import liedge.limacore.data.generation.LimaRecipeProvider;
 import liedge.limacore.data.generation.recipe.LimaCustomRecipeBuilder;
 import liedge.limacore.data.generation.recipe.LimaShapedRecipeBuilder;
 import liedge.limacore.lib.ModResources;
-import liedge.limacore.lib.function.ObjectIntFunction;
 import liedge.limacore.recipe.result.ItemResult;
 import liedge.limacore.recipe.result.ResultCount;
 import liedge.limacore.recipe.result.ResultPriority;
@@ -16,7 +15,6 @@ import liedge.ltxindustries.block.NeonLightColor;
 import liedge.ltxindustries.integration.guideme.GuideMEIntegration;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
 import liedge.ltxindustries.lib.upgrades.UpgradeBase;
-import liedge.ltxindustries.lib.upgrades.UpgradeBaseEntry;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgradeEntry;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrade;
@@ -32,11 +30,9 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentPredicate;
-import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeOutput;
-import net.minecraft.data.recipes.SpecialRecipeBuilder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -83,8 +79,6 @@ class RecipesGen extends LimaRecipeProvider
     protected void buildRecipes(RecipeOutput output, HolderLookup.Provider registries)
     {
         //#region Crafting table recipes
-        SpecialRecipeBuilder.special(DefaultUpgradeModuleRecipe::new).save(output, modResources.location("default_upgrade_module"));
-
         nineStorageRecipes(output, RAW_TITANIUM, RAW_TITANIUM_BLOCK);
         nineStorageRecipes(output, RAW_NIOBIUM, RAW_NIOBIUM_BLOCK);
 
@@ -200,6 +194,16 @@ class RecipesGen extends LimaRecipeProvider
 
     private void fabricatingRecipes(RecipeOutput output, HolderLookup.Provider registries)
     {
+        // Default modules
+        defaultModuleFabricating(output, registries, LTX_SHOVEL_DEFAULT, LTX_SHOVEL);
+        defaultModuleFabricating(output, registries, LTX_WRENCH_DEFAULT, LTX_WRENCH);
+        defaultModuleFabricating(output, registries, LTX_MELEE_DEFAULT, LTX_SWORD, LTX_AXE);
+        defaultModuleFabricating(output, registries, GLOWSTICK_LAUNCHER_DEFAULT, GLOWSTICK_LAUNCHER);
+        defaultModuleFabricating(output, registries, SUBMACHINE_GUN_DEFAULT, SUBMACHINE_GUN);
+        defaultModuleFabricating(output, registries, SHOTGUN_DEFAULT, SHOTGUN);
+        defaultModuleFabricating(output, registries, LFR_DEFAULT, LINEAR_FUSION_RIFLE);
+        defaultModuleFabricating(output, registries, HEAVY_PISTOL_DEFAULT, HEAVY_PISTOL);
+
         fabricating(20_000_000)
                 .input(CIRCUIT_BOARD)
                 .input(T3_CIRCUIT, 2)
@@ -468,10 +472,6 @@ class RecipesGen extends LimaRecipeProvider
         upgradeFabricating(output, registries, "eum/tool", TOOL_DIRECT_DROPS, 1, 15_000_000, directDrops);
         upgradeFabricating(output, registries, "eum/weapon", WEAPON_DIRECT_DROPS, 1, 15_000_000, directDrops);
 
-        upgradeFabricating(output, registries, "eum/weapon", HIGH_IMPACT_ROUNDS, 1, 1_000_000, builder -> builder
-                .input(T2_CIRCUIT, 2)
-                .input(TNT, 8)
-                .input(PISTON, 2));
         upgradeFabricating(output, registries, "eum/weapon", WEAPON_VIBRATION_CANCEL, 1, 500_000, builder -> builder
                 .input(T3_CIRCUIT, 2)
                 .input(TITANIUM_INGOT, 16)
@@ -1102,12 +1102,6 @@ class RecipesGen extends LimaRecipeProvider
         return fabricating(energyRequired).output(defaultUpgradableItem(itemSupplier, registries));
     }
 
-    private <U extends UpgradeBase<?, U>, UE extends UpgradeBaseEntry<U>> Ingredient moduleIngredient(HolderLookup.Provider registries, ResourceKey<U> upgradeKey, int upgradeRank, ItemLike moduleItem, DataComponentType<UE> componentType, ObjectIntFunction<Holder<U>, UE> entryFactory)
-    {
-        Holder<U> upgradeHolder = registries.holderOrThrow(upgradeKey);
-        return DataComponentIngredient.of(true, componentType, entryFactory.applyWithInt(upgradeHolder, upgradeRank), moduleItem);
-    }
-
     @SuppressWarnings("unchecked")
     private Ingredient moduleIngredient(HolderLookup.Provider registries, ResourceKey<? extends UpgradeBase<?, ?>> upgradeKey, int upgradeRank)
     {
@@ -1170,6 +1164,12 @@ class RecipesGen extends LimaRecipeProvider
     private void upgradeFabricating(RecipeOutput output, HolderLookup.Provider registries, String group, ResourceKey<? extends UpgradeBase<?, ?>> upgradeKey, int upgradeRank, int energyRequired, UnaryOperator<FabricatingBuilder> op)
     {
         upgradeFabricating(output, registries, group, upgradeKey, upgradeRank, energyRequired, true, op);
+    }
+
+    private void defaultModuleFabricating(RecipeOutput output, HolderLookup.Provider registries, ResourceKey<EquipmentUpgrade> upgradeKey, ItemLike... equipmentItems)
+    {
+        upgradeFabricating(output, registries, "eum/defaults", upgradeKey, 1, 50_000, builder ->
+                builder.randomInput(Ingredient.of(equipmentItems), 0f));
     }
 
     private ItemStack defaultUpgradableItem(Supplier<? extends UpgradableEquipmentItem> itemSupplier, HolderLookup.Provider registries)

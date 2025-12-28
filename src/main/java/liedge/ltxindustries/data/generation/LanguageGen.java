@@ -211,11 +211,12 @@ class LanguageGen extends LimaLanguageProvider
         upgradeDescOnly(LTXIEquipmentUpgrades.LTX_MELEE_DEFAULT, "Standard issue operating system. Tool energy blade is optimized for efficient severing and disintegration of organic matter.");
         upgradeTooltip(LTXIEquipmentUpgrades.LTX_MELEE_DEFAULT, 0, "%s bonus damage against unarmored targets");
         upgrade(LTXIEquipmentUpgrades.GLOWSTICK_LAUNCHER_DEFAULT, "Wayfinder Intrinsics", "Wayfinder's energy feed system ships pre-configured to use Common Energy.");
-        upgrade(LTXIEquipmentUpgrades.SUBMACHINE_GUN_DEFAULT, "Serenity Intrinsics", "Serenity's small light-frags zip right through targets without a trace.");
+        upgrade(LTXIEquipmentUpgrades.SUBMACHINE_GUN_DEFAULT, "Serenity Intrinsics", "Serenity's small lightfrags zip right through targets without a trace.");
         upgrade(LTXIEquipmentUpgrades.SHOTGUN_DEFAULT, "Aurora Intrinsics", "Aurora's combat precepts, specialized in fast assault and scout operations.");
         upgrade(LTXIEquipmentUpgrades.LFR_DEFAULT, "Stargazer Intrinsics", "Stargazer's systems are calibrated for precise long-range engagements.");
         upgradeTooltip(LTXIEquipmentUpgrades.LFR_DEFAULT, 0, "%s bonus damage when at least 40m away from target");
         upgradeTooltip(LTXIEquipmentUpgrades.LFR_DEFAULT, 1, "%s bonus damage when standing still and sneaking");
+        upgrade(LTXIEquipmentUpgrades.HEAVY_PISTOL_DEFAULT, "Nova Intrinsics", "Nova's lightfrags can knock away even the heaviest targets.");
 
         upgrade(LTXIEquipmentUpgrades.TOOL_ENERGY_UPGRADE, "Augmented ε Battery", "Maximize your ε-Series tool's field uptime with this enhanced battery.");
         upgrade(LTXIEquipmentUpgrades.EPSILON_FISHING_LURE, "ε Anglers' Kit", "Upgraded lure for the ε-Series fishing rod. Attracts more valuable aquatic specimens faster than regular bait.");
@@ -233,7 +234,6 @@ class LanguageGen extends LimaLanguageProvider
         upgrade(LTXIEquipmentUpgrades.UNIVERSAL_INFINITE_AMMO, "//ERR~MAG-Z!!-NE//∞", "Ignore the laws of physics with this never-ending ammo source. Try not to cause a mass extinction event.");
         upgrade(LTXIEquipmentUpgrades.NEUTRAL_ENEMY_TARGET_FILTER, "Engagement Protocol: Preemption", "Weapon systems restrict engagement to neutral enemies and hostile targets.");
         upgrade(LTXIEquipmentUpgrades.HOSTILE_TARGET_FILTER, "Engagement Protocol: Rectification", "Weapon systems restrict engagement to actively hostile targets.");
-        upgrade(LTXIEquipmentUpgrades.HIGH_IMPACT_ROUNDS, "High Impact Rounds", "Light-frags with a punch! Send targets flying back regardless of their knockback resistances.");
         upgrade(LTXIEquipmentUpgrades.HEAVY_PISTOL_GOD_ROUNDS, "Stellar Reality Disruptor", "Rip through reality itself with this Nova upgrade. Ensures swift defeat of even the strongest enemies.");
 
         upgrade(LTXIEquipmentUpgrades.UNIVERSAL_STEALTH_DAMAGE, "Biometric Obfuscation", "Masks your traceable signature, preventing retaliatory anger from targets.");

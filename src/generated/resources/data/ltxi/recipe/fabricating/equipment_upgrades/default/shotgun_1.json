@@ -1,29 +1,22 @@
 {
   "type": "ltxi:fabricating",
-  "energy_required": 1000000,
-  "group": "eum/weapon",
+  "energy_required": 50000,
+  "group": "eum/defaults",
   "ingredients": [
     {
       "count": 1,
       "item": "ltxi:empty_upgrade_module"
     },
     {
-      "count": 2,
-      "item": "ltxi:t2_circuit"
-    },
-    {
-      "count": 8,
-      "item": "minecraft:tnt"
-    },
-    {
-      "count": 2,
-      "item": "minecraft:piston"
+      "consume_chance": 0.0,
+      "count": 1,
+      "item": "ltxi:shotgun"
     }
   ],
   "result": {
     "components": {
       "ltxi:equipment_upgrade": {
-        "upgrade": "ltxi:high_impact_rounds"
+        "upgrade": "ltxi:default/shotgun"
       }
     },
     "count": 1,

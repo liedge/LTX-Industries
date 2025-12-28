@@ -10,7 +10,7 @@ import liedge.limacore.recipe.result.ItemResult;
 import liedge.limacore.util.LimaLootUtil;
 import liedge.limacore.util.LimaRecipesUtil;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
-import liedge.ltxindustries.menu.tooltip.FabricatorIngredientTooltip;
+import liedge.ltxindustries.menu.tooltip.RecipeIngredientsTooltip;
 import liedge.ltxindustries.registry.game.LTXIRecipeSerializers;
 import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -70,7 +70,7 @@ public final class FabricatingRecipe extends LimaCustomRecipe<LimaRecipeInput>
 
     public TooltipComponent createIngredientTooltip()
     {
-        return new FabricatorIngredientTooltip(getItemIngredients());
+        return RecipeIngredientsTooltip.create(this, 4, 4);
     }
 
     public ItemStack generateItemResult(ServerLevel level)

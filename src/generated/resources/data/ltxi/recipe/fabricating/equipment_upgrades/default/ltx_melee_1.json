@@ -1,0 +1,33 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 50000,
+  "group": "eum/defaults",
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "ltxi:empty_upgrade_module"
+    },
+    {
+      "type": "neoforge:compound",
+      "children": [
+        {
+          "item": "ltxi:ltx_sword"
+        },
+        {
+          "item": "ltxi:ltx_axe"
+        }
+      ],
+      "consume_chance": 0.0,
+      "count": 1
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:equipment_upgrade": {
+        "upgrade": "ltxi:default/ltx_melee"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:equipment_upgrade_module"
+  }
+}
