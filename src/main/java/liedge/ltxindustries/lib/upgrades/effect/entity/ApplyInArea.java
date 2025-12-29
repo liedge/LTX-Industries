@@ -5,14 +5,14 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import liedge.limacore.data.LimaCoreCodecs;
 import liedge.ltxindustries.registry.game.LTXIEntityUpgradeEffects;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParam;
 import net.minecraft.world.phys.AABB;
 
 import java.util.List;
-import java.util.function.Consumer;
+import java.util.Set;
 
 public record ApplyInArea(EntityUpgradeEffect child, float horizontalRadius, float verticalRadius) implements EntityUpgradeEffect
 {
@@ -25,7 +25,7 @@ public record ApplyInArea(EntityUpgradeEffect child, float horizontalRadius, flo
     }
 
     public static final MapCodec<ApplyInArea> CODEC = RecordCodecBuilder.<ApplyInArea>mapCodec(instance -> instance.group(
-            EntityUpgradeEffect.CODEC.fieldOf("child").forGetter(ApplyInArea::child),
+            EntityUpgradeEffect.DIRECT_CODEC.fieldOf("child").forGetter(ApplyInArea::child),
             LimaCoreCodecs.floatOpenStartRange(0f, 128f).fieldOf("horizontal_radius").forGetter(ApplyInArea::horizontalRadius),
             LimaCoreCodecs.floatOpenStartRange(0f, 128f).fieldOf("vertical_radius").forGetter(ApplyInArea::verticalRadius))
             .apply(instance, ApplyInArea::new))
@@ -60,5 +60,8 @@ public record ApplyInArea(EntityUpgradeEffect child, float horizontalRadius, flo
     }
 
     @Override
-    public void addUpgradeTooltips(int upgradeRank, Consumer<Component> lines) { }
+    public Set<LootContextParam<?>> getReferencedContextParams()
+    {
+        return child.getReferencedContextParams();
+    }
 }

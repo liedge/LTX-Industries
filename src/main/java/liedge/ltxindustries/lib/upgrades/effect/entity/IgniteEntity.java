@@ -2,13 +2,10 @@ package liedge.ltxindustries.lib.upgrades.effect.entity;
 
 import com.mojang.serialization.MapCodec;
 import liedge.ltxindustries.registry.game.LTXIEntityUpgradeEffects;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.enchantment.LevelBasedValue;
 import net.minecraft.world.level.storage.loot.LootContext;
-
-import java.util.function.Consumer;
 
 public record IgniteEntity(LevelBasedValue duration) implements EntityUpgradeEffect
 {
@@ -25,7 +22,4 @@ public record IgniteEntity(LevelBasedValue duration) implements EntityUpgradeEff
     {
         return LTXIEntityUpgradeEffects.IGNITE_ENTITY.get();
     }
-
-    @Override
-    public void addUpgradeTooltips(int upgradeRank, Consumer<Component> lines) { }
 }

@@ -12,6 +12,7 @@ import liedge.ltxindustries.lib.EquipmentDamageModifiers;
 import liedge.ltxindustries.lib.shield.EntityBubbleShield;
 import liedge.ltxindustries.lib.upgrades.UpgradeContexts;
 import liedge.ltxindustries.lib.upgrades.UpgradesContainerBase;
+import liedge.ltxindustries.lib.upgrades.effect.EffectTarget;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.ltxindustries.registry.game.LTXIAttachmentTypes;
 import liedge.ltxindustries.registry.game.LTXIDataComponents;
@@ -26,7 +27,6 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.EnchantmentTarget;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -208,12 +208,12 @@ public final class LTXIEventHandler
         for (EquipmentSlot slot : EquipmentSlot.values())
         {
             EquipmentUpgrades upgrades = UpgradableEquipmentItem.getEquipmentUpgradesFromStack(targetEntity.getItemBySlot(slot));
-            upgrades.applyDamageEntityEffects(LTXIUpgradeEffectComponents.EQUIPMENT_PRE_ATTACK, level, context, EnchantmentTarget.VICTIM);
+            upgrades.applyDamageEntityEffects(LTXIUpgradeEffectComponents.EQUIPMENT_PRE_ATTACK, level, context, EffectTarget.VICTIM);
         }
 
         applyDamageUpgrades(event.getSource(), ($, upgrades) ->
         {
-            upgrades.applyDamageEntityEffects(LTXIUpgradeEffectComponents.EQUIPMENT_PRE_ATTACK, level, context, EnchantmentTarget.ATTACKER);
+            upgrades.applyDamageEntityEffects(LTXIUpgradeEffectComponents.EQUIPMENT_PRE_ATTACK, level, context, EffectTarget.ATTACKER);
 
             Map<DamageContainer.Reduction, Float> reductions = new EnumMap<>(DamageContainer.Reduction.class);
             upgrades.forEachConditionalEffect(LTXIUpgradeEffectComponents.REDUCTION_BREACH, context, (effect, rank) ->
@@ -255,7 +255,7 @@ public final class LTXIEventHandler
     public static void onLivingDeath(final LivingDeathEvent event)
     {
         applyDamageUpgrades(event.getSource(), (level, upgrades) ->
-                upgrades.applyDamageEntityEffects(LTXIUpgradeEffectComponents.EQUIPMENT_KILL, level, LimaLootUtil.entityLootContext(level, event.getEntity(), event.getSource()), EnchantmentTarget.ATTACKER));
+                upgrades.applyDamageEntityEffects(LTXIUpgradeEffectComponents.EQUIPMENT_KILL, level, LimaLootUtil.entityLootContext(level, event.getEntity(), event.getSource()), EffectTarget.ATTACKER));
     }
 
     private static void applyDamageUpgrades(DamageSource source, BiConsumer<ServerLevel, UpgradesContainerBase<?, ?>> visitor)

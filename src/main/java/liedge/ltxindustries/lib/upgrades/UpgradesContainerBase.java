@@ -9,8 +9,7 @@ import liedge.limacore.lib.function.ObjectIntFunction;
 import liedge.limacore.lib.math.MathOperation;
 import liedge.limacore.network.LimaStreamCodecs;
 import liedge.limacore.util.LimaRegistryUtil;
-import liedge.ltxindustries.lib.upgrades.effect.AddEnchantmentLevels;
-import liedge.ltxindustries.lib.upgrades.effect.ValueOperation;
+import liedge.ltxindustries.lib.upgrades.effect.*;
 import liedge.ltxindustries.lib.upgrades.effect.entity.EntityUpgradeEffect;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import net.minecraft.core.Holder;
@@ -22,12 +21,8 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.ConditionalEffect;
-import net.minecraft.world.item.enchantment.EnchantmentTarget;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
-import net.minecraft.world.item.enchantment.TargetedConditionalEffect;
 import net.minecraft.world.level.storage.loot.LootContext;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.neoforged.neoforge.registries.holdersets.AnyHolderSet;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -78,20 +73,20 @@ public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
         forEachEffect(typeSupplier.get(), consumer);
     }
 
-    public <T> void forEachConditionalEffect(DataComponentType<List<ConditionalEffect<T>>> type, LootContext context, ObjectIntConsumer<T> consumer)
+    public <T, C extends EffectConditionHolder<T>> void forEachConditionalEffect(DataComponentType<List<C>> type, LootContext context, ObjectIntConsumer<T> consumer)
     {
         for (Object2IntMap.Entry<Holder<U>> entry : internalMap.object2IntEntrySet())
         {
             int rank = entry.getIntValue();
-            List<ConditionalEffect<T>> list = entry.getKey().value().getListEffect(type);
-            for (ConditionalEffect<T> conditionalEffect : list)
+            List<C> effects = entry.getKey().value().getListEffect(type);
+            for (C data : effects)
             {
-                if (conditionalEffect.matches(context)) consumer.acceptWithInt(conditionalEffect.effect(), rank);
+                if (data.test(context)) consumer.acceptWithInt(data.effect(), rank);
             }
         }
     }
 
-    public <T> void forEachConditionalEffect(Supplier<? extends DataComponentType<List<ConditionalEffect<T>>>> typeSupplier, LootContext context, ObjectIntConsumer<T> consumer)
+    public <T, C extends EffectConditionHolder<T>> void forEachConditionalEffect(Supplier<? extends DataComponentType<List<C>>> typeSupplier, LootContext context, ObjectIntConsumer<T> consumer)
     {
         forEachConditionalEffect(typeSupplier.get(), context, consumer);
     }
@@ -157,16 +152,16 @@ public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
         return effectPairs(typeSupplier.get());
     }
 
-    public <T> Stream<EffectRankPair<T>> matchingEffectPairs(DataComponentType<List<ConditionalEffect<T>>> type, LootContext context)
+    public <T, C extends EffectConditionHolder<T>> Stream<EffectRankPair<T>> matchingEffectPairs(DataComponentType<List<C>> type, LootContext context)
     {
         return entryStream().flatMap(entry ->
         {
-            List<ConditionalEffect<T>> data = entry.getKey().value().getListEffect(type);
-            return data.stream().filter(o -> o.matches(context)).map(o -> new EffectRankPair<>(o.effect(), entry.getIntValue()));
+            List<C> data = entry.getKey().value().getListEffect(type);
+            return data.stream().filter(o -> o.test(context)).map(o -> new EffectRankPair<>(o.effect(), entry.getIntValue()));
         });
     }
 
-    public <T> Stream<EffectRankPair<T>> matchingEffectPairs(Supplier<? extends DataComponentType<List<ConditionalEffect<T>>>> typeSupplier, LootContext context)
+    public <T, C extends EffectConditionHolder<T>> Stream<EffectRankPair<T>> matchingEffectPairs(Supplier<? extends DataComponentType<List<C>>> typeSupplier, LootContext context)
     {
         return matchingEffectPairs(typeSupplier.get(), context);
     }
@@ -210,33 +205,27 @@ public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
         return mergeEffectHolderSets(typeSupplier.get(), mapper);
     }
 
-    public void applyDamageEntityEffects(DataComponentType<List<TargetedConditionalEffect<EntityUpgradeEffect>>> type, ServerLevel level, LootContext context, EnchantmentTarget enchanted)
+    public void applyDamageEntityEffects(DataComponentType<List<TargetableEffect<EntityUpgradeEffect>>> type, ServerLevel level, LootContext context, EffectTarget source)
     {
         for (var entry : internalMap.object2IntEntrySet())
         {
-            List<TargetedConditionalEffect<EntityUpgradeEffect>> effects = entry.getKey().value().getListEffect(type);
+            List<TargetableEffect<EntityUpgradeEffect>> effects = entry.getKey().value().getListEffect(type);
             int rank = entry.getIntValue();
 
-            for (TargetedConditionalEffect<EntityUpgradeEffect> tce : effects)
+            for (TargetableEffect<EntityUpgradeEffect> data : effects)
             {
-                if (tce.enchanted() == enchanted && tce.matches(context))
+                if (data.source() == source && data.test(context))
                 {
-                    Entity entity = switch (tce.affected())
-                    {
-                        case ATTACKER -> context.getParamOrNull(LootContextParams.ATTACKING_ENTITY);
-                        case DAMAGING_ENTITY -> context.getParamOrNull(LootContextParams.DIRECT_ATTACKING_ENTITY);
-                        case VICTIM -> context.getParamOrNull(LootContextParams.THIS_ENTITY);
-                    };
-
-                    if (entity != null) tce.effect().applyEntityEffect(level, entity, rank, context);
+                    Entity affectedEntity = data.affected().apply(context);
+                    if (affectedEntity != null) data.effect().applyEntityEffect(level, affectedEntity, rank, context);
                 }
             }
         }
     }
 
-    public void applyDamageEntityEffects(Supplier<? extends DataComponentType<List<TargetedConditionalEffect<EntityUpgradeEffect>>>> typeSupplier, ServerLevel level, LootContext context, EnchantmentTarget enchanted)
+    public void applyDamageEntityEffects(Supplier<? extends DataComponentType<List<TargetableEffect<EntityUpgradeEffect>>>> typeSupplier, ServerLevel level, LootContext context, EffectTarget source)
     {
-        applyDamageEntityEffects(typeSupplier.get(), level, context, enchanted);
+        applyDamageEntityEffects(typeSupplier.get(), level, context, source);
     }
     //#endregion
 
@@ -272,7 +261,7 @@ public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
         return runValueOps(typeSupplier.get(), context, base);
     }
 
-    public double runConditionalValueOps(DataComponentType<List<ConditionalEffect<ValueOperation>>> type, LootContext context, double base, double total)
+    public double runConditionalValueOps(DataComponentType<List<ConditionEffect<ValueOperation>>> type, LootContext context, double base, double total)
     {
         double result = total;
         List<EffectRankPair<ValueOperation>> pairs = matchingEffectPairs(type, context)
@@ -288,17 +277,17 @@ public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
         return result;
     }
 
-    public double runConditionalValueOps(DataComponentType<List<ConditionalEffect<ValueOperation>>> type, LootContext context, double base)
+    public double runConditionalValueOps(DataComponentType<List<ConditionEffect<ValueOperation>>> type, LootContext context, double base)
     {
         return runConditionalValueOps(type, context, base, base);
     }
 
-    public double runConditionalValueOps(Supplier<? extends DataComponentType<List<ConditionalEffect<ValueOperation>>>> typeSupplier, LootContext context, double base, double total)
+    public double runConditionalValueOps(Supplier<? extends DataComponentType<List<ConditionEffect<ValueOperation>>>> typeSupplier, LootContext context, double base, double total)
     {
         return runConditionalValueOps(typeSupplier.get(), context, base, total);
     }
 
-    public double runConditionalValueOps(Supplier<? extends DataComponentType<List<ConditionalEffect<ValueOperation>>>> typeSupplier, LootContext context, double base)
+    public double runConditionalValueOps(Supplier<? extends DataComponentType<List<ConditionEffect<ValueOperation>>>> typeSupplier, LootContext context, double base)
     {
         return runConditionalValueOps(typeSupplier.get(), context, base);
     }

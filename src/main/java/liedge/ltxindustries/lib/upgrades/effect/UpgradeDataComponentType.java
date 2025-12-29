@@ -6,8 +6,6 @@ import liedge.ltxindustries.lib.upgrades.tooltip.UpgradeTooltipsProvider;
 import liedge.ltxindustries.registry.LTXIRegistries;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.enchantment.ConditionalEffect;
-import net.minecraft.world.item.enchantment.TargetedConditionalEffect;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
 
 import java.util.List;
@@ -27,6 +25,16 @@ public abstract class UpgradeDataComponentType<T> extends LimaDataComponentType<
         return custom(elementCodec.listOf());
     }
 
+    public static <T> UpgradeDataComponentType<List<ConditionEffect<T>>> customConditional(Codec<T> effectCodec, LootContextParamSet params)
+    {
+        return customList(ConditionEffect.codec(effectCodec, params));
+    }
+
+    public static <T> UpgradeDataComponentType<List<TargetableEffect<T>>> customTargetable(Codec<T> effectCodec, LootContextParamSet params)
+    {
+        return customList(TargetableEffect.codec(effectCodec, params));
+    }
+
     public static <T extends UpgradeTooltipsProvider> UpgradeDataComponentType<T> create(Codec<T> codec)
     {
         return new SingleType<>(codec);
@@ -37,14 +45,9 @@ public abstract class UpgradeDataComponentType<T> extends LimaDataComponentType<
         return new ListType<>(elementCodec.listOf());
     }
 
-    public static <T extends UpgradeTooltipsProvider> UpgradeDataComponentType<List<ConditionalEffect<T>>> createConditional(Codec<T> elementCodec, LootContextParamSet params)
+    public static <T extends UpgradeTooltipsProvider> UpgradeDataComponentType<List<ConditionEffect<T>>> createConditional(Codec<T> elementCodec, LootContextParamSet params)
     {
-        return new ConditionalListType<>(ConditionalEffect.codec(elementCodec, params).listOf());
-    }
-
-    public static <T extends UpgradeTooltipsProvider> UpgradeDataComponentType<List<TargetedConditionalEffect<T>>> createTargeted(Codec<T> elementCodec, LootContextParamSet params)
-    {
-        return new TargetedConditionalListType<>(TargetedConditionalEffect.codec(elementCodec, params).listOf());
+        return new ConditionalListType<>(ConditionEffect.codec(elementCodec, params).listOf());
     }
 
     private UpgradeDataComponentType(Codec<T> codec)
@@ -96,34 +99,17 @@ public abstract class UpgradeDataComponentType<T> extends LimaDataComponentType<
         }
     }
 
-    private static class ConditionalListType<T extends UpgradeTooltipsProvider> extends UpgradeDataComponentType<List<ConditionalEffect<T>>>
+    private static class ConditionalListType<T extends UpgradeTooltipsProvider> extends UpgradeDataComponentType<List<ConditionEffect<T>>>
     {
-        public ConditionalListType(Codec<List<ConditionalEffect<T>>> codec)
+        public ConditionalListType(Codec<List<ConditionEffect<T>>> codec)
         {
             super(codec);
         }
 
         @Override
-        public void appendTooltipLines(List<ConditionalEffect<T>> data, int upgradeRank, Consumer<Component> lines)
+        public void appendTooltipLines(List<ConditionEffect<T>> data, int upgradeRank, Consumer<Component> lines)
         {
-            for (ConditionalEffect<T> conditionalEffect : data)
-            {
-                conditionalEffect.effect().addUpgradeTooltips(upgradeRank, lines);
-            }
-        }
-    }
-
-    private static class TargetedConditionalListType<T extends UpgradeTooltipsProvider> extends UpgradeDataComponentType<List<TargetedConditionalEffect<T>>>
-    {
-        public TargetedConditionalListType(Codec<List<TargetedConditionalEffect<T>>> codec)
-        {
-            super(codec);
-        }
-
-        @Override
-        public void appendTooltipLines(List<TargetedConditionalEffect<T>> data, int upgradeRank, Consumer<Component> lines)
-        {
-            for (TargetedConditionalEffect<T> conditionalEffect : data)
+            for (ConditionEffect<T> conditionalEffect : data)
             {
                 conditionalEffect.effect().addUpgradeTooltips(upgradeRank, lines);
             }

@@ -6,7 +6,15 @@
     "icon": "ltxi:stealth_damage",
     "title": {
       "translate": "equipment_upgrade.ltxi.universal_stealth_damage"
-    }
+    },
+    "tooltips": [
+      {
+        "type": "static",
+        "tooltip": {
+          "translate": "equipment_upgrade.ltxi.universal_stealth_damage.tooltip0"
+        }
+      }
+    ]
   },
   "effects": {
     "ltxi:pre_attack": [
@@ -18,7 +26,7 @@
             "minecraft:no_anger"
           ]
         },
-        "enchanted": "attacker"
+        "source": "attacker"
       }
     ]
   },

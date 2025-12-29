@@ -1,9 +1,6 @@
 package liedge.ltxindustries.client;
 
-import liedge.limacore.lib.ModResources;
 import liedge.limacore.lib.Translatable;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.damagesource.DamageType;
 
 import static liedge.ltxindustries.LTXIndustries.RESOURCES;
 
@@ -38,7 +35,6 @@ public final class LTXILangKeys
     public static final Translatable INLINE_OWNER_TOOLTIP = tooltip("owner");
     public static final Translatable ENERGY_OVERCHARGE_TOOLTIP = tooltip("energy_overcharge");
 
-    public static final Translatable BLUEPRINT_TOAST_MESSAGE = suffixOnlyKey("bp_toast_title");
     public static final Translatable MACHINE_TICKS_PER_OP_TOOLTIP = tooltip("ticks_per_op");
     public static final Translatable EMPTY_ITEM_INVENTORY_TOOLTIP = tooltip("empty_item_inventory_hint");
     public static final Translatable ITEM_INVENTORY_TOOLTIP = tooltip("item_inventory_hint");
@@ -94,23 +90,13 @@ public final class LTXILangKeys
 
     // Auto-generated upgrade effects
     public static final Translatable MINIMUM_MACHINE_SPEED_EFFECT = upgradeEffect("min_machine_speed");
-    public static final Translatable MINING_EFFECTIVE_BLOCKS_EFFECT = upgradeEffect("mining.effective");
-    public static final Translatable MINING_BASE_SPEED_EFFECT = upgradeEffect("mining.speed");
-    public static final Translatable DYNAMIC_DAMAGE_TAG_EFFECT = upgradeEffect("dynamic_tag");
     public static final Translatable REDUCTION_MODIFIER_EFFECT = upgradeEffect("reduction_mod");
-    public static final Translatable BUBBLE_SHIELD_EFFECT = upgradeEffect("bubble_shield");
-    public static final Translatable MOB_EFFECT_UPGRADE_EFFECT = upgradeEffect("mob_effect");
     public static final Translatable CAPTURE_BLOCK_DROPS_EFFECT = upgradeEffect("capture_block_drops");
     public static final Translatable CAPTURE_MOB_DROPS_EFFECT = upgradeEffect("capture_mob_drops");
     public static final Translatable SUPPRESS_VIBRATIONS_EFFECT = upgradeEffect("suppress_vibrations");
     public static final Translatable ENCHANTMENT_UPGRADE_EFFECT = upgradeEffect("enchantment");
     public static final Translatable CAPPED_ENCHANTMENT_UPGRADE_EFFECT = upgradeEffect("enchantment.capped");
     public static final Translatable GRENADE_UNLOCK_EFFECT = upgradeEffect("grenade_unlock");
-
-    public static String namedDamageTagKey(TagKey<DamageType> tagKey)
-    {
-        return ModResources.prefixedIdLangKey("lima.damage_tag", tagKey.location());
-    }
 
     private static Translatable prefixKey(String prefix, String key)
     {

@@ -7,7 +7,6 @@ import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.block.NeonLightColor;
 import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
 import liedge.ltxindustries.client.LTXIKeyMappings;
-import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.item.SimpleHintItem;
 import liedge.ltxindustries.item.TooltipShiftHintItem;
 import liedge.ltxindustries.item.tool.ToolSpeed;
@@ -23,8 +22,6 @@ import liedge.ltxindustries.registry.game.*;
 import liedge.ltxindustries.util.LTXITooltipUtil;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.tags.DamageTypeTags;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageType;
 import net.neoforged.neoforge.registries.DeferredItem;
 
@@ -212,6 +209,7 @@ class LanguageGen extends LimaLanguageProvider
         upgradeTooltip(LTXIEquipmentUpgrades.LTX_MELEE_DEFAULT, 0, "%s bonus damage against unarmored targets");
         upgrade(LTXIEquipmentUpgrades.GLOWSTICK_LAUNCHER_DEFAULT, "Wayfinder Intrinsics", "Wayfinder's energy feed system ships pre-configured to use Common Energy.");
         upgrade(LTXIEquipmentUpgrades.SUBMACHINE_GUN_DEFAULT, "Serenity Intrinsics", "Serenity's small lightfrags zip right through targets without a trace.");
+        upgradeTooltip(LTXIEquipmentUpgrades.SUBMACHINE_GUN_DEFAULT, 0, "No anger and knockback on damage");
         upgrade(LTXIEquipmentUpgrades.SHOTGUN_DEFAULT, "Aurora Intrinsics", "Aurora's combat precepts, specialized in fast assault and scout operations.");
         upgrade(LTXIEquipmentUpgrades.LFR_DEFAULT, "Stargazer Intrinsics", "Stargazer's systems are calibrated for precise long-range engagements.");
         upgradeTooltip(LTXIEquipmentUpgrades.LFR_DEFAULT, 0, "%s bonus damage when at least 40m away from target");
@@ -237,8 +235,8 @@ class LanguageGen extends LimaLanguageProvider
         upgrade(LTXIEquipmentUpgrades.NEUTRAL_ENEMY_TARGET_FILTER, "Engagement Protocol: Preemption", "Weapon systems restrict engagement to neutral enemies and hostile targets.");
         upgrade(LTXIEquipmentUpgrades.HOSTILE_TARGET_FILTER, "Engagement Protocol: Rectification", "Weapon systems restrict engagement to actively hostile targets.");
         upgrade(LTXIEquipmentUpgrades.HEAVY_PISTOL_GOD_ROUNDS, "Stellar Reality Disruptor", "Rip through reality itself with this Nova upgrade. Ensures swift defeat of even the strongest enemies.");
-
-        upgrade(LTXIEquipmentUpgrades.UNIVERSAL_STEALTH_DAMAGE, "Biometric Obfuscation", "Masks your traceable signature, preventing retaliatory anger from targets.");
+        upgrade(LTXIEquipmentUpgrades.UNIVERSAL_STEALTH_DAMAGE, "Biometric Obfuscation", "Traceable identity masking tech derived from ephemeral materials. May not confuse a more discerning target.");
+        upgradeTooltip(LTXIEquipmentUpgrades.UNIVERSAL_STEALTH_DAMAGE, 0, "No anger on damage");
 
         upgrade(LTXIEquipmentUpgrades.EFFICIENCY_ENCHANTMENT, "Overclocked Energy Cutters", "Enhances the power feed to the tool's energy cutter.");
         upgrade(LTXIEquipmentUpgrades.SILK_TOUCH_ENCHANTMENT, "Stabilized Harvest Matrix", "Calibrated to extract intact samples from the terrain.");
@@ -343,7 +341,6 @@ class LanguageGen extends LimaLanguageProvider
         add(JEI_RECIPE_MODE_NEEDED, "Needs mode: %s");
         add(JEI_NO_RECIPE_MODE_NEEDED, "No recipe mode needed.");
 
-        add(BLUEPRINT_TOAST_MESSAGE, "New Fabrication Data");
         add(MACHINE_TICKS_PER_OP_TOOLTIP, "Ticks per operation: %s");
         add(EMPTY_ITEM_INVENTORY_TOOLTIP, "No items stored");
         add(ITEM_INVENTORY_TOOLTIP, "Stored Items");
@@ -391,15 +388,10 @@ class LanguageGen extends LimaLanguageProvider
         add(ATTRIBUTE_SCALED_DAMAGE_UPGRADE, "%s of target's %s as extra damage");
 
         add(MINIMUM_MACHINE_SPEED_EFFECT, "Minimum speed: %s ticks");
-        add(MINING_EFFECTIVE_BLOCKS_EFFECT, "Effective against %s blocks");
-        add(MINING_BASE_SPEED_EFFECT, "Base mining speed: %s");
-        add(DYNAMIC_DAMAGE_TAG_EFFECT, "+Damage Tags: %s");
         add(SUPPRESS_VIBRATIONS_EFFECT, "Suppresses %s sculk vibrations");
         add(CAPTURE_BLOCK_DROPS_EFFECT, "Captures %s block drops to your inventory");
         add(CAPTURE_MOB_DROPS_EFFECT, "Captures mob drops to your inventory");
         add(REDUCTION_MODIFIER_EFFECT, "%s %s breach");
-        add(BUBBLE_SHIELD_EFFECT, "%s Bubble Shield/kill (%s max overcharge)");
-        add(MOB_EFFECT_UPGRADE_EFFECT, "Applies %s (%s)");
         add(ENCHANTMENT_UPGRADE_EFFECT, "+%s %s levels");
         add(CAPPED_ENCHANTMENT_UPGRADE_EFFECT, "+%s %s levels (max %s)");
         add(GRENADE_UNLOCK_EFFECT, "Can use %s shells");
@@ -466,11 +458,6 @@ class LanguageGen extends LimaLanguageProvider
         add(LTXITags.GameEvents.WEAPON_VIBRATIONS, "weaponry");
         add(LTXITags.GameEvents.HANDHELD_EQUIPMENT, "handheld tool");
 
-        namedDamageTag(LTXITags.DamageTypes.WEAPON_DAMAGE, "Weapon Damage");
-        namedDamageTag(LTXITags.DamageTypes.BYPASS_SURVIVAL_DEFENSES, "Bypass All Survival Defenses");
-        namedDamageTag(DamageTypeTags.NO_ANGER, "No Anger");
-        namedDamageTag(DamageTypeTags.NO_KNOCKBACK, "No Knockback");
-
         // GuideME compatibility
         add(modResources.translationKey("item.{}.guide_tablet"), "Guide Tablet");
         add(modResources.translationKey("hint.{}.guide_tablet"), "To be completed Soon™");
@@ -516,10 +503,5 @@ class LanguageGen extends LimaLanguageProvider
     private void recipeMode(ResourceKey<RecipeMode> key, String value)
     {
         add(ModResources.registryPrefixedIdLangKey(key), value);
-    }
-
-    private void namedDamageTag(TagKey<DamageType> tagKey, String value)
-    {
-        add(LTXILangKeys.namedDamageTagKey(tagKey), value);
     }
 }

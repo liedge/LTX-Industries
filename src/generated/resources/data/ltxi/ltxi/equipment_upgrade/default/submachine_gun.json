@@ -17,7 +17,15 @@
     },
     "title": {
       "translate": "equipment_upgrade.ltxi.default.submachine_gun"
-    }
+    },
+    "tooltips": [
+      {
+        "type": "static",
+        "tooltip": {
+          "translate": "equipment_upgrade.ltxi.default.submachine_gun.tooltip0"
+        }
+      }
+    ]
   },
   "effects": {
     "ltxi:pre_attack": [
@@ -30,7 +38,7 @@
             "minecraft:no_knockback"
           ]
         },
-        "enchanted": "attacker"
+        "source": "attacker"
       }
     ],
     "ltxi:suppress_vibrations": [

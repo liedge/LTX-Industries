@@ -19,6 +19,7 @@ public final class LTXIEntityUpgradeEffects
         TYPES.register(bus);
     }
 
+    public static final DeferredHolder<EntityUpgradeEffectType<?>, EntityUpgradeEffectType<CompoundEntityEffect>> ALL_OF_EFFECT = TYPES.register("all_of", () -> EntityUpgradeEffectType.create(CompoundEntityEffect.CODEC));
     public static final DeferredHolder<EntityUpgradeEffectType<?>, EntityUpgradeEffectType<AddDamageTags>> MODIFY_DAMAGE_TAGS = TYPES.register("modify_damage_tags", () -> EntityUpgradeEffectType.create(AddDamageTags.CODEC));
     public static final DeferredHolder<EntityUpgradeEffectType<?>, EntityUpgradeEffectType<RestoreShield>> RESTORE_BUBBLE_SHIELD = TYPES.register("restore_shield", () -> EntityUpgradeEffectType.create(RestoreShield.CODEC));
     public static final DeferredHolder<EntityUpgradeEffectType<?>, EntityUpgradeEffectType<ApplyMobEffect>> APPLY_MOB_EFFECT = TYPES.register("apply_effect", () -> EntityUpgradeEffectType.create(ApplyMobEffect.CODEC));

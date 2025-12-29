@@ -40,7 +40,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.EnchantmentTarget;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.item.enchantment.LevelBasedValue;
 import net.minecraft.world.level.block.Block;
@@ -185,7 +184,8 @@ public final class LTXIEquipmentUpgrades
         EquipmentUpgrade.builder(SUBMACHINE_GUN_DEFAULT)
                 .supports(LTXIItems.SUBMACHINE_GUN)
                 .withEffect(SUPPRESS_VIBRATIONS, SuppressVibrations.mainHand(gameEvents.getOrThrow(LTXITags.GameEvents.WEAPON_VIBRATIONS)))
-                .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, AddDamageTags.addTags(DamageTypeTags.NO_ANGER, DamageTypeTags.NO_KNOCKBACK))
+                .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EffectTarget.ATTACKER, EffectTarget.VICTIM, AddDamageTags.addTags(DamageTypeTags.NO_ANGER, DamageTypeTags.NO_KNOCKBACK))
+                .staticTooltip(0)
                 .effectIcon(defaultModuleIcon(LTXIItems.SUBMACHINE_GUN))
                 .category("default/weapon")
                 .register(context);
@@ -261,7 +261,7 @@ public final class LTXIEquipmentUpgrades
         EquipmentUpgrade.builder(TREE_VEIN_MINE)
                 .supports(LTXIItems.LTX_AXE)
                 .withEffect(VEIN_MINE, VeinMine.create(BlockPredicate.Builder.block().of(BlockTags.LOGS), BlockPredicate.Builder.block().of(BlockTags.LEAVES), VeinMine.MAX_BLOCK_LIMIT, false))
-                .tooltip(0, key -> StaticTooltip.of(Component.translatable(key)))
+                .staticTooltip(0)
                 .effectIcon(veinMineOverlay(itemIcon(Items.OAK_LOG)))
                 .category("tools")
                 .register(context);
@@ -281,7 +281,7 @@ public final class LTXIEquipmentUpgrades
         // Weapon-specific upgrades
         EquipmentUpgrade.builder(HEAVY_PISTOL_GOD_ROUNDS)
                 .supports(LTXIItems.HEAVY_PISTOL)
-                .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, AddDamageTags.addTags(LTXITags.DamageTypes.BYPASS_SURVIVAL_DEFENSES))
+                .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EffectTarget.ATTACKER, EffectTarget.VICTIM, AddDamageTags.addTags(LTXITags.DamageTypes.BYPASS_SURVIVAL_DEFENSES))
                 .withConditionalEffect(EQUIPMENT_DAMAGE, ValueOperation.of(MathOpsNumberProvider.of(EntityAttributeValueProvider.totalValue(LootContext.EntityTarget.THIS, Attributes.MAX_HEALTH), ConstantValue.exactly(0.25f), MathOperation.MULTIPLY), MathOperation.ADD))
                 .tooltip(TranslatableTooltip.create(LTXILangKeys.ATTRIBUTE_SCALED_DAMAGE_UPGRADE,
                         ValueComponent.of(ConstantDouble.of(0.25d), ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE),
@@ -304,7 +304,8 @@ public final class LTXIEquipmentUpgrades
                 .register(context);
         EquipmentUpgrade.builder(UNIVERSAL_STEALTH_DAMAGE)
                 .supports(allWeapons)
-                .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EnchantmentTarget.ATTACKER, EnchantmentTarget.VICTIM, AddDamageTags.addTags(DamageTypeTags.NO_ANGER))
+                .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EffectTarget.ATTACKER, EffectTarget.VICTIM, AddDamageTags.addTags(DamageTypeTags.NO_ANGER))
+                .staticTooltip(0)
                 .effectIcon(sprite("stealth_damage"))
                 .register(context);
         EquipmentUpgrade.builder(WEAPON_DIRECT_DROPS)

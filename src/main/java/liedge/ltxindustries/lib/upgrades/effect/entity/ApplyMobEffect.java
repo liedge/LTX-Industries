@@ -2,15 +2,9 @@ package liedge.ltxindustries.lib.upgrades.effect.entity;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.registry.game.LTXIEntityUpgradeEffects;
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
-import net.minecraft.network.chat.CommonComponents;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.StringUtil;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
@@ -18,8 +12,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.enchantment.LevelBasedValue;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
-
-import java.util.function.Consumer;
 
 public record ApplyMobEffect(Holder<MobEffect> effect, LevelBasedValue duration, LevelBasedValue amplifier) implements EntityUpgradeEffect
 {
@@ -55,22 +47,5 @@ public record ApplyMobEffect(Holder<MobEffect> effect, LevelBasedValue duration,
     public EntityUpgradeEffectType<?> getType()
     {
         return LTXIEntityUpgradeEffects.APPLY_MOB_EFFECT.get();
-    }
-
-    @Override
-    public void addUpgradeTooltips(int upgradeRank, Consumer<Component> lines)
-    {
-        MutableComponent nameComponent = effect.value().getDisplayName().copy();
-
-        int amplifier = Math.round(this.amplifier.calculate(upgradeRank));
-        if (amplifier > 0 && amplifier < 10)
-        {
-            nameComponent.append(CommonComponents.SPACE).append(Component.translatable("enchantment.level." + (amplifier + 1)));
-        }
-
-        int duration = Math.round(this.duration.calculate(upgradeRank));
-        Component durationComponent = Component.literal(StringUtil.formatTickDuration(duration, 20));
-
-        lines.accept(LTXILangKeys.MOB_EFFECT_UPGRADE_EFFECT.translateArgs(nameComponent, durationComponent).withStyle(ChatFormatting.GOLD));
     }
 }

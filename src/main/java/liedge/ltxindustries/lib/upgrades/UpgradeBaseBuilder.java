@@ -5,9 +5,7 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.data.BootstrapObjectBuilder;
 import liedge.limacore.lib.LimaColor;
 import liedge.limacore.lib.ModResources;
-import liedge.ltxindustries.lib.upgrades.effect.AttributeModifierUpgradeEffect;
-import liedge.ltxindustries.lib.upgrades.effect.AddDamageAttributes;
-import liedge.ltxindustries.lib.upgrades.effect.AddItemAttributes;
+import liedge.ltxindustries.lib.upgrades.effect.*;
 import liedge.ltxindustries.lib.upgrades.tooltip.StaticTooltip;
 import liedge.ltxindustries.lib.upgrades.tooltip.UpgradeComponentLike;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
@@ -26,10 +24,7 @@ import net.minecraft.util.Unit;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.item.enchantment.ConditionalEffect;
-import net.minecraft.world.item.enchantment.EnchantmentTarget;
 import net.minecraft.world.item.enchantment.LevelBasedValue;
-import net.minecraft.world.item.enchantment.TargetedConditionalEffect;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
@@ -108,7 +103,12 @@ public final class UpgradeBaseBuilder<CTX, U extends UpgradeBase<CTX, U>> implem
         return tooltip(function.apply(tooltipKey(key, index)));
     }
 
-    public UpgradeBaseBuilder<CTX, U> tooltip(Component component)
+    public UpgradeBaseBuilder<CTX, U> staticTooltip(int index)
+    {
+        return tooltip(index, key -> StaticTooltip.of(Component.translatable(key)));
+    }
+
+    public UpgradeBaseBuilder<CTX, U> staticTooltip(Component component)
     {
         return tooltip(StaticTooltip.of(component));
     }
@@ -164,46 +164,46 @@ public final class UpgradeBaseBuilder<CTX, U extends UpgradeBase<CTX, U>> implem
         return withEffect(typeSupplier.get(), effect);
     }
 
-    public <T> UpgradeBaseBuilder<CTX, U> withConditionalEffect(DataComponentType<List<ConditionalEffect<T>>> type, T effect, @Nullable LootItemCondition.Builder condition)
+    public <T> UpgradeBaseBuilder<CTX, U> withConditionalEffect(DataComponentType<List<ConditionEffect<T>>> type, T effect, @Nullable LootItemCondition.Builder condition)
     {
-        getEffectsList(type).add(new ConditionalEffect<>(effect, Optional.ofNullable(condition).map(LootItemCondition.Builder::build)));
+        getEffectsList(type).add(new ConditionEffect<>(effect, Optional.ofNullable(condition).map(LootItemCondition.Builder::build)));
         return this;
     }
 
-    public <T> UpgradeBaseBuilder<CTX, U> withConditionalEffect(DataComponentType<List<ConditionalEffect<T>>> type, T effect)
+    public <T> UpgradeBaseBuilder<CTX, U> withConditionalEffect(DataComponentType<List<ConditionEffect<T>>> type, T effect)
     {
         return withConditionalEffect(type, effect, null);
     }
 
-    public <T> UpgradeBaseBuilder<CTX, U> withConditionalEffect(Supplier<? extends DataComponentType<List<ConditionalEffect<T>>>> typeSupplier, T effect, @Nullable LootItemCondition.Builder condition)
+    public <T> UpgradeBaseBuilder<CTX, U> withConditionalEffect(Supplier<? extends DataComponentType<List<ConditionEffect<T>>>> typeSupplier, T effect, @Nullable LootItemCondition.Builder condition)
     {
         return withConditionalEffect(typeSupplier.get(), effect, condition);
     }
 
-    public <T> UpgradeBaseBuilder<CTX, U> withConditionalEffect(Supplier<? extends DataComponentType<List<ConditionalEffect<T>>>> typeSupplier, T effect)
+    public <T> UpgradeBaseBuilder<CTX, U> withConditionalEffect(Supplier<? extends DataComponentType<List<ConditionEffect<T>>>> typeSupplier, T effect)
     {
         return withConditionalEffect(typeSupplier, effect, null);
     }
 
-    public <T> UpgradeBaseBuilder<CTX, U> withTargetedEffect(DataComponentType<List<TargetedConditionalEffect<T>>> type, EnchantmentTarget enchanted, EnchantmentTarget affected, T effect, @Nullable LootItemCondition.Builder condition)
+    public <T> UpgradeBaseBuilder<CTX, U> withTargetedEffect(DataComponentType<List<TargetableEffect<T>>> type, EffectTarget source, EffectTarget affected, T effect, @Nullable LootItemCondition.Builder condition)
     {
-        getEffectsList(type).add(new TargetedConditionalEffect<>(enchanted, affected, effect, Optional.ofNullable(condition).map(LootItemCondition.Builder::build)));
+        getEffectsList(type).add(new TargetableEffect<>(source, affected, effect, Optional.ofNullable(condition).map(LootItemCondition.Builder::build)));
         return this;
     }
 
-    public <T> UpgradeBaseBuilder<CTX, U> withTargetedEffect(DataComponentType<List<TargetedConditionalEffect<T>>> type, EnchantmentTarget enchanted, EnchantmentTarget affected, T effect)
+    public <T> UpgradeBaseBuilder<CTX, U> withTargetedEffect(DataComponentType<List<TargetableEffect<T>>> type, EffectTarget source, EffectTarget affected, T effect)
     {
-        return withTargetedEffect(type, enchanted, affected, effect, null);
+        return withTargetedEffect(type, source, affected, effect, null);
     }
 
-    public <T> UpgradeBaseBuilder<CTX, U> withTargetedEffect(Supplier<? extends DataComponentType<List<TargetedConditionalEffect<T>>>> typeSupplier, EnchantmentTarget enchanted, EnchantmentTarget affected, T effect, @Nullable LootItemCondition.Builder condition)
+    public <T> UpgradeBaseBuilder<CTX, U> withTargetedEffect(Supplier<? extends DataComponentType<List<TargetableEffect<T>>>> typeSupplier, EffectTarget source, EffectTarget affected, T effect, @Nullable LootItemCondition.Builder condition)
     {
-        return withTargetedEffect(typeSupplier.get(), enchanted, affected, effect, condition);
+        return withTargetedEffect(typeSupplier.get(), source, affected, effect, condition);
     }
 
-    public <T> UpgradeBaseBuilder<CTX, U> withTargetedEffect(Supplier<? extends DataComponentType<List<TargetedConditionalEffect<T>>>> typeSupplier, EnchantmentTarget enchanted, EnchantmentTarget affected, T effect)
+    public <T> UpgradeBaseBuilder<CTX, U> withTargetedEffect(Supplier<? extends DataComponentType<List<TargetableEffect<T>>>> typeSupplier, EffectTarget source, EffectTarget affected, T effect)
     {
-        return withTargetedEffect(typeSupplier, enchanted, affected, effect, null);
+        return withTargetedEffect(typeSupplier, source, affected, effect, null);
     }
 
     public <T> UpgradeBaseBuilder<CTX, U> withSpecialEffect(DataComponentType<T> type, T effect)
