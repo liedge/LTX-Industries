@@ -30,7 +30,7 @@ import net.neoforged.neoforge.common.ItemAbility;
 
 import java.util.Set;
 
-public class EnergyBrushItem extends EnergyBaseToolItem
+public class EnergyBrushItem extends BaseEnergyToolItem
 {
     public EnergyBrushItem(Properties properties)
     {
@@ -90,7 +90,7 @@ public class EnergyBrushItem extends EnergyBaseToolItem
 
                     if (!level.isClientSide() && level.getBlockEntity(pos) instanceof BrushableBlockEntity brushable && brushable.brush(level.getGameTime(), player, blockHitResult.getDirection()))
                     {
-                        consumeActionEnergy(player, stack);
+                        consumeUsageEnergy(player, stack);
                     }
                 }
             }

@@ -19,10 +19,12 @@ import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
+import java.util.Collection;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Set;
+import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
-import java.util.stream.Stream;
 
 public final class LTXIBlockEntities
 {
@@ -39,7 +41,7 @@ public final class LTXIBlockEntities
     private static void registerCapabilities(final RegisterCapabilitiesEvent event)
     {
         // Machine capability registration (item, energy)
-        Stream.of(
+        registerItemEnergyCaps(event, List.of(
                 ENERGY_CELL_ARRAY,
                 INFINITE_ENERGY_CELL_ARRAY,
                 DIGITAL_FURNACE,
@@ -51,31 +53,38 @@ public final class LTXIBlockEntities
                 AUTO_FABRICATOR,
                 MOLECULAR_RECONSTRUCTOR,
                 ROCKET_TURRET,
-                RAILGUN_TURRET)
-                .map(DeferredHolder::get).forEach(type -> registerItemEnergyCaps(event, type));
+                RAILGUN_TURRET));
 
         // Machine capability registration (item, energy, fluid)
-        Stream.of(
+        registerItemEnergyFluidCaps(event, List.of(
                 MATERIAL_FUSING_CHAMBER,
                 ELECTROCENTRIFUGE,
                 MIXER,
                 CHEM_LAB,
                 ASSEMBLER,
                 GEO_SYNTHESIZER,
-                DIGITAL_GARDEN)
-                .map(DeferredHolder::get).forEach(type -> registerItemEnergyFluidCaps(event, type));
+                DIGITAL_GARDEN));
     }
 
-    private static <T extends LimaBlockEntity & ItemHolderBlockEntity & EnergyHolderBlockEntity> void registerItemEnergyCaps(RegisterCapabilitiesEvent event, BlockEntityType<? extends T> type)
+    private static <T extends LimaBlockEntity & ItemHolderBlockEntity & EnergyHolderBlockEntity> void registerItemEnergyCaps(RegisterCapabilitiesEvent event, Collection<? extends Supplier<? extends BlockEntityType<? extends T>>> types)
     {
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, type, ItemHolderBlockEntity::createItemIOWrapper);
-        event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, type, EnergyHolderBlockEntity::createEnergyIOWrapper);
+        for (Supplier<? extends BlockEntityType<? extends T>> holder : types)
+        {
+            BlockEntityType<? extends T> type = holder.get();
+            event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, type, ItemHolderBlockEntity::createItemIOWrapper);
+            event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, type, EnergyHolderBlockEntity::createEnergyIOWrapper);
+        }
     }
 
-    private static <T extends LimaBlockEntity & ItemHolderBlockEntity & EnergyHolderBlockEntity & FluidHolderBlockEntity> void registerItemEnergyFluidCaps(RegisterCapabilitiesEvent event, BlockEntityType<? extends T> type)
+    private static <T extends LimaBlockEntity & ItemHolderBlockEntity & EnergyHolderBlockEntity & FluidHolderBlockEntity> void registerItemEnergyFluidCaps(RegisterCapabilitiesEvent event, Collection<? extends Supplier<? extends BlockEntityType<? extends T>>> types)
     {
-        registerItemEnergyCaps(event, type);
-        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, type, FluidHolderBlockEntity::createFluidIOWrapper);
+        for (Supplier<? extends BlockEntityType<? extends T>> holder : types)
+        {
+            BlockEntityType<? extends T> type = holder.get();
+            event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, type, ItemHolderBlockEntity::createItemIOWrapper);
+            event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, type, EnergyHolderBlockEntity::createEnergyIOWrapper);
+            event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, type, FluidHolderBlockEntity::createFluidIOWrapper);
+        }
     }
 
     //#region Sided Access Rules

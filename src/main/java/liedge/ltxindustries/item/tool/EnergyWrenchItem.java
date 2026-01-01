@@ -67,7 +67,7 @@ public class EnergyWrenchItem extends BaseEnergyMiningItem
             level.setBlock(pos, modified, Block.UPDATE_ALL_IMMEDIATE);
             level.gameEvent(gameEvent, pos, GameEvent.Context.of(player, modified));
 
-            if (isSneaking) consumeActionEnergy(player, stack); // Use energy for dismantling only
+            if (isSneaking) consumeUsageEnergy(player, stack); // Use energy for dismantling only
         }
 
         return InteractionResult.sidedSuccess(level.isClientSide());

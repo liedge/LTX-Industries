@@ -213,7 +213,7 @@ public final class LTXIClientEventHandler
             }
             else
             {
-                components.add(Either.left(TooltipShiftHintItem.HINT_HOVER_TOOLTIP.translate().withStyle(ChatFormatting.DARK_GRAY)));
+                components.add(Either.left(LTXILangKeys.SHIFT_HOVER_HINT.translate().withStyle(ChatFormatting.DARK_GRAY)));
             }
         }
     }

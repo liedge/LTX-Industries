@@ -229,9 +229,7 @@ public final class LTXIEquipmentUpgrades
                 .supports(allTools)
                 .setMaxRank(4)
                 .withEffect(ENERGY_CAPACITY, ValueOperation.of(toolEnergy, MathOperation.MULTIPLY))
-                .withEffect(ENERGY_TRANSFER_RATE, ValueOperation.of(toolEnergy, MathOperation.MULTIPLY))
                 .tooltip(energyCapacityTooltip(toolEnergy, ValueFormat.MULTIPLICATIVE, ValueSentiment.POSITIVE))
-                .tooltip(energyTransferTooltip(toolEnergy, ValueFormat.MULTIPLICATIVE, ValueSentiment.POSITIVE))
                 .effectIcon(sprite("extra_energy"))
                 .category("tools")
                 .register(context);

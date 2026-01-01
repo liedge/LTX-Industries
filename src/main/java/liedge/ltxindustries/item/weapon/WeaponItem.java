@@ -4,10 +4,8 @@ import com.mojang.serialization.Codec;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.client.particle.ColorParticleOptions;
 import liedge.limacore.data.LimaCoreCodecs;
-import liedge.limacore.item.LimaCreativeTabFillerItem;
 import liedge.limacore.lib.TickTimer;
 import liedge.limacore.lib.Translatable;
-import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.network.LimaStreamCodecs;
 import liedge.limacore.util.LimaLootUtil;
 import liedge.limacore.util.LimaNetworkUtil;
@@ -16,11 +14,8 @@ import liedge.ltxindustries.entity.CompoundHitResult;
 import liedge.ltxindustries.entity.DynamicClipContext;
 import liedge.ltxindustries.entity.LimaTraceableEntity;
 import liedge.ltxindustries.entity.damage.UpgradableEquipmentDamageSource;
-import liedge.ltxindustries.item.EnergyHolderItem;
-import liedge.ltxindustries.item.TooltipShiftHintItem;
-import liedge.ltxindustries.item.UpgradableEquipmentItem;
+import liedge.ltxindustries.item.EnergyEquipmentItem;
 import liedge.ltxindustries.lib.EquipmentDamageModifiers;
-import liedge.ltxindustries.lib.upgrades.effect.ValueOperation;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
 import liedge.ltxindustries.lib.weapons.WeaponReloadSource;
@@ -29,7 +24,6 @@ import liedge.ltxindustries.registry.game.*;
 import liedge.ltxindustries.util.LTXITooltipUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
-import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -53,12 +47,10 @@ import net.neoforged.neoforge.common.ItemAbilities;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Comparator;
-import java.util.List;
-import java.util.function.Supplier;
 
 import static liedge.ltxindustries.LTXIConstants.LIME_GREEN;
 
-public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaCreativeTabFillerItem, TooltipShiftHintItem, UpgradableEquipmentItem
+public abstract class WeaponItem extends EnergyEquipmentItem
 {
     public static final Codec<WeaponItem> CODEC = LimaCoreCodecs.classCastRegistryCodec(BuiltInRegistries.ITEM, WeaponItem.class);
     public static final StreamCodec<RegistryFriendlyByteBuf, WeaponItem> STREAM_CODEC = LimaStreamCodecs.classCastRegistryStreamCodec(Registries.ITEM, WeaponItem.class);
@@ -125,19 +117,7 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
     @Override
     public final int getBaseEnergyCapacity(ItemStack stack)
     {
-        return 1;
-    }
-
-    @Override
-    public final int getBaseEnergyUsage(ItemStack stack)
-    {
-        return 1;
-    }
-
-    @Override
-    public final int getBaseEnergyTransferRate(ItemStack stack)
-    {
-        return getEnergyCapacity(stack) / 20;
+        return 0;
     }
     //#endregion
 
@@ -209,11 +189,11 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
     public void onUpgradeRefresh(LootContext context, ItemStack stack, EquipmentUpgrades upgrades)
     {
         // Apply modifiers for weapon base stats
-        applyIntStat(stack, upgrades, context, baseMagCapacity, LTXIDataComponents.MAGAZINE_CAPACITY, LTXIUpgradeEffectComponents.MAGAZINE_CAPACITY);
-        applyDoubleStat(stack, upgrades, context, baseRange, LTXIDataComponents.WEAPON_RANGE, LTXIUpgradeEffectComponents.WEAPON_RANGE);
-        applyIntStat(stack, upgrades, context, baseReloadSpeed, LTXIDataComponents.RELOAD_SPEED, LTXIUpgradeEffectComponents.RELOAD_SPEED);
-        applyIntStat(stack, upgrades, context, baseMaxHits, LTXIDataComponents.MAX_HITS, LTXIUpgradeEffectComponents.MAX_HITS);
-        applyDoubleStat(stack, upgrades, context, basePunchTrough, LTXIDataComponents.PUNCH_THROUGH, LTXIUpgradeEffectComponents.BLOCK_PIERCE_DISTANCE);
+        setUpgradableInt(stack, upgrades, context, baseMagCapacity, LTXIDataComponents.MAGAZINE_CAPACITY, LTXIUpgradeEffectComponents.MAGAZINE_CAPACITY);
+        setUpgradableDouble(stack, upgrades, context, baseRange, LTXIDataComponents.WEAPON_RANGE, LTXIUpgradeEffectComponents.WEAPON_RANGE);
+        setUpgradableInt(stack, upgrades, context, baseReloadSpeed, LTXIDataComponents.RELOAD_SPEED, LTXIUpgradeEffectComponents.RELOAD_SPEED);
+        setUpgradableInt(stack, upgrades, context, baseMaxHits, LTXIDataComponents.MAX_HITS, LTXIUpgradeEffectComponents.MAX_HITS);
+        setUpgradableDouble(stack, upgrades, context, basePunchTrough, LTXIDataComponents.PUNCH_THROUGH, LTXIUpgradeEffectComponents.BLOCK_PIERCE_DISTANCE);
 
         // Refresh reload source
         WeaponReloadSource reloadSource = upgrades.effectStream(LTXIUpgradeEffectComponents.RELOAD_SOURCE)
@@ -222,7 +202,7 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
         stack.set(LTXIDataComponents.RELOAD_SOURCE, reloadSource);
 
         // Run base after to allow CE ammo type to properly work
-        UpgradableEquipmentItem.super.onUpgradeRefresh(context, stack, upgrades);
+        super.onUpgradeRefresh(context, stack, upgrades);
     }
 
     private boolean hurtEntity(LivingEntity attacker, Entity target, UpgradableEquipmentDamageSource damageSource, double baseDamage)
@@ -287,8 +267,7 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
 
         WeaponReloadSource reloadSource = getReloadSource(stack);
         consumer.accept(reloadSource.getItemTooltip());
-        if (reloadSource.getType() == WeaponReloadSource.Type.COMMON_ENERGY)
-            appendEquipmentEnergyTooltip(consumer, stack);
+        if (reloadSource.getType() == WeaponReloadSource.Type.COMMON_ENERGY) super.appendTooltipHintComponents(level, stack, consumer);
     }
 
     @Override
@@ -323,12 +302,6 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
     }
 
     @Override
-    public boolean addDefaultInstanceToCreativeTab(ResourceLocation tabId)
-    {
-        return false;
-    }
-
-    @Override
     public void addAdditionalToCreativeTab(ResourceLocation tabId, CreativeModeTab.ItemDisplayParameters parameters, CreativeModeTab.Output output, CreativeModeTab.TabVisibility tabVisibility)
     {
         ItemStack stack = createStackWithDefaultUpgrades(parameters.holders());
@@ -338,34 +311,8 @@ public abstract class WeaponItem extends Item implements EnergyHolderItem, LimaC
     }
 
     @Override
-    public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged)
-    {
-        return slotChanged;
-    }
-
-    @Override
-    public boolean isFoil(ItemStack stack)
+    public boolean isBarVisible(ItemStack stack)
     {
         return false;
-    }
-
-    @Override
-    public boolean isEnchantable(ItemStack stack)
-    {
-        return false;
-    }
-
-    private void applyDoubleStat(ItemStack stack, EquipmentUpgrades upgrades, LootContext context, double baseFallback, Supplier<? extends DataComponentType<Double>> type, Supplier<? extends DataComponentType<List<ValueOperation>>> effectType)
-    {
-        double base = components().getOrDefault(type.get(), baseFallback);
-        double value = upgrades.runValueOps(effectType, context, base);
-        stack.set(type, value);
-    }
-
-    private void applyIntStat(ItemStack stack, EquipmentUpgrades upgrades, LootContext context, int baseFallback, Supplier<? extends DataComponentType<Integer>> type, Supplier<? extends DataComponentType<List<ValueOperation>>> effectType)
-    {
-        int base = components().getOrDefault(type.get(), baseFallback);
-        int value = LimaCoreMath.round(upgrades.runValueOps(effectType, context, base));
-        stack.set(type, value);
     }
 }

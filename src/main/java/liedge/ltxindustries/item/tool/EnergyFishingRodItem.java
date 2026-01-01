@@ -17,7 +17,7 @@ import net.neoforged.neoforge.common.ItemAbility;
 
 import java.util.Set;
 
-public class EnergyFishingRodItem extends EnergyBaseToolItem
+public class EnergyFishingRodItem extends BaseEnergyToolItem
 {
     public EnergyFishingRodItem(Properties properties)
     {
@@ -41,7 +41,7 @@ public class EnergyFishingRodItem extends EnergyBaseToolItem
         {
             if (!level.isClientSide() && player.fishing.retrieve(stack) > 0)
             {
-                consumeActionEnergy(player, stack);
+                consumeUsageEnergy(player, stack);
             }
 
             level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.FISHING_BOBBER_RETRIEVE, SoundSource.NEUTRAL, 1f, 0.4f / (level.getRandom().nextFloat() * 0.4f + 0.8f)); // What is this pitch formula? Simplify?

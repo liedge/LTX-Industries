@@ -1,26 +1,16 @@
 package liedge.ltxindustries.item.tool;
 
-import liedge.limacore.capability.energy.LimaEnergyUtil;
-import liedge.limacore.client.gui.TooltipLineConsumer;
-import liedge.limacore.item.LimaCreativeTabFillerItem;
-import liedge.limacore.registry.game.LimaCoreDataComponents;
 import liedge.limacore.util.LimaLootUtil;
-import liedge.ltxindustries.LTXIConstants;
-import liedge.ltxindustries.item.EnergyHolderItem;
-import liedge.ltxindustries.item.TooltipShiftHintItem;
-import liedge.ltxindustries.item.UpgradableEquipmentItem;
+import liedge.ltxindustries.item.EnergyEquipmentItem;
 import liedge.ltxindustries.lib.EquipmentDamageModifiers;
 import liedge.ltxindustries.util.config.LTXIServerConfig;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
@@ -31,11 +21,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 
-public abstract class EnergyBaseToolItem extends Item implements EnergyHolderItem, UpgradableEquipmentItem, TooltipShiftHintItem, LimaCreativeTabFillerItem
+public abstract class BaseEnergyToolItem extends EnergyEquipmentItem
 {
     private final float poweredAttackDamage;
 
-    protected EnergyBaseToolItem(Properties properties, float poweredAttackDamage)
+    protected BaseEnergyToolItem(Properties properties, float poweredAttackDamage)
     {
         super(properties);
         this.poweredAttackDamage = poweredAttackDamage;
@@ -43,28 +33,11 @@ public abstract class EnergyBaseToolItem extends Item implements EnergyHolderIte
 
     protected abstract Set<ItemAbility> getAvailableAbilities();
 
-    // Helpers
-    public void consumeActionEnergy(Player player, ItemStack stack)
-    {
-        if (!player.isCreative()) LimaEnergyUtil.extractWithoutLimit(getOrCreateEnergyStorage(stack), getEnergyUsage(stack), false);
-    }
-
-    public boolean hasEnergyForAction(ItemStack stack)
-    {
-        return getEnergyStored(stack) >= getEnergyUsage(stack);
-    }
-
     // Energy stuff
     @Override
     public int getBaseEnergyCapacity(ItemStack stack)
     {
         return LTXIServerConfig.TOOLS_ENERGY_CAPACITY.getAsInt();
-    }
-
-    @Override
-    public int getBaseEnergyTransferRate(ItemStack stack)
-    {
-        return getBaseEnergyCapacity(stack) / 40;
     }
 
     @Override
@@ -107,8 +80,8 @@ public abstract class EnergyBaseToolItem extends Item implements EnergyHolderIte
     @Override
     public void postHurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker)
     {
-        if (poweredAttackDamage > 0 && !attacker.level().isClientSide() && attacker instanceof Player)
-            consumeActionEnergy((Player) attacker, stack);
+        if (poweredAttackDamage > 0 && !attacker.level().isClientSide())
+            consumeUsageEnergy(attacker, stack);
     }
 
     // Tool actions
@@ -145,62 +118,5 @@ public abstract class EnergyBaseToolItem extends Item implements EnergyHolderIte
     public boolean shouldCauseBlockBreakReset(ItemStack oldStack, ItemStack newStack)
     {
         return !ItemStack.isSameItem(oldStack, newStack);
-    }
-
-    @Override
-    public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged)
-    {
-        return slotChanged;
-    }
-
-    @Override
-    public boolean isFoil(ItemStack stack)
-    {
-        return false;
-    }
-
-    @Override
-    public boolean isEnchantable(ItemStack stack)
-    {
-        return false;
-    }
-
-    @Override
-    public boolean isBarVisible(ItemStack stack)
-    {
-        return true;
-    }
-
-    @Override
-    public int getBarColor(ItemStack stack)
-    {
-        return LTXIConstants.REM_BLUE.argb32();
-    }
-
-    @Override
-    public int getBarWidth(ItemStack stack)
-    {
-        return Math.round(13f * getChargePercentage(stack));
-    }
-
-    @Override
-    public void appendTooltipHintComponents(@Nullable Level level, ItemStack stack, TooltipLineConsumer consumer)
-    {
-        appendEquipmentEnergyTooltip(consumer, stack);
-    }
-
-    // Creative tab
-    @Override
-    public boolean addDefaultInstanceToCreativeTab(ResourceLocation tabId)
-    {
-        return false;
-    }
-
-    @Override
-    public void addAdditionalToCreativeTab(ResourceLocation tabId, CreativeModeTab.ItemDisplayParameters parameters, CreativeModeTab.Output output, CreativeModeTab.TabVisibility tabVisibility)
-    {
-        ItemStack stack = createStackWithDefaultUpgrades(parameters.holders());
-        stack.set(LimaCoreDataComponents.ENERGY, getBaseEnergyCapacity(stack));
-        output.accept(stack, tabVisibility);
     }
 }

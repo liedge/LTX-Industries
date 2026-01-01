@@ -8,7 +8,6 @@ import liedge.ltxindustries.block.NeonLightColor;
 import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
 import liedge.ltxindustries.client.LTXIKeyMappings;
 import liedge.ltxindustries.item.SimpleHintItem;
-import liedge.ltxindustries.item.TooltipShiftHintItem;
 import liedge.ltxindustries.item.tool.ToolSpeed;
 import liedge.ltxindustries.item.weapon.GrenadeLauncherItem;
 import liedge.ltxindustries.item.weapon.WeaponItem;
@@ -365,10 +364,6 @@ class LanguageGen extends LimaLanguageProvider
 
         add(UPGRADE_INSTALL_SUCCESS, "Installed upgrade.");
         add(UPGRADE_INSTALL_FAIL, "Can't install upgrade.");
-        add(INVALID_UPGRADE_HINT, "The upgrade in this module is invalid or corrupted. Shift+Right Click to clear.");
-        add(INVALID_BLUEPRINT_HINT, "The recipe in this blueprint is invalid or corrupted. Shift+Right Click to clear.");
-        add(EMPTY_IO_CARD_HINT, "No IO configuration data stored. Shift+Right Click a machine to copy.");
-        add(ENCODED_IO_CARD_HINT, "Shift+Right Click on a compatible machine to paste settings, or in the air to clear.");
         add(IO_CARD_CLEARED, "IO config cleared.");
         add(IO_CARD_COPIED, "Machine IO config copied.");
         add(IO_CARD_PASTED, "Applied IO config to machine.");
@@ -376,6 +371,12 @@ class LanguageGen extends LimaLanguageProvider
         add(IO_CARD_INVALID_SETUP, "Machine does not support this IO config.");
         add(IO_CARD_INVALID_TYPE, "Machine does not support %s.");
         add(SHIELD_COMMAND_MSG, "Modified %s entity shields");
+
+        add(SHIFT_HOVER_HINT, "Hold SHIFT for extra info");
+        add(INVALID_UPGRADE_HINT, "The upgrade in this module is invalid or corrupted. Shift+Right Click to clear.");
+        add(INVALID_BLUEPRINT_HINT, "The recipe in this blueprint is invalid or corrupted. Shift+Right Click to clear.");
+        add(EMPTY_IO_CARD_HINT, "No IO configuration data stored. Shift+Right Click a machine to copy.");
+        add(ENCODED_IO_CARD_HINT, "Shift+Right Click on a compatible machine to paste settings, or in the air to clear.");
 
         add(ENERGY_CAPACITY_UPGRADE, "%s energy capacity");
         add(ENERGY_TRANSFER_UPGRADE, "%s energy transfer rate");
@@ -396,7 +397,6 @@ class LanguageGen extends LimaLanguageProvider
         add(CAPPED_ENCHANTMENT_UPGRADE_EFFECT, "+%s %s levels (max %s)");
         add(GRENADE_UNLOCK_EFFECT, "Can use %s shells");
 
-        add(TooltipShiftHintItem.HINT_HOVER_TOOLTIP, "Hold SHIFT for extra info");
         add(WeaponReloadSource.Type.ITEM.getItemTooltip(), "Reloads with %s");
         add(WeaponReloadSource.Type.ITEM.getUpgradeTooltip(), "Replaces reload item: %s");
         add(WeaponReloadSource.Type.COMMON_ENERGY.getItemTooltip(), "Reloads from Common Energy battery");

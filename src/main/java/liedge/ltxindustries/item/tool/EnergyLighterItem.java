@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 
-public class EnergyLighterItem extends EnergyBaseToolItem
+public class EnergyLighterItem extends BaseEnergyToolItem
 {
     public EnergyLighterItem(Properties properties)
     {
@@ -50,7 +50,7 @@ public class EnergyLighterItem extends EnergyBaseToolItem
                 if (player instanceof ServerPlayer serverPlayer)
                 {
                     CriteriaTriggers.PLACED_BLOCK.trigger(serverPlayer, pos1, stack);
-                    consumeActionEnergy(serverPlayer, stack);
+                    consumeUsageEnergy(serverPlayer, stack);
                 }
 
                 return InteractionResult.sidedSuccess(level.isClientSide());
@@ -66,7 +66,7 @@ public class EnergyLighterItem extends EnergyBaseToolItem
             level.setBlock(pos, state1, Block.UPDATE_ALL_IMMEDIATE);
             level.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
 
-            if (!level.isClientSide() && player != null) consumeActionEnergy(player, stack);
+            if (!level.isClientSide() && player != null) consumeUsageEnergy(player, stack);
 
             return InteractionResult.sidedSuccess(level.isClientSide());
         }

@@ -64,7 +64,7 @@ public class EnergyShearsItem extends BaseEnergyMiningItem
                         shearable.spawnShearedDrop(level, pos, drop);
                     }
 
-                    consumeActionEnergy(player, stack);
+                    consumeUsageEnergy(player, stack);
                 }
 
                 interactionTarget.gameEvent(GameEvent.SHEAR, player);
@@ -85,7 +85,7 @@ public class EnergyShearsItem extends BaseEnergyMiningItem
             if (player instanceof ServerPlayer serverPlayer)
             {
                 CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, stack);
-                consumeActionEnergy(serverPlayer, stack);
+                consumeUsageEnergy(serverPlayer, stack);
             }
 
             level.setBlockAndUpdate(pos, state1);

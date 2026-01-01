@@ -32,48 +32,11 @@
         "style": {
           "color": "#8BD1F0"
         }
-      },
-      {
-        "type": "custom_args",
-        "args": [
-          {
-            "type": "value",
-            "format": "multiplicative",
-            "sentiment": "positive",
-            "value": {
-              "type": "exponential",
-              "base": 2.0,
-              "power": {
-                "type": "linear",
-                "base": 2.0,
-                "increment": 1.0
-              }
-            }
-          }
-        ],
-        "key": "upgrade_effect.ltxi.energy_transfer",
-        "style": {
-          "color": "#8BD1F0"
-        }
       }
     ]
   },
   "effects": {
     "ltxi:energy_capacity": [
-      {
-        "op": "multiply",
-        "value": {
-          "base": 2.0,
-          "ltxi:type": "exponential",
-          "power": {
-            "type": "linear",
-            "base": 2.0,
-            "increment": 1.0
-          }
-        }
-      }
-    ],
-    "ltxi:energy_transfer_rate": [
       {
         "op": "multiply",
         "value": {

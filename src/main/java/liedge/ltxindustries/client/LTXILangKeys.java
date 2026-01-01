@@ -61,6 +61,7 @@ public final class LTXILangKeys
     public static final Translatable SHIELD_COMMAND_MSG = sysMsg("shield_command");
 
     // Item hints
+    public static final Translatable SHIFT_HOVER_HINT = itemHint("shift_hover");
     public static final Translatable INVALID_UPGRADE_HINT = itemHint("invalid_upgrade");
     public static final Translatable INVALID_BLUEPRINT_HINT = itemHint("invalid_blueprint");
     public static final Translatable EMPTY_IO_CARD_HINT = itemHint("io_card.empty");

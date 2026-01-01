@@ -28,8 +28,6 @@ import java.util.Set;
 
 public class EnergyAxeItem extends ModularEnergyMiningItem
 {
-    private static final int MAX_LOGS_TO_BREAK = 128;
-
     public EnergyAxeItem(Properties properties, float poweredAttackDamage, float attackSpeed)
     {
         super(properties, poweredAttackDamage, attackSpeed, List.of(BlockTags.MINEABLE_WITH_AXE));
@@ -68,7 +66,7 @@ public class EnergyAxeItem extends ModularEnergyMiningItem
             if (player instanceof ServerPlayer serverPlayer)
             {
                 CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, stack);
-                consumeActionEnergy(serverPlayer, stack);
+                consumeUsageEnergy(serverPlayer, stack);
             }
 
             level.setBlock(pos, state1, Block.UPDATE_ALL_IMMEDIATE);
