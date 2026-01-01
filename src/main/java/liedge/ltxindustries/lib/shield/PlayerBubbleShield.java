@@ -24,7 +24,7 @@ public final class PlayerBubbleShield implements EntityBubbleShield
         }
         else if (getShieldHealth(player) < getShieldCapacity(player))
         {
-            float recharge = Math.max(2f, getShieldCapacity(player) / 100f);
+            float recharge = Math.max(1f, getShieldCapacity(player) / 100f);
             addShieldHealth(player, recharge, 0f);
         }
     }
@@ -64,10 +64,10 @@ public final class PlayerBubbleShield implements EntityBubbleShield
     private boolean hurtShield(LivingEntity entity, float damage)
     {
         float shield = getShieldHealth(entity);
+        rechargeDelay = 100;
+
         if (shield > 0)
         {
-            rechargeDelay = 100;
-
             if (invulnerabilityTicks == 0)
             {
                 reduceShieldHealth(entity, damage);
