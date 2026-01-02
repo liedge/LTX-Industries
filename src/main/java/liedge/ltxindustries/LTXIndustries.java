@@ -4,6 +4,7 @@ import com.mojang.logging.LogUtils;
 import liedge.limacore.lib.ModResources;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrade;
+import liedge.ltxindustries.lib.upgrades.value.UpgradeValueTypes;
 import liedge.ltxindustries.network.packet.ClientboundFocusTargetPacket;
 import liedge.ltxindustries.network.packet.ClientboundWeaponControlsPacket;
 import liedge.ltxindustries.network.packet.ServerboundItemModeSwitchPacket;
@@ -65,6 +66,9 @@ public class LTXIndustries
         LTXIRecipeTypes.register(modBus);
         LTXISounds.register(modBus);
         LTXIUpgradeEffectComponents.register(modBus);
+
+        // Initialize static value type registry
+        UpgradeValueTypes.register();
 
         // Mod configs
         modContainer.registerConfig(ModConfig.Type.CLIENT, LTXIClientConfig.CLIENT_CONFIG_SPEC);

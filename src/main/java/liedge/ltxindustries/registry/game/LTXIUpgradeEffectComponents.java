@@ -74,12 +74,12 @@ public final class LTXIUpgradeEffectComponents
 
         public DeferredHolder<DataComponentType<?>, DataComponentType<List<ValueOperation>>> registerValue(String name)
         {
-            return register(name, () -> UpgradeDataComponentType.customList(ValueOperation.CODEC));
+            return register(name, () -> UpgradeDataComponentType.customList(ValueOperation.CONTEXTLESS_CODEC));
         }
 
         public DeferredHolder<DataComponentType<?>, DataComponentType<List<ConditionEffect<ValueOperation>>>> registerConditionalValue(String name, LootContextParamSet params)
         {
-            return register(name, () -> UpgradeDataComponentType.customConditional(ValueOperation.CODEC, params));
+            return register(name, () -> UpgradeDataComponentType.customConditional(ValueOperation.codec(params), params));
         }
 
         public DeferredHolder<DataComponentType<?>, DataComponentType<List<ConditionEffect<EntityUpgradeEffect>>>> registerConditionEntity(String name, LootContextParamSet params)

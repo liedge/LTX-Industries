@@ -3,10 +3,10 @@ package liedge.ltxindustries.lib.upgrades.value;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 
-public record ConstantDouble(double value) implements UpgradeDoubleValue
+public record ConstantDouble(double value) implements ContextlessValue
 {
     static final Codec<ConstantDouble> INLINE_CODEC = Codec.DOUBLE.xmap(ConstantDouble::new, ConstantDouble::value);
-    static final MapCodec<ConstantDouble> CODEC = INLINE_CODEC.fieldOf("value");
+    public static final MapCodec<ConstantDouble> CODEC = INLINE_CODEC.fieldOf("value");
 
     public static ConstantDouble of(double value)
     {
@@ -20,8 +20,8 @@ public record ConstantDouble(double value) implements UpgradeDoubleValue
     }
 
     @Override
-    public Type getType()
+    public MapCodec<? extends ContextlessValue> codec()
     {
-        return Type.CONSTANT;
+        return CODEC;
     }
 }

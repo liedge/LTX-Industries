@@ -124,9 +124,9 @@
       {
         "op": "add_percent_of_base",
         "value": {
+          "type": "linear",
           "base": 0.5,
-          "increment": 0.5,
-          "ltxi:type": "linear"
+          "increment": 0.5
         }
       }
     ],
@@ -134,9 +134,9 @@
       {
         "op": "add_percent_of_base",
         "value": {
+          "type": "linear",
           "base": 0.5,
-          "increment": 0.5,
-          "ltxi:type": "linear"
+          "increment": 0.5
         }
       }
     ],
@@ -144,8 +144,8 @@
       {
         "op": "multiply",
         "value": {
+          "type": "exponential",
           "base": 1.5,
-          "ltxi:type": "exponential",
           "power": {
             "type": "linear",
             "base": 1.0,
@@ -159,8 +159,8 @@
       {
         "op": "multiply",
         "value": {
+          "type": "exponential",
           "base": 0.725,
-          "ltxi:type": "exponential",
           "power": {
             "type": "linear",
             "base": 1.0,

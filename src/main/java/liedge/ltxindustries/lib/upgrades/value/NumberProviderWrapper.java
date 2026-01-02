@@ -1,23 +1,32 @@
 package liedge.ltxindustries.lib.upgrades.value;
 
-import com.mojang.serialization.Codec;
-import net.minecraft.core.registries.BuiltInRegistries;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.world.level.storage.loot.LootContext;
-import net.minecraft.world.level.storage.loot.providers.number.LootNumberProviderType;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParam;
 import net.minecraft.world.level.storage.loot.providers.number.NumberProvider;
-import org.jetbrains.annotations.ApiStatus;
+import net.minecraft.world.level.storage.loot.providers.number.NumberProviders;
 
-@ApiStatus.Internal
-record NumberProviderWrapper(NumberProvider provider) implements UpgradeValueProvider
+import java.util.Set;
+
+record NumberProviderWrapper(NumberProvider value) implements UpgradeValueProvider
 {
-    private static final Codec<NumberProvider> BASE_CODEC = BuiltInRegistries.LOOT_NUMBER_PROVIDER_TYPE
-            .byNameCodec()
-            .dispatch("minecraft:type", NumberProvider::getType, LootNumberProviderType::codec);
-    static final Codec<NumberProviderWrapper> CODEC = BASE_CODEC.xmap(NumberProviderWrapper::new, NumberProviderWrapper::provider);
+    static final MapCodec<NumberProviderWrapper> CODEC = NumberProviders.CODEC.fieldOf("value").xmap(NumberProviderWrapper::new, NumberProviderWrapper::value);
 
     @Override
-    public double get(LootContext context, int rank)
+    public double get(LootContext context, int upgradeRank)
     {
-        return provider.getFloat(context);
+        return value.getFloat(context);
+    }
+
+    @Override
+    public MapCodec<? extends UpgradeValueProvider> codec()
+    {
+        return CODEC;
+    }
+
+    @Override
+    public Set<LootContextParam<?>> getReferencedContextParams()
+    {
+        return value.getReferencedContextParams();
     }
 }

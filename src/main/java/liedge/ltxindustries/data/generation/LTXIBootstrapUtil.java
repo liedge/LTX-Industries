@@ -4,7 +4,7 @@ import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.lib.upgrades.tooltip.*;
 import liedge.ltxindustries.lib.upgrades.UpgradeIcon;
-import liedge.ltxindustries.lib.upgrades.value.UpgradeDoubleValue;
+import liedge.ltxindustries.lib.upgrades.value.ContextlessValue;
 import net.minecraft.world.level.ItemLike;
 
 import static liedge.ltxindustries.LTXIConstants.REM_BLUE;
@@ -69,22 +69,22 @@ public final class LTXIBootstrapUtil
     }
 
     // Upgrade tooltips
-    public static UpgradeComponentLike energyCapacityTooltip(UpgradeDoubleValue value, ValueFormat format, ValueSentiment sentiment)
+    public static UpgradeComponentLike energyCapacityTooltip(ContextlessValue value, ValueFormat format, ValueSentiment sentiment)
     {
         return TranslatableTooltip.create(LTXILangKeys.ENERGY_CAPACITY_UPGRADE, REM_BLUE.chatStyle(), ValueComponent.of(value, format, sentiment));
     }
 
-    public static UpgradeComponentLike energyTransferTooltip(UpgradeDoubleValue value, ValueFormat format, ValueSentiment sentiment)
+    public static UpgradeComponentLike energyTransferTooltip(ContextlessValue value, ValueFormat format, ValueSentiment sentiment)
     {
         return TranslatableTooltip.create(LTXILangKeys.ENERGY_TRANSFER_UPGRADE, REM_BLUE.chatStyle(), ValueComponent.of(value, format, sentiment));
     }
 
-    public static UpgradeComponentLike energyUsageTooltip(UpgradeDoubleValue value, ValueFormat format, ValueSentiment sentiment)
+    public static UpgradeComponentLike energyUsageTooltip(ContextlessValue value, ValueFormat format, ValueSentiment sentiment)
     {
         return TranslatableTooltip.create(LTXILangKeys.ENERGY_USAGE_UPGRADE, REM_BLUE.chatStyle(), ValueComponent.of(value, format, sentiment));
     }
 
-    public static UpgradeComponentLike parallelOpsTooltip(UpgradeDoubleValue value, ValueFormat format, ValueSentiment sentiment)
+    public static UpgradeComponentLike parallelOpsTooltip(ContextlessValue value, ValueFormat format, ValueSentiment sentiment)
     {
         return TranslatableTooltip.create(LTXILangKeys.PARALLEL_OPERATIONS_UPGRADE, ValueComponent.of(value, format, sentiment));
     }

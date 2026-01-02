@@ -23,7 +23,7 @@ public record DropsRedirect(IItemHandler targetInventory, @Nullable Vec3 newDrop
 {
     public static @Nullable DropsRedirect forMobDrops(IItemHandler targetInventory, @Nullable Vec3 newDropsLocation, UpgradesContainerBase<?, ?> upgrades)
     {
-        if (!upgrades.upgradeEffectTypePresent(LTXIUpgradeEffectComponents.CAPTURE_MOB_DROPS.get())) return null;
+        if (upgrades.upgradeEffectTypeAbsent(LTXIUpgradeEffectComponents.CAPTURE_MOB_DROPS)) return null;
         return new DropsRedirect(targetInventory, newDropsLocation, Predicates.alwaysTrue());
     }
 

@@ -4,14 +4,14 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-public record ExponentialDouble(double base, UpgradeDoubleValue power) implements UpgradeDoubleValue
+public record ExponentialDouble(double base, ContextlessValue power) implements ContextlessValue
 {
-    static final MapCodec<ExponentialDouble> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+    public static final MapCodec<ExponentialDouble> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             Codec.DOUBLE.fieldOf("base").forGetter(ExponentialDouble::base),
-            UpgradeDoubleValue.CODEC.fieldOf("power").forGetter(ExponentialDouble::power))
+            ContextlessValue.CODEC.fieldOf("power").forGetter(ExponentialDouble::power))
             .apply(instance, ExponentialDouble::new));
 
-    public static ExponentialDouble of(double base, UpgradeDoubleValue power)
+    public static ExponentialDouble of(double base, ContextlessValue power)
     {
         return new ExponentialDouble(base, power);
     }
@@ -33,8 +33,8 @@ public record ExponentialDouble(double base, UpgradeDoubleValue power) implement
     }
 
     @Override
-    public Type getType()
+    public MapCodec<? extends ContextlessValue> codec()
     {
-        return Type.EXPONENTIAL;
+        return CODEC;
     }
 }

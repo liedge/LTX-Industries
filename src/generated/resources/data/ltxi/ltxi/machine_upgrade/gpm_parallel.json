@@ -41,9 +41,9 @@
       {
         "op": "replace",
         "value": {
+          "type": "linear",
           "base": 2.0,
-          "increment": 2.0,
-          "ltxi:type": "linear"
+          "increment": 2.0
         }
       }
     ]

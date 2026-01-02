@@ -18,7 +18,7 @@ import liedge.ltxindustries.lib.upgrades.tooltip.*;
 import liedge.ltxindustries.lib.upgrades.value.ConstantDouble;
 import liedge.ltxindustries.lib.upgrades.value.ExponentialDouble;
 import liedge.ltxindustries.lib.upgrades.value.LinearDouble;
-import liedge.ltxindustries.lib.upgrades.value.UpgradeDoubleValue;
+import liedge.ltxindustries.lib.upgrades.value.ContextlessValue;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
 import liedge.ltxindustries.lib.weapons.WeaponReloadSource;
 import liedge.ltxindustries.registry.LTXIRegistries;
@@ -168,8 +168,8 @@ public final class LTXIEquipmentUpgrades
                 .category("default/tool")
                 .register(context);
 
-        UpgradeDoubleValue gslEnergyCap = ConstantDouble.of(50_000);
-        UpgradeDoubleValue gslEnergyUse = ConstantDouble.of(5000);
+        ContextlessValue gslEnergyCap = ConstantDouble.of(50_000);
+        ContextlessValue gslEnergyUse = ConstantDouble.of(5000);
         EquipmentUpgrade.builder(GLOWSTICK_LAUNCHER_DEFAULT)
                 .supports(LTXIItems.GLOWSTICK_LAUNCHER)
                 .exclusiveWith(holders, AMMO_SOURCE_MODIFIERS)
@@ -199,7 +199,7 @@ public final class LTXIEquipmentUpgrades
                 .effectIcon(defaultModuleIcon(LTXIItems.SHOTGUN))
                 .category("default/weapon")
                 .register(context);
-        UpgradeDoubleValue lfrBonusDmg = ConstantDouble.of(25);
+        ContextlessValue lfrBonusDmg = ConstantDouble.of(25);
         EquipmentUpgrade.builder(LFR_DEFAULT)
                 .supports(LTXIItems.LINEAR_FUSION_RIFLE)
                 .withConditionalEffect(EQUIPMENT_DAMAGE, ValueOperation.of(lfrBonusDmg, MathOperation.ADD),
@@ -223,7 +223,7 @@ public final class LTXIEquipmentUpgrades
                 .register(context);
 
         // Tool upgrades
-        UpgradeDoubleValue toolEnergy = ExponentialDouble.of(2, LinearDouble.oneIncrement(2));
+        ContextlessValue toolEnergy = ExponentialDouble.of(2, LinearDouble.oneIncrement(2));
         EquipmentUpgrade.builder(TOOL_ENERGY_UPGRADE)
                 .createDefaultTitle(REM_BLUE)
                 .supports(allTools)
@@ -312,8 +312,8 @@ public final class LTXIEquipmentUpgrades
                 .effectIcon(sprite("magnet"))
                 .register(context);
 
-        UpgradeDoubleValue lightweightEnergyCapacity = ConstantDouble.of(100_000);
-        UpgradeDoubleValue lightweightEnergyUsage = ConstantDouble.of(10_000);
+        ContextlessValue lightweightEnergyCapacity = ConstantDouble.of(100_000);
+        ContextlessValue lightweightEnergyUsage = ConstantDouble.of(10_000);
         EquipmentUpgrade.builder(LIGHTWEIGHT_ENERGY_ADAPTER)
                 .createDefaultTitle(REM_BLUE)
                 .supports(items, LTXITags.Items.LIGHTWEIGHT_WEAPONS)
@@ -327,8 +327,8 @@ public final class LTXIEquipmentUpgrades
                 .category("weapon/ammo")
                 .register(context);
 
-        UpgradeDoubleValue specialistEnergyCapacity = ConstantDouble.of(5_000_000);
-        UpgradeDoubleValue specialistEnergyUsage = ConstantDouble.of(1_000_000);
+        ContextlessValue specialistEnergyCapacity = ConstantDouble.of(5_000_000);
+        ContextlessValue specialistEnergyUsage = ConstantDouble.of(1_000_000);
         EquipmentUpgrade.builder(SPECIALIST_ENERGY_ADAPTER)
                 .createDefaultTitle(REM_BLUE)
                 .supports(items, LTXITags.Items.SPECIALIST_WEAPONS)
@@ -342,8 +342,8 @@ public final class LTXIEquipmentUpgrades
                 .category("weapon/ammo")
                 .register(context);
 
-        UpgradeDoubleValue explosivesEnergyCapacity = ConstantDouble.of(20_000_000);
-        UpgradeDoubleValue explosivesEnergyUsage = ConstantDouble.of(10_000_000);
+        ContextlessValue explosivesEnergyCapacity = ConstantDouble.of(20_000_000);
+        ContextlessValue explosivesEnergyUsage = ConstantDouble.of(10_000_000);
         EquipmentUpgrade.builder(EXPLOSIVES_ENERGY_ADAPTER)
                 .createDefaultTitle(REM_BLUE)
                 .supports(items, LTXITags.Items.EXPLOSIVE_WEAPONS)
@@ -357,8 +357,8 @@ public final class LTXIEquipmentUpgrades
                 .category("weapon/ammo")
                 .register(context);
 
-        UpgradeDoubleValue heavyEnergyCapacity = ConstantDouble.of(50_000_000);
-        UpgradeDoubleValue heavyEnergyUsage = ConstantDouble.of(25_000_000);
+        ContextlessValue heavyEnergyCapacity = ConstantDouble.of(50_000_000);
+        ContextlessValue heavyEnergyUsage = ConstantDouble.of(25_000_000);
         EquipmentUpgrade.builder(HEAVY_ENERGY_ADAPTER)
                 .createDefaultTitle(REM_BLUE)
                 .supports(items, LTXITags.Items.HEAVY_WEAPONS)

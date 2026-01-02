@@ -62,8 +62,8 @@
       {
         "op": "multiply",
         "value": {
+          "type": "exponential",
           "base": 2.0,
-          "ltxi:type": "exponential",
           "power": {
             "type": "linear",
             "base": 3.0,
@@ -76,8 +76,8 @@
       {
         "op": "multiply",
         "value": {
+          "type": "exponential",
           "base": 2.0,
-          "ltxi:type": "exponential",
           "power": {
             "type": "linear",
             "base": 3.0,

@@ -4,9 +4,9 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-public record LinearDouble(double base, double increment) implements UpgradeDoubleValue
+public record LinearDouble(double base, double increment) implements ContextlessValue
 {
-    static final MapCodec<LinearDouble> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+    public static final MapCodec<LinearDouble> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             Codec.DOUBLE.fieldOf("base").forGetter(LinearDouble::base),
             Codec.DOUBLE.fieldOf("increment").forGetter(LinearDouble::increment))
             .apply(instance, LinearDouble::new));
@@ -33,8 +33,8 @@ public record LinearDouble(double base, double increment) implements UpgradeDoub
     }
 
     @Override
-    public Type getType()
+    public MapCodec<? extends ContextlessValue> codec()
     {
-        return Type.LINEAR;
+        return CODEC;
     }
 }

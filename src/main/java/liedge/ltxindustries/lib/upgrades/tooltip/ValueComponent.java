@@ -3,24 +3,24 @@ package liedge.ltxindustries.lib.upgrades.tooltip;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import liedge.ltxindustries.lib.upgrades.value.UpgradeDoubleValue;
+import liedge.ltxindustries.lib.upgrades.value.ContextlessValue;
 import net.minecraft.network.chat.Component;
 
-public record ValueComponent(UpgradeDoubleValue value, ValueFormat format, ValueSentiment sentiment, int zero) implements UpgradeComponentLike
+public record ValueComponent(ContextlessValue value, ValueFormat format, ValueSentiment sentiment, int zero) implements UpgradeComponentLike
 {
     static final MapCodec<ValueComponent> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            UpgradeDoubleValue.CODEC.fieldOf("value").forGetter(ValueComponent::value),
+            ContextlessValue.CODEC.fieldOf("value").forGetter(ValueComponent::value),
             ValueFormat.CODEC.fieldOf("format").forGetter(ValueComponent::format),
             ValueSentiment.CODEC.optionalFieldOf("sentiment", ValueSentiment.NEUTRAL).forGetter(ValueComponent::sentiment),
             Codec.INT.optionalFieldOf("zero", 0).forGetter(ValueComponent::zero))
             .apply(instance, ValueComponent::new));
 
-    public static ValueComponent of(UpgradeDoubleValue value, ValueFormat format, ValueSentiment sentiment, int zero)
+    public static ValueComponent of(ContextlessValue value, ValueFormat format, ValueSentiment sentiment, int zero)
     {
         return new ValueComponent(value, format, sentiment, zero);
     }
 
-    public static ValueComponent of(UpgradeDoubleValue value, ValueFormat format, ValueSentiment sentiment)
+    public static ValueComponent of(ContextlessValue value, ValueFormat format, ValueSentiment sentiment)
     {
         return of(value, format, sentiment, 0);
     }

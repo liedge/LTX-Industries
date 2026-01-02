@@ -39,9 +39,9 @@
       {
         "op": "add",
         "value": {
+          "type": "linear",
           "base": 0.5,
-          "increment": 0.5,
-          "ltxi:type": "linear"
+          "increment": 0.5
         }
       }
     ]

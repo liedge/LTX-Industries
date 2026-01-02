@@ -104,6 +104,11 @@ public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
         return false;
     }
 
+    public <T> boolean anyMatch(Supplier<? extends DataComponentType<List<T>>> typeSupplier, ObjectIntFunction<T, Boolean> predicate)
+    {
+        return anyMatch(typeSupplier.get(), predicate);
+    }
+
     public <T> boolean noneMatch(DataComponentType<List<T>> type, ObjectIntFunction<T, Boolean> predicate)
     {
         return !anyMatch(type, predicate);
@@ -114,9 +119,19 @@ public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
         return entryStream().anyMatch(entry -> entry.getKey().value().effects().has(type));
     }
 
+    public <T> boolean upgradeEffectTypePresent(Supplier<? extends DataComponentType<T>> typeSupplier)
+    {
+        return upgradeEffectTypePresent(typeSupplier.get());
+    }
+
     public <T> boolean upgradeEffectTypeAbsent(DataComponentType<T> type)
     {
         return entryStream().noneMatch(entry -> entry.getKey().value().effects().has(type));
+    }
+
+    public <T> boolean upgradeEffectTypeAbsent(Supplier<? extends DataComponentType<T>> typeSupplier)
+    {
+        return upgradeEffectTypeAbsent(typeSupplier.get());
     }
 
     public <T> Stream<T> effectStream(DataComponentType<T> type)
@@ -154,10 +169,13 @@ public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
 
     public <T, C extends EffectConditionHolder<T>> Stream<EffectRankPair<T>> matchingEffectPairs(DataComponentType<List<C>> type, LootContext context)
     {
-        return entryStream().flatMap(entry ->
+        return entryStream().mapMulti((entry, consumer) ->
         {
             List<C> data = entry.getKey().value().getListEffect(type);
-            return data.stream().filter(o -> o.test(context)).map(o -> new EffectRankPair<>(o.effect(), entry.getIntValue()));
+            for (C holder : data)
+            {
+                if (holder.test(context)) consumer.accept(new EffectRankPair<>(holder.effect(), entry.getIntValue()));
+            }
         });
     }
 

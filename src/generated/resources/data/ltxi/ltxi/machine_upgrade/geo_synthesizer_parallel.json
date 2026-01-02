@@ -47,8 +47,8 @@
       {
         "op": "replace",
         "value": {
+          "type": "exponential",
           "base": 2.0,
-          "ltxi:type": "exponential",
           "power": {
             "type": "linear",
             "base": 4.0,

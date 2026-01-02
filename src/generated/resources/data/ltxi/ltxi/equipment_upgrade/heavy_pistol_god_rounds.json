@@ -45,14 +45,17 @@
         "effect": {
           "op": "add",
           "value": {
-            "first": {
-              "type": "limacore:entity_attribute_value",
-              "attribute": "minecraft:generic.max_health",
-              "target": "this"
-            },
-            "minecraft:type": "limacore:math_ops",
-            "op": "multiply",
-            "second": 0.25
+            "type": "number_wrapper",
+            "value": {
+              "type": "limacore:math_ops",
+              "first": {
+                "type": "limacore:entity_attribute_value",
+                "attribute": "minecraft:generic.max_health",
+                "target": "this"
+              },
+              "op": "multiply",
+              "second": 0.25
+            }
           }
         }
       }

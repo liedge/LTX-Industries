@@ -4,15 +4,15 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import liedge.limacore.lib.math.MathOperation;
 
-public record MathOperationDouble(UpgradeDoubleValue left, UpgradeDoubleValue right, MathOperation operation) implements UpgradeDoubleValue
+public record MathOperationDouble(ContextlessValue left, ContextlessValue right, MathOperation operation) implements ContextlessValue
 {
-    static final MapCodec<MathOperationDouble> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            UpgradeDoubleValue.CODEC.fieldOf("left").forGetter(MathOperationDouble::left),
-            UpgradeDoubleValue.CODEC.fieldOf("right").forGetter(MathOperationDouble::right),
+    public static final MapCodec<MathOperationDouble> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+            ContextlessValue.CODEC.fieldOf("left").forGetter(MathOperationDouble::left),
+            ContextlessValue.CODEC.fieldOf("right").forGetter(MathOperationDouble::right),
             MathOperation.SINGLE_OP_CODEC.fieldOf("op").forGetter(MathOperationDouble::operation))
             .apply(instance, MathOperationDouble::new));
 
-    public static MathOperationDouble of(UpgradeDoubleValue left, UpgradeDoubleValue right, MathOperation operation)
+    public static MathOperationDouble of(ContextlessValue left, ContextlessValue right, MathOperation operation)
     {
         return new MathOperationDouble(left, right, operation);
     }
@@ -24,8 +24,8 @@ public record MathOperationDouble(UpgradeDoubleValue left, UpgradeDoubleValue ri
     }
 
     @Override
-    public Type getType()
+    public MapCodec<? extends ContextlessValue> codec()
     {
-        return Type.MATH_OPERATION;
+        return CODEC;
     }
 }

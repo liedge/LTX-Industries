@@ -16,7 +16,7 @@ import liedge.ltxindustries.lib.upgrades.tooltip.ValueSentiment;
 import liedge.ltxindustries.lib.upgrades.value.ConstantDouble;
 import liedge.ltxindustries.lib.upgrades.value.ExponentialDouble;
 import liedge.ltxindustries.lib.upgrades.value.LinearDouble;
-import liedge.ltxindustries.lib.upgrades.value.UpgradeDoubleValue;
+import liedge.ltxindustries.lib.upgrades.value.ContextlessValue;
 import liedge.ltxindustries.registry.LTXIRegistries;
 import liedge.ltxindustries.registry.game.LTXIBlockEntities;
 import liedge.ltxindustries.registry.game.LTXIBlocks;
@@ -69,7 +69,7 @@ public final class LTXIMachineUpgrades
         HolderGetter<Enchantment> enchantments = context.lookup(Registries.ENCHANTMENT);
         HolderGetter<BlockEntityType<?>> blockEntities = context.lookup(Registries.BLOCK_ENTITY_TYPE);
 
-        UpgradeDoubleValue ecaScaling = ExponentialDouble.of(2, LinearDouble.oneIncrement(3));
+        ContextlessValue ecaScaling = ExponentialDouble.of(2, LinearDouble.oneIncrement(3));
         MachineUpgrade.builder(ECA_CAPACITY_UPGRADE)
                 .createDefaultTitle(REM_BLUE)
                 .supports(LTXIBlockEntities.ENERGY_CELL_ARRAY)
@@ -81,7 +81,7 @@ public final class LTXIMachineUpgrades
                 .effectIcon(sprite("extra_energy"))
                 .register(context);
 
-        UpgradeDoubleValue smsEnergyStorage = LinearDouble.linearIncrement(0.5d);
+        ContextlessValue smsEnergyStorage = LinearDouble.linearIncrement(0.5d);
         MachineUpgrade.builder(STANDARD_MACHINE_SYSTEMS)
                 .supports(blockEntities, LTXITags.BlockEntities.STANDARD_UPGRADABLE_MACHINES)
                 .exclusiveWith(holders, MACHINE_TIER)
@@ -100,8 +100,8 @@ public final class LTXIMachineUpgrades
                 .category("gpm")
                 .register(context);
 
-        UpgradeDoubleValue umsEnergyStorage = ConstantDouble.of(16);
-        UpgradeDoubleValue umsEnergyUsage = ConstantDouble.of(512);
+        ContextlessValue umsEnergyStorage = ConstantDouble.of(16);
+        ContextlessValue umsEnergyUsage = ConstantDouble.of(512);
         MachineUpgrade.builder(ULTIMATE_MACHINE_SYSTEMS)
                 .createDefaultTitle(LTXIConstants.LIME_GREEN)
                 .supports(blockEntities, LTXITags.BlockEntities.ULTIMATE_UPGRADABLE_MACHINES)
@@ -119,7 +119,7 @@ public final class LTXIMachineUpgrades
                 .category("gpm")
                 .register(context);
 
-        UpgradeDoubleValue gpmParallelOps = LinearDouble.linearIncrement(2);
+        ContextlessValue gpmParallelOps = LinearDouble.linearIncrement(2);
         MachineUpgrade.builder(GPM_PARALLEL)
                 .createDefaultTitle(o -> o.withStyle(ChatFormatting.LIGHT_PURPLE))
                 .supports(blockEntities, LTXITags.BlockEntities.GENERAL_PROCESSING_MACHINES)
@@ -131,9 +131,9 @@ public final class LTXIMachineUpgrades
                 .category("gpm")
                 .register(context);
 
-        UpgradeDoubleValue fabCapacity = LinearDouble.linearIncrement(2);
-        UpgradeDoubleValue fabTransfer = LinearDouble.linearIncrement(3);
-        UpgradeDoubleValue fabUsage = ExponentialDouble.of(2, LinearDouble.oneIncrement(2));
+        ContextlessValue fabCapacity = LinearDouble.linearIncrement(2);
+        ContextlessValue fabTransfer = LinearDouble.linearIncrement(3);
+        ContextlessValue fabUsage = ExponentialDouble.of(2, LinearDouble.oneIncrement(2));
         MachineUpgrade.builder(FABRICATOR_UPGRADE)
                 .supports(LTXIBlockEntities.FABRICATOR, LTXIBlockEntities.AUTO_FABRICATOR)
                 .withEffect(ENERGY_CAPACITY, ValueOperation.of(fabCapacity, MathOperation.ADD_PERCENT_OF_BASE))
@@ -146,7 +146,7 @@ public final class LTXIMachineUpgrades
                 .effectIcon(sprite("fabricator_upgrade"))
                 .register(context);
 
-        UpgradeDoubleValue geoSynthParallel = ExponentialDouble.of(2, LinearDouble.oneIncrement(4));
+        ContextlessValue geoSynthParallel = ExponentialDouble.of(2, LinearDouble.oneIncrement(4));
         MachineUpgrade.builder(GEO_SYNTHESIZER_PARALLEL)
                 .createDefaultTitle(o -> o.withStyle(ChatFormatting.AQUA))
                 .supports(LTXIBlockEntities.GEO_SYNTHESIZER)
