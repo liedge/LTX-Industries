@@ -15,4 +15,5 @@ public final class LTXIModelLayers
     public static final ModelLayerLocation GLOWSTICK_PROJECTILE = mainLayer("glowstick_projectile");
     public static final ModelLayerLocation ROCKET = mainLayer("rocket");
     public static final ModelLayerLocation ORB_GRENADE = mainLayer("orb_grenade");
+    public static final ModelLayerLocation WONDERLAND_ARMOR_SET = mainLayer("wonderland_armor");
 }

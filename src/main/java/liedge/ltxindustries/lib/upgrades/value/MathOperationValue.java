@@ -1,9 +1,9 @@
 package liedge.ltxindustries.lib.upgrades.value;
 
-import com.google.common.collect.Sets;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import liedge.limacore.lib.math.MathOperation;
+import liedge.limacore.util.LimaLootUtil;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParam;
 
@@ -37,6 +37,6 @@ public record MathOperationValue(UpgradeValueProvider left, UpgradeValueProvider
     @Override
     public Set<LootContextParam<?>> getReferencedContextParams()
     {
-        return Sets.union(left.getReferencedContextParams(), right.getReferencedContextParams());
+        return LimaLootUtil.joinReferencedParams(left, right);
     }
 }

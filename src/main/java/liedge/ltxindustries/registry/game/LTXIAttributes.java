@@ -19,5 +19,5 @@ public final class LTXIAttributes
         ATTRIBUTES.register(bus);
     }
 
-    public static final DeferredHolder<Attribute, RangedAttribute> SHIELD_CAPACITY = ATTRIBUTES.registerAttribute("shield_capacity", 0, 0, EntityBubbleShield.GLOBAL_MAX_SHIELD, true, Attribute.Sentiment.POSITIVE);
+    public static final DeferredHolder<Attribute, RangedAttribute> SHIELD_CAPACITY = ATTRIBUTES.registerRanged("shield_capacity", Attribute.Sentiment.POSITIVE, true, 0, 0, EntityBubbleShield.GLOBAL_MAX_SHIELD);
 }

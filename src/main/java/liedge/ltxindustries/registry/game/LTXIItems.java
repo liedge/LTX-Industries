@@ -5,6 +5,7 @@ import liedge.ltxindustries.item.*;
 import liedge.ltxindustries.item.tool.*;
 import liedge.ltxindustries.item.weapon.*;
 import net.minecraft.core.Holder;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.ItemLike;
 import net.neoforged.bus.api.IEventBus;
@@ -113,6 +114,12 @@ public final class LTXIItems
     public static final DeferredItem<EnergyBrushItem> LTX_BRUSH = registerLTXGear("ltx_brush", EnergyBrushItem::new);
     public static final DeferredItem<EnergyFishingRodItem> LTX_FISHING_ROD = registerLTXGear("ltx_fishing_rod", EnergyFishingRodItem::new);
     public static final DeferredItem<EnergyLighterItem> LTX_LIGHTER = registerLTXGear("ltx_lighter", EnergyLighterItem::new);
+
+    // LTX armor set
+    public static final DeferredItem<EnergyArmorItem> WONDERLAND_HEAD = registerLTXGear("wonderland_head", properties -> new EnergyArmorItem(properties, EquipmentSlot.HEAD, 3f));
+    public static final DeferredItem<EnergyArmorItem> WONDERLAND_BODY = registerLTXGear("wonderland_body", properties -> new EnergyArmorItem(properties, EquipmentSlot.CHEST, 8f));
+    public static final DeferredItem<EnergyArmorItem> WONDERLAND_LEGS = registerLTXGear("wonderland_legs", properties -> new EnergyArmorItem(properties, EquipmentSlot.LEGS, 6f));
+    public static final DeferredItem<EnergyArmorItem> WONDERLAND_FEET = registerLTXGear("wonderland_feet", properties -> new EnergyArmorItem(properties, EquipmentSlot.FEET, 3f));
 
     // Processed resources
     public static final DeferredItem<Item> CARBON_DUST = ITEMS.registerSimpleItem("carbon_dust");

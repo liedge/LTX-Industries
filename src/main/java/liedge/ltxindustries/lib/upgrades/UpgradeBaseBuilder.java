@@ -227,6 +227,16 @@ public final class UpgradeBaseBuilder<CTX, U extends UpgradeBase<CTX, U>> implem
         return withUnitEffect(typeSupplier.get());
     }
 
+    public UpgradeBaseBuilder<CTX, U> targetRestriction(LootItemCondition.Builder builder)
+    {
+        return withEffect(LTXIUpgradeEffectComponents.TARGET_CONDITIONS, builder.build());
+    }
+
+    public UpgradeBaseBuilder<CTX, U> withConditionUnit(Supplier<? extends DataComponentType<List<ConditionEffect<Unit>>>> typeSupplier, LootItemCondition.Builder builder)
+    {
+        return withConditionalEffect(typeSupplier, Unit.INSTANCE, builder);
+    }
+
     // Specialty effects
     private <T extends AttributeModifierUpgradeEffect> UpgradeBaseBuilder<CTX, U> attributeEffect(Supplier<? extends DataComponentType<List<T>>> typeSupplier, String name, Function<ResourceLocation, T> function)
     {

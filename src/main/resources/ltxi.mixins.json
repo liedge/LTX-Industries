@@ -3,5 +3,5 @@
   "package": "liedge.ltxindustries.mixin",
   "compatibilityLevel": "JAVA_21",
   "refmap": "ltxi.refmap.json",
-  "client": [ "HumanoidModelMixin", "MinecraftMixin" ]
+  "client": [ "HeadLayerMixin", "HumanoidModelMixin", "MinecraftMixin" ]
 }

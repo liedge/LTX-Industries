@@ -15,9 +15,9 @@ import liedge.ltxindustries.lib.upgrades.effect.*;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
 import liedge.ltxindustries.lib.upgrades.tooltip.*;
 import liedge.ltxindustries.lib.upgrades.value.ConstantDouble;
+import liedge.ltxindustries.lib.upgrades.value.ContextlessValue;
 import liedge.ltxindustries.lib.upgrades.value.ExponentialDouble;
 import liedge.ltxindustries.lib.upgrades.value.LinearDouble;
-import liedge.ltxindustries.lib.upgrades.value.ContextlessValue;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
 import liedge.ltxindustries.lib.weapons.WeaponReloadSource;
 import liedge.ltxindustries.registry.LTXIRegistries;
@@ -383,14 +383,14 @@ public final class LTXIEquipmentUpgrades
         EquipmentUpgrade.builder(NEUTRAL_ENEMY_TARGET_FILTER)
                 .createDefaultTitle(HOSTILE_ORANGE)
                 .supports(allWeapons)
-                .withEffect(TARGET_CONDITIONS, EntityHostilityLootCondition.create(ComparableBounds.atLeast(MobHostility.NEUTRAL_ENEMY)).build())
+                .targetRestriction(EntityHostilityLootCondition.create(ComparableBounds.atLeast(MobHostility.NEUTRAL_ENEMY)))
                 .effectIcon(sprite("neutral_enemy_targets"))
                 .category("target_filters")
                 .register(context);
         EquipmentUpgrade.builder(HOSTILE_TARGET_FILTER)
                 .createDefaultTitle(HOSTILE_ORANGE)
                 .supports(allWeapons)
-                .withEffect(TARGET_CONDITIONS, EntityHostilityLootCondition.create(ComparableBounds.atLeast(MobHostility.HOSTILE)).build())
+                .targetRestriction(EntityHostilityLootCondition.create(ComparableBounds.atLeast(MobHostility.HOSTILE)))
                 .effectIcon(sprite("hostile_targets"))
                 .category("target_filters")
                 .register(context);

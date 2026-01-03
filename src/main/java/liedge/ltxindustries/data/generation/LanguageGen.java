@@ -175,6 +175,10 @@ class LanguageGen extends LimaLanguageProvider
         addItem(LTX_FISHING_ROD, "ε-Series Fishing Rod");
         addItem(LTX_LIGHTER, "ε-Series Lighter");
         addItem(LTX_WRENCH, "ε-Series Wrench");
+        addItem(WONDERLAND_HEAD, italicName("%s AL/1C Seg.H", "Wonderland"));
+        addItem(WONDERLAND_BODY, italicName("%s AL/1C Seg.B", "Wonderland"));
+        addItem(WONDERLAND_LEGS, italicName("%s AL/1C Seg.L", "Wonderland"));
+        addItem(WONDERLAND_FEET, italicName("%s AL/1C Seg.F", "Wonderland"));
 
         addItem(EMPTY_UPGRADE_MODULE, "Empty Upgrade Module");
         simpleHintItem(EMPTY_FABRICATION_BLUEPRINT, "Empty Fabrication Blueprint", "Encode a Fabrication recipe in a Fabricator.");

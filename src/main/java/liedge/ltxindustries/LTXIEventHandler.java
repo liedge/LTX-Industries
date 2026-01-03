@@ -6,11 +6,13 @@ import liedge.limacore.util.LimaLootUtil;
 import liedge.ltxindustries.entity.LTXIEntityUtil;
 import liedge.ltxindustries.entity.damage.DropsRedirect;
 import liedge.ltxindustries.entity.damage.UpgradesAwareDamageSource;
+import liedge.ltxindustries.item.EnergyArmorItem;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
 import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.lib.EquipmentDamageModifiers;
 import liedge.ltxindustries.lib.shield.EntityBubbleShield;
 import liedge.ltxindustries.lib.upgrades.UpgradeContexts;
+import liedge.ltxindustries.lib.upgrades.UpgradedEquipmentInUse;
 import liedge.ltxindustries.lib.upgrades.effect.EffectTarget;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.ltxindustries.registry.game.LTXIAttachmentTypes;
@@ -21,6 +23,7 @@ import liedge.ltxindustries.util.LTXIUpgradeUtil;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -35,6 +38,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.VanillaGameEvent;
+import net.neoforged.neoforge.event.entity.EntityInvulnerabilityCheckEvent;
 import net.neoforged.neoforge.event.entity.living.*;
 import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
 import net.neoforged.neoforge.event.level.BlockDropsEvent;
@@ -62,7 +66,7 @@ public final class LTXIEventHandler
             for (EquipmentSlot slot : EquipmentSlot.values())
             {
                 EquipmentUpgrades upgrades = UpgradableEquipmentItem.getEquipmentUpgradesFromStack(player.getItemBySlot(slot));
-                if (upgrades.anyMatch(LTXIUpgradeEffectComponents.SUPPRESS_VIBRATIONS.get(), (effect, ignored) -> effect.test(slot, event.getVanillaEvent())))
+                if (upgrades.anyMatch(LTXIUpgradeEffectComponents.SUPPRESS_VIBRATIONS, (effect, ignored) -> effect.test(slot, event.getVanillaEvent())))
                 {
                     event.setCanceled(true);
                     break;
@@ -137,19 +141,45 @@ public final class LTXIEventHandler
             event.setResult(MobEffectEvent.Applicable.Result.DO_NOT_APPLY);
         }
 
-        if (event.getApplicationResult() && !event.getEffectInstance().getEffect().value().isBeneficial())
+        MobEffectInstance effectInstance = event.getEffectInstance();
+        if (event.getApplicationResult() && !effectInstance.getEffect().value().isBeneficial() && !event.getEntity().level().isClientSide())
         {
             LivingEntity entity = event.getEntity();
 
-            // TODO: Armor block?
+            // Armor immunity block
+            for (EquipmentSlot slot : LTXIUpgradeUtil.ARMOR_SLOTS)
+            {
+                ItemStack stack = entity.getItemBySlot(slot);
+                if (!(stack.getItem() instanceof EnergyArmorItem item)) continue;
+
+                boolean blockEffect = item.getUpgrades(stack).listEffectStream(LTXIUpgradeEffectComponents.MOB_EFFECT_IMMUNITY)
+                        .filter(o -> o.test(effectInstance))
+                        .anyMatch(o -> !o.useEnergy() || item.consumeUsageEnergy(entity, stack));
+                if (blockEffect)
+                {
+                    event.setResult(MobEffectEvent.Applicable.Result.DO_NOT_APPLY);
+                    return;
+                }
+            }
 
             // Bubble shield block
             EntityBubbleShield shield = entity.getCapability(LTXICapabilities.ENTITY_BUBBLE_SHIELD);
-            MobEffectInstance effectInstance = event.getEffectInstance();
             if (shield != null && shield.blockMobEffect(entity, entity.level(), effectInstance))
             {
                 event.setResult(MobEffectEvent.Applicable.Result.DO_NOT_APPLY);
             }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLivingFall(final LivingFallEvent event)
+    {
+        LivingEntity entity = event.getEntity();
+        ItemStack stack = entity.getItemBySlot(EquipmentSlot.FEET);
+
+        if (!entity.level().isClientSide() && stack.getItem() instanceof EnergyArmorItem item && item.cancelFallDamage(entity, stack, event.getDistance()))
+        {
+            event.setCanceled(true);
         }
     }
 
@@ -190,38 +220,75 @@ public final class LTXIEventHandler
         if (dropsRedirect != null) dropsRedirect.captureAndRelocateDrops(event.getDrops());
     }
 
-    // Run this on highest so damage source components in LimaCore can apply properly
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public static void onLivingIncomingDamageHighest(final LivingIncomingDamageEvent event)
+    @SubscribeEvent
+    public static void onInvulnerabilityCheck(final EntityInvulnerabilityCheckEvent event)
     {
-        LivingEntity targetEntity = event.getEntity();
-        if (!targetEntity.level().isClientSide()) return;
+        if (event.getOriginalInvulnerability() ||
+        !(event.getEntity() instanceof LivingEntity entity) ||
+        !(entity.level() instanceof ServerLevel level)) return;
 
-        LootContext context = LimaLootUtil.entityLootContext((ServerLevel) targetEntity.level(), targetEntity, event.getSource());
-        LTXIUpgradeUtil.iterateEquipmentUpgrades(targetEntity, LTXIUpgradeUtil.ARMOR_SLOTS, (level, upgrades, equipmentInUse) ->
-                upgrades.applyDamageEntityEffects(LTXIUpgradeEffectComponents.PRE_ATTACK, level, context, EffectTarget.VICTIM, equipmentInUse));
-
-        LTXIUpgradeUtil.iterateDamageUpgrades(event.getSource(), (level, upgrades, equipmentInUse) ->
+        LootContext context = LimaLootUtil.entityLootContext(level, entity, event.getSource());
+        for (EquipmentSlot slot : LTXIUpgradeUtil.ARMOR_SLOTS)
         {
-            upgrades.applyDamageEntityEffects(LTXIUpgradeEffectComponents.PRE_ATTACK, level, context, EffectTarget.ATTACKER, equipmentInUse);
-            upgrades.applyReductionBreaches(context, event);
-        });
+            EquipmentUpgrades upgrades = UpgradableEquipmentItem.getEquipmentUpgradesFromStack(entity.getItemBySlot(slot));
+            boolean match = upgrades.anyMatch(LTXIUpgradeEffectComponents.DAMAGE_IMMUNITY, (effect, rank) -> effect.test(context));
+            if (match)
+            {
+                event.setInvulnerable(true);
+                return;
+            }
+        }
     }
 
-    // Run bubble shield checks on lowest to first apply damage modifiers
-    @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void onLivingIncomingDamageLowest(final LivingIncomingDamageEvent event)
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public static void onLivingIncomingDamageHighest(final LivingIncomingDamageEvent event)
     {
         LivingEntity hurtEntity = event.getEntity();
         if (!hurtEntity.level().isClientSide())
         {
-            EntityBubbleShield shield = hurtEntity.getCapability(LTXICapabilities.ENTITY_BUBBLE_SHIELD);
-            if (shield != null)
+            LTXIUpgradeUtil.iterateDamageUpgrades(event.getSource(), (level, upgrades, equipmentInUse) ->
             {
-                float newDamage = shield.blockDamage(hurtEntity, hurtEntity.level(), event.getSource(), event.getAmount());
-                event.setAmount(newDamage);
-                if (newDamage <= 0) event.setCanceled(true);
+                LootContext context = UpgradeContexts.damageContext(level, hurtEntity, event.getSource(), event.getAmount());
+                upgrades.applyDamageEntityEffects(LTXIUpgradeEffectComponents.PRE_ATTACK, level, context, EffectTarget.ATTACKER, equipmentInUse);
+                upgrades.applyReductionBreaches(context, event);
+            });
+        }
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onLivingIncomingDamageLowest(final LivingIncomingDamageEvent event)
+    {
+        LivingEntity hurtEntity = event.getEntity();
+        if (!(hurtEntity.level() instanceof ServerLevel level)) return;
+
+        EntityBubbleShield shield = hurtEntity.getCapability(LTXICapabilities.ENTITY_BUBBLE_SHIELD);
+        if (shield != null)
+        {
+            float newDamage = shield.blockDamage(hurtEntity, level, event.getSource(), event.getAmount());
+            event.setAmount(newDamage);
+            if (newDamage <= 0) event.setCanceled(true);
+        }
+
+        if (!event.isCanceled())
+        {
+            LootContext context = UpgradeContexts.damageContext(level, hurtEntity, event.getSource(), event.getAmount());
+            float totalReduction = 0f;
+
+            for (EquipmentSlot slot : LTXIUpgradeUtil.ARMOR_SLOTS)
+            {
+                ItemStack stack = hurtEntity.getItemBySlot(slot);
+                if (stack.getItem() instanceof EnergyArmorItem item)
+                {
+                    EquipmentUpgrades upgrades = item.getUpgrades(stack);
+                    upgrades.applyDamageEntityEffects(LTXIUpgradeEffectComponents.PRE_ATTACK, level, context, EffectTarget.VICTIM, UpgradedEquipmentInUse.create(level, stack, upgrades, slot, hurtEntity));
+
+                    float reduction = (float) upgrades.runConditionalValueOps(LTXIUpgradeEffectComponents.DAMAGE_REDUCTION, context, 0d);
+                    if (reduction > 0 && item.consumeUsageEnergy(hurtEntity, stack)) totalReduction += reduction;
+                }
             }
+
+            float newDamage = event.getAmount() - (event.getAmount() * Mth.clamp(totalReduction, 0f, 1f));
+            event.setAmount(newDamage);
         }
     }
 

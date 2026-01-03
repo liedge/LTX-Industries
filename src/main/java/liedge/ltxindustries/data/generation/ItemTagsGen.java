@@ -102,5 +102,7 @@ class ItemTagsGen extends LimaTagsProvider.ItemTags
                 LTX_LIGHTER);
         buildTag(MODULAR_MINING_TOOLS).add(LTX_DRILL, LTX_SHOVEL, LTX_AXE, LTX_HOE);
         buildTag(MINING_TOOLS).addTag(MODULAR_MINING_TOOLS).add(LTX_SHEARS, LTX_WRENCH);
+
+        buildTag(FREEZE_IMMUNE_WEARABLES).add(WONDERLAND_HEAD, WONDERLAND_BODY, WONDERLAND_LEGS, WONDERLAND_FEET);
     }
 }

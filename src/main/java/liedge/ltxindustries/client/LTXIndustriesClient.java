@@ -13,16 +13,10 @@ import liedge.ltxindustries.client.gui.layer.EquipmentHUDLayer;
 import liedge.ltxindustries.client.gui.layer.WeaponCrosshairLayer;
 import liedge.ltxindustries.client.gui.screen.*;
 import liedge.ltxindustries.client.model.custom.BubbleShieldModel;
-import liedge.ltxindustries.client.model.entity.GlowstickProjectileModel;
-import liedge.ltxindustries.client.model.entity.LTXIModelLayers;
-import liedge.ltxindustries.client.model.entity.OrbGrenadeModel;
-import liedge.ltxindustries.client.model.entity.RocketModel;
+import liedge.ltxindustries.client.model.entity.*;
 import liedge.ltxindustries.client.particle.*;
 import liedge.ltxindustries.client.renderer.blockentity.*;
-import liedge.ltxindustries.client.renderer.entity.GlowstickProjectileRenderer;
-import liedge.ltxindustries.client.renderer.entity.OrbGrenadeRenderer;
-import liedge.ltxindustries.client.renderer.entity.RocketRenderer;
-import liedge.ltxindustries.client.renderer.entity.StickyFlameRenderer;
+import liedge.ltxindustries.client.renderer.entity.*;
 import liedge.ltxindustries.client.renderer.item.BlueprintItemExtensions;
 import liedge.ltxindustries.client.renderer.item.LTXIItemRenderers;
 import liedge.ltxindustries.client.renderer.item.MiningToolExtensions;
@@ -34,6 +28,8 @@ import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.player.PlayerRenderer;
+import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.neoforged.api.distmarker.Dist;
@@ -186,6 +182,17 @@ public class LTXIndustriesClient
             event.registerLayerDefinition(LTXIModelLayers.GLOWSTICK_PROJECTILE, GlowstickProjectileModel::defineLayer);
             event.registerLayerDefinition(LTXIModelLayers.ORB_GRENADE, OrbGrenadeModel::defineLayer);
             event.registerLayerDefinition(LTXIModelLayers.ROCKET, RocketModel::defineLayer);
+            event.registerLayerDefinition(LTXIModelLayers.WONDERLAND_ARMOR_SET, WonderlandArmorModel::createBodyLayer);
+        }
+
+        @SubscribeEvent
+        public void addRenderLayers(final EntityRenderersEvent.AddLayers event)
+        {
+            for (PlayerSkin.Model model : event.getSkins())
+            {
+                PlayerRenderer renderer = event.getSkin(model);
+                if (renderer != null) renderer.addLayer(new WonderlandArmorLayer(renderer, event.getEntityModels()));
+            }
         }
 
         @SubscribeEvent

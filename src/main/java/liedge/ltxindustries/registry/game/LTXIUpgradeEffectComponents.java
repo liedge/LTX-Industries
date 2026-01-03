@@ -11,6 +11,7 @@ import liedge.ltxindustries.registry.LTXIRegistries;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.Unit;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
@@ -36,19 +37,21 @@ public final class LTXIUpgradeEffectComponents
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ValueOperation>>> ENERGY_TRANSFER_RATE = COMPONENTS.registerValue("energy_transfer_rate");
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ValueOperation>>> ENERGY_USAGE = COMPONENTS.registerValue("energy_usage");
 
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<TargetableEffect<EntityUpgradeEffect>>>> PRE_ATTACK = COMPONENTS.registerTargetableEntity("pre_attack", LootContextParamSets.ENTITY);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<TargetableEffect<EntityUpgradeEffect>>>> PRE_ATTACK = COMPONENTS.registerTargetableEntity("pre_attack", UpgradeContexts.UPGRADED_DAMAGE);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<TargetableEffect<EntityUpgradeEffect>>>> ENTITY_KILLED = COMPONENTS.registerTargetableEntity("entity_killed", LootContextParamSets.ENTITY);
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<CaptureMobDrops>> CAPTURE_MOB_DROPS = COMPONENTS.register("capture_mob_drops", () -> UpgradeDataComponentType.create(CaptureMobDrops.CODEC));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<TagKey<DamageType>>>> EXTRA_DAMAGE_TAGS = COMPONENTS.register("extra_damage_tags", () -> UpgradeDataComponentType.customList(TagKey.codec(Registries.DAMAGE_TYPE)));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<AddDamageAttributes>>> ADD_DAMAGE_ATTRIBUTES = COMPONENTS.register("add_damage_attributes", () -> UpgradeDataComponentType.createList(AddDamageAttributes.CODEC));
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ConditionEffect<BreachDamageReduction>>>> REDUCTION_BREACH = COMPONENTS.register("reduction_breach", () -> UpgradeDataComponentType.createConditional(BreachDamageReduction.CODEC, LootContextParamSets.ENTITY));
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ConditionEffect<BreachDamageReduction>>>> REDUCTION_BREACH = COMPONENTS.register("reduction_breach", () -> UpgradeDataComponentType.createConditional(BreachDamageReduction.CODEC, UpgradeContexts.UPGRADED_DAMAGE));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<LootItemCondition>>> TARGET_CONDITIONS = COMPONENTS.register("target_conditions", () -> UpgradeDataComponentType.customList(TargetPredicate.CONDITIONS_CODEC));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<AddEnchantmentLevels>>> ENCHANTMENT_LEVELS = COMPONENTS.register("enchantment_levels", () -> UpgradeDataComponentType.createList(AddEnchantmentLevels.CODEC));
     //#endregion
 
     //#region Equipment effects
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ConditionEffect<EntityUpgradeEffect>>>> EQUIPMENT_TICK = COMPONENTS.registerConditionEntity("tick", UpgradeContexts.UPGRADED_ENTITY);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ConditionEffect<Unit>>>> DAMAGE_IMMUNITY = COMPONENTS.register("damage_immunity", () -> UpgradeDataComponentType.customConditional(Unit.CODEC, LootContextParamSets.ENTITY));
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<MobEffectImmunity>>> MOB_EFFECT_IMMUNITY = COMPONENTS.register("mob_effect_immunity", () -> UpgradeDataComponentType.customList(MobEffectImmunity.CODEC));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<AddItemAttributes>>> ADD_ITEM_ATTRIBUTES = COMPONENTS.register("add_item_attributes", () -> UpgradeDataComponentType.createList(AddItemAttributes.CODEC));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ModularTool>>> MODULAR_TOOL = COMPONENTS.register("modular_tool", () -> UpgradeDataComponentType.customList(ModularTool.CODEC));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<VeinMine>>> VEIN_MINE = COMPONENTS.register("vein_mine", () -> UpgradeDataComponentType.customList(VeinMine.CODEC));
@@ -56,6 +59,7 @@ public final class LTXIUpgradeEffectComponents
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<SuppressVibrations>>> SUPPRESS_VIBRATIONS = COMPONENTS.register("suppress_vibrations", () -> UpgradeDataComponentType.createList(SuppressVibrations.CODEC));
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ConditionEffect<ValueOperation>>>> EQUIPMENT_DAMAGE = COMPONENTS.registerConditionalValue("equipment_damage", LootContextParamSets.ENTITY);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ConditionEffect<ValueOperation>>>> DAMAGE_REDUCTION = COMPONENTS.registerConditionalValue("damage_reduction", UpgradeContexts.UPGRADED_DAMAGE);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ValueOperation>>> MAGAZINE_CAPACITY = COMPONENTS.registerValue("magazine_capacity");
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ValueOperation>>> WEAPON_RANGE = COMPONENTS.registerValue("weapon_range");
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ValueOperation>>> RELOAD_SPEED = COMPONENTS.registerValue("reload_speed");
