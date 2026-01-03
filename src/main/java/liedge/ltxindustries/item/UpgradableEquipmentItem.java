@@ -1,6 +1,7 @@
 package liedge.ltxindustries.item;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import liedge.ltxindustries.lib.upgrades.UpgradesContainerBase;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.ltxindustries.registry.game.LTXIDataComponents;
@@ -58,7 +59,7 @@ public interface UpgradableEquipmentItem extends ItemLike
         stack.set(LTXIDataComponents.EQUIPMENT_UPGRADES, upgrades);
     }
 
-    default double getUpgradedDamage(EquipmentUpgrades upgrades, LootContext context, double baseDamage)
+    default double getUpgradedDamage(UpgradesContainerBase<?, ?> upgrades, LootContext context, double baseDamage)
     {
         return upgrades.runConditionalValueOps(LTXIUpgradeEffectComponents.EQUIPMENT_DAMAGE, context, baseDamage);
     }

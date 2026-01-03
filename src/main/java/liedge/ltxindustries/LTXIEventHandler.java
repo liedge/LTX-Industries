@@ -5,23 +5,22 @@ import liedge.limacore.util.LimaCoreUtil;
 import liedge.limacore.util.LimaLootUtil;
 import liedge.ltxindustries.entity.LTXIEntityUtil;
 import liedge.ltxindustries.entity.damage.DropsRedirect;
-import liedge.ltxindustries.entity.damage.UpgradableDamageSource;
+import liedge.ltxindustries.entity.damage.UpgradesAwareDamageSource;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
 import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.lib.EquipmentDamageModifiers;
 import liedge.ltxindustries.lib.shield.EntityBubbleShield;
 import liedge.ltxindustries.lib.upgrades.UpgradeContexts;
-import liedge.ltxindustries.lib.upgrades.UpgradesContainerBase;
 import liedge.ltxindustries.lib.upgrades.effect.EffectTarget;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.ltxindustries.registry.game.LTXIAttachmentTypes;
 import liedge.ltxindustries.registry.game.LTXIDataComponents;
 import liedge.ltxindustries.registry.game.LTXIMobEffects;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
+import liedge.ltxindustries.util.LTXIUpgradeUtil;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.TagKey;
-import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -33,7 +32,6 @@ import net.minecraft.world.level.storage.loot.LootContext;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.common.damagesource.DamageContainer;
 import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.VanillaGameEvent;
@@ -42,10 +40,7 @@ import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
 import net.neoforged.neoforge.event.level.BlockDropsEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
-import java.util.EnumMap;
 import java.util.List;
-import java.util.Map;
-import java.util.function.BiConsumer;
 
 @EventBusSubscriber(modid = LTXIndustries.MODID)
 public final class LTXIEventHandler
@@ -111,12 +106,8 @@ public final class LTXIEventHandler
             player.getData(LTXIAttachmentTypes.PLAYER_SHIELD).tick(player);
 
             LootContext tickContext = UpgradeContexts.entityContext(serverLevel, player);
-            for (EquipmentSlot slot : EquipmentSlot.values())
-            {
-                EquipmentUpgrades upgrades = UpgradableEquipmentItem.getEquipmentUpgradesFromStack(player.getItemBySlot(slot));
-                upgrades.forEachConditionalEffect(LTXIUpgradeEffectComponents.EQUIPMENT_TICK, tickContext, (effect, rank) ->
-                        effect.applyEntityEffect(serverLevel, player, rank, tickContext));
-            }
+            LTXIUpgradeUtil.iterateEquipmentUpgrades(player, EquipmentSlot.values(), (level, upgrades, equipmentInUse) ->
+                    upgrades.tickEquipment(level, tickContext, player, equipmentInUse));
         }
     }
 
@@ -184,7 +175,7 @@ public final class LTXIEventHandler
         DropsRedirect dropsRedirect = null;
 
         // First attempt to get from upgradable damage source. Most likely case
-        if (damageSource instanceof UpgradableDamageSource upgradableSource)
+        if (damageSource instanceof UpgradesAwareDamageSource upgradableSource)
         {
             dropsRedirect = upgradableSource.createDropsRedirect();
         }
@@ -204,29 +195,16 @@ public final class LTXIEventHandler
     public static void onLivingIncomingDamageHighest(final LivingIncomingDamageEvent event)
     {
         LivingEntity targetEntity = event.getEntity();
-        if (!(targetEntity.level() instanceof ServerLevel level)) return;
+        if (!targetEntity.level().isClientSide()) return;
 
-        LootContext context = LimaLootUtil.entityLootContext(level, targetEntity, event.getSource());
+        LootContext context = LimaLootUtil.entityLootContext((ServerLevel) targetEntity.level(), targetEntity, event.getSource());
+        LTXIUpgradeUtil.iterateEquipmentUpgrades(targetEntity, LTXIUpgradeUtil.ARMOR_SLOTS, (level, upgrades, equipmentInUse) ->
+                upgrades.applyDamageEntityEffects(LTXIUpgradeEffectComponents.PRE_ATTACK, level, context, EffectTarget.VICTIM, equipmentInUse));
 
-        for (EquipmentSlot slot : EquipmentSlot.values())
+        LTXIUpgradeUtil.iterateDamageUpgrades(event.getSource(), (level, upgrades, equipmentInUse) ->
         {
-            EquipmentUpgrades upgrades = UpgradableEquipmentItem.getEquipmentUpgradesFromStack(targetEntity.getItemBySlot(slot));
-            upgrades.applyDamageEntityEffects(LTXIUpgradeEffectComponents.EQUIPMENT_PRE_ATTACK, level, context, EffectTarget.VICTIM);
-        }
-
-        applyDamageUpgrades(event.getSource(), ($, upgrades) ->
-        {
-            upgrades.applyDamageEntityEffects(LTXIUpgradeEffectComponents.EQUIPMENT_PRE_ATTACK, level, context, EffectTarget.ATTACKER);
-
-            Map<DamageContainer.Reduction, Float> reductions = new EnumMap<>(DamageContainer.Reduction.class);
-            upgrades.forEachConditionalEffect(LTXIUpgradeEffectComponents.REDUCTION_BREACH, context, (effect, rank) ->
-                    reductions.merge(effect.reduction().getReduction(), effect.get(rank), Float::sum));
-
-            for (var entry : reductions.entrySet())
-            {
-                float modifier = Mth.clamp(-entry.getValue(), -1f, 0f);
-                event.addReductionModifier(entry.getKey(), (type, reduction) -> reduction + (reduction * modifier));
-            }
+            upgrades.applyDamageEntityEffects(LTXIUpgradeEffectComponents.PRE_ATTACK, level, context, EffectTarget.ATTACKER, equipmentInUse);
+            upgrades.applyReductionBreaches(context, event);
         });
     }
 
@@ -250,7 +228,7 @@ public final class LTXIEventHandler
     @SubscribeEvent
     public static void onDamageAttributesAndTags(final DamageAttributeModifiersEvent event)
     {
-        applyDamageUpgrades(event.getDamageSource(), (level, upgrades) ->
+        LTXIUpgradeUtil.iterateDamageUpgrades(event.getDamageSource(), ($1, upgrades, equipmentInUse) ->
         {
             List<TagKey<DamageType>> extraTags = upgrades.listEffectStream(LTXIUpgradeEffectComponents.EXTRA_DAMAGE_TAGS).toList();
             if (!extraTags.isEmpty()) event.getDamageSource().limaCore$addExtraTags(extraTags);
@@ -262,23 +240,10 @@ public final class LTXIEventHandler
     @SubscribeEvent
     public static void onLivingDeath(final LivingDeathEvent event)
     {
-        applyDamageUpgrades(event.getSource(), (level, upgrades) ->
-                upgrades.applyDamageEntityEffects(LTXIUpgradeEffectComponents.EQUIPMENT_KILL, level, LimaLootUtil.entityLootContext(level, event.getEntity(), event.getSource()), EffectTarget.ATTACKER));
-    }
-
-    private static void applyDamageUpgrades(DamageSource source, BiConsumer<ServerLevel, UpgradesContainerBase<?, ?>> visitor)
-    {
-        if (source.getEntity() instanceof LivingEntity attacker && attacker.level() instanceof ServerLevel level)
+        LTXIUpgradeUtil.iterateDamageUpgrades(event.getSource(), (level, upgrades, equipmentInUse) ->
         {
-            if (attacker != source.getDirectEntity() && source instanceof UpgradableDamageSource upgradableSource)
-            {
-                visitor.accept(level, upgradableSource.getUpgrades());
-            }
-            else
-            {
-                EquipmentUpgrades upgrades = UpgradableEquipmentItem.getEquipmentUpgradesFromStack(attacker.getItemBySlot(EquipmentSlot.MAINHAND));
-                visitor.accept(level, upgrades);
-            }
-        }
+            LootContext context = LimaLootUtil.entityLootContext(level, event.getEntity(), event.getSource());
+            upgrades.applyDamageEntityEffects(LTXIUpgradeEffectComponents.ENTITY_KILLED, level, context, EffectTarget.ATTACKER, equipmentInUse);
+        });
     }
 }

@@ -10,22 +10,22 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
-public final class UpgradableEquipmentDamageSource extends UpgradableDamageSource
+public final class EquipmentDamageSource extends UpgradesAwareDamageSource
 {
-    public static UpgradableEquipmentDamageSource directDamage(ResourceKey<DamageType> typeKey, Entity attacker, ItemStack weaponItem)
+    public static EquipmentDamageSource directDamage(ResourceKey<DamageType> typeKey, Entity attacker, ItemStack weaponItem)
     {
-        return new UpgradableEquipmentDamageSource(typeKey, attacker, attacker, weaponItem);
+        return new EquipmentDamageSource(typeKey, attacker, attacker, weaponItem);
     }
 
-    public static UpgradableEquipmentDamageSource projectileDamage(ResourceKey<DamageType> typeKey, Entity projectile, @Nullable Entity attacker, ItemStack weaponItem)
+    public static EquipmentDamageSource projectileDamage(ResourceKey<DamageType> typeKey, Entity projectile, @Nullable Entity attacker, ItemStack weaponItem)
     {
-        return new UpgradableEquipmentDamageSource(typeKey, projectile, attacker, weaponItem);
+        return new EquipmentDamageSource(typeKey, projectile, attacker, weaponItem);
     }
 
     private final ItemStack weaponItem;
     private final EquipmentUpgrades upgrades;
 
-    private UpgradableEquipmentDamageSource(ResourceKey<DamageType> typeKey, Entity directEntity, @Nullable Entity causingEntity, ItemStack weaponItem)
+    private EquipmentDamageSource(ResourceKey<DamageType> typeKey, Entity directEntity, @Nullable Entity causingEntity, ItemStack weaponItem)
     {
         super(directEntity.level().registryAccess().holderOrThrow(typeKey), directEntity, causingEntity);
         this.weaponItem = weaponItem;

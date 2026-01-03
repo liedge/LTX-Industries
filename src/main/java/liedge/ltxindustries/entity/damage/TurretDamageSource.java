@@ -7,11 +7,12 @@ import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
-public class TurretDamageSource extends UpgradableDamageSource
+public class TurretDamageSource extends UpgradesAwareDamageSource
 {
     public static TurretDamageSource create(Level level, ResourceKey<DamageType> damageTypeKey, BaseTurretBlockEntity blockEntity, @Nullable Entity directEntity, @Nullable Entity owner, @Nullable Vec3 location)
     {
@@ -25,6 +26,12 @@ public class TurretDamageSource extends UpgradableDamageSource
     {
         super(type, directEntity, causingEntity, location);
         this.blockEntity = blockEntity;
+    }
+
+    @Override
+    public @Nullable ItemStack getWeaponItem()
+    {
+        return null;
     }
 
     @Override

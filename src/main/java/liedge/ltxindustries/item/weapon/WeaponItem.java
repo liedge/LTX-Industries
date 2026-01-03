@@ -13,7 +13,7 @@ import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.entity.CompoundHitResult;
 import liedge.ltxindustries.entity.DynamicClipContext;
 import liedge.ltxindustries.entity.LimaTraceableEntity;
-import liedge.ltxindustries.entity.damage.UpgradableEquipmentDamageSource;
+import liedge.ltxindustries.entity.damage.EquipmentDamageSource;
 import liedge.ltxindustries.item.EnergyEquipmentItem;
 import liedge.ltxindustries.lib.EquipmentDamageModifiers;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
@@ -205,7 +205,7 @@ public abstract class WeaponItem extends EnergyEquipmentItem
         super.onUpgradeRefresh(context, stack, upgrades);
     }
 
-    private boolean hurtEntity(LivingEntity attacker, Entity target, UpgradableEquipmentDamageSource damageSource, double baseDamage)
+    private boolean hurtEntity(LivingEntity attacker, Entity target, EquipmentDamageSource damageSource, double baseDamage)
     {
         if (attacker.level() instanceof ServerLevel level)
         {
@@ -226,13 +226,13 @@ public abstract class WeaponItem extends EnergyEquipmentItem
 
     protected void causeLightfragDamage(ItemStack heldItem, LivingEntity attacker, Entity targetEntity, double baseDamage)
     {
-        UpgradableEquipmentDamageSource source = UpgradableEquipmentDamageSource.directDamage(LTXIDamageTypes.LIGHTFRAG, attacker, heldItem);
+        EquipmentDamageSource source = EquipmentDamageSource.directDamage(LTXIDamageTypes.LIGHTFRAG, attacker, heldItem);
         hurtEntity(attacker, targetEntity, source, baseDamage);
     }
 
     public boolean causeProjectileDamage(ItemStack weaponItem, LimaTraceableEntity projectile, @Nullable LivingEntity attacker, ResourceKey<DamageType> damageTypeKey, Entity targetEntity, double baseDamage)
     {
-        UpgradableEquipmentDamageSource source = UpgradableEquipmentDamageSource.projectileDamage(damageTypeKey, projectile, attacker, weaponItem);
+        EquipmentDamageSource source = EquipmentDamageSource.projectileDamage(damageTypeKey, projectile, attacker, weaponItem);
         if (attacker != null)
         {
             return hurtEntity(attacker, targetEntity, source, baseDamage);

@@ -94,7 +94,8 @@ public abstract class LimaTraceableEntity extends Entity implements TraceableEnt
     // AOE Helpers
     protected List<Entity> getEntitiesInAOE(Level level, AABB aabb, @Nullable LivingEntity owner, @Nullable Entity directHit)
     {
-        return level.getEntities(this, aabb, e -> LTXIEntityUtil.checkWeaponTargetValidity(owner, e, getUpgrades()) && !Objects.equals(directHit, e));
+        TargetPredicate targetPredicate = TargetPredicate.create(level, getUpgrades());
+        return level.getEntities(this, aabb, e -> LTXIEntityUtil.checkWeaponTargetValidity(owner, e, targetPredicate) && !Objects.equals(directHit, e));
     }
 
     protected List<Entity> getEntitiesInAOE(Level level, Vec3 hitLocation, double radius, @Nullable LivingEntity owner, @Nullable Entity directHit)

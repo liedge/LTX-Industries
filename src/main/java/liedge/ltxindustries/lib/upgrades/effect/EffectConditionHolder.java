@@ -13,7 +13,7 @@ public interface EffectConditionHolder<T> extends Predicate<LootContext>
 {
     static Codec<LootItemCondition> conditionCodec(LootContextParamSet params)
     {
-        return LimaLootUtil.contextUserCodec(LootItemCondition.DIRECT_CODEC, params, "upgrade condition");
+        return LimaLootUtil.conditionsCodec(params, "upgrade condition");
     }
 
     T effect();

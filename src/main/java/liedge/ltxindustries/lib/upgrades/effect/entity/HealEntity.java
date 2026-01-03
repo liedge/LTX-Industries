@@ -2,43 +2,43 @@ package liedge.ltxindustries.lib.upgrades.effect.entity;
 
 import com.mojang.serialization.MapCodec;
 import liedge.ltxindustries.lib.upgrades.UpgradedEquipmentInUse;
+import liedge.ltxindustries.lib.upgrades.value.UpgradeValueProvider;
 import liedge.ltxindustries.registry.game.LTXIEntityUpgradeEffects;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParam;
 
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
-public record CompoundEntityEffect(List<EntityUpgradeEffect> effects) implements EntityUpgradeEffect
+public record HealEntity(UpgradeValueProvider amount) implements EntityUpgradeEffect
 {
-    public static final MapCodec<CompoundEntityEffect> CODEC = EntityUpgradeEffect.DIRECT_CODEC.listOf().xmap(CompoundEntityEffect::new, CompoundEntityEffect::effects).fieldOf("effects");
+    public static final MapCodec<HealEntity> CODEC = UpgradeValueProvider.DIRECT_CODEC.fieldOf("amount").xmap(HealEntity::new, HealEntity::amount);
 
-    public static CompoundEntityEffect allOf(EntityUpgradeEffect... effects)
+    public static HealEntity healFor(UpgradeValueProvider amount)
     {
-        return new CompoundEntityEffect(List.of(effects));
+        return new HealEntity(amount);
     }
 
     @Override
     public void apply(ServerLevel level, LootContext context, int upgradeRank, Entity affectedEntity, UpgradedEquipmentInUse equipmentInUse)
     {
-        for (EntityUpgradeEffect sub : effects)
+        if (affectedEntity instanceof LivingEntity livingEntity)
         {
-            sub.apply(level, context, upgradeRank, affectedEntity, equipmentInUse);
+            livingEntity.heal((float) amount.get(context, upgradeRank));
         }
     }
 
     @Override
     public EntityUpgradeEffectType<?> getType()
     {
-        return LTXIEntityUpgradeEffects.ALL_OF_EFFECT.get();
+        return LTXIEntityUpgradeEffects.HEAL_ENTITY.get();
     }
 
     @Override
     public Set<LootContextParam<?>> getReferencedContextParams()
     {
-        return effects.stream().flatMap(e -> e.getReferencedContextParams().stream()).collect(Collectors.toSet());
+        return amount.getReferencedContextParams();
     }
 }

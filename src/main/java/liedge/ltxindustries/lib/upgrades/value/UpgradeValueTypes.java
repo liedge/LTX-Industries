@@ -45,6 +45,7 @@ public final class UpgradeValueTypes
         registerContextless("levels_wrapper", LBVWrapper.CODEC);
         register("math", MathOperationValue.CODEC);
         register("number_wrapper", NumberProviderWrapper.CODEC);
+        register("context_key", ContextKeyValue.CODEC);
 
         LTXIndustries.LOGGER.info("Registered upgrade value type codecs.");
     }

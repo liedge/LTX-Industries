@@ -1,6 +1,7 @@
 package liedge.ltxindustries.lib.upgrades.effect.entity;
 
 import com.mojang.serialization.MapCodec;
+import liedge.ltxindustries.lib.upgrades.UpgradedEquipmentInUse;
 import liedge.ltxindustries.registry.game.LTXIEntityUpgradeEffects;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -11,10 +12,15 @@ public record IgniteEntity(LevelBasedValue duration) implements EntityUpgradeEff
 {
     public static final MapCodec<IgniteEntity> CODEC = LevelBasedValue.CODEC.fieldOf("duration").xmap(IgniteEntity::new, IgniteEntity::duration);
 
-    @Override
-    public void applyEntityEffect(ServerLevel level, Entity entity, int upgradeRank, LootContext context)
+    public static IgniteEntity igniteForSeconds(LevelBasedValue duration)
     {
-        entity.igniteForSeconds(duration.calculate(upgradeRank));
+        return new IgniteEntity(duration);
+    }
+
+    @Override
+    public void apply(ServerLevel level, LootContext context, int upgradeRank, Entity affectedEntity, UpgradedEquipmentInUse equipmentInUse)
+    {
+        if (equipmentInUse.canAttack(affectedEntity)) affectedEntity.igniteForSeconds(duration.calculate(upgradeRank));
     }
 
     @Override

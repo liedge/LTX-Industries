@@ -8,14 +8,14 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class UpgradableDamageSource extends DamageSource
+public abstract class UpgradesAwareDamageSource extends DamageSource
 {
-    protected UpgradableDamageSource(Holder<DamageType> type, @Nullable Entity directEntity, @Nullable Entity causingEntity, @Nullable Vec3 damageSourcePosition)
+    protected UpgradesAwareDamageSource(Holder<DamageType> type, @Nullable Entity directEntity, @Nullable Entity causingEntity, @Nullable Vec3 damageSourcePosition)
     {
         super(type, directEntity, causingEntity, damageSourcePosition);
     }
 
-    protected UpgradableDamageSource(Holder<DamageType> type, @Nullable Entity directEntity, @Nullable Entity causingEntity)
+    protected UpgradesAwareDamageSource(Holder<DamageType> type, @Nullable Entity directEntity, @Nullable Entity causingEntity)
     {
         super(type, directEntity, causingEntity);
     }
@@ -23,4 +23,9 @@ public abstract class UpgradableDamageSource extends DamageSource
     public abstract UpgradesContainerBase<?, ?> getUpgrades();
 
     public abstract @Nullable DropsRedirect createDropsRedirect();
+
+    public boolean canApplyEffects()
+    {
+        return true;
+    }
 }

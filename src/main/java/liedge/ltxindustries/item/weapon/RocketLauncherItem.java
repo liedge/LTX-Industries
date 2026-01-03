@@ -32,7 +32,7 @@ public class RocketLauncherItem extends SemiAutoWeaponItem
 
     private boolean isInTargetScanPath(Player player, Entity target, EquipmentUpgrades upgrades)
     {
-        if (LTXIEntityUtil.checkWeaponTargetValidity(player, target, upgrades) && target.distanceTo(player) >= 10 && target instanceof LivingEntity)
+        if (target instanceof LivingEntity && target.distanceTo(player) >= 10 && LTXIEntityUtil.checkWeaponTargetValidity(player, target, upgrades))
         {
             Vec3 look = player.getViewVector(1f);
             Vec3 path = target.getBoundingBox().getCenter().subtract(player.getEyePosition());

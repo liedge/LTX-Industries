@@ -19,10 +19,13 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.storage.loot.LootContext;
+import net.neoforged.neoforge.common.damagesource.DamageContainer;
+import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.registries.holdersets.AnyHolderSet;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -223,7 +226,7 @@ public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
         return mergeEffectHolderSets(typeSupplier.get(), mapper);
     }
 
-    public void applyDamageEntityEffects(DataComponentType<List<TargetableEffect<EntityUpgradeEffect>>> type, ServerLevel level, LootContext context, EffectTarget source)
+    public void applyDamageEntityEffects(DataComponentType<List<TargetableEffect<EntityUpgradeEffect>>> type, ServerLevel level, LootContext context, EffectTarget source, UpgradedEquipmentInUse equipmentInUse)
     {
         for (var entry : internalMap.object2IntEntrySet())
         {
@@ -235,15 +238,34 @@ public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
                 if (data.source() == source && data.test(context))
                 {
                     Entity affectedEntity = data.affected().apply(context);
-                    if (affectedEntity != null) data.effect().applyEntityEffect(level, affectedEntity, rank, context);
+                    if (affectedEntity != null) data.effect().apply(level, context, rank, affectedEntity, equipmentInUse);
                 }
             }
         }
     }
 
-    public void applyDamageEntityEffects(Supplier<? extends DataComponentType<List<TargetableEffect<EntityUpgradeEffect>>>> typeSupplier, ServerLevel level, LootContext context, EffectTarget source)
+    public void applyDamageEntityEffects(Supplier<? extends DataComponentType<List<TargetableEffect<EntityUpgradeEffect>>>> typeSupplier, ServerLevel level, LootContext context, EffectTarget source, UpgradedEquipmentInUse equipmentInUse)
     {
-        applyDamageEntityEffects(typeSupplier.get(), level, context, source);
+        applyDamageEntityEffects(typeSupplier.get(), level, context, source, equipmentInUse);
+    }
+
+    public void tickEquipment(ServerLevel level, LootContext context, Entity entity, UpgradedEquipmentInUse equipmentInUse)
+    {
+        forEachConditionalEffect(LTXIUpgradeEffectComponents.EQUIPMENT_TICK, context, (effect, rank) ->
+                effect.apply(level, context, rank, entity, equipmentInUse));
+    }
+
+    public void applyReductionBreaches(LootContext context, LivingIncomingDamageEvent event)
+    {
+        Map<DamageContainer.Reduction, Float> reductions = new EnumMap<>(DamageContainer.Reduction.class);
+        forEachConditionalEffect(LTXIUpgradeEffectComponents.REDUCTION_BREACH, context, (effect, rank) ->
+                reductions.merge(effect.reduction().getReduction(), effect.get(rank), Float::sum));
+
+        for (var entry : reductions.entrySet())
+        {
+            float modifier = Mth.clamp(-entry.getValue(), -1f, 0f);
+            event.addReductionModifier(entry.getKey(), (type, reduction) -> reduction + (reduction * modifier));
+        }
     }
     //#endregion
 

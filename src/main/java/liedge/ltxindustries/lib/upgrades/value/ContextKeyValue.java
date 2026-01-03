@@ -1,38 +1,34 @@
-package liedge.ltxindustries.world.loot;
+package liedge.ltxindustries.lib.upgrades.value;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import liedge.limacore.data.LimaEnumCodec;
 import liedge.ltxindustries.lib.upgrades.UpgradeContextKeys;
-import liedge.ltxindustries.registry.game.LTXILootRegistries;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParam;
-import net.minecraft.world.level.storage.loot.providers.number.LootNumberProviderType;
-import net.minecraft.world.level.storage.loot.providers.number.NumberProvider;
 
 import java.util.Set;
 
-public record ContextKeyProvider(Target target) implements NumberProvider
+public record ContextKeyValue(Target target) implements UpgradeValueProvider
 {
-    public static final MapCodec<ContextKeyProvider> CODEC = Target.CODEC.fieldOf("target").xmap(ContextKeyProvider::new, ContextKeyProvider::target);
+    public static final MapCodec<ContextKeyValue> CODEC = Target.CODEC.fieldOf("target").xmap(ContextKeyValue::new, ContextKeyValue::target);
 
-    @Override
-    public float getFloat(LootContext context)
+    public static ContextKeyValue of(Target target)
     {
-        return context.getParam(target.key).floatValue();
+        return new ContextKeyValue(target);
     }
 
     @Override
-    public int getInt(LootContext context)
+    public double get(LootContext context, int upgradeRank)
     {
-        return context.getParam(target.key).intValue();
+        return context.getParam(target.key).doubleValue();
     }
 
     @Override
-    public LootNumberProviderType getType()
+    public MapCodec<? extends UpgradeValueProvider> codec()
     {
-        return LTXILootRegistries.CONTEXT_VALUE_PROVIDER.get();
+        return CODEC;
     }
 
     @Override

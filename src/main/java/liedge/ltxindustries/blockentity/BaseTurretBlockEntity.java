@@ -16,7 +16,9 @@ import liedge.limacore.util.LimaStreamsUtil;
 import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
 import liedge.ltxindustries.blockentity.template.ProductionMachineBlockEntity;
 import liedge.ltxindustries.entity.LTXIEntityUtil;
+import liedge.ltxindustries.entity.TargetPredicate;
 import liedge.ltxindustries.lib.TurretTargetList;
+import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrades;
 import liedge.ltxindustries.registry.game.LTXISounds;
 import liedge.ltxindustries.util.LTXITooltipUtil;
 import net.minecraft.core.BlockPos;
@@ -31,6 +33,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -54,6 +57,7 @@ public abstract class BaseTurretBlockEntity extends ProductionMachineBlockEntity
     private boolean turretCharging;
     private boolean turretFiring;
     protected int ticker;
+    private TargetPredicate upgradeTargetFilter = TargetPredicate.NO_CHECK;
 
     // Client properties
     private final AABB defaultRenderBox;
@@ -186,7 +190,8 @@ public abstract class BaseTurretBlockEntity extends ProductionMachineBlockEntity
             if (maxTargets > 0)
             {
                 level.getProfiler().push("turretTargetScan");
-                List<Entity> foundTargets = level.getEntities(owner, getTargetArea(), e -> LTXIEntityUtil.checkTurretTargetValidity(owner, e, getUpgrades(), this::isValidTarget) && !targetList.containsTarget(e))
+                List<Entity> scanResult = level.getEntities(owner, getTargetArea(), e -> LTXIEntityUtil.checkTurretTargetValidity(owner, e, this::isValidTarget, upgradeTargetFilter) && !targetList.containsTarget(e));
+                List<Entity> foundTargets = scanResult
                         .stream()
                         .sorted(targetsComparator())
                         .distinct()
@@ -339,6 +344,13 @@ public abstract class BaseTurretBlockEntity extends ProductionMachineBlockEntity
                 turretYRot = Mth.approachDegrees(turretYRot, angle, 15f);
             }
         }
+    }
+
+    @Override
+    public void onUpgradeRefresh(LootContext context, MachineUpgrades upgrades)
+    {
+        super.onUpgradeRefresh(context, upgrades);
+        this.upgradeTargetFilter = TargetPredicate.create(context.getLevel(), upgrades);
     }
 
     @Override
