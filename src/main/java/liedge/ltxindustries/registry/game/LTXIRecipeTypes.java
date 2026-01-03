@@ -1,7 +1,7 @@
 package liedge.ltxindustries.registry.game;
 
 import liedge.limacore.recipe.LimaRecipeType;
-import liedge.ltxindustries.LTXICommonIds;
+import liedge.ltxindustries.LTXIIdentifiers;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.recipe.*;
 import net.minecraft.core.registries.Registries;
@@ -22,16 +22,16 @@ public final class LTXIRecipeTypes
         TYPES.register(bus);
     }
 
-    public static final DeferredHolder<RecipeType<?>, LimaRecipeType<GrindingRecipe>> GRINDING = registerType(LTXICommonIds.ID_GRINDING_RECIPE);
-    public static final DeferredHolder<RecipeType<?>, LimaRecipeType<MaterialFusingRecipe>> MATERIAL_FUSING = registerType(LTXICommonIds.ID_MATERIAL_FUSING_RECIPE);
-    public static final DeferredHolder<RecipeType<?>, LimaRecipeType<ElectroCentrifugingRecipe>> ELECTRO_CENTRIFUGING = registerType(LTXICommonIds.ID_ELECTRO_CENTRIFUGING_RECIPE);
-    public static final DeferredHolder<RecipeType<?>, LimaRecipeType<MixingRecipe>> MIXING = registerType(LTXICommonIds.ID_MIXING_RECIPE);
-    public static final DeferredHolder<RecipeType<?>, LimaRecipeType<EnergizingRecipe>> ENERGIZING = registerType(LTXICommonIds.ID_ENERGIZING_RECIPE);
-    public static final DeferredHolder<RecipeType<?>, LimaRecipeType<ChemicalReactingRecipe>> CHEMICAL_REACTING = registerType(LTXICommonIds.ID_CHEMICAL_REACTING);
-    public static final DeferredHolder<RecipeType<?>, LimaRecipeType<AssemblingRecipe>> ASSEMBLING = registerType(LTXICommonIds.ID_ASSEMBLING_RECIPE);
-    public static final DeferredHolder<RecipeType<?>, LimaRecipeType<FabricatingRecipe>> FABRICATING = registerType(LTXICommonIds.ID_FABRICATING_RECIPE);
-    public static final DeferredHolder<RecipeType<?>, LimaRecipeType<GeoSynthesisRecipe>> GEO_SYNTHESIS = registerType(LTXICommonIds.ID_GEO_SYNTHESIS_RECIPE);
-    public static final DeferredHolder<RecipeType<?>, LimaRecipeType<GardenSimulatingRecipe>> GARDEN_SIMULATING = registerType(LTXICommonIds.ID_GARDEN_SIMULATING_RECIPE);
+    public static final DeferredHolder<RecipeType<?>, LimaRecipeType<GrindingRecipe>> GRINDING = registerType(LTXIIdentifiers.ID_GRINDING_RECIPE);
+    public static final DeferredHolder<RecipeType<?>, LimaRecipeType<MaterialFusingRecipe>> MATERIAL_FUSING = registerType(LTXIIdentifiers.ID_MATERIAL_FUSING_RECIPE);
+    public static final DeferredHolder<RecipeType<?>, LimaRecipeType<ElectroCentrifugingRecipe>> ELECTRO_CENTRIFUGING = registerType(LTXIIdentifiers.ID_ELECTRO_CENTRIFUGING_RECIPE);
+    public static final DeferredHolder<RecipeType<?>, LimaRecipeType<MixingRecipe>> MIXING = registerType(LTXIIdentifiers.ID_MIXING_RECIPE);
+    public static final DeferredHolder<RecipeType<?>, LimaRecipeType<EnergizingRecipe>> ENERGIZING = registerType(LTXIIdentifiers.ID_ENERGIZING_RECIPE);
+    public static final DeferredHolder<RecipeType<?>, LimaRecipeType<ChemicalReactingRecipe>> CHEMICAL_REACTING = registerType(LTXIIdentifiers.ID_CHEMICAL_REACTING);
+    public static final DeferredHolder<RecipeType<?>, LimaRecipeType<AssemblingRecipe>> ASSEMBLING = registerType(LTXIIdentifiers.ID_ASSEMBLING_RECIPE);
+    public static final DeferredHolder<RecipeType<?>, LimaRecipeType<FabricatingRecipe>> FABRICATING = registerType(LTXIIdentifiers.ID_FABRICATING_RECIPE);
+    public static final DeferredHolder<RecipeType<?>, LimaRecipeType<GeoSynthesisRecipe>> GEO_SYNTHESIS = registerType(LTXIIdentifiers.ID_GEO_SYNTHESIS_RECIPE);
+    public static final DeferredHolder<RecipeType<?>, LimaRecipeType<GardenSimulatingRecipe>> GARDEN_SIMULATING = registerType(LTXIIdentifiers.ID_GARDEN_SIMULATING_RECIPE);
 
     private static <R extends Recipe<?>> DeferredHolder<RecipeType<?>, LimaRecipeType<R>> registerType(String name)
     {

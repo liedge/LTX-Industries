@@ -3,9 +3,35 @@ package liedge.ltxindustries;
 /**
  * Registry IDs used for several registrations (i.e. machines).
  */
-public final class LTXICommonIds
+public final class LTXIIdentifiers
 {
-    private LTXICommonIds() {}
+    private LTXIIdentifiers() {}
+
+    //#region Items
+    public static final String ID_LTX_DRILL = "ltx_drill";
+    public static final String ID_LTX_SWORD = "ltx_sword";
+    public static final String ID_LTX_SHOVEL = "ltx_shovel";
+    public static final String ID_LTX_AXE = "ltx_axe";
+    public static final String ID_LTX_HOE = "ltx_hoe";
+    public static final String ID_LTX_WRENCH = "ltx_wrench";
+    public static final String ID_LTX_SHEARS = "ltx_shears";
+    public static final String ID_LTX_BRUSH = "ltx_brush";
+    public static final String ID_LTX_FISHING_ROD = "ltx_fishing_rod";
+    public static final String ID_LTX_LIGHTER = "ltx_lighter";
+
+    public static final String ID_WONDERLAND_HEAD = "wonderland_head";
+    public static final String ID_WONDERLAND_BODY = "wonderland_body";
+    public static final String ID_WONDERLAND_LEGS = "wonderland_legs";
+    public static final String ID_WONDERLAND_FEET = "wonderland_feet";
+
+    public static final String ID_GLOWSTICK_LAUNCHER = "glowstick_launcher";
+    public static final String ID_SUBMACHINE_GUN = "submachine_gun";
+    public static final String ID_SHOTGUN = "shotgun";
+    public static final String ID_GRENADE_LAUNCHER = "grenade_launcher";
+    public static final String ID_LINEAR_FUSION_RIFLE = "linear_fusion_rifle";
+    public static final String ID_ROCKET_LAUNCHER = "rocket_launcher";
+    public static final String ID_HEAVY_PISTOL = "heavy_pistol";
+    //#endregion
 
     // Machines (for shared menus, block entity type, block, etc.)
     public static final String ID_ENERGY_CELL_ARRAY = "energy_cell_array";

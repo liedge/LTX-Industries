@@ -48,6 +48,7 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemEntityPropertyC
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.neoforged.neoforge.registries.holdersets.AnyHolderSet;
 
+import static liedge.ltxindustries.LTXIIdentifiers.*;
 import static liedge.ltxindustries.LTXIConstants.*;
 import static liedge.ltxindustries.LTXITags.EquipmentUpgrades.*;
 import static liedge.ltxindustries.LTXIndustries.RESOURCES;
@@ -63,14 +64,14 @@ public final class LTXIEquipmentUpgrades
     private LTXIEquipmentUpgrades() {}
 
     // Built-in upgrades
-    public static final ResourceKey<EquipmentUpgrade> LTX_SHOVEL_DEFAULT = key("default/ltx_shovel");
-    public static final ResourceKey<EquipmentUpgrade> LTX_WRENCH_DEFAULT = key("default/ltx_wrench");
-    public static final ResourceKey<EquipmentUpgrade> LTX_MELEE_DEFAULT = key("default/ltx_melee");
-    public static final ResourceKey<EquipmentUpgrade> GLOWSTICK_LAUNCHER_DEFAULT = key("default/glowstick_launcher");
-    public static final ResourceKey<EquipmentUpgrade> SUBMACHINE_GUN_DEFAULT = key("default/submachine_gun");
-    public static final ResourceKey<EquipmentUpgrade> SHOTGUN_DEFAULT = key("default/shotgun");
-    public static final ResourceKey<EquipmentUpgrade> LFR_DEFAULT = key("default/linear_fusion_rifle");
-    public static final ResourceKey<EquipmentUpgrade> HEAVY_PISTOL_DEFAULT = key("default/heavy_pistol");
+    public static final ResourceKey<EquipmentUpgrade> LTX_SHOVEL_DEFAULT = defaultKey(ID_LTX_SHOVEL);
+    public static final ResourceKey<EquipmentUpgrade> LTX_WRENCH_DEFAULT = defaultKey(ID_LTX_WRENCH);
+    public static final ResourceKey<EquipmentUpgrade> LTX_MELEE_DEFAULT = defaultKey("ltx_melee");
+    public static final ResourceKey<EquipmentUpgrade> GLOWSTICK_LAUNCHER_DEFAULT = defaultKey(ID_GLOWSTICK_LAUNCHER);
+    public static final ResourceKey<EquipmentUpgrade> SUBMACHINE_GUN_DEFAULT = defaultKey(ID_SUBMACHINE_GUN);
+    public static final ResourceKey<EquipmentUpgrade> SHOTGUN_DEFAULT = defaultKey(ID_SHOTGUN);
+    public static final ResourceKey<EquipmentUpgrade> LFR_DEFAULT = defaultKey(ID_LINEAR_FUSION_RIFLE);
+    public static final ResourceKey<EquipmentUpgrade> HEAVY_PISTOL_DEFAULT = defaultKey(ID_HEAVY_PISTOL);
 
     // Tool upgrades
     public static final ResourceKey<EquipmentUpgrade> TOOL_ENERGY_UPGRADE = key("tool_energy_upgrade");
@@ -114,6 +115,11 @@ public final class LTXIEquipmentUpgrades
     private static ResourceKey<EquipmentUpgrade> key(String name)
     {
         return RESOURCES.resourceKey(LTXIRegistries.Keys.EQUIPMENT_UPGRADES, name);
+    }
+
+    private static ResourceKey<EquipmentUpgrade> defaultKey(String name)
+    {
+        return key("default/" + name);
     }
 
     public static void bootstrap(BootstrapContext<EquipmentUpgrade> context)
