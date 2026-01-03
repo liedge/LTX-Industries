@@ -8,6 +8,9 @@ import liedge.ltxindustries.lib.weapons.GrenadeType;
 import liedge.ltxindustries.lib.weapons.WeaponReloadSource;
 import liedge.ltxindustries.registry.LTXIRegistries;
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.item.enchantment.ConditionalEffect;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
@@ -34,6 +37,7 @@ public final class LTXIUpgradeEffectComponents
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ValueOperation>>> ENERGY_USAGE = COMPONENTS.registerValue("energy_usage");
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<CaptureMobDrops>> CAPTURE_MOB_DROPS = COMPONENTS.register("capture_mob_drops", () -> UpgradeDataComponentType.create(CaptureMobDrops.CODEC));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<LootItemCondition>>> TARGET_CONDITIONS = COMPONENTS.register("target_conditions", () -> UpgradeDataComponentType.custom(ConditionalEffect.conditionCodec(LootContextParamSets.CHEST).listOf()));
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<TagKey<DamageType>>>> EXTRA_DAMAGE_TAGS = COMPONENTS.register("extra_damage_tags", () -> UpgradeDataComponentType.customList(TagKey.codec(Registries.DAMAGE_TYPE)));
 
     //#region Equipment effects
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ConditionEffect<EntityUpgradeEffect>>>> EQUIPMENT_TICK = COMPONENTS.registerConditionEntity("tick", UpgradeContexts.UPGRADED_ENTITY);

@@ -12,7 +12,6 @@ import liedge.limacore.world.loot.number.MathOpsNumberProvider;
 import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.lib.upgrades.effect.*;
-import liedge.ltxindustries.lib.upgrades.effect.entity.AddDamageTags;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
 import liedge.ltxindustries.lib.upgrades.tooltip.*;
 import liedge.ltxindustries.lib.upgrades.value.ConstantDouble;
@@ -184,7 +183,8 @@ public final class LTXIEquipmentUpgrades
         EquipmentUpgrade.builder(SUBMACHINE_GUN_DEFAULT)
                 .supports(LTXIItems.SUBMACHINE_GUN)
                 .withEffect(SUPPRESS_VIBRATIONS, SuppressVibrations.mainHand(gameEvents.getOrThrow(LTXITags.GameEvents.WEAPON_VIBRATIONS)))
-                .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EffectTarget.ATTACKER, EffectTarget.VICTIM, AddDamageTags.addTags(DamageTypeTags.NO_ANGER, DamageTypeTags.NO_KNOCKBACK))
+                .withEffect(EXTRA_DAMAGE_TAGS, DamageTypeTags.NO_ANGER)
+                .withEffect(EXTRA_DAMAGE_TAGS, DamageTypeTags.NO_KNOCKBACK)
                 .staticTooltip(0)
                 .effectIcon(defaultModuleIcon(LTXIItems.SUBMACHINE_GUN))
                 .category("default/weapon")
@@ -279,7 +279,7 @@ public final class LTXIEquipmentUpgrades
         // Weapon-specific upgrades
         EquipmentUpgrade.builder(HEAVY_PISTOL_GOD_ROUNDS)
                 .supports(LTXIItems.HEAVY_PISTOL)
-                .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EffectTarget.ATTACKER, EffectTarget.VICTIM, AddDamageTags.addTags(LTXITags.DamageTypes.BYPASS_SURVIVAL_DEFENSES))
+                .withEffect(EXTRA_DAMAGE_TAGS, LTXITags.DamageTypes.BYPASS_SURVIVAL_DEFENSES)
                 .withConditionalEffect(EQUIPMENT_DAMAGE, ValueOperation.of(MathOpsNumberProvider.of(EntityAttributeValueProvider.totalValue(LootContext.EntityTarget.THIS, Attributes.MAX_HEALTH), ConstantValue.exactly(0.25f), MathOperation.MULTIPLY), MathOperation.ADD))
                 .tooltip(TranslatableTooltip.create(LTXILangKeys.ATTRIBUTE_SCALED_DAMAGE_UPGRADE,
                         ValueComponent.of(ConstantDouble.of(0.25d), ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE),
@@ -302,7 +302,7 @@ public final class LTXIEquipmentUpgrades
                 .register(context);
         EquipmentUpgrade.builder(UNIVERSAL_STEALTH_DAMAGE)
                 .supports(allWeapons)
-                .withTargetedEffect(EQUIPMENT_PRE_ATTACK, EffectTarget.ATTACKER, EffectTarget.VICTIM, AddDamageTags.addTags(DamageTypeTags.NO_ANGER))
+                .withEffect(EXTRA_DAMAGE_TAGS, DamageTypeTags.NO_ANGER)
                 .staticTooltip(0)
                 .effectIcon(sprite("stealth_damage"))
                 .register(context);

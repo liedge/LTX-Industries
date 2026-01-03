@@ -28,18 +28,9 @@
     ]
   },
   "effects": {
-    "ltxi:pre_attack": [
-      {
-        "affected": "victim",
-        "effect": {
-          "type": "ltxi:modify_damage_tags",
-          "tags": [
-            "minecraft:no_anger",
-            "minecraft:no_knockback"
-          ]
-        },
-        "source": "attacker"
-      }
+    "ltxi:extra_damage_tags": [
+      "minecraft:no_anger",
+      "minecraft:no_knockback"
     ],
     "ltxi:suppress_vibrations": [
       {

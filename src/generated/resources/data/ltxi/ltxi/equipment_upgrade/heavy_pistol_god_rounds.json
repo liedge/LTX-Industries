@@ -60,17 +60,8 @@
         }
       }
     ],
-    "ltxi:pre_attack": [
-      {
-        "affected": "victim",
-        "effect": {
-          "type": "ltxi:modify_damage_tags",
-          "tags": [
-            "ltxi:bypass_survival_defenses"
-          ]
-        },
-        "source": "attacker"
-      }
+    "ltxi:extra_damage_tags": [
+      "ltxi:bypass_survival_defenses"
     ]
   },
   "exclusive_set": [],

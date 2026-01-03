@@ -20,8 +20,10 @@ import liedge.ltxindustries.registry.game.LTXIMobEffects;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -41,6 +43,7 @@ import net.neoforged.neoforge.event.level.BlockDropsEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
@@ -245,10 +248,15 @@ public final class LTXIEventHandler
     }
 
     @SubscribeEvent
-    public static void onDamageAttributeModifiers(final DamageAttributeModifiersEvent event)
+    public static void onDamageAttributesAndTags(final DamageAttributeModifiersEvent event)
     {
         applyDamageUpgrades(event.getDamageSource(), (level, upgrades) ->
-                upgrades.forEachEffect(LTXIUpgradeEffectComponents.ADD_DAMAGE_ATTRIBUTES, (effect, rank) -> event.addAttributeModifier(effect.attribute(), effect.createModifier(rank))));
+        {
+            List<TagKey<DamageType>> extraTags = upgrades.listEffectStream(LTXIUpgradeEffectComponents.EXTRA_DAMAGE_TAGS).toList();
+            if (!extraTags.isEmpty()) event.getDamageSource().limaCore$addExtraTags(extraTags);
+
+            upgrades.forEachEffect(LTXIUpgradeEffectComponents.ADD_DAMAGE_ATTRIBUTES, (effect, rank) -> event.addAttributeModifier(effect.attribute(), effect.createModifier(rank)));
+        });
     }
 
     @SubscribeEvent
