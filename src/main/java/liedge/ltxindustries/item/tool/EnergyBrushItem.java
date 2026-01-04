@@ -90,7 +90,7 @@ public class EnergyBrushItem extends BaseEnergyToolItem
 
                     if (!level.isClientSide() && level.getBlockEntity(pos) instanceof BrushableBlockEntity brushable && brushable.brush(level.getGameTime(), player, blockHitResult.getDirection()))
                     {
-                        consumeUsageEnergy(player, stack);
+                        consumeEnergyAction(player, stack);
                     }
                 }
             }

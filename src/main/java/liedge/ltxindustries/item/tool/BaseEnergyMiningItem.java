@@ -40,7 +40,7 @@ public abstract class BaseEnergyMiningItem extends BaseEnergyToolItem
 
         if (!level.isClientSide() && state.getDestroySpeed(level, pos) != 0)
         {
-            consumeUsageEnergy(miningEntity, stack);
+            consumeEnergyAction(miningEntity, stack);
         }
 
         return true;

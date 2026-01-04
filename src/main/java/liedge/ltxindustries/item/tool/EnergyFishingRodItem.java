@@ -41,7 +41,7 @@ public class EnergyFishingRodItem extends BaseEnergyToolItem
         {
             if (!level.isClientSide() && player.fishing.retrieve(stack) > 0)
             {
-                consumeUsageEnergy(player, stack);
+                consumeEnergyAction(player, stack);
             }
 
             level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.FISHING_BOBBER_RETRIEVE, SoundSource.NEUTRAL, 1f, 0.4f / (level.getRandom().nextFloat() * 0.4f + 0.8f)); // What is this pitch formula? Simplify?

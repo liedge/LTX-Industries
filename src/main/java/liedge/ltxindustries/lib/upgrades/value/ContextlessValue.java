@@ -3,6 +3,7 @@ package liedge.ltxindustries.lib.upgrades.value;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import liedge.limacore.data.LimaCoreCodecs;
+import liedge.limacore.lib.math.LimaCoreMath;
 import net.minecraft.world.item.enchantment.LevelBasedValue;
 import net.minecraft.world.level.storage.loot.LootContext;
 
@@ -22,6 +23,11 @@ public interface ContextlessValue extends UpgradeValueProvider
     }
 
     double calculate(int upgradeRank);
+
+    default int calculateInt(int upgradeRank)
+    {
+        return LimaCoreMath.round(calculate(upgradeRank));
+    }
 
     @Override
     MapCodec<? extends ContextlessValue> codec();

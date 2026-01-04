@@ -43,6 +43,7 @@ public final class UpgradeValueTypes
         registerContextless("exponential", ExponentialDouble.CODEC);
         registerContextless("contextless_math", MathOperationDouble.CODEC);
         registerContextless("levels_wrapper", LBVWrapper.CODEC);
+        registerContextless("lookup", DoubleLookup.CODEC);
         register("math", MathOperationValue.CODEC);
         register("number_wrapper", NumberProviderWrapper.CODEC);
         register("context_key", ContextKeyValue.CODEC);

@@ -59,7 +59,7 @@ public final class LTXIUpgradeEffectComponents
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<SuppressVibrations>>> SUPPRESS_VIBRATIONS = COMPONENTS.register("suppress_vibrations", () -> UpgradeDataComponentType.createList(SuppressVibrations.CODEC));
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ConditionEffect<ValueOperation>>>> EQUIPMENT_DAMAGE = COMPONENTS.registerConditionalValue("equipment_damage", LootContextParamSets.ENTITY);
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ConditionEffect<ValueOperation>>>> DAMAGE_REDUCTION = COMPONENTS.registerConditionalValue("damage_reduction", UpgradeContexts.UPGRADED_DAMAGE);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ConditionEffect<DamageReduction>>>> DAMAGE_REDUCTION = COMPONENTS.register("damage_reduction", () -> UpgradeDataComponentType.customConditional(DamageReduction.CODEC, UpgradeContexts.UPGRADED_DAMAGE));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ValueOperation>>> MAGAZINE_CAPACITY = COMPONENTS.registerValue("magazine_capacity");
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ValueOperation>>> WEAPON_RANGE = COMPONENTS.registerValue("weapon_range");
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ValueOperation>>> RELOAD_SPEED = COMPONENTS.registerValue("reload_speed");

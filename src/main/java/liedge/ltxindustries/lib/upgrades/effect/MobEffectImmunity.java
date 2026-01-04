@@ -2,6 +2,7 @@ package liedge.ltxindustries.lib.upgrades.effect;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import liedge.ltxindustries.lib.upgrades.value.ContextlessValue;
 import net.minecraft.advancements.critereon.MobEffectsPredicate;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
@@ -15,28 +16,28 @@ import net.minecraft.world.effect.MobEffectInstance;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-public record MobEffectImmunity(HolderSet<MobEffect> effects, Optional<MobEffectsPredicate.MobEffectInstancePredicate> predicate, boolean useEnergy)
+public record MobEffectImmunity(HolderSet<MobEffect> effects, Optional<MobEffectsPredicate.MobEffectInstancePredicate> predicate, ContextlessValue energyActions)
     implements Predicate<MobEffectInstance>
 {
     public static final Codec<MobEffectImmunity> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             RegistryCodecs.homogeneousList(Registries.MOB_EFFECT).fieldOf("effects").forGetter(MobEffectImmunity::effects),
             MobEffectsPredicate.MobEffectInstancePredicate.CODEC.optionalFieldOf("predicate").forGetter(MobEffectImmunity::predicate),
-            Codec.BOOL.optionalFieldOf("use_energy", true).forGetter(MobEffectImmunity::useEnergy))
+            ContextlessValue.CODEC.fieldOf("energy_actions").forGetter(MobEffectImmunity::energyActions))
             .apply(instance, MobEffectImmunity::new));
 
-    public static MobEffectImmunity immuneTo(HolderSet<MobEffect> effects, boolean useEnergy)
+    public static MobEffectImmunity immuneTo(HolderSet<MobEffect> effects, ContextlessValue energyActions)
     {
-        return new MobEffectImmunity(effects, Optional.empty(), useEnergy);
+        return new MobEffectImmunity(effects, Optional.empty(), energyActions);
     }
 
-    public static MobEffectImmunity immuneTo(Holder<MobEffect> effect, boolean useEnergy)
+    public static MobEffectImmunity immuneTo(Holder<MobEffect> effect, ContextlessValue energyActions)
     {
-        return immuneTo(HolderSet.direct(effect), useEnergy);
+        return immuneTo(HolderSet.direct(effect), energyActions);
     }
 
-    public static MobEffectImmunity immuneTo(HolderGetter<MobEffect> holders, TagKey<MobEffect> tagKey, boolean useEnergy)
+    public static MobEffectImmunity immuneTo(HolderGetter<MobEffect> holders, TagKey<MobEffect> tagKey, ContextlessValue energyActions)
     {
-        return immuneTo(holders.getOrThrow(tagKey), useEnergy);
+        return immuneTo(holders.getOrThrow(tagKey), energyActions);
     }
 
     @Override

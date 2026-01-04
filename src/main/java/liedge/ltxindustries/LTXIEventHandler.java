@@ -11,8 +11,10 @@ import liedge.ltxindustries.item.UpgradableEquipmentItem;
 import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.lib.EquipmentDamageModifiers;
 import liedge.ltxindustries.lib.shield.EntityBubbleShield;
+import liedge.ltxindustries.lib.upgrades.EffectRankPair;
 import liedge.ltxindustries.lib.upgrades.UpgradeContexts;
 import liedge.ltxindustries.lib.upgrades.UpgradedEquipmentInUse;
+import liedge.ltxindustries.lib.upgrades.effect.DamageReduction;
 import liedge.ltxindustries.lib.upgrades.effect.EffectTarget;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.ltxindustries.registry.game.LTXIAttachmentTypes;
@@ -152,9 +154,13 @@ public final class LTXIEventHandler
                 ItemStack stack = entity.getItemBySlot(slot);
                 if (!(stack.getItem() instanceof EnergyArmorItem item)) continue;
 
-                boolean blockEffect = item.getUpgrades(stack).listEffectStream(LTXIUpgradeEffectComponents.MOB_EFFECT_IMMUNITY)
-                        .filter(o -> o.test(effectInstance))
-                        .anyMatch(o -> !o.useEnergy() || item.consumeUsageEnergy(entity, stack));
+                boolean blockEffect = item.getUpgrades(stack).effectPairs(LTXIUpgradeEffectComponents.MOB_EFFECT_IMMUNITY)
+                        .filter(o -> o.effect().test(effectInstance))
+                        .anyMatch(pair ->
+                        {
+                            int actions = pair.effect().energyActions().calculateInt(pair.upgradeRank());
+                            return item.consumeEnergyActions(entity, stack, actions);
+                        });
                 if (blockEffect)
                 {
                     event.setResult(MobEffectEvent.Applicable.Result.DO_NOT_APPLY);
@@ -279,11 +285,22 @@ public final class LTXIEventHandler
                 ItemStack stack = hurtEntity.getItemBySlot(slot);
                 if (stack.getItem() instanceof EnergyArmorItem item)
                 {
+                    // Run pre-attack
                     EquipmentUpgrades upgrades = item.getUpgrades(stack);
                     upgrades.applyDamageEntityEffects(LTXIUpgradeEffectComponents.PRE_ATTACK, level, context, EffectTarget.VICTIM, UpgradedEquipmentInUse.create(level, stack, upgrades, slot, hurtEntity));
 
-                    float reduction = (float) upgrades.runConditionalValueOps(LTXIUpgradeEffectComponents.DAMAGE_REDUCTION, context, 0d);
-                    if (reduction > 0 && item.consumeUsageEnergy(hurtEntity, stack)) totalReduction += reduction;
+                    List<EffectRankPair<DamageReduction>> pairs = upgrades.matchingEffectPairs(LTXIUpgradeEffectComponents.DAMAGE_REDUCTION, context).toList();
+                    for (EffectRankPair<DamageReduction> pair : pairs)
+                    {
+                        if (totalReduction >= 1) break;
+
+                        DamageReduction effect = pair.effect();
+
+                        float reduction = (float) effect.amount().calculate(pair.upgradeRank());
+                        int actions = effect.energyActions().calculateInt(pair.upgradeRank());
+
+                        if (item.consumeEnergyActions(hurtEntity, stack, actions)) totalReduction += reduction;
+                    }
                 }
             }
 

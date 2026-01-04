@@ -60,7 +60,7 @@ public class EnergyHoeItem extends ModularEnergyMiningItem
             level.setBlock(pos, state1, Block.UPDATE_ALL_IMMEDIATE);
             level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, state1));
 
-            if (player != null) consumeUsageEnergy(player, stack);
+            if (player != null) consumeEnergyAction(player, stack);
         }
 
         return InteractionResult.sidedSuccess(!level.isClientSide());
@@ -115,7 +115,7 @@ public class EnergyHoeItem extends ModularEnergyMiningItem
                         // Consume energy & play sound only if crop was found
                         if (boostedBlock)
                         {
-                            consumeUsageEnergy(player, stack);
+                            consumeEnergyAction(player, stack);
                             level.playSound(null, origin, SoundEvents.BONE_MEAL_USE, SoundSource.BLOCKS, 1f, 1f);
                         }
                     }

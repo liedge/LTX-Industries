@@ -66,7 +66,7 @@ public class EnergyAxeItem extends ModularEnergyMiningItem
             if (player instanceof ServerPlayer serverPlayer)
             {
                 CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, pos, stack);
-                consumeUsageEnergy(serverPlayer, stack);
+                consumeEnergyAction(serverPlayer, stack);
             }
 
             level.setBlock(pos, state1, Block.UPDATE_ALL_IMMEDIATE);

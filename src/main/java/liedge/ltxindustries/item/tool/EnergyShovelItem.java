@@ -70,7 +70,7 @@ public class EnergyShovelItem extends ModularEnergyMiningItem
             {
                 level.setBlock(pos, state2, Block.UPDATE_ALL_IMMEDIATE);
                 level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, state2));
-                if (player != null) consumeUsageEnergy(player, stack);
+                if (player != null) consumeEnergyAction(player, stack);
             }
 
             return InteractionResult.sidedSuccess(level.isClientSide());

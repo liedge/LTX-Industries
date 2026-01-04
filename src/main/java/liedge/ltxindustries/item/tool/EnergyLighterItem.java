@@ -50,7 +50,7 @@ public class EnergyLighterItem extends BaseEnergyToolItem
                 if (player instanceof ServerPlayer serverPlayer)
                 {
                     CriteriaTriggers.PLACED_BLOCK.trigger(serverPlayer, pos1, stack);
-                    consumeUsageEnergy(serverPlayer, stack);
+                    consumeEnergyAction(serverPlayer, stack);
                 }
 
                 return InteractionResult.sidedSuccess(level.isClientSide());
@@ -66,7 +66,7 @@ public class EnergyLighterItem extends BaseEnergyToolItem
             level.setBlock(pos, state1, Block.UPDATE_ALL_IMMEDIATE);
             level.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
 
-            if (!level.isClientSide() && player != null) consumeUsageEnergy(player, stack);
+            if (!level.isClientSide() && player != null) consumeEnergyAction(player, stack);
 
             return InteractionResult.sidedSuccess(level.isClientSide());
         }

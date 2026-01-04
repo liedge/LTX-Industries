@@ -44,7 +44,7 @@ public class EnergyArmorItem extends EnergyEquipmentItem implements Equipable
     public boolean cancelFallDamage(LivingEntity entity, ItemStack stack, float distance)
     {
         double safeDist = LimaEntityUtil.getAttributeValueSafe(entity, Attributes.SAFE_FALL_DISTANCE);
-        return distance <= safeDist || consumeUsageEnergy(entity, stack);
+        return distance <= safeDist || consumeEnergyAction(entity, stack);
     }
 
     @Override

@@ -81,7 +81,7 @@ public abstract class BaseEnergyToolItem extends EnergyEquipmentItem
     public void postHurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker)
     {
         if (poweredAttackDamage > 0 && !attacker.level().isClientSide())
-            consumeUsageEnergy(attacker, stack);
+            consumeEnergyAction(attacker, stack);
     }
 
     // Tool actions

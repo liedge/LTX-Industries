@@ -40,9 +40,14 @@ public abstract class EnergyEquipmentItem extends Item implements EnergyHolderIt
         return LimaEnergyUtil.consumeEnergy(getOrCreateEnergyStorage(stack), toExtract, true);
     }
 
-    public boolean consumeUsageEnergy(LivingEntity entity, ItemStack stack)
+    public boolean consumeEnergyActions(LivingEntity entity, ItemStack stack, int actions)
     {
-        return consumeEnergy(entity, stack, getEnergyUsage(stack));
+        return actions <= 0 || consumeEnergy(entity, stack, getEnergyUsage(stack) * actions);
+    }
+
+    public boolean consumeEnergyAction(LivingEntity entity, ItemStack stack)
+    {
+        return consumeEnergyActions(entity, stack, 1);
     }
 
     @Override
