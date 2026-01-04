@@ -37,17 +37,15 @@
             "weight": 15
           },
           "dynamic_weight": {
-            "type": "limacore:level_based",
-            "formula": {
+            "type": "limacore:entity_enchantment_value",
+            "amount": {
               "type": "minecraft:linear",
               "base": 6.0,
               "per_level_above_first": 6.0
             },
-            "input": {
-              "type": "limacore:entity_enchantment_level",
-              "enchantment": "ltxi:ammo_scavenger",
-              "target": "attacker"
-            }
+            "enchantment": "ltxi:ammo_scavenger",
+            "target": "attacker",
+            "unenchanted": 0.0
           },
           "replace_weight": false
         },
@@ -59,17 +57,15 @@
             "weight": 5
           },
           "dynamic_weight": {
-            "type": "limacore:level_based",
-            "formula": {
+            "type": "limacore:entity_enchantment_value",
+            "amount": {
               "type": "minecraft:linear",
               "base": 3.0,
               "per_level_above_first": 3.0
             },
-            "input": {
-              "type": "limacore:entity_enchantment_level",
-              "enchantment": "ltxi:ammo_scavenger",
-              "target": "attacker"
-            }
+            "enchantment": "ltxi:ammo_scavenger",
+            "target": "attacker",
+            "unenchanted": 0.0
           },
           "replace_weight": false
         },
@@ -80,17 +76,15 @@
             "name": "ltxi:heavy_weapon_energy"
           },
           "dynamic_weight": {
-            "type": "limacore:level_based",
-            "formula": {
+            "type": "limacore:entity_enchantment_value",
+            "amount": {
               "type": "minecraft:linear",
               "base": 2.0,
               "per_level_above_first": 2.0
             },
-            "input": {
-              "type": "limacore:entity_enchantment_level",
-              "enchantment": "ltxi:ammo_scavenger",
-              "target": "attacker"
-            }
+            "enchantment": "ltxi:ammo_scavenger",
+            "target": "attacker",
+            "unenchanted": 0.0
           },
           "replace_weight": false
         }
@@ -98,10 +92,9 @@
       "rolls": {
         "type": "limacore:rounding",
         "child": {
-          "type": "limacore:level_based",
-          "formula": {
+          "type": "limacore:entity_enchantment_value",
+          "amount": {
             "type": "limacore:ranged_lookup",
-            "default_below": 1.0,
             "values": [
               1.2,
               1.4,
@@ -110,11 +103,9 @@
               2.0
             ]
           },
-          "input": {
-            "type": "limacore:entity_enchantment_level",
-            "enchantment": "ltxi:ammo_scavenger",
-            "target": "attacker"
-          }
+          "enchantment": "ltxi:ammo_scavenger",
+          "target": "attacker",
+          "unenchanted": 1.0
         },
         "mode": "random"
       }
