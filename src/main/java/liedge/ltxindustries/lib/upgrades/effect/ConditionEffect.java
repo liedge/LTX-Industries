@@ -2,6 +2,7 @@ package liedge.ltxindustries.lib.upgrades.effect;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import liedge.limacore.util.LimaLootUtil;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 
@@ -11,9 +12,7 @@ public record ConditionEffect<T>(T effect, Optional<LootItemCondition> condition
 {
     public static <T> Codec<ConditionEffect<T>> codec(Codec<T> effectCodec, LootContextParamSet params)
     {
-        return RecordCodecBuilder.create(instance -> instance.group(
-                effectCodec.fieldOf("effect").forGetter(ConditionEffect::effect),
-                EffectConditionHolder.conditionCodec(params).optionalFieldOf("requirements").forGetter(ConditionEffect::condition))
-                .apply(instance, ConditionEffect::new));
+        Codec<ConditionEffect<T>> direct = RecordCodecBuilder.create(instance -> EffectConditionHolder.codecFields(instance, effectCodec).apply(instance, ConditionEffect::new));
+        return LimaLootUtil.contextUserCodec(direct, params, "conditional upgrade effect");
     }
 }
