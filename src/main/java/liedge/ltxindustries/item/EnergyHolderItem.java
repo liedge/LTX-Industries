@@ -25,11 +25,6 @@ public interface EnergyHolderItem extends ItemLike
 
     int getBaseEnergyTransferRate(ItemStack stack);
 
-    default int getBaseEnergyUsage(ItemStack stack)
-    {
-        return 0;
-    }
-
     default int getEnergyStored(ItemStack stack)
     {
         return stack.getOrDefault(ENERGY, 0);
@@ -43,11 +38,6 @@ public interface EnergyHolderItem extends ItemLike
     default int getEnergyTransferRate(ItemStack stack)
     {
         return stack.getOrDefault(ENERGY_TRANSFER_RATE, getBaseEnergyTransferRate(stack));
-    }
-
-    default int getEnergyUsage(ItemStack stack)
-    {
-        return stack.getOrDefault(ENERGY_USAGE, getBaseEnergyUsage(stack));
     }
 
     default float getChargePercentage(ItemStack stack)
@@ -64,12 +54,6 @@ public interface EnergyHolderItem extends ItemLike
     default IEnergyStorage getOrCreateEnergyStorage(ItemStack stack)
     {
         return LimaComponentEnergyStorage.createFromItem(stack, getBaseEnergyCapacity(stack), getBaseEnergyTransferRate(stack));
-    }
-
-    default void appendEquipmentEnergyTooltip(TooltipLineConsumer consumer, ItemStack stack)
-    {
-        LTXITooltipUtil.appendEnergyWithCapacityTooltip(consumer, getEnergyStored(stack), getEnergyCapacity(stack));
-        LTXITooltipUtil.appendEnergyUsageTooltip(consumer, getEnergyUsage(stack));
     }
 
     default void appendStorageEnergyTooltip(TooltipLineConsumer consumer, ItemStack stack)

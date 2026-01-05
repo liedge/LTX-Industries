@@ -2,6 +2,7 @@ package liedge.ltxindustries.lib.upgrades.effect;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import liedge.ltxindustries.lib.upgrades.UpgradedEquipmentInUse;
 import liedge.ltxindustries.lib.upgrades.value.ContextlessValue;
 import net.minecraft.advancements.critereon.MobEffectsPredicate;
 import net.minecraft.core.Holder;
@@ -44,5 +45,10 @@ public record MobEffectImmunity(HolderSet<MobEffect> effects, Optional<MobEffect
     public boolean test(MobEffectInstance effectInstance)
     {
         return effects.contains(effectInstance.getEffect()) && (predicate.isEmpty() || predicate.get().matches(effectInstance));
+    }
+
+    public boolean blockEffect(MobEffectInstance effectInstance, int upgradeRank, UpgradedEquipmentInUse equipmentInUse)
+    {
+        return test(effectInstance) && equipmentInUse.useEnergyActions(energyActions.calculateInt(upgradeRank));
     }
 }

@@ -1,5 +1,7 @@
 package liedge.ltxindustries.util;
 
+import liedge.limacore.util.LimaCoreUtil;
+import liedge.ltxindustries.entity.TargetPredicate;
 import liedge.ltxindustries.entity.damage.UpgradesAwareDamageSource;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
 import liedge.ltxindustries.lib.upgrades.UpgradedEquipmentInUse;
@@ -20,23 +22,22 @@ public final class LTXIUpgradeUtil
 
     public static final EquipmentSlot[] ARMOR_SLOTS = new EquipmentSlot[]{EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET};
 
-    public static void iterateEquipmentUpgrades(LivingEntity sourceEntity, EquipmentSlot[] slots, UpgradeContainerSlotVisitor visitor)
+    public static void iterateEquipmentSlots(ServerLevel level, LivingEntity sourceEntity, EquipmentSlot[] slots, EquipmentSlotVisitor visitor)
     {
-        if (sourceEntity.level() instanceof ServerLevel level)
+        for (EquipmentSlot slot : slots)
         {
-            for (EquipmentSlot slot : slots)
+            ItemStack stack = sourceEntity.getItemBySlot(slot);
+            if (stack.getItem() instanceof UpgradableEquipmentItem equipmentItem && equipmentItem.isInCorrectSlot(slot))
             {
-                ItemStack stack = sourceEntity.getItemBySlot(slot);
-                if (stack.getItem() instanceof UpgradableEquipmentItem item)
-                {
-                    EquipmentUpgrades upgrades = item.getUpgrades(stack);
-                    visitor.accept(level, upgrades, stack, slot, sourceEntity);
-                }
+                EquipmentUpgrades upgrades = equipmentItem.getUpgrades(stack);
+                UpgradedEquipmentInUse equipmentInUse = new UpgradedEquipmentInUse(upgrades, stack, equipmentItem, slot, sourceEntity, TargetPredicate.create(level, upgrades));
+
+                visitor.accept(upgrades, equipmentInUse);
             }
         }
     }
 
-    public static void iterateDamageUpgrades(DamageSource source, UpgradeContainerSlotVisitor visitor)
+    public static void iterateDamageUpgrades(DamageSource source, DamageUpgradesVisitor visitor)
     {
         if (source.getEntity() instanceof LivingEntity attacker && attacker.level() instanceof ServerLevel level)
         {
@@ -44,30 +45,39 @@ public final class LTXIUpgradeUtil
             {
                 if (!upgradesAwareSource.canApplyEffects()) return;
 
-                ItemStack stack = Objects.requireNonNullElse(upgradesAwareSource.getWeaponItem(), ItemStack.EMPTY);
                 UpgradesContainerBase<?, ?> upgrades = upgradesAwareSource.getUpgrades();
-                EquipmentSlot slot = stack.isEmpty() ? null : EquipmentSlot.MAINHAND;
+                ItemStack stack = Objects.requireNonNullElse(upgradesAwareSource.getWeaponItem(), ItemStack.EMPTY);
+                UpgradableEquipmentItem equipmentItem = LimaCoreUtil.castOrNull(UpgradableEquipmentItem.class, stack.getItem());
+                EquipmentSlot slot = equipmentItem != null ? EquipmentSlot.MAINHAND : null;
 
-                visitor.accept(level, upgrades, stack, slot, attacker);
+                visitor.accept(level, upgrades, stack, equipmentItem, slot, attacker);
             }
             else if (attacker == source.getDirectEntity())
             {
                 ItemStack stack = attacker.getMainHandItem();
-                EquipmentUpgrades upgrades = UpgradableEquipmentItem.getEquipmentUpgradesFromStack(stack);
-
-                visitor.accept(level, upgrades, stack, EquipmentSlot.MAINHAND, attacker);
+                if (stack.getItem() instanceof UpgradableEquipmentItem equipmentItem)
+                {
+                    EquipmentUpgrades upgrades = equipmentItem.getUpgrades(stack);
+                    visitor.accept(level, upgrades, stack, equipmentItem, EquipmentSlot.MAINHAND, attacker);
+                }
             }
         }
     }
 
     @FunctionalInterface
-    public interface UpgradeContainerSlotVisitor
+    public interface EquipmentSlotVisitor
+    {
+        void accept(UpgradesContainerBase<?, ?> upgrades, UpgradedEquipmentInUse equipmentInUse);
+    }
+
+    @FunctionalInterface
+    public interface DamageUpgradesVisitor
     {
         void accept(ServerLevel level, UpgradesContainerBase<?, ?> upgrades, UpgradedEquipmentInUse equipmentInUse);
 
-        default void accept(ServerLevel level, UpgradesContainerBase<?, ?> upgrades, ItemStack stack, @Nullable EquipmentSlot slot, @Nullable LivingEntity owner)
+        default void accept(ServerLevel level, UpgradesContainerBase<?, ?> upgrades, ItemStack stack, @Nullable UpgradableEquipmentItem item, @Nullable EquipmentSlot slot, LivingEntity attacker)
         {
-            accept(level, upgrades, UpgradedEquipmentInUse.create(level, stack, upgrades, slot, owner));
+            accept(level, upgrades, UpgradedEquipmentInUse.create(level, upgrades, stack, item, slot, attacker));
         }
     }
 }

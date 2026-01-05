@@ -1,6 +1,5 @@
 package liedge.ltxindustries.item;
 
-import liedge.limacore.capability.energy.LimaEnergyUtil;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.item.LimaCreativeTabFillerItem;
 import liedge.limacore.lib.math.LimaCoreMath;
@@ -11,8 +10,6 @@ import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -22,32 +19,11 @@ import net.minecraft.world.level.storage.loot.LootContext;
 import java.util.List;
 import java.util.function.Supplier;
 
-public abstract class EnergyEquipmentItem extends Item implements EnergyHolderItem, UpgradableEquipmentItem, TooltipShiftHintItem, LimaCreativeTabFillerItem
+public abstract class EnergyEquipmentItem extends Item implements UpgradableEquipmentItem, TooltipShiftHintItem, LimaCreativeTabFillerItem
 {
     protected EnergyEquipmentItem(Properties properties)
     {
         super(properties);
-    }
-
-    public boolean hasEnergyForAction(ItemStack stack)
-    {
-        return getEnergyStored(stack) >= getEnergyUsage(stack);
-    }
-
-    public boolean consumeEnergy(LivingEntity entity, ItemStack stack, int toExtract)
-    {
-        if (entity instanceof Player player && player.isCreative()) return true;
-        return LimaEnergyUtil.consumeEnergy(getOrCreateEnergyStorage(stack), toExtract, true);
-    }
-
-    public boolean consumeEnergyActions(LivingEntity entity, ItemStack stack, int actions)
-    {
-        return actions <= 0 || consumeEnergy(entity, stack, getEnergyUsage(stack) * actions);
-    }
-
-    public boolean consumeEnergyAction(LivingEntity entity, ItemStack stack)
-    {
-        return consumeEnergyActions(entity, stack, 1);
     }
 
     @Override

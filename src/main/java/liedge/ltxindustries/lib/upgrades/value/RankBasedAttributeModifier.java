@@ -4,8 +4,10 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.Util;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.enchantment.LevelBasedValue;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
 
@@ -32,8 +34,12 @@ public final class RankBasedAttributeModifier
         this.memoizedModifiers = Util.memoize(rank -> new AttributeModifier(id, amount.calculate(rank), operation));
     }
 
-    public AttributeModifier get(int upgradeRank)
+    public AttributeModifier get(int upgradeRank, @Nullable EquipmentSlot slot)
     {
-        return memoizedModifiers.apply(upgradeRank);
+        AttributeModifier modifier = memoizedModifiers.apply(upgradeRank);
+        if (slot == null) return modifier;
+
+        ResourceLocation prefixedID = id.withPrefix(slot.getSerializedName() + "/");
+        return new AttributeModifier(prefixedID, amount.calculate(upgradeRank), operation);
     }
 }

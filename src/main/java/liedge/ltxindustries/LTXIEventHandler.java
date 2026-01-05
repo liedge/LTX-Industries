@@ -11,10 +11,7 @@ import liedge.ltxindustries.item.UpgradableEquipmentItem;
 import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.lib.EquipmentDamageModifiers;
 import liedge.ltxindustries.lib.shield.EntityBubbleShield;
-import liedge.ltxindustries.lib.upgrades.EffectRankPair;
 import liedge.ltxindustries.lib.upgrades.UpgradeContexts;
-import liedge.ltxindustries.lib.upgrades.UpgradedEquipmentInUse;
-import liedge.ltxindustries.lib.upgrades.effect.DamageReduction;
 import liedge.ltxindustries.lib.upgrades.effect.EffectTarget;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.ltxindustries.registry.game.LTXIAttachmentTypes;
@@ -107,12 +104,12 @@ public final class LTXIEventHandler
         player.getData(LTXIAttachmentTypes.INPUT_EXTENSIONS).tickInput(player, heldItem, weaponItem);
 
         // Shield & equipment tick
-        if (player.level() instanceof ServerLevel serverLevel)
+        if (player.level() instanceof ServerLevel level)
         {
             player.getData(LTXIAttachmentTypes.PLAYER_SHIELD).tick(player);
 
-            LootContext tickContext = UpgradeContexts.entityContext(serverLevel, player);
-            LTXIUpgradeUtil.iterateEquipmentUpgrades(player, EquipmentSlot.values(), (level, upgrades, equipmentInUse) ->
+            LootContext tickContext = UpgradeContexts.entityContext(level, player);
+            LTXIUpgradeUtil.iterateEquipmentSlots(level, player, EquipmentSlot.values(), (upgrades, equipmentInUse) ->
                     upgrades.tickEquipment(level, tickContext, player, equipmentInUse));
         }
     }
@@ -149,24 +146,15 @@ public final class LTXIEventHandler
             LivingEntity entity = event.getEntity();
 
             // Armor immunity block
-            for (EquipmentSlot slot : LTXIUpgradeUtil.ARMOR_SLOTS)
+            LTXIUpgradeUtil.iterateEquipmentSlots((ServerLevel) entity.level(), entity, LTXIUpgradeUtil.ARMOR_SLOTS, (upgrades, equipmentInUse) ->
             {
-                ItemStack stack = entity.getItemBySlot(slot);
-                if (!(stack.getItem() instanceof EnergyArmorItem item)) continue;
-
-                boolean blockEffect = item.getUpgrades(stack).effectPairs(LTXIUpgradeEffectComponents.MOB_EFFECT_IMMUNITY)
-                        .filter(o -> o.effect().test(effectInstance))
-                        .anyMatch(pair ->
-                        {
-                            int actions = pair.effect().energyActions().calculateInt(pair.upgradeRank());
-                            return item.consumeEnergyActions(entity, stack, actions);
-                        });
-                if (blockEffect)
+                if (event.getApplicationResult())
                 {
-                    event.setResult(MobEffectEvent.Applicable.Result.DO_NOT_APPLY);
-                    return;
+                    boolean blocked = upgrades.effectPairs(LTXIUpgradeEffectComponents.MOB_EFFECT_IMMUNITY)
+                            .anyMatch(pair -> pair.effect().blockEffect(effectInstance, pair.upgradeRank(), equipmentInUse));
+                    if (blocked) event.setResult(MobEffectEvent.Applicable.Result.DO_NOT_APPLY);
                 }
-            }
+            });
 
             // Bubble shield block
             EntityBubbleShield shield = entity.getCapability(LTXICapabilities.ENTITY_BUBBLE_SHIELD);
@@ -274,38 +262,25 @@ public final class LTXIEventHandler
             event.setAmount(newDamage);
             if (newDamage <= 0) event.setCanceled(true);
         }
+    }
 
-        if (!event.isCanceled())
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onPreLivingDamage(final LivingDamageEvent.Pre event)
+    {
+        LivingEntity hurtEntity = event.getEntity();
+        if (hurtEntity.level() instanceof ServerLevel level && event.getNewDamage() > 0f)
         {
-            LootContext context = UpgradeContexts.damageContext(level, hurtEntity, event.getSource(), event.getAmount());
-            float totalReduction = 0f;
+            LootContext context = UpgradeContexts.damageContext(level, hurtEntity, event.getSource(), event.getNewDamage());
+            float[] reduction = new float[]{0f};
 
-            for (EquipmentSlot slot : LTXIUpgradeUtil.ARMOR_SLOTS)
+            LTXIUpgradeUtil.iterateEquipmentSlots(level, hurtEntity, LTXIUpgradeUtil.ARMOR_SLOTS, (upgrades, equipmentInUse) ->
             {
-                ItemStack stack = hurtEntity.getItemBySlot(slot);
-                if (stack.getItem() instanceof EnergyArmorItem item)
-                {
-                    // Run pre-attack
-                    EquipmentUpgrades upgrades = item.getUpgrades(stack);
-                    upgrades.applyDamageEntityEffects(LTXIUpgradeEffectComponents.PRE_ATTACK, level, context, EffectTarget.VICTIM, UpgradedEquipmentInUse.create(level, stack, upgrades, slot, hurtEntity));
+                upgrades.applyDamageEntityEffects(LTXIUpgradeEffectComponents.PRE_ATTACK, level, context, EffectTarget.VICTIM, equipmentInUse);
+                if (reduction[0] < 1) reduction[0] += upgrades.applyDamageReduction(context, equipmentInUse);
+            });
 
-                    List<EffectRankPair<DamageReduction>> pairs = upgrades.matchingEffectPairs(LTXIUpgradeEffectComponents.DAMAGE_REDUCTION, context).toList();
-                    for (EffectRankPair<DamageReduction> pair : pairs)
-                    {
-                        if (totalReduction >= 1) break;
-
-                        DamageReduction effect = pair.effect();
-
-                        float reduction = (float) effect.amount().calculate(pair.upgradeRank());
-                        int actions = effect.energyActions().calculateInt(pair.upgradeRank());
-
-                        if (item.consumeEnergyActions(hurtEntity, stack, actions)) totalReduction += reduction;
-                    }
-                }
-            }
-
-            float newDamage = event.getAmount() - (event.getAmount() * Mth.clamp(totalReduction, 0f, 1f));
-            event.setAmount(newDamage);
+            float newDamage = event.getNewDamage() - (event.getNewDamage() * Mth.clamp(reduction[0], 0f, 1f));
+            event.setNewDamage(newDamage);
         }
     }
 

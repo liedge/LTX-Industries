@@ -2,6 +2,7 @@ package liedge.ltxindustries.lib.upgrades.effect;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import liedge.ltxindustries.lib.upgrades.UpgradedEquipmentInUse;
 import liedge.ltxindustries.lib.upgrades.value.ContextlessValue;
 
 public record DamageReduction(ContextlessValue amount, ContextlessValue energyActions)
@@ -14,5 +15,13 @@ public record DamageReduction(ContextlessValue amount, ContextlessValue energyAc
     public static DamageReduction blockDamage(ContextlessValue amount, ContextlessValue energyActions)
     {
         return new DamageReduction(amount, energyActions);
+    }
+
+    public float apply(int upgradeRank, UpgradedEquipmentInUse equipmentInUse)
+    {
+        float reduction = (float) amount.calculate(upgradeRank);
+        int actions = energyActions.calculateInt(upgradeRank);
+
+        return equipmentInUse.useEnergyActions(actions) ? reduction : 0;
     }
 }

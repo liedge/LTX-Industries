@@ -8,11 +8,13 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
 
@@ -33,14 +35,14 @@ public interface AttributeModifierUpgradeEffect extends UpgradeTooltipsProvider
 
     MutableComponent tooltipPrefix();
 
-    default AttributeModifier createModifier(int rank)
+    default AttributeModifier createModifier(int upgradeRank)
     {
-        return modifier().get(rank);
+        return modifier().get(upgradeRank, null);
     }
 
-    default ItemAttributeModifiers.Entry createModifierEntry(int rank)
+    default ItemAttributeModifiers.Entry createItemModifier(int upgradeRank, @Nullable EquipmentSlot slot)
     {
-        return new ItemAttributeModifiers.Entry(attribute(), createModifier(rank), slots());
+        return new ItemAttributeModifiers.Entry(attribute(), modifier().get(upgradeRank, slot), slots());
     }
 
     @Override

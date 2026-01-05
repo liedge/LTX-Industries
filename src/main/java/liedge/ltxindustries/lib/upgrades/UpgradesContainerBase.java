@@ -249,6 +249,29 @@ public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
         applyDamageEntityEffects(typeSupplier.get(), level, context, source, equipmentInUse);
     }
 
+    public float applyDamageReduction(LootContext context, UpgradedEquipmentInUse equipmentInUse)
+    {
+        float pieceTotal = 0f;
+
+        for (var entry : internalMap.object2IntEntrySet())
+        {
+            List<ConditionEffect<DamageReduction>> effects = entry.getKey().value().getListEffect(LTXIUpgradeEffectComponents.DAMAGE_REDUCTION);
+            int rank = entry.getIntValue();
+
+            for (ConditionEffect<DamageReduction> data : effects)
+            {
+                if (data.test(context)) pieceTotal += data.effect().apply(rank, equipmentInUse);
+
+                if (pieceTotal >= 1f)
+                {
+                    return 1f;
+                }
+            }
+        }
+
+        return pieceTotal;
+    }
+
     public void tickEquipment(ServerLevel level, LootContext context, Entity entity, UpgradedEquipmentInUse equipmentInUse)
     {
         forEachConditionalEffect(LTXIUpgradeEffectComponents.EQUIPMENT_TICK, context, (effect, rank) ->

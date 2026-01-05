@@ -24,6 +24,7 @@ import net.minecraft.resources.ResourceKey;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public interface UpgradeBase<CTX, U extends UpgradeBase<CTX, U>>
 {
@@ -93,6 +94,11 @@ public interface UpgradeBase<CTX, U extends UpgradeBase<CTX, U>>
     default <T> List<T> getListEffect(DataComponentType<List<T>> type)
     {
         return effects().getOrDefault(type, List.of());
+    }
+
+    default <T> List<T> getListEffect(Supplier<? extends DataComponentType<List<T>>> typeSupplier)
+    {
+        return getListEffect(typeSupplier.get());
     }
 
     @FunctionalInterface
