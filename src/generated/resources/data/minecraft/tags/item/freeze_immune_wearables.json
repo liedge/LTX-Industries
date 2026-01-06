@@ -1,8 +1,5 @@
 {
   "values": [
-    "ltxi:wonderland_head",
-    "ltxi:wonderland_body",
-    "ltxi:wonderland_legs",
-    "ltxi:wonderland_feet"
+    "#ltxi:wonderland_armor"
   ]
 }

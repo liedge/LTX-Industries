@@ -61,6 +61,7 @@ final class LTXIDatagen
         generator.addProvider(runServer, new EquipmentUpgradesTagsGen(output, patchedRegistries, helper));
         generator.addProvider(runServer, new FluidTagsGen(output, patchedRegistries, helper));
         generator.addProvider(runServer, new MachineUpgradesTagsGen(output, patchedRegistries, helper));
+        generator.addProvider(runServer, new MobEffectTagsGen(output, patchedRegistries, helper));
         generator.addProvider(runServer, new LootTablesGen(output, patchedRegistries));
         generator.addProvider(runServer, new LootModifiersGen(output, patchedRegistries));
         generator.addProvider(runServer, new RecipesGen(output, patchedRegistries));

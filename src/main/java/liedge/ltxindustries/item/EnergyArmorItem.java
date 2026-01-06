@@ -2,7 +2,10 @@ package liedge.ltxindustries.item;
 
 import liedge.limacore.util.LimaEntityUtil;
 import liedge.ltxindustries.LTXIndustries;
+import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
+import liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades;
 import liedge.ltxindustries.util.config.LTXIServerConfig;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -16,6 +19,7 @@ import net.minecraft.world.item.Equipable;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.Nullable;
 
 public class EnergyArmorItem extends EnergyEquipmentItem implements Equipable
 {
@@ -45,6 +49,19 @@ public class EnergyArmorItem extends EnergyEquipmentItem implements Equipable
     {
         double safeDist = LimaEntityUtil.getAttributeValueSafe(entity, Attributes.SAFE_FALL_DISTANCE);
         return distance <= safeDist || consumeEnergyAction(entity, stack);
+    }
+
+    @Override
+    public @Nullable ResourceKey<EquipmentUpgrade> getDefaultUpgradeKey()
+    {
+        return switch (equipmentSlot)
+        {
+            case HEAD -> LTXIEquipmentUpgrades.HEAD_DEFAULT;
+            case CHEST -> LTXIEquipmentUpgrades.BODY_DEFAULT;
+            case LEGS -> LTXIEquipmentUpgrades.LEGS_DEFAULT;
+            case FEET -> LTXIEquipmentUpgrades.FEET_DEFAULT;
+            default -> null;
+        };
     }
 
     @Override

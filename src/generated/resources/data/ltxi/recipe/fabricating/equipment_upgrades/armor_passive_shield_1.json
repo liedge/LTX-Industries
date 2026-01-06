@@ -1,0 +1,32 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 5000000,
+  "group": "eum/armor",
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "ltxi:empty_upgrade_module"
+    },
+    {
+      "count": 2,
+      "item": "ltxi:t3_circuit"
+    },
+    {
+      "count": 4,
+      "item": "ltxi:titanium_ingot"
+    },
+    {
+      "count": 8,
+      "item": "ltxi:electric_chemical"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:equipment_upgrade": {
+        "upgrade": "ltxi:armor_passive_shield"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:equipment_upgrade_module"
+  }
+}

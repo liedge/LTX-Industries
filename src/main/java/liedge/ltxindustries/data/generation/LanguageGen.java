@@ -218,6 +218,13 @@ class LanguageGen extends LimaLanguageProvider
         upgradeTooltip(LTXIEquipmentUpgrades.LFR_DEFAULT, 0, "%s bonus damage when at least 40m away from target");
         upgradeTooltip(LTXIEquipmentUpgrades.LFR_DEFAULT, 1, "%s bonus damage when standing still and sneaking");
         upgrade(LTXIEquipmentUpgrades.HEAVY_PISTOL_DEFAULT, "Nova Intrinsics", "Nova's lightfrags can knock away even the heaviest targets.");
+        upgrade(LTXIEquipmentUpgrades.HEAD_DEFAULT, "AL/1C [H] Unit", "Neural processor core of the AL/1C bodysuit.");
+        upgradeTooltip(LTXIEquipmentUpgrades.HEAD_DEFAULT, 0, "Blocks vision debuff effects (%s)");
+        upgrade(LTXIEquipmentUpgrades.BODY_DEFAULT, "AL/1C [B] Unit", "Vital function management system of the AL/1C bodysuit.");
+        upgrade(LTXIEquipmentUpgrades.LEGS_DEFAULT, "AL/1C [L] Unit", "Primary locomotion systems of the AL/1C bodysuit.");
+        upgradeTooltip(LTXIEquipmentUpgrades.LEGS_DEFAULT, 0, "Blocks movement debuff effects (%s)");
+        upgrade(LTXIEquipmentUpgrades.FEET_DEFAULT, "AL/1C [F] Unit", "Bipedal stabilization systems of the AL/1C bodysuit.");
+        upgradeTooltip(LTXIEquipmentUpgrades.FEET_DEFAULT, 0, "Immune to hot floor damage.");
 
         upgrade(LTXIEquipmentUpgrades.TOOL_ENERGY_UPGRADE, "Augmented ε Battery", "Maximize your ε-Series tool's field uptime with this enhanced battery.");
         upgrade(LTXIEquipmentUpgrades.EPSILON_FISHING_LURE, "ε Anglers' Kit", "Upgraded lure for the ε-Series fishing rod. Attracts more valuable aquatic specimens faster than regular bait.");
@@ -240,6 +247,10 @@ class LanguageGen extends LimaLanguageProvider
         upgrade(LTXIEquipmentUpgrades.HEAVY_PISTOL_GOD_ROUNDS, "Stellar Reality Disruptor", "Rip through reality itself with this Nova upgrade. Ensures swift defeat of even the strongest enemies.");
         upgrade(LTXIEquipmentUpgrades.UNIVERSAL_STEALTH_DAMAGE, "Biometric Obfuscation", "Traceable identity masking tech derived from ephemeral materials. May not confuse a more discerning target.");
         upgradeTooltip(LTXIEquipmentUpgrades.UNIVERSAL_STEALTH_DAMAGE, 0, "No anger on damage");
+        upgrade(LTXIEquipmentUpgrades.GRENADE_LAUNCHER_PROJECTILE_SPEED, "Hanabi Launch Boost", "Increases the velocity of the Hanabi grenades.");
+
+        upgrade(LTXIEquipmentUpgrades.HEAD_NIGHT_VISION, "NV Visor", "AL/1C optics modified to work in low light environments.");
+        upgrade(LTXIEquipmentUpgrades.ARMOR_PASSIVE_SHIELD, "Bubble Projection Unit", "Upgrades AL/1C with auto-recharging Bubble Shield engines. Can be installed on all pieces.");
 
         upgrade(LTXIEquipmentUpgrades.EFFICIENCY_ENCHANTMENT, "Overclocked Energy Cutters", "Enhances the power feed to the tool's energy cutter.");
         upgrade(LTXIEquipmentUpgrades.SILK_TOUCH_ENCHANTMENT, "Stabilized Harvest Matrix", "Calibrated to extract intact samples from the terrain.");
@@ -247,8 +258,6 @@ class LanguageGen extends LimaLanguageProvider
         upgrade(LTXIEquipmentUpgrades.LOOTING_ENCHANTMENT, "Combat Yield Protocol", "Calibrated to maximize structural integrity of salvageable biomaterials.");
         upgrade(LTXIEquipmentUpgrades.AMMO_SCAVENGER_ENCHANTMENT, "Munition Trace Unit", "Improves detection of high-grade LTX ammunition in the field.");
         upgrade(LTXIEquipmentUpgrades.RAZOR_ENCHANTMENT, "Severance Algorithm", "Weapon calibration enables the retrieval of anatomical curiosities.");
-
-        upgrade(LTXIEquipmentUpgrades.GRENADE_LAUNCHER_PROJECTILE_SPEED, "Hanabi Launch Boost", "Increases the velocity of the Hanabi grenades.");
 
         upgrade(LTXIEquipmentUpgrades.FLAME_GRENADE_CORE, "Hanabi Core/Flame", "Grenades are loaded with a concentrated fuel that creates powerful flames.");
         upgrade(LTXIEquipmentUpgrades.CRYO_GRENADE_CORE, "Hanabi Core/Cryo", "Grenades contain a cryogenic compound that freezes a large area.");
@@ -385,6 +394,7 @@ class LanguageGen extends LimaLanguageProvider
         add(ENERGY_CAPACITY_UPGRADE, "%s energy capacity");
         add(ENERGY_TRANSFER_UPGRADE, "%s energy transfer rate");
         add(ENERGY_USAGE_UPGRADE, "%s energy usage");
+        add(ENERGY_ACTIONS_COMPONENT, "%s energy actions");
         add(PARALLEL_OPERATIONS_UPGRADE, "%s operations per cycle");
         add(MACHINE_SPEED_UPGRADE, "%s machine speed");
         add(ENERGY_PER_RECIPE_UPGRADE, "Avg. energy per recipe: %s");

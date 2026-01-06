@@ -1,0 +1,34 @@
+{
+  "display": {
+    "category": "armor",
+    "description": {
+      "translate": "equipment_upgrade.ltxi.night_vision.desc"
+    },
+    "icon": "ltxi:blue_visor",
+    "title": {
+      "translate": "equipment_upgrade.ltxi.night_vision"
+    }
+  },
+  "effects": {
+    "ltxi:tick": [
+      {
+        "effect": {
+          "type": "ltxi:apply_effect",
+          "ambient": true,
+          "duration": 400.0,
+          "effect": "minecraft:night_vision",
+          "visible": false
+        },
+        "requirements": {
+          "condition": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "periodic_tick": 60
+          }
+        }
+      }
+    ]
+  },
+  "exclusive_set": [],
+  "supported_set": "ltxi:wonderland_head"
+}

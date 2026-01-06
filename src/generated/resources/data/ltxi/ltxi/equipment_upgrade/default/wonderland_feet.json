@@ -1,0 +1,70 @@
+{
+  "display": {
+    "category": "default/armor/4",
+    "description": {
+      "translate": "equipment_upgrade.ltxi.default.wonderland_feet.desc"
+    },
+    "icon": {
+      "type": "overlay",
+      "background": {
+        "id": "ltxi:wonderland_feet"
+      },
+      "height": 7,
+      "overlay": "ltxi:default_overlay",
+      "width": 7,
+      "x_offset": 8,
+      "y_offset": 8
+    },
+    "title": {
+      "translate": "equipment_upgrade.ltxi.default.wonderland_feet"
+    },
+    "tooltips": [
+      {
+        "type": "static",
+        "tooltip": {
+          "translate": "equipment_upgrade.ltxi.default.wonderland_feet.tooltip0"
+        }
+      }
+    ]
+  },
+  "effects": {
+    "ltxi:add_item_attributes": [
+      {
+        "attribute": "minecraft:generic.step_height",
+        "modifier": {
+          "amount": 1.0,
+          "id": "ltxi:default/wonderland_feet.step_boost",
+          "operation": "add_value"
+        },
+        "slots": "feet"
+      },
+      {
+        "attribute": "minecraft:generic.safe_fall_distance",
+        "modifier": {
+          "amount": 5.0,
+          "id": "ltxi:default/wonderland_feet.safe_fall",
+          "operation": "add_value"
+        },
+        "slots": "feet"
+      }
+    ],
+    "ltxi:damage_immunity": [
+      {
+        "effect": {},
+        "requirements": {
+          "condition": "minecraft:damage_source_properties",
+          "predicate": {
+            "tags": [
+              {
+                "expected": true,
+                "id": "minecraft:burn_from_stepping"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "exclusive_set": [],
+  "supported_set": "ltxi:wonderland_feet"
+}

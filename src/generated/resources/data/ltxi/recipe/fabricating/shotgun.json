@@ -1,8 +1,12 @@
 {
   "type": "ltxi:fabricating",
   "energy_required": 1000000,
-  "group": "ltx/weapon",
+  "group": "ltx/weapon.3",
   "ingredients": [
+    {
+      "count": 4,
+      "item": "ltxi:t2_circuit"
+    },
     {
       "count": 24,
       "item": "ltxi:titanium_ingot"
@@ -14,10 +18,6 @@
     {
       "count": 8,
       "item": "ltxi:ltx_lime_pigment"
-    },
-    {
-      "count": 4,
-      "item": "ltxi:t2_circuit"
     }
   ],
   "result": {

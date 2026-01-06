@@ -7,6 +7,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -94,6 +95,8 @@ public final class LTXITags
         public static final TagKey<Item> ALL_TOOLS = RESOURCES.itemTag("tools");
         public static final TagKey<Item> MINING_TOOLS = RESOURCES.itemTag("tools/mining");
         public static final TagKey<Item> MODULAR_MINING_TOOLS = RESOURCES.itemTag("tools/modular_mining");
+
+        public static final TagKey<Item> WONDERLAND_ARMOR = RESOURCES.itemTag("wonderland_armor");
 
         private static TagKey<Item> copy(TagKey<Block> blockTag)
         {
@@ -194,6 +197,19 @@ public final class LTXITags
         private static TagKey<DamageType> tag(String name)
         {
             return RESOURCES.tagKey(Registries.DAMAGE_TYPE, name);
+        }
+    }
+
+    public static final class MobEffects
+    {
+        private MobEffects() {}
+
+        public static final TagKey<MobEffect> VISION_DEBUFF = tag("vision_debuff");
+        public static final TagKey<MobEffect> MOVEMENT_DEBUFF = tag("movement_debuff");
+
+        private static TagKey<MobEffect> tag(String name)
+        {
+            return RESOURCES.tagKey(Registries.MOB_EFFECT, name);
         }
     }
 }

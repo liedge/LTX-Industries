@@ -12,15 +12,14 @@ import liedge.limacore.world.loot.number.MathOpsNumberProvider;
 import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.lib.upgrades.effect.*;
+import liedge.ltxindustries.lib.upgrades.effect.entity.ApplyMobEffect;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
 import liedge.ltxindustries.lib.upgrades.tooltip.*;
-import liedge.ltxindustries.lib.upgrades.value.ConstantDouble;
-import liedge.ltxindustries.lib.upgrades.value.ContextlessValue;
-import liedge.ltxindustries.lib.upgrades.value.ExponentialDouble;
-import liedge.ltxindustries.lib.upgrades.value.LinearDouble;
+import liedge.ltxindustries.lib.upgrades.value.*;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
 import liedge.ltxindustries.lib.weapons.WeaponReloadSource;
 import liedge.ltxindustries.registry.LTXIRegistries;
+import liedge.ltxindustries.registry.game.LTXIAttributes;
 import liedge.ltxindustries.registry.game.LTXIItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.advancements.critereon.*;
@@ -33,6 +32,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -44,12 +45,13 @@ import net.minecraft.world.item.enchantment.LevelBasedValue;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.predicates.DamageSourceCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemEntityPropertyCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.neoforged.neoforge.registries.holdersets.AnyHolderSet;
 
-import static liedge.ltxindustries.LTXIIdentifiers.*;
 import static liedge.ltxindustries.LTXIConstants.*;
+import static liedge.ltxindustries.LTXIIdentifiers.*;
 import static liedge.ltxindustries.LTXITags.EquipmentUpgrades.*;
 import static liedge.ltxindustries.LTXIndustries.RESOURCES;
 import static liedge.ltxindustries.data.generation.LTXIBootstrapUtil.*;
@@ -72,6 +74,10 @@ public final class LTXIEquipmentUpgrades
     public static final ResourceKey<EquipmentUpgrade> SHOTGUN_DEFAULT = defaultKey(ID_SHOTGUN);
     public static final ResourceKey<EquipmentUpgrade> LFR_DEFAULT = defaultKey(ID_LINEAR_FUSION_RIFLE);
     public static final ResourceKey<EquipmentUpgrade> HEAVY_PISTOL_DEFAULT = defaultKey(ID_HEAVY_PISTOL);
+    public static final ResourceKey<EquipmentUpgrade> HEAD_DEFAULT = defaultKey(ID_WONDERLAND_HEAD);
+    public static final ResourceKey<EquipmentUpgrade> BODY_DEFAULT = defaultKey(ID_WONDERLAND_BODY);
+    public static final ResourceKey<EquipmentUpgrade> LEGS_DEFAULT = defaultKey(ID_WONDERLAND_LEGS);
+    public static final ResourceKey<EquipmentUpgrade> FEET_DEFAULT = defaultKey(ID_WONDERLAND_FEET);
 
     // Tool upgrades
     public static final ResourceKey<EquipmentUpgrade> TOOL_ENERGY_UPGRADE = key("tool_energy_upgrade");
@@ -95,6 +101,10 @@ public final class LTXIEquipmentUpgrades
     public static final ResourceKey<EquipmentUpgrade> HOSTILE_TARGET_FILTER = key("target_filter/hostile");
     public static final ResourceKey<EquipmentUpgrade> HEAVY_PISTOL_GOD_ROUNDS = key("heavy_pistol_god_rounds");
     public static final ResourceKey<EquipmentUpgrade> GRENADE_LAUNCHER_PROJECTILE_SPEED = key("grenade_launcher_projectile_speed");
+
+    // Armor upgrades
+    public static final ResourceKey<EquipmentUpgrade> HEAD_NIGHT_VISION = key("night_vision");
+    public static final ResourceKey<EquipmentUpgrade> ARMOR_PASSIVE_SHIELD = key("armor_passive_shield");
 
     // Enchantments
     public static final ResourceKey<EquipmentUpgrade> EFFICIENCY_ENCHANTMENT = key("enchantment/efficiency");
@@ -130,6 +140,7 @@ public final class LTXIEquipmentUpgrades
         HolderGetter<Enchantment> enchantments = context.lookup(Registries.ENCHANTMENT);
         HolderGetter<GameEvent> gameEvents = context.lookup(Registries.GAME_EVENT);
         HolderGetter<EquipmentUpgrade> holders = context.lookup(LTXIRegistries.Keys.EQUIPMENT_UPGRADES);
+        HolderGetter<MobEffect> mobEffects = context.lookup(Registries.MOB_EFFECT);
 
         // AnyHolderSets
         HolderSet<Block> anyBlockHolderSet = new AnyHolderSet<>(BuiltInRegistries.BLOCK.asLookup());
@@ -142,6 +153,7 @@ public final class LTXIEquipmentUpgrades
         HolderSet<Item> meleeWeapons = items.getOrThrow(LTXITags.Items.MELEE_WEAPONS);
         HolderSet<Item> projectileWeapons = items.getOrThrow(LTXITags.Items.ENERGY_PROJECTILE_WEAPONS);
         HolderSet<Item> allWeapons = items.getOrThrow(LTXITags.Items.ALL_WEAPONS);
+        HolderSet<Item> wonderlandArmor = items.getOrThrow(LTXITags.Items.WONDERLAND_ARMOR);
 
         // Built in upgrades
         final Component defaultToolTitle = LTXILangKeys.TOOL_DEFAULT_UPGRADE_TITLE.translate().withStyle(LIME_GREEN.chatStyle());
@@ -226,6 +238,41 @@ public final class LTXIEquipmentUpgrades
                 .damageAttributes(LimaCoreAttributes.KNOCKBACK_MULTIPLIER, "knockback", LevelBasedValue.constant(2f), AttributeModifier.Operation.ADD_VALUE)
                 .effectIcon(defaultModuleIcon(LTXIItems.HEAVY_PISTOL))
                 .category("default/weapon")
+                .register(context);
+
+        ContextlessValue headMECost = ConstantDouble.of(1);
+        EquipmentUpgrade.builder(HEAD_DEFAULT)
+                .supports(LTXIItems.WONDERLAND_HEAD)
+                .withEffect(MOB_EFFECT_IMMUNITY, MobEffectImmunity.immuneTo(mobEffects, LTXITags.MobEffects.VISION_DEBUFF, headMECost))
+                .tooltip(0, key -> TranslatableTooltip.create(key, energyActionsTooltip(headMECost)))
+                .effectIcon(defaultModuleIcon(LTXIItems.WONDERLAND_HEAD))
+                .category("default/armor/1")
+                .register(context);
+        EquipmentUpgrade.builder(BODY_DEFAULT)
+                .supports(LTXIItems.WONDERLAND_BODY)
+                .itemAttributes(Attributes.BLOCK_INTERACTION_RANGE, "block_reach", LevelBasedValue.constant(1), AttributeModifier.Operation.ADD_VALUE, EquipmentSlotGroup.CHEST)
+                .itemAttributes(Attributes.ENTITY_INTERACTION_RANGE, "entity_reach", LevelBasedValue.constant(1), AttributeModifier.Operation.ADD_VALUE, EquipmentSlotGroup.CHEST)
+                .effectIcon(defaultModuleIcon(LTXIItems.WONDERLAND_BODY))
+                .category("default/armor/2")
+                .register(context);
+        ContextlessValue legsMECost = ConstantDouble.of(1);
+        EquipmentUpgrade.builder(LEGS_DEFAULT)
+                .supports(LTXIItems.WONDERLAND_LEGS)
+                .itemAttributes(Attributes.MOVEMENT_SPEED, "speed_boost", LevelBasedValue.constant(0.1f), AttributeModifier.Operation.ADD_MULTIPLIED_BASE, EquipmentSlotGroup.LEGS)
+                .itemAttributes(Attributes.WATER_MOVEMENT_EFFICIENCY, "water_move", LevelBasedValue.constant(1), AttributeModifier.Operation.ADD_VALUE, EquipmentSlotGroup.LEGS)
+                .withEffect(MOB_EFFECT_IMMUNITY, MobEffectImmunity.immuneTo(mobEffects, LTXITags.MobEffects.MOVEMENT_DEBUFF, legsMECost))
+                .tooltip(0, key -> TranslatableTooltip.create(key, energyActionsTooltip(legsMECost)))
+                .effectIcon(defaultModuleIcon(LTXIItems.WONDERLAND_LEGS))
+                .category("default/armor/3")
+                .register(context);
+        EquipmentUpgrade.builder(FEET_DEFAULT)
+                .supports(LTXIItems.WONDERLAND_FEET)
+                .itemAttributes(Attributes.STEP_HEIGHT, "step_boost", LevelBasedValue.constant(1), AttributeModifier.Operation.ADD_VALUE, EquipmentSlotGroup.FEET)
+                .itemAttributes(Attributes.SAFE_FALL_DISTANCE, "safe_fall", LevelBasedValue.constant(5), AttributeModifier.Operation.ADD_VALUE, EquipmentSlotGroup.FEET)
+                .withConditionUnit(DAMAGE_IMMUNITY, DamageSourceCondition.hasDamageSource(DamageSourcePredicate.Builder.damageType().tag(TagPredicate.is(DamageTypeTags.BURN_FROM_STEPPING))))
+                .staticTooltip(0)
+                .effectIcon(defaultModuleIcon(LTXIItems.WONDERLAND_FEET))
+                .category("default/armor/4")
                 .register(context);
 
         // Tool upgrades
@@ -399,6 +446,23 @@ public final class LTXIEquipmentUpgrades
                 .targetRestriction(EntityHostilityLootCondition.create(ComparableBounds.atLeast(MobHostility.HOSTILE)))
                 .effectIcon(sprite("hostile_targets"))
                 .category("target_filters")
+                .register(context);
+
+        // Armor upgrades
+        EquipmentUpgrade.builder(HEAD_NIGHT_VISION)
+                .supports(LTXIItems.WONDERLAND_HEAD)
+                .withConditionalEffect(EQUIPMENT_TICK, ApplyMobEffect.applyEffect(MobEffects.NIGHT_VISION, LevelBasedValue.constant(400), LevelBasedValue.constant(0), true, false),
+                        LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity().periodicTick(60)))
+                .effectIcon(sprite("blue_visor"))
+                .category("armor")
+                .register(context);
+        EquipmentUpgrade.builder(ARMOR_PASSIVE_SHIELD)
+                .createDefaultTitle(BUBBLE_SHIELD_BLUE)
+                .supports(wonderlandArmor)
+                .setMaxRank(4)
+                .itemAttributes(LTXIAttributes.SHIELD_CAPACITY, "shield", LevelBasedValue.perLevel(5), AttributeModifier.Operation.ADD_VALUE, EquipmentSlotGroup.ARMOR)
+                .effectIcon(sprite("bubble_shield"))
+                .category("armor")
                 .register(context);
 
         // Enchantments

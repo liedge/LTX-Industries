@@ -1,19 +1,19 @@
 {
   "type": "ltxi:fabricating",
-  "energy_required": 75000000,
-  "group": "ltx/weapon.7",
+  "energy_required": 8000000,
+  "group": "ltx/armor.2",
   "ingredients": [
     {
-      "count": 1,
-      "item": "ltxi:t4_circuit"
-    },
-    {
-      "count": 32,
-      "item": "ltxi:titanium_ingot"
+      "count": 2,
+      "item": "ltxi:t3_circuit"
     },
     {
       "count": 24,
-      "item": "ltxi:polymer_ingot"
+      "item": "ltxi:titanium_ingot"
+    },
+    {
+      "count": 8,
+      "item": "ltxi:ltx_lime_pigment"
     },
     {
       "count": 16,
@@ -21,16 +21,16 @@
     },
     {
       "count": 8,
-      "item": "ltxi:ltx_lime_pigment"
+      "item": "ltxi:polymer_ingot"
     }
   ],
   "result": {
     "components": {
       "ltxi:equipment_upgrades": {
-        "ltxi:default/heavy_pistol": 1
+        "ltxi:default/wonderland_body": 1
       }
     },
     "count": 1,
-    "id": "ltxi:heavy_pistol"
+    "id": "ltxi:wonderland_body"
   }
 }

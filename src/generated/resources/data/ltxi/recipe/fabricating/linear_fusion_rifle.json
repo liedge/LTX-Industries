@@ -1,8 +1,12 @@
 {
   "type": "ltxi:fabricating",
   "energy_required": 25000000,
-  "group": "ltx/weapon",
+  "group": "ltx/weapon.5",
   "ingredients": [
+    {
+      "count": 6,
+      "item": "ltxi:t2_circuit"
+    },
     {
       "count": 24,
       "item": "ltxi:titanium_ingot"
@@ -22,10 +26,6 @@
     {
       "count": 2,
       "item": "minecraft:amethyst_shard"
-    },
-    {
-      "count": 6,
-      "item": "ltxi:t2_circuit"
     }
   ],
   "result": {

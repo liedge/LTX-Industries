@@ -1,0 +1,33 @@
+{
+  "display": {
+    "category": "armor",
+    "description": {
+      "translate": "equipment_upgrade.ltxi.armor_passive_shield.desc"
+    },
+    "icon": "ltxi:bubble_shield",
+    "title": {
+      "color": "#74F7EC",
+      "translate": "equipment_upgrade.ltxi.armor_passive_shield"
+    }
+  },
+  "effects": {
+    "ltxi:add_item_attributes": [
+      {
+        "attribute": "ltxi:shield_capacity",
+        "modifier": {
+          "amount": {
+            "type": "minecraft:linear",
+            "base": 5.0,
+            "per_level_above_first": 5.0
+          },
+          "id": "ltxi:armor_passive_shield.shield",
+          "operation": "add_value"
+        },
+        "slots": "armor"
+      }
+    ]
+  },
+  "exclusive_set": [],
+  "max_rank": 4,
+  "supported_set": "#ltxi:wonderland_armor"
+}

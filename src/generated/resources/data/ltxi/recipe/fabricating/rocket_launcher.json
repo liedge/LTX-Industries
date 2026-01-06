@@ -1,8 +1,12 @@
 {
   "type": "ltxi:fabricating",
   "energy_required": 30000000,
-  "group": "ltx/weapon",
+  "group": "ltx/weapon.6",
   "ingredients": [
+    {
+      "count": 8,
+      "item": "ltxi:t3_circuit"
+    },
     {
       "count": 48,
       "item": "ltxi:titanium_ingot"
@@ -18,10 +22,6 @@
     {
       "count": 1,
       "item": "ltxi:explosives_weapon_tech_salvage"
-    },
-    {
-      "count": 8,
-      "item": "ltxi:t3_circuit"
     }
   ],
   "result": {

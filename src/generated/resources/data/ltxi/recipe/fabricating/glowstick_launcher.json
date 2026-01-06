@@ -1,8 +1,12 @@
 {
   "type": "ltxi:fabricating",
   "energy_required": 250000,
-  "group": "ltx/weapon",
+  "group": "ltx/weapon.1",
   "ingredients": [
+    {
+      "count": 2,
+      "item": "ltxi:t1_circuit"
+    },
     {
       "count": 8,
       "item": "ltxi:titanium_ingot"
@@ -14,10 +18,6 @@
     {
       "count": 8,
       "item": "minecraft:glowstone_dust"
-    },
-    {
-      "count": 2,
-      "item": "ltxi:t1_circuit"
     }
   ],
   "result": {

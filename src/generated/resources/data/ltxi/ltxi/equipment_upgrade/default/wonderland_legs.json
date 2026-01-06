@@ -1,0 +1,75 @@
+{
+  "display": {
+    "category": "default/armor/3",
+    "description": {
+      "translate": "equipment_upgrade.ltxi.default.wonderland_legs.desc"
+    },
+    "icon": {
+      "type": "overlay",
+      "background": {
+        "id": "ltxi:wonderland_legs"
+      },
+      "height": 7,
+      "overlay": "ltxi:default_overlay",
+      "width": 7,
+      "x_offset": 8,
+      "y_offset": 8
+    },
+    "title": {
+      "translate": "equipment_upgrade.ltxi.default.wonderland_legs"
+    },
+    "tooltips": [
+      {
+        "type": "custom_args",
+        "args": [
+          {
+            "type": "custom_args",
+            "args": [
+              {
+                "type": "value",
+                "format": "flat",
+                "sentiment": "negative",
+                "value": 1.0
+              }
+            ],
+            "key": "upgrade_effect.ltxi.energy_action",
+            "style": {
+              "color": "#8BD1F0"
+            }
+          }
+        ],
+        "key": "equipment_upgrade.ltxi.default.wonderland_legs.tooltip0"
+      }
+    ]
+  },
+  "effects": {
+    "ltxi:add_item_attributes": [
+      {
+        "attribute": "minecraft:generic.movement_speed",
+        "modifier": {
+          "amount": 0.1,
+          "id": "ltxi:default/wonderland_legs.speed_boost",
+          "operation": "add_multiplied_base"
+        },
+        "slots": "legs"
+      },
+      {
+        "attribute": "minecraft:generic.water_movement_efficiency",
+        "modifier": {
+          "amount": 1.0,
+          "id": "ltxi:default/wonderland_legs.water_move",
+          "operation": "add_value"
+        },
+        "slots": "legs"
+      }
+    ],
+    "ltxi:mob_effect_immunity": [
+      {
+        "effects": "#ltxi:movement_debuff",
+        "energy_actions": 1.0
+      }
+    ]
+  },
+  "exclusive_set": [],
+  "supported_set": "ltxi:wonderland_legs"
+}

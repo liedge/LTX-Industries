@@ -1,0 +1,36 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 4000000,
+  "group": "ltx/armor.4",
+  "ingredients": [
+    {
+      "count": 2,
+      "item": "ltxi:t3_circuit"
+    },
+    {
+      "count": 12,
+      "item": "ltxi:titanium_ingot"
+    },
+    {
+      "count": 4,
+      "item": "ltxi:ltx_lime_pigment"
+    },
+    {
+      "count": 8,
+      "item": "ltxi:slatesteel_ingot"
+    },
+    {
+      "count": 4,
+      "item": "ltxi:polymer_ingot"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:equipment_upgrades": {
+        "ltxi:default/wonderland_feet": 1
+      }
+    },
+    "count": 1,
+    "id": "ltxi:wonderland_feet"
+  }
+}

@@ -88,4 +88,9 @@ public final class LTXIBootstrapUtil
     {
         return TranslatableTooltip.create(LTXILangKeys.PARALLEL_OPERATIONS_UPGRADE, ValueComponent.of(value, format, sentiment));
     }
+
+    public static UpgradeComponentLike energyActionsTooltip(ContextlessValue value)
+    {
+        return TranslatableTooltip.create(LTXILangKeys.ENERGY_ACTIONS_COMPONENT, REM_BLUE.chatStyle(), ValueComponent.of(value, ValueFormat.FLAT_NUMBER, ValueSentiment.NEGATIVE));
+    }
 }
