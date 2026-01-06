@@ -15,10 +15,11 @@ You can download official releases from these sources:
   - Copyright © 2024-2025 Eduardo Jimenez
   - ![Static Badge](https://img.shields.io/badge/License-LGPL--3.0--or--later-forestgreen)
   - Licensed under the [GNU Lesser General Public License version 3.0](LICENSE.md) or (at your option) any later version.
-- **Assets (including, but not limited to: textures, models, sounds, and written content)**
+- **Textures, models, and written content**
   - Copyright © 2024-2025 Eduardo Jimenez
   - ![Static Badge](https://img.shields.io/badge/License-CC--BY--NC--SA_4.0-purple)
   - Licensed under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en)
+- **Sounds effects (and derivatives) thanks to Pixabay**
 
 ## FAQ
 
