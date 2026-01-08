@@ -1,6 +1,5 @@
 package liedge.ltxindustries.item;
 
-import liedge.limacore.util.LimaEntityUtil;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
 import liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades;
@@ -43,12 +42,6 @@ public class EnergyArmorItem extends EnergyEquipmentItem implements Equipable
         super(properties);
         this.equipmentSlot = equipmentSlot;
         this.defaultModifiers = createAttributes(equipmentSlot, armor);
-    }
-
-    public boolean cancelFallDamage(LivingEntity entity, ItemStack stack, float distance)
-    {
-        double safeDist = LimaEntityUtil.getAttributeValueSafe(entity, Attributes.SAFE_FALL_DISTANCE);
-        return distance <= safeDist || consumeEnergyAction(entity, stack);
     }
 
     @Override

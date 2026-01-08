@@ -1,6 +1,5 @@
 package liedge.ltxindustries.item.weapon;
 
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.lib.OrderedEnum;
 import liedge.limacore.lib.Translatable;
@@ -8,10 +7,13 @@ import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.entity.OrbGrenadeEntity;
 import liedge.ltxindustries.item.ScrollModeSwitchItem;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
-import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
+import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
 import liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades;
-import liedge.ltxindustries.registry.game.*;
+import liedge.ltxindustries.registry.game.LTXIGameEvents;
+import liedge.ltxindustries.registry.game.LTXIItems;
+import liedge.ltxindustries.registry.game.LTXISounds;
+import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
@@ -22,6 +24,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.loot.LootContext;
 
+import java.util.EnumSet;
 import java.util.Set;
 
 import static liedge.ltxindustries.registry.game.LTXIDataComponents.GRENADE_TYPE;
@@ -99,9 +102,8 @@ public class GrenadeLauncherItem extends SemiAutoWeaponItem implements ScrollMod
     public void switchItemMode(Player player, ItemStack stack, boolean forward)
     {
         EquipmentUpgrades upgrades = getUpgrades(stack);
-        Set<GrenadeType> availableTypes = new ObjectOpenHashSet<>();
-        availableTypes.add(GrenadeType.EXPLOSIVE); // Always allow equipping explosive shells
-        upgrades.forEachEffect(LTXIUpgradeEffectComponents.GRENADE_UNLOCK, (effect, rank) -> availableTypes.add(effect));
+        Set<GrenadeType> availableTypes = EnumSet.of(GrenadeType.EXPLOSIVE);
+        upgrades.forEachEffect(LTXIUpgradeEffectComponents.GRENADE_UNLOCK, (effect, $) -> availableTypes.add(effect));
 
         GrenadeType currentType = GrenadeLauncherItem.getGrenadeTypeFromItem(stack);
         GrenadeType toSwitch = forward ? OrderedEnum.nextAvailable(availableTypes, currentType) : OrderedEnum.previousAvailable(availableTypes, currentType);

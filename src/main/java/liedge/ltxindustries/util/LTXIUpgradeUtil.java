@@ -1,7 +1,6 @@
 package liedge.ltxindustries.util;
 
 import liedge.limacore.util.LimaCoreUtil;
-import liedge.ltxindustries.entity.TargetPredicate;
 import liedge.ltxindustries.entity.damage.UpgradesAwareDamageSource;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
 import liedge.ltxindustries.lib.upgrades.UpgradedEquipmentInUse;
@@ -22,19 +21,36 @@ public final class LTXIUpgradeUtil
 
     public static final EquipmentSlot[] ARMOR_SLOTS = new EquipmentSlot[]{EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET};
 
-    public static void iterateEquipmentSlots(ServerLevel level, LivingEntity sourceEntity, EquipmentSlot[] slots, EquipmentSlotVisitor visitor)
+    public static boolean iterateEquipmentSlots(ServerLevel level, LivingEntity sourceEntity, EquipmentSlot[] slots, EquipmentSlotVisitor visitor)
     {
         for (EquipmentSlot slot : slots)
         {
-            ItemStack stack = sourceEntity.getItemBySlot(slot);
-            if (stack.getItem() instanceof UpgradableEquipmentItem equipmentItem && equipmentItem.isInCorrectSlot(slot))
-            {
-                EquipmentUpgrades upgrades = equipmentItem.getUpgrades(stack);
-                UpgradedEquipmentInUse equipmentInUse = new UpgradedEquipmentInUse(upgrades, stack, equipmentItem, slot, sourceEntity, TargetPredicate.create(level, upgrades));
-
-                visitor.accept(upgrades, equipmentInUse);
-            }
+            boolean result = iterateEquipmentSlot(level, sourceEntity, slot, visitor);
+            if (result) return true;
         }
+
+        return false;
+    }
+
+    public static void runOnEquipmentSlots(ServerLevel level, LivingEntity sourceEntity, EquipmentSlot[] slots, EquipmentSlotRunner runner)
+    {
+        for (EquipmentSlot slot : slots)
+        {
+            iterateEquipmentSlot(level, sourceEntity, slot, runner);
+        }
+    }
+
+    public static boolean iterateEquipmentSlot(ServerLevel level, LivingEntity sourceEntity, EquipmentSlot slot, EquipmentSlotVisitor visitor)
+    {
+        ItemStack stack = sourceEntity.getItemBySlot(slot);
+        if (stack.getItem() instanceof UpgradableEquipmentItem equipmentItem && equipmentItem.isInCorrectSlot(slot))
+        {
+            EquipmentUpgrades upgrades = equipmentItem.getUpgrades(stack);
+            UpgradedEquipmentInUse equipmentInUse = UpgradedEquipmentInUse.create(level, upgrades, stack, equipmentItem, slot, sourceEntity);
+            return visitor.run(upgrades, equipmentInUse);
+        }
+
+        return false;
     }
 
     public static void iterateDamageUpgrades(DamageSource source, DamageUpgradesVisitor visitor)
@@ -67,7 +83,20 @@ public final class LTXIUpgradeUtil
     @FunctionalInterface
     public interface EquipmentSlotVisitor
     {
+        boolean run(UpgradesContainerBase<?, ?> upgrades, UpgradedEquipmentInUse equipmentInUse);
+    }
+
+    @FunctionalInterface
+    public interface EquipmentSlotRunner extends EquipmentSlotVisitor
+    {
         void accept(UpgradesContainerBase<?, ?> upgrades, UpgradedEquipmentInUse equipmentInUse);
+
+        @Override
+        default boolean run(UpgradesContainerBase<?, ?> upgrades, UpgradedEquipmentInUse equipmentInUse)
+        {
+            accept(upgrades, equipmentInUse);
+            return false;
+        }
     }
 
     @FunctionalInterface

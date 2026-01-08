@@ -4,8 +4,6 @@ import com.mojang.serialization.Codec;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.data.LimaCoreCodecs;
-import liedge.limacore.lib.function.ObjectIntConsumer;
-import liedge.limacore.lib.function.ObjectIntFunction;
 import liedge.limacore.lib.math.MathOperation;
 import liedge.limacore.network.LimaStreamCodecs;
 import liedge.limacore.util.LimaRegistryUtil;
@@ -57,7 +55,7 @@ public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
     }
 
     //#region General iteration helpers
-    public <T> void forEachEffect(DataComponentType<List<T>> type, ObjectIntConsumer<T> consumer)
+    public <T> void forEachEffect(DataComponentType<List<T>> type, EffectVisitor<T> visitor)
     {
         for (Object2IntMap.Entry<Holder<U>> entry : internalMap.object2IntEntrySet())
         {
@@ -66,55 +64,79 @@ public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
 
             for (T effect: effects)
             {
-                consumer.acceptWithInt(effect, rank);
+                visitor.accept(effect, rank);
             }
         }
     }
 
-    public <T> void forEachEffect(Supplier<? extends DataComponentType<List<T>>> typeSupplier, ObjectIntConsumer<T> consumer)
+    public <T> void forEachEffect(Supplier<? extends DataComponentType<List<T>>> typeSupplier, EffectVisitor<T> visitor)
     {
-        forEachEffect(typeSupplier.get(), consumer);
+        forEachEffect(typeSupplier.get(), visitor);
     }
 
-    public <T, C extends EffectConditionHolder<T>> void forEachConditionalEffect(DataComponentType<List<C>> type, LootContext context, ObjectIntConsumer<T> consumer)
+    public <T, C extends EffectConditionHolder<T>> void forEachConditionalEffect(DataComponentType<List<C>> type, LootContext context, EffectVisitor<T> visitor)
     {
         for (Object2IntMap.Entry<Holder<U>> entry : internalMap.object2IntEntrySet())
         {
             int rank = entry.getIntValue();
             List<C> effects = entry.getKey().value().getListEffect(type);
-            for (C data : effects)
+            for (C holder : effects)
             {
-                if (data.test(context)) consumer.acceptWithInt(data.effect(), rank);
+                if (holder.test(context)) visitor.accept(holder.effect(), rank);
             }
         }
     }
 
-    public <T, C extends EffectConditionHolder<T>> void forEachConditionalEffect(Supplier<? extends DataComponentType<List<C>>> typeSupplier, LootContext context, ObjectIntConsumer<T> consumer)
+    public <T, C extends EffectConditionHolder<T>> void forEachConditionalEffect(Supplier<? extends DataComponentType<List<C>>> typeSupplier, LootContext context, EffectVisitor<T> visitor)
     {
-        forEachConditionalEffect(typeSupplier.get(), context, consumer);
+        forEachConditionalEffect(typeSupplier.get(), context, visitor);
     }
 
-    public <T> boolean anyMatch(DataComponentType<List<T>> type, ObjectIntFunction<T, Boolean> predicate)
+    public <T> boolean anySpecialMatch(DataComponentType<T> type, EffectPredicate<T> predicate)
+    {
+        for (var entry : internalMap.object2IntEntrySet())
+        {
+            T effect = entry.getKey().value().effects().get(type);
+            if (effect != null && predicate.test(effect, entry.getIntValue())) return true;
+        }
+
+        return false;
+    }
+
+    public <T> boolean anySpecialMatch(Supplier<? extends DataComponentType<T>> typeSupplier, EffectPredicate<T> predicate)
+    {
+        return anySpecialMatch(typeSupplier.get(), predicate);
+    }
+
+    public <T> boolean anyMatch(DataComponentType<List<T>> type, EffectPredicate<T> predicate)
     {
         for (Object2IntMap.Entry<Holder<U>> entry : internalMap.object2IntEntrySet())
         {
             List<T> list = entry.getKey().value().getListEffect(type);
             final int rank = entry.getIntValue();
 
-            if (list.stream().anyMatch(effect -> predicate.applyWithInt(effect, rank))) return true;
+            for (T effect : list)
+            {
+                if (predicate.test(effect, rank)) return true;
+            }
         }
 
         return false;
     }
 
-    public <T> boolean anyMatch(Supplier<? extends DataComponentType<List<T>>> typeSupplier, ObjectIntFunction<T, Boolean> predicate)
+    public <T> boolean anyMatch(Supplier<? extends DataComponentType<List<T>>> typeSupplier, EffectPredicate<T> predicate)
     {
         return anyMatch(typeSupplier.get(), predicate);
     }
 
-    public <T> boolean noneMatch(DataComponentType<List<T>> type, ObjectIntFunction<T, Boolean> predicate)
+    public <T> boolean noneMatch(DataComponentType<List<T>> type, EffectPredicate<T> predicate)
     {
         return !anyMatch(type, predicate);
+    }
+
+    public <T> boolean noneMatch(Supplier<? extends DataComponentType<List<T>>> typeSupplier, EffectPredicate<T> predicate)
+    {
+        return noneMatch(typeSupplier.get(), predicate);
     }
 
     public <T> boolean upgradeEffectTypePresent(DataComponentType<T> type)
@@ -432,5 +454,17 @@ public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
     public final int hashCode()
     {
         return mapHash;
+    }
+
+    @FunctionalInterface
+    public interface EffectPredicate<T>
+    {
+        boolean test(T effect, int upgradeRank);
+    }
+
+    @FunctionalInterface
+    public interface EffectVisitor<T>
+    {
+        void accept(T effect, int upgradeRank);
     }
 }

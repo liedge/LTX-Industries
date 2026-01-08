@@ -91,6 +91,6 @@ public final class LTXIBootstrapUtil
 
     public static UpgradeComponentLike energyActionsTooltip(ContextlessValue value)
     {
-        return TranslatableTooltip.create(LTXILangKeys.ENERGY_ACTIONS_COMPONENT, REM_BLUE.chatStyle(), ValueComponent.of(value, ValueFormat.FLAT_NUMBER, ValueSentiment.NEGATIVE));
+        return TranslatableTooltip.create(LTXILangKeys.ENERGY_ACTIONS_TOOLTIP, REM_BLUE.chatStyle(), ValueComponent.of(value, ValueFormat.FLAT_NUMBER, ValueSentiment.NEGATIVE));
     }
 }

@@ -34,6 +34,7 @@ public final class LTXILangKeys
     public static final Translatable INLINE_NO_OWNER_TOOLTIP = tooltip("no_owner");
     public static final Translatable INLINE_OWNER_TOOLTIP = tooltip("owner");
     public static final Translatable ENERGY_OVERCHARGE_TOOLTIP = tooltip("energy_overcharge");
+    public static final Translatable ENERGY_ACTIONS_TOOLTIP = tooltip("energy_actions");
 
     public static final Translatable MACHINE_TICKS_PER_OP_TOOLTIP = tooltip("ticks_per_op");
     public static final Translatable EMPTY_ITEM_INVENTORY_TOOLTIP = tooltip("empty_item_inventory_hint");
@@ -82,7 +83,6 @@ public final class LTXILangKeys
     public static final Translatable ENERGY_CAPACITY_UPGRADE = upgradeEffect("energy_capacity");
     public static final Translatable ENERGY_TRANSFER_UPGRADE = upgradeEffect("energy_transfer");
     public static final Translatable ENERGY_USAGE_UPGRADE = upgradeEffect("energy_usage");
-    public static final Translatable ENERGY_ACTIONS_COMPONENT = upgradeEffect("energy_action");
     public static final Translatable PARALLEL_OPERATIONS_UPGRADE = upgradeEffect("parallel");
     public static final Translatable MACHINE_SPEED_UPGRADE = upgradeEffect("machine_speed");
     public static final Translatable ENERGY_PER_RECIPE_UPGRADE = upgradeEffect("energy_per_recipe");
@@ -99,6 +99,7 @@ public final class LTXILangKeys
     public static final Translatable ENCHANTMENT_UPGRADE_EFFECT = upgradeEffect("enchantment");
     public static final Translatable CAPPED_ENCHANTMENT_UPGRADE_EFFECT = upgradeEffect("enchantment.capped");
     public static final Translatable GRENADE_UNLOCK_EFFECT = upgradeEffect("grenade_unlock");
+    public static final Translatable CANCEL_FALLS_EFFECT = upgradeEffect("cancel_fall");
 
     private static Translatable prefixKey(String prefix, String key)
     {

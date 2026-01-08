@@ -48,6 +48,9 @@
         "slots": "feet"
       }
     ],
+    "ltxi:cancel_falls": {
+      "energy_actions": 1.0
+    },
     "ltxi:damage_immunity": [
       {
         "effect": {},

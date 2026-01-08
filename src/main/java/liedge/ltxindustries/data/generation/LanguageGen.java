@@ -340,6 +340,7 @@ class LanguageGen extends LimaLanguageProvider
         add(INLINE_NO_OWNER_TOOLTIP, "No Owner");
         add(INLINE_OWNER_TOOLTIP, "Owner: %s");
         add(ENERGY_OVERCHARGE_TOOLTIP, "Energy Overcharged! Your energy stored is more than your current capacity.");
+        add(ENERGY_ACTIONS_TOOLTIP, "%s energy actions");
 
         add(NONE_UNIVERSAL_TOOLTIP, "None");
         add(BACK_BUTTON_LABEL, "Back");
@@ -394,7 +395,6 @@ class LanguageGen extends LimaLanguageProvider
         add(ENERGY_CAPACITY_UPGRADE, "%s energy capacity");
         add(ENERGY_TRANSFER_UPGRADE, "%s energy transfer rate");
         add(ENERGY_USAGE_UPGRADE, "%s energy usage");
-        add(ENERGY_ACTIONS_COMPONENT, "%s energy actions");
         add(PARALLEL_OPERATIONS_UPGRADE, "%s operations per cycle");
         add(MACHINE_SPEED_UPGRADE, "%s machine speed");
         add(ENERGY_PER_RECIPE_UPGRADE, "Avg. energy per recipe: %s");
@@ -410,6 +410,7 @@ class LanguageGen extends LimaLanguageProvider
         add(ENCHANTMENT_UPGRADE_EFFECT, "+%s %s levels");
         add(CAPPED_ENCHANTMENT_UPGRADE_EFFECT, "+%s %s levels (max %s)");
         add(GRENADE_UNLOCK_EFFECT, "Can use %s shells");
+        add(CANCEL_FALLS_EFFECT, "Cancels falls (%s)");
 
         add(WeaponReloadSource.Type.ITEM.getItemTooltip(), "Reloads with %s");
         add(WeaponReloadSource.Type.ITEM.getUpgradeTooltip(), "Replaces reload item: %s");
