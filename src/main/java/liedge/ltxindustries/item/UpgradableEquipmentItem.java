@@ -3,6 +3,7 @@ package liedge.ltxindustries.item;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.capability.energy.LimaEnergyUtil;
 import liedge.limacore.client.gui.TooltipLineConsumer;
+import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.registry.game.LimaCoreDataComponents;
 import liedge.ltxindustries.lib.upgrades.UpgradesContainerBase;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
@@ -103,6 +104,18 @@ public interface UpgradableEquipmentItem extends ItemLike, EnergyHolderItem
         modifierEntries.addAll(this.asItem().getDefaultAttributeModifiers(stack).modifiers());
         upgrades.forEachEffect(LTXIUpgradeEffectComponents.ADD_ITEM_ATTRIBUTES, (effect, rank) -> modifierEntries.add(effect.createItemModifier(rank, getEquipmentSlot())));
         stack.set(DataComponents.ATTRIBUTE_MODIFIERS, new ItemAttributeModifiers(modifierEntries, true));
+
+        // Energy
+        if (supportsEnergyStorage(stack))
+        {
+            int capacity = LimaCoreMath.round(upgrades.runValueOps(LTXIUpgradeEffectComponents.ENERGY_CAPACITY, context, getBaseEnergyCapacity(stack)));
+            stack.set(LimaCoreDataComponents.ENERGY_CAPACITY, capacity);
+
+            int transferRate = LimaCoreMath.round(upgrades.runValueOps(LTXIUpgradeEffectComponents.ENERGY_TRANSFER_RATE, context, getBaseEnergyTransferRate(stack)));
+            int energyUsage = LimaCoreMath.round(upgrades.runValueOps(LTXIUpgradeEffectComponents.ENERGY_USAGE, context, getBaseEnergyUsage(stack)));
+            stack.set(LimaCoreDataComponents.ENERGY_TRANSFER_RATE, transferRate);
+            stack.set(LimaCoreDataComponents.ENERGY_USAGE, energyUsage);
+        }
     }
 
     default EquipmentUpgrades getUpgrades(ItemStack stack)

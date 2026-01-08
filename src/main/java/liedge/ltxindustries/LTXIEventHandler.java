@@ -14,7 +14,6 @@ import liedge.ltxindustries.lib.upgrades.UpgradeContexts;
 import liedge.ltxindustries.lib.upgrades.effect.EffectTarget;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.ltxindustries.registry.game.LTXIAttachmentTypes;
-import liedge.ltxindustries.registry.game.LTXIDataComponents;
 import liedge.ltxindustries.registry.game.LTXIMobEffects;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import liedge.ltxindustries.util.LTXIUpgradeUtil;
@@ -76,18 +75,24 @@ public final class LTXIEventHandler
     @SubscribeEvent
     public static void onEquipmentChanged(final LivingEquipmentChangeEvent event)
     {
-        // Only run serverside and on upgradable equipment items
-        ItemStack stack = event.getTo();
-        if (event.getEntity().level() instanceof ServerLevel level && stack.getItem() instanceof UpgradableEquipmentItem equipmentItem)
+        if (event.getEntity().level() instanceof ServerLevel level)
         {
-            EquipmentUpgrades upgrades = equipmentItem.getUpgrades(stack);
-            Integer lastHash = stack.get(LTXIDataComponents.LAST_EQUIPMENT_HASH);
+            ItemStack oldStack = event.getFrom();
+            ItemStack newStack = event.getTo();
+            EquipmentSlot slot = event.getSlot();
 
-            // Run check if last upgrades hash-print is null or different
-            if (lastHash == null || lastHash != upgrades.hashCode())
+            if (newStack.getItem() instanceof UpgradableEquipmentItem newItem && newItem.isInCorrectSlot(slot))
             {
-                equipmentItem.onUpgradeRefresh(LimaLootUtil.emptyLootContext(level), stack, upgrades);
-                stack.set(LTXIDataComponents.LAST_EQUIPMENT_HASH, upgrades.hashCode());
+                EquipmentUpgrades newUpgrades = newItem.getUpgrades(newStack);
+
+                boolean refresh = !(oldStack.getItem() instanceof UpgradableEquipmentItem oldItem)
+                        || oldItem != newItem
+                        || oldItem.getUpgrades(oldStack).hashCode() != newUpgrades.hashCode();
+
+                if (refresh)
+                {
+                    newItem.onUpgradeRefresh(LimaLootUtil.emptyLootContext(level), newStack, newUpgrades);
+                }
             }
         }
     }

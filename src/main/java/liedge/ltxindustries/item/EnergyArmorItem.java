@@ -13,6 +13,7 @@ import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Equipable;
 import net.minecraft.world.item.ItemStack;
@@ -27,11 +28,7 @@ public class EnergyArmorItem extends EnergyEquipmentItem implements Equipable
         EquipmentSlotGroup slotGroup = EquipmentSlotGroup.bySlot(slot);
         ResourceLocation modifierId = LTXIndustries.RESOURCES.location("armor." + slot.getSerializedName());
 
-        return ItemAttributeModifiers.builder()
-                .add(Attributes.ARMOR, new AttributeModifier(modifierId, armor, AttributeModifier.Operation.ADD_VALUE), slotGroup)
-                .add(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(modifierId, 3f, AttributeModifier.Operation.ADD_VALUE), slotGroup)
-                .add(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(modifierId, 0.1f, AttributeModifier.Operation.ADD_VALUE), slotGroup)
-                .build();
+        return ItemAttributeModifiers.builder().add(Attributes.ARMOR, new AttributeModifier(modifierId, armor, AttributeModifier.Operation.ADD_VALUE), slotGroup).build();
     }
 
     private final EquipmentSlot equipmentSlot;
@@ -84,11 +81,23 @@ public class EnergyArmorItem extends EnergyEquipmentItem implements Equipable
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand)
     {
-        return swapWithEquipmentSlot(this ,level, player, usedHand);
+        return swapWithEquipmentSlot(this, level, player, usedHand);
     }
 
     @Override
     public boolean canWalkOnPowderedSnow(ItemStack stack, LivingEntity wearer)
+    {
+        return true;
+    }
+
+    @Override
+    public boolean isEnderMask(ItemStack stack, Player player, EnderMan ignored)
+    {
+        return true;
+    }
+
+    @Override
+    public boolean makesPiglinsNeutral(ItemStack stack, LivingEntity wearer)
     {
         return true;
     }

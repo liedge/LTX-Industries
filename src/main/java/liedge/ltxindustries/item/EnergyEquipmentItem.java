@@ -7,7 +7,6 @@ import liedge.limacore.registry.game.LimaCoreDataComponents;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.lib.upgrades.effect.ValueOperation;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
-import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
@@ -30,23 +29,6 @@ public abstract class EnergyEquipmentItem extends Item implements UpgradableEqui
     public int getBaseEnergyTransferRate(ItemStack stack)
     {
         return getEnergyCapacity(stack) / 20;
-    }
-
-    @Override
-    public void onUpgradeRefresh(LootContext context, ItemStack stack, EquipmentUpgrades upgrades)
-    {
-        UpgradableEquipmentItem.super.onUpgradeRefresh(context, stack, upgrades);
-
-        if (supportsEnergyStorage(stack))
-        {
-            int capacity = LimaCoreMath.round(upgrades.runValueOps(LTXIUpgradeEffectComponents.ENERGY_CAPACITY, context, getBaseEnergyCapacity(stack)));
-            stack.set(LimaCoreDataComponents.ENERGY_CAPACITY, capacity);
-
-            int transferRate = LimaCoreMath.round(upgrades.runValueOps(LTXIUpgradeEffectComponents.ENERGY_TRANSFER_RATE, context, getBaseEnergyTransferRate(stack)));
-            int energyUsage = LimaCoreMath.round(upgrades.runValueOps(LTXIUpgradeEffectComponents.ENERGY_USAGE, context, getBaseEnergyUsage(stack)));
-            stack.set(LimaCoreDataComponents.ENERGY_TRANSFER_RATE, transferRate);
-            stack.set(LimaCoreDataComponents.ENERGY_USAGE, energyUsage);
-        }
     }
 
     @Override
