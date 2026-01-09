@@ -452,7 +452,7 @@ public final class LTXIEquipmentUpgrades
         // Armor upgrades
         EquipmentUpgrade.builder(HEAD_NIGHT_VISION)
                 .supports(LTXIItems.WONDERLAND_HEAD)
-                .withConditionalEffect(EQUIPMENT_TICK, ApplyMobEffect.applyEffect(MobEffects.NIGHT_VISION, LevelBasedValue.constant(400), LevelBasedValue.constant(0), true, false),
+                .withConditionalEffect(EQUIPMENT_TICK, ApplyMobEffect.applyPassiveEffect(MobEffects.NIGHT_VISION, ConstantDouble.of(400), ConstantDouble.of(0)),
                         LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity().periodicTick(60)))
                 .effectIcon(sprite("blue_visor"))
                 .category("armor")

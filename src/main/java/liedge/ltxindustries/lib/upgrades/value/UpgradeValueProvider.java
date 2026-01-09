@@ -3,6 +3,7 @@ package liedge.ltxindustries.lib.upgrades.value;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import liedge.limacore.data.LimaCoreCodecs;
+import liedge.limacore.lib.math.LimaCoreMath;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootContextUser;
 import net.minecraft.world.level.storage.loot.providers.number.NumberProvider;
@@ -19,6 +20,11 @@ public interface UpgradeValueProvider extends LootContextUser
     }
 
     double get(LootContext context, int upgradeRank);
+
+    default int getInt(LootContext context, int upgradeRank)
+    {
+        return LimaCoreMath.round(get(context, upgradeRank));
+    }
 
     MapCodec<? extends UpgradeValueProvider> codec();
 }
