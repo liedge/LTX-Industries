@@ -112,13 +112,13 @@ public abstract class UpgradeModuleItem<U extends UpgradeBase<?, U>, UE extends 
             consumer.accept(LTXILangKeys.UPGRADE_COMPATIBILITY_TOOLTIP.translate().withStyle(moduleTypeStyle()));
 
             List<ItemStack> compatibleItems = getAllCompatibleItems(upgrade);
-            if (compatibleItems.size() > 12 && upgrade.supportedSet() instanceof HolderSet.Named<?> namedSet)
+            if (compatibleItems.size() <= 24)
+            {
+                consumer.accept(new ItemGridTooltip(compatibleItems, 8, 3, false));
+            }
+            else if (upgrade.supportedSet() instanceof HolderSet.Named<?> namedSet)
             {
                 consumer.accept(Component.translatable(Tags.getTagTranslationKey(namedSet.key())).withStyle(moduleTypeStyle()));
-            }
-            else
-            {
-                consumer.accept(new ItemGridTooltip(compatibleItems, 7, 2, false));
             }
         }
     }

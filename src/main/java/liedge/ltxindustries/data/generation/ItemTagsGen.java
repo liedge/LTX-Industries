@@ -81,15 +81,17 @@ class ItemTagsGen extends LimaTagsProvider.ItemTags
         buildTag(NEON_LIGHT_MATERIALS).add(GLOWSTONE, GLOW_INK_SAC, GLOW_BERRIES);
         buildTag(APPLE_SAPLINGS).add(OAK_SAPLING, DARK_OAK_SAPLING);
 
+        // Weapon equipment definitions
         buildTag(LIGHTWEIGHT_WEAPONS).add(GLOWSTICK_LAUNCHER, SUBMACHINE_GUN);
         buildTag(SPECIALIST_WEAPONS).add(SHOTGUN, LINEAR_FUSION_RIFLE);
         buildTag(EXPLOSIVE_WEAPONS).add(GRENADE_LAUNCHER, ROCKET_LAUNCHER);
         buildTag(HEAVY_WEAPONS).add(HEAVY_PISTOL);
         buildTag(ENERGY_PROJECTILE_WEAPONS).addTags(LIGHTWEIGHT_WEAPONS, SPECIALIST_WEAPONS, EXPLOSIVE_WEAPONS, HEAVY_WEAPONS);
         buildTag(MELEE_WEAPONS).add(LTX_SWORD, LTX_AXE);
-        buildTag(ALL_WEAPONS).addTags(MELEE_WEAPONS, ENERGY_PROJECTILE_WEAPONS);
+        buildTag(WEAPON_EQUIPMENT).addTags(MELEE_WEAPONS, ENERGY_PROJECTILE_WEAPONS);
 
-        buildTag(ALL_TOOLS).add(
+        // Tool equipment definitions
+        buildTag(TOOL_EQUIPMENT).add(
                 LTX_DRILL,
                 LTX_SWORD,
                 LTX_SHOVEL,
@@ -103,7 +105,14 @@ class ItemTagsGen extends LimaTagsProvider.ItemTags
         buildTag(MODULAR_MINING_TOOLS).add(LTX_DRILL, LTX_SHOVEL, LTX_AXE, LTX_HOE);
         buildTag(MINING_TOOLS).addTag(MODULAR_MINING_TOOLS).add(LTX_SHEARS, LTX_WRENCH);
 
+        // Armor definitions
         buildTag(WONDERLAND_ARMOR).add(WONDERLAND_HEAD, WONDERLAND_BODY, WONDERLAND_LEGS, WONDERLAND_FEET);
+
+        // Global equipment
+        buildTag(EQUIPMENT_ITEMS).addTags(TOOL_EQUIPMENT, WONDERLAND_ARMOR, WEAPON_EQUIPMENT);
+
+        // Equipment-related tags
         buildTag(FREEZE_IMMUNE_WEARABLES).addTag(WONDERLAND_ARMOR);
+        buildTag(ENERGY_UPGRADABLE_EQUIPMENT).addTags(WONDERLAND_ARMOR, TOOL_EQUIPMENT);
     }
 }

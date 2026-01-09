@@ -409,23 +409,23 @@ class RecipesGen extends LimaRecipeProvider
                 .input(POLYMER_INGOT, 4));
 
         final String toolEUMGroup = "eum/tool";
-        upgradeFabricating(output, registries, toolEUMGroup, TOOL_ENERGY_UPGRADE, 1, 100_000, builder -> builder
+        upgradeFabricating(output, registries, toolEUMGroup, EQUIPMENT_ENERGY_UPGRADE, 1, 100_000, builder -> builder
                 .input(T1_CIRCUIT)
                 .input(TITANIUM_INGOT, 2)
                 .input(POLYMER_INGOT, 4)
                 .input(ELECTRIC_CHEMICAL, 4));
-        upgradeFabricating(output, registries, toolEUMGroup, TOOL_ENERGY_UPGRADE, 2, 250_000, builder -> builder
+        upgradeFabricating(output, registries, toolEUMGroup, EQUIPMENT_ENERGY_UPGRADE, 2, 250_000, builder -> builder
                 .input(T2_CIRCUIT)
                 .input(TITANIUM_INGOT, 4)
                 .input(POLYMER_INGOT, 8)
                 .input(ELECTRIC_CHEMICAL, 8));
-        upgradeFabricating(output, registries, toolEUMGroup, TOOL_ENERGY_UPGRADE, 3, 500_000, builder -> builder
+        upgradeFabricating(output, registries, toolEUMGroup, EQUIPMENT_ENERGY_UPGRADE, 3, 500_000, builder -> builder
                 .input(T3_CIRCUIT)
                 .input(TITANIUM_INGOT, 8)
                 .input(POLYMER_INGOT, 16)
                 .input(GOLD_INGOT, 4)
                 .input(ELECTRIC_CHEMICAL, 16));
-        upgradeFabricating(output, registries, toolEUMGroup, TOOL_ENERGY_UPGRADE, 4, 1_000_000, builder -> builder
+        upgradeFabricating(output, registries, toolEUMGroup, EQUIPMENT_ENERGY_UPGRADE, 4, 1_000_000, builder -> builder
                 .input(T3_CIRCUIT, 2)
                 .input(TITANIUM_INGOT, 8)
                 .input(POLYMER_INGOT, 24)

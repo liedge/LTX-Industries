@@ -79,8 +79,10 @@ public final class LTXIEquipmentUpgrades
     public static final ResourceKey<EquipmentUpgrade> LEGS_DEFAULT = defaultKey(ID_WONDERLAND_LEGS);
     public static final ResourceKey<EquipmentUpgrade> FEET_DEFAULT = defaultKey(ID_WONDERLAND_FEET);
 
+    // General equipment upgrades
+    public static final ResourceKey<EquipmentUpgrade> EQUIPMENT_ENERGY_UPGRADE = key("tool_energy_upgrade");
+
     // Tool upgrades
-    public static final ResourceKey<EquipmentUpgrade> TOOL_ENERGY_UPGRADE = key("tool_energy_upgrade");
     public static final ResourceKey<EquipmentUpgrade> EPSILON_FISHING_LURE = key("epsilon_fishing_lure");
     public static final ResourceKey<EquipmentUpgrade> TOOL_NETHERITE_LEVEL = key("tool_netherite_level");
     public static final ResourceKey<EquipmentUpgrade> EPSILON_OMNI_DRILL = key("epsilon_omni_drill");
@@ -147,12 +149,12 @@ public final class LTXIEquipmentUpgrades
         HolderSet<Item> anyItemHolderSet = new AnyHolderSet<>(BuiltInRegistries.ITEM.asLookup());
 
         // Common holder sets
-        HolderSet<Item> allTools = items.getOrThrow(LTXITags.Items.ALL_TOOLS);
+        HolderSet<Item> allTools = items.getOrThrow(LTXITags.Items.TOOL_EQUIPMENT);
         HolderSet<Item> miningTools = items.getOrThrow(LTXITags.Items.MINING_TOOLS);
         HolderSet<Item> modularMiningTools = items.getOrThrow(LTXITags.Items.MODULAR_MINING_TOOLS);
         HolderSet<Item> meleeWeapons = items.getOrThrow(LTXITags.Items.MELEE_WEAPONS);
         HolderSet<Item> projectileWeapons = items.getOrThrow(LTXITags.Items.ENERGY_PROJECTILE_WEAPONS);
-        HolderSet<Item> allWeapons = items.getOrThrow(LTXITags.Items.ALL_WEAPONS);
+        HolderSet<Item> allWeapons = items.getOrThrow(LTXITags.Items.WEAPON_EQUIPMENT);
         HolderSet<Item> wonderlandArmor = items.getOrThrow(LTXITags.Items.WONDERLAND_ARMOR);
 
         // Built in upgrades
@@ -276,17 +278,19 @@ public final class LTXIEquipmentUpgrades
                 .category("default/armor/4")
                 .register(context);
 
-        // Tool upgrades
-        ContextlessValue toolEnergy = ExponentialDouble.of(2, LinearDouble.oneIncrement(2));
-        EquipmentUpgrade.builder(TOOL_ENERGY_UPGRADE)
+        // General equipment upgrades
+        ContextlessValue equipmentEnergyAmt = ExponentialDouble.of(2, LinearDouble.oneIncrement(2));
+        EquipmentUpgrade.builder(EQUIPMENT_ENERGY_UPGRADE)
                 .createDefaultTitle(REM_BLUE)
-                .supports(allTools)
+                .supports(items, LTXITags.Items.ENERGY_UPGRADABLE_EQUIPMENT)
                 .setMaxRank(4)
-                .withEffect(ENERGY_CAPACITY, ValueOperation.of(toolEnergy, MathOperation.MULTIPLY))
-                .tooltip(energyCapacityTooltip(toolEnergy, ValueFormat.MULTIPLICATIVE, ValueSentiment.POSITIVE))
+                .withEffect(ENERGY_CAPACITY, ValueOperation.of(equipmentEnergyAmt, MathOperation.MULTIPLY))
+                .tooltip(energyCapacityTooltip(equipmentEnergyAmt, ValueFormat.MULTIPLICATIVE, ValueSentiment.POSITIVE))
                 .effectIcon(sprite("extra_energy"))
-                .category("tools")
+                .category("equipment")
                 .register(context);
+
+        // Tool upgrades
         EquipmentUpgrade.builder(EPSILON_FISHING_LURE)
                 .createDefaultTitle(LIME_GREEN)
                 .supports(LTXIItems.LTX_FISHING_ROD)
@@ -318,7 +322,7 @@ public final class LTXIEquipmentUpgrades
                 .category("tools")
                 .register(context);
         EquipmentUpgrade.builder(TOOL_VIBRATION_CANCEL)
-                .supports(items.getOrThrow(LTXITags.Items.ALL_TOOLS))
+                .supports(items.getOrThrow(LTXITags.Items.TOOL_EQUIPMENT))
                 .withEffect(SUPPRESS_VIBRATIONS, SuppressVibrations.forSlot(EquipmentSlotGroup.HAND, gameEvents.getOrThrow(LTXITags.GameEvents.HANDHELD_EQUIPMENT)))
                 .effectIcon(redXOverlay(itemIcon(Items.SCULK_SENSOR)))
                 .category("tools")

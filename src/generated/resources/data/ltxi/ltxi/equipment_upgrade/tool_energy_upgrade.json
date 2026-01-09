@@ -1,6 +1,6 @@
 {
   "display": {
-    "category": "tools",
+    "category": "equipment",
     "description": {
       "translate": "equipment_upgrade.ltxi.tool_energy_upgrade.desc"
     },
@@ -53,5 +53,5 @@
   },
   "exclusive_set": [],
   "max_rank": 4,
-  "supported_set": "#ltxi:tools"
+  "supported_set": "#ltxi:equipment/energy_upgradable"
 }

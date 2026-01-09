@@ -226,7 +226,8 @@ class LanguageGen extends LimaLanguageProvider
         upgrade(LTXIEquipmentUpgrades.FEET_DEFAULT, "AL/1C [F] Unit", "Bipedal stabilization systems of the AL/1C bodysuit.");
         upgradeTooltip(LTXIEquipmentUpgrades.FEET_DEFAULT, 0, "Immune to hot floor damage.");
 
-        upgrade(LTXIEquipmentUpgrades.TOOL_ENERGY_UPGRADE, "Augmented ε Battery", "Maximize your ε-Series tool's field uptime with this enhanced battery.");
+        upgrade(LTXIEquipmentUpgrades.EQUIPMENT_ENERGY_UPGRADE, "Augmented Equipment Battery", "Maximize your equipment's field uptime with this upgraded battery.");
+
         upgrade(LTXIEquipmentUpgrades.EPSILON_FISHING_LURE, "ε Anglers' Kit", "Upgraded lure for the ε-Series fishing rod. Attracts more valuable aquatic specimens faster than regular bait.");
         upgrade(LTXIEquipmentUpgrades.TOOL_NETHERITE_LEVEL, "Netherite-Core Tool Head", "Upgraded tool cutters can harvest Netherite-level materials.");
         upgrade(LTXIEquipmentUpgrades.EPSILON_OMNI_DRILL, "ε Cutter Rev.000", "Restored prototype ε mining tech with bypassed safeties. Makes modular mining tools effective against all material types.");
