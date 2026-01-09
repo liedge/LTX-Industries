@@ -250,8 +250,13 @@ class LanguageGen extends LimaLanguageProvider
         upgradeTooltip(LTXIEquipmentUpgrades.UNIVERSAL_STEALTH_DAMAGE, 0, "No anger on damage");
         upgrade(LTXIEquipmentUpgrades.GRENADE_LAUNCHER_PROJECTILE_SPEED, "Hanabi Launch Boost", "Increases the velocity of the Hanabi grenades.");
 
-        upgrade(LTXIEquipmentUpgrades.HEAD_NIGHT_VISION, "NV Visor", "AL/1C optics modified to work in low light environments.");
+        upgrade(LTXIEquipmentUpgrades.PASSIVE_NIGHT_VISION, "NV Visor", "AL/1C optics modified to work in low light environments.");
         upgrade(LTXIEquipmentUpgrades.ARMOR_PASSIVE_SHIELD, "Bubble Projection Unit", "Upgrades AL/1C with auto-recharging Bubble Shield engines. Can be installed on all pieces.");
+        upgrade(LTXIEquipmentUpgrades.ARMOR_DEFENSE, "Active Protection Unit", "Upgrades AL/1C's shell with an energy-powered impact and trauma attenuation system.");
+        upgradeTooltip(LTXIEquipmentUpgrades.ARMOR_DEFENSE, 0, "%s non-void damage reduction (%s)");
+        upgrade(LTXIEquipmentUpgrades.BREATHING_UNIT, "Atmospheric Regulator", "Allows indefinite operation underwater for the user.");
+        upgrade(LTXIEquipmentUpgrades.PASSIVE_SATURATION, "Metabolic Synthesizer", "Injects a stable mix of nutrients required for healthy function.");
+        upgrade(LTXIEquipmentUpgrades.CREATIVE_FLIGHT, "Fantasia Rulebook", italicName("One of the %s project's most successful experiments. Allows the user to exist outside the laws of gravity.", "Wonderland"));
 
         upgrade(LTXIEquipmentUpgrades.EFFICIENCY_ENCHANTMENT, "Overclocked Energy Cutters", "Enhances the power feed to the tool's energy cutter.");
         upgrade(LTXIEquipmentUpgrades.SILK_TOUCH_ENCHANTMENT, "Stabilized Harvest Matrix", "Calibrated to extract intact samples from the terrain.");

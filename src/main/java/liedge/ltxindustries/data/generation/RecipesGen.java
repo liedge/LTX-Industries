@@ -678,7 +678,7 @@ class RecipesGen extends LimaRecipeProvider
                 .input(PHANTOM_MEMBRANE, 8));
 
         final String armorEUMGroup = "eum/armor";
-        upgradeFabricating(output, registries, armorEUMGroup, HEAD_NIGHT_VISION, 1, 250_000, builder -> builder
+        upgradeFabricating(output, registries, armorEUMGroup, PASSIVE_NIGHT_VISION, 1, 250_000, builder -> builder
                 .input(T2_CIRCUIT, 2)
                 .input(TITANIUM_GLASS, 3)
                 .input(GLOWSTONE_DUST, 8)
@@ -706,6 +706,44 @@ class RecipesGen extends LimaRecipeProvider
                 .input(TITANIUM_GEAR, 8)
                 .input(SLATESTEEL_GEAR, 8)
                 .input(ELECTRIC_CHEMICAL, 64));
+
+        upgradeFabricating(output, registries, armorEUMGroup, ARMOR_DEFENSE, 1, 250_000, builder -> builder
+                .input(T2_CIRCUIT, 2)
+                .input(TITANIUM_INGOT, 4)
+                .input(SLATESTEEL_INGOT, 4));
+        upgradeFabricating(output, registries, armorEUMGroup, ARMOR_DEFENSE, 2, 1_000_000, builder -> builder
+                .input(T3_CIRCUIT, 2)
+                .input(TITANIUM_INGOT, 8)
+                .input(SLATESTEEL_INGOT, 8)
+                .input(POLYMER_INGOT, 4));
+        upgradeFabricating(output, registries, armorEUMGroup, ARMOR_DEFENSE, 3, 10_000_000, builder -> builder
+                .input(T4_CIRCUIT)
+                .input(TITANIUM_INGOT, 16)
+                .input(SLATESTEEL_INGOT, 16)
+                .input(POLYMER_INGOT, 8));
+        upgradeFabricating(output, registries, armorEUMGroup, ARMOR_DEFENSE, 4, 50_000_000, builder -> builder
+                .input(T4_CIRCUIT, 2)
+                .input(TITANIUM_INGOT, 24)
+                .input(SLATESTEEL_INGOT, 24)
+                .input(POLYMER_INGOT, 12));
+
+        upgradeFabricating(output, registries, armorEUMGroup, BREATHING_UNIT, 1, 1_000_000, builder -> builder
+                .input(T2_CIRCUIT, 2)
+                .input(ELECTRIC_CHEMICAL, 4)
+                .input(POLYMER_INGOT, 4)
+                .input(TITANIUM_GLASS, 4));
+
+        upgradeFabricating(output, registries, armorEUMGroup, PASSIVE_SATURATION, 1, 100_000_000, builder -> builder
+                .input(T4_CIRCUIT)
+                .input(SCULK_CHEMICAL, 16)
+                .input(GOLDEN_APPLE, 32)
+                .input(GOLDEN_CARROT, 32)
+                .input(GLISTERING_MELON_SLICE, 32));
+
+        upgradeFabricating(output, registries, armorEUMGroup, CREATIVE_FLIGHT, 1, 150_000_000, builder -> builder
+                .input(T5_CIRCUIT)
+                .input(CHORUS_CHEMICAL, 32)
+                .input(PHANTOM_MEMBRANE, 16));
 
         upgradeFabricating(output, registries, "mum/gpm", ULTIMATE_MACHINE_SYSTEMS, 1, 250_000_000, false, builder -> builder
                 .input(moduleIngredient(registries, STANDARD_MACHINE_SYSTEMS, 6))

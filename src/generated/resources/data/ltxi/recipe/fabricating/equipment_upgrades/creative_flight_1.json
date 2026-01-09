@@ -1,0 +1,32 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 150000000,
+  "group": "eum/armor",
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "ltxi:empty_upgrade_module"
+    },
+    {
+      "count": 1,
+      "item": "ltxi:t5_circuit"
+    },
+    {
+      "count": 32,
+      "item": "ltxi:chorus_chemical"
+    },
+    {
+      "count": 16,
+      "item": "minecraft:phantom_membrane"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:equipment_upgrade": {
+        "upgrade": "ltxi:creative_flight"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:equipment_upgrade_module"
+  }
+}

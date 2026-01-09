@@ -15,7 +15,10 @@ import liedge.ltxindustries.lib.upgrades.effect.*;
 import liedge.ltxindustries.lib.upgrades.effect.entity.ApplyMobEffect;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
 import liedge.ltxindustries.lib.upgrades.tooltip.*;
-import liedge.ltxindustries.lib.upgrades.value.*;
+import liedge.ltxindustries.lib.upgrades.value.ConstantDouble;
+import liedge.ltxindustries.lib.upgrades.value.ContextlessValue;
+import liedge.ltxindustries.lib.upgrades.value.ExponentialDouble;
+import liedge.ltxindustries.lib.upgrades.value.LinearDouble;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
 import liedge.ltxindustries.lib.weapons.WeaponReloadSource;
 import liedge.ltxindustries.registry.LTXIRegistries;
@@ -48,6 +51,7 @@ import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.predicates.DamageSourceCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemEntityPropertyCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.registries.holdersets.AnyHolderSet;
 
 import static liedge.ltxindustries.LTXIConstants.*;
@@ -105,8 +109,12 @@ public final class LTXIEquipmentUpgrades
     public static final ResourceKey<EquipmentUpgrade> GRENADE_LAUNCHER_PROJECTILE_SPEED = key("grenade_launcher_projectile_speed");
 
     // Armor upgrades
-    public static final ResourceKey<EquipmentUpgrade> HEAD_NIGHT_VISION = key("night_vision");
+    public static final ResourceKey<EquipmentUpgrade> PASSIVE_NIGHT_VISION = key("night_vision");
     public static final ResourceKey<EquipmentUpgrade> ARMOR_PASSIVE_SHIELD = key("armor_passive_shield");
+    public static final ResourceKey<EquipmentUpgrade> ARMOR_DEFENSE = key("armor_defense");
+    public static final ResourceKey<EquipmentUpgrade> BREATHING_UNIT = key("breathing_unit");
+    public static final ResourceKey<EquipmentUpgrade> PASSIVE_SATURATION = key("saturation");
+    public static final ResourceKey<EquipmentUpgrade> CREATIVE_FLIGHT = key("creative_flight");
 
     // Enchantments
     public static final ResourceKey<EquipmentUpgrade> EFFICIENCY_ENCHANTMENT = key("enchantment/efficiency");
@@ -149,7 +157,6 @@ public final class LTXIEquipmentUpgrades
         HolderSet<Item> anyItemHolderSet = new AnyHolderSet<>(BuiltInRegistries.ITEM.asLookup());
 
         // Common holder sets
-        HolderSet<Item> allTools = items.getOrThrow(LTXITags.Items.TOOL_EQUIPMENT);
         HolderSet<Item> miningTools = items.getOrThrow(LTXITags.Items.MINING_TOOLS);
         HolderSet<Item> modularMiningTools = items.getOrThrow(LTXITags.Items.MODULAR_MINING_TOOLS);
         HolderSet<Item> meleeWeapons = items.getOrThrow(LTXITags.Items.MELEE_WEAPONS);
@@ -454,7 +461,7 @@ public final class LTXIEquipmentUpgrades
                 .register(context);
 
         // Armor upgrades
-        EquipmentUpgrade.builder(HEAD_NIGHT_VISION)
+        EquipmentUpgrade.builder(PASSIVE_NIGHT_VISION)
                 .supports(LTXIItems.WONDERLAND_HEAD)
                 .withConditionalEffect(EQUIPMENT_TICK, ApplyMobEffect.applyPassiveEffect(MobEffects.NIGHT_VISION, ConstantDouble.of(400), ConstantDouble.of(0)),
                         LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity().periodicTick(60)))
@@ -467,6 +474,39 @@ public final class LTXIEquipmentUpgrades
                 .setMaxRank(4)
                 .itemAttributes(LTXIAttributes.SHIELD_CAPACITY, "shield", LevelBasedValue.perLevel(5), AttributeModifier.Operation.ADD_VALUE, EquipmentSlotGroup.ARMOR)
                 .effectIcon(sprite("bubble_shield"))
+                .category("armor")
+                .register(context);
+        ContextlessValue defenseAmt = LinearDouble.linearIncrement(0.0625d);
+        ContextlessValue defenseEnergy = LinearDouble.oneIncrement(1);
+        EquipmentUpgrade.builder(ARMOR_DEFENSE)
+                .supports(wonderlandArmor)
+                .setMaxRank(4)
+                .itemAttributes(Attributes.KNOCKBACK_RESISTANCE, "steady", LevelBasedValue.perLevel(0.0625f), AttributeModifier.Operation.ADD_VALUE, EquipmentSlotGroup.ARMOR)
+                .withConditionalEffect(DAMAGE_REDUCTION, DamageReduction.blockDamage(defenseAmt, defenseEnergy), DamageSourceCondition.hasDamageSource(DamageSourcePredicate.Builder.damageType()
+                        .tag(TagPredicate.isNot(DamageTypeTags.BYPASSES_INVULNERABILITY))))
+                .tooltip(0, key -> TranslatableTooltip.create(key, ValueComponent.of(defenseAmt, ValueFormat.PERCENTAGE, ValueSentiment.POSITIVE), energyActionsTooltip(defenseEnergy)))
+                .effectIcon(sprite("defense"))
+                .category("armor")
+                .register(context);
+        EquipmentUpgrade.builder(BREATHING_UNIT)
+                .supports(LTXIItems.WONDERLAND_HEAD)
+                .withConditionalEffect(EQUIPMENT_TICK, ApplyMobEffect.applyPassiveEffect(MobEffects.WATER_BREATHING, ConstantDouble.of(400), ConstantDouble.of(0)),
+                        LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity().periodicTick(60)))
+                .effectIcon(sprite("respirator"))
+                .category("armor")
+                .register(context);
+        EquipmentUpgrade.builder(PASSIVE_SATURATION)
+                .supports(LTXIItems.WONDERLAND_BODY)
+                .withConditionalEffect(EQUIPMENT_TICK, ApplyMobEffect.applyPassiveEffect(MobEffects.SATURATION, ConstantDouble.of(200), ConstantDouble.of(0)),
+                        LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity().periodicTick(60)))
+                .effectIcon(greenArrowOverlay(itemIcon(Items.COOKED_BEEF)))
+                .category("armor")
+                .register(context);
+        EquipmentUpgrade.builder(CREATIVE_FLIGHT)
+                .createDefaultTitle(CREATIVE_PINK)
+                .supports(LTXIItems.WONDERLAND_BODY)
+                .itemAttributes(NeoForgeMod.CREATIVE_FLIGHT, "fly", LevelBasedValue.constant(1), AttributeModifier.Operation.ADD_VALUE, EquipmentSlotGroup.CHEST)
+                .effectIcon(sprite("flight"))
                 .category("armor")
                 .register(context);
 

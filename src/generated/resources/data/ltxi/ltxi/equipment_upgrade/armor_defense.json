@@ -1,0 +1,96 @@
+{
+  "display": {
+    "category": "armor",
+    "description": {
+      "translate": "equipment_upgrade.ltxi.armor_defense.desc"
+    },
+    "icon": "ltxi:defense",
+    "title": {
+      "translate": "equipment_upgrade.ltxi.armor_defense"
+    },
+    "tooltips": [
+      {
+        "type": "custom_args",
+        "args": [
+          {
+            "type": "value",
+            "format": "percentage",
+            "sentiment": "positive",
+            "value": {
+              "type": "linear",
+              "base": 0.0625,
+              "increment": 0.0625
+            }
+          },
+          {
+            "type": "custom_args",
+            "args": [
+              {
+                "type": "value",
+                "format": "flat",
+                "sentiment": "negative",
+                "value": {
+                  "type": "linear",
+                  "base": 1.0,
+                  "increment": 1.0
+                }
+              }
+            ],
+            "key": "tooltip.ltxi.energy_actions",
+            "style": {
+              "color": "#8BD1F0"
+            }
+          }
+        ],
+        "key": "equipment_upgrade.ltxi.armor_defense.tooltip0"
+      }
+    ]
+  },
+  "effects": {
+    "ltxi:add_item_attributes": [
+      {
+        "attribute": "minecraft:generic.knockback_resistance",
+        "modifier": {
+          "amount": {
+            "type": "minecraft:linear",
+            "base": 0.0625,
+            "per_level_above_first": 0.0625
+          },
+          "id": "ltxi:armor_defense.steady",
+          "operation": "add_value"
+        },
+        "slots": "armor"
+      }
+    ],
+    "ltxi:damage_reduction": [
+      {
+        "effect": {
+          "amount": {
+            "type": "linear",
+            "base": 0.0625,
+            "increment": 0.0625
+          },
+          "energy_actions": {
+            "type": "linear",
+            "base": 1.0,
+            "increment": 1.0
+          }
+        },
+        "requirements": {
+          "condition": "minecraft:damage_source_properties",
+          "predicate": {
+            "tags": [
+              {
+                "expected": false,
+                "id": "minecraft:bypasses_invulnerability"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "exclusive_set": [],
+  "max_rank": 4,
+  "supported_set": "#ltxi:wonderland_armor"
+}
