@@ -52,6 +52,7 @@ public sealed abstract class LTXIMachineBlockEntity extends LimaBlockEntity impl
     private MachineUpgrades upgrades = MachineUpgrades.EMPTY;
 
     private int autoItemOutputTimer;
+    private int autoItemInputTimer;
 
     protected LTXIMachineBlockEntity(ConfigurableIOBlockEntityType<?> type, BlockPos pos, BlockState state, int auxInventorySize)
     {
@@ -308,26 +309,56 @@ public sealed abstract class LTXIMachineBlockEntity extends LimaBlockEntity impl
         };
     }
 
-    protected void autoOutputItems(IItemHandler internalInventory, Predicate<ItemStack> predicate)
+    protected void pullItemsFromSides(IItemHandler thisInventory, Predicate<ItemStack> predicate)
     {
-        if (itemIOConfig.autoOutput())
+        if (itemIOConfig.autoInput())
         {
-            for (Direction side : Direction.values())
+            Direction front = getFacing();
+            for (var entry : itemIOConfig)
             {
-                if (itemIOConfig.getIOAccess(getFacing(), side).allowsOutput())
+                if (entry.getValue().allowsInput())
                 {
-                    IItemHandler neighborInv = getNeighborItemHandler(side);
-                    if (neighborInv != null) LimaItemHandlerUtil.transferItemsBetween(internalInventory, neighborInv, predicate);
+                    IItemHandler neighborItems = getNeighborItemHandler(entry.getKey().resolveAbsoluteSide(front));
+                    if (neighborItems != null) LimaItemHandlerUtil.transferItemsBetween(neighborItems, thisInventory, predicate);
                 }
             }
         }
     }
 
-    protected void autoOutputItems(int frequency, IItemHandler internalInventory, Predicate<ItemStack> predicate)
+    protected void pushItemsToSides(IItemHandler thisInventory, Predicate<ItemStack> predicate)
+    {
+        if (itemIOConfig.autoOutput())
+        {
+            Direction front = getFacing();
+            for (var entry : itemIOConfig)
+            {
+                if (entry.getValue().allowsOutput())
+                {
+                    IItemHandler neighborItems = getNeighborItemHandler(entry.getKey().resolveAbsoluteSide(front));
+                    if (neighborItems != null) LimaItemHandlerUtil.transferItemsBetween(thisInventory, neighborItems, predicate);
+                }
+            }
+        }
+    }
+
+    protected void tickItemAutoInput(int frequency, IItemHandler thisInventory)
+    {
+        if (autoItemInputTimer >= frequency)
+        {
+            pullItemsFromSides(thisInventory, LimaItemUtil.ALWAYS_TRUE);
+            autoItemInputTimer = 0;
+        }
+        else
+        {
+            autoItemInputTimer++;
+        }
+    }
+
+    protected void tickItemAutoOutput(int frequency, IItemHandler thisInventory, Predicate<ItemStack> predicate)
     {
         if (autoItemOutputTimer >= frequency)
         {
-            autoOutputItems(internalInventory, predicate);
+            pushItemsToSides(thisInventory, predicate);
             autoItemOutputTimer = 0;
         }
         else
@@ -336,9 +367,9 @@ public sealed abstract class LTXIMachineBlockEntity extends LimaBlockEntity impl
         }
     }
 
-    protected void autoOutputItems(int frequency, IItemHandler internalInventory)
+    protected void tickItemAutoOutput(int frequency, IItemHandler thisInventory)
     {
-        autoOutputItems(frequency, internalInventory, LimaItemUtil.ALWAYS_TRUE);
+        tickItemAutoOutput(frequency, thisInventory, LimaItemUtil.ALWAYS_TRUE);
     }
 
     @Override

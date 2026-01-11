@@ -114,7 +114,7 @@ public abstract class BaseECABlockEntity extends EnergyMachineBlockEntity
         }
 
         // Auto output energy if option enabled
-        autoOutputItems(100, chargingInventory, stack -> checkStackEnergy(stack).allowsOutput());
+        tickItemAutoOutput(100, chargingInventory, stack -> checkStackEnergy(stack).allowsOutput());
         autoOutputEnergy();
     }
 

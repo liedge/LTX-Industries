@@ -1,6 +1,7 @@
 package liedge.ltxindustries.item;
 
 import liedge.limacore.blockentity.IOAccess;
+import liedge.limacore.blockentity.RelativeHorizontalSide;
 import liedge.limacore.client.LimaComponentUtil;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.util.LimaBlockUtil;
@@ -108,9 +109,12 @@ public class IOConfigCardItem extends Item implements TooltipShiftHintItem
         else
         {
             consumer.accept(LTXILangKeys.ENCODED_IO_CARD_HINT.translate().withStyle(ChatFormatting.GRAY));
-            configuration.forEach((side, access) -> consumer.accept(LimaComponentUtil.colonSpaced(
-                    side.translate().withStyle(ChatFormatting.GRAY),
-                    access.translate().withStyle(ioStyle(access)))));
+            for (var entry : configuration)
+            {
+                RelativeHorizontalSide side = entry.getKey();
+                IOAccess access = entry.getValue();
+                consumer.accept(LimaComponentUtil.colonSpaced(side.translate().withStyle(ChatFormatting.GRAY), access.translate().withStyle(ioStyle(access))));
+            }
 
             if (configuration.autoInput())
                 consumer.accept(LTXILangKeys.AUTO_INPUT_ON_TOOLTIP.translate().withStyle(LTXIConstants.INPUT_BLUE.chatStyle().withBold(true)));

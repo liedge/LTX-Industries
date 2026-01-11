@@ -51,6 +51,7 @@ public abstract class ProductionMachineBlockEntity extends EnergyMachineBlockEnt
     private @Nullable BlockIOConfiguration fluidsIOConfig;
     private final Map<Direction, BlockCapabilityCache<IFluidHandler, Direction>> fluidConnections = new EnumMap<>(Direction.class);
     private int autoFluidOutputTimer = 0;
+    private int autoFluidInputTimer = 0;
 
     protected ProductionMachineBlockEntity(ConfigurableIOBlockEntityType<?> type, BlockPos pos, BlockState state, int auxInventorySize, int inputSlots, int outputSlots, int inputTanks, int outputTanks)
     {
@@ -183,26 +184,56 @@ public abstract class ProductionMachineBlockEntity extends EnergyMachineBlockEnt
         return fluidConnections.get(side).getCapability();
     }
 
-    protected void autoOutputFluids()
+    protected void pullFluidsFromSides()
+    {
+        if (inputFluids != null && fluidsIOConfig != null && fluidsIOConfig.autoInput())
+        {
+            Direction front = getFacing();
+            for (var entry : fluidsIOConfig)
+            {
+                if (entry.getValue().allowsInput())
+                {
+                    IFluidHandler neighborFluids = getNeighborFluidHandler(entry.getKey().resolveAbsoluteSide(front));
+                    if (neighborFluids != null) LimaFluidUtil.transferFluidsFromGeneralTank(neighborFluids, inputFluids, INPUT_TANK_CAPACITY, IFluidHandler.FluidAction.EXECUTE);
+                }
+            }
+        }
+    }
+
+    protected void pushFluidsToSides()
     {
         if (outputFluids != null && fluidsIOConfig != null && fluidsIOConfig.autoOutput())
         {
-            for (Direction side : Direction.values())
+            Direction front = getFacing();
+            for (var entry : fluidsIOConfig)
             {
-                if (fluidsIOConfig.getIOAccess(getFacing(), side).allowsOutput())
+                if (entry.getValue().allowsOutput())
                 {
-                    IFluidHandler neighborFluids = getNeighborFluidHandler(side);
+                    IFluidHandler neighborFluids = getNeighborFluidHandler(entry.getKey().resolveAbsoluteSide(front));
                     if (neighborFluids != null) LimaFluidUtil.transferFluidsFromLimaTank(outputFluids, neighborFluids, OUTPUT_TANK_CAPACITY, IFluidHandler.FluidAction.EXECUTE);
                 }
             }
         }
     }
 
-    protected void autoOutputFluids(int frequency)
+    protected void tickFluidAutoInput(int frequency)
+    {
+        if (autoFluidInputTimer >= frequency)
+        {
+            pullFluidsFromSides();
+            autoFluidInputTimer = 0;
+        }
+        else
+        {
+            autoFluidInputTimer++;
+        }
+    }
+
+    protected void tickFluidAutoOutput(int frequency)
     {
         if (autoFluidOutputTimer >= frequency)
         {
-            autoOutputFluids();
+            pushFluidsToSides();
             autoFluidOutputTimer = 0;
         }
         else

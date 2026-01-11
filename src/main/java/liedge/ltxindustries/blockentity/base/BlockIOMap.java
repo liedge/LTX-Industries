@@ -1,5 +1,6 @@
 package liedge.ltxindustries.blockentity.base;
 
+import com.google.common.collect.Iterators;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import liedge.limacore.blockentity.IOAccess;
@@ -10,8 +11,8 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 
 import java.util.EnumMap;
+import java.util.Iterator;
 import java.util.Map;
-import java.util.function.BiConsumer;
 
 record BlockIOMap(Map<RelativeHorizontalSide, IOAccess> map, boolean autoInput, boolean autoOutput) implements BlockIOConfiguration
 {
@@ -84,11 +85,8 @@ record BlockIOMap(Map<RelativeHorizontalSide, IOAccess> map, boolean autoInput, 
     }
 
     @Override
-    public void forEach(BiConsumer<RelativeHorizontalSide, IOAccess> consumer)
+    public Iterator<Map.Entry<RelativeHorizontalSide, IOAccess>> iterator()
     {
-        for (var entry : map.entrySet())
-        {
-            consumer.accept(entry.getKey(), entry.getValue());
-        }
+        return Iterators.unmodifiableIterator(map.entrySet().iterator());
     }
 }

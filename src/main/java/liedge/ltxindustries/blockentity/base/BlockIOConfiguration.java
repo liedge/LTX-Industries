@@ -9,10 +9,10 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 
 import java.util.EnumMap;
-import java.util.function.BiConsumer;
+import java.util.Map;
 import java.util.function.Function;
 
-public sealed interface BlockIOConfiguration permits BlockIOMap
+public sealed interface BlockIOConfiguration extends Iterable<Map.Entry<RelativeHorizontalSide, IOAccess>> permits BlockIOMap
 {
     Codec<BlockIOConfiguration> CODEC = BlockIOMap.CODEC.xmap(Function.identity(), o -> (BlockIOMap) o);
     StreamCodec<FriendlyByteBuf, BlockIOConfiguration> STREAM_CODEC = BlockIOMap.STREAM_CODEC.map(Function.identity(), o -> (BlockIOMap) o);
@@ -73,6 +73,4 @@ public sealed interface BlockIOConfiguration permits BlockIOMap
     }
 
     boolean isValidForRules(IOConfigurationRules rules);
-
-    void forEach(BiConsumer<RelativeHorizontalSide, IOAccess> consumer);
 }

@@ -112,7 +112,7 @@ public class MolecularReconstructorBlockEntity extends ProductionMachineBlockEnt
         }
 
         // Auto output item
-        autoOutputItems(40, outputInventory);
+        tickItemAutoOutput(40, outputInventory);
     }
 
     @Override

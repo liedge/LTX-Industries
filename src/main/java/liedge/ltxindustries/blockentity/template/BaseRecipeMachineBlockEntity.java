@@ -223,9 +223,11 @@ public abstract class BaseRecipeMachineBlockEntity<I extends RecipeInput, R exte
             }
         }
 
-        // Push auto outputs via sides every 20 ticks, if option enabled
-        autoOutputItems(20, getOutputInventory());
-        autoOutputFluids(20);
+        // Tick auto input/output of items and fluids
+        tickItemAutoInput(20, getInputInventory());
+        tickItemAutoOutput(20, getOutputInventory());
+        tickFluidAutoInput(20);
+        tickFluidAutoOutput(20);
     }
 
     @Override

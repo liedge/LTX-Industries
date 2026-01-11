@@ -177,7 +177,7 @@ public abstract class BaseTurretBlockEntity extends ProductionMachineBlockEntity
         fillEnergyBuffer();
 
         // Auto eject items
-        autoOutputItems(100, getOutputInventory());
+        tickItemAutoOutput(100, getOutputInventory());
 
         // Try to fill targeting queue if turret firing sequence is not active
         if (!turretCharging && targetQueue.isEmpty() && ticker >= getTargetScanTime())
