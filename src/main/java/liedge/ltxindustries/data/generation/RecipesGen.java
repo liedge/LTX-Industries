@@ -62,7 +62,6 @@ import static liedge.ltxindustries.LTXITags.Fluids.OXYGEN_FLUIDS;
 import static liedge.ltxindustries.LTXITags.Items.*;
 import static liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades.*;
 import static liedge.ltxindustries.registry.bootstrap.LTXIMachineUpgrades.*;
-import static liedge.ltxindustries.registry.game.LTXIBlocks.*;
 import static liedge.ltxindustries.registry.game.LTXIFluids.VIRIDIC_ACID;
 import static liedge.ltxindustries.registry.game.LTXIItems.*;
 import static net.minecraft.world.item.Items.*;

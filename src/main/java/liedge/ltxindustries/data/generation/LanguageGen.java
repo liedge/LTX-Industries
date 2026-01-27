@@ -25,9 +25,6 @@ import net.minecraft.world.damagesource.DamageType;
 import net.neoforged.neoforge.registries.DeferredItem;
 
 import static liedge.ltxindustries.client.LTXILangKeys.*;
-import static liedge.ltxindustries.registry.game.LTXIBlocks.*;
-import static liedge.ltxindustries.registry.game.LTXIBlocks.GLOOM_SHROOM;
-import static liedge.ltxindustries.registry.game.LTXIBlocks.SPARK_FRUIT;
 import static liedge.ltxindustries.registry.game.LTXICreativeTabs.*;
 import static liedge.ltxindustries.registry.game.LTXIItems.*;
 import static liedge.ltxindustries.registry.game.LTXIRecipeTypes.*;
@@ -47,59 +44,59 @@ class LanguageGen extends LimaLanguageProvider
         add(LTXIAttributes.SHIELD_CAPACITY.get().getDescriptionId(), "Passive Bubble Shield");
 
         //#region Blocks
-        addBlock(TITANIUM_ORE, "Titanium Ore");
-        addBlock(DEEPSLATE_TITANIUM_ORE, "Deepslate Titanium Ore");
-        addBlock(NIOBIUM_ORE, "Niobium Ore");
-        addBlock(RAW_TITANIUM_BLOCK, "Block of Raw Titanium");
-        addBlock(RAW_NIOBIUM_BLOCK, "Block of Raw Niobium");
-        addBlock(RAW_TITANIUM_CLUSTER, "Raw Titanium Cluster");
-        addBlock(RAW_NIOBIUM_CLUSTER, "Raw Niobium Cluster");
-        addBlock(TITANIUM_BLOCK, "Block of Titanium");
-        addBlock(NIOBIUM_BLOCK, "Block of Niobium");
-        addBlock(SLATESTEEL_BLOCK, "Block of Slatesteel");
+        addBlock(LTXIBlocks.TITANIUM_ORE, "Titanium Ore");
+        addBlock(LTXIBlocks.DEEPSLATE_TITANIUM_ORE, "Deepslate Titanium Ore");
+        addBlock(LTXIBlocks.NIOBIUM_ORE, "Niobium Ore");
+        addBlock(LTXIBlocks.RAW_TITANIUM_BLOCK, "Block of Raw Titanium");
+        addBlock(LTXIBlocks.RAW_NIOBIUM_BLOCK, "Block of Raw Niobium");
+        addBlock(LTXIBlocks.RAW_TITANIUM_CLUSTER, "Raw Titanium Cluster");
+        addBlock(LTXIBlocks.RAW_NIOBIUM_CLUSTER, "Raw Niobium Cluster");
+        addBlock(LTXIBlocks.TITANIUM_BLOCK, "Block of Titanium");
+        addBlock(LTXIBlocks.NIOBIUM_BLOCK, "Block of Niobium");
+        addBlock(LTXIBlocks.SLATESTEEL_BLOCK, "Block of Slatesteel");
 
-        NEON_LIGHTS.forEach((color, holder) ->
+        LTXIBlocks.NEON_LIGHTS.forEach((color, holder) ->
         {
             String name = color == NeonLightColor.LTX_LIME ? "LTX Lime" : localizeSimpleName(color.toString());
             name += " Neon Light";
             addBlock(holder, name);
         });
-        addBlock(TITANIUM_PANEL, "Titanium Panel");
-        addBlock(SMOOTH_TITANIUM_PANEL, "Smooth Titanium Panel");
-        addBlock(TILED_TITANIUM_PANEL, "Tiled Titanium Panel");
-        addBlock(TITANIUM_GLASS, "Titanium Glass");
-        addBlock(SLATESTEEL_PANEL, "Slatesteel Panel");
-        addBlock(SMOOTH_SLATESTEEL_PANEL, "Smooth Slatesteel Panel");
-        addBlock(TILED_SLATESTEEL_PANEL, "Tiled Slatesteel Panel");
+        addBlock(LTXIBlocks.TITANIUM_PANEL, "Titanium Panel");
+        addBlock(LTXIBlocks.SMOOTH_TITANIUM_PANEL, "Smooth Titanium Panel");
+        addBlock(LTXIBlocks.TILED_TITANIUM_PANEL, "Tiled Titanium Panel");
+        addBlock(LTXIBlocks.TITANIUM_GLASS, "Titanium Glass");
+        addBlock(LTXIBlocks.SLATESTEEL_PANEL, "Slatesteel Panel");
+        addBlock(LTXIBlocks.SMOOTH_SLATESTEEL_PANEL, "Smooth Slatesteel Panel");
+        addBlock(LTXIBlocks.TILED_SLATESTEEL_PANEL, "Tiled Slatesteel Panel");
 
-        addBlock(SPARK_FRUIT, "Spark Fruit");
-        addBlock(BILEVINE, "Bilevine");
-        addBlock(BILEVINE_PLANT, "Bilevine");
-        addBlock(GLOOM_SHROOM, "Gloom Shroom");
+        addBlock(LTXIBlocks.SPARK_FRUIT, "Spark Fruit");
+        addBlock(LTXIBlocks.BILEVINE, "Bilevine");
+        addBlock(LTXIBlocks.BILEVINE_PLANT, "Bilevine");
+        addBlock(LTXIBlocks.GLOOM_SHROOM, "Gloom Shroom");
 
-        addBlock(ENERGY_CELL_ARRAY, "Energy Cell Array");
-        addBlock(INFINITE_ENERGY_CELL_ARRAY, "Energy Cell Array (∞)");
-        addBlock(DIGITAL_FURNACE, "Digital Furnace");
-        addBlock(DIGITAL_SMOKER, "Digital Smoker");
-        addBlock(DIGITAL_BLAST_FURNACE, "Digital Blast Furnace");
-        addBlock(GRINDER, "Grinder");
-        addBlock(MATERIAL_FUSING_CHAMBER, "Material Fusing Chamber");
-        addBlock(ELECTROCENTRIFUGE, "ElectroCentrifuge");
-        addBlock(MIXER, "Mixer");
-        addBlock(VOLTAIC_INJECTOR, "Voltaic Injector");
-        addBlock(CHEM_LAB, "Chem Lab");
-        addBlock(ASSEMBLER, "Assembler");
-        addBlock(GEO_SYNTHESIZER, "Geo Synthesizer");
-        addBlock(FABRICATOR, "Fabricator");
-        addBlock(AUTO_FABRICATOR, "Auto Fabricator");
-        addBlock(EQUIPMENT_UPGRADE_STATION, "Equipment Upgrade Station");
-        addBlock(MOLECULAR_RECONSTRUCTOR, "Molecular Reconstructor");
-        addBlock(DIGITAL_GARDEN, "Bio/ARU Garden");
+        addBlock(LTXIBlocks.ENERGY_CELL_ARRAY, "Energy Cell Array");
+        addBlock(LTXIBlocks.INFINITE_ENERGY_CELL_ARRAY, "Energy Cell Array (∞)");
+        addBlock(LTXIBlocks.DIGITAL_FURNACE, "Digital Furnace");
+        addBlock(LTXIBlocks.DIGITAL_SMOKER, "Digital Smoker");
+        addBlock(LTXIBlocks.DIGITAL_BLAST_FURNACE, "Digital Blast Furnace");
+        addBlock(LTXIBlocks.GRINDER, "Grinder");
+        addBlock(LTXIBlocks.MATERIAL_FUSING_CHAMBER, "Material Fusing Chamber");
+        addBlock(LTXIBlocks.ELECTROCENTRIFUGE, "ElectroCentrifuge");
+        addBlock(LTXIBlocks.MIXER, "Mixer");
+        addBlock(LTXIBlocks.VOLTAIC_INJECTOR, "Voltaic Injector");
+        addBlock(LTXIBlocks.CHEM_LAB, "Chem Lab");
+        addBlock(LTXIBlocks.ASSEMBLER, "Assembler");
+        addBlock(LTXIBlocks.GEO_SYNTHESIZER, "Geo Synthesizer");
+        addBlock(LTXIBlocks.FABRICATOR, "Fabricator");
+        addBlock(LTXIBlocks.AUTO_FABRICATOR, "Auto Fabricator");
+        addBlock(LTXIBlocks.EQUIPMENT_UPGRADE_STATION, "Equipment Upgrade Station");
+        addBlock(LTXIBlocks.MOLECULAR_RECONSTRUCTOR, "Molecular Reconstructor");
+        addBlock(LTXIBlocks.DIGITAL_GARDEN, "Bio/ARU Garden");
 
-        addBlock(ROCKET_TURRET, italicName("%s A/DS Turret", "Atmos"));
-        addBlock(RAILGUN_TURRET, italicName("%s A/DS Turret", "Noctis"));
+        addBlock(LTXIBlocks.ROCKET_TURRET, italicName("%s A/DS Turret", "Atmos"));
+        addBlock(LTXIBlocks.RAILGUN_TURRET, italicName("%s A/DS Turret", "Noctis"));
 
-        addBlock(GLOWSTICK, "Glowstick");
+        addBlock(LTXIBlocks.GLOWSTICK, "Glowstick");
         //#endregion
 
         // Fluids

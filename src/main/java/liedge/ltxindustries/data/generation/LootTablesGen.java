@@ -16,6 +16,7 @@ import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
 import liedge.ltxindustries.registry.bootstrap.LTXIEnchantments;
 import liedge.ltxindustries.registry.game.LTXIBlocks;
+import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.registry.game.LTXIMobEffects;
 import liedge.ltxindustries.world.GrenadeSubPredicate;
 import net.minecraft.advancements.critereon.EntityPredicate;
@@ -54,8 +55,6 @@ import static liedge.limacore.util.LimaLootUtil.needsEntityTag;
 import static liedge.limacore.util.LimaLootUtil.needsEntityType;
 import static liedge.ltxindustries.registry.LTXILootTables.*;
 import static liedge.ltxindustries.registry.game.LTXIBlocks.*;
-import static liedge.ltxindustries.registry.game.LTXIBlocks.SPARK_FRUIT;
-import static liedge.ltxindustries.registry.game.LTXIItems.*;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.AGE_2;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.BERRIES;
 
@@ -90,7 +89,7 @@ class LootTablesGen extends LimaLootTableProvider
             LootPool.Builder phantomDrops = LootPool.lootPool()
                     .when(needsEntityType(EntityType.PHANTOM))
                     .when(LootItemRandomChanceCondition.randomChance(0.1f))
-                    .add(lootItem(TARGETING_TECH_SALVAGE));
+                    .add(lootItem(LTXIItems.TARGETING_TECH_SALVAGE));
 
             LootItemCondition.Builder acidFinalBlow = LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.DIRECT_ATTACKER, EntityPredicate.Builder.entity().subPredicate(new GrenadeSubPredicate(GrenadeType.ACID)));
             MobEffectsPredicate.MobEffectInstancePredicate amp2 = new MobEffectsPredicate.MobEffectInstancePredicate(MinMaxBounds.Ints.atLeast(2), MinMaxBounds.Ints.ANY, Optional.empty(), Optional.empty());
@@ -99,7 +98,7 @@ class LootTablesGen extends LimaLootTableProvider
             LootPool.Builder wardenDrops = LootPool.lootPool()
                     .when(needsEntityType(EntityType.WARDEN))
                     .when(AnyOfCondition.anyOf(acidFinalBlow, corrodingCheck))
-                    .add(lootItem(NEURO_CHEMICAL));
+                    .add(lootItem(LTXIItems.NEURO_CHEMICAL));
 
             addTable(ENTITY_EXTRA_DROPS, LootTable.lootTable()
                     .withPool(phantomDrops)
@@ -109,10 +108,10 @@ class LootTablesGen extends LimaLootTableProvider
             LootPool.Builder ammoDrops = LootPool.lootPool()
                     .when(EntityHostilityLootCondition.create(ComparableBounds.atLeast(MobHostility.NEUTRAL_ENEMY)))
                     .when(LootItemRandomChanceWithEnchantedBonusCondition.randomChanceAndLootingBoost(registries, 0.25f, 0.025f))
-                    .add(lootItem(LIGHTWEIGHT_WEAPON_ENERGY).setWeight(80))
-                    .add(DynamicWeightLootEntry.dynamicWeightItem(SPECIALIST_WEAPON_ENERGY, 15).setReplaceWeight(false).setDynamicWeight(ammoEnchantValue(0, LevelBasedValue.perLevel(6))))
-                    .add(DynamicWeightLootEntry.dynamicWeightItem(EXPLOSIVES_WEAPON_ENERGY, 5).setReplaceWeight(false).setDynamicWeight(ammoEnchantValue(0, LevelBasedValue.perLevel(3))))
-                    .add(DynamicWeightLootEntry.dynamicWeightItem(HEAVY_WEAPON_ENERGY, 1).setReplaceWeight(false).setDynamicWeight(ammoEnchantValue(0, LevelBasedValue.perLevel(2))))
+                    .add(lootItem(LTXIItems.LIGHTWEIGHT_WEAPON_ENERGY).setWeight(80))
+                    .add(DynamicWeightLootEntry.dynamicWeightItem(LTXIItems.SPECIALIST_WEAPON_ENERGY, 15).setReplaceWeight(false).setDynamicWeight(ammoEnchantValue(0, LevelBasedValue.perLevel(6))))
+                    .add(DynamicWeightLootEntry.dynamicWeightItem(LTXIItems.EXPLOSIVES_WEAPON_ENERGY, 5).setReplaceWeight(false).setDynamicWeight(ammoEnchantValue(0, LevelBasedValue.perLevel(3))))
+                    .add(DynamicWeightLootEntry.dynamicWeightItem(LTXIItems.HEAVY_WEAPON_ENERGY, 1).setReplaceWeight(false).setDynamicWeight(ammoEnchantValue(0, LevelBasedValue.perLevel(2))))
                     .setRolls(RoundingNumberProvider.of(ammoEnchantValue(1, RangedLookupLevelBasedValue.linearLookup(1.2f, 1.4f, 1.6f, 1.8f, 2f)), LimaRoundingMode.RANDOM));
 
             addTable(ENEMY_AMMO_DROPS, LootTable.lootTable().withPool(ammoDrops));
@@ -157,17 +156,17 @@ class LootTablesGen extends LimaLootTableProvider
             // Enchantments
             Holder<Enchantment> fortune = registries.holderOrThrow(Enchantments.FORTUNE);
 
-            oreDrop(TITANIUM_ORE, RAW_TITANIUM);
-            oreDrop(DEEPSLATE_TITANIUM_ORE, RAW_TITANIUM);
-            oreDrop(NIOBIUM_ORE, RAW_NIOBIUM);
+            oreDrop(TITANIUM_ORE, LTXIItems.RAW_TITANIUM);
+            oreDrop(DEEPSLATE_TITANIUM_ORE, LTXIItems.RAW_TITANIUM);
+            oreDrop(NIOBIUM_ORE, LTXIItems.RAW_NIOBIUM);
 
             dropSelf(RAW_TITANIUM_BLOCK,
                     RAW_NIOBIUM_BLOCK,
                     TITANIUM_BLOCK,
                     NIOBIUM_BLOCK,
                     SLATESTEEL_BLOCK);
-            oreCluster(RAW_TITANIUM_CLUSTER, RAW_TITANIUM);
-            oreCluster(RAW_NIOBIUM_CLUSTER, RAW_NIOBIUM);
+            oreCluster(RAW_TITANIUM_CLUSTER, LTXIItems.RAW_TITANIUM);
+            oreCluster(RAW_NIOBIUM_CLUSTER, LTXIItems.RAW_NIOBIUM);
 
             dropSelf(NEON_LIGHTS.values());
             dropSelf(TITANIUM_PANEL, SMOOTH_TITANIUM_PANEL, TILED_TITANIUM_PANEL, TITANIUM_GLASS, SLATESTEEL_PANEL, SMOOTH_SLATESTEEL_PANEL, TILED_SLATESTEEL_PANEL);
@@ -210,7 +209,7 @@ class LootTablesGen extends LimaLootTableProvider
 
         private void berryVines(Holder<Block> holder)
         {
-            add(holder, block -> singleItemTable(lootItem(VITRIOL_BERRIES).when(AnyOfCondition.anyOf(
+            add(holder, block -> singleItemTable(lootItem(LTXIItems.VITRIOL_BERRIES).when(AnyOfCondition.anyOf(
                     LootItemBlockStatePropertyCondition.hasBlockStateProperties(block).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(BERRIES, true)),
                     CanItemPerformAbility.canItemPerformAbility(ItemAbilities.SHEARS_DIG)))));
         }

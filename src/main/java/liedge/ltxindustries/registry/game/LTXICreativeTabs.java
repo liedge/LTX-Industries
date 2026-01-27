@@ -48,7 +48,6 @@ public final class LTXICreativeTabs
 
     private static void buildMainTab(ResourceLocation tabId, CreativeModeTab.ItemDisplayParameters parameters, CreativeModeTab.Output output)
     {
-        LimaCreativeTabFillerItem.addHoldersToTab(tabId, parameters, output, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS, LTXIBlocks.getRegisteredBlocks());
         LimaCreativeTabFillerItem.addHoldersToTab(tabId, parameters, output, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS, LTXIItems.getRegisteredItems());
 
         // Add GuideME tablet (if installed)

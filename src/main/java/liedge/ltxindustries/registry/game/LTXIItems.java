@@ -1,6 +1,9 @@
 package liedge.ltxindustries.registry.game;
 
+import liedge.limacore.registry.LimaDeferredItems;
+import liedge.limacore.util.LimaCollectionsUtil;
 import liedge.ltxindustries.LTXIIdentifiers;
+import liedge.ltxindustries.block.NeonLightColor;
 import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
 import liedge.ltxindustries.item.*;
 import liedge.ltxindustries.item.tool.*;
@@ -9,16 +12,17 @@ import net.minecraft.core.Holder;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.Block;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
-import net.neoforged.neoforge.registries.DeferredRegister;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
+import java.util.Map;
 import java.util.function.Function;
 
 import static liedge.ltxindustries.LTXIndustries.RESOURCES;
@@ -28,7 +32,7 @@ public final class LTXIItems
 {
     private LTXIItems() {}
 
-    private static final DeferredRegister.Items ITEMS = RESOURCES.deferredItems();
+    private static final LimaDeferredItems ITEMS = RESOURCES.deferredItems();
 
     public static void register(IEventBus bus)
     {
@@ -50,6 +54,47 @@ public final class LTXIItems
     {
         return ITEMS.getEntries();
     }
+
+    // #region Block items
+    public static final DeferredItem<BlockItem> TITANIUM_ORE = ITEMS.registerSimpleBlockItem(LTXIBlocks.TITANIUM_ORE);
+    public static final DeferredItem<BlockItem> DEEPSLATE_TITANIUM_ORE = ITEMS.registerSimpleBlockItem(LTXIBlocks.DEEPSLATE_TITANIUM_ORE);
+    public static final DeferredItem<BlockItem> NIOBIUM_ORE = ITEMS.registerSimpleBlockItem(LTXIBlocks.NIOBIUM_ORE);
+    public static final DeferredItem<BlockItem> RAW_TITANIUM_BLOCK = ITEMS.registerSimpleBlockItem(LTXIBlocks.RAW_TITANIUM_BLOCK);
+    public static final DeferredItem<BlockItem> RAW_NIOBIUM_BLOCK = ITEMS.registerSimpleBlockItem(LTXIBlocks.RAW_NIOBIUM_BLOCK);
+    public static final DeferredItem<BlockItem> RAW_TITANIUM_CLUSTER = ITEMS.registerSimpleBlockItem(LTXIBlocks.RAW_TITANIUM_CLUSTER);
+    public static final DeferredItem<BlockItem> RAW_NIOBIUM_CLUSTER = ITEMS.registerSimpleBlockItem(LTXIBlocks.RAW_NIOBIUM_CLUSTER);
+    public static final DeferredItem<BlockItem> TITANIUM_BLOCK = ITEMS.registerSimpleBlockItem(LTXIBlocks.TITANIUM_BLOCK);
+    public static final DeferredItem<BlockItem> NIOBIUM_BLOCK = ITEMS.registerSimpleBlockItem(LTXIBlocks.NIOBIUM_BLOCK);
+    public static final DeferredItem<BlockItem> SLATESTEEL_BLOCK = ITEMS.registerSimpleBlockItem(LTXIBlocks.SLATESTEEL_BLOCK);
+    public static final Map<NeonLightColor, DeferredItem<BlockItem>> NEON_LIGHTS = LimaCollectionsUtil.fillAndCreateImmutableEnumMap(NeonLightColor.class, color -> ITEMS.registerSimpleBlockItem(LTXIBlocks.NEON_LIGHTS.get(color)));
+    public static final DeferredItem<BlockItem> TITANIUM_PANEL = ITEMS.registerSimpleBlockItem(LTXIBlocks.TITANIUM_PANEL);
+    public static final DeferredItem<BlockItem> SMOOTH_TITANIUM_PANEL = ITEMS.registerSimpleBlockItem(LTXIBlocks.SMOOTH_TITANIUM_PANEL);
+    public static final DeferredItem<BlockItem> TILED_TITANIUM_PANEL = ITEMS.registerSimpleBlockItem(LTXIBlocks.TILED_TITANIUM_PANEL);
+    public static final DeferredItem<BlockItem> TITANIUM_GLASS = ITEMS.registerSimpleBlockItem(LTXIBlocks.TITANIUM_GLASS);
+    public static final DeferredItem<BlockItem> SLATESTEEL_PANEL = ITEMS.registerSimpleBlockItem(LTXIBlocks.SLATESTEEL_PANEL);
+    public static final DeferredItem<BlockItem> SMOOTH_SLATESTEEL_PANEL = ITEMS.registerSimpleBlockItem(LTXIBlocks.SMOOTH_SLATESTEEL_PANEL);
+    public static final DeferredItem<BlockItem> TILED_SLATESTEEL_PANEL = ITEMS.registerSimpleBlockItem(LTXIBlocks.TILED_SLATESTEEL_PANEL);
+    public static final DeferredItem<BlockItem> EQUIPMENT_UPGRADE_STATION = ITEMS.registerSimpleBlockItem(LTXIBlocks.EQUIPMENT_UPGRADE_STATION, properties().stacksTo(1));
+    public static final DeferredItem<ECABlockItem> ENERGY_CELL_ARRAY = ITEMS.registerBlockItem(LTXIBlocks.ENERGY_CELL_ARRAY, ECABlockItem::new, properties().stacksTo(1));
+    public static final DeferredItem<InfiniteECABlockItem> INFINITE_ENERGY_CELL_ARRAY = ITEMS.registerBlockItem(LTXIBlocks.INFINITE_ENERGY_CELL_ARRAY, InfiniteECABlockItem::new, properties().stacksTo(1).rarity(Rarity.EPIC));
+    public static final DeferredItem<BlockItem> ROCKET_TURRET = registerTurretBlockItem(LTXIBlocks.ROCKET_TURRET);
+    public static final DeferredItem<BlockItem> RAILGUN_TURRET = registerTurretBlockItem(LTXIBlocks.RAILGUN_TURRET);
+    public static final DeferredItem<BlockItem> DIGITAL_FURNACE = registerMachineBlockItem(LTXIBlocks.DIGITAL_FURNACE);
+    public static final DeferredItem<BlockItem> DIGITAL_SMOKER = registerMachineBlockItem(LTXIBlocks.DIGITAL_SMOKER);
+    public static final DeferredItem<BlockItem> DIGITAL_BLAST_FURNACE = registerMachineBlockItem(LTXIBlocks.DIGITAL_BLAST_FURNACE);
+    public static final DeferredItem<BlockItem> GRINDER = registerMachineBlockItem(LTXIBlocks.GRINDER);
+    public static final DeferredItem<BlockItem> MATERIAL_FUSING_CHAMBER = registerMachineBlockItem(LTXIBlocks.MATERIAL_FUSING_CHAMBER);
+    public static final DeferredItem<BlockItem> ELECTROCENTRIFUGE = registerMachineBlockItem(LTXIBlocks.ELECTROCENTRIFUGE);
+    public static final DeferredItem<BlockItem> MIXER = registerMachineBlockItem(LTXIBlocks.MIXER);
+    public static final DeferredItem<BlockItem> VOLTAIC_INJECTOR = registerMachineBlockItem(LTXIBlocks.VOLTAIC_INJECTOR);
+    public static final DeferredItem<BlockItem> CHEM_LAB = registerMachineBlockItem(LTXIBlocks.CHEM_LAB);
+    public static final DeferredItem<BlockItem> ASSEMBLER = registerMachineBlockItem(LTXIBlocks.ASSEMBLER);
+    public static final DeferredItem<BlockItem> GEO_SYNTHESIZER = registerMachineBlockItem(LTXIBlocks.GEO_SYNTHESIZER);
+    public static final DeferredItem<BlockItem> FABRICATOR = registerMachineBlockItem(LTXIBlocks.FABRICATOR);
+    public static final DeferredItem<BlockItem> AUTO_FABRICATOR = registerMachineBlockItem(LTXIBlocks.AUTO_FABRICATOR);
+    public static final DeferredItem<BlockItem> MOLECULAR_RECONSTRUCTOR = registerMachineBlockItem(LTXIBlocks.MOLECULAR_RECONSTRUCTOR);
+    public static final DeferredItem<BlockItem> DIGITAL_GARDEN = registerMachineBlockItem(LTXIBlocks.DIGITAL_GARDEN);
+    // #endregion
 
     // Base mod materials
     public static final DeferredItem<Item> RAW_TITANIUM = ITEMS.registerSimpleItem("raw_titanium");
@@ -171,6 +216,16 @@ public final class LTXIItems
     public static final DeferredItem<SimpleHintItem> SPECIALIST_WEAPON_ENERGY = registerSimpleHint("specialist_weapon_energy");
     public static final DeferredItem<SimpleHintItem> EXPLOSIVES_WEAPON_ENERGY = registerSimpleHint("explosives_weapon_energy");
     public static final DeferredItem<SimpleHintItem> HEAVY_WEAPON_ENERGY = registerSimpleHint("heavy_weapon_energy");
+
+    private static DeferredItem<BlockItem> registerMachineBlockItem(Holder<Block> holder)
+    {
+        return ITEMS.registerBlockItem(holder, ContentsTooltipBlockItem::energyTooltipItem, properties().stacksTo(1));
+    }
+
+    private static DeferredItem<BlockItem> registerTurretBlockItem(Holder<Block> holder)
+    {
+        return ITEMS.registerBlockItem(holder, ContentsTooltipBlockItem::energyOwnerTooltipItem, properties().stacksTo(1).rarity(ltxGearRarity()));
+    }
 
     private static DeferredItem<SimpleHintItem> registerSimpleHint(String name, Item.Properties properties)
     {
