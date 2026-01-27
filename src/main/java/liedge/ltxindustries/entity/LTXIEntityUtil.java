@@ -23,14 +23,12 @@ import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.*;
 import net.neoforged.neoforge.common.util.FakePlayerFactory;
-import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.entity.PartEntity;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.function.Function;
-import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public final class LTXIEntityUtil
@@ -69,25 +67,17 @@ public final class LTXIEntityUtil
         return true;
     }
 
-    public static boolean checkTurretTargetValidity(@Nullable Entity attackingEntity, Entity target, Predicate<Entity> defaultTargets, TargetPredicate targetPredicate)
-    {
-        if (!checkBaseTargetValidity(attackingEntity, target)) return false;
-
-        TriState result = targetPredicate.test(target, attackingEntity);
-        return result.isDefault() ? defaultTargets.test(target) : result.isTrue();
-    }
-
     public static boolean checkWeaponTargetValidity(@Nullable Entity attackingEntity, Entity target, UpgradesContainerBase<?, ?> upgrades)
     {
-        return checkBaseTargetValidity(attackingEntity, target) && !checkUpgradeTargetValidity(attackingEntity, target, upgrades).isFalse();
+        return checkBaseTargetValidity(attackingEntity, target) && checkUpgradeTargetValidity(attackingEntity, target, upgrades);
     }
 
     public static boolean checkWeaponTargetValidity(@Nullable Entity attackingEntity, Entity target, TargetPredicate predicate)
     {
-        return checkBaseTargetValidity(attackingEntity, target) && !predicate.test(target, attackingEntity).isFalse();
+        return checkBaseTargetValidity(attackingEntity, target) && predicate.test(target, attackingEntity);
     }
 
-    public static TriState checkUpgradeTargetValidity(@Nullable Entity attackingEntity, Entity target, UpgradesContainerBase<?, ?> upgrades)
+    public static boolean checkUpgradeTargetValidity(@Nullable Entity attackingEntity, Entity target, UpgradesContainerBase<?, ?> upgrades)
     {
         return TargetPredicate.testSingle(target.level(), target, attackingEntity, upgrades);
     }
@@ -122,7 +112,7 @@ public final class LTXIEntityUtil
             case Player player when !checkPlayerPVPRule(attackingEntity, player) -> false;
 
             // Finally, don't hurt the vehicle entity owner is riding (if any)
-            default -> validAttacker && !attackingEntity.isPassengerOfSameVehicle(target);
+            default -> !validAttacker || !attackingEntity.isPassengerOfSameVehicle(target);
         };
     }
 

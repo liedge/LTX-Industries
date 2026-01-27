@@ -32,7 +32,6 @@ import net.minecraft.world.level.storage.loot.LootContext;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.VanillaGameEvent;
 import net.neoforged.neoforge.event.entity.EntityInvulnerabilityCheckEvent;
@@ -139,18 +138,27 @@ public final class LTXIEventHandler
     @SubscribeEvent
     public static void checkEffectApplicable(final MobEffectEvent.Applicable event)
     {
+        MobEffectInstance effectInstance = event.getEffectInstance();
+        LivingEntity targetEntity = event.getEntity();
+        boolean beneficialEffect = effectInstance.getEffect().value().isBeneficial();
+
+        // Stop self-application of beneficial effects under Neuro
+        if (beneficialEffect && targetEntity.hasEffect(LTXIMobEffects.NEURO_SUPPRESSED))
+        {
+            event.setResult(MobEffectEvent.Applicable.Result.DO_NOT_APPLY);
+        }
+
+        // Stop outgoing effects of 'attackers' with Neuro
         if (event.getEffectSource() instanceof LivingEntity attacker && attacker.hasEffect(LTXIMobEffects.NEURO_SUPPRESSED))
         {
             event.setResult(MobEffectEvent.Applicable.Result.DO_NOT_APPLY);
         }
 
-        MobEffectInstance effectInstance = event.getEffectInstance();
-        if (event.getApplicationResult() && !effectInstance.getEffect().value().isBeneficial() && !event.getEntity().level().isClientSide())
+        // Block effects with armor and bubble shield
+        if (event.getApplicationResult() && !beneficialEffect && targetEntity.level() instanceof ServerLevel level)
         {
-            LivingEntity entity = event.getEntity();
-
             // Armor immunity block
-            boolean blockEffect = LTXIUpgradeUtil.iterateEquipmentSlots((ServerLevel) entity.level(), entity, LTXIUpgradeUtil.ARMOR_SLOTS, (upgrades, equipmentInUse) ->
+            boolean blockEffect = LTXIUpgradeUtil.iterateEquipmentSlots(level, targetEntity, LTXIUpgradeUtil.ARMOR_SLOTS, (upgrades, equipmentInUse) ->
                     upgrades.anyMatch(LTXIUpgradeEffectComponents.MOB_EFFECT_IMMUNITY, (effect, upgradeRank) -> effect.blockEffect(effectInstance, upgradeRank, equipmentInUse)));
             if (blockEffect)
             {
@@ -159,8 +167,8 @@ public final class LTXIEventHandler
             }
 
             // Bubble shield block
-            EntityBubbleShield shield = entity.getCapability(LTXICapabilities.ENTITY_BUBBLE_SHIELD);
-            if (shield != null && shield.blockMobEffect(entity, entity.level(), effectInstance))
+            EntityBubbleShield shield = targetEntity.getCapability(LTXICapabilities.ENTITY_BUBBLE_SHIELD);
+            if (shield != null && shield.blockMobEffect(targetEntity, level, effectInstance))
             {
                 event.setResult(MobEffectEvent.Applicable.Result.DO_NOT_APPLY);
             }
@@ -188,8 +196,10 @@ public final class LTXIEventHandler
             ItemStack stack = player.getMainHandItem();
             if (stack.getItem() instanceof UpgradableEquipmentItem equipmentItem)
             {
-                TriState result = LTXIEntityUtil.checkUpgradeTargetValidity(player, event.getTarget(), equipmentItem.getUpgrades(stack));
-                if (result.isFalse()) event.setCanceled(true);
+                if (!LTXIEntityUtil.checkUpgradeTargetValidity(player, event.getTarget(), equipmentItem.getUpgrades(stack)))
+                {
+                    event.setCanceled(true);
+                }
             }
         }
     }

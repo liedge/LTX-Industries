@@ -19,7 +19,7 @@ public record UpgradedEquipmentInUse(UpgradesContainerBase<?, ?> upgrades, ItemS
 
     public boolean canAttack(Entity targetEntity)
     {
-        return LTXIEntityUtil.checkBaseTargetValidity(owner, targetEntity) && !filter.test(targetEntity, owner).isFalse();
+        return LTXIEntityUtil.checkWeaponTargetValidity(owner, targetEntity, filter);
     }
 
     public boolean useEnergyActions(int actions)
