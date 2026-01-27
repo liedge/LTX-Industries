@@ -1,6 +1,5 @@
 package liedge.ltxindustries.blockentity.template;
 
-import liedge.limacore.LimaCommonConstants;
 import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.capability.fluid.FluidHolderBlockEntity;
 import liedge.limacore.capability.fluid.LimaBlockEntityFluidHandler;
@@ -19,7 +18,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
@@ -259,30 +257,14 @@ public abstract class ProductionMachineBlockEntity extends EnergyMachineBlockEnt
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries)
     {
         super.loadAdditional(tag, registries);
-
-        if (tag.contains(LimaCommonConstants.KEY_FLUID_TANKS, Tag.TAG_COMPOUND))
-        {
-            CompoundTag tanksTag = tag.getCompound(LimaCommonConstants.KEY_FLUID_TANKS);
-            for (BlockContentsType type : BlockContentsType.values())
-            {
-                LimaBlockEntityFluidHandler handler = getFluidHandler(type);
-                if (handler != null && tanksTag.contains(type.getSerializedName())) handler.deserializeNBT(registries, tanksTag.getList(type.getSerializedName(), Tag.TAG_COMPOUND));
-            }
-        }
+        loadFluidContainers(tag, registries);
     }
 
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries)
     {
         super.saveAdditional(tag, registries);
-
-        CompoundTag tanksTag = new CompoundTag();
-        for (BlockContentsType type : BlockContentsType.values())
-        {
-            LimaBlockEntityFluidHandler handler = getFluidHandler(type);
-            if (handler != null) tanksTag.put(type.getSerializedName(), handler.serializeNBT(registries));
-        }
-        if (!tanksTag.isEmpty()) tag.put(LimaCommonConstants.KEY_FLUID_TANKS, tanksTag);
+        saveFluidContainers(tag, registries);
     }
 
     // Helper

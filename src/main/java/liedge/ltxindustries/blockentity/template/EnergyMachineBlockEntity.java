@@ -6,7 +6,6 @@ import liedge.limacore.capability.energy.LimaBlockEntityEnergyStorage;
 import liedge.limacore.capability.energy.LimaEnergyStorage;
 import liedge.limacore.capability.energy.LimaEnergyUtil;
 import liedge.limacore.registry.game.LimaCoreDataComponents;
-import liedge.limacore.util.LimaNbtUtil;
 import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
 import liedge.ltxindustries.blockentity.base.BlockIOConfiguration;
 import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
@@ -124,15 +123,13 @@ public abstract non-sealed class EnergyMachineBlockEntity extends LTXIMachineBlo
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries)
     {
         super.loadAdditional(tag, registries);
-
-        if (getEnergyStorage() instanceof LimaBlockEntityEnergyStorage blockEntityEnergy) LimaNbtUtil.deserializeInt(blockEntityEnergy, registries, tag.get(KEY_ENERGY_CONTAINER));
+        loadEnergyStorage(tag, registries);
     }
 
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries)
     {
         super.saveAdditional(tag, registries);
-
-        if (getEnergyStorage() instanceof LimaBlockEntityEnergyStorage blockEntityEnergy) tag.put(KEY_ENERGY_CONTAINER, blockEntityEnergy.serializeNBT(registries));
+        saveEnergyStorage(tag, registries);
     }
 }

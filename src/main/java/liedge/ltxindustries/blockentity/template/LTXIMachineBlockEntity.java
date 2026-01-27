@@ -1,7 +1,6 @@
 package liedge.ltxindustries.blockentity.template;
 
 import com.mojang.serialization.DynamicOps;
-import liedge.limacore.LimaCommonConstants;
 import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.blockentity.IOAccess;
 import liedge.limacore.blockentity.LimaBlockEntity;
@@ -241,24 +240,14 @@ public sealed abstract class LTXIMachineBlockEntity extends LimaBlockEntity impl
         super.loadAdditional(tag, registries);
         DynamicOps<Tag> ops = RegistryOps.create(NbtOps.INSTANCE, registries);
 
-        // Load inventories
-        CompoundTag inventoriesTag = tag.getCompound(LimaCommonConstants.KEY_ITEM_CONTAINER);
-        for (BlockContentsType type : BlockContentsType.values())
-        {
-            LimaBlockEntityItemHandler handler = getItemHandler(type);
-            if (handler != null && inventoriesTag.contains(type.getSerializedName())) handler.deserializeNBT(registries, inventoriesTag.getCompound(type.getSerializedName()));
-        }
-
         // Load upgrades
         this.upgrades = LimaNbtUtil.tryDecode(MachineUpgrades.CODEC, ops, tag, TAG_KEY_UPGRADES, MachineUpgrades.EMPTY);
 
+        // Load inventories
+        loadItemContainers(tag, registries);
+
         // Load IO configurations
-        CompoundTag ioConfigsTag = tag.getCompound(KEY_IO_CONFIGS);
-        for (BlockEntityInputType inputType : getConfigurableInputTypes())
-        {
-            BlockIOConfiguration config = LimaNbtUtil.tryDecode(BlockIOConfiguration.CODEC, ops, ioConfigsTag, inputType.getSerializedName());
-            if (config != null) setIOConfiguration(inputType, config);
-        }
+        loadIOConfigurations(tag, ops);
     }
 
     @Override
@@ -267,26 +256,14 @@ public sealed abstract class LTXIMachineBlockEntity extends LimaBlockEntity impl
         super.saveAdditional(tag, registries);
         DynamicOps<Tag> ops = RegistryOps.create(NbtOps.INSTANCE, registries);
 
-        // Save inventories
-        CompoundTag inventoriesTag = new CompoundTag();
-        for (BlockContentsType type : BlockContentsType.values())
-        {
-            LimaBlockEntityItemHandler handler = getItemHandler(type);
-            if (handler != null) inventoriesTag.put(type.getSerializedName(), handler.serializeNBT(registries));
-        }
-        tag.put(LimaCommonConstants.KEY_ITEM_CONTAINER, inventoriesTag);
-
         // Save upgrades
         LimaNbtUtil.tryEncodeTo(MachineUpgrades.CODEC, ops, upgrades, tag, TAG_KEY_UPGRADES);
 
+        // Save inventories
+        saveItemContainers(tag, registries);
+
         // Save IO configurations
-        CompoundTag ioConfigsTag = new CompoundTag();
-        for (BlockEntityInputType inputType : getConfigurableInputTypes())
-        {
-            BlockIOConfiguration configuration = getIOConfigurationOrThrow(inputType);
-            LimaNbtUtil.tryEncodeTo(BlockIOConfiguration.CODEC, ops, configuration, ioConfigsTag, inputType.getSerializedName());
-        }
-        tag.put(KEY_IO_CONFIGS, ioConfigsTag);
+        saveIOConfigurations(tag, ops);
     }
 
     //#endregion
