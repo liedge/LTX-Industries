@@ -1,6 +1,5 @@
 package liedge.ltxindustries.blockentity;
 
-import liedge.limacore.capability.energy.LimaEnergyUtil;
 import liedge.limacore.capability.itemhandler.LimaBlockEntityItemHandler;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.ltxindustries.LTXITags;
@@ -82,7 +81,7 @@ public class MolecularReconstructorBlockEntity extends ProductionMachineBlockEnt
         ItemStack inputItem = inputInventory.getStackInSlot(0);
         if (inputItem.isDamaged() && !inputItem.is(LTXITags.Items.REPAIR_BLACKLIST))
         {
-            if (LimaEnergyUtil.consumeEnergy(getEnergyStorage(), getEnergyUsage(), false))
+            if (consumeUsageEnergy(false))
             {
                 currentProcessTime++;
 

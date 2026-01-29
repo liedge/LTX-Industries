@@ -2,7 +2,6 @@ package liedge.ltxindustries.blockentity.template;
 
 import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.capability.energy.LimaEnergyStorage;
-import liedge.limacore.capability.energy.LimaEnergyUtil;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.recipe.LimaRecipeCheck;
 import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
@@ -205,7 +204,7 @@ public abstract class BaseRecipeMachineBlockEntity<I extends RecipeInput, R exte
         RecipeHolder<R> lastUsedRecipe = recipeCheck.getLastUsedRecipe(level).orElse(null);
         if (crafting && lastUsedRecipe != null)
         {
-            if (LimaEnergyUtil.consumeEnergy(energyStorage, getEnergyUsage(), false))
+            if (consumeUsageEnergy(false))
             {
                 craftingProgress++; // Set changed already called by energy storage extraction (which must pass to get here)
 
