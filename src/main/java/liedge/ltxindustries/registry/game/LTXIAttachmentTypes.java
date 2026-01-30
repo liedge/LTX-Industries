@@ -3,7 +3,7 @@ package liedge.ltxindustries.registry.game;
 import com.mojang.serialization.Codec;
 import liedge.limacore.util.LimaCoreUtil;
 import liedge.ltxindustries.LTXIndustries;
-import liedge.ltxindustries.lib.TurretTargetList;
+import liedge.ltxindustries.lib.TurretTargetTracker;
 import liedge.ltxindustries.lib.shield.PlayerBubbleShield;
 import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
 import liedge.ltxindustries.lib.weapons.ClientExtendedInput;
@@ -36,5 +36,5 @@ public final class LTXIAttachmentTypes
         Player player = LimaCoreUtil.castOrThrow(Player.class, holder, () -> new IllegalStateException("LTXI input extensions can only be added to players."));
         return player.level().isClientSide() ? new ClientExtendedInput() : new ServerExtendedInput();
     }).build());
-    public static final DeferredHolder<AttachmentType<?>, AttachmentType<TurretTargetList>> TARGET_LIST = ATTACHMENTS.register("target_list", () -> AttachmentType.builder(TurretTargetList::create).build());
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<TurretTargetTracker>> TURRET_TRACKER = ATTACHMENTS.register("target_list", () -> AttachmentType.builder(TurretTargetTracker::create).build());
 }

@@ -7,6 +7,9 @@ import liedge.ltxindustries.blockentity.*;
 import liedge.ltxindustries.blockentity.base.RecipeModeHolderBlockEntity;
 import liedge.ltxindustries.blockentity.template.BaseRecipeMachineBlockEntity;
 import liedge.ltxindustries.blockentity.template.LTXIMachineBlockEntity;
+import liedge.ltxindustries.blockentity.turret.RailgunTurretBlockEntity;
+import liedge.ltxindustries.blockentity.turret.RocketTurretBlockEntity;
+import liedge.ltxindustries.blockentity.turret.TurretBlockEntity;
 import liedge.ltxindustries.menu.*;
 import liedge.ltxindustries.menu.layout.RecipeLayout;
 import liedge.ltxindustries.menu.layout.RecipeLayouts;
@@ -58,7 +61,7 @@ public final class LTXIMenus
         return TYPES.register(name, () -> BlockEntityMenuType.<BE, RecipeLayoutMenu<BE>>create(beClass, (type, containerId, inventory, menuContext) -> new RecipeLayoutMenu<>(type, containerId, inventory, menuContext, layout)));
     }
 
-    private static <BE extends BaseTurretBlockEntity> DeferredHolder<MenuType<?>, BlockEntityMenuType<BE, TurretMenu<BE>>> registerTurret(String name, Class<BE> beClass)
+    private static <BE extends TurretBlockEntity> DeferredHolder<MenuType<?>, BlockEntityMenuType<BE, TurretMenu<BE>>> registerTurret(String name, Class<BE> beClass)
     {
         return TYPES.register(name, id -> BlockEntityMenuType.<BE, TurretMenu<BE>>create(id, beClass, TurretMenu::new));
     }

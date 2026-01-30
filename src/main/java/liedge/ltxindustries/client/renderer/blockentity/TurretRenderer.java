@@ -6,13 +6,13 @@ import liedge.limacore.client.LimaBlockEntityRenderer;
 import liedge.limacore.client.LimaCoreClientUtil;
 import liedge.limacore.client.model.baked.BakedItemLayer;
 import liedge.limacore.client.model.baked.ItemLayerBakedModel;
-import liedge.ltxindustries.blockentity.BaseTurretBlockEntity;
+import liedge.ltxindustries.blockentity.turret.TurretBlockEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.phys.AABB;
 
-public abstract class TurretRenderer<BE extends BaseTurretBlockEntity> extends LimaBlockEntityRenderer<BE>
+public abstract class TurretRenderer<BE extends TurretBlockEntity> extends LimaBlockEntityRenderer<BE>
 {
     private final BakedItemLayer gunsBase;
     private final BakedItemLayer gunsEmissive;
@@ -75,6 +75,6 @@ public abstract class TurretRenderer<BE extends BaseTurretBlockEntity> extends L
     @Override
     public AABB getRenderBoundingBox(BE blockEntity)
     {
-        return !blockEntity.getTargetQueue().isEmpty() ? blockEntity.getTargetArea() : blockEntity.getDefaultRenderBox();
+        return blockEntity.getClientTarget() != null ? AABB.INFINITE : blockEntity.getBoundingBox();
     }
 }

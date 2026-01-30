@@ -11,10 +11,8 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.function.ToDoubleFunction;
-import java.util.stream.Stream;
 
 public record CompoundHitResult(Vec3 origin, List<EntityHitResult> entityHits, HitResult impact)
 {
@@ -31,13 +29,8 @@ public record CompoundHitResult(Vec3 origin, List<EntityHitResult> entityHits, H
         BlockHitResult blockTrace = level.clip(new DynamicClipContext(origin, pathEnd, sourceEntity, fluidCollision, blockPierceDistance));
         end = blockTrace.getLocation();
 
-        TargetPredicate targetPredicate = TargetPredicate.create(level, upgrades);
-        List<EntityHitResult> entityHits = level.getEntities(sourceEntity, sourceEntity.getBoundingBox().expandTowards(path).inflate(0.3d), hit -> LTXIEntityUtil.checkWeaponTargetValidity(sourceEntity, hit, targetPredicate))
-                .stream()
-                .sorted(Comparator.comparingDouble(hit -> hit.distanceToSqr(origin)))
-                .flatMap(hit -> Stream.ofNullable(LTXIEntityUtil.clipEntityBoundingBox(hit, origin, end, bbExpansionFunction.applyAsDouble(hit))))
-                .limit(maxHits)
-                .toList();
+        TargetPredicate predicate = TargetPredicate.create(level, upgrades);
+        List<EntityHitResult> entityHits = LTXIEntityUtil.traceEntities(level, sourceEntity, sourceEntity, origin, end, predicate, bbExpansionFunction).limit(maxHits).toList();
 
         HitResult impact = (entityHits.size() < maxHits) ? blockTrace : entityHits.getLast();
 

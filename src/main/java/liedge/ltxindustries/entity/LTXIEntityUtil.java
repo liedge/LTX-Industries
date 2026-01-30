@@ -19,9 +19,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
-import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.*;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.util.FakePlayerFactory;
 import net.neoforged.neoforge.entity.PartEntity;
 import org.jetbrains.annotations.Nullable;
@@ -29,6 +30,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.function.Function;
+import java.util.function.ToDoubleFunction;
 import java.util.stream.Stream;
 
 public final class LTXIEntityUtil
@@ -118,18 +120,19 @@ public final class LTXIEntityUtil
 
     public static IntList flattenEntityIds(Collection<Entity> entities)
     {
-        IntList list = new IntArrayList(entities.size());
+        if (entities.isEmpty()) return IntList.of();
 
-        for (Entity e : entities)
+        IntList list = new IntArrayList(entities.size());
+        for (Entity entity : entities)
         {
             int depth = 0;
-            while (e instanceof PartEntity<?> && depth <= MAX_ENTITY_CHECK_RECURSION)
+            while (entity instanceof PartEntity<?> partEntity && depth <= MAX_ENTITY_CHECK_RECURSION)
             {
-                e = ((PartEntity<?>) e).getParent();
+                entity = partEntity.getParent();
                 depth++;
             }
 
-            if (depth <= MAX_ENTITY_CHECK_RECURSION) list.add(LimaEntityUtil.getEntityId(e));
+            if (depth < MAX_ENTITY_CHECK_RECURSION) list.add(LimaEntityUtil.getEntityId(entity));
         }
 
         return list;
@@ -156,21 +159,14 @@ public final class LTXIEntityUtil
         }
     }
 
-    public static HitResult traceProjectileEntityPath(Level level, LimaTraceableEntity projectile, ClipContext.Block blockCollision, ClipContext.Fluid fluidCollision, double bbExpansion)
+    public static Stream<EntityHitResult> traceEntities(Level level, Entity directEntity, @Nullable Entity sourceEntity, Vec3 start, Vec3 end, TargetPredicate predicate, ToDoubleFunction<Entity> bbExpansion)
     {
-        Vec3 origin = projectile.position();
-        Vec3 path = projectile.getDeltaMovement();
-        BlockHitResult blockTrace = level.clip(new ClipContext(origin, origin.add(path), blockCollision, fluidCollision, projectile));
-        Vec3 impact = blockTrace.getLocation();
+        Vec3 path = end.subtract(start);
 
-        TargetPredicate targetPredicate = TargetPredicate.create(level, projectile.getUpgrades());
-        EntityHitResult entityTrace = level.getEntities(projectile, projectile.getBoundingBox().expandTowards(path).inflate(0.3d), hit -> checkWeaponTargetValidity(projectile.getOwner(), hit, targetPredicate))
+        return level.getEntities(directEntity, directEntity.getBoundingBox().expandTowards(path).inflate(0.3d), hit -> checkWeaponTargetValidity(sourceEntity, hit, predicate))
                 .stream()
-                .sorted(Comparator.comparingDouble(hit -> hit.distanceToSqr(origin)))
-                .flatMap(hit -> Stream.ofNullable(clipEntityBoundingBox(hit, origin, impact, bbExpansion)))
-                .findFirst().orElse(null);
-
-        return entityTrace != null ? entityTrace : blockTrace;
+                .sorted(Comparator.comparingDouble(hit -> hit.distanceToSqr(start)))
+                .flatMap(hit -> Stream.ofNullable(clipEntityBoundingBox(hit, start, end, bbExpansion.applyAsDouble(hit))));
     }
 
     public static void hurtWithEnchantedFakePlayer(ServerLevel level, Entity target, @Nullable LivingEntity owner, UpgradesContainerBase<?, ?> upgrades, Function<@Nullable LivingEntity, ? extends DamageSource> damageSourceFunction, float damage)

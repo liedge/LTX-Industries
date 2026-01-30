@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import liedge.limacore.lib.LimaColor;
 import liedge.ltxindustries.LTXIConstants;
-import liedge.ltxindustries.blockentity.RailgunTurretBlockEntity;
+import liedge.ltxindustries.blockentity.turret.RailgunTurretBlockEntity;
 import liedge.ltxindustries.client.LTXIRenderUtil;
 import liedge.ltxindustries.registry.game.LTXIBlocks;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -52,7 +52,7 @@ public class RailgunTurretRenderer extends TurretRenderer<RailgunTurretBlockEnti
                 float lx = 0.71875f;
                 float rx = 0.28125f;
 
-                LimaColor color = blockEntity.lerpTicker(partialTick, 37) >= 1 ? LTXIConstants.LIME_GREEN : LTXIConstants.HOSTILE_ORANGE;
+                LimaColor color = blockEntity.lerpAimTicks(partialTick, 37) >= 1 ? LTXIConstants.LIME_GREEN : LTXIConstants.HOSTILE_ORANGE;
 
                 LTXIRenderUtil.renderPositionColorCuboid(buffer, mx4, lx - LASER_RADIUS, y - LASER_RADIUS, z, lx + LASER_RADIUS, y + LASER_RADIUS, z - dist, color, 0.8f, LTXIRenderUtil.ALL_SIDES);
                 LTXIRenderUtil.renderPositionColorCuboid(buffer, mx4, rx - LASER_RADIUS, y - LASER_RADIUS, z, rx + LASER_RADIUS, y + LASER_RADIUS, z - dist, color, 0.8f, LTXIRenderUtil.ALL_SIDES);

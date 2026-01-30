@@ -1,7 +1,7 @@
 package liedge.ltxindustries.entity.damage;
 
 import com.google.common.base.Preconditions;
-import liedge.ltxindustries.blockentity.BaseTurretBlockEntity;
+import liedge.ltxindustries.blockentity.turret.TurretBlockEntity;
 import liedge.ltxindustries.lib.upgrades.UpgradesContainerBase;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
@@ -14,15 +14,15 @@ import org.jetbrains.annotations.Nullable;
 
 public class TurretDamageSource extends UpgradesAwareDamageSource
 {
-    public static TurretDamageSource create(Level level, ResourceKey<DamageType> damageTypeKey, BaseTurretBlockEntity blockEntity, @Nullable Entity directEntity, @Nullable Entity owner, @Nullable Vec3 location)
+    public static TurretDamageSource create(Level level, ResourceKey<DamageType> damageTypeKey, TurretBlockEntity blockEntity, @Nullable Entity directEntity, @Nullable Entity owner, @Nullable Vec3 location)
     {
         Preconditions.checkArgument(!(directEntity == null && location == null), "Turret damage must have either a direct projectile entity or a location");
         return new TurretDamageSource(level.registryAccess().holderOrThrow(damageTypeKey), blockEntity, directEntity, owner, location);
     }
 
-    private final BaseTurretBlockEntity blockEntity;
+    private final TurretBlockEntity blockEntity;
 
-    private TurretDamageSource(Holder<DamageType> type, BaseTurretBlockEntity blockEntity, @Nullable Entity directEntity, @Nullable Entity causingEntity, @Nullable Vec3 location)
+    private TurretDamageSource(Holder<DamageType> type, TurretBlockEntity blockEntity, @Nullable Entity directEntity, @Nullable Entity causingEntity, @Nullable Vec3 location)
     {
         super(type, directEntity, causingEntity, location);
         this.blockEntity = blockEntity;
@@ -43,6 +43,6 @@ public class TurretDamageSource extends UpgradesAwareDamageSource
     @Override
     public @Nullable DropsRedirect createDropsRedirect()
     {
-        return DropsRedirect.forMobDrops(blockEntity.getOutputInventory(), blockEntity.getProjectileStart(), getUpgrades());
+        return DropsRedirect.forMobDrops(blockEntity.getOutputInventory(), blockEntity.getTraceStart(), getUpgrades());
     }
 }

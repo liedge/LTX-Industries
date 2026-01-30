@@ -3,7 +3,8 @@ package liedge.ltxindustries.entity;
 import liedge.limacore.data.LimaCoreCodecs;
 import liedge.limacore.util.LimaBlockUtil;
 import liedge.limacore.util.LimaNbtUtil;
-import liedge.ltxindustries.blockentity.RocketTurretBlockEntity;
+import liedge.ltxindustries.blockentity.turret.RocketTurretBlockEntity;
+import liedge.ltxindustries.blockentity.turret.TurretClipContext;
 import liedge.ltxindustries.entity.damage.TurretDamageSource;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrades;
 import liedge.ltxindustries.registry.bootstrap.LTXIDamageTypes;
@@ -16,7 +17,9 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,6 +27,7 @@ public class TurretRocketEntity extends BaseRocketEntity
 {
     private MachineUpgrades upgrades = MachineUpgrades.EMPTY;
     private @Nullable BlockPos turretPos;
+    private @Nullable AABB turretBB;
 
     public TurretRocketEntity(EntityType<?> type, Level level, @Nullable BlockPos turretPos)
     {
@@ -46,6 +50,23 @@ public class TurretRocketEntity extends BaseRocketEntity
     public MachineUpgrades getUpgrades()
     {
         return upgrades;
+    }
+
+    private @Nullable AABB getTurretBB()
+    {
+        if (turretPos != null && LimaBlockUtil.getSafeBlockEntity(level(), turretPos) instanceof RocketTurretBlockEntity be)
+        {
+            this.turretBB = be.getBoundingBox();
+        }
+
+        return turretBB;
+    }
+
+    @Override
+    protected ClipContext blockTraceContext(Vec3 start, Vec3 path)
+    {
+        AABB turretBB = getTurretBB();
+        return turretBB != null ? new TurretClipContext(start, start.add(path), this, turretBB) : super.blockTraceContext(start, path);
     }
 
     @Override

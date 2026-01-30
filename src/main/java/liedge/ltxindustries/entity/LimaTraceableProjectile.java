@@ -12,6 +12,8 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector2f;
@@ -68,9 +70,24 @@ public abstract class LimaTraceableProjectile extends LimaTraceableEntity
         return 0f;
     }
 
+    protected ClipContext blockTraceContext(Vec3 start, Vec3 path)
+    {
+        return new ClipContext(start, start.add(path), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this);
+    }
+
     protected HitResult tracePath(Level level)
     {
-        return LTXIEntityUtil.traceProjectileEntityPath(level, this, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, getBoundingBox().getSize());
+        Vec3 start = position();
+        Vec3 path = getDeltaMovement();
+
+        BlockHitResult blockTrace = level.clip(blockTraceContext(start, path));
+        Vec3 end = blockTrace.getLocation();
+
+        TargetPredicate predicate = TargetPredicate.create(level, getUpgrades());
+        double bbSize = getBoundingBox().getSize() * 0.9d;
+        EntityHitResult entityTrace = LTXIEntityUtil.traceEntities(level, this, getOwner(), start, end, predicate, $ -> bbSize).findFirst().orElse(null);
+
+        return entityTrace != null ? entityTrace : blockTrace;
     }
 
     protected abstract void onProjectileHit(Level level, HitResult hitResult, Vec3 hitLocation);

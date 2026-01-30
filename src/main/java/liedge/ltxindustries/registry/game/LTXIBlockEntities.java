@@ -11,6 +11,9 @@ import liedge.ltxindustries.blockentity.*;
 import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
 import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
 import liedge.ltxindustries.blockentity.base.IOConfigurationRules;
+import liedge.ltxindustries.blockentity.turret.RailgunTurretBlockEntity;
+import liedge.ltxindustries.blockentity.turret.RocketTurretBlockEntity;
+import liedge.ltxindustries.blockentity.turret.TurretBlockEntity;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
@@ -179,7 +182,7 @@ public final class LTXIBlockEntities
                 .withConfigRules(BlockEntityInputType.ITEMS, itemRules).withConfigRules(BlockEntityInputType.ENERGY, energyRules).withConfigRules(BlockEntityInputType.FLUIDS, fluidRules).build());
     }
 
-    private static <BE extends BaseTurretBlockEntity> DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<BE>> registerTurret(String name, BlockEntityType.BlockEntitySupplier<BE> beFactory, UnaryOperator<ConfigurableIOBlockEntityType.Builder<BE>> builderOp)
+    private static <BE extends TurretBlockEntity> DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<BE>> registerTurret(String name, BlockEntityType.BlockEntitySupplier<BE> beFactory, UnaryOperator<ConfigurableIOBlockEntityType.Builder<BE>> builderOp)
     {
         return registerItemEnergyMachine(name, beFactory, TURRET_ITEM_RULES, DOUBLE_BLOCK_INPUT_NO_PULL, builderOp);
     }
