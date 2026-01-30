@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import liedge.limacore.lib.LimaColor;
+import liedge.ltxindustries.client.model.custom.EnergyBoltData;
 import liedge.ltxindustries.client.renderer.LTXIRenderTypes;
 import net.minecraft.Util;
 import net.minecraft.client.Camera;
@@ -12,6 +13,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
 
 import static liedge.limacore.lib.math.LimaCoreMath.toRad;
 import static liedge.ltxindustries.LTXIConstants.HOSTILE_ORANGE;
@@ -86,6 +88,27 @@ public final class LTXIRenderUtil
         double z = Mth.lerp(partialTick, entity.zo - z0, entity.getZ() - z0);
 
         return new double[] {x, y, z};
+    }
+
+    private static void submitBoltQuad(VertexConsumer buffer, Matrix4f mx4, Vector3f a, Vector3f b, Vector3f c, Vector3f d, LimaColor color, float alpha)
+    {
+        buffer.addVertex(mx4, a.x, a.y, a.z).setColor(color.red(), color.green(), color.blue(), alpha);
+        buffer.addVertex(mx4, b.x, b.y, b.z).setColor(color.red(), color.green(), color.blue(), alpha);
+        buffer.addVertex(mx4, c.x, c.y, c.z).setColor(color.red(), color.green(), color.blue(), alpha);
+        buffer.addVertex(mx4, d.x, d.y, d.z).setColor(color.red(), color.green(), color.blue(), alpha);
+    }
+
+    public static void submitEnergyBolt(VertexConsumer buffer, Matrix4f mx4, EnergyBoltData data, LimaColor color, float alpha)
+    {
+        for (Vector3f[] v : data.segments())
+        {
+            submitBoltQuad(buffer, mx4, v[2], v[1], v[0], v[3], color, alpha);
+            submitBoltQuad(buffer, mx4, v[4], v[5], v[6], v[7], color, alpha);
+            submitBoltQuad(buffer, mx4, v[7], v[3], v[0], v[4], color, alpha);
+            submitBoltQuad(buffer, mx4, v[1], v[2], v[6], v[5], color, alpha);
+            submitBoltQuad(buffer, mx4, v[0], v[1], v[5], v[4], color, alpha);
+            submitBoltQuad(buffer, mx4, v[6], v[2], v[3], v[7], color, alpha);
+        }
     }
 
     public static void renderPositionColorCuboid(VertexConsumer buffer, Matrix4f mx4, float x1, float y1, float z1, float x2, float y2, float z2, LimaColor color, float alpha, Direction[] sides)
