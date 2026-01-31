@@ -14,20 +14,20 @@ import net.minecraft.world.phys.AABB;
 
 public abstract class TurretRenderer<BE extends TurretBlockEntity> extends LimaBlockEntityRenderer<BE>
 {
-    private final BakedItemLayer gunsBase;
-    private final BakedItemLayer gunsEmissive;
     private final BakedItemLayer swivelBase;
     private final BakedItemLayer swivelEmissive;
+    private final BakedItemLayer weaponBase;
+    private final BakedItemLayer weaponEmissive;
 
     protected TurretRenderer(BlockEntityRendererProvider.Context context)
     {
         super(context);
 
         ItemLayerBakedModel model = LimaCoreClientUtil.getCustomBakedModel(LimaCoreClientUtil.inventoryModelPath(getModelItem()), ItemLayerBakedModel.class);
-        this.gunsBase = model.getLayer("guns");
-        this.gunsEmissive = model.getLayer("guns emissive");
         this.swivelBase = model.getLayer("swivel");
-        this.swivelEmissive = model.getLayer("swivel emissive");
+        this.swivelEmissive = model.getLayer("swivel lights");
+        this.weaponBase = model.getLayer("weapon");
+        this.weaponEmissive = model.getLayer("weapon lights");
     }
 
     protected abstract ItemLike getModelItem();
@@ -53,8 +53,8 @@ public abstract class TurretRenderer<BE extends TurretBlockEntity> extends LimaB
         poseStack.mulPose(Axis.XP.rotationDegrees(blockEntity.lerpXRot(partialTick)));
         poseStack.translate(-0.5d, -gunsYPivot(), -0.5d);
 
-        gunsBase.putQuadsInBuffer(poseStack, bufferSource, packedLight);
-        gunsEmissive.putQuadsInBuffer(poseStack, bufferSource, packedLight);
+        weaponBase.putQuadsInBuffer(poseStack, bufferSource, packedLight);
+        weaponEmissive.putQuadsInBuffer(poseStack, bufferSource, packedLight);
         renderAdditionalGuns(blockEntity, partialTick, poseStack, bufferSource, packedLight);
 
         poseStack.popPose();

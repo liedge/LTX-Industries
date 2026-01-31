@@ -31,7 +31,7 @@ public class RailgunTurretRenderer extends TurretRenderer<RailgunTurretBlockEnti
     @Override
     protected double gunsYPivot()
     {
-        return 1.75d;
+        return 1.6875d;
     }
 
     @Override
@@ -39,23 +39,18 @@ public class RailgunTurretRenderer extends TurretRenderer<RailgunTurretBlockEnti
     {
         if (blockEntity.isLookingAtTarget())
         {
-            float dist = (float) blockEntity.getTargetDistance() - 0.4375f; // Target distance is measured from z 0.5, subtract difference between laser engine Z
+            float dist = (float) blockEntity.getTargetDistance() - 0.4375f;
             if (dist > 0)
             {
                 VertexConsumer buffer = bufferSource.getBuffer(RenderType.lightning());
                 Matrix4f mx4 = poseStack.last().pose();
 
-                // Laser 'engines' y and z: 28.5 and 15 -> 1.78125f, 0.9375f
-                // Left laser x: 11.5 (0.71875f) Right laser x: 4.5 (0.28125f)
-                float y = 1.78125f;
+                float x = 0.5f;
+                float y = 1.6875f;
                 float z = 0.0625f;
-                float lx = 0.71875f;
-                float rx = 0.28125f;
 
-                LimaColor color = blockEntity.lerpAimTicks(partialTick, 37) >= 1 ? LTXIConstants.LIME_GREEN : LTXIConstants.HOSTILE_ORANGE;
-
-                LTXIRenderUtil.renderPositionColorCuboid(buffer, mx4, lx - LASER_RADIUS, y - LASER_RADIUS, z, lx + LASER_RADIUS, y + LASER_RADIUS, z - dist, color, 0.8f, LTXIRenderUtil.ALL_SIDES);
-                LTXIRenderUtil.renderPositionColorCuboid(buffer, mx4, rx - LASER_RADIUS, y - LASER_RADIUS, z, rx + LASER_RADIUS, y + LASER_RADIUS, z - dist, color, 0.8f, LTXIRenderUtil.ALL_SIDES);
+                LimaColor color = blockEntity.lerpAimTicks(partialTick, 25) >= 1 ? LTXIConstants.LIME_GREEN : LTXIConstants.HOSTILE_ORANGE;
+                LTXIRenderUtil.renderPositionColorCuboid(buffer, mx4, x - LASER_RADIUS, y - LASER_RADIUS, z, x + LASER_RADIUS, y + LASER_RADIUS, z - dist, color, 0.8f, LTXIRenderUtil.ALL_SIDES);
             }
         }
     }

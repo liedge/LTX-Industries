@@ -27,7 +27,7 @@ public class RocketTurretRenderer extends TurretRenderer<RocketTurretBlockEntity
     @Override
     protected double gunsYPivot()
     {
-        return 1.625d;
+        return 1.59375d;
     }
 
     @Override

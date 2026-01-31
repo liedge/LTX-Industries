@@ -107,14 +107,14 @@ public final class LTXIBlockShapes
 
     public static final VoxelShape GENERAL_TURRET = Shapes.or(
             // Base
-            Block.box(0, 0, 0, 16, 1, 16),
-            Block.box(1, 1, 1, 15, 3, 15),
-            Block.box(0, 3, 0, 16, 15, 16),
-            // Top frame pieces
-            Block.box(0, 15, 0, 16, 16, 1),
-            Block.box(0, 15, 15, 16, 16, 16),
-            Block.box(0, 15, 0, 1, 16, 16),
-            Block.box(15, 15, 0, 16, 16, 16),
+            Block.box(0, 0, 0, 16, 3, 16),
+            dimensionBox(1, 3, 1, 14, 12, 14),
+            dimensionBox(0, 6, 15, 16, 10, 1),
+            dimensionBox(15, 6, 1, 1, 10, 14),
+            dimensionBox(0, 6, 1, 1, 10, 14),
+            dimensionBox(12, 6, 0, 4, 10, 1),
+            dimensionBox(0, 6, 0, 4, 10, 1),
+            dimensionBox(4, 7.5, 0, 8, 6, 1),
             // Swivel & gun
             Block.box(4, 15, 4, 12, 17, 12),
             Block.box(5, 17, 5, 11, 25, 11));
