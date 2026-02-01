@@ -89,6 +89,8 @@ public final class LTXIBlocks
     public static final DeferredBlock<FabricatorBlock> AUTO_FABRICATOR = BLOCKS.registerBlock(LTXIIdentifiers.ID_AUTO_FABRICATOR, FabricatorBlock::new, machineProperties());
     public static final DeferredBlock<PrimaryMeshBlock> MOLECULAR_RECONSTRUCTOR = BLOCKS.registerBlock(LTXIIdentifiers.ID_MOLECULAR_RECONSTRUCTOR, properties -> PrimaryMeshBlock.create(properties, LTXIBlockMeshes.DOUBLE_VERTICAL, LTXIBlockShapes.MOLECULAR_RECONSTRUCTOR, false), machineProperties());
     public static final DeferredBlock<PrimaryMeshBlock> DIGITAL_GARDEN = BLOCKS.registerBlock(LTXIIdentifiers.ID_DIGITAL_GARDEN, properties -> PrimaryMeshBlock.create(properties, LTXIBlockMeshes.DOUBLE_VERTICAL, LTXIBlockShapes.DIGITAL_GARDEN, false), machineProperties());
+
+    public static final DeferredBlock<PrimaryMeshBlock> ARC_TURRET = BLOCKS.registerBlock(LTXIIdentifiers.ID_ARC_TURRET, properties -> PrimaryMeshBlock.create(properties, LTXIBlockMeshes.DOUBLE_VERTICAL, LTXIBlockShapes.GENERAL_TURRET, true));
     public static final DeferredBlock<PrimaryMeshBlock> ROCKET_TURRET = BLOCKS.registerBlock(LTXIIdentifiers.ID_ROCKET_TURRET, properties -> PrimaryMeshBlock.create(properties, LTXIBlockMeshes.DOUBLE_VERTICAL, LTXIBlockShapes.GENERAL_TURRET, true), machineProperties());
     public static final DeferredBlock<PrimaryMeshBlock> RAILGUN_TURRET = BLOCKS.registerBlock(LTXIIdentifiers.ID_RAILGUN_TURRET, properties -> PrimaryMeshBlock.create(properties, LTXIBlockMeshes.DOUBLE_VERTICAL, LTXIBlockShapes.GENERAL_TURRET, true), machineProperties());
 

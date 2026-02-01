@@ -169,7 +169,7 @@ public final class LTXIEntityUtil
                 .flatMap(hit -> Stream.ofNullable(clipEntityBoundingBox(hit, start, end, bbExpansion.applyAsDouble(hit))));
     }
 
-    public static void hurtWithEnchantedFakePlayer(ServerLevel level, Entity target, @Nullable LivingEntity owner, UpgradesContainerBase<?, ?> upgrades, Function<@Nullable LivingEntity, ? extends DamageSource> damageSourceFunction, float damage)
+    public static boolean hurtWithEnchantedFakePlayer(ServerLevel level, Entity target, @Nullable LivingEntity owner, UpgradesContainerBase<?, ?> upgrades, Function<@Nullable LivingEntity, ? extends DamageSource> damageSourceFunction, float damage)
     {
         if (owner instanceof Player)
         {
@@ -177,24 +177,20 @@ public final class LTXIEntityUtil
 
             owner = FakePlayerFactory.get(level, ((Player) owner).getGameProfile());
 
-            if (enchantments.isEmpty())
-            {
-                owner.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY); // Just in case...
-                target.hurt(damageSourceFunction.apply(owner), damage);
-            }
-            else
+            if (!enchantments.isEmpty())
             {
                 ItemStack stack = new ItemStack(Items.STICK);
                 stack.set(DataComponents.ENCHANTMENTS, enchantments);
-
                 owner.setItemInHand(InteractionHand.MAIN_HAND, stack);
-                target.hurt(damageSourceFunction.apply(owner), damage);
-                owner.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
             }
+
+            boolean result = target.hurt(damageSourceFunction.apply(owner), damage);
+            owner.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
+            return result;
         }
         else
         {
-            target.hurt(damageSourceFunction.apply(owner), damage);
+            return target.hurt(damageSourceFunction.apply(owner), damage);
         }
     }
 

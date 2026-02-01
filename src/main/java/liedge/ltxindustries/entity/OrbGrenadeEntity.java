@@ -84,7 +84,7 @@ public class OrbGrenadeEntity extends LimaTraceableProjectile implements IEntity
     {
         return switch (getGrenadeType())
         {
-            case EXPLOSIVE -> LTXIDamageTypes.EXPLOSIVE_GRENADE;
+            case EXPLOSIVE -> LTXIDamageTypes.EXPLOSIVE_WEAPON;
             case FLAME -> LTXIDamageTypes.FLAME_GRENADE;
             case CRYO -> LTXIDamageTypes.CRYO_GRENADE;
             case ELECTRIC -> LTXIDamageTypes.ELECTRIC_GRENADE;

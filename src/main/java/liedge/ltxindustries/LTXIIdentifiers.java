@@ -54,6 +54,7 @@ public final class LTXIIdentifiers
     public static final String ID_GEO_SYNTHESIZER = "geo_synthesizer";
     public static final String ID_DIGITAL_GARDEN = "digital_garden";
 
+    public static final String ID_ARC_TURRET = "arc_turret";
     public static final String ID_ROCKET_TURRET = "rocket_turret";
     public static final String ID_RAILGUN_TURRET = "railgun_turret";
 

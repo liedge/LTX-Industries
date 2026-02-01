@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "ltxi:block/turret_base",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "ltxi:block/turret_base"
+    },
+    "facing=south": {
+      "model": "ltxi:block/turret_base",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "ltxi:block/turret_base",
+      "y": 270
+    }
+  }
+}

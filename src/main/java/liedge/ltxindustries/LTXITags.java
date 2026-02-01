@@ -195,8 +195,11 @@ public final class LTXITags
     {
         private DamageTypes() {}
 
-        public static final TagKey<DamageType> WEAPON_DAMAGE = tag("weapon_damage");
+        public static final TagKey<DamageType> WEAPONS = tag("weapons");
+        public static final TagKey<DamageType> TURRETS = tag("turrets");
+
         public static final TagKey<DamageType> BYPASS_SURVIVAL_DEFENSES = tag("bypass_survival_defenses");
+        public static final TagKey<DamageType> IS_ELECTRIC = tag("is_electric");
 
         private static TagKey<DamageType> tag(String name)
         {

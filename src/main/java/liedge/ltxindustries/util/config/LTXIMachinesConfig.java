@@ -53,13 +53,17 @@ public final class LTXIMachinesConfig
     public static final ModConfigSpec.IntValue REPAIRER_ENERGY_USAGE;
     public static final ModConfigSpec.IntValue REPAIRER_OPERATION_TIME;
 
-    public static final ModConfigSpec.IntValue ATMOS_TURRET_ENERGY_CAPACITY;
-    public static final ModConfigSpec.IntValue ATMOS_TURRET_ENERGY_PER_TARGET;
-    public static final ModConfigSpec.DoubleValue ATMOS_TURRET_ROCKET_DAMAGE;
+    public static final ModConfigSpec.IntValue ARC_TURRET_ENERGY_CAPACITY;
+    public static final ModConfigSpec.IntValue ARC_TURRET_ENERGY_USAGE;
+    public static final ModConfigSpec.DoubleValue ARC_TURRET_DAMAGE;
 
-    public static final ModConfigSpec.IntValue NOCTIS_TURRET_ENERGY_CAPACITY;
-    public static final ModConfigSpec.IntValue NOCTIS_TURRET_ENERGY_PER_TARGET;
-    public static final ModConfigSpec.DoubleValue NOCTIS_TURRET_DAMAGE;
+    public static final ModConfigSpec.IntValue ROCKET_TURRET_ENERGY_CAPACITY;
+    public static final ModConfigSpec.IntValue ROCKET_TURRET_ENERGY_PER_TARGET;
+    public static final ModConfigSpec.DoubleValue ROCKET_TURRET_ROCKET_DAMAGE;
+
+    public static final ModConfigSpec.IntValue RAILGUN_TURRET_ENERGY_CAPACITY;
+    public static final ModConfigSpec.IntValue RAILGUN_TURRET_ENERGY_PER_TARGET;
+    public static final ModConfigSpec.DoubleValue RAILGUN_TURRET_DAMAGE;
 
     public static final ModConfigSpec MACHINES_CONFIG_SPEC;
 
@@ -191,23 +195,33 @@ public final class LTXIMachinesConfig
                 .defineInRange("operation_time", 20, 1, Integer.MAX_VALUE);
         builder.pop();
 
-        // Rocket turret
-        builder.push("atmos_turret");
-        ATMOS_TURRET_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Atmos turret.")
+        // Arc turret
+        builder.push("arc_turret");
+        ARC_TURRET_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Ionos turret.")
                 .defineInRange("energy_capacity", 200_000, 1, Integer.MAX_VALUE);
-        ATMOS_TURRET_ENERGY_PER_TARGET = builder.comment("Energy usage per target acquisition.")
+        ARC_TURRET_ENERGY_USAGE = builder.comment("Base energy usage per tick of the Ionos turret.")
+                .defineInRange("energy_usage", 200, 1, Integer.MAX_VALUE);
+        ARC_TURRET_DAMAGE = builder.comment("Base damage per tick of the Ionos turret's electricity.")
+                .defineInRange("base_damage", 2d, 0.5d, Double.MAX_VALUE);
+        builder.pop();
+
+        // Rocket turret
+        builder.push("rocket_turret");
+        ROCKET_TURRET_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Atmos turret.")
+                .defineInRange("energy_capacity", 200_000, 1, Integer.MAX_VALUE);
+        ROCKET_TURRET_ENERGY_PER_TARGET = builder.comment("Base energy usage per rocket fired.")
                 .defineInRange("energy_per_target", 10_000, 1, Integer.MAX_VALUE);
-        ATMOS_TURRET_ROCKET_DAMAGE = builder.comment("Base damage dealt by rockets from the Atmos turret.")
-                .defineInRange("rocket_damage", 40d, 1d, Double.MAX_VALUE);
+        ROCKET_TURRET_ROCKET_DAMAGE = builder.comment("Base damage dealt by rockets from the Atmos turret.")
+                .defineInRange("base_damage", 40d, 1d, Double.MAX_VALUE);
         builder.pop();
 
         // Noctis turret
-        builder.push("noctis_turret");
-        NOCTIS_TURRET_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Noctis turret.")
-                .defineInRange("energy_capacity", 1_200_000, 1, Integer.MAX_VALUE);
-        NOCTIS_TURRET_ENERGY_PER_TARGET = builder.comment("Energy usage per target acquisition.")
-                .defineInRange("energy_per_target", 400_000, 1, Integer.MAX_VALUE);
-        NOCTIS_TURRET_DAMAGE = builder.comment("Base damage per shot of the Noctis turret.")
+        builder.push("railgun_turret");
+        RAILGUN_TURRET_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Noctis turret.")
+                .defineInRange("energy_capacity", 1_500_000, 1, Integer.MAX_VALUE);
+        RAILGUN_TURRET_ENERGY_PER_TARGET = builder.comment("Base energy usage per shot fired.")
+                .defineInRange("energy_per_target", 500_000, 1, Integer.MAX_VALUE);
+        RAILGUN_TURRET_DAMAGE = builder.comment("Base damage per shot of the Noctis turret.")
                 .defineInRange("base_damage", 200d, 1d, Double.MAX_VALUE);
         builder.pop();
 

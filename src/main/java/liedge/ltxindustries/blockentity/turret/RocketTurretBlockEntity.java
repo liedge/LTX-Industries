@@ -24,13 +24,13 @@ public class RocketTurretBlockEntity extends SemiAutoTurretBlockEntity
     @Override
     public int getBaseEnergyCapacity()
     {
-        return LTXIMachinesConfig.ATMOS_TURRET_ENERGY_CAPACITY.getAsInt();
+        return LTXIMachinesConfig.ROCKET_TURRET_ENERGY_CAPACITY.getAsInt();
     }
 
     @Override
     public int getBaseEnergyUsage()
     {
-        return LTXIMachinesConfig.ATMOS_TURRET_ENERGY_PER_TARGET.getAsInt();
+        return LTXIMachinesConfig.ROCKET_TURRET_ENERGY_PER_TARGET.getAsInt();
     }
 
     @Override

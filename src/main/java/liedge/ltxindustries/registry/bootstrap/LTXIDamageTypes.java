@@ -1,5 +1,6 @@
 package liedge.ltxindustries.registry.bootstrap;
 
+import liedge.ltxindustries.LTXIIdentifiers;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.lib.LTXIDeathMessageTypes;
 import net.minecraft.core.registries.Registries;
@@ -18,17 +19,17 @@ public final class LTXIDamageTypes
 
     // Weapons
     public static final ResourceKey<DamageType> LIGHTFRAG = key("lightfrag");
-    public static final ResourceKey<DamageType> EXPLOSIVE_GRENADE = key("explosive_grenade");
+    public static final ResourceKey<DamageType> EXPLOSIVE_WEAPON = key("explosive_weapon");
     public static final ResourceKey<DamageType> FLAME_GRENADE = key("flame_grenade");
     public static final ResourceKey<DamageType> CRYO_GRENADE = key("cryo_grenade");
     public static final ResourceKey<DamageType> ELECTRIC_GRENADE = key("electric_grenade");
     public static final ResourceKey<DamageType> ACID_GRENADE = key("acid_grenade");
     public static final ResourceKey<DamageType> NEURO_GRENADE = key("neuro_grenade");
-    public static final ResourceKey<DamageType> ROCKET_LAUNCHER = key("rocket_launcher");
 
     public static final ResourceKey<DamageType> STICKY_FLAME = key("sticky_flame");
-    public static final ResourceKey<DamageType> TURRET_ROCKET = key("turret_rocket");
-    public static final ResourceKey<DamageType> RAILGUN_TURRET = key("railgun_turret");
+    public static final ResourceKey<DamageType> ROCKET_TURRET = key(LTXIIdentifiers.ID_ROCKET_TURRET);
+    public static final ResourceKey<DamageType> RAILGUN_TURRET = key(LTXIIdentifiers.ID_RAILGUN_TURRET);
+    public static final ResourceKey<DamageType> ARC_TURRET = key(LTXIIdentifiers.ID_ARC_TURRET);
 
     private static ResourceKey<DamageType> key(String name)
     {
@@ -41,16 +42,16 @@ public final class LTXIDamageTypes
         DeathMessageType noItemCausedOnlyMsg = LTXIDeathMessageTypes.NO_ITEM_CAUSING_ENTITY_ONLY.getValue();
 
         registerDamageType(context, LIGHTFRAG, DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0f, DamageEffects.HURT, weaponMsgType);
-        registerDamageType(context, EXPLOSIVE_GRENADE, DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0f, DamageEffects.HURT, weaponMsgType);
+        registerDamageType(context, EXPLOSIVE_WEAPON, DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0f, DamageEffects.HURT, weaponMsgType);
         registerDamageType(context, FLAME_GRENADE, DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0f, DamageEffects.BURNING, weaponMsgType);
         registerDamageType(context, CRYO_GRENADE, DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0f, DamageEffects.FREEZING, weaponMsgType);
         registerDamageType(context, ELECTRIC_GRENADE, DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0f, DamageEffects.HURT, weaponMsgType);
         registerDamageType(context, ACID_GRENADE, DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0f, DamageEffects.HURT, weaponMsgType);
         registerDamageType(context, NEURO_GRENADE, DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0f, DamageEffects.HURT, weaponMsgType);
-        registerDamageType(context, ROCKET_LAUNCHER, DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0f, DamageEffects.HURT, weaponMsgType);
 
         registerDamageType(context, STICKY_FLAME, DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0f, DamageEffects.HURT, noItemCausedOnlyMsg);
-        registerDamageType(context, TURRET_ROCKET, DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0f, DamageEffects.HURT, noItemCausedOnlyMsg);
+        registerDamageType(context, ROCKET_TURRET, DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0f, DamageEffects.HURT, noItemCausedOnlyMsg);
         registerDamageType(context, RAILGUN_TURRET, DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0f, DamageEffects.HURT, noItemCausedOnlyMsg);
+        registerDamageType(context, ARC_TURRET, DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0f, DamageEffects.HURT, noItemCausedOnlyMsg);
     }
 }

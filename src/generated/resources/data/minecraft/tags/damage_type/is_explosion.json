@@ -1,7 +1,6 @@
 {
   "values": [
-    "ltxi:explosive_grenade",
-    "ltxi:rocket_launcher",
-    "ltxi:turret_rocket"
+    "ltxi:explosive_weapon",
+    "ltxi:rocket_turret"
   ]
 }

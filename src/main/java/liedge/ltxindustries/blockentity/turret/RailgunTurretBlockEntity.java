@@ -30,13 +30,13 @@ public class RailgunTurretBlockEntity extends SemiAutoTurretBlockEntity
     @Override
     public int getBaseEnergyCapacity()
     {
-        return LTXIMachinesConfig.NOCTIS_TURRET_ENERGY_CAPACITY.getAsInt();
+        return LTXIMachinesConfig.RAILGUN_TURRET_ENERGY_CAPACITY.getAsInt();
     }
 
     @Override
     public int getBaseEnergyUsage()
     {
-        return LTXIMachinesConfig.NOCTIS_TURRET_ENERGY_PER_TARGET.getAsInt();
+        return LTXIMachinesConfig.RAILGUN_TURRET_ENERGY_PER_TARGET.getAsInt();
     }
 
     @Override
@@ -66,7 +66,7 @@ public class RailgunTurretBlockEntity extends SemiAutoTurretBlockEntity
     @Override
     protected void attackTarget(ServerLevel level, BlockPos pos, BlockState state, @Nullable Player owner, Entity target)
     {
-        float baseDamage = (float) LTXIMachinesConfig.NOCTIS_TURRET_DAMAGE.getAsDouble();
+        float baseDamage = (float) LTXIMachinesConfig.RAILGUN_TURRET_DAMAGE.getAsDouble();
 
         LTXIEntityUtil.hurtWithEnchantedFakePlayer(level, target, owner, getUpgrades(), ignored -> TurretDamageSource.create(level, LTXIDamageTypes.RAILGUN_TURRET, this, null, owner, traceStart), baseDamage);
         LimaNetworkUtil.sendParticle(level, new ColorParticleOptions(LTXIParticles.RAILGUN_BOLT, LTXIConstants.LIME_GREEN), LimaNetworkUtil.LONG_PARTICLE_DIST, traceStart, target.getBoundingBox().getCenter());

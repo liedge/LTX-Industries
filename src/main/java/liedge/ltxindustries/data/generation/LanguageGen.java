@@ -93,6 +93,7 @@ class LanguageGen extends LimaLanguageProvider
         addBlock(LTXIBlocks.MOLECULAR_RECONSTRUCTOR, "Molecular Reconstructor");
         addBlock(LTXIBlocks.DIGITAL_GARDEN, "Bio/ARU Garden");
 
+        addBlock(LTXIBlocks.ARC_TURRET, italicName("%s A/DS Turret", "Ionos"));
         addBlock(LTXIBlocks.ROCKET_TURRET, italicName("%s A/DS Turret", "Atmos"));
         addBlock(LTXIBlocks.RAILGUN_TURRET, italicName("%s A/DS Turret", "Noctis"));
 
@@ -290,6 +291,7 @@ class LanguageGen extends LimaLanguageProvider
         // Menu titles
         menuTitle(LTXIMenus.BLOCK_IO_CONFIGURATION, "%s IO Config");
         menuTitle(LTXIMenus.MACHINE_UPGRADES, "Machine Upgrades");
+        menuTitle(LTXIMenus.ARC_TURRET, "Ionos Turret");
         menuTitle(LTXIMenus.ROCKET_TURRET, "Atmos Turret");
         menuTitle(LTXIMenus.RAILGUN_TURRET, "Noctis Turret");
 
@@ -456,17 +458,17 @@ class LanguageGen extends LimaLanguageProvider
         add(INVALID_WEAPON_DEATH_MESSAGE, "%s was killed by an invalid LTX weapon");
         add(STRAY_PROJECTILE_DEATH_MESSAGE, "%s was killed by a stray %s");
         damageType(LTXIDamageTypes.LIGHTFRAG, "%2$s shot %1$s with %3$s");
-        damageType(LTXIDamageTypes.EXPLOSIVE_GRENADE, "%s was blown away by %s's %s");
+        damageType(LTXIDamageTypes.EXPLOSIVE_WEAPON, "%s was blown up by %s's %s");
         damageType(LTXIDamageTypes.FLAME_GRENADE, "%s was incinerated by %s's %s");
         damageType(LTXIDamageTypes.CRYO_GRENADE, "%s was frozen solid by %s's %s");
         damageType(LTXIDamageTypes.ELECTRIC_GRENADE, "%s was electrocuted by %s's %s");
         damageType(LTXIDamageTypes.ACID_GRENADE, "%s was dissolved by %s's %s");
         damageType(LTXIDamageTypes.NEURO_GRENADE, "%s was decayed by %s's %s");
-        damageType(LTXIDamageTypes.ROCKET_LAUNCHER, "%s was blown up by %s's %s");
 
         noItemCausingEntityOnlyDamageMessage(LTXIDamageTypes.STICKY_FLAME, "%s was cooked well-done by %s", "%s was cooked well-done");
-        noItemCausingEntityOnlyDamageMessage(LTXIDamageTypes.TURRET_ROCKET, "%s was shot down by %s's Atmos turret", "%s was shot down by a rogue Atmos turret");
+        noItemCausingEntityOnlyDamageMessage(LTXIDamageTypes.ROCKET_TURRET, "%s was shot down by %s's Atmos turret", "%s was shot down by a rogue Atmos turret");
         noItemCausingEntityOnlyDamageMessage(LTXIDamageTypes.RAILGUN_TURRET, "%s was obliterated by %s's Noctis turret", "%s was obliterated by a rogue Noctis turret");
+        noItemCausingEntityOnlyDamageMessage(LTXIDamageTypes.ARC_TURRET, "%s was electrocuted by %s's Ionos turret", "%s was electrocuted by a rogue Ionos turret");
 
         //#region Advancements
         //#endregion

@@ -45,7 +45,8 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
 {
     // General properties
     protected final Vec3 traceStart;
-    protected final AABB searchArea;
+    private final AABB searchArea;
+    private final AABB attackArea;
     private final AABB boundingBox;
 
     private int energyUsage = getBaseEnergyUsage();
@@ -64,9 +65,9 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
     private int clientAimTicks;
     private int clientAimTicks0;
     private float turretYRot0;
-    private float turretYRot;
+    protected float turretYRot;
     private float turretXRot0;
-    private float turretXRot;
+    protected float turretXRot;
     private double targetDistance;
     private boolean lookingAtTarget;
 
@@ -75,6 +76,7 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
         super(type, pos, state, 2, 0, 20);
         this.traceStart = new Vec3(pos.getX() + 0.5d, pos.getY() + traceY, pos.getZ() + 0.5d);
         this.searchArea = AABB.ofSize(traceStart, horizontalSearchRadius, verticalSearchRadius, horizontalSearchRadius);
+        this.attackArea = searchArea.inflate(3d);
         this.boundingBox = new AABB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 2, pos.getZ() + 1);
     }
 
@@ -145,10 +147,15 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
 
     protected abstract boolean isValidDefaultTarget(Entity entity);
 
+    protected int getCooldownDuration()
+    {
+        return 4;
+    }
+
     @Contract("null->false")
     protected boolean targetStillValid(@Nullable Entity entity)
     {
-        return entity != null && LTXIEntityUtil.isEntityAlive(entity) && searchArea.contains(entity.getBoundingBox().getCenter());
+        return entity != null && LTXIEntityUtil.isEntityAlive(entity) && attackArea.intersects(entity.getBoundingBox());
     }
 
     protected void setNextTarget(TurretTargetTracker tracker)
@@ -326,7 +333,7 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
             }
             case CHARGING, COOLDOWN ->
             {
-                int duration = turretState == TurretState.CHARGING ? getChargingDuration() : 4;
+                int duration = turretState == TurretState.CHARGING ? getChargingDuration() : getCooldownDuration();
 
                 if (targetStillValid(target))
                 {

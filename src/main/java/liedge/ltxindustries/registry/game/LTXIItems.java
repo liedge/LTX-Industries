@@ -77,8 +77,6 @@ public final class LTXIItems
     public static final DeferredItem<BlockItem> EQUIPMENT_UPGRADE_STATION = ITEMS.registerSimpleBlockItem(LTXIBlocks.EQUIPMENT_UPGRADE_STATION, properties().stacksTo(1));
     public static final DeferredItem<ECABlockItem> ENERGY_CELL_ARRAY = ITEMS.registerBlockItem(LTXIBlocks.ENERGY_CELL_ARRAY, ECABlockItem::new, properties().stacksTo(1));
     public static final DeferredItem<InfiniteECABlockItem> INFINITE_ENERGY_CELL_ARRAY = ITEMS.registerBlockItem(LTXIBlocks.INFINITE_ENERGY_CELL_ARRAY, InfiniteECABlockItem::new, properties().stacksTo(1).rarity(Rarity.EPIC));
-    public static final DeferredItem<BlockItem> ROCKET_TURRET = registerTurretBlockItem(LTXIBlocks.ROCKET_TURRET);
-    public static final DeferredItem<BlockItem> RAILGUN_TURRET = registerTurretBlockItem(LTXIBlocks.RAILGUN_TURRET);
     public static final DeferredItem<BlockItem> DIGITAL_FURNACE = registerMachineBlockItem(LTXIBlocks.DIGITAL_FURNACE);
     public static final DeferredItem<BlockItem> DIGITAL_SMOKER = registerMachineBlockItem(LTXIBlocks.DIGITAL_SMOKER);
     public static final DeferredItem<BlockItem> DIGITAL_BLAST_FURNACE = registerMachineBlockItem(LTXIBlocks.DIGITAL_BLAST_FURNACE);
@@ -94,6 +92,9 @@ public final class LTXIItems
     public static final DeferredItem<BlockItem> AUTO_FABRICATOR = registerMachineBlockItem(LTXIBlocks.AUTO_FABRICATOR);
     public static final DeferredItem<BlockItem> MOLECULAR_RECONSTRUCTOR = registerMachineBlockItem(LTXIBlocks.MOLECULAR_RECONSTRUCTOR);
     public static final DeferredItem<BlockItem> DIGITAL_GARDEN = registerMachineBlockItem(LTXIBlocks.DIGITAL_GARDEN);
+    public static final DeferredItem<BlockItem> ARC_TURRET = registerTurretBlockItem(LTXIBlocks.ARC_TURRET);
+    public static final DeferredItem<BlockItem> ROCKET_TURRET = registerTurretBlockItem(LTXIBlocks.ROCKET_TURRET);
+    public static final DeferredItem<BlockItem> RAILGUN_TURRET = registerTurretBlockItem(LTXIBlocks.RAILGUN_TURRET);
     // #endregion
 
     // Base mod materials

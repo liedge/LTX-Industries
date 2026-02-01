@@ -127,6 +127,7 @@ public class LTXIndustriesClient
             event.register(LTXIMenus.EQUIPMENT_UPGRADE_STATION.get(), EquipmentUpgradeStationScreen::new);
             event.register(LTXIMenus.MOLECULAR_RECONSTRUCTOR.get(), MolecularReconstructorScreen::new);
             event.register(LTXIMenus.DIGITAL_GARDEN.get(), RecipeLayoutScreen::new);
+            event.register(LTXIMenus.ARC_TURRET.get(), TurretScreen::new);
             event.register(LTXIMenus.ROCKET_TURRET.get(), TurretScreen::new);
             event.register(LTXIMenus.RAILGUN_TURRET.get(), TurretScreen::new);
         }
@@ -172,6 +173,7 @@ public class LTXIndustriesClient
             event.registerBlockEntityRenderer(LTXIBlockEntities.AUTO_FABRICATOR.get(), ctx -> new BaseFabricatorRenderer(ctx, 0, 0.375d));
             event.registerBlockEntityRenderer(LTXIBlockEntities.EQUIPMENT_UPGRADE_STATION.get(), EquipmentUpgradeStationRenderer::new);
             event.registerBlockEntityRenderer(LTXIBlockEntities.DIGITAL_GARDEN.get(), DigitalGardenRenderer::new);
+            event.registerBlockEntityRenderer(LTXIBlockEntities.ARC_TURRET.get(), ArcTurretRenderer::new);
             event.registerBlockEntityRenderer(LTXIBlockEntities.ROCKET_TURRET.get(), RocketTurretRenderer::new);
             event.registerBlockEntityRenderer(LTXIBlockEntities.RAILGUN_TURRET.get(), RailgunTurretRenderer::new);
         }

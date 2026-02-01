@@ -72,16 +72,16 @@ public class TurretRocketEntity extends BaseRocketEntity
     @Override
     protected void damageTarget(Level level, @Nullable LivingEntity owner, Entity targetEntity, Vec3 hitLocation, boolean isDirectHit)
     {
-        float baseDamage = (float) LTXIMachinesConfig.ATMOS_TURRET_ROCKET_DAMAGE.getAsDouble();
+        float baseDamage = (float) LTXIMachinesConfig.ROCKET_TURRET_ROCKET_DAMAGE.getAsDouble();
 
         RocketTurretBlockEntity be = turretPos != null ? LimaBlockUtil.getSafeBlockEntity(level, turretPos, RocketTurretBlockEntity.class) : null;
         if (be != null)
         {
             // Auto-wrap player owners with a Fake Player instance that has the turret's enchantments
-            LTXIEntityUtil.hurtWithEnchantedFakePlayer((ServerLevel) level, targetEntity, owner, be.getUpgrades(), le -> TurretDamageSource.create(level, LTXIDamageTypes.TURRET_ROCKET, be, this, le, null), baseDamage);
+            LTXIEntityUtil.hurtWithEnchantedFakePlayer((ServerLevel) level, targetEntity, owner, be.getUpgrades(), le -> TurretDamageSource.create(level, LTXIDamageTypes.ROCKET_TURRET, be, this, le, null), baseDamage);
         } else
         {
-            targetEntity.hurt(level.damageSources().source(LTXIDamageTypes.TURRET_ROCKET, this, owner), baseDamage); // Standard damage source if parent turret is missing/invalid
+            targetEntity.hurt(level.damageSources().source(LTXIDamageTypes.ROCKET_TURRET, this, owner), baseDamage); // Standard damage source if parent turret is missing/invalid
         }
     }
 

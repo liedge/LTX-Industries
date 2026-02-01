@@ -7,6 +7,7 @@ import liedge.ltxindustries.blockentity.*;
 import liedge.ltxindustries.blockentity.base.RecipeModeHolderBlockEntity;
 import liedge.ltxindustries.blockentity.template.BaseRecipeMachineBlockEntity;
 import liedge.ltxindustries.blockentity.template.LTXIMachineBlockEntity;
+import liedge.ltxindustries.blockentity.turret.ArcTurretBlockEntity;
 import liedge.ltxindustries.blockentity.turret.RailgunTurretBlockEntity;
 import liedge.ltxindustries.blockentity.turret.RocketTurretBlockEntity;
 import liedge.ltxindustries.blockentity.turret.TurretBlockEntity;
@@ -52,6 +53,7 @@ public final class LTXIMenus
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<MolecularReconstructorBlockEntity, MolecularReconstructorMenu>> MOLECULAR_RECONSTRUCTOR = TYPES.register(LTXIIdentifiers.ID_MOLECULAR_RECONSTRUCTOR, () -> BlockEntityMenuType.create(MolecularReconstructorBlockEntity.class, MolecularReconstructorMenu::new));
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<DigitalGardenBlockEntity, RecipeLayoutMenu<DigitalGardenBlockEntity>>> DIGITAL_GARDEN = registerLayoutRecipeMenu(LTXIIdentifiers.ID_DIGITAL_GARDEN, DigitalGardenBlockEntity.class, RecipeLayouts.GARDEN_SIMULATING);
 
+    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<ArcTurretBlockEntity, TurretMenu<ArcTurretBlockEntity>>> ARC_TURRET = registerTurret(LTXIIdentifiers.ID_ARC_TURRET, ArcTurretBlockEntity.class);
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<RocketTurretBlockEntity, TurretMenu<RocketTurretBlockEntity>>> ROCKET_TURRET = registerTurret(LTXIIdentifiers.ID_ROCKET_TURRET, RocketTurretBlockEntity.class);
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<RailgunTurretBlockEntity, TurretMenu<RailgunTurretBlockEntity>>> RAILGUN_TURRET = registerTurret(LTXIIdentifiers.ID_RAILGUN_TURRET, RailgunTurretBlockEntity.class);
 

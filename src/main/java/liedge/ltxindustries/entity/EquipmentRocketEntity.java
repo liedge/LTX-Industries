@@ -29,6 +29,6 @@ public class EquipmentRocketEntity extends BaseRocketEntity
     protected void damageTarget(Level level, @Nullable LivingEntity owner, Entity targetEntity, Vec3 hitLocation, boolean isDirectHit)
     {
         double baseDamage = isDirectHit ? LTXIWeaponsConfig.ROCKET_LAUNCHER_BASE_IMPACT_DAMAGE.getAsDouble() : LTXIWeaponsConfig.ROCKET_LAUNCHER_BASE_SPLASH_DAMAGE.getAsDouble();
-        LTXIItems.ROCKET_LAUNCHER.get().causeProjectileDamage(getLauncherItem(), this, owner, LTXIDamageTypes.ROCKET_LAUNCHER, targetEntity, baseDamage);
+        LTXIItems.ROCKET_LAUNCHER.get().causeProjectileDamage(getLauncherItem(), this, owner, LTXIDamageTypes.EXPLOSIVE_WEAPON, targetEntity, baseDamage);
     }
 }

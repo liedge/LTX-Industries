@@ -1,5 +1,6 @@
 {
   "values": [
-    "#ltxi:weapon_damage"
+    "#ltxi:weapons",
+    "#ltxi:turrets"
   ]
 }

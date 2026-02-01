@@ -11,6 +11,7 @@ import liedge.ltxindustries.blockentity.*;
 import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
 import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
 import liedge.ltxindustries.blockentity.base.IOConfigurationRules;
+import liedge.ltxindustries.blockentity.turret.ArcTurretBlockEntity;
 import liedge.ltxindustries.blockentity.turret.RailgunTurretBlockEntity;
 import liedge.ltxindustries.blockentity.turret.RocketTurretBlockEntity;
 import liedge.ltxindustries.blockentity.turret.TurretBlockEntity;
@@ -55,6 +56,7 @@ public final class LTXIBlockEntities
                 FABRICATOR,
                 AUTO_FABRICATOR,
                 MOLECULAR_RECONSTRUCTOR,
+                ARC_TURRET,
                 ROCKET_TURRET,
                 RAILGUN_TURRET));
 
@@ -162,6 +164,7 @@ public final class LTXIBlockEntities
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<MolecularReconstructorBlockEntity>> MOLECULAR_RECONSTRUCTOR = registerItemEnergyMachine(LTXIIdentifiers.ID_MOLECULAR_RECONSTRUCTOR, MolecularReconstructorBlockEntity::new, DOUBLE_BLOCK_STANDARD_PUSH_ONLY, DOUBLE_BLOCK_INPUT_NO_PULL, builder -> builder.withBlock(LTXIBlocks.MOLECULAR_RECONSTRUCTOR).hasMenu(LTXIMenus.MOLECULAR_RECONSTRUCTOR));
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<DigitalGardenBlockEntity>> DIGITAL_GARDEN = registerItemEnergyFluidMachine(LTXIIdentifiers.ID_DIGITAL_GARDEN, DigitalGardenBlockEntity::new, DOUBLE_BLOCK_STANDARD_PUSH_ONLY, DOUBLE_BLOCK_INPUT_NO_PULL, DOUBLE_BLOCK_INPUT_PULL, builder -> builder.withBlock(LTXIBlocks.DIGITAL_GARDEN).hasMenu(LTXIMenus.DIGITAL_GARDEN));
 
+    public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<ArcTurretBlockEntity>> ARC_TURRET = registerTurret(LTXIIdentifiers.ID_ARC_TURRET, ArcTurretBlockEntity::new, builder -> builder.withBlock(LTXIBlocks.ARC_TURRET).hasMenu(LTXIMenus.ARC_TURRET));
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<RocketTurretBlockEntity>> ROCKET_TURRET = registerTurret(LTXIIdentifiers.ID_ROCKET_TURRET, RocketTurretBlockEntity::new, builder -> builder.withBlock(LTXIBlocks.ROCKET_TURRET).hasMenu(LTXIMenus.ROCKET_TURRET));
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<RailgunTurretBlockEntity>> RAILGUN_TURRET = registerTurret(LTXIIdentifiers.ID_RAILGUN_TURRET, RailgunTurretBlockEntity::new, builder -> builder.withBlock(LTXIBlocks.RAILGUN_TURRET).hasMenu(LTXIMenus.RAILGUN_TURRET));
 

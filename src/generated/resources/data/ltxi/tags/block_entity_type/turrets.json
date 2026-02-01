@@ -1,5 +1,6 @@
 {
   "values": [
+    "ltxi:arc_turret",
     "ltxi:rocket_turret",
     "ltxi:railgun_turret"
   ]
