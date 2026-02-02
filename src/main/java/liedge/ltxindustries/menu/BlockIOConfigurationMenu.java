@@ -100,7 +100,7 @@ public class BlockIOConfigurationMenu extends LimaMenu<BlockIOConfigurationMenu.
         @Override
         public void encodeContext(MenuContext menuContext, RegistryFriendlyByteBuf net)
         {
-            net.writeBlockPos(menuContext.blockEntity.getAsLimaBlockEntity().getBlockPos());
+            net.writeBlockPos(menuContext.blockEntity.getBlockPos());
             BlockEntityInputType.STREAM_CODEC.encode(net, menuContext.inputType);
         }
 

@@ -10,6 +10,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
@@ -19,7 +20,10 @@ public interface ConfigurableIOBlockEntity extends SubMenuProviderBlockEntity
 {
     String KEY_IO_CONFIGS = "io_configs";
 
-    Direction getFacing();
+    default Direction getFacing()
+    {
+        return getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING);
+    }
 
     Collection<BlockEntityInputType> getConfigurableInputTypes();
 

@@ -151,7 +151,8 @@ public abstract class LTXIJeiCategory<R extends LimaCustomRecipe<?>> implements 
     protected void fluidResultSlot(IRecipeLayoutBuilder builder, R recipe, int resultIndex, int x, int y)
     {
         FluidResult result = recipe.getFluidResult(resultIndex);
-        IRecipeSlotBuilder slot = builder.addSlot(RecipeIngredientRole.OUTPUT, x, y).addFluidStack(result.getFluid());
+        FluidStack displayStack = result.getDisplayStack();
+        IRecipeSlotBuilder slot = builder.addSlot(RecipeIngredientRole.OUTPUT, x, y).addFluidStack(displayStack.getFluid(), displayStack.getAmount(), displayStack.getComponentsPatch());
 
         List<Component> tooltipLines = new ObjectArrayList<>();
         addPriorityTooltip(result, tooltipLines);

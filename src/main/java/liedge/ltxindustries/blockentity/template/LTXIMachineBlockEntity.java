@@ -23,7 +23,6 @@ import net.minecraft.resources.RegistryOps;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.neoforged.neoforge.capabilities.BlockCapabilityCache;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.energy.IEnergyStorage;
@@ -68,12 +67,6 @@ public sealed abstract class LTXIMachineBlockEntity extends LimaBlockEntity impl
     }
 
     //#region Sided IO implementation
-
-    @Override
-    public final Direction getFacing()
-    {
-        return getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING);
-    }
 
     @Override
     public Collection<BlockEntityInputType> getConfigurableInputTypes()
