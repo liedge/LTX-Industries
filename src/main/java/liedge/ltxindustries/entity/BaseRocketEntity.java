@@ -2,11 +2,13 @@ package liedge.ltxindustries.entity;
 
 import liedge.limacore.client.particle.ColorParticleOptions;
 import liedge.limacore.client.particle.ColorSizeParticleOptions;
+import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.util.LimaNetworkUtil;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.registry.game.LTXIParticles;
 import liedge.ltxindustries.registry.game.LTXISounds;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -52,9 +54,14 @@ public abstract class BaseRocketEntity extends AutoTrackingProjectile
 
         if (isClientSide)
         {
-            double dx = getX() + (random.nextDouble() - random.nextDouble()) * 0.35d;
-            double dz = getZ() + (random.nextDouble() - random.nextDouble()) * 0.35d;
-            level.addAlwaysVisibleParticle(new ColorSizeParticleOptions(LTXIParticles.COLOR_GLITTER, LTXIConstants.LIME_GREEN, 1.75f), true, dx, getY(0.5d), dz, 0, 0, 0);
+            Vec3 p = LimaCoreMath.createMotionVector(getXRot(), getYRot(), -0.5625d, 0d);
+            double px = getX() + p.x();
+            double py = getY(0.5d) + p.y();
+            double pz = getZ() + p.z();
+
+            double trailSpeed = Mth.clamp(getDeltaMovement().length() - 0.7d, -0.7d, 0.1d);
+            Vec3 v = LimaCoreMath.createMotionVector(getXRot(), getYRot(), trailSpeed, 5d);
+            level.addAlwaysVisibleParticle(new ColorSizeParticleOptions(LTXIParticles.COLOR_GLITTER, LTXIConstants.LIME_GREEN, 1.5f), true, px, py, pz, v.x(), v.y(), v.z());
         }
     }
 }

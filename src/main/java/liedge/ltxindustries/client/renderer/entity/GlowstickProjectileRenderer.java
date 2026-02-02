@@ -1,7 +1,6 @@
 package liedge.ltxindustries.client.renderer.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.client.model.entity.GlowstickProjectileModel;
 import liedge.ltxindustries.entity.GlowstickProjectileEntity;
@@ -9,7 +8,6 @@ import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 
 public class GlowstickProjectileRenderer extends EntityRenderer<GlowstickProjectileEntity>
@@ -29,9 +27,8 @@ public class GlowstickProjectileRenderer extends EntityRenderer<GlowstickProject
     {
         poseStack.pushPose();
 
-        VertexConsumer buffer = bufferSource.getBuffer(model.renderType(TEXTURE));
-        model.rotateModel(entity, partialTick);
-        model.renderToBuffer(poseStack, buffer, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY);
+        model.prepare(entity, partialTick);
+        model.render(poseStack, bufferSource, TEXTURE, LightTexture.FULL_BRIGHT);
 
         poseStack.popPose();
     }

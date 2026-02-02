@@ -1,20 +1,19 @@
 package liedge.ltxindustries.client.model.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import liedge.ltxindustries.entity.GlowstickProjectileEntity;
-import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
-import static liedge.limacore.lib.math.LimaCoreMath.toRad;
-
-public class GlowstickProjectileModel extends Model
+public class GlowstickProjectileModel extends ProjectileModel<GlowstickProjectileEntity>
 {
 	private final ModelPart stick;
 
@@ -26,16 +25,16 @@ public class GlowstickProjectileModel extends Model
 		this.stick = root.getChild("stick");
 	}
 
-	public void rotateModel(GlowstickProjectileEntity entity, float partialTick)
+	@Override
+	public void prepare(GlowstickProjectileEntity entity, float partialTick)
 	{
-		stick.yRot = toRad(-entity.getYRot());
-		stick.xRot = toRad(entity.getXRot() - 90f);
+		rotatePart(entity, stick);
 	}
 
 	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, int color)
+	public void render(PoseStack poseStack, MultiBufferSource bufferSource, ResourceLocation texture, int packedLight, int color)
 	{
-		stick.render(poseStack, buffer, LightTexture.FULL_BRIGHT, packedOverlay);
+		stick.render(poseStack, bufferSource.getBuffer(renderType(texture)), LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY);
 	}
 
 	public static LayerDefinition defineLayer()

@@ -183,7 +183,7 @@ public class LTXIndustriesClient
         {
             event.registerLayerDefinition(LTXIModelLayers.GLOWSTICK_PROJECTILE, GlowstickProjectileModel::defineLayer);
             event.registerLayerDefinition(LTXIModelLayers.ORB_GRENADE, OrbGrenadeModel::defineLayer);
-            event.registerLayerDefinition(LTXIModelLayers.ROCKET, RocketModel::defineLayer);
+            event.registerLayerDefinition(LTXIModelLayers.SMALL_ROCKET, SmallRocketModel::defineLayer);
             event.registerLayerDefinition(LTXIModelLayers.WONDERLAND_ARMOR_SET, WonderlandArmorModel::createBodyLayer);
         }
 
