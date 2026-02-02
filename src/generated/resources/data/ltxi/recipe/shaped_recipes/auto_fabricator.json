@@ -11,20 +11,20 @@
     "g": {
       "item": "ltxi:slatesteel_gear"
     },
+    "o": {
+      "item": "ltxi:optical_tech_part"
+    },
     "p": {
       "item": "ltxi:polymer_ingot"
     },
     "s": {
       "item": "ltxi:titanium_glass"
-    },
-    "t": {
-      "item": "ltxi:titanium_ingot"
     }
   },
   "pattern": [
-    "pcp",
+    "pop",
     "sas",
-    "tgt"
+    "gcg"
   ],
   "result": {
     "count": 1,

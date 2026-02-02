@@ -20,12 +20,8 @@
       "item": "ltxi:ltx_lime_pigment"
     },
     {
-      "count": 8,
-      "item": "ltxi:titanium_glass"
-    },
-    {
-      "count": 2,
-      "item": "minecraft:amethyst_shard"
+      "count": 3,
+      "item": "ltxi:optical_tech_part"
     }
   ],
   "result": {

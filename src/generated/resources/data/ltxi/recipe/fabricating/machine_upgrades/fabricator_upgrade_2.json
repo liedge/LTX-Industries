@@ -15,8 +15,12 @@
       "strict": true
     },
     {
-      "count": 4,
-      "item": "ltxi:ltx_lime_pigment"
+      "count": 1,
+      "item": "ltxi:t3_circuit"
+    },
+    {
+      "count": 2,
+      "item": "ltxi:optical_tech_part"
     },
     {
       "count": 4,
@@ -24,15 +28,7 @@
     },
     {
       "count": 8,
-      "item": "ltxi:titanium_ingot"
-    },
-    {
-      "count": 2,
-      "item": "ltxi:t3_circuit"
-    },
-    {
-      "count": 8,
-      "item": "minecraft:redstone"
+      "item": "ltxi:electric_chemical"
     }
   ],
   "result": {

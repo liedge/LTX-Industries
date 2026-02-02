@@ -1,0 +1,26 @@
+{
+  "display": {
+    "category": "target_predicates",
+    "description": {
+      "translate": "machine_upgrade.ltxi.targeting.hostile.desc"
+    },
+    "icon": "ltxi:hostile_targets",
+    "title": {
+      "translate": "machine_upgrade.ltxi.targeting.hostile"
+    }
+  },
+  "effects": {
+    "ltxi:target_conditions": [
+      {
+        "bounds": {
+          "min": "hostile"
+        },
+        "condition": "limacore:hostility",
+        "first": "this",
+        "second": "attacker"
+      }
+    ]
+  },
+  "exclusive_set": "#ltxi:target_predicates",
+  "supported_set": "#ltxi:turrets"
+}

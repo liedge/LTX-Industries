@@ -16,7 +16,6 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.fluids.BaseFlowingFluid;
 
 import java.util.function.Supplier;
-import java.util.stream.Stream;
 
 import static liedge.limacore.util.LimaRegistryUtil.getItemName;
 import static liedge.ltxindustries.client.LTXIItemOverrides.BRUSH_BRUSHING;
@@ -51,6 +50,8 @@ class ItemModelGen extends LimaItemModelProvider
                 T3_CIRCUIT,
                 T4_CIRCUIT,
                 T5_CIRCUIT,
+                OPTICAL_TECH_PART,
+                IMPULSE_TECH_PART,
                 WONDERLAND_HEAD,
                 WONDERLAND_BODY,
                 WONDERLAND_LEGS,
@@ -89,8 +90,6 @@ class ItemModelGen extends LimaItemModelProvider
         pigments(LTX_LIME_PIGMENT, ENERGY_BLUE_PIGMENT, ELECTRIC_CHARTREUSE_PIGMENT, VIRIDIC_GREEN_PIGMENT, NEURO_BLUE_PIGMENT);
         orePebbles(COAL_ORE_PEBBLES, COPPER_ORE_PEBBLES, IRON_ORE_PEBBLES, LAPIS_ORE_PEBBLES, REDSTONE_ORE_PEBBLES, GOLD_ORE_PEBBLES, DIAMOND_ORE_PEBBLES, EMERALD_ORE_PEBBLES, QUARTZ_ORE_PEBBLES, NETHERITE_ORE_PEBBLES, TITANIUM_ORE_PEBBLES, NIOBIUM_ORE_PEBBLES,
                 TIN_ORE_PEBBLES, OSMIUM_ORE_PEBBLES, NICKEL_ORE_PEBBLES, LEAD_ORE_PEBBLES, SILVER_ORE_PEBBLES, URANIUM_ORE_PEBBLES);
-
-        generated(itemFolderLocation("tech_salvage"), EXPLOSIVES_WEAPON_TECH_SALVAGE, TARGETING_TECH_SALVAGE);
 
         emissiveBiLayerModels(generatedModel, LTX_SHEARS, LTX_LIGHTER);
         emissiveBiLayerModels(handheldModel, LTX_DRILL, LTX_SWORD, LTX_SHOVEL, LTX_AXE, LTX_HOE, LTX_WRENCH);
@@ -162,10 +161,5 @@ class ItemModelGen extends LimaItemModelProvider
             String name = getItemName(item.asItem()).split("_")[0];
             generated(item, itemFolderLocation("ore_pebble/" + name));
         }
-    }
-
-    private void generated(ResourceLocation texture, ItemLike... items)
-    {
-        Stream.of(items).forEach(i -> generated(i, texture));
     }
 }

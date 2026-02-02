@@ -82,14 +82,7 @@ class LootTablesGen extends LimaLootTableProvider
         @Override
         protected void generateTables()
         {
-            Holder<Enchantment> ammoScavengerEnchantment = registries.holderOrThrow(LTXIEnchantments.AMMO_SCAVENGER);
             Holder<Enchantment> razorEnchantment = registries.holderOrThrow(LTXIEnchantments.RAZOR);
-
-            // GLM generic drops
-            LootPool.Builder phantomDrops = LootPool.lootPool()
-                    .when(needsEntityType(EntityType.PHANTOM))
-                    .when(LootItemRandomChanceCondition.randomChance(0.1f))
-                    .add(lootItem(LTXIItems.TARGETING_TECH_SALVAGE));
 
             LootItemCondition.Builder acidFinalBlow = LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.DIRECT_ATTACKER, EntityPredicate.Builder.entity().subPredicate(new GrenadeSubPredicate(GrenadeType.ACID)));
             MobEffectsPredicate.MobEffectInstancePredicate amp2 = new MobEffectsPredicate.MobEffectInstancePredicate(MinMaxBounds.Ints.atLeast(2), MinMaxBounds.Ints.ANY, Optional.empty(), Optional.empty());
@@ -101,7 +94,6 @@ class LootTablesGen extends LimaLootTableProvider
                     .add(lootItem(LTXIItems.NEURO_CHEMICAL));
 
             addTable(ENTITY_EXTRA_DROPS, LootTable.lootTable()
-                    .withPool(phantomDrops)
                     .withPool(wardenDrops));
 
             // Ammo drops table

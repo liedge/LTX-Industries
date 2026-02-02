@@ -144,6 +144,8 @@ class LanguageGen extends LimaLanguageProvider
         simpleHintItem(T3_CIRCUIT, "Precision Circuit", "Third tier circuit. Highest performance on conventional materials. Handles all standard engineering and industrial applications.");
         simpleHintItem(T4_CIRCUIT, "Nano-Core Processor", "Fourth tier circuit. Exotic crystal-metal nanoarchitecture packed into a small form factor. Near unmatched power delivery and data processing.");
         simpleHintItem(T5_CIRCUIT, "Real Virtuality Processor", "Fifth and final tier circuit. Can create digital microverses where its calculations don't break the laws of physics. Don't question it.");
+        simpleHintItem(OPTICAL_TECH_PART, "Optical Module", "Multi purpose lens with an onboard visual data processor. Useful for target processing and visual aids.");
+        simpleHintItem(IMPULSE_TECH_PART, "Impulse Driver Module", "Hydrogen-fueled device that generates powerful yet precise shock waves. Optimal for propulsion and explosive systems.");
 
         addItem(COAL_ORE_PEBBLES, "Coal Ore Pebbles");
         addItem(COPPER_ORE_PEBBLES, "Copper Ore Pebbles");
@@ -184,9 +186,6 @@ class LanguageGen extends LimaLanguageProvider
         addItem(ITEMS_IO_CONFIG_CARD, "Items IO Config Card");
         addItem(ENERGY_IO_CONFIG_CARD, "Energy IO Config Card");
         addItem(FLUIDS_IO_CONFIG_CARD, "Fluids IO Config Card");
-
-        simpleHintItem(EXPLOSIVES_WEAPON_TECH_SALVAGE, "Salvaged Tech: Explosive Weapon Systems", "Broken components from an explosives handling device. Might be useful in reconstructing explosive weaponry.");
-        simpleHintItem(TARGETING_TECH_SALVAGE, "Salvaged Tech: Auto-Targeting Systems", "Broken electronics from a targeting computer. Might be useful in reconstructing guidance systems for weaponry.");
 
         addItem(SUBMACHINE_GUN, italicName("%s 07/SD", "Serenity"));
         addItem(GLOWSTICK_LAUNCHER, italicName("%s 05/ID", "Wayfinder"));
@@ -281,6 +280,10 @@ class LanguageGen extends LimaLanguageProvider
         upgrade(LTXIMachineUpgrades.TURRET_LOOTING, "Efficient Target Disposal", "Smarter turret targeting systems allow for increased loot drops from eliminated targets.");
         upgrade(LTXIMachineUpgrades.TURRET_RAZOR, "Headhunter Scope", "Precise turret calibration enables the collection of anatomical curiosities.");
         upgrade(LTXIMachineUpgrades.TURRET_LOOT_COLLECTOR, "Matter SubLink", "Loot is sent directly to the turret’s storage. If full, items appear at the turret’s base.");
+
+        upgrade(LTXIMachineUpgrades.ALL_ENTITIES_TARGETING, "Target Search: Extermination", "Overrides turret search protocols to target any valid target.");
+        upgrade(LTXIMachineUpgrades.NEUTRAL_ENEMY_TARGETING, "Target Search: Preemption", "Overrides turret search protocols to target neutral enemies and hostile targets.");
+        upgrade(LTXIMachineUpgrades.HOSTILE_TARGETING, "Target Search: Rectification", "Overrides turret search protocols to target hostile targets.");
         //#endregion
 
         // Creative tabs

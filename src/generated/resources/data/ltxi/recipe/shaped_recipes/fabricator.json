@@ -11,12 +11,15 @@
     "g": {
       "item": "ltxi:slatesteel_gear"
     },
+    "o": {
+      "item": "ltxi:optical_tech_part"
+    },
     "t": {
       "item": "ltxi:titanium_ingot"
     }
   },
   "pattern": [
-    "tct",
+    "tot",
     "cac",
     "gtg"
   ],

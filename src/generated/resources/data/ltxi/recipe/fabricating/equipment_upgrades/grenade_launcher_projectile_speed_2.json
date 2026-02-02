@@ -15,15 +15,15 @@
       "strict": true
     },
     {
-      "count": 3,
+      "count": 2,
       "item": "ltxi:t3_circuit"
     },
     {
-      "count": 36,
-      "item": "minecraft:firework_rocket"
+      "count": 4,
+      "item": "ltxi:impulse_tech_part"
     },
     {
-      "count": 8,
+      "count": 4,
       "item": "minecraft:phantom_membrane"
     }
   ],

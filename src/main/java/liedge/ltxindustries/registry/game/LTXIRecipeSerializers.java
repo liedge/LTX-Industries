@@ -35,7 +35,7 @@ public final class LTXIRecipeSerializers
     public static final DeferredHolder<RecipeSerializer<?>, LTXIRecipeSerializer<ChemicalReactingRecipe>> CHEMICAL_REACTING = register(LTXIIdentifiers.ID_CHEMICAL_REACTING, ChemicalReactingRecipe::new, builder ->
             builder.withOptionalItemIngredients(3).withOptionalFluidIngredients(3).withOptionalItemResults(2).withOptionalFluidResults(2));
     public static final DeferredHolder<RecipeSerializer<?>, LTXIRecipeSerializer<AssemblingRecipe>> ASSEMBLING = register(LTXIIdentifiers.ID_ASSEMBLING_RECIPE, AssemblingRecipe::new, builder ->
-            builder.withItemIngredients(6).withOptionalFluidIngredients(1).withItemResults(1));
+            builder.defaultTime(400).withItemIngredients(6).withOptionalFluidIngredients(1).withItemResults(1));
     public static final DeferredHolder<RecipeSerializer<?>, LimaRecipeSerializer<FabricatingRecipe>> FABRICATING = SERIALIZERS.register(LTXIIdentifiers.ID_FABRICATING_RECIPE, id -> LimaRecipeSerializer.of(id, FabricatingRecipe.CODEC, FabricatingRecipe.STREAM_CODEC));
     public static final DeferredHolder<RecipeSerializer<?>, LTXIRecipeSerializer<GeoSynthesisRecipe>> GEO_SYNTHESIS = register(LTXIIdentifiers.ID_GEO_SYNTHESIS_RECIPE, GeoSynthesisRecipe::new, builder ->
             builder.defaultTime(60).withItemIngredients(1).withFluidIngredients(2, 2).withItemResults(1));

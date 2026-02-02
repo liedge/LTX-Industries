@@ -1,0 +1,37 @@
+{
+  "type": "ltxi:assembling",
+  "fluid_ingredients": [
+    {
+      "amount": 16000,
+      "tag": "c:hydrogen"
+    }
+  ],
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "ltxi:t3_circuit"
+    },
+    {
+      "count": 16,
+      "item": "ltxi:titanium_ingot"
+    },
+    {
+      "count": 8,
+      "item": "ltxi:slatesteel_ingot"
+    },
+    {
+      "count": 1,
+      "item": "ltxi:slatesteel_gear"
+    },
+    {
+      "count": 8,
+      "item": "ltxi:electric_chemical"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:impulse_tech_part"
+    }
+  ]
+}

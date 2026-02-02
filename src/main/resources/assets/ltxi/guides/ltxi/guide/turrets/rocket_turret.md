@@ -3,10 +3,12 @@ navigation:
     title: Atmos
     icon: rocket_turret
     parent: turrets/index.md
-    position: 0
+    position: 1
+item_ids:
+  - rocket_turret
 ---
 
-# LTX A/DU *Atmos*
+# *Atmos* A/DS Turret
 
 <GameScene zoom={4} interactive={false}>
 <Block id="mesh_block" y="0" />
@@ -17,12 +19,12 @@ Items and Energy can only be connected to this block!
 </GameScene>
 
 ## Stats
-- Targeting area: 100x90x100. **XZ is centered, Y extends 20 below, and 70 above**
-- Target Scan Interval: 5 sec
+- Horizontal search radius: 50.0
+- Vertical search radius: 75.0
+- Target search interval: 5 sec
 - Max targets per volley: 4
-- Volley charge time: 2 sec
 - Rocket damage: 40.0
 
-## Targets
-- Entity type tag: `#ltxi:targets/flying`
-  - Phantom, Ghast, Blaze, Breeze, Ender Dragon, Vex, Wither
+## Default targets
+
+Entities tagged `#ltxi:targets/flying`, e.g. Phantom, Ghast, Blaze, Breeze, Ender Dragon, Vex, Wither

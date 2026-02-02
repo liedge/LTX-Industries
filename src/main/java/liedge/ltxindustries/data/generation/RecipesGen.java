@@ -96,6 +96,7 @@ class RecipesGen extends LimaRecipeProvider
         shaped(SLATESTEEL_GEAR).input('i', SLATESTEEL_INGOT).input('n', NUGGETS_IRON).patterns("ini", "n n", "ini").save(output);
         shaped(T1_CIRCUIT).input('c', STONE_PRESSURE_PLATE).input('m', COPPER_INGOT).input('r', REDSTONE).input('t', TITANIUM_INGOT).patterns("tmt", "mcm", "rmr").save(output);
         shaped(T2_CIRCUIT).input('c', T1_CIRCUIT).input('m', GOLD_INGOT).input('r', REPEATER).input('t', TITANIUM_INGOT).input('b', COPPER_INGOT).patterns(" r ", "mcm", "tbt").save(output);
+        shaped(OPTICAL_TECH_PART).input('c', T2_CIRCUIT).input('g', TINTED_GLASS).input('t', TITANIUM_INGOT).input('m', ELECTRIC_CHEMICAL).patterns("ggg", "tmt", "ctc").save(output);
 
         shaped(EMPTY_UPGRADE_MODULE).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('g', GLASS_BLOCKS_CHEAP).patterns("ggg", "gcg", "ttt").save(output);
         shaped(EMPTY_FABRICATION_BLUEPRINT, 2).input('l', DYES_LIME).input('p', PAPER).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).patterns("lll", "ppp", "tct").save(output);
@@ -123,11 +124,12 @@ class RecipesGen extends LimaRecipeProvider
         shaped(MIXER).input('t', TITANIUM_INGOT).input('g', TITANIUM_GEAR).input('c', T2_CIRCUIT).input('a', CAULDRON).input('s', TITANIUM_GLASS).patterns("tct", "sas", "gcg").save(output);
         shaped(VOLTAIC_INJECTOR).input('t', TITANIUM_INGOT).input('g', TITANIUM_GEAR).input('c', T1_CIRCUIT).input('a', LIGHTNING_ROD).input('s', COPPER_INGOT).patterns("tct", "sas", "gcg").save(output);
         shaped(CHEM_LAB).input('t', TITANIUM_INGOT).input('g', TITANIUM_GEAR).input('c', T2_CIRCUIT).input('a', SLATESTEEL_GEAR).input('s', TITANIUM_GLASS).patterns("tct", "sas", "gcg").save(output);
-        shaped(ASSEMBLER).input('t', TITANIUM_INGOT).input('g', SLATESTEEL_GEAR).input('c', T2_CIRCUIT).input('a', CRAFTER).input('s', POLYMER_INGOT).patterns("tct", "sas", "gcg").save(output);
+        shaped(ASSEMBLER).input('t', TITANIUM_INGOT).input('g', SLATESTEEL_GEAR).input('c', T2_CIRCUIT).input('a', CRAFTER).input('s', POLYMER_INGOT).input('o', OPTICAL_TECH_PART)
+                .patterns("tot", "sas", "gcg").save(output);
         shaped(GEO_SYNTHESIZER).input('t', TITANIUM_INGOT).input('g', TITANIUM_GEAR).input('c', T1_CIRCUIT).input('a', COBBLESTONE).input('s', BUCKET).patterns("tct", "sas", "gcg").save(output);
-        shaped(FABRICATOR).input('t', TITANIUM_INGOT).input('c', T3_CIRCUIT).input('a', CRAFTING_TABLE).input('g', SLATESTEEL_GEAR).patterns("tct", "cac", "gtg").save(output);
-        shaped(AUTO_FABRICATOR).input('p', POLYMER_INGOT).input('t', TITANIUM_INGOT).input('c', T3_CIRCUIT).input('g', SLATESTEEL_GEAR).input('s', TITANIUM_GLASS).input('a', CRAFTER)
-                .patterns("pcp", "sas", "tgt").save(output);
+        shaped(FABRICATOR).input('t', TITANIUM_INGOT).input('c', T3_CIRCUIT).input('a', CRAFTING_TABLE).input('g', SLATESTEEL_GEAR).input('o', OPTICAL_TECH_PART).patterns("tot", "cac", "gtg").save(output);
+        shaped(AUTO_FABRICATOR).input('p', POLYMER_INGOT).input('c', T3_CIRCUIT).input('g', SLATESTEEL_GEAR).input('s', TITANIUM_GLASS).input('a', CRAFTER).input('o', OPTICAL_TECH_PART)
+                .patterns("pop", "sas", "gcg").save(output);
         shaped(EQUIPMENT_UPGRADE_STATION).input('t', TITANIUM_INGOT).input('a', ANVIL).input('l', DYES_LIME).patterns("ttt",  "lal", "ttt").save(output);
 
         // Standard machine systems
@@ -253,26 +255,27 @@ class RecipesGen extends LimaRecipeProvider
                 .group("machines")
                 .save(output);
 
-        fabricating(500_000)
-                .input(T3_CIRCUIT)
-                .input(TITANIUM_INGOT, 8)
-                .input(GUNPOWDER, 16)
-                .input(BLAZE_POWDER, 12)
-                .input(ELECTRIC_CHEMICAL, 8)
-                .output(EXPLOSIVES_WEAPON_TECH_SALVAGE)
-                .group("tech_parts")
-                .save(output);
         fabricating(2_500_000)
+                .input(T3_CIRCUIT)
+                .input(OPTICAL_TECH_PART)
+                .input(TITANIUM_INGOT, 20)
+                .input(TITANIUM_GEAR, 4)
+                .input(ELECTRIC_CHEMICAL, 32)
+                .output(ARC_TURRET)
+                .group("turrets")
+                .save(output);
+        fabricating(5_000_000)
                 .input(T3_CIRCUIT, 2)
-                .input(TARGETING_TECH_SALVAGE)
+                .input(OPTICAL_TECH_PART, 2)
+                .input(IMPULSE_TECH_PART, 2)
                 .input(TITANIUM_INGOT, 24)
                 .input(TITANIUM_GEAR, 6)
                 .input(SLATESTEEL_GEAR, 2)
                 .output(ROCKET_TURRET)
                 .group("turrets").save(output);
-        fabricating(5_000_000)
+        fabricating(20_000_000)
                 .input(T4_CIRCUIT, 1)
-                .input(TARGETING_TECH_SALVAGE)
+                .input(OPTICAL_TECH_PART, 4)
                 .input(TITANIUM_INGOT, 32)
                 .input(POLYMER_INGOT, 12)
                 .input(SLATESTEEL_INGOT, 8)
@@ -353,26 +356,26 @@ class RecipesGen extends LimaRecipeProvider
                 .input(POLYMER_INGOT, 16)
                 .input(LTX_LIME_PIGMENT, 8));
         equipmentFabricating(output, registries, GRENADE_LAUNCHER, weaponFabGroup + ".4", 20_000_000, builder -> builder
-                .input(T2_CIRCUIT, 6)
+                .input(T3_CIRCUIT, 1)
                 .input(TITANIUM_INGOT, 24)
                 .input(POLYMER_INGOT, 24)
                 .input(SLATESTEEL_INGOT, 8)
                 .input(LTX_LIME_PIGMENT, 12)
-                .input(EXPLOSIVES_WEAPON_TECH_SALVAGE)
+                .input(IMPULSE_TECH_PART, 2)
                 .input(TITANIUM_GLASS, 6));
         equipmentFabricating(output, registries, LINEAR_FUSION_RIFLE, weaponFabGroup + ".5", 25_000_000, builder -> builder
                 .input(T2_CIRCUIT, 6)
                 .input(TITANIUM_INGOT, 24)
                 .input(POLYMER_INGOT, 32)
                 .input(LTX_LIME_PIGMENT, 12)
-                .input(TITANIUM_GLASS, 8)
-                .input(AMETHYST_SHARD, 2));
+                .input(OPTICAL_TECH_PART, 3));
         equipmentFabricating(output, registries, ROCKET_LAUNCHER, weaponFabGroup + ".6", 30_000_000, builder -> builder
-                .input(T3_CIRCUIT, 8)
+                .input(T3_CIRCUIT, 2)
                 .input(TITANIUM_INGOT, 48)
                 .input(SLATESTEEL_INGOT, 24)
                 .input(LTX_LIME_PIGMENT, 16)
-                .input(EXPLOSIVES_WEAPON_TECH_SALVAGE));
+                .input(IMPULSE_TECH_PART, 3)
+                .input(OPTICAL_TECH_PART, 1));
         equipmentFabricating(output, registries, HEAVY_PISTOL, weaponFabGroup + ".7", 75_000_000, builder -> builder
                 .input(T4_CIRCUIT, 1)
                 .input(TITANIUM_INGOT, 32)
@@ -640,46 +643,46 @@ class RecipesGen extends LimaRecipeProvider
                 .input(HEAVY_WEAPON_ENERGY, 2));
 
         upgradeFabricating(output, registries, "eum/weapon/gl", FLAME_GRENADE_CORE, 1, 2_500_000, builder -> builder
-                .input(T3_CIRCUIT, 2)
+                .input(IMPULSE_TECH_PART, 1)
                 .input(TITANIUM_INGOT, 4)
                 .input(TITANIUM_GLASS, 8)
                 .input(BLAZE_POWDER, 16));
         upgradeFabricating(output, registries, "eum/weapon/gl", CRYO_GRENADE_CORE, 1, 2_500_000, builder -> builder
-                .input(T3_CIRCUIT, 2)
+                .input(IMPULSE_TECH_PART)
                 .input(TITANIUM_INGOT, 4)
                 .input(TITANIUM_GLASS, 8)
                 .input(ICE, 16));
         upgradeFabricating(output, registries, "eum/weapon/gl", ELECTRIC_GRENADE_CORE, 1, 5_000_000, builder -> builder
-                .input(T3_CIRCUIT, 2)
+                .input(IMPULSE_TECH_PART)
                 .input(TITANIUM_GLASS, 16)
                 .input(SLATESTEEL_INGOT, 8)
                 .input(POLYMER_INGOT, 12)
                 .input(ELECTRIC_CHEMICAL, 32));
         upgradeFabricating(output, registries, "eum/weapon/gl", ACID_GRENADE_CORE, 1, 25_000_000, builder -> builder
-                .input(T4_CIRCUIT, 2)
+                .input(IMPULSE_TECH_PART, 2)
                 .input(TITANIUM_GLASS, 32)
                 .input(SLATESTEEL_INGOT, 16)
                 .input(POLYMER_INGOT, 24)
                 .input(VIRIDIC_WEAPON_CHEMICAL, 16));
         upgradeFabricating(output, registries, "eum/weapon/gl", NEURO_GRENADE_CORE, 1, 50_000_000, builder -> builder
-                .input(T4_CIRCUIT, 2)
+                .input(IMPULSE_TECH_PART, 4)
                 .input(TITANIUM_GLASS, 32)
                 .input(SLATESTEEL_INGOT, 16)
                 .input(POLYMER_INGOT, 24)
                 .input(NEURO_CHEMICAL, 8));
         upgradeFabricating(output, registries, "eum/weapon", GRENADE_LAUNCHER_PROJECTILE_SPEED, 1, 750_000, builder -> builder
-                .input(T2_CIRCUIT, 2)
-                .input(FIREWORK_ROCKET, 9)
+                .input(T2_CIRCUIT)
+                .input(IMPULSE_TECH_PART, 2)
                 .input(PHANTOM_MEMBRANE, 2));
         upgradeFabricating(output, registries, "eum/weapon", GRENADE_LAUNCHER_PROJECTILE_SPEED, 2, 2_000_000, builder -> builder
-                .input(T3_CIRCUIT, 3)
-                .input(FIREWORK_ROCKET, 36)
-                .input(PHANTOM_MEMBRANE, 8));
+                .input(T3_CIRCUIT, 2)
+                .input(IMPULSE_TECH_PART, 4)
+                .input(PHANTOM_MEMBRANE, 4));
 
         final String armorEUMGroup = "eum/armor";
         upgradeFabricating(output, registries, armorEUMGroup, PASSIVE_NIGHT_VISION, 1, 250_000, builder -> builder
                 .input(T2_CIRCUIT, 2)
-                .input(TITANIUM_GLASS, 3)
+                .input(OPTICAL_TECH_PART, 2)
                 .input(GLOWSTONE_DUST, 8)
                 .input(GOLDEN_CARROT, 2));
 
@@ -793,40 +796,47 @@ class RecipesGen extends LimaRecipeProvider
                 .input(NIOBIUM_INGOT, 8)
                 .input(CHORUS_CHEMICAL, 8));
 
-        upgradeFabricating(output, registries, "mum/fabricator", FABRICATOR_UPGRADE, 1, 500_000, builder -> builder
-                .input(LTX_LIME_PIGMENT, 4)
+        final String fabricatorMUMGroup = "mum/fabricator";
+        upgradeFabricating(output, registries, fabricatorMUMGroup, FABRICATOR_UPGRADE, 1, 500_000, builder -> builder
+                .input(T2_CIRCUIT)
+                .input(OPTICAL_TECH_PART, 2)
                 .input(DIAMOND, 2)
-                .input(TITANIUM_INGOT, 8)
-                .input(T2_CIRCUIT, 2)
-                .input(REDSTONE, 8));
-        upgradeFabricating(output, registries, "mum/fabricator", FABRICATOR_UPGRADE, 2, 1_000_000, builder -> builder
-                .input(LTX_LIME_PIGMENT, 4)
+                .input(ELECTRIC_CHEMICAL, 4));
+        upgradeFabricating(output, registries, fabricatorMUMGroup, FABRICATOR_UPGRADE, 2, 1_000_000, builder -> builder
+                .input(T3_CIRCUIT)
+                .input(OPTICAL_TECH_PART, 2)
                 .input(DIAMOND, 4)
-                .input(TITANIUM_INGOT, 8)
+                .input(ELECTRIC_CHEMICAL, 8));
+        upgradeFabricating(output, registries, fabricatorMUMGroup, FABRICATOR_UPGRADE, 3, 5_000_000, builder -> builder
                 .input(T3_CIRCUIT, 2)
-                .input(REDSTONE, 8));
-        upgradeFabricating(output, registries, "mum/fabricator", FABRICATOR_UPGRADE, 3, 5_000_000, builder -> builder
-                .input(LTX_LIME_PIGMENT, 8)
+                .input(OPTICAL_TECH_PART, 4)
                 .input(AMETHYST_SHARD, 4)
-                .input(TITANIUM_INGOT, 16)
+                .input(ELECTRIC_CHEMICAL, 16));
+        upgradeFabricating(output, registries, fabricatorMUMGroup, FABRICATOR_UPGRADE, 4, 10_000_000, builder -> builder
                 .input(T4_CIRCUIT)
-                .input(REDSTONE, 32));
-        upgradeFabricating(output, registries, "mum/fabricator", FABRICATOR_UPGRADE, 4, 10_000_000, builder -> builder
-                .input(LTX_LIME_PIGMENT, 8)
-                .input(AMETHYST_SHARD, 8)
-                .input(TITANIUM_INGOT, 16)
-                .input(T4_CIRCUIT, 2)
-                .input(REDSTONE, 32));
+                .input(OPTICAL_TECH_PART, 4)
+                .input(AMETHYST_BLOCK, 4)
+                .input(ELECTRIC_CHEMICAL, 32));
 
-        upgradeFabricating(output, registries, "mum/turret", TURRET_LOOT_COLLECTOR, 1, 10_000_000, builder -> builder
+        final String turretMUMGroup = "mum/turret";
+        upgradeFabricating(output, registries, turretMUMGroup, TURRET_LOOT_COLLECTOR, 1, 10_000_000, builder -> builder
                 .input(T3_CIRCUIT, 3)
                 .input(TITANIUM_INGOT, 12)
                 .input(SLATESTEEL_INGOT, 6)
                 .input(CHORUS_CHEMICAL, 4)
                 .input(ENDER_PEARL, 4));
-        upgradeFabricating(output, registries, "mum/turret", TURRET_LOOTING, 1, 125_000, multi1);
-        upgradeFabricating(output, registries, "mum/turret", TURRET_LOOTING, 2, 250_000, multi2);
-        upgradeFabricating(output, registries, "mum/turret", TURRET_LOOTING, 3, 500_000, multi3);
+        upgradeFabricating(output, registries, turretMUMGroup, TURRET_LOOTING, 1, 125_000, multi1);
+        upgradeFabricating(output, registries, turretMUMGroup, TURRET_LOOTING, 2, 250_000, multi2);
+        upgradeFabricating(output, registries, turretMUMGroup, TURRET_LOOTING, 3, 500_000, multi3);
+
+        UnaryOperator<FabricatingBuilder> turretSearch = builder -> builder
+                .input(T3_CIRCUIT)
+                .input(TITANIUM_INGOT, 8)
+                .input(T2_CIRCUIT, 2)
+                .input(ENDER_PEARL, 2);
+        upgradeFabricating(output, registries, turretMUMGroup, ALL_ENTITIES_TARGETING, 1, 250_000, turretSearch);
+        upgradeFabricating(output, registries, turretMUMGroup, NEUTRAL_ENEMY_TARGETING, 1, 250_000, turretSearch);
+        upgradeFabricating(output, registries, turretMUMGroup, HOSTILE_TARGETING, 1, 250_000, turretSearch);
     }
 
     private void grindingRecipes(RecipeOutput output, HolderLookup.Provider registries)
@@ -967,6 +977,7 @@ class RecipesGen extends LimaRecipeProvider
                 .input(REDSTONE, 4)
                 .input(COPPER_INGOT, 2)
                 .output(T1_CIRCUIT, 2)
+                .time(200)
                 .save(output);
 
         assembling()
@@ -986,7 +997,24 @@ class RecipesGen extends LimaRecipeProvider
                 .input(QUARTZ, 8)
                 .input(ELECTRIC_CHEMICAL, 4)
                 .output(T3_CIRCUIT)
-                .time(400)
+                .save(output);
+
+        assembling()
+                .input(T3_CIRCUIT)
+                .input(TITANIUM_INGOT, 16)
+                .input(SLATESTEEL_INGOT, 8)
+                .input(SLATESTEEL_GEAR)
+                .input(ELECTRIC_CHEMICAL, 8)
+                .fluidInput(HYDROGEN_FLUIDS, 16_000)
+                .output(IMPULSE_TECH_PART)
+                .save(output);
+
+        assembling()
+                .input(T2_CIRCUIT)
+                .input(TITANIUM_GLASS, 2)
+                .input(ELECTRIC_CHEMICAL, 2)
+                .output(OPTICAL_TECH_PART)
+                .time(200)
                 .save(output);
     }
 

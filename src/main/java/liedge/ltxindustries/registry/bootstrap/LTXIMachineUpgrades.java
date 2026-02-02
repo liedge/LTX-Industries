@@ -1,6 +1,9 @@
 package liedge.ltxindustries.registry.bootstrap;
 
+import liedge.limacore.advancement.ComparableBounds;
+import liedge.limacore.lib.MobHostility;
 import liedge.limacore.lib.math.MathOperation;
+import liedge.limacore.world.loot.condition.EntityHostilityLootCondition;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.client.LTXILangKeys;
@@ -14,9 +17,9 @@ import liedge.ltxindustries.lib.upgrades.tooltip.ValueComponent;
 import liedge.ltxindustries.lib.upgrades.tooltip.ValueFormat;
 import liedge.ltxindustries.lib.upgrades.tooltip.ValueSentiment;
 import liedge.ltxindustries.lib.upgrades.value.ConstantDouble;
+import liedge.ltxindustries.lib.upgrades.value.ContextlessValue;
 import liedge.ltxindustries.lib.upgrades.value.ExponentialDouble;
 import liedge.ltxindustries.lib.upgrades.value.LinearDouble;
-import liedge.ltxindustries.lib.upgrades.value.ContextlessValue;
 import liedge.ltxindustries.registry.LTXIRegistries;
 import liedge.ltxindustries.registry.game.LTXIBlockEntities;
 import liedge.ltxindustries.registry.game.LTXIBlocks;
@@ -30,10 +33,10 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.storage.loot.predicates.AllOfCondition;
 
 import static liedge.ltxindustries.LTXIConstants.REM_BLUE;
-import static liedge.ltxindustries.LTXITags.MachineUpgrades.MACHINE_TIER;
-import static liedge.ltxindustries.LTXITags.MachineUpgrades.PARALLEL_OPS_UPGRADES;
+import static liedge.ltxindustries.LTXITags.MachineUpgrades.*;
 import static liedge.ltxindustries.LTXIndustries.RESOURCES;
 import static liedge.ltxindustries.data.generation.LTXIBootstrapUtil.*;
 import static liedge.ltxindustries.lib.upgrades.UpgradeIcon.itemIcon;
@@ -57,6 +60,10 @@ public final class LTXIMachineUpgrades
     public static final ResourceKey<MachineUpgrade> TURRET_LOOTING = key("turret_looting");
     public static final ResourceKey<MachineUpgrade> TURRET_RAZOR = key("turret_razor");
     public static final ResourceKey<MachineUpgrade> TURRET_LOOT_COLLECTOR = key("turret_loot_collector");
+
+    public static final ResourceKey<MachineUpgrade> NEUTRAL_ENEMY_TARGETING = key("targeting/neutral_enemy");
+    public static final ResourceKey<MachineUpgrade> HOSTILE_TARGETING = key("targeting/hostile");
+    public static final ResourceKey<MachineUpgrade> ALL_ENTITIES_TARGETING = key("targeting/all");
 
     private static ResourceKey<MachineUpgrade> key(String name)
     {
@@ -179,6 +186,28 @@ public final class LTXIMachineUpgrades
                 .withSpecialEffect(CAPTURE_MOB_DROPS, CaptureMobDrops.INSTANCE)
                 .effectIcon(sprite("magnet"))
                 .category("turret")
+                .register(context);
+
+        MachineUpgrade.builder(ALL_ENTITIES_TARGETING)
+                .supports(blockEntities, LTXITags.BlockEntities.TURRETS)
+                .exclusiveWith(holders, TARGET_PREDICATES)
+                .targetRestriction(AllOfCondition.allOf())
+                .effectIcon(sprite("all_targets"))
+                .category("target_predicates")
+                .register(context);
+        MachineUpgrade.builder(NEUTRAL_ENEMY_TARGETING)
+                .supports(blockEntities, LTXITags.BlockEntities.TURRETS)
+                .exclusiveWith(holders, TARGET_PREDICATES)
+                .targetRestriction(EntityHostilityLootCondition.create(ComparableBounds.atLeast(MobHostility.NEUTRAL_ENEMY)))
+                .effectIcon(sprite("neutral_enemy_targets"))
+                .category("target_predicates")
+                .register(context);
+        MachineUpgrade.builder(HOSTILE_TARGETING)
+                .supports(blockEntities, LTXITags.BlockEntities.TURRETS)
+                .exclusiveWith(holders, TARGET_PREDICATES)
+                .targetRestriction(EntityHostilityLootCondition.create(ComparableBounds.atLeast(MobHostility.HOSTILE)))
+                .effectIcon(sprite("hostile_targets"))
+                .category("target_predicates")
                 .register(context);
     }
 }

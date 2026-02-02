@@ -149,6 +149,8 @@ public final class LTXIItems
     public static final DeferredItem<SimpleHintItem> T3_CIRCUIT = registerSimpleHint("t3_circuit");
     public static final DeferredItem<SimpleHintItem> T4_CIRCUIT = registerSimpleHint("t4_circuit", properties().rarity(Rarity.RARE));
     public static final DeferredItem<SimpleHintItem> T5_CIRCUIT = registerSimpleHint("t5_circuit", properties().rarity(ltxGearRarity()));
+    public static final DeferredItem<SimpleHintItem> OPTICAL_TECH_PART = registerSimpleHint("optical_tech_part", properties().rarity(Rarity.UNCOMMON));
+    public static final DeferredItem<SimpleHintItem> IMPULSE_TECH_PART = registerSimpleHint("impulse_tech_part", properties().rarity(Rarity.UNCOMMON));
 
     // LTX basic tools
     public static final DeferredItem<EnergyDrillItem> LTX_DRILL = registerLTXGear(LTXIIdentifiers.ID_LTX_DRILL, properties -> new EnergyDrillItem(properties, 5f, -2f));
@@ -186,10 +188,6 @@ public final class LTXIItems
     public static final DeferredItem<Item> SLATESTEEL_INGOT = ITEMS.registerSimpleItem("slatesteel_ingot");
     public static final DeferredItem<Item> SLATESTEEL_NUGGET = ITEMS.registerSimpleItem("slatesteel_nugget");
     public static final DeferredItem<Item> POLYMER_INGOT = ITEMS.registerSimpleItem("polymer_ingot");
-
-    // Tech salvage modules
-    public static final DeferredItem<SimpleHintItem> EXPLOSIVES_WEAPON_TECH_SALVAGE = registerSimpleHint("explosives_weapon_tech_salvage", properties().rarity(Rarity.RARE));
-    public static final DeferredItem<SimpleHintItem> TARGETING_TECH_SALVAGE = registerSimpleHint("targeting_tech_salvage", properties().rarity(Rarity.RARE));
 
     // Upgrade
     public static final DeferredItem<Item> EMPTY_UPGRADE_MODULE = ITEMS.registerSimpleItem("empty_upgrade_module");

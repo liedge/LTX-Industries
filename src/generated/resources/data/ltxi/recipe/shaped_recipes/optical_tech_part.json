@@ -2,32 +2,26 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "a": {
-      "item": "minecraft:crafter"
-    },
     "c": {
       "item": "ltxi:t2_circuit"
     },
     "g": {
-      "item": "ltxi:slatesteel_gear"
+      "item": "minecraft:tinted_glass"
     },
-    "o": {
-      "item": "ltxi:optical_tech_part"
-    },
-    "s": {
-      "item": "ltxi:polymer_ingot"
+    "m": {
+      "item": "ltxi:electric_chemical"
     },
     "t": {
       "item": "ltxi:titanium_ingot"
     }
   },
   "pattern": [
-    "tot",
-    "sas",
-    "gcg"
+    "ggg",
+    "tmt",
+    "ctc"
   ],
   "result": {
     "count": 1,
-    "id": "ltxi:assembler"
+    "id": "ltxi:optical_tech_part"
   }
 }

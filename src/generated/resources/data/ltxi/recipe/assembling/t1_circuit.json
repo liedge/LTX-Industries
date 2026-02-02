@@ -1,5 +1,6 @@
 {
   "type": "ltxi:assembling",
+  "craft_time": 200,
   "ingredients": [
     {
       "count": 1,

@@ -4,7 +4,7 @@
   "group": "ltx/weapon.6",
   "ingredients": [
     {
-      "count": 8,
+      "count": 2,
       "item": "ltxi:t3_circuit"
     },
     {
@@ -20,8 +20,12 @@
       "item": "ltxi:ltx_lime_pigment"
     },
     {
+      "count": 3,
+      "item": "ltxi:impulse_tech_part"
+    },
+    {
       "count": 1,
-      "item": "ltxi:explosives_weapon_tech_salvage"
+      "item": "ltxi:optical_tech_part"
     }
   ],
   "result": {
