@@ -25,6 +25,17 @@ public final class LTXIRenderUtil
 
     private LTXIRenderUtil() {}
 
+    public static float facingYRotation(Direction facing)
+    {
+        return switch (facing)
+        {
+            case SOUTH -> 180f;
+            case EAST -> -90f;
+            case WEST -> 90f;
+            default -> 0f;
+        };
+    }
+
     public static float sineAnimationCurve(float delta)
     {
         return Mth.sin(Mth.PI * delta);

@@ -7,6 +7,7 @@ import com.mojang.math.Axis;
 import liedge.limacore.client.EmptyVertexConsumer;
 import liedge.limacore.client.LimaBlockEntityRenderer;
 import liedge.ltxindustries.blockentity.BaseFabricatorBlockEntity;
+import liedge.ltxindustries.client.LTXIRenderUtil;
 import liedge.ltxindustries.client.renderer.LTXIRenderTypes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -45,19 +46,10 @@ public class BaseFabricatorRenderer extends LimaBlockEntityRenderer<BaseFabricat
         {
             poseStack.pushPose();
 
-            Direction facing = blockEntity.getBlockState().getValue(HORIZONTAL_FACING);
-
             poseStack.translate(0.5d, yOffset, 0.5d);
 
-            float angle = switch (facing)
-            {
-                case SOUTH -> 180f;
-                case EAST -> -90f;
-                case WEST -> 90f;
-                default -> 0f;
-            };
-
-            poseStack.mulPose(Axis.YP.rotationDegrees(angle));
+            Direction facing = blockEntity.getBlockState().getValue(HORIZONTAL_FACING);
+            poseStack.mulPose(Axis.YP.rotationDegrees(LTXIRenderUtil.facingYRotation(facing)));
             poseStack.mulPose(Axis.XP.rotationDegrees(90f));
             poseStack.translate(xOffset, 0, 0);
             poseStack.scale(0.4375f, 0.4375f, 0.4375f);

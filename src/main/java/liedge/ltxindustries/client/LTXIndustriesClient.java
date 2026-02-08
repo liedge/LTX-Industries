@@ -169,6 +169,7 @@ public class LTXIndustriesClient
             event.registerBlockEntityRenderer(LTXIBlockEntities.INFINITE_ENERGY_CELL_ARRAY.get(), EnergyCellArrayRenderer::new);
             event.registerBlockEntityRenderer(LTXIBlockEntities.ELECTROCENTRIFUGE.get(), ElectroCentrifugeRenderer::new);
             event.registerBlockEntityRenderer(LTXIBlockEntities.MIXER.get(), MixerRenderer::new);
+            event.registerBlockEntityRenderer(LTXIBlockEntities.VOLTAIC_INJECTOR.get(), VoltaicInjectorRenderer::new);
             event.registerBlockEntityRenderer(LTXIBlockEntities.FABRICATOR.get(), ctx -> new BaseFabricatorRenderer(ctx, -0.1875d, 1.0625d));
             event.registerBlockEntityRenderer(LTXIBlockEntities.AUTO_FABRICATOR.get(), ctx -> new BaseFabricatorRenderer(ctx, 0, 0.375d));
             event.registerBlockEntityRenderer(LTXIBlockEntities.EQUIPMENT_UPGRADE_STATION.get(), EquipmentUpgradeStationRenderer::new);

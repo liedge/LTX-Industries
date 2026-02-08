@@ -17,6 +17,25 @@ public final class LTXIBlockShapes
 
     public static final VoxelShape GLOWSTICK = dimensionBox(7, 0, 7, 2, 8, 2);
 
+    public static final VoxelShape UPGRADE_TABLE = Shapes.or(
+            // Center
+            dimensionBox(1, 0, 1, 14, 12, 14),
+            // Feet
+            dimensionBox(0, 0, 0, 2, 4, 5),
+            dimensionBox(14, 0, 0, 2, 4, 5),
+            dimensionBox(0, 0, 11, 5, 4, 5),
+            dimensionBox(11, 0, 11, 5, 4, 5),
+            // Top edges
+            dimensionBox(0, 12, 0, 16, 1, 16),
+            dimensionBox(0, 12, 0, 1, 4, 15),
+            dimensionBox(15, 12, 0, 1, 4, 15),
+            dimensionBox(0, 12, 15, 16, 4, 1));
+
+    public static final VoxelShape ENERGY_CELL_ARRAY = Shapes.or(
+            dimensionBox(0, 0, 0, 16, 3, 16),
+            dimensionBox(0, 13, 0, 16, 3, 16),
+            dimensionBox(1, 2.5d, 1, 14, 11, 14));
+
     public static final VoxelShape COOKING_MACHINE = Shapes.or(
             // Bottom frame base
             Block.box(0, 0, 0, 16, 4, 16),
@@ -35,7 +54,11 @@ public final class LTXIBlockShapes
 
     public static final VoxelShape ELECTROCENTRIFUGE = Shapes.or(
             // Chassis
-            dimensionBox(0, 0, 0, 16, 8, 16),
+            dimensionBox(0, 0, 0, 4, 2, 4),
+            dimensionBox(0, 0, 12, 4, 2, 4),
+            dimensionBox(12, 0, 0, 4, 2, 4),
+            dimensionBox(12, 0, 12, 4, 2, 4),
+            dimensionBox(0, 2, 0, 16, 6, 16),
             // Frame top
             dimensionBox(0, 8, 0, 16, 2, 1),
             dimensionBox(0, 8, 15, 16, 2, 1),
@@ -45,27 +68,30 @@ public final class LTXIBlockShapes
             dimensionBox(2, 8, 2, 12, 8, 12));
 
     public static final VoxelShape MIXER = Shapes.or(
-            dimensionBox(0.5d, 0, 0.5d, 15, 5, 15),
-            dimensionBox(1.5d, 5, 1.5d, 13, 1, 13),
-            dimensionBox(4, 0.5d, 0, 8, 5, 1),
-            dimensionBox(2, 6, 2, 12, 7, 12),
-            dimensionBox(1.5d, 13, 1.5d, 13, 2, 13),
-            dimensionBox(3, 15, 3, 10, 1, 10));
+            dimensionBox(0, 0, 0, 16, 4, 16),
+            dimensionBox(1, 4, 1, 14, 1, 14),
+            dimensionBox(1.5d, 5, 1.5d, 13, 8, 13),
+            dimensionBox(1, 13, 1, 14, 2, 14),
+            dimensionBox(2, 15, 2, 12, 1, 12));
 
     public static final VoxelShape VOLTAIC_INJECTOR = Shapes.or(
-            dimensionBox(1, 0, 1, 14, 3, 14),
-            dimensionBox(2, 3, 2, 12, 1, 12),
-            dimensionBox(1, 13, 1, 14, 2, 14),
-            dimensionBox(2, 15, 2, 12, 1, 12),
-            dimensionBox(5, 1, 14, 6, 13, 2),
-            dimensionBox(5, 12, 0.5d, 6, 4, 1));
+            dimensionBox(1, 0, 1, 14, 4, 14),
+            dimensionBox(2, 4, 2, 12, 2, 12),
+            dimensionBox(14, 4, 5, 1, 11, 6),
+            dimensionBox(1, 4, 5, 1, 11, 6),
+            dimensionBox(1, 15, 5, 14, 1, 6),
+            dimensionBox(5, 12, 4, 6, 4, 1));
 
     public static final VoxelShape CHEM_LAB = Shapes.or(
-            Block.box(0, 0, 0, 16, 5, 16),
-            dimensionBox(6, 5, 0, 10, 10, 16),
-            dimensionBox(1, 5, 1, 4, 9, 4),
-            dimensionBox(1, 5, 6, 4, 9, 4),
-            dimensionBox(1, 5, 11, 4, 9, 4));
+            // Frame
+            dimensionBox(0, 0, 0, 16, 4, 16),
+            dimensionBox(2, 4, 7, 12, 9, 9),
+            dimensionBox(1, 13, 1, 14, 3, 15),
+            dimensionBox(5, 12, 0, 6, 4, 1),
+            // Tubes
+            dimensionBox(1.5d, 4, 2, 4, 9, 4),
+            dimensionBox(6, 4, 2, 4, 9, 4),
+            dimensionBox(10.5d, 4, 2, 4, 9, 4));
 
     public static final VoxelShape ASSEMBLER = Shapes.or(
             // Feet & base

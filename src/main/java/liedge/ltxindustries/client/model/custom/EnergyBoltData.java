@@ -21,7 +21,7 @@ public record EnergyBoltData(List<Vector3f[]> segments)
     {
         // General bolt data
         final float boltLength = (float) Mth.clamp(LimaCoreMath.distanceBetween(x1, y1, z1, x2, y2, z2), MIN_LENGTH, MAX_LENGTH);
-        final int arcs = Math.min(Mth.ceil(boltLength), 32);
+        final int arcs = Mth.clamp(Mth.ceil(boltLength), 4, 32);
         final float arcPointDistance = LimaCoreMath.divideFloat(boltLength, arcs);
         Vector2f boltDirection = LimaCoreMath.xyRotBetweenPoints(x1, y1, z1, x2, y2, z2);
 
@@ -29,7 +29,7 @@ public record EnergyBoltData(List<Vector3f[]> segments)
         List<Vector3f> arcPoints = new ObjectArrayList<>();
         arcPoints.add(new Vector3f());
         amplitude = Mth.clamp(amplitude, 0f, 0.75f);
-        for (int i = 0; i < arcs; i++)
+        for (int i = 1; i < arcs; i++)
         {
             float dx = (random.nextFloat() - random.nextFloat()) * amplitude;
             float dy = arcPointDistance * i;

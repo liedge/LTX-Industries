@@ -13,14 +13,14 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 
 public class MixerRenderer extends LimaBlockEntityRenderer<MixerBlockEntity>
 {
-    private final BakedItemLayer impeller;
+    private final BakedItemLayer blades;
 
     public MixerRenderer(BlockEntityRendererProvider.Context context)
     {
         super(context);
 
         ItemLayerBakedModel model = LimaCoreClientUtil.getCustomBakedModel(LimaCoreClientUtil.inventoryModelPath(LTXIBlocks.MIXER), ItemLayerBakedModel.class);
-        this.impeller = model.getLayer("impeller");
+        this.blades = model.getLayer("blades");
     }
 
     @Override
@@ -32,7 +32,7 @@ public class MixerRenderer extends LimaBlockEntityRenderer<MixerBlockEntity>
         poseStack.mulPose(Axis.YP.rotationDegrees(blockEntity.lerpImpellerYRot(partialTick)));
         poseStack.translate(-0.5d, 0, -0.5d);
 
-        impeller.putQuadsInBuffer(poseStack, bufferSource, packedLight);
+        blades.putQuadsInBuffer(poseStack, bufferSource, packedLight);
 
         poseStack.popPose();
     }

@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import liedge.limacore.client.LimaBlockEntityRenderer;
 import liedge.ltxindustries.blockentity.DigitalGardenBlockEntity;
+import liedge.ltxindustries.client.LTXIRenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
@@ -30,16 +31,8 @@ public class DigitalGardenRenderer extends LimaBlockEntityRenderer<DigitalGarden
 
             Direction facing = blockEntity.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING);
 
-            float angle = switch (facing)
-            {
-                case SOUTH -> 180f;
-                case EAST -> -90f;
-                case WEST -> 90f;
-                default -> 0f;
-            };
-
             poseStack.translate(0.5d, 0.4375d, 0.5d);
-            poseStack.mulPose(Axis.YP.rotationDegrees(angle));
+            poseStack.mulPose(Axis.YP.rotationDegrees(LTXIRenderUtil.facingYRotation(facing)));
             poseStack.translate(0, 0, -0.53125d);
             poseStack.scale(0.4375f, 0.4375f, 0.4375f);
 

@@ -17,6 +17,7 @@ import net.neoforged.neoforge.client.model.generators.BlockModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
 
@@ -81,9 +82,9 @@ class BlockStatesGen extends LimaBlockStateProvider
         berryVines(BILEVINE_PLANT);
         simpleBlock(GLOOM_SHROOM, existingModel(blockFolderLocation(GLOOM_SHROOM)));
 
-        // Energy cell array
-        horizontalBlock(ENERGY_CELL_ARRAY.get(), existingModel(blockFolderLocation(ENERGY_CELL_ARRAY)));
-        horizontalBlock(INFINITE_ENERGY_CELL_ARRAY.get(), existingModel(blockFolderLocation(INFINITE_ENERGY_CELL_ARRAY)));
+        // Energy cell arrays
+        horizontalSimpleBlock(ENERGY_CELL_ARRAY);
+        horizontalSimpleBlock(INFINITE_ENERGY_CELL_ARRAY);
 
         // Simple machines
         cookingMachine(DIGITAL_FURNACE);
@@ -91,16 +92,16 @@ class BlockStatesGen extends LimaBlockStateProvider
         cookingMachine(DIGITAL_BLAST_FURNACE);
         basicFrameStateMachine(GRINDER, (state, $, builder) -> builder.parent(basicMachineSEW));
         emissiveFrontMachine(MATERIAL_FUSING_CHAMBER);
-        stateMachineBase(ELECTROCENTRIFUGE);
-        stateMachineBase(MIXER);
-        stateMachineBase(VOLTAIC_INJECTOR);
-        stateMachineBase(CHEM_LAB);
-        stateMachineBase(ASSEMBLER);
-        stateMachineBase(GEO_SYNTHESIZER);
+        simpleStateMachine(ELECTROCENTRIFUGE, null);
+        simpleStateMachine(MIXER, null);
+        simpleStateMachine(VOLTAIC_INJECTOR, MachineState.IDLE);
+        simpleStateMachine(CHEM_LAB, MachineState.IDLE);
+        simpleStateMachine(ASSEMBLER, MachineState.IDLE);
+        simpleStateMachine(GEO_SYNTHESIZER, null);
         primaryMeshBlock(FABRICATOR);
         simpleBlockItem(FABRICATOR);
-        horizontalBlock(AUTO_FABRICATOR);
-        simpleBlockWithItem(EQUIPMENT_UPGRADE_STATION);
+        horizontalSimpleBlock(AUTO_FABRICATOR);
+        horizontalSimpleBlock(EQUIPMENT_UPGRADE_STATION);
         primaryMeshBlock(MOLECULAR_RECONSTRUCTOR);
         simpleBlockItem(MOLECULAR_RECONSTRUCTOR);
         primaryMeshBlock(DIGITAL_GARDEN);
@@ -172,10 +173,12 @@ class BlockStatesGen extends LimaBlockStateProvider
         }, ignoredProperties);
     }
 
-    private void horizontalBlock(Holder<Block> holder)
+    private void horizontalSimpleBlock(Holder<Block> holder)
     {
         ModelFile model = existingModel(blockFolderLocation(holder));
-        horizontalBlock(holder.value(), model, 180);
+        getVariantBuilder(holder).forAllStatesExcept(state -> ConfiguredModel.builder().modelFile(model).rotationY(getRotationY(state.getValue(HORIZONTAL_FACING))).build(),
+                WATERLOGGED);
+        simpleBlockItem(holder, model);
     }
 
     private void stateMachine(Holder<Block> holder, Function<MachineState, ModelFile> modelMapper)
@@ -184,10 +187,12 @@ class BlockStatesGen extends LimaBlockStateProvider
                 WATERLOGGED);
     }
 
-    private void stateMachineBase(Holder<Block> holder)
+    private void simpleStateMachine(Holder<Block> holder, @Nullable MachineState itemState)
     {
-        ResourceLocation pathBase = blockFolderLocation(holder);
-        stateMachine(holder, state -> models().getExistingFile(pathBase.withSuffix("_" + state.getSerializedName())));
+        Function<MachineState, ModelFile> modelGetter = state -> existingModel(blockFolderLocation(holder).withSuffix("_" + state.getSerializedName()));
+        stateMachine(holder, modelGetter);
+
+        if (itemState != null) simpleBlockItem(holder, modelGetter.apply(itemState));
     }
 
     private void primaryMeshBlock(Holder<Block> holder, ModelFile model)

@@ -2,17 +2,22 @@
   "sources": [
     {
       "type": "minecraft:single",
-      "resource": "ltxi:misc/solid_lime",
+      "resource": "ltxi:core/solid_lime",
       "sprite": "ltxi:solid_lime"
     },
     {
       "type": "minecraft:single",
-      "resource": "ltxi:misc/lime_fluid",
+      "resource": "ltxi:core/glass",
+      "sprite": "ltxi:glass"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "ltxi:core/lime_fluid",
       "sprite": "ltxi:lime_fluid"
     },
     {
       "type": "minecraft:single",
-      "resource": "ltxi:misc/flowing_lime_fluid",
+      "resource": "ltxi:core/flowing_lime_fluid",
       "sprite": "ltxi:flowing_lime_fluid"
     }
   ]

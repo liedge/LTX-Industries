@@ -2,6 +2,7 @@ package liedge.ltxindustries.blockentity;
 
 import liedge.ltxindustries.block.LTXIBlockProperties;
 import liedge.ltxindustries.blockentity.template.LTXIRecipeMachineBlockEntity;
+import liedge.ltxindustries.client.model.custom.EnergyBoltData;
 import liedge.ltxindustries.recipe.ElectroCentrifugingRecipe;
 import liedge.ltxindustries.registry.game.LTXIBlockEntities;
 import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
@@ -10,9 +11,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.Nullable;
 
 public class ElectroCentrifugeBlockEntity extends LTXIRecipeMachineBlockEntity.StateMachine<ElectroCentrifugingRecipe>
 {
+    public @Nullable EnergyBoltData tubeBolt;
     private int spinSpeed = 0;
     private float tubesYRot0;
     private float tubesYRot;
@@ -43,9 +46,12 @@ public class ElectroCentrifugeBlockEntity extends LTXIRecipeMachineBlockEntity.S
 
             tubesYRot0 = tubesYRot;
             tubesYRot = (tubesYRot + spinSpeed) % 360;
+            tubeBolt = EnergyBoltData.create(0, 0, 0, 0, 0.3125d, 0, 0.0078125f, 0.0375f, level.getRandom());
         }
         else
         {
+            tubeBolt = null;
+
             if (spinSpeed > 5)
             {
                 spinSpeed--;
