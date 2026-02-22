@@ -52,6 +52,15 @@ public final class LTXIBlockShapes
             // Center box
             dimensionBox(0.5d, 3.5d, 0.5d, 15, 12, 15));
 
+    public static final VoxelShape GRINDER = Shapes.or(
+            dimensionBox(0, 0, 1, 16, 3, 14),
+            dimensionBox(1, 3, 2, 14, 3, 12),
+            dimensionBox(0, 6, 1, 16, 8, 1),
+            dimensionBox(0, 6, 14, 16, 8, 1),
+            dimensionBox(15, 6, 2, 1, 8, 12),
+            dimensionBox(0, 6, 2, 1, 8, 12),
+            dimensionBox(4, 9, 0, 8, 5, 1));
+
     public static final VoxelShape ELECTROCENTRIFUGE = Shapes.or(
             // Chassis
             dimensionBox(0, 0, 0, 4, 2, 4),
