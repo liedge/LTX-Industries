@@ -21,7 +21,7 @@ public class GrinderBlockEntity extends LTXIRecipeMachineBlockEntity.StateMachin
 
     public GrinderBlockEntity(BlockPos pos, BlockState state)
     {
-        super(LTXIBlockEntities.GRINDER.get(), LTXIRecipeTypes.GRINDING.get(), pos, state, 1, 3, 0, 0);
+        super(LTXIBlockEntities.GRINDER.get(), LTXIRecipeTypes.GRINDING.get(), pos, state, 1, 3, 0, 1);
     }
 
     @Override

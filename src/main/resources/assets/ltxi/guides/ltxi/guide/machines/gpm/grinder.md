@@ -19,4 +19,4 @@ ore blocks into **Ore Pebbles**.
 ## Recipe Spec
 - Base crafting time: varies, by default 10 seconds
 - Inputs: 1 item
-- Outputs: 1-3 items
+- Outputs: 0-3 items, 0-1 fluids

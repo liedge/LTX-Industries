@@ -3,7 +3,10 @@
   "category": "misc",
   "key": {
     "a": {
-      "item": "minecraft:anvil"
+      "item": "minecraft:crafting_table"
+    },
+    "b": {
+      "item": "ltxi:titanium_block"
     },
     "l": {
       "tag": "c:dyes/lime"
@@ -15,7 +18,7 @@
   "pattern": [
     "ttt",
     "lal",
-    "ttt"
+    "tbt"
   ],
   "result": {
     "count": 1,

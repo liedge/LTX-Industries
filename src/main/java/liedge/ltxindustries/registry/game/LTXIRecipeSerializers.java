@@ -23,7 +23,7 @@ public final class LTXIRecipeSerializers
     }
 
     public static final DeferredHolder<RecipeSerializer<?>, LTXIRecipeSerializer<GrindingRecipe>> GRINDING = register(LTXIIdentifiers.ID_GRINDING_RECIPE, GrindingRecipe::new, builder ->
-            builder.withItemIngredients(1).withItemResults(3));
+            builder.withItemIngredients(1).withOptionalItemResults(3).withOptionalFluidResults(1));
     public static final DeferredHolder<RecipeSerializer<?>, LTXIRecipeSerializer<MaterialFusingRecipe>> MATERIAL_FUSING = register(LTXIIdentifiers.ID_MATERIAL_FUSING_RECIPE, MaterialFusingRecipe::new, builder ->
             builder.withItemIngredients(3).withOptionalFluidIngredients(1).withItemResults(1));
     public static final DeferredHolder<RecipeSerializer<?>, LTXIRecipeSerializer<ElectroCentrifugingRecipe>> ELECTRO_CENTRIFUGING = register(LTXIIdentifiers.ID_ELECTRO_CENTRIFUGING_RECIPE, ElectroCentrifugingRecipe::new, builder ->

@@ -5,7 +5,9 @@ public final class RecipeLayouts
     public static final RecipeLayout COOKING_LAYOUT = RecipeLayout.builder().itemIn(54, 35).itemOut(112, 35).build(79, 40);
     public static final RecipeLayout GRINDING = RecipeLayout.builder()
             .modeSlot(25, 35)
-            .itemIn(43, 35).itemOut(101, 35).itemOut(119, 35).itemOut(137, 35)
+            .itemIn(43, 35)
+            .itemOut(101, 27).itemOut(119, 27).itemOut(137, 27)
+            .fluidOut(101, 45)
             .build(68, 41);
     public static final RecipeLayout FUSING = RecipeLayout.builder()
             .modeSlot(25, 36)

@@ -51,7 +51,6 @@ public final class LTXIBlockEntities
                 DIGITAL_FURNACE,
                 DIGITAL_SMOKER,
                 DIGITAL_BLAST_FURNACE,
-                GRINDER,
                 VOLTAIC_INJECTOR,
                 FABRICATOR,
                 AUTO_FABRICATOR,
@@ -62,6 +61,7 @@ public final class LTXIBlockEntities
 
         // Machine capability registration (item, energy, fluid)
         registerItemEnergyFluidCaps(event, List.of(
+                GRINDER,
                 MATERIAL_FUSING_CHAMBER,
                 ELECTROCENTRIFUGE,
                 MIXER,
@@ -97,6 +97,7 @@ public final class LTXIBlockEntities
     private static final IOConfigurationRules STANDARD_PUSH_ONLY = IOConfigurationRules.builder().forAllSides().permits(IOAccessSets.ALL_ALLOWED).withDefaultIOAccess(IOAccess.INPUT_ONLY).allowsAutoOutput().build();
     private static final IOConfigurationRules INPUT_ONLY_NO_PULL = IOConfigurationRules.builder().forAllSides().permits(IOAccessSets.INPUT_ONLY_OR_DISABLED).withDefaultIOAccess(IOAccess.INPUT_ONLY).build();
     private static final IOConfigurationRules INPUT_ONLY_PULL = IOConfigurationRules.builder().forAllSides().permits(IOAccessSets.INPUT_ONLY_OR_DISABLED).withDefaultIOAccess(IOAccess.INPUT_ONLY).allowsAutoInput().build();
+    private static final IOConfigurationRules OUTPUT_ONLY_PUSH = IOConfigurationRules.builder().forAllSides().permits(IOAccessSets.OUTPUT_ONLY_OR_DISABLED).withDefaultIOAccess(IOAccess.OUTPUT_ONLY).allowsAutoOutput().build();
 
     private static final Set<RelativeHorizontalSide> FABRICATOR_VALID_SIDES = ImmutableSet.copyOf(EnumSet.of(RelativeHorizontalSide.BOTTOM, RelativeHorizontalSide.FRONT, RelativeHorizontalSide.REAR, RelativeHorizontalSide.LEFT));
     private static final IOConfigurationRules FABRICATOR_ITEM_RULES = IOConfigurationRules.builder()
@@ -147,7 +148,8 @@ public final class LTXIBlockEntities
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<DigitalFurnaceBlockEntity>> DIGITAL_FURNACE = registerItemEnergyMachine(LTXIIdentifiers.ID_DIGITAL_FURNACE, DigitalFurnaceBlockEntity::new, STANDARD_PUSH_PULL, INPUT_ONLY_NO_PULL, builder -> builder.withBlock(LTXIBlocks.DIGITAL_FURNACE).hasMenu(LTXIMenus.DIGITAL_FURNACE));
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<DigitalSmokerBlockEntity>> DIGITAL_SMOKER = registerItemEnergyMachine(LTXIIdentifiers.ID_DIGITAL_SMOKER, DigitalSmokerBlockEntity::new, STANDARD_PUSH_PULL, INPUT_ONLY_NO_PULL, builder -> builder.withBlock(LTXIBlocks.DIGITAL_SMOKER).hasMenu(LTXIMenus.DIGITAL_SMOKER));
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<DigitalBlastFurnaceBlockEntity>> DIGITAL_BLAST_FURNACE = registerItemEnergyMachine(LTXIIdentifiers.ID_DIGITAL_BLAST_FURNACE, DigitalBlastFurnaceBlockEntity::new, STANDARD_PUSH_PULL, INPUT_ONLY_NO_PULL, builder -> builder.withBlock(LTXIBlocks.DIGITAL_BLAST_FURNACE).hasMenu(LTXIMenus.DIGITAL_BLAST_FURNACE));
-    public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<GrinderBlockEntity>> GRINDER = registerItemEnergyMachine(LTXIIdentifiers.ID_GRINDER, GrinderBlockEntity::new, STANDARD_PUSH_PULL, INPUT_ONLY_NO_PULL, builder -> builder.withBlock(LTXIBlocks.GRINDER).hasMenu(LTXIMenus.GRINDER));
+    public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<GrinderBlockEntity>> GRINDER = registerItemEnergyFluidMachine(LTXIIdentifiers.ID_GRINDER, GrinderBlockEntity::new, STANDARD_PUSH_PULL, INPUT_ONLY_NO_PULL, OUTPUT_ONLY_PUSH,
+            builder -> builder.withBlock(LTXIBlocks.GRINDER).hasMenu(LTXIMenus.GRINDER));
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<MaterialFusingChamberBlockEntity>> MATERIAL_FUSING_CHAMBER = registerItemEnergyFluidMachine(LTXIIdentifiers.ID_MATERIAL_FUSING_CHAMBER, MaterialFusingChamberBlockEntity::new, STANDARD_PUSH_PULL, INPUT_ONLY_NO_PULL, INPUT_ONLY_PULL,
             builder -> builder.withBlock(LTXIBlocks.MATERIAL_FUSING_CHAMBER).hasMenu(LTXIMenus.MATERIAL_FUSING_CHAMBER));
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<ElectroCentrifugeBlockEntity>> ELECTROCENTRIFUGE = registerItemEnergyFluidMachine(LTXIIdentifiers.ID_ELECTROCENTRIFUGE, ElectroCentrifugeBlockEntity::new, STANDARD_PUSH_PULL, INPUT_ONLY_NO_PULL, STANDARD_PUSH_PULL,
