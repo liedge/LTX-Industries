@@ -172,7 +172,7 @@ public final class LTXIClientEventHandler
                 poseStack.mulPose(Axis.YN.rotationDegrees(entity.getYRot()));
                 poseStack.scale(scale, scale, scale);
 
-                BubbleShieldRenderer.SHIELD_RENDERER.renderBubbleShield(poseStack, bufferSource.getBuffer(LTXIRenderTypes.POSITION_COLOR_TRIANGLES), LTXIConstants.BUBBLE_SHIELD_BLUE, partialTick);
+                BubbleShieldRenderer.SHIELD_RENDERER.renderBubbleShield(poseStack, bufferSource.getBuffer(LTXIRenderTypes.BUBBLE_SHIELD), LTXIConstants.BUBBLE_SHIELD_BLUE, partialTick);
 
                 poseStack.popPose();
             }

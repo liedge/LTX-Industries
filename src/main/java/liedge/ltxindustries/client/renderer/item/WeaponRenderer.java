@@ -153,7 +153,7 @@ public abstract class WeaponRenderer<T extends WeaponItem> extends LimaSpecialIt
         float fill = Math.min(LimaCoreMath.divideFloat(item.getAmmoLoaded(stack), item.getAmmoCapacity(stack)), 1f);
         if (fill > 0)
         {
-            VertexConsumer buffer = bufferSource.getBuffer(LTXIRenderTypes.POSITION_COLOR_QUADS);
+            VertexConsumer buffer = bufferSource.getBuffer(LTXIRenderTypes.ENERGY_FILL);
             fillModel.renderRotated(buffer, poseStack, color, fill);
         }
     }
@@ -168,7 +168,7 @@ public abstract class WeaponRenderer<T extends WeaponItem> extends LimaSpecialIt
         {
             float mul = controls.getReloadTimer().lerpProgressNotPaused(partialTick);
 
-            VertexConsumer buffer = bufferSource.getBuffer(LTXIRenderTypes.POSITION_COLOR_QUADS);
+            VertexConsumer buffer = bufferSource.getBuffer(LTXIRenderTypes.ENERGY_FILL);
             fillModel.renderRotated(buffer, poseStack, color, mul);
         }
     }

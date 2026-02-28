@@ -38,7 +38,7 @@ public class EnergyCellArrayRenderer extends LimaBlockEntityRenderer<BaseECABloc
         float fill = blockEntity.getRemoteEnergyFill();
         if (fill > 0)
         {
-            VertexConsumer buffer = bufferSource.getBuffer(LTXIRenderTypes.POSITION_COLOR_QUADS);
+            VertexConsumer buffer = bufferSource.getBuffer(LTXIRenderTypes.ENERGY_FILL);
 
             for (TranslucentFillModel model : fillModels)
             {

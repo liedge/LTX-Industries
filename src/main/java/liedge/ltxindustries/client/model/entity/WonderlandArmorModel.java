@@ -76,7 +76,6 @@ public class WonderlandArmorModel extends HumanoidModel<AbstractClientPlayer>
 		// Head emissive
 		PartDefinition head_lights = root.addOrReplaceChild("head_lights", CubeListBuilder.create().texOffs(0, 46).addBox(4.5F, -5.5F, -2.0F, 1.0F, 4.0F, 4.0F, new CubeDeformation(0.025F))
 				.texOffs(0, 46).mirror().addBox(-5.5F, -5.5F, -2.0F, 1.0F, 4.0F, 4.0F, new CubeDeformation(0.025F)).mirror(false), PartPose.ZERO);
-		head_lights.addOrReplaceChild("halo_r1", CubeListBuilder.create().texOffs(0, 21).addBox(-4.0F, -4.0F, 0.0F, 8.0F, 8.0F, 0.0F, CubeDeformation.NONE), PartPose.offsetAndRotation(0.0F, -6.0F, 6.0F, 0.2618F, 0.0F, 0.0F));
 		head_lights.addOrReplaceChild("leftearlight_r1", CubeListBuilder.create().texOffs(12, 37).addBox(-1.5F, -4.0F, -1.0F, 3.0F, 4.0F, 0.0F, CubeDeformation.NONE), PartPose.offsetAndRotation(3.25F, -7.5F, 1.5F, 0.0F, 0.0F, 0.6109F));
 		head_lights.addOrReplaceChild("rightearlight_r1", CubeListBuilder.create().texOffs(12, 37).addBox(-1.5F, -4.0F, -1.0F, 3.0F, 4.0F, 0.0F, CubeDeformation.NONE), PartPose.offsetAndRotation(-3.25F, -7.5F, 1.5F, 0.0F, 0.0F, -0.6109F));
 

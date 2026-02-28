@@ -17,17 +17,40 @@ public final class LTXIRenderTypes
 
     private static final RenderStateShard.TexturingStateShard FABRICATOR_WIREFRAME_TEXTURING = new RenderStateShard.TexturingStateShard("fabricator_preview_texturing", LTXIRenderTypes::setupFabricatorWireframeTexturing, RenderSystem::resetTextureMatrix);
 
-    private static RenderType positionColorTranslucent(VertexFormat.Mode mode)
-    {
-        RenderType.CompositeState state = RenderType.CompositeState.builder()
-                .setShaderState(RenderStateShard.POSITION_COLOR_SHADER)
-                .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
-                .createCompositeState(false);
-        return RenderType.create("position_color_" + mode.name(), DefaultVertexFormat.POSITION_COLOR, mode, 1536, false, true, state);
-    }
+    public static final RenderType ENERGY_FILL = RenderType.create(
+            "energy_fill",
+            DefaultVertexFormat.POSITION_COLOR,
+            VertexFormat.Mode.QUADS,
+            1536,
+            false, true,
+            RenderType.CompositeState.builder()
+                    .setShaderState(RenderStateShard.POSITION_COLOR_SHADER)
+                    .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
+                    .createCompositeState(false));
 
-    public static final RenderType POSITION_COLOR_TRIANGLES = positionColorTranslucent(VertexFormat.Mode.TRIANGLES);
-    public static final RenderType POSITION_COLOR_QUADS = positionColorTranslucent(VertexFormat.Mode.QUADS);
+    public static final RenderType BUBBLE_SHIELD = RenderType.create(
+            "bubble_shield",
+            DefaultVertexFormat.POSITION_COLOR,
+            VertexFormat.Mode.TRIANGLES,
+            1536,
+            false, true,
+            RenderType.CompositeState.builder()
+                    .setShaderState(RenderStateShard.POSITION_COLOR_SHADER)
+                    .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
+                    .createCompositeState(false));
+
+    public static final RenderType WONDERLAND_EPHEMERA = RenderType.create(
+            "wonderland_ephemera",
+            DefaultVertexFormat.POSITION_COLOR,
+            VertexFormat.Mode.TRIANGLES,
+            1536,
+            false, true,
+            RenderType.CompositeState.builder()
+                    .setShaderState(RenderStateShard.POSITION_COLOR_SHADER)
+                    .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
+                    .setCullState(RenderStateShard.NO_CULL)
+                    .setOutputState(RenderStateShard.TRANSLUCENT_TARGET)
+                    .createCompositeState(false));
 
     public static final RenderType LOCK_ON_INDICATOR = RenderType.create("lock_on_indicator", DefaultVertexFormat.POSITION_TEX_COLOR, VertexFormat.Mode.QUADS, 512, false, false, RenderType.CompositeState.builder()
             .setShaderState(POSITION_TEX_COLOR_SHADER)
@@ -45,11 +68,16 @@ public final class LTXIRenderTypes
             .setTexturingState(FABRICATOR_WIREFRAME_TEXTURING)
             .createCompositeState(false));
 
-    public static final RenderType GUI_TRIANGLE_STRIP = RenderType.create("position_color_triangle_strip", DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.TRIANGLE_STRIP, 512, false, false, RenderType.CompositeState.builder()
-            .setShaderState(RenderStateShard.RENDERTYPE_GUI_SHADER)
-            .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
-            .setDepthTestState(RenderStateShard.LEQUAL_DEPTH_TEST)
-            .createCompositeState(false));
+    public static final RenderType GUI_TRIANGLES = RenderType.create(
+            "gui_triangles",
+            DefaultVertexFormat.POSITION_COLOR,
+            VertexFormat.Mode.TRIANGLES,
+            512,
+            RenderType.CompositeState.builder()
+                    .setShaderState(RenderStateShard.RENDERTYPE_GUI_SHADER)
+                    .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
+                    .setDepthTestState(RenderStateShard.LEQUAL_DEPTH_TEST)
+                    .createCompositeState(false));
 
     // State shard helpers
     private static void setupFabricatorWireframeTexturing()

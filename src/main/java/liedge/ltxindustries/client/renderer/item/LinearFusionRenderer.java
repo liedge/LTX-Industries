@@ -82,8 +82,8 @@ public class LinearFusionRenderer extends SimpleWeaponRenderer
         int triggerTicks = controls.getTicksHoldingTrigger();
         if (triggerTicks > 0)
         {
-            float f = Math.min(1f, controls.lerpTriggerTicks(partialTicks) / 10f);
-            renderCrosshairChargeArc(graphics, centerX, centerY, 10, 11, f, LTXIConstants.LIME_GREEN);
+            float arcLength = Math.min(1f, controls.lerpTriggerTicks(partialTicks) / 10f);
+            renderCrosshairChargeArc(graphics, centerX, centerY, arcLength);
             renderCrosshairChargeStops(graphics, centerX, centerY, 9, 12, 0.5f, 90, LTXIConstants.LIME_GREEN);
             renderCrosshairChargeStops(graphics, centerX, centerY, 9, 12, 0.5f, 240, LTXIConstants.LIME_GREEN);
         }
@@ -112,20 +112,16 @@ public class LinearFusionRenderer extends SimpleWeaponRenderer
         buffer.addVertex(mx4, ox, oy - offsetY, 0).setColor(color.red(), color.green(), color.blue(), 1f);
     }
 
-    private void renderCrosshairChargeArc(GuiGraphics graphics, int centerX, int centerY, int innerRadius, int outerRadius, float arcLength, LimaColor color)
+    private void renderCrosshairChargeArc(GuiGraphics graphics, int centerX, int centerY, float arcLength)
     {
-        VertexConsumer buffer = graphics.bufferSource().getBuffer(LTXIRenderTypes.GUI_TRIANGLE_STRIP);
-        Matrix4f mx4 = graphics.pose().last().pose();
+        VertexConsumer buffer = graphics.bufferSource().getBuffer(LTXIRenderTypes.GUI_TRIANGLES);
+        PoseStack poseStack = graphics.pose();
 
-        float endAngle = -120f + (210f * arcLength);
-        for (float a = -120f; a <= endAngle; a += 5)
-        {
-            float rad = LimaCoreMath.toRad(a);
-            float cos = Mth.cos(rad);
-            float sin = Mth.sin(rad);
+        poseStack.pushPose();
+        poseStack.translate(centerX, centerY, 0f);
 
-            buffer.addVertex(mx4, centerX + cos * innerRadius, centerY - sin * innerRadius, 0).setColor(color.red(), color.green(), color.blue(), 1f);
-            buffer.addVertex(mx4, centerX + cos * outerRadius, centerY - sin * outerRadius, 0).setColor(color.red(), color.green(), color.blue(), 1f);
-        }
+        LTXIRenderUtil.renderGUIArcRing(poseStack, buffer, 10, 1, 120f - 210f * arcLength, 120f, 5f, LTXIConstants.LIME_GREEN);
+
+        poseStack.popPose();
     }
 }

@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import liedge.limacore.lib.LimaColor;
+import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.ltxindustries.client.model.custom.EnergyBoltData;
 import liedge.ltxindustries.client.renderer.LTXIRenderTypes;
 import net.minecraft.Util;
@@ -63,6 +64,70 @@ public final class LTXIRenderUtil
     {
         return linearThresholdCurve(delta, 0.1f);
     }
+
+    //#region Rings
+    private static float lerpArc(int i, int iMax, float start, float end)
+    {
+        return Mth.lerp(LimaCoreMath.divideFloat(i, iMax), start, end);
+    }
+
+    private static void renderArcSegment(VertexConsumer buffer, Matrix4f mx4, float innerRadius, float outerRadius, float a1, float a2, float red, float green, float blue, float alpha)
+    {
+        float cos1 = Mth.cos(a1);
+        float sin1 = Mth.sin(a1);
+        float cos2 = Mth.cos(a2);
+        float sin2 = Mth.sin(a2);
+
+        buffer.addVertex(mx4, cos1 * innerRadius, sin1 * innerRadius, 0).setColor(red, green, blue, alpha);
+        buffer.addVertex(mx4, cos2 * innerRadius, sin2 * innerRadius, 0).setColor(red, green, blue, alpha);
+        buffer.addVertex(mx4, cos1 * outerRadius, sin1 * outerRadius, 0).setColor(red, green, blue, alpha);
+
+        buffer.addVertex(mx4, cos1 * outerRadius, sin1 * outerRadius, 0).setColor(red, green, blue, alpha);
+        buffer.addVertex(mx4, cos2 * innerRadius, sin2 * innerRadius, 0).setColor(red, green, blue, alpha);
+        buffer.addVertex(mx4, cos2 * outerRadius, sin2 * outerRadius, 0).setColor(red, green, blue, alpha);
+    }
+
+    public static void renderArcRing(PoseStack poseStack, VertexConsumer buffer, float radius, float width, float startAngle, float endAngle, int segments, LimaColor color, float alpha)
+    {
+        if (endAngle <= startAngle || segments < 1) return;
+
+        float arcStart = LimaCoreMath.toRad(startAngle);
+        float arcEnd = LimaCoreMath.toRad(endAngle);
+        float outerRadius = radius + width;
+
+        Matrix4f mx4 = poseStack.last().pose();
+        for (int i = 0; i < segments; i++)
+        {
+            float a1 = lerpArc(i, segments, arcStart, arcEnd);
+            float a2 = lerpArc(i + 1, segments, arcStart, arcEnd);
+            renderArcSegment(buffer, mx4, radius, outerRadius, a1, a2, color.red(), color.green(), color.blue(), alpha);
+        }
+    }
+
+    public static void renderArcRing(PoseStack poseStack, VertexConsumer buffer, float radius, float width, float startAngle, float endAngle, int segments, LimaColor color)
+    {
+        renderArcRing(poseStack, buffer, radius, width, startAngle, endAngle, segments, color, 1f);
+    }
+
+    public static void renderGUIArcRing(PoseStack poseStack, VertexConsumer buffer, float radius, float width, float startAngle, float endAngle, float segmentDegrees, LimaColor color)
+    {
+        if (endAngle <= startAngle || segmentDegrees < 1) return;
+
+        float arcStart = LimaCoreMath.toRad(startAngle);
+        float arcEnd = LimaCoreMath.toRad(endAngle);
+        float segLength = LimaCoreMath.toRad(segmentDegrees);
+        int segments = Mth.ceil((arcEnd - arcStart) / segLength);
+        float outerRadius = radius + width;
+
+        Matrix4f mx4 = poseStack.last().pose();
+        for (int i = 0; i < segments; i++)
+        {
+            float a1 = arcStart + i * segLength;
+            float a2 = Math.min(arcEnd, arcStart + (i + 1) * segLength);
+            if (a2 > a1) renderArcSegment(buffer, mx4, radius, outerRadius, a1, a2, color.red(), color.green(), color.blue(), 1f);
+        }
+    }
+    //#endregion
 
     public static void renderLockOnIndicatorOnEntity(Entity entity, PoseStack poseStack, MultiBufferSource bufferSource, Camera camera, double xOffset, double yOffset, double zOffset, float partialTick, float lerpLockProgress)
     {

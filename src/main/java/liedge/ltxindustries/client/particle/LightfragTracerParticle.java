@@ -120,6 +120,6 @@ public class LightfragTracerParticle extends CustomRenderTypeParticle
     @Override
     protected RenderType getCustomRenderType()
     {
-        return LTXIRenderTypes.POSITION_COLOR_QUADS;
+        return LTXIRenderTypes.ENERGY_FILL;
     }
 }
