@@ -3,7 +3,7 @@ package liedge.ltxindustries.item;
 import liedge.limacore.capability.energy.LimaComponentEnergyStorage;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.lib.math.LimaCoreMath;
-import liedge.limacore.util.LimaCoreUtil;
+import liedge.limacore.util.LimaCoreObjects;
 import liedge.ltxindustries.util.LTXITooltipUtil;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
@@ -17,7 +17,7 @@ public interface EnergyHolderItem extends ItemLike
 {
     static @Nullable IEnergyStorage createEnergyAccess(ItemStack stack)
     {
-        EnergyHolderItem item = LimaCoreUtil.castOrThrow(EnergyHolderItem.class, stack.getItem(), "Not an energy holder item.");
+        EnergyHolderItem item = LimaCoreObjects.cast(EnergyHolderItem.class, stack.getItem(), "Not an energy holder item.");
         return item.supportsEnergyStorage(stack) ? item.getOrCreateEnergyStorage(stack) : null;
     }
 

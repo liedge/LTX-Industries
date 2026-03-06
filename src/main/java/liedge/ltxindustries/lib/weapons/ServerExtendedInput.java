@@ -1,7 +1,7 @@
 package liedge.ltxindustries.lib.weapons;
 
 import liedge.limacore.lib.TickTimer;
-import liedge.limacore.util.LimaCoreUtil;
+import liedge.limacore.util.LimaCoreObjects;
 import liedge.limacore.util.LimaEntityUtil;
 import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.network.packet.ClientboundFocusTargetPacket;
@@ -20,7 +20,7 @@ public class ServerExtendedInput extends LTXIExtendedInput
     public static ServerExtendedInput of(Player player)
     {
         LTXIExtendedInput input = player.getData(LTXIAttachmentTypes.INPUT_EXTENSIONS);
-        return LimaCoreUtil.castOrThrow(ServerExtendedInput.class, input, "Accessed server extended input on client");
+        return LimaCoreObjects.cast(ServerExtendedInput.class, input, "Accessed server extended input on client");
     }
 
     private boolean reloadFlag;

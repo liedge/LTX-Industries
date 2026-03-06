@@ -1,7 +1,7 @@
 package liedge.ltxindustries.lib.weapons;
 
 import liedge.limacore.lib.TickTimer;
-import liedge.limacore.util.LimaCoreUtil;
+import liedge.limacore.util.LimaCoreObjects;
 import liedge.ltxindustries.client.AutomaticWeaponSoundInstance;
 import liedge.ltxindustries.client.renderer.item.WeaponRenderer;
 import liedge.ltxindustries.item.weapon.WeaponItem;
@@ -20,7 +20,7 @@ public class ClientExtendedInput extends LTXIExtendedInput
     public static ClientExtendedInput of(Player player)
     {
         LTXIExtendedInput input = player.getData(LTXIAttachmentTypes.INPUT_EXTENSIONS);
-        return LimaCoreUtil.castOrThrow(ClientExtendedInput.class, input, "Accessed client extended input on server");
+        return LimaCoreObjects.cast(ClientExtendedInput.class, input, "Accessed client extended input on server");
     }
 
     private final TickTimer animationTimerA = new TickTimer();

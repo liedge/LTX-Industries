@@ -11,7 +11,7 @@ import liedge.limacore.client.model.baked.BakedItemLayer;
 import liedge.limacore.client.model.baked.ItemLayerBakedModel;
 import liedge.limacore.lib.LimaColor;
 import liedge.limacore.lib.math.LimaCoreMath;
-import liedge.limacore.util.LimaCoreUtil;
+import liedge.limacore.util.LimaCoreObjects;
 import liedge.ltxindustries.client.model.custom.TranslucentFillModel;
 import liedge.ltxindustries.client.renderer.LTXIArmPoses;
 import liedge.ltxindustries.client.renderer.LTXIRenderTypes;
@@ -61,7 +61,7 @@ public abstract class WeaponRenderer<T extends WeaponItem> extends LimaSpecialIt
 
     public static WeaponRenderer<?> fromItem(WeaponItem weaponItem)
     {
-        return LimaCoreUtil.castOrThrow(WeaponRenderer.class, IClientItemExtensions.of(weaponItem));
+        return LimaCoreObjects.cast(WeaponRenderer.class, IClientItemExtensions.of(weaponItem));
     }
 
     protected BakedItemLayer rootBaseLayer;

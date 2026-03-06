@@ -1,6 +1,6 @@
 package liedge.ltxindustries.entity.damage;
 
-import liedge.limacore.util.LimaCoreUtil;
+import liedge.limacore.util.LimaCoreObjects;
 import liedge.ltxindustries.lib.upgrades.UpgradesContainerBase;
 import net.minecraft.core.Holder;
 import net.minecraft.world.damagesource.DamageType;
@@ -28,7 +28,7 @@ public final class EffectDamageSource extends UpgradesAwareDamageSource
     @Override
     public @Nullable DropsRedirect createDropsRedirect()
     {
-        Player player = LimaCoreUtil.castOrNull(Player.class, getEntity());
+        Player player = LimaCoreObjects.tryCast(Player.class, getEntity());
         return player != null ? DropsRedirect.forMobDrops(player, upgrades) : null;
     }
 

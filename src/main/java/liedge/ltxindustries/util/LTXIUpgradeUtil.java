@@ -1,6 +1,6 @@
 package liedge.ltxindustries.util;
 
-import liedge.limacore.util.LimaCoreUtil;
+import liedge.limacore.util.LimaCoreObjects;
 import liedge.ltxindustries.entity.damage.UpgradesAwareDamageSource;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
 import liedge.ltxindustries.lib.upgrades.UpgradedEquipmentInUse;
@@ -63,7 +63,7 @@ public final class LTXIUpgradeUtil
 
                 UpgradesContainerBase<?, ?> upgrades = upgradesAwareSource.getUpgrades();
                 ItemStack stack = Objects.requireNonNullElse(upgradesAwareSource.getWeaponItem(), ItemStack.EMPTY);
-                UpgradableEquipmentItem equipmentItem = LimaCoreUtil.castOrNull(UpgradableEquipmentItem.class, stack.getItem());
+                UpgradableEquipmentItem equipmentItem = LimaCoreObjects.tryCast(UpgradableEquipmentItem.class, stack.getItem());
                 EquipmentSlot slot = equipmentItem != null ? EquipmentSlot.MAINHAND : null;
 
                 visitor.accept(level, upgrades, stack, equipmentItem, slot, attacker);

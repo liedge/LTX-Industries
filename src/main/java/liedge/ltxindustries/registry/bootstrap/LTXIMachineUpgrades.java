@@ -1,6 +1,6 @@
 package liedge.ltxindustries.registry.bootstrap;
 
-import liedge.limacore.advancement.ComparableBounds;
+import liedge.limacore.lib.MinMaxRange;
 import liedge.limacore.lib.MobHostility;
 import liedge.limacore.lib.math.MathOperation;
 import liedge.limacore.world.loot.condition.EntityHostilityLootCondition;
@@ -198,14 +198,14 @@ public final class LTXIMachineUpgrades
         MachineUpgrade.builder(NEUTRAL_ENEMY_TARGETING)
                 .supports(blockEntities, LTXITags.BlockEntities.TURRETS)
                 .exclusiveWith(holders, TARGET_PREDICATES)
-                .targetRestriction(EntityHostilityLootCondition.create(ComparableBounds.atLeast(MobHostility.NEUTRAL_ENEMY)))
+                .targetRestriction(EntityHostilityLootCondition.create(MinMaxRange.atLeast(MobHostility.NEUTRAL_ENEMY)))
                 .effectIcon(sprite("neutral_enemy_targets"))
                 .category("target_predicates")
                 .register(context);
         MachineUpgrade.builder(HOSTILE_TARGETING)
                 .supports(blockEntities, LTXITags.BlockEntities.TURRETS)
                 .exclusiveWith(holders, TARGET_PREDICATES)
-                .targetRestriction(EntityHostilityLootCondition.create(ComparableBounds.atLeast(MobHostility.HOSTILE)))
+                .targetRestriction(EntityHostilityLootCondition.create(MinMaxRange.atLeast(MobHostility.HOSTILE)))
                 .effectIcon(sprite("hostile_targets"))
                 .category("target_predicates")
                 .register(context);

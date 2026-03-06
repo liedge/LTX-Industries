@@ -1,9 +1,9 @@
 package liedge.ltxindustries.data.generation;
 
-import liedge.limacore.advancement.ComparableBounds;
 import liedge.limacore.data.generation.loot.LimaBlockLootSubProvider;
 import liedge.limacore.data.generation.loot.LimaLootSubProvider;
 import liedge.limacore.data.generation.loot.LimaLootTableProvider;
+import liedge.limacore.lib.MinMaxRange;
 import liedge.limacore.lib.MobHostility;
 import liedge.limacore.lib.math.LimaRoundingMode;
 import liedge.limacore.util.LimaLootUtil;
@@ -98,7 +98,7 @@ class LootTablesGen extends LimaLootTableProvider
 
             // Ammo drops table
             LootPool.Builder ammoDrops = LootPool.lootPool()
-                    .when(EntityHostilityLootCondition.create(ComparableBounds.atLeast(MobHostility.NEUTRAL_ENEMY)))
+                    .when(EntityHostilityLootCondition.create(MinMaxRange.atLeast(MobHostility.NEUTRAL_ENEMY)))
                     .when(LootItemRandomChanceWithEnchantedBonusCondition.randomChanceAndLootingBoost(registries, 0.25f, 0.025f))
                     .add(lootItem(LTXIItems.LIGHTWEIGHT_WEAPON_ENERGY).setWeight(80))
                     .add(DynamicWeightLootEntry.dynamicWeightItem(LTXIItems.SPECIALIST_WEAPON_ENERGY, 15).setReplaceWeight(false).setDynamicWeight(ammoEnchantValue(0, LevelBasedValue.perLevel(6))))

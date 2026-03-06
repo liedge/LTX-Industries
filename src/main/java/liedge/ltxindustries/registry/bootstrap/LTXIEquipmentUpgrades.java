@@ -1,6 +1,6 @@
 package liedge.ltxindustries.registry.bootstrap;
 
-import liedge.limacore.advancement.ComparableBounds;
+import liedge.limacore.lib.MinMaxRange;
 import liedge.limacore.lib.MobHostility;
 import liedge.limacore.lib.math.CompareOperation;
 import liedge.limacore.lib.math.MathOperation;
@@ -448,14 +448,14 @@ public final class LTXIEquipmentUpgrades
         EquipmentUpgrade.builder(NEUTRAL_ENEMY_TARGET_FILTER)
                 .createDefaultTitle(HOSTILE_ORANGE)
                 .supports(allWeapons)
-                .targetRestriction(EntityHostilityLootCondition.create(ComparableBounds.atLeast(MobHostility.NEUTRAL_ENEMY)))
+                .targetRestriction(EntityHostilityLootCondition.create(MinMaxRange.atLeast(MobHostility.NEUTRAL_ENEMY)))
                 .effectIcon(sprite("neutral_enemy_targets"))
                 .category("target_filters")
                 .register(context);
         EquipmentUpgrade.builder(HOSTILE_TARGET_FILTER)
                 .createDefaultTitle(HOSTILE_ORANGE)
                 .supports(allWeapons)
-                .targetRestriction(EntityHostilityLootCondition.create(ComparableBounds.atLeast(MobHostility.HOSTILE)))
+                .targetRestriction(EntityHostilityLootCondition.create(MinMaxRange.atLeast(MobHostility.HOSTILE)))
                 .effectIcon(sprite("hostile_targets"))
                 .category("target_filters")
                 .register(context);

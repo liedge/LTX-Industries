@@ -1,7 +1,7 @@
 package liedge.ltxindustries;
 
 import liedge.limacore.event.DamageAttributeModifiersEvent;
-import liedge.limacore.util.LimaCoreUtil;
+import liedge.limacore.util.LimaCoreObjects;
 import liedge.limacore.util.LimaLootUtil;
 import liedge.ltxindustries.entity.LTXIEntityUtil;
 import liedge.ltxindustries.entity.damage.DropsRedirect;
@@ -103,7 +103,7 @@ public final class LTXIEventHandler
 
         // Weapon system tick
         ItemStack heldItem = player.getMainHandItem();
-        WeaponItem weaponItem = LimaCoreUtil.castOrNull(WeaponItem.class, heldItem.getItem());
+        WeaponItem weaponItem = LimaCoreObjects.tryCast(WeaponItem.class, heldItem.getItem());
         player.getData(LTXIAttachmentTypes.INPUT_EXTENSIONS).tickInput(player, heldItem, weaponItem);
 
         // Shield & equipment tick
