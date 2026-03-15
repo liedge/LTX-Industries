@@ -50,7 +50,7 @@ public class RailgunTurretRenderer extends TurretRenderer<RailgunTurretBlockEnti
                 float z = 0.0625f;
 
                 LimaColor color = blockEntity.lerpAimTicks(partialTick, 25) >= 1 ? LTXIConstants.LIME_GREEN : LTXIConstants.HOSTILE_ORANGE;
-                LTXIRenderUtil.renderPositionColorCuboid(buffer, mx4, x - LASER_RADIUS, y - LASER_RADIUS, z, x + LASER_RADIUS, y + LASER_RADIUS, z - dist, color, 0.8f, LTXIRenderUtil.ALL_SIDES);
+                LTXIRenderUtil.submitUnlitCuboid(LTXIRenderUtil.ALL_SIDES, buffer, mx4, x - LASER_RADIUS, y - LASER_RADIUS, z, x + LASER_RADIUS, y + LASER_RADIUS, z - dist, color, 0.8f);
             }
         }
     }

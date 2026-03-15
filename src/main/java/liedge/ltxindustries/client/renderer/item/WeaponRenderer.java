@@ -175,19 +175,19 @@ public abstract class WeaponRenderer<T extends WeaponItem> extends LimaSpecialIt
 
     protected void blitSprite(GuiGraphics graphics, float x, float y, int width, int height, LimaColor crosshairColor, ResourceLocation spriteLocation)
     {
-        LimaGuiUtil.directColorBlit(graphics, x, y, width, height, crosshairColor.red(), crosshairColor.green(), crosshairColor.blue(), 1f, sprites.getSprite(spriteLocation));
+        LimaGuiUtil.floatBlit(graphics, sprites.getSprite(spriteLocation), x, y, width, height, 0, crosshairColor.red(), crosshairColor.green(), crosshairColor.blue(), 1);
     }
 
     protected void blitMirroredUSprite(GuiGraphics graphics, float x, float y, int width, int height, LimaColor crosshairColor, ResourceLocation spriteLocation)
     {
         TextureAtlasSprite sprite = sprites.getSprite(spriteLocation);
-        LimaGuiUtil.directColorBlit(graphics, sprite.atlasLocation(), x, y, x + width, y + height, 0, sprite.getU1(), sprite.getU0(), sprite.getV0(), sprite.getV1(), crosshairColor.red(), crosshairColor.green(), crosshairColor.blue(), 1f);
+        LimaGuiUtil.floatBlit(graphics, sprite.atlasLocation(), x, y, x + width, y + height, 0, sprite.getU1(), sprite.getU0(), sprite.getV0(), sprite.getV1(), crosshairColor.red(), crosshairColor.green(), crosshairColor.blue(), 1);
     }
 
     protected void blitMirroredVSprite(GuiGraphics graphics, float x, float y, int width, int height, LimaColor crosshairColor, ResourceLocation spriteLocation)
     {
         TextureAtlasSprite sprite = sprites.getSprite(spriteLocation);
-        LimaGuiUtil.directColorBlit(graphics, sprite.atlasLocation(), x, y, x + width, y + height, 0, sprite.getU0(), sprite.getU1(), sprite.getV1(), sprite.getV0(), crosshairColor.red(), crosshairColor.green(), crosshairColor.blue(), 1f);
+        LimaGuiUtil.floatBlit(graphics, sprite.atlasLocation(), x, y, x + width, y + height, 0, sprite.getU0(), sprite.getU1(), sprite.getV1(), sprite.getV0(), crosshairColor.red(), crosshairColor.green(), crosshairColor.blue(), 1);
     }
 
     private void renderAmmoCounter(GuiGraphics graphics, ResourceLocation sprite, HorizontalAlignment xAlign, VerticalAlignment yAlign, int xOffset, int yOffset,

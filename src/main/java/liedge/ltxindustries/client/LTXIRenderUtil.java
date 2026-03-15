@@ -128,6 +128,114 @@ public final class LTXIRenderUtil
         }
     }
     //#endregion
+    
+    //#region Cuboids
+    public static void submitUnlitCuboidFace(Direction side, VertexConsumer buffer, Matrix4f mx4, float x1, float y1, float z1, float x2, float y2, float z2, float red, float green, float blue, float alpha)
+    {
+        switch (side)
+        {
+            case UP ->
+            {
+                buffer.addVertex(mx4, x1, y2, z2).setColor(red, green, blue, alpha);
+                buffer.addVertex(mx4, x2, y2, z2).setColor(red, green, blue, alpha);
+                buffer.addVertex(mx4, x2, y2, z1).setColor(red, green, blue, alpha);
+                buffer.addVertex(mx4, x1, y2, z1).setColor(red, green, blue, alpha);
+            }
+            case DOWN ->
+            {
+                buffer.addVertex(mx4, x1, y1, z1).setColor(red, green, blue, alpha);
+                buffer.addVertex(mx4, x2, y1, z1).setColor(red, green, blue, alpha);
+                buffer.addVertex(mx4, x2, y1, z2).setColor(red, green, blue, alpha);
+                buffer.addVertex(mx4, x1, y1, z2).setColor(red, green, blue, alpha);
+            }
+            case NORTH ->
+            {
+                buffer.addVertex(mx4, x2, y1, z1).setColor(red, green, blue, alpha);
+                buffer.addVertex(mx4, x1, y1, z1).setColor(red, green, blue, alpha);
+                buffer.addVertex(mx4, x1, y2, z1).setColor(red, green, blue, alpha);
+                buffer.addVertex(mx4, x2, y2, z1).setColor(red, green, blue, alpha);
+            }
+            case SOUTH ->
+            {
+                buffer.addVertex(mx4, x2, y2, z2).setColor(red, green, blue, alpha);
+                buffer.addVertex(mx4, x1, y2, z2).setColor(red, green, blue, alpha);
+                buffer.addVertex(mx4, x1, y1, z2).setColor(red, green, blue, alpha);
+                buffer.addVertex(mx4, x2, y1, z2).setColor(red, green, blue, alpha);
+            }
+            case EAST ->
+            {
+                buffer.addVertex(mx4, x2, y1, z2).setColor(red, green, blue, alpha);
+                buffer.addVertex(mx4, x2, y1, z1).setColor(red, green, blue, alpha);
+                buffer.addVertex(mx4, x2, y2, z1).setColor(red, green, blue, alpha);
+                buffer.addVertex(mx4, x2, y2, z2).setColor(red, green, blue, alpha);
+            }
+            case WEST ->
+            {
+                buffer.addVertex(mx4, x1, y2, z2).setColor(red, green, blue, alpha);
+                buffer.addVertex(mx4, x1, y2, z1).setColor(red, green, blue, alpha);
+                buffer.addVertex(mx4, x1, y1, z1).setColor(red, green, blue, alpha);
+                buffer.addVertex(mx4, x1, y1, z2).setColor(red, green, blue, alpha);
+            }
+        }
+    }
+
+    public static void submitTexturedCuboidFace(Direction side, VertexConsumer buffer, Matrix4f mx4, float x1, float y1, float z1, float x2, float y2, float z2, float u0, float v0, float u1, float v1, float red, float green, float blue, float alpha, int packedLight)
+    {
+        switch (side)
+        {
+            case UP ->
+            {
+                buffer.addVertex(mx4, x1, y2, z2).setUv(u0, v1).setColor(red, green, blue, alpha).setLight(packedLight);
+                buffer.addVertex(mx4, x2, y2, z2).setUv(u1, v1).setColor(red, green, blue, alpha).setLight(packedLight);
+                buffer.addVertex(mx4, x2, y2, z1).setUv(u1, v0).setColor(red, green, blue, alpha).setLight(packedLight);
+                buffer.addVertex(mx4, x1, y2, z1).setUv(u0, v0).setColor(red, green, blue, alpha).setLight(packedLight);
+            }
+            case DOWN ->
+            {
+                buffer.addVertex(mx4, x1, y1, z1).setUv(u0, v1).setColor(red, green, blue, alpha).setLight(packedLight);
+                buffer.addVertex(mx4, x2, y1, z1).setUv(u1, v1).setColor(red, green, blue, alpha).setLight(packedLight);
+                buffer.addVertex(mx4, x2, y1, z2).setUv(u1, v0).setColor(red, green, blue, alpha).setLight(packedLight);
+                buffer.addVertex(mx4, x1, y1, z2).setUv(u0, v0).setColor(red, green, blue, alpha).setLight(packedLight);
+            }
+            case NORTH ->
+            {
+                buffer.addVertex(mx4, x2, y1, z1).setUv(u0, v1).setColor(red, green, blue, alpha).setLight(packedLight);
+                buffer.addVertex(mx4, x1, y1, z1).setUv(u1, v1).setColor(red, green, blue, alpha).setLight(packedLight);
+                buffer.addVertex(mx4, x1, y2, z1).setUv(u1, v0).setColor(red, green, blue, alpha).setLight(packedLight);
+                buffer.addVertex(mx4, x2, y2, z1).setUv(u0, v0).setColor(red, green, blue, alpha).setLight(packedLight);
+            }
+            case SOUTH ->
+            {
+                buffer.addVertex(mx4, x2, y2, z2).setUv(u1, v0).setColor(red, green, blue, alpha).setLight(packedLight);
+                buffer.addVertex(mx4, x1, y2, z2).setUv(u0, v0).setColor(red, green, blue, alpha).setLight(packedLight);
+                buffer.addVertex(mx4, x1, y1, z2).setUv(u0, v1).setColor(red, green, blue, alpha).setLight(packedLight);
+                buffer.addVertex(mx4, x2, y1, z2).setUv(u1, v1).setColor(red, green, blue, alpha).setLight(packedLight);
+            }
+            case EAST ->
+            {
+                buffer.addVertex(mx4, x2, y1, z2).setUv(u0, v1).setColor(red, green, blue, alpha).setLight(packedLight);
+                buffer.addVertex(mx4, x2, y1, z1).setUv(u1, v1).setColor(red, green, blue, alpha).setLight(packedLight);
+                buffer.addVertex(mx4, x2, y2, z1).setUv(u1, v0).setColor(red, green, blue, alpha).setLight(packedLight);
+                buffer.addVertex(mx4, x2, y2, z2).setUv(u0, v0).setColor(red, green, blue, alpha).setLight(packedLight);
+            }
+            case WEST ->
+            {
+                buffer.addVertex(mx4, x1, y2, z2).setUv(u1, v0).setColor(red, green, blue, alpha).setLight(packedLight);
+                buffer.addVertex(mx4, x1, y2, z1).setUv(u0, v0).setColor(red, green, blue, alpha).setLight(packedLight);
+                buffer.addVertex(mx4, x1, y1, z1).setUv(u0, v1).setColor(red, green, blue, alpha).setLight(packedLight);
+                buffer.addVertex(mx4, x1, y1, z2).setUv(u1, v1).setColor(red, green, blue, alpha).setLight(packedLight);
+            }
+        }
+    }
+
+    public static void submitUnlitCuboid(Direction[] faces, VertexConsumer buffer, Matrix4f mx4, float x1, float y1, float z1, float x2, float y2, float z2, LimaColor color, float alpha)
+    {
+        for (Direction side : faces)
+        {
+            submitUnlitCuboidFace(side, buffer, mx4, x1, y1, z1, x2, y2, z2, color.red(), color.green(), color.blue(), alpha);
+        }
+    }
+    //#endregion
 
     public static void renderLockOnIndicatorOnEntity(Entity entity, PoseStack poseStack, MultiBufferSource bufferSource, Camera camera, double xOffset, double yOffset, double zOffset, float partialTick, float lerpLockProgress)
     {
@@ -184,58 +292,6 @@ public final class LTXIRenderUtil
             submitBoltQuad(buffer, mx4, v[1], v[2], v[6], v[5], color, alpha);
             submitBoltQuad(buffer, mx4, v[0], v[1], v[5], v[4], color, alpha);
             submitBoltQuad(buffer, mx4, v[6], v[2], v[3], v[7], color, alpha);
-        }
-    }
-
-    public static void renderPositionColorCuboid(VertexConsumer buffer, Matrix4f mx4, float x1, float y1, float z1, float x2, float y2, float z2, LimaColor color, float alpha, Direction[] sides)
-    {
-        for (Direction side : sides)
-        {
-            switch (side)
-            {
-                case UP ->
-                {
-                    buffer.addVertex(mx4, x2, y2, z2).setColor(color.red(), color.green(), color.blue(), alpha);
-                    buffer.addVertex(mx4, x2, y2, z1).setColor(color.red(), color.green(), color.blue(), alpha);
-                    buffer.addVertex(mx4, x1, y2, z1).setColor(color.red(), color.green(), color.blue(), alpha);
-                    buffer.addVertex(mx4, x1, y2, z2).setColor(color.red(), color.green(), color.blue(), alpha);
-                }
-                case DOWN ->
-                {
-                    buffer.addVertex(mx4, x1, y1, z1).setColor(color.red(), color.green(), color.blue(), alpha);
-                    buffer.addVertex(mx4, x2, y1, z1).setColor(color.red(), color.green(), color.blue(), alpha);
-                    buffer.addVertex(mx4, x2, y1, z2).setColor(color.red(), color.green(), color.blue(), alpha);
-                    buffer.addVertex(mx4, x1, y1, z2).setColor(color.red(), color.green(), color.blue(), alpha);
-                }
-                case WEST ->
-                {
-                    buffer.addVertex(mx4, x1, y2, z2).setColor(color.red(), color.green(), color.blue(), alpha);
-                    buffer.addVertex(mx4, x1, y2, z1).setColor(color.red(), color.green(), color.blue(), alpha);
-                    buffer.addVertex(mx4, x1, y1, z1).setColor(color.red(), color.green(), color.blue(), alpha);
-                    buffer.addVertex(mx4, x1, y1, z2).setColor(color.red(), color.green(), color.blue(), alpha);
-                }
-                case EAST ->
-                {
-                    buffer.addVertex(mx4, x2, y1, z1).setColor(color.red(), color.green(), color.blue(), alpha);
-                    buffer.addVertex(mx4, x2, y2, z1).setColor(color.red(), color.green(), color.blue(), alpha);
-                    buffer.addVertex(mx4, x2, y2, z2).setColor(color.red(), color.green(), color.blue(), alpha);
-                    buffer.addVertex(mx4, x2, y1, z2).setColor(color.red(), color.green(), color.blue(), alpha);
-                }
-                case SOUTH ->
-                {
-                    buffer.addVertex(mx4, x1, y1, z2).setColor(color.red(), color.green(), color.blue(), alpha);
-                    buffer.addVertex(mx4, x2, y1, z2).setColor(color.red(), color.green(), color.blue(), alpha);
-                    buffer.addVertex(mx4, x2, y2, z2).setColor(color.red(), color.green(), color.blue(), alpha);
-                    buffer.addVertex(mx4, x1, y2, z2).setColor(color.red(), color.green(), color.blue(), alpha);
-                }
-                case NORTH ->
-                {
-                    buffer.addVertex(mx4, x2, y2, z1).setColor(color.red(), color.green(), color.blue(), alpha);
-                    buffer.addVertex(mx4, x2, y1, z1).setColor(color.red(), color.green(), color.blue(), alpha);
-                    buffer.addVertex(mx4, x1, y1, z1).setColor(color.red(), color.green(), color.blue(), alpha);
-                    buffer.addVertex(mx4, x1, y2, z1).setColor(color.red(), color.green(), color.blue(), alpha);
-                }
-            }
         }
     }
 

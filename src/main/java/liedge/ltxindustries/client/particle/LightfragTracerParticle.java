@@ -112,9 +112,9 @@ public class LightfragTracerParticle extends CustomRenderTypeParticle
         }
 
         // Render main 'bolt'
-        LTXIRenderUtil.renderPositionColorCuboid(buffer, mx4, -LIGHTFRAG_HALF_SIZE, -LIGHTFRAG_HALF_SIZE, 0f, LIGHTFRAG_HALF_SIZE, LIGHTFRAG_HALF_SIZE, 0.125f, color, a1, LTXIRenderUtil.ALL_SIDES);
+        LTXIRenderUtil.submitUnlitCuboid(LTXIRenderUtil.ALL_SIDES, buffer, mx4, -LIGHTFRAG_HALF_SIZE, -LIGHTFRAG_HALF_SIZE, 0f, LIGHTFRAG_HALF_SIZE, LIGHTFRAG_HALF_SIZE, 0.125f, color, a1);
         // Render trail
-        LTXIRenderUtil.renderPositionColorCuboid(buffer, mx4, -LIGHTFRAG_HALF_SIZE, -LIGHTFRAG_HALF_SIZE, -trailLength, LIGHTFRAG_HALF_SIZE, LIGHTFRAG_HALF_SIZE, 0f, color, a2, LTXIRenderUtil.ALL_SIDES);
+        LTXIRenderUtil.submitUnlitCuboid(LTXIRenderUtil.ALL_SIDES, buffer, mx4, -LIGHTFRAG_HALF_SIZE, -LIGHTFRAG_HALF_SIZE, -trailLength, LIGHTFRAG_HALF_SIZE, LIGHTFRAG_HALF_SIZE, 0f, color, a2);
     }
 
     @Override

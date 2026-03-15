@@ -28,7 +28,7 @@ public record TranslucentFillModel(Vector3f from, Vector3f to, float length, Dir
     {
         float lengthComponent = (float) drainAxis.choose(from.x, from.y, from.z);
         Vector3f to1 = new Vector3f(to).setComponent(drainAxis.ordinal(), lengthComponent + (length * fillPercentage));
-        LTXIRenderUtil.renderPositionColorCuboid(buffer, poseStack.last().pose(), from.x, from.y, from.z, to1.x, to1.y, to1.z, fillColor, 0.85f, LTXIRenderUtil.ALL_SIDES);
+        LTXIRenderUtil.submitUnlitCuboid(LTXIRenderUtil.ALL_SIDES, buffer, poseStack.last().pose(), from.x, from.y, from.z, to1.x, to1.y, to1.z, fillColor, 0.85f);
     }
 
     public void renderRotated(VertexConsumer buffer, PoseStack poseStack, LimaColor fillColor, float fillPercentage)

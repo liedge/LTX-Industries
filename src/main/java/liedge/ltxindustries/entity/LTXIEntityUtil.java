@@ -5,15 +5,16 @@ import it.unimi.dsi.fastutil.ints.IntList;
 import liedge.limacore.util.LimaEntityUtil;
 import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.lib.upgrades.UpgradesContainerBase;
-import liedge.ltxindustries.registry.game.LTXICriterionTriggers;
 import liedge.ltxindustries.util.config.LTXIServerConfig;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.OwnableEntity;
+import net.minecraft.world.entity.TraceableEntity;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -191,25 +192,6 @@ public final class LTXIEntityUtil
         else
         {
             return target.hurt(damageSourceFunction.apply(owner), damage);
-        }
-    }
-
-    public static void damageArmorWithAcid(ServerLevel serverLevel, @Nullable ServerPlayer attackingPlayer, LivingEntity entity, int minDamage, float damagePercent)
-    {
-        for (EquipmentSlot slot : EquipmentSlot.values())
-        {
-            if (!EquipmentSlotGroup.ARMOR.test(slot)) continue;
-
-            ItemStack stack = entity.getItemBySlot(slot);
-            if (stack.isDamageableItem())
-            {
-                int durabilityDamage = Math.max(minDamage, Mth.floor(stack.getMaxDamage() * damagePercent));
-                stack.hurtAndBreak(durabilityDamage, serverLevel, entity, item ->
-                {
-                    entity.onEquippedItemBroken(item, slot);
-                    if (attackingPlayer != null) LTXICriterionTriggers.ITEM_BROKEN_BY_ACID.get().trigger(attackingPlayer, stack, slot);
-                });
-            }
         }
     }
 }
