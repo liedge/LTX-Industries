@@ -22,13 +22,13 @@ public class EquipmentRocketEntity extends BaseRocketEntity
     public EquipmentRocketEntity(Level level, ItemStack launcherItem)
     {
         this(LTXIEntities.DAYBREAK_ROCKET.get(), level);
-        setLauncherItem(launcherItem.copy());
+        setWeaponItem(launcherItem.copy());
     }
 
     @Override
     protected void damageTarget(Level level, @Nullable LivingEntity owner, Entity targetEntity, Vec3 hitLocation, boolean isDirectHit)
     {
         double baseDamage = isDirectHit ? LTXIWeaponsConfig.ROCKET_LAUNCHER_BASE_IMPACT_DAMAGE.getAsDouble() : LTXIWeaponsConfig.ROCKET_LAUNCHER_BASE_SPLASH_DAMAGE.getAsDouble();
-        LTXIItems.ROCKET_LAUNCHER.get().causeProjectileDamage(getLauncherItem(), this, owner, LTXIDamageTypes.EXPLOSIVE_WEAPON, targetEntity, baseDamage);
+        LTXIItems.ROCKET_LAUNCHER.get().causeProjectileDamage(getWeaponItem(), this, owner, LTXIDamageTypes.EXPLOSIVE_WEAPON, targetEntity, baseDamage);
     }
 }

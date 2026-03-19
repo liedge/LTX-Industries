@@ -4,7 +4,7 @@ import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.lib.OrderedEnum;
 import liedge.limacore.lib.Translatable;
 import liedge.ltxindustries.client.LTXILangKeys;
-import liedge.ltxindustries.entity.OrbGrenadeEntity;
+import liedge.ltxindustries.entity.ShellGrenadeEntity;
 import liedge.ltxindustries.item.ScrollModeSwitchItem;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
@@ -82,7 +82,7 @@ public class GrenadeLauncherItem extends SemiAutoWeaponItem implements ScrollMod
     {
         if (!level.isClientSide())
         {
-            OrbGrenadeEntity grenade = new OrbGrenadeEntity(level, getGrenadeTypeFromItem(heldItem), heldItem);
+            ShellGrenadeEntity grenade = new ShellGrenadeEntity(level, getGrenadeTypeFromItem(heldItem), heldItem);
             grenade.setOwner(player);
             grenade.aimAndSetPosFromShooter(player, getProjectileWeaponRange(heldItem), 0d);
             level.addFreshEntity(grenade);

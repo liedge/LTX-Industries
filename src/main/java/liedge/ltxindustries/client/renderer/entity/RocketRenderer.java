@@ -24,8 +24,12 @@ public class RocketRenderer<T extends BaseRocketEntity> extends EntityRenderer<T
     @Override
     public void render(T entity, float yaw, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int light)
     {
+        poseStack.pushPose();
+
         model.prepare(entity, partialTick);
         model.render(poseStack, bufferSource, TEXTURE, light);
+
+        poseStack.popPose();
     }
 
     @Override

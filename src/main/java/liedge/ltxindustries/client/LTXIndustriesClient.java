@@ -28,6 +28,7 @@ import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.NoopRenderer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.resources.ResourceLocation;
@@ -159,10 +160,10 @@ public class LTXIndustriesClient
         {
             // Entities
             event.registerEntityRenderer(LTXIEntities.GLOWSTICK_PROJECTILE.get(), GlowstickProjectileRenderer::new);
-            event.registerEntityRenderer(LTXIEntities.ORB_GRENADE.get(), OrbGrenadeRenderer::new);
+            event.registerEntityRenderer(LTXIEntities.SHELL_GRENADE.get(), ShellGrenadeRenderer::new);
             event.registerEntityRenderer(LTXIEntities.DAYBREAK_ROCKET.get(), RocketRenderer::new);
             event.registerEntityRenderer(LTXIEntities.TURRET_ROCKET.get(), RocketRenderer::new);
-            event.registerEntityRenderer(LTXIEntities.STICKY_FLAME.get(), StickyFlameRenderer::new);
+            event.registerEntityRenderer(LTXIEntities.FLAME_FIELD.get(), NoopRenderer::new);
 
             // Block entities
             event.registerBlockEntityRenderer(LTXIBlockEntities.ENERGY_CELL_ARRAY.get(), EnergyCellArrayRenderer::new);
@@ -184,7 +185,7 @@ public class LTXIndustriesClient
         public void registerLayerDefinitions(final EntityRenderersEvent.RegisterLayerDefinitions event)
         {
             event.registerLayerDefinition(LTXIModelLayers.GLOWSTICK_PROJECTILE, GlowstickProjectileModel::defineLayer);
-            event.registerLayerDefinition(LTXIModelLayers.ORB_GRENADE, OrbGrenadeModel::defineLayer);
+            event.registerLayerDefinition(LTXIModelLayers.SHELL_GRENADE, ShellGrenadeModel::defineLayer);
             event.registerLayerDefinition(LTXIModelLayers.SMALL_ROCKET, SmallRocketModel::defineLayer);
             event.registerLayerDefinition(LTXIModelLayers.WONDERLAND_ARMOR_SET, WonderlandArmorModel::createBodyLayer);
         }

@@ -25,12 +25,8 @@ public class GlowstickProjectileRenderer extends EntityRenderer<GlowstickProject
     @Override
     public void render(GlowstickProjectileEntity entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight)
     {
-        poseStack.pushPose();
-
         model.prepare(entity, partialTick);
         model.render(poseStack, bufferSource, TEXTURE, LightTexture.FULL_BRIGHT);
-
-        poseStack.popPose();
     }
 
     @Override

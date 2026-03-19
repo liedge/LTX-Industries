@@ -327,10 +327,10 @@ class LanguageGen extends LimaLanguageProvider
 
         // Entity type names
         addEntityType(LTXIEntities.GLOWSTICK_PROJECTILE, "Wayfinder Glowstick");
-        addEntityType(LTXIEntities.ORB_GRENADE, "Orb Grenade");
+        addEntityType(LTXIEntities.SHELL_GRENADE, "Orb Grenade");
         addEntityType(LTXIEntities.DAYBREAK_ROCKET, "Daybreak Rocket");
         addEntityType(LTXIEntities.TURRET_ROCKET, "Turret Rocket");
-        addEntityType(LTXIEntities.STICKY_FLAME, "Sticky Flame");
+        addEntityType(LTXIEntities.FLAME_FIELD, "Flame Field");
 
         // Mob effects
         addEffect(LTXIMobEffects.FROSTBITE, "Frostbite");

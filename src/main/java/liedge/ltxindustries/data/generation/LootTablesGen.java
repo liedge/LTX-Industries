@@ -18,7 +18,7 @@ import liedge.ltxindustries.registry.bootstrap.LTXIEnchantments;
 import liedge.ltxindustries.registry.game.LTXIBlocks;
 import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.registry.game.LTXIMobEffects;
-import liedge.ltxindustries.world.GrenadeSubPredicate;
+import liedge.ltxindustries.advancements.criterion.GrenadeElementSubPredicate;
 import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.advancements.critereon.MinMaxBounds;
 import net.minecraft.advancements.critereon.MobEffectsPredicate;
@@ -84,7 +84,7 @@ class LootTablesGen extends LimaLootTableProvider
         {
             Holder<Enchantment> razorEnchantment = registries.holderOrThrow(LTXIEnchantments.RAZOR);
 
-            LootItemCondition.Builder acidFinalBlow = LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.DIRECT_ATTACKER, EntityPredicate.Builder.entity().subPredicate(new GrenadeSubPredicate(GrenadeType.ACID)));
+            LootItemCondition.Builder acidFinalBlow = LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.DIRECT_ATTACKER, EntityPredicate.Builder.entity().subPredicate(new GrenadeElementSubPredicate(GrenadeType.ACID)));
             MobEffectsPredicate.MobEffectInstancePredicate amp2 = new MobEffectsPredicate.MobEffectInstancePredicate(MinMaxBounds.Ints.atLeast(2), MinMaxBounds.Ints.ANY, Optional.empty(), Optional.empty());
             LootItemCondition.Builder corrodingCheck = LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity().effects(
                     MobEffectsPredicate.Builder.effects().and(LTXIMobEffects.CORROSIVE, amp2)));

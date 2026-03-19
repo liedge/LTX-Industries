@@ -12,7 +12,6 @@ import liedge.limacore.util.LimaNetworkUtil;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.entity.CompoundHitResult;
 import liedge.ltxindustries.entity.DynamicClipContext;
-import liedge.ltxindustries.entity.LimaTraceableEntity;
 import liedge.ltxindustries.entity.damage.EquipmentDamageSource;
 import liedge.ltxindustries.item.EnergyEquipmentItem;
 import liedge.ltxindustries.lib.EquipmentDamageModifiers;
@@ -230,7 +229,7 @@ public abstract class WeaponItem extends EnergyEquipmentItem
         hurtEntity(attacker, targetEntity, source, baseDamage);
     }
 
-    public boolean causeProjectileDamage(ItemStack weaponItem, LimaTraceableEntity projectile, @Nullable LivingEntity attacker, ResourceKey<DamageType> damageTypeKey, Entity targetEntity, double baseDamage)
+    public boolean causeProjectileDamage(ItemStack weaponItem, Entity projectile, @Nullable LivingEntity attacker, ResourceKey<DamageType> damageTypeKey, Entity targetEntity, double baseDamage)
     {
         EquipmentDamageSource source = EquipmentDamageSource.projectileDamage(damageTypeKey, projectile, attacker, weaponItem);
         if (attacker != null)

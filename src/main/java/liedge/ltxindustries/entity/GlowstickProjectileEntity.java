@@ -7,8 +7,9 @@ import liedge.ltxindustries.registry.game.LTXIEntities;
 import liedge.ltxindustries.registry.game.LTXIParticles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -16,8 +17,9 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Nullable;
 
-public class GlowstickProjectileEntity extends LimaTraceableProjectile
+public class GlowstickProjectileEntity extends LTXIProjectileEntity
 {
     public GlowstickProjectileEntity(EntityType<?> type, Level level)
     {
@@ -36,17 +38,10 @@ public class GlowstickProjectileEntity extends LimaTraceableProjectile
     }
 
     @Override
-    protected HitResult tracePath(Level level)
+    protected CollisionResult onCollision(ServerLevel level, @Nullable LivingEntity owner, HitResult hitResult, Vec3 hitLocation)
     {
-        Vec3 origin = this.position();
-        Vec3 path = this.getDeltaMovement();
+        if (hitResult.getType() == HitResult.Type.ENTITY) return CollisionResult.NO_OP;
 
-        return level.clip(new ClipContext(origin, origin.add(path), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
-    }
-
-    @Override
-    protected void onProjectileHit(Level level, HitResult hitResult, Vec3 hitLocation)
-    {
         if (hitResult instanceof BlockHitResult blockHitResult)
         {
             Direction placeDirection = blockHitResult.getDirection();
@@ -63,20 +58,17 @@ public class GlowstickProjectileEntity extends LimaTraceableProjectile
             }
         }
 
-        discard();
+        return CollisionResult.DESTROY;
     }
 
     @Override
-    protected void tickProjectile(Level level, boolean isClientSide)
+    protected void tickClient(Level level)
     {
-        if (isClientSide)
+        if (tickCount % 2 == 0)
         {
-            if (tickCount % 2 == 0)
-            {
-                double dx = getX() + (random.nextDouble() - random.nextDouble()) * 0.125d;
-                double dz = getZ() + (random.nextDouble() - random.nextDouble()) * 0.125d;
-                level.addAlwaysVisibleParticle(new ColorSizeParticleOptions(LTXIParticles.COLOR_GLITTER, LTXIConstants.LIME_GREEN, 0.75f), true, dx, getY(0.5d), dz, 0, 0, 0);
-            }
+            double dx = getX() + (random.nextDouble() - random.nextDouble()) * 0.125d;
+            double dz = getZ() + (random.nextDouble() - random.nextDouble()) * 0.125d;
+            level.addAlwaysVisibleParticle(new ColorSizeParticleOptions(LTXIParticles.COLOR_GLITTER, LTXIConstants.LIME_GREEN, 0.75f), true, dx, getY(0.5d), dz, 0, 0, 0);
         }
     }
 }

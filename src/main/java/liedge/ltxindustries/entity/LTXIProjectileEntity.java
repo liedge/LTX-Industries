@@ -4,6 +4,7 @@ import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.ltxindustries.registry.game.LTXIGameEvents;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -16,13 +17,14 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2f;
 
 import static liedge.limacore.lib.math.LimaCoreMath.*;
 
-public abstract class LimaTraceableProjectile extends LimaTraceableEntity
+public abstract class LTXIProjectileEntity extends UpgradesAwareEntity
 {
-    protected LimaTraceableProjectile(EntityType<?> type, Level level)
+    protected LTXIProjectileEntity(EntityType<?> type, Level level)
     {
         super(type, level);
     }
@@ -45,21 +47,37 @@ public abstract class LimaTraceableProjectile extends LimaTraceableEntity
 
     public void aimTowardsPoint(Vec3 target, double speed, double inaccuracy, float maxTurnAngle)
     {
+        //movement ONLY!
+        Vector2f angles = xyRotBetweenPoints(position(), target);
+        float yr = Mth.approachDegrees(getYRot(), angles.y, maxTurnAngle);
+        float xr = Mth.approachDegrees(getXRot(), angles.x, maxTurnAngle);
+        setDeltaMovement(createMotionVector(xr, yr, speed, inaccuracy));
+
+        /*
         Vector2f angles = xyRotBetweenPoints(position(), target);
         float yr = Mth.approachDegrees(getYRot(), angles.y, maxTurnAngle);
         float xr = Mth.approachDegrees(getXRot(), angles.x, maxTurnAngle);
         setRot(yr, xr);
         setDeltaMovement(createMotionVector(xr, yr, speed, inaccuracy));
+        */
     }
 
-    public void aimTowardsEntity(Entity target, double speed, double inaccuracy)
+    public void aimAtEntity(Entity target, double speed)
     {
-        aimTowardsPoint(target.getBoundingBox().getCenter(), speed, inaccuracy);
+        aimTowardsPoint(target.getBoundingBox().getCenter(), speed, 0);
     }
 
-    public void aimTowardsEntity(Entity target, double speed, double inaccuracy, float maxTurnAngle)
+    public void aimAtEntity(Entity target, double speed, float maxTurnAngle)
     {
-        aimTowardsPoint(target.getBoundingBox().getCenter(), speed, inaccuracy, maxTurnAngle);
+        aimTowardsPoint(target.getBoundingBox().getCenter(), speed, 0, maxTurnAngle);
+    }
+
+    public void rotateTowardsMotion()
+    {
+        Vec3 delta = getDeltaMovement();
+
+        setXRot(Mth.rotLerp(0.5f, xRotO, LimaCoreMath.getXRot(delta)));
+        setYRot(Mth.rotLerp(0.5f, yRotO, LimaCoreMath.getYRot(delta)));
     }
     //#endregion
 
@@ -90,14 +108,16 @@ public abstract class LimaTraceableProjectile extends LimaTraceableEntity
         return entityTrace != null ? entityTrace : blockTrace;
     }
 
-    protected abstract void onProjectileHit(Level level, HitResult hitResult, Vec3 hitLocation);
+    protected abstract CollisionResult onCollision(ServerLevel level, @Nullable LivingEntity owner, HitResult hitResult, Vec3 hitLocation);
 
-    protected abstract void tickProjectile(Level level, boolean isClientSide);
+    protected void tickServer(ServerLevel level, @Nullable LivingEntity owner) {}
+
+    protected void tickClient(Level level) {}
 
     @Override
     public boolean hurt(DamageSource source, float amount)
     {
-        if (source.getDirectEntity() instanceof LimaTraceableProjectile || source.getEntity() == getOwner())
+        if (source.getDirectEntity() instanceof LTXIProjectileEntity || source.getEntity() == getOwner())
         {
             return false;
         }
@@ -108,79 +128,51 @@ public abstract class LimaTraceableProjectile extends LimaTraceableEntity
     }
 
     @Override
-    public final void baseTick()
-    {
-        Level level = level();
-        level.getProfiler().push("entityBaseTick");
-
-        // Discard projectile if lifetime is complete
-        if (tickCount >= getLifetime())
-        {
-            this.discard();
-            return;
-        }
-
-        // Do fluid calculations
-        updateFluidHeightOnly(level);
-
-        // Handle motion
-        final double x = getX();
-        final double y = getY();
-        final double z = getZ();
-
-        this.yRotO = getYRot();
-        this.xRotO = getXRot();
-        this.xo = x;
-        this.yo = y;
-        this.zo = z;
-
-        Vec3 delta = getDeltaMovement();
-
-        float gravity = getProjectileGravity();
-        if (!isNoGravity() && gravity > 0)
-        {
-            setDeltaMovement(delta.x, delta.y - gravity, delta.z);
-        }
-
-        setPos(x + delta.x, y + delta.y, z + delta.z);
-        checkInsideBlocks();
-
-        // MC entity base checks
-        handlePortal();
-        checkBelowWorld();
-        this.firstTick = false;
-
-        level().getProfiler().pop();
-    }
-
-    @Override
     public final void tick()
     {
+        super.tick();
         Level level = level();
-        boolean isClientSide = level.isClientSide();
 
-        if (!isClientSide)
+        if (level instanceof ServerLevel serverLevel)
         {
+            LivingEntity owner = getOwner();
             HitResult hitResult = tracePath(level);
+
             if (hitResult.getType() != HitResult.Type.MISS)
             {
                 Vec3 hitLocation = hitResult.getLocation();
-                setPos(hitLocation);
-                onProjectileHit(level, hitResult, hitLocation);
+                CollisionResult result = onCollision(serverLevel, owner, hitResult, hitLocation);
 
-                boolean postGameEvent = getUpgrades().noneMatch(LTXIUpgradeEffectComponents.SUPPRESS_VIBRATIONS, (effect, rank) -> effect.test(EquipmentSlot.MAINHAND, LTXIGameEvents.PROJECTILE_IMPACT));
-                if (postGameEvent)
+                if (result != CollisionResult.NO_OP)
                 {
-                    level.gameEvent(getOwner(), LTXIGameEvents.PROJECTILE_IMPACT, hitLocation);
+                    boolean postEvent = getUpgrades().noneMatch(LTXIUpgradeEffectComponents.SUPPRESS_VIBRATIONS, (effect, rank) -> effect.test(EquipmentSlot.MAINHAND, LTXIGameEvents.PROJECTILE_IMPACT));
+                    if (postEvent) serverLevel.gameEvent(owner, LTXIGameEvents.PROJECTILE_IMPACT, hitLocation);
                 }
 
-                this.discard();
-                return;
+                if (result == CollisionResult.DESTROY)
+                {
+                    discard();
+                    return;
+                }
             }
+
+            tickServer(serverLevel, owner);
+        }
+        else
+        {
+            tickClient(level);
         }
 
-        tickProjectile(level, isClientSide);
-        baseTick();
+        // Motion update
+        float gravity = getProjectileGravity();
+        if (!isNoGravity() && gravity > 0)
+        {
+            Vec3 delta = getDeltaMovement();
+            setDeltaMovement(delta.x, delta.y - gravity, delta.z);
+        }
+
+        rotateTowardsMotion();
+        setPos(position().add(getDeltaMovement()));
     }
 
     @Override

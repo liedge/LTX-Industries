@@ -2,6 +2,7 @@ package liedge.ltxindustries.entity;
 
 import liedge.limacore.client.particle.ColorParticleOptions;
 import liedge.limacore.client.particle.ColorSizeParticleOptions;
+import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.util.LimaBlockUtil;
 import liedge.limacore.util.LimaNetworkUtil;
 import liedge.ltxindustries.LTXITags;
@@ -15,6 +16,7 @@ import liedge.ltxindustries.registry.game.LTXISounds;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageType;
@@ -29,28 +31,27 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.ModConfigSpec;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 import static liedge.ltxindustries.registry.game.LTXIMobEffects.*;
 import static liedge.ltxindustries.util.config.LTXIWeaponsConfig.*;
 
-public class OrbGrenadeEntity extends LimaTraceableProjectile implements IEntityWithComplexSpawn
+public class ShellGrenadeEntity extends LTXIProjectileEntity implements IEntityWithComplexSpawn
 {
     private GrenadeType grenadeType = GrenadeType.EXPLOSIVE;
-    private float spin0;
-    private float spin;
 
-    public OrbGrenadeEntity(EntityType<?> type, Level level)
+    public ShellGrenadeEntity(EntityType<?> type, Level level)
     {
         super(type, level);
     }
 
-    public OrbGrenadeEntity(Level level, GrenadeType grenadeType, ItemStack launcherItem)
+    public ShellGrenadeEntity(Level level, GrenadeType grenadeType, ItemStack launcherItem)
     {
-        this(LTXIEntities.ORB_GRENADE.get(), level);
+        this(LTXIEntities.SHELL_GRENADE.get(), level);
         this.grenadeType = grenadeType;
-        setLauncherItem(launcherItem.copy());
+        setWeaponItem(launcherItem.copy());
     }
 
     public GrenadeType getGrenadeType()
@@ -61,11 +62,6 @@ public class OrbGrenadeEntity extends LimaTraceableProjectile implements IEntity
     private void setGrenadeType(GrenadeType grenadeType)
     {
         this.grenadeType = grenadeType;
-    }
-
-    public float lerpSpinAnimation(float partialTick)
-    {
-        return Mth.rotLerp(partialTick, spin0, spin);
     }
 
     private double getBlastRadius()
@@ -157,37 +153,23 @@ public class OrbGrenadeEntity extends LimaTraceableProjectile implements IEntity
     @Override
     protected float getProjectileGravity()
     {
-        if (grenadeType == GrenadeType.ELECTRIC && isInWater())
-        {
-            return 0f;
-        }
-        else
-        {
-            return 0.0325f;
-        }
+        return 0.0125f;
     }
 
     @Override
-    protected void onProjectileHit(Level level, HitResult hitResult, Vec3 hitLocation)
+    protected CollisionResult onCollision(ServerLevel level, @Nullable LivingEntity owner, HitResult hitResult, Vec3 hitLocation)
     {
-        LivingEntity owner = getOwner();
-
         double blastRadius = getBlastRadius();
         List<Entity> hits = getEntitiesInAOE(level, hitLocation, blastRadius, owner, null); // Use new helper
 
         // Spawn AOE entity
         if (grenadeType == GrenadeType.FLAME)
         {
-            for (int i = 0; i < 9; i++)
-            {
-                int offsetX = (i % 3) - 1;
-                int offsetZ = (i / 3) - 1;
-
-                StickyFlameEntity flames = new StickyFlameEntity(level, getLauncherItem());
-                flames.setOwner(owner);
-                flames.setPos(hitLocation.x + 2f * offsetX, hitLocation.y, hitLocation.z + 2f * offsetZ);
-                level.addFreshEntity(flames);
-            }
+            FlameFieldEntity flame = new FlameFieldEntity(level);
+            flame.setOwner(owner);
+            flame.setWeaponItem(getWeaponItem());
+            flame.setPos(hitLocation.x, hitLocation.y - 0.5d, hitLocation.z);
+            level.addFreshEntity(flame);
         }
 
         hits.forEach(hitEntity -> {
@@ -199,7 +181,7 @@ public class OrbGrenadeEntity extends LimaTraceableProjectile implements IEntity
 
             // Deal damage to entities
             final double baseDamage = getBaseDamage() * getDamageMultiplier(hitEntity);
-            LTXIItems.GRENADE_LAUNCHER.get().causeProjectileDamage(getLauncherItem(), this, owner, getDamageType(), hitEntity, baseDamage);
+            LTXIItems.GRENADE_LAUNCHER.get().causeProjectileDamage(getWeaponItem(), this, owner, getDamageType(), hitEntity, baseDamage);
 
             // Spawn any additional particle effects on hit entities (if applicable)
             spawnHitEntityParticles(level, hitLocation, hitEntity);
@@ -207,24 +189,18 @@ public class OrbGrenadeEntity extends LimaTraceableProjectile implements IEntity
 
         level.playSound(null, hitLocation.x, hitLocation.y, hitLocation.z, LTXISounds.GRENADE_EXPLOSIONS.get(grenadeType).get(), SoundSource.PLAYERS, 2.5f, Mth.randomBetween(random, 0.77f, 0.9f));
         LimaNetworkUtil.sendParticle(level, new GrenadeExplosionParticleOptions(grenadeType, blastRadius * 2d), LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, hitLocation);
+
+        return CollisionResult.DESTROY;
     }
 
     @Override
-    protected void tickProjectile(Level level, boolean isClientSide)
+    protected void tickClient(Level level)
     {
-        if (isClientSide)
-        {
-            float speed = (float) getDeltaMovement().length();
-            spin0 = spin;
-            spin = (spin - (60 * speed)) % 360;
-
-            if (tickCount % 2 == 0)
-            {
-                double dx = getX() + (random.nextDouble() - random.nextDouble()) * 0.2d;
-                double dz = getZ() + (random.nextDouble() - random.nextDouble()) * 0.2d;
-                level.addAlwaysVisibleParticle(new ColorSizeParticleOptions(LTXIParticles.COLOR_GLITTER, grenadeType.getColor(), 1.125f), true, dx, getY(0.5d), dz, 0, 0, 0);
-            }
-        }
+        Vec3 p = LimaCoreMath.createMotionVector(getXRot(), getYRot(), -0.375d, 0d);
+        double px = getX() + p.x();
+        double py = getY(0.5d) + p.y();
+        double pz = getZ() + p.z();
+        level.addAlwaysVisibleParticle(new ColorSizeParticleOptions(LTXIParticles.COLOR_GLITTER, grenadeType.getColor(), 0.5f), true, px, py, pz, 0, 0, 0);
     }
 
     @Override

@@ -19,8 +19,8 @@
               "entity": "direct_attacker",
               "predicate": {
                 "type_specific": {
-                  "type": "ltxi:grenade_type",
-                  "grenade_element": "acid"
+                  "type": "ltxi:grenade_element",
+                  "element": "acid"
                 }
               }
             },

@@ -5,17 +5,18 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
-public abstract class AutoTrackingProjectile extends LimaTraceableProjectile
+public abstract class HomingProjectileEntity extends LTXIProjectileEntity
 {
     private @Nullable UUID targetUUID;
     private @Nullable Entity targeted;
 
-    protected AutoTrackingProjectile(EntityType<?> type, Level level)
+    protected HomingProjectileEntity(EntityType<?> type, Level level)
     {
         super(type, level);
     }
@@ -45,15 +46,12 @@ public abstract class AutoTrackingProjectile extends LimaTraceableProjectile
     }
 
     @Override
-    protected void tickProjectile(Level level, boolean isClientSide)
+    protected void tickServer(ServerLevel level, @Nullable LivingEntity owner)
     {
-        if (!isClientSide)
+        Entity target = getTargetEntity();
+        if (target != null)
         {
-            Entity target = getTargetEntity();
-            if (target != null)
-            {
-                aimTowardsEntity(target, getDeltaMovement().length(), 0, 30);
-            }
+            aimAtEntity(target, getDeltaMovement().length(), 20f);
         }
     }
 
