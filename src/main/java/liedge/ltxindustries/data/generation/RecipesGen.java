@@ -953,6 +953,7 @@ class RecipesGen extends LimaRecipeProvider
         Holder<RecipeMode> dyes = registries.holderOrThrow(LTXIRecipeModes.DYE_EXTRACTION);
         energizing().input(DYES_LIGHT_BLUE).output(ENERGY_BLUE_PIGMENT).needsMode(dyes).time(120).save(output, "energize_light_blue_dyes");
         energizing().input(DYES_BLUE).output(ENERGY_BLUE_PIGMENT).needsMode(dyes).time(120).save(output, "energize_blue_dyes");
+        energizing().input(TITANIUM_GLASS).output(GLACIA_GLASS).time(100).save(output);
     }
 
 

@@ -26,7 +26,6 @@ import java.util.Map;
 import java.util.function.Function;
 
 import static liedge.ltxindustries.LTXIndustries.RESOURCES;
-import static liedge.ltxindustries.item.LTXIItemRarities.ltxGearRarity;
 
 public final class LTXIItems
 {
@@ -71,6 +70,7 @@ public final class LTXIItems
     public static final DeferredItem<BlockItem> SMOOTH_TITANIUM_PANEL = ITEMS.registerSimpleBlockItem(LTXIBlocks.SMOOTH_TITANIUM_PANEL);
     public static final DeferredItem<BlockItem> TILED_TITANIUM_PANEL = ITEMS.registerSimpleBlockItem(LTXIBlocks.TILED_TITANIUM_PANEL);
     public static final DeferredItem<BlockItem> TITANIUM_GLASS = ITEMS.registerSimpleBlockItem(LTXIBlocks.TITANIUM_GLASS);
+    public static final DeferredItem<BlockItem> GLACIA_GLASS = ITEMS.registerSimpleBlockItem(LTXIBlocks.GLACIA_GLASS);
     public static final DeferredItem<BlockItem> SLATESTEEL_PANEL = ITEMS.registerSimpleBlockItem(LTXIBlocks.SLATESTEEL_PANEL);
     public static final DeferredItem<BlockItem> SMOOTH_SLATESTEEL_PANEL = ITEMS.registerSimpleBlockItem(LTXIBlocks.SMOOTH_SLATESTEEL_PANEL);
     public static final DeferredItem<BlockItem> TILED_SLATESTEEL_PANEL = ITEMS.registerSimpleBlockItem(LTXIBlocks.TILED_SLATESTEEL_PANEL);
@@ -148,7 +148,7 @@ public final class LTXIItems
     public static final DeferredItem<SimpleHintItem> T2_CIRCUIT = registerSimpleHint("t2_circuit");
     public static final DeferredItem<SimpleHintItem> T3_CIRCUIT = registerSimpleHint("t3_circuit");
     public static final DeferredItem<SimpleHintItem> T4_CIRCUIT = registerSimpleHint("t4_circuit", properties().rarity(Rarity.RARE));
-    public static final DeferredItem<SimpleHintItem> T5_CIRCUIT = registerSimpleHint("t5_circuit", properties().rarity(ltxGearRarity()));
+    public static final DeferredItem<SimpleHintItem> T5_CIRCUIT = registerSimpleHint("t5_circuit", properties().rarity(LTXIItemRarities.ltxGearRarity()));
     public static final DeferredItem<SimpleHintItem> OPTICAL_TECH_PART = registerSimpleHint("optical_tech_part", properties().rarity(Rarity.UNCOMMON));
     public static final DeferredItem<SimpleHintItem> IMPULSE_TECH_PART = registerSimpleHint("impulse_tech_part", properties().rarity(Rarity.UNCOMMON));
 
@@ -223,7 +223,7 @@ public final class LTXIItems
 
     private static DeferredItem<BlockItem> registerTurretBlockItem(Holder<Block> holder)
     {
-        return ITEMS.registerBlockItem(holder, ContentsTooltipBlockItem::energyOwnerTooltipItem, properties().stacksTo(1).rarity(ltxGearRarity()));
+        return ITEMS.registerBlockItem(holder, ContentsTooltipBlockItem::energyOwnerTooltipItem, properties().stacksTo(1).rarity(LTXIItemRarities.ltxGearRarity()));
     }
 
     private static DeferredItem<SimpleHintItem> registerSimpleHint(String name, Item.Properties properties)
@@ -238,7 +238,7 @@ public final class LTXIItems
 
     private static <T extends Item> DeferredItem<T> registerLTXGear(String name, Function<Item.Properties, T> constructor)
     {
-        return ITEMS.registerItem(name, constructor, properties().stacksTo(1).fireResistant().rarity(ltxGearRarity()));
+        return ITEMS.registerItem(name, constructor, properties().stacksTo(1).fireResistant().rarity(LTXIItemRarities.ltxGearRarity()));
     }
 
     @Contract(value = " -> new", pure = true)

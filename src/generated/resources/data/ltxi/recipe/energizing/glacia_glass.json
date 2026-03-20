@@ -1,0 +1,16 @@
+{
+  "type": "ltxi:energizing",
+  "craft_time": 100,
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "ltxi:titanium_glass"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:glacia_glass"
+    }
+  ]
+}

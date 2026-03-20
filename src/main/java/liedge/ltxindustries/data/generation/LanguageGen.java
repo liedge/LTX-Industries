@@ -57,7 +57,7 @@ class LanguageGen extends LimaLanguageProvider
 
         LTXIBlocks.NEON_LIGHTS.forEach((color, holder) ->
         {
-            String name = color == NeonLightColor.LTX_LIME ? "LTX Lime" : localizeSimpleName(color.toString());
+            String name = color == NeonLightColor.LTX_LIME ? "LTXI Lime" : localizeSimpleName(color.toString());
             name += " Neon Light";
             addBlock(holder, name);
         });
@@ -65,6 +65,7 @@ class LanguageGen extends LimaLanguageProvider
         addBlock(LTXIBlocks.SMOOTH_TITANIUM_PANEL, "Smooth Titanium Panel");
         addBlock(LTXIBlocks.TILED_TITANIUM_PANEL, "Tiled Titanium Panel");
         addBlock(LTXIBlocks.TITANIUM_GLASS, "Titanium Glass");
+        addBlock(LTXIBlocks.GLACIA_GLASS, italicName("%s Glass", "Glacia"));
         addBlock(LTXIBlocks.SLATESTEEL_PANEL, "Slatesteel Panel");
         addBlock(LTXIBlocks.SMOOTH_SLATESTEEL_PANEL, "Smooth Slatesteel Panel");
         addBlock(LTXIBlocks.TILED_SLATESTEEL_PANEL, "Tiled Slatesteel Panel");
@@ -117,7 +118,7 @@ class LanguageGen extends LimaLanguageProvider
         addItem(HYDROGEN_BUCKET, "Hydrogen Bucket");
         addItem(OXYGEN_BUCKET, "Oxygen Bucket");
 
-        addItem(LTX_LIME_PIGMENT, "LTX Lime Pigment");
+        addItem(LTX_LIME_PIGMENT, "LTXI Lime Pigment");
         addItem(ENERGY_BLUE_PIGMENT, "Energy Blue Pigment");
         addItem(ELECTRIC_CHARTREUSE_PIGMENT, "Electric Chartreuse Pigment");
         addItem(VIRIDIC_GREEN_PIGMENT, "Viridic Green Pigment");

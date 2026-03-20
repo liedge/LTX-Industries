@@ -30,4 +30,4 @@ Higher levels increase the probability of a rarer ammo item type.
 
 ### Extra Ammo Roll
 
-Each level adds a 20% to roll an additional ammo item from the loot table, up to a maximum of 100%.
+Each level adds a 20% chance to roll an additional ammo item from the loot table, up to a maximum of 100%.

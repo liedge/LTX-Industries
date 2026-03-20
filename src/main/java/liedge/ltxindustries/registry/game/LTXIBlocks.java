@@ -58,6 +58,7 @@ public final class LTXIBlocks
     public static final DeferredBlock<Block> SMOOTH_TITANIUM_PANEL = BLOCKS.registerSimpleBlock("smooth_titanium_panel", of().mapColor(DyeColor.WHITE).strength(3.5f, 36f).sound(SoundType.COPPER).requiresCorrectToolForDrops());
     public static final DeferredBlock<Block> TILED_TITANIUM_PANEL = BLOCKS.registerSimpleBlock("tiled_titanium_panel", of().mapColor(DyeColor.WHITE).strength(3.5f, 36f).sound(SoundType.COPPER).requiresCorrectToolForDrops());
     public static final DeferredBlock<TransparentBlock> TITANIUM_GLASS = BLOCKS.registerBlock("titanium_glass", TransparentBlock::new, quartzGlassProperties());
+    public static final DeferredBlock<TransparentBlock> GLACIA_GLASS = BLOCKS.registerBlock("glacia_glass", TransparentBlock::new, quartzGlassProperties());
     public static final DeferredBlock<Block> SLATESTEEL_PANEL = BLOCKS.registerSimpleBlock("slatesteel_panel", of().mapColor(DyeColor.GRAY).strength(3.5f, 36f).sound(SoundType.METAL).requiresCorrectToolForDrops());
     public static final DeferredBlock<Block> SMOOTH_SLATESTEEL_PANEL = BLOCKS.registerSimpleBlock("smooth_slatesteel_panel", of().mapColor(DyeColor.GRAY).strength(3.5f, 36f).sound(SoundType.METAL).requiresCorrectToolForDrops());
     public static final DeferredBlock<Block> TILED_SLATESTEEL_PANEL = BLOCKS.registerSimpleBlock("tiled_slatesteel_panel", of().mapColor(DyeColor.GRAY).strength(3.5f, 36f).sound(SoundType.METAL).requiresCorrectToolForDrops());

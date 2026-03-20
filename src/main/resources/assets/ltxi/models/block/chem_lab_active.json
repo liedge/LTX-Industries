@@ -29,8 +29,8 @@
 		"frame2": "ltxi:block/chem_lab_0",
 		"frame3": "ltxi:block/chem_lab_1",
 		"light": "ltxi:solid_lime",
-		"flowing": "ltxi:flowing_lime_fluid",
-		"still": "ltxi:lime_fluid"
+		"flowing": "ltxi:block/viridic_acid_flowing",
+		"still": "ltxi:block/viridic_acid_still"
 	},
 	"elements": [
 		{

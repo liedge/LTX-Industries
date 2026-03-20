@@ -29,14 +29,14 @@ Standard explosive shell. Boring, but reliable.
 - `#minecraft:is_explosion` damage tag.
 
 ### Flame
-Deals high damage over time. Recommended against slow moving targets or ice-based enemies. Creates 9 flame entities in a
-3x3 pattern. Note: Flame damages stack! 
+
+Creates a stationary flame field that lingers for **5 seconds** and continuously burns everything inside it. Not
+recommended against highly mobile targets.
 
 - Blast radius: 9.0
 - Base damage: 10.0
-- Flame damage: 4.0 every 4 ticks (80.0 total)
-- Flame duration: 4 sec
-- `#minecraft:is_fire` damage tag, both impact and flames.
+- Flame field damage: 4.0 every 4 ticks (100.0 total damage potential)
+- Damage is tagged `#minecraft:is_fire`, both impact and flames.
 - 3x bonus damage against `#ltxi:weak_to_flame` enemies
   - Strays, Polar Bears, Snow Golems
 

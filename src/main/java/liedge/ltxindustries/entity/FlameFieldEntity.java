@@ -34,8 +34,8 @@ public class FlameFieldEntity extends UpgradesAwareEntity
 
         Level level = level();
 
-        // 4 second lifetime
-        if (tickCount > 80)
+        // 5 second lifetime
+        if (tickCount > 100)
         {
             discard();
         }
