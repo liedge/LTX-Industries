@@ -6,7 +6,7 @@ import liedge.limacore.util.LimaItemUtil;
 import liedge.ltxindustries.blockentity.BaseECABlockEntity;
 import net.minecraft.world.entity.player.Inventory;
 
-public class EnergyCellArrayMenu extends LTXIMachineMenu.EnergyMachineMenu<BaseECABlockEntity>
+public class EnergyCellArrayMenu extends LTXIMachineMenu<BaseECABlockEntity>
 {
     public EnergyCellArrayMenu(LimaMenuType<BaseECABlockEntity, ?> type, int containerId, Inventory inventory, BaseECABlockEntity menuContext)
     {

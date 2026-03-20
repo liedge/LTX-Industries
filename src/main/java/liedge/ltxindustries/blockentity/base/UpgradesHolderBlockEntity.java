@@ -19,8 +19,6 @@ import java.util.Optional;
 
 public interface UpgradesHolderBlockEntity extends SubMenuProviderBlockEntity, ItemHolderBlockEntity
 {
-    String TAG_KEY_UPGRADES = "upgrades";
-
     MachineUpgrades getUpgrades();
 
     void setUpgrades(MachineUpgrades upgrades);

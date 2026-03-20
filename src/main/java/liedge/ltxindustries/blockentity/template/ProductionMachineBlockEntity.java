@@ -36,7 +36,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.IntUnaryOperator;
 
-public abstract class ProductionMachineBlockEntity extends EnergyMachineBlockEntity implements FluidHolderBlockEntity
+public abstract class ProductionMachineBlockEntity extends LTXIMachineBlockEntity implements FluidHolderBlockEntity
 {
     public static final int INPUT_TANK_CAPACITY = 32_000;
     public static final int OUTPUT_TANK_CAPACITY = 64_000;
@@ -53,7 +53,7 @@ public abstract class ProductionMachineBlockEntity extends EnergyMachineBlockEnt
 
     protected ProductionMachineBlockEntity(ConfigurableIOBlockEntityType<?> type, BlockPos pos, BlockState state, int auxInventorySize, int inputSlots, int outputSlots, int inputTanks, int outputTanks)
     {
-        super(type, pos, state, null, auxInventorySize);
+        super(type, pos, state, auxInventorySize, null);
 
         this.inputInventory = inputSlots > 0 ? new LimaBlockEntityItemHandler(this, inputSlots, BlockContentsType.INPUT) : null;
         this.outputInventory = outputSlots > 0 ? new LimaBlockEntityItemHandler(this, outputSlots, BlockContentsType.OUTPUT) : null;

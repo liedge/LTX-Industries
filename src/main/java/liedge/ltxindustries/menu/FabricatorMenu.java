@@ -18,7 +18,7 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 import net.neoforged.neoforge.items.wrapper.PlayerMainInvWrapper;
 
-public class FabricatorMenu extends LTXIMachineMenu.RecipeEnergyMachineMenu<FabricatorBlockEntity>
+public class FabricatorMenu extends LTXIMachineMenu<FabricatorBlockEntity>
 {
     public static final int CRAFT_BUTTON_ID = 2;
     public static final int ENCODE_BLUEPRINT_BUTTON_ID = 3;
@@ -28,7 +28,7 @@ public class FabricatorMenu extends LTXIMachineMenu.RecipeEnergyMachineMenu<Fabr
         super(type, containerId, inventory, context);
 
         // Slots
-        addRecipeOutputSlot(0, 42, 86);
+        addRecipeOutputSlot(0, 42, 86, menuContext().getRecipeCheck().getRecipeType());
         addSlot(BlockContentsType.AUXILIARY, BaseFabricatorBlockEntity.AUX_BLUEPRINT_SLOT, 43, 61, stack -> stack.is(menuContext().getValidBlueprintItem()));
 
         addPlayerInventoryAndHotbar(15, 118);

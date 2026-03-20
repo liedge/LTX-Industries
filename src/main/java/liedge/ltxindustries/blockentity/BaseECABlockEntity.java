@@ -2,6 +2,7 @@ package liedge.ltxindustries.blockentity;
 
 import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.blockentity.IOAccess;
+import liedge.limacore.capability.energy.EnergyHolderBlockEntity;
 import liedge.limacore.capability.energy.LimaEnergyStorage;
 import liedge.limacore.capability.energy.LimaEnergyUtil;
 import liedge.limacore.capability.itemhandler.LimaBlockEntityItemHandler;
@@ -9,7 +10,7 @@ import liedge.limacore.lib.LimaColor;
 import liedge.limacore.menu.BlockEntityMenuType;
 import liedge.limacore.util.LimaItemUtil;
 import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
-import liedge.ltxindustries.blockentity.template.EnergyMachineBlockEntity;
+import liedge.ltxindustries.blockentity.template.LTXIMachineBlockEntity;
 import liedge.ltxindustries.registry.game.LTXIBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -26,7 +27,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.EnumMap;
 import java.util.Map;
 
-public abstract class BaseECABlockEntity extends EnergyMachineBlockEntity
+public abstract class BaseECABlockEntity extends LTXIMachineBlockEntity implements EnergyHolderBlockEntity
 {
     private final LimaBlockEntityItemHandler chargingInventory;
     private final Map<Direction, BlockCapabilityCache<IEnergyStorage, Direction>> energyConnections = new EnumMap<>(Direction.class);
@@ -96,7 +97,7 @@ public abstract class BaseECABlockEntity extends EnergyMachineBlockEntity
     protected void tickServer(ServerLevel level, BlockPos pos, BlockState state)
     {
         // Fill buffer from input slot
-        fillEnergyBuffer();
+        pullEnergyFromAux();
 
         // Charge items in the charging inventory
         LimaEnergyStorage machineEnergy = getEnergyStorage();
@@ -115,7 +116,7 @@ public abstract class BaseECABlockEntity extends EnergyMachineBlockEntity
 
         // Auto output energy if option enabled
         tickItemAutoOutput(100, chargingInventory, stack -> checkStackEnergy(stack).allowsOutput());
-        autoOutputEnergy();
+        pushEnergyToSides();
     }
 
     @Override

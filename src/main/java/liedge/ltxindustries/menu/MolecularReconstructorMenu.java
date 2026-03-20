@@ -7,7 +7,7 @@ import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.blockentity.MolecularReconstructorBlockEntity;
 import net.minecraft.world.entity.player.Inventory;
 
-public class MolecularReconstructorMenu extends LTXIMachineMenu.EnergyMachineMenu<MolecularReconstructorBlockEntity>
+public class MolecularReconstructorMenu extends LTXIMachineMenu<MolecularReconstructorBlockEntity>
 {
     public MolecularReconstructorMenu(LimaMenuType<MolecularReconstructorBlockEntity, ?> type, int containerId, Inventory inventory, MolecularReconstructorBlockEntity menuContext)
     {

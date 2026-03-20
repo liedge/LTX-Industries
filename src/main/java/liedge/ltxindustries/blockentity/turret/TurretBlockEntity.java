@@ -271,7 +271,7 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
     protected void tickServer(ServerLevel level, BlockPos pos, BlockState state)
     {
         // Fill internal energy buffer from energy item slot
-        fillEnergyBuffer();
+        pullEnergyFromAux();
 
         // Auto eject items
         tickItemAutoOutput(100, getOutputInventory());

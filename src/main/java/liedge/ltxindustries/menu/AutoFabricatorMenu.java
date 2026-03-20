@@ -11,7 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import java.util.Objects;
 import java.util.function.Predicate;
 
-public class AutoFabricatorMenu extends LTXIMachineMenu.RecipeEnergyMachineMenu<AutoFabricatorBlockEntity>
+public class AutoFabricatorMenu extends LTXIMachineMenu<AutoFabricatorBlockEntity>
 {
     public AutoFabricatorMenu(LimaMenuType<AutoFabricatorBlockEntity, ?> type, int containerId, Inventory inventory, AutoFabricatorBlockEntity menuContext)
     {
@@ -20,7 +20,7 @@ public class AutoFabricatorMenu extends LTXIMachineMenu.RecipeEnergyMachineMenu<
         final Predicate<ItemStack> blueprintPredicate = stack -> stack.is(menuContext.getValidBlueprintItem()) && !Objects.isNull(stack.get(LTXIDataComponents.BLUEPRINT_RECIPE));
         addSlotsGrid(BlockContentsType.INPUT, 0, 33, 30, 8, 2, blueprintPredicate.negate());
         addSlot(BlockContentsType.AUXILIARY, BaseFabricatorBlockEntity.AUX_BLUEPRINT_SLOT, 120, 73, blueprintPredicate);
-        addRecipeOutputSlot(0, 152, 73);
+        addRecipeOutputSlot(0, 152, 73, menuContext.getRecipeCheck().getRecipeType());
         addPlayerInventoryAndHotbar(15, 98);
     }
 

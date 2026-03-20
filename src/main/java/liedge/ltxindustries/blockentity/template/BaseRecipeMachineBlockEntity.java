@@ -166,7 +166,7 @@ public abstract class BaseRecipeMachineBlockEntity<I extends RecipeInput, R exte
         LimaEnergyStorage energyStorage = getEnergyStorage();
 
         // Fill internal energy buffer from energy item slot
-        fillEnergyBuffer();
+        pullEnergyFromAux();
 
         // Perform recipe check if required - set crafting state accordingly
         if (shouldCheckRecipe)

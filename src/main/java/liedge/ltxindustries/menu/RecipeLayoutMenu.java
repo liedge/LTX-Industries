@@ -15,7 +15,7 @@ import net.minecraft.world.entity.player.Inventory;
 
 import java.util.List;
 
-public final class RecipeLayoutMenu<CTX extends BaseRecipeMachineBlockEntity<?, ?>> extends LTXIMachineMenu.EnergyMachineMenu<CTX>
+public final class RecipeLayoutMenu<CTX extends BaseRecipeMachineBlockEntity<?, ?>> extends LTXIMachineMenu<CTX>
 {
     public static final int MODES_OPEN_BUTTON_ID = 2;
 

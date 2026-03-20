@@ -75,7 +75,7 @@ public class MolecularReconstructorBlockEntity extends ProductionMachineBlockEnt
         LimaBlockEntityItemHandler outputInventory = getOutputInventory();
 
         // Fill internal energy buffer
-        fillEnergyBuffer();
+        pullEnergyFromAux();
 
         // Try repairing item
         ItemStack inputItem = inputInventory.getStackInSlot(0);

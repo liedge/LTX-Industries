@@ -133,7 +133,7 @@ public abstract class BaseFabricatorBlockEntity extends ProductionMachineBlockEn
     protected void tickServer(ServerLevel level, BlockPos pos, BlockState state)
     {
         // Fill energy buffer from energy input slot
-        fillEnergyBuffer();
+        pullEnergyFromAux();
 
         // Fabricators handle logic differently
         tickServerFabricator(level, pos, state);
