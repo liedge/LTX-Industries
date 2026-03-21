@@ -72,7 +72,7 @@ config="${mod_id}.mixins.json"
     # Optional field describing why the dependency is required or why it is incompatible
     # reason="..."
     # The version range of the dependency
-    versionRange="${neo_version_range}" #mandatory
+    versionRange="[${neo_version},)" #mandatory
     # An ordering relationship for the dependency.
     # BEFORE - This mod is loaded BEFORE the dependency
     # AFTER - This mod is loaded AFTER the dependency
@@ -107,13 +107,6 @@ config="${mod_id}.mixins.json"
     modId="guideme"
     type = "optional"
     versionRange = "${guideme_version_range}"
-    ordering = "AFTER"
-    side = "BOTH"
-
-[[dependencies.${mod_id}]]
-    modId = "ae2"
-    type = "optional"
-    versionRange = "${ae2_version_range}"
     ordering = "AFTER"
     side = "BOTH"
 
