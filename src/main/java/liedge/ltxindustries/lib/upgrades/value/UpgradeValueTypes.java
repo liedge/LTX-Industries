@@ -46,7 +46,7 @@ public final class UpgradeValueTypes
         registerContextless("lookup", DoubleLookup.CODEC);
         register("math", MathOperationValue.CODEC);
         register("number_wrapper", NumberProviderWrapper.CODEC);
-        register("context_key", ContextKeyValue.CODEC);
+        register("distance_curve", TargetDistanceCurve.CODEC);
 
         LTXIndustries.LOGGER.info("Registered upgrade value type codecs.");
     }

@@ -26,7 +26,18 @@
             "type": "value",
             "format": "signed_flat",
             "sentiment": "positive",
-            "value": 25.0
+            "value": 1.0
+          },
+          {
+            "type": "value",
+            "format": "flat",
+            "value": 30.0
+          },
+          {
+            "type": "value",
+            "format": "flat",
+            "sentiment": "positive",
+            "value": 50.0
           }
         ],
         "key": "equipment_upgrade.ltxi.default.linear_fusion_rifle.tooltip0"
@@ -36,9 +47,9 @@
         "args": [
           {
             "type": "value",
-            "format": "signed_flat",
+            "format": "signed_percentage",
             "sentiment": "positive",
-            "value": 25.0
+            "value": 0.15
           }
         ],
         "key": "equipment_upgrade.ltxi.default.linear_fusion_rifle.tooltip1"
@@ -50,24 +61,18 @@
       {
         "effect": {
           "op": "add",
-          "value": 25.0
-        },
-        "requirements": {
-          "condition": "minecraft:entity_properties",
-          "entity": "attacker",
-          "predicate": {
-            "distance": {
-              "absolute": {
-                "min": 40.0
-              }
-            }
+          "value": {
+            "type": "distance_curve",
+            "factor": 50.0,
+            "range": 50.0,
+            "start": 30.0
           }
         }
       },
       {
         "effect": {
-          "op": "add",
-          "value": 25.0
+          "op": "add_percent_of_total",
+          "value": 0.15
         },
         "requirements": {
           "condition": "minecraft:entity_properties",

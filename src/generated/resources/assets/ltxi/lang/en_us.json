@@ -119,7 +119,7 @@
   "equipment_upgrade.ltxi.default.heavy_pistol.desc": "Nova's lightfrags can knock away even the heaviest targets.",
   "equipment_upgrade.ltxi.default.linear_fusion_rifle": "Stargazer Intrinsics",
   "equipment_upgrade.ltxi.default.linear_fusion_rifle.desc": "Stargazer's systems are calibrated for precise long-range engagements.",
-  "equipment_upgrade.ltxi.default.linear_fusion_rifle.tooltip0": "%s bonus damage when at least 40m away from target",
+  "equipment_upgrade.ltxi.default.linear_fusion_rifle.tooltip0": "%s bonus damage per meter after %sm (%s max bonus)",
   "equipment_upgrade.ltxi.default.linear_fusion_rifle.tooltip1": "%s bonus damage when standing still and sneaking",
   "equipment_upgrade.ltxi.default.ltx_melee.desc": "Standard issue operating system. Tool energy blade is optimized for efficient severing and disintegration of organic matter.",
   "equipment_upgrade.ltxi.default.ltx_melee.tooltip0": "%s bonus damage against unarmored targets",

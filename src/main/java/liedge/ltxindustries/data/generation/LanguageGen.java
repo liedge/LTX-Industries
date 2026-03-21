@@ -213,7 +213,7 @@ class LanguageGen extends LimaLanguageProvider
         upgradeTooltip(LTXIEquipmentUpgrades.SUBMACHINE_GUN_DEFAULT, 0, "No anger and knockback on damage");
         upgrade(LTXIEquipmentUpgrades.SHOTGUN_DEFAULT, "Aurora Intrinsics", "Aurora's combat precepts, specialized in fast assault and scout operations.");
         upgrade(LTXIEquipmentUpgrades.LFR_DEFAULT, "Stargazer Intrinsics", "Stargazer's systems are calibrated for precise long-range engagements.");
-        upgradeTooltip(LTXIEquipmentUpgrades.LFR_DEFAULT, 0, "%s bonus damage when at least 40m away from target");
+        upgradeTooltip(LTXIEquipmentUpgrades.LFR_DEFAULT, 0, "%s bonus damage per meter after %sm (%s max bonus)");
         upgradeTooltip(LTXIEquipmentUpgrades.LFR_DEFAULT, 1, "%s bonus damage when standing still and sneaking");
         upgrade(LTXIEquipmentUpgrades.HEAVY_PISTOL_DEFAULT, "Nova Intrinsics", "Nova's lightfrags can knock away even the heaviest targets.");
         upgrade(LTXIEquipmentUpgrades.HEAD_DEFAULT, "AL/1C [H] Unit", "Neural processor core of the AL/1C bodysuit.");

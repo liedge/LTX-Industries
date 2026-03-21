@@ -15,10 +15,7 @@ import liedge.ltxindustries.lib.upgrades.effect.*;
 import liedge.ltxindustries.lib.upgrades.effect.entity.ApplyMobEffect;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
 import liedge.ltxindustries.lib.upgrades.tooltip.*;
-import liedge.ltxindustries.lib.upgrades.value.ConstantDouble;
-import liedge.ltxindustries.lib.upgrades.value.ContextlessValue;
-import liedge.ltxindustries.lib.upgrades.value.ExponentialDouble;
-import liedge.ltxindustries.lib.upgrades.value.LinearDouble;
+import liedge.ltxindustries.lib.upgrades.value.*;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
 import liedge.ltxindustries.lib.weapons.WeaponReloadSource;
 import liedge.ltxindustries.registry.LTXIRegistries;
@@ -226,18 +223,18 @@ public final class LTXIEquipmentUpgrades
                 .effectIcon(defaultModuleIcon(LTXIItems.SHOTGUN))
                 .category("default/weapon")
                 .register(context);
-        ContextlessValue lfrBonusDmg = ConstantDouble.of(25);
         EquipmentUpgrade.builder(LFR_DEFAULT)
                 .supports(LTXIItems.LINEAR_FUSION_RIFLE)
-                .withConditionalEffect(EQUIPMENT_DAMAGE, ValueOperation.of(lfrBonusDmg, MathOperation.ADD),
-                        LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.ATTACKER, EntityPredicate.Builder.entity()
-                                .distance(DistancePredicate.absolute(MinMaxBounds.Doubles.atLeast(40.0d)))))
-                .withConditionalEffect(EQUIPMENT_DAMAGE, ValueOperation.of(lfrBonusDmg, MathOperation.ADD),
+                .withConditionalEffect(EQUIPMENT_DAMAGE, ValueOperation.of(TargetDistanceCurve.of(ConstantDouble.of(30), ConstantDouble.of(50), ConstantDouble.of(50)), MathOperation.ADD))
+                .withConditionalEffect(EQUIPMENT_DAMAGE, ValueOperation.of(ConstantDouble.of(0.15d), MathOperation.ADD_PERCENT_OF_TOTAL),
                         LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.ATTACKER, EntityPredicate.Builder.entity()
                                 .moving(MovementPredicate.speed(MinMaxBounds.Doubles.atMost(1e-3d)))
                                 .flags(EntityFlagsPredicate.Builder.flags().setCrouching(true))))
-                .tooltip(0, key -> TranslatableTooltip.create(key, ValueComponent.of(lfrBonusDmg, ValueFormat.SIGNED_FLAT_NUMBER, ValueSentiment.POSITIVE)))
-                .tooltip(1, key -> TranslatableTooltip.create(key, ValueComponent.of(lfrBonusDmg, ValueFormat.SIGNED_FLAT_NUMBER, ValueSentiment.POSITIVE)))
+                .tooltip(0, key -> TranslatableTooltip.create(key,
+                        ValueComponent.of(ConstantDouble.of(1), ValueFormat.SIGNED_FLAT_NUMBER, ValueSentiment.POSITIVE),
+                        ValueComponent.of(ConstantDouble.of(30), ValueFormat.FLAT_NUMBER, ValueSentiment.NEUTRAL),
+                        ValueComponent.of(ConstantDouble.of(50), ValueFormat.FLAT_NUMBER, ValueSentiment.POSITIVE)))
+                .tooltip(1, key -> TranslatableTooltip.create(key, ValueComponent.of(ConstantDouble.of(0.15d), ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE)))
                 .effectIcon(defaultModuleIcon(LTXIItems.LINEAR_FUSION_RIFLE))
                 .category("default/weapon")
                 .register(context);
