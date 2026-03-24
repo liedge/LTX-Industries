@@ -2,21 +2,17 @@ package liedge.ltxindustries.registry.game;
 
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.entity.*;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-import java.util.function.UnaryOperator;
-
 public final class LTXIEntities
 {
     private LTXIEntities() {}
 
-    private static final DeferredRegister<EntityType<?>> ENTITIES = LTXIndustries.RESOURCES.deferredRegister(BuiltInRegistries.ENTITY_TYPE);
+    private static final DeferredRegister.Entities ENTITIES = DeferredRegister.Entities.createEntities(LTXIndustries.MODID);
 
     public static void register(IEventBus bus)
     {
@@ -28,18 +24,11 @@ public final class LTXIEntities
     public static final DeferredHolder<EntityType<?>, EntityType<ShellGrenadeEntity>> SHELL_GRENADE = projectile("shell_grenade", ShellGrenadeEntity::new, 0.35f, 0.35f, 2);
     public static final DeferredHolder<EntityType<?>, EntityType<EquipmentRocketEntity>> DAYBREAK_ROCKET = projectile("daybreak_rocket", EquipmentRocketEntity::new, 0.6f, 0.6f, 2);
     public static final DeferredHolder<EntityType<?>, EntityType<TurretRocketEntity>> TURRET_ROCKET = projectile("turret_rocket", TurretRocketEntity::new, 0.6f, 0.6f, 2);
-    public static final DeferredHolder<EntityType<?>, EntityType<FlameFieldEntity>> FLAME_FIELD = register("flame_field", FlameFieldEntity::new, MobCategory.MISC, builder -> builder.sized(4f, 4f).clientTrackingRange(10).updateInterval(Integer.MAX_VALUE));
-
-    private static <T extends Entity> DeferredHolder<EntityType<?>, EntityType<T>> register(String name, EntityType.EntityFactory<T> factory, MobCategory category, UnaryOperator<EntityType.Builder<T>> builderOp)
-    {
-        return ENTITIES.register(name, () -> {
-            EntityType.Builder<T> builder = builderOp.apply(EntityType.Builder.of(factory, category));
-            return builder.build(name);
-        });
-    }
+    public static final DeferredHolder<EntityType<?>, EntityType<FlameFieldEntity>> FLAME_FIELD = ENTITIES.registerEntityType("flame_field", FlameFieldEntity::new, MobCategory.MISC, builder -> builder
+            .sized(4f, 4f).clientTrackingRange(10).updateInterval(10).fireImmune());
 
     private static <T extends LTXIProjectileEntity> DeferredHolder<EntityType<?>, EntityType<T>> projectile(String name, EntityType.EntityFactory<T> factory, float width, float height, int updateInterval)
     {
-        return register(name, factory, MobCategory.MISC, builder -> builder.sized(width, height).clientTrackingRange(10).updateInterval(updateInterval).fireImmune());
+        return ENTITIES.registerEntityType(name, factory, MobCategory.MISC, builder -> builder.sized(width, height).clientTrackingRange(10).updateInterval(updateInterval).fireImmune());
     }
 }

@@ -1,7 +1,7 @@
 package liedge.ltxindustries.blockentity;
 
-import liedge.limacore.capability.energy.InfiniteEnergyStorage;
 import liedge.limacore.lib.LimaColor;
+import liedge.limacore.transfer.energy.InfiniteBlockEntityEnergy;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.registry.game.LTXIBlockEntities;
 import net.minecraft.core.BlockPos;
@@ -11,7 +11,7 @@ public class InfiniteECABlockEntity extends BaseECABlockEntity
 {
     public InfiniteECABlockEntity(BlockPos pos, BlockState state)
     {
-        super(LTXIBlockEntities.INFINITE_ENERGY_CELL_ARRAY.get(), pos, state, InfiniteEnergyStorage.INFINITE_ENERGY_STORAGE);
+        super(LTXIBlockEntities.INFINITE_ENERGY_CELL_ARRAY.get(), pos, state, InfiniteBlockEntityEnergy.INSTANCE);
     }
 
     @Override

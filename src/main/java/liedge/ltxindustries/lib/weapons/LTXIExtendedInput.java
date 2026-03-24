@@ -217,7 +217,7 @@ public abstract class LTXIExtendedInput
         tickTimers();
 
         // Check for slot change
-        int selectedSlot = player.getInventory().selected;
+        int selectedSlot = player.getInventory().getSelectedSlot();
         if (previousSelectedSlot != selectedSlot)
         {
             onSelectedSlotChanged(player, player.getInventory().getItem(previousSelectedSlot), heldItem);

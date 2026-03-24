@@ -10,11 +10,11 @@ import liedge.limacore.network.LimaStreamCodecs;
 import liedge.limacore.util.LimaLootUtil;
 import liedge.limacore.util.LimaNetworkUtil;
 import liedge.ltxindustries.client.LTXILangKeys;
+import liedge.ltxindustries.data.LTXIReloadListeners;
 import liedge.ltxindustries.entity.CompoundHitResult;
 import liedge.ltxindustries.entity.DynamicClipContext;
 import liedge.ltxindustries.entity.damage.EquipmentDamageSource;
 import liedge.ltxindustries.item.EnergyEquipmentItem;
-import liedge.ltxindustries.lib.EquipmentDamageModifiers;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
 import liedge.ltxindustries.lib.weapons.WeaponReloadSource;
@@ -23,17 +23,18 @@ import liedge.ltxindustries.registry.game.*;
 import liedge.ltxindustries.util.LTXITooltipUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -42,8 +43,7 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.common.ItemAbilities;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Comparator;
 
@@ -204,53 +204,45 @@ public abstract class WeaponItem extends EnergyEquipmentItem
         super.onUpgradeRefresh(context, stack, upgrades);
     }
 
-    private boolean hurtEntity(LivingEntity attacker, Entity target, EquipmentDamageSource damageSource, double baseDamage)
+    private boolean hurtEntity(ServerLevel level, Entity target, EquipmentDamageSource damageSource, double baseDamage)
     {
-        if (attacker.level() instanceof ServerLevel level)
-        {
-            // Create the loot context and get the upgrades
-            LootContext context = LimaLootUtil.entityLootContext(level, target, damageSource);
-            ItemStack weaponItem = damageSource.getWeaponItem();
-            EquipmentUpgrades upgrades = getUpgrades(weaponItem);
+        // Create the loot context and get the upgrades
+        LootContext context = LimaLootUtil.entityLootContext(level, target, damageSource);
+        ItemStack weaponItem = damageSource.getWeaponItem();
+        EquipmentUpgrades upgrades = getUpgrades(weaponItem);
 
-            // Get upgraded damage, then apply global damage modifiers
-            double damage = EquipmentDamageModifiers.getInstance().apply(weaponItem, context, baseDamage, getUpgradedDamage(upgrades, context, baseDamage));
+        // Get upgraded damage, then apply global damage modifiers
+        double damage = LTXIReloadListeners.equipmentDamageModifiers().apply(weaponItem, context, baseDamage, getUpgradedDamage(upgrades, context, baseDamage));
 
-            // Only hurt if we have non-negligible damage
-            return damage > 1e-4 && target.hurt(damageSource, (float) damage);
-        }
-
-        return false;
+        // Only hurt if we have non-negligible damage
+        return damage >= 1e-4 && target.hurtServer(level, damageSource, (float) damage);
     }
 
-    protected void causeLightfragDamage(ItemStack heldItem, LivingEntity attacker, Entity targetEntity, double baseDamage)
+    protected void causeLightfragDamage(ServerLevel level, Entity target, LivingEntity attacker, ItemStack heldItem, double baseDamage)
     {
         EquipmentDamageSource source = EquipmentDamageSource.directDamage(LTXIDamageTypes.LIGHTFRAG, attacker, heldItem);
-        hurtEntity(attacker, targetEntity, source, baseDamage);
+        hurtEntity(level, target, source, baseDamage);
     }
 
-    public boolean causeProjectileDamage(ItemStack weaponItem, Entity projectile, @Nullable LivingEntity attacker, ResourceKey<DamageType> damageTypeKey, Entity targetEntity, double baseDamage)
+    public boolean causeProjectileDamage(ServerLevel level, Entity target, Entity projectile, @Nullable LivingEntity attacker, ResourceKey<DamageType> damageType, ItemStack weaponItem, double baseDamage)
     {
-        EquipmentDamageSource source = EquipmentDamageSource.projectileDamage(damageTypeKey, projectile, attacker, weaponItem);
+        EquipmentDamageSource source = EquipmentDamageSource.projectileDamage(damageType, projectile, attacker, weaponItem);
         if (attacker != null)
         {
-            return hurtEntity(attacker, targetEntity, source, baseDamage);
+            return hurtEntity(level, target, source, baseDamage);
         }
         else
         {
-            return targetEntity.hurt(source, (float) baseDamage);
+            return target.hurtServer(level, source, (float) baseDamage);
         }
     }
 
-    protected void traceLightfrag(ItemStack stack, Player player, Level level, double baseDamage, double inaccuracy, double bbExpansion)
+    protected void traceLightfrag(ServerLevel level, Player player, ItemStack stack, double baseDamage, double inaccuracy, double bbExpansion)
     {
-        if (!level.isClientSide())
-        {
-            CompoundHitResult hitResult = CompoundHitResult.tracePath(level, player, getUpgrades(stack), getWeaponRange(stack), inaccuracy, getEntityMaxHits(stack), getBlockPierceDistance(stack), DynamicClipContext.FluidCollisionPredicate.NONE, bbExpansion);
-            hitResult.entityHits().forEach(hit -> causeLightfragDamage(stack, player, hit.getEntity(), baseDamage));
-            level.gameEvent(player, LTXIGameEvents.WEAPON_FIRED, player.getEyePosition());
-            sendTracerParticle(level, hitResult.origin(), hitResult.impactLocation());
-        }
+        CompoundHitResult hitResult = CompoundHitResult.tracePath(level, player, getUpgrades(stack), getWeaponRange(stack), inaccuracy, getEntityMaxHits(stack), getBlockPierceDistance(stack), DynamicClipContext.FluidCollisionPredicate.NONE, bbExpansion);
+        hitResult.entityHits().forEach(hit -> causeLightfragDamage(level, hit.getEntity(), player, stack, baseDamage));
+        level.gameEvent(player, LTXIGameEvents.WEAPON_FIRED, player.getEyePosition());
+        sendTracerParticle(level, hitResult.origin(), hitResult.impactLocation());
     }
 
     protected void sendTracerParticle(Level level, Vec3 start, Vec3 end)
@@ -276,32 +268,32 @@ public abstract class WeaponItem extends EnergyEquipmentItem
     }
 
     @Override
-    public UseAnim getUseAnimation(ItemStack stack)
+    public ItemUseAnimation getUseAnimation(ItemStack stack)
     {
-        return UseAnim.NONE;
+        return ItemUseAnimation.NONE;
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand)
+    public InteractionResult use(Level level, Player player, InteractionHand hand)
     {
-        ItemStack stack = player.getItemInHand(usedHand);
+        ItemStack stack = player.getItemInHand(hand);
 
-        if (usedHand == InteractionHand.MAIN_HAND)
+        if (hand == InteractionHand.MAIN_HAND)
         {
-            ItemStack offhandItem = player.getOffhandItem();
+            ItemStack offHandItem = player.getOffhandItem();
 
-            boolean handCheck = offhandItem.isEmpty() || isOneHanded(stack);
-            if (handCheck && !offhandItem.canPerformAction(ItemAbilities.SHIELD_BLOCK) && canFocusReticle(stack, player, player.getData(LTXIAttachmentTypes.INPUT_EXTENSIONS)))
+            boolean handCheck = offHandItem.isEmpty() || isOneHanded(stack);
+            if (handCheck && !offHandItem.has(DataComponents.BLOCKS_ATTACKS) && canFocusReticle(stack, player, player.getData(LTXIAttachmentTypes.INPUT_EXTENSIONS)))
             {
                 return ItemUtils.startUsingInstantly(level, player, InteractionHand.MAIN_HAND);
             }
         }
 
-        return InteractionResultHolder.pass(stack);
+        return InteractionResult.PASS;
     }
 
     @Override
-    public void addAdditionalToCreativeTab(ResourceLocation tabId, CreativeModeTab.ItemDisplayParameters parameters, CreativeModeTab.Output output, CreativeModeTab.TabVisibility tabVisibility)
+    public void addAdditionalToCreativeTab(Identifier tabId, CreativeModeTab.ItemDisplayParameters parameters, CreativeModeTab.Output output, CreativeModeTab.TabVisibility tabVisibility)
     {
         ItemStack stack = createStackWithDefaultUpgrades(parameters.holders());
         setAmmoLoadedMax(stack);

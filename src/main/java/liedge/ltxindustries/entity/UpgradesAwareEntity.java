@@ -2,16 +2,12 @@ package liedge.ltxindustries.entity;
 
 import liedge.limacore.LimaCommonConstants;
 import liedge.limacore.util.LimaCoreObjects;
-import liedge.limacore.util.LimaNbtUtil;
-import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
 import liedge.ltxindustries.lib.upgrades.UpgradesContainerBase;
-import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrades;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtOps;
-import net.minecraft.nbt.Tag;
-import net.minecraft.resources.RegistryOps;
+import net.minecraft.core.UUIDUtil;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -19,6 +15,8 @@ import net.minecraft.world.entity.TraceableEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.PushReaction;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.fluids.FluidType;
@@ -33,7 +31,7 @@ public abstract class UpgradesAwareEntity extends Entity implements TraceableEnt
     private @Nullable UUID ownerId;
     private @Nullable LivingEntity owner;
     private ItemStack weaponItem = ItemStack.EMPTY;
-    private TargetPredicate predicate;
+    private @Nullable TargetPredicate predicate;
 
     protected UpgradesAwareEntity(EntityType<?> entityType, Level level)
     {
@@ -53,7 +51,7 @@ public abstract class UpgradesAwareEntity extends Entity implements TraceableEnt
 
     public UpgradesContainerBase<?, ?> getUpgrades()
     {
-        return UpgradableEquipmentItem.getEquipmentUpgradesFromStack(getWeaponItem());
+        return UpgradableEquipmentItem.getUpgradesFrom(getWeaponItem());
     }
 
     protected TargetPredicate getOrCreateTargetFilter()
@@ -113,33 +111,27 @@ public abstract class UpgradesAwareEntity extends Entity implements TraceableEnt
     }
 
     @Override
-    protected void readAdditionalSaveData(CompoundTag tag)
+    protected void readAdditionalSaveData(ValueInput input)
     {
-        this.tickCount = tag.getInt("age");
-        this.ownerId = LimaNbtUtil.getOptionalUUID(tag, LimaCommonConstants.KEY_OWNER);
-        this.weaponItem = ItemStack.parseOptional(registryAccess(), tag.getCompound("weapon_item"));
+        this.tickCount = input.getIntOr("age", 0);
+        this.ownerId = input.read(LimaCommonConstants.KEY_OWNER, UUIDUtil.CODEC).orElse(null);
+        this.weaponItem = input.read("weapon_item", ItemStack.OPTIONAL_CODEC).orElse(ItemStack.EMPTY);
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundTag tag)
+    protected void addAdditionalSaveData(ValueOutput output)
     {
-        tag.putInt("age", tickCount);
-        LimaNbtUtil.putOptionalUUID(tag, LimaCommonConstants.KEY_OWNER, ownerId);
-        if (!weaponItem.isEmpty()) tag.put("weapon_item", weaponItem.save(registryAccess()));
+        output.putInt("age", tickCount);
+        output.storeNullable(LimaCommonConstants.KEY_OWNER, UUIDUtil.CODEC, ownerId);
+        output.store("weapon_item", ItemStack.OPTIONAL_CODEC, weaponItem);
     }
 
-    protected MachineUpgrades readMachineUpgrades(CompoundTag tag)
+    @Override
+    public boolean hurtServer(ServerLevel level, DamageSource damageSource, float amount)
     {
-        return LimaNbtUtil.tryDecode(MachineUpgrades.CODEC, registryOps(), tag, LTXIConstants.KEY_UPGRADES_CONTAINER, MachineUpgrades.EMPTY);
+        return false;
     }
 
-    protected void writeMachineUpgrades(MachineUpgrades upgrades, CompoundTag tag)
-    {
-        LimaNbtUtil.tryEncodeTo(MachineUpgrades.CODEC, registryOps(), upgrades, tag, LTXIConstants.KEY_UPGRADES_CONTAINER);
-    }
-
-    private RegistryOps<Tag> registryOps()
-    {
-        return RegistryOps.create(NbtOps.INSTANCE, registryAccess());
-    }
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) { }
 }

@@ -1,10 +1,11 @@
 package liedge.ltxindustries.item.tool;
 
 import liedge.limacore.util.LimaLootUtil;
+import liedge.ltxindustries.data.LTXIReloadListeners;
 import liedge.ltxindustries.item.EnergyEquipmentItem;
-import liedge.ltxindustries.lib.EquipmentDamageModifiers;
 import liedge.ltxindustries.util.config.LTXIServerConfig;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -12,6 +13,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.Weapon;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -47,15 +49,11 @@ public abstract class BaseEnergyToolItem extends EnergyEquipmentItem
     }
 
     // Damage/attack functions
-    public float getPoweredAttackDamage()
-    {
-        return poweredAttackDamage;
-    }
 
     @Override
     public float getAttackDamageBonus(Entity target, float damage, DamageSource damageSource)
     {
-        final float baseDamage = getPoweredAttackDamage();
+        final float baseDamage = poweredAttackDamage;
 
         if (baseDamage > 0 && target.level() instanceof ServerLevel level)
         {
@@ -64,7 +62,7 @@ public abstract class BaseEnergyToolItem extends EnergyEquipmentItem
             {
                 LootContext context = LimaLootUtil.entityLootContext(level, target, damageSource);
                 double upgradedDamage = getUpgradedDamage(getUpgrades(stack), context, baseDamage);
-                return (float) EquipmentDamageModifiers.getInstance().apply(stack, context, baseDamage, upgradedDamage);
+                return (float) LTXIReloadListeners.equipmentDamageModifiers().apply(stack, context, baseDamage, upgradedDamage);
             }
         }
 
@@ -72,16 +70,16 @@ public abstract class BaseEnergyToolItem extends EnergyEquipmentItem
     }
 
     @Override
-    public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker)
-    {
-        return poweredAttackDamage > 0 && hasEnergyForAction(stack);
-    }
-
-    @Override
     public void postHurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker)
     {
-        if (poweredAttackDamage > 0 && !attacker.level().isClientSide())
-            consumeEnergyAction(attacker, stack);
+        if (!attacker.level().isClientSide() && poweredAttackDamage > 0)
+        {
+            Weapon weapon = stack.get(DataComponents.WEAPON);
+            if (weapon != null)
+            {
+                consumeEnergyActions(attacker, stack, weapon.itemDamagePerAttack());
+            }
+        }
     }
 
     // Tool actions

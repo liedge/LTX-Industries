@@ -9,7 +9,7 @@ public final class LTXIModelLayers
 
     private static ModelLayerLocation mainLayer(String name)
     {
-        return new ModelLayerLocation(LTXIndustries.RESOURCES.location(name), "main");
+        return new ModelLayerLocation(LTXIndustries.RESOURCES.id(name), "main");
     }
 
     public static final ModelLayerLocation GLOWSTICK_PROJECTILE = mainLayer("glowstick_projectile");

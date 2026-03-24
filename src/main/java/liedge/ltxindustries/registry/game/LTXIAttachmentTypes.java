@@ -28,7 +28,7 @@ public final class LTXIAttachmentTypes
     }
 
     // Persistent data
-    public static final DeferredHolder<AttachmentType<?>, AttachmentType<Float>> BUBBLE_SHIELD_HEALTH = ATTACHMENTS.register("shield_health", () -> AttachmentType.builder(() -> 0f).serialize(Codec.FLOAT).sync(ByteBufCodecs.FLOAT).build());
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<Float>> BUBBLE_SHIELD_HEALTH = ATTACHMENTS.register("shield_health", () -> AttachmentType.builder(() -> 0f).serialize(Codec.FLOAT.fieldOf("shield")).sync(ByteBufCodecs.FLOAT).build());
 
     // Transient 'live'/functional attachments
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<PlayerBubbleShield>> PLAYER_SHIELD = ATTACHMENTS.register("player_shield", () -> AttachmentType.builder(PlayerBubbleShield::new).build());

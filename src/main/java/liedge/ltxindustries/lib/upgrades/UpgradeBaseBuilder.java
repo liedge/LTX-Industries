@@ -16,8 +16,8 @@ import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.util.Unit;
@@ -238,9 +238,9 @@ public final class UpgradeBaseBuilder<CTX, U extends UpgradeBase<CTX, U>> implem
     }
 
     // Specialty effects
-    private <T extends AttributeModifierUpgradeEffect> UpgradeBaseBuilder<CTX, U> attributeEffect(Supplier<? extends DataComponentType<List<T>>> typeSupplier, String name, Function<ResourceLocation, T> function)
+    private <T extends AttributeModifierUpgradeEffect> UpgradeBaseBuilder<CTX, U> attributeEffect(Supplier<? extends DataComponentType<List<T>>> typeSupplier, String name, Function<Identifier, T> function)
     {
-        ResourceLocation modifierId = key.location().withSuffix('.' + name);
+        Identifier modifierId = key.identifier().withSuffix('.' + name);
         return withEffect(typeSupplier, function.apply(modifierId));
     }
 

@@ -1,8 +1,7 @@
 package liedge.ltxindustries.entity;
 
-import liedge.limacore.data.LimaCoreCodecs;
 import liedge.limacore.util.LimaBlockUtil;
-import liedge.limacore.util.LimaNbtUtil;
+import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.blockentity.turret.RocketTurretBlockEntity;
 import liedge.ltxindustries.blockentity.turret.TurretClipContext;
 import liedge.ltxindustries.entity.damage.TurretDamageSource;
@@ -11,14 +10,14 @@ import liedge.ltxindustries.registry.bootstrap.LTXIDamageTypes;
 import liedge.ltxindustries.registry.game.LTXIEntities;
 import liedge.ltxindustries.util.config.LTXIMachinesConfig;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtOps;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
@@ -70,7 +69,7 @@ public class TurretRocketEntity extends BaseRocketEntity
     }
 
     @Override
-    protected void damageTarget(Level level, @Nullable LivingEntity owner, Entity targetEntity, Vec3 hitLocation, boolean isDirectHit)
+    protected void hurtTarget(ServerLevel level, Entity targetEntity, @Nullable LivingEntity owner, Vec3 hitLocation, boolean isDirectHit)
     {
         float baseDamage = (float) LTXIMachinesConfig.ROCKET_TURRET_ROCKET_DAMAGE.getAsDouble();
 
@@ -78,28 +77,27 @@ public class TurretRocketEntity extends BaseRocketEntity
         if (be != null)
         {
             // Auto-wrap player owners with a Fake Player instance that has the turret's enchantments
-            LTXIEntityUtil.hurtWithEnchantedFakePlayer((ServerLevel) level, targetEntity, owner, be.getUpgrades(), le -> TurretDamageSource.create(level, LTXIDamageTypes.ROCKET_TURRET, be, this, le, null), baseDamage);
-        } else
+            LTXIEntityUtil.hurtWithEnchantedFakePlayer(level, targetEntity, owner, be.getUpgrades(), fakePlayer -> TurretDamageSource.create(level, LTXIDamageTypes.ROCKET_TURRET, be, this, fakePlayer, null), baseDamage);
+        }
+        else
         {
-            targetEntity.hurt(level.damageSources().source(LTXIDamageTypes.ROCKET_TURRET, this, owner), baseDamage); // Standard damage source if parent turret is missing/invalid
+            targetEntity.hurtServer(level, level.damageSources().source(LTXIDamageTypes.ROCKET_TURRET, this, owner), baseDamage);
         }
     }
 
     @Override
-    protected void readAdditionalSaveData(CompoundTag tag)
+    protected void readAdditionalSaveData(ValueInput input)
     {
-        super.readAdditionalSaveData(tag);
-        upgrades = readMachineUpgrades(tag);
-        if (tag.contains("turret_pos"))
-            turretPos = LimaNbtUtil.strictDecode(BlockPos.CODEC, NbtOps.INSTANCE, tag, "turret_pos");
+        super.readAdditionalSaveData(input);
+        upgrades = input.read(LTXIConstants.KEY_UPGRADES_CONTAINER, MachineUpgrades.CODEC).orElse(MachineUpgrades.EMPTY);
+        turretPos = input.read("turret_pos", BlockPos.CODEC).orElse(null);
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundTag tag)
+    protected void addAdditionalSaveData(ValueOutput output)
     {
-        super.addAdditionalSaveData(tag);
-        writeMachineUpgrades(upgrades, tag);
-        if (turretPos != null)
-            tag.put("turret_pos", LimaCoreCodecs.strictEncode(BlockPos.CODEC, NbtOps.INSTANCE, turretPos));
+        super.addAdditionalSaveData(output);
+        output.store(LTXIConstants.KEY_UPGRADES_CONTAINER, MachineUpgrades.CODEC, upgrades);
+        output.storeNullable("turret_pos", BlockPos.CODEC, turretPos);
     }
 }

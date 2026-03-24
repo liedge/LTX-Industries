@@ -3,7 +3,7 @@ package liedge.ltxindustries.registry.game;
 import com.mojang.serialization.MapCodec;
 import liedge.ltxindustries.advancements.criterion.HomingTargetSubPredicate;
 import liedge.ltxindustries.advancements.criterion.GrenadeElementSubPredicate;
-import net.minecraft.advancements.critereon.EntitySubPredicate;
+import net.minecraft.advancements.criterion.EntitySubPredicate;
 import net.minecraft.core.registries.Registries;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;

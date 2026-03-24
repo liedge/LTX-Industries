@@ -3,7 +3,7 @@ package liedge.ltxindustries.lib.weapons;
 import liedge.limacore.lib.TickTimer;
 import liedge.limacore.util.LimaCoreObjects;
 import liedge.ltxindustries.client.AutomaticWeaponSoundInstance;
-import liedge.ltxindustries.client.renderer.item.WeaponRenderer;
+import liedge.ltxindustries.client.item.WeaponClientItem;
 import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.network.packet.ClientboundWeaponControlsPacket;
 import liedge.ltxindustries.network.packet.ServerboundWeaponControlsPacket;
@@ -13,7 +13,7 @@ import liedge.ltxindustries.registry.game.LTXISounds;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 
 public class ClientExtendedInput extends LTXIExtendedInput
 {
@@ -32,7 +32,7 @@ public class ClientExtendedInput extends LTXIExtendedInput
 
     private void sendPacketToServer(WeaponItem weaponItem, byte action)
     {
-        PacketDistributor.sendToServer(new ServerboundWeaponControlsPacket(weaponItem, action));
+        ClientPacketDistributor.sendToServer(new ServerboundWeaponControlsPacket(weaponItem, action));
     }
 
     public TickTimer getAnimationTimerA()
@@ -88,7 +88,7 @@ public class ClientExtendedInput extends LTXIExtendedInput
     public void shootWeapon(ItemStack heldItem, Player player, WeaponItem weaponItem, boolean sendClientUpdate)
     {
         super.shootWeapon(heldItem, player, weaponItem, sendClientUpdate);
-        WeaponRenderer.fromItem(weaponItem).onWeaponFired(heldItem, weaponItem, this);
+        WeaponClientItem.of(weaponItem).onWeaponFired(heldItem, weaponItem, this);
     }
 
     @Override

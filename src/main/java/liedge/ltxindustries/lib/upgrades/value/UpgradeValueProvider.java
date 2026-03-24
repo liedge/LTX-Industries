@@ -12,7 +12,8 @@ import java.util.function.Function;
 
 public interface UpgradeValueProvider extends LootContextUser
 {
-    Codec<UpgradeValueProvider> DIRECT_CODEC = Codec.lazyInitialized(() -> LimaCoreCodecs.dispatchWithInline(UpgradeValueTypes.MASTER_REGISTRY_CODEC, ConstantDouble.class, ConstantDouble.INLINE_CODEC, UpgradeValueProvider::codec, Function.identity()));
+    Codec<UpgradeValueProvider> DIRECT_CODEC = Codec.lazyInitialized(() ->
+            LimaCoreCodecs.dispatchWithInline(UpgradeValueTypes.ID_MAPPER.codec(Codec.STRING), ConstantDouble.class, ConstantDouble.INLINE_CODEC, UpgradeValueProvider::codec, Function.identity()));
 
     static UpgradeValueProvider wrap(NumberProvider provider)
     {

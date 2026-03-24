@@ -1,7 +1,6 @@
 package liedge.ltxindustries.item.tool;
 
 import net.minecraft.tags.BlockTags;
-import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.common.ItemAbility;
 
 import java.util.List;
@@ -17,6 +16,6 @@ public class EnergyDrillItem extends ModularEnergyMiningItem
     @Override
     protected Set<ItemAbility> getAvailableAbilities()
     {
-        return ItemAbilities.DEFAULT_PICKAXE_ACTIONS;
+        return Set.of();
     }
 }

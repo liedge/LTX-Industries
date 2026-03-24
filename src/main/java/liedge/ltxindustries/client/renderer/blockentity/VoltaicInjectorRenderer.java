@@ -1,17 +1,15 @@
 package liedge.ltxindustries.client.renderer.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import liedge.limacore.client.LimaBlockEntityRenderer;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.blockentity.VoltaicInjectorBlockEntity;
-import liedge.ltxindustries.client.LTXIRenderUtil;
-import liedge.ltxindustries.client.model.custom.EnergyBoltData;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import liedge.ltxindustries.client.LTXIRenderer;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.state.CameraRenderState;
 
-public class VoltaicInjectorRenderer extends LimaBlockEntityRenderer<VoltaicInjectorBlockEntity>
+public final class VoltaicInjectorRenderer extends MachineRenderer<VoltaicInjectorBlockEntity>
 {
     public VoltaicInjectorRenderer(BlockEntityRendererProvider.Context context)
     {
@@ -19,18 +17,20 @@ public class VoltaicInjectorRenderer extends LimaBlockEntityRenderer<VoltaicInje
     }
 
     @Override
-    public void render(VoltaicInjectorBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay)
+    void extractAdditional(VoltaicInjectorBlockEntity blockEntity, MachineRenderState renderState, float partialTick)
     {
-        EnergyBoltData bolt = blockEntity.platformBolt;
-        if (bolt == null) return;
+        renderState.machineBolt = blockEntity.platformBolt;
+    }
+
+    @Override
+    public void submit(MachineRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState)
+    {
+        if (renderState.machineBolt == null) return;
 
         poseStack.pushPose();
 
         poseStack.translate(0.5f, 0.375f, 0.5f);
-
-        VertexConsumer buffer = bufferSource.getBuffer(RenderType.lightning());
-
-        LTXIRenderUtil.submitEnergyBolt(buffer, poseStack.last().pose(), bolt, LTXIConstants.ELECTRIC_GREEN, 0.9f);
+        LTXIRenderer.submitEnergyBolt(poseStack, nodeCollector, RenderTypes.lightning(), renderState.machineBolt, LTXIConstants.ELECTRIC_GREEN, 0.9f);
 
         poseStack.popPose();
     }

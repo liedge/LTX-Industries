@@ -1,9 +1,9 @@
 package liedge.ltxindustries.menu;
 
 import liedge.limacore.blockentity.BlockContentsType;
-import liedge.limacore.capability.fluid.LimaBlockEntityFluidHandler;
 import liedge.limacore.menu.LimaMenuProvider;
 import liedge.limacore.menu.LimaMenuType;
+import liedge.limacore.transfer.fluid.LimaBlockEntityFluids;
 import liedge.ltxindustries.blockentity.base.RecipeModeHolderBlockEntity;
 import liedge.ltxindustries.blockentity.template.BaseRecipeMachineBlockEntity;
 import liedge.ltxindustries.client.LTXILangKeys;
@@ -39,9 +39,9 @@ public final class RecipeLayoutMenu<CTX extends BaseRecipeMachineBlockEntity<?, 
                 switch (slotType)
                 {
                     case ITEM_INPUT -> addSlot(contentsType, i, s.x(), s.y());
-                    case ITEM_OUTPUT -> addRecipeOutputSlot(i, s.x(), s.y(), menuContext.getRecipeCheck().getRecipeType());
-                    case FLUID_INPUT -> addFluidSlot(menuContext.getFluidHandlerOrThrow(contentsType), i, s.x(), s.y(), true);
-                    case FLUID_OUTPUT -> addFluidSlot(menuContext.getFluidHandlerOrThrow(contentsType), i, s.x(), s.y(), false);
+                    case ITEM_OUTPUT -> addOutputSlot(i, s.x(), s.y());
+                    case FLUID_INPUT -> addFluidSlot(menuContext.getFluidsOrThrow(contentsType), i, s.x(), s.y(), true);
+                    case FLUID_OUTPUT -> addFluidSlot(menuContext.getFluidsOrThrow(contentsType), i, s.x(), s.y(), false);
                 }
             }
         }
@@ -57,15 +57,15 @@ public final class RecipeLayoutMenu<CTX extends BaseRecipeMachineBlockEntity<?, 
     @Override
     public void defineDataWatchers(DataWatcherCollector collector)
     {
-        menuContext.getEnergyStorage().keepAllPropertiesSynced(collector);
+        menuContext.getEnergy().keepAllPropertiesSynced(collector);
         menuContext.keepTimedProcessSynced(collector);
         menuContext.keepEnergyConsumerPropertiesSynced(collector);
 
-        LimaBlockEntityFluidHandler inputFluids = menuContext.getFluidHandler(BlockContentsType.INPUT);
-        if (inputFluids != null) inputFluids.syncAllTanks(collector);
+        LimaBlockEntityFluids inputFluids = menuContext.getFluids(BlockContentsType.INPUT);
+        if (inputFluids != null) inputFluids.syncTanks(collector);
 
-        LimaBlockEntityFluidHandler outputFluids = menuContext.getFluidHandler(BlockContentsType.OUTPUT);
-        if (outputFluids != null) outputFluids.syncAllTanks(collector);
+        LimaBlockEntityFluids outputFluids = menuContext.getFluids(BlockContentsType.OUTPUT);
+        if (outputFluids != null) outputFluids.syncTanks(collector);
 
         if (menuContext instanceof RecipeModeHolderBlockEntity modeHolder)
         {

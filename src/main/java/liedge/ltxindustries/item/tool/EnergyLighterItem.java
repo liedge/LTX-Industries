@@ -53,7 +53,7 @@ public class EnergyLighterItem extends BaseEnergyToolItem
                     consumeEnergyAction(serverPlayer, stack);
                 }
 
-                return InteractionResult.sidedSuccess(level.isClientSide());
+                return InteractionResult.SUCCESS;
             }
             else
             {
@@ -68,7 +68,7 @@ public class EnergyLighterItem extends BaseEnergyToolItem
 
             if (!level.isClientSide() && player != null) consumeEnergyAction(player, stack);
 
-            return InteractionResult.sidedSuccess(level.isClientSide());
+            return InteractionResult.SUCCESS;
         }
     }
 }

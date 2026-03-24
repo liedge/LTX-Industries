@@ -2,42 +2,76 @@ package liedge.ltxindustries.client.renderer.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import liedge.limacore.client.LimaBlockEntityRenderer;
 import liedge.ltxindustries.blockentity.EquipmentUpgradeStationBlockEntity;
-import liedge.ltxindustries.client.LTXIRenderUtil;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
+import liedge.ltxindustries.client.LTXIRenderer;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.item.ItemModelResolver;
+import net.minecraft.client.renderer.item.ItemStackRenderState;
+import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.phys.Vec3;
+import org.jspecify.annotations.Nullable;
 
-public class EquipmentUpgradeStationRenderer extends LimaBlockEntityRenderer<EquipmentUpgradeStationBlockEntity>
+public final class EquipmentUpgradeStationRenderer implements BlockEntityRenderer<EquipmentUpgradeStationBlockEntity, EquipmentUpgradeStationRenderer.StationRenderState>
 {
+    private final ItemModelResolver itemResolver;
+
     public EquipmentUpgradeStationRenderer(BlockEntityRendererProvider.Context context)
     {
-        super(context);
+        this.itemResolver = context.itemModelResolver();
     }
 
     @Override
-    public void render(EquipmentUpgradeStationBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay)
+    public StationRenderState createRenderState()
     {
-        ItemStack previewItem = blockEntity.getPreviewItem();
-        if (!previewItem.isEmpty())
+        return new StationRenderState();
+    }
+
+    @Override
+    public void extractRenderState(EquipmentUpgradeStationBlockEntity blockEntity, StationRenderState renderState, float partialTick, Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress)
+    {
+        BlockEntityRenderer.super.extractRenderState(blockEntity, renderState, partialTick, cameraPosition, breakProgress);
+
+        renderState.facing = blockEntity.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING);
+
+        ItemStack stack = blockEntity.getPreviewItem();
+        if (!stack.isEmpty())
         {
-            poseStack.pushPose();
-
-            poseStack.translate(0.5d, 0.8125d, 0.5d);
-
-            Direction facing = blockEntity.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING);
-            poseStack.mulPose(Axis.YP.rotationDegrees(LTXIRenderUtil.facingYRotation(facing)));
-            poseStack.mulPose(Axis.XP.rotationDegrees(90f));
-            poseStack.scale(0.4375f, 0.4375f, 0.4375f);
-
-            itemRenderer.renderStatic(previewItem, ItemDisplayContext.FIXED, packedLight, packedOverlay, poseStack, bufferSource, Minecraft.getInstance().level, 0);
-
-            poseStack.popPose();
+            ItemStackRenderState previewItem = new ItemStackRenderState();
+            itemResolver.updateForTopItem(previewItem, stack, ItemDisplayContext.FIXED, null, null, 0);
+            renderState.previewItem = previewItem;
         }
+    }
+
+    @Override
+    public void submit(StationRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState)
+    {
+        ItemStackRenderState previewItem = renderState.previewItem;
+        if (previewItem == null) return;
+
+        poseStack.pushPose();
+
+        poseStack.translate(0.5f, 0.8125f, 0.5f);
+        poseStack.mulPose(Axis.YP.rotationDegrees(LTXIRenderer.facingYRotation(renderState.facing)));
+        poseStack.mulPose(Axis.XP.rotationDegrees(90f));
+        poseStack.scale(0.4375f, 0.4375f, 0.4375f);
+
+        previewItem.submit(poseStack, nodeCollector, renderState.lightCoords, OverlayTexture.NO_OVERLAY, 0);
+
+        poseStack.popPose();
+    }
+
+    public static class StationRenderState extends BlockEntityRenderState
+    {
+        Direction facing = Direction.NORTH;
+        @Nullable ItemStackRenderState previewItem;
     }
 }

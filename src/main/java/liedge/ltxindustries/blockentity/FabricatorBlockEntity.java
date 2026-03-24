@@ -1,5 +1,6 @@
 package liedge.ltxindustries.blockentity;
 
+import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.recipe.LimaRecipeInput;
 import liedge.ltxindustries.recipe.FabricatingRecipe;
 import liedge.ltxindustries.registry.game.LTXIBlockEntities;
@@ -8,8 +9,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
+
+import java.util.List;
 
 public class FabricatorBlockEntity extends BaseFabricatorBlockEntity
 {
@@ -18,11 +21,11 @@ public class FabricatorBlockEntity extends BaseFabricatorBlockEntity
         super(LTXIBlockEntities.FABRICATOR.get(), pos, state, 0);
     }
 
-    public void startCrafting(Level level, RecipeHolder<FabricatingRecipe> holder, LimaRecipeInput input, boolean forceStart)
+    public void startCrafting(ServerLevel level, RecipeHolder<FabricatingRecipe> holder, LimaRecipeInput input, boolean forceStart)
     {
         FabricatingRecipe recipe = holder.value();
 
-        if (!isCrafting() && canInsertRecipeResults(level, recipe))
+        if (!isCrafting() && canInsertRecipeResults(level, recipe, input))
         {
             if (forceStart)
             {
@@ -44,7 +47,7 @@ public class FabricatorBlockEntity extends BaseFabricatorBlockEntity
         {
             if (insertResult)
             {
-                getOutputInventory().insertItem(0, holder.value().generateItemResult(level), false);
+                insertResourceResults(List.of(holder.value().generateItemResult(level)), getItems(BlockContentsType.OUTPUT));
             }
 
             energyCraftProgress = 0;
@@ -62,7 +65,11 @@ public class FabricatorBlockEntity extends BaseFabricatorBlockEntity
             if (energyCraftProgress < recipe.getEnergyRequired())
             {
                 int toExtract = Math.min(getEnergyUsage(), recipe.getEnergyRequired() - energyCraftProgress);
-                energyCraftProgress += getEnergyStorage().extractEnergy(toExtract, false);
+                try (Transaction tx = Transaction.openRoot())
+                {
+                    energyCraftProgress += getEnergy().extract(toExtract, tx);
+                    tx.commit();
+                }
             }
             else
             {

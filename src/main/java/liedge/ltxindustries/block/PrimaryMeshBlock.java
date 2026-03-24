@@ -12,7 +12,8 @@ import liedge.ltxindustries.registry.game.LTXIBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -41,7 +42,7 @@ public class PrimaryMeshBlock extends BaseMeshBlock
         return x << 12 | y << 7 | z << 2 | facing.get2DDataValue();
     }
 
-    public static PrimaryMeshBlock create(Properties properties, ResourceLocation blockMeshId, VoxelShape identityShape, boolean tickClient)
+    public static PrimaryMeshBlock create(Properties properties, Identifier blockMeshId, VoxelShape identityShape, boolean tickClient)
     {
         BlockMesh mesh = Objects.requireNonNull(LTXIBlockMeshes.getBlockMesh(blockMeshId));
         Int2ObjectMap<VoxelShape> map = new Int2ObjectOpenHashMap<>();
@@ -149,14 +150,14 @@ public class PrimaryMeshBlock extends BaseMeshBlock
     }
 
     @Override
-    protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston)
+    protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel level, BlockPos pos, boolean movedByPiston)
     {
-        if (state.is(this) && !newState.is(this))
-        {
-            BlockMesh mesh = getBlockMesh();
-            mesh.meshStream(pos, mesh.getPrimary(), state.getValue(HORIZONTAL_FACING).getOpposite()).filter(cursor -> !cursor.equals(pos)).forEach(cursor -> level.removeBlock(cursor, false));
-        }
-
-        super.onRemove(state, level, pos, newState, movedByPiston);
+        BlockMesh mesh = getBlockMesh();
+        mesh.meshStream(pos, mesh.getPrimary(), state.getValue(HORIZONTAL_FACING).getOpposite())
+                .filter(cursor -> !cursor.equals(pos))
+                .forEach(cursor -> {
+                    MeshBlockEntity blockEntity = LimaBlockUtil.getBlockEntity(level, pos, MeshBlockEntity.class);
+                    if (blockEntity != null && mesh.equals(blockEntity.getBlockMesh())) level.removeBlock(pos, false);
+                });
     }
 }

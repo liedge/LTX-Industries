@@ -1,6 +1,6 @@
 package liedge.ltxindustries.client.gui.screen;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.platform.InputConstants;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.client.gui.LimaGuiUtil;
@@ -16,14 +16,14 @@ import liedge.ltxindustries.lib.upgrades.UpgradeBase;
 import liedge.ltxindustries.menu.UpgradesConfigMenu;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import org.jetbrains.annotations.Nullable;
-import org.lwjgl.glfw.GLFW;
+import org.joml.Matrix3x2fStack;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,10 +33,10 @@ import static liedge.ltxindustries.LTXIConstants.UPGRADE_RANK_MAGENTA;
 
 public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, U>, M extends UpgradesConfigMenu<?, U, ?>> extends LTXIScreen<M>
 {
-    private static final ResourceLocation SELECTOR_SPRITE = LTXIndustries.RESOURCES.location("widget/upgrade_selector");
-    private static final ResourceLocation SELECTOR_SPRITE_FOCUS = LTXIndustries.RESOURCES.location("widget/upgrade_selector_focus");
-    public static final ResourceLocation EQUIPMENT_MODULE_SPRITE = LTXIndustries.RESOURCES.location("equipment_upgrade_module");
-    public static final ResourceLocation MACHINE_MODULE_SPRITE = LTXIndustries.RESOURCES.location("machine_upgrade_module");
+    private static final Identifier SELECTOR_SPRITE = LTXIndustries.RESOURCES.id("widget/upgrade_selector");
+    private static final Identifier SELECTOR_SPRITE_FOCUS = LTXIndustries.RESOURCES.id("widget/upgrade_selector_focus");
+    public static final Identifier EQUIPMENT_MODULE_SPRITE = LTXIndustries.RESOURCES.id("equipment_upgrade_module");
+    public static final Identifier MACHINE_MODULE_SPRITE = LTXIndustries.RESOURCES.id("machine_upgrade_module");
 
     private @Nullable ScrollbarWidget scrollbar;
     private @Nullable SelectorList<U> selectorList;
@@ -51,7 +51,7 @@ public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, U>, M extend
 
     protected abstract void blitSlotSprites(GuiGraphics graphics);
 
-    protected abstract ResourceLocation fallbackModuleSprite();
+    protected abstract Identifier fallbackModuleSprite();
 
     @Override
     protected void addWidgets()
@@ -96,14 +96,14 @@ public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, U>, M extend
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button)
+    public boolean mouseClicked(MouseButtonEvent event, boolean isDoubleClick)
     {
-        if (Screen.hasShiftDown() && button == GLFW.GLFW_MOUSE_BUTTON_LEFT && selectorList != null)
+        if (Minecraft.getInstance().hasShiftDown() && event.button() == InputConstants.MOUSE_BUTTON_LEFT && selectorList != null)
         {
-            if (selectorList.onGridClicked(mouseX, mouseY, button)) return true;
+            if (selectorList.onGridClicked(event.x(), event.y(), 0)) return true;
         }
 
-        return super.mouseClicked(mouseX, mouseY, button);
+        return super.mouseClicked(event, isDoubleClick);
     }
 
     @Override
@@ -139,36 +139,34 @@ public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, U>, M extend
             U upgrade = element.getKey().value();
             int rank = element.getIntValue();
 
-            ResourceLocation sprite = isMouseOverElement(mouseX, mouseY, posX, posY) ? SELECTOR_SPRITE_FOCUS : SELECTOR_SPRITE;
-            graphics.blitSprite(sprite, posX, posY, elementWidth(), elementHeight());
+            Identifier sprite = isMouseOverElement(mouseX, mouseY, posX, posY) ? SELECTOR_SPRITE_FOCUS : SELECTOR_SPRITE;
+            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, sprite, posX, posY, elementWidth(), elementHeight());
 
             // Render icon
             int iconX = posX + 2;
             int iconY = posY + 2;
             if (!UpgradeIconRenderers.renderIcon(graphics, upgrade.display().icon(), iconX, iconY))
             {
-                graphics.blitSprite(parent.fallbackModuleSprite(), iconX, iconY, 16, 16);
+                graphics.blitSprite(RenderPipelines.GUI_TEXTURED, parent.fallbackModuleSprite(), iconX, iconY, 16, 16);
             }
 
             // Render title
             int titleX = posX + 22;
             int titleY = posY + 3;
 
-            PoseStack poseStack = graphics.pose();
+            Matrix3x2fStack matrixStack = graphics.pose();
+            matrixStack.pushMatrix();
 
-            poseStack.pushPose();
+            graphics.enableScissor(titleX, titleY, titleX + 79, titleY + 9);
 
-            graphics.enableScissor(titleX, titleY, titleX + 79,  titleY + 9);
-
-            poseStack.translate(titleX, titleY + (11d - (double) Minecraft.getInstance().font.lineHeight * 0.8d) / 2d, 0);
-            poseStack.scale(0.8f, 0.8f, 0.8f);
+            matrixStack.translate(titleX, titleY + (11f - (float) Minecraft.getInstance().font.lineHeight * 0.8f) / 2f);
+            matrixStack.scale(0.8f);
 
             graphics.drawString(Minecraft.getInstance().font, upgrade.display().title(), 0, 0, -1, false);
 
             graphics.disableScissor();
 
-            poseStack.popPose();
-
+            matrixStack.popMatrix();
 
             // Render rank bar
             float xo = 75f * LimaCoreMath.divideFloat(rank, upgrade.maxRank());
@@ -186,7 +184,7 @@ public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, U>, M extend
                 rightColor = UPGRADE_RANK_MAGENTA.argb32();
             }
 
-            LimaGuiUtil.fillHorizontalGradient(graphics, RenderType.guiOverlay(), posX + 21, posY + 15, posX + 21 + xo, posY + 19, leftColor, rightColor);
+            LimaGuiUtil.submitHorizontalGradient(graphics, RenderPipelines.GUI, posX + 21, posY + 15, posX + 21 + xo, posY + 19, leftColor, rightColor);
         }
 
         @Override
@@ -203,15 +201,15 @@ public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, U>, M extend
 
             lines.add(LTXILangKeys.UPGRADE_REMOVE_HINT.translate().withStyle(OUTPUT_ORANGE.chatStyle()));
 
-            graphics.renderTooltip(Minecraft.getInstance().font, lines, Optional.empty(), mouseX, mouseY);
+            graphics.setTooltipForNextFrame(Minecraft.getInstance().font, lines, Optional.empty(), mouseX, mouseY);
         }
 
         @Override
         public void onElementClicked(Object2IntMap.Entry<Holder<U>> element, double mouseX, double mouseY, int button, int gridIndex, int elementIndex)
         {
-            if (Screen.hasShiftDown())
+            if (Minecraft.getInstance().hasShiftDown())
             {
-                parent.sendCustomButtonData(UpgradesConfigMenu.UPGRADE_REMOVAL_BUTTON_ID, LimaRegistryUtil.getNonNullRegistryId(element.getKey()), LimaCoreNetworkSerializers.RESOURCE_LOCATION);
+                parent.sendCustomButtonData(UpgradesConfigMenu.UPGRADE_REMOVAL_BUTTON_ID, LimaRegistryUtil.getNonNullRegistryId(element.getKey()), LimaCoreNetworkSerializers.IDENTIFIER);
             }
         }
     }

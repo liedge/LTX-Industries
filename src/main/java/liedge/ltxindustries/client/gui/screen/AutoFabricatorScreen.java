@@ -5,12 +5,12 @@ import liedge.ltxindustries.client.gui.widget.FabricatorProgressWidget;
 import liedge.ltxindustries.menu.AutoFabricatorMenu;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 
 public class AutoFabricatorScreen extends LTXIMachineScreen<AutoFabricatorMenu>
 {
-    private static final ResourceLocation BLUEPRINT_SLOT_SPRITE = LTXIndustries.RESOURCES.location("slot/encoded_blueprint");
+    private static final Identifier BLUEPRINT_SLOT_SPRITE = LTXIndustries.RESOURCES.id("slot/encoded_blueprint");
 
     public AutoFabricatorScreen(AutoFabricatorMenu menu, Inventory inventory, Component title)
     {

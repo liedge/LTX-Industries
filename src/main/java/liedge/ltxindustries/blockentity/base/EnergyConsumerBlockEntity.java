@@ -1,11 +1,11 @@
 package liedge.ltxindustries.blockentity.base;
 
-import liedge.limacore.capability.energy.EnergyHolderBlockEntity;
-import liedge.limacore.capability.energy.LimaEnergyUtil;
 import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.network.sync.AutomaticDataWatcher;
 import liedge.limacore.network.sync.DataWatcherHolder;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
+import liedge.limacore.transfer.LimaEnergyUtil;
+import liedge.limacore.transfer.energy.EnergyHolderBlockEntity;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrades;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -26,12 +26,12 @@ public interface EnergyConsumerBlockEntity extends EnergyHolderBlockEntity
 
     default boolean hasMinimumEnergy()
     {
-        return getEnergyStorage().getEnergyStored() >= getEnergyUsage();
+        return getEnergy().getAmountAsInt() >= getEnergyUsage();
     }
 
-    default boolean consumeUsageEnergy(boolean ignoreLimit)
+    default boolean consumeUsageEnergy()
     {
-        return LimaEnergyUtil.consumeEnergy(getEnergyStorage(), getEnergyUsage(), ignoreLimit);
+        return LimaEnergyUtil.useExact(getEnergy(), getEnergyUsage(), null);
     }
 
     default void keepEnergyConsumerPropertiesSynced(DataWatcherHolder.DataWatcherCollector collector)

@@ -1,79 +1,78 @@
 package liedge.ltxindustries.client.renderer.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.blockentity.turret.ArcTurretBlockEntity;
-import liedge.ltxindustries.client.LTXIRenderUtil;
+import liedge.ltxindustries.client.LTXIRenderer;
+import liedge.ltxindustries.client.model.LTXIModelPartKeys;
 import liedge.ltxindustries.client.model.custom.EnergyBoltData;
-import liedge.ltxindustries.registry.game.LTXIBlocks;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.util.Mth;
-import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.phys.Vec3;
-import org.joml.Matrix4f;
+import org.jspecify.annotations.Nullable;
+
+import java.util.List;
 
 public class ArcTurretRenderer extends TurretRenderer<ArcTurretBlockEntity>
 {
     public ArcTurretRenderer(BlockEntityRendererProvider.Context context)
     {
-        super(context);
+        super(context, LTXIModelPartKeys.ARC_TURRET_SWIVEL, LTXIModelPartKeys.ARC_TURRET_WEAPONS);
     }
 
     @Override
-    protected ItemLike getModelItem()
+    public void submit(TurretRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState)
     {
-        return LTXIBlocks.ARC_TURRET;
-    }
+        super.submit(renderState, poseStack, nodeCollector, cameraRenderState);
 
-    @Override
-    protected double gunsYPivot()
-    {
-        return 1.71875d;
-    }
+        Vec3 offset = renderState.chainOffset;
+        List<EnergyBoltData> secondaryBolts = renderState.secondaryBolts;
 
-    @Override
-    protected void renderAdditionalGuns(ArcTurretBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight)
-    {
-        poseStack.translate(0.5f, 1.62625f, -0.4375f);
+        if (offset == null || secondaryBolts.isEmpty()) return;
 
-        EnergyBoltData primaryBolt = blockEntity.primaryBolt;
-        if (primaryBolt != null)
+        poseStack.pushPose();
+
+        poseStack.translate(offset.x, offset.y, offset.z);
+
+        for (EnergyBoltData bolt : secondaryBolts)
         {
-            LTXIRenderUtil.submitEnergyBolt(bufferSource.getBuffer(RenderType.lightning()), poseStack.last().pose(), primaryBolt, LTXIConstants.ELECTRIC_GREEN, 0.9f);
+            LTXIRenderer.submitEnergyBolt(poseStack, nodeCollector, RenderTypes.lightning(), bolt, LTXIConstants.ELECTRIC_GREEN, 0.85f);
         }
+
+        poseStack.popPose();
     }
 
     @Override
-    public void render(ArcTurretBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay)
+    public void extractRenderState(ArcTurretBlockEntity blockEntity, TurretRenderState renderState, float partialTick, Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress)
     {
-        super.render(blockEntity, partialTick, poseStack, bufferSource, packedLight, packedOverlay);
+        super.extractRenderState(blockEntity, renderState, partialTick, cameraPosition, breakProgress);
 
-        Vec3 a = blockEntity.chainOffset0;
-        Vec3 b = blockEntity.chainOffset;
+        renderState.primaryBolt = blockEntity.primaryBolt;
 
-        if (a != null && b != null)
-        {
-            poseStack.pushPose();
+        Vec3 pos0 = blockEntity.chainOffset0;
+        Vec3 pos = blockEntity.chainOffset;
 
-            double x = Mth.lerp(partialTick, a.x, b.x);
-            double y = Mth.lerp(partialTick, a.y, b.y);
-            double z = Mth.lerp(partialTick, a.z, b.z);
+        if (pos0 != null && pos != null) renderState.chainOffset = Mth.lerp(partialTick, pos0, pos);
 
-            poseStack.translate(x, y, z);
+        renderState.secondaryBolts = List.copyOf(blockEntity.boltChains);
+    }
 
-            VertexConsumer buffer = bufferSource.getBuffer(RenderType.lightning());
-            Matrix4f mx4 = poseStack.last().pose();
+    @Override
+    protected float yPivot()
+    {
+        return 1.71875f;
+    }
 
-            for (EnergyBoltData model : blockEntity.boltChains)
-            {
-                LTXIRenderUtil.submitEnergyBolt(buffer, mx4, model, LTXIConstants.ELECTRIC_GREEN, 0.6f);
-            }
+    @Override
+    protected void submitWeapons(TurretRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState)
+    {
+        super.submitWeapons(renderState, poseStack, nodeCollector, cameraRenderState);
 
-
-            poseStack.popPose();
-        }
+        if (renderState.primaryBolt != null)
+            LTXIRenderer.submitEnergyBolt(poseStack, nodeCollector, RenderTypes.lightning(), renderState.primaryBolt, LTXIConstants.ELECTRIC_GREEN, 0.85f);
     }
 }

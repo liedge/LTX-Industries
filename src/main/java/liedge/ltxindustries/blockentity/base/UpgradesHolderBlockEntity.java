@@ -1,10 +1,10 @@
 package liedge.ltxindustries.blockentity.base;
 
 import liedge.limacore.blockentity.LimaBlockEntity;
-import liedge.limacore.capability.energy.EnergyHolderBlockEntity;
-import liedge.limacore.capability.itemhandler.ItemHolderBlockEntity;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.lib.math.LimaCoreMath;
+import liedge.limacore.transfer.energy.EnergyHolderBlockEntity;
+import liedge.limacore.transfer.item.ItemHolderBlockEntity;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrades;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import net.minecraft.server.level.ServerLevel;
@@ -50,9 +50,8 @@ public interface UpgradesHolderBlockEntity extends SubMenuProviderBlockEntity, I
         {
             double newCapacity = upgrades.runValueOps(LTXIUpgradeEffectComponents.ENERGY_CAPACITY, context, energyHolder.getBaseEnergyCapacity());
             double newTransferRate = upgrades.runValueOps(LTXIUpgradeEffectComponents.ENERGY_TRANSFER_RATE, context, energyHolder.getBaseEnergyTransferRate());
-
-            energyHolder.getEnergyStorage().setMaxEnergyStored(LimaCoreMath.round(newCapacity));
-            energyHolder.getEnergyStorage().setTransferRate(LimaCoreMath.round(newTransferRate));
+            energyHolder.getEnergy().setCapacity(LimaCoreMath.round(newCapacity));
+            energyHolder.getEnergy().setTransferRate(LimaCoreMath.round(newTransferRate));
         }
     }
 }

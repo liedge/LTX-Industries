@@ -4,6 +4,7 @@ import liedge.ltxindustries.LTXITags;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -57,11 +58,11 @@ public class EnergyShearsItem extends BaseEnergyMiningItem
             {
                 List<ItemStack> drops = shearable.onSheared(player, stack, level, pos);
 
-                if (!level.isClientSide())
+                if (interactionTarget.level() instanceof ServerLevel serverLevel)
                 {
                     for (ItemStack drop : drops)
                     {
-                        shearable.spawnShearedDrop(level, pos, drop);
+                        shearable.spawnShearedDrop(serverLevel, pos, drop);
                     }
 
                     consumeEnergyAction(player, stack);
@@ -69,7 +70,7 @@ public class EnergyShearsItem extends BaseEnergyMiningItem
 
                 interactionTarget.gameEvent(GameEvent.SHEAR, player);
 
-                return InteractionResult.sidedSuccess(level.isClientSide());
+                return InteractionResult.SUCCESS;
             }
         }
 
@@ -91,7 +92,7 @@ public class EnergyShearsItem extends BaseEnergyMiningItem
             level.setBlockAndUpdate(pos, state1);
             level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, state1));
 
-            return InteractionResult.sidedSuccess(level.isClientSide());
+            return InteractionResult.SUCCESS;
         }
 
         return InteractionResult.PASS;

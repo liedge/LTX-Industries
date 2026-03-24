@@ -11,16 +11,17 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.resources.Identifier;
 
 public final class BubbleShieldLayer extends LimaGuiLayer
 {
-    private static final ResourceLocation DISPLAY_SPRITE = LTXIndustries.RESOURCES.location("hud/shield");
+    private static final Identifier DISPLAY_SPRITE = LTXIndustries.RESOURCES.id("hud/shield");
     public static final BubbleShieldLayer INSTANCE = new BubbleShieldLayer();
 
     private BubbleShieldLayer()
     {
-        super(LTXIndustries.RESOURCES.location("bubble_shield"));
+        super(LTXIndustries.RESOURCES.id("bubble_shield"));
     }
 
     @Override
@@ -38,7 +39,7 @@ public final class BubbleShieldLayer extends LimaGuiLayer
 
             String shieldStr = Integer.toString((int) shieldHealth);
             int shieldX0 = font.width(shieldStr) / 2;
-            graphics.blitSprite(DISPLAY_SPRITE, x, y, 33, 13);
+            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, DISPLAY_SPRITE, x, y, 33, 13);
             graphics.drawString(font, shieldStr, x + 19 - shieldX0, y + 3, LTXIConstants.BUBBLE_SHIELD_BLUE.argb32(), false);
         }
     }

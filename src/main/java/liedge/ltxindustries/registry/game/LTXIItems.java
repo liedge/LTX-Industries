@@ -10,7 +10,10 @@ import liedge.ltxindustries.item.tool.*;
 import liedge.ltxindustries.item.weapon.*;
 import net.minecraft.core.Holder;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.BucketItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.bus.api.IEventBus;
@@ -18,12 +21,11 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.function.UnaryOperator;
 
 import static liedge.ltxindustries.LTXIndustries.RESOURCES;
 
@@ -45,7 +47,10 @@ public final class LTXIItems
         for (Holder<Item> holder : ITEMS.getEntries())
         {
             ItemLike item = holder.value();
-            if (item instanceof EnergyHolderItem) event.registerItem(Capabilities.EnergyStorage.ITEM, (stack, ignored) -> EnergyHolderItem.createEnergyAccess(stack), item);
+            if (item instanceof EnergyHolderItem)
+            {
+                event.registerItem(Capabilities.Energy.ITEM, EnergyHolderItem::createItemEnergy, item);
+            }
         }
     }
 
@@ -74,9 +79,9 @@ public final class LTXIItems
     public static final DeferredItem<BlockItem> SLATESTEEL_PANEL = ITEMS.registerSimpleBlockItem(LTXIBlocks.SLATESTEEL_PANEL);
     public static final DeferredItem<BlockItem> SMOOTH_SLATESTEEL_PANEL = ITEMS.registerSimpleBlockItem(LTXIBlocks.SMOOTH_SLATESTEEL_PANEL);
     public static final DeferredItem<BlockItem> TILED_SLATESTEEL_PANEL = ITEMS.registerSimpleBlockItem(LTXIBlocks.TILED_SLATESTEEL_PANEL);
-    public static final DeferredItem<BlockItem> EQUIPMENT_UPGRADE_STATION = ITEMS.registerSimpleBlockItem(LTXIBlocks.EQUIPMENT_UPGRADE_STATION, properties().stacksTo(1));
-    public static final DeferredItem<ECABlockItem> ENERGY_CELL_ARRAY = ITEMS.registerBlockItem(LTXIBlocks.ENERGY_CELL_ARRAY, ECABlockItem::new, properties().stacksTo(1));
-    public static final DeferredItem<InfiniteECABlockItem> INFINITE_ENERGY_CELL_ARRAY = ITEMS.registerBlockItem(LTXIBlocks.INFINITE_ENERGY_CELL_ARRAY, InfiniteECABlockItem::new, properties().stacksTo(1).rarity(Rarity.EPIC));
+    public static final DeferredItem<BlockItem> EQUIPMENT_UPGRADE_STATION = ITEMS.registerSimpleBlockItem(LTXIBlocks.EQUIPMENT_UPGRADE_STATION, properties -> properties.stacksTo(1));
+    public static final DeferredItem<ECABlockItem> ENERGY_CELL_ARRAY = ITEMS.registerCustomBlockItem(LTXIBlocks.ENERGY_CELL_ARRAY, ECABlockItem::new, properties -> properties.stacksTo(1));
+    public static final DeferredItem<InfiniteECABlockItem> INFINITE_ENERGY_CELL_ARRAY = ITEMS.registerCustomBlockItem(LTXIBlocks.INFINITE_ENERGY_CELL_ARRAY, InfiniteECABlockItem::new, properties -> properties.stacksTo(1).rarity(Rarity.EPIC));
     public static final DeferredItem<BlockItem> DIGITAL_FURNACE = registerMachineBlockItem(LTXIBlocks.DIGITAL_FURNACE);
     public static final DeferredItem<BlockItem> DIGITAL_SMOKER = registerMachineBlockItem(LTXIBlocks.DIGITAL_SMOKER);
     public static final DeferredItem<BlockItem> DIGITAL_BLAST_FURNACE = registerMachineBlockItem(LTXIBlocks.DIGITAL_BLAST_FURNACE);
@@ -105,13 +110,13 @@ public final class LTXIItems
     public static final DeferredItem<Item> NIOBIUM_INGOT = ITEMS.registerSimpleItem("niobium_ingot");
     public static final DeferredItem<Item> NIOBIUM_NUGGET = ITEMS.registerSimpleItem("niobium_nugget");
     public static final DeferredItem<BlockItem> SPARK_FRUIT = ITEMS.registerSimpleBlockItem(LTXIBlocks.SPARK_FRUIT);
-    public static final DeferredItem<ItemNameBlockItem> VITRIOL_BERRIES = ITEMS.registerItem("vitriol_berries", properties -> new ItemNameBlockItem(LTXIBlocks.BILEVINE.get(), properties));
+    public static final DeferredItem<BlockItem> VITRIOL_BERRIES = ITEMS.registerSimpleBlockItem("vitriol_berries", LTXIBlocks.BILEVINE, Item.Properties::useItemDescriptionPrefix);
     public static final DeferredItem<BlockItem> GLOOM_SHROOM = ITEMS.registerSimpleBlockItem(LTXIBlocks.GLOOM_SHROOM);
 
     // Buckets
-    public static final DeferredItem<BucketItem> VIRIDIC_ACID_BUCKET = ITEMS.registerItem("viridic_acid_bucket", properties -> new BucketItem(LTXIFluids.VIRIDIC_ACID.get(), properties), properties().stacksTo(1));
-    public static final DeferredItem<BucketItem> HYDROGEN_BUCKET = ITEMS.registerItem("hydrogen_bucket", properties -> new BucketItem(LTXIFluids.HYDROGEN.get(), properties), properties().stacksTo(1));
-    public static final DeferredItem<BucketItem> OXYGEN_BUCKET = ITEMS.registerItem("oxygen_bucket", properties -> new BucketItem(LTXIFluids.OXYGEN.get(), properties), properties().stacksTo(1));
+    public static final DeferredItem<BucketItem> VIRIDIC_ACID_BUCKET = ITEMS.registerItem("viridic_acid_bucket", properties -> new BucketItem(LTXIFluids.VIRIDIC_ACID.get(), properties), properties -> properties.stacksTo(1));
+    public static final DeferredItem<BucketItem> HYDROGEN_BUCKET = ITEMS.registerItem("hydrogen_bucket", properties -> new BucketItem(LTXIFluids.HYDROGEN.get(), properties), properties -> properties.stacksTo(1));
+    public static final DeferredItem<BucketItem> OXYGEN_BUCKET = ITEMS.registerItem("oxygen_bucket", properties -> new BucketItem(LTXIFluids.OXYGEN.get(), properties), properties -> properties.stacksTo(1));
 
     // Pigments
     public static final DeferredItem<Item> LTX_LIME_PIGMENT = ITEMS.registerSimpleItem("ltx_lime_pigment");
@@ -147,10 +152,10 @@ public final class LTXIItems
     public static final DeferredItem<SimpleHintItem> T1_CIRCUIT = registerSimpleHint("t1_circuit");
     public static final DeferredItem<SimpleHintItem> T2_CIRCUIT = registerSimpleHint("t2_circuit");
     public static final DeferredItem<SimpleHintItem> T3_CIRCUIT = registerSimpleHint("t3_circuit");
-    public static final DeferredItem<SimpleHintItem> T4_CIRCUIT = registerSimpleHint("t4_circuit", properties().rarity(Rarity.RARE));
-    public static final DeferredItem<SimpleHintItem> T5_CIRCUIT = registerSimpleHint("t5_circuit", properties().rarity(LTXIItemRarities.ltxGearRarity()));
-    public static final DeferredItem<SimpleHintItem> OPTICAL_TECH_PART = registerSimpleHint("optical_tech_part", properties().rarity(Rarity.UNCOMMON));
-    public static final DeferredItem<SimpleHintItem> IMPULSE_TECH_PART = registerSimpleHint("impulse_tech_part", properties().rarity(Rarity.UNCOMMON));
+    public static final DeferredItem<SimpleHintItem> T4_CIRCUIT = registerSimpleHint("t4_circuit", properties -> properties.rarity(Rarity.RARE));
+    public static final DeferredItem<SimpleHintItem> T5_CIRCUIT = registerSimpleHint("t5_circuit", properties -> properties.rarity(LTXIItemRarities.ltxGearRarity()));
+    public static final DeferredItem<SimpleHintItem> OPTICAL_TECH_PART = registerSimpleHint("optical_tech_part", properties -> properties.rarity(Rarity.UNCOMMON));
+    public static final DeferredItem<SimpleHintItem> IMPULSE_TECH_PART = registerSimpleHint("impulse_tech_part", properties -> properties.rarity(Rarity.UNCOMMON));
 
     // LTX basic tools
     public static final DeferredItem<EnergyDrillItem> LTX_DRILL = registerLTXGear(LTXIIdentifiers.ID_LTX_DRILL, properties -> new EnergyDrillItem(properties, 5f, -2f));
@@ -191,15 +196,15 @@ public final class LTXIItems
 
     // Upgrade
     public static final DeferredItem<Item> EMPTY_UPGRADE_MODULE = ITEMS.registerSimpleItem("empty_upgrade_module");
-    public static final DeferredItem<EquipmentUpgradeModuleItem> EQUIPMENT_UPGRADE_MODULE = ITEMS.registerItem("equipment_upgrade_module", EquipmentUpgradeModuleItem::new, properties().stacksTo(1));
-    public static final DeferredItem<MachineUpgradeModuleItem> MACHINE_UPGRADE_MODULE = ITEMS.registerItem("machine_upgrade_module", MachineUpgradeModuleItem::new, properties().stacksTo(1));
+    public static final DeferredItem<EquipmentUpgradeModuleItem> EQUIPMENT_UPGRADE_MODULE = ITEMS.registerItem("equipment_upgrade_module", EquipmentUpgradeModuleItem::new, properties -> properties.stacksTo(1));
+    public static final DeferredItem<MachineUpgradeModuleItem> MACHINE_UPGRADE_MODULE = ITEMS.registerItem("machine_upgrade_module", MachineUpgradeModuleItem::new, properties -> properties.stacksTo(1));
 
     // Data holding 'cards'
     public static final DeferredItem<SimpleHintItem> EMPTY_FABRICATION_BLUEPRINT = registerSimpleHint("empty_fabrication_blueprint");
-    public static final DeferredItem<FabricationBlueprintItem> FABRICATION_BLUEPRINT = ITEMS.registerItem("fabrication_blueprint", FabricationBlueprintItem::new, properties().stacksTo(1));
-    public static final DeferredItem<IOConfigCardItem> ITEMS_IO_CONFIG_CARD = ITEMS.registerItem("items_io_config_card", properties -> new IOConfigCardItem(properties, BlockEntityInputType.ITEMS), properties().stacksTo(1));
-    public static final DeferredItem<IOConfigCardItem> ENERGY_IO_CONFIG_CARD = ITEMS.registerItem("energy_io_config_card", properties -> new IOConfigCardItem(properties, BlockEntityInputType.ENERGY), properties().stacksTo(1));
-    public static final DeferredItem<IOConfigCardItem> FLUIDS_IO_CONFIG_CARD = ITEMS.registerItem("fluids_io_config_card", properties -> new IOConfigCardItem(properties, BlockEntityInputType.FLUIDS), properties().stacksTo(1));
+    public static final DeferredItem<FabricationBlueprintItem> FABRICATION_BLUEPRINT = ITEMS.registerItem("fabrication_blueprint", FabricationBlueprintItem::new, properties -> properties.stacksTo(1));
+    public static final DeferredItem<IOConfigCardItem> ITEMS_IO_CONFIG_CARD = ITEMS.registerItem("items_io_config_card", properties -> new IOConfigCardItem(properties, BlockEntityInputType.ITEMS), properties -> properties.stacksTo(1));
+    public static final DeferredItem<IOConfigCardItem> ENERGY_IO_CONFIG_CARD = ITEMS.registerItem("energy_io_config_card", properties -> new IOConfigCardItem(properties, BlockEntityInputType.ENERGY), properties -> properties.stacksTo(1));
+    public static final DeferredItem<IOConfigCardItem> FLUIDS_IO_CONFIG_CARD = ITEMS.registerItem("fluids_io_config_card", properties -> new IOConfigCardItem(properties, BlockEntityInputType.FLUIDS), properties -> properties.stacksTo(1));
 
     // Signature weapons
     public static final DeferredItem<GlowstickLauncherItem> GLOWSTICK_LAUNCHER = registerLTXGear(LTXIIdentifiers.ID_GLOWSTICK_LAUNCHER, GlowstickLauncherItem::new);
@@ -218,32 +223,26 @@ public final class LTXIItems
 
     private static DeferredItem<BlockItem> registerMachineBlockItem(Holder<Block> holder)
     {
-        return ITEMS.registerBlockItem(holder, ContentsTooltipBlockItem::energyTooltipItem, properties().stacksTo(1));
+        return ITEMS.registerCustomBlockItem(holder, ContentsTooltipBlockItem::energyTooltipItem, properties -> properties.stacksTo(1));
     }
 
     private static DeferredItem<BlockItem> registerTurretBlockItem(Holder<Block> holder)
     {
-        return ITEMS.registerBlockItem(holder, ContentsTooltipBlockItem::energyOwnerTooltipItem, properties().stacksTo(1).rarity(LTXIItemRarities.ltxGearRarity()));
+        return ITEMS.registerCustomBlockItem(holder, ContentsTooltipBlockItem::energyOwnerTooltipItem, properties -> properties.stacksTo(1).rarity(LTXIItemRarities.ltxGearRarity()));
     }
 
-    private static DeferredItem<SimpleHintItem> registerSimpleHint(String name, Item.Properties properties)
+    private static DeferredItem<SimpleHintItem> registerSimpleHint(String name, UnaryOperator<Item.Properties> properties)
     {
         return ITEMS.registerItem(name, SimpleHintItem::new, properties);
     }
 
     private static DeferredItem<SimpleHintItem> registerSimpleHint(String name)
     {
-        return registerSimpleHint(name, properties());
+        return registerSimpleHint(name, UnaryOperator.identity());
     }
 
     private static <T extends Item> DeferredItem<T> registerLTXGear(String name, Function<Item.Properties, T> constructor)
     {
-        return ITEMS.registerItem(name, constructor, properties().stacksTo(1).fireResistant().rarity(LTXIItemRarities.ltxGearRarity()));
-    }
-
-    @Contract(value = " -> new", pure = true)
-    private static Item.@NotNull Properties properties()
-    {
-        return new Item.Properties();
+        return ITEMS.registerItem(name, constructor, properties -> properties.stacksTo(1).fireResistant().rarity(LTXIItemRarities.ltxGearRarity()));
     }
 }

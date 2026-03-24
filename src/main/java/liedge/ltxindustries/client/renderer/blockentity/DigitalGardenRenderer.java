@@ -2,18 +2,17 @@ package liedge.ltxindustries.client.renderer.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import liedge.limacore.client.LimaBlockEntityRenderer;
 import liedge.ltxindustries.blockentity.DigitalGardenBlockEntity;
-import liedge.ltxindustries.client.LTXIRenderUtil;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
+import liedge.ltxindustries.client.LTXIRenderer;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.core.Direction;
+import net.minecraft.client.renderer.item.ItemStackRenderState;
+import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
-public class DigitalGardenRenderer extends LimaBlockEntityRenderer<DigitalGardenBlockEntity>
+public class DigitalGardenRenderer extends MachineRenderer<DigitalGardenBlockEntity>
 {
     public DigitalGardenRenderer(BlockEntityRendererProvider.Context context)
     {
@@ -21,24 +20,31 @@ public class DigitalGardenRenderer extends LimaBlockEntityRenderer<DigitalGarden
     }
 
     @Override
-    public void render(DigitalGardenBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay)
+    void extractAdditional(DigitalGardenBlockEntity blockEntity, MachineRenderState renderState, float partialTick)
     {
-        ItemStack previewItem = blockEntity.getPreviewItem();
+        ItemStack stack = blockEntity.getClientPreviewItem();
+        if (stack.isEmpty()) return;
 
-        if (!previewItem.isEmpty())
-        {
-            poseStack.pushPose();
+        ItemStackRenderState previewItem = new ItemStackRenderState();
+        itemResolver.updateForTopItem(previewItem, stack, ItemDisplayContext.FIXED, null, null, 0);
+        renderState.previewItem = previewItem;
+    }
 
-            Direction facing = blockEntity.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING);
+    @Override
+    public void submit(MachineRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState)
+    {
+        ItemStackRenderState previewItem = renderState.previewItem;
+        if (previewItem == null) return;
 
-            poseStack.translate(0.5d, 0.4375d, 0.5d);
-            poseStack.mulPose(Axis.YP.rotationDegrees(LTXIRenderUtil.facingYRotation(facing)));
-            poseStack.translate(0, 0, -0.53125d);
-            poseStack.scale(0.4375f, 0.4375f, 0.4375f);
+        poseStack.pushPose();
 
-            itemRenderer.renderStatic(previewItem, ItemDisplayContext.FIXED, packedLight, packedOverlay, poseStack, bufferSource, Minecraft.getInstance().level, 0);
+        poseStack.translate(0.5f, 0.4375f, 0.5f);
+        poseStack.mulPose(Axis.YP.rotationDegrees(LTXIRenderer.facingYRotation(renderState.facing)));
+        poseStack.translate(0, 0, -0.53125f);
+        poseStack.scale(0.4375f, 0.4375f, 0.4375f);
 
-            poseStack.popPose();
-        }
+        previewItem.submit(poseStack, nodeCollector, renderState.lightCoords, OverlayTexture.NO_OVERLAY, 0);
+
+        poseStack.popPose();
     }
 }

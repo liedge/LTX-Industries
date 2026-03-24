@@ -6,7 +6,6 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.entity.EntityType;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -17,9 +16,9 @@ import static net.minecraft.world.entity.EntityType.*;
 
 class EntityTagsGen extends LimaTagsProvider.RegistryTags<EntityType<?>>
 {
-    public EntityTagsGen(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, ExistingFileHelper helper)
+    public EntityTagsGen(PackOutput output, CompletableFuture<HolderLookup.Provider> registries)
     {
-        super(output, BuiltInRegistries.ENTITY_TYPE, LTXIndustries.MODID, lookupProvider, helper);
+        super(output, BuiltInRegistries.ENTITY_TYPE, LTXIndustries.MODID, registries);
     }
 
     @Override

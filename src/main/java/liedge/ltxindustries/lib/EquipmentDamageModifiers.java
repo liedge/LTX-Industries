@@ -1,41 +1,37 @@
 package liedge.ltxindustries.lib;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectList;
 import it.unimi.dsi.fastutil.objects.ObjectLists;
-import liedge.limacore.data.LimaCoreCodecs;
 import liedge.ltxindustries.LTXIndustries;
-import net.minecraft.resources.ResourceLocation;
+import liedge.ltxindustries.data.LTXIReloadListeners;
+import net.minecraft.resources.FileToIdConverter;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
-import net.neoforged.neoforge.common.conditions.ConditionalOps;
 
 import java.util.List;
 import java.util.Map;
 
-public final class EquipmentDamageModifiers extends SimpleJsonResourceReloadListener
+public final class EquipmentDamageModifiers extends SimpleJsonResourceReloadListener<EquipmentDamageModifier>
 {
-    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
-    private static final EquipmentDamageModifiers INSTANCE = new EquipmentDamageModifiers();
-
-    public static final String DIRECTORY = "equipment_damage_modifier";
-
-    public static EquipmentDamageModifiers getInstance()
-    {
-        return INSTANCE;
-    }
-
     private ObjectList<EquipmentDamageModifier> modifiers = ObjectLists.emptyList();
 
-    private EquipmentDamageModifiers()
+    public EquipmentDamageModifiers()
     {
-        super(GSON, DIRECTORY);
+        super(EquipmentDamageModifier.CODEC, FileToIdConverter.json(LTXIReloadListeners.EQUIPMENT_DAMAGE_MODIFIERS.getPath()));
+    }
+
+    @Override
+    protected void apply(Map<Identifier, EquipmentDamageModifier> object, ResourceManager resourceManager, ProfilerFiller profiler)
+    {
+        ObjectList<EquipmentDamageModifier> list = new ObjectArrayList<>(object.values());
+        this.modifiers = ObjectLists.unmodifiable(list);
+
+        LTXIndustries.LOGGER.info("Loaded {} equipment damage modifiers.", modifiers.size());
     }
 
     public double apply(ItemStack stack, LootContext context, double baseDamage, double totalDamage)
@@ -51,22 +47,5 @@ public final class EquipmentDamageModifiers extends SimpleJsonResourceReloadList
         }
 
         return totalDamage;
-    }
-
-    @Override
-    protected void apply(Map<ResourceLocation, JsonElement> object, ResourceManager resourceManager, ProfilerFiller profiler)
-    {
-        ConditionalOps<JsonElement> ops = makeConditionalOps();
-        ObjectList<EquipmentDamageModifier> list = new ObjectArrayList<>();
-
-        // Read all modifiers
-        for (JsonElement json : object.values())
-        {
-            EquipmentDamageModifier modifier = LimaCoreCodecs.tryFlatDecode(EquipmentDamageModifier.CODEC, ops, json);
-            if (modifier != null) list.add(modifier);
-        }
-
-        LTXIndustries.LOGGER.info("Loaded {} equipment damage modifiers.", list.size());
-        this.modifiers = ObjectLists.unmodifiable(list);
     }
 }

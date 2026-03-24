@@ -20,7 +20,7 @@ public final class LTXIBootstrapUtil
         int xo = 16 - width - 1;
         int yo = 16 - height - 1;
 
-        return UpgradeIcon.overlayIcon(background, LTXIndustries.RESOURCES.location(overlayPath), width, height, xo, yo);
+        return UpgradeIcon.overlayIcon(background, LTXIndustries.RESOURCES.id(overlayPath), width, height, xo, yo);
     }
 
     public static UpgradeIcon bottomRightOverlay(UpgradeIcon background, String overlayPath, int squareSize)

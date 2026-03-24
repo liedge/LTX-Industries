@@ -24,9 +24,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.common.util.FakePlayer;
 import net.neoforged.neoforge.common.util.FakePlayerFactory;
 import net.neoforged.neoforge.entity.PartEntity;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.Comparator;
@@ -167,31 +168,33 @@ public final class LTXIEntityUtil
         return level.getEntities(directEntity, directEntity.getBoundingBox().expandTowards(path).inflate(0.3d), hit -> checkWeaponTargetValidity(sourceEntity, hit, predicate))
                 .stream()
                 .sorted(Comparator.comparingDouble(hit -> hit.distanceToSqr(start)))
-                .flatMap(hit -> Stream.ofNullable(clipEntityBoundingBox(hit, start, end, bbExpansion.applyAsDouble(hit))));
+                .mapMulti((hit, consumer) -> {
+                    EntityHitResult hitResult = clipEntityBoundingBox(hit, start, end, bbExpansion.applyAsDouble(hit));
+                    if (hitResult != null) consumer.accept(hitResult);
+                });
     }
 
     public static boolean hurtWithEnchantedFakePlayer(ServerLevel level, Entity target, @Nullable LivingEntity owner, UpgradesContainerBase<?, ?> upgrades, Function<@Nullable LivingEntity, ? extends DamageSource> damageSourceFunction, float damage)
     {
-        if (owner instanceof Player)
+        if (owner instanceof Player player)
         {
+            FakePlayer fakePlayer = FakePlayerFactory.get(level, player.getGameProfile());
             ItemEnchantments enchantments = upgrades.getEnchantments();
-
-            owner = FakePlayerFactory.get(level, ((Player) owner).getGameProfile());
 
             if (!enchantments.isEmpty())
             {
                 ItemStack stack = new ItemStack(Items.STICK);
                 stack.set(DataComponents.ENCHANTMENTS, enchantments);
-                owner.setItemInHand(InteractionHand.MAIN_HAND, stack);
+                fakePlayer.setItemInHand(InteractionHand.MAIN_HAND, stack);
             }
 
-            boolean result = target.hurt(damageSourceFunction.apply(owner), damage);
-            owner.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
+            boolean result = target.hurtServer(level, damageSourceFunction.apply(fakePlayer), damage);
+            fakePlayer.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
             return result;
         }
         else
         {
-            return target.hurt(damageSourceFunction.apply(owner), damage);
+            return target.hurtServer(level, damageSourceFunction.apply(owner), damage);
         }
     }
 }

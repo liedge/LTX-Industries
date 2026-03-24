@@ -1,5 +1,6 @@
 package liedge.ltxindustries.entity.damage;
 
+import liedge.ltxindustries.lib.upgrades.DropsCapture;
 import liedge.ltxindustries.lib.upgrades.UpgradesContainerBase;
 import net.minecraft.core.Holder;
 import net.minecraft.world.damagesource.DamageSource;
@@ -22,7 +23,7 @@ public abstract class UpgradesAwareDamageSource extends DamageSource
 
     public abstract UpgradesContainerBase<?, ?> getUpgrades();
 
-    public abstract @Nullable DropsRedirect createDropsRedirect();
+    public abstract @Nullable DropsCapture getDropsCapture();
 
     public boolean canApplyEffects()
     {

@@ -1,40 +1,36 @@
 package liedge.ltxindustries.client.model.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
+import liedge.limacore.client.renderer.LimaCoreRenderTypes;
 import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.entity.state.AvatarRenderState;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.resources.Identifier;
 
-import java.util.List;
-
-public class WonderlandArmorModel extends HumanoidModel<AbstractClientPlayer>
+public class WonderlandArmorModel extends HumanoidModel<AvatarRenderState>
 {
-	public final ModelPart headLights;
-	public final ModelPart bodyLights;
-	public final ModelPart leftArmLights;
-	public final ModelPart rightArmLights;
-	public final ModelPart leftLegLights;
-	public final ModelPart rightLegLights;
-	public final ModelPart leftFoot;
-	public final ModelPart leftFootLights;
-	public final ModelPart rightFoot;
-	public final ModelPart rightFootLights;
-	public final ModelPart visor;
-
-	private final List<ModelPart> cutoutParts;
-	private final List<ModelPart> lightParts;
+	private final ModelPart headLights;
+	private final ModelPart bodyLights;
+	private final ModelPart leftArmLights;
+	private final ModelPart rightArmLights;
+	private final ModelPart leftLegLights;
+	private final ModelPart rightLegLights;
+	private final ModelPart leftFoot;
+	private final ModelPart leftFootLights;
+	private final ModelPart rightFoot;
+	private final ModelPart rightFootLights;
+	private final ModelPart visor;
 
 	public WonderlandArmorModel(ModelPart root)
 	{
 		super(root);
-
-		this.hat.visible = false;
 
 		this.headLights = root.getChild("head_lights");
 		this.bodyLights = root.getChild("body_lights");
@@ -47,16 +43,93 @@ public class WonderlandArmorModel extends HumanoidModel<AbstractClientPlayer>
 		this.rightFoot = root.getChild("right_foot");
 		this.rightFootLights = root.getChild("right_foot_lights");
 		this.visor = root.getChild("visor");
-
-		this.cutoutParts = List.of(head, body, leftArm, rightArm, leftLeg, rightLeg, leftFoot, rightFoot);
-		this.lightParts = List.of(headLights, bodyLights, leftArmLights, rightArmLights, leftLegLights, rightLegLights, leftFootLights, rightFootLights);
 	}
 
-	public static LayerDefinition createBodyLayer()
+	public void submitHead(PoseStack poseStack, SubmitNodeCollector nodeCollector, Identifier texture, int packedLight)
+	{
+		nodeCollector.submitModelPart(head, poseStack, renderType(texture), packedLight, OverlayTexture.NO_OVERLAY, null);
+		nodeCollector.submitModelPart(headLights, poseStack, cutoutUnlit(texture), LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, null);
+		nodeCollector.submitModelPart(visor, poseStack, RenderTypes.entityTranslucentEmissive(texture, true), LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, null);
+	}
+
+	public void submitBody(PoseStack poseStack, SubmitNodeCollector nodeCollector, Identifier texture, int packedLight)
+	{
+		RenderType base = renderType(texture);
+		nodeCollector.submitModelPart(body, poseStack, base, packedLight, OverlayTexture.NO_OVERLAY, null);
+		nodeCollector.submitModelPart(leftArm, poseStack, base, packedLight, OverlayTexture.NO_OVERLAY, null);
+		nodeCollector.submitModelPart(rightArm, poseStack, base, packedLight, OverlayTexture.NO_OVERLAY, null);
+
+		RenderType lights = cutoutUnlit(texture);
+		nodeCollector.submitModelPart(bodyLights, poseStack, lights, packedLight, OverlayTexture.NO_OVERLAY, null);
+		nodeCollector.submitModelPart(leftArmLights, poseStack, lights, packedLight, OverlayTexture.NO_OVERLAY, null);
+		nodeCollector.submitModelPart(rightArmLights, poseStack, lights, packedLight, OverlayTexture.NO_OVERLAY, null);
+	}
+
+	public void submitLegs(PoseStack poseStack, SubmitNodeCollector nodeCollector, Identifier texture, int packedLight)
+	{
+		RenderType base = renderType(texture);
+		nodeCollector.submitModelPart(leftLeg, poseStack, base, packedLight, OverlayTexture.NO_OVERLAY, null);
+		nodeCollector.submitModelPart(rightLeg, poseStack, base, packedLight, OverlayTexture.NO_OVERLAY, null);
+
+		RenderType lights = cutoutUnlit(texture);
+		nodeCollector.submitModelPart(leftLegLights, poseStack, lights, packedLight, OverlayTexture.NO_OVERLAY, null);
+		nodeCollector.submitModelPart(rightLegLights, poseStack, lights, packedLight, OverlayTexture.NO_OVERLAY, null);
+	}
+
+	public void submitFeet(PoseStack poseStack, SubmitNodeCollector nodeCollector, Identifier texture, int packedLight)
+	{
+		RenderType base = renderType(texture);
+		nodeCollector.submitModelPart(leftFoot, poseStack, base, packedLight, OverlayTexture.NO_OVERLAY, null);
+		nodeCollector.submitModelPart(rightFoot, poseStack, base, packedLight, OverlayTexture.NO_OVERLAY, null);
+
+		RenderType lights = cutoutUnlit(texture);
+		nodeCollector.submitModelPart(leftFootLights, poseStack, lights, packedLight, OverlayTexture.NO_OVERLAY, null);
+		nodeCollector.submitModelPart(rightFootLights, poseStack, lights, packedLight, OverlayTexture.NO_OVERLAY, null);
+	}
+
+	@Override
+	public void setupAnim(AvatarRenderState state)
+	{
+		copyPartProperties(head, headLights);
+		copyPartProperties(head, visor);
+
+		copyPartProperties(body, bodyLights);
+		copyPartProperties(leftArm, leftArmLights);
+		copyPartProperties(rightArm, rightArmLights);
+
+		copyPartProperties(leftLeg, leftLegLights);
+		copyPartProperties(leftLeg, leftFoot);
+		copyPartProperties(leftLeg, leftFootLights);
+
+		copyPartProperties(rightLeg, rightLegLights);
+		copyPartProperties(rightLeg, rightFoot);
+		copyPartProperties(rightLeg, rightFootLights);
+	}
+
+	private void copyPartProperties(ModelPart original, ModelPart replacement)
+	{
+		replacement.visible = original.visible;
+		replacement.x = original.x;
+		replacement.y = original.y;
+		replacement.z = original.z;
+		replacement.xRot = original.xRot;
+		replacement.yRot = original.yRot;
+		replacement.zRot = original.zRot;
+		replacement.xScale = original.xScale;
+		replacement.yScale = original.yScale;
+		replacement.zScale = original.zScale;
+	}
+
+	private RenderType cutoutUnlit(Identifier texture)
+	{
+		return LimaCoreRenderTypes.entityCutoutUnlit(texture);
+	}
+
+	public static LayerDefinition createArmorLayer()
 	{
 		MeshDefinition mesh = new MeshDefinition();
 		PartDefinition root = mesh.getRoot();
-		
+
 		// Hat, required and unused
 		root.addOrReplaceChild("hat", CubeListBuilder.create(), PartPose.ZERO);
 
@@ -117,64 +190,5 @@ public class WonderlandArmorModel extends HumanoidModel<AbstractClientPlayer>
 		root.addOrReplaceChild("right_foot_lights", CubeListBuilder.create().texOffs(21, 47).addBox(-2.7F, 10.25F, -4.25F, 5.0F, 2.0F, 7.0F, new CubeDeformation(-0.43F)), PartPose.offset(-1.9F, 12.0F, 0.0F));
 
 		return LayerDefinition.create(mesh, 64, 64);
-	}
-
-	@Deprecated
-	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, int color) { }
-
-	@Override
-	public void setAllVisible(boolean visible)
-	{
-		super.setAllVisible(visible);
-
-		this.headLights.visible = visible;
-		this.bodyLights.visible = visible;
-		this.leftArmLights.visible = visible;
-		this.rightArmLights.visible = visible;
-		this.leftLegLights.visible = visible;
-		this.rightLegLights.visible = visible;
-		this.leftFoot.visible = visible;
-		this.leftFootLights.visible = visible;
-		this.rightFoot.visible = visible;
-		this.rightFootLights.visible = visible;
-		this.visor.visible = visible;
-	}
-
-	public void renderCutout(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, int color)
-	{
-		for (ModelPart part : cutoutParts)
-		{
-			part.render(poseStack, buffer, packedLight, packedOverlay, color);
-		}
-	}
-
-	public void renderLights(PoseStack poseStack, VertexConsumer buffer, int color)
-	{
-		for (ModelPart part : lightParts)
-		{
-			part.render(poseStack, buffer, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, color);
-		}
-	}
-
-	public void renderVisor(PoseStack poseStack, VertexConsumer buffer, int color)
-	{
-		visor.render(poseStack, buffer, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, color);
-	}
-
-	public void copyModelProperties(PlayerModel<AbstractClientPlayer> playerModel)
-	{
-		playerModel.copyPropertiesTo(this);
-		headLights.copyFrom(playerModel.head);
-		bodyLights.copyFrom(playerModel.body);
-		leftArmLights.copyFrom(playerModel.leftArm);
-		rightArmLights.copyFrom(playerModel.rightArm);
-		leftLegLights.copyFrom(playerModel.leftLeg);
-		rightLegLights.copyFrom(playerModel.rightLeg);
-		leftFoot.copyFrom(playerModel.leftLeg);
-		leftFootLights.copyFrom(playerModel.leftLeg);
-		rightFoot.copyFrom(playerModel.rightLeg);
-		rightFootLights.copyFrom(playerModel.rightLeg);
-		visor.copyFrom(playerModel.head);
 	}
 }

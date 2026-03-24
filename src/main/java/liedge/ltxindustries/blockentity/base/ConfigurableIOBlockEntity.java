@@ -1,16 +1,14 @@
 package liedge.ltxindustries.blockentity.base;
 
-import com.mojang.serialization.DynamicOps;
 import liedge.limacore.menu.LimaMenuProvider;
-import liedge.limacore.util.LimaNbtUtil;
 import liedge.ltxindustries.menu.BlockIOConfigurationMenu;
 import liedge.ltxindustries.registry.game.LTXIMenus;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
@@ -49,27 +47,25 @@ public interface ConfigurableIOBlockEntity extends SubMenuProviderBlockEntity
         LimaMenuProvider.create(LTXIMenus.BLOCK_IO_CONFIGURATION.get(), context, title, false).openMenuScreen(player);
     }
 
-    default void loadIOConfigurations(CompoundTag tag, DynamicOps<Tag> ops)
+    default void loadIOConfigurations(ValueInput global)
     {
-        CompoundTag configsTag = tag.getCompound(KEY_IO_CONFIGS);
+        ValueInput input = global.child(KEY_IO_CONFIGS).orElse(null);
+        if (input == null) return;
 
         for (BlockEntityInputType type : getConfigurableInputTypes())
         {
-            BlockIOConfiguration config = LimaNbtUtil.tryDecode(BlockIOConfiguration.CODEC, ops, configsTag, type.getSerializedName());
-            if (config != null) setIOConfiguration(type, config);
+            input.read(type.getSerializedName(), BlockIOConfiguration.CODEC).ifPresent(config -> setIOConfiguration(type, config));
         }
     }
 
-    default void saveIOConfigurations(CompoundTag tag, DynamicOps<Tag> ops)
+    default void saveIOConfigurations(ValueOutput global)
     {
-        CompoundTag configsTag = new CompoundTag();
+        ValueOutput output = global.child(KEY_IO_CONFIGS);
 
         for (BlockEntityInputType type : getConfigurableInputTypes())
         {
-            BlockIOConfiguration config = getIOConfigurationOrThrow(type);
-            LimaNbtUtil.tryEncodeTo(BlockIOConfiguration.CODEC, ops, config, configsTag, type.getSerializedName());
+            BlockIOConfiguration config = getIOConfiguration(type);
+            output.storeNullable(type.getSerializedName(), BlockIOConfiguration.CODEC, config);
         }
-
-        tag.put(KEY_IO_CONFIGS, configsTag);
     }
 }

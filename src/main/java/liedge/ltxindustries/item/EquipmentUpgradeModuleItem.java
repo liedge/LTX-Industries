@@ -11,8 +11,8 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.network.chat.Style;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
@@ -47,7 +47,7 @@ public class EquipmentUpgradeModuleItem extends UpgradeModuleItem<EquipmentUpgra
     }
 
     @Override
-    protected ResourceLocation creativeTabId()
+    protected Identifier creativeTabId()
     {
         return LTXICreativeTabs.EQUIPMENT_MODULES_TAB.getId();
     }

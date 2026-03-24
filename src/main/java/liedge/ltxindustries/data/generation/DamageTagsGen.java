@@ -6,7 +6,6 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.damagesource.DamageType;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -16,9 +15,9 @@ import static net.minecraft.tags.DamageTypeTags.*;
 
 class DamageTagsGen extends LimaTagsProvider<DamageType>
 {
-    DamageTagsGen(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, ExistingFileHelper helper)
+    DamageTagsGen(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider)
     {
-        super(output, Registries.DAMAGE_TYPE, LTXIndustries.MODID, lookupProvider, helper);
+        super(output, Registries.DAMAGE_TYPE, LTXIndustries.MODID, lookupProvider);
     }
 
     @Override

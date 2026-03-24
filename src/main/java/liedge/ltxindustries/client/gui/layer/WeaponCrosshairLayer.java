@@ -1,32 +1,33 @@
 package liedge.ltxindustries.client.gui.layer;
 
-import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.pipeline.RenderPipeline;
 import liedge.limacore.client.gui.LimaGuiLayer;
 import liedge.limacore.client.gui.LimaGuiUtil;
-import liedge.ltxindustries.client.renderer.item.WeaponRenderer;
+import liedge.ltxindustries.client.item.WeaponClientItem;
 import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.lib.weapons.ClientExtendedInput;
 import liedge.ltxindustries.util.config.LTXIClientConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.data.AtlasIds;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 
 import static liedge.ltxindustries.LTXIndustries.RESOURCES;
 
 public final class WeaponCrosshairLayer extends LimaGuiLayer
 {
-    private static final ResourceLocation RELOAD_SPRITE = RESOURCES.location("hud/reload");
-    private static final ResourceLocation RELOAD_SPRITE_FILL = RESOURCES.location("hud/reload_fill");
+    private static final Identifier RELOAD_SPRITE = RESOURCES.id("hud/reload");
+    private static final Identifier RELOAD_SPRITE_FILL = RESOURCES.id("hud/reload_fill");
 
     public static final WeaponCrosshairLayer INSTANCE = new WeaponCrosshairLayer();
 
     private WeaponCrosshairLayer()
     {
-        super(RESOURCES.location("crosshair"));
+        super(RESOURCES.id("crosshair"));
     }
 
     @Override
@@ -50,24 +51,16 @@ public final class WeaponCrosshairLayer extends LimaGuiLayer
             final int centerX = (screenWidth - 21) / 2;
             final int centerY = (screenHeight - 9) / 2;
 
-            graphics.blitSprite(RELOAD_SPRITE, centerX, centerY, 21, 9);
-            TextureAtlasSprite fillSprite = Minecraft.getInstance().getGuiSprites().getSprite(RELOAD_SPRITE_FILL);
-            LimaGuiUtil.partialHorizontalBlit(graphics, centerX + 5, centerY + 3, 14, 3, controls.getReloadTimer().lerpProgressNotPaused(partialTicks), fillSprite);
+            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, RELOAD_SPRITE, centerX, centerY, 21, 9);
+            TextureAtlasSprite fillSprite = Minecraft.getInstance().getAtlasManager().getAtlasOrThrow(AtlasIds.GUI).getSprite(RELOAD_SPRITE_FILL);
+            LimaGuiUtil.partialHorizontalBlit(graphics, RenderPipelines.GUI_TEXTURED, fillSprite, centerX + 5, centerY + 3, 14, 3, controls.getReloadTimer().lerpProgressNotPaused(partialTicks), -1);
         }
         else
         {
-            if (!LTXIClientConfig.SOLID_COLOR_CROSSHAIR.getAsBoolean())
-            {
-                RenderSystem.blendFuncSeparate(
-                        GlStateManager.SourceFactor.ONE_MINUS_DST_COLOR,
-                        GlStateManager.DestFactor.ONE_MINUS_SRC_COLOR,
-                        GlStateManager.SourceFactor.ONE,
-                        GlStateManager.DestFactor.ZERO);
-            }
-
-            WeaponRenderer.fromItem(weaponItem).renderCrosshair(player, weaponItem, controls, graphics, partialTicks, screenWidth, screenHeight, LTXIClientConfig.getCrosshairColor());
-
-            RenderSystem.defaultBlendFunc();
+            RenderPipeline pipeline = LTXIClientConfig.SOLID_COLOR_CROSSHAIR.getAsBoolean() ? RenderPipelines.GUI_TEXTURED : RenderPipelines.CROSSHAIR;
+            WeaponClientItem.of(weaponItem)
+                    .getCrosshairRenderer()
+                    .render(graphics, pipeline, player, weaponItem, controls, screenWidth, screenHeight, LTXIClientConfig.getCrosshairColor(), partialTicks);
         }
     }
 }

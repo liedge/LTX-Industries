@@ -21,7 +21,7 @@ import mezz.jei.api.gui.widgets.IRecipeExtrasBuilder;
 import mezz.jei.api.gui.widgets.IRecipeWidget;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
-import mezz.jei.api.recipe.RecipeType;
+import mezz.jei.api.recipe.types.IRecipeHolderType;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.navigation.ScreenPosition;
@@ -40,7 +40,7 @@ final class RecipeLayoutJeiCategory<R extends LTXIRecipe> extends LTXIJeiCategor
 {
     private static final int PADDING = 3;
 
-    static <R extends LTXIRecipe> RecipeLayoutJeiCategory<R> create(IGuiHelper helper, Supplier<LimaRecipeType<R>> typeSupplier, RecipeType<RecipeHolder<R>> jeiRecipeType, RecipeLayout layout)
+    static <R extends LTXIRecipe> RecipeLayoutJeiCategory<R> create(IGuiHelper helper, Supplier<LimaRecipeType<R>> typeSupplier, IRecipeHolderType<R> jeiRecipeType, RecipeLayout layout)
     {
         IntSummaryStatistics xss = layout.streamSlots().collect(Collectors.summarizingInt(LayoutSlot::x));
         IntSummaryStatistics yss = layout.streamSlots().collect(Collectors.summarizingInt(LayoutSlot::y));
@@ -53,7 +53,7 @@ final class RecipeLayoutJeiCategory<R extends LTXIRecipe> extends LTXIJeiCategor
         return new RecipeLayoutJeiCategory<>(helper, typeSupplier.get(), jeiRecipeType, layout, width, height, xOffset, yOffset);
     }
 
-    private final RecipeType<RecipeHolder<R>> jeiRecipeType;
+    private final IRecipeHolderType<R> jeiRecipeType;
     private final RecipeLayout layout;
     private final int xOffset;
     private final int yOffset;
@@ -63,7 +63,7 @@ final class RecipeLayoutJeiCategory<R extends LTXIRecipe> extends LTXIJeiCategor
     private final IDrawableStatic modeOverlay;
     private final @Nullable ScreenPosition modePos;
 
-    private RecipeLayoutJeiCategory(IGuiHelper helper, LimaRecipeType<R> recipeType, RecipeType<RecipeHolder<R>> jeiRecipeType, RecipeLayout layout, int width, int height, int xOffset, int yOffset)
+    private RecipeLayoutJeiCategory(IGuiHelper helper, LimaRecipeType<R> recipeType, IRecipeHolderType<R> jeiRecipeType, RecipeLayout layout, int width, int height, int xOffset, int yOffset)
     {
         super(helper, recipeType, width, height);
         this.jeiRecipeType = jeiRecipeType;
@@ -138,7 +138,7 @@ final class RecipeLayoutJeiCategory<R extends LTXIRecipe> extends LTXIJeiCategor
     }
 
     @Override
-    public RecipeType<RecipeHolder<R>> getRecipeType()
+    public IRecipeHolderType<R> getRecipeType()
     {
         return jeiRecipeType;
     }

@@ -1,8 +1,7 @@
 package liedge.ltxindustries.menu;
 
 import liedge.limacore.menu.LimaMenuType;
-import liedge.limacore.menu.slot.LimaHandlerSlot;
-import liedge.limacore.util.LimaItemUtil;
+import liedge.limacore.menu.slot.LimaItemSlot;
 import liedge.ltxindustries.blockentity.turret.TurretBlockEntity;
 import net.minecraft.world.entity.player.Inventory;
 
@@ -12,13 +11,13 @@ public class TurretMenu<BE extends TurretBlockEntity> extends LTXIMachineMenu<BE
     {
         super(type, containerId, inventory, menuContext);
 
-        addSlotsGrid(menuContext.getOutputInventory(), 0, 80, 23, 5, 4, (ctr, slot, sx, sy) -> new LimaHandlerSlot(ctr, slot, sx, sy, false, LimaItemUtil.ALWAYS_FALSE));
+        addSlotsGrid(menuContext.getOutputInventory(), 0, 80 ,23, 5, 4, (ctr, slot, sx, sy) -> new LimaItemSlot(ctr, slot, sx, sy, false));
         addPlayerInventoryAndHotbar(8, 106);
     }
 
     @Override
     public void defineDataWatchers(DataWatcherCollector collector)
     {
-        menuContext.getEnergyStorage().keepAllPropertiesSynced(collector);
+        menuContext.getEnergy().keepAllPropertiesSynced(collector);
     }
 }

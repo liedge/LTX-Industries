@@ -1,46 +1,40 @@
 package liedge.ltxindustries.client.model.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import liedge.limacore.lib.math.LimaCoreMath;
+import liedge.ltxindustries.client.renderer.entity.ProjectileRenderState;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.resources.Identifier;
 
+import java.util.List;
 import java.util.function.Function;
 
-public abstract class ProjectileModel<T extends Entity> extends Model
+public abstract class ProjectileModel extends Model<ProjectileRenderState>
 {
-    protected ProjectileModel(Function<ResourceLocation, RenderType> renderType)
+    protected ProjectileModel(ModelPart root, Function<Identifier, RenderType> renderType)
     {
-        super(renderType);
+        super(root, renderType);
     }
 
-    protected void rotatePart(T entity, ModelPart part)
-    {
-        part.yRot = LimaCoreMath.toRad(-entity.getYRot());
-        part.xRot = LimaCoreMath.toRad(entity.getXRot() - 90f);
-    }
-
-    protected void copyRotations(ModelPart origin, ModelPart destination)
-    {
-        destination.xRot = origin.xRot;
-        destination.yRot = origin.yRot;
-    }
-
-    @Deprecated
     @Override
-    public final void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, int color) {}
-
-    public abstract void prepare(T entity, float partialTick);
-
-    public abstract void render(PoseStack poseStack, MultiBufferSource bufferSource, ResourceLocation texture, int packedLight, int color);
-
-    public void render(PoseStack poseStack, MultiBufferSource bufferSource, ResourceLocation texture, int packedLight)
+    public void setupAnim(ProjectileRenderState renderState)
     {
-        render(poseStack, bufferSource, texture, packedLight, -1);
+        super.setupAnim(renderState);
+
+        List<ModelPart> parts = allParts();
+        for (ModelPart part : parts)
+        {
+            rotatePart(renderState, part);
+        }
     }
+
+    protected void rotatePart(ProjectileRenderState state, ModelPart part)
+    {
+        part.yRot = state.yRot;
+        part.xRot = state.xRot;
+    }
+
+    public abstract void submitParts(ProjectileRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, Identifier texture);
 }

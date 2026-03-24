@@ -19,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.UUID;
 
-import static liedge.limacore.capability.energy.LimaEnergyUtil.*;
+import static liedge.limacore.transfer.LimaEnergyUtil.*;
 import static liedge.limacore.util.LimaTextUtil.*;
 import static liedge.ltxindustries.LTXIConstants.REM_BLUE;
 import static liedge.ltxindustries.LTXIndustries.RESOURCES;

@@ -15,7 +15,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Style;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -33,21 +32,21 @@ public class IOConfigCardItem extends Item implements TooltipShiftHintItem
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand)
+    public InteractionResult use(Level level, Player player, InteractionHand hand)
     {
         if (player.isCrouching())
         {
-            ItemStack stack = player.getItemInHand(usedHand);
+            ItemStack stack = player.getItemInHand(hand);
             if (stack.get(LTXIDataComponents.BLOCK_IO_CONFIGURATION) != null)
             {
                 if (level.isClientSide()) player.displayClientMessage(LTXILangKeys.IO_CARD_CLEARED.translate().withStyle(ChatFormatting.YELLOW), true);
 
                 stack.remove(LTXIDataComponents.BLOCK_IO_CONFIGURATION);
-                return InteractionResultHolder.sidedSuccess(stack, level.isClientSide());
+                return InteractionResult.SUCCESS_SERVER.heldItemTransformedTo(stack);
             }
         }
 
-        return super.use(level, player, usedHand);
+        return super.use(level, player, hand);
     }
 
     @Override
@@ -92,7 +91,7 @@ public class IOConfigCardItem extends Item implements TooltipShiftHintItem
                 }
             }
 
-            return InteractionResult.sidedSuccess(level.isClientSide());
+            return InteractionResult.SUCCESS_SERVER;
         }
 
         return InteractionResult.CONSUME;

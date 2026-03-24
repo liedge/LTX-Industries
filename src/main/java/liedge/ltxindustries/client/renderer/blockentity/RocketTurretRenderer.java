@@ -1,56 +1,74 @@
 package liedge.ltxindustries.client.renderer.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.ltxindustries.blockentity.turret.RocketTurretBlockEntity;
-import liedge.ltxindustries.client.LTXIRenderUtil;
-import liedge.ltxindustries.registry.game.LTXIBlocks;
-import net.minecraft.client.renderer.MultiBufferSource;
+import liedge.ltxindustries.client.model.LTXIModelPartKeys;
+import liedge.ltxindustries.client.renderer.LTXIRenderTypes;
+import liedge.ltxindustries.client.renderer.LockOnRenderData;
+import net.minecraft.client.Camera;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.core.BlockPos;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.ItemLike;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.world.phys.Vec3;
+import org.jspecify.annotations.Nullable;
+
+import java.util.List;
 
 public class RocketTurretRenderer extends TurretRenderer<RocketTurretBlockEntity>
 {
+    private final EntityRenderDispatcher entityRenderer;
+
     public RocketTurretRenderer(BlockEntityRendererProvider.Context context)
     {
-        super(context);
+        super(context, LTXIModelPartKeys.ROCKET_TURRET_SWIVEL, LTXIModelPartKeys.ROCKET_TURRET_WEAPONS);
+        this.entityRenderer = context.entityRenderer();
     }
 
     @Override
-    protected ItemLike getModelItem()
+    protected float yPivot()
     {
-        return LTXIBlocks.ROCKET_TURRET;
+        return 1.59375f;
     }
 
     @Override
-    protected double gunsYPivot()
+    public void extractRenderState(RocketTurretBlockEntity blockEntity, TurretRenderState renderState, float partialTick, Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress)
     {
-        return 1.59375d;
-    }
+        super.extractRenderState(blockEntity, renderState, partialTick, cameraPosition, breakProgress);
 
-    @Override
-    public void render(RocketTurretBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay)
-    {
-        super.render(blockEntity, partialTick, poseStack, bufferSource, packedLight, packedOverlay);
+        Camera camera = entityRenderer.camera;
+        Entity target = blockEntity.getClientTarget();
 
-        // Render lock on indicators
-        BlockPos pos = blockEntity.getBlockPos();
-        float indicatorLerp = blockEntity.lerpAimTicks(partialTick, 34);
-
-        drawLockIndicator(blockEntity.getClientTarget(), poseStack, bufferSource, pos, partialTick, indicatorLerp);
-        for (Entity entity : blockEntity.getTargetQueue())
+        if (camera != null)
         {
-            drawLockIndicator(entity, poseStack, bufferSource, pos, partialTick, indicatorLerp);
+            Vec3 offset = Vec3.atCenterOf(renderState.blockPos);
+            float progress = blockEntity.lerpAimTicks(partialTick, 34);
+
+            List<LockOnRenderData> rocketTargets = new ObjectArrayList<>();
+
+            if (target != null) rocketTargets.add(LockOnRenderData.of(target, offset.x, offset.y, offset.z, camera, progress, partialTick));
+
+            for (Entity entity : blockEntity.getTargetQueue())
+            {
+                rocketTargets.add(LockOnRenderData.of(entity, offset.x, offset.y, offset.z, camera, progress, partialTick));
+            }
+
+            renderState.rocketTargets = rocketTargets;
         }
     }
 
-    private void drawLockIndicator(@Nullable Entity entity, PoseStack poseStack, MultiBufferSource bufferSource, BlockPos pos, float partialTick, float targetProgress)
+    @Override
+    protected void submitWeapons(TurretRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState)
     {
-        if (entity != null)
+        super.submitWeapons(renderState, poseStack, nodeCollector, cameraRenderState);
+
+        List<LockOnRenderData> targets = renderState.rocketTargets;
+        for (LockOnRenderData target : targets)
         {
-            LTXIRenderUtil.renderLockOnIndicatorOnEntity(entity, poseStack, bufferSource, entityRenderer.camera, pos.getX(), pos.getY(), pos.getZ(), partialTick, targetProgress);
+            nodeCollector.submitCustomGeometry(poseStack, LTXIRenderTypes.LOCK_ON_INDICATOR, target);
         }
     }
 }

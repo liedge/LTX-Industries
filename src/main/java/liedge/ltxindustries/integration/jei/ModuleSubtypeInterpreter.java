@@ -24,10 +24,4 @@ public final class ModuleSubtypeInterpreter<UE extends UpgradeBaseEntry<?>> impl
         // Data components override hashCode and equals.
         return ingredient.get(componentType);
     }
-
-    @Override
-    public String getLegacyStringSubtypeInfo(ItemStack ingredient, UidContext context)
-    {
-        return "";
-    }
 }

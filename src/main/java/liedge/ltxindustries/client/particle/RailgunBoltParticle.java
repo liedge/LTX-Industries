@@ -6,24 +6,16 @@ import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.ltxindustries.registry.game.LTXIParticles;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.NoRenderParticle;
+import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class RailgunBoltParticle extends NoRenderParticle
 {
-    public static @Nullable RailgunBoltParticle create(ColorParticleOptions options, ClientLevel level, double x1, double y1, double z1, double x2, double y2, double z2)
-    {
-        Vec3 start = new Vec3(x1, y1, z1);
-        Vec3 end = new Vec3(x2, y2, z2);
-        Vec3 path = end.subtract(start);
-
-        double length = path.length();
-
-        return length <= 100 ? new RailgunBoltParticle(level, start, path.normalize(), Mth.ceil(length), options.color()) : null;
-    }
-
     private final Vec3 start;
     private final Vec3 direction;
     private final int beamSegments;
@@ -71,7 +63,7 @@ public class RailgunBoltParticle extends NoRenderParticle
                 Vec3 arcStart = LimaCoreMath.relativePointToRotations(xRot, yRot, xo0, yo0, 0f).add(px, py, pz);
                 Vec3 arcEnd = LimaCoreMath.relativePointToRotations(xRot, yRot, xo1, yo1, 1f).add(px, py, pz);
 
-                level.addAlwaysVisibleParticle(new ColorParticleOptions(LTXIParticles.FIXED_ELECTRIC_BOLT, color), true, arcStart.x, arcStart.y, arcStart.z, arcEnd.x, arcEnd.y, arcEnd.z);
+                level.addAlwaysVisibleParticle(new ColorParticleOptions(LTXIParticles.ENERGY_BOLT, color), true, arcStart.x, arcStart.y, arcStart.z, arcEnd.x, arcEnd.y, arcEnd.z);
             }
 
             remove();
@@ -79,5 +71,20 @@ public class RailgunBoltParticle extends NoRenderParticle
         }
 
         age++;
+    }
+
+    public static final class Provider implements ParticleProvider<ColorParticleOptions>
+    {
+        @Override
+        public @Nullable Particle createParticle(ColorParticleOptions particleType, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, RandomSource random)
+        {
+            Vec3 start = new Vec3(x, y, z);
+            Vec3 end = new Vec3(xSpeed, ySpeed, zSpeed);
+            Vec3 path = end.subtract(start);
+
+            double length = path.length();
+
+            return length <= 100 ? new RailgunBoltParticle(level, start, path.normalize(), Mth.ceil(length), particleType.color()) : null;
+        }
     }
 }

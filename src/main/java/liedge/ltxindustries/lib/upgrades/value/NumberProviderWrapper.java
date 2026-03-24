@@ -1,8 +1,8 @@
 package liedge.ltxindustries.lib.upgrades.value;
 
 import com.mojang.serialization.MapCodec;
+import net.minecraft.util.context.ContextKey;
 import net.minecraft.world.level.storage.loot.LootContext;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParam;
 import net.minecraft.world.level.storage.loot.providers.number.NumberProvider;
 import net.minecraft.world.level.storage.loot.providers.number.NumberProviders;
 
@@ -25,7 +25,7 @@ record NumberProviderWrapper(NumberProvider value) implements UpgradeValueProvid
     }
 
     @Override
-    public Set<LootContextParam<?>> getReferencedContextParams()
+    public Set<ContextKey<?>> getReferencedContextParams()
     {
         return value.getReferencedContextParams();
     }

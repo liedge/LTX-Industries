@@ -3,10 +3,12 @@ package liedge.ltxindustries.block;
 import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.menu.LimaMenuProvider;
 import liedge.limacore.util.LimaBlockUtil;
+import liedge.ltxindustries.block.mesh.BlockMesh;
 import liedge.ltxindustries.block.mesh.MeshPosition;
 import liedge.ltxindustries.blockentity.MeshBlockEntity;
 import liedge.ltxindustries.registry.game.LTXIBlockEntities;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -16,8 +18,6 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -53,7 +53,7 @@ public final class MeshBlock extends BaseMeshBlock
     }
 
     @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player)
+    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData, Player player)
     {
         BlockPos primaryPos = getPrimaryPos(level, pos, state);
 
@@ -61,13 +61,12 @@ public final class MeshBlock extends BaseMeshBlock
         {
             BlockState primaryState = level.getBlockState(primaryPos);
             if (primaryState.getBlock() instanceof PrimaryMeshBlock primaryMeshBlock)
-                return primaryMeshBlock.getCloneItemStack(primaryState, target, level, primaryPos, player);
+                return primaryMeshBlock.getCloneItemStack(level, primaryPos, primaryState, includeData, player);
         }
 
         return ItemStack.EMPTY;
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     protected float getDestroyProgress(BlockState state, Player player, BlockGetter level, BlockPos pos)
     {
@@ -81,21 +80,23 @@ public final class MeshBlock extends BaseMeshBlock
     }
 
     @Override
-    protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston)
+    protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel level, BlockPos pos, boolean movedByPiston)
     {
-        if (!state.is(newState.getBlock()))
+        MeshBlockEntity blockEntity = LimaBlockUtil.getSafeBlockEntity(level, pos, MeshBlockEntity.class);
+        if (blockEntity != null)
         {
-            BlockPos primaryPos = getPrimaryPos(level, pos, state);
-            if (primaryPos != null)
+            BlockMesh mesh = blockEntity.getBlockMesh();
+            BlockPos primaryPos = blockEntity.getPrimaryPos(pos, state);
+
+            if (mesh != null && primaryPos != null)
             {
                 BlockState primaryState = level.getBlockState(primaryPos);
-                if (primaryState.getBlock() instanceof PrimaryMeshBlock)
+                if (primaryState.getBlock() instanceof PrimaryMeshBlock primaryMeshBlock && primaryMeshBlock.getBlockMesh().equals(mesh))
                 {
                     level.removeBlock(primaryPos, false);
                 }
             }
 
-            super.onRemove(state, level, pos, newState, movedByPiston);
         }
     }
 
@@ -116,6 +117,7 @@ public final class MeshBlock extends BaseMeshBlock
         return super.playerWillDestroy(level, pos, state, player);
     }
 
+    /*
     @Override
     public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid)
     {
@@ -133,6 +135,13 @@ public final class MeshBlock extends BaseMeshBlock
 
         return super.onDestroyedByPlayer(state, level, pos, player, false, fluid);
     }
+
+    @Override
+    public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, ItemStack toolStack, boolean willHarvest, FluidState fluid)
+    {
+        if (willHarvest) return true;
+    }
+    */
 
     @Override
     public void playerDestroy(Level level, Player player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, ItemStack tool)

@@ -1,11 +1,11 @@
 package liedge.ltxindustries.blockentity.template;
 
 import liedge.limacore.blockentity.BlockContentsType;
-import liedge.limacore.capability.fluid.FluidHolderBlockEntity;
-import liedge.limacore.capability.fluid.LimaBlockEntityFluidHandler;
-import liedge.limacore.capability.fluid.LimaFluidUtil;
-import liedge.limacore.capability.itemhandler.LimaBlockEntityItemHandler;
 import liedge.limacore.lib.math.MathOperation;
+import liedge.limacore.transfer.LimaTransferUtil;
+import liedge.limacore.transfer.fluid.FluidHolderBlockEntity;
+import liedge.limacore.transfer.fluid.LimaBlockEntityFluids;
+import liedge.limacore.transfer.item.LimaBlockEntityItems;
 import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
 import liedge.ltxindustries.blockentity.base.BlockIOConfiguration;
 import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
@@ -16,19 +16,18 @@ import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrades;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.neoforged.neoforge.capabilities.BlockCapabilityCache;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import net.neoforged.neoforge.items.IItemHandler;
-import org.jetbrains.annotations.Nullable;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import org.jspecify.annotations.Nullable;
 
 import java.util.EnumMap;
 import java.util.List;
@@ -41,13 +40,13 @@ public abstract class ProductionMachineBlockEntity extends LTXIMachineBlockEntit
     public static final int INPUT_TANK_CAPACITY = 32_000;
     public static final int OUTPUT_TANK_CAPACITY = 64_000;
 
-    private final @Nullable LimaBlockEntityItemHandler inputInventory;
-    private final @Nullable LimaBlockEntityItemHandler outputInventory;
+    private final @Nullable LimaBlockEntityItems inputInventory;
+    private final @Nullable LimaBlockEntityItems outputInventory;
 
-    private final @Nullable LimaBlockEntityFluidHandler inputFluids;
-    private final @Nullable LimaBlockEntityFluidHandler outputFluids;
+    private final @Nullable LimaBlockEntityFluids inputFluids;
+    private final @Nullable LimaBlockEntityFluids outputFluids;
     private @Nullable BlockIOConfiguration fluidsIOConfig;
-    private final Map<Direction, BlockCapabilityCache<IFluidHandler, Direction>> fluidConnections = new EnumMap<>(Direction.class);
+    private final Map<Direction, BlockCapabilityCache<ResourceHandler<FluidResource>, @Nullable Direction>> fluidConnections = new EnumMap<>(Direction.class);
     private int autoFluidOutputTimer = 0;
     private int autoFluidInputTimer = 0;
 
@@ -55,10 +54,10 @@ public abstract class ProductionMachineBlockEntity extends LTXIMachineBlockEntit
     {
         super(type, pos, state, auxInventorySize, null);
 
-        this.inputInventory = inputSlots > 0 ? new LimaBlockEntityItemHandler(this, inputSlots, BlockContentsType.INPUT) : null;
-        this.outputInventory = outputSlots > 0 ? new LimaBlockEntityItemHandler(this, outputSlots, BlockContentsType.OUTPUT) : null;
-        this.inputFluids = inputTanks > 0 ? new LimaBlockEntityFluidHandler(this, inputTanks, BlockContentsType.INPUT) : null;
-        this.outputFluids = outputTanks > 0 ? new LimaBlockEntityFluidHandler(this, outputTanks, BlockContentsType.OUTPUT) : null;
+        this.inputInventory = inputSlots > 0 ? new LimaBlockEntityItems(this, BlockContentsType.INPUT, inputSlots) : null;
+        this.outputInventory = outputSlots > 0 ? new LimaBlockEntityItems(this, BlockContentsType.OUTPUT, outputSlots) : null;
+        this.inputFluids = inputTanks > 0 ? new LimaBlockEntityFluids(this, BlockContentsType.INPUT, inputTanks) : null;
+        this.outputFluids = outputTanks > 0 ? new LimaBlockEntityFluids(this, BlockContentsType.OUTPUT, outputTanks) : null;
         this.fluidsIOConfig = (inputFluids != null || outputFluids != null) ? BlockIOConfiguration.create(type, BlockEntityInputType.FLUIDS) : null;
     }
 
@@ -67,56 +66,47 @@ public abstract class ProductionMachineBlockEntity extends LTXIMachineBlockEntit
         this(type, pos, state, auxInventorySize, inputSlots, outputSlots, 0, 0);
     }
 
-    // Item stuff
-    public LimaBlockEntityItemHandler getInputInventory()
+    //#region Item holder impl
+
+    public LimaBlockEntityItems getInputInventory()
     {
-        return getItemHandlerOrThrow(BlockContentsType.INPUT);
+        return getItemsOrThrow(BlockContentsType.INPUT);
     }
 
-    public LimaBlockEntityItemHandler getOutputInventory()
+    public LimaBlockEntityItems getOutputInventory()
     {
-        return getItemHandlerOrThrow(BlockContentsType.OUTPUT);
+        return getItemsOrThrow(BlockContentsType.OUTPUT);
     }
 
     @Override
-    public boolean isItemValid(BlockContentsType contentsType, int slot, ItemStack stack)
+    public boolean isItemValid(BlockContentsType contentsType, int index, ItemResource resource)
     {
-        if (contentsType == BlockContentsType.INPUT)
-        {
-            return isItemValidForInputInventory(slot, stack);
-        }
-        else
-        {
-            return super.isItemValid(contentsType, slot, stack);
-        }
+        return contentsType == BlockContentsType.INPUT ? isItemValidForInputInventory(index, resource) : super.isItemValid(contentsType, index, resource);
     }
 
-    protected boolean isItemValidForInputInventory(int slot, ItemStack stack)
+    protected boolean isItemValidForInputInventory(int index, ItemResource resource)
     {
         return true;
     }
 
     @Override
-    public @Nullable LimaBlockEntityItemHandler getItemHandler(BlockContentsType contentsType)
+    public @Nullable LimaBlockEntityItems getItems(BlockContentsType contentsType)
     {
         return switch (contentsType)
         {
-            case GENERAL -> null;
-            case AUXILIARY -> getAuxInventory();
+            case AUXILIARY -> auxInventory;
             case INPUT -> inputInventory;
             case OUTPUT -> outputInventory;
+            default -> null;
         };
     }
 
-    @Override
-    public @Nullable IItemHandler createItemIOWrapper(@Nullable Direction side)
-    {
-        return wrapInputOutputInventories(side);
-    }
+    //#endregion
 
-    // Fluid handling implementation
+    //#region Fluid holder impl
+
     @Override
-    public @Nullable LimaBlockEntityFluidHandler getFluidHandler(BlockContentsType contentsType)
+    public @Nullable LimaBlockEntityFluids getFluids(BlockContentsType contentsType)
     {
         return switch (contentsType)
         {
@@ -127,7 +117,7 @@ public abstract class ProductionMachineBlockEntity extends LTXIMachineBlockEntit
     }
 
     @Override
-    public int getBaseFluidCapacity(BlockContentsType contentsType, int tank)
+    public int getBaseFluidCapacity(BlockContentsType contentsType)
     {
         return switch (contentsType)
         {
@@ -138,22 +128,11 @@ public abstract class ProductionMachineBlockEntity extends LTXIMachineBlockEntit
     }
 
     @Override
-    public int getBaseFluidTransferRate(BlockContentsType contentsType, int tank)
+    public int getBaseFluidTransferRate(BlockContentsType contentsType)
     {
-        return getBaseFluidCapacity(contentsType, tank) / 4;
+        return getBaseFluidCapacity(contentsType) / 4;
     }
-
-    @Override
-    public boolean isValidFluid(BlockContentsType contentsType, int tank, FluidStack stack)
-    {
-        return true;
-    }
-
-    @Override
-    public @Nullable IFluidHandler createFluidIOWrapper(@Nullable Direction side)
-    {
-        return wrapInputOutputTanks(side);
-    }
+    //#endregion
 
     @Override
     protected @Nullable BlockIOConfiguration getFluidIOConfiguration()
@@ -171,54 +150,17 @@ public abstract class ProductionMachineBlockEntity extends LTXIMachineBlockEntit
     }
 
     @Override
-    public void onFluidsChanged(BlockContentsType contentsType, int tank)
-    {
-        setChanged();
-    }
-
-    @Override
-    public @Nullable IFluidHandler getNeighborFluidHandler(Direction side)
+    public @Nullable ResourceHandler<FluidResource> getNeighborFluidHandler(Direction side)
     {
         return fluidConnections.get(side).getCapability();
-    }
-
-    protected void pullFluidsFromSides()
-    {
-        if (inputFluids != null && fluidsIOConfig != null && fluidsIOConfig.autoInput())
-        {
-            Direction front = getFacing();
-            for (var entry : fluidsIOConfig)
-            {
-                if (entry.getValue().allowsInput())
-                {
-                    IFluidHandler neighborFluids = getNeighborFluidHandler(entry.getKey().resolveAbsoluteSide(front));
-                    if (neighborFluids != null) LimaFluidUtil.transferFluidsFromGeneralTank(neighborFluids, inputFluids, INPUT_TANK_CAPACITY, IFluidHandler.FluidAction.EXECUTE);
-                }
-            }
-        }
-    }
-
-    protected void pushFluidsToSides()
-    {
-        if (outputFluids != null && fluidsIOConfig != null && fluidsIOConfig.autoOutput())
-        {
-            Direction front = getFacing();
-            for (var entry : fluidsIOConfig)
-            {
-                if (entry.getValue().allowsOutput())
-                {
-                    IFluidHandler neighborFluids = getNeighborFluidHandler(entry.getKey().resolveAbsoluteSide(front));
-                    if (neighborFluids != null) LimaFluidUtil.transferFluidsFromLimaTank(outputFluids, neighborFluids, OUTPUT_TANK_CAPACITY, IFluidHandler.FluidAction.EXECUTE);
-                }
-            }
-        }
     }
 
     protected void tickFluidAutoInput(int frequency)
     {
         if (autoFluidInputTimer >= frequency)
         {
-            pullFluidsFromSides();
+            if (fluidsIOConfig != null) pullResourcesFromSides(fluidsIOConfig, inputFluids, INPUT_TANK_CAPACITY, LimaTransferUtil.ALL_FLUIDS, this::getNeighborFluidHandler);
+
             autoFluidInputTimer = 0;
         }
         else
@@ -231,7 +173,8 @@ public abstract class ProductionMachineBlockEntity extends LTXIMachineBlockEntit
     {
         if (autoFluidOutputTimer >= frequency)
         {
-            pushFluidsToSides();
+            if (fluidsIOConfig != null) pushResourcesToSides(fluidsIOConfig, outputFluids, OUTPUT_TANK_CAPACITY, LimaTransferUtil.ALL_FLUIDS, this::getNeighborFluidHandler);
+
             autoFluidOutputTimer = 0;
         }
         else
@@ -249,22 +192,22 @@ public abstract class ProductionMachineBlockEntity extends LTXIMachineBlockEntit
         // Only create the fluid cache if we have fluid capabilities
         if (inputFluids != null || outputFluids != null)
         {
-            fluidConnections.put(side, createCapabilityCache(Capabilities.FluidHandler.BLOCK, level, side));
+            fluidConnections.put(side, createCapabilityCache(Capabilities.Fluid.BLOCK, level, side));
         }
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries)
+    protected void loadAdditional(ValueInput input)
     {
-        super.loadAdditional(tag, registries);
-        loadFluidContainers(tag, registries);
+        super.loadAdditional(input);
+        loadFluidResources(input);
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries)
+    protected void saveAdditional(ValueOutput output)
     {
-        super.saveAdditional(tag, registries);
-        saveFluidContainers(tag, registries);
+        super.saveAdditional(output);
+        saveFluidResources(output);
     }
 
     // Helper

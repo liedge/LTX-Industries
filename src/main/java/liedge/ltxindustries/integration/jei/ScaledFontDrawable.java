@@ -1,6 +1,5 @@
 package liedge.ltxindustries.integration.jei;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import liedge.limacore.lib.LimaColor;
 import mezz.jei.api.gui.drawable.IDrawable;
 import net.minecraft.ChatFormatting;
@@ -8,6 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.Mth;
+import org.joml.Matrix3x2fStack;
 
 import java.util.Objects;
 
@@ -61,15 +61,15 @@ public final class ScaledFontDrawable implements IDrawable
     @Override
     public void draw(GuiGraphics guiGraphics, int xOffset, int yOffset)
     {
-        PoseStack poseStack = guiGraphics.pose();
+        Matrix3x2fStack matrixStack = guiGraphics.pose();
 
-        poseStack.pushPose();
+        matrixStack.pushMatrix();
 
-        poseStack.translate(xOffset, yOffset, 0);
-        poseStack.scale(scale, scale, 1f);
+        matrixStack.translate(xOffset, yOffset);
+        matrixStack.scale(scale);
 
         guiGraphics.drawString(font, text, 0, 0, argb32, true);
 
-        poseStack.popPose();
+        matrixStack.popMatrix();
     }
 }

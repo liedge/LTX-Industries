@@ -11,7 +11,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -63,13 +63,13 @@ public class EnergyHoeItem extends ModularEnergyMiningItem
             if (player != null) consumeEnergyAction(player, stack);
         }
 
-        return InteractionResult.sidedSuccess(!level.isClientSide());
+        return InteractionResult.SUCCESS_SERVER;
     }
 
     @Override
-    public UseAnim getUseAnimation(ItemStack stack)
+    public ItemUseAnimation getUseAnimation(ItemStack stack)
     {
-        return UseAnim.BRUSH;
+        return ItemUseAnimation.BRUSH;
     }
 
     @Override

@@ -6,8 +6,9 @@ import liedge.limacore.menu.LimaMenu;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.menu.layout.LayoutSlot;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 
 import static liedge.ltxindustries.LTXIndustries.RESOURCES;
@@ -15,18 +16,18 @@ import static liedge.ltxindustries.LTXIndustries.RESOURCES;
 public abstract class LTXIScreen<M extends LimaMenu<?>> extends LimaMenuScreen<M>
 {
     // Textures
-    private static final ResourceLocation CONTAINER_BASE_TEXTURE = RESOURCES.textureLocation("gui", "container_base");
-    private static final ResourceLocation SLOT_TILE_TEXTURE = RESOURCES.textureLocation("gui", "slots");
-    private static final ResourceLocation LIGHT_PANEL_TEXTURE = RESOURCES.textureLocation("gui", "light_panel");
-    private static final ResourceLocation DARK_PANEL_TEXTURE = RESOURCES.textureLocation("gui", "dark_panel");
+    private static final Identifier CONTAINER_BASE_TEXTURE = RESOURCES.textureLocation("gui", "container_base");
+    private static final Identifier SLOT_TILE_TEXTURE = RESOURCES.textureLocation("gui", "slots");
+    private static final Identifier LIGHT_PANEL_TEXTURE = RESOURCES.textureLocation("gui", "light_panel");
+    private static final Identifier DARK_PANEL_TEXTURE = RESOURCES.textureLocation("gui", "dark_panel");
 
     // Common sprites
-    private static final ResourceLocation POWER_IN_SLOT = RESOURCES.location("slot/power_in");
-    protected static final ResourceLocation POWER_OUT_SLOT = RESOURCES.location("slot/power_out");
-    private static final ResourceLocation BIG_OUTPUT_SLOT = RESOURCES.location("slot/big_output");
-    static final ResourceLocation GRID_UNIT = RESOURCES.location("widget/grid_unit");
-    static final ResourceLocation GRID_UNIT_FOCUSED = RESOURCES.location("widget/grid_unit_focus");
-    static final ResourceLocation GRID_UNIT_SELECTED = RESOURCES.location("widget/grid_unit_selected");
+    private static final Identifier POWER_IN_SLOT = RESOURCES.id("slot/power_in");
+    protected static final Identifier POWER_OUT_SLOT = RESOURCES.id("slot/power_out");
+    private static final Identifier BIG_OUTPUT_SLOT = RESOURCES.id("slot/big_output");
+    static final Identifier GRID_UNIT = RESOURCES.id("widget/grid_unit");
+    static final Identifier GRID_UNIT_FOCUSED = RESOURCES.id("widget/grid_unit_focus");
+    static final Identifier GRID_UNIT_SELECTED = RESOURCES.id("widget/grid_unit_selected");
 
     // Dimensions
     private static final int BG_CORNER_SIZE = 4;
@@ -55,7 +56,7 @@ public abstract class LTXIScreen<M extends LimaMenu<?>> extends LimaMenuScreen<M
     protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY)
     {
         nineSliceBlit(guiGraphics, CONTAINER_BASE_TEXTURE, BG_CORNER_SIZE, 0, 0, primaryWidth, primaryHeight, 16, 16);
-        LimaGuiUtil.nineSliceNoBottomBlit(guiGraphics, CONTAINER_BASE_TEXTURE, BG_CORNER_SIZE, leftPos + titleBarX, topPos - topPadding, titleBarWidth, TITLE_BAR_HEIGHT, 16, 16);
+        LimaGuiUtil.nineSliceNoBottomBlit(guiGraphics, RenderPipelines.GUI_TEXTURED, CONTAINER_BASE_TEXTURE, BG_CORNER_SIZE, leftPos + titleBarX, topPos - topPadding, titleBarWidth, TITLE_BAR_HEIGHT, 16, 16);
     }
 
     protected void blitSlotGrid(GuiGraphics graphics, int x, int y, int width, int height)
@@ -69,12 +70,12 @@ public abstract class LTXIScreen<M extends LimaMenu<?>> extends LimaMenuScreen<M
         blitSlotGrid(graphics, x, y + LimaMenu.DEFAULT_INV_HOTBAR_OFFSET, 9, 1);
     }
 
-    protected void blitSprite(GuiGraphics graphics, ResourceLocation spriteLocation, int x, int y, int width, int height)
+    protected void blitSprite(GuiGraphics graphics, Identifier spriteLocation, int x, int y, int width, int height)
     {
-        graphics.blitSprite(spriteLocation, leftPos + x, topPos + y, width, height);
+        graphics.blitSprite(RenderPipelines.GUI_TEXTURED, spriteLocation, leftPos + x, topPos + y, width, height);
     }
 
-    protected void blitSlotSprite(GuiGraphics graphics, ResourceLocation slotSprite, int x, int y)
+    protected void blitSlotSprite(GuiGraphics graphics, Identifier slotSprite, int x, int y)
     {
         blitSprite(graphics, slotSprite, x, y, 18, 18);
     }
@@ -104,19 +105,19 @@ public abstract class LTXIScreen<M extends LimaMenu<?>> extends LimaMenuScreen<M
         nineSliceBlit(graphics, DARK_PANEL_TEXTURE, 1, x, y, width, height, 18, 18);
     }
 
-    protected void nineSliceBlit(GuiGraphics graphics, ResourceLocation textureLocation, int cornerSize, int x, int y, int width, int height, int textureWidth, int textureHeight)
+    protected void nineSliceBlit(GuiGraphics graphics, Identifier textureLocation, int cornerSize, int x, int y, int width, int height, int textureWidth, int textureHeight)
     {
-        LimaGuiUtil.nineSliceBlit(graphics, textureLocation, cornerSize, leftPos + x, topPos + y, width, height, textureWidth, textureHeight);
+        LimaGuiUtil.nineSliceBlit(graphics, RenderPipelines.GUI_TEXTURED, textureLocation, cornerSize, x, y, width, height, textureWidth, textureHeight);
     }
 
     // Blit helpers (public for JEI use)
     public static void blitOutputSlotSprite(GuiGraphics graphics, int x, int y)
     {
-        graphics.blitSprite(BIG_OUTPUT_SLOT, x, y, 22, 22);
+        graphics.blitSprite(RenderPipelines.GUI_TEXTURED, BIG_OUTPUT_SLOT, x, y, 22, 22);
     }
 
     public static void blitEmptySlotGrid(GuiGraphics graphics, int x, int y, int width, int height)
     {
-        graphics.blit(SLOT_TILE_TEXTURE, x, y, 0, 0, width * 18, height * 18);
+        graphics.blit(RenderPipelines.GUI_TEXTURED, SLOT_TILE_TEXTURE, x, y, 0f, 0f, width * 18, height * 18, 256, 256);
     }
 }

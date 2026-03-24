@@ -14,12 +14,14 @@ import liedge.ltxindustries.registry.LTXIRegistries;
 import liedge.ltxindustries.registry.game.LTXINetworkSerializers;
 import liedge.ltxindustries.registry.game.LTXISounds;
 import net.minecraft.core.Holder;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 import static liedge.ltxindustries.blockentity.EquipmentUpgradeStationBlockEntity.EQUIPMENT_ITEM_SLOT;
 import static liedge.ltxindustries.blockentity.EquipmentUpgradeStationBlockEntity.UPGRADE_MODULE_SLOT;
@@ -29,9 +31,10 @@ public class EquipmentUpgradeStationMenu extends UpgradesConfigMenu<EquipmentUpg
 {
     public EquipmentUpgradeStationMenu(LimaMenuType<EquipmentUpgradeStationBlockEntity, ?> type, int containerId, Inventory inventory, EquipmentUpgradeStationBlockEntity menuContext)
     {
-        super(type, containerId, inventory, menuContext, menuContext.getItemHandlerOrThrow(BlockContentsType.GENERAL), UPGRADE_MODULE_SLOT);
+        super(type, containerId, inventory, menuContext, menuContext.getItemsOrThrow(BlockContentsType.GENERAL), UPGRADE_MODULE_SLOT);
 
-        addSlot(BlockContentsType.GENERAL, EQUIPMENT_ITEM_SLOT, 24, 65, stack -> stack.getItem() instanceof UpgradableEquipmentItem);
+        //addSlot(BlockContentsType.GENERAL, EQUIPMENT_ITEM_SLOT, 24, 65, stack -> stack.getItem() instanceof UpgradableEquipmentItem);
+        addSlot(BlockContentsType.GENERAL, EQUIPMENT_ITEM_SLOT, 24, 65);
         addPlayerInventoryAndHotbar(15, 118);
     }
 
@@ -44,13 +47,13 @@ public class EquipmentUpgradeStationMenu extends UpgradesConfigMenu<EquipmentUpg
     @Override
     protected EquipmentUpgrades getUpgrades()
     {
-        return UpgradableEquipmentItem.getEquipmentUpgradesFromStack(moduleSourceInventory.getStackInSlot(EQUIPMENT_ITEM_SLOT));
+        return UpgradableEquipmentItem.getUpgradesFrom(moduleSourceInventory.getResource(EQUIPMENT_ITEM_SLOT));
     }
 
     @Override
     protected boolean canInstallUpgrade(ItemStack upgradeModuleItem)
     {
-        ItemStack equipmentStack = moduleSourceInventory.getStackInSlot(EQUIPMENT_ITEM_SLOT);
+        ItemStack equipmentStack = moduleSourceInventory.getResource(EQUIPMENT_ITEM_SLOT).toStack();
 
         if (equipmentStack.getItem() instanceof UpgradableEquipmentItem equipmentItem)
         {
@@ -66,7 +69,7 @@ public class EquipmentUpgradeStationMenu extends UpgradesConfigMenu<EquipmentUpg
     @Override
     protected void tryInstallUpgrade(ItemStack upgradeModuleItem, ServerLevel level)
     {
-        ItemStack equipmentStack = moduleSourceInventory.getStackInSlot(EQUIPMENT_ITEM_SLOT).copy();
+        ItemStack equipmentStack = moduleSourceInventory.getResource(EQUIPMENT_ITEM_SLOT).toStack();
 
         if (equipmentStack.getItem() instanceof UpgradableEquipmentItem equipmentItem)
         {
@@ -81,8 +84,14 @@ public class EquipmentUpgradeStationMenu extends UpgradesConfigMenu<EquipmentUpg
                 // Modify the upgrades and consume upgrade module item
                 EquipmentUpgrades newUpgrades = currentUpgrades.toMutableContainer().set(entry).toImmutable();
                 setUpgradesAndRefresh(level, equipmentStack, equipmentItem, newUpgrades);
-                moduleSourceInventory.setStackInSlot(EQUIPMENT_ITEM_SLOT, equipmentStack);
-                moduleSourceInventory.extractItem(UPGRADE_MODULE_SLOT, 1, false);
+
+                moduleSourceInventory.set(EQUIPMENT_ITEM_SLOT, ItemResource.of(equipmentStack), 1);
+
+                try (Transaction tx = Transaction.openRoot())
+                {
+                    moduleSourceInventory.extract(UPGRADE_MODULE_SLOT, ItemResource.of(upgradeModuleItem), 1, tx);
+                    tx.commit();
+                }
 
                 if (previousRank > 0) ejectModuleItem(getServerUser(), entry.upgrade(), previousRank);
 
@@ -92,9 +101,9 @@ public class EquipmentUpgradeStationMenu extends UpgradesConfigMenu<EquipmentUpg
     }
 
     @Override
-    protected void tryRemoveUpgrade(ServerPlayer sender, ResourceLocation upgradeId)
+    protected void tryRemoveUpgrade(ServerPlayer sender, Identifier upgradeId)
     {
-        ItemStack equipmentStack = moduleSourceInventory.getStackInSlot(EQUIPMENT_ITEM_SLOT).copy();
+        ItemStack equipmentStack = moduleSourceInventory.getResource(EQUIPMENT_ITEM_SLOT).toStack();
 
         if (equipmentStack.getItem() instanceof UpgradableEquipmentItem equipmentItem)
         {
@@ -105,8 +114,8 @@ public class EquipmentUpgradeStationMenu extends UpgradesConfigMenu<EquipmentUpg
             if (rank > 0)
             {
                 EquipmentUpgrades newUpgrades = currentUpgrades.toMutableContainer().remove(upgradeHolder).toImmutable();
-                setUpgradesAndRefresh(sender.serverLevel(), equipmentStack, equipmentItem, newUpgrades);
-                moduleSourceInventory.setStackInSlot(EQUIPMENT_ITEM_SLOT, equipmentStack);
+                setUpgradesAndRefresh(sender.level(), equipmentStack, equipmentItem, newUpgrades);
+                moduleSourceInventory.set(EQUIPMENT_ITEM_SLOT, ItemResource.of(equipmentStack), 1);
 
                 ejectModuleItem(sender, upgradeHolder, rank);
                 sendSoundToPlayer(sender, LTXISounds.UPGRADE_REMOVE, 1f, 1f);

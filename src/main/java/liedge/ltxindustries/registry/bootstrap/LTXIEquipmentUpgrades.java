@@ -22,7 +22,7 @@ import liedge.ltxindustries.registry.LTXIRegistries;
 import liedge.ltxindustries.registry.game.LTXIAttributes;
 import liedge.ltxindustries.registry.game.LTXIItems;
 import net.minecraft.ChatFormatting;
-import net.minecraft.advancements.critereon.*;
+import net.minecraft.advancements.criterion.*;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -150,8 +150,8 @@ public final class LTXIEquipmentUpgrades
         HolderGetter<MobEffect> mobEffects = context.lookup(Registries.MOB_EFFECT);
 
         // AnyHolderSets
-        HolderSet<Block> anyBlockHolderSet = new AnyHolderSet<>(BuiltInRegistries.BLOCK.asLookup());
-        HolderSet<Item> anyItemHolderSet = new AnyHolderSet<>(BuiltInRegistries.ITEM.asLookup());
+        HolderSet<Block> anyBlockHolderSet = new AnyHolderSet<>(BuiltInRegistries.BLOCK);
+        HolderSet<Item> anyItemHolderSet = new AnyHolderSet<>(BuiltInRegistries.ITEM);
 
         // Common holder sets
         HolderSet<Item> miningTools = items.getOrThrow(LTXITags.Items.MINING_TOOLS);
@@ -320,7 +320,7 @@ public final class LTXIEquipmentUpgrades
                 .register(context);
         EquipmentUpgrade.builder(TREE_VEIN_MINE)
                 .supports(LTXIItems.LTX_AXE)
-                .withEffect(VEIN_MINE, VeinMine.create(BlockPredicate.Builder.block().of(BlockTags.LOGS), BlockPredicate.Builder.block().of(BlockTags.LEAVES), VeinMine.MAX_BLOCK_LIMIT, false))
+                .withEffect(VEIN_MINE, VeinMine.create(BlockPredicate.Builder.block().of(blocks, BlockTags.LOGS), BlockPredicate.Builder.block().of(blocks, BlockTags.LEAVES), VeinMine.MAX_BLOCK_LIMIT, false))
                 .staticTooltip(0)
                 .effectIcon(veinMineOverlay(itemIcon(Items.OAK_LOG)))
                 .category("tools")
@@ -385,7 +385,7 @@ public final class LTXIEquipmentUpgrades
                 .withSpecialEffect(RELOAD_SOURCE, WeaponReloadSource.commonEnergy())
                 .tooltip(energyCapacityTooltip(lightweightEnergyCapacity, ValueFormat.FLAT_NUMBER, ValueSentiment.NEUTRAL))
                 .tooltip(energyUsageTooltip(lightweightEnergyUsage, ValueFormat.FLAT_NUMBER, ValueSentiment.NEUTRAL))
-                .effectIcon(sprite(LIGHTWEIGHT_ENERGY_ADAPTER.location().getPath()))
+                .effectIcon(sprite(LIGHTWEIGHT_ENERGY_ADAPTER.identifier().getPath()))
                 .category("weapon/ammo")
                 .register(context);
 
@@ -400,7 +400,7 @@ public final class LTXIEquipmentUpgrades
                 .withSpecialEffect(RELOAD_SOURCE, WeaponReloadSource.commonEnergy())
                 .tooltip(energyCapacityTooltip(specialistEnergyCapacity, ValueFormat.FLAT_NUMBER, ValueSentiment.NEUTRAL))
                 .tooltip(energyUsageTooltip(specialistEnergyUsage, ValueFormat.FLAT_NUMBER, ValueSentiment.NEUTRAL))
-                .effectIcon(sprite(SPECIALIST_ENERGY_ADAPTER.location().getPath()))
+                .effectIcon(sprite(SPECIALIST_ENERGY_ADAPTER.identifier().getPath()))
                 .category("weapon/ammo")
                 .register(context);
 
@@ -415,7 +415,7 @@ public final class LTXIEquipmentUpgrades
                 .withSpecialEffect(RELOAD_SOURCE, WeaponReloadSource.commonEnergy())
                 .tooltip(energyCapacityTooltip(explosivesEnergyCapacity, ValueFormat.FLAT_NUMBER, ValueSentiment.NEUTRAL))
                 .tooltip(energyUsageTooltip(explosivesEnergyUsage, ValueFormat.FLAT_NUMBER, ValueSentiment.NEUTRAL))
-                .effectIcon(sprite(EXPLOSIVES_ENERGY_ADAPTER.location().getPath()))
+                .effectIcon(sprite(EXPLOSIVES_ENERGY_ADAPTER.identifier().getPath()))
                 .category("weapon/ammo")
                 .register(context);
 
@@ -430,7 +430,7 @@ public final class LTXIEquipmentUpgrades
                 .withSpecialEffect(RELOAD_SOURCE, WeaponReloadSource.commonEnergy())
                 .tooltip(energyCapacityTooltip(heavyEnergyCapacity, ValueFormat.FLAT_NUMBER, ValueSentiment.NEUTRAL))
                 .tooltip(energyUsageTooltip(heavyEnergyUsage, ValueFormat.FLAT_NUMBER, ValueSentiment.NEUTRAL))
-                .effectIcon(sprite(HEAVY_ENERGY_ADAPTER.location().getPath()))
+                .effectIcon(sprite(HEAVY_ENERGY_ADAPTER.identifier().getPath()))
                 .category("weapon/ammo")
                 .register(context);
 

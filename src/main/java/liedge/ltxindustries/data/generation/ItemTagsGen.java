@@ -7,7 +7,6 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.Tags;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -19,9 +18,9 @@ import static net.neoforged.neoforge.common.Tags.Items.*;
 
 class ItemTagsGen extends LimaTagsProvider.ItemTags
 {
-    ItemTagsGen(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, CompletableFuture<TagLookup<Block>> blockTags, ExistingFileHelper helper)
+    ItemTagsGen(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, CompletableFuture<TagLookup<Block>> blockTags)
     {
-        super(output, LTXIndustries.MODID, blockTags, lookupProvider, helper);
+        super(output, LTXIndustries.MODID, blockTags, lookupProvider);
     }
 
     @Override
@@ -78,6 +77,7 @@ class ItemTagsGen extends LimaTagsProvider.ItemTags
         buildTag(DUSTS).add(CARBON_DUST).addTag(DEEPSLATE_DUSTS);
 
         buildTag(GREEN_GROUP_DYE_SOURCES).add(SHORT_GRASS, TALL_GRASS, FERN, LARGE_FERN).addTags(LEAVES, SAPLINGS);
+        buildTag(CARBON_SOURCES).add(CHARCOAL).addTag(COALS);
         buildTag(NEON_LIGHT_MATERIALS).add(GLOWSTONE, GLOW_INK_SAC, GLOW_BERRIES);
         buildTag(APPLE_SAPLINGS).add(OAK_SAPLING, DARK_OAK_SAPLING);
 

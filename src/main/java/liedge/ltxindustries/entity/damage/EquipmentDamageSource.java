@@ -2,6 +2,7 @@ package liedge.ltxindustries.entity.damage;
 
 import liedge.limacore.util.LimaCoreObjects;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
+import liedge.ltxindustries.lib.upgrades.DropsCapture;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.damagesource.DamageType;
@@ -29,7 +30,7 @@ public final class EquipmentDamageSource extends UpgradesAwareDamageSource
     {
         super(directEntity.level().registryAccess().holderOrThrow(typeKey), directEntity, causingEntity);
         this.weaponItem = weaponItem;
-        this.upgrades = UpgradableEquipmentItem.getEquipmentUpgradesFromStack(weaponItem);
+        this.upgrades = UpgradableEquipmentItem.getUpgradesFrom(weaponItem);
     }
 
     @Override
@@ -45,9 +46,9 @@ public final class EquipmentDamageSource extends UpgradesAwareDamageSource
     }
 
     @Override
-    public @Nullable DropsRedirect createDropsRedirect()
+    public @Nullable DropsCapture getDropsCapture()
     {
         Player player = LimaCoreObjects.tryCast(Player.class, getEntity());
-        return player != null ? DropsRedirect.forMobDrops(player, upgrades) : null;
+        return player != null ? DropsCapture.mobDropsToPlayer(player, upgrades) : null;
     }
 }

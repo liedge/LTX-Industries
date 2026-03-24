@@ -1,50 +1,50 @@
 package liedge.ltxindustries.client.gui.widget;
 
-import liedge.limacore.capability.energy.EnergyHolderBlockEntity;
-import liedge.limacore.capability.energy.LimaEnergyStorage;
-import liedge.limacore.capability.energy.LimaEnergyUtil;
 import liedge.limacore.client.gui.FillBarWidget;
 import liedge.limacore.client.gui.TooltipLineConsumer;
+import liedge.limacore.transfer.LimaEnergyUtil;
+import liedge.limacore.transfer.energy.EnergyHolderBlockEntity;
+import liedge.limacore.transfer.energy.VariableEnergyHandler;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.util.LTXITooltipUtil;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import static liedge.ltxindustries.LTXIConstants.HOSTILE_ORANGE;
 
 public class EnergyGaugeWidget extends FillBarWidget.VerticalBar
 {
-    private static final ResourceLocation BG_SPRITE = LTXIndustries.RESOURCES.location("widget/energy_bar_background");
-    private static final ResourceLocation FG_SPRITE_NORMAL = LTXIndustries.RESOURCES.location("widget/energy_bar_fill");
-    private static final ResourceLocation FG_SPRITE_OVERCHARGE = LTXIndustries.RESOURCES.location("widget/energy_bar_overcharge_fill");
+    private static final Identifier BG_SPRITE = LTXIndustries.RESOURCES.id("widget/energy_bar_background");
+    private static final Identifier FG_SPRITE_NORMAL = LTXIndustries.RESOURCES.id("widget/energy_bar_fill");
+    private static final Identifier FG_SPRITE_OVERCHARGE = LTXIndustries.RESOURCES.id("widget/energy_bar_overcharge_fill");
 
-    private final LimaEnergyStorage energyStorage;
+    private final VariableEnergyHandler energy;
 
-    public EnergyGaugeWidget(LimaEnergyStorage energyStorage, int x, int y)
+    public EnergyGaugeWidget(VariableEnergyHandler energy, int x, int y)
     {
         super(x, y, 12, 40, 10, 38);
-        this.energyStorage = energyStorage;
+        this.energy = energy;
     }
 
     public EnergyGaugeWidget(EnergyHolderBlockEntity blockEntity, int x, int y)
     {
-        this(blockEntity.getEnergyStorage(), x, y);
+        this(blockEntity.getEnergy(), x, y);
     }
 
     @Override
     protected float getFillPercentage()
     {
-        return LimaEnergyUtil.getFillPercentage(energyStorage);
+        return LimaEnergyUtil.getFillPercentage(energy);
     }
 
     @Override
-    protected ResourceLocation getBackgroundSprite()
+    protected Identifier getBackgroundSprite()
     {
         return BG_SPRITE;
     }
 
     @Override
-    protected ResourceLocation getForegroundSprite(float fillPercentage)
+    protected Identifier getForegroundSprite(float fillPercentage)
     {
         return fillPercentage > 1f ? FG_SPRITE_OVERCHARGE : FG_SPRITE_NORMAL;
     }
@@ -58,7 +58,7 @@ public class EnergyGaugeWidget extends FillBarWidget.VerticalBar
     @Override
     public void createWidgetTooltip(TooltipLineConsumer consumer)
     {
-        LTXITooltipUtil.appendStorageEnergyTooltip(consumer, energyStorage.getEnergyStored(), energyStorage.getMaxEnergyStored(), energyStorage.getTransferRate());
+        LTXITooltipUtil.appendStorageEnergyTooltip(consumer, energy.getAmountAsInt(), energy.getCapacityAsInt(), energy.getTransferRate());
         if (getFillPercentage() > 1) consumer.accept(LTXILangKeys.ENERGY_OVERCHARGE_TOOLTIP.translate().withStyle(HOSTILE_ORANGE.chatStyle()));
     }
 }

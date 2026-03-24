@@ -14,10 +14,11 @@ import liedge.ltxindustries.recipe.RecipeMode;
 import liedge.ltxindustries.registry.LTXIRegistries;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.input.InputWithModifiers;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.crafting.RecipeType;
 import org.jetbrains.annotations.Nullable;
@@ -26,7 +27,7 @@ import java.util.List;
 
 public final class RecipeLayoutScreen extends LTXIMachineScreen<RecipeLayoutMenu<?>>
 {
-    public static final ResourceLocation MODE_OVERLAY_SPRITE = LTXIndustries.RESOURCES.location("widget/recipe_modes");
+    public static final Identifier MODE_OVERLAY_SPRITE = LTXIndustries.RESOURCES.id("widget/recipe_modes");
 
     private final RecipeLayout layout;
     @Nullable
@@ -40,9 +41,8 @@ public final class RecipeLayoutScreen extends LTXIMachineScreen<RecipeLayoutMenu
         if (menu.menuContext() instanceof RecipeModeHolderBlockEntity blockEntity)
         {
             Holder<RecipeType<?>> holder = blockEntity.getRecipeTypeHolder();
-            boolean check = inventory.player.level().registryAccess().registry(LTXIRegistries.Keys.RECIPE_MODES).stream()
-                    .flatMap(Registry::holders)
-                    .anyMatch(o -> o.value().recipeTypes().contains(holder));
+            boolean check = inventory.player.level().registryAccess().lookupOrThrow(LTXIRegistries.Keys.RECIPE_MODES)
+                    .stream().anyMatch(o -> o.recipeTypes().contains(holder));
             this.modeHolder = check ? blockEntity : null;
         }
         else
@@ -85,7 +85,7 @@ public final class RecipeLayoutScreen extends LTXIMachineScreen<RecipeLayoutMenu
             {
                 int sx = screenX + slot.x() - 1;
                 int sy = screenY + slot.y() - 1;
-                graphics.blitSprite(slot.type().getSprite(), sx, sy, 18, 18);
+                graphics.blitSprite(RenderPipelines.GUI_TEXTURED, slot.type().getSprite(), sx, sy, 18, 18);
             }
         }
     }
@@ -103,7 +103,7 @@ public final class RecipeLayoutScreen extends LTXIMachineScreen<RecipeLayoutMenu
         }
 
         @Override
-        protected void renderContents(GuiGraphics graphics, int guiX, int guiY)
+        protected void renderInnerContents(GuiGraphics graphics, int guiX, int guiY)
         {
             Holder<RecipeMode> mode = blockEntity.getMode();
             if (mode == null)
@@ -117,9 +117,9 @@ public final class RecipeLayoutScreen extends LTXIMachineScreen<RecipeLayoutMenu
         }
 
         @Override
-        public void onPress(int button)
+        public void onPress(InputWithModifiers input)
         {
-            parent.sendUnitButtonData(RecipeLayoutMenu.MODES_OPEN_BUTTON_ID);
+            if (input.isLeft()) parent.sendUnitButtonData(RecipeLayoutMenu.MODES_OPEN_BUTTON_ID);
         }
 
         @Override

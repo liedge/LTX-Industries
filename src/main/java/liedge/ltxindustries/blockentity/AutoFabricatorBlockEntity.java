@@ -2,21 +2,25 @@ package liedge.ltxindustries.blockentity;
 
 import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.recipe.LimaRecipeInput;
-import liedge.limacore.util.LimaRecipesUtil;
+import liedge.limacore.recipe.SimpleResourceInput;
+import liedge.limacore.util.LimaRegistryUtil;
 import liedge.ltxindustries.recipe.FabricatingRecipe;
 import liedge.ltxindustries.registry.game.LTXIBlockEntities;
 import liedge.ltxindustries.registry.game.LTXIDataComponents;
 import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 
+import java.util.List;
 import java.util.Optional;
 
 public class AutoFabricatorBlockEntity extends BaseFabricatorBlockEntity
@@ -29,15 +33,15 @@ public class AutoFabricatorBlockEntity extends BaseFabricatorBlockEntity
         super(LTXIBlockEntities.AUTO_FABRICATOR.get(), pos, state, 16);
     }
 
-    private void updateBlueprint(Level level)
+    private void updateBlueprint(ServerLevel level)
     {
         shouldCheckBlueprint = false;
 
-        ItemStack bpItem = getAuxInventory().getStackInSlot(AUX_BLUEPRINT_SLOT);
-        ResourceLocation bpId = bpItem.get(LTXIDataComponents.BLUEPRINT_RECIPE);
+        ItemResource bpItem = auxInventory.getResource(AUX_BLUEPRINT_SLOT);
+        ResourceKey<Recipe<?>> recipeKey = bpItem.get(LTXIDataComponents.BLUEPRINT_RECIPE);
         RecipeHolder<FabricatingRecipe> holder = null;
 
-        if (bpId != null) holder = LimaRecipesUtil.getRecipeById(level, bpId, LTXIRecipeTypes.FABRICATING).orElse(null);
+        if (recipeKey != null) holder = LimaRegistryUtil.getRecipeByKey(level, recipeKey, LTXIRecipeTypes.FABRICATING).orElse(null);
 
         getRecipeCheck().setLastUsedRecipe(holder);
     }
@@ -60,8 +64,8 @@ public class AutoFabricatorBlockEntity extends BaseFabricatorBlockEntity
             {
                 FabricatingRecipe recipe = optional.get().value();
 
-                LimaRecipeInput input = LimaRecipeInput.create(getInputInventory(), null);
-                if (canInsertRecipeResults(level, recipe) && recipe.matches(input, level)) // Preliminary check
+                LimaRecipeInput input = new SimpleResourceInput(getItems(BlockContentsType.INPUT), null);
+                if (canInsertRecipeResults(level, recipe, input) && recipe.matches(input, level)) // Preliminary check
                 {
                     recipe.consumeItemIngredients(input, level.getRandom());
                     check = true; // We consume ingredients here and start crafting. Last used recipe will persist until crafting completes.
@@ -73,17 +77,21 @@ public class AutoFabricatorBlockEntity extends BaseFabricatorBlockEntity
 
         // Tick recipe progress
         FabricatingRecipe recipe = getRecipeCheck().getLastUsedRecipe(level).map(RecipeHolder::value).orElse(null);
-        if (isCrafting() && recipe != null && canInsertRecipeResults(level, recipe))
+        if (isCrafting() && recipe != null && canInsertRecipeResults(level, recipe, new SimpleResourceInput(getItems(BlockContentsType.INPUT), null)))
         {
             // Accumulate energy for recipe
             if (energyCraftProgress < recipe.getEnergyRequired())
             {
                 int toExtract = Math.min(getEnergyUsage(), recipe.getEnergyRequired() - energyCraftProgress);
-                energyCraftProgress += getEnergyStorage().extractEnergy(toExtract, false);
+                try (Transaction tx = Transaction.openRoot())
+                {
+                    energyCraftProgress += getEnergy().extract(toExtract, tx);
+                    tx.commit();
+                }
             }
             else // When done crafting
             {
-                getOutputInventory().insertItem(0, recipe.generateItemResult(level), false);
+                insertResourceResults(List.of(recipe.generateItemResult(level)), getItems(BlockContentsType.OUTPUT));
 
                 // Reset state & check recipe after every craft
                 energyCraftProgress = 0;
@@ -105,14 +113,15 @@ public class AutoFabricatorBlockEntity extends BaseFabricatorBlockEntity
     }
 
     @Override
-    public void onItemSlotChanged(BlockContentsType contentsType, int slot)
+    public void onItemChanged(BlockContentsType contentsType, int index, ItemStack previousContents)
     {
-        super.onItemSlotChanged(contentsType, slot);
+        super.onItemChanged(contentsType, index, previousContents);
+
         if (contentsType == BlockContentsType.INPUT || contentsType == BlockContentsType.OUTPUT)
         {
             shouldCheckRecipe = true;
         }
-        else if (contentsType == BlockContentsType.AUXILIARY && slot == AUX_BLUEPRINT_SLOT)
+        else if (contentsType == BlockContentsType.AUXILIARY && index == AUX_BLUEPRINT_SLOT)
         {
             shouldCheckRecipe = true;
             shouldCheckBlueprint = true;

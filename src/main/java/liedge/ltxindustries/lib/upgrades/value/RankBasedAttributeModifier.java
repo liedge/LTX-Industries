@@ -2,8 +2,8 @@ package liedge.ltxindustries.lib.upgrades.value;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.Util;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
+import net.minecraft.util.Util;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.enchantment.LevelBasedValue;
@@ -14,19 +14,19 @@ import java.util.function.Function;
 public final class RankBasedAttributeModifier
 {
     public static final Codec<RankBasedAttributeModifier> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            ResourceLocation.CODEC.fieldOf("id").forGetter(o -> o.id),
+            Identifier.CODEC.fieldOf("id").forGetter(o -> o.id),
             LevelBasedValue.CODEC.fieldOf("amount").forGetter(o -> o.amount),
             AttributeModifier.Operation.CODEC.fieldOf("operation").forGetter(o -> o.operation))
             .apply(instance, RankBasedAttributeModifier::new));
 
-    private final ResourceLocation id;
+    private final Identifier id;
     private final LevelBasedValue amount;
     private final AttributeModifier.Operation operation;
 
     // Limited to [1,10] - enforced by upgrade definition codec
     private final Function<Integer, AttributeModifier> memoizedModifiers;
 
-    public RankBasedAttributeModifier(ResourceLocation id, LevelBasedValue amount, AttributeModifier.Operation operation)
+    public RankBasedAttributeModifier(Identifier id, LevelBasedValue amount, AttributeModifier.Operation operation)
     {
         this.id = id;
         this.amount = amount;
@@ -39,7 +39,7 @@ public final class RankBasedAttributeModifier
         AttributeModifier modifier = memoizedModifiers.apply(upgradeRank);
         if (slot == null) return modifier;
 
-        ResourceLocation prefixedID = id.withPrefix(slot.getSerializedName() + "/");
+        Identifier prefixedID = id.withPrefix(slot.getSerializedName() + "/");
         return new AttributeModifier(prefixedID, amount.calculate(upgradeRank), operation);
     }
 }

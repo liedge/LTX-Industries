@@ -39,7 +39,7 @@ public final class LTXIDeathMessageTypes
 
             if (causingEntity != null)
             {
-                return Component.translatable(translationKey, killedEntity.getDisplayName(), causingEntity.getDisplayName(), upgradableSource.getWeaponItem().getItem().getDescription());
+                return Component.translatable(translationKey, killedEntity.getDisplayName(), causingEntity.getDisplayName(), upgradableSource.getWeaponItem().getStyledHoverName());
             }
             else
             {

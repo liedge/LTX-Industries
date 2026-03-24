@@ -4,7 +4,6 @@ import liedge.limacore.client.gui.HorizontalAlignment;
 import liedge.limacore.client.gui.LimaGuiLayer;
 import liedge.limacore.client.gui.VerticalAlignment;
 import liedge.ltxindustries.LTXIndustries;
-import liedge.ltxindustries.client.renderer.item.EquipmentHUDRenderer;
 import liedge.ltxindustries.util.config.LTXIClientConfig;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
@@ -17,14 +16,14 @@ public final class EquipmentHUDLayer extends LimaGuiLayer
 
     private EquipmentHUDLayer()
     {
-        super(LTXIndustries.RESOURCES.location("equipment_hud"));
+        super(LTXIndustries.RESOURCES.id("equipment_hud"));
     }
 
     @Override
     protected void renderGuiLayer(LocalPlayer player, GuiGraphics graphics, float partialTicks)
     {
         ItemStack heldItem = player.getMainHandItem();
-        if (IClientItemExtensions.of(heldItem) instanceof EquipmentHUDRenderer renderer)
+        if (IClientItemExtensions.of(heldItem) instanceof Renderer renderer)
         {
             HorizontalAlignment xAlign = LTXIClientConfig.getEquipmentHUDXAlign();
             VerticalAlignment yAlign = LTXIClientConfig.getEquipmentHUDYAlign();
@@ -33,5 +32,10 @@ public final class EquipmentHUDLayer extends LimaGuiLayer
 
             renderer.renderHUDLayer(graphics, player, heldItem, xAlign, yAlign, xOffset, yOffset, partialTicks);
         }
+    }
+
+    public interface Renderer extends IClientItemExtensions
+    {
+        void renderHUDLayer(GuiGraphics graphics, LocalPlayer player, ItemStack heldItem, HorizontalAlignment xAlign, VerticalAlignment yAlign, int xOffset, int yOffset, float partialTick);
     }
 }

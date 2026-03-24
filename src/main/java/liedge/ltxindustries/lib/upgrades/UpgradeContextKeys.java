@@ -1,17 +1,12 @@
 package liedge.ltxindustries.lib.upgrades;
 
 import liedge.ltxindustries.LTXIndustries;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParam;
+import net.minecraft.util.context.ContextKey;
 
 public final class UpgradeContextKeys
 {
     private UpgradeContextKeys() {}
 
-    private static <T>LootContextParam<T> key(String name)
-    {
-        return new LootContextParam<>(LTXIndustries.RESOURCES.location(name));
-    }
-
-    public static final LootContextParam<Integer> UPGRADE_RANK = key("upgrade_rank"); // Unused for now
-    public static final LootContextParam<Float> DAMAGE = key("damage");
+    public static final ContextKey<Integer> UPGRADE_RANK = LTXIndustries.RESOURCES.contextKey("upgrade_rank"); // Unused for now
+    public static final ContextKey<Float> DAMAGE = LTXIndustries.RESOURCES.contextKey("damage");
 }

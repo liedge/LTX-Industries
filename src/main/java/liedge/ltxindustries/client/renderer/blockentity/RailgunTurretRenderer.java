@@ -1,17 +1,18 @@
 package liedge.ltxindustries.client.renderer.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import liedge.limacore.lib.LimaColor;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.blockentity.turret.RailgunTurretBlockEntity;
-import liedge.ltxindustries.client.LTXIRenderUtil;
-import liedge.ltxindustries.registry.game.LTXIBlocks;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import liedge.ltxindustries.client.LTXIRenderer;
+import liedge.ltxindustries.client.model.LTXIModelPartKeys;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.world.level.ItemLike;
-import org.joml.Matrix4f;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.core.Direction;
+import net.minecraft.world.phys.Vec3;
+import org.jspecify.annotations.Nullable;
 
 public class RailgunTurretRenderer extends TurretRenderer<RailgunTurretBlockEntity>
 {
@@ -19,38 +20,40 @@ public class RailgunTurretRenderer extends TurretRenderer<RailgunTurretBlockEnti
 
     public RailgunTurretRenderer(BlockEntityRendererProvider.Context context)
     {
-        super(context);
+        super(context, LTXIModelPartKeys.RAILGUN_TURRET_SWIVEL, LTXIModelPartKeys.RAILGUN_TURRET_WEAPONS);
     }
 
     @Override
-    protected ItemLike getModelItem()
+    public void extractRenderState(RailgunTurretBlockEntity blockEntity, TurretRenderState renderState, float partialTick, Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress)
     {
-        return LTXIBlocks.RAILGUN_TURRET;
+        super.extractRenderState(blockEntity, renderState, partialTick, cameraPosition, breakProgress);
+        renderState.railgunBeamColor = blockEntity.lerpAimTicks(1f, 25) >= 1 ? LTXIConstants.LIME_GREEN : LTXIConstants.HOSTILE_ORANGE;
     }
 
     @Override
-    protected double gunsYPivot()
+    protected float yPivot()
     {
-        return 1.6875d;
+        return 1.6875f;
     }
 
     @Override
-    protected void renderAdditionalGuns(RailgunTurretBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight)
+    protected void submitWeapons(TurretRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState)
     {
-        if (blockEntity.isLookingAtTarget())
+        super.submitWeapons(renderState, poseStack, nodeCollector, cameraRenderState);
+
+        if (renderState.lookingAtTarget)
         {
-            float dist = (float) blockEntity.getTargetDistance() - 0.4375f;
+            float dist = (float) renderState.targetDistance - 0.4375f;
             if (dist > 0)
             {
-                VertexConsumer buffer = bufferSource.getBuffer(RenderType.lightning());
-                Matrix4f mx4 = poseStack.last().pose();
+                nodeCollector.submitCustomGeometry(poseStack, RenderTypes.lightning(), (pose, buffer) ->
+                {
+                    float x = 0.5f;
+                    float y = 1.6875f;
+                    float z = 0.0625f;
 
-                float x = 0.5f;
-                float y = 1.6875f;
-                float z = 0.0625f;
-
-                LimaColor color = blockEntity.lerpAimTicks(partialTick, 25) >= 1 ? LTXIConstants.LIME_GREEN : LTXIConstants.HOSTILE_ORANGE;
-                LTXIRenderUtil.submitUnlitCuboid(LTXIRenderUtil.ALL_SIDES, buffer, mx4, x - LASER_RADIUS, y - LASER_RADIUS, z, x + LASER_RADIUS, y + LASER_RADIUS, z - dist, color, 0.8f);
+                    LTXIRenderer.submitUnlitCuboid(pose, buffer, Direction.values(), x - LASER_RADIUS, y - LASER_RADIUS, z, x + LASER_RADIUS, y + LASER_RADIUS, z - dist, renderState.railgunBeamColor, 0.8f);
+                });
             }
         }
     }

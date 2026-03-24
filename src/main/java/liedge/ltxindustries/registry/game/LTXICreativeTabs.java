@@ -9,12 +9,12 @@ import liedge.ltxindustries.registry.bootstrap.LTXIEnchantments;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.EnchantedBookItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.EnchantmentInstance;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -46,7 +46,7 @@ public final class LTXICreativeTabs
             .displayItems((parameters, output) -> LimaCreativeTabFillerItem.addToTab(id, parameters, output, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS, LTXIItems.MACHINE_UPGRADE_MODULE))
             .build());
 
-    private static void buildMainTab(ResourceLocation tabId, CreativeModeTab.ItemDisplayParameters parameters, CreativeModeTab.Output output)
+    private static void buildMainTab(Identifier tabId, CreativeModeTab.ItemDisplayParameters parameters, CreativeModeTab.Output output)
     {
         LimaCreativeTabFillerItem.addHoldersToTab(tabId, parameters, output, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS, LTXIItems.getRegisteredItems());
 
@@ -66,7 +66,8 @@ public final class LTXICreativeTabs
         for (int i = 1; i <= max; i++)
         {
             CreativeModeTab.TabVisibility visibility = i == max ? CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS : CreativeModeTab.TabVisibility.PARENT_TAB_ONLY;
-            output.accept(EnchantedBookItem.createForEnchantment(new EnchantmentInstance(holder, i)), visibility);
+            ItemStack book = EnchantmentHelper.createBook(new EnchantmentInstance(holder, i));
+            output.accept(book, visibility);
         }
     }
 }

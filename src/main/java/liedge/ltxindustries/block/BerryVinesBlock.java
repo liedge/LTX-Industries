@@ -1,8 +1,10 @@
 package liedge.ltxindustries.block;
 
+import liedge.ltxindustries.registry.LTXILootTables;
 import liedge.ltxindustries.registry.game.LTXIBlocks;
 import liedge.ltxindustries.registry.game.LTXIItems;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -23,12 +25,24 @@ public class BerryVinesBlock extends CaveVinesBlock
     {
         if (state.getValue(BERRIES))
         {
-            Block.popResource(level, pos, new ItemStack(LTXIItems.VITRIOL_BERRIES.get()));
+            if (level instanceof ServerLevel serverLevel)
+            {
+                Block.dropFromBlockInteractLootTable(
+                        serverLevel,
+                        LTXILootTables.BILEVINE_HARVEST,
+                        state,
+                        level.getBlockEntity(pos),
+                        null,
+                        player,
+                        (sl, stack) -> popResource(sl, pos, stack));
+            }
+
             level.playSound(null, pos, SoundEvents.CAVE_VINES_PICK_BERRIES, SoundSource.BLOCKS, 1f, Mth.randomBetween(level.random, 0.8f, 1.2f));
             BlockState newState = state.setValue(BERRIES, false);
             level.setBlock(pos, newState, Block.UPDATE_CLIENTS);
             level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, newState));
-            return InteractionResult.sidedSuccess(level.isClientSide);
+
+            return InteractionResult.SUCCESS;
         }
         else
         {
@@ -48,7 +62,7 @@ public class BerryVinesBlock extends CaveVinesBlock
     }
 
     @Override
-    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state)
+    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData)
     {
         return new ItemStack(LTXIItems.VITRIOL_BERRIES.get());
     }

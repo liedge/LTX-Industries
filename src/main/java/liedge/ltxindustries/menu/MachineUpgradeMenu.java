@@ -1,5 +1,6 @@
 package liedge.ltxindustries.menu;
 
+import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.menu.LimaMenuType;
 import liedge.limacore.network.NetworkSerializer;
 import liedge.ltxindustries.blockentity.template.LTXIMachineBlockEntity;
@@ -11,12 +12,14 @@ import liedge.ltxindustries.registry.LTXIRegistries;
 import liedge.ltxindustries.registry.game.LTXINetworkSerializers;
 import liedge.ltxindustries.registry.game.LTXISounds;
 import net.minecraft.core.Holder;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 import static liedge.ltxindustries.registry.game.LTXIDataComponents.MACHINE_UPGRADE_ENTRY;
 
@@ -26,7 +29,7 @@ public class MachineUpgradeMenu extends UpgradesConfigMenu<LTXIMachineBlockEntit
 
     public MachineUpgradeMenu(LimaMenuType<LTXIMachineBlockEntity, ?> type, int containerId, Inventory inventory, LTXIMachineBlockEntity menuContext)
     {
-        super(type, containerId, inventory, menuContext, menuContext.getAuxInventory(), LTXIMachineBlockEntity.AUX_MODULE_ITEM_SLOT);
+        super(type, containerId, inventory, menuContext, menuContext.getItemsOrThrow(BlockContentsType.AUXILIARY), LTXIMachineBlockEntity.AUX_MODULE_ITEM_SLOT);
 
         addPlayerInventoryAndHotbar(15, 118);
     }
@@ -73,7 +76,12 @@ public class MachineUpgradeMenu extends UpgradesConfigMenu<LTXIMachineBlockEntit
             // Modify the upgrades and consume upgrade module item
             MachineUpgrades newUpgrades = currentUpgrades.toMutableContainer().set(entry).toImmutable();
             menuContext.setUpgrades(newUpgrades);
-            moduleSourceInventory.extractItem(moduleSlot, 1, false);
+
+            try (Transaction tx = Transaction.openRoot())
+            {
+                moduleSourceInventory.extract(moduleSlot, ItemResource.of(upgradeModuleItem), 1, tx);
+                tx.commit();
+            }
 
             if (previousRank > 0) ejectModuleItem(getServerUser(), entry.upgrade(), previousRank);
 
@@ -82,7 +90,7 @@ public class MachineUpgradeMenu extends UpgradesConfigMenu<LTXIMachineBlockEntit
     }
 
     @Override
-    protected void tryRemoveUpgrade(ServerPlayer sender, ResourceLocation upgradeId)
+    protected void tryRemoveUpgrade(ServerPlayer sender, Identifier upgradeId)
     {
         MachineUpgrades currentUpgrades = menuContext.getUpgrades();
         Holder<MachineUpgrade> upgradeHolder = level().registryAccess().holderOrThrow(ResourceKey.create(LTXIRegistries.Keys.MACHINE_UPGRADES, upgradeId));

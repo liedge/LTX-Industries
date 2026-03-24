@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -15,7 +16,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BrushableBlock;
@@ -57,9 +58,9 @@ public class EnergyBrushItem extends BaseEnergyToolItem
     }
 
     @Override
-    public UseAnim getUseAnimation(ItemStack stack)
+    public ItemUseAnimation getUseAnimation(ItemStack stack)
     {
-        return UseAnim.BRUSH;
+        return ItemUseAnimation.BRUSH;
     }
 
     @Override
@@ -88,9 +89,10 @@ public class EnergyBrushItem extends BaseEnergyToolItem
                     SoundEvent sound = state.getBlock() instanceof BrushableBlock block ? block.getBrushSound() : SoundEvents.BRUSH_GENERIC;
                     level.playSound(player, pos, sound, SoundSource.BLOCKS);
 
-                    if (!level.isClientSide() && level.getBlockEntity(pos) instanceof BrushableBlockEntity brushable && brushable.brush(level.getGameTime(), player, blockHitResult.getDirection()))
+                    if (level instanceof ServerLevel serverLevel && level.getBlockEntity(pos) instanceof BrushableBlockEntity brushable)
                     {
-                        consumeEnergyAction(player, stack);
+                        boolean result = brushable.brush(level.getGameTime(), serverLevel, player, blockHitResult.getDirection(), stack);
+                        if (result) consumeEnergyAction(player, stack);
                     }
                 }
             }

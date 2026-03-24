@@ -5,9 +5,9 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import liedge.limacore.lib.math.MathOperation;
 import liedge.limacore.util.LimaLootUtil;
 import liedge.ltxindustries.lib.upgrades.value.UpgradeValueProvider;
+import net.minecraft.util.context.ContextKey;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootContextUser;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParam;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.providers.number.NumberProvider;
 
@@ -38,7 +38,7 @@ public record ValueOperation(UpgradeValueProvider value, MathOperation operation
     }
 
     @Override
-    public Set<LootContextParam<?>> getReferencedContextParams()
+    public Set<ContextKey<?>> getReferencedContextParams()
     {
         return value.getReferencedContextParams();
     }

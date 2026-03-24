@@ -22,6 +22,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.ItemLike;
+import org.jspecify.annotations.Nullable;
 
 public record RecipeMode(HolderSet<RecipeType<?>> recipeTypes, Component displayName, ItemStack displayItem)
 {
@@ -41,7 +42,7 @@ public record RecipeMode(HolderSet<RecipeType<?>> recipeTypes, Component display
     public static final class Builder implements BootstrapObjectBuilder<RecipeMode>
     {
         private final ResourceKey<RecipeMode> key;
-        private HolderSet<RecipeType<?>> recipeTypes;
+        private @Nullable HolderSet<RecipeType<?>> recipeTypes;
         private Component displayName;
         private ItemStack displayItem;
 

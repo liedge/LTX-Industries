@@ -1,7 +1,9 @@
 package liedge.ltxindustries.entity.damage;
 
 import com.google.common.base.Preconditions;
+import liedge.limacore.blockentity.BlockContentsType;
 import liedge.ltxindustries.blockentity.turret.TurretBlockEntity;
+import liedge.ltxindustries.lib.upgrades.DropsCapture;
 import liedge.ltxindustries.lib.upgrades.UpgradesContainerBase;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
@@ -41,8 +43,8 @@ public class TurretDamageSource extends UpgradesAwareDamageSource
     }
 
     @Override
-    public @Nullable DropsRedirect createDropsRedirect()
+    public @Nullable DropsCapture getDropsCapture()
     {
-        return DropsRedirect.forMobDrops(blockEntity.getOutputInventory(), blockEntity.getTraceStart(), getUpgrades());
+        return DropsCapture.mobDropsToContainer(blockEntity.getItemsOrThrow(BlockContentsType.OUTPUT), blockEntity.getTraceStart(), getUpgrades());
     }
 }

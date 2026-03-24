@@ -1,32 +1,23 @@
 package liedge.ltxindustries.client.renderer.blockentity;
 
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Axis;
-import liedge.limacore.client.EmptyVertexConsumer;
-import liedge.limacore.client.LimaBlockEntityRenderer;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.ltxindustries.blockentity.BaseFabricatorBlockEntity;
-import liedge.ltxindustries.client.LTXIRenderUtil;
+import liedge.ltxindustries.client.LTXIRenderer;
 import liedge.ltxindustries.client.renderer.LTXIRenderTypes;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.core.Direction;
+import net.minecraft.client.renderer.item.ItemStackRenderState;
+import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 
-import java.util.Set;
+import java.util.List;
 
-import static net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING;
-
-public class BaseFabricatorRenderer extends LimaBlockEntityRenderer<BaseFabricatorBlockEntity>
+public final class BaseFabricatorRenderer extends MachineRenderer<BaseFabricatorBlockEntity>
 {
-    private static final Set<VertexFormat> VALID_WIREFRAME_FORMATS = Set.of(
-            DefaultVertexFormat.BLOCK,
-            DefaultVertexFormat.NEW_ENTITY,
-            DefaultVertexFormat.POSITION_TEX_COLOR);
-
     private final double xOffset;
     private final double yOffset;
 
@@ -38,36 +29,63 @@ public class BaseFabricatorRenderer extends LimaBlockEntityRenderer<BaseFabricat
     }
 
     @Override
-    public void render(BaseFabricatorBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int light, int overlay)
+    void extractAdditional(BaseFabricatorBlockEntity blockEntity, MachineRenderState renderState, float partialTick)
     {
-        ItemStack previewItem = blockEntity.getClientPreviewItem();
+        ItemStack stack = blockEntity.getClientPreviewItem();
+        if (stack.isEmpty()) return;
 
-        if (!previewItem.isEmpty())
+        WireframeItemRenderState previewItem = new WireframeItemRenderState();
+        itemResolver.updateForTopItem(previewItem, stack, ItemDisplayContext.FIXED, null, null, 0);
+        renderState.previewItem = previewItem;
+    }
+
+    @Override
+    public void submit(MachineRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState)
+    {
+        ItemStackRenderState previewItem = renderState.previewItem;
+        if (previewItem == null) return;
+
+        poseStack.pushPose();
+
+        poseStack.translate(0.5d, yOffset, 0.5d);
+        poseStack.mulPose(Axis.YP.rotationDegrees(LTXIRenderer.facingYRotation(renderState.facing)));
+        poseStack.mulPose(Axis.XP.rotationDegrees(90));
+        poseStack.translate(xOffset, 0, 0);
+        poseStack.scale(0.4375f, 0.4375f, 0.4375f);
+
+        previewItem.submit(poseStack, nodeCollector, renderState.lightCoords, OverlayTexture.NO_OVERLAY, 0);
+
+        poseStack.popPose();
+    }
+
+    private static class WireframeItemRenderState extends ItemStackRenderState
+    {
+        private final List<LayerRenderState> trackedLayers = new ObjectArrayList<>();
+
+        @Override
+        public void submit(PoseStack poseStack, SubmitNodeCollector nodeCollector, int packedLight, int packedOverlay, int outlineColor)
         {
-            poseStack.pushPose();
+            for (LayerRenderState layer : trackedLayers)
+            {
+                layer.setRenderType(LTXIRenderTypes.FABRICATOR_WIREFRAME);
+            }
 
-            poseStack.translate(0.5d, yOffset, 0.5d);
+            super.submit(poseStack, nodeCollector, packedLight, packedOverlay, outlineColor);
+        }
 
-            Direction facing = blockEntity.getBlockState().getValue(HORIZONTAL_FACING);
-            poseStack.mulPose(Axis.YP.rotationDegrees(LTXIRenderUtil.facingYRotation(facing)));
-            poseStack.mulPose(Axis.XP.rotationDegrees(90f));
-            poseStack.translate(xOffset, 0, 0);
-            poseStack.scale(0.4375f, 0.4375f, 0.4375f);
+        @Override
+        public LayerRenderState newLayer()
+        {
+            LayerRenderState layer = super.newLayer();
+            trackedLayers.add(layer);
+            return layer;
+        }
 
-            MultiBufferSource wireframeBufferSource = renderType -> {
-                if (blockEntity.isCrafting())
-                {
-                    return VALID_WIREFRAME_FORMATS.contains(renderType.format()) ? bufferSource.getBuffer(LTXIRenderTypes.FABRICATOR_WIREFRAME) : EmptyVertexConsumer.EMPTY_VERTEX_CONSUMER;
-                }
-                else
-                {
-                    return bufferSource.getBuffer(renderType);
-                }
-            };
-
-            itemRenderer.renderStatic(previewItem, ItemDisplayContext.FIXED, light, overlay, poseStack, wireframeBufferSource, Minecraft.getInstance().level, 0);
-
-            poseStack.popPose();
+        @Override
+        public void clear()
+        {
+            super.clear();
+            trackedLayers.clear();
         }
     }
 }

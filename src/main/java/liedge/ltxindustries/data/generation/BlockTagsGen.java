@@ -8,7 +8,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -21,9 +20,9 @@ import static net.neoforged.neoforge.common.Tags.Blocks.*;
 
 class BlockTagsGen extends LimaTagsProvider.RegistryTags<Block>
 {
-    BlockTagsGen(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, ExistingFileHelper helper)
+    BlockTagsGen(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider)
     {
-        super(output, BuiltInRegistries.BLOCK, LTXIndustries.MODID, lookupProvider, helper);
+        super(output, BuiltInRegistries.BLOCK, LTXIndustries.MODID, lookupProvider);
     }
 
     @Override

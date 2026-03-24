@@ -2,9 +2,9 @@ package liedge.ltxindustries.lib.upgrades.effect;
 
 import liedge.limacore.data.LimaEnumCodec;
 import net.minecraft.util.StringRepresentable;
+import net.minecraft.util.context.ContextKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.storage.loot.LootContext;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParam;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import org.jetbrains.annotations.Nullable;
 
@@ -20,9 +20,9 @@ public enum EffectTarget implements StringRepresentable
     public static final LimaEnumCodec<EffectTarget> SOURCE_CODEC = LimaEnumCodec.create(EffectTarget.class, List.of(ATTACKER, VICTIM));
 
     private final String name;
-    private final LootContextParam<? extends Entity> param;
+    private final ContextKey<? extends Entity> param;
 
-    EffectTarget(String name, LootContextParam<? extends Entity> param)
+    EffectTarget(String name, ContextKey<? extends Entity> param)
     {
         this.name = name;
         this.param = param;
@@ -36,6 +36,6 @@ public enum EffectTarget implements StringRepresentable
 
     public @Nullable Entity apply(LootContext context)
     {
-        return context.getParamOrNull(param);
+        return context.getOptionalParameter(param);
     }
 }

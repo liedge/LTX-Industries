@@ -27,7 +27,7 @@ public class BerryVinesPlantBlock extends CaveVinesPlantBlock
     }
 
     @Override
-    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state)
+    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData)
     {
         return new ItemStack(LTXIItems.VITRIOL_BERRIES.get());
     }

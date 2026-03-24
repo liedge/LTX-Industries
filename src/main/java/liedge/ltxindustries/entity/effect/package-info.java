@@ -1,4 +1,4 @@
-@AllNotNull
+@NullMarked
 package liedge.ltxindustries.entity.effect;
 
-import liedge.limacore.AllNotNull;
+import org.jspecify.annotations.NullMarked;

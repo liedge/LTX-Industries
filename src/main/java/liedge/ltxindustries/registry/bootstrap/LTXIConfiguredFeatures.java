@@ -7,7 +7,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.random.SimpleWeightedRandomList;
+import net.minecraft.util.random.WeightedList;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.block.Blocks;
@@ -59,10 +59,10 @@ public final class LTXIConfiguredFeatures
         // Bilevine
         BlockState bilevineState = LTXIBlocks.BILEVINE.get().defaultBlockState();
         BlockState bilevinePlantState = LTXIBlocks.BILEVINE_PLANT.get().defaultBlockState();
-        WeightedStateProvider bilevinePlantProvider = new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder()
+        WeightedStateProvider bilevinePlantProvider = new WeightedStateProvider(WeightedList.<BlockState>builder()
                 .add(bilevinePlantState, 5)
                 .add(bilevinePlantState.setValue(CaveVines.BERRIES, true), 1));
-        RandomizedIntStateProvider bilevineProvider = new RandomizedIntStateProvider(new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder()
+        RandomizedIntStateProvider bilevineProvider = new RandomizedIntStateProvider(new WeightedStateProvider(WeightedList.<BlockState>builder()
                 .add(bilevineState, 5)
                 .add(bilevineState.setValue(CaveVines.BERRIES, true), 1)),
                 BlockStateProperties.AGE_25,

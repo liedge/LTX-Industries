@@ -7,11 +7,13 @@ import liedge.limacore.registry.game.LimaCoreDataComponents;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.lib.upgrades.effect.ValueOperation;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
+import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentType;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.loot.LootContext;
 
@@ -68,25 +70,19 @@ public abstract class EnergyEquipmentItem extends Item implements UpgradableEqui
     }
 
     @Override
-    public boolean isEnchantable(ItemStack stack)
+    public boolean supportsEnchantment(ItemStack stack, Holder<Enchantment> enchantment)
     {
         return false;
     }
 
     @Override
-    public boolean isBookEnchantable(ItemStack stack, ItemStack book)
+    public boolean addDefaultInstanceToCreativeTab(Identifier tabId)
     {
         return false;
     }
 
     @Override
-    public boolean addDefaultInstanceToCreativeTab(ResourceLocation tabId)
-    {
-        return false;
-    }
-
-    @Override
-    public void addAdditionalToCreativeTab(ResourceLocation tabId, CreativeModeTab.ItemDisplayParameters parameters, CreativeModeTab.Output output, CreativeModeTab.TabVisibility tabVisibility)
+    public void addAdditionalToCreativeTab(Identifier tabId, CreativeModeTab.ItemDisplayParameters parameters, CreativeModeTab.Output output, CreativeModeTab.TabVisibility tabVisibility)
     {
         ItemStack stack = createStackWithDefaultUpgrades(parameters.holders());
         stack.set(LimaCoreDataComponents.ENERGY, getBaseEnergyCapacity(stack));

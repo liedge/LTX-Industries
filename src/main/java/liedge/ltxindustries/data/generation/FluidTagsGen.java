@@ -6,8 +6,6 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.material.Fluid;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -17,9 +15,9 @@ import static liedge.ltxindustries.registry.game.LTXIFluids.*;
 
 class FluidTagsGen extends LimaTagsProvider.RegistryTags<Fluid>
 {
-    FluidTagsGen(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookupProvider, @Nullable ExistingFileHelper helper)
+    FluidTagsGen(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries)
     {
-        super(packOutput, BuiltInRegistries.FLUID, LTXIndustries.MODID, lookupProvider, helper);
+        super(packOutput, BuiltInRegistries.FLUID, LTXIndustries.MODID, registries);
     }
 
     @Override

@@ -5,7 +5,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.FishingHook;
 import net.minecraft.world.item.ItemStack;
@@ -31,10 +31,10 @@ public class EnergyFishingRodItem extends BaseEnergyToolItem
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand)
+    public InteractionResult use(Level level, Player player, InteractionHand usedHand)
     {
         ItemStack stack = player.getItemInHand(usedHand);
-        if (!hasEnergyForAction(stack)) return InteractionResultHolder.pass(stack); // Return on no energy
+        if (!hasEnergyForAction(stack)) return InteractionResult.PASS;
 
         // Fishing hook deployed
         if (player.fishing != null)
@@ -44,8 +44,8 @@ public class EnergyFishingRodItem extends BaseEnergyToolItem
                 consumeEnergyAction(player, stack);
             }
 
-            level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.FISHING_BOBBER_RETRIEVE, SoundSource.NEUTRAL, 1f, 0.4f / (level.getRandom().nextFloat() * 0.4f + 0.8f)); // What is this pitch formula? Simplify?
-            player.gameEvent(GameEvent.ITEM_INTERACT_FINISH);
+            level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.FISHING_BOBBER_RETRIEVE, SoundSource.NEUTRAL, 1f, 0.4f / (level.getRandom().nextFloat() * 0.4f + 0.8f));
+            stack.causeUseVibration(player, GameEvent.ITEM_INTERACT_FINISH);
         }
         else // Fishing hook not yet cast
         {
@@ -62,6 +62,6 @@ public class EnergyFishingRodItem extends BaseEnergyToolItem
             player.gameEvent(GameEvent.ITEM_INTERACT_START);
         }
 
-        return InteractionResultHolder.sidedSuccess(stack, level.isClientSide());
+        return InteractionResult.SUCCESS_SERVER;
     }
 }

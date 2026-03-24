@@ -4,17 +4,17 @@ import liedge.limacore.event.DamageAttributeModifiersEvent;
 import liedge.limacore.util.LimaCoreObjects;
 import liedge.limacore.util.LimaLootUtil;
 import liedge.ltxindustries.entity.LTXIEntityUtil;
-import liedge.ltxindustries.entity.damage.DropsRedirect;
 import liedge.ltxindustries.entity.damage.UpgradesAwareDamageSource;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
 import liedge.ltxindustries.item.weapon.WeaponItem;
-import liedge.ltxindustries.lib.EquipmentDamageModifiers;
 import liedge.ltxindustries.lib.shield.EntityBubbleShield;
+import liedge.ltxindustries.lib.upgrades.DropsCapture;
 import liedge.ltxindustries.lib.upgrades.UpgradeContexts;
 import liedge.ltxindustries.lib.upgrades.effect.EffectTarget;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.ltxindustries.registry.game.LTXIAttachmentTypes;
 import liedge.ltxindustries.registry.game.LTXIMobEffects;
+import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import liedge.ltxindustries.util.LTXIUpgradeUtil;
 import net.minecraft.server.level.ServerLevel;
@@ -32,7 +32,7 @@ import net.minecraft.world.level.storage.loot.LootContext;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.AddReloadListenerEvent;
+import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.event.VanillaGameEvent;
 import net.neoforged.neoforge.event.entity.EntityInvulnerabilityCheckEvent;
 import net.neoforged.neoforge.event.entity.living.*;
@@ -48,9 +48,9 @@ public final class LTXIEventHandler
     private LTXIEventHandler() {}
 
     @SubscribeEvent
-    public static void registerReloadListeners(final AddReloadListenerEvent event)
+    public static void onDataPackSync(final OnDatapackSyncEvent event)
     {
-        event.addListener(EquipmentDamageModifiers.getInstance());
+        event.sendRecipes(LTXIRecipeTypes.getTypes());
     }
 
     @SubscribeEvent
@@ -61,7 +61,7 @@ public final class LTXIEventHandler
         {
             for (EquipmentSlot slot : EquipmentSlot.values())
             {
-                EquipmentUpgrades upgrades = UpgradableEquipmentItem.getEquipmentUpgradesFromStack(player.getItemBySlot(slot));
+                EquipmentUpgrades upgrades = UpgradableEquipmentItem.getUpgradesFrom(player.getItemBySlot(slot));
                 if (upgrades.anyMatch(LTXIUpgradeEffectComponents.SUPPRESS_VIBRATIONS, (effect, ignored) -> effect.test(slot, event.getVanillaEvent())))
                 {
                     event.setCanceled(true);
@@ -124,10 +124,10 @@ public final class LTXIEventHandler
         if (event.getBreaker() instanceof Player player && event.getTool().getItem() instanceof UpgradableEquipmentItem equipmentItem)
         {
             EquipmentUpgrades upgrades = equipmentItem.getUpgrades(event.getTool());
-            DropsRedirect redirect = DropsRedirect.forBlocks(player, upgrades);
-            if (redirect != null)
+            DropsCapture capture = DropsCapture.blockDropsToPlayer(player, upgrades);
+            if (capture != null)
             {
-                redirect.captureAndRelocateDrops(event.getDrops());
+                capture.run(event.getDrops());
                 int xp = event.getDroppedExperience();
                 event.setDroppedExperience(0);
                 player.giveExperiencePoints(xp);
@@ -208,22 +208,22 @@ public final class LTXIEventHandler
     public static void onLivingDrops(final LivingDropsEvent event)
     {
         DamageSource damageSource = event.getSource();
-        DropsRedirect dropsRedirect = null;
+        DropsCapture dropsCapture = null;
 
         // First attempt to get from upgradable damage source. Most likely case
         if (damageSource instanceof UpgradesAwareDamageSource upgradableSource)
         {
-            dropsRedirect = upgradableSource.createDropsRedirect();
+            dropsCapture = upgradableSource.getDropsCapture();
         }
         // Otherwise make drops redirect (if possible) from a melee attacks
         else if (damageSource.getDirectEntity() instanceof Player player && player.getWeaponItem().getItem() instanceof UpgradableEquipmentItem equipmentItem && damageSource.is(DamageTypeTags.IS_PLAYER_ATTACK))
         {
             EquipmentUpgrades upgrades = equipmentItem.getUpgrades(player.getWeaponItem());
-            dropsRedirect = DropsRedirect.forMobDrops(player, upgrades);
+            dropsCapture = DropsCapture.mobDropsToPlayer(player, upgrades);
         }
 
         // Perform redirection if one was found
-        if (dropsRedirect != null) dropsRedirect.captureAndRelocateDrops(event.getDrops());
+        if (dropsCapture != null) dropsCapture.run(event.getDrops());
     }
 
     @SubscribeEvent
@@ -236,7 +236,7 @@ public final class LTXIEventHandler
         LootContext context = LimaLootUtil.entityLootContext(level, entity, event.getSource());
         for (EquipmentSlot slot : LTXIUpgradeUtil.ARMOR_SLOTS)
         {
-            EquipmentUpgrades upgrades = UpgradableEquipmentItem.getEquipmentUpgradesFromStack(entity.getItemBySlot(slot));
+            EquipmentUpgrades upgrades = UpgradableEquipmentItem.getUpgradesFrom(entity.getItemBySlot(slot));
             boolean match = upgrades.anyMatch(LTXIUpgradeEffectComponents.DAMAGE_IMMUNITY, (effect, rank) -> effect.test(context));
             if (match)
             {

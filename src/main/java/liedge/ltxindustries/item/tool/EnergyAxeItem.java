@@ -4,6 +4,7 @@ import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
 import liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -51,7 +52,7 @@ public class EnergyAxeItem extends ModularEnergyMiningItem
         if (!super.canUseToolOn(context, level, pos, state, player, stack)) return false;
         if (player == null) return true;
 
-        boolean willUseShield = context.getHand().equals(InteractionHand.MAIN_HAND) && player.getOffhandItem().canPerformAction(ItemAbilities.SHIELD_BLOCK) && !player.isSecondaryUseActive();
+        boolean willUseShield = context.getHand().equals(InteractionHand.MAIN_HAND) && player.getOffhandItem().has(DataComponents.BLOCKS_ATTACKS) && !player.isSecondaryUseActive();
         return !willUseShield;
     }
 
@@ -73,7 +74,7 @@ public class EnergyAxeItem extends ModularEnergyMiningItem
             level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, state1));
         }
 
-        return InteractionResult.sidedSuccess(level.isClientSide());
+        return InteractionResult.SUCCESS;
     }
 
     private @Nullable BlockState transformBlock(UseOnContext context, Level level, BlockPos pos, BlockState state, @Nullable Player player)

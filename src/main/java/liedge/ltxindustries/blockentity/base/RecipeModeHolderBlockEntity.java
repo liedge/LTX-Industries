@@ -1,8 +1,8 @@
 package liedge.ltxindustries.blockentity.base;
 
-import liedge.limacore.capability.itemhandler.ItemHolderBlockEntity;
 import liedge.limacore.network.sync.AutomaticDataWatcher;
 import liedge.limacore.network.sync.LimaDataWatcher;
+import liedge.limacore.transfer.item.ItemHolderBlockEntity;
 import liedge.ltxindustries.recipe.RecipeMode;
 import liedge.ltxindustries.registry.game.LTXINetworkSerializers;
 import net.minecraft.core.Holder;

@@ -2,10 +2,13 @@ package liedge.ltxindustries.client.gui;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import liedge.limacore.client.ItemGuiRenderOverride;
+import liedge.ltxindustries.client.LTXIAtlasIds;
 import liedge.ltxindustries.lib.upgrades.UpgradeIcon;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.util.Map;
 
@@ -32,7 +35,7 @@ public final class UpgradeIconRenderers
     private UpgradeIconRenderers()
     {
         this.<UpgradeIcon.NoRenderIcon>registerRenderer(UpgradeIcon.Type.NO_RENDER, (graphics, x, y, icon) -> false);
-        this.<UpgradeIcon.SpriteSheetIcon>registerRenderer(UpgradeIcon.Type.UPGRADE_SPRITE, (graphics, x, y, icon) -> renderSpriteIcon(graphics, icon.location(), x, y, 150, 16, 16));
+        this.<UpgradeIcon.SpriteSheetIcon>registerRenderer(UpgradeIcon.Type.UPGRADE_SPRITE, (graphics, x, y, icon) -> renderSpriteIcon(graphics, icon.location(), x, y, 16, 16));
         this.registerRenderer(UpgradeIcon.Type.ITEM_STACK, UpgradeIconRenderers::renderItemStackIcon);
         this.registerRenderer(UpgradeIcon.Type.SPRITE_OVERLAY, UpgradeIconRenderers::renderOverlayIcon);
     }
@@ -49,10 +52,10 @@ public final class UpgradeIconRenderers
         return renderer.render(graphics, x, y, (T) uncheckedIcon);
     }
 
-    private static boolean renderSpriteIcon(GuiGraphics graphics, ResourceLocation location, int x, int y, int blitOffset, int width, int height)
+    private static boolean renderSpriteIcon(GuiGraphics graphics, Identifier location, int x, int y, int width, int height)
     {
-        TextureAtlasSprite sprite = UpgradeIconSprites.getInstance().getSprite(location);
-        graphics.blit(x, y, blitOffset, width, height, sprite);
+        TextureAtlasSprite sprite = Minecraft.getInstance().getAtlasManager().getAtlasOrThrow(LTXIAtlasIds.UPGRADE_ICONS_ID).getSprite(location);
+        graphics.blitSprite(RenderPipelines.GUI_TEXTURED, sprite, x, y, width, height, -1);
         return true;
     }
 
@@ -71,7 +74,7 @@ public final class UpgradeIconRenderers
         int ix = x + icon.xOffset();
         int iy = y + icon.yOffset();
 
-        return renderSpriteIcon(graphics, icon.overlay(), ix, iy, 200, icon.width(), icon.height());
+        return renderSpriteIcon(graphics, icon.overlay(), ix, iy, icon.width(), icon.height());
     }
 
     @FunctionalInterface

@@ -16,21 +16,23 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.Tags;
 import org.jetbrains.annotations.Nullable;
 import oshi.util.tuples.Pair;
 
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -47,7 +49,7 @@ public abstract class UpgradeModuleItem<U extends UpgradeBase<?, U>, UE extends 
 
     protected abstract ResourceKey<Registry<U>> upgradeRegistryKey();
 
-    protected abstract ResourceLocation creativeTabId();
+    protected abstract Identifier creativeTabId();
 
     protected abstract UE createUpgradeEntry(Holder<U> upgradeHolder, int upgradeRank);
 
@@ -58,12 +60,12 @@ public abstract class UpgradeModuleItem<U extends UpgradeBase<?, U>, UE extends 
     protected abstract List<ItemStack> getAllCompatibleItems(U upgrade);
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand)
+    public InteractionResult use(Level level, Player player, InteractionHand usedHand)
     {
         ItemStack stack = player.getItemInHand(usedHand);
         if (player.isCrouching() && stack.get(entryComponentType()) == null)
         {
-            return InteractionResultHolder.sidedSuccess(new ItemStack(LTXIItems.EMPTY_UPGRADE_MODULE.get()), level.isClientSide());
+            return InteractionResult.SUCCESS_SERVER.heldItemTransformedTo(LTXIItems.EMPTY_UPGRADE_MODULE.toStack());
         }
 
         return super.use(level, player, usedHand);
@@ -83,20 +85,21 @@ public abstract class UpgradeModuleItem<U extends UpgradeBase<?, U>, UE extends 
         }
     }
 
+    @SuppressWarnings("deprecation")
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag)
+    public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag)
     {
         UE entry = stack.get(entryComponentType());
         if (entry != null)
         {
-            tooltipComponents.add(moduleTypeTooltip().translate().withStyle(moduleTypeStyle()));
+            tooltipAdder.accept(moduleTypeTooltip().translate().withStyle(moduleTypeStyle()));
             U upgrade = entry.upgrade().value();
-            if (upgrade.maxRank() > 1) tooltipComponents.add(LTXILangKeys.UPGRADE_RANK_TOOLTIP.translateArgs(entry.upgradeRank(), upgrade.maxRank()).withStyle(LTXIConstants.UPGRADE_RANK_MAGENTA.chatStyle()));
-            tooltipComponents.add(upgrade.display().description());
+            if (upgrade.maxRank() > 1) tooltipAdder.accept(LTXILangKeys.UPGRADE_RANK_TOOLTIP.translateArgs(entry.upgradeRank(), upgrade.maxRank()).withStyle(LTXIConstants.UPGRADE_RANK_MAGENTA.chatStyle()));
+            tooltipAdder.accept(upgrade.display().description());
         }
         else
         {
-            tooltipComponents.add(LTXILangKeys.INVALID_UPGRADE_HINT.translate().withStyle(HOSTILE_ORANGE.chatStyle()));
+            tooltipAdder.accept(LTXILangKeys.INVALID_UPGRADE_HINT.translate().withStyle(HOSTILE_ORANGE.chatStyle()));
         }
     }
 
@@ -124,13 +127,13 @@ public abstract class UpgradeModuleItem<U extends UpgradeBase<?, U>, UE extends 
     }
 
     @Override
-    public boolean addDefaultInstanceToCreativeTab(ResourceLocation tabId)
+    public boolean addDefaultInstanceToCreativeTab(Identifier tabId)
     {
         return false;
     }
 
     @Override
-    public void addAdditionalToCreativeTab(ResourceLocation tabId, CreativeModeTab.ItemDisplayParameters parameters, CreativeModeTab.Output output, CreativeModeTab.TabVisibility tabVisibility)
+    public void addAdditionalToCreativeTab(Identifier tabId, CreativeModeTab.ItemDisplayParameters parameters, CreativeModeTab.Output output, CreativeModeTab.TabVisibility tabVisibility)
     {
         if (tabId.equals(creativeTabId()))
         {

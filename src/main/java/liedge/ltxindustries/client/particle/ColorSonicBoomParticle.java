@@ -1,43 +1,27 @@
 package liedge.ltxindustries.client.particle;
 
+import liedge.limacore.client.LimaCoreClientUtil;
 import liedge.limacore.client.particle.ColorParticleOptions;
-import liedge.limacore.client.particle.LimaParticleUtil;
 import liedge.limacore.lib.LimaColor;
 import liedge.ltxindustries.registry.game.LTXIParticles;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.NoRenderParticle;
-import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.client.particle.TextureSheetParticle;
+import net.minecraft.client.particle.*;
 import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.util.RandomSource;
 
-public class ColorSonicBoomParticle extends TextureSheetParticle
+public class ColorSonicBoomParticle extends SingleQuadParticle
 {
-    public static ColorSonicBoomParticle halfSonicBoom(ColorParticleOptions options, ClientLevel level, SpriteSet spriteSet, double x, double y, double z)
+    private final SpriteSet sprites;
+
+    private ColorSonicBoomParticle(ClientLevel level, SpriteSet sprites, double x, double y, double z, LimaColor color)
     {
-        ColorSonicBoomParticle particle = new ColorSonicBoomParticle(options, level, spriteSet, x, y, z);
-        particle.lifetime = 4 + particle.random.nextInt(3);
-        return particle;
-    }
-
-    public static ColorSonicBoomParticle fullSonicBoom(ColorParticleOptions options, ClientLevel level, SpriteSet spriteSet, double x, double y, double z)
-    {
-        ColorSonicBoomParticle particle = new ColorSonicBoomParticle(options, level, spriteSet, x, y, z);
-        particle.lifetime = 16;
-        return particle;
-    }
-
-    private final SpriteSet spriteSet;
-
-    private ColorSonicBoomParticle(ColorParticleOptions options, ClientLevel level, SpriteSet spriteSet, double x, double y, double z)
-    {
-        super(level, x, y, z);
-
-        this.spriteSet = spriteSet;
+        super(level, x, y, z, sprites.first());
+        this.sprites = sprites;
         this.quadSize = 1.28125f;
         this.hasPhysics = false;
-        LimaParticleUtil.setColor(this, options.color());
-        setSpriteFromAge(spriteSet);
+
+        LimaCoreClientUtil.setQuadParticleColor(this, color);
+        setSpriteFromAge(sprites);
     }
 
     @Override
@@ -49,7 +33,7 @@ public class ColorSonicBoomParticle extends TextureSheetParticle
         }
         else
         {
-            setSpriteFromAge(spriteSet);
+            setSpriteFromAge(sprites);
         }
     }
 
@@ -60,16 +44,16 @@ public class ColorSonicBoomParticle extends TextureSheetParticle
     }
 
     @Override
-    public ParticleRenderType getRenderType()
+    protected Layer getLayer()
     {
-        return ParticleRenderType.PARTICLE_SHEET_LIT;
+        return Layer.OPAQUE;
     }
 
-    public static class EmitterParticle extends NoRenderParticle
+    private static class Emitter extends NoRenderParticle
     {
         private final LimaColor color;
 
-        public EmitterParticle(ColorParticleOptions options, ClientLevel level, double x, double y, double z)
+        public Emitter(ColorParticleOptions options, ClientLevel level, double x, double y, double z)
         {
             super(level, x, y, z);
             this.lifetime = 3;
@@ -92,6 +76,36 @@ public class ColorSonicBoomParticle extends TextureSheetParticle
 
                 level.addAlwaysVisibleParticle(new ColorParticleOptions(LTXIParticles.COLOR_HALF_SONIC_BOOM, color), true, px, py, pz, 0, 0, 0);
             }
+        }
+    }
+
+    public static final class Provider implements ParticleProvider<ColorParticleOptions>
+    {
+        private final SpriteSet sprites;
+        private final boolean fullDuration;
+
+        public Provider(SpriteSet sprites, boolean fullDuration)
+        {
+            this.sprites = sprites;
+            this.fullDuration = fullDuration;
+        }
+
+        @Override
+        public Particle createParticle(ColorParticleOptions data, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, RandomSource random)
+        {
+            ColorSonicBoomParticle particle = new ColorSonicBoomParticle(level, sprites, x, y, z, data.color());
+            particle.lifetime = fullDuration ? 16 : 4 + random.nextInt(3);
+
+            return particle;
+        }
+    }
+
+    public static final class EmitterProvider implements ParticleProvider<ColorParticleOptions>
+    {
+        @Override
+        public Particle createParticle(ColorParticleOptions data, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, RandomSource random)
+        {
+            return new Emitter(data, level, x, y, z);
         }
     }
 }

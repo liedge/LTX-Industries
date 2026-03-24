@@ -2,58 +2,58 @@ package liedge.ltxindustries.client.renderer.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import liedge.limacore.client.LimaBlockEntityRenderer;
-import liedge.limacore.client.LimaCoreClientUtil;
-import liedge.limacore.client.model.baked.BakedItemLayer;
-import liedge.limacore.client.model.baked.ItemLayerBakedModel;
 import liedge.ltxindustries.blockentity.GrinderBlockEntity;
-import liedge.ltxindustries.client.LTXIRenderUtil;
-import liedge.ltxindustries.registry.game.LTXIBlocks;
-import net.minecraft.client.renderer.MultiBufferSource;
+import liedge.ltxindustries.client.LTXIRenderer;
+import liedge.ltxindustries.client.model.LTXIModelPartKeys;
+import liedge.ltxindustries.client.model.LayeredModelPart;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.state.CameraRenderState;
 
-public class GrinderRenderer extends LimaBlockEntityRenderer<GrinderBlockEntity>
+public class GrinderRenderer extends MachineRenderer<GrinderBlockEntity>
 {
-    private final BakedItemLayer frontCrusher;
-    private final BakedItemLayer backCrusher;
+    private final LayeredModelPart frontCrusher;
+    private final LayeredModelPart rearCrusher;
 
     public GrinderRenderer(BlockEntityRendererProvider.Context context)
     {
         super(context);
-
-        ItemLayerBakedModel model = LimaCoreClientUtil.getCustomBakedModel(LimaCoreClientUtil.inventoryModelPath(LTXIBlocks.GRINDER), ItemLayerBakedModel.class);
-        this.frontCrusher = model.getLayer("front crusher");
-        this.backCrusher = model.getLayer("back crusher");
+        this.frontCrusher = LayeredModelPart.get(modelManager, LTXIModelPartKeys.GRINDER_FRONT_CRUSHER);
+        this.rearCrusher = LayeredModelPart.get(modelManager, LTXIModelPartKeys.GRINDER_REAR_CRUSHER);
     }
 
     @Override
-    public void render(GrinderBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay)
+    void extractAdditional(GrinderBlockEntity blockEntity, MachineRenderState renderState, float partialTick)
+    {
+        renderState.machineSpin = blockEntity.lerpCrushersRot(partialTick);
+    }
+
+    @Override
+    public void submit(MachineRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState)
     {
         poseStack.pushPose();
 
         // Orient crushers to block facing
-        poseStack.translate(0.5d, 0, 0.5d);
-        poseStack.mulPose(Axis.YP.rotationDegrees(LTXIRenderUtil.facingYRotation(blockEntity.getFacing())));
-        poseStack.translate(-0.5d, 0, -0.5d);
-
-        final float crusherRot = blockEntity.lerpCrushersRot(partialTick);
+        poseStack.translate(0.5f, 0f, 0.5f);
+        poseStack.mulPose(Axis.YP.rotationDegrees(LTXIRenderer.facingYRotation(renderState.facing)));
+        poseStack.translate(-0.5f, 0f, -0.5f);
 
         // Rotate and render front crusher
         poseStack.pushPose();
         poseStack.translate(0.5f, 0.625f, 0.375f);
-        poseStack.mulPose(Axis.XP.rotationDegrees(crusherRot));
+        poseStack.mulPose(Axis.XP.rotationDegrees(renderState.machineSpin));
         poseStack.translate(-0.5f, -0.625f, -0.375f);
 
-        frontCrusher.putQuadsInBuffer(poseStack, bufferSource, packedLight);
+        frontCrusher.render(poseStack, nodeCollector, renderState.lightCoords);
         poseStack.popPose();
 
         // Rotate and render back crusher
         poseStack.pushPose();
         poseStack.translate(0.5f, 0.625f, 0.625f);
-        poseStack.mulPose(Axis.XN.rotationDegrees(crusherRot));
+        poseStack.mulPose(Axis.XN.rotationDegrees(renderState.machineSpin));
         poseStack.translate(-0.5f, -0.625f, -0.625f);
 
-        backCrusher.putQuadsInBuffer(poseStack, bufferSource, packedLight);
+        rearCrusher.render(poseStack, nodeCollector, renderState.lightCoords);
         poseStack.popPose();
 
         poseStack.popPose();

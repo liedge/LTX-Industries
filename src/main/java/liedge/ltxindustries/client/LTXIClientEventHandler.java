@@ -1,47 +1,44 @@
 package liedge.ltxindustries.client;
 
+import com.google.common.reflect.TypeToken;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Either;
-import com.mojang.math.Axis;
 import liedge.limacore.client.LimaCoreClientUtil;
 import liedge.limacore.lib.TickTimer;
-import liedge.limacore.util.LimaEntityUtil;
-import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.client.renderer.BubbleShieldRenderer;
 import liedge.ltxindustries.client.renderer.LTXIRenderTypes;
-import liedge.ltxindustries.client.renderer.item.LTXIItemRenderers;
+import liedge.ltxindustries.client.renderer.LockOnRenderData;
 import liedge.ltxindustries.item.ScrollModeSwitchItem;
 import liedge.ltxindustries.item.TooltipShiftHintItem;
+import liedge.ltxindustries.item.weapon.RocketLauncherItem;
 import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.lib.weapons.ClientExtendedInput;
 import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
 import liedge.ltxindustries.network.packet.ServerboundItemModeSwitchPacket;
-import liedge.ltxindustries.registry.game.LTXIAttachmentTypes;
-import liedge.ltxindustries.registry.game.LTXIAttributes;
 import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.registry.game.LTXISounds;
 import liedge.ltxindustries.util.config.LTXIClientConfig;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.player.AvatarRenderer;
+import net.minecraft.client.renderer.state.LevelRenderState;
 import net.minecraft.network.chat.FormattedText;
-import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.util.context.ContextKey;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
-import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
+import net.neoforged.neoforge.client.renderstate.RegisterRenderStateModifiersEvent;
 
 import java.util.List;
 import java.util.Objects;
@@ -51,6 +48,14 @@ import static liedge.ltxindustries.registry.game.LTXIAttachmentTypes.INPUT_EXTEN
 @EventBusSubscriber(modid = LTXIndustries.MODID, value = Dist.CLIENT)
 public final class LTXIClientEventHandler
 {
+    private static final ContextKey<LockOnRenderData> LOCK_ON_DATA = LTXIndustries.RESOURCES.contextKey("lock_on_data");
+
+    @SubscribeEvent
+    public static void onRecipesReceived(final RecipesReceivedEvent event)
+    {
+        LTXIClientRecipes.setRecipeMap(event.getRecipeMap());
+    }
+
     @SubscribeEvent
     public static void fovModifyEvent(final ComputeFovModifierEvent event)
     {
@@ -75,12 +80,6 @@ public final class LTXIClientEventHandler
     public static void onClientTick(final ClientTickEvent.Pre event)
     {
         BubbleShieldRenderer.SHIELD_RENDERER.tickRenderer();
-
-        Player localPlayer = Minecraft.getInstance().player;
-        if (localPlayer != null)
-        {
-            LTXIItemRenderers.tickValidRenderers(localPlayer);
-        }
     }
 
     @SubscribeEvent
@@ -99,7 +98,7 @@ public final class LTXIClientEventHandler
     public static void onMouseScrollInput(final InputEvent.MouseScrollingEvent event)
     {
         LocalPlayer player = Minecraft.getInstance().player;
-        if (player != null && !player.isSpectator() && player.input.shiftKeyDown)
+        if (player != null && !player.isSpectator() && player.input.keyPresses.shift())
         {
             ItemStack heldItem = player.getMainHandItem();
             double deltaY = event.getScrollDeltaY();
@@ -109,7 +108,7 @@ public final class LTXIClientEventHandler
                 if (cooldown.getTimerState() == TickTimer.State.STOPPED)
                 {
                     boolean forward = LTXIClientConfig.INVERT_MODE_SWITCH_SCROLL.getAsBoolean() ? deltaY > 0 : deltaY < 0;
-                    PacketDistributor.sendToServer(new ServerboundItemModeSwitchPacket(player.getInventory().selected, forward));
+                    ClientPacketDistributor.sendToServer(new ServerboundItemModeSwitchPacket(player.getInventory().getSelectedSlot(), forward));
                     player.playSound(LTXISounds.EQUIPMENT_MODE_SWITCH.get(), 1f, 1f);
                     cooldown.startTimer(item.getSwitchCooldown());
                 }
@@ -135,55 +134,51 @@ public final class LTXIClientEventHandler
     }
 
     @SubscribeEvent
-    public static void onLevelStageRender(final RenderLevelStageEvent event)
+    public static void registerRenderStateModifiers(final RegisterRenderStateModifiersEvent event)
     {
-        if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS && Minecraft.getInstance().level != null && Minecraft.getInstance().player != null)
+        // Player state
+        event.registerEntityModifier(new TypeToken<AvatarRenderer<?>>() {}, (avatar, renderState) ->
         {
-            ClientLevel level = Minecraft.getInstance().level;
-            PoseStack poseStack = event.getPoseStack();
-            MultiBufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
-            Vec3 camVec = event.getCamera().getPosition();
-            float partialTick = event.getPartialTick().getGameTimeDeltaPartialTick(true);
-            LTXIExtendedInput controls = Minecraft.getInstance().player.getData(INPUT_EXTENSIONS);
+            boolean wings = avatar instanceof Player player && player.getAbilities().flying;
+            renderState.setRenderData(LTXIRenderer.SHOW_WONDERLAND_WINGS, wings);
+        });
+    }
 
-            // Render bubble shield pass
-            for (Entity entity : level.entitiesForRendering())
-            {
-                if (entity == Minecraft.getInstance().player && (Minecraft.getInstance().options.getCameraType().isFirstPerson() || entity.isSpectator())) continue;
+    @SubscribeEvent
+    public static void extractLevelRenderState(final ExtractLevelRenderStateEvent event)
+    {
+        LocalPlayer player = Minecraft.getInstance().player;
+        if (player == null) return;
 
-                boolean isPlayer = entity instanceof Player;
-                float shieldHealth = entity.getData(LTXIAttachmentTypes.BUBBLE_SHIELD_HEALTH);
-                if (shieldHealth <= 0)
-                {
-                    continue;
-                }
-                else if (isPlayer)
-                {
-                    float capacity = (float) LimaEntityUtil.getAttributeValueSafe(entity, LTXIAttributes.SHIELD_CAPACITY);
-                    if (capacity > 0 && Mth.equal(shieldHealth, capacity)) continue;
-                }
+        LevelRenderState renderState = event.getRenderState();
+        LTXIExtendedInput controls = player.getData(INPUT_EXTENSIONS);
+        Camera camera = event.getCamera();
+        float partialTick = event.getDeltaTracker().getGameTimeDeltaPartialTick(true);
 
-                poseStack.pushPose();
+        LivingEntity target = controls.getFocusedTarget();
+        if (target != null)
+        {
+            float progress = Math.min(1f, controls.lerpTargetTicks(partialTick) / (float) RocketLauncherItem.TARGET_LOCK_MIN_TICKS);
+            renderState.setRenderData(LOCK_ON_DATA, LockOnRenderData.of(target, camera, progress, partialTick));
+        }
+    }
 
-                float scale = isPlayer ? 1.9f : (float) LimaEntityUtil.getLargestBBDimension(entity);
+    @SubscribeEvent
+    public static void levelRenderAfterTranslucent(final RenderLevelStageEvent.AfterTranslucentBlocks event)
+    {
+        LevelRenderState renderState = event.getLevelRenderState();
+        MultiBufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
+        PoseStack poseStack = event.getPoseStack();
 
-                double[] pos = LTXIRenderUtil.lerpEntityCenter(entity, camVec.x, camVec.y, camVec.z, partialTick);
-                poseStack.translate(pos[0], pos[1], pos[2]);
-                poseStack.mulPose(Axis.YN.rotationDegrees(entity.getYRot()));
-                poseStack.scale(scale, scale, scale);
+        // Render lock-on indicator
+        LockOnRenderData lockOnData = renderState.getRenderData(LOCK_ON_DATA);
+        if (lockOnData != null)
+        {
+            poseStack.pushPose();
 
-                BubbleShieldRenderer.SHIELD_RENDERER.renderBubbleShield(poseStack, bufferSource.getBuffer(LTXIRenderTypes.BUBBLE_SHIELD), LTXIConstants.BUBBLE_SHIELD_BLUE, partialTick);
+            lockOnData.render(poseStack.last(), bufferSource.getBuffer(LTXIRenderTypes.LOCK_ON_INDICATOR));
 
-                poseStack.popPose();
-            }
-
-            // Render lock-on indicator
-            LivingEntity target = controls.getFocusedTarget();
-            if (target != null)
-            {
-                float lockProgress = Math.min(1f, controls.lerpTargetTicks(partialTick) / 20f);
-                LTXIRenderUtil.renderLockOnIndicatorOnEntity(target, poseStack, bufferSource,event.getCamera(), camVec.x, camVec.y, camVec.z, partialTick, lockProgress);
-            }
+            poseStack.popPose();
         }
     }
 
@@ -207,7 +202,7 @@ public final class LTXIClientEventHandler
         if (stack.getItem() instanceof TooltipShiftHintItem item)
         {
             List<Either<FormattedText, TooltipComponent>> components = event.getTooltipElements();
-            if (Screen.hasShiftDown() && Minecraft.getInstance().level != null) // Add non-null check here, no point in running with null level for item tooltips
+            if (Minecraft.getInstance().hasShiftDown() && Minecraft.getInstance().level != null)
             {
                 item.appendTooltipHintComponents(Minecraft.getInstance().level, stack, components::add);
             }

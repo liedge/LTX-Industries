@@ -1,58 +1,59 @@
 package liedge.ltxindustries.client.particle;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import liedge.limacore.client.particle.CustomGeometryParticle;
+import liedge.limacore.client.particle.CustomGeometryParticleEntry;
 import liedge.limacore.lib.ModResources;
 import liedge.limacore.lib.math.LimaCoreMath;
-import liedge.ltxindustries.client.LTXIRenderUtil;
+import liedge.ltxindustries.client.LTXIRenderer;
+import liedge.ltxindustries.client.renderer.LTXIRenderTypes;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
-import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.data.AtlasIds;
+import net.minecraft.resources.Identifier;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
-import org.joml.Matrix4f;
+import org.jspecify.annotations.Nullable;
 
-public class GroundIcicleParticle extends Particle
+public class GroundIcicleParticle extends CustomGeometryParticle
 {
-    private static final ResourceLocation ICE_SPRITE_LOCATION = ModResources.MC.location("block/ice");
     private static final Direction[] NOT_DOWN = new Direction[] {Direction.UP, Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST};
 
     private final TextureAtlasSprite sprite;
     private final float baseSize;
 
-    private int light;
     private int prevAge;
+    private int light;
 
-    public GroundIcicleParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z)
+    private GroundIcicleParticle(ClientLevel level, double x, double y, double z, TextureAtlasSprite sprite)
     {
         super(level, x, y, z);
-        this.sprite = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(ICE_SPRITE_LOCATION);
+        this.sprite = sprite;
         this.baseSize = 0.4f + (random.nextFloat() * 0.6f);
+
         this.lifetime = random.nextIntBetweenInclusive(24, 30);
         this.hasPhysics = false;
         setSize(0.5f, 0.5f);
-
-        light = getLightColor(0f);
     }
 
     @Override
     public void tick()
     {
         prevAge = age;
+        light = getLightColor(1f);
 
         super.tick();
-
-        light = getLightColor(0f);
     }
 
     @SuppressWarnings("deprecation")
@@ -81,56 +82,70 @@ public class GroundIcicleParticle extends Particle
     }
 
     @Override
-    public void render(VertexConsumer buffer, Camera camera, float partialTick)
+    public @Nullable CustomGeometryParticleEntry extractEntry(float x, float y, float z, Camera camera, float partialTick)
     {
-        Vec3 camPos = camera.getPosition();
-        float px = (float) (Mth.lerp(partialTick, xo, x) - camPos.x);
-        float py = (float) (Mth.lerp(partialTick, yo, y) - camPos.y);
-        float pz = (float) (Mth.lerp(partialTick, zo, z) - camPos.z);
-
-        Matrix4f mx4 = new Matrix4f();
-        mx4.translate(px, py, pz);
-        mx4.scale(baseSize);
-
         float ageLerp = LimaCoreMath.divideFloatLerp(partialTick, prevAge, age, lifetime);
-        float sizeFade = (ageLerp <= 0.2f) ? ageLerp / 0.2f : 1 - ((ageLerp / 0.8f) - 0.25f) * 0.333f;
+        float sizeFade = ageLerp <= 0.2f ? ageLerp / 0.2f : 1 - (ageLerp / 0.8f - 0.25f) * 0.3333f;
 
-        float lowerXZ1 = -0.0625f * sizeFade;
-        float lowerXZ2 = 0.0625f * sizeFade;
-        float lowerY2 = 0.4375f * sizeFade;
-        submitIcicleCuboid(LTXIRenderUtil.ALL_SIDES, buffer, mx4, lowerXZ1, 0, lowerXZ1, lowerXZ2, lowerY2, lowerXZ2,
-                light, sprite.getU(0.5f), sprite.getV(0.5f), sprite.getU(0.625f), sprite.getV(0.625f),
-                sprite.getU(0.5f), sprite.getV(1f - 0.4375f), sprite.getU(0.625f), sprite.getV1());
+        // Order: Side UV0, UV1 ; Top UV0, UV1
+        float[] uv = new float[8];
+        uv[0] = sprite.getU(0.5f);
+        uv[1] = sprite.getV(0.5f);
+        uv[2] = sprite.getU(0.625f);
+        uv[3] = sprite.getV(0.625f);
+        uv[4] = sprite.getU(0.5f);
+        uv[5] = sprite.getV(1f - 0.75f);
+        uv[6] = sprite.getU(0.5625f);
+        uv[7] = sprite.getV(1f - 0.4375f);
 
-        float upperXZ1 = -0.03125f * sizeFade;
-        float upperXZ2 = 0.03125f * sizeFade;
-        float upperY1 = 0.4375f * sizeFade;
-        float upperY2 = 0.75f * sizeFade;
-        submitIcicleCuboid(NOT_DOWN, buffer, mx4, upperXZ1, upperY1, upperXZ1, upperXZ2, upperY2, upperXZ2,
-                light, sprite.getU(0.5f), sprite.getV(0.5f), sprite.getU(0.5625f), sprite.getV(0.5625f),
-                sprite.getU(0.5f), sprite.getV(1f - 0.75f), sprite.getU(0.5625f), sprite.getV(1f - 0.4375f));
+        return new Entry(x, y, z, baseSize * sizeFade, uv, light);
     }
 
-    @Override
-    public ParticleRenderType getRenderType()
+    private record Entry(float x, float y, float z, float scale, float[] uv, int light) implements CustomGeometryParticleEntry
     {
-        return ParticleRenderType.TERRAIN_SHEET;
-    }
-
-    private void submitIcicleCuboid(Direction[] faces, VertexConsumer buffer, Matrix4f mx4, float x1, float y1, float z1, float x2, float y2, float z2, int packedLight,
-                                    float verticalU0, float verticalV0, float verticalU1, float verticalV1,
-                                    float horizontalU0, float horizontalV0, float horizontalU1, float horizontalV1)
-    {
-        for (Direction side : faces)
+        @Override
+        public RenderType renderType()
         {
-            if (side.getAxis() == Direction.Axis.Y)
+            return LTXIRenderTypes.ICE_PARTICLE;
+        }
+
+        @Override
+        public void render(PoseStack.Pose pose, VertexConsumer buffer)
+        {
+            pose.scale(scale, scale, scale);
+
+            // Lower half
+            submitFigure(pose, buffer, Direction.values(), -0.0625f, 0f, -0.0625f, 0.0625f, 0.4375f, 0.0625f);
+            submitFigure(pose, buffer, NOT_DOWN, -0.03125f, 0.4375f, -0.03125f, 0.03125f, 0.75f, 0.03125f);
+        }
+
+        private void submitFigure(PoseStack.Pose pose, VertexConsumer buffer, Direction[] faces, float x1, float y1, float z1, float x2, float y2, float z2)
+        {
+            for (Direction side : faces)
             {
-                LTXIRenderUtil.submitTexturedCuboidFace(side, buffer, mx4, x1, y1, z1, x2, y2, z2, verticalU0, verticalV0, verticalU1, verticalV1, 1f, 1f, 1f, 0.85f, packedLight);
+                int uvi = side.getAxis() == Direction.Axis.Y ? 4 : 0;
+
+                LTXIRenderer.submitParticleFormatQuad(
+                        pose, buffer, side,
+                        x1, y1, z1,
+                        x2, y2, z2,
+                        uv[uvi], uv[uvi + 1], uv[uvi + 2], uv[uvi + 3],
+                        1f, 1f, 1f, 0.85f, light);
             }
-            else
-            {
-                LTXIRenderUtil.submitTexturedCuboidFace(side, buffer, mx4, x1, y1, z1, x2, y2, z2, horizontalU0, horizontalV0, horizontalU1, horizontalV1, 1f, 1f, 1f, 0.85f, packedLight);
-            }
+        }
+    }
+
+    public static final class Provider implements ParticleProvider<SimpleParticleType>
+    {
+        private static final Identifier ICE_SPRITE = ModResources.MC.id("block/ice");
+
+        public Provider() { }
+
+        @Override
+        public Particle createParticle(SimpleParticleType particleType, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, RandomSource random)
+        {
+            TextureAtlasSprite sprite = Minecraft.getInstance().getAtlasManager().getAtlasOrThrow(AtlasIds.BLOCKS).getSprite(ICE_SPRITE);
+            return new GroundIcicleParticle(level, x, y, z, sprite);
         }
     }
 }

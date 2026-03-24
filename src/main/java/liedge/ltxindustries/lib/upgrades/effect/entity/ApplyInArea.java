@@ -7,9 +7,9 @@ import liedge.ltxindustries.lib.upgrades.UpgradedEquipmentInUse;
 import liedge.ltxindustries.lib.upgrades.value.ContextlessValue;
 import liedge.ltxindustries.registry.game.LTXIEntityUpgradeEffects;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.context.ContextKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.storage.loot.LootContext;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParam;
 import net.minecraft.world.phys.AABB;
 
 import java.util.List;
@@ -56,7 +56,7 @@ public record ApplyInArea(EntityUpgradeEffect child, ContextlessValue horizontal
     }
 
     @Override
-    public Set<LootContextParam<?>> getReferencedContextParams()
+    public Set<ContextKey<?>> getReferencedContextParams()
     {
         return LimaLootUtil.joinReferencedParams(child, horizontalRadius, verticalRadius);
     }

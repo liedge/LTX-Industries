@@ -1,31 +1,6 @@
 package liedge.ltxindustries.data.generation;
 
-import com.mojang.datafixers.util.Function3;
-import liedge.limacore.data.generation.LimaBlockStateProvider;
-import liedge.limacore.lib.ModResources;
-import liedge.ltxindustries.LTXIndustries;
-import liedge.ltxindustries.block.MachineState;
-import net.minecraft.core.Direction;
-import net.minecraft.core.Holder;
-import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.Property;
-import net.neoforged.neoforge.client.model.generators.BlockModelBuilder;
-import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
-import net.neoforged.neoforge.client.model.generators.ModelFile;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.function.Function;
-
-import static liedge.limacore.util.LimaRegistryUtil.getBlockName;
-import static liedge.ltxindustries.block.LTXIBlockProperties.BINARY_MACHINE_STATE;
-import static liedge.ltxindustries.registry.game.LTXIBlocks.*;
-import static net.minecraft.world.level.block.state.properties.BlockStateProperties.*;
-
+/*
 class BlockStatesGen extends LimaBlockStateProvider
 {
     // Existing model references
@@ -236,4 +211,4 @@ class BlockStatesGen extends LimaBlockStateProvider
                 return builder.parent(basicMachineNSEW).texture("front_emissive", pathBase.withSuffix("_" + state.getSerializedName() + "_emissive")).texture("top", basicMachineMesh);
         });
     }
-}
+}*/

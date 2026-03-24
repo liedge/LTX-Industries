@@ -3,12 +3,12 @@ package liedge.ltxindustries.client.gui.widget;
 import liedge.limacore.client.gui.FillBarWidget;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.blockentity.base.VariableTimedProcessBlockEntity;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class MachineProgressWidget extends FillBarWidget.HorizontalBar
 {
-    public static final ResourceLocation BACKGROUND_SPRITE = LTXIndustries.RESOURCES.location("widget/machine_progress_background");
-    public static final ResourceLocation FILL_SPRITE = LTXIndustries.RESOURCES.location("widget/machine_progress_fill");
+    public static final Identifier BACKGROUND_SPRITE = LTXIndustries.RESOURCES.id("widget/machine_progress_background");
+    public static final Identifier FILL_SPRITE = LTXIndustries.RESOURCES.id("widget/machine_progress_fill");
     public static final int BACKGROUND_WIDTH = 24;
     public static final int BACKGROUND_HEIGHT = 6;
     public static final int FILL_WIDTH = 22;
@@ -29,13 +29,13 @@ public class MachineProgressWidget extends FillBarWidget.HorizontalBar
     }
 
     @Override
-    protected ResourceLocation getBackgroundSprite()
+    protected Identifier getBackgroundSprite()
     {
         return BACKGROUND_SPRITE;
     }
 
     @Override
-    protected ResourceLocation getForegroundSprite(float fillPercentage)
+    protected Identifier getForegroundSprite(float fillPercentage)
     {
         return FILL_SPRITE;
     }

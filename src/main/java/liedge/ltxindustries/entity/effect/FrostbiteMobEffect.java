@@ -3,7 +3,8 @@ package liedge.ltxindustries.entity.effect;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.registry.game.LTXIParticles;
 import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -13,7 +14,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 
 public class FrostbiteMobEffect extends MobEffect
 {
-    public FrostbiteMobEffect(ResourceLocation id)
+    public FrostbiteMobEffect(Identifier id)
     {
         super(MobEffectCategory.HARMFUL, LTXIConstants.CRYO_LIGHT_BLUE.argb32());
         addAttributeModifier(Attributes.ATTACK_SPEED, id.withSuffix(".attack_speed"), -0.25d, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
@@ -23,12 +24,12 @@ public class FrostbiteMobEffect extends MobEffect
     }
 
     @Override
-    public boolean applyEffectTick(LivingEntity livingEntity, int amplifier)
+    public boolean applyEffectTick(ServerLevel level, LivingEntity entity, int amplifier)
     {
-        if (livingEntity.canFreeze())
+        if (entity.canFreeze())
         {
-            int ticksFrozen = livingEntity.getTicksRequiredToFreeze() + 10;
-            livingEntity.setTicksFrozen(ticksFrozen);
+            int ticksFrozen = entity.getTicksRequiredToFreeze() + 10;
+            entity.setTicksFrozen(ticksFrozen);
         }
 
         return true;

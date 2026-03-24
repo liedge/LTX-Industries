@@ -12,14 +12,14 @@ import mezz.jei.api.gui.drawable.IDrawableStatic;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
-import mezz.jei.api.recipe.RecipeIngredientRole;
-import mezz.jei.api.recipe.RecipeType;
+import mezz.jei.api.recipe.types.IRecipeHolderType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.crafting.RecipeHolder;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 import static liedge.ltxindustries.LTXIConstants.REM_BLUE;
@@ -37,7 +37,7 @@ class FabricatingJeiCategory extends LTXIJeiCategory<FabricatingRecipe>
     }
 
     @Override
-    public RecipeType<RecipeHolder<FabricatingRecipe>> getRecipeType()
+    public IRecipeHolderType<FabricatingRecipe> getRecipeType()
     {
         return LTXIJeiPlugin.FABRICATING_JEI;
     }
@@ -45,7 +45,7 @@ class FabricatingJeiCategory extends LTXIJeiCategory<FabricatingRecipe>
     @Override
     protected void setRecipe(IRecipeLayoutBuilder builder, RecipeHolder<FabricatingRecipe> holder, FabricatingRecipe recipe, IFocusGroup focuses, RegistryAccess registries)
     {
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 114, 36).addItemStack(recipe.getFabricatingResultItem());
+        builder.addOutputSlot(114, 36).addItemStacks(List.of(recipe.getResultPreview()));
         sizedIngredientSlotsGrid(builder, recipe, 2, 2, 6);
     }
 

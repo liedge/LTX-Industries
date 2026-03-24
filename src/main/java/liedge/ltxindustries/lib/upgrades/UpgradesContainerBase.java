@@ -213,7 +213,7 @@ public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
     //#region Specialized iteration helpers
     public ItemEnchantments getEnchantments()
     {
-        ItemEnchantments.Mutable builder = new ItemEnchantments.Mutable(ItemEnchantments.EMPTY.withTooltip(false));
+        ItemEnchantments.Mutable builder = new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
         effectPairs(LTXIUpgradeEffectComponents.ENCHANTMENT_LEVELS)
                 .sorted(Comparator.comparing(EffectRankPair::effect, AddEnchantmentLevels.DESCENDING_MAX_LEVELS_COMPARATOR))
                 .forEach(pair -> pair.effect().applyEnchantment(builder, pair.upgradeRank()));

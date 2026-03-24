@@ -1,9 +1,12 @@
 package liedge.ltxindustries.recipe;
 
-import liedge.limacore.capability.fluid.LimaFluidHandler;
 import liedge.limacore.recipe.LimaRecipeInput;
 import net.minecraft.core.Holder;
-import net.neoforged.neoforge.items.IItemHandler;
-import org.jetbrains.annotations.Nullable;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import org.jspecify.annotations.Nullable;
 
-public record LTXIRecipeInput(@Nullable IItemHandler itemContainer, @Nullable LimaFluidHandler fluidContainer, @Nullable Holder<RecipeMode> mode) implements LimaRecipeInput.ContainerWrapper { }
+public record LTXIRecipeInput(@Nullable ResourceHandler<ItemResource> items, @Nullable ResourceHandler<FluidResource> fluids,
+                              @Nullable Holder<RecipeMode> mode) implements LimaRecipeInput
+{ }

@@ -3,9 +3,9 @@ package liedge.ltxindustries.client.renderer;
 import liedge.limacore.lib.math.LimaCoreMath;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.HumanoidArm;
-import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.fml.common.asm.enumextension.EnumProxy;
 import net.neoforged.neoforge.client.IArmPoseTransformer;
 
@@ -19,11 +19,11 @@ public final class LTXIArmPoses
 
     private LTXIArmPoses() {}
 
-    public static final EnumProxy<HumanoidModel.ArmPose> TWO_HANDED_WEAPON = new EnumProxy<>(HumanoidModel.ArmPose.class, true, (IArmPoseTransformer) LTXIArmPoses::twoHandedPose);
-    public static final EnumProxy<HumanoidModel.ArmPose> ONE_HANDED_WEAPON = new EnumProxy<>(HumanoidModel.ArmPose.class, false, (IArmPoseTransformer) LTXIArmPoses::oneHandedPose);
-    public static final EnumProxy<HumanoidModel.ArmPose> WEAPON_SHIELD_POSE = new EnumProxy<>(HumanoidModel.ArmPose.class, false, (IArmPoseTransformer) LTXIArmPoses::weaponShieldPose);
+    public static final EnumProxy<HumanoidModel.ArmPose> TWO_HANDED_WEAPON = new EnumProxy<>(HumanoidModel.ArmPose.class, true, true, (IArmPoseTransformer) LTXIArmPoses::twoHandedPose);
+    public static final EnumProxy<HumanoidModel.ArmPose> ONE_HANDED_WEAPON = new EnumProxy<>(HumanoidModel.ArmPose.class, false, true, (IArmPoseTransformer) LTXIArmPoses::oneHandedPose);
+    public static final EnumProxy<HumanoidModel.ArmPose> WEAPON_SHIELD_POSE = new EnumProxy<>(HumanoidModel.ArmPose.class, false, false, (IArmPoseTransformer) LTXIArmPoses::weaponShieldPose);
 
-    private static void twoHandedPose(HumanoidModel<?> model, LivingEntity entity, HumanoidArm arm)
+    private static void twoHandedPose(HumanoidModel<?> model, HumanoidRenderState renderState, HumanoidArm arm)
     {
         final boolean rightHanded = arm == HumanoidArm.RIGHT;
         ModelPart mainArm = rightHanded ? model.rightArm : model.leftArm;
@@ -39,7 +39,7 @@ public final class LTXIArmPoses
         offArm.xRot = armPitch;
     }
 
-    private static void oneHandedPose(HumanoidModel<?> model, LivingEntity entity, HumanoidArm arm)
+    private static void oneHandedPose(HumanoidModel<?> model, HumanoidRenderState renderState, HumanoidArm arm)
     {
         final boolean rightHanded = arm == HumanoidArm.RIGHT;
         ModelPart mainArm = rightHanded ? model.rightArm : model.leftArm;
@@ -52,7 +52,7 @@ public final class LTXIArmPoses
         mainArm.xRot = armPitch + MAIN_PITCH_OFFSET;
     }
 
-    private static void weaponShieldPose(HumanoidModel<?> model, LivingEntity entity, HumanoidArm arm)
+    private static void weaponShieldPose(HumanoidModel<?> model, HumanoidRenderState renderState, HumanoidArm arm)
         {
             final boolean rightHanded = arm == HumanoidArm.RIGHT;
             ModelPart mainArm = rightHanded ? model.rightArm : model.leftArm;

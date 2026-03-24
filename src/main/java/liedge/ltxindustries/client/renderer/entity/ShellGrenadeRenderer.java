@@ -1,35 +1,30 @@
 package liedge.ltxindustries.client.renderer.entity;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import liedge.ltxindustries.LTXIndustries;
+import liedge.ltxindustries.client.model.entity.LTXIModelLayers;
+import liedge.ltxindustries.client.model.entity.ProjectileModel;
 import liedge.ltxindustries.client.model.entity.ShellGrenadeModel;
 import liedge.ltxindustries.entity.ShellGrenadeEntity;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
-public class ShellGrenadeRenderer extends EntityRenderer<ShellGrenadeEntity>
+public class ShellGrenadeRenderer extends ProjectileRenderer<ShellGrenadeEntity>
 {
-    private static final ResourceLocation TEXTURE = LTXIndustries.RESOURCES.textureLocation("entity", "shell_grenade");
-
-    private final ShellGrenadeModel model;
+    private static final Identifier TEXTURE = LTXIndustries.RESOURCES.textureLocation("entity", "shell_grenade");
 
     public ShellGrenadeRenderer(EntityRendererProvider.Context context)
     {
         super(context);
-        this.model = new ShellGrenadeModel(context.getModelSet());
     }
 
     @Override
-    public void render(ShellGrenadeEntity entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight)
+    protected ProjectileModel createModel(EntityRendererProvider.Context context)
     {
-        model.prepare(entity, partialTick);
-        model.render(poseStack, bufferSource, TEXTURE, packedLight, entity.getGrenadeType().getColor().argb32());
+        return new ShellGrenadeModel(context.bakeLayer(LTXIModelLayers.SHELL_GRENADE));
     }
 
     @Override
-    public ResourceLocation getTextureLocation(ShellGrenadeEntity shellGrenadeEntity)
+    protected Identifier texture()
     {
         return TEXTURE;
     }

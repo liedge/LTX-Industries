@@ -1,5 +1,6 @@
 package liedge.ltxindustries.client.gui.screen;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.client.gui.LimaGuiUtil;
 import liedge.ltxindustries.blockentity.base.RecipeModeHolderBlockEntity;
@@ -12,18 +13,19 @@ import liedge.ltxindustries.registry.LTXIRegistries;
 import liedge.ltxindustries.registry.game.LTXINetworkSerializers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
+import net.minecraft.core.IdMap;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeType;
 import org.jetbrains.annotations.Nullable;
-import org.lwjgl.glfw.GLFW;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,7 +33,7 @@ import java.util.Optional;
 public class RecipeModeScreen extends LTXIScreen<RecipeModeMenu>
 {
     private final List<SelectorOption> options;
-    private SelectorGrid selectorGrid;
+    private @Nullable SelectorGrid selectorGrid;
 
     public RecipeModeScreen(RecipeModeMenu menu, Inventory inventory, Component title)
     {
@@ -44,13 +46,23 @@ public class RecipeModeScreen extends LTXIScreen<RecipeModeMenu>
         this.options = new ObjectArrayList<>();
         options.add(new SelectorOption(Items.BARRIER.getDefaultInstance(), null));
 
-        final Holder<RecipeType<?>> holder = menu.menuContext().getRecipeTypeHolder();
-        inventory.player.level().registryAccess().registry(LTXIRegistries.Keys.RECIPE_MODES).stream()
-                .flatMap(Registry::holders)
-                .filter(o -> o.value().recipeTypes().contains(holder))
-                .limit(23)
-                .map(o -> new SelectorOption(o.value().displayItem(), o))
-                .forEach(options::add);
+        final Holder<RecipeType<?>> machineRecipeType = menu.menuContext().getRecipeTypeHolder();
+
+        IdMap<Holder<RecipeMode>> modeRegistry = inventory.player.level().registryAccess().lookupOrThrow(LTXIRegistries.Keys.RECIPE_MODES).asHolderIdMap();
+        for (Holder<RecipeMode> mode : modeRegistry)
+        {
+            if (options.size() <= 23)
+            {
+                if (mode.value().recipeTypes().contains(machineRecipeType))
+                {
+                    options.add(new SelectorOption(mode.value().displayItem(), mode));
+                }
+            }
+            else
+            {
+                break;
+            }
+        }
     }
 
     @Override
@@ -70,14 +82,14 @@ public class RecipeModeScreen extends LTXIScreen<RecipeModeMenu>
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button)
+    public boolean mouseClicked(MouseButtonEvent event, boolean isDoubleClick)
     {
-        if (menu.getCarried().isEmpty() && (button == GLFW.GLFW_MOUSE_BUTTON_LEFT) && selectorGrid != null)
+        if (menu.getCarried().isEmpty() && event.button() == InputConstants.MOUSE_BUTTON_LEFT && selectorGrid != null)
         {
-            if (selectorGrid.onGridClicked(mouseX, mouseY, button)) return true;
+            if (selectorGrid.onGridClicked(event.x(), event.y(), 0)) return true;
         }
 
-        return super.mouseClicked(mouseX, mouseY, button);
+        return super.mouseClicked(event, isDoubleClick);
     }
 
     @Override
@@ -108,7 +120,7 @@ public class RecipeModeScreen extends LTXIScreen<RecipeModeMenu>
         @Override
         public void renderElement(GuiGraphics graphics, SelectorOption element, int posX, int posY, int gridIndex, int elementIndex, int mouseX, int mouseY)
         {
-            ResourceLocation sprite;
+            Identifier sprite;
             if (blockEntity.getMode() == element.mode)
             {
                 sprite = GRID_UNIT_SELECTED;
@@ -121,7 +133,7 @@ public class RecipeModeScreen extends LTXIScreen<RecipeModeMenu>
             {
                 sprite = GRID_UNIT;
             }
-            graphics.blitSprite(sprite, posX, posY, 18, 18);
+            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, sprite, posX, posY, 18, 18);
             graphics.renderFakeItem(element.stack, posX + 1, posY + 1);
         }
 
@@ -130,7 +142,7 @@ public class RecipeModeScreen extends LTXIScreen<RecipeModeMenu>
         {
             Holder<RecipeMode> mode = element.mode;
             Component tooltip = mode != null ? mode.value().displayName() : LTXILangKeys.NONE_UNIVERSAL_TOOLTIP.translate();
-            graphics.renderTooltip(Minecraft.getInstance().font, tooltip, mouseX, mouseY);
+            graphics.setTooltipForNextFrame(tooltip, mouseX, mouseY);
         }
 
         @Override

@@ -1,9 +1,6 @@
 package liedge.ltxindustries.blockentity.turret;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import liedge.limacore.lib.MobHostility;
-import liedge.limacore.util.LimaCoreObjects;
-import liedge.limacore.util.LimaEntityUtil;
 import liedge.ltxindustries.client.model.custom.EnergyBoltData;
 import liedge.ltxindustries.entity.damage.TurretDamageSource;
 import liedge.ltxindustries.lib.TurretTargetTracker;
@@ -73,7 +70,7 @@ public class ArcTurretBlockEntity extends TurretBlockEntity
     @Override
     protected boolean isValidDefaultTarget(Entity entity)
     {
-        return LimaCoreObjects.greaterThanOrEquals(LimaEntityUtil.getEntityHostility(entity, getOwner()), MobHostility.NEUTRAL_ENEMY);
+        return false;
     }
 
     @Override
@@ -82,12 +79,12 @@ public class ArcTurretBlockEntity extends TurretBlockEntity
         Entity currentTarget = getTarget();
         if (targetStillValid(currentTarget))
         {
-            if (consumeUsageEnergy(true))
+            if (consumeUsageEnergy())
             {
                 TurretDamageSource source = TurretDamageSource.create(level, LTXIDamageTypes.ARC_TURRET, this, null, owner, traceStart);
                 float damage = (float) LTXIMachinesConfig.ARC_TURRET_DAMAGE.getAsDouble();
 
-                if (!currentTarget.hurt(source, damage))
+                if (!currentTarget.hurtServer(level, source, damage))
                 {
                     setNextTarget(tracker);
                     setTurretState(TurretState.COOLDOWN);
@@ -96,7 +93,7 @@ public class ArcTurretBlockEntity extends TurretBlockEntity
                 {
                     for (Entity chained : getTargetQueue())
                     {
-                        if (targetStillValid(chained)) chained.hurt(source, damage);
+                        if (targetStillValid(chained)) chained.hurtServer(level, source, damage);
                     }
                 }
             }

@@ -1,6 +1,5 @@
 package liedge.ltxindustries.block;
 
-import com.mojang.serialization.MapCodec;
 import liedge.limacore.util.LimaBlockUtil;
 import liedge.ltxindustries.registry.game.LTXIBlocks;
 import net.minecraft.core.BlockPos;
@@ -8,6 +7,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
+import net.minecraft.util.TriState;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
@@ -16,7 +16,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.common.util.TriState;
 
 import java.util.List;
 
@@ -50,12 +49,6 @@ public class GloomShroomBlock extends BushBlock implements SculkBehaviour
 
         if (!soilDecision.isDefault()) return soilDecision.isTrue();
         else return belowState.is(Blocks.SCULK) && !level.canSeeSky(pos);
-    }
-
-    @Override
-    protected MapCodec<? extends BushBlock> codec()
-    {
-        return FungusBlock.CODEC;
     }
 
     @Override

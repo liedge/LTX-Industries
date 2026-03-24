@@ -4,7 +4,7 @@ import com.mojang.serialization.MapCodec;
 import liedge.ltxindustries.entity.ShellGrenadeEntity;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
 import liedge.ltxindustries.registry.game.LTXILootRegistries;
-import net.minecraft.advancements.critereon.EntitySubPredicate;
+import net.minecraft.advancements.criterion.EntitySubPredicate;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
@@ -13,6 +13,11 @@ import org.jetbrains.annotations.Nullable;
 public record GrenadeElementSubPredicate(GrenadeType type) implements EntitySubPredicate
 {
     public static final MapCodec<GrenadeElementSubPredicate> CODEC = GrenadeType.CODEC.fieldOf("element").xmap(GrenadeElementSubPredicate::new, GrenadeElementSubPredicate::type);
+
+    public static GrenadeElementSubPredicate of(GrenadeType type)
+    {
+        return new GrenadeElementSubPredicate(type);
+    }
 
     @Override
     public MapCodec<? extends EntitySubPredicate> codec()

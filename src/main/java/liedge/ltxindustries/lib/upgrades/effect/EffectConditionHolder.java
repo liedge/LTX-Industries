@@ -3,10 +3,11 @@ package liedge.ltxindustries.lib.upgrades.effect;
 import com.mojang.datafixers.Products;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.util.ProblemReporter;
+import net.minecraft.util.context.ContextKey;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootContextUser;
 import net.minecraft.world.level.storage.loot.ValidationContext;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParam;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 
 import java.util.Optional;
@@ -33,7 +34,7 @@ public interface EffectConditionHolder<T> extends Predicate<LootContext>, LootCo
     }
 
     @Override
-    default Set<LootContextParam<?>> getReferencedContextParams()
+    default Set<ContextKey<?>> getReferencedContextParams()
     {
         if (effect() instanceof LootContextUser user)
         {
@@ -49,6 +50,6 @@ public interface EffectConditionHolder<T> extends Predicate<LootContext>, LootCo
     default void validate(ValidationContext context)
     {
         LootContextUser.super.validate(context);
-        condition().ifPresent(c -> c.validate(context.forChild(".condition")));
+        condition().ifPresent(c -> c.validate(context.forChild(new ProblemReporter.FieldPathElement("condition"))));
     }
 }

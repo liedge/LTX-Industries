@@ -3,7 +3,7 @@
     {
       "enum": "net/minecraft/client/model/HumanoidModel$ArmPose",
       "name": "LTXI_TWO_HAND_WEAPON",
-      "constructor": "(ZLnet/neoforged/neoforge/client/IArmPoseTransformer;)V",
+      "constructor": "(ZZLnet/neoforged/neoforge/client/IArmPoseTransformer;)V",
       "parameters": {
         "class": "liedge/ltxindustries/client/renderer/LTXIArmPoses",
         "field": "TWO_HANDED_WEAPON"
@@ -12,7 +12,7 @@
     {
       "enum": "net/minecraft/client/model/HumanoidModel$ArmPose",
       "name": "LTXI_ONE_HAND_WEAPON",
-      "constructor": "(ZLnet/neoforged/neoforge/client/IArmPoseTransformer;)V",
+      "constructor": "(ZZLnet/neoforged/neoforge/client/IArmPoseTransformer;)V",
       "parameters": {
         "class": "liedge/ltxindustries/client/renderer/LTXIArmPoses",
         "field": "ONE_HANDED_WEAPON"
@@ -21,7 +21,7 @@
     {
       "enum": "net/minecraft/client/model/HumanoidModel$ArmPose",
       "name": "LTXI_WEAPON_SHIELD_POSE",
-      "constructor": "(ZLnet/neoforged/neoforge/client/IArmPoseTransformer;)V",
+      "constructor": "(ZZLnet/neoforged/neoforge/client/IArmPoseTransformer;)V",
       "parameters": {
         "class": "liedge/ltxindustries/client/renderer/LTXIArmPoses",
         "field": "WEAPON_SHIELD_POSE"

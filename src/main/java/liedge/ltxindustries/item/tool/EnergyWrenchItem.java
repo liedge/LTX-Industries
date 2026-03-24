@@ -6,7 +6,9 @@ import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
 import liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -28,8 +30,8 @@ public class EnergyWrenchItem extends BaseEnergyMiningItem
 {
     private static Tool toolProperties()
     {
-        return new Tool(List.of(Tool.Rule.minesAndDrops(LTXITags.Blocks.WRENCH_BREAKABLE, 15f)),
-                1f, 1);
+        HolderSet<Block> wrenchBreakable = BuiltInRegistries.acquireBootstrapRegistrationLookup(BuiltInRegistries.BLOCK).getOrThrow(LTXITags.Blocks.WRENCH_BREAKABLE);
+        return new Tool(List.of(Tool.Rule.minesAndDrops(wrenchBreakable, 15)), 1f, 1, false);
     }
 
     public EnergyWrenchItem(Properties properties)
@@ -70,6 +72,6 @@ public class EnergyWrenchItem extends BaseEnergyMiningItem
             if (isSneaking) consumeEnergyAction(player, stack); // Use energy for dismantling only
         }
 
-        return InteractionResult.sidedSuccess(level.isClientSide());
+        return InteractionResult.SUCCESS;
     }
 }

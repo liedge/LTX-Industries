@@ -2,11 +2,11 @@ package liedge.ltxindustries.lib.upgrades;
 
 import liedge.limacore.util.LimaLootUtil;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.context.ContextKeySet;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootParams;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
 
@@ -15,12 +15,17 @@ public final class UpgradeContexts
     private UpgradeContexts() {}
 
     // Sets
-    public static final LootContextParamSet UPGRADED_ENTITY = LootContextParamSet.builder()
+    private static ContextKeySet.Builder setBuilder()
+    {
+        return new ContextKeySet.Builder();
+    }
+
+    public static final ContextKeySet UPGRADED_ENTITY = setBuilder()
             .required(LootContextParams.THIS_ENTITY)
             .required(LootContextParams.ORIGIN)
             .build();
 
-    public static final LootContextParamSet UPGRADED_DAMAGE = LootContextParamSet.builder()
+    public static final ContextKeySet UPGRADED_DAMAGE = setBuilder()
             .required(LootContextParams.THIS_ENTITY)
             .required(LootContextParams.ORIGIN)
             .required(LootContextParams.DAMAGE_SOURCE)

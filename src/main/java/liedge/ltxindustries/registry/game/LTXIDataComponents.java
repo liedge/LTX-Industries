@@ -11,9 +11,11 @@ import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrades;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
 import liedge.ltxindustries.lib.weapons.WeaponReloadSource;
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.codec.ByteBufCodecs;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.ExtraCodecs;
+import net.minecraft.world.item.crafting.Recipe;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -27,7 +29,6 @@ public final class LTXIDataComponents
     public static void register(IEventBus bus)
     {
         TYPES.register(bus);
-        TYPES.addAlias(LTXIndustries.RESOURCES.location("weapon_ammo"), WEAPON_AMMO.getId());
     }
 
     // Upgrade components
@@ -37,7 +38,7 @@ public final class LTXIDataComponents
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<MachineUpgradeEntry>> MACHINE_UPGRADE_ENTRY = TYPES.registerComponentType("machine_upgrade", builder -> builder.persistent(MachineUpgradeEntry.CODEC).networkSynchronized(MachineUpgradeEntry.STREAM_CODEC).cacheEncoding());
 
     // Misc components
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<ResourceLocation>> BLUEPRINT_RECIPE = TYPES.registerComponentType("blueprint_recipe", builder -> builder.persistent(ResourceLocation.CODEC).networkSynchronized(ResourceLocation.STREAM_CODEC));
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<ResourceKey<Recipe<?>>>> BLUEPRINT_RECIPE = TYPES.registerComponentType("blueprint_recipe", builder -> builder.persistent(Recipe.KEY_CODEC).networkSynchronized(ResourceKey.streamCodec(Registries.RECIPE)));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<BlockIOConfiguration>> BLOCK_IO_CONFIGURATION = TYPES.registerComponentType("block_io_config", builder -> builder.persistent(BlockIOConfiguration.CODEC).networkSynchronized(BlockIOConfiguration.STREAM_CODEC).cacheEncoding());
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<ToolSpeed>> TOOL_SPEED = TYPES.registerComponentType("tool_speed", builder -> builder.persistent(ToolSpeed.CODEC).networkSynchronized(ToolSpeed.STREAM_CODEC));
 

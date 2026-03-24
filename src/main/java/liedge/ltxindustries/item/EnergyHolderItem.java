@@ -1,24 +1,26 @@
 package liedge.ltxindustries.item;
 
-import liedge.limacore.capability.energy.LimaComponentEnergyStorage;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.lib.math.LimaCoreMath;
+import liedge.limacore.transfer.LimaEnergyUtil;
 import liedge.limacore.util.LimaCoreObjects;
 import liedge.ltxindustries.util.LTXITooltipUtil;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
-import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.energy.EnergyHandler;
 import org.jetbrains.annotations.Nullable;
 
 import static liedge.limacore.registry.game.LimaCoreDataComponents.*;
 
 public interface EnergyHolderItem extends ItemLike
 {
-    static @Nullable IEnergyStorage createEnergyAccess(ItemStack stack)
+    static @Nullable EnergyHandler createItemEnergy(ItemStack stack, ItemAccess context)
     {
         EnergyHolderItem item = LimaCoreObjects.cast(EnergyHolderItem.class, stack.getItem(), "Not an energy holder item.");
-        return item.supportsEnergyStorage(stack) ? item.getOrCreateEnergyStorage(stack) : null;
+        return item.supportsEnergyStorage(stack) ? item.getEnergy(stack, context) : null;
+
     }
 
     int getBaseEnergyCapacity(ItemStack stack);
@@ -51,9 +53,14 @@ public interface EnergyHolderItem extends ItemLike
         return true;
     }
 
-    default IEnergyStorage getOrCreateEnergyStorage(ItemStack stack)
+    default EnergyHandler getEnergy(ItemStack stack, ItemAccess access)
     {
-        return LimaComponentEnergyStorage.createFromItem(stack, getBaseEnergyCapacity(stack), getBaseEnergyTransferRate(stack));
+        return LimaEnergyUtil.createStandardTransferItemEnergy(stack, access, getBaseEnergyCapacity(stack), getBaseEnergyTransferRate(stack));
+    }
+
+    default EnergyHandler getNoLimitEnergy(ItemStack stack, ItemAccess access)
+    {
+        return LimaEnergyUtil.createUnlimitedTransferItemEnergy(stack, access, getBaseEnergyCapacity(stack));
     }
 
     default void appendStorageEnergyTooltip(TooltipLineConsumer consumer, ItemStack stack)

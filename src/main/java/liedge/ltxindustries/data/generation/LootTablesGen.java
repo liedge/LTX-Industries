@@ -13,18 +13,20 @@ import liedge.limacore.world.loot.level.RangedLookupLevelBasedValue;
 import liedge.limacore.world.loot.number.EntityEnchantmentValueProvider;
 import liedge.limacore.world.loot.number.RoundingNumberProvider;
 import liedge.ltxindustries.LTXIndustries;
+import liedge.ltxindustries.advancements.criterion.GrenadeElementSubPredicate;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
 import liedge.ltxindustries.registry.bootstrap.LTXIEnchantments;
 import liedge.ltxindustries.registry.game.LTXIBlocks;
 import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.registry.game.LTXIMobEffects;
-import liedge.ltxindustries.advancements.criterion.GrenadeElementSubPredicate;
-import net.minecraft.advancements.critereon.EntityPredicate;
-import net.minecraft.advancements.critereon.MinMaxBounds;
-import net.minecraft.advancements.critereon.MobEffectsPredicate;
-import net.minecraft.advancements.critereon.StatePropertiesPredicate;
+import net.minecraft.advancements.criterion.EntityPredicate;
+import net.minecraft.advancements.criterion.MinMaxBounds;
+import net.minecraft.advancements.criterion.MobEffectsPredicate;
+import net.minecraft.advancements.criterion.StatePropertiesPredicate;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.entity.EntityType;
@@ -70,6 +72,7 @@ class LootTablesGen extends LimaLootTableProvider
     {
         addSubProvider(EntityBonusDrops::new, LootContextParamSets.ENTITY);
         addSubProvider(BlockDrops::new, LootContextParamSets.BLOCK);
+        addSubProvider(BlockInteractDrops::new, LootContextParamSets.BLOCK_INTERACT);
     }
 
     private static class EntityBonusDrops extends LimaLootSubProvider
@@ -82,6 +85,7 @@ class LootTablesGen extends LimaLootTableProvider
         @Override
         protected void generateTables()
         {
+            HolderGetter<EntityType<?>> entities = registries.lookupOrThrow(Registries.ENTITY_TYPE);
             Holder<Enchantment> razorEnchantment = registries.holderOrThrow(LTXIEnchantments.RAZOR);
 
             LootItemCondition.Builder acidFinalBlow = LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.DIRECT_ATTACKER, EntityPredicate.Builder.entity().subPredicate(new GrenadeElementSubPredicate(GrenadeType.ACID)));
@@ -111,8 +115,8 @@ class LootTablesGen extends LimaLootTableProvider
             // Razor enchantment loot table
             LootPool.Builder razorGeneralHeads = LootPool.lootPool()
                     .when(LimaLootUtil.randomChanceLinearEnchantBonus(razorEnchantment, 0f, 0.1f))
-                    .add(lootItem(Items.ZOMBIE_HEAD).when(needsEntityTag(EntityTypeTags.ZOMBIES)))
-                    .add(lootItem(Items.SKELETON_SKULL).when(needsEntityTag(EntityTypeTags.SKELETONS)).when(needsEntityType(EntityType.WITHER_SKELETON).invert()))
+                    .add(lootItem(Items.ZOMBIE_HEAD).when(needsEntityTag(entities, EntityTypeTags.ZOMBIES)))
+                    .add(lootItem(Items.SKELETON_SKULL).when(needsEntityTag(entities, EntityTypeTags.SKELETONS)).when(needsEntityType(EntityType.WITHER_SKELETON).invert()))
                     .add(lootItem(Items.CREEPER_HEAD).when(needsEntityType(EntityType.CREEPER)))
                     .add(lootItem(Items.PIGLIN_HEAD).when(needsEntityType(EntityType.PIGLIN)))
                     .add(lootItem(Items.WITHER_SKELETON_SKULL).when(needsEntityType(EntityType.WITHER_SKELETON)))
@@ -205,6 +209,20 @@ class LootTablesGen extends LimaLootTableProvider
             add(holder, block -> singleItemTable(lootItem(LTXIItems.VITRIOL_BERRIES).when(AnyOfCondition.anyOf(
                     LootItemBlockStatePropertyCondition.hasBlockStateProperties(block).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(BERRIES, true)),
                     CanItemPerformAbility.canItemPerformAbility(ItemAbilities.SHEARS_DIG)))));
+        }
+    }
+
+    private static class BlockInteractDrops extends LimaLootSubProvider
+    {
+        BlockInteractDrops(HolderLookup.Provider registries)
+        {
+            super(registries);
+        }
+
+        @Override
+        protected void generateTables()
+        {
+            addTable(BILEVINE_HARVEST, singleItemTable(LTXIItems.VITRIOL_BERRIES));
         }
     }
 }

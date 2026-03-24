@@ -6,6 +6,9 @@ import liedge.limacore.lib.LimaColor;
 import liedge.ltxindustries.registry.game.LTXIParticles;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.NoRenderParticle;
+import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.Vec3;
 
 public class ShieldBreakParticle extends NoRenderParticle
@@ -13,11 +16,11 @@ public class ShieldBreakParticle extends NoRenderParticle
     private final LimaColor color;
     private final float size;
 
-    public ShieldBreakParticle(ColorSizeParticleOptions options, ClientLevel level, double x, double y, double z)
+    private ShieldBreakParticle(ClientLevel level, double x, double y, double z, LimaColor color, float size)
     {
         super(level, x, y, z);
-        this.color = options.color();
-        this.size = options.size();
+        this.color = color;
+        this.size = size;
     }
 
     @Override
@@ -32,7 +35,7 @@ public class ShieldBreakParticle extends NoRenderParticle
         {
             Vec3 a = arcPoint(r * 0.3d);
             Vec3 b = arcPoint(r);
-            level.addAlwaysVisibleParticle(new ColorParticleOptions(LTXIParticles.FIXED_ELECTRIC_BOLT, color), true, a.x, a.y, b.z, b.x, b.y, b.z);
+            level.addAlwaysVisibleParticle(new ColorParticleOptions(LTXIParticles.ENERGY_BOLT, color), true, a.x, a.y, b.z, b.x, b.y, b.z);
         }
 
         remove();
@@ -44,5 +47,14 @@ public class ShieldBreakParticle extends NoRenderParticle
         double r = Math.cbrt(random.nextDouble()) * radius;
 
         return new Vec3(x + v.x * r, y + v.y * r, z + v.z * r);
+    }
+
+    public static final class Provider implements ParticleProvider<ColorSizeParticleOptions>
+    {
+        @Override
+        public  Particle createParticle(ColorSizeParticleOptions particleType, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, RandomSource random)
+        {
+            return new ShieldBreakParticle(level, x, y, z, particleType.color(), particleType.size());
+        }
     }
 }

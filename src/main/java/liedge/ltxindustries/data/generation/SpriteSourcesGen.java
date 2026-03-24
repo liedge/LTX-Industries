@@ -1,14 +1,13 @@
 package liedge.ltxindustries.data.generation;
 
-import liedge.limacore.lib.ModResources;
-import liedge.ltxindustries.client.gui.UpgradeIconSprites;
+import liedge.ltxindustries.client.LTXIAtlasIds;
 import net.minecraft.client.renderer.texture.atlas.SpriteSource;
 import net.minecraft.client.renderer.texture.atlas.sources.SingleFile;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.data.AtlasIds;
 import net.minecraft.data.PackOutput;
+import net.neoforged.neoforge.client.data.SpriteSourceProvider;
 import net.neoforged.neoforge.client.textures.NamespacedDirectoryLister;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import net.neoforged.neoforge.common.data.SpriteSourceProvider;
 
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -18,30 +17,33 @@ import static liedge.ltxindustries.LTXIndustries.RESOURCES;
 
 class SpriteSourcesGen extends SpriteSourceProvider
 {
-    SpriteSourcesGen(PackOutput output, CompletableFuture<HolderLookup.Provider> registries, ExistingFileHelper helper)
+    SpriteSourcesGen(PackOutput output, CompletableFuture<HolderLookup.Provider> registries)
     {
-        super(output, registries, MODID, helper);
+        super(output, registries, MODID);
     }
 
     @Override
     protected void gather()
     {
         // Mod atlas definitions
-        atlas(UpgradeIconSprites.ATLAS_LOCATION)
+        atlas(LTXIAtlasIds.UPGRADE_ICONS_ID)
                 .addSource(nsDirSource("upgrade_module"))
                 .addSource(itemSheetCopy("titanium_gear"))
                 .addSource(itemSheetCopy("slatesteel_gear"));
 
         // Vanilla atlas modifications
-        atlas(ModResources.MC.location("gui"))
+        atlas(AtlasIds.GUI)
                 .addSource(itemSheetCopy("equipment_upgrade_module"))
                 .addSource(itemSheetCopy("machine_upgrade_module"))
                 .addSource(singleSprite("gui/light_panel", "slot/empty"));
-        atlas(BLOCKS_ATLAS)
-                .addSource(singleSprite("core/solid_lime", "solid_lime"))
-                .addSource(singleSprite("core/glass", "glass"))
-                .addSource(singleSprite("core/lime_fluid", "lime_fluid"))
-                .addSource(singleSprite("core/flowing_lime_fluid", "flowing_lime_fluid"));
+        atlas(AtlasIds.BLOCKS)
+                .addSource(singleSprite("core/solid_lime", "block/solid_lime"))
+                .addSource(singleSprite("core/glass", "block/glass"))
+                .addSource(singleSprite("core/lime_fluid", "block/lime_fluid"))
+                .addSource(singleSprite("core/flowing_lime_fluid", "block/flowing_lime_fluid"));
+        atlas(AtlasIds.ITEMS)
+                .addSource(singleSprite("core/solid_lime", "item/solid_lime"))
+                .addSource(singleSprite("core/glass", "item/glass"));
     }
 
     private SpriteSource nsDirSource(String path)
@@ -51,7 +53,7 @@ class SpriteSourcesGen extends SpriteSourceProvider
 
     private SpriteSource singleSprite(String path, String name)
     {
-        return new SingleFile(RESOURCES.location(path), Optional.of(RESOURCES.location(name)));
+        return new SingleFile(RESOURCES.id(path), Optional.of(RESOURCES.id(name)));
     }
 
     private SpriteSource itemSheetCopy(String name)

@@ -3,10 +3,8 @@ package liedge.ltxindustries.entity;
 import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.ltxindustries.registry.game.LTXIGameEvents;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -20,7 +18,8 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2f;
 
-import static liedge.limacore.lib.math.LimaCoreMath.*;
+import static liedge.limacore.lib.math.LimaCoreMath.createMotionVector;
+import static liedge.limacore.lib.math.LimaCoreMath.xyRotBetweenPoints;
 
 public abstract class LTXIProjectileEntity extends UpgradesAwareEntity
 {
@@ -52,14 +51,6 @@ public abstract class LTXIProjectileEntity extends UpgradesAwareEntity
         float yr = Mth.approachDegrees(getYRot(), angles.y, maxTurnAngle);
         float xr = Mth.approachDegrees(getXRot(), angles.x, maxTurnAngle);
         setDeltaMovement(createMotionVector(xr, yr, speed, inaccuracy));
-
-        /*
-        Vector2f angles = xyRotBetweenPoints(position(), target);
-        float yr = Mth.approachDegrees(getYRot(), angles.y, maxTurnAngle);
-        float xr = Mth.approachDegrees(getXRot(), angles.x, maxTurnAngle);
-        setRot(yr, xr);
-        setDeltaMovement(createMotionVector(xr, yr, speed, inaccuracy));
-        */
     }
 
     public void aimAtEntity(Entity target, double speed)
@@ -115,19 +106,6 @@ public abstract class LTXIProjectileEntity extends UpgradesAwareEntity
     protected void tickClient(Level level) {}
 
     @Override
-    public boolean hurt(DamageSource source, float amount)
-    {
-        if (source.getDirectEntity() instanceof LTXIProjectileEntity || source.getEntity() == getOwner())
-        {
-            return false;
-        }
-        else
-        {
-            return super.hurt(source, amount);
-        }
-    }
-
-    @Override
     public final void tick()
     {
         super.tick();
@@ -180,21 +158,4 @@ public abstract class LTXIProjectileEntity extends UpgradesAwareEntity
     {
         return distance <= 16384;
     }
-
-    @Override
-    public void lerpMotion(double x, double y, double z)
-    {
-        setDeltaMovement(x, y, z);
-        if (xRotO == 0f && yRotO == 0f)
-        {
-            setYRot(toDeg(Mth.atan2(z, x)) - 90f);
-            setXRot(toDeg(-Mth.atan2(y, vec2Length(x, z))));
-            yRotO = getYRot();
-            xRotO = getXRot();
-            moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
-        }
-    }
-
-    @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) { }
 }

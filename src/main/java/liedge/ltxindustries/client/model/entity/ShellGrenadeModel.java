@@ -1,48 +1,33 @@
 package liedge.ltxindustries.client.model.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import liedge.limacore.client.renderer.LimaCoreRenderTypes;
-import liedge.ltxindustries.entity.ShellGrenadeEntity;
-import net.minecraft.client.model.geom.EntityModelSet;
+import liedge.ltxindustries.client.renderer.entity.ProjectileRenderState;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.client.renderer.LightTexture;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
-public class ShellGrenadeModel extends ProjectileModel<ShellGrenadeEntity>
+public class ShellGrenadeModel extends ProjectileModel
 {
 	private final ModelPart body;
 	private final ModelPart lights;
 
-	public ShellGrenadeModel(EntityModelSet modelSet)
+	public ShellGrenadeModel(ModelPart root)
 	{
-		super(RenderType::entityCutoutNoCull);
-
-		ModelPart root = modelSet.bakeLayer(LTXIModelLayers.SHELL_GRENADE);
+		super(root, RenderTypes::entityCutoutNoCull);
 		this.body = root.getChild("body");
 		this.lights = root.getChild("lights");
 	}
 
 	@Override
-	public void prepare(ShellGrenadeEntity entity, float partialTick)
+	public void submitParts(ProjectileRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, Identifier texture)
 	{
-		rotatePart(entity, body);
-		copyRotations(body, lights);
-	}
-
-	@Override
-	public void render(PoseStack poseStack, MultiBufferSource bufferSource, ResourceLocation texture, int packedLight, int color)
-	{
-		VertexConsumer buffer = bufferSource.getBuffer(renderType(texture));
-		body.render(poseStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
-
-		buffer = bufferSource.getBuffer(LimaCoreRenderTypes.positionTexColorSolid(texture));
-		lights.render(poseStack, buffer, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, color);
+		nodeCollector.submitModelPart(body, poseStack, renderType.apply(texture), renderState.lightCoords, OverlayTexture.NO_OVERLAY, null);
+		nodeCollector.submitModelPart(lights, poseStack, LimaCoreRenderTypes.entityCutoutUnlit(texture), renderState.lightCoords, OverlayTexture.NO_OVERLAY, null, renderState.color.argb32(), null);
 	}
 
 	public static LayerDefinition defineLayer()

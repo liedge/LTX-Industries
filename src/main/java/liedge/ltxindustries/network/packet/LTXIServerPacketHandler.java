@@ -21,7 +21,7 @@ final class LTXIServerPacketHandler
 
     static void handleModeSwitchPacket(ServerboundItemModeSwitchPacket packet, ServerPlayer sender)
     {
-        if (sender.getInventory().selected == packet.slot())
+        if (sender.getInventory().getSelectedSlot() == packet.slot())
         {
             ItemStack heldItem = sender.getMainHandItem();
 

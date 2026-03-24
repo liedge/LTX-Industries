@@ -1,26 +1,26 @@
 package liedge.ltxindustries.item;
 
-import liedge.limacore.capability.energy.LimaEnergyUtil;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.item.LimaCreativeTabFillerItem;
-import liedge.limacore.util.LimaRecipesUtil;
+import liedge.limacore.transfer.LimaEnergyUtil;
 import liedge.ltxindustries.LTXIConstants;
+import liedge.ltxindustries.client.LTXIClientRecipes;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.recipe.FabricatingRecipe;
 import liedge.ltxindustries.registry.game.LTXIDataComponents;
 import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
-
-import java.util.Optional;
 
 public class FabricationBlueprintItem extends Item implements TooltipShiftHintItem, LimaCreativeTabFillerItem
 {
@@ -30,43 +30,42 @@ public class FabricationBlueprintItem extends Item implements TooltipShiftHintIt
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand)
+    public InteractionResult use(Level level, Player player, InteractionHand hand)
     {
-        // Clear the blueprint if Shift + Right-Click.
         if (player.isCrouching())
         {
-            return InteractionResultHolder.sidedSuccess(new ItemStack(LTXIItems.EMPTY_FABRICATION_BLUEPRINT.asItem()), level.isClientSide());
+            return InteractionResult.SUCCESS_SERVER.heldItemTransformedTo(LTXIItems.EMPTY_FABRICATION_BLUEPRINT.toStack());
         }
 
-        return super.use(level, player, usedHand);
+        return super.use(level, player, hand);
     }
 
     @Override
     public void appendTooltipHintComponents(Level level, ItemStack stack, TooltipLineConsumer consumer)
     {
-        ResourceLocation id = stack.get(LTXIDataComponents.BLUEPRINT_RECIPE);
-        if (id != null)
+        ResourceKey<Recipe<?>> key = stack.get(LTXIDataComponents.BLUEPRINT_RECIPE);
+        RecipeHolder<FabricatingRecipe> holder = LTXIClientRecipes.byKey(LTXIRecipeTypes.FABRICATING, key);
+
+        if (holder != null)
         {
-            Optional<RecipeHolder<FabricatingRecipe>> holder = LimaRecipesUtil.getRecipeById(level, id, LTXIRecipeTypes.FABRICATING);
-            if (holder.isPresent())
-            {
-                FabricatingRecipe recipe = holder.get().value();
-                ItemStack result = recipe.getFabricatingResultItem();
-                MutableComponent resultName = result.getHoverName().copy().withStyle(result.getRarity().getStyleModifier());
-                if (result.getCount() > 1) resultName.append(" x" + result.getCount());
+            FabricatingRecipe recipe = holder.value();
 
-                consumer.accept(resultName);
-                consumer.accept(LTXILangKeys.INLINE_ENERGY_REQUIRED_TOOLTIP.translateArgs(LimaEnergyUtil.toEnergyString(recipe.getEnergyRequired())).withStyle(LTXIConstants.REM_BLUE.chatStyle()));
-                consumer.accept(recipe.createIngredientTooltip());
-                return;
-            }
+            ItemStack result = recipe.getResultPreview();
+            MutableComponent name = result.getStyledHoverName().copy();
+            if (result.getCount() > 1) name.append(" x" + result.getCount());
+
+            consumer.accept(name);
+            consumer.accept(LTXILangKeys.INLINE_ENERGY_REQUIRED_TOOLTIP.translateArgs(LimaEnergyUtil.toEnergyString(recipe.getEnergyRequired())).withStyle(LTXIConstants.REM_BLUE.chatStyle()));
+            consumer.accept(recipe.createIngredientTooltip());
         }
-
-        consumer.accept(LTXILangKeys.INVALID_BLUEPRINT_HINT.translate().withStyle(LTXIConstants.HOSTILE_ORANGE.chatStyle()));
+        else
+        {
+            consumer.accept(LTXILangKeys.INVALID_BLUEPRINT_HINT.translate().withStyle(LTXIConstants.HOSTILE_ORANGE.chatStyle()));
+        }
     }
 
     @Override
-    public boolean addDefaultInstanceToCreativeTab(ResourceLocation tabId)
+    public boolean addDefaultInstanceToCreativeTab(Identifier tabId)
     {
         return false;
     }

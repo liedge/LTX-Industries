@@ -1,10 +1,10 @@
 package liedge.ltxindustries.item;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import liedge.limacore.capability.energy.LimaEnergyUtil;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.registry.game.LimaCoreDataComponents;
+import liedge.limacore.transfer.LimaEnergyUtil;
 import liedge.ltxindustries.lib.upgrades.UpgradesContainerBase;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
@@ -12,6 +12,7 @@ import liedge.ltxindustries.registry.game.LTXIDataComponents;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import liedge.ltxindustries.util.LTXITooltipUtil;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentHolder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -21,6 +22,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.storage.loot.LootContext;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.energy.EnergyHandler;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -28,9 +31,9 @@ import java.util.Optional;
 
 public interface UpgradableEquipmentItem extends ItemLike, EnergyHolderItem
 {
-    static EquipmentUpgrades getEquipmentUpgradesFromStack(ItemStack stack)
+    static EquipmentUpgrades getUpgradesFrom(DataComponentHolder getter)
     {
-        return stack.getOrDefault(LTXIDataComponents.EQUIPMENT_UPGRADES, EquipmentUpgrades.EMPTY);
+        return getter.getOrDefault(LTXIDataComponents.EQUIPMENT_UPGRADES, EquipmentUpgrades.EMPTY);
     }
 
     default @Nullable EquipmentSlot getEquipmentSlot()
@@ -59,10 +62,18 @@ public interface UpgradableEquipmentItem extends ItemLike, EnergyHolderItem
         return getEnergyStored(stack) >= getEnergyUsage(stack);
     }
 
-    default boolean consumeEnergy(LivingEntity entity, ItemStack stack, int toExtract)
+    default boolean consumeEnergy(LivingEntity entity, ItemStack stack, int amount)
     {
-        if (entity instanceof Player player && player.isCreative()) return true;
-        else return LimaEnergyUtil.consumeEnergy(getOrCreateEnergyStorage(stack), toExtract, true);
+        if (entity instanceof Player player && player.isCreative())
+        {
+            return true;
+        }
+        else
+        {
+            ItemAccess access = ItemAccess.forStack(stack);
+            EnergyHandler energy = getNoLimitEnergy(stack, access);
+            return LimaEnergyUtil.useExact(energy, amount, null);
+        }
     }
 
     default boolean consumeEnergyActions(LivingEntity entity, ItemStack stack, int actions)
@@ -103,7 +114,7 @@ public interface UpgradableEquipmentItem extends ItemLike, EnergyHolderItem
         List<ItemAttributeModifiers.Entry> modifierEntries = new ObjectArrayList<>();
         modifierEntries.addAll(this.asItem().getDefaultAttributeModifiers(stack).modifiers());
         upgrades.forEachEffect(LTXIUpgradeEffectComponents.ADD_ITEM_ATTRIBUTES, (effect, rank) -> modifierEntries.add(effect.createItemModifier(rank, getEquipmentSlot())));
-        stack.set(DataComponents.ATTRIBUTE_MODIFIERS, new ItemAttributeModifiers(modifierEntries, true));
+        stack.set(DataComponents.ATTRIBUTE_MODIFIERS, new ItemAttributeModifiers(modifierEntries));
 
         // Energy
         if (supportsEnergyStorage(stack))
@@ -120,7 +131,7 @@ public interface UpgradableEquipmentItem extends ItemLike, EnergyHolderItem
 
     default EquipmentUpgrades getUpgrades(ItemStack stack)
     {
-        return getEquipmentUpgradesFromStack(stack);
+        return getUpgradesFrom(stack);
     }
 
     default void setUpgrades(ItemStack stack, EquipmentUpgrades upgrades)

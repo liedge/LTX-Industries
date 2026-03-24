@@ -2,25 +2,27 @@ package liedge.ltxindustries.menu;
 
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import liedge.limacore.capability.itemhandler.ItemHolderBlockEntity;
-import liedge.limacore.capability.itemhandler.LimaBlockEntityItemHandler;
 import liedge.limacore.menu.BlockEntityMenu;
 import liedge.limacore.menu.LimaMenuType;
-import liedge.limacore.menu.slot.LimaHandlerSlot;
+import liedge.limacore.menu.slot.LimaItemSlot;
 import liedge.limacore.network.NetworkSerializer;
 import liedge.limacore.network.sync.AutomaticDataWatcher;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
+import liedge.limacore.transfer.item.ItemHolderBlockEntity;
+import liedge.limacore.transfer.item.LimaBlockEntityItems;
 import liedge.ltxindustries.lib.upgrades.UpgradeBase;
 import liedge.ltxindustries.lib.upgrades.UpgradesContainerBase;
 import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.items.wrapper.PlayerMainInvWrapper;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.PlayerInventoryWrapper;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 import java.util.List;
 
@@ -31,11 +33,11 @@ public abstract class UpgradesConfigMenu<CTX extends ItemHolderBlockEntity, U ex
     private int quickTransferSlot = -1;
 
     private final List<Object2IntMap.Entry<Holder<U>>> remoteUpgrades = new ObjectArrayList<>();
-    protected final LimaBlockEntityItemHandler moduleSourceInventory;
+    protected final LimaBlockEntityItems moduleSourceInventory;
     protected final int moduleSlot;
     private boolean screenUpdate = true;
 
-    protected UpgradesConfigMenu(LimaMenuType<CTX, ?> type, int containerId, Inventory inventory, CTX menuContext, LimaBlockEntityItemHandler moduleSourceInventory, int moduleSlot)
+    protected UpgradesConfigMenu(LimaMenuType<CTX, ?> type, int containerId, Inventory inventory, CTX menuContext, LimaBlockEntityItems moduleSourceInventory, int moduleSlot)
     {
         super(type, containerId, inventory, menuContext);
 
@@ -76,7 +78,7 @@ public abstract class UpgradesConfigMenu<CTX extends ItemHolderBlockEntity, U ex
     @Override
     protected void defineButtonEventHandlers(EventHandlerBuilder builder)
     {
-        builder.handleAction(UPGRADE_REMOVAL_BUTTON_ID, LimaCoreNetworkSerializers.RESOURCE_LOCATION, this::tryRemoveUpgrade);
+        builder.handleAction(UPGRADE_REMOVAL_BUTTON_ID, LimaCoreNetworkSerializers.IDENTIFIER, this::tryRemoveUpgrade);
     }
 
     protected abstract NetworkSerializer<UC> getUpgradesSerializer();
@@ -87,26 +89,25 @@ public abstract class UpgradesConfigMenu<CTX extends ItemHolderBlockEntity, U ex
 
     protected abstract void tryInstallUpgrade(ItemStack upgradeModuleItem, ServerLevel level);
 
-    protected abstract void tryRemoveUpgrade(ServerPlayer sender, ResourceLocation upgradeId);
+    protected abstract void tryRemoveUpgrade(ServerPlayer sender, Identifier upgradeId);
 
     protected abstract ItemStack createModuleItem(Holder<U> upgrade, int upgradeRank);
 
     protected void ejectModuleItem(ServerPlayer player, Holder<U> upgrade, int upgradeRank)
     {
-        ItemStack moduleItem = createModuleItem(upgrade, upgradeRank);
-        PlayerMainInvWrapper inventory = new PlayerMainInvWrapper(playerInventory);
+        ItemResource moduleResource = ItemResource.of(createModuleItem(upgrade, upgradeRank));
+        PlayerInventoryWrapper inventory = PlayerInventoryWrapper.of(player);
 
-        for (int i = 0; i < inventory.getSlots(); i++)
+        int inserted;
+        try (Transaction tx = Transaction.openRoot())
         {
-            if (i == quickTransferSlot) continue;
-
-            moduleItem = inventory.insertItem(i, moduleItem, false);
-            if (moduleItem.isEmpty()) break;
+            inserted = inventory.insert(moduleResource, 1, tx);
+            tx.commit();
         }
 
-        if (!moduleItem.isEmpty())
+        if (inserted < 1)
         {
-            ItemEntity itemEntity = new ItemEntity(player.level(), player.getX(), player.getY() + 0.5d, player.getZ(), moduleItem);
+            ItemEntity itemEntity = new ItemEntity(player.level(), player.getX(), player.getEyeY(), player.getZ(), moduleResource.toStack());
             itemEntity.setPickUpDelay(10);
             itemEntity.setDeltaMovement(itemEntity.getDeltaMovement().multiply(0, 1, 0));
             player.level().addFreshEntity(itemEntity);
@@ -129,11 +130,11 @@ public abstract class UpgradesConfigMenu<CTX extends ItemHolderBlockEntity, U ex
         return false;
     }
 
-    private class InsertSlot extends LimaHandlerSlot
+    private class InsertSlot extends LimaItemSlot
     {
         public InsertSlot(int xPos, int yPos)
         {
-            super(moduleSourceInventory, moduleSlot, xPos, yPos, true, UpgradesConfigMenu.this::canInstallUpgrade);
+            super(moduleSourceInventory, moduleSlot, xPos, yPos, true);
         }
 
         @Override

@@ -13,7 +13,7 @@ public final class LTXICapabilities
 {
     private LTXICapabilities() {}
 
-    public static final EntityCapability<EntityBubbleShield, Void> ENTITY_BUBBLE_SHIELD = EntityCapability.createVoid(LTXIndustries.RESOURCES.location("bubble_shield"), EntityBubbleShield.class);
+    public static final EntityCapability<EntityBubbleShield, Void> ENTITY_BUBBLE_SHIELD = EntityCapability.createVoid(LTXIndustries.RESOURCES.id("bubble_shield"), EntityBubbleShield.class);
 
     public static void registerShieldCapability(final RegisterCapabilitiesEvent event)
     {

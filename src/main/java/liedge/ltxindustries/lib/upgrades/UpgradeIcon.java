@@ -6,7 +6,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import liedge.limacore.data.LimaCoreCodecs;
 import liedge.limacore.data.LimaEnumCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
@@ -22,14 +22,14 @@ public interface UpgradeIcon
         return NoRenderIcon.INSTANCE;
     }
 
-    static SpriteSheetIcon sprite(ResourceLocation location)
+    static SpriteSheetIcon sprite(Identifier location)
     {
         return new SpriteSheetIcon(location);
     }
 
     static SpriteSheetIcon sprite(String path)
     {
-        return sprite(RESOURCES.location(path));
+        return sprite(RESOURCES.id(path));
     }
 
     static ItemStackIcon itemIcon(ItemStack stack)
@@ -42,7 +42,7 @@ public interface UpgradeIcon
         return itemIcon(new ItemStack(itemLike));
     }
 
-    static SpriteOverlayIcon overlayIcon(UpgradeIcon background, ResourceLocation overlay, int width, int height, int xOffset, int yOffset)
+    static SpriteOverlayIcon overlayIcon(UpgradeIcon background, Identifier overlay, int width, int height, int xOffset, int yOffset)
     {
         return new SpriteOverlayIcon(background, overlay, width, height, xOffset, yOffset);
     }
@@ -63,9 +63,9 @@ public interface UpgradeIcon
         }
     }
 
-    record SpriteSheetIcon(ResourceLocation location) implements UpgradeIcon
+    record SpriteSheetIcon(Identifier location) implements UpgradeIcon
     {
-        private static final Codec<SpriteSheetIcon> INLINE_CODEC = ResourceLocation.CODEC.xmap(SpriteSheetIcon::new, SpriteSheetIcon::location);
+        private static final Codec<SpriteSheetIcon> INLINE_CODEC = Identifier.CODEC.xmap(SpriteSheetIcon::new, SpriteSheetIcon::location);
         private static final MapCodec<SpriteSheetIcon> MAP_CODEC = INLINE_CODEC.fieldOf("sprite");
 
         @Override
@@ -87,7 +87,7 @@ public interface UpgradeIcon
         }
     }
 
-    record SpriteOverlayIcon(UpgradeIcon background, ResourceLocation overlay, int width, int height, int xOffset, int yOffset) implements UpgradeIcon
+    record SpriteOverlayIcon(UpgradeIcon background, Identifier overlay, int width, int height, int xOffset, int yOffset) implements UpgradeIcon
     {
         private static final Codec<UpgradeIcon> BACKGROUND_CODEC = LimaCoreCodecs.xorSubclassCodec(SpriteSheetIcon.INLINE_CODEC, ItemStackIcon.CODEC, SpriteSheetIcon.class, ItemStackIcon.class);
         private static final Codec<Integer> DIMS_CODEC = Codec.intRange(1, 16);
@@ -104,7 +104,7 @@ public interface UpgradeIcon
 
         private static final MapCodec<SpriteOverlayIcon> CODEC = RecordCodecBuilder.<SpriteOverlayIcon>mapCodec(instance -> instance.group(
                 BACKGROUND_CODEC.fieldOf("background").forGetter(SpriteOverlayIcon::background),
-                ResourceLocation.CODEC.fieldOf("overlay").forGetter(SpriteOverlayIcon::overlay),
+                Identifier.CODEC.fieldOf("overlay").forGetter(SpriteOverlayIcon::overlay),
                 DIMS_CODEC.fieldOf("width").forGetter(SpriteOverlayIcon::width),
                 DIMS_CODEC.fieldOf("height").forGetter(SpriteOverlayIcon::height),
                 DIMS_CODEC.fieldOf("x_offset").forGetter(SpriteOverlayIcon::xOffset),

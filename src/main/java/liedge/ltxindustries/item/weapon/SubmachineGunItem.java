@@ -7,6 +7,7 @@ import liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades;
 import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.util.config.LTXIWeaponsConfig;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -35,8 +36,11 @@ public class SubmachineGunItem extends FullAutoWeaponItem
     @Override
     public void weaponFired(ItemStack heldItem, Player player, Level level, LTXIExtendedInput controls)
     {
-        double inaccuracy = LimaEntityUtil.isEntityUsingItem(player, InteractionHand.MAIN_HAND) ? 0.25d : 4d;
-        traceLightfrag(heldItem, player, level, LTXIWeaponsConfig.SMG_BASE_DAMAGE.getAsDouble(), inaccuracy, 0.2d);
+        if (level instanceof ServerLevel serverLevel)
+        {
+            double inaccuracy = LimaEntityUtil.isEntityUsingItem(player, InteractionHand.MAIN_HAND) ? 0.25d : 4d;
+            traceLightfrag(serverLevel, player, heldItem, LTXIWeaponsConfig.SMG_BASE_DAMAGE.getAsDouble(), inaccuracy, 0.2d);
+        }
     }
 
     @Override

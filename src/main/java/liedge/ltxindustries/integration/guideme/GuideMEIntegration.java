@@ -1,17 +1,15 @@
 package liedge.ltxindustries.integration.guideme;
 
 import guideme.Guides;
-import liedge.limacore.AllNotNull;
 import liedge.ltxindustries.LTXIndustries;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.fml.ModList;
 
-@AllNotNull
 public final class GuideMEIntegration
 {
-    public static final ResourceLocation GUIDE_ID = LTXIndustries.RESOURCES.location("guide");
+    public static final Identifier GUIDE_ID = LTXIndustries.RESOURCES.id("guide");
 
     private GuideMEIntegration() {}
 

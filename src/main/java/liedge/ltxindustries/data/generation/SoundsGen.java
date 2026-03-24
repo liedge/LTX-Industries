@@ -4,7 +4,6 @@ import liedge.limacore.data.generation.LimaSoundDefinitionsProvider;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
 import net.minecraft.data.PackOutput;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.common.data.SoundDefinition;
 
 import static liedge.ltxindustries.registry.game.LTXISounds.*;
@@ -13,9 +12,9 @@ import static net.minecraft.sounds.SoundEvents.WARDEN_SONIC_BOOM;
 
 class SoundsGen extends LimaSoundDefinitionsProvider
 {
-    SoundsGen(PackOutput output, ExistingFileHelper helper)
+    SoundsGen(PackOutput output)
     {
-        super(output, LTXIndustries.RESOURCES, helper);
+        super(output, LTXIndustries.RESOURCES);
     }
 
     @Override

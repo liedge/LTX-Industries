@@ -13,7 +13,6 @@ import liedge.ltxindustries.registry.game.LTXIEntities;
 import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.registry.game.LTXIParticles;
 import liedge.ltxindustries.registry.game.LTXISounds;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
@@ -26,6 +25,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.ModConfigSpec;
@@ -140,7 +141,7 @@ public class ShellGrenadeEntity extends LTXIProjectileEntity implements IEntityW
         // Add electric bolt particles between impact and targets if electric
         if (grenadeType == GrenadeType.ELECTRIC)
         {
-            LimaNetworkUtil.sendParticle(level, new ColorParticleOptions(LTXIParticles.FIXED_ELECTRIC_BOLT, grenadeType.getColor()), LimaNetworkUtil.NORMAL_PARTICLE_DIST, hitLocation, hitEntity.getEyePosition());
+            LimaNetworkUtil.sendParticle(level, new ColorParticleOptions(LTXIParticles.ENERGY_BOLT, grenadeType.getColor()), LimaNetworkUtil.NORMAL_PARTICLE_DIST, hitLocation, hitEntity.getEyePosition());
         }
     }
 
@@ -181,7 +182,7 @@ public class ShellGrenadeEntity extends LTXIProjectileEntity implements IEntityW
 
             // Deal damage to entities
             final double baseDamage = getBaseDamage() * getDamageMultiplier(hitEntity);
-            LTXIItems.GRENADE_LAUNCHER.get().causeProjectileDamage(getWeaponItem(), this, owner, getDamageType(), hitEntity, baseDamage);
+            LTXIItems.GRENADE_LAUNCHER.get().causeProjectileDamage(level, hitEntity, this, owner, getDamageType(), getWeaponItem(),  baseDamage);
 
             // Spawn any additional particle effects on hit entities (if applicable)
             spawnHitEntityParticles(level, hitLocation, hitEntity);
@@ -204,17 +205,17 @@ public class ShellGrenadeEntity extends LTXIProjectileEntity implements IEntityW
     }
 
     @Override
-    protected void readAdditionalSaveData(CompoundTag tag)
+    protected void readAdditionalSaveData(ValueInput input)
     {
-        super.readAdditionalSaveData(tag);
-        setGrenadeType(GrenadeType.CODEC.byNameOrElse(tag.getString("grenade_type"), GrenadeType.EXPLOSIVE));
+        super.readAdditionalSaveData(input);
+        grenadeType = input.read("grenade_type", GrenadeType.CODEC).orElse(GrenadeType.EXPLOSIVE);
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundTag tag)
+    protected void addAdditionalSaveData(ValueOutput output)
     {
-        super.addAdditionalSaveData(tag);
-        tag.putString("grenade_type", grenadeType.getSerializedName());
+        super.addAdditionalSaveData(output);
+        output.store("grenade_type", GrenadeType.CODEC, grenadeType);
     }
 
     @Override

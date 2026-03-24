@@ -2,37 +2,39 @@ package liedge.ltxindustries.client.renderer.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import liedge.limacore.client.LimaBlockEntityRenderer;
-import liedge.limacore.client.LimaCoreClientUtil;
-import liedge.limacore.client.model.baked.BakedItemLayer;
-import liedge.limacore.client.model.baked.ItemLayerBakedModel;
 import liedge.ltxindustries.blockentity.MixerBlockEntity;
-import liedge.ltxindustries.registry.game.LTXIBlocks;
-import net.minecraft.client.renderer.MultiBufferSource;
+import liedge.ltxindustries.client.model.LTXIModelPartKeys;
+import liedge.ltxindustries.client.model.LayeredModelPart;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.state.CameraRenderState;
 
-public class MixerRenderer extends LimaBlockEntityRenderer<MixerBlockEntity>
+public class MixerRenderer extends MachineRenderer<MixerBlockEntity>
 {
-    private final BakedItemLayer blades;
+    private final LayeredModelPart blades;
 
     public MixerRenderer(BlockEntityRendererProvider.Context context)
     {
         super(context);
-
-        ItemLayerBakedModel model = LimaCoreClientUtil.getCustomBakedModel(LimaCoreClientUtil.inventoryModelPath(LTXIBlocks.MIXER), ItemLayerBakedModel.class);
-        this.blades = model.getLayer("blades");
+        this.blades = LayeredModelPart.get(modelManager, LTXIModelPartKeys.MIXER_BLADES);
     }
 
     @Override
-    public void render(MixerBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay)
+    void extractAdditional(MixerBlockEntity blockEntity, MachineRenderState renderState, float partialTick)
+    {
+        renderState.machineSpin = blockEntity.lerpImpellerYRot(partialTick);
+    }
+
+    @Override
+    public void submit(MachineRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState)
     {
         poseStack.pushPose();
 
-        poseStack.translate(0.5d, 0, 0.5d);
-        poseStack.mulPose(Axis.YP.rotationDegrees(blockEntity.lerpImpellerYRot(partialTick)));
-        poseStack.translate(-0.5d, 0, -0.5d);
+        poseStack.translate(0.5f, 0f, 0.5f);
+        poseStack.mulPose(Axis.YP.rotationDegrees(renderState.machineSpin));
+        poseStack.translate(-0.5f, 0f, -0.5f);
 
-        blades.putQuadsInBuffer(poseStack, bufferSource, packedLight);
+        blades.render(poseStack, nodeCollector, renderState.lightCoords);
 
         poseStack.popPose();
     }

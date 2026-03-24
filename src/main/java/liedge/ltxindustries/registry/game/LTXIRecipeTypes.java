@@ -1,15 +1,19 @@
 package liedge.ltxindustries.registry.game;
 
 import liedge.limacore.recipe.LimaRecipeType;
+import liedge.limacore.util.LimaStreamsUtil;
 import liedge.ltxindustries.LTXIIdentifiers;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.recipe.*;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
+
+import java.util.Collection;
 
 public final class LTXIRecipeTypes
 {
@@ -20,6 +24,11 @@ public final class LTXIRecipeTypes
     public static void register(IEventBus bus)
     {
         TYPES.register(bus);
+    }
+
+    public static Collection<RecipeType<?>> getTypes()
+    {
+        return TYPES.getEntries().stream().map(Holder::value).collect(LimaStreamsUtil.toObjectList());
     }
 
     public static final DeferredHolder<RecipeType<?>, LimaRecipeType<GrindingRecipe>> GRINDING = registerType(LTXIIdentifiers.ID_GRINDING_RECIPE);

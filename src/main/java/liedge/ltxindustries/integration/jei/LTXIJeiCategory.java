@@ -22,17 +22,21 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredientRenderer;
 import mezz.jei.api.neoforge.NeoForgeTypes;
 import mezz.jei.api.recipe.IFocusGroup;
-import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import mezz.jei.api.recipe.types.IRecipeHolderType;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
+import net.minecraft.util.context.ContextMap;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.display.SlotDisplay;
+import net.minecraft.world.item.crafting.display.SlotDisplayContext;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.crafting.display.FluidStackContentsFactory;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -76,12 +80,12 @@ public abstract class LTXIJeiCategory<R extends LimaCustomRecipe<?>> implements 
         return Objects.requireNonNull(Minecraft.getInstance().level, "Minecraft local level is null").registryAccess();
     }
 
-    protected ResourceLocation unwrapGuiSpriteTexture(ResourceLocation spriteLocation)
+    protected Identifier unwrapGuiSpriteTexture(Identifier spriteLocation)
     {
         return spriteLocation.withPath(path -> String.format("textures/gui/sprites/%s.png", path));
     }
 
-    protected IDrawableBuilder guiSpriteDrawable(ResourceLocation spriteLocation, int width, int height)
+    protected IDrawableBuilder guiSpriteDrawable(Identifier spriteLocation, int width, int height)
     {
         return helper.drawableBuilder(unwrapGuiSpriteTexture(spriteLocation), 0, 0, width, height).setTextureSize(width, height);
     }
@@ -101,11 +105,21 @@ public abstract class LTXIJeiCategory<R extends LimaCustomRecipe<?>> implements 
         }
     }
 
+    private ContextMap makeContext()
+    {
+        return SlotDisplayContext.fromLevel(Objects.requireNonNull(Minecraft.getInstance().level));
+    }
+
+    private <T> void addFluidStacks(IRecipeSlotBuilder slot, T object, Function<T, SlotDisplay> getter)
+    {
+        SlotDisplay display = getter.apply(object);
+        display.resolve(makeContext(), FluidStackContentsFactory.INSTANCE).forEach(stack -> slot.add(stack.getFluid(), stack.getAmount(), stack.getComponentsPatch()));
+    }
+
     protected void sizedIngredientsSlot(IRecipeLayoutBuilder builder, R recipe, int ingredientIndex, int x, int y)
     {
         LimaSizedItemIngredient sizedIngredient = recipe.getItemIngredient(ingredientIndex);
-        IRecipeSlotBuilder slot = builder.addSlot(RecipeIngredientRole.INPUT, x, y)
-                .addItemStacks(List.of(sizedIngredient.getCachedValues()));
+        IRecipeSlotBuilder slot = builder.addInputSlot(x, y).addItemStacks(sizedIngredient.display().resolveForStacks(makeContext()));
 
         if (sizedIngredient.isDeterministic()) deterministicOverlay(slot, sizedIngredient);
     }
@@ -124,12 +138,8 @@ public abstract class LTXIJeiCategory<R extends LimaCustomRecipe<?>> implements 
     protected void fluidIngredientSlot(IRecipeLayoutBuilder builder, R recipe, int ingredientIndex, int x, int y)
     {
         LimaSizedFluidIngredient sizedIngredient = recipe.getFluidIngredient(ingredientIndex);
-        IRecipeSlotBuilder slot = builder.addSlot(RecipeIngredientRole.INPUT, x, y).setCustomRenderer(NeoForgeTypes.FLUID_STACK, FluidWithCountRenderer.INSTANCE);
-
-        for (FluidStack stack : sizedIngredient.getCachedValues())
-        {
-            slot.addFluidStack(stack.getFluid(), stack.getAmount(), stack.getComponentsPatch());
-        }
+        IRecipeSlotBuilder slot = builder.addInputSlot(x, y).setCustomRenderer(NeoForgeTypes.FLUID_STACK, FluidWithCountRenderer.INSTANCE);
+        addFluidStacks(slot, sizedIngredient, LimaSizedFluidIngredient::display);
 
         if (sizedIngredient.isDeterministic()) deterministicOverlay(slot, sizedIngredient);
     }
@@ -137,7 +147,7 @@ public abstract class LTXIJeiCategory<R extends LimaCustomRecipe<?>> implements 
     protected void itemResultSlot(IRecipeLayoutBuilder builder, R recipe, int resultIndex, int x, int y)
     {
         ItemResult result = recipe.getItemResult(resultIndex);
-        IRecipeSlotBuilder slot = builder.addSlot(RecipeIngredientRole.OUTPUT, x, y).addItemStack(result.getDisplayStack());
+        IRecipeSlotBuilder slot = builder.addOutputSlot(x, y).addItemStacks(result.display().resolveForStacks(makeContext()));
 
         List<Component> tooltipLines = new ObjectArrayList<>();
         addPriorityTooltip(result, tooltipLines);
@@ -151,8 +161,8 @@ public abstract class LTXIJeiCategory<R extends LimaCustomRecipe<?>> implements 
     protected void fluidResultSlot(IRecipeLayoutBuilder builder, R recipe, int resultIndex, int x, int y)
     {
         FluidResult result = recipe.getFluidResult(resultIndex);
-        FluidStack displayStack = result.getDisplayStack();
-        IRecipeSlotBuilder slot = builder.addSlot(RecipeIngredientRole.OUTPUT, x, y).addFluidStack(displayStack.getFluid(), displayStack.getAmount(), displayStack.getComponentsPatch());
+        IRecipeSlotBuilder slot = builder.addOutputSlot(x, y);
+        addFluidStacks(slot, result, FluidResult::display);
 
         List<Component> tooltipLines = new ObjectArrayList<>();
         addPriorityTooltip(result, tooltipLines);
@@ -165,7 +175,7 @@ public abstract class LTXIJeiCategory<R extends LimaCustomRecipe<?>> implements 
         if (chanceOverlay != null || countOverlay != null) slot.setOverlay(new ResultOverlay(chanceOverlay, countOverlay), 0, 0);
     }
 
-    private @Nullable IDrawable resultChanceOverlay(StackBaseResult<?, ?> result, List<Component> lines)
+    private @Nullable IDrawable resultChanceOverlay(ResourceResult<?> result, List<Component> lines)
     {
         if (result.getChance() == 1f) return null;
 
@@ -183,7 +193,7 @@ public abstract class LTXIJeiCategory<R extends LimaCustomRecipe<?>> implements 
         return ScaledFontDrawable.plainText("VAR", 0.75f);
     }
 
-    private void addPriorityTooltip(StackBaseResult<?, ?> result, List<Component> lines)
+    private void addPriorityTooltip(ResourceResult<?> result, List<Component> lines)
     {
         MutableComponent component = result.getPriority().translate();
         if (result.getPriority() == ResultPriority.PRIMARY)
@@ -196,6 +206,9 @@ public abstract class LTXIJeiCategory<R extends LimaCustomRecipe<?>> implements 
             lines.add(LTXILangKeys.OUTPUT_NON_PRIMARY_TOOLTIP.translate());
         }
     }
+
+    @Override
+    public abstract IRecipeHolderType<R> getRecipeType();
 
     @Override
     public int getWidth()

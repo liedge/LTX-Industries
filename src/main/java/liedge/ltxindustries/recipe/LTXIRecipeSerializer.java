@@ -9,7 +9,7 @@ import liedge.limacore.recipe.LimaRecipeSerializerBuilder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 
@@ -40,7 +40,7 @@ public record LTXIRecipeSerializer<R extends LTXIRecipe>(MapCodec<R> codec, Stre
         }
 
         @Override
-        public LTXIRecipeSerializer<R> build(ResourceLocation id)
+        public LTXIRecipeSerializer<R> build(Identifier id)
         {
             MapCodec<R> mapCodec = RecordCodecBuilder.<R>mapCodec(instance -> commonFields(instance)
                     .and(ExtraCodecs.POSITIVE_INT.optionalFieldOf("craft_time", defaultCraftTime).forGetter(LTXIRecipe::getCraftTime))

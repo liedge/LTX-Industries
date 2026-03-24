@@ -1,12 +1,13 @@
 package liedge.ltxindustries.item;
 
-import liedge.limacore.capability.energy.InfiniteEnergyStorage;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.energy.EnergyHandler;
+import net.neoforged.neoforge.transfer.energy.InfiniteEnergyHandler;
 
 public class InfiniteECABlockItem extends BlockItem implements EnergyHolderItem, TooltipShiftHintItem
 {
@@ -46,9 +47,15 @@ public class InfiniteECABlockItem extends BlockItem implements EnergyHolderItem,
     }
 
     @Override
-    public IEnergyStorage getOrCreateEnergyStorage(ItemStack stack)
+    public EnergyHandler getEnergy(ItemStack stack, ItemAccess access)
     {
-        return InfiniteEnergyStorage.INFINITE_ENERGY_STORAGE;
+        return InfiniteEnergyHandler.INSTANCE;
+    }
+
+    @Override
+    public EnergyHandler getNoLimitEnergy(ItemStack stack, ItemAccess access)
+    {
+        return InfiniteEnergyHandler.INSTANCE;
     }
 
     @Override

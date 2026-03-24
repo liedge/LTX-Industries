@@ -35,7 +35,7 @@ public final class BubbleShieldModel implements ResourceManagerReloadListener
     @Override
     public void onResourceManagerReload(ResourceManager manager)
     {
-        try (BufferedReader reader = manager.openAsReader(LTXIndustries.RESOURCES.location("core/bubble_shield_model.json")))
+        try (BufferedReader reader = manager.openAsReader(LTXIndustries.RESOURCES.id("core/bubble_shield_model.json")))
         {
             // Clear current data
             geometries.clear();

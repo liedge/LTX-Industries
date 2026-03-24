@@ -9,8 +9,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.NoRenderParticle;
 import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
@@ -19,11 +21,11 @@ public class GrenadeExplosionParticle extends NoRenderParticle
     private final GrenadeType grenadeElement;
     private final double explosionSize;
 
-    public GrenadeExplosionParticle(GrenadeExplosionParticleOptions options, ClientLevel level, double x, double y, double z)
+    private GrenadeExplosionParticle(ClientLevel level, double x, double y, double z, GrenadeType grenadeElement, double explosionSize)
     {
         super(level, x, y, z);
-        this.grenadeElement = options.element();
-        this.explosionSize = options.explosionSize();
+        this.grenadeElement = grenadeElement;
+        this.explosionSize = explosionSize;
     }
 
     @Override
@@ -33,7 +35,7 @@ public class GrenadeExplosionParticle extends NoRenderParticle
 
         switch (grenadeElement)
         {
-            case EXPLOSIVE -> level.addParticle(new ColorParticleOptions(LTXIParticles.HALF_SONIC_BOOM_EMITTER, grenadeElement.getColor()), true, x, y, z, 0, 0, 0);
+            case EXPLOSIVE -> level.addParticle(new ColorParticleOptions(LTXIParticles.HALF_SONIC_BOOM_EMITTER, grenadeElement.getColor()), true, true, x, y, z, 0, 0, 0);
             case CRYO -> cryoSnowflakeExplosion();
             case ELECTRIC -> particleBall(LTXIParticles.MINI_ELECTRIC_SPARK.get(), 0.5d, 1);
             case ACID -> acidExplosion();
@@ -70,7 +72,7 @@ public class GrenadeExplosionParticle extends NoRenderParticle
             double py = blockPos.getY() + shape.toAabbs().stream().filter(box -> xOffset >= box.minX && xOffset <= box.maxX && zOffset >= box.minZ && zOffset <= box.maxZ).mapToDouble(box -> box.maxY).max().orElse(0d);
             double pz = blockPos.getZ() + zOffset;
 
-            level.addParticle(LTXIParticles.GROUND_ICICLE.get(), false, px, py, pz, 0, 0, 0);
+            level.addParticle(LTXIParticles.GROUND_ICICLE.get(), px, py, pz, 0, 0, 0);
         });
     }
 
@@ -85,7 +87,7 @@ public class GrenadeExplosionParticle extends NoRenderParticle
         {
             double dx = (random.nextDouble() - random.nextDouble()) * 0.2d;
             double dz = (random.nextDouble() - random.nextDouble()) * 0.2d;
-            level.addParticle(LTXIParticles.NEURO_SMOKE.get(), true, x, y + 0.25d, z, dx, 0.05d, dz);
+            level.addParticle(LTXIParticles.NEURO_SMOKE.get(), true, true, x, y + 0.25d, z, dx, 0.05d, dz);
         }
     }
 
@@ -128,6 +130,15 @@ public class GrenadeExplosionParticle extends NoRenderParticle
                     level.addAlwaysVisibleParticle(particle, true, x, y, z, dx / d1, Math.min(dy / d1, 0.5d), dz / d1);
                 }
             }
+        }
+    }
+
+    public static final class Provider implements ParticleProvider<GrenadeExplosionParticleOptions>
+    {
+        @Override
+        public Particle createParticle(GrenadeExplosionParticleOptions data, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, RandomSource random)
+        {
+            return new GrenadeExplosionParticle(level, x, y, z, data.element(), data.explosionSize());
         }
     }
 }

@@ -27,7 +27,7 @@ public record CancelFall(ContextlessValue energyActions) implements UpgradeToolt
         return new CancelFall(energyActions);
     }
 
-    public boolean apply(int upgradeRank, UpgradedEquipmentInUse equipmentInUse, Entity affected, float fallDistance)
+    public boolean apply(int upgradeRank, UpgradedEquipmentInUse equipmentInUse, Entity affected, double fallDistance)
     {
         double safeDistance = LimaEntityUtil.getAttributeValueSafe(affected, Attributes.SAFE_FALL_DISTANCE);
         if (fallDistance <= safeDistance) return true;

@@ -1,12 +1,13 @@
 package liedge.ltxindustries.entity;
 
-import liedge.limacore.util.LimaNbtUtil;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
@@ -56,16 +57,16 @@ public abstract class HomingProjectileEntity extends LTXIProjectileEntity
     }
 
     @Override
-    protected void readAdditionalSaveData(CompoundTag tag)
+    protected void readAdditionalSaveData(ValueInput input)
     {
-        super.readAdditionalSaveData(tag);
-        targetUUID = LimaNbtUtil.getOptionalUUID(tag, "target");
+        super.readAdditionalSaveData(input);
+        targetUUID = input.read("target", UUIDUtil.CODEC).orElse(null);
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundTag tag)
+    protected void addAdditionalSaveData(ValueOutput output)
     {
-        super.addAdditionalSaveData(tag);
-        LimaNbtUtil.putOptionalUUID(tag, "target", targetUUID);
+        super.addAdditionalSaveData(output);
+        output.storeNullable("target", UUIDUtil.CODEC, targetUUID);
     }
 }

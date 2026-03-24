@@ -11,7 +11,6 @@ import liedge.limacore.network.sync.LimaDataWatcher;
 import liedge.limacore.network.sync.ManualDataWatcher;
 import liedge.limacore.registry.game.LimaCoreDataComponents;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
-import liedge.limacore.util.LimaNbtUtil;
 import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
 import liedge.ltxindustries.blockentity.base.EnergyConsumerBlockEntity;
 import liedge.ltxindustries.blockentity.template.ProductionMachineBlockEntity;
@@ -22,9 +21,9 @@ import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrades;
 import liedge.ltxindustries.registry.game.LTXISounds;
 import liedge.ltxindustries.util.LTXITooltipUtil;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
+import net.minecraft.core.UUIDUtil;
+import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -32,6 +31,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
@@ -193,8 +194,9 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
     }
 
     @Override
-    public void onRemovedFromLevel(Level level, BlockPos pos, BlockState oldState, BlockState newState)
+    public void preRemoveSideEffects(BlockPos pos, BlockState state)
     {
+        super.preRemoveSideEffects(pos, state);
         purgeTargets(TurretTargetTracker.getOrDefault(getOwner()));
     }
 
@@ -352,10 +354,10 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
     }
 
     @Override
-    protected void applyImplicitComponents(DataComponentInput componentInput)
+    protected void applyImplicitComponents(DataComponentGetter getter)
     {
-        super.applyImplicitComponents(componentInput);
-        setOwnerUUID(componentInput.get(LimaCoreDataComponents.OWNER));
+        super.applyImplicitComponents(getter);
+        setOwnerUUID(getter.get(LimaCoreDataComponents.OWNER));
     }
 
     @Override
@@ -366,30 +368,28 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
     }
 
     @Override
-    public void removeComponentsFromTag(CompoundTag tag)
+    public void removeComponentsFromTag(ValueOutput output)
     {
-        super.removeComponentsFromTag(tag);
-        tag.remove(LimaCommonConstants.KEY_OWNER);
+        super.removeComponentsFromTag(output);
+        output.discard(LimaCommonConstants.KEY_OWNER);
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries)
+    protected void loadAdditional(ValueInput input)
     {
-        super.loadAdditional(tag, registries);
-
-        loadOwnerID(tag);
-        turretState = TurretState.CODEC.byNameOrElse(tag.getString("turret_state"), TurretState.SEARCHING);
-        targetId = LimaNbtUtil.getOptionalUUID(tag, "target");
+        super.loadAdditional(input);
+        loadOwnerID(input);
+        turretState = input.read("turret_state", TurretState.CODEC).orElse(TurretState.SEARCHING);
+        targetId = input.read("target", UUIDUtil.CODEC).orElse(null);
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries)
+    protected void saveAdditional(ValueOutput output)
     {
-        super.saveAdditional(tag, registries);
-
-        saveOwnerID(tag);
-        tag.putString("turret_state", turretState.getSerializedName());
-        LimaNbtUtil.putOptionalUUID(tag, "target", targetId);
+        super.saveAdditional(output);
+        saveOwnerID(output);
+        output.store("turret_state", TurretState.CODEC, turretState);
+        output.storeNullable("target", UUIDUtil.CODEC, targetId);
     }
 
     //#region Client functions

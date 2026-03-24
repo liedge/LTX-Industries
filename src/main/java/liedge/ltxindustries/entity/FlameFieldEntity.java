@@ -4,7 +4,7 @@ import liedge.ltxindustries.registry.bootstrap.LTXIDamageTypes;
 import liedge.ltxindustries.registry.game.LTXIEntities;
 import liedge.ltxindustries.registry.game.LTXIItems;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -25,9 +25,6 @@ public class FlameFieldEntity extends UpgradesAwareEntity
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) { }
-
-    @Override
     public void tick()
     {
         super.tick();
@@ -46,20 +43,14 @@ public class FlameFieldEntity extends UpgradesAwareEntity
             level.playSound(null, getX(), getY(), getZ(), SoundEvents.FIRE_EXTINGUISH, SoundSource.NEUTRAL);
         }
 
-        if (!level.isClientSide)
+        if (level instanceof ServerLevel serverLevel && tickCount % 4 == 0)
         {
-            if (tickCount % 4 == 0)
+            LivingEntity owner = getOwner();
+            getEntitiesInAOE(serverLevel, getBoundingBox(), owner, null).forEach(hit ->
             {
-                LivingEntity owner = getOwner();
-                getEntitiesInAOE(level, getBoundingBox(), owner, null).forEach(hit ->
-                {
-                    // Use weapon damage for owned flames
-                    if (LTXIItems.GRENADE_LAUNCHER.get().causeProjectileDamage(getWeaponItem(), this, owner, LTXIDamageTypes.STICKY_FLAME, hit, 4d))
-                    {
-                        hit.setRemainingFireTicks(400);
-                    }
-                });
-            }
+                if (LTXIItems.GRENADE_LAUNCHER.get().causeProjectileDamage(serverLevel, hit, this, owner, LTXIDamageTypes.STICKY_FLAME, getWeaponItem(), 4d))
+                    hit.setRemainingFireTicks(400);
+            });
         }
         else
         {

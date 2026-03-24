@@ -1,19 +1,22 @@
 package liedge.ltxindustries.client.gui.widget;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import liedge.limacore.client.gui.BaseLimaRenderable;
 import liedge.ltxindustries.LTXIndustries;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 
 public class ScrollbarWidget extends BaseLimaRenderable implements NarratableEntry, GuiEventListener
 {
     private static final int SCROLLER_WIDTH = 8;
     static final int SCROLLER_HEIGHT = 13;
-    private static final ResourceLocation SCROLLER_SPRITE = LTXIndustries.RESOURCES.location("widget/scroller");
+    private static final Identifier SCROLLER_SPRITE = LTXIndustries.RESOURCES.id("widget/scroller");
 
     private final int scrollRange;
     private final ScrollableGUIElement element;
@@ -75,7 +78,7 @@ public class ScrollbarWidget extends BaseLimaRenderable implements NarratableEnt
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks)
     {
-        graphics.blitSprite(SCROLLER_SPRITE, getX(), getY() + scrollPosition, SCROLLER_WIDTH, SCROLLER_HEIGHT);
+        graphics.blitSprite(RenderPipelines.GUI_TEXTURED, SCROLLER_SPRITE, getX(), getY() + scrollPosition, SCROLLER_WIDTH, SCROLLER_HEIGHT);
     }
 
     @Override
@@ -100,28 +103,28 @@ public class ScrollbarWidget extends BaseLimaRenderable implements NarratableEnt
     public void updateNarration(NarrationElementOutput narrationElementOutput) {}
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button)
+    public boolean mouseClicked(MouseButtonEvent event, boolean isDoubleClick)
     {
-        if (isMouseOver(mouseX, mouseY) && button == 0 && element.canScroll())
+        if (isMouseOver(event.x(), event.y()) && event.button() == InputConstants.MOUSE_BUTTON_LEFT && element.canScroll())
         {
-            setPositionFromMouse(mouseY);
+            setPositionFromMouse(event.y());
             this.scrolling = true;
             return true;
         }
 
-        return false;
+        return GuiEventListener.super.mouseClicked(event, isDoubleClick);
     }
 
     @Override
-    public boolean mouseReleased(double mouseX, double mouseY, int button)
+    public boolean mouseReleased(MouseButtonEvent event)
     {
-        if (button == 0) this.scrolling = false;
+        if (event.button() == InputConstants.MOUSE_BUTTON_LEFT) this.scrolling = false;
 
-        return GuiEventListener.super.mouseReleased(mouseX, mouseY, button);
+        return GuiEventListener.super.mouseReleased(event);
     }
 
     @Override
-    public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY)
+    public boolean mouseDragged(MouseButtonEvent event, double mouseX, double mouseY)
     {
         if (scrolling)
         {
@@ -129,6 +132,6 @@ public class ScrollbarWidget extends BaseLimaRenderable implements NarratableEnt
             return true;
         }
 
-        return false;
+        return GuiEventListener.super.mouseDragged(event, mouseX, mouseY);
     }
 }

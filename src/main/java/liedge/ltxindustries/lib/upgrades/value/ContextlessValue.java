@@ -15,7 +15,8 @@ import java.util.function.Function;
  */
 public interface ContextlessValue extends UpgradeValueProvider
 {
-    Codec<ContextlessValue> CODEC = Codec.lazyInitialized(() -> LimaCoreCodecs.dispatchWithInline(UpgradeValueTypes.CONTEXTLESS_REGISTRY_CODEC, ConstantDouble.class, ConstantDouble.INLINE_CODEC, ContextlessValue::codec, Function.identity()));
+    Codec<ContextlessValue> CODEC = Codec.lazyInitialized(() ->
+            LimaCoreCodecs.dispatchWithInline(UpgradeValueTypes.CONTEXTLESS_ID_MAPPER.codec(Codec.STRING), ConstantDouble.class, ConstantDouble.INLINE_CODEC, ContextlessValue::codec, Function.identity()));
 
     static ContextlessValue wrapLevels(LevelBasedValue value)
     {

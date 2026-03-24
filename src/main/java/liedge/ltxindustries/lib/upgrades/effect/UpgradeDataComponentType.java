@@ -1,17 +1,19 @@
 package liedge.ltxindustries.lib.upgrades.effect;
 
 import com.mojang.serialization.Codec;
-import liedge.limacore.data.LimaDataComponentType;
 import liedge.ltxindustries.lib.upgrades.tooltip.UpgradeTooltipsProvider;
 import liedge.ltxindustries.registry.LTXIRegistries;
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.util.context.ContextKeySet;
 
 import java.util.List;
 import java.util.function.Consumer;
 
-public abstract class UpgradeDataComponentType<T> extends LimaDataComponentType<T>
+public abstract class UpgradeDataComponentType<T> implements DataComponentType<T>
 {
     public static final Codec<DataComponentType<?>> CODEC = Codec.lazyInitialized(LTXIRegistries.UPGRADE_COMPONENT_TYPES::byNameCodec);
 
@@ -25,12 +27,12 @@ public abstract class UpgradeDataComponentType<T> extends LimaDataComponentType<
         return custom(elementCodec.listOf());
     }
 
-    public static <T> UpgradeDataComponentType<List<ConditionEffect<T>>> customConditional(Codec<T> effectCodec, LootContextParamSet params)
+    public static <T> UpgradeDataComponentType<List<ConditionEffect<T>>> customConditional(Codec<T> effectCodec, ContextKeySet params)
     {
         return customList(ConditionEffect.codec(effectCodec, params));
     }
 
-    public static <T> UpgradeDataComponentType<List<TargetableEffect<T>>> customTargetable(Codec<T> effectCodec, LootContextParamSet params)
+    public static <T> UpgradeDataComponentType<List<TargetableEffect<T>>> customTargetable(Codec<T> effectCodec, ContextKeySet params)
     {
         return customList(TargetableEffect.codec(effectCodec, params));
     }
@@ -45,14 +47,37 @@ public abstract class UpgradeDataComponentType<T> extends LimaDataComponentType<
         return new ListType<>(elementCodec.listOf());
     }
 
-    public static <T extends UpgradeTooltipsProvider> UpgradeDataComponentType<List<ConditionEffect<T>>> createConditional(Codec<T> elementCodec, LootContextParamSet params)
+    public static <T extends UpgradeTooltipsProvider> UpgradeDataComponentType<List<ConditionEffect<T>>> createConditional(Codec<T> elementCodec, ContextKeySet params)
     {
         return new ConditionalListType<>(ConditionEffect.codec(elementCodec, params).listOf());
     }
 
+    // Class def
+    private final Codec<T> codec;
+    private final StreamCodec<RegistryFriendlyByteBuf, T> streamCodec;
+
     private UpgradeDataComponentType(Codec<T> codec)
     {
-        super(codec);
+        this.codec = codec;
+        this.streamCodec = ByteBufCodecs.fromCodecWithRegistries(codec);
+    }
+
+    @Override
+    public Codec<T> codec()
+    {
+        return codec;
+    }
+
+    @Override
+    public StreamCodec<? super RegistryFriendlyByteBuf, T> streamCodec()
+    {
+        return streamCodec;
+    }
+
+    @Override
+    public boolean ignoreSwapAnimation()
+    {
+        return true;
     }
 
     public abstract void appendTooltipLines(T data, int upgradeRank, Consumer<Component> lines);

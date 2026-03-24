@@ -2,61 +2,78 @@ package liedge.ltxindustries.client.renderer.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import liedge.limacore.client.LimaBlockEntityRenderer;
-import liedge.limacore.client.LimaCoreClientUtil;
-import liedge.limacore.client.model.baked.BakedItemLayer;
-import liedge.limacore.client.model.baked.ItemLayerBakedModel;
 import liedge.ltxindustries.blockentity.turret.TurretBlockEntity;
 import liedge.ltxindustries.blockentity.turret.TurretState;
-import net.minecraft.client.renderer.MultiBufferSource;
+import liedge.ltxindustries.client.model.LayeredModelPart;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.world.level.ItemLike;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.client.model.standalone.StandaloneModelKey;
+import org.jspecify.annotations.Nullable;
 
-public abstract class TurretRenderer<BE extends TurretBlockEntity> extends LimaBlockEntityRenderer<BE>
+public abstract class TurretRenderer<BE extends TurretBlockEntity> implements BlockEntityRenderer<BE, TurretRenderState>
 {
-    private final BakedItemLayer swivelBase;
-    private final BakedItemLayer swivelEmissive;
-    private final BakedItemLayer weaponBase;
-    private final BakedItemLayer weaponEmissive;
+    private final LayeredModelPart swivelModel;
+    private final LayeredModelPart weaponsModel;
 
-    protected TurretRenderer(BlockEntityRendererProvider.Context context)
+    TurretRenderer(BlockEntityRendererProvider.Context context, StandaloneModelKey<LayeredModelPart> swivelKey, StandaloneModelKey<LayeredModelPart> weaponsKey)
     {
-        super(context);
+        ModelManager models = context.blockRenderDispatcher().getBlockModelShaper().getModelManager();
 
-        ItemLayerBakedModel model = LimaCoreClientUtil.getCustomBakedModel(LimaCoreClientUtil.inventoryModelPath(getModelItem()), ItemLayerBakedModel.class);
-        this.swivelBase = model.getLayer("swivel");
-        this.swivelEmissive = model.getLayer("swivel lights");
-        this.weaponBase = model.getLayer("weapon");
-        this.weaponEmissive = model.getLayer("weapon lights");
+        this.swivelModel = LayeredModelPart.get(models, swivelKey);
+        this.weaponsModel = LayeredModelPart.get(models, weaponsKey);
     }
 
-    protected abstract ItemLike getModelItem();
+    protected void submitSwivel(TurretRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState)
+    {
+        swivelModel.render(poseStack, nodeCollector, renderState.lightCoords);
+    }
 
-    protected abstract double gunsYPivot();
+    protected void submitWeapons(TurretRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState)
+    {
+        weaponsModel.render(poseStack, nodeCollector, renderState.lightCoords);
+    }
 
-    protected void renderAdditionalGuns(BE blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {}
+    protected abstract float yPivot();
 
     @Override
-    public void render(BE blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay)
+    public TurretRenderState createRenderState()
     {
-        // Render the guns
+        return new TurretRenderState();
+    }
+
+    @Override
+    public void extractRenderState(BE blockEntity, TurretRenderState renderState, float partialTick, Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress)
+    {
+        BlockEntityRenderer.super.extractRenderState(blockEntity, renderState, partialTick, cameraPosition, breakProgress);
+
+        renderState.xRot = blockEntity.lerpXRot(partialTick);
+        renderState.yRot = blockEntity.lerpYRot(partialTick);
+        renderState.lookingAtTarget = blockEntity.isLookingAtTarget();
+        renderState.targetDistance = blockEntity.getTargetDistance();
+    }
+
+    @Override
+    public void submit(TurretRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState)
+    {
         poseStack.pushPose();
 
-        poseStack.translate(0.5d, 0, 0.5d);
-        poseStack.mulPose(Axis.YP.rotationDegrees(blockEntity.lerpYRot(partialTick)));
-        poseStack.translate(-0.5d, 0, -0.5d);
+        poseStack.translate(0.5f, 0, 0.5f);
+        poseStack.mulPose(Axis.YP.rotationDegrees(renderState.yRot));
+        poseStack.translate(-0.5f, 0, -0.5f);
 
-        swivelBase.putQuadsInBuffer(poseStack, bufferSource, packedLight);
-        swivelEmissive.putQuadsInBuffer(poseStack, bufferSource, packedLight);
+        submitSwivel(renderState, poseStack, nodeCollector, cameraRenderState);
 
-        poseStack.translate(0.5d, gunsYPivot(), 0.5d);
-        poseStack.mulPose(Axis.XP.rotationDegrees(blockEntity.lerpXRot(partialTick)));
-        poseStack.translate(-0.5d, -gunsYPivot(), -0.5d);
+        poseStack.translate(0.5f, yPivot(), 0.5f);
+        poseStack.mulPose(Axis.XP.rotationDegrees(createRenderState().xRot));
+        poseStack.translate(-0.5f, -yPivot(), -0.5f);
 
-        weaponBase.putQuadsInBuffer(poseStack, bufferSource, packedLight);
-        weaponEmissive.putQuadsInBuffer(poseStack, bufferSource, packedLight);
-        renderAdditionalGuns(blockEntity, partialTick, poseStack, bufferSource, packedLight);
+        submitWeapons(renderState, poseStack, nodeCollector, cameraRenderState);
 
         poseStack.popPose();
     }
@@ -68,7 +85,7 @@ public abstract class TurretRenderer<BE extends TurretBlockEntity> extends LimaB
     }
 
     @Override
-    public boolean shouldRenderOffScreen(BE blockEntity)
+    public boolean shouldRenderOffScreen()
     {
         return true;
     }

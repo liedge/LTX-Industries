@@ -73,7 +73,7 @@ public class EnergyShovelItem extends ModularEnergyMiningItem
                 if (player != null) consumeEnergyAction(player, stack);
             }
 
-            return InteractionResult.sidedSuccess(level.isClientSide());
+            return InteractionResult.SUCCESS;
         }
 
         return InteractionResult.PASS;

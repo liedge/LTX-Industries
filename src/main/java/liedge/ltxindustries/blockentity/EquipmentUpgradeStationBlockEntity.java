@@ -3,36 +3,35 @@ package liedge.ltxindustries.blockentity;
 import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.blockentity.IOAccess;
 import liedge.limacore.blockentity.LimaBlockEntity;
-import liedge.limacore.capability.itemhandler.ItemHolderBlockEntity;
-import liedge.limacore.capability.itemhandler.LimaBlockEntityItemHandler;
 import liedge.limacore.network.sync.AutomaticDataWatcher;
+import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
+import liedge.limacore.transfer.item.ItemHolderBlockEntity;
+import liedge.limacore.transfer.item.LimaBlockEntityItems;
 import liedge.ltxindustries.item.EquipmentUpgradeModuleItem;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
 import liedge.ltxindustries.registry.game.LTXIBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.items.IItemHandler;
-import org.jetbrains.annotations.Nullable;
-
-import static liedge.limacore.LimaCommonConstants.KEY_ITEM_CONTAINER;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import org.jspecify.annotations.Nullable;
 
 public class EquipmentUpgradeStationBlockEntity extends LimaBlockEntity implements ItemHolderBlockEntity
 {
     public static final int EQUIPMENT_ITEM_SLOT = 0;
     public static final int UPGRADE_MODULE_SLOT = 1;
 
-    private final LimaBlockEntityItemHandler inventory;
+    private final LimaBlockEntityItems inventory;
 
     private ItemStack previewItem = ItemStack.EMPTY;
 
     public EquipmentUpgradeStationBlockEntity(BlockPos pos, BlockState state)
     {
         super(LTXIBlockEntities.EQUIPMENT_UPGRADE_STATION.get(), pos, state);
-        this.inventory = new LimaBlockEntityItemHandler(this, 2, BlockContentsType.GENERAL);
+        this.inventory = new LimaBlockEntityItems(this, BlockContentsType.GENERAL, 2);
     }
 
     public ItemStack getPreviewItem()
@@ -43,50 +42,44 @@ public class EquipmentUpgradeStationBlockEntity extends LimaBlockEntity implemen
     @Override
     public void defineDataWatchers(DataWatcherCollector collector)
     {
-        collector.register(AutomaticDataWatcher.keepItemSynced(() -> inventory.getStackInSlot(EQUIPMENT_ITEM_SLOT), stack -> this.previewItem = stack));
+        collector.register(AutomaticDataWatcher.keepSynced(LimaCoreNetworkSerializers.ITEM_RESOURCE, () -> inventory.getResource(EQUIPMENT_ITEM_SLOT), resource -> this.previewItem = resource.toStack()));
     }
 
     @Override
-    public @Nullable LimaBlockEntityItemHandler getItemHandler(BlockContentsType contentsType)
+    public @Nullable LimaBlockEntityItems getItems(BlockContentsType contentsType)
     {
         return contentsType == BlockContentsType.GENERAL ? inventory : null;
     }
 
     @Override
-    public boolean isItemValid(BlockContentsType contentsType, int slot, ItemStack stack)
+    public IOAccess getTopLevelItemIO(@Nullable Direction side)
+    {
+        return IOAccess.DISABLED;
+    }
+
+    @Override
+    public boolean isItemValid(BlockContentsType contentsType, int index, ItemResource resource)
     {
         if (contentsType == BlockContentsType.GENERAL)
         {
-            if (slot == EQUIPMENT_ITEM_SLOT) return stack.getItem() instanceof UpgradableEquipmentItem; // All upgradeable equipment
-            else return stack.getItem() instanceof EquipmentUpgradeModuleItem;
+            if (index == EQUIPMENT_ITEM_SLOT) return resource.getItem() instanceof UpgradableEquipmentItem;
+            else return resource.getItem() instanceof EquipmentUpgradeModuleItem;
         }
 
         return true;
     }
 
     @Override
-    public IOAccess getSideIOForItems(@Nullable Direction side)
+    protected void loadAdditional(ValueInput input)
     {
-        return IOAccess.DISABLED;
+        super.loadAdditional(input);
+        inventory.deserialize(input);
     }
 
     @Override
-    public @Nullable IItemHandler createItemIOWrapper(@Nullable Direction side)
+    protected void saveAdditional(ValueOutput output)
     {
-        return null;
-    }
-
-    @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries)
-    {
-        super.loadAdditional(tag, registries);
-        inventory.deserializeNBT(registries, tag.getCompound(KEY_ITEM_CONTAINER));
-    }
-
-    @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries)
-    {
-        super.saveAdditional(tag, registries);
-        tag.put(KEY_ITEM_CONTAINER, inventory.serializeNBT(registries));
+        super.saveAdditional(output);
+        inventory.serialize(output);
     }
 }

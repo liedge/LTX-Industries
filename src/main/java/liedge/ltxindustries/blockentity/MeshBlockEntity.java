@@ -1,7 +1,7 @@
 package liedge.ltxindustries.blockentity;
 
+import com.mojang.logging.LogUtils;
 import liedge.limacore.blockentity.LimaBlockEntity;
-import liedge.limacore.util.LimaNbtUtil;
 import liedge.ltxindustries.block.mesh.BlockMesh;
 import liedge.ltxindustries.block.mesh.LTXIBlockMeshes;
 import liedge.ltxindustries.block.mesh.MeshPosition;
@@ -10,15 +10,22 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
+import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.storage.TagValueOutput;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
 
 public final class MeshBlockEntity extends LimaBlockEntity
 {
+    private static final Logger LOGGER = LogUtils.getLogger();
+
     @Nullable
-    private ResourceLocation meshId;
+    private Identifier meshId;
     @Nullable
     private BlockMesh blockMesh;
 
@@ -89,40 +96,47 @@ public final class MeshBlockEntity extends LimaBlockEntity
     @Override
     public CompoundTag getUpdateTag(HolderLookup.Provider registries)
     {
-        CompoundTag tag = new CompoundTag();
-        saveMesh(tag);
+        CompoundTag tag;
+
+        try (ProblemReporter.ScopedCollector reporter = new ProblemReporter.ScopedCollector(problemPath(), LOGGER))
+        {
+            TagValueOutput output = TagValueOutput.createWithContext(reporter, registries);
+            saveMesh(output);
+            tag = output.buildResult();
+        }
+
         return tag;
     }
 
     @Override
-    public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider lookupProvider)
+    public void handleUpdateTag(ValueInput input)
     {
-        loadMesh(tag);
+        loadMesh(input);
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries)
+    protected void loadAdditional(ValueInput input)
     {
-        super.loadAdditional(tag, registries);
-        loadMesh(tag);
+        super.loadAdditional(input);
+        loadMesh(input);
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries)
+    protected void saveAdditional(ValueOutput output)
     {
-        super.saveAdditional(tag, registries);
-        saveMesh(tag);
+        super.saveAdditional(output);
+        saveMesh(output);
     }
 
-    private void loadMesh(CompoundTag tag)
+    private void loadMesh(ValueInput input)
     {
-        this.meshId = LimaNbtUtil.getOptionalResourceLocation(tag, "mesh");
-        this.meshIndex = LimaNbtUtil.getAsInt(tag, "index", -1);
+        this.meshId = input.read("mesh", Identifier.CODEC).orElse(null);
+        this.meshIndex = input.getIntOr("index", -1);
     }
 
-    private void saveMesh(CompoundTag tag)
+    private void saveMesh(ValueOutput output)
     {
-        LimaNbtUtil.putOptionalResourceLocation(tag, "mesh", meshId);
-        tag.putInt("index", meshIndex);
+        output.storeNullable("mesh", Identifier.CODEC, meshId);
+        output.putInt("index", meshIndex);
     }
 }

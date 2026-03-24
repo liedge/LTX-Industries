@@ -1,40 +1,30 @@
 package liedge.ltxindustries.client.model.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import liedge.ltxindustries.entity.GlowstickProjectileEntity;
-import net.minecraft.client.model.geom.EntityModelSet;
+import liedge.ltxindustries.client.renderer.entity.ProjectileRenderState;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.client.renderer.LightTexture;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 
-public class GlowstickProjectileModel extends ProjectileModel<GlowstickProjectileEntity>
+public class GlowstickProjectileModel extends ProjectileModel
 {
 	private final ModelPart stick;
 
-	public GlowstickProjectileModel(EntityModelSet modelSet)
+	public GlowstickProjectileModel(ModelPart root)
 	{
-		super(RenderType::entitySolid);
-
-		ModelPart root = modelSet.bakeLayer(LTXIModelLayers.GLOWSTICK_PROJECTILE);
+		super(root, RenderTypes::entitySolid);
 		this.stick = root.getChild("stick");
 	}
 
 	@Override
-	public void prepare(GlowstickProjectileEntity entity, float partialTick)
+	public void submitParts(ProjectileRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, Identifier texture)
 	{
-		rotatePart(entity, stick);
-	}
-
-	@Override
-	public void render(PoseStack poseStack, MultiBufferSource bufferSource, ResourceLocation texture, int packedLight, int color)
-	{
-		stick.render(poseStack, bufferSource.getBuffer(renderType(texture)), LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY);
+		nodeCollector.submitModelPart(stick, poseStack, renderType(texture), renderState.lightCoords, OverlayTexture.NO_OVERLAY, null);
 	}
 
 	public static LayerDefinition defineLayer()

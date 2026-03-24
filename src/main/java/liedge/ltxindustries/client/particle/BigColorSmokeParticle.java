@@ -1,36 +1,24 @@
 package liedge.ltxindustries.client.particle;
 
-import liedge.limacore.client.particle.LimaParticleUtil;
-import liedge.limacore.lib.LimaColor;
+import liedge.limacore.client.LimaCoreClientUtil;
 import liedge.ltxindustries.LTXIConstants;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.CampfireSmokeParticle;
 import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.util.RandomSource;
 
 public class BigColorSmokeParticle extends CampfireSmokeParticle
 {
-    public static Particle neuroSmokeParticle(SimpleParticleType particleType, ClientLevel level, SpriteSet spriteSet, double x, double y, double z, double dx, double dy, double dz)
+    private BigColorSmokeParticle(ClientLevel level, TextureAtlasSprite sprite, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed)
     {
-        BigColorSmokeParticle particle = new BigColorSmokeParticle(level, spriteSet, LTXIConstants.NEURO_BLUE, 1f, x, y, z, dx, dy, dz);
-        float size = 8f + particle.random.nextFloat() * 6f;
-        particle.lifetime = 30 + particle.random.nextInt(20);
-        particle.quadSize *= size;
-        return particle;
-    }
-
-    private BigColorSmokeParticle(ClientLevel level, SpriteSet spriteSet, LimaColor color, float size, double x, double y, double z, double dx, double dy, double dz)
-    {
-        super(level, x, y, z, dx, dy, dz, false);
-        float originalSize = quadSize / 3f;
-        this.quadSize = originalSize * size;
+        super(level, x, y, z, xSpeed, ySpeed, zSpeed, false, sprite);
         this.friction = 0.96f;
-        this.lifetime = 60 + random.nextInt(40);
-        LimaParticleUtil.setColor(this, color);
-        setAlpha(0.9f);
-        pickSprite(spriteSet);
+        this.alpha = 0.9f;
     }
 
     @Override
@@ -64,5 +52,26 @@ public class BigColorSmokeParticle extends CampfireSmokeParticle
     protected int getLightColor(float partialTick)
     {
         return LightTexture.FULL_BRIGHT;
+    }
+
+    public static final class NeuroSmokeProvider implements ParticleProvider<SimpleParticleType>
+    {
+        private final SpriteSet sprites;
+
+        public NeuroSmokeProvider(SpriteSet sprites)
+        {
+            this.sprites = sprites;
+        }
+
+        @Override
+        public Particle createParticle(SimpleParticleType particleType, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, RandomSource random)
+        {
+            BigColorSmokeParticle particle = new BigColorSmokeParticle(level, sprites.get(random), x, y, z, xSpeed, ySpeed, zSpeed);
+            particle.lifetime = 30 + random.nextInt(20);
+            particle.quadSize *= 8f + random.nextFloat() * 6f;
+            LimaCoreClientUtil.setQuadParticleColor(particle, LTXIConstants.NEURO_BLUE);
+
+            return particle;
+        }
     }
 }

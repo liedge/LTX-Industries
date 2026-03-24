@@ -1,7 +1,6 @@
 package liedge.ltxindustries.item.tool;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import liedge.limacore.capability.energy.LimaEnergyUtil;
 import liedge.limacore.util.LimaNetworkUtil;
 import liedge.ltxindustries.item.ScrollModeSwitchItem;
 import liedge.ltxindustries.lib.upgrades.effect.ModularTool;
@@ -11,8 +10,10 @@ import liedge.ltxindustries.registry.game.LTXIDataComponents;
 import liedge.ltxindustries.registry.game.LTXIParticles;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
@@ -37,12 +38,24 @@ import java.util.Optional;
 
 public abstract class ModularEnergyMiningItem extends BaseEnergyMiningItem implements ScrollModeSwitchItem
 {
+    private static Tool.Rule createDenyRule(TagKey<Block> tagKey)
+    {
+        HolderSet<Block> deniedSet = BuiltInRegistries.acquireBootstrapRegistrationLookup(BuiltInRegistries.BLOCK).getOrThrow(tagKey);
+        return Tool.Rule.deniesDrops(deniedSet);
+    }
+
+    private static List<Tool.Rule> createAllowRules(List<TagKey<Block>> tags)
+    {
+        HolderGetter<Block> holders = BuiltInRegistries.acquireBootstrapRegistrationLookup(BuiltInRegistries.BLOCK);
+        return tags.stream().map(tag -> Tool.Rule.minesAndDrops(holders.getOrThrow(tag), 1f)).toList();
+    }
+
     private static Tool createDefaultTool(Tool.Rule denyRule, List<Tool.Rule> allowRules)
     {
         List<Tool.Rule> rules = new ObjectArrayList<>(allowRules.size() + 1);
         rules.add(denyRule);
         rules.addAll(allowRules);
-        return new Tool(rules, 1f, 1);
+        return new Tool(rules, 1f, 1, true);
     }
 
     private final Tool.Rule defaultDenyRule;
@@ -60,8 +73,7 @@ public abstract class ModularEnergyMiningItem extends BaseEnergyMiningItem imple
 
     protected ModularEnergyMiningItem(Properties properties, float poweredAttackDamage, float attackSpeed, List<TagKey<Block>> tags)
     {
-        this(properties, poweredAttackDamage, attackSpeed, Tool.Rule.deniesDrops(BlockTags.INCORRECT_FOR_DIAMOND_TOOL),
-                tags.stream().map(key -> Tool.Rule.minesAndDrops(key, 1f)).toList());
+        this(properties, poweredAttackDamage, attackSpeed, createDenyRule(BlockTags.INCORRECT_FOR_DIAMOND_TOOL), createAllowRules(tags));
     }
 
     public ToolSpeed getToolSpeed(ItemStack stack)
@@ -94,7 +106,7 @@ public abstract class ModularEnergyMiningItem extends BaseEnergyMiningItem imple
 
             if (!player.isCreative())
             {
-                LimaEnergyUtil.extractWithoutLimit(getOrCreateEnergyStorage(stack), getEnergyUsage(stack) * veinOps, false);
+                consumeEnergyActions(player, stack, veinOps);
             }
         }
 
@@ -102,9 +114,10 @@ public abstract class ModularEnergyMiningItem extends BaseEnergyMiningItem imple
     }
 
     @Override
-    public boolean canAttackBlock(BlockState state, Level level, BlockPos pos, Player player)
+    public boolean canDestroyBlock(ItemStack stack, BlockState state, Level level, BlockPos pos, LivingEntity entity)
     {
-        return getToolSpeed(player.getMainHandItem()) != ToolSpeed.OFF;
+        if (getToolSpeed(entity.getMainHandItem()) == ToolSpeed.OFF) return false;
+        return super.canDestroyBlock(stack, state, level, pos, entity);
     }
 
     @Override
@@ -144,7 +157,7 @@ public abstract class ModularEnergyMiningItem extends BaseEnergyMiningItem imple
             data.effective().ifPresent(effectiveSets::add);
         }
 
-        stack.set(DataComponents.TOOL, new Tool(createRules(denySet, effectiveSets), 1f, 1));
+        stack.set(DataComponents.TOOL, new Tool(createRules(denySet, effectiveSets), 1f, 1, true));
     }
 
     private List<Tool.Rule> createRules(@Nullable HolderSet<Block> denySet, Collection<HolderSet<Block>> effectiveSets)

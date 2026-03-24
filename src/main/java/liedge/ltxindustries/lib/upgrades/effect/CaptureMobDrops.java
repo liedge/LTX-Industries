@@ -1,6 +1,7 @@
 package liedge.ltxindustries.lib.upgrades.effect;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.lib.upgrades.tooltip.UpgradeTooltipsProvider;
@@ -12,7 +13,7 @@ public enum CaptureMobDrops implements UpgradeTooltipsProvider
 {
     INSTANCE;
 
-    public static final Codec<CaptureMobDrops> CODEC = Codec.unit(INSTANCE);
+    public static final Codec<CaptureMobDrops> CODEC = MapCodec.unitCodec(INSTANCE);
 
     @Override
     public void addUpgradeTooltips(int upgradeRank, Consumer<Component> lines)

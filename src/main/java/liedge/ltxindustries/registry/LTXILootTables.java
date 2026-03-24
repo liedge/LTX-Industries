@@ -14,6 +14,8 @@ public final class LTXILootTables
         return LTXIndustries.RESOURCES.resourceKey(Registries.LOOT_TABLE, path);
     }
 
+    public static final ResourceKey<LootTable> BILEVINE_HARVEST = key("harvest/bilevine");
+
     // Entity extra drops
     public static final ResourceKey<LootTable> ENEMY_AMMO_DROPS = key("entity/enemy_ammo_drops");
     public static final ResourceKey<LootTable> ENTITY_EXTRA_DROPS = key("entity/extra_drops");

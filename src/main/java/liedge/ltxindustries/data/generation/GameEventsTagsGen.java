@@ -6,7 +6,6 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -19,9 +18,9 @@ import static net.minecraft.world.level.gameevent.GameEvent.*;
 
 class GameEventsTagsGen extends LimaTagsProvider.RegistryTags<GameEvent>
 {
-    GameEventsTagsGen(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookupProvider, ExistingFileHelper helper)
+    GameEventsTagsGen(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries)
     {
-        super(packOutput, BuiltInRegistries.GAME_EVENT, LTXIndustries.MODID, lookupProvider, helper);
+        super(packOutput, BuiltInRegistries.GAME_EVENT, LTXIndustries.MODID, registries);
     }
 
     @Override

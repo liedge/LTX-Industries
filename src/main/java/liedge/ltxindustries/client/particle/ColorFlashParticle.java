@@ -1,31 +1,34 @@
 package liedge.ltxindustries.client.particle;
 
-import com.mojang.blaze3d.vertex.VertexConsumer;
+import liedge.limacore.client.LimaCoreClientUtil;
 import liedge.limacore.client.particle.ColorSizeParticleOptions;
-import liedge.limacore.client.particle.LimaParticleUtil;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraft.client.particle.TextureSheetParticle;
+import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.client.particle.SingleQuadParticle;
+import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.client.renderer.state.QuadParticleRenderState;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 
-public class ColorFlashParticle extends TextureSheetParticle
+public class ColorFlashParticle extends SingleQuadParticle
 {
     private final float flashSize;
 
-    public ColorFlashParticle(ColorSizeParticleOptions options, ClientLevel level, double x, double y, double z, double dx, double dy, double dz)
+    private ColorFlashParticle(ClientLevel level, double x, double y, double z, TextureAtlasSprite sprite, float flashSize)
     {
-        super(level, x, y, z);
-        LimaParticleUtil.setColor(this, options.color());
-        this.flashSize = options.size();
+        super(level, x, y, z, sprite);
+        this.flashSize = flashSize;
         this.lifetime = 4;
     }
 
     @Override
-    public ParticleRenderType getRenderType()
+    protected Layer getLayer()
     {
-        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
+        return Layer.TRANSLUCENT;
     }
 
     @Override
@@ -35,15 +38,35 @@ public class ColorFlashParticle extends TextureSheetParticle
     }
 
     @Override
-    public void render(VertexConsumer buffer, Camera renderInfo, float partialTicks)
+    public void extract(QuadParticleRenderState reusedState, Camera camera, float partialTick)
     {
-        setAlpha(0.75f - (age + partialTicks - 1f) * 0.11666f);
-        super.render(buffer, renderInfo, partialTicks);
+        setAlpha(0.75f - (age + partialTick - 1f) * 0.11666f);
+        super.extract(reusedState, camera, partialTick);
     }
 
     @Override
     public float getQuadSize(float partialTicks)
     {
         return flashSize * Mth.sin((age + partialTicks - 1f) * 0.25f * Mth.PI);
+    }
+
+    public static final class Provider implements ParticleProvider<ColorSizeParticleOptions>
+    {
+        private final SpriteSet sprites;
+
+        public Provider(SpriteSet sprites)
+        {
+            this.sprites = sprites;
+        }
+
+        @Override
+        public Particle createParticle(ColorSizeParticleOptions particleType, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, RandomSource random)
+        {
+            TextureAtlasSprite sprite = sprites.get(random);
+            ColorFlashParticle particle = new ColorFlashParticle(level, x, y, z, sprite, particleType.size());
+            LimaCoreClientUtil.setQuadParticleColor(particle, particleType.color());
+
+            return particle;
+        }
     }
 }

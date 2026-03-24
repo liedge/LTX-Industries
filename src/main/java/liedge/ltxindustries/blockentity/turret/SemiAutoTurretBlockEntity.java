@@ -24,7 +24,7 @@ public abstract class SemiAutoTurretBlockEntity extends TurretBlockEntity
         Entity currentTarget = getTarget();
         if (targetStillValid(currentTarget))
         {
-            if (consumeUsageEnergy(true))
+            if (consumeUsageEnergy())
             {
                 attackTarget(level, pos, state, owner, currentTarget);
                 setTurretState(TurretState.COOLDOWN);

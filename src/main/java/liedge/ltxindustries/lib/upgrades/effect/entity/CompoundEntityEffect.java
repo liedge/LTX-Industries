@@ -4,9 +4,9 @@ import com.mojang.serialization.MapCodec;
 import liedge.ltxindustries.lib.upgrades.UpgradedEquipmentInUse;
 import liedge.ltxindustries.registry.game.LTXIEntityUpgradeEffects;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.context.ContextKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.storage.loot.LootContext;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParam;
 
 import java.util.List;
 import java.util.Set;
@@ -37,7 +37,7 @@ public record CompoundEntityEffect(List<EntityUpgradeEffect> effects) implements
     }
 
     @Override
-    public Set<LootContextParam<?>> getReferencedContextParams()
+    public Set<ContextKey<?>> getReferencedContextParams()
     {
         return effects.stream().flatMap(e -> e.getReferencedContextParams().stream()).collect(Collectors.toSet());
     }

@@ -64,7 +64,7 @@ public class RocketTurretBlockEntity extends SemiAutoTurretBlockEntity
         rocket.setOwner(owner);
         rocket.setPos(traceStart);
         rocket.aimAtEntity(target, 2.5d);
-        rocket.hasImpulse = true;
+        rocket.needsSync = true;
         rocket.setTargetEntity(target);
         level.addFreshEntity(rocket);
         level.playSound(null, traceStart.x, traceStart.y, traceStart.z, LTXISounds.ROCKET_LAUNCHER_FIRE, SoundSource.BLOCKS, 1.5f, Mth.randomBetween(level.getRandom(), 0.75f, 0.9f));

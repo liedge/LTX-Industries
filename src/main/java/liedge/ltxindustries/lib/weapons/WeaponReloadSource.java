@@ -2,10 +2,10 @@ package liedge.ltxindustries.lib.weapons;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
-import liedge.limacore.capability.energy.LimaEnergyUtil;
 import liedge.limacore.data.LimaEnumCodec;
 import liedge.limacore.lib.LimaColor;
 import liedge.limacore.lib.Translatable;
+import liedge.limacore.transfer.LimaEnergyUtil;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.item.weapon.WeaponItem;
@@ -22,12 +22,11 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.network.codec.NeoForgeStreamCodecs;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.energy.EnergyHandler;
 
 import java.util.function.Consumer;
-import java.util.stream.Stream;
 
 public interface WeaponReloadSource extends UpgradeTooltipsProvider
 {
@@ -68,27 +67,46 @@ public interface WeaponReloadSource extends UpgradeTooltipsProvider
 
     record ItemSource(Holder<Item> reloadItem) implements WeaponReloadSource
     {
-        private static final MapCodec<ItemSource> CODEC = ItemStack.ITEM_NON_AIR_CODEC.fieldOf("item").xmap(ItemSource::new, ItemSource::reloadItem);
+        private static final MapCodec<ItemSource> CODEC = Item.CODEC.fieldOf("item").xmap(ItemSource::new, ItemSource::reloadItem);
         private static final StreamCodec<RegistryFriendlyByteBuf, ItemSource> STREAM_CODEC = ByteBufCodecs.holderRegistry(Registries.ITEM).map(ItemSource::new, ItemSource::reloadItem);
 
         @Override
         public boolean canReload(ItemStack heldItem, Player player, WeaponItem weaponItem)
         {
             Inventory inventory = player.getInventory();
-            return Stream.concat(inventory.items.stream(), inventory.offhand.stream()).anyMatch(stack -> stack.is(reloadItem));
+            boolean match = inventory.getNonEquipmentItems().stream().anyMatch(stack -> stack.is(reloadItem));
+            if (match)
+            {
+                return true;
+            }
+            else
+            {
+                return inventory.getItem(Inventory.SLOT_OFFHAND).is(reloadItem);
+            }
         }
 
         @Override
         public boolean performReload(ItemStack heldItem, Player player, WeaponItem weaponItem)
         {
-            for (int i = 0; i < player.getInventory().getContainerSize(); i++)
+            Inventory inventory = player.getInventory();
+            int slots = inventory.getNonEquipmentItems().size();
+
+            // Try reload with main inventory
+            for (int i = 0; i < slots; i++)
             {
-                ItemStack invItem = player.getInventory().getItem(i);
-                if (invItem.is(reloadItem))
+                ItemStack stack = inventory.getItem(i);
+                if (stack.is(reloadItem))
                 {
-                    player.getInventory().removeItem(i, 1);
+                    inventory.removeItem(i, 1);
                     return true;
                 }
+            }
+
+            // Fall back to offhand
+            if (inventory.getItem(Inventory.SLOT_OFFHAND).is(reloadItem))
+            {
+                inventory.removeItem(Inventory.SLOT_OFFHAND, 1);
+                return true;
             }
 
             return false;
@@ -114,7 +132,7 @@ public interface WeaponReloadSource extends UpgradeTooltipsProvider
 
         private Component itemNameTooltip()
         {
-            return reloadItem.value().getDescription().copy().withStyle(getType().color.chatStyle());
+            return reloadItem.value().getName().copy().withStyle(getType().color.chatStyle());
         }
     }
 
@@ -131,8 +149,15 @@ public interface WeaponReloadSource extends UpgradeTooltipsProvider
         @Override
         public boolean performReload(ItemStack heldItem, Player player, WeaponItem weaponItem)
         {
-            IEnergyStorage weaponEnergy = heldItem.getCapability(Capabilities.EnergyStorage.ITEM);
-            return weaponEnergy != null && LimaEnergyUtil.consumeEnergy(weaponEnergy, weaponItem.getEnergyUsage(heldItem), true);
+            if (weaponItem.supportsEnergyStorage(heldItem))
+            {
+                ItemAccess access = ItemAccess.forStack(heldItem);
+                EnergyHandler energy = weaponItem.getNoLimitEnergy(heldItem, access);
+
+                return LimaEnergyUtil.useExact(energy, weaponItem.getEnergyUsage(heldItem), null);
+            }
+
+            return false;
         }
 
         @Override

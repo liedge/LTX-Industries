@@ -2,12 +2,11 @@ package liedge.ltxindustries.integration.jei;
 
 import liedge.limacore.client.gui.LimaGuiUtil;
 import liedge.limacore.util.LimaRegistryUtil;
-import mezz.jei.api.gui.builder.ITooltipBuilder;
 import mezz.jei.api.ingredients.IIngredientRenderer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.TooltipFlag;
 import net.neoforged.neoforge.fluids.FluidStack;
 
@@ -32,21 +31,18 @@ final class FluidWithoutCountRenderer implements IIngredientRenderer<FluidStack>
     }
 
     @Override
-    public void getTooltip(ITooltipBuilder tooltip, FluidStack ingredient, TooltipFlag tooltipFlag)
+    public List<Component> getTooltip(FluidStack ingredient, TooltipFlag tooltipFlag)
     {
-        tooltip.add(ingredient.getHoverName());
+        Component name = ingredient.getHoverName();
 
         if (tooltipFlag.isAdvanced())
         {
-            ResourceLocation id = LimaRegistryUtil.getNonNullRegistryId(ingredient.getFluidHolder());
-            tooltip.add(Component.literal(id.toString()).withStyle(ChatFormatting.DARK_GRAY));
+            Identifier id = LimaRegistryUtil.getNonNullRegistryId(ingredient.getFluidHolder());
+            return List.of(name, Component.literal(id.toString()).withStyle(ChatFormatting.DARK_GRAY));
         }
-    }
-
-    @SuppressWarnings("removal")
-    @Override
-    public List<Component> getTooltip(FluidStack ingredient, TooltipFlag tooltipFlag)
-    {
-        return List.of();
+        else
+        {
+            return List.of(name);
+        }
     }
 }

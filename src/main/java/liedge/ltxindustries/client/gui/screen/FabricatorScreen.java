@@ -1,23 +1,30 @@
 package liedge.ltxindustries.client.gui.screen;
 
-import liedge.limacore.capability.energy.LimaEnergyUtil;
+import com.mojang.blaze3d.platform.InputConstants;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
+import liedge.limacore.transfer.LimaEnergyUtil;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.blockentity.BaseFabricatorBlockEntity;
+import liedge.ltxindustries.client.LTXIClientRecipes;
 import liedge.ltxindustries.client.gui.widget.BaseScrollGridRenderable;
 import liedge.ltxindustries.client.gui.widget.FabricatorProgressWidget;
 import liedge.ltxindustries.client.gui.widget.ScrollbarWidget;
 import liedge.ltxindustries.menu.FabricatorMenu;
 import liedge.ltxindustries.menu.layout.LayoutSlot;
 import liedge.ltxindustries.recipe.FabricatingRecipe;
+import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
@@ -31,7 +38,7 @@ import static liedge.ltxindustries.client.LTXILangKeys.INLINE_ENERGY_REQUIRED_TO
 
 public class FabricatorScreen extends LTXIMachineScreen<FabricatorMenu>
 {
-    private static final ResourceLocation BLUEPRINT_SLOT_SPRITE = RESOURCES.location("slot/blank_blueprint");
+    private static final Identifier BLUEPRINT_SLOT_SPRITE = RESOURCES.id("slot/blank_blueprint");
 
     private final List<RecipeHolder<FabricatingRecipe>> recipes;
 
@@ -43,7 +50,7 @@ public class FabricatorScreen extends LTXIMachineScreen<FabricatorMenu>
         super(menu, inventory, title, 190, 200);
 
         // Read recipes
-        this.recipes = FabricatingRecipe.getSortedRecipes(inventory.player.level());
+        this.recipes = LTXIClientRecipes.getSortedFabricatingRecipes();
 
         // Screen setup
         this.inventoryLabelX = 14;
@@ -98,14 +105,14 @@ public class FabricatorScreen extends LTXIMachineScreen<FabricatorMenu>
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int mouseButton)
+    public boolean mouseClicked(MouseButtonEvent event, boolean isDoubleClick)
     {
-        if (menu.getCarried().isEmpty() && (mouseButton == GLFW.GLFW_MOUSE_BUTTON_LEFT || mouseButton == GLFW.GLFW_MOUSE_BUTTON_RIGHT) && selectorGrid != null)
+        if (menu.getCarried().isEmpty() && (event.button() == InputConstants.MOUSE_BUTTON_LEFT || event.button() == InputConstants.MOUSE_BUTTON_RIGHT) && selectorGrid != null)
         {
-            if (selectorGrid.onGridClicked(mouseX, mouseY, mouseButton)) return true;
+            if (selectorGrid.onGridClicked(event.x(), event.y(), event.button())) return true;
         }
 
-        return super.mouseClicked(mouseX, mouseY, mouseButton);
+        return super.mouseClicked(event, isDoubleClick);
     }
 
     private static class SelectorGrid extends BaseScrollGridRenderable.FixedElements<RecipeHolder<FabricatingRecipe>>
@@ -129,13 +136,22 @@ public class FabricatorScreen extends LTXIMachineScreen<FabricatorMenu>
             this.selectedRecipe = -1;
         }
 
+        private boolean gridRecipeMatches(FabricatingRecipe gridRecipe)
+        {
+            ResourceKey<Recipe<?>> key = blockEntity.getRecipeCheck().getLastUsedRecipeKey();
+            RecipeHolder<FabricatingRecipe> holder = LTXIClientRecipes.byKey(LTXIRecipeTypes.FABRICATING, key);
+
+            return holder != null && holder.value() == gridRecipe;
+        }
+
         @Override
         public void renderElement(GuiGraphics graphics, RecipeHolder<FabricatingRecipe> element, int posX, int posY, int gridIndex, int elementIndex, int mouseX, int mouseY)
         {
             FabricatingRecipe recipe = element.value();
 
-            ResourceLocation sprite;
-            if (blockEntity.isCrafting() && blockEntity.getRecipeCheck().getLastUsedRecipe(Minecraft.getInstance().level).map(r -> r.value() == recipe).orElse(false))
+            Identifier sprite;
+
+            if (blockEntity.isCrafting() && gridRecipeMatches(recipe))
             {
                 sprite = GRID_UNIT_SELECTED;
             }
@@ -151,9 +167,9 @@ public class FabricatorScreen extends LTXIMachineScreen<FabricatorMenu>
             {
                 sprite = GRID_UNIT;
             }
-            graphics.blitSprite(sprite, posX, posY, 18, 18);
+            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, sprite, posX, posY, 18, 18);
 
-            ItemStack resultStack = recipe.getFabricatingResultItem();
+            ItemStack resultStack = recipe.getResultPreview();
             graphics.renderFakeItem(resultStack, posX + 1, posY + 1);
             graphics.renderItemDecorations(Minecraft.getInstance().font, resultStack, posX + 1, posY + 1);
         }
@@ -163,12 +179,12 @@ public class FabricatorScreen extends LTXIMachineScreen<FabricatorMenu>
         {
             FabricatingRecipe recipe = element.value();
 
-            List<Component> lines = getTooltipFromItem(Minecraft.getInstance(), recipe.getFabricatingResultItem());
+            List<Component> lines = getTooltipFromItem(Minecraft.getInstance(), recipe.getResultPreview());
 
             if (gridIndex == selectedRecipe) lines.add(FABRICATOR_SELECTED_RECIPE_TOOLTIP.translate().withStyle(LTXIConstants.LIME_GREEN.chatStyle()));
 
             lines.add(INLINE_ENERGY_REQUIRED_TOOLTIP.translateArgs(LimaEnergyUtil.toEnergyString(recipe.getEnergyRequired())).withStyle(LTXIConstants.REM_BLUE.chatStyle()));
-            graphics.renderTooltip(Minecraft.getInstance().font, lines, Optional.of(recipe.createIngredientTooltip()), mouseX, mouseY);
+            graphics.setTooltipForNextFrame(Minecraft.getInstance().font, lines, Optional.of(recipe.createIngredientTooltip()), ItemStack.EMPTY, mouseX, mouseY);
         }
 
         @Override
@@ -185,13 +201,13 @@ public class FabricatorScreen extends LTXIMachineScreen<FabricatorMenu>
                 }
                 else
                 {
-                    parent.sendCustomButtonData(FabricatorMenu.CRAFT_BUTTON_ID, element.id(), LimaCoreNetworkSerializers.RESOURCE_LOCATION);
+                    parent.sendCustomButtonData(FabricatorMenu.CRAFT_BUTTON_ID, element.id(), LimaCoreNetworkSerializers.RECIPE_KEY);
                 }
             }
             else if (selectedRecipe == gridIndex)
             {
                 Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
-                parent.sendCustomButtonData(FabricatorMenu.ENCODE_BLUEPRINT_BUTTON_ID, element.id(), LimaCoreNetworkSerializers.RESOURCE_LOCATION);
+                parent.sendCustomButtonData(FabricatorMenu.ENCODE_BLUEPRINT_BUTTON_ID, element.id(), LimaCoreNetworkSerializers.RECIPE_KEY);
             }
         }
     }

@@ -4,8 +4,8 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import liedge.limacore.lib.math.MathOperation;
 import liedge.limacore.util.LimaLootUtil;
+import net.minecraft.util.context.ContextKey;
 import net.minecraft.world.level.storage.loot.LootContext;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParam;
 
 import java.util.Set;
 
@@ -35,7 +35,7 @@ public record MathOperationValue(UpgradeValueProvider left, UpgradeValueProvider
     }
 
     @Override
-    public Set<LootContextParam<?>> getReferencedContextParams()
+    public Set<ContextKey<?>> getReferencedContextParams()
     {
         return LimaLootUtil.joinReferencedParams(left, right);
     }

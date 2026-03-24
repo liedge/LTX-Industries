@@ -487,7 +487,7 @@ class LanguageGen extends LimaLanguageProvider
         add(modResources.translationKey("hint.{}.guide_tablet"), "To be completed Soon™");
 
         // Key mapping
-        add(LTXIKeyMappings.CATEGORY_LTXI, "LTX Industries");
+        add(LTXIKeyMappings.KEY_CATEGORY.id().toLanguageKey("key.category"), "LTX Industries");
         add(LTXIKeyMappings.RELOAD_KEY_SUBTITLE, "Reload Weapon");
     }
 

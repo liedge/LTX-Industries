@@ -5,10 +5,12 @@ import liedge.limacore.recipe.ingredient.LimaSizedFluidIngredient;
 import liedge.limacore.recipe.ingredient.LimaSizedItemIngredient;
 import liedge.limacore.recipe.result.FluidResult;
 import liedge.limacore.recipe.result.ItemResult;
+import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.registry.game.LTXIRecipeSerializers;
 import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
 import net.minecraft.core.Holder;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.ItemLike;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -21,14 +23,20 @@ public final class MaterialFusingRecipe extends LTXIRecipe
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer()
+    public RecipeSerializer<MaterialFusingRecipe> getSerializer()
     {
         return LTXIRecipeSerializers.MATERIAL_FUSING.get();
     }
 
     @Override
-    public LimaRecipeType<?> getType()
+    public LimaRecipeType<MaterialFusingRecipe> getType()
     {
         return LTXIRecipeTypes.MATERIAL_FUSING.get();
+    }
+
+    @Override
+    protected ItemLike getWorkstation()
+    {
+        return LTXIItems.MATERIAL_FUSING_CHAMBER;
     }
 }

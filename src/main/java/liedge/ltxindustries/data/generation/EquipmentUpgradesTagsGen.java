@@ -2,12 +2,10 @@ package liedge.ltxindustries.data.generation;
 
 import liedge.limacore.data.generation.LimaTagsProvider;
 import liedge.ltxindustries.LTXIndustries;
-import liedge.ltxindustries.registry.LTXIRegistries;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
+import liedge.ltxindustries.registry.LTXIRegistries;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -16,9 +14,9 @@ import static liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades.*;
 
 class EquipmentUpgradesTagsGen extends LimaTagsProvider<EquipmentUpgrade>
 {
-    EquipmentUpgradesTagsGen(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries, @Nullable ExistingFileHelper helper)
+    EquipmentUpgradesTagsGen(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries)
     {
-        super(packOutput, LTXIRegistries.Keys.EQUIPMENT_UPGRADES, LTXIndustries.MODID, registries, helper);
+        super(packOutput, LTXIRegistries.Keys.EQUIPMENT_UPGRADES, LTXIndustries.MODID, registries);
     }
 
     @Override

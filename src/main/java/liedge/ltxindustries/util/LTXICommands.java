@@ -32,7 +32,7 @@ public final class LTXICommands
         List<LiteralArgumentBuilder<CommandSourceStack>> subCommands = new ObjectArrayList<>();
 
         subCommands.add(Commands.literal("shield")
-                .requires(ctx -> ctx.hasPermission(2))
+                .requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                 .then(shieldCmd("set"))
                 .then(shieldCmd("give"))
                 .then(shieldCmd("remove")));

@@ -18,8 +18,8 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.network.chat.Style;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -27,7 +27,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
 
 import java.util.List;
 
@@ -53,7 +52,7 @@ public class MachineUpgradeModuleItem extends UpgradeModuleItem<MachineUpgrade, 
     public InteractionResult useOn(UseOnContext context)
     {
         Level level = context.getLevel();
-        ItemStack stack = context.getItemInHand();
+        ItemStack usedItem = context.getItemInHand();
         Player player = context.getPlayer();
         BlockPos blockPos = context.getClickedPos();
 
@@ -69,34 +68,28 @@ public class MachineUpgradeModuleItem extends UpgradeModuleItem<MachineUpgrade, 
             if (primaryPos != null) blockEntity = LimaBlockUtil.getSafeBlockEntity(level, primaryPos, UpgradesHolderBlockEntity.class);
         }
 
-        MachineUpgradeEntry entry = stack.get(entryComponentType());
-        if (entry != null && blockEntity != null && player != null)
+        MachineUpgradeEntry entry = usedItem.get(entryComponentType());
+        if (entry != null && blockEntity != null && player != null && !level.isClientSide())
         {
-            if (!level.isClientSide())
+            if (blockEntity.getUpgrades().canInstallUpgrade(blockEntity, entry))
             {
-                if (blockEntity.getUpgrades().canInstallUpgrade(blockEntity, entry))
-                {
-                    int previousRank = blockEntity.getUpgrades().getUpgradeRank(entry.upgrade());
+                int previousRank = blockEntity.getUpgrades().getUpgradeRank(entry.upgrade());
 
-                    MachineUpgrades newUpgrades = blockEntity.getUpgrades().toMutableContainer().set(entry).toImmutable();
-                    blockEntity.setUpgrades(newUpgrades);
+                MachineUpgrades newUpgrades = blockEntity.getUpgrades().toMutableContainer().set(entry).toImmutable();
+                blockEntity.setUpgrades(newUpgrades);
 
-                    if (!player.getAbilities().instabuild)
-                    {
-                        stack.shrink(1);
-                        if (previousRank > 0) ItemHandlerHelper.giveItemToPlayer(player, createStack(entry.upgrade(), previousRank));
-                    }
+                player.displayClientMessage(LTXILangKeys.UPGRADE_INSTALL_SUCCESS.translate().withStyle(moduleTypeStyle()), true);
+                level.playSound(null, blockPos, LTXISounds.UPGRADE_INSTALL.get(), SoundSource.PLAYERS, 1f, 1f);
 
-                    player.displayClientMessage(LTXILangKeys.UPGRADE_INSTALL_SUCCESS.translate().withStyle(moduleTypeStyle()), true);
-                    level.playSound(null, blockPos, LTXISounds.UPGRADE_INSTALL.get(), SoundSource.PLAYERS, 1f, 1f);
-                }
-                else
-                {
-                    player.displayClientMessage(LTXILangKeys.UPGRADE_INSTALL_FAIL.translate().withStyle(LTXIConstants.HOSTILE_ORANGE.chatStyle()), true);
-                }
+                usedItem.consume(1, player);
+                if (usedItem.isEmpty()) player.getInventory().placeItemBackInInventory(createStack(entry.upgrade(), previousRank));
+
+                return InteractionResult.SUCCESS_SERVER.heldItemTransformedTo(usedItem);
             }
-
-            return InteractionResult.sidedSuccess(level.isClientSide());
+            else
+            {
+                player.displayClientMessage(LTXILangKeys.UPGRADE_INSTALL_FAIL.translate().withStyle(LTXIConstants.HOSTILE_ORANGE.chatStyle()), true);
+            }
         }
 
         return InteractionResult.CONSUME;
@@ -115,7 +108,7 @@ public class MachineUpgradeModuleItem extends UpgradeModuleItem<MachineUpgrade, 
     }
 
     @Override
-    protected ResourceLocation creativeTabId()
+    protected Identifier creativeTabId()
     {
         return LTXICreativeTabs.MACHINE_MODULES_TAB.getId();
     }

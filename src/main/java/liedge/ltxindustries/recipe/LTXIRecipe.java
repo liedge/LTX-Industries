@@ -10,7 +10,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
-import org.jetbrains.annotations.UnknownNullability;
 
 import java.util.List;
 import java.util.Objects;
@@ -23,7 +22,7 @@ public abstract class LTXIRecipe extends LimaCustomRecipe<LTXIRecipeInput>
     @Nullable
     private final Holder<RecipeMode> mode;
 
-    protected LTXIRecipe(List<LimaSizedItemIngredient> itemIngredients, List<LimaSizedFluidIngredient> fluidIngredients, List<ItemResult> itemResults, @UnknownNullability List<FluidResult> fluidResults, int craftTime, @Nullable Holder<RecipeMode> mode)
+    protected LTXIRecipe(List<LimaSizedItemIngredient> itemIngredients, List<LimaSizedFluidIngredient> fluidIngredients, List<ItemResult> itemResults, List<FluidResult> fluidResults, int craftTime, @Nullable Holder<RecipeMode> mode)
     {
         super(itemIngredients, fluidIngredients, itemResults, fluidResults);
         this.craftTime = craftTime;

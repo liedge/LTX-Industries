@@ -50,7 +50,7 @@ public final class BlockMesh
 
     public boolean canPlaceMesh(Level level, BlockPos origin, MeshPosition meshPosition, Direction zAxis)
     {
-        int buildLimit = level.getMaxBuildHeight() - 1;
+        int buildLimit = level.getMaxY() - 1;
         return meshStream(origin, meshPosition, zAxis).allMatch(mp -> mp.getY() < buildLimit && level.getBlockState(mp).canBeReplaced());
     }
 

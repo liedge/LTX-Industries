@@ -1,6 +1,5 @@
 package liedge.ltxindustries.client.gui.screen;
 
-import liedge.limacore.capability.energy.EnergyHolderBlockEntity;
 import liedge.limacore.client.gui.LimaRenderable;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.ltxindustries.LTXIndustries;
@@ -12,13 +11,14 @@ import liedge.ltxindustries.client.gui.widget.MachineUpgradesButton;
 import liedge.ltxindustries.client.gui.widget.OpenIOControlButton;
 import liedge.ltxindustries.menu.LTXIMachineMenu;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 
 public abstract class LTXIMachineScreen<M extends LTXIMachineMenu<?>> extends LTXIScreen<M>
 {
-    private static final ResourceLocation STATS_WIDGET_SPRITE = LTXIndustries.RESOURCES.location("widget/machine_stats");
+    private static final Identifier STATS_WIDGET_SPRITE = LTXIndustries.RESOURCES.id("widget/machine_stats");
 
     protected LTXIMachineScreen(M menu, Inventory inventory, Component title, int primaryWidth, int primaryHeight)
     {
@@ -33,8 +33,7 @@ public abstract class LTXIMachineScreen<M extends LTXIMachineMenu<?>> extends LT
     protected void addWidgets()
     {
         // Energy bar is in the same place every time, for now
-        if (menu.menuContext() instanceof EnergyHolderBlockEntity energyMachine)
-            addRenderableOnly(new EnergyGaugeWidget(energyMachine, leftPos + 10, topPos + 9));
+        addRenderableOnly(new EnergyGaugeWidget(menu.menuContext(), leftPos + 10, topPos + 9));
 
         // Left sidebar widgets
         addRenderableWidget(new MachineUpgradesButton(rightPos, topPos + 3, this));
@@ -78,7 +77,7 @@ public abstract class LTXIMachineScreen<M extends LTXIMachineMenu<?>> extends LT
         @Override
         public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks)
         {
-            graphics.blitSprite(STATS_WIDGET_SPRITE, x, y, getWidth(), getHeight());
+            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, STATS_WIDGET_SPRITE, x, y, getWidth(), getHeight());
         }
 
         @Override

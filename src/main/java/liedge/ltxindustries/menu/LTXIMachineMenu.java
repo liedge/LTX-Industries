@@ -4,7 +4,6 @@ import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.menu.BlockEntityMenu;
 import liedge.limacore.menu.LimaMenuProvider;
 import liedge.limacore.menu.LimaMenuType;
-import liedge.limacore.util.LimaItemUtil;
 import liedge.ltxindustries.blockentity.template.LTXIMachineBlockEntity;
 import liedge.ltxindustries.registry.game.LTXIMenus;
 import liedge.ltxindustries.registry.game.LTXINetworkSerializers;
@@ -19,7 +18,8 @@ public abstract class LTXIMachineMenu<CTX extends LTXIMachineBlockEntity> extend
     {
         super(type, containerId, inventory, menuContext);
 
-        addSlot(BlockContentsType.AUXILIARY, LTXIMachineBlockEntity.AUX_ENERGY_ITEM_SLOT, 8, 53, stack -> allowEnergySlotQuickTransfer && LimaItemUtil.hasEnergyCapability(stack));
+        //addSlot(BlockContentsType.AUXILIARY, LTXIMachineBlockEntity.AUX_ENERGY_ITEM_SLOT, 8, 53, stack -> allowEnergySlotQuickTransfer && LimaItemUtil.hasEnergyCapability(stack));
+        addSlot(BlockContentsType.AUXILIARY, LTXIMachineBlockEntity.AUX_ENERGY_ITEM_SLOT, 8, 53);
     }
 
     protected LTXIMachineMenu(LimaMenuType<CTX, ?> type, int containerId, Inventory inventory, CTX menuContext)

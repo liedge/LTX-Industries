@@ -79,6 +79,7 @@ public final class LTXITags
 
         // Mod tags
         public static final TagKey<Item> GREEN_GROUP_DYE_SOURCES = RESOURCES.itemTag("dye_sources/green_group");
+        public static final TagKey<Item> CARBON_SOURCES = RESOURCES.itemTag("carbon_sources");
 
         public static final TagKey<Item> NEON_LIGHT_MATERIALS = RESOURCES.itemTag("neon_light_materials");
         public static final TagKey<Item> APPLE_SAPLINGS = RESOURCES.itemTag("apple_saplings");

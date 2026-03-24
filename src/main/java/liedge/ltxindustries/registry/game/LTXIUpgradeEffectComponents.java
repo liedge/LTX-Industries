@@ -12,8 +12,8 @@ import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Unit;
+import net.minecraft.util.context.ContextKeySet;
 import net.minecraft.world.damagesource.DamageType;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.neoforged.bus.api.IEventBus;
@@ -89,17 +89,17 @@ public final class LTXIUpgradeEffectComponents
             return register(name, () -> UpgradeDataComponentType.customList(ValueOperation.CONTEXTLESS_CODEC));
         }
 
-        public DeferredHolder<DataComponentType<?>, DataComponentType<List<ConditionEffect<ValueOperation>>>> registerConditionalValue(String name, LootContextParamSet params)
+        public DeferredHolder<DataComponentType<?>, DataComponentType<List<ConditionEffect<ValueOperation>>>> registerConditionalValue(String name, ContextKeySet params)
         {
             return register(name, () -> UpgradeDataComponentType.customConditional(ValueOperation.DIRECT_CODEC, params));
         }
 
-        public DeferredHolder<DataComponentType<?>, DataComponentType<List<ConditionEffect<EntityUpgradeEffect>>>> registerConditionEntity(String name, LootContextParamSet params)
+        public DeferredHolder<DataComponentType<?>, DataComponentType<List<ConditionEffect<EntityUpgradeEffect>>>> registerConditionEntity(String name, ContextKeySet params)
         {
             return register(name, () -> UpgradeDataComponentType.customConditional(EntityUpgradeEffect.DIRECT_CODEC, params));
         }
 
-        public DeferredHolder<DataComponentType<?>, DataComponentType<List<TargetableEffect<EntityUpgradeEffect>>>> registerTargetableEntity(String name, LootContextParamSet params)
+        public DeferredHolder<DataComponentType<?>, DataComponentType<List<TargetableEffect<EntityUpgradeEffect>>>> registerTargetableEntity(String name, ContextKeySet params)
         {
             return register(name, () -> UpgradeDataComponentType.customTargetable(EntityUpgradeEffect.DIRECT_CODEC, params));
         }

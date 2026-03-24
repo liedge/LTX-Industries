@@ -11,7 +11,9 @@ import org.lwjgl.glfw.GLFW;
 
 public final class LTXIKeyMappings
 {
-    public static final String CATEGORY_LTXI = LTXIndustries.RESOURCES.translationKey("key.categories.{}");
+    @SuppressWarnings("deprecation")
+    public static final KeyMapping.Category KEY_CATEGORY = KeyMapping.Category.register(LTXIndustries.RESOURCES.id("controls"));
+
     public static final String RELOAD_KEY_SUBTITLE = LTXIndustries.RESOURCES.translationKey("key.{}.reload_weapon");
 
     private static final IKeyConflictContext RELOAD_CONFLICT_CONTEXT = new IKeyConflictContext()
@@ -29,5 +31,5 @@ public final class LTXIKeyMappings
         }
     };
 
-    public static final KeyMapping RELOAD_KEY = new KeyMapping(RELOAD_KEY_SUBTITLE, RELOAD_CONFLICT_CONTEXT, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_R, CATEGORY_LTXI);
+    public static final KeyMapping RELOAD_KEY = new KeyMapping(RELOAD_KEY_SUBTITLE, RELOAD_CONFLICT_CONTEXT, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_R, KEY_CATEGORY);
 }

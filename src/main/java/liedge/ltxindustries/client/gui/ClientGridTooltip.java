@@ -30,7 +30,7 @@ public abstract class ClientGridTooltip<T> implements ClientTooltipComponent
     protected abstract void renderGridElement(T element, Font font, int rx, int ry, GuiGraphics graphics);
 
     @Override
-    public int getHeight()
+    public int getHeight(Font font)
     {
         return height;
     }
@@ -42,13 +42,13 @@ public abstract class ClientGridTooltip<T> implements ClientTooltipComponent
     }
 
     @Override
-    public void renderImage(Font font, int x, int y, GuiGraphics graphics)
+    public void renderImage(Font font, int x, int y, int width, int height, GuiGraphics guiGraphics)
     {
         for (int i = 0; i < maxElements; i++)
         {
             int rx = x + (i % maxColumns) * elementSize();
             int ry = y + (i / maxColumns) * elementSize();
-            renderGridElement(elements.get(i), font, rx, ry, graphics);
+            renderGridElement(elements.get(i), font, rx, ry, guiGraphics);
         }
     }
 }

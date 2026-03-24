@@ -1,46 +1,35 @@
 package liedge.ltxindustries.client.particle;
 
-import liedge.limacore.client.particle.LimaParticleUtil;
+import liedge.limacore.client.LimaCoreClientUtil;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.registry.game.LTXIParticles;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraft.client.particle.TextureSheetParticle;
+import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.client.particle.SingleQuadParticle;
+import net.minecraft.client.particle.SpriteSet;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.util.RandomSource;
 
-public class AcidDripParticle extends TextureSheetParticle
+public class AcidDripParticle extends SingleQuadParticle
 {
-    public static TextureSheetParticle corrosiveDripParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double dx, double dy, double dz)
-    {
-        return new AcidDripParticle(level, true, x, y, z, 0, 0, 0);
-    }
+    private final boolean createParticleOnLand;
 
-    public static TextureSheetParticle createFallParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double dx, double dy, double dz)
+    private AcidDripParticle(ClientLevel level, double x, double y, double z, TextureAtlasSprite sprite, boolean createParticleOnLand)
     {
-        return new AcidDripParticle(level, true, x, y, z, dx, dy, dz);
-    }
+        super(level, x, y, z, sprite);
 
-    public static TextureSheetParticle createLandParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double dx, double dy, double dz)
-    {
-        return new AcidDripParticle(level, false, x, y, z, dx, dy, dz);
-    }
-
-    private final boolean createLandingParticle;
-
-    private AcidDripParticle(ClientLevel level, boolean createLandingParticle, double x, double y, double z, double dx, double dy, double dz)
-    {
-        super(level, x, y, z);
-        this.createLandingParticle = createLandingParticle;
-        this.lifetime = createLandingParticle ? random.nextIntBetweenInclusive(15, 30) : random.nextIntBetweenInclusive(10, 16);
+        this.createParticleOnLand = createParticleOnLand;
+        this.lifetime = createParticleOnLand ? random.nextIntBetweenInclusive(15, 30) : random.nextIntBetweenInclusive(10, 16);
         setSize(0.01f, 0.01f);
-        setParticleSpeed(dx, dy, dz);
-        LimaParticleUtil.setColor(this, LTXIConstants.ACID_GREEN);
+        LimaCoreClientUtil.setQuadParticleColor(this, LTXIConstants.ACID_GREEN);
     }
 
     @Override
-    public ParticleRenderType getRenderType()
+    protected Layer getLayer()
     {
-        return ParticleRenderType.PARTICLE_SHEET_OPAQUE;
+        return Layer.OPAQUE;
     }
 
     @Override
@@ -52,9 +41,9 @@ public class AcidDripParticle extends TextureSheetParticle
     @Override
     public void tick()
     {
-        this.xo = x;
-        this.yo = y;
-        this.zo = z;
+        this.xo = this.x;
+        this.yo = this.y;
+        this.zo = this.z;
 
         if (age++ >= lifetime)
         {
@@ -64,14 +53,39 @@ public class AcidDripParticle extends TextureSheetParticle
 
         move(xd, yd, zd);
 
-        if (createLandingParticle && onGround)
+        if (createParticleOnLand && onGround)
         {
-            level.addParticle(LTXIParticles.ACID_LAND.get(), x, y, z, xd, yd, zd);
+            level.addParticle(LTXIParticles.ACID_LAND.get(), x, y, z, 0, 0, 0);
             remove();
+            return;
         }
 
         xd *= 0.75d;
-        yd = Math.max(-3d, yd - 0.065d);
+        yd = Math.max(-3d, yd - 0.0625d);
         zd *= 0.75d;
+    }
+
+    public static final class Provider implements ParticleProvider<SimpleParticleType>
+    {
+        private final SpriteSet sprites;
+        private final boolean createParticleOnLand;
+        private final boolean applyVelocity;
+
+        public Provider(SpriteSet sprites, boolean createParticleOnLand, boolean applyVelocity)
+        {
+            this.sprites = sprites;
+            this.createParticleOnLand = createParticleOnLand;
+            this.applyVelocity = applyVelocity;
+        }
+
+        @Override
+        public Particle createParticle(SimpleParticleType particleType, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, RandomSource random)
+        {
+            TextureAtlasSprite sprite = sprites.get(random);
+            AcidDripParticle particle = new AcidDripParticle(level, x, y, z, sprite, createParticleOnLand);
+            if (applyVelocity) particle.setParticleSpeed(xSpeed, ySpeed, zSpeed);
+
+            return particle;
+        }
     }
 }

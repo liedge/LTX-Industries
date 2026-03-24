@@ -5,11 +5,12 @@ import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.client.LTXILangKeys;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Tooltip;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.input.InputWithModifiers;
+import net.minecraft.resources.Identifier;
 
 public class SubMenuBackButton extends LimaSidebarButton.LeftSided
 {
-    private static final ResourceLocation SPRITE = LTXIndustries.RESOURCES.location("widget/back");
+    private static final Identifier SPRITE = LTXIndustries.RESOURCES.id("widget/back");
 
     private final LimaMenuScreen<?> parent;
     private final int buttonId;
@@ -23,14 +24,14 @@ public class SubMenuBackButton extends LimaSidebarButton.LeftSided
     }
 
     @Override
-    protected void renderContents(GuiGraphics graphics, int guiX, int guiY)
+    protected void renderInnerContents(GuiGraphics graphics, int guiX, int guiY)
     {
         renderSprite(graphics, SPRITE, guiX, guiY);
     }
 
     @Override
-    public void onPress(int button)
+    public void onPress(InputWithModifiers input)
     {
-        parent.sendUnitButtonData(buttonId);
+        if (input.isLeft()) parent.sendUnitButtonData(buttonId);
     }
 }

@@ -1,17 +1,20 @@
 package liedge.ltxindustries.blockentity;
 
-import liedge.limacore.util.LimaItemUtil;
+import liedge.limacore.transfer.item.LimaBlockEntityItems;
 import liedge.ltxindustries.block.LTXIBlockProperties;
 import liedge.ltxindustries.block.MachineState;
 import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
 import liedge.ltxindustries.blockentity.template.BaseRecipeMachineBlockEntity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 public abstract class CookingBlockEntity<R extends AbstractCookingRecipe> extends BaseRecipeMachineBlockEntity<SingleRecipeInput, R>
 {
@@ -23,36 +26,63 @@ public abstract class CookingBlockEntity<R extends AbstractCookingRecipe> extend
     @Override
     protected SingleRecipeInput getRecipeInput(Level level)
     {
-        return new SingleRecipeInput(getInputInventory().getStackInSlot(0));
+        LimaBlockEntityItems inputs = getInputInventory();
+
+        int amount = inputs.getAmountAsInt(0);
+        ItemStack current = inputs.getResource(0).toStack(amount);
+
+        return new SingleRecipeInput(current);
     }
 
     @Override
     protected int getBaseRecipeCraftingTime(R recipe)
     {
-        return recipe.getCookingTime();
+        return recipe.cookingTime();
     }
 
     @Override
     protected void consumeIngredients(SingleRecipeInput recipeInput, R recipe, Level level)
     {
-        getInputInventory().extractItem(0, 1, false);
+        try (Transaction tx = Transaction.openRoot())
+        {
+            LimaBlockEntityItems input = getInputInventory();
+            ItemResource stored = input.getResource(0);
+
+            int extracted = input.extract(0, stored, 1, tx);
+
+            if (extracted > 0) tx.commit();
+        }
     }
 
     @Override
-    public boolean canInsertRecipeResults(Level level, R recipe)
+    public boolean canInsertRecipeResults(ServerLevel level, R recipe, SingleRecipeInput input)
     {
-        return LimaItemUtil.canMergeItemStacks(getOutputInventory().getStackInSlot(0), recipe.getResultItem(level.registryAccess()));
+        ItemStack output = recipe.assemble(input, level.registryAccess());
+
+        int inserted;
+
+        try (Transaction tx = Transaction.openRoot())
+        {
+            inserted = getOutputInventory().insert(0, ItemResource.of(output), output.getCount(), tx);
+        }
+
+        return inserted >= output.getCount();
     }
 
     @Override
     protected void insertRecipeResults(Level level, R recipe, SingleRecipeInput recipeInput)
     {
         ItemStack result = recipe.assemble(recipeInput, level.registryAccess());
-        getOutputInventory().insertItem(0, result, false);
+
+        try (Transaction tx = Transaction.openRoot())
+        {
+            int inserted = getOutputInventory().insert(0, ItemResource.of(result), result.getCount(), tx);
+            if (inserted > 0) tx.commit();
+        }
     }
 
     @Override
-    protected void craftRecipe(Level level, R recipe, int maxOperations)
+    protected void craftRecipe(ServerLevel level, R recipe, int maxOperations)
     {
         for (int i = 0; i < maxOperations; i++)
         {
@@ -60,7 +90,8 @@ public abstract class CookingBlockEntity<R extends AbstractCookingRecipe> extend
             SingleRecipeInput input = getRecipeInput(level);
             if (i > 0)
             {
-                boolean canContinue = recipe.matches(input, level) && canInsertRecipeResults(level, recipe);
+                boolean canContinue = recipe.matches(input, level) && canInsertRecipeResults(level, recipe, input);
+
                 if (!canContinue) break;
             }
 

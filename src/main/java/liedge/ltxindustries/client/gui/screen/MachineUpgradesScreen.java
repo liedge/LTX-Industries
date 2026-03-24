@@ -6,12 +6,12 @@ import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrade;
 import liedge.ltxindustries.menu.MachineUpgradeMenu;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 
 public class MachineUpgradesScreen extends UpgradesConfigScreen<MachineUpgrade, MachineUpgradeMenu>
 {
-    private static final ResourceLocation SLOT_SPRITE = LTXIndustries.RESOURCES.location("slot/machine_module");
+    private static final Identifier SLOT_SPRITE = LTXIndustries.RESOURCES.id("slot/machine_module");
 
     public MachineUpgradesScreen(MachineUpgradeMenu menu, Inventory inventory, Component title)
     {
@@ -26,7 +26,7 @@ public class MachineUpgradesScreen extends UpgradesConfigScreen<MachineUpgrade, 
     }
 
     @Override
-    protected ResourceLocation fallbackModuleSprite()
+    protected Identifier fallbackModuleSprite()
     {
         return UpgradesConfigScreen.MACHINE_MODULE_SPRITE;
     }

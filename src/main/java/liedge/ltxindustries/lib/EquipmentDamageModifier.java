@@ -4,14 +4,14 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.lib.math.MathOperation;
-import net.minecraft.advancements.critereon.EntityPredicate;
-import net.minecraft.advancements.critereon.ItemPredicate;
+import net.minecraft.advancements.criterion.EntityPredicate;
+import net.minecraft.advancements.criterion.ItemPredicate;
+import net.minecraft.core.HolderGetter;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.ConditionalEffect;
-import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.predicates.AllOfCondition;
@@ -20,7 +20,6 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemEntityPropertyC
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.NumberProvider;
 import net.minecraft.world.level.storage.loot.providers.number.NumberProviders;
-import net.neoforged.neoforge.common.conditions.ConditionalOps;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -30,13 +29,12 @@ import java.util.function.BiPredicate;
 public record EquipmentDamageModifier(Optional<ItemPredicate> equipmentPredicate, Optional<LootItemCondition> condition,
                                       NumberProvider value, MathOperation operation) implements Comparable<EquipmentDamageModifier>, BiPredicate<ItemStack, LootContext>
 {
-    public static final Codec<EquipmentDamageModifier> DIRECT_CODEC = RecordCodecBuilder.create(instance -> instance.group(
+    public static final Codec<EquipmentDamageModifier> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             ItemPredicate.CODEC.optionalFieldOf("equipment_predicate").forGetter(EquipmentDamageModifier::equipmentPredicate),
             ConditionalEffect.conditionCodec(LootContextParamSets.ENTITY).optionalFieldOf("condition").forGetter(EquipmentDamageModifier::condition),
             NumberProviders.CODEC.fieldOf("value").forGetter(EquipmentDamageModifier::value),
             MathOperation.COMPOUND_OP_CODEC.fieldOf("op").forGetter(EquipmentDamageModifier::operation))
             .apply(instance, EquipmentDamageModifier::new));
-    public static final Codec<Optional<EquipmentDamageModifier>> CODEC = ConditionalOps.createConditionalCodec(DIRECT_CODEC);
 
     public static Builder builder(NumberProvider value, MathOperation operation)
     {
@@ -88,19 +86,14 @@ public record EquipmentDamageModifier(Optional<ItemPredicate> equipmentPredicate
             return this;
         }
 
-        public Builder forEquipmentItem(ItemLike item)
+        public Builder forEquipmentTag(HolderGetter<Item> holders, TagKey<Item> tagKey)
         {
-            return withEquipmentPredicate(ItemPredicate.Builder.item().of(item));
+            return withEquipmentPredicate(ItemPredicate.Builder.item().of(holders, tagKey));
         }
 
-        public Builder forEquipmentTag(TagKey<Item> tagKey)
+        public Builder againstEntities(HolderGetter<EntityType<?>> holders, TagKey<EntityType<?>> tagKey)
         {
-            return withEquipmentPredicate(ItemPredicate.Builder.item().of(tagKey));
-        }
-
-        public Builder againstEntities(TagKey<EntityType<?>> tagKey)
-        {
-            return withCondition(LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity().of(tagKey)));
+            return withCondition(LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity().of(holders, tagKey)));
         }
 
         public EquipmentDamageModifier build()

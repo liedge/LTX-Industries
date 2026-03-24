@@ -12,12 +12,13 @@ import liedge.ltxindustries.client.gui.widget.LimaSidebarButton;
 import liedge.ltxindustries.client.gui.widget.SubMenuBackButton;
 import liedge.ltxindustries.menu.BlockIOConfigurationMenu;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.input.InputWithModifiers;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentUtils;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
-import org.lwjgl.glfw.GLFW;
 
 import java.util.function.BooleanSupplier;
 
@@ -26,15 +27,15 @@ import static liedge.ltxindustries.client.LTXILangKeys.*;
 
 public class BlockIOConfigurationScreen extends LTXIScreen<BlockIOConfigurationMenu>
 {
-    private static final ResourceLocation BUTTON_GRID_TEXTURE = RESOURCES.textureLocation("gui", "io_button_grid");
-    private static final ResourceLocation INPUT_SPRITE = RESOURCES.location("widget/io_selector_input");
-    private static final ResourceLocation OUTPUT_SPRITE = RESOURCES.location("widget/io_selector_output");
-    private static final ResourceLocation BOTH_SPRITE = RESOURCES.location("widget/io_selector_both");
-    private static final ResourceLocation DISABLED_SPRITE = RESOURCES.location("widget/io_selector_disabled");
-    private static final ResourceLocation AUTO_OUT_DISABLED_SPRITE = RESOURCES.location("widget/auto_output_disabled");
-    private static final ResourceLocation AUTO_OUT_ENABLED_SPRITE = RESOURCES.location("widget/auto_output_enabled");
-    private static final ResourceLocation AUTO_IN_DISABLED_SPRITE = RESOURCES.location("widget/auto_input_disabled");
-    private static final ResourceLocation AUTO_IN_ENABLED_SPRITE = RESOURCES.location("widget/auto_input_enabled");
+    private static final Identifier BUTTON_GRID_TEXTURE = RESOURCES.textureLocation("gui", "io_button_grid");
+    private static final Identifier INPUT_SPRITE = RESOURCES.id("widget/io_selector_input");
+    private static final Identifier OUTPUT_SPRITE = RESOURCES.id("widget/io_selector_output");
+    private static final Identifier BOTH_SPRITE = RESOURCES.id("widget/io_selector_both");
+    private static final Identifier DISABLED_SPRITE = RESOURCES.id("widget/io_selector_disabled");
+    private static final Identifier AUTO_OUT_DISABLED_SPRITE = RESOURCES.id("widget/auto_output_disabled");
+    private static final Identifier AUTO_OUT_ENABLED_SPRITE = RESOURCES.id("widget/auto_output_enabled");
+    private static final Identifier AUTO_IN_DISABLED_SPRITE = RESOURCES.id("widget/auto_input_disabled");
+    private static final Identifier AUTO_IN_ENABLED_SPRITE = RESOURCES.id("widget/auto_input_enabled");
 
     public BlockIOConfigurationScreen(BlockIOConfigurationMenu menu, Inventory inventory, Component title)
     {
@@ -82,12 +83,12 @@ public class BlockIOConfigurationScreen extends LTXIScreen<BlockIOConfigurationM
     }
 
     @Override
-    protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY)
+    protected void renderBg(GuiGraphics graphics, float partialTick, int mouseX, int mouseY)
     {
-        super.renderBg(guiGraphics, partialTick, mouseX, mouseY);
+        super.renderBg(graphics, partialTick, mouseX, mouseY);
 
-        blitInventoryAndHotbar(guiGraphics, 7, 83);
-        guiGraphics.blit(BUTTON_GRID_TEXTURE, leftPos + 60, topPos + 21, 0f, 0f, 48, 48, 48, 48);
+        blitInventoryAndHotbar(graphics, 7, 83);
+        graphics.blit(RenderPipelines.GUI_TEXTURED, BUTTON_GRID_TEXTURE, leftPos + 60, topPos + 21, 0f, 0f, 48, 48, 48, 48);
     }
 
     private class IOButton extends LimaRenderableButton
@@ -101,20 +102,20 @@ public class BlockIOConfigurationScreen extends LTXIScreen<BlockIOConfigurationM
         }
 
         @Override
-        public void onPress(int button)
+        public void onPress(InputWithModifiers input)
         {
-            if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT)
+            if (input.isLeft())
             {
                 sendCustomButtonData(BlockIOConfigurationMenu.CYCLE_FORWARD_BUTTON_ID, side, LimaCoreNetworkSerializers.RELATIVE_SIDE);
             }
-            else
+            else if (input.isRight())
             {
                 sendCustomButtonData(BlockIOConfigurationMenu.CYCLE_BACKWARD_BUTTON_ID, side, LimaCoreNetworkSerializers.RELATIVE_SIDE);
             }
         }
 
         @Override
-        protected ResourceLocation unfocusedSprite()
+        protected Identifier unfocusedSprite()
         {
             return switch (getIOConfiguration().getIOAccess(side))
             {
@@ -141,18 +142,6 @@ public class BlockIOConfigurationScreen extends LTXIScreen<BlockIOConfigurationM
             consumer.accept(sideTooltip);
             consumer.accept(getIOConfiguration().getIOAccess(side).translate());
         }
-
-        @Override
-        protected boolean isValidClickButton(int button)
-        {
-            return button == GLFW.GLFW_MOUSE_BUTTON_LEFT || button == GLFW.GLFW_MOUSE_BUTTON_RIGHT;
-        }
-
-        @Override
-        protected boolean acceptsKeyboardInput()
-        {
-            return false;
-        }
     }
 
     private class AutoIOButton extends LimaSidebarButton.RightSided
@@ -160,11 +149,11 @@ public class BlockIOConfigurationScreen extends LTXIScreen<BlockIOConfigurationM
         private final int buttonId;
         private final Component offLabel;
         private final Component onLabel;
-        private final ResourceLocation offSprite;
-        private final ResourceLocation onSprite;
+        private final Identifier offSprite;
+        private final Identifier onSprite;
         private final BooleanSupplier stateGetter;
 
-        protected AutoIOButton(int x, int y, int buttonId, Translatable offLabel, Translatable onLabel, ResourceLocation offSprite, ResourceLocation onSprite, BooleanSupplier stateGetter)
+        protected AutoIOButton(int x, int y, int buttonId, Translatable offLabel, Translatable onLabel, Identifier offSprite, Identifier onSprite, BooleanSupplier stateGetter)
         {
             super(x, y, Component.empty());
 
@@ -177,9 +166,9 @@ public class BlockIOConfigurationScreen extends LTXIScreen<BlockIOConfigurationM
         }
 
         @Override
-        public void onPress(int button)
+        public void onPress(InputWithModifiers input)
         {
-            sendUnitButtonData(buttonId);
+            if (input.isLeft()) sendUnitButtonData(buttonId);
         }
 
         @Override
@@ -196,9 +185,9 @@ public class BlockIOConfigurationScreen extends LTXIScreen<BlockIOConfigurationM
         }
 
         @Override
-        protected void renderContents(GuiGraphics graphics, int guiX, int guiY)
+        protected void renderInnerContents(GuiGraphics graphics, int guiX, int guiY)
         {
-            ResourceLocation sprite = stateGetter.getAsBoolean() ? onSprite : offSprite;
+            Identifier sprite = stateGetter.getAsBoolean() ? onSprite : offSprite;
             renderSprite(graphics, sprite, guiX, guiY);
         }
     }

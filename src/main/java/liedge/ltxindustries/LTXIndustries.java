@@ -68,7 +68,7 @@ public class LTXIndustries
         LTXIUpgradeEffectComponents.register(modBus);
 
         // Initialize static value type registry
-        UpgradeValueTypes.register();
+        UpgradeValueTypes.bootstrap();
 
         // Mod configs
         modContainer.registerConfig(ModConfig.Type.CLIENT, LTXIClientConfig.CLIENT_CONFIG_SPEC);

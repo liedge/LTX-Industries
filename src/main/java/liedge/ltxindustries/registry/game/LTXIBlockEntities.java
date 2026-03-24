@@ -2,9 +2,9 @@ package liedge.ltxindustries.registry.game;
 
 import com.google.common.collect.ImmutableSet;
 import liedge.limacore.blockentity.*;
-import liedge.limacore.capability.energy.EnergyHolderBlockEntity;
-import liedge.limacore.capability.fluid.FluidHolderBlockEntity;
-import liedge.limacore.capability.itemhandler.ItemHolderBlockEntity;
+import liedge.limacore.transfer.energy.EnergyHolderBlockEntity;
+import liedge.limacore.transfer.fluid.FluidHolderBlockEntity;
+import liedge.limacore.transfer.item.ItemHolderBlockEntity;
 import liedge.ltxindustries.LTXIIdentifiers;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.blockentity.*;
@@ -76,8 +76,8 @@ public final class LTXIBlockEntities
         for (Supplier<? extends BlockEntityType<? extends T>> holder : types)
         {
             BlockEntityType<? extends T> type = holder.get();
-            event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, type, ItemHolderBlockEntity::createItemIOWrapper);
-            event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, type, EnergyHolderBlockEntity::createEnergyIOWrapper);
+            event.registerBlockEntity(Capabilities.Item.BLOCK, type, ItemHolderBlockEntity::createExternalItems);
+            event.registerBlockEntity(Capabilities.Energy.BLOCK, type, EnergyHolderBlockEntity::createExternalEnergy);
         }
     }
 
@@ -86,9 +86,9 @@ public final class LTXIBlockEntities
         for (Supplier<? extends BlockEntityType<? extends T>> holder : types)
         {
             BlockEntityType<? extends T> type = holder.get();
-            event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, type, ItemHolderBlockEntity::createItemIOWrapper);
-            event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, type, EnergyHolderBlockEntity::createEnergyIOWrapper);
-            event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, type, FluidHolderBlockEntity::createFluidIOWrapper);
+            event.registerBlockEntity(Capabilities.Item.BLOCK, type, ItemHolderBlockEntity::createExternalItems);
+            event.registerBlockEntity(Capabilities.Energy.BLOCK, type, EnergyHolderBlockEntity::createExternalEnergy);
+            event.registerBlockEntity(Capabilities.Fluid.BLOCK, type, FluidHolderBlockEntity::createExternalFluids);
         }
     }
 

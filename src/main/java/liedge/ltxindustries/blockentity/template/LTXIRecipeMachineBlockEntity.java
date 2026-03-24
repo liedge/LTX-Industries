@@ -1,11 +1,6 @@
 package liedge.ltxindustries.blockentity.template;
 
 import liedge.limacore.blockentity.BlockContentsType;
-import liedge.limacore.capability.fluid.LimaFluidHandler;
-import liedge.limacore.recipe.result.FluidResult;
-import liedge.limacore.recipe.result.ItemResult;
-import liedge.limacore.recipe.result.ResultPriority;
-import liedge.limacore.util.LimaNbtUtil;
 import liedge.ltxindustries.block.LTXIBlockProperties;
 import liedge.ltxindustries.block.MachineState;
 import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
@@ -15,19 +10,16 @@ import liedge.ltxindustries.recipe.LTXIRecipeInput;
 import liedge.ltxindustries.recipe.RecipeMode;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtOps;
-import net.minecraft.resources.RegistryOps;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
-import net.neoforged.neoforge.items.ItemStackHandler;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.resource.ResourceStack;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -69,7 +61,7 @@ public abstract class LTXIRecipeMachineBlockEntity<R extends LTXIRecipe> extends
     @Override
     protected LTXIRecipeInput getRecipeInput(Level level)
     {
-        return new LTXIRecipeInput(getItemHandler(BlockContentsType.INPUT), getFluidHandler(BlockContentsType.INPUT), mode);
+        return new LTXIRecipeInput(getItems(BlockContentsType.INPUT), getFluids(BlockContentsType.INPUT), mode);
     }
 
     @Override
@@ -86,75 +78,28 @@ public abstract class LTXIRecipeMachineBlockEntity<R extends LTXIRecipe> extends
     }
 
     @Override
-    public boolean canInsertRecipeResults(Level level, R recipe)
+    public boolean canInsertRecipeResults(ServerLevel level, R recipe, LTXIRecipeInput input)
     {
-        // Check item results
-        List<ItemResult> itemResults = recipe.getItemResults();
-        boolean itemCheck = switch (itemResults.size())
-        {
-            case 0 -> true;
-            case 1 -> ItemHandlerHelper.insertItem(getOutputInventory(), itemResults.getFirst().getMaxStack(), true).isEmpty();
-            default ->
-            {
-                ItemStackHandler interim = getOutputInventory().copyHandler();
-                for (ItemResult result : itemResults)
-                {
-                    ItemStack maxOutput = result.getMaxStack();
-                    if (result.getPriority() == ResultPriority.PRIMARY && !ItemHandlerHelper.insertItem(interim, maxOutput, false).isEmpty()) yield false;
-                }
-                yield true;
-            }
-        };
+        boolean itemsCheck = canInsertResourceResults(recipe.getItemResults(), getItems(BlockContentsType.OUTPUT));
+        boolean fluidsCheck = canInsertResourceResults(recipe.getFluidResults(), getFluids(BlockContentsType.OUTPUT));
 
-        // Check fluid results
-        List<FluidResult> fluidResults = recipe.getFluidResults();
-        boolean fluidCheck = switch (fluidResults.size())
-        {
-            case 0 -> true;
-            case 1 ->
-            {
-                FluidStack first = fluidResults.getFirst().getMaxStack();
-                yield getFluidHandlerOrThrow(BlockContentsType.OUTPUT).fillAny(first, IFluidHandler.FluidAction.SIMULATE, true) == first.getAmount();
-            }
-            default ->
-            {
-                LimaFluidHandler interim = getFluidHandlerOrThrow(BlockContentsType.OUTPUT).copyHandler();
-                for (FluidResult result : fluidResults)
-                {
-                    FluidStack maxOutput = result.getMaxStack();
-                    if (result.getPriority() == ResultPriority.PRIMARY && interim.fillAny(maxOutput, IFluidHandler.FluidAction.EXECUTE, true) != maxOutput.getAmount()) yield false;
-                }
-                yield true;
-            }
-        };
-
-        return itemCheck && fluidCheck;
+        return itemsCheck && fluidsCheck;
     }
 
     @Override
     protected void insertRecipeResults(Level level, R recipe, LTXIRecipeInput recipeInput)
     {
         // Insert item results
-        List<ItemStack> results = recipe.generateItemResults(recipeInput, level.registryAccess(), level.random);
-        for (ItemStack stack : results)
-        {
-            ItemHandlerHelper.insertItem(getOutputInventory(), stack, false);
-        }
+        List<ResourceStack<ItemResource>> itemResults = recipe.generateItemResults(recipeInput, level.registryAccess(), level.random);
+        insertResourceResults(itemResults, getItems(BlockContentsType.OUTPUT));
 
         // Insert fluid results
-        LimaFluidHandler outputFluids = getFluidHandler(BlockContentsType.OUTPUT);
-        if (outputFluids != null)
-        {
-            List<FluidStack> fluidResults = recipe.generateFluidResults(recipeInput, level.registryAccess(), level.random);
-            for (FluidStack stack : fluidResults)
-            {
-                outputFluids.fillAny(stack, IFluidHandler.FluidAction.EXECUTE, true);
-            }
-        }
+        List<ResourceStack<FluidResource>> fluidResults = recipe.generateFluidResults(recipeInput, level.registryAccess(), level.random);
+        insertResourceResults(fluidResults, getFluids(BlockContentsType.OUTPUT));
     }
 
     @Override
-    protected void craftRecipe(Level level, R recipe, int maxOperations)
+    protected void craftRecipe(ServerLevel level, R recipe, int maxOperations)
     {
         LTXIRecipeInput input = getRecipeInput(level);
 
@@ -166,7 +111,7 @@ public abstract class LTXIRecipeMachineBlockEntity<R extends LTXIRecipe> extends
         {
             if (i > 0)
             {
-                boolean canContinue = (skipInputCheck || recipe.matches(input, level)) && canInsertRecipeResults(level, recipe);
+                boolean canContinue = (skipInputCheck || recipe.matches(input, level)) && canInsertRecipeResults(level, recipe, input);
                 if (!canContinue) break;
             }
 
@@ -176,17 +121,17 @@ public abstract class LTXIRecipeMachineBlockEntity<R extends LTXIRecipe> extends
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries)
+    protected void loadAdditional(ValueInput input)
     {
-        super.loadAdditional(tag, registries);
-        this.mode = LimaNbtUtil.tryDecode(RecipeMode.CODEC, RegistryOps.create(NbtOps.INSTANCE, registries), tag, TAG_KEY_RECIPE_MODE);
+        super.loadAdditional(input);
+        this.mode = input.read(TAG_KEY_RECIPE_MODE, RecipeMode.CODEC).orElse(null);
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries)
+    protected void saveAdditional(ValueOutput output)
     {
-        super.saveAdditional(tag, registries);
-        LimaNbtUtil.tryEncodeTo(RecipeMode.CODEC, RegistryOps.create(NbtOps.INSTANCE, registries), this.mode, tag, TAG_KEY_RECIPE_MODE);
+        super.saveAdditional(output);
+        output.storeNullable(TAG_KEY_RECIPE_MODE, RecipeMode.CODEC, mode);
     }
 
     public static abstract class StateMachine<R extends LTXIRecipe> extends LTXIRecipeMachineBlockEntity<R>

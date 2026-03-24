@@ -4,9 +4,9 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import liedge.limacore.util.LimaLootUtil;
+import net.minecraft.util.context.ContextKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.storage.loot.LootContext;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParam;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 
 import java.util.Set;
@@ -33,8 +33,8 @@ public record TargetDistanceCurve(UpgradeValueProvider start, UpgradeValueProvid
     @Override
     public double get(LootContext context, int upgradeRank)
     {
-        Entity thisEntity = context.getParamOrNull(LootContextParams.THIS_ENTITY);
-        Entity attacker = context.getParamOrNull(LootContextParams.ATTACKING_ENTITY);
+        Entity thisEntity = context.getOptionalParameter(LootContextParams.THIS_ENTITY);
+        Entity attacker = context.getOptionalParameter(LootContextParams.ATTACKING_ENTITY);
 
         if (thisEntity != null && attacker != null)
         {
@@ -61,7 +61,7 @@ public record TargetDistanceCurve(UpgradeValueProvider start, UpgradeValueProvid
     }
 
     @Override
-    public Set<LootContextParam<?>> getReferencedContextParams()
+    public Set<ContextKey<?>> getReferencedContextParams()
     {
         return LimaLootUtil.joinReferencedParams(start, range, factor);
     }

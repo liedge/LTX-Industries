@@ -16,7 +16,7 @@ import liedge.ltxindustries.registry.game.LTXINetworkSerializers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -92,7 +92,7 @@ public class BlockIOConfigurationMenu extends LimaMenu<BlockIOConfigurationMenu.
 
     public static final class MenuType extends LimaMenuType<MenuContext, BlockIOConfigurationMenu>
     {
-        public MenuType(ResourceLocation id)
+        public MenuType(Identifier id)
         {
             super(MenuContext.class, BlockIOConfigurationMenu::new, defaultMenuTitle(id));
         }

@@ -4,6 +4,7 @@ import liedge.ltxindustries.registry.bootstrap.LTXIDamageTypes;
 import liedge.ltxindustries.registry.game.LTXIEntities;
 import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.util.config.LTXIWeaponsConfig;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -26,9 +27,9 @@ public class EquipmentRocketEntity extends BaseRocketEntity
     }
 
     @Override
-    protected void damageTarget(Level level, @Nullable LivingEntity owner, Entity targetEntity, Vec3 hitLocation, boolean isDirectHit)
+    protected void hurtTarget(ServerLevel level, Entity targetEntity, @Nullable LivingEntity owner, Vec3 hitLocation, boolean isDirectHit)
     {
         double baseDamage = isDirectHit ? LTXIWeaponsConfig.ROCKET_LAUNCHER_BASE_IMPACT_DAMAGE.getAsDouble() : LTXIWeaponsConfig.ROCKET_LAUNCHER_BASE_SPLASH_DAMAGE.getAsDouble();
-        LTXIItems.ROCKET_LAUNCHER.get().causeProjectileDamage(getWeaponItem(), this, owner, LTXIDamageTypes.EXPLOSIVE_WEAPON, targetEntity, baseDamage);
+        LTXIItems.ROCKET_LAUNCHER.get().causeProjectileDamage(level, targetEntity, this, owner, LTXIDamageTypes.EXPLOSIVE_WEAPON, getWeaponItem(), baseDamage);
     }
 }

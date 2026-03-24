@@ -32,7 +32,7 @@ public final class LTXIParticles
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> GROUND_ICICLE = registerSimple("icicle", false);
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> CRYO_SNOWFLAKE = registerSimple("cryo_snowflake", false);
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> MINI_ELECTRIC_SPARK = registerSimple("mini_electric_spark", false);
-    public static final DeferredHolder<ParticleType<?>, LimaParticleType<ColorParticleOptions>> FIXED_ELECTRIC_BOLT = PARTICLES.register("fixed_electric_bolt", () -> ColorParticleOptions.createParticleType(false));
+    public static final DeferredHolder<ParticleType<?>, LimaParticleType<ColorParticleOptions>> ENERGY_BOLT = PARTICLES.register("energy_bolt", () -> ColorParticleOptions.createParticleType(false));
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> CORROSIVE_DRIP = registerSimple("corrosive_drip", false);
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> ACID_FALL = registerSimple("acid_fall", false);
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> ACID_LAND = registerSimple("acid_land", false);

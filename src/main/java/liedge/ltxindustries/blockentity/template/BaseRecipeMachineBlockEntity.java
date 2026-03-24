@@ -1,9 +1,9 @@
 package liedge.ltxindustries.blockentity.template;
 
 import liedge.limacore.blockentity.BlockContentsType;
-import liedge.limacore.capability.energy.LimaEnergyStorage;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.recipe.LimaRecipeCheck;
+import liedge.limacore.transfer.energy.VariableEnergyHandler;
 import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
 import liedge.ltxindustries.blockentity.base.EnergyConsumerBlockEntity;
 import liedge.ltxindustries.blockentity.base.RecipeMachineBlockEntity;
@@ -12,17 +12,19 @@ import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrades;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import liedge.ltxindustries.util.LTXITooltipUtil;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.level.storage.loot.LootContext;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.Optional;
 import java.util.function.IntUnaryOperator;
@@ -124,7 +126,7 @@ public abstract class BaseRecipeMachineBlockEntity<I extends RecipeInput, R exte
 
     protected abstract void insertRecipeResults(Level level, R recipe, I recipeInput);
 
-    protected abstract void craftRecipe(Level level, R recipe, int maxOperations);
+    protected abstract void craftRecipe(ServerLevel level, R recipe, int maxOperations);
 
     protected void reCheckRecipe()
     {
@@ -135,25 +137,25 @@ public abstract class BaseRecipeMachineBlockEntity<I extends RecipeInput, R exte
     public void onEnergyChanged(int previousEnergy)
     {
         setChanged();
-        if (previousEnergy < getEnergyUsage() && getEnergyStorage().getEnergyStored() >= getEnergyUsage())
-            reCheckRecipe();
+        if (previousEnergy < getEnergyUsage() && hasMinimumEnergy()) reCheckRecipe();
     }
 
     @Override
-    public void onItemSlotChanged(BlockContentsType contentsType, int slot)
+    public void onItemChanged(BlockContentsType contentsType, int index, ItemStack previousContents)
     {
         setChanged();
+
         if (contentsType == BlockContentsType.INPUT || (contentsType == BlockContentsType.OUTPUT && !crafting))
         {
             reCheckRecipe();
         }
     }
 
-    // Fluid handler implementation
     @Override
-    public void onFluidsChanged(BlockContentsType contentsType, int tank)
+    public void onFluidChanged(BlockContentsType contentsType, int index, FluidStack previousContents)
     {
-        super.onFluidsChanged(contentsType, tank);
+        setChanged();
+
         if (contentsType == BlockContentsType.INPUT || (contentsType == BlockContentsType.OUTPUT && !crafting))
         {
             reCheckRecipe();
@@ -163,7 +165,7 @@ public abstract class BaseRecipeMachineBlockEntity<I extends RecipeInput, R exte
     @Override
     protected void tickServer(ServerLevel level, BlockPos pos, BlockState state)
     {
-        LimaEnergyStorage energyStorage = getEnergyStorage();
+        VariableEnergyHandler energyStorage = getEnergy();
 
         // Fill internal energy buffer from energy item slot
         pullEnergyFromAux();
@@ -172,7 +174,8 @@ public abstract class BaseRecipeMachineBlockEntity<I extends RecipeInput, R exte
         if (shouldCheckRecipe)
         {
             Optional<RecipeHolder<R>> lastUsed = recipeCheck.getLastUsedRecipe(level);
-            Optional<RecipeHolder<R>> lookup = recipeCheck.getRecipeFor(getRecipeInput(level), level);
+            I recipeInput = getRecipeInput(level);
+            Optional<RecipeHolder<R>> lookup = recipeCheck.getRecipeFor(recipeInput, level);
 
             boolean hasValidRecipe = false;
 
@@ -183,7 +186,7 @@ public abstract class BaseRecipeMachineBlockEntity<I extends RecipeInput, R exte
 
                 if (recipeChanged) this.shouldCheckCraftingTime = true;
 
-                hasValidRecipe = canInsertRecipeResults(level, recipeHolder);
+                hasValidRecipe = canInsertRecipeResults(level, recipeHolder.value(), recipeInput);
                 if (hasValidRecipe && shouldCheckCraftingTime)
                 {
                     int baseTime = getBaseRecipeCraftingTime(recipeHolder.value());
@@ -197,14 +200,14 @@ public abstract class BaseRecipeMachineBlockEntity<I extends RecipeInput, R exte
 
             shouldCheckRecipe = false;
 
-            setCrafting(hasValidRecipe && energyStorage.getEnergyStored() >= getEnergyUsage());
+            setCrafting(hasValidRecipe && hasMinimumEnergy());
         }
 
         // Tick recipe progress
         RecipeHolder<R> lastUsedRecipe = recipeCheck.getLastUsedRecipe(level).orElse(null);
         if (crafting && lastUsedRecipe != null)
         {
-            if (consumeUsageEnergy(false))
+            if (consumeUsageEnergy())
             {
                 craftingProgress++; // Set changed already called by energy storage extraction (which must pass to get here)
 
@@ -223,8 +226,8 @@ public abstract class BaseRecipeMachineBlockEntity<I extends RecipeInput, R exte
         }
 
         // Tick auto input/output of items and fluids
-        tickItemAutoInput(20, getInputInventory());
-        tickItemAutoOutput(20, getOutputInventory());
+        tickItemAutoInput(20, getItems(BlockContentsType.INPUT));
+        tickItemAutoOutput(20, getItems(BlockContentsType.OUTPUT));
         tickFluidAutoInput(20);
         tickFluidAutoOutput(20);
     }
@@ -250,16 +253,16 @@ public abstract class BaseRecipeMachineBlockEntity<I extends RecipeInput, R exte
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries)
+    protected void loadAdditional(ValueInput input)
     {
-        super.loadAdditional(tag, registries);
-        craftingProgress = tag.getInt(TAG_KEY_PROGRESS);
+        super.loadAdditional(input);
+        craftingProgress = input.getIntOr(TAG_KEY_PROGRESS, 0);
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries)
+    protected void saveAdditional(ValueOutput output)
     {
-        super.saveAdditional(tag, registries);
-        tag.putInt(TAG_KEY_PROGRESS, craftingProgress);
+        super.saveAdditional(output);
+        output.putInt(TAG_KEY_PROGRESS, craftingProgress);
     }
 }

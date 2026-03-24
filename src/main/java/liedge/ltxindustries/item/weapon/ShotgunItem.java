@@ -12,6 +12,7 @@ import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.registry.game.LTXISounds;
 import liedge.ltxindustries.util.config.LTXIWeaponsConfig;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -42,7 +43,7 @@ public class ShotgunItem extends SemiAutoWeaponItem
     @Override
     public void weaponFired(ItemStack heldItem, Player player, Level level, LTXIExtendedInput controls)
     {
-        if (!level.isClientSide())
+        if (level instanceof ServerLevel serverLevel)
         {
             Object2IntMap<Entity> pelletHits = new Object2IntOpenHashMap<>();
 
@@ -56,7 +57,7 @@ public class ShotgunItem extends SemiAutoWeaponItem
             }
 
             final double basePelletDamage = LTXIWeaponsConfig.SHOTGUN_BASE_PELLET_DAMAGE.getAsDouble();
-            pelletHits.forEach((hitEntity, pellets) -> causeLightfragDamage(heldItem, player, hitEntity, basePelletDamage * pellets));
+            pelletHits.forEach((hitEntity, pellets) -> causeLightfragDamage(serverLevel, hitEntity, player, heldItem, basePelletDamage * pellets));
             level.gameEvent(player, LTXIGameEvents.WEAPON_FIRED, player.getEyePosition());
         }
 

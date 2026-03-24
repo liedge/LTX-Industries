@@ -25,6 +25,8 @@ import static liedge.ltxindustries.registry.game.LTXIAttachmentTypes.INPUT_EXTEN
 
 public class RocketLauncherItem extends SemiAutoWeaponItem
 {
+    public static final int TARGET_LOCK_MIN_TICKS = 20;
+
     public RocketLauncherItem(Properties properties)
     {
         super(properties, 2, 1.5d, 60, LTXIItems.EXPLOSIVES_WEAPON_ENERGY, 1, 0);

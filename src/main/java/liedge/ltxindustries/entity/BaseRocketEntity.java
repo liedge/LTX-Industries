@@ -26,7 +26,7 @@ public abstract class BaseRocketEntity extends HomingProjectileEntity
         super(type, level);
     }
 
-    protected abstract void damageTarget(Level level, @Nullable LivingEntity owner, Entity targetEntity, Vec3 hitLocation, boolean isDirectHit);
+    protected abstract void hurtTarget(ServerLevel level, Entity targetEntity, @Nullable LivingEntity owner, Vec3 hitLocation, boolean isDirectHit);
 
     @Override
     public int getLifetime()
@@ -39,9 +39,9 @@ public abstract class BaseRocketEntity extends HomingProjectileEntity
     {
         Entity directHit = hitResult.getType() == HitResult.Type.ENTITY ? ((EntityHitResult) hitResult).getEntity() : null;
 
-        if (directHit != null) damageTarget(level, owner, directHit, hitLocation, true);
+        if (directHit != null) hurtTarget(level, directHit, owner, hitLocation, true);
 
-        getEntitiesInAOE(level, hitLocation, 3d, owner, directHit).forEach(aoeHit -> damageTarget(level, owner, aoeHit, hitLocation, false));
+        getEntitiesInAOE(level, hitLocation, 3d, owner, directHit).forEach(aoeHit -> hurtTarget(level, aoeHit, owner, hitLocation, false));
         level.playSound(null, hitLocation.x, hitLocation.y, hitLocation.z, LTXISounds.ROCKET_EXPLODE.get(), SoundSource.PLAYERS, 4f, 0.9f);
         LimaNetworkUtil.sendParticle(level, new ColorParticleOptions(LTXIParticles.HALF_SONIC_BOOM_EMITTER, LTXIConstants.LIME_GREEN), LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, hitLocation);
 

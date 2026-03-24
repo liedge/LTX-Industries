@@ -2,7 +2,6 @@ package liedge.ltxindustries.menu;
 
 import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.menu.LimaMenuType;
-import liedge.limacore.util.LimaItemUtil;
 import liedge.ltxindustries.blockentity.BaseECABlockEntity;
 import net.minecraft.world.entity.player.Inventory;
 
@@ -12,7 +11,7 @@ public class EnergyCellArrayMenu extends LTXIMachineMenu<BaseECABlockEntity>
     {
         super(type, containerId, inventory, menuContext, false);
 
-        addSlotsGrid(BlockContentsType.GENERAL, 0, 56, 37, 4, 1, LimaItemUtil::hasEnergyCapability);
+        addSlotsGrid(BlockContentsType.GENERAL, 0, 56, 37, 4, 1); //LimaItemUtil::hasEnergyCapability);
 
         addDefaultPlayerInventoryAndHotbar();
     }
@@ -20,6 +19,6 @@ public class EnergyCellArrayMenu extends LTXIMachineMenu<BaseECABlockEntity>
     @Override
     public void defineDataWatchers(DataWatcherCollector collector)
     {
-        menuContext.getEnergyStorage().keepAllPropertiesSynced(collector);
+        menuContext.getEnergy().keepAllPropertiesSynced(collector);
     }
 }

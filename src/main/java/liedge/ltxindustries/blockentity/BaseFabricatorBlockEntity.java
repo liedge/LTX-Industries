@@ -1,16 +1,15 @@
 package liedge.ltxindustries.blockentity;
 
+import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.network.sync.AutomaticDataWatcher;
 import liedge.limacore.network.sync.LimaDataWatcher;
 import liedge.limacore.recipe.LimaRecipeCheck;
 import liedge.limacore.recipe.LimaRecipeInput;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
-import liedge.limacore.util.LimaItemUtil;
-import liedge.limacore.util.LimaNbtUtil;
+import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
 import liedge.ltxindustries.blockentity.base.EnergyConsumerBlockEntity;
 import liedge.ltxindustries.blockentity.base.RecipeMachineBlockEntity;
-import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
 import liedge.ltxindustries.blockentity.template.ProductionMachineBlockEntity;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrades;
 import liedge.ltxindustries.recipe.FabricatingRecipe;
@@ -18,14 +17,14 @@ import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
 import liedge.ltxindustries.util.LTXITooltipUtil;
 import liedge.ltxindustries.util.config.LTXIMachinesConfig;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.level.storage.loot.LootContext;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 
 public abstract class BaseFabricatorBlockEntity extends ProductionMachineBlockEntity implements EnergyConsumerBlockEntity, RecipeMachineBlockEntity<LimaRecipeInput, FabricatingRecipe>
 {
@@ -86,9 +85,9 @@ public abstract class BaseFabricatorBlockEntity extends ProductionMachineBlockEn
     }
 
     @Override
-    public boolean canInsertRecipeResults(Level level, FabricatingRecipe recipe)
+    public boolean canInsertRecipeResults(ServerLevel level, FabricatingRecipe recipe, LimaRecipeInput input)
     {
-        return LimaItemUtil.canMergeItemStacks(getOutputInventory().getStackInSlot(0), recipe.getFabricatingResultItem());
+        return canInsertResourceResults(recipe.getItemResults(), getItems(BlockContentsType.OUTPUT));
     }
 
     @Override
@@ -108,7 +107,7 @@ public abstract class BaseFabricatorBlockEntity extends ProductionMachineBlockEn
     public void defineDataWatchers(DataWatcherCollector collector)
     {
         collector.register(AutomaticDataWatcher.keepSynced(LimaCoreNetworkSerializers.BOOL, this::isCrafting, this::setCrafting));
-        collector.register(AutomaticDataWatcher.keepItemSynced(this::createPreviewItem, stack -> this.clientPreviewItem = stack));
+        collector.register(AutomaticDataWatcher.keepSynced(LimaCoreNetworkSerializers.ITEM_RESOURCE, this::writePreviewResource, this::readPreviewResource));
     }
 
     @Override
@@ -139,7 +138,7 @@ public abstract class BaseFabricatorBlockEntity extends ProductionMachineBlockEn
         tickServerFabricator(level, pos, state);
 
         // Auto output item if option available
-        tickItemAutoOutput(20, getOutputInventory());
+        tickItemAutoOutput(20, getItems(BlockContentsType.OUTPUT));
     }
 
     protected abstract void tickServerFabricator(ServerLevel level, BlockPos pos, BlockState state);
@@ -147,43 +146,46 @@ public abstract class BaseFabricatorBlockEntity extends ProductionMachineBlockEn
     public abstract Item getValidBlueprintItem();
 
     @Override
-    protected boolean isItemValidForAuxInventory(int slot, ItemStack stack)
+    protected boolean isItemValidForAuxInventory(int index, ItemResource resource)
     {
-        return slot == AUX_BLUEPRINT_SLOT ? stack.is(getValidBlueprintItem()) : super.isItemValidForAuxInventory(slot, stack);
+        return index == AUX_BLUEPRINT_SLOT ? resource.is(getValidBlueprintItem()) : super.isItemValidForAuxInventory(index, resource);
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries)
+    protected void loadAdditional(ValueInput input)
     {
-        super.loadAdditional(tag, registries);
+        super.loadAdditional(input);
 
-        recipeCheck.setLastUsedRecipeId(LimaNbtUtil.getOptionalResourceLocation(tag, "current_recipe"));
-        crafting = tag.getBoolean("crafting");
-        energyCraftProgress = tag.getInt("recipe_energy");
+        recipeCheck.deserialize(input);
+        crafting = input.getBooleanOr("crafting", false);
+        energyCraftProgress = input.getIntOr("recipe_energy", 0);
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries)
+    protected void saveAdditional(ValueOutput output)
     {
-        super.saveAdditional(tag, registries);
+        super.saveAdditional(output);
 
-        LimaNbtUtil.putOptionalResourceLocation(tag, "current_recipe", recipeCheck.getLastUsedRecipeId());
-        tag.putBoolean("crafting", crafting);
-        tag.putInt("recipe_energy", energyCraftProgress);
+        recipeCheck.serialize(output);
+        output.putBoolean("crafting", crafting);
+        output.putInt("recipe_energy", energyCraftProgress);
     }
 
     // For data watcher use only, called on server
-    private ItemStack createPreviewItem()
+    private ItemResource writePreviewResource()
     {
-        ItemStack currentOutputItem = getOutputInventory().getStackInSlot(0);
+        ItemResource resource = getOutputInventory().getResource(0);
 
-        if (isCrafting())
+        if (isCrafting() && level instanceof ServerLevel serverLevel)
         {
-            return recipeCheck.getLastUsedRecipe(level).map(r -> r.value().getFabricatingResultItem()).orElse(currentOutputItem);
+            return recipeCheck.getLastUsedRecipe(serverLevel).map(holder -> holder.value().getFirstItemResult().getResource()).orElse(resource);
         }
-        else
-        {
-            return currentOutputItem;
-        }
+
+        return resource;
+    }
+
+    private void readPreviewResource(ItemResource resource)
+    {
+        this.clientPreviewItem = resource.toStack();
     }
 }
