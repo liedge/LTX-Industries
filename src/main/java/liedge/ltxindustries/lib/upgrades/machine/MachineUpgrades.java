@@ -3,6 +3,7 @@ package liedge.ltxindustries.lib.upgrades.machine;
 import com.mojang.serialization.Codec;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+import liedge.limacore.util.LimaRegistryUtil;
 import liedge.ltxindustries.blockentity.base.UpgradesHolderBlockEntity;
 import liedge.ltxindustries.lib.upgrades.MutableUpgradesContainer;
 import liedge.ltxindustries.lib.upgrades.UpgradesContainerBase;
@@ -10,8 +11,6 @@ import net.minecraft.core.Holder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-
-import java.util.Objects;
 
 public final class MachineUpgrades extends UpgradesContainerBase<BlockEntityType<?>, MachineUpgrade>
 {
@@ -31,8 +30,7 @@ public final class MachineUpgrades extends UpgradesContainerBase<BlockEntityType
 
     public boolean canInstallUpgrade(UpgradesHolderBlockEntity blockEntity, MachineUpgradeEntry entry)
     {
-        Holder<BlockEntityType<?>> contextHolder = Objects.requireNonNull(blockEntity.getAsLimaBlockEntity().getType().builtInRegistryHolder());
-        return canInstallUpgrade(contextHolder, entry);
+        return canInstallUpgrade(LimaRegistryUtil.builtInHolder(blockEntity.getAsLimaBlockEntity().getType()), entry);
     }
 
     @Override

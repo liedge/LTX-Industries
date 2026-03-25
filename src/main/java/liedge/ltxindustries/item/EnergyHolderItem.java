@@ -6,6 +6,7 @@ import liedge.limacore.transfer.LimaEnergyUtil;
 import liedge.limacore.util.LimaCoreObjects;
 import liedge.ltxindustries.util.LTXITooltipUtil;
 import net.minecraft.util.Mth;
+import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import net.neoforged.neoforge.transfer.access.ItemAccess;
@@ -23,16 +24,16 @@ public interface EnergyHolderItem extends ItemLike
 
     }
 
-    int getBaseEnergyCapacity(ItemStack stack);
+    int getBaseEnergyCapacity(ItemInstance stack);
 
     int getBaseEnergyTransferRate(ItemStack stack);
 
-    default int getEnergyStored(ItemStack stack)
+    default int getEnergyStored(ItemInstance stack)
     {
         return stack.getOrDefault(ENERGY, 0);
     }
 
-    default int getEnergyCapacity(ItemStack stack)
+    default int getEnergyCapacity(ItemInstance stack)
     {
         return stack.getOrDefault(ENERGY_CAPACITY, getBaseEnergyCapacity(stack));
     }

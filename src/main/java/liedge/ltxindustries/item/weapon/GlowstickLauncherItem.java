@@ -52,7 +52,7 @@ public class GlowstickLauncherItem extends SemiAutoWeaponItem
             level.gameEvent(player, LTXIGameEvents.WEAPON_FIRED, player.getEyePosition());
         }
 
-        level.playSound(player, player, LTXISounds.GLOWSTICK_LAUNCHER_FIRE.get(), SoundSource.PLAYERS, 2f, 1f + (level.random.nextFloat() * 0.15f));
+        level.playSound(player, player, LTXISounds.GLOWSTICK_LAUNCHER_FIRE.get(), SoundSource.PLAYERS, 2f, 1f + (level.getRandom().nextFloat() * 0.15f));
     }
 
     @Override

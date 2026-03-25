@@ -6,9 +6,12 @@ import liedge.ltxindustries.recipe.FabricatingRecipe;
 import liedge.ltxindustries.registry.game.LTXIDataComponents;
 import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.Nullable;
 
 public final class BlueprintClientItem implements ItemGuiRenderOverride
 {
@@ -17,7 +20,7 @@ public final class BlueprintClientItem implements ItemGuiRenderOverride
     private BlueprintClientItem() {}
 
     @Override
-    public boolean renderCustomGuiItem(GuiGraphics graphics, ItemStack stack, int x, int y)
+    public boolean renderCustomGuiItem(GuiGraphicsExtractor graphics, @Nullable LivingEntity owner, @Nullable Level level, ItemStack stack, int x, int y)
     {
         if (Minecraft.getInstance().screen != null && Minecraft.getInstance().hasShiftDown())
         {
@@ -25,8 +28,8 @@ public final class BlueprintClientItem implements ItemGuiRenderOverride
             if (recipe != null)
             {
                 ItemStack result = recipe.value().getResultPreview();
-                graphics.renderFakeItem(result, x, y);
-                graphics.renderItemDecorations(Minecraft.getInstance().font, result, x, y);
+                graphics.fakeItem(result, x, y);
+                graphics.itemDecorations(Minecraft.getInstance().font, result, x, y);
                 return true;
             }
         }

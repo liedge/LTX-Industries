@@ -1,6 +1,7 @@
 package liedge.ltxindustries.client.renderer.blockentity;
 
 import liedge.ltxindustries.blockentity.template.LTXIMachineBlockEntity;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
@@ -17,7 +18,7 @@ public abstract class MachineRenderer<BE extends LTXIMachineBlockEntity> impleme
     protected MachineRenderer(BlockEntityRendererProvider.Context context)
     {
         this.itemResolver = context.itemModelResolver();
-        this.modelManager = context.blockRenderDispatcher().getBlockModelShaper().getModelManager();
+        this.modelManager = Minecraft.getInstance().getModelManager();
     }
 
     abstract void extractAdditional(BE blockEntity, MachineRenderState renderState, float partialTick);

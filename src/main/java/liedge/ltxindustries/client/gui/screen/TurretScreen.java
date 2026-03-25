@@ -1,7 +1,7 @@
 package liedge.ltxindustries.client.gui.screen;
 
 import liedge.ltxindustries.menu.TurretMenu;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
@@ -14,12 +14,12 @@ public class TurretScreen extends LTXIMachineScreen<TurretMenu<?>>
     }
 
     @Override
-    protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY)
+    public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick)
     {
-        super.renderBg(guiGraphics, partialTick, mouseX, mouseY);
+        super.extractBackground(graphics, mouseX, mouseY, partialTick);
 
-        blitInventoryAndHotbar(guiGraphics, 7, 105);
-        blitSlotGrid(guiGraphics, 79, 22, 5, 4);
-        blitPowerInSlot(guiGraphics, 7, 52);
+        blitInventoryAndHotbar(graphics, 7, 105);
+        blitSlotGrid(graphics, 79, 22, 5, 4);
+        blitPowerInSlot(graphics, 7, 52);
     }
 }

@@ -1,35 +1,18 @@
 package liedge.ltxindustries.client.model;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import it.unimi.dsi.fastutil.objects.ObjectList;
-import it.unimi.dsi.fastutil.objects.ObjectLists;
 import net.minecraft.client.renderer.SubmitNodeCollector;
-import net.minecraft.client.renderer.block.model.BakedQuad;
-import net.minecraft.client.renderer.block.model.TextureSlots;
-import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
-import net.minecraft.client.renderer.rendertype.RenderType;
-import net.minecraft.client.renderer.rendertype.RenderTypes;
-import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.resources.model.BlockModelRotation;
 import net.minecraft.client.resources.model.ModelBaker;
 import net.minecraft.client.resources.model.ModelManager;
-import net.minecraft.client.resources.model.ResolvedModel;
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.context.ContextMap;
-import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.client.RenderTypeGroup;
-import net.neoforged.neoforge.client.RenderTypeHelper;
-import net.neoforged.neoforge.client.model.NeoForgeModelProperties;
 import net.neoforged.neoforge.client.model.standalone.StandaloneModelKey;
 import net.neoforged.neoforge.client.model.standalone.UnbakedStandaloneModel;
-import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 
 public final class LayeredModelPart
 {
-    public static final LayeredModelPart EMPTY = new LayeredModelPart(List.of());
+    public static final LayeredModelPart EMPTY = new LayeredModelPart();
 
     public static LayeredModelPart.Unbaked create(List<Identifier> modelIds)
     {
@@ -47,19 +30,23 @@ public final class LayeredModelPart
         return model != null ? model : EMPTY;
     }
 
-    private final List<Layer> layers;
+    //private final List<Layer> layers;
 
+    /*
     private LayeredModelPart(List<Layer> layers)
     {
         this.layers = layers;
     }
+    */
 
     public void render(PoseStack poseStack, SubmitNodeCollector nodeCollector, int packedLight)
     {
+        /*
         for (Layer layer : layers)
         {
             layer.submitLayer(poseStack, nodeCollector, packedLight);
         }
+        */
     }
 
     public static final class Unbaked implements UnbakedStandaloneModel<LayeredModelPart>
@@ -74,6 +61,7 @@ public final class LayeredModelPart
         @Override
         public LayeredModelPart bake(ModelBaker baker)
         {
+            /*
             ObjectList<Layer> bakedLayers = new ObjectArrayList<>();
 
             for (Identifier layer : layers)
@@ -81,8 +69,10 @@ public final class LayeredModelPart
                 Layer baked = bakeLayer(baker, layer);
                 if (baked != null) bakedLayers.add(baked);
             }
+            */
 
-            return bakedLayers.isEmpty() ? EMPTY : new LayeredModelPart(ObjectLists.unmodifiable(bakedLayers));
+            return EMPTY;
+            //return bakedLayers.isEmpty() ? EMPTY : new LayeredModelPart(ObjectLists.unmodifiable(bakedLayers));
         }
 
         @Override
@@ -91,6 +81,7 @@ public final class LayeredModelPart
             layers.forEach(resolver::markDependency);
         }
 
+        /*
         private @Nullable Layer bakeLayer(ModelBaker baker, Identifier modelId)
         {
             ResolvedModel model = baker.getModel(modelId);
@@ -104,15 +95,19 @@ public final class LayeredModelPart
 
             return new Layer(quads, renderType);
         }
+        */
 
+        /*
         private RenderTypeGroup getRenderGroup(ContextMap map)
         {
             RenderTypeGroup group = map.getOptional(NeoForgeModelProperties.RENDER_TYPE);
             if (group == null) group = new RenderTypeGroup(ChunkSectionLayer.SOLID, RenderTypes::entitySolid);
             return group;
         }
+        */
     }
 
+    /*
     private record Layer(List<BakedQuad> quads, RenderType renderType)
     {
         private void submitLayer(PoseStack poseStack, SubmitNodeCollector nodeCollector, int packedLight)
@@ -126,4 +121,5 @@ public final class LayeredModelPart
             });
         }
     }
+    */
 }

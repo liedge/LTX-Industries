@@ -6,13 +6,13 @@ import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.state.AvatarRenderState;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.LightCoordsUtil;
 
 public class WonderlandArmorModel extends HumanoidModel<AvatarRenderState>
 {
@@ -48,8 +48,8 @@ public class WonderlandArmorModel extends HumanoidModel<AvatarRenderState>
 	public void submitHead(PoseStack poseStack, SubmitNodeCollector nodeCollector, Identifier texture, int packedLight)
 	{
 		nodeCollector.submitModelPart(head, poseStack, renderType(texture), packedLight, OverlayTexture.NO_OVERLAY, null);
-		nodeCollector.submitModelPart(headLights, poseStack, cutoutUnlit(texture), LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, null);
-		nodeCollector.submitModelPart(visor, poseStack, RenderTypes.entityTranslucentEmissive(texture, true), LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, null);
+		nodeCollector.submitModelPart(headLights, poseStack, cutoutUnlit(texture), LightCoordsUtil.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, null);
+		nodeCollector.submitModelPart(visor, poseStack, RenderTypes.entityTranslucentEmissive(texture, true), LightCoordsUtil.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, null);
 	}
 
 	public void submitBody(PoseStack poseStack, SubmitNodeCollector nodeCollector, Identifier texture, int packedLight)
@@ -130,9 +130,6 @@ public class WonderlandArmorModel extends HumanoidModel<AvatarRenderState>
 		MeshDefinition mesh = new MeshDefinition();
 		PartDefinition root = mesh.getRoot();
 
-		// Hat, required and unused
-		root.addOrReplaceChild("hat", CubeListBuilder.create(), PartPose.ZERO);
-
 		// Head non-emissive
 		PartDefinition head = root.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 29).addBox(3.5F, -5.5F, -2.0F, 2.0F, 4.0F, 4.0F, CubeDeformation.NONE)
 				.texOffs(0, 29).mirror().addBox(-5.5F, -5.5F, -2.0F, 2.0F, 4.0F, 4.0F, CubeDeformation.NONE).mirror(false)
@@ -142,6 +139,9 @@ public class WonderlandArmorModel extends HumanoidModel<AvatarRenderState>
 				.texOffs(36, 0).addBox(-2.0F, -9.0F, -1.0F, 4.0F, 1.0F, 2.0F, new CubeDeformation(0.05F)), PartPose.ZERO);
 		head.addOrReplaceChild("leftear_r1", CubeListBuilder.create().texOffs(6, 37).addBox(-1.5F, -4.0F, -1.0F, 3.0F, 4.0F, 0.0F, CubeDeformation.NONE), PartPose.offsetAndRotation(3.25F, -7.5F, 1.5F, 0.0F, 0.0F, 0.6109F));
 		head.addOrReplaceChild("rightear_r1", CubeListBuilder.create().texOffs(6, 37).addBox(-1.5F, -4.0F, -1.0F, 3.0F, 4.0F, 0.0F, CubeDeformation.NONE), PartPose.offsetAndRotation(-3.25F, -7.5F, 1.5F, 0.0F, 0.0F, -0.6109F));
+
+		// Hat, required and unused
+		head.addOrReplaceChild("hat", CubeListBuilder.create(), PartPose.ZERO);
 
 		// Visor
 		root.addOrReplaceChild("visor", CubeListBuilder.create().texOffs(22, 40).addBox(-4.5F, -6.0F, -4.5F, 9.0F, 4.0F, 3.0F, CubeDeformation.NONE), PartPose.ZERO);

@@ -5,11 +5,12 @@ import com.mojang.math.Axis;
 import liedge.ltxindustries.blockentity.turret.TurretBlockEntity;
 import liedge.ltxindustries.blockentity.turret.TurretState;
 import liedge.ltxindustries.client.model.LayeredModelPart;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
-import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -23,7 +24,7 @@ public abstract class TurretRenderer<BE extends TurretBlockEntity> implements Bl
 
     TurretRenderer(BlockEntityRendererProvider.Context context, StandaloneModelKey<LayeredModelPart> swivelKey, StandaloneModelKey<LayeredModelPart> weaponsKey)
     {
-        ModelManager models = context.blockRenderDispatcher().getBlockModelShaper().getModelManager();
+        ModelManager models = Minecraft.getInstance().getModelManager();
 
         this.swivelModel = LayeredModelPart.get(models, swivelKey);
         this.weaponsModel = LayeredModelPart.get(models, weaponsKey);

@@ -34,7 +34,7 @@ public class LinearFusionRifleItem extends FullAutoWeaponItem
         if (triggerTicks == 1)
         {
             Level level = player.level();
-            level.playSound(player, player, LTXISounds.LINEAR_FUSION_CHARGE.get(), SoundSource.PLAYERS, 1f, 0.95f + (0.1f * level.random.nextFloat()));
+            level.playSound(player, player, LTXISounds.LINEAR_FUSION_CHARGE.get(), SoundSource.PLAYERS, 1f, 0.95f + (0.1f * level.getRandom().nextFloat()));
         }
 
         if (!player.level().isClientSide() && input.canStartShootingWeapon(heldItem, player, this) && triggerTicks >= 10)
@@ -64,7 +64,7 @@ public class LinearFusionRifleItem extends FullAutoWeaponItem
             traceLightfrag(serverLevel, player, heldItem, LTXIWeaponsConfig.LFR_BASE_DAMAGE.getAsDouble(), 0d, 0.125d);
         }
 
-        level.playSound(player, player, LTXISounds.LINEAR_FUSION_FIRE.get(), SoundSource.PLAYERS, 2f, 0.9f + (level.random.nextFloat() * 0.125f));
+        level.playSound(player, player, LTXISounds.LINEAR_FUSION_FIRE.get(), SoundSource.PLAYERS, 2f, 0.9f + (level.getRandom().nextFloat() * 0.125f));
     }
 
     @Override

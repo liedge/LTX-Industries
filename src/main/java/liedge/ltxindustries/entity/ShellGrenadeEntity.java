@@ -98,12 +98,11 @@ public class ShellGrenadeEntity extends LTXIProjectileEntity implements IEntityW
 
     private double getDamageMultiplier(Entity hitEntity)
     {
-        EntityType<?> type = hitEntity.getType();
         return switch (grenadeType)
         {
-            case FLAME -> type.is(LTXITags.EntityTypes.WEAK_TO_FLAME) ? FLAME_GRENADE_DAMAGE_MULTIPLIER.getAsDouble() : 1d;
-            case CRYO -> type.is(LTXITags.EntityTypes.WEAK_TO_CRYO) ? CRYO_GRENADE_DAMAGE_MULTIPLIER.getAsDouble() : 1d;
-            case ELECTRIC -> (hitEntity.isInWaterOrRain() || type.is(LTXITags.EntityTypes.WEAK_TO_ELECTRIC)) ? ELECTRIC_GRENADE_DAMAGE_MULTIPLIER.getAsDouble() : 1d;
+            case FLAME -> hitEntity.is(LTXITags.EntityTypes.WEAK_TO_FLAME) ? FLAME_GRENADE_DAMAGE_MULTIPLIER.getAsDouble() : 1d;
+            case CRYO -> hitEntity.is(LTXITags.EntityTypes.WEAK_TO_CRYO) ? CRYO_GRENADE_DAMAGE_MULTIPLIER.getAsDouble() : 1d;
+            case ELECTRIC -> (hitEntity.isInWaterOrRain() || hitEntity.is(LTXITags.EntityTypes.WEAK_TO_ELECTRIC)) ? ELECTRIC_GRENADE_DAMAGE_MULTIPLIER.getAsDouble() : 1d;
             default -> 1d;
         };
     }

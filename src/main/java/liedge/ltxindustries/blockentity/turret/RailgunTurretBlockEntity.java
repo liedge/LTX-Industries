@@ -60,7 +60,7 @@ public class RailgunTurretBlockEntity extends SemiAutoTurretBlockEntity
     @Override
     protected boolean isValidDefaultTarget(Entity entity)
     {
-        return entity.getType().is(LTXITags.EntityTypes.HIGH_THREAT_TARGETS);
+        return entity.is(LTXITags.EntityTypes.HIGH_THREAT_TARGETS);
     }
 
     @Override

@@ -3,7 +3,6 @@ package liedge.ltxindustries.registry.game;
 import liedge.limacore.item.LimaCreativeTabFillerItem;
 import liedge.limacore.util.LimaItemUtil;
 import liedge.ltxindustries.LTXIndustries;
-import liedge.ltxindustries.integration.guideme.GuideMEIntegration;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
 import liedge.ltxindustries.registry.bootstrap.LTXIEnchantments;
 import net.minecraft.core.Holder;
@@ -51,8 +50,9 @@ public final class LTXICreativeTabs
         LimaCreativeTabFillerItem.addHoldersToTab(tabId, parameters, output, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS, LTXIItems.getRegisteredItems());
 
         // Add GuideME tablet (if installed)
-        ItemStack guideTablet = GuideMEIntegration.createGuideTabletItem();
-        if (!guideTablet.isEmpty()) output.accept(guideTablet, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+        // TODO Return integration
+        //ItemStack guideTablet = GuideMEIntegration.createGuideTabletItem();
+        //if (!guideTablet.isEmpty()) output.accept(guideTablet, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
 
         HolderLookup<Enchantment> enchantments = parameters.holders().lookupOrThrow(Registries.ENCHANTMENT);
         addEnchantedBooks(output, enchantments, LTXIEnchantments.AMMO_SCAVENGER);

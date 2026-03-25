@@ -5,7 +5,7 @@ import liedge.limacore.client.ItemGuiRenderOverride;
 import liedge.ltxindustries.client.LTXIAtlasIds;
 import liedge.ltxindustries.lib.upgrades.UpgradeIcon;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.Identifier;
@@ -25,7 +25,7 @@ public final class UpgradeIconRenderers
      * @return The rendering result
      */
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
-    public static boolean renderIcon(GuiGraphics graphics, UpgradeIcon icon, int x, int y)
+    public static boolean renderIcon(GuiGraphicsExtractor graphics, UpgradeIcon icon, int x, int y)
     {
         return INSTANCE.renderInternal(graphics, x, y, icon);
     }
@@ -34,7 +34,7 @@ public final class UpgradeIconRenderers
 
     private UpgradeIconRenderers()
     {
-        this.<UpgradeIcon.NoRenderIcon>registerRenderer(UpgradeIcon.Type.NO_RENDER, (graphics, x, y, icon) -> false);
+        this.<UpgradeIcon.NoRenderIcon>registerRenderer(UpgradeIcon.Type.NO_RENDER, (_, _, _, _) -> false);
         this.<UpgradeIcon.SpriteSheetIcon>registerRenderer(UpgradeIcon.Type.UPGRADE_SPRITE, (graphics, x, y, icon) -> renderSpriteIcon(graphics, icon.location(), x, y, 16, 16));
         this.registerRenderer(UpgradeIcon.Type.ITEM_STACK, UpgradeIconRenderers::renderItemStackIcon);
         this.registerRenderer(UpgradeIcon.Type.SPRITE_OVERLAY, UpgradeIconRenderers::renderOverlayIcon);
@@ -46,28 +46,28 @@ public final class UpgradeIconRenderers
     }
 
     @SuppressWarnings("unchecked")
-    private <T extends UpgradeIcon> boolean renderInternal(GuiGraphics graphics, int x, int y, UpgradeIcon uncheckedIcon)
+    private <T extends UpgradeIcon> boolean renderInternal(GuiGraphicsExtractor graphics, int x, int y, UpgradeIcon uncheckedIcon)
     {
         IconRenderer<T> renderer = (IconRenderer<T>) renderers.get(uncheckedIcon.getType());
         return renderer.render(graphics, x, y, (T) uncheckedIcon);
     }
 
-    private static boolean renderSpriteIcon(GuiGraphics graphics, Identifier location, int x, int y, int width, int height)
+    private static boolean renderSpriteIcon(GuiGraphicsExtractor graphics, Identifier location, int x, int y, int width, int height)
     {
         TextureAtlasSprite sprite = Minecraft.getInstance().getAtlasManager().getAtlasOrThrow(LTXIAtlasIds.UPGRADE_ICONS_ID).getSprite(location);
         graphics.blitSprite(RenderPipelines.GUI_TEXTURED, sprite, x, y, width, height, -1);
         return true;
     }
 
-    private static boolean renderItemStackIcon(GuiGraphics graphics, int x, int y, UpgradeIcon.ItemStackIcon icon)
+    private static boolean renderItemStackIcon(GuiGraphicsExtractor graphics, int x, int y, UpgradeIcon.ItemStackIcon icon)
     {
-        if (icon.stack().getItem() instanceof ItemGuiRenderOverride) return false;
+        if (icon.template().item().value() instanceof ItemGuiRenderOverride) return false;
 
-        graphics.renderFakeItem(icon.stack(), x, y);
+        graphics.fakeItem(icon.template().create(), x, y);
         return true;
     }
 
-    private static boolean renderOverlayIcon(GuiGraphics graphics, int x, int y, UpgradeIcon.SpriteOverlayIcon icon)
+    private static boolean renderOverlayIcon(GuiGraphicsExtractor graphics, int x, int y, UpgradeIcon.SpriteOverlayIcon icon)
     {
         if (!renderIcon(graphics, icon.background(), x, y)) return false;
 
@@ -80,6 +80,6 @@ public final class UpgradeIconRenderers
     @FunctionalInterface
     private interface IconRenderer<T extends UpgradeIcon>
     {
-        boolean render(GuiGraphics graphics, int x, int y, T icon);
+        boolean render(GuiGraphicsExtractor graphics, int x, int y, T icon);
     }
 }

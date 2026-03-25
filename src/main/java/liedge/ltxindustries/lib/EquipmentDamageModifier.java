@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.lib.math.MathOperation;
+import liedge.limacore.util.LimaLootUtil;
 import net.minecraft.advancements.criterion.EntityPredicate;
 import net.minecraft.advancements.criterion.ItemPredicate;
 import net.minecraft.core.HolderGetter;
@@ -11,7 +12,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.ConditionalEffect;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.predicates.AllOfCondition;
@@ -31,7 +31,7 @@ public record EquipmentDamageModifier(Optional<ItemPredicate> equipmentPredicate
 {
     public static final Codec<EquipmentDamageModifier> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             ItemPredicate.CODEC.optionalFieldOf("equipment_predicate").forGetter(EquipmentDamageModifier::equipmentPredicate),
-            ConditionalEffect.conditionCodec(LootContextParamSets.ENTITY).optionalFieldOf("condition").forGetter(EquipmentDamageModifier::condition),
+            LimaLootUtil.conditionsCodec(LootContextParamSets.ENTITY, "damage modifier condition").optionalFieldOf("condition").forGetter(EquipmentDamageModifier::condition),
             NumberProviders.CODEC.fieldOf("value").forGetter(EquipmentDamageModifier::value),
             MathOperation.COMPOUND_OP_CODEC.fieldOf("op").forGetter(EquipmentDamageModifier::operation))
             .apply(instance, EquipmentDamageModifier::new));

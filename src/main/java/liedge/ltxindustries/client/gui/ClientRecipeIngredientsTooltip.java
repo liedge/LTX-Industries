@@ -6,16 +6,11 @@ import liedge.ltxindustries.menu.tooltip.RecipeIngredientsTooltip;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.Mth;
-import net.minecraft.util.Util;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.display.SlotDisplayContext;
 import net.minecraft.world.level.Level;
 import org.joml.Matrix3x2fStack;
 
-import java.util.List;
 import java.util.Objects;
 
 public final class ClientRecipeIngredientsTooltip extends ClientGridTooltip<LimaSizedItemIngredient>
@@ -32,9 +27,11 @@ public final class ClientRecipeIngredientsTooltip extends ClientGridTooltip<Lima
     }
 
     @Override
-    protected void renderGridElement(LimaSizedItemIngredient element, Font font, int rx, int ry, GuiGraphics graphics)
+    protected void renderGridElement(LimaSizedItemIngredient element, Font font, int rx, int ry, GuiGraphicsExtractor graphics)
     {
         Level level = Objects.requireNonNull(Minecraft.getInstance().level);
+
+        /*
         List<ItemStack> items = element.display().resolveForStacks(SlotDisplayContext.fromLevel(level));
 
         int itemCount = items.size();
@@ -57,9 +54,10 @@ public final class ClientRecipeIngredientsTooltip extends ClientGridTooltip<Lima
         graphics.renderItemDecorations(font, stack, x, y);
 
         if (element.isDeterministic()) drawConsumeChance(graphics, element, x, y);
+        */
     }
 
-    private void drawConsumeChance(GuiGraphics graphics, LimaSizedItemIngredient element, int x, int y)
+    private void drawConsumeChance(GuiGraphicsExtractor graphics, LimaSizedItemIngredient element, int x, int y)
     {
         float chance = element.getConsumeChance();
         Component overlay;
@@ -78,7 +76,7 @@ public final class ClientRecipeIngredientsTooltip extends ClientGridTooltip<Lima
 
         matrixStack.translate(x + 1, y + 1);
         matrixStack.scale(0.5f);
-        graphics.drawString(Minecraft.getInstance().font, overlay, 0, 0, -1, true);
+        graphics.text(Minecraft.getInstance().font, overlay, 0, 0, -1, true);
 
         matrixStack.popMatrix();
     }

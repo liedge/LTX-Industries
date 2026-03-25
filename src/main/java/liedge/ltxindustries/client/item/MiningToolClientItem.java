@@ -10,7 +10,7 @@ import liedge.ltxindustries.item.tool.ModularEnergyMiningItem;
 import liedge.ltxindustries.item.tool.ToolSpeed;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
@@ -26,7 +26,7 @@ public final class MiningToolClientItem implements EquipmentHUDLayer.Renderer
     private MiningToolClientItem() {}
 
     @Override
-    public void renderHUDLayer(GuiGraphics graphics, LocalPlayer player, ItemStack heldItem, HorizontalAlignment xAlign, VerticalAlignment yAlign, int xOffset, int yOffset, float partialTick)
+    public void renderHUDLayer(GuiGraphicsExtractor graphics, LocalPlayer player, ItemStack heldItem, HorizontalAlignment xAlign, VerticalAlignment yAlign, int xOffset, int yOffset, float partialTick)
     {
         if (!(heldItem.getItem() instanceof ModularEnergyMiningItem item)) return;
 
@@ -43,6 +43,6 @@ public final class MiningToolClientItem implements EquipmentHUDLayer.Renderer
 
         Component speedText = speed.translate();
         int speedX0 = font.width(speedText) / 2;
-        graphics.drawString(font, speedText, x + 23 - speedX0, y + 3, LTXIConstants.LIME_GREEN.argb32(), false);
+        graphics.text(font, speedText, x + 23 - speedX0, y + 3, LTXIConstants.LIME_GREEN.argb32(), false);
     }
 }

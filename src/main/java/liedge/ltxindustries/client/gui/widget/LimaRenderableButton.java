@@ -1,7 +1,7 @@
 package liedge.ltxindustries.client.gui.widget;
 
 import liedge.limacore.client.gui.LimaRenderable;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractButton;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.renderer.RenderPipelines;
@@ -24,7 +24,7 @@ public abstract class LimaRenderableButton extends AbstractButton implements Lim
     protected void updateWidgetNarration(NarrationElementOutput narrationElementOutput) {}
 
     @Override
-    protected void renderContents(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick)
+    protected void extractContents(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick)
     {
         Identifier sprite = useFocusedSprite() ? focusedSprite() : unfocusedSprite();
         guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, sprite, getX(), getY(), width, height);

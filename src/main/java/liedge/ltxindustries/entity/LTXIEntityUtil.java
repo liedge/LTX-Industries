@@ -96,7 +96,7 @@ public final class LTXIEntityUtil
         if (recursionDepth > MAX_ENTITY_CHECK_RECURSION) return false;
 
         // Don't hurt the owner, removed/dead entities and immune entity type tag entities
-        if (!isEntityAlive(target) || target == attackingEntity || target.getType().is(LTXITags.EntityTypes.INVALID_TARGETS)) return false;
+        if (!isEntityAlive(target) || target == attackingEntity || target.is(LTXITags.EntityTypes.INVALID_TARGETS)) return false;
 
         // Attacks can come with no attacking entity (rogue entities/machines/etc.)
         final boolean validAttacker = attackingEntity != null;

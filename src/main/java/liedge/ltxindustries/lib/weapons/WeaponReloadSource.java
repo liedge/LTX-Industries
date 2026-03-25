@@ -12,8 +12,10 @@ import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.lib.upgrades.tooltip.UpgradeTooltipsProvider;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -132,7 +134,7 @@ public interface WeaponReloadSource extends UpgradeTooltipsProvider
 
         private Component itemNameTooltip()
         {
-            return reloadItem.value().getName().copy().withStyle(getType().color.chatStyle());
+            return reloadItem.value().components().getOrDefault(DataComponents.ITEM_NAME, CommonComponents.EMPTY).copy().withStyle(getType().color.chatStyle());
         }
     }
 

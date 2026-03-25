@@ -13,7 +13,7 @@ import liedge.ltxindustries.menu.layout.RecipeLayout;
 import liedge.ltxindustries.recipe.RecipeMode;
 import liedge.ltxindustries.registry.LTXIRegistries;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.InputWithModifiers;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.Holder;
@@ -64,17 +64,17 @@ public final class RecipeLayoutScreen extends LTXIMachineScreen<RecipeLayoutMenu
     }
 
     @Override
-    protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY)
+    public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick)
     {
-        super.renderBg(guiGraphics, partialTick, mouseX, mouseY);
+        super.extractBackground(graphics, mouseX, mouseY, partialTick);
 
-        blitInventoryAndHotbar(guiGraphics, LimaMenu.DEFAULT_INV_X - 1, LimaMenu.DEFAULT_INV_Y - 1);
-        blitPowerInSlot(guiGraphics, 7, 52);
+        blitInventoryAndHotbar(graphics, LimaMenu.DEFAULT_INV_X - 1, LimaMenu.DEFAULT_INV_Y - 1);
+        blitPowerInSlot(graphics, 7, 52);
 
-        renderLayout(guiGraphics, leftPos, topPos, layout);
+        renderLayout(graphics, leftPos, topPos, layout);
     }
 
-    public static void renderLayout(GuiGraphics graphics, int screenX, int screenY, RecipeLayout layout)
+    public static void renderLayout(GuiGraphicsExtractor graphics, int screenX, int screenY, RecipeLayout layout)
     {
         for (LayoutSlot.Type slotType : LayoutSlot.Type.values())
         {
@@ -103,7 +103,7 @@ public final class RecipeLayoutScreen extends LTXIMachineScreen<RecipeLayoutMenu
         }
 
         @Override
-        protected void renderInnerContents(GuiGraphics graphics, int guiX, int guiY)
+        protected void renderInnerContents(GuiGraphicsExtractor graphics, int guiX, int guiY)
         {
             Holder<RecipeMode> mode = blockEntity.getMode();
             if (mode == null)
@@ -112,7 +112,7 @@ public final class RecipeLayoutScreen extends LTXIMachineScreen<RecipeLayoutMenu
             }
             else
             {
-                graphics.renderFakeItem(mode.value().displayItem(), guiX, guiY);
+                graphics.fakeItem(mode.value().displayItem().create(), guiX, guiY);
             }
         }
 

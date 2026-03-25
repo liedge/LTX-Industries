@@ -39,7 +39,7 @@ public class IOConfigCardItem extends Item implements TooltipShiftHintItem
             ItemStack stack = player.getItemInHand(hand);
             if (stack.get(LTXIDataComponents.BLOCK_IO_CONFIGURATION) != null)
             {
-                if (level.isClientSide()) player.displayClientMessage(LTXILangKeys.IO_CARD_CLEARED.translate().withStyle(ChatFormatting.YELLOW), true);
+                if (level.isClientSide()) player.sendOverlayMessage(LTXILangKeys.IO_CARD_CLEARED.translate().withStyle(ChatFormatting.YELLOW));
 
                 stack.remove(LTXIDataComponents.BLOCK_IO_CONFIGURATION);
                 return InteractionResult.SUCCESS_SERVER.heldItemTransformedTo(stack);
@@ -71,23 +71,23 @@ public class IOConfigCardItem extends Item implements TooltipShiftHintItem
                     if (configuration == null)
                     {
                         stack.set(LTXIDataComponents.BLOCK_IO_CONFIGURATION, currentConfig);
-                        player.displayClientMessage(LTXILangKeys.IO_CARD_COPIED.translate().withStyle(ChatFormatting.AQUA), true);
+                        player.sendOverlayMessage(LTXILangKeys.IO_CARD_COPIED.translate().withStyle(ChatFormatting.AQUA));
                     }
                     // Imprint onto machine
                     else
                     {
                         boolean applied = blockEntity.setIOConfiguration(cardInputType, configuration);
                         if (applied)
-                            player.displayClientMessage(LTXILangKeys.IO_CARD_PASTED.translate().withStyle(LTXIConstants.LIME_GREEN.chatStyle()), true);
+                            player.sendOverlayMessage(LTXILangKeys.IO_CARD_PASTED.translate().withStyle(LTXIConstants.LIME_GREEN.chatStyle()));
                         else if (currentConfig.equals(configuration))
-                            player.displayClientMessage(LTXILangKeys.IO_CARD_SAME_CONFIG.translate().withStyle(ChatFormatting.YELLOW), true);
+                            player.sendOverlayMessage(LTXILangKeys.IO_CARD_SAME_CONFIG.translate().withStyle(ChatFormatting.YELLOW));
                         else
-                            player.displayClientMessage(LTXILangKeys.IO_CARD_INVALID_SETUP.translate().withStyle(LTXIConstants.HOSTILE_ORANGE.chatStyle()), true);
+                            player.sendOverlayMessage(LTXILangKeys.IO_CARD_INVALID_SETUP.translate().withStyle(LTXIConstants.HOSTILE_ORANGE.chatStyle()));
                     }
                 }
                 else
                 {
-                    player.displayClientMessage(LTXILangKeys.IO_CARD_INVALID_TYPE.translateArgs(cardInputType.translate()).withStyle(LTXIConstants.HOSTILE_ORANGE.chatStyle()), true);
+                    player.sendOverlayMessage(LTXILangKeys.IO_CARD_INVALID_TYPE.translateArgs(cardInputType.translate()).withStyle(LTXIConstants.HOSTILE_ORANGE.chatStyle()));
                 }
             }
 

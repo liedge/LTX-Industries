@@ -4,7 +4,7 @@ import liedge.limacore.client.gui.LimaMenuScreen;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.client.gui.screen.UpgradesConfigScreen;
 import liedge.ltxindustries.menu.LTXIMachineMenu;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.input.InputWithModifiers;
 
@@ -20,7 +20,7 @@ public class MachineUpgradesButton extends LimaSidebarButton.RightSided
     }
 
     @Override
-    protected void renderInnerContents(GuiGraphics graphics, int guiX, int guiY)
+    protected void renderInnerContents(GuiGraphicsExtractor graphics, int guiX, int guiY)
     {
         renderSprite(graphics, UpgradesConfigScreen.MACHINE_MODULE_SPRITE, guiX, guiY);
     }

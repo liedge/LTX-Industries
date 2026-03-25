@@ -64,7 +64,7 @@ public class SparkFruitBlock extends Block implements BonemealableBlock
     protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random)
     {
         int age = state.getValue(AGE_2);
-        if (age < 2 && CommonHooks.canCropGrow(level, pos, state, level.random.nextInt(8) == 0))
+        if (age < 2 && CommonHooks.canCropGrow(level, pos, state, level.getRandom().nextInt(8) == 0))
         {
             level.setBlock(pos, state.setValue(AGE_2, age + 1), Block.UPDATE_CLIENTS);
             CommonHooks.fireCropGrowPost(level, pos, state);

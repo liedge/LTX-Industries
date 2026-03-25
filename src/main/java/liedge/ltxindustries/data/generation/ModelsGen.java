@@ -1,6 +1,5 @@
 package liedge.ltxindustries.data.generation;
 
-import liedge.limacore.client.renderer.LimaCoreRenderTypes;
 import liedge.limacore.lib.ModResources;
 import liedge.limacore.util.LimaRegistryUtil;
 import liedge.ltxindustries.registry.game.LTXIFluids;
@@ -11,6 +10,7 @@ import net.minecraft.client.data.models.model.*;
 import net.minecraft.client.renderer.item.ItemModel;
 import net.minecraft.client.renderer.item.properties.conditional.FishingRodCast;
 import net.minecraft.client.renderer.item.properties.numeric.UseCycle;
+import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.Holder;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
@@ -30,9 +30,9 @@ import static liedge.ltxindustries.registry.game.LTXIItems.*;
 
 class ModelsGen extends ModelProvider
 {
-    private static final ModelTemplate UNLIT_FLAT_ITEM = ExtendedModelTemplateBuilder.of(ModelTemplates.FLAT_ITEM).renderType(LimaCoreRenderTypes.ITEM_CUTOUT_UNLIT_ID).build();
-    private static final ModelTemplate UNLIT_HANDHELD_FLAT_ITEM = ExtendedModelTemplateBuilder.of(ModelTemplates.FLAT_HANDHELD_ITEM).renderType(LimaCoreRenderTypes.ITEM_CUTOUT_UNLIT_ID).build();
-    private static final ModelTemplate UNLIT_HANDHELD_ROD_ITEM = ExtendedModelTemplateBuilder.of(ModelTemplates.FLAT_HANDHELD_ROD_ITEM).renderType(LimaCoreRenderTypes.ITEM_CUTOUT_UNLIT_ID).build();
+    private static final ModelTemplate UNLIT_FLAT_ITEM = ExtendedModelTemplateBuilder.of(ModelTemplates.FLAT_ITEM).build();
+    private static final ModelTemplate UNLIT_HANDHELD_FLAT_ITEM = ExtendedModelTemplateBuilder.of(ModelTemplates.FLAT_HANDHELD_ITEM).build();
+    private static final ModelTemplate UNLIT_HANDHELD_ROD_ITEM = ExtendedModelTemplateBuilder.of(ModelTemplates.FLAT_HANDHELD_ROD_ITEM).build();
 
     private final ModResources resources;
 
@@ -176,8 +176,8 @@ class ModelsGen extends ModelProvider
         if (baseTexture == null) baseTexture = basePath;
         if (emissiveTexture == null) emissiveTexture = emissivePath;
 
-        ItemModel.Unbaked baseModel = ItemModelUtils.plainModel(baseTemplate.create(basePath, TextureMapping.layer0(baseTexture), output));
-        ItemModel.Unbaked emissiveModel = ItemModelUtils.plainModel(emissiveTemplate.create(emissivePath, TextureMapping.layer0(emissiveTexture), output));
+        ItemModel.Unbaked baseModel = ItemModelUtils.plainModel(baseTemplate.create(basePath, TextureMapping.layer0(new Material(baseTexture)), output));
+        ItemModel.Unbaked emissiveModel = ItemModelUtils.plainModel(emissiveTemplate.create(emissivePath, TextureMapping.layer0(new Material(emissiveTexture)), output));
 
         return ItemModelUtils.composite(baseModel, emissiveModel);
     }
@@ -226,7 +226,7 @@ class ModelsGen extends ModelProvider
             Identifier mcId = ModResources.MC.id("item/brush" + suffix);
 
             ModelTemplate baseTemplate = new ModelTemplate(Optional.of(mcId), Optional.empty(), TextureSlot.LAYER0);
-            ModelTemplate emissiveTemplate = ExtendedModelTemplateBuilder.of(baseTemplate).renderType(LimaCoreRenderTypes.ITEM_CUTOUT_UNLIT_ID).build();
+            ModelTemplate emissiveTemplate = ExtendedModelTemplateBuilder.of(baseTemplate).build();
 
             Identifier subId = id.withPath(s -> "item/" + s + suffix);
             brushModels[i] = emissiveFlatModel(subId, baseTemplate, baseTexture, emissiveTemplate, emissiveTexture, models.modelOutput);
@@ -243,8 +243,8 @@ class ModelsGen extends ModelProvider
     {
         DynamicFluidContainerModel.Textures textures = new DynamicFluidContainerModel.Textures(
                 Optional.empty(),
-                Optional.of(ModResources.NEOFORGE.id("item/bucket")),
-                Optional.of(LimaRegistryUtil.getNonNullRegistryId(fluidHolder)),
+                Optional.of(new Material(ModResources.NEOFORGE.id("item/bucket"))),
+                Optional.of(new Material(LimaRegistryUtil.getNonNullRegistryId(fluidHolder))),
                 Optional.empty());
 
         DynamicFluidContainerModel.Unbaked unbaked = new DynamicFluidContainerModel.Unbaked(

@@ -19,17 +19,19 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.RegistryFixedCodec;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.ItemLike;
 import org.jspecify.annotations.Nullable;
 
-public record RecipeMode(HolderSet<RecipeType<?>> recipeTypes, Component displayName, ItemStack displayItem)
+import java.util.Objects;
+
+public record RecipeMode(HolderSet<RecipeType<?>> recipeTypes, Component displayName, ItemStackTemplate displayItem)
 {
     public static final Codec<RecipeMode> DIRECT_CODEC = RecordCodecBuilder.create(instance -> instance.group(
             RegistryCodecs.homogeneousList(Registries.RECIPE_TYPE).fieldOf("recipe_types").forGetter(RecipeMode::recipeTypes),
             ComponentSerialization.CODEC.fieldOf("display_name").forGetter(RecipeMode::displayName),
-            ItemStack.SINGLE_ITEM_CODEC.fieldOf("display_item").forGetter(RecipeMode::displayItem))
+            ItemStackTemplate.CODEC.fieldOf("display_item").forGetter(RecipeMode::displayItem))
             .apply(instance, RecipeMode::new));
     public static final Codec<Holder<RecipeMode>> CODEC = RegistryFixedCodec.create(LTXIRegistries.Keys.RECIPE_MODES);
     public static final StreamCodec<RegistryFriendlyByteBuf, Holder<RecipeMode>> STREAM_CODEC = ByteBufCodecs.holderRegistry(LTXIRegistries.Keys.RECIPE_MODES);
@@ -44,13 +46,13 @@ public record RecipeMode(HolderSet<RecipeType<?>> recipeTypes, Component display
         private final ResourceKey<RecipeMode> key;
         private @Nullable HolderSet<RecipeType<?>> recipeTypes;
         private Component displayName;
-        private ItemStack displayItem;
+        private @Nullable ItemStackTemplate displayItem;
 
         private Builder(ResourceKey<RecipeMode> key)
         {
             this.key = key;
             this.displayName = defaultName();
-            this.displayItem = ItemStack.EMPTY;
+            this.displayItem = null;
         }
 
         public Builder styledName(ChatFormatting formatting)
@@ -82,7 +84,7 @@ public record RecipeMode(HolderSet<RecipeType<?>> recipeTypes, Component display
             return forTypes(HolderSet.direct(holder));
         }
 
-        public Builder icon(ItemStack displayItem)
+        public Builder icon(ItemStackTemplate displayItem)
         {
             this.displayItem = displayItem;
             return this;
@@ -90,7 +92,7 @@ public record RecipeMode(HolderSet<RecipeType<?>> recipeTypes, Component display
 
         public Builder icon(ItemLike item)
         {
-            return icon(new ItemStack(item));
+            return icon(new ItemStackTemplate(item.asItem()));
         }
 
         @Override
@@ -103,7 +105,7 @@ public record RecipeMode(HolderSet<RecipeType<?>> recipeTypes, Component display
         public RecipeMode build()
         {
             Preconditions.checkState(recipeTypes != null && recipeTypes.size() > 0, "Empty recipe types holder set.");
-            Preconditions.checkState(!displayItem.isEmpty(), "Empty display item.");
+            Objects.requireNonNull(displayItem, "Null display item");
 
             return new RecipeMode(recipeTypes, displayName, displayItem);
         }

@@ -7,9 +7,9 @@ import net.minecraft.client.particle.CampfireSmokeParticle;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.util.LightCoordsUtil;
 import net.minecraft.util.RandomSource;
 
 public class BigColorSmokeParticle extends CampfireSmokeParticle
@@ -49,9 +49,9 @@ public class BigColorSmokeParticle extends CampfireSmokeParticle
     }
 
     @Override
-    protected int getLightColor(float partialTick)
+    protected int getLightCoords(float a)
     {
-        return LightTexture.FULL_BRIGHT;
+        return LightCoordsUtil.FULL_BRIGHT;
     }
 
     public static final class NeuroSmokeProvider implements ParticleProvider<SimpleParticleType>

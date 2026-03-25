@@ -2,7 +2,6 @@ package liedge.ltxindustries.client;
 
 import com.mojang.logging.LogUtils;
 import liedge.limacore.client.SimpleFogFluidExtension;
-import liedge.limacore.lib.LimaColor;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.client.gui.ClientItemGridTooltip;
@@ -27,14 +26,10 @@ import liedge.ltxindustries.data.LTXIReloadListeners;
 import liedge.ltxindustries.menu.tooltip.ItemGridTooltip;
 import liedge.ltxindustries.menu.tooltip.RecipeIngredientsTooltip;
 import liedge.ltxindustries.registry.game.*;
-import net.minecraft.client.color.block.BlockColor;
-import net.minecraft.client.renderer.BiomeColors;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
+import net.minecraft.client.color.block.BlockTintSources;
 import net.minecraft.client.renderer.entity.NoopRenderer;
 import net.minecraft.client.renderer.entity.player.AvatarRenderer;
-import net.minecraft.client.resources.model.AtlasManager;
-import net.minecraft.resources.Identifier;
+import net.minecraft.client.resources.model.sprite.AtlasManager;
 import net.minecraft.world.entity.player.PlayerModelType;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
@@ -45,13 +40,10 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
-import net.neoforged.neoforge.registries.DeferredHolder;
 import org.slf4j.Logger;
 
-import java.util.function.IntFunction;
-import java.util.stream.Stream;
+import java.util.List;
 
-import static liedge.ltxindustries.LTXIndustries.RESOURCES;
 import static liedge.ltxindustries.registry.game.LTXIParticles.*;
 
 @Mod(value = LTXIndustries.MODID, dist = Dist.CLIENT)
@@ -69,8 +61,9 @@ public class LTXIndustriesClient
         @SubscribeEvent
         public void onClientSetup(final FMLClientSetupEvent event)
         {
-            Stream.of(LTXIFluids.VIRIDIC_ACID, LTXIFluids.FLOWING_VIRIDIC_ACID, LTXIFluids.HYDROGEN, LTXIFluids.FLOWING_HYDROGEN, LTXIFluids.OXYGEN, LTXIFluids.FLOWING_OXYGEN)
-                    .map(DeferredHolder::value).forEach(fluid -> ItemBlockRenderTypes.setRenderLayer(fluid, ChunkSectionLayer.TRANSLUCENT));
+            //Stream.of(LTXIFluids.VIRIDIC_ACID, LTXIFluids.FLOWING_VIRIDIC_ACID, LTXIFluids.HYDROGEN, LTXIFluids.FLOWING_HYDROGEN, LTXIFluids.OXYGEN, LTXIFluids.FLOWING_OXYGEN)
+            //        .map(DeferredHolder::value).forEach(fluid -> ItemBlockRenderTypes.setRenderLayer(fluid, ChunkSectionLayer.TRANSLUCENT));
+
         }
 
         @SubscribeEvent
@@ -98,18 +91,9 @@ public class LTXIndustriesClient
             //event.registerItem(LTXIItemRenderers.ROCKET_LAUNCHER, LTXIItems.ROCKET_LAUNCHER.get());
             //event.registerItem(LTXIItemRenderers.HEAVY_PISTOL, LTXIItems.HEAVY_PISTOL.get());
 
-            event.registerFluidType(SimpleFogFluidExtension.withDefaultPaths(LTXIFluids.VIRIDIC_ACID_TYPE, false, LimaColor.WHITE, LTXIConstants.ACID_GREEN, 13f), LTXIFluids.VIRIDIC_ACID_TYPE);
-
-            // Gases
-            final Identifier gasTexture = RESOURCES.id("block/gas");
-            IntFunction<SimpleFogFluidExtension> gasExtensions = rgb ->
-            {
-                LimaColor color = LimaColor.createOpaque(rgb);
-                // Just set fog distance to 0, gases don't have blocks
-                return new SimpleFogFluidExtension(gasTexture, gasTexture, null, color.argb32(), SimpleFogFluidExtension.fogTintOf(color), 0f);
-            };
-            event.registerFluidType(gasExtensions.apply(0xe7e7e7), LTXIFluids.HYDROGEN_TYPE);
-            event.registerFluidType(gasExtensions.apply(0x91a5d5), LTXIFluids.OXYGEN_TYPE);
+            event.registerFluidType(new SimpleFogFluidExtension(SimpleFogFluidExtension.fogTintOf(LTXIConstants.ACID_GREEN), 13f), LTXIFluids.VIRIDIC_ACID_TYPE);
+            //event.registerFluidType(gasExtensions.apply(0xe7e7e7), LTXIFluids.HYDROGEN_TYPE);
+            //event.registerFluidType(gasExtensions.apply(0x91a5d5), LTXIFluids.OXYGEN_TYPE);
         }
 
         @SubscribeEvent
@@ -212,10 +196,9 @@ public class LTXIndustriesClient
         }
 
         @SubscribeEvent
-        public void registerBlockColors(final RegisterColorHandlersEvent.Block event)
+        public void registerBlockColors(final RegisterColorHandlersEvent.BlockTintSources event)
         {
-            final BlockColor water = (state, level, pos, tintIndex) -> (level != null && pos != null && tintIndex == 1) ? BiomeColors.getAverageWaterColor(level, pos) : -1;
-            event.register(water, LTXIBlocks.GEO_SYNTHESIZER.get(), LTXIBlocks.DIGITAL_GARDEN.get());
+            event.register(List.of(BlockTintSources.water()), LTXIBlocks.GEO_SYNTHESIZER.get(), LTXIBlocks.DIGITAL_GARDEN.get());
         }
 
         @SubscribeEvent

@@ -2,7 +2,7 @@ package liedge.ltxindustries.client.gui;
 
 import liedge.ltxindustries.menu.tooltip.GridTooltip;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 
 import java.util.List;
@@ -27,7 +27,7 @@ public abstract class ClientGridTooltip<T> implements ClientTooltipComponent
 
     protected abstract int elementSize();
 
-    protected abstract void renderGridElement(T element, Font font, int rx, int ry, GuiGraphics graphics);
+    protected abstract void renderGridElement(T element, Font font, int rx, int ry, GuiGraphicsExtractor graphics);
 
     @Override
     public int getHeight(Font font)
@@ -42,13 +42,13 @@ public abstract class ClientGridTooltip<T> implements ClientTooltipComponent
     }
 
     @Override
-    public void renderImage(Font font, int x, int y, int width, int height, GuiGraphics guiGraphics)
+    public void extractImage(Font font, int x, int y, int w, int h, GuiGraphicsExtractor graphics)
     {
         for (int i = 0; i < maxElements; i++)
         {
             int rx = x + (i % maxColumns) * elementSize();
             int ry = y + (i / maxColumns) * elementSize();
-            renderGridElement(elements.get(i), font, rx, ry, guiGraphics);
+            renderGridElement(elements.get(i), font, rx, ry, graphics);
         }
     }
 }

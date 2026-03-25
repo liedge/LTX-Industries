@@ -3,7 +3,7 @@ package liedge.ltxindustries.client.gui.widget;
 import liedge.limacore.client.gui.LimaMenuScreen;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.client.LTXILangKeys;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.input.InputWithModifiers;
 import net.minecraft.resources.Identifier;
@@ -24,7 +24,7 @@ public class SubMenuBackButton extends LimaSidebarButton.LeftSided
     }
 
     @Override
-    protected void renderInnerContents(GuiGraphics graphics, int guiX, int guiY)
+    protected void renderInnerContents(GuiGraphicsExtractor graphics, int guiX, int guiY)
     {
         renderSprite(graphics, SPRITE, guiX, guiY);
     }

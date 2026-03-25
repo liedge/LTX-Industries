@@ -4,7 +4,7 @@ import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.client.gui.widget.SubMenuBackButton;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrade;
 import liedge.ltxindustries.menu.MachineUpgradeMenu;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
@@ -15,12 +15,11 @@ public class MachineUpgradesScreen extends UpgradesConfigScreen<MachineUpgrade, 
 
     public MachineUpgradesScreen(MachineUpgradeMenu menu, Inventory inventory, Component title)
     {
-        super(menu, inventory, title);
-        this.leftPadding = 18;
+        super(menu, inventory, title, 18);
     }
 
     @Override
-    protected void blitSlotSprites(GuiGraphics graphics)
+    protected void blitSlotSprites(GuiGraphicsExtractor graphics)
     {
         blitSlotSprite(graphics, SLOT_SPRITE, 23, 86);
     }

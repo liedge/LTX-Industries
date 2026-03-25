@@ -38,7 +38,7 @@ public class VoltaicInjectorBlockEntity extends LTXIRecipeMachineBlockEntity.Sta
     {
         if (state.getValue(LTXIBlockProperties.BINARY_MACHINE_STATE).isActive())
         {
-            platformBolt = EnergyBoltData.create(0, 0, 0, 0, 0.5625d, 0, 0.0104167f, 0.05f, level.random);
+            platformBolt = EnergyBoltData.create(0, 0, 0, 0, 0.5625d, 0, 0.0104167f, 0.05f, level.getRandom());
         }
         else
         {

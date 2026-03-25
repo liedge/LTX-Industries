@@ -54,7 +54,7 @@ public class RocketTurretBlockEntity extends SemiAutoTurretBlockEntity
     @Override
     protected boolean isValidDefaultTarget(Entity entity)
     {
-        return entity.getType().is(LTXITags.EntityTypes.FLYING_TARGETS);
+        return entity.is(LTXITags.EntityTypes.FLYING_TARGETS);
     }
 
     @Override

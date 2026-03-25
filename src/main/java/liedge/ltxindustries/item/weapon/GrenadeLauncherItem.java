@@ -89,7 +89,7 @@ public class GrenadeLauncherItem extends SemiAutoWeaponItem implements ScrollMod
             level.gameEvent(player, LTXIGameEvents.WEAPON_FIRED, player.getEyePosition());
         }
 
-        level.playSound(player, player, LTXISounds.GRENADE_LAUNCHER_FIRE.get(), SoundSource.PLAYERS, 2f, Mth.randomBetween(level.random, 0.9f, 1.1f));
+        level.playSound(player, player, LTXISounds.GRENADE_LAUNCHER_FIRE.get(), SoundSource.PLAYERS, 2f, Mth.randomBetween(level.getRandom(), 0.9f, 1.1f));
     }
 
     @Override
@@ -103,7 +103,7 @@ public class GrenadeLauncherItem extends SemiAutoWeaponItem implements ScrollMod
     {
         EquipmentUpgrades upgrades = getUpgrades(stack);
         Set<GrenadeType> availableTypes = EnumSet.of(GrenadeType.EXPLOSIVE);
-        upgrades.forEachEffect(LTXIUpgradeEffectComponents.GRENADE_UNLOCK, (effect, $) -> availableTypes.add(effect));
+        upgrades.forEachEffect(LTXIUpgradeEffectComponents.GRENADE_UNLOCK, (effect, _) -> availableTypes.add(effect));
 
         GrenadeType currentType = GrenadeLauncherItem.getGrenadeTypeFromItem(stack);
         GrenadeType toSwitch = forward ? OrderedEnum.nextAvailable(availableTypes, currentType) : OrderedEnum.previousAvailable(availableTypes, currentType);

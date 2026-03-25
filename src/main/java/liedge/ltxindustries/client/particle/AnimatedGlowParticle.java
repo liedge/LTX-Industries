@@ -8,8 +8,8 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SimpleAnimatedParticle;
 import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.util.LightCoordsUtil;
 import net.minecraft.util.RandomSource;
 
 public class AnimatedGlowParticle extends SimpleAnimatedParticle
@@ -22,9 +22,9 @@ public class AnimatedGlowParticle extends SimpleAnimatedParticle
     }
 
     @Override
-    public int getLightColor(float partialTick)
+    public int getLightCoords(float a)
     {
-        return LightTexture.FULL_BRIGHT;
+        return LightCoordsUtil.FULL_BRIGHT;
     }
 
     public static final class ColorGlitterProvider implements ParticleProvider<ColorSizeParticleOptions>

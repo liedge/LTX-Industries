@@ -105,7 +105,7 @@ public class EnergyHoeItem extends ModularEnergyMiningItem
                                 // Apply 3 random ticks to boostable blocks
                                 for (int i = 0; i < 3; i++)
                                 {
-                                    state.randomTick(serverLevel, pos, serverLevel.random);
+                                    state.randomTick(serverLevel, pos, serverLevel.getRandom());
                                 }
 
                                 boostedBlock = true;

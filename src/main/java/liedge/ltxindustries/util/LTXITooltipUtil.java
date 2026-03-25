@@ -62,7 +62,7 @@ public final class LTXITooltipUtil
     public static void appendInventoryPreviewTooltip(TooltipLineConsumer consumer, ItemStack stack)
     {
         // Can we even do preview tooltips with split inventories anymore?
-        List<ItemStack> inventory = stack.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY).nonEmptyStream().toList();
+        List<ItemStack> inventory = stack.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY).nonEmptyItemCopyStream().toList();
         if (!inventory.isEmpty())
         {
             consumer.accept(ITEM_INVENTORY_TOOLTIP.translate().withStyle(ChatFormatting.GRAY));

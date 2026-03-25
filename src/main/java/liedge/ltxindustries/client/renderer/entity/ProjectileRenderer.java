@@ -7,7 +7,7 @@ import liedge.ltxindustries.entity.LTXIProjectileEntity;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.resources.Identifier;
 
 public abstract class ProjectileRenderer<T extends LTXIProjectileEntity> extends EntityRenderer<T, ProjectileRenderState>

@@ -12,7 +12,7 @@ import liedge.ltxindustries.lib.weapons.ClientExtendedInput;
 import liedge.ltxindustries.lib.weapons.WeaponReloadSource;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.RenderPipelines;
@@ -83,8 +83,10 @@ public class WeaponClientItem implements EquipmentHUDLayer.Renderer
         return HumanoidModel.ArmPose.EMPTY;
     }
 
+
+
     @Override
-    public void renderHUDLayer(GuiGraphics graphics, LocalPlayer player, ItemStack heldItem, HorizontalAlignment xAlign, VerticalAlignment yAlign, int xOffset, int yOffset, float partialTick)
+    public void renderHUDLayer(GuiGraphicsExtractor graphics, LocalPlayer player, ItemStack heldItem, HorizontalAlignment xAlign, VerticalAlignment yAlign, int xOffset, int yOffset, float partialTick)
     {
         if (!(heldItem.getItem() instanceof WeaponItem weaponItem)) return;
 
@@ -99,7 +101,7 @@ public class WeaponClientItem implements EquipmentHUDLayer.Renderer
         }
     }
 
-    private void renderAmmoCounter(GuiGraphics graphics, Identifier sprite, HorizontalAlignment xAlign, VerticalAlignment yAlign, int xOffset, int yOffset,
+    private void renderAmmoCounter(GuiGraphicsExtractor graphics, Identifier sprite, HorizontalAlignment xAlign, VerticalAlignment yAlign, int xOffset, int yOffset,
                                    int width, int height, int ammo, int ammoColor, int capacity, float energyFill)
     {
         Font font = Minecraft.getInstance().font;
@@ -110,13 +112,13 @@ public class WeaponClientItem implements EquipmentHUDLayer.Renderer
 
         String ammoStr = Integer.toString(ammo);
         int ammoWidth = font.width(ammoStr);
-        graphics.drawString(font, ammoStr, x + 12 - (ammoWidth / 2), y + 3, ammoColor, false);
+        graphics.text(font, ammoStr, x + 12 - (ammoWidth / 2), y + 3, ammoColor, false);
 
         if (capacity > NO_CAPACITY)
         {
             String capStr = Integer.toString(capacity);
             int capWidth = font.width(capStr);
-            graphics.drawString(font, capStr, x + 33 - (capWidth / 2), y + 3, 0x9a9a9a, false);
+            graphics.text(font, capStr, x + 33 - (capWidth / 2), y + 3, 0x9a9a9a, false);
         }
 
         if (energyFill != NO_ENERGY)

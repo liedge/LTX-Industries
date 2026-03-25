@@ -10,7 +10,7 @@ import liedge.ltxindustries.client.gui.widget.LimaSidebarButton;
 import liedge.ltxindustries.client.gui.widget.MachineUpgradesButton;
 import liedge.ltxindustries.client.gui.widget.OpenIOControlButton;
 import liedge.ltxindustries.menu.LTXIMachineMenu;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -22,10 +22,7 @@ public abstract class LTXIMachineScreen<M extends LTXIMachineMenu<?>> extends LT
 
     protected LTXIMachineScreen(M menu, Inventory inventory, Component title, int primaryWidth, int primaryHeight)
     {
-        super(menu, inventory, title, primaryWidth, primaryHeight);
-
-        this.rightPadding = 18;
-        if (menu.menuContext().hasStatsTooltips()) this.leftPadding = 18;
+        super(menu, inventory, title, primaryWidth, primaryHeight, menu.menuContext().hasStatsTooltips() ? 18 : 0, 18, 0);
         this.inventoryLabelY = 73;
     }
 
@@ -75,7 +72,7 @@ public abstract class LTXIMachineScreen<M extends LTXIMachineMenu<?>> extends LT
         }
 
         @Override
-        public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks)
+        public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a)
         {
             graphics.blitSprite(RenderPipelines.GUI_TEXTURED, STATS_WIDGET_SPRITE, x, y, getWidth(), getHeight());
         }

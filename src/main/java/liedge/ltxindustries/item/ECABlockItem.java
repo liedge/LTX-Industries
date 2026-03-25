@@ -5,6 +5,7 @@ import liedge.limacore.item.LimaCreativeTabFillerItem;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.util.config.LTXIMachinesConfig;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -18,7 +19,7 @@ public class ECABlockItem extends BlockItem implements EnergyHolderItem, Tooltip
     }
 
     @Override
-    public int getBaseEnergyCapacity(ItemStack stack)
+    public int getBaseEnergyCapacity(ItemInstance stack)
     {
         return LTXIMachinesConfig.ECA_BASE_ENERGY_CAPACITY.getAsInt();
     }

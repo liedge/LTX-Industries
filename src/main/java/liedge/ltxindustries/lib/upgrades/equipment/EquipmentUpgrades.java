@@ -29,7 +29,7 @@ public final class EquipmentUpgrades extends UpgradesContainerBase<Item, Equipme
 
     public boolean canInstallUpgrade(ItemStack equipmentItem, EquipmentUpgradeEntry entry)
     {
-        return canInstallUpgrade(equipmentItem.getItemHolder(), entry);
+        return canInstallUpgrade(equipmentItem.typeHolder(), entry);
     }
 
     @Override

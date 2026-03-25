@@ -15,7 +15,7 @@ import liedge.ltxindustries.client.gui.widget.ScrollbarWidget;
 import liedge.ltxindustries.lib.upgrades.UpgradeBase;
 import liedge.ltxindustries.menu.UpgradesConfigMenu;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.Holder;
@@ -41,15 +41,15 @@ public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, U>, M extend
     private @Nullable ScrollbarWidget scrollbar;
     private @Nullable SelectorList<U> selectorList;
 
-    protected UpgradesConfigScreen(M menu, Inventory inventory, Component title)
+    protected UpgradesConfigScreen(M menu, Inventory inventory, Component title, int leftPadding)
     {
-        super(menu, inventory, title, 190, 200);
+        super(menu, inventory, title, 190, 200, leftPadding, 0, 0);
 
         this.inventoryLabelX = 14;
         this.inventoryLabelY = 108;
     }
 
-    protected abstract void blitSlotSprites(GuiGraphics graphics);
+    protected abstract void blitSlotSprites(GuiGraphicsExtractor graphics);
 
     protected abstract Identifier fallbackModuleSprite();
 
@@ -73,9 +73,9 @@ public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, U>, M extend
     }
 
     @Override
-    protected void renderBg(GuiGraphics graphics, float partialTick, int mouseX, int mouseY)
+    public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick)
     {
-        super.renderBg(graphics, partialTick, mouseX, mouseY);
+        super.extractBackground(graphics, mouseX, mouseY, partialTick);
 
         // Background sprites
         blitInventoryAndHotbar(graphics, 14, 117);
@@ -85,14 +85,14 @@ public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, U>, M extend
     }
 
     @Override
-    protected void renderTooltip(GuiGraphics graphics, int x, int y)
+    protected void extractTooltip(GuiGraphicsExtractor graphics, int x, int y)
     {
         if (menu.getCarried().isEmpty() && selectorList != null)
         {
             if (selectorList.renderTooltips(graphics, x, y)) return;
         }
 
-        super.renderTooltip(graphics, x, y);
+        super.extractTooltip(graphics, x, y);
     }
 
     @Override
@@ -134,7 +134,7 @@ public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, U>, M extend
         }
 
         @Override
-        public void renderElement(GuiGraphics graphics, Object2IntMap.Entry<Holder<U>> element, int posX, int posY, int gridIndex, int elementIndex, int mouseX, int mouseY)
+        public void renderElement(GuiGraphicsExtractor graphics, Object2IntMap.Entry<Holder<U>> element, int posX, int posY, int gridIndex, int elementIndex, int mouseX, int mouseY)
         {
             U upgrade = element.getKey().value();
             int rank = element.getIntValue();
@@ -162,7 +162,7 @@ public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, U>, M extend
             matrixStack.translate(titleX, titleY + (11f - (float) Minecraft.getInstance().font.lineHeight * 0.8f) / 2f);
             matrixStack.scale(0.8f);
 
-            graphics.drawString(Minecraft.getInstance().font, upgrade.display().title(), 0, 0, -1, false);
+            graphics.text(Minecraft.getInstance().font, upgrade.display().title(), 0, 0, -1, false);
 
             graphics.disableScissor();
 
@@ -188,7 +188,7 @@ public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, U>, M extend
         }
 
         @Override
-        public void renderElementTooltip(GuiGraphics graphics, Object2IntMap.Entry<Holder<U>> element, int mouseX, int mouseY, int gridIndex, int elementIndex)
+        public void renderElementTooltip(GuiGraphicsExtractor graphics, Object2IntMap.Entry<Holder<U>> element, int mouseX, int mouseY, int gridIndex, int elementIndex)
         {
             U upgrade = element.getKey().value();
             int rank = element.getIntValue();

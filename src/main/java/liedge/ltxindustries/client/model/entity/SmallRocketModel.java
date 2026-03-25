@@ -6,11 +6,11 @@ import liedge.ltxindustries.client.renderer.entity.ProjectileRenderState;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.LightCoordsUtil;
 
 public class SmallRocketModel extends ProjectileModel
 {
@@ -19,7 +19,7 @@ public class SmallRocketModel extends ProjectileModel
     
     public SmallRocketModel(ModelPart root)
     {
-        super(root, RenderTypes::entityCutoutNoCull);
+        super(root, RenderTypes::entityCutout);
         this.body = root.getChild("body");
         this.lights = root.getChild("lights");
     }
@@ -28,7 +28,7 @@ public class SmallRocketModel extends ProjectileModel
     public void submitParts(ProjectileRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, Identifier texture)
     {
         nodeCollector.submitModelPart(body, poseStack, renderType(texture), renderState.lightCoords, OverlayTexture.NO_OVERLAY, null);
-        nodeCollector.submitModelPart(lights, poseStack, LimaCoreRenderTypes.entityCutoutUnlit(texture), LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, null);
+        nodeCollector.submitModelPart(lights, poseStack, LimaCoreRenderTypes.entityCutoutUnlit(texture), LightCoordsUtil.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, null);
     }
 
     public static LayerDefinition defineLayer()

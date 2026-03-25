@@ -115,7 +115,7 @@ public class RocketLauncherItem extends SemiAutoWeaponItem
             level.gameEvent(player, LTXIGameEvents.WEAPON_FIRED, player.getEyePosition());
         }
 
-        level.playSound(player, player, LTXISounds.ROCKET_LAUNCHER_FIRE.get(), SoundSource.PLAYERS, 2f, Mth.randomBetween(level.random, 0.75f, 0.9f));
+        level.playSound(player, player, LTXISounds.ROCKET_LAUNCHER_FIRE.get(), SoundSource.PLAYERS, 2f, Mth.randomBetween(level.getRandom(), 0.75f, 0.9f));
     }
 
     @Override

@@ -90,11 +90,11 @@ public abstract class LTXIRecipeMachineBlockEntity<R extends LTXIRecipe> extends
     protected void insertRecipeResults(Level level, R recipe, LTXIRecipeInput recipeInput)
     {
         // Insert item results
-        List<ResourceStack<ItemResource>> itemResults = recipe.generateItemResults(recipeInput, level.registryAccess(), level.random);
+        List<ResourceStack<ItemResource>> itemResults = recipe.generateItemResults(recipeInput, level.registryAccess(), level.getRandom());
         insertResourceResults(itemResults, getItems(BlockContentsType.OUTPUT));
 
         // Insert fluid results
-        List<ResourceStack<FluidResource>> fluidResults = recipe.generateFluidResults(recipeInput, level.registryAccess(), level.random);
+        List<ResourceStack<FluidResource>> fluidResults = recipe.generateFluidResults(recipeInput, level.registryAccess(), level.getRandom());
         insertResourceResults(fluidResults, getFluids(BlockContentsType.OUTPUT));
     }
 

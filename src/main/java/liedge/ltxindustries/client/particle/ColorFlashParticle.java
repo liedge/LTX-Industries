@@ -8,9 +8,9 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SingleQuadParticle;
 import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.client.renderer.LightTexture;
-import net.minecraft.client.renderer.state.QuadParticleRenderState;
+import net.minecraft.client.renderer.state.level.QuadParticleRenderState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.util.LightCoordsUtil;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 
@@ -32,9 +32,9 @@ public class ColorFlashParticle extends SingleQuadParticle
     }
 
     @Override
-    protected int getLightColor(float partialTick)
+    protected int getLightCoords(float partialTick)
     {
-        return LightTexture.FULL_BRIGHT;
+        return LightCoordsUtil.FULL_BRIGHT;
     }
 
     @Override

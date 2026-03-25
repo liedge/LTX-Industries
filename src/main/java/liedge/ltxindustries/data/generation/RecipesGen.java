@@ -12,7 +12,6 @@ import liedge.limacore.recipe.result.ResultPriority;
 import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.block.NeonLightColor;
-import liedge.ltxindustries.integration.guideme.GuideMEIntegration;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
 import liedge.ltxindustries.lib.upgrades.UpgradeBase;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
@@ -25,11 +24,9 @@ import liedge.ltxindustries.registry.bootstrap.LTXIRecipeModes;
 import liedge.ltxindustries.registry.game.LTXIDataComponents;
 import liedge.ltxindustries.registry.game.LTXIFluids;
 import liedge.ltxindustries.registry.game.LTXIItems;
-import liedge.ltxindustries.registry.game.LTXIRecipeSerializers;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.component.DataComponentExactPredicate;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
@@ -40,6 +37,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
@@ -48,7 +46,6 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.common.Tags;
-import net.neoforged.neoforge.common.conditions.ModLoadedCondition;
 import net.neoforged.neoforge.common.conditions.NotCondition;
 import net.neoforged.neoforge.common.conditions.TagEmptyCondition;
 import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
@@ -134,12 +131,15 @@ class RecipesGen extends LimaRecipeProvider
 
         shaped(defaultUpgradableItem(LTX_WRENCH, registries)).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).patterns("t t", " c ", " t ").save(output);
 
+        // TODO reintroduce
+        /*
         shapeless(GuideMEIntegration.createGuideTabletItem())
                 .condition(new ModLoadedCondition("guideme"))
                 .input(BOOK)
                 .input(TITANIUM_INGOT)
                 .input(items, DYES_LIME)
                 .save(output, "guide_tablet");
+        */
 
         // Machine recipes
         shaped(ENERGY_CELL_ARRAY).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('e', ELECTRIC_CHEMICAL).input('b', COPPER_BLOCK).patterns("tct", "ebe", "tct").save(output);
@@ -190,11 +190,11 @@ class RecipesGen extends LimaRecipeProvider
         //#endregion
 
         // Smelting/cooking recipes
-        oreSmeltBlast(output, "smelt_raw_titanium", RAW_TITANIUM, stackOf(TITANIUM_INGOT));
-        oreSmeltBlast(output, "smelt_stone_titanium", TITANIUM_ORE, stackOf(TITANIUM_INGOT));
-        oreSmeltBlast(output, "smelt_deepslate_titanium", DEEPSLATE_TITANIUM_ORE, stackOf(TITANIUM_INGOT));
-        oreSmeltBlast(output, "smelt_raw_niobium", RAW_NIOBIUM, stackOf(NIOBIUM_INGOT));
-        oreSmeltBlast(output, "smelt_niobium_ore", NIOBIUM_ORE, stackOf(NIOBIUM_INGOT));
+        oreSmeltBlast(output, "smelt_raw_titanium", RAW_TITANIUM, stackTemplate(TITANIUM_INGOT));
+        oreSmeltBlast(output, "smelt_stone_titanium", TITANIUM_ORE, stackTemplate(TITANIUM_INGOT));
+        oreSmeltBlast(output, "smelt_deepslate_titanium", DEEPSLATE_TITANIUM_ORE, stackTemplate(TITANIUM_INGOT));
+        oreSmeltBlast(output, "smelt_raw_niobium", RAW_NIOBIUM, stackTemplate(NIOBIUM_INGOT));
+        oreSmeltBlast(output, "smelt_niobium_ore", NIOBIUM_ORE, stackTemplate(NIOBIUM_INGOT));
 
         orePebblesCooking(COAL_ORE_PEBBLES, COAL, 2);
         orePebblesCooking(COPPER_ORE_PEBBLES, COPPER_INGOT, 1);
@@ -532,7 +532,7 @@ class RecipesGen extends LimaRecipeProvider
                 .input(T4_CIRCUIT)
                 .input(PHANTOM_MEMBRANE, 12)
                 .input(ENDER_PEARL, 8)
-                .input(DataComponentIngredient.of(false, DataComponentExactPredicate.builder().expect(DataComponents.POTION_CONTENTS, new PotionContents(Potions.INVISIBILITY)).build(), POTION)));
+                .input(DataComponentIngredient.of(false, DataComponents.POTION_CONTENTS, new PotionContents(Potions.INVISIBILITY), POTION)));
 
         UnaryOperator<FabricatingBuilder> targetFilter = builder -> builder
                 .input(T2_CIRCUIT)
@@ -1166,13 +1166,13 @@ class RecipesGen extends LimaRecipeProvider
     private void orePebblesCooking(ItemLike orePebble, ItemLike resultItem, int resultCount)
     {
         String name = getItemName(orePebble);
-        smelting(stackOf(resultItem, resultCount)).input(orePebble).xp(0.5f).save(output, "smelt_" + name);
-        blasting(stackOf(resultItem, resultCount)).input(orePebble).xp(0.5f).save(output, "blast_" + name);
+        smelting(stackTemplate(resultItem, resultCount)).input(orePebble).xp(0.5f).save(output, "smelt_" + name);
+        blasting(stackTemplate(resultItem, resultCount)).input(orePebble).xp(0.5f).save(output, "blast_" + name);
     }
 
     private LTXIBuilder<GrindingRecipe> grinding()
     {
-        return new LTXIBuilder<>(resources, LTXIRecipeSerializers.GRINDING);
+        return new LTXIBuilder<>(resources);
     }
 
     private void orePebbleGrinding(ItemLike orePebble, TagKey<Item> oreTag, @Nullable TagKey<Item> rawOreTag, String name, RecipeOutput output, boolean optional)
@@ -1198,37 +1198,37 @@ class RecipesGen extends LimaRecipeProvider
 
     private LTXIBuilder<MaterialFusingRecipe> fusing()
     {
-        return new LTXIBuilder<>(resources, LTXIRecipeSerializers.MATERIAL_FUSING);
+        return new LTXIBuilder<>(resources);
     }
 
     private LTXIBuilder<ElectroCentrifugingRecipe> electroCentrifuging()
     {
-        return new LTXIBuilder<>(resources, LTXIRecipeSerializers.ELECTRO_CENTRIFUGING);
+        return new LTXIBuilder<>(resources);
     }
 
     private LTXIBuilder<MixingRecipe> mixing()
     {
-        return new LTXIBuilder<>(resources, LTXIRecipeSerializers.MIXING);
+        return new LTXIBuilder<>(resources);
     }
 
     private LTXIBuilder<EnergizingRecipe> energizing()
     {
-        return new LTXIBuilder<>(resources, LTXIRecipeSerializers.ENERGIZING);
+        return new LTXIBuilder<>(resources);
     }
 
     private LTXIBuilder<ChemicalReactingRecipe> chemLab()
     {
-        return new LTXIBuilder<>(resources, LTXIRecipeSerializers.CHEMICAL_REACTING);
+        return new LTXIBuilder<>(resources);
     }
 
     private LTXIBuilder<AssemblingRecipe> assembling()
     {
-        return new LTXIBuilder<>(resources, LTXIRecipeSerializers.ASSEMBLING);
+        return new LTXIBuilder<>(resources);
     }
 
     private LTXIBuilder<GeoSynthesisRecipe> geoSynthesis()
     {
-        return new LTXIBuilder<>(resources, LTXIRecipeSerializers.GEO_SYNTHESIS);
+        return new LTXIBuilder<>(resources);
     }
 
     private GardenBuilder garden()
@@ -1261,7 +1261,7 @@ class RecipesGen extends LimaRecipeProvider
     }
 
     @SuppressWarnings("unchecked")
-    private ItemStack moduleStack(HolderLookup.Provider registries, ResourceKey<? extends UpgradeBase<?, ?>> upgradeKey, int upgradeRank)
+    private ItemStackTemplate moduleStack(HolderLookup.Provider registries, ResourceKey<? extends UpgradeBase<?, ?>> upgradeKey, int upgradeRank)
     {
         ItemStack result = null;
 
@@ -1276,7 +1276,7 @@ class RecipesGen extends LimaRecipeProvider
             result.set(LTXIDataComponents.MACHINE_UPGRADE_ENTRY, new MachineUpgradeEntry((Holder<MachineUpgrade>) registries.holderOrThrow(upgradeKey), upgradeRank));
         }
 
-        return Objects.requireNonNull(result);
+        return ItemStackTemplate.fromNonEmptyStack(Objects.requireNonNull(result));
     }
 
     private void upgradeShaped(RecipeOutput output, HolderLookup.Provider registries, ResourceKey<? extends UpgradeBase<?, ?>> upgradeKey, int upgradeRank, UnaryOperator<LimaShapedRecipeBuilder> op)
@@ -1288,6 +1288,7 @@ class RecipesGen extends LimaRecipeProvider
 
     private void upgradeFabricating(RecipeOutput output, HolderLookup.Provider registries, String group, ResourceKey<? extends UpgradeBase<?, ?>> upgradeKey, int upgradeRank, int energyRequired, boolean addBaseModuleInput, UnaryOperator<FabricatingBuilder> op)
     {
+        /*
         FabricatingBuilder builder = fabricating(energyRequired).group(group).output(moduleStack(registries, upgradeKey, upgradeRank));
 
         if (addBaseModuleInput)
@@ -1298,6 +1299,7 @@ class RecipesGen extends LimaRecipeProvider
 
         String name = upgradeKey.registry().getPath() + "s/" + upgradeKey.identifier().getPath() + "_" + upgradeRank;
         op.apply(builder).save(output, name);
+        */
     }
 
     private void upgradeFabricating(RecipeOutput output, HolderLookup.Provider registries, String group, ResourceKey<? extends UpgradeBase<?, ?>> upgradeKey, int upgradeRank, int energyRequired, UnaryOperator<FabricatingBuilder> op)
@@ -1313,13 +1315,13 @@ class RecipesGen extends LimaRecipeProvider
 
     private void equipmentFabricating(RecipeOutput output, HolderLookup.Provider registries, Supplier<? extends UpgradableEquipmentItem> itemSupplier, String group, int energyRequired, UnaryOperator<FabricatingBuilder> op)
     {
-        FabricatingBuilder builder = fabricating(energyRequired).group(group).output(defaultUpgradableItem(itemSupplier, registries));
-        op.apply(builder).save(output);
+        //FabricatingBuilder builder = fabricating(energyRequired).group(group).output(defaultUpgradableItem(itemSupplier, registries));
+        //op.apply(builder).save(output);
     }
 
-    private ItemStack defaultUpgradableItem(Supplier<? extends UpgradableEquipmentItem> itemSupplier, HolderLookup.Provider registries)
+    private ItemStackTemplate defaultUpgradableItem(Supplier<? extends UpgradableEquipmentItem> itemSupplier, HolderLookup.Provider registries)
     {
-        return itemSupplier.get().createStackWithDefaultUpgrades(registries);
+        return ItemStackTemplate.fromNonEmptyStack(itemSupplier.get().createStackWithDefaultUpgrades(registries));
     }
 
     private Ingredient neonLightDye(NeonLightColor color)
@@ -1361,16 +1363,13 @@ class RecipesGen extends LimaRecipeProvider
 
     private static class LTXIBuilder<R extends LTXIRecipe> extends LimaCustomRecipeBuilder<R, LTXIBuilder<R>>
     {
-        private final LTXIRecipeSerializer<R> serializer;
         private int craftTime;
         @Nullable
         private Holder<RecipeMode> mode;
 
-        LTXIBuilder(ModResources resources, Supplier<? extends LTXIRecipeSerializer<R>> serializerSupplier)
+        LTXIBuilder(ModResources resources)
         {
             super(resources);
-            this.serializer = serializerSupplier.get();
-            this.craftTime = serializer.defaultTime();
         }
 
         LTXIBuilder<R> time(int craftTime)
@@ -1393,7 +1392,8 @@ class RecipesGen extends LimaRecipeProvider
         @Override
         protected R buildRecipe()
         {
-            return serializer.factory().create(itemIngredients, fluidIngredients, itemResults, fluidResults, craftTime, mode);
+            return null;
+            //return serializer.factory().create(itemIngredients, fluidIngredients, itemResults, fluidResults, craftTime, mode);
         }
     }
 
@@ -1401,7 +1401,7 @@ class RecipesGen extends LimaRecipeProvider
     {
         GardenBuilder(ModResources modResources)
         {
-            super(modResources, LTXIRecipeSerializers.GARDEN_SIMULATING);
+            super(modResources);
         }
 
         @Override

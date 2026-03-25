@@ -12,6 +12,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.Weapon;
 import net.minecraft.world.item.context.UseOnContext;
@@ -37,13 +38,13 @@ public abstract class BaseEnergyToolItem extends EnergyEquipmentItem
 
     // Energy stuff
     @Override
-    public int getBaseEnergyCapacity(ItemStack stack)
+    public int getBaseEnergyCapacity(ItemInstance stack)
     {
         return LTXIServerConfig.TOOLS_ENERGY_CAPACITY.getAsInt();
     }
 
     @Override
-    public int getBaseEnergyUsage(ItemStack stack)
+    public int getBaseEnergyUsage(ItemInstance stack)
     {
         return LTXIServerConfig.TOOLS_ENERGY_PER_ACTION.getAsInt();
     }
@@ -106,9 +107,9 @@ public abstract class BaseEnergyToolItem extends EnergyEquipmentItem
     }
 
     @Override
-    public boolean canPerformAction(ItemStack stack, ItemAbility ability)
+    public boolean canPerformAction(ItemInstance stack, ItemAbility itemAbility)
     {
-        return hasEnergyForAction(stack) && getAvailableAbilities().contains(ability);
+        return hasEnergyForAction(stack) && getAvailableAbilities().contains(itemAbility);
     }
 
     // Overridden static properties

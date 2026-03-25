@@ -12,7 +12,7 @@ import liedge.ltxindustries.recipe.RecipeMode;
 import liedge.ltxindustries.registry.LTXIRegistries;
 import liedge.ltxindustries.registry.game.LTXINetworkSerializers;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
@@ -37,10 +37,7 @@ public class RecipeModeScreen extends LTXIScreen<RecipeModeMenu>
 
     public RecipeModeScreen(RecipeModeMenu menu, Inventory inventory, Component title)
     {
-        super(menu, inventory, title, DEFAULT_WIDTH, DEFAULT_HEIGHT);
-
-        // Screen props
-        this.leftPadding = 18;
+        super(menu, inventory, title, DEFAULT_WIDTH, DEFAULT_HEIGHT, 18, 0, 0);
 
         // Options init
         this.options = new ObjectArrayList<>();
@@ -55,7 +52,7 @@ public class RecipeModeScreen extends LTXIScreen<RecipeModeMenu>
             {
                 if (mode.value().recipeTypes().contains(machineRecipeType))
                 {
-                    options.add(new SelectorOption(mode.value().displayItem(), mode));
+                    options.add(new SelectorOption(mode.value().displayItem().create(), mode));
                 }
             }
             else
@@ -73,9 +70,9 @@ public class RecipeModeScreen extends LTXIScreen<RecipeModeMenu>
     }
 
     @Override
-    protected void renderBg(GuiGraphics graphics, float partialTick, int mouseX, int mouseY)
+    public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick)
     {
-        super.renderBg(graphics, partialTick, mouseX, mouseY);
+        super.extractBackground(graphics, mouseX, mouseY, partialTick);
 
         blitInventoryAndHotbar(graphics, 7, 83);
         blitDarkPanel(graphics, 14, 11, 146, 56);
@@ -93,14 +90,14 @@ public class RecipeModeScreen extends LTXIScreen<RecipeModeMenu>
     }
 
     @Override
-    protected void renderTooltip(GuiGraphics graphics, int x, int y)
+    protected void extractTooltip(GuiGraphicsExtractor graphics, int x, int y)
     {
         if (menu.getCarried().isEmpty() && selectorGrid != null)
         {
             selectorGrid.renderTooltips(graphics, x, y);
         }
 
-        super.renderTooltip(graphics, x, y);
+        super.extractTooltip(graphics, x, y);
     }
 
     private record SelectorOption(ItemStack stack, @Nullable Holder<RecipeMode> mode) {}
@@ -118,7 +115,7 @@ public class RecipeModeScreen extends LTXIScreen<RecipeModeMenu>
         }
 
         @Override
-        public void renderElement(GuiGraphics graphics, SelectorOption element, int posX, int posY, int gridIndex, int elementIndex, int mouseX, int mouseY)
+        public void renderElement(GuiGraphicsExtractor graphics, SelectorOption element, int posX, int posY, int gridIndex, int elementIndex, int mouseX, int mouseY)
         {
             Identifier sprite;
             if (blockEntity.getMode() == element.mode)
@@ -134,11 +131,11 @@ public class RecipeModeScreen extends LTXIScreen<RecipeModeMenu>
                 sprite = GRID_UNIT;
             }
             graphics.blitSprite(RenderPipelines.GUI_TEXTURED, sprite, posX, posY, 18, 18);
-            graphics.renderFakeItem(element.stack, posX + 1, posY + 1);
+            graphics.fakeItem(element.stack, posX + 1, posY + 1);
         }
 
         @Override
-        public void renderElementTooltip(GuiGraphics graphics, SelectorOption element, int mouseX, int mouseY, int gridIndex, int elementIndex)
+        public void renderElementTooltip(GuiGraphicsExtractor graphics, SelectorOption element, int mouseX, int mouseY, int gridIndex, int elementIndex)
         {
             Holder<RecipeMode> mode = element.mode;
             Component tooltip = mode != null ? mode.value().displayName() : LTXILangKeys.NONE_UNIVERSAL_TOOLTIP.translate();

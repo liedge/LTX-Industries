@@ -18,7 +18,7 @@ public class ShellGrenadeModel extends ProjectileModel
 
 	public ShellGrenadeModel(ModelPart root)
 	{
-		super(root, RenderTypes::entityCutoutNoCull);
+		super(root, RenderTypes::entityCutout);
 		this.body = root.getChild("body");
 		this.lights = root.getChild("lights");
 	}

@@ -3,7 +3,7 @@ package liedge.ltxindustries.client.gui.screen;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.client.gui.widget.FabricatorProgressWidget;
 import liedge.ltxindustries.menu.AutoFabricatorMenu;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
@@ -28,14 +28,20 @@ public class AutoFabricatorScreen extends LTXIMachineScreen<AutoFabricatorMenu>
     }
 
     @Override
-    protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY)
+    protected void extractMenuBackground(GuiGraphicsExtractor graphics)
     {
-        super.renderBg(guiGraphics, partialTick, mouseX, mouseY);
+        super.extractMenuBackground(graphics);
+    }
 
-        blitInventoryAndHotbar(guiGraphics, 14, 97);
-        blitSlotGrid(guiGraphics, 32, 29, 8, 2);
-        blitPowerInSlot(guiGraphics, 7, 52);
-        blitSlotSprite(guiGraphics, BLUEPRINT_SLOT_SPRITE, 119, 72);
-        blitOutputSlot(guiGraphics, 149, 70);
+    @Override
+    public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick)
+    {
+        super.extractBackground(graphics, mouseX, mouseY, partialTick);
+
+        blitInventoryAndHotbar(graphics, 14, 97);
+        blitSlotGrid(graphics, 32, 29, 8, 2);
+        blitPowerInSlot(graphics, 7, 52);
+        blitSlotSprite(graphics, BLUEPRINT_SLOT_SPRITE, 119, 72);
+        blitOutputSlot(graphics, 149, 70);
     }
 }

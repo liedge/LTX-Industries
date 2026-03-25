@@ -5,7 +5,7 @@ import liedge.ltxindustries.blockentity.BaseECABlockEntity;
 import liedge.ltxindustries.client.model.custom.EnergyFillData;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.core.Direction;
 
 public class EnergyCellArrayRenderer extends MachineRenderer<BaseECABlockEntity>

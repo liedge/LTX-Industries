@@ -10,7 +10,6 @@ import liedge.limacore.recipe.result.ItemResult;
 import liedge.limacore.util.LimaLootUtil;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
 import liedge.ltxindustries.menu.tooltip.RecipeIngredientsTooltip;
-import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.registry.game.LTXIRecipeSerializers;
 import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -22,7 +21,6 @@ import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.level.ItemLike;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.neoforge.transfer.resource.ResourceStack;
 
@@ -67,7 +65,7 @@ public final class FabricatingRecipe extends LimaCustomRecipe<LimaRecipeInput>
 
     public ResourceStack<ItemResource> generateItemResult(ServerLevel level)
     {
-        ResourceStack<ItemResource> original = getFirstItemResult().generateResult(level.random);
+        ResourceStack<ItemResource> original = getFirstItemResult().generateResult(level.getRandom());
 
         ItemStack stack = original.resource().toStack();
         if (stack.getItem() instanceof UpgradableEquipmentItem equipmentItem)
@@ -102,11 +100,5 @@ public final class FabricatingRecipe extends LimaCustomRecipe<LimaRecipeInput>
     public RecipeSerializer<FabricatingRecipe> getSerializer()
     {
         return LTXIRecipeSerializers.FABRICATING.get();
-    }
-
-    @Override
-    protected ItemLike getWorkstation()
-    {
-        return LTXIItems.FABRICATOR;
     }
 }

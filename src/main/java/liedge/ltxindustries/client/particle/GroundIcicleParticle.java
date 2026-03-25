@@ -13,7 +13,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
@@ -21,6 +20,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.data.AtlasIds;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.LightCoordsUtil;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.state.BlockState;
@@ -51,14 +51,14 @@ public class GroundIcicleParticle extends CustomGeometryParticle
     public void tick()
     {
         prevAge = age;
-        light = getLightColor(1f);
+        light = getLightCoords(1f);
 
         super.tick();
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    protected int getLightColor(float partialTick)
+    protected int getLightCoords(float a)
     {
         BlockPos pos = BlockPos.containing(x, y, z);
         if (level.hasChunkAt(pos))
@@ -66,18 +66,18 @@ public class GroundIcicleParticle extends CustomGeometryParticle
             BlockState state = level.getBlockState(pos);
             if (state.emissiveRendering(level, pos))
             {
-                return LightTexture.FULL_BRIGHT;
+                return LightCoordsUtil.FULL_BRIGHT;
             }
             else
             {
                 int blockLight = Math.max(level.getBrightness(LightLayer.BLOCK, pos), state.getLightEmission(level, pos));
                 int skyLight = Math.max(8, level.getBrightness(LightLayer.SKY, pos));
-                return LightTexture.pack(blockLight, skyLight);
+                return LightCoordsUtil.pack(blockLight, skyLight);
             }
         }
         else
         {
-            return LightTexture.pack(0, 8);
+            return LightCoordsUtil.pack(0, 8);
         }
     }
 

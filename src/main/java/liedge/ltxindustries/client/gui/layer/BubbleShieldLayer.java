@@ -9,7 +9,7 @@ import liedge.ltxindustries.registry.game.LTXIAttachmentTypes;
 import liedge.ltxindustries.util.config.LTXIClientConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.Identifier;
@@ -25,7 +25,7 @@ public final class BubbleShieldLayer extends LimaGuiLayer
     }
 
     @Override
-    protected void renderGuiLayer(LocalPlayer player, GuiGraphics graphics, float partialTicks)
+    protected void renderGuiLayer(LocalPlayer player, GuiGraphicsExtractor graphics, float partialTicks)
     {
         float shieldHealth = player.getData(LTXIAttachmentTypes.BUBBLE_SHIELD_HEALTH);
 
@@ -40,7 +40,7 @@ public final class BubbleShieldLayer extends LimaGuiLayer
             String shieldStr = Integer.toString((int) shieldHealth);
             int shieldX0 = font.width(shieldStr) / 2;
             graphics.blitSprite(RenderPipelines.GUI_TEXTURED, DISPLAY_SPRITE, x, y, 33, 13);
-            graphics.drawString(font, shieldStr, x + 19 - shieldX0, y + 3, LTXIConstants.BUBBLE_SHIELD_BLUE.argb32(), false);
+            graphics.text(font, shieldStr, x + 19 - shieldX0, y + 3, LTXIConstants.BUBBLE_SHIELD_BLUE.argb32(), false);
         }
     }
 }

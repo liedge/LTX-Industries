@@ -2,7 +2,7 @@ package liedge.ltxindustries.client.gui;
 
 import liedge.ltxindustries.menu.tooltip.ItemGridTooltip;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.world.item.ItemStack;
 
 public final class ClientItemGridTooltip extends ClientGridTooltip<ItemStack>
@@ -22,12 +22,12 @@ public final class ClientItemGridTooltip extends ClientGridTooltip<ItemStack>
     }
 
     @Override
-    protected void renderGridElement(ItemStack element, Font font, int rx, int ry, GuiGraphics graphics)
+    protected void renderGridElement(ItemStack element, Font font, int rx, int ry, GuiGraphicsExtractor graphics)
     {
         int x = rx + 1;
         int y = ry + 1;
 
-        graphics.renderItem(element, x, y);
-        if (renderDecorations) graphics.renderItemDecorations(font, element, x, y);
+        graphics.item(element, x, y);
+        if (renderDecorations) graphics.itemDecorations(font, element, x, y);
     }
 }

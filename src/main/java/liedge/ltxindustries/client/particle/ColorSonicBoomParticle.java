@@ -6,7 +6,7 @@ import liedge.limacore.lib.LimaColor;
 import liedge.ltxindustries.registry.game.LTXIParticles;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
-import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.util.LightCoordsUtil;
 import net.minecraft.util.RandomSource;
 
 public class ColorSonicBoomParticle extends SingleQuadParticle
@@ -38,9 +38,9 @@ public class ColorSonicBoomParticle extends SingleQuadParticle
     }
 
     @Override
-    protected int getLightColor(float pPartialTick)
+    protected int getLightCoords(float a)
     {
-        return LightTexture.FULL_BRIGHT;
+        return LightCoordsUtil.FULL_BRIGHT;
     }
 
     @Override

@@ -1,6 +1,6 @@
 package liedge.ltxindustries.client.gui.widget;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -22,9 +22,9 @@ public abstract class LimaSidebarButton extends LimaRenderableButton
     }
 
     @Override
-    protected void renderContents(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick)
+    protected void extractContents(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick)
     {
-        super.renderContents(guiGraphics, mouseX, mouseY, partialTick);
+        super.extractContents(guiGraphics, mouseX, mouseY, partialTick);
         int xOffset = isLeftSided() ? 2 : 0;
         renderInnerContents(guiGraphics, getX() + xOffset, getY() + 2);
     }
@@ -38,11 +38,11 @@ public abstract class LimaSidebarButton extends LimaRenderableButton
     @Override
     protected abstract Identifier focusedSprite();
 
-    protected abstract void renderInnerContents(GuiGraphics graphics, int guiX, int guiY);
+    protected abstract void renderInnerContents(GuiGraphicsExtractor graphics, int guiX, int guiY);
 
     protected abstract boolean isLeftSided();
 
-    protected void renderSprite(GuiGraphics graphics, Identifier sprite, int x, int y)
+    protected void renderSprite(GuiGraphicsExtractor graphics, Identifier sprite, int x, int y)
     {
         graphics.blitSprite(RenderPipelines.GUI_TEXTURED, sprite, x, y, 16, 16);
     }

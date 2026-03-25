@@ -57,7 +57,7 @@ public abstract class CookingBlockEntity<R extends AbstractCookingRecipe> extend
     @Override
     public boolean canInsertRecipeResults(ServerLevel level, R recipe, SingleRecipeInput input)
     {
-        ItemStack output = recipe.assemble(input, level.registryAccess());
+        ItemStack output = recipe.assemble(input);
 
         int inserted;
 
@@ -72,7 +72,7 @@ public abstract class CookingBlockEntity<R extends AbstractCookingRecipe> extend
     @Override
     protected void insertRecipeResults(Level level, R recipe, SingleRecipeInput recipeInput)
     {
-        ItemStack result = recipe.assemble(recipeInput, level.registryAccess());
+        ItemStack result = recipe.assemble(recipeInput);
 
         try (Transaction tx = Transaction.openRoot())
         {

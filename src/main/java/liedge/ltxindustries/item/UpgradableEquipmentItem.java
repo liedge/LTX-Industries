@@ -18,6 +18,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.ItemLike;
@@ -47,17 +48,17 @@ public interface UpgradableEquipmentItem extends ItemLike, EnergyHolderItem
     }
 
     //#region Energy functions
-    default int getBaseEnergyUsage(ItemStack stack)
+    default int getBaseEnergyUsage(ItemInstance stack)
     {
         return 0;
     }
 
-    default int getEnergyUsage(ItemStack stack)
+    default int getEnergyUsage(ItemInstance stack)
     {
         return stack.getOrDefault(LimaCoreDataComponents.ENERGY_USAGE, getBaseEnergyUsage(stack));
     }
 
-    default boolean hasEnergyForAction(ItemStack stack)
+    default boolean hasEnergyForAction(ItemInstance stack)
     {
         return getEnergyStored(stack) >= getEnergyUsage(stack);
     }

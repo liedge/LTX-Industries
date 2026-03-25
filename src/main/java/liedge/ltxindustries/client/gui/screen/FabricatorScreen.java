@@ -14,7 +14,7 @@ import liedge.ltxindustries.menu.layout.LayoutSlot;
 import liedge.ltxindustries.recipe.FabricatingRecipe;
 import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
@@ -69,9 +69,9 @@ public class FabricatorScreen extends LTXIMachineScreen<FabricatorMenu>
     }
 
     @Override
-    protected void renderBg(GuiGraphics graphics, float partialTick, int mouseX, int mouseY)
+    public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick)
     {
-        super.renderBg(graphics, partialTick, mouseX, mouseY);
+        super.extractBackground(graphics, mouseX, mouseY, partialTick);
 
         // Background sprites
         blitInventoryAndHotbar(graphics, 14, 117);
@@ -83,14 +83,14 @@ public class FabricatorScreen extends LTXIMachineScreen<FabricatorMenu>
     }
 
     @Override
-    protected void renderTooltip(GuiGraphics graphics, int x, int y)
+    protected void extractTooltip(GuiGraphicsExtractor graphics, int x, int y)
     {
         if (menu.getCarried().isEmpty() && selectorGrid != null)
         {
             if (selectorGrid.renderTooltips(graphics, x, y)) return;
         }
 
-        super.renderTooltip(graphics, x, y);
+        super.extractTooltip(graphics, x, y);
     }
 
     @Override
@@ -145,7 +145,7 @@ public class FabricatorScreen extends LTXIMachineScreen<FabricatorMenu>
         }
 
         @Override
-        public void renderElement(GuiGraphics graphics, RecipeHolder<FabricatingRecipe> element, int posX, int posY, int gridIndex, int elementIndex, int mouseX, int mouseY)
+        public void renderElement(GuiGraphicsExtractor graphics, RecipeHolder<FabricatingRecipe> element, int posX, int posY, int gridIndex, int elementIndex, int mouseX, int mouseY)
         {
             FabricatingRecipe recipe = element.value();
 
@@ -170,12 +170,12 @@ public class FabricatorScreen extends LTXIMachineScreen<FabricatorMenu>
             graphics.blitSprite(RenderPipelines.GUI_TEXTURED, sprite, posX, posY, 18, 18);
 
             ItemStack resultStack = recipe.getResultPreview();
-            graphics.renderFakeItem(resultStack, posX + 1, posY + 1);
-            graphics.renderItemDecorations(Minecraft.getInstance().font, resultStack, posX + 1, posY + 1);
+            graphics.fakeItem(resultStack, posX + 1, posY + 1);
+            graphics.itemDecorations(Minecraft.getInstance().font, resultStack, posX + 1, posY + 1);
         }
 
         @Override
-        public void renderElementTooltip(GuiGraphics graphics, RecipeHolder<FabricatingRecipe> element, int mouseX, int mouseY, int gridIndex, int elementIndex)
+        public void renderElementTooltip(GuiGraphicsExtractor graphics, RecipeHolder<FabricatingRecipe> element, int mouseX, int mouseY, int gridIndex, int elementIndex)
         {
             FabricatingRecipe recipe = element.value();
 

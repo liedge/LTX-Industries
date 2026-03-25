@@ -3,7 +3,7 @@ package liedge.ltxindustries.client.gui.widget;
 import liedge.limacore.client.gui.LimaGuiUtil;
 import liedge.limacore.client.gui.LimaRenderable;
 import liedge.limacore.lib.math.LimaCoreMath;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 
 import java.util.List;
 
@@ -57,14 +57,14 @@ public interface GridGUIElement<T> extends LimaRenderable
         return LimaGuiUtil.isMouseWithinArea(mouseX, mouseY, elementX0, elementY0, elementWidth(), elementHeight());
     }
 
-    void renderElement(GuiGraphics graphics, T element, int posX, int posY, int gridIndex, int elementIndex, int mouseX, int mouseY);
+    void renderElement(GuiGraphicsExtractor graphics, T element, int posX, int posY, int gridIndex, int elementIndex, int mouseX, int mouseY);
 
-    void renderElementTooltip(GuiGraphics graphics, T element, int mouseX, int mouseY, int gridIndex, int elementIndex);
+    void renderElementTooltip(GuiGraphicsExtractor graphics, T element, int mouseX, int mouseY, int gridIndex, int elementIndex);
 
     void onElementClicked(T element, double mouseX, double mouseY, int button, int gridIndex, int elementIndex);
 
     @Override
-    default void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick)
+    default void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a)
     {
         if (getElements().isEmpty()) return;
 
@@ -81,7 +81,7 @@ public interface GridGUIElement<T> extends LimaRenderable
         }
     }
 
-    default boolean renderTooltips(GuiGraphics graphics, int mouseX, int mouseY)
+    default boolean renderTooltips(GuiGraphicsExtractor graphics, int mouseX, int mouseY)
     {
         if (!isMouseOver(mouseX, mouseY)) return false;
         else if (getElements().isEmpty()) return true;

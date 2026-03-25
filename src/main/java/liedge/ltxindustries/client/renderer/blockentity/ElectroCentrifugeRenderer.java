@@ -10,7 +10,7 @@ import liedge.ltxindustries.client.model.LayeredModelPart;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
-import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import org.joml.Vector2f;
 
 public class ElectroCentrifugeRenderer extends MachineRenderer<ElectroCentrifugeBlockEntity>

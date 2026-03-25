@@ -8,7 +8,7 @@ import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.lib.weapons.ClientExtendedInput;
 import liedge.ltxindustries.util.config.LTXIClientConfig;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -37,7 +37,7 @@ public final class WeaponCrosshairLayer extends LimaGuiLayer
     }
 
     @Override
-    protected void renderGuiLayer(LocalPlayer player, GuiGraphics graphics, float partialTicks)
+    protected void renderGuiLayer(LocalPlayer player, GuiGraphicsExtractor graphics, float partialTicks)
     {
         final int screenWidth = graphics.guiWidth();
         final int screenHeight = graphics.guiHeight();

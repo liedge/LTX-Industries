@@ -2,6 +2,7 @@ package liedge.ltxindustries.item;
 
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -17,7 +18,7 @@ public class InfiniteECABlockItem extends BlockItem implements EnergyHolderItem,
     }
 
     @Override
-    public int getBaseEnergyCapacity(ItemStack stack)
+    public int getBaseEnergyCapacity(ItemInstance stack)
     {
         return Integer.MAX_VALUE;
     }
@@ -29,13 +30,13 @@ public class InfiniteECABlockItem extends BlockItem implements EnergyHolderItem,
     }
 
     @Override
-    public int getEnergyStored(ItemStack stack)
+    public int getEnergyStored(ItemInstance stack)
     {
         return Integer.MAX_VALUE;
     }
 
     @Override
-    public int getEnergyCapacity(ItemStack stack)
+    public int getEnergyCapacity(ItemInstance stack)
     {
         return Integer.MAX_VALUE;
     }

@@ -6,7 +6,7 @@ import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.client.gui.widget.MachineProgressWidget;
 import liedge.ltxindustries.menu.MolecularReconstructorMenu;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
@@ -25,14 +25,14 @@ public class MolecularReconstructorScreen extends LTXIMachineScreen<MolecularRec
     }
 
     @Override
-    protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY)
+    public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick)
     {
-        super.renderBg(guiGraphics, partialTick, mouseX, mouseY);
+        super.extractBackground(graphics, mouseX, mouseY, partialTick);
 
-        blitInventoryAndHotbar(guiGraphics, 7, 83);
-        blitPowerInSlot(guiGraphics, 7, 52);
-        blitEmptySlot(guiGraphics, 55, 33);
-        blitOutputSlot(guiGraphics, 101, 31);
+        blitInventoryAndHotbar(graphics, 7, 83);
+        blitPowerInSlot(graphics, 7, 52);
+        blitEmptySlot(graphics, 55, 33);
+        blitOutputSlot(graphics, 101, 31);
     }
 
     private static class ProgressBar extends MachineProgressWidget

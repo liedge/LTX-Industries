@@ -37,7 +37,7 @@ public class BerryVinesBlock extends CaveVinesBlock
                         (sl, stack) -> popResource(sl, pos, stack));
             }
 
-            level.playSound(null, pos, SoundEvents.CAVE_VINES_PICK_BERRIES, SoundSource.BLOCKS, 1f, Mth.randomBetween(level.random, 0.8f, 1.2f));
+            level.playSound(null, pos, SoundEvents.CAVE_VINES_PICK_BERRIES, SoundSource.BLOCKS, 1f, Mth.randomBetween(level.getRandom(), 0.8f, 1.2f));
             BlockState newState = state.setValue(BERRIES, false);
             level.setBlock(pos, newState, Block.UPDATE_CLIENTS);
             level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, newState));

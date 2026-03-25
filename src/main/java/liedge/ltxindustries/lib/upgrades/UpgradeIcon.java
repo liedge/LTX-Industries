@@ -4,18 +4,17 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import liedge.limacore.data.LimaCoreCodecs;
 import liedge.limacore.data.LimaEnumCodec;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.StringRepresentable;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.level.ItemLike;
 
 import static liedge.ltxindustries.LTXIndustries.RESOURCES;
 
 public interface UpgradeIcon
 {
-    Codec<UpgradeIcon> CODEC = Type.CODEC.dispatchWithInline(SpriteSheetIcon.class, SpriteSheetIcon.INLINE_CODEC, UpgradeIcon::getType, Type::getCodec);
+    Codec<UpgradeIcon> CODEC = Codec.lazyInitialized(() -> Type.CODEC.dispatchWithInline(SpriteSheetIcon.class, SpriteSheetIcon.INLINE_CODEC, UpgradeIcon::getType, Type::getCodec));
 
     static NoRenderIcon noRenderIcon()
     {
@@ -32,14 +31,14 @@ public interface UpgradeIcon
         return sprite(RESOURCES.id(path));
     }
 
-    static ItemStackIcon itemIcon(ItemStack stack)
+    static ItemStackIcon itemIcon(ItemStackTemplate template)
     {
-        return new ItemStackIcon(stack);
+        return new ItemStackIcon(template);
     }
 
     static ItemStackIcon itemIcon(ItemLike itemLike)
     {
-        return itemIcon(new ItemStack(itemLike));
+        return itemIcon(new ItemStackTemplate(itemLike.asItem()));
     }
 
     static SpriteOverlayIcon overlayIcon(UpgradeIcon background, Identifier overlay, int width, int height, int xOffset, int yOffset)
@@ -75,10 +74,9 @@ public interface UpgradeIcon
         }
     }
 
-    record ItemStackIcon(ItemStack stack) implements UpgradeIcon
+    record ItemStackIcon(ItemStackTemplate template) implements UpgradeIcon
     {
-        private static final Codec<ItemStackIcon> CODEC = ItemStack.SINGLE_ITEM_CODEC.xmap(ItemStackIcon::new, ItemStackIcon::stack);
-        private static final MapCodec<ItemStackIcon> MAP_CODEC = CODEC.fieldOf("item");
+        private static final MapCodec<ItemStackIcon> MAP_CODEC = ItemStackTemplate.CODEC.fieldOf("item").xmap(ItemStackIcon::new, ItemStackIcon::template);
 
         @Override
         public Type getType()
@@ -89,7 +87,6 @@ public interface UpgradeIcon
 
     record SpriteOverlayIcon(UpgradeIcon background, Identifier overlay, int width, int height, int xOffset, int yOffset) implements UpgradeIcon
     {
-        private static final Codec<UpgradeIcon> BACKGROUND_CODEC = LimaCoreCodecs.xorSubclassCodec(SpriteSheetIcon.INLINE_CODEC, ItemStackIcon.CODEC, SpriteSheetIcon.class, ItemStackIcon.class);
         private static final Codec<Integer> DIMS_CODEC = Codec.intRange(1, 16);
 
         private static DataResult<SpriteOverlayIcon> validate(SpriteOverlayIcon value)
@@ -99,11 +96,14 @@ public interface UpgradeIcon
 
             if (value.xOffset < 0 || value.xOffset > maxXO) return DataResult.error(() -> "X offset out of valid range [0," + maxXO + ")");
             if (value.yOffset < 0 || value.yOffset > maxYO) return DataResult.error(() -> "Y offset out of valid range [0," + maxYO + ")");
-            else return DataResult.success(value);
+
+            if (!value.background.getType().isValidBackground()) return DataResult.error(() -> "Only sprite or item stack icons can be used as a background.");
+
+            return DataResult.success(value);
         }
 
         private static final MapCodec<SpriteOverlayIcon> CODEC = RecordCodecBuilder.<SpriteOverlayIcon>mapCodec(instance -> instance.group(
-                BACKGROUND_CODEC.fieldOf("background").forGetter(SpriteOverlayIcon::background),
+                UpgradeIcon.CODEC.fieldOf("background").forGetter(SpriteOverlayIcon::background),
                 Identifier.CODEC.fieldOf("overlay").forGetter(SpriteOverlayIcon::overlay),
                 DIMS_CODEC.fieldOf("width").forGetter(SpriteOverlayIcon::width),
                 DIMS_CODEC.fieldOf("height").forGetter(SpriteOverlayIcon::height),
@@ -135,6 +135,11 @@ public interface UpgradeIcon
         {
             this.name = name;
             this.codec = codec;
+        }
+
+        private boolean isValidBackground()
+        {
+            return this == ITEM_STACK || this == UPGRADE_SPRITE;
         }
 
         public MapCodec<? extends UpgradeIcon> getCodec()

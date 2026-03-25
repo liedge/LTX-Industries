@@ -11,7 +11,7 @@ import liedge.ltxindustries.client.gui.widget.LimaRenderableButton;
 import liedge.ltxindustries.client.gui.widget.LimaSidebarButton;
 import liedge.ltxindustries.client.gui.widget.SubMenuBackButton;
 import liedge.ltxindustries.menu.BlockIOConfigurationMenu;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.InputWithModifiers;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.CommonComponents;
@@ -39,10 +39,8 @@ public class BlockIOConfigurationScreen extends LTXIScreen<BlockIOConfigurationM
 
     public BlockIOConfigurationScreen(BlockIOConfigurationMenu menu, Inventory inventory, Component title)
     {
-        super(menu, inventory, title, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        super(menu, inventory, title, DEFAULT_WIDTH, DEFAULT_HEIGHT, 18, 18, 0);
         this.inventoryLabelY = 73;
-        this.leftPadding = 18;
-        this.rightPadding = 18;
     }
 
     private BlockIOConfiguration getIOConfiguration()
@@ -83,10 +81,9 @@ public class BlockIOConfigurationScreen extends LTXIScreen<BlockIOConfigurationM
     }
 
     @Override
-    protected void renderBg(GuiGraphics graphics, float partialTick, int mouseX, int mouseY)
+    public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick)
     {
-        super.renderBg(graphics, partialTick, mouseX, mouseY);
-
+        super.extractBackground(graphics, mouseX, mouseY, partialTick);
         blitInventoryAndHotbar(graphics, 7, 83);
         graphics.blit(RenderPipelines.GUI_TEXTURED, BUTTON_GRID_TEXTURE, leftPos + 60, topPos + 21, 0f, 0f, 48, 48, 48, 48);
     }
@@ -185,7 +182,7 @@ public class BlockIOConfigurationScreen extends LTXIScreen<BlockIOConfigurationM
         }
 
         @Override
-        protected void renderInnerContents(GuiGraphics graphics, int guiX, int guiY)
+        protected void renderInnerContents(GuiGraphicsExtractor graphics, int guiX, int guiY)
         {
             Identifier sprite = stateGetter.getAsBoolean() ? onSprite : offSprite;
             renderSprite(graphics, sprite, guiX, guiY);

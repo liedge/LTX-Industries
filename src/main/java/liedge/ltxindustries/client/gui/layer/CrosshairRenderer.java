@@ -7,7 +7,7 @@ import liedge.ltxindustries.client.LTXIRenderer;
 import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.lib.weapons.ClientExtendedInput;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.data.AtlasIds;
@@ -52,7 +52,7 @@ public abstract class CrosshairRenderer
         this.animationFactor = animationFactor;
     }
 
-    public final void render(GuiGraphics graphics, RenderPipeline pipeline, LocalPlayer player, WeaponItem weaponItem, ClientExtendedInput controls, int screenWidth, int screenHeight, LimaColor color, float partialTick)
+    public final void render(GuiGraphicsExtractor graphics, RenderPipeline pipeline, LocalPlayer player, WeaponItem weaponItem, ClientExtendedInput controls, int screenWidth, int screenHeight, LimaColor color, float partialTick)
     {
         int centerX = (screenWidth - xOffset) / 2;
         int centerY = (screenHeight - yOffset) / 2;
@@ -61,21 +61,21 @@ public abstract class CrosshairRenderer
         renderSprites(graphics, pipeline, player, weaponItem, controls, centerX, centerY, bloom, color, partialTick);
     }
 
-    protected abstract void renderSprites(GuiGraphics graphics, RenderPipeline pipeline, LocalPlayer player, WeaponItem weaponItem, ClientExtendedInput controls, int x, int y, float bloom, LimaColor color, float partialTick);
+    protected abstract void renderSprites(GuiGraphicsExtractor graphics, RenderPipeline pipeline, LocalPlayer player, WeaponItem weaponItem, ClientExtendedInput controls, int x, int y, float bloom, LimaColor color, float partialTick);
 
-    protected void submitCrosshairSprite(GuiGraphics graphics, RenderPipeline pipeline, Identifier spriteId, float x, float y, int width, int height, LimaColor color)
+    protected void submitCrosshairSprite(GuiGraphicsExtractor graphics, RenderPipeline pipeline, Identifier spriteId, float x, float y, int width, int height, LimaColor color)
     {
         TextureAtlasSprite sprite = Minecraft.getInstance().getAtlasManager().getAtlasOrThrow(AtlasIds.GUI).getSprite(spriteId);
         LimaGuiUtil.floatBlit(graphics, pipeline, sprite, x, y, width, height, color.argb32());
     }
 
-    protected void submitCrosshairSpriteMirrorU(GuiGraphics graphics, RenderPipeline pipeline, Identifier spriteId, float x, float y, int width, int height, LimaColor color)
+    protected void submitCrosshairSpriteMirrorU(GuiGraphicsExtractor graphics, RenderPipeline pipeline, Identifier spriteId, float x, float y, int width, int height, LimaColor color)
     {
         TextureAtlasSprite sprite = Minecraft.getInstance().getAtlasManager().getAtlasOrThrow(AtlasIds.GUI).getSprite(spriteId);
         LimaGuiUtil.floatBlit(graphics, pipeline, sprite.atlasLocation(), x, y, x + width, y + height, sprite.getU1(), sprite.getU0(), sprite.getV0(), sprite.getV1(), color.argb32());
     }
 
-    protected void submitCrosshairSpriteMirrorV(GuiGraphics graphics, RenderPipeline pipeline, Identifier spriteId, float x, float y, int width, int height, LimaColor color)
+    protected void submitCrosshairSpriteMirrorV(GuiGraphicsExtractor graphics, RenderPipeline pipeline, Identifier spriteId, float x, float y, int width, int height, LimaColor color)
     {
         TextureAtlasSprite sprite = Minecraft.getInstance().getAtlasManager().getAtlasOrThrow(AtlasIds.GUI).getSprite(spriteId);
         LimaGuiUtil.floatBlit(graphics, pipeline, sprite.atlasLocation(), x, y, x + width, y + height, sprite.getU0(), sprite.getU1(), sprite.getV1(), sprite.getV0(), color.argb32());
@@ -91,7 +91,7 @@ public abstract class CrosshairRenderer
         }
 
         @Override
-        protected void renderSprites(GuiGraphics graphics, RenderPipeline pipeline, LocalPlayer player, WeaponItem weaponItem, ClientExtendedInput controls, int x, int y, float bloom, LimaColor color, float partialTick)
+        protected void renderSprites(GuiGraphicsExtractor graphics, RenderPipeline pipeline, LocalPlayer player, WeaponItem weaponItem, ClientExtendedInput controls, int x, int y, float bloom, LimaColor color, float partialTick)
         {
             submitCrosshairSprite(graphics, pipeline, HOLLOW_DOT, x, y, 5, 5, color);
             submitCrosshairSprite(graphics, pipeline, ANGLE_BRACKET, x - 6 - bloom, y - 1, 4, 7, color);
@@ -109,7 +109,7 @@ public abstract class CrosshairRenderer
         }
 
         @Override
-        protected void renderSprites(GuiGraphics graphics, RenderPipeline pipeline, LocalPlayer player, WeaponItem weaponItem, ClientExtendedInput controls, int x, int y, float bloom, LimaColor color, float partialTick)
+        protected void renderSprites(GuiGraphicsExtractor graphics, RenderPipeline pipeline, LocalPlayer player, WeaponItem weaponItem, ClientExtendedInput controls, int x, int y, float bloom, LimaColor color, float partialTick)
         {
             submitCrosshairSprite(graphics, pipeline, CIRCLE_BRACKET, x - 6 - bloom, y, 6, 13, color);
             submitCrosshairSpriteMirrorU(graphics, pipeline, CIRCLE_BRACKET, x + 1 + bloom, y, 6, 13, color);
@@ -124,7 +124,7 @@ public abstract class CrosshairRenderer
         }
 
         @Override
-        protected void renderSprites(GuiGraphics graphics, RenderPipeline pipeline, LocalPlayer player, WeaponItem weaponItem, ClientExtendedInput controls, int x, int y, float bloom, LimaColor color, float partialTick)
+        protected void renderSprites(GuiGraphicsExtractor graphics, RenderPipeline pipeline, LocalPlayer player, WeaponItem weaponItem, ClientExtendedInput controls, int x, int y, float bloom, LimaColor color, float partialTick)
         {
 
         }
@@ -138,7 +138,7 @@ public abstract class CrosshairRenderer
         }
 
         @Override
-        protected void renderSprites(GuiGraphics graphics, RenderPipeline pipeline, LocalPlayer player, WeaponItem weaponItem, ClientExtendedInput controls, int x, int y, float bloom, LimaColor color, float partialTick)
+        protected void renderSprites(GuiGraphicsExtractor graphics, RenderPipeline pipeline, LocalPlayer player, WeaponItem weaponItem, ClientExtendedInput controls, int x, int y, float bloom, LimaColor color, float partialTick)
         {
             submitCrosshairSprite(graphics, pipeline, HOLLOW_DOT, x, y, 5, 5, color);
 

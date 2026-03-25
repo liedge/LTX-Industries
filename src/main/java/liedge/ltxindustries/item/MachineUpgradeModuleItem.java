@@ -78,7 +78,7 @@ public class MachineUpgradeModuleItem extends UpgradeModuleItem<MachineUpgrade, 
                 MachineUpgrades newUpgrades = blockEntity.getUpgrades().toMutableContainer().set(entry).toImmutable();
                 blockEntity.setUpgrades(newUpgrades);
 
-                player.displayClientMessage(LTXILangKeys.UPGRADE_INSTALL_SUCCESS.translate().withStyle(moduleTypeStyle()), true);
+                player.sendOverlayMessage(LTXILangKeys.UPGRADE_INSTALL_SUCCESS.translate().withStyle(moduleTypeStyle()));
                 level.playSound(null, blockPos, LTXISounds.UPGRADE_INSTALL.get(), SoundSource.PLAYERS, 1f, 1f);
 
                 usedItem.consume(1, player);
@@ -88,7 +88,7 @@ public class MachineUpgradeModuleItem extends UpgradeModuleItem<MachineUpgrade, 
             }
             else
             {
-                player.displayClientMessage(LTXILangKeys.UPGRADE_INSTALL_FAIL.translate().withStyle(LTXIConstants.HOSTILE_ORANGE.chatStyle()), true);
+                player.sendOverlayMessage(LTXILangKeys.UPGRADE_INSTALL_FAIL.translate().withStyle(LTXIConstants.HOSTILE_ORANGE.chatStyle()));
             }
         }
 
