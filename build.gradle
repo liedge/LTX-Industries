@@ -3,7 +3,7 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
-    id 'net.neoforged.moddev' version '2.0.140'
+    id 'net.neoforged.moddev' version '2.0.141'
 }
 
 tasks.named('wrapper', Wrapper).configure {
@@ -51,16 +51,11 @@ base {
 }
 
 // Mojang ships Java 21 to end users starting in 1.20.5, so mods should target Java 21.
-java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+java.toolchain.languageVersion = JavaLanguageVersion.of(25)
 
 neoForge {
     // Specify the version of NeoForge to use.
     version = project.neo_version
-
-    parchment {
-        mappingsVersion = project.parchment_mappings_version
-        minecraftVersion = project.parchment_minecraft_version
-    }
 
     // This line is optional. Access Transformers are automatically detected
     // accessTransformers = project.files('src/main/resources/META-INF/accesstransformer.cfg')
@@ -166,13 +161,13 @@ dependencies {
     implementation("liedge:limacore-${minecraft_version}:${limacore_version}")
 
     // compile against the JEI API but do not include it at runtime
-    compileOnly("mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}")
+    //compileOnly("mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}")
     // at runtime, use the full JEI jar for NeoForge
-    runtimeOnly("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
+    //runtimeOnly("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
 
     // GuideME
-    compileOnly("org.appliedenergistics:guideme:${guideme_version}:api")
-    runtimeOnly("org.appliedenergistics:guideme:${guideme_version}")
+    //compileOnly("org.appliedenergistics:guideme:${guideme_version}:api")
+    //runtimeOnly("org.appliedenergistics:guideme:${guideme_version}")
 
     // AE2
     //compileOnly("org.appliedenergistics:appliedenergistics2:${ae2_version}:api")
@@ -201,9 +196,9 @@ tasks.withType(ProcessResources).configureEach {
             mod_version            : mod_version,
             mod_authors            : mod_authors,
             mod_description        : mod_description,
-            limacore_version_range  : limacore_version_range,
-            jei_version_range   : jei_version_range,
-            guideme_version_range   : guideme_version_range
+            limacore_version_range  : limacore_version_range
+            //jei_version_range   : jei_version_range,
+            //guideme_version_range   : guideme_version_range
             //ae2_version : ae2_version,
             //ae2_version_range: ae2_version_range
     ]
@@ -221,13 +216,12 @@ java {
 // Example configuration to allow publishing using the maven-publish plugin
 publishing {
     publications {
-        register ('modAndSourcesJar', MavenPublication) {
+        register('mavenJava', MavenPublication) {
             groupId project.group
-            artifactId project.archivesBaseName
+            artifactId base.archivesName.get()
             version project.version
 
-            artifact jar
-            artifact sourcesJar
+            from components.java
         }
     }
 
