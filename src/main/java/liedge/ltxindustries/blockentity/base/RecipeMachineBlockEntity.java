@@ -1,8 +1,7 @@
 package liedge.ltxindustries.blockentity.base;
 
 import liedge.limacore.recipe.LimaRecipeCheck;
-import liedge.limacore.recipe.result.ResourceResult;
-import liedge.limacore.recipe.result.ResultPriority;
+import liedge.limacore.recipe.result.RecipeResult;
 import liedge.limacore.transfer.item.ItemHolderBlockEntity;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.crafting.Recipe;
@@ -25,7 +24,7 @@ public interface RecipeMachineBlockEntity<I extends RecipeInput, R extends Recip
 
     void setCrafting(boolean crafting);
 
-    boolean canInsertRecipeResults(ServerLevel level, R recipe, I input);
+    boolean canInsertRecipeResults(ServerLevel level, R recipe, I inputAccess);
 
     default <RES extends Resource> void insertResourceResults(List<ResourceStack<RES>> stacks, @Nullable ResourceHandler<RES> inventory)
     {
@@ -40,22 +39,22 @@ public interface RecipeMachineBlockEntity<I extends RecipeInput, R extends Recip
         }
     }
 
-    default <RES extends Resource> boolean canInsertResourceResults(Collection<? extends ResourceResult<RES>> results, @Nullable ResourceHandler<RES> inventory)
+    default <RES extends Resource> boolean canInsertResourceResults(Collection<? extends RecipeResult<?, RES>> results, @Nullable ResourceHandler<RES> inventory)
     {
         if (results.isEmpty()) return true;
 
         try (Transaction tx = Transaction.openRoot())
         {
-            for (ResourceResult<RES> result : results)
+            for (RecipeResult<?, RES> result : results)
             {
-                if (result.getPriority() != ResultPriority.PRIMARY) continue;
+                if (!result.required()) continue;
 
-                int required = result.getCount().max();
+                int required = result.count().max();
                 int inserted = ResourceHandlerUtil.insertStacking(inventory, result.getResource(), required, tx);
 
                 if (inserted < required) return false;
             }
-        } // Do not commit tx
+        }
 
         return true;
     }

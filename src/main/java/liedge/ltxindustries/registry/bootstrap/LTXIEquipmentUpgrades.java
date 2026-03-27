@@ -5,10 +5,10 @@ import liedge.limacore.lib.MobHostility;
 import liedge.limacore.lib.math.CompareOperation;
 import liedge.limacore.lib.math.MathOperation;
 import liedge.limacore.registry.game.LimaCoreAttributes;
-import liedge.limacore.world.loot.condition.EntityHostilityLootCondition;
-import liedge.limacore.world.loot.condition.NumberComparisonLootCondition;
-import liedge.limacore.world.loot.number.EntityAttributeValueProvider;
-import liedge.limacore.world.loot.number.MathOpsNumberProvider;
+import liedge.limacore.world.loot.condition.CompareValuesCondition;
+import liedge.limacore.world.loot.condition.EntityHostilityCondition;
+import liedge.limacore.world.loot.number.EntityAttributeValue;
+import liedge.limacore.world.loot.number.ValueMathOperation;
 import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.lib.upgrades.effect.*;
@@ -182,9 +182,9 @@ public final class LTXIEquipmentUpgrades
                 .supports(meleeWeapons)
                 .withEffect(ENCHANTMENT_LEVELS, AddEnchantmentLevels.fixed(enchantments.getOrThrow(RAZOR), 1, 5))
                 .withEffect(ENCHANTMENT_LEVELS, AddEnchantmentLevels.fixed(enchantments.getOrThrow(Enchantments.LOOTING), 1, 5))
-                .withConditionalEffect(EQUIPMENT_DAMAGE, ValueOperation.of(ConstantDouble.of(0.2d), MathOperation.ADD_PERCENT_OF_TOTAL), NumberComparisonLootCondition.comparingValues(
-                        EntityAttributeValueProvider.totalValue(LootContext.EntityTarget.THIS, Attributes.ARMOR),
-                        EntityAttributeValueProvider.baseValue(LootContext.EntityTarget.THIS, Attributes.ARMOR),
+                .withConditionalEffect(EQUIPMENT_DAMAGE, ValueOperation.of(ConstantDouble.of(0.2d), MathOperation.ADD_PERCENT_OF_TOTAL), CompareValuesCondition.comparingValues(
+                        EntityAttributeValue.totalValue(LootContext.EntityTarget.THIS, Attributes.ARMOR),
+                        EntityAttributeValue.baseValue(LootContext.EntityTarget.THIS, Attributes.ARMOR),
                         CompareOperation.LESS_THAN_OR_EQUALS))
                 .tooltip(0, key -> TranslatableTooltip.create(key, ValueComponent.of(ConstantDouble.of(0.2d), ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE)))
                 .effectIcon(defaultOverlay(sprite("razor")))
@@ -342,7 +342,7 @@ public final class LTXIEquipmentUpgrades
         EquipmentUpgrade.builder(HEAVY_PISTOL_GOD_ROUNDS)
                 .supports(LTXIItems.HEAVY_PISTOL)
                 .withEffect(EXTRA_DAMAGE_TAGS, LTXITags.DamageTypes.BYPASS_SURVIVAL_DEFENSES)
-                .withConditionalEffect(EQUIPMENT_DAMAGE, ValueOperation.of(MathOpsNumberProvider.of(EntityAttributeValueProvider.totalValue(LootContext.EntityTarget.THIS, Attributes.MAX_HEALTH), ConstantValue.exactly(0.25f), MathOperation.MULTIPLY), MathOperation.ADD))
+                .withConditionalEffect(EQUIPMENT_DAMAGE, ValueOperation.of(ValueMathOperation.of(EntityAttributeValue.totalValue(LootContext.EntityTarget.THIS, Attributes.MAX_HEALTH), ConstantValue.exactly(0.25f), MathOperation.MULTIPLY), MathOperation.ADD))
                 .tooltip(TranslatableTooltip.create(LTXILangKeys.ATTRIBUTE_SCALED_DAMAGE_UPGRADE,
                         ValueComponent.of(ConstantDouble.of(0.25d), ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE),
                         StaticTooltip.of(Component.translatable(Attributes.MAX_HEALTH.value().getDescriptionId()).withStyle(ChatFormatting.DARK_RED))))
@@ -445,14 +445,14 @@ public final class LTXIEquipmentUpgrades
         EquipmentUpgrade.builder(NEUTRAL_ENEMY_TARGET_FILTER)
                 .createDefaultTitle(HOSTILE_ORANGE)
                 .supports(allWeapons)
-                .targetRestriction(EntityHostilityLootCondition.create(MinMaxRange.atLeast(MobHostility.NEUTRAL_ENEMY)))
+                .targetRestriction(EntityHostilityCondition.attackerIs(MinMaxRange.atLeast(MobHostility.NEUTRAL_ENEMY)))
                 .effectIcon(sprite("neutral_enemy_targets"))
                 .category("target_filters")
                 .register(context);
         EquipmentUpgrade.builder(HOSTILE_TARGET_FILTER)
                 .createDefaultTitle(HOSTILE_ORANGE)
                 .supports(allWeapons)
-                .targetRestriction(EntityHostilityLootCondition.create(MinMaxRange.atLeast(MobHostility.HOSTILE)))
+                .targetRestriction(EntityHostilityCondition.attackerIs(MinMaxRange.atLeast(MobHostility.HOSTILE)))
                 .effectIcon(sprite("hostile_targets"))
                 .category("target_filters")
                 .register(context);

@@ -1,5 +1,6 @@
 package liedge.ltxindustries.blockentity;
 
+import liedge.limacore.transfer.LimaTransferUtil;
 import liedge.limacore.transfer.item.LimaBlockEntityItems;
 import liedge.ltxindustries.block.LTXIBlockProperties;
 import liedge.ltxindustries.block.MachineState;
@@ -41,7 +42,7 @@ public abstract class CookingBlockEntity<R extends AbstractCookingRecipe> extend
     }
 
     @Override
-    protected void consumeIngredients(SingleRecipeInput recipeInput, R recipe, Level level)
+    protected void consumeIngredients(SingleRecipeInput inputAccess, R recipe, Level level)
     {
         try (Transaction tx = Transaction.openRoot())
         {
@@ -55,18 +56,9 @@ public abstract class CookingBlockEntity<R extends AbstractCookingRecipe> extend
     }
 
     @Override
-    public boolean canInsertRecipeResults(ServerLevel level, R recipe, SingleRecipeInput input)
+    public boolean canInsertRecipeResults(ServerLevel level, R recipe, SingleRecipeInput inputAccess)
     {
-        ItemStack output = recipe.assemble(input);
-
-        int inserted;
-
-        try (Transaction tx = Transaction.openRoot())
-        {
-            inserted = getOutputInventory().insert(0, ItemResource.of(output), output.getCount(), tx);
-        }
-
-        return inserted >= output.getCount();
+        return LimaTransferUtil.canMergeIntoIndex(getOutputInventory(), 0, recipe.assemble(inputAccess));
     }
 
     @Override

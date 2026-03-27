@@ -5,13 +5,12 @@ import liedge.limacore.data.generation.loot.LimaLootSubProvider;
 import liedge.limacore.data.generation.loot.LimaLootTableProvider;
 import liedge.limacore.lib.MinMaxRange;
 import liedge.limacore.lib.MobHostility;
-import liedge.limacore.lib.math.LimaRoundingMode;
 import liedge.limacore.util.LimaLootUtil;
 import liedge.limacore.world.loot.DynamicWeightLootEntry;
-import liedge.limacore.world.loot.condition.EntityHostilityLootCondition;
+import liedge.limacore.world.loot.condition.EntityHostilityCondition;
 import liedge.limacore.world.loot.level.RangedLookupLevelBasedValue;
-import liedge.limacore.world.loot.number.EntityEnchantmentValueProvider;
-import liedge.limacore.world.loot.number.RoundingNumberProvider;
+import liedge.limacore.world.loot.number.EntityEnchantmentLevels;
+import liedge.limacore.world.loot.number.RoundValue;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.advancements.criterion.GrenadeElementSubPredicate;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
@@ -102,13 +101,13 @@ class LootTablesGen extends LimaLootTableProvider
 
             // Ammo drops table
             LootPool.Builder ammoDrops = LootPool.lootPool()
-                    .when(EntityHostilityLootCondition.create(MinMaxRange.atLeast(MobHostility.NEUTRAL_ENEMY)))
+                    .when(EntityHostilityCondition.attackerIs(MinMaxRange.atLeast(MobHostility.NEUTRAL_ENEMY)))
                     .when(LootItemRandomChanceWithEnchantedBonusCondition.randomChanceAndLootingBoost(registries, 0.25f, 0.025f))
                     .add(lootItem(LTXIItems.LIGHTWEIGHT_WEAPON_ENERGY).setWeight(80))
                     .add(DynamicWeightLootEntry.dynamicWeightItem(LTXIItems.SPECIALIST_WEAPON_ENERGY, 15).setReplaceWeight(false).setDynamicWeight(ammoEnchantValue(0, LevelBasedValue.perLevel(6))))
                     .add(DynamicWeightLootEntry.dynamicWeightItem(LTXIItems.EXPLOSIVES_WEAPON_ENERGY, 5).setReplaceWeight(false).setDynamicWeight(ammoEnchantValue(0, LevelBasedValue.perLevel(3))))
                     .add(DynamicWeightLootEntry.dynamicWeightItem(LTXIItems.HEAVY_WEAPON_ENERGY, 1).setReplaceWeight(false).setDynamicWeight(ammoEnchantValue(0, LevelBasedValue.perLevel(2))))
-                    .setRolls(RoundingNumberProvider.of(ammoEnchantValue(1, RangedLookupLevelBasedValue.linearLookup(1.2f, 1.4f, 1.6f, 1.8f, 2f)), LimaRoundingMode.RANDOM));
+                    .setRolls(RoundValue.roundRandomly(ammoEnchantValue(1, RangedLookupLevelBasedValue.linearLookup(1.2f, 1.4f, 1.6f, 1.8f, 2f))));
 
             addTable(ENEMY_AMMO_DROPS, LootTable.lootTable().withPool(ammoDrops));
 
@@ -135,7 +134,7 @@ class LootTablesGen extends LimaLootTableProvider
         private NumberProvider ammoEnchantValue(int fallback, LevelBasedValue amount)
         {
             Holder<Enchantment> enchantment = registries.holderOrThrow(LTXIEnchantments.AMMO_SCAVENGER);
-            return EntityEnchantmentValueProvider.enchantedValue(LootContext.EntityTarget.ATTACKER, enchantment, ConstantValue.exactly(fallback), amount);
+            return EntityEnchantmentLevels.enchantedValue(LootContext.EntityTarget.ATTACKER, enchantment, ConstantValue.exactly(fallback), amount);
         }
     }
 

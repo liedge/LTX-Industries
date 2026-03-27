@@ -1,8 +1,8 @@
 package liedge.ltxindustries.recipe;
 
 import liedge.limacore.recipe.LimaRecipeType;
-import liedge.limacore.recipe.ingredient.LimaSizedFluidIngredient;
-import liedge.limacore.recipe.ingredient.LimaSizedItemIngredient;
+import liedge.limacore.recipe.input.RecipeFluidInput;
+import liedge.limacore.recipe.input.RecipeItemInput;
 import liedge.limacore.recipe.result.FluidResult;
 import liedge.limacore.recipe.result.ItemResult;
 import liedge.ltxindustries.registry.game.LTXIRecipeSerializers;
@@ -15,9 +15,9 @@ import java.util.List;
 
 public final class MaterialFusingRecipe extends LTXIRecipe
 {
-    public MaterialFusingRecipe(List<LimaSizedItemIngredient> itemIngredients, List<LimaSizedFluidIngredient> fluidIngredients, List<ItemResult> itemResults, List<FluidResult> fluidResults, int craftTime, @Nullable Holder<RecipeMode> mode)
+    public MaterialFusingRecipe(List<RecipeItemInput> itemInputs, List<RecipeFluidInput> fluidInputs, List<ItemResult> itemResults, List<FluidResult> fluidResults, int craftTime, @Nullable Holder<RecipeMode> mode)
     {
-        super(itemIngredients, fluidIngredients, itemResults, fluidResults, craftTime, mode);
+        super(itemInputs, fluidInputs, itemResults, fluidResults, craftTime, mode);
     }
 
     @Override

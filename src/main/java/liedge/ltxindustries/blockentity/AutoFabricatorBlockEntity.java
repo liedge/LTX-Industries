@@ -1,8 +1,8 @@
 package liedge.ltxindustries.blockentity;
 
 import liedge.limacore.blockentity.BlockContentsType;
-import liedge.limacore.recipe.LimaRecipeInput;
-import liedge.limacore.recipe.SimpleResourceInput;
+import liedge.limacore.recipe.RecipeInputAccess;
+import liedge.limacore.recipe.SimpleResourceAccess;
 import liedge.limacore.util.LimaRegistryUtil;
 import liedge.ltxindustries.recipe.FabricatingRecipe;
 import liedge.ltxindustries.registry.game.LTXIBlockEntities;
@@ -58,26 +58,26 @@ public class AutoFabricatorBlockEntity extends BaseFabricatorBlockEntity
             shouldCheckRecipe = false;
 
             Optional<RecipeHolder<FabricatingRecipe>> optional = getRecipeCheck().getLastUsedRecipe(level);
-            boolean check = false;
+            boolean willCraft = false;
 
             if (optional.isPresent())
             {
                 FabricatingRecipe recipe = optional.get().value();
 
-                LimaRecipeInput input = new SimpleResourceInput(getItems(BlockContentsType.INPUT), null);
-                if (canInsertRecipeResults(level, recipe, input) && recipe.matches(input, level)) // Preliminary check
+                RecipeInputAccess inputAccess = new SimpleResourceAccess(getItems(BlockContentsType.INPUT), null);
+                if (canInsertRecipeResults(level, recipe, inputAccess) && recipe.matches(inputAccess, level))
                 {
-                    recipe.consumeItemIngredients(input, level.getRandom());
-                    check = true; // We consume ingredients here and start crafting. Last used recipe will persist until crafting completes.
+                    recipe.consumeItemInputs(inputAccess, level.getRandom());
+                    willCraft = true; // Consume ingredients here and start crafting. Last used recipe will persist until crafting completes.
                 }
             }
 
-            setCrafting(check);
+            setCrafting(willCraft);
         }
 
         // Tick recipe progress
         FabricatingRecipe recipe = getRecipeCheck().getLastUsedRecipe(level).map(RecipeHolder::value).orElse(null);
-        if (isCrafting() && recipe != null && canInsertRecipeResults(level, recipe, new SimpleResourceInput(getItems(BlockContentsType.INPUT), null)))
+        if (isCrafting() && recipe != null && canInsertRecipeResults(level, recipe, new SimpleResourceAccess(getItems(BlockContentsType.INPUT), null)))
         {
             // Accumulate energy for recipe
             if (energyCraftProgress < recipe.getEnergyRequired())

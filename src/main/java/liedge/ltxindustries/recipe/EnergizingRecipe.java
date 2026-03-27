@@ -1,7 +1,7 @@
 package liedge.ltxindustries.recipe;
 
-import liedge.limacore.recipe.ingredient.LimaSizedFluidIngredient;
-import liedge.limacore.recipe.ingredient.LimaSizedItemIngredient;
+import liedge.limacore.recipe.input.RecipeFluidInput;
+import liedge.limacore.recipe.input.RecipeItemInput;
 import liedge.limacore.recipe.result.FluidResult;
 import liedge.limacore.recipe.result.ItemResult;
 import liedge.ltxindustries.registry.game.LTXIRecipeSerializers;
@@ -15,7 +15,7 @@ import java.util.List;
 
 public final class EnergizingRecipe extends LTXIRecipe
 {
-    public EnergizingRecipe(List<LimaSizedItemIngredient> itemIngredients, List<LimaSizedFluidIngredient> fluidIngredients, List<ItemResult> itemResults, List<FluidResult> fluidResults, int craftTime, @Nullable Holder<RecipeMode> mode)
+    public EnergizingRecipe(List<RecipeItemInput> itemIngredients, List<RecipeFluidInput> fluidIngredients, List<ItemResult> itemResults, List<FluidResult> fluidResults, int craftTime, @Nullable Holder<RecipeMode> mode)
     {
         super(itemIngredients, fluidIngredients, itemResults, fluidResults, craftTime, mode);
     }

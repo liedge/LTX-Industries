@@ -3,7 +3,6 @@ package liedge.ltxindustries.blockentity.template;
 import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.recipe.LimaRecipeCheck;
-import liedge.limacore.transfer.energy.VariableEnergyHandler;
 import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
 import liedge.ltxindustries.blockentity.base.EnergyConsumerBlockEntity;
 import liedge.ltxindustries.blockentity.base.RecipeMachineBlockEntity;
@@ -122,7 +121,7 @@ public abstract class BaseRecipeMachineBlockEntity<I extends RecipeInput, R exte
 
     protected abstract int getBaseRecipeCraftingTime(R recipe);
 
-    protected abstract void consumeIngredients(I recipeInput, R recipe, Level level);
+    protected abstract void consumeIngredients(I inputAccess, R recipe, Level level);
 
     protected abstract void insertRecipeResults(Level level, R recipe, I recipeInput);
 
@@ -165,8 +164,6 @@ public abstract class BaseRecipeMachineBlockEntity<I extends RecipeInput, R exte
     @Override
     protected void tickServer(ServerLevel level, BlockPos pos, BlockState state)
     {
-        VariableEnergyHandler energyStorage = getEnergy();
-
         // Fill internal energy buffer from energy item slot
         pullEnergyFromAux();
 

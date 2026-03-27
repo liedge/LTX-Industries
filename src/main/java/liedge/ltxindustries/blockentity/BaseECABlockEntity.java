@@ -62,7 +62,7 @@ public abstract class BaseECABlockEntity extends LTXIMachineBlockEntity
     @Override
     public boolean isItemValid(BlockContentsType contentsType, int index, ItemResource resource)
     {
-        return contentsType == BlockContentsType.GENERAL ? LimaItemUtil.hasEnergyCapability(ItemAccess.forHandlerIndexStrict(chargingInventory, index)) : super.isItemValid(contentsType, index, resource);
+        return contentsType == BlockContentsType.GENERAL ? LimaItemUtil.hasEnergyCapability(ItemAccess.forStack(resource.toStack())) : super.isItemValid(contentsType, index, resource);
     }
 
     @Override

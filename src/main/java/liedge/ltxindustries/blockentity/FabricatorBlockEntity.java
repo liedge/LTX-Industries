@@ -1,7 +1,7 @@
 package liedge.ltxindustries.blockentity;
 
 import liedge.limacore.blockentity.BlockContentsType;
-import liedge.limacore.recipe.LimaRecipeInput;
+import liedge.limacore.recipe.RecipeInputAccess;
 import liedge.ltxindustries.recipe.FabricatingRecipe;
 import liedge.ltxindustries.registry.game.LTXIBlockEntities;
 import liedge.ltxindustries.registry.game.LTXIItems;
@@ -21,20 +21,20 @@ public class FabricatorBlockEntity extends BaseFabricatorBlockEntity
         super(LTXIBlockEntities.FABRICATOR.get(), pos, state, 0);
     }
 
-    public void startCrafting(ServerLevel level, RecipeHolder<FabricatingRecipe> holder, LimaRecipeInput input, boolean forceStart)
+    public void startCrafting(ServerLevel level, RecipeHolder<FabricatingRecipe> holder, RecipeInputAccess inputAccess, boolean forceStart)
     {
         FabricatingRecipe recipe = holder.value();
 
-        if (!isCrafting() && canInsertRecipeResults(level, recipe, input))
+        if (!isCrafting() && canInsertRecipeResults(level, recipe, inputAccess))
         {
             if (forceStart)
             {
                 setCrafting(true);
                 getRecipeCheck().setLastUsedRecipe(holder);
             }
-            else if (recipe.matches(input, level))
+            else if (recipe.matches(inputAccess, level))
             {
-                recipe.consumeItemIngredients(input, level.getRandom());
+                recipe.consumeItemInputs(inputAccess, level.getRandom());
                 setCrafting(true);
                 getRecipeCheck().setLastUsedRecipe(holder);
             }

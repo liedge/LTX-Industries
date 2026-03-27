@@ -5,7 +5,7 @@ import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.network.sync.AutomaticDataWatcher;
 import liedge.limacore.network.sync.LimaDataWatcher;
 import liedge.limacore.recipe.LimaRecipeCheck;
-import liedge.limacore.recipe.LimaRecipeInput;
+import liedge.limacore.recipe.RecipeInputAccess;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
 import liedge.ltxindustries.blockentity.base.EnergyConsumerBlockEntity;
@@ -26,12 +26,12 @@ import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 
-public abstract class BaseFabricatorBlockEntity extends ProductionMachineBlockEntity implements EnergyConsumerBlockEntity, RecipeMachineBlockEntity<LimaRecipeInput, FabricatingRecipe>
+public abstract class BaseFabricatorBlockEntity extends ProductionMachineBlockEntity implements EnergyConsumerBlockEntity, RecipeMachineBlockEntity<RecipeInputAccess, FabricatingRecipe>
 {
     public static final int AUX_BLUEPRINT_SLOT = 2;
 
     // Common properties
-    private final LimaRecipeCheck<LimaRecipeInput, FabricatingRecipe> recipeCheck = LimaRecipeCheck.create(LTXIRecipeTypes.FABRICATING);
+    private final LimaRecipeCheck<RecipeInputAccess, FabricatingRecipe> recipeCheck = LimaRecipeCheck.create(LTXIRecipeTypes.FABRICATING);
     private int energyUsage = getBaseEnergyUsage();
     private boolean crafting;
     protected int energyCraftProgress;
@@ -79,13 +79,13 @@ public abstract class BaseFabricatorBlockEntity extends ProductionMachineBlockEn
     }
 
     @Override
-    public LimaRecipeCheck<LimaRecipeInput, FabricatingRecipe> getRecipeCheck()
+    public LimaRecipeCheck<RecipeInputAccess, FabricatingRecipe> getRecipeCheck()
     {
         return recipeCheck;
     }
 
     @Override
-    public boolean canInsertRecipeResults(ServerLevel level, FabricatingRecipe recipe, LimaRecipeInput input)
+    public boolean canInsertRecipeResults(ServerLevel level, FabricatingRecipe recipe, RecipeInputAccess inputAccess)
     {
         return canInsertResourceResults(recipe.getItemResults(), getItems(BlockContentsType.OUTPUT));
     }

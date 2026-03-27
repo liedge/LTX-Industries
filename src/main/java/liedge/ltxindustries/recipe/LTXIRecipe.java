@@ -1,8 +1,8 @@
 package liedge.ltxindustries.recipe;
 
 import liedge.limacore.recipe.LimaCustomRecipe;
-import liedge.limacore.recipe.ingredient.LimaSizedFluidIngredient;
-import liedge.limacore.recipe.ingredient.LimaSizedItemIngredient;
+import liedge.limacore.recipe.input.RecipeFluidInput;
+import liedge.limacore.recipe.input.RecipeItemInput;
 import liedge.limacore.recipe.result.FluidResult;
 import liedge.limacore.recipe.result.ItemResult;
 import net.minecraft.core.Holder;
@@ -22,9 +22,9 @@ public abstract class LTXIRecipe extends LimaCustomRecipe<LTXIRecipeInput>
     @Nullable
     private final Holder<RecipeMode> mode;
 
-    protected LTXIRecipe(List<LimaSizedItemIngredient> itemIngredients, List<LimaSizedFluidIngredient> fluidIngredients, List<ItemResult> itemResults, List<FluidResult> fluidResults, int craftTime, @Nullable Holder<RecipeMode> mode)
+    protected LTXIRecipe(List<RecipeItemInput> itemInputs, List<RecipeFluidInput> fluidInputs, List<ItemResult> itemResults, List<FluidResult> fluidResults, int craftTime, @Nullable Holder<RecipeMode> mode)
     {
-        super(itemIngredients, fluidIngredients, itemResults, fluidResults);
+        super(itemInputs, fluidInputs, itemResults, fluidResults);
         this.craftTime = craftTime;
         this.mode = mode;
     }

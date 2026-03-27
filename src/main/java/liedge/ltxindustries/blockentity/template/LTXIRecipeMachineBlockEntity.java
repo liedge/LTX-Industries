@@ -71,14 +71,14 @@ public abstract class LTXIRecipeMachineBlockEntity<R extends LTXIRecipe> extends
     }
 
     @Override
-    protected void consumeIngredients(LTXIRecipeInput recipeInput, R recipe, Level level)
+    protected void consumeIngredients(LTXIRecipeInput inputAccess, R recipe, Level level)
     {
-        recipe.consumeItemIngredients(recipeInput, level.getRandom());
-        recipe.consumeFluidIngredients(recipeInput, level.getRandom());
+        recipe.consumeItemInputs(inputAccess, level.getRandom());
+        recipe.consumeFluidInputs(inputAccess, level.getRandom());
     }
 
     @Override
-    public boolean canInsertRecipeResults(ServerLevel level, R recipe, LTXIRecipeInput input)
+    public boolean canInsertRecipeResults(ServerLevel level, R recipe, LTXIRecipeInput inputAccess)
     {
         boolean itemsCheck = canInsertResourceResults(recipe.getItemResults(), getItems(BlockContentsType.OUTPUT));
         boolean fluidsCheck = canInsertResourceResults(recipe.getFluidResults(), getFluids(BlockContentsType.OUTPUT));
@@ -90,11 +90,11 @@ public abstract class LTXIRecipeMachineBlockEntity<R extends LTXIRecipe> extends
     protected void insertRecipeResults(Level level, R recipe, LTXIRecipeInput recipeInput)
     {
         // Insert item results
-        List<ResourceStack<ItemResource>> itemResults = recipe.generateItemResults(recipeInput, level.registryAccess(), level.getRandom());
+        List<ResourceStack<ItemResource>> itemResults = recipe.generateItemResults(recipeInput, level.getRandom());
         insertResourceResults(itemResults, getItems(BlockContentsType.OUTPUT));
 
         // Insert fluid results
-        List<ResourceStack<FluidResource>> fluidResults = recipe.generateFluidResults(recipeInput, level.registryAccess(), level.getRandom());
+        List<ResourceStack<FluidResource>> fluidResults = recipe.generateFluidResults(recipeInput, level.getRandom());
         insertResourceResults(fluidResults, getFluids(BlockContentsType.OUTPUT));
     }
 
@@ -103,8 +103,8 @@ public abstract class LTXIRecipeMachineBlockEntity<R extends LTXIRecipe> extends
     {
         LTXIRecipeInput input = getRecipeInput(level);
 
-        boolean a = recipe.getItemIngredients().stream().allMatch(o -> o.getConsumeChance() == 0f);
-        boolean b = recipe.getFluidIngredients().stream().allMatch(o -> o.getConsumeChance() == 0f);
+        boolean a = recipe.getItemInputs().stream().allMatch(o -> o.consumeChance() == 0f);
+        boolean b = recipe.getFluidInputs().stream().allMatch(o -> o.consumeChance() == 0f);
         boolean skipInputCheck = a && b;
 
         for (int i = 0 ; i < maxOperations; i++)

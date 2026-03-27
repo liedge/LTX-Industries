@@ -4,8 +4,8 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import liedge.limacore.network.LimaStreamCodecs;
 import liedge.limacore.recipe.LimaCustomRecipe;
-import liedge.limacore.recipe.LimaRecipeInput;
-import liedge.limacore.recipe.ingredient.LimaSizedItemIngredient;
+import liedge.limacore.recipe.RecipeInputAccess;
+import liedge.limacore.recipe.input.RecipeItemInput;
 import liedge.limacore.recipe.result.ItemResult;
 import liedge.limacore.util.LimaLootUtil;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
@@ -26,10 +26,10 @@ import net.neoforged.neoforge.transfer.resource.ResourceStack;
 
 import java.util.List;
 
-public final class FabricatingRecipe extends LimaCustomRecipe<LimaRecipeInput>
+public final class FabricatingRecipe extends LimaCustomRecipe<RecipeInputAccess>
 {
     public static final MapCodec<FabricatingRecipe> CODEC = RecordCodecBuilder.<FabricatingRecipe>mapCodec(instance -> instance.group(
-            LimaSizedItemIngredient.listMapCodec(1, 16).forGetter(LimaCustomRecipe::getItemIngredients),
+            RecipeItemInput.listCodec(1, 16).forGetter(LimaCustomRecipe::getItemInputs),
             ItemResult.CODEC.fieldOf("result").forGetter(LimaCustomRecipe::getFirstItemResult),
             ExtraCodecs.POSITIVE_INT.fieldOf("energy_required").forGetter(FabricatingRecipe::getEnergyRequired),
             GROUP_MAP_CODEC.forGetter(FabricatingRecipe::group))
@@ -37,7 +37,7 @@ public final class FabricatingRecipe extends LimaCustomRecipe<LimaRecipeInput>
             .validate(LimaCustomRecipe::checkNotEmpty);
 
     public static final StreamCodec<RegistryFriendlyByteBuf, FabricatingRecipe> STREAM_CODEC = StreamCodec.composite(
-            LimaSizedItemIngredient.listStreamCodec(1, 16), LimaCustomRecipe::getItemIngredients,
+            RecipeItemInput.LIST_STREAM_CODEC, LimaCustomRecipe::getItemInputs,
             ItemResult.STREAM_CODEC, LimaCustomRecipe::getFirstItemResult,
             LimaStreamCodecs.POSITIVE_VAR_INT, FabricatingRecipe::getEnergyRequired,
             ByteBufCodecs.STRING_UTF8, LimaCustomRecipe::group,
@@ -46,7 +46,7 @@ public final class FabricatingRecipe extends LimaCustomRecipe<LimaRecipeInput>
     private final int energyRequired;
     private final String group;
 
-    public FabricatingRecipe(List<LimaSizedItemIngredient> ingredients, ItemResult result, int energyRequired, String group)
+    public FabricatingRecipe(List<RecipeItemInput> ingredients, ItemResult result, int energyRequired, String group)
     {
         super(ingredients, List.of(result));
         this.energyRequired = energyRequired;
@@ -65,7 +65,7 @@ public final class FabricatingRecipe extends LimaCustomRecipe<LimaRecipeInput>
 
     public ResourceStack<ItemResource> generateItemResult(ServerLevel level)
     {
-        ResourceStack<ItemResource> original = getFirstItemResult().generateResult(level.getRandom());
+        ResourceStack<ItemResource> original = getFirstItemResult().createResource(level.getRandom());
 
         ItemStack stack = original.resource().toStack();
         if (stack.getItem() instanceof UpgradableEquipmentItem equipmentItem)
@@ -80,8 +80,7 @@ public final class FabricatingRecipe extends LimaCustomRecipe<LimaRecipeInput>
 
     public ItemStack getResultPreview()
     {
-        ItemResult result = getFirstItemResult();
-        return result.getResource().toStack(result.getCount().max());
+        return getFirstItemResult().display();
     }
 
     @Override

@@ -198,7 +198,7 @@ public abstract class LTXIMachineBlockEntity extends LimaBlockEntity implements 
         return switch (index)
         {
             case AUX_MODULE_ITEM_SLOT -> resource.is(LTXIItems.MACHINE_UPGRADE_MODULE.asItem());
-            case AUX_ENERGY_ITEM_SLOT -> LimaItemUtil.hasEnergyCapability(ItemAccess.forHandlerIndexStrict(auxInventory, index));
+            case AUX_ENERGY_ITEM_SLOT -> LimaItemUtil.hasEnergyCapability(ItemAccess.forStack(resource.toStack()));
             default -> false;
         };
     }

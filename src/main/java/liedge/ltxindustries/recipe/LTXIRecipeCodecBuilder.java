@@ -6,6 +6,10 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import liedge.limacore.network.LimaStreamCodecs;
 import liedge.limacore.recipe.LimaCustomRecipe;
 import liedge.limacore.recipe.LimaRecipeSerializerBuilder;
+import liedge.limacore.recipe.input.RecipeFluidInput;
+import liedge.limacore.recipe.input.RecipeItemInput;
+import liedge.limacore.recipe.result.FluidResult;
+import liedge.limacore.recipe.result.ItemResult;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -43,13 +47,13 @@ public final class LTXIRecipeCodecBuilder<R extends LTXIRecipe> extends LimaReci
     protected StreamCodec<RegistryFriendlyByteBuf, R> buildStreamCodec()
     {
         return StreamCodec.composite(
-            itemIngredientStreamCodec,
-            LimaCustomRecipe::getItemIngredients,
-            fluidIngredientStreamCodec,
-            LimaCustomRecipe::getFluidIngredients,
-            itemResultStreamCodec,
+            RecipeItemInput.LIST_STREAM_CODEC,
+            LimaCustomRecipe::getItemInputs,
+            RecipeFluidInput.LIST_STREAM_CODEC,
+            LimaCustomRecipe::getFluidInputs,
+            ItemResult.LIST_STREAM_CODEC,
             LimaCustomRecipe::getItemResults,
-            fluidResultStreamCodec,
+            FluidResult.LIST_STREAM_CODEC,
             LimaCustomRecipe::getFluidResults,
             LimaStreamCodecs.POSITIVE_VAR_INT,
             LTXIRecipe::getCraftTime,

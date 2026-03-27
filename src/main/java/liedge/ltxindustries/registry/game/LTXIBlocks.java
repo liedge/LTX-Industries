@@ -32,7 +32,7 @@ public final class LTXIBlocks
     }
 
     // State Predicates
-    private static final BlockBehaviour.StatePredicate NEVER = (state, level, pos) -> false;
+    private static final BlockBehaviour.StatePredicate NEVER = (_,_,_) -> false;
 
     // Ores
     public static final DeferredBlock<DropExperienceBlock> TITANIUM_ORE = BLOCKS.registerBlock("titanium_ore", properties -> new DropExperienceBlock(ConstantInt.of(0), properties), properties -> properties.mapColor(MapColor.STONE).strength(3f).requiresCorrectToolForDrops());

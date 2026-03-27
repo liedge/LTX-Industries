@@ -2,8 +2,7 @@ package liedge.ltxindustries.menu;
 
 import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.menu.LimaMenuType;
-import liedge.limacore.recipe.LimaRecipeInput;
-import liedge.limacore.recipe.SimpleResourceInput;
+import liedge.limacore.recipe.SimpleResourceAccess;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.limacore.transfer.item.LimaBlockEntityItems;
 import liedge.limacore.util.LimaRegistryUtil;
@@ -48,15 +47,15 @@ public class FabricatorMenu extends LTXIMachineMenu<FabricatorBlockEntity>
 
         LimaRegistryUtil.getRecipeByKey(level, key, LTXIRecipeTypes.FABRICATING).ifPresent(holder ->
         {
-            LimaRecipeInput input = new SimpleResourceInput(PlayerInventoryWrapper.of(sender), null);
-            menuContext.startCrafting(level, holder, input, sender.isCreative());
+            SimpleResourceAccess access = new SimpleResourceAccess(PlayerInventoryWrapper.of(sender), null);
+            menuContext.startCrafting(level, holder, access, sender.isCreative());
         });
     }
 
     private void receiveEncodeCommand(ServerPlayer sender, ResourceKey<Recipe<?>> key)
     {
         ServerLevel level = sender.level();
-        LimaRegistryUtil.getRecipeByKey(level, key, LTXIRecipeTypes.FABRICATING).ifPresent(holder ->
+        LimaRegistryUtil.getRecipeByKey(level, key, LTXIRecipeTypes.FABRICATING).ifPresent(_ ->
         {
             LimaBlockEntityItems auxInventory = menuContext.getItemsOrThrow(BlockContentsType.AUXILIARY);
             Item blankBPItem = menuContext.getValidBlueprintItem();
