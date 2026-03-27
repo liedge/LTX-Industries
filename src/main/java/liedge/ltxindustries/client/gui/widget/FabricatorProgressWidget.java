@@ -1,13 +1,13 @@
 package liedge.ltxindustries.client.gui.widget;
 
+import liedge.limacore.client.LimaCoreClient;
 import liedge.limacore.client.gui.FillBarWidget;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.blockentity.BaseFabricatorBlockEntity;
-import liedge.ltxindustries.client.LTXIClientRecipes;
 import liedge.ltxindustries.client.LTXILangKeys;
-import liedge.ltxindustries.menu.tooltip.ItemGridTooltip;
+import liedge.ltxindustries.menu.tooltip.ItemStacksTooltip;
 import liedge.ltxindustries.recipe.FabricatingRecipe;
 import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
 import net.minecraft.ChatFormatting;
@@ -34,7 +34,7 @@ public class FabricatorProgressWidget extends FillBarWidget.VerticalBar
     @Override
     protected float getFillPercentage()
     {
-        RecipeHolder<FabricatingRecipe> lastUsedRecipe = LTXIClientRecipes.byKey(LTXIRecipeTypes.FABRICATING, blockEntity.getRecipeCheck().getLastUsedRecipeKey());
+        RecipeHolder<FabricatingRecipe> lastUsedRecipe = LimaCoreClient.getClientRecipes().byKey(LTXIRecipeTypes.FABRICATING, blockEntity.getRecipeCheck().getLastUsedRecipeKey());
         int recipeEnergy = lastUsedRecipe != null ? lastUsedRecipe.value().getEnergyRequired() : 0;
         return LimaCoreMath.divideFloat(blockEntity.getEnergyCraftProgress(), recipeEnergy);
     }
@@ -60,7 +60,7 @@ public class FabricatorProgressWidget extends FillBarWidget.VerticalBar
     @Override
     public void createWidgetTooltip(TooltipLineConsumer consumer)
     {
-        RecipeHolder<FabricatingRecipe> lastUsedRecipe = LTXIClientRecipes.byKey(LTXIRecipeTypes.FABRICATING, blockEntity.getRecipeCheck().getLastUsedRecipeKey());
+        RecipeHolder<FabricatingRecipe> lastUsedRecipe = LimaCoreClient.getClientRecipes().byKey(LTXIRecipeTypes.FABRICATING, blockEntity.getRecipeCheck().getLastUsedRecipeKey());
         if (lastUsedRecipe != null)
         {
             FabricatingRecipe recipe = lastUsedRecipe.value();
@@ -68,7 +68,7 @@ public class FabricatorProgressWidget extends FillBarWidget.VerticalBar
             int progress = (int) (fill * 100f);
 
             consumer.accept(LTXILangKeys.CRAFTING_PROGRESS_TOOLTIP.translateArgs(progress).withStyle(ChatFormatting.GRAY));
-            consumer.accept(ItemGridTooltip.createSingle(recipe.getResultPreview(), true));
+            consumer.accept(ItemStacksTooltip.createSingle(recipe.getResultPreview(), true));
         }
     }
 }

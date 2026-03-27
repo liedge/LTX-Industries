@@ -51,12 +51,6 @@ public final class LTXIClientEventHandler
     private static final ContextKey<LockOnRenderData> LOCK_ON_DATA = LTXIndustries.RESOURCES.contextKey("lock_on_data");
 
     @SubscribeEvent
-    public static void onRecipesReceived(final RecipesReceivedEvent event)
-    {
-        LTXIClientRecipes.setRecipeMap(event.getRecipeMap());
-    }
-
-    @SubscribeEvent
     public static void fovModifyEvent(final ComputeFovModifierEvent event)
     {
         if (event.getPlayer().isUsingItem() && event.getPlayer().getUseItem().is(LTXIItems.LINEAR_FUSION_RIFLE) && event.getNewFovModifier() > 0.10f)

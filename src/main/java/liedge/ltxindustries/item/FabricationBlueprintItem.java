@@ -1,11 +1,12 @@
 package liedge.ltxindustries.item;
 
+import liedge.limacore.client.LimaCoreClient;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.item.LimaCreativeTabFillerItem;
 import liedge.limacore.transfer.LimaEnergyUtil;
 import liedge.ltxindustries.LTXIConstants;
-import liedge.ltxindustries.client.LTXIClientRecipes;
 import liedge.ltxindustries.client.LTXILangKeys;
+import liedge.ltxindustries.menu.tooltip.FabricatingInputsTooltip;
 import liedge.ltxindustries.recipe.FabricatingRecipe;
 import liedge.ltxindustries.registry.game.LTXIDataComponents;
 import liedge.ltxindustries.registry.game.LTXIItems;
@@ -44,7 +45,7 @@ public class FabricationBlueprintItem extends Item implements TooltipShiftHintIt
     public void appendTooltipHintComponents(Level level, ItemStack stack, TooltipLineConsumer consumer)
     {
         ResourceKey<Recipe<?>> key = stack.get(LTXIDataComponents.BLUEPRINT_RECIPE);
-        RecipeHolder<FabricatingRecipe> holder = LTXIClientRecipes.byKey(LTXIRecipeTypes.FABRICATING, key);
+        RecipeHolder<FabricatingRecipe> holder = LimaCoreClient.getClientRecipes().byKey(LTXIRecipeTypes.FABRICATING, key);
 
         if (holder != null)
         {
@@ -56,7 +57,7 @@ public class FabricationBlueprintItem extends Item implements TooltipShiftHintIt
 
             consumer.accept(name);
             consumer.accept(LTXILangKeys.INLINE_ENERGY_REQUIRED_TOOLTIP.translateArgs(LimaEnergyUtil.toEnergyString(recipe.getEnergyRequired())).withStyle(LTXIConstants.REM_BLUE.chatStyle()));
-            consumer.accept(recipe.createIngredientTooltip());
+            consumer.accept(new FabricatingInputsTooltip(holder.id()));
         }
         else
         {

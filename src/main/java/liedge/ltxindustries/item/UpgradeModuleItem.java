@@ -7,7 +7,7 @@ import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.lib.upgrades.UpgradeBase;
 import liedge.ltxindustries.lib.upgrades.UpgradeBaseEntry;
-import liedge.ltxindustries.menu.tooltip.ItemGridTooltip;
+import liedge.ltxindustries.menu.tooltip.ItemStacksTooltip;
 import liedge.ltxindustries.registry.game.LTXIItems;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
@@ -117,7 +117,7 @@ public abstract class UpgradeModuleItem<U extends UpgradeBase<?, U>, UE extends 
             List<ItemStack> compatibleItems = getAllCompatibleItems(upgrade);
             if (compatibleItems.size() <= 24)
             {
-                consumer.accept(new ItemGridTooltip(compatibleItems, 8, 3, false));
+                consumer.accept(new ItemStacksTooltip(compatibleItems, 8, 3, false));
             }
             else if (upgrade.supportedSet() instanceof HolderSet.Named<?> namedSet)
             {

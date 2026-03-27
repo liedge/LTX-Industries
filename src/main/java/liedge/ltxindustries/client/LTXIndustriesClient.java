@@ -4,8 +4,8 @@ import com.mojang.logging.LogUtils;
 import liedge.limacore.client.SimpleFogFluidExtension;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.LTXIndustries;
-import liedge.ltxindustries.client.gui.ClientItemGridTooltip;
-import liedge.ltxindustries.client.gui.ClientRecipeIngredientsTooltip;
+import liedge.ltxindustries.client.gui.ClientFabricatingInputsTooltip;
+import liedge.ltxindustries.client.gui.ClientItemStacksTooltip;
 import liedge.ltxindustries.client.gui.layer.BubbleShieldLayer;
 import liedge.ltxindustries.client.gui.layer.CrosshairRenderer;
 import liedge.ltxindustries.client.gui.layer.EquipmentHUDLayer;
@@ -15,6 +15,7 @@ import liedge.ltxindustries.client.item.BlueprintClientItem;
 import liedge.ltxindustries.client.item.MiningToolClientItem;
 import liedge.ltxindustries.client.item.UpgradeModuleClientItem;
 import liedge.ltxindustries.client.item.WeaponClientItem;
+import liedge.ltxindustries.client.model.UnlitCuboidModel;
 import liedge.ltxindustries.client.model.custom.BubbleShieldModel;
 import liedge.ltxindustries.client.model.entity.*;
 import liedge.ltxindustries.client.particle.*;
@@ -23,26 +24,30 @@ import liedge.ltxindustries.client.renderer.entity.RocketRenderer;
 import liedge.ltxindustries.client.renderer.entity.ShellGrenadeRenderer;
 import liedge.ltxindustries.client.renderer.entity.WonderlandArmorLayer;
 import liedge.ltxindustries.data.LTXIReloadListeners;
-import liedge.ltxindustries.menu.tooltip.ItemGridTooltip;
-import liedge.ltxindustries.menu.tooltip.RecipeIngredientsTooltip;
+import liedge.ltxindustries.menu.tooltip.FabricatingInputsTooltip;
+import liedge.ltxindustries.menu.tooltip.ItemStacksTooltip;
 import liedge.ltxindustries.registry.game.*;
 import net.minecraft.client.color.block.BlockTintSources;
+import net.minecraft.client.renderer.block.FluidModel;
 import net.minecraft.client.renderer.entity.NoopRenderer;
 import net.minecraft.client.renderer.entity.player.AvatarRenderer;
 import net.minecraft.client.resources.model.sprite.AtlasManager;
+import net.minecraft.client.resources.model.sprite.Material;
+import net.minecraft.util.ARGB;
 import net.minecraft.world.entity.player.PlayerModelType;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
+import net.neoforged.neoforge.client.fluid.FluidTintSources;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import org.slf4j.Logger;
 
 import java.util.List;
+import java.util.function.IntFunction;
 
 import static liedge.ltxindustries.registry.game.LTXIParticles.*;
 
@@ -59,17 +64,34 @@ public class LTXIndustriesClient
     private static class ClientSetup
     {
         @SubscribeEvent
-        public void onClientSetup(final FMLClientSetupEvent event)
+        private void registerModelLoaders(final ModelEvent.RegisterLoaders event)
         {
-            //Stream.of(LTXIFluids.VIRIDIC_ACID, LTXIFluids.FLOWING_VIRIDIC_ACID, LTXIFluids.HYDROGEN, LTXIFluids.FLOWING_HYDROGEN, LTXIFluids.OXYGEN, LTXIFluids.FLOWING_OXYGEN)
-            //        .map(DeferredHolder::value).forEach(fluid -> ItemBlockRenderTypes.setRenderLayer(fluid, ChunkSectionLayer.TRANSLUCENT));
-
+            event.register(UnlitCuboidModel.LOADER_ID, new UnlitCuboidModel.Loader());
         }
 
         @SubscribeEvent
         private void registerTextureAtlas(final RegisterTextureAtlasesEvent event)
         {
             event.register(new AtlasManager.AtlasConfig(LTXIAtlasIds.UPGRADE_ICONS_TEXTURE, LTXIAtlasIds.UPGRADE_ICONS_ID, false));
+        }
+
+        @SubscribeEvent
+        private void registerFluidModels(final RegisterFluidModelsEvent event)
+        {
+            FluidModel.Unbaked viridicAcid = new FluidModel.Unbaked(
+                    new Material(LTXIndustries.RESOURCES.id("block/viridic_acid_still")),
+                    new Material(LTXIndustries.RESOURCES.id("block/viridic_acid_flowing")), null, null);
+
+            event.register(viridicAcid, LTXIFluids.VIRIDIC_ACID);
+            event.register(viridicAcid, LTXIFluids.FLOWING_VIRIDIC_ACID);
+
+            final Material gasSprite = new Material(LTXIndustries.RESOURCES.id("block/gas"));
+            final IntFunction<FluidModel.Unbaked> gas = rgb -> new FluidModel.Unbaked(gasSprite, gasSprite, null, FluidTintSources.constant(ARGB.opaque(rgb)));
+
+            event.register(gas.apply(0xe7e7e7), LTXIFluids.HYDROGEN);
+            event.register(gas.apply(0xe7e7e7), LTXIFluids.FLOWING_HYDROGEN);
+            event.register(gas.apply(0x91a5d5), LTXIFluids.OXYGEN);
+            event.register(gas.apply(0x91a5d5), LTXIFluids.FLOWING_OXYGEN);
         }
 
         @SubscribeEvent
@@ -91,9 +113,7 @@ public class LTXIndustriesClient
             //event.registerItem(LTXIItemRenderers.ROCKET_LAUNCHER, LTXIItems.ROCKET_LAUNCHER.get());
             //event.registerItem(LTXIItemRenderers.HEAVY_PISTOL, LTXIItems.HEAVY_PISTOL.get());
 
-            event.registerFluidType(new SimpleFogFluidExtension(SimpleFogFluidExtension.fogTintOf(LTXIConstants.ACID_GREEN), 13f), LTXIFluids.VIRIDIC_ACID_TYPE);
-            //event.registerFluidType(gasExtensions.apply(0xe7e7e7), LTXIFluids.HYDROGEN_TYPE);
-            //event.registerFluidType(gasExtensions.apply(0x91a5d5), LTXIFluids.OXYGEN_TYPE);
+            event.registerFluidType(SimpleFogFluidExtension.create(LTXIConstants.LIME_GREEN, 13f), LTXIFluids.VIRIDIC_ACID_TYPE);
         }
 
         @SubscribeEvent
@@ -218,8 +238,8 @@ public class LTXIndustriesClient
         @SubscribeEvent
         public void registerTooltipComponentFactories(final RegisterClientTooltipComponentFactoriesEvent event)
         {
-            event.register(ItemGridTooltip.class, ClientItemGridTooltip::new);
-            event.register(RecipeIngredientsTooltip.class, ClientRecipeIngredientsTooltip::new);
+            event.register(ItemStacksTooltip.class, ClientItemStacksTooltip::new);
+            event.register(FabricatingInputsTooltip.class, ClientFabricatingInputsTooltip::new);
         }
 
         @SubscribeEvent

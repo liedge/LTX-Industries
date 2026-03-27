@@ -1,16 +1,17 @@
 package liedge.ltxindustries.client.gui.screen;
 
 import com.mojang.blaze3d.platform.InputConstants;
+import liedge.limacore.client.LimaCoreClient;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.limacore.transfer.LimaEnergyUtil;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.blockentity.BaseFabricatorBlockEntity;
-import liedge.ltxindustries.client.LTXIClientRecipes;
 import liedge.ltxindustries.client.gui.widget.BaseScrollGridRenderable;
 import liedge.ltxindustries.client.gui.widget.FabricatorProgressWidget;
 import liedge.ltxindustries.client.gui.widget.ScrollbarWidget;
 import liedge.ltxindustries.menu.FabricatorMenu;
 import liedge.ltxindustries.menu.layout.LayoutSlot;
+import liedge.ltxindustries.menu.tooltip.FabricatingInputsTooltip;
 import liedge.ltxindustries.recipe.FabricatingRecipe;
 import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
 import net.minecraft.client.Minecraft;
@@ -50,7 +51,7 @@ public class FabricatorScreen extends LTXIMachineScreen<FabricatorMenu>
         super(menu, inventory, title, 190, 200);
 
         // Read recipes
-        this.recipes = LTXIClientRecipes.getSortedFabricatingRecipes();
+        this.recipes = LimaCoreClient.getClientRecipes().byType(LTXIRecipeTypes.FABRICATING).stream().sorted(FabricatingRecipe.GROUP_AND_NAME_COMPARATOR).toList();
 
         // Screen setup
         this.inventoryLabelX = 14;
@@ -138,7 +139,7 @@ public class FabricatorScreen extends LTXIMachineScreen<FabricatorMenu>
         private boolean gridRecipeMatches(FabricatingRecipe gridRecipe)
         {
             ResourceKey<Recipe<?>> key = blockEntity.getRecipeCheck().getLastUsedRecipeKey();
-            RecipeHolder<FabricatingRecipe> holder = LTXIClientRecipes.byKey(LTXIRecipeTypes.FABRICATING, key);
+            RecipeHolder<FabricatingRecipe> holder = LimaCoreClient.getClientRecipes().byKey(LTXIRecipeTypes.FABRICATING, key);
 
             return holder != null && holder.value() == gridRecipe;
         }
@@ -183,7 +184,7 @@ public class FabricatorScreen extends LTXIMachineScreen<FabricatorMenu>
             if (gridIndex == selectedRecipe) lines.add(FABRICATOR_SELECTED_RECIPE_TOOLTIP.translate().withStyle(LTXIConstants.LIME_GREEN.chatStyle()));
 
             lines.add(INLINE_ENERGY_REQUIRED_TOOLTIP.translateArgs(LimaEnergyUtil.toEnergyString(recipe.getEnergyRequired())).withStyle(LTXIConstants.REM_BLUE.chatStyle()));
-            graphics.setTooltipForNextFrame(Minecraft.getInstance().font, lines, Optional.of(recipe.createIngredientTooltip()), ItemStack.EMPTY, mouseX, mouseY);
+            graphics.setTooltipForNextFrame(Minecraft.getInstance().font, lines, Optional.of(new FabricatingInputsTooltip(element.id())), ItemStack.EMPTY, mouseX, mouseY);
         }
 
         @Override

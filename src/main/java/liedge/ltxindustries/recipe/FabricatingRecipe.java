@@ -9,7 +9,6 @@ import liedge.limacore.recipe.input.RecipeItemInput;
 import liedge.limacore.recipe.result.ItemResult;
 import liedge.limacore.util.LimaLootUtil;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
-import liedge.ltxindustries.menu.tooltip.RecipeIngredientsTooltip;
 import liedge.ltxindustries.registry.game.LTXIRecipeSerializers;
 import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -17,13 +16,14 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.ExtraCodecs;
-import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.neoforge.transfer.resource.ResourceStack;
 
+import java.util.Comparator;
 import java.util.List;
 
 public final class FabricatingRecipe extends LimaCustomRecipe<RecipeInputAccess>
@@ -43,6 +43,10 @@ public final class FabricatingRecipe extends LimaCustomRecipe<RecipeInputAccess>
             ByteBufCodecs.STRING_UTF8, LimaCustomRecipe::group,
             FabricatingRecipe::new);
 
+    public static final Comparator<RecipeHolder<FabricatingRecipe>> GROUP_AND_NAME_COMPARATOR = Comparator
+            .<RecipeHolder<FabricatingRecipe>, String>comparing(holder -> holder.value().group)
+            .thenComparing(holder -> holder.id().identifier());
+
     private final int energyRequired;
     private final String group;
 
@@ -56,11 +60,6 @@ public final class FabricatingRecipe extends LimaCustomRecipe<RecipeInputAccess>
     public int getEnergyRequired()
     {
         return energyRequired;
-    }
-
-    public TooltipComponent createIngredientTooltip()
-    {
-        return RecipeIngredientsTooltip.create(this, 4, 4);
     }
 
     public ResourceStack<ItemResource> generateItemResult(ServerLevel level)

@@ -2,7 +2,7 @@ package liedge.ltxindustries.util;
 
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.lib.Translatable;
-import liedge.ltxindustries.menu.tooltip.ItemGridTooltip;
+import liedge.ltxindustries.menu.tooltip.ItemStacksTooltip;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.component.DataComponents;
@@ -66,7 +66,7 @@ public final class LTXITooltipUtil
         if (!inventory.isEmpty())
         {
             consumer.accept(ITEM_INVENTORY_TOOLTIP.translate().withStyle(ChatFormatting.GRAY));
-            consumer.accept(new ItemGridTooltip(inventory, 6, 1, true));
+            consumer.accept(new ItemStacksTooltip(inventory, 6, 1, true));
         }
         else
         {
