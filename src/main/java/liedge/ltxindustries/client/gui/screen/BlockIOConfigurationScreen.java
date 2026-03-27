@@ -1,14 +1,16 @@
 package liedge.ltxindustries.client.gui.screen;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import liedge.limacore.blockentity.RelativeHorizontalSide;
 import liedge.limacore.client.LimaComponentUtil;
+import liedge.limacore.client.gui.LimaBaseButton;
+import liedge.limacore.client.gui.LimaGuiUtil;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.lib.Translatable;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.blockentity.base.BlockIOConfiguration;
-import liedge.ltxindustries.client.gui.widget.LimaRenderableButton;
-import liedge.ltxindustries.client.gui.widget.LimaSidebarButton;
+import liedge.ltxindustries.client.gui.widget.LTXISidebarButton;
 import liedge.ltxindustries.client.gui.widget.SubMenuBackButton;
 import liedge.ltxindustries.menu.BlockIOConfigurationMenu;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -40,7 +42,6 @@ public class BlockIOConfigurationScreen extends LTXIScreen<BlockIOConfigurationM
     public BlockIOConfigurationScreen(BlockIOConfigurationMenu menu, Inventory inventory, Component title)
     {
         super(menu, inventory, title, DEFAULT_WIDTH, DEFAULT_HEIGHT, 18, 18, 0);
-        this.inventoryLabelY = 73;
     }
 
     private BlockIOConfiguration getIOConfiguration()
@@ -72,7 +73,7 @@ public class BlockIOConfigurationScreen extends LTXIScreen<BlockIOConfigurationM
         if (menu.getIOConfigRules().allowsAutoInput())
         {
             addRenderableWidget(new AutoIOButton(rightPos, rightSidebarY, BlockIOConfigurationMenu.TOGGLE_AUTO_INPUT_BUTTON_ID, AUTO_INPUT_OFF_TOOLTIP, AUTO_INPUT_ON_TOOLTIP, AUTO_IN_DISABLED_SPRITE, AUTO_IN_ENABLED_SPRITE, () -> getIOConfiguration().autoInput()));
-            rightSidebarY += LimaSidebarButton.SIDEBAR_BUTTON_HEIGHT;
+            rightSidebarY += LTXISidebarButton.SIDEBAR_BUTTON_HEIGHT;
         }
         if (menu.getIOConfigRules().allowsAutoOutput())
         {
@@ -88,7 +89,7 @@ public class BlockIOConfigurationScreen extends LTXIScreen<BlockIOConfigurationM
         graphics.blit(RenderPipelines.GUI_TEXTURED, BUTTON_GRID_TEXTURE, leftPos + 60, topPos + 21, 0f, 0f, 48, 48, 48, 48);
     }
 
-    private class IOButton extends LimaRenderableButton
+    private class IOButton extends LimaBaseButton
     {
         private final RelativeHorizontalSide side;
 
@@ -101,11 +102,11 @@ public class BlockIOConfigurationScreen extends LTXIScreen<BlockIOConfigurationM
         @Override
         public void onPress(InputWithModifiers input)
         {
-            if (input.isLeft())
+            if (LimaGuiUtil.isLeftClickOrSelection(input) || input.isRight())
             {
                 sendCustomButtonData(BlockIOConfigurationMenu.CYCLE_FORWARD_BUTTON_ID, side, LimaCoreNetworkSerializers.RELATIVE_SIDE);
             }
-            else if (input.isRight())
+            else if (input.input() == InputConstants.MOUSE_BUTTON_RIGHT || input.isLeft())
             {
                 sendCustomButtonData(BlockIOConfigurationMenu.CYCLE_BACKWARD_BUTTON_ID, side, LimaCoreNetworkSerializers.RELATIVE_SIDE);
             }
@@ -141,7 +142,7 @@ public class BlockIOConfigurationScreen extends LTXIScreen<BlockIOConfigurationM
         }
     }
 
-    private class AutoIOButton extends LimaSidebarButton.RightSided
+    private class AutoIOButton extends LTXISidebarButton.RightSided
     {
         private final int buttonId;
         private final Component offLabel;
@@ -163,9 +164,9 @@ public class BlockIOConfigurationScreen extends LTXIScreen<BlockIOConfigurationM
         }
 
         @Override
-        public void onPress(InputWithModifiers input)
+        protected void onPress()
         {
-            if (input.isLeft()) sendUnitButtonData(buttonId);
+            sendUnitButtonData(buttonId);
         }
 
         @Override
@@ -182,7 +183,7 @@ public class BlockIOConfigurationScreen extends LTXIScreen<BlockIOConfigurationM
         }
 
         @Override
-        protected void renderInnerContents(GuiGraphicsExtractor graphics, int guiX, int guiY)
+        protected void extractInnerContents(GuiGraphicsExtractor graphics, int guiX, int guiY)
         {
             Identifier sprite = stateGetter.getAsBoolean() ? onSprite : offSprite;
             renderSprite(graphics, sprite, guiX, guiY);

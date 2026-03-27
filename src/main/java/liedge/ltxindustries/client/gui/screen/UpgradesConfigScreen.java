@@ -46,7 +46,6 @@ public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, U>, M extend
         super(menu, inventory, title, 190, 200, leftPadding, 0, 0);
 
         this.inventoryLabelX = 14;
-        this.inventoryLabelY = 108;
     }
 
     protected abstract void blitSlotSprites(GuiGraphicsExtractor graphics);

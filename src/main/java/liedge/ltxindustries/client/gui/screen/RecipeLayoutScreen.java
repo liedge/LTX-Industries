@@ -5,7 +5,7 @@ import liedge.limacore.menu.LimaMenu;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.blockentity.base.RecipeModeHolderBlockEntity;
 import liedge.ltxindustries.client.LTXILangKeys;
-import liedge.ltxindustries.client.gui.widget.LimaSidebarButton;
+import liedge.ltxindustries.client.gui.widget.LTXISidebarButton;
 import liedge.ltxindustries.client.gui.widget.MachineProgressWidget;
 import liedge.ltxindustries.menu.RecipeLayoutMenu;
 import liedge.ltxindustries.menu.layout.LayoutSlot;
@@ -14,7 +14,6 @@ import liedge.ltxindustries.recipe.RecipeMode;
 import liedge.ltxindustries.registry.LTXIRegistries;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.input.InputWithModifiers;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
@@ -90,7 +89,7 @@ public final class RecipeLayoutScreen extends LTXIMachineScreen<RecipeLayoutMenu
         }
     }
 
-    private static class RecipeModeButton extends LimaSidebarButton.LeftSided
+    private static class RecipeModeButton extends LTXISidebarButton.LeftSided
     {
         private final RecipeLayoutScreen parent;
         private final RecipeModeHolderBlockEntity blockEntity;
@@ -103,7 +102,7 @@ public final class RecipeLayoutScreen extends LTXIMachineScreen<RecipeLayoutMenu
         }
 
         @Override
-        protected void renderInnerContents(GuiGraphicsExtractor graphics, int guiX, int guiY)
+        protected void extractInnerContents(GuiGraphicsExtractor graphics, int guiX, int guiY)
         {
             Holder<RecipeMode> mode = blockEntity.getMode();
             if (mode == null)
@@ -117,9 +116,9 @@ public final class RecipeLayoutScreen extends LTXIMachineScreen<RecipeLayoutMenu
         }
 
         @Override
-        public void onPress(InputWithModifiers input)
+        protected void onPress()
         {
-            if (input.isLeft()) parent.sendUnitButtonData(RecipeLayoutMenu.MODES_OPEN_BUTTON_ID);
+            parent.sendUnitButtonData(RecipeLayoutMenu.MODES_OPEN_BUTTON_ID);
         }
 
         @Override

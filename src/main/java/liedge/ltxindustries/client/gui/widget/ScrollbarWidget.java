@@ -118,20 +118,19 @@ public class ScrollbarWidget extends BaseLimaRenderable implements NarratableEnt
     @Override
     public boolean mouseReleased(MouseButtonEvent event)
     {
-        if (event.button() == InputConstants.MOUSE_BUTTON_LEFT) this.scrolling = false;
-
+        this.scrolling = false;
         return GuiEventListener.super.mouseReleased(event);
     }
 
     @Override
-    public boolean mouseDragged(MouseButtonEvent event, double mouseX, double mouseY)
+    public boolean mouseDragged(MouseButtonEvent event, double dx, double dy)
     {
         if (scrolling)
         {
-            setPositionFromMouse(mouseY);
+            setPositionFromMouse(event.y());
             return true;
         }
 
-        return GuiEventListener.super.mouseDragged(event, mouseX, mouseY);
+        return GuiEventListener.super.mouseDragged(event, dx, dy);
     }
 }

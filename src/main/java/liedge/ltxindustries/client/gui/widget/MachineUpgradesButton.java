@@ -6,9 +6,8 @@ import liedge.ltxindustries.client.gui.screen.UpgradesConfigScreen;
 import liedge.ltxindustries.menu.LTXIMachineMenu;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Tooltip;
-import net.minecraft.client.input.InputWithModifiers;
 
-public class MachineUpgradesButton extends LimaSidebarButton.RightSided
+public class MachineUpgradesButton extends LTXISidebarButton.RightSided
 {
     private final LimaMenuScreen<?> parent;
 
@@ -20,14 +19,14 @@ public class MachineUpgradesButton extends LimaSidebarButton.RightSided
     }
 
     @Override
-    protected void renderInnerContents(GuiGraphicsExtractor graphics, int guiX, int guiY)
+    protected void extractInnerContents(GuiGraphicsExtractor graphics, int guiX, int guiY)
     {
         renderSprite(graphics, UpgradesConfigScreen.MACHINE_MODULE_SPRITE, guiX, guiY);
     }
 
     @Override
-    public void onPress(InputWithModifiers input)
+    protected void onPress()
     {
-        if (input.isLeft()) parent.sendUnitButtonData(LTXIMachineMenu.UPGRADES_BUTTON_ID);
+        parent.sendUnitButtonData(LTXIMachineMenu.UPGRADES_BUTTON_ID);
     }
 }

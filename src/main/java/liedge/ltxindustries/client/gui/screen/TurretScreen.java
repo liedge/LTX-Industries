@@ -10,7 +10,6 @@ public class TurretScreen extends LTXIMachineScreen<TurretMenu<?>>
     public TurretScreen(TurretMenu<?> menu, Inventory inventory, Component title)
     {
         super(menu, inventory, title, DEFAULT_WIDTH, 188);
-        this.inventoryLabelY = 95;
     }
 
     @Override

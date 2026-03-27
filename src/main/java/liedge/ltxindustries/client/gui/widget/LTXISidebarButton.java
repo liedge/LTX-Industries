@@ -1,13 +1,16 @@
 package liedge.ltxindustries.client.gui.widget;
 
+import liedge.limacore.client.gui.LimaBaseButton;
+import liedge.limacore.client.gui.LimaGuiUtil;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.input.InputWithModifiers;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 
 import static liedge.ltxindustries.LTXIndustries.RESOURCES;
 
-public abstract class LimaSidebarButton extends LimaRenderableButton
+public abstract class LTXISidebarButton extends LimaBaseButton
 {
     public static final int SIDEBAR_BUTTON_WIDTH = 18;
     public static final int SIDEBAR_BUTTON_HEIGHT = 20;
@@ -16,7 +19,7 @@ public abstract class LimaSidebarButton extends LimaRenderableButton
     private static final Identifier LEFT_SPRITE = RESOURCES.id("widget/left_sidebar_button");
     private static final Identifier LEFT_FOCUSED_SPRITE = RESOURCES.id("widget/left_sidebar_button_focus");
 
-    private LimaSidebarButton(int x, int y, Component message)
+    private LTXISidebarButton(int x, int y, Component message)
     {
         super(x, y, SIDEBAR_BUTTON_WIDTH, SIDEBAR_BUTTON_HEIGHT, message);
     }
@@ -25,20 +28,23 @@ public abstract class LimaSidebarButton extends LimaRenderableButton
     protected void extractContents(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick)
     {
         super.extractContents(guiGraphics, mouseX, mouseY, partialTick);
+
         int xOffset = isLeftSided() ? 2 : 0;
-        renderInnerContents(guiGraphics, getX() + xOffset, getY() + 2);
+        extractInnerContents(guiGraphics, getX() + xOffset, getY() + 2);
     }
 
     @Override
-    protected boolean useFocusedSprite()
+    public final void onPress(InputWithModifiers input)
     {
-        return isHovered();
+        if (LimaGuiUtil.isLeftClickOrSelection(input)) onPress();
     }
+
+    protected abstract void onPress();
 
     @Override
     protected abstract Identifier focusedSprite();
 
-    protected abstract void renderInnerContents(GuiGraphicsExtractor graphics, int guiX, int guiY);
+    protected abstract void extractInnerContents(GuiGraphicsExtractor graphics, int guiX, int guiY);
 
     protected abstract boolean isLeftSided();
 
@@ -47,7 +53,7 @@ public abstract class LimaSidebarButton extends LimaRenderableButton
         graphics.blitSprite(RenderPipelines.GUI_TEXTURED, sprite, x, y, 16, 16);
     }
 
-    public static abstract class LeftSided extends LimaSidebarButton
+    public static abstract class LeftSided extends LTXISidebarButton
     {
         public LeftSided(int x, int y, Component message)
         {
@@ -73,7 +79,7 @@ public abstract class LimaSidebarButton extends LimaRenderableButton
         }
     }
 
-    public static abstract class RightSided extends LimaSidebarButton
+    public static abstract class RightSided extends LTXISidebarButton
     {
         public RightSided(int x, int y, Component message)
         {

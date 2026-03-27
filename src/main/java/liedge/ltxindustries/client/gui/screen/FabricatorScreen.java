@@ -54,7 +54,6 @@ public class FabricatorScreen extends LTXIMachineScreen<FabricatorMenu>
 
         // Screen setup
         this.inventoryLabelX = 14;
-        this.inventoryLabelY = 107;
     }
 
     @Override

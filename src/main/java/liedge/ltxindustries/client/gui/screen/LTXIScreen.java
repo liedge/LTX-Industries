@@ -39,7 +39,9 @@ public abstract class LTXIScreen<M extends LimaMenu<?>> extends LimaMenuScreen<M
     protected LTXIScreen(M menu, Inventory inventory, Component title, int primaryWidth, int primaryHeight, int leftPadding, int rightPadding, int bottomPadding)
     {
         super(menu, inventory, title, primaryWidth, primaryHeight, leftPadding, rightPadding, TITLE_BAR_HEIGHT, bottomPadding, LTXIConstants.LIME_GREEN.argb32());
+
         this.titleLabelY = -9;
+        this.inventoryLabelY = primaryHeight - 93;
     }
 
     @Override
@@ -108,7 +110,7 @@ public abstract class LTXIScreen<M extends LimaMenu<?>> extends LimaMenuScreen<M
 
     protected void nineSliceBlit(GuiGraphicsExtractor graphics, Identifier textureLocation, int cornerSize, int x, int y, int width, int height, int textureWidth, int textureHeight)
     {
-        LimaGuiUtil.nineSliceBlit(graphics, RenderPipelines.GUI_TEXTURED, textureLocation, cornerSize, x, y, width, height, textureWidth, textureHeight);
+        LimaGuiUtil.nineSliceBlit(graphics, RenderPipelines.GUI_TEXTURED, textureLocation, cornerSize, leftPos + x, topPos + y, width, height, textureWidth, textureHeight);
     }
 
     // Blit helpers (public for JEI use)

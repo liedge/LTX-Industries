@@ -6,10 +6,9 @@ import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
 import liedge.ltxindustries.registry.game.LTXINetworkSerializers;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Tooltip;
-import net.minecraft.client.input.InputWithModifiers;
 import net.minecraft.resources.Identifier;
 
-public class OpenIOControlButton extends LimaSidebarButton.RightSided
+public class OpenIOControlButton extends LTXISidebarButton.RightSided
 {
     private static final Identifier ITEMS_SPRITE = LTXIndustries.RESOURCES.id("widget/item_io");
     private static final Identifier ENERGY_SPRITE = LTXIndustries.RESOURCES.id("widget/power_io");
@@ -36,14 +35,14 @@ public class OpenIOControlButton extends LimaSidebarButton.RightSided
     }
 
     @Override
-    protected void renderInnerContents(GuiGraphicsExtractor graphics, int guiX, int guiY)
+    protected void extractInnerContents(GuiGraphicsExtractor graphics, int guiX, int guiY)
     {
         renderSprite(graphics, icon, guiX, guiY);
     }
 
     @Override
-    public void onPress(InputWithModifiers input)
+    protected void onPress()
     {
-        if (input.isLeft()) parent.sendCustomButtonData(buttonId, inputType, LTXINetworkSerializers.MACHINE_INPUT_TYPE);
+        parent.sendCustomButtonData(buttonId, inputType, LTXINetworkSerializers.MACHINE_INPUT_TYPE);
     }
 }

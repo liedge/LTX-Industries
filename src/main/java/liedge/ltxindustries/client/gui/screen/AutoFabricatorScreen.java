@@ -17,7 +17,6 @@ public class AutoFabricatorScreen extends LTXIMachineScreen<AutoFabricatorMenu>
         super(menu, inventory, title, 190, 180);
 
         this.inventoryLabelX = 14;
-        this.inventoryLabelY = 87;
     }
 
     @Override

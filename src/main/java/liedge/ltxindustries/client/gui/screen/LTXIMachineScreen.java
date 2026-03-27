@@ -6,7 +6,7 @@ import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
 import liedge.ltxindustries.blockentity.base.UpgradesHolderBlockEntity;
 import liedge.ltxindustries.client.gui.widget.EnergyGaugeWidget;
-import liedge.ltxindustries.client.gui.widget.LimaSidebarButton;
+import liedge.ltxindustries.client.gui.widget.LTXISidebarButton;
 import liedge.ltxindustries.client.gui.widget.MachineUpgradesButton;
 import liedge.ltxindustries.client.gui.widget.OpenIOControlButton;
 import liedge.ltxindustries.menu.LTXIMachineMenu;
@@ -23,7 +23,7 @@ public abstract class LTXIMachineScreen<M extends LTXIMachineMenu<?>> extends LT
     protected LTXIMachineScreen(M menu, Inventory inventory, Component title, int primaryWidth, int primaryHeight)
     {
         super(menu, inventory, title, primaryWidth, primaryHeight, menu.menuContext().hasStatsTooltips() ? 18 : 0, 18, 0);
-        this.inventoryLabelY = 73;
+        //this.inventoryLabelY = 73;
     }
 
     @Override
@@ -41,7 +41,7 @@ public abstract class LTXIMachineScreen<M extends LTXIMachineMenu<?>> extends LT
         for (BlockEntityInputType type : menu.menuContext().getConfigurableInputTypes())
         {
             addRenderableWidget(new OpenIOControlButton(rightPos, topPos + sidebarY, this, LTXIMachineMenu.IO_CONTROLS_BUTTON_ID, type));
-            sidebarY += LimaSidebarButton.SIDEBAR_BUTTON_HEIGHT;
+            sidebarY += LTXISidebarButton.SIDEBAR_BUTTON_HEIGHT;
         }
     }
 
@@ -62,13 +62,13 @@ public abstract class LTXIMachineScreen<M extends LTXIMachineMenu<?>> extends LT
         @Override
         public int getWidth()
         {
-            return LimaSidebarButton.SIDEBAR_BUTTON_WIDTH;
+            return LTXISidebarButton.SIDEBAR_BUTTON_WIDTH;
         }
 
         @Override
         public int getHeight()
         {
-            return LimaSidebarButton.SIDEBAR_BUTTON_HEIGHT;
+            return LTXISidebarButton.SIDEBAR_BUTTON_HEIGHT;
         }
 
         @Override
