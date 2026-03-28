@@ -158,7 +158,7 @@ class RecipesGen extends LimaRecipeProvider
         shaped(FABRICATOR).input('t', TITANIUM_INGOT).input('c', T3_CIRCUIT).input('a', CRAFTING_TABLE).input('g', SLATESTEEL_GEAR).input('o', OPTICAL_TECH_PART).patterns("tot", "cac", "gtg").save(output);
         shaped(AUTO_FABRICATOR).input('p', POLYMER_INGOT).input('c', T3_CIRCUIT).input('g', SLATESTEEL_GEAR).input('s', TITANIUM_GLASS).input('a', CRAFTER).input('o', OPTICAL_TECH_PART)
                 .patterns("pop", "sas", "gcg").save(output);
-        shaped(EQUIPMENT_UPGRADE_STATION).input('t', TITANIUM_INGOT).input('b', TITANIUM_BLOCK).input('a', CRAFTING_TABLE).input('l', items, DYES_LIME).patterns("ttt", "lal", "tbt").save(output);
+        shaped(UPGRADE_STATION).input('t', TITANIUM_INGOT).input('b', TITANIUM_BLOCK).input('a', CRAFTING_TABLE).input('l', items, DYES_LIME).patterns("ttt", "lal", "tbt").save(output);
 
         // Standard machine systems
         upgradeShaped(output, registries, STANDARD_MACHINE_SYSTEMS, 1, builder -> builder

@@ -90,7 +90,7 @@ class LanguageGen extends LimaLanguageProvider
         addBlock(LTXIBlocks.GEO_SYNTHESIZER, "Geo Synthesizer");
         addBlock(LTXIBlocks.FABRICATOR, "Fabricator");
         addBlock(LTXIBlocks.AUTO_FABRICATOR, "Auto Fabricator");
-        addBlock(LTXIBlocks.EQUIPMENT_UPGRADE_STATION, "Equipment Upgrade Station");
+        addBlock(LTXIBlocks.UPGRADE_STATION, "Upgrade Station");
         addBlock(LTXIBlocks.MOLECULAR_RECONSTRUCTOR, "Molecular Reconstructor");
         addBlock(LTXIBlocks.DIGITAL_GARDEN, "Bio/ARU Garden");
 

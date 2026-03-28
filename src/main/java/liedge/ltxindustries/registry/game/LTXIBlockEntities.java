@@ -130,7 +130,7 @@ public final class LTXIBlockEntities
     //#endregion
 
     //#region Registrations
-    public static final DeferredHolder<BlockEntityType<?>, LimaBlockEntityType<EquipmentUpgradeStationBlockEntity>> EQUIPMENT_UPGRADE_STATION = TYPES.register(LTXIIdentifiers.ID_EQUIPMENT_UPGRADE_STATION, () -> LimaBlockEntityType.of(EquipmentUpgradeStationBlockEntity::new, LTXIBlocks.EQUIPMENT_UPGRADE_STATION, LTXIMenus.EQUIPMENT_UPGRADE_STATION));
+    public static final DeferredHolder<BlockEntityType<?>, LimaBlockEntityType<UpgradeStationBlockEntity>> UPGRADE_STATION = TYPES.register(LTXIIdentifiers.ID_UPGRADE_STATION, () -> LimaBlockEntityType.of(UpgradeStationBlockEntity::new, LTXIBlocks.UPGRADE_STATION, LTXIMenus.UPGRADE_STATION));
 
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<EnergyCellArrayBlockEntity>> ENERGY_CELL_ARRAY = TYPES.register(LTXIIdentifiers.ID_ENERGY_CELL_ARRAY, () -> ConfigurableIOBlockEntityType.sidedBuilder(EnergyCellArrayBlockEntity::new)
             .withBlock(LTXIBlocks.ENERGY_CELL_ARRAY)

@@ -68,7 +68,7 @@ public final class LTXIBlocks
     public static final DeferredBlock<GloomShroomBlock> GLOOM_SHROOM = BLOCKS.registerBlock("gloom_shroom", GloomShroomBlock::new, properties -> properties.mapColor(MapColor.COLOR_BLUE).instabreak().noCollision().sound(SoundType.FUNGUS).pushReaction(PushReaction.DESTROY));
 
     // Helper stations
-    public static final DeferredBlock<SimpleWrenchBlock> EQUIPMENT_UPGRADE_STATION = BLOCKS.registerBlock(LTXIIdentifiers.ID_EQUIPMENT_UPGRADE_STATION, properties -> SimpleWrenchBlock.rotatingShape(properties, LTXIBlockShapes.UPGRADE_TABLE), LTXIBlocks::machineProperties);
+    public static final DeferredBlock<SimpleWrenchBlock> UPGRADE_STATION = BLOCKS.registerBlock(LTXIIdentifiers.ID_UPGRADE_STATION, properties -> SimpleWrenchBlock.rotatingShape(properties, LTXIBlockShapes.UPGRADE_STATION), LTXIBlocks::machineProperties);
 
     // Machinery
     public static final DeferredBlock<SimpleWrenchBlock> ENERGY_CELL_ARRAY = BLOCKS.registerBlock(LTXIIdentifiers.ID_ENERGY_CELL_ARRAY, properties -> SimpleWrenchBlock.staticShape(properties, LTXIBlockShapes.ENERGY_CELL_ARRAY), LTXIBlocks::machineProperties);

@@ -189,7 +189,7 @@ class LootTablesGen extends LimaLootTableProvider
             dropSelfWithEntity(GEO_SYNTHESIZER);
             dropSelfWithEntity(FABRICATOR);
             dropSelfWithEntity(AUTO_FABRICATOR);
-            dropSelfWithEntity(EQUIPMENT_UPGRADE_STATION);
+            dropSelfWithEntity(UPGRADE_STATION);
             dropSelfWithEntity(MOLECULAR_RECONSTRUCTOR);
             dropSelfWithEntity(DIGITAL_GARDEN);
 

@@ -79,7 +79,7 @@ public final class LTXIItems
     public static final DeferredItem<BlockItem> SLATESTEEL_PANEL = ITEMS.registerSimpleBlockItem(LTXIBlocks.SLATESTEEL_PANEL);
     public static final DeferredItem<BlockItem> SMOOTH_SLATESTEEL_PANEL = ITEMS.registerSimpleBlockItem(LTXIBlocks.SMOOTH_SLATESTEEL_PANEL);
     public static final DeferredItem<BlockItem> TILED_SLATESTEEL_PANEL = ITEMS.registerSimpleBlockItem(LTXIBlocks.TILED_SLATESTEEL_PANEL);
-    public static final DeferredItem<BlockItem> EQUIPMENT_UPGRADE_STATION = ITEMS.registerSimpleBlockItem(LTXIBlocks.EQUIPMENT_UPGRADE_STATION, properties -> properties.stacksTo(1));
+    public static final DeferredItem<BlockItem> UPGRADE_STATION = ITEMS.registerSimpleBlockItem(LTXIBlocks.UPGRADE_STATION, properties -> properties.stacksTo(1));
     public static final DeferredItem<ECABlockItem> ENERGY_CELL_ARRAY = ITEMS.registerCustomBlockItem(LTXIBlocks.ENERGY_CELL_ARRAY, ECABlockItem::new, properties -> properties.stacksTo(1));
     public static final DeferredItem<InfiniteECABlockItem> INFINITE_ENERGY_CELL_ARRAY = ITEMS.registerCustomBlockItem(LTXIBlocks.INFINITE_ENERGY_CELL_ARRAY, InfiniteECABlockItem::new, properties -> properties.stacksTo(1).rarity(Rarity.EPIC));
     public static final DeferredItem<BlockItem> DIGITAL_FURNACE = registerMachineBlockItem(LTXIBlocks.DIGITAL_FURNACE);

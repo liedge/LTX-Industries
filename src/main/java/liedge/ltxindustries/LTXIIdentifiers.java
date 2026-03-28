@@ -50,7 +50,7 @@ public final class LTXIIdentifiers
     public static final String ID_FABRICATOR = "fabricator";
     public static final String ID_AUTO_FABRICATOR = "auto_fabricator";
     public static final String ID_MOLECULAR_RECONSTRUCTOR = "molecular_reconstructor";
-    public static final String ID_EQUIPMENT_UPGRADE_STATION = "equipment_upgrade_station";
+    public static final String ID_UPGRADE_STATION = "upgrade_station";
     public static final String ID_GEO_SYNTHESIZER = "geo_synthesizer";
     public static final String ID_DIGITAL_GARDEN = "digital_garden";
 

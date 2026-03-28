@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "a": "minecraft:crafting_table",
+    "b": "ltxi:titanium_block",
+    "l": "#c:dyes/lime",
+    "t": "ltxi:titanium_ingot"
+  },
+  "pattern": [
+    "ttt",
+    "lal",
+    "tbt"
+  ],
+  "result": {
+    "id": "ltxi:upgrade_station"
+  }
+}

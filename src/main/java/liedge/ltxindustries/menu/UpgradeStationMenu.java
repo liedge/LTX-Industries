@@ -4,7 +4,7 @@ import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.menu.LimaMenuType;
 import liedge.limacore.network.NetworkSerializer;
 import liedge.limacore.util.LimaLootUtil;
-import liedge.ltxindustries.blockentity.EquipmentUpgradeStationBlockEntity;
+import liedge.ltxindustries.blockentity.UpgradeStationBlockEntity;
 import liedge.ltxindustries.item.EquipmentUpgradeModuleItem;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
@@ -23,17 +23,16 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
 
-import static liedge.ltxindustries.blockentity.EquipmentUpgradeStationBlockEntity.EQUIPMENT_ITEM_SLOT;
-import static liedge.ltxindustries.blockentity.EquipmentUpgradeStationBlockEntity.UPGRADE_MODULE_SLOT;
+import static liedge.ltxindustries.blockentity.UpgradeStationBlockEntity.EQUIPMENT_ITEM_SLOT;
+import static liedge.ltxindustries.blockentity.UpgradeStationBlockEntity.UPGRADE_MODULE_SLOT;
 import static liedge.ltxindustries.registry.game.LTXIDataComponents.EQUIPMENT_UPGRADE_ENTRY;
 
-public class EquipmentUpgradeStationMenu extends UpgradesConfigMenu<EquipmentUpgradeStationBlockEntity, EquipmentUpgrade, EquipmentUpgrades>
+public class UpgradeStationMenu extends UpgradesConfigMenu<UpgradeStationBlockEntity, EquipmentUpgrade, EquipmentUpgrades>
 {
-    public EquipmentUpgradeStationMenu(LimaMenuType<EquipmentUpgradeStationBlockEntity, ?> type, int containerId, Inventory inventory, EquipmentUpgradeStationBlockEntity menuContext)
+    public UpgradeStationMenu(LimaMenuType<UpgradeStationBlockEntity, ?> type, int containerId, Inventory inventory, UpgradeStationBlockEntity menuContext)
     {
         super(type, containerId, inventory, menuContext, menuContext.getItemsOrThrow(BlockContentsType.GENERAL), UPGRADE_MODULE_SLOT);
 
-        //addSlot(BlockContentsType.GENERAL, EQUIPMENT_ITEM_SLOT, 24, 65, stack -> stack.getItem() instanceof UpgradableEquipmentItem);
         addSlot(BlockContentsType.GENERAL, EQUIPMENT_ITEM_SLOT, 24, 65);
         addPlayerInventoryAndHotbar(15, 118);
     }

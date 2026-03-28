@@ -2,17 +2,17 @@ package liedge.ltxindustries.client.gui.screen;
 
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
-import liedge.ltxindustries.menu.EquipmentUpgradeStationMenu;
+import liedge.ltxindustries.menu.UpgradeStationMenu;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 
-public class EquipmentUpgradeStationScreen extends UpgradesConfigScreen<EquipmentUpgrade, EquipmentUpgradeStationMenu>
+public class UpgradeStationScreen extends UpgradesConfigScreen<EquipmentUpgrade, UpgradeStationMenu>
 {
     private static final Identifier SLOT_SPRITE = LTXIndustries.RESOURCES.id("slot/equipment_module");
 
-    public EquipmentUpgradeStationScreen(EquipmentUpgradeStationMenu menu, Inventory inventory, Component title)
+    public UpgradeStationScreen(UpgradeStationMenu menu, Inventory inventory, Component title)
     {
         super(menu, inventory, title, 0);
     }

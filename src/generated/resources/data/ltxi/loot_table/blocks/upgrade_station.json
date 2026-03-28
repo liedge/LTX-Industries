@@ -11,7 +11,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "ltxi:equipment_upgrade_station"
+          "name": "ltxi:upgrade_station"
         }
       ],
       "functions": [
@@ -22,5 +22,5 @@
       "rolls": 1.0
     }
   ],
-  "random_sequence": "ltxi:blocks/equipment_upgrade_station"
+  "random_sequence": "ltxi:blocks/upgrade_station"
 }

@@ -17,7 +17,7 @@ public final class LTXIBlockShapes
 
     public static final VoxelShape GLOWSTICK = dimensionBox(7, 0, 7, 2, 8, 2);
 
-    public static final VoxelShape UPGRADE_TABLE = Shapes.or(
+    public static final VoxelShape UPGRADE_STATION = Shapes.or(
             // Center
             dimensionBox(1, 0, 1, 14, 12, 14),
             // Feet

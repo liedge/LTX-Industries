@@ -2,7 +2,7 @@ package liedge.ltxindustries.client.renderer.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import liedge.ltxindustries.blockentity.EquipmentUpgradeStationBlockEntity;
+import liedge.ltxindustries.blockentity.UpgradeStationBlockEntity;
 import liedge.ltxindustries.client.LTXIRenderer;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -20,11 +20,11 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.Nullable;
 
-public final class EquipmentUpgradeStationRenderer implements BlockEntityRenderer<EquipmentUpgradeStationBlockEntity, EquipmentUpgradeStationRenderer.StationRenderState>
+public final class UpgradeStationRenderer implements BlockEntityRenderer<UpgradeStationBlockEntity, UpgradeStationRenderer.StationRenderState>
 {
     private final ItemModelResolver itemResolver;
 
-    public EquipmentUpgradeStationRenderer(BlockEntityRendererProvider.Context context)
+    public UpgradeStationRenderer(BlockEntityRendererProvider.Context context)
     {
         this.itemResolver = context.itemModelResolver();
     }
@@ -36,7 +36,7 @@ public final class EquipmentUpgradeStationRenderer implements BlockEntityRendere
     }
 
     @Override
-    public void extractRenderState(EquipmentUpgradeStationBlockEntity blockEntity, StationRenderState renderState, float partialTick, Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress)
+    public void extractRenderState(UpgradeStationBlockEntity blockEntity, StationRenderState renderState, float partialTick, Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress)
     {
         BlockEntityRenderer.super.extractRenderState(blockEntity, renderState, partialTick, cameraPosition, breakProgress);
 

@@ -19,7 +19,7 @@ import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import org.jspecify.annotations.Nullable;
 
-public class EquipmentUpgradeStationBlockEntity extends LimaBlockEntity implements ItemHolderBlockEntity
+public class UpgradeStationBlockEntity extends LimaBlockEntity implements ItemHolderBlockEntity
 {
     public static final int EQUIPMENT_ITEM_SLOT = 0;
     public static final int UPGRADE_MODULE_SLOT = 1;
@@ -28,9 +28,9 @@ public class EquipmentUpgradeStationBlockEntity extends LimaBlockEntity implemen
 
     private ItemStack previewItem = ItemStack.EMPTY;
 
-    public EquipmentUpgradeStationBlockEntity(BlockPos pos, BlockState state)
+    public UpgradeStationBlockEntity(BlockPos pos, BlockState state)
     {
-        super(LTXIBlockEntities.EQUIPMENT_UPGRADE_STATION.get(), pos, state);
+        super(LTXIBlockEntities.UPGRADE_STATION.get(), pos, state);
         this.inventory = new LimaBlockEntityItems(this, BlockContentsType.GENERAL, 2);
     }
 

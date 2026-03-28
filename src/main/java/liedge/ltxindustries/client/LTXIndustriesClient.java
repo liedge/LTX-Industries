@@ -137,7 +137,7 @@ public class LTXIndustriesClient
             event.register(LTXIMenus.GEO_SYNTHESIZER.get(), RecipeLayoutScreen::new);
             event.register(LTXIMenus.FABRICATOR.get(), FabricatorScreen::new);
             event.register(LTXIMenus.AUTO_FABRICATOR.get(), AutoFabricatorScreen::new);
-            event.register(LTXIMenus.EQUIPMENT_UPGRADE_STATION.get(), EquipmentUpgradeStationScreen::new);
+            event.register(LTXIMenus.UPGRADE_STATION.get(), UpgradeStationScreen::new);
             event.register(LTXIMenus.MOLECULAR_RECONSTRUCTOR.get(), MolecularReconstructorScreen::new);
             event.register(LTXIMenus.DIGITAL_GARDEN.get(), RecipeLayoutScreen::new);
             event.register(LTXIMenus.ARC_TURRET.get(), TurretScreen::new);
