@@ -1,15 +1,20 @@
 package liedge.ltxindustries.client.renderer.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.ltxindustries.blockentity.BaseFabricatorBlockEntity;
 import liedge.ltxindustries.client.LTXIRenderer;
+import liedge.ltxindustries.client.renderer.LTXIRenderTypes;
+import net.minecraft.client.model.geom.builders.UVPair;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.geometry.BakedQuad;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 
@@ -33,7 +38,7 @@ public final class BaseFabricatorRenderer extends MachineRenderer<BaseFabricator
         ItemStack stack = blockEntity.getClientPreviewItem();
         if (stack.isEmpty()) return;
 
-        WireframeItemRenderState previewItem = new WireframeItemRenderState();
+        ItemStackRenderState previewItem = blockEntity.isCrafting() ? new WireframeItemRenderState() : new ItemStackRenderState();
         itemResolver.updateForTopItem(previewItem, stack, ItemDisplayContext.FIXED, null, null, 0);
         renderState.previewItem = previewItem;
     }
@@ -66,11 +71,41 @@ public final class BaseFabricatorRenderer extends MachineRenderer<BaseFabricator
         {
             for (LayerRenderState layer : trackedLayers)
             {
-                // TODO Find a way to return this. Mixin?
-                //layer.setRenderType(LTXIRenderTypes.FABRICATOR_WIREFRAME);
-            }
+                poseStack.pushPose();
 
-            super.submit(poseStack, nodeCollector, packedLight, packedOverlay, outlineColor);
+                nodeCollector.submitCustomGeometry(poseStack, LTXIRenderTypes.WIREFRAME, (pose, buffer) ->
+                {
+                    List<BakedQuad> quads = layer.prepareQuadList();
+
+                    layer.applyTransform(pose);
+
+                    for (BakedQuad quad : quads)
+                    {
+                        putBakedQuad(pose, buffer, quad);
+                    }
+                });
+
+                poseStack.popPose();
+            }
+        }
+
+        private void putBakedQuad(PoseStack.Pose pose, VertexConsumer buffer, BakedQuad quad)
+        {
+            BakedQuad.MaterialInfo material = quad.materialInfo();
+            TextureAtlasSprite sprite = material.sprite();
+            float u0 = sprite.getU0();
+            float v0 = sprite.getV0();
+            float uWidth = sprite.getU1() - u0;
+            float vHeight = sprite.getV1() - v0;
+
+            for (int vertex = 0; vertex < 4; vertex++)
+            {
+                long packedUV = quad.packedUV(vertex);
+                float u = (UVPair.unpackU(packedUV) - u0) / uWidth;
+                float v = (UVPair.unpackV(packedUV) - v0) / vHeight;
+
+                buffer.addVertex(pose, quad.position(vertex)).setUv(u, v);
+            }
         }
 
         @Override

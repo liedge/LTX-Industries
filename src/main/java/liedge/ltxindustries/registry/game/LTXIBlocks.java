@@ -101,11 +101,11 @@ public final class LTXIBlocks
             .pushReaction(PushReaction.DESTROY)
             .noLootTable()
             .liquid()
-            .lightLevel(state -> LTXIFluids.VIRIDIC_ACID_LIGHT)
+            .lightLevel(_ -> LTXIFluids.VIRIDIC_ACID_LIGHT)
             .sound(SoundType.EMPTY));
 
     // Technical blocks
-    public static final DeferredBlock<SurfaceStickingBlock> GLOWSTICK = BLOCKS.registerBlock("glowstick", properties -> new SurfaceStickingBlock(properties, LTXIBlockShapes.GLOWSTICK, true), properties -> properties.noCollision().instabreak().pushReaction(PushReaction.DESTROY).lightLevel(state -> 15).noLootTable());
+    public static final DeferredBlock<SurfaceStickingBlock> GLOWSTICK = BLOCKS.registerBlock("glowstick", properties -> new SurfaceStickingBlock(properties, LTXIBlockShapes.GLOWSTICK, true), properties -> properties.noCollision().instabreak().pushReaction(PushReaction.DESTROY).lightLevel(_ -> 15).noLootTable());
     public static final DeferredBlock<MeshBlock> MESH_BLOCK = BLOCKS.registerBlock("mesh_block", MeshBlock::new, properties -> machineProperties(properties).dynamicShape().noOcclusion().noLootTable());
 
     // Helpers & initializers
@@ -114,7 +114,7 @@ public final class LTXIBlocks
         return base
                 .sound(SoundType.GLASS)
                 .strength(2f)
-                .lightLevel(state -> 15);
+                .lightLevel(_ -> 15);
     }
 
     private static BlockBehaviour.Properties machineProperties(BlockBehaviour.Properties base)

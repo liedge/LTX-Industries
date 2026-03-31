@@ -13,7 +13,7 @@ public final class LTXIBlockShapes
     //#region Single block shapes
     public static final VoxelShape RAW_ORE_CLUSTER = Shapes.or(
             dimensionBox(1, 0, 1, 14, 2, 14),
-            dimensionBox(2, 2, 2, 12, 16, 12));
+            dimensionBox(2, 2, 2, 12, 14, 12));
 
     public static final VoxelShape GLOWSTICK = dimensionBox(7, 0, 7, 2, 8, 2);
 

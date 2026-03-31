@@ -37,9 +37,10 @@ public final class LTXIRenderTypes
             .bufferSize(512)
             .setOutline(RenderSetup.OutlineProperty.NONE));
 
-    public static final RenderType FABRICATOR_WIREFRAME = simpleType("wireframe", RenderSetup.builder(RenderPipelines.GLINT)
+    public static final RenderType WIREFRAME = simpleType("wireframe", RenderSetup.builder(LTXIRenderPipelines.WIREFRAME)
             .withTexture("Sampler0", LTXIndustries.RESOURCES.textureLocation("entity", "wireframe"))
             .setTextureTransform(new TextureTransform("wireframe_texturing", LTXIRenderTypes::setupWireframeTexturing))
+            //.useOverlay()
             .setOutputTarget(OutputTarget.ITEM_ENTITY_TARGET));
 
     @SuppressWarnings("deprecation")
@@ -51,11 +52,7 @@ public final class LTXIRenderTypes
     // Misc functions
     private static Matrix4f setupWireframeTexturing()
     {
-        long period = Util.getMillis() * 4L;
-
-        float x = (period % 144000L) / 144000f;
-        float y = (period % 144000L) / 144000f;
-
-        return new Matrix4f().translation(-x, y, 0).scale(8f);
+        float delta = (Util.getMillis() % 7000L) / 7000f;
+        return new Matrix4f().translation(-delta, delta, 0).scale(3);
     }
 }

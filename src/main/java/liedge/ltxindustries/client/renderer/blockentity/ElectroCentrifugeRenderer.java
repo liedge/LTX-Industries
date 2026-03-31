@@ -6,7 +6,7 @@ import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.blockentity.ElectroCentrifugeBlockEntity;
 import liedge.ltxindustries.client.LTXIRenderer;
 import liedge.ltxindustries.client.model.LTXIModelPartKeys;
-import liedge.ltxindustries.client.model.LayeredModelPart;
+import liedge.ltxindustries.client.model.StandaloneQuads;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
@@ -31,17 +31,18 @@ public class ElectroCentrifugeRenderer extends MachineRenderer<ElectroCentrifuge
             boltPoint(11, 5)
     };
 
-    private final LayeredModelPart tubes;
+    private final StandaloneQuads tubes;
 
     public ElectroCentrifugeRenderer(BlockEntityRendererProvider.Context context)
     {
         super(context);
-        this.tubes = LayeredModelPart.get(this.modelManager, LTXIModelPartKeys.ELECTROCENTRIFUGE_TUBES);
+        this.tubes = StandaloneQuads.get(LTXIModelPartKeys.ELECTROCENTRIFUGE_TUBES);
     }
 
     @Override
     void extractAdditional(ElectroCentrifugeBlockEntity blockEntity, MachineRenderState renderState, float partialTick)
     {
+        renderState.machineSpin = blockEntity.lerpTubesYRot(partialTick);
         renderState.machineBolt = blockEntity.tubeBolt;
     }
 

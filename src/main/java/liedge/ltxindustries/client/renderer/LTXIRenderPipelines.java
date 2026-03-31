@@ -44,4 +44,24 @@ public final class LTXIRenderPipelines
             .withCull(false)
             .withVertexFormat(DefaultVertexFormat.POSITION_TEX_COLOR, VertexFormat.Mode.QUADS)
             .build();
+
+    public static final RenderPipeline WIREFRAME = RenderPipeline.builder(RenderPipelines.MATRICES_PROJECTION_SNIPPET)
+            .withLocation(LTXIndustries.RESOURCES.id("pipeline/wireframe"))
+            .withVertexShader("core/glint")
+            .withFragmentShader("core/glint")
+            .withSampler("Sampler0")
+            .withCull(true)
+            .withColorTargetState(new ColorTargetState(BlendFunction.ADDITIVE))
+            .withDepthStencilState(DepthStencilState.DEFAULT)
+            .withVertexFormat(DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS)
+            .build();
+
+    /*
+    public static final RenderPipeline WIREFRAME = RenderPipeline.builder(LimaCoreRenderPipelines.EMISSIVE_ENTITY_SNIPPET, RenderPipelines.GLOBALS_SNIPPET)
+            .withLocation(LTXIndustries.RESOURCES.id("pipeline/wireframe"))
+            .withShaderDefine("APPLY_TEXTURE_MATRIX")
+            .withColorTargetState(new ColorTargetState(BlendFunction.ADDITIVE))
+            .withCull(true)
+            .build();
+    */
 }

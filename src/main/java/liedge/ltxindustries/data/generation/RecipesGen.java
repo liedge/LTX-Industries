@@ -6,9 +6,11 @@ import liedge.limacore.data.generation.LimaRecipeProvider;
 import liedge.limacore.data.generation.recipe.LimaCustomRecipeBuilder;
 import liedge.limacore.data.generation.recipe.LimaShapedRecipeBuilder;
 import liedge.limacore.lib.ModResources;
+import liedge.limacore.recipe.result.FluidResult;
 import liedge.limacore.recipe.result.ItemResult;
+import liedge.limacore.recipe.result.RecipeResult;
 import liedge.limacore.recipe.result.ResultCount;
-import liedge.limacore.recipe.result.ResultPriority;
+import liedge.limacore.util.LimaRegistryUtil;
 import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.block.NeonLightColor;
@@ -16,6 +18,7 @@ import liedge.ltxindustries.item.UpgradableEquipmentItem;
 import liedge.ltxindustries.lib.upgrades.UpgradeBase;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
 import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgradeEntry;
+import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrade;
 import liedge.ltxindustries.lib.upgrades.machine.MachineUpgradeEntry;
 import liedge.ltxindustries.recipe.*;
@@ -27,6 +30,7 @@ import liedge.ltxindustries.registry.game.LTXIItems;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
@@ -36,7 +40,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.alchemy.Potions;
@@ -52,6 +55,7 @@ import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
@@ -110,12 +114,12 @@ class RecipesGen extends LimaRecipeProvider
         nuggetIngotBlockRecipes(output, "niobium", NIOBIUM_NUGGET, NIOBIUM_INGOT, NIOBIUM_BLOCK);
         nuggetIngotBlockRecipes(output, "slatesteel", SLATESTEEL_NUGGET, SLATESTEEL_INGOT, SLATESTEEL_BLOCK);
 
-        shaped(TITANIUM_PANEL, 32).input('t', TITANIUM_INGOT).input('f', POLYMER_INGOT).patterns("tft", "f f", "tft").bookCategory(CraftingBookCategory.BUILDING).save(output);
-        shaped(SMOOTH_TITANIUM_PANEL, 32).input('t', TITANIUM_INGOT).input('f', POLYMER_INGOT).patterns("ftf", "t t", "ftf").bookCategory(CraftingBookCategory.BUILDING).save(output);
-        shaped(TILED_TITANIUM_PANEL, 4).input('p', TITANIUM_PANEL).patterns("pp", "pp").bookCategory(CraftingBookCategory.BUILDING).save(output);
-        shaped(SLATESTEEL_PANEL, 32).input('s', SLATESTEEL_INGOT).input('f', POLYMER_INGOT).patterns("sfs", "f f", "sfs").bookCategory(CraftingBookCategory.BUILDING).save(output);
-        shaped(SMOOTH_SLATESTEEL_PANEL, 32).input('s', SLATESTEEL_INGOT).input('f', POLYMER_INGOT).patterns("fsf", "s s", "fsf").bookCategory(CraftingBookCategory.BUILDING).save(output);
-        shaped(TILED_SLATESTEEL_PANEL, 4).input('p', SLATESTEEL_PANEL).patterns("pp", "pp").bookCategory(CraftingBookCategory.BUILDING).save(output);
+        shaped(TITANIUM_PANEL, 32).input('t', TITANIUM_INGOT).input('f', POLYMER_INGOT).patterns("tft", "f f", "tft").category(CraftingBookCategory.BUILDING).save(output);
+        shaped(SMOOTH_TITANIUM_PANEL, 32).input('t', TITANIUM_INGOT).input('f', POLYMER_INGOT).patterns("ftf", "t t", "ftf").category(CraftingBookCategory.BUILDING).save(output);
+        shaped(TILED_TITANIUM_PANEL, 4).input('p', TITANIUM_PANEL).patterns("pp", "pp").category(CraftingBookCategory.BUILDING).save(output);
+        shaped(SLATESTEEL_PANEL, 32).input('s', SLATESTEEL_INGOT).input('f', POLYMER_INGOT).patterns("sfs", "f f", "sfs").category(CraftingBookCategory.BUILDING).save(output);
+        shaped(SMOOTH_SLATESTEEL_PANEL, 32).input('s', SLATESTEEL_INGOT).input('f', POLYMER_INGOT).patterns("fsf", "s s", "fsf").category(CraftingBookCategory.BUILDING).save(output);
+        shaped(TILED_SLATESTEEL_PANEL, 4).input('p', SLATESTEEL_PANEL).patterns("pp", "pp").category(CraftingBookCategory.BUILDING).save(output);
 
         shaped(TITANIUM_GEAR).input('i', TITANIUM_INGOT).input('n', items, NUGGETS_IRON).patterns("ini", "n n", "ini").save(output);
         shaped(SLATESTEEL_GEAR).input('i', SLATESTEEL_INGOT).input('n', items, NUGGETS_IRON).patterns("ini", "n n", "ini").save(output);
@@ -247,7 +251,7 @@ class RecipesGen extends LimaRecipeProvider
                 .input(NIOBIUM_INGOT, 8)
                 .input(DIAMOND, 8)
                 .input(CHORUS_CHEMICAL, 4)
-                .output(T4_CIRCUIT)
+                .output(ItemResult.of(T4_CIRCUIT))
                 .group("circuits")
                 .save(output);
         fabricating(100_000_000)
@@ -260,7 +264,7 @@ class RecipesGen extends LimaRecipeProvider
                 .input(REDSTONE, 48)
                 .input(AMETHYST_SHARD, 12)
                 .input(SCULK_CHEMICAL, 8)
-                .output(T5_CIRCUIT)
+                .output(ItemResult.of(T5_CIRCUIT))
                 .group("circuits")
                 .save(output);
         fabricating(1_000_000)
@@ -270,16 +274,7 @@ class RecipesGen extends LimaRecipeProvider
                 .input(TITANIUM_GEAR, 2)
                 .input(SLATESTEEL_GEAR)
                 .input(TITANIUM_GLASS, 16)
-                .output(DIGITAL_GARDEN)
-                .group("machines")
-                .save(output);
-        fabricating(10_000_000)
-                .input(T4_CIRCUIT)
-                .input(ANVIL)
-                .input(TITANIUM_BLOCK)
-                .input(TITANIUM_GEAR, 2)
-                .input(SLATESTEEL_GEAR, 4)
-                .output(MOLECULAR_RECONSTRUCTOR)
+                .output(ItemResult.of(DIGITAL_GARDEN))
                 .group("machines")
                 .save(output);
 
@@ -289,7 +284,7 @@ class RecipesGen extends LimaRecipeProvider
                 .input(TITANIUM_INGOT, 20)
                 .input(TITANIUM_GEAR, 4)
                 .input(ELECTRIC_CHEMICAL, 32)
-                .output(ARC_TURRET)
+                .output(ItemResult.of(ARC_TURRET))
                 .group("turrets")
                 .save(output);
         fabricating(5_000_000)
@@ -299,7 +294,7 @@ class RecipesGen extends LimaRecipeProvider
                 .input(TITANIUM_INGOT, 24)
                 .input(TITANIUM_GEAR, 6)
                 .input(SLATESTEEL_GEAR, 2)
-                .output(ROCKET_TURRET)
+                .output(ItemResult.of(ROCKET_TURRET))
                 .group("turrets").save(output);
         fabricating(20_000_000)
                 .input(T4_CIRCUIT, 1)
@@ -309,7 +304,7 @@ class RecipesGen extends LimaRecipeProvider
                 .input(SLATESTEEL_INGOT, 8)
                 .input(TITANIUM_GEAR, 8)
                 .input(SLATESTEEL_GEAR, 4)
-                .output(RAILGUN_TURRET)
+                .output(ItemResult.of(RAILGUN_TURRET))
                 .group("turrets").save(output);
 
         // Tools fabricating
@@ -870,20 +865,29 @@ class RecipesGen extends LimaRecipeProvider
     private void grindingRecipes()
     {
         // Resource things
-        grinding().input(STONE).output(COBBLESTONE).save(output);
-        grinding().input(items, COBBLESTONES_NORMAL).output(GRAVEL).output(FLINT, ResultCount.exactly(1), 0.25f, ResultPriority.SECONDARY).save(output);
-        grinding().input(items, Tags.Items.GRAVELS).output(SAND).save(output);
-        grinding().input(items, CROPS_SUGAR_CANE).output(RESINOUS_BIOMASS).output(SUGAR, 2).save(output, "grind_sugar_cane");
-        grinding().input(BAMBOO).output(RESINOUS_BIOMASS).save(output, "grind_bamboo");
-        grinding().input(LTXIItems.SPARK_FRUIT).output(ELECTRIC_CHEMICAL).save(output);
-        grinding().input(VITRIOL_BERRIES).output(ACIDIC_BIOMASS).save(output);
-        grinding().input(items, CARBON_SOURCES).output(CARBON_DUST).save(output);
-        grinding().input(items, LTXITags.Items.DEEPSLATE_GRINDABLES).output(DEEPSLATE_DUST).save(output, "grind_deepslate");
+        grinding().input(STONE).output(ItemResult.of(COBBLESTONE)).save(output);
+        grinding().input(items, COBBLESTONES_NORMAL)
+                .output(ItemResult.of(GRAVEL))
+                .output(ItemResult.of(FLINT, ResultCount.exactlyRandom(1, 0.25f), RecipeResult.NO_GROUP, false))
+                .save(output);
+        grinding().input(items, Tags.Items.GRAVELS).output(ItemResult.of(SAND)).save(output);
+        grinding().input(items, CROPS_SUGAR_CANE).output(ItemResult.of(RESINOUS_BIOMASS)).output(ItemResult.of(SUGAR, 2)).save(output, "grind_sugar_cane");
+        grinding().input(BAMBOO).output(ItemResult.of(RESINOUS_BIOMASS)).save(output, "grind_bamboo");
+        grinding().input(LTXIItems.SPARK_FRUIT).output(ItemResult.of(ELECTRIC_CHEMICAL)).save(output);
+        grinding().input(VITRIOL_BERRIES).output(ItemResult.of(ACIDIC_BIOMASS)).save(output);
+        grinding().input(items, CARBON_SOURCES).output(ItemResult.of(CARBON_DUST)).save(output);
+        grinding().input(items, LTXITags.Items.DEEPSLATE_GRINDABLES).output(ItemResult.of(DEEPSLATE_DUST)).save(output, "grind_deepslate");
 
         // Dyes
         Holder<RecipeMode> dyes = registries.holderOrThrow(LTXIRecipeModes.DYE_EXTRACTION);
-        grinding().input(items, GREEN_GROUP_DYE_SOURCES, 4).output(GREEN_DYE, ResultCount.exactly(1), 0.8f).output(LIME_DYE, ResultCount.exactly(1), 0.5f).needsMode(dyes).time(120).save(output, "extract_green_group_dyes");
-        grinding().input(SEA_PICKLE).output(LIME_DYE, 2).needsMode(dyes).time(120).save(output);
+        grinding()
+                .input(items, GREEN_GROUP_DYE_SOURCES, 4)
+                .output(ItemResult.of(GREEN_DYE, ResultCount.exactlyRandom(1, 0.8f)))
+                .output(ItemResult.of(LIME_DYE, ResultCount.exactlyRandom(1, 0.5f)))
+                .needsMode(dyes)
+                .time(120)
+                .save(output, "extract_green_group_dyes");
+        grinding().input(SEA_PICKLE).output(ItemResult.of(LIME_DYE, 2)).needsMode(dyes).time(120).save(output);
 
         orePebbleGrinding(COAL_ORE_PEBBLES, Tags.Items.ORES_COAL, null, "coal", output);
         orePebbleGrinding(COPPER_ORE_PEBBLES, Tags.Items.ORES_COPPER, Tags.Items.RAW_MATERIALS_COPPER, "copper", output);
@@ -894,7 +898,7 @@ class RecipesGen extends LimaRecipeProvider
         orePebbleGrinding(DIAMOND_ORE_PEBBLES, Tags.Items.ORES_DIAMOND, null, "diamond", output);
         orePebbleGrinding(EMERALD_ORE_PEBBLES, Tags.Items.ORES_EMERALD, null, "emerald", output);
         orePebbleGrinding(QUARTZ_ORE_PEBBLES, Tags.Items.ORES_QUARTZ, null, "quartz", output);
-        grinding().input(items, ORES_NETHERITE_SCRAP).output(NETHERITE_ORE_PEBBLES, 2).save(output, "grind_debris");
+        grinding().input(items, ORES_NETHERITE_SCRAP).output(ItemResult.of(NETHERITE_ORE_PEBBLES, 2)).save(output, "grind_debris");
         orePebbleGrinding(TITANIUM_ORE_PEBBLES, LTXITags.Items.TITANIUM_ORES, LTXITags.Items.RAW_TITANIUM_MATERIALS, "titanium", output);
         orePebbleGrinding(NIOBIUM_ORE_PEBBLES, LTXITags.Items.NIOBIUM_ORES, LTXITags.Items.RAW_NIOBIUM_MATERIALS, "niobium", output);
         orePebbleGrinding(TIN_ORE_PEBBLES, ModResources.COMMON.itemTag("ores/tin"), ModResources.COMMON.itemTag("raw_materials/tin"), "tin", output, true);
@@ -903,20 +907,20 @@ class RecipesGen extends LimaRecipeProvider
         orePebbleGrinding(LEAD_ORE_PEBBLES, ModResources.COMMON.itemTag("ores/lead"), ModResources.COMMON.itemTag("raw_materials/lead"), "lead", output, true);
         orePebbleGrinding(SILVER_ORE_PEBBLES, ModResources.COMMON.itemTag("ores/silver"), ModResources.COMMON.itemTag("raw_materials/silver"), "silver", output, true);
         orePebbleGrinding(URANIUM_ORE_PEBBLES, ModResources.COMMON.itemTag("ores/uranium"), ModResources.COMMON.itemTag("raw_materials/uranium"), "uranium", output, true);
-        grinding().input(RAW_TITANIUM_CLUSTER).output(RAW_TITANIUM, 5).save(output, "grind_titanium_clusters");
-        grinding().input(RAW_NIOBIUM_CLUSTER).output(RAW_NIOBIUM, 5).save(output, "grind_niobium_clusters");
-        grinding().input(LTXIItems.GLOOM_SHROOM).output(NEURO_BLUE_PIGMENT, 2).time(120).save(output, "shrooms_to_dye");
+        grinding().input(RAW_TITANIUM_CLUSTER).output(ItemResult.of(RAW_TITANIUM, 5)).save(output, "grind_titanium_clusters");
+        grinding().input(RAW_NIOBIUM_CLUSTER).output(ItemResult.of(RAW_NIOBIUM, 5)).save(output, "grind_niobium_clusters");
+        grinding().input(LTXIItems.GLOOM_SHROOM).output(ItemResult.of(NEURO_BLUE_PIGMENT, 2)).time(120).save(output, "shrooms_to_dye");
     }
 
     private void mfcRecipes()
     {
-        fusing().input(NETHERITE_ORE_PEBBLES, 2).input(GOLD_INGOT).output(NETHERITE_INGOT).save(output, "pebble_netherite");
-        fusing().input(NETHERITE_SCRAP, 4).input(GOLD_INGOT, 1).output(NETHERITE_INGOT).save(output, "scrap_netherite");
-        NEON_LIGHTS.forEach((color, holder) -> fusing().input(items, NEON_LIGHT_MATERIALS, 2).input(neonLightDye(color)).time(80).output(holder, 8).save(output));
-        fusing().input(IRON_INGOT).input(CARBON_DUST).input(DEEPSLATE_DUST, 4).fluidInput(fluids, OXYGEN_FLUIDS, 250).time(400).output(SLATESTEEL_INGOT).save(output);
-        fusing().input(TITANIUM_INGOT).input(items, GEMS_QUARTZ, 3).output(TITANIUM_GLASS, 2).save(output);
-        fusing().input(AMETHYST_SHARD).input(SCULK_CHEMICAL, 4).output(ECHO_SHARD).time(400).save(output);
-        fusing().randomInput(SCULK_CATALYST, 1, 0f).randomInput(SCULK_CHEMICAL, 1, 0.5f).input(DIRT).output(SCULK).save(output);
+        fusing().input(NETHERITE_ORE_PEBBLES, 2).input(GOLD_INGOT).output(ItemResult.of(NETHERITE_INGOT)).save(output, "pebble_netherite");
+        fusing().input(NETHERITE_SCRAP, 4).input(GOLD_INGOT, 1).output(ItemResult.of(NETHERITE_INGOT)).save(output, "scrap_netherite");
+        NEON_LIGHTS.forEach((color, holder) -> fusing().input(items, NEON_LIGHT_MATERIALS, 2).input(neonLightDye(color)).time(80).output(ItemResult.of(holder, 8)).save(output));
+        fusing().input(IRON_INGOT).input(CARBON_DUST).input(DEEPSLATE_DUST, 4).fluidInput(fluids, OXYGEN_FLUIDS, 250).time(400).output(ItemResult.of(SLATESTEEL_INGOT)).save(output);
+        fusing().input(TITANIUM_INGOT).input(items, GEMS_QUARTZ, 3).output(ItemResult.of(TITANIUM_GLASS, 2)).save(output);
+        fusing().input(AMETHYST_SHARD).input(SCULK_CHEMICAL, 4).output(ItemResult.of(ECHO_SHARD)).time(400).save(output);
+        fusing().randomInput(SCULK_CATALYST, 1, 0f).randomInput(SCULK_CHEMICAL, 1, 0.5f).input(DIRT).output(ItemResult.of(SCULK)).save(output);
     }
 
     private void electroCentrifugingRecipes()
@@ -927,26 +931,26 @@ class RecipesGen extends LimaRecipeProvider
         Holder<RecipeMode> dissolution = registries.holderOrThrow(LTXIRecipeModes.CHEM_DISSOLUTION);
 
         // Dyes
-        electroCentrifuging().input(items, DYES_LIME).output(LTX_LIME_PIGMENT).time(120).needsMode(dyes).save(output);
-        electroCentrifuging().input(VITRIOL_BERRIES).output(VIRIDIC_GREEN_PIGMENT, 2).time(120).needsMode(dyes).save(output);
-        electroCentrifuging().input(LTXIItems.SPARK_FRUIT).output(ELECTRIC_CHARTREUSE_PIGMENT, 2).time(120).needsMode(dyes).save(output);
-        electroCentrifuging().input(LTXIItems.GLOOM_SHROOM).output(NEURO_BLUE_PIGMENT, 2).time(120).needsMode(dyes).save(output);
+        electroCentrifuging().input(items, DYES_LIME).output(ItemResult.of(LTX_LIME_PIGMENT)).time(120).needsMode(dyes).save(output);
+        electroCentrifuging().input(VITRIOL_BERRIES).output(ItemResult.of(VIRIDIC_GREEN_PIGMENT, 2)).time(120).needsMode(dyes).save(output);
+        electroCentrifuging().input(LTXIItems.SPARK_FRUIT).output(ItemResult.of(ELECTRIC_CHARTREUSE_PIGMENT, 2)).time(120).needsMode(dyes).save(output);
+        electroCentrifuging().input(LTXIItems.GLOOM_SHROOM).output(ItemResult.of(NEURO_BLUE_PIGMENT, 2)).time(120).needsMode(dyes).save(output);
 
         // Recipes
         electroCentrifuging()
                 .input(MUD)
-                .output(DIRT)
-                .output(CLAY_BALL, ResultCount.between(1, 3))
-                .output(MANGROVE_PROPAGULE, ResultCount.exactly(1), 0.05f, ResultPriority.SECONDARY)
-                .fluidOutput(Fluids.WATER, 1000)
+                .output(ItemResult.of(DIRT))
+                .output(ItemResult.of(CLAY_BALL, ResultCount.between(1, 3)))
+                .output(ItemResult.of(MANGROVE_PROPAGULE, ResultCount.exactlyRandom(1, 0.05f), RecipeResult.NO_GROUP, false))
+                .fluidOutput(FluidResult.of(Fluids.WATER, 1000))
                 .time(120)
                 .save(output, "split_mud");
 
         electroCentrifuging()
                 .needsMode(electrolyze)
                 .fluidInput(Fluids.WATER, 1000)
-                .fluidOutput(LTXIFluids.HYDROGEN, 1000)
-                .fluidOutput(LTXIFluids.OXYGEN, 500)
+                .fluidOutput(FluidResult.of(LTXIFluids.HYDROGEN, 1000))
+                .fluidOutput(FluidResult.of(LTXIFluids.OXYGEN, 500))
                 .time(300)
                 .save(output, "water_electrolyzing");
 
@@ -954,7 +958,7 @@ class RecipesGen extends LimaRecipeProvider
                 .needsMode(dissolution)
                 .fluidInput(VIRIDIC_ACID, 250)
                 .input(CHORUS_FRUIT, 2)
-                .output(CHORUS_CHEMICAL)
+                .output(ItemResult.of(CHORUS_CHEMICAL))
                 .time(300)
                 .save(output, "chorus_fruit_extraction");
 
@@ -962,38 +966,38 @@ class RecipesGen extends LimaRecipeProvider
                 .needsMode(dissolution)
                 .fluidInput(VIRIDIC_ACID, 2000)
                 .input(LTXIItems.GLOOM_SHROOM)
-                .output(SCULK_CHEMICAL)
-                .output(NEURO_CHEMICAL, ResultCount.exactly(1), 0.05f)
+                .output(ItemResult.of(SCULK_CHEMICAL))
+                .output(ItemResult.of(NEURO_CHEMICAL, ResultCount.exactlyRandom(1, 0.05f)))
                 .time(400)
                 .save(output, "gloom_shroom_extraction");
     }
 
     private void mixingRecipes()
     {
-        mixing().input(DIRT).fluidInput(Fluids.WATER, 1000).output(MUD).time(120).save(output);
-        mixing().input(ACIDIC_BIOMASS, 4).fluidInput(Fluids.WATER, 1000).fluidOutput(VIRIDIC_ACID, 1000).save(output);
-        mixing().input(RESINOUS_BIOMASS, 2).fluidInput(VIRIDIC_ACID, 250).output(MONOMER_CHEMICAL).save(output);
+        mixing().input(DIRT).fluidInput(Fluids.WATER, 1000).output(ItemResult.of(MUD)).time(120).save(output);
+        mixing().input(ACIDIC_BIOMASS, 4).fluidInput(Fluids.WATER, 1000).fluidOutput(FluidResult.of(VIRIDIC_ACID, 1000)).save(output);
+        mixing().input(RESINOUS_BIOMASS, 2).fluidInput(VIRIDIC_ACID, 250).output(ItemResult.of(MONOMER_CHEMICAL)).save(output);
     }
 
 
     private void energizingRecipes()
     {
         Holder<RecipeMode> dyes = registries.holderOrThrow(LTXIRecipeModes.DYE_EXTRACTION);
-        energizing().input(items, DYES_LIGHT_BLUE).output(ENERGY_BLUE_PIGMENT).needsMode(dyes).time(120).save(output, "energize_light_blue_dyes");
-        energizing().input(items, DYES_BLUE).output(ENERGY_BLUE_PIGMENT).needsMode(dyes).time(120).save(output, "energize_blue_dyes");
-        energizing().input(TITANIUM_GLASS).output(GLACIA_GLASS).time(100).save(output);
+        energizing().input(items, DYES_LIGHT_BLUE).output(ItemResult.of(ENERGY_BLUE_PIGMENT)).needsMode(dyes).time(120).save(output, "energize_light_blue_dyes");
+        energizing().input(items, DYES_BLUE).output(ItemResult.of(ENERGY_BLUE_PIGMENT)).needsMode(dyes).time(120).save(output, "energize_blue_dyes");
+        energizing().input(TITANIUM_GLASS).output(ItemResult.of(GLACIA_GLASS)).time(100).save(output);
     }
 
 
     private void chemLabRecipes()
     {
-        chemLab().input(MONOMER_CHEMICAL).fluidInput(fluids, OXYGEN_FLUIDS, 125).output(POLYMER_INGOT).save(output);
-        chemLab().input(POLYMER_INGOT).input(COPPER_INGOT, 2).fluidInput(VIRIDIC_ACID, 125).output(CIRCUIT_BOARD).save(output);
+        chemLab().input(MONOMER_CHEMICAL).fluidInput(fluids, OXYGEN_FLUIDS, 125).output(ItemResult.of(POLYMER_INGOT)).save(output);
+        chemLab().input(POLYMER_INGOT).input(COPPER_INGOT, 2).fluidInput(VIRIDIC_ACID, 125).output(ItemResult.of(CIRCUIT_BOARD)).save(output);
         chemLab()
                 .input(ELECTRIC_CHEMICAL, 2)
                 .fluidInput(VIRIDIC_ACID, 8000)
                 .fluidInput(fluids, HYDROGEN_FLUIDS, 2000)
-                .output(VIRIDIC_WEAPON_CHEMICAL)
+                .output(ItemResult.of(VIRIDIC_WEAPON_CHEMICAL))
                 .time(900)
                 .save(output);
     }
@@ -1005,7 +1009,7 @@ class RecipesGen extends LimaRecipeProvider
                 .input(TITANIUM_INGOT, 2)
                 .input(REDSTONE, 4)
                 .input(COPPER_INGOT, 2)
-                .output(T1_CIRCUIT, 2)
+                .output(ItemResult.of(T1_CIRCUIT, 2))
                 .time(200)
                 .save(output);
 
@@ -1014,7 +1018,7 @@ class RecipesGen extends LimaRecipeProvider
                 .input(TITANIUM_INGOT, 4)
                 .input(REDSTONE, 8)
                 .input(GOLD_INGOT, 2)
-                .output(T2_CIRCUIT, 2)
+                .output(ItemResult.of(T2_CIRCUIT, 2))
                 .time(300)
                 .save(output);
 
@@ -1025,7 +1029,7 @@ class RecipesGen extends LimaRecipeProvider
                 .input(REDSTONE, 12)
                 .input(QUARTZ, 8)
                 .input(ELECTRIC_CHEMICAL, 4)
-                .output(T3_CIRCUIT)
+                .output(ItemResult.of(T3_CIRCUIT))
                 .save(output);
 
         assembling()
@@ -1035,31 +1039,31 @@ class RecipesGen extends LimaRecipeProvider
                 .input(SLATESTEEL_GEAR)
                 .input(ELECTRIC_CHEMICAL, 8)
                 .fluidInput(fluids, HYDROGEN_FLUIDS, 16_000)
-                .output(IMPULSE_TECH_PART)
+                .output(ItemResult.of(IMPULSE_TECH_PART))
                 .save(output);
 
         assembling()
                 .input(T2_CIRCUIT)
                 .input(TITANIUM_GLASS, 2)
                 .input(ELECTRIC_CHEMICAL, 2)
-                .output(OPTICAL_TECH_PART)
+                .output(ItemResult.of(OPTICAL_TECH_PART))
                 .time(200)
                 .save(output);
     }
 
     private void geoSynthesisRecipes()
     {
-        geoSynthesis().randomInput(COBBLESTONE, 1, 0f).randomFluidInput(Fluids.WATER, 1000, 0f).randomFluidInput(Fluids.LAVA, 1000, 0f).output(COBBLESTONE).save(output);
-        geoSynthesis().randomInput(STONE, 1, 0f).randomFluidInput(Fluids.WATER, 1000, 0f).randomFluidInput(Fluids.LAVA, 1000, 0f).output(STONE).save(output);
-        geoSynthesis().randomInput(COBBLED_DEEPSLATE, 1, 0f).randomFluidInput(Fluids.WATER, 1000, 0f).randomFluidInput(Fluids.LAVA, 1000, 0f).output(COBBLED_DEEPSLATE).save(output);
-        geoSynthesis().randomInput(DEEPSLATE, 1, 0f).randomFluidInput(Fluids.WATER, 1000, 0f).randomFluidInput(Fluids.LAVA, 1000, 0f).output(DEEPSLATE).save(output);
-        geoSynthesis().randomInput(GRANITE, 1, 0f).randomFluidInput(Fluids.WATER, 1000, 0f).randomFluidInput(Fluids.LAVA, 1000, 0f).output(GRANITE).save(output);
-        geoSynthesis().randomInput(DIORITE, 1, 0f).randomFluidInput(Fluids.WATER, 1000, 0f).randomFluidInput(Fluids.LAVA, 1000, 0f).output(DIORITE).save(output);
-        geoSynthesis().randomInput(ANDESITE, 1, 0f).randomFluidInput(Fluids.WATER, 1000, 0f).randomFluidInput(Fluids.LAVA, 1000, 0f).output(ANDESITE).save(output);
-        geoSynthesis().randomInput(DRIPSTONE_BLOCK, 1, 0f).randomFluidInput(VIRIDIC_ACID, 1000, 0f).randomFluidInput(Fluids.WATER, 1000, 0f).output(DRIPSTONE_BLOCK).save(output);
-        geoSynthesis().randomInput(BASALT, 1, 0f).randomFluidInput(Fluids.WATER, 1000, 0f).randomFluidInput(Fluids.LAVA, 1000, 0f).output(BASALT).save(output);
-        geoSynthesis().randomInput(BLACKSTONE, 1, 0f).randomFluidInput(Fluids.WATER, 1000, 0f).randomFluidInput(Fluids.LAVA, 1000, 0f).output(BLACKSTONE).save(output);
-        geoSynthesis().randomInput(OBSIDIAN, 1, 0f).randomFluidInput(Fluids.WATER, 1000, 0f).fluidInput(Fluids.LAVA, 1000).time(120).output(OBSIDIAN).save(output);
+        geoSynthesis().randomInput(COBBLESTONE, 1, 0f).randomFluidInput(Fluids.WATER, 1000, 0f).randomFluidInput(Fluids.LAVA, 1000, 0f).output(ItemResult.of(COBBLESTONE)).save(output);
+        geoSynthesis().randomInput(STONE, 1, 0f).randomFluidInput(Fluids.WATER, 1000, 0f).randomFluidInput(Fluids.LAVA, 1000, 0f).output(ItemResult.of(STONE)).save(output);
+        geoSynthesis().randomInput(COBBLED_DEEPSLATE, 1, 0f).randomFluidInput(Fluids.WATER, 1000, 0f).randomFluidInput(Fluids.LAVA, 1000, 0f).output(ItemResult.of(COBBLED_DEEPSLATE)).save(output);
+        geoSynthesis().randomInput(DEEPSLATE, 1, 0f).randomFluidInput(Fluids.WATER, 1000, 0f).randomFluidInput(Fluids.LAVA, 1000, 0f).output(ItemResult.of(DEEPSLATE)).save(output);
+        geoSynthesis().randomInput(GRANITE, 1, 0f).randomFluidInput(Fluids.WATER, 1000, 0f).randomFluidInput(Fluids.LAVA, 1000, 0f).output(ItemResult.of(GRANITE)).save(output);
+        geoSynthesis().randomInput(DIORITE, 1, 0f).randomFluidInput(Fluids.WATER, 1000, 0f).randomFluidInput(Fluids.LAVA, 1000, 0f).output(ItemResult.of(DIORITE)).save(output);
+        geoSynthesis().randomInput(ANDESITE, 1, 0f).randomFluidInput(Fluids.WATER, 1000, 0f).randomFluidInput(Fluids.LAVA, 1000, 0f).output(ItemResult.of(ANDESITE)).save(output);
+        geoSynthesis().randomInput(DRIPSTONE_BLOCK, 1, 0f).randomFluidInput(VIRIDIC_ACID, 1000, 0f).randomFluidInput(Fluids.WATER, 1000, 0f).output(ItemResult.of(DRIPSTONE_BLOCK)).save(output);
+        geoSynthesis().randomInput(BASALT, 1, 0f).randomFluidInput(Fluids.WATER, 1000, 0f).randomFluidInput(Fluids.LAVA, 1000, 0f).output(ItemResult.of(BASALT)).save(output);
+        geoSynthesis().randomInput(BLACKSTONE, 1, 0f).randomFluidInput(Fluids.WATER, 1000, 0f).randomFluidInput(Fluids.LAVA, 1000, 0f).output(ItemResult.of(BLACKSTONE)).save(output);
+        geoSynthesis().randomInput(OBSIDIAN, 1, 0f).randomFluidInput(Fluids.WATER, 1000, 0f).fluidInput(Fluids.LAVA, 1000).time(120).output(ItemResult.of(OBSIDIAN)).save(output);
     }
 
     private void gardenSimRecipes()
@@ -1172,63 +1176,63 @@ class RecipesGen extends LimaRecipeProvider
 
     private LTXIBuilder<GrindingRecipe> grinding()
     {
-        return new LTXIBuilder<>(resources);
+        return new LTXIBuilder<>(resources, GrindingRecipe::new);
     }
 
-    private void orePebbleGrinding(ItemLike orePebble, TagKey<Item> oreTag, @Nullable TagKey<Item> rawOreTag, String name, RecipeOutput output, boolean optional)
+    private void orePebbleGrinding(Holder<Item> orePebble, TagKey<Item> oreTag, @Nullable TagKey<Item> rawOreTag, String name, RecipeOutput output, boolean optional)
     {
         // Ore block recipe
-        LTXIBuilder<?> oreRecipe = grinding().input(items, oreTag).output(orePebble, 3);
+        LTXIBuilder<?> oreRecipe = grinding().input(items, oreTag).output(ItemResult.of(orePebble, 3));
         if (optional) oreRecipe.condition(new NotCondition(new TagEmptyCondition<>(oreTag)));
         oreRecipe.save(output, "grind_" + name + "_ores");
 
         // Raw material recipe
         if (rawOreTag != null)
         {
-            LTXIBuilder<?> rawMatRecipe = grinding().input(items, rawOreTag).output(orePebble, 2);
+            LTXIBuilder<?> rawMatRecipe = grinding().input(items, rawOreTag).output(ItemResult.of(orePebble, 2));
             if (optional) rawMatRecipe.condition(new NotCondition(new TagEmptyCondition<>(rawOreTag)));
             rawMatRecipe.save(output, "grind_raw_" + name + "_materials");
         }
     }
 
-    private void orePebbleGrinding(ItemLike orePebble, TagKey<Item> oreTag, @Nullable TagKey<Item> rawOreTag, String name, RecipeOutput output)
+    private void orePebbleGrinding(Holder<Item> orePebble, TagKey<Item> oreTag, @Nullable TagKey<Item> rawOreTag, String name, RecipeOutput output)
     {
         orePebbleGrinding(orePebble, oreTag, rawOreTag, name, output, false);
     }
 
     private LTXIBuilder<MaterialFusingRecipe> fusing()
     {
-        return new LTXIBuilder<>(resources);
+        return new LTXIBuilder<>(resources, MaterialFusingRecipe::new);
     }
 
     private LTXIBuilder<ElectroCentrifugingRecipe> electroCentrifuging()
     {
-        return new LTXIBuilder<>(resources);
+        return new LTXIBuilder<>(resources, ElectroCentrifugingRecipe::new);
     }
 
     private LTXIBuilder<MixingRecipe> mixing()
     {
-        return new LTXIBuilder<>(resources);
+        return new LTXIBuilder<>(resources, MixingRecipe::new);
     }
 
     private LTXIBuilder<EnergizingRecipe> energizing()
     {
-        return new LTXIBuilder<>(resources);
+        return new LTXIBuilder<>(resources, EnergizingRecipe::new);
     }
 
     private LTXIBuilder<ChemicalReactingRecipe> chemLab()
     {
-        return new LTXIBuilder<>(resources);
+        return new LTXIBuilder<>(resources, ChemicalReactingRecipe::new);
     }
 
     private LTXIBuilder<AssemblingRecipe> assembling()
     {
-        return new LTXIBuilder<>(resources);
+        return new LTXIBuilder<>(resources, 400, AssemblingRecipe::new);
     }
 
     private LTXIBuilder<GeoSynthesisRecipe> geoSynthesis()
     {
-        return new LTXIBuilder<>(resources);
+        return new LTXIBuilder<>(resources, 60, GeoSynthesisRecipe::new);
     }
 
     private GardenBuilder garden()
@@ -1261,45 +1265,46 @@ class RecipesGen extends LimaRecipeProvider
     }
 
     @SuppressWarnings("unchecked")
-    private ItemStackTemplate moduleStack(HolderLookup.Provider registries, ResourceKey<? extends UpgradeBase<?, ?>> upgradeKey, int upgradeRank)
+    private ItemStackTemplate moduleTemplate(HolderLookup.Provider registries, ResourceKey<? extends UpgradeBase<?, ?>> upgradeKey, int upgradeRank)
     {
-        ItemStack result = null;
+        ItemStackTemplate template = null;
 
         if (upgradeKey.registry().equals(LTXIRegistries.Keys.EQUIPMENT_UPGRADES.identifier()))
         {
-            result = EQUIPMENT_UPGRADE_MODULE.toStack();
-            result.set(LTXIDataComponents.EQUIPMENT_UPGRADE_ENTRY, new EquipmentUpgradeEntry((Holder<EquipmentUpgrade>) registries.holderOrThrow(upgradeKey), upgradeRank));
+            DataComponentPatch components = DataComponentPatch.builder().set(LTXIDataComponents.EQUIPMENT_UPGRADE_ENTRY.get(), new EquipmentUpgradeEntry((Holder<EquipmentUpgrade>) registries.holderOrThrow(upgradeKey), upgradeRank))
+                    .build();
+            template = new ItemStackTemplate(EQUIPMENT_UPGRADE_MODULE, components);
         }
         else if (upgradeKey.registry().equals(LTXIRegistries.Keys.MACHINE_UPGRADES.identifier()))
         {
-            result = MACHINE_UPGRADE_MODULE.toStack();
-            result.set(LTXIDataComponents.MACHINE_UPGRADE_ENTRY, new MachineUpgradeEntry((Holder<MachineUpgrade>) registries.holderOrThrow(upgradeKey), upgradeRank));
+            DataComponentPatch components = DataComponentPatch.builder().set(LTXIDataComponents.MACHINE_UPGRADE_ENTRY.get(), new MachineUpgradeEntry((Holder<MachineUpgrade>) registries.holderOrThrow(upgradeKey), upgradeRank))
+                    .build();
+            template = new ItemStackTemplate(MACHINE_UPGRADE_MODULE, components);
         }
 
-        return ItemStackTemplate.fromNonEmptyStack(Objects.requireNonNull(result));
+        return Objects.requireNonNull(template);
     }
 
     private void upgradeShaped(RecipeOutput output, HolderLookup.Provider registries, ResourceKey<? extends UpgradeBase<?, ?>> upgradeKey, int upgradeRank, UnaryOperator<LimaShapedRecipeBuilder> op)
     {
         Ingredient module = upgradeRank == 1 ? Ingredient.of(EMPTY_UPGRADE_MODULE) : moduleIngredient(registries, upgradeKey, upgradeRank - 1);
-        LimaShapedRecipeBuilder builder = shaped(moduleStack(registries, upgradeKey, upgradeRank)).input('m', module);
+        LimaShapedRecipeBuilder builder = shaped(moduleTemplate(registries, upgradeKey, upgradeRank)).input('m', module);
         op.apply(builder).save(output, upgradeKey.identifier().getPath() + "_" + upgradeRank);
     }
 
     private void upgradeFabricating(RecipeOutput output, HolderLookup.Provider registries, String group, ResourceKey<? extends UpgradeBase<?, ?>> upgradeKey, int upgradeRank, int energyRequired, boolean addBaseModuleInput, UnaryOperator<FabricatingBuilder> op)
     {
-        /*
-        FabricatingBuilder builder = fabricating(energyRequired).group(group).output(moduleStack(registries, upgradeKey, upgradeRank));
+        ItemStackTemplate stackTemplate = moduleTemplate(registries, upgradeKey, upgradeRank);
+        FabricatingBuilder builder = fabricating(energyRequired).group(group).output(ItemResult.fromVanilla(stackTemplate));
 
         if (addBaseModuleInput)
         {
-            Ingredient moduleIngredient = upgradeRank == 1 ? Ingredient.of(EMPTY_UPGRADE_MODULE) : moduleIngredient(registries, upgradeKey, upgradeRank - 1);
-            builder.input(moduleIngredient);
+            Ingredient moduleInput = upgradeRank == 1 ? Ingredient.of(EMPTY_UPGRADE_MODULE) : moduleIngredient(registries, upgradeKey, upgradeRank - 1);
+            builder.input(moduleInput);
         }
 
         String name = upgradeKey.registry().getPath() + "s/" + upgradeKey.identifier().getPath() + "_" + upgradeRank;
         op.apply(builder).save(output, name);
-        */
     }
 
     private void upgradeFabricating(RecipeOutput output, HolderLookup.Provider registries, String group, ResourceKey<? extends UpgradeBase<?, ?>> upgradeKey, int upgradeRank, int energyRequired, UnaryOperator<FabricatingBuilder> op)
@@ -1315,13 +1320,24 @@ class RecipesGen extends LimaRecipeProvider
 
     private void equipmentFabricating(RecipeOutput output, HolderLookup.Provider registries, Supplier<? extends UpgradableEquipmentItem> itemSupplier, String group, int energyRequired, UnaryOperator<FabricatingBuilder> op)
     {
-        //FabricatingBuilder builder = fabricating(energyRequired).group(group).output(defaultUpgradableItem(itemSupplier, registries));
-        //op.apply(builder).save(output);
+        ItemStackTemplate stackTemplate = defaultUpgradableItem(itemSupplier, registries);
+        FabricatingBuilder builder = fabricating(energyRequired).group(group).output(ItemResult.fromVanilla(stackTemplate));
+        op.apply(builder).save(output);
     }
 
     private ItemStackTemplate defaultUpgradableItem(Supplier<? extends UpgradableEquipmentItem> itemSupplier, HolderLookup.Provider registries)
     {
-        return ItemStackTemplate.fromNonEmptyStack(itemSupplier.get().createStackWithDefaultUpgrades(registries));
+        UpgradableEquipmentItem item = itemSupplier.get();
+        ResourceKey<EquipmentUpgrade> defaultKey = item.getDefaultUpgradeKey();
+        DataComponentPatch components = DataComponentPatch.EMPTY;
+
+        if (defaultKey != null)
+        {
+            Holder<EquipmentUpgrade> upgrade = registries.holderOrThrow(defaultKey);
+            components = DataComponentPatch.builder().set(LTXIDataComponents.EQUIPMENT_UPGRADES.get(), EquipmentUpgrades.builder().set(upgrade).toImmutable()).build();
+        }
+
+        return new ItemStackTemplate(item.asItem(), components);
     }
 
     private Ingredient neonLightDye(NeonLightColor color)
@@ -1352,24 +1368,34 @@ class RecipesGen extends LimaRecipeProvider
         @Override
         protected FabricatingRecipe buildRecipe()
         {
-            Preconditions.checkState(fluidIngredients.isEmpty(), "Fabricating recipes do not support fluid inputs.");
+            Preconditions.checkState(fluidInputs.isEmpty(), "Fabricating recipes do not support fluid inputs.");
             Preconditions.checkState(fluidResults.isEmpty(), "Fabricating recipes do not support fluid outputs.");
             Preconditions.checkState(itemResults.size() == 1, "Fabricating recipe must have only 1 output");
             ItemResult result = itemResults.getFirst();
 
-            return new FabricatingRecipe(itemIngredients, result, energyRequired, getGroupOrBlank());
+            return new FabricatingRecipe(itemInputs, result, energyRequired, getGroupOrBlank());
         }
     }
 
     private static class LTXIBuilder<R extends LTXIRecipe> extends LimaCustomRecipeBuilder<R, LTXIBuilder<R>>
     {
-        private int craftTime;
+        private final int defaultTime;
+        private final LTXIRecipeSupplier<R> factory;
+
+        private int craftTime = -1;
         @Nullable
         private Holder<RecipeMode> mode;
 
-        LTXIBuilder(ModResources resources)
+        LTXIBuilder(ModResources resources, int defaultTime, LTXIRecipeSupplier<R> factory)
         {
             super(resources);
+            this.defaultTime = defaultTime;
+            this.factory = factory;
+        }
+
+        LTXIBuilder(ModResources resources, LTXIRecipeSupplier<R> factory)
+        {
+            this(resources, LTXIRecipe.DEFAULT_CRAFTING_TIME, factory);
         }
 
         LTXIBuilder<R> time(int craftTime)
@@ -1392,8 +1418,8 @@ class RecipesGen extends LimaRecipeProvider
         @Override
         protected R buildRecipe()
         {
-            return null;
-            //return serializer.factory().create(itemIngredients, fluidIngredients, itemResults, fluidResults, craftTime, mode);
+            int time = craftTime > 0 ? craftTime : defaultTime;
+            return factory.apply(itemInputs, fluidInputs, itemResults, fluidResults, time, Optional.ofNullable(mode));
         }
     }
 
@@ -1401,7 +1427,7 @@ class RecipesGen extends LimaRecipeProvider
     {
         GardenBuilder(ModResources modResources)
         {
-            super(modResources);
+            super(modResources, 600, GardenSimulatingRecipe::new);
         }
 
         @Override
@@ -1424,7 +1450,7 @@ class RecipesGen extends LimaRecipeProvider
 
         GardenBuilder reproduce(ItemLike cropItem, int outputCount)
         {
-            randomInput(cropItem, 1, 0).output(cropItem, outputCount);
+            randomInput(cropItem, 1, 0).output(ItemResult.of(LimaRegistryUtil.builtInHolder(cropItem.asItem()), outputCount));
             return this;
         }
 
@@ -1435,13 +1461,13 @@ class RecipesGen extends LimaRecipeProvider
 
         GardenBuilder growSeed(ItemLike seeds, ItemLike produce, int outputCount)
         {
-            randomInput(seeds, 1, 0).output(produce, outputCount);
+            randomInput(seeds, 1, 0).output(ItemResult.of(LimaRegistryUtil.builtInHolder(produce.asItem()), outputCount));
             return this;
         }
 
         GardenBuilder growSeed(HolderGetter<Item> holders, TagKey<Item> seedTag, ItemLike produce, int outputCount)
         {
-            randomInput(holders, seedTag, 1, 0).output(produce, outputCount);
+            randomInput(holders, seedTag, 1, 0).output(ItemResult.of(LimaRegistryUtil.builtInHolder(produce.asItem()), outputCount));
             return this;
         }
     }

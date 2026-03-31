@@ -4,14 +4,12 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import liedge.ltxindustries.blockentity.turret.TurretBlockEntity;
 import liedge.ltxindustries.blockentity.turret.TurretState;
-import liedge.ltxindustries.client.model.LayeredModelPart;
-import net.minecraft.client.Minecraft;
+import liedge.ltxindustries.client.model.StandaloneQuads;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
-import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.client.model.standalone.StandaloneModelKey;
@@ -19,15 +17,13 @@ import org.jspecify.annotations.Nullable;
 
 public abstract class TurretRenderer<BE extends TurretBlockEntity> implements BlockEntityRenderer<BE, TurretRenderState>
 {
-    private final LayeredModelPart swivelModel;
-    private final LayeredModelPart weaponsModel;
+    private final StandaloneQuads swivelModel;
+    private final StandaloneQuads weaponsModel;
 
-    TurretRenderer(BlockEntityRendererProvider.Context context, StandaloneModelKey<LayeredModelPart> swivelKey, StandaloneModelKey<LayeredModelPart> weaponsKey)
+    TurretRenderer(BlockEntityRendererProvider.Context context, StandaloneModelKey<StandaloneQuads> swivelKey, StandaloneModelKey<StandaloneQuads> weaponsKey)
     {
-        ModelManager models = Minecraft.getInstance().getModelManager();
-
-        this.swivelModel = LayeredModelPart.get(models, swivelKey);
-        this.weaponsModel = LayeredModelPart.get(models, weaponsKey);
+        this.swivelModel = StandaloneQuads.get(swivelKey);
+        this.weaponsModel = StandaloneQuads.get(weaponsKey);
     }
 
     protected void submitSwivel(TurretRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState)
@@ -71,7 +67,7 @@ public abstract class TurretRenderer<BE extends TurretBlockEntity> implements Bl
         submitSwivel(renderState, poseStack, nodeCollector, cameraRenderState);
 
         poseStack.translate(0.5f, yPivot(), 0.5f);
-        poseStack.mulPose(Axis.XP.rotationDegrees(createRenderState().xRot));
+        poseStack.mulPose(Axis.XP.rotationDegrees(renderState.xRot));
         poseStack.translate(-0.5f, -yPivot(), -0.5f);
 
         submitWeapons(renderState, poseStack, nodeCollector, cameraRenderState);

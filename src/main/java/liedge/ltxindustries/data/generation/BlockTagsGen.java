@@ -59,7 +59,7 @@ class BlockTagsGen extends LimaTagsProvider.RegistryTags<Block>
                 SMOOTH_TITANIUM_PANEL,
                 TILED_TITANIUM_PANEL,
                 TITANIUM_GLASS,
-                        GLACIA_GLASS,
+                GLACIA_GLASS,
                 SLATESTEEL_PANEL,
                 SMOOTH_SLATESTEEL_PANEL,
                 TILED_SLATESTEEL_PANEL)

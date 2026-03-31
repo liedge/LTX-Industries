@@ -27,7 +27,7 @@ public class ShellGrenadeModel extends ProjectileModel
 	public void submitParts(ProjectileRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, Identifier texture)
 	{
 		nodeCollector.submitModelPart(body, poseStack, renderType.apply(texture), renderState.lightCoords, OverlayTexture.NO_OVERLAY, null);
-		nodeCollector.submitModelPart(lights, poseStack, LimaCoreRenderTypes.entityCutoutUnlit(texture), renderState.lightCoords, OverlayTexture.NO_OVERLAY, null, renderState.color.argb32(), null);
+		nodeCollector.submitModelPart(lights, poseStack, LimaCoreRenderTypes.entityCutoutEmissive(texture), renderState.lightCoords, OverlayTexture.NO_OVERLAY, null, renderState.color.argb32(), null);
 	}
 
 	public static LayerDefinition defineLayer()

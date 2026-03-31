@@ -5,21 +5,21 @@ import com.mojang.math.Axis;
 import liedge.ltxindustries.blockentity.GrinderBlockEntity;
 import liedge.ltxindustries.client.LTXIRenderer;
 import liedge.ltxindustries.client.model.LTXIModelPartKeys;
-import liedge.ltxindustries.client.model.LayeredModelPart;
+import liedge.ltxindustries.client.model.StandaloneQuads;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 
 public class GrinderRenderer extends MachineRenderer<GrinderBlockEntity>
 {
-    private final LayeredModelPart frontCrusher;
-    private final LayeredModelPart rearCrusher;
+    private final StandaloneQuads frontCrusher;
+    private final StandaloneQuads rearCrusher;
 
     public GrinderRenderer(BlockEntityRendererProvider.Context context)
     {
         super(context);
-        this.frontCrusher = LayeredModelPart.get(modelManager, LTXIModelPartKeys.GRINDER_FRONT_CRUSHER);
-        this.rearCrusher = LayeredModelPart.get(modelManager, LTXIModelPartKeys.GRINDER_REAR_CRUSHER);
+        this.frontCrusher = StandaloneQuads.get(LTXIModelPartKeys.GRINDER_FRONT_CRUSHER);
+        this.rearCrusher = StandaloneQuads.get(LTXIModelPartKeys.GRINDER_REAR_CRUSHER);
     }
 
     @Override

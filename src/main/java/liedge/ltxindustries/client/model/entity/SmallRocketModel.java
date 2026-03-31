@@ -28,7 +28,7 @@ public class SmallRocketModel extends ProjectileModel
     public void submitParts(ProjectileRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, Identifier texture)
     {
         nodeCollector.submitModelPart(body, poseStack, renderType(texture), renderState.lightCoords, OverlayTexture.NO_OVERLAY, null);
-        nodeCollector.submitModelPart(lights, poseStack, LimaCoreRenderTypes.entityCutoutUnlit(texture), LightCoordsUtil.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, null);
+        nodeCollector.submitModelPart(lights, poseStack, LimaCoreRenderTypes.entityCutoutEmissive(texture), LightCoordsUtil.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, null);
     }
 
     public static LayerDefinition defineLayer()

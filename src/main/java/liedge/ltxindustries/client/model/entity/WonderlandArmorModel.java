@@ -122,7 +122,7 @@ public class WonderlandArmorModel extends HumanoidModel<AvatarRenderState>
 
 	private RenderType cutoutUnlit(Identifier texture)
 	{
-		return LimaCoreRenderTypes.entityCutoutUnlit(texture);
+		return LimaCoreRenderTypes.entityCutoutEmissive(texture);
 	}
 
 	public static LayerDefinition createArmorLayer()

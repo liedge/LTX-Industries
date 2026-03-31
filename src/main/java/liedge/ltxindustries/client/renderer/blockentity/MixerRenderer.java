@@ -4,19 +4,19 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import liedge.ltxindustries.blockentity.MixerBlockEntity;
 import liedge.ltxindustries.client.model.LTXIModelPartKeys;
-import liedge.ltxindustries.client.model.LayeredModelPart;
+import liedge.ltxindustries.client.model.StandaloneQuads;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 
 public class MixerRenderer extends MachineRenderer<MixerBlockEntity>
 {
-    private final LayeredModelPart blades;
+    private final StandaloneQuads blades;
 
     public MixerRenderer(BlockEntityRendererProvider.Context context)
     {
         super(context);
-        this.blades = LayeredModelPart.get(modelManager, LTXIModelPartKeys.MIXER_BLADES);
+        this.blades = StandaloneQuads.get(LTXIModelPartKeys.MIXER_BLADES);
     }
 
     @Override

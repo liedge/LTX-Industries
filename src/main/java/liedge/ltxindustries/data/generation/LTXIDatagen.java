@@ -60,7 +60,7 @@ final class LTXIDatagen
         event.addProvider(new MobEffectTagsGen(output, registries));
         event.addProvider(new ModelsGen(output, LTXIndustries.RESOURCES));
         event.addProvider(new ParticlesGen(output));
-        //event.addProvider(new RecipesGen.Runner(output, registries));
+        event.addProvider(new RecipesGen.Runner(output, registries));
         event.addProvider(new SoundsGen(output));
         event.addProvider(new SpriteSourcesGen(output, registries));
     }

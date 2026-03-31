@@ -38,12 +38,11 @@ class SpriteSourcesGen extends SpriteSourceProvider
                 .addSource(singleSprite("gui/light_panel", "slot/empty"));
         atlas(AtlasIds.BLOCKS)
                 .addSource(singleSprite("core/solid_lime", "block/solid_lime"))
-                .addSource(singleSprite("core/glass", "block/glass"))
                 .addSource(singleSprite("core/lime_fluid", "block/lime_fluid"))
                 .addSource(singleSprite("core/flowing_lime_fluid", "block/flowing_lime_fluid"));
         atlas(AtlasIds.ITEMS)
                 .addSource(singleSprite("core/solid_lime", "item/solid_lime"))
-                .addSource(singleSprite("core/glass", "item/glass"));
+                .addSource(singleSprite("block/glacia_glass", "item/glacia_glass"));
     }
 
     private SpriteSource nsDirSource(String path)

@@ -15,10 +15,11 @@ import liedge.ltxindustries.client.item.BlueprintClientItem;
 import liedge.ltxindustries.client.item.MiningToolClientItem;
 import liedge.ltxindustries.client.item.UpgradeModuleClientItem;
 import liedge.ltxindustries.client.item.WeaponClientItem;
-import liedge.ltxindustries.client.model.UnlitCuboidModel;
+import liedge.ltxindustries.client.model.LTXIModelPartKeys;
 import liedge.ltxindustries.client.model.custom.BubbleShieldModel;
 import liedge.ltxindustries.client.model.entity.*;
 import liedge.ltxindustries.client.particle.*;
+import liedge.ltxindustries.client.renderer.blockentity.*;
 import liedge.ltxindustries.client.renderer.entity.GlowstickProjectileRenderer;
 import liedge.ltxindustries.client.renderer.entity.RocketRenderer;
 import liedge.ltxindustries.client.renderer.entity.ShellGrenadeRenderer;
@@ -64,9 +65,9 @@ public class LTXIndustriesClient
     private static class ClientSetup
     {
         @SubscribeEvent
-        private void registerModelLoaders(final ModelEvent.RegisterLoaders event)
+        private void registerStandaloneModels(final ModelEvent.RegisterStandalone event)
         {
-            event.register(UnlitCuboidModel.LOADER_ID, new UnlitCuboidModel.Loader());
+            LTXIModelPartKeys.register(event);
         }
 
         @SubscribeEvent
@@ -177,19 +178,19 @@ public class LTXIndustriesClient
             event.registerEntityRenderer(LTXIEntities.FLAME_FIELD.get(), NoopRenderer::new);
 
             // Block entities
-            //event.registerBlockEntityRenderer(LTXIBlockEntities.ENERGY_CELL_ARRAY.get(), EnergyCellArrayRenderer::new);
-            //event.registerBlockEntityRenderer(LTXIBlockEntities.INFINITE_ENERGY_CELL_ARRAY.get(), EnergyCellArrayRenderer::new);
-            //event.registerBlockEntityRenderer(LTXIBlockEntities.GRINDER.get(), GrinderRenderer::new);
-            //event.registerBlockEntityRenderer(LTXIBlockEntities.ELECTROCENTRIFUGE.get(), ElectroCentrifugeRenderer::new);
-            //event.registerBlockEntityRenderer(LTXIBlockEntities.MIXER.get(), MixerRenderer::new);
-            //event.registerBlockEntityRenderer(LTXIBlockEntities.VOLTAIC_INJECTOR.get(), VoltaicInjectorRenderer::new);
-            //event.registerBlockEntityRenderer(LTXIBlockEntities.FABRICATOR.get(), ctx -> new BaseFabricatorRenderer(ctx, -0.1875d, 1.0625d));
-            //event.registerBlockEntityRenderer(LTXIBlockEntities.AUTO_FABRICATOR.get(), ctx -> new BaseFabricatorRenderer(ctx, 0, 0.375d));
-            //event.registerBlockEntityRenderer(LTXIBlockEntities.EQUIPMENT_UPGRADE_STATION.get(), EquipmentUpgradeStationRenderer::new);
-            //event.registerBlockEntityRenderer(LTXIBlockEntities.DIGITAL_GARDEN.get(), DigitalGardenRenderer::new);
-            //event.registerBlockEntityRenderer(LTXIBlockEntities.ARC_TURRET.get(), ArcTurretRenderer::new);
-            //event.registerBlockEntityRenderer(LTXIBlockEntities.ROCKET_TURRET.get(), RocketTurretRenderer::new);
-            //event.registerBlockEntityRenderer(LTXIBlockEntities.RAILGUN_TURRET.get(), RailgunTurretRenderer::new);
+            event.registerBlockEntityRenderer(LTXIBlockEntities.ENERGY_CELL_ARRAY.get(), EnergyCellArrayRenderer::new);
+            event.registerBlockEntityRenderer(LTXIBlockEntities.INFINITE_ENERGY_CELL_ARRAY.get(), EnergyCellArrayRenderer::new);
+            event.registerBlockEntityRenderer(LTXIBlockEntities.GRINDER.get(), GrinderRenderer::new);
+            event.registerBlockEntityRenderer(LTXIBlockEntities.ELECTROCENTRIFUGE.get(), ElectroCentrifugeRenderer::new);
+            event.registerBlockEntityRenderer(LTXIBlockEntities.MIXER.get(), MixerRenderer::new);
+            event.registerBlockEntityRenderer(LTXIBlockEntities.VOLTAIC_INJECTOR.get(), VoltaicInjectorRenderer::new);
+            event.registerBlockEntityRenderer(LTXIBlockEntities.FABRICATOR.get(), ctx -> new BaseFabricatorRenderer(ctx, -0.1875d, 1.0625d));
+            event.registerBlockEntityRenderer(LTXIBlockEntities.AUTO_FABRICATOR.get(), ctx -> new BaseFabricatorRenderer(ctx, 0, 0.375d));
+            event.registerBlockEntityRenderer(LTXIBlockEntities.UPGRADE_STATION.get(), UpgradeStationRenderer::new);
+            event.registerBlockEntityRenderer(LTXIBlockEntities.DIGITAL_GARDEN.get(), DigitalGardenRenderer::new);
+            event.registerBlockEntityRenderer(LTXIBlockEntities.ARC_TURRET.get(), ArcTurretRenderer::new);
+            event.registerBlockEntityRenderer(LTXIBlockEntities.ROCKET_TURRET.get(), RocketTurretRenderer::new);
+            event.registerBlockEntityRenderer(LTXIBlockEntities.RAILGUN_TURRET.get(), RailgunTurretRenderer::new);
         }
 
         @SubscribeEvent
