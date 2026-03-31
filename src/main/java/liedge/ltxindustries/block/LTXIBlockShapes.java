@@ -154,20 +154,6 @@ public final class LTXIBlockShapes
             Block.box(4, 15, 4, 12, 17, 12),
             Block.box(5, 17, 5, 11, 25, 11));
 
-    public static final VoxelShape MOLECULAR_RECONSTRUCTOR = Shapes.or(
-            // Base
-            Block.box(0, 0, 0, 16, 8, 16),
-            // Platform
-            dimensionBox(2, 8, 2, 12, 2, 12),
-            // Pillars
-            dimensionBox(1, 8, 1, 3, 13, 3),
-            dimensionBox(12, 8, 1, 3, 13, 3),
-            dimensionBox(1, 8, 12, 3, 13, 3),
-            dimensionBox(12, 8, 12, 3, 13, 3),
-            // Top
-            dimensionBox(0.5d, 21, 0.5d, 15, 4, 15),
-            dimensionBox(2, 25, 2, 12, 2, 12));
-
     public static final VoxelShape DIGITAL_GARDEN = Shapes.or(
             // Base
             Block.box(0, 0, 0, 16, 10, 16),

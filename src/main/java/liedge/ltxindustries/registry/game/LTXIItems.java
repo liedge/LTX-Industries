@@ -95,7 +95,6 @@ public final class LTXIItems
     public static final DeferredItem<BlockItem> GEO_SYNTHESIZER = registerMachineBlockItem(LTXIBlocks.GEO_SYNTHESIZER);
     public static final DeferredItem<BlockItem> FABRICATOR = registerMachineBlockItem(LTXIBlocks.FABRICATOR);
     public static final DeferredItem<BlockItem> AUTO_FABRICATOR = registerMachineBlockItem(LTXIBlocks.AUTO_FABRICATOR);
-    public static final DeferredItem<BlockItem> MOLECULAR_RECONSTRUCTOR = registerMachineBlockItem(LTXIBlocks.MOLECULAR_RECONSTRUCTOR);
     public static final DeferredItem<BlockItem> DIGITAL_GARDEN = registerMachineBlockItem(LTXIBlocks.DIGITAL_GARDEN);
     public static final DeferredItem<BlockItem> ARC_TURRET = registerTurretBlockItem(LTXIBlocks.ARC_TURRET);
     public static final DeferredItem<BlockItem> ROCKET_TURRET = registerTurretBlockItem(LTXIBlocks.ROCKET_TURRET);

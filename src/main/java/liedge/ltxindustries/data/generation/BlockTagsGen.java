@@ -44,7 +44,6 @@ class BlockTagsGen extends LimaTagsProvider.RegistryTags<Block>
                 AUTO_FABRICATOR,
                 DIGITAL_GARDEN,
                 UPGRADE_STATION,
-                MOLECULAR_RECONSTRUCTOR,
                 ENERGY_CELL_ARRAY,
                 INFINITE_ENERGY_CELL_ARRAY,
                 ARC_TURRET,
