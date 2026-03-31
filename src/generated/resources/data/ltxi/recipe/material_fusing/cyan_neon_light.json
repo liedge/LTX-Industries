@@ -1,14 +1,13 @@
 {
   "type": "ltxi:material_fusing",
   "craft_time": 80,
-  "ingredients": [
+  "item_inputs": [
     {
       "count": 2,
-      "tag": "ltxi:neon_light_materials"
+      "ingredient": "#ltxi:neon_light_materials"
     },
     {
-      "count": 1,
-      "tag": "c:dyes/cyan"
+      "ingredient": "#c:dyes/cyan"
     }
   ],
   "item_results": [

@@ -1,7 +1,6 @@
 {
-  "parent": "ltxi:block/basic_machine_sew",
+  "parent": "ltxi:block/basic_machine_idle",
   "textures": {
-    "front": "ltxi:block/digital_blast_furnace_idle",
-    "top": "ltxi:block/basic_machine_mesh"
+    "front": "ltxi:block/digital_blast_furnace_idle"
   }
 }

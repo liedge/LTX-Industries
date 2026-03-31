@@ -1,9 +1,8 @@
 {
   "type": "ltxi:grinding",
-  "ingredients": [
+  "item_inputs": [
     {
-      "count": 1,
-      "item": "ltxi:vitriol_berries"
+      "ingredient": "ltxi:vitriol_berries"
     }
   ],
   "item_results": [

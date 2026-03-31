@@ -1,17 +1,16 @@
 {
   "type": "ltxi:garden_simulating",
   "craft_time": 300,
-  "fluid_ingredients": [
+  "fluid_inputs": [
     {
       "amount": 125,
-      "fluid": "minecraft:water"
+      "ingredient": "minecraft:water"
     }
   ],
-  "ingredients": [
+  "item_inputs": [
     {
       "consume_chance": 0.0,
-      "count": 1,
-      "item": "minecraft:lily_of_the_valley"
+      "ingredient": "minecraft:lily_of_the_valley"
     }
   ],
   "item_results": [

@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "a": {
-      "item": "minecraft:crafting_table"
-    },
-    "c": {
-      "item": "ltxi:t3_circuit"
-    },
-    "g": {
-      "item": "ltxi:slatesteel_gear"
-    },
-    "o": {
-      "item": "ltxi:optical_tech_part"
-    },
-    "t": {
-      "item": "ltxi:titanium_ingot"
-    }
+    "a": "minecraft:crafting_table",
+    "c": "ltxi:t3_circuit",
+    "g": "ltxi:slatesteel_gear",
+    "o": "ltxi:optical_tech_part",
+    "t": "ltxi:titanium_ingot"
   },
   "pattern": [
     "tot",
@@ -24,7 +14,6 @@
     "gtg"
   ],
   "result": {
-    "count": 1,
     "id": "ltxi:fabricator"
   }
 }

@@ -2,25 +2,26 @@
   "type": "ltxi:fabricating",
   "energy_required": 500000,
   "group": "eum/enchant",
-  "ingredients": [
+  "item_inputs": [
     {
-      "type": "neoforge:components",
-      "components": {
-        "ltxi:equipment_upgrade": {
-          "upgrade": "ltxi:enchantment/efficiency"
-        }
-      },
-      "count": 1,
-      "items": "ltxi:equipment_upgrade_module",
-      "strict": true
+      "ingredient": {
+        "neoforge:ingredient_type": "neoforge:components",
+        "components": {
+          "ltxi:equipment_upgrade": {
+            "upgrade": "ltxi:enchantment/efficiency"
+          }
+        },
+        "items": "ltxi:equipment_upgrade_module",
+        "strict": true
+      }
     },
     {
       "count": 4,
-      "item": "ltxi:t1_circuit"
+      "ingredient": "ltxi:t1_circuit"
     },
     {
       "count": 8,
-      "item": "minecraft:redstone"
+      "ingredient": "minecraft:redstone"
     }
   ],
   "result": {

@@ -2,30 +2,31 @@
   "type": "ltxi:fabricating",
   "energy_required": 200000,
   "group": "eum/enchant",
-  "ingredients": [
+  "item_inputs": [
     {
-      "type": "neoforge:components",
-      "components": {
-        "ltxi:equipment_upgrade": {
-          "rank": 3,
-          "upgrade": "ltxi:enchantment/razor"
-        }
-      },
-      "count": 1,
-      "items": "ltxi:equipment_upgrade_module",
-      "strict": true
+      "ingredient": {
+        "neoforge:ingredient_type": "neoforge:components",
+        "components": {
+          "ltxi:equipment_upgrade": {
+            "rank": 3,
+            "upgrade": "ltxi:enchantment/razor"
+          }
+        },
+        "items": "ltxi:equipment_upgrade_module",
+        "strict": true
+      }
     },
     {
       "count": 4,
-      "item": "ltxi:t3_circuit"
+      "ingredient": "ltxi:t3_circuit"
     },
     {
       "count": 6,
-      "item": "minecraft:wither_skeleton_skull"
+      "ingredient": "minecraft:wither_skeleton_skull"
     },
     {
       "count": 6,
-      "item": "minecraft:piglin_head"
+      "ingredient": "minecraft:piglin_head"
     }
   ],
   "result": {

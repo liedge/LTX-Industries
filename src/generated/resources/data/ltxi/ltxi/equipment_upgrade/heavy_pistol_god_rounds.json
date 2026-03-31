@@ -6,7 +6,10 @@
     "icon": {
       "type": "overlay",
       "background": {
-        "id": "ltxi:heavy_pistol"
+        "type": "item_stack",
+        "item": {
+          "id": "ltxi:heavy_pistol"
+        }
       },
       "height": 9,
       "overlay": "ltxi:plus_overlay",
@@ -31,7 +34,7 @@
             "type": "static",
             "tooltip": {
               "color": "dark_red",
-              "translate": "attribute.name.generic.max_health"
+              "translate": "attribute.name.max_health"
             }
           }
         ],
@@ -47,10 +50,10 @@
           "value": {
             "type": "number_wrapper",
             "value": {
-              "type": "limacore:math_ops",
+              "type": "limacore:math",
               "first": {
-                "type": "limacore:entity_attribute_value",
-                "attribute": "minecraft:generic.max_health",
+                "type": "limacore:entity_attribute",
+                "attribute": "minecraft:max_health",
                 "target": "this"
               },
               "op": "multiply",

@@ -1,17 +1,16 @@
 {
   "type": "ltxi:garden_simulating",
   "craft_time": 1200,
-  "fluid_ingredients": [
+  "fluid_inputs": [
     {
       "amount": 10000,
-      "fluid": "minecraft:water"
+      "ingredient": "minecraft:water"
     }
   ],
-  "ingredients": [
+  "item_inputs": [
     {
       "consume_chance": 0.0,
-      "count": 1,
-      "item": "ltxi:gloom_shroom"
+      "ingredient": "ltxi:gloom_shroom"
     }
   ],
   "item_results": [

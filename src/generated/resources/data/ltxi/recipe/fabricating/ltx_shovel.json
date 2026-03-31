@@ -2,26 +2,24 @@
   "type": "ltxi:fabricating",
   "energy_required": 1000000,
   "group": "ltx/tool",
-  "ingredients": [
+  "item_inputs": [
     {
-      "count": 1,
-      "item": "ltxi:t3_circuit"
+      "ingredient": "ltxi:t3_circuit"
     },
     {
       "count": 8,
-      "item": "ltxi:titanium_ingot"
+      "ingredient": "ltxi:titanium_ingot"
     },
     {
       "count": 2,
-      "item": "ltxi:polymer_ingot"
+      "ingredient": "ltxi:polymer_ingot"
     },
     {
-      "count": 1,
-      "item": "ltxi:slatesteel_gear"
+      "ingredient": "ltxi:slatesteel_gear"
     },
     {
       "count": 2,
-      "item": "ltxi:ltx_lime_pigment"
+      "ingredient": "ltxi:ltx_lime_pigment"
     }
   ],
   "result": {

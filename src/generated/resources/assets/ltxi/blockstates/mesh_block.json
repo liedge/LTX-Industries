@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "ltxi:block/machine_particles"
+      "model": "ltxi:block/template/machine"
     }
   }
 }

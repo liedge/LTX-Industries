@@ -1,15 +1,14 @@
 {
   "type": "ltxi:chemical_reacting",
-  "fluid_ingredients": [
+  "fluid_inputs": [
     {
       "amount": 125,
-      "tag": "c:oxygen"
+      "ingredient": "#c:oxygen"
     }
   ],
-  "ingredients": [
+  "item_inputs": [
     {
-      "count": 1,
-      "item": "ltxi:monomer_chemical"
+      "ingredient": "ltxi:monomer_chemical"
     }
   ],
   "item_results": [

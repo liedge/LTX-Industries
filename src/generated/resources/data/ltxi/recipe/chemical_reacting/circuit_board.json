@@ -1,19 +1,18 @@
 {
   "type": "ltxi:chemical_reacting",
-  "fluid_ingredients": [
+  "fluid_inputs": [
     {
       "amount": 125,
-      "fluid": "ltxi:viridic_acid"
+      "ingredient": "ltxi:viridic_acid"
     }
   ],
-  "ingredients": [
+  "item_inputs": [
     {
-      "count": 1,
-      "item": "ltxi:polymer_ingot"
+      "ingredient": "ltxi:polymer_ingot"
     },
     {
       "count": 2,
-      "item": "minecraft:copper_ingot"
+      "ingredient": "minecraft:copper_ingot"
     }
   ],
   "item_results": [

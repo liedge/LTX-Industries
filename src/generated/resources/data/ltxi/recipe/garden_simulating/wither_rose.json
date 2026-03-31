@@ -1,16 +1,15 @@
 {
   "type": "ltxi:garden_simulating",
-  "fluid_ingredients": [
+  "fluid_inputs": [
     {
       "amount": 500,
-      "fluid": "minecraft:water"
+      "ingredient": "minecraft:water"
     }
   ],
-  "ingredients": [
+  "item_inputs": [
     {
       "consume_chance": 0.0,
-      "count": 1,
-      "item": "minecraft:wither_rose"
+      "ingredient": "minecraft:wither_rose"
     }
   ],
   "item_results": [

@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "a": {
-      "item": "minecraft:blast_furnace"
-    },
-    "c": {
-      "item": "ltxi:t1_circuit"
-    },
-    "g": {
-      "item": "ltxi:titanium_gear"
-    },
-    "s": {
-      "item": "minecraft:obsidian"
-    },
-    "t": {
-      "item": "ltxi:titanium_ingot"
-    }
+    "a": "minecraft:blast_furnace",
+    "c": "ltxi:t1_circuit",
+    "g": "ltxi:titanium_gear",
+    "s": "minecraft:obsidian",
+    "t": "ltxi:titanium_ingot"
   },
   "pattern": [
     "tct",
@@ -24,7 +14,6 @@
     "gcg"
   ],
   "result": {
-    "count": 1,
     "id": "ltxi:material_fusing_chamber"
   }
 }

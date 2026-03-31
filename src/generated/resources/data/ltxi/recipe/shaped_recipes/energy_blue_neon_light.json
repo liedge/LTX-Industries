@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "d": {
-      "item": "ltxi:energy_blue_pigment"
-    },
-    "g": {
-      "item": "minecraft:glowstone"
-    }
+    "d": "ltxi:energy_blue_pigment",
+    "g": "minecraft:glowstone"
   },
   "pattern": [
     "dg",

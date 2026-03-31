@@ -2,17 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "c": {
-      "item": "ltxi:t2_circuit"
-    },
-    "g": {
-      "item": "ltxi:titanium_gear"
-    },
-    "l": {
-      "item": "minecraft:magma_block"
-    },
+    "c": "ltxi:t2_circuit",
+    "g": "ltxi:titanium_gear",
+    "l": "minecraft:magma_block",
     "m": {
-      "type": "neoforge:components",
+      "neoforge:ingredient_type": "neoforge:components",
       "components": {
         "ltxi:machine_upgrade": {
           "upgrade": "ltxi:geo_synthesizer_parallel"
@@ -21,9 +15,7 @@
       "items": "ltxi:machine_upgrade_module",
       "strict": true
     },
-    "w": {
-      "item": "minecraft:packed_ice"
-    }
+    "w": "minecraft:packed_ice"
   },
   "pattern": [
     "wgl",
@@ -37,7 +29,6 @@
         "upgrade": "ltxi:geo_synthesizer_parallel"
       }
     },
-    "count": 1,
     "id": "ltxi:machine_upgrade_module"
   }
 }

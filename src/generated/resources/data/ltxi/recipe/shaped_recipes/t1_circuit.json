@@ -2,18 +2,10 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "c": {
-      "item": "minecraft:stone_pressure_plate"
-    },
-    "m": {
-      "item": "minecraft:copper_ingot"
-    },
-    "r": {
-      "item": "minecraft:redstone"
-    },
-    "t": {
-      "item": "ltxi:titanium_ingot"
-    }
+    "c": "minecraft:stone_pressure_plate",
+    "m": "minecraft:copper_ingot",
+    "r": "minecraft:redstone",
+    "t": "ltxi:titanium_ingot"
   },
   "pattern": [
     "tmt",
@@ -21,7 +13,6 @@
     "rmr"
   ],
   "result": {
-    "count": 1,
     "id": "ltxi:t1_circuit"
   }
 }

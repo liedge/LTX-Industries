@@ -1,6 +1,6 @@
 {
-  "parent": "ltxi:block/neon_light_base",
+  "parent": "ltxi:block/neon_light",
   "textures": {
-    "all": "ltxi:block/neon_light/brown"
+    "all": "ltxi:block/brown_neon_light"
   }
 }

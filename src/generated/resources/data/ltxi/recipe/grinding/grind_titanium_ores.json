@@ -1,9 +1,8 @@
 {
   "type": "ltxi:grinding",
-  "ingredients": [
+  "item_inputs": [
     {
-      "count": 1,
-      "tag": "c:ores/titanium"
+      "ingredient": "#c:ores/titanium"
     }
   ],
   "item_results": [

@@ -2,26 +2,26 @@
   "type": "ltxi:fabricating",
   "energy_required": 7000000,
   "group": "ltx/armor.3",
-  "ingredients": [
+  "item_inputs": [
     {
       "count": 2,
-      "item": "ltxi:t3_circuit"
+      "ingredient": "ltxi:t3_circuit"
     },
     {
       "count": 21,
-      "item": "ltxi:titanium_ingot"
+      "ingredient": "ltxi:titanium_ingot"
     },
     {
       "count": 7,
-      "item": "ltxi:ltx_lime_pigment"
+      "ingredient": "ltxi:ltx_lime_pigment"
     },
     {
       "count": 14,
-      "item": "ltxi:slatesteel_ingot"
+      "ingredient": "ltxi:slatesteel_ingot"
     },
     {
       "count": 7,
-      "item": "ltxi:polymer_ingot"
+      "ingredient": "ltxi:polymer_ingot"
     }
   ],
   "result": {

@@ -2,26 +2,25 @@
   "type": "ltxi:fabricating",
   "energy_required": 250000,
   "group": "mum/eca",
-  "ingredients": [
+  "item_inputs": [
     {
-      "count": 1,
-      "item": "ltxi:empty_upgrade_module"
+      "ingredient": "ltxi:empty_upgrade_module"
     },
     {
       "count": 2,
-      "item": "ltxi:t1_circuit"
+      "ingredient": "ltxi:t1_circuit"
     },
     {
       "count": 4,
-      "item": "ltxi:titanium_ingot"
+      "ingredient": "ltxi:titanium_ingot"
     },
     {
       "count": 4,
-      "item": "ltxi:electric_chemical"
+      "ingredient": "ltxi:electric_chemical"
     },
     {
       "count": 4,
-      "item": "minecraft:copper_ingot"
+      "ingredient": "minecraft:copper_ingot"
     }
   ],
   "result": {

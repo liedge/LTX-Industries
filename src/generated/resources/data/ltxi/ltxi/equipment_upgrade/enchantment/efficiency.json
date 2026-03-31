@@ -7,7 +7,10 @@
     "icon": {
       "type": "overlay",
       "background": {
-        "id": "ltxi:ltx_drill"
+        "type": "item_stack",
+        "item": {
+          "id": "ltxi:ltx_drill"
+        }
       },
       "height": 9,
       "overlay": "ltxi:yellow_arrow_overlay",

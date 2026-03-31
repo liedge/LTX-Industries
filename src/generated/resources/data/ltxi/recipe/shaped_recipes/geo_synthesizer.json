@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "a": {
-      "item": "minecraft:cobblestone"
-    },
-    "c": {
-      "item": "ltxi:t1_circuit"
-    },
-    "g": {
-      "item": "ltxi:titanium_gear"
-    },
-    "s": {
-      "item": "minecraft:bucket"
-    },
-    "t": {
-      "item": "ltxi:titanium_ingot"
-    }
+    "a": "minecraft:cobblestone",
+    "c": "ltxi:t1_circuit",
+    "g": "ltxi:titanium_gear",
+    "s": "minecraft:bucket",
+    "t": "ltxi:titanium_ingot"
   },
   "pattern": [
     "tct",
@@ -24,7 +14,6 @@
     "gcg"
   ],
   "result": {
-    "count": 1,
     "id": "ltxi:geo_synthesizer"
   }
 }

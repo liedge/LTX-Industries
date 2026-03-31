@@ -2,24 +2,12 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "a": {
-      "item": "minecraft:crafter"
-    },
-    "c": {
-      "item": "ltxi:t3_circuit"
-    },
-    "g": {
-      "item": "ltxi:slatesteel_gear"
-    },
-    "o": {
-      "item": "ltxi:optical_tech_part"
-    },
-    "p": {
-      "item": "ltxi:polymer_ingot"
-    },
-    "s": {
-      "item": "ltxi:titanium_glass"
-    }
+    "a": "minecraft:crafter",
+    "c": "ltxi:t3_circuit",
+    "g": "ltxi:slatesteel_gear",
+    "o": "ltxi:optical_tech_part",
+    "p": "ltxi:polymer_ingot",
+    "s": "ltxi:titanium_glass"
   },
   "pattern": [
     "pop",
@@ -27,7 +15,6 @@
     "gcg"
   ],
   "result": {
-    "count": 1,
     "id": "ltxi:auto_fabricator"
   }
 }

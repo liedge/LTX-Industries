@@ -1,0 +1,6 @@
+{
+  "parent": "ltxi:block/geo_synthesizer",
+  "visibility": {
+    "emissive_active": false
+  }
+}

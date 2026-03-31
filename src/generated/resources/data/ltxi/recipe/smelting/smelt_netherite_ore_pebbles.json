@@ -3,11 +3,8 @@
   "category": "misc",
   "cookingtime": 200,
   "experience": 0.5,
-  "ingredient": {
-    "item": "ltxi:netherite_ore_pebbles"
-  },
+  "ingredient": "ltxi:netherite_ore_pebbles",
   "result": {
-    "count": 1,
     "id": "minecraft:netherite_scrap"
   }
 }

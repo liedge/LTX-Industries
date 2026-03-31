@@ -1,0 +1,14 @@
+{
+  "sources": [
+    {
+      "type": "minecraft:single",
+      "resource": "ltxi:core/solid_lime",
+      "sprite": "ltxi:item/solid_lime"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "ltxi:block/glacia_glass",
+      "sprite": "ltxi:item/glacia_glass"
+    }
+  ]
+}

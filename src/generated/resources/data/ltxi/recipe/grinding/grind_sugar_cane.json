@@ -1,9 +1,8 @@
 {
   "type": "ltxi:grinding",
-  "ingredients": [
+  "item_inputs": [
     {
-      "count": 1,
-      "tag": "c:crops/sugar_cane"
+      "ingredient": "#c:crops/sugar_cane"
     }
   ],
   "item_results": [

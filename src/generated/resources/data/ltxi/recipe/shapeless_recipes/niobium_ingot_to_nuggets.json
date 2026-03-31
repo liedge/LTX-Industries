@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "ltxi:niobium_ingot"
-    }
+    "ltxi:niobium_ingot"
   ],
   "result": {
     "count": 9,

@@ -2,26 +2,23 @@
   "type": "ltxi:fabricating",
   "energy_required": 500000,
   "group": "eum/enchant",
-  "ingredients": [
+  "item_inputs": [
     {
-      "count": 1,
-      "item": "ltxi:empty_upgrade_module"
+      "ingredient": "ltxi:empty_upgrade_module"
     },
     {
-      "count": 1,
-      "item": "ltxi:t3_circuit"
+      "ingredient": "ltxi:t3_circuit"
     },
     {
-      "count": 1,
-      "item": "minecraft:emerald"
+      "ingredient": "minecraft:emerald"
     },
     {
       "count": 8,
-      "item": "minecraft:slime_ball"
+      "ingredient": "minecraft:slime_ball"
     },
     {
       "count": 4,
-      "item": "ltxi:titanium_glass"
+      "ingredient": "ltxi:titanium_glass"
     }
   ],
   "result": {

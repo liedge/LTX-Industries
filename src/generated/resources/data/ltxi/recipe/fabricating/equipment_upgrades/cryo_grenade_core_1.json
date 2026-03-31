@@ -2,26 +2,24 @@
   "type": "ltxi:fabricating",
   "energy_required": 2500000,
   "group": "eum/weapon/gl",
-  "ingredients": [
+  "item_inputs": [
     {
-      "count": 1,
-      "item": "ltxi:empty_upgrade_module"
+      "ingredient": "ltxi:empty_upgrade_module"
     },
     {
-      "count": 1,
-      "item": "ltxi:impulse_tech_part"
+      "ingredient": "ltxi:impulse_tech_part"
     },
     {
       "count": 4,
-      "item": "ltxi:titanium_ingot"
+      "ingredient": "ltxi:titanium_ingot"
     },
     {
       "count": 8,
-      "item": "ltxi:titanium_glass"
+      "ingredient": "ltxi:titanium_glass"
     },
     {
       "count": 16,
-      "item": "minecraft:ice"
+      "ingredient": "minecraft:ice"
     }
   ],
   "result": {

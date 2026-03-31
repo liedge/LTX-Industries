@@ -2,30 +2,28 @@
   "type": "ltxi:fabricating",
   "energy_required": 5000000,
   "group": "eum/weapon/gl",
-  "ingredients": [
+  "item_inputs": [
     {
-      "count": 1,
-      "item": "ltxi:empty_upgrade_module"
+      "ingredient": "ltxi:empty_upgrade_module"
     },
     {
-      "count": 1,
-      "item": "ltxi:impulse_tech_part"
+      "ingredient": "ltxi:impulse_tech_part"
     },
     {
       "count": 16,
-      "item": "ltxi:titanium_glass"
+      "ingredient": "ltxi:titanium_glass"
     },
     {
       "count": 8,
-      "item": "ltxi:slatesteel_ingot"
+      "ingredient": "ltxi:slatesteel_ingot"
     },
     {
       "count": 12,
-      "item": "ltxi:polymer_ingot"
+      "ingredient": "ltxi:polymer_ingot"
     },
     {
       "count": 32,
-      "item": "ltxi:electric_chemical"
+      "ingredient": "ltxi:electric_chemical"
     }
   ],
   "result": {

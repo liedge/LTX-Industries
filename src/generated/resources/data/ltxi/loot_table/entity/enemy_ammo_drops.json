@@ -5,12 +5,10 @@
       "bonus_rolls": 0.0,
       "conditions": [
         {
-          "bounds": {
+          "condition": "limacore:entity_hostility",
+          "hostility": {
             "min": "neutral_enemy"
-          },
-          "condition": "limacore:hostility",
-          "first": "this",
-          "second": "attacker"
+          }
         },
         {
           "condition": "minecraft:random_chance_with_enchanted_bonus",
@@ -37,7 +35,7 @@
             "weight": 15
           },
           "dynamic_weight": {
-            "type": "limacore:entity_enchantment_value",
+            "type": "limacore:enchantment_level",
             "amount": {
               "type": "minecraft:linear",
               "base": 6.0,
@@ -57,7 +55,7 @@
             "weight": 5
           },
           "dynamic_weight": {
-            "type": "limacore:entity_enchantment_value",
+            "type": "limacore:enchantment_level",
             "amount": {
               "type": "minecraft:linear",
               "base": 3.0,
@@ -76,7 +74,7 @@
             "name": "ltxi:heavy_weapon_energy"
           },
           "dynamic_weight": {
-            "type": "limacore:entity_enchantment_value",
+            "type": "limacore:enchantment_level",
             "amount": {
               "type": "minecraft:linear",
               "base": 2.0,
@@ -92,7 +90,7 @@
       "rolls": {
         "type": "limacore:rounding",
         "child": {
-          "type": "limacore:entity_enchantment_value",
+          "type": "limacore:enchantment_level",
           "amount": {
             "type": "limacore:ranged_lookup",
             "values": [

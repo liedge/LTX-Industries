@@ -3,9 +3,7 @@
   "category": "misc",
   "cookingtime": 200,
   "experience": 0.5,
-  "ingredient": {
-    "item": "ltxi:redstone_ore_pebbles"
-  },
+  "ingredient": "ltxi:redstone_ore_pebbles",
   "result": {
     "count": 8,
     "id": "minecraft:redstone"

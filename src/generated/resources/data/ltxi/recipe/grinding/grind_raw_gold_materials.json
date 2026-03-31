@@ -1,9 +1,8 @@
 {
   "type": "ltxi:grinding",
-  "ingredients": [
+  "item_inputs": [
     {
-      "count": 1,
-      "tag": "c:raw_materials/gold"
+      "ingredient": "#c:raw_materials/gold"
     }
   ],
   "item_results": [

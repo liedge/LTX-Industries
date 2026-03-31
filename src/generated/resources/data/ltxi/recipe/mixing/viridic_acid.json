@@ -1,9 +1,9 @@
 {
   "type": "ltxi:mixing",
-  "fluid_ingredients": [
+  "fluid_inputs": [
     {
       "amount": 1000,
-      "fluid": "minecraft:water"
+      "ingredient": "minecraft:water"
     }
   ],
   "fluid_results": [
@@ -12,10 +12,10 @@
       "id": "ltxi:viridic_acid"
     }
   ],
-  "ingredients": [
+  "item_inputs": [
     {
       "count": 4,
-      "item": "ltxi:acidic_biomass"
+      "ingredient": "ltxi:acidic_biomass"
     }
   ]
 }

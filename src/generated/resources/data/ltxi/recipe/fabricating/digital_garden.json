@@ -2,30 +2,28 @@
   "type": "ltxi:fabricating",
   "energy_required": 1000000,
   "group": "machines",
-  "ingredients": [
+  "item_inputs": [
     {
-      "count": 1,
-      "item": "ltxi:t4_circuit"
+      "ingredient": "ltxi:t4_circuit"
     },
     {
       "count": 8,
-      "item": "ltxi:titanium_ingot"
+      "ingredient": "ltxi:titanium_ingot"
     },
     {
       "count": 8,
-      "item": "ltxi:polymer_ingot"
+      "ingredient": "ltxi:polymer_ingot"
     },
     {
       "count": 2,
-      "item": "ltxi:titanium_gear"
+      "ingredient": "ltxi:titanium_gear"
     },
     {
-      "count": 1,
-      "item": "ltxi:slatesteel_gear"
+      "ingredient": "ltxi:slatesteel_gear"
     },
     {
       "count": 16,
-      "item": "ltxi:titanium_glass"
+      "ingredient": "ltxi:titanium_glass"
     }
   ],
   "result": {

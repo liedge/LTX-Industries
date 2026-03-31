@@ -1,3 +1,5 @@
 {
-  "parent": "ltxi:block/fabricator"
+  "parent": "ltxi:block/fabricator",
+  "emission_target": 15,
+  "loader": "limacore:emissive_item"
 }

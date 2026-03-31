@@ -7,7 +7,10 @@
     "icon": {
       "type": "overlay",
       "background": {
-        "id": "ltxi:shotgun"
+        "type": "item_stack",
+        "item": {
+          "id": "ltxi:shotgun"
+        }
       },
       "height": 7,
       "overlay": "ltxi:default_overlay",
@@ -22,7 +25,7 @@
   "effects": {
     "ltxi:add_damage_attributes": [
       {
-        "attribute": "minecraft:generic.knockback_resistance",
+        "attribute": "minecraft:knockback_resistance",
         "modifier": {
           "amount": -0.5,
           "id": "ltxi:default/shotgun.knockback_resist",
@@ -40,7 +43,7 @@
     ],
     "ltxi:add_item_attributes": [
       {
-        "attribute": "minecraft:generic.movement_speed",
+        "attribute": "minecraft:movement_speed",
         "modifier": {
           "amount": 0.25,
           "id": "ltxi:default/shotgun.speed",
@@ -49,7 +52,7 @@
         "slots": "mainhand"
       },
       {
-        "attribute": "minecraft:generic.step_height",
+        "attribute": "minecraft:step_height",
         "modifier": {
           "amount": 1.0,
           "id": "ltxi:default/shotgun.step_height",
@@ -58,7 +61,7 @@
         "slots": "mainhand"
       },
       {
-        "attribute": "minecraft:generic.safe_fall_distance",
+        "attribute": "minecraft:safe_fall_distance",
         "modifier": {
           "amount": 3.0,
           "id": "ltxi:default/shotgun.safe_fall_dist",

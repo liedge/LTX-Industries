@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "loader": "limacore:emissive_item",
+  "textures": {
+    "layer0": "ltxi:item/ltx_shears_emissive"
+  }
+}

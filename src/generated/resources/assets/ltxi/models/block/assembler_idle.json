@@ -1,0 +1,6 @@
+{
+  "parent": "ltxi:block/assembler",
+  "textures": {
+    "front": "ltxi:block/assembler_idle"
+  }
+}

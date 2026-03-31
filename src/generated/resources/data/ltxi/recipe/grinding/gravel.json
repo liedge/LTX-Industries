@@ -1,9 +1,8 @@
 {
   "type": "ltxi:grinding",
-  "ingredients": [
+  "item_inputs": [
     {
-      "count": 1,
-      "tag": "c:cobblestones/normal"
+      "ingredient": "#c:cobblestones/normal"
     }
   ],
   "item_results": [
@@ -12,10 +11,13 @@
       "id": "minecraft:gravel"
     },
     {
-      "chance": 0.25,
-      "count": 1,
+      "count": {
+        "chance": 0.25,
+        "max": 1,
+        "min": 1
+      },
       "id": "minecraft:flint",
-      "priority": "secondary"
+      "required": false
     }
   ]
 }

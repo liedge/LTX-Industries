@@ -1,5 +1,5 @@
 {
-  "parent": "ltxi:block/basic_machine_sew",
+  "parent": "ltxi:block/basic_machine_idle",
   "textures": {
     "front": "ltxi:block/material_fusing_chamber_idle"
   }

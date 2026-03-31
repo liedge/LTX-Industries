@@ -1,24 +1,22 @@
 {
   "type": "ltxi:material_fusing",
   "craft_time": 400,
-  "fluid_ingredients": [
+  "fluid_inputs": [
     {
       "amount": 250,
-      "tag": "c:oxygen"
+      "ingredient": "#c:oxygen"
     }
   ],
-  "ingredients": [
+  "item_inputs": [
     {
-      "count": 1,
-      "item": "minecraft:iron_ingot"
+      "ingredient": "minecraft:iron_ingot"
     },
     {
-      "count": 1,
-      "item": "ltxi:carbon_dust"
+      "ingredient": "ltxi:carbon_dust"
     },
     {
       "count": 4,
-      "item": "ltxi:deepslate_dust"
+      "ingredient": "ltxi:deepslate_dust"
     }
   ],
   "item_results": [

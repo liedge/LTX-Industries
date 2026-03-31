@@ -52,16 +52,16 @@
           "value": 0.2
         },
         "requirements": {
-          "condition": "limacore:number_comparison",
+          "condition": "limacore:compare_values",
           "first": {
-            "type": "limacore:entity_attribute_value",
-            "attribute": "minecraft:generic.armor",
+            "type": "limacore:entity_attribute",
+            "attribute": "minecraft:armor",
             "target": "this"
           },
           "operation": "less_than_or_equals",
           "second": {
-            "type": "limacore:entity_attribute_value",
-            "attribute": "minecraft:generic.armor",
+            "type": "limacore:entity_attribute",
+            "attribute": "minecraft:armor",
             "base": true,
             "target": "this"
           }

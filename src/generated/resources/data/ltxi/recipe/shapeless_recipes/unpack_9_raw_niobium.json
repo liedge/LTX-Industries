@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "ltxi:raw_niobium_block"
-    }
+    "ltxi:raw_niobium_block"
   ],
   "result": {
     "count": 9,

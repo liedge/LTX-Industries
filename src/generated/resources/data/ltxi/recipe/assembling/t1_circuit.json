@@ -1,22 +1,21 @@
 {
   "type": "ltxi:assembling",
   "craft_time": 200,
-  "ingredients": [
+  "item_inputs": [
     {
-      "count": 1,
-      "item": "ltxi:circuit_board"
+      "ingredient": "ltxi:circuit_board"
     },
     {
       "count": 2,
-      "item": "ltxi:titanium_ingot"
+      "ingredient": "ltxi:titanium_ingot"
     },
     {
       "count": 4,
-      "item": "minecraft:redstone"
+      "ingredient": "minecraft:redstone"
     },
     {
       "count": 2,
-      "item": "minecraft:copper_ingot"
+      "ingredient": "minecraft:copper_ingot"
     }
   ],
   "item_results": [

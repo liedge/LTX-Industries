@@ -1,0 +1,5 @@
+{
+  "parent": "ltxi:block/geo_synthesizer",
+  "emission_target": 15,
+  "loader": "limacore:emissive_item"
+}

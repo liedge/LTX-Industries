@@ -2,18 +2,10 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "c": {
-      "item": "ltxi:t1_circuit"
-    },
-    "g": {
-      "item": "ltxi:titanium_gear"
-    },
-    "s": {
-      "item": "minecraft:iron_ingot"
-    },
-    "t": {
-      "item": "ltxi:titanium_ingot"
-    }
+    "c": "ltxi:t1_circuit",
+    "g": "ltxi:titanium_gear",
+    "s": "minecraft:iron_ingot",
+    "t": "ltxi:titanium_ingot"
   },
   "pattern": [
     "tct",
@@ -21,7 +13,6 @@
     "gcg"
   ],
   "result": {
-    "count": 1,
     "id": "ltxi:grinder"
   }
 }

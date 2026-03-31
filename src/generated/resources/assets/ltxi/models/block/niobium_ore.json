@@ -1,8 +1,8 @@
 {
-  "parent": "ltxi:block/glowing_ore",
+  "parent": "ltxi:block/emissive_ore",
   "textures": {
-    "0": "ltxi:block/niobium_ore_0",
-    "1": "ltxi:block/niobium_ore_1",
+    "base": "ltxi:block/niobium_ore_base",
+    "emissive": "ltxi:block/niobium_ore_emissive",
     "particle": "minecraft:block/end_stone"
   }
 }

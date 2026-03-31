@@ -7,7 +7,10 @@
     "icon": {
       "type": "overlay",
       "background": {
-        "id": "ltxi:ltx_fishing_rod"
+        "type": "item_stack",
+        "item": {
+          "id": "ltxi:ltx_fishing_rod"
+        }
       },
       "height": 9,
       "overlay": "ltxi:plus_overlay",

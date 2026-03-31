@@ -1,0 +1,6 @@
+{
+  "parent": "ltxi:block/voltaic_injector",
+  "visibility": {
+    "emissive_active": false
+  }
+}

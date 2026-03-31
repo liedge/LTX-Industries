@@ -1,13 +1,12 @@
 {
   "type": "ltxi:material_fusing",
-  "ingredients": [
+  "item_inputs": [
     {
-      "count": 1,
-      "item": "ltxi:titanium_ingot"
+      "ingredient": "ltxi:titanium_ingot"
     },
     {
       "count": 3,
-      "tag": "c:gems/quartz"
+      "ingredient": "#c:gems/quartz"
     }
   ],
   "item_results": [

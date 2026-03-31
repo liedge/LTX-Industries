@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "ltxi:item/ore_pebble/uranium"
+    "layer0": "ltxi:item/uranium_ore_pebbles"
   }
 }

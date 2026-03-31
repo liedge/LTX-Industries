@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "b": {
-      "item": "minecraft:copper_ingot"
-    },
-    "c": {
-      "item": "ltxi:t1_circuit"
-    },
-    "m": {
-      "item": "minecraft:gold_ingot"
-    },
-    "r": {
-      "item": "minecraft:repeater"
-    },
-    "t": {
-      "item": "ltxi:titanium_ingot"
-    }
+    "b": "minecraft:copper_ingot",
+    "c": "ltxi:t1_circuit",
+    "m": "minecraft:gold_ingot",
+    "r": "minecraft:repeater",
+    "t": "ltxi:titanium_ingot"
   },
   "pattern": [
     " r ",
@@ -24,7 +14,6 @@
     "tbt"
   ],
   "result": {
-    "count": 1,
     "id": "ltxi:t2_circuit"
   }
 }

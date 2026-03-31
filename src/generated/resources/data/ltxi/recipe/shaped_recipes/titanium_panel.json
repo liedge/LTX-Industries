@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "f": {
-      "item": "ltxi:polymer_ingot"
-    },
-    "t": {
-      "item": "ltxi:titanium_ingot"
-    }
+    "f": "ltxi:polymer_ingot",
+    "t": "ltxi:titanium_ingot"
   },
   "pattern": [
     "tft",

@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "d": {
-      "item": "ltxi:ltx_lime_pigment"
-    },
-    "g": {
-      "item": "minecraft:glowstone"
-    }
+    "d": "ltxi:ltx_lime_pigment",
+    "g": "minecraft:glowstone"
   },
   "pattern": [
     "dg",

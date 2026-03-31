@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "a": {
-      "item": "minecraft:lightning_rod"
-    },
-    "c": {
-      "item": "ltxi:t1_circuit"
-    },
-    "g": {
-      "item": "ltxi:titanium_gear"
-    },
-    "s": {
-      "item": "minecraft:copper_ingot"
-    },
-    "t": {
-      "item": "ltxi:titanium_ingot"
-    }
+    "a": "minecraft:lightning_rod",
+    "c": "ltxi:t1_circuit",
+    "g": "ltxi:titanium_gear",
+    "s": "minecraft:copper_ingot",
+    "t": "ltxi:titanium_ingot"
   },
   "pattern": [
     "tct",
@@ -24,7 +14,6 @@
     "gcg"
   ],
   "result": {
-    "count": 1,
     "id": "ltxi:voltaic_injector"
   }
 }

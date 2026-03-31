@@ -2,38 +2,39 @@
   "type": "ltxi:fabricating",
   "energy_required": 500000,
   "group": "eum/enchant",
-  "ingredients": [
+  "item_inputs": [
     {
-      "type": "neoforge:components",
-      "components": {
-        "ltxi:equipment_upgrade": {
-          "rank": 2,
-          "upgrade": "ltxi:enchantment/looting"
-        }
-      },
-      "count": 1,
-      "items": "ltxi:equipment_upgrade_module",
-      "strict": true
+      "ingredient": {
+        "neoforge:ingredient_type": "neoforge:components",
+        "components": {
+          "ltxi:equipment_upgrade": {
+            "rank": 2,
+            "upgrade": "ltxi:enchantment/looting"
+          }
+        },
+        "items": "ltxi:equipment_upgrade_module",
+        "strict": true
+      }
     },
     {
       "count": 4,
-      "item": "ltxi:t3_circuit"
+      "ingredient": "ltxi:t3_circuit"
     },
     {
       "count": 8,
-      "item": "ltxi:titanium_ingot"
+      "ingredient": "ltxi:titanium_ingot"
     },
     {
       "count": 2,
-      "item": "minecraft:emerald"
+      "ingredient": "minecraft:emerald"
     },
     {
       "count": 2,
-      "item": "minecraft:diamond"
+      "ingredient": "minecraft:diamond"
     },
     {
       "count": 2,
-      "item": "minecraft:lapis_block"
+      "ingredient": "minecraft:lapis_block"
     }
   ],
   "result": {

@@ -2,33 +2,34 @@
   "type": "ltxi:fabricating",
   "energy_required": 250000,
   "group": "eum/tool",
-  "ingredients": [
+  "item_inputs": [
     {
-      "type": "neoforge:components",
-      "components": {
-        "ltxi:equipment_upgrade": {
-          "upgrade": "ltxi:epsilon_fishing_lure"
-        }
-      },
-      "count": 1,
-      "items": "ltxi:equipment_upgrade_module",
-      "strict": true
+      "ingredient": {
+        "neoforge:ingredient_type": "neoforge:components",
+        "components": {
+          "ltxi:equipment_upgrade": {
+            "upgrade": "ltxi:epsilon_fishing_lure"
+          }
+        },
+        "items": "ltxi:equipment_upgrade_module",
+        "strict": true
+      }
     },
     {
       "count": 2,
-      "item": "ltxi:t1_circuit"
+      "ingredient": "ltxi:t1_circuit"
     },
     {
       "count": 8,
-      "item": "minecraft:string"
+      "ingredient": "minecraft:string"
     },
     {
       "count": 4,
-      "item": "minecraft:cod"
+      "ingredient": "minecraft:cod"
     },
     {
       "count": 2,
-      "item": "minecraft:salmon"
+      "ingredient": "minecraft:salmon"
     }
   ],
   "result": {

@@ -1,9 +1,8 @@
 {
   "type": "ltxi:grinding",
-  "ingredients": [
+  "item_inputs": [
     {
-      "count": 1,
-      "item": "minecraft:stone"
+      "ingredient": "minecraft:stone"
     }
   ],
   "item_results": [

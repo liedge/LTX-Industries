@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/brush",
+  "textures": {
+    "layer0": "ltxi:item/ltx_brush_base"
+  }
+}

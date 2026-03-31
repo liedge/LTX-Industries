@@ -1,10 +1,10 @@
 {
   "type": "ltxi:electro_centrifuging",
   "craft_time": 300,
-  "fluid_ingredients": [
+  "fluid_inputs": [
     {
       "amount": 1000,
-      "fluid": "minecraft:water"
+      "ingredient": "minecraft:water"
     }
   ],
   "fluid_results": [

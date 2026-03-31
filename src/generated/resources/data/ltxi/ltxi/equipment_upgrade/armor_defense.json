@@ -49,7 +49,7 @@
   "effects": {
     "ltxi:add_item_attributes": [
       {
-        "attribute": "minecraft:generic.knockback_resistance",
+        "attribute": "minecraft:knockback_resistance",
         "modifier": {
           "amount": {
             "type": "minecraft:linear",

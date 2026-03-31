@@ -1,0 +1,10 @@
+{
+  "parent": "ltxi:block/electrocentrifuge",
+  "emission_target": 15,
+  "loader": "limacore:emissive_item",
+  "visibility": {
+    "emissive_active": false,
+    "emissive_idle": false,
+    "frame": false
+  }
+}

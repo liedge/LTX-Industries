@@ -1,0 +1,6 @@
+{
+  "parent": "ltxi:block/mixer",
+  "visibility": {
+    "blades": false
+  }
+}

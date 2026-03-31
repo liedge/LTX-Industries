@@ -2,11 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "c": {
-      "item": "ltxi:t3_circuit"
-    },
+    "c": "ltxi:t3_circuit",
     "m": {
-      "type": "neoforge:components",
+      "neoforge:ingredient_type": "neoforge:components",
       "components": {
         "ltxi:machine_upgrade": {
           "rank": 5,
@@ -16,9 +14,7 @@
       "items": "ltxi:machine_upgrade_module",
       "strict": true
     },
-    "r": {
-      "item": "minecraft:redstone"
-    }
+    "r": "minecraft:redstone"
   },
   "pattern": [
     " r ",
@@ -32,7 +28,6 @@
         "upgrade": "ltxi:standard_machine_systems"
       }
     },
-    "count": 1,
     "id": "ltxi:machine_upgrade_module"
   }
 }

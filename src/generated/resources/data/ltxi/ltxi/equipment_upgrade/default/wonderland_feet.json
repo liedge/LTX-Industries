@@ -7,7 +7,10 @@
     "icon": {
       "type": "overlay",
       "background": {
-        "id": "ltxi:wonderland_feet"
+        "type": "item_stack",
+        "item": {
+          "id": "ltxi:wonderland_feet"
+        }
       },
       "height": 7,
       "overlay": "ltxi:default_overlay",
@@ -30,7 +33,7 @@
   "effects": {
     "ltxi:add_item_attributes": [
       {
-        "attribute": "minecraft:generic.step_height",
+        "attribute": "minecraft:step_height",
         "modifier": {
           "amount": 1.0,
           "id": "ltxi:default/wonderland_feet.step_boost",
@@ -39,7 +42,7 @@
         "slots": "feet"
       },
       {
-        "attribute": "minecraft:generic.safe_fall_distance",
+        "attribute": "minecraft:safe_fall_distance",
         "modifier": {
           "amount": 5.0,
           "id": "ltxi:default/wonderland_feet.safe_fall",

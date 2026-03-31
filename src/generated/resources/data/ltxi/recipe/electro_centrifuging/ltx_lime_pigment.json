@@ -1,10 +1,9 @@
 {
   "type": "ltxi:electro_centrifuging",
   "craft_time": 120,
-  "ingredients": [
+  "item_inputs": [
     {
-      "count": 1,
-      "tag": "c:dyes/lime"
+      "ingredient": "#c:dyes/lime"
     }
   ],
   "item_results": [

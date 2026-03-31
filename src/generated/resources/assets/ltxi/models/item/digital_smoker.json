@@ -1,3 +1,5 @@
 {
-  "parent": "ltxi:block/digital_smoker_idle"
+  "parent": "ltxi:block/digital_smoker_idle",
+  "emission_target": 15,
+  "loader": "limacore:emissive_item"
 }

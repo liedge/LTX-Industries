@@ -2,30 +2,30 @@
   "type": "ltxi:fabricating",
   "energy_required": 5000000,
   "group": "turrets",
-  "ingredients": [
+  "item_inputs": [
     {
       "count": 2,
-      "item": "ltxi:t3_circuit"
+      "ingredient": "ltxi:t3_circuit"
     },
     {
       "count": 2,
-      "item": "ltxi:optical_tech_part"
+      "ingredient": "ltxi:optical_tech_part"
     },
     {
       "count": 2,
-      "item": "ltxi:impulse_tech_part"
+      "ingredient": "ltxi:impulse_tech_part"
     },
     {
       "count": 24,
-      "item": "ltxi:titanium_ingot"
+      "ingredient": "ltxi:titanium_ingot"
     },
     {
       "count": 6,
-      "item": "ltxi:titanium_gear"
+      "ingredient": "ltxi:titanium_gear"
     },
     {
       "count": 2,
-      "item": "ltxi:slatesteel_gear"
+      "ingredient": "ltxi:slatesteel_gear"
     }
   ],
   "result": {

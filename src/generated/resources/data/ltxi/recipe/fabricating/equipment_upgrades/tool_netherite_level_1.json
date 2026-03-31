@@ -2,30 +2,28 @@
   "type": "ltxi:fabricating",
   "energy_required": 500000,
   "group": "eum/tool",
-  "ingredients": [
+  "item_inputs": [
     {
-      "count": 1,
-      "item": "ltxi:empty_upgrade_module"
+      "ingredient": "ltxi:empty_upgrade_module"
     },
     {
       "count": 2,
-      "item": "ltxi:t3_circuit"
+      "ingredient": "ltxi:t3_circuit"
     },
     {
       "count": 3,
-      "item": "minecraft:diamond"
+      "ingredient": "minecraft:diamond"
     },
     {
-      "count": 1,
-      "item": "minecraft:netherite_ingot"
+      "ingredient": "minecraft:netherite_ingot"
     },
     {
       "count": 8,
-      "item": "ltxi:titanium_ingot"
+      "ingredient": "ltxi:titanium_ingot"
     },
     {
       "count": 4,
-      "item": "ltxi:slatesteel_ingot"
+      "ingredient": "ltxi:slatesteel_ingot"
     }
   ],
   "result": {

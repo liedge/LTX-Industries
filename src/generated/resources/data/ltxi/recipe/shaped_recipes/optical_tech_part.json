@@ -2,18 +2,10 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "c": {
-      "item": "ltxi:t2_circuit"
-    },
-    "g": {
-      "item": "minecraft:tinted_glass"
-    },
-    "m": {
-      "item": "ltxi:electric_chemical"
-    },
-    "t": {
-      "item": "ltxi:titanium_ingot"
-    }
+    "c": "ltxi:t2_circuit",
+    "g": "minecraft:tinted_glass",
+    "m": "ltxi:electric_chemical",
+    "t": "ltxi:titanium_ingot"
   },
   "pattern": [
     "ggg",
@@ -21,7 +13,6 @@
     "ctc"
   ],
   "result": {
-    "count": 1,
     "id": "ltxi:optical_tech_part"
   }
 }

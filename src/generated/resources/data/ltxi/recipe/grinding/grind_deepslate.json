@@ -1,9 +1,8 @@
 {
   "type": "ltxi:grinding",
-  "ingredients": [
+  "item_inputs": [
     {
-      "count": 1,
-      "tag": "ltxi:deepslate_grindables"
+      "ingredient": "#ltxi:deepslate_grindables"
     }
   ],
   "item_results": [

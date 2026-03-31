@@ -2,46 +2,47 @@
   "type": "ltxi:fabricating",
   "energy_required": 20000000,
   "group": "mum/eca",
-  "ingredients": [
+  "item_inputs": [
     {
-      "type": "neoforge:components",
-      "components": {
-        "ltxi:machine_upgrade": {
-          "rank": 4,
-          "upgrade": "ltxi:eca_capacity"
-        }
-      },
-      "count": 1,
-      "items": "ltxi:machine_upgrade_module",
-      "strict": true
+      "ingredient": {
+        "neoforge:ingredient_type": "neoforge:components",
+        "components": {
+          "ltxi:machine_upgrade": {
+            "rank": 4,
+            "upgrade": "ltxi:eca_capacity"
+          }
+        },
+        "items": "ltxi:machine_upgrade_module",
+        "strict": true
+      }
     },
     {
       "count": 4,
-      "item": "ltxi:t3_circuit"
+      "ingredient": "ltxi:t3_circuit"
     },
     {
       "count": 16,
-      "item": "ltxi:titanium_ingot"
+      "ingredient": "ltxi:titanium_ingot"
     },
     {
       "count": 8,
-      "item": "ltxi:slatesteel_ingot"
+      "ingredient": "ltxi:slatesteel_ingot"
     },
     {
       "count": 12,
-      "item": "ltxi:polymer_ingot"
+      "ingredient": "ltxi:polymer_ingot"
     },
     {
       "count": 48,
-      "item": "ltxi:electric_chemical"
+      "ingredient": "ltxi:electric_chemical"
     },
     {
       "count": 8,
-      "item": "ltxi:niobium_ingot"
+      "ingredient": "ltxi:niobium_ingot"
     },
     {
       "count": 8,
-      "item": "ltxi:chorus_chemical"
+      "ingredient": "ltxi:chorus_chemical"
     }
   ],
   "result": {

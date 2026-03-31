@@ -1,9 +1,8 @@
 {
   "type": "ltxi:grinding",
-  "ingredients": [
+  "item_inputs": [
     {
-      "count": 1,
-      "tag": "c:ores/emerald"
+      "ingredient": "#c:ores/emerald"
     }
   ],
   "item_results": [

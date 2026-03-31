@@ -2,38 +2,39 @@
   "type": "ltxi:fabricating",
   "energy_required": 100000000,
   "group": "eum/armor",
-  "ingredients": [
+  "item_inputs": [
     {
-      "type": "neoforge:components",
-      "components": {
-        "ltxi:equipment_upgrade": {
-          "rank": 3,
-          "upgrade": "ltxi:armor_passive_shield"
-        }
-      },
-      "count": 1,
-      "items": "ltxi:equipment_upgrade_module",
-      "strict": true
+      "ingredient": {
+        "neoforge:ingredient_type": "neoforge:components",
+        "components": {
+          "ltxi:equipment_upgrade": {
+            "rank": 3,
+            "upgrade": "ltxi:armor_passive_shield"
+          }
+        },
+        "items": "ltxi:equipment_upgrade_module",
+        "strict": true
+      }
     },
     {
       "count": 2,
-      "item": "ltxi:t4_circuit"
+      "ingredient": "ltxi:t4_circuit"
     },
     {
       "count": 32,
-      "item": "ltxi:titanium_ingot"
+      "ingredient": "ltxi:titanium_ingot"
     },
     {
       "count": 8,
-      "item": "ltxi:titanium_gear"
+      "ingredient": "ltxi:titanium_gear"
     },
     {
       "count": 8,
-      "item": "ltxi:slatesteel_gear"
+      "ingredient": "ltxi:slatesteel_gear"
     },
     {
       "count": 64,
-      "item": "ltxi:electric_chemical"
+      "ingredient": "ltxi:electric_chemical"
     }
   ],
   "result": {

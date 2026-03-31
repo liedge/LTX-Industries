@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "d": {
-      "tag": "c:dyes/black"
-    },
-    "g": {
-      "item": "minecraft:glowstone"
-    }
+    "d": "#c:dyes/black",
+    "g": "minecraft:glowstone"
   },
   "pattern": [
     "dg",

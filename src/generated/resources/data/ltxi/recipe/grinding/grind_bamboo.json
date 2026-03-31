@@ -1,9 +1,8 @@
 {
   "type": "ltxi:grinding",
-  "ingredients": [
+  "item_inputs": [
     {
-      "count": 1,
-      "item": "minecraft:bamboo"
+      "ingredient": "minecraft:bamboo"
     }
   ],
   "item_results": [

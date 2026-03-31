@@ -7,7 +7,10 @@
     "icon": {
       "type": "overlay",
       "background": {
-        "id": "ltxi:submachine_gun"
+        "type": "item_stack",
+        "item": {
+          "id": "ltxi:submachine_gun"
+        }
       },
       "height": 7,
       "overlay": "ltxi:default_overlay",

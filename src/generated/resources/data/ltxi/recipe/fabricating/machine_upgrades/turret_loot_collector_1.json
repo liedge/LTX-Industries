@@ -2,30 +2,29 @@
   "type": "ltxi:fabricating",
   "energy_required": 10000000,
   "group": "mum/turret",
-  "ingredients": [
+  "item_inputs": [
     {
-      "count": 1,
-      "item": "ltxi:empty_upgrade_module"
+      "ingredient": "ltxi:empty_upgrade_module"
     },
     {
       "count": 3,
-      "item": "ltxi:t3_circuit"
+      "ingredient": "ltxi:t3_circuit"
     },
     {
       "count": 12,
-      "item": "ltxi:titanium_ingot"
+      "ingredient": "ltxi:titanium_ingot"
     },
     {
       "count": 6,
-      "item": "ltxi:slatesteel_ingot"
+      "ingredient": "ltxi:slatesteel_ingot"
     },
     {
       "count": 4,
-      "item": "ltxi:chorus_chemical"
+      "ingredient": "ltxi:chorus_chemical"
     },
     {
       "count": 4,
-      "item": "minecraft:ender_pearl"
+      "ingredient": "minecraft:ender_pearl"
     }
   ],
   "result": {

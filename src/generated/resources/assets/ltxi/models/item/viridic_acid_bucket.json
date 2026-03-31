@@ -1,5 +1,0 @@
-{
-  "parent": "neoforge:item/bucket",
-  "fluid": "ltxi:viridic_acid",
-  "loader": "neoforge:fluid_container"
-}

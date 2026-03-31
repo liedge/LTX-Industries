@@ -2,30 +2,26 @@
   "type": "ltxi:fabricating",
   "energy_required": 250000,
   "group": "eum/enchant",
-  "ingredients": [
+  "item_inputs": [
     {
-      "count": 1,
-      "item": "ltxi:empty_upgrade_module"
+      "ingredient": "ltxi:empty_upgrade_module"
     },
     {
       "count": 2,
-      "item": "ltxi:t1_circuit"
+      "ingredient": "ltxi:t1_circuit"
     },
     {
       "count": 8,
-      "item": "ltxi:titanium_ingot"
+      "ingredient": "ltxi:titanium_ingot"
     },
     {
-      "count": 1,
-      "item": "minecraft:zombie_head"
+      "ingredient": "minecraft:zombie_head"
     },
     {
-      "count": 1,
-      "item": "minecraft:creeper_head"
+      "ingredient": "minecraft:creeper_head"
     },
     {
-      "count": 1,
-      "item": "minecraft:skeleton_skull"
+      "ingredient": "minecraft:skeleton_skull"
     }
   ],
   "result": {

@@ -2,22 +2,21 @@
   "type": "ltxi:fabricating",
   "energy_required": 5000000,
   "group": "eum/armor",
-  "ingredients": [
+  "item_inputs": [
     {
-      "count": 1,
-      "item": "ltxi:empty_upgrade_module"
+      "ingredient": "ltxi:empty_upgrade_module"
     },
     {
       "count": 2,
-      "item": "ltxi:t3_circuit"
+      "ingredient": "ltxi:t3_circuit"
     },
     {
       "count": 4,
-      "item": "ltxi:titanium_ingot"
+      "ingredient": "ltxi:titanium_ingot"
     },
     {
       "count": 8,
-      "item": "ltxi:electric_chemical"
+      "ingredient": "ltxi:electric_chemical"
     }
   ],
   "result": {

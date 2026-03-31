@@ -1,7 +1,7 @@
 {
   "parent": "ltxi:block/raw_ore_cluster",
   "textures": {
-    "base": "minecraft:block/basalt_top",
+    "base": "minecraft:block/smooth_basalt",
     "ore": "ltxi:block/raw_titanium_block"
   }
 }

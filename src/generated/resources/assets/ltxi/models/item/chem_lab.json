@@ -1,3 +1,8 @@
 {
-  "parent": "ltxi:block/chem_lab_idle"
+  "parent": "ltxi:block/chem_lab",
+  "emission_target": 15,
+  "loader": "limacore:emissive_item",
+  "visibility": {
+    "fluid": false
+  }
 }

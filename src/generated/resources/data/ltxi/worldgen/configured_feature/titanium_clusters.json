@@ -1,7 +1,6 @@
 {
   "type": "limacore:place_on_side",
   "config": {
-    "facing_property": "facing",
     "to_place": {
       "type": "minecraft:simple_state_provider",
       "state": {

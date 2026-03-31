@@ -7,7 +7,10 @@
     "icon": {
       "type": "overlay",
       "background": {
-        "id": "ltxi:wonderland_head"
+        "type": "item_stack",
+        "item": {
+          "id": "ltxi:wonderland_head"
+        }
       },
       "height": 7,
       "overlay": "ltxi:default_overlay",

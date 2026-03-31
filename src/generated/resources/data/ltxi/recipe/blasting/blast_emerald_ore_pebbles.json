@@ -3,11 +3,8 @@
   "category": "misc",
   "cookingtime": 100,
   "experience": 0.5,
-  "ingredient": {
-    "item": "ltxi:emerald_ore_pebbles"
-  },
+  "ingredient": "ltxi:emerald_ore_pebbles",
   "result": {
-    "count": 1,
     "id": "minecraft:emerald"
   }
 }

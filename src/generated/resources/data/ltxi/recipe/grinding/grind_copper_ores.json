@@ -1,9 +1,8 @@
 {
   "type": "ltxi:grinding",
-  "ingredients": [
+  "item_inputs": [
     {
-      "count": 1,
-      "tag": "c:ores/copper"
+      "ingredient": "#c:ores/copper"
     }
   ],
   "item_results": [

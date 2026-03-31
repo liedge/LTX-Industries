@@ -2,18 +2,10 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "c": {
-      "item": "ltxi:t1_circuit"
-    },
-    "l": {
-      "tag": "c:dyes/lime"
-    },
-    "p": {
-      "item": "minecraft:paper"
-    },
-    "t": {
-      "item": "ltxi:titanium_ingot"
-    }
+    "c": "ltxi:t1_circuit",
+    "l": "#c:dyes/lime",
+    "p": "minecraft:paper",
+    "t": "ltxi:titanium_ingot"
   },
   "pattern": [
     "lll",

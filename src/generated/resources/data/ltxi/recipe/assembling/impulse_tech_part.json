@@ -1,31 +1,29 @@
 {
   "type": "ltxi:assembling",
-  "fluid_ingredients": [
+  "fluid_inputs": [
     {
       "amount": 16000,
-      "tag": "c:hydrogen"
+      "ingredient": "#c:hydrogen"
     }
   ],
-  "ingredients": [
+  "item_inputs": [
     {
-      "count": 1,
-      "item": "ltxi:t3_circuit"
+      "ingredient": "ltxi:t3_circuit"
     },
     {
       "count": 16,
-      "item": "ltxi:titanium_ingot"
+      "ingredient": "ltxi:titanium_ingot"
     },
     {
       "count": 8,
-      "item": "ltxi:slatesteel_ingot"
+      "ingredient": "ltxi:slatesteel_ingot"
     },
     {
-      "count": 1,
-      "item": "ltxi:slatesteel_gear"
+      "ingredient": "ltxi:slatesteel_gear"
     },
     {
       "count": 8,
-      "item": "ltxi:electric_chemical"
+      "ingredient": "ltxi:electric_chemical"
     }
   ],
   "item_results": [

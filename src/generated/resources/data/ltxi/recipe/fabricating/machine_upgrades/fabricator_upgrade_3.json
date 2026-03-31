@@ -2,34 +2,35 @@
   "type": "ltxi:fabricating",
   "energy_required": 5000000,
   "group": "mum/fabricator",
-  "ingredients": [
+  "item_inputs": [
     {
-      "type": "neoforge:components",
-      "components": {
-        "ltxi:machine_upgrade": {
-          "rank": 2,
-          "upgrade": "ltxi:fabricator_upgrade"
-        }
-      },
-      "count": 1,
-      "items": "ltxi:machine_upgrade_module",
-      "strict": true
+      "ingredient": {
+        "neoforge:ingredient_type": "neoforge:components",
+        "components": {
+          "ltxi:machine_upgrade": {
+            "rank": 2,
+            "upgrade": "ltxi:fabricator_upgrade"
+          }
+        },
+        "items": "ltxi:machine_upgrade_module",
+        "strict": true
+      }
     },
     {
       "count": 2,
-      "item": "ltxi:t3_circuit"
+      "ingredient": "ltxi:t3_circuit"
     },
     {
       "count": 4,
-      "item": "ltxi:optical_tech_part"
+      "ingredient": "ltxi:optical_tech_part"
     },
     {
       "count": 4,
-      "item": "minecraft:amethyst_shard"
+      "ingredient": "minecraft:amethyst_shard"
     },
     {
       "count": 16,
-      "item": "ltxi:electric_chemical"
+      "ingredient": "ltxi:electric_chemical"
     }
   ],
   "result": {

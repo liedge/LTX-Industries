@@ -1,0 +1,8 @@
+{
+  "parent": "ltxi:block/grinder",
+  "visibility": {
+    "emissive_active": false,
+    "front_crusher": false,
+    "rear_crusher": false
+  }
+}

@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "c": {
-      "item": "ltxi:t1_circuit"
-    },
-    "g": {
-      "item": "ltxi:titanium_gear"
-    },
-    "m": {
-      "item": "ltxi:empty_upgrade_module"
-    }
+    "c": "ltxi:t1_circuit",
+    "g": "ltxi:titanium_gear",
+    "m": "ltxi:empty_upgrade_module"
   },
   "pattern": [
     " c ",
@@ -23,7 +17,6 @@
         "upgrade": "ltxi:gpm_parallel"
       }
     },
-    "count": 1,
     "id": "ltxi:machine_upgrade_module"
   }
 }

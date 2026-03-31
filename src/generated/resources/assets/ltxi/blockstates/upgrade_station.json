@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "ltxi:block/upgrade_station",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "ltxi:block/upgrade_station"
+    },
+    "facing=south": {
+      "model": "ltxi:block/upgrade_station",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "ltxi:block/upgrade_station",
+      "y": 270
+    }
+  }
+}

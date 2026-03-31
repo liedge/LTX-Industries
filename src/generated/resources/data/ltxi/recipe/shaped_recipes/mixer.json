@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "a": {
-      "item": "minecraft:cauldron"
-    },
-    "c": {
-      "item": "ltxi:t2_circuit"
-    },
-    "g": {
-      "item": "ltxi:titanium_gear"
-    },
-    "s": {
-      "item": "ltxi:titanium_glass"
-    },
-    "t": {
-      "item": "ltxi:titanium_ingot"
-    }
+    "a": "minecraft:cauldron",
+    "c": "ltxi:t2_circuit",
+    "g": "ltxi:titanium_gear",
+    "s": "ltxi:titanium_glass",
+    "t": "ltxi:titanium_ingot"
   },
   "pattern": [
     "tct",
@@ -24,7 +14,6 @@
     "gcg"
   ],
   "result": {
-    "count": 1,
     "id": "ltxi:mixer"
   }
 }

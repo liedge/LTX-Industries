@@ -7,7 +7,10 @@
     "icon": {
       "type": "overlay",
       "background": {
-        "id": "minecraft:oak_log"
+        "type": "item_stack",
+        "item": {
+          "id": "minecraft:oak_log"
+        }
       },
       "height": 6,
       "overlay": "ltxi:vein_mine_overlay",

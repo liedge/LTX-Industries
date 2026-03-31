@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "ltxi:item/pigment/ltx_lime"
+    "layer0": "ltxi:item/ltx_lime_pigment"
   }
 }

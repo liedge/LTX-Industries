@@ -1,0 +1,20 @@
+{
+  "parent": "ltxi:block/template/turret",
+  "children": {
+    "base": {
+      "parent": "ltxi:block/turret_base",
+      "emission_target": 15,
+      "loader": "limacore:emissive_item"
+    },
+    "weapons": {
+      "parent": "ltxi:block/railgun_turret",
+      "emission_target": 15,
+      "loader": "limacore:emissive_item"
+    }
+  },
+  "item_render_order": [
+    "base",
+    "weapons"
+  ],
+  "loader": "neoforge:composite"
+}

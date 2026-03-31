@@ -1,0 +1,7 @@
+{
+  "parent": "ltxi:block/electrocentrifuge",
+  "visibility": {
+    "tubes": false,
+    "tubes_emissive": false
+  }
+}

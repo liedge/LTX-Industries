@@ -7,7 +7,10 @@
     "icon": {
       "type": "overlay",
       "background": {
-        "id": "ltxi:wonderland_legs"
+        "type": "item_stack",
+        "item": {
+          "id": "ltxi:wonderland_legs"
+        }
       },
       "height": 7,
       "overlay": "ltxi:default_overlay",
@@ -45,7 +48,7 @@
   "effects": {
     "ltxi:add_item_attributes": [
       {
-        "attribute": "minecraft:generic.movement_speed",
+        "attribute": "minecraft:movement_speed",
         "modifier": {
           "amount": 0.1,
           "id": "ltxi:default/wonderland_legs.speed_boost",
@@ -54,7 +57,7 @@
         "slots": "legs"
       },
       {
-        "attribute": "minecraft:generic.water_movement_efficiency",
+        "attribute": "minecraft:water_movement_efficiency",
         "modifier": {
           "amount": 1.0,
           "id": "ltxi:default/wonderland_legs.water_move",

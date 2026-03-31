@@ -9,10 +9,9 @@
     }
   ],
   "type": "ltxi:grinding",
-  "ingredients": [
+  "item_inputs": [
     {
-      "count": 1,
-      "tag": "c:raw_materials/osmium"
+      "ingredient": "#c:raw_materials/osmium"
     }
   ],
   "item_results": [

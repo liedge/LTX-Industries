@@ -1,8 +1,7 @@
 {
-  "parent": "ltxi:block/basic_machine_nsew",
+  "parent": "ltxi:block/basic_machine_active",
   "textures": {
     "front": "ltxi:block/digital_smoker_active",
-    "front_emissive": "ltxi:block/digital_smoker_active_emissive",
-    "top": "ltxi:block/basic_machine_mesh"
+    "front_emissive": "ltxi:block/digital_smoker_active_emissive"
   }
 }

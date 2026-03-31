@@ -1,0 +1,7 @@
+{
+  "parent": "ltxi:block/chem_lab",
+  "visibility": {
+    "emissive_active": false,
+    "fluid": false
+  }
+}

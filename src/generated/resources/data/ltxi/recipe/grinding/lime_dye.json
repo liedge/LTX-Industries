@@ -1,10 +1,9 @@
 {
   "type": "ltxi:grinding",
   "craft_time": 120,
-  "ingredients": [
+  "item_inputs": [
     {
-      "count": 1,
-      "item": "minecraft:sea_pickle"
+      "ingredient": "minecraft:sea_pickle"
     }
   ],
   "item_results": [

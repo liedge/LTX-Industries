@@ -3,9 +3,7 @@
   "category": "misc",
   "cookingtime": 100,
   "experience": 0.5,
-  "ingredient": {
-    "item": "ltxi:quartz_ore_pebbles"
-  },
+  "ingredient": "ltxi:quartz_ore_pebbles",
   "result": {
     "count": 4,
     "id": "minecraft:quartz"

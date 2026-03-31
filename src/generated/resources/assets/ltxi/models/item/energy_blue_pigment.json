@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "ltxi:item/pigment/energy_blue"
+    "layer0": "ltxi:item/energy_blue_pigment"
   }
 }

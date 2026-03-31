@@ -1,10 +1,9 @@
 {
   "type": "ltxi:energizing",
   "craft_time": 120,
-  "ingredients": [
+  "item_inputs": [
     {
-      "count": 1,
-      "tag": "c:dyes/light_blue"
+      "ingredient": "#c:dyes/light_blue"
     }
   ],
   "item_results": [

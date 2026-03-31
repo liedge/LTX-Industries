@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "c": {
-      "item": "ltxi:t1_circuit"
-    },
-    "m": {
-      "item": "ltxi:electric_chemical"
-    },
-    "t": {
-      "item": "ltxi:titanium_ingot"
-    }
+    "c": "ltxi:t1_circuit",
+    "m": "ltxi:electric_chemical",
+    "t": "ltxi:titanium_ingot"
   },
   "pattern": [
     " m ",
@@ -18,7 +12,6 @@
     " t "
   ],
   "result": {
-    "count": 1,
     "id": "ltxi:energy_io_config_card"
   }
 }

@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "ltxi:item/ore_pebble/osmium"
+    "layer0": "ltxi:item/osmium_ore_pebbles"
   }
 }

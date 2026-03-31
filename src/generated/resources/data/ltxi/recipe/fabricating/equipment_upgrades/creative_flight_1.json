@@ -2,22 +2,20 @@
   "type": "ltxi:fabricating",
   "energy_required": 150000000,
   "group": "eum/armor",
-  "ingredients": [
+  "item_inputs": [
     {
-      "count": 1,
-      "item": "ltxi:empty_upgrade_module"
+      "ingredient": "ltxi:empty_upgrade_module"
     },
     {
-      "count": 1,
-      "item": "ltxi:t5_circuit"
+      "ingredient": "ltxi:t5_circuit"
     },
     {
       "count": 32,
-      "item": "ltxi:chorus_chemical"
+      "ingredient": "ltxi:chorus_chemical"
     },
     {
       "count": 16,
-      "item": "minecraft:phantom_membrane"
+      "ingredient": "minecraft:phantom_membrane"
     }
   ],
   "result": {

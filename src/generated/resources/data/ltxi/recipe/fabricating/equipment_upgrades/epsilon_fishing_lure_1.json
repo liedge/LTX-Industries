@@ -2,22 +2,20 @@
   "type": "ltxi:fabricating",
   "energy_required": 100000,
   "group": "eum/tool",
-  "ingredients": [
+  "item_inputs": [
     {
-      "count": 1,
-      "item": "ltxi:empty_upgrade_module"
+      "ingredient": "ltxi:empty_upgrade_module"
     },
     {
-      "count": 1,
-      "item": "ltxi:t1_circuit"
+      "ingredient": "ltxi:t1_circuit"
     },
     {
       "count": 4,
-      "item": "minecraft:string"
+      "ingredient": "minecraft:string"
     },
     {
       "count": 2,
-      "item": "minecraft:cod"
+      "ingredient": "minecraft:cod"
     }
   ],
   "result": {

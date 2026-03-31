@@ -1,5 +1,4 @@
 {
-  "render_type": "minecraft:translucent",
   "textures": {
     "particle": "ltxi:block/viridic_acid_still"
   }

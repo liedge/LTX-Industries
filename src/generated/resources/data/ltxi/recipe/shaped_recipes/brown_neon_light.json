@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "d": {
-      "tag": "c:dyes/brown"
-    },
-    "g": {
-      "item": "minecraft:glowstone"
-    }
+    "d": "#c:dyes/brown",
+    "g": "minecraft:glowstone"
   },
   "pattern": [
     "dg",

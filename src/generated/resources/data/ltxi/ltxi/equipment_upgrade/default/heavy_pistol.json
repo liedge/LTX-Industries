@@ -7,7 +7,10 @@
     "icon": {
       "type": "overlay",
       "background": {
-        "id": "ltxi:heavy_pistol"
+        "type": "item_stack",
+        "item": {
+          "id": "ltxi:heavy_pistol"
+        }
       },
       "height": 7,
       "overlay": "ltxi:default_overlay",
@@ -22,7 +25,7 @@
   "effects": {
     "ltxi:add_damage_attributes": [
       {
-        "attribute": "minecraft:generic.knockback_resistance",
+        "attribute": "minecraft:knockback_resistance",
         "modifier": {
           "amount": -1.0,
           "id": "ltxi:default/heavy_pistol.knockback_resist",

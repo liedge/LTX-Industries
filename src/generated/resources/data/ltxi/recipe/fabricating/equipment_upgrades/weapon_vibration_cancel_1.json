@@ -2,30 +2,29 @@
   "type": "ltxi:fabricating",
   "energy_required": 500000,
   "group": "eum/weapon",
-  "ingredients": [
+  "item_inputs": [
     {
-      "count": 1,
-      "item": "ltxi:empty_upgrade_module"
+      "ingredient": "ltxi:empty_upgrade_module"
     },
     {
       "count": 2,
-      "item": "ltxi:t3_circuit"
+      "ingredient": "ltxi:t3_circuit"
     },
     {
       "count": 16,
-      "item": "ltxi:titanium_ingot"
+      "ingredient": "ltxi:titanium_ingot"
     },
     {
       "count": 16,
-      "item": "ltxi:polymer_ingot"
+      "ingredient": "ltxi:polymer_ingot"
     },
     {
       "count": 16,
-      "tag": "minecraft:wool"
+      "ingredient": "#minecraft:wool"
     },
     {
       "count": 8,
-      "item": "ltxi:sculk_chemical"
+      "ingredient": "ltxi:sculk_chemical"
     }
   ],
   "result": {
