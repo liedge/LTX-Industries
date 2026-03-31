@@ -1,13 +1,13 @@
 {
-	"credit": "Made with Blockbench",
+	"_license": "(C) 2025 Ed Jimenez | CC BY-NC_SA 4.0",
+	"_credit": "Made with Blockbench",
 	"ambientocclusion": false,
-	"parent": "block/block",
+	"parent": "minecraft:block/block",
 	"textures": {
 		"particle": "#ore"
 	},
 	"elements": [
 		{
-			"name": "base",
 			"from": [1, 0, 1],
 			"to": [15, 2, 15],
 			"faces": {
@@ -20,7 +20,6 @@
 			}
 		},
 		{
-			"name": "ore 1",
 			"from": [2, 2, 3],
 			"to": [8, 8, 9],
 			"faces": {
@@ -32,7 +31,6 @@
 			}
 		},
 		{
-			"name": "ore 2",
 			"from": [5, 2, 4],
 			"to": [13, 10, 12],
 			"faces": {
@@ -44,7 +42,6 @@
 			}
 		},
 		{
-			"name": "ore 3",
 			"from": [3, 2, 6],
 			"to": [11, 5, 14],
 			"faces": {
@@ -55,7 +52,6 @@
 			}
 		},
 		{
-			"name": "ore 4",
 			"from": [6, 10, 5],
 			"to": [12, 16, 11],
 			"faces": {

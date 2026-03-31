@@ -1,0 +1,41 @@
+{
+  "textures": {
+    "particle": "ltxi:block/titanium_panel"
+  },
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [75, 135, 0],
+      "translation": [0, 2, 0],
+      "scale": [0.375, 0.375, 0.375]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [75, 135, 0],
+      "translation": [0, 2, 0],
+      "scale": [0.375, 0.375, 0.375]
+    },
+    "firstperson_righthand": {
+      "rotation": [0, 135, 0],
+      "scale": [0.4, 0.4, 0.4]
+    },
+    "firstperson_lefthand": {
+      "rotation": [0, 135, 0],
+      "scale": [0.4, 0.4, 0.4]
+    },
+    "ground": {
+      "scale": [0.25, 0.25, 0.25]
+    },
+    "gui": {
+      "rotation": [30, 135, 0],
+      "translation": [0, -2.375, 0],
+      "scale": [0.4375, 0.4375, 0.4375]
+    },
+    "fixed": {
+      "translation": [0, -3, 0],
+      "scale": [0.5, 0.5, 0.5]
+    },
+    "on_shelf": {
+      "rotation": [0, -180, 0],
+      "scale": [0.75, 0.75, 0.75]
+    }
+  }
+}

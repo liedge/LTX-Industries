@@ -12,11 +12,11 @@ You can download official releases from these sources:
 
 ## Licensing
 - **Source Code**
-  - Copyright © 2024-2026 Eduardo Jimenez
+  - Copyright © 2024-2026 Ed Jimenez
   - ![Static Badge](https://img.shields.io/badge/License-LGPL--3.0--or--later-forestgreen)
   - Licensed under the [GNU Lesser General Public License version 3.0](LICENSE.md) or (at your option) any later version.
 - **Assets**
-  - Copyright © 2024-2026 Eduardo Jimenez
+  - Copyright © 2024-2026 Ed Jimenez
   - **ALL RIGHTS RESERVED** unless otherwise specified
 - **Sound Effects**
   - Free to use from Pixabay under the [Pixabay Content License](https://pixabay.com/service/license-summary/)

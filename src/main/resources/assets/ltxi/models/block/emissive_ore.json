@@ -1,0 +1,31 @@
+{
+	"parent": "minecraft:block/block",
+	"ambientocclusion": false,
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [16, 16, 16],
+			"faces": {
+				"up": { "cullface": "up", "texture": "#base" },
+				"down": { "cullface": "down", "texture": "#base" },
+				"north": { "cullface": "north", "texture": "#base" },
+				"south": { "cullface": "south", "texture": "#base" },
+				"east": { "cullface": "east", "texture": "#base" },
+				"west": { "cullface": "west", "texture": "#base" }
+			}
+		},
+		{
+			"from": [0, 0, 0],
+			"to": [16, 16, 16],
+			"faces": {
+				"up": { "cullface": "up", "texture": "#emissive" },
+				"down": { "cullface": "down", "texture": "#emissive" },
+				"north": { "cullface": "north", "texture": "#emissive" },
+				"south": { "cullface": "south", "texture": "#emissive" },
+				"east": { "cullface": "east", "texture": "#emissive" },
+				"west": { "cullface": "west", "texture": "#emissive" }
+			},
+			"light_emission": 9
+		}
+	]
+}
