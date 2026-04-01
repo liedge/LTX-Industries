@@ -58,9 +58,9 @@ public class RailgunTurretBlockEntity extends SemiAutoTurretBlockEntity
     }
 
     @Override
-    protected boolean isValidDefaultTarget(Entity entity)
+    protected boolean isValidDefaultTarget(ServerLevel level, Entity targetEntity)
     {
-        return entity.is(LTXITags.EntityTypes.HIGH_THREAT_TARGETS);
+        return targetEntity.is(LTXITags.EntityTypes.HIGH_THREAT_TARGETS);
     }
 
     @Override
@@ -70,6 +70,6 @@ public class RailgunTurretBlockEntity extends SemiAutoTurretBlockEntity
 
         LTXIEntityUtil.hurtWithEnchantedFakePlayer(level, target, owner, getUpgrades(), ignored -> TurretDamageSource.create(level, LTXIDamageTypes.RAILGUN_TURRET, this, null, owner, traceStart), baseDamage);
         LimaNetworkUtil.sendParticle(level, new ColorParticleOptions(LTXIParticles.RAILGUN_BOLT, LTXIConstants.LIME_GREEN), LimaNetworkUtil.LONG_PARTICLE_DIST, traceStart, target.getBoundingBox().getCenter());
-        level.playSound(null, traceStart.x, traceStart.y, traceStart.z, LTXISounds.RAILGUN_BOOM, SoundSource.BLOCKS, 2.5f, Mth.randomBetween(level.getRandom(), 0.85f, 0.95f));
+        level.playSound(null, traceStart.x, traceStart.y, traceStart.z, LTXISounds.RAILGUN_TURRET_FIRE, SoundSource.BLOCKS, 2.5f, Mth.randomBetween(level.getRandom(), 0.85f, 0.95f));
     }
 }

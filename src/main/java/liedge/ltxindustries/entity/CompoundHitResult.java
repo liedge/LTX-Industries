@@ -29,7 +29,7 @@ public record CompoundHitResult(Vec3 origin, List<EntityHitResult> entityHits, H
         BlockHitResult blockTrace = level.clip(new DynamicClipContext(origin, pathEnd, sourceEntity, fluidCollision, blockPierceDistance));
         end = blockTrace.getLocation();
 
-        TargetPredicate predicate = TargetPredicate.create(level, upgrades);
+        TargetPredicate predicate = TargetPredicate.create(upgrades);
         List<EntityHitResult> entityHits = LTXIEntityUtil.traceEntities(level, sourceEntity, sourceEntity, origin, end, predicate, bbExpansionFunction).limit(maxHits).toList();
 
         HitResult impact = (entityHits.size() < maxHits) ? blockTrace : entityHits.getLast();

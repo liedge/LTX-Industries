@@ -451,7 +451,8 @@ class LanguageGen extends LimaLanguageProvider
         soundEvent(HEAVY_PISTOL_FIRE, "Nova fires");
         soundEvent(ROCKET_EXPLODE, "Rocket explodes");
         GRENADE_EXPLOSIONS.forEach((element, holder) -> soundEvent(holder, localizeSimpleName(element) + " grenade explodes"));
-        soundEvent(RAILGUN_BOOM, "Railgun booms");
+        soundEvent(ROCKET_TURRET_FIRE, "Atmos turret fires");
+        soundEvent(RAILGUN_TURRET_FIRE, "Noctis turret fires");
 
         // Enum types
         addEnum(GrenadeType.class);

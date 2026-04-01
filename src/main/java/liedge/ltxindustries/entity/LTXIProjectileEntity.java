@@ -92,9 +92,9 @@ public abstract class LTXIProjectileEntity extends UpgradesAwareEntity
         BlockHitResult blockTrace = level.clip(blockTraceContext(start, path));
         Vec3 end = blockTrace.getLocation();
 
-        TargetPredicate predicate = TargetPredicate.create(level, getUpgrades());
+        TargetPredicate predicate = TargetPredicate.create(getUpgrades());
         double bbSize = getBoundingBox().getSize() * 0.9d;
-        EntityHitResult entityTrace = LTXIEntityUtil.traceEntities(level, this, getOwner(), start, end, predicate, $ -> bbSize).findFirst().orElse(null);
+        EntityHitResult entityTrace = LTXIEntityUtil.traceEntities(level, this, getOwner(), start, end, predicate, _ -> bbSize).findFirst().orElse(null);
 
         return entityTrace != null ? entityTrace : blockTrace;
     }
@@ -123,7 +123,7 @@ public abstract class LTXIProjectileEntity extends UpgradesAwareEntity
 
                 if (result != CollisionResult.NO_OP)
                 {
-                    boolean postEvent = getUpgrades().noneMatch(LTXIUpgradeEffectComponents.SUPPRESS_VIBRATIONS, (effect, rank) -> effect.test(EquipmentSlot.MAINHAND, LTXIGameEvents.PROJECTILE_IMPACT));
+                    boolean postEvent = getUpgrades().noneMatch(LTXIUpgradeEffectComponents.SUPPRESS_VIBRATIONS, (effect, _) -> effect.test(EquipmentSlot.MAINHAND, LTXIGameEvents.PROJECTILE_IMPACT));
                     if (postEvent) serverLevel.gameEvent(owner, LTXIGameEvents.PROJECTILE_IMPACT, hitLocation);
                 }
 

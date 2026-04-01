@@ -58,7 +58,7 @@ public abstract class UpgradesAwareEntity extends Entity implements TraceableEnt
     {
         if (predicate == null)
         {
-            predicate = TargetPredicate.create(level(), getUpgrades());
+            predicate = TargetPredicate.create(getUpgrades());
         }
 
         return predicate;
@@ -83,7 +83,7 @@ public abstract class UpgradesAwareEntity extends Entity implements TraceableEnt
 
     protected List<Entity> getEntitiesInAOE(Level level, AABB bb, @Nullable LivingEntity owner, @Nullable Entity directHit)
     {
-        return level.getEntities(this, bb, e -> LTXIEntityUtil.checkWeaponTargetValidity(owner, e, getOrCreateTargetFilter()) && !Objects.equals(directHit, e));
+        return level.getEntities(this, bb, e -> LTXIEntityUtil.isValidContextTarget(e, owner, getOrCreateTargetFilter()) && !Objects.equals(directHit, e));
     }
 
     protected List<Entity> getEntitiesInAOE(Level level, Vec3 hitLocation, double radius, @Nullable LivingEntity owner, @Nullable Entity directHit)

@@ -73,6 +73,9 @@ public class ArcTurretRenderer extends TurretRenderer<ArcTurretBlockEntity>
         super.submitWeapons(renderState, poseStack, nodeCollector, cameraRenderState);
 
         if (renderState.primaryBolt != null)
+        {
+            poseStack.translate(0.5f, 1.62625f, -0.4375f);
             LTXIRenderer.submitEnergyBolt(poseStack, nodeCollector, RenderTypes.lightning(), renderState.primaryBolt, LTXIConstants.ELECTRIC_GREEN, 0.85f);
+        }
     }
 }

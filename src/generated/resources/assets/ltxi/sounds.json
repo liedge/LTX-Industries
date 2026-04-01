@@ -79,14 +79,14 @@
     ],
     "subtitle": "subtitle.ltxi.neuro_grenade_explode"
   },
-  "railgun_boom": {
+  "railgun_turret_fire": {
     "sounds": [
       {
         "type": "event",
         "name": "entity.warden.sonic_boom"
       }
     ],
-    "subtitle": "subtitle.ltxi.railgun_boom"
+    "subtitle": "subtitle.ltxi.railgun_turret_fire"
   },
   "rocket_explode": {
     "sounds": [
@@ -102,6 +102,15 @@
       "ltxi:rocket_launcher_fire"
     ],
     "subtitle": "subtitle.ltxi.rocket_launcher_fire"
+  },
+  "rocket_turret_fire": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "ltxi:rocket_launcher_fire"
+      }
+    ],
+    "subtitle": "subtitle.ltxi.rocket_turret_fire"
   },
   "shield_break": {
     "sounds": [

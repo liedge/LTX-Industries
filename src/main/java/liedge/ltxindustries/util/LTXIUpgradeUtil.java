@@ -21,32 +21,32 @@ public final class LTXIUpgradeUtil
 
     public static final EquipmentSlot[] ARMOR_SLOTS = new EquipmentSlot[]{EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET};
 
-    public static boolean iterateEquipmentSlots(ServerLevel level, LivingEntity sourceEntity, EquipmentSlot[] slots, EquipmentSlotVisitor visitor)
+    public static boolean iterateEquipmentSlots(LivingEntity sourceEntity, EquipmentSlot[] slots, EquipmentSlotVisitor visitor)
     {
         for (EquipmentSlot slot : slots)
         {
-            boolean result = iterateEquipmentSlot(level, sourceEntity, slot, visitor);
+            boolean result = iterateEquipmentSlot(sourceEntity, slot, visitor);
             if (result) return true;
         }
 
         return false;
     }
 
-    public static void runOnEquipmentSlots(ServerLevel level, LivingEntity sourceEntity, EquipmentSlot[] slots, EquipmentSlotRunner runner)
+    public static void runOnEquipmentSlots(LivingEntity sourceEntity, EquipmentSlot[] slots, EquipmentSlotRunner runner)
     {
         for (EquipmentSlot slot : slots)
         {
-            iterateEquipmentSlot(level, sourceEntity, slot, runner);
+            iterateEquipmentSlot(sourceEntity, slot, runner);
         }
     }
 
-    public static boolean iterateEquipmentSlot(ServerLevel level, LivingEntity sourceEntity, EquipmentSlot slot, EquipmentSlotVisitor visitor)
+    public static boolean iterateEquipmentSlot(LivingEntity sourceEntity, EquipmentSlot slot, EquipmentSlotVisitor visitor)
     {
         ItemStack stack = sourceEntity.getItemBySlot(slot);
         if (stack.getItem() instanceof UpgradableEquipmentItem equipmentItem && equipmentItem.isInCorrectSlot(slot))
         {
             EquipmentUpgrades upgrades = equipmentItem.getUpgrades(stack);
-            UpgradedEquipmentInUse equipmentInUse = UpgradedEquipmentInUse.create(level, upgrades, stack, equipmentItem, slot, sourceEntity);
+            UpgradedEquipmentInUse equipmentInUse = UpgradedEquipmentInUse.create(upgrades, stack, equipmentItem, slot, sourceEntity);
             return visitor.run(upgrades, equipmentInUse);
         }
 
@@ -106,7 +106,7 @@ public final class LTXIUpgradeUtil
 
         default void accept(ServerLevel level, UpgradesContainerBase<?, ?> upgrades, ItemStack stack, @Nullable UpgradableEquipmentItem item, @Nullable EquipmentSlot slot, LivingEntity attacker)
         {
-            accept(level, upgrades, UpgradedEquipmentInUse.create(level, upgrades, stack, item, slot, attacker));
+            accept(level, upgrades, UpgradedEquipmentInUse.create(upgrades, stack, item, slot, attacker));
         }
     }
 }

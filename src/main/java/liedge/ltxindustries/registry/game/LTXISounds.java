@@ -38,7 +38,9 @@ public final class LTXISounds
     public static final DeferredHolder<SoundEvent, SoundEvent> HEAVY_PISTOL_FIRE = registerSound("heavy_pistol_fire");
     public static final DeferredHolder<SoundEvent, SoundEvent> ROCKET_EXPLODE = registerSound("rocket_explode");
     public static final Map<GrenadeType, DeferredHolder<SoundEvent, SoundEvent>> GRENADE_EXPLOSIONS = LimaCollectionsUtil.fillAndCreateImmutableEnumMap(GrenadeType.class, e -> registerSound(e.getSerializedName() + "_grenade_explode"));
-    public static final DeferredHolder<SoundEvent, SoundEvent> RAILGUN_BOOM = registerSound("railgun_boom");
+
+    public static final DeferredHolder<SoundEvent, SoundEvent> ROCKET_TURRET_FIRE = registerSound("rocket_turret_fire");
+    public static final DeferredHolder<SoundEvent, SoundEvent> RAILGUN_TURRET_FIRE = registerSound("railgun_turret_fire");
 
     private static DeferredHolder<SoundEvent, SoundEvent> registerSound(String name)
     {

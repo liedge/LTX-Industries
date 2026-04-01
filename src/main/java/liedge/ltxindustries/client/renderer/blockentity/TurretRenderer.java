@@ -3,7 +3,6 @@ package liedge.ltxindustries.client.renderer.blockentity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import liedge.ltxindustries.blockentity.turret.TurretBlockEntity;
-import liedge.ltxindustries.blockentity.turret.TurretState;
 import liedge.ltxindustries.client.model.StandaloneQuads;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -90,6 +89,6 @@ public abstract class TurretRenderer<BE extends TurretBlockEntity> implements Bl
     @Override
     public AABB getRenderBoundingBox(BE blockEntity)
     {
-        return blockEntity.getTurretState() == TurretState.FIRING ? AABB.INFINITE : blockEntity.getBoundingBox();
+        return blockEntity.getTurretState().isExtendedRender() ? AABB.INFINITE : blockEntity.getBoundingBox();
     }
 }

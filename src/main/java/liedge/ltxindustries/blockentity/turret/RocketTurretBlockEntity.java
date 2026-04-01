@@ -52,9 +52,9 @@ public class RocketTurretBlockEntity extends SemiAutoTurretBlockEntity
     }
 
     @Override
-    protected boolean isValidDefaultTarget(Entity entity)
+    protected boolean isValidDefaultTarget(ServerLevel level, Entity targetEntity)
     {
-        return entity.is(LTXITags.EntityTypes.FLYING_TARGETS);
+        return targetEntity.is(LTXITags.EntityTypes.FLYING_TARGETS);
     }
 
     @Override
@@ -67,6 +67,6 @@ public class RocketTurretBlockEntity extends SemiAutoTurretBlockEntity
         rocket.needsSync = true;
         rocket.setTargetEntity(target);
         level.addFreshEntity(rocket);
-        level.playSound(null, traceStart.x, traceStart.y, traceStart.z, LTXISounds.ROCKET_LAUNCHER_FIRE, SoundSource.BLOCKS, 1.5f, Mth.randomBetween(level.getRandom(), 0.75f, 0.9f));
+        level.playSound(null, traceStart.x, traceStart.y, traceStart.z, LTXISounds.ROCKET_TURRET_FIRE, SoundSource.BLOCKS, 1.5f, Mth.randomBetween(level.getRandom(), 0.75f, 0.9f));
     }
 }

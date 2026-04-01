@@ -3,7 +3,6 @@ package liedge.ltxindustries.lib.upgrades;
 import liedge.ltxindustries.entity.LTXIEntityUtil;
 import liedge.ltxindustries.entity.TargetPredicate;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -12,14 +11,14 @@ import org.jetbrains.annotations.Nullable;
 
 public record UpgradedEquipmentInUse(UpgradesContainerBase<?, ?> upgrades, ItemStack stack, @Nullable UpgradableEquipmentItem item, @Nullable EquipmentSlot slot, @Nullable LivingEntity owner, TargetPredicate filter)
 {
-    public static UpgradedEquipmentInUse create(ServerLevel level, UpgradesContainerBase<?, ?> upgrades, ItemStack stack, @Nullable UpgradableEquipmentItem item, @Nullable EquipmentSlot slot, @Nullable LivingEntity owner)
+    public static UpgradedEquipmentInUse create(UpgradesContainerBase<?, ?> upgrades, ItemStack stack, @Nullable UpgradableEquipmentItem item, @Nullable EquipmentSlot slot, @Nullable LivingEntity owner)
     {
-        return new UpgradedEquipmentInUse(upgrades, stack, item, slot, owner, TargetPredicate.create(level, upgrades));
+        return new UpgradedEquipmentInUse(upgrades, stack, item, slot, owner, TargetPredicate.create(upgrades));
     }
 
     public boolean canAttack(Entity targetEntity)
     {
-        return LTXIEntityUtil.checkWeaponTargetValidity(owner, targetEntity, filter);
+        return LTXIEntityUtil.isValidContextTarget(targetEntity, owner, filter);
     }
 
     public boolean useEnergyActions(int actions)

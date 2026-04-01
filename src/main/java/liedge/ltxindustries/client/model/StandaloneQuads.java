@@ -21,6 +21,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.util.LightCoordsUtil;
 import net.neoforged.neoforge.client.model.standalone.StandaloneModelKey;
 import net.neoforged.neoforge.client.model.standalone.UnbakedStandaloneModel;
+import org.joml.Vector3f;
 
 import java.util.List;
 
@@ -74,14 +75,16 @@ public final class StandaloneQuads
             for (int vertex = 0; vertex < 4; vertex++)
             {
                 long packedUV = quad.packedUV(vertex);
+                Vector3f normal = pose.transformNormal(quad.direction().getUnitVec3f(), new Vector3f());
 
+                buffer.applyBakedNormals(normal, quad.bakedNormals(), vertex, pose.normal());
                 buffer
                         .addVertex(pose, quad.position(vertex))
                         .setColor(-1)
                         .setUv(UVPair.unpackU(packedUV), UVPair.unpackV(packedUV))
                         .setOverlay(OverlayTexture.NO_OVERLAY)
                         .setLight(LightCoordsUtil.lightCoordsWithEmission(lightCoords, lightEmission))
-                        .setNormal(pose, quad.direction().getUnitVec3f());
+                        .setNormal(normal.x, normal.y, normal.z);
             }
         }
     }

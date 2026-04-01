@@ -112,7 +112,7 @@ public final class LTXIEventHandler
             player.getData(LTXIAttachmentTypes.PLAYER_SHIELD).tick(player);
 
             LootContext tickContext = UpgradeContexts.entityContext(level, player);
-            LTXIUpgradeUtil.runOnEquipmentSlots(level, player, EquipmentSlot.values(), (upgrades, equipmentInUse) ->
+            LTXIUpgradeUtil.runOnEquipmentSlots(player, EquipmentSlot.values(), (upgrades, equipmentInUse) ->
                     upgrades.tickEquipment(level, tickContext, player, equipmentInUse));
         }
     }
@@ -158,7 +158,7 @@ public final class LTXIEventHandler
         if (event.getApplicationResult() && !beneficialEffect && targetEntity.level() instanceof ServerLevel level)
         {
             // Armor immunity block
-            boolean blockEffect = LTXIUpgradeUtil.iterateEquipmentSlots(level, targetEntity, LTXIUpgradeUtil.ARMOR_SLOTS, (upgrades, equipmentInUse) ->
+            boolean blockEffect = LTXIUpgradeUtil.iterateEquipmentSlots(targetEntity, LTXIUpgradeUtil.ARMOR_SLOTS, (upgrades, equipmentInUse) ->
                     upgrades.anyMatch(LTXIUpgradeEffectComponents.MOB_EFFECT_IMMUNITY, (effect, upgradeRank) -> effect.blockEffect(effectInstance, upgradeRank, equipmentInUse)));
             if (blockEffect)
             {
@@ -179,9 +179,9 @@ public final class LTXIEventHandler
     public static void onLivingFall(final LivingFallEvent event)
     {
         LivingEntity entity = event.getEntity();
-        if (entity.level() instanceof ServerLevel level)
+        if (!entity.level().isClientSide())
         {
-            boolean cancelFall = LTXIUpgradeUtil.iterateEquipmentSlot(level, entity, EquipmentSlot.FEET, (upgrades, equipmentInUse) ->
+            boolean cancelFall = LTXIUpgradeUtil.iterateEquipmentSlot(entity, EquipmentSlot.FEET, (upgrades, equipmentInUse) ->
                     upgrades.anySpecialMatch(LTXIUpgradeEffectComponents.CANCEL_FALLS, (effect, upgradeRank) -> effect.apply(upgradeRank, equipmentInUse, entity, event.getDistance())));
             if (cancelFall) event.setCanceled(true);
         }
@@ -196,7 +196,7 @@ public final class LTXIEventHandler
             ItemStack stack = player.getMainHandItem();
             if (stack.getItem() instanceof UpgradableEquipmentItem equipmentItem)
             {
-                if (!LTXIEntityUtil.checkUpgradeTargetValidity(player, event.getTarget(), equipmentItem.getUpgrades(stack)))
+                if (!LTXIEntityUtil.isValidContextTarget(event.getTarget(), player, equipmentItem.getUpgrades(stack)))
                 {
                     event.setCanceled(true);
                 }
@@ -237,7 +237,7 @@ public final class LTXIEventHandler
         for (EquipmentSlot slot : LTXIUpgradeUtil.ARMOR_SLOTS)
         {
             EquipmentUpgrades upgrades = UpgradableEquipmentItem.getUpgradesFrom(entity.getItemBySlot(slot));
-            boolean match = upgrades.anyMatch(LTXIUpgradeEffectComponents.DAMAGE_IMMUNITY, (effect, rank) -> effect.test(context));
+            boolean match = upgrades.anyMatch(LTXIUpgradeEffectComponents.DAMAGE_IMMUNITY, (effect, _) -> effect.test(context));
             if (match)
             {
                 event.setInvulnerable(true);
@@ -285,7 +285,7 @@ public final class LTXIEventHandler
             LootContext context = UpgradeContexts.damageContext(level, hurtEntity, event.getSource(), event.getNewDamage());
             float[] reduction = new float[]{0f};
 
-            LTXIUpgradeUtil.runOnEquipmentSlots(level, hurtEntity, LTXIUpgradeUtil.ARMOR_SLOTS, (upgrades, equipmentInUse) ->
+            LTXIUpgradeUtil.runOnEquipmentSlots(hurtEntity, LTXIUpgradeUtil.ARMOR_SLOTS, (upgrades, equipmentInUse) ->
             {
                 upgrades.applyDamageEntityEffects(LTXIUpgradeEffectComponents.PRE_ATTACK, level, context, EffectTarget.VICTIM, equipmentInUse);
                 if (reduction[0] < 1) reduction[0] += upgrades.applyDamageReduction(context, equipmentInUse);
@@ -299,7 +299,7 @@ public final class LTXIEventHandler
     @SubscribeEvent
     public static void onDamageAttributesAndTags(final DamageAttributeModifiersEvent event)
     {
-        LTXIUpgradeUtil.iterateDamageUpgrades(event.getDamageSource(), ($1, upgrades, equipmentInUse) ->
+        LTXIUpgradeUtil.iterateDamageUpgrades(event.getDamageSource(), (_, upgrades, _) ->
         {
             List<TagKey<DamageType>> extraTags = upgrades.listEffectStream(LTXIUpgradeEffectComponents.EXTRA_DAMAGE_TAGS).toList();
             if (!extraTags.isEmpty()) event.getDamageSource().limaCore$addExtraTags(extraTags);

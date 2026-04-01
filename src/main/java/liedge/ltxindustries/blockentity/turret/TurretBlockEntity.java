@@ -1,5 +1,6 @@
 package liedge.ltxindustries.blockentity.turret;
 
+import com.mojang.logging.LogUtils;
 import it.unimi.dsi.fastutil.ints.IntList;
 import liedge.limacore.LimaCommonConstants;
 import liedge.limacore.blockentity.OwnableBlockEntity;
@@ -39,11 +40,14 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
 
 import java.util.*;
 
 public abstract class TurretBlockEntity extends ProductionMachineBlockEntity implements EnergyConsumerBlockEntity, OwnableBlockEntity
 {
+    private static final Logger LOG = LogUtils.getLogger();
+
     // General properties
     protected final Vec3 traceStart;
     private final AABB searchArea;
@@ -55,11 +59,12 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
     private int serverTimer;
     private TurretState turretState = TurretState.INACTIVE;
 
-    private final TargetPredicate defaultFilter = (target, $) -> this.isValidDefaultTarget(target);
+    private final TargetPredicate defaultFilter = (level, targetEntity, _) -> this.isValidDefaultTarget(level, targetEntity);
     private TargetPredicate targetFilter = defaultFilter;
     private @Nullable UUID targetId;
     private @Nullable Entity target;
     private final Queue<Entity> targetQueue = new ArrayDeque<>();
+    @SuppressWarnings("NotNullFieldNotInitialized")
     private LimaDataWatcher<IntList> queueWatcher;
 
     // Client properties
@@ -76,7 +81,7 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
     {
         super(type, pos, state, 2, 0, 20);
         this.traceStart = new Vec3(pos.getX() + 0.5d, pos.getY() + traceY, pos.getZ() + 0.5d);
-        this.searchArea = AABB.ofSize(traceStart, horizontalSearchRadius, verticalSearchRadius, horizontalSearchRadius);
+        this.searchArea = AABB.ofSize(traceStart, horizontalSearchRadius * 2d, verticalSearchRadius * 2d, horizontalSearchRadius * 2d);
         this.attackArea = searchArea.inflate(3d);
         this.boundingBox = new AABB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 2, pos.getZ() + 1);
     }
@@ -146,7 +151,7 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
 
     protected abstract int getChargingDuration();
 
-    protected abstract boolean isValidDefaultTarget(Entity entity);
+    protected abstract boolean isValidDefaultTarget(ServerLevel level, Entity targetEntity);
 
     protected int getCooldownDuration()
     {
@@ -262,7 +267,7 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
     {
         super.onUpgradeRefresh(context, upgrades);
         EnergyConsumerBlockEntity.applyUpgrades(this, context, upgrades);
-        this.targetFilter = TargetPredicate.create(context.getLevel(), upgrades, defaultFilter);
+        this.targetFilter = TargetPredicate.create(upgrades, defaultFilter);
     }
 
     //#endregion
@@ -298,7 +303,7 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
                     {
                         if (!targetQueue.isEmpty()) purgeTargets(tracker);
 
-                        List<Entity> foundTargets = level.getEntities(owner, searchArea, e -> LTXIEntityUtil.checkWeaponTargetValidity(owner, e, targetFilter) && !tracker.contains(e))
+                        List<Entity> foundTargets = level.getEntities(owner, searchArea, e -> LTXIEntityUtil.isValidContextTarget(e, owner, targetFilter) && !tracker.contains(e))
                                 .stream()
                                 .sorted(Comparator.comparingDouble(e -> e.distanceToSqr(traceStart)))
                                 .filter(e -> {
@@ -313,6 +318,8 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
                                 })
                                 .limit(getMaxTargetsPerSearch())
                                 .toList();
+
+                        LOG.debug("Scanned and found {} targets", foundTargets.size());
 
                         if (!foundTargets.isEmpty())
                         {

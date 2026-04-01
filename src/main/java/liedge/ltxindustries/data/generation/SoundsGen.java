@@ -49,6 +49,7 @@ class SoundsGen extends LimaSoundDefinitionsProvider
             }
         });
 
-        addSingleEventSound(RAILGUN_BOOM, WARDEN_SONIC_BOOM);
+        addSingleEventSound(ROCKET_TURRET_FIRE, ROCKET_LAUNCHER_FIRE);
+        addSingleEventSound(RAILGUN_TURRET_FIRE, WARDEN_SONIC_BOOM);
      }
 }

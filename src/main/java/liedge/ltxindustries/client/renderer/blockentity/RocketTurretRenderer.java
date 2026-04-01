@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.Nullable;
@@ -44,16 +45,16 @@ public class RocketTurretRenderer extends TurretRenderer<RocketTurretBlockEntity
 
         if (camera != null)
         {
-            Vec3 offset = Vec3.atCenterOf(renderState.blockPos);
+            BlockPos pos = renderState.blockPos;
             float progress = blockEntity.lerpAimTicks(partialTick, 34);
 
             List<LockOnRenderData> rocketTargets = new ObjectArrayList<>();
 
-            if (target != null) rocketTargets.add(LockOnRenderData.of(target, offset.x, offset.y, offset.z, camera, progress, partialTick));
+            if (target != null) rocketTargets.add(LockOnRenderData.of(target, pos.getX(), pos.getY(), pos.getZ(), camera, progress, partialTick));
 
             for (Entity entity : blockEntity.getTargetQueue())
             {
-                rocketTargets.add(LockOnRenderData.of(entity, offset.x, offset.y, offset.z, camera, progress, partialTick));
+                rocketTargets.add(LockOnRenderData.of(entity, pos.getX(), pos.getY(), pos.getZ(), camera, progress, partialTick));
             }
 
             renderState.rocketTargets = rocketTargets;
@@ -61,9 +62,9 @@ public class RocketTurretRenderer extends TurretRenderer<RocketTurretBlockEntity
     }
 
     @Override
-    protected void submitWeapons(TurretRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState)
+    public void submit(TurretRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState)
     {
-        super.submitWeapons(renderState, poseStack, nodeCollector, cameraRenderState);
+        super.submit(renderState, poseStack, nodeCollector, cameraRenderState);
 
         List<LockOnRenderData> targets = renderState.rocketTargets;
         for (LockOnRenderData target : targets)

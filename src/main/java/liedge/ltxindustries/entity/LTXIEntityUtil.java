@@ -71,37 +71,33 @@ public final class LTXIEntityUtil
         return true;
     }
 
-    public static boolean checkWeaponTargetValidity(@Nullable Entity attackingEntity, Entity target, UpgradesContainerBase<?, ?> upgrades)
+    public static boolean isValidContextTarget(Entity targetEntity, @Nullable Entity attackingEntity, TargetPredicate predicate)
     {
-        return checkBaseTargetValidity(attackingEntity, target) && checkUpgradeTargetValidity(attackingEntity, target, upgrades);
+        if (!(targetEntity.level() instanceof ServerLevel serverLevel)) return false;
+        return isValidBaseTarget(targetEntity, attackingEntity) && predicate.test(serverLevel, targetEntity, attackingEntity);
     }
 
-    public static boolean checkWeaponTargetValidity(@Nullable Entity attackingEntity, Entity target, TargetPredicate predicate)
+    public static boolean isValidContextTarget(Entity targetEntity, @Nullable Entity attackingEntity, UpgradesContainerBase<?, ?> upgrades)
     {
-        return checkBaseTargetValidity(attackingEntity, target) && predicate.test(target, attackingEntity);
+        return isValidContextTarget(targetEntity, attackingEntity, TargetPredicate.create(upgrades));
     }
 
-    public static boolean checkUpgradeTargetValidity(@Nullable Entity attackingEntity, Entity target, UpgradesContainerBase<?, ?> upgrades)
+    public static boolean isValidBaseTarget(Entity targetEntity, @Nullable Entity attackingEntity)
     {
-        return TargetPredicate.testSingle(target.level(), target, attackingEntity, upgrades);
+        return isValidBaseTarget(targetEntity, attackingEntity, 0);
     }
 
-    public static boolean checkBaseTargetValidity(@Nullable Entity attackingEntity, Entity target)
-    {
-        return checkBaseTargetValidity(attackingEntity, target, 0);
-    }
-
-    private static boolean checkBaseTargetValidity(@Nullable Entity attackingEntity, Entity target, int recursionDepth)
+    private static boolean isValidBaseTarget(Entity targetEntity, @Nullable Entity attackingEntity, int recursionDepth)
     {
         if (recursionDepth > MAX_ENTITY_CHECK_RECURSION) return false;
 
         // Don't hurt the owner, removed/dead entities and immune entity type tag entities
-        if (!isEntityAlive(target) || target == attackingEntity || target.is(LTXITags.EntityTypes.INVALID_TARGETS)) return false;
+        if (!isEntityAlive(targetEntity) || targetEntity == attackingEntity || targetEntity.is(LTXITags.EntityTypes.INVALID_TARGETS)) return false;
 
         // Attacks can come with no attacking entity (rogue entities/machines/etc.)
         final boolean validAttacker = attackingEntity != null;
 
-        return switch (target)
+        return switch (targetEntity)
         {
             // Don't hurt traceable entities with the same owner
             case TraceableEntity traceable when validAttacker && traceable.getOwner() == attackingEntity -> false;
@@ -110,13 +106,13 @@ public final class LTXIEntityUtil
             case OwnableEntity ownable when validAttacker && ownable.getOwner() == attackingEntity -> false;
 
             // Don't hurt part entities if their parent entity is dead
-            case PartEntity<?> part when !checkBaseTargetValidity(attackingEntity, part.getParent(), recursionDepth + 1) -> false;
+            case PartEntity<?> part when !isValidBaseTarget(part.getParent(), attackingEntity, recursionDepth + 1) -> false;
 
             // Check pvp rules if target is a player
             case Player player when !checkPlayerPVPRule(attackingEntity, player) -> false;
 
             // Finally, don't hurt the vehicle entity owner is riding (if any)
-            default -> !validAttacker || !attackingEntity.isPassengerOfSameVehicle(target);
+            default -> !validAttacker || !attackingEntity.isPassengerOfSameVehicle(targetEntity);
         };
     }
 
@@ -165,7 +161,7 @@ public final class LTXIEntityUtil
     {
         Vec3 path = end.subtract(start);
 
-        return level.getEntities(directEntity, directEntity.getBoundingBox().expandTowards(path).inflate(0.3d), hit -> checkWeaponTargetValidity(sourceEntity, hit, predicate))
+        return level.getEntities(directEntity, directEntity.getBoundingBox().expandTowards(path).inflate(0.3d), hit -> isValidContextTarget(hit, sourceEntity, predicate))
                 .stream()
                 .sorted(Comparator.comparingDouble(hit -> hit.distanceToSqr(start)))
                 .mapMulti((hit, consumer) -> {

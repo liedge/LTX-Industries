@@ -4,6 +4,7 @@ import com.mojang.blaze3d.pipeline.BlendFunction;
 import com.mojang.blaze3d.pipeline.ColorTargetState;
 import com.mojang.blaze3d.pipeline.DepthStencilState;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
+import com.mojang.blaze3d.platform.CompareOp;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import liedge.ltxindustries.LTXIndustries;
@@ -42,6 +43,7 @@ public final class LTXIRenderPipelines
             .withFragmentShader("core/position_tex_color")
             .withSampler("Sampler0")
             .withCull(false)
+            .withDepthStencilState(new DepthStencilState(CompareOp.ALWAYS_PASS, true))
             .withVertexFormat(DefaultVertexFormat.POSITION_TEX_COLOR, VertexFormat.Mode.QUADS)
             .build();
 
@@ -55,13 +57,4 @@ public final class LTXIRenderPipelines
             .withDepthStencilState(DepthStencilState.DEFAULT)
             .withVertexFormat(DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS)
             .build();
-
-    /*
-    public static final RenderPipeline WIREFRAME = RenderPipeline.builder(LimaCoreRenderPipelines.EMISSIVE_ENTITY_SNIPPET, RenderPipelines.GLOBALS_SNIPPET)
-            .withLocation(LTXIndustries.RESOURCES.id("pipeline/wireframe"))
-            .withShaderDefine("APPLY_TEXTURE_MATRIX")
-            .withColorTargetState(new ColorTargetState(BlendFunction.ADDITIVE))
-            .withCull(true)
-            .build();
-    */
 }

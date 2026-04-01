@@ -1,6 +1,9 @@
 package liedge.ltxindustries.blockentity.turret;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import liedge.limacore.lib.MobHostility;
+import liedge.limacore.util.LimaCoreObjects;
+import liedge.limacore.util.LimaEntityUtil;
 import liedge.ltxindustries.client.model.custom.EnergyBoltData;
 import liedge.ltxindustries.entity.damage.TurretDamageSource;
 import liedge.ltxindustries.lib.TurretTargetTracker;
@@ -68,9 +71,10 @@ public class ArcTurretBlockEntity extends TurretBlockEntity
     }
 
     @Override
-    protected boolean isValidDefaultTarget(Entity entity)
+    protected boolean isValidDefaultTarget(ServerLevel level, Entity targetEntity)
     {
-        return false;
+        MobHostility hostility = LimaEntityUtil.getEntityHostility(level, targetEntity, getOwner());
+        return LimaCoreObjects.greaterThanOrEquals(hostility, MobHostility.NEUTRAL_ENEMY);
     }
 
     @Override

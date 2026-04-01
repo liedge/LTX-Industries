@@ -5,19 +5,26 @@ import net.minecraft.util.StringRepresentable;
 
 public enum TurretState implements StringRepresentable
 {
-    INACTIVE("inactive"),
-    SEARCHING("searching"),
-    CHARGING("charging"),
-    FIRING("firing"),
-    COOLDOWN("cooldown");
+    INACTIVE("inactive", false),
+    SEARCHING("searching", false),
+    CHARGING("charging", true),
+    FIRING("firing", true),
+    COOLDOWN("cooldown", false);
 
     public static final LimaEnumCodec<TurretState> CODEC = LimaEnumCodec.create(TurretState.class);
 
     private final String name;
+    private final boolean extendedRender;
 
-    TurretState(String name)
+    TurretState(String name, boolean extendedRender)
     {
         this.name = name;
+        this.extendedRender = extendedRender;
+    }
+
+    public boolean isExtendedRender()
+    {
+        return extendedRender;
     }
 
     @Override
