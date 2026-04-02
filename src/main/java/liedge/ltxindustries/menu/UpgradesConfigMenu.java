@@ -134,7 +134,7 @@ public abstract class UpgradesConfigMenu<CTX extends ItemHolderBlockEntity, U ex
     {
         public InsertSlot(int xPos, int yPos)
         {
-            super(moduleSourceInventory, moduleSlot, xPos, yPos, true);
+            super(moduleSourceInventory, moduleSlot, xPos, yPos);
         }
 
         @Override

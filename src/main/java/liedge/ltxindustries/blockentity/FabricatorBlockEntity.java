@@ -7,9 +7,9 @@ import liedge.ltxindustries.registry.game.LTXIBlockEntities;
 import liedge.ltxindustries.registry.game.LTXIItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 import java.util.List;
@@ -83,8 +83,8 @@ public class FabricatorBlockEntity extends BaseFabricatorBlockEntity
     }
 
     @Override
-    public Item getValidBlueprintItem()
+    public boolean isValidBlueprintItem(ItemResource resource)
     {
-        return LTXIItems.EMPTY_FABRICATION_BLUEPRINT.get();
+        return resource.is(LTXIItems.EMPTY_FABRICATION_BLUEPRINT.get());
     }
 }

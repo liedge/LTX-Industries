@@ -12,7 +12,6 @@ import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -107,9 +106,9 @@ public class AutoFabricatorBlockEntity extends BaseFabricatorBlockEntity
     }
 
     @Override
-    public Item getValidBlueprintItem()
+    public boolean isValidBlueprintItem(ItemResource resource)
     {
-        return LTXIItems.FABRICATION_BLUEPRINT.get();
+        return resource.is(LTXIItems.FABRICATION_BLUEPRINT.get()) && resource.has(LTXIDataComponents.BLUEPRINT_RECIPE);
     }
 
     @Override

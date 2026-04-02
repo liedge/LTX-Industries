@@ -4,6 +4,7 @@ import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.menu.LimaMenuType;
 import liedge.ltxindustries.blockentity.AutoFabricatorBlockEntity;
 import liedge.ltxindustries.blockentity.BaseFabricatorBlockEntity;
+import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
 import net.minecraft.world.entity.player.Inventory;
 
 public class AutoFabricatorMenu extends LTXIMachineMenu<AutoFabricatorBlockEntity>
@@ -12,14 +13,9 @@ public class AutoFabricatorMenu extends LTXIMachineMenu<AutoFabricatorBlockEntit
     {
         super(type, containerId, inventory, menuContext);
 
-        //final Predicate<ItemStack> blueprintPredicate = stack -> stack.is(menuContext.getValidBlueprintItem()) && !Objects.isNull(stack.get(LTXIDataComponents.BLUEPRINT_RECIPE));
-        //addSlotsGrid(BlockContentsType.INPUT, 0, 33, 30, 8, 2, blueprintPredicate.negate());
-        //addSlot(BlockContentsType.AUXILIARY, BaseFabricatorBlockEntity.AUX_BLUEPRINT_SLOT, 120, 73, blueprintPredicate);
-        //addRecipeOutputSlot(0, 152, 73, menuContext.getRecipeCheck().getRecipeType());
-
         addSlotsGrid(BlockContentsType.INPUT, 0, 33, 30, 8, 2);
         addSlot(BlockContentsType.AUXILIARY, BaseFabricatorBlockEntity.AUX_BLUEPRINT_SLOT, 120, 73);
-        addOutputSlot(0, 152, 73);
+        addRecipeOutputSlot(0, 152, 73, LTXIRecipeTypes.FABRICATING);
         addPlayerInventoryAndHotbar(15, 98);
     }
 

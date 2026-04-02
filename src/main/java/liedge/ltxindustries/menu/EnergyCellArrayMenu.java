@@ -11,7 +11,7 @@ public class EnergyCellArrayMenu extends LTXIMachineMenu<BaseECABlockEntity>
     {
         super(type, containerId, inventory, menuContext, false);
 
-        addSlotsGrid(BlockContentsType.GENERAL, 0, 56, 37, 4, 1); //LimaItemUtil::hasEnergyCapability);
+        addSlotsGrid(BlockContentsType.GENERAL, 0, 56, 37, 4, 1);
 
         addDefaultPlayerInventoryAndHotbar();
     }

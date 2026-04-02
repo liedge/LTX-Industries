@@ -39,7 +39,7 @@ public final class RecipeLayoutMenu<CTX extends BaseRecipeMachineBlockEntity<?, 
                 switch (slotType)
                 {
                     case ITEM_INPUT -> addSlot(contentsType, i, s.x(), s.y());
-                    case ITEM_OUTPUT -> addOutputSlot(i, s.x(), s.y());
+                    case ITEM_OUTPUT -> addRecipeOutputSlot(i, s.x(), s.y(), menuContext.getRecipeCheck().getRecipeType());
                     case FLUID_INPUT -> addFluidSlot(menuContext.getFluidsOrThrow(contentsType), i, s.x(), s.y(), true);
                     case FLUID_OUTPUT -> addFluidSlot(menuContext.getFluidsOrThrow(contentsType), i, s.x(), s.y(), false);
                 }

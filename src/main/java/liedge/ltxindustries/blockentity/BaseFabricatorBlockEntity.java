@@ -18,7 +18,6 @@ import liedge.ltxindustries.util.LTXITooltipUtil;
 import liedge.ltxindustries.util.config.LTXIMachinesConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
@@ -143,12 +142,12 @@ public abstract class BaseFabricatorBlockEntity extends ProductionMachineBlockEn
 
     protected abstract void tickServerFabricator(ServerLevel level, BlockPos pos, BlockState state);
 
-    public abstract Item getValidBlueprintItem();
+    public abstract boolean isValidBlueprintItem(ItemResource resource);
 
     @Override
     protected boolean isItemValidForAuxInventory(int index, ItemResource resource)
     {
-        return index == AUX_BLUEPRINT_SLOT ? resource.is(getValidBlueprintItem()) : super.isItemValidForAuxInventory(index, resource);
+        return index == AUX_BLUEPRINT_SLOT ? isValidBlueprintItem(resource) : super.isItemValidForAuxInventory(index, resource);
     }
 
     @Override

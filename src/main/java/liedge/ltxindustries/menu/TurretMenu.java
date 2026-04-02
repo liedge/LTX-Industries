@@ -1,7 +1,7 @@
 package liedge.ltxindustries.menu;
 
+import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.menu.LimaMenuType;
-import liedge.limacore.menu.slot.LimaItemSlot;
 import liedge.ltxindustries.blockentity.turret.TurretBlockEntity;
 import net.minecraft.world.entity.player.Inventory;
 
@@ -11,7 +11,7 @@ public class TurretMenu<BE extends TurretBlockEntity> extends LTXIMachineMenu<BE
     {
         super(type, containerId, inventory, menuContext);
 
-        addSlotsGrid(menuContext.getOutputInventory(), 0, 80 ,23, 5, 4, (ctr, slot, sx, sy) -> new LimaItemSlot(ctr, slot, sx, sy, false));
+        addSlotsGrid(BlockContentsType.OUTPUT, 0, 80, 23, 5, 4, slot -> slot.allowPlacement(false));
         addPlayerInventoryAndHotbar(8, 106);
     }
 

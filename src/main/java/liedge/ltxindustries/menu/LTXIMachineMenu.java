@@ -18,8 +18,7 @@ public abstract class LTXIMachineMenu<CTX extends LTXIMachineBlockEntity> extend
     {
         super(type, containerId, inventory, menuContext);
 
-        //addSlot(BlockContentsType.AUXILIARY, LTXIMachineBlockEntity.AUX_ENERGY_ITEM_SLOT, 8, 53, stack -> allowEnergySlotQuickTransfer && LimaItemUtil.hasEnergyCapability(stack));
-        addSlot(BlockContentsType.AUXILIARY, LTXIMachineBlockEntity.AUX_ENERGY_ITEM_SLOT, 8, 53);
+        addSlot(BlockContentsType.AUXILIARY, LTXIMachineBlockEntity.AUX_ENERGY_ITEM_SLOT, 8, 53, slot -> slot.setQuickTransferTest(_ -> allowEnergySlotQuickTransfer));
     }
 
     protected LTXIMachineMenu(LimaMenuType<CTX, ?> type, int containerId, Inventory inventory, CTX menuContext)

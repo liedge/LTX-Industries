@@ -32,11 +32,8 @@ public class FabricatorMenu extends LTXIMachineMenu<FabricatorBlockEntity>
         super(type, containerId, inventory, context);
 
         // Slots
-        addOutputSlot(0, 42, 86);
+        addRecipeOutputSlot(0, 42, 86, LTXIRecipeTypes.FABRICATING);
         addSlot(BlockContentsType.AUXILIARY, BaseFabricatorBlockEntity.AUX_BLUEPRINT_SLOT, 43, 61);
-
-        //addRecipeOutputSlot(0, 42, 86, menuContext().getRecipeCheck().getRecipeType());
-        //addSlot(BlockContentsType.AUXILIARY, BaseFabricatorBlockEntity.AUX_BLUEPRINT_SLOT, 43, 61, stack -> stack.is(menuContext().getValidBlueprintItem()));
 
         addPlayerInventoryAndHotbar(15, 118);
     }
@@ -58,17 +55,17 @@ public class FabricatorMenu extends LTXIMachineMenu<FabricatorBlockEntity>
         LimaRegistryUtil.getRecipeByKey(level, key, LTXIRecipeTypes.FABRICATING).ifPresent(_ ->
         {
             LimaBlockEntityItems auxInventory = menuContext.getItemsOrThrow(BlockContentsType.AUXILIARY);
-            Item blankBPItem = menuContext.getValidBlueprintItem();
+            Item emptyBlueprintItem = LTXIItems.EMPTY_FABRICATION_BLUEPRINT.get();
 
-            if (auxInventory.getResource(BaseFabricatorBlockEntity.AUX_BLUEPRINT_SLOT).is(blankBPItem))
+            if (auxInventory.getResource(BaseFabricatorBlockEntity.AUX_BLUEPRINT_SLOT).is(emptyBlueprintItem))
             {
-                ItemStack blueprint = new ItemStack(LTXIItems.FABRICATION_BLUEPRINT.asItem());
+                ItemStack blueprint = new ItemStack(LTXIItems.FABRICATION_BLUEPRINT.get());
                 blueprint.set(LTXIDataComponents.BLUEPRINT_RECIPE, key);
 
                 int extracted;
                 try (Transaction tx = Transaction.openRoot())
                 {
-                    extracted = auxInventory.extract(BaseFabricatorBlockEntity.AUX_BLUEPRINT_SLOT, ItemResource.of(blankBPItem), 1, tx);
+                    extracted = auxInventory.extract(BaseFabricatorBlockEntity.AUX_BLUEPRINT_SLOT, ItemResource.of(emptyBlueprintItem), 1, tx);
                     tx.commit();
                 }
 
