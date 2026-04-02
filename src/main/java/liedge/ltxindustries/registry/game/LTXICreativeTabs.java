@@ -35,14 +35,9 @@ public final class LTXICreativeTabs
             .displayItems((parameters, output) -> buildMainTab(id, parameters, output))
             .build());
 
-    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EQUIPMENT_MODULES_TAB = TABS.register("equipment_modules", id -> LimaItemUtil.tabBuilderWithTitle(id)
-            .icon(LTXIItems.EQUIPMENT_UPGRADE_MODULE::toStack)
-            .displayItems(((parameters, output) -> LimaCreativeTabFillerItem.addToTab(id, parameters, output, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS, LTXIItems.EQUIPMENT_UPGRADE_MODULE)))
-            .build());
-
-    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MACHINE_MODULES_TAB = TABS.register("machine_modules", id -> LimaItemUtil.tabBuilderWithTitle(id)
-            .icon(LTXIItems.MACHINE_UPGRADE_MODULE::toStack)
-            .displayItems((parameters, output) -> LimaCreativeTabFillerItem.addToTab(id, parameters, output, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS, LTXIItems.MACHINE_UPGRADE_MODULE))
+    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> UPGRADE_MODULES_TAB = TABS.register("upgrade_modules", id -> LimaItemUtil.tabBuilderWithTitle(id)
+            .icon(LTXIItems.UPGRADE_MODULE::toStack)
+            .displayItems((parameters, output) -> LimaCreativeTabFillerItem.addToTab(id, parameters, output, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS, LTXIItems.UPGRADE_MODULE))
             .build());
 
     private static void buildMainTab(Identifier tabId, CreativeModeTab.ItemDisplayParameters parameters, CreativeModeTab.Output output)

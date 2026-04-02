@@ -5,20 +5,20 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.menu.BlockEntityMenu;
 import liedge.limacore.menu.LimaMenuType;
 import liedge.limacore.menu.slot.LimaItemSlot;
-import liedge.limacore.network.NetworkSerializer;
 import liedge.limacore.network.sync.AutomaticDataWatcher;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.limacore.transfer.item.ItemHolderBlockEntity;
 import liedge.limacore.transfer.item.LimaBlockEntityItems;
-import liedge.ltxindustries.lib.upgrades.UpgradeBase;
-import liedge.ltxindustries.lib.upgrades.UpgradesContainerBase;
+import liedge.ltxindustries.item.UpgradeModuleItem;
+import liedge.ltxindustries.lib.upgrades.Upgrade;
+import liedge.ltxindustries.lib.upgrades.Upgrades;
+import liedge.ltxindustries.registry.game.LTXINetworkSerializers;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.neoforge.transfer.item.PlayerInventoryWrapper;
@@ -26,13 +26,11 @@ import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 import java.util.List;
 
-public abstract class UpgradesConfigMenu<CTX extends ItemHolderBlockEntity, U extends UpgradeBase<?, U>, UC extends UpgradesContainerBase<?, U>> extends BlockEntityMenu<CTX>
+public abstract class UpgradesConfigMenu<CTX extends ItemHolderBlockEntity> extends BlockEntityMenu<CTX>
 {
     public static final int UPGRADE_REMOVAL_BUTTON_ID = 0;
 
-    private int quickTransferSlot = -1;
-
-    private final List<Object2IntMap.Entry<Holder<U>>> remoteUpgrades = new ObjectArrayList<>();
+    private final List<Object2IntMap.Entry<Holder<Upgrade>>> remoteUpgrades = new ObjectArrayList<>();
     protected final LimaBlockEntityItems moduleSourceInventory;
     protected final int moduleSlot;
     private boolean screenUpdate = true;
@@ -47,30 +45,11 @@ public abstract class UpgradesConfigMenu<CTX extends ItemHolderBlockEntity, U ex
     }
 
     @Override
-    public final ItemStack quickMoveStack(Player player, int index)
-    {
-        // Capture the quick transfer slot if applicable
-        if (index >= inventoryStart)
-        {
-            this.quickTransferSlot = slots.get(index).getContainerSlot();
-        }
-        else
-        {
-            this.quickTransferSlot = -1;
-        }
-
-        // Perform the transfer as usual and reset
-        ItemStack result = super.quickMoveStack(player, index);
-        this.quickTransferSlot = -1;
-        return result;
-    }
-
-    @Override
     public void defineDataWatchers(DataWatcherCollector collector)
     {
-        collector.register(AutomaticDataWatcher.keepSynced(getUpgradesSerializer(), this::getUpgrades, eid -> {
+        collector.register(AutomaticDataWatcher.keepSynced(LTXINetworkSerializers.UPGRADES, this::getUpgrades, upgrades -> {
             this.remoteUpgrades.clear();
-            this.remoteUpgrades.addAll(eid.toEntrySet());
+            this.remoteUpgrades.addAll(upgrades.toEntrySet());
             this.screenUpdate = true;
         }));
     }
@@ -81,40 +60,42 @@ public abstract class UpgradesConfigMenu<CTX extends ItemHolderBlockEntity, U ex
         builder.handleAction(UPGRADE_REMOVAL_BUTTON_ID, LimaCoreNetworkSerializers.IDENTIFIER, this::tryRemoveUpgrade);
     }
 
-    protected abstract NetworkSerializer<UC> getUpgradesSerializer();
-
-    protected abstract UC getUpgrades();
+    protected abstract Upgrades getUpgrades();
 
     protected abstract boolean canInstallUpgrade(ItemStack upgradeModuleItem);
 
-    protected abstract void tryInstallUpgrade(ItemStack upgradeModuleItem, ServerLevel level);
+    protected abstract boolean installUpgrade(ServerLevel level, ItemStack moduleItem);
 
     protected abstract void tryRemoveUpgrade(ServerPlayer sender, Identifier upgradeId);
 
-    protected abstract ItemStack createModuleItem(Holder<U> upgrade, int upgradeRank);
-
-    protected void ejectModuleItem(ServerPlayer player, Holder<U> upgrade, int upgradeRank)
+    protected void ejectModuleItem(ServerPlayer player, Holder<Upgrade> upgrade, int upgradeRank, boolean insertIntoInventory)
     {
-        ItemResource moduleResource = ItemResource.of(createModuleItem(upgrade, upgradeRank));
-        PlayerInventoryWrapper inventory = PlayerInventoryWrapper.of(player);
+        ItemStack moduleStack = UpgradeModuleItem.get(upgrade, upgradeRank);
 
-        int inserted;
-        try (Transaction tx = Transaction.openRoot())
+        int inserted = 0;
+
+        if (insertIntoInventory)
         {
-            inserted = inventory.insert(moduleResource, 1, tx);
-            tx.commit();
+            PlayerInventoryWrapper inventory = PlayerInventoryWrapper.of(player);
+            ItemResource resource = ItemResource.of(moduleStack);
+
+            try (Transaction tx = Transaction.openRoot())
+            {
+                inserted = inventory.insert(resource, 1, tx);
+                if (inserted > 0) tx.commit();
+            }
         }
 
         if (inserted < 1)
         {
-            ItemEntity itemEntity = new ItemEntity(player.level(), player.getX(), player.getEyeY(), player.getZ(), moduleResource.toStack());
+            ItemEntity itemEntity = new ItemEntity(player.level(), player.getX(), player.getEyeY(), player.getZ(), moduleStack);
             itemEntity.setPickUpDelay(10);
             itemEntity.setDeltaMovement(itemEntity.getDeltaMovement().multiply(0, 1, 0));
             player.level().addFreshEntity(itemEntity);
         }
     }
 
-    public List<Object2IntMap.Entry<Holder<U>>> getRemoteUpgrades()
+    public List<Object2IntMap.Entry<Holder<Upgrade>>> getRemoteUpgrades()
     {
         return remoteUpgrades;
     }
@@ -140,12 +121,16 @@ public abstract class UpgradesConfigMenu<CTX extends ItemHolderBlockEntity, U ex
         @Override
         public void setByPlayer(ItemStack stack)
         {
-            super.setByPlayer(stack);
-
-            if (!stack.isEmpty() && level() instanceof ServerLevel serverLevel)
+            if (!stack.isEmpty() && level() instanceof ServerLevel level)
             {
-                tryInstallUpgrade(stack, serverLevel);
+                if (installUpgrade(level, stack))
+                {
+                    super.setByPlayer(ItemStack.EMPTY);
+                    return;
+                }
             }
+
+            super.setByPlayer(stack);
         }
 
         @Override

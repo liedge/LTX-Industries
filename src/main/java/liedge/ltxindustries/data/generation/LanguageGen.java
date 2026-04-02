@@ -11,8 +11,8 @@ import liedge.ltxindustries.item.SimpleHintItem;
 import liedge.ltxindustries.item.tool.ToolSpeed;
 import liedge.ltxindustries.item.weapon.GrenadeLauncherItem;
 import liedge.ltxindustries.item.weapon.WeaponItem;
-import liedge.ltxindustries.lib.upgrades.UpgradeBase;
-import liedge.ltxindustries.lib.upgrades.UpgradeBaseBuilder;
+import liedge.ltxindustries.lib.upgrades.Upgrade;
+import liedge.ltxindustries.lib.upgrades.UpgradeBuilder;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
 import liedge.ltxindustries.lib.weapons.WeaponReloadSource;
 import liedge.ltxindustries.recipe.RecipeMode;
@@ -288,8 +288,7 @@ class LanguageGen extends LimaLanguageProvider
 
         // Creative tabs
         creativeTab(MAIN_TAB, "LTX Industries");
-        creativeTab(EQUIPMENT_MODULES_TAB, "LTXI Equipment Upgrades");
-        creativeTab(MACHINE_MODULES_TAB, "LTXI Machine Upgrades");
+        creativeTab(UPGRADE_MODULES_TAB, "LTXI Upgrade Modules");
 
         // Menu titles
         menuTitle(LTXIMenus.BLOCK_IO_CONFIGURATION, "%s IO Config");
@@ -379,9 +378,8 @@ class LanguageGen extends LimaLanguageProvider
 
         add(UPGRADE_RANK_TOOLTIP, "Rank %s/%s");
         add(UPGRADE_REMOVE_HINT, "Shift + left click to remove upgrade. Must have space in your inventory.");
-        add(UPGRADE_COMPATIBILITY_TOOLTIP, "Compatible with:");
-        add(EQUIPMENT_UPGRADE_MODULE_TOOLTIP, "Equipment Upgrade Module");
-        add(MACHINE_UPGRADE_MODULE_TOOLTIP, "Machine Upgrade Module");
+        add(EQUIPMENT_COMPATIBILITY_TOOLTIP, "Compatible Equipment: ");
+        add(MACHINE_COMPATIBILITY_TOOLTIP, "Compatible Machines: ");
         add(DAMAGE_ATTRIBUTES_EFFECT_PREFIX, "Against target: ");
 
         add(UPGRADE_INSTALL_SUCCESS, "Installed upgrade.");
@@ -508,20 +506,20 @@ class LanguageGen extends LimaLanguageProvider
         damageTypeAndVariants(damageTypeKey, translation, collector -> collector.accept("unowned", unownedTranslation));
     }
 
-    private void upgrade(ResourceKey<? extends UpgradeBase<?, ?>> key, String title, String description)
+    private void upgrade(ResourceKey<Upgrade> key, String title, String description)
     {
-        add(UpgradeBaseBuilder.defaultTitleKey(key), title);
-        add(UpgradeBaseBuilder.defaultDescriptionKey(key), description);
+        add(UpgradeBuilder.defaultTitleKey(key), title);
+        add(UpgradeBuilder.defaultDescriptionKey(key), description);
     }
 
-    private void upgradeDescOnly(ResourceKey<? extends UpgradeBase<?, ?>> key, String description)
+    private void upgradeDescOnly(ResourceKey<Upgrade> key, String description)
     {
-        add(UpgradeBaseBuilder.defaultDescriptionKey(key), description);
+        add(UpgradeBuilder.defaultDescriptionKey(key), description);
     }
 
-    private void upgradeTooltip(ResourceKey<? extends UpgradeBase<?, ?>> key, int index, String value)
+    private void upgradeTooltip(ResourceKey<Upgrade> key, int index, String value)
     {
-        add(UpgradeBaseBuilder.tooltipKey(key, index), value);
+        add(UpgradeBuilder.tooltipKey(key, index), value);
     }
 
     private void recipeMode(ResourceKey<RecipeMode> key, String value)

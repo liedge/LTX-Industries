@@ -9,9 +9,9 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
-public record UpgradedEquipmentInUse(UpgradesContainerBase<?, ?> upgrades, ItemStack stack, @Nullable UpgradableEquipmentItem item, @Nullable EquipmentSlot slot, @Nullable LivingEntity owner, TargetPredicate filter)
+public record UpgradedEquipmentInUse(Upgrades upgrades, ItemStack stack, @Nullable UpgradableEquipmentItem item, @Nullable EquipmentSlot slot, @Nullable LivingEntity owner, TargetPredicate filter)
 {
-    public static UpgradedEquipmentInUse create(UpgradesContainerBase<?, ?> upgrades, ItemStack stack, @Nullable UpgradableEquipmentItem item, @Nullable EquipmentSlot slot, @Nullable LivingEntity owner)
+    public static UpgradedEquipmentInUse create(Upgrades upgrades, ItemStack stack, @Nullable UpgradableEquipmentItem item, @Nullable EquipmentSlot slot, @Nullable LivingEntity owner)
     {
         return new UpgradedEquipmentInUse(upgrades, stack, item, slot, owner, TargetPredicate.create(upgrades));
     }

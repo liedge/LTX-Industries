@@ -5,8 +5,8 @@ import liedge.limacore.item.LimaCreativeTabFillerItem;
 import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.registry.game.LimaCoreDataComponents;
 import liedge.ltxindustries.LTXIConstants;
+import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.lib.upgrades.effect.ValueOperation;
-import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.resources.Identifier;
@@ -89,14 +89,14 @@ public abstract class EnergyEquipmentItem extends Item implements UpgradableEqui
         output.accept(stack, tabVisibility);
     }
 
-    protected void setUpgradableDouble(ItemStack stack, EquipmentUpgrades upgrades, LootContext context, double baseFallback, Supplier<? extends DataComponentType<Double>> itemComponent, Supplier<? extends DataComponentType<List<ValueOperation>>> upgradeComponent)
+    protected void setUpgradableDouble(ItemStack stack, Upgrades upgrades, LootContext context, double baseFallback, Supplier<? extends DataComponentType<Double>> itemComponent, Supplier<? extends DataComponentType<List<ValueOperation>>> upgradeComponent)
     {
         double base = components().getOrDefault(itemComponent.get(), baseFallback);
         double value = upgrades.runValueOps(upgradeComponent, context, base);
         stack.set(itemComponent, value);
     }
 
-    protected void setUpgradableInt(ItemStack stack, EquipmentUpgrades upgrades, LootContext context, int baseFallback, Supplier<? extends DataComponentType<Integer>> itemComponent, Supplier<? extends DataComponentType<List<ValueOperation>>> upgradeComponent)
+    protected void setUpgradableInt(ItemStack stack, Upgrades upgrades, LootContext context, int baseFallback, Supplier<? extends DataComponentType<Integer>> itemComponent, Supplier<? extends DataComponentType<List<ValueOperation>>> upgradeComponent)
     {
         int base = components().getOrDefault(itemComponent.get(), baseFallback);
         int value = LimaCoreMath.round(upgrades.runValueOps(upgradeComponent, context, base));

@@ -18,7 +18,7 @@ import liedge.ltxindustries.blockentity.template.ProductionMachineBlockEntity;
 import liedge.ltxindustries.entity.LTXIEntityUtil;
 import liedge.ltxindustries.entity.TargetPredicate;
 import liedge.ltxindustries.lib.TurretTargetTracker;
-import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrades;
+import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.registry.game.LTXISounds;
 import liedge.ltxindustries.util.LTXITooltipUtil;
 import net.minecraft.core.BlockPos;
@@ -263,7 +263,7 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
     }
 
     @Override
-    public void onUpgradeRefresh(LootContext context, MachineUpgrades upgrades)
+    public void onUpgradeRefresh(LootContext context, Upgrades upgrades)
     {
         super.onUpgradeRefresh(context, upgrades);
         EnergyConsumerBlockEntity.applyUpgrades(this, context, upgrades);

@@ -5,7 +5,7 @@ import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.blockentity.turret.RocketTurretBlockEntity;
 import liedge.ltxindustries.blockentity.turret.TurretClipContext;
 import liedge.ltxindustries.entity.damage.TurretDamageSource;
-import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrades;
+import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.registry.bootstrap.LTXIDamageTypes;
 import liedge.ltxindustries.registry.game.LTXIEntities;
 import liedge.ltxindustries.util.config.LTXIMachinesConfig;
@@ -24,7 +24,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class TurretRocketEntity extends BaseRocketEntity
 {
-    private MachineUpgrades upgrades = MachineUpgrades.EMPTY;
+    private Upgrades upgrades = Upgrades.EMPTY;
     private @Nullable BlockPos turretPos;
     private @Nullable AABB turretBB;
 
@@ -46,7 +46,7 @@ public class TurretRocketEntity extends BaseRocketEntity
     }
 
     @Override
-    public MachineUpgrades getUpgrades()
+    public Upgrades getUpgrades()
     {
         return upgrades;
     }
@@ -89,7 +89,7 @@ public class TurretRocketEntity extends BaseRocketEntity
     protected void readAdditionalSaveData(ValueInput input)
     {
         super.readAdditionalSaveData(input);
-        upgrades = input.read(LTXIConstants.KEY_UPGRADES_CONTAINER, MachineUpgrades.CODEC).orElse(MachineUpgrades.EMPTY);
+        upgrades = input.read(LTXIConstants.KEY_UPGRADES_CONTAINER, Upgrades.CODEC).orElse(Upgrades.EMPTY);
         turretPos = input.read("turret_pos", BlockPos.CODEC).orElse(null);
     }
 
@@ -97,7 +97,7 @@ public class TurretRocketEntity extends BaseRocketEntity
     protected void addAdditionalSaveData(ValueOutput output)
     {
         super.addAdditionalSaveData(output);
-        output.store(LTXIConstants.KEY_UPGRADES_CONTAINER, MachineUpgrades.CODEC, upgrades);
+        output.store(LTXIConstants.KEY_UPGRADES_CONTAINER, Upgrades.CODEC, upgrades);
         output.storeNullable("turret_pos", BlockPos.CODEC, turretPos);
     }
 }

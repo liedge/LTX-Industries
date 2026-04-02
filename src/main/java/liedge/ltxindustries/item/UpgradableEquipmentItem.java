@@ -5,9 +5,9 @@ import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.registry.game.LimaCoreDataComponents;
 import liedge.limacore.transfer.LimaEnergyUtil;
-import liedge.ltxindustries.lib.upgrades.UpgradesContainerBase;
-import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
-import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
+import liedge.ltxindustries.lib.upgrades.MutableUpgrades;
+import liedge.ltxindustries.lib.upgrades.Upgrade;
+import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.registry.game.LTXIDataComponents;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import liedge.ltxindustries.util.LTXITooltipUtil;
@@ -32,9 +32,9 @@ import java.util.Optional;
 
 public interface UpgradableEquipmentItem extends ItemLike, EnergyHolderItem
 {
-    static EquipmentUpgrades getUpgradesFrom(DataComponentHolder getter)
+    static Upgrades getUpgradesFrom(DataComponentHolder getter)
     {
-        return getter.getOrDefault(LTXIDataComponents.EQUIPMENT_UPGRADES, EquipmentUpgrades.EMPTY);
+        return getter.getOrDefault(LTXIDataComponents.UPGRADES, Upgrades.EMPTY);
     }
 
     default @Nullable EquipmentSlot getEquipmentSlot()
@@ -94,7 +94,7 @@ public interface UpgradableEquipmentItem extends ItemLike, EnergyHolderItem
     }
     //#endregion
 
-    default @Nullable ResourceKey<EquipmentUpgrade> getDefaultUpgradeKey()
+    default @Nullable ResourceKey<Upgrade> getDefaultUpgradeKey()
     {
         return null;
     }
@@ -102,11 +102,11 @@ public interface UpgradableEquipmentItem extends ItemLike, EnergyHolderItem
     default ItemStack createStackWithDefaultUpgrades(HolderLookup.Provider registries)
     {
         ItemStack stack = new ItemStack(this);
-        Optional.ofNullable(getDefaultUpgradeKey()).flatMap(registries::holder).ifPresent(holder -> setUpgrades(stack, EquipmentUpgrades.builder().set(holder).toImmutable()));
+        Optional.ofNullable(getDefaultUpgradeKey()).flatMap(registries::holder).ifPresent(holder -> setUpgrades(stack, MutableUpgrades.create().set(holder).build()));
         return stack;
     }
 
-    default void onUpgradeRefresh(LootContext context, ItemStack stack, EquipmentUpgrades upgrades)
+    default void onUpgradeRefresh(LootContext context, ItemStack stack, Upgrades upgrades)
     {
         // Refresh enchantments
         upgrades.applyEnchantments(stack);
@@ -130,17 +130,17 @@ public interface UpgradableEquipmentItem extends ItemLike, EnergyHolderItem
         }
     }
 
-    default EquipmentUpgrades getUpgrades(ItemStack stack)
+    default Upgrades getUpgrades(ItemStack stack)
     {
         return getUpgradesFrom(stack);
     }
 
-    default void setUpgrades(ItemStack stack, EquipmentUpgrades upgrades)
+    default void setUpgrades(ItemStack stack, Upgrades upgrades)
     {
-        stack.set(LTXIDataComponents.EQUIPMENT_UPGRADES, upgrades);
+        stack.set(LTXIDataComponents.UPGRADES, upgrades);
     }
 
-    default double getUpgradedDamage(UpgradesContainerBase<?, ?> upgrades, LootContext context, double baseDamage)
+    default double getUpgradedDamage(Upgrades upgrades, LootContext context, double baseDamage)
     {
         return upgrades.runConditionalValueOps(LTXIUpgradeEffectComponents.EQUIPMENT_DAMAGE, context, baseDamage);
     }

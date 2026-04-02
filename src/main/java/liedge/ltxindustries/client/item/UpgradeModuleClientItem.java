@@ -6,8 +6,9 @@ import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.client.gui.UpgradeIconRenderers;
 import liedge.ltxindustries.item.UpgradeModuleItem;
-import liedge.ltxindustries.lib.upgrades.UpgradeBaseEntry;
+import liedge.ltxindustries.lib.upgrades.UpgradeEntry;
 import liedge.ltxindustries.lib.upgrades.UpgradeIcon;
+import liedge.ltxindustries.registry.game.LTXIDataComponents;
 import liedge.ltxindustries.util.config.LTXIClientConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -28,12 +29,12 @@ public final class UpgradeModuleClientItem implements ItemGuiRenderOverride
         return Minecraft.getInstance().screen != null && (Minecraft.getInstance().hasShiftDown() || LTXIClientConfig.ALWAYS_SHOW_UPGRADE_ICONS.getAsBoolean());
     }
 
-    private boolean renderIcon(GuiGraphicsExtractor graphics, UpgradeBaseEntry<?> entry, int x, int y)
+    private boolean renderIcon(GuiGraphicsExtractor graphics, UpgradeEntry entry, int x, int y)
     {
         UpgradeIcon icon = entry.upgrade().value().display().icon();
         if (!UpgradeIconRenderers.renderIcon(graphics, icon, x, y)) return false;
 
-        int rank = entry.upgradeRank();
+        int rank = entry.rank();
         int maxRank = entry.upgrade().value().maxRank();
 
         // Render rank bar if applicable
@@ -51,9 +52,9 @@ public final class UpgradeModuleClientItem implements ItemGuiRenderOverride
     @Override
     public boolean renderCustomGuiItem(GuiGraphicsExtractor graphics, @Nullable LivingEntity owner, @Nullable Level level, ItemStack stack, int x, int y)
     {
-        if (stack.getItem() instanceof UpgradeModuleItem<?,?> moduleItem)
+        if (stack.getItem() instanceof UpgradeModuleItem)
         {
-            UpgradeBaseEntry<?> entry = stack.get(moduleItem.entryComponentType());
+            UpgradeEntry entry = stack.get(LTXIDataComponents.UPGRADE_ENTRY);
             if (entry != null && shouldRender()) return renderIcon(graphics, entry, x, y);
         }
 

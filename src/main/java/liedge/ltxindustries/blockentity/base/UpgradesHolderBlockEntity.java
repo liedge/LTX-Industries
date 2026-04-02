@@ -5,7 +5,7 @@ import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.transfer.energy.EnergyHolderBlockEntity;
 import liedge.limacore.transfer.item.ItemHolderBlockEntity;
-import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrades;
+import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
@@ -19,9 +19,9 @@ import java.util.Optional;
 
 public interface UpgradesHolderBlockEntity extends SubMenuProviderBlockEntity, ItemHolderBlockEntity
 {
-    MachineUpgrades getUpgrades();
+    Upgrades getUpgrades();
 
-    void setUpgrades(MachineUpgrades upgrades);
+    void setUpgrades(Upgrades upgrades);
 
     default boolean hasStatsTooltips()
     {
@@ -43,7 +43,7 @@ public interface UpgradesHolderBlockEntity extends SubMenuProviderBlockEntity, I
         return new LootContext.Builder(params).create(Optional.empty());
     }
 
-    default void onUpgradeRefresh(LootContext context, MachineUpgrades upgrades)
+    default void onUpgradeRefresh(LootContext context, Upgrades upgrades)
     {
         // Apply to energy holders, must run here since it is a compounding calculation
         if (this instanceof EnergyHolderBlockEntity energyHolder)

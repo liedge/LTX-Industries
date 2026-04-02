@@ -2,6 +2,7 @@ package liedge.ltxindustries.lib.upgrades;
 
 import com.mojang.serialization.Codec;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.data.LimaCoreCodecs;
 import liedge.limacore.lib.math.MathOperation;
@@ -12,6 +13,7 @@ import liedge.ltxindustries.lib.upgrades.effect.entity.EntityUpgradeEffect;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
+import net.minecraft.core.TypedInstance;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -33,22 +35,16 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
+public final class Upgrades
 {
-    protected static <CTX, U extends UpgradeBase<CTX, U>, T extends UpgradesContainerBase<CTX, U>> Codec<T> createCodec(Codec<Holder<U>> upgradeCodec, Function<Object2IntMap<Holder<U>>, T> factory)
-    {
-        return LimaCoreCodecs.object2IntLinkedHashMap(upgradeCodec, UpgradeBase.UPGRADE_RANK_CODEC).xmap(factory, UpgradesContainerBase::getMapForCloning);
-    }
+    public static final Codec<Upgrades> CODEC = LimaCoreCodecs.object2IntLinkedHashMap(Upgrade.CODEC, Upgrade.RANK_CODEC).xmap(Upgrades::new, Upgrades::getMapForCloning);
+    public static final StreamCodec<RegistryFriendlyByteBuf, Upgrades> STREAM_CODEC = LimaStreamCodecs.object2IntLinkedMap(Upgrade.STREAM_CODEC, Upgrade.RANK_STREAM_CODEC).map(Upgrades::new, Upgrades::getMapForCloning);
+    public static final Upgrades EMPTY = new Upgrades(new Object2IntOpenHashMap<>());
 
-    protected static <CTX, U extends UpgradeBase<CTX, U>, T extends UpgradesContainerBase<CTX, U>> StreamCodec<RegistryFriendlyByteBuf, T> createStreamCodec(StreamCodec<RegistryFriendlyByteBuf, Holder<U>> upgradeStreamCodec, Function<Object2IntMap<Holder<U>>, T> factory)
-    {
-        return LimaStreamCodecs.object2IntLinkedMap(upgradeStreamCodec, UpgradeBase.UPGRADE_RANK_STREAM_CODEC).map(factory, UpgradesContainerBase::getMapForCloning);
-    }
-
-    private final Object2IntMap<Holder<U>> internalMap;
+    private final Object2IntMap<Holder<Upgrade>> internalMap;
     private final int mapHash;
 
-    protected UpgradesContainerBase(Object2IntMap<Holder<U>> internalMap)
+    Upgrades(Object2IntMap<Holder<Upgrade>> internalMap)
     {
         this.internalMap = internalMap;
         this.mapHash = internalMap.hashCode();
@@ -57,7 +53,7 @@ public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
     //#region General iteration helpers
     public <T> void forEachEffect(DataComponentType<List<T>> type, EffectVisitor<T> visitor)
     {
-        for (Object2IntMap.Entry<Holder<U>> entry : internalMap.object2IntEntrySet())
+        for (Object2IntMap.Entry<Holder<Upgrade>> entry : internalMap.object2IntEntrySet())
         {
             List<T> effects = entry.getKey().value().getListEffect(type);
             final int rank = entry.getIntValue();
@@ -76,7 +72,7 @@ public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
 
     public <T, C extends EffectConditionHolder<T>> void forEachConditionalEffect(DataComponentType<List<C>> type, LootContext context, EffectVisitor<T> visitor)
     {
-        for (Object2IntMap.Entry<Holder<U>> entry : internalMap.object2IntEntrySet())
+        for (Object2IntMap.Entry<Holder<Upgrade>> entry : internalMap.object2IntEntrySet())
         {
             int rank = entry.getIntValue();
             List<C> effects = entry.getKey().value().getListEffect(type);
@@ -110,7 +106,7 @@ public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
 
     public <T> boolean anyMatch(DataComponentType<List<T>> type, EffectPredicate<T> predicate)
     {
-        for (Object2IntMap.Entry<Holder<U>> entry : internalMap.object2IntEntrySet())
+        for (Object2IntMap.Entry<Holder<Upgrade>> entry : internalMap.object2IntEntrySet())
         {
             List<T> list = entry.getKey().value().getListEffect(type);
             final int rank = entry.getIntValue();
@@ -229,7 +225,7 @@ public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
     {
         List<HolderSet<R>> sets = new ObjectArrayList<>();
 
-        for (Object2IntMap.Entry<Holder<U>> entry : internalMap.object2IntEntrySet())
+        for (Object2IntMap.Entry<Holder<Upgrade>> entry : internalMap.object2IntEntrySet())
         {
             List<T> effects = entry.getKey().value().getListEffect(type);
             for (T effect : effects)
@@ -379,8 +375,6 @@ public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
     //#endregion
 
     // Container properties
-    public abstract MutableUpgradesContainer<U, ? extends UpgradesContainerBase<CTX, U>> toMutableContainer();
-
     public int size()
     {
         return internalMap.size();
@@ -391,56 +385,63 @@ public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
         return internalMap.isEmpty();
     }
 
-    public boolean canInstallUpgrade(Holder<CTX> contextHolder, UpgradeBaseEntry<U> entry)
+    public boolean canInstallUpgrade(TypedInstance<?> user, UpgradeEntry entry)
     {
-        Holder<U> upgrade = entry.upgrade();
+        Holder<Upgrade> holder = entry.upgrade();
+        Upgrade upgrade = holder.value();
 
         // Check rank
-        if (entry.upgradeRank() <= getUpgradeRank(upgrade)) return false;
+        if (entry.rank() <= getUpgradeRank(holder)) return false;
 
-        // Check general context holder set compatibility
-        if (!upgrade.value().canBeInstalledOn(contextHolder)) return false;
+        // Check user compatibility
+        if (!upgrade.canBeInstalledOn(user)) return false;
 
-        // Check every upgrade for compatibility
-        U existing = upgrade.value();
-        return internalMap.keySet().stream().map(Holder::value).filter(o -> !existing.equals(o)).allMatch(o -> o.canBeInstalledAlongside(upgrade));
+        // Check exclusivity
+        return internalMap.keySet().stream().map(Holder::value)
+                .filter(o -> !upgrade.equals(o))
+                .allMatch(o -> o.canBeInstalledAlongside(holder));
     }
 
-    public int getUpgradeRank(Holder<U> upgradeHolder)
+    public int getUpgradeRank(Holder<Upgrade> upgradeHolder)
     {
         return internalMap.getOrDefault(upgradeHolder, 0);
     }
 
-    public Set<Object2IntMap.Entry<Holder<U>>> toEntrySet()
+    public MutableUpgrades mutable()
+    {
+        return new MutableUpgrades(this);
+    }
+
+    public Set<Object2IntMap.Entry<Holder<Upgrade>>> toEntrySet()
     {
         return Collections.unmodifiableSet(internalMap.object2IntEntrySet());
     }
 
-    private Stream<Object2IntMap.Entry<Holder<U>>> entryStream()
+    private Stream<Object2IntMap.Entry<Holder<Upgrade>>> entryStream()
     {
         return internalMap.object2IntEntrySet().stream();
     }
 
     @ApiStatus.Internal
-    Object2IntMap<Holder<U>> getMapForCloning()
+    Object2IntMap<Holder<Upgrade>> getMapForCloning()
     {
         return internalMap;
     }
 
     @Override
-    public final String toString()
+    public String toString()
     {
         return entryStream().map(entry -> LimaRegistryUtil.getNonNullRegistryId(entry.getKey()) + "(" + entry.getIntValue() + ")").collect(Collectors.joining(","));
     }
 
     @Override
-    public final boolean equals(Object obj)
+    public boolean equals(Object obj)
     {
         if (obj == this)
         {
             return true;
         }
-        else if (obj instanceof UpgradesContainerBase<?,?> other)
+        else if (obj instanceof Upgrades other)
         {
             return this.internalMap.equals(other.internalMap);
         }
@@ -451,7 +452,7 @@ public abstract class UpgradesContainerBase<CTX, U extends UpgradeBase<CTX, U>>
     }
 
     @Override
-    public final int hashCode()
+    public int hashCode()
     {
         return mapHash;
     }

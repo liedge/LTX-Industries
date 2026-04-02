@@ -1,6 +1,6 @@
 package liedge.ltxindustries.item.tool;
 
-import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
+import liedge.ltxindustries.lib.upgrades.Upgrade;
 import liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
@@ -41,7 +41,7 @@ public class EnergyAxeItem extends ModularEnergyMiningItem
     }
 
     @Override
-    public @Nullable ResourceKey<EquipmentUpgrade> getDefaultUpgradeKey()
+    public @Nullable ResourceKey<Upgrade> getDefaultUpgradeKey()
     {
         return LTXIEquipmentUpgrades.LTX_MELEE_DEFAULT;
     }

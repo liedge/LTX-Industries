@@ -1,7 +1,6 @@
 package liedge.ltxindustries;
 
-import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
-import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrade;
+import liedge.ltxindustries.lib.upgrades.Upgrade;
 import liedge.ltxindustries.registry.LTXIRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.ItemTags;
@@ -152,31 +151,21 @@ public final class LTXITags
         }
     }
 
-    public static final class EquipmentUpgrades
+    public static final class Upgrades
     {
-        private EquipmentUpgrades() {}
+        private Upgrades() {}
 
-        public static final TagKey<EquipmentUpgrade> MINING_LEVEL_UPGRADES = tag("mining_levels");
-        public static final TagKey<EquipmentUpgrade> MINING_DROPS_MODIFIERS = tag("mining_drops_modifiers");
-        public static final TagKey<EquipmentUpgrade> AMMO_SOURCE_MODIFIERS = tag("ammo_source_modifiers");
+        public static final TagKey<Upgrade> MINING_LEVELS = tag("mining_levels");
+        public static final TagKey<Upgrade> MINING_DROPS_MODIFIERS = tag("mining_drops_modifiers");
+        public static final TagKey<Upgrade> RELOAD_SOURCE_MODIFIERS = tag("reload_source_modifiers");
+        public static final TagKey<Upgrade> TARGET_PREDICATES = tag("target_predicates");
 
-        private static TagKey<EquipmentUpgrade> tag(String name)
+        public static final TagKey<Upgrade> MACHINE_TIER = tag("machine_tier");
+        public static final TagKey<Upgrade> PARALLEL_OPS_UPGRADES = tag("parallel_ops");
+
+        private static TagKey<Upgrade> tag(String name)
         {
-            return RESOURCES.tagKey(LTXIRegistries.Keys.EQUIPMENT_UPGRADES, name);
-        }
-    }
-
-    public static final class MachineUpgrades
-    {
-        private MachineUpgrades() {}
-
-        public static final TagKey<MachineUpgrade> MACHINE_TIER = tag("machine_tier");
-        public static final TagKey<MachineUpgrade> PARALLEL_OPS_UPGRADES = tag("parallel");
-        public static final TagKey<MachineUpgrade> TARGET_PREDICATES = tag("target_predicates");
-
-        private static TagKey<MachineUpgrade> tag(String name)
-        {
-            return RESOURCES.tagKey(LTXIRegistries.Keys.MACHINE_UPGRADES, name);
+            return RESOURCES.tagKey(LTXIRegistries.Keys.UPGRADES, name);
         }
     }
 

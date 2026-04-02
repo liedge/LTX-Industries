@@ -74,9 +74,8 @@ public final class LTXILangKeys
     // Upgrades tooltips
     public static final Translatable UPGRADE_REMOVE_HINT = tooltip("upgrade_remove_hint");
     public static final Translatable UPGRADE_RANK_TOOLTIP = suffixOnlyKey("upgrade_rank");
-    public static final Translatable UPGRADE_COMPATIBILITY_TOOLTIP = tooltip("upgrade_compatibility");
-    public static final Translatable EQUIPMENT_UPGRADE_MODULE_TOOLTIP = tooltip("equipment_upgrade_module");
-    public static final Translatable MACHINE_UPGRADE_MODULE_TOOLTIP = tooltip("machine_upgrade_module");
+    public static final Translatable EQUIPMENT_COMPATIBILITY_TOOLTIP = tooltip("equipment_compatibility");
+    public static final Translatable MACHINE_COMPATIBILITY_TOOLTIP = tooltip("machine_compatibility");
     public static final Translatable DAMAGE_ATTRIBUTES_EFFECT_PREFIX = tooltip("damage_attributes_prefix");
 
     // Upgrade effects

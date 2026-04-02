@@ -15,14 +15,10 @@ import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.block.NeonLightColor;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
-import liedge.ltxindustries.lib.upgrades.UpgradeBase;
-import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
-import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgradeEntry;
-import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
-import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrade;
-import liedge.ltxindustries.lib.upgrades.machine.MachineUpgradeEntry;
+import liedge.ltxindustries.lib.upgrades.MutableUpgrades;
+import liedge.ltxindustries.lib.upgrades.Upgrade;
+import liedge.ltxindustries.lib.upgrades.UpgradeEntry;
 import liedge.ltxindustries.recipe.*;
-import liedge.ltxindustries.registry.LTXIRegistries;
 import liedge.ltxindustries.registry.bootstrap.LTXIRecipeModes;
 import liedge.ltxindustries.registry.game.LTXIDataComponents;
 import liedge.ltxindustries.registry.game.LTXIFluids;
@@ -1245,54 +1241,26 @@ class RecipesGen extends LimaRecipeProvider
         return new FabricatingBuilder(resources, energyRequired);
     }
 
-    @SuppressWarnings("unchecked")
-    private Ingredient moduleIngredient(HolderLookup.Provider registries, ResourceKey<? extends UpgradeBase<?, ?>> upgradeKey, int upgradeRank)
+    private Ingredient moduleIngredient(HolderLookup.Provider registries, ResourceKey<Upgrade> upgradeKey, int upgradeRank)
     {
-        Ingredient result = null;
-
-        if (upgradeKey.registry().equals(LTXIRegistries.Keys.EQUIPMENT_UPGRADES.identifier()))
-        {
-            Holder<EquipmentUpgrade> holder = (Holder<EquipmentUpgrade>) registries.holderOrThrow(upgradeKey);
-            result = DataComponentIngredient.of(true, LTXIDataComponents.EQUIPMENT_UPGRADE_ENTRY, new EquipmentUpgradeEntry(holder, upgradeRank), EQUIPMENT_UPGRADE_MODULE);
-        }
-        else if (upgradeKey.registry().equals(LTXIRegistries.Keys.MACHINE_UPGRADES.identifier()))
-        {
-            Holder<MachineUpgrade> holder = (Holder<MachineUpgrade>) registries.holderOrThrow(upgradeKey);
-            result = DataComponentIngredient.of(true, LTXIDataComponents.MACHINE_UPGRADE_ENTRY, new MachineUpgradeEntry(holder, upgradeRank), MACHINE_UPGRADE_MODULE);
-        }
-
-        return Objects.requireNonNull(result);
+        Holder<Upgrade> holder = registries.holderOrThrow(upgradeKey);
+        return DataComponentIngredient.of(true, LTXIDataComponents.UPGRADE_ENTRY, new UpgradeEntry(holder, upgradeRank), UPGRADE_MODULE);
     }
 
-    @SuppressWarnings("unchecked")
-    private ItemStackTemplate moduleTemplate(HolderLookup.Provider registries, ResourceKey<? extends UpgradeBase<?, ?>> upgradeKey, int upgradeRank)
+    private ItemStackTemplate moduleTemplate(HolderLookup.Provider registries, ResourceKey<Upgrade> upgradeKey, int upgradeRank)
     {
-        ItemStackTemplate template = null;
-
-        if (upgradeKey.registry().equals(LTXIRegistries.Keys.EQUIPMENT_UPGRADES.identifier()))
-        {
-            DataComponentPatch components = DataComponentPatch.builder().set(LTXIDataComponents.EQUIPMENT_UPGRADE_ENTRY.get(), new EquipmentUpgradeEntry((Holder<EquipmentUpgrade>) registries.holderOrThrow(upgradeKey), upgradeRank))
-                    .build();
-            template = new ItemStackTemplate(EQUIPMENT_UPGRADE_MODULE, components);
-        }
-        else if (upgradeKey.registry().equals(LTXIRegistries.Keys.MACHINE_UPGRADES.identifier()))
-        {
-            DataComponentPatch components = DataComponentPatch.builder().set(LTXIDataComponents.MACHINE_UPGRADE_ENTRY.get(), new MachineUpgradeEntry((Holder<MachineUpgrade>) registries.holderOrThrow(upgradeKey), upgradeRank))
-                    .build();
-            template = new ItemStackTemplate(MACHINE_UPGRADE_MODULE, components);
-        }
-
-        return Objects.requireNonNull(template);
+        DataComponentPatch components = DataComponentPatch.builder().set(LTXIDataComponents.UPGRADE_ENTRY.get(), new UpgradeEntry(registries.holderOrThrow(upgradeKey), upgradeRank)).build();
+        return new ItemStackTemplate(UPGRADE_MODULE, components);
     }
 
-    private void upgradeShaped(RecipeOutput output, HolderLookup.Provider registries, ResourceKey<? extends UpgradeBase<?, ?>> upgradeKey, int upgradeRank, UnaryOperator<LimaShapedRecipeBuilder> op)
+    private void upgradeShaped(RecipeOutput output, HolderLookup.Provider registries, ResourceKey<Upgrade> upgradeKey, int upgradeRank, UnaryOperator<LimaShapedRecipeBuilder> op)
     {
         Ingredient module = upgradeRank == 1 ? Ingredient.of(EMPTY_UPGRADE_MODULE) : moduleIngredient(registries, upgradeKey, upgradeRank - 1);
         LimaShapedRecipeBuilder builder = shaped(moduleTemplate(registries, upgradeKey, upgradeRank)).input('m', module);
         op.apply(builder).save(output, upgradeKey.identifier().getPath() + "_" + upgradeRank);
     }
 
-    private void upgradeFabricating(RecipeOutput output, HolderLookup.Provider registries, String group, ResourceKey<? extends UpgradeBase<?, ?>> upgradeKey, int upgradeRank, int energyRequired, boolean addBaseModuleInput, UnaryOperator<FabricatingBuilder> op)
+    private void upgradeFabricating(RecipeOutput output, HolderLookup.Provider registries, String group, ResourceKey<Upgrade> upgradeKey, int upgradeRank, int energyRequired, boolean addBaseModuleInput, UnaryOperator<FabricatingBuilder> op)
     {
         ItemStackTemplate stackTemplate = moduleTemplate(registries, upgradeKey, upgradeRank);
         FabricatingBuilder builder = fabricating(energyRequired).group(group).output(ItemResult.fromVanilla(stackTemplate));
@@ -1307,12 +1275,12 @@ class RecipesGen extends LimaRecipeProvider
         op.apply(builder).save(output, name);
     }
 
-    private void upgradeFabricating(RecipeOutput output, HolderLookup.Provider registries, String group, ResourceKey<? extends UpgradeBase<?, ?>> upgradeKey, int upgradeRank, int energyRequired, UnaryOperator<FabricatingBuilder> op)
+    private void upgradeFabricating(RecipeOutput output, HolderLookup.Provider registries, String group, ResourceKey<Upgrade> upgradeKey, int upgradeRank, int energyRequired, UnaryOperator<FabricatingBuilder> op)
     {
         upgradeFabricating(output, registries, group, upgradeKey, upgradeRank, energyRequired, true, op);
     }
 
-    private void defaultModuleFabricating(RecipeOutput output, HolderLookup.Provider registries, ResourceKey<EquipmentUpgrade> upgradeKey, ItemLike... equipmentItems)
+    private void defaultModuleFabricating(RecipeOutput output, HolderLookup.Provider registries, ResourceKey<Upgrade> upgradeKey, ItemLike... equipmentItems)
     {
         upgradeFabricating(output, registries, "eum/defaults", upgradeKey, 1, 50_000, builder ->
                 builder.randomInput(Ingredient.of(equipmentItems), 0f));
@@ -1328,13 +1296,13 @@ class RecipesGen extends LimaRecipeProvider
     private ItemStackTemplate defaultUpgradableItem(Supplier<? extends UpgradableEquipmentItem> itemSupplier, HolderLookup.Provider registries)
     {
         UpgradableEquipmentItem item = itemSupplier.get();
-        ResourceKey<EquipmentUpgrade> defaultKey = item.getDefaultUpgradeKey();
+        ResourceKey<Upgrade> defaultKey = item.getDefaultUpgradeKey();
         DataComponentPatch components = DataComponentPatch.EMPTY;
 
         if (defaultKey != null)
         {
-            Holder<EquipmentUpgrade> upgrade = registries.holderOrThrow(defaultKey);
-            components = DataComponentPatch.builder().set(LTXIDataComponents.EQUIPMENT_UPGRADES.get(), EquipmentUpgrades.builder().set(upgrade).toImmutable()).build();
+            Holder<Upgrade> upgrade = registries.holderOrThrow(defaultKey);
+            components = DataComponentPatch.builder().set(LTXIDataComponents.UPGRADES.get(), MutableUpgrades.create().set(upgrade).build()).build();
         }
 
         return new ItemStackTemplate(item.asItem(), components);

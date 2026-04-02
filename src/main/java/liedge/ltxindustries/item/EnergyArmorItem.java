@@ -1,7 +1,7 @@
 package liedge.ltxindustries.item;
 
 import liedge.ltxindustries.LTXIndustries;
-import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
+import liedge.ltxindustries.lib.upgrades.Upgrade;
 import liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades;
 import liedge.ltxindustries.util.config.LTXIServerConfig;
 import net.minecraft.core.component.DataComponents;
@@ -50,7 +50,7 @@ public class EnergyArmorItem extends EnergyEquipmentItem
     }
 
     @Override
-    public @Nullable ResourceKey<EquipmentUpgrade> getDefaultUpgradeKey()
+    public @Nullable ResourceKey<Upgrade> getDefaultUpgradeKey()
     {
         return switch (equipmentSlot)
         {

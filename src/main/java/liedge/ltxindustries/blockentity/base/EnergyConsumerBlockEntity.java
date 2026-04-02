@@ -6,13 +6,13 @@ import liedge.limacore.network.sync.DataWatcherHolder;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.limacore.transfer.LimaEnergyUtil;
 import liedge.limacore.transfer.energy.EnergyHolderBlockEntity;
-import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrades;
+import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import net.minecraft.world.level.storage.loot.LootContext;
 
 public interface EnergyConsumerBlockEntity extends EnergyHolderBlockEntity
 {
-    static void applyUpgrades(EnergyConsumerBlockEntity blockEntity, LootContext context, MachineUpgrades upgrades)
+    static void applyUpgrades(EnergyConsumerBlockEntity blockEntity, LootContext context, Upgrades upgrades)
     {
         double newEnergyUsage = upgrades.runValueOps(LTXIUpgradeEffectComponents.ENERGY_USAGE, context, blockEntity.getBaseEnergyUsage());
         blockEntity.setEnergyUsage(Math.max(0, LimaCoreMath.round(newEnergyUsage)));

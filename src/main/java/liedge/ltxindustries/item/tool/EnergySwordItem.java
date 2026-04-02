@@ -1,6 +1,6 @@
 package liedge.ltxindustries.item.tool;
 
-import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
+import liedge.ltxindustries.lib.upgrades.Upgrade;
 import liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
@@ -44,7 +44,7 @@ public class EnergySwordItem extends BaseEnergyMiningItem
     }
 
     @Override
-    public @Nullable ResourceKey<EquipmentUpgrade> getDefaultUpgradeKey()
+    public @Nullable ResourceKey<Upgrade> getDefaultUpgradeKey()
     {
         return LTXIEquipmentUpgrades.LTX_MELEE_DEFAULT;
     }

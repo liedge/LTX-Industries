@@ -1,6 +1,6 @@
 package liedge.ltxindustries.item.weapon;
 
-import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
+import liedge.ltxindustries.lib.upgrades.Upgrade;
 import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
 import liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades;
 import liedge.ltxindustries.registry.game.LTXIItems;
@@ -22,7 +22,7 @@ public class LinearFusionRifleItem extends FullAutoWeaponItem
     }
 
     @Override
-    public @Nullable ResourceKey<EquipmentUpgrade> getDefaultUpgradeKey()
+    public @Nullable ResourceKey<Upgrade> getDefaultUpgradeKey()
     {
         return LTXIEquipmentUpgrades.LFR_DEFAULT;
     }

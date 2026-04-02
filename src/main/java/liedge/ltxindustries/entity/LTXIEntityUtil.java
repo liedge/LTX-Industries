@@ -4,7 +4,7 @@ import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
 import liedge.limacore.util.LimaEntityUtil;
 import liedge.ltxindustries.LTXITags;
-import liedge.ltxindustries.lib.upgrades.UpgradesContainerBase;
+import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.util.config.LTXIServerConfig;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
@@ -77,7 +77,7 @@ public final class LTXIEntityUtil
         return isValidBaseTarget(targetEntity, attackingEntity) && predicate.test(serverLevel, targetEntity, attackingEntity);
     }
 
-    public static boolean isValidContextTarget(Entity targetEntity, @Nullable Entity attackingEntity, UpgradesContainerBase<?, ?> upgrades)
+    public static boolean isValidContextTarget(Entity targetEntity, @Nullable Entity attackingEntity, Upgrades upgrades)
     {
         return isValidContextTarget(targetEntity, attackingEntity, TargetPredicate.create(upgrades));
     }
@@ -170,7 +170,7 @@ public final class LTXIEntityUtil
                 });
     }
 
-    public static boolean hurtWithEnchantedFakePlayer(ServerLevel level, Entity target, @Nullable LivingEntity owner, UpgradesContainerBase<?, ?> upgrades, Function<@Nullable LivingEntity, ? extends DamageSource> damageSourceFunction, float damage)
+    public static boolean hurtWithEnchantedFakePlayer(ServerLevel level, Entity target, @Nullable LivingEntity owner, Upgrades upgrades, Function<@Nullable LivingEntity, ? extends DamageSource> damageSourceFunction, float damage)
     {
         if (owner instanceof Player player)
         {

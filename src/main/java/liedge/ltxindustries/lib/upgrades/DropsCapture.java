@@ -21,19 +21,19 @@ import java.util.function.Predicate;
 
 public record DropsCapture(ResourceHandler<ItemResource> target, @Nullable Vec3 fallbackPos, Predicate<ItemEntity> predicate)
 {
-    public static @Nullable DropsCapture mobDropsToContainer(ResourceHandler<ItemResource> target, @Nullable Vec3 fallbackPos, UpgradesContainerBase<?, ?> upgrades)
+    public static @Nullable DropsCapture mobDropsToContainer(ResourceHandler<ItemResource> target, @Nullable Vec3 fallbackPos, Upgrades upgrades)
     {
         if (upgrades.upgradeEffectTypeAbsent(LTXIUpgradeEffectComponents.CAPTURE_MOB_DROPS)) return null;
 
         return new DropsCapture(target, fallbackPos, Predicates.alwaysTrue());
     }
 
-    public static @Nullable DropsCapture mobDropsToPlayer(Player player, UpgradesContainerBase<?, ?> upgrades)
+    public static @Nullable DropsCapture mobDropsToPlayer(Player player, Upgrades upgrades)
     {
         return mobDropsToContainer(PlayerInventoryWrapper.of(player), player.getEyePosition(), upgrades);
     }
 
-    public static @Nullable DropsCapture blockDropsToPlayer(Player player, UpgradesContainerBase<?, ?> upgrades)
+    public static @Nullable DropsCapture blockDropsToPlayer(Player player, Upgrades upgrades)
     {
         HolderSet<Item> holders = upgrades.mergeEffectHolderSets(LTXIUpgradeEffectComponents.CAPTURE_BLOCK_DROPS, CaptureBlockDrops::items);
         if (holders.equals(HolderSet.empty())) return null;

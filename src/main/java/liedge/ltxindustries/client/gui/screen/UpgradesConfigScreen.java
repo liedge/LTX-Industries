@@ -12,7 +12,7 @@ import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.client.gui.UpgradeIconRenderers;
 import liedge.ltxindustries.client.gui.widget.BaseScrollGridRenderable;
 import liedge.ltxindustries.client.gui.widget.ScrollbarWidget;
-import liedge.ltxindustries.lib.upgrades.UpgradeBase;
+import liedge.ltxindustries.lib.upgrades.Upgrade;
 import liedge.ltxindustries.menu.UpgradesConfigMenu;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -31,15 +31,14 @@ import java.util.Optional;
 import static liedge.ltxindustries.LTXIConstants.OUTPUT_ORANGE;
 import static liedge.ltxindustries.LTXIConstants.UPGRADE_RANK_MAGENTA;
 
-public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, U>, M extends UpgradesConfigMenu<?, U, ?>> extends LTXIScreen<M>
+public abstract class UpgradesConfigScreen<M extends UpgradesConfigMenu<?>> extends LTXIScreen<M>
 {
     private static final Identifier SELECTOR_SPRITE = LTXIndustries.RESOURCES.id("widget/upgrade_selector");
     private static final Identifier SELECTOR_SPRITE_FOCUS = LTXIndustries.RESOURCES.id("widget/upgrade_selector_focus");
-    public static final Identifier EQUIPMENT_MODULE_SPRITE = LTXIndustries.RESOURCES.id("equipment_upgrade_module");
-    public static final Identifier MACHINE_MODULE_SPRITE = LTXIndustries.RESOURCES.id("machine_upgrade_module");
+    public static final Identifier MODULE_SPRITE = LTXIndustries.RESOURCES.id("upgrade_module");
 
     private @Nullable ScrollbarWidget scrollbar;
-    private @Nullable SelectorList<U> selectorList;
+    private @Nullable SelectorList selectorList;
 
     protected UpgradesConfigScreen(M menu, Inventory inventory, Component title, int leftPadding)
     {
@@ -50,12 +49,10 @@ public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, U>, M extend
 
     protected abstract void blitSlotSprites(GuiGraphicsExtractor graphics);
 
-    protected abstract Identifier fallbackModuleSprite();
-
     @Override
     protected void addWidgets()
     {
-        this.selectorList = addRenderableOnly(new SelectorList<>(leftPos + 61, topPos + 23, this));
+        this.selectorList = addRenderableOnly(new SelectorList(leftPos + 61, topPos + 23, this));
         this.scrollbar = addRenderableWidget(new ScrollbarWidget(leftPos + 167, topPos + 23, 80, selectorList));
         scrollbar.reset();
         selectorList.reset();
@@ -116,26 +113,26 @@ public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, U>, M extend
         return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
     }
 
-    private static class SelectorList<U extends UpgradeBase<?, U>> extends BaseScrollGridRenderable<Object2IntMap.Entry<Holder<U>>>
+    private static class SelectorList extends BaseScrollGridRenderable<Object2IntMap.Entry<Holder<Upgrade>>>
     {
-        private final UpgradesConfigScreen<U, ?> parent;
+        private final UpgradesConfigScreen<?> parent;
 
-        SelectorList(int x, int y, UpgradesConfigScreen<U, ?> parent)
+        SelectorList(int x, int y, UpgradesConfigScreen<?> parent)
         {
             super(x, y, 104, 20, 1, 4);
             this.parent = parent;
         }
 
         @Override
-        public List<Object2IntMap.Entry<Holder<U>>> getElements()
+        public List<Object2IntMap.Entry<Holder<Upgrade>>> getElements()
         {
             return parent.menu.getRemoteUpgrades();
         }
 
         @Override
-        public void renderElement(GuiGraphicsExtractor graphics, Object2IntMap.Entry<Holder<U>> element, int posX, int posY, int gridIndex, int elementIndex, int mouseX, int mouseY)
+        public void renderElement(GuiGraphicsExtractor graphics, Object2IntMap.Entry<Holder<Upgrade>> element, int posX, int posY, int gridIndex, int elementIndex, int mouseX, int mouseY)
         {
-            U upgrade = element.getKey().value();
+            Upgrade upgrade = element.getKey().value();
             int rank = element.getIntValue();
 
             Identifier sprite = isMouseOverElement(mouseX, mouseY, posX, posY) ? SELECTOR_SPRITE_FOCUS : SELECTOR_SPRITE;
@@ -146,7 +143,7 @@ public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, U>, M extend
             int iconY = posY + 2;
             if (!UpgradeIconRenderers.renderIcon(graphics, upgrade.display().icon(), iconX, iconY))
             {
-                graphics.blitSprite(RenderPipelines.GUI_TEXTURED, parent.fallbackModuleSprite(), iconX, iconY, 16, 16);
+                graphics.blitSprite(RenderPipelines.GUI_TEXTURED, MODULE_SPRITE, iconX, iconY, 16, 16);
             }
 
             // Render title
@@ -187,16 +184,16 @@ public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, U>, M extend
         }
 
         @Override
-        public void renderElementTooltip(GuiGraphicsExtractor graphics, Object2IntMap.Entry<Holder<U>> element, int mouseX, int mouseY, int gridIndex, int elementIndex)
+        public void renderElementTooltip(GuiGraphicsExtractor graphics, Object2IntMap.Entry<Holder<Upgrade>> element, int mouseX, int mouseY, int gridIndex, int elementIndex)
         {
-            U upgrade = element.getKey().value();
+            Upgrade upgrade = element.getKey().value();
             int rank = element.getIntValue();
 
             List<Component> lines = new ObjectArrayList<>();
             lines.add(upgrade.display().title());
             lines.add(LTXILangKeys.UPGRADE_RANK_TOOLTIP.translateArgs(rank, upgrade.maxRank()).withStyle(UPGRADE_RANK_MAGENTA.chatStyle()));
             lines.add(upgrade.display().description());
-            upgrade.applyEffectsTooltips(rank, lines::add);
+            upgrade.appendEffectTooltips(rank, lines::add);
 
             lines.add(LTXILangKeys.UPGRADE_REMOVE_HINT.translate().withStyle(OUTPUT_ORANGE.chatStyle()));
 
@@ -204,7 +201,7 @@ public abstract class UpgradesConfigScreen<U extends UpgradeBase<?, U>, M extend
         }
 
         @Override
-        public void onElementClicked(Object2IntMap.Entry<Holder<U>> element, double mouseX, double mouseY, int button, int gridIndex, int elementIndex)
+        public void onElementClicked(Object2IntMap.Entry<Holder<Upgrade>> element, double mouseX, double mouseY, int button, int gridIndex, int elementIndex)
         {
             if (Minecraft.getInstance().hasShiftDown())
             {

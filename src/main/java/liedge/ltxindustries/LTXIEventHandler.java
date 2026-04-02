@@ -10,8 +10,8 @@ import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.lib.shield.EntityBubbleShield;
 import liedge.ltxindustries.lib.upgrades.DropsCapture;
 import liedge.ltxindustries.lib.upgrades.UpgradeContexts;
+import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.lib.upgrades.effect.EffectTarget;
-import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.ltxindustries.registry.game.LTXIAttachmentTypes;
 import liedge.ltxindustries.registry.game.LTXIMobEffects;
 import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
@@ -61,7 +61,7 @@ public final class LTXIEventHandler
         {
             for (EquipmentSlot slot : EquipmentSlot.values())
             {
-                EquipmentUpgrades upgrades = UpgradableEquipmentItem.getUpgradesFrom(player.getItemBySlot(slot));
+                Upgrades upgrades = UpgradableEquipmentItem.getUpgradesFrom(player.getItemBySlot(slot));
                 if (upgrades.anyMatch(LTXIUpgradeEffectComponents.SUPPRESS_VIBRATIONS, (effect, ignored) -> effect.test(slot, event.getVanillaEvent())))
                 {
                     event.setCanceled(true);
@@ -82,7 +82,7 @@ public final class LTXIEventHandler
 
             if (newStack.getItem() instanceof UpgradableEquipmentItem newItem && newItem.isInCorrectSlot(slot))
             {
-                EquipmentUpgrades newUpgrades = newItem.getUpgrades(newStack);
+                Upgrades newUpgrades = newItem.getUpgrades(newStack);
 
                 boolean refresh = !(oldStack.getItem() instanceof UpgradableEquipmentItem oldItem)
                         || oldItem != newItem
@@ -123,7 +123,7 @@ public final class LTXIEventHandler
         // Only for players and qualifying upgradable equipment
         if (event.getBreaker() instanceof Player player && event.getTool().getItem() instanceof UpgradableEquipmentItem equipmentItem)
         {
-            EquipmentUpgrades upgrades = equipmentItem.getUpgrades(event.getTool());
+            Upgrades upgrades = equipmentItem.getUpgrades(event.getTool());
             DropsCapture capture = DropsCapture.blockDropsToPlayer(player, upgrades);
             if (capture != null)
             {
@@ -218,7 +218,7 @@ public final class LTXIEventHandler
         // Otherwise make drops redirect (if possible) from a melee attacks
         else if (damageSource.getDirectEntity() instanceof Player player && player.getWeaponItem().getItem() instanceof UpgradableEquipmentItem equipmentItem && damageSource.is(DamageTypeTags.IS_PLAYER_ATTACK))
         {
-            EquipmentUpgrades upgrades = equipmentItem.getUpgrades(player.getWeaponItem());
+            Upgrades upgrades = equipmentItem.getUpgrades(player.getWeaponItem());
             dropsCapture = DropsCapture.mobDropsToPlayer(player, upgrades);
         }
 
@@ -236,7 +236,7 @@ public final class LTXIEventHandler
         LootContext context = LimaLootUtil.entityLootContext(level, entity, event.getSource());
         for (EquipmentSlot slot : LTXIUpgradeUtil.ARMOR_SLOTS)
         {
-            EquipmentUpgrades upgrades = UpgradableEquipmentItem.getUpgradesFrom(entity.getItemBySlot(slot));
+            Upgrades upgrades = UpgradableEquipmentItem.getUpgradesFrom(entity.getItemBySlot(slot));
             boolean match = upgrades.anyMatch(LTXIUpgradeEffectComponents.DAMAGE_IMMUNITY, (effect, _) -> effect.test(context));
             if (match)
             {

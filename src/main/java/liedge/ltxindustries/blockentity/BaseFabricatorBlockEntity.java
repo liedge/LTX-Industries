@@ -11,7 +11,7 @@ import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
 import liedge.ltxindustries.blockentity.base.EnergyConsumerBlockEntity;
 import liedge.ltxindustries.blockentity.base.RecipeMachineBlockEntity;
 import liedge.ltxindustries.blockentity.template.ProductionMachineBlockEntity;
-import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrades;
+import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.recipe.FabricatingRecipe;
 import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
 import liedge.ltxindustries.util.LTXITooltipUtil;
@@ -71,7 +71,7 @@ public abstract class BaseFabricatorBlockEntity extends ProductionMachineBlockEn
     }
 
     @Override
-    public void onUpgradeRefresh(LootContext context, MachineUpgrades upgrades)
+    public void onUpgradeRefresh(LootContext context, Upgrades upgrades)
     {
         super.onUpgradeRefresh(context, upgrades);
         EnergyConsumerBlockEntity.applyUpgrades(this, context, upgrades);

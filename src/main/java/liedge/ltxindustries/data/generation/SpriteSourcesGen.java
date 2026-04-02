@@ -33,8 +33,7 @@ class SpriteSourcesGen extends SpriteSourceProvider
 
         // Vanilla atlas modifications
         atlas(AtlasIds.GUI)
-                .addSource(itemSheetCopy("equipment_upgrade_module"))
-                .addSource(itemSheetCopy("machine_upgrade_module"))
+                .addSource(itemSheetCopy("upgrade_module"))
                 .addSource(singleSprite("gui/light_panel", "slot/empty"));
         atlas(AtlasIds.BLOCKS)
                 .addSource(singleSprite("core/solid_lime", "block/solid_lime"))

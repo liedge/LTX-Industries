@@ -4,10 +4,8 @@ import com.mojang.serialization.Codec;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.blockentity.base.BlockIOConfiguration;
 import liedge.ltxindustries.item.tool.ToolSpeed;
-import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgradeEntry;
-import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
-import liedge.ltxindustries.lib.upgrades.machine.MachineUpgradeEntry;
-import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrades;
+import liedge.ltxindustries.lib.upgrades.UpgradeEntry;
+import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
 import liedge.ltxindustries.lib.weapons.WeaponReloadSource;
 import net.minecraft.core.component.DataComponentType;
@@ -32,10 +30,8 @@ public final class LTXIDataComponents
     }
 
     // Upgrade components
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<EquipmentUpgrades>> EQUIPMENT_UPGRADES = TYPES.registerComponentType("equipment_upgrades", builder -> builder.persistent(EquipmentUpgrades.CODEC).networkSynchronized(EquipmentUpgrades.STREAM_CODEC).cacheEncoding());
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<MachineUpgrades>> MACHINE_UPGRADES = TYPES.registerComponentType("machine_upgrades", builder -> builder.persistent(MachineUpgrades.CODEC).networkSynchronized(MachineUpgrades.STREAM_CODEC).cacheEncoding());
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<EquipmentUpgradeEntry>> EQUIPMENT_UPGRADE_ENTRY = TYPES.registerComponentType("equipment_upgrade", builder -> builder.persistent(EquipmentUpgradeEntry.CODEC).networkSynchronized(EquipmentUpgradeEntry.STREAM_CODEC).cacheEncoding());
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<MachineUpgradeEntry>> MACHINE_UPGRADE_ENTRY = TYPES.registerComponentType("machine_upgrade", builder -> builder.persistent(MachineUpgradeEntry.CODEC).networkSynchronized(MachineUpgradeEntry.STREAM_CODEC).cacheEncoding());
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Upgrades>> UPGRADES = TYPES.registerComponentType("upgrades", builder -> builder.persistent(Upgrades.CODEC).networkSynchronized(Upgrades.STREAM_CODEC).cacheEncoding());
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<UpgradeEntry>> UPGRADE_ENTRY = TYPES.registerComponentType("upgrade", builder -> builder.persistent(UpgradeEntry.CODEC).networkSynchronized(UpgradeEntry.STREAM_CODEC).cacheEncoding());
 
     // Misc components
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<ResourceKey<Recipe<?>>>> BLUEPRINT_RECIPE = TYPES.registerComponentType("blueprint_recipe", builder -> builder.persistent(Recipe.KEY_CODEC).networkSynchronized(ResourceKey.streamCodec(Registries.RECIPE)));

@@ -4,8 +4,7 @@ import liedge.limacore.util.LimaCoreObjects;
 import liedge.ltxindustries.entity.damage.UpgradesAwareDamageSource;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
 import liedge.ltxindustries.lib.upgrades.UpgradedEquipmentInUse;
-import liedge.ltxindustries.lib.upgrades.UpgradesContainerBase;
-import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
+import liedge.ltxindustries.lib.upgrades.Upgrades;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -45,7 +44,7 @@ public final class LTXIUpgradeUtil
         ItemStack stack = sourceEntity.getItemBySlot(slot);
         if (stack.getItem() instanceof UpgradableEquipmentItem equipmentItem && equipmentItem.isInCorrectSlot(slot))
         {
-            EquipmentUpgrades upgrades = equipmentItem.getUpgrades(stack);
+            Upgrades upgrades = equipmentItem.getUpgrades(stack);
             UpgradedEquipmentInUse equipmentInUse = UpgradedEquipmentInUse.create(upgrades, stack, equipmentItem, slot, sourceEntity);
             return visitor.run(upgrades, equipmentInUse);
         }
@@ -61,7 +60,7 @@ public final class LTXIUpgradeUtil
             {
                 if (!upgradesAwareSource.canApplyEffects()) return;
 
-                UpgradesContainerBase<?, ?> upgrades = upgradesAwareSource.getUpgrades();
+                Upgrades upgrades = upgradesAwareSource.getUpgrades();
                 ItemStack stack = Objects.requireNonNullElse(upgradesAwareSource.getWeaponItem(), ItemStack.EMPTY);
                 UpgradableEquipmentItem equipmentItem = LimaCoreObjects.tryCast(UpgradableEquipmentItem.class, stack.getItem());
                 EquipmentSlot slot = equipmentItem != null ? EquipmentSlot.MAINHAND : null;
@@ -73,7 +72,7 @@ public final class LTXIUpgradeUtil
                 ItemStack stack = attacker.getMainHandItem();
                 if (stack.getItem() instanceof UpgradableEquipmentItem equipmentItem)
                 {
-                    EquipmentUpgrades upgrades = equipmentItem.getUpgrades(stack);
+                    Upgrades upgrades = equipmentItem.getUpgrades(stack);
                     visitor.accept(level, upgrades, stack, equipmentItem, EquipmentSlot.MAINHAND, attacker);
                 }
             }
@@ -83,16 +82,16 @@ public final class LTXIUpgradeUtil
     @FunctionalInterface
     public interface EquipmentSlotVisitor
     {
-        boolean run(UpgradesContainerBase<?, ?> upgrades, UpgradedEquipmentInUse equipmentInUse);
+        boolean run(Upgrades upgrades, UpgradedEquipmentInUse equipmentInUse);
     }
 
     @FunctionalInterface
     public interface EquipmentSlotRunner extends EquipmentSlotVisitor
     {
-        void accept(UpgradesContainerBase<?, ?> upgrades, UpgradedEquipmentInUse equipmentInUse);
+        void accept(Upgrades upgrades, UpgradedEquipmentInUse equipmentInUse);
 
         @Override
-        default boolean run(UpgradesContainerBase<?, ?> upgrades, UpgradedEquipmentInUse equipmentInUse)
+        default boolean run(Upgrades upgrades, UpgradedEquipmentInUse equipmentInUse)
         {
             accept(upgrades, equipmentInUse);
             return false;
@@ -102,9 +101,9 @@ public final class LTXIUpgradeUtil
     @FunctionalInterface
     public interface DamageUpgradesVisitor
     {
-        void accept(ServerLevel level, UpgradesContainerBase<?, ?> upgrades, UpgradedEquipmentInUse equipmentInUse);
+        void accept(ServerLevel level, Upgrades upgrades, UpgradedEquipmentInUse equipmentInUse);
 
-        default void accept(ServerLevel level, UpgradesContainerBase<?, ?> upgrades, ItemStack stack, @Nullable UpgradableEquipmentItem item, @Nullable EquipmentSlot slot, LivingEntity attacker)
+        default void accept(ServerLevel level, Upgrades upgrades, ItemStack stack, @Nullable UpgradableEquipmentItem item, @Nullable EquipmentSlot slot, LivingEntity attacker)
         {
             accept(level, upgrades, UpgradedEquipmentInUse.create(upgrades, stack, item, slot, attacker));
         }

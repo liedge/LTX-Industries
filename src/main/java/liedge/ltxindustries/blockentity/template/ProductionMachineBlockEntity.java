@@ -10,9 +10,9 @@ import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
 import liedge.ltxindustries.blockentity.base.BlockIOConfiguration;
 import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
 import liedge.ltxindustries.lib.upgrades.EffectRankPair;
+import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.lib.upgrades.effect.MinimumMachineSpeed;
 import liedge.ltxindustries.lib.upgrades.effect.ValueOperation;
-import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrades;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -211,7 +211,7 @@ public abstract class ProductionMachineBlockEntity extends LTXIMachineBlockEntit
     }
 
     // Helper
-    protected static IntUnaryOperator createCachedSpeedFunction(MachineUpgrades upgrades, LootContext context)
+    protected static IntUnaryOperator createCachedSpeedFunction(Upgrades upgrades, LootContext context)
     {
         List<EffectRankPair<ValueOperation>> list = upgrades.effectPairs(LTXIUpgradeEffectComponents.TICKS_PER_OPERATION)
                 .sorted(MathOperation.comparingPriority(o -> o.effect().operation()))

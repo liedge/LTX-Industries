@@ -2,8 +2,7 @@ package liedge.ltxindustries;
 
 import com.mojang.logging.LogUtils;
 import liedge.limacore.lib.ModResources;
-import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
-import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrade;
+import liedge.ltxindustries.lib.upgrades.Upgrade;
 import liedge.ltxindustries.lib.upgrades.value.UpgradeValueTypes;
 import liedge.ltxindustries.network.packet.ClientboundFocusTargetPacket;
 import liedge.ltxindustries.network.packet.ClientboundWeaponControlsPacket;
@@ -124,8 +123,7 @@ public class LTXIndustries
         @SubscribeEvent
         private void registerDataPackRegistries(final DataPackRegistryEvent.NewRegistry event)
         {
-            event.dataPackRegistry(LTXIRegistries.Keys.EQUIPMENT_UPGRADES, EquipmentUpgrade.DIRECT_CODEC, EquipmentUpgrade.DIRECT_CODEC);
-            event.dataPackRegistry(LTXIRegistries.Keys.MACHINE_UPGRADES, MachineUpgrade.DIRECT_CODEC, MachineUpgrade.DIRECT_CODEC);
+            event.dataPackRegistry(LTXIRegistries.Keys.UPGRADES, Upgrade.DIRECT_CODEC, Upgrade.DIRECT_CODEC);
             event.dataPackRegistry(LTXIRegistries.Keys.RECIPE_MODES, RecipeMode.DIRECT_CODEC, RecipeMode.DIRECT_CODEC);
         }
         @SubscribeEvent

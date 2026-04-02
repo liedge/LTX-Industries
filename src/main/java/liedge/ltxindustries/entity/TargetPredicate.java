@@ -1,7 +1,7 @@
 package liedge.ltxindustries.entity;
 
 import liedge.limacore.util.LimaLootUtil;
-import liedge.ltxindustries.lib.upgrades.UpgradesContainerBase;
+import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -16,7 +16,7 @@ public interface TargetPredicate
 {
     TargetPredicate ALL = (_,_,_) -> true;
 
-    static TargetPredicate create(UpgradesContainerBase<?, ?> upgrades, TargetPredicate fallback)
+    static TargetPredicate create(Upgrades upgrades, TargetPredicate fallback)
     {
         List<LootItemCondition> conditions = upgrades.listEffectStream(LTXIUpgradeEffectComponents.TARGET_CONDITIONS).toList();
         if (conditions.isEmpty()) return fallback;
@@ -32,7 +32,7 @@ public interface TargetPredicate
         };
     }
 
-    static TargetPredicate create(UpgradesContainerBase<?, ?> upgrades)
+    static TargetPredicate create(Upgrades upgrades)
     {
         return create(upgrades, ALL);
     }

@@ -5,8 +5,7 @@ import liedge.limacore.registry.LimaDeferredNetworkSerializers;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
 import liedge.ltxindustries.blockentity.base.BlockIOConfiguration;
-import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
-import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrades;
+import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.recipe.RecipeMode;
 import net.minecraft.core.Holder;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -26,8 +25,7 @@ public final class LTXINetworkSerializers
         SERIALIZERS.register(bus);
     }
 
-    public static final DeferredHolder<NetworkSerializer<?>, NetworkSerializer<EquipmentUpgrades>> ITEM_EQUIPMENT_UPGRADES = SERIALIZERS.registerCodec("equipment_upgrades", () -> EquipmentUpgrades.STREAM_CODEC);
-    public static final DeferredHolder<NetworkSerializer<?>, NetworkSerializer<MachineUpgrades>> ITEM_MACHINE_UPGRADES = SERIALIZERS.registerCodec("machine_upgrades", () -> MachineUpgrades.STREAM_CODEC);
+    public static final DeferredHolder<NetworkSerializer<?>, NetworkSerializer<Upgrades>> UPGRADES = SERIALIZERS.registerCodec("upgrades", () -> Upgrades.STREAM_CODEC);
     public static final DeferredHolder<NetworkSerializer<?>, NetworkSerializer<Optional<Holder<RecipeMode>>>> RECIPE_MODE = SERIALIZERS.registerCodec("recipe_specialization", () -> ByteBufCodecs.optional(RecipeMode.STREAM_CODEC));
     public static final DeferredHolder<NetworkSerializer<?>, NetworkSerializer<BlockEntityInputType>> MACHINE_INPUT_TYPE = SERIALIZERS.registerCodec("machine_input_type", () -> BlockEntityInputType.STREAM_CODEC);
     public static final DeferredHolder<NetworkSerializer<?>, NetworkSerializer<BlockIOConfiguration>> BLOCK_IO_CONFIG = SERIALIZERS.registerCodec("block_io_config", () -> BlockIOConfiguration.STREAM_CODEC);

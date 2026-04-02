@@ -2,68 +2,61 @@ package liedge.ltxindustries.item;
 
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.item.LimaCreativeTabFillerItem;
-import liedge.limacore.lib.Translatable;
+import liedge.limacore.util.LimaBlockUtil;
 import liedge.ltxindustries.LTXIConstants;
+import liedge.ltxindustries.blockentity.MeshBlockEntity;
+import liedge.ltxindustries.blockentity.base.UpgradesHolderBlockEntity;
 import liedge.ltxindustries.client.LTXILangKeys;
-import liedge.ltxindustries.lib.upgrades.UpgradeBase;
-import liedge.ltxindustries.lib.upgrades.UpgradeBaseEntry;
+import liedge.ltxindustries.lib.upgrades.Upgrade;
+import liedge.ltxindustries.lib.upgrades.UpgradeEntry;
+import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.menu.tooltip.ItemStacksTooltip;
+import liedge.ltxindustries.registry.LTXIRegistries;
+import liedge.ltxindustries.registry.game.LTXICreativeTabs;
+import liedge.ltxindustries.registry.game.LTXIDataComponents;
 import liedge.ltxindustries.registry.game.LTXIItems;
+import liedge.ltxindustries.registry.game.LTXISounds;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.HolderSet;
-import net.minecraft.core.Registry;
-import net.minecraft.core.component.DataComponentType;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 import net.minecraft.resources.Identifier;
-import net.minecraft.resources.ResourceKey;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.TooltipDisplay;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.common.Tags;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jetbrains.annotations.Nullable;
-import oshi.util.tuples.Pair;
 
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 import static liedge.ltxindustries.LTXIConstants.HOSTILE_ORANGE;
+import static liedge.ltxindustries.LTXIConstants.LIME_GREEN;
 
-public abstract class UpgradeModuleItem<U extends UpgradeBase<?, U>, UE extends UpgradeBaseEntry<U>> extends Item implements LimaCreativeTabFillerItem, TooltipShiftHintItem
+public final class UpgradeModuleItem extends Item implements LimaCreativeTabFillerItem, TooltipShiftHintItem
 {
-    protected UpgradeModuleItem(Properties properties)
+    public static ItemStack get(Holder<Upgrade> upgrade, int upgradeRank)
+    {
+        ItemStack stack = LTXIItems.UPGRADE_MODULE.toStack();
+        stack.set(LTXIDataComponents.UPGRADE_ENTRY, new UpgradeEntry(upgrade, upgradeRank));
+        return stack;
+    }
+
+    public UpgradeModuleItem(Properties properties)
     {
         super(properties);
     }
-
-    public abstract DataComponentType<UE> entryComponentType();
-
-    protected abstract ResourceKey<Registry<U>> upgradeRegistryKey();
-
-    protected abstract Identifier creativeTabId();
-
-    protected abstract UE createUpgradeEntry(Holder<U> upgradeHolder, int upgradeRank);
-
-    protected abstract Translatable moduleTypeTooltip();
-
-    protected abstract Style moduleTypeStyle();
-
-    protected abstract List<ItemStack> getAllCompatibleItems(U upgrade);
 
     @Override
     public InteractionResult use(Level level, Player player, InteractionHand usedHand)
     {
         ItemStack stack = player.getItemInHand(usedHand);
-        if (player.isCrouching() && stack.get(entryComponentType()) == null)
+        if (player.isCrouching() && stack.get(LTXIDataComponents.UPGRADE_ENTRY) == null)
         {
             return InteractionResult.SUCCESS_SERVER.heldItemTransformedTo(LTXIItems.EMPTY_UPGRADE_MODULE.toStack());
         }
@@ -72,16 +65,67 @@ public abstract class UpgradeModuleItem<U extends UpgradeBase<?, U>, UE extends 
     }
 
     @Override
+    public InteractionResult useOn(UseOnContext context)
+    {
+        Level level = context.getLevel();
+        Player player = context.getPlayer();
+        ItemStack usedItem = context.getItemInHand();
+        BlockPos pos = context.getClickedPos();
+
+        UpgradesHolderBlockEntity blockEntity = null;
+        BlockEntity toCheck = level.getBlockEntity(pos);
+        if (toCheck instanceof UpgradesHolderBlockEntity)
+        {
+            blockEntity = (UpgradesHolderBlockEntity) toCheck;
+        }
+        else if (toCheck instanceof MeshBlockEntity meshBE)
+        {
+            BlockPos primaryPos = meshBE.getPrimaryPos(pos, level.getBlockState(pos));
+            if (primaryPos != null) blockEntity = LimaBlockUtil.getSafeBlockEntity(level, primaryPos, UpgradesHolderBlockEntity.class);
+        }
+
+        UpgradeEntry entry = usedItem.get(LTXIDataComponents.UPGRADE_ENTRY);
+        if (blockEntity != null && entry != null && player != null && !level.isClientSide())
+        {
+            Upgrades previousUpgrades = blockEntity.getUpgrades();
+
+            if (previousUpgrades.canInstallUpgrade(blockEntity.getAsLimaBlockEntity(), entry))
+            {
+                int previousRank = previousUpgrades.getUpgradeRank(entry.upgrade());
+                Upgrades newUpgrades = previousUpgrades.mutable().set(entry).build();
+                blockEntity.setUpgrades(newUpgrades);
+
+                player.sendOverlayMessage(LTXILangKeys.UPGRADE_INSTALL_SUCCESS.translate().withStyle(LIME_GREEN.chatStyle()));
+                level.playSound(null, pos, LTXISounds.UPGRADE_INSTALL.get(), SoundSource.PLAYERS, 1f, 1f);
+
+                usedItem.consume(1, player);
+                if (usedItem.isEmpty() && previousRank > 0)
+                {
+                    player.getInventory().placeItemBackInInventory(get(entry.upgrade(), previousRank));
+                }
+
+                return InteractionResult.SUCCESS_SERVER;
+            }
+            else
+            {
+                player.sendOverlayMessage(LTXILangKeys.UPGRADE_INSTALL_FAIL.translate().withStyle(HOSTILE_ORANGE.chatStyle()));
+            }
+        }
+
+        return InteractionResult.CONSUME;
+    }
+
+    @Override
     public Component getName(ItemStack stack)
     {
-        UE entry = stack.get(entryComponentType());
+        UpgradeEntry entry = stack.get(LTXIDataComponents.UPGRADE_ENTRY);
         if (entry != null)
         {
             return entry.upgrade().value().display().title();
         }
         else
         {
-            return moduleTypeTooltip().translate().withStyle(HOSTILE_ORANGE.chatStyle());
+            return super.getName(stack).copy().withStyle(HOSTILE_ORANGE.chatStyle());
         }
     }
 
@@ -89,12 +133,11 @@ public abstract class UpgradeModuleItem<U extends UpgradeBase<?, U>, UE extends 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag)
     {
-        UE entry = stack.get(entryComponentType());
+        UpgradeEntry entry = stack.get(LTXIDataComponents.UPGRADE_ENTRY);
         if (entry != null)
         {
-            tooltipAdder.accept(moduleTypeTooltip().translate().withStyle(moduleTypeStyle()));
-            U upgrade = entry.upgrade().value();
-            if (upgrade.maxRank() > 1) tooltipAdder.accept(LTXILangKeys.UPGRADE_RANK_TOOLTIP.translateArgs(entry.upgradeRank(), upgrade.maxRank()).withStyle(LTXIConstants.UPGRADE_RANK_MAGENTA.chatStyle()));
+            Upgrade upgrade = entry.upgrade().value();
+            if (upgrade.maxRank() > 1) tooltipAdder.accept(LTXILangKeys.UPGRADE_RANK_TOOLTIP.translateArgs(entry.rank(), upgrade.maxRank()).withStyle(LTXIConstants.UPGRADE_RANK_MAGENTA.chatStyle()));
             tooltipAdder.accept(upgrade.display().description());
         }
         else
@@ -106,23 +149,25 @@ public abstract class UpgradeModuleItem<U extends UpgradeBase<?, U>, UE extends 
     @Override
     public void appendTooltipHintComponents(@Nullable Level level, ItemStack stack, TooltipLineConsumer consumer)
     {
-        UE entry = stack.get(entryComponentType());
-        if (entry != null)
+        UpgradeEntry entry = stack.get(LTXIDataComponents.UPGRADE_ENTRY);
+        if (entry == null) return;
+
+        Upgrade upgrade = entry.upgrade().value();
+        upgrade.appendEffectTooltips(entry.rank(), consumer::accept);
+
+        List<ItemStack> itemUsers = upgrade.users().items().stream().map(item -> item.value().getDefaultInstance()).limit(24).toList();
+        if (!itemUsers.isEmpty())
         {
-            U upgrade = entry.upgrade().value();
+            consumer.accept(LTXILangKeys.EQUIPMENT_COMPATIBILITY_TOOLTIP.translate().withStyle(LIME_GREEN.chatStyle()));
+            consumer.accept(new ItemStacksTooltip(itemUsers, 8, 3, false));
+        }
 
-            upgrade.applyEffectsTooltips(entry.upgradeRank(), consumer::accept);
-            consumer.accept(LTXILangKeys.UPGRADE_COMPATIBILITY_TOOLTIP.translate().withStyle(moduleTypeStyle()));
-
-            List<ItemStack> compatibleItems = getAllCompatibleItems(upgrade);
-            if (compatibleItems.size() <= 24)
-            {
-                consumer.accept(new ItemStacksTooltip(compatibleItems, 8, 3, false));
-            }
-            else if (upgrade.supportedSet() instanceof HolderSet.Named<?> namedSet)
-            {
-                consumer.accept(Component.translatable(Tags.getTagTranslationKey(namedSet.key())).withStyle(moduleTypeStyle()));
-            }
+        List<ItemStack> machineUsers = upgrade.users().blockEntities().stream().flatMap(be -> be.value().getValidBlocks().stream())
+                .map(block -> block.asItem().getDefaultInstance()).toList();
+        if (!machineUsers.isEmpty())
+        {
+            consumer.accept(LTXILangKeys.MACHINE_COMPATIBILITY_TOOLTIP.translate().withStyle(LIME_GREEN.chatStyle()));
+            consumer.accept(new ItemStacksTooltip(machineUsers, 8, 3, false));
         }
     }
 
@@ -135,27 +180,25 @@ public abstract class UpgradeModuleItem<U extends UpgradeBase<?, U>, UE extends 
     @Override
     public void addAdditionalToCreativeTab(Identifier tabId, CreativeModeTab.ItemDisplayParameters parameters, CreativeModeTab.Output output, CreativeModeTab.TabVisibility tabVisibility)
     {
-        if (tabId.equals(creativeTabId()))
+        if (tabId.equals(LTXICreativeTabs.UPGRADE_MODULES_TAB.getId()))
         {
-            HolderLookup.RegistryLookup<U> registry = parameters.holders().lookupOrThrow(upgradeRegistryKey());
-            registry.listElements()
-                    .sorted(UpgradeBase.comparingCategoryThenId())
-                    .flatMap(this::createPairsStream)
-                    .forEach(pair -> {
-                        ItemStack stack = new ItemStack(this);
-                        stack.set(entryComponentType(), pair.getA());
-                        output.accept(stack, pair.getB());
-                    });
-        }
-    }
+            HolderLookup.RegistryLookup<Upgrade> registry = parameters.holders().lookupOrThrow(LTXIRegistries.Keys.UPGRADES);
+            List<Holder.Reference<Upgrade>> holders = registry.listElements().sorted(Upgrade.BY_CATEGORY_THEN_ID).toList();
 
-    private Stream<Pair<UE, CreativeModeTab.TabVisibility>> createPairsStream(Holder<U> holder)
-    {
-        int max = holder.value().maxRank();
-        return IntStream.rangeClosed(1, max).mapToObj(rank ->
-        {
-            CreativeModeTab.TabVisibility vis = rank == max ? CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS : CreativeModeTab.TabVisibility.PARENT_TAB_ONLY;
-            return new Pair<>(createUpgradeEntry(holder, rank), vis);
-        });
+            for (Holder<Upgrade> holder : holders)
+            {
+                int maxRank = holder.value().maxRank();
+
+                for (int i = 1; i <= maxRank; i++)
+                {
+                    UpgradeEntry entry = new UpgradeEntry(holder, i);
+                    ItemStack stack = getDefaultInstance();
+                    stack.set(LTXIDataComponents.UPGRADE_ENTRY, entry);
+                    CreativeModeTab.TabVisibility visibility = maxRank == i ? CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS : CreativeModeTab.TabVisibility.PARENT_TAB_ONLY;
+
+                    output.accept(stack, visibility);
+                }
+            }
+        }
     }
 }

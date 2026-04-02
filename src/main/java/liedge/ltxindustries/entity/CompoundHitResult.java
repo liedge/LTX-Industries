@@ -2,7 +2,7 @@ package liedge.ltxindustries.entity;
 
 import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.util.LimaBlockUtil;
-import liedge.ltxindustries.lib.upgrades.UpgradesContainerBase;
+import liedge.ltxindustries.lib.upgrades.Upgrades;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
@@ -16,7 +16,7 @@ import java.util.function.ToDoubleFunction;
 
 public record CompoundHitResult(Vec3 origin, List<EntityHitResult> entityHits, HitResult impact)
 {
-    public static CompoundHitResult tracePath(Level level, LivingEntity sourceEntity, UpgradesContainerBase<?, ?> upgrades, double range, double deviation, int maxHits, double blockPierceDistance,
+    public static CompoundHitResult tracePath(Level level, LivingEntity sourceEntity, Upgrades upgrades, double range, double deviation, int maxHits, double blockPierceDistance,
                                               DynamicClipContext.FluidCollisionPredicate fluidCollision, ToDoubleFunction<Entity> bbExpansionFunction)
     {
         // Path points
@@ -37,7 +37,7 @@ public record CompoundHitResult(Vec3 origin, List<EntityHitResult> entityHits, H
         return new CompoundHitResult(origin, entityHits, impact);
     }
 
-    public static CompoundHitResult tracePath(Level level, LivingEntity sourceEntity, UpgradesContainerBase<?, ?> upgrades, double range, double deviation, int maxHits, double blockPierceDistance,
+    public static CompoundHitResult tracePath(Level level, LivingEntity sourceEntity, Upgrades upgrades, double range, double deviation, int maxHits, double blockPierceDistance,
                                               DynamicClipContext.FluidCollisionPredicate fluidCollision, double bbExpansion)
     {
         return tracePath(level, sourceEntity, upgrades, range, deviation, maxHits, blockPierceDistance, fluidCollision, ignored -> bbExpansion);

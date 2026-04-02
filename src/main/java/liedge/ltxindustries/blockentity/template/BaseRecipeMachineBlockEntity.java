@@ -7,7 +7,7 @@ import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
 import liedge.ltxindustries.blockentity.base.EnergyConsumerBlockEntity;
 import liedge.ltxindustries.blockentity.base.RecipeMachineBlockEntity;
 import liedge.ltxindustries.blockentity.base.VariableTimedProcessBlockEntity;
-import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrades;
+import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import liedge.ltxindustries.util.LTXITooltipUtil;
 import net.minecraft.core.BlockPos;
@@ -230,7 +230,7 @@ public abstract class BaseRecipeMachineBlockEntity<I extends RecipeInput, R exte
     }
 
     @Override
-    public void onUpgradeRefresh(LootContext context, MachineUpgrades upgrades)
+    public void onUpgradeRefresh(LootContext context, Upgrades upgrades)
     {
         super.onUpgradeRefresh(context, upgrades);
         EnergyConsumerBlockEntity.applyUpgrades(this, context, upgrades);

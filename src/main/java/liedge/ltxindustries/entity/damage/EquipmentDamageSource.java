@@ -3,7 +3,7 @@ package liedge.ltxindustries.entity.damage;
 import liedge.limacore.util.LimaCoreObjects;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
 import liedge.ltxindustries.lib.upgrades.DropsCapture;
-import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
+import liedge.ltxindustries.lib.upgrades.Upgrades;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
@@ -24,7 +24,7 @@ public final class EquipmentDamageSource extends UpgradesAwareDamageSource
     }
 
     private final ItemStack weaponItem;
-    private final EquipmentUpgrades upgrades;
+    private final Upgrades upgrades;
 
     private EquipmentDamageSource(ResourceKey<DamageType> typeKey, Entity directEntity, @Nullable Entity causingEntity, ItemStack weaponItem)
     {
@@ -40,7 +40,7 @@ public final class EquipmentDamageSource extends UpgradesAwareDamageSource
     }
 
     @Override
-    public EquipmentUpgrades getUpgrades()
+    public Upgrades getUpgrades()
     {
         return upgrades;
     }

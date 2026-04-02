@@ -1,7 +1,7 @@
 package liedge.ltxindustries.item.weapon;
 
 import liedge.limacore.util.LimaEntityUtil;
-import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
+import liedge.ltxindustries.lib.upgrades.Upgrade;
 import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
 import liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades;
 import liedge.ltxindustries.registry.game.LTXIItems;
@@ -24,7 +24,7 @@ public class HeavyPistolItem extends SemiAutoWeaponItem
     }
 
     @Override
-    public @Nullable ResourceKey<EquipmentUpgrade> getDefaultUpgradeKey()
+    public @Nullable ResourceKey<Upgrade> getDefaultUpgradeKey()
     {
         return LTXIEquipmentUpgrades.HEAVY_PISTOL_DEFAULT;
     }

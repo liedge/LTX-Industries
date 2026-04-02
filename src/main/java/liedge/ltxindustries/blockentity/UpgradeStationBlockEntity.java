@@ -7,9 +7,10 @@ import liedge.limacore.network.sync.AutomaticDataWatcher;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.limacore.transfer.item.ItemHolderBlockEntity;
 import liedge.limacore.transfer.item.LimaBlockEntityItems;
-import liedge.ltxindustries.item.EquipmentUpgradeModuleItem;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
 import liedge.ltxindustries.registry.game.LTXIBlockEntities;
+import liedge.ltxindustries.registry.game.LTXIDataComponents;
+import liedge.ltxindustries.registry.game.LTXIItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
@@ -63,7 +64,7 @@ public class UpgradeStationBlockEntity extends LimaBlockEntity implements ItemHo
         if (contentsType == BlockContentsType.GENERAL)
         {
             if (index == EQUIPMENT_ITEM_SLOT) return resource.getItem() instanceof UpgradableEquipmentItem;
-            else return resource.getItem() instanceof EquipmentUpgradeModuleItem;
+            return resource.is(LTXIItems.UPGRADE_MODULE.asItem()) && resource.has(LTXIDataComponents.UPGRADE_ENTRY);
         }
 
         return true;

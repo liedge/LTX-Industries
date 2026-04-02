@@ -2,16 +2,14 @@ package liedge.ltxindustries.menu;
 
 import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.menu.LimaMenuType;
-import liedge.limacore.network.NetworkSerializer;
 import liedge.limacore.util.LimaLootUtil;
 import liedge.ltxindustries.blockentity.UpgradeStationBlockEntity;
-import liedge.ltxindustries.item.EquipmentUpgradeModuleItem;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
-import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
-import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgradeEntry;
-import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
+import liedge.ltxindustries.lib.upgrades.Upgrade;
+import liedge.ltxindustries.lib.upgrades.UpgradeEntry;
+import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.registry.LTXIRegistries;
-import liedge.ltxindustries.registry.game.LTXINetworkSerializers;
+import liedge.ltxindustries.registry.game.LTXIDataComponents;
 import liedge.ltxindustries.registry.game.LTXISounds;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;
@@ -21,13 +19,11 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.transfer.item.ItemResource;
-import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 import static liedge.ltxindustries.blockentity.UpgradeStationBlockEntity.EQUIPMENT_ITEM_SLOT;
 import static liedge.ltxindustries.blockentity.UpgradeStationBlockEntity.UPGRADE_MODULE_SLOT;
-import static liedge.ltxindustries.registry.game.LTXIDataComponents.EQUIPMENT_UPGRADE_ENTRY;
 
-public class UpgradeStationMenu extends UpgradesConfigMenu<UpgradeStationBlockEntity, EquipmentUpgrade, EquipmentUpgrades>
+public class UpgradeStationMenu extends UpgradesConfigMenu<UpgradeStationBlockEntity>
 {
     public UpgradeStationMenu(LimaMenuType<UpgradeStationBlockEntity, ?> type, int containerId, Inventory inventory, UpgradeStationBlockEntity menuContext)
     {
@@ -38,13 +34,7 @@ public class UpgradeStationMenu extends UpgradesConfigMenu<UpgradeStationBlockEn
     }
 
     @Override
-    protected NetworkSerializer<EquipmentUpgrades> getUpgradesSerializer()
-    {
-        return LTXINetworkSerializers.ITEM_EQUIPMENT_UPGRADES.get();
-    }
-
-    @Override
-    protected EquipmentUpgrades getUpgrades()
+    protected Upgrades getUpgrades()
     {
         return UpgradableEquipmentItem.getUpgradesFrom(moduleSourceInventory.getResource(EQUIPMENT_ITEM_SLOT));
     }
@@ -56,8 +46,8 @@ public class UpgradeStationMenu extends UpgradesConfigMenu<UpgradeStationBlockEn
 
         if (equipmentStack.getItem() instanceof UpgradableEquipmentItem equipmentItem)
         {
-            EquipmentUpgrades upgrades = equipmentItem.getUpgrades(equipmentStack);
-            EquipmentUpgradeEntry entry = upgradeModuleItem.get(EQUIPMENT_UPGRADE_ENTRY);
+            Upgrades upgrades = equipmentItem.getUpgrades(equipmentStack);
+            UpgradeEntry entry = upgradeModuleItem.get(LTXIDataComponents.UPGRADE_ENTRY);
 
             return entry != null && upgrades.canInstallUpgrade(equipmentStack, entry);
         }
@@ -66,37 +56,32 @@ public class UpgradeStationMenu extends UpgradesConfigMenu<UpgradeStationBlockEn
     }
 
     @Override
-    protected void tryInstallUpgrade(ItemStack upgradeModuleItem, ServerLevel level)
+    protected boolean installUpgrade(ServerLevel level, ItemStack moduleItem)
     {
         ItemStack equipmentStack = moduleSourceInventory.getResource(EQUIPMENT_ITEM_SLOT).toStack();
 
         if (equipmentStack.getItem() instanceof UpgradableEquipmentItem equipmentItem)
         {
-            EquipmentUpgrades currentUpgrades = equipmentItem.getUpgrades(equipmentStack);
-            EquipmentUpgradeEntry entry = upgradeModuleItem.get(EQUIPMENT_UPGRADE_ENTRY);
+            Upgrades currentUpgrades = equipmentItem.getUpgrades(equipmentStack);
+            UpgradeEntry moduleEntry = moduleItem.get(LTXIDataComponents.UPGRADE_ENTRY);
 
-            if (entry != null && currentUpgrades.canInstallUpgrade(equipmentStack, entry))
+            if (moduleEntry != null && currentUpgrades.canInstallUpgrade(equipmentStack, moduleEntry))
             {
-                // Get previous rank
-                int previousRank = currentUpgrades.getUpgradeRank(entry.upgrade());
+                int previousRank = currentUpgrades.getUpgradeRank(moduleEntry.upgrade());
 
-                // Modify the upgrades and consume upgrade module item
-                EquipmentUpgrades newUpgrades = currentUpgrades.toMutableContainer().set(entry).toImmutable();
+                Upgrades newUpgrades = currentUpgrades.mutable().set(moduleEntry).build();
                 setUpgradesAndRefresh(level, equipmentStack, equipmentItem, newUpgrades);
-
                 moduleSourceInventory.set(EQUIPMENT_ITEM_SLOT, ItemResource.of(equipmentStack), 1);
 
-                try (Transaction tx = Transaction.openRoot())
-                {
-                    moduleSourceInventory.extract(UPGRADE_MODULE_SLOT, ItemResource.of(upgradeModuleItem), 1, tx);
-                    tx.commit();
-                }
-
-                if (previousRank > 0) ejectModuleItem(getServerUser(), entry.upgrade(), previousRank);
+                if (previousRank > 0) ejectModuleItem(getServerUser(), moduleEntry.upgrade(), previousRank, false);
 
                 sendSoundToPlayer(getServerUser(), LTXISounds.UPGRADE_INSTALL, 1f, 1f);
+
+                return true;
             }
         }
+
+        return false;
     }
 
     @Override
@@ -106,29 +91,23 @@ public class UpgradeStationMenu extends UpgradesConfigMenu<UpgradeStationBlockEn
 
         if (equipmentStack.getItem() instanceof UpgradableEquipmentItem equipmentItem)
         {
-            EquipmentUpgrades currentUpgrades = equipmentItem.getUpgrades(equipmentStack);
-            Holder<EquipmentUpgrade> upgradeHolder = level().registryAccess().holderOrThrow(ResourceKey.create(LTXIRegistries.Keys.EQUIPMENT_UPGRADES, upgradeId));
+            Upgrades currentUpgrades = equipmentItem.getUpgrades(equipmentStack);
+            Holder<Upgrade> holder = level().registryAccess().holderOrThrow(ResourceKey.create(LTXIRegistries.Keys.UPGRADES, upgradeId));
 
-            int rank = currentUpgrades.getUpgradeRank(upgradeHolder);
+            int rank = currentUpgrades.getUpgradeRank(holder);
             if (rank > 0)
             {
-                EquipmentUpgrades newUpgrades = currentUpgrades.toMutableContainer().remove(upgradeHolder).toImmutable();
+                Upgrades newUpgrades = currentUpgrades.mutable().remove(holder).build();
                 setUpgradesAndRefresh(sender.level(), equipmentStack, equipmentItem, newUpgrades);
                 moduleSourceInventory.set(EQUIPMENT_ITEM_SLOT, ItemResource.of(equipmentStack), 1);
 
-                ejectModuleItem(sender, upgradeHolder, rank);
+                ejectModuleItem(sender, holder, rank, true);
                 sendSoundToPlayer(sender, LTXISounds.UPGRADE_REMOVE, 1f, 1f);
             }
         }
     }
 
-    @Override
-    protected ItemStack createModuleItem(Holder<EquipmentUpgrade> upgrade, int upgradeRank)
-    {
-        return EquipmentUpgradeModuleItem.createStack(upgrade, upgradeRank);
-    }
-
-    private void setUpgradesAndRefresh(ServerLevel level, ItemStack stack, UpgradableEquipmentItem equipmentItem, EquipmentUpgrades newUpgrades)
+    private void setUpgradesAndRefresh(ServerLevel level, ItemStack stack, UpgradableEquipmentItem equipmentItem, Upgrades newUpgrades)
     {
         equipmentItem.setUpgrades(stack, newUpgrades);
         equipmentItem.onUpgradeRefresh(LimaLootUtil.emptyLootContext(level), stack, newUpgrades);

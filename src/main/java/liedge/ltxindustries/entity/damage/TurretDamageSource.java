@@ -4,7 +4,7 @@ import com.google.common.base.Preconditions;
 import liedge.limacore.blockentity.BlockContentsType;
 import liedge.ltxindustries.blockentity.turret.TurretBlockEntity;
 import liedge.ltxindustries.lib.upgrades.DropsCapture;
-import liedge.ltxindustries.lib.upgrades.UpgradesContainerBase;
+import liedge.ltxindustries.lib.upgrades.Upgrades;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.damagesource.DamageType;
@@ -37,7 +37,7 @@ public class TurretDamageSource extends UpgradesAwareDamageSource
     }
 
     @Override
-    public UpgradesContainerBase<?, ?> getUpgrades()
+    public Upgrades getUpgrades()
     {
         return blockEntity.getUpgrades();
     }

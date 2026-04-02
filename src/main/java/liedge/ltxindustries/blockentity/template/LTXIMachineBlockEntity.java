@@ -14,7 +14,7 @@ import liedge.limacore.transfer.item.LimaBlockEntityItems;
 import liedge.limacore.util.LimaItemUtil;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.blockentity.base.*;
-import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrades;
+import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.registry.game.LTXIDataComponents;
 import liedge.ltxindustries.registry.game.LTXIItems;
 import net.minecraft.core.BlockPos;
@@ -60,7 +60,7 @@ public abstract class LTXIMachineBlockEntity extends LimaBlockEntity implements 
     private final VariableEnergyHandler energy;
     private BlockIOConfiguration energyIOConfig;
 
-    private MachineUpgrades upgrades = MachineUpgrades.EMPTY;
+    private Upgrades upgrades = Upgrades.EMPTY;
 
     private int autoItemOutputTimer;
     private int autoItemInputTimer;
@@ -197,7 +197,7 @@ public abstract class LTXIMachineBlockEntity extends LimaBlockEntity implements 
     {
         return switch (index)
         {
-            case AUX_MODULE_ITEM_SLOT -> resource.is(LTXIItems.MACHINE_UPGRADE_MODULE.asItem());
+            case AUX_MODULE_ITEM_SLOT -> resource.is(LTXIItems.UPGRADE_MODULE.asItem()) && resource.has(LTXIDataComponents.UPGRADE_ENTRY);
             case AUX_ENERGY_ITEM_SLOT -> LimaItemUtil.hasEnergyCapability(ItemAccess.forStack(resource.toStack()));
             default -> false;
         };
@@ -236,13 +236,13 @@ public abstract class LTXIMachineBlockEntity extends LimaBlockEntity implements 
     //#region Upgrades holder implementation
 
     @Override
-    public MachineUpgrades getUpgrades()
+    public Upgrades getUpgrades()
     {
         return upgrades;
     }
 
     @Override
-    public void setUpgrades(MachineUpgrades upgrades)
+    public void setUpgrades(Upgrades upgrades)
     {
         this.upgrades = upgrades;
         if (level instanceof ServerLevel serverLevel)
@@ -259,14 +259,14 @@ public abstract class LTXIMachineBlockEntity extends LimaBlockEntity implements 
     @Override
     protected void applyImplicitComponents(DataComponentGetter getter)
     {
-        setUpgrades(getter.getOrDefault(LTXIDataComponents.MACHINE_UPGRADES, MachineUpgrades.EMPTY));
+        setUpgrades(getter.getOrDefault(LTXIDataComponents.UPGRADES, Upgrades.EMPTY));
         if (energy instanceof AdjustableBlockEntityEnergy adjustable) adjustable.set(getter.getOrDefault(LimaCoreDataComponents.ENERGY, 0));
     }
 
     @Override
     protected void collectImplicitComponents(DataComponentMap.Builder components)
     {
-        components.set(LTXIDataComponents.MACHINE_UPGRADES, getUpgrades());
+        components.set(LTXIDataComponents.UPGRADES, getUpgrades());
         if (energy instanceof AdjustableBlockEntityEnergy adjustable) adjustable.writeComponents(components);
     }
 
@@ -282,7 +282,7 @@ public abstract class LTXIMachineBlockEntity extends LimaBlockEntity implements 
     {
         super.loadAdditional(input);
 
-        this.upgrades = input.read(LTXIConstants.KEY_UPGRADES_CONTAINER, MachineUpgrades.CODEC).orElse(MachineUpgrades.EMPTY);
+        this.upgrades = input.read(LTXIConstants.KEY_UPGRADES_CONTAINER, Upgrades.CODEC).orElse(Upgrades.EMPTY);
         loadItemResources(input);
         loadEnergyStorage(input);
         loadIOConfigurations(input);
@@ -293,7 +293,7 @@ public abstract class LTXIMachineBlockEntity extends LimaBlockEntity implements 
     {
         super.saveAdditional(output);
 
-        output.store(LTXIConstants.KEY_UPGRADES_CONTAINER, MachineUpgrades.CODEC, upgrades);
+        output.store(LTXIConstants.KEY_UPGRADES_CONTAINER, Upgrades.CODEC, upgrades);
         saveItemResources(output);
         saveEnergyStorage(output);
         saveIOConfigurations(output);

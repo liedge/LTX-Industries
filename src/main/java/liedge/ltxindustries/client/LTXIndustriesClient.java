@@ -98,7 +98,7 @@ public class LTXIndustriesClient
         @SubscribeEvent
         public void registerClientExtensions(final RegisterClientExtensionsEvent event)
         {
-            event.registerItem(UpgradeModuleClientItem.INSTANCE, LTXIItems.EQUIPMENT_UPGRADE_MODULE, LTXIItems.MACHINE_UPGRADE_MODULE);
+            event.registerItem(UpgradeModuleClientItem.INSTANCE, LTXIItems.UPGRADE_MODULE);
             event.registerItem(BlueprintClientItem.INSTANCE, LTXIItems.FABRICATION_BLUEPRINT);
             event.registerItem(MiningToolClientItem.INSTANCE, LTXIItems.LTX_DRILL, LTXIItems.LTX_SHOVEL, LTXIItems.LTX_AXE, LTXIItems.LTX_HOE);
 

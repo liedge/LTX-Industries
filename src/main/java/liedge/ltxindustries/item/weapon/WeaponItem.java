@@ -15,7 +15,7 @@ import liedge.ltxindustries.entity.CompoundHitResult;
 import liedge.ltxindustries.entity.DynamicClipContext;
 import liedge.ltxindustries.entity.damage.EquipmentDamageSource;
 import liedge.ltxindustries.item.EnergyEquipmentItem;
-import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
+import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
 import liedge.ltxindustries.lib.weapons.WeaponReloadSource;
 import liedge.ltxindustries.registry.bootstrap.LTXIDamageTypes;
@@ -185,7 +185,7 @@ public abstract class WeaponItem extends EnergyEquipmentItem
     //#endregion
 
     @Override
-    public void onUpgradeRefresh(LootContext context, ItemStack stack, EquipmentUpgrades upgrades)
+    public void onUpgradeRefresh(LootContext context, ItemStack stack, Upgrades upgrades)
     {
         // Apply modifiers for weapon base stats
         setUpgradableInt(stack, upgrades, context, baseMagCapacity, LTXIDataComponents.MAGAZINE_CAPACITY, LTXIUpgradeEffectComponents.MAGAZINE_CAPACITY);
@@ -209,7 +209,7 @@ public abstract class WeaponItem extends EnergyEquipmentItem
         // Create the loot context and get the upgrades
         LootContext context = LimaLootUtil.entityLootContext(level, target, damageSource);
         ItemStack weaponItem = damageSource.getWeaponItem();
-        EquipmentUpgrades upgrades = getUpgrades(weaponItem);
+        Upgrades upgrades = getUpgrades(weaponItem);
 
         // Get upgraded damage, then apply global damage modifiers
         double damage = LTXIReloadListeners.equipmentDamageModifiers().apply(weaponItem, context, baseDamage, getUpgradedDamage(upgrades, context, baseDamage));

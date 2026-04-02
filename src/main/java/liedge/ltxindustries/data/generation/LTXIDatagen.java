@@ -31,8 +31,10 @@ final class LTXIDatagen
                 .add(Registries.CONFIGURED_FEATURE, LTXIConfiguredFeatures::bootstrap)
                 .add(Registries.DAMAGE_TYPE, LTXIDamageTypes::bootstrap)
                 .add(Registries.ENCHANTMENT, LTXIEnchantments::bootstrap)
-                .add(LTXIRegistries.Keys.EQUIPMENT_UPGRADES, LTXIEquipmentUpgrades::bootstrap)
-                .add(LTXIRegistries.Keys.MACHINE_UPGRADES, LTXIMachineUpgrades::bootstrap)
+                .add(LTXIRegistries.Keys.UPGRADES, context -> {
+                    LTXIEquipmentUpgrades.bootstrap(context);
+                    LTXIMachineUpgrades.bootstrap(context);
+                })
                 .add(Registries.PLACED_FEATURE, LTXIPlacedFeatures::bootstrap)
                 .add(LTXIRegistries.Keys.RECIPE_MODES, LTXIRecipeModes::bootstrap));
         CompletableFuture<HolderLookup.Provider> registries = dataRegistriesProvider.getRegistryProvider();
@@ -49,19 +51,18 @@ final class LTXIDatagen
         event.addProvider(new DataMapsGen(output, registries));
         event.addProvider(new EnchantmentTagsGen(output, registries));
         event.addProvider(new EntityTagsGen(output, registries));
-        event.addProvider(new EquipmentUpgradesTagsGen(output, registries));
         event.addProvider(new FluidTagsGen(output, registries));
         event.addProvider(new GameEventsTagsGen(output, registries));
         event.addProvider(new ItemTagsGen(output, registries, blockTags.contentsGetter()));
         event.addProvider(new LanguageGen(output));
         event.addProvider(new LootModifiersGen(output, registries));
         event.addProvider(new LootTablesGen(output, registries));
-        event.addProvider(new MachineUpgradesTagsGen(output, registries));
         event.addProvider(new MobEffectTagsGen(output, registries));
         event.addProvider(new ModelsGen(output, LTXIndustries.RESOURCES));
         event.addProvider(new ParticlesGen(output));
         event.addProvider(new RecipesGen.Runner(output, registries));
         event.addProvider(new SoundsGen(output));
         event.addProvider(new SpriteSourcesGen(output, registries));
+        event.addProvider(new UpgradeTagsGen(output, registries));
     }
 }

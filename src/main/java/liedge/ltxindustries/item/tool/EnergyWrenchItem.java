@@ -2,7 +2,7 @@ package liedge.ltxindustries.item.tool;
 
 import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.item.LTXIItemAbilities;
-import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
+import liedge.ltxindustries.lib.upgrades.Upgrade;
 import liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -46,7 +46,7 @@ public class EnergyWrenchItem extends BaseEnergyMiningItem
     }
 
     @Override
-    public @Nullable ResourceKey<EquipmentUpgrade> getDefaultUpgradeKey()
+    public @Nullable ResourceKey<Upgrade> getDefaultUpgradeKey()
     {
         return LTXIEquipmentUpgrades.LTX_WRENCH_DEFAULT;
     }

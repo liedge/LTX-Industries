@@ -21,7 +21,7 @@ public class MachineUpgradesButton extends LTXISidebarButton.RightSided
     @Override
     protected void extractInnerContents(GuiGraphicsExtractor graphics, int guiX, int guiY)
     {
-        renderSprite(graphics, UpgradesConfigScreen.MACHINE_MODULE_SPRITE, guiX, guiY);
+        renderSprite(graphics, UpgradesConfigScreen.MODULE_SPRITE, guiX, guiY);
     }
 
     @Override

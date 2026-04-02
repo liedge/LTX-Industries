@@ -7,11 +7,11 @@ import liedge.limacore.world.loot.condition.EntityHostilityCondition;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.client.LTXILangKeys;
+import liedge.ltxindustries.lib.upgrades.Upgrade;
 import liedge.ltxindustries.lib.upgrades.effect.AddEnchantmentLevels;
 import liedge.ltxindustries.lib.upgrades.effect.CaptureMobDrops;
 import liedge.ltxindustries.lib.upgrades.effect.MinimumMachineSpeed;
 import liedge.ltxindustries.lib.upgrades.effect.ValueOperation;
-import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrade;
 import liedge.ltxindustries.lib.upgrades.tooltip.TranslatableTooltip;
 import liedge.ltxindustries.lib.upgrades.tooltip.ValueComponent;
 import liedge.ltxindustries.lib.upgrades.tooltip.ValueFormat;
@@ -36,7 +36,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.storage.loot.predicates.AllOfCondition;
 
 import static liedge.ltxindustries.LTXIConstants.REM_BLUE;
-import static liedge.ltxindustries.LTXITags.MachineUpgrades.*;
+import static liedge.ltxindustries.LTXITags.Upgrades.*;
 import static liedge.ltxindustries.LTXIndustries.RESOURCES;
 import static liedge.ltxindustries.data.generation.LTXIBootstrapUtil.*;
 import static liedge.ltxindustries.lib.upgrades.UpgradeIcon.itemIcon;
@@ -48,38 +48,38 @@ public final class LTXIMachineUpgrades
     private LTXIMachineUpgrades() {}
 
     // Built-in upgrade resource keys
-    public static final ResourceKey<MachineUpgrade> ECA_CAPACITY_UPGRADE = key("eca_capacity");
-    public static final ResourceKey<MachineUpgrade> STANDARD_MACHINE_SYSTEMS = key("standard_machine_systems");
-    public static final ResourceKey<MachineUpgrade> ULTIMATE_MACHINE_SYSTEMS = key("ultimate_machine_systems");
-    public static final ResourceKey<MachineUpgrade> GPM_PARALLEL = key("gpm_parallel");
-    public static final ResourceKey<MachineUpgrade> FABRICATOR_UPGRADE = key("fabricator_upgrade");
+    public static final ResourceKey<Upgrade> ECA_CAPACITY_UPGRADE = key("eca_capacity");
+    public static final ResourceKey<Upgrade> STANDARD_MACHINE_SYSTEMS = key("standard_machine_systems");
+    public static final ResourceKey<Upgrade> ULTIMATE_MACHINE_SYSTEMS = key("ultimate_machine_systems");
+    public static final ResourceKey<Upgrade> GPM_PARALLEL = key("gpm_parallel");
+    public static final ResourceKey<Upgrade> FABRICATOR_UPGRADE = key("fabricator_upgrade");
 
     // Machine unique
-    public static final ResourceKey<MachineUpgrade> GEO_SYNTHESIZER_PARALLEL = key("geo_synthesizer_parallel");
+    public static final ResourceKey<Upgrade> GEO_SYNTHESIZER_PARALLEL = key("geo_synthesizer_parallel");
 
-    public static final ResourceKey<MachineUpgrade> TURRET_LOOTING = key("turret_looting");
-    public static final ResourceKey<MachineUpgrade> TURRET_RAZOR = key("turret_razor");
-    public static final ResourceKey<MachineUpgrade> TURRET_LOOT_COLLECTOR = key("turret_loot_collector");
+    public static final ResourceKey<Upgrade> TURRET_LOOTING = key("turret_looting");
+    public static final ResourceKey<Upgrade> TURRET_RAZOR = key("turret_razor");
+    public static final ResourceKey<Upgrade> TURRET_LOOT_COLLECTOR = key("turret_loot_collector");
 
-    public static final ResourceKey<MachineUpgrade> NEUTRAL_ENEMY_TARGETING = key("targeting/neutral_enemy");
-    public static final ResourceKey<MachineUpgrade> HOSTILE_TARGETING = key("targeting/hostile");
-    public static final ResourceKey<MachineUpgrade> ALL_ENTITIES_TARGETING = key("targeting/all");
+    public static final ResourceKey<Upgrade> NEUTRAL_ENEMY_TARGETING = key("targeting/neutral_enemy");
+    public static final ResourceKey<Upgrade> HOSTILE_TARGETING = key("targeting/hostile");
+    public static final ResourceKey<Upgrade> ALL_ENTITIES_TARGETING = key("targeting/all");
 
-    private static ResourceKey<MachineUpgrade> key(String name)
+    private static ResourceKey<Upgrade> key(String name)
     {
-        return RESOURCES.resourceKey(LTXIRegistries.Keys.MACHINE_UPGRADES, name);
+        return RESOURCES.resourceKey(LTXIRegistries.Keys.UPGRADES, name);
     }
 
-    public static void bootstrap(BootstrapContext<MachineUpgrade> context)
+    public static void bootstrap(BootstrapContext<Upgrade> context)
     {
-        HolderGetter<MachineUpgrade> holders = context.lookup(LTXIRegistries.Keys.MACHINE_UPGRADES);
+        HolderGetter<Upgrade> holders = context.lookup(LTXIRegistries.Keys.UPGRADES);
         HolderGetter<Enchantment> enchantments = context.lookup(Registries.ENCHANTMENT);
         HolderGetter<BlockEntityType<?>> blockEntities = context.lookup(Registries.BLOCK_ENTITY_TYPE);
 
         ContextlessValue ecaScaling = ExponentialDouble.of(2, LinearDouble.oneIncrement(3));
-        MachineUpgrade.builder(ECA_CAPACITY_UPGRADE)
+        Upgrade.builder(ECA_CAPACITY_UPGRADE)
                 .createDefaultTitle(REM_BLUE)
-                .supports(LTXIBlockEntities.ENERGY_CELL_ARRAY)
+                .forMachines(LTXIBlockEntities.ENERGY_CELL_ARRAY)
                 .withEffect(LTXIUpgradeEffectComponents.ENERGY_CAPACITY, ValueOperation.of(ecaScaling, MathOperation.MULTIPLY))
                 .withEffect(LTXIUpgradeEffectComponents.ENERGY_TRANSFER_RATE, ValueOperation.of(ecaScaling, MathOperation.MULTIPLY))
                 .tooltip(energyCapacityTooltip(ecaScaling, ValueFormat.MULTIPLICATIVE, ValueSentiment.POSITIVE))
@@ -89,8 +89,8 @@ public final class LTXIMachineUpgrades
                 .register(context);
 
         ContextlessValue smsEnergyStorage = LinearDouble.linearIncrement(0.5d);
-        MachineUpgrade.builder(STANDARD_MACHINE_SYSTEMS)
-                .supports(blockEntities, LTXITags.BlockEntities.STANDARD_UPGRADABLE_MACHINES)
+        Upgrade.builder(STANDARD_MACHINE_SYSTEMS)
+                .forMachines(blockEntities, LTXITags.BlockEntities.STANDARD_UPGRADABLE_MACHINES)
                 .exclusiveWith(holders, MACHINE_TIER)
                 .withEffect(ENERGY_CAPACITY, ValueOperation.of(smsEnergyStorage, MathOperation.ADD_PERCENT_OF_BASE))
                 .withEffect(ENERGY_TRANSFER_RATE, ValueOperation.of(smsEnergyStorage, MathOperation.ADD_PERCENT_OF_BASE))
@@ -109,9 +109,9 @@ public final class LTXIMachineUpgrades
 
         ContextlessValue umsEnergyStorage = ConstantDouble.of(16);
         ContextlessValue umsEnergyUsage = ConstantDouble.of(512);
-        MachineUpgrade.builder(ULTIMATE_MACHINE_SYSTEMS)
+        Upgrade.builder(ULTIMATE_MACHINE_SYSTEMS)
                 .createDefaultTitle(LTXIConstants.LIME_GREEN)
-                .supports(blockEntities, LTXITags.BlockEntities.ULTIMATE_UPGRADABLE_MACHINES)
+                .forMachines(blockEntities, LTXITags.BlockEntities.ULTIMATE_UPGRADABLE_MACHINES)
                 .exclusiveWith(holders, MACHINE_TIER)
                 .withEffect(ENERGY_CAPACITY, ValueOperation.of(umsEnergyStorage, MathOperation.MULTIPLY))
                 .withEffect(ENERGY_TRANSFER_RATE, ValueOperation.of(umsEnergyStorage, MathOperation.MULTIPLY))
@@ -127,9 +127,9 @@ public final class LTXIMachineUpgrades
                 .register(context);
 
         ContextlessValue gpmParallelOps = LinearDouble.linearIncrement(2);
-        MachineUpgrade.builder(GPM_PARALLEL)
+        Upgrade.builder(GPM_PARALLEL)
                 .createDefaultTitle(o -> o.withStyle(ChatFormatting.LIGHT_PURPLE))
-                .supports(blockEntities, LTXITags.BlockEntities.GENERAL_PROCESSING_MACHINES)
+                .forMachines(blockEntities, LTXITags.BlockEntities.GENERAL_PROCESSING_MACHINES)
                 .exclusiveWith(holders, PARALLEL_OPS_UPGRADES)
                 .withEffect(PARALLEL_OPERATIONS, ValueOperation.of(gpmParallelOps, MathOperation.REPLACE))
                 .tooltip(parallelOpsTooltip(gpmParallelOps, ValueFormat.FLAT_NUMBER, ValueSentiment.POSITIVE))
@@ -141,8 +141,8 @@ public final class LTXIMachineUpgrades
         ContextlessValue fabCapacity = LinearDouble.linearIncrement(2);
         ContextlessValue fabTransfer = LinearDouble.linearIncrement(3);
         ContextlessValue fabUsage = ExponentialDouble.of(2, LinearDouble.oneIncrement(2));
-        MachineUpgrade.builder(FABRICATOR_UPGRADE)
-                .supports(LTXIBlockEntities.FABRICATOR, LTXIBlockEntities.AUTO_FABRICATOR)
+        Upgrade.builder(FABRICATOR_UPGRADE)
+                .forMachines(LTXIBlockEntities.FABRICATOR, LTXIBlockEntities.AUTO_FABRICATOR)
                 .withEffect(ENERGY_CAPACITY, ValueOperation.of(fabCapacity, MathOperation.ADD_PERCENT_OF_BASE))
                 .withEffect(ENERGY_TRANSFER_RATE, ValueOperation.of(fabTransfer, MathOperation.ADD_PERCENT_OF_BASE))
                 .withEffect(ENERGY_USAGE, ValueOperation.of(fabUsage, MathOperation.MULTIPLY))
@@ -154,9 +154,9 @@ public final class LTXIMachineUpgrades
                 .register(context);
 
         ContextlessValue geoSynthParallel = ExponentialDouble.of(2, LinearDouble.oneIncrement(4));
-        MachineUpgrade.builder(GEO_SYNTHESIZER_PARALLEL)
+        Upgrade.builder(GEO_SYNTHESIZER_PARALLEL)
                 .createDefaultTitle(o -> o.withStyle(ChatFormatting.AQUA))
-                .supports(LTXIBlockEntities.GEO_SYNTHESIZER)
+                .forMachines(LTXIBlockEntities.GEO_SYNTHESIZER)
                 .exclusiveWith(holders, PARALLEL_OPS_UPGRADES)
                 .withEffect(PARALLEL_OPERATIONS, ValueOperation.of(geoSynthParallel, MathOperation.REPLACE))
                 .tooltip(parallelOpsTooltip(geoSynthParallel, ValueFormat.FLAT_NUMBER, ValueSentiment.POSITIVE))
@@ -165,45 +165,45 @@ public final class LTXIMachineUpgrades
                 .category("machine_unique")
                 .register(context);
 
-        MachineUpgrade.builder(TURRET_LOOTING)
-                .supports(blockEntities, LTXITags.BlockEntities.TURRETS)
+        Upgrade.builder(TURRET_LOOTING)
+                .forMachines(blockEntities, LTXITags.BlockEntities.TURRETS)
                 .withEffect(ENCHANTMENT_LEVELS, AddEnchantmentLevels.rankLinear(enchantments.getOrThrow(Enchantments.LOOTING)))
                 .setMaxRank(3)
                 .effectIcon(luckOverlay(LTXIItems.LTX_SWORD))
                 .category("turret")
                 .register(context);
 
-        MachineUpgrade.builder(TURRET_RAZOR)
-                .supports(blockEntities, LTXITags.BlockEntities.TURRETS)
+        Upgrade.builder(TURRET_RAZOR)
+                .forMachines(blockEntities, LTXITags.BlockEntities.TURRETS)
                 .setMaxRank(2)
                 .withEffect(ENCHANTMENT_LEVELS, AddEnchantmentLevels.rankLinear(enchantments.getOrThrow(LTXIEnchantments.RAZOR)))
                 .effectIcon(sprite("razor"))
                 .category("turret")
                 .register(context);
 
-        MachineUpgrade.builder(TURRET_LOOT_COLLECTOR)
-                .supports(blockEntities, LTXITags.BlockEntities.TURRETS)
+        Upgrade.builder(TURRET_LOOT_COLLECTOR)
+                .forMachines(blockEntities, LTXITags.BlockEntities.TURRETS)
                 .withSpecialEffect(CAPTURE_MOB_DROPS, CaptureMobDrops.INSTANCE)
                 .effectIcon(sprite("magnet"))
                 .category("turret")
                 .register(context);
 
-        MachineUpgrade.builder(ALL_ENTITIES_TARGETING)
-                .supports(blockEntities, LTXITags.BlockEntities.TURRETS)
+        Upgrade.builder(ALL_ENTITIES_TARGETING)
+                .forMachines(blockEntities, LTXITags.BlockEntities.TURRETS)
                 .exclusiveWith(holders, TARGET_PREDICATES)
                 .targetRestriction(AllOfCondition.allOf())
                 .effectIcon(sprite("all_targets"))
                 .category("target_predicates")
                 .register(context);
-        MachineUpgrade.builder(NEUTRAL_ENEMY_TARGETING)
-                .supports(blockEntities, LTXITags.BlockEntities.TURRETS)
+        Upgrade.builder(NEUTRAL_ENEMY_TARGETING)
+                .forMachines(blockEntities, LTXITags.BlockEntities.TURRETS)
                 .exclusiveWith(holders, TARGET_PREDICATES)
                 .targetRestriction(EntityHostilityCondition.attackerIs(MinMaxRange.atLeast(MobHostility.NEUTRAL_ENEMY)))
                 .effectIcon(sprite("neutral_enemy_targets"))
                 .category("target_predicates")
                 .register(context);
-        MachineUpgrade.builder(HOSTILE_TARGETING)
-                .supports(blockEntities, LTXITags.BlockEntities.TURRETS)
+        Upgrade.builder(HOSTILE_TARGETING)
+                .forMachines(blockEntities, LTXITags.BlockEntities.TURRETS)
                 .exclusiveWith(holders, TARGET_PREDICATES)
                 .targetRestriction(EntityHostilityCondition.attackerIs(MinMaxRange.atLeast(MobHostility.HOSTILE)))
                 .effectIcon(sprite("hostile_targets"))

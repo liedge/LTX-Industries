@@ -6,7 +6,8 @@ import liedge.limacore.lib.Translatable;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.entity.ShellGrenadeEntity;
 import liedge.ltxindustries.item.ScrollModeSwitchItem;
-import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
+import liedge.ltxindustries.lib.upgrades.MutableUpgrades;
+import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
 import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
 import liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades;
@@ -69,7 +70,7 @@ public class GrenadeLauncherItem extends SemiAutoWeaponItem implements ScrollMod
     }
 
     @Override
-    public void onUpgradeRefresh(LootContext context, ItemStack stack, EquipmentUpgrades upgrades)
+    public void onUpgradeRefresh(LootContext context, ItemStack stack, Upgrades upgrades)
     {
         super.onUpgradeRefresh(context, stack, upgrades);
         GrenadeType currentlyEquipped = getGrenadeTypeFromItem(stack);
@@ -101,7 +102,7 @@ public class GrenadeLauncherItem extends SemiAutoWeaponItem implements ScrollMod
     @Override
     public void switchItemMode(Player player, ItemStack stack, boolean forward)
     {
-        EquipmentUpgrades upgrades = getUpgrades(stack);
+        Upgrades upgrades = getUpgrades(stack);
         Set<GrenadeType> availableTypes = EnumSet.of(GrenadeType.EXPLOSIVE);
         upgrades.forEachEffect(LTXIUpgradeEffectComponents.GRENADE_UNLOCK, (effect, _) -> availableTypes.add(effect));
 
@@ -121,9 +122,9 @@ public class GrenadeLauncherItem extends SemiAutoWeaponItem implements ScrollMod
     {
         HolderLookup.Provider registries = parameters.holders();
         ItemStack stack = new ItemStack(this);
-        setUpgrades(stack, EquipmentUpgrades.builder()
+        setUpgrades(stack, MutableUpgrades.create()
                 .set(registries.holderOrThrow(LTXIEquipmentUpgrades.OMNI_GRENADE_CORE))
-                .toImmutable());
+                .build());
         setAmmoLoadedMax(stack);
         output.accept(stack, tabVisibility);
     }

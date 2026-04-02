@@ -24,7 +24,9 @@ import net.minecraft.util.Unit;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.LevelBasedValue;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
@@ -36,12 +38,11 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
-public final class UpgradeBaseBuilder<CTX, U extends UpgradeBase<CTX, U>> implements BootstrapObjectBuilder<U>
+public final class UpgradeBuilder implements BootstrapObjectBuilder<Upgrade>
 {
     public static final String DEFAULT_DESCRIPTION_SUFFIX = "desc";
 
-    private final ResourceKey<U> key;
-    private final UpgradeBase.UpgradeFactory<CTX, U> factory;
+    private final ResourceKey<Upgrade> key;
     private final DataComponentMap.Builder effectMapBuilder = DataComponentMap.builder();
     private final Map<DataComponentType<?>, List<?>> effectLists = new Object2ObjectOpenHashMap<>();
 
@@ -52,238 +53,252 @@ public final class UpgradeBaseBuilder<CTX, U extends UpgradeBase<CTX, U>> implem
     private String category = UpgradeDisplayInfo.NO_CATEGORY;
 
     private int maxRank = 1;
-    private HolderSet<CTX> supportedSet;
-    private HolderSet<U> exclusiveSet = HolderSet.empty();
+    private HolderSet<Item> itemUsers = HolderSet.empty();
+    private HolderSet<BlockEntityType<?>> blockEntityUsers = HolderSet.empty();
+    private HolderSet<Upgrade> exclusiveSet = HolderSet.empty();
 
-    public UpgradeBaseBuilder(ResourceKey<U> key, UpgradeBase.UpgradeFactory<CTX, U> factory)
+    UpgradeBuilder(ResourceKey<Upgrade> key)
     {
         this.key = key;
-        this.factory = factory;
         this.title = defaultTitle();
         this.description = defaultDescription();
     }
 
-    public UpgradeBaseBuilder<CTX, U> setTitle(Component title)
+    public UpgradeBuilder setTitle(Component title)
     {
         this.title = title;
         return this;
     }
 
-    public UpgradeBaseBuilder<CTX, U> setDescription(Component description)
+    public UpgradeBuilder setDescription(Component description)
     {
         this.description = description;
         return this;
     }
 
-    public UpgradeBaseBuilder<CTX, U> createDefaultTitle(LimaColor color)
+    public UpgradeBuilder createDefaultTitle(LimaColor color)
     {
         return createDefaultTitle(title -> title.withStyle(color.chatStyle()));
     }
 
-    public UpgradeBaseBuilder<CTX, U> createDefaultTitle(UnaryOperator<MutableComponent> operator)
+    public UpgradeBuilder createDefaultTitle(UnaryOperator<MutableComponent> operator)
     {
         this.title = operator.apply(defaultTitle());
         return this;
     }
 
-    public UpgradeBaseBuilder<CTX, U> createDefaultDescription(UnaryOperator<MutableComponent> operator)
+    public UpgradeBuilder createDefaultDescription(UnaryOperator<MutableComponent> operator)
     {
         this.description = operator.apply(defaultDescription());
         return this;
     }
 
-    public UpgradeBaseBuilder<CTX, U> tooltip(UpgradeComponentLike tooltip)
+    public UpgradeBuilder tooltip(UpgradeComponentLike tooltip)
     {
         this.tooltips.add(tooltip);
         return this;
     }
 
-    public UpgradeBaseBuilder<CTX, U> tooltip(int index, Function<String, UpgradeComponentLike> function)
+    public UpgradeBuilder tooltip(int index, Function<String, UpgradeComponentLike> function)
     {
         return tooltip(function.apply(tooltipKey(key, index)));
     }
 
-    public UpgradeBaseBuilder<CTX, U> staticTooltip(int index)
+    public UpgradeBuilder staticTooltip(int index)
     {
         return tooltip(index, key -> StaticTooltip.of(Component.translatable(key)));
     }
 
-    public UpgradeBaseBuilder<CTX, U> staticTooltip(Component component)
+    public UpgradeBuilder staticTooltip(Component component)
     {
         return tooltip(StaticTooltip.of(component));
     }
 
-    public UpgradeBaseBuilder<CTX, U> setMaxRank(int maxRank)
+    public UpgradeBuilder setMaxRank(int maxRank)
     {
-        this.maxRank = Mth.clamp(maxRank, 1, UpgradeBase.MAX_UPGRADE_RANK);
+        this.maxRank = Mth.clamp(maxRank, 1, Upgrade.MAX_RANK);
         return this;
     }
 
-    public UpgradeBaseBuilder<CTX, U> supports(HolderSet<CTX> supportedSet)
+    //#region Compatibility and exclusivity
+    public UpgradeBuilder forEquipment(HolderSet<Item> items)
     {
-        this.supportedSet = supportedSet;
+        this.itemUsers = items;
         return this;
     }
 
-    public UpgradeBaseBuilder<CTX, U> supports(HolderGetter<CTX> holders, TagKey<CTX> tagKey)
+    public UpgradeBuilder forEquipment(HolderGetter<Item> holders, TagKey<Item> tagKey)
     {
-        return supports(holders.getOrThrow(tagKey));
-    }
-
-    public UpgradeBaseBuilder<CTX, U> supports(Holder<CTX> ctxObject)
-    {
-        return supports(HolderSet.direct(ctxObject));
+        return forEquipment(holders.getOrThrow(tagKey));
     }
 
     @SafeVarargs
-    public final UpgradeBaseBuilder<CTX, U> supports(Holder<CTX>... ctxObjects)
+    public final UpgradeBuilder forEquipment(Holder<Item>... items)
     {
-        return supports(HolderSet.direct(ctxObjects));
+        return forEquipment(HolderSet.direct(items));
     }
 
-    public UpgradeBaseBuilder<CTX, U> exclusiveWith(HolderSet<U> exclusiveSet)
+    public UpgradeBuilder forMachines(HolderSet<BlockEntityType<?>> machines)
+    {
+        this.blockEntityUsers = machines;
+        return this;
+    }
+
+    public UpgradeBuilder forMachines(HolderGetter<BlockEntityType<?>> holders, TagKey<BlockEntityType<?>> tagKey)
+    {
+        return forMachines(holders.getOrThrow(tagKey));
+    }
+
+    @SafeVarargs
+    public final UpgradeBuilder forMachines(Holder<BlockEntityType<?>>... blockEntityTypes)
+    {
+        return forMachines(HolderSet.direct(blockEntityTypes));
+    }
+
+    public UpgradeBuilder exclusiveWith(HolderSet<Upgrade> exclusiveSet)
     {
         this.exclusiveSet = exclusiveSet;
         return this;
     }
 
-    public UpgradeBaseBuilder<CTX, U> exclusiveWith(HolderGetter<U> holders, TagKey<U> tagKey)
+    public UpgradeBuilder exclusiveWith(HolderGetter<Upgrade> holders, TagKey<Upgrade> tagKey)
     {
         return exclusiveWith(holders.getOrThrow(tagKey));
     }
+    //#endregion
 
     //#region Effect addition helpers
-    public <T> UpgradeBaseBuilder<CTX, U> withEffect(DataComponentType<List<T>> type, T effect)
+    public <T> UpgradeBuilder withEffect(DataComponentType<List<T>> type, T effect)
     {
         getEffectsList(type).add(effect);
         return this;
     }
 
-    public <T> UpgradeBaseBuilder<CTX, U> withEffect(Supplier<? extends DataComponentType<List<T>>> typeSupplier, T effect)
+    public <T> UpgradeBuilder withEffect(Supplier<? extends DataComponentType<List<T>>> typeSupplier, T effect)
     {
         return withEffect(typeSupplier.get(), effect);
     }
 
-    public <T> UpgradeBaseBuilder<CTX, U> withConditionalEffect(DataComponentType<List<ConditionEffect<T>>> type, T effect, @Nullable LootItemCondition.Builder condition)
+    public <T> UpgradeBuilder withConditionalEffect(DataComponentType<List<ConditionEffect<T>>> type, T effect, @Nullable LootItemCondition.Builder condition)
     {
         getEffectsList(type).add(new ConditionEffect<>(effect, Optional.ofNullable(condition).map(LootItemCondition.Builder::build)));
         return this;
     }
 
-    public <T> UpgradeBaseBuilder<CTX, U> withConditionalEffect(DataComponentType<List<ConditionEffect<T>>> type, T effect)
+    public <T> UpgradeBuilder withConditionalEffect(DataComponentType<List<ConditionEffect<T>>> type, T effect)
     {
         return withConditionalEffect(type, effect, null);
     }
 
-    public <T> UpgradeBaseBuilder<CTX, U> withConditionalEffect(Supplier<? extends DataComponentType<List<ConditionEffect<T>>>> typeSupplier, T effect, @Nullable LootItemCondition.Builder condition)
+    public <T> UpgradeBuilder withConditionalEffect(Supplier<? extends DataComponentType<List<ConditionEffect<T>>>> typeSupplier, T effect, @Nullable LootItemCondition.Builder condition)
     {
         return withConditionalEffect(typeSupplier.get(), effect, condition);
     }
 
-    public <T> UpgradeBaseBuilder<CTX, U> withConditionalEffect(Supplier<? extends DataComponentType<List<ConditionEffect<T>>>> typeSupplier, T effect)
+    public <T> UpgradeBuilder withConditionalEffect(Supplier<? extends DataComponentType<List<ConditionEffect<T>>>> typeSupplier, T effect)
     {
         return withConditionalEffect(typeSupplier, effect, null);
     }
 
-    public <T> UpgradeBaseBuilder<CTX, U> withTargetedEffect(DataComponentType<List<TargetableEffect<T>>> type, EffectTarget source, EffectTarget affected, T effect, @Nullable LootItemCondition.Builder condition)
+    public <T> UpgradeBuilder withTargetedEffect(DataComponentType<List<TargetableEffect<T>>> type, EffectTarget source, EffectTarget affected, T effect, @Nullable LootItemCondition.Builder condition)
     {
         getEffectsList(type).add(new TargetableEffect<>(source, affected, effect, Optional.ofNullable(condition).map(LootItemCondition.Builder::build)));
         return this;
     }
 
-    public <T> UpgradeBaseBuilder<CTX, U> withTargetedEffect(DataComponentType<List<TargetableEffect<T>>> type, EffectTarget source, EffectTarget affected, T effect)
+    public <T> UpgradeBuilder withTargetedEffect(DataComponentType<List<TargetableEffect<T>>> type, EffectTarget source, EffectTarget affected, T effect)
     {
         return withTargetedEffect(type, source, affected, effect, null);
     }
 
-    public <T> UpgradeBaseBuilder<CTX, U> withTargetedEffect(Supplier<? extends DataComponentType<List<TargetableEffect<T>>>> typeSupplier, EffectTarget source, EffectTarget affected, T effect, @Nullable LootItemCondition.Builder condition)
+    public <T> UpgradeBuilder withTargetedEffect(Supplier<? extends DataComponentType<List<TargetableEffect<T>>>> typeSupplier, EffectTarget source, EffectTarget affected, T effect, @Nullable LootItemCondition.Builder condition)
     {
         return withTargetedEffect(typeSupplier.get(), source, affected, effect, condition);
     }
 
-    public <T> UpgradeBaseBuilder<CTX, U> withTargetedEffect(Supplier<? extends DataComponentType<List<TargetableEffect<T>>>> typeSupplier, EffectTarget source, EffectTarget affected, T effect)
+    public <T> UpgradeBuilder withTargetedEffect(Supplier<? extends DataComponentType<List<TargetableEffect<T>>>> typeSupplier, EffectTarget source, EffectTarget affected, T effect)
     {
         return withTargetedEffect(typeSupplier, source, affected, effect, null);
     }
 
-    public <T> UpgradeBaseBuilder<CTX, U> withSpecialEffect(DataComponentType<T> type, T effect)
+    public <T> UpgradeBuilder withSpecialEffect(DataComponentType<T> type, T effect)
     {
         effectMapBuilder.set(type, effect);
         return this;
     }
 
-    public <T> UpgradeBaseBuilder<CTX, U> withSpecialEffect(Supplier<? extends DataComponentType<T>> typeSupplier, T effect)
+    public <T> UpgradeBuilder withSpecialEffect(Supplier<? extends DataComponentType<T>> typeSupplier, T effect)
     {
         return withSpecialEffect(typeSupplier.get(), effect);
     }
 
-    public UpgradeBaseBuilder<CTX, U> withUnitEffect(DataComponentType<Unit> type)
+    public UpgradeBuilder withUnitEffect(DataComponentType<Unit> type)
     {
         return withSpecialEffect(type, Unit.INSTANCE);
     }
 
-    public UpgradeBaseBuilder<CTX, U> withUnitEffect(Supplier<? extends DataComponentType<Unit>> typeSupplier)
+    public UpgradeBuilder withUnitEffect(Supplier<? extends DataComponentType<Unit>> typeSupplier)
     {
         return withUnitEffect(typeSupplier.get());
     }
 
-    public UpgradeBaseBuilder<CTX, U> targetRestriction(LootItemCondition.Builder builder)
+    public UpgradeBuilder targetRestriction(LootItemCondition.Builder builder)
     {
         return withEffect(LTXIUpgradeEffectComponents.TARGET_CONDITIONS, builder.build());
     }
 
-    public UpgradeBaseBuilder<CTX, U> withConditionUnit(Supplier<? extends DataComponentType<List<ConditionEffect<Unit>>>> typeSupplier, LootItemCondition.Builder builder)
+    public UpgradeBuilder withConditionUnit(Supplier<? extends DataComponentType<List<ConditionEffect<Unit>>>> typeSupplier, LootItemCondition.Builder builder)
     {
         return withConditionalEffect(typeSupplier, Unit.INSTANCE, builder);
     }
 
     // Specialty effects
-    private <T extends AttributeModifierUpgradeEffect> UpgradeBaseBuilder<CTX, U> attributeEffect(Supplier<? extends DataComponentType<List<T>>> typeSupplier, String name, Function<Identifier, T> function)
+    private <T extends AttributeModifierUpgradeEffect> UpgradeBuilder attributeEffect(Supplier<? extends DataComponentType<List<T>>> typeSupplier, String name, Function<Identifier, T> function)
     {
         Identifier modifierId = key.identifier().withSuffix('.' + name);
         return withEffect(typeSupplier, function.apply(modifierId));
     }
 
-    public UpgradeBaseBuilder<CTX, U> itemAttributes(Holder<Attribute> attribute, String name, LevelBasedValue amount, AttributeModifier.Operation operation, EquipmentSlotGroup slots)
+    public UpgradeBuilder itemAttributes(Holder<Attribute> attribute, String name, LevelBasedValue amount, AttributeModifier.Operation operation, EquipmentSlotGroup slots)
     {
         return attributeEffect(LTXIUpgradeEffectComponents.ADD_ITEM_ATTRIBUTES, name, id -> AddItemAttributes.create(attribute, id, amount, operation, slots));
     }
 
-    public UpgradeBaseBuilder<CTX, U> damageAttributes(Holder<Attribute> attribute, String name, LevelBasedValue amount, AttributeModifier.Operation operation)
+    public UpgradeBuilder damageAttributes(Holder<Attribute> attribute, String name, LevelBasedValue amount, AttributeModifier.Operation operation)
     {
         return attributeEffect(LTXIUpgradeEffectComponents.ADD_DAMAGE_ATTRIBUTES, name, id -> AddDamageAttributes.create(attribute, id, amount, operation));
     }
     //#endregion
 
-    public UpgradeBaseBuilder<CTX, U> effectIcon(UpgradeIcon icon)
+    public UpgradeBuilder effectIcon(UpgradeIcon icon)
     {
         this.icon = icon;
         return this;
     }
 
-    public UpgradeBaseBuilder<CTX, U> category(String category)
+    public UpgradeBuilder category(String category)
     {
         this.category = StringUtils.isNotBlank(category) ? category : UpgradeDisplayInfo.NO_CATEGORY;
         return this;
     }
 
     @Override
-    public ResourceKey<U> key()
+    public ResourceKey<Upgrade> key()
     {
         return key;
     }
 
     @Override
-    public U build()
+    public Upgrade build()
     {
         UpgradeDisplayInfo displayInfo = new UpgradeDisplayInfo(title, description, tooltips, icon, category);
-        return factory.apply(displayInfo, maxRank, supportedSet, exclusiveSet, effectMapBuilder.build());
+        return new Upgrade(displayInfo, maxRank, new UpgradeUsers(itemUsers, blockEntityUsers), exclusiveSet, effectMapBuilder.build());
     }
 
     @SuppressWarnings("unchecked")
     private <T> List<T> getEffectsList(DataComponentType<List<T>> type)
     {
-        return (List<T>) effectLists.computeIfAbsent(type, key -> {
+        return (List<T>) effectLists.computeIfAbsent(type, _ -> {
             List<T> list = new ObjectArrayList<>();
             effectMapBuilder.set(type, list);
             return list;
@@ -300,17 +315,17 @@ public final class UpgradeBaseBuilder<CTX, U extends UpgradeBase<CTX, U>> implem
         return Component.translatable(defaultDescriptionKey(key));
     }
 
-    public static String defaultTitleKey(ResourceKey<? extends UpgradeBase<?, ?>> key)
+    public static String defaultTitleKey(ResourceKey<Upgrade> key)
     {
         return ModResources.registryPrefixedIdLangKey(key);
     }
 
-    public static String defaultDescriptionKey(ResourceKey<? extends UpgradeBase<?, ?>> key)
+    public static String defaultDescriptionKey(ResourceKey<Upgrade> key)
     {
         return ModResources.registryPrefixVariantIdLangKey(key, DEFAULT_DESCRIPTION_SUFFIX);
     }
 
-    public static String tooltipKey(ResourceKey<? extends UpgradeBase<?, ?>> key, int index)
+    public static String tooltipKey(ResourceKey<Upgrade> key, int index)
     {
         return ModResources.registryPrefixVariantIdLangKey(key, "tooltip" + index);
     }

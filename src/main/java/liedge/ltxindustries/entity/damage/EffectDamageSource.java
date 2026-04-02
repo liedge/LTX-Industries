@@ -2,7 +2,7 @@ package liedge.ltxindustries.entity.damage;
 
 import liedge.limacore.util.LimaCoreObjects;
 import liedge.ltxindustries.lib.upgrades.DropsCapture;
-import liedge.ltxindustries.lib.upgrades.UpgradesContainerBase;
+import liedge.ltxindustries.lib.upgrades.Upgrades;
 import net.minecraft.core.Holder;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.LivingEntity;
@@ -12,16 +12,16 @@ import org.jetbrains.annotations.Nullable;
 
 public final class EffectDamageSource extends UpgradesAwareDamageSource
 {
-    private final UpgradesContainerBase<?, ?> upgrades;
+    private final Upgrades upgrades;
 
-    public EffectDamageSource(Holder<DamageType> damageType, @Nullable LivingEntity source, UpgradesContainerBase<?, ?> upgrades)
+    public EffectDamageSource(Holder<DamageType> damageType, @Nullable LivingEntity source, Upgrades upgrades)
     {
         super(damageType, source, source);
         this.upgrades = upgrades;
     }
 
     @Override
-    public UpgradesContainerBase<?, ?> getUpgrades()
+    public Upgrades getUpgrades()
     {
         return upgrades;
     }

@@ -2,14 +2,12 @@ package liedge.ltxindustries.menu;
 
 import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.menu.LimaMenuType;
-import liedge.limacore.network.NetworkSerializer;
 import liedge.ltxindustries.blockentity.template.LTXIMachineBlockEntity;
-import liedge.ltxindustries.item.MachineUpgradeModuleItem;
-import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrade;
-import liedge.ltxindustries.lib.upgrades.machine.MachineUpgradeEntry;
-import liedge.ltxindustries.lib.upgrades.machine.MachineUpgrades;
+import liedge.ltxindustries.lib.upgrades.Upgrade;
+import liedge.ltxindustries.lib.upgrades.UpgradeEntry;
+import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.registry.LTXIRegistries;
-import liedge.ltxindustries.registry.game.LTXINetworkSerializers;
+import liedge.ltxindustries.registry.game.LTXIDataComponents;
 import liedge.ltxindustries.registry.game.LTXISounds;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;
@@ -18,12 +16,8 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.transfer.item.ItemResource;
-import net.neoforged.neoforge.transfer.transaction.Transaction;
 
-import static liedge.ltxindustries.registry.game.LTXIDataComponents.MACHINE_UPGRADE_ENTRY;
-
-public class MachineUpgradeMenu extends UpgradesConfigMenu<LTXIMachineBlockEntity, MachineUpgrade, MachineUpgrades>
+public class MachineUpgradeMenu extends UpgradesConfigMenu<LTXIMachineBlockEntity>
 {
     public static final int BACK_BUTTON_ID = 1;
 
@@ -42,13 +36,7 @@ public class MachineUpgradeMenu extends UpgradesConfigMenu<LTXIMachineBlockEntit
     }
 
     @Override
-    protected NetworkSerializer<MachineUpgrades> getUpgradesSerializer()
-    {
-        return LTXINetworkSerializers.ITEM_MACHINE_UPGRADES.get();
-    }
-
-    @Override
-    protected MachineUpgrades getUpgrades()
+    protected Upgrades getUpgrades()
     {
         return menuContext.getUpgrades();
     }
@@ -56,60 +44,48 @@ public class MachineUpgradeMenu extends UpgradesConfigMenu<LTXIMachineBlockEntit
     @Override
     protected boolean canInstallUpgrade(ItemStack upgradeModuleItem)
     {
-        MachineUpgrades upgrades = menuContext.getUpgrades();
-        MachineUpgradeEntry entry = upgradeModuleItem.get(MACHINE_UPGRADE_ENTRY);
-
-        return entry != null && upgrades.canInstallUpgrade(menuContext, entry);
+        UpgradeEntry entry = upgradeModuleItem.get(LTXIDataComponents.UPGRADE_ENTRY);
+        return entry != null && getUpgrades().canInstallUpgrade(menuContext, entry);
     }
 
     @Override
-    protected void tryInstallUpgrade(ItemStack upgradeModuleItem, ServerLevel level)
+    protected boolean installUpgrade(ServerLevel level, ItemStack moduleItem)
     {
-        MachineUpgrades currentUpgrades = menuContext.getUpgrades();
-        MachineUpgradeEntry entry = upgradeModuleItem.get(MACHINE_UPGRADE_ENTRY);
+        Upgrades currentUpgrades = getUpgrades();
+        UpgradeEntry moduleEntry = moduleItem.get(LTXIDataComponents.UPGRADE_ENTRY);
 
-        if (entry != null && currentUpgrades.canInstallUpgrade(menuContext, entry))
+        if (moduleEntry != null && currentUpgrades.canInstallUpgrade(menuContext, moduleEntry))
         {
-            // Get previous rank
-            int previousRank = currentUpgrades.getUpgradeRank(entry.upgrade());
+            int previousRank = currentUpgrades.getUpgradeRank(moduleEntry.upgrade());
 
-            // Modify the upgrades and consume upgrade module item
-            MachineUpgrades newUpgrades = currentUpgrades.toMutableContainer().set(entry).toImmutable();
+            Upgrades newUpgrades = currentUpgrades.mutable().set(moduleEntry).build();
             menuContext.setUpgrades(newUpgrades);
 
-            try (Transaction tx = Transaction.openRoot())
-            {
-                moduleSourceInventory.extract(moduleSlot, ItemResource.of(upgradeModuleItem), 1, tx);
-                tx.commit();
-            }
-
-            if (previousRank > 0) ejectModuleItem(getServerUser(), entry.upgrade(), previousRank);
+            if (previousRank > 0) ejectModuleItem(getServerUser(), moduleEntry.upgrade(), previousRank, false);
 
             sendSoundToPlayer(getServerUser(), LTXISounds.UPGRADE_INSTALL, 1f, 1f);
+
+            return true;
         }
+
+        return false;
     }
 
     @Override
     protected void tryRemoveUpgrade(ServerPlayer sender, Identifier upgradeId)
     {
-        MachineUpgrades currentUpgrades = menuContext.getUpgrades();
-        Holder<MachineUpgrade> upgradeHolder = level().registryAccess().holderOrThrow(ResourceKey.create(LTXIRegistries.Keys.MACHINE_UPGRADES, upgradeId));
+        Upgrades currentUpgrades = getUpgrades();
+        Holder<Upgrade> holder = level().registryAccess().holderOrThrow(ResourceKey.create(LTXIRegistries.Keys.UPGRADES, upgradeId));
 
-        int rank = currentUpgrades.getUpgradeRank(upgradeHolder);
+        int rank = currentUpgrades.getUpgradeRank(holder);
         if (rank > 0)
         {
-            MachineUpgrades newUpgrades = currentUpgrades.toMutableContainer().remove(upgradeHolder).toImmutable();
+            Upgrades newUpgrades = currentUpgrades.mutable().remove(holder).build();
             menuContext.setUpgrades(newUpgrades);
 
-            ejectModuleItem(sender, upgradeHolder, rank);
+            ejectModuleItem(sender, holder, rank, true);
 
             sendSoundToPlayer(sender, LTXISounds.UPGRADE_REMOVE, 1f, 1f);
         }
-    }
-
-    @Override
-    protected ItemStack createModuleItem(Holder<MachineUpgrade> upgrade, int upgradeRank)
-    {
-        return MachineUpgradeModuleItem.createStack(upgrade, upgradeRank);
     }
 }

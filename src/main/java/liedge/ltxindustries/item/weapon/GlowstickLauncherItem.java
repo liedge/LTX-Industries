@@ -1,7 +1,7 @@
 package liedge.ltxindustries.item.weapon;
 
 import liedge.ltxindustries.entity.GlowstickProjectileEntity;
-import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrade;
+import liedge.ltxindustries.lib.upgrades.Upgrade;
 import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
 import liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades;
 import liedge.ltxindustries.registry.game.LTXIGameEvents;
@@ -22,7 +22,7 @@ public class GlowstickLauncherItem extends SemiAutoWeaponItem
     }
 
     @Override
-    public @Nullable ResourceKey<EquipmentUpgrade> getDefaultUpgradeKey()
+    public @Nullable ResourceKey<Upgrade> getDefaultUpgradeKey()
     {
         return LTXIEquipmentUpgrades.GLOWSTICK_LAUNCHER_DEFAULT;
     }

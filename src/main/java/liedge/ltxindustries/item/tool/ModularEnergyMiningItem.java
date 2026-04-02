@@ -3,9 +3,9 @@ package liedge.ltxindustries.item.tool;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.util.LimaNetworkUtil;
 import liedge.ltxindustries.item.ScrollModeSwitchItem;
+import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.lib.upgrades.effect.ModularTool;
 import liedge.ltxindustries.lib.upgrades.effect.VeinMine;
-import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
 import liedge.ltxindustries.registry.game.LTXIDataComponents;
 import liedge.ltxindustries.registry.game.LTXIParticles;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
@@ -137,7 +137,7 @@ public abstract class ModularEnergyMiningItem extends BaseEnergyMiningItem imple
     }
 
     @Override
-    public void onUpgradeRefresh(LootContext context, ItemStack stack, EquipmentUpgrades upgrades)
+    public void onUpgradeRefresh(LootContext context, ItemStack stack, Upgrades upgrades)
     {
         super.onUpgradeRefresh(context, stack, upgrades);
 

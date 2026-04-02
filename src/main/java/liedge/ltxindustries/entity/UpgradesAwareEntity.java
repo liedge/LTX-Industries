@@ -3,7 +3,7 @@ package liedge.ltxindustries.entity;
 import liedge.limacore.LimaCommonConstants;
 import liedge.limacore.util.LimaCoreObjects;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
-import liedge.ltxindustries.lib.upgrades.UpgradesContainerBase;
+import liedge.ltxindustries.lib.upgrades.Upgrades;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
@@ -49,7 +49,7 @@ public abstract class UpgradesAwareEntity extends Entity implements TraceableEnt
         this.weaponItem = weaponItem;
     }
 
-    public UpgradesContainerBase<?, ?> getUpgrades()
+    public Upgrades getUpgrades()
     {
         return UpgradableEquipmentItem.getUpgradesFrom(getWeaponItem());
     }

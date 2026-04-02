@@ -2,7 +2,7 @@ package liedge.ltxindustries.item.weapon;
 
 import liedge.ltxindustries.entity.EquipmentRocketEntity;
 import liedge.ltxindustries.entity.LTXIEntityUtil;
-import liedge.ltxindustries.lib.upgrades.equipment.EquipmentUpgrades;
+import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
 import liedge.ltxindustries.registry.game.LTXIGameEvents;
 import liedge.ltxindustries.registry.game.LTXIItems;
@@ -32,7 +32,7 @@ public class RocketLauncherItem extends SemiAutoWeaponItem
         super(properties, 2, 1.5d, 60, LTXIItems.EXPLOSIVES_WEAPON_ENERGY, 1, 0);
     }
 
-    private boolean isInTargetScanPath(Player player, Entity target, EquipmentUpgrades upgrades)
+    private boolean isInTargetScanPath(Player player, Entity target, Upgrades upgrades)
     {
         if (target instanceof LivingEntity && target.distanceTo(player) >= 10 && LTXIEntityUtil.isValidContextTarget(target, player, upgrades))
         {
@@ -58,9 +58,7 @@ public class RocketLauncherItem extends SemiAutoWeaponItem
         {
             Vec3 scanPath = player.getViewVector(1f).scale(60);
 
-            EquipmentUpgrades upgrades = getUpgrades(heldItem);
-
-            Optional<Entity> entity = level.getEntities(player, player.getBoundingBox().expandTowards(scanPath), e -> isInTargetScanPath(player, e, upgrades))
+            Optional<Entity> entity = level.getEntities(player, player.getBoundingBox().expandTowards(scanPath), e -> isInTargetScanPath(player, e, getUpgrades(heldItem)))
                     .stream()
                     .min(Comparator.comparingDouble(e -> e.distanceToSqr(player)))
                     .filter(e -> {
