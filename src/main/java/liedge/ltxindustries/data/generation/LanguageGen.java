@@ -240,8 +240,6 @@ class LanguageGen extends LimaLanguageProvider
         upgrade(LTXIEquipmentUpgrades.EXPLOSIVES_ENERGY_ADAPTER, "Explosives Energy Adapter", "Reroutes the energy feed system of Explosives weaponry to use Common Energy.");
         upgrade(LTXIEquipmentUpgrades.HEAVY_ENERGY_ADAPTER, "Heavy Energy Adapter", "Reroutes the energy feed system of Heavy weaponry to use Common Energy.");
         upgrade(LTXIEquipmentUpgrades.UNIVERSAL_INFINITE_AMMO, "//ERR~MAG-Z!!-NE//∞", "Ignore the laws of physics with this never-ending ammo source. Try not to cause a mass extinction event.");
-        upgrade(LTXIEquipmentUpgrades.NEUTRAL_ENEMY_TARGET_FILTER, "Engagement Protocol: Preemption", "Weapon systems restrict engagement to neutral enemies and hostile targets.");
-        upgrade(LTXIEquipmentUpgrades.HOSTILE_TARGET_FILTER, "Engagement Protocol: Rectification", "Weapon systems restrict engagement to actively hostile targets.");
         upgrade(LTXIEquipmentUpgrades.HEAVY_PISTOL_GOD_ROUNDS, "Stellar Reality Disruptor", "Rip through reality itself with this Nova upgrade. Ensures swift defeat of even the strongest enemies.");
         upgrade(LTXIEquipmentUpgrades.UNIVERSAL_STEALTH_DAMAGE, "Biometric Obfuscation", "Traceable identity masking tech derived from ephemeral materials. May not confuse a more discerning target.");
         upgradeTooltip(LTXIEquipmentUpgrades.UNIVERSAL_STEALTH_DAMAGE, 0, "No anger on damage");
@@ -280,10 +278,12 @@ class LanguageGen extends LimaLanguageProvider
         upgrade(LTXIMachineUpgrades.TURRET_LOOTING, "Efficient Target Disposal", "Smarter turret targeting systems allow for increased loot drops from eliminated targets.");
         upgrade(LTXIMachineUpgrades.TURRET_RAZOR, "Headhunter Scope", "Precise turret calibration enables the collection of anatomical curiosities.");
         upgrade(LTXIMachineUpgrades.TURRET_LOOT_COLLECTOR, "Matter SubLink", "Loot is sent directly to the turret’s storage. If full, items appear at the turret’s base.");
+        //#endregion
 
-        upgrade(LTXIMachineUpgrades.ALL_ENTITIES_TARGETING, "Target Search: Extermination", "Overrides turret search protocols to target any valid target.");
-        upgrade(LTXIMachineUpgrades.NEUTRAL_ENEMY_TARGETING, "Target Search: Preemption", "Overrides turret search protocols to target neutral enemies and hostile targets.");
-        upgrade(LTXIMachineUpgrades.HOSTILE_TARGETING, "Target Search: Rectification", "Overrides turret search protocols to target hostile targets.");
+        //#region Universal upgrades
+        upgrade(LTXIUpgrades.ALL_ENTITIES_TARGETING, "Engagement Protocol: Extermination", "Permits engagement of any living target. Not necessary on weaponry.");
+        upgrade(LTXIUpgrades.NEUTRAL_ENEMY_TARGETING, "Engagement Protocol: Preemption", "Restricts engagement to neutral enemies and hostile targets.");
+        upgrade(LTXIUpgrades.HOSTILE_TARGETING, "Engagement Protocol: Rectification", "Restricts engagement to actively hostile targets.");
         //#endregion
 
         // Creative tabs

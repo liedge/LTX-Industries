@@ -1,0 +1,25 @@
+{
+  "display": {
+    "category": "tools/drill",
+    "description": {
+      "translate": "upgrade.ltxi.epsilon_omni_drill.desc"
+    },
+    "icon": "ltxi:purple_drill_head",
+    "title": {
+      "color": "#9DF143",
+      "translate": "upgrade.ltxi.epsilon_omni_drill"
+    }
+  },
+  "effects": {
+    "ltxi:modular_tool": [
+      {
+        "effective": {
+          "type": "neoforge:any"
+        }
+      }
+    ]
+  },
+  "users": {
+    "items": "#ltxi:tools/modular_mining"
+  }
+}

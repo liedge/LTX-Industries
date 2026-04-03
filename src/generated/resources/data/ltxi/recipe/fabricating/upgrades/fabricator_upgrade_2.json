@@ -1,0 +1,44 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 1000000,
+  "group": "mum/fabricator",
+  "item_inputs": [
+    {
+      "ingredient": {
+        "neoforge:ingredient_type": "neoforge:components",
+        "components": {
+          "ltxi:upgrade": {
+            "upgrade": "ltxi:fabricator_upgrade"
+          }
+        },
+        "items": "ltxi:upgrade_module",
+        "strict": true
+      }
+    },
+    {
+      "ingredient": "ltxi:t3_circuit"
+    },
+    {
+      "count": 2,
+      "ingredient": "ltxi:optical_tech_part"
+    },
+    {
+      "count": 4,
+      "ingredient": "minecraft:diamond"
+    },
+    {
+      "count": 8,
+      "ingredient": "ltxi:electric_chemical"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:upgrade": {
+        "rank": 2,
+        "upgrade": "ltxi:fabricator_upgrade"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:upgrade_module"
+  }
+}

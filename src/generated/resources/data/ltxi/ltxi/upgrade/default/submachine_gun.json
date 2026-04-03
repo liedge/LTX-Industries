@@ -1,0 +1,48 @@
+{
+  "display": {
+    "category": "default/weapon",
+    "description": {
+      "translate": "upgrade.ltxi.default.submachine_gun.desc"
+    },
+    "icon": {
+      "type": "overlay",
+      "background": {
+        "type": "item_stack",
+        "item": {
+          "id": "ltxi:submachine_gun"
+        }
+      },
+      "height": 7,
+      "overlay": "ltxi:default_overlay",
+      "width": 7,
+      "x_offset": 8,
+      "y_offset": 8
+    },
+    "title": {
+      "translate": "upgrade.ltxi.default.submachine_gun"
+    },
+    "tooltips": [
+      {
+        "type": "static",
+        "tooltip": {
+          "translate": "upgrade.ltxi.default.submachine_gun.tooltip0"
+        }
+      }
+    ]
+  },
+  "effects": {
+    "ltxi:extra_damage_tags": [
+      "minecraft:no_anger",
+      "minecraft:no_knockback"
+    ],
+    "ltxi:suppress_vibrations": [
+      {
+        "slot": "mainhand",
+        "target": "#ltxi:weapon_vibrations"
+      }
+    ]
+  },
+  "users": {
+    "items": "ltxi:submachine_gun"
+  }
+}

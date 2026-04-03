@@ -15,10 +15,10 @@
   ],
   "result": {
     "components": {
-      "ltxi:machine_upgrade": {
+      "ltxi:upgrade": {
         "upgrade": "ltxi:geo_synthesizer_parallel"
       }
     },
-    "id": "ltxi:machine_upgrade_module"
+    "id": "ltxi:upgrade_module"
   }
 }

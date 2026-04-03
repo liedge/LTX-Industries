@@ -1,0 +1,31 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 250000,
+  "group": "eum/armor",
+  "item_inputs": [
+    {
+      "ingredient": "ltxi:empty_upgrade_module"
+    },
+    {
+      "count": 2,
+      "ingredient": "ltxi:t2_circuit"
+    },
+    {
+      "count": 4,
+      "ingredient": "ltxi:titanium_ingot"
+    },
+    {
+      "count": 4,
+      "ingredient": "ltxi:slatesteel_ingot"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:upgrade": {
+        "upgrade": "ltxi:armor_defense"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:upgrade_module"
+  }
+}

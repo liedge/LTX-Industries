@@ -1,0 +1,48 @@
+{
+  "display": {
+    "category": "default/weapon",
+    "description": {
+      "translate": "upgrade.ltxi.default.heavy_pistol.desc"
+    },
+    "icon": {
+      "type": "overlay",
+      "background": {
+        "type": "item_stack",
+        "item": {
+          "id": "ltxi:heavy_pistol"
+        }
+      },
+      "height": 7,
+      "overlay": "ltxi:default_overlay",
+      "width": 7,
+      "x_offset": 8,
+      "y_offset": 8
+    },
+    "title": {
+      "translate": "upgrade.ltxi.default.heavy_pistol"
+    }
+  },
+  "effects": {
+    "ltxi:add_damage_attributes": [
+      {
+        "attribute": "minecraft:knockback_resistance",
+        "modifier": {
+          "amount": -1.0,
+          "id": "ltxi:default/heavy_pistol.knockback_resist",
+          "operation": "add_multiplied_total"
+        }
+      },
+      {
+        "attribute": "limacore:knockback_multiplier",
+        "modifier": {
+          "amount": 2.0,
+          "id": "ltxi:default/heavy_pistol.knockback",
+          "operation": "add_value"
+        }
+      }
+    ]
+  },
+  "users": {
+    "items": "ltxi:heavy_pistol"
+  }
+}

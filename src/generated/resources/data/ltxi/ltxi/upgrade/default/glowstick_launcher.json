@@ -1,0 +1,76 @@
+{
+  "display": {
+    "category": "default/weapon",
+    "description": {
+      "translate": "upgrade.ltxi.default.glowstick_launcher.desc"
+    },
+    "icon": {
+      "type": "overlay",
+      "background": {
+        "type": "item_stack",
+        "item": {
+          "id": "ltxi:glowstick_launcher"
+        }
+      },
+      "height": 7,
+      "overlay": "ltxi:default_overlay",
+      "width": 7,
+      "x_offset": 8,
+      "y_offset": 8
+    },
+    "title": {
+      "translate": "upgrade.ltxi.default.glowstick_launcher"
+    },
+    "tooltips": [
+      {
+        "type": "custom_args",
+        "args": [
+          {
+            "type": "value",
+            "format": "flat",
+            "value": 50000.0
+          }
+        ],
+        "key": "upgrade_effect.ltxi.energy_capacity",
+        "style": {
+          "color": "#8BD1F0"
+        }
+      },
+      {
+        "type": "custom_args",
+        "args": [
+          {
+            "type": "value",
+            "format": "flat",
+            "value": 5000.0
+          }
+        ],
+        "key": "upgrade_effect.ltxi.energy_usage",
+        "style": {
+          "color": "#8BD1F0"
+        }
+      }
+    ]
+  },
+  "effects": {
+    "ltxi:energy_capacity": [
+      {
+        "op": "replace",
+        "value": 50000.0
+      }
+    ],
+    "ltxi:energy_usage": [
+      {
+        "op": "replace",
+        "value": 5000.0
+      }
+    ],
+    "ltxi:reload_source": {
+      "type": "energy"
+    }
+  },
+  "exclusive_set": "#ltxi:reload_source_modifiers",
+  "users": {
+    "items": "ltxi:glowstick_launcher"
+  }
+}

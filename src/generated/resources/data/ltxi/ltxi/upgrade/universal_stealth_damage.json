@@ -1,0 +1,27 @@
+{
+  "display": {
+    "description": {
+      "translate": "upgrade.ltxi.universal_stealth_damage.desc"
+    },
+    "icon": "ltxi:stealth_damage",
+    "title": {
+      "translate": "upgrade.ltxi.universal_stealth_damage"
+    },
+    "tooltips": [
+      {
+        "type": "static",
+        "tooltip": {
+          "translate": "upgrade.ltxi.universal_stealth_damage.tooltip0"
+        }
+      }
+    ]
+  },
+  "effects": {
+    "ltxi:extra_damage_tags": [
+      "minecraft:no_anger"
+    ]
+  },
+  "users": {
+    "items": "#ltxi:weapons"
+  }
+}

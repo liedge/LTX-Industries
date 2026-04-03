@@ -26,7 +26,7 @@
   ],
   "result": {
     "components": {
-      "ltxi:equipment_upgrades": {
+      "ltxi:upgrades": {
         "ltxi:default/wonderland_feet": 1
       }
     },

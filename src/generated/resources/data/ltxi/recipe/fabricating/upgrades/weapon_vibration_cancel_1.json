@@ -1,0 +1,39 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 500000,
+  "group": "eum/weapon",
+  "item_inputs": [
+    {
+      "ingredient": "ltxi:empty_upgrade_module"
+    },
+    {
+      "count": 2,
+      "ingredient": "ltxi:t3_circuit"
+    },
+    {
+      "count": 16,
+      "ingredient": "ltxi:titanium_ingot"
+    },
+    {
+      "count": 16,
+      "ingredient": "ltxi:polymer_ingot"
+    },
+    {
+      "count": 16,
+      "ingredient": "#minecraft:wool"
+    },
+    {
+      "count": 8,
+      "ingredient": "ltxi:sculk_chemical"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:upgrade": {
+        "upgrade": "ltxi:weapon_vibration_cancel"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:upgrade_module"
+  }
+}

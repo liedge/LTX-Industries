@@ -1,0 +1,36 @@
+{
+  "display": {
+    "category": "tools",
+    "description": {
+      "translate": "upgrade.ltxi.tool_vibration_cancel.desc"
+    },
+    "icon": {
+      "type": "overlay",
+      "background": {
+        "type": "item_stack",
+        "item": {
+          "id": "minecraft:sculk_sensor"
+        }
+      },
+      "height": 9,
+      "overlay": "ltxi:red_x_overlay",
+      "width": 9,
+      "x_offset": 6,
+      "y_offset": 6
+    },
+    "title": {
+      "translate": "upgrade.ltxi.tool_vibration_cancel"
+    }
+  },
+  "effects": {
+    "ltxi:suppress_vibrations": [
+      {
+        "slot": "hand",
+        "target": "#ltxi:handheld_equipment"
+      }
+    ]
+  },
+  "users": {
+    "items": "#ltxi:tools"
+  }
+}

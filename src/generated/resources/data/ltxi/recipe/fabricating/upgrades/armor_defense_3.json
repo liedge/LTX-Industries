@@ -1,0 +1,45 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 10000000,
+  "group": "eum/armor",
+  "item_inputs": [
+    {
+      "ingredient": {
+        "neoforge:ingredient_type": "neoforge:components",
+        "components": {
+          "ltxi:upgrade": {
+            "rank": 2,
+            "upgrade": "ltxi:armor_defense"
+          }
+        },
+        "items": "ltxi:upgrade_module",
+        "strict": true
+      }
+    },
+    {
+      "ingredient": "ltxi:t4_circuit"
+    },
+    {
+      "count": 16,
+      "ingredient": "ltxi:titanium_ingot"
+    },
+    {
+      "count": 16,
+      "ingredient": "ltxi:slatesteel_ingot"
+    },
+    {
+      "count": 8,
+      "ingredient": "ltxi:polymer_ingot"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:upgrade": {
+        "rank": 3,
+        "upgrade": "ltxi:armor_defense"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:upgrade_module"
+  }
+}

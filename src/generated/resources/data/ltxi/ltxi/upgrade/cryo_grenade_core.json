@@ -1,0 +1,20 @@
+{
+  "display": {
+    "category": "grenade_cores",
+    "description": {
+      "translate": "upgrade.ltxi.cryo_grenade_core.desc"
+    },
+    "icon": "ltxi:cryo_grenade_core",
+    "title": {
+      "translate": "upgrade.ltxi.cryo_grenade_core"
+    }
+  },
+  "effects": {
+    "ltxi:grenade_unlock": [
+      "cryo"
+    ]
+  },
+  "users": {
+    "items": "ltxi:grenade_launcher"
+  }
+}

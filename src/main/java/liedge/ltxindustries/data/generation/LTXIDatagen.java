@@ -32,6 +32,7 @@ final class LTXIDatagen
                 .add(Registries.DAMAGE_TYPE, LTXIDamageTypes::bootstrap)
                 .add(Registries.ENCHANTMENT, LTXIEnchantments::bootstrap)
                 .add(LTXIRegistries.Keys.UPGRADES, context -> {
+                    LTXIUpgrades.bootstrap(context);
                     LTXIEquipmentUpgrades.bootstrap(context);
                     LTXIMachineUpgrades.bootstrap(context);
                 })

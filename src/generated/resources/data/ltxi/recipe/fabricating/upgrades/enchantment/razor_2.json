@@ -1,0 +1,49 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 500000,
+  "group": "eum/enchant",
+  "item_inputs": [
+    {
+      "ingredient": {
+        "neoforge:ingredient_type": "neoforge:components",
+        "components": {
+          "ltxi:upgrade": {
+            "upgrade": "ltxi:enchantment/razor"
+          }
+        },
+        "items": "ltxi:upgrade_module",
+        "strict": true
+      }
+    },
+    {
+      "count": 2,
+      "ingredient": "ltxi:t2_circuit"
+    },
+    {
+      "count": 2,
+      "ingredient": "minecraft:diamond"
+    },
+    {
+      "count": 2,
+      "ingredient": "minecraft:zombie_head"
+    },
+    {
+      "count": 2,
+      "ingredient": "minecraft:creeper_head"
+    },
+    {
+      "count": 2,
+      "ingredient": "minecraft:skeleton_skull"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:upgrade": {
+        "rank": 2,
+        "upgrade": "ltxi:enchantment/razor"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:upgrade_module"
+  }
+}

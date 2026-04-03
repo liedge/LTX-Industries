@@ -1,0 +1,36 @@
+{
+  "display": {
+    "category": "turret",
+    "description": {
+      "translate": "upgrade.ltxi.turret_looting.desc"
+    },
+    "icon": {
+      "type": "overlay",
+      "background": {
+        "type": "item_stack",
+        "item": {
+          "id": "ltxi:ltx_sword"
+        }
+      },
+      "height": 7,
+      "overlay": "ltxi:luck_overlay",
+      "width": 7,
+      "x_offset": 8,
+      "y_offset": 8
+    },
+    "title": {
+      "translate": "upgrade.ltxi.turret_looting"
+    }
+  },
+  "effects": {
+    "ltxi:enchantment_levels": [
+      {
+        "enchantment": "minecraft:looting"
+      }
+    ]
+  },
+  "max_rank": 3,
+  "users": {
+    "block_entities": "#ltxi:turrets"
+  }
+}

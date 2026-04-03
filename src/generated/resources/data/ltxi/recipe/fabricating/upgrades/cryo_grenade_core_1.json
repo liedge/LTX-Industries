@@ -1,0 +1,34 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 2500000,
+  "group": "eum/weapon/gl",
+  "item_inputs": [
+    {
+      "ingredient": "ltxi:empty_upgrade_module"
+    },
+    {
+      "ingredient": "ltxi:impulse_tech_part"
+    },
+    {
+      "count": 4,
+      "ingredient": "ltxi:titanium_ingot"
+    },
+    {
+      "count": 8,
+      "ingredient": "ltxi:titanium_glass"
+    },
+    {
+      "count": 16,
+      "ingredient": "minecraft:ice"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:upgrade": {
+        "upgrade": "ltxi:cryo_grenade_core"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:upgrade_module"
+  }
+}

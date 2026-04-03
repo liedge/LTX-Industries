@@ -1,9 +1,6 @@
 package liedge.ltxindustries.registry.bootstrap;
 
-import liedge.limacore.lib.MinMaxRange;
-import liedge.limacore.lib.MobHostility;
 import liedge.limacore.lib.math.MathOperation;
-import liedge.limacore.world.loot.condition.EntityHostilityCondition;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.client.LTXILangKeys;
@@ -33,10 +30,10 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.storage.loot.predicates.AllOfCondition;
 
 import static liedge.ltxindustries.LTXIConstants.REM_BLUE;
-import static liedge.ltxindustries.LTXITags.Upgrades.*;
+import static liedge.ltxindustries.LTXITags.Upgrades.MACHINE_TIER;
+import static liedge.ltxindustries.LTXITags.Upgrades.PARALLEL_OPS_UPGRADES;
 import static liedge.ltxindustries.LTXIndustries.RESOURCES;
 import static liedge.ltxindustries.data.generation.LTXIBootstrapUtil.*;
 import static liedge.ltxindustries.lib.upgrades.UpgradeIcon.itemIcon;
@@ -60,10 +57,6 @@ public final class LTXIMachineUpgrades
     public static final ResourceKey<Upgrade> TURRET_LOOTING = key("turret_looting");
     public static final ResourceKey<Upgrade> TURRET_RAZOR = key("turret_razor");
     public static final ResourceKey<Upgrade> TURRET_LOOT_COLLECTOR = key("turret_loot_collector");
-
-    public static final ResourceKey<Upgrade> NEUTRAL_ENEMY_TARGETING = key("targeting/neutral_enemy");
-    public static final ResourceKey<Upgrade> HOSTILE_TARGETING = key("targeting/hostile");
-    public static final ResourceKey<Upgrade> ALL_ENTITIES_TARGETING = key("targeting/all");
 
     private static ResourceKey<Upgrade> key(String name)
     {
@@ -186,28 +179,6 @@ public final class LTXIMachineUpgrades
                 .withSpecialEffect(CAPTURE_MOB_DROPS, CaptureMobDrops.INSTANCE)
                 .effectIcon(sprite("magnet"))
                 .category("turret")
-                .register(context);
-
-        Upgrade.builder(ALL_ENTITIES_TARGETING)
-                .forMachines(blockEntities, LTXITags.BlockEntities.TURRETS)
-                .exclusiveWith(holders, TARGET_PREDICATES)
-                .targetRestriction(AllOfCondition.allOf())
-                .effectIcon(sprite("all_targets"))
-                .category("target_predicates")
-                .register(context);
-        Upgrade.builder(NEUTRAL_ENEMY_TARGETING)
-                .forMachines(blockEntities, LTXITags.BlockEntities.TURRETS)
-                .exclusiveWith(holders, TARGET_PREDICATES)
-                .targetRestriction(EntityHostilityCondition.attackerIs(MinMaxRange.atLeast(MobHostility.NEUTRAL_ENEMY)))
-                .effectIcon(sprite("neutral_enemy_targets"))
-                .category("target_predicates")
-                .register(context);
-        Upgrade.builder(HOSTILE_TARGETING)
-                .forMachines(blockEntities, LTXITags.BlockEntities.TURRETS)
-                .exclusiveWith(holders, TARGET_PREDICATES)
-                .targetRestriction(EntityHostilityCondition.attackerIs(MinMaxRange.atLeast(MobHostility.HOSTILE)))
-                .effectIcon(sprite("hostile_targets"))
-                .category("target_predicates")
                 .register(context);
     }
 }

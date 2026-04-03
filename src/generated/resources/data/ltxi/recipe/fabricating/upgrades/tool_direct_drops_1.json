@@ -1,0 +1,41 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 15000000,
+  "group": "eum/tool",
+  "item_inputs": [
+    {
+      "ingredient": "ltxi:empty_upgrade_module"
+    },
+    {
+      "ingredient": "ltxi:t4_circuit"
+    },
+    {
+      "count": 16,
+      "ingredient": "ltxi:titanium_ingot"
+    },
+    {
+      "count": 8,
+      "ingredient": "ltxi:slatesteel_ingot"
+    },
+    {
+      "ingredient": "minecraft:nether_star"
+    },
+    {
+      "count": 8,
+      "ingredient": "ltxi:chorus_chemical"
+    },
+    {
+      "count": 8,
+      "ingredient": "minecraft:ender_pearl"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:upgrade": {
+        "upgrade": "ltxi:tool_direct_drops"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:upgrade_module"
+  }
+}

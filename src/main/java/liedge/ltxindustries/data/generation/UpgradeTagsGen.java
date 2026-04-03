@@ -11,13 +11,8 @@ import java.util.concurrent.CompletableFuture;
 
 import static liedge.ltxindustries.LTXITags.Upgrades.*;
 import static liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades.*;
-import static liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades.EXPLOSIVES_ENERGY_ADAPTER;
-import static liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades.HEAVY_ENERGY_ADAPTER;
-import static liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades.LIGHTWEIGHT_ENERGY_ADAPTER;
-import static liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades.SPECIALIST_ENERGY_ADAPTER;
-import static liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades.UNIVERSAL_INFINITE_AMMO;
 import static liedge.ltxindustries.registry.bootstrap.LTXIMachineUpgrades.*;
-import static liedge.ltxindustries.registry.bootstrap.LTXIMachineUpgrades.HOSTILE_TARGETING;
+import static liedge.ltxindustries.registry.bootstrap.LTXIUpgrades.*;
 
 class UpgradeTagsGen extends LimaTagsProvider<Upgrade>
 {
@@ -35,6 +30,6 @@ class UpgradeTagsGen extends LimaTagsProvider<Upgrade>
 
         buildTag(MACHINE_TIER).add(STANDARD_MACHINE_SYSTEMS, ULTIMATE_MACHINE_SYSTEMS);
         buildTag(PARALLEL_OPS_UPGRADES).add(GPM_PARALLEL, GEO_SYNTHESIZER_PARALLEL);
-        buildTag(TARGET_PREDICATES).add(NEUTRAL_ENEMY_TARGETING, HOSTILE_TARGETING);
+        buildTag(TARGET_PREDICATES).add(ALL_ENTITIES_TARGETING, NEUTRAL_ENEMY_TARGETING, HOSTILE_TARGETING);
     }
 }

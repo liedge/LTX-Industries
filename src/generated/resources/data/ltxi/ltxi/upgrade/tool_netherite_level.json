@@ -1,0 +1,36 @@
+{
+  "display": {
+    "category": "tools",
+    "description": {
+      "translate": "upgrade.ltxi.tool_netherite_level.desc"
+    },
+    "icon": {
+      "type": "overlay",
+      "background": {
+        "type": "item_stack",
+        "item": {
+          "id": "minecraft:netherite_pickaxe"
+        }
+      },
+      "height": 9,
+      "overlay": "ltxi:green_arrow_overlay",
+      "width": 9,
+      "x_offset": 6,
+      "y_offset": 6
+    },
+    "title": {
+      "translate": "upgrade.ltxi.tool_netherite_level"
+    }
+  },
+  "effects": {
+    "ltxi:modular_tool": [
+      {
+        "limit": "#minecraft:incorrect_for_netherite_tool"
+      }
+    ]
+  },
+  "exclusive_set": "#ltxi:mining_levels",
+  "users": {
+    "items": "#ltxi:tools/modular_mining"
+  }
+}

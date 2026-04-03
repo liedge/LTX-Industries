@@ -1,0 +1,100 @@
+{
+  "display": {
+    "category": "default/weapon",
+    "description": {
+      "translate": "upgrade.ltxi.default.linear_fusion_rifle.desc"
+    },
+    "icon": {
+      "type": "overlay",
+      "background": {
+        "type": "item_stack",
+        "item": {
+          "id": "ltxi:linear_fusion_rifle"
+        }
+      },
+      "height": 7,
+      "overlay": "ltxi:default_overlay",
+      "width": 7,
+      "x_offset": 8,
+      "y_offset": 8
+    },
+    "title": {
+      "translate": "upgrade.ltxi.default.linear_fusion_rifle"
+    },
+    "tooltips": [
+      {
+        "type": "custom_args",
+        "args": [
+          {
+            "type": "value",
+            "format": "signed_flat",
+            "sentiment": "positive",
+            "value": 1.0
+          },
+          {
+            "type": "value",
+            "format": "flat",
+            "value": 30.0
+          },
+          {
+            "type": "value",
+            "format": "flat",
+            "sentiment": "positive",
+            "value": 50.0
+          }
+        ],
+        "key": "upgrade.ltxi.default.linear_fusion_rifle.tooltip0"
+      },
+      {
+        "type": "custom_args",
+        "args": [
+          {
+            "type": "value",
+            "format": "signed_percentage",
+            "sentiment": "positive",
+            "value": 0.15
+          }
+        ],
+        "key": "upgrade.ltxi.default.linear_fusion_rifle.tooltip1"
+      }
+    ]
+  },
+  "effects": {
+    "ltxi:equipment_damage": [
+      {
+        "effect": {
+          "op": "add",
+          "value": {
+            "type": "distance_curve",
+            "factor": 50.0,
+            "range": 50.0,
+            "start": 30.0
+          }
+        }
+      },
+      {
+        "effect": {
+          "op": "add_percent_of_total",
+          "value": 0.15
+        },
+        "requirements": {
+          "condition": "minecraft:entity_properties",
+          "entity": "attacker",
+          "predicate": {
+            "flags": {
+              "is_sneaking": true
+            },
+            "movement": {
+              "speed": {
+                "max": 0.001
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "users": {
+    "items": "ltxi:linear_fusion_rifle"
+  }
+}

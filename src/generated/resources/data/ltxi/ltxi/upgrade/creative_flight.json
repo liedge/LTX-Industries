@@ -1,0 +1,29 @@
+{
+  "display": {
+    "category": "armor",
+    "description": {
+      "translate": "upgrade.ltxi.creative_flight.desc"
+    },
+    "icon": "ltxi:flight",
+    "title": {
+      "color": "#FF00FF",
+      "translate": "upgrade.ltxi.creative_flight"
+    }
+  },
+  "effects": {
+    "ltxi:add_item_attributes": [
+      {
+        "attribute": "neoforge:creative_flight",
+        "modifier": {
+          "amount": 1.0,
+          "id": "ltxi:creative_flight.fly",
+          "operation": "add_value"
+        },
+        "slots": "chest"
+      }
+    ]
+  },
+  "users": {
+    "items": "ltxi:wonderland_body"
+  }
+}

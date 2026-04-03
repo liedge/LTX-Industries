@@ -1,0 +1,23 @@
+{
+  "display": {
+    "category": "turret",
+    "description": {
+      "translate": "upgrade.ltxi.turret_razor.desc"
+    },
+    "icon": "ltxi:razor",
+    "title": {
+      "translate": "upgrade.ltxi.turret_razor"
+    }
+  },
+  "effects": {
+    "ltxi:enchantment_levels": [
+      {
+        "enchantment": "ltxi:razor"
+      }
+    ]
+  },
+  "max_rank": 2,
+  "users": {
+    "block_entities": "#ltxi:turrets"
+  }
+}

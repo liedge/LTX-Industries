@@ -1,0 +1,22 @@
+{
+  "display": {
+    "category": "tools",
+    "description": {
+      "translate": "upgrade.ltxi.tool_direct_drops.desc"
+    },
+    "icon": "ltxi:magnet",
+    "title": {
+      "translate": "upgrade.ltxi.tool_direct_drops"
+    }
+  },
+  "effects": {
+    "ltxi:capture_block_drops": [
+      {
+        "type": "neoforge:any"
+      }
+    ]
+  },
+  "users": {
+    "items": "#ltxi:tools/mining"
+  }
+}

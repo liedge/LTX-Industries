@@ -1,0 +1,48 @@
+{
+  "display": {
+    "category": "armor",
+    "description": {
+      "translate": "upgrade.ltxi.saturation.desc"
+    },
+    "icon": {
+      "type": "overlay",
+      "background": {
+        "type": "item_stack",
+        "item": {
+          "id": "minecraft:cooked_beef"
+        }
+      },
+      "height": 9,
+      "overlay": "ltxi:green_arrow_overlay",
+      "width": 9,
+      "x_offset": 6,
+      "y_offset": 6
+    },
+    "title": {
+      "translate": "upgrade.ltxi.saturation"
+    }
+  },
+  "effects": {
+    "ltxi:tick": [
+      {
+        "effect": {
+          "type": "ltxi:apply_effect",
+          "ambient": true,
+          "duration": 200.0,
+          "effect": "minecraft:saturation",
+          "visible": false
+        },
+        "requirements": {
+          "condition": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "periodic_tick": 60
+          }
+        }
+      }
+    ]
+  },
+  "users": {
+    "items": "ltxi:wonderland_body"
+  }
+}

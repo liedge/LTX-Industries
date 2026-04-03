@@ -1,0 +1,39 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 10000000,
+  "group": "mum/turret",
+  "item_inputs": [
+    {
+      "ingredient": "ltxi:empty_upgrade_module"
+    },
+    {
+      "count": 3,
+      "ingredient": "ltxi:t3_circuit"
+    },
+    {
+      "count": 12,
+      "ingredient": "ltxi:titanium_ingot"
+    },
+    {
+      "count": 6,
+      "ingredient": "ltxi:slatesteel_ingot"
+    },
+    {
+      "count": 4,
+      "ingredient": "ltxi:chorus_chemical"
+    },
+    {
+      "count": 4,
+      "ingredient": "minecraft:ender_pearl"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:upgrade": {
+        "upgrade": "ltxi:turret_loot_collector"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:upgrade_module"
+  }
+}

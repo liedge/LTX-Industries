@@ -1,0 +1,53 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 1000000,
+  "group": "eum/enchant",
+  "item_inputs": [
+    {
+      "ingredient": {
+        "neoforge:ingredient_type": "neoforge:components",
+        "components": {
+          "ltxi:upgrade": {
+            "rank": 3,
+            "upgrade": "ltxi:enchantment/looting"
+          }
+        },
+        "items": "ltxi:upgrade_module",
+        "strict": true
+      }
+    },
+    {
+      "count": 8,
+      "ingredient": "ltxi:t3_circuit"
+    },
+    {
+      "count": 6,
+      "ingredient": "minecraft:emerald"
+    },
+    {
+      "count": 6,
+      "ingredient": "minecraft:diamond"
+    },
+    {
+      "count": 3,
+      "ingredient": "minecraft:amethyst_block"
+    },
+    {
+      "ingredient": "minecraft:nether_star"
+    },
+    {
+      "count": 4,
+      "ingredient": "minecraft:lapis_block"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:upgrade": {
+        "rank": 4,
+        "upgrade": "ltxi:enchantment/looting"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:upgrade_module"
+  }
+}

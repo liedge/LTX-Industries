@@ -13,10 +13,10 @@
   ],
   "result": {
     "components": {
-      "ltxi:machine_upgrade": {
+      "ltxi:upgrade": {
         "upgrade": "ltxi:standard_machine_systems"
       }
     },
-    "id": "ltxi:machine_upgrade_module"
+    "id": "ltxi:upgrade_module"
   }
 }

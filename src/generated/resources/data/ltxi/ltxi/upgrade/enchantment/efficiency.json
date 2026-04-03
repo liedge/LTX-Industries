@@ -1,0 +1,36 @@
+{
+  "display": {
+    "category": "enchants",
+    "description": {
+      "translate": "upgrade.ltxi.enchantment.efficiency.desc"
+    },
+    "icon": {
+      "type": "overlay",
+      "background": {
+        "type": "item_stack",
+        "item": {
+          "id": "ltxi:ltx_drill"
+        }
+      },
+      "height": 9,
+      "overlay": "ltxi:yellow_arrow_overlay",
+      "width": 9,
+      "x_offset": 6,
+      "y_offset": 6
+    },
+    "title": {
+      "translate": "upgrade.ltxi.enchantment.efficiency"
+    }
+  },
+  "effects": {
+    "ltxi:enchantment_levels": [
+      {
+        "enchantment": "minecraft:efficiency"
+      }
+    ]
+  },
+  "max_rank": 5,
+  "users": {
+    "items": "#ltxi:tools/mining"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 100000,
+  "group": "eum/tool",
+  "item_inputs": [
+    {
+      "ingredient": "ltxi:empty_upgrade_module"
+    },
+    {
+      "ingredient": "ltxi:t1_circuit"
+    },
+    {
+      "count": 2,
+      "ingredient": "ltxi:titanium_ingot"
+    },
+    {
+      "count": 4,
+      "ingredient": "ltxi:polymer_ingot"
+    },
+    {
+      "count": 4,
+      "ingredient": "ltxi:electric_chemical"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:upgrade": {
+        "upgrade": "ltxi:tool_energy_upgrade"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:upgrade_module"
+  }
+}

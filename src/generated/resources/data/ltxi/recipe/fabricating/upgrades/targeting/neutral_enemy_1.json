@@ -1,0 +1,28 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 500000,
+  "group": "targeting",
+  "item_inputs": [
+    {
+      "ingredient": "ltxi:empty_upgrade_module"
+    },
+    {
+      "ingredient": "ltxi:t3_circuit"
+    },
+    {
+      "ingredient": "ltxi:optical_tech_part"
+    },
+    {
+      "ingredient": "minecraft:phantom_membrane"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:upgrade": {
+        "upgrade": "ltxi:targeting/neutral_enemy"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:upgrade_module"
+  }
+}

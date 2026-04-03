@@ -1,0 +1,75 @@
+{
+  "display": {
+    "category": "default/tool",
+    "description": {
+      "translate": "upgrade.ltxi.default.ltx_melee.desc"
+    },
+    "icon": {
+      "type": "overlay",
+      "background": "ltxi:razor",
+      "height": 7,
+      "overlay": "ltxi:default_overlay",
+      "width": 7,
+      "x_offset": 8,
+      "y_offset": 8
+    },
+    "title": {
+      "color": "#9DF143",
+      "translate": "equipment_upgrade.ltxi.tool_default"
+    },
+    "tooltips": [
+      {
+        "type": "custom_args",
+        "args": [
+          {
+            "type": "value",
+            "format": "signed_percentage",
+            "sentiment": "positive",
+            "value": 0.2
+          }
+        ],
+        "key": "upgrade.ltxi.default.ltx_melee.tooltip0"
+      }
+    ]
+  },
+  "effects": {
+    "ltxi:enchantment_levels": [
+      {
+        "enchantment": "ltxi:razor",
+        "levels": 1.0,
+        "max_level": 5
+      },
+      {
+        "enchantment": "minecraft:looting",
+        "levels": 1.0,
+        "max_level": 5
+      }
+    ],
+    "ltxi:equipment_damage": [
+      {
+        "effect": {
+          "op": "add_percent_of_total",
+          "value": 0.2
+        },
+        "requirements": {
+          "condition": "limacore:compare_values",
+          "first": {
+            "type": "limacore:entity_attribute",
+            "attribute": "minecraft:armor",
+            "target": "this"
+          },
+          "operation": "less_than_or_equals",
+          "second": {
+            "type": "limacore:entity_attribute",
+            "attribute": "minecraft:armor",
+            "base": true,
+            "target": "this"
+          }
+        }
+      }
+    ]
+  },
+  "users": {
+    "items": "#ltxi:weapons/melee"
+  }
+}

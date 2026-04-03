@@ -1,0 +1,28 @@
+{
+  "display": {
+    "category": "target_predicates",
+    "description": {
+      "translate": "upgrade.ltxi.targeting.hostile_only.desc"
+    },
+    "icon": "ltxi:hostile_targets",
+    "title": {
+      "color": "#FC501C",
+      "translate": "upgrade.ltxi.targeting.hostile_only"
+    }
+  },
+  "effects": {
+    "ltxi:target_conditions": [
+      {
+        "condition": "limacore:entity_hostility",
+        "hostility": {
+          "min": "hostile"
+        }
+      }
+    ]
+  },
+  "exclusive_set": "#ltxi:target_predicates",
+  "users": {
+    "block_entities": "#ltxi:turrets",
+    "items": "#ltxi:weapons"
+  }
+}

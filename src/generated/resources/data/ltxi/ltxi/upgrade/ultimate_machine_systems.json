@@ -1,0 +1,98 @@
+{
+  "display": {
+    "category": "gpm",
+    "description": {
+      "translate": "upgrade.ltxi.ultimate_machine_systems.desc"
+    },
+    "icon": "ltxi:ultimate_gear",
+    "title": {
+      "color": "#9DF143",
+      "translate": "upgrade.ltxi.ultimate_machine_systems"
+    },
+    "tooltips": [
+      {
+        "type": "custom_args",
+        "args": [
+          {
+            "type": "value",
+            "format": "multiplicative",
+            "sentiment": "positive",
+            "value": 16.0
+          }
+        ],
+        "key": "upgrade_effect.ltxi.energy_capacity",
+        "style": {
+          "color": "#8BD1F0"
+        }
+      },
+      {
+        "type": "custom_args",
+        "args": [
+          {
+            "type": "value",
+            "format": "multiplicative",
+            "sentiment": "positive",
+            "value": 16.0
+          }
+        ],
+        "key": "upgrade_effect.ltxi.energy_transfer",
+        "style": {
+          "color": "#8BD1F0"
+        }
+      },
+      {
+        "type": "custom_args",
+        "args": [
+          {
+            "type": "value",
+            "format": "multiplicative",
+            "sentiment": "negative",
+            "value": 512.0
+          }
+        ],
+        "key": "upgrade_effect.ltxi.energy_usage",
+        "style": {
+          "color": "#8BD1F0"
+        }
+      },
+      {
+        "type": "static",
+        "tooltip": {
+          "color": "#9DF143",
+          "translate": "upgrade_effect.ltxi.instant_process"
+        }
+      }
+    ]
+  },
+  "effects": {
+    "ltxi:energy_capacity": [
+      {
+        "op": "multiply",
+        "value": 16.0
+      }
+    ],
+    "ltxi:energy_transfer_rate": [
+      {
+        "op": "multiply",
+        "value": 16.0
+      }
+    ],
+    "ltxi:energy_usage": [
+      {
+        "op": "multiply",
+        "value": 512.0
+      }
+    ],
+    "ltxi:minimum_speed": 0,
+    "ltxi:ticks_per_operation": [
+      {
+        "op": "multiply",
+        "value": 0.0
+      }
+    ]
+  },
+  "exclusive_set": "#ltxi:machine_tier",
+  "users": {
+    "block_entities": "#ltxi:upgradable/ultimate"
+  }
+}

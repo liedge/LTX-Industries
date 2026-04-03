@@ -1,12 +1,9 @@
 package liedge.ltxindustries.registry.bootstrap;
 
-import liedge.limacore.lib.MinMaxRange;
-import liedge.limacore.lib.MobHostility;
 import liedge.limacore.lib.math.CompareOperation;
 import liedge.limacore.lib.math.MathOperation;
 import liedge.limacore.registry.game.LimaCoreAttributes;
 import liedge.limacore.world.loot.condition.CompareValuesCondition;
-import liedge.limacore.world.loot.condition.EntityHostilityCondition;
 import liedge.limacore.world.loot.number.EntityAttributeValue;
 import liedge.limacore.world.loot.number.ValueMathOperation;
 import liedge.ltxindustries.LTXITags;
@@ -100,8 +97,6 @@ public final class LTXIEquipmentUpgrades
     public static final ResourceKey<Upgrade> HEAVY_ENERGY_ADAPTER = key("heavy_energy_adapter");
     public static final ResourceKey<Upgrade> UNIVERSAL_INFINITE_AMMO = key("universal_infinite_ammo");
     public static final ResourceKey<Upgrade> UNIVERSAL_STEALTH_DAMAGE = key("universal_stealth_damage");
-    public static final ResourceKey<Upgrade> NEUTRAL_ENEMY_TARGET_FILTER = key("target_filter/neutral_enemy");
-    public static final ResourceKey<Upgrade> HOSTILE_TARGET_FILTER = key("target_filter/hostile");
     public static final ResourceKey<Upgrade> HEAVY_PISTOL_GOD_ROUNDS = key("heavy_pistol_god_rounds");
     public static final ResourceKey<Upgrade> GRENADE_LAUNCHER_PROJECTILE_SPEED = key("grenade_launcher_projectile_speed");
 
@@ -441,20 +436,6 @@ public final class LTXIEquipmentUpgrades
                 .withSpecialEffect(RELOAD_SOURCE, WeaponReloadSource.infiniteAmmo())
                 .effectIcon(sprite("infinite_ammo"))
                 .category("weapon/ammo")
-                .register(context);
-        Upgrade.builder(NEUTRAL_ENEMY_TARGET_FILTER)
-                .createDefaultTitle(HOSTILE_ORANGE)
-                .forEquipment(allWeapons)
-                .targetRestriction(EntityHostilityCondition.attackerIs(MinMaxRange.atLeast(MobHostility.NEUTRAL_ENEMY)))
-                .effectIcon(sprite("neutral_enemy_targets"))
-                .category("target_filters")
-                .register(context);
-        Upgrade.builder(HOSTILE_TARGET_FILTER)
-                .createDefaultTitle(HOSTILE_ORANGE)
-                .forEquipment(allWeapons)
-                .targetRestriction(EntityHostilityCondition.attackerIs(MinMaxRange.atLeast(MobHostility.HOSTILE)))
-                .effectIcon(sprite("hostile_targets"))
-                .category("target_filters")
                 .register(context);
 
         // Armor upgrades

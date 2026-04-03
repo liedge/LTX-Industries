@@ -1,0 +1,30 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 100000,
+  "group": "eum/tool",
+  "item_inputs": [
+    {
+      "ingredient": "ltxi:empty_upgrade_module"
+    },
+    {
+      "ingredient": "ltxi:t1_circuit"
+    },
+    {
+      "count": 4,
+      "ingredient": "minecraft:string"
+    },
+    {
+      "count": 2,
+      "ingredient": "minecraft:cod"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:upgrade": {
+        "upgrade": "ltxi:epsilon_fishing_lure"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:upgrade_module"
+  }
+}

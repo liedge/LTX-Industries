@@ -1,0 +1,97 @@
+{
+  "display": {
+    "category": "armor",
+    "description": {
+      "translate": "upgrade.ltxi.armor_defense.desc"
+    },
+    "icon": "ltxi:defense",
+    "title": {
+      "translate": "upgrade.ltxi.armor_defense"
+    },
+    "tooltips": [
+      {
+        "type": "custom_args",
+        "args": [
+          {
+            "type": "value",
+            "format": "percentage",
+            "sentiment": "positive",
+            "value": {
+              "type": "linear",
+              "base": 0.0625,
+              "increment": 0.0625
+            }
+          },
+          {
+            "type": "custom_args",
+            "args": [
+              {
+                "type": "value",
+                "format": "flat",
+                "sentiment": "negative",
+                "value": {
+                  "type": "linear",
+                  "base": 1.0,
+                  "increment": 1.0
+                }
+              }
+            ],
+            "key": "tooltip.ltxi.energy_actions",
+            "style": {
+              "color": "#8BD1F0"
+            }
+          }
+        ],
+        "key": "upgrade.ltxi.armor_defense.tooltip0"
+      }
+    ]
+  },
+  "effects": {
+    "ltxi:add_item_attributes": [
+      {
+        "attribute": "minecraft:knockback_resistance",
+        "modifier": {
+          "amount": {
+            "type": "minecraft:linear",
+            "base": 0.0625,
+            "per_level_above_first": 0.0625
+          },
+          "id": "ltxi:armor_defense.steady",
+          "operation": "add_value"
+        },
+        "slots": "armor"
+      }
+    ],
+    "ltxi:damage_reduction": [
+      {
+        "effect": {
+          "amount": {
+            "type": "linear",
+            "base": 0.0625,
+            "increment": 0.0625
+          },
+          "energy_actions": {
+            "type": "linear",
+            "base": 1.0,
+            "increment": 1.0
+          }
+        },
+        "requirements": {
+          "condition": "minecraft:damage_source_properties",
+          "predicate": {
+            "tags": [
+              {
+                "expected": false,
+                "id": "minecraft:bypasses_invulnerability"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "max_rank": 4,
+  "users": {
+    "items": "#ltxi:wonderland_armor"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 250000,
+  "group": "eum/enchant",
+  "item_inputs": [
+    {
+      "ingredient": "ltxi:empty_upgrade_module"
+    },
+    {
+      "count": 2,
+      "ingredient": "ltxi:t1_circuit"
+    },
+    {
+      "count": 8,
+      "ingredient": "ltxi:titanium_ingot"
+    },
+    {
+      "ingredient": "minecraft:zombie_head"
+    },
+    {
+      "ingredient": "minecraft:creeper_head"
+    },
+    {
+      "ingredient": "minecraft:skeleton_skull"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:upgrade": {
+        "upgrade": "ltxi:enchantment/razor"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:upgrade_module"
+  }
+}

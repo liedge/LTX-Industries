@@ -1,0 +1,50 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 1000000,
+  "group": "eum/tool",
+  "item_inputs": [
+    {
+      "ingredient": {
+        "neoforge:ingredient_type": "neoforge:components",
+        "components": {
+          "ltxi:upgrade": {
+            "rank": 3,
+            "upgrade": "ltxi:tool_energy_upgrade"
+          }
+        },
+        "items": "ltxi:upgrade_module",
+        "strict": true
+      }
+    },
+    {
+      "count": 2,
+      "ingredient": "ltxi:t3_circuit"
+    },
+    {
+      "count": 8,
+      "ingredient": "ltxi:titanium_ingot"
+    },
+    {
+      "count": 24,
+      "ingredient": "ltxi:polymer_ingot"
+    },
+    {
+      "count": 2,
+      "ingredient": "ltxi:niobium_ingot"
+    },
+    {
+      "count": 32,
+      "ingredient": "ltxi:electric_chemical"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:upgrade": {
+        "rank": 4,
+        "upgrade": "ltxi:tool_energy_upgrade"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:upgrade_module"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 50000,
+  "group": "eum/defaults",
+  "item_inputs": [
+    {
+      "ingredient": "ltxi:empty_upgrade_module"
+    },
+    {
+      "consume_chance": 0.0,
+      "ingredient": "ltxi:wonderland_body"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:upgrade": {
+        "upgrade": "ltxi:default/wonderland_body"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:upgrade_module"
+  }
+}

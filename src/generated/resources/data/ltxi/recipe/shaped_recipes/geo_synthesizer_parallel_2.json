@@ -8,11 +8,11 @@
     "m": {
       "neoforge:ingredient_type": "neoforge:components",
       "components": {
-        "ltxi:machine_upgrade": {
+        "ltxi:upgrade": {
           "upgrade": "ltxi:geo_synthesizer_parallel"
         }
       },
-      "items": "ltxi:machine_upgrade_module",
+      "items": "ltxi:upgrade_module",
       "strict": true
     },
     "w": "minecraft:packed_ice"
@@ -24,11 +24,11 @@
   ],
   "result": {
     "components": {
-      "ltxi:machine_upgrade": {
+      "ltxi:upgrade": {
         "rank": 2,
         "upgrade": "ltxi:geo_synthesizer_parallel"
       }
     },
-    "id": "ltxi:machine_upgrade_module"
+    "id": "ltxi:upgrade_module"
   }
 }

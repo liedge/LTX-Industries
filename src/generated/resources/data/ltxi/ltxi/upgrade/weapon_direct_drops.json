@@ -1,0 +1,17 @@
+{
+  "display": {
+    "description": {
+      "translate": "upgrade.ltxi.weapon_direct_drops.desc"
+    },
+    "icon": "ltxi:magnet",
+    "title": {
+      "translate": "upgrade.ltxi.weapon_direct_drops"
+    }
+  },
+  "effects": {
+    "ltxi:capture_mob_drops": {}
+  },
+  "users": {
+    "items": "#ltxi:weapons"
+  }
+}

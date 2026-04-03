@@ -1,0 +1,27 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 250000,
+  "group": "eum/enchant",
+  "item_inputs": [
+    {
+      "ingredient": "ltxi:empty_upgrade_module"
+    },
+    {
+      "count": 2,
+      "ingredient": "ltxi:t1_circuit"
+    },
+    {
+      "count": 4,
+      "ingredient": "minecraft:redstone"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:upgrade": {
+        "upgrade": "ltxi:enchantment/efficiency"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:upgrade_module"
+  }
+}

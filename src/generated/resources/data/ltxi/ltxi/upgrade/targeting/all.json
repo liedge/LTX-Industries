@@ -1,0 +1,26 @@
+{
+  "display": {
+    "category": "target_predicates",
+    "description": {
+      "translate": "upgrade.ltxi.targeting.all.desc"
+    },
+    "icon": "ltxi:all_targets",
+    "title": {
+      "color": "#FC501C",
+      "translate": "upgrade.ltxi.targeting.all"
+    }
+  },
+  "effects": {
+    "ltxi:target_conditions": [
+      {
+        "condition": "minecraft:all_of",
+        "terms": []
+      }
+    ]
+  },
+  "exclusive_set": "#ltxi:target_predicates",
+  "users": {
+    "block_entities": "#ltxi:turrets",
+    "items": "#ltxi:weapons"
+  }
+}

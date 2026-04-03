@@ -1,0 +1,69 @@
+{
+  "display": {
+    "category": "machine_unique",
+    "description": {
+      "translate": "upgrade.ltxi.geo_synthesizer_parallel.desc"
+    },
+    "icon": {
+      "type": "overlay",
+      "background": {
+        "type": "item_stack",
+        "item": {
+          "id": "ltxi:geo_synthesizer"
+        }
+      },
+      "height": 9,
+      "overlay": "ltxi:plus_overlay",
+      "width": 9,
+      "x_offset": 6,
+      "y_offset": 6
+    },
+    "title": {
+      "color": "aqua",
+      "translate": "upgrade.ltxi.geo_synthesizer_parallel"
+    },
+    "tooltips": [
+      {
+        "type": "custom_args",
+        "args": [
+          {
+            "type": "value",
+            "format": "flat",
+            "sentiment": "positive",
+            "value": {
+              "type": "exponential",
+              "base": 2.0,
+              "power": {
+                "type": "linear",
+                "base": 4.0,
+                "increment": 1.0
+              }
+            }
+          }
+        ],
+        "key": "upgrade_effect.ltxi.parallel"
+      }
+    ]
+  },
+  "effects": {
+    "ltxi:parallel_operations": [
+      {
+        "op": "replace",
+        "value": {
+          "type": "exponential",
+          "base": 2.0,
+          "power": {
+            "type": "linear",
+            "base": 4.0,
+            "increment": 1.0
+          }
+        }
+      }
+    ]
+  },
+  "exclusive_set": "#ltxi:parallel_ops",
+  "max_rank": 3,
+  "users": {
+    "block_entities": "ltxi:geo_synthesizer"
+  }
+}

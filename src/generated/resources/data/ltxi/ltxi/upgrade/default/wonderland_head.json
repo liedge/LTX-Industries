@@ -1,0 +1,59 @@
+{
+  "display": {
+    "category": "default/armor/1",
+    "description": {
+      "translate": "upgrade.ltxi.default.wonderland_head.desc"
+    },
+    "icon": {
+      "type": "overlay",
+      "background": {
+        "type": "item_stack",
+        "item": {
+          "id": "ltxi:wonderland_head"
+        }
+      },
+      "height": 7,
+      "overlay": "ltxi:default_overlay",
+      "width": 7,
+      "x_offset": 8,
+      "y_offset": 8
+    },
+    "title": {
+      "translate": "upgrade.ltxi.default.wonderland_head"
+    },
+    "tooltips": [
+      {
+        "type": "custom_args",
+        "args": [
+          {
+            "type": "custom_args",
+            "args": [
+              {
+                "type": "value",
+                "format": "flat",
+                "sentiment": "negative",
+                "value": 1.0
+              }
+            ],
+            "key": "tooltip.ltxi.energy_actions",
+            "style": {
+              "color": "#8BD1F0"
+            }
+          }
+        ],
+        "key": "upgrade.ltxi.default.wonderland_head.tooltip0"
+      }
+    ]
+  },
+  "effects": {
+    "ltxi:mob_effect_immunity": [
+      {
+        "effects": "#ltxi:vision_debuff",
+        "energy_actions": 1.0
+      }
+    ]
+  },
+  "users": {
+    "items": "ltxi:wonderland_head"
+  }
+}

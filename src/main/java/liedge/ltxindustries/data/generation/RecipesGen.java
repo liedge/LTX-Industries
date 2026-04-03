@@ -61,6 +61,7 @@ import static liedge.ltxindustries.LTXITags.Fluids.OXYGEN_FLUIDS;
 import static liedge.ltxindustries.LTXITags.Items.*;
 import static liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades.*;
 import static liedge.ltxindustries.registry.bootstrap.LTXIMachineUpgrades.*;
+import static liedge.ltxindustries.registry.bootstrap.LTXIUpgrades.*;
 import static liedge.ltxindustries.registry.game.LTXIFluids.VIRIDIC_ACID;
 import static liedge.ltxindustries.registry.game.LTXIItems.*;
 import static net.minecraft.world.item.Items.*;
@@ -525,14 +526,6 @@ class RecipesGen extends LimaRecipeProvider
                 .input(ENDER_PEARL, 8)
                 .input(DataComponentIngredient.of(false, DataComponents.POTION_CONTENTS, new PotionContents(Potions.INVISIBILITY), POTION)));
 
-        UnaryOperator<FabricatingBuilder> targetFilter = builder -> builder
-                .input(T2_CIRCUIT)
-                .input(TITANIUM_INGOT, 8)
-                .input(PHANTOM_MEMBRANE, 2)
-                .input(ENDER_PEARL, 2);
-        upgradeFabricating(output, registries, "eum/weapon", NEUTRAL_ENEMY_TARGET_FILTER, 1, 225_000, targetFilter);
-        upgradeFabricating(output, registries, "eum/weapon", HOSTILE_TARGET_FILTER, 1, 225_000, targetFilter);
-
         upgradeFabricating(output, registries, "eum/enchant", EFFICIENCY_ENCHANTMENT, 1, 250_000, builder -> builder
                 .input(T1_CIRCUIT, 2)
                 .input(REDSTONE, 4));
@@ -848,14 +841,13 @@ class RecipesGen extends LimaRecipeProvider
         upgradeFabricating(output, registries, turretMUMGroup, TURRET_LOOTING, 2, 250_000, multi2);
         upgradeFabricating(output, registries, turretMUMGroup, TURRET_LOOTING, 3, 500_000, multi3);
 
-        UnaryOperator<FabricatingBuilder> turretSearch = builder -> builder
+        UnaryOperator<FabricatingBuilder> targetPredicates = builder -> builder
                 .input(T3_CIRCUIT)
-                .input(TITANIUM_INGOT, 8)
-                .input(T2_CIRCUIT, 2)
-                .input(ENDER_PEARL, 2);
-        upgradeFabricating(output, registries, turretMUMGroup, ALL_ENTITIES_TARGETING, 1, 250_000, turretSearch);
-        upgradeFabricating(output, registries, turretMUMGroup, NEUTRAL_ENEMY_TARGETING, 1, 250_000, turretSearch);
-        upgradeFabricating(output, registries, turretMUMGroup, HOSTILE_TARGETING, 1, 250_000, turretSearch);
+                .input(OPTICAL_TECH_PART)
+                .input(PHANTOM_MEMBRANE);
+        upgradeFabricating(output, registries, "targeting", ALL_ENTITIES_TARGETING, 1, 1_000_000, targetPredicates);
+        upgradeFabricating(output, registries, "targeting", NEUTRAL_ENEMY_TARGETING, 1, 500_000, targetPredicates);
+        upgradeFabricating(output, registries, "targeting", HOSTILE_TARGETING, 1, 500_000, targetPredicates);
     }
 
     private void grindingRecipes()

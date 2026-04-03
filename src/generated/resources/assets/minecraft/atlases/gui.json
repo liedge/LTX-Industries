@@ -2,13 +2,8 @@
   "sources": [
     {
       "type": "minecraft:single",
-      "resource": "ltxi:item/equipment_upgrade_module",
-      "sprite": "ltxi:equipment_upgrade_module"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "ltxi:item/machine_upgrade_module",
-      "sprite": "ltxi:machine_upgrade_module"
+      "resource": "ltxi:item/upgrade_module",
+      "sprite": "ltxi:upgrade_module"
     },
     {
       "type": "minecraft:single",

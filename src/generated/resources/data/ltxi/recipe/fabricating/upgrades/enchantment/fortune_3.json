@@ -1,0 +1,50 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 500000,
+  "group": "eum/enchant",
+  "item_inputs": [
+    {
+      "ingredient": {
+        "neoforge:ingredient_type": "neoforge:components",
+        "components": {
+          "ltxi:upgrade": {
+            "rank": 2,
+            "upgrade": "ltxi:enchantment/fortune"
+          }
+        },
+        "items": "ltxi:upgrade_module",
+        "strict": true
+      }
+    },
+    {
+      "count": 4,
+      "ingredient": "ltxi:t3_circuit"
+    },
+    {
+      "count": 8,
+      "ingredient": "ltxi:titanium_ingot"
+    },
+    {
+      "count": 2,
+      "ingredient": "minecraft:emerald"
+    },
+    {
+      "count": 2,
+      "ingredient": "minecraft:diamond"
+    },
+    {
+      "count": 2,
+      "ingredient": "minecraft:lapis_block"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:upgrade": {
+        "rank": 3,
+        "upgrade": "ltxi:enchantment/fortune"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:upgrade_module"
+  }
+}

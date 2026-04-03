@@ -1,0 +1,58 @@
+{
+  "display": {
+    "category": "equipment",
+    "description": {
+      "translate": "upgrade.ltxi.tool_energy_upgrade.desc"
+    },
+    "icon": "ltxi:extra_energy",
+    "title": {
+      "color": "#8BD1F0",
+      "translate": "upgrade.ltxi.tool_energy_upgrade"
+    },
+    "tooltips": [
+      {
+        "type": "custom_args",
+        "args": [
+          {
+            "type": "value",
+            "format": "multiplicative",
+            "sentiment": "positive",
+            "value": {
+              "type": "exponential",
+              "base": 2.0,
+              "power": {
+                "type": "linear",
+                "base": 2.0,
+                "increment": 1.0
+              }
+            }
+          }
+        ],
+        "key": "upgrade_effect.ltxi.energy_capacity",
+        "style": {
+          "color": "#8BD1F0"
+        }
+      }
+    ]
+  },
+  "effects": {
+    "ltxi:energy_capacity": [
+      {
+        "op": "multiply",
+        "value": {
+          "type": "exponential",
+          "base": 2.0,
+          "power": {
+            "type": "linear",
+            "base": 2.0,
+            "increment": 1.0
+          }
+        }
+      }
+    ]
+  },
+  "max_rank": 4,
+  "users": {
+    "items": "#ltxi:equipment/energy_upgradable"
+  }
+}

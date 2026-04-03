@@ -1,0 +1,7 @@
+{
+  "values": [
+    "ltxi:targeting/all",
+    "ltxi:targeting/neutral_enemy",
+    "ltxi:targeting/hostile_only"
+  ]
+}

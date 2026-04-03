@@ -1,0 +1,22 @@
+{
+  "display": {
+    "category": "weapon/ammo",
+    "description": {
+      "translate": "upgrade.ltxi.universal_infinite_ammo.desc"
+    },
+    "icon": "ltxi:infinite_ammo",
+    "title": {
+      "color": "#FF00FF",
+      "translate": "upgrade.ltxi.universal_infinite_ammo"
+    }
+  },
+  "effects": {
+    "ltxi:reload_source": {
+      "type": "infinite"
+    }
+  },
+  "exclusive_set": "#ltxi:reload_source_modifiers",
+  "users": {
+    "items": "#ltxi:weapons/energy_projectile"
+  }
+}

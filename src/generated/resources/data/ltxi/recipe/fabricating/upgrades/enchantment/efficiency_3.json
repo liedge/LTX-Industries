@@ -1,0 +1,46 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 750000,
+  "group": "eum/enchant",
+  "item_inputs": [
+    {
+      "ingredient": {
+        "neoforge:ingredient_type": "neoforge:components",
+        "components": {
+          "ltxi:upgrade": {
+            "rank": 2,
+            "upgrade": "ltxi:enchantment/efficiency"
+          }
+        },
+        "items": "ltxi:upgrade_module",
+        "strict": true
+      }
+    },
+    {
+      "count": 2,
+      "ingredient": "ltxi:t2_circuit"
+    },
+    {
+      "count": 8,
+      "ingredient": "minecraft:redstone"
+    },
+    {
+      "count": 4,
+      "ingredient": "minecraft:blaze_powder"
+    },
+    {
+      "count": 4,
+      "ingredient": "ltxi:titanium_ingot"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:upgrade": {
+        "rank": 3,
+        "upgrade": "ltxi:enchantment/efficiency"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:upgrade_module"
+  }
+}
