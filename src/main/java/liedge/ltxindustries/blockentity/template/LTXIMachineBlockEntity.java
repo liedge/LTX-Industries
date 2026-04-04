@@ -132,11 +132,6 @@ public abstract class LTXIMachineBlockEntity extends LimaBlockEntity implements 
         return false;
     }
 
-    public IOAccess getSideIOForFluids(@Nullable Direction side)
-    {
-        return side != null ? getIOConfigurationOrThrow(BlockEntityInputType.FLUIDS).getIOAccess(getFacing(), side) : IOAccess.DISABLED;
-    }
-
     protected boolean setItemIOConfiguration(BlockIOConfiguration configuration)
     {
         if (Objects.equals(this.itemIOConfig, configuration)) return false;

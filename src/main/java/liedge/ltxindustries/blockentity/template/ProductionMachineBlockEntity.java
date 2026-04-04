@@ -1,6 +1,7 @@
 package liedge.ltxindustries.blockentity.template;
 
 import liedge.limacore.blockentity.BlockContentsType;
+import liedge.limacore.blockentity.IOAccess;
 import liedge.limacore.lib.math.MathOperation;
 import liedge.limacore.transfer.LimaTransferUtil;
 import liedge.limacore.transfer.fluid.FluidHolderBlockEntity;
@@ -132,6 +133,20 @@ public abstract class ProductionMachineBlockEntity extends LTXIMachineBlockEntit
     {
         return getBaseFluidCapacity(contentsType) / 4;
     }
+
+    @Override
+    public IOAccess getTopLevelFluidIO(@Nullable Direction side)
+    {
+        if (side != null && fluidsIOConfig != null)
+        {
+            return fluidsIOConfig.getIOAccess(getFacing(), side);
+        }
+        else
+        {
+            return IOAccess.DISABLED;
+        }
+    }
+
     //#endregion
 
     @Override
