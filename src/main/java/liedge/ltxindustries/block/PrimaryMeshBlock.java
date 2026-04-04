@@ -156,8 +156,8 @@ public class PrimaryMeshBlock extends BaseMeshBlock
         mesh.meshStream(pos, mesh.getPrimary(), state.getValue(HORIZONTAL_FACING).getOpposite())
                 .filter(cursor -> !cursor.equals(pos))
                 .forEach(cursor -> {
-                    MeshBlockEntity blockEntity = LimaBlockUtil.getBlockEntity(level, pos, MeshBlockEntity.class);
-                    if (blockEntity != null && mesh.equals(blockEntity.getBlockMesh())) level.removeBlock(pos, false);
+                    MeshBlockEntity blockEntity = LimaBlockUtil.getBlockEntity(level, cursor, MeshBlockEntity.class);
+                    if (blockEntity != null && mesh.equals(blockEntity.getBlockMesh())) level.removeBlock(cursor, false);
                 });
     }
 }

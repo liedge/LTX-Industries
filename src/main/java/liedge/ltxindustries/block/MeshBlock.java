@@ -3,12 +3,10 @@ package liedge.ltxindustries.block;
 import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.menu.LimaMenuProvider;
 import liedge.limacore.util.LimaBlockUtil;
-import liedge.ltxindustries.block.mesh.BlockMesh;
 import liedge.ltxindustries.block.mesh.MeshPosition;
 import liedge.ltxindustries.blockentity.MeshBlockEntity;
 import liedge.ltxindustries.registry.game.LTXIBlockEntities;
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -18,6 +16,7 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -80,27 +79,6 @@ public final class MeshBlock extends BaseMeshBlock
     }
 
     @Override
-    protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel level, BlockPos pos, boolean movedByPiston)
-    {
-        MeshBlockEntity blockEntity = LimaBlockUtil.getSafeBlockEntity(level, pos, MeshBlockEntity.class);
-        if (blockEntity != null)
-        {
-            BlockMesh mesh = blockEntity.getBlockMesh();
-            BlockPos primaryPos = blockEntity.getPrimaryPos(pos, state);
-
-            if (mesh != null && primaryPos != null)
-            {
-                BlockState primaryState = level.getBlockState(primaryPos);
-                if (primaryState.getBlock() instanceof PrimaryMeshBlock primaryMeshBlock && primaryMeshBlock.getBlockMesh().equals(mesh))
-                {
-                    level.removeBlock(primaryPos, false);
-                }
-            }
-
-        }
-    }
-
-    @Override
     public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player)
     {
         BlockPos primaryPos = getPrimaryPos(level, pos, state);
@@ -117,11 +95,10 @@ public final class MeshBlock extends BaseMeshBlock
         return super.playerWillDestroy(level, pos, state, player);
     }
 
-    /*
     @Override
-    public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid)
+    public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, ItemStack toolStack, boolean willHarvest, FluidState fluid)
     {
-        if (willHarvest) return true; // What does this even do?
+        if (willHarvest) return true;
 
         BlockPos primaryPos = getPrimaryPos(level, pos, state);
         if (primaryPos != null)
@@ -129,19 +106,12 @@ public final class MeshBlock extends BaseMeshBlock
             BlockState primaryState = level.getBlockState(primaryPos);
             if (primaryState.getBlock() instanceof PrimaryMeshBlock)
             {
-                primaryState.onDestroyedByPlayer(level, primaryPos, player, false, fluid);
+                primaryState.onDestroyedByPlayer(level, primaryPos, player, toolStack, false, fluid);
             }
         }
 
-        return super.onDestroyedByPlayer(state, level, pos, player, false, fluid);
+        return super.onDestroyedByPlayer(state, level, pos, player, toolStack, false, fluid);
     }
-
-    @Override
-    public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, ItemStack toolStack, boolean willHarvest, FluidState fluid)
-    {
-        if (willHarvest) return true;
-    }
-    */
 
     @Override
     public void playerDestroy(Level level, Player player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, ItemStack tool)
@@ -201,7 +171,7 @@ public final class MeshBlock extends BaseMeshBlock
             }
         }
 
-        return Shapes.empty();
+        return Shapes.block();
     }
 
     private @Nullable BlockPos getPrimaryPos(LevelReader level, BlockPos pos, BlockState state)

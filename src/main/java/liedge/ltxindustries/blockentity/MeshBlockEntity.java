@@ -1,7 +1,7 @@
 package liedge.ltxindustries.blockentity;
 
-import com.mojang.logging.LogUtils;
 import liedge.limacore.blockentity.LimaBlockEntity;
+import liedge.ltxindustries.block.PrimaryMeshBlock;
 import liedge.ltxindustries.block.mesh.BlockMesh;
 import liedge.ltxindustries.block.mesh.LTXIBlockMeshes;
 import liedge.ltxindustries.block.mesh.MeshPosition;
@@ -12,18 +12,16 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.ProblemReporter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.storage.TagValueOutput;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
 
 public final class MeshBlockEntity extends LimaBlockEntity
 {
-    private static final Logger LOGGER = LogUtils.getLogger();
-
     @Nullable
     private Identifier meshId;
     @Nullable
@@ -42,6 +40,24 @@ public final class MeshBlockEntity extends LimaBlockEntity
 
     @Override
     public void defineDataWatchers(DataWatcherCollector collector) {}
+
+    @Override
+    public void preRemoveSideEffects(BlockPos pos, BlockState state)
+    {
+        Level level = nonNullLevel();
+
+        BlockMesh mesh = getBlockMesh();
+        BlockPos primary = getPrimaryPos(pos, state);
+
+        if (mesh != null && primary != null)
+        {
+            BlockState primaryState = level.getBlockState(primary);
+            if (primaryState.getBlock() instanceof PrimaryMeshBlock primaryBlock && primaryBlock.getBlockMesh().equals(mesh))
+            {
+                level.removeBlock(primary, false);
+            }
+        }
+    }
 
     public @Nullable BlockMesh getBlockMesh()
     {
@@ -98,7 +114,7 @@ public final class MeshBlockEntity extends LimaBlockEntity
     {
         CompoundTag tag;
 
-        try (ProblemReporter.ScopedCollector reporter = new ProblemReporter.ScopedCollector(problemPath(), LOGGER))
+        try (ProblemReporter.ScopedCollector reporter = createReporter())
         {
             TagValueOutput output = TagValueOutput.createWithContext(reporter, registries);
             saveMesh(output);
