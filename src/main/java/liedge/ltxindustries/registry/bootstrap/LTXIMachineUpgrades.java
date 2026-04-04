@@ -162,7 +162,7 @@ public final class LTXIMachineUpgrades
                 .forMachines(blockEntities, LTXITags.BlockEntities.TURRETS)
                 .withEffect(ENCHANTMENT_LEVELS, AddEnchantmentLevels.rankLinear(enchantments.getOrThrow(Enchantments.LOOTING)))
                 .setMaxRank(3)
-                .effectIcon(luckOverlay(LTXIItems.LTX_SWORD))
+                .effectIcon(luckOverlay(LTXIItems.EPSILON_SWORD))
                 .category("turret")
                 .register(context);
 

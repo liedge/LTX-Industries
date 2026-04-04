@@ -139,16 +139,16 @@ class ModelsGen extends ModelProvider
                 EXPLOSIVES_WEAPON_ENERGY,
                 HEAVY_WEAPON_ENERGY);
 
-        emissiveHandheldFlatItem(models, LTX_DRILL);
-        emissiveHandheldFlatItem(models, LTX_SWORD);
-        emissiveHandheldFlatItem(models, LTX_SHOVEL);
-        emissiveHandheldFlatItem(models, LTX_AXE);
-        emissiveHandheldFlatItem(models, LTX_HOE);
-        emissiveHandheldFlatItem(models, LTX_WRENCH);
-        emissiveFlatItem(models, LTX_SHEARS);
+        emissiveHandheldFlatItem(models, EPSILON_DRILL);
+        emissiveHandheldFlatItem(models, EPSILON_SWORD);
+        emissiveHandheldFlatItem(models, EPSILON_SHOVEL);
+        emissiveHandheldFlatItem(models, EPSILON_AXE);
+        emissiveHandheldFlatItem(models, EPSILON_HOE);
+        emissiveHandheldFlatItem(models, EPSILON_WRENCH);
+        emissiveFlatItem(models, EPSILON_SHEARS);
         emissiveBrush(models);
         emissiveFishingRod(models);
-        emissiveFlatItem(models, LTX_LIGHTER);
+        emissiveFlatItem(models, EPSILON_LIGHTER);
 
         bucket(models, VIRIDIC_ACID_BUCKET, LTXIFluids.VIRIDIC_ACID);
         bucket(models, HYDROGEN_BUCKET, LTXIFluids.HYDROGEN);
@@ -314,7 +314,7 @@ class ModelsGen extends ModelProvider
 
     private void emissiveFishingRod(ItemModelGenerators models)
     {
-        Item item = LTX_FISHING_ROD.asItem();
+        Item item = EPSILON_FISHING_ROD.asItem();
         Identifier id = LimaRegistryUtil.getItemId(item);
 
         models.generateBooleanDispatch(item, new FishingRodCast(),
@@ -324,7 +324,7 @@ class ModelsGen extends ModelProvider
 
     private void emissiveBrush(ItemModelGenerators models)
     {
-        Item item = LTX_BRUSH.asItem();
+        Item item = EPSILON_BRUSH.asItem();
         Identifier id = LimaRegistryUtil.getItemId(item);
 
         Identifier baseTexture = id.withPath(s -> "item/" + s + "_base");

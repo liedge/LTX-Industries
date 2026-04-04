@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/handheld",
+  "loader": "limacore:emissive_item",
+  "textures": {
+    "layer0": "ltxi:item/epsilon_axe_emissive"
+  }
+}

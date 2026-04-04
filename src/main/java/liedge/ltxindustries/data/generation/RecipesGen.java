@@ -130,7 +130,7 @@ class RecipesGen extends LimaRecipeProvider
         shaped(ENERGY_IO_CONFIG_CARD).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('m', ELECTRIC_CHEMICAL).patterns(" m ", "tct", " t ").save(output);
         shaped(FLUIDS_IO_CONFIG_CARD).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('m', BUCKET).patterns(" m ", "tct", " t ").save(output);
 
-        shaped(defaultUpgradableItem(LTX_WRENCH, registries)).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).patterns("t t", " c ", " t ").save(output);
+        shaped(defaultUpgradableItem(EPSILON_WRENCH, registries)).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).patterns("t t", " c ", " t ").save(output);
 
         // TODO reintroduce
         /*
@@ -225,9 +225,9 @@ class RecipesGen extends LimaRecipeProvider
     private void fabricatingRecipes()
     {
         // Default modules
-        defaultModuleFabricating(output, registries, LTX_SHOVEL_DEFAULT, LTX_SHOVEL);
-        defaultModuleFabricating(output, registries, LTX_WRENCH_DEFAULT, LTX_WRENCH);
-        defaultModuleFabricating(output, registries, LTX_MELEE_DEFAULT, LTX_SWORD, LTX_AXE);
+        defaultModuleFabricating(output, registries, EPSILON_SHOVEL_DEFAULT, EPSILON_SHOVEL);
+        defaultModuleFabricating(output, registries, EPSILON_WRENCH_DEFAULT, EPSILON_WRENCH);
+        defaultModuleFabricating(output, registries, EPSILON_MELEE_DEFAULT, EPSILON_SWORD, EPSILON_AXE);
         defaultModuleFabricating(output, registries, GLOWSTICK_LAUNCHER_DEFAULT, GLOWSTICK_LAUNCHER);
         defaultModuleFabricating(output, registries, SUBMACHINE_GUN_DEFAULT, SUBMACHINE_GUN);
         defaultModuleFabricating(output, registries, SHOTGUN_DEFAULT, SHOTGUN);
@@ -306,53 +306,53 @@ class RecipesGen extends LimaRecipeProvider
 
         // Tools fabricating
         final String toolFabGroup = "ltx/tool";
-        equipmentFabricating(output, registries, LTX_DRILL, toolFabGroup, 1_000_000, builder -> builder
+        equipmentFabricating(output, registries, EPSILON_DRILL, toolFabGroup, 1_000_000, builder -> builder
                 .input(T3_CIRCUIT)
                 .input(TITANIUM_INGOT, 24)
                 .input(POLYMER_INGOT, 6)
                 .input(SLATESTEEL_GEAR, 3)
                 .input(LTX_LIME_PIGMENT, 6));
-        equipmentFabricating(output, registries, LTX_SWORD, toolFabGroup, 1_000_000, builder -> builder
+        equipmentFabricating(output, registries, EPSILON_SWORD, toolFabGroup, 1_000_000, builder -> builder
                 .input(T3_CIRCUIT)
                 .input(TITANIUM_INGOT, 16)
                 .input(SLATESTEEL_INGOT, 2)
                 .input(LTX_LIME_PIGMENT, 4));
-        equipmentFabricating(output, registries, LTX_SHOVEL, toolFabGroup, 1_000_000, builder -> builder
+        equipmentFabricating(output, registries, EPSILON_SHOVEL, toolFabGroup, 1_000_000, builder -> builder
                 .input(T3_CIRCUIT)
                 .input(TITANIUM_INGOT, 8)
                 .input(POLYMER_INGOT, 2)
                 .input(SLATESTEEL_GEAR)
                 .input(LTX_LIME_PIGMENT, 2));
-        equipmentFabricating(output, registries, LTX_AXE, toolFabGroup, 1_000_000, builder -> builder
+        equipmentFabricating(output, registries, EPSILON_AXE, toolFabGroup, 1_000_000, builder -> builder
                 .input(T3_CIRCUIT)
                 .input(TITANIUM_INGOT, 24)
                 .input(POLYMER_INGOT, 6)
                 .input(SLATESTEEL_GEAR, 3)
                 .input(LTX_LIME_PIGMENT, 6));
-        equipmentFabricating(output, registries, LTX_HOE, toolFabGroup, 1_000_000, builder -> builder
+        equipmentFabricating(output, registries, EPSILON_HOE, toolFabGroup, 1_000_000, builder -> builder
                 .input(T3_CIRCUIT)
                 .input(TITANIUM_INGOT, 16)
                 .input(POLYMER_INGOT, 4)
                 .input(SLATESTEEL_GEAR, 2)
                 .input(LTX_LIME_PIGMENT, 4));
-        equipmentFabricating(output, registries, LTX_SHEARS, toolFabGroup, 500_000, builder -> builder
+        equipmentFabricating(output, registries, EPSILON_SHEARS, toolFabGroup, 500_000, builder -> builder
                 .input(T2_CIRCUIT)
                 .input(TITANIUM_INGOT, 6)
                 .input(SLATESTEEL_INGOT, 2)
                 .input(LTX_LIME_PIGMENT, 2));
-        equipmentFabricating(output, registries, LTX_BRUSH, toolFabGroup, 500_000, builder -> builder
+        equipmentFabricating(output, registries, EPSILON_BRUSH, toolFabGroup, 500_000, builder -> builder
                 .input(T2_CIRCUIT)
                 .input(TITANIUM_INGOT, 3)
                 .input(SLATESTEEL_INGOT)
                 .input(FEATHER, 3)
                 .input(LTX_LIME_PIGMENT, 2));
-        equipmentFabricating(output, registries, LTX_FISHING_ROD, toolFabGroup, 500_000, builder -> builder
+        equipmentFabricating(output, registries, EPSILON_FISHING_ROD, toolFabGroup, 500_000, builder -> builder
                 .input(T2_CIRCUIT)
                 .input(TITANIUM_INGOT, 6)
                 .input(SLATESTEEL_INGOT, 2)
                 .input(STRING, 2)
                 .input(LTX_LIME_PIGMENT, 4));
-        equipmentFabricating(output, registries, LTX_LIGHTER, toolFabGroup, 500_000, builder -> builder
+        equipmentFabricating(output, registries, EPSILON_LIGHTER, toolFabGroup, 500_000, builder -> builder
                 .input(T2_CIRCUIT)
                 .input(TITANIUM_INGOT, 3)
                 .input(SLATESTEEL_INGOT)

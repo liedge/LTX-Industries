@@ -43,7 +43,7 @@ public class EnergyHoeItem extends ModularEnergyMiningItem
     protected InteractionResult useToolOn(UseOnContext context, Level level, BlockPos pos, BlockState state, @Nullable Player player, ItemStack stack)
     {
         // 'Tend' to crops
-        if (state.is(LTXITags.Blocks.LTX_HOE_BOOSTABLE) && player != null)
+        if (state.is(LTXITags.Blocks.EPSILON_HOE_BOOSTABLE) && player != null)
         {
             player.startUsingItem(context.getHand());
             return InteractionResult.CONSUME;
@@ -100,7 +100,7 @@ public class EnergyHoeItem extends ModularEnergyMiningItem
                         for (BlockPos pos : positions)
                         {
                             BlockState state = level.getBlockState(pos);
-                            if (state.is(LTXITags.Blocks.LTX_HOE_BOOSTABLE))
+                            if (state.is(LTXITags.Blocks.EPSILON_HOE_BOOSTABLE))
                             {
                                 // Apply 3 random ticks to boostable blocks
                                 for (int i = 0; i < 3; i++)

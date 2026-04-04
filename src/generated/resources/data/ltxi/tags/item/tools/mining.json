@@ -1,7 +1,7 @@
 {
   "values": [
     "#ltxi:tools/modular_mining",
-    "ltxi:ltx_shears",
-    "ltxi:ltx_wrench"
+    "ltxi:epsilon_shears",
+    "ltxi:epsilon_wrench"
   ]
 }

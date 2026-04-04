@@ -60,16 +60,16 @@ class ItemTagsGen extends LimaTagsProvider.ItemTags
         buildTag(SLATESTEEL_NUGGETS).add(SLATESTEEL_NUGGET);
         buildTag(NUGGETS).addTags(TITANIUM_NUGGETS, NIOBIUM_NUGGETS, SLATESTEEL_NUGGETS);
 
-        buildTag(SWORDS).add(LTX_SWORD);
-        buildTag(SHOVELS).add(LTX_SHOVEL);
-        buildTag(AXES).add(LTX_AXE);
-        buildTag(HOES).add(LTX_HOE);
-        buildTag(TOOLS_SHEAR).add(LTX_SHEARS);
-        buildTag(TOOLS_BRUSH).add(LTX_BRUSH);
-        buildTag(TOOLS_FISHING_ROD).add(LTX_FISHING_ROD);
-        buildTag(TOOLS_WRENCH).add(LTX_WRENCH);
-        buildTag(TOOLS_IGNITER).add(LTX_LIGHTER);
-        buildTag(CREEPER_IGNITERS).add(LTX_LIGHTER);
+        buildTag(SWORDS).add(EPSILON_SWORD);
+        buildTag(SHOVELS).add(EPSILON_SHOVEL);
+        buildTag(AXES).add(EPSILON_AXE);
+        buildTag(HOES).add(EPSILON_HOE);
+        buildTag(TOOLS_SHEAR).add(EPSILON_SHEARS);
+        buildTag(TOOLS_BRUSH).add(EPSILON_BRUSH);
+        buildTag(TOOLS_FISHING_ROD).add(EPSILON_FISHING_ROD);
+        buildTag(TOOLS_WRENCH).add(EPSILON_WRENCH);
+        buildTag(TOOLS_IGNITER).add(EPSILON_LIGHTER);
+        buildTag(CREEPER_IGNITERS).add(EPSILON_LIGHTER);
 
         buildTag(BEACON_PAYMENT_ITEMS).add(TITANIUM_INGOT, NIOBIUM_INGOT, SLATESTEEL_INGOT); // Only add this mod's ingots
 
@@ -87,23 +87,23 @@ class ItemTagsGen extends LimaTagsProvider.ItemTags
         buildTag(EXPLOSIVE_WEAPONS).add(GRENADE_LAUNCHER, ROCKET_LAUNCHER);
         buildTag(HEAVY_WEAPONS).add(HEAVY_PISTOL);
         buildTag(ENERGY_PROJECTILE_WEAPONS).addTags(LIGHTWEIGHT_WEAPONS, SPECIALIST_WEAPONS, EXPLOSIVE_WEAPONS, HEAVY_WEAPONS);
-        buildTag(MELEE_WEAPONS).add(LTX_SWORD, LTX_AXE);
+        buildTag(MELEE_WEAPONS).add(EPSILON_SWORD, EPSILON_AXE);
         buildTag(WEAPON_EQUIPMENT).addTags(MELEE_WEAPONS, ENERGY_PROJECTILE_WEAPONS);
 
         // Tool equipment definitions
         buildTag(TOOL_EQUIPMENT).add(
-                LTX_DRILL,
-                LTX_SWORD,
-                LTX_SHOVEL,
-                LTX_AXE,
-                LTX_HOE,
-                LTX_WRENCH,
-                LTX_SHEARS,
-                LTX_BRUSH,
-                LTX_FISHING_ROD,
-                LTX_LIGHTER);
-        buildTag(MODULAR_MINING_TOOLS).add(LTX_DRILL, LTX_SHOVEL, LTX_AXE, LTX_HOE);
-        buildTag(MINING_TOOLS).addTag(MODULAR_MINING_TOOLS).add(LTX_SHEARS, LTX_WRENCH);
+                EPSILON_DRILL,
+                EPSILON_SWORD,
+                EPSILON_SHOVEL,
+                EPSILON_AXE,
+                EPSILON_HOE,
+                EPSILON_WRENCH,
+                EPSILON_SHEARS,
+                EPSILON_BRUSH,
+                EPSILON_FISHING_ROD,
+                EPSILON_LIGHTER);
+        buildTag(MODULAR_MINING_TOOLS).add(EPSILON_DRILL, EPSILON_SHOVEL, EPSILON_AXE, EPSILON_HOE);
+        buildTag(MINING_TOOLS).addTag(MODULAR_MINING_TOOLS).add(EPSILON_SHEARS, EPSILON_WRENCH);
 
         // Armor definitions
         buildTag(WONDERLAND_ARMOR).add(WONDERLAND_HEAD, WONDERLAND_BODY, WONDERLAND_LEGS, WONDERLAND_FEET);

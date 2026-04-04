@@ -100,7 +100,7 @@ public class LTXIndustriesClient
         {
             event.registerItem(UpgradeModuleClientItem.INSTANCE, LTXIItems.UPGRADE_MODULE);
             event.registerItem(BlueprintClientItem.INSTANCE, LTXIItems.FABRICATION_BLUEPRINT);
-            event.registerItem(MiningToolClientItem.INSTANCE, LTXIItems.LTX_DRILL, LTXIItems.LTX_SHOVEL, LTXIItems.LTX_AXE, LTXIItems.LTX_HOE);
+            event.registerItem(MiningToolClientItem.INSTANCE, LTXIItems.EPSILON_DRILL, LTXIItems.EPSILON_SHOVEL, LTXIItems.EPSILON_AXE, LTXIItems.EPSILON_HOE);
 
             event.registerItem(new WeaponClientItem(CrosshairRenderer.bracketsWithHollowDot()), LTXIItems.GLOWSTICK_LAUNCHER);
             event.registerItem(new WeaponClientItem(CrosshairRenderer.circleBrackets()), LTXIItems.SHOTGUN);

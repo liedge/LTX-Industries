@@ -9,7 +9,7 @@
       "background": {
         "type": "item_stack",
         "item": {
-          "id": "ltxi:ltx_fishing_rod"
+          "id": "ltxi:epsilon_fishing_rod"
         }
       },
       "height": 9,
@@ -35,6 +35,6 @@
   },
   "max_rank": 5,
   "users": {
-    "items": "ltxi:ltx_fishing_rod"
+    "items": "ltxi:epsilon_fishing_rod"
   }
 }

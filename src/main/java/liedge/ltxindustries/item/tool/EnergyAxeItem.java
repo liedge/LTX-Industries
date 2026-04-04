@@ -43,7 +43,7 @@ public class EnergyAxeItem extends ModularEnergyMiningItem
     @Override
     public @Nullable ResourceKey<Upgrade> getDefaultUpgradeKey()
     {
-        return LTXIEquipmentUpgrades.LTX_MELEE_DEFAULT;
+        return LTXIEquipmentUpgrades.EPSILON_MELEE_DEFAULT;
     }
 
     @Override

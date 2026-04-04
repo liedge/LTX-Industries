@@ -157,16 +157,16 @@ public final class LTXIItems
     public static final DeferredItem<SimpleHintItem> IMPULSE_TECH_PART = registerSimpleHint("impulse_tech_part", properties -> properties.rarity(Rarity.UNCOMMON));
 
     // LTX basic tools
-    public static final DeferredItem<EnergyDrillItem> LTX_DRILL = registerLTXGear(LTXIIdentifiers.ID_LTX_DRILL, properties -> new EnergyDrillItem(properties, 5f, -2f));
-    public static final DeferredItem<EnergySwordItem> LTX_SWORD = registerLTXGear(LTXIIdentifiers.ID_LTX_SWORD, properties -> new EnergySwordItem(properties, 9f, -1.5f));
-    public static final DeferredItem<EnergyShovelItem> LTX_SHOVEL = registerLTXGear(LTXIIdentifiers.ID_LTX_SHOVEL, properties -> new EnergyShovelItem(properties, 7.5f, -2.2f));
-    public static final DeferredItem<EnergyAxeItem> LTX_AXE = registerLTXGear(LTXIIdentifiers.ID_LTX_AXE, properties -> new EnergyAxeItem(properties, 12f, -2.8f));
-    public static final DeferredItem<EnergyHoeItem> LTX_HOE = registerLTXGear(LTXIIdentifiers.ID_LTX_HOE, properties -> new EnergyHoeItem(properties, 3f, -1f));
-    public static final DeferredItem<EnergyWrenchItem> LTX_WRENCH = registerLTXGear(LTXIIdentifiers.ID_LTX_WRENCH, EnergyWrenchItem::new);
-    public static final DeferredItem<EnergyShearsItem> LTX_SHEARS = registerLTXGear(LTXIIdentifiers.ID_LTX_SHEARS, EnergyShearsItem::new);
-    public static final DeferredItem<EnergyBrushItem> LTX_BRUSH = registerLTXGear(LTXIIdentifiers.ID_LTX_BRUSH, EnergyBrushItem::new);
-    public static final DeferredItem<EnergyFishingRodItem> LTX_FISHING_ROD = registerLTXGear(LTXIIdentifiers.ID_LTX_FISHING_ROD, EnergyFishingRodItem::new);
-    public static final DeferredItem<EnergyLighterItem> LTX_LIGHTER = registerLTXGear(LTXIIdentifiers.ID_LTX_LIGHTER, EnergyLighterItem::new);
+    public static final DeferredItem<EnergyDrillItem> EPSILON_DRILL = registerLTXGear(LTXIIdentifiers.ID_EPSILON_DRILL, properties -> new EnergyDrillItem(properties, 5f, -2f));
+    public static final DeferredItem<EnergySwordItem> EPSILON_SWORD = registerLTXGear(LTXIIdentifiers.ID_EPSILON_SWORD, properties -> new EnergySwordItem(properties, 9f, -1.5f));
+    public static final DeferredItem<EnergyShovelItem> EPSILON_SHOVEL = registerLTXGear(LTXIIdentifiers.ID_EPSILON_SHOVEL, properties -> new EnergyShovelItem(properties, 7.5f, -2.2f));
+    public static final DeferredItem<EnergyAxeItem> EPSILON_AXE = registerLTXGear(LTXIIdentifiers.ID_EPSILON_AXE, properties -> new EnergyAxeItem(properties, 12f, -2.8f));
+    public static final DeferredItem<EnergyHoeItem> EPSILON_HOE = registerLTXGear(LTXIIdentifiers.ID_EPSILON_HOE, properties -> new EnergyHoeItem(properties, 3f, -1f));
+    public static final DeferredItem<EnergyWrenchItem> EPSILON_WRENCH = registerLTXGear(LTXIIdentifiers.ID_EPSILON_WRENCH, EnergyWrenchItem::new);
+    public static final DeferredItem<EnergyShearsItem> EPSILON_SHEARS = registerLTXGear(LTXIIdentifiers.ID_EPSILON_SHEARS, EnergyShearsItem::new);
+    public static final DeferredItem<EnergyBrushItem> EPSILON_BRUSH = registerLTXGear(LTXIIdentifiers.ID_EPSILON_BRUSH, EnergyBrushItem::new);
+    public static final DeferredItem<EnergyFishingRodItem> EPSILON_FISHING_ROD = registerLTXGear(LTXIIdentifiers.ID_EPSILON_FISHING_ROD, EnergyFishingRodItem::new);
+    public static final DeferredItem<EnergyLighterItem> EPSILON_LIGHTER = registerLTXGear(LTXIIdentifiers.ID_EPSILON_LIGHTER, EnergyLighterItem::new);
 
     // LTX armor set
     public static final DeferredItem<EnergyArmorItem> WONDERLAND_HEAD = registerLTXGear(LTXIIdentifiers.ID_WONDERLAND_HEAD, properties -> new EnergyArmorItem(properties, EquipmentSlot.HEAD, 3f));

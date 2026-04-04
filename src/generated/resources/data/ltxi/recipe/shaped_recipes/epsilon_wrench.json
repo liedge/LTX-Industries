@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": "ltxi:t1_circuit",
+    "t": "ltxi:titanium_ingot"
+  },
+  "pattern": [
+    "t t",
+    " c ",
+    " t "
+  ],
+  "result": {
+    "components": {
+      "ltxi:upgrades": {
+        "ltxi:default/epsilon_wrench": 1
+      }
+    },
+    "id": "ltxi:epsilon_wrench"
+  }
+}

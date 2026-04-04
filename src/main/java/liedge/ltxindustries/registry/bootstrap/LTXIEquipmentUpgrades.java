@@ -64,9 +64,9 @@ public final class LTXIEquipmentUpgrades
     private LTXIEquipmentUpgrades() {}
 
     // Built-in upgrades
-    public static final ResourceKey<Upgrade> LTX_SHOVEL_DEFAULT = defaultKey(ID_LTX_SHOVEL);
-    public static final ResourceKey<Upgrade> LTX_WRENCH_DEFAULT = defaultKey(ID_LTX_WRENCH);
-    public static final ResourceKey<Upgrade> LTX_MELEE_DEFAULT = defaultKey("ltx_melee");
+    public static final ResourceKey<Upgrade> EPSILON_SHOVEL_DEFAULT = defaultKey(ID_EPSILON_SHOVEL);
+    public static final ResourceKey<Upgrade> EPSILON_WRENCH_DEFAULT = defaultKey(ID_EPSILON_WRENCH);
+    public static final ResourceKey<Upgrade> EPSILON_MELEE_DEFAULT = defaultKey("epsilon_melee");
     public static final ResourceKey<Upgrade> GLOWSTICK_LAUNCHER_DEFAULT = defaultKey(ID_GLOWSTICK_LAUNCHER);
     public static final ResourceKey<Upgrade> SUBMACHINE_GUN_DEFAULT = defaultKey(ID_SUBMACHINE_GUN);
     public static final ResourceKey<Upgrade> SHOTGUN_DEFAULT = defaultKey(ID_SHOTGUN);
@@ -158,21 +158,21 @@ public final class LTXIEquipmentUpgrades
 
         // Built in upgrades
         final Component defaultToolTitle = LTXILangKeys.TOOL_DEFAULT_UPGRADE_TITLE.translate().withStyle(LIME_GREEN.chatStyle());
-        Upgrade.builder(LTX_SHOVEL_DEFAULT)
+        Upgrade.builder(EPSILON_SHOVEL_DEFAULT)
                 .setTitle(defaultToolTitle)
-                .forEquipment(LTXIItems.LTX_SHOVEL)
+                .forEquipment(LTXIItems.EPSILON_SHOVEL)
                 .withEffect(ENCHANTMENT_LEVELS, AddEnchantmentLevels.fixed(enchantments.getOrThrow(Enchantments.SILK_TOUCH), 1))
-                .effectIcon(defaultModuleIcon(LTXIItems.LTX_SHOVEL))
+                .effectIcon(defaultModuleIcon(LTXIItems.EPSILON_SHOVEL))
                 .category("default/tool")
                 .register(context);
-        Upgrade.builder(LTX_WRENCH_DEFAULT)
+        Upgrade.builder(EPSILON_WRENCH_DEFAULT)
                 .setTitle(defaultToolTitle)
-                .forEquipment(LTXIItems.LTX_WRENCH)
+                .forEquipment(LTXIItems.EPSILON_WRENCH)
                 .withEffect(CAPTURE_BLOCK_DROPS, CaptureBlockDrops.captureItems(items.getOrThrow(LTXITags.Items.WRENCH_BREAKABLE)))
-                .effectIcon(defaultModuleIcon(LTXIItems.LTX_WRENCH))
+                .effectIcon(defaultModuleIcon(LTXIItems.EPSILON_WRENCH))
                 .category("default/tool")
                 .register(context);
-        Upgrade.builder(LTX_MELEE_DEFAULT)
+        Upgrade.builder(EPSILON_MELEE_DEFAULT)
                 .setTitle(defaultToolTitle)
                 .forEquipment(meleeWeapons)
                 .withEffect(ENCHANTMENT_LEVELS, AddEnchantmentLevels.fixed(enchantments.getOrThrow(RAZOR), 1, 5))
@@ -292,11 +292,11 @@ public final class LTXIEquipmentUpgrades
         // Tool upgrades
         Upgrade.builder(EPSILON_FISHING_LURE)
                 .createDefaultTitle(LIME_GREEN)
-                .forEquipment(LTXIItems.LTX_FISHING_ROD)
+                .forEquipment(LTXIItems.EPSILON_FISHING_ROD)
                 .setMaxRank(5)
                 .withEffect(ENCHANTMENT_LEVELS, AddEnchantmentLevels.rankLinear(enchantments.getOrThrow(Enchantments.LURE)))
                 .withEffect(ENCHANTMENT_LEVELS, AddEnchantmentLevels.rankLinear(enchantments.getOrThrow(Enchantments.LUCK_OF_THE_SEA)))
-                .effectIcon(plusOverlay(itemIcon(LTXIItems.LTX_FISHING_ROD)))
+                .effectIcon(plusOverlay(itemIcon(LTXIItems.EPSILON_FISHING_ROD)))
                 .category("tools")
                 .register(context);
         Upgrade.builder(TOOL_NETHERITE_LEVEL)
@@ -314,7 +314,7 @@ public final class LTXIEquipmentUpgrades
                 .category("tools/drill")
                 .register(context);
         Upgrade.builder(TREE_VEIN_MINE)
-                .forEquipment(LTXIItems.LTX_AXE)
+                .forEquipment(LTXIItems.EPSILON_AXE)
                 .withEffect(VEIN_MINE, VeinMine.create(BlockPredicate.Builder.block().of(blocks, BlockTags.LOGS), BlockPredicate.Builder.block().of(blocks, BlockTags.LEAVES), VeinMine.MAX_BLOCK_LIMIT, false))
                 .staticTooltip(0)
                 .effectIcon(veinMineOverlay(itemIcon(Items.OAK_LOG)))
@@ -493,14 +493,14 @@ public final class LTXIEquipmentUpgrades
                 .forEquipment(miningTools)
                 .setMaxRank(5)
                 .withEffect(ENCHANTMENT_LEVELS, AddEnchantmentLevels.rankLinear(enchantments.getOrThrow(Enchantments.EFFICIENCY)))
-                .effectIcon(yellowArrowOverlay(itemIcon(LTXIItems.LTX_DRILL)))
+                .effectIcon(yellowArrowOverlay(itemIcon(LTXIItems.EPSILON_DRILL)))
                 .category("enchants")
                 .register(context);
         Upgrade.builder(SILK_TOUCH_ENCHANTMENT)
                 .forEquipment(miningTools)
                 .exclusiveWith(holders, MINING_DROPS_MODIFIERS)
                 .withEffect(ENCHANTMENT_LEVELS, AddEnchantmentLevels.fixed(enchantments.getOrThrow(Enchantments.SILK_TOUCH), 1))
-                .effectIcon(bottomRightOverlay(itemIcon(LTXIItems.LTX_DRILL), "silk_overlay", 8))
+                .effectIcon(bottomRightOverlay(itemIcon(LTXIItems.EPSILON_DRILL), "silk_overlay", 8))
                 .category("enchants")
                 .register(context);
         Upgrade.builder(FORTUNE_ENCHANTMENT)
@@ -508,14 +508,14 @@ public final class LTXIEquipmentUpgrades
                 .exclusiveWith(holders, MINING_DROPS_MODIFIERS)
                 .setMaxRank(5)
                 .withEffect(ENCHANTMENT_LEVELS, AddEnchantmentLevels.rankLinear(enchantments.getOrThrow(Enchantments.FORTUNE)))
-                .effectIcon(luckOverlay(LTXIItems.LTX_DRILL))
+                .effectIcon(luckOverlay(LTXIItems.EPSILON_DRILL))
                 .category("enchants")
                 .register(context);
         Upgrade.builder(LOOTING_ENCHANTMENT)
                 .forEquipment(allWeapons)
                 .setMaxRank(5)
                 .withEffect(ENCHANTMENT_LEVELS, AddEnchantmentLevels.rankLinear(enchantments.getOrThrow(Enchantments.LOOTING)))
-                .effectIcon(luckOverlay(LTXIItems.LTX_SWORD))
+                .effectIcon(luckOverlay(LTXIItems.EPSILON_SWORD))
                 .category("enchants")
                 .register(context);
         Upgrade.builder(AMMO_SCAVENGER_ENCHANTMENT)

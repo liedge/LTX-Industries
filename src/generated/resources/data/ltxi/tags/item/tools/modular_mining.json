@@ -1,8 +1,8 @@
 {
   "values": [
-    "ltxi:ltx_drill",
-    "ltxi:ltx_shovel",
-    "ltxi:ltx_axe",
-    "ltxi:ltx_hoe"
+    "ltxi:epsilon_drill",
+    "ltxi:epsilon_shovel",
+    "ltxi:epsilon_axe",
+    "ltxi:epsilon_hoe"
   ]
 }

@@ -165,16 +165,16 @@ class LanguageGen extends LimaLanguageProvider
         addItem(LEAD_ORE_PEBBLES, "Lead Ore Pebbles");
         addItem(SILVER_ORE_PEBBLES, "Silver Ore Pebbles");
         addItem(URANIUM_ORE_PEBBLES, "Uranium Ore Pebbles");
-        addItem(LTX_DRILL, "ε-Series Drill");
-        addItem(LTX_SWORD, "ε-Series Sword");
-        addItem(LTX_SHOVEL, "ε-Series Shovel");
-        addItem(LTX_AXE, "ε-Series Axe");
-        addItem(LTX_HOE, "ε-Series Hoe");
-        addItem(LTX_SHEARS, "ε-Series Shears");
-        addItem(LTX_BRUSH, "ε-Series Brush");
-        addItem(LTX_FISHING_ROD, "ε-Series Fishing Rod");
-        addItem(LTX_LIGHTER, "ε-Series Lighter");
-        addItem(LTX_WRENCH, "ε-Series Wrench");
+        addItem(EPSILON_DRILL, "ε-Series Drill");
+        addItem(EPSILON_SWORD, "ε-Series Sword");
+        addItem(EPSILON_SHOVEL, "ε-Series Shovel");
+        addItem(EPSILON_AXE, "ε-Series Axe");
+        addItem(EPSILON_HOE, "ε-Series Hoe");
+        addItem(EPSILON_SHEARS, "ε-Series Shears");
+        addItem(EPSILON_BRUSH, "ε-Series Brush");
+        addItem(EPSILON_FISHING_ROD, "ε-Series Fishing Rod");
+        addItem(EPSILON_LIGHTER, "ε-Series Lighter");
+        addItem(EPSILON_WRENCH, "ε-Series Wrench");
         addItem(WONDERLAND_HEAD, italicName("%s AL/1C Seg.H", "Wonderland"));
         addItem(WONDERLAND_BODY, italicName("%s AL/1C Seg.B", "Wonderland"));
         addItem(WONDERLAND_LEGS, italicName("%s AL/1C Seg.L", "Wonderland"));
@@ -203,10 +203,10 @@ class LanguageGen extends LimaLanguageProvider
 
         //#region Equipment upgrades
         add(TOOL_DEFAULT_UPGRADE_TITLE, "ε Core Systems");
-        upgradeDescOnly(LTXIEquipmentUpgrades.LTX_SHOVEL_DEFAULT, "Standard issue operating system. Tool energy cutter preserves topographical integrity.");
-        upgradeDescOnly(LTXIEquipmentUpgrades.LTX_WRENCH_DEFAULT, "Standard issue operating system. Enables lossless dismantling and retrieval of machines.");
-        upgradeDescOnly(LTXIEquipmentUpgrades.LTX_MELEE_DEFAULT, "Standard issue operating system. Tool energy blade is optimized for efficient severing and disintegration of organic matter.");
-        upgradeTooltip(LTXIEquipmentUpgrades.LTX_MELEE_DEFAULT, 0, "%s bonus damage against unarmored targets");
+        upgradeDescOnly(LTXIEquipmentUpgrades.EPSILON_SHOVEL_DEFAULT, "Standard issue operating system. Tool energy cutter preserves topographical integrity.");
+        upgradeDescOnly(LTXIEquipmentUpgrades.EPSILON_WRENCH_DEFAULT, "Standard issue operating system. Enables lossless dismantling and retrieval of machines.");
+        upgradeDescOnly(LTXIEquipmentUpgrades.EPSILON_MELEE_DEFAULT, "Standard issue operating system. Tool energy blade is optimized for efficient severing and disintegration of organic matter.");
+        upgradeTooltip(LTXIEquipmentUpgrades.EPSILON_MELEE_DEFAULT, 0, "%s bonus damage against unarmored targets");
         upgrade(LTXIEquipmentUpgrades.GLOWSTICK_LAUNCHER_DEFAULT, "Wayfinder Intrinsics", "Wayfinder's energy feed system ships pre-configured to use Common Energy.");
         upgrade(LTXIEquipmentUpgrades.SUBMACHINE_GUN_DEFAULT, "Serenity Intrinsics", "Serenity's small lightfrags zip right through targets without a trace.");
         upgradeTooltip(LTXIEquipmentUpgrades.SUBMACHINE_GUN_DEFAULT, 0, "No anger and knockback on damage");

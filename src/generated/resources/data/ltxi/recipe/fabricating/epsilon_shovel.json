@@ -1,0 +1,34 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 1000000,
+  "group": "ltx/tool",
+  "item_inputs": [
+    {
+      "ingredient": "ltxi:t3_circuit"
+    },
+    {
+      "count": 8,
+      "ingredient": "ltxi:titanium_ingot"
+    },
+    {
+      "count": 2,
+      "ingredient": "ltxi:polymer_ingot"
+    },
+    {
+      "ingredient": "ltxi:slatesteel_gear"
+    },
+    {
+      "count": 2,
+      "ingredient": "ltxi:ltx_lime_pigment"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:upgrades": {
+        "ltxi:default/epsilon_shovel": 1
+      }
+    },
+    "count": 1,
+    "id": "ltxi:epsilon_shovel"
+  }
+}

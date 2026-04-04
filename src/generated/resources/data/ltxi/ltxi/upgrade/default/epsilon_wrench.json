@@ -1,0 +1,34 @@
+{
+  "display": {
+    "category": "default/tool",
+    "description": {
+      "translate": "upgrade.ltxi.default.epsilon_wrench.desc"
+    },
+    "icon": {
+      "type": "overlay",
+      "background": {
+        "type": "item_stack",
+        "item": {
+          "id": "ltxi:epsilon_wrench"
+        }
+      },
+      "height": 7,
+      "overlay": "ltxi:default_overlay",
+      "width": 7,
+      "x_offset": 8,
+      "y_offset": 8
+    },
+    "title": {
+      "color": "#9DF143",
+      "translate": "equipment_upgrade.ltxi.tool_default"
+    }
+  },
+  "effects": {
+    "ltxi:capture_block_drops": [
+      "#ltxi:wrench_breakable"
+    ]
+  },
+  "users": {
+    "items": "ltxi:epsilon_wrench"
+  }
+}

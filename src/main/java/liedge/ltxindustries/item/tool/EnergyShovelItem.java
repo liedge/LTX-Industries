@@ -40,7 +40,7 @@ public class EnergyShovelItem extends ModularEnergyMiningItem
     @Override
     public @Nullable ResourceKey<Upgrade> getDefaultUpgradeKey()
     {
-        return LTXIEquipmentUpgrades.LTX_SHOVEL_DEFAULT;
+        return LTXIEquipmentUpgrades.EPSILON_SHOVEL_DEFAULT;
     }
 
     @Override

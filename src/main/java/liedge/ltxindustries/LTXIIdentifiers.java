@@ -8,16 +8,16 @@ public final class LTXIIdentifiers
     private LTXIIdentifiers() {}
 
     //#region Items
-    public static final String ID_LTX_DRILL = "ltx_drill";
-    public static final String ID_LTX_SWORD = "ltx_sword";
-    public static final String ID_LTX_SHOVEL = "ltx_shovel";
-    public static final String ID_LTX_AXE = "ltx_axe";
-    public static final String ID_LTX_HOE = "ltx_hoe";
-    public static final String ID_LTX_WRENCH = "ltx_wrench";
-    public static final String ID_LTX_SHEARS = "ltx_shears";
-    public static final String ID_LTX_BRUSH = "ltx_brush";
-    public static final String ID_LTX_FISHING_ROD = "ltx_fishing_rod";
-    public static final String ID_LTX_LIGHTER = "ltx_lighter";
+    public static final String ID_EPSILON_DRILL = "epsilon_drill";
+    public static final String ID_EPSILON_SWORD = "epsilon_sword";
+    public static final String ID_EPSILON_SHOVEL = "epsilon_shovel";
+    public static final String ID_EPSILON_AXE = "epsilon_axe";
+    public static final String ID_EPSILON_HOE = "epsilon_hoe";
+    public static final String ID_EPSILON_WRENCH = "epsilon_wrench";
+    public static final String ID_EPSILON_SHEARS = "epsilon_shears";
+    public static final String ID_EPSILON_BRUSH = "epsilon_brush";
+    public static final String ID_EPSILON_FISHING_ROD = "epsilon_fishing_rod";
+    public static final String ID_EPSILON_LIGHTER = "epsilon_lighter";
 
     public static final String ID_WONDERLAND_HEAD = "wonderland_head";
     public static final String ID_WONDERLAND_BODY = "wonderland_body";
