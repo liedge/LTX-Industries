@@ -2,11 +2,11 @@ package liedge.ltxindustries.client.renderer.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import liedge.limacore.client.model.StaticQuads;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.blockentity.ElectroCentrifugeBlockEntity;
 import liedge.ltxindustries.client.LTXIRenderer;
 import liedge.ltxindustries.client.model.LTXIModelPartKeys;
-import liedge.ltxindustries.client.model.StandaloneQuads;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
@@ -31,12 +31,12 @@ public class ElectroCentrifugeRenderer extends MachineRenderer<ElectroCentrifuge
             boltPoint(11, 5)
     };
 
-    private final StandaloneQuads tubes;
+    private final StaticQuads tubes;
 
     public ElectroCentrifugeRenderer(BlockEntityRendererProvider.Context context)
     {
         super(context);
-        this.tubes = StandaloneQuads.get(LTXIModelPartKeys.ELECTROCENTRIFUGE_TUBES);
+        this.tubes = StaticQuads.get(LTXIModelPartKeys.ELECTROCENTRIFUGE_TUBES);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class ElectroCentrifugeRenderer extends MachineRenderer<ElectroCentrifuge
         poseStack.mulPose(Axis.YP.rotationDegrees(renderState.machineSpin));
         poseStack.translate(-0.5f, 0, -0.5f);
 
-        tubes.render(poseStack, nodeCollector, renderState.lightCoords);
+        tubes.submit(poseStack, nodeCollector, renderState.lightCoords);
 
         poseStack.translate(0f, 0.625f, 0f);
 

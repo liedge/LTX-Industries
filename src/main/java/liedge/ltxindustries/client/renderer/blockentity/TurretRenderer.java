@@ -2,8 +2,8 @@ package liedge.ltxindustries.client.renderer.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import liedge.limacore.client.model.StaticQuads;
 import liedge.ltxindustries.blockentity.turret.TurretBlockEntity;
-import liedge.ltxindustries.client.model.StandaloneQuads;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
@@ -16,23 +16,23 @@ import org.jspecify.annotations.Nullable;
 
 public abstract class TurretRenderer<BE extends TurretBlockEntity> implements BlockEntityRenderer<BE, TurretRenderState>
 {
-    private final StandaloneQuads swivelModel;
-    private final StandaloneQuads weaponsModel;
+    private final StaticQuads swivelModel;
+    private final StaticQuads weaponsModel;
 
-    TurretRenderer(BlockEntityRendererProvider.Context context, StandaloneModelKey<StandaloneQuads> swivelKey, StandaloneModelKey<StandaloneQuads> weaponsKey)
+    TurretRenderer(BlockEntityRendererProvider.Context context, StandaloneModelKey<StaticQuads> swivelKey, StandaloneModelKey<StaticQuads> weaponsKey)
     {
-        this.swivelModel = StandaloneQuads.get(swivelKey);
-        this.weaponsModel = StandaloneQuads.get(weaponsKey);
+        this.swivelModel = StaticQuads.get(swivelKey);
+        this.weaponsModel = StaticQuads.get(weaponsKey);
     }
 
     protected void submitSwivel(TurretRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState)
     {
-        swivelModel.render(poseStack, nodeCollector, renderState.lightCoords);
+        swivelModel.submit(poseStack, nodeCollector, renderState.lightCoords);
     }
 
     protected void submitWeapons(TurretRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState)
     {
-        weaponsModel.render(poseStack, nodeCollector, renderState.lightCoords);
+        weaponsModel.submit(poseStack, nodeCollector, renderState.lightCoords);
     }
 
     protected abstract float yPivot();
