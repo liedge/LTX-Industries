@@ -31,7 +31,7 @@ public final class LTXICreativeTabs
     }
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MAIN_TAB = TABS.register("main", id -> LimaItemUtil.tabBuilderWithTitle(id)
-            .icon(() -> LTXIItems.GRENADE_LAUNCHER.get().createDecorativeStack(GrenadeType.ELECTRIC))
+            .icon(() -> LTXIItems.HANABI.get().createDecorativeStack(GrenadeType.ELECTRIC))
             .displayItems((parameters, output) -> buildMainTab(id, parameters, output))
             .build());
 

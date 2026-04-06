@@ -102,10 +102,10 @@ public class LTXIndustriesClient
             event.registerItem(BlueprintClientItem.INSTANCE, LTXIItems.FABRICATION_BLUEPRINT);
             event.registerItem(MiningToolClientItem.INSTANCE, LTXIItems.EPSILON_DRILL, LTXIItems.EPSILON_SHOVEL, LTXIItems.EPSILON_AXE, LTXIItems.EPSILON_HOE);
 
-            event.registerItem(new WeaponClientItem(CrosshairRenderer.bracketsWithHollowDot()), LTXIItems.GLOWSTICK_LAUNCHER);
-            event.registerItem(new WeaponClientItem(CrosshairRenderer.circleBrackets()), LTXIItems.SHOTGUN);
-            event.registerItem(new WeaponClientItem(CrosshairRenderer.aoeRing(0.2f)), LTXIItems.GRENADE_LAUNCHER);
-            event.registerItem(new WeaponClientItem(CrosshairRenderer.aoeRing(0.1f)), LTXIItems.ROCKET_LAUNCHER);
+            event.registerItem(new WeaponClientItem(CrosshairRenderer.bracketsWithHollowDot()), LTXIItems.WAYFINDER);
+            event.registerItem(new WeaponClientItem(CrosshairRenderer.circleBrackets()), LTXIItems.AURORA);
+            event.registerItem(new WeaponClientItem(CrosshairRenderer.aoeRing(0.2f)), LTXIItems.HANABI);
+            event.registerItem(new WeaponClientItem(CrosshairRenderer.aoeRing(0.1f)), LTXIItems.DAYBREAK);
 
             //event.registerItem(LTXIItemRenderers.SUBMACHINE_GUN, LTXIItems.SUBMACHINE_GUN.get());
             //event.registerItem(LTXIItemRenderers.SHOTGUN, LTXIItems.SHOTGUN.get());

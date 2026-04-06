@@ -24,13 +24,13 @@ public final class LTXIIdentifiers
     public static final String ID_WONDERLAND_LEGS = "wonderland_legs";
     public static final String ID_WONDERLAND_FEET = "wonderland_feet";
 
-    public static final String ID_GLOWSTICK_LAUNCHER = "glowstick_launcher";
-    public static final String ID_SUBMACHINE_GUN = "submachine_gun";
-    public static final String ID_SHOTGUN = "shotgun";
-    public static final String ID_GRENADE_LAUNCHER = "grenade_launcher";
-    public static final String ID_LINEAR_FUSION_RIFLE = "linear_fusion_rifle";
-    public static final String ID_ROCKET_LAUNCHER = "rocket_launcher";
-    public static final String ID_HEAVY_PISTOL = "heavy_pistol";
+    public static final String ID_WAYFINDER = "wayfinder";
+    public static final String ID_SERENITY = "serenity";
+    public static final String ID_AURORA = "aurora";
+    public static final String ID_HANABI = "hanabi";
+    public static final String ID_STARGAZER = "stargazer";
+    public static final String ID_DAYBREAK = "daybreak";
+    public static final String ID_NOVA = "nova";
     //#endregion
 
     // Machines (for shared menus, block entity type, block, etc.)

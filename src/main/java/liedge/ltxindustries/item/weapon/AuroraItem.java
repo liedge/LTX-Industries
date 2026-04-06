@@ -21,9 +21,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
-public class ShotgunItem extends SemiAutoWeaponItem
+public class AuroraItem extends SemiAutoWeaponItem
 {
-    public ShotgunItem(Properties properties)
+    public AuroraItem(Properties properties)
     {
         super(properties, 5, 10d, 40, LTXIItems.SPECIALIST_WEAPON_ENERGY, 5, 0.33d);
     }
@@ -31,7 +31,7 @@ public class ShotgunItem extends SemiAutoWeaponItem
     @Override
     public @Nullable ResourceKey<Upgrade> getDefaultUpgradeKey()
     {
-        return LTXIEquipmentUpgrades.SHOTGUN_DEFAULT;
+        return LTXIEquipmentUpgrades.AURORA_DEFAULT;
     }
 
     @Override
@@ -56,7 +56,7 @@ public class ShotgunItem extends SemiAutoWeaponItem
                 sendTracerParticle(level, hitResult.origin(), hitResult.impactLocation());
             }
 
-            final double basePelletDamage = LTXIWeaponsConfig.SHOTGUN_BASE_PELLET_DAMAGE.getAsDouble();
+            final double basePelletDamage = LTXIWeaponsConfig.AURORA_BASE_DAMAGE.getAsDouble();
             pelletHits.forEach((hitEntity, pellets) -> causeLightfragDamage(serverLevel, hitEntity, player, heldItem, basePelletDamage * pellets));
             level.gameEvent(player, LTXIGameEvents.WEAPON_FIRED, player.getEyePosition());
         }

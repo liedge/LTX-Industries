@@ -22,11 +22,11 @@
   ],
   "result": {
     "components": {
-      "ltxi:equipment_upgrades": {
-        "ltxi:default/shotgun": 1
+      "ltxi:upgrades": {
+        "ltxi:default/aurora": 1
       }
     },
     "count": 1,
-    "id": "ltxi:shotgun"
+    "id": "ltxi:aurora"
   }
 }

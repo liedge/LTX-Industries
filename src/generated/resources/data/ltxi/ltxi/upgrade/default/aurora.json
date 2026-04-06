@@ -2,14 +2,14 @@
   "display": {
     "category": "default/weapon",
     "description": {
-      "translate": "upgrade.ltxi.default.shotgun.desc"
+      "translate": "upgrade.ltxi.default.aurora.desc"
     },
     "icon": {
       "type": "overlay",
       "background": {
         "type": "item_stack",
         "item": {
-          "id": "ltxi:shotgun"
+          "id": "ltxi:aurora"
         }
       },
       "height": 7,
@@ -19,7 +19,7 @@
       "y_offset": 8
     },
     "title": {
-      "translate": "upgrade.ltxi.default.shotgun"
+      "translate": "upgrade.ltxi.default.aurora"
     }
   },
   "effects": {
@@ -28,7 +28,7 @@
         "attribute": "minecraft:knockback_resistance",
         "modifier": {
           "amount": -0.5,
-          "id": "ltxi:default/shotgun.knockback_resist",
+          "id": "ltxi:default/aurora.knockback_resist",
           "operation": "add_multiplied_total"
         }
       },
@@ -36,7 +36,7 @@
         "attribute": "limacore:knockback_multiplier",
         "modifier": {
           "amount": 0.5,
-          "id": "ltxi:default/shotgun.knockback",
+          "id": "ltxi:default/aurora.knockback",
           "operation": "add_value"
         }
       }
@@ -46,7 +46,7 @@
         "attribute": "minecraft:movement_speed",
         "modifier": {
           "amount": 0.25,
-          "id": "ltxi:default/shotgun.speed",
+          "id": "ltxi:default/aurora.speed",
           "operation": "add_multiplied_base"
         },
         "slots": "mainhand"
@@ -55,7 +55,7 @@
         "attribute": "minecraft:step_height",
         "modifier": {
           "amount": 1.0,
-          "id": "ltxi:default/shotgun.step_height",
+          "id": "ltxi:default/aurora.step_height",
           "operation": "add_value"
         },
         "slots": "mainhand"
@@ -64,7 +64,7 @@
         "attribute": "minecraft:safe_fall_distance",
         "modifier": {
           "amount": 3.0,
-          "id": "ltxi:default/shotgun.safe_fall_dist",
+          "id": "ltxi:default/aurora.safe_fall_dist",
           "operation": "add_value"
         },
         "slots": "mainhand"
@@ -72,6 +72,6 @@
     ]
   },
   "users": {
-    "items": "ltxi:shotgun"
+    "items": "ltxi:aurora"
   }
 }

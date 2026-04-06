@@ -8,13 +8,13 @@
     },
     {
       "consume_chance": 0.0,
-      "ingredient": "ltxi:submachine_gun"
+      "ingredient": "ltxi:aurora"
     }
   ],
   "result": {
     "components": {
       "ltxi:upgrade": {
-        "upgrade": "ltxi:default/submachine_gun"
+        "upgrade": "ltxi:default/aurora"
       }
     },
     "count": 1,

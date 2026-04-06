@@ -8,7 +8,7 @@
       "background": {
         "type": "item_stack",
         "item": {
-          "id": "ltxi:heavy_pistol"
+          "id": "ltxi:nova"
         }
       },
       "height": 9,
@@ -68,6 +68,6 @@
     ]
   },
   "users": {
-    "items": "ltxi:heavy_pistol"
+    "items": "ltxi:nova"
   }
 }

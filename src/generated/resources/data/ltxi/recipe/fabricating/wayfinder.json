@@ -22,11 +22,11 @@
   ],
   "result": {
     "components": {
-      "ltxi:equipment_upgrades": {
-        "ltxi:default/glowstick_launcher": 1
+      "ltxi:upgrades": {
+        "ltxi:default/wayfinder": 1
       }
     },
     "count": 1,
-    "id": "ltxi:glowstick_launcher"
+    "id": "ltxi:wayfinder"
   }
 }

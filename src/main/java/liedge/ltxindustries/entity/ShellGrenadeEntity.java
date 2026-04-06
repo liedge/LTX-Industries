@@ -181,7 +181,7 @@ public class ShellGrenadeEntity extends LTXIProjectileEntity implements IEntityW
 
             // Deal damage to entities
             final double baseDamage = getBaseDamage() * getDamageMultiplier(hitEntity);
-            LTXIItems.GRENADE_LAUNCHER.get().causeProjectileDamage(level, hitEntity, this, owner, getDamageType(), getWeaponItem(),  baseDamage);
+            LTXIItems.HANABI.get().causeProjectileDamage(level, hitEntity, this, owner, getDamageType(), getWeaponItem(),  baseDamage);
 
             // Spawn any additional particle effects on hit entities (if applicable)
             spawnHitEntityParticles(level, hitLocation, hitEntity);

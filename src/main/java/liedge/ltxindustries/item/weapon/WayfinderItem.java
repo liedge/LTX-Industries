@@ -14,9 +14,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
-public class GlowstickLauncherItem extends SemiAutoWeaponItem
+public class WayfinderItem extends SemiAutoWeaponItem
 {
-    public GlowstickLauncherItem(Properties properties)
+    public WayfinderItem(Properties properties)
     {
         super(properties, 10, MAX_PROJECTILE_SPEED, 10, LTXIItems.LIGHTWEIGHT_WEAPON_ENERGY, 1, 0);
     }
@@ -24,7 +24,7 @@ public class GlowstickLauncherItem extends SemiAutoWeaponItem
     @Override
     public @Nullable ResourceKey<Upgrade> getDefaultUpgradeKey()
     {
-        return LTXIEquipmentUpgrades.GLOWSTICK_LAUNCHER_DEFAULT;
+        return LTXIEquipmentUpgrades.WAYFINDER_DEFAULT;
     }
 
     @Override

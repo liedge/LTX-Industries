@@ -5,28 +5,32 @@ import liedge.ltxindustries.lib.upgrades.Upgrade;
 import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
 import liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades;
 import liedge.ltxindustries.registry.game.LTXIItems;
-import liedge.ltxindustries.registry.game.LTXISounds;
 import liedge.ltxindustries.util.config.LTXIWeaponsConfig;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
-public class HeavyPistolItem extends SemiAutoWeaponItem
+public class SerenityItem extends FullAutoWeaponItem
 {
-    public HeavyPistolItem(Properties properties)
+    public SerenityItem(Properties properties)
     {
-        super(properties, 7, 25, 30, LTXIItems.HEAVY_WEAPON_ENERGY, 100, 1d);
+        super(properties, 45, 12.5d, 20, LTXIItems.LIGHTWEIGHT_WEAPON_ENERGY, 1, 0);
     }
 
     @Override
     public @Nullable ResourceKey<Upgrade> getDefaultUpgradeKey()
     {
-        return LTXIEquipmentUpgrades.HEAVY_PISTOL_DEFAULT;
+        return LTXIEquipmentUpgrades.SERENITY_DEFAULT;
+    }
+
+    @Override
+    public boolean isOneHanded(ItemStack stack)
+    {
+        return true;
     }
 
     @Override
@@ -34,16 +38,14 @@ public class HeavyPistolItem extends SemiAutoWeaponItem
     {
         if (level instanceof ServerLevel serverLevel)
         {
-            double inaccuracy = LimaEntityUtil.isEntityUsingItem(player, InteractionHand.MAIN_HAND) ? 0.15d : 2d;
-            traceLightfrag(serverLevel, player, heldItem, LTXIWeaponsConfig.HEAVY_PISTOL_BASE_DAMAGE.getAsDouble(), inaccuracy, 0.25d);
+            double inaccuracy = LimaEntityUtil.isEntityUsingItem(player, InteractionHand.MAIN_HAND) ? 0.25d : 4d;
+            traceLightfrag(serverLevel, player, heldItem, LTXIWeaponsConfig.SERENITY_BASE_DAMAGE.getAsDouble(), inaccuracy, 0.2d);
         }
-
-        level.playSound(player, player, LTXISounds.HEAVY_PISTOL_FIRE.get(), SoundSource.PLAYERS, 1.0f, 0.75f + (player.getRandom().nextFloat() * 0.2f));
     }
 
     @Override
     public int getFireRate(ItemStack stack)
     {
-        return 13;
+        return 0;
     }
 }

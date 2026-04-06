@@ -41,9 +41,9 @@ public final class UpgradeModuleClientItem implements ItemGuiRenderOverride
         if (maxRank > 1 && rank < maxRank)
         {
             graphics.nextStratum();
-            LimaGuiUtil.submitVerticalGradient(graphics, RenderPipelines.GUI, x + 1, y + 1, x + 3, y + 15, 0xff4a4a4a, -16777216);
+            LimaGuiUtil.fillVerticalGradient(graphics, RenderPipelines.GUI, x + 1, y + 1, x + 3, y + 15, 0xff4a4a4a, -16777216);
             float yo = 14f - 14f * LimaCoreMath.divideFloat(rank, maxRank);
-            LimaGuiUtil.submitVerticalGradient(graphics, RenderPipelines.GUI, x + 1, y + 1 + yo, x + 3, y + 15, LTXIConstants.UPGRADE_RANK_MAGENTA.argb32(), 0xffd13ff0);
+            LimaGuiUtil.fillVerticalGradient(graphics, RenderPipelines.GUI, x + 1, y + 1 + yo, x + 3, y + 15, LTXIConstants.UPGRADE_RANK_MAGENTA.argb32(), 0xffd13ff0);
         }
 
         return true;

@@ -23,11 +23,11 @@ import java.util.Optional;
 
 import static liedge.ltxindustries.registry.game.LTXIAttachmentTypes.INPUT_EXTENSIONS;
 
-public class RocketLauncherItem extends SemiAutoWeaponItem
+public class DaybreakItem extends SemiAutoWeaponItem
 {
     public static final int TARGET_LOCK_MIN_TICKS = 20;
 
-    public RocketLauncherItem(Properties properties)
+    public DaybreakItem(Properties properties)
     {
         super(properties, 2, 1.5d, 60, LTXIItems.EXPLOSIVES_WEAPON_ENERGY, 1, 0);
     }

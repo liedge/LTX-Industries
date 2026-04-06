@@ -14,9 +14,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
-public class LinearFusionRifleItem extends FullAutoWeaponItem
+public class StargazerItem extends FullAutoWeaponItem
 {
-    public LinearFusionRifleItem(Properties properties)
+    public StargazerItem(Properties properties)
     {
         super(properties, 5, 200, 40, LTXIItems.SPECIALIST_WEAPON_ENERGY, 2, 0.33d);
     }
@@ -24,7 +24,7 @@ public class LinearFusionRifleItem extends FullAutoWeaponItem
     @Override
     public @Nullable ResourceKey<Upgrade> getDefaultUpgradeKey()
     {
-        return LTXIEquipmentUpgrades.LFR_DEFAULT;
+        return LTXIEquipmentUpgrades.STARGAZER_DEFAULT;
     }
 
     @Override
@@ -61,7 +61,7 @@ public class LinearFusionRifleItem extends FullAutoWeaponItem
     {
         if (level instanceof ServerLevel serverLevel)
         {
-            traceLightfrag(serverLevel, player, heldItem, LTXIWeaponsConfig.LFR_BASE_DAMAGE.getAsDouble(), 0d, 0.125d);
+            traceLightfrag(serverLevel, player, heldItem, LTXIWeaponsConfig.STARGAZER_BASE_DAMAGE.getAsDouble(), 0d, 0.125d);
         }
 
         level.playSound(player, player, LTXISounds.LINEAR_FUSION_FIRE.get(), SoundSource.PLAYERS, 2f, 0.9f + (level.getRandom().nextFloat() * 0.125f));

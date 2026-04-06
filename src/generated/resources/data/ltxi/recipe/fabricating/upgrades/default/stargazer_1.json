@@ -8,13 +8,13 @@
     },
     {
       "consume_chance": 0.0,
-      "ingredient": "ltxi:linear_fusion_rifle"
+      "ingredient": "ltxi:stargazer"
     }
   ],
   "result": {
     "components": {
       "ltxi:upgrade": {
-        "upgrade": "ltxi:default/linear_fusion_rifle"
+        "upgrade": "ltxi:default/stargazer"
       }
     },
     "count": 1,

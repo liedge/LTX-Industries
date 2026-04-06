@@ -29,7 +29,7 @@ public class EquipmentRocketEntity extends BaseRocketEntity
     @Override
     protected void hurtTarget(ServerLevel level, Entity targetEntity, @Nullable LivingEntity owner, Vec3 hitLocation, boolean isDirectHit)
     {
-        double baseDamage = isDirectHit ? LTXIWeaponsConfig.ROCKET_LAUNCHER_BASE_IMPACT_DAMAGE.getAsDouble() : LTXIWeaponsConfig.ROCKET_LAUNCHER_BASE_SPLASH_DAMAGE.getAsDouble();
-        LTXIItems.ROCKET_LAUNCHER.get().causeProjectileDamage(level, targetEntity, this, owner, LTXIDamageTypes.EXPLOSIVE_WEAPON, getWeaponItem(), baseDamage);
+        double baseDamage = isDirectHit ? LTXIWeaponsConfig.DAYBREAK_BASE_IMPACT_DAMAGE.getAsDouble() : LTXIWeaponsConfig.DAYBREAK_BASE_SPLASH_DAMAGE.getAsDouble();
+        LTXIItems.DAYBREAK.get().causeProjectileDamage(level, targetEntity, this, owner, LTXIDamageTypes.EXPLOSIVE_WEAPON, getWeaponItem(), baseDamage);
     }
 }

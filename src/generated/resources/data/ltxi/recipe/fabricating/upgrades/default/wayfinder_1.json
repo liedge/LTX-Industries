@@ -8,13 +8,13 @@
     },
     {
       "consume_chance": 0.0,
-      "ingredient": "ltxi:heavy_pistol"
+      "ingredient": "ltxi:wayfinder"
     }
   ],
   "result": {
     "components": {
       "ltxi:upgrade": {
-        "upgrade": "ltxi:default/heavy_pistol"
+        "upgrade": "ltxi:default/wayfinder"
       }
     },
     "count": 1,

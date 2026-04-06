@@ -205,13 +205,13 @@ public final class LTXIItems
     public static final DeferredItem<IOConfigCardItem> FLUIDS_IO_CONFIG_CARD = ITEMS.registerItem("fluids_io_config_card", properties -> new IOConfigCardItem(properties, BlockEntityInputType.FLUIDS), properties -> properties.stacksTo(1));
 
     // Signature weapons
-    public static final DeferredItem<GlowstickLauncherItem> GLOWSTICK_LAUNCHER = registerLTXGear(LTXIIdentifiers.ID_GLOWSTICK_LAUNCHER, GlowstickLauncherItem::new);
-    public static final DeferredItem<SubmachineGunItem> SUBMACHINE_GUN = registerLTXGear(LTXIIdentifiers.ID_SUBMACHINE_GUN, SubmachineGunItem::new);
-    public static final DeferredItem<ShotgunItem> SHOTGUN = registerLTXGear(LTXIIdentifiers.ID_SHOTGUN, ShotgunItem::new);
-    public static final DeferredItem<GrenadeLauncherItem> GRENADE_LAUNCHER = registerLTXGear(LTXIIdentifiers.ID_GRENADE_LAUNCHER, GrenadeLauncherItem::new);
-    public static final DeferredItem<LinearFusionRifleItem> LINEAR_FUSION_RIFLE = registerLTXGear(LTXIIdentifiers.ID_LINEAR_FUSION_RIFLE, LinearFusionRifleItem::new);
-    public static final DeferredItem<RocketLauncherItem> ROCKET_LAUNCHER = registerLTXGear(LTXIIdentifiers.ID_ROCKET_LAUNCHER, RocketLauncherItem::new);
-    public static final DeferredItem<HeavyPistolItem> HEAVY_PISTOL = registerLTXGear(LTXIIdentifiers.ID_HEAVY_PISTOL, HeavyPistolItem::new);
+    public static final DeferredItem<WayfinderItem> WAYFINDER = registerLTXGear(LTXIIdentifiers.ID_WAYFINDER, WayfinderItem::new);
+    public static final DeferredItem<SerenityItem> SERENITY = registerLTXGear(LTXIIdentifiers.ID_SERENITY, SerenityItem::new);
+    public static final DeferredItem<AuroraItem> AURORA = registerLTXGear(LTXIIdentifiers.ID_AURORA, AuroraItem::new);
+    public static final DeferredItem<HanabiItem> HANABI = registerLTXGear(LTXIIdentifiers.ID_HANABI, HanabiItem::new);
+    public static final DeferredItem<StargazerItem> STARGAZER = registerLTXGear(LTXIIdentifiers.ID_STARGAZER, StargazerItem::new);
+    public static final DeferredItem<DaybreakItem> DAYBREAK = registerLTXGear(LTXIIdentifiers.ID_DAYBREAK, DaybreakItem::new);
+    public static final DeferredItem<NovaItem> NOVA = registerLTXGear(LTXIIdentifiers.ID_NOVA, NovaItem::new);
 
     // Weapon ammo items
     public static final DeferredItem<SimpleHintItem> LIGHTWEIGHT_WEAPON_ENERGY = registerSimpleHint("lightweight_weapon_energy");

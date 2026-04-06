@@ -180,7 +180,7 @@ public abstract class UpgradesConfigScreen<M extends UpgradesConfigMenu<?>> exte
                 rightColor = UPGRADE_RANK_MAGENTA.argb32();
             }
 
-            LimaGuiUtil.submitHorizontalGradient(graphics, RenderPipelines.GUI, posX + 21, posY + 15, posX + 21 + xo, posY + 19, leftColor, rightColor);
+            LimaGuiUtil.fillHorizontalGradient(graphics, RenderPipelines.GUI, posX + 21, posY + 15, posX + 21 + xo, posY + 19, leftColor, rightColor);
         }
 
         @Override

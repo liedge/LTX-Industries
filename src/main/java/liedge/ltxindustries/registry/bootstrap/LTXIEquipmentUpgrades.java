@@ -67,11 +67,11 @@ public final class LTXIEquipmentUpgrades
     public static final ResourceKey<Upgrade> EPSILON_SHOVEL_DEFAULT = defaultKey(ID_EPSILON_SHOVEL);
     public static final ResourceKey<Upgrade> EPSILON_WRENCH_DEFAULT = defaultKey(ID_EPSILON_WRENCH);
     public static final ResourceKey<Upgrade> EPSILON_MELEE_DEFAULT = defaultKey("epsilon_melee");
-    public static final ResourceKey<Upgrade> GLOWSTICK_LAUNCHER_DEFAULT = defaultKey(ID_GLOWSTICK_LAUNCHER);
-    public static final ResourceKey<Upgrade> SUBMACHINE_GUN_DEFAULT = defaultKey(ID_SUBMACHINE_GUN);
-    public static final ResourceKey<Upgrade> SHOTGUN_DEFAULT = defaultKey(ID_SHOTGUN);
-    public static final ResourceKey<Upgrade> LFR_DEFAULT = defaultKey(ID_LINEAR_FUSION_RIFLE);
-    public static final ResourceKey<Upgrade> HEAVY_PISTOL_DEFAULT = defaultKey(ID_HEAVY_PISTOL);
+    public static final ResourceKey<Upgrade> WAYFINDER_DEFAULT = defaultKey(ID_WAYFINDER);
+    public static final ResourceKey<Upgrade> SERENITY_DEFAULT = defaultKey(ID_SERENITY);
+    public static final ResourceKey<Upgrade> AURORA_DEFAULT = defaultKey(ID_AURORA);
+    public static final ResourceKey<Upgrade> STARGAZER_DEFAULT = defaultKey(ID_STARGAZER);
+    public static final ResourceKey<Upgrade> NOVA_DEFAULT = defaultKey(ID_NOVA);
     public static final ResourceKey<Upgrade> HEAD_DEFAULT = defaultKey(ID_WONDERLAND_HEAD);
     public static final ResourceKey<Upgrade> BODY_DEFAULT = defaultKey(ID_WONDERLAND_BODY);
     public static final ResourceKey<Upgrade> LEGS_DEFAULT = defaultKey(ID_WONDERLAND_LEGS);
@@ -188,38 +188,38 @@ public final class LTXIEquipmentUpgrades
 
         ContextlessValue gslEnergyCap = ConstantDouble.of(50_000);
         ContextlessValue gslEnergyUse = ConstantDouble.of(5000);
-        Upgrade.builder(GLOWSTICK_LAUNCHER_DEFAULT)
-                .forEquipment(LTXIItems.GLOWSTICK_LAUNCHER)
+        Upgrade.builder(WAYFINDER_DEFAULT)
+                .forEquipment(LTXIItems.WAYFINDER)
                 .exclusiveWith(holders, RELOAD_SOURCE_MODIFIERS)
                 .withEffect(ENERGY_CAPACITY, ValueOperation.of(gslEnergyCap, MathOperation.REPLACE))
                 .withEffect(ENERGY_USAGE, ValueOperation.of(gslEnergyUse, MathOperation.REPLACE))
                 .withSpecialEffect(RELOAD_SOURCE, WeaponReloadSource.commonEnergy())
                 .tooltip(energyCapacityTooltip(gslEnergyCap, ValueFormat.FLAT_NUMBER, ValueSentiment.NEUTRAL))
                 .tooltip(energyUsageTooltip(gslEnergyUse, ValueFormat.FLAT_NUMBER, ValueSentiment.NEUTRAL))
-                .effectIcon(defaultModuleIcon(LTXIItems.GLOWSTICK_LAUNCHER))
+                .effectIcon(defaultModuleIcon(LTXIItems.WAYFINDER))
                 .category("default/weapon")
                 .register(context);
-        Upgrade.builder(SUBMACHINE_GUN_DEFAULT)
-                .forEquipment(LTXIItems.SUBMACHINE_GUN)
+        Upgrade.builder(SERENITY_DEFAULT)
+                .forEquipment(LTXIItems.SERENITY)
                 .withEffect(SUPPRESS_VIBRATIONS, SuppressVibrations.mainHand(gameEvents.getOrThrow(LTXITags.GameEvents.WEAPON_VIBRATIONS)))
                 .withEffect(EXTRA_DAMAGE_TAGS, DamageTypeTags.NO_ANGER)
                 .withEffect(EXTRA_DAMAGE_TAGS, DamageTypeTags.NO_KNOCKBACK)
                 .staticTooltip(0)
-                .effectIcon(defaultModuleIcon(LTXIItems.SUBMACHINE_GUN))
+                .effectIcon(defaultModuleIcon(LTXIItems.SERENITY))
                 .category("default/weapon")
                 .register(context);
-        Upgrade.builder(SHOTGUN_DEFAULT)
-                .forEquipment(LTXIItems.SHOTGUN)
+        Upgrade.builder(AURORA_DEFAULT)
+                .forEquipment(LTXIItems.AURORA)
                 .itemAttributes(Attributes.MOVEMENT_SPEED, "speed", LevelBasedValue.constant(0.25f), AttributeModifier.Operation.ADD_MULTIPLIED_BASE, EquipmentSlotGroup.MAINHAND)
                 .itemAttributes(Attributes.STEP_HEIGHT, "step_height", LevelBasedValue.constant(1), AttributeModifier.Operation.ADD_VALUE, EquipmentSlotGroup.MAINHAND)
                 .itemAttributes(Attributes.SAFE_FALL_DISTANCE, "safe_fall_dist", LevelBasedValue.constant(3), AttributeModifier.Operation.ADD_VALUE, EquipmentSlotGroup.MAINHAND)
                 .damageAttributes(Attributes.KNOCKBACK_RESISTANCE, "knockback_resist", LevelBasedValue.constant(-0.5f), AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)
                 .damageAttributes(LimaCoreAttributes.KNOCKBACK_MULTIPLIER, "knockback", LevelBasedValue.constant(0.5f), AttributeModifier.Operation.ADD_VALUE)
-                .effectIcon(defaultModuleIcon(LTXIItems.SHOTGUN))
+                .effectIcon(defaultModuleIcon(LTXIItems.AURORA))
                 .category("default/weapon")
                 .register(context);
-        Upgrade.builder(LFR_DEFAULT)
-                .forEquipment(LTXIItems.LINEAR_FUSION_RIFLE)
+        Upgrade.builder(STARGAZER_DEFAULT)
+                .forEquipment(LTXIItems.STARGAZER)
                 .withConditionalEffect(EQUIPMENT_DAMAGE, ValueOperation.of(TargetDistanceCurve.of(ConstantDouble.of(30), ConstantDouble.of(50), ConstantDouble.of(50)), MathOperation.ADD))
                 .withConditionalEffect(EQUIPMENT_DAMAGE, ValueOperation.of(ConstantDouble.of(0.15d), MathOperation.ADD_PERCENT_OF_TOTAL),
                         LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.ATTACKER, EntityPredicate.Builder.entity()
@@ -230,14 +230,14 @@ public final class LTXIEquipmentUpgrades
                         ValueComponent.of(ConstantDouble.of(30), ValueFormat.FLAT_NUMBER, ValueSentiment.NEUTRAL),
                         ValueComponent.of(ConstantDouble.of(50), ValueFormat.FLAT_NUMBER, ValueSentiment.POSITIVE)))
                 .tooltip(1, key -> TranslatableTooltip.create(key, ValueComponent.of(ConstantDouble.of(0.15d), ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE)))
-                .effectIcon(defaultModuleIcon(LTXIItems.LINEAR_FUSION_RIFLE))
+                .effectIcon(defaultModuleIcon(LTXIItems.STARGAZER))
                 .category("default/weapon")
                 .register(context);
-        Upgrade.builder(HEAVY_PISTOL_DEFAULT)
-                .forEquipment(LTXIItems.HEAVY_PISTOL)
+        Upgrade.builder(NOVA_DEFAULT)
+                .forEquipment(LTXIItems.NOVA)
                 .damageAttributes(Attributes.KNOCKBACK_RESISTANCE, "knockback_resist", LevelBasedValue.constant(-1), AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)
                 .damageAttributes(LimaCoreAttributes.KNOCKBACK_MULTIPLIER, "knockback", LevelBasedValue.constant(2f), AttributeModifier.Operation.ADD_VALUE)
-                .effectIcon(defaultModuleIcon(LTXIItems.HEAVY_PISTOL))
+                .effectIcon(defaultModuleIcon(LTXIItems.NOVA))
                 .category("default/weapon")
                 .register(context);
 
@@ -335,16 +335,16 @@ public final class LTXIEquipmentUpgrades
 
         // Weapon-specific upgrades
         Upgrade.builder(HEAVY_PISTOL_GOD_ROUNDS)
-                .forEquipment(LTXIItems.HEAVY_PISTOL)
+                .forEquipment(LTXIItems.NOVA)
                 .withEffect(EXTRA_DAMAGE_TAGS, LTXITags.DamageTypes.BYPASS_SURVIVAL_DEFENSES)
                 .withConditionalEffect(EQUIPMENT_DAMAGE, ValueOperation.of(ValueMathOperation.of(EntityAttributeValue.totalValue(LootContext.EntityTarget.THIS, Attributes.MAX_HEALTH), ConstantValue.exactly(0.25f), MathOperation.MULTIPLY), MathOperation.ADD))
                 .tooltip(TranslatableTooltip.create(LTXILangKeys.ATTRIBUTE_SCALED_DAMAGE_UPGRADE,
                         ValueComponent.of(ConstantDouble.of(0.25d), ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE),
                         StaticTooltip.of(Component.translatable(Attributes.MAX_HEALTH.value().getDescriptionId()).withStyle(ChatFormatting.DARK_RED))))
-                .effectIcon(plusOverlay(itemIcon(LTXIItems.HEAVY_PISTOL)))
+                .effectIcon(plusOverlay(itemIcon(LTXIItems.NOVA)))
                 .register(context);
         Upgrade.builder(GRENADE_LAUNCHER_PROJECTILE_SPEED)
-                .forEquipment(LTXIItems.GRENADE_LAUNCHER)
+                .forEquipment(LTXIItems.HANABI)
                 .setMaxRank(2)
                 .withEffect(WEAPON_RANGE, ValueOperation.of(LinearDouble.linearIncrement(0.5d), MathOperation.ADD))
                 .tooltip(TranslatableTooltip.create(LTXILangKeys.PROJECTILE_SPEED_UPGRADE, ValueComponent.of(LinearDouble.linearIncrement(0.5d), ValueFormat.SIGNED_FLAT_NUMBER, ValueSentiment.POSITIVE)))
@@ -535,37 +535,37 @@ public final class LTXIEquipmentUpgrades
 
         // Hanabi grenade cores
         Upgrade.builder(FLAME_GRENADE_CORE)
-                .forEquipment(LTXIItems.GRENADE_LAUNCHER)
+                .forEquipment(LTXIItems.HANABI)
                 .withEffect(GRENADE_UNLOCK, GrenadeType.FLAME)
                 .effectIcon(sprite("flame_grenade_core"))
                 .category("grenade_cores")
                 .register(context);
         Upgrade.builder(CRYO_GRENADE_CORE)
-                .forEquipment(LTXIItems.GRENADE_LAUNCHER)
+                .forEquipment(LTXIItems.HANABI)
                 .withEffect(GRENADE_UNLOCK, GrenadeType.CRYO)
                 .effectIcon(sprite("cryo_grenade_core"))
                 .category("grenade_cores")
                 .register(context);
         Upgrade.builder(ELECTRIC_GRENADE_CORE)
-                .forEquipment(LTXIItems.GRENADE_LAUNCHER)
+                .forEquipment(LTXIItems.HANABI)
                 .withEffect(GRENADE_UNLOCK, GrenadeType.ELECTRIC)
                 .effectIcon(sprite("electric_grenade_core"))
                 .category("grenade_cores")
                 .register(context);
         Upgrade.builder(ACID_GRENADE_CORE)
-                .forEquipment(LTXIItems.GRENADE_LAUNCHER)
+                .forEquipment(LTXIItems.HANABI)
                 .withEffect(GRENADE_UNLOCK, GrenadeType.ACID)
                 .effectIcon(sprite("acid_grenade_core"))
                 .category("grenade_cores")
                 .register(context);
         Upgrade.builder(NEURO_GRENADE_CORE)
-                .forEquipment(LTXIItems.GRENADE_LAUNCHER)
+                .forEquipment(LTXIItems.HANABI)
                 .withEffect(GRENADE_UNLOCK, GrenadeType.NEURO)
                 .effectIcon(sprite("neuro_grenade_core"))
                 .category("grenade_cores")
                 .register(context);
         Upgrade.builder(OMNI_GRENADE_CORE)
-                .forEquipment(LTXIItems.GRENADE_LAUNCHER)
+                .forEquipment(LTXIItems.HANABI)
                 .withEffect(GRENADE_UNLOCK, GrenadeType.FLAME)
                 .withEffect(GRENADE_UNLOCK, GrenadeType.CRYO)
                 .withEffect(GRENADE_UNLOCK, GrenadeType.ELECTRIC)

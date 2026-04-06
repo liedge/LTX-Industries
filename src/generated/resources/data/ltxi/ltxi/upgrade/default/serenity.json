@@ -2,14 +2,14 @@
   "display": {
     "category": "default/weapon",
     "description": {
-      "translate": "upgrade.ltxi.default.submachine_gun.desc"
+      "translate": "upgrade.ltxi.default.serenity.desc"
     },
     "icon": {
       "type": "overlay",
       "background": {
         "type": "item_stack",
         "item": {
-          "id": "ltxi:submachine_gun"
+          "id": "ltxi:serenity"
         }
       },
       "height": 7,
@@ -19,13 +19,13 @@
       "y_offset": 8
     },
     "title": {
-      "translate": "upgrade.ltxi.default.submachine_gun"
+      "translate": "upgrade.ltxi.default.serenity"
     },
     "tooltips": [
       {
         "type": "static",
         "tooltip": {
-          "translate": "upgrade.ltxi.default.submachine_gun.tooltip0"
+          "translate": "upgrade.ltxi.default.serenity.tooltip0"
         }
       }
     ]
@@ -43,6 +43,6 @@
     ]
   },
   "users": {
-    "items": "ltxi:submachine_gun"
+    "items": "ltxi:serenity"
   }
 }

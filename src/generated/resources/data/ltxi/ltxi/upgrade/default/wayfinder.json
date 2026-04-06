@@ -2,14 +2,14 @@
   "display": {
     "category": "default/weapon",
     "description": {
-      "translate": "upgrade.ltxi.default.glowstick_launcher.desc"
+      "translate": "upgrade.ltxi.default.wayfinder.desc"
     },
     "icon": {
       "type": "overlay",
       "background": {
         "type": "item_stack",
         "item": {
-          "id": "ltxi:glowstick_launcher"
+          "id": "ltxi:wayfinder"
         }
       },
       "height": 7,
@@ -19,7 +19,7 @@
       "y_offset": 8
     },
     "title": {
-      "translate": "upgrade.ltxi.default.glowstick_launcher"
+      "translate": "upgrade.ltxi.default.wayfinder"
     },
     "tooltips": [
       {
@@ -71,6 +71,6 @@
   },
   "exclusive_set": "#ltxi:reload_source_modifiers",
   "users": {
-    "items": "ltxi:glowstick_launcher"
+    "items": "ltxi:wayfinder"
   }
 }

@@ -96,7 +96,7 @@ public class ClientExtendedInput extends LTXIExtendedInput
     {
         super.startHoldingTrigger(heldItem, player, weaponItem);
 
-        if (weaponItem == LTXIItems.SUBMACHINE_GUN.get())
+        if (weaponItem == LTXIItems.SERENITY.get())
         {
             Minecraft.getInstance().getSoundManager().play(new AutomaticWeaponSoundInstance(LTXISounds.SUBMACHINE_GUN_LOOP, player));
         }

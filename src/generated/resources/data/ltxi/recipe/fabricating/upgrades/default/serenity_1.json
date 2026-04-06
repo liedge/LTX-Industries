@@ -8,13 +8,13 @@
     },
     {
       "consume_chance": 0.0,
-      "ingredient": "ltxi:glowstick_launcher"
+      "ingredient": "ltxi:serenity"
     }
   ],
   "result": {
     "components": {
       "ltxi:upgrade": {
-        "upgrade": "ltxi:default/glowstick_launcher"
+        "upgrade": "ltxi:default/serenity"
       }
     },
     "count": 1,

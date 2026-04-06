@@ -9,7 +9,7 @@ import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
 import liedge.ltxindustries.client.LTXIKeyMappings;
 import liedge.ltxindustries.item.SimpleHintItem;
 import liedge.ltxindustries.item.tool.ToolSpeed;
-import liedge.ltxindustries.item.weapon.GrenadeLauncherItem;
+import liedge.ltxindustries.item.weapon.HanabiItem;
 import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.lib.upgrades.Upgrade;
 import liedge.ltxindustries.lib.upgrades.UpgradeBuilder;
@@ -187,13 +187,13 @@ class LanguageGen extends LimaLanguageProvider
         addItem(ENERGY_IO_CONFIG_CARD, "Energy IO Config Card");
         addItem(FLUIDS_IO_CONFIG_CARD, "Fluids IO Config Card");
 
-        addItem(SUBMACHINE_GUN, italicName("%s 07/SD", "Serenity"));
-        addItem(GLOWSTICK_LAUNCHER, italicName("%s 05/ID", "Wayfinder"));
-        addItem(SHOTGUN, italicName("%s 21/SG", "Aurora"));
-        addItem(GRENADE_LAUNCHER, italicName("%s 33/GL", "Hanabi"));
-        addItem(LINEAR_FUSION_RIFLE, italicName("%s 38/LF", "Stargazer"));
-        addItem(ROCKET_LAUNCHER, italicName("%s 42/RL", "Daybreak"));
-        addItem(HEAVY_PISTOL, italicName("%s 77/HX", "Nova"));
+        addItem(WAYFINDER, italicName("%s 05/ID", "Wayfinder"));
+        addItem(SERENITY, italicName("%s 07/SD", "Serenity"));
+        addItem(AURORA, italicName("%s 21/SG", "Aurora"));
+        addItem(HANABI, italicName("%s 33/GL", "Hanabi"));
+        addItem(STARGAZER, italicName("%s 37/LF", "Stargazer"));
+        addItem(DAYBREAK, italicName("%s 41/RL", "Daybreak"));
+        addItem(NOVA, italicName("%s 77/HX", "Nova"));
 
         simpleHintItem(LIGHTWEIGHT_WEAPON_ENERGY, "Lightweight Weapon Energy", "Consumable energy cell for powering Lightweight-class weaponry.");
         simpleHintItem(SPECIALIST_WEAPON_ENERGY, "Specialist Weapon Energy", "Consumable energy cell for powering Specialist-class weaponry.");
@@ -207,14 +207,14 @@ class LanguageGen extends LimaLanguageProvider
         upgradeDescOnly(LTXIEquipmentUpgrades.EPSILON_WRENCH_DEFAULT, "Standard issue operating system. Enables lossless dismantling and retrieval of machines.");
         upgradeDescOnly(LTXIEquipmentUpgrades.EPSILON_MELEE_DEFAULT, "Standard issue operating system. Tool energy blade is optimized for efficient severing and disintegration of organic matter.");
         upgradeTooltip(LTXIEquipmentUpgrades.EPSILON_MELEE_DEFAULT, 0, "%s bonus damage against unarmored targets");
-        upgrade(LTXIEquipmentUpgrades.GLOWSTICK_LAUNCHER_DEFAULT, "Wayfinder Intrinsics", "Wayfinder's energy feed system ships pre-configured to use Common Energy.");
-        upgrade(LTXIEquipmentUpgrades.SUBMACHINE_GUN_DEFAULT, "Serenity Intrinsics", "Serenity's small lightfrags zip right through targets without a trace.");
-        upgradeTooltip(LTXIEquipmentUpgrades.SUBMACHINE_GUN_DEFAULT, 0, "No anger and knockback on damage");
-        upgrade(LTXIEquipmentUpgrades.SHOTGUN_DEFAULT, "Aurora Intrinsics", "Aurora's combat precepts, specialized in fast assault and scout operations.");
-        upgrade(LTXIEquipmentUpgrades.LFR_DEFAULT, "Stargazer Intrinsics", "Stargazer's systems are calibrated for precise long-range engagements.");
-        upgradeTooltip(LTXIEquipmentUpgrades.LFR_DEFAULT, 0, "%s bonus damage per meter after %sm (%s max bonus)");
-        upgradeTooltip(LTXIEquipmentUpgrades.LFR_DEFAULT, 1, "%s bonus damage when standing still and sneaking");
-        upgrade(LTXIEquipmentUpgrades.HEAVY_PISTOL_DEFAULT, "Nova Intrinsics", "Nova's lightfrags can knock away even the heaviest targets.");
+        upgrade(LTXIEquipmentUpgrades.WAYFINDER_DEFAULT, "Wayfinder Intrinsics", "Wayfinder's energy feed system ships pre-configured to use Common Energy.");
+        upgrade(LTXIEquipmentUpgrades.SERENITY_DEFAULT, "Serenity Intrinsics", "Serenity's small lightfrags zip right through targets without a trace.");
+        upgradeTooltip(LTXIEquipmentUpgrades.SERENITY_DEFAULT, 0, "No anger and knockback on damage");
+        upgrade(LTXIEquipmentUpgrades.AURORA_DEFAULT, "Aurora Intrinsics", "Aurora's combat precepts, specialized in fast assault and scout operations.");
+        upgrade(LTXIEquipmentUpgrades.STARGAZER_DEFAULT, "Stargazer Intrinsics", "Stargazer's systems are calibrated for precise long-range engagements.");
+        upgradeTooltip(LTXIEquipmentUpgrades.STARGAZER_DEFAULT, 0, "%s bonus damage per meter after %sm (%s max bonus)");
+        upgradeTooltip(LTXIEquipmentUpgrades.STARGAZER_DEFAULT, 1, "%s bonus damage when standing still and sneaking");
+        upgrade(LTXIEquipmentUpgrades.NOVA_DEFAULT, "Nova Intrinsics", "Nova's lightfrags can knock away even the heaviest targets.");
         upgrade(LTXIEquipmentUpgrades.HEAD_DEFAULT, "AL/1C [H] Unit", "Neural processor core of the AL/1C bodysuit.");
         upgradeTooltip(LTXIEquipmentUpgrades.HEAD_DEFAULT, 0, "Blocks vision debuff effects (%s)");
         upgrade(LTXIEquipmentUpgrades.BODY_DEFAULT, "AL/1C [B] Unit", "Vital function management system of the AL/1C bodysuit.");
@@ -427,7 +427,7 @@ class LanguageGen extends LimaLanguageProvider
 
         add(WeaponItem.AMMO_LOADED_TOOLTIP, "Ammo: %s/%s");
         add(WeaponItem.RELOAD_SPEED_TOOLTIP, "Reload speed: %ss");
-        add(GrenadeLauncherItem.GRENADE_TYPE_TOOLTIP, "%s shells equipped");
+        add(HanabiItem.GRENADE_TYPE_TOOLTIP, "%s shells equipped");
 
         add(LTXITooltipUtil.ALL_HOLDER_SET, "all");
         add(LTXITooltipUtil.AMBIGUOUS_HOLDER_SET, "certain");

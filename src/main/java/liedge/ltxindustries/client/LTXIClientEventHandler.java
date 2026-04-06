@@ -15,7 +15,7 @@ import liedge.ltxindustries.client.renderer.LTXIRenderTypes;
 import liedge.ltxindustries.client.renderer.LockOnRenderData;
 import liedge.ltxindustries.item.ScrollModeSwitchItem;
 import liedge.ltxindustries.item.TooltipShiftHintItem;
-import liedge.ltxindustries.item.weapon.RocketLauncherItem;
+import liedge.ltxindustries.item.weapon.DaybreakItem;
 import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.lib.weapons.ClientExtendedInput;
 import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
@@ -63,7 +63,7 @@ public final class LTXIClientEventHandler
     @SubscribeEvent
     public static void fovModifyEvent(final ComputeFovModifierEvent event)
     {
-        if (event.getPlayer().isUsingItem() && event.getPlayer().getUseItem().is(LTXIItems.LINEAR_FUSION_RIFLE) && event.getNewFovModifier() > 0.10f)
+        if (event.getPlayer().isUsingItem() && event.getPlayer().getUseItem().is(LTXIItems.STARGAZER) && event.getNewFovModifier() > 0.10f)
         {
             event.setNewFovModifier(0.10f);
         }
@@ -73,7 +73,7 @@ public final class LTXIClientEventHandler
     public static void playerTurnModifyEvent(final CalculatePlayerTurnEvent event)
     {
         Player player = Objects.requireNonNull(Minecraft.getInstance().player);
-        if (player.isUsingItem() && player.getUseItem().is(LTXIItems.LINEAR_FUSION_RIFLE))
+        if (player.isUsingItem() && player.getUseItem().is(LTXIItems.STARGAZER))
         {
             double d0 = event.getMouseSensitivity();
             event.setMouseSensitivity(d0 * 0.275d);
@@ -188,7 +188,7 @@ public final class LTXIClientEventHandler
         LivingEntity target = controls.getFocusedTarget();
         if (target != null)
         {
-            float progress = Math.min(1f, controls.lerpTargetTicks(partialTick) / (float) RocketLauncherItem.TARGET_LOCK_MIN_TICKS);
+            float progress = Math.min(1f, controls.lerpTargetTicks(partialTick) / (float) DaybreakItem.TARGET_LOCK_MIN_TICKS);
             renderState.setRenderData(LOCK_ON_DATA, LockOnRenderData.of(target, camera, progress, partialTick));
         }
     }

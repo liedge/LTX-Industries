@@ -37,7 +37,7 @@ public final class MiningToolClientItem implements EquipmentHUDLayer.Renderer
 
         ToolSpeed speed = item.getToolSpeed(heldItem);
         float fill = 41f * (speed.ordinal() / 4f);
-        LimaGuiUtil.submitHorizontalGradient(graphics, RenderPipelines.GUI, x + 2, y + 13, x + 2 + fill, y + 15, 0xff83cf19, 0xffd3ff3c);
+        LimaGuiUtil.fillHorizontalGradient(graphics, RenderPipelines.GUI, x + 2, y + 13, x + 2 + fill, y + 15, 0xff83cf19, 0xffd3ff3c);
 
         Font font = Minecraft.getInstance().font;
 

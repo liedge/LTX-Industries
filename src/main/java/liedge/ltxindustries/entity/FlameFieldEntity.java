@@ -48,7 +48,7 @@ public class FlameFieldEntity extends UpgradesAwareEntity
             LivingEntity owner = getOwner();
             getEntitiesInAOE(serverLevel, getBoundingBox(), owner, null).forEach(hit ->
             {
-                if (LTXIItems.GRENADE_LAUNCHER.get().causeProjectileDamage(serverLevel, hit, this, owner, LTXIDamageTypes.STICKY_FLAME, getWeaponItem(), 4d))
+                if (LTXIItems.HANABI.get().causeProjectileDamage(serverLevel, hit, this, owner, LTXIDamageTypes.STICKY_FLAME, getWeaponItem(), 4d))
                     hit.setRemainingFireTicks(400);
             });
         }

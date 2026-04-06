@@ -8,13 +8,13 @@
     },
     {
       "consume_chance": 0.0,
-      "ingredient": "ltxi:shotgun"
+      "ingredient": "ltxi:nova"
     }
   ],
   "result": {
     "components": {
       "ltxi:upgrade": {
-        "upgrade": "ltxi:default/shotgun"
+        "upgrade": "ltxi:default/nova"
       }
     },
     "count": 1,

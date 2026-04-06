@@ -228,11 +228,11 @@ class RecipesGen extends LimaRecipeProvider
         defaultModuleFabricating(output, registries, EPSILON_SHOVEL_DEFAULT, EPSILON_SHOVEL);
         defaultModuleFabricating(output, registries, EPSILON_WRENCH_DEFAULT, EPSILON_WRENCH);
         defaultModuleFabricating(output, registries, EPSILON_MELEE_DEFAULT, EPSILON_SWORD, EPSILON_AXE);
-        defaultModuleFabricating(output, registries, GLOWSTICK_LAUNCHER_DEFAULT, GLOWSTICK_LAUNCHER);
-        defaultModuleFabricating(output, registries, SUBMACHINE_GUN_DEFAULT, SUBMACHINE_GUN);
-        defaultModuleFabricating(output, registries, SHOTGUN_DEFAULT, SHOTGUN);
-        defaultModuleFabricating(output, registries, LFR_DEFAULT, LINEAR_FUSION_RIFLE);
-        defaultModuleFabricating(output, registries, HEAVY_PISTOL_DEFAULT, HEAVY_PISTOL);
+        defaultModuleFabricating(output, registries, WAYFINDER_DEFAULT, WAYFINDER);
+        defaultModuleFabricating(output, registries, SERENITY_DEFAULT, SERENITY);
+        defaultModuleFabricating(output, registries, AURORA_DEFAULT, AURORA);
+        defaultModuleFabricating(output, registries, STARGAZER_DEFAULT, STARGAZER);
+        defaultModuleFabricating(output, registries, NOVA_DEFAULT, NOVA);
         defaultModuleFabricating(output, registries, HEAD_DEFAULT, WONDERLAND_HEAD);
         defaultModuleFabricating(output, registries, BODY_DEFAULT, WONDERLAND_BODY);
         defaultModuleFabricating(output, registries, LEGS_DEFAULT, WONDERLAND_LEGS);
@@ -361,21 +361,21 @@ class RecipesGen extends LimaRecipeProvider
 
         // Weapons fabrication
         String weaponFabGroup = "ltx/weapon";
-        equipmentFabricating(output, registries, GLOWSTICK_LAUNCHER, weaponFabGroup + ".1", 250_000, builder -> builder
+        equipmentFabricating(output, registries, WAYFINDER, weaponFabGroup + ".1", 250_000, builder -> builder
                 .input(T1_CIRCUIT, 2)
                 .input(TITANIUM_INGOT, 8)
                 .input(items, DYES_LIME, 3)
                 .input(GLOWSTONE_DUST, 8));
-        equipmentFabricating(output, registries, SUBMACHINE_GUN, weaponFabGroup + ".2", 500_000, builder -> builder
+        equipmentFabricating(output, registries, SERENITY, weaponFabGroup + ".2", 500_000, builder -> builder
                 .input(T1_CIRCUIT, 2)
                 .input(TITANIUM_INGOT, 24)
                 .input(LTX_LIME_PIGMENT, 4));
-        equipmentFabricating(output, registries, SHOTGUN, weaponFabGroup + ".3", 1_000_000, builder -> builder
+        equipmentFabricating(output, registries, AURORA, weaponFabGroup + ".3", 1_000_000, builder -> builder
                 .input(T2_CIRCUIT, 4)
                 .input(TITANIUM_INGOT, 24)
                 .input(POLYMER_INGOT, 16)
                 .input(LTX_LIME_PIGMENT, 8));
-        equipmentFabricating(output, registries, GRENADE_LAUNCHER, weaponFabGroup + ".4", 20_000_000, builder -> builder
+        equipmentFabricating(output, registries, HANABI, weaponFabGroup + ".4", 20_000_000, builder -> builder
                 .input(T3_CIRCUIT, 1)
                 .input(TITANIUM_INGOT, 24)
                 .input(POLYMER_INGOT, 24)
@@ -383,20 +383,20 @@ class RecipesGen extends LimaRecipeProvider
                 .input(LTX_LIME_PIGMENT, 12)
                 .input(IMPULSE_TECH_PART, 2)
                 .input(TITANIUM_GLASS, 6));
-        equipmentFabricating(output, registries, LINEAR_FUSION_RIFLE, weaponFabGroup + ".5", 25_000_000, builder -> builder
+        equipmentFabricating(output, registries, STARGAZER, weaponFabGroup + ".5", 25_000_000, builder -> builder
                 .input(T2_CIRCUIT, 6)
                 .input(TITANIUM_INGOT, 24)
                 .input(POLYMER_INGOT, 32)
                 .input(LTX_LIME_PIGMENT, 12)
                 .input(OPTICAL_TECH_PART, 3));
-        equipmentFabricating(output, registries, ROCKET_LAUNCHER, weaponFabGroup + ".6", 30_000_000, builder -> builder
+        equipmentFabricating(output, registries, DAYBREAK, weaponFabGroup + ".6", 30_000_000, builder -> builder
                 .input(T3_CIRCUIT, 2)
                 .input(TITANIUM_INGOT, 48)
                 .input(SLATESTEEL_INGOT, 24)
                 .input(LTX_LIME_PIGMENT, 16)
                 .input(IMPULSE_TECH_PART, 3)
                 .input(OPTICAL_TECH_PART, 1));
-        equipmentFabricating(output, registries, HEAVY_PISTOL, weaponFabGroup + ".7", 75_000_000, builder -> builder
+        equipmentFabricating(output, registries, NOVA, weaponFabGroup + ".7", 75_000_000, builder -> builder
                 .input(T4_CIRCUIT, 1)
                 .input(TITANIUM_INGOT, 32)
                 .input(POLYMER_INGOT, 24)

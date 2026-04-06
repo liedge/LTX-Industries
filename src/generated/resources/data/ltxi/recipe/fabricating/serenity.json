@@ -18,11 +18,11 @@
   ],
   "result": {
     "components": {
-      "ltxi:equipment_upgrades": {
-        "ltxi:default/submachine_gun": 1
+      "ltxi:upgrades": {
+        "ltxi:default/serenity": 1
       }
     },
     "count": 1,
-    "id": "ltxi:submachine_gun"
+    "id": "ltxi:serenity"
   }
 }

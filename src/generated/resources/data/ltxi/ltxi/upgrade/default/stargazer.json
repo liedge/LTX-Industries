@@ -2,14 +2,14 @@
   "display": {
     "category": "default/weapon",
     "description": {
-      "translate": "upgrade.ltxi.default.linear_fusion_rifle.desc"
+      "translate": "upgrade.ltxi.default.stargazer.desc"
     },
     "icon": {
       "type": "overlay",
       "background": {
         "type": "item_stack",
         "item": {
-          "id": "ltxi:linear_fusion_rifle"
+          "id": "ltxi:stargazer"
         }
       },
       "height": 7,
@@ -19,7 +19,7 @@
       "y_offset": 8
     },
     "title": {
-      "translate": "upgrade.ltxi.default.linear_fusion_rifle"
+      "translate": "upgrade.ltxi.default.stargazer"
     },
     "tooltips": [
       {
@@ -43,7 +43,7 @@
             "value": 50.0
           }
         ],
-        "key": "upgrade.ltxi.default.linear_fusion_rifle.tooltip0"
+        "key": "upgrade.ltxi.default.stargazer.tooltip0"
       },
       {
         "type": "custom_args",
@@ -55,7 +55,7 @@
             "value": 0.15
           }
         ],
-        "key": "upgrade.ltxi.default.linear_fusion_rifle.tooltip1"
+        "key": "upgrade.ltxi.default.stargazer.tooltip1"
       }
     ]
   },
@@ -95,6 +95,6 @@
     ]
   },
   "users": {
-    "items": "ltxi:linear_fusion_rifle"
+    "items": "ltxi:stargazer"
   }
 }
