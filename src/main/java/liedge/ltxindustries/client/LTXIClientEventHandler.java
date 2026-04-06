@@ -2,9 +2,13 @@ package liedge.ltxindustries.client;
 
 import com.google.common.reflect.TypeToken;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.datafixers.util.Either;
+import com.mojang.math.Axis;
 import liedge.limacore.client.LimaCoreClientUtil;
 import liedge.limacore.lib.TickTimer;
+import liedge.limacore.util.LimaEntityUtil;
+import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.client.renderer.BubbleShieldRenderer;
 import liedge.ltxindustries.client.renderer.LTXIRenderTypes;
@@ -16,6 +20,8 @@ import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.lib.weapons.ClientExtendedInput;
 import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
 import liedge.ltxindustries.network.packet.ServerboundItemModeSwitchPacket;
+import liedge.ltxindustries.registry.game.LTXIAttachmentTypes;
+import liedge.ltxindustries.registry.game.LTXIAttributes;
 import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.registry.game.LTXISounds;
 import liedge.ltxindustries.util.config.LTXIClientConfig;
@@ -24,14 +30,18 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.player.AvatarRenderer;
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.client.renderer.state.level.LevelRenderState;
 import net.minecraft.network.chat.FormattedText;
+import net.minecraft.util.Mth;
 import net.minecraft.util.context.ContextKey;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -73,7 +83,7 @@ public final class LTXIClientEventHandler
     @SubscribeEvent
     public static void onClientTick(final ClientTickEvent.Pre event)
     {
-        BubbleShieldRenderer.SHIELD_RENDERER.tickRenderer();
+        BubbleShieldRenderer.INSTANCE.tickRenderer();
     }
 
     @SubscribeEvent
@@ -136,6 +146,32 @@ public final class LTXIClientEventHandler
             boolean wings = avatar instanceof Player player && player.getAbilities().flying;
             renderState.setRenderData(LTXIRenderer.SHOW_WONDERLAND_WINGS, wings);
         });
+
+        // Shield states
+        event.registerEntityModifier(new TypeToken<LivingEntityRenderer<?,?,?>>() {}, (entity, state) ->
+        {
+            if (entity == Minecraft.getInstance().player && (Minecraft.getInstance().options.getCameraType().isFirstPerson()) || entity.isSpectator()) return;
+
+            boolean isPlayer = entity instanceof Player;
+
+            float shieldHealth = entity.getData(LTXIAttachmentTypes.BUBBLE_SHIELD_HEALTH);
+            if (shieldHealth <= 0)
+            {
+                return;
+            }
+            else if (isPlayer)
+            {
+                float capacity = (float) LimaEntityUtil.getAttributeValueSafe(entity, LTXIAttributes.SHIELD_CAPACITY);
+                if (capacity > 0 && Mth.equal(shieldHealth, capacity)) return;
+            }
+
+            float scale = isPlayer ? 1.75f : (float) LimaEntityUtil.getLargestBBDimension(entity);
+            double yCenter = state.y + entity.getBoundingBox().getYsize() / 2d;
+            float yRot = entity == Minecraft.getInstance().player ? -entity.getYRot() : state.yRot;
+
+            BubbleShieldRenderer.RenderState shieldState = new BubbleShieldRenderer.RenderState(yCenter, yRot, scale, LTXIConstants.BUBBLE_SHIELD_BLUE.argb32(), state.partialTick);
+            state.setRenderData(LTXIRenderer.BUBBLE_SHIELD_STATE, shieldState);
+        });
     }
 
     @SubscribeEvent
@@ -171,6 +207,26 @@ public final class LTXIClientEventHandler
             poseStack.pushPose();
 
             lockOnData.render(poseStack.last(), bufferSource.getBuffer(LTXIRenderTypes.LOCK_ON_INDICATOR));
+
+            poseStack.popPose();
+        }
+
+        for (EntityRenderState entityState : renderState.entityRenderStates)
+        {
+            BubbleShieldRenderer.RenderState shieldState = entityState.getRenderData(LTXIRenderer.BUBBLE_SHIELD_STATE);
+            if (shieldState == null) continue;
+
+            poseStack.pushPose();
+
+            Vec3 camera = event.getLevelRenderState().cameraRenderState.pos;
+            poseStack.translate(entityState.x - camera.x, shieldState.yCenter() - camera.y, entityState.z - camera.z);
+            poseStack.mulPose(Axis.YP.rotationDegrees(shieldState.yRot()));
+            float scale = shieldState.scale();
+            poseStack.scale(scale, scale, scale);
+
+            VertexConsumer buffer = bufferSource.getBuffer(LTXIRenderTypes.BUBBLE_SHIELD);
+
+            BubbleShieldRenderer.INSTANCE.submit(poseStack.last(), buffer, shieldState.color(), shieldState.partialTick());
 
             poseStack.popPose();
         }

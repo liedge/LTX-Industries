@@ -6,6 +6,7 @@ import liedge.limacore.lib.LimaColor;
 import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.client.model.custom.EnergyBoltData;
+import liedge.ltxindustries.client.renderer.BubbleShieldRenderer;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.core.Direction;
@@ -18,6 +19,7 @@ import org.joml.Vector3f;
 public final class LTXIRenderer
 {
     public static final ContextKey<Boolean> SHOW_WONDERLAND_WINGS = LTXIndustries.RESOURCES.contextKey("show_wings");
+    public static final ContextKey<BubbleShieldRenderer.RenderState> BUBBLE_SHIELD_STATE = LTXIndustries.RESOURCES.contextKey("shield_state");
 
     private LTXIRenderer() {}
 

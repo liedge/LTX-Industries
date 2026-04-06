@@ -22,15 +22,18 @@ public final class LTXIRenderTypes
 
     public static final RenderType ENERGY_FILL = simpleType("energy_fill", RenderSetup.builder(LTXIRenderPipelines.ENERGY_FILL)
             .sortOnUpload()
-            .setOutline(RenderSetup.OutlineProperty.NONE));
+            .setOutline(RenderSetup.OutlineProperty.NONE)
+            .setOutputTarget(OutputTarget.ITEM_ENTITY_TARGET));
 
     public static final RenderType BUBBLE_SHIELD = simpleType("bubble_shield", RenderSetup.builder(LTXIRenderPipelines.BUBBLE_SHIELD)
             .sortOnUpload()
-            .setOutline(RenderSetup.OutlineProperty.NONE));
+            .setOutline(RenderSetup.OutlineProperty.NONE)
+            .setOutputTarget(OutputTarget.WEATHER_TARGET));
 
     public static final RenderType WONDERLAND_EPHEMERA = simpleType("ephemera", RenderSetup.builder(LTXIRenderPipelines.WONDERLAND_EPHEMERA)
             .sortOnUpload()
-            .setOutline(RenderSetup.OutlineProperty.NONE));
+            .setOutline(RenderSetup.OutlineProperty.NONE)
+            .setOutputTarget(OutputTarget.WEATHER_TARGET));
 
     public static final RenderType LOCK_ON_INDICATOR = simpleType("lock_on_indicator", RenderSetup.builder(LTXIRenderPipelines.LOCK_ON_INDICATOR)
             .withTexture("Sampler0", LTXIndustries.RESOURCES.textureLocation("entity", "target_triangle"))

@@ -18,6 +18,13 @@ public class ShellGrenadeRenderer extends ProjectileRenderer<ShellGrenadeEntity>
     }
 
     @Override
+    public void extractRenderState(ShellGrenadeEntity entity, ProjectileRenderState reusedState, float partialTick)
+    {
+        super.extractRenderState(entity, reusedState, partialTick);
+        reusedState.color = entity.getGrenadeType().getColor();
+    }
+
+    @Override
     protected ProjectileModel createModel(EntityRendererProvider.Context context)
     {
         return new ShellGrenadeModel(context.bakeLayer(LTXIModelLayers.SHELL_GRENADE));

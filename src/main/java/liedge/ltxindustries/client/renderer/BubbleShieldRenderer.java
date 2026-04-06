@@ -5,14 +5,12 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import it.unimi.dsi.fastutil.ints.IntList;
 import it.unimi.dsi.fastutil.ints.IntLists;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import liedge.limacore.lib.LimaColor;
 import liedge.limacore.lib.TickTimer;
 import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.util.LimaCollectionsUtil;
 import liedge.ltxindustries.client.LTXIRenderer;
 import liedge.ltxindustries.client.model.custom.BubbleShieldModel;
 import net.minecraft.util.Mth;
-import org.joml.Matrix4f;
 
 import java.util.ArrayDeque;
 import java.util.List;
@@ -20,7 +18,7 @@ import java.util.stream.IntStream;
 
 public final class BubbleShieldRenderer
 {
-    public static final BubbleShieldRenderer SHIELD_RENDERER = new BubbleShieldRenderer();
+    public static final BubbleShieldRenderer INSTANCE = new BubbleShieldRenderer();
 
     private final List<FadeAnimation> animations = new ObjectArrayList<>();
 
@@ -49,10 +47,12 @@ public final class BubbleShieldRenderer
         animations.forEach(FadeAnimation::tick);
     }
 
-    public void renderBubbleShield(PoseStack poseStack, VertexConsumer buffer, LimaColor color, float partialTick)
+    public void submit(PoseStack.Pose pose, VertexConsumer buffer, int color, float partialTick)
     {
-        Matrix4f mx4 = poseStack.last().pose();
-        animations.forEach(animation -> animation.putInBuffer(buffer, mx4, color, partialTick));
+        for (FadeAnimation animation : animations)
+        {
+            animation.submit(pose, buffer, color, partialTick);
+        }
     }
 
     private static class FadeAnimation
@@ -74,10 +74,12 @@ public final class BubbleShieldRenderer
             }
         }
 
-        private void putInBuffer(VertexConsumer buffer, Matrix4f mx4, LimaColor color, float partialTick)
+        private void submit(PoseStack.Pose pose, VertexConsumer buffer, int color, float partialTick)
         {
-            float alpha = animationTimer.getTimerState() == TickTimer.State.STOPPED ? 0.125f : Mth.clamp(LTXIRenderer.linearThresholdCurve(animationTimer.lerpPausedProgress(partialTick), 0.3f), 0.125f, 0.8f);
-            BubbleShieldModel.SHIELD_MODEL.renderFaces(geometryIndexes, buffer, mx4, color, alpha);
+            float alpha = animationTimer.getTimerState() == TickTimer.State.STOPPED ? 0.125f : Mth.clamp(LTXIRenderer.linearThresholdCurve(animationTimer.lerpProgressNotPaused(partialTick), 0.3f), 0.125f, 0.8f);
+            BubbleShieldModel.INSTANCE.submitFaces(pose, buffer, geometryIndexes, color, alpha);
         }
     }
+
+    public record RenderState(double yCenter, float yRot, float scale, int color, float partialTick) { }
 }

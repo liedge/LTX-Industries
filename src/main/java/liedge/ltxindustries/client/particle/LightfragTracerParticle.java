@@ -10,16 +10,15 @@ import liedge.limacore.lib.LimaColor;
 import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.lib.math.LimaRoundingMode;
 import liedge.ltxindustries.client.LTXIRenderer;
-import liedge.ltxindustries.client.renderer.LTXIRenderTypes;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector2f;
 import org.jspecify.annotations.Nullable;
@@ -56,12 +55,6 @@ public class LightfragTracerParticle extends CustomGeometryParticle
         this.yRot = -angles.y;
         this.color = color;
         this.hasPhysics = false;
-    }
-
-    @Override
-    public AABB getBoundingBox()
-    {
-        return AABB.INFINITE;
     }
 
     @Override
@@ -106,7 +99,7 @@ public class LightfragTracerParticle extends CustomGeometryParticle
         @Override
         public RenderType renderType()
         {
-            return LTXIRenderTypes.ENERGY_FILL;
+            return RenderTypes.lightning();
         }
 
         @Override

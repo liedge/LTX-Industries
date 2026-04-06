@@ -245,7 +245,7 @@ public class LTXIndustriesClient
         @SubscribeEvent
         public void registerClientReloadListeners(final AddClientReloadListenersEvent event)
         {
-            event.addListener(LTXIReloadListeners.BUBBLE_SHIELD_MODEL, BubbleShieldModel.SHIELD_MODEL);
+            event.addListener(LTXIReloadListeners.BUBBLE_SHIELD_MODEL, BubbleShieldModel.INSTANCE);
         }
     }
 }

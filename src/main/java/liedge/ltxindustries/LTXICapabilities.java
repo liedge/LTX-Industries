@@ -17,12 +17,12 @@ public final class LTXICapabilities
 
     public static void registerShieldCapability(final RegisterCapabilitiesEvent event)
     {
-        event.registerEntity(ENTITY_BUBBLE_SHIELD, EntityType.PLAYER, (player, $) -> player.getData(LTXIAttachmentTypes.PLAYER_SHIELD));
+        event.registerEntity(ENTITY_BUBBLE_SHIELD, EntityType.PLAYER, (player, _) -> player.getData(LTXIAttachmentTypes.PLAYER_SHIELD));
         for (EntityType<?> type : BuiltInRegistries.ENTITY_TYPE)
         {
             if (!event.isEntityRegistered(ENTITY_BUBBLE_SHIELD, type))
             {
-                event.registerEntity(ENTITY_BUBBLE_SHIELD, type, (entity, $) -> entity instanceof LivingEntity ? GenericBubbleShield.INSTANCE : null);
+                event.registerEntity(ENTITY_BUBBLE_SHIELD, type, (entity, _) -> entity instanceof LivingEntity ? GenericBubbleShield.INSTANCE : null);
             }
         }
     }
