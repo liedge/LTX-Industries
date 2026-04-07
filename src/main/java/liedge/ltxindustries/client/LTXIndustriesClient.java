@@ -7,14 +7,10 @@ import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.client.gui.ClientFabricatingInputsTooltip;
 import liedge.ltxindustries.client.gui.ClientItemStacksTooltip;
 import liedge.ltxindustries.client.gui.layer.BubbleShieldLayer;
-import liedge.ltxindustries.client.gui.layer.CrosshairRenderer;
 import liedge.ltxindustries.client.gui.layer.EquipmentHUDLayer;
 import liedge.ltxindustries.client.gui.layer.WeaponCrosshairLayer;
 import liedge.ltxindustries.client.gui.screen.*;
-import liedge.ltxindustries.client.item.BlueprintClientItem;
-import liedge.ltxindustries.client.item.MiningToolClientItem;
-import liedge.ltxindustries.client.item.UpgradeModuleClientItem;
-import liedge.ltxindustries.client.item.WeaponClientItem;
+import liedge.ltxindustries.client.item.*;
 import liedge.ltxindustries.client.model.LTXIModelPartKeys;
 import liedge.ltxindustries.client.model.custom.BubbleShieldModel;
 import liedge.ltxindustries.client.model.entity.*;
@@ -102,17 +98,13 @@ public class LTXIndustriesClient
             event.registerItem(BlueprintClientItem.INSTANCE, LTXIItems.FABRICATION_BLUEPRINT);
             event.registerItem(MiningToolClientItem.INSTANCE, LTXIItems.EPSILON_DRILL, LTXIItems.EPSILON_SHOVEL, LTXIItems.EPSILON_AXE, LTXIItems.EPSILON_HOE);
 
-            event.registerItem(new WeaponClientItem(CrosshairRenderer.bracketsWithHollowDot()), LTXIItems.WAYFINDER);
-            event.registerItem(new WeaponClientItem(CrosshairRenderer.circleBrackets()), LTXIItems.AURORA);
-            event.registerItem(new WeaponClientItem(CrosshairRenderer.aoeRing(0.2f)), LTXIItems.HANABI);
-            event.registerItem(new WeaponClientItem(CrosshairRenderer.aoeRing(0.1f)), LTXIItems.DAYBREAK);
-
-            //event.registerItem(LTXIItemRenderers.SUBMACHINE_GUN, LTXIItems.SUBMACHINE_GUN.get());
-            //event.registerItem(LTXIItemRenderers.SHOTGUN, LTXIItems.SHOTGUN.get());
-            //event.registerItem(LTXIItemRenderers.GRENADE_LAUNCHER, LTXIItems.GRENADE_LAUNCHER.get());
-            //event.registerItem(LTXIItemRenderers.LINEAR_FUSION_RIFLE, LTXIItems.LINEAR_FUSION_RIFLE.get());
-            //event.registerItem(LTXIItemRenderers.ROCKET_LAUNCHER, LTXIItems.ROCKET_LAUNCHER.get());
-            //event.registerItem(LTXIItemRenderers.HEAVY_PISTOL, LTXIItems.HEAVY_PISTOL.get());
+            event.registerItem(new WayfinderClientItem(), LTXIItems.WAYFINDER);
+            event.registerItem(new SerenityClientItem(), LTXIItems.SERENITY);
+            event.registerItem(new AuroraClientItem(), LTXIItems.AURORA);
+            event.registerItem(new HanabiClientItem(), LTXIItems.HANABI);
+            event.registerItem(new StargazerClientItem(), LTXIItems.STARGAZER);
+            event.registerItem(new DaybreakClientItem(), LTXIItems.DAYBREAK);
+            event.registerItem(new NovaClientItem(), LTXIItems.NOVA);
 
             event.registerFluidType(SimpleFogFluidExtension.create(LTXIConstants.LIME_GREEN, 13f), LTXIFluids.VIRIDIC_ACID_TYPE);
         }

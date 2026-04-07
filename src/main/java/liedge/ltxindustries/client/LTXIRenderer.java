@@ -13,7 +13,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.minecraft.util.context.ContextKey;
 import net.minecraft.world.entity.Entity;
-import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
 public final class LTXIRenderer
@@ -50,16 +49,6 @@ public final class LTXIRenderer
             float slope = 1f / (1f - threshold);
             return 1f - (delta - threshold) * slope;
         }
-    }
-
-    public static float animationCurveA(float delta)
-    {
-        return linearThresholdCurve(delta, 0.2f);
-    }
-
-    public static float animationCurveB(float delta)
-    {
-        return linearThresholdCurve(delta, 0.1f);
     }
 
     //#region Rings
@@ -103,25 +92,6 @@ public final class LTXIRenderer
     public static void renderArcRing(PoseStack.Pose pose, VertexConsumer buffer, float radius, float width, float startAngle, float endAngle, int segments, LimaColor color)
     {
         renderArcRing(pose, buffer, radius, width, startAngle, endAngle, segments, color, 1f);
-    }
-
-    public static void renderGUIArcRing(PoseStack poseStack, VertexConsumer buffer, float radius, float width, float startAngle, float endAngle, float segmentDegrees, LimaColor color)
-    {
-        if (endAngle <= startAngle || segmentDegrees < 1) return;
-
-        float arcStart = LimaCoreMath.toRad(startAngle);
-        float arcEnd = LimaCoreMath.toRad(endAngle);
-        float segLength = LimaCoreMath.toRad(segmentDegrees);
-        int segments = Mth.ceil((arcEnd - arcStart) / segLength);
-        float outerRadius = radius + width;
-
-        Matrix4f mx4 = poseStack.last().pose();
-        for (int i = 0; i < segments; i++)
-        {
-            float a1 = arcStart + i * segLength;
-            float a2 = Math.min(arcEnd, arcStart + (i + 1) * segLength);
-            //if (a2 > a1) renderArcSegment(buffer, mx4, radius, outerRadius, a1, a2, color.red(), color.green(), color.blue(), 1f);
-        }
     }
     //#endregion
     

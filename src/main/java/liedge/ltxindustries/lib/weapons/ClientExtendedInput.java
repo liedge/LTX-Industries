@@ -88,7 +88,9 @@ public class ClientExtendedInput extends LTXIExtendedInput
     public void shootWeapon(ItemStack heldItem, Player player, WeaponItem weaponItem, boolean sendClientUpdate)
     {
         super.shootWeapon(heldItem, player, weaponItem, sendClientUpdate);
-        WeaponClientItem.of(weaponItem).onWeaponFired(heldItem, weaponItem, this);
+
+        WeaponClientItem clientItem = WeaponClientItem.of(weaponItem);
+        if (clientItem != null) clientItem.onWeaponFired(heldItem, weaponItem, this);
     }
 
     @Override
@@ -124,5 +126,11 @@ public class ClientExtendedInput extends LTXIExtendedInput
         }
 
         super.triggerTick(heldItem, player, weaponItem);
+
+        WeaponClientItem clientItem = WeaponClientItem.of(weaponItem);
+        if (clientItem != null)
+        {
+            clientItem.onMainHandTick(heldItem, weaponItem, this);
+        }
     }
 }

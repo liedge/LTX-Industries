@@ -58,9 +58,11 @@ public final class WeaponCrosshairLayer extends LimaGuiLayer
         else
         {
             RenderPipeline pipeline = LTXIClientConfig.SOLID_COLOR_CROSSHAIR.getAsBoolean() ? RenderPipelines.GUI_TEXTURED : RenderPipelines.CROSSHAIR;
-            WeaponClientItem.of(weaponItem)
-                    .getCrosshairRenderer()
-                    .render(graphics, pipeline, player, weaponItem, controls, screenWidth, screenHeight, LTXIClientConfig.getCrosshairColor(), partialTicks);
+            WeaponClientItem clientItem = WeaponClientItem.of(weaponItem);
+            if (clientItem != null)
+            {
+                clientItem.extractCrosshairs(graphics, pipeline, player, weaponItem, controls, screenWidth, screenHeight, LTXIClientConfig.getCrosshairColor(), partialTicks);
+            }
         }
     }
 }

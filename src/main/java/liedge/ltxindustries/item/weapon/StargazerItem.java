@@ -16,6 +16,8 @@ import org.jetbrains.annotations.Nullable;
 
 public class StargazerItem extends FullAutoWeaponItem
 {
+    public static final int CHARGE_TICKS = 10;
+
     public StargazerItem(Properties properties)
     {
         super(properties, 5, 200, 40, LTXIItems.SPECIALIST_WEAPON_ENERGY, 2, 0.33d);
@@ -37,7 +39,7 @@ public class StargazerItem extends FullAutoWeaponItem
             level.playSound(player, player, LTXISounds.LINEAR_FUSION_CHARGE.get(), SoundSource.PLAYERS, 1f, 0.95f + (0.1f * level.getRandom().nextFloat()));
         }
 
-        if (!player.level().isClientSide() && input.canStartShootingWeapon(heldItem, player, this) && triggerTicks >= 10)
+        if (!player.level().isClientSide() && input.canStartShootingWeapon(heldItem, player, this) && triggerTicks >= CHARGE_TICKS)
         {
             input.shootWeapon(heldItem, player, this, true);
         }

@@ -57,4 +57,9 @@ public final class LTXIRenderPipelines
             .withDepthStencilState(DepthStencilState.DEFAULT)
             .withVertexFormat(DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS)
             .build();
+
+    public static final RenderPipeline GUI_TRIANGLES = RenderPipeline.builder(RenderPipelines.GUI_SNIPPET)
+            .withLocation(LTXIndustries.RESOURCES.id("gui_triangles"))
+            .withVertexFormat(DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.TRIANGLES)
+            .build();
 }
