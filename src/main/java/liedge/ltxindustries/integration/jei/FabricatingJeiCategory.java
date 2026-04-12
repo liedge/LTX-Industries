@@ -1,0 +1,66 @@
+package liedge.ltxindustries.integration.jei;
+
+import liedge.limacore.recipe.LimaRecipeType;
+import liedge.limacore.util.LimaTextUtil;
+import liedge.ltxindustries.client.LTXILangKeys;
+import liedge.ltxindustries.client.gui.screen.LTXIScreen;
+import liedge.ltxindustries.client.gui.widget.FabricatorProgressWidget;
+import liedge.ltxindustries.recipe.FabricatingRecipe;
+import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.gui.drawable.IDrawableAnimated;
+import mezz.jei.api.gui.drawable.IDrawableStatic;
+import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
+import mezz.jei.api.helpers.IGuiHelper;
+import mezz.jei.api.recipe.IFocusGroup;
+import mezz.jei.api.recipe.types.IRecipeHolderType;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.crafting.RecipeHolder;
+
+import java.util.List;
+import java.util.function.Supplier;
+
+import static liedge.ltxindustries.LTXIConstants.REM_BLUE;
+
+class FabricatingJeiCategory extends LTXIJeiCategory<FabricatingRecipe>
+{
+    private final IDrawableStatic progressBackground;
+    private final IDrawableAnimated progressForeground;
+
+    FabricatingJeiCategory(IGuiHelper helper, Supplier<LimaRecipeType<FabricatingRecipe>> typeSupplier)
+    {
+        super(helper, typeSupplier, 140, 66);
+        this.progressBackground = guiSpriteDrawable(FabricatorProgressWidget.BACKGROUND_SPRITE, FabricatorProgressWidget.BACKGROUND_WIDTH, FabricatorProgressWidget.BACKGROUND_HEIGHT).build();
+        this.progressForeground = guiSpriteDrawable(FabricatorProgressWidget.FILL_SPRITE, FabricatorProgressWidget.FILL_WIDTH, FabricatorProgressWidget.FILL_HEIGHT).buildAnimated(80, IDrawableAnimated.StartDirection.BOTTOM, false);
+    }
+
+    @Override
+    public IRecipeHolderType<FabricatingRecipe> getRecipeType()
+    {
+        return LTXIJeiPlugin.FABRICATING_JEI;
+    }
+
+    @Override
+    protected void setRecipe(IRecipeLayoutBuilder builder, RecipeHolder<FabricatingRecipe> holder, FabricatingRecipe recipe, IFocusGroup focuses, RegistryAccess registries)
+    {
+        builder.addOutputSlot(114, 36).addItemStacks(List.of(recipe.getResultPreview()));
+        itemInputSlotGrid(builder, recipe, 2, 2, 6);
+    }
+
+    @Override
+    protected void drawRecipe(RecipeHolder<FabricatingRecipe> recipeHolder, IRecipeSlotsView view, GuiGraphicsExtractor graphics, double mouseX, double mouseY)
+    {
+        LTXIScreen.blitEmptySlotGrid(graphics, 1, 1, 6, 2);
+        LTXIScreen.blitEmptySlotGrid(graphics, 1, 37, 4, 1);
+
+        LTXIScreen.blitOutputSlotSprite(graphics, 111, 33);
+        progressBackground.draw(graphics, 133, 33);
+        progressForeground.draw(graphics, 134, 34);
+
+        FabricatingRecipe recipe = recipeHolder.value();
+        Component energyText = LTXILangKeys.INLINE_ENERGY.translateArgs(LimaTextUtil.formatWholeNumber(recipe.getEnergyRequired()));
+        graphics.text(Minecraft.getInstance().font, energyText, 2, 57, REM_BLUE.argb32(), false);
+    }
+}

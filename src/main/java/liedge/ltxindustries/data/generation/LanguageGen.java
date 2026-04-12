@@ -374,7 +374,8 @@ class LanguageGen extends LimaLanguageProvider
         add(INPUT_CONSUME_CHANCE_TOOLTIP, "Input consume chance: %s");
         add(OUTPUT_CHANCE_TOOLTIP, "Output chance: ");
         add(OUTPUT_VARIABLE_COUNT_TOOLTIP, "Outputs between: ");
-        add(OUTPUT_NON_PRIMARY_TOOLTIP, "Non-primary outputs are discarded when space is limited.");
+        add(OUTPUT_REQUIRED_TOOLTIP, "Required Output");
+        add(OUTPUT_OPTIONAL_TOOLTIP, "Optional Output. Will be discarded without halting crafting if space is limited.");
 
         add(UPGRADE_RANK_TOOLTIP, "Rank %s/%s");
         add(UPGRADE_REMOVE_HINT, "Shift + left click to remove upgrade. Must have space in your inventory.");
