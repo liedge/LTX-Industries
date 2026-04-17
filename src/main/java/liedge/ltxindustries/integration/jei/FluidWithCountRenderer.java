@@ -29,7 +29,7 @@ final class FluidWithCountRenderer implements IIngredientRenderer<FluidStack>
     @Override
     public void render(GuiGraphicsExtractor graphics, FluidStack ingredient, int posX, int posY)
     {
-        LimaGuiUtil.renderFluidWithAmount(graphics, ingredient, posX, posY);
+        LimaGuiUtil.fluidSpriteWithAmount(graphics, ingredient, posX, posY);
     }
 
     @Override

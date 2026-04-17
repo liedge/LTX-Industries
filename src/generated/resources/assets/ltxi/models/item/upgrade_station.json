@@ -1,5 +1,4 @@
 {
   "parent": "ltxi:block/upgrade_station",
-  "emission_target": 15,
-  "loader": "limacore:emissive_item"
+  "loader": "limacore:extended_cuboid"
 }

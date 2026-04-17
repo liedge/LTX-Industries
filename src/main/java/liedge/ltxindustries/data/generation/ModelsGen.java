@@ -2,7 +2,7 @@ package liedge.ltxindustries.data.generation;
 
 import com.google.gson.JsonObject;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import liedge.limacore.client.model.EmissiveModelBuilder;
+import liedge.limacore.client.model.ExtendedCuboidBuilder;
 import liedge.limacore.lib.ModResources;
 import liedge.limacore.util.LimaRegistryUtil;
 import liedge.ltxindustries.block.LTXIBlockProperties;
@@ -338,7 +338,7 @@ class ModelsGen extends ModelProvider
             Identifier mcId = ModResources.MC.id("item/brush" + suffix);
 
             ModelTemplate baseTemplate = new ModelTemplate(Optional.of(mcId), Optional.empty(), TextureSlot.LAYER0);
-            ModelTemplate emissiveTemplate = ExtendedModelTemplateBuilder.of(baseTemplate).customLoader(EmissiveModelBuilder::new, Consumers.nop()).build();
+            ModelTemplate emissiveTemplate = ExtendedModelTemplateBuilder.of(baseTemplate).customLoader(ExtendedCuboidBuilder::new, ExtendedCuboidBuilder::forceEmissiveQuads).build();
 
             Identifier subId = id.withPath(s -> "item/" + s + suffix);
             brushModels[i] = emissiveFlatModel(subId, baseTemplate, baseTexture, emissiveTemplate, emissiveTexture, models.modelOutput);
@@ -485,7 +485,7 @@ class ModelsGen extends ModelProvider
 
     private ModelTemplate unlitParent(Identifier parent)
     {
-        return ExtendedModelTemplateBuilder.builder().parent(parent).customLoader(EmissiveModelBuilder::new, EmissiveModelBuilder::maxEmission).build();
+        return ExtendedModelTemplateBuilder.builder().parent(parent).customLoader(ExtendedCuboidBuilder::new, Consumers.nop()).build();
     }
 
     private void createBEPart(BlockModelGenerators models, Block block, String suffix, boolean emissive, String... parts)
@@ -528,7 +528,7 @@ class ModelsGen extends ModelProvider
 
         ExclusionTemplate emissive(boolean emissive)
         {
-            this.custom = emissive ? new EmissiveModelBuilder().maxEmission() : null;
+            this.custom = emissive ? new ExtendedCuboidBuilder() : null;
             return this;
         }
 
@@ -567,9 +567,9 @@ class ModelsGen extends ModelProvider
 
     private static class Templates
     {
-        private static final ModelTemplate UNLIT_FLAT_ITEM = unlit(ModelTemplates.FLAT_ITEM);
-        private static final ModelTemplate UNLIT_HANDHELD_FLAT_ITEM = unlit(ModelTemplates.FLAT_HANDHELD_ITEM);
-        private static final ModelTemplate UNLIT_HANDHELD_ROD_ITEM = unlit(ModelTemplates.FLAT_HANDHELD_ROD_ITEM);
+        private static final ModelTemplate UNLIT_FLAT_ITEM = unlitFlat(ModelTemplates.FLAT_ITEM);
+        private static final ModelTemplate UNLIT_HANDHELD_FLAT_ITEM = unlitFlat(ModelTemplates.FLAT_HANDHELD_ITEM);
+        private static final ModelTemplate UNLIT_HANDHELD_ROD_ITEM = unlitFlat(ModelTemplates.FLAT_HANDHELD_ROD_ITEM);
 
         private static final ModelTemplate ORE_CLUSTER = builder("block/raw_ore_cluster").requiredTextureSlot(Textures.BASE).requiredTextureSlot(Textures.ORE).build();
         private static final ModelTemplate EMISSIVE_ORE = builder("block/emissive_ore").requiredTextureSlot(Textures.BASE).requiredTextureSlot(Textures.EMISSIVE)
@@ -582,9 +582,9 @@ class ModelsGen extends ModelProvider
         private static final ModelTemplate ASSEMBLER = builder("block/assembler").requiredTextureSlot(TextureSlot.FRONT).build();
         private static final ModelTemplate TURRET = builder("block/template/turret").build();
 
-        private static ModelTemplate unlit(ModelTemplate original)
+        private static ModelTemplate unlitFlat(ModelTemplate original)
         {
-            return original.extend().customLoader(EmissiveModelBuilder::new, Consumers.nop()).build();
+            return original.extend().customLoader(ExtendedCuboidBuilder::new, ExtendedCuboidBuilder::forceEmissiveQuads).build();
         }
 
         private static ExtendedModelTemplateBuilder builder(String path)

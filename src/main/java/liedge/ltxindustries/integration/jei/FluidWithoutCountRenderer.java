@@ -27,7 +27,7 @@ final class FluidWithoutCountRenderer implements IIngredientRenderer<FluidStack>
     @Override
     public void render(GuiGraphicsExtractor graphics, FluidStack ingredient, int posX, int posY)
     {
-        LimaGuiUtil.renderFluid(graphics, ingredient, posX, posY);
+        LimaGuiUtil.fluidSprite(graphics, ingredient, posX, posY);
     }
 
     @Override

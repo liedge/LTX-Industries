@@ -3,13 +3,11 @@
   "children": {
     "base": {
       "parent": "ltxi:block/turret_base",
-      "emission_target": 15,
-      "loader": "limacore:emissive_item"
+      "loader": "limacore:extended_cuboid"
     },
     "weapons": {
       "parent": "ltxi:block/railgun_turret",
-      "emission_target": 15,
-      "loader": "limacore:emissive_item"
+      "loader": "limacore:extended_cuboid"
     }
   },
   "item_render_order": [
