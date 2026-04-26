@@ -1,0 +1,136 @@
+{
+	"_license": "(C) 2026 Eduardo Jimenez | All Rights Reserved",
+	"_credit": "Made with Blockbench",
+	"loader": "limacore:extended_cuboid",
+	"pipeline": "entity",
+	"textures": {
+		"white_lights": "neoforge:white",
+		"weapon1": "ltxi:item/weapons/hanabi_1"
+	},
+	"elements": [
+		{
+			"from": [6.74, 11, 6.5],
+			"to": [9.26, 11.5, 10.5],
+			"shade": false,
+			"light_emission": 15,
+			"faces": {
+				"east": { "uv": [0, 0.5, 4, 1], "texture": "#white_lights", "tintindex": 0 },
+				"west": { "uv": [0, 0.5, 4, 1], "texture": "#white_lights", "tintindex": 0 }
+			}
+		},
+		{
+			"from": [6.74, 10, 6.5],
+			"to": [9.26, 10.5, 10.5],
+			"shade": false,
+			"light_emission": 15,
+			"faces": {
+				"east": { "uv": [0, 0.5, 4, 1], "texture": "#white_lights", "tintindex": 0 },
+				"west": { "uv": [0, 0.5, 4, 1], "texture": "#white_lights", "tintindex": 0 }
+			}
+		},
+		{
+			"from": [6.74, 9.99, 5.49],
+			"to": [9.26, 11.51, 6.01],
+			"shade": false,
+			"light_emission": 15,
+			"faces": {
+				"east": { "uv": [3.5, 0.5, 4, 2], "texture": "#white_lights", "tintindex": 0 },
+				"west": { "uv": [0, 0.5, 0.5, 2], "texture": "#white_lights", "tintindex": 0 },
+				"up": { "uv": [0, 0, 2.5, 0.5], "texture": "#white_lights", "tintindex": 0 },
+				"down": { "uv": [0, 3.5, 2.5, 4], "texture": "#white_lights", "tintindex": 0 }
+			}
+		},
+		{
+			"from": [7.24, 9.49, 5.49],
+			"to": [8.76, 12.01, 6.01],
+			"shade": false,
+			"light_emission": 15,
+			"faces": {
+				"east": { "uv": [3.5, 0.5, 4, 3], "texture": "#white_lights", "tintindex": 0 },
+				"west": { "uv": [0, 0.5, 0.5, 3], "texture": "#white_lights", "tintindex": 0 },
+				"up": { "uv": [0, 0, 1.5, 0.5], "texture": "#white_lights", "tintindex": 0 },
+				"down": { "uv": [0, 3.5, 1.5, 4], "texture": "#white_lights", "tintindex": 0 }
+			}
+		},
+		{
+			"from": [7.24, 9.49, 10.99],
+			"to": [8.76, 12.01, 11.51],
+			"shade": false,
+			"light_emission": 15,
+			"faces": {
+				"east": { "uv": [3.5, 0.5, 4, 3], "texture": "#white_lights", "tintindex": 0 },
+				"west": { "uv": [0, 0.5, 0.5, 3], "texture": "#white_lights", "tintindex": 0 },
+				"up": { "uv": [0, 0, 1.5, 0.5], "texture": "#white_lights", "tintindex": 0 },
+				"down": { "uv": [0, 3.5, 1.5, 4], "texture": "#white_lights", "tintindex": 0 }
+			}
+		},
+		{
+			"from": [6.74, 9.99, 10.99],
+			"to": [9.26, 11.51, 11.51],
+			"shade": false,
+			"light_emission": 15,
+			"faces": {
+				"east": { "uv": [3.5, 0.5, 4, 2], "texture": "#white_lights", "tintindex": 0 },
+				"west": { "uv": [0, 0.5, 0.5, 2], "texture": "#white_lights", "tintindex": 0 },
+				"up": { "uv": [0, 0, 2.5, 0.5], "texture": "#white_lights", "tintindex": 0 },
+				"down": { "uv": [0, 3.5, 2.5, 4], "texture": "#white_lights", "tintindex": 0 }
+			}
+		},
+		{
+			"from": [7.26, 9.49, 6.5],
+			"to": [7.76, 12.01, 10.5],
+			"shade": false,
+			"light_emission": 15,
+			"faces": {
+				"up": { "uv": [0, 0, 0.5, 4], "texture": "#white_lights", "tintindex": 0 },
+				"down": { "uv": [0, 0, 0.5, 4], "texture": "#white_lights", "tintindex": 0 }
+			}
+		},
+		{
+			"from": [8.26, 9.49, 6.5],
+			"to": [8.76, 12.01, 10.5],
+			"shade": false,
+			"light_emission": 15,
+			"faces": {
+				"up": { "uv": [0, 0, 0.5, 4], "texture": "#white_lights", "tintindex": 0 },
+				"down": { "uv": [0, 0, 0.5, 4], "texture": "#white_lights", "tintindex": 0 }
+			}
+		},
+		{
+			"from": [7.25, 11.5, 5],
+			"to": [8.75, 12, 12],
+			"faces": {
+				"east": { "uv": [9, 13.5, 16, 14], "texture": "#weapon1" },
+				"west": { "uv": [9, 13.5, 16, 14], "texture": "#weapon1" },
+				"up": { "uv": [9, 14, 16, 15.5], "rotation": 90, "texture": "#weapon1" }
+			}
+		},
+		{
+			"from": [7.25, 9.5, 5],
+			"to": [8.75, 10, 12],
+			"faces": {
+				"east": { "uv": [9, 15.5, 16, 16], "texture": "#weapon1" },
+				"west": { "uv": [9, 15.5, 16, 16], "texture": "#weapon1" },
+				"down": { "uv": [9, 14, 16, 15.5], "rotation": 90, "texture": "#weapon1" }
+			}
+		},
+		{
+			"from": [6.75, 10, 5],
+			"to": [7.25, 11.5, 12],
+			"faces": {
+				"west": { "uv": [9, 14, 16, 15.5], "texture": "#weapon1" },
+				"up": { "uv": [9, 15.5, 16, 16], "rotation": 90, "texture": "#weapon1" },
+				"down": { "uv": [9, 13.5, 16, 14], "rotation": 90, "texture": "#weapon1" }
+			}
+		},
+		{
+			"from": [8.75, 10, 5],
+			"to": [9.25, 11.5, 12],
+			"faces": {
+				"east": { "uv": [9, 14, 16, 15.5], "texture": "#weapon1" },
+				"up": { "uv": [9, 13.5, 16, 14], "rotation": 90, "texture": "#weapon1" },
+				"down": { "uv": [9, 15.5, 16, 16], "rotation": 90, "texture": "#weapon1" }
+			}
+		}
+	]
+}

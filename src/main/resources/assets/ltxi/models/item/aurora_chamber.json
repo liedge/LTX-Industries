@@ -1,0 +1,66 @@
+{
+	"_license": "(C) 2026 Eduardo Jimenez | All Rights Reserved",
+	"_credit": "Made with Blockbench",
+	"loader": "limacore:extended_cuboid",
+	"pipeline": "entity",
+	"textures": {
+		"weapon2": "ltxi:item/weapons/aurora_2",
+		"lights": "ltxi:item/solid_lime"
+	},
+	"elements": [
+		{
+			"from": [7.5, 10.5, 8],
+			"to": [8.5, 11.5, 14],
+			"faces": {
+				"east": { "uv": [12, 6, 6, 7], "texture": "#weapon2" },
+				"west": { "uv": [6, 6, 12, 7], "texture": "#weapon2" },
+				"up": { "uv": [6, 6, 12, 7], "rotation": 90, "texture": "#weapon2" },
+				"down": { "uv": [6, 6, 12, 7], "rotation": 270, "texture": "#weapon2" }
+			}
+		},
+		{
+			"from": [7.49, 10.865, 8.74],
+			"to": [8.51, 11.135, 13.26],
+			"shade": false,
+			"light_emission": 15,
+			"faces": {
+				"east": { "uv": [0.25, 1.75, 4.75, 2], "texture": "#lights" },
+				"west": { "uv": [0.25, 1.75, 4.75, 2], "texture": "#lights" }
+			}
+		},
+		{
+			"from": [7.865, 10.49, 8.74],
+			"to": [8.135, 11.51, 13.26],
+			"shade": false,
+			"light_emission": 15,
+			"faces": {
+				"up": { "uv": [0, 0.25, 0.25, 4.75], "texture": "#lights" },
+				"down": { "uv": [0, 0.25, 0.25, 4.75], "texture": "#lights" }
+			}
+		},
+		{
+			"from": [7.49, 10.49, 8.24],
+			"to": [8.51, 11.51, 8.51],
+			"shade": false,
+			"light_emission": 15,
+			"faces": {
+				"east": { "uv": [1.5, 1, 1.75, 2], "texture": "#lights" },
+				"west": { "uv": [0.25, 1, 0.5, 2], "texture": "#lights" },
+				"up": { "uv": [0, 0.25, 1, 0.5], "texture": "#lights" },
+				"down": { "uv": [0, 1.5, 1, 1.75], "texture": "#lights" }
+			}
+		},
+		{
+			"from": [7.49, 10.49, 13.49],
+			"to": [8.51, 11.51, 13.76],
+			"shade": false,
+			"light_emission": 15,
+			"faces": {
+				"east": { "uv": [1.5, 1, 1.75, 2], "texture": "#lights" },
+				"west": { "uv": [0.25, 1, 0.5, 2], "texture": "#lights" },
+				"up": { "uv": [0, 0.25, 1, 0.5], "texture": "#lights" },
+				"down": { "uv": [0, 1.5, 1, 1.75], "texture": "#lights" }
+			}
+		}
+	]
+}
