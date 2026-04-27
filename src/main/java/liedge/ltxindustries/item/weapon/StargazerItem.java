@@ -36,12 +36,12 @@ public class StargazerItem extends FullAutoWeaponItem
         if (triggerTicks == 1)
         {
             Level level = player.level();
-            level.playSound(player, player, LTXISounds.LINEAR_FUSION_CHARGE.get(), SoundSource.PLAYERS, 1f, 0.95f + (0.1f * level.getRandom().nextFloat()));
+            level.playSound(player, player, LTXISounds.STARGAZER_CHARGE.get(), SoundSource.PLAYERS, 1f, 0.95f + (0.1f * level.getRandom().nextFloat()));
         }
 
         if (!player.level().isClientSide() && input.canStartShootingWeapon(heldItem, player, this) && triggerTicks >= CHARGE_TICKS)
         {
-            input.shootWeapon(heldItem, player, this, true);
+            input.shootWeapon(heldItem, player, this);
         }
     }
 
@@ -66,7 +66,7 @@ public class StargazerItem extends FullAutoWeaponItem
             traceLightfrag(serverLevel, player, heldItem, LTXIWeaponsConfig.STARGAZER_BASE_DAMAGE.getAsDouble(), 0d, 0.125d);
         }
 
-        level.playSound(player, player, LTXISounds.LINEAR_FUSION_FIRE.get(), SoundSource.PLAYERS, 2f, 0.9f + (level.getRandom().nextFloat() * 0.125f));
+        level.playSound(player, player, LTXISounds.STARGAZER_FIRE.get(), SoundSource.PLAYERS, 2f, 0.9f + (level.getRandom().nextFloat() * 0.125f));
     }
 
     @Override

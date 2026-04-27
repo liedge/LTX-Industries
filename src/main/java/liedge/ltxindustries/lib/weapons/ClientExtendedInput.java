@@ -2,14 +2,11 @@ package liedge.ltxindustries.lib.weapons;
 
 import liedge.limacore.lib.TickTimer;
 import liedge.limacore.util.LimaCoreObjects;
-import liedge.ltxindustries.client.AutomaticWeaponSoundInstance;
 import liedge.ltxindustries.client.item.WeaponClientItem;
 import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.network.packet.ClientboundWeaponControlsPacket;
 import liedge.ltxindustries.network.packet.ServerboundWeaponControlsPacket;
 import liedge.ltxindustries.registry.game.LTXIAttachmentTypes;
-import liedge.ltxindustries.registry.game.LTXIItems;
-import liedge.ltxindustries.registry.game.LTXISounds;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -50,7 +47,7 @@ public class ClientExtendedInput extends LTXIExtendedInput
         switch (serverAction)
         {
             case ClientboundWeaponControlsPacket.RELOAD_START -> getReloadTimer().startTimer(weaponItem.getReloadSpeed(heldItem));
-            case ClientboundWeaponControlsPacket.WEAPON_SHOOT -> shootWeapon(heldItem, player, weaponItem, false);
+            case ClientboundWeaponControlsPacket.WEAPON_SHOOT -> shootWeapon(heldItem, player, weaponItem);
             case ClientboundWeaponControlsPacket.START_TRIGGER_HOLD -> startHoldingTrigger(heldItem, player, weaponItem);
             case ClientboundWeaponControlsPacket.STOP_TRIGGER_HOLD -> stopHoldingTrigger(heldItem, player, weaponItem, false);
         }
@@ -85,23 +82,12 @@ public class ClientExtendedInput extends LTXIExtendedInput
     }
 
     @Override
-    public void shootWeapon(ItemStack heldItem, Player player, WeaponItem weaponItem, boolean sendClientUpdate)
+    public void shootWeapon(ItemStack heldItem, Player player, WeaponItem weaponItem)
     {
-        super.shootWeapon(heldItem, player, weaponItem, sendClientUpdate);
+        super.shootWeapon(heldItem, player, weaponItem);
 
         WeaponClientItem clientItem = WeaponClientItem.of(weaponItem);
         if (clientItem != null) clientItem.onWeaponFired(heldItem, weaponItem, this);
-    }
-
-    @Override
-    public void startHoldingTrigger(ItemStack heldItem, Player player, WeaponItem weaponItem)
-    {
-        super.startHoldingTrigger(heldItem, player, weaponItem);
-
-        if (weaponItem == LTXIItems.SERENITY.get())
-        {
-            Minecraft.getInstance().getSoundManager().play(new AutomaticWeaponSoundInstance(LTXISounds.SUBMACHINE_GUN_LOOP, player));
-        }
     }
 
     @Override

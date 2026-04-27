@@ -61,7 +61,7 @@ public class AuroraItem extends SemiAutoWeaponItem
             level.gameEvent(player, LTXIGameEvents.WEAPON_FIRED, player.getEyePosition());
         }
 
-        level.playSound(player, player, LTXISounds.SHOTGUN_FIRE.get(), SoundSource.PLAYERS, 2.0f, Mth.randomBetween(player.getRandom(), 0.9f, 1f));
+        level.playSound(player, player, LTXISounds.AURORA_FIRE.get(), SoundSource.PLAYERS, 2.0f, Mth.randomBetween(player.getRandom(), 0.9f, 1f));
     }
 
     @Override

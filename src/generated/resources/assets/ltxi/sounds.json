@@ -5,11 +5,23 @@
     ],
     "subtitle": "subtitle.ltxi.acid_grenade_explode"
   },
+  "aurora_fire": {
+    "sounds": [
+      "ltxi:aurora_fire"
+    ],
+    "subtitle": "subtitle.ltxi.aurora_fire"
+  },
   "cryo_grenade_explode": {
     "sounds": [
       "ltxi:cryo_grenade_explode"
     ],
     "subtitle": "subtitle.ltxi.cryo_grenade_explode"
+  },
+  "daybreak_fire": {
+    "sounds": [
+      "ltxi:daybreak_fire"
+    ],
+    "subtitle": "subtitle.ltxi.daybreak_fire"
   },
   "electric_grenade_explode": {
     "sounds": [
@@ -38,46 +50,23 @@
     ],
     "subtitle": "subtitle.ltxi.flame_grenade_explode"
   },
-  "glowstick_launcher_fire": {
+  "hanabi_fire": {
     "sounds": [
-      {
-        "type": "event",
-        "name": "ltxi:grenade_launcher_fire",
-        "pitch": 1.25
-      }
+      "ltxi:hanabi_fire"
     ],
-    "subtitle": "subtitle.ltxi.glowstick_launcher_fire"
-  },
-  "grenade_launcher_fire": {
-    "sounds": [
-      "ltxi:grenade_launcher_fire"
-    ],
-    "subtitle": "subtitle.ltxi.grenade_launcher_fire"
-  },
-  "heavy_pistol_fire": {
-    "sounds": [
-      "ltxi:heavy_pistol_fire"
-    ],
-    "subtitle": "subtitle.ltxi.heavy_pistol_fire"
-  },
-  "linear_fusion_charge": {
-    "sounds": [
-      "ltxi:linear_fusion_charge"
-    ],
-    "subtitle": "subtitle.ltxi.linear_fusion_charge"
-  },
-  "linear_fusion_fire": {
-    "sounds": [
-      "ltxi:linear_fusion_fire0",
-      "ltxi:linear_fusion_fire1"
-    ],
-    "subtitle": "subtitle.ltxi.linear_fusion_fire"
+    "subtitle": "subtitle.ltxi.hanabi_fire"
   },
   "neuro_grenade_explode": {
     "sounds": [
       "ltxi:neuro_grenade_explode"
     ],
     "subtitle": "subtitle.ltxi.neuro_grenade_explode"
+  },
+  "nova_fire": {
+    "sounds": [
+      "ltxi:nova_fire"
+    ],
+    "subtitle": "subtitle.ltxi.nova_fire"
   },
   "railgun_turret_fire": {
     "sounds": [
@@ -97,20 +86,23 @@
     ],
     "subtitle": "subtitle.ltxi.rocket_explode"
   },
-  "rocket_launcher_fire": {
-    "sounds": [
-      "ltxi:rocket_launcher_fire"
-    ],
-    "subtitle": "subtitle.ltxi.rocket_launcher_fire"
-  },
   "rocket_turret_fire": {
     "sounds": [
       {
         "type": "event",
-        "name": "ltxi:rocket_launcher_fire"
+        "name": "ltxi:daybreak_fire"
       }
     ],
     "subtitle": "subtitle.ltxi.rocket_turret_fire"
+  },
+  "serenity_fire": {
+    "sounds": [
+      {
+        "name": "ltxi:auto_weapon_fire",
+        "pitch": 0.99
+      }
+    ],
+    "subtitle": "subtitle.ltxi.serenity_fire"
   },
   "shield_break": {
     "sounds": [
@@ -118,17 +110,18 @@
     ],
     "subtitle": "subtitle.ltxi.shield_break"
   },
-  "shotgun_fire": {
+  "stargazer_charge": {
     "sounds": [
-      "ltxi:shotgun_fire"
+      "ltxi:stargazer_charge"
     ],
-    "subtitle": "subtitle.ltxi.shotgun_fire"
+    "subtitle": "subtitle.ltxi.stargazer_charge"
   },
-  "submachine_gun_loop": {
+  "stargazer_fire": {
     "sounds": [
-      "ltxi:submachine_gun_loop"
+      "ltxi:stargazer_fire_0",
+      "ltxi:stargazer_fire_1"
     ],
-    "subtitle": "subtitle.ltxi.submachine_gun_loop"
+    "subtitle": "subtitle.ltxi.stargazer_fire"
   },
   "turret_target_found": {
     "sounds": [
@@ -147,5 +140,14 @@
       "ltxi:upgrade_remove"
     ],
     "subtitle": "subtitle.ltxi.upgrade_remove"
+  },
+  "wayfinder_fire": {
+    "sounds": [
+      {
+        "name": "ltxi:hanabi_fire",
+        "pitch": 1.25
+      }
+    ],
+    "subtitle": "subtitle.ltxi.wayfinder_fire"
   }
 }

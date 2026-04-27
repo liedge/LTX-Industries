@@ -166,10 +166,12 @@ public abstract class LTXIExtendedInput
         return canContinueShootingWeapon(heldItem, player, weaponItem) && getTriggerState(weaponItem) == TickTimer.State.STOPPED;
     }
 
-    public void shootWeapon(ItemStack heldItem, Player player, WeaponItem weaponItem, boolean sendClientUpdate)
+    public void shootWeapon(ItemStack heldItem, Player player, WeaponItem weaponItem)
     {
         weaponItem.weaponFired(heldItem, player, player.level(), this);
-        startTriggerTimer(weaponItem, weaponItem.getFireRate(heldItem));
+
+        int fireRate = weaponItem.getFireRate(heldItem);
+        if (fireRate > 0) startTriggerTimer(weaponItem, fireRate);
     }
 
     public void startHoldingTrigger(ItemStack heldItem, Player player, WeaponItem weaponItem)

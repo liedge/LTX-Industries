@@ -5,9 +5,11 @@ import liedge.ltxindustries.lib.upgrades.Upgrade;
 import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
 import liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades;
 import liedge.ltxindustries.registry.game.LTXIItems;
+import liedge.ltxindustries.registry.game.LTXISounds;
 import liedge.ltxindustries.util.config.LTXIWeaponsConfig;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -41,6 +43,8 @@ public class SerenityItem extends FullAutoWeaponItem
             double inaccuracy = LimaEntityUtil.isEntityUsingItem(player, InteractionHand.MAIN_HAND) ? 0.25d : 4d;
             traceLightfrag(serverLevel, player, heldItem, LTXIWeaponsConfig.SERENITY_BASE_DAMAGE.getAsDouble(), inaccuracy, 0.2d);
         }
+
+        level.playSound(player, player, LTXISounds.SERENITY_FIRE.get(), SoundSource.PLAYERS, 2f, 1f);
     }
 
     @Override

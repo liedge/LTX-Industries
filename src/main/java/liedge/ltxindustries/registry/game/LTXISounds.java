@@ -28,14 +28,14 @@ public final class LTXISounds
     public static final DeferredHolder<SoundEvent, SoundEvent> TURRET_TARGET_FOUND = registerSound("turret_target_found");
     public static final DeferredHolder<SoundEvent, SoundEvent> BUBBLE_SHIELD_BREAK = registerSound("shield_break");
 
-    public static final DeferredHolder<SoundEvent, SoundEvent> GLOWSTICK_LAUNCHER_FIRE = registerSound("glowstick_launcher_fire");
-    public static final DeferredHolder<SoundEvent, SoundEvent> SUBMACHINE_GUN_LOOP = registerSound("submachine_gun_loop");
-    public static final DeferredHolder<SoundEvent, SoundEvent> SHOTGUN_FIRE = registerSound("shotgun_fire");
-    public static final DeferredHolder<SoundEvent, SoundEvent> GRENADE_LAUNCHER_FIRE = registerSound("grenade_launcher_fire");
-    public static final DeferredHolder<SoundEvent, SoundEvent> LINEAR_FUSION_CHARGE = registerSound("linear_fusion_charge");
-    public static final DeferredHolder<SoundEvent, SoundEvent> LINEAR_FUSION_FIRE = registerSound("linear_fusion_fire");
-    public static final DeferredHolder<SoundEvent, SoundEvent> ROCKET_LAUNCHER_FIRE = registerSound("rocket_launcher_fire");
-    public static final DeferredHolder<SoundEvent, SoundEvent> HEAVY_PISTOL_FIRE = registerSound("heavy_pistol_fire");
+    public static final DeferredHolder<SoundEvent, SoundEvent> WAYFINDER_FIRE = registerSound("wayfinder_fire");
+    public static final DeferredHolder<SoundEvent, SoundEvent> SERENITY_FIRE = registerSound("serenity_fire");
+    public static final DeferredHolder<SoundEvent, SoundEvent> AURORA_FIRE = registerSound("aurora_fire");
+    public static final DeferredHolder<SoundEvent, SoundEvent> HANABI_FIRE = registerSound("hanabi_fire");
+    public static final DeferredHolder<SoundEvent, SoundEvent> STARGAZER_CHARGE = registerSound("stargazer_charge");
+    public static final DeferredHolder<SoundEvent, SoundEvent> STARGAZER_FIRE = registerSound("stargazer_fire");
+    public static final DeferredHolder<SoundEvent, SoundEvent> DAYBREAK_FIRE = registerSound("daybreak_fire");
+    public static final DeferredHolder<SoundEvent, SoundEvent> NOVA_FIRE = registerSound("nova_fire");
     public static final DeferredHolder<SoundEvent, SoundEvent> ROCKET_EXPLODE = registerSound("rocket_explode");
     public static final Map<GrenadeType, DeferredHolder<SoundEvent, SoundEvent>> GRENADE_EXPLOSIONS = LimaCollectionsUtil.fillAndCreateImmutableEnumMap(GrenadeType.class, e -> registerSound(e.getSerializedName() + "_grenade_explode"));
 

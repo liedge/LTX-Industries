@@ -68,9 +68,9 @@ public class ServerExtendedInput extends LTXIExtendedInput
     }
 
     @Override
-    public void shootWeapon(ItemStack heldItem, Player player, WeaponItem weaponItem, boolean sendClientUpdate)
+    public void shootWeapon(ItemStack heldItem, Player player, WeaponItem weaponItem)
     {
-        super.shootWeapon(heldItem, player, weaponItem, sendClientUpdate);
+        super.shootWeapon(heldItem, player, weaponItem);
 
         if (!isInfiniteAmmo(heldItem, player, weaponItem))
         {
@@ -78,10 +78,7 @@ public class ServerExtendedInput extends LTXIExtendedInput
             weaponItem.setAmmoLoaded(heldItem, ammo - 1);
         }
 
-        if (sendClientUpdate)
-        {
-            sendPacketToClient(player, weaponItem, ClientboundWeaponControlsPacket.WEAPON_SHOOT);
-        }
+        sendPacketToClient(player, weaponItem, ClientboundWeaponControlsPacket.WEAPON_SHOOT);
     }
 
     @Override

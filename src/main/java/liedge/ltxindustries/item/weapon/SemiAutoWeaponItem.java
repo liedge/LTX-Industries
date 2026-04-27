@@ -18,7 +18,7 @@ public abstract class SemiAutoWeaponItem extends WeaponItem
     {
         if (!player.level().isClientSide() && input.canStartShootingWeapon(heldItem, player, this))
         {
-            input.shootWeapon(heldItem, player, this, true);
+            input.shootWeapon(heldItem, player, this);
         }
     }
 

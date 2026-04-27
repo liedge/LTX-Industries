@@ -38,7 +38,7 @@ public class NovaItem extends SemiAutoWeaponItem
             traceLightfrag(serverLevel, player, heldItem, LTXIWeaponsConfig.NOVA_BASE_DAMAGE.getAsDouble(), inaccuracy, 0.25d);
         }
 
-        level.playSound(player, player, LTXISounds.HEAVY_PISTOL_FIRE.get(), SoundSource.PLAYERS, 1.0f, 0.75f + (player.getRandom().nextFloat() * 0.2f));
+        level.playSound(player, player, LTXISounds.NOVA_FIRE.get(), SoundSource.PLAYERS, 1.0f, 0.75f + (player.getRandom().nextFloat() * 0.2f));
     }
 
     @Override

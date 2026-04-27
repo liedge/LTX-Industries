@@ -26,16 +26,16 @@ class SoundsGen extends LimaSoundDefinitionsProvider
         addSingleDirectSound(TURRET_TARGET_FOUND);
         addSingleDirectSound(BUBBLE_SHIELD_BREAK);
 
-        addSound(GLOWSTICK_LAUNCHER_FIRE, def -> def.with(beginSound(GRENADE_LAUNCHER_FIRE, SoundDefinition.SoundType.EVENT).pitch(1.25f)));
-        addSingleDirectSound(SUBMACHINE_GUN_LOOP);
-        addSingleDirectSound(SHOTGUN_FIRE);
-        addSingleDirectSound(GRENADE_LAUNCHER_FIRE);
-        addSingleDirectSound(LINEAR_FUSION_CHARGE);
-        addSound(LINEAR_FUSION_FIRE, def -> def
-                .with(beginSound("linear_fusion_fire0", SoundDefinition.SoundType.SOUND))
-                .with(beginSound("linear_fusion_fire1", SoundDefinition.SoundType.SOUND)));
-        addSingleDirectSound(ROCKET_LAUNCHER_FIRE);
-        addSingleDirectSound(HEAVY_PISTOL_FIRE);
+        addSound(WAYFINDER_FIRE, def -> def.with(beginSound(HANABI_FIRE, SoundDefinition.SoundType.SOUND).pitch(1.25f)));
+        addSound(SERENITY_FIRE, def -> def.with(beginSound("auto_weapon_fire", SoundDefinition.SoundType.SOUND).pitch(0.99f)));
+        addSingleDirectSound(AURORA_FIRE);
+        addSingleDirectSound(HANABI_FIRE);
+        addSingleDirectSound(STARGAZER_CHARGE);
+        addSound(STARGAZER_FIRE, def -> def
+                .with(beginSound("stargazer_fire_0", SoundDefinition.SoundType.SOUND))
+                .with(beginSound("stargazer_fire_1", SoundDefinition.SoundType.SOUND)));
+        addSingleDirectSound(DAYBREAK_FIRE);
+        addSingleDirectSound(NOVA_FIRE);
         addSingleEventSound(ROCKET_EXPLODE, GENERIC_EXPLODE);
 
         GRENADE_EXPLOSIONS.forEach((element, holder) -> {
@@ -49,7 +49,7 @@ class SoundsGen extends LimaSoundDefinitionsProvider
             }
         });
 
-        addSingleEventSound(ROCKET_TURRET_FIRE, ROCKET_LAUNCHER_FIRE);
+        addSingleEventSound(ROCKET_TURRET_FIRE, DAYBREAK_FIRE);
         addSingleEventSound(RAILGUN_TURRET_FIRE, WARDEN_SONIC_BOOM);
      }
 }

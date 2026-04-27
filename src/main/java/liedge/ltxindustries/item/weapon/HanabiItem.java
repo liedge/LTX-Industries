@@ -90,7 +90,7 @@ public class HanabiItem extends SemiAutoWeaponItem implements ScrollModeSwitchIt
             level.gameEvent(player, LTXIGameEvents.WEAPON_FIRED, player.getEyePosition());
         }
 
-        level.playSound(player, player, LTXISounds.GRENADE_LAUNCHER_FIRE.get(), SoundSource.PLAYERS, 2f, Mth.randomBetween(level.getRandom(), 0.9f, 1.1f));
+        level.playSound(player, player, LTXISounds.HANABI_FIRE.get(), SoundSource.PLAYERS, 2f, Mth.randomBetween(level.getRandom(), 0.9f, 1.1f));
     }
 
     @Override
