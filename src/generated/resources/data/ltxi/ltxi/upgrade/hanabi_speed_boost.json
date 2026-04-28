@@ -1,7 +1,7 @@
 {
   "display": {
     "description": {
-      "translate": "upgrade.ltxi.grenade_launcher_projectile_speed.desc"
+      "translate": "upgrade.ltxi.hanabi_speed_boost.desc"
     },
     "icon": {
       "type": "overlay",
@@ -13,7 +13,7 @@
       "y_offset": 6
     },
     "title": {
-      "translate": "upgrade.ltxi.grenade_launcher_projectile_speed"
+      "translate": "upgrade.ltxi.hanabi_speed_boost"
     },
     "tooltips": [
       {

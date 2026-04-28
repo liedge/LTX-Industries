@@ -2,7 +2,7 @@ package liedge.ltxindustries.item.weapon;
 
 import liedge.ltxindustries.lib.upgrades.Upgrade;
 import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
-import liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades;
+import liedge.ltxindustries.registry.bootstrap.LTXIUpgrades;
 import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.registry.game.LTXISounds;
 import liedge.ltxindustries.util.config.LTXIWeaponsConfig;
@@ -26,7 +26,7 @@ public class StargazerItem extends FullAutoWeaponItem
     @Override
     public @Nullable ResourceKey<Upgrade> getDefaultUpgradeKey()
     {
-        return LTXIEquipmentUpgrades.STARGAZER_DEFAULT;
+        return LTXIUpgrades.STARGAZER_DEFAULT;
     }
 
     @Override

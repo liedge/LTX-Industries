@@ -1,7 +1,7 @@
 package liedge.ltxindustries.item.tool;
 
 import liedge.ltxindustries.lib.upgrades.Upgrade;
-import liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades;
+import liedge.ltxindustries.registry.bootstrap.LTXIUpgrades;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
@@ -40,7 +40,7 @@ public class EnergyShovelItem extends ModularEnergyMiningItem
     @Override
     public @Nullable ResourceKey<Upgrade> getDefaultUpgradeKey()
     {
-        return LTXIEquipmentUpgrades.EPSILON_SHOVEL_DEFAULT;
+        return LTXIUpgrades.EPSILON_SHOVEL_DEFAULT;
     }
 
     @Override

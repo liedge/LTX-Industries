@@ -1,7 +1,7 @@
 {
   "type": "ltxi:fabricating",
   "energy_required": 500000,
-  "group": "mum/turret",
+  "group": "eum/tool",
   "item_inputs": [
     {
       "ingredient": {
@@ -9,7 +9,7 @@
         "components": {
           "ltxi:upgrade": {
             "rank": 2,
-            "upgrade": "ltxi:turret_looting"
+            "upgrade": "ltxi:equipment_energy_upgrade"
           }
         },
         "items": "ltxi:upgrade_module",
@@ -17,7 +17,6 @@
       }
     },
     {
-      "count": 4,
       "ingredient": "ltxi:t3_circuit"
     },
     {
@@ -25,23 +24,23 @@
       "ingredient": "ltxi:titanium_ingot"
     },
     {
-      "count": 2,
-      "ingredient": "minecraft:emerald"
+      "count": 16,
+      "ingredient": "ltxi:polymer_ingot"
     },
     {
-      "count": 2,
-      "ingredient": "minecraft:diamond"
+      "count": 4,
+      "ingredient": "minecraft:gold_ingot"
     },
     {
-      "count": 2,
-      "ingredient": "minecraft:lapis_block"
+      "count": 16,
+      "ingredient": "ltxi:electric_chemical"
     }
   ],
   "result": {
     "components": {
       "ltxi:upgrade": {
         "rank": 3,
-        "upgrade": "ltxi:turret_looting"
+        "upgrade": "ltxi:equipment_energy_upgrade"
       }
     },
     "count": 1,

@@ -25,7 +25,7 @@
   "result": {
     "components": {
       "ltxi:upgrade": {
-        "upgrade": "ltxi:tool_energy_upgrade"
+        "upgrade": "ltxi:equipment_energy_upgrade"
       }
     },
     "count": 1,

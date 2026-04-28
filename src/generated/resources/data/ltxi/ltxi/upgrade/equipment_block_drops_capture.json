@@ -2,11 +2,11 @@
   "display": {
     "category": "tools",
     "description": {
-      "translate": "upgrade.ltxi.tool_direct_drops.desc"
+      "translate": "upgrade.ltxi.equipment_block_drops_capture.desc"
     },
     "icon": "ltxi:magnet",
     "title": {
-      "translate": "upgrade.ltxi.tool_direct_drops"
+      "translate": "upgrade.ltxi.equipment_block_drops_capture"
     }
   },
   "effects": {

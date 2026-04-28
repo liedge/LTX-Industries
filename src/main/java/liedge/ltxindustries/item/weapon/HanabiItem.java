@@ -10,7 +10,7 @@ import liedge.ltxindustries.lib.upgrades.MutableUpgrades;
 import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
 import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
-import liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades;
+import liedge.ltxindustries.registry.bootstrap.LTXIUpgrades;
 import liedge.ltxindustries.registry.game.LTXIGameEvents;
 import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.registry.game.LTXISounds;
@@ -123,7 +123,7 @@ public class HanabiItem extends SemiAutoWeaponItem implements ScrollModeSwitchIt
         HolderLookup.Provider registries = parameters.holders();
         ItemStack stack = new ItemStack(this);
         setUpgrades(stack, MutableUpgrades.create()
-                .set(registries.holderOrThrow(LTXIEquipmentUpgrades.OMNI_GRENADE_CORE))
+                .set(registries.holderOrThrow(LTXIUpgrades.OMNI_GRENADE_CORE))
                 .build());
         setAmmoLoadedMax(stack);
         output.accept(stack, tabVisibility);

@@ -21,7 +21,7 @@
   "result": {
     "components": {
       "ltxi:upgrade": {
-        "upgrade": "ltxi:grenade_launcher_projectile_speed"
+        "upgrade": "ltxi:hanabi_speed_boost"
       }
     },
     "count": 1,

@@ -1,17 +1,17 @@
 {
   "display": {
     "description": {
-      "translate": "upgrade.ltxi.universal_stealth_damage.desc"
+      "translate": "upgrade.ltxi.no_anger_attacks.desc"
     },
     "icon": "ltxi:stealth_damage",
     "title": {
-      "translate": "upgrade.ltxi.universal_stealth_damage"
+      "translate": "upgrade.ltxi.no_anger_attacks"
     },
     "tooltips": [
       {
         "type": "static",
         "tooltip": {
-          "translate": "upgrade.ltxi.universal_stealth_damage.tooltip0"
+          "translate": "upgrade.ltxi.no_anger_attacks.tooltip0"
         }
       }
     ]
@@ -22,6 +22,7 @@
     ]
   },
   "users": {
+    "block_entities": "#ltxi:turrets",
     "items": "#ltxi:weapons"
   }
 }

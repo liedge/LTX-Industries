@@ -1,15 +1,14 @@
 {
   "type": "ltxi:fabricating",
-  "energy_required": 500000,
-  "group": "eum/tool",
+  "energy_required": 250000,
+  "group": "mum/turret",
   "item_inputs": [
     {
       "ingredient": {
         "neoforge:ingredient_type": "neoforge:components",
         "components": {
           "ltxi:upgrade": {
-            "rank": 2,
-            "upgrade": "ltxi:tool_energy_upgrade"
+            "upgrade": "ltxi:turret_enchantment/looting"
           }
         },
         "items": "ltxi:upgrade_module",
@@ -17,30 +16,27 @@
       }
     },
     {
-      "ingredient": "ltxi:t3_circuit"
+      "count": 2,
+      "ingredient": "ltxi:t2_circuit"
     },
     {
-      "count": 8,
+      "count": 6,
       "ingredient": "ltxi:titanium_ingot"
     },
     {
-      "count": 16,
-      "ingredient": "ltxi:polymer_ingot"
+      "count": 2,
+      "ingredient": "minecraft:rabbit_foot"
     },
     {
-      "count": 4,
-      "ingredient": "minecraft:gold_ingot"
-    },
-    {
-      "count": 16,
-      "ingredient": "ltxi:electric_chemical"
+      "count": 8,
+      "ingredient": "minecraft:lapis_lazuli"
     }
   ],
   "result": {
     "components": {
       "ltxi:upgrade": {
-        "rank": 3,
-        "upgrade": "ltxi:tool_energy_upgrade"
+        "rank": 2,
+        "upgrade": "ltxi:turret_enchantment/looting"
       }
     },
     "count": 1,

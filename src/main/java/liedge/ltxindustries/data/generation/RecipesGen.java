@@ -59,8 +59,6 @@ import java.util.function.UnaryOperator;
 import static liedge.ltxindustries.LTXITags.Fluids.HYDROGEN_FLUIDS;
 import static liedge.ltxindustries.LTXITags.Fluids.OXYGEN_FLUIDS;
 import static liedge.ltxindustries.LTXITags.Items.*;
-import static liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades.*;
-import static liedge.ltxindustries.registry.bootstrap.LTXIMachineUpgrades.*;
 import static liedge.ltxindustries.registry.bootstrap.LTXIUpgrades.*;
 import static liedge.ltxindustries.registry.game.LTXIFluids.VIRIDIC_ACID;
 import static liedge.ltxindustries.registry.game.LTXIItems.*;
@@ -505,14 +503,18 @@ class RecipesGen extends LimaRecipeProvider
                 .input(SCULK_CHEMICAL, 4));
 
         UnaryOperator<FabricatingBuilder> directDrops = builder -> builder
-                .input(T4_CIRCUIT)
+                .input(T3_CIRCUIT, 3)
                 .input(TITANIUM_INGOT, 16)
                 .input(SLATESTEEL_INGOT, 8)
-                .input(NETHER_STAR)
                 .input(CHORUS_CHEMICAL, 8)
                 .input(ENDER_PEARL, 8);
-        upgradeFabricating(output, registries, toolEUMGroup, TOOL_DIRECT_DROPS, 1, 15_000_000, directDrops);
-        upgradeFabricating(output, registries, "eum/weapon", WEAPON_DIRECT_DROPS, 1, 15_000_000, directDrops);
+        upgradeFabricating(output, registries, toolEUMGroup, EQUIPMENT_BLOCK_DROPS_CAPTURE, 1, 15_000_000, directDrops);
+        upgradeFabricating(output, registries, "combat", NO_ANGER_ATTACKS, 1, 1_000_000, builder -> builder
+                .input(T4_CIRCUIT)
+                .input(PHANTOM_MEMBRANE, 4)
+                .input(CHORUS_CHEMICAL, 12)
+                .input(DataComponentIngredient.of(false, DataComponents.POTION_CONTENTS, new PotionContents(Potions.INVISIBILITY), POTION)));
+        upgradeFabricating(output, registries, "combat", MOB_DROPS_CAPTURE, 1, 15_000_000, directDrops);
 
         upgradeFabricating(output, registries, "eum/weapon", WEAPON_VIBRATION_CANCEL, 1, 500_000, builder -> builder
                 .input(T3_CIRCUIT, 2)
@@ -520,11 +522,6 @@ class RecipesGen extends LimaRecipeProvider
                 .input(POLYMER_INGOT, 16)
                 .input(items, ItemTags.WOOL, 16)
                 .input(SCULK_CHEMICAL, 8));
-        upgradeFabricating(output, registries, "eum/weapon", UNIVERSAL_STEALTH_DAMAGE, 1, 750_000, builder -> builder
-                .input(T4_CIRCUIT)
-                .input(PHANTOM_MEMBRANE, 12)
-                .input(ENDER_PEARL, 8)
-                .input(DataComponentIngredient.of(false, DataComponents.POTION_CONTENTS, new PotionContents(Potions.INVISIBILITY), POTION)));
 
         upgradeFabricating(output, registries, "eum/enchant", EFFICIENCY_ENCHANTMENT, 1, 250_000, builder -> builder
                 .input(T1_CIRCUIT, 2)
@@ -682,11 +679,11 @@ class RecipesGen extends LimaRecipeProvider
                 .input(SLATESTEEL_INGOT, 16)
                 .input(POLYMER_INGOT, 24)
                 .input(NEURO_CHEMICAL, 8));
-        upgradeFabricating(output, registries, "eum/weapon", GRENADE_LAUNCHER_PROJECTILE_SPEED, 1, 750_000, builder -> builder
+        upgradeFabricating(output, registries, "eum/weapon", HANABI_SPEED_BOOST, 1, 750_000, builder -> builder
                 .input(T2_CIRCUIT)
                 .input(IMPULSE_TECH_PART, 2)
                 .input(PHANTOM_MEMBRANE, 2));
-        upgradeFabricating(output, registries, "eum/weapon", GRENADE_LAUNCHER_PROJECTILE_SPEED, 2, 2_000_000, builder -> builder
+        upgradeFabricating(output, registries, "eum/weapon", HANABI_SPEED_BOOST, 2, 2_000_000, builder -> builder
                 .input(T3_CIRCUIT, 2)
                 .input(IMPULSE_TECH_PART, 4)
                 .input(PHANTOM_MEMBRANE, 4));
@@ -831,12 +828,6 @@ class RecipesGen extends LimaRecipeProvider
                 .input(ELECTRIC_CHEMICAL, 32));
 
         final String turretMUMGroup = "mum/turret";
-        upgradeFabricating(output, registries, turretMUMGroup, TURRET_LOOT_COLLECTOR, 1, 10_000_000, builder -> builder
-                .input(T3_CIRCUIT, 3)
-                .input(TITANIUM_INGOT, 12)
-                .input(SLATESTEEL_INGOT, 6)
-                .input(CHORUS_CHEMICAL, 4)
-                .input(ENDER_PEARL, 4));
         upgradeFabricating(output, registries, turretMUMGroup, TURRET_LOOTING, 1, 125_000, multi1);
         upgradeFabricating(output, registries, turretMUMGroup, TURRET_LOOTING, 2, 250_000, multi2);
         upgradeFabricating(output, registries, turretMUMGroup, TURRET_LOOTING, 3, 500_000, multi3);

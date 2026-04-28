@@ -2,12 +2,12 @@
   "display": {
     "category": "equipment",
     "description": {
-      "translate": "upgrade.ltxi.tool_energy_upgrade.desc"
+      "translate": "upgrade.ltxi.equipment_energy_upgrade.desc"
     },
     "icon": "ltxi:extra_energy",
     "title": {
       "color": "#8BD1F0",
-      "translate": "upgrade.ltxi.tool_energy_upgrade"
+      "translate": "upgrade.ltxi.equipment_energy_upgrade"
     },
     "tooltips": [
       {

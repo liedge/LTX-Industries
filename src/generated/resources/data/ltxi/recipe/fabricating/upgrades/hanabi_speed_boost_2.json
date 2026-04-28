@@ -1,14 +1,14 @@
 {
   "type": "ltxi:fabricating",
-  "energy_required": 250000,
-  "group": "eum/tool",
+  "energy_required": 2000000,
+  "group": "eum/weapon",
   "item_inputs": [
     {
       "ingredient": {
         "neoforge:ingredient_type": "neoforge:components",
         "components": {
           "ltxi:upgrade": {
-            "upgrade": "ltxi:tool_energy_upgrade"
+            "upgrade": "ltxi:hanabi_speed_boost"
           }
         },
         "items": "ltxi:upgrade_module",
@@ -16,26 +16,23 @@
       }
     },
     {
-      "ingredient": "ltxi:t2_circuit"
+      "count": 2,
+      "ingredient": "ltxi:t3_circuit"
     },
     {
       "count": 4,
-      "ingredient": "ltxi:titanium_ingot"
+      "ingredient": "ltxi:impulse_tech_part"
     },
     {
-      "count": 8,
-      "ingredient": "ltxi:polymer_ingot"
-    },
-    {
-      "count": 8,
-      "ingredient": "ltxi:electric_chemical"
+      "count": 4,
+      "ingredient": "minecraft:phantom_membrane"
     }
   ],
   "result": {
     "components": {
       "ltxi:upgrade": {
         "rank": 2,
-        "upgrade": "ltxi:tool_energy_upgrade"
+        "upgrade": "ltxi:hanabi_speed_boost"
       }
     },
     "count": 1,

@@ -1,17 +1,18 @@
 {
   "display": {
     "description": {
-      "translate": "upgrade.ltxi.weapon_direct_drops.desc"
+      "translate": "upgrade.ltxi.mob_drops_capture.desc"
     },
     "icon": "ltxi:magnet",
     "title": {
-      "translate": "upgrade.ltxi.weapon_direct_drops"
+      "translate": "upgrade.ltxi.mob_drops_capture"
     }
   },
   "effects": {
     "ltxi:capture_mob_drops": {}
   },
   "users": {
+    "block_entities": "#ltxi:turrets",
     "items": "#ltxi:weapons"
   }
 }

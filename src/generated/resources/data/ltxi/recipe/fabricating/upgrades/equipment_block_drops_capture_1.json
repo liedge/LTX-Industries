@@ -1,13 +1,14 @@
 {
   "type": "ltxi:fabricating",
   "energy_required": 15000000,
-  "group": "eum/weapon",
+  "group": "eum/tool",
   "item_inputs": [
     {
       "ingredient": "ltxi:empty_upgrade_module"
     },
     {
-      "ingredient": "ltxi:t4_circuit"
+      "count": 3,
+      "ingredient": "ltxi:t3_circuit"
     },
     {
       "count": 16,
@@ -16,9 +17,6 @@
     {
       "count": 8,
       "ingredient": "ltxi:slatesteel_ingot"
-    },
-    {
-      "ingredient": "minecraft:nether_star"
     },
     {
       "count": 8,
@@ -32,7 +30,7 @@
   "result": {
     "components": {
       "ltxi:upgrade": {
-        "upgrade": "ltxi:weapon_direct_drops"
+        "upgrade": "ltxi:equipment_block_drops_capture"
       }
     },
     "count": 1,

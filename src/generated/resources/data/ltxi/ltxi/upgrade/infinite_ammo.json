@@ -2,12 +2,12 @@
   "display": {
     "category": "weapon/ammo",
     "description": {
-      "translate": "upgrade.ltxi.universal_infinite_ammo.desc"
+      "translate": "upgrade.ltxi.infinite_ammo.desc"
     },
     "icon": "ltxi:infinite_ammo",
     "title": {
       "color": "#FF00FF",
-      "translate": "upgrade.ltxi.universal_infinite_ammo"
+      "translate": "upgrade.ltxi.infinite_ammo"
     }
   },
   "effects": {

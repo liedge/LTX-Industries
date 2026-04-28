@@ -2,11 +2,11 @@
   "display": {
     "category": "turret",
     "description": {
-      "translate": "upgrade.ltxi.turret_razor.desc"
+      "translate": "upgrade.ltxi.turret_enchantment.razor.desc"
     },
     "icon": "ltxi:razor",
     "title": {
-      "translate": "upgrade.ltxi.turret_razor"
+      "translate": "upgrade.ltxi.turret_enchantment.razor"
     }
   },
   "effects": {

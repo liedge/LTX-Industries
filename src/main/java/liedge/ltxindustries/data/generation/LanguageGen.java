@@ -201,89 +201,89 @@ class LanguageGen extends LimaLanguageProvider
         simpleHintItem(HEAVY_WEAPON_ENERGY, "Heavy Weapon Energy", "Consumable energy cell for powering Heavy-class weaponry.");
         //#endregion
 
-        //#region Equipment upgrades
-        add(TOOL_DEFAULT_UPGRADE_TITLE, "ε Core Systems");
-        upgradeDescOnly(LTXIEquipmentUpgrades.EPSILON_SHOVEL_DEFAULT, "Standard issue operating system. Tool energy cutter preserves topographical integrity.");
-        upgradeDescOnly(LTXIEquipmentUpgrades.EPSILON_WRENCH_DEFAULT, "Standard issue operating system. Enables lossless dismantling and retrieval of machines.");
-        upgradeDescOnly(LTXIEquipmentUpgrades.EPSILON_MELEE_DEFAULT, "Standard issue operating system. Tool energy blade is optimized for efficient severing and disintegration of organic matter.");
-        upgradeTooltip(LTXIEquipmentUpgrades.EPSILON_MELEE_DEFAULT, 0, "%s bonus damage against unarmored targets");
-        upgrade(LTXIEquipmentUpgrades.WAYFINDER_DEFAULT, "Wayfinder Intrinsics", "Wayfinder's energy feed system ships pre-configured to use Common Energy.");
-        upgrade(LTXIEquipmentUpgrades.SERENITY_DEFAULT, "Serenity Intrinsics", "Serenity's small lightfrags zip right through targets without a trace.");
-        upgradeTooltip(LTXIEquipmentUpgrades.SERENITY_DEFAULT, 0, "No anger and knockback on damage");
-        upgrade(LTXIEquipmentUpgrades.AURORA_DEFAULT, "Aurora Intrinsics", "Aurora's combat precepts, specialized in fast assault and scout operations.");
-        upgrade(LTXIEquipmentUpgrades.STARGAZER_DEFAULT, "Stargazer Intrinsics", "Stargazer's systems are calibrated for precise long-range engagements.");
-        upgradeTooltip(LTXIEquipmentUpgrades.STARGAZER_DEFAULT, 0, "%s bonus damage per meter after %sm (%s max bonus)");
-        upgradeTooltip(LTXIEquipmentUpgrades.STARGAZER_DEFAULT, 1, "%s bonus damage when standing still and sneaking");
-        upgrade(LTXIEquipmentUpgrades.NOVA_DEFAULT, "Nova Intrinsics", "Nova's lightfrags can knock away even the heaviest targets.");
-        upgrade(LTXIEquipmentUpgrades.HEAD_DEFAULT, "AL/1C [H] Unit", "Neural processor core of the AL/1C bodysuit.");
-        upgradeTooltip(LTXIEquipmentUpgrades.HEAD_DEFAULT, 0, "Blocks vision debuff effects (%s)");
-        upgrade(LTXIEquipmentUpgrades.BODY_DEFAULT, "AL/1C [B] Unit", "Vital function management system of the AL/1C bodysuit.");
-        upgrade(LTXIEquipmentUpgrades.LEGS_DEFAULT, "AL/1C [L] Unit", "Primary locomotion systems of the AL/1C bodysuit.");
-        upgradeTooltip(LTXIEquipmentUpgrades.LEGS_DEFAULT, 0, "Blocks movement debuff effects (%s)");
-        upgrade(LTXIEquipmentUpgrades.FEET_DEFAULT, "AL/1C [F] Unit", "Bipedal stabilization systems of the AL/1C bodysuit.");
-        upgradeTooltip(LTXIEquipmentUpgrades.FEET_DEFAULT, 0, "Immune to hot floor damage.");
-
-        upgrade(LTXIEquipmentUpgrades.EQUIPMENT_ENERGY_UPGRADE, "Augmented Equipment Battery", "Maximize your equipment's field uptime with this upgraded battery.");
-
-        upgrade(LTXIEquipmentUpgrades.EPSILON_FISHING_LURE, "ε Anglers' Kit", "Upgraded lure for the ε-Series fishing rod. Attracts more valuable aquatic specimens faster than regular bait.");
-        upgrade(LTXIEquipmentUpgrades.TOOL_NETHERITE_LEVEL, "Netherite-Core Tool Head", "Upgraded tool cutters can harvest Netherite-level materials.");
-        upgrade(LTXIEquipmentUpgrades.EPSILON_OMNI_DRILL, "ε Cutter Rev.000", "Restored prototype ε mining tech with bypassed safeties. Makes modular mining tools effective against all material types.");
-        upgrade(LTXIEquipmentUpgrades.TREE_VEIN_MINE, "Lumber Felling Unit", "Automatic harvesting algorithm for the ε-Series Axe's energy cutter. May cause localized deforestation.");
-        upgradeTooltip(LTXIEquipmentUpgrades.TREE_VEIN_MINE, 0, "Vein-mines trees, up to 256 logs");
-        upgrade(LTXIEquipmentUpgrades.TOOL_VIBRATION_CANCEL, "Resonance-Tuned Servos", "Special lining on this tool's servos dampen vibrations from standard use.");
-        upgrade(LTXIEquipmentUpgrades.TOOL_DIRECT_DROPS, "Mining Subspace Link", "Tool systems interface directly with your inventory, depositing materials without physical collection.");
-
-        upgrade(LTXIEquipmentUpgrades.WEAPON_VIBRATION_CANCEL, "Echo Suppressor", "Augments weapons and projectiles with an anti-resonance field, erasing vibration signatures");
-        upgrade(LTXIEquipmentUpgrades.WEAPON_DIRECT_DROPS, "Combat Subspace Link", "Weapon systems interface directly with your inventory, depositing loot without physical collection.");
-        upgrade(LTXIEquipmentUpgrades.LIGHTWEIGHT_ENERGY_ADAPTER, "Lightweight Energy Adapter", "Reroutes the energy feed system of Lightweight weaponry to use Common Energy.");
-        upgrade(LTXIEquipmentUpgrades.SPECIALIST_ENERGY_ADAPTER, "Specialist Energy Adapter", "Reroutes the energy feed system of Specialist weaponry to use Common Energy.");
-        upgrade(LTXIEquipmentUpgrades.EXPLOSIVES_ENERGY_ADAPTER, "Explosives Energy Adapter", "Reroutes the energy feed system of Explosives weaponry to use Common Energy.");
-        upgrade(LTXIEquipmentUpgrades.HEAVY_ENERGY_ADAPTER, "Heavy Energy Adapter", "Reroutes the energy feed system of Heavy weaponry to use Common Energy.");
-        upgrade(LTXIEquipmentUpgrades.UNIVERSAL_INFINITE_AMMO, "//ERR~MAG-Z!!-NE//∞", "Ignore the laws of physics with this never-ending ammo source. Try not to cause a mass extinction event.");
-        upgrade(LTXIEquipmentUpgrades.HEAVY_PISTOL_GOD_ROUNDS, "Stellar Reality Disruptor", "Rip through reality itself with this Nova upgrade. Ensures swift defeat of even the strongest enemies.");
-        upgrade(LTXIEquipmentUpgrades.UNIVERSAL_STEALTH_DAMAGE, "Biometric Obfuscation", "Traceable identity masking tech derived from ephemeral materials. May not confuse a more discerning target.");
-        upgradeTooltip(LTXIEquipmentUpgrades.UNIVERSAL_STEALTH_DAMAGE, 0, "No anger on damage");
-        upgrade(LTXIEquipmentUpgrades.GRENADE_LAUNCHER_PROJECTILE_SPEED, "Hanabi Launch Boost", "Increases the velocity of the Hanabi grenades.");
-
-        upgrade(LTXIEquipmentUpgrades.PASSIVE_NIGHT_VISION, "NV Visor", "AL/1C optics modified to work in low light environments.");
-        upgrade(LTXIEquipmentUpgrades.ARMOR_PASSIVE_SHIELD, "Bubble Projection Unit", "Upgrades AL/1C with auto-recharging Bubble Shield engines. Can be installed on all pieces.");
-        upgrade(LTXIEquipmentUpgrades.ARMOR_DEFENSE, "Active Protection Unit", "Upgrades AL/1C's shell with an energy-powered impact and trauma attenuation system.");
-        upgradeTooltip(LTXIEquipmentUpgrades.ARMOR_DEFENSE, 0, "%s non-void damage reduction (%s)");
-        upgrade(LTXIEquipmentUpgrades.BREATHING_UNIT, "Atmospheric Regulator", "Allows indefinite operation underwater for the user.");
-        upgrade(LTXIEquipmentUpgrades.PASSIVE_SATURATION, "Metabolic Synthesizer", "Injects a stable mix of nutrients required for healthy function.");
-        upgrade(LTXIEquipmentUpgrades.CREATIVE_FLIGHT, "Fantasia Rulebook", italicName("One of the %s project's most successful experiments. Allows the user to exist outside the laws of gravity.", "Wonderland"));
-
-        upgrade(LTXIEquipmentUpgrades.EFFICIENCY_ENCHANTMENT, "Overclocked Energy Cutters", "Enhances the power feed to the tool's energy cutter.");
-        upgrade(LTXIEquipmentUpgrades.SILK_TOUCH_ENCHANTMENT, "Stabilized Harvest Matrix", "Calibrated to extract intact samples from the terrain.");
-        upgrade(LTXIEquipmentUpgrades.FORTUNE_ENCHANTMENT, "Overclocked Harvest Matrix", "Calibrated to extract superior quantities of valuable resources.");
-        upgrade(LTXIEquipmentUpgrades.LOOTING_ENCHANTMENT, "Combat Yield Protocol", "Calibrated to maximize structural integrity of salvageable biomaterials.");
-        upgrade(LTXIEquipmentUpgrades.AMMO_SCAVENGER_ENCHANTMENT, "Munition Trace Unit", "Improves detection of high-grade LTX ammunition in the field.");
-        upgrade(LTXIEquipmentUpgrades.RAZOR_ENCHANTMENT, "Severance Algorithm", "Weapon calibration enables the retrieval of anatomical curiosities.");
-
-        upgrade(LTXIEquipmentUpgrades.FLAME_GRENADE_CORE, "Hanabi Core/Flame", "Grenades are loaded with a concentrated fuel that creates powerful flames.");
-        upgrade(LTXIEquipmentUpgrades.CRYO_GRENADE_CORE, "Hanabi Core/Cryo", "Grenades contain a cryogenic compound that freezes a large area.");
-        upgrade(LTXIEquipmentUpgrades.ELECTRIC_GRENADE_CORE, "Hanabi Core/Electric", "Grenades create a burst of electrical energy. Recommended for use in humid/aquatic environments.");
-        upgrade(LTXIEquipmentUpgrades.ACID_GRENADE_CORE, "Hanabi Core/Acid", "Grenades contain a highly corrosive acid that reduces target armor strength.");
-        upgrade(LTXIEquipmentUpgrades.NEURO_GRENADE_CORE, "Hanabi Core/Neuro", "Grenades contain a powerful neuro-suppressant agent that highly reduces target attack strength.");
-        upgrade(LTXIEquipmentUpgrades.OMNI_GRENADE_CORE, "Hanabi Core/ARCOIRIS", "Full spectrum adaptable core for the Hanabi. Allows the use of any of grenade shells.");
-        //#endregion
-
-        //#region Machine upgrades
-        upgrade(LTXIMachineUpgrades.ECA_CAPACITY_UPGRADE, "Auxiliary Energy Cells", "Increases the energy capacity and transfer rate of the Energy Cell Array.");
-        upgrade(LTXIMachineUpgrades.STANDARD_MACHINE_SYSTEMS, "GPM Standard Systems", "Core modular systems designed for balanced efficiency.");
-        upgrade(LTXIMachineUpgrades.ULTIMATE_MACHINE_SYSTEMS, "GPM Ultimate Systems", "The pinnacle of engineering precision! Achieves near-instantaneous crafting at the cost of immense energy consumption.");
-        upgrade(LTXIMachineUpgrades.GPM_PARALLEL, "GPM Multi-Threading", "Parallelized task framework that completes multiple operations per cycle, as input and output constraints permit.");
-        upgrade(LTXIMachineUpgrades.FABRICATOR_UPGRADE, "Enhanced Tool Head", "Elevate your Fabricator's manufacturing capabilities with superior internal components.");
-        upgrade(LTXIMachineUpgrades.GEO_SYNTHESIZER_PARALLEL, "Lithic Co-Processor", "A specialized parallel processor for producing geological material.");
-        upgrade(LTXIMachineUpgrades.TURRET_LOOTING, "Efficient Target Disposal", "Smarter turret targeting systems allow for increased loot drops from eliminated targets.");
-        upgrade(LTXIMachineUpgrades.TURRET_RAZOR, "Headhunter Scope", "Precise turret calibration enables the collection of anatomical curiosities.");
-        upgrade(LTXIMachineUpgrades.TURRET_LOOT_COLLECTOR, "Matter SubLink", "Loot is sent directly to the turret’s storage. If full, items appear at the turret’s base.");
-        //#endregion
-
         //#region Universal upgrades
         upgrade(LTXIUpgrades.ALL_ENTITIES_TARGETING, "Engagement Protocol: Extermination", "Permits engagement of any living target. Not necessary on weaponry.");
         upgrade(LTXIUpgrades.NEUTRAL_ENEMY_TARGETING, "Engagement Protocol: Preemption", "Restricts engagement to neutral enemies and hostile targets.");
         upgrade(LTXIUpgrades.HOSTILE_TARGETING, "Engagement Protocol: Rectification", "Restricts engagement to actively hostile targets.");
+
+        upgrade(LTXIUpgrades.NO_ANGER_ATTACKS, "Biometric Obfuscation", "Traceable identity masking tech derived from ephemeral materials. May not confuse a more discerning target.");
+        upgradeTooltip(LTXIUpgrades.NO_ANGER_ATTACKS, 0, "No anger on user/machine attacks");
+        upgrade(LTXIUpgrades.MOB_DROPS_CAPTURE, "Combat Subspace Link", "Establishes a matter warp link capable of intercepting loot from defeated targets. Regrettably, cannot collect experience.");
+        //#endregion
+
+        //#region Equipment upgrades
+        add(TOOL_DEFAULT_UPGRADE_TITLE, "ε Core Systems");
+        upgradeDescOnly(LTXIUpgrades.EPSILON_SHOVEL_DEFAULT, "Standard issue operating system. Tool energy cutter preserves topographical integrity.");
+        upgradeDescOnly(LTXIUpgrades.EPSILON_WRENCH_DEFAULT, "Standard issue operating system. Enables lossless dismantling and retrieval of machines.");
+        upgradeDescOnly(LTXIUpgrades.EPSILON_MELEE_DEFAULT, "Standard issue operating system. Tool energy blade is optimized for efficient severing and disintegration of organic matter.");
+        upgradeTooltip(LTXIUpgrades.EPSILON_MELEE_DEFAULT, 0, "%s bonus damage against unarmored targets");
+        upgrade(LTXIUpgrades.WAYFINDER_DEFAULT, "Wayfinder Intrinsics", "Wayfinder's energy feed system ships pre-configured to use Common Energy.");
+        upgrade(LTXIUpgrades.SERENITY_DEFAULT, "Serenity Intrinsics", "Serenity's small lightfrags zip right through targets without a trace.");
+        upgradeTooltip(LTXIUpgrades.SERENITY_DEFAULT, 0, "No anger and knockback on damage");
+        upgrade(LTXIUpgrades.AURORA_DEFAULT, "Aurora Intrinsics", "Aurora's combat precepts, specialized in fast assault and scout operations.");
+        upgrade(LTXIUpgrades.STARGAZER_DEFAULT, "Stargazer Intrinsics", "Stargazer's systems are calibrated for precise long-range engagements.");
+        upgradeTooltip(LTXIUpgrades.STARGAZER_DEFAULT, 0, "%s bonus damage per meter after %sm (%s max bonus)");
+        upgradeTooltip(LTXIUpgrades.STARGAZER_DEFAULT, 1, "%s bonus damage when standing still and sneaking");
+        upgrade(LTXIUpgrades.NOVA_DEFAULT, "Nova Intrinsics", "Nova's lightfrags can knock away even the heaviest targets.");
+        upgrade(LTXIUpgrades.HEAD_DEFAULT, "AL/1C [H] Unit", "Neural processor core of the AL/1C bodysuit.");
+        upgradeTooltip(LTXIUpgrades.HEAD_DEFAULT, 0, "Blocks vision debuff effects (%s)");
+        upgrade(LTXIUpgrades.BODY_DEFAULT, "AL/1C [B] Unit", "Vital function management system of the AL/1C bodysuit.");
+        upgrade(LTXIUpgrades.LEGS_DEFAULT, "AL/1C [L] Unit", "Primary locomotion systems of the AL/1C bodysuit.");
+        upgradeTooltip(LTXIUpgrades.LEGS_DEFAULT, 0, "Blocks movement debuff effects (%s)");
+        upgrade(LTXIUpgrades.FEET_DEFAULT, "AL/1C [F] Unit", "Bipedal stabilization systems of the AL/1C bodysuit.");
+        upgradeTooltip(LTXIUpgrades.FEET_DEFAULT, 0, "Immune to hot floor damage.");
+
+        upgrade(LTXIUpgrades.EQUIPMENT_ENERGY_UPGRADE, "Augmented Equipment Battery", "Maximize your equipment's field uptime with this upgraded battery.");
+
+        upgrade(LTXIUpgrades.EPSILON_FISHING_LURE, "ε Anglers' Kit", "Upgraded lure for the ε-Series fishing rod. Attracts more valuable aquatic specimens faster than regular bait.");
+        upgrade(LTXIUpgrades.TOOL_NETHERITE_LEVEL, "Netherite-Core Tool Head", "Upgraded tool cutters can harvest Netherite-level materials.");
+        upgrade(LTXIUpgrades.EPSILON_OMNI_DRILL, "ε Cutter Rev.000", "Restored prototype ε mining tech with bypassed safeties. Makes modular mining tools effective against all material types.");
+        upgrade(LTXIUpgrades.TREE_VEIN_MINE, "Lumber Felling Unit", "Automatic harvesting algorithm for the ε-Series Axe's energy cutter. May cause localized deforestation.");
+        upgradeTooltip(LTXIUpgrades.TREE_VEIN_MINE, 0, "Vein-mines trees, up to 256 logs");
+        upgrade(LTXIUpgrades.TOOL_VIBRATION_CANCEL, "Resonance-Tuned Servos", "Special lining on this tool's servos dampen vibrations from standard use.");
+        upgrade(LTXIUpgrades.EQUIPMENT_BLOCK_DROPS_CAPTURE, "Mining Subspace Link", "Establishes a matter warp link capable of intercepting material harvesting products.");
+
+        upgrade(LTXIUpgrades.WEAPON_VIBRATION_CANCEL, "Echo Suppressor", "Augments weapons and projectiles with an anti-resonance field, erasing vibration signatures");
+        upgrade(LTXIUpgrades.LIGHTWEIGHT_ENERGY_ADAPTER, "Lightweight Energy Adapter", "Reroutes the energy feed system of Lightweight weaponry to use Common Energy.");
+        upgrade(LTXIUpgrades.SPECIALIST_ENERGY_ADAPTER, "Specialist Energy Adapter", "Reroutes the energy feed system of Specialist weaponry to use Common Energy.");
+        upgrade(LTXIUpgrades.EXPLOSIVES_ENERGY_ADAPTER, "Explosives Energy Adapter", "Reroutes the energy feed system of Explosives weaponry to use Common Energy.");
+        upgrade(LTXIUpgrades.HEAVY_ENERGY_ADAPTER, "Heavy Energy Adapter", "Reroutes the energy feed system of Heavy weaponry to use Common Energy.");
+        upgrade(LTXIUpgrades.INFINITE_AMMO, "//ERR~MAG-Z!!-NE//∞", "Ignore the laws of physics with this never-ending ammo source. Try not to cause a mass extinction event.");
+        upgrade(LTXIUpgrades.NOVA_GOD_ROUNDS, "Stellar Reality Disruptor", "Rip through reality itself with this Nova upgrade. Ensures swift defeat of even the strongest enemies.");
+        upgrade(LTXIUpgrades.HANABI_SPEED_BOOST, "Hanabi Launch Boost", "Increases the velocity of the Hanabi grenades.");
+
+        upgrade(LTXIUpgrades.PASSIVE_NIGHT_VISION, "NV Visor", "AL/1C optics modified to work in low light environments.");
+        upgrade(LTXIUpgrades.ARMOR_PASSIVE_SHIELD, "Bubble Projection Unit", "Upgrades AL/1C with auto-recharging Bubble Shield engines. Can be installed on all pieces.");
+        upgrade(LTXIUpgrades.ARMOR_DEFENSE, "Active Protection Unit", "Upgrades AL/1C's shell with an energy-powered impact and trauma attenuation system.");
+        upgradeTooltip(LTXIUpgrades.ARMOR_DEFENSE, 0, "%s non-void damage reduction (%s)");
+        upgrade(LTXIUpgrades.BREATHING_UNIT, "Atmospheric Regulator", "Allows indefinite operation underwater for the user.");
+        upgrade(LTXIUpgrades.PASSIVE_SATURATION, "Metabolic Synthesizer", "Injects a stable mix of nutrients required for healthy function.");
+        upgrade(LTXIUpgrades.CREATIVE_FLIGHT, "Fantasia Rulebook", italicName("One of the %s project's most successful experiments. Allows the user to exist outside the laws of gravity.", "Wonderland"));
+
+        upgrade(LTXIUpgrades.EFFICIENCY_ENCHANTMENT, "Overclocked Energy Cutters", "Enhances the power feed to the tool's energy cutter.");
+        upgrade(LTXIUpgrades.SILK_TOUCH_ENCHANTMENT, "Stabilized Harvest Matrix", "Calibrated to extract intact samples from the terrain.");
+        upgrade(LTXIUpgrades.FORTUNE_ENCHANTMENT, "Overclocked Harvest Matrix", "Calibrated to extract superior quantities of valuable resources.");
+        upgrade(LTXIUpgrades.LOOTING_ENCHANTMENT, "Combat Yield Protocol", "Calibrated to maximize structural integrity of salvageable biomaterials.");
+        upgrade(LTXIUpgrades.AMMO_SCAVENGER_ENCHANTMENT, "Munition Trace Unit", "Improves detection of high-grade LTX ammunition in the field.");
+        upgrade(LTXIUpgrades.RAZOR_ENCHANTMENT, "Severance Algorithm", "Weapon calibration enables the retrieval of anatomical curiosities.");
+
+        upgrade(LTXIUpgrades.FLAME_GRENADE_CORE, "Hanabi Core/Flame", "Grenades are loaded with a concentrated fuel that creates powerful flames.");
+        upgrade(LTXIUpgrades.CRYO_GRENADE_CORE, "Hanabi Core/Cryo", "Grenades contain a cryogenic compound that freezes a large area.");
+        upgrade(LTXIUpgrades.ELECTRIC_GRENADE_CORE, "Hanabi Core/Electric", "Grenades create a burst of electrical energy. Recommended for use in humid/aquatic environments.");
+        upgrade(LTXIUpgrades.ACID_GRENADE_CORE, "Hanabi Core/Acid", "Grenades contain a highly corrosive acid that reduces target armor strength.");
+        upgrade(LTXIUpgrades.NEURO_GRENADE_CORE, "Hanabi Core/Neuro", "Grenades contain a powerful neuro-suppressant agent that highly reduces target attack strength.");
+        upgrade(LTXIUpgrades.OMNI_GRENADE_CORE, "Hanabi Core/ARCOIRIS", "Full spectrum adaptable core for the Hanabi. Allows the use of any of grenade shells.");
+        //#endregion
+
+        //#region Machine upgrades
+        upgrade(LTXIUpgrades.ECA_CAPACITY_UPGRADE, "Auxiliary Energy Cells", "Increases the energy capacity and transfer rate of the Energy Cell Array.");
+        upgrade(LTXIUpgrades.STANDARD_MACHINE_SYSTEMS, "GPM Standard Systems", "Core modular systems designed for balanced efficiency.");
+        upgrade(LTXIUpgrades.ULTIMATE_MACHINE_SYSTEMS, "GPM Ultimate Systems", "The pinnacle of engineering precision! Achieves near-instantaneous crafting at the cost of immense energy consumption.");
+        upgrade(LTXIUpgrades.GPM_PARALLEL, "GPM Multi-Threading", "Parallelized task framework that completes multiple operations per cycle, as input and output constraints permit.");
+        upgrade(LTXIUpgrades.FABRICATOR_UPGRADE, "Enhanced Tool Head", "Elevate your Fabricator's manufacturing capabilities with superior internal components.");
+        upgrade(LTXIUpgrades.GEO_SYNTHESIZER_PARALLEL, "Lithic Co-Processor", "A specialized parallel processor for producing geological material.");
+        upgrade(LTXIUpgrades.TURRET_LOOTING, "Efficient Target Disposal", "Smarter turret targeting systems allow for increased loot drops from eliminated targets.");
+        upgrade(LTXIUpgrades.TURRET_RAZOR, "Headhunter Scope", "Precise turret calibration enables the collection of anatomical curiosities.");
         //#endregion
 
         // Creative tabs

@@ -1,14 +1,14 @@
 {
   "type": "ltxi:fabricating",
-  "energy_required": 2000000,
-  "group": "eum/weapon",
+  "energy_required": 250000,
+  "group": "eum/tool",
   "item_inputs": [
     {
       "ingredient": {
         "neoforge:ingredient_type": "neoforge:components",
         "components": {
           "ltxi:upgrade": {
-            "upgrade": "ltxi:grenade_launcher_projectile_speed"
+            "upgrade": "ltxi:equipment_energy_upgrade"
           }
         },
         "items": "ltxi:upgrade_module",
@@ -16,23 +16,26 @@
       }
     },
     {
-      "count": 2,
-      "ingredient": "ltxi:t3_circuit"
+      "ingredient": "ltxi:t2_circuit"
     },
     {
       "count": 4,
-      "ingredient": "ltxi:impulse_tech_part"
+      "ingredient": "ltxi:titanium_ingot"
     },
     {
-      "count": 4,
-      "ingredient": "minecraft:phantom_membrane"
+      "count": 8,
+      "ingredient": "ltxi:polymer_ingot"
+    },
+    {
+      "count": 8,
+      "ingredient": "ltxi:electric_chemical"
     }
   ],
   "result": {
     "components": {
       "ltxi:upgrade": {
         "rank": 2,
-        "upgrade": "ltxi:grenade_launcher_projectile_speed"
+        "upgrade": "ltxi:equipment_energy_upgrade"
       }
     },
     "count": 1,

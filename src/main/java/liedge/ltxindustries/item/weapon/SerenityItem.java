@@ -3,7 +3,7 @@ package liedge.ltxindustries.item.weapon;
 import liedge.limacore.util.LimaEntityUtil;
 import liedge.ltxindustries.lib.upgrades.Upgrade;
 import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
-import liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades;
+import liedge.ltxindustries.registry.bootstrap.LTXIUpgrades;
 import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.registry.game.LTXISounds;
 import liedge.ltxindustries.util.config.LTXIWeaponsConfig;
@@ -26,7 +26,7 @@ public class SerenityItem extends FullAutoWeaponItem
     @Override
     public @Nullable ResourceKey<Upgrade> getDefaultUpgradeKey()
     {
-        return LTXIEquipmentUpgrades.SERENITY_DEFAULT;
+        return LTXIUpgrades.SERENITY_DEFAULT;
     }
 
     @Override

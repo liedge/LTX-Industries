@@ -6,7 +6,7 @@ import liedge.ltxindustries.entity.CompoundHitResult;
 import liedge.ltxindustries.entity.DynamicClipContext;
 import liedge.ltxindustries.lib.upgrades.Upgrade;
 import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
-import liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades;
+import liedge.ltxindustries.registry.bootstrap.LTXIUpgrades;
 import liedge.ltxindustries.registry.game.LTXIGameEvents;
 import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.registry.game.LTXISounds;
@@ -31,7 +31,7 @@ public class AuroraItem extends SemiAutoWeaponItem
     @Override
     public @Nullable ResourceKey<Upgrade> getDefaultUpgradeKey()
     {
-        return LTXIEquipmentUpgrades.AURORA_DEFAULT;
+        return LTXIUpgrades.AURORA_DEFAULT;
     }
 
     @Override

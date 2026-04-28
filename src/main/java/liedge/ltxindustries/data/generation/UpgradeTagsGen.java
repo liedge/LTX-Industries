@@ -10,8 +10,6 @@ import net.minecraft.data.PackOutput;
 import java.util.concurrent.CompletableFuture;
 
 import static liedge.ltxindustries.LTXITags.Upgrades.*;
-import static liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades.*;
-import static liedge.ltxindustries.registry.bootstrap.LTXIMachineUpgrades.*;
 import static liedge.ltxindustries.registry.bootstrap.LTXIUpgrades.*;
 
 class UpgradeTagsGen extends LimaTagsProvider<Upgrade>
@@ -26,7 +24,7 @@ class UpgradeTagsGen extends LimaTagsProvider<Upgrade>
     {
         buildTag(MINING_LEVELS).add(TOOL_NETHERITE_LEVEL);
         buildTag(MINING_DROPS_MODIFIERS).add(SILK_TOUCH_ENCHANTMENT, FORTUNE_ENCHANTMENT);
-        buildTag(RELOAD_SOURCE_MODIFIERS).add(LIGHTWEIGHT_ENERGY_ADAPTER, SPECIALIST_ENERGY_ADAPTER, EXPLOSIVES_ENERGY_ADAPTER, HEAVY_ENERGY_ADAPTER, UNIVERSAL_INFINITE_AMMO);
+        buildTag(RELOAD_SOURCE_MODIFIERS).add(LIGHTWEIGHT_ENERGY_ADAPTER, SPECIALIST_ENERGY_ADAPTER, EXPLOSIVES_ENERGY_ADAPTER, HEAVY_ENERGY_ADAPTER, INFINITE_AMMO);
 
         buildTag(MACHINE_TIER).add(STANDARD_MACHINE_SYSTEMS, ULTIMATE_MACHINE_SYSTEMS);
         buildTag(PARALLEL_OPS_UPGRADES).add(GPM_PARALLEL, GEO_SYNTHESIZER_PARALLEL);

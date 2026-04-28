@@ -2,7 +2,7 @@ package liedge.ltxindustries.item;
 
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.lib.upgrades.Upgrade;
-import liedge.ltxindustries.registry.bootstrap.LTXIEquipmentUpgrades;
+import liedge.ltxindustries.registry.bootstrap.LTXIUpgrades;
 import liedge.ltxindustries.util.config.LTXIServerConfig;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.Identifier;
@@ -54,10 +54,10 @@ public class EnergyArmorItem extends EnergyEquipmentItem
     {
         return switch (equipmentSlot)
         {
-            case HEAD -> LTXIEquipmentUpgrades.HEAD_DEFAULT;
-            case CHEST -> LTXIEquipmentUpgrades.BODY_DEFAULT;
-            case LEGS -> LTXIEquipmentUpgrades.LEGS_DEFAULT;
-            case FEET -> LTXIEquipmentUpgrades.FEET_DEFAULT;
+            case HEAD -> LTXIUpgrades.HEAD_DEFAULT;
+            case CHEST -> LTXIUpgrades.BODY_DEFAULT;
+            case LEGS -> LTXIUpgrades.LEGS_DEFAULT;
+            case FEET -> LTXIUpgrades.FEET_DEFAULT;
             default -> null;
         };
     }

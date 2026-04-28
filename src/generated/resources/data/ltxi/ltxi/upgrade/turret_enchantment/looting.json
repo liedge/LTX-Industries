@@ -2,7 +2,7 @@
   "display": {
     "category": "turret",
     "description": {
-      "translate": "upgrade.ltxi.turret_looting.desc"
+      "translate": "upgrade.ltxi.turret_enchantment.looting.desc"
     },
     "icon": {
       "type": "overlay",
@@ -19,7 +19,7 @@
       "y_offset": 8
     },
     "title": {
-      "translate": "upgrade.ltxi.turret_looting"
+      "translate": "upgrade.ltxi.turret_enchantment.looting"
     }
   },
   "effects": {

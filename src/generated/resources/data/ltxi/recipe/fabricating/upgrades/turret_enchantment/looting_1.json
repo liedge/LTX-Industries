@@ -25,7 +25,7 @@
   "result": {
     "components": {
       "ltxi:upgrade": {
-        "upgrade": "ltxi:turret_looting"
+        "upgrade": "ltxi:turret_enchantment/looting"
       }
     },
     "count": 1,

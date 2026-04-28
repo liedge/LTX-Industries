@@ -31,11 +31,7 @@ final class LTXIDatagen
                 .add(Registries.CONFIGURED_FEATURE, LTXIConfiguredFeatures::bootstrap)
                 .add(Registries.DAMAGE_TYPE, LTXIDamageTypes::bootstrap)
                 .add(Registries.ENCHANTMENT, LTXIEnchantments::bootstrap)
-                .add(LTXIRegistries.Keys.UPGRADES, context -> {
-                    LTXIUpgrades.bootstrap(context);
-                    LTXIEquipmentUpgrades.bootstrap(context);
-                    LTXIMachineUpgrades.bootstrap(context);
-                })
+                .add(LTXIRegistries.Keys.UPGRADES, LTXIUpgrades::bootstrap)
                 .add(Registries.PLACED_FEATURE, LTXIPlacedFeatures::bootstrap)
                 .add(LTXIRegistries.Keys.RECIPE_MODES, LTXIRecipeModes::bootstrap));
         CompletableFuture<HolderLookup.Provider> registries = dataRegistriesProvider.getRegistryProvider();

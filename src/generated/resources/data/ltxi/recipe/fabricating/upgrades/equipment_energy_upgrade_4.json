@@ -9,7 +9,7 @@
         "components": {
           "ltxi:upgrade": {
             "rank": 3,
-            "upgrade": "ltxi:tool_energy_upgrade"
+            "upgrade": "ltxi:equipment_energy_upgrade"
           }
         },
         "items": "ltxi:upgrade_module",
@@ -41,7 +41,7 @@
     "components": {
       "ltxi:upgrade": {
         "rank": 4,
-        "upgrade": "ltxi:tool_energy_upgrade"
+        "upgrade": "ltxi:equipment_energy_upgrade"
       }
     },
     "count": 1,

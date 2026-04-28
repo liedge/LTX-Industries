@@ -1,7 +1,7 @@
 {
   "display": {
     "description": {
-      "translate": "upgrade.ltxi.heavy_pistol_god_rounds.desc"
+      "translate": "upgrade.ltxi.nova_god_rounds.desc"
     },
     "icon": {
       "type": "overlay",
@@ -18,7 +18,7 @@
       "y_offset": 6
     },
     "title": {
-      "translate": "upgrade.ltxi.heavy_pistol_god_rounds"
+      "translate": "upgrade.ltxi.nova_god_rounds"
     },
     "tooltips": [
       {
