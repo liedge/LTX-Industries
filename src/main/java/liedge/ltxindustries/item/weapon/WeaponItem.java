@@ -4,7 +4,6 @@ import com.mojang.serialization.Codec;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.client.particle.ColorParticleOptions;
 import liedge.limacore.data.LimaCoreCodecs;
-import liedge.limacore.lib.TickTimer;
 import liedge.limacore.lib.Translatable;
 import liedge.limacore.network.LimaStreamCodecs;
 import liedge.limacore.util.LimaLootUtil;
@@ -123,7 +122,7 @@ public abstract class WeaponItem extends EnergyEquipmentItem
     //#region Weapon properties/behavior
     public boolean canFocusReticle(ItemStack heldItem, Player player, LTXIExtendedInput controls)
     {
-        return controls.getReloadTimer().getTimerState() == TickTimer.State.STOPPED;
+        return this instanceof ScopingWeaponItem scoping && scoping.canScope(heldItem, player, controls);
     }
 
     public int getAmmoLoaded(ItemStack stack)

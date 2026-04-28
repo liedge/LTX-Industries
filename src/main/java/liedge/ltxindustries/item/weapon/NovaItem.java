@@ -16,7 +16,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
-public class NovaItem extends SemiAutoWeaponItem
+public class NovaItem extends SemiAutoWeaponItem implements ScopingWeaponItem
 {
     public NovaItem(Properties properties)
     {
@@ -45,5 +45,11 @@ public class NovaItem extends SemiAutoWeaponItem
     public int getFireRate(ItemStack stack)
     {
         return 13;
+    }
+
+    @Override
+    public float getBaseScopingFOV()
+    {
+        return 0.85f;
     }
 }

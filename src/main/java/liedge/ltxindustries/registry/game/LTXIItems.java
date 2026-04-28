@@ -9,11 +9,13 @@ import liedge.ltxindustries.item.*;
 import liedge.ltxindustries.item.tool.*;
 import liedge.ltxindustries.item.weapon.*;
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.component.UseEffects;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.bus.api.IEventBus;
@@ -206,7 +208,8 @@ public final class LTXIItems
 
     // Signature weapons
     public static final DeferredItem<WayfinderItem> WAYFINDER = registerLTXGear(LTXIIdentifiers.ID_WAYFINDER, WayfinderItem::new);
-    public static final DeferredItem<SerenityItem> SERENITY = registerLTXGear(LTXIIdentifiers.ID_SERENITY, SerenityItem::new);
+    public static final DeferredItem<SerenityItem> SERENITY = registerLTXGear(LTXIIdentifiers.ID_SERENITY, properties -> new SerenityItem(properties
+            .component(DataComponents.USE_EFFECTS, new UseEffects(true, true, 1f))));
     public static final DeferredItem<AuroraItem> AURORA = registerLTXGear(LTXIIdentifiers.ID_AURORA, AuroraItem::new);
     public static final DeferredItem<HanabiItem> HANABI = registerLTXGear(LTXIIdentifiers.ID_HANABI, HanabiItem::new);
     public static final DeferredItem<StargazerItem> STARGAZER = registerLTXGear(LTXIIdentifiers.ID_STARGAZER, StargazerItem::new);

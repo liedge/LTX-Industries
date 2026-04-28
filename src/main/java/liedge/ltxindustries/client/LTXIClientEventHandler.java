@@ -16,13 +16,13 @@ import liedge.ltxindustries.client.renderer.LockOnRenderData;
 import liedge.ltxindustries.item.ScrollModeSwitchItem;
 import liedge.ltxindustries.item.TooltipShiftHintItem;
 import liedge.ltxindustries.item.weapon.DaybreakItem;
+import liedge.ltxindustries.item.weapon.ScopingWeaponItem;
 import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.lib.weapons.ClientExtendedInput;
 import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
 import liedge.ltxindustries.network.packet.ServerboundItemModeSwitchPacket;
 import liedge.ltxindustries.registry.game.LTXIAttachmentTypes;
 import liedge.ltxindustries.registry.game.LTXIAttributes;
-import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.registry.game.LTXISounds;
 import liedge.ltxindustries.util.config.LTXIClientConfig;
 import net.minecraft.ChatFormatting;
@@ -63,9 +63,19 @@ public final class LTXIClientEventHandler
     @SubscribeEvent
     public static void fovModifyEvent(final ComputeFovModifierEvent event)
     {
-        if (event.getPlayer().isUsingItem() && event.getPlayer().getUseItem().is(LTXIItems.STARGAZER) && event.getNewFovModifier() > 0.10f)
+        Player player = event.getPlayer();
+        if (player.isUsingItem() && player.getUseItem().getItem() instanceof ScopingWeaponItem weaponItem)
         {
-            event.setNewFovModifier(0.10f);
+            float fovModifier = weaponItem.getBaseScopingFOV();
+            if (fovModifier < 1f)
+            {
+                float original = event.getNewFovModifier();
+                event.setNewFovModifier(original * fovModifier);
+            }
+        }
+        if (player.isUsingItem() && player.getUseItem().getItem() instanceof ScopingWeaponItem weaponItem && event.getNewFovModifier() > weaponItem.getBaseScopingFOV())
+        {
+            event.setNewFovModifier(weaponItem.getBaseScopingFOV());
         }
     }
 
@@ -73,10 +83,13 @@ public final class LTXIClientEventHandler
     public static void playerTurnModifyEvent(final CalculatePlayerTurnEvent event)
     {
         Player player = Objects.requireNonNull(Minecraft.getInstance().player);
-        if (player.isUsingItem() && player.getUseItem().is(LTXIItems.STARGAZER))
+        if (player.isUsingItem() && player.getUseItem().getItem() instanceof ScopingWeaponItem weaponItem)
         {
-            double d0 = event.getMouseSensitivity();
-            event.setMouseSensitivity(d0 * 0.275d);
+            if (weaponItem.getMouseSensitivityModifier() != 1f)
+            {
+                double original = event.getMouseSensitivity();
+                event.setMouseSensitivity(original * weaponItem.getMouseSensitivityModifier());
+            }
         }
     }
 

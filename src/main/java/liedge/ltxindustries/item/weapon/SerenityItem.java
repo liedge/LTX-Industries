@@ -16,7 +16,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
-public class SerenityItem extends FullAutoWeaponItem
+public class SerenityItem extends FullAutoWeaponItem implements ScopingWeaponItem
 {
     public SerenityItem(Properties properties)
     {

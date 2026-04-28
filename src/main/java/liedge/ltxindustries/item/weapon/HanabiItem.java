@@ -64,12 +64,6 @@ public class HanabiItem extends SemiAutoWeaponItem implements ScrollModeSwitchIt
     }
 
     @Override
-    public boolean canFocusReticle(ItemStack heldItem, Player player, LTXIExtendedInput controls)
-    {
-        return false;
-    }
-
-    @Override
     public void onUpgradeRefresh(LootContext context, ItemStack stack, Upgrades upgrades)
     {
         super.onUpgradeRefresh(context, stack, upgrades);

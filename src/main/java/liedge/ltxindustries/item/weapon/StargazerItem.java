@@ -14,7 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
-public class StargazerItem extends FullAutoWeaponItem
+public class StargazerItem extends FullAutoWeaponItem implements ScopingWeaponItem
 {
     public static final int CHARGE_TICKS = 10;
 
@@ -73,5 +73,17 @@ public class StargazerItem extends FullAutoWeaponItem
     public int getFireRate(ItemStack stack)
     {
         return 3;
+    }
+
+    @Override
+    public float getBaseScopingFOV()
+    {
+        return 0.1f;
+    }
+
+    @Override
+    public double getMouseSensitivityModifier()
+    {
+        return 0.275d;
     }
 }

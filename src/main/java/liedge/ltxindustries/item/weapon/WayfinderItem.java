@@ -34,12 +34,6 @@ public class WayfinderItem extends SemiAutoWeaponItem
     }
 
     @Override
-    public boolean canFocusReticle(ItemStack heldItem, Player player, LTXIExtendedInput controls)
-    {
-        return false;
-    }
-
-    @Override
     public void weaponFired(ItemStack heldItem, Player player, Level level, LTXIExtendedInput controls)
     {
         if (!level.isClientSide())

@@ -1,5 +1,6 @@
 package liedge.ltxindustries.item.weapon;
 
+import liedge.limacore.lib.TickTimer;
 import liedge.ltxindustries.entity.EquipmentRocketEntity;
 import liedge.ltxindustries.entity.LTXIEntityUtil;
 import liedge.ltxindustries.lib.upgrades.Upgrades;
@@ -51,10 +52,8 @@ public class DaybreakItem extends SemiAutoWeaponItem
     @Override
     public boolean canFocusReticle(ItemStack heldItem, Player player, LTXIExtendedInput controls)
     {
-        boolean canTryFocus = super.canFocusReticle(heldItem, player, controls);
         Level level = player.level();
-
-        if (!level.isClientSide() && canTryFocus)
+        if (!level.isClientSide() && controls.getReloadTimer().getTimerState() == TickTimer.State.STOPPED)
         {
             Vec3 scanPath = player.getViewVector(1f).scale(60);
 
