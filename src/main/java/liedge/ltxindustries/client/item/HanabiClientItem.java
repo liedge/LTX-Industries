@@ -11,7 +11,7 @@ public final class HanabiClientItem extends WeaponClientItem
 {
     public HanabiClientItem()
     {
-        super(5, 5);
+        super(5, 5, 6, 8);
     }
 
     @Override

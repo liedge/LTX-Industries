@@ -11,7 +11,7 @@ public final class AuroraClientItem extends WeaponClientItem
 {
     public AuroraClientItem()
     {
-        super(1, 13);
+        super(1, 13, 5, 7);
     }
 
     @Override

@@ -1,10 +1,7 @@
 package liedge.ltxindustries.entity;
 
-import liedge.limacore.client.particle.ColorSizeParticleOptions;
-import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.registry.game.LTXIBlocks;
 import liedge.ltxindustries.registry.game.LTXIEntities;
-import liedge.ltxindustries.registry.game.LTXIParticles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -59,16 +56,5 @@ public class GlowstickProjectileEntity extends LTXIProjectileEntity
         }
 
         return CollisionResult.DESTROY;
-    }
-
-    @Override
-    protected void tickClient(Level level)
-    {
-        if (tickCount % 2 == 0)
-        {
-            double dx = getX() + (random.nextDouble() - random.nextDouble()) * 0.125d;
-            double dz = getZ() + (random.nextDouble() - random.nextDouble()) * 0.125d;
-            level.addAlwaysVisibleParticle(new ColorSizeParticleOptions(LTXIParticles.COLOR_GLITTER, LTXIConstants.LIME_GREEN, 0.75f), true, dx, getY(0.5d), dz, 0, 0, 0);
-        }
     }
 }

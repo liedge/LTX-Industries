@@ -11,7 +11,7 @@ public final class DaybreakClientItem extends WeaponClientItem
 {
     public DaybreakClientItem()
     {
-        super(5, 5);
+        super(5, 5, 10, 10);
     }
 
     @Override

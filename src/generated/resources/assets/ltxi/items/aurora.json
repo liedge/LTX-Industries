@@ -1,0 +1,51 @@
+{
+  "model": {
+    "type": "ltxi:weapon",
+    "energy_displays": [
+      {
+        "axis": "y",
+        "from": [
+          0.4225,
+          6.25E-4,
+          0.188125
+        ],
+        "length": 0.37374997,
+        "rotation": {
+          "origin": [
+            0.421875,
+            0.5625,
+            0.1875
+          ],
+          "value": [
+            0.13052608,
+            0.0,
+            0.0,
+            -0.9914449
+          ]
+        },
+        "to": [
+          0.5775,
+          0.374375,
+          0.374375
+        ]
+      }
+    ],
+    "special_model": {
+      "type": "simple_recoil",
+      "chamber": "ltxi:item/aurora_chamber",
+      "chamber_origin": [
+        0.5,
+        0.6875,
+        0.6875
+      ],
+      "frame": "ltxi:item/aurora_frame",
+      "recoil_angle": 2.5,
+      "recoil_animation": {
+        "type": "linear",
+        "threshold": 0.15
+      },
+      "recoil_distance": 0.5
+    },
+    "template": "ltxi:item/template/aurora"
+  }
+}

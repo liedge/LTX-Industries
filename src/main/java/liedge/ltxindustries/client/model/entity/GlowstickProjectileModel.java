@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.LightCoordsUtil;
 import net.minecraft.util.Mth;
 
 public class GlowstickProjectileModel extends ProjectileModel
@@ -24,7 +25,7 @@ public class GlowstickProjectileModel extends ProjectileModel
 	@Override
 	public void submitParts(ProjectileRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, Identifier texture)
 	{
-		nodeCollector.submitModelPart(stick, poseStack, renderType(texture), renderState.lightCoords, OverlayTexture.NO_OVERLAY, null);
+		nodeCollector.submitModelPart(stick, poseStack, renderType(texture), LightCoordsUtil.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, null);
 	}
 
 	public static LayerDefinition defineLayer()

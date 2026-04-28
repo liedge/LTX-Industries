@@ -1,0 +1,23 @@
+{
+  "model": {
+    "type": "ltxi:weapon",
+    "energy_displays": [],
+    "special_model": {
+      "type": "simple_recoil",
+      "chamber": "ltxi:item/nova_chamber",
+      "chamber_origin": [
+        0.5,
+        0.625,
+        0.59375
+      ],
+      "frame": "ltxi:item/nova_frame",
+      "recoil_angle": 5.0,
+      "recoil_animation": {
+        "type": "linear",
+        "threshold": 0.1
+      },
+      "recoil_distance": 0.375
+    },
+    "template": "ltxi:item/template/nova"
+  }
+}

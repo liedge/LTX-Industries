@@ -2,7 +2,7 @@ package liedge.ltxindustries.client.renderer.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import liedge.ltxindustries.blockentity.BaseECABlockEntity;
-import liedge.ltxindustries.client.model.custom.EnergyFillData;
+import liedge.ltxindustries.client.model.custom.EnergyDisplayModel;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
@@ -10,12 +10,12 @@ import net.minecraft.core.Direction;
 
 public class EnergyCellArrayRenderer extends MachineRenderer<BaseECABlockEntity>
 {
-    private static EnergyFillData fillModel(float x, float z)
+    private static EnergyDisplayModel fillModel(float x, float z)
     {
-        return EnergyFillData.createStatic(x, 2.5f, z, 4, 9, 4, Direction.Axis.Y);
+        return EnergyDisplayModel.create(x, 2.5f, z, 4, 9, 4, Direction.Axis.Y);
     }
 
-    private final EnergyFillData[] fillModels = new EnergyFillData[]
+    private final EnergyDisplayModel[] fillModels = new EnergyDisplayModel[]
             {
                     fillModel(2, 2),
                     fillModel(10, 2),
@@ -40,9 +40,9 @@ public class EnergyCellArrayRenderer extends MachineRenderer<BaseECABlockEntity>
     {
         if (renderState.energyFill > 0)
         {
-            for (EnergyFillData model : fillModels)
+            for (EnergyDisplayModel model : fillModels)
             {
-                model.render(poseStack, nodeCollector, renderState.energyColor, renderState.energyFill);
+                model.submit(poseStack, nodeCollector, renderState.energyFill, renderState.energyColor.argb32(), 0.8f);
             }
         }
     }

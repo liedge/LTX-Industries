@@ -23,6 +23,9 @@ public class ClientExtendedInput extends LTXIExtendedInput
     private final TickTimer animationTimerA = new TickTimer();
     private final TickTimer animationTimerB = new TickTimer();
     private final TickTimer modeSwitchTimer = new TickTimer();
+    public float spinAnimation0;
+    public float spinAnimation;
+
     private boolean previousLeftInput;
 
     public ClientExtendedInput() {}
@@ -87,7 +90,7 @@ public class ClientExtendedInput extends LTXIExtendedInput
         super.shootWeapon(heldItem, player, weaponItem);
 
         WeaponClientItem clientItem = WeaponClientItem.of(weaponItem);
-        if (clientItem != null) clientItem.onWeaponFired(heldItem, weaponItem, this);
+        if (clientItem != null) clientItem.onWeaponFired(heldItem, player, weaponItem, this);
     }
 
     @Override

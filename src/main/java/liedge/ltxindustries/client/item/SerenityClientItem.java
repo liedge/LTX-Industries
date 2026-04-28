@@ -2,6 +2,7 @@ package liedge.ltxindustries.client.item;
 
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import liedge.limacore.lib.LimaColor;
+import liedge.limacore.lib.TickTimer;
 import liedge.limacore.util.LimaEntityUtil;
 import liedge.ltxindustries.client.LTXIRenderer;
 import liedge.ltxindustries.item.weapon.WeaponItem;
@@ -9,12 +10,35 @@ import liedge.ltxindustries.lib.weapons.ClientExtendedInput;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.item.ItemStack;
 
 public final class SerenityClientItem extends WeaponClientItem
 {
     public SerenityClientItem()
     {
-        super(5, 5);
+        super(5, 5, 2, 5);
+    }
+
+    @Override
+    public void onMainHandTick(ItemStack stack, WeaponItem weaponItem, ClientExtendedInput controls)
+    {
+        TickTimer timerB = controls.getAnimationTimerB();
+        float speed;
+
+        if (controls.isTriggerHeld())
+        {
+            speed = 1.25f;
+        }
+        else if (timerB.getTimerState() == TickTimer.State.RUNNING)
+        {
+            speed = 1.25f * LTXIRenderer.sineAnimationCurve(timerB.getProgressPercent());
+        }
+        else
+        {
+            speed = 0.025f;
+        }
+
+        updateSpinAnimation(controls, speed);
     }
 
     @Override

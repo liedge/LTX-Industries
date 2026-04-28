@@ -7,9 +7,15 @@ import liedge.limacore.lib.ModResources;
 import liedge.limacore.util.LimaRegistryUtil;
 import liedge.ltxindustries.block.LTXIBlockProperties;
 import liedge.ltxindustries.block.MachineState;
+import liedge.ltxindustries.client.model.custom.EnergyDisplayModel;
+import liedge.ltxindustries.client.model.item.GrenadeTypeTint;
+import liedge.ltxindustries.client.model.item.WeaponModel;
+import liedge.ltxindustries.client.renderer.item.RecoilAnimation;
+import liedge.ltxindustries.client.renderer.item.WeaponSpecialRenderer;
 import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.registry.game.LTXIBlocks;
 import liedge.ltxindustries.registry.game.LTXIFluids;
+import net.minecraft.client.color.item.ItemTintSource;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ModelProvider;
@@ -21,6 +27,7 @@ import net.minecraft.client.renderer.item.ItemModel;
 import net.minecraft.client.renderer.item.properties.conditional.FishingRodCast;
 import net.minecraft.client.renderer.item.properties.numeric.UseCycle;
 import net.minecraft.client.resources.model.sprite.Material;
+import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
@@ -35,12 +42,11 @@ import net.neoforged.neoforge.client.model.generators.template.CustomLoaderBuild
 import net.neoforged.neoforge.client.model.generators.template.ExtendedModelTemplateBuilder;
 import net.neoforged.neoforge.client.model.item.DynamicFluidContainerModel;
 import org.apache.commons.lang3.function.Consumers;
+import org.joml.Vector3f;
+import org.joml.Vector3fc;
 import org.jspecify.annotations.Nullable;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.stream.Stream;
@@ -149,6 +155,43 @@ class ModelsGen extends ModelProvider
         emissiveBrush(models);
         emissiveFishingRod(models);
         emissiveFlatItem(models, EPSILON_LIGHTER);
+
+        weapon(WAYFINDER)
+                .addEnergyDisplay(EnergyDisplayModel.create(6.75f, 9f, 13f, 2.5f, 2.5f, 5f, Direction.Axis.Z))
+                .setChamberOrigin(8f, 10.25f, 8.5f)
+                .setRenderer(WeaponSpecialRenderer.Type.SIMPLE_RECOIL, RecoilAnimation.linear(0.15f), 0.5f, 2.5f)
+                .build(models);
+        EnergyDisplayModel autoFrameED = EnergyDisplayModel.create(6.75f, -1f, 4f, 2.5f, 7f, 3f, Direction.Axis.Y, EnergyDisplayModel.Rotation.axisAngle(6.75f, 9f, 4f, Direction.Axis.X, -15f));
+        weapon(SERENITY)
+                .addEnergyDisplay(autoFrameED)
+                .setChamberOrigin(8f, 11f, 12.5f)
+                .setRenderer(WeaponSpecialRenderer.Type.SIMPLE_RECOIL, RecoilAnimation.sineCurve(), 0.03125f, 0.5f)
+                .build(models);
+        weapon(AURORA)
+                .addEnergyDisplay(EnergyDisplayModel.create(6.75f, 0f, 3f, 2.5f, 6f, 3f, Direction.Axis.Y, EnergyDisplayModel.Rotation.axisAngle(6.75f, 9f, 3f, Direction.Axis.X, -15f)))
+                .setChamberOrigin(8f, 11f, 11f)
+                .setRenderer(WeaponSpecialRenderer.Type.SIMPLE_RECOIL, RecoilAnimation.linear(0.15f), 0.5f, 2.5f)
+                .build(models);
+        weapon(HANABI)
+                .addEnergyDisplay(EnergyDisplayModel.create(6.25f, 14.5f, 13f, 3.5f, 5f, 3.5f, Direction.Axis.Y, EnergyDisplayModel.Rotation.axisAngle(8, 13, 13, Direction.Axis.X, 45f)))
+                .setEnergyTint(GrenadeTypeTint.INSTANCE)
+                .setChamberOrigin(8f, 10.75f, 8.5f)
+                .setRenderer(WeaponSpecialRenderer.Type.SIMPLE_RECOIL, RecoilAnimation.linear(0.15f), 0.5f, 2.5f)
+                .build(models);
+        weapon(STARGAZER)
+                .addEnergyDisplay(EnergyDisplayModel.create(6.75f, 0f, 4f, 2.5f, 5f, 4f, Direction.Axis.Y, EnergyDisplayModel.Rotation.axisAngle(6.75f, 7f, 4f, Direction.Axis.X, -15f)))
+                .setChamberOrigin(8f, 10f, 6.5f)
+                .setRenderer(WeaponSpecialRenderer.Type.STARGAZER_SIGHT, RecoilAnimation.linear(0.15f), 0.4f, 3f)
+                .build(models);
+        weapon(DAYBREAK)
+                .addEnergyDisplay(EnergyDisplayModel.create(6f, 17f, 11f, 4f, 5f, 4f, Direction.Axis.Y, EnergyDisplayModel.Rotation.axisAngle(8f, 14f, 11f, Direction.Axis.X, 45f)))
+                .setChamberOrigin(8f, 12f, 5.5f)
+                .setRenderer(WeaponSpecialRenderer.Type.SIMPLE_RECOIL, RecoilAnimation.linear(0.1f), 0.625f, 2f)
+                .build(models);
+        weapon(NOVA)
+                .setChamberOrigin(8f, 10f, 9.5f)
+                .setRenderer(WeaponSpecialRenderer.Type.SIMPLE_RECOIL, RecoilAnimation.linear(0.1f), 0.375f, 5f)
+                .build(models);
 
         bucket(models, VIRIDIC_ACID_BUCKET, LTXIFluids.VIRIDIC_ACID);
         bucket(models, HYDROGEN_BUCKET, LTXIFluids.HYDROGEN);
@@ -369,6 +412,17 @@ class ModelsGen extends ModelProvider
         models.itemModelOutput.accept(item.asItem(), unbaked);
     }
 
+    private WeaponBuilder weapon(Holder<Item> holder)
+    {
+        Item item = holder.value();
+        Identifier id = LimaRegistryUtil.getItemId(item);
+        Identifier template = id.withPrefix("item/template/");
+        Identifier frame = id.withPath(s -> "item/" + s + "_frame");
+        Identifier chamber = id.withPath(s -> "item/" + s + "_chamber");
+
+        return new WeaponBuilder(item, template, frame, chamber);
+    }
+
     private void createSparkFruit(BlockModelGenerators models)
     {
         Block block = LTXIBlocks.SPARK_FRUIT.get();
@@ -562,6 +616,56 @@ class ModelsGen extends ModelProvider
             }
 
             return json;
+        }
+    }
+
+    private static class WeaponBuilder
+    {
+        private final Item item;
+        private final Identifier template;
+        private final Identifier frame;
+        private final Identifier chamber;
+
+        private final List<EnergyDisplayModel> energyDisplays = new ObjectArrayList<>();
+        private @Nullable ItemTintSource energyTint;
+        private @Nullable Vector3fc chamberOrigin;
+        private WeaponSpecialRenderer.@Nullable Unbaked specialModel;
+
+        private WeaponBuilder(Item item, Identifier template, Identifier frame, Identifier chamber)
+        {
+            this.item = item;
+            this.template = template;
+            this.frame = frame;
+            this.chamber = chamber;
+        }
+
+        WeaponBuilder addEnergyDisplay(EnergyDisplayModel display)
+        {
+            energyDisplays.add(display);
+            return this;
+        }
+
+        WeaponBuilder setEnergyTint(ItemTintSource energyTint)
+        {
+            this.energyTint = energyTint;
+            return this;
+        }
+
+        WeaponBuilder setChamberOrigin(float x, float y, float z)
+        {
+            chamberOrigin = new Vector3f(x, y, z).mul(0.0625f);
+            return this;
+        }
+
+        WeaponBuilder setRenderer(WeaponSpecialRenderer.Type type, RecoilAnimation recoilAnimation, float recoilDistance, float recoilAngle)
+        {
+            this.specialModel = new WeaponSpecialRenderer.Unbaked(frame, chamber, Objects.requireNonNull(chamberOrigin), recoilAnimation, recoilDistance, recoilAngle, type);
+            return this;
+        }
+
+        void build(ItemModelGenerators models)
+        {
+            models.itemModelOutput.accept(item, new WeaponModel.Unbaked(template, energyDisplays, Optional.ofNullable(energyTint), Objects.requireNonNull(specialModel)));
         }
     }
 

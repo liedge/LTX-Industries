@@ -14,6 +14,8 @@ import liedge.ltxindustries.client.item.*;
 import liedge.ltxindustries.client.model.LTXIModelPartKeys;
 import liedge.ltxindustries.client.model.custom.BubbleShieldModel;
 import liedge.ltxindustries.client.model.entity.*;
+import liedge.ltxindustries.client.model.item.GrenadeTypeTint;
+import liedge.ltxindustries.client.model.item.WeaponModel;
 import liedge.ltxindustries.client.particle.*;
 import liedge.ltxindustries.client.renderer.blockentity.*;
 import liedge.ltxindustries.client.renderer.entity.GlowstickProjectileRenderer;
@@ -64,6 +66,12 @@ public class LTXIndustriesClient
         private void registerStandaloneModels(final ModelEvent.RegisterStandalone event)
         {
             LTXIModelPartKeys.register(event);
+        }
+
+        @SubscribeEvent
+        private void registerItemModelTypes(final RegisterItemModelsEvent event)
+        {
+            event.register(LTXIndustries.RESOURCES.id("weapon"), WeaponModel.Unbaked.CODEC);
         }
 
         @SubscribeEvent
@@ -205,6 +213,12 @@ public class LTXIndustriesClient
                     renderer.addLayer(new WonderlandArmorLayer(renderer, event.getEntityModels()));
                 }
             }
+        }
+
+        @SubscribeEvent
+        private void registerItemTintSources(final RegisterColorHandlersEvent.ItemTintSources event)
+        {
+            event.register(LTXIndustries.RESOURCES.id("grenade_type"), GrenadeTypeTint.CODEC);
         }
 
         @SubscribeEvent

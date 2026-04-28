@@ -15,7 +15,7 @@ public final class NovaClientItem extends WeaponClientItem
 {
     public NovaClientItem()
     {
-        super(1, 1);
+        super(1, 1, 6, 8);
     }
 
     @Override

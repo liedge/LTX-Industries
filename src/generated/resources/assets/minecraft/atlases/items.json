@@ -9,6 +9,11 @@
       "type": "minecraft:single",
       "resource": "ltxi:block/glacia_glass",
       "sprite": "ltxi:item/glacia_glass"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "ltxi:block/glowstick",
+      "sprite": "ltxi:item/glowstick"
     }
   ]
 }

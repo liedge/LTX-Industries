@@ -1,0 +1,51 @@
+{
+  "model": {
+    "type": "ltxi:weapon",
+    "energy_displays": [
+      {
+        "axis": "y",
+        "from": [
+          0.4225,
+          6.25E-4,
+          0.250625
+        ],
+        "length": 0.31124997,
+        "rotation": {
+          "origin": [
+            0.421875,
+            0.4375,
+            0.25
+          ],
+          "value": [
+            0.13052608,
+            0.0,
+            0.0,
+            -0.9914449
+          ]
+        },
+        "to": [
+          0.5775,
+          0.311875,
+          0.499375
+        ]
+      }
+    ],
+    "special_model": {
+      "type": "stargazer_sight",
+      "chamber": "ltxi:item/stargazer_chamber",
+      "chamber_origin": [
+        0.5,
+        0.625,
+        0.40625
+      ],
+      "frame": "ltxi:item/stargazer_frame",
+      "recoil_angle": 3.0,
+      "recoil_animation": {
+        "type": "linear",
+        "threshold": 0.15
+      },
+      "recoil_distance": 0.4
+    },
+    "template": "ltxi:item/template/stargazer"
+  }
+}

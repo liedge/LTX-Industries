@@ -90,7 +90,7 @@ public class WonderlandArmorLayer extends RenderLayer<AvatarRenderState, PlayerM
             LTXIRenderer.renderArcRing(pose, buffer, 0.25f, 0.0325f, 0, 360, 32, LTXIConstants.LIME_GREEN);
 
             float spin = (Util.getMillis() % 7000L) / 7000f;
-            renderSpinningRing(pose, buffer, spin * 360f, 3, 0.325f, 0.01875f, 60f, 7);
+            LTXIRenderer.renderArcsRing(pose, buffer, spin * 360f, 3, 60f, 0.01875f, 0.325f, 7, LTXIConstants.LIME_GREEN);
         });
 
         poseStack.popPose();
@@ -106,7 +106,7 @@ public class WonderlandArmorLayer extends RenderLayer<AvatarRenderState, PlayerM
         poseStack.mulPose(Axis.YP.rotationDegrees(90));
         poseStack.translate(0f, 0.25f, 0.203125f);
 
-        nodeCollector.submitCustomGeometry(poseStack, LTXIRenderTypes.WONDERLAND_EPHEMERA, (pose, buffer) -> renderSpinningRing(pose, buffer, armSpin, 7, 0.125f, 0.015f, 35f, 4));
+        nodeCollector.submitCustomGeometry(poseStack, LTXIRenderTypes.WONDERLAND_EPHEMERA, (pose, buffer) -> LTXIRenderer.renderArcsRing(pose, buffer, armSpin, 7, 35f, 0.015f, 0.125f, 4, LTXIConstants.LIME_GREEN));
         poseStack.popPose();
 
         // Right arm
@@ -115,7 +115,7 @@ public class WonderlandArmorLayer extends RenderLayer<AvatarRenderState, PlayerM
         poseStack.mulPose(Axis.YP.rotationDegrees(90));
         poseStack.translate(0f, 0.25f, -0.171875f);
 
-        nodeCollector.submitCustomGeometry(poseStack, LTXIRenderTypes.WONDERLAND_EPHEMERA, (pose, buffer) -> renderSpinningRing(pose, buffer, armSpin, 7, 0.125f, 0.015f, 35f, 4));
+        nodeCollector.submitCustomGeometry(poseStack, LTXIRenderTypes.WONDERLAND_EPHEMERA, (pose, buffer) -> LTXIRenderer.renderArcsRing(pose, buffer, armSpin, 7, 35f, 0.015f, 0.125f, 4, LTXIConstants.LIME_GREEN));
         poseStack.popPose();
 
         // Wings
@@ -169,7 +169,7 @@ public class WonderlandArmorLayer extends RenderLayer<AvatarRenderState, PlayerM
         nodeCollector.submitCustomGeometry(poseStack, LTXIRenderTypes.WONDERLAND_EPHEMERA, (pose, buffer) ->
         {
             LTXIRenderer.renderArcRing(pose, buffer, 0.078125f, 0.009375f, 0, 360, 24, LTXIConstants.LIME_GREEN);
-            renderSpinningRing(pose, buffer, -spin, 7, 0.109375f, 0.0125f, 35f, 4);
+            LTXIRenderer.renderArcsRing(pose, buffer, -spin, 7, 35f, 0.0125f, 0.109375f, 4, LTXIConstants.LIME_GREEN);
         });
 
         poseStack.popPose();
@@ -183,21 +183,10 @@ public class WonderlandArmorLayer extends RenderLayer<AvatarRenderState, PlayerM
         nodeCollector.submitCustomGeometry(poseStack, LTXIRenderTypes.WONDERLAND_EPHEMERA, (pose, buffer) ->
         {
             LTXIRenderer.renderArcRing(pose, buffer, 0.078125f, 0.009375f, 0, 360, 24, LTXIConstants.LIME_GREEN);
-            renderSpinningRing(pose, buffer, -spin, 7, 0.109375f, 0.0125f, 35f, 4);
+            LTXIRenderer.renderArcsRing(pose, buffer, spin, 7, 35f, 0.0125f, 0.109375f, 4, LTXIConstants.LIME_GREEN);
         });
 
         poseStack.popPose();
-    }
-
-    private void renderSpinningRing(PoseStack.Pose pose, VertexConsumer buffer, float delta, int arcs, float radius, float width, float arcLength, int segments)
-    {
-        float halfArc = arcLength / 2f;
-
-        for (int i = 0; i < arcs; i++)
-        {
-            float angle = i * (360f / arcs) + delta;
-            LTXIRenderer.renderArcRing(pose, buffer, radius, width, angle - halfArc, angle + halfArc, segments, LTXIConstants.LIME_GREEN);
-        }
     }
 
     private void renderWingPiece(PoseStack.Pose pose, VertexConsumer buffer, float connectRadius, float connectWidth, float wingRadius, float wingWidth, float wingOutline, float startAngle, float endAngle)

@@ -11,7 +11,7 @@ public final class WayfinderClientItem extends WeaponClientItem
 {
     public WayfinderClientItem()
     {
-        super(5, 5);
+        super(5, 5, 5, 7);
     }
 
     @Override

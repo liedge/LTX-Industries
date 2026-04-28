@@ -5,6 +5,7 @@ import liedge.limacore.client.gui.HorizontalAlignment;
 import liedge.limacore.client.gui.LimaGuiUtil;
 import liedge.limacore.client.gui.VerticalAlignment;
 import liedge.limacore.lib.LimaColor;
+import liedge.limacore.lib.TickTimer;
 import liedge.limacore.util.LimaCoreObjects;
 import liedge.ltxindustries.client.LTXIRenderer;
 import liedge.ltxindustries.client.gui.layer.EquipmentHUDLayer;
@@ -24,6 +25,7 @@ import net.minecraft.data.AtlasIds;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import org.jspecify.annotations.Nullable;
@@ -58,11 +60,15 @@ public abstract class WeaponClientItem implements EquipmentHUDLayer.Renderer
     // Class def
     private final int crosshairWidth;
     private final int crosshairHeight;
+    private final int animationA;
+    private final int animationB;
 
-    WeaponClientItem(int crosshairWidth, int crosshairHeight)
+    WeaponClientItem(int crosshairWidth, int crosshairHeight, int animationA, int animationB)
     {
         this.crosshairWidth = crosshairWidth;
         this.crosshairHeight = crosshairHeight;
+        this.animationA = animationA;
+        this.animationB = animationB;
     }
 
     public void extractCrosshairs(GuiGraphicsExtractor graphics, RenderPipeline pipeline, LocalPlayer player, WeaponItem weaponItem,
@@ -77,9 +83,34 @@ public abstract class WeaponClientItem implements EquipmentHUDLayer.Renderer
     protected abstract void extractCrosshairSprites(GuiGraphicsExtractor graphics, RenderPipeline pipeline, LocalPlayer player, WeaponItem weaponItem,
                                                     ClientExtendedInput controls, int x, int y, LimaColor color, float partialTick);
 
-    public void onWeaponFired(ItemStack stack, WeaponItem weaponItem, ClientExtendedInput controls) { }
+    public void onWeaponFired(ItemStack stack, Player player, WeaponItem weaponItem, ClientExtendedInput controls)
+    {
+        controls.getAnimationTimerA().startTimer(animationA);
+        controls.getAnimationTimerB().startTimer(animationB);
+    }
 
-    public void onMainHandTick(ItemStack stack, WeaponItem weaponItem, ClientExtendedInput controls) { }
+    public void onMainHandTick(ItemStack stack, WeaponItem weaponItem, ClientExtendedInput controls)
+    {
+        TickTimer timerB = controls.getAnimationTimerB();
+        float speed;
+
+        if (timerB.getTimerState() == TickTimer.State.RUNNING)
+        {
+            speed = 1.5f * LTXIRenderer.sineAnimationCurve(timerB.getProgressPercent());
+        }
+        else
+        {
+            speed = 0.025f;
+        }
+
+        updateSpinAnimation(controls, speed);
+    }
+
+    protected void updateSpinAnimation(ClientExtendedInput controls, float speed)
+    {
+        controls.spinAnimation0 = controls.spinAnimation;
+        controls.spinAnimation = (controls.spinAnimation + (60 * speed)) % 360f;
+    }
 
     @Override
     public HumanoidModel.@Nullable ArmPose getArmPose(LivingEntity entity, InteractionHand hand, ItemStack heldItem)

@@ -10,6 +10,7 @@ import liedge.ltxindustries.client.renderer.BubbleShieldRenderer;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.core.Direction;
+import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
 import net.minecraft.util.context.ContextKey;
 import net.minecraft.world.entity.Entity;
@@ -93,54 +94,65 @@ public final class LTXIRenderer
     {
         renderArcRing(pose, buffer, radius, width, startAngle, endAngle, segments, color, 1f);
     }
+
+    public static void renderArcsRing(PoseStack.Pose pose, VertexConsumer buffer, float delta, int arcs, float arcLength, float arcWidth, float radius, int segments, LimaColor color)
+    {
+        final float halfArc = arcLength / 2f;
+
+        for (int i = 0; i < arcs; i++)
+        {
+            float angle = i * (360f / arcs) + delta;
+            renderArcRing(pose, buffer, radius, arcWidth, angle - halfArc, angle + halfArc, segments, color);
+        }
+    }
     //#endregion
     
     //#region Cuboids
-    public static void submitUnlitCuboidFace(PoseStack.Pose pose, VertexConsumer buffer, Direction side, float x1, float y1, float z1, float x2, float y2, float z2, float red, float green, float blue, float alpha)
+    public static void submitUnlitCuboidFace(PoseStack.Pose pose, VertexConsumer buffer, Direction side, float x1, float y1, float z1, float x2, float y2, float z2, int argb32)
     {
         switch (side)
         {
             case UP ->
             {
-                buffer.addVertex(pose, x1, y2, z2).setColor(red, green, blue, alpha);
-                buffer.addVertex(pose, x2, y2, z2).setColor(red, green, blue, alpha);
-                buffer.addVertex(pose, x2, y2, z1).setColor(red, green, blue, alpha);
-                buffer.addVertex(pose, x1, y2, z1).setColor(red, green, blue, alpha);
+                buffer.addVertex(pose, x1, y2, z2).setColor(argb32);
+                buffer.addVertex(pose, x2, y2, z2).setColor(argb32);
+                buffer.addVertex(pose, x2, y2, z1).setColor(argb32);
+                buffer.addVertex(pose, x1, y2, z1).setColor(argb32);
             }
             case DOWN ->
             {
-                buffer.addVertex(pose, x1, y1, z1).setColor(red, green, blue, alpha);
-                buffer.addVertex(pose, x2, y1, z1).setColor(red, green, blue, alpha);
-                buffer.addVertex(pose, x2, y1, z2).setColor(red, green, blue, alpha);
-                buffer.addVertex(pose, x1, y1, z2).setColor(red, green, blue, alpha);
+                buffer.addVertex(pose, x1, y1, z1).setColor(argb32);
+                buffer.addVertex(pose, x2, y1, z1).setColor(argb32);
+                buffer.addVertex(pose, x2, y1, z2).setColor(argb32);
+                buffer.addVertex(pose, x1, y1, z2).setColor(argb32);
             }
             case NORTH ->
             {
-                buffer.addVertex(pose, x2, y1, z1).setColor(red, green, blue, alpha);
-                buffer.addVertex(pose, x1, y1, z1).setColor(red, green, blue, alpha);
-                buffer.addVertex(pose, x1, y2, z1).setColor(red, green, blue, alpha);
-                buffer.addVertex(pose, x2, y2, z1).setColor(red, green, blue, alpha);
+                buffer.addVertex(pose, x2, y1, z1).setColor(argb32);
+                buffer.addVertex(pose, x1, y1, z1).setColor(argb32);
+                buffer.addVertex(pose, x1, y2, z1).setColor(argb32);
+                buffer.addVertex(pose, x2, y2, z1).setColor(argb32);
             }
             case SOUTH ->
             {
-                buffer.addVertex(pose, x2, y2, z2).setColor(red, green, blue, alpha);
-                buffer.addVertex(pose, x1, y2, z2).setColor(red, green, blue, alpha);
-                buffer.addVertex(pose, x1, y1, z2).setColor(red, green, blue, alpha);
-                buffer.addVertex(pose, x2, y1, z2).setColor(red, green, blue, alpha);
+                buffer.addVertex(pose, x2, y2, z2).setColor(argb32);
+                buffer.addVertex(pose, x1, y2, z2).setColor(argb32);
+                buffer.addVertex(pose, x1, y1, z2).setColor(argb32);
+                buffer.addVertex(pose, x2, y1, z2).setColor(argb32);
             }
             case EAST ->
             {
-                buffer.addVertex(pose, x2, y1, z2).setColor(red, green, blue, alpha);
-                buffer.addVertex(pose, x2, y1, z1).setColor(red, green, blue, alpha);
-                buffer.addVertex(pose, x2, y2, z1).setColor(red, green, blue, alpha);
-                buffer.addVertex(pose, x2, y2, z2).setColor(red, green, blue, alpha);
+                buffer.addVertex(pose, x2, y1, z2).setColor(argb32);
+                buffer.addVertex(pose, x2, y1, z1).setColor(argb32);
+                buffer.addVertex(pose, x2, y2, z1).setColor(argb32);
+                buffer.addVertex(pose, x2, y2, z2).setColor(argb32);
             }
             case WEST ->
             {
-                buffer.addVertex(pose, x1, y2, z2).setColor(red, green, blue, alpha);
-                buffer.addVertex(pose, x1, y2, z1).setColor(red, green, blue, alpha);
-                buffer.addVertex(pose, x1, y1, z1).setColor(red, green, blue, alpha);
-                buffer.addVertex(pose, x1, y1, z2).setColor(red, green, blue, alpha);
+                buffer.addVertex(pose, x1, y2, z2).setColor(argb32);
+                buffer.addVertex(pose, x1, y2, z1).setColor(argb32);
+                buffer.addVertex(pose, x1, y1, z1).setColor(argb32);
+                buffer.addVertex(pose, x1, y1, z2).setColor(argb32);
             }
         }
     }
@@ -194,12 +206,17 @@ public final class LTXIRenderer
         }
     }
 
-    public static void submitUnlitCuboid(PoseStack.Pose pose, VertexConsumer buffer, Direction[] faces, float x1, float y1, float z1, float x2, float y2, float z2, LimaColor color, float alpha)
+    public static void submitUnlitCuboid(PoseStack.Pose pose, VertexConsumer buffer, Direction[] faces, float x1, float y1, float z1, float x2, float y2, float z2, int color, float alpha)
     {
         for (Direction side : faces)
         {
-            submitUnlitCuboidFace(pose, buffer, side, x1, y1, z1, x2, y2, z2, color.red(), color.green(), color.blue(), alpha);
+            submitUnlitCuboidFace(pose, buffer, side, x1, y1, z1, x2, y2, z2, ARGB.color(alpha, color));
         }
+    }
+
+    public static void submitUnlitCuboid(PoseStack.Pose pose, VertexConsumer buffer, Direction[] faces, float x1, float y1, float z1, float x2, float y2, float z2, LimaColor color, float alpha)
+    {
+        submitUnlitCuboid(pose, buffer, faces, x1, y1, z1, x2, y2, z2, color.argb32(), alpha);
     }
     //#endregion
 
