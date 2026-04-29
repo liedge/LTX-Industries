@@ -12,7 +12,10 @@ public final class LTXIWeaponsConfig
     // Serenity
     public static final ModConfigSpec.DoubleValue SERENITY_BASE_DAMAGE;
 
-    // Shotgun
+    // Mirage
+    public static final ModConfigSpec.DoubleValue MIRAGE_BASE_DAMAGE;
+
+    // Aurora
     public static final ModConfigSpec.DoubleValue AURORA_BASE_DAMAGE;
 
     // Hanabi
@@ -47,6 +50,10 @@ public final class LTXIWeaponsConfig
 
         builder.push("serenity");
         SERENITY_BASE_DAMAGE = builder.comment(baseDamageMsg).defineInRange("base_damage", 3.0, MIN_BASE_DAMAGE, MAX_BASE_DAMAGE);
+        builder.pop();
+
+        builder.push("mirage");
+        MIRAGE_BASE_DAMAGE = builder.comment(baseDamageMsg).defineInRange("base_damage", 4.5d, MIN_BASE_DAMAGE, MAX_BASE_DAMAGE);
         builder.pop();
 
         builder.push("aurora");

@@ -1,7 +1,7 @@
 {
   "type": "ltxi:fabricating",
   "energy_required": 20000000,
-  "group": "ltx/weapon.4",
+  "group": "ltx/weapon.33",
   "item_inputs": [
     {
       "ingredient": "ltxi:t3_circuit"

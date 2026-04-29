@@ -10,11 +10,11 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.InteractionHand;
 
-public final class SerenityClientItem extends AutoWeaponClientItem
+public final class MirageClientItem extends AutoWeaponClientItem
 {
-    public SerenityClientItem()
+    public MirageClientItem()
     {
-        super(5, 5, 0, 5);
+        super(1, 1, 1, 5);
     }
 
     @Override
@@ -24,17 +24,17 @@ public final class SerenityClientItem extends AutoWeaponClientItem
         if (LimaEntityUtil.isEntityUsingItem(player, InteractionHand.MAIN_HAND))
         {
             float f = Math.min(1f, (player.getTicksUsingItem() + partialTick) / 3f);
-            baseBloom = 3f - (3f * f);
+            baseBloom = 4f - (4f * f);
         }
         else
         {
-            baseBloom = 3f;
+            baseBloom = 4f;
         }
 
-        float bloom = baseBloom + 2f * (controls.isTriggerHeld() ? LTXIRenderer.sineAnimationCurve(partialTick) : 0f);
+        float bloom = baseBloom + 1.5f * LTXIRenderer.sineAnimationCurve(controls.lerpTriggerTimer(weaponItem, partialTick));
 
-        blitSprite(graphics, pipeline, HOLLOW_DOT, x, y, 5, 5, color);
-        blitSprite(graphics, pipeline, CIRCLE_BRACKET, x - 4 - bloom, y - 4, 6, 13, color);
-        blitSpriteMirrorU(graphics, pipeline, CIRCLE_BRACKET, x + 3 + bloom, y - 4, 6, 13, color);
+        blitSprite(graphics, pipeline, STANDARD_HORIZONTAL, x - 5 - bloom, y, 4, 1, color);
+        blitSprite(graphics, pipeline, STANDARD_HORIZONTAL, x + 2 + bloom, y, 4, 1, color);
+        blitSprite(graphics, pipeline, STANDARD_VERTICAL, x, y + 2 + bloom, 1, 4, color);
     }
 }

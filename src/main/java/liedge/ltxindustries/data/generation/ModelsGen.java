@@ -165,7 +165,12 @@ class ModelsGen extends ModelProvider
         weapon(SERENITY)
                 .addEnergyDisplay(autoFrameED)
                 .setChamberOrigin(8f, 11f, 12.5f)
-                .setRenderer(WeaponSpecialRenderer.Type.SIMPLE_RECOIL, RecoilAnimation.sineCurve(), 0.03125f, 0.5f)
+                .setRenderer(WeaponSpecialRenderer.Type.SIMPLE_RECOIL, RecoilAnimation.sineCurve(), 0.03125f, 0.4f)
+                .build(models);
+        weapon(MIRAGE)
+                .addEnergyDisplay(autoFrameED)
+                .setChamberOrigin(8f, 11f, 12.5f)
+                .setRenderer(WeaponSpecialRenderer.Type.SIMPLE_RECOIL, RecoilAnimation.sineCurve(), 0.03125f, 0.4f)
                 .build(models);
         weapon(AURORA)
                 .addEnergyDisplay(EnergyDisplayModel.create(6.75f, 0f, 3f, 2.5f, 6f, 3f, Direction.Axis.Y, EnergyDisplayModel.Rotation.axisAngle(6.75f, 9f, 3f, Direction.Axis.X, -15f)))

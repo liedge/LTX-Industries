@@ -30,6 +30,7 @@ public final class LTXISounds
 
     public static final DeferredHolder<SoundEvent, SoundEvent> WAYFINDER_FIRE = registerSound("wayfinder_fire");
     public static final DeferredHolder<SoundEvent, SoundEvent> SERENITY_FIRE = registerSound("serenity_fire");
+    public static final DeferredHolder<SoundEvent, SoundEvent> MIRAGE_FIRE = registerSound("mirage_fire");
     public static final DeferredHolder<SoundEvent, SoundEvent> AURORA_FIRE = registerSound("aurora_fire");
     public static final DeferredHolder<SoundEvent, SoundEvent> HANABI_FIRE = registerSound("hanabi_fire");
     public static final DeferredHolder<SoundEvent, SoundEvent> STARGAZER_CHARGE = registerSound("stargazer_charge");

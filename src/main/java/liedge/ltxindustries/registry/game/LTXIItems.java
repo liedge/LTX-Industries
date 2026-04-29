@@ -210,6 +210,7 @@ public final class LTXIItems
     public static final DeferredItem<WayfinderItem> WAYFINDER = registerLTXGear(LTXIIdentifiers.ID_WAYFINDER, WayfinderItem::new);
     public static final DeferredItem<SerenityItem> SERENITY = registerLTXGear(LTXIIdentifiers.ID_SERENITY, properties -> new SerenityItem(properties
             .component(DataComponents.USE_EFFECTS, new UseEffects(true, true, 1f))));
+    public static final DeferredItem<MirageItem> MIRAGE = registerLTXGear(LTXIIdentifiers.ID_MIRAGE, MirageItem::new);
     public static final DeferredItem<AuroraItem> AURORA = registerLTXGear(LTXIIdentifiers.ID_AURORA, AuroraItem::new);
     public static final DeferredItem<HanabiItem> HANABI = registerLTXGear(LTXIIdentifiers.ID_HANABI, HanabiItem::new);
     public static final DeferredItem<StargazerItem> STARGAZER = registerLTXGear(LTXIIdentifiers.ID_STARGAZER, StargazerItem::new);

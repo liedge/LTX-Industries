@@ -188,7 +188,8 @@ class LanguageGen extends LimaLanguageProvider
         addItem(FLUIDS_IO_CONFIG_CARD, "Fluids IO Config Card");
 
         addItem(WAYFINDER, italicName("%s 05/ID", "Wayfinder"));
-        addItem(SERENITY, italicName("%s 07/SD", "Serenity"));
+        addItem(SERENITY, italicName("%s 11/PX", "Serenity"));
+        addItem(MIRAGE, italicName("%s 13/CX", "Mirage"));
         addItem(AURORA, italicName("%s 21/SG", "Aurora"));
         addItem(HANABI, italicName("%s 33/GL", "Hanabi"));
         addItem(STARGAZER, italicName("%s 37/LF", "Stargazer"));
@@ -220,6 +221,8 @@ class LanguageGen extends LimaLanguageProvider
         upgrade(LTXIUpgrades.WAYFINDER_DEFAULT, "Wayfinder Intrinsics", "Wayfinder's energy feed system ships pre-configured to use Common Energy.");
         upgrade(LTXIUpgrades.SERENITY_DEFAULT, "Serenity Intrinsics", "Serenity's small lightfrags zip right through targets without a trace.");
         upgradeTooltip(LTXIUpgrades.SERENITY_DEFAULT, 0, "No anger and knockback on damage");
+        upgrade(LTXIUpgrades.MIRAGE_DEFAULT, "Mirage Intrinsics", "Mirage's lightfrags pierce without physical impulse for efficient damage output levels.");
+        upgradeTooltip(LTXIUpgrades.MIRAGE_DEFAULT, 0, "No knockback on damage");
         upgrade(LTXIUpgrades.AURORA_DEFAULT, "Aurora Intrinsics", "Aurora's combat precepts, specialized in fast assault and scout operations.");
         upgrade(LTXIUpgrades.STARGAZER_DEFAULT, "Stargazer Intrinsics", "Stargazer's systems are calibrated for precise long-range engagements.");
         upgradeTooltip(LTXIUpgrades.STARGAZER_DEFAULT, 0, "%s bonus damage per meter after %sm (%s max bonus)");
@@ -442,6 +445,7 @@ class LanguageGen extends LimaLanguageProvider
         soundEvent(BUBBLE_SHIELD_BREAK, "Bubble shield breaks");
         soundEvent(WAYFINDER_FIRE, "Wayfinder fires");
         soundEvent(SERENITY_FIRE, "Serenity fires");
+        soundEvent(MIRAGE_FIRE, "Mirage fires");
         soundEvent(AURORA_FIRE, "Aurora fires");
         soundEvent(HANABI_FIRE, "Hanabi fires");
         soundEvent(STARGAZER_CHARGE, "Stargazer charges");

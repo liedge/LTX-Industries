@@ -82,7 +82,7 @@ class ItemTagsGen extends LimaTagsProvider.ItemTags
         buildTag(APPLE_SAPLINGS).add(OAK_SAPLING, DARK_OAK_SAPLING);
 
         // Weapon equipment definitions
-        buildTag(LIGHTWEIGHT_WEAPONS).add(WAYFINDER, SERENITY);
+        buildTag(LIGHTWEIGHT_WEAPONS).add(WAYFINDER, SERENITY, MIRAGE);
         buildTag(SPECIALIST_WEAPONS).add(AURORA, STARGAZER);
         buildTag(EXPLOSIVE_WEAPONS).add(HANABI, DAYBREAK);
         buildTag(HEAVY_WEAPONS).add(NOVA);

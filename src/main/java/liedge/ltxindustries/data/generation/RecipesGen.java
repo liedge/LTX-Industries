@@ -228,6 +228,7 @@ class RecipesGen extends LimaRecipeProvider
         defaultModuleFabricating(output, registries, EPSILON_MELEE_DEFAULT, EPSILON_SWORD, EPSILON_AXE);
         defaultModuleFabricating(output, registries, WAYFINDER_DEFAULT, WAYFINDER);
         defaultModuleFabricating(output, registries, SERENITY_DEFAULT, SERENITY);
+        defaultModuleFabricating(output, registries, MIRAGE_DEFAULT, MIRAGE);
         defaultModuleFabricating(output, registries, AURORA_DEFAULT, AURORA);
         defaultModuleFabricating(output, registries, STARGAZER_DEFAULT, STARGAZER);
         defaultModuleFabricating(output, registries, NOVA_DEFAULT, NOVA);
@@ -359,21 +360,25 @@ class RecipesGen extends LimaRecipeProvider
 
         // Weapons fabrication
         String weaponFabGroup = "ltx/weapon";
-        equipmentFabricating(output, registries, WAYFINDER, weaponFabGroup + ".1", 250_000, builder -> builder
+        equipmentFabricating(output, registries, WAYFINDER, weaponFabGroup + ".05", 250_000, builder -> builder
                 .input(T1_CIRCUIT, 2)
                 .input(TITANIUM_INGOT, 8)
                 .input(items, DYES_LIME, 3)
                 .input(GLOWSTONE_DUST, 8));
-        equipmentFabricating(output, registries, SERENITY, weaponFabGroup + ".2", 500_000, builder -> builder
+        equipmentFabricating(output, registries, SERENITY, weaponFabGroup + ".11", 500_000, builder -> builder
                 .input(T1_CIRCUIT, 2)
                 .input(TITANIUM_INGOT, 24)
                 .input(LTX_LIME_PIGMENT, 4));
-        equipmentFabricating(output, registries, AURORA, weaponFabGroup + ".3", 1_000_000, builder -> builder
+        equipmentFabricating(output, registries, MIRAGE, weaponFabGroup + ".13", 750_000, builder -> builder
+                .input(T1_CIRCUIT, 4)
+                .input(TITANIUM_INGOT, 32)
+                .input(LTX_LIME_PIGMENT, 6));
+        equipmentFabricating(output, registries, AURORA, weaponFabGroup + ".21", 1_000_000, builder -> builder
                 .input(T2_CIRCUIT, 4)
                 .input(TITANIUM_INGOT, 24)
                 .input(POLYMER_INGOT, 16)
                 .input(LTX_LIME_PIGMENT, 8));
-        equipmentFabricating(output, registries, HANABI, weaponFabGroup + ".4", 20_000_000, builder -> builder
+        equipmentFabricating(output, registries, HANABI, weaponFabGroup + ".33", 20_000_000, builder -> builder
                 .input(T3_CIRCUIT, 1)
                 .input(TITANIUM_INGOT, 24)
                 .input(POLYMER_INGOT, 24)
@@ -381,20 +386,20 @@ class RecipesGen extends LimaRecipeProvider
                 .input(LTX_LIME_PIGMENT, 12)
                 .input(IMPULSE_TECH_PART, 2)
                 .input(TITANIUM_GLASS, 6));
-        equipmentFabricating(output, registries, STARGAZER, weaponFabGroup + ".5", 25_000_000, builder -> builder
+        equipmentFabricating(output, registries, STARGAZER, weaponFabGroup + ".37", 25_000_000, builder -> builder
                 .input(T2_CIRCUIT, 6)
                 .input(TITANIUM_INGOT, 24)
                 .input(POLYMER_INGOT, 32)
                 .input(LTX_LIME_PIGMENT, 12)
                 .input(OPTICAL_TECH_PART, 3));
-        equipmentFabricating(output, registries, DAYBREAK, weaponFabGroup + ".6", 30_000_000, builder -> builder
+        equipmentFabricating(output, registries, DAYBREAK, weaponFabGroup + ".41", 30_000_000, builder -> builder
                 .input(T3_CIRCUIT, 2)
                 .input(TITANIUM_INGOT, 48)
                 .input(SLATESTEEL_INGOT, 24)
                 .input(LTX_LIME_PIGMENT, 16)
                 .input(IMPULSE_TECH_PART, 3)
                 .input(OPTICAL_TECH_PART, 1));
-        equipmentFabricating(output, registries, NOVA, weaponFabGroup + ".7", 75_000_000, builder -> builder
+        equipmentFabricating(output, registries, NOVA, weaponFabGroup + ".77", 75_000_000, builder -> builder
                 .input(T4_CIRCUIT, 1)
                 .input(TITANIUM_INGOT, 32)
                 .input(POLYMER_INGOT, 24)

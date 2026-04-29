@@ -1,0 +1,41 @@
+{
+  "display": {
+    "category": "default/weapon",
+    "description": {
+      "translate": "upgrade.ltxi.default.mirage.desc"
+    },
+    "icon": {
+      "type": "overlay",
+      "background": {
+        "type": "item_stack",
+        "item": {
+          "id": "ltxi:mirage"
+        }
+      },
+      "height": 7,
+      "overlay": "ltxi:default_overlay",
+      "width": 7,
+      "x_offset": 8,
+      "y_offset": 8
+    },
+    "title": {
+      "translate": "upgrade.ltxi.default.mirage"
+    },
+    "tooltips": [
+      {
+        "type": "static",
+        "tooltip": {
+          "translate": "upgrade.ltxi.default.mirage.tooltip0"
+        }
+      }
+    ]
+  },
+  "effects": {
+    "ltxi:extra_damage_tags": [
+      "minecraft:no_knockback"
+    ]
+  },
+  "users": {
+    "items": "ltxi:mirage"
+  }
+}

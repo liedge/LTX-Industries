@@ -28,6 +28,7 @@ class SoundsGen extends LimaSoundDefinitionsProvider
 
         addSound(WAYFINDER_FIRE, def -> def.with(beginSound(HANABI_FIRE, SoundDefinition.SoundType.SOUND).pitch(1.25f)));
         addSound(SERENITY_FIRE, def -> def.with(beginSound("auto_weapon_fire", SoundDefinition.SoundType.SOUND).pitch(0.99f)));
+        addSound(MIRAGE_FIRE, def -> def.with(beginSound("auto_weapon_fire", SoundDefinition.SoundType.SOUND).pitch(0.925f)));
         addSingleDirectSound(AURORA_FIRE);
         addSingleDirectSound(HANABI_FIRE);
         addSingleDirectSound(STARGAZER_CHARGE);

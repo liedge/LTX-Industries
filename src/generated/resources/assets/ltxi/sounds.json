@@ -56,6 +56,15 @@
     ],
     "subtitle": "subtitle.ltxi.hanabi_fire"
   },
+  "mirage_fire": {
+    "sounds": [
+      {
+        "name": "ltxi:auto_weapon_fire",
+        "pitch": 0.925
+      }
+    ],
+    "subtitle": "subtitle.ltxi.mirage_fire"
+  },
   "neuro_grenade_explode": {
     "sounds": [
       "ltxi:neuro_grenade_explode"

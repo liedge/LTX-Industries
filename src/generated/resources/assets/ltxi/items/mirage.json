@@ -32,19 +32,19 @@
     ],
     "special_model": {
       "type": "simple_recoil",
-      "chamber": "ltxi:item/serenity_chamber",
+      "chamber": "ltxi:item/mirage_chamber",
       "chamber_origin": [
         0.5,
         0.6875,
         0.78125
       ],
-      "frame": "ltxi:item/serenity_frame",
+      "frame": "ltxi:item/mirage_frame",
       "recoil_angle": 0.4,
       "recoil_animation": {
         "type": "sine"
       },
       "recoil_distance": 0.03125
     },
-    "template": "ltxi:item/template/serenity"
+    "template": "ltxi:item/template/mirage"
   }
 }

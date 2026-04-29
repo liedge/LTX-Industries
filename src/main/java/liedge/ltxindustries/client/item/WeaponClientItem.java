@@ -50,6 +50,8 @@ public abstract class WeaponClientItem implements EquipmentHUDLayer.Renderer
     private static final float NO_ENERGY = -1f;
 
     // Crosshair sprites
+    static final Identifier STANDARD_HORIZONTAL = RESOURCES.id("crosshair/standard_h");
+    static final Identifier STANDARD_VERTICAL = RESOURCES.id("crosshair/standard_v");
     static final Identifier HOLLOW_DOT = RESOURCES.id("crosshair/hollow_dot");
     static final Identifier CIRCLE_BRACKET = RESOURCES.id("crosshair/circle_bracket");
     static final Identifier ANGLE_BRACKET = RESOURCES.id("crosshair/angle_bracket");

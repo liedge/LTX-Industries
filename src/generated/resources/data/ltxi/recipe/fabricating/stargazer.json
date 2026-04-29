@@ -1,7 +1,7 @@
 {
   "type": "ltxi:fabricating",
   "energy_required": 25000000,
-  "group": "ltx/weapon.5",
+  "group": "ltx/weapon.37",
   "item_inputs": [
     {
       "count": 6,

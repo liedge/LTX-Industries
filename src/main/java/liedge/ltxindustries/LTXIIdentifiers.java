@@ -26,6 +26,7 @@ public final class LTXIIdentifiers
 
     public static final String ID_WAYFINDER = "wayfinder";
     public static final String ID_SERENITY = "serenity";
+    public static final String ID_MIRAGE = "mirage";
     public static final String ID_AURORA = "aurora";
     public static final String ID_HANABI = "hanabi";
     public static final String ID_STARGAZER = "stargazer";

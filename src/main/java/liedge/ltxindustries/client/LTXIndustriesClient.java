@@ -108,6 +108,7 @@ public class LTXIndustriesClient
 
             event.registerItem(new WayfinderClientItem(), LTXIItems.WAYFINDER);
             event.registerItem(new SerenityClientItem(), LTXIItems.SERENITY);
+            event.registerItem(new MirageClientItem(), LTXIItems.MIRAGE);
             event.registerItem(new AuroraClientItem(), LTXIItems.AURORA);
             event.registerItem(new HanabiClientItem(), LTXIItems.HANABI);
             event.registerItem(new StargazerClientItem(), LTXIItems.STARGAZER);

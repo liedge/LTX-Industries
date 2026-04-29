@@ -112,6 +112,7 @@ public final class LTXIUpgrades
     public static final ResourceKey<Upgrade> EPSILON_MELEE_DEFAULT = defaultKey("epsilon_melee");
     public static final ResourceKey<Upgrade> WAYFINDER_DEFAULT = defaultKey(ID_WAYFINDER);
     public static final ResourceKey<Upgrade> SERENITY_DEFAULT = defaultKey(ID_SERENITY);
+    public static final ResourceKey<Upgrade> MIRAGE_DEFAULT = defaultKey(ID_MIRAGE);
     public static final ResourceKey<Upgrade> AURORA_DEFAULT = defaultKey(ID_AURORA);
     public static final ResourceKey<Upgrade> STARGAZER_DEFAULT = defaultKey(ID_STARGAZER);
     public static final ResourceKey<Upgrade> NOVA_DEFAULT = defaultKey(ID_NOVA);
@@ -314,6 +315,13 @@ public final class LTXIUpgrades
                 .withEffect(EXTRA_DAMAGE_TAGS, DamageTypeTags.NO_KNOCKBACK)
                 .staticTooltip(0)
                 .effectIcon(defaultModuleIcon(LTXIItems.SERENITY))
+                .category("default/weapon")
+                .register(context);
+        Upgrade.builder(MIRAGE_DEFAULT)
+                .forEquipment(LTXIItems.MIRAGE)
+                .withEffect(EXTRA_DAMAGE_TAGS, DamageTypeTags.NO_KNOCKBACK)
+                .staticTooltip(0)
+                .effectIcon(defaultModuleIcon(LTXIItems.MIRAGE))
                 .category("default/weapon")
                 .register(context);
         Upgrade.builder(AURORA_DEFAULT)
