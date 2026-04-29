@@ -66,7 +66,7 @@ public final class LTXIUpgradeEffectComponents
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ValueOperation>>> RELOAD_SPEED = COMPONENTS.registerValue("reload_speed");
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<WeaponReloadSource>> RELOAD_SOURCE = COMPONENTS.register("reload_source", () -> UpgradeDataComponentType.create(WeaponReloadSource.CODEC));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ValueOperation>>> MAX_HITS = COMPONENTS.registerValue("max_hits");
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ValueOperation>>> BLOCK_PIERCE_DISTANCE = COMPONENTS.registerValue("punch_through");
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ValueOperation>>> BLOCK_PIERCE = COMPONENTS.registerValue("block_pierce");
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<GrenadeType>>> GRENADE_UNLOCK = COMPONENTS.register("grenade_unlock", () -> UpgradeDataComponentType.createList(GrenadeType.CODEC));
     //#endregion
 

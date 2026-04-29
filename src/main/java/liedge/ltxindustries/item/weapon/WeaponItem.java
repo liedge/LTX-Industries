@@ -62,30 +62,24 @@ public abstract class WeaponItem extends EnergyEquipmentItem
     private final double baseRange;
     private final int baseReloadSpeed;
     private final WeaponReloadSource baseReloadSource;
-    private final int baseMaxHits;
-    private final double basePunchTrough;
 
-    protected WeaponItem(Properties properties, int baseMagCapacity, double baseRange, int baseReloadSpeed, WeaponReloadSource baseReloadSource, int baseMaxHits, double basePunchThrough)
+    protected WeaponItem(Properties properties, int baseMagCapacity, double baseRange, int baseReloadSpeed, WeaponReloadSource baseReloadSource)
     {
         super(properties
                 .component(LTXIDataComponents.MAGAZINE_CAPACITY, baseMagCapacity)
                 .component(LTXIDataComponents.WEAPON_RANGE, baseRange)
                 .component(LTXIDataComponents.RELOAD_SPEED, baseReloadSpeed)
-                .component(LTXIDataComponents.RELOAD_SOURCE, baseReloadSource)
-                .component(LTXIDataComponents.MAX_HITS, baseMaxHits)
-                .component(LTXIDataComponents.PUNCH_THROUGH, basePunchThrough));
+                .component(LTXIDataComponents.RELOAD_SOURCE, baseReloadSource));
 
         this.baseMagCapacity = baseMagCapacity;
         this.baseRange = baseRange;
         this.baseReloadSpeed = baseReloadSpeed;
         this.baseReloadSource = baseReloadSource;
-        this.baseMaxHits = baseMaxHits;
-        this.basePunchTrough = basePunchThrough;
     }
 
-    protected WeaponItem(Properties properties, int baseMagCapacity, double baseRange, int baseReloadSpeed, Holder<Item> defaultAmmoItem, int baseMaxHits, double basePunchTrough)
+    protected WeaponItem(Properties properties, int baseMagCapacity, double baseRange, int baseReloadSpeed, Holder<Item> defaultAmmoItem)
     {
-        this(properties, baseMagCapacity, baseRange, baseReloadSpeed, WeaponReloadSource.withItem(defaultAmmoItem), baseMaxHits, basePunchTrough);
+        this(properties, baseMagCapacity, baseRange, baseReloadSpeed, WeaponReloadSource.withItem(defaultAmmoItem));
     }
 
     //#region Weapon user events
@@ -174,12 +168,12 @@ public abstract class WeaponItem extends EnergyEquipmentItem
 
     public int getEntityMaxHits(ItemStack stack)
     {
-        return stack.getOrDefault(LTXIDataComponents.MAX_HITS, baseMaxHits);
+        return stack.getOrDefault(LTXIDataComponents.MAX_HITS, 1);
     }
 
     public double getBlockPierceDistance(ItemStack stack)
     {
-        return stack.getOrDefault(LTXIDataComponents.PUNCH_THROUGH, basePunchTrough);
+        return stack.getOrDefault(LTXIDataComponents.BLOCK_PIERCE, 0d);
     }
     //#endregion
 
@@ -190,8 +184,12 @@ public abstract class WeaponItem extends EnergyEquipmentItem
         setUpgradableInt(stack, upgrades, context, baseMagCapacity, LTXIDataComponents.MAGAZINE_CAPACITY, LTXIUpgradeEffectComponents.MAGAZINE_CAPACITY);
         setUpgradableDouble(stack, upgrades, context, baseRange, LTXIDataComponents.WEAPON_RANGE, LTXIUpgradeEffectComponents.WEAPON_RANGE);
         setUpgradableInt(stack, upgrades, context, baseReloadSpeed, LTXIDataComponents.RELOAD_SPEED, LTXIUpgradeEffectComponents.RELOAD_SPEED);
-        setUpgradableInt(stack, upgrades, context, baseMaxHits, LTXIDataComponents.MAX_HITS, LTXIUpgradeEffectComponents.MAX_HITS);
-        setUpgradableDouble(stack, upgrades, context, basePunchTrough, LTXIDataComponents.PUNCH_THROUGH, LTXIUpgradeEffectComponents.BLOCK_PIERCE_DISTANCE);
+
+        Integer baseMaxHits = components().get(LTXIDataComponents.MAX_HITS);
+        if (baseMaxHits != null) setUpgradableInt(stack, upgrades, context, baseMaxHits, LTXIDataComponents.MAX_HITS, LTXIUpgradeEffectComponents.MAX_HITS);
+
+        Double baseBlockPierce = components().get(LTXIDataComponents.BLOCK_PIERCE);
+        if (baseBlockPierce != null) setUpgradableDouble(stack, upgrades, context, baseBlockPierce, LTXIDataComponents.BLOCK_PIERCE, LTXIUpgradeEffectComponents.BLOCK_PIERCE);
 
         // Refresh reload source
         WeaponReloadSource reloadSource = upgrades.effectStream(LTXIUpgradeEffectComponents.RELOAD_SOURCE)

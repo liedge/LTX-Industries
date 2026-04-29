@@ -208,14 +208,27 @@ public final class LTXIItems
 
     // Signature weapons
     public static final DeferredItem<WayfinderItem> WAYFINDER = registerLTXGear(LTXIIdentifiers.ID_WAYFINDER, WayfinderItem::new);
+
     public static final DeferredItem<SerenityItem> SERENITY = registerLTXGear(LTXIIdentifiers.ID_SERENITY, properties -> new SerenityItem(properties
             .component(DataComponents.USE_EFFECTS, new UseEffects(true, true, 1f))));
+
     public static final DeferredItem<MirageItem> MIRAGE = registerLTXGear(LTXIIdentifiers.ID_MIRAGE, MirageItem::new);
-    public static final DeferredItem<AuroraItem> AURORA = registerLTXGear(LTXIIdentifiers.ID_AURORA, AuroraItem::new);
+
+    public static final DeferredItem<AuroraItem> AURORA = registerLTXGear(LTXIIdentifiers.ID_AURORA, properties -> new AuroraItem(properties
+            .component(LTXIDataComponents.MAX_HITS, 5)
+            .component(LTXIDataComponents.BLOCK_PIERCE, 0.4d)));
+
     public static final DeferredItem<HanabiItem> HANABI = registerLTXGear(LTXIIdentifiers.ID_HANABI, HanabiItem::new);
-    public static final DeferredItem<StargazerItem> STARGAZER = registerLTXGear(LTXIIdentifiers.ID_STARGAZER, StargazerItem::new);
+
+    public static final DeferredItem<StargazerItem> STARGAZER = registerLTXGear(LTXIIdentifiers.ID_STARGAZER, properties -> new StargazerItem(properties
+            .component(LTXIDataComponents.MAX_HITS, 2)
+            .component(LTXIDataComponents.BLOCK_PIERCE, 0.34d)));
+
     public static final DeferredItem<DaybreakItem> DAYBREAK = registerLTXGear(LTXIIdentifiers.ID_DAYBREAK, DaybreakItem::new);
-    public static final DeferredItem<NovaItem> NOVA = registerLTXGear(LTXIIdentifiers.ID_NOVA, NovaItem::new);
+
+    public static final DeferredItem<NovaItem> NOVA = registerLTXGear(LTXIIdentifiers.ID_NOVA, properties -> new NovaItem(properties
+            .component(LTXIDataComponents.MAX_HITS, 100)
+            .component(LTXIDataComponents.BLOCK_PIERCE, 1.4143d)));
 
     // Weapon ammo items
     public static final DeferredItem<SimpleHintItem> LIGHTWEIGHT_WEAPON_ENERGY = registerSimpleHint("lightweight_weapon_energy");

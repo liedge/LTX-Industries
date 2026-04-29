@@ -20,7 +20,7 @@ public class StargazerItem extends FullAutoWeaponItem implements ScopingWeaponIt
 
     public StargazerItem(Properties properties)
     {
-        super(properties, 5, 200, 40, LTXIItems.SPECIALIST_WEAPON_ENERGY, 2, 0.33d);
+        super(properties, 5, 200, 40, LTXIItems.SPECIALIST_WEAPON_ENERGY);
     }
 
     @Override

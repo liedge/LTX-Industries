@@ -18,7 +18,7 @@ public class WayfinderItem extends SemiAutoWeaponItem
 {
     public WayfinderItem(Properties properties)
     {
-        super(properties, 10, MAX_PROJECTILE_SPEED, 10, LTXIItems.LIGHTWEIGHT_WEAPON_ENERGY, 1, 0);
+        super(properties, 10, MAX_PROJECTILE_SPEED, 10, LTXIItems.LIGHTWEIGHT_WEAPON_ENERGY);
     }
 
     @Override

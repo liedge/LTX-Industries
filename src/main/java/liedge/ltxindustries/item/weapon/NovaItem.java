@@ -20,7 +20,7 @@ public class NovaItem extends SemiAutoWeaponItem implements ScopingWeaponItem
 {
     public NovaItem(Properties properties)
     {
-        super(properties, 7, 25, 30, LTXIItems.HEAVY_WEAPON_ENERGY, 100, 1d);
+        super(properties, 7, 25, 30, LTXIItems.HEAVY_WEAPON_ENERGY);
     }
 
     @Override

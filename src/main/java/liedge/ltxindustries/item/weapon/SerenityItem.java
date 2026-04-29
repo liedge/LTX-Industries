@@ -20,7 +20,7 @@ public class SerenityItem extends FullAutoWeaponItem implements ScopingWeaponIte
 {
     public SerenityItem(Properties properties)
     {
-        super(properties, 45, 12.5d, 20, LTXIItems.LIGHTWEIGHT_WEAPON_ENERGY, 1, 0);
+        super(properties, 45, 12.5d, 20, LTXIItems.LIGHTWEIGHT_WEAPON_ENERGY);
     }
 
     @Override

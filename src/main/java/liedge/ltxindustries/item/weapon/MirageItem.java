@@ -20,7 +20,7 @@ public class MirageItem extends FullAutoWeaponItem implements ScopingWeaponItem
 {
     public MirageItem(Properties properties)
     {
-        super(properties, 30, 45d, 30, LTXIItems.LIGHTWEIGHT_WEAPON_ENERGY, 1, 0d);
+        super(properties, 30, 45d, 30, LTXIItems.LIGHTWEIGHT_WEAPON_ENERGY);
     }
 
     @Override

@@ -25,7 +25,7 @@ public class AuroraItem extends SemiAutoWeaponItem
 {
     public AuroraItem(Properties properties)
     {
-        super(properties, 5, 10d, 40, LTXIItems.SPECIALIST_WEAPON_ENERGY, 5, 0.33d);
+        super(properties, 5, 10d, 40, LTXIItems.SPECIALIST_WEAPON_ENERGY);
     }
 
     @Override

@@ -45,6 +45,6 @@ public final class LTXIDataComponents
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> RELOAD_SPEED = TYPES.registerComponentType("reload_speed", builder -> builder.persistent(Codec.intRange(0, 500)).networkSynchronized(ByteBufCodecs.VAR_INT));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<WeaponReloadSource>> RELOAD_SOURCE = TYPES.registerComponentType("reload_source", builder -> builder.persistent(WeaponReloadSource.CODEC).networkSynchronized(WeaponReloadSource.STREAM_CODEC).cacheEncoding());
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> MAX_HITS = TYPES.registerComponentType("max_hits", builder -> builder.persistent(ExtraCodecs.POSITIVE_INT).networkSynchronized(ByteBufCodecs.VAR_INT));
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Double>> PUNCH_THROUGH = TYPES.registerComponentType("punch_through", builder -> builder.persistent(Codec.doubleRange(0d, 512d)).networkSynchronized(ByteBufCodecs.DOUBLE));
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Double>> BLOCK_PIERCE = TYPES.registerComponentType("block_pierce", builder -> builder.persistent(Codec.doubleRange(0d, 512d)).networkSynchronized(ByteBufCodecs.DOUBLE));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<GrenadeType>> GRENADE_TYPE = TYPES.registerComponentType("grenade_type", builder -> builder.persistent(GrenadeType.CODEC).networkSynchronized(GrenadeType.STREAM_CODEC));
 }

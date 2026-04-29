@@ -8,9 +8,9 @@ import net.minecraft.world.item.ItemStack;
 
 public abstract class FullAutoWeaponItem extends WeaponItem
 {
-    protected FullAutoWeaponItem(Properties properties, int baseMagCapacity, double baseRange, int baseReloadSpeed, Holder<Item> defaultAmmoItem, int baseMaxHits, double basePunchTrough)
+    protected FullAutoWeaponItem(Properties properties, int baseMagCapacity, double baseRange, int baseReloadSpeed, Holder<Item> defaultAmmoItem)
     {
-        super(properties, baseMagCapacity, baseRange, baseReloadSpeed, defaultAmmoItem, baseMaxHits, basePunchTrough);
+        super(properties, baseMagCapacity, baseRange, baseReloadSpeed, defaultAmmoItem);
     }
 
     @Override

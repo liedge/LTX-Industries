@@ -41,7 +41,7 @@ public class HanabiItem extends SemiAutoWeaponItem implements ScrollModeSwitchIt
 
     public HanabiItem(Properties properties)
     {
-        super(properties, 6, 1.5d, 50, LTXIItems.EXPLOSIVES_WEAPON_ENERGY, 1, 0);
+        super(properties, 6, 1.5d, 50, LTXIItems.EXPLOSIVES_WEAPON_ENERGY);
     }
 
     public void setGrenadeType(ItemStack stack, GrenadeType grenadeType)

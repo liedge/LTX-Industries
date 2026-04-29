@@ -30,7 +30,7 @@ public class DaybreakItem extends SemiAutoWeaponItem
 
     public DaybreakItem(Properties properties)
     {
-        super(properties, 2, 1.5d, 60, LTXIItems.EXPLOSIVES_WEAPON_ENERGY, 1, 0);
+        super(properties, 2, 1.5d, 60, LTXIItems.EXPLOSIVES_WEAPON_ENERGY);
     }
 
     private boolean isInTargetScanPath(Player player, Entity target, Upgrades upgrades)
