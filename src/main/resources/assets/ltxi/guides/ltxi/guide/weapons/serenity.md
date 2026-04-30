@@ -1,13 +1,13 @@
 ---
 navigation:
     title: Serenity
-    icon: submachine_gun
+    icon: serenity
     parent: weapons/index.md
-    position: 107
+    position: 111
 ---
 
-# *Serenity* 07/SD
-<ItemImage id="submachine_gun" scale="3" />
+# *Serenity* 11/PX
+<ItemImage id="serenity" scale="3" />
 
 Don't let its size fool you, *Serenity*'s LightFrags are engineered to tear apart low threat, unarmored enemies at close
 range. As a downside, it will [struggle](../fundamentals/damage_modifiers.md) against armored and higher threat targets.

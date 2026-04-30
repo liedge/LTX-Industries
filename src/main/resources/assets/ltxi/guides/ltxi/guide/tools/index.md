@@ -1,7 +1,7 @@
 ---
 navigation:
     title: Tools
-    icon: ltx_drill
+    icon: epsilon_drill
     position: 30
 ---
 
@@ -15,10 +15,10 @@ and are [upgradable](../fundamentals/upgrade_system.md).
 ### Modular
 
 <ItemGrid>
-<ItemIcon id="ltx_drill" />
-<ItemIcon id="ltx_shovel" />
-<ItemIcon id="ltx_axe" />
-<ItemIcon id="ltx_hoe" />
+<ItemIcon id="epsilon_drill" />
+<ItemIcon id="epsilon_shovel" />
+<ItemIcon id="epsilon_axe" />
+<ItemIcon id="epsilon_hoe" />
 </ItemGrid>
 
 The Drill, Shovel, Axe and Hoe are designated *modular mining tools*. Switching equipment mode cycles through the 5
@@ -39,8 +39,8 @@ harvestable materials for mining convenience.
 ### Non-Modular
 
 <ItemGrid>
-<ItemIcon id="ltx_shears" />
-<ItemIcon id="ltx_wrench" />
+<ItemIcon id="epsilon_shears" />
+<ItemIcon id="epsilon_wrench" />
 </ItemGrid>
 
 The Wrench and Shears do not have the variable speed or the ability to change effective blocks via the upgrade system.
@@ -51,8 +51,8 @@ They still support the enchantment upgrade modules.
 ## Melee weapons
 
 <ItemGrid>
-<ItemIcon id="ltx_sword" />
-<ItemIcon id="ltx_axe" />
+<ItemIcon id="epsilon_sword" />
+<ItemIcon id="epsilon_axe" />
 </ItemGrid>
 
 The Sword and Axe are designated *melee weapons*. They share certain upgrade modules with the [signature series weapons](../weapons/index.md)
@@ -63,9 +63,9 @@ including enchantment modules (Razor and Looting) and target filters.
 ## Miscellaneous tools
 
 <ItemGrid>
-<ItemIcon id="ltx_fishing_rod" />
-<ItemIcon id="ltx_brush" />
-<ItemIcon id="ltx_lighter" />
+<ItemIcon id="epsilon_fishing_rod" />
+<ItemIcon id="epsilon_brush" />
+<ItemIcon id="epsilon_lighter" />
 </ItemGrid>
 
 These tools do not currently provide extra capabilities beyond their baseline. It is still recommended to obtain them,

@@ -145,6 +145,7 @@ class ModelsGen extends ModelProvider
                 EXPLOSIVES_WEAPON_ENERGY,
                 HEAVY_WEAPON_ENERGY);
 
+        emissiveFlatItem(models, GUIDE_TABLET);
         emissiveHandheldFlatItem(models, EPSILON_DRILL);
         emissiveHandheldFlatItem(models, EPSILON_SWORD);
         emissiveHandheldFlatItem(models, EPSILON_SHOVEL);

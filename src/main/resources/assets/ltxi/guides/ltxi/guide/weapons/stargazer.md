@@ -1,13 +1,13 @@
 ---
 navigation:
     title: Stargazer
-    icon: linear_fusion_rifle
+    icon: stargazer
     parent: weapons/index.md
     position: 138
 ---
 
-# *Stargazer* 38/LF
-<ItemImage id="linear_fusion_rifle" scale="3" />
+# *Stargazer* 37/LF
+<ItemImage id="stargazer" scale="3" />
 
 ## Stats
 - Base Damage: 45.0

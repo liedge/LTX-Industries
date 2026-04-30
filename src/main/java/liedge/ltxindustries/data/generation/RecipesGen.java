@@ -14,6 +14,7 @@ import liedge.limacore.util.LimaRegistryUtil;
 import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.block.NeonLightColor;
+import liedge.ltxindustries.integration.guideme.GuideMEIntegration;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
 import liedge.ltxindustries.lib.upgrades.MutableUpgrades;
 import liedge.ltxindustries.lib.upgrades.Upgrade;
@@ -45,6 +46,7 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.common.conditions.ModLoadedCondition;
 import net.neoforged.neoforge.common.conditions.NotCondition;
 import net.neoforged.neoforge.common.conditions.TagEmptyCondition;
 import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
@@ -128,17 +130,8 @@ class RecipesGen extends LimaRecipeProvider
         shaped(ENERGY_IO_CONFIG_CARD).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('m', ELECTRIC_CHEMICAL).patterns(" m ", "tct", " t ").save(output);
         shaped(FLUIDS_IO_CONFIG_CARD).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('m', BUCKET).patterns(" m ", "tct", " t ").save(output);
 
+        shapeless(GUIDE_TABLET).condition(new ModLoadedCondition(GuideMEIntegration.MODID)).input(BOOK).input(TITANIUM_INGOT).input(items, DYES_LIME).save(output);
         shaped(defaultUpgradableItem(EPSILON_WRENCH, registries)).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).patterns("t t", " c ", " t ").save(output);
-
-        // TODO reintroduce
-        /*
-        shapeless(GuideMEIntegration.createGuideTabletItem())
-                .condition(new ModLoadedCondition("guideme"))
-                .input(BOOK)
-                .input(TITANIUM_INGOT)
-                .input(items, DYES_LIME)
-                .save(output, "guide_tablet");
-        */
 
         // Machine recipes
         shaped(ENERGY_CELL_ARRAY).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('e', ELECTRIC_CHEMICAL).input('b', COPPER_BLOCK).patterns("tct", "ebe", "tct").save(output);

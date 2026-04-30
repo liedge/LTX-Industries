@@ -150,8 +150,8 @@ dependencies {
     localRuntime("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
 
     // GuideME
-    //compileOnly("org.appliedenergistics:guideme:${guideme_version}:api")
-    //runtimeOnly("org.appliedenergistics:guideme:${guideme_version}")
+    compileOnly("org.appliedenergistics:guideme:${guideme_version}:api")
+    runtimeOnly("org.appliedenergistics:guideme:${guideme_version}")
 
     // AE2
     //compileOnly("org.appliedenergistics:appliedenergistics2:${ae2_version}:api")
@@ -174,8 +174,8 @@ tasks.withType(ProcessResources).configureEach {
             mod_authors            : mod_authors,
             mod_description        : mod_description,
             limacore_version_range  : limacore_version_range,
-            jei_version_range   : jei_version_range
-            //guideme_version_range   : guideme_version_range
+            jei_version_range   : jei_version_range,
+            guideme_version_range   : guideme_version_range
             //ae2_version : ae2_version,
             //ae2_version_range: ae2_version_range
     ]

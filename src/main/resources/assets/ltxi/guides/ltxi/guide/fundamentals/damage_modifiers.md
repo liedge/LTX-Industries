@@ -1,6 +1,7 @@
 ---
 navigation:
     title: "Damage Modifiers"
+    icon: epsilon_sword
     parent: fundamentals/index.md
     position: 2
 ---

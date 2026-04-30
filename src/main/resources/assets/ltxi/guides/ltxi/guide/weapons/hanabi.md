@@ -1,13 +1,13 @@
 ---
 navigation:
     title: Hanabi
-    icon: grenade_launcher
+    icon: hanabi
     parent: weapons/index.md
     position: 133
 ---
 
 # *Hanabi* 33/GL
-<ItemImage id="grenade_launcher" scale="3" />
+<ItemImage id="hanabi" scale="3" />
 
 ## Stats
 - Base Damage: Varies (see below)

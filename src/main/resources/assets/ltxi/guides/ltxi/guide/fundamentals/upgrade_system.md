@@ -6,26 +6,34 @@ navigation:
     position: 1
 item_ids:
     - empty_upgrade_module
-    - equipment_upgrade_module
-    - machine_upgrade_module
-    - equipment_upgrade_station
+    - upgrade_module
+    - upgrade_station
 ---
 
-# Modular Upgrade System
+# LTXI Upgrade System
 
-Our machinery and equipment can be enhanced with upgrade modules! Hold Shift on the module item to see what it does and
-on what machines/equipment you can install it on.
+LTXI equipment (tools, armor, weapons) and machines can be extensively upgraded with our upgrade system.
 
-## Machine Upgrade Module
-<ItemImage id="machine_upgrade_module" />
+## Upgrade modules
 
-For installation on machinery. The upgrade management system is built into upgradable machinery. Look for the Machine
-Upgrade Module icon on the right sidebar.
+<ItemImage id="upgrade_module" />
 
-## Equipment Upgrade Module
-<ItemImage id="equipment_upgrade_module" />
+These little guys hold a ranked upgrade entry. Hold Shift on the module item to see its name, rank,
+effect tooltips, and what you can install it on.
 
-For installation on equipment items. Unlike machines, you'll need an **Equipment Upgrade Station** to install or manage
-upgrades on your equipment.
-<BlockImage id="equipment_upgrade_station" scale="2.5" />
-Insert your equipment item into the equipment slot to manage its upgrades.
+### Upgrade Users
+
+Each upgrade has an 'Upgrade Users' property. That is, which items or machines it can be installed on. While most
+upgrades are going to be exclusive to either equipment items or machinery, some are compatible with both!
+
+## Installing on machines
+
+The upgrade management is built into machines. Look for the Upgrade Module icon on the right sidebar, it will be the
+topmost option.
+
+## Installing on equipment
+
+<BlockImage id="upgrade_station" scale="2.5" />
+
+You'll need an **Upgrade Station** to configure upgrades on equipment. Insert the equipment item into the equipment slot
+to modify its upgrades.

@@ -8,7 +8,7 @@ navigation:
 # Signature series weaponry
 
 The perfected combination of efficient, sleek beauty and lethality. All of our weapons are
-[upgradable equipment](../fundamentals/upgrade_system.md#equipment-upgrade-module).
+[upgradable equipment](../fundamentals/upgrade_system.md).
 
 ## Controls
 
@@ -28,17 +28,18 @@ are aesthetic only.
 ### Lightweight weapons
 
 - 05/ID, '*[Wayfinder](wayfinder.md)*'
-- 07/SD, '*[Serenity](serenity.md)*'
+- 11/PX, '*[Serenity](serenity.md)*'
+- 13/CX, '*[Mirage](mirage.md)*'
 
 ### Specialist weapons
 
 - 21/SG, '*[Aurora](aurora.md)*'
-- 38/LF, '*[Stargazer](stargazer.md)*'
+- 37/LF, '*[Stargazer](stargazer.md)*'
 
 ### Explosive weapons
 
 - 33/GL, '*[Hanabi](hanabi.md)*'
-- 42/RL, '*[Daybreak](daybreak.md)*'
+- 41/RL, '*[Daybreak](daybreak.md)*'
 
 ### Heavy weapons
 

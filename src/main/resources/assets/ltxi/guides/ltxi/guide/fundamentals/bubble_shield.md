@@ -23,8 +23,8 @@ Any leftover damage upon breaking the shield will bleed through to the entity's 
 Player bubble shields are more advanced and are much more effective at protecting you from threats. This shield has an
 internal cooldown of 1 second between shield health loss from either attacks or blocking potion effects. The bubble
 shield automatically recharges to your **Shield Capacity** after 5 seconds of not taking damage or blocking effects.
-Some [equipment upgrade](upgrade_system.md#equipment-upgrade-module) modules can overcharge your shield. Shield health
-from these sources will not naturally regenerate.
+Some [upgrade](upgrade_system.md) modules can overcharge your shield. Shield health from these sources will
+not naturally regenerate.
 
 ### Shield gating
 

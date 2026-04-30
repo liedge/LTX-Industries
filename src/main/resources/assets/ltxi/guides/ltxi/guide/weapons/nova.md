@@ -1,13 +1,13 @@
 ---
 navigation:
     title: Nova
-    icon: heavy_pistol
+    icon: nova
     parent: weapons/index.md
     position: 177
 ---
 
 # *Nova* 77/HX
-<ItemImage id="heavy_pistol" scale="3" />
+<ItemImage id="nova" scale="3" />
 
 ## Stats
 - Base Damage: 75.0

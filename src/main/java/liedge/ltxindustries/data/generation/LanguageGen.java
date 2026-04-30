@@ -106,6 +106,7 @@ class LanguageGen extends LimaLanguageProvider
         fluidType(LTXIFluids.OXYGEN_TYPE, "Oxygen");
 
         //#region Items
+        addItem(GUIDE_TABLET, "Guide Tablet");
         addItem(RAW_TITANIUM, "Raw Titanium");
         addItem(TITANIUM_INGOT, "Titanium Ingot");
         addItem(TITANIUM_NUGGET, "Titanium Nugget");
@@ -395,6 +396,7 @@ class LanguageGen extends LimaLanguageProvider
         add(IO_CARD_INVALID_SETUP, "Machine does not support this IO config.");
         add(IO_CARD_INVALID_TYPE, "Machine does not support %s.");
         add(SHIELD_COMMAND_MSG, "Modified %s entity shields");
+        add(GUIDEME_NOT_INSTALLED, "GuideME is not installed. It is required for the Guide Tablet to work.");
 
         add(SHIFT_HOVER_HINT, "Hold SHIFT for extra info");
         add(INVALID_UPGRADE_HINT, "The upgrade in this module is invalid or corrupted. Shift+Right Click to clear.");
@@ -484,10 +486,6 @@ class LanguageGen extends LimaLanguageProvider
         add(LTXITags.Items.WRENCH_BREAKABLE, "wrench-breakable");
         add(LTXITags.GameEvents.WEAPON_VIBRATIONS, "weaponry");
         add(LTXITags.GameEvents.HANDHELD_EQUIPMENT, "handheld tool");
-
-        // GuideME compatibility
-        add(modResources.translationKey("item.{}.guide_tablet"), "Guide Tablet");
-        add(modResources.translationKey("hint.{}.guide_tablet"), "To be completed Soon™");
 
         // Key mapping
         add(LTXIKeyMappings.KEY_CATEGORY.id().toLanguageKey("key.category"), "LTX Industries");

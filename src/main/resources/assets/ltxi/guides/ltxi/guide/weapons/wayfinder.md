@@ -1,14 +1,14 @@
 ---
 navigation:
     title: Wayfinder
-    icon: glowstick_launcher
+    icon: wayfinder
     parent: weapons/index.md
     position: 105
 ---
 
 # *Wayfinder* 05/ID
 
-<ItemImage id="glowstick_launcher" scale="3" />
+<ItemImage id="wayfinder" scale="3" />
 
 ## Stats
 - Projectile: Glowstick

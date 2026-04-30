@@ -158,7 +158,8 @@ public final class LTXIItems
     public static final DeferredItem<SimpleHintItem> OPTICAL_TECH_PART = registerSimpleHint("optical_tech_part", properties -> properties.rarity(Rarity.UNCOMMON));
     public static final DeferredItem<SimpleHintItem> IMPULSE_TECH_PART = registerSimpleHint("impulse_tech_part", properties -> properties.rarity(Rarity.UNCOMMON));
 
-    // LTX basic tools
+    // Guide and Epsilon series tools
+    public static final DeferredItem<GuideTabletItem> GUIDE_TABLET = registerLTXGear("guide_tablet", GuideTabletItem::new);
     public static final DeferredItem<EnergyDrillItem> EPSILON_DRILL = registerLTXGear(LTXIIdentifiers.ID_EPSILON_DRILL, properties -> new EnergyDrillItem(properties, 5f, -2f));
     public static final DeferredItem<EnergySwordItem> EPSILON_SWORD = registerLTXGear(LTXIIdentifiers.ID_EPSILON_SWORD, properties -> new EnergySwordItem(properties, 9f, -1.5f));
     public static final DeferredItem<EnergyShovelItem> EPSILON_SHOVEL = registerLTXGear(LTXIIdentifiers.ID_EPSILON_SHOVEL, properties -> new EnergyShovelItem(properties, 7.5f, -2.2f));

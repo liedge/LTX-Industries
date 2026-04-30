@@ -1,13 +1,13 @@
 ---
 navigation:
     title: Daybreak
-    icon: rocket_launcher
+    icon: daybreak
     parent: weapons/index.md
     position: 142
 ---
 
-# *Daybreak* 42/RL
-<ItemImage id="rocket_launcher" scale="3" />
+# *Daybreak* 41/RL
+<ItemImage id="daybreak" scale="3" />
 
 ## Stats
 - Base Direct Hit Damage: 100.0
