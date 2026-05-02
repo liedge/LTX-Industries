@@ -30,13 +30,13 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.player.AvatarRenderer;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.client.renderer.state.level.LevelRenderState;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.util.Mth;
-import net.minecraft.util.context.ContextKey;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
@@ -58,8 +58,6 @@ import static liedge.ltxindustries.registry.game.LTXIAttachmentTypes.INPUT_EXTEN
 @EventBusSubscriber(modid = LTXIndustries.MODID, value = Dist.CLIENT)
 public final class LTXIClientEventHandler
 {
-    private static final ContextKey<LockOnRenderData> LOCK_ON_DATA = LTXIndustries.RESOURCES.contextKey("lock_on_data");
-
     @SubscribeEvent
     public static void fovModifyEvent(final ComputeFovModifierEvent event)
     {
@@ -202,27 +200,30 @@ public final class LTXIClientEventHandler
         if (target != null)
         {
             float progress = Math.min(1f, controls.lerpTargetTicks(partialTick) / (float) DaybreakItem.TARGET_LOCK_MIN_TICKS);
-            renderState.setRenderData(LOCK_ON_DATA, LockOnRenderData.of(target, camera, progress, partialTick));
+            renderState.setRenderData(LTXIRenderer.LOCK_ON_TARGET, LockOnRenderData.of(target, camera, progress, partialTick));
         }
+    }
+
+    @SubscribeEvent
+    private static void submitCustomGeometry(final SubmitCustomGeometryEvent event)
+    {
+        LevelRenderState levelState = event.getLevelRenderState();
+        PoseStack poseStack = event.getPoseStack();
+        SubmitNodeCollector nodeCollector = event.getSubmitNodeCollector();
+
+        // Submit lock-on indicator
+        LockOnRenderData data = levelState.getRenderData(LTXIRenderer.LOCK_ON_TARGET);
+        if (data != null) nodeCollector.submitCustomGeometry(poseStack, LTXIRenderTypes.LOCK_ON_INDICATOR, data);
     }
 
     @SubscribeEvent
     public static void levelRenderAfterTranslucent(final RenderLevelStageEvent.AfterTranslucentBlocks event)
     {
         LevelRenderState renderState = event.getLevelRenderState();
-        MultiBufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
         PoseStack poseStack = event.getPoseStack();
 
-        // Render lock-on indicator
-        LockOnRenderData lockOnData = renderState.getRenderData(LOCK_ON_DATA);
-        if (lockOnData != null)
-        {
-            poseStack.pushPose();
-
-            lockOnData.render(poseStack.last(), bufferSource.getBuffer(LTXIRenderTypes.LOCK_ON_INDICATOR));
-
-            poseStack.popPose();
-        }
+        MultiBufferSource.BufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
+        VertexConsumer buffer = bufferSource.getBuffer(LTXIRenderTypes.BUBBLE_SHIELD);
 
         for (EntityRenderState entityState : renderState.entityRenderStates)
         {
@@ -237,12 +238,12 @@ public final class LTXIClientEventHandler
             float scale = shieldState.scale();
             poseStack.scale(scale, scale, scale);
 
-            VertexConsumer buffer = bufferSource.getBuffer(LTXIRenderTypes.BUBBLE_SHIELD);
-
             BubbleShieldRenderer.INSTANCE.submit(poseStack.last(), buffer, shieldState.color(), shieldState.partialTick());
 
             poseStack.popPose();
         }
+
+        bufferSource.endBatch(LTXIRenderTypes.BUBBLE_SHIELD);
     }
 
     @SubscribeEvent
