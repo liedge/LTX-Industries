@@ -1,15 +1,6 @@
 {
   "model": {
-    "type": "minecraft:composite",
-    "models": [
-      {
-        "type": "minecraft:model",
-        "model": "ltxi:item/epsilon_axe_base"
-      },
-      {
-        "type": "minecraft:model",
-        "model": "ltxi:item/epsilon_axe_emissive"
-      }
-    ]
+    "type": "minecraft:model",
+    "model": "ltxi:item/epsilon_axe"
   }
 }

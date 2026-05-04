@@ -155,7 +155,7 @@ class ModelsGen extends ModelProvider
         emissiveFlatItem(models, EPSILON_SHEARS);
         emissiveBrush(models);
         emissiveFishingRod(models);
-        emissiveFlatItem(models, EPSILON_LIGHTER);
+        emissiveHandheldFlatItem(models, EPSILON_LIGHTER);
 
         weapon(WAYFINDER)
                 .addEnergyDisplay(EnergyDisplayModel.create(6.75f, 9f, 13f, 2.5f, 2.5f, 5f, Direction.Axis.Z))
@@ -327,39 +327,40 @@ class ModelsGen extends ModelProvider
         }
     }
 
-    private ItemModel.Unbaked emissiveFlatModel(Identifier path,
-                                                ModelTemplate baseTemplate, @Nullable Identifier baseTexture,
-                                                ModelTemplate emissiveTemplate, @Nullable Identifier emissiveTexture,
-                                                BiConsumer<Identifier, ModelInstance> output)
+    private ItemModel.Unbaked emissiveFlatModel(Identifier rootPath, ModelTemplate template, @Nullable Identifier baseTexture, @Nullable Identifier emissiveTexture, BiConsumer<Identifier, ModelInstance> output)
     {
-        Identifier basePath = path.withPath(s -> "item/" + s + "_base");
-        Identifier emissivePath = path.withPath(s -> "item/" + s + "_emissive");
+        Identifier modelPath = rootPath.withPrefix("item/");
+        Identifier basePath = modelPath.withSuffix("_base");
+        Identifier emissivePath = modelPath.withSuffix("_emissive");
 
-        if (baseTexture == null) baseTexture = basePath;
-        if (emissiveTexture == null) emissiveTexture = emissivePath;
+        Material baseMaterial = new Material(Objects.requireNonNullElse(baseTexture, basePath));
+        Material emissiveMaterial = new Material(Objects.requireNonNullElse(emissiveTexture, emissivePath));
 
-        ItemModel.Unbaked baseModel = ItemModelUtils.plainModel(baseTemplate.create(basePath, TextureMapping.layer0(new Material(baseTexture)), output));
-        ItemModel.Unbaked emissiveModel = ItemModelUtils.plainModel(emissiveTemplate.create(emissivePath, TextureMapping.layer0(new Material(emissiveTexture)), output));
+        template.extend().customLoader(CompositeModelBuilder::new, builder -> builder
+                .inlineChild("base", ModelTemplates.FLAT_ITEM, TextureMapping.layer0(baseMaterial))
+                .inlineChild("emissive", Templates.UNLIT_FLAT_ITEM, TextureMapping.layer0(emissiveMaterial)))
+                .build()
+                .create(modelPath, TextureMapping.layer0(baseMaterial), output);
 
-        return ItemModelUtils.composite(baseModel, emissiveModel);
+        return ItemModelUtils.plainModel(modelPath);
     }
 
-    private void emissiveFlatItem(ItemModelGenerators models, ItemLike holder, ModelTemplate baseTemplate, ModelTemplate emissiveTemplate)
+    private void emissiveFlatItem(ItemModelGenerators models, ItemLike holder, ModelTemplate template)
     {
         Item item = holder.asItem();
         Identifier id = LimaRegistryUtil.getItemId(item);
 
-        models.itemModelOutput.accept(item, emissiveFlatModel(id, baseTemplate, null, emissiveTemplate, null, models.modelOutput));
+        models.itemModelOutput.accept(item, emissiveFlatModel(id, template, null, null, models.modelOutput));
     }
 
     private void emissiveFlatItem(ItemModelGenerators models, ItemLike holder)
     {
-        emissiveFlatItem(models, holder, ModelTemplates.FLAT_ITEM, Templates.UNLIT_FLAT_ITEM);
+        emissiveFlatItem(models, holder, ModelTemplates.FLAT_ITEM);
     }
 
     private void emissiveHandheldFlatItem(ItemModelGenerators models, ItemLike holder)
     {
-        emissiveFlatItem(models, holder, ModelTemplates.FLAT_HANDHELD_ITEM, Templates.UNLIT_HANDHELD_FLAT_ITEM);
+        emissiveFlatItem(models, holder, ModelTemplates.FLAT_HANDHELD_ITEM);
     }
 
     private void emissiveFishingRod(ItemModelGenerators models)
@@ -368,8 +369,8 @@ class ModelsGen extends ModelProvider
         Identifier id = LimaRegistryUtil.getItemId(item);
 
         models.generateBooleanDispatch(item, new FishingRodCast(),
-                emissiveFlatModel(id.withSuffix("_cast"), ModelTemplates.FLAT_HANDHELD_ROD_ITEM, null, Templates.UNLIT_HANDHELD_ROD_ITEM, null, models.modelOutput),
-                emissiveFlatModel(id, ModelTemplates.FLAT_HANDHELD_ROD_ITEM, null, Templates.UNLIT_HANDHELD_ROD_ITEM, null, models.modelOutput));
+                emissiveFlatModel(id.withSuffix("_cast"), ModelTemplates.FLAT_HANDHELD_ROD_ITEM, null, null, models.modelOutput),
+                emissiveFlatModel(id, ModelTemplates.FLAT_HANDHELD_ROD_ITEM, null, null, models.modelOutput));
     }
 
     private void emissiveBrush(ItemModelGenerators models)
@@ -385,13 +386,8 @@ class ModelsGen extends ModelProvider
         for (int i = 0; i < 4; i++)
         {
             String suffix = i > 0 ? "_brushing_" + (i - 1) : "";
-            Identifier mcId = ModResources.MC.id("item/brush" + suffix);
-
-            ModelTemplate baseTemplate = new ModelTemplate(Optional.of(mcId), Optional.empty(), TextureSlot.LAYER0);
-            ModelTemplate emissiveTemplate = ExtendedModelTemplateBuilder.of(baseTemplate).customLoader(ExtendedCuboidBuilder::new, ExtendedCuboidBuilder::forceEmissiveQuads).build();
-
-            Identifier subId = id.withPath(s -> "item/" + s + suffix);
-            brushModels[i] = emissiveFlatModel(subId, baseTemplate, baseTexture, emissiveTemplate, emissiveTexture, models.modelOutput);
+            Identifier brushModel = ModResources.MC.id("item/brush" + suffix);
+            brushModels[i] = emissiveFlatModel(id.withSuffix(suffix), new ModelTemplate(Optional.of(brushModel), Optional.empty(), TextureSlot.LAYER0), baseTexture, emissiveTexture, models.modelOutput);
         }
 
         models.itemModelOutput.accept(item, ItemModelUtils.rangeSelect(new UseCycle(10f), 0.1f,
@@ -678,9 +674,7 @@ class ModelsGen extends ModelProvider
 
     private static class Templates
     {
-        private static final ModelTemplate UNLIT_FLAT_ITEM = unlitFlat(ModelTemplates.FLAT_ITEM);
-        private static final ModelTemplate UNLIT_HANDHELD_FLAT_ITEM = unlitFlat(ModelTemplates.FLAT_HANDHELD_ITEM);
-        private static final ModelTemplate UNLIT_HANDHELD_ROD_ITEM = unlitFlat(ModelTemplates.FLAT_HANDHELD_ROD_ITEM);
+        private static final ModelTemplate UNLIT_FLAT_ITEM = ModelTemplates.FLAT_ITEM.extend().customLoader(ExtendedCuboidBuilder::new, ExtendedCuboidBuilder::forceEmissiveQuads).build();
 
         private static final ModelTemplate ORE_CLUSTER = builder("block/raw_ore_cluster").requiredTextureSlot(Textures.BASE).requiredTextureSlot(Textures.ORE).build();
         private static final ModelTemplate EMISSIVE_ORE = builder("block/emissive_ore").requiredTextureSlot(Textures.BASE).requiredTextureSlot(Textures.EMISSIVE)
@@ -692,11 +686,6 @@ class ModelsGen extends ModelProvider
                 .requiredTextureSlot(Textures.FRONT_EMISSIVE).build();
         private static final ModelTemplate ASSEMBLER = builder("block/assembler").requiredTextureSlot(TextureSlot.FRONT).build();
         private static final ModelTemplate TURRET = builder("block/template/turret").build();
-
-        private static ModelTemplate unlitFlat(ModelTemplate original)
-        {
-            return original.extend().customLoader(ExtendedCuboidBuilder::new, ExtendedCuboidBuilder::forceEmissiveQuads).build();
-        }
 
         private static ExtendedModelTemplateBuilder builder(String path)
         {

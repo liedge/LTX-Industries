@@ -1,15 +1,6 @@
 {
   "model": {
-    "type": "minecraft:composite",
-    "models": [
-      {
-        "type": "minecraft:model",
-        "model": "ltxi:item/epsilon_hoe_base"
-      },
-      {
-        "type": "minecraft:model",
-        "model": "ltxi:item/epsilon_hoe_emissive"
-      }
-    ]
+    "type": "minecraft:model",
+    "model": "ltxi:item/epsilon_hoe"
   }
 }

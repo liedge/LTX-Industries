@@ -1,0 +1,27 @@
+{
+  "parent": "minecraft:item/brush_brushing_1",
+  "children": {
+    "base": {
+      "parent": "minecraft:item/generated",
+      "textures": {
+        "layer0": "ltxi:item/epsilon_brush_base"
+      }
+    },
+    "emissive": {
+      "parent": "minecraft:item/generated",
+      "force_emissive": true,
+      "loader": "limacore:extended_cuboid",
+      "textures": {
+        "layer0": "ltxi:item/epsilon_brush_emissive"
+      }
+    }
+  },
+  "item_render_order": [
+    "base",
+    "emissive"
+  ],
+  "loader": "neoforge:composite",
+  "textures": {
+    "layer0": "ltxi:item/epsilon_brush_base"
+  }
+}

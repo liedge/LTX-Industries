@@ -2,30 +2,12 @@
   "model": {
     "type": "minecraft:condition",
     "on_false": {
-      "type": "minecraft:composite",
-      "models": [
-        {
-          "type": "minecraft:model",
-          "model": "ltxi:item/epsilon_fishing_rod_base"
-        },
-        {
-          "type": "minecraft:model",
-          "model": "ltxi:item/epsilon_fishing_rod_emissive"
-        }
-      ]
+      "type": "minecraft:model",
+      "model": "ltxi:item/epsilon_fishing_rod"
     },
     "on_true": {
-      "type": "minecraft:composite",
-      "models": [
-        {
-          "type": "minecraft:model",
-          "model": "ltxi:item/epsilon_fishing_rod_cast_base"
-        },
-        {
-          "type": "minecraft:model",
-          "model": "ltxi:item/epsilon_fishing_rod_cast_emissive"
-        }
-      ]
+      "type": "minecraft:model",
+      "model": "ltxi:item/epsilon_fishing_rod_cast"
     },
     "property": "minecraft:fishing_rod/cast"
   }
