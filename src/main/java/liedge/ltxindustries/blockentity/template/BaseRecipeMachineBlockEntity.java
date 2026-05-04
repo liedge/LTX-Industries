@@ -6,7 +6,7 @@ import liedge.limacore.recipe.LimaRecipeCheck;
 import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
 import liedge.ltxindustries.blockentity.base.EnergyConsumerBlockEntity;
 import liedge.ltxindustries.blockentity.base.RecipeMachineBlockEntity;
-import liedge.ltxindustries.blockentity.base.VariableTimedProcessBlockEntity;
+import liedge.ltxindustries.blockentity.base.TimedProcessBlockEntity;
 import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import liedge.ltxindustries.util.LTXITooltipUtil;
@@ -29,7 +29,7 @@ import java.util.Optional;
 import java.util.function.IntUnaryOperator;
 
 public abstract class BaseRecipeMachineBlockEntity<I extends RecipeInput, R extends Recipe<I>> extends ProductionMachineBlockEntity
-        implements VariableTimedProcessBlockEntity, EnergyConsumerBlockEntity, RecipeMachineBlockEntity<I, R>
+        implements TimedProcessBlockEntity, EnergyConsumerBlockEntity, RecipeMachineBlockEntity<I, R>
 {
     private final LimaRecipeCheck<I, R> recipeCheck;
     private int energyUsage = getBaseEnergyUsage();

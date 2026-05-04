@@ -71,7 +71,6 @@ public final class LTXIUpgradeEffectComponents
     //#endregion
 
     //#region Machine effects
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ValueOperation>>> MACHINE_ENERGY_PRODUCTION = COMPONENTS.registerValue("energy_production");
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<MinimumMachineSpeed>> MINIMUM_MACHINE_SPEED = COMPONENTS.register("minimum_speed", () -> UpgradeDataComponentType.create(MinimumMachineSpeed.CODEC));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ValueOperation>>> TICKS_PER_OPERATION = COMPONENTS.registerValue("ticks_per_operation");
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ValueOperation>>> PARALLEL_OPERATIONS = COMPONENTS.registerValue("parallel_operations");

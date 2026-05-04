@@ -192,6 +192,8 @@ class LootTablesGen extends LimaLootTableProvider
             dropSelfWithEntity(UPGRADE_STATION);
             dropSelfWithEntity(DIGITAL_GARDEN);
 
+            dropSelfWithEntity(REPAIR_STATION);
+
             dropSelfWithEntity(ARC_TURRET);
             dropSelfWithEntity(ROCKET_TURRET);
             dropSelfWithEntity(RAILGUN_TURRET);

@@ -93,6 +93,8 @@ class LanguageGen extends LimaLanguageProvider
         addBlock(LTXIBlocks.UPGRADE_STATION, "Upgrade Station");
         addBlock(LTXIBlocks.DIGITAL_GARDEN, "Bio/ARU Garden");
 
+        addBlock(LTXIBlocks.REPAIR_STATION, "Repair Station");
+
         addBlock(LTXIBlocks.ARC_TURRET, italicName("%s A/DS Turret", "Ionos"));
         addBlock(LTXIBlocks.ROCKET_TURRET, italicName("%s A/DS Turret", "Atmos"));
         addBlock(LTXIBlocks.RAILGUN_TURRET, italicName("%s A/DS Turret", "Noctis"));

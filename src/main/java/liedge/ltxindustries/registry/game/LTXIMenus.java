@@ -37,6 +37,7 @@ public final class LTXIMenus
 
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<UpgradeStationBlockEntity, UpgradeStationMenu>> UPGRADE_STATION = TYPES.register(LTXIIdentifiers.ID_UPGRADE_STATION, () -> BlockEntityMenuType.create(UpgradeStationBlockEntity.class, UpgradeStationMenu::new));
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<BaseECABlockEntity, EnergyCellArrayMenu>> ENERGY_CELL_ARRAY = TYPES.register(LTXIIdentifiers.ID_ENERGY_CELL_ARRAY, () -> BlockEntityMenuType.create(BaseECABlockEntity.class, EnergyCellArrayMenu::new));
+
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<DigitalFurnaceBlockEntity, RecipeLayoutMenu<DigitalFurnaceBlockEntity>>> DIGITAL_FURNACE = registerLayoutRecipeMenu(LTXIIdentifiers.ID_DIGITAL_FURNACE, DigitalFurnaceBlockEntity.class, RecipeLayouts.COOKING_LAYOUT);
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<DigitalSmokerBlockEntity, RecipeLayoutMenu<DigitalSmokerBlockEntity>>> DIGITAL_SMOKER = registerLayoutRecipeMenu(LTXIIdentifiers.ID_DIGITAL_SMOKER, DigitalSmokerBlockEntity.class, RecipeLayouts.COOKING_LAYOUT);
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<DigitalBlastFurnaceBlockEntity, RecipeLayoutMenu<DigitalBlastFurnaceBlockEntity>>> DIGITAL_BLAST_FURNACE = registerLayoutRecipeMenu(LTXIIdentifiers.ID_DIGITAL_BLAST_FURNACE, DigitalBlastFurnaceBlockEntity.class, RecipeLayouts.COOKING_LAYOUT);
@@ -51,6 +52,8 @@ public final class LTXIMenus
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<FabricatorBlockEntity, FabricatorMenu>> FABRICATOR = TYPES.register(LTXIIdentifiers.ID_FABRICATOR, () -> BlockEntityMenuType.create(FabricatorBlockEntity.class, FabricatorMenu::new));
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<AutoFabricatorBlockEntity, AutoFabricatorMenu>> AUTO_FABRICATOR = TYPES.register(LTXIIdentifiers.ID_AUTO_FABRICATOR, () -> BlockEntityMenuType.create(AutoFabricatorBlockEntity.class, AutoFabricatorMenu::new));
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<DigitalGardenBlockEntity, RecipeLayoutMenu<DigitalGardenBlockEntity>>> DIGITAL_GARDEN = registerLayoutRecipeMenu(LTXIIdentifiers.ID_DIGITAL_GARDEN, DigitalGardenBlockEntity.class, RecipeLayouts.GARDEN_SIMULATING);
+
+    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<RepairStationBlockEntity, RepairStationMenu>> REPAIR_STATION = TYPES.register(LTXIIdentifiers.ID_REPAIR_STATION, () -> BlockEntityMenuType.create(RepairStationBlockEntity.class, RepairStationMenu::new));
 
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<ArcTurretBlockEntity, TurretMenu<ArcTurretBlockEntity>>> ARC_TURRET = registerTurret(LTXIIdentifiers.ID_ARC_TURRET, ArcTurretBlockEntity.class);
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<RocketTurretBlockEntity, TurretMenu<RocketTurretBlockEntity>>> ROCKET_TURRET = registerTurret(LTXIIdentifiers.ID_ROCKET_TURRET, RocketTurretBlockEntity.class);

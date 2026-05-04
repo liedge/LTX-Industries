@@ -67,12 +67,12 @@ public final class LTXIBlocks
     public static final DeferredBlock<BerryVinesPlantBlock> BILEVINE_PLANT = BLOCKS.registerBlock("bilevine_plant", BerryVinesPlantBlock::new, LTXIBlocks::berryVinesProperties);
     public static final DeferredBlock<GloomShroomBlock> GLOOM_SHROOM = BLOCKS.registerBlock("gloom_shroom", GloomShroomBlock::new, properties -> properties.mapColor(MapColor.COLOR_BLUE).instabreak().noCollision().sound(SoundType.FUNGUS).pushReaction(PushReaction.DESTROY));
 
-    // Helper stations
+    // Core tech blocks
     public static final DeferredBlock<SimpleWrenchBlock> UPGRADE_STATION = BLOCKS.registerBlock(LTXIIdentifiers.ID_UPGRADE_STATION, properties -> SimpleWrenchBlock.rotatingShape(properties, LTXIBlockShapes.UPGRADE_STATION), LTXIBlocks::machineProperties);
-
-    // Machinery
     public static final DeferredBlock<SimpleWrenchBlock> ENERGY_CELL_ARRAY = BLOCKS.registerBlock(LTXIIdentifiers.ID_ENERGY_CELL_ARRAY, properties -> SimpleWrenchBlock.staticShape(properties, LTXIBlockShapes.ENERGY_CELL_ARRAY), LTXIBlocks::machineProperties);
     public static final DeferredBlock<SimpleWrenchBlock> INFINITE_ENERGY_CELL_ARRAY = BLOCKS.registerBlock(LTXIIdentifiers.ID_INFINITE_ENERGY_CELL_ARRAY, properties -> SimpleWrenchBlock.staticShape(properties, LTXIBlockShapes.ENERGY_CELL_ARRAY), LTXIBlocks::machineProperties);
+
+    // Crafting Machinery
     public static final DeferredBlock<StateMachineBlock> DIGITAL_FURNACE = BLOCKS.registerBlock(LTXIIdentifiers.ID_DIGITAL_FURNACE, properties -> StateMachineBlock.staticShape(properties, LTXIBlockShapes.COOKING_MACHINE, false), LTXIBlocks::machineProperties);
     public static final DeferredBlock<StateMachineBlock> DIGITAL_SMOKER = BLOCKS.registerBlock(LTXIIdentifiers.ID_DIGITAL_SMOKER, properties -> StateMachineBlock.staticShape(properties, LTXIBlockShapes.COOKING_MACHINE, false), LTXIBlocks::machineProperties);
     public static final DeferredBlock<StateMachineBlock> DIGITAL_BLAST_FURNACE = BLOCKS.registerBlock(LTXIIdentifiers.ID_DIGITAL_BLAST_FURNACE, properties -> StateMachineBlock.staticShape(properties, LTXIBlockShapes.COOKING_MACHINE, false), LTXIBlocks::machineProperties);
@@ -88,6 +88,10 @@ public final class LTXIBlocks
     public static final DeferredBlock<SimpleWrenchBlock> AUTO_FABRICATOR = BLOCKS.registerBlock(LTXIIdentifiers.ID_AUTO_FABRICATOR, properties -> SimpleWrenchBlock.staticShape(properties, LTXIBlockShapes.ASSEMBLER), LTXIBlocks::machineProperties);
     public static final DeferredBlock<PrimaryMeshBlock> DIGITAL_GARDEN = BLOCKS.registerBlock(LTXIIdentifiers.ID_DIGITAL_GARDEN, properties -> PrimaryMeshBlock.create(properties, LTXIBlockMeshes.DIGITAL_GARDEN, LTXIBlockShapes.DIGITAL_GARDEN, false), LTXIBlocks::machineProperties);
 
+    // Misc machinery
+    public static final DeferredBlock<SimpleWrenchBlock> REPAIR_STATION = BLOCKS.registerBlock(LTXIIdentifiers.ID_REPAIR_STATION, properties -> SimpleWrenchBlock.rotatingShape(properties, LTXIBlockShapes.REPAIR_STATION), LTXIBlocks::machineProperties);
+
+    // Turrets
     public static final DeferredBlock<PrimaryMeshBlock> ARC_TURRET = BLOCKS.registerBlock(LTXIIdentifiers.ID_ARC_TURRET, properties -> PrimaryMeshBlock.create(properties, LTXIBlockMeshes.TURRET, LTXIBlockShapes.GENERAL_TURRET, true), LTXIBlocks::machineProperties);
     public static final DeferredBlock<PrimaryMeshBlock> ROCKET_TURRET = BLOCKS.registerBlock(LTXIIdentifiers.ID_ROCKET_TURRET, properties -> PrimaryMeshBlock.create(properties, LTXIBlockMeshes.TURRET, LTXIBlockShapes.GENERAL_TURRET, true), LTXIBlocks::machineProperties);
     public static final DeferredBlock<PrimaryMeshBlock> RAILGUN_TURRET = BLOCKS.registerBlock(LTXIIdentifiers.ID_RAILGUN_TURRET, properties -> PrimaryMeshBlock.create(properties, LTXIBlockMeshes.TURRET, LTXIBlockShapes.GENERAL_TURRET, true), LTXIBlocks::machineProperties);

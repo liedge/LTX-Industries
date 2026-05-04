@@ -49,6 +49,10 @@ public final class LTXIMachinesConfig
     public static final ModConfigSpec.IntValue FABRICATOR_ENERGY_USAGE;
     public static final ModConfigSpec.BooleanValue FABRICATOR_AE2_AUTO_RECONFIGURE_IO;
 
+    public static final ModConfigSpec.IntValue REPAIR_STATION_CAPACITY;
+    public static final ModConfigSpec.IntValue REPAIR_STATION_ENERGY_USAGE;
+    public static final ModConfigSpec.IntValue REPAIR_STATION_BASE_SPEED;
+
     public static final ModConfigSpec.IntValue ARC_TURRET_ENERGY_CAPACITY;
     public static final ModConfigSpec.IntValue ARC_TURRET_ENERGY_USAGE;
     public static final ModConfigSpec.DoubleValue ARC_TURRET_DAMAGE;
@@ -179,6 +183,16 @@ public final class LTXIMachinesConfig
                 .defineInRange("energy_usage", 2500, 1, Integer.MAX_VALUE);
         FABRICATOR_AE2_AUTO_RECONFIGURE_IO = builder.comment("If set to true, AE2 Pattern Providers will automatically re-configure the Auto Fabricator's IO item configuration when inserting a pattern.")
                 .define("ae2_pattern_auto_reconfigure", true);
+        builder.pop();
+
+        // Repair Station
+        builder.push("repair_station");
+        REPAIR_STATION_CAPACITY = builder.comment("Base energy capacity of the Repair Station")
+                .defineInRange("energy_capacity", 250_000, 1, Integer.MAX_VALUE);
+        REPAIR_STATION_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the Repair Station")
+                .defineInRange("energy_usage", 100, 1, Integer.MAX_VALUE);
+        REPAIR_STATION_BASE_SPEED = builder.comment("The base tick count needed for one Repair Station operation.")
+                .defineInRange("ticks_per_operation", 40, 1, Integer.MAX_VALUE);
         builder.pop();
 
         // Arc turret

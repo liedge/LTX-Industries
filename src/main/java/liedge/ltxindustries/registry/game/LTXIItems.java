@@ -98,6 +98,7 @@ public final class LTXIItems
     public static final DeferredItem<BlockItem> FABRICATOR = registerMachineBlockItem(LTXIBlocks.FABRICATOR);
     public static final DeferredItem<BlockItem> AUTO_FABRICATOR = registerMachineBlockItem(LTXIBlocks.AUTO_FABRICATOR);
     public static final DeferredItem<BlockItem> DIGITAL_GARDEN = registerMachineBlockItem(LTXIBlocks.DIGITAL_GARDEN);
+    public static final DeferredItem<BlockItem> REPAIR_STATION = registerMachineBlockItem(LTXIBlocks.REPAIR_STATION);
     public static final DeferredItem<BlockItem> ARC_TURRET = registerTurretBlockItem(LTXIBlocks.ARC_TURRET);
     public static final DeferredItem<BlockItem> ROCKET_TURRET = registerTurretBlockItem(LTXIBlocks.ROCKET_TURRET);
     public static final DeferredItem<BlockItem> RAILGUN_TURRET = registerTurretBlockItem(LTXIBlocks.RAILGUN_TURRET);

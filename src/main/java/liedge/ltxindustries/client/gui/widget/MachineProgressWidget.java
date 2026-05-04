@@ -2,7 +2,7 @@ package liedge.ltxindustries.client.gui.widget;
 
 import liedge.limacore.client.gui.FillBarWidget;
 import liedge.ltxindustries.LTXIndustries;
-import liedge.ltxindustries.blockentity.base.VariableTimedProcessBlockEntity;
+import liedge.ltxindustries.blockentity.base.TimedProcessBlockEntity;
 import net.minecraft.resources.Identifier;
 
 public class MachineProgressWidget extends FillBarWidget.HorizontalBar
@@ -14,9 +14,9 @@ public class MachineProgressWidget extends FillBarWidget.HorizontalBar
     public static final int FILL_WIDTH = 22;
     public static final int FILL_HEIGHT = 4;
 
-    protected final VariableTimedProcessBlockEntity blockEntity;
+    protected final TimedProcessBlockEntity blockEntity;
 
-    public MachineProgressWidget(VariableTimedProcessBlockEntity blockEntity, int x, int y)
+    public MachineProgressWidget(TimedProcessBlockEntity blockEntity, int x, int y)
     {
         super(x, y, BACKGROUND_WIDTH, BACKGROUND_HEIGHT, FILL_WIDTH, FILL_HEIGHT);
         this.blockEntity = blockEntity;

@@ -1,0 +1,4 @@
+{
+  "parent": "ltxi:block/repair_station",
+  "loader": "limacore:extended_cuboid"
+}

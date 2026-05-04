@@ -46,6 +46,7 @@ class BlockTagsGen extends LimaTagsProvider.RegistryTags<Block>
                 UPGRADE_STATION,
                 ENERGY_CELL_ARRAY,
                 INFINITE_ENERGY_CELL_ARRAY,
+                REPAIR_STATION,
                 ARC_TURRET,
                 ROCKET_TURRET,
                 RAILGUN_TURRET,

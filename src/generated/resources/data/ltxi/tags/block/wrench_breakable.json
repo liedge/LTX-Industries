@@ -17,6 +17,7 @@
     "ltxi:upgrade_station",
     "ltxi:energy_cell_array",
     "ltxi:infinite_energy_cell_array",
+    "ltxi:repair_station",
     "ltxi:arc_turret",
     "ltxi:rocket_turret",
     "ltxi:railgun_turret",

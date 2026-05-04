@@ -35,6 +35,7 @@ public final class LTXIIdentifiers
     //#endregion
 
     // Machines (for shared menus, block entity type, block, etc.)
+    public static final String ID_UPGRADE_STATION = "upgrade_station";
     public static final String ID_ENERGY_CELL_ARRAY = "energy_cell_array";
     public static final String ID_INFINITE_ENERGY_CELL_ARRAY = "infinite_energy_cell_array";
 
@@ -50,9 +51,10 @@ public final class LTXIIdentifiers
     public static final String ID_ASSEMBLER = "assembler";
     public static final String ID_FABRICATOR = "fabricator";
     public static final String ID_AUTO_FABRICATOR = "auto_fabricator";
-    public static final String ID_UPGRADE_STATION = "upgrade_station";
     public static final String ID_GEO_SYNTHESIZER = "geo_synthesizer";
     public static final String ID_DIGITAL_GARDEN = "digital_garden";
+
+    public static final String ID_REPAIR_STATION = "repair_station";
 
     public static final String ID_ARC_TURRET = "arc_turret";
     public static final String ID_ROCKET_TURRET = "rocket_turret";

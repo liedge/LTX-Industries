@@ -254,6 +254,7 @@ class ModelsGen extends ModelProvider
         createIdentityMachine(models, LTXIBlocks.FABRICATOR);
         createIdentityMachine(models, LTXIBlocks.AUTO_FABRICATOR);
         createIdentityMachine(models, LTXIBlocks.DIGITAL_GARDEN, id -> ItemModelUtils.tintedModel(id, ItemModelUtils.constantTint(0x3f76e4)));
+        createIdentityMachine(models, LTXIBlocks.REPAIR_STATION);
 
         createTurretBlock(models, LTXIBlocks.ARC_TURRET);
         createTurretBlock(models, LTXIBlocks.ROCKET_TURRET);

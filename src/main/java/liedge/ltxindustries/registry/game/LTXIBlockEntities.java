@@ -54,6 +54,7 @@ public final class LTXIBlockEntities
                 VOLTAIC_INJECTOR,
                 FABRICATOR,
                 AUTO_FABRICATOR,
+                REPAIR_STATION,
                 ARC_TURRET,
                 ROCKET_TURRET,
                 RAILGUN_TURRET));
@@ -163,6 +164,8 @@ public final class LTXIBlockEntities
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<FabricatorBlockEntity>> FABRICATOR = registerItemEnergyMachine(LTXIIdentifiers.ID_FABRICATOR, FabricatorBlockEntity::new, FABRICATOR_ITEM_RULES, FABRICATOR_ENERGY_RULES, builder -> builder.withBlock(LTXIBlocks.FABRICATOR).hasMenu(LTXIMenus.FABRICATOR));
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<AutoFabricatorBlockEntity>> AUTO_FABRICATOR = registerItemEnergyMachine(LTXIIdentifiers.ID_AUTO_FABRICATOR, AutoFabricatorBlockEntity::new, STANDARD_PUSH_ONLY, INPUT_ONLY_NO_PULL, builder -> builder.withBlock(LTXIBlocks.AUTO_FABRICATOR).hasMenu(LTXIMenus.AUTO_FABRICATOR));
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<DigitalGardenBlockEntity>> DIGITAL_GARDEN = registerItemEnergyFluidMachine(LTXIIdentifiers.ID_DIGITAL_GARDEN, DigitalGardenBlockEntity::new, DOUBLE_BLOCK_STANDARD_PUSH_ONLY, DOUBLE_BLOCK_INPUT_NO_PULL, DOUBLE_BLOCK_INPUT_PULL, builder -> builder.withBlock(LTXIBlocks.DIGITAL_GARDEN).hasMenu(LTXIMenus.DIGITAL_GARDEN));
+
+    public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<RepairStationBlockEntity>> REPAIR_STATION = registerItemEnergyMachine(LTXIIdentifiers.ID_REPAIR_STATION, RepairStationBlockEntity::new, STANDARD_PUSH_PULL, INPUT_ONLY_NO_PULL, builder -> builder.withBlock(LTXIBlocks.REPAIR_STATION).hasMenu(LTXIMenus.REPAIR_STATION));
 
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<ArcTurretBlockEntity>> ARC_TURRET = registerTurret(LTXIIdentifiers.ID_ARC_TURRET, ArcTurretBlockEntity::new, builder -> builder.withBlock(LTXIBlocks.ARC_TURRET).hasMenu(LTXIMenus.ARC_TURRET));
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<RocketTurretBlockEntity>> ROCKET_TURRET = registerTurret(LTXIIdentifiers.ID_ROCKET_TURRET, RocketTurretBlockEntity::new, builder -> builder.withBlock(LTXIBlocks.ROCKET_TURRET).hasMenu(LTXIMenus.ROCKET_TURRET));

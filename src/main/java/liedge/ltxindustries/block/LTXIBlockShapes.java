@@ -127,6 +127,15 @@ public final class LTXIBlockShapes
             dimensionBox(0.5d, 2, 1.5d, 15, 6, 13),
             dimensionBox(0, 8, 1, 16, 2, 14),
             dimensionBox(4, 5, 0.5d, 8, 11, 15));
+
+    public static final VoxelShape REPAIR_STATION = Shapes.or(
+            dimensionBox(2, 0, 2, 12, 3, 12),
+            dimensionBox(4, 3, 4, 8, 6, 8),
+            dimensionBox(0, 9, 1, 16, 4, 14),
+            dimensionBox(1, 13, 2, 14, 1, 12),
+            dimensionBox(0, 13, 6, 2, 2, 4),
+            dimensionBox(14, 13, 6, 2, 2, 4),
+            dimensionBox(6, 13, 13, 4, 2, 2));
     //#endregion
 
     //#region Multi-block/mesh shapes
