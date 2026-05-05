@@ -9,6 +9,7 @@ import liedge.limacore.data.LimaEnumCodec;
 import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.client.model.custom.EnergyDisplayModel;
+import liedge.ltxindustries.client.renderer.WireframeNodeCollector;
 import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.lib.weapons.ClientExtendedInput;
 import net.minecraft.client.Minecraft;
@@ -93,10 +94,17 @@ public abstract class WeaponSpecialRenderer implements SpecialModelRenderer<Weap
         }
         else
         {
-            frame.submit(poseStack, nodeCollector, lightCoords);
-            submitChamber(poseStack, nodeCollector, argument.energyTint, lightCoords);
-
-            submitEnergyDisplays(argument, poseStack, nodeCollector);
+            if (nodeCollector instanceof WireframeNodeCollector wireframeNodeCollector)
+            {
+                wireframeNodeCollector.submitWireframePiece(poseStack, frame);
+                wireframeNodeCollector.submitWireframePiece(poseStack, chamber);
+            }
+            else
+            {
+                frame.submit(poseStack, nodeCollector, lightCoords);
+                submitChamber(poseStack, nodeCollector, argument.energyTint, lightCoords);
+                submitEnergyDisplays(argument, poseStack, nodeCollector);
+            }
         }
     }
 

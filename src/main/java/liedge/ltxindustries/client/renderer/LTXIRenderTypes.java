@@ -43,7 +43,6 @@ public final class LTXIRenderTypes
     public static final RenderType WIREFRAME = simpleType("wireframe", RenderSetup.builder(LTXIRenderPipelines.WIREFRAME)
             .withTexture("Sampler0", LTXIndustries.RESOURCES.textureLocation("entity", "wireframe"))
             .setTextureTransform(new TextureTransform("wireframe_texturing", LTXIRenderTypes::setupWireframeTexturing))
-            //.useOverlay()
             .setOutputTarget(OutputTarget.ITEM_ENTITY_TARGET));
 
     @SuppressWarnings("deprecation")
@@ -55,7 +54,7 @@ public final class LTXIRenderTypes
     // Misc functions
     private static Matrix4f setupWireframeTexturing()
     {
-        float delta = (Util.getMillis() % 7000L) / 7000f;
-        return new Matrix4f().translation(-delta, delta, 0).scale(3);
+        float delta = (Util.getMillis() % 20000L) / 20000f;
+        return new Matrix4f().translation(-delta, delta, 0).scale(16f);
     }
 }

@@ -10,6 +10,7 @@ import org.jspecify.annotations.Nullable;
 public class MachineRenderState extends BlockEntityRenderState
 {
     Direction facing = Direction.NORTH;
+    boolean active;
 
     @Nullable ItemStackRenderState previewItem;
     float machineSpin;
