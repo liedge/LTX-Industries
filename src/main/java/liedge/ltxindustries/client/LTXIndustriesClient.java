@@ -28,11 +28,13 @@ import liedge.ltxindustries.menu.tooltip.ItemStacksTooltip;
 import liedge.ltxindustries.registry.game.*;
 import net.minecraft.client.color.block.BlockTintSources;
 import net.minecraft.client.renderer.block.FluidModel;
+import net.minecraft.client.renderer.entity.ArmorStandRenderer;
 import net.minecraft.client.renderer.entity.NoopRenderer;
 import net.minecraft.client.renderer.entity.player.AvatarRenderer;
 import net.minecraft.client.resources.model.sprite.AtlasManager;
 import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.util.ARGB;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.PlayerModelType;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
@@ -212,9 +214,12 @@ public class LTXIndustriesClient
                 AvatarRenderer<?> renderer = event.getPlayerRenderer(modelType);
                 if (renderer != null)
                 {
-                    renderer.addLayer(new WonderlandArmorLayer(renderer, event.getEntityModels()));
+                    renderer.addLayer(new WonderlandArmorLayer<>(renderer, event.getEntityModels()));
                 }
             }
+
+            ArmorStandRenderer armorStandRenderer = event.getRenderer(EntityType.ARMOR_STAND);
+            if (armorStandRenderer != null) armorStandRenderer.addLayer(new WonderlandArmorLayer<>(armorStandRenderer, event.getEntityModels()));
         }
 
         @SubscribeEvent

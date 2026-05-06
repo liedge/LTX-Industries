@@ -7,14 +7,14 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.SubmitNodeCollector;
-import net.minecraft.client.renderer.entity.state.AvatarRenderState;
+import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.LightCoordsUtil;
 
-public class WonderlandArmorModel extends HumanoidModel<AvatarRenderState>
+public class WonderlandArmorModel<S extends HumanoidRenderState> extends HumanoidModel<S>
 {
 	private final ModelPart headLights;
 	private final ModelPart bodyLights;
@@ -88,7 +88,7 @@ public class WonderlandArmorModel extends HumanoidModel<AvatarRenderState>
 	}
 
 	@Override
-	public void setupAnim(AvatarRenderState state)
+	public void setupAnim(S state)
 	{
 		copyPartProperties(head, headLights);
 		copyPartProperties(head, visor);
