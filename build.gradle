@@ -154,8 +154,7 @@ dependencies {
     runtimeOnly("org.appliedenergistics:guideme:${guideme_version}")
 
     // AE2
-    //compileOnly("org.appliedenergistics:appliedenergistics2:${ae2_version}:api")
-    //runtimeOnly("org.appliedenergistics:appliedenergistics2:${ae2_version}") Testing only
+    compileOnly("org.appliedenergistics:appliedenergistics2:${ae2_version}:api")
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
@@ -175,9 +174,9 @@ tasks.withType(ProcessResources).configureEach {
             mod_description        : mod_description,
             limacore_version_range  : limacore_version_range,
             jei_version_range   : jei_version_range,
-            guideme_version_range   : guideme_version_range
-            //ae2_version : ae2_version,
-            //ae2_version_range: ae2_version_range
+            guideme_version_range   : guideme_version_range,
+            ae2_version : ae2_version,
+            ae2_version_range: ae2_version_range
     ]
     inputs.properties replaceProperties
 
