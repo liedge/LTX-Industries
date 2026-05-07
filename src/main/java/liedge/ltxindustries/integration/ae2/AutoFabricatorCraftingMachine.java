@@ -10,6 +10,7 @@ import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.blockentity.IOAccess;
 import liedge.limacore.blockentity.RelativeHorizontalSide;
 import liedge.limacore.recipe.SimpleResourceAccess;
+import liedge.limacore.util.LimaCoreObjects;
 import liedge.ltxindustries.blockentity.AutoFabricatorBlockEntity;
 import liedge.ltxindustries.blockentity.BaseFabricatorBlockEntity;
 import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
@@ -19,7 +20,6 @@ import liedge.ltxindustries.registry.game.LTXIBlocks;
 import liedge.ltxindustries.util.config.LTXIMachinesConfig;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 
 import java.util.List;
@@ -51,15 +51,15 @@ public final class AutoFabricatorCraftingMachine implements ICraftingMachine
     {
         if (patternDetails instanceof AEFabricationPattern fabricationPattern)
         {
-            Level level = blockEntity.getLevel();
-            if (level instanceof ServerLevel serverLevel && blockEntity.canInsertRecipeResults(serverLevel, fabricationPattern.recipe().value(), new SimpleResourceAccess(blockEntity.getInputInventory(), null)))
+            ServerLevel level = LimaCoreObjects.tryCast(ServerLevel.class, blockEntity.getLevel());
+            if (level != null && blockEntity.canInsertRecipeResults(level, fabricationPattern.recipe().value(), new SimpleResourceAccess(blockEntity.getInputInventory(), null)))
             {
                 // If enabled, auto-reconfigure the item IO config
                 if (LTXIMachinesConfig.FABRICATOR_AE2_AUTO_RECONFIGURE_IO.getAsBoolean())
                 {
                     RelativeHorizontalSide beSide = RelativeHorizontalSide.of(blockEntity.getFacing(), ejectionDirection);
-                    BlockIOConfiguration configuration = BlockIOConfiguration.create(blockEntity.getIOConfigRules(BlockEntityInputType.ITEMS),
-                            side -> side == beSide ? IOAccess.OUTPUT_ONLY : IOAccess.DISABLED)
+                    BlockIOConfiguration configuration = blockEntity.getIOConfigurationOrThrow(BlockEntityInputType.ITEMS)
+                            .setIOAccess(beSide, IOAccess.OUTPUT_ONLY)
                             .setAutoOutput(true);
                     blockEntity.setIOConfiguration(BlockEntityInputType.ITEMS, configuration);
                 }

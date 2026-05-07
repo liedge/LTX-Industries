@@ -1,6 +1,5 @@
 package liedge.ltxindustries.blockentity.turret;
 
-import com.mojang.logging.LogUtils;
 import it.unimi.dsi.fastutil.ints.IntList;
 import liedge.limacore.LimaCommonConstants;
 import liedge.limacore.blockentity.OwnableBlockEntity;
@@ -40,14 +39,11 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
 
 import java.util.*;
 
 public abstract class TurretBlockEntity extends ProductionMachineBlockEntity implements EnergyConsumerBlockEntity, OwnableBlockEntity
 {
-    private static final Logger LOG = LogUtils.getLogger();
-
     // General properties
     protected final Vec3 traceStart;
     private final AABB searchArea;
@@ -318,8 +314,6 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
                                 })
                                 .limit(getMaxTargetsPerSearch())
                                 .toList();
-
-                        LOG.debug("Scanned and found {} targets", foundTargets.size());
 
                         if (!foundTargets.isEmpty())
                         {
