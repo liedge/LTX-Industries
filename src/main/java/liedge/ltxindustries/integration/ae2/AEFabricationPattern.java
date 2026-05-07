@@ -4,38 +4,53 @@ import appeng.api.crafting.IPatternDetails;
 import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.AEKey;
 import appeng.api.stacks.GenericStack;
+import liedge.limacore.client.LimaCoreClient;
 import liedge.limacore.recipe.input.RecipeItemInput;
 import liedge.limacore.util.LimaRegistryUtil;
 import liedge.ltxindustries.recipe.FabricatingRecipe;
 import liedge.ltxindustries.registry.game.LTXIDataComponents;
 import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.resource.ResourceStack;
 import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 import java.util.Objects;
 
-public record AEFabricationPattern(AEItemKey definition, RecipeHolder<FabricatingRecipe> recipe, IInput[] inputs, List<GenericStack> output) implements IPatternDetails
+record AEFabricationPattern(AEItemKey definition, RecipeHolder<FabricatingRecipe> recipe, IInput[] inputs, List<GenericStack> output) implements IPatternDetails
 {
+    private static @Nullable RecipeHolder<FabricatingRecipe> findRecipe(Level level, ResourceKey<Recipe<?>> key)
+    {
+        if (level instanceof ServerLevel serverLevel)
+        {
+            return LimaRegistryUtil.getRecipeByKey(serverLevel, key, LTXIRecipeTypes.FABRICATING).orElse(null);
+        }
+        else
+        {
+            return LimaCoreClient.getClientRecipes().byKey(LTXIRecipeTypes.FABRICATING, key);
+        }
+    }
+
     static @Nullable AEFabricationPattern tryCreate(AEItemKey definition, Level level)
     {
-        if (!(level instanceof ServerLevel serverLevel)) return null;
         ResourceKey<Recipe<?>> key = definition.get(LTXIDataComponents.BLUEPRINT_RECIPE.get());
         if (key == null) return null;
 
-        RecipeHolder<FabricatingRecipe> holder = LimaRegistryUtil.getRecipeByKey(serverLevel, key, LTXIRecipeTypes.FABRICATING).orElse(null);
+        RecipeHolder<FabricatingRecipe> holder = findRecipe(level, key);
         if (holder == null) return null;
 
         FabricatingRecipe recipe = holder.value();
 
-        IInput[] inputs = recipe.getItemInputs().stream().map(Input::of).filter(Objects::nonNull).toArray(IInput[]::new);
-        GenericStack output = GenericStack.fromItemStack(recipe.getResultPreview());
+        ResourceStack<ItemResource> resultStack = recipe.generateItemResult(level);
+        GenericStack output = GenericStack.from(resultStack.resource(), resultStack.amount());
         if (output == null) return null;
+        IInput[] inputs = recipe.getItemInputs().stream().map(Input::new).toArray(IInput[]::new);
 
         return new AEFabricationPattern(definition, holder, inputs, List.of(output));
     }
@@ -77,18 +92,19 @@ public record AEFabricationPattern(AEItemKey definition, RecipeHolder<Fabricatin
         return false;
     }
 
-    private record Input(GenericStack[] template, long multiplier, Ingredient ingredient) implements IInput
+    private static class Input implements IInput
     {
+        private final RecipeItemInput recipeInput;
+        private final GenericStack[] template;
+
         @SuppressWarnings("deprecation")
-        private static @Nullable Input of(RecipeItemInput recipeInput)
+        private Input(RecipeItemInput recipeInput)
         {
-            Ingredient ingredient = recipeInput.ingredient();
-
-            GenericStack[] template = ingredient.items()
-                    .map(holder -> GenericStack.fromItemStack(holder.value().getDefaultInstance()))
+            this.recipeInput = recipeInput;
+            this.template = recipeInput.ingredient().items()
+                    .map(Holder::value)
+                    .map(item -> GenericStack.fromItemStack(item.getDefaultInstance()))
                     .toArray(GenericStack[]::new);
-
-            return new Input(template, recipeInput.count(), ingredient);
         }
 
         @Override
@@ -100,18 +116,13 @@ public record AEFabricationPattern(AEItemKey definition, RecipeHolder<Fabricatin
         @Override
         public long getMultiplier()
         {
-            return multiplier;
+            return recipeInput.count();
         }
 
         @Override
         public boolean isValid(AEKey input, Level level)
         {
-            if (input instanceof AEItemKey itemKey)
-            {
-                return itemKey.matches(ingredient);
-            }
-
-            return false;
+            return input instanceof AEItemKey itemKey && itemKey.matches(recipeInput.ingredient());
         }
 
         @Override
