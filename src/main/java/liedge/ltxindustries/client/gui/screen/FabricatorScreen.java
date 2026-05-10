@@ -1,6 +1,7 @@
 package liedge.ltxindustries.client.gui.screen;
 
 import com.mojang.blaze3d.platform.InputConstants;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.client.LimaCoreClient;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.limacore.transfer.LimaEnergyUtil;
@@ -14,24 +15,35 @@ import liedge.ltxindustries.menu.layout.LayoutSlot;
 import liedge.ltxindustries.menu.tooltip.FabricatingInputsTooltip;
 import liedge.ltxindustries.recipe.FabricatingRecipe;
 import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.input.CharacterEvent;
+import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.client.searchtree.FullTextSearchTree;
+import net.minecraft.client.searchtree.SearchTree;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import static liedge.ltxindustries.LTXIndustries.RESOURCES;
 import static liedge.ltxindustries.client.LTXILangKeys.FABRICATOR_SELECTED_RECIPE_TOOLTIP;
@@ -41,20 +53,44 @@ public class FabricatorScreen extends LTXIMachineScreen<FabricatorMenu>
 {
     private static final Identifier BLUEPRINT_SLOT_SPRITE = RESOURCES.id("slot/blank_blueprint");
 
-    private final List<RecipeHolder<FabricatingRecipe>> recipes;
+    private final SearchTree<RecipeHolder<FabricatingRecipe>> searchTree;
+    private final List<RecipeHolder<FabricatingRecipe>> recipes = new ObjectArrayList<>();
 
     private @Nullable SelectorGrid selectorGrid;
     private @Nullable ScrollbarWidget scrollbar;
+    private @Nullable EditBox searchBox;
 
     public FabricatorScreen(FabricatorMenu menu, Inventory inventory, Component title)
     {
         super(menu, inventory, title, 190, 200);
 
         // Read recipes
-        this.recipes = LimaCoreClient.getClientRecipes().byType(LTXIRecipeTypes.FABRICATING).stream().sorted(FabricatingRecipe.GROUP_AND_NAME_COMPARATOR).toList();
+        Item.TooltipContext tooltipContext = Item.TooltipContext.of(inventory.player.level(), inventory.player);
+        this.searchTree = new FullTextSearchTree<>(
+                holder -> getTooltipLines(holder, tooltipContext),
+                holder -> holder.value().getResultPreview().typeHolder().unwrapKey().stream().map(ResourceKey::identifier),
+                LimaCoreClient.getClientRecipes().byType(LTXIRecipeTypes.FABRICATING).stream().sorted(FabricatingRecipe.GROUP_AND_NAME_COMPARATOR).toList());
 
         // Screen setup
         this.inventoryLabelX = 14;
+    }
+
+    private Stream<String> getTooltipLines(RecipeHolder<FabricatingRecipe> holder, Item.TooltipContext context)
+    {
+        ItemStack stack = holder.value().getResultPreview();
+        return stack.getTooltipLines(context, null, TooltipFlag.NORMAL).stream()
+                .map(txt -> ChatFormatting.stripFormatting(txt.getString()).trim().toLowerCase(Locale.ROOT));
+    }
+
+    private void refreshRecipes()
+    {
+        recipes.clear();
+
+        String searchText = searchBox != null ? searchBox.getValue() : "";
+        recipes.addAll(searchTree.search(searchText));
+
+        if (selectorGrid != null) selectorGrid.reset();
+        if (scrollbar != null) scrollbar.reset();
     }
 
     @Override
@@ -64,8 +100,12 @@ public class FabricatorScreen extends LTXIMachineScreen<FabricatorMenu>
 
         addRenderableOnly(new FabricatorProgressWidget(leftPos + 61, topPos + 83, menu.menuContext()));
         this.selectorGrid = addRenderableOnly(new SelectorGrid(leftPos + 76, topPos + 32, this));
+
         this.scrollbar = addRenderableWidget(new ScrollbarWidget(leftPos + 168, topPos + 32, 72, selectorGrid));
-        scrollbar.reset(); // Always reset scrollbar after reinitializing
+        this.searchBox = addRenderableWidget(new EditBox(font, leftPos + 75, topPos + 18, 102, 12, searchBox, Component.empty()));
+
+        setInitialFocus(searchBox);
+        refreshRecipes();
     }
 
     @Override
@@ -94,6 +134,41 @@ public class FabricatorScreen extends LTXIMachineScreen<FabricatorMenu>
     }
 
     @Override
+    public boolean charTyped(CharacterEvent event)
+    {
+        if (searchBox != null)
+        {
+            String oldContents = searchBox.getValue();
+            if (searchBox.charTyped(event))
+            {
+                if (!Objects.equals(oldContents, searchBox.getValue())) refreshRecipes();
+
+                return true;
+            }
+        }
+
+        return super.charTyped(event);
+    }
+
+    @Override
+    public boolean keyPressed(KeyEvent event)
+    {
+        if (searchBox != null && event.key() != InputConstants.KEY_TAB)
+        {
+            String oldContents = searchBox.getValue();
+            if (searchBox.keyPressed(event))
+            {
+                if (!Objects.equals(oldContents, searchBox.getValue())) refreshRecipes();
+
+                return true;
+            }
+
+            if (searchBox.canConsumeInput() && !event.isEscape()) return true;
+        }
+        return super.keyPressed(event);
+    }
+
+    @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY)
     {
         if (selectorGrid != null && scrollbar != null && selectorGrid.isMouseOver(mouseX, mouseY))
@@ -115,7 +190,7 @@ public class FabricatorScreen extends LTXIMachineScreen<FabricatorMenu>
         return super.mouseClicked(event, isDoubleClick);
     }
 
-    private static class SelectorGrid extends BaseScrollGridRenderable.FixedElements<RecipeHolder<FabricatingRecipe>>
+    private static class SelectorGrid extends BaseScrollGridRenderable<RecipeHolder<FabricatingRecipe>>
     {
         private final FabricatorScreen parent;
         private final BaseFabricatorBlockEntity blockEntity;
@@ -124,7 +199,7 @@ public class FabricatorScreen extends LTXIMachineScreen<FabricatorMenu>
 
         SelectorGrid(int x, int y, FabricatorScreen parent)
         {
-            super(x, y, 18, 18, 5, 4, parent.recipes);
+            super(x, y, 18, 18, 5, 4);
             this.parent = parent;
             this.blockEntity = parent.menu.menuContext();
         }
@@ -142,6 +217,12 @@ public class FabricatorScreen extends LTXIMachineScreen<FabricatorMenu>
             RecipeHolder<FabricatingRecipe> holder = LimaCoreClient.getClientRecipes().byKey(LTXIRecipeTypes.FABRICATING, key);
 
             return holder != null && holder.value() == gridRecipe;
+        }
+
+        @Override
+        public List<RecipeHolder<FabricatingRecipe>> getElements()
+        {
+            return parent.recipes;
         }
 
         @Override
