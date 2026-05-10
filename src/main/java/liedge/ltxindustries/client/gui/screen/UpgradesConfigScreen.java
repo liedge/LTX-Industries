@@ -35,6 +35,7 @@ public abstract class UpgradesConfigScreen<M extends UpgradesConfigMenu<?>> exte
 {
     private static final Identifier SELECTOR_SPRITE = LTXIndustries.RESOURCES.id("widget/upgrade_selector");
     private static final Identifier SELECTOR_SPRITE_FOCUS = LTXIndustries.RESOURCES.id("widget/upgrade_selector_focus");
+    private static final Identifier SLOT_SPRITE = LTXIndustries.RESOURCES.id("slot/upgrade_module");
     public static final Identifier MODULE_SPRITE = LTXIndustries.RESOURCES.id("upgrade_module");
 
     private @Nullable ScrollbarWidget scrollbar;
@@ -47,7 +48,10 @@ public abstract class UpgradesConfigScreen<M extends UpgradesConfigMenu<?>> exte
         this.inventoryLabelX = 14;
     }
 
-    protected abstract void blitSlotSprites(GuiGraphicsExtractor graphics);
+    protected void blitSlotSprites(GuiGraphicsExtractor graphics)
+    {
+        blitSlotSprite(graphics, SLOT_SPRITE, 23, 86);
+    }
 
     @Override
     protected void addWidgets()

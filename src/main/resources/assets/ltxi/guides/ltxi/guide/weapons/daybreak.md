@@ -3,7 +3,7 @@ navigation:
     title: Daybreak
     icon: daybreak
     parent: weapons/index.md
-    position: 142
+    position: 141
 ---
 
 # *Daybreak* 41/RL

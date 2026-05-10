@@ -1,8 +1,14 @@
 ---
 navigation:
     title: "Ammunition Basics"
+    icon: lightweight_weapon_energy
     parent: weapons/index.md
     position: 0
+item_ids:
+  - lightweight_weapon_energy
+  - specialist_weapon_energy
+  - explosives_weapon_energy
+  - heavy_weapon_energy
 ---
 
 # Ammunition Mechanics
@@ -23,8 +29,8 @@ via [upgrade modules](../fundamentals/upgrade_system.md).
 <ItemIcon id="heavy_weapon_energy" />
 </ItemGrid>
 
-By default, weapons use a specific Item to recharge. Weapon energy items have a 25% chance to drop from mobs
-of <Color id="red">Neutral-Enemy</Color> hostility or greater. **Looting** adds 2.5% per level to the drop rate.
+By default, weapons use their classification's Weapon Energy item to reload. Weapon energy items have a 25% chance to drop
+from mobs of <Color id="red">Neutral-Enemy</Color> hostility or greater. **Looting** adds 2.5% per level to the drop rate.
 
 ### Weapon energy distribution
 

@@ -3,7 +3,7 @@ navigation:
     title: Stargazer
     icon: stargazer
     parent: weapons/index.md
-    position: 138
+    position: 137
 ---
 
 # *Stargazer* 37/LF

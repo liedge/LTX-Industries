@@ -2,7 +2,7 @@
 navigation:
     title: Weapons
     position: 30
-    icon: grenade_launcher
+    icon: hanabi
 ---
 
 # Signature series weaponry
