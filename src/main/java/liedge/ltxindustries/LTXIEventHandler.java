@@ -12,10 +12,7 @@ import liedge.ltxindustries.lib.upgrades.DropsCapture;
 import liedge.ltxindustries.lib.upgrades.UpgradeContexts;
 import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.lib.upgrades.effect.EffectTarget;
-import liedge.ltxindustries.registry.game.LTXIAttachmentTypes;
-import liedge.ltxindustries.registry.game.LTXIMobEffects;
-import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
-import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
+import liedge.ltxindustries.registry.game.*;
 import liedge.ltxindustries.util.LTXIUpgradeUtil;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
@@ -201,6 +198,20 @@ public final class LTXIEventHandler
                     event.setCanceled(true);
                 }
             }
+        }
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    private static void onLivingExperienceDrops(final LivingExperienceDropEvent event)
+    {
+        Player player = event.getAttackingPlayer();
+        if (player == null) return;
+
+        boolean captureXP = LTXIUpgradeUtil.iterateEquipmentSlots(player, EquipmentSlot.values(), (upgrades, _) -> upgrades.upgradeEffectTypePresent(LTXIUpgradeEffectComponents.CAPTURE_MOB_EXPERIENCE));
+        if (captureXP)
+        {
+            player.giveExperiencePoints(event.getDroppedExperience());
+            event.setDroppedExperience(0);
         }
     }
 

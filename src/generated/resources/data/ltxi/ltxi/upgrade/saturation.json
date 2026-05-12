@@ -23,6 +23,12 @@
     }
   },
   "effects": {
+    "ltxi:mob_effect_immunity": [
+      {
+        "effects": "minecraft:hunger",
+        "energy_actions": 0.0
+      }
+    ],
     "ltxi:tick": [
       {
         "effect": {

@@ -31,6 +31,7 @@ import org.jspecify.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.List;
 import java.util.function.Function;
 import java.util.function.ToDoubleFunction;
 import java.util.stream.Stream;
@@ -170,27 +171,43 @@ public final class LTXIEntityUtil
                 });
     }
 
-    public static boolean hurtWithEnchantedFakePlayer(ServerLevel level, Entity target, @Nullable LivingEntity owner, Upgrades upgrades, Function<@Nullable LivingEntity, ? extends DamageSource> damageSourceFunction, float damage)
+    public static int hurtAll(ServerLevel level, Iterable<Entity> targets, DamageSource damageSource, float damage)
     {
-        if (owner instanceof Player player)
-        {
-            FakePlayer fakePlayer = FakePlayerFactory.get(level, player.getGameProfile());
-            ItemEnchantments enchantments = upgrades.getEnchantments();
+        int result = 0;
 
-            if (!enchantments.isEmpty())
-            {
-                ItemStack stack = new ItemStack(Items.STICK);
-                stack.set(DataComponents.ENCHANTMENTS, enchantments);
-                fakePlayer.setItemInHand(InteractionHand.MAIN_HAND, stack);
-            }
-
-            boolean result = target.hurtServer(level, damageSourceFunction.apply(fakePlayer), damage);
-            fakePlayer.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
-            return result;
-        }
-        else
+        for (Entity target : targets)
         {
-            return target.hurtServer(level, damageSourceFunction.apply(owner), damage);
+            if (target.hurtServer(level, damageSource, damage)) result++;
         }
+
+        return result;
+    }
+
+    public static int hurtWithEnchantedFakePlayer(ServerLevel level, Iterable<Entity> targets, @Nullable LivingEntity attackingEntity, Upgrades upgrades, Function<@Nullable LivingEntity, ? extends DamageSource> damageSourceFunction, float damage)
+    {
+        if (!(attackingEntity instanceof Player player))
+        {
+            DamageSource damageSource = damageSourceFunction.apply(attackingEntity);
+            return hurtAll(level, targets, damageSource, damage);
+        }
+
+        FakePlayer fakePlayer = FakePlayerFactory.get(level, player.getGameProfile());
+        DamageSource damageSource = damageSourceFunction.apply(fakePlayer);
+        ItemEnchantments enchantments = upgrades.getEnchantments();
+
+        if (!enchantments.isEmpty())
+        {
+            ItemStack stack = new ItemStack(Items.STICK);
+            stack.set(DataComponents.ENCHANTMENTS, upgrades.getEnchantments());
+        }
+
+        int result = hurtAll(level, targets, damageSource, damage);
+        fakePlayer.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
+        return result;
+    }
+
+    public static boolean hurtWithEnchantedFakePlayer(ServerLevel level, Entity target, @Nullable LivingEntity attackingEntity, Upgrades upgrades, Function<@Nullable LivingEntity, ? extends DamageSource> damageSourceFunction, float damage)
+    {
+        return hurtWithEnchantedFakePlayer(level, List.of(target), attackingEntity, upgrades, damageSourceFunction, damage) > 0;
     }
 }

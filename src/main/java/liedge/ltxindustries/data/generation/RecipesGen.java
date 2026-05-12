@@ -132,6 +132,8 @@ class RecipesGen extends LimaRecipeProvider
 
         shapeless(GUIDE_TABLET).condition(new ModLoadedCondition(GuideMEIntegration.MODID)).input(BOOK).input(TITANIUM_INGOT).input(items, DYES_LIME).save(output);
         shaped(defaultUpgradableItem(EPSILON_WRENCH, registries)).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).patterns("t t", " c ", " t ").save(output);
+        shaped(defaultUpgradableItem(WAYFINDER, registries)).input('t', TITANIUM_INGOT).input('c', T2_CIRCUIT).input('g', TITANIUM_GLASS)
+                .input('e', ELECTRIC_CHEMICAL).input('m', GLOWSTONE).input('G', TITANIUM_GEAR).patterns("tgg", "meG", " tc").save(output);
 
         // Machine recipes
         shaped(ENERGY_CELL_ARRAY).input('t', TITANIUM_INGOT).input('c', T1_CIRCUIT).input('e', ELECTRIC_CHEMICAL).input('b', COPPER_BLOCK).patterns("tct", "ebe", "tct").save(output);
@@ -353,11 +355,6 @@ class RecipesGen extends LimaRecipeProvider
 
         // Weapons fabrication
         String weaponFabGroup = "ltx/weapon";
-        equipmentFabricating(output, registries, WAYFINDER, weaponFabGroup + ".05", 250_000, builder -> builder
-                .input(T1_CIRCUIT, 2)
-                .input(TITANIUM_INGOT, 8)
-                .input(items, DYES_LIME, 3)
-                .input(GLOWSTONE_DUST, 8));
         equipmentFabricating(output, registries, SERENITY, weaponFabGroup + ".11", 500_000, builder -> builder
                 .input(T1_CIRCUIT, 2)
                 .input(TITANIUM_INGOT, 24)
@@ -735,6 +732,10 @@ class RecipesGen extends LimaRecipeProvider
                 .input(TITANIUM_INGOT, 24)
                 .input(SLATESTEEL_INGOT, 24)
                 .input(POLYMER_INGOT, 12));
+
+        upgradeFabricating(output, registries, armorEUMGroup, HEAD_EXPERIENCE_CAPTURE, 1, 10_000_000, builder -> builder
+                .input(T3_CIRCUIT, 6)
+                .input(OPTICAL_TECH_PART, 2));
 
         upgradeFabricating(output, registries, armorEUMGroup, BREATHING_UNIT, 1, 1_000_000, builder -> builder
                 .input(T2_CIRCUIT, 2)

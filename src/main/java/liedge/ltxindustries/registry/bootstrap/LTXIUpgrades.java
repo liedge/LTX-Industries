@@ -55,27 +55,14 @@ import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.registries.holdersets.AnyHolderSet;
 
 import static liedge.ltxindustries.LTXIConstants.*;
-import static liedge.ltxindustries.LTXIConstants.BUBBLE_SHIELD_BLUE;
-import static liedge.ltxindustries.LTXIConstants.CREATIVE_PINK;
 import static liedge.ltxindustries.LTXIIdentifiers.*;
-import static liedge.ltxindustries.LTXIIdentifiers.ID_AURORA;
-import static liedge.ltxindustries.LTXIIdentifiers.ID_NOVA;
-import static liedge.ltxindustries.LTXIIdentifiers.ID_SERENITY;
-import static liedge.ltxindustries.LTXIIdentifiers.ID_STARGAZER;
-import static liedge.ltxindustries.LTXIIdentifiers.ID_WONDERLAND_BODY;
-import static liedge.ltxindustries.LTXIIdentifiers.ID_WONDERLAND_FEET;
-import static liedge.ltxindustries.LTXIIdentifiers.ID_WONDERLAND_HEAD;
-import static liedge.ltxindustries.LTXIIdentifiers.ID_WONDERLAND_LEGS;
 import static liedge.ltxindustries.LTXITags.Upgrades.*;
-import static liedge.ltxindustries.LTXITags.Upgrades.MINING_DROPS_MODIFIERS;
 import static liedge.ltxindustries.data.generation.LTXIBootstrapUtil.*;
-import static liedge.ltxindustries.data.generation.LTXIBootstrapUtil.luckOverlay;
 import static liedge.ltxindustries.lib.upgrades.UpgradeIcon.itemIcon;
 import static liedge.ltxindustries.lib.upgrades.UpgradeIcon.sprite;
 import static liedge.ltxindustries.registry.bootstrap.LTXIEnchantments.AMMO_SCAVENGER;
 import static liedge.ltxindustries.registry.bootstrap.LTXIEnchantments.RAZOR;
 import static liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents.*;
-import static liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents.GRENADE_UNLOCK;
 
 public final class LTXIUpgrades
 {
@@ -146,6 +133,7 @@ public final class LTXIUpgrades
     public static final ResourceKey<Upgrade> PASSIVE_NIGHT_VISION = key("night_vision");
     public static final ResourceKey<Upgrade> ARMOR_PASSIVE_SHIELD = key("armor_passive_shield");
     public static final ResourceKey<Upgrade> ARMOR_DEFENSE = key("armor_defense");
+    public static final ResourceKey<Upgrade> HEAD_EXPERIENCE_CAPTURE = key("head_experience_capture");
     public static final ResourceKey<Upgrade> BREATHING_UNIT = key("breathing_unit");
     public static final ResourceKey<Upgrade> PASSIVE_SATURATION = key("saturation");
     public static final ResourceKey<Upgrade> CREATIVE_FLIGHT = key("creative_flight");
@@ -239,7 +227,7 @@ public final class LTXIUpgrades
         Upgrade.builder(MOB_DROPS_CAPTURE)
                 .forEquipment(allWeapons)
                 .forMachines(turrets)
-                .withSpecialEffect(CAPTURE_MOB_DROPS, CaptureMobDrops.INSTANCE)
+                .withSpecialEffect(CAPTURE_MOB_DROPS, CaptureLoot.mobDrops())
                 .effectIcon(sprite("magnet"))
                 .register(context);
     }
@@ -277,7 +265,7 @@ public final class LTXIUpgrades
         Upgrade.builder(EPSILON_WRENCH_DEFAULT)
                 .setTitle(defaultToolTitle)
                 .forEquipment(LTXIItems.EPSILON_WRENCH)
-                .withEffect(CAPTURE_BLOCK_DROPS, CaptureBlockDrops.captureItems(items.getOrThrow(LTXITags.Items.WRENCH_BREAKABLE)))
+                .withEffect(CAPTURE_BLOCK_DROPS, CaptureLoot.blockDrops(items.getOrThrow(LTXITags.Items.WRENCH_BREAKABLE)))
                 .effectIcon(defaultModuleIcon(LTXIItems.EPSILON_WRENCH))
                 .category("default/tool")
                 .register(context);
@@ -444,7 +432,7 @@ public final class LTXIUpgrades
                 .register(context);
         Upgrade.builder(EQUIPMENT_BLOCK_DROPS_CAPTURE)
                 .forEquipment(miningTools)
-                .withEffect(CAPTURE_BLOCK_DROPS, CaptureBlockDrops.captureItems(anyItemHolderSet))
+                .withEffect(CAPTURE_BLOCK_DROPS, CaptureLoot.blockDrops(anyItemHolderSet))
                 .effectIcon(sprite("magnet"))
                 .category("tools")
                 .register(context);
@@ -569,6 +557,13 @@ public final class LTXIUpgrades
                 .effectIcon(sprite("defense"))
                 .category("armor")
                 .register(context);
+        Upgrade.builder(HEAD_EXPERIENCE_CAPTURE)
+                .createDefaultTitle(o -> o.withStyle(ChatFormatting.AQUA))
+                .forEquipment(LTXIItems.WONDERLAND_HEAD)
+                .withSpecialEffect(CAPTURE_MOB_EXPERIENCE, CaptureLoot.mobExperience())
+                .effectIcon(veinMineOverlay(sprite("xp_orb")))
+                .category("armor")
+                .register(context);
         Upgrade.builder(BREATHING_UNIT)
                 .forEquipment(LTXIItems.WONDERLAND_HEAD)
                 .withConditionalEffect(EQUIPMENT_TICK, ApplyMobEffect.applyPassiveEffect(MobEffects.WATER_BREATHING, ConstantDouble.of(400), ConstantDouble.of(0)),
@@ -580,6 +575,7 @@ public final class LTXIUpgrades
                 .forEquipment(LTXIItems.WONDERLAND_BODY)
                 .withConditionalEffect(EQUIPMENT_TICK, ApplyMobEffect.applyPassiveEffect(MobEffects.SATURATION, ConstantDouble.of(200), ConstantDouble.of(0)),
                         LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity().periodicTick(60)))
+                .withEffect(MOB_EFFECT_IMMUNITY, MobEffectImmunity.immuneTo(MobEffects.HUNGER, ConstantDouble.of(0)))
                 .effectIcon(greenArrowOverlay(itemIcon(Items.COOKED_BEEF)))
                 .category("armor")
                 .register(context);

@@ -5,6 +5,7 @@ import liedge.limacore.lib.MobHostility;
 import liedge.limacore.util.LimaCoreObjects;
 import liedge.limacore.util.LimaEntityUtil;
 import liedge.ltxindustries.client.model.custom.EnergyBoltData;
+import liedge.ltxindustries.entity.LTXIEntityUtil;
 import liedge.ltxindustries.entity.damage.TurretDamageSource;
 import liedge.ltxindustries.lib.TurretTargetTracker;
 import liedge.ltxindustries.registry.bootstrap.LTXIDamageTypes;
@@ -88,17 +89,14 @@ public class ArcTurretBlockEntity extends TurretBlockEntity
                 TurretDamageSource source = TurretDamageSource.create(level, LTXIDamageTypes.ARC_TURRET, this, null, owner, traceStart);
                 float damage = (float) LTXIMachinesConfig.ARC_TURRET_DAMAGE.getAsDouble();
 
-                if (!currentTarget.hurtServer(level, source, damage))
+                if (LTXIEntityUtil.hurtWithEnchantedFakePlayer(level, currentTarget, owner, getUpgrades(), _ -> source, damage))
                 {
-                    setNextTarget(tracker);
-                    setTurretState(TurretState.COOLDOWN);
+                    LTXIEntityUtil.hurtWithEnchantedFakePlayer(level, getTargetQueue(), owner, getUpgrades(), _ -> source, damage);
                 }
                 else
                 {
-                    for (Entity chained : getTargetQueue())
-                    {
-                        if (targetStillValid(chained)) chained.hurtServer(level, source, damage);
-                    }
+                    setNextTarget(tracker);
+                    setTurretState(TurretState.COOLDOWN);
                 }
             }
             else

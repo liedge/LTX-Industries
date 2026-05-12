@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "G": "ltxi:titanium_gear",
+    "c": "ltxi:t2_circuit",
+    "e": "ltxi:electric_chemical",
+    "g": "ltxi:titanium_glass",
+    "m": "minecraft:glowstone",
+    "t": "ltxi:titanium_ingot"
+  },
+  "pattern": [
+    "tgg",
+    "meG",
+    " tc"
+  ],
+  "result": {
+    "components": {
+      "ltxi:upgrades": {
+        "ltxi:default/wayfinder": 1
+      }
+    },
+    "id": "ltxi:wayfinder"
+  }
+}

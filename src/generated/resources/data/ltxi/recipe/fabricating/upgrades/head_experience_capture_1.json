@@ -1,0 +1,27 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 10000000,
+  "group": "eum/armor",
+  "item_inputs": [
+    {
+      "ingredient": "ltxi:empty_upgrade_module"
+    },
+    {
+      "count": 6,
+      "ingredient": "ltxi:t3_circuit"
+    },
+    {
+      "count": 2,
+      "ingredient": "ltxi:optical_tech_part"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:upgrade": {
+        "upgrade": "ltxi:head_experience_capture"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:upgrade_module"
+  }
+}

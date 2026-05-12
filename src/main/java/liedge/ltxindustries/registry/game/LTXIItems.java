@@ -10,12 +10,17 @@ import liedge.ltxindustries.item.tool.*;
 import liedge.ltxindustries.item.weapon.*;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.component.Consumables;
 import net.minecraft.world.item.component.UseEffects;
+import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.bus.api.IEventBus;
@@ -111,7 +116,9 @@ public final class LTXIItems
     public static final DeferredItem<Item> RAW_NIOBIUM = ITEMS.registerSimpleItem("raw_niobium");
     public static final DeferredItem<Item> NIOBIUM_INGOT = ITEMS.registerSimpleItem("niobium_ingot");
     public static final DeferredItem<Item> NIOBIUM_NUGGET = ITEMS.registerSimpleItem("niobium_nugget");
-    public static final DeferredItem<BlockItem> SPARK_FRUIT = ITEMS.registerSimpleBlockItem(LTXIBlocks.SPARK_FRUIT);
+    public static final DeferredItem<BlockItem> SPARK_FRUIT = ITEMS.registerSimpleBlockItem(LTXIBlocks.SPARK_FRUIT, properties -> properties.food(
+            new FoodProperties(3, 2, true),
+            Consumables.defaultFood().onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(MobEffects.SPEED, 200))).build()));
     public static final DeferredItem<BlockItem> VITRIOL_BERRIES = ITEMS.registerSimpleBlockItem("vitriol_berries", LTXIBlocks.BILEVINE, Item.Properties::useItemDescriptionPrefix);
     public static final DeferredItem<BlockItem> GLOOM_SHROOM = ITEMS.registerSimpleBlockItem(LTXIBlocks.GLOOM_SHROOM);
 

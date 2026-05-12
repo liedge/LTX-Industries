@@ -1,0 +1,27 @@
+{
+  "display": {
+    "category": "armor",
+    "description": {
+      "translate": "upgrade.ltxi.head_experience_capture.desc"
+    },
+    "icon": {
+      "type": "overlay",
+      "background": "ltxi:xp_orb",
+      "height": 6,
+      "overlay": "ltxi:vein_mine_overlay",
+      "width": 10,
+      "x_offset": 5,
+      "y_offset": 9
+    },
+    "title": {
+      "color": "aqua",
+      "translate": "upgrade.ltxi.head_experience_capture"
+    }
+  },
+  "effects": {
+    "ltxi:capture_mob_experience": {}
+  },
+  "users": {
+    "items": "ltxi:wonderland_head"
+  }
+}

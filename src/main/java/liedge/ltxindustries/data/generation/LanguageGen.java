@@ -262,6 +262,7 @@ class LanguageGen extends LimaLanguageProvider
         upgrade(LTXIUpgrades.ARMOR_PASSIVE_SHIELD, "Bubble Projection Unit", "Upgrades AL/1C with auto-recharging Bubble Shield engines. Can be installed on all pieces.");
         upgrade(LTXIUpgrades.ARMOR_DEFENSE, "Active Protection Unit", "Upgrades AL/1C's shell with an energy-powered impact and trauma attenuation system.");
         upgradeTooltip(LTXIUpgrades.ARMOR_DEFENSE, 0, "%s non-void damage reduction (%s)");
+        upgrade(LTXIUpgrades.HEAD_EXPERIENCE_CAPTURE, "Neural Training Link", "AL/1C's neural processor can parse combat experience in real-time without user input.");
         upgrade(LTXIUpgrades.BREATHING_UNIT, "Atmospheric Regulator", "Allows indefinite operation underwater for the user.");
         upgrade(LTXIUpgrades.PASSIVE_SATURATION, "Metabolic Synthesizer", "Injects a stable mix of nutrients required for healthy function.");
         upgrade(LTXIUpgrades.CREATIVE_FLIGHT, "Fantasia Rulebook", italicName("One of the %s project's most successful experiments. Allows the user to exist outside the laws of gravity.", "Wonderland"));
@@ -420,6 +421,7 @@ class LanguageGen extends LimaLanguageProvider
         add(SUPPRESS_VIBRATIONS_EFFECT, "Suppresses %s sculk vibrations");
         add(CAPTURE_BLOCK_DROPS_EFFECT, "Captures %s block drops to your inventory");
         add(CAPTURE_MOB_DROPS_EFFECT, "Captures mob drops to your inventory");
+        add(CAPTURE_MOB_EXPERIENCE_EFFECT, "Captures mob experience from both your and your turrets' mob kills");
         add(REDUCTION_MODIFIER_EFFECT, "%s %s breach");
         add(ENCHANTMENT_UPGRADE_EFFECT, "+%s %s levels");
         add(CAPPED_ENCHANTMENT_UPGRADE_EFFECT, "+%s %s levels (max %s)");

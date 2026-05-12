@@ -1,7 +1,7 @@
 package liedge.ltxindustries.lib.upgrades;
 
 import com.google.common.base.Predicates;
-import liedge.ltxindustries.lib.upgrades.effect.CaptureBlockDrops;
+import liedge.ltxindustries.lib.upgrades.effect.CaptureLoot;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import net.minecraft.core.HolderSet;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -35,7 +35,7 @@ public record DropsCapture(ResourceHandler<ItemResource> target, @Nullable Vec3 
 
     public static @Nullable DropsCapture blockDropsToPlayer(Player player, Upgrades upgrades)
     {
-        HolderSet<Item> holders = upgrades.mergeEffectHolderSets(LTXIUpgradeEffectComponents.CAPTURE_BLOCK_DROPS, CaptureBlockDrops::items);
+        HolderSet<Item> holders = upgrades.mergeEffectHolderSets(LTXIUpgradeEffectComponents.CAPTURE_BLOCK_DROPS, CaptureLoot.BlockDrops::items);
         if (holders.equals(HolderSet.empty())) return null;
 
         return new DropsCapture(PlayerInventoryWrapper.of(player), player.getEyePosition(), ie -> ie.getItem().is(holders));
