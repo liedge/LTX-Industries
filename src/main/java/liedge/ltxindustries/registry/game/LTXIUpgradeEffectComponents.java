@@ -45,7 +45,7 @@ public final class LTXIUpgradeEffectComponents
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<TagKey<DamageType>>>> EXTRA_DAMAGE_TAGS = COMPONENTS.register("extra_damage_tags", () -> UpgradeDataComponentType.customList(TagKey.codec(Registries.DAMAGE_TYPE)));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<AddDamageAttributes>>> ADD_DAMAGE_ATTRIBUTES = COMPONENTS.register("add_damage_attributes", () -> UpgradeDataComponentType.createList(AddDamageAttributes.CODEC));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ConditionEffect<BreachDamageReduction>>>> REDUCTION_BREACH = COMPONENTS.register("reduction_breach", () -> UpgradeDataComponentType.createConditional(BreachDamageReduction.CODEC, UpgradeContexts.UPGRADED_DAMAGE));
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<LootItemCondition>>> TARGET_CONDITIONS = COMPONENTS.register("target_conditions", () -> UpgradeDataComponentType.customList(LimaLootUtil.conditionsCodec(LootContextParamSets.CHEST, "target predicate")));
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<LootItemCondition>>> TARGET_CONDITIONS = COMPONENTS.register("target_conditions", () -> UpgradeDataComponentType.custom(LimaLootUtil.conditionsCodec(LootContextParamSets.CHEST)));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<AddEnchantmentLevels>>> ENCHANTMENT_LEVELS = COMPONENTS.register("enchantment_levels", () -> UpgradeDataComponentType.createList(AddEnchantmentLevels.CODEC));
     //#endregion
 

@@ -4,7 +4,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.lib.math.MathOperation;
-import liedge.limacore.util.LimaLootUtil;
 import net.minecraft.advancements.criterion.EntityPredicate;
 import net.minecraft.advancements.criterion.ItemPredicate;
 import net.minecraft.core.HolderGetter;
@@ -13,7 +12,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.Validatable;
+import net.minecraft.world.level.storage.loot.ValidationContext;
 import net.minecraft.world.level.storage.loot.predicates.AllOfCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemEntityPropertyCondition;
@@ -27,11 +27,11 @@ import java.util.Optional;
 import java.util.function.BiPredicate;
 
 public record EquipmentDamageModifier(Optional<ItemPredicate> equipmentPredicate, Optional<LootItemCondition> condition,
-                                      NumberProvider value, MathOperation operation) implements Comparable<EquipmentDamageModifier>, BiPredicate<ItemStack, LootContext>
+                                      NumberProvider value, MathOperation operation) implements Comparable<EquipmentDamageModifier>, BiPredicate<ItemStack, LootContext>, Validatable
 {
     public static final Codec<EquipmentDamageModifier> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             ItemPredicate.CODEC.optionalFieldOf("equipment_predicate").forGetter(EquipmentDamageModifier::equipmentPredicate),
-            LimaLootUtil.conditionsCodec(LootContextParamSets.ENTITY, "damage modifier condition").optionalFieldOf("condition").forGetter(EquipmentDamageModifier::condition),
+            LootItemCondition.DIRECT_CODEC.optionalFieldOf("condition").forGetter(EquipmentDamageModifier::condition),
             NumberProviders.CODEC.fieldOf("value").forGetter(EquipmentDamageModifier::value),
             MathOperation.COMPOUND_OP_CODEC.fieldOf("op").forGetter(EquipmentDamageModifier::operation))
             .apply(instance, EquipmentDamageModifier::new));
@@ -59,6 +59,13 @@ public record EquipmentDamageModifier(Optional<ItemPredicate> equipmentPredicate
         boolean b = condition.map(o -> o.test(context)).orElse(true);
 
         return a && b;
+    }
+
+    @Override
+    public void validate(ValidationContext context)
+    {
+        condition.ifPresent(o -> Validatable.validate(context, "condition", o));
+        Validatable.validate(context, "value", value);
     }
 
     public static final class Builder

@@ -1,8 +1,5 @@
 package liedge.ltxindustries.lib;
 
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import it.unimi.dsi.fastutil.objects.ObjectList;
-import it.unimi.dsi.fastutil.objects.ObjectLists;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.data.LTXIReloadListeners;
 import net.minecraft.resources.FileToIdConverter;
@@ -18,7 +15,7 @@ import java.util.Map;
 
 public final class EquipmentDamageModifiers extends SimpleJsonResourceReloadListener<EquipmentDamageModifier>
 {
-    private ObjectList<EquipmentDamageModifier> modifiers = ObjectLists.emptyList();
+    private List<EquipmentDamageModifier> modifiers = List.of();
 
     public EquipmentDamageModifiers()
     {
@@ -28,22 +25,19 @@ public final class EquipmentDamageModifiers extends SimpleJsonResourceReloadList
     @Override
     protected void apply(Map<Identifier, EquipmentDamageModifier> object, ResourceManager resourceManager, ProfilerFiller profiler)
     {
-        ObjectList<EquipmentDamageModifier> list = new ObjectArrayList<>(object.values());
-        this.modifiers = ObjectLists.unmodifiable(list);
+        this.modifiers = object.values().stream().sorted().toList(); // Pre-sort
 
         LTXIndustries.LOGGER.info("Loaded {} equipment damage modifiers.", modifiers.size());
     }
 
     public double apply(ItemStack stack, LootContext context, double baseDamage, double totalDamage)
     {
-        List<EquipmentDamageModifier> toApply = modifiers.stream()
-                .filter(o -> o.test(stack, context))
-                .sorted()
-                .toList();
-
-        for (EquipmentDamageModifier modifier : toApply)
+        for (EquipmentDamageModifier modifier : this.modifiers)
         {
-            totalDamage = modifier.operation().applyCompoundingDouble(totalDamage, baseDamage, modifier.value().getFloat(context));
+            if (modifier.test(stack, context))
+            {
+                totalDamage = modifier.operation().applyCompoundingDouble(totalDamage, baseDamage, modifier.value().getFloat(context));
+            }
         }
 
         return totalDamage;

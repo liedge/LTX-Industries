@@ -13,6 +13,6 @@ public record ConditionEffect<T>(T effect, Optional<LootItemCondition> condition
     public static <T> Codec<ConditionEffect<T>> codec(Codec<T> effectCodec, ContextKeySet params)
     {
         Codec<ConditionEffect<T>> direct = RecordCodecBuilder.create(instance -> EffectConditionHolder.codecFields(instance, effectCodec).apply(instance, ConditionEffect::new));
-        return LimaLootUtil.contextUserCodec(direct, params, "conditional upgrade effect");
+        return LimaLootUtil.validatedCodec(direct, params);
     }
 }
