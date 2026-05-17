@@ -22,8 +22,6 @@ import net.minecraft.world.phys.Vec3;
 import java.util.Comparator;
 import java.util.Optional;
 
-import static liedge.ltxindustries.registry.game.LTXIAttachmentTypes.INPUT_EXTENSIONS;
-
 public class DaybreakItem extends SemiAutoWeaponItem
 {
     public static final int TARGET_LOCK_MIN_TICKS = 20;
@@ -79,12 +77,14 @@ public class DaybreakItem extends SemiAutoWeaponItem
     @Override
     public void onUseTick(Level level, LivingEntity livingEntity, ItemStack stack, int remainingUseDuration)
     {
-        livingEntity.getExistingData(INPUT_EXTENSIONS).ifPresent(controls -> {
-            if (controls.getFocusedTarget() != null && !LTXIEntityUtil.isEntityAlive(controls.getFocusedTarget()))
+        if (livingEntity instanceof Player player)
+        {
+            LTXIExtendedInput input = LTXIExtendedInput.of(player);
+            if (input.getFocusedTarget() != null && !LTXIEntityUtil.isEntityAlive(input.getFocusedTarget()))
             {
-                livingEntity.stopUsingItem();
+                player.stopUsingItem();
             }
-        });
+        }
     }
 
     @Override
@@ -92,7 +92,7 @@ public class DaybreakItem extends SemiAutoWeaponItem
     {
         if (entity instanceof Player player && !player.level().isClientSide())
         {
-            player.getData(INPUT_EXTENSIONS).setFocusedTarget(player, null);
+            LTXIExtendedInput.of(player).setFocusedTarget(player, null);
         }
     }
 

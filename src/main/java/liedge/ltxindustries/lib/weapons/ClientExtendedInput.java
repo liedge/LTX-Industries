@@ -4,15 +4,17 @@ import liedge.limacore.lib.TickTimer;
 import liedge.limacore.util.LimaCoreObjects;
 import liedge.ltxindustries.client.item.WeaponClientItem;
 import liedge.ltxindustries.item.weapon.WeaponItem;
-import liedge.ltxindustries.network.packet.ClientboundWeaponControlsPacket;
-import liedge.ltxindustries.network.packet.ServerboundWeaponControlsPacket;
+import liedge.ltxindustries.network.packet.ReloadPacket;
+import liedge.ltxindustries.network.packet.ServerboundTriggerPacket;
+import liedge.ltxindustries.network.packet.ServerboundWeaponSlotPacket;
 import liedge.ltxindustries.registry.game.LTXIAttachmentTypes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.client.network.ClientPacketDistributor;
+import org.jspecify.annotations.Nullable;
 
-public class ClientExtendedInput extends LTXIExtendedInput
+public final class ClientExtendedInput extends LTXIExtendedInput
 {
     public static ClientExtendedInput of(Player player)
     {
@@ -30,11 +32,6 @@ public class ClientExtendedInput extends LTXIExtendedInput
 
     public ClientExtendedInput() {}
 
-    private void sendPacketToServer(WeaponItem weaponItem, byte action)
-    {
-        ClientPacketDistributor.sendToServer(new ServerboundWeaponControlsPacket(weaponItem, action));
-    }
-
     public TickTimer getAnimationTimerA()
     {
         return animationTimerA;
@@ -45,34 +42,42 @@ public class ClientExtendedInput extends LTXIExtendedInput
         return animationTimerB;
     }
 
-    public void handleServerAction(ItemStack heldItem, Player player, WeaponItem weaponItem, byte serverAction)
-    {
-        switch (serverAction)
-        {
-            case ClientboundWeaponControlsPacket.RELOAD_START -> getReloadTimer().startTimer(weaponItem.getReloadSpeed(heldItem));
-            case ClientboundWeaponControlsPacket.WEAPON_SHOOT -> shootWeapon(heldItem, player, weaponItem);
-            case ClientboundWeaponControlsPacket.START_TRIGGER_HOLD -> startHoldingTrigger(heldItem, player, weaponItem);
-            case ClientboundWeaponControlsPacket.STOP_TRIGGER_HOLD -> stopHoldingTrigger(heldItem, player, weaponItem, false);
-        }
-    }
-
-    public void handleReloadInput(Player player, ItemStack heldItem, WeaponItem weaponItem)
-    {
-        if (canReloadWeapon(heldItem, player, weaponItem)) sendPacketToServer(weaponItem, ServerboundWeaponControlsPacket.RELOAD_PRESS);
-    }
-
     public TickTimer getModeSwitchTimer()
     {
         return modeSwitchTimer;
     }
 
     @Override
-    protected void onSelectedSlotChanged(Player player, ItemStack oldItem, ItemStack newItem)
+    public boolean setSelectedSlot(Player player, int selectedSlot)
     {
-        super.onSelectedSlotChanged(player, oldItem, newItem);
+        boolean result = super.setSelectedSlot(player, selectedSlot);
+
+        if (result)
+        {
+            ClientPacketDistributor.sendToServer(new ServerboundWeaponSlotPacket(selectedSlot));
+        }
+
+        return result;
+    }
+
+    @Override
+    protected void selectedSlotChanged(Player player)
+    {
+        super.selectedSlotChanged(player);
+
         animationTimerA.stopTimer();
         animationTimerB.stopTimer();
         modeSwitchTimer.stopTimer();
+    }
+
+    @Override
+    public void startReload(Player player, ItemStack stack, WeaponItem weaponItem)
+    {
+        if (canReloadWeapon(stack, player, weaponItem))
+        {
+            setSelectedSlot(player, player.getInventory().getSelectedSlot());
+            ClientPacketDistributor.sendToServer(new ReloadPacket(getSelectedSlot()));
+        }
     }
 
     @Override
@@ -94,32 +99,37 @@ public class ClientExtendedInput extends LTXIExtendedInput
     }
 
     @Override
-    protected void triggerTick(ItemStack heldItem, Player player, WeaponItem weaponItem)
+    protected void triggerLogicTick(Player player, ItemStack selectedItem, int selectedSlot, @Nullable WeaponItem weaponItem)
     {
-        final boolean leftInput = Minecraft.getInstance().options.keyAttack.isDown() && !player.isSpectator();
+        super.triggerLogicTick(player, selectedItem, selectedSlot, weaponItem);
 
-        if (previousLeftInput != leftInput)
+        // Check for slot changes
+        setSelectedSlot(player, player.getInventory().getSelectedSlot());
+
+        boolean leftInput = Minecraft.getInstance().options.keyAttack.isDown() && !player.isSpectator();
+        if (this.previousLeftInput != leftInput)
         {
             if (leftInput)
             {
-                pressTrigger(heldItem, player, weaponItem);
-                sendPacketToServer(weaponItem, ServerboundWeaponControlsPacket.TRIGGER_PRESS);
+                if (weaponItem != null)
+                {
+                    pressTrigger(player, selectedItem, weaponItem);
+                    ClientPacketDistributor.sendToServer(new ServerboundTriggerPacket(selectedSlot, false));
+                }
             }
             else
             {
-                stopHoldingTrigger(heldItem, player, weaponItem, true);
-                sendPacketToServer(weaponItem, ServerboundWeaponControlsPacket.TRIGGER_RELEASE);
+                stopTriggerHold(player);
+                ClientPacketDistributor.sendToServer(new ServerboundTriggerPacket(selectedSlot, true));
             }
 
-            previousLeftInput = leftInput;
+            this.previousLeftInput = leftInput;
         }
 
-        super.triggerTick(heldItem, player, weaponItem);
-
-        WeaponClientItem clientItem = WeaponClientItem.of(weaponItem);
-        if (clientItem != null)
+        if (weaponItem != null)
         {
-            clientItem.onMainHandTick(heldItem, weaponItem, this);
+            WeaponClientItem clientItem = WeaponClientItem.of(weaponItem);
+            if (clientItem != null) clientItem.onMainHandTick(selectedItem, weaponItem, this);
         }
     }
 }

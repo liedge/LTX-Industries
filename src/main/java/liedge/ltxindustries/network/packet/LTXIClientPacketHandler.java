@@ -1,34 +1,30 @@
 package liedge.ltxindustries.network.packet;
 
 import liedge.limacore.client.LimaCoreClientUtil;
-import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.lib.weapons.ClientExtendedInput;
+import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 final class LTXIClientPacketHandler
 {
     private LTXIClientPacketHandler() {}
 
-    static void handleWeaponsControlPacket(ClientboundWeaponControlsPacket packet)
+    static void handleTriggerPacket(ClientboundTriggerPacket packet, IPayloadContext context)
     {
-        Player player = LimaCoreClientUtil.getClientEntity(packet.playerId(), Player.class);
-        if (player != null)
-        {
-            ItemStack heldItem = player.getMainHandItem();
-            if (heldItem.getItem() instanceof WeaponItem weaponItem)
-            {
-                ClientExtendedInput controls = ClientExtendedInput.of(player);
+        Player player = context.player();
+        LTXIExtendedInput input = LTXIExtendedInput.of(player);
 
-                if (packet.weaponItem() == weaponItem)
-                {
-                    controls.handleServerAction(heldItem, player, weaponItem, packet.action());
-                }
-                else
-                {
-                    controls.stopHoldingTrigger(heldItem, player, weaponItem, false);
-                }
+        if (input.getSelectedSlot() == packet.slot())
+        {
+            if (packet.holding())
+            {
+                input.startTriggerHold(player);
+            }
+            else
+            {
+                input.stopTriggerHold(player);
             }
         }
     }

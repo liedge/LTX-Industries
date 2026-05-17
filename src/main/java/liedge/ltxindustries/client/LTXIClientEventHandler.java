@@ -143,7 +143,7 @@ public final class LTXIClientEventHandler
             ItemStack heldItem = player.getMainHandItem();
             if (heldItem.getItem() instanceof WeaponItem weaponItem)
             {
-                ClientExtendedInput.of(player).handleReloadInput(player, heldItem, weaponItem);
+                ClientExtendedInput.of(player).startReload(player, heldItem, weaponItem);
             }
         }
     }

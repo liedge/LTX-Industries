@@ -1,18 +1,20 @@
 package liedge.ltxindustries;
 
 import liedge.limacore.event.DamageAttributeModifiersEvent;
-import liedge.limacore.util.LimaCoreObjects;
 import liedge.limacore.util.LimaLootUtil;
 import liedge.ltxindustries.entity.LTXIEntityUtil;
 import liedge.ltxindustries.entity.damage.UpgradesAwareDamageSource;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
-import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.lib.shield.EntityBubbleShield;
 import liedge.ltxindustries.lib.upgrades.DropsCapture;
 import liedge.ltxindustries.lib.upgrades.UpgradeContexts;
 import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.lib.upgrades.effect.EffectTarget;
-import liedge.ltxindustries.registry.game.*;
+import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
+import liedge.ltxindustries.registry.game.LTXIAttachmentTypes;
+import liedge.ltxindustries.registry.game.LTXIMobEffects;
+import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
+import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import liedge.ltxindustries.util.LTXIUpgradeUtil;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
@@ -94,14 +96,12 @@ public final class LTXIEventHandler
     }
 
     @SubscribeEvent
-    public static void onPlayerTick(final PlayerTickEvent.Pre event)
+    private static void onPlayerPreTick(final PlayerTickEvent.Pre event)
     {
         Player player = event.getEntity();
 
-        // Weapon system tick
-        ItemStack heldItem = player.getMainHandItem();
-        WeaponItem weaponItem = LimaCoreObjects.tryCast(WeaponItem.class, heldItem.getItem());
-        player.getData(LTXIAttachmentTypes.INPUT_EXTENSIONS).tickInput(player, heldItem, weaponItem);
+        // Extended input tick
+        LTXIExtendedInput.of(player).tick(player);
 
         // Shield & equipment tick
         if (player.level() instanceof ServerLevel level)

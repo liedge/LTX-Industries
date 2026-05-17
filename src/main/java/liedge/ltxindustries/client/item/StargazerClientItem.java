@@ -68,7 +68,7 @@ public final class StargazerClientItem extends WeaponClientItem
         {
             graphics.submitGuiElementRenderState(new ChargeStops(graphics, x, dotY, LTXIConstants.LIME_GREEN.argb32()));
 
-            float arcLength = Math.min(1f, controls.lerpTriggerTicks(partialTick) / (float) StargazerItem.CHARGE_TICKS);
+            float arcLength = Math.min(1f, controls.lerpTicksHoldingTrigger(partialTick) / (float) StargazerItem.CHARGE_TICKS);
             float startAngle = 120f - 210f * arcLength;
             float endAngle = 120f;
 

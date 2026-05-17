@@ -85,16 +85,13 @@ public abstract class WeaponItem extends EnergyEquipmentItem
     //#region Weapon user events
     public abstract void triggerPressed(ItemStack heldItem, Player player, LTXIExtendedInput input);
 
-    // TODO: Re-introduce later if necessary, kept for reference
-    //public abstract void triggerRelease(ItemStack heldItem, Player player, AbstractWeaponControls input, boolean releasedByPlayer);
-
     public abstract boolean canContinueHoldingTrigger(ItemStack heldItem, Player player, LTXIExtendedInput input);
 
     public void triggerHoldingTick(ItemStack heldItem, Player player, LTXIExtendedInput input) {}
 
     public void onStartedHoldingTrigger(ItemStack heldItem, Player player, LTXIExtendedInput input) {}
 
-    public void onStoppedHoldingTrigger(ItemStack heldItem, Player player, LTXIExtendedInput input, boolean releasedByPlayer) {}
+    public void onStoppedHoldingTrigger(ItemStack heldItem, Player player, LTXIExtendedInput input) {}
 
     public abstract void weaponFired(ItemStack heldItem, Player player, Level level, LTXIExtendedInput controls);
     //#endregion
