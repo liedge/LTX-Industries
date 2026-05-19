@@ -8,7 +8,6 @@ import liedge.limacore.data.generation.recipe.LimaShapedRecipeBuilder;
 import liedge.limacore.lib.ModResources;
 import liedge.limacore.recipe.result.FluidResult;
 import liedge.limacore.recipe.result.ItemResult;
-import liedge.limacore.recipe.result.RecipeResult;
 import liedge.limacore.recipe.result.ResultCount;
 import liedge.limacore.util.LimaRegistryUtil;
 import liedge.ltxindustries.LTXITags;
@@ -846,7 +845,7 @@ class RecipesGen extends LimaRecipeProvider
         grinding().input(STONE).output(ItemResult.of(COBBLESTONE)).save(output);
         grinding().input(items, COBBLESTONES_NORMAL)
                 .output(ItemResult.of(GRAVEL))
-                .output(ItemResult.of(FLINT, ResultCount.exactlyRandom(1, 0.25f), RecipeResult.NO_GROUP, false))
+                .output(ItemResult.of(FLINT, ResultCount.exactlyRandom(1, 0.25f), false))
                 .save(output);
         grinding().input(items, Tags.Items.GRAVELS).output(ItemResult.of(SAND)).save(output);
         grinding().input(items, CROPS_SUGAR_CANE).output(ItemResult.of(RESINOUS_BIOMASS)).output(ItemResult.of(SUGAR, 2)).save(output, "grind_sugar_cane");
@@ -919,7 +918,7 @@ class RecipesGen extends LimaRecipeProvider
                 .input(MUD)
                 .output(ItemResult.of(DIRT))
                 .output(ItemResult.of(CLAY_BALL, ResultCount.between(1, 3)))
-                .output(ItemResult.of(MANGROVE_PROPAGULE, ResultCount.exactlyRandom(1, 0.05f), RecipeResult.NO_GROUP, false))
+                .output(ItemResult.of(MANGROVE_PROPAGULE, ResultCount.exactlyRandom(1, 0.05f), false))
                 .fluidOutput(FluidResult.of(Fluids.WATER, 1000))
                 .time(120)
                 .save(output, "split_mud");
@@ -1245,7 +1244,7 @@ class RecipesGen extends LimaRecipeProvider
     private void upgradeFabricating(RecipeOutput output, HolderLookup.Provider registries, String group, ResourceKey<Upgrade> upgradeKey, int upgradeRank, int energyRequired, boolean addBaseModuleInput, UnaryOperator<FabricatingBuilder> op)
     {
         ItemStackTemplate stackTemplate = moduleTemplate(registries, upgradeKey, upgradeRank);
-        FabricatingBuilder builder = fabricating(energyRequired).group(group).output(ItemResult.fromVanilla(stackTemplate));
+        FabricatingBuilder builder = fabricating(energyRequired).group(group).output(ItemResult.copyOf(stackTemplate));
 
         if (addBaseModuleInput)
         {
@@ -1271,7 +1270,7 @@ class RecipesGen extends LimaRecipeProvider
     private void equipmentFabricating(RecipeOutput output, HolderLookup.Provider registries, Supplier<? extends UpgradableEquipmentItem> itemSupplier, String group, int energyRequired, UnaryOperator<FabricatingBuilder> op)
     {
         ItemStackTemplate stackTemplate = defaultUpgradableItem(itemSupplier, registries);
-        FabricatingBuilder builder = fabricating(energyRequired).group(group).output(ItemResult.fromVanilla(stackTemplate));
+        FabricatingBuilder builder = fabricating(energyRequired).group(group).output(ItemResult.copyOf(stackTemplate));
         op.apply(builder).save(output);
     }
 

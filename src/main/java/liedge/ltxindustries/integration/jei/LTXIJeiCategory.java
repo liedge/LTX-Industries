@@ -96,14 +96,14 @@ public abstract class LTXIJeiCategory<R extends LimaCustomRecipe<?>> implements 
     {
         if (input.consumeChance() == 0)
         {
-            slot.setOverlay(ScaledFontDrawable.withStyle("NC", ChatFormatting.GREEN, 0.5f), 1, 1)
-                    .addRichTooltipCallback((view, lines) -> lines.add(LTXILangKeys.INPUT_NOT_CONSUMED_TOOLTIP.translate().withStyle(ChatFormatting.GREEN)));
+            slot.setOverlay(new ScaledFontDrawable(Component.literal("NC").withStyle(ChatFormatting.GREEN), 0.5f), 1, 1);
+            slot.addRichTooltipCallback((_, lines) -> lines.add(LTXILangKeys.INPUT_NOT_CONSUMED_TOOLTIP.translate().withStyle(ChatFormatting.GREEN)));
         }
         else
         {
-            String formattedChance = LimaTextUtil.format1PlacePercentage(input.consumeChance());
-            slot.setOverlay(ScaledFontDrawable.withStyle(formattedChance, ChatFormatting.YELLOW, 0.5f), 1, 1)
-                    .addRichTooltipCallback((view, lines) -> lines.add(LTXILangKeys.INPUT_CONSUME_CHANCE_TOOLTIP.translateArgs(formattedChance).withStyle(ChatFormatting.YELLOW)));
+            Component chanceStr = Component.literal(LimaTextUtil.format1PlacePercentage(input.consumeChance())).withStyle(ChatFormatting.YELLOW);
+            slot.setOverlay(new ScaledFontDrawable(chanceStr, 0.5f), 1, 1);
+            slot.addRichTooltipCallback((_, lines) -> lines.add(LTXILangKeys.INPUT_CONSUME_CHANCE_TOOLTIP.translateArgs(chanceStr)));
         }
     }
 
@@ -158,7 +158,7 @@ public abstract class LTXIJeiCategory<R extends LimaCustomRecipe<?>> implements 
         ItemResult result = recipe.getItemResult(index);
         ResultCount count = result.count();
 
-        int displayCount = count.isConstant() ? count.max() : 1;
+        int displayCount = count.isFixedCount() ? count.max() : 1;
         IRecipeSlotBuilder slot = builder.addOutputSlot(x, y).addItemStacks(List.of(result.display(displayCount)));
 
         List<Component> tooltipLines = new ObjectArrayList<>();
@@ -182,7 +182,7 @@ public abstract class LTXIJeiCategory<R extends LimaCustomRecipe<?>> implements 
         resultRequirementTooltip(result, tooltipLines);
         IDrawable chanceOverlay = resultChanceOverlay(count, tooltipLines);
         IDrawable countOverlay = resultCountOverlay(count, tooltipLines, s -> Component.translatable("jei.tooltip.liquid.amount", s));
-        IIngredientRenderer<FluidStack> renderer = count.isConstant() ? FluidWithCountRenderer.INSTANCE : FluidWithoutCountRenderer.INSTANCE;
+        IIngredientRenderer<FluidStack> renderer = count.isFixedCount() ? FluidWithCountRenderer.INSTANCE : FluidWithoutCountRenderer.INSTANCE;
 
         slot.setCustomRenderer(NeoForgeTypes.FLUID_STACK, renderer);
         slot.addRichTooltipCallback((_, lines) -> lines.addAll(tooltipLines));
@@ -193,18 +193,18 @@ public abstract class LTXIJeiCategory<R extends LimaCustomRecipe<?>> implements 
     {
         if (!count.isRandom()) return null;
 
-        String formattedChance = LimaTextUtil.format1PlacePercentage(count.chance());
-        lines.add(LTXILangKeys.OUTPUT_CHANCE_TOOLTIP.translate().append(formattedChance).withStyle(ChatFormatting.YELLOW));
-        return ScaledFontDrawable.withStyle(formattedChance, ChatFormatting.YELLOW, 0.5f);
+        Component chanceStr = Component.literal(LimaTextUtil.format1PlacePercentage(count.chance())).withStyle(ChatFormatting.YELLOW);
+        lines.add(LTXILangKeys.OUTPUT_CHANCE_TOOLTIP.translate().append(chanceStr));
+        return new ScaledFontDrawable(chanceStr, 0.5f);
     }
 
     private @Nullable IDrawable resultCountOverlay(ResultCount count, List<Component> lines, Function<String, Component> amountTooltip)
     {
-        if (count.isConstant()) return null;
+        if (count.isFixedCount()) return null;
 
         String formattedAmount = String.format("%s-%s", LimaTextUtil.formatWholeNumber(count.min()), LimaTextUtil.formatWholeNumber(count.max()));
         lines.add(LTXILangKeys.OUTPUT_VARIABLE_COUNT_TOOLTIP.translate().append(amountTooltip.apply(formattedAmount)));
-        return ScaledFontDrawable.plainText("VAR", 0.75f);
+        return new ScaledFontDrawable(Component.literal("VAR"), 0.75f);
     }
 
     private void resultRequirementTooltip(RecipeResult<?, ?> result, List<Component> lines)
