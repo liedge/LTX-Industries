@@ -13,9 +13,11 @@ import liedge.ltxindustries.registry.game.LTXIEntities;
 import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.registry.game.LTXIParticles;
 import liedge.ltxindustries.registry.game.LTXISounds;
+import net.minecraft.core.Holder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageType;
@@ -73,7 +75,7 @@ public class ShellGrenadeEntity extends LTXIProjectileEntity implements IEntityW
             case FLAME -> 4.5d;
             case CRYO -> 6d;
             case ELECTRIC -> checkGrenadeInRainOrWater() ? 10d : 5d;
-            case ACID, NEURO -> 2.5d;
+            case ACID, GLOOM_GAS -> 2.5d;
         };
     }
 
@@ -86,7 +88,7 @@ public class ShellGrenadeEntity extends LTXIProjectileEntity implements IEntityW
             case CRYO -> LTXIDamageTypes.CRYO_GRENADE;
             case ELECTRIC -> LTXIDamageTypes.ELECTRIC_GRENADE;
             case ACID -> LTXIDamageTypes.ACID_GRENADE;
-            case NEURO -> LTXIDamageTypes.NEURO_GRENADE;
+            case GLOOM_GAS -> LTXIDamageTypes.GLOOM_GAS_GRENADE;
         };
     }
 
@@ -116,7 +118,7 @@ public class ShellGrenadeEntity extends LTXIProjectileEntity implements IEntityW
             case CRYO -> CRYO_GRENADE_BASE_DAMAGE;
             case ELECTRIC -> ELECTRIC_GRENADE_BASE_DAMAGE;
             case ACID -> ACID_GRENADE_BASE_DAMAGE;
-            case NEURO -> NEURO_GRENADE_BASE_DAMAGE;
+            case GLOOM_GAS -> GLOOM_GAS_GRENADE_BASE_DAMAGE;
         };
 
         return configValue.getAsDouble();
@@ -128,7 +130,7 @@ public class ShellGrenadeEntity extends LTXIProjectileEntity implements IEntityW
         {
             case CRYO -> new MobEffectInstance(FROSTBITE, 400, 2);
             case ACID -> new MobEffectInstance(CORROSIVE, 200, 2);
-            case NEURO -> new MobEffectInstance(NEURO_SUPPRESSED, 600, 2);
+            case GLOOM_GAS -> new MobEffectInstance(GLOOM, 600, 2);
             default -> null;
         };
 
@@ -187,7 +189,17 @@ public class ShellGrenadeEntity extends LTXIProjectileEntity implements IEntityW
             spawnHitEntityParticles(level, hitLocation, hitEntity);
         });
 
-        level.playSound(null, hitLocation.x, hitLocation.y, hitLocation.z, LTXISounds.GRENADE_EXPLOSIONS.get(grenadeType).get(), SoundSource.PLAYERS, 2.5f, Mth.randomBetween(random, 0.77f, 0.9f));
+        Holder<SoundEvent> sound = switch (grenadeType)
+        {
+            case EXPLOSIVE -> LTXISounds.EXPLOSIVE_SHELL_IMPACT;
+            case FLAME -> LTXISounds.FLAME_SHELL_IMPACT;
+            case CRYO -> LTXISounds.CRYO_SHELL_IMPACT;
+            case ELECTRIC -> LTXISounds.ELECTRIC_SHELL_IMPACT;
+            case ACID -> LTXISounds.ACID_SHELL_IMPACT;
+            case GLOOM_GAS -> LTXISounds.GLOOM_GAS_SHELL_IMPACT;
+        };
+        level.playSound(null, hitLocation.x, hitLocation.y, hitLocation.z, sound, SoundSource.PLAYERS, 3f, Mth.randomBetween(random, 0.775f, 0.95f));
+
         LimaNetworkUtil.sendParticle(level, new GrenadeExplosionParticleOptions(grenadeType, blastRadius * 2d), LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, hitLocation);
 
         return CollisionResult.DESTROY;

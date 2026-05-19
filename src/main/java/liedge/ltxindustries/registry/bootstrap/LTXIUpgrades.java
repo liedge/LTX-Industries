@@ -151,7 +151,7 @@ public final class LTXIUpgrades
     public static final ResourceKey<Upgrade> CRYO_GRENADE_CORE = key("cryo_grenade_core");
     public static final ResourceKey<Upgrade> ELECTRIC_GRENADE_CORE = key("electric_grenade_core");
     public static final ResourceKey<Upgrade> ACID_GRENADE_CORE = key("acid_grenade_core");
-    public static final ResourceKey<Upgrade> NEURO_GRENADE_CORE = key("neuro_grenade_core");
+    public static final ResourceKey<Upgrade> GLOOM_GAS_GRENADE_CORE = key("gloom_gas_grenade_core");
     public static final ResourceKey<Upgrade> OMNI_GRENADE_CORE = key("omni_grenade_core");
 
     //#endregion
@@ -637,31 +637,31 @@ public final class LTXIUpgrades
                 .forEquipment(LTXIItems.HANABI)
                 .withEffect(GRENADE_UNLOCK, GrenadeType.FLAME)
                 .effectIcon(sprite("flame_grenade_core"))
-                .category("grenade_cores")
+                .category("shells/1")
                 .register(context);
         Upgrade.builder(CRYO_GRENADE_CORE)
                 .forEquipment(LTXIItems.HANABI)
                 .withEffect(GRENADE_UNLOCK, GrenadeType.CRYO)
                 .effectIcon(sprite("cryo_grenade_core"))
-                .category("grenade_cores")
+                .category("shells/2")
                 .register(context);
         Upgrade.builder(ELECTRIC_GRENADE_CORE)
                 .forEquipment(LTXIItems.HANABI)
                 .withEffect(GRENADE_UNLOCK, GrenadeType.ELECTRIC)
                 .effectIcon(sprite("electric_grenade_core"))
-                .category("grenade_cores")
+                .category("shells/3")
                 .register(context);
         Upgrade.builder(ACID_GRENADE_CORE)
                 .forEquipment(LTXIItems.HANABI)
                 .withEffect(GRENADE_UNLOCK, GrenadeType.ACID)
                 .effectIcon(sprite("acid_grenade_core"))
-                .category("grenade_cores")
+                .category("shells/4")
                 .register(context);
-        Upgrade.builder(NEURO_GRENADE_CORE)
+        Upgrade.builder(GLOOM_GAS_GRENADE_CORE)
                 .forEquipment(LTXIItems.HANABI)
-                .withEffect(GRENADE_UNLOCK, GrenadeType.NEURO)
-                .effectIcon(sprite("neuro_grenade_core"))
-                .category("grenade_cores")
+                .withEffect(GRENADE_UNLOCK, GrenadeType.GLOOM_GAS)
+                .effectIcon(sprite("gloom_grenade_core"))
+                .category("shells/5")
                 .register(context);
         Upgrade.builder(OMNI_GRENADE_CORE)
                 .forEquipment(LTXIItems.HANABI)
@@ -669,9 +669,9 @@ public final class LTXIUpgrades
                 .withEffect(GRENADE_UNLOCK, GrenadeType.CRYO)
                 .withEffect(GRENADE_UNLOCK, GrenadeType.ELECTRIC)
                 .withEffect(GRENADE_UNLOCK, GrenadeType.ACID)
-                .withEffect(GRENADE_UNLOCK, GrenadeType.NEURO)
+                .withEffect(GRENADE_UNLOCK, GrenadeType.GLOOM_GAS)
                 .effectIcon(sprite("omni_grenade_core"))
-                .category("grenade_cores")
+                .category("shells/0")
                 .register(context);
     }
 

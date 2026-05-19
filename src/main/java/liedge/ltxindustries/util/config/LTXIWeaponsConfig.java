@@ -27,7 +27,7 @@ public final class LTXIWeaponsConfig
     public static final ModConfigSpec.DoubleValue ELECTRIC_GRENADE_BASE_DAMAGE;
     public static final ModConfigSpec.DoubleValue ELECTRIC_GRENADE_DAMAGE_MULTIPLIER;
     public static final ModConfigSpec.DoubleValue ACID_GRENADE_BASE_DAMAGE;
-    public static final ModConfigSpec.DoubleValue NEURO_GRENADE_BASE_DAMAGE;
+    public static final ModConfigSpec.DoubleValue GLOOM_GAS_GRENADE_BASE_DAMAGE;
 
     // Stargazer
     public static final ModConfigSpec.DoubleValue STARGAZER_BASE_DAMAGE;
@@ -69,7 +69,7 @@ public final class LTXIWeaponsConfig
         ELECTRIC_GRENADE_BASE_DAMAGE = builder.comment("Electric shell base damage").defineInRange("electric_base_damage", 30.0d, MIN_BASE_DAMAGE, MAX_BASE_DAMAGE);
         ELECTRIC_GRENADE_DAMAGE_MULTIPLIER = builder.comment("Electric shell damage multiplier to mobs in rain, water, or who are weak to electricity").defineInRange("electric_multiplier", 3.0d, 0d, Double.MAX_VALUE);
         ACID_GRENADE_BASE_DAMAGE = builder.comment("Acid shell base damage").defineInRange("acid_base_damage", 50.0d, MIN_BASE_DAMAGE, MAX_BASE_DAMAGE);
-        NEURO_GRENADE_BASE_DAMAGE = builder.comment("Neuro shell base damage").defineInRange("neuro_base_damage", 4.0d, MIN_BASE_DAMAGE, MAX_BASE_DAMAGE);
+        GLOOM_GAS_GRENADE_BASE_DAMAGE = builder.comment("Gloom Gas shell base damage").defineInRange("gloom_base_damage", 4.0d, MIN_BASE_DAMAGE, MAX_BASE_DAMAGE);
         builder.pop();
 
         builder.push("stargazer");

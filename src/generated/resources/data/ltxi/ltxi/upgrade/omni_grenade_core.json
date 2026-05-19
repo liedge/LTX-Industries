@@ -1,6 +1,6 @@
 {
   "display": {
-    "category": "grenade_cores",
+    "category": "shells/0",
     "description": {
       "translate": "upgrade.ltxi.omni_grenade_core.desc"
     },
@@ -15,7 +15,7 @@
       "cryo",
       "electric",
       "acid",
-      "neuro"
+      "gloom_gas"
     ]
   },
   "users": {

@@ -667,12 +667,12 @@ class RecipesGen extends LimaRecipeProvider
                 .input(SLATESTEEL_INGOT, 16)
                 .input(POLYMER_INGOT, 24)
                 .input(VIRIDIC_WEAPON_CHEMICAL, 16));
-        upgradeFabricating(output, registries, "eum/weapon/gl", NEURO_GRENADE_CORE, 1, 50_000_000, builder -> builder
+        upgradeFabricating(output, registries, "eum/weapon/gl", GLOOM_GAS_GRENADE_CORE, 1, 50_000_000, builder -> builder
                 .input(IMPULSE_TECH_PART, 4)
                 .input(TITANIUM_GLASS, 32)
                 .input(SLATESTEEL_INGOT, 16)
                 .input(POLYMER_INGOT, 24)
-                .input(NEURO_CHEMICAL, 8));
+                .input(GLOOM_CHEMICAL, 8));
         upgradeFabricating(output, registries, "eum/weapon", HANABI_SPEED_BOOST, 1, 750_000, builder -> builder
                 .input(T2_CIRCUIT)
                 .input(IMPULSE_TECH_PART, 2)
@@ -886,7 +886,7 @@ class RecipesGen extends LimaRecipeProvider
         orePebbleGrinding(URANIUM_ORE_PEBBLES, ModResources.COMMON.itemTag("ores/uranium"), ModResources.COMMON.itemTag("raw_materials/uranium"), "uranium", output, true);
         grinding().input(RAW_TITANIUM_CLUSTER).output(ItemResult.of(RAW_TITANIUM, 5)).save(output, "grind_titanium_clusters");
         grinding().input(RAW_NIOBIUM_CLUSTER).output(ItemResult.of(RAW_NIOBIUM, 5)).save(output, "grind_niobium_clusters");
-        grinding().input(LTXIItems.GLOOM_SHROOM).output(ItemResult.of(NEURO_BLUE_PIGMENT, 2)).time(120).save(output, "shrooms_to_dye");
+        grinding().input(LTXIItems.GLOOM_SHROOM).output(ItemResult.of(GLOOM_BLUE_PIGMENT, 2)).time(120).save(output, "shrooms_to_dye");
     }
 
     private void mfcRecipes()
@@ -911,7 +911,7 @@ class RecipesGen extends LimaRecipeProvider
         electroCentrifuging().input(items, DYES_LIME).output(ItemResult.of(LTX_LIME_PIGMENT)).time(120).needsMode(dyes).save(output);
         electroCentrifuging().input(VITRIOL_BERRIES).output(ItemResult.of(VIRIDIC_GREEN_PIGMENT, 2)).time(120).needsMode(dyes).save(output);
         electroCentrifuging().input(LTXIItems.SPARK_FRUIT).output(ItemResult.of(ELECTRIC_CHARTREUSE_PIGMENT, 2)).time(120).needsMode(dyes).save(output);
-        electroCentrifuging().input(LTXIItems.GLOOM_SHROOM).output(ItemResult.of(NEURO_BLUE_PIGMENT, 2)).time(120).needsMode(dyes).save(output);
+        electroCentrifuging().input(LTXIItems.GLOOM_SHROOM).output(ItemResult.of(GLOOM_BLUE_PIGMENT, 2)).time(120).needsMode(dyes).save(output);
 
         // Recipes
         electroCentrifuging()
@@ -944,7 +944,7 @@ class RecipesGen extends LimaRecipeProvider
                 .fluidInput(VIRIDIC_ACID, 2000)
                 .input(LTXIItems.GLOOM_SHROOM)
                 .output(ItemResult.of(SCULK_CHEMICAL))
-                .output(ItemResult.of(NEURO_CHEMICAL, ResultCount.exactlyRandom(1, 0.05f)))
+                .output(ItemResult.of(GLOOM_CHEMICAL, ResultCount.exactlyRandom(1, 0.05f)))
                 .time(400)
                 .save(output, "gloom_shroom_extraction");
     }
@@ -1297,7 +1297,7 @@ class RecipesGen extends LimaRecipeProvider
             case ENERGY_BLUE -> Either.left(ENERGY_BLUE_PIGMENT);
             case ELECTRIC_CHARTREUSE -> Either.left(ELECTRIC_CHARTREUSE_PIGMENT);
             case VIRIDIC_GREEN -> Either.left(VIRIDIC_GREEN_PIGMENT);
-            case NEURO_BLUE -> Either.left(NEURO_BLUE_PIGMENT);
+            case GLOOM_BLUE -> Either.left(GLOOM_BLUE_PIGMENT);
             default -> Either.right(Objects.requireNonNull(color.getDyeColor()).getTag());
         };
         return either.map(Ingredient::of, tagKey -> Ingredient.of(items.getOrThrow(tagKey)));

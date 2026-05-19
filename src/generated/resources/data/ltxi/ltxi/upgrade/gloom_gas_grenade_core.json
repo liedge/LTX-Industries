@@ -1,0 +1,20 @@
+{
+  "display": {
+    "category": "shells/5",
+    "description": {
+      "translate": "upgrade.ltxi.gloom_gas_grenade_core.desc"
+    },
+    "icon": "ltxi:gloom_grenade_core",
+    "title": {
+      "translate": "upgrade.ltxi.gloom_gas_grenade_core"
+    }
+  },
+  "effects": {
+    "ltxi:grenade_unlock": [
+      "gloom_gas"
+    ]
+  },
+  "users": {
+    "items": "ltxi:hanabi"
+  }
+}

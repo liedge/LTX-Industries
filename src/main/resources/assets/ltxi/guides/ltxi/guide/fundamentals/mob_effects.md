@@ -25,8 +25,8 @@ Corroding weakens target armor.
 
 -------
 
-## Neuro-Suppressed
-Neuro-Suppressed reduces *all* of a target's attack damage, as long as it can be traced back to it. In addition,
+## Gloom
+Gloom reduces *all* of a target's attack damage, as long as it can be traced back to it. In addition,
 the affected target cannot apply any potion effects during the effect duration.
 
 ### Attribute modifiers

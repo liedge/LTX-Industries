@@ -24,13 +24,13 @@
     },
     {
       "count": 8,
-      "ingredient": "ltxi:neuro_chemical"
+      "ingredient": "ltxi:gloom_chemical"
     }
   ],
   "result": {
     "components": {
       "ltxi:upgrade": {
-        "upgrade": "ltxi:neuro_grenade_core"
+        "upgrade": "ltxi:gloom_gas_grenade_core"
       }
     },
     "count": 1,

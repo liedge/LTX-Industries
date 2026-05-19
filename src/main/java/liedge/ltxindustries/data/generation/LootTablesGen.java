@@ -94,7 +94,7 @@ class LootTablesGen extends LimaLootTableProvider
             LootPool.Builder wardenDrops = LootPool.lootPool()
                     .when(needsEntityType(EntityType.WARDEN))
                     .when(AnyOfCondition.anyOf(acidFinalBlow, corrodingCheck))
-                    .add(lootItem(LTXIItems.NEURO_CHEMICAL));
+                    .add(lootItem(LTXIItems.GLOOM_CHEMICAL));
 
             addTable(ENTITY_EXTRA_DROPS, LootTable.lootTable()
                     .withPool(wardenDrops));

@@ -47,7 +47,7 @@ Cryo shells blast enemies in a large area with ice. Recommended for crowd contro
 - Base damage: 4.0
 - 8x bonus damage against `#ltxi:weak_to_cryo` enemies
   - By default, this tag is `#minecraft:freeze_hurts_extra`: Striders, Blazes, Magma Cubes
-- Applies [*Frostbite III*](../fundamentals/mob_effects.md) for 20 seconds
+- Applies [*Frostbite III*](../fundamentals/mob_effects.md#frostbite) for 20 seconds
 
 ### Electric
 Electric shells' specialty is wet and underwater combat.
@@ -64,11 +64,11 @@ they deal increased damage to compensate.
 
 - Blast radius: 5.0
 - Base damage: 50.0
-- Applies [*Corroding III*](../fundamentals/mob_effects.md) for 10 seconds
+- Applies [*Corroding III*](../fundamentals/mob_effects.md#corroding) for 10 seconds
 
-### Neuro
-Neuro shells weaken enemy damage and abilities.
+### Gloom Gas
+Gloom Gas shells weaken enemy damage and abilities.
 
 - Blast radius: 5.0
 - Base damage: 4.0
-- Applies [*Neuro-Suppressed III*](../fundamentals/mob_effects.md) for 30 seconds
+- Applies [*Gloom III*](../fundamentals/mob_effects.md#gloom) for 30 seconds

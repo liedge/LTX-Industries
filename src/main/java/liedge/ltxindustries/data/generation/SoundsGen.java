@@ -2,7 +2,6 @@ package liedge.ltxindustries.data.generation;
 
 import liedge.limacore.data.generation.LimaSoundDefinitionsProvider;
 import liedge.ltxindustries.LTXIndustries;
-import liedge.ltxindustries.lib.weapons.GrenadeType;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.SoundDefinition;
 
@@ -37,18 +36,14 @@ class SoundsGen extends LimaSoundDefinitionsProvider
                 .with(beginSound("stargazer_fire_1", SoundDefinition.SoundType.SOUND)));
         addSingleDirectSound(DAYBREAK_FIRE);
         addSingleDirectSound(NOVA_FIRE);
-        addSingleEventSound(ROCKET_EXPLODE, GENERIC_EXPLODE);
 
-        GRENADE_EXPLOSIONS.forEach((element, holder) -> {
-            if (element == GrenadeType.EXPLOSIVE)
-            {
-                addSingleEventSound(holder, GENERIC_EXPLODE);
-            }
-            else
-            {
-                addSingleDirectSound(holder);
-            }
-        });
+        addSingleEventSound(ROCKET_EXPLODE, GENERIC_EXPLODE);
+        addSingleEventSound(EXPLOSIVE_SHELL_IMPACT, GENERIC_EXPLODE);
+        addSingleDirectSound(FLAME_SHELL_IMPACT);
+        addSingleDirectSound(CRYO_SHELL_IMPACT);
+        addSingleDirectSound(ELECTRIC_SHELL_IMPACT);
+        addSingleDirectSound(ACID_SHELL_IMPACT);
+        addSingleDirectSound(GLOOM_GAS_SHELL_IMPACT);
 
         addSingleEventSound(ROCKET_TURRET_FIRE, DAYBREAK_FIRE);
         addSingleEventSound(RAILGUN_TURRET_FIRE, WARDEN_SONIC_BOOM);

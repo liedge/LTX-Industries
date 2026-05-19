@@ -43,7 +43,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "ltxi:neuro_chemical"
+          "name": "ltxi:gloom_chemical"
         }
       ],
       "rolls": 1.0

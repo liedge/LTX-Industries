@@ -30,7 +30,7 @@ public enum NeonLightColor
     ENERGY_BLUE(MapColor.COLOR_LIGHT_BLUE, null),
     ELECTRIC_CHARTREUSE(MapColor.COLOR_LIGHT_GREEN, null),
     VIRIDIC_GREEN(MapColor.PLANT, null),
-    NEURO_BLUE(MapColor.WATER, null);
+    GLOOM_BLUE(MapColor.WATER, null);
 
     private final MapColor mapColor;
     private final @Nullable DyeColor dyeColor;

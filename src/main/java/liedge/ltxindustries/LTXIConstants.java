@@ -28,7 +28,7 @@ public final class LTXIConstants
     public static final LimaColor CRYO_LIGHT_BLUE = LimaColor.createOpaque(0xc0f6fc);
     public static final LimaColor ELECTRIC_GREEN = LimaColor.createOpaque(0xdeff70);
     public static final LimaColor ACID_GREEN = LimaColor.createOpaque(0x39e622);
-    public static final LimaColor NEURO_BLUE = LimaColor.createOpaque(0x0590fa);
+    public static final LimaColor GLOOM_BLUE = LimaColor.createOpaque(0x0590fa);
 
     //#endregion
 }

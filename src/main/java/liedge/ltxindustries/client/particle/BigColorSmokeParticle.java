@@ -69,7 +69,7 @@ public class BigColorSmokeParticle extends CampfireSmokeParticle
             BigColorSmokeParticle particle = new BigColorSmokeParticle(level, sprites.get(random), x, y, z, xSpeed, ySpeed, zSpeed);
             particle.lifetime = 30 + random.nextInt(20);
             particle.quadSize *= 8f + random.nextFloat() * 6f;
-            LimaCoreClientUtil.setQuadParticleColor(particle, LTXIConstants.NEURO_BLUE);
+            LimaCoreClientUtil.setQuadParticleColor(particle, LTXIConstants.GLOOM_BLUE);
 
             return particle;
         }

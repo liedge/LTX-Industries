@@ -39,7 +39,7 @@ public class GrenadeExplosionParticle extends NoRenderParticle
             case CRYO -> cryoSnowflakeExplosion();
             case ELECTRIC -> particleBall(LTXIParticles.MINI_ELECTRIC_SPARK.get(), 0.5d, 1);
             case ACID -> acidExplosion();
-            case NEURO -> neuroExplosion();
+            case GLOOM_GAS -> neuroExplosion();
         }
 
         remove();
