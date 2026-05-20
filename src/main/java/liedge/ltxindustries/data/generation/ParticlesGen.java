@@ -26,6 +26,7 @@ class ParticlesGen extends LimaParticleDescriptionProvider
         sprite(CORROSIVE_DRIP, MC.id("drip_fall"));
         sprite(ACID_FALL, MC.id("drip_fall"));
         sprite(ACID_LAND, MC.id("drip_land"));
-        spriteSet(NEURO_SMOKE, MC.id("big_smoke"), 1, 8, false);
+        spriteSet(GLOOM_BURST, MC.id("gust"), 0, 10, false);
+        spriteSet(SMALL_GLOOM_PUFF, MC.id("small_gust"), 0, 7, false);
     }
 }

@@ -72,10 +72,11 @@ public class ShellGrenadeEntity extends LTXIProjectileEntity implements IEntityW
         return switch (getGrenadeType())
         {
             case EXPLOSIVE -> 5d;
-            case FLAME -> 4.5d;
+            case FLAME -> 3.5d;
             case CRYO -> 6d;
             case ELECTRIC -> checkGrenadeInRainOrWater() ? 10d : 5d;
-            case ACID, GLOOM_GAS -> 2.5d;
+            case ACID -> 2.5d;
+            case GLOOM_GAS -> 4.5d;
         };
     }
 

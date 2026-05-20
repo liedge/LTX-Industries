@@ -1,6 +1,5 @@
 package liedge.ltxindustries.entity;
 
-import liedge.limacore.client.particle.ColorParticleOptions;
 import liedge.limacore.client.particle.ColorSizeParticleOptions;
 import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.util.LimaNetworkUtil;
@@ -21,6 +20,8 @@ import org.jetbrains.annotations.Nullable;
 
 public abstract class BaseRocketEntity extends HomingProjectileEntity
 {
+    public static final double BLAST_RADIUS = 3d;
+
     protected BaseRocketEntity(EntityType<?> type, Level level)
     {
         super(type, level);
@@ -41,9 +42,11 @@ public abstract class BaseRocketEntity extends HomingProjectileEntity
 
         if (directHit != null) hurtTarget(level, directHit, owner, hitLocation, true);
 
-        getEntitiesInAOE(level, hitLocation, 3d, owner, directHit).forEach(aoeHit -> hurtTarget(level, aoeHit, owner, hitLocation, false));
+        getEntitiesInAOE(level, hitLocation, BLAST_RADIUS, owner, directHit).forEach(aoeHit -> hurtTarget(level, aoeHit, owner, hitLocation, false));
         level.playSound(null, hitLocation.x, hitLocation.y, hitLocation.z, LTXISounds.ROCKET_EXPLODE.get(), SoundSource.PLAYERS, 4f, 0.9f);
-        LimaNetworkUtil.sendParticle(level, new ColorParticleOptions(LTXIParticles.HALF_SONIC_BOOM_EMITTER, LTXIConstants.LIME_GREEN), LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, hitLocation);
+
+        LimaNetworkUtil.sendParticle(level, new ColorSizeParticleOptions(LTXIParticles.COLOR_FLASH, LTXIConstants.LIME_GREEN, (float) BLAST_RADIUS * 2f), LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, hitLocation);
+        LimaNetworkUtil.sendParticle(level, new ColorSizeParticleOptions(LTXIParticles.HALF_SONIC_BOOM_EMITTER, LTXIConstants.LIME_GREEN, (float) BLAST_RADIUS), LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, hitLocation);
 
         return CollisionResult.DESTROY;
     }
