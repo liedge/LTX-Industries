@@ -124,7 +124,7 @@ class LanguageGen extends LimaLanguageProvider
         addItem(ENERGY_BLUE_PIGMENT, "Energy Blue Pigment");
         addItem(ELECTRIC_CHARTREUSE_PIGMENT, "Electric Chartreuse Pigment");
         addItem(VIRIDIC_GREEN_PIGMENT, "Viridic Green Pigment");
-        addItem(NEURO_BLUE_PIGMENT, "Neuro Blue Pigment");
+        addItem(GLOOM_BLUE_PIGMENT, "Gloom Blue Pigment");
 
         addItem(CARBON_DUST, "Carbon Dust");
         addItem(RESINOUS_BIOMASS, "Resinous Biomass");
@@ -135,7 +135,7 @@ class LanguageGen extends LimaLanguageProvider
         addItem(VIRIDIC_WEAPON_CHEMICAL, "Weapons-Grade Viridic Acid");
         addItem(CHORUS_CHEMICAL, "Chorus Extract");
         addItem(SCULK_CHEMICAL, "Echo Serum");
-        addItem(NEURO_CHEMICAL, "Neuro-Suppressant");
+        addItem(GLOOM_CHEMICAL, "Concentrated Gloom Essence");
         addItem(SLATESTEEL_INGOT, "Slatesteel Ingot");
         addItem(SLATESTEEL_NUGGET, "Slatesteel Nugget");
         addItem(POLYMER_INGOT, "Polymer Bar");
@@ -274,12 +274,12 @@ class LanguageGen extends LimaLanguageProvider
         upgrade(LTXIUpgrades.AMMO_SCAVENGER_ENCHANTMENT, "Munition Trace Unit", "Improves detection of high-grade LTX ammunition in the field.");
         upgrade(LTXIUpgrades.RAZOR_ENCHANTMENT, "Severance Algorithm", "Weapon calibration enables the retrieval of anatomical curiosities.");
 
-        upgrade(LTXIUpgrades.FLAME_GRENADE_CORE, "Hanabi Core/Flame", "Grenades are loaded with a concentrated fuel that creates powerful flames.");
-        upgrade(LTXIUpgrades.CRYO_GRENADE_CORE, "Hanabi Core/Cryo", "Grenades contain a cryogenic compound that freezes a large area.");
-        upgrade(LTXIUpgrades.ELECTRIC_GRENADE_CORE, "Hanabi Core/Electric", "Grenades create a burst of electrical energy. Recommended for use in humid/aquatic environments.");
-        upgrade(LTXIUpgrades.ACID_GRENADE_CORE, "Hanabi Core/Acid", "Grenades contain a highly corrosive acid that reduces target armor strength.");
-        upgrade(LTXIUpgrades.NEURO_GRENADE_CORE, "Hanabi Core/Neuro", "Grenades contain a powerful neuro-suppressant agent that highly reduces target attack strength.");
-        upgrade(LTXIUpgrades.OMNI_GRENADE_CORE, "Hanabi Core/ARCOIRIS", "Full spectrum adaptable core for the Hanabi. Allows the use of any of grenade shells.");
+        upgrade(LTXIUpgrades.FLAME_GRENADE_CORE, "Flame Shells", "Shells are loaded with a long-burning fuel that leaves a lingering blaze.");
+        upgrade(LTXIUpgrades.CRYO_GRENADE_CORE, "Cryo Shells", "Shells contain a strong cryogenic compound that can immobilize targets in a large area.");
+        upgrade(LTXIUpgrades.ELECTRIC_GRENADE_CORE, "Electric Shells", "Shells are loaded with an electrolytic compound that creates a burst of electric discharge on impact.");
+        upgrade(LTXIUpgrades.ACID_GRENADE_CORE, "Acid Shells", "Shells contain a highly corrosive sludge that deal significantly higher damage at the expense of range.");
+        upgrade(LTXIUpgrades.GLOOM_GAS_GRENADE_CORE, "Gloom Gas Shells", "Shells unleash a debilitating cloud of Gloom Shroom spores on impact.");
+        upgrade(LTXIUpgrades.OMNI_GRENADE_CORE, "ARCOIRIS Engine", "The original project ARCOIRIS engine for the Hanabi.");
         //#endregion
 
         //#region Machine upgrades
@@ -341,7 +341,7 @@ class LanguageGen extends LimaLanguageProvider
         // Mob effects
         addEffect(LTXIMobEffects.FROSTBITE, "Frostbite");
         addEffect(LTXIMobEffects.CORROSIVE, "Corroding");
-        addEffect(LTXIMobEffects.NEURO_SUPPRESSED, "Neuro-Suppressed");
+        addEffect(LTXIMobEffects.GLOOM, "Gloom");
 
         // Enchantments
         enchantment(LTXIEnchantments.RAZOR, "Razor");
@@ -459,7 +459,12 @@ class LanguageGen extends LimaLanguageProvider
         soundEvent(DAYBREAK_FIRE, "Daybreak fires");
         soundEvent(NOVA_FIRE, "Nova fires");
         soundEvent(ROCKET_EXPLODE, "Rocket explodes");
-        GRENADE_EXPLOSIONS.forEach((element, holder) -> soundEvent(holder, localizeSimpleName(element) + " grenade explodes"));
+        soundEvent(EXPLOSIVE_SHELL_IMPACT, "Explosive shell impact");
+        soundEvent(FLAME_SHELL_IMPACT, "Flame shell impact");
+        soundEvent(CRYO_SHELL_IMPACT, "Cryo shell impact");
+        soundEvent(ELECTRIC_SHELL_IMPACT, "Electric shell impact");
+        soundEvent(ACID_SHELL_IMPACT, "Acid shell impact");
+        soundEvent(GLOOM_GAS_SHELL_IMPACT, "Gloom Gas shell impact");
         soundEvent(ROCKET_TURRET_FIRE, "Atmos turret fires");
         soundEvent(RAILGUN_TURRET_FIRE, "Noctis turret fires");
 
@@ -476,7 +481,7 @@ class LanguageGen extends LimaLanguageProvider
         damageType(LTXIDamageTypes.CRYO_GRENADE, "%s was frozen solid by %s's %s");
         damageType(LTXIDamageTypes.ELECTRIC_GRENADE, "%s was electrocuted by %s's %s");
         damageType(LTXIDamageTypes.ACID_GRENADE, "%s was dissolved by %s's %s");
-        damageType(LTXIDamageTypes.NEURO_GRENADE, "%s was decayed by %s's %s");
+        damageType(LTXIDamageTypes.GLOOM_GAS_GRENADE, "%s was dimmed out by %s's %s");
 
         noItemCausingEntityOnlyDamageMessage(LTXIDamageTypes.STICKY_FLAME, "%s was cooked well-done by %s", "%s was cooked well-done");
         noItemCausingEntityOnlyDamageMessage(LTXIDamageTypes.ROCKET_TURRET, "%s was shot down by %s's Atmos turret", "%s was shot down by a rogue Atmos turret");

@@ -4,19 +4,28 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectIterator;
 import liedge.limacore.lib.TickTimer;
+import liedge.limacore.util.LimaCoreObjects;
 import liedge.ltxindustries.item.weapon.WeaponItem;
+import liedge.ltxindustries.registry.game.LTXIAttachmentTypes;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public abstract class LTXIExtendedInput
 {
+    public static LTXIExtendedInput of(Player player)
+    {
+        return player.getData(LTXIAttachmentTypes.INPUT_EXTENSIONS);
+    }
+
+    // Timers
     private final Object2ObjectMap<WeaponItem, TickTimer> triggerTimers = new Object2ObjectOpenHashMap<>();
     private final TickTimer reloadTimer = new TickTimer();
 
-    private int previousSelectedSlot;
+    // Trigger properties
+    private int selectedSlot;
     private boolean triggerHeld;
     private int triggerTicks0;
     private int triggerTicks;
@@ -25,7 +34,116 @@ public abstract class LTXIExtendedInput
     private int targetTicks;
     private int targetTicks0;
 
-    // #region Weapon item functions
+    LTXIExtendedInput() { }
+
+    //#region Trigger functions
+
+    public int getSelectedSlot()
+    {
+        return selectedSlot;
+    }
+
+    public boolean setSelectedSlot(Player player, int selectedSlot)
+    {
+        if (this.selectedSlot != selectedSlot)
+        {
+            setSelectedSlot(selectedSlot);
+            selectedSlotChanged(player);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    protected void setSelectedSlot(int selectedSlot)
+    {
+        this.selectedSlot = selectedSlot;
+    }
+
+    public boolean isTriggerHeld()
+    {
+        return triggerHeld;
+    }
+
+    public int getTicksHoldingTrigger()
+    {
+        return triggerTicks;
+    }
+
+    public float lerpTicksHoldingTrigger(float partialTick)
+    {
+        return Mth.lerp(partialTick, triggerTicks0, triggerTicks);
+    }
+
+    protected void selectedSlotChanged(Player player)
+    {
+        reloadTimer.stopTimer();
+        stopTriggerHold(player);
+    }
+
+    public void pressTrigger(Player player, ItemStack stack, WeaponItem weaponItem)
+    {
+        boolean handCheck = player.getOffhandItem().isEmpty() || weaponItem.isOneHanded(stack);
+        if (checkNotReloading() && handCheck)
+        {
+            weaponItem.triggerPressed(stack, player, this);
+        }
+    }
+
+    public void startTriggerHold(Player player)
+    {
+        if (!this.triggerHeld)
+        {
+            this.triggerHeld = true;
+
+            ItemStack stack = player.getInventory().getItem(selectedSlot);
+            if (stack.getItem() instanceof WeaponItem weaponItem)
+            {
+                weaponItem.onStartedHoldingTrigger(stack, player, this);
+            }
+        }
+    }
+
+    public void stopTriggerHold(Player player)
+    {
+        if (this.triggerHeld)
+        {
+            this.triggerHeld = false;
+            this.triggerTicks = 0;
+            this.triggerTicks0 = 0;
+
+            ItemStack stack = player.getInventory().getItem(selectedSlot);
+            if (stack.getItem() instanceof WeaponItem weaponItem)
+            {
+                weaponItem.onStoppedHoldingTrigger(stack, player, this);
+            }
+        }
+    }
+
+    protected void triggerLogicTick(Player player, ItemStack selectedItem, int selectedSlot, @Nullable WeaponItem weaponItem)
+    {
+        if (triggerHeld)
+        {
+            if (weaponItem != null && weaponItem.canContinueHoldingTrigger(selectedItem, player, this))
+            {
+                weaponItem.triggerHoldingTick(selectedItem, player, this);
+                triggerTicks0 = triggerTicks;
+                triggerTicks++;
+            }
+            else
+            {
+                stopTriggerHold(player);
+            }
+        }
+    }
+
+    //#endregion
+
+    //#region Weapon item functions
+
+    public abstract void startReload(Player player, ItemStack stack, WeaponItem weaponItem);
+
     protected boolean isInfiniteAmmo(ItemStack heldItem, Player player, WeaponItem weaponItem)
     {
         return player.isCreative() || weaponItem.getReloadSource(heldItem).getType() == WeaponReloadSource.Type.INFINITE;
@@ -67,39 +185,6 @@ public abstract class LTXIExtendedInput
         }
 
         reloadTimer.tickTimer();
-    }
-
-    protected void triggerTick(ItemStack heldItem, Player player, WeaponItem weaponItem)
-    {
-        if (isTriggerHeld())
-        {
-            if (weaponItem.canContinueHoldingTrigger(heldItem, player, this))
-            {
-                weaponItem.triggerHoldingTick(heldItem, player, this);
-                triggerTicks0 = triggerTicks;
-                triggerTicks++;
-            }
-            else
-            {
-                stopHoldingTrigger(heldItem, player, weaponItem, false);
-            }
-        }
-    }
-
-    protected void onSelectedSlotChanged(Player player, ItemStack oldItem, ItemStack newItem)
-    {
-        reloadTimer.stopTimer();
-
-        if (oldItem.getItem() instanceof WeaponItem oldWeapon)
-        {
-            stopHoldingTrigger(oldItem, player, oldWeapon, false);
-        }
-    }
-
-    protected void pressTrigger(ItemStack heldItem, Player player, WeaponItem weaponItem)
-    {
-        boolean handCheck = player.getOffhandItem().isEmpty() || weaponItem.isOneHanded(heldItem);
-        if (checkNotReloading() && handCheck) weaponItem.triggerPressed(heldItem, player, this);
     }
 
     // Focus target functions
@@ -174,65 +259,21 @@ public abstract class LTXIExtendedInput
         if (fireRate > 0) startTriggerTimer(weaponItem, fireRate);
     }
 
-    public void startHoldingTrigger(ItemStack heldItem, Player player, WeaponItem weaponItem)
-    {
-        if (!triggerHeld)
-        {
-            this.triggerHeld = true;
-            weaponItem.onStartedHoldingTrigger(heldItem, player, this);
-        }
-    }
-
-    public void stopHoldingTrigger(ItemStack heldItem, Player player, WeaponItem weaponItem, boolean releasedByPlayer)
-    {
-        if (triggerHeld)
-        {
-            this.triggerHeld = false;
-            triggerTicks0 = 0;
-            triggerTicks = 0;
-            weaponItem.onStoppedHoldingTrigger(heldItem, player, this, releasedByPlayer);
-        }
-    }
-
     public TickTimer getReloadTimer()
     {
         return reloadTimer;
     }
 
-    public boolean isTriggerHeld()
+    public void tick(Player player)
     {
-        return triggerHeld;
-    }
-
-    public float lerpTriggerTicks(float partialTick)
-    {
-        return Mth.lerp(partialTick, triggerTicks0, triggerTicks);
-    }
-
-    public int getTicksHoldingTrigger()
-    {
-        return triggerTicks;
-    }
-
-    public void tickInput(Player player, ItemStack heldItem, @Nullable WeaponItem weaponItem)
-    {
+        // Tick timers
         tickTimers();
 
-        // Check for slot change
-        int selectedSlot = player.getInventory().getSelectedSlot();
-        if (previousSelectedSlot != selectedSlot)
-        {
-            onSelectedSlotChanged(player, player.getInventory().getItem(previousSelectedSlot), heldItem);
-            previousSelectedSlot = selectedSlot;
-        }
+        // Tick trigger logic
+        ItemStack selectedItem = player.getInventory().getItem(selectedSlot);
+        triggerLogicTick(player, selectedItem, selectedSlot, LimaCoreObjects.tryCast(WeaponItem.class, selectedItem.getItem()));
 
-        // Do trigger logic
-        if (weaponItem != null)
-        {
-            triggerTick(heldItem, player, weaponItem);
-        }
-
-        // Focus target stuff
+        // Target focus logic
         if (focusedTarget != null)
         {
             targetTicks0 = targetTicks;
@@ -240,8 +281,8 @@ public abstract class LTXIExtendedInput
         }
         else
         {
-            targetTicks = 0;
             targetTicks0 = 0;
+            targetTicks = 0;
         }
     }
 }

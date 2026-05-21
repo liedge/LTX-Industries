@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "d": "ltxi:neuro_blue_pigment",
+    "d": "ltxi:gloom_blue_pigment",
     "g": "minecraft:glowstone"
   },
   "pattern": [
@@ -11,6 +11,6 @@
   ],
   "result": {
     "count": 4,
-    "id": "ltxi:neuro_blue_neon_light"
+    "id": "ltxi:gloom_blue_neon_light"
   }
 }

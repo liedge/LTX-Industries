@@ -1,7 +1,5 @@
 package liedge.ltxindustries.recipe;
 
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import liedge.limacore.network.LimaStreamCodecs;
@@ -31,21 +29,9 @@ import java.util.List;
 
 public final class FabricatingRecipe extends LimaCustomRecipe<RecipeInputAccess>
 {
-    public static final Codec<ItemResult> RESULT_CODEC = ItemResult.CODEC.validate(result ->
-    {
-        if (result.count().isConstant() && !result.count().isRandom())
-        {
-            return DataResult.success(result);
-        }
-        else
-        {
-            return DataResult.error(() -> "Fabricating recipe results must have a constant count and cannot be random.");
-        }
-    });
-
     public static final MapCodec<FabricatingRecipe> CODEC = RecordCodecBuilder.<FabricatingRecipe>mapCodec(instance -> instance.group(
-            RecipeItemInput.listCodec(1, 16).forGetter(LimaCustomRecipe::getItemInputs),
-            RESULT_CODEC.fieldOf("result").forGetter(LimaCustomRecipe::getFirstItemResult),
+            RecipeItemInput.listMapCodec(1, 16).forGetter(LimaCustomRecipe::getItemInputs),
+            ItemResult.CONSTANT_CODEC.fieldOf("result").forGetter(LimaCustomRecipe::getFirstItemResult),
             ExtraCodecs.POSITIVE_INT.fieldOf("energy_required").forGetter(FabricatingRecipe::getEnergyRequired),
             GROUP_MAP_CODEC.forGetter(FabricatingRecipe::group))
             .apply(instance, FabricatingRecipe::new))

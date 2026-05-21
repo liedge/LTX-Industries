@@ -24,7 +24,7 @@ public final class LTXIDamageTypes
     public static final ResourceKey<DamageType> CRYO_GRENADE = key("cryo_grenade");
     public static final ResourceKey<DamageType> ELECTRIC_GRENADE = key("electric_grenade");
     public static final ResourceKey<DamageType> ACID_GRENADE = key("acid_grenade");
-    public static final ResourceKey<DamageType> NEURO_GRENADE = key("neuro_grenade");
+    public static final ResourceKey<DamageType> GLOOM_GAS_GRENADE = key("gloom_gas_grenade");
 
     public static final ResourceKey<DamageType> STICKY_FLAME = key("sticky_flame");
     public static final ResourceKey<DamageType> ROCKET_TURRET = key(LTXIIdentifiers.ID_ROCKET_TURRET);
@@ -47,7 +47,7 @@ public final class LTXIDamageTypes
         registerDamageType(context, CRYO_GRENADE, DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0f, DamageEffects.FREEZING, weaponMsgType);
         registerDamageType(context, ELECTRIC_GRENADE, DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0f, DamageEffects.HURT, weaponMsgType);
         registerDamageType(context, ACID_GRENADE, DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0f, DamageEffects.HURT, weaponMsgType);
-        registerDamageType(context, NEURO_GRENADE, DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0f, DamageEffects.HURT, weaponMsgType);
+        registerDamageType(context, GLOOM_GAS_GRENADE, DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0f, DamageEffects.HURT, weaponMsgType);
 
         registerDamageType(context, STICKY_FLAME, DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0f, DamageEffects.HURT, noItemCausedOnlyMsg);
         registerDamageType(context, ROCKET_TURRET, DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER, 0f, DamageEffects.HURT, noItemCausedOnlyMsg);

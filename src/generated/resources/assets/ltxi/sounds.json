@@ -1,9 +1,9 @@
 {
-  "acid_grenade_explode": {
+  "acid_shell_impact": {
     "sounds": [
-      "ltxi:acid_grenade_explode"
+      "ltxi:acid_shell_impact"
     ],
-    "subtitle": "subtitle.ltxi.acid_grenade_explode"
+    "subtitle": "subtitle.ltxi.acid_shell_impact"
   },
   "aurora_fire": {
     "sounds": [
@@ -11,11 +11,11 @@
     ],
     "subtitle": "subtitle.ltxi.aurora_fire"
   },
-  "cryo_grenade_explode": {
+  "cryo_shell_impact": {
     "sounds": [
-      "ltxi:cryo_grenade_explode"
+      "ltxi:cryo_shell_impact"
     ],
-    "subtitle": "subtitle.ltxi.cryo_grenade_explode"
+    "subtitle": "subtitle.ltxi.cryo_shell_impact"
   },
   "daybreak_fire": {
     "sounds": [
@@ -23,11 +23,11 @@
     ],
     "subtitle": "subtitle.ltxi.daybreak_fire"
   },
-  "electric_grenade_explode": {
+  "electric_shell_impact": {
     "sounds": [
-      "ltxi:electric_grenade_explode"
+      "ltxi:electric_shell_impact"
     ],
-    "subtitle": "subtitle.ltxi.electric_grenade_explode"
+    "subtitle": "subtitle.ltxi.electric_shell_impact"
   },
   "equipment_mode_switch": {
     "sounds": [
@@ -35,20 +35,26 @@
     ],
     "subtitle": "subtitle.ltxi.equipment_mode_switch"
   },
-  "explosive_grenade_explode": {
+  "explosive_shell_impact": {
     "sounds": [
       {
         "type": "event",
         "name": "entity.generic.explode"
       }
     ],
-    "subtitle": "subtitle.ltxi.explosive_grenade_explode"
+    "subtitle": "subtitle.ltxi.explosive_shell_impact"
   },
-  "flame_grenade_explode": {
+  "flame_shell_impact": {
     "sounds": [
-      "ltxi:flame_grenade_explode"
+      "ltxi:flame_shell_impact"
     ],
-    "subtitle": "subtitle.ltxi.flame_grenade_explode"
+    "subtitle": "subtitle.ltxi.flame_shell_impact"
+  },
+  "gloom_gas_shell_impact": {
+    "sounds": [
+      "ltxi:gloom_gas_shell_impact"
+    ],
+    "subtitle": "subtitle.ltxi.gloom_gas_shell_impact"
   },
   "hanabi_fire": {
     "sounds": [
@@ -64,12 +70,6 @@
       }
     ],
     "subtitle": "subtitle.ltxi.mirage_fire"
-  },
-  "neuro_grenade_explode": {
-    "sounds": [
-      "ltxi:neuro_grenade_explode"
-    ],
-    "subtitle": "subtitle.ltxi.neuro_grenade_explode"
   },
   "nova_fire": {
     "sounds": [

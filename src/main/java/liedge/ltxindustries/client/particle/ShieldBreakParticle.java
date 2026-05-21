@@ -26,11 +26,11 @@ public class ShieldBreakParticle extends NoRenderParticle
     @Override
     public void tick()
     {
-        level.addAlwaysVisibleParticle(new ColorSizeParticleOptions(LTXIParticles.COLOR_FLASH, color, size), true, x, y, z, 0, 0, 0);
+        level.addAlwaysVisibleParticle(new ColorSizeParticleOptions(LTXIParticles.COLOR_FLASH, color, size * 2f), true, x, y, z, 0, 0, 0);
 
         int arcs = random.nextIntBetweenInclusive(3, 7);
 
-        double r = size / 2d;
+        double r = size;
         for (int i = 0; i < arcs; i++)
         {
             Vec3 a = arcPoint(r * 0.3d);

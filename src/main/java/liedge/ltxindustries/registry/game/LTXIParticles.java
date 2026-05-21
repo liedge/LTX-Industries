@@ -25,10 +25,10 @@ public final class LTXIParticles
 
     public static final DeferredHolder<ParticleType<?>, LimaParticleType<ColorParticleOptions>> LIGHTFRAG_TRACER = PARTICLES.register("lightfrag_tracer", () -> ColorParticleOptions.createParticleType(true));
     public static final DeferredHolder<ParticleType<?>, LimaParticleType<ColorSizeParticleOptions>> COLOR_GLITTER = PARTICLES.register("color_glitter", () -> ColorSizeParticleOptions.createParticleType(false));
-    public static final DeferredHolder<ParticleType<?>, LimaParticleType<ColorSizeParticleOptions>> COLOR_FLASH = PARTICLES.register("color_flash", () -> ColorSizeParticleOptions.createParticleType(false));
+    public static final DeferredHolder<ParticleType<?>, LimaParticleType<ColorSizeParticleOptions>> COLOR_FLASH = PARTICLES.register("color_flash", () -> ColorSizeParticleOptions.createParticleType(true));
     public static final DeferredHolder<ParticleType<?>, LimaParticleType<ColorParticleOptions>> COLOR_FULL_SONIC_BOOM = PARTICLES.register("color_full_sonic_boom", () -> ColorParticleOptions.createParticleType(false));
     public static final DeferredHolder<ParticleType<?>, LimaParticleType<ColorParticleOptions>> COLOR_HALF_SONIC_BOOM = PARTICLES.register("color_half_sonic_boom", () -> ColorParticleOptions.createParticleType(false));
-    public static final DeferredHolder<ParticleType<?>, LimaParticleType<ColorParticleOptions>> HALF_SONIC_BOOM_EMITTER = PARTICLES.register("half_sonic_boom_emitter", () -> ColorParticleOptions.createParticleType(true));
+    public static final DeferredHolder<ParticleType<?>, LimaParticleType<ColorSizeParticleOptions>> HALF_SONIC_BOOM_EMITTER = PARTICLES.register("half_sonic_boom_emitter", () -> ColorSizeParticleOptions.createParticleType(true));
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> GROUND_ICICLE = registerSimple("icicle", false);
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> CRYO_SNOWFLAKE = registerSimple("cryo_snowflake", false);
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> MINI_ELECTRIC_SPARK = registerSimple("mini_electric_spark", false);
@@ -36,7 +36,9 @@ public final class LTXIParticles
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> CORROSIVE_DRIP = registerSimple("corrosive_drip", false);
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> ACID_FALL = registerSimple("acid_fall", false);
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> ACID_LAND = registerSimple("acid_land", false);
-    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> NEURO_SMOKE = registerSimple("neuro_smoke", false);
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> GLOOM_BURST = registerSimple("gloom_burst", false);
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> SMALL_GLOOM_PUFF = registerSimple("small_gloom_puff", false);
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> GLOOM_BURST_EMITTER =  registerSimple("gloom_burst_emitter", true);
     public static final DeferredHolder<ParticleType<?>, LimaParticleType<GrenadeExplosionParticleOptions>> GRENADE_EXPLOSION = PARTICLES.register("grenade_explosion", () -> LimaParticleType.create(true, GrenadeExplosionParticleOptions.CODEC, GrenadeExplosionParticleOptions.STREAM_CODEC));
     public static final DeferredHolder<ParticleType<?>, LimaParticleType<ColorParticleOptions>> RAILGUN_BOLT = PARTICLES.register("railgun_bolt", () -> ColorParticleOptions.createParticleType(true));
     public static final DeferredHolder<ParticleType<?>, LimaParticleType<ColorSizeParticleOptions>> SHIELD_BREAK = PARTICLES.register("shield_break", () -> ColorSizeParticleOptions.createParticleType(true));

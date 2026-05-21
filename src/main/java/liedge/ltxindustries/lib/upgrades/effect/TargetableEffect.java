@@ -18,6 +18,6 @@ public record TargetableEffect<T>(EffectTarget source, EffectTarget affected, T 
                 .and(EffectConditionHolder.codecFields(instance, effectCodec))
                 .apply(instance, TargetableEffect::new));
 
-        return LimaLootUtil.contextUserCodec(direct, params, "targetable upgrade effect");
+        return LimaLootUtil.validatedCodec(direct, params);
     }
 }

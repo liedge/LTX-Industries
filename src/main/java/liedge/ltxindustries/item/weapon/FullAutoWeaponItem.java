@@ -16,29 +16,22 @@ public abstract class FullAutoWeaponItem extends WeaponItem
     @Override
     public void triggerPressed(ItemStack heldItem, Player player, LTXIExtendedInput input)
     {
-        if (!player.level().isClientSide() && input.canContinueShootingWeapon(heldItem, player, this))
+        if (input.canStartShootingWeapon(heldItem, player, this))
         {
-            input.startHoldingTrigger(heldItem, player, this);
+            input.startTriggerHold(player);
         }
     }
 
     @Override
     public boolean canContinueHoldingTrigger(ItemStack heldItem, Player player, LTXIExtendedInput input)
     {
-        if (player.level().isClientSide())
-        {
-            return true;
-        }
-        else
-        {
-            return input.canContinueShootingWeapon(heldItem, player, this);
-        }
+        return input.canContinueShootingWeapon(heldItem, player, this);
     }
 
     @Override
     public void triggerHoldingTick(ItemStack heldItem, Player player, LTXIExtendedInput input)
     {
-        if (!player.level().isClientSide() && input.canStartShootingWeapon(heldItem, player, this))
+        if (input.canStartShootingWeapon(heldItem, player, this))
         {
             input.shootWeapon(heldItem, player, this);
         }

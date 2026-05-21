@@ -44,24 +44,24 @@ around it. The space must be a replaceable block like air or flowing water.
 ## Usage
 
 You can process Gloom Shrooms in the [ElectroCentrifuge](../machines/gpm/electrocentrifuge.md) with a little bit of
-[Viridic Acid](vitriol_berries.md) solvent. This will net you a bottle of Echo Serum and, rarely, a vial of
-the shroom's macabre Neuro-Suppressant. 
+[Viridic Acid](vitriol_berries.md) solvent. This will net you a bottle of Echo Serum and, rarely, a vial of Concentrated Gloom Essence.
 
 ### Echo Serum
 
 <ItemImage id="sculk_chemical" scale="2" />
 
 Echo Serum is the refined essence of Sculk absorbed by the Gloom Shroom over centuries. Conveniently extracted,
-purified, and bottled by your machines. It is used for crafting Sculk-attuned technology as well as the
+purified, and bottled by the ElectroCentrifuge. Neat. It is used for crafting Sculk-attuned technology as well as the
 paradoxical [Real Virtuality Circuit](circuits.md).
 
-### Neuro-Suppressant
+### Concentrated Gloom Essence
+ 
+<ItemImage id="gloom_chemical" scale="2" />
 
-<ItemImage id="neuro_chemical" scale="2" />
+Rarely, Gloom Shrooms contain such a large amount of spores that a vial of Concentrated Gloom Essence
+may be extracted alongside Echo Serum. Accumulate enough vials, and you can use them to craft the
+[Gloom Gas](../weapons/hanabi.md#gloom-gas) Shells upgrades for the *Hanabi*.
 
-The Gloom Shroom's defense mechanism evokes the debilitating power of the Deep Dark's Warden. We'd call it a toxin,
-but it does not fit any known criteria to be classified as such. It can be used to craft the
-[Neuro Gas](../weapons/hanabi.md#neuro) shells for the *Hanabi*.
-
-Killing a Warden with *Hanabi*'s [Acid Shells](../weapons/hanabi.md#acid) **OR** while it is affected by the
-[Corrosive](../fundamentals/mob_effects.md#corroding) mob effect guarantees 1 Neuro-Suppressant vial drop.
+For those who prefer a more combat-oriented approach, killing the Warden with a final blow from *Hanabi*'s
+[Acid Shells](../weapons/hanabi.md#acid) **OR** while it is affected by the [Corroding](../fundamentals/mob_effects.md#corroding)
+status effect guarantees 1 Concentrated Gloom Essence drop.

@@ -7,13 +7,13 @@
       "ingredient": "#ltxi:neon_light_materials"
     },
     {
-      "ingredient": "ltxi:neuro_blue_pigment"
+      "ingredient": "ltxi:gloom_blue_pigment"
     }
   ],
   "item_results": [
     {
       "count": 8,
-      "id": "ltxi:neuro_blue_neon_light"
+      "id": "ltxi:gloom_blue_neon_light"
     }
   ]
 }

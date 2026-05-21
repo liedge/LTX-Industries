@@ -3,18 +3,15 @@ package liedge.ltxindustries.lib.upgrades.effect;
 import com.mojang.datafixers.Products;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.util.ProblemReporter;
-import net.minecraft.util.context.ContextKey;
 import net.minecraft.world.level.storage.loot.LootContext;
-import net.minecraft.world.level.storage.loot.LootContextUser;
+import net.minecraft.world.level.storage.loot.Validatable;
 import net.minecraft.world.level.storage.loot.ValidationContext;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 
 import java.util.Optional;
-import java.util.Set;
 import java.util.function.Predicate;
 
-public interface EffectConditionHolder<T> extends Predicate<LootContext>, LootContextUser
+public interface EffectConditionHolder<T> extends Predicate<LootContext>, Validatable
 {
     static <T, A extends EffectConditionHolder<T>> Products.P2<RecordCodecBuilder.Mu<A>, T, Optional<LootItemCondition>> codecFields(RecordCodecBuilder.Instance<A> instance, Codec<T> effectCodec)
     {
@@ -34,22 +31,13 @@ public interface EffectConditionHolder<T> extends Predicate<LootContext>, LootCo
     }
 
     @Override
-    default Set<ContextKey<?>> getReferencedContextParams()
-    {
-        if (effect() instanceof LootContextUser user)
-        {
-            return user.getReferencedContextParams();
-        }
-        else
-        {
-            return Set.of();
-        }
-    }
-
-    @Override
     default void validate(ValidationContext context)
     {
-        LootContextUser.super.validate(context);
-        condition().ifPresent(c -> c.validate(context.forChild(new ProblemReporter.FieldPathElement("condition"))));
+        if (effect() instanceof Validatable validatable)
+        {
+            Validatable.validate(context, "effect", validatable);
+        }
+
+        condition().ifPresent(o -> Validatable.validate(context, "condition", o));
     }
 }

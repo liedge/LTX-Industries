@@ -39,7 +39,7 @@ public class StargazerItem extends FullAutoWeaponItem implements ScopingWeaponIt
             level.playSound(player, player, LTXISounds.STARGAZER_CHARGE.get(), SoundSource.PLAYERS, 1f, 0.95f + (0.1f * level.getRandom().nextFloat()));
         }
 
-        if (!player.level().isClientSide() && input.canStartShootingWeapon(heldItem, player, this) && triggerTicks >= CHARGE_TICKS)
+        if (input.canStartShootingWeapon(heldItem, player, this) && triggerTicks >= CHARGE_TICKS)
         {
             input.shootWeapon(heldItem, player, this);
         }
@@ -48,14 +48,7 @@ public class StargazerItem extends FullAutoWeaponItem implements ScopingWeaponIt
     @Override
     public boolean canContinueHoldingTrigger(ItemStack heldItem, Player player, LTXIExtendedInput input)
     {
-        if (player.level().isClientSide())
-        {
-            return true;
-        }
-        else
-        {
-            return input.canStartShootingWeapon(heldItem, player, this);
-        }
+        return input.canStartShootingWeapon(heldItem, player, this);
     }
 
     @Override

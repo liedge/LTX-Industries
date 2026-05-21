@@ -1,6 +1,5 @@
 package liedge.ltxindustries.client.particle;
 
-import liedge.limacore.client.particle.ColorParticleOptions;
 import liedge.limacore.client.particle.ColorSizeParticleOptions;
 import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
@@ -35,11 +34,11 @@ public class GrenadeExplosionParticle extends NoRenderParticle
 
         switch (grenadeElement)
         {
-            case EXPLOSIVE -> level.addParticle(new ColorParticleOptions(LTXIParticles.HALF_SONIC_BOOM_EMITTER, grenadeElement.getColor()), true, true, x, y, z, 0, 0, 0);
+            case EXPLOSIVE -> level.addParticle(new ColorSizeParticleOptions(LTXIParticles.HALF_SONIC_BOOM_EMITTER, grenadeElement.getColor(), (float) explosionSize / 2f), true, true, x, y, z, 0, 0, 0);
             case CRYO -> cryoSnowflakeExplosion();
             case ELECTRIC -> particleBall(LTXIParticles.MINI_ELECTRIC_SPARK.get(), 0.5d, 1);
             case ACID -> acidExplosion();
-            case NEURO -> neuroExplosion();
+            case GLOOM_GAS -> level.addParticle(LTXIParticles.GLOOM_BURST_EMITTER.get(), true, true, x, y, z, 0, 0, 0);
         }
 
         remove();
@@ -62,7 +61,7 @@ public class GrenadeExplosionParticle extends NoRenderParticle
     {
         particleBallManualSpeed(LTXIParticles.CRYO_SNOWFLAKE.get(), 0.325d, 1);
 
-        BlockPos.betweenClosedStream(AABB.ofSize(getPos(), 3, 3, 3)).filter(this::isNotAirAndHasAirAbove).forEach(blockPos -> {
+        BlockPos.betweenClosedStream(AABB.ofSize(getPos(), 9d, 9d, 9d)).filter(this::isNotAirAndHasAirAbove).forEach(blockPos -> {
             VoxelShape shape = level.getBlockState(blockPos).getCollisionShape(level, blockPos);
 
             double xOffset = random.nextDouble();
@@ -79,16 +78,6 @@ public class GrenadeExplosionParticle extends NoRenderParticle
     private void acidExplosion()
     {
         particleBall(LTXIParticles.ACID_FALL.get(), 0.755d, 2);
-    }
-
-    private void neuroExplosion()
-    {
-        for (int i = 0; i < 16; i++)
-        {
-            double dx = (random.nextDouble() - random.nextDouble()) * 0.2d;
-            double dz = (random.nextDouble() - random.nextDouble()) * 0.2d;
-            level.addParticle(LTXIParticles.NEURO_SMOKE.get(), true, true, x, y + 0.25d, z, dx, 0.05d, dz);
-        }
     }
 
     private void particleBallManualSpeed(ParticleOptions options, double speed, int size)

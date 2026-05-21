@@ -132,7 +132,7 @@ public final class LTXIItems
     public static final DeferredItem<Item> ENERGY_BLUE_PIGMENT = ITEMS.registerSimpleItem("energy_blue_pigment");
     public static final DeferredItem<Item> ELECTRIC_CHARTREUSE_PIGMENT = ITEMS.registerSimpleItem("electric_chartreuse_pigment");
     public static final DeferredItem<Item> VIRIDIC_GREEN_PIGMENT = ITEMS.registerSimpleItem("viridic_green_pigment");
-    public static final DeferredItem<Item> NEURO_BLUE_PIGMENT = ITEMS.registerSimpleItem("neuro_blue_pigment");
+    public static final DeferredItem<Item> GLOOM_BLUE_PIGMENT = ITEMS.registerSimpleItem("gloom_blue_pigment");
 
     // Ore pebbles
     public static final DeferredItem<Item> COAL_ORE_PEBBLES = ITEMS.registerSimpleItem("coal_ore_pebbles");
@@ -197,7 +197,7 @@ public final class LTXIItems
     public static final DeferredItem<Item> VIRIDIC_WEAPON_CHEMICAL = ITEMS.registerSimpleItem("viridic_weapon_chemical");
     public static final DeferredItem<Item> CHORUS_CHEMICAL = ITEMS.registerSimpleItem("chorus_chemical");
     public static final DeferredItem<Item> SCULK_CHEMICAL = ITEMS.registerSimpleItem("sculk_chemical");
-    public static final DeferredItem<Item> NEURO_CHEMICAL = ITEMS.registerSimpleItem("neuro_chemical");
+    public static final DeferredItem<Item> GLOOM_CHEMICAL = ITEMS.registerSimpleItem("gloom_chemical");
 
     // Synthetic resources
     public static final DeferredItem<Item> SLATESTEEL_INGOT = ITEMS.registerSimpleItem("slatesteel_ingot");

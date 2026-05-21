@@ -1,15 +1,11 @@
 package liedge.ltxindustries.registry.game;
 
-import liedge.limacore.util.LimaCollectionsUtil;
 import liedge.ltxindustries.LTXIndustries;
-import liedge.ltxindustries.lib.weapons.GrenadeType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.sounds.SoundEvent;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
-
-import java.util.Map;
 
 public final class LTXISounds
 {
@@ -37,8 +33,14 @@ public final class LTXISounds
     public static final DeferredHolder<SoundEvent, SoundEvent> STARGAZER_FIRE = registerSound("stargazer_fire");
     public static final DeferredHolder<SoundEvent, SoundEvent> DAYBREAK_FIRE = registerSound("daybreak_fire");
     public static final DeferredHolder<SoundEvent, SoundEvent> NOVA_FIRE = registerSound("nova_fire");
+    
     public static final DeferredHolder<SoundEvent, SoundEvent> ROCKET_EXPLODE = registerSound("rocket_explode");
-    public static final Map<GrenadeType, DeferredHolder<SoundEvent, SoundEvent>> GRENADE_EXPLOSIONS = LimaCollectionsUtil.fillAndCreateImmutableEnumMap(GrenadeType.class, e -> registerSound(e.getSerializedName() + "_grenade_explode"));
+    public static final DeferredHolder<SoundEvent, SoundEvent> EXPLOSIVE_SHELL_IMPACT = registerSound("explosive_shell_impact");
+    public static final DeferredHolder<SoundEvent, SoundEvent> FLAME_SHELL_IMPACT = registerSound("flame_shell_impact");
+    public static final DeferredHolder<SoundEvent, SoundEvent> CRYO_SHELL_IMPACT = registerSound("cryo_shell_impact");
+    public static final DeferredHolder<SoundEvent, SoundEvent> ELECTRIC_SHELL_IMPACT = registerSound("electric_shell_impact");
+    public static final DeferredHolder<SoundEvent, SoundEvent> ACID_SHELL_IMPACT = registerSound("acid_shell_impact");
+    public static final DeferredHolder<SoundEvent, SoundEvent> GLOOM_GAS_SHELL_IMPACT = registerSound("gloom_gas_shell_impact");
 
     public static final DeferredHolder<SoundEvent, SoundEvent> ROCKET_TURRET_FIRE = registerSound("rocket_turret_fire");
     public static final DeferredHolder<SoundEvent, SoundEvent> RAILGUN_TURRET_FIRE = registerSound("railgun_turret_fire");

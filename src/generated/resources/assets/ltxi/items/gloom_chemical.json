@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "ltxi:block/neuro_blue_neon_light"
+    "model": "ltxi:item/gloom_chemical"
   }
 }

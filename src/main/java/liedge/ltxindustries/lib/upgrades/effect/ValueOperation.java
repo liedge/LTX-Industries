@@ -20,7 +20,7 @@ public record ValueOperation(UpgradeValueProvider value, MathOperation operation
             MathOperation.COMPOUND_OP_CODEC.fieldOf("op").forGetter(ValueOperation::operation))
             .apply(instance, ValueOperation::new));
 
-    public static final Codec<ValueOperation> CONTEXTLESS_CODEC = LimaLootUtil.contextUserCodec(DIRECT_CODEC, LootContextParamSets.EMPTY, "contextless value operation");
+    public static final Codec<ValueOperation> CONTEXTLESS_CODEC = LimaLootUtil.validatedCodec(DIRECT_CODEC, LootContextParamSets.EMPTY);
 
     public static ValueOperation of(UpgradeValueProvider value, MathOperation operation)
     {

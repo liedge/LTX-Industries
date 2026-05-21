@@ -1,18 +1,20 @@
 package liedge.ltxindustries;
 
 import liedge.limacore.event.DamageAttributeModifiersEvent;
-import liedge.limacore.util.LimaCoreObjects;
 import liedge.limacore.util.LimaLootUtil;
 import liedge.ltxindustries.entity.LTXIEntityUtil;
 import liedge.ltxindustries.entity.damage.UpgradesAwareDamageSource;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
-import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.lib.shield.EntityBubbleShield;
 import liedge.ltxindustries.lib.upgrades.DropsCapture;
 import liedge.ltxindustries.lib.upgrades.UpgradeContexts;
 import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.lib.upgrades.effect.EffectTarget;
-import liedge.ltxindustries.registry.game.*;
+import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
+import liedge.ltxindustries.registry.game.LTXIAttachmentTypes;
+import liedge.ltxindustries.registry.game.LTXIMobEffects;
+import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
+import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import liedge.ltxindustries.util.LTXIUpgradeUtil;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
@@ -21,6 +23,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -32,6 +35,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.event.VanillaGameEvent;
 import net.neoforged.neoforge.event.entity.EntityInvulnerabilityCheckEvent;
+import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
 import net.neoforged.neoforge.event.entity.living.*;
 import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
 import net.neoforged.neoforge.event.level.BlockDropsEvent;
@@ -94,14 +98,12 @@ public final class LTXIEventHandler
     }
 
     @SubscribeEvent
-    public static void onPlayerTick(final PlayerTickEvent.Pre event)
+    private static void onPlayerPreTick(final PlayerTickEvent.Pre event)
     {
         Player player = event.getEntity();
 
-        // Weapon system tick
-        ItemStack heldItem = player.getMainHandItem();
-        WeaponItem weaponItem = LimaCoreObjects.tryCast(WeaponItem.class, heldItem.getItem());
-        player.getData(LTXIAttachmentTypes.INPUT_EXTENSIONS).tickInput(player, heldItem, weaponItem);
+        // Extended input tick
+        LTXIExtendedInput.of(player).tick(player);
 
         // Shield & equipment tick
         if (player.level() instanceof ServerLevel level)
@@ -133,20 +135,20 @@ public final class LTXIEventHandler
     }
 
     @SubscribeEvent
-    public static void checkEffectApplicable(final MobEffectEvent.Applicable event)
+    private static void checkEffectApplicable(final MobEffectEvent.Applicable event)
     {
         MobEffectInstance effectInstance = event.getEffectInstance();
         LivingEntity targetEntity = event.getEntity();
         boolean beneficialEffect = effectInstance.getEffect().value().isBeneficial();
 
-        // Stop self-application of beneficial effects under Neuro
-        if (beneficialEffect && targetEntity.hasEffect(LTXIMobEffects.NEURO_SUPPRESSED))
+        // Stop self-application of beneficial effects under Gloom effect
+        if (beneficialEffect && targetEntity.hasEffect(LTXIMobEffects.GLOOM))
         {
             event.setResult(MobEffectEvent.Applicable.Result.DO_NOT_APPLY);
         }
 
-        // Stop outgoing effects of 'attackers' with Neuro
-        if (event.getEffectSource() instanceof LivingEntity attacker && attacker.hasEffect(LTXIMobEffects.NEURO_SUPPRESSED))
+        // Stop outgoing effects of 'attackers' with Gloom effect
+        if (event.getEffectSource() instanceof LivingEntity attacker && attacker.hasEffect(LTXIMobEffects.GLOOM))
         {
             event.setResult(MobEffectEvent.Applicable.Result.DO_NOT_APPLY);
         }
@@ -170,6 +172,24 @@ public final class LTXIEventHandler
                 event.setResult(MobEffectEvent.Applicable.Result.DO_NOT_APPLY);
             }
         }
+    }
+
+    private static void checkAndCancelGloomTeleport(final EntityTeleportEvent event)
+    {
+        Entity entity = event.getEntity();
+        if (entity instanceof LivingEntity livingEntity && livingEntity.hasEffect(LTXIMobEffects.GLOOM)) event.setCanceled(true);
+    }
+
+    @SubscribeEvent
+    private static void onEnderEntityTeleport(final EntityTeleportEvent.EnderEntity event)
+    {
+        checkAndCancelGloomTeleport(event);
+    }
+
+    @SubscribeEvent
+    private static void onEnderPearlTeleport(final EntityTeleportEvent.EnderPearl event)
+    {
+        checkAndCancelGloomTeleport(event);
     }
 
     @SubscribeEvent

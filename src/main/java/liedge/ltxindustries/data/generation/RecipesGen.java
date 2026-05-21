@@ -8,7 +8,6 @@ import liedge.limacore.data.generation.recipe.LimaShapedRecipeBuilder;
 import liedge.limacore.lib.ModResources;
 import liedge.limacore.recipe.result.FluidResult;
 import liedge.limacore.recipe.result.ItemResult;
-import liedge.limacore.recipe.result.RecipeResult;
 import liedge.limacore.recipe.result.ResultCount;
 import liedge.limacore.util.LimaRegistryUtil;
 import liedge.ltxindustries.LTXITags;
@@ -668,12 +667,12 @@ class RecipesGen extends LimaRecipeProvider
                 .input(SLATESTEEL_INGOT, 16)
                 .input(POLYMER_INGOT, 24)
                 .input(VIRIDIC_WEAPON_CHEMICAL, 16));
-        upgradeFabricating(output, registries, "eum/weapon/gl", NEURO_GRENADE_CORE, 1, 50_000_000, builder -> builder
+        upgradeFabricating(output, registries, "eum/weapon/gl", GLOOM_GAS_GRENADE_CORE, 1, 50_000_000, builder -> builder
                 .input(IMPULSE_TECH_PART, 4)
                 .input(TITANIUM_GLASS, 32)
                 .input(SLATESTEEL_INGOT, 16)
                 .input(POLYMER_INGOT, 24)
-                .input(NEURO_CHEMICAL, 8));
+                .input(GLOOM_CHEMICAL, 8));
         upgradeFabricating(output, registries, "eum/weapon", HANABI_SPEED_BOOST, 1, 750_000, builder -> builder
                 .input(T2_CIRCUIT)
                 .input(IMPULSE_TECH_PART, 2)
@@ -846,7 +845,7 @@ class RecipesGen extends LimaRecipeProvider
         grinding().input(STONE).output(ItemResult.of(COBBLESTONE)).save(output);
         grinding().input(items, COBBLESTONES_NORMAL)
                 .output(ItemResult.of(GRAVEL))
-                .output(ItemResult.of(FLINT, ResultCount.exactlyRandom(1, 0.25f), RecipeResult.NO_GROUP, false))
+                .output(ItemResult.of(FLINT, ResultCount.exactlyRandom(1, 0.25f), false))
                 .save(output);
         grinding().input(items, Tags.Items.GRAVELS).output(ItemResult.of(SAND)).save(output);
         grinding().input(items, CROPS_SUGAR_CANE).output(ItemResult.of(RESINOUS_BIOMASS)).output(ItemResult.of(SUGAR, 2)).save(output, "grind_sugar_cane");
@@ -887,7 +886,7 @@ class RecipesGen extends LimaRecipeProvider
         orePebbleGrinding(URANIUM_ORE_PEBBLES, ModResources.COMMON.itemTag("ores/uranium"), ModResources.COMMON.itemTag("raw_materials/uranium"), "uranium", output, true);
         grinding().input(RAW_TITANIUM_CLUSTER).output(ItemResult.of(RAW_TITANIUM, 5)).save(output, "grind_titanium_clusters");
         grinding().input(RAW_NIOBIUM_CLUSTER).output(ItemResult.of(RAW_NIOBIUM, 5)).save(output, "grind_niobium_clusters");
-        grinding().input(LTXIItems.GLOOM_SHROOM).output(ItemResult.of(NEURO_BLUE_PIGMENT, 2)).time(120).save(output, "shrooms_to_dye");
+        grinding().input(LTXIItems.GLOOM_SHROOM).output(ItemResult.of(GLOOM_BLUE_PIGMENT, 2)).time(120).save(output, "shrooms_to_dye");
     }
 
     private void mfcRecipes()
@@ -912,14 +911,14 @@ class RecipesGen extends LimaRecipeProvider
         electroCentrifuging().input(items, DYES_LIME).output(ItemResult.of(LTX_LIME_PIGMENT)).time(120).needsMode(dyes).save(output);
         electroCentrifuging().input(VITRIOL_BERRIES).output(ItemResult.of(VIRIDIC_GREEN_PIGMENT, 2)).time(120).needsMode(dyes).save(output);
         electroCentrifuging().input(LTXIItems.SPARK_FRUIT).output(ItemResult.of(ELECTRIC_CHARTREUSE_PIGMENT, 2)).time(120).needsMode(dyes).save(output);
-        electroCentrifuging().input(LTXIItems.GLOOM_SHROOM).output(ItemResult.of(NEURO_BLUE_PIGMENT, 2)).time(120).needsMode(dyes).save(output);
+        electroCentrifuging().input(LTXIItems.GLOOM_SHROOM).output(ItemResult.of(GLOOM_BLUE_PIGMENT, 2)).time(120).needsMode(dyes).save(output);
 
         // Recipes
         electroCentrifuging()
                 .input(MUD)
                 .output(ItemResult.of(DIRT))
                 .output(ItemResult.of(CLAY_BALL, ResultCount.between(1, 3)))
-                .output(ItemResult.of(MANGROVE_PROPAGULE, ResultCount.exactlyRandom(1, 0.05f), RecipeResult.NO_GROUP, false))
+                .output(ItemResult.of(MANGROVE_PROPAGULE, ResultCount.exactlyRandom(1, 0.05f), false))
                 .fluidOutput(FluidResult.of(Fluids.WATER, 1000))
                 .time(120)
                 .save(output, "split_mud");
@@ -945,7 +944,7 @@ class RecipesGen extends LimaRecipeProvider
                 .fluidInput(VIRIDIC_ACID, 2000)
                 .input(LTXIItems.GLOOM_SHROOM)
                 .output(ItemResult.of(SCULK_CHEMICAL))
-                .output(ItemResult.of(NEURO_CHEMICAL, ResultCount.exactlyRandom(1, 0.05f)))
+                .output(ItemResult.of(GLOOM_CHEMICAL, ResultCount.exactlyRandom(1, 0.05f)))
                 .time(400)
                 .save(output, "gloom_shroom_extraction");
     }
@@ -1245,7 +1244,7 @@ class RecipesGen extends LimaRecipeProvider
     private void upgradeFabricating(RecipeOutput output, HolderLookup.Provider registries, String group, ResourceKey<Upgrade> upgradeKey, int upgradeRank, int energyRequired, boolean addBaseModuleInput, UnaryOperator<FabricatingBuilder> op)
     {
         ItemStackTemplate stackTemplate = moduleTemplate(registries, upgradeKey, upgradeRank);
-        FabricatingBuilder builder = fabricating(energyRequired).group(group).output(ItemResult.fromVanilla(stackTemplate));
+        FabricatingBuilder builder = fabricating(energyRequired).group(group).output(ItemResult.copyOf(stackTemplate));
 
         if (addBaseModuleInput)
         {
@@ -1271,7 +1270,7 @@ class RecipesGen extends LimaRecipeProvider
     private void equipmentFabricating(RecipeOutput output, HolderLookup.Provider registries, Supplier<? extends UpgradableEquipmentItem> itemSupplier, String group, int energyRequired, UnaryOperator<FabricatingBuilder> op)
     {
         ItemStackTemplate stackTemplate = defaultUpgradableItem(itemSupplier, registries);
-        FabricatingBuilder builder = fabricating(energyRequired).group(group).output(ItemResult.fromVanilla(stackTemplate));
+        FabricatingBuilder builder = fabricating(energyRequired).group(group).output(ItemResult.copyOf(stackTemplate));
         op.apply(builder).save(output);
     }
 
@@ -1298,7 +1297,7 @@ class RecipesGen extends LimaRecipeProvider
             case ENERGY_BLUE -> Either.left(ENERGY_BLUE_PIGMENT);
             case ELECTRIC_CHARTREUSE -> Either.left(ELECTRIC_CHARTREUSE_PIGMENT);
             case VIRIDIC_GREEN -> Either.left(VIRIDIC_GREEN_PIGMENT);
-            case NEURO_BLUE -> Either.left(NEURO_BLUE_PIGMENT);
+            case GLOOM_BLUE -> Either.left(GLOOM_BLUE_PIGMENT);
             default -> Either.right(Objects.requireNonNull(color.getDyeColor()).getTag());
         };
         return either.map(Ingredient::of, tagKey -> Ingredient.of(items.getOrThrow(tagKey)));

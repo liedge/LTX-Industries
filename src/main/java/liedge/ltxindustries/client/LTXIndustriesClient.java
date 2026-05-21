@@ -155,9 +155,9 @@ public class LTXIndustriesClient
             event.registerSpecial(LIGHTFRAG_TRACER.get(), new LightfragTracerParticle.Provider());
             event.registerSpriteSet(COLOR_GLITTER.get(), AnimatedGlowParticle.ColorGlitterProvider::new);
             event.registerSpriteSet(COLOR_FLASH.get(), ColorFlashParticle.Provider::new);
-            event.registerSpriteSet(COLOR_FULL_SONIC_BOOM.get(), sprites -> new ColorSonicBoomParticle.Provider(sprites, true));
-            event.registerSpriteSet(COLOR_HALF_SONIC_BOOM.get(), sprites -> new ColorSonicBoomParticle.Provider(sprites, false));
-            event.registerSpecial(HALF_SONIC_BOOM_EMITTER.get(), new ColorSonicBoomParticle.EmitterProvider());
+            event.registerSpriteSet(COLOR_FULL_SONIC_BOOM.get(), sprites -> new ColorExplosionParticle.SonicBoomProvider(sprites, true));
+            event.registerSpriteSet(COLOR_HALF_SONIC_BOOM.get(), sprites -> new ColorExplosionParticle.SonicBoomProvider(sprites, false));
+            event.registerSpecial(HALF_SONIC_BOOM_EMITTER.get(), new ColorExplosionParticle.SonicBoomEmitterProvider());
             event.registerSpecial(GROUND_ICICLE.get(), new GroundIcicleParticle.Provider());
             event.registerSpriteSet(CRYO_SNOWFLAKE.get(), AnimatedGlowParticle.SnowflakeProvider::new);
             event.registerSpriteSet(MINI_ELECTRIC_SPARK.get(), AnimatedGlowParticle.ElectricSparkProvider::new);
@@ -165,7 +165,9 @@ public class LTXIndustriesClient
             event.registerSpriteSet(CORROSIVE_DRIP.get(), sprites -> new AcidDripParticle.Provider(sprites, true, false));
             event.registerSpriteSet(ACID_FALL.get(), sprites -> new AcidDripParticle.Provider(sprites, true, true));
             event.registerSpriteSet(ACID_LAND.get(), sprites -> new AcidDripParticle.Provider(sprites, false, false));
-            event.registerSpriteSet(NEURO_SMOKE.get(), BigColorSmokeParticle.NeuroSmokeProvider::new);
+            event.registerSpriteSet(GLOOM_BURST.get(), ColorExplosionParticle.GloomBurstProvider::new);
+            event.registerSpriteSet(SMALL_GLOOM_PUFF.get(), SmallGloomPuffParticle.Provider::new);
+            event.registerSpecial(GLOOM_BURST_EMITTER.get(), new ColorExplosionParticle.GloomBurstEmitterProvider());
             event.registerSpecial(GRENADE_EXPLOSION.get(), new GrenadeExplosionParticle.Provider());
             event.registerSpecial(RAILGUN_BOLT.get(), new RailgunBoltParticle.Provider());
             event.registerSpecial(SHIELD_BREAK.get(), new ShieldBreakParticle.Provider());
