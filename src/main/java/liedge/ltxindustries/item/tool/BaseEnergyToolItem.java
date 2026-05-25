@@ -110,7 +110,7 @@ public abstract class BaseEnergyToolItem extends EnergyEquipmentItem
     @Override
     public boolean canPerformAction(ItemStack stack, ItemAbility ability)
     {
-        return hasEnergyForAction(stack) && getAvailableAbilities().contains(ability);
+        return getAvailableAbilities().contains(ability);
     }
 
     // Overridden static properties
