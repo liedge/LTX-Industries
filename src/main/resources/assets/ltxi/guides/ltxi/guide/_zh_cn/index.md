@@ -1,6 +1,6 @@
 ---
 navigation:
-    title: "Home/Index"
+    title: "主页/索引"
     position: 0
 ---
 

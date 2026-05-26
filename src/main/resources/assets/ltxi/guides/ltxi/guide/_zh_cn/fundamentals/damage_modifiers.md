@@ -1,23 +1,22 @@
 ---
 navigation:
-    title: "Damage Modifiers"
+    title: "伤害修正"
     icon: epsilon_sword
     parent: fundamentals/index.md
     position: 2
 ---
 
-# Global Damage Modifiers
-Not every weapon is going to perform well in every scenario. Some weapons will struggle against certain types of enemies.
-For instance, primary-type weapons will deal reduced damage to medium and high threat enemies.
+# 全局伤害修正
+不是所有武器面对所有场景都游刃有余，有些武器在对抗特定种类的敌人时会显得乏力。例如，主要的武器对中等威胁或高威胁的敌人造成的伤害会降低。
 
-## Application order
-The global damage modifiers apply **after all upgrades**.
+## 应用顺序
+全局伤害修正在**所有升级之后**结算。
 
-## Damage modifier table
+## 伤害修正表
 
-| Weapon(s)   | Target Type   | Modifier |
-|-------------|---------------|----------|
-| Lightweight | High Threat   | -80%     |
-| Lightweight | Medium Threat | -50%     |
-| Specialist  | High Threat   | -40%     |
-| Specialist  | Medium Threat | -25%     |
+| 武器类型 | 目标类型 | 修正   |
+|------|------|------|
+| 轻型   | 高威胁  | -80% |
+| 轻型   | 中等威胁 | -50% |
+| 专业型  | 高威胁  | -40% |
+| 专业型  | 中等威胁 | -25% |

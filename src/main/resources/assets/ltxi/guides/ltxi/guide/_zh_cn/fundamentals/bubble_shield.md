@@ -1,32 +1,24 @@
 ---
 navigation:
-    title: Bubble Shield
+    title: 泡沫护盾
     position: 3
     parent: fundamentals/index.md
 ---
 
-# Bubble Shields
+# 泡沫护盾
 
-## About
+## 概述
 
-The <Color id="shield">Bubble Shield</Color> is a personal force field usable by all living entities. It primarily
-serves as a damage sink over health like Absorption. It will also block harmful potion effects, at the cost of some
-shield health.
+<Color id="shield">泡沫护盾</Color>是一种适用于所有生物的个人防护力场。其一般用于吸收伤害，与伤害吸收效果类似；其也可用于抵挡负面效果，但是护盾会有所消耗。
 
-## Non-Player Entities
+## 非玩家实体
 
-The general shield used by living entities acts as a basic health buffer. It does not have any internal cooldowns.
-Any leftover damage upon breaking the shield will bleed through to the entity's health.
+大多数生物的护盾仅作为基础的额外生命值使用，没有内置冷却。护盾被破除时，溢出的伤害会从本体生命值中扣除。
 
-## Players
+## 玩家
 
-Player bubble shields are more advanced and are much more effective at protecting you from threats. This shield has an
-internal cooldown of 1 second between shield health loss from either attacks or blocking potion effects. The bubble
-shield automatically recharges to your **Shield Capacity** after 5 seconds of not taking damage or blocking effects.
-Some [upgrade](upgrade_system.md) modules can overcharge your shield. Shield health from these sources will
-not naturally regenerate.
+玩家的泡沫护盾更加高级，且能更高效地防止玩家受到威胁。玩家的护盾在两次损耗（吸收伤害和阻挡负面效果）之间有 1 秒冷却时间，若护盾持续 5 秒没有损耗，则会自动充能至**护盾上限**。某些[升级](upgrade_system.md)模块可使护盾充能超过上限，这部分护盾不会自然恢复。
 
-### Shield gating
+### 护盾抵挡
 
-Player shields will always fully negate damage, even if it is greater than the shield health. When your shield breaks,
-you will be invulnerable to damage for 3 seconds (barring any invulnerability-bypassing damage).
+玩家的护盾总是会完全抵挡伤害，即使伤害数值高于护盾量。玩家在护盾被破坏时会进入 3 秒的无敌状态（免疫一切不无视伤害免疫效果的伤害）。

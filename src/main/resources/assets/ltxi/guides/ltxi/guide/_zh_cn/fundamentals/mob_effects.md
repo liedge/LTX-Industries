@@ -1,33 +1,32 @@
 ---
 navigation:
-    title: "Mob Effects"
+    title: "生物效果"
     parent: fundamentals/index.md
     position: 2
 ---
 
-# Mob Effects (Potion Effects)
+# 生物效果（状态效果）
 
-## Frostbite
-Frostbite slows down targets. It also freezes them for the duration of the effect.
-### Attribute modifiers
-- Attack Speed: -25% x effect level.
-- Movement Speed: -25% x effect level.
-- Fly Speed: -25% x effect level.
-- Dig Speed: -25% x effect level.
-
--------
-
-## Corroding
-Corroding weakens target armor.
-### Attribute modifiers
-- Armor: -33% x effect level.
-- Armor Toughness: -33% x effect level.
+## 霜冻
+霜冻效果减慢实体的速度，并在效果的持续时间内冻结它们。
+### 属性修饰符
+- 攻击速度：-25% x 效果等级；
+- 移动速度：-25% x 效果等级；
+- 飞行速度：-25% x 效果等级；
+- 挖掘速度：-25% x 效果等级。
 
 -------
 
-## Neuro-Suppressed
-Neuro-Suppressed reduces *all* of a target's attack damage, as long as it can be traced back to it. In addition,
-the affected target cannot apply any potion effects during the effect duration.
+## 腐蚀
+腐蚀效果削弱目标的护甲。
+### 属性修饰符
+- 护甲值：-33% x 效果等级；
+- 盔甲韧性：-33% x 效果等级。
 
-### Attribute modifiers
-- `limacore:damage_multiplier`: -25% x effect level
+-------
+
+## 阴郁
+阴郁效果降低目标造成的*所有*伤害，能追溯到目标实体的伤害都会被降低。此外，受影响的目标在效果持续期间内无法获得其他任何状态效果。
+
+### 属性修饰符
+- `limacore:damage_multiplier`：-25% x 效果等级

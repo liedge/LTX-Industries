@@ -1,6 +1,6 @@
 ---
 navigation:
-    title: "Upgrade System"
+    title: "升级系统"
     icon: empty_upgrade_module
     parent: fundamentals/index.md
     position: 1
@@ -10,30 +10,26 @@ item_ids:
     - upgrade_station
 ---
 
-# LTXI Upgrade System
+# LTXI 升级系统
 
-LTXI equipment (tools, armor, weapons) and machines can be extensively upgraded with our upgrade system.
+LTXI 装备（工具、护甲、武器）和机器均可通过升级系统进行大量升级。
 
-## Upgrade modules
+## 升级模块
 
 <ItemImage id="upgrade_module" />
 
-These little guys hold a ranked upgrade entry. Hold Shift on the module item to see its name, rank,
-effect tooltips, and what you can install it on.
+这些小东西含有一个带等级的升级。当鼠标指向升级模块时，按住 Shift 可查看其名称、等级、效果描述及适用的装备和机器。
 
-### Upgrade Users
+### 升级使用者
 
-Each upgrade has an 'Upgrade Users' property. That is, which items or machines it can be installed on. While most
-upgrades are going to be exclusive to either equipment items or machinery, some are compatible with both!
+所有升级都具有“升级使用者”这一属性，即其可以被安装在哪些物品或机器上。大多数升级模块都只能安装在装备物品或机器两者之一上，然而少数升级模块同时兼容两者。
 
-## Installing on machines
+## 安装到机器上
 
-The upgrade management is built into machines. Look for the Upgrade Module icon on the right sidebar, it will be the
-topmost option.
+机器具有内置的升级管理系统，点击界面右侧的升级模块图标即可打开，这是最常用的管理手段。
 
-## Installing on equipment
+## 安装到装备上
 
 <BlockImage id="upgrade_station" scale="2.5" />
 
-You'll need an **Upgrade Station** to configure upgrades on equipment. Insert the equipment item into the equipment slot
-to modify its upgrades.
+配置装备的升级需要**升级站**，将装备物品放入其物品槽位中即可修改其升级。

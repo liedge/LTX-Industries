@@ -1,14 +1,12 @@
 ---
 navigation:
-    title: "Common Energy (CE)"
+    title: "CE能量"
     position: 0
     parent: fundamentals/index.md
 ---
 
-# Common Energy
+# CE能量
 
-Common Energy is LTX Industries' way of referring to the energy API used by NeoForge. You might know it as Forge Energy,
-FE, Redstone Flux, RF, etc.
+CE能量（Common Energy）是 LTX Industries 模组对 NeoForge 使用的能量 API 的称呼，其也可能被称为 Forge Energy、FE、红石通量、RF，等等。
 
-<Color id="energy">This tone of light blue</Color> is used as a context clue anywhere energy is
-used, referenced, upgraded, etc.
+<Color id="energy">这种蓝色</Color>会在任何涉及到能量（使用、指代、升级等）的地方作为标志色出现。
