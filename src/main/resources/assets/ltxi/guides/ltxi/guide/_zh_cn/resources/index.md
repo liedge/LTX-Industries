@@ -1,12 +1,11 @@
 ---
 navigation:
-    title: Resources
+    title: 资源
     position: 3
 ---
 
-# Materials and Resources
+# 材料与资源
 
-There's plenty of natural resources for you to discover in LTX Industries. Some you'll be able to find in the wild but
-most you'll have to refine or even make from scratch.
+LTX Industries 添加了多种材料和自然资源。有些材料与资源可以直接从野外找到，有些则需要精炼，有些甚至需要从零开始制造。
 
 <SubPages />

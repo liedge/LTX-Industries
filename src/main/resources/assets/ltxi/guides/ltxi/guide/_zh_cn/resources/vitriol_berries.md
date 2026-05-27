@@ -1,66 +1,56 @@
 ---
 navigation:
-    title: Vitriol Berries
+    title: 强酸莓
     position: 1
     icon: vitriol_berries
     parent: resources/index.md
 ---
 
-# Vitriol Berries
+# 强酸莓
 
-## About
+## 概述
 
 <ItemImage id="vitriol_berries" scale="2" />
 
-The mineral-rich ancient structures of the Nether are a prime nutrient source for any flora willing to adapt to the
-harsh environment. You might encounter the hardy **Bilevine** while exploring these places. And if you're lucky, the
-vines will have **Vitriol Berries** growing on them.
+下界富含矿物质的古老结构为愿意适应下界严酷环境的植物提供了绝佳的营养来源。探索这些结构时，你可能会遇见一些适应能力极强的**苦胆藤**，运气好的话藤蔓上还可能会有**强酸莓**生长。
 
-## Natural Generation
+## 自然生成
 
-Vitriol berries' parent plant, **Bilevine**, generates in the Nether's Fortresses and Bastion Remnants. Their preferred
-growth spots are underneath any solid block. You'll likely find them in the hallways or bridge overhangs in Fortresses,
-and on the ceiling of Bastions.
+生长强酸莓的植株**苦胆藤**在下界要塞和堡垒遗迹中生成，其倾向于在任意固体方块下方生长。在下界要塞的走廊和桥上的伸出部分，以及堡垒遗迹的天花板上，比较容易发现苦胆藤。
 
 <GameScene zoom={2} interactive={true}>
 <ImportStructure src="bilevines.nbt" />
 </GameScene>
 
-## Farming
+## 种植
 
-You may plant Vitriol Berries underneath any solid block, which will place a Bilevine plant. Over time, this vine will
-grow downwards until it hits a solid block. When a new vine block grows, there is a small chance for it to generate with
-a berry. Existing vine blocks will **not** generate berries over time.
+强酸莓可以种植在任意固体方块下方，种植时会产生一株苦胆藤植株。这个植株会随时间不断向下生长，直至接触到固体方块；当长出新的藤蔓方块时，其有小概率结出一个强酸莓果实，而已经生长出的藤蔓**不会**随时间自然结果。
 
-### Breaking the vines
+### 破坏藤蔓
 
-- Breaking an empty Bilevine without **Shears** will drop nothing.
-- Breaking a Bilevine with berries or an empty Bilevine with **Shears** will drop 1 Vitriol Berry.
-- You can farm berries with shears in this manner, but growth might be slow.
+- 不用**剪刀**破坏未结果的苦胆藤不会掉落任何东西。
+- 使用**剪刀**破坏未结果或已结果的苦胆藤会掉落 1 个强酸莓。
+- 可以利用这一点培育强酸莓，但生长可能较慢。
 
-### Growing berries
+### 生长强酸莓
 
-- Apply bone meal to an empty Bilevine to instantly grow a Vitriol Berry on that vine block.
-- Right-click a Bilevine that has berries to harvest the Vitriol Berry. This will not affect the vine.
-- You can produce a large amount of berries in a short amount of time, as long as you have enough bone meal.
+- 对未结果的苦胆藤使用骨粉能令其瞬间长出一颗强酸莓；
+- 右键单击长有强酸莓的苦胆藤可以收获强酸莓，不会影响藤蔓本身。
+- 只要骨粉足够，就可以这样在短时间内生产大量强酸莓。
 
-## Usage
+## 用途
 
-### Viridic Acid
+### 魔能酸
 
 <ItemGrid>
 <ItemIcon id="acidic_biomass" />
 <ItemIcon id="viridic_acid_bucket" />
 </ItemGrid>
 
-This berry is the source of Viridic Acid, the backbone chemical of most of LTX Industries' chemistry processing lines and
-a key ingredient for Polymer. Find some berries and set up a farm as soon as you're able to. You'll need it.
+强酸莓是魔能酸的来源，而魔能酸是模组中化学工业流水线的支柱化学品，也是聚合物的关键原料。尽早寻找强酸莓并建一个农场，后期会需要大量强酸莓。
 
-### Weapons-Grade Refining
+### 武器级浓缩
 
 <ItemImage id="viridic_weapon_chemical" scale="2" />
 
-As versatile as Viridic Acid is, it's offensive properties leave a lot to be desired. And LTXI's equipment division
-does not do subtle. Enriching a batch of acid with *Hydrogen* and *Gunpowder* in the [Chem Lab](../machines/gpm/chem_lab.md)
-will yield you a tiny vial of Weapons-Grade Viridic Acid. You can use this to make the [Acid Shells](../weapons/hanabi.md#acid)
-equipment upgrade module for the *Hanabi*.
+魔能酸用途多样，而其攻击性也令人浮想联翩；LTXI 的武器部分并没有忽视这一点。在[化学反应器](../machines/gpm/chem_lab.md)中用*氢气*和*火药*浓缩魔能酸可以得到一小罐武器级魔能酸，武器级魔能酸可用于制造用于 *“花火”* 的[强酸弹](../weapons/hanabi.md#acid)。

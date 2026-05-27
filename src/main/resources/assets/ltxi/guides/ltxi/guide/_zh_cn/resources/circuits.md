@@ -1,12 +1,12 @@
 ---
 navigation:
-    title: Circuits
+    title: 电路
     position: 3
     icon: t4_circuit
     parent: resources/index.md
 ---
 
-# Circuitry
+# 电路
 
 <ItemGrid>
 <ItemIcon id="t1_circuit" />
@@ -16,12 +16,6 @@ navigation:
 <ItemIcon id="t5_circuit" />
 </ItemGrid>
 
-You can't run a machine without some sort of electronic control. Every device and certain parts use varying tiers of
-circuits in their crafting recipe.
+没有电路控制，机器便无法运行；所有的设备和某些零部件都需要用不同等级的电路合成。
 
-The first 3 tiers of circuits, **Basic Circuit**, **Enhanced Circuit**, and **Precision Circuit** can be made in the
-Crafting Table, and only use Titanium from LTX Industries' resources. But these recipes are inefficient: only 1 circuit
-is made and the circuits use the previous tier circuit. Once you've unlocked the Fabricator and set up a steady source
-of Polymer, you gain access to direct and higher yield T1-T3 Circuit Recipes. The Fabricator will also grant you access
-to the T4 and T5 Circuits: the **Nano-Core Processor** and the **Real Virtuality Processor**. These are naturally much
-more expensive and use 2 of the previous tier circuits.
+最低级的**基础电路**和**强化电路**可以直接在工作台上合成，且需要的模组材料只有钛一种；然而工作台配方效率较低，每次只能合成 1 个电路，且合成强化电路需要基础电路。制造出装配机并拥有聚合物的稳定来源后，即可用高效的配方制造前三级电路。制造出组装器后就可以制作**纳米核心处理器**（T4）和**现实虚拟处理器**（T5）两种电路，这两种电路制造成本更高，且需要 2 个上一级电路才能制作。
