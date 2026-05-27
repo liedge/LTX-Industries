@@ -1,12 +1,11 @@
 ---
 navigation:
-    title: Building Blocks
-    position: 10
+  title: 建筑方块
+  position: 10
 ---
 
-# Building Blocks
+# 建筑方块
 
-Aside from serving as crafting materials, these blocks can be used to decorate or enhance your base. Take a look at each
-one, some have more functionality than meets the eye.
+这些建筑方块有时用作合成材料，但更大的用途还是用于装饰或增强你的基地。由于某些方块具有装饰之外的功能，建议大致阅读一下这些条目。
 
 <SubPages />

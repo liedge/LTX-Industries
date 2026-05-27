@@ -1,26 +1,22 @@
 ---
 navigation:
-    title: "Composite Glasses"
-    icon: titanium_glass
-    parent: building_blocks/index.md
+  title: "复合玻璃"
+  icon: titanium_glass
+  parent: building_blocks/index.md
 ---
 
-# Composite Glasses
+# 复合玻璃
 
-Fusing quartz and Titanium in the [Material Fusing Chamber](../machines/gpm/mfc.md) produces a crystal-clear
-and tough glass. These glass blocks are highly resistant to conventional explosions, equivalent to **Obsidian**.
-You don't need Silk Touch to break these blocks, but you do need a pickaxe of any tier.
+在[材料熔合仓](../machines/gpm/mfc.md)熔合石英和钛可以得到澄清透明且高强度的玻璃，这两种玻璃方块的爆炸抗性极强，与**黑曜石**相当。其无需精准采集就可破坏，但是仍然需要任意等级的镐来挖掘。
 
-## Titanium Glass
+## 钛玻璃
 
 <BlockImage id="titanium_glass" scale="2" />
 
-The baseline composite glass. It's useful for reinforcing the glass sections of your base and is fully blast-proof
-against low-mid level threats like Creepers or Ghasts.
+复合玻璃的基础版本，可用于加强基地的玻璃部分，并且能够完全抵挡苦力怕和恶魂等低至中程度的威胁引起的爆炸。
 
-## Glacia Glass
+## “冰川”玻璃
 
 <BlockImage id="glacia_glass" scale="2" />
 
-*Glacia* is our signature glass made by [Energizing](../machines/gpm/voltaic_injector.md) Titanium Glass. It has
-no structural advantage over normal Titanium Glass, but it's an aesthetic alternative.
+*“冰川”玻璃*是本模组的标志性玻璃，通过[充能](../machines/gpm/voltaic_injector.md)钛玻璃制造。其结构强度与普通钛玻璃一致，但具有另外一种风格的外观。
