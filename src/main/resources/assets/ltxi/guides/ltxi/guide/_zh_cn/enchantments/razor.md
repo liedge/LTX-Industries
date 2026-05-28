@@ -5,20 +5,20 @@ navigation:
     icon: "minecraft:enchanted_book"
 ---
 
-# Razor
+# 剃刀
 
-## Properties
+## 属性
 
-- **Enchantment Table Compatibility**: `#minecraft:enchantable/sharp_weapon` (Swords & Axes)
-- **Enchantment Table Max Level**: 3
-- **Upgrade Module Compatibility**: **ε-series** melee and all **signature series**
+- **魔咒兼容性**：`#minecraft:enchantable/sharp_weapon`（剑和斧）
+- **通过附魔台获取的最大等级**：3
+- **升级模块兼容性**：**ε-系列**近战武器和所有**信号系列枪械**
 
-## Effects
+## 效果
 
-### Mob Beheading
-- 10% drop chance per level
-- Works on: Zombies, Skeletons, Creepers, Piglins, Wither Skeletons, Players
+### 斩首生物
+- 每级增加 10% 掉落概率
+- 对以下生物有效：僵尸、骷髅、苦力怕、猪灵、凋灵骷髅、玩家
 
-### Extra Loot Severing
-- Rabbit Foot: 33% drop chance per level
-- Ender Dragon, **Level 4+ Only**: Dragon Head, 50% chance per level ≥ 4.
+### 获取额外战利品
+- 兔子脚：每级增加 33% 掉落概率
+- 末影龙 **（仅4 级及以上）** ：4 级及以上，每级增加 50% 掉落概率

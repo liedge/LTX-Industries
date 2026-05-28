@@ -1,33 +1,33 @@
 ---
 navigation:
-    title: "Ammo Scavenger"
+    title: "弹药猎手"
     parent: enchantments/index.md
     icon: "minecraft:enchanted_book"
 ---
 
-# Ammo Scavenger
+# 弹药猎手
 
-## Properties
+## 属性
 
-- **Enchantment Table Compatibility**: `#minecraft:enchantable/sharp_weapon` (Swords & Axes)
-- **Enchantment Table Max Level**: 3
-- **Upgrade Module Compatibility**: **ε-series** melee and all **signature series**
+- **魔咒兼容性**：`#minecraft:enchantable/sharp_weapon`（剑和斧）
+- **通过附魔台获取的最大等级**：3
+- **升级模块兼容性**：**ε-系列**近战武器和所有**信号系列枪械**
 
-## Effects
+## 效果
 
-### Ammo Rarity Enhancement
+### 弹药稀有度提升
 
-Higher levels increase the probability of a rarer ammo item type.
+高等级的魔咒会提升出现稀有种类弹药的概率。
 
-| Ammo Type       | Base    | Lvl1   | Lvl2   | Lvl3   | Lvl4   | Lvl5   |
-|-----------------|---------|--------|--------|--------|--------|--------|
-| **Lightweight** | 79.2%   | 71.4%  | 65.0%  | 59.7%  | 55.2%  | 51.3%  |
-| **Specialist**  | 14.9%   | 18.8%  | 22.0%  | 24.6%  | 26.9%  | 28.8%  |
-| **Explosives**  | 4.9%    | 7.1%   | 8.9%   | 10.4%  | 11.7%  | 12.8%  |
-| **Heavy**       | 1.0%    | 2.7%   | 4.1%   | 5.2%   | 6.2%   | 7.1%   |
+| 弹药种类    | 基础概率  | 1 级   | 2 级   | 3 级   | 4 级   | 5 级   |
+|---------|-------|-------|-------|-------|-------|-------|
+| **轻型**  | 79.2% | 71.4% | 65.0% | 59.7% | 55.2% | 51.3% |
+| **专业型** | 14.9% | 18.8% | 22.0% | 24.6% | 26.9% | 28.8% |
+| **爆破型** | 4.9%  | 7.1%  | 8.9%  | 10.4% | 11.7% | 12.8% |
+| **重型**  | 1.0%  | 2.7%  | 4.1%  | 5.2%  | 6.2%  | 7.1%  |
 
-> Values rounded to the nearest tenth decimal.
+> 表中数值四舍五入至一位小数。
 
-### Extra Ammo Roll
+### 额外抽取弹药
 
-Each level adds a 20% chance to roll an additional ammo item from the loot table, up to a maximum of 100%.
+每级魔咒增加 20% 从战利品表中额外抽取一次弹药的概率，最高提升至 100%。
