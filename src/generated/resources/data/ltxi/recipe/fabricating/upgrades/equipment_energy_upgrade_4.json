@@ -12,8 +12,7 @@
             "upgrade": "ltxi:equipment_energy_upgrade"
           }
         },
-        "items": "ltxi:upgrade_module",
-        "strict": true
+        "items": "ltxi:upgrade_module"
       }
     },
     {

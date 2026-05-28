@@ -12,8 +12,7 @@
             "upgrade": "ltxi:epsilon_fishing_lure"
           }
         },
-        "items": "ltxi:upgrade_module",
-        "strict": true
+        "items": "ltxi:upgrade_module"
       }
     },
     {

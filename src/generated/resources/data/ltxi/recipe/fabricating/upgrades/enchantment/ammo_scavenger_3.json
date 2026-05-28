@@ -12,8 +12,7 @@
             "upgrade": "ltxi:enchantment/ammo_scavenger"
           }
         },
-        "items": "ltxi:upgrade_module",
-        "strict": true
+        "items": "ltxi:upgrade_module"
       }
     },
     {

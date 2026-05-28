@@ -12,8 +12,7 @@
             "upgrade": "ltxi:enchantment/fortune"
           }
         },
-        "items": "ltxi:upgrade_module",
-        "strict": true
+        "items": "ltxi:upgrade_module"
       }
     },
     {

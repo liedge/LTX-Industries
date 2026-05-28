@@ -12,8 +12,7 @@
             "upgrade": "ltxi:armor_defense"
           }
         },
-        "items": "ltxi:upgrade_module",
-        "strict": true
+        "items": "ltxi:upgrade_module"
       }
     },
     {

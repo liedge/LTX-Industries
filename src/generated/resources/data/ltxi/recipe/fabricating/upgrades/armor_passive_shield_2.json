@@ -11,8 +11,7 @@
             "upgrade": "ltxi:armor_passive_shield"
           }
         },
-        "items": "ltxi:upgrade_module",
-        "strict": true
+        "items": "ltxi:upgrade_module"
       }
     },
     {
