@@ -1225,7 +1225,7 @@ class RecipesGen extends LimaRecipeProvider
     private Ingredient moduleIngredient(HolderLookup.Provider registries, ResourceKey<Upgrade> upgradeKey, int upgradeRank)
     {
         Holder<Upgrade> holder = registries.holderOrThrow(upgradeKey);
-        return DataComponentIngredient.of(true, LTXIDataComponents.UPGRADE_ENTRY, new UpgradeEntry(holder, upgradeRank), UPGRADE_MODULE);
+        return DataComponentIngredient.of(false, LTXIDataComponents.UPGRADE_ENTRY, new UpgradeEntry(holder, upgradeRank), UPGRADE_MODULE);
     }
 
     private ItemStackTemplate moduleTemplate(HolderLookup.Provider registries, ResourceKey<Upgrade> upgradeKey, int upgradeRank)

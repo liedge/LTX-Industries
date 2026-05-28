@@ -11,8 +11,7 @@
             "upgrade": "ltxi:hanabi_speed_boost"
           }
         },
-        "items": "ltxi:upgrade_module",
-        "strict": true
+        "items": "ltxi:upgrade_module"
       }
     },
     {

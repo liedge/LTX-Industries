@@ -13,8 +13,7 @@
           "upgrade": "ltxi:geo_synthesizer_parallel"
         }
       },
-      "items": "ltxi:upgrade_module",
-      "strict": true
+      "items": "ltxi:upgrade_module"
     },
     "w": "minecraft:blue_ice"
   },
