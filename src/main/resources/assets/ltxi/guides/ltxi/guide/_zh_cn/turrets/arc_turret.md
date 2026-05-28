@@ -1,6 +1,6 @@
 ---
 navigation:
-    title: Ionos
+    title: 解离
     icon: arc_turret
     parent: turrets/index.md
     position: 0
@@ -8,28 +8,26 @@ item_ids:
   - arc_turret
 ---
 
-# *Ionos* A/DS Turret
+# *“解离”* A/DS 电弧炮塔
 
 <GameScene zoom={4} interactive={false}>
 <Block id="mesh_block" y="0" />
 <Block id="arc_turret" y="-1" />
 <BlockAnnotation x="0" y="-1" z="0" color="#8bd1f0">
-Items and Energy can only be connected to this block!
+物品和能量仅可通过此方块交互！
 </BlockAnnotation>
 </GameScene>
 
-## Stats
-- Horizontal search radius: 30.0
-- Vertical search radius: 20.0
-- Target search interval: 1.5 sec
-- Base damage: 2.0 / tick
+## 属性
+- 水平索敌半径：30.0
+- 垂直索敌半径：20.0
+- 目标搜寻时间间隔：1.5 秒
+- 基础伤害：2.0 / tick
 
-## Default targets
+## 默认目标
 
-Any entity with **Neutral Enemy** hostility or higher.
+攻击性达到**中立敌人**或更高的所有实体。
 
-## About
+## 概述
 
-The *Ionos* will select up to 16 targets on a **Search** operation. It will select the closest as the primary target,
-which it will then continuously attack until the target dies or goes out of range. It will then select the next valid
-target from the queue or else it will return to **Search** mode.
+*“解离”* 炮塔会在**搜索**操作时选择至多 16 个目标。在此过程中炮塔会将最近的实体设定为主要目标，并且会持续攻击该目标，直到目标死亡或离开攻击范围；此后炮塔会继续选择队列中的下一个合法目标，若没有目标则会回到**搜索**模式。

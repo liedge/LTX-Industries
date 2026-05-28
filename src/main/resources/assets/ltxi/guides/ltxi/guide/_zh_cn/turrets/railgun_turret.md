@@ -1,6 +1,6 @@
 ---
 navigation:
-    title: Noctis
+    title: 夜神
     icon: railgun_turret
     parent: turrets/index.md
     position: 2
@@ -8,23 +8,23 @@ item_ids:
   - railgun_turret
 ---
 
-# *Noctis* A/DS Turret
+# *“夜神”* A/DS 轨道炮塔
 
 <GameScene zoom={4} interactive={false}>
 <Block id="mesh_block" y="0" />
 <Block id="railgun_turret" y="-1" />
 <BlockAnnotation x="0" y="-1" z="0" color="#8bd1f0">
-Items and Energy can only be connected to this block!
+物品和能量仅可通过此方块交互！
 </BlockAnnotation>
 </GameScene>
 
 ## Stats
-- Horizontal search radius: 25.0
-- Vertical search radius: 25.0
-- Target search interval: 4 sec
-- Single target only
-- Railgun bolt damage: 200.0
+- 水平索敌半径：25.0
+- 垂直索敌半径：25.0
+- 目标搜寻时间间隔：4 秒
+- 单体攻击
+- 轨道炮弹伤害：200.0
 
-## Default targets
+## 默认目标
 
-Entities tagged `#ltxi:targets/high_threat`, e.g. Elder Guardian, Ender Dragon, Wither, Warden
+具有 `#ltxi:targets/high_threat` 标签的实体，如远古守卫者、末影龙、凋灵、监守者。

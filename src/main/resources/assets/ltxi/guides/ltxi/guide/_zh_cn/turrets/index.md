@@ -1,48 +1,40 @@
 ---
 navigation:
-    title: "Turrets"
+    title: "炮塔"
     icon: arc_turret
     position: 21
 ---
 
-# A/DS Turrets
+# A/DS 炮塔
 
-The Automated Defense System product line, A/DS, specializes in keeping an area free of threats. All turrets are
-[upgradeable machines](../fundamentals/upgrade_system.md).
+自动防御系统（A/DS）产品线专用于保护一片区域免受威胁。所有炮塔都是[可升级机器](../fundamentals/upgrade_system.md)。
 
-## Available Turrets
+## 可用炮塔
 
-- [*Ionos*](arc_turret.md)
-- [*Atmos*](rocket_turret.md)
-- [*Noctis*](railgun_turret.md)
+- [*解离*](arc_turret.md)
+- [*御风*](rocket_turret.md)
+- [*夜神*](railgun_turret.md)
 
-## Operation
+## 操作
 
-Turrets run solely off of <Color id="energy">Energy</Color>, no additional items required. The inventory inside the turrets
-is an output inventory used only if a loot drop capture upgrade is installed.
+炮塔只需要 <Color id="energy">CE能量</Color> 就能运作，无需其他物品。炮塔内部的物品栏用于输出物品，仅在安装了收集掉落物的升级时才有作用。
 
-## Targeting
+## 索敌
 
-Each turret has its own default target filter, with some being more selective than others. This target logic can be
-overridden by upgrade modules.
+每种炮塔都有默认的目标过滤器，有些炮塔过滤器的选择性较其他炮塔更强。这套索敌逻辑可通过升级模块修改。
 
-## Turret states
+## 炮塔状态
 
-Turrets have 5 distinct states they can be in at any time: **Inactive**, **Searching**, **Charging**, **Firing**, and
-**Cooldown**. Each state carries out its own logic, with most being self-explanatory.
+炮塔有 5 种可在任何时刻取到的独立状态：**待机**、**搜索**、**充能**、**开火**以及**冷却**。每种模式都有自己的逻辑，大部分逻辑都不言自明。
 
-### Inactive
+### 待机
 
-The state of a newly crafted turret or a turret that has run out of energy. Once per second, it will check its
-energy buffer to see if it has enough energy for at least one operation. If it does, it will switch to Searching.
+新合成的炮塔和耗尽能量的炮塔处于这种状态。此时，炮塔会每秒钟检查一次内部能量储量并判断是否足够完成一次开火，若能量足够则会进入**搜索**模式。
 
-### Searching
+### 搜索
 
-Active turrets will spend most of their time in this stage. The turret will search for valid targets in its search area
-at a time interval determined by the time of turret. If targets are found, they are loaded into the queue and the
-turret will switch to the **Charging** state.
+工作中的炮塔绝大部分时间都处于这种状态，此时炮塔会在索敌范围内持续搜寻合法目标，搜寻时间间隔由炮塔种类决定；一旦发现目标，炮塔就会将目标加入队列，并进入**充能**模式。
 
-### Charging/Cooldown
+### 充能 / 冷却
 
-These 2 states behave identically, the only difference being the time spent on this state. Consider this the wind up or
-between shot cooldown. Each turret has its own charging/cooldown times.
+这两种模式的行为一致，唯一的区别是处于两种状态的时间；这两种状态可以理解为炮塔在两次射击之间的装填时间。每种炮塔都有自己的充能和冷却时间。
