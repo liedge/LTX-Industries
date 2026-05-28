@@ -1,6 +1,6 @@
 ---
 navigation:
-    title: ElectroCentrifuge
+    title: 电解离心机
     icon: electrocentrifuge
     parent: machines/index.md
     position: 13
@@ -8,15 +8,14 @@ item_ids:
     - electrocentrifuge
 ---
 
-# ElectroCentrifuge
+# 电解离心机
 
 <BlockImage id="electrocentrifuge" scale="4" />
 
-## About
-The ElectroCentrifuge combines *Electrolysis* and *Centrifuging* operations into 1 convenient machine. Split water into
-Hydrogen and Oxygen, or extract valuable concentrated compounds from raw materials.
+## 概述
+电解离心机将*电解*与*离心*功能集成于一台方便的机器，其能够将水分离为氢气和氧气，或从原材料中提取出有价值的高浓缩化合物。
 
-## Recipe Spec
-- Base crafting time: varies, by default 10 seconds
-- Inputs: 0-1 items, 0-1 fluids
-- Outputs: 0-4 items, 0-2 fluids
+## 配方属性
+- 基础工作时间：因配方而异，默认为 10 秒
+- 输入：0\~1 种物品，0\~1 种流体
+- 输出：0\~4 种物品，0\~2 种流体

@@ -1,6 +1,6 @@
 ---
 navigation:
-    title: Voltaic Injector
+    title: 高压注入器
     icon: voltaic_injector
     parent: machines/index.md
     position: 15
@@ -8,15 +8,14 @@ item_ids:
     - voltaic_injector
 ---
 
-# Voltaic Injector
+# 高压注入器
 
 <BlockImage id="voltaic_injector" scale="4" />
 
-## About
-This simple machine serves one purpose: To expose items to high amounts of either clean energy or raw elemental
-electricity in order to induce material mutations.
+## 关于
+这台简单的机器只有一种用途：用大量的清洁能源或者原始的电力对原材料进行曝光，以引起其结构的改变。
 
 ## Recipe Spec
-- Base crafting time: varies, by default 10 seconds
-- Inputs: 1 item
-- Outputs: 1 item
+- 基础工作时间：因配方而异，默认为 10 秒
+- 输入：1 种物品
+- 输出：1 种物品

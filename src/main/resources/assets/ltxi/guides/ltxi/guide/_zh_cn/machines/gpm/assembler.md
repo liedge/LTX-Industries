@@ -1,6 +1,6 @@
 ---
 navigation:
-    title: Assembler
+    title: 装配机
     icon: assembler
     parent: machines/index.md
     position: 17
@@ -8,15 +8,14 @@ item_ids:
   - assembler
 ---
 
-# Assembler
+# 装配机
 
 <BlockImage id="assembler" scale="4" />
 
-## About
-A precision assembling machine, useful for mass-producing low to mid-level components that are either impossible or
-too inefficient to build by hand.
+## 概述
+一台精确组装机，常用于生产某些难以或无法手工制作的低到中级部件。
 
-## Recipe Spec
-- Base crafting time: varies, by default 10 seconds
-- Inputs: 1-6 items, 1 optional fluid
-- Output: 1 item
+## 配方属性
+- 基础工作时间：因配方而异，默认为 10 秒
+- 输入：1\~6 种物品，可选 1 种流体
+- 输出：1 种物品

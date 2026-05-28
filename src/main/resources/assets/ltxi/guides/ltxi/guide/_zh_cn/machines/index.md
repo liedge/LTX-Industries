@@ -1,13 +1,13 @@
 ---
 navigation:
-    title: Machinery
+    title: 机器
     icon: auto_fabricator
     position: 20
 ---
 
-# Machines
+# 机器
 
-Whether you need resource processing, crafting, or defense we've got you covered. 
+无论你需要处理资源、合成还是防御，都有机器能帮助你。 
 
-## Sub-Categories
+## 分类
 <SubPages />

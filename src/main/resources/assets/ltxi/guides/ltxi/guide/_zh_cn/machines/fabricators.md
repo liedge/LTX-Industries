@@ -1,6 +1,6 @@
 ---
 navigation:
-    title: "Fabrication"
+    title: "组装器"
     icon: fabricator
     parent: machines/index.md
     position: 30
@@ -11,63 +11,51 @@ item_ids:
     - fabrication_blueprint
 ---
 
-# Tech Fabrication
+# 科技物品组装器
 
-Some of the upgrades and gear are too complex to be made in general processing machines or a crafting table.
-For that, you'll need to make a Fabricator. Fabricating recipes are unique amongst all the LTXI recipe types, consult
-the recipe data spec below.
+某些升级和装备过于复杂，因此无法在一般机器中制作；这些物品需要通过组装器制作。组装配方是模组中最特殊的配方类型，其属性将在下文描述。
 
-## Recipe Spec
-- Inputs: 1-16 items
-- Output: 1 item
-- Energy cost: varies per recipe, **used in place of crafting time**
+## 配方属性
+- 输入：1\~16 种物品
+- 输出：1 种物品
+- 能量消耗：因配方而异，**用于取代配方用时**
 
-Due to the lack of crafting time, the Fabricator speed is a much simpler function of the recipe energy cost and the
-**Energy Usage** machine stat. You may consider it a positive-sentiment stat for this machine.
+组装配方进度不按特定时间计算，而是通过配方需求的能量和机器的**能量消耗**属性进行计算；在这里，可以认为机器的能量消耗是一种正面属性。
 
-## Fabricator
+## 组装器
 <GameScene zoom={3} interactive={false}>
 <Block id="fabricator" y="-1" x="0" />
 <Block id="mesh_block" y="-1" x="-1" />
 <Block id="mesh_block" y="0" x="0" />
 <Block id="mesh_block" y="0" x="-1" />
 <BlockAnnotation x="0" y="-1" z="0" color="#8bd1f0">
-Items and Energy can only be connected to the front, left, rear, and bottom of this block!
+物品和能量仅可通过此方块的前、后、左、下四个面进行交互！
 </BlockAnnotation>
 </GameScene>
 
-Also referred to as the manual Fabricator, this is the first fabrication machine you'll make. You may view the available
-recipes in the recipe view grid. To select a recipe, left click once. Once selected, left click again to craft or right
-click to encode the recipe into an **Empty Fabrication Blueprint**. This Fabricator has no input slots, it will take the
-ingredients directly from your inventory for hassle-free crafting.
+组装器，也叫做手动组装器，是第一种可以制作的进行组装配方的机器。打开其 GUI 可以看到可用配方的列表，左键单击选择配方，选择配方后再次按鼠标左键可进行合成，按鼠标右键可将此配方编码进**空组装蓝图**。手动组装器没有物品槽位，进行合成时会直接使用玩家物品栏中的物品，以简化合成过程。
 
-## Fabrication Blueprint
+## 组装蓝图
 <ItemGrid>
 <ItemIcon id="empty_fabrication_blueprint" />
 <ItemIcon id="fabrication_blueprint" />
 </ItemGrid>
 
-Encoded **Fabrication Blueprints** hold a Fabrication recipe for use in the Auto Fabricator or AE2 Pattern Providers.
-Hold Shift when viewing the tooltip to display the recipe's information. Shift + Right click to clear the encoded recipe.
+已编码的**组装蓝图**可记录组装配方，并将其用于自动组装器和 AE2 样板供应器。按住 Shift 时其提示框中会显示配方的具体信息。Shift + 右键单击可清除编码的配方。
 
-## Auto Fabricator
+## 自动组装器
 <BlockImage id="auto_fabricator" scale="2" />
 
-A more specialized version of the Fabricator. It makes up for its lack of recipe variety with ease of automation. Unlike
-the regular fabricator, it has 16 ingredient input slots can not pull from your inventory.
+专业版本的组装器，可执行的配方种类较少，但自动化更容易。与普通的组装器不同，其具有 16 个输入槽，且不能直接使用玩家物品栏中的物品。
 
-### Single blueprint-based operation
+### 单蓝图操作模式
 
-Place an encoded Fabrication Blueprint in the blueprint slot to operate in this mode. You must supply the correct ingredient
-amounts via your preferred item transport method. As long as it has enough ingredients and energy, it will continuously
-craft the blueprint recipe.
+向机器的蓝图槽中放入编码的组装蓝图可使机器进入此模式，此时需要通过任意方式向机器提供正确数量的所需原材料才能运行。当机器中的原料和能量足够时，就会不断地合成蓝图中的配方。
 
-### AE2 Pattern Provider integration
-AE2's **Pattern Providers** have native compatibility with the Auto Fabricator and encoded Fabrication Blueprints. **Note!
-The blueprint slot must be empty, or else the Pattern Provider will not recognize the Auto Fabricator as a valid crafting
-machine.**
+### AE2 样板供应器集成
+AE2 的**样板供应器**与自动组装器和组装蓝图有原生兼容。**注意！此时机器的蓝图槽必须为空，否则样板供应器不会将其识别为合法的合成机器。**
 
-- Blueprints are patterns. Insert these directly into the Pattern Provider's pattern slots, no need for Processing patterns.
-- Compound ingredient/tag/substitution support by default.
-- Blocking mode is not necessary, item and blueprint feeding is managed automatically.
-- Item IO Configuration is re-configured on every pattern push. It will auto-output on the pattern provider side and disable the rest.
+- 组装蓝图本身就是样板，直接将其放入样板供应器即可，无需处理样板；
+- 默认支持复合原料 / 标签 / 物品替换等功能；
+- 无需开启阻挡模式，物品和蓝图供应会被自动处理；
+- 物品输入输出配置会在每次供应物品时重置，机器会自动向样板供应器输出，同时禁用其他方向的输出。

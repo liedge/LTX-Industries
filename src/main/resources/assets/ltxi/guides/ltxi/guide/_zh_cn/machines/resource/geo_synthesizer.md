@@ -1,6 +1,6 @@
 ---
 navigation:
-    title: Geo Synthesizer
+    title: 地质合成器
     icon: geo_synthesizer
     parent: machines/resource/index.md
     position: 1
@@ -8,14 +8,14 @@ item_ids:
   - geo_synthesizer
 ---
 
-# Geo Synthesizer
+# 地质合成器
 
 <BlockImage id="geo_synthesizer" scale="4" />
 
-## About
-The Geo Synthesizer specializes in the efficient mass production of geological foundation materials. In other words, rocks.
+## 概述
+地质合成器专用于高效制造大量的地质基础材料，也就是石头。
 
-## Recipe Spec
-- Base crafting time: varies, by default 3 seconds
-- Inputs: 1 item, exactly 2 fluids
-- Output: 1 item
+## 配方属性
+- 基础工作时间：因配方而异，默认为 3 秒
+- 输入：1 种物品，恰好 2 种流体
+- 输出：1 种物品
