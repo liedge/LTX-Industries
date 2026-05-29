@@ -1,24 +1,21 @@
 ---
 navigation:
-    title: Wayfinder
+    title: 探路
     icon: wayfinder
     parent: weapons/index.md
     position: 105
 ---
 
-# *Wayfinder* 05/ID
+# *“探路”* 05/ID
 
 <ItemImage id="wayfinder" scale="3" />
 
-## Stats
-- Projectile: Glowstick
-- Projectile Speed: 78 m/s
-- Trigger: Semi Auto
-- Trigger Cooldown: 0.5 sec
+## 属性
+- 弹射物：荧光棒
+- 弹射物速度：78 m/s
+- 扳机类型：半自动
+- 开火冷却： 0.5 秒
 
-## About
+## 概述
 
-Though it does not have offensive capabilities, *Wayfinder* is a part of our signature-series equipment. It specializes
-in range deployment of illumination devices. Launched projectiles have a maximum in-air lifetime of 5 seconds and,
-upon impact with a valid surface, will deploy as a persistent block. *Wayfinder* markers can be deployed on any block
-face and underwater.
+虽然 *“探路”* 不具有攻击性，但其仍然是信号系列装备的一部分。其用于向大范围内部署照明设备，发射出的弹射物具有最大 5 秒的滞空时间，并且会在击中合适的方块表面后作为永久性方块部署。*“探路”* 的荧光棒可以放置在任何方块表面以及水下。

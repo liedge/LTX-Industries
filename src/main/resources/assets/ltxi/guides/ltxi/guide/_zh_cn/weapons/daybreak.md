@@ -6,13 +6,13 @@ navigation:
     position: 141
 ---
 
-# *Daybreak* 41/RL
+# *“破晓”* 41/RL
 <ItemImage id="daybreak" scale="3" />
 
-## Stats
-- Base Direct Hit Damage: 100.0
-- Base Splash Damage: 40.0
-- Projectile: Rockets
-- Projectile Speed: 30 m/s
-- Trigger: Semi Auto
-- Trigger Cooldown: 1.5 sec
+## 属性
+- 基础伤害（直接击中）：100.0
+- 基础伤害（爆炸）：40.0
+- 弹射物：火箭弹
+- 弹射物速度：30 m/s
+- 扳机类型：半自动
+- 开火冷却：1.5 秒

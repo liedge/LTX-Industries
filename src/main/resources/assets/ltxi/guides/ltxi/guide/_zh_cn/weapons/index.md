@@ -5,42 +5,39 @@ navigation:
     icon: hanabi
 ---
 
-# Signature series weaponry
+# 信号系列武器
 
-The perfected combination of efficient, sleek beauty and lethality. All of our weapons are
-[upgradable equipment](../fundamentals/upgrade_system.md).
+效率、线条美学与致命性的完美结合。全系列武器均为[可升级装备](../fundamentals/upgrade_system.md)。
 
-## Controls
+## 控制
 
-- **Left Click**: Fire weapon.
-- **Right Click**: Focus reticle, if applicable.
-- **<KeyBind id="key.ltxi.reload_weapon" />** key: Reload weapon.
-- **SHIFT+Scroll Wheel up/down**: Switch equipment mode, if applicable.
+- **鼠标左键**：开火；
+- **鼠标右键**：若具有瞄准功能，则进行瞄准；
+- **<KeyBind id="key.ltxi.reload_weapon" />** 键：换弹；
+- **Shift + 滚轮滚动**: 若武器具有多种模式，则切换模式。
 
-## LightFrags
+## 光弹
 
-**LightFrags** (light fragments) are solidified shards of volatile light. Weapons that use LightFrags as their projectiles
-are 'hitscan', meaning that travel and impact happen instantaneously. The optical disruptions along their trajectory
-are aesthetic only.
+**光弹**是固化的易碎光能，发射光弹的武器具有“秒伤”的特性，也就是光弹的运动和冲击都是瞬间发生的。光弹弹道上的光学干扰只是为了美观。
 
 ---
 
-### Lightweight weapons
+### 轻型武器
 
-- 05/ID, '*[Wayfinder](wayfinder.md)*'
-- 11/PX, '*[Serenity](serenity.md)*'
-- 13/CX, '*[Mirage](mirage.md)*'
+- 05/ID *[“探路”](wayfinder.md)*
+- 11/PX *[“静谧”](serenity.md)*
+- 13/CX *[“幻影”](mirage.md)*
 
-### Specialist weapons
+### 专业型武器
 
-- 21/SG, '*[Aurora](aurora.md)*'
-- 37/LF, '*[Stargazer](stargazer.md)*'
+- 21/SG *[“极光”](aurora.md)*
+- 37/LF *[“瞻星”](stargazer.md)*
 
-### Explosive weapons
+### 爆破型武器
 
-- 33/GL, '*[Hanabi](hanabi.md)*'
-- 41/RL, '*[Daybreak](daybreak.md)*'
+- 33/GL *[“花火”](hanabi.md)*
+- 41/RL *[“破晓”](daybreak.md)*
 
 ### Heavy weapons
 
-- 77/HX, '*[Nova](nova.md)*'
+- 77/HX *[“新星”](nova.md)*

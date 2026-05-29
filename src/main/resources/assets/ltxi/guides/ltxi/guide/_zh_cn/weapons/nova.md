@@ -6,12 +6,12 @@ navigation:
     position: 177
 ---
 
-# *Nova* 77/HX
+# *“新星”* 77/HX
 <ItemImage id="nova" scale="3" />
 
-## Stats
-- Base Damage: 75.0
-- Range: 25.0
-- Projectile: [LightFrag](index.md#lightfrags)
-- Trigger: Semi Auto
-- Trigger Cooldown: 0.65 sec
+## 属性
+- 基础伤害：75.0
+- 范围：25.0
+- 弹射物：[光弹](index.md#lightfrags)
+- 扳机类型：半自动
+- 开火冷却： 0.65 秒
