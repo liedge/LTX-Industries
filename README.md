@@ -18,5 +18,6 @@ You can download official releases from these sources:
 - **Assets**
   - Copyright © 2024-2026 Ed Jimenez
   - **ALL RIGHTS RESERVED** unless otherwise specified
+  - Non `en_us` translations belong to their respective authors
 - **Sound Effects**
   - Free to use from Pixabay under the [Pixabay Content License](https://pixabay.com/service/license-summary/)
