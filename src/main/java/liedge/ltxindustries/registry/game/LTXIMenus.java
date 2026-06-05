@@ -6,7 +6,7 @@ import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.blockentity.*;
 import liedge.ltxindustries.blockentity.base.RecipeModeHolderBlockEntity;
 import liedge.ltxindustries.blockentity.template.BaseRecipeMachineBlockEntity;
-import liedge.ltxindustries.blockentity.template.LTXIMachineBlockEntity;
+import liedge.ltxindustries.blockentity.template.MachineBaseBlockEntity;
 import liedge.ltxindustries.blockentity.turret.ArcTurretBlockEntity;
 import liedge.ltxindustries.blockentity.turret.RailgunTurretBlockEntity;
 import liedge.ltxindustries.blockentity.turret.RocketTurretBlockEntity;
@@ -32,7 +32,7 @@ public final class LTXIMenus
     }
 
     public static final DeferredHolder<MenuType<?>, BlockIOConfigurationMenu.MenuType> BLOCK_IO_CONFIGURATION = TYPES.register("block_io_configuration", BlockIOConfigurationMenu.MenuType::new);
-    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<LTXIMachineBlockEntity, MachineUpgradeMenu>> MACHINE_UPGRADES = TYPES.register("machine_upgrades", id -> BlockEntityMenuType.create(id, LTXIMachineBlockEntity.class, MachineUpgradeMenu::new));
+    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<MachineBaseBlockEntity, MachineUpgradeMenu>> MACHINE_UPGRADES = TYPES.register("machine_upgrades", id -> BlockEntityMenuType.create(id, MachineBaseBlockEntity.class, MachineUpgradeMenu::new));
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<RecipeModeHolderBlockEntity, RecipeModeMenu>> RECIPE_MODE_SELECT = TYPES.register("recipe_modes", () -> BlockEntityMenuType.create(RecipeModeHolderBlockEntity.class, RecipeModeMenu::new));
 
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<UpgradeStationBlockEntity, UpgradeStationMenu>> UPGRADE_STATION = TYPES.register(LTXIIdentifiers.ID_UPGRADE_STATION, () -> BlockEntityMenuType.create(UpgradeStationBlockEntity.class, UpgradeStationMenu::new));

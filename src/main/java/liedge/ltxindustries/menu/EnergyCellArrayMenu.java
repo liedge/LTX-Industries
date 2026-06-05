@@ -19,6 +19,6 @@ public class EnergyCellArrayMenu extends LTXIMachineMenu<BaseECABlockEntity>
     @Override
     public void defineDataWatchers(DataWatcherCollector collector)
     {
-        menuContext.getEnergy().keepAllPropertiesSynced(collector);
+        menuContext.getEnergy().syncAllProperties(collector);
     }
 }

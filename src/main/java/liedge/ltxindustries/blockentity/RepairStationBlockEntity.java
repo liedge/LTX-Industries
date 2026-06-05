@@ -90,8 +90,8 @@ public class RepairStationBlockEntity extends ProductionMachineBlockEntity imple
             }
         }
 
-        tickItemAutoInput(40, inputInventory);
-        tickItemAutoOutput(40, outputInventory);
+        tickAutoResourceInput(40, inputInventory, null);
+        tickAutoResourceOutput(40, outputInventory, null);
     }
 
     @Override

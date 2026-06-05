@@ -4,7 +4,8 @@ import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.blockentity.IOAccess;
 import liedge.limacore.lib.LimaColor;
 import liedge.limacore.menu.BlockEntityMenuType;
-import liedge.limacore.transfer.energy.VariableEnergyHandler;
+import liedge.limacore.transfer.LimaTransferUtil;
+import liedge.limacore.transfer.energy.LimaEnergyHandler;
 import liedge.limacore.transfer.item.LimaBlockEntityItems;
 import liedge.limacore.util.LimaItemUtil;
 import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
@@ -15,7 +16,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.capabilities.BlockCapabilityCache;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.access.ItemAccess;
@@ -24,15 +24,11 @@ import net.neoforged.neoforge.transfer.energy.EnergyHandlerUtil;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import org.jspecify.annotations.Nullable;
 
-import java.util.EnumMap;
-import java.util.Map;
-
 public abstract class BaseECABlockEntity extends LTXIMachineBlockEntity
 {
     private final LimaBlockEntityItems chargingInventory;
-    private final Map<Direction, BlockCapabilityCache<EnergyHandler, @Nullable Direction>> energyConnections = new EnumMap<>(Direction.class);
 
-    public BaseECABlockEntity(ConfigurableIOBlockEntityType<?> type, BlockPos pos, BlockState state, @Nullable VariableEnergyHandler energyStorage)
+    public BaseECABlockEntity(ConfigurableIOBlockEntityType<?> type, BlockPos pos, BlockState state, @Nullable LimaEnergyHandler energyStorage)
     {
         super(type, pos, state, energyStorage);
         this.chargingInventory = new LimaBlockEntityItems(this, BlockContentsType.GENERAL, 4);
@@ -51,12 +47,7 @@ public abstract class BaseECABlockEntity extends LTXIMachineBlockEntity
     @Override
     public @Nullable LimaBlockEntityItems getItems(BlockContentsType contentsType)
     {
-        return switch (contentsType)
-        {
-            case GENERAL -> chargingInventory;
-            case AUXILIARY -> auxInventory;
-            default -> null;
-        };
+        return contentsType == BlockContentsType.GENERAL ? chargingInventory : super.getItems(contentsType);
     }
 
     @Override
@@ -90,19 +81,13 @@ public abstract class BaseECABlockEntity extends LTXIMachineBlockEntity
     }
 
     @Override
-    public @Nullable EnergyHandler getNeighborEnergyStorage(Direction side)
-    {
-        return energyConnections.get(side).getCapability();
-    }
-
-    @Override
     protected void tickServer(ServerLevel level, BlockPos pos, BlockState state)
     {
         // Fill buffer from input slot
         pullEnergyFromAux();
 
         // Charge items in the charging inventory
-        VariableEnergyHandler machineEnergy = getEnergy();
+        LimaEnergyHandler machineEnergy = getEnergy();
         if (machineEnergy.getAmountAsInt() > 0)
         {
             for (int i = 0; i < chargingInventory.size(); i++)
@@ -114,15 +99,9 @@ public abstract class BaseECABlockEntity extends LTXIMachineBlockEntity
         }
 
         // Auto output energy if option enabled
-        tickItemAutoOutput(100, chargingInventory, resource -> checkResourceEnergy(resource).allowsOutput());
+        tickAutoResourceOutput(100, chargingInventory, null,
+                resource -> checkResourceEnergy(resource).allowsOutput(), LimaTransferUtil.ALL_FLUIDS);
         pushEnergyToSides();
-    }
-
-    @Override
-    protected void createConnectionCaches(ServerLevel level, Direction side)
-    {
-        super.createConnectionCaches(level, side);
-        energyConnections.put(side, createCapabilityCache(Capabilities.Energy.BLOCK, level, side));
     }
 
     @Override

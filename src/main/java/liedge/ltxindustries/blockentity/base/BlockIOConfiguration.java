@@ -7,6 +7,7 @@ import liedge.limacore.lib.OrderedEnum;
 import net.minecraft.core.Direction;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
+import org.jspecify.annotations.Nullable;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -36,9 +37,16 @@ public sealed interface BlockIOConfiguration extends Iterable<Map.Entry<Relative
         return create(rules, ignored -> rules.defaultIOAccess());
     }
 
-    static BlockIOConfiguration create(ConfigurableIOBlockEntityType<?> type, BlockEntityInputType inputType)
+    static @Nullable BlockIOConfiguration create(ConfigurableIOBlockEntityType<?> type, BlockEntityInputType inputType)
     {
-        return create(type.getIOConfigRules(inputType));
+        if (type.getValidInputTypes().contains(inputType))
+        {
+            return create(type.getIOConfigRules(inputType));
+        }
+        else
+        {
+            return null;
+        }
     }
 
     IOAccess getIOAccess(RelativeHorizontalSide side);

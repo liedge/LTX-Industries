@@ -223,10 +223,8 @@ public abstract class BaseRecipeMachineBlockEntity<I extends RecipeInput, R exte
         }
 
         // Tick auto input/output of items and fluids
-        tickItemAutoInput(20, getItems(BlockContentsType.INPUT));
-        tickItemAutoOutput(20, getItems(BlockContentsType.OUTPUT));
-        tickFluidAutoInput(20);
-        tickFluidAutoOutput(20);
+        tickAutoResourceInput(20, getItems(BlockContentsType.INPUT), getFluids(BlockContentsType.INPUT));
+        tickAutoResourceOutput(20, getItems(BlockContentsType.OUTPUT), getFluids(BlockContentsType.OUTPUT));
     }
 
     @Override

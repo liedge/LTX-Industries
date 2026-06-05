@@ -63,7 +63,7 @@ public class IOConfigCardItem extends Item implements TooltipShiftHintItem
         {
             if (!level.isClientSide())
             {
-                if (blockEntity.getConfigurableInputTypes().contains(cardInputType))
+                if (blockEntity.supportsInputType(cardInputType))
                 {
                     BlockIOConfiguration currentConfig = blockEntity.getIOConfigurationOrThrow(cardInputType);
 

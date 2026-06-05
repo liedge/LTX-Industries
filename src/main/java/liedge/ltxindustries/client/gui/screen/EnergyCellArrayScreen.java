@@ -5,7 +5,7 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
-public class EnergyCellArrayScreen extends LTXIMachineScreen<EnergyCellArrayMenu>
+public class EnergyCellArrayScreen extends MachineBaseScreen<EnergyCellArrayMenu>
 {
     public EnergyCellArrayScreen(EnergyCellArrayMenu menu, Inventory inventory, Component title)
     {

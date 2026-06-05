@@ -57,7 +57,7 @@ public final class RecipeLayoutMenu<CTX extends BaseRecipeMachineBlockEntity<?, 
     @Override
     public void defineDataWatchers(DataWatcherCollector collector)
     {
-        menuContext.getEnergy().keepAllPropertiesSynced(collector);
+        menuContext.getEnergy().syncAllProperties(collector);
         menuContext.keepTimedProcessSynced(collector);
         menuContext.keepEnergyConsumerPropertiesSynced(collector);
 

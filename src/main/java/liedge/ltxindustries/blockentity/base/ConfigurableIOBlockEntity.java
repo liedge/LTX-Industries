@@ -13,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.Objects;
+import java.util.function.BiConsumer;
 
 public interface ConfigurableIOBlockEntity extends SubMenuProviderBlockEntity
 {
@@ -24,6 +25,11 @@ public interface ConfigurableIOBlockEntity extends SubMenuProviderBlockEntity
     }
 
     Collection<BlockEntityInputType> getConfigurableInputTypes();
+
+    default boolean supportsInputType(BlockEntityInputType inputType)
+    {
+        return getConfigurableInputTypes().contains(inputType);
+    }
 
     @Nullable BlockIOConfiguration getIOConfiguration(BlockEntityInputType inputType);
 
@@ -47,14 +53,14 @@ public interface ConfigurableIOBlockEntity extends SubMenuProviderBlockEntity
         LimaMenuProvider.create(LTXIMenus.BLOCK_IO_CONFIGURATION.get(), context, title, false).openMenuScreen(player);
     }
 
-    default void loadIOConfigurations(ValueInput global)
+    default void loadIOConfigurations(ValueInput global, BiConsumer<BlockEntityInputType, BlockIOConfiguration> consumer)
     {
         ValueInput input = global.child(KEY_IO_CONFIGS).orElse(null);
         if (input == null) return;
 
         for (BlockEntityInputType type : getConfigurableInputTypes())
         {
-            input.read(type.getSerializedName(), BlockIOConfiguration.CODEC).ifPresent(config -> setIOConfiguration(type, config));
+            input.read(type.getSerializedName(), BlockIOConfiguration.CODEC).ifPresent(config -> consumer.accept(type, config));
         }
     }
 

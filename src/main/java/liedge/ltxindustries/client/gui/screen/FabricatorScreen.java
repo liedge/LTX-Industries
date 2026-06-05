@@ -49,7 +49,7 @@ import static liedge.ltxindustries.LTXIndustries.RESOURCES;
 import static liedge.ltxindustries.client.LTXILangKeys.FABRICATOR_SELECTED_RECIPE_TOOLTIP;
 import static liedge.ltxindustries.client.LTXILangKeys.INLINE_ENERGY_REQUIRED_TOOLTIP;
 
-public class FabricatorScreen extends LTXIMachineScreen<FabricatorMenu>
+public class FabricatorScreen extends MachineBaseScreen<FabricatorMenu>
 {
     private static final Identifier BLUEPRINT_SLOT_SPRITE = RESOURCES.id("slot/blank_blueprint");
 

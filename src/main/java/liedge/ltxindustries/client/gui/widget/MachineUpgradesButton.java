@@ -3,7 +3,7 @@ package liedge.ltxindustries.client.gui.widget;
 import liedge.limacore.client.gui.LimaMenuScreen;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.client.gui.screen.UpgradesConfigScreen;
-import liedge.ltxindustries.menu.LTXIMachineMenu;
+import liedge.ltxindustries.menu.MachineBaseMenu;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Tooltip;
 
@@ -27,6 +27,6 @@ public class MachineUpgradesButton extends LTXISidebarButton.RightSided
     @Override
     protected void onPress()
     {
-        parent.sendUnitButtonData(LTXIMachineMenu.UPGRADES_BUTTON_ID);
+        parent.sendUnitButtonData(MachineBaseMenu.UPGRADES_BUTTON_ID);
     }
 }

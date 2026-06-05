@@ -2,6 +2,7 @@ package liedge.ltxindustries.blockentity.turret;
 
 import it.unimi.dsi.fastutil.ints.IntList;
 import liedge.limacore.LimaCommonConstants;
+import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.blockentity.OwnableBlockEntity;
 import liedge.limacore.client.LimaCoreClientUtil;
 import liedge.limacore.client.gui.TooltipLineConsumer;
@@ -277,7 +278,7 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
         pullEnergyFromAux();
 
         // Auto eject items
-        tickItemAutoOutput(100, getOutputInventory());
+        tickAutoResourceOutput(100, getItems(BlockContentsType.OUTPUT), null);
 
         Player owner = getOwner();
         TurretTargetTracker tracker = TurretTargetTracker.getOrDefault(owner);
@@ -355,10 +356,10 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
     }
 
     @Override
-    protected void applyImplicitComponents(DataComponentGetter getter)
+    protected void applyImplicitComponents(DataComponentGetter components)
     {
-        super.applyImplicitComponents(getter);
-        setOwnerUUID(getter.get(LimaCoreDataComponents.OWNER));
+        super.applyImplicitComponents(components);
+        setOwnerUUID(components.get(LimaCoreDataComponents.OWNER));
     }
 
     @Override

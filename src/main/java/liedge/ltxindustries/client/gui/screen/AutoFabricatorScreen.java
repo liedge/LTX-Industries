@@ -8,7 +8,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 
-public class AutoFabricatorScreen extends LTXIMachineScreen<AutoFabricatorMenu>
+public class AutoFabricatorScreen extends MachineBaseScreen<AutoFabricatorMenu>
 {
     private static final Identifier BLUEPRINT_SLOT_SPRITE = LTXIndustries.RESOURCES.id("slot/encoded_blueprint");
 

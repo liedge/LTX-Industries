@@ -1,6 +1,6 @@
 package liedge.ltxindustries.client.renderer.blockentity;
 
-import liedge.ltxindustries.blockentity.template.LTXIMachineBlockEntity;
+import liedge.ltxindustries.blockentity.template.MachineBaseBlockEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
@@ -10,7 +10,7 @@ import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.Nullable;
 
-public abstract class MachineRenderer<BE extends LTXIMachineBlockEntity> implements BlockEntityRenderer<BE, MachineRenderState>
+public abstract class MachineRenderer<BE extends MachineBaseBlockEntity> implements BlockEntityRenderer<BE, MachineRenderState>
 {
     final ItemModelResolver itemResolver;
     final ModelManager modelManager;

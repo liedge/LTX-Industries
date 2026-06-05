@@ -18,6 +18,6 @@ public class TurretMenu<BE extends TurretBlockEntity> extends LTXIMachineMenu<BE
     @Override
     public void defineDataWatchers(DataWatcherCollector collector)
     {
-        menuContext.getEnergy().keepAllPropertiesSynced(collector);
+        menuContext.getEnergy().syncAllProperties(collector);
     }
 }
