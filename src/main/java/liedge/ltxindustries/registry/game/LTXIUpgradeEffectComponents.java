@@ -37,6 +37,8 @@ public final class LTXIUpgradeEffectComponents
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ValueOperation>>> ENERGY_TRANSFER_RATE = COMPONENTS.registerValue("energy_transfer_rate");
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ValueOperation>>> ENERGY_USAGE = COMPONENTS.registerValue("energy_usage");
 
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ValueOperation>>> FLUID_CAPACITY = COMPONENTS.registerValue("fluid_capacity");
+
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<TargetableEffect<EntityUpgradeEffect>>>> PRE_ATTACK = COMPONENTS.registerTargetableEntity("pre_attack", UpgradeContexts.UPGRADED_DAMAGE);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<TargetableEffect<EntityUpgradeEffect>>>> ENTITY_KILLED = COMPONENTS.registerTargetableEntity("entity_killed", LootContextParamSets.ENTITY);
 

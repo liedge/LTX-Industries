@@ -37,6 +37,8 @@ public final class LTXIMenus
 
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<UpgradeStationBlockEntity, UpgradeStationMenu>> UPGRADE_STATION = TYPES.register(LTXIIdentifiers.ID_UPGRADE_STATION, () -> BlockEntityMenuType.create(UpgradeStationBlockEntity.class, UpgradeStationMenu::new));
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<BaseECABlockEntity, EnergyCellArrayMenu>> ENERGY_CELL_ARRAY = TYPES.register(LTXIIdentifiers.ID_ENERGY_CELL_ARRAY, () -> BlockEntityMenuType.create(BaseECABlockEntity.class, EnergyCellArrayMenu::new));
+    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<PortableTankBlockEntity, PortableTankMenu>> PORTABLE_TANK = TYPES.register(LTXIIdentifiers.ID_PORTABLE_TANK, () -> BlockEntityMenuType.create(PortableTankBlockEntity.class, PortableTankMenu::new));
+    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<SpecialInfiniteTankBlockEntity, SpecialInfiniteTankMenu>> SPECIAL_INFINITE_TANK = TYPES.register("special_infinite_tank", () -> BlockEntityMenuType.create(SpecialInfiniteTankBlockEntity.class, SpecialInfiniteTankMenu::new, null));
 
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<DigitalFurnaceBlockEntity, RecipeLayoutMenu<DigitalFurnaceBlockEntity>>> DIGITAL_FURNACE = registerLayoutRecipeMenu(LTXIIdentifiers.ID_DIGITAL_FURNACE, DigitalFurnaceBlockEntity.class, RecipeLayouts.COOKING_LAYOUT);
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<DigitalSmokerBlockEntity, RecipeLayoutMenu<DigitalSmokerBlockEntity>>> DIGITAL_SMOKER = registerLayoutRecipeMenu(LTXIIdentifiers.ID_DIGITAL_SMOKER, DigitalSmokerBlockEntity.class, RecipeLayouts.COOKING_LAYOUT);

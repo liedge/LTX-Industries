@@ -22,6 +22,7 @@ import liedge.ltxindustries.client.renderer.entity.GlowstickProjectileRenderer;
 import liedge.ltxindustries.client.renderer.entity.RocketRenderer;
 import liedge.ltxindustries.client.renderer.entity.ShellGrenadeRenderer;
 import liedge.ltxindustries.client.renderer.entity.WonderlandArmorLayer;
+import liedge.ltxindustries.client.renderer.item.TankSpecialRenderer;
 import liedge.ltxindustries.data.LTXIReloadListeners;
 import liedge.ltxindustries.menu.tooltip.FabricatingInputsTooltip;
 import liedge.ltxindustries.menu.tooltip.ItemStacksTooltip;
@@ -77,6 +78,12 @@ public class LTXIndustriesClient
         }
 
         @SubscribeEvent
+        private void registerSpecialRenderers(final RegisterSpecialModelRendererEvent event)
+        {
+            event.register(LTXIndustries.RESOURCES.id("tank"), TankSpecialRenderer.Unbaked.CODEC);
+        }
+
+        @SubscribeEvent
         private void registerTextureAtlas(final RegisterTextureAtlasesEvent event)
         {
             event.register(new AtlasManager.AtlasConfig(LTXIAtlasIds.UPGRADE_ICONS_TEXTURE, LTXIAtlasIds.UPGRADE_ICONS_ID, false));
@@ -128,6 +135,8 @@ public class LTXIndustriesClient
             event.register(LTXIMenus.RECIPE_MODE_SELECT.get(), RecipeModeScreen::new);
 
             event.register(LTXIMenus.ENERGY_CELL_ARRAY.get(), EnergyCellArrayScreen::new);
+            event.register(LTXIMenus.PORTABLE_TANK.get(), PortableTankScreen::new);
+            event.register(LTXIMenus.SPECIAL_INFINITE_TANK.get(), SpecialInfiniteTankScreen::new);
             event.register(LTXIMenus.DIGITAL_FURNACE.get(), RecipeLayoutScreen::new);
             event.register(LTXIMenus.DIGITAL_SMOKER.get(), RecipeLayoutScreen::new);
             event.register(LTXIMenus.DIGITAL_BLAST_FURNACE.get(), RecipeLayoutScreen::new);
@@ -186,6 +195,7 @@ public class LTXIndustriesClient
             // Block entities
             event.registerBlockEntityRenderer(LTXIBlockEntities.ENERGY_CELL_ARRAY.get(), ctx -> new EnergyCellArrayRenderer(ctx, LTXIConstants.REM_BLUE));
             event.registerBlockEntityRenderer(LTXIBlockEntities.INFINITE_ENERGY_CELL_ARRAY.get(), ctx -> new EnergyCellArrayRenderer(ctx, LTXIConstants.CREATIVE_PINK));
+            event.registerBlockEntityRenderer(LTXIBlockEntities.PORTABLE_TANK.get(), TankRenderer::new);
             event.registerBlockEntityRenderer(LTXIBlockEntities.GRINDER.get(), GrinderRenderer::new);
             event.registerBlockEntityRenderer(LTXIBlockEntities.ELECTROCENTRIFUGE.get(), ElectroCentrifugeRenderer::new);
             event.registerBlockEntityRenderer(LTXIBlockEntities.MIXER.get(), MixerRenderer::new);
@@ -233,7 +243,7 @@ public class LTXIndustriesClient
         @SubscribeEvent
         public void registerBlockColors(final RegisterColorHandlersEvent.BlockTintSources event)
         {
-            event.register(List.of(BlockTintSources.water()), LTXIBlocks.GEO_SYNTHESIZER.get(), LTXIBlocks.DIGITAL_GARDEN.get());
+            event.register(List.of(BlockTintSources.water()), LTXIBlocks.INFINITE_WATER_TANK.get(), LTXIBlocks.GEO_SYNTHESIZER.get(), LTXIBlocks.DIGITAL_GARDEN.get());
         }
 
         @SubscribeEvent

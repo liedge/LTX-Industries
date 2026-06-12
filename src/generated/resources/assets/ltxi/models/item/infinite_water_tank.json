@@ -1,0 +1,4 @@
+{
+  "parent": "ltxi:block/infinite_water_tank",
+  "loader": "limacore:extended_cuboid"
+}

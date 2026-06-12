@@ -1,6 +1,8 @@
 package liedge.ltxindustries.registry.game;
 
 import liedge.limacore.registry.LimaDeferredItems;
+import liedge.limacore.registry.game.LimaCoreDataComponents;
+import liedge.limacore.transfer.LimaTransferUtil;
 import liedge.limacore.util.LimaCollectionsUtil;
 import liedge.ltxindustries.LTXIIdentifiers;
 import liedge.ltxindustries.block.NeonLightColor;
@@ -23,9 +25,11 @@ import net.minecraft.world.item.component.UseEffects;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.material.Fluids;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.fluids.FluidStackTemplate;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 
@@ -50,14 +54,25 @@ public final class LTXIItems
 
     private static void registerCapabilities(RegisterCapabilitiesEvent event)
     {
-        // Auto-register all energy-capable items
+        // Auto-register all capable items
         for (Holder<Item> holder : ITEMS.getEntries())
         {
             ItemLike item = holder.value();
+
+            // Energy
             if (item instanceof EnergyHolderItem)
             {
                 event.registerItem(Capabilities.Energy.ITEM, EnergyHolderItem::createItemEnergy, item);
             }
+
+            // Fluids
+            if (item instanceof FluidHolderItem)
+            {
+                event.registerItem(Capabilities.Fluid.ITEM, FluidHolderItem::createItemFluids, item);
+            }
+
+            // Special fluid items
+            event.registerItem(Capabilities.Fluid.ITEM, (stack, _) -> LimaTransferUtil.createInfiniteItemFluids(stack), INFINITE_WATER_TANK, INFINITE_LAVA_TANK);
         }
     }
 
@@ -89,6 +104,13 @@ public final class LTXIItems
     public static final DeferredItem<BlockItem> UPGRADE_STATION = ITEMS.registerSimpleBlockItem(LTXIBlocks.UPGRADE_STATION, properties -> properties.stacksTo(1));
     public static final DeferredItem<ECABlockItem> ENERGY_CELL_ARRAY = ITEMS.registerCustomBlockItem(LTXIBlocks.ENERGY_CELL_ARRAY, ECABlockItem::new, properties -> properties.stacksTo(1));
     public static final DeferredItem<InfiniteECABlockItem> INFINITE_ENERGY_CELL_ARRAY = ITEMS.registerCustomBlockItem(LTXIBlocks.INFINITE_ENERGY_CELL_ARRAY, InfiniteECABlockItem::new, properties -> properties.stacksTo(1).rarity(Rarity.EPIC));
+    public static final DeferredItem<BlockItem> PORTABLE_TANK = ITEMS.registerCustomBlockItem(LTXIBlocks.PORTABLE_TANK, PortableTankItem::new, properties -> properties.stacksTo(1));
+    public static final DeferredItem<BlockItem> INFINITE_WATER_TANK = ITEMS.registerSimpleBlockItem(LTXIBlocks.INFINITE_WATER_TANK, properties -> properties.stacksTo(1)
+            .rarity(Rarity.RARE)
+            .component(LimaCoreDataComponents.INFINITE_FLUID, new FluidStackTemplate(Fluids.WATER, 1)));
+    public static final DeferredItem<BlockItem> INFINITE_LAVA_TANK = ITEMS.registerSimpleBlockItem(LTXIBlocks.INFINITE_LAVA_TANK, properties -> properties.stacksTo(1)
+            .rarity(Rarity.EPIC)
+            .component(LimaCoreDataComponents.INFINITE_FLUID, new FluidStackTemplate(Fluids.LAVA, 1)));
     public static final DeferredItem<BlockItem> DIGITAL_FURNACE = registerMachineBlockItem(LTXIBlocks.DIGITAL_FURNACE);
     public static final DeferredItem<BlockItem> DIGITAL_SMOKER = registerMachineBlockItem(LTXIBlocks.DIGITAL_SMOKER);
     public static final DeferredItem<BlockItem> DIGITAL_BLAST_FURNACE = registerMachineBlockItem(LTXIBlocks.DIGITAL_BLAST_FURNACE);

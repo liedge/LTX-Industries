@@ -6,20 +6,20 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class SimpleHintItem extends Item implements TooltipShiftHintItem
 {
-    private Translatable shiftHint;
+    private final Translatable shiftHint;
 
     public SimpleHintItem(Properties properties)
     {
         super(properties);
+        this.shiftHint = Translatable.standalone(this.descriptionId + ".hint");
     }
 
     public Translatable getShiftHint()
     {
-        if (shiftHint == null) shiftHint = Translatable.standalone(getDescriptionId() + ".hint");
         return shiftHint;
     }
 

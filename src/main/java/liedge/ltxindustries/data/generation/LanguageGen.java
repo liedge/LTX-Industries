@@ -16,7 +16,10 @@ import liedge.ltxindustries.lib.upgrades.UpgradeBuilder;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
 import liedge.ltxindustries.lib.weapons.WeaponReloadSource;
 import liedge.ltxindustries.recipe.RecipeMode;
-import liedge.ltxindustries.registry.bootstrap.*;
+import liedge.ltxindustries.registry.bootstrap.LTXIDamageTypes;
+import liedge.ltxindustries.registry.bootstrap.LTXIEnchantments;
+import liedge.ltxindustries.registry.bootstrap.LTXIRecipeModes;
+import liedge.ltxindustries.registry.bootstrap.LTXIUpgrades;
 import liedge.ltxindustries.registry.game.*;
 import liedge.ltxindustries.util.LTXITooltipUtil;
 import net.minecraft.data.PackOutput;
@@ -25,7 +28,8 @@ import net.minecraft.world.damagesource.DamageType;
 import net.neoforged.neoforge.registries.DeferredItem;
 
 import static liedge.ltxindustries.client.LTXILangKeys.*;
-import static liedge.ltxindustries.registry.game.LTXICreativeTabs.*;
+import static liedge.ltxindustries.registry.game.LTXICreativeTabs.MAIN_TAB;
+import static liedge.ltxindustries.registry.game.LTXICreativeTabs.UPGRADE_MODULES_TAB;
 import static liedge.ltxindustries.registry.game.LTXIItems.*;
 import static liedge.ltxindustries.registry.game.LTXIRecipeTypes.*;
 import static liedge.ltxindustries.registry.game.LTXISounds.*;
@@ -77,6 +81,9 @@ class LanguageGen extends LimaLanguageProvider
 
         addBlock(LTXIBlocks.ENERGY_CELL_ARRAY, "Energy Cell Array");
         addBlock(LTXIBlocks.INFINITE_ENERGY_CELL_ARRAY, "Energy Cell Array (∞)");
+        addBlock(LTXIBlocks.PORTABLE_TANK, "Portable Tank");
+        addBlock(LTXIBlocks.INFINITE_WATER_TANK, "Bathyal Water Tank");
+        addBlock(LTXIBlocks.INFINITE_LAVA_TANK, "Infernal Lava Tank");
         addBlock(LTXIBlocks.DIGITAL_FURNACE, "Digital Furnace");
         addBlock(LTXIBlocks.DIGITAL_SMOKER, "Digital Smoker");
         addBlock(LTXIBlocks.DIGITAL_BLAST_FURNACE, "Digital Blast Furnace");
@@ -351,6 +358,8 @@ class LanguageGen extends LimaLanguageProvider
         add(INLINE_ENERGY, "Energy: %s");
         add(INLINE_ENERGY_TRANSFER_RATE, "Energy I/O: %s");
         add(INLINE_ENERGY_USAGE, "Energy use: %s");
+        add(NO_FLUID_STORED, "No fluid");
+        add(INLINE_FLUID_TRANSFER_RATE, "Fluid I/O: %s");
         add(INLINE_NO_OWNER_TOOLTIP, "No Owner");
         add(INLINE_OWNER_TOOLTIP, "Owner: %s");
         add(ENERGY_OVERCHARGE_TOOLTIP, "Energy Overcharged! Your energy stored is more than your current capacity.");

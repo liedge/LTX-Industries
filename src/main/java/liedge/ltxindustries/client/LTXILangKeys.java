@@ -31,6 +31,10 @@ public final class LTXILangKeys
     public static final Translatable INLINE_ENERGY_TRANSFER_RATE = tooltip("energy_transfer_rate");
     public static final Translatable INLINE_ENERGY_USAGE = tooltip("energy_usage");
     public static final Translatable INLINE_ENERGY_REQUIRED_TOOLTIP = tooltip("energy_required");
+
+    public static final Translatable NO_FLUID_STORED = tooltip("no_fluid");
+    public static final Translatable INLINE_FLUID_TRANSFER_RATE = tooltip("fluid_transfer_rate");
+
     public static final Translatable INLINE_NO_OWNER_TOOLTIP = tooltip("no_owner");
     public static final Translatable INLINE_OWNER_TOOLTIP = tooltip("owner");
     public static final Translatable ENERGY_OVERCHARGE_TOOLTIP = tooltip("energy_overcharge");

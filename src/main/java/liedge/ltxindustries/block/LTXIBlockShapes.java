@@ -36,6 +36,10 @@ public final class LTXIBlockShapes
             dimensionBox(0, 13, 0, 16, 3, 16),
             dimensionBox(1, 2.5d, 1, 14, 11, 14));
 
+    public static final VoxelShape PORTABLE_TANK = Shapes.or(
+            dimensionBox(3, 0, 3, 10, 16, 10),
+            dimensionBox(5, 12, 2, 6, 4, 1));
+
     public static final VoxelShape COOKING_MACHINE = Shapes.or(
             // Bottom frame base
             Block.box(0, 0, 0, 16, 4, 16),

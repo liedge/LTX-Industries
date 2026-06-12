@@ -1,8 +1,8 @@
 package liedge.ltxindustries.blockentity.template;
 
+import com.google.common.base.Predicates;
 import liedge.limacore.blockentity.IOAccess;
 import liedge.limacore.blockentity.LimaBlockEntity;
-import liedge.limacore.transfer.LimaTransferUtil;
 import liedge.ltxindustries.blockentity.base.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -217,7 +217,7 @@ public abstract class ConfigurableSidesBlockEntity extends LimaBlockEntity imple
 
     protected void tickAutoResourceInput(int frequency, @Nullable ResourceHandler<ItemResource> items, @Nullable ResourceHandler<FluidResource> fluids)
     {
-        tickAutoResourceInput(frequency, items, fluids, LimaTransferUtil.ALL_ITEMS, LimaTransferUtil.ALL_FLUIDS);
+        tickAutoResourceInput(frequency, items, fluids, Predicates.alwaysTrue(), Predicates.alwaysTrue());
     }
 
     protected void tickAutoResourceOutput(int frequency, @Nullable ResourceHandler<ItemResource> items, @Nullable ResourceHandler<FluidResource> fluids, Predicate<ItemResource> itemFilter, Predicate<FluidResource> fluidFilter)
@@ -237,7 +237,7 @@ public abstract class ConfigurableSidesBlockEntity extends LimaBlockEntity imple
 
     protected void tickAutoResourceOutput(int frequency, @Nullable ResourceHandler<ItemResource> items, @Nullable ResourceHandler<FluidResource> fluids)
     {
-        tickAutoResourceOutput(frequency, items, fluids, LimaTransferUtil.ALL_ITEMS, LimaTransferUtil.ALL_FLUIDS);
+        tickAutoResourceOutput(frequency, items, fluids, Predicates.alwaysTrue(), Predicates.alwaysTrue());
     }
 
     //#endregion
