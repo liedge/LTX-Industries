@@ -2,7 +2,7 @@
   "type": "ltxi:material_fusing",
   "item_inputs": [
     {
-      "ingredient": "ltxi:titanium_ingot"
+      "ingredient": "#c:ingots/titanium"
     },
     {
       "count": 3,

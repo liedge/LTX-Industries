@@ -5,7 +5,7 @@
     "c": "ltxi:t1_circuit",
     "l": "#c:dyes/lime",
     "p": "minecraft:paper",
-    "t": "ltxi:titanium_ingot"
+    "t": "#c:ingots/titanium"
   },
   "pattern": [
     "lll",

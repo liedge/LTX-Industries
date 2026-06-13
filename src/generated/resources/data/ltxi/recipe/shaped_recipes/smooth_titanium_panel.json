@@ -3,7 +3,7 @@
   "category": "building",
   "key": {
     "f": "ltxi:polymer_ingot",
-    "t": "ltxi:titanium_ingot"
+    "t": "#c:ingots/titanium"
   },
   "pattern": [
     "ftf",

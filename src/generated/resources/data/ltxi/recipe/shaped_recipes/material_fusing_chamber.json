@@ -6,7 +6,7 @@
     "c": "ltxi:t1_circuit",
     "g": "ltxi:titanium_gear",
     "s": "minecraft:obsidian",
-    "t": "ltxi:titanium_ingot"
+    "t": "#c:ingots/titanium"
   },
   "pattern": [
     "tct",

@@ -7,7 +7,7 @@
     "g": "ltxi:slatesteel_gear",
     "o": "ltxi:optical_tech_part",
     "s": "ltxi:polymer_ingot",
-    "t": "ltxi:titanium_ingot"
+    "t": "#c:ingots/titanium"
   },
   "pattern": [
     "tot",

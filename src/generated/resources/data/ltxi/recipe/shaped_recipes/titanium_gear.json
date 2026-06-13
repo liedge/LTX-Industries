@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "i": "ltxi:titanium_ingot",
+    "i": "#c:ingots/titanium",
     "n": "#c:nuggets/iron"
   },
   "pattern": [

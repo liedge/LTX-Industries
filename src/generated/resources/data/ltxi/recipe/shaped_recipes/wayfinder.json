@@ -7,7 +7,7 @@
     "e": "ltxi:electric_chemical",
     "g": "ltxi:titanium_glass",
     "m": "minecraft:glowstone",
-    "t": "ltxi:titanium_ingot"
+    "t": "#c:ingots/titanium"
   },
   "pattern": [
     "tgg",
