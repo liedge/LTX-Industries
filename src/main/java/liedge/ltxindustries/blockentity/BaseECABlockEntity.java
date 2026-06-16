@@ -2,7 +2,6 @@ package liedge.ltxindustries.blockentity;
 
 import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.blockentity.IOAccess;
-import liedge.limacore.lib.LimaColor;
 import liedge.limacore.menu.BlockEntityMenuType;
 import liedge.limacore.transfer.LimaTransferUtil;
 import liedge.limacore.transfer.energy.LimaEnergyHandler;
@@ -33,8 +32,6 @@ public abstract class BaseECABlockEntity extends LTXIMachineBlockEntity
         super(type, pos, state, energyStorage);
         this.chargingInventory = new LimaBlockEntityItems(this, BlockContentsType.GENERAL, 4);
     }
-
-    public abstract LimaColor getRemoteEnergyFillColor();
 
     public abstract float getRemoteEnergyFill();
 

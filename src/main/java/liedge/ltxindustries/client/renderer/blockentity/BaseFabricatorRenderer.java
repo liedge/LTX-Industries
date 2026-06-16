@@ -12,8 +12,9 @@ import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import org.jspecify.annotations.Nullable;
 
-public final class BaseFabricatorRenderer extends MachineRenderer<BaseFabricatorBlockEntity>
+public final class BaseFabricatorRenderer extends MachineBaseRenderer<BaseFabricatorBlockEntity, BaseFabricatorRenderer.State>
 {
     private final double xOffset;
     private final double yOffset;
@@ -26,34 +27,49 @@ public final class BaseFabricatorRenderer extends MachineRenderer<BaseFabricator
     }
 
     @Override
-    void extractAdditional(BaseFabricatorBlockEntity blockEntity, MachineRenderState renderState, float partialTick)
+    public State createRenderState()
+    {
+        return new State();
+    }
+
+    @Override
+    protected void extractAdditional(BaseFabricatorBlockEntity blockEntity, State state, float partialTick)
     {
         ItemStack stack = blockEntity.getClientPreviewItem();
         if (stack.isEmpty()) return;
 
         ItemStackRenderState previewItem = new ItemStackRenderState();
         itemResolver.updateForTopItem(previewItem, stack, ItemDisplayContext.FIXED, null, null, 0);
-        renderState.previewItem = previewItem;
-        renderState.active = blockEntity.isCrafting();
+        state.previewItem = previewItem;
+        state.active = blockEntity.isCrafting();
     }
 
     @Override
-    public void submit(MachineRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState)
+    public void submit(State state, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState camera)
     {
-        ItemStackRenderState previewItem = renderState.previewItem;
+        ItemStackRenderState previewItem = state.previewItem;
         if (previewItem == null) return;
 
         poseStack.pushPose();
 
         poseStack.translate(0.5d, yOffset, 0.5d);
-        poseStack.mulPose(Axis.YP.rotationDegrees(LTXIRenderer.facingYRotation(renderState.facing)));
+        poseStack.mulPose(Axis.YP.rotationDegrees(LTXIRenderer.facingYRotation(state.facing)));
         poseStack.mulPose(Axis.XP.rotationDegrees(90));
         poseStack.translate(xOffset, 0, 0);
         poseStack.scale(0.4375f, 0.4375f, 0.4375f);
 
-        if (renderState.active) nodeCollector = new WireframeNodeCollector(nodeCollector);
-        previewItem.submit(poseStack, nodeCollector, renderState.lightCoords, OverlayTexture.NO_OVERLAY, 0);
+        if (state.active) nodeCollector = new WireframeNodeCollector(nodeCollector);
+        previewItem.submit(poseStack, nodeCollector, state.lightCoords, OverlayTexture.NO_OVERLAY, 0);
 
         poseStack.popPose();
+    }
+
+    public static final class State extends MachineRenderState
+    {
+        private State() { }
+
+        @Nullable
+        private ItemStackRenderState previewItem;
+        private boolean active;
     }
 }

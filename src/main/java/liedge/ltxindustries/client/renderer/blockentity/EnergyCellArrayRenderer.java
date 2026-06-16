@@ -1,6 +1,7 @@
 package liedge.ltxindustries.client.renderer.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import liedge.limacore.lib.LimaColor;
 import liedge.ltxindustries.blockentity.BaseECABlockEntity;
 import liedge.ltxindustries.client.model.custom.EnergyDisplayModel;
 import net.minecraft.client.renderer.SubmitNodeCollector;
@@ -8,7 +9,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.core.Direction;
 
-public class EnergyCellArrayRenderer extends MachineRenderer<BaseECABlockEntity>
+public class EnergyCellArrayRenderer extends MachineBaseRenderer<BaseECABlockEntity, EnergyCellArrayRenderer.State>
 {
     private static EnergyDisplayModel fillModel(float x, float z)
     {
@@ -23,27 +24,42 @@ public class EnergyCellArrayRenderer extends MachineRenderer<BaseECABlockEntity>
                     fillModel(10, 10)
             };
 
-    public EnergyCellArrayRenderer(BlockEntityRendererProvider.Context context)
+    private final LimaColor fillColor;
+
+    public EnergyCellArrayRenderer(BlockEntityRendererProvider.Context context, LimaColor fillColor)
     {
         super(context);
+        this.fillColor = fillColor;
     }
 
     @Override
-    void extractAdditional(BaseECABlockEntity blockEntity, MachineRenderState renderState, float partialTick)
+    public State createRenderState()
     {
-        renderState.energyFill = blockEntity.getRemoteEnergyFill();
-        renderState.energyColor = blockEntity.getRemoteEnergyFillColor();
+        return new State();
     }
 
     @Override
-    public void submit(MachineRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState)
+    protected void extractAdditional(BaseECABlockEntity blockEntity, State state, float partialTick)
     {
-        if (renderState.energyFill > 0)
+        state.energyFill = blockEntity.getRemoteEnergyFill();
+    }
+
+    @Override
+    public void submit(State state, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState camera)
+    {
+        if (state.energyFill > 0)
         {
             for (EnergyDisplayModel model : fillModels)
             {
-                model.submit(poseStack, nodeCollector, renderState.energyFill, renderState.energyColor.argb32(), 0.8f);
+                model.submit(poseStack, nodeCollector, state.energyFill, fillColor.argb32(), 0.8f);
             }
         }
+    }
+
+    public static final class State extends MachineRenderState
+    {
+        private State() { }
+
+        private float energyFill;
     }
 }

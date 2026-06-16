@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 
-public final class VoltaicInjectorRenderer extends MachineRenderer<VoltaicInjectorBlockEntity>
+public final class VoltaicInjectorRenderer extends SimpleMachineRenderer<VoltaicInjectorBlockEntity>
 {
     public VoltaicInjectorRenderer(BlockEntityRendererProvider.Context context)
     {
@@ -17,20 +17,20 @@ public final class VoltaicInjectorRenderer extends MachineRenderer<VoltaicInject
     }
 
     @Override
-    void extractAdditional(VoltaicInjectorBlockEntity blockEntity, MachineRenderState renderState, float partialTick)
+    protected void extractAdditional(VoltaicInjectorBlockEntity blockEntity, State state, float partialTick)
     {
-        renderState.machineBolt = blockEntity.platformBolt;
+        state.machineBolt = blockEntity.platformBolt;
     }
 
     @Override
-    public void submit(MachineRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState)
+    public void submit(State state, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState camera)
     {
-        if (renderState.machineBolt == null) return;
+        if (state.machineBolt == null) return;
 
         poseStack.pushPose();
 
         poseStack.translate(0.5f, 0.375f, 0.5f);
-        LTXIRenderer.submitEnergyBolt(poseStack, nodeCollector, RenderTypes.lightning(), renderState.machineBolt, LTXIConstants.ELECTRIC_GREEN, 0.9f);
+        LTXIRenderer.submitEnergyBolt(poseStack, nodeCollector, RenderTypes.lightning(), state.machineBolt, LTXIConstants.ELECTRIC_GREEN, 0.9f);
 
         poseStack.popPose();
     }

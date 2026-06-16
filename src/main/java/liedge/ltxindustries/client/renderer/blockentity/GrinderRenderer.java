@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 
-public class GrinderRenderer extends MachineRenderer<GrinderBlockEntity>
+public class GrinderRenderer extends SimpleMachineRenderer<GrinderBlockEntity>
 {
     private final StaticQuads frontCrusher;
     private final StaticQuads rearCrusher;
@@ -23,37 +23,37 @@ public class GrinderRenderer extends MachineRenderer<GrinderBlockEntity>
     }
 
     @Override
-    void extractAdditional(GrinderBlockEntity blockEntity, MachineRenderState renderState, float partialTick)
+    protected void extractAdditional(GrinderBlockEntity blockEntity, State state, float partialTick)
     {
-        renderState.machineSpin = blockEntity.lerpCrushersRot(partialTick);
+        state.machineSpin = blockEntity.lerpCrushersRot(partialTick);
     }
 
     @Override
-    public void submit(MachineRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState)
+    public void submit(State state, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState camera)
     {
         poseStack.pushPose();
 
         // Orient crushers to block facing
         poseStack.translate(0.5f, 0f, 0.5f);
-        poseStack.mulPose(Axis.YP.rotationDegrees(LTXIRenderer.facingYRotation(renderState.facing)));
+        poseStack.mulPose(Axis.YP.rotationDegrees(LTXIRenderer.facingYRotation(state.facing)));
         poseStack.translate(-0.5f, 0f, -0.5f);
 
         // Rotate and render front crusher
         poseStack.pushPose();
         poseStack.translate(0.5f, 0.625f, 0.375f);
-        poseStack.mulPose(Axis.XP.rotationDegrees(renderState.machineSpin));
+        poseStack.mulPose(Axis.XP.rotationDegrees(state.machineSpin));
         poseStack.translate(-0.5f, -0.625f, -0.375f);
 
-        frontCrusher.submit(poseStack, nodeCollector, renderState.lightCoords);
+        frontCrusher.submit(poseStack, nodeCollector, state.lightCoords);
         poseStack.popPose();
 
         // Rotate and render back crusher
         poseStack.pushPose();
         poseStack.translate(0.5f, 0.625f, 0.625f);
-        poseStack.mulPose(Axis.XN.rotationDegrees(renderState.machineSpin));
+        poseStack.mulPose(Axis.XN.rotationDegrees(state.machineSpin));
         poseStack.translate(-0.5f, -0.625f, -0.625f);
 
-        rearCrusher.submit(poseStack, nodeCollector, renderState.lightCoords);
+        rearCrusher.submit(poseStack, nodeCollector, state.lightCoords);
         poseStack.popPose();
 
         poseStack.popPose();
