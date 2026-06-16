@@ -7,9 +7,9 @@ import liedge.limacore.blockentity.OwnableBlockEntity;
 import liedge.limacore.client.LimaCoreClientUtil;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.lib.math.LimaCoreMath;
-import liedge.limacore.network.sync.AutomaticDataWatcher;
-import liedge.limacore.network.sync.LimaDataWatcher;
-import liedge.limacore.network.sync.ManualDataWatcher;
+import liedge.limacore.network.sync.NullableValueTracker;
+import liedge.limacore.network.sync.SimpleValueTracker;
+import liedge.limacore.network.sync.ValueTracker;
 import liedge.limacore.registry.game.LimaCoreDataComponents;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
@@ -61,10 +61,9 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
     private @Nullable UUID targetId;
     private @Nullable Entity target;
     private final Queue<Entity> targetQueue = new ArrayDeque<>();
-    @SuppressWarnings("NotNullFieldNotInitialized")
-    private LimaDataWatcher<IntList> queueWatcher;
 
     // Client properties
+    private final ValueTracker<IntList> queueTracker;
     private int clientAimTicks;
     private int clientAimTicks0;
     private float turretYRot0;
@@ -81,6 +80,17 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
         this.searchArea = AABB.ofSize(traceStart, horizontalSearchRadius * 2d, verticalSearchRadius * 2d, horizontalSearchRadius * 2d);
         this.attackArea = searchArea.inflate(3d);
         this.boundingBox = new AABB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 2, pos.getZ() + 1);
+
+        this.queueTracker = SimpleValueTracker.create(LimaCoreNetworkSerializers.INT_LIST, () -> LTXIEntityUtil.flattenEntityIds(targetQueue), list ->
+        {
+            targetQueue.clear();
+
+            for (int eid : list)
+            {
+                Entity entity = LimaCoreClientUtil.getClientEntity(eid);
+                if (entity != null) targetQueue.add(entity);
+            }
+        });
     }
 
     public Vec3 getTraceStart()
@@ -169,7 +179,7 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
         while (!targetQueue.isEmpty())
         {
             Entity next = targetQueue.poll();
-            queueWatcher.setChanged(true);
+            queueTracker.setChanged(true);
 
             if (targetStillValid(next))
             {
@@ -192,7 +202,7 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
 
         setTarget(null);
         targetQueue.clear();
-        queueWatcher.setChanged(true);
+        queueTracker.setChanged(true);
     }
 
     @Override
@@ -205,20 +215,9 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
     @Override
     public void defineDataWatchers(DataWatcherCollector collector)
     {
-        collector.register(AutomaticDataWatcher.keepEnumSynced(TurretState.class, this::getTurretState, this::setTurretState));
-        collector.register(AutomaticDataWatcher.keepClientsideEntitySynced(this::getTarget, this::setClientTarget));
-
-        this.queueWatcher = ManualDataWatcher.manuallyTrack(LimaCoreNetworkSerializers.INT_LIST, () -> LTXIEntityUtil.flattenEntityIds(targetQueue), list ->
-        {
-            targetQueue.clear();
-
-            for (int eid : list)
-            {
-                Entity entity = LimaCoreClientUtil.getClientEntity(eid);
-                if (entity != null) targetQueue.add(entity);
-            }
-        });
-        collector.register(queueWatcher);
+        collector.register(SimpleValueTracker.createEnum(TurretState.class, this::getTurretState, this::setTurretState).setAutomatic());
+        collector.register(NullableValueTracker.createClientEntity(this::getTarget, this::setClientTarget).setAutomatic());
+        collector.register(queueTracker);
     }
 
     @Override
@@ -322,7 +321,7 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
 
                             level.playSound(null, traceStart.x, traceStart.y, traceStart.z, LTXISounds.TURRET_TARGET_FOUND, SoundSource.BLOCKS, 2f, Mth.randomBetween(level.getRandom(), 0.875f, 0.95f));
                             setTarget(targetQueue.poll());
-                            queueWatcher.setChanged(true);
+                            queueTracker.setChanged(true);
 
                             int chargeTime = getChargingDuration();
                             TurretState nextState = chargeTime > 0 ? TurretState.CHARGING : TurretState.FIRING;

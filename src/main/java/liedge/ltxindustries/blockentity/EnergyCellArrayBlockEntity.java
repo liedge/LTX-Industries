@@ -1,7 +1,7 @@
 package liedge.ltxindustries.blockentity;
 
 import liedge.limacore.lib.LimaColor;
-import liedge.limacore.network.sync.AutomaticDataWatcher;
+import liedge.limacore.network.sync.SimpleValueTracker;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.limacore.transfer.LimaEnergyUtil;
 import liedge.ltxindustries.LTXIConstants;
@@ -49,6 +49,6 @@ public class EnergyCellArrayBlockEntity extends BaseECABlockEntity
     @Override
     public void defineDataWatchers(DataWatcherCollector collector)
     {
-        collector.register(AutomaticDataWatcher.keepSynced(LimaCoreNetworkSerializers.VAR_INT, () -> Mth.floor(LimaEnergyUtil.getClampedFillPercentage(getEnergy()) * 20f), i -> this.remoteEnergyFill = i));
+        collector.register(SimpleValueTracker.create(LimaCoreNetworkSerializers.VAR_INT, () -> Mth.floor(LimaEnergyUtil.getClampedFillPercentage(getEnergy()) * 20f), i -> this.remoteEnergyFill = i).setAutomatic());
     }
 }

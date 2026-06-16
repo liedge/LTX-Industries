@@ -1,8 +1,8 @@
 package liedge.ltxindustries.blockentity.base;
 
 import liedge.limacore.lib.math.LimaCoreMath;
-import liedge.limacore.network.sync.AutomaticDataWatcher;
 import liedge.limacore.network.sync.DataWatcherHolder;
+import liedge.limacore.network.sync.SimpleValueTracker;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
@@ -27,8 +27,8 @@ public interface TimedProcessBlockEntity
 
     default void keepTimedProcessSynced(DataWatcherHolder.DataWatcherCollector collector)
     {
-        collector.register(AutomaticDataWatcher.keepSynced(LimaCoreNetworkSerializers.VAR_INT, this::getCurrentProcessTime, this::setCurrentProcessTime));
-        collector.register(AutomaticDataWatcher.keepSynced(LimaCoreNetworkSerializers.VAR_INT, this::getTicksPerOperation, this::setTicksPerOperation));
+        collector.register(SimpleValueTracker.create(LimaCoreNetworkSerializers.VAR_INT, this::getCurrentProcessTime, this::setCurrentProcessTime).setAutomatic());
+        collector.register(SimpleValueTracker.create(LimaCoreNetworkSerializers.VAR_INT, this::getTicksPerOperation, this::setTicksPerOperation).setAutomatic());
     }
 
     interface FixedBaseDuration extends TimedProcessBlockEntity
