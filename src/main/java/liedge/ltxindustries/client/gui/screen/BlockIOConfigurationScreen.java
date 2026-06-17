@@ -15,6 +15,7 @@ import liedge.ltxindustries.client.gui.widget.SubMenuBackButton;
 import liedge.ltxindustries.menu.BlockIOConfigurationMenu;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.InputWithModifiers;
+import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
@@ -97,6 +98,13 @@ public class BlockIOConfigurationScreen extends LTXIScreen<BlockIOConfigurationM
         {
             super(x, y, 16, 16);
             this.side = side;
+        }
+
+        @Override
+        protected boolean isValidClickButton(MouseButtonInfo buttonInfo)
+        {
+            int button = buttonInfo.button();
+            return button == InputConstants.MOUSE_BUTTON_LEFT || button == InputConstants.MOUSE_BUTTON_RIGHT;
         }
 
         @Override
