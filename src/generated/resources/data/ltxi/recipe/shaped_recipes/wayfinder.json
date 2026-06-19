@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "G": "ltxi:titanium_gear",
+    "G": "#c:gears/titanium",
     "c": "ltxi:t2_circuit",
     "e": "ltxi:electric_chemical",
     "g": "ltxi:titanium_glass",

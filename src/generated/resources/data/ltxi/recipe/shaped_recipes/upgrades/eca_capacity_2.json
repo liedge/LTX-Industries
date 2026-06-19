@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": "ltxi:t2_circuit",
+    "e": "ltxi:electric_chemical",
+    "i": "#c:ingots/titanium",
+    "m": {
+      "neoforge:ingredient_type": "neoforge:components",
+      "components": {
+        "ltxi:upgrade": {
+          "upgrade": "ltxi:eca_capacity"
+        }
+      },
+      "items": "ltxi:upgrade_module"
+    }
+  },
+  "pattern": [
+    "ici",
+    "eme",
+    "ici"
+  ],
+  "result": {
+    "components": {
+      "ltxi:upgrade": {
+        "rank": 2,
+        "upgrade": "ltxi:eca_capacity"
+      }
+    },
+    "id": "ltxi:upgrade_module"
+  }
+}

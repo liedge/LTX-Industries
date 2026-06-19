@@ -76,6 +76,9 @@ public final class LTXITags
         // Dusts
         public static final TagKey<Item> DEEPSLATE_DUSTS = COMMON.itemTag("dusts/deepslate");
 
+        // Misc common tags
+        public static final TagKey<Item> TITANIUM_GEARS = COMMON.itemTag("gears/titanium");
+
         // Mod tags
         public static final TagKey<Item> GREEN_GROUP_DYE_SOURCES = RESOURCES.itemTag("dye_sources/green_group");
         public static final TagKey<Item> CARBON_SOURCES = RESOURCES.itemTag("carbon_sources");

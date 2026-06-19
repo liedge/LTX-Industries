@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": "ltxi:t1_circuit",
+    "e": "ltxi:electric_chemical",
+    "i": "#c:ingots/copper",
+    "m": "ltxi:empty_upgrade_module"
+  },
+  "pattern": [
+    "ici",
+    "eme",
+    "ici"
+  ],
+  "result": {
+    "components": {
+      "ltxi:upgrade": {
+        "upgrade": "ltxi:eca_capacity"
+      }
+    },
+    "id": "ltxi:upgrade_module"
+  }
+}

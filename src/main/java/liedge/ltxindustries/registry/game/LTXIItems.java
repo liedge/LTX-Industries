@@ -30,6 +30,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.fluids.FluidStackTemplate;
+import net.neoforged.neoforge.fluids.SimpleFluidContent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 
@@ -104,7 +105,8 @@ public final class LTXIItems
     public static final DeferredItem<BlockItem> UPGRADE_STATION = ITEMS.registerSimpleBlockItem(LTXIBlocks.UPGRADE_STATION, properties -> properties.stacksTo(1));
     public static final DeferredItem<ECABlockItem> ENERGY_CELL_ARRAY = ITEMS.registerCustomBlockItem(LTXIBlocks.ENERGY_CELL_ARRAY, ECABlockItem::new, properties -> properties.stacksTo(1));
     public static final DeferredItem<InfiniteECABlockItem> INFINITE_ENERGY_CELL_ARRAY = ITEMS.registerCustomBlockItem(LTXIBlocks.INFINITE_ENERGY_CELL_ARRAY, InfiniteECABlockItem::new, properties -> properties.stacksTo(1).rarity(Rarity.EPIC));
-    public static final DeferredItem<BlockItem> PORTABLE_TANK = ITEMS.registerCustomBlockItem(LTXIBlocks.PORTABLE_TANK, PortableTankItem::new, properties -> properties.stacksTo(1));
+    public static final DeferredItem<BlockItem> PORTABLE_TANK = ITEMS.registerCustomBlockItem(LTXIBlocks.PORTABLE_TANK, PortableTankItem::new, properties -> properties.stacksTo(1)
+            .component(LimaCoreDataComponents.FLUID_CONTENT, SimpleFluidContent.EMPTY));
     public static final DeferredItem<BlockItem> INFINITE_WATER_TANK = ITEMS.registerSimpleBlockItem(LTXIBlocks.INFINITE_WATER_TANK, properties -> properties.stacksTo(1)
             .rarity(Rarity.RARE)
             .component(LimaCoreDataComponents.INFINITE_FLUID, new FluidStackTemplate(Fluids.WATER, 1)));

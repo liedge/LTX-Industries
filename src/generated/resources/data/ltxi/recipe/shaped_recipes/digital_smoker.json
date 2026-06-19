@@ -4,7 +4,7 @@
   "key": {
     "a": "minecraft:smoker",
     "c": "ltxi:t1_circuit",
-    "g": "ltxi:titanium_gear",
+    "g": "#c:gears/titanium",
     "s": "#c:glass_blocks/cheap",
     "t": "#c:ingots/titanium"
   },

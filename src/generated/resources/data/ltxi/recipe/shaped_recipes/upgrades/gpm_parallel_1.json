@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "c": "ltxi:t1_circuit",
-    "g": "ltxi:titanium_gear",
+    "g": "#c:gears/titanium",
     "m": "ltxi:empty_upgrade_module"
   },
   "pattern": [

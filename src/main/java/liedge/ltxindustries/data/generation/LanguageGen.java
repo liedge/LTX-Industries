@@ -291,6 +291,7 @@ class LanguageGen extends LimaLanguageProvider
 
         //#region Machine upgrades
         upgrade(LTXIUpgrades.ECA_CAPACITY_UPGRADE, "Auxiliary Energy Cells", "Increases the energy capacity and transfer rate of the Energy Cell Array.");
+        upgrade(LTXIUpgrades.PORTABLE_TANK_UPGRADE, "Ti-Glass Reservoir", "A higher pressure and throughput-rated composite glass chassis for the Portable Tank.");
         upgrade(LTXIUpgrades.STANDARD_MACHINE_SYSTEMS, "GPM Standard Systems", "Core modular systems designed for balanced efficiency.");
         upgrade(LTXIUpgrades.ULTIMATE_MACHINE_SYSTEMS, "GPM Ultimate Systems", "The pinnacle of engineering precision! Achieves near-instantaneous crafting at the cost of immense energy consumption.");
         upgrade(LTXIUpgrades.GPM_PARALLEL, "GPM Multi-Threading", "Parallelized task framework that completes multiple operations per cycle, as input and output constraints permit.");
@@ -419,6 +420,7 @@ class LanguageGen extends LimaLanguageProvider
         add(ENERGY_CAPACITY_UPGRADE, "%s energy capacity");
         add(ENERGY_TRANSFER_UPGRADE, "%s energy transfer rate");
         add(ENERGY_USAGE_UPGRADE, "%s energy usage");
+        add(FLUID_CAPACITY_UPGRADE, "%s fluid capacity");
         add(PARALLEL_OPERATIONS_UPGRADE, "%s operations per cycle");
         add(MACHINE_SPEED_UPGRADE, "%s machine speed");
         add(ENERGY_PER_RECIPE_UPGRADE, "Avg. energy per recipe: %s");

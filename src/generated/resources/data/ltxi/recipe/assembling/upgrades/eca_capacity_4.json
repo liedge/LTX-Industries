@@ -1,7 +1,5 @@
 {
-  "type": "ltxi:fabricating",
-  "energy_required": 5000000,
-  "group": "mum/eca",
+  "type": "ltxi:assembling",
   "item_inputs": [
     {
       "ingredient": {
@@ -20,30 +18,28 @@
       "ingredient": "ltxi:t3_circuit"
     },
     {
-      "count": 12,
+      "count": 8,
       "ingredient": "#c:ingots/titanium"
     },
     {
-      "count": 4,
-      "ingredient": "ltxi:slatesteel_ingot"
+      "count": 6,
+      "ingredient": "ltxi:niobium_ingot"
     },
     {
       "count": 24,
       "ingredient": "ltxi:electric_chemical"
-    },
-    {
-      "count": 4,
-      "ingredient": "ltxi:niobium_ingot"
     }
   ],
-  "result": {
-    "components": {
-      "ltxi:upgrade": {
-        "rank": 4,
-        "upgrade": "ltxi:eca_capacity"
-      }
-    },
-    "count": 1,
-    "id": "ltxi:upgrade_module"
-  }
+  "item_results": [
+    {
+      "components": {
+        "ltxi:upgrade": {
+          "rank": 4,
+          "upgrade": "ltxi:eca_capacity"
+        }
+      },
+      "count": 1,
+      "id": "ltxi:upgrade_module"
+    }
+  ]
 }

@@ -9,7 +9,7 @@
         "components": {
           "ltxi:upgrade": {
             "rank": 4,
-            "upgrade": "ltxi:eca_capacity"
+            "upgrade": "ltxi:portable_tank_upgrade"
           }
         },
         "items": "ltxi:upgrade_module"
@@ -31,15 +31,11 @@
       "ingredient": "ltxi:polymer_ingot"
     },
     {
-      "count": 48,
-      "ingredient": "ltxi:electric_chemical"
+      "count": 32,
+      "ingredient": "ltxi:titanium_glass"
     },
     {
-      "count": 12,
-      "ingredient": "ltxi:niobium_ingot"
-    },
-    {
-      "count": 8,
+      "count": 4,
       "ingredient": "ltxi:chorus_chemical"
     }
   ],
@@ -47,7 +43,7 @@
     "components": {
       "ltxi:upgrade": {
         "rank": 5,
-        "upgrade": "ltxi:eca_capacity"
+        "upgrade": "ltxi:portable_tank_upgrade"
       }
     },
     "count": 1,

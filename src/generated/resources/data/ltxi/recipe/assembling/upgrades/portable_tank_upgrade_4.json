@@ -1,0 +1,45 @@
+{
+  "type": "ltxi:assembling",
+  "item_inputs": [
+    {
+      "ingredient": {
+        "neoforge:ingredient_type": "neoforge:components",
+        "components": {
+          "ltxi:upgrade": {
+            "rank": 3,
+            "upgrade": "ltxi:portable_tank_upgrade"
+          }
+        },
+        "items": "ltxi:upgrade_module"
+      }
+    },
+    {
+      "count": 12,
+      "ingredient": "ltxi:titanium_glass"
+    },
+    {
+      "count": 8,
+      "ingredient": "#c:ingots/titanium"
+    },
+    {
+      "count": 8,
+      "ingredient": "ltxi:slatesteel_ingot"
+    },
+    {
+      "count": 8,
+      "ingredient": "ltxi:polymer_ingot"
+    }
+  ],
+  "item_results": [
+    {
+      "components": {
+        "ltxi:upgrade": {
+          "rank": 4,
+          "upgrade": "ltxi:portable_tank_upgrade"
+        }
+      },
+      "count": 1,
+      "id": "ltxi:upgrade_module"
+    }
+  ]
+}

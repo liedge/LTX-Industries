@@ -15,7 +15,9 @@ navigation:
 The tropical jungles act as the planet's lightning rods, making them hotspots for <Color id="electric">raw electrical</Color>
 phenomena. One such oddity you'll find is the lively chartreuse **Spark Fruit** up in the canopy.
 
-## Natural Generation
+## Obtaining
+
+### Exploration
 
 Spark fruits generate on the underside of jungle leaves. Fully grown Spark Fruits emit a light level of 7. Try
 exploring a jungle at night, it might make your foraging easier.
@@ -23,6 +25,11 @@ exploring a jungle at night, it might make your foraging easier.
 <GameScene zoom={2} interactive={true}>
 <ImportStructure src="spark_fruit_tree.nbt" />
 </GameScene>
+
+### Villager Trading
+
+If early exploration isn't your style (or worldgen RNG is giving you a hard time), Spark Fruits may be obtained via trading.
+Farmer villagers can have Spark Fruits as starter trades, and the Wandering Trader has them in their common trade pool.
 
 ## Farming
 

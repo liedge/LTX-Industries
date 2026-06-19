@@ -4,7 +4,7 @@
   "key": {
     "a": "ltxi:slatesteel_gear",
     "c": "ltxi:t2_circuit",
-    "g": "ltxi:titanium_gear",
+    "g": "#c:gears/titanium",
     "s": "ltxi:titanium_glass",
     "t": "#c:ingots/titanium"
   },
