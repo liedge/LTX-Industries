@@ -1,6 +1,7 @@
 package liedge.ltxindustries.data.generation;
 
 import liedge.limacore.data.generation.LimaTagsProvider;
+import liedge.limacore.lib.ModResources;
 import liedge.ltxindustries.LTXITags.Blocks;
 import liedge.ltxindustries.LTXIndustries;
 import net.minecraft.core.HolderLookup;
@@ -59,6 +60,9 @@ class ItemTagsGen extends LimaTagsProvider.ItemTags
         buildTag(NIOBIUM_NUGGETS).add(NIOBIUM_NUGGET);
         buildTag(SLATESTEEL_NUGGETS).add(SLATESTEEL_NUGGET);
         buildTag(NUGGETS).addTags(TITANIUM_NUGGETS, NIOBIUM_NUGGETS, SLATESTEEL_NUGGETS);
+
+        buildTag(TITANIUM_GEARS).add(TITANIUM_GEAR);
+        buildTag(ModResources.COMMON.itemTag("gears")).add(SLATESTEEL_GEAR).addTag(TITANIUM_GEARS);
 
         buildTag(SWORDS).add(EPSILON_SWORD);
         buildTag(SHOVELS).add(EPSILON_SHOVEL);
