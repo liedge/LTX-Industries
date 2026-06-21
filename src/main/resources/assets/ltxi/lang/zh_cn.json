@@ -464,6 +464,7 @@
   "upgrade_effect.ltxi.energy_transfer": "%s 能量传输速率",
   "upgrade_effect.ltxi.energy_usage": "%s 能量消耗",
   "upgrade_effect.ltxi.grenade_unlock": "可使用%s弹药",
+  "upgrade_effect.ltxi.fluid_capacity": "%s 流体容量",
   "upgrade_effect.ltxi.instant_process": "机器瞬间完成工作",
   "upgrade_effect.ltxi.machine_speed": "%s 机器速度",
   "upgrade_effect.ltxi.min_machine_speed": "最短用时：%s tick",
