@@ -20,7 +20,7 @@ public class RepairStationMenu extends LTXIMachineMenu<RepairStationBlockEntity>
     @Override
     public void defineDataWatchers(DataWatcherCollector collector)
     {
-        menuContext.getEnergy().keepAllPropertiesSynced(collector);
+        menuContext.getEnergy().syncAllProperties(collector);
         menuContext.keepEnergyConsumerPropertiesSynced(collector);
         menuContext.keepTimedProcessSynced(collector);
     }

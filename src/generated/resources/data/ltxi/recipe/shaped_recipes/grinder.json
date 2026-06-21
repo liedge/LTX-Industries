@@ -3,9 +3,9 @@
   "category": "misc",
   "key": {
     "c": "ltxi:t1_circuit",
-    "g": "ltxi:titanium_gear",
+    "g": "#c:gears/titanium",
     "s": "minecraft:iron_ingot",
-    "t": "ltxi:titanium_ingot"
+    "t": "#c:ingots/titanium"
   },
   "pattern": [
     "tct",

@@ -6,7 +6,7 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
-public class RepairStationScreen extends LTXIMachineScreen<RepairStationMenu>
+public class RepairStationScreen extends MachineBaseScreen<RepairStationMenu>
 {
     public RepairStationScreen(RepairStationMenu menu, Inventory inventory, Component title)
     {

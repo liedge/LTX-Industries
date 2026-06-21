@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "G": "#c:gears/titanium",
+    "b": "minecraft:bucket",
+    "g": "#c:glass_blocks/cheap",
+    "t": "#c:ingots/titanium"
+  },
+  "pattern": [
+    " t ",
+    "gbg",
+    " G "
+  ],
+  "result": {
+    "id": "ltxi:portable_tank"
+  }
+}

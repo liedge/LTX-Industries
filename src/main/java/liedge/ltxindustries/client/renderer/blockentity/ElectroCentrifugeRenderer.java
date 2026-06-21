@@ -13,7 +13,7 @@ import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import org.joml.Vector2f;
 
-public class ElectroCentrifugeRenderer extends MachineRenderer<ElectroCentrifugeBlockEntity>
+public class ElectroCentrifugeRenderer extends SimpleMachineRenderer<ElectroCentrifugeBlockEntity>
 {
     private static Vector2f boltPoint(float x, float z)
     {
@@ -40,31 +40,31 @@ public class ElectroCentrifugeRenderer extends MachineRenderer<ElectroCentrifuge
     }
 
     @Override
-    void extractAdditional(ElectroCentrifugeBlockEntity blockEntity, MachineRenderState renderState, float partialTick)
+    protected void extractAdditional(ElectroCentrifugeBlockEntity blockEntity, State state, float partialTick)
     {
-        renderState.machineSpin = blockEntity.lerpTubesYRot(partialTick);
-        renderState.machineBolt = blockEntity.tubeBolt;
+        state.machineSpin = blockEntity.lerpTubesYRot(partialTick);
+        state.machineBolt = blockEntity.tubeBolt;
     }
 
     @Override
-    public void submit(MachineRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState)
+    public void submit(State state, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState camera)
     {
         poseStack.pushPose();
 
         poseStack.translate(0.5f, 0, 0.5f);
-        poseStack.mulPose(Axis.YP.rotationDegrees(renderState.machineSpin));
+        poseStack.mulPose(Axis.YP.rotationDegrees(state.machineSpin));
         poseStack.translate(-0.5f, 0, -0.5f);
 
-        tubes.submit(poseStack, nodeCollector, renderState.lightCoords);
+        tubes.submit(poseStack, nodeCollector, state.lightCoords);
 
         poseStack.translate(0f, 0.625f, 0f);
 
-        if (renderState.machineBolt != null)
+        if (state.machineBolt != null)
         {
             for (Vector2f v : BOLT_POINTS)
             {
                 poseStack.translate(v.x, 0f, v.y);
-                LTXIRenderer.submitEnergyBolt(poseStack, nodeCollector, RenderTypes.lightning(), renderState.machineBolt, LTXIConstants.ELECTRIC_GREEN, 1f);
+                LTXIRenderer.submitEnergyBolt(poseStack, nodeCollector, RenderTypes.lightning(), state.machineBolt, LTXIConstants.ELECTRIC_GREEN, 1f);
                 poseStack.translate(-v.x, 0f, -v.y);
             }
         }

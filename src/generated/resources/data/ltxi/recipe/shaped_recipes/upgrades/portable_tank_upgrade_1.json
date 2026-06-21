@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "b": "minecraft:bucket",
+    "g": "ltxi:titanium_glass",
+    "m": "ltxi:empty_upgrade_module"
+  },
+  "pattern": [
+    " g ",
+    "gmg",
+    " b "
+  ],
+  "result": {
+    "components": {
+      "ltxi:upgrade": {
+        "upgrade": "ltxi:portable_tank_upgrade"
+      }
+    },
+    "id": "ltxi:upgrade_module"
+  }
+}

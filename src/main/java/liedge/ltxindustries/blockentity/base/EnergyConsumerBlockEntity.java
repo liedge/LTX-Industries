@@ -1,8 +1,8 @@
 package liedge.ltxindustries.blockentity.base;
 
 import liedge.limacore.lib.math.LimaCoreMath;
-import liedge.limacore.network.sync.AutomaticDataWatcher;
 import liedge.limacore.network.sync.DataWatcherHolder;
+import liedge.limacore.network.sync.SimpleValueTracker;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.limacore.transfer.LimaEnergyUtil;
 import liedge.limacore.transfer.energy.EnergyHolderBlockEntity;
@@ -36,6 +36,6 @@ public interface EnergyConsumerBlockEntity extends EnergyHolderBlockEntity
 
     default void keepEnergyConsumerPropertiesSynced(DataWatcherHolder.DataWatcherCollector collector)
     {
-        collector.register(AutomaticDataWatcher.keepSynced(LimaCoreNetworkSerializers.VAR_INT, this::getEnergyUsage, this::setEnergyUsage));
+        collector.register(SimpleValueTracker.create(LimaCoreNetworkSerializers.VAR_INT, this::getEnergyUsage, this::setEnergyUsage).setAutomatic());
     }
 }

@@ -2,8 +2,8 @@ package liedge.ltxindustries.blockentity;
 
 import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.client.gui.TooltipLineConsumer;
-import liedge.limacore.network.sync.AutomaticDataWatcher;
 import liedge.limacore.network.sync.LimaDataWatcher;
+import liedge.limacore.network.sync.SimpleValueTracker;
 import liedge.limacore.recipe.LimaRecipeCheck;
 import liedge.limacore.recipe.RecipeInputAccess;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
@@ -55,7 +55,7 @@ public abstract class BaseFabricatorBlockEntity extends ProductionMachineBlockEn
 
     public LimaDataWatcher<Integer> keepProgressSynced()
     {
-        return AutomaticDataWatcher.keepSynced(LimaCoreNetworkSerializers.VAR_INT, this::getEnergyCraftProgress, i -> this.energyCraftProgress = i);
+        return SimpleValueTracker.create(LimaCoreNetworkSerializers.VAR_INT, this::getEnergyCraftProgress, i -> this.energyCraftProgress = i).setAutomatic();
     }
 
     @Override
@@ -105,8 +105,8 @@ public abstract class BaseFabricatorBlockEntity extends ProductionMachineBlockEn
     @Override
     public void defineDataWatchers(DataWatcherCollector collector)
     {
-        collector.register(AutomaticDataWatcher.keepSynced(LimaCoreNetworkSerializers.BOOL, this::isCrafting, this::setCrafting));
-        collector.register(AutomaticDataWatcher.keepSynced(LimaCoreNetworkSerializers.ITEM_RESOURCE, this::writePreviewResource, this::readPreviewResource));
+        collector.register(SimpleValueTracker.create(LimaCoreNetworkSerializers.BOOL, this::isCrafting, this::setCrafting).setAutomatic());
+        collector.register(SimpleValueTracker.create(LimaCoreNetworkSerializers.ITEM_RESOURCE, this::writePreviewResource, this::readPreviewResource).setAutomatic());
     }
 
     @Override
@@ -137,7 +137,7 @@ public abstract class BaseFabricatorBlockEntity extends ProductionMachineBlockEn
         tickServerFabricator(level, pos, state);
 
         // Auto output item if option available
-        tickItemAutoOutput(20, getItems(BlockContentsType.OUTPUT));
+        tickAutoResourceOutput(20, getItems(BlockContentsType.INPUT), null);
     }
 
     protected abstract void tickServerFabricator(ServerLevel level, BlockPos pos, BlockState state);

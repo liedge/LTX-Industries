@@ -38,6 +38,9 @@ public final class LTXIIdentifiers
     public static final String ID_UPGRADE_STATION = "upgrade_station";
     public static final String ID_ENERGY_CELL_ARRAY = "energy_cell_array";
     public static final String ID_INFINITE_ENERGY_CELL_ARRAY = "infinite_energy_cell_array";
+    public static final String ID_PORTABLE_TANK = "portable_tank";
+    public static final String ID_INFINITE_WATER_TANK = "infinite_water_tank";
+    public static final String ID_INFINITE_LAVA_TANK = "infinite_lava_tank";
 
     public static final String ID_DIGITAL_FURNACE = "digital_furnace";
     public static final String ID_DIGITAL_SMOKER = "digital_smoker";

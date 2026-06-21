@@ -1,11 +1,15 @@
 ---
 navigation:
     title: "Energy Cell Array"
+    position: 1
+    parent: machines/storage/index.md
     icon: energy_cell_array
-    parent: machines/index.md
+item_ids:
+  - energy_cell_array
 ---
 
 # Energy Cell Array
+
 <BlockImage id="energy_cell_array" scale="4" />
 
 The **Energy Cell Array** is the primary energy storage block. It features configurable side IO for items and energy.

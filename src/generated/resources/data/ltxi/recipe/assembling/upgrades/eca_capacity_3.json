@@ -1,0 +1,44 @@
+{
+  "type": "ltxi:assembling",
+  "item_inputs": [
+    {
+      "ingredient": {
+        "neoforge:ingredient_type": "neoforge:components",
+        "components": {
+          "ltxi:upgrade": {
+            "rank": 2,
+            "upgrade": "ltxi:eca_capacity"
+          }
+        },
+        "items": "ltxi:upgrade_module"
+      }
+    },
+    {
+      "ingredient": "ltxi:t3_circuit"
+    },
+    {
+      "count": 8,
+      "ingredient": "#c:ingots/titanium"
+    },
+    {
+      "count": 6,
+      "ingredient": "minecraft:gold_ingot"
+    },
+    {
+      "count": 12,
+      "ingredient": "ltxi:electric_chemical"
+    }
+  ],
+  "item_results": [
+    {
+      "components": {
+        "ltxi:upgrade": {
+          "rank": 3,
+          "upgrade": "ltxi:eca_capacity"
+        }
+      },
+      "count": 1,
+      "id": "ltxi:upgrade_module"
+    }
+  ]
+}

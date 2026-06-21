@@ -9,7 +9,7 @@
   "category": "misc",
   "ingredients": [
     "minecraft:book",
-    "ltxi:titanium_ingot",
+    "#c:ingots/titanium",
     "#c:dyes/lime"
   ],
   "result": {

@@ -159,6 +159,8 @@ public final class LTXIUpgrades
     //#region Machine exclusive upgrades
 
     public static final ResourceKey<Upgrade> ECA_CAPACITY_UPGRADE = key("eca_capacity");
+    public static final ResourceKey<Upgrade> PORTABLE_TANK_UPGRADE = key("portable_tank_upgrade");
+
     public static final ResourceKey<Upgrade> STANDARD_MACHINE_SYSTEMS = key("standard_machine_systems");
     public static final ResourceKey<Upgrade> ULTIMATE_MACHINE_SYSTEMS = key("ultimate_machine_systems");
     public static final ResourceKey<Upgrade> GPM_PARALLEL = key("gpm_parallel");
@@ -690,6 +692,15 @@ public final class LTXIUpgrades
                 .tooltip(energyTransferTooltip(ecaScaling, ValueFormat.MULTIPLICATIVE, ValueSentiment.POSITIVE))
                 .setMaxRank(5)
                 .effectIcon(sprite("extra_energy"))
+                .register(context);
+
+        ContextlessValue tankScaling = ExponentialDouble.of(2, LinearDouble.oneIncrement(2));
+        Upgrade.builder(PORTABLE_TANK_UPGRADE)
+                .forMachines(LTXIBlockEntities.PORTABLE_TANK)
+                .withEffect(FLUID_CAPACITY, ValueOperation.of(tankScaling, MathOperation.MULTIPLY))
+                .tooltip(fluidCapacityTooltip(tankScaling, ValueFormat.MULTIPLICATIVE, ValueSentiment.POSITIVE))
+                .setMaxRank(5)
+                .effectIcon(plusOverlay(itemIcon(LTXIItems.PORTABLE_TANK)))
                 .register(context);
 
         ContextlessValue smsEnergyStorage = LinearDouble.linearIncrement(0.5d);

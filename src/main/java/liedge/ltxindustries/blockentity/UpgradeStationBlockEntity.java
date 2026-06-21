@@ -3,7 +3,7 @@ package liedge.ltxindustries.blockentity;
 import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.blockentity.IOAccess;
 import liedge.limacore.blockentity.LimaBlockEntity;
-import liedge.limacore.network.sync.AutomaticDataWatcher;
+import liedge.limacore.network.sync.SimpleValueTracker;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.limacore.transfer.item.ItemHolderBlockEntity;
 import liedge.limacore.transfer.item.LimaBlockEntityItems;
@@ -43,7 +43,7 @@ public class UpgradeStationBlockEntity extends LimaBlockEntity implements ItemHo
     @Override
     public void defineDataWatchers(DataWatcherCollector collector)
     {
-        collector.register(AutomaticDataWatcher.keepSynced(LimaCoreNetworkSerializers.ITEM_RESOURCE, () -> inventory.getResource(EQUIPMENT_ITEM_SLOT), resource -> this.previewItem = resource.toStack()));
+        collector.register(SimpleValueTracker.create(LimaCoreNetworkSerializers.ITEM_RESOURCE, () -> inventory.getResource(EQUIPMENT_ITEM_SLOT), resource -> this.previewItem = resource.toStack()).setAutomatic());
     }
 
     @Override

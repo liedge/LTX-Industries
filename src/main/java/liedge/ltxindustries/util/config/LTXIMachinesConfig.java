@@ -9,6 +9,8 @@ public final class LTXIMachinesConfig
     public static final ModConfigSpec.IntValue ECA_BASE_ENERGY_CAPACITY;
     public static final ModConfigSpec.IntValue ECA_BASE_TRANSFER_RATE;
 
+    public static final ModConfigSpec.IntValue PORTABLE_TANK_CAPACITY;
+
     public static final ModConfigSpec.IntValue DIGITAL_FURNACE_ENERGY_CAPACITY;
     public static final ModConfigSpec.IntValue DIGITAL_FURNACE_ENERGY_USAGE;
 
@@ -77,6 +79,12 @@ public final class LTXIMachinesConfig
                         .defineInRange("energy_capacity", 1_000_000, 1, Integer.MAX_VALUE);
         ECA_BASE_TRANSFER_RATE = builder.comment("Base transfer rate (per tick) of the Energy Cell Array")
                         .defineInRange("transfer_rate", 10_000, 1, Integer.MAX_VALUE);
+        builder.pop();
+
+        // Portable tank
+        builder.push("portable_tank");
+        PORTABLE_TANK_CAPACITY = builder.comment("Base fluid capacity of the Portable Tank in mB")
+                .defineInRange("fluid_capacity", 16_000, 1, Integer.MAX_VALUE);
         builder.pop();
 
         // Digital Furnace

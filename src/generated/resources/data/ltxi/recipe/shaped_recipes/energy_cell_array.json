@@ -5,7 +5,7 @@
     "b": "minecraft:copper_block",
     "c": "ltxi:t1_circuit",
     "e": "ltxi:electric_chemical",
-    "t": "ltxi:titanium_ingot"
+    "t": "#c:ingots/titanium"
   },
   "pattern": [
     "tct",

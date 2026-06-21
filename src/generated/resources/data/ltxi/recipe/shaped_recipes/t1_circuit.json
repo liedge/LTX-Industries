@@ -5,7 +5,7 @@
     "c": "minecraft:stone_pressure_plate",
     "m": "minecraft:copper_ingot",
     "r": "minecraft:redstone",
-    "t": "ltxi:titanium_ingot"
+    "t": "#c:ingots/titanium"
   },
   "pattern": [
     "tmt",

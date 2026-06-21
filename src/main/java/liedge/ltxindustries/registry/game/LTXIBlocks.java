@@ -69,8 +69,13 @@ public final class LTXIBlocks
 
     // Core tech blocks
     public static final DeferredBlock<SimpleWrenchBlock> UPGRADE_STATION = BLOCKS.registerBlock(LTXIIdentifiers.ID_UPGRADE_STATION, properties -> SimpleWrenchBlock.rotatingShape(properties, LTXIBlockShapes.UPGRADE_STATION), LTXIBlocks::machineProperties);
+
+    // Resource storage
     public static final DeferredBlock<SimpleWrenchBlock> ENERGY_CELL_ARRAY = BLOCKS.registerBlock(LTXIIdentifiers.ID_ENERGY_CELL_ARRAY, properties -> SimpleWrenchBlock.staticShape(properties, LTXIBlockShapes.ENERGY_CELL_ARRAY), LTXIBlocks::machineProperties);
     public static final DeferredBlock<SimpleWrenchBlock> INFINITE_ENERGY_CELL_ARRAY = BLOCKS.registerBlock(LTXIIdentifiers.ID_INFINITE_ENERGY_CELL_ARRAY, properties -> SimpleWrenchBlock.staticShape(properties, LTXIBlockShapes.ENERGY_CELL_ARRAY), LTXIBlocks::machineProperties);
+    public static final DeferredBlock<SimpleWrenchBlock> PORTABLE_TANK = BLOCKS.registerBlock(LTXIIdentifiers.ID_PORTABLE_TANK, properties -> SimpleWrenchBlock.rotatingShape(properties, LTXIBlockShapes.PORTABLE_TANK), LTXIBlocks::machineProperties);
+    public static final DeferredBlock<SimpleWrenchBlock> INFINITE_WATER_TANK = BLOCKS.registerBlock(LTXIIdentifiers.ID_INFINITE_WATER_TANK, properties -> SimpleWrenchBlock.rotatingShape(properties, LTXIBlockShapes.PORTABLE_TANK), LTXIBlocks::machineProperties);
+    public static final DeferredBlock<SimpleWrenchBlock> INFINITE_LAVA_TANK = BLOCKS.registerBlock(LTXIIdentifiers.ID_INFINITE_LAVA_TANK, properties -> SimpleWrenchBlock.rotatingShape(properties, LTXIBlockShapes.PORTABLE_TANK), LTXIBlocks::machineProperties);
 
     // Crafting Machinery
     public static final DeferredBlock<StateMachineBlock> DIGITAL_FURNACE = BLOCKS.registerBlock(LTXIIdentifiers.ID_DIGITAL_FURNACE, properties -> StateMachineBlock.staticShape(properties, LTXIBlockShapes.COOKING_MACHINE, false), LTXIBlocks::machineProperties);

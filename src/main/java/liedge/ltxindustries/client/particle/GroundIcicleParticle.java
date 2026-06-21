@@ -125,19 +125,19 @@ public class GroundIcicleParticle extends CustomGeometryParticle
             {
                 int uvi = side.getAxis() == Direction.Axis.Y ? 4 : 0;
 
-                LTXIRenderer.submitParticleFormatQuad(
+                LTXIRenderer.submitBlockFormatQuad(
                         pose, buffer, side,
                         x1, y1, z1,
                         x2, y2, z2,
                         uv[uvi], uv[uvi + 1], uv[uvi + 2], uv[uvi + 3],
-                        1f, 1f, 1f, 0.85f, light);
+                        0xc8ffffff, light);
             }
         }
     }
 
     public static final class Provider implements ParticleProvider<SimpleParticleType>
     {
-        private static final Identifier ICE_SPRITE = ModResources.MC.id("block/ice");
+        private static final Identifier ICE_SPRITE = ModResources.MC.id("block/packed_ice");
 
         public Provider() { }
 

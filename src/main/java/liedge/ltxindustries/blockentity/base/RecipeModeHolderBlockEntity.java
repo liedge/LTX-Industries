@@ -1,7 +1,7 @@
 package liedge.ltxindustries.blockentity.base;
 
-import liedge.limacore.network.sync.AutomaticDataWatcher;
 import liedge.limacore.network.sync.LimaDataWatcher;
+import liedge.limacore.network.sync.NullableValueTracker;
 import liedge.limacore.transfer.item.ItemHolderBlockEntity;
 import liedge.ltxindustries.recipe.RecipeMode;
 import liedge.ltxindustries.registry.game.LTXINetworkSerializers;
@@ -23,6 +23,6 @@ public interface RecipeModeHolderBlockEntity extends ItemHolderBlockEntity, SubM
 
     default LimaDataWatcher<Optional<Holder<RecipeMode>>> keepRecipeModeSynced()
     {
-        return AutomaticDataWatcher.keepNullableSynced(LTXINetworkSerializers.RECIPE_MODE, this::getMode, this::setMode);
+        return NullableValueTracker.create(LTXINetworkSerializers.RECIPE_MODE, this::getMode, this::setMode).setAutomatic();
     }
 }

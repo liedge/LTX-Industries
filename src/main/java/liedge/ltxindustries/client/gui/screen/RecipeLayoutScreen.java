@@ -24,7 +24,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public final class RecipeLayoutScreen extends LTXIMachineScreen<RecipeLayoutMenu<?>>
+public final class RecipeLayoutScreen extends MachineBaseScreen<RecipeLayoutMenu<?>>
 {
     public static final Identifier MODE_OVERLAY_SPRITE = LTXIndustries.RESOURCES.id("widget/recipe_modes");
 

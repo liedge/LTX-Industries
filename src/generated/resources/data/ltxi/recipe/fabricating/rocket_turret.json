@@ -17,11 +17,11 @@
     },
     {
       "count": 24,
-      "ingredient": "ltxi:titanium_ingot"
+      "ingredient": "#c:ingots/titanium"
     },
     {
       "count": 6,
-      "ingredient": "ltxi:titanium_gear"
+      "ingredient": "#c:gears/titanium"
     },
     {
       "count": 2,

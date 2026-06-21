@@ -1,10 +1,8 @@
 package liedge.ltxindustries.blockentity;
 
-import liedge.limacore.lib.LimaColor;
-import liedge.limacore.network.sync.AutomaticDataWatcher;
+import liedge.limacore.network.sync.SimpleValueTracker;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.limacore.transfer.LimaEnergyUtil;
-import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.registry.game.LTXIBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
@@ -20,12 +18,6 @@ public class EnergyCellArrayBlockEntity extends BaseECABlockEntity
     public EnergyCellArrayBlockEntity(BlockPos pos, BlockState state)
     {
         super(LTXIBlockEntities.ENERGY_CELL_ARRAY.get(), pos, state, null);
-    }
-
-    @Override
-    public LimaColor getRemoteEnergyFillColor()
-    {
-        return LTXIConstants.REM_BLUE;
     }
 
     @Override
@@ -49,6 +41,6 @@ public class EnergyCellArrayBlockEntity extends BaseECABlockEntity
     @Override
     public void defineDataWatchers(DataWatcherCollector collector)
     {
-        collector.register(AutomaticDataWatcher.keepSynced(LimaCoreNetworkSerializers.VAR_INT, () -> Mth.floor(LimaEnergyUtil.getClampedFillPercentage(getEnergy()) * 20f), i -> this.remoteEnergyFill = i));
+        collector.register(SimpleValueTracker.create(LimaCoreNetworkSerializers.VAR_INT, () -> Mth.floor(LimaEnergyUtil.getClampedFillPercentage(getEnergy()) * 20f), i -> this.remoteEnergyFill = i).setAutomatic());
     }
 }

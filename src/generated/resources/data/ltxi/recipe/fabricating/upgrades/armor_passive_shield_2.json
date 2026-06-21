@@ -20,14 +20,14 @@
     },
     {
       "count": 8,
-      "ingredient": "ltxi:titanium_ingot"
+      "ingredient": "#c:ingots/titanium"
     },
     {
       "count": 8,
       "ingredient": "ltxi:slatesteel_ingot"
     },
     {
-      "ingredient": "ltxi:titanium_gear"
+      "ingredient": "#c:gears/titanium"
     },
     {
       "count": 16,

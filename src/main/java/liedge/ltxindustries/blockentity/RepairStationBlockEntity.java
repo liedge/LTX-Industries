@@ -1,8 +1,8 @@
 package liedge.ltxindustries.blockentity;
 
+import com.google.common.base.Predicates;
 import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.client.gui.TooltipLineConsumer;
-import liedge.limacore.transfer.LimaTransferUtil;
 import liedge.limacore.transfer.item.LimaBlockEntityItems;
 import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.blockentity.base.EnergyConsumerBlockEntity;
@@ -86,12 +86,12 @@ public class RepairStationBlockEntity extends ProductionMachineBlockEntity imple
 
             if (!inputStack.isEmpty() && outputInventory.getResource(0).isEmpty())
             {
-                ResourceHandlerUtil.move(inputInventory, outputInventory, LimaTransferUtil.ALL_ITEMS, Item.DEFAULT_MAX_STACK_SIZE, null);
+                ResourceHandlerUtil.move(inputInventory, outputInventory, Predicates.alwaysTrue(), Item.DEFAULT_MAX_STACK_SIZE, null);
             }
         }
 
-        tickItemAutoInput(40, inputInventory);
-        tickItemAutoOutput(40, outputInventory);
+        tickAutoResourceInput(40, inputInventory, null);
+        tickAutoResourceOutput(40, outputInventory, null);
     }
 
     @Override

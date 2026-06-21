@@ -11,6 +11,7 @@ import liedge.ltxindustries.client.model.custom.EnergyDisplayModel;
 import liedge.ltxindustries.client.model.item.GrenadeTypeTint;
 import liedge.ltxindustries.client.model.item.WeaponModel;
 import liedge.ltxindustries.client.renderer.item.RecoilAnimation;
+import liedge.ltxindustries.client.renderer.item.TankSpecialRenderer;
 import liedge.ltxindustries.client.renderer.item.WeaponSpecialRenderer;
 import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.registry.game.LTXIBlocks;
@@ -58,6 +59,7 @@ class ModelsGen extends ModelProvider
 {
     // Common resources
     private final ModResources resources;
+    private final int waterTint = 0x3f76e4;
 
     ModelsGen(PackOutput output, ModResources resources)
     {
@@ -234,6 +236,10 @@ class ModelsGen extends ModelProvider
         createIdentityMachine(models, LTXIBlocks.UPGRADE_STATION);
         createIdentityMachine(models, LTXIBlocks.ENERGY_CELL_ARRAY);
         createIdentityMachine(models, LTXIBlocks.INFINITE_ENERGY_CELL_ARRAY);
+        createIdentityMachine(models, LTXIBlocks.PORTABLE_TANK, id ->
+                ItemModelUtils.composite(ItemModelUtils.plainModel(id), ItemModelUtils.specialModel(id, TankSpecialRenderer.Unbaked.INSTANCE)));
+        createIdentityMachine(models, LTXIBlocks.INFINITE_WATER_TANK, id -> ItemModelUtils.tintedModel(id, ItemModelUtils.constantTint(waterTint)));
+        createIdentityMachine(models, LTXIBlocks.INFINITE_LAVA_TANK);
 
         createBasicBinaryMachine(models, LTXIBlocks.DIGITAL_FURNACE, Templates.BASIC_MACHINE_IDLE, Templates.BASIC_MACHINE_ACTIVE);
         createBasicBinaryMachine(models, LTXIBlocks.DIGITAL_SMOKER, Templates.BASIC_MACHINE_IDLE, Templates.BASIC_MACHINE_ACTIVE);
@@ -250,10 +256,10 @@ class ModelsGen extends ModelProvider
         createCompositeBinaryMachine(models, LTXIBlocks.GEO_SYNTHESIZER,
                 List.of(Parts.EMISSIVE_ACTIVE),
                 List.of(),
-                List.of(), id -> ItemModelUtils.tintedModel(id, ItemModelUtils.constantTint(0x3f76e4)));
+                List.of(), id -> ItemModelUtils.tintedModel(id, ItemModelUtils.constantTint(waterTint)));
         createIdentityMachine(models, LTXIBlocks.FABRICATOR);
         createIdentityMachine(models, LTXIBlocks.AUTO_FABRICATOR);
-        createIdentityMachine(models, LTXIBlocks.DIGITAL_GARDEN, id -> ItemModelUtils.tintedModel(id, ItemModelUtils.constantTint(0x3f76e4)));
+        createIdentityMachine(models, LTXIBlocks.DIGITAL_GARDEN, id -> ItemModelUtils.tintedModel(id, ItemModelUtils.constantTint(waterTint)));
         createIdentityMachine(models, LTXIBlocks.REPAIR_STATION);
 
         createTurretBlock(models, LTXIBlocks.ARC_TURRET);

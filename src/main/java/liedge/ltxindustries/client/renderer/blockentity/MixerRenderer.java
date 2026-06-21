@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 
-public class MixerRenderer extends MachineRenderer<MixerBlockEntity>
+public class MixerRenderer extends SimpleMachineRenderer<MixerBlockEntity>
 {
     private final StaticQuads blades;
 
@@ -20,21 +20,21 @@ public class MixerRenderer extends MachineRenderer<MixerBlockEntity>
     }
 
     @Override
-    void extractAdditional(MixerBlockEntity blockEntity, MachineRenderState renderState, float partialTick)
+    protected void extractAdditional(MixerBlockEntity blockEntity, State state, float partialTick)
     {
-        renderState.machineSpin = blockEntity.lerpImpellerYRot(partialTick);
+        state.machineSpin = blockEntity.lerpImpellerYRot(partialTick);
     }
 
     @Override
-    public void submit(MachineRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState)
+    public void submit(State state, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState camera)
     {
         poseStack.pushPose();
 
         poseStack.translate(0.5f, 0f, 0.5f);
-        poseStack.mulPose(Axis.YP.rotationDegrees(renderState.machineSpin));
+        poseStack.mulPose(Axis.YP.rotationDegrees(state.machineSpin));
         poseStack.translate(-0.5f, 0f, -0.5f);
 
-        blades.submit(poseStack, nodeCollector, renderState.lightCoords);
+        blades.submit(poseStack, nodeCollector, state.lightCoords);
 
         poseStack.popPose();
     }

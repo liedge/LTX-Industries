@@ -3,18 +3,20 @@
   "category": "misc",
   "key": {
     "c": "ltxi:t1_circuit",
-    "g": "ltxi:titanium_gear",
-    "m": "ltxi:empty_upgrade_module"
+    "l": "minecraft:lava_bucket",
+    "m": "ltxi:empty_upgrade_module",
+    "t": "#c:ingots/titanium",
+    "w": "minecraft:water_bucket"
   },
   "pattern": [
-    " c ",
-    "gmg",
-    " c "
+    "twt",
+    "cmc",
+    "tlt"
   ],
   "result": {
     "components": {
       "ltxi:upgrade": {
-        "upgrade": "ltxi:gpm_parallel"
+        "upgrade": "ltxi:geo_synthesizer_parallel"
       }
     },
     "id": "ltxi:upgrade_module"

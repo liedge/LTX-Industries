@@ -80,7 +80,7 @@ public class FabricatorMenu extends LTXIMachineMenu<FabricatorBlockEntity>
     @Override
     public void defineDataWatchers(DataWatcherCollector collector)
     {
-        menuContext.getEnergy().keepAllPropertiesSynced(collector);
+        menuContext.getEnergy().syncAllProperties(collector);
         menuContext.keepEnergyConsumerPropertiesSynced(collector);
         collector.register(menuContext.keepProgressSynced());
         collector.register(menuContext.getRecipeCheck().keepLastUsedSynced());

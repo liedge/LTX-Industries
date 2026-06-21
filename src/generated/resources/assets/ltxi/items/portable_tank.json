@@ -1,0 +1,18 @@
+{
+  "model": {
+    "type": "minecraft:composite",
+    "models": [
+      {
+        "type": "minecraft:model",
+        "model": "ltxi:item/portable_tank"
+      },
+      {
+        "type": "minecraft:special",
+        "base": "ltxi:item/portable_tank",
+        "model": {
+          "type": "ltxi:tank"
+        }
+      }
+    ]
+  }
+}

@@ -1,6 +1,6 @@
 package liedge.ltxindustries.blockentity;
 
-import liedge.limacore.network.sync.AutomaticDataWatcher;
+import liedge.limacore.network.sync.SimpleValueTracker;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.ltxindustries.blockentity.template.LTXIRecipeMachineBlockEntity;
 import liedge.ltxindustries.recipe.GardenSimulatingRecipe;
@@ -30,7 +30,7 @@ public class DigitalGardenBlockEntity extends LTXIRecipeMachineBlockEntity<Garde
     @Override
     public void defineDataWatchers(DataWatcherCollector collector)
     {
-        collector.register(AutomaticDataWatcher.keepSynced(LimaCoreNetworkSerializers.ITEM_RESOURCE, this::writePreviewResource, this::readPreviewResource));
+        collector.register(SimpleValueTracker.create(LimaCoreNetworkSerializers.ITEM_RESOURCE, this::writePreviewResource, this::readPreviewResource).setAutomatic());
     }
 
     @Override

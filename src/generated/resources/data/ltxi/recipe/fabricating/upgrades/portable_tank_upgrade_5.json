@@ -1,0 +1,52 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 20000000,
+  "group": "upgrades/storage",
+  "item_inputs": [
+    {
+      "ingredient": {
+        "neoforge:ingredient_type": "neoforge:components",
+        "components": {
+          "ltxi:upgrade": {
+            "rank": 4,
+            "upgrade": "ltxi:portable_tank_upgrade"
+          }
+        },
+        "items": "ltxi:upgrade_module"
+      }
+    },
+    {
+      "ingredient": "ltxi:t4_circuit"
+    },
+    {
+      "count": 8,
+      "ingredient": "#c:ingots/titanium"
+    },
+    {
+      "count": 8,
+      "ingredient": "ltxi:slatesteel_ingot"
+    },
+    {
+      "count": 24,
+      "ingredient": "ltxi:polymer_ingot"
+    },
+    {
+      "count": 32,
+      "ingredient": "ltxi:titanium_glass"
+    },
+    {
+      "count": 4,
+      "ingredient": "ltxi:chorus_chemical"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:upgrade": {
+        "rank": 5,
+        "upgrade": "ltxi:portable_tank_upgrade"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:upgrade_module"
+  }
+}

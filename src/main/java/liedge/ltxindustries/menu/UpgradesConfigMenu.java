@@ -5,7 +5,7 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.menu.BlockEntityMenu;
 import liedge.limacore.menu.LimaMenuType;
 import liedge.limacore.menu.slot.LimaItemSlot;
-import liedge.limacore.network.sync.AutomaticDataWatcher;
+import liedge.limacore.network.sync.SimpleValueTracker;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.limacore.transfer.item.ItemHolderBlockEntity;
 import liedge.limacore.transfer.item.LimaBlockEntityItems;
@@ -47,11 +47,11 @@ public abstract class UpgradesConfigMenu<CTX extends ItemHolderBlockEntity> exte
     @Override
     public void defineDataWatchers(DataWatcherCollector collector)
     {
-        collector.register(AutomaticDataWatcher.keepSynced(LTXINetworkSerializers.UPGRADES, this::getUpgrades, upgrades -> {
+        collector.register(SimpleValueTracker.create(LTXINetworkSerializers.UPGRADES, this::getUpgrades, upgrades -> {
             this.remoteUpgrades.clear();
             this.remoteUpgrades.addAll(upgrades.toEntrySet());
             this.screenUpdate = true;
-        }));
+        }).setAutomatic());
     }
 
     @Override

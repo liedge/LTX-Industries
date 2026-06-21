@@ -5,7 +5,7 @@
     "a": "minecraft:crafting_table",
     "b": "ltxi:titanium_block",
     "l": "#c:dyes/lime",
-    "t": "ltxi:titanium_ingot"
+    "t": "#c:ingots/titanium"
   },
   "pattern": [
     "ttt",

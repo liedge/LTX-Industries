@@ -4,7 +4,7 @@
   "key": {
     "c": "ltxi:t1_circuit",
     "g": "#c:glass_blocks/cheap",
-    "t": "ltxi:titanium_ingot"
+    "t": "#c:ingots/titanium"
   },
   "pattern": [
     "ggg",

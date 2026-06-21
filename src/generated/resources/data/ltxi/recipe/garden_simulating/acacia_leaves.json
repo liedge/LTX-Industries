@@ -4,7 +4,7 @@
   "fluid_inputs": [
     {
       "amount": 1500,
-      "ingredient": "minecraft:water"
+      "ingredient": "#minecraft:water"
     }
   ],
   "item_inputs": [

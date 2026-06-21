@@ -33,7 +33,8 @@ final class LTXIDatagen
                 .add(Registries.ENCHANTMENT, LTXIEnchantments::bootstrap)
                 .add(LTXIRegistries.Keys.UPGRADES, LTXIUpgrades::bootstrap)
                 .add(Registries.PLACED_FEATURE, LTXIPlacedFeatures::bootstrap)
-                .add(LTXIRegistries.Keys.RECIPE_MODES, LTXIRecipeModes::bootstrap));
+                .add(LTXIRegistries.Keys.RECIPE_MODES, LTXIRecipeModes::bootstrap)
+                .add(Registries.VILLAGER_TRADE, LTXIVillagerTrades::bootstrap));
         CompletableFuture<HolderLookup.Provider> registries = dataRegistriesProvider.getRegistryProvider();
 
         // Bootstrap registries and block tags
@@ -60,6 +61,7 @@ final class LTXIDatagen
         event.addProvider(new RecipesGen.Runner(output, registries));
         event.addProvider(new SoundsGen(output));
         event.addProvider(new SpriteSourcesGen(output, registries));
+        event.addProvider(new TradeTagsGen(output, registries));
         event.addProvider(new UpgradeTagsGen(output, registries));
     }
 }

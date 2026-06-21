@@ -1,0 +1,38 @@
+{
+  "type": "ltxi:assembling",
+  "craft_time": 600,
+  "fluid_inputs": [
+    {
+      "amount": 32000,
+      "ingredient": "#minecraft:water"
+    }
+  ],
+  "item_inputs": [
+    {
+      "ingredient": {
+        "neoforge:ingredient_type": "neoforge:components",
+        "components": {
+          "limacore:fluid": {}
+        },
+        "items": "ltxi:portable_tank"
+      }
+    },
+    {
+      "ingredient": "ltxi:t4_circuit"
+    },
+    {
+      "count": 2,
+      "ingredient": "ltxi:slatesteel_gear"
+    },
+    {
+      "count": 16,
+      "ingredient": "ltxi:polymer_ingot"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:infinite_water_tank"
+    }
+  ]
+}

@@ -4,7 +4,7 @@ import liedge.limacore.client.gui.FillBarWidget;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.transfer.LimaEnergyUtil;
 import liedge.limacore.transfer.energy.EnergyHolderBlockEntity;
-import liedge.limacore.transfer.energy.VariableEnergyHandler;
+import liedge.limacore.transfer.energy.LimaEnergyHandler;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.util.LTXITooltipUtil;
@@ -18,9 +18,9 @@ public class EnergyGaugeWidget extends FillBarWidget.VerticalBar
     private static final Identifier FG_SPRITE_NORMAL = LTXIndustries.RESOURCES.id("widget/energy_bar_fill");
     private static final Identifier FG_SPRITE_OVERCHARGE = LTXIndustries.RESOURCES.id("widget/energy_bar_overcharge_fill");
 
-    private final VariableEnergyHandler energy;
+    private final LimaEnergyHandler energy;
 
-    public EnergyGaugeWidget(VariableEnergyHandler energy, int x, int y)
+    public EnergyGaugeWidget(LimaEnergyHandler energy, int x, int y)
     {
         super(x, y, 12, 40, 10, 38);
         this.energy = energy;

@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "g": "ltxi:titanium_glass",
+    "m": {
+      "neoforge:ingredient_type": "neoforge:components",
+      "components": {
+        "ltxi:upgrade": {
+          "upgrade": "ltxi:portable_tank_upgrade"
+        }
+      },
+      "items": "ltxi:upgrade_module"
+    },
+    "t": "#c:ingots/titanium"
+  },
+  "pattern": [
+    "tgt",
+    "gmg",
+    "tgt"
+  ],
+  "result": {
+    "components": {
+      "ltxi:upgrade": {
+        "rank": 2,
+        "upgrade": "ltxi:portable_tank_upgrade"
+      }
+    },
+    "id": "ltxi:upgrade_module"
+  }
+}

@@ -2,7 +2,7 @@ package liedge.ltxindustries.menu;
 
 import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.menu.LimaMenuType;
-import liedge.ltxindustries.blockentity.template.LTXIMachineBlockEntity;
+import liedge.ltxindustries.blockentity.template.MachineBaseBlockEntity;
 import liedge.ltxindustries.lib.upgrades.Upgrade;
 import liedge.ltxindustries.lib.upgrades.UpgradeEntry;
 import liedge.ltxindustries.lib.upgrades.Upgrades;
@@ -17,13 +17,13 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 
-public class MachineUpgradeMenu extends UpgradesConfigMenu<LTXIMachineBlockEntity>
+public class MachineUpgradeMenu extends UpgradesConfigMenu<MachineBaseBlockEntity>
 {
     public static final int BACK_BUTTON_ID = 1;
 
-    public MachineUpgradeMenu(LimaMenuType<LTXIMachineBlockEntity, ?> type, int containerId, Inventory inventory, LTXIMachineBlockEntity menuContext)
+    public MachineUpgradeMenu(LimaMenuType<MachineBaseBlockEntity, ?> type, int containerId, Inventory inventory, MachineBaseBlockEntity menuContext)
     {
-        super(type, containerId, inventory, menuContext, menuContext.getItemsOrThrow(BlockContentsType.AUXILIARY), LTXIMachineBlockEntity.AUX_MODULE_ITEM_SLOT);
+        super(type, containerId, inventory, menuContext, menuContext.getItemsOrThrow(BlockContentsType.AUXILIARY), MachineBaseBlockEntity.AUX_MODULE_ITEM_SLOT);
 
         addPlayerInventoryAndHotbar(15, 118);
     }

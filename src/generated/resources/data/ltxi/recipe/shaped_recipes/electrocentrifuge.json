@@ -4,9 +4,9 @@
   "key": {
     "a": "minecraft:cauldron",
     "c": "ltxi:t2_circuit",
-    "g": "ltxi:titanium_gear",
+    "g": "#c:gears/titanium",
     "s": "ltxi:titanium_glass",
-    "t": "ltxi:titanium_ingot"
+    "t": "#c:ingots/titanium"
   },
   "pattern": [
     "gcg",

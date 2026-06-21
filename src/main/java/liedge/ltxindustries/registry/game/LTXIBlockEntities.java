@@ -69,6 +69,11 @@ public final class LTXIBlockEntities
                 ASSEMBLER,
                 GEO_SYNTHESIZER,
                 DIGITAL_GARDEN));
+
+        // Fluids only
+        registerFluidCap(event, PORTABLE_TANK);
+        registerFluidCap(event, INFINITE_WATER_TANK);
+        registerFluidCap(event, INFINITE_LAVA_TANK);
     }
 
     private static <T extends LimaBlockEntity & ItemHolderBlockEntity & EnergyHolderBlockEntity> void registerItemEnergyCaps(RegisterCapabilitiesEvent event, Collection<? extends Supplier<? extends BlockEntityType<? extends T>>> types)
@@ -88,8 +93,13 @@ public final class LTXIBlockEntities
             BlockEntityType<? extends T> type = holder.get();
             event.registerBlockEntity(Capabilities.Item.BLOCK, type, ItemHolderBlockEntity::createExternalItems);
             event.registerBlockEntity(Capabilities.Energy.BLOCK, type, EnergyHolderBlockEntity::createExternalEnergy);
-            event.registerBlockEntity(Capabilities.Fluid.BLOCK, type, FluidHolderBlockEntity::createExternalFluids);
+            registerFluidCap(event, holder);
         }
+    }
+
+    private static void registerFluidCap(RegisterCapabilitiesEvent event, Supplier<? extends BlockEntityType<? extends FluidHolderBlockEntity>> holder)
+    {
+        event.registerBlockEntity(Capabilities.Fluid.BLOCK, holder.get(), FluidHolderBlockEntity::createExternalFluids);
     }
 
     //#region Sided Access Rules
@@ -98,6 +108,7 @@ public final class LTXIBlockEntities
     private static final IOConfigurationRules INPUT_ONLY_NO_PULL = IOConfigurationRules.builder().forAllSides().permits(IOAccessSets.INPUT_ONLY_OR_DISABLED).withDefaultIOAccess(IOAccess.INPUT_ONLY).build();
     private static final IOConfigurationRules INPUT_ONLY_PULL = IOConfigurationRules.builder().forAllSides().permits(IOAccessSets.INPUT_ONLY_OR_DISABLED).withDefaultIOAccess(IOAccess.INPUT_ONLY).allowsAutoInput().build();
     private static final IOConfigurationRules OUTPUT_ONLY_PUSH = IOConfigurationRules.builder().forAllSides().permits(IOAccessSets.OUTPUT_ONLY_OR_DISABLED).withDefaultIOAccess(IOAccess.OUTPUT_ONLY).allowsAutoOutput().build();
+    private static final IOConfigurationRules OUTPUT_ONLY_AUTO_PUSH = IOConfigurationRules.builder().forAllSides().permits(IOAccessSets.OUTPUT_ONLY_OR_DISABLED).withDefaultIOAccess(IOAccess.OUTPUT_ONLY).autoOutputByDefault().build();
 
     private static final Set<RelativeHorizontalSide> FABRICATOR_VALID_SIDES = ImmutableSet.copyOf(EnumSet.of(RelativeHorizontalSide.BOTTOM, RelativeHorizontalSide.FRONT, RelativeHorizontalSide.REAR, RelativeHorizontalSide.LEFT));
     private static final IOConfigurationRules FABRICATOR_ITEM_RULES = IOConfigurationRules.builder()
@@ -142,7 +153,23 @@ public final class LTXIBlockEntities
             .withBlock(LTXIBlocks.INFINITE_ENERGY_CELL_ARRAY)
             .hasMenu(LTXIMenus.ENERGY_CELL_ARRAY)
             .withConfigRules(BlockEntityInputType.ITEMS, STANDARD_PUSH_ONLY)
-            .withConfigRules(BlockEntityInputType.ENERGY, builder -> builder.forAllSides().permits(IOAccessSets.OUTPUT_ONLY_OR_DISABLED).withDefaultIOAccess(IOAccess.OUTPUT_ONLY).autoOutputByDefault())
+            .withConfigRules(BlockEntityInputType.ENERGY, OUTPUT_ONLY_AUTO_PUSH)
+            .build());
+
+    public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<PortableTankBlockEntity>> PORTABLE_TANK = TYPES.register(LTXIIdentifiers.ID_PORTABLE_TANK, () -> ConfigurableIOBlockEntityType.sidedBuilder(PortableTankBlockEntity::new)
+            .withBlock(LTXIBlocks.PORTABLE_TANK)
+            .hasMenu(LTXIMenus.PORTABLE_TANK)
+            .withConfigRules(BlockEntityInputType.FLUIDS, builder -> builder.forAllSides().permits(IOAccessSets.INPUT_XOR_OUTPUT_OR_DISABLED).withDefaultIOAccess(IOAccess.INPUT_ONLY).allowsAutoInput().allowsAutoOutput())
+            .build());
+    public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<SpecialInfiniteTankBlockEntity>> INFINITE_WATER_TANK = TYPES.register(LTXIIdentifiers.ID_INFINITE_WATER_TANK, () -> ConfigurableIOBlockEntityType.sidedBuilder(SpecialInfiniteTankBlockEntity::createWaterTank)
+            .withBlock(LTXIBlocks.INFINITE_WATER_TANK)
+            .hasMenu(LTXIMenus.SPECIAL_INFINITE_TANK)
+            .withConfigRules(BlockEntityInputType.FLUIDS, OUTPUT_ONLY_AUTO_PUSH)
+            .build());
+    public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<SpecialInfiniteTankBlockEntity>> INFINITE_LAVA_TANK = TYPES.register(LTXIIdentifiers.ID_INFINITE_LAVA_TANK, () -> ConfigurableIOBlockEntityType.sidedBuilder(SpecialInfiniteTankBlockEntity::createLavaTank)
+            .withBlock(LTXIBlocks.INFINITE_LAVA_TANK)
+            .hasMenu(LTXIMenus.SPECIAL_INFINITE_TANK)
+            .withConfigRules(BlockEntityInputType.FLUIDS, OUTPUT_ONLY_AUTO_PUSH)
             .build());
 
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<DigitalFurnaceBlockEntity>> DIGITAL_FURNACE = registerItemEnergyMachine(LTXIIdentifiers.ID_DIGITAL_FURNACE, DigitalFurnaceBlockEntity::new, STANDARD_PUSH_PULL, INPUT_ONLY_NO_PULL, builder -> builder.withBlock(LTXIBlocks.DIGITAL_FURNACE).hasMenu(LTXIMenus.DIGITAL_FURNACE));

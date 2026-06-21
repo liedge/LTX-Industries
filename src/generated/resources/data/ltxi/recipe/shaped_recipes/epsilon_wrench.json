@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "c": "ltxi:t1_circuit",
-    "t": "ltxi:titanium_ingot"
+    "t": "#c:ingots/titanium"
   },
   "pattern": [
     "t t",

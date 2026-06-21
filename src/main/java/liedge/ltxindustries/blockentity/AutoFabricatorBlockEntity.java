@@ -36,7 +36,7 @@ public class AutoFabricatorBlockEntity extends BaseFabricatorBlockEntity
     {
         shouldCheckBlueprint = false;
 
-        ItemResource bpItem = auxInventory.getResource(AUX_BLUEPRINT_SLOT);
+        ItemResource bpItem = getItemsOrThrow(BlockContentsType.AUXILIARY).getResource(AUX_BLUEPRINT_SLOT);
         ResourceKey<Recipe<?>> recipeKey = bpItem.get(LTXIDataComponents.BLUEPRINT_RECIPE);
         RecipeHolder<FabricatingRecipe> holder = null;
 

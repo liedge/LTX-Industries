@@ -1,0 +1,66 @@
+{
+  "display": {
+    "description": {
+      "translate": "upgrade.ltxi.portable_tank_upgrade.desc"
+    },
+    "icon": {
+      "type": "overlay",
+      "background": {
+        "type": "item_stack",
+        "item": {
+          "id": "ltxi:portable_tank"
+        }
+      },
+      "height": 9,
+      "overlay": "ltxi:plus_overlay",
+      "width": 9,
+      "x_offset": 6,
+      "y_offset": 6
+    },
+    "title": {
+      "translate": "upgrade.ltxi.portable_tank_upgrade"
+    },
+    "tooltips": [
+      {
+        "type": "custom_args",
+        "args": [
+          {
+            "type": "value",
+            "format": "multiplicative",
+            "sentiment": "positive",
+            "value": {
+              "type": "exponential",
+              "base": 2.0,
+              "power": {
+                "type": "linear",
+                "base": 2.0,
+                "increment": 1.0
+              }
+            }
+          }
+        ],
+        "key": "upgrade_effect.ltxi.fluid_capacity"
+      }
+    ]
+  },
+  "effects": {
+    "ltxi:fluid_capacity": [
+      {
+        "op": "multiply",
+        "value": {
+          "type": "exponential",
+          "base": 2.0,
+          "power": {
+            "type": "linear",
+            "base": 2.0,
+            "increment": 1.0
+          }
+        }
+      }
+    ]
+  },
+  "max_rank": 5,
+  "users": {
+    "block_entities": "ltxi:portable_tank"
+  }
+}

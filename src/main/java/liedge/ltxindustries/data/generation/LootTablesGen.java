@@ -176,6 +176,9 @@ class LootTablesGen extends LimaLootTableProvider
             dropSelf(LTXIBlocks.GLOOM_SHROOM);
             dropSelfWithEntity(ENERGY_CELL_ARRAY);
             dropSelfWithEntity(INFINITE_ENERGY_CELL_ARRAY);
+            dropSelfWithEntity(PORTABLE_TANK);
+            dropSelfWithEntity(INFINITE_WATER_TANK);
+            dropSelfWithEntity(INFINITE_LAVA_TANK);
             dropSelfWithEntity(DIGITAL_FURNACE);
             dropSelfWithEntity(DIGITAL_SMOKER);
             dropSelfWithEntity(DIGITAL_BLAST_FURNACE);

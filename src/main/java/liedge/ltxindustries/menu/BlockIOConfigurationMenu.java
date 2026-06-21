@@ -3,7 +3,7 @@ package liedge.ltxindustries.menu;
 import liedge.limacore.blockentity.LimaBlockEntity;
 import liedge.limacore.menu.LimaMenu;
 import liedge.limacore.menu.LimaMenuType;
-import liedge.limacore.network.sync.AutomaticDataWatcher;
+import liedge.limacore.network.sync.SimpleValueTracker;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.limacore.util.LimaBlockUtil;
 import liedge.limacore.util.LimaRegistryUtil;
@@ -75,19 +75,19 @@ public class BlockIOConfigurationMenu extends LimaMenu<BlockIOConfigurationMenu.
     @Override
     public void defineDataWatchers(DataWatcherCollector collector)
     {
-        collector.register(AutomaticDataWatcher.keepSynced(LTXINetworkSerializers.BLOCK_IO_CONFIG, this::getIOConfiguration, this::setConfig));
+        collector.register(SimpleValueTracker.create(LTXINetworkSerializers.BLOCK_IO_CONFIG, this::getIOConfiguration, this::setConfig).setAutomatic());
     }
 
     @Override
     protected void defineButtonEventHandlers(EventHandlerBuilder builder)
     {
         builder.handleUnitAction(BACK_BUTTON_ID, menuContext.blockEntity::returnToPrimaryMenuScreen);
-        builder.handleAction(CYCLE_FORWARD_BUTTON_ID, LimaCoreNetworkSerializers.RELATIVE_SIDE, (sender, side) ->
+        builder.handleAction(CYCLE_FORWARD_BUTTON_ID, LimaCoreNetworkSerializers.RELATIVE_SIDE, (_, side) ->
                 setConfigLogged(getIOConfiguration().cycleIOAccess(side, getIOConfigRules(), true)));
-        builder.handleAction(CYCLE_BACKWARD_BUTTON_ID, LimaCoreNetworkSerializers.RELATIVE_SIDE, (sender, side) ->
+        builder.handleAction(CYCLE_BACKWARD_BUTTON_ID, LimaCoreNetworkSerializers.RELATIVE_SIDE, (_, side) ->
                 setConfigLogged(getIOConfiguration().cycleIOAccess(side, getIOConfigRules(), false)));
-        builder.handleUnitAction(TOGGLE_AUTO_INPUT_BUTTON_ID, sender -> setConfigLogged(getIOConfiguration().toggleAutoInput()));
-        builder.handleUnitAction(TOGGLE_AUTO_OUTPUT_BUTTON_ID, sender -> setConfigLogged(getIOConfiguration().toggleAutoOutput()));
+        builder.handleUnitAction(TOGGLE_AUTO_INPUT_BUTTON_ID, _ -> setConfigLogged(getIOConfiguration().toggleAutoInput()));
+        builder.handleUnitAction(TOGGLE_AUTO_OUTPUT_BUTTON_ID, _ -> setConfigLogged(getIOConfiguration().toggleAutoOutput()));
     }
 
     public static final class MenuType extends LimaMenuType<MenuContext, BlockIOConfigurationMenu>

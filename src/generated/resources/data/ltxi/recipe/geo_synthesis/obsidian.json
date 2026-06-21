@@ -5,7 +5,7 @@
     {
       "amount": 1000,
       "consume_chance": 0.0,
-      "ingredient": "minecraft:water"
+      "ingredient": "#minecraft:water"
     },
     {
       "amount": 1000,

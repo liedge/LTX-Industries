@@ -147,7 +147,7 @@ public class LTXIJeiPlugin implements IModPlugin
                 LimaFluidSlot slot = containerScreen.getHoveredFluidSlot();
                 if (slot == null) return Optional.empty();
 
-                return builder.createBuilder(NeoForgeTypes.FLUID_STACK, slot.getFluid()).buildWithArea(containerScreen.getLeftPos() + slot.x(), containerScreen.getTopPos() + slot.y(), 16, 16);
+                return builder.createBuilder(NeoForgeTypes.FLUID_STACK, slot.getFluid()).buildWithArea(containerScreen.getLeftPos() + slot.getX(), containerScreen.getTopPos() + slot.getY(), 16, 16);
             }
         });
 

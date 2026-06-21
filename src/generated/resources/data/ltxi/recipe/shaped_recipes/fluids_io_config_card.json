@@ -4,7 +4,7 @@
   "key": {
     "c": "ltxi:t1_circuit",
     "m": "minecraft:bucket",
-    "t": "ltxi:titanium_ingot"
+    "t": "#c:ingots/titanium"
   },
   "pattern": [
     " m ",

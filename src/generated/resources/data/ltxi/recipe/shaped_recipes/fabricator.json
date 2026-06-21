@@ -6,7 +6,7 @@
     "c": "ltxi:t3_circuit",
     "g": "ltxi:slatesteel_gear",
     "o": "ltxi:optical_tech_part",
-    "t": "ltxi:titanium_ingot"
+    "t": "#c:ingots/titanium"
   },
   "pattern": [
     "tot",

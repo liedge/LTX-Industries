@@ -5,7 +5,7 @@
     "c": "ltxi:t2_circuit",
     "g": "minecraft:tinted_glass",
     "m": "ltxi:electric_chemical",
-    "t": "ltxi:titanium_ingot"
+    "t": "#c:ingots/titanium"
   },
   "pattern": [
     "ggg",
