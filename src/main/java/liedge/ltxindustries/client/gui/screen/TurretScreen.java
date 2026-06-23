@@ -17,7 +17,6 @@ public class TurretScreen extends MachineBaseScreen<TurretMenu<?>>
     {
         super.extractBackground(graphics, mouseX, mouseY, partialTick);
 
-        blitInventoryAndHotbar(graphics, 7, 105);
         blitSlotGrid(graphics, 79, 22, 5, 4);
         blitPowerInSlot(graphics, 7, 52);
     }

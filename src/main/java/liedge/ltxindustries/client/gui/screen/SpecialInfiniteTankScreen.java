@@ -22,7 +22,6 @@ public final class SpecialInfiniteTankScreen extends MachineBaseScreen<SpecialIn
     {
         super.extractBackground(graphics, mouseX, mouseY, partialTick);
 
-        blitInventoryAndHotbar(graphics, 7, 83);
         blitSlotSprite(graphics, LayoutSlot.FLUID_SLOT_SPRITE, 79, 35);
     }
 

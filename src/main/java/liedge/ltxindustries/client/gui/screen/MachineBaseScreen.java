@@ -24,7 +24,6 @@ public abstract class MachineBaseScreen<M extends MachineBaseMenu<?>> extends LT
     protected MachineBaseScreen(M menu, Inventory inventory, Component title, int primaryWidth, int primaryHeight)
     {
         super(menu, inventory, title, primaryWidth, primaryHeight, menu.menuContext().hasStatsTooltips() ? 18 : 0, 18, 0);
-        //this.inventoryLabelY = 73;
     }
 
     @Override
