@@ -103,9 +103,9 @@ public class ShellGrenadeEntity extends LTXIProjectileEntity implements IEntityW
     {
         return switch (grenadeType)
         {
-            case FLAME -> hitEntity.is(LTXITags.EntityTypes.WEAK_TO_FLAME) ? FLAME_GRENADE_DAMAGE_MULTIPLIER.getAsDouble() : 1d;
-            case CRYO -> hitEntity.is(LTXITags.EntityTypes.WEAK_TO_CRYO) ? CRYO_GRENADE_DAMAGE_MULTIPLIER.getAsDouble() : 1d;
-            case ELECTRIC -> (hitEntity.isInWaterOrRain() || hitEntity.is(LTXITags.EntityTypes.WEAK_TO_ELECTRIC)) ? ELECTRIC_GRENADE_DAMAGE_MULTIPLIER.getAsDouble() : 1d;
+            case FLAME -> hitEntity.is(LTXITags.EntityTypes.WEAK_TO_FLAME) ? FLAME_SHELL_DAMAGE_MULTIPLIER.getAsDouble() : 1d;
+            case CRYO -> hitEntity.is(LTXITags.EntityTypes.WEAK_TO_CRYO) ? CRYO_SHELL_DAMAGE_MULTIPLIER.getAsDouble() : 1d;
+            case ELECTRIC -> (hitEntity.isInWaterOrRain() || hitEntity.is(LTXITags.EntityTypes.WEAK_TO_ELECTRIC)) ? ELECTRIC_SHELL_DAMAGE_MULTIPLIER.getAsDouble() : 1d;
             default -> 1d;
         };
     }
@@ -114,12 +114,12 @@ public class ShellGrenadeEntity extends LTXIProjectileEntity implements IEntityW
     {
         ModConfigSpec.DoubleValue configValue = switch (grenadeType)
         {
-            case EXPLOSIVE -> EXPLOSIVE_GRENADE_BASE_DAMAGE;
-            case FLAME -> FLAME_GRENADE_BASE_DAMAGE;
-            case CRYO -> CRYO_GRENADE_BASE_DAMAGE;
-            case ELECTRIC -> ELECTRIC_GRENADE_BASE_DAMAGE;
-            case ACID -> ACID_GRENADE_BASE_DAMAGE;
-            case GLOOM_GAS -> GLOOM_GAS_GRENADE_BASE_DAMAGE;
+            case EXPLOSIVE -> EXPLOSIVE_SHELL_BASE_DAMAGE;
+            case FLAME -> FLAME_SHELL_BASE_DAMAGE;
+            case CRYO -> CRYO_SHELL_BASE_DAMAGE;
+            case ELECTRIC -> ELECTRIC_SHELL_BASE_DAMAGE;
+            case ACID -> ACID_SHELL_BASE_DAMAGE;
+            case GLOOM_GAS -> GLOOM_GAS_SHELL_BASE_DAMAGE;
         };
 
         return configValue.getAsDouble();
