@@ -14,6 +14,8 @@
     "ltxi:fabricator",
     "ltxi:auto_fabricator",
     "ltxi:digital_garden",
+    "ltxi:portable_generator",
+    "ltxi:solar_panel",
     "ltxi:upgrade_station",
     "ltxi:energy_cell_array",
     "ltxi:infinite_energy_cell_array",

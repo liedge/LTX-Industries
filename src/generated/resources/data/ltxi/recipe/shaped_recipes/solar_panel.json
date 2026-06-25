@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "a": "#c:gears/titanium",
+    "c": "ltxi:t2_circuit",
+    "e": "ltxi:electric_chemical",
+    "g": "ltxi:titanium_glass",
+    "t": "#c:ingots/titanium"
+  },
+  "pattern": [
+    "geg",
+    " a ",
+    "tct"
+  ],
+  "result": {
+    "id": "ltxi:solar_panel"
+  }
+}

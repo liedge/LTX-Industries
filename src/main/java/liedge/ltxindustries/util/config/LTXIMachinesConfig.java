@@ -52,6 +52,13 @@ public final class LTXIMachinesConfig
     public static final ModConfigSpec.IntValue FABRICATOR_ENERGY_USAGE;
     public static final ModConfigSpec.BooleanValue FABRICATOR_AE2_AUTO_RECONFIGURE_IO;
 
+    public static final ModConfigSpec.IntValue PORTABLE_GENERATOR_CAPACITY;
+    public static final ModConfigSpec.IntValue PORTABLE_GENERATOR_GENERATION;
+    public static final ModConfigSpec.IntValue PORTABLE_GENERATOR_ENERGY_PER_FUEL;
+
+    public static final ModConfigSpec.IntValue SOLAR_PANEL_CAPACITY;
+    public static final ModConfigSpec.IntValue SOLAR_PANEL_GENERATION;
+
     public static final ModConfigSpec.IntValue REPAIR_STATION_CAPACITY;
     public static final ModConfigSpec.IntValue REPAIR_STATION_ENERGY_USAGE;
     public static final ModConfigSpec.IntValue REPAIR_STATION_BASE_SPEED;
@@ -163,6 +170,17 @@ public final class LTXIMachinesConfig
         FABRICATOR_ENERGY_USAGE = ConfigUtil.customEnergyUsage(builder, "Base energy usage per tick of the Fabricator. Affects how quickly Fabrication recipes are completed.", 2500);
         FABRICATOR_AE2_AUTO_RECONFIGURE_IO = builder.comment("If set to true, AE2 Pattern Providers will automatically re-configure the Auto Fabricator's IO item configuration when inserting a pattern.")
                 .define("ae2_pattern_auto_reconfigure", true);
+        builder.pop();
+
+        builder.comment("Portable Generator").push("portable_generator");
+        PORTABLE_GENERATOR_CAPACITY = ConfigUtil.energyCapacity(builder, 100_000);
+        PORTABLE_GENERATOR_GENERATION = ConfigUtil.positiveInt(builder, "energy_generation", "Energy generated per tick", 40);
+        PORTABLE_GENERATOR_ENERGY_PER_FUEL = ConfigUtil.positiveInt(builder, "energy_per_fuel", "How much energy a fuel unit produces", 2500);
+        builder.pop();
+
+        builder.comment("Solar Panel").push("solar_panel");
+        SOLAR_PANEL_CAPACITY = ConfigUtil.energyCapacity(builder, 80_000);
+        SOLAR_PANEL_GENERATION = ConfigUtil.positiveInt(builder, "energy_generation", "Energy generated per tick", 25);
         builder.pop();
 
         builder.comment("Repair Station").push("repair_station");

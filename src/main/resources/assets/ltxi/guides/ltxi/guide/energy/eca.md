@@ -1,8 +1,8 @@
 ---
 navigation:
     title: "Energy Cell Array"
+    parent: energy/index.md
     position: 1
-    parent: machines/storage/index.md
     icon: energy_cell_array
 item_ids:
   - energy_cell_array

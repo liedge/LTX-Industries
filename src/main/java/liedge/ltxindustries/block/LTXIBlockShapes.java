@@ -132,6 +132,21 @@ public final class LTXIBlockShapes
             dimensionBox(0, 8, 1, 16, 2, 14),
             dimensionBox(4, 5, 0.5d, 8, 11, 15));
 
+    public static final VoxelShape PORTABLE_GENERATOR = Shapes.or(
+            dimensionBox(0, 0, 1, 16, 3, 14),
+            dimensionBox(1, 3, 1, 14, 4, 14),
+            dimensionBox(0, 3, 2, 2, 12, 12),
+            dimensionBox(4, 3, 2, 8, 12, 12),
+            dimensionBox(14, 3, 2, 2, 12, 12),
+            dimensionBox(2, 3, 3, 12, 11, 10));
+
+    public static final VoxelShape SOLAR_PANEL = Shapes.or(
+            dimensionBox(5, 0, 5, 6, 2, 6),
+            dimensionBox(6, 2, 6, 4, 3, 4),
+            dimensionBox(7, 5, 7, 2, 6, 2),
+            dimensionBox(6, 11, 6, 4, 2, 4),
+            dimensionBox(1, 12.5d, 0.5d, 14, 3, 15));
+
     public static final VoxelShape REPAIR_STATION = Shapes.or(
             dimensionBox(2, 0, 2, 12, 3, 12),
             dimensionBox(4, 3, 4, 8, 6, 8),

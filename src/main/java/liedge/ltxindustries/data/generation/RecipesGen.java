@@ -157,6 +157,10 @@ class RecipesGen extends LimaRecipeProvider
                 .patterns("pop", "sas", "gcg").save(output);
         shaped(UPGRADE_STATION).input('t', items, TITANIUM_INGOTS).input('b', TITANIUM_BLOCK).input('a', CRAFTING_TABLE).input('l', items, DYES_LIME).patterns("ttt", "lal", "tbt").save(output);
 
+        // Generators
+        shaped(PORTABLE_GENERATOR).input('t', items, TITANIUM_INGOTS).input('c', T1_CIRCUIT).input('g', items, TITANIUM_GEARS).input('a', FURNACE).input('b', IRON_BARS).patterns("ttt", "bab", "gcg").save(output);
+        shaped(SOLAR_PANEL).input('t', items, TITANIUM_INGOTS).input('c', T2_CIRCUIT).input('a', items, TITANIUM_GEARS).input('e', ELECTRIC_CHEMICAL).input('g', TITANIUM_GLASS).patterns("geg", " a ", "tct").save(output);
+
         // Standard machine systems
         upgradeShaped(output, STANDARD_MACHINE_SYSTEMS, 1, builder -> builder
                 .input('r', REDSTONE).input('c', T1_CIRCUIT).patterns(" r ", "rmr", " c "));

@@ -93,6 +93,10 @@ public final class LTXIBlocks
     public static final DeferredBlock<SimpleWrenchBlock> AUTO_FABRICATOR = BLOCKS.registerBlock(LTXIIdentifiers.ID_AUTO_FABRICATOR, properties -> SimpleWrenchBlock.staticShape(properties, LTXIBlockShapes.ASSEMBLER), LTXIBlocks::machineProperties);
     public static final DeferredBlock<PrimaryMeshBlock> DIGITAL_GARDEN = BLOCKS.registerBlock(LTXIIdentifiers.ID_DIGITAL_GARDEN, properties -> PrimaryMeshBlock.create(properties, LTXIBlockMeshes.DIGITAL_GARDEN, LTXIBlockShapes.DIGITAL_GARDEN, false), LTXIBlocks::machineProperties);
 
+    // Power Generators
+    public static final DeferredBlock<StateMachineBlock> PORTABLE_GENERATOR = BLOCKS.registerBlock(LTXIIdentifiers.ID_PORTABLE_GENERATOR, properties -> StateMachineBlock.rotatingShape(properties, LTXIBlockShapes.PORTABLE_GENERATOR, false), LTXIBlocks::machineProperties);
+    public static final DeferredBlock<StateMachineBlock> SOLAR_PANEL = BLOCKS.registerBlock(LTXIIdentifiers.ID_SOLAR_PANEL, properties -> StateMachineBlock.rotatingShape(properties, LTXIBlockShapes.SOLAR_PANEL, false), LTXIBlocks::machineProperties);
+
     // Misc machinery
     public static final DeferredBlock<SimpleWrenchBlock> REPAIR_STATION = BLOCKS.registerBlock(LTXIIdentifiers.ID_REPAIR_STATION, properties -> SimpleWrenchBlock.rotatingShape(properties, LTXIBlockShapes.REPAIR_STATION), LTXIBlocks::machineProperties);
 
