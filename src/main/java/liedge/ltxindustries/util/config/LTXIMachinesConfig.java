@@ -70,6 +70,21 @@ public final class LTXIMachinesConfig
 
     public static final ModConfigSpec MACHINES_CONFIG_SPEC;
 
+    public static int getPortableTankCapacity()
+    {
+        return ConfigUtil.getIntValueOrZero(MACHINES_CONFIG_SPEC, PORTABLE_TANK_CAPACITY);
+    }
+
+    public static int getECAEnergyCapacity()
+    {
+        return ConfigUtil.getIntValueOrZero(MACHINES_CONFIG_SPEC, ECA_BASE_ENERGY_CAPACITY);
+    }
+
+    public static int getECATransferRate()
+    {
+        return ConfigUtil.getIntValueOrZero(MACHINES_CONFIG_SPEC, ECA_BASE_TRANSFER_RATE);
+    }
+
     static
     {
         ModConfigSpec.Builder builder = new ModConfigSpec.Builder();

@@ -1,6 +1,7 @@
 package liedge.ltxindustries.util;
 
 import liedge.limacore.client.gui.TooltipLineConsumer;
+import liedge.limacore.item.EnergyHolderItem;
 import liedge.limacore.lib.Translatable;
 import liedge.ltxindustries.menu.tooltip.ItemStacksTooltip;
 import net.minecraft.ChatFormatting;
@@ -56,6 +57,11 @@ public final class LTXITooltipUtil
     {
         appendEnergyWithCapacityTooltip(consumer, energy, capacity);
         consumer.accept(INLINE_ENERGY_TRANSFER_RATE.translateArgs(toEnergyPerTickString(transferRate)).withStyle(REM_BLUE.chatStyle()));
+    }
+
+    public static void appendItemStorageEnergyTooltip(TooltipLineConsumer consumer, ItemStack stack, EnergyHolderItem item)
+    {
+        appendStorageEnergyTooltip(consumer, item.getEnergyStored(stack), item.getEnergyCapacity(stack), item.getEnergyTransferRate(stack));
     }
 
     @Deprecated

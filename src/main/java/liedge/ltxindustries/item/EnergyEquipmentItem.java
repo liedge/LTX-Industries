@@ -7,6 +7,7 @@ import liedge.limacore.registry.game.LimaCoreDataComponents;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.lib.upgrades.effect.ValueOperation;
+import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.resources.Identifier;
@@ -16,6 +17,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.loot.LootContext;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.energy.EnergyHandler;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -27,10 +31,27 @@ public abstract class EnergyEquipmentItem extends Item implements UpgradableEqui
         super(properties);
     }
 
+    public boolean supportsEnergyStorage(ItemStack stack)
+    {
+        return true;
+    }
+
     @Override
     public int getBaseEnergyTransferRate(ItemStack stack)
     {
         return getEnergyCapacity(stack) / 20;
+    }
+
+    @Override
+    public @Nullable EnergyHandler getEnergy(ItemStack stack, ItemAccess access)
+    {
+        return supportsEnergyStorage(stack) ? UpgradableEquipmentItem.super.getEnergy(stack, access) : null;
+    }
+
+    @Override
+    public @Nullable EnergyHandler getNoTransferLimitEnergy(ItemStack stack, ItemAccess access)
+    {
+        return supportsEnergyStorage(stack) ? UpgradableEquipmentItem.super.getNoTransferLimitEnergy(stack, access) : null;
     }
 
     @Override
@@ -87,6 +108,23 @@ public abstract class EnergyEquipmentItem extends Item implements UpgradableEqui
         ItemStack stack = createStackWithDefaultUpgrades(parameters.holders());
         stack.set(LimaCoreDataComponents.ENERGY, getBaseEnergyCapacity(stack));
         output.accept(stack, tabVisibility);
+    }
+
+    @Override
+    public void onUpgradeRefresh(LootContext context, ItemStack stack, Upgrades upgrades)
+    {
+        UpgradableEquipmentItem.super.onUpgradeRefresh(context, stack, upgrades);
+
+        if (supportsEnergyStorage(stack))
+        {
+            int capacity = LimaCoreMath.round(upgrades.runValueOps(LTXIUpgradeEffectComponents.ENERGY_CAPACITY, context, getBaseEnergyCapacity(stack)));
+            stack.set(LimaCoreDataComponents.ENERGY_CAPACITY, capacity);
+
+            int transferRate = LimaCoreMath.round(upgrades.runValueOps(LTXIUpgradeEffectComponents.ENERGY_TRANSFER_RATE, context, getBaseEnergyTransferRate(stack)));
+            int energyUsage = LimaCoreMath.round(upgrades.runValueOps(LTXIUpgradeEffectComponents.ENERGY_USAGE, context, getBaseEnergyUsage(stack)));
+            stack.set(LimaCoreDataComponents.ENERGY_TRANSFER_RATE, transferRate);
+            stack.set(LimaCoreDataComponents.ENERGY_USAGE, energyUsage);
+        }
     }
 
     protected void setUpgradableDouble(ItemStack stack, Upgrades upgrades, LootContext context, double baseFallback, Supplier<? extends DataComponentType<Double>> itemComponent, Supplier<? extends DataComponentType<List<ValueOperation>>> upgradeComponent)

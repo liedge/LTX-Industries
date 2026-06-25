@@ -43,4 +43,9 @@ final class ConfigUtil
     {
         return damageSpec(builder, "base_damage", comment, defaultValue);
     }
+
+    static int getIntValueOrZero(ModConfigSpec spec, ModConfigSpec.IntValue value)
+    {
+        return spec.isLoaded() ? value.getAsInt() : 0;
+    }
 }

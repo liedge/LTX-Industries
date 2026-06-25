@@ -1,6 +1,7 @@
 package liedge.ltxindustries.item;
 
 import liedge.limacore.client.gui.TooltipLineConsumer;
+import liedge.limacore.item.FluidHolderItem;
 import liedge.limacore.registry.game.LimaCoreDataComponents;
 import liedge.limacore.transfer.LimaTransferUtil;
 import liedge.ltxindustries.client.LTXILangKeys;
@@ -24,7 +25,7 @@ public final class PortableTankItem extends BlockItem implements FluidHolderItem
     @Override
     public int getFluidCapacity(ItemStack stack)
     {
-        return stack.getOrDefault(LimaCoreDataComponents.FLUID_CAPACITY, LTXIMachinesConfig.PORTABLE_TANK_CAPACITY.getAsInt());
+        return stack.getOrDefault(LimaCoreDataComponents.FLUID_CAPACITY, LTXIMachinesConfig.getPortableTankCapacity());
     }
 
     @Override

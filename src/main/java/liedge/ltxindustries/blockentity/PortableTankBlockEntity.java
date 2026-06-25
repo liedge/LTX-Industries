@@ -41,8 +41,8 @@ public class PortableTankBlockEntity extends MachineBaseBlockEntity implements F
     {
         if (stored == 0) return 0;
 
-        float fill = Math.clamp(LimaCoreMath.divideFloat(stored, capacity), 0f, 1f);
-        return Math.max(LimaCoreMath.round(fill * FLUID_VISUAL_LEVELS), 1);
+        float fill = LimaCoreMath.getFloatRatio(stored, capacity) * FLUID_VISUAL_LEVELS;
+        return Math.max(LimaCoreMath.round(fill), 1);
     }
 
     // Class def

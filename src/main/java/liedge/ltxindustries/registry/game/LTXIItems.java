@@ -1,5 +1,7 @@
 package liedge.ltxindustries.registry.game;
 
+import liedge.limacore.item.EnergyHolderItem;
+import liedge.limacore.item.FluidHolderItem;
 import liedge.limacore.registry.LimaDeferredItems;
 import liedge.limacore.registry.game.LimaCoreDataComponents;
 import liedge.limacore.transfer.LimaTransferUtil;

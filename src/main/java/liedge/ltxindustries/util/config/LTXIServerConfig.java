@@ -21,6 +21,11 @@ public final class LTXIServerConfig
 
     public static final ModConfigSpec SERVER_CONFIG_SPEC;
 
+    public static int getArmorEnergyCapacity()
+    {
+        return ConfigUtil.getIntValueOrZero(SERVER_CONFIG_SPEC, ARMOR_ENERGY_CAPACITY);
+    }
+
     static
     {
         ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
