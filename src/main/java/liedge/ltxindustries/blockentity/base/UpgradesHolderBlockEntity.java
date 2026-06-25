@@ -50,8 +50,8 @@ public interface UpgradesHolderBlockEntity extends SubMenuProviderBlockEntity, I
         {
             double newCapacity = upgrades.runValueOps(LTXIUpgradeEffectComponents.ENERGY_CAPACITY, context, energyHolder.getBaseEnergyCapacity());
             double newTransferRate = upgrades.runValueOps(LTXIUpgradeEffectComponents.ENERGY_TRANSFER_RATE, context, energyHolder.getBaseEnergyTransferRate());
-            energyHolder.getEnergy().setCapacity(LimaCoreMath.round(newCapacity));
-            energyHolder.getEnergy().setTransferRate(LimaCoreMath.round(newTransferRate));
+            energyHolder.getEnergy().setCapacity(LimaCoreMath.roundInt(newCapacity));
+            energyHolder.getEnergy().setTransferRate(LimaCoreMath.roundInt(newTransferRate));
         }
     }
 }

@@ -15,7 +15,7 @@ public interface EnergyConsumerBlockEntity extends EnergyHolderBlockEntity
     static void applyUpgrades(EnergyConsumerBlockEntity blockEntity, LootContext context, Upgrades upgrades)
     {
         double newEnergyUsage = upgrades.runValueOps(LTXIUpgradeEffectComponents.ENERGY_USAGE, context, blockEntity.getBaseEnergyUsage());
-        blockEntity.setEnergyUsage(Math.max(0, LimaCoreMath.round(newEnergyUsage)));
+        blockEntity.setEnergyUsage(Math.max(0, LimaCoreMath.roundInt(newEnergyUsage)));
     }
 
     int getBaseEnergyUsage();

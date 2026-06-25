@@ -117,13 +117,9 @@ public abstract class EnergyEquipmentItem extends Item implements UpgradableEqui
 
         if (supportsEnergyStorage(stack))
         {
-            int capacity = LimaCoreMath.round(upgrades.runValueOps(LTXIUpgradeEffectComponents.ENERGY_CAPACITY, context, getBaseEnergyCapacity(stack)));
-            stack.set(LimaCoreDataComponents.ENERGY_CAPACITY, capacity);
-
-            int transferRate = LimaCoreMath.round(upgrades.runValueOps(LTXIUpgradeEffectComponents.ENERGY_TRANSFER_RATE, context, getBaseEnergyTransferRate(stack)));
-            int energyUsage = LimaCoreMath.round(upgrades.runValueOps(LTXIUpgradeEffectComponents.ENERGY_USAGE, context, getBaseEnergyUsage(stack)));
-            stack.set(LimaCoreDataComponents.ENERGY_TRANSFER_RATE, transferRate);
-            stack.set(LimaCoreDataComponents.ENERGY_USAGE, energyUsage);
+            setUpgradableInt(stack, upgrades, context, getBaseEnergyCapacity(stack), LimaCoreDataComponents.ENERGY_CAPACITY, LTXIUpgradeEffectComponents.ENERGY_CAPACITY);
+            setUpgradableInt(stack, upgrades, context, getBaseEnergyTransferRate(stack), LimaCoreDataComponents.ENERGY_TRANSFER_RATE, LTXIUpgradeEffectComponents.ENERGY_TRANSFER_RATE);
+            setUpgradableInt(stack, upgrades, context, getBaseEnergyUsage(stack), LimaCoreDataComponents.ENERGY_USAGE, LTXIUpgradeEffectComponents.ENERGY_USAGE);
         }
     }
 
@@ -137,7 +133,7 @@ public abstract class EnergyEquipmentItem extends Item implements UpgradableEqui
     protected void setUpgradableInt(ItemStack stack, Upgrades upgrades, LootContext context, int baseFallback, Supplier<? extends DataComponentType<Integer>> itemComponent, Supplier<? extends DataComponentType<List<ValueOperation>>> upgradeComponent)
     {
         int base = components().getOrDefault(itemComponent.get(), baseFallback);
-        int value = LimaCoreMath.round(upgrades.runValueOps(upgradeComponent, context, base));
+        int value = LimaCoreMath.roundInt(upgrades.runValueOps(upgradeComponent, context, base));
         stack.set(itemComponent, value);
     }
 }

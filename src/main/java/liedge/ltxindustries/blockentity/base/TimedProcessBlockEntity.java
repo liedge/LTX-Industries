@@ -36,7 +36,7 @@ public interface TimedProcessBlockEntity
         static void applyUpgrades(FixedBaseDuration blockEntity, LootContext context, Upgrades upgrades)
         {
             double newTicksPerOp = upgrades.runValueOps(LTXIUpgradeEffectComponents.TICKS_PER_OPERATION, context, blockEntity.getBaseTicksPerOperation());
-            blockEntity.setTicksPerOperation(Math.max(0, LimaCoreMath.round(newTicksPerOp)));
+            blockEntity.setTicksPerOperation(Math.max(0, LimaCoreMath.roundInt(newTicksPerOp)));
         }
 
         int getBaseTicksPerOperation();

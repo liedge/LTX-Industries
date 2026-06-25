@@ -24,7 +24,7 @@ public interface UpgradeValueProvider extends LootContextUser
 
     default int getInt(LootContext context, int upgradeRank)
     {
-        return LimaCoreMath.round(get(context, upgradeRank));
+        return LimaCoreMath.roundInt(get(context, upgradeRank));
     }
 
     MapCodec<? extends UpgradeValueProvider> codec();
