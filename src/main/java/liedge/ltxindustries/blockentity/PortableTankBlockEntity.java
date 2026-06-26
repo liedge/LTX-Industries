@@ -99,6 +99,8 @@ public class PortableTankBlockEntity extends MachineBaseBlockEntity implements F
     @Override
     public @Nullable ResourceHandler<FluidResource> createExternalFluids(@Nullable Direction side)
     {
+        if (side == null) return tank;
+
         IOAccess topLevelAccess = getTopLevelFluidIO(side);
         return topLevelAccess != IOAccess.DISABLED ? tank.createIOWrapper(topLevelAccess) : null;
     }
