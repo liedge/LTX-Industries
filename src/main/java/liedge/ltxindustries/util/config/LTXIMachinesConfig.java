@@ -1,5 +1,6 @@
 package liedge.ltxindustries.util.config;
 
+import liedge.limacore.LimaCommonConstants;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
 public final class LTXIMachinesConfig
@@ -51,6 +52,13 @@ public final class LTXIMachinesConfig
     public static final ModConfigSpec.IntValue FABRICATOR_ENERGY_USAGE;
     public static final ModConfigSpec.BooleanValue FABRICATOR_AE2_AUTO_RECONFIGURE_IO;
 
+    public static final ModConfigSpec.IntValue PORTABLE_GENERATOR_CAPACITY;
+    public static final ModConfigSpec.IntValue PORTABLE_GENERATOR_GENERATION;
+    public static final ModConfigSpec.IntValue PORTABLE_GENERATOR_ENERGY_PER_FUEL;
+
+    public static final ModConfigSpec.IntValue SOLAR_PANEL_CAPACITY;
+    public static final ModConfigSpec.IntValue SOLAR_PANEL_GENERATION;
+
     public static final ModConfigSpec.IntValue REPAIR_STATION_CAPACITY;
     public static final ModConfigSpec.IntValue REPAIR_STATION_ENERGY_USAGE;
     public static final ModConfigSpec.IntValue REPAIR_STATION_BASE_SPEED;
@@ -69,168 +77,134 @@ public final class LTXIMachinesConfig
 
     public static final ModConfigSpec MACHINES_CONFIG_SPEC;
 
+    public static int getPortableTankCapacity()
+    {
+        return ConfigUtil.getIntValueOrZero(MACHINES_CONFIG_SPEC, PORTABLE_TANK_CAPACITY);
+    }
+
+    public static int getECAEnergyCapacity()
+    {
+        return ConfigUtil.getIntValueOrZero(MACHINES_CONFIG_SPEC, ECA_BASE_ENERGY_CAPACITY);
+    }
+
+    public static int getECATransferRate()
+    {
+        return ConfigUtil.getIntValueOrZero(MACHINES_CONFIG_SPEC, ECA_BASE_TRANSFER_RATE);
+    }
+
     static
     {
         ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
 
-        // Energy Cell Array (ECA)
-        builder.push("energy_cell_array");
-        ECA_BASE_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Energy Cell Array")
-                        .defineInRange("energy_capacity", 1_000_000, 1, Integer.MAX_VALUE);
-        ECA_BASE_TRANSFER_RATE = builder.comment("Base transfer rate (per tick) of the Energy Cell Array")
-                        .defineInRange("transfer_rate", 10_000, 1, Integer.MAX_VALUE);
+        builder.comment("Energy Cell Array").push("energy_cell_array");
+        ECA_BASE_ENERGY_CAPACITY = ConfigUtil.energyCapacity(builder, 1_000_000);
+        ECA_BASE_TRANSFER_RATE = ConfigUtil.energyTransfer(builder, 10_000);
         builder.pop();
 
-        // Portable tank
-        builder.push("portable_tank");
-        PORTABLE_TANK_CAPACITY = builder.comment("Base fluid capacity of the Portable Tank in mB")
-                .defineInRange("fluid_capacity", 16_000, 1, Integer.MAX_VALUE);
+        builder.comment("Portable Tank").push("portable_tank");
+        PORTABLE_TANK_CAPACITY = ConfigUtil.positiveInt(builder, LimaCommonConstants.KEY_FLUID_CAPACITY, "Base fluid capacity of the Portable Tank in mB", 16_000);
         builder.pop();
 
-        // Digital Furnace
-        builder.push("digital_furnace");
-        DIGITAL_FURNACE_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Digital Furnace")
-                .defineInRange("energy_capacity", 100_000, 1, Integer.MAX_VALUE);
-        DIGITAL_FURNACE_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the Digital Furnace")
-                .defineInRange("energy_usage", 25, 1, Integer.MAX_VALUE);
+        builder.comment("Digital Furnace").push("digital_furnace");
+        DIGITAL_FURNACE_ENERGY_CAPACITY = ConfigUtil.energyCapacity(builder, 100_000);
+        DIGITAL_FURNACE_ENERGY_USAGE = ConfigUtil.energyUsagePerTick(builder, 25);
         builder.pop();
 
-        // Digital Smoker
-        builder.push("digital_smoker");
-        DIGITAL_SMOKER_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Digital Smoker")
-                .defineInRange("energy_capacity", 100_000, 1, Integer.MAX_VALUE);
-        DIGITAL_SMOKER_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the Digital Smoker")
-                .defineInRange("energy_usage", 10, 1, Integer.MAX_VALUE);
+        builder.comment("Digital Smoker").push("digital_smoker");
+        DIGITAL_SMOKER_ENERGY_CAPACITY = ConfigUtil.energyCapacity(builder, 100_000);
+        DIGITAL_SMOKER_ENERGY_USAGE = ConfigUtil.energyUsagePerTick(builder, 10);
         builder.pop();
 
-        // Digital Blast Furnace
-        builder.push("digital_blast_furnace");
-        DIGITAL_BLAST_FURNACE_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Digital Blast Furnace")
-                .defineInRange("energy_capacity", 100_000, 1, Integer.MAX_VALUE);
-        DIGITAL_BLAST_FURNACE_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the Digital Blast Furnace")
-                .defineInRange("energy_usage", 15, 1, Integer.MAX_VALUE);
+        builder.comment("Digital Blast Furnace").push("digital_blast_furnace");
+        DIGITAL_BLAST_FURNACE_ENERGY_CAPACITY = ConfigUtil.energyCapacity(builder, 100_000);
+        DIGITAL_BLAST_FURNACE_ENERGY_USAGE = ConfigUtil.energyUsagePerTick(builder, 15);
         builder.pop();
 
-        // Grinder
-        builder.push("grinder");
-        GRINDER_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Grinder")
-                .defineInRange("energy_capacity", 100_000, 1, Integer.MAX_VALUE);
-        GRINDER_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the Grinder")
-                .defineInRange("energy_usage", 30, 1, Integer.MAX_VALUE);
+        builder.comment("Grinder").push("grinder");
+        GRINDER_ENERGY_CAPACITY = ConfigUtil.energyCapacity(builder, 100_000);
+        GRINDER_ENERGY_USAGE = ConfigUtil.energyUsagePerTick(builder, 30);
         builder.pop();
 
-        // Material Fusing Chamber
-        builder.push("material_fusing_chamber");
-        MFC_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Material Fusing Chamber")
-                .defineInRange("energy_capacity", 100_000, 1, Integer.MAX_VALUE);
-        MFC_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the Material Fusing Chamber")
-                .defineInRange("energy_usage", 30, 1, Integer.MAX_VALUE);
+        builder.comment("Material Fusing Chamber").push("material_fusing_chamber");
+        MFC_ENERGY_CAPACITY = ConfigUtil.energyCapacity(builder, 100_000);
+        MFC_ENERGY_USAGE =  ConfigUtil.energyUsagePerTick(builder, 30);
         builder.pop();
 
-        // ElectroCentrifuge
-        builder.push("electrocentrifuge");
-        ELECTROCENTRIFUGE_ENERGY_CAPACITY = builder.comment("Base energy capacity of the ElectroCentrifuge")
-                .defineInRange("energy_capacity", 100_000, 1, Integer.MAX_VALUE);
-        ELECTROCENTRIFUGE_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the ElectroCentrifuge")
-                .defineInRange("energy_usage", 40, 1, Integer.MAX_VALUE);
+        builder.comment("ElectroCentrifuge").push("electrocentrifuge");
+        ELECTROCENTRIFUGE_ENERGY_CAPACITY = ConfigUtil.energyCapacity(builder, 100_000);
+        ELECTROCENTRIFUGE_ENERGY_USAGE = ConfigUtil.energyUsagePerTick(builder, 40);
         builder.pop();
 
-        // Mixer
-        builder.push("mixer");
-        MIXER_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Mixer")
-                .defineInRange("energy_capacity", 100_000, 1, Integer.MAX_VALUE);
-        MIXER_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the Mixer")
-                .defineInRange("energy_usage", 30, 1, Integer.MAX_VALUE);
+        builder.comment("Mixer").push("mixer");
+        MIXER_ENERGY_CAPACITY = ConfigUtil.energyCapacity(builder, 100_000);
+        MIXER_ENERGY_USAGE = ConfigUtil.energyUsagePerTick(builder, 30);
         builder.pop();
 
-        // Voltaic Injector
-        builder.push("voltaic_injector");
-        VOLTAIC_INJECTOR_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Voltaic Injector")
-                .defineInRange("energy_capacity", 100_000, 1, Integer.MAX_VALUE);
-        VOLTAIC_INJECTOR_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the Voltaic Injector")
-                .defineInRange("energy_usage", 25, 1, Integer.MAX_VALUE);
+        builder.comment("Voltaic Injector").push("voltaic_injector");
+        VOLTAIC_INJECTOR_ENERGY_CAPACITY = ConfigUtil.energyCapacity(builder, 100_000);
+        VOLTAIC_INJECTOR_ENERGY_USAGE = ConfigUtil.energyUsagePerTick(builder, 25);
         builder.pop();
 
-        // Chem Lab
-        builder.push("chem_lab");
-        CHEM_LAB_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Chem Lab")
-                .defineInRange("energy_capacity", 250_000, 1, Integer.MAX_VALUE);
-        CHEM_LAB_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the Chem Lab")
-                .defineInRange("energy_usage", 80, 1, Integer.MAX_VALUE);
+        builder.comment("Chem Lab").push("chem_lab");
+        CHEM_LAB_ENERGY_CAPACITY = ConfigUtil.energyCapacity(builder, 250_000);
+        CHEM_LAB_ENERGY_USAGE = ConfigUtil.energyUsagePerTick(builder, 80);
         builder.pop();
 
-        // Assembler
-        builder.push("assembler");
-        ASSEMBLER_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Assembler")
-                .defineInRange("energy_capacity", 250_000, 1, Integer.MAX_VALUE);
-        ASSEMBLER_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the Assembler")
-                .defineInRange("energy_usage", 80, 1, Integer.MAX_VALUE);
+        builder.comment("Assembler").push("assembler");
+        ASSEMBLER_ENERGY_CAPACITY = ConfigUtil.energyCapacity(builder, 250_000);
+        ASSEMBLER_ENERGY_USAGE = ConfigUtil.energyUsagePerTick(builder, 80);
         builder.pop();
 
-        // Geo Synthesizer
-        builder.push("geo_synthesizer");
-        GEO_SYNTHESIZER_CAPACITY = builder.comment("Base energy capacity of the Geo Synthesizer")
-                .defineInRange("energy_capacity", 100_000, 1, Integer.MAX_VALUE);
-        GEO_SYNTHESIZER_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the Geo Synthesizer")
-                .defineInRange("energy_usage", 10, 1, Integer.MAX_VALUE);
+        builder.comment("Geo Synthesizer").push("geo_synthesizer");
+        GEO_SYNTHESIZER_CAPACITY = ConfigUtil.energyCapacity(builder, 100_000);
+        GEO_SYNTHESIZER_ENERGY_USAGE = ConfigUtil.energyUsagePerTick(builder, 10);
         builder.pop();
 
-        // Digital Garden
-        builder.push("digital_garden");
-        DIGITAL_GARDEN_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Bio/ARU Garden")
-                .defineInRange("energy_capacity", 250_000, 1, Integer.MAX_VALUE);
-        DIGITAL_GARDEN_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the Bio/ARU Garden")
-                .defineInRange("energy_usage", 100, 1, Integer.MAX_VALUE);
+        builder.comment("Bio/ARU Garden").push("digital_garden");
+        DIGITAL_GARDEN_ENERGY_CAPACITY = ConfigUtil.energyCapacity(builder, 250_000);
+        DIGITAL_GARDEN_ENERGY_USAGE = ConfigUtil.energyUsagePerTick(builder, 80);
         builder.pop();
 
-        // Fabricator
-        builder.push("fabricator");
-        FABRICATOR_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Fabricator.")
-                .defineInRange("energy_capacity", 250_000, 1, Integer.MAX_VALUE);
-        FABRICATOR_ENERGY_USAGE = builder.comment("The energy usage of the Fabricator. Affects how quickly the fabricator completes recipes.")
-                .defineInRange("energy_usage", 2500, 1, Integer.MAX_VALUE);
+        builder.comment("Fabricator and Auto Fabricator").push("fabricators");
+        FABRICATOR_ENERGY_CAPACITY = ConfigUtil.energyCapacity(builder, 250_000);
+        FABRICATOR_ENERGY_USAGE = ConfigUtil.customEnergyUsage(builder, "Base energy usage per tick of the Fabricator. Affects how quickly Fabrication recipes are completed.", 2500);
         FABRICATOR_AE2_AUTO_RECONFIGURE_IO = builder.comment("If set to true, AE2 Pattern Providers will automatically re-configure the Auto Fabricator's IO item configuration when inserting a pattern.")
                 .define("ae2_pattern_auto_reconfigure", true);
         builder.pop();
 
-        // Repair Station
-        builder.push("repair_station");
-        REPAIR_STATION_CAPACITY = builder.comment("Base energy capacity of the Repair Station")
-                .defineInRange("energy_capacity", 250_000, 1, Integer.MAX_VALUE);
-        REPAIR_STATION_ENERGY_USAGE = builder.comment("Base energy usage per operation tick of the Repair Station")
-                .defineInRange("energy_usage", 100, 1, Integer.MAX_VALUE);
-        REPAIR_STATION_BASE_SPEED = builder.comment("The base tick count needed for one Repair Station operation.")
-                .defineInRange("ticks_per_operation", 40, 1, Integer.MAX_VALUE);
+        builder.comment("Portable Generator").push("portable_generator");
+        PORTABLE_GENERATOR_CAPACITY = ConfigUtil.energyCapacity(builder, 100_000);
+        PORTABLE_GENERATOR_GENERATION = ConfigUtil.positiveInt(builder, "energy_generation", "Energy generated per tick", 40);
+        PORTABLE_GENERATOR_ENERGY_PER_FUEL = ConfigUtil.positiveInt(builder, "energy_per_fuel", "How much energy a fuel unit produces", 2500);
         builder.pop();
 
-        // Arc turret
-        builder.push("arc_turret");
-        ARC_TURRET_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Ionos turret.")
-                .defineInRange("energy_capacity", 200_000, 1, Integer.MAX_VALUE);
-        ARC_TURRET_ENERGY_USAGE = builder.comment("Base energy usage per tick of the Ionos turret.")
-                .defineInRange("energy_usage", 200, 1, Integer.MAX_VALUE);
-        ARC_TURRET_DAMAGE = builder.comment("Base damage per tick of the Ionos turret's electricity.")
-                .defineInRange("base_damage", 2d, 0.5d, Double.MAX_VALUE);
+        builder.comment("Solar Panel").push("solar_panel");
+        SOLAR_PANEL_CAPACITY = ConfigUtil.energyCapacity(builder, 80_000);
+        SOLAR_PANEL_GENERATION = ConfigUtil.positiveInt(builder, "energy_generation", "Energy generated per tick", 25);
         builder.pop();
 
-        // Rocket turret
-        builder.push("rocket_turret");
-        ROCKET_TURRET_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Atmos turret.")
-                .defineInRange("energy_capacity", 200_000, 1, Integer.MAX_VALUE);
-        ROCKET_TURRET_ENERGY_PER_TARGET = builder.comment("Base energy usage per rocket fired.")
-                .defineInRange("energy_per_target", 10_000, 1, Integer.MAX_VALUE);
-        ROCKET_TURRET_ROCKET_DAMAGE = builder.comment("Base damage dealt by rockets from the Atmos turret.")
-                .defineInRange("base_damage", 40d, 1d, Double.MAX_VALUE);
+        builder.comment("Repair Station").push("repair_station");
+        REPAIR_STATION_CAPACITY = ConfigUtil.energyCapacity(builder, 250_000);
+        REPAIR_STATION_ENERGY_USAGE = ConfigUtil.energyUsagePerTick(builder, 80);
+        REPAIR_STATION_BASE_SPEED = ConfigUtil.positiveInt(builder, "ticks_per_operation", "Base ticks needed for one Repair Station operation", 40);
         builder.pop();
 
-        // Noctis turret
-        builder.push("railgun_turret");
-        RAILGUN_TURRET_ENERGY_CAPACITY = builder.comment("Base energy capacity of the Noctis turret.")
-                .defineInRange("energy_capacity", 1_500_000, 1, Integer.MAX_VALUE);
-        RAILGUN_TURRET_ENERGY_PER_TARGET = builder.comment("Base energy usage per shot fired.")
-                .defineInRange("energy_per_target", 500_000, 1, Integer.MAX_VALUE);
-        RAILGUN_TURRET_DAMAGE = builder.comment("Base damage per shot of the Noctis turret.")
-                .defineInRange("base_damage", 200d, 1d, Double.MAX_VALUE);
+        builder.comment("Ionos Turret").push("arc_turret");
+        ARC_TURRET_ENERGY_CAPACITY = ConfigUtil.energyCapacity(builder, 200_000);
+        ARC_TURRET_ENERGY_USAGE = ConfigUtil.energyUsagePerTick(builder, 200);
+        ARC_TURRET_DAMAGE = ConfigUtil.baseDamage(builder, "Base damage per tick", 2d);
+        builder.pop();
+
+        builder.comment("Atmos Turret").push("rocket_turret");
+        ROCKET_TURRET_ENERGY_CAPACITY = ConfigUtil.energyCapacity(builder, 200_000);
+        ROCKET_TURRET_ENERGY_PER_TARGET = ConfigUtil.customEnergyUsage(builder, "Base energy usage per rocket fired", 10_000);
+        ROCKET_TURRET_ROCKET_DAMAGE = ConfigUtil.baseDamage(builder, "Base damage per rocket", 40d);
+        builder.pop();
+
+        builder.comment("Noctis Turret").push("railgun_turret");
+        RAILGUN_TURRET_ENERGY_CAPACITY = ConfigUtil.energyCapacity(builder, 2_000_000);
+        RAILGUN_TURRET_ENERGY_PER_TARGET = ConfigUtil.customEnergyUsage(builder, "Base energy usage per shot fired", 500_000);
+        RAILGUN_TURRET_DAMAGE = ConfigUtil.baseDamage(builder, "Base damage per shot", 200d);
         builder.pop();
 
         MACHINES_CONFIG_SPEC = builder.build();

@@ -38,7 +38,7 @@ public abstract class BaseEnergyToolItem extends EnergyEquipmentItem
 
     // Energy stuff
     @Override
-    public int getBaseEnergyCapacity(ItemInstance stack)
+    public int getBaseEnergyCapacity(ItemStack stack)
     {
         return LTXIServerConfig.TOOLS_ENERGY_CAPACITY.getAsInt();
     }

@@ -55,6 +55,9 @@ public final class LTXIMenus
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<AutoFabricatorBlockEntity, AutoFabricatorMenu>> AUTO_FABRICATOR = TYPES.register(LTXIIdentifiers.ID_AUTO_FABRICATOR, () -> BlockEntityMenuType.create(AutoFabricatorBlockEntity.class, AutoFabricatorMenu::new));
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<DigitalGardenBlockEntity, RecipeLayoutMenu<DigitalGardenBlockEntity>>> DIGITAL_GARDEN = registerLayoutRecipeMenu(LTXIIdentifiers.ID_DIGITAL_GARDEN, DigitalGardenBlockEntity.class, RecipeLayouts.GARDEN_SIMULATING);
 
+    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<PortableGeneratorBlockEntity, PortableGeneratorMenu>> PORTABLE_GENERATOR = TYPES.register(LTXIIdentifiers.ID_PORTABLE_GENERATOR, () -> BlockEntityMenuType.create(PortableGeneratorBlockEntity.class, PortableGeneratorMenu::new));
+    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<SolarPanelBlockEntity, SolarPanelMenu>> SOLAR_PANEL = TYPES.register(LTXIIdentifiers.ID_SOLAR_PANEL, () -> BlockEntityMenuType.create(SolarPanelBlockEntity.class, SolarPanelMenu::new));
+
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<RepairStationBlockEntity, RepairStationMenu>> REPAIR_STATION = TYPES.register(LTXIIdentifiers.ID_REPAIR_STATION, () -> BlockEntityMenuType.create(RepairStationBlockEntity.class, RepairStationMenu::new));
 
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<ArcTurretBlockEntity, TurretMenu<ArcTurretBlockEntity>>> ARC_TURRET = registerTurret(LTXIIdentifiers.ID_ARC_TURRET, ArcTurretBlockEntity.class);

@@ -37,7 +37,6 @@ public class AutoFabricatorScreen extends MachineBaseScreen<AutoFabricatorMenu>
     {
         super.extractBackground(graphics, mouseX, mouseY, partialTick);
 
-        blitInventoryAndHotbar(graphics, 14, 97);
         blitSlotGrid(graphics, 32, 29, 8, 2);
         blitPowerInSlot(graphics, 7, 52);
         blitSlotSprite(graphics, BLUEPRINT_SLOT_SPRITE, 119, 72);

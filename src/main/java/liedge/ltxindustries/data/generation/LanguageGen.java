@@ -100,6 +100,9 @@ class LanguageGen extends LimaLanguageProvider
         addBlock(LTXIBlocks.UPGRADE_STATION, "Upgrade Station");
         addBlock(LTXIBlocks.DIGITAL_GARDEN, "Bio/ARU Garden");
 
+        addBlock(LTXIBlocks.PORTABLE_GENERATOR, "Portable Generator");
+        addBlock(LTXIBlocks.SOLAR_PANEL, "Solar Panel");
+
         addBlock(LTXIBlocks.REPAIR_STATION, "Repair Station");
 
         addBlock(LTXIBlocks.ARC_TURRET, italicName("%s A/DS Turret", "Ionos"));
@@ -379,12 +382,13 @@ class LanguageGen extends LimaLanguageProvider
         add(JEI_NO_RECIPE_MODE_NEEDED, "No recipe mode needed.");
 
         add(MACHINE_TICKS_PER_OP_TOOLTIP, "Ticks per operation: %s");
-        add(EMPTY_ITEM_INVENTORY_TOOLTIP, "No items stored");
-        add(ITEM_INVENTORY_TOOLTIP, "Stored Items");
         add(FABRICATOR_SELECTED_RECIPE_TOOLTIP, "Left click to craft. Right click to encode blueprint (must have blank blueprint in slot).");
         add(INLINE_ENERGY_REQUIRED_TOOLTIP, "Energy required: %s");
+        add(INLINE_ENERGY_GENERATION, "Energy generation: %s");
         add(WORKING_PROGRESS_TOOLTIP, "Working: %s%%");
         add(CRAFTING_PROGRESS_TOOLTIP, "Crafting: %s%%");
+        add(FUEL_UNITS_STORED, "Fuel units: %s/%s");
+        add(ENERGY_PER_FUEL_UNIT, "Per fuel unit: %s");
         add(JEI_CRAFTING_TIME_TOOLTIP, "%ss | %st");
 
         add(INPUT_NOT_CONSUMED_TOOLTIP, "Input not consumed");

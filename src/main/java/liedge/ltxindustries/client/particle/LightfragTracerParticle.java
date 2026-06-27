@@ -8,7 +8,6 @@ import liedge.limacore.client.particle.CustomGeometryParticle;
 import liedge.limacore.client.particle.CustomGeometryParticleEntry;
 import liedge.limacore.lib.LimaColor;
 import liedge.limacore.lib.math.LimaCoreMath;
-import liedge.limacore.lib.math.LimaRoundingMode;
 import liedge.ltxindustries.client.LTXIRenderer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -37,7 +36,7 @@ public class LightfragTracerParticle extends CustomGeometryParticle
         super(level, start.x, start.y, start.z);
 
         Vector2f angles = LimaCoreMath.xyRotBetweenPoints(start, end); // Using old start doesn't matter for angles
-        int n = LimaCoreMath.round(tracerDistance / 20d, LimaRoundingMode.NATURAL) * 2;
+        int n = LimaCoreMath.roundInt(tracerDistance / 20d) * 2;
         this.lifetime = Mth.clamp(n, 2, 12);
 
         this.trailLength = 0.750f * lifetime;

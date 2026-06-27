@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "a": "minecraft:furnace",
+    "b": "minecraft:iron_bars",
+    "c": "ltxi:t1_circuit",
+    "g": "#c:gears/titanium",
+    "t": "#c:ingots/titanium"
+  },
+  "pattern": [
+    "ttt",
+    "bab",
+    "gcg"
+  ],
+  "result": {
+    "id": "ltxi:portable_generator"
+  }
+}

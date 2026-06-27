@@ -27,7 +27,7 @@ public interface ContextlessValue extends UpgradeValueProvider
 
     default int calculateInt(int upgradeRank)
     {
-        return LimaCoreMath.round(calculate(upgradeRank));
+        return LimaCoreMath.roundInt(calculate(upgradeRank));
     }
 
     @Override

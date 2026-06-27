@@ -1,9 +1,9 @@
 package liedge.ltxindustries.blockentity;
 
+import com.google.common.base.Predicates;
 import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.blockentity.IOAccess;
 import liedge.limacore.menu.BlockEntityMenuType;
-import liedge.limacore.transfer.LimaTransferUtil;
 import liedge.limacore.transfer.energy.LimaEnergyHandler;
 import liedge.limacore.transfer.item.LimaBlockEntityItems;
 import liedge.limacore.util.LimaItemUtil;
@@ -96,8 +96,7 @@ public abstract class BaseECABlockEntity extends LTXIMachineBlockEntity
         }
 
         // Auto output energy if option enabled
-        tickAutoResourceOutput(100, chargingInventory, null,
-                resource -> checkResourceEnergy(resource).allowsOutput(), LimaTransferUtil.ALL_FLUIDS);
+        tickAutoResourceOutput(100, chargingInventory, null, resource -> checkResourceEnergy(resource).allowsOutput(), Predicates.alwaysTrue());
         pushEnergyToSides();
     }
 

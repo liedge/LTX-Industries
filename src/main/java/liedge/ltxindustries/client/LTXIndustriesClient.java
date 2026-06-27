@@ -152,6 +152,8 @@ public class LTXIndustriesClient
             event.register(LTXIMenus.AUTO_FABRICATOR.get(), AutoFabricatorScreen::new);
             event.register(LTXIMenus.UPGRADE_STATION.get(), UpgradeStationScreen::new);
             event.register(LTXIMenus.DIGITAL_GARDEN.get(), RecipeLayoutScreen::new);
+            event.register(LTXIMenus.PORTABLE_GENERATOR.get(), PortableGeneratorScreen::new);
+            event.register(LTXIMenus.SOLAR_PANEL.get(), SolarPanelScreen::new);
             event.register(LTXIMenus.REPAIR_STATION.get(), RepairStationScreen::new);
             event.register(LTXIMenus.ARC_TURRET.get(), TurretScreen::new);
             event.register(LTXIMenus.ROCKET_TURRET.get(), TurretScreen::new);

@@ -86,7 +86,6 @@ public class BlockIOConfigurationScreen extends LTXIScreen<BlockIOConfigurationM
     public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick)
     {
         super.extractBackground(graphics, mouseX, mouseY, partialTick);
-        blitInventoryAndHotbar(graphics, 7, 83);
         graphics.blit(RenderPipelines.GUI_TEXTURED, BUTTON_GRID_TEXTURE, leftPos + 60, topPos + 21, 0f, 0f, 48, 48, 48, 48);
     }
 

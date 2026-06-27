@@ -104,7 +104,7 @@ public abstract class WeaponItem extends EnergyEquipmentItem
     }
 
     @Override
-    public final int getBaseEnergyCapacity(ItemInstance stack)
+    public final int getBaseEnergyCapacity(ItemStack stack)
     {
         return 0;
     }

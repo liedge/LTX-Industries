@@ -1,10 +1,11 @@
 package liedge.ltxindustries.item;
 
 import liedge.limacore.client.gui.TooltipLineConsumer;
+import liedge.limacore.item.EnergyHolderItem;
 import liedge.ltxindustries.LTXIConstants;
+import liedge.ltxindustries.util.LTXITooltipUtil;
 import liedge.ltxindustries.util.config.LTXIMachinesConfig;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -18,15 +19,15 @@ public class ECABlockItem extends BlockItem implements EnergyHolderItem, Tooltip
     }
 
     @Override
-    public int getBaseEnergyCapacity(ItemInstance stack)
+    public int getBaseEnergyCapacity(ItemStack stack)
     {
-        return LTXIMachinesConfig.ECA_BASE_ENERGY_CAPACITY.getAsInt();
+        return LTXIMachinesConfig.getECAEnergyCapacity();
     }
 
     @Override
     public int getBaseEnergyTransferRate(ItemStack stack)
     {
-        return LTXIMachinesConfig.ECA_BASE_TRANSFER_RATE.getAsInt();
+        return LTXIMachinesConfig.getECATransferRate();
     }
 
     @Override
@@ -50,6 +51,6 @@ public class ECABlockItem extends BlockItem implements EnergyHolderItem, Tooltip
     @Override
     public void appendTooltipHintComponents(@Nullable Level level, ItemStack stack, TooltipLineConsumer consumer)
     {
-        appendStorageEnergyTooltip(consumer, stack);
+        LTXITooltipUtil.appendItemStorageEnergyTooltip(consumer, stack, this);
     }
 }

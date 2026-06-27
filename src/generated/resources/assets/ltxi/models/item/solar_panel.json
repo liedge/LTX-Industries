@@ -1,0 +1,7 @@
+{
+  "parent": "ltxi:block/solar_panel",
+  "loader": "limacore:extended_cuboid",
+  "visibility": {
+    "emissive_active": false
+  }
+}

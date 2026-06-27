@@ -54,6 +54,7 @@ public final class LTXIBlockEntities
                 VOLTAIC_INJECTOR,
                 FABRICATOR,
                 AUTO_FABRICATOR,
+                PORTABLE_GENERATOR,
                 REPAIR_STATION,
                 ARC_TURRET,
                 ROCKET_TURRET,
@@ -70,6 +71,9 @@ public final class LTXIBlockEntities
                 GEO_SYNTHESIZER,
                 DIGITAL_GARDEN));
 
+        // Energy only
+        registerEnergyCap(event, SOLAR_PANEL);
+
         // Fluids only
         registerFluidCap(event, PORTABLE_TANK);
         registerFluidCap(event, INFINITE_WATER_TANK);
@@ -80,9 +84,8 @@ public final class LTXIBlockEntities
     {
         for (Supplier<? extends BlockEntityType<? extends T>> holder : types)
         {
-            BlockEntityType<? extends T> type = holder.get();
-            event.registerBlockEntity(Capabilities.Item.BLOCK, type, ItemHolderBlockEntity::createExternalItems);
-            event.registerBlockEntity(Capabilities.Energy.BLOCK, type, EnergyHolderBlockEntity::createExternalEnergy);
+            registerItemCap(event, holder);
+            registerEnergyCap(event, holder);
         }
     }
 
@@ -90,11 +93,20 @@ public final class LTXIBlockEntities
     {
         for (Supplier<? extends BlockEntityType<? extends T>> holder : types)
         {
-            BlockEntityType<? extends T> type = holder.get();
-            event.registerBlockEntity(Capabilities.Item.BLOCK, type, ItemHolderBlockEntity::createExternalItems);
-            event.registerBlockEntity(Capabilities.Energy.BLOCK, type, EnergyHolderBlockEntity::createExternalEnergy);
+            registerItemCap(event, holder);
+            registerEnergyCap(event, holder);
             registerFluidCap(event, holder);
         }
+    }
+
+    private static void registerItemCap(RegisterCapabilitiesEvent event, Supplier<? extends BlockEntityType<? extends ItemHolderBlockEntity>> holder)
+    {
+        event.registerBlockEntity(Capabilities.Item.BLOCK, holder.get(), ItemHolderBlockEntity::createExternalItems);
+    }
+
+    private static void registerEnergyCap(RegisterCapabilitiesEvent event, Supplier<? extends BlockEntityType<? extends EnergyHolderBlockEntity>> holder)
+    {
+        event.registerBlockEntity(Capabilities.Energy.BLOCK, holder.get(), EnergyHolderBlockEntity::createExternalEnergy);
     }
 
     private static void registerFluidCap(RegisterCapabilitiesEvent event, Supplier<? extends BlockEntityType<? extends FluidHolderBlockEntity>> holder)
@@ -192,6 +204,16 @@ public final class LTXIBlockEntities
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<AutoFabricatorBlockEntity>> AUTO_FABRICATOR = registerItemEnergyMachine(LTXIIdentifiers.ID_AUTO_FABRICATOR, AutoFabricatorBlockEntity::new, STANDARD_PUSH_ONLY, INPUT_ONLY_NO_PULL, builder -> builder.withBlock(LTXIBlocks.AUTO_FABRICATOR).hasMenu(LTXIMenus.AUTO_FABRICATOR));
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<DigitalGardenBlockEntity>> DIGITAL_GARDEN = registerItemEnergyFluidMachine(LTXIIdentifiers.ID_DIGITAL_GARDEN, DigitalGardenBlockEntity::new, DOUBLE_BLOCK_STANDARD_PUSH_ONLY, DOUBLE_BLOCK_INPUT_NO_PULL, DOUBLE_BLOCK_INPUT_PULL, builder -> builder.withBlock(LTXIBlocks.DIGITAL_GARDEN).hasMenu(LTXIMenus.DIGITAL_GARDEN));
 
+    public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<PortableGeneratorBlockEntity>> PORTABLE_GENERATOR = registerSided(LTXIIdentifiers.ID_PORTABLE_GENERATOR, PortableGeneratorBlockEntity::new, builder -> builder
+            .withBlock(LTXIBlocks.PORTABLE_GENERATOR)
+            .hasMenu(LTXIMenus.PORTABLE_GENERATOR)
+            .withConfigRules(BlockEntityInputType.ITEMS, INPUT_ONLY_NO_PULL)
+            .withConfigRules(BlockEntityInputType.ENERGY, OUTPUT_ONLY_AUTO_PUSH));
+    public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<SolarPanelBlockEntity>> SOLAR_PANEL = registerSided(LTXIIdentifiers.ID_SOLAR_PANEL, SolarPanelBlockEntity::new, builder -> builder
+            .withBlock(LTXIBlocks.SOLAR_PANEL)
+            .hasMenu(LTXIMenus.SOLAR_PANEL)
+            .withConfigRules(BlockEntityInputType.ENERGY, OUTPUT_ONLY_AUTO_PUSH));
+
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<RepairStationBlockEntity>> REPAIR_STATION = registerItemEnergyMachine(LTXIIdentifiers.ID_REPAIR_STATION, RepairStationBlockEntity::new, STANDARD_PUSH_PULL, INPUT_ONLY_NO_PULL, builder -> builder.withBlock(LTXIBlocks.REPAIR_STATION).hasMenu(LTXIMenus.REPAIR_STATION));
 
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<ArcTurretBlockEntity>> ARC_TURRET = registerTurret(LTXIIdentifiers.ID_ARC_TURRET, ArcTurretBlockEntity::new, builder -> builder.withBlock(LTXIBlocks.ARC_TURRET).hasMenu(LTXIMenus.ARC_TURRET));
@@ -202,17 +224,19 @@ public final class LTXIBlockEntities
     //#endregion
 
     // Helpers
-    private static <BE extends LimaBlockEntity> DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<BE>> registerItemEnergyMachine(String name, BlockEntityType.BlockEntitySupplier<BE> beFactory, IOConfigurationRules itemRules, IOConfigurationRules energyRules, UnaryOperator<ConfigurableIOBlockEntityType.Builder<BE>> builderOp)
+    private static <BE extends LimaBlockEntity> DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<BE>> registerSided(String name, BlockEntityType.BlockEntitySupplier<BE> factory, UnaryOperator<ConfigurableIOBlockEntityType.Builder<BE>> op)
     {
-        return TYPES.register(name, () -> builderOp.apply(ConfigurableIOBlockEntityType.sidedBuilder(beFactory))
-                .withConfigRules(BlockEntityInputType.ITEMS, itemRules)
-                .withConfigRules(BlockEntityInputType.ENERGY, energyRules).build());
+        return TYPES.register(name, () -> op.apply(ConfigurableIOBlockEntityType.sidedBuilder(factory)).build());
     }
 
-    private static <BE extends LimaBlockEntity> DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<BE>> registerItemEnergyFluidMachine(String name, BlockEntityType.BlockEntitySupplier<BE> beFactory, IOConfigurationRules itemRules, IOConfigurationRules energyRules, IOConfigurationRules fluidRules, UnaryOperator<ConfigurableIOBlockEntityType.Builder<BE>> builderOp)
+    private static <BE extends LimaBlockEntity> DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<BE>> registerItemEnergyMachine(String name, BlockEntityType.BlockEntitySupplier<BE> beFactory, IOConfigurationRules itemRules, IOConfigurationRules energyRules, UnaryOperator<ConfigurableIOBlockEntityType.Builder<BE>> op)
     {
-        return TYPES.register(name, () -> builderOp.apply(ConfigurableIOBlockEntityType.sidedBuilder(beFactory))
-                .withConfigRules(BlockEntityInputType.ITEMS, itemRules).withConfigRules(BlockEntityInputType.ENERGY, energyRules).withConfigRules(BlockEntityInputType.FLUIDS, fluidRules).build());
+        return registerSided(name, beFactory, builder -> op.apply(builder.withConfigRules(BlockEntityInputType.ITEMS, itemRules).withConfigRules(BlockEntityInputType.ENERGY, energyRules)));
+    }
+
+    private static <BE extends LimaBlockEntity> DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<BE>> registerItemEnergyFluidMachine(String name, BlockEntityType.BlockEntitySupplier<BE> beFactory, IOConfigurationRules itemRules, IOConfigurationRules energyRules, IOConfigurationRules fluidRules, UnaryOperator<ConfigurableIOBlockEntityType.Builder<BE>> op)
+    {
+        return registerSided(name, beFactory, builder -> op.apply(builder.withConfigRules(BlockEntityInputType.ITEMS, itemRules).withConfigRules(BlockEntityInputType.ENERGY, energyRules).withConfigRules(BlockEntityInputType.FLUIDS, fluidRules)));
     }
 
     private static <BE extends TurretBlockEntity> DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<BE>> registerTurret(String name, BlockEntityType.BlockEntitySupplier<BE> beFactory, UnaryOperator<ConfigurableIOBlockEntityType.Builder<BE>> builderOp)

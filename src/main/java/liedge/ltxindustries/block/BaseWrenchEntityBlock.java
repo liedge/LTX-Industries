@@ -13,7 +13,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.common.ItemAbility;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.fluid.FluidUtil;
 import org.jspecify.annotations.Nullable;
 
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING;
@@ -62,6 +66,12 @@ public abstract class BaseWrenchEntityBlock extends LimaEntityBlock
     protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult)
     {
         if (stack.canPerformAction(LTXIItemAbilities.WRENCH_ROTATE) || stack.canPerformAction(LTXIItemAbilities.WRENCH_DISMANTLE)) return InteractionResult.PASS;
+
+        ResourceHandler<FluidResource> blockFluids = level.getCapability(Capabilities.Fluid.BLOCK, pos, null);
+        if (blockFluids != null && FluidUtil.interactWithFluidHandler(player, hand, pos, blockFluids))
+        {
+            return InteractionResult.SUCCESS;
+        }
 
         return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
     }

@@ -41,6 +41,6 @@ public class EnergyCellArrayBlockEntity extends BaseECABlockEntity
     @Override
     public void defineDataWatchers(DataWatcherCollector collector)
     {
-        collector.register(SimpleValueTracker.create(LimaCoreNetworkSerializers.VAR_INT, () -> Mth.floor(LimaEnergyUtil.getClampedFillPercentage(getEnergy()) * 20f), i -> this.remoteEnergyFill = i).setAutomatic());
+        collector.register(SimpleValueTracker.create(LimaCoreNetworkSerializers.VAR_INT, () -> Mth.floor(LimaEnergyUtil.getFillPercentage(getEnergy()) * 20f), i -> this.remoteEnergyFill = i).setAutomatic());
     }
 }

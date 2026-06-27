@@ -1,0 +1,6 @@
+{
+  "parent": "ltxi:block/solar_panel",
+  "visibility": {
+    "emissive_active": false
+  }
+}

@@ -114,7 +114,6 @@ public class FabricatorScreen extends MachineBaseScreen<FabricatorMenu>
         super.extractBackground(graphics, mouseX, mouseY, partialTick);
 
         // Background sprites
-        blitInventoryAndHotbar(graphics, 14, 117);
         blitPowerInSlot(graphics, 7, 52);
         blitSlotSprite(graphics, BLUEPRINT_SLOT_SPRITE, 42, 60);
         blitOutputSlot(graphics, 39, 83);

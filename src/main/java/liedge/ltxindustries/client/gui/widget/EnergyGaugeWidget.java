@@ -46,7 +46,7 @@ public class EnergyGaugeWidget extends FillBarWidget.VerticalBar
     @Override
     protected Identifier getForegroundSprite(float fillPercentage)
     {
-        return fillPercentage > 1f ? FG_SPRITE_OVERCHARGE : FG_SPRITE_NORMAL;
+        return isOvercharge() ? FG_SPRITE_OVERCHARGE : FG_SPRITE_NORMAL;
     }
 
     @Override
@@ -59,6 +59,11 @@ public class EnergyGaugeWidget extends FillBarWidget.VerticalBar
     public void createWidgetTooltip(TooltipLineConsumer consumer)
     {
         LTXITooltipUtil.appendStorageEnergyTooltip(consumer, energy.getAmountAsInt(), energy.getCapacityAsInt(), energy.getTransferRate());
-        if (getFillPercentage() > 1) consumer.accept(LTXILangKeys.ENERGY_OVERCHARGE_TOOLTIP.translate().withStyle(HOSTILE_ORANGE.chatStyle()));
+        if (isOvercharge()) consumer.accept(LTXILangKeys.ENERGY_OVERCHARGE_TOOLTIP.translate().withStyle(HOSTILE_ORANGE.chatStyle()));
+    }
+
+    private boolean isOvercharge()
+    {
+        return energy.getAmountAsInt() > energy.getCapacityAsInt();
     }
 }

@@ -60,17 +60,16 @@ public abstract class LTXIScreen<M extends LimaMenu<?>> extends LimaMenuScreen<M
 
         nineSliceBlit(graphics, CONTAINER_BASE_TEXTURE, BG_CORNER_SIZE, 0, 0, primaryWidth, primaryHeight, 16, 16);
         LimaGuiUtil.nineSliceNoBottomBlit(graphics, RenderPipelines.GUI_TEXTURED, CONTAINER_BASE_TEXTURE, BG_CORNER_SIZE, leftPos + titleBarX, topPos - topPadding, titleBarWidth, TITLE_BAR_HEIGHT, 16, 16);
+
+        int invX = (primaryWidth - 162) / 2;
+        int invY = primaryHeight - 83;
+        blitSlotGrid(graphics, invX, invY, 9, 3);
+        blitSlotGrid(graphics, invX, invY + LimaMenu.DEFAULT_INV_HOTBAR_OFFSET, 9, 1);
     }
 
     protected void blitSlotGrid(GuiGraphicsExtractor graphics, int x, int y, int width, int height)
     {
         blitEmptySlotGrid(graphics, leftPos + x, topPos + y, width, height);
-    }
-
-    protected void blitInventoryAndHotbar(GuiGraphicsExtractor graphics, int x, int y)
-    {
-        blitSlotGrid(graphics, x, y, 9, 3);
-        blitSlotGrid(graphics, x, y + LimaMenu.DEFAULT_INV_HOTBAR_OFFSET, 9, 1);
     }
 
     protected void blitSprite(GuiGraphicsExtractor graphics, Identifier spriteLocation, int x, int y, int width, int height)

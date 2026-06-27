@@ -1,7 +1,6 @@
 package liedge.ltxindustries.client.gui.screen;
 
 import liedge.limacore.client.gui.TooltipLineConsumer;
-import liedge.limacore.menu.LimaMenu;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.blockentity.base.RecipeModeHolderBlockEntity;
 import liedge.ltxindustries.client.LTXILangKeys;
@@ -67,7 +66,6 @@ public final class RecipeLayoutScreen extends MachineBaseScreen<RecipeLayoutMenu
     {
         super.extractBackground(graphics, mouseX, mouseY, partialTick);
 
-        blitInventoryAndHotbar(graphics, LimaMenu.DEFAULT_INV_X - 1, LimaMenu.DEFAULT_INV_Y - 1);
         blitPowerInSlot(graphics, 7, 52);
 
         renderLayout(graphics, leftPos, topPos, layout);

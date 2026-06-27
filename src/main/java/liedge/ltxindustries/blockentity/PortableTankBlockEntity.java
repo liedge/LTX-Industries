@@ -41,8 +41,8 @@ public class PortableTankBlockEntity extends MachineBaseBlockEntity implements F
     {
         if (stored == 0) return 0;
 
-        float fill = Math.clamp(LimaCoreMath.divideFloat(stored, capacity), 0f, 1f);
-        return Math.max(LimaCoreMath.round(fill * FLUID_VISUAL_LEVELS), 1);
+        float fill = LimaCoreMath.getFloatRatio(stored, capacity) * FLUID_VISUAL_LEVELS;
+        return Math.max(Math.round(fill), 1);
     }
 
     // Class def
@@ -99,6 +99,8 @@ public class PortableTankBlockEntity extends MachineBaseBlockEntity implements F
     @Override
     public @Nullable ResourceHandler<FluidResource> createExternalFluids(@Nullable Direction side)
     {
+        if (side == null) return tank;
+
         IOAccess topLevelAccess = getTopLevelFluidIO(side);
         return topLevelAccess != IOAccess.DISABLED ? tank.createIOWrapper(topLevelAccess) : null;
     }
@@ -121,7 +123,7 @@ public class PortableTankBlockEntity extends MachineBaseBlockEntity implements F
         super.onUpgradeRefresh(context, upgrades);
 
         double upgradeCapacity = upgrades.runValueOps(LTXIUpgradeEffectComponents.FLUID_CAPACITY, context, LTXIMachinesConfig.PORTABLE_TANK_CAPACITY.getAsInt());
-        int newCapacity = Math.max(LimaCoreMath.round(upgradeCapacity), 1);
+        int newCapacity = Math.max(LimaCoreMath.roundInt(upgradeCapacity), 1);
         int newTransferRate = Math.max(newCapacity / 10, 1);
 
         tank.setCapacity(newCapacity);

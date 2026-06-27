@@ -17,7 +17,6 @@ public class EnergyCellArrayScreen extends MachineBaseScreen<EnergyCellArrayMenu
     {
         super.extractBackground(graphics, mouseX, mouseY, partialTick);
 
-        blitInventoryAndHotbar(graphics, 7, 83);
         blitPowerInSlot(graphics, 7, 52);
         for (int i = 0; i < 4; i++)
         {

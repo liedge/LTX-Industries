@@ -1,22 +1,18 @@
 package liedge.ltxindustries.util;
 
 import liedge.limacore.client.gui.TooltipLineConsumer;
+import liedge.limacore.item.EnergyHolderItem;
 import liedge.limacore.lib.Translatable;
-import liedge.ltxindustries.menu.tooltip.ItemStacksTooltip;
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.HolderSet;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentUtils;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.component.ItemContainerContents;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.UsernameCache;
 import net.neoforged.neoforge.registries.holdersets.AnyHolderSet;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
 import java.util.UUID;
 
 import static liedge.limacore.transfer.LimaEnergyUtil.*;
@@ -58,20 +54,14 @@ public final class LTXITooltipUtil
         consumer.accept(INLINE_ENERGY_TRANSFER_RATE.translateArgs(toEnergyPerTickString(transferRate)).withStyle(REM_BLUE.chatStyle()));
     }
 
-    @Deprecated
-    public static void appendInventoryPreviewTooltip(TooltipLineConsumer consumer, ItemStack stack)
+    public static void appendItemStorageEnergyTooltip(TooltipLineConsumer consumer, ItemStack stack, EnergyHolderItem item)
     {
-        // Can we even do preview tooltips with split inventories anymore?
-        List<ItemStack> inventory = stack.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY).nonEmptyItemCopyStream().toList();
-        if (!inventory.isEmpty())
-        {
-            consumer.accept(ITEM_INVENTORY_TOOLTIP.translate().withStyle(ChatFormatting.GRAY));
-            consumer.accept(new ItemStacksTooltip(inventory, 6, 1, true));
-        }
-        else
-        {
-            consumer.accept(EMPTY_ITEM_INVENTORY_TOOLTIP.translate().withStyle(ChatFormatting.GRAY));
-        }
+        appendStorageEnergyTooltip(consumer, item.getEnergyStored(stack), item.getEnergyCapacity(stack), item.getEnergyTransferRate(stack));
+    }
+
+    public static void appendEnergyGenerationTooltip(TooltipLineConsumer consumer, int energyGeneration)
+    {
+        consumer.accept(INLINE_ENERGY_GENERATION.translateArgs(toEnergyPerTickString(energyGeneration)).withStyle(REM_BLUE.chatStyle()));
     }
 
     public static String formatFlatNumber(double value)

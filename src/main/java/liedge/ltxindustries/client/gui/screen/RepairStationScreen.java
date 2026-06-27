@@ -25,7 +25,6 @@ public class RepairStationScreen extends MachineBaseScreen<RepairStationMenu>
     {
         super.extractBackground(graphics, mouseX, mouseY, partialTick);
 
-        blitInventoryAndHotbar(graphics, 7, 83);
         blitPowerInSlot(graphics, 7, 52);
         blitEmptySlot(graphics, 55, 33);
         blitOutputSlot(graphics, 101, 31);

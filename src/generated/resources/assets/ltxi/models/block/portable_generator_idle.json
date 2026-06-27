@@ -1,0 +1,6 @@
+{
+  "parent": "ltxi:block/portable_generator",
+  "visibility": {
+    "emissive_active": false
+  }
+}

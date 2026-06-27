@@ -260,6 +260,8 @@ class ModelsGen extends ModelProvider
         createIdentityMachine(models, LTXIBlocks.FABRICATOR);
         createIdentityMachine(models, LTXIBlocks.AUTO_FABRICATOR);
         createIdentityMachine(models, LTXIBlocks.DIGITAL_GARDEN, id -> ItemModelUtils.tintedModel(id, ItemModelUtils.constantTint(waterTint)));
+        createCompositeBinaryMachine(models, LTXIBlocks.PORTABLE_GENERATOR, List.of(Parts.EMISSIVE_ACTIVE), List.of(), List.of(Parts.EMISSIVE_ACTIVE));
+        createCompositeBinaryMachine(models, LTXIBlocks.SOLAR_PANEL, List.of(Parts.EMISSIVE_ACTIVE), List.of(), List.of(Parts.EMISSIVE_ACTIVE));
         createIdentityMachine(models, LTXIBlocks.REPAIR_STATION);
 
         createTurretBlock(models, LTXIBlocks.ARC_TURRET);

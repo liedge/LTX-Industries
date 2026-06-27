@@ -31,6 +31,7 @@ public final class LTXILangKeys
     public static final Translatable INLINE_ENERGY_TRANSFER_RATE = tooltip("energy_transfer_rate");
     public static final Translatable INLINE_ENERGY_USAGE = tooltip("energy_usage");
     public static final Translatable INLINE_ENERGY_REQUIRED_TOOLTIP = tooltip("energy_required");
+    public static final Translatable INLINE_ENERGY_GENERATION = tooltip("energy_generation");
 
     public static final Translatable NO_FLUID_STORED = tooltip("no_fluid");
     public static final Translatable INLINE_FLUID_TRANSFER_RATE = tooltip("fluid_transfer_rate");
@@ -41,11 +42,11 @@ public final class LTXILangKeys
     public static final Translatable ENERGY_ACTIONS_TOOLTIP = tooltip("energy_actions");
 
     public static final Translatable MACHINE_TICKS_PER_OP_TOOLTIP = tooltip("ticks_per_op");
-    public static final Translatable EMPTY_ITEM_INVENTORY_TOOLTIP = tooltip("empty_item_inventory_hint");
-    public static final Translatable ITEM_INVENTORY_TOOLTIP = tooltip("item_inventory_hint");
     public static final Translatable FABRICATOR_SELECTED_RECIPE_TOOLTIP = tooltip("fabricator_selected");
     public static final Translatable WORKING_PROGRESS_TOOLTIP = tooltip("work_progress");
     public static final Translatable CRAFTING_PROGRESS_TOOLTIP = tooltip("craft_progress");
+    public static final Translatable FUEL_UNITS_STORED = tooltip("fuel_units");
+    public static final Translatable ENERGY_PER_FUEL_UNIT = tooltip("energy_per_fuel");
     public static final Translatable JEI_CRAFTING_TIME_TOOLTIP = tooltip("jei_craft_time");
 
     public static final Translatable INPUT_NOT_CONSUMED_TOOLTIP = tooltip("input.no_consume");

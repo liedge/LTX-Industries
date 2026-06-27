@@ -21,6 +21,11 @@ public final class LTXIServerConfig
 
     public static final ModConfigSpec SERVER_CONFIG_SPEC;
 
+    public static int getArmorEnergyCapacity()
+    {
+        return ConfigUtil.getIntValueOrZero(SERVER_CONFIG_SPEC, ARMOR_ENERGY_CAPACITY);
+    }
+
     static
     {
         ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
@@ -29,15 +34,15 @@ public final class LTXIServerConfig
                 "This setting respects the base game's PVP rule. Use this if you want PVP but otherwise feel that this mod's weaponry is too unbalanced.")
                 .define("enable_mod_pvp", false);
 
-        TOOLS_ENERGY_CAPACITY = builder.comment("Base energy capacity of the ε-Series tools")
-                .defineInRange("tools_energy_capacity", 80_000, 1, Integer.MAX_VALUE);
-        TOOLS_ENERGY_PER_ACTION = builder.comment("Base energy cost per action (dig/attack/etc.) of the ε-Series tools")
-                .defineInRange("tools_energy_per_action", 400, 1, Integer.MAX_VALUE);
+        builder.comment("ε-Series tools").push("epsilon_tools");
+        TOOLS_ENERGY_CAPACITY = ConfigUtil.energyCapacity(builder, 80_000);
+        TOOLS_ENERGY_PER_ACTION = ConfigUtil.customEnergyUsage(builder, "Base energy usage per action (dig/attack/etc.)", 400);
+        builder.pop();
 
-        ARMOR_ENERGY_CAPACITY = builder.comment("Base energy capacity of the WNDR-L armor pieces")
-                .defineInRange("armor_energy_capacity", 125_000, 1, Integer.MAX_VALUE);
-        ARMOR_ENERGY_PER_ACTION = builder.comment("Base energy post per action (reduce damage/stop falls/etc.) of the WNDR-L armor pieces")
-                .defineInRange("armor_energy_per_action", 500, 1, Integer.MAX_VALUE);
+        builder.comment("AL/1C 'Wonderland' armor set").push("wonderland_armor");
+        ARMOR_ENERGY_CAPACITY = ConfigUtil.energyCapacity(builder, 125_000);
+        ARMOR_ENERGY_PER_ACTION = ConfigUtil.customEnergyUsage(builder, "Base energy usage per action (reduce damage/stop falls/etc.)", 500);
+        builder.pop();
 
         SHIELD_EFFECT_BLOCK_COST = builder.comment("How much shield health it costs to block a mob effect. Affects both entity and player shields")
                 .defineInRange("shield_effect_block_cost", 2d, 0d, EntityBubbleShield.GLOBAL_MAX_SHIELD);

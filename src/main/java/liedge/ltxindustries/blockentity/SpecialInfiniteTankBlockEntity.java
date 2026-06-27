@@ -60,6 +60,8 @@ public final class SpecialInfiniteTankBlockEntity extends MachineBaseBlockEntity
     @Override
     public @Nullable ResourceHandler<FluidResource> createExternalFluids(@Nullable Direction side)
     {
+        if (side == null) return infiniteFluids;
+
         IOAccess access = getTopLevelFluidIO(side);
         return access == IOAccess.OUTPUT_ONLY ? infiniteFluids : null;
     }

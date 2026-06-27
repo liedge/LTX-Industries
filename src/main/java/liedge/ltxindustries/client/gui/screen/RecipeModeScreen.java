@@ -74,7 +74,6 @@ public class RecipeModeScreen extends LTXIScreen<RecipeModeMenu>
     {
         super.extractBackground(graphics, mouseX, mouseY, partialTick);
 
-        blitInventoryAndHotbar(graphics, 7, 83);
         blitDarkPanel(graphics, 14, 11, 146, 56);
     }
 

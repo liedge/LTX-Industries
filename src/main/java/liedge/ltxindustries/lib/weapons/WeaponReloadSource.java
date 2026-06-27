@@ -151,15 +151,10 @@ public interface WeaponReloadSource extends UpgradeTooltipsProvider
         @Override
         public boolean performReload(ItemStack heldItem, Player player, WeaponItem weaponItem)
         {
-            if (weaponItem.supportsEnergyStorage(heldItem))
-            {
-                ItemAccess access = ItemAccess.forStack(heldItem);
-                EnergyHandler energy = weaponItem.getNoLimitEnergy(heldItem, access);
+            ItemAccess access = ItemAccess.forStack(heldItem);
+            EnergyHandler energy = weaponItem.getNoTransferLimitEnergy(heldItem, access);
 
-                return LimaEnergyUtil.useExact(energy, weaponItem.getEnergyUsage(heldItem), null);
-            }
-
-            return false;
+            return energy != null && LimaEnergyUtil.useExact(energy, weaponItem.getEnergyUsage(heldItem), null);
         }
 
         @Override

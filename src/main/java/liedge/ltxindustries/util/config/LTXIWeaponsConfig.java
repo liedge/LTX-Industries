@@ -6,9 +6,6 @@ public final class LTXIWeaponsConfig
 {
     private LTXIWeaponsConfig() {}
 
-    public static final float MIN_BASE_DAMAGE = 0.5f;
-    public static final float MAX_BASE_DAMAGE = 4096f;
-
     // Serenity
     public static final ModConfigSpec.DoubleValue SERENITY_BASE_DAMAGE;
 
@@ -19,15 +16,15 @@ public final class LTXIWeaponsConfig
     public static final ModConfigSpec.DoubleValue AURORA_BASE_DAMAGE;
 
     // Hanabi
-    public static final ModConfigSpec.DoubleValue EXPLOSIVE_GRENADE_BASE_DAMAGE;
-    public static final ModConfigSpec.DoubleValue FLAME_GRENADE_BASE_DAMAGE;
-    public static final ModConfigSpec.DoubleValue FLAME_GRENADE_DAMAGE_MULTIPLIER;
-    public static final ModConfigSpec.DoubleValue CRYO_GRENADE_BASE_DAMAGE;
-    public static final ModConfigSpec.DoubleValue CRYO_GRENADE_DAMAGE_MULTIPLIER;
-    public static final ModConfigSpec.DoubleValue ELECTRIC_GRENADE_BASE_DAMAGE;
-    public static final ModConfigSpec.DoubleValue ELECTRIC_GRENADE_DAMAGE_MULTIPLIER;
-    public static final ModConfigSpec.DoubleValue ACID_GRENADE_BASE_DAMAGE;
-    public static final ModConfigSpec.DoubleValue GLOOM_GAS_GRENADE_BASE_DAMAGE;
+    public static final ModConfigSpec.DoubleValue EXPLOSIVE_SHELL_BASE_DAMAGE;
+    public static final ModConfigSpec.DoubleValue FLAME_SHELL_BASE_DAMAGE;
+    public static final ModConfigSpec.DoubleValue FLAME_SHELL_DAMAGE_MULTIPLIER;
+    public static final ModConfigSpec.DoubleValue CRYO_SHELL_BASE_DAMAGE;
+    public static final ModConfigSpec.DoubleValue CRYO_SHELL_DAMAGE_MULTIPLIER;
+    public static final ModConfigSpec.DoubleValue ELECTRIC_SHELL_BASE_DAMAGE;
+    public static final ModConfigSpec.DoubleValue ELECTRIC_SHELL_DAMAGE_MULTIPLIER;
+    public static final ModConfigSpec.DoubleValue ACID_SHELL_BASE_DAMAGE;
+    public static final ModConfigSpec.DoubleValue GLOOM_GAS_SHELL_BASE_DAMAGE;
 
     // Stargazer
     public static final ModConfigSpec.DoubleValue STARGAZER_BASE_DAMAGE;
@@ -45,44 +42,41 @@ public final class LTXIWeaponsConfig
     {
         ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
 
-        // Common messages
-        final String baseDamageMsg = "Weapon base damage (each full number is half a heart).";
-
         builder.push("serenity");
-        SERENITY_BASE_DAMAGE = builder.comment(baseDamageMsg).defineInRange("base_damage", 3.0, MIN_BASE_DAMAGE, MAX_BASE_DAMAGE);
+        SERENITY_BASE_DAMAGE = ConfigUtil.baseDamage(builder, null, 3d);
         builder.pop();
 
         builder.push("mirage");
-        MIRAGE_BASE_DAMAGE = builder.comment(baseDamageMsg).defineInRange("base_damage", 4.5d, MIN_BASE_DAMAGE, MAX_BASE_DAMAGE);
+        MIRAGE_BASE_DAMAGE = ConfigUtil.baseDamage(builder, null, 4.5d);
         builder.pop();
 
         builder.push("aurora");
-        AURORA_BASE_DAMAGE = builder.comment("Base damage PER PELLET of the Aurora. It fires 7 pellets by default.").defineInRange("base_damage", 9.0d, MIN_BASE_DAMAGE, MAX_BASE_DAMAGE);
+        AURORA_BASE_DAMAGE = ConfigUtil.baseDamage(builder, "Base damage PER PELLET. Aurora fires 7 pellets.", 9d);
         builder.pop();
 
         builder.push("hanabi");
-        EXPLOSIVE_GRENADE_BASE_DAMAGE = builder.comment("Explosive shell base damage").defineInRange("explosive_base_damage", 30.0d, MIN_BASE_DAMAGE, MAX_BASE_DAMAGE);
-        FLAME_GRENADE_BASE_DAMAGE = builder.comment("Flame shell base damage").defineInRange("flame_base_damage", 10.0d, MIN_BASE_DAMAGE, MAX_BASE_DAMAGE);
-        FLAME_GRENADE_DAMAGE_MULTIPLIER = builder.comment("Flame shells' damage multiplier to mobs that are weak to fire damage").defineInRange("flame_multiplier", 3.0d, 0d, Double.MAX_VALUE);
-        CRYO_GRENADE_BASE_DAMAGE = builder.comment("Cryo shell base damage").defineInRange("cryo_base_damage", 4.0d, MIN_BASE_DAMAGE, MAX_BASE_DAMAGE);
-        CRYO_GRENADE_DAMAGE_MULTIPLIER = builder.comment("Cryo shell damage multiplier to mobs that are weak to freeze damage").defineInRange("cryo_multiplier", 8.0d, 0d, Double.MAX_VALUE);
-        ELECTRIC_GRENADE_BASE_DAMAGE = builder.comment("Electric shell base damage").defineInRange("electric_base_damage", 30.0d, MIN_BASE_DAMAGE, MAX_BASE_DAMAGE);
-        ELECTRIC_GRENADE_DAMAGE_MULTIPLIER = builder.comment("Electric shell damage multiplier to mobs in rain, water, or who are weak to electricity").defineInRange("electric_multiplier", 3.0d, 0d, Double.MAX_VALUE);
-        ACID_GRENADE_BASE_DAMAGE = builder.comment("Acid shell base damage").defineInRange("acid_base_damage", 50.0d, MIN_BASE_DAMAGE, MAX_BASE_DAMAGE);
-        GLOOM_GAS_GRENADE_BASE_DAMAGE = builder.comment("Gloom Gas shell base damage").defineInRange("gloom_base_damage", 4.0d, MIN_BASE_DAMAGE, MAX_BASE_DAMAGE);
+        EXPLOSIVE_SHELL_BASE_DAMAGE = ConfigUtil.damageSpec(builder, "explosive_shell_base_damage", null, 30d);
+        FLAME_SHELL_BASE_DAMAGE = ConfigUtil.damageSpec(builder, "flame_shell_base_damage", null, 10d);
+        FLAME_SHELL_DAMAGE_MULTIPLIER = builder.comment("Flame shells' damage multiplier to mobs that are weak to fire damage").defineInRange("flame_multiplier", 3.0d, 0d, Double.MAX_VALUE);
+        CRYO_SHELL_BASE_DAMAGE = ConfigUtil.damageSpec(builder, "cryo_shell_base_damage", null, 4d);
+        CRYO_SHELL_DAMAGE_MULTIPLIER = builder.comment("Cryo shell damage multiplier to mobs that are weak to freeze damage").defineInRange("cryo_multiplier", 8.0d, 0d, Double.MAX_VALUE);
+        ELECTRIC_SHELL_BASE_DAMAGE = ConfigUtil.damageSpec(builder, "electric_shell_base_damage", null, 30d);
+        ELECTRIC_SHELL_DAMAGE_MULTIPLIER = builder.comment("Electric shell damage multiplier to mobs in rain, water, or who are weak to electricity").defineInRange("electric_multiplier", 3.0d, 0d, Double.MAX_VALUE);
+        ACID_SHELL_BASE_DAMAGE = ConfigUtil.damageSpec(builder, "acid_shell_base_damage", null, 50d);
+        GLOOM_GAS_SHELL_BASE_DAMAGE = ConfigUtil.damageSpec(builder, "gloom_gas_shell_base_damage", null, 4d);
         builder.pop();
 
         builder.push("stargazer");
-        STARGAZER_BASE_DAMAGE = builder.comment(baseDamageMsg).defineInRange("base_damage", 25d, MIN_BASE_DAMAGE, MAX_BASE_DAMAGE);
+        STARGAZER_BASE_DAMAGE = ConfigUtil.baseDamage(builder, null, 25d);
         builder.pop();
 
         builder.push("daybreak");
-        DAYBREAK_BASE_IMPACT_DAMAGE = builder.comment("Base direct hit damage of Daybreak's rockets").defineInRange("base_impact_damage", 100.0d, MIN_BASE_DAMAGE, MAX_BASE_DAMAGE);
-        DAYBREAK_BASE_SPLASH_DAMAGE = builder.comment("Base splash (AOE) damage of Daybreak's rockets").defineInRange("base_splash_damage", 40.0d, MIN_BASE_DAMAGE, MAX_BASE_DAMAGE);
+        DAYBREAK_BASE_IMPACT_DAMAGE = ConfigUtil.damageSpec(builder, "base_impact_damage", "Direct hit base damage", 100d);
+        DAYBREAK_BASE_SPLASH_DAMAGE = ConfigUtil.damageSpec(builder, "base_splash_damage", "Base splash/AOE/explosion damage", 40d);
         builder.pop();
 
         builder.push("nova");
-        NOVA_BASE_DAMAGE = builder.comment(baseDamageMsg).defineInRange("base_damage", 75d, MIN_BASE_DAMAGE, MAX_BASE_DAMAGE);
+        NOVA_BASE_DAMAGE = ConfigUtil.baseDamage(builder, null, 75d);
         builder.pop();
 
         WEAPONS_CONFIG_SPEC = builder.build();

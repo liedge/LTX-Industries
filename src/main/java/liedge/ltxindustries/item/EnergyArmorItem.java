@@ -75,9 +75,9 @@ public class EnergyArmorItem extends EnergyEquipmentItem
     }
 
     @Override
-    public int getBaseEnergyCapacity(ItemInstance stack)
+    public int getBaseEnergyCapacity(ItemStack stack)
     {
-        return LTXIServerConfig.ARMOR_ENERGY_CAPACITY.getAsInt();
+        return LTXIServerConfig.getArmorEnergyCapacity();
     }
 
     @Override
