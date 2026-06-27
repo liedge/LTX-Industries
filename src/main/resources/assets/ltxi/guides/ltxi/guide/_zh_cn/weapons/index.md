@@ -38,6 +38,6 @@ navigation:
 - 33/GL *[“花火”](hanabi.md)*
 - 41/RL *[“破晓”](daybreak.md)*
 
-### Heavy weapons
+### 重型武器
 
 - 77/HX *[“新星”](nova.md)*
