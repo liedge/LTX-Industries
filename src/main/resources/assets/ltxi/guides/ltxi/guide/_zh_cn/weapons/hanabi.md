@@ -1,6 +1,6 @@
 ---
 navigation:
-    title: Hanabi
+    title: 花火
     icon: hanabi
     parent: weapons/index.md
     position: 133

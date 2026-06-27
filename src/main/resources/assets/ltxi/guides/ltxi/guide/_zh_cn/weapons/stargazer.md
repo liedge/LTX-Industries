@@ -1,6 +1,6 @@
 ---
 navigation:
-    title: Stargazer
+    title: 瞻星
     icon: stargazer
     parent: weapons/index.md
     position: 137

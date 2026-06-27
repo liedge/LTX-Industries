@@ -1,6 +1,6 @@
 ---
 navigation:
-    title: Weapons
+    title: 武器
     position: 30
     icon: hanabi
 ---

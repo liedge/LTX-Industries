@@ -1,6 +1,6 @@
 ---
 navigation:
-    title: Mirage
+    title: 幻影
     icon: mirage
     parent: weapons/index.md
     position: 113
