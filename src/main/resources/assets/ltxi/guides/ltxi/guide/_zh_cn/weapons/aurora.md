@@ -1,6 +1,6 @@
 ---
 navigation:
-    title: Aurora
+    title: 极光
     icon: aurora
     parent: weapons/index.md
     position: 121

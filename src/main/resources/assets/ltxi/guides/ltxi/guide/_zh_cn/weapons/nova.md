@@ -1,6 +1,6 @@
 ---
 navigation:
-    title: Nova
+    title: 新星
     icon: nova
     parent: weapons/index.md
     position: 177

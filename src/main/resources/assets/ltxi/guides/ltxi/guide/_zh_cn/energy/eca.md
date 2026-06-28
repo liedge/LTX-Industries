@@ -1,11 +1,15 @@
 ---
 navigation:
     title: "储能阵列"
+    parent: energy/index.md
+    position: 1
     icon: energy_cell_array
-    parent: machines/index.md
+item_ids:
+  - energy_cell_array
 ---
 
 # 储能阵列
+
 <BlockImage id="energy_cell_array" scale="4" />
 
 **储能阵列**是主要的能量储存方块，具有可配置的物品与能量输入输出。其具有 1 个能量输入物品槽和 4 个充能槽。

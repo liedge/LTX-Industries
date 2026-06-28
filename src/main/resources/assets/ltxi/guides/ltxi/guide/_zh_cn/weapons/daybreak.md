@@ -1,6 +1,6 @@
 ---
 navigation:
-    title: Daybreak
+    title: 破晓
     icon: daybreak
     parent: weapons/index.md
     position: 141
