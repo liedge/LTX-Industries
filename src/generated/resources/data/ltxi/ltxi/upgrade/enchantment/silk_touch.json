@@ -5,18 +5,19 @@
       "translate": "upgrade.ltxi.enchantment.silk_touch.desc"
     },
     "icon": {
-      "type": "overlay",
+      "type": "composite",
       "background": {
-        "type": "item_stack",
-        "item": {
-          "id": "ltxi:epsilon_drill"
-        }
+        "type": "item",
+        "id": "ltxi:epsilon_drill"
       },
-      "height": 8,
-      "overlay": "ltxi:silk_overlay",
-      "width": 8,
-      "x_offset": 7,
-      "y_offset": 7
+      "foreground": {
+        "type": "sprite",
+        "height": 8,
+        "id": "ltxi:silk_overlay",
+        "width": 8,
+        "x": 7,
+        "y": 7
+      }
     },
     "title": {
       "translate": "upgrade.ltxi.enchantment.silk_touch"

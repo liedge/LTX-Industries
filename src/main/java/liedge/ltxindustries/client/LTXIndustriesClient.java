@@ -87,7 +87,7 @@ public class LTXIndustriesClient
         @SubscribeEvent
         private void registerTextureAtlas(final RegisterTextureAtlasesEvent event)
         {
-            event.register(new AtlasManager.AtlasConfig(LTXIAtlasIds.UPGRADE_ICONS_TEXTURE, LTXIAtlasIds.UPGRADE_ICONS_ID, false));
+            event.register(new AtlasManager.AtlasConfig(LTXIAtlasIds.MODULAR_ICONS_TEXTURE, LTXIAtlasIds.MODULAR_ICONS_ID, false));
         }
 
         @SubscribeEvent

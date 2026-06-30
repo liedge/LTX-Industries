@@ -1,9 +1,10 @@
 {
-  "display_item": {
+  "icon": {
+    "type": "item",
     "id": "minecraft:oak_log"
   },
-  "display_name": {
+  "recipe_types": "ltxi:garden_simulating",
+  "title": {
     "translate": "recipe_mode.ltxi.lumber"
-  },
-  "recipe_types": "ltxi:garden_simulating"
+  }
 }

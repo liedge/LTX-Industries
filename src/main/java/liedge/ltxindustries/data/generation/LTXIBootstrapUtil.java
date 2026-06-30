@@ -1,69 +1,68 @@
 package liedge.ltxindustries.data.generation;
 
-import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.client.LTXILangKeys;
+import liedge.ltxindustries.lib.icon.ItemIcon;
+import liedge.ltxindustries.lib.icon.ItemLikeIcon;
+import liedge.ltxindustries.lib.icon.SpriteIcon;
 import liedge.ltxindustries.lib.upgrades.tooltip.*;
-import liedge.ltxindustries.lib.upgrades.UpgradeIcon;
 import liedge.ltxindustries.lib.upgrades.value.ContextlessValue;
 import net.minecraft.world.level.ItemLike;
 
 import static liedge.ltxindustries.LTXIConstants.REM_BLUE;
-import static liedge.ltxindustries.lib.upgrades.UpgradeIcon.*;
 
 public final class LTXIBootstrapUtil
 {
     private LTXIBootstrapUtil() {}
 
     // Helper UpgradeIcon factories
-    public static UpgradeIcon bottomRightOverlay(UpgradeIcon background, String overlayPath, int width, int height)
+    public static ItemLikeIcon bottomRightOverlay(ItemLikeIcon background, String overlayPath, int width, int height)
     {
         int xo = 16 - width - 1;
         int yo = 16 - height - 1;
-
-        return UpgradeIcon.overlayIcon(background, LTXIndustries.RESOURCES.id(overlayPath), width, height, xo, yo);
+        return background.add(SpriteIcon.create(overlayPath, width, height, xo, yo));
     }
 
-    public static UpgradeIcon bottomRightOverlay(UpgradeIcon background, String overlayPath, int squareSize)
+    public static ItemLikeIcon bottomRightOverlay(ItemLikeIcon background, String overlayPath, int squareSize)
     {
         return bottomRightOverlay(background, overlayPath, squareSize, squareSize);
     }
 
-    public static UpgradeIcon defaultOverlay(UpgradeIcon background)
+    public static ItemLikeIcon defaultOverlay(ItemLikeIcon background)
     {
         return bottomRightOverlay(background, "default_overlay", 7);
     }
 
-    public static UpgradeIcon defaultModuleIcon(ItemLike item)
+    public static ItemLikeIcon defaultModuleIcon(ItemLike item)
     {
-        return defaultOverlay(itemIcon(item));
+        return defaultOverlay(ItemIcon.of(item));
     }
 
-    public static UpgradeIcon luckOverlay(ItemLike item)
+    public static ItemLikeIcon luckOverlay(ItemLike item)
     {
-        return bottomRightOverlay(itemIcon(item), "luck_overlay", 7);
+        return bottomRightOverlay(ItemIcon.of(item), "luck_overlay", 7);
     }
 
-    public static UpgradeIcon plusOverlay(UpgradeIcon bg)
+    public static ItemLikeIcon plusOverlay(ItemLikeIcon bg)
     {
         return bottomRightOverlay(bg, "plus_overlay", 9);
     }
 
-    public static UpgradeIcon greenArrowOverlay(UpgradeIcon bg)
+    public static ItemLikeIcon greenArrowOverlay(ItemLikeIcon bg)
     {
         return bottomRightOverlay(bg, "green_arrow_overlay", 9);
     }
 
-    public static UpgradeIcon yellowArrowOverlay(UpgradeIcon bg)
+    public static ItemLikeIcon yellowArrowOverlay(ItemLikeIcon bg)
     {
         return bottomRightOverlay(bg, "yellow_arrow_overlay", 9);
     }
 
-    public static UpgradeIcon redXOverlay(UpgradeIcon bg)
+    public static ItemLikeIcon redXOverlay(ItemLikeIcon bg)
     {
         return bottomRightOverlay(bg, "red_x_overlay", 9);
     }
 
-    public static UpgradeIcon veinMineOverlay(UpgradeIcon bg)
+    public static ItemLikeIcon veinMineOverlay(ItemLikeIcon bg)
     {
         return bottomRightOverlay(bg, "vein_mine_overlay", 10, 6);
     }

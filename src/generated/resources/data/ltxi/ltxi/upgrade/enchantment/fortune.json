@@ -5,18 +5,19 @@
       "translate": "upgrade.ltxi.enchantment.fortune.desc"
     },
     "icon": {
-      "type": "overlay",
+      "type": "composite",
       "background": {
-        "type": "item_stack",
-        "item": {
-          "id": "ltxi:epsilon_drill"
-        }
+        "type": "item",
+        "id": "ltxi:epsilon_drill"
       },
-      "height": 7,
-      "overlay": "ltxi:luck_overlay",
-      "width": 7,
-      "x_offset": 8,
-      "y_offset": 8
+      "foreground": {
+        "type": "sprite",
+        "height": 7,
+        "id": "ltxi:luck_overlay",
+        "width": 7,
+        "x": 8,
+        "y": 8
+      }
     },
     "title": {
       "translate": "upgrade.ltxi.enchantment.fortune"

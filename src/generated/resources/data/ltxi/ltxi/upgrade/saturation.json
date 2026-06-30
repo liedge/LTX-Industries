@@ -5,18 +5,19 @@
       "translate": "upgrade.ltxi.saturation.desc"
     },
     "icon": {
-      "type": "overlay",
+      "type": "composite",
       "background": {
-        "type": "item_stack",
-        "item": {
-          "id": "minecraft:cooked_beef"
-        }
+        "type": "item",
+        "id": "minecraft:cooked_beef"
       },
-      "height": 9,
-      "overlay": "ltxi:green_arrow_overlay",
-      "width": 9,
-      "x_offset": 6,
-      "y_offset": 6
+      "foreground": {
+        "type": "sprite",
+        "height": 9,
+        "id": "ltxi:green_arrow_overlay",
+        "width": 9,
+        "x": 6,
+        "y": 6
+      }
     },
     "title": {
       "translate": "upgrade.ltxi.saturation"

@@ -5,18 +5,19 @@
       "translate": "upgrade.ltxi.epsilon_fishing_lure.desc"
     },
     "icon": {
-      "type": "overlay",
+      "type": "composite",
       "background": {
-        "type": "item_stack",
-        "item": {
-          "id": "ltxi:epsilon_fishing_rod"
-        }
+        "type": "item",
+        "id": "ltxi:epsilon_fishing_rod"
       },
-      "height": 9,
-      "overlay": "ltxi:plus_overlay",
-      "width": 9,
-      "x_offset": 6,
-      "y_offset": 6
+      "foreground": {
+        "type": "sprite",
+        "height": 9,
+        "id": "ltxi:plus_overlay",
+        "width": 9,
+        "x": 6,
+        "y": 6
+      }
     },
     "title": {
       "color": "#9DF143",

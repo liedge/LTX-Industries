@@ -1,13 +1,14 @@
 {
-  "display_item": {
+  "icon": {
+    "type": "item",
     "id": "ltxi:viridic_acid_bucket"
-  },
-  "display_name": {
-    "translate": "recipe_mode.ltxi.chemical_dissolve"
   },
   "recipe_types": [
     "ltxi:electro_centrifuging",
     "ltxi:mixing",
     "ltxi:chemical_reacting"
-  ]
+  ],
+  "title": {
+    "translate": "recipe_mode.ltxi.chemical_dissolve"
+  }
 }

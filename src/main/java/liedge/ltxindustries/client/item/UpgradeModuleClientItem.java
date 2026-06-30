@@ -4,10 +4,10 @@ import liedge.limacore.client.ItemGuiRenderOverride;
 import liedge.limacore.client.gui.LimaGuiUtil;
 import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.ltxindustries.LTXIConstants;
-import liedge.ltxindustries.client.gui.UpgradeIconRenderers;
+import liedge.ltxindustries.client.gui.ItemLikeIconsRenderer;
 import liedge.ltxindustries.item.UpgradeModuleItem;
+import liedge.ltxindustries.lib.icon.ItemLikeIcon;
 import liedge.ltxindustries.lib.upgrades.UpgradeEntry;
-import liedge.ltxindustries.lib.upgrades.UpgradeIcon;
 import liedge.ltxindustries.registry.game.LTXIDataComponents;
 import liedge.ltxindustries.util.config.LTXIClientConfig;
 import net.minecraft.client.Minecraft;
@@ -31,8 +31,8 @@ public final class UpgradeModuleClientItem implements ItemGuiRenderOverride
 
     private boolean renderIcon(GuiGraphicsExtractor graphics, UpgradeEntry entry, int x, int y)
     {
-        UpgradeIcon icon = entry.upgrade().value().display().icon();
-        if (!UpgradeIconRenderers.renderIcon(graphics, icon, x, y)) return false;
+        ItemLikeIcon icon = entry.upgrade().value().display().icon();
+        if (ItemLikeIconsRenderer.render(graphics, icon, x, y) == 0) return false;
 
         int rank = entry.rank();
         int maxRank = entry.upgrade().value().maxRank();

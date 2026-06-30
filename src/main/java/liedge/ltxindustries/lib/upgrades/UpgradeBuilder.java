@@ -5,6 +5,8 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.data.BootstrapObjectBuilder;
 import liedge.limacore.lib.LimaColor;
 import liedge.limacore.lib.ModResources;
+import liedge.ltxindustries.lib.icon.EmptyIcon;
+import liedge.ltxindustries.lib.icon.ItemLikeIcon;
 import liedge.ltxindustries.lib.upgrades.effect.*;
 import liedge.ltxindustries.lib.upgrades.tooltip.StaticTooltip;
 import liedge.ltxindustries.lib.upgrades.tooltip.UpgradeComponentLike;
@@ -49,7 +51,7 @@ public final class UpgradeBuilder implements BootstrapObjectBuilder<Upgrade>
     private Component title;
     private Component description;
     private final List<UpgradeComponentLike> tooltips = new ObjectArrayList<>();
-    private UpgradeIcon icon = UpgradeIcon.noRenderIcon();
+    private ItemLikeIcon icon = EmptyIcon.INSTANCE;
     private String category = UpgradeDisplayInfo.NO_CATEGORY;
 
     private int maxRank = 1;
@@ -270,7 +272,7 @@ public final class UpgradeBuilder implements BootstrapObjectBuilder<Upgrade>
     }
     //#endregion
 
-    public UpgradeBuilder effectIcon(UpgradeIcon icon)
+    public UpgradeBuilder effectIcon(ItemLikeIcon icon)
     {
         this.icon = icon;
         return this;

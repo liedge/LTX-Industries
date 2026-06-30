@@ -5,13 +5,16 @@
       "translate": "upgrade.ltxi.gpm_parallel.desc"
     },
     "icon": {
-      "type": "overlay",
+      "type": "composite",
       "background": "ltxi:titanium_gear",
-      "height": 9,
-      "overlay": "ltxi:plus_overlay",
-      "width": 9,
-      "x_offset": 6,
-      "y_offset": 6
+      "foreground": {
+        "type": "sprite",
+        "height": 9,
+        "id": "ltxi:plus_overlay",
+        "width": 9,
+        "x": 6,
+        "y": 6
+      }
     },
     "title": {
       "color": "light_purple",

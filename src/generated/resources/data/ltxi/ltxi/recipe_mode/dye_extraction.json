@@ -1,13 +1,14 @@
 {
-  "display_item": {
+  "icon": {
+    "type": "item",
     "id": "minecraft:lime_dye"
-  },
-  "display_name": {
-    "translate": "recipe_mode.ltxi.dye_extraction"
   },
   "recipe_types": [
     "ltxi:grinding",
     "ltxi:electro_centrifuging",
     "ltxi:energizing"
-  ]
+  ],
+  "title": {
+    "translate": "recipe_mode.ltxi.dye_extraction"
+  }
 }

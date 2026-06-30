@@ -9,7 +9,7 @@ import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.limacore.util.LimaRegistryUtil;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.client.LTXILangKeys;
-import liedge.ltxindustries.client.gui.UpgradeIconRenderers;
+import liedge.ltxindustries.client.gui.ItemLikeIconsRenderer;
 import liedge.ltxindustries.client.gui.widget.BaseScrollGridRenderable;
 import liedge.ltxindustries.client.gui.widget.ScrollbarWidget;
 import liedge.ltxindustries.lib.upgrades.Upgrade;
@@ -144,7 +144,7 @@ public abstract class UpgradesConfigScreen<M extends UpgradesConfigMenu<?>> exte
             // Render icon
             int iconX = posX + 2;
             int iconY = posY + 2;
-            if (!UpgradeIconRenderers.renderIcon(graphics, upgrade.display().icon(), iconX, iconY))
+            if (ItemLikeIconsRenderer.render(graphics, upgrade.display().icon(), iconX, iconY) == 0)
             {
                 graphics.blitSprite(RenderPipelines.GUI_TEXTURED, MODULE_SPRITE, iconX, iconY, 16, 16);
             }
