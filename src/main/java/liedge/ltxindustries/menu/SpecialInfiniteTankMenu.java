@@ -8,6 +8,8 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.ResourceHandlerUtil;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.resource.ResourceStack;
+import org.jspecify.annotations.Nullable;
 
 public final class SpecialInfiniteTankMenu extends MachineBaseMenu<SpecialInfiniteTankBlockEntity>
 {
@@ -38,9 +40,6 @@ public final class SpecialInfiniteTankMenu extends MachineBaseMenu<SpecialInfini
         }
 
         @Override
-        public void setFluid(FluidStack stack) { }
-
-        @Override
         public FluidResource getFluidResource()
         {
             return resource;
@@ -65,16 +64,16 @@ public final class SpecialInfiniteTankMenu extends MachineBaseMenu<SpecialInfini
         }
 
         @Override
-        public boolean fillSlotFromItem(ResourceHandler<FluidResource> carriedFluids)
+        public @Nullable ResourceStack<FluidResource> fillSlotFromItem(ResourceHandler<FluidResource> carriedFluids)
         {
-            return false;
+            return null;
         }
 
         @Override
-        public boolean drainSlotIntoItem(ResourceHandler<FluidResource> carriedFluids)
+        public @Nullable ResourceStack<FluidResource> drainSlotIntoItem(ResourceHandler<FluidResource> carriedFluids)
         {
             int inserted = ResourceHandlerUtil.insertStacking(carriedFluids, resource, Integer.MAX_VALUE, null);
-            return inserted > 0;
+            return inserted > 0 ? new ResourceStack<>(resource, inserted) : null;
         }
     }
 }

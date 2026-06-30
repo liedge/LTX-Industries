@@ -212,9 +212,9 @@ class LootTablesGen extends LimaLootTableProvider
 
         private void berryVines(Holder<Block> holder)
         {
-            add(holder, block -> singleItemTable(lootItem(LTXIItems.VITRIOL_BERRIES).when(AnyOfCondition.anyOf(
-                    LootItemBlockStatePropertyCondition.hasBlockStateProperties(block).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(BERRIES, true)),
-                    CanItemPerformAbility.canItemPerformAbility(ItemAbilities.SHEARS_DIG)))));
+            add(holder, block -> singlePoolTable(LootPool.lootPool().setRolls(ConstantValue.exactly(1))
+                    .add(lootItem(LTXIItems.VITRIOL_BERRIES).when(LimaLootUtil.matchBlockProperty(block, BERRIES, true)))
+                    .add(lootItem(LTXIItems.VITRIOL_BERRIES).when(CanItemPerformAbility.canItemPerformAbility(ItemAbilities.SHEARS_DIG)))));
         }
     }
 

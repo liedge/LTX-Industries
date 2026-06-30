@@ -68,7 +68,7 @@ public abstract class BaseWrenchEntityBlock extends LimaEntityBlock
         if (stack.canPerformAction(LTXIItemAbilities.WRENCH_ROTATE) || stack.canPerformAction(LTXIItemAbilities.WRENCH_DISMANTLE)) return InteractionResult.PASS;
 
         ResourceHandler<FluidResource> blockFluids = level.getCapability(Capabilities.Fluid.BLOCK, pos, null);
-        if (blockFluids != null && FluidUtil.interactWithFluidHandler(player, hand, pos, blockFluids))
+        if (blockFluids != null && FluidUtil.interactWithFluidHandler(player, hand, pos, blockFluids, null))
         {
             return InteractionResult.SUCCESS;
         }
