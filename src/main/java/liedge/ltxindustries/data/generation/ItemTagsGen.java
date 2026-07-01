@@ -6,6 +6,8 @@ import liedge.ltxindustries.LTXITags.Blocks;
 import liedge.ltxindustries.LTXIndustries;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.Tags;
 
@@ -51,18 +53,19 @@ class ItemTagsGen extends LimaTagsProvider.ItemTags
         buildTag(RAW_NIOBIUM_MATERIALS).add(RAW_NIOBIUM);
         buildTag(RAW_MATERIALS).addTags(RAW_TITANIUM_MATERIALS, RAW_NIOBIUM_MATERIALS);
 
-        buildTag(TITANIUM_INGOTS).add(TITANIUM_INGOT);
-        buildTag(NIOBIUM_INGOTS).add(NIOBIUM_INGOT);
-        buildTag(SLATESTEEL_INGOTS).add(SLATESTEEL_INGOT);
-        buildTag(INGOTS).addTags(TITANIUM_INGOTS, NIOBIUM_INGOTS, SLATESTEEL_INGOTS);
+        buildTag(TITANIUM_INGOTS).add(TITANIUM_INGOT).copyTo(INGOTS);
+        buildTag(NIOBIUM_INGOTS).add(NIOBIUM_INGOT).copyTo(INGOTS);
+        buildTag(SILICON_INGOTS).add(SILICON_INGOT).copyTo(INGOTS);
+        buildTag(SLATESTEEL_INGOTS).add(SLATESTEEL_INGOT).copyTo(INGOTS);
 
         buildTag(TITANIUM_NUGGETS).add(TITANIUM_NUGGET);
         buildTag(NIOBIUM_NUGGETS).add(NIOBIUM_NUGGET);
         buildTag(SLATESTEEL_NUGGETS).add(SLATESTEEL_NUGGET);
         buildTag(NUGGETS).addTags(TITANIUM_NUGGETS, NIOBIUM_NUGGETS, SLATESTEEL_NUGGETS);
 
-        buildTag(TITANIUM_GEARS).add(TITANIUM_GEAR);
-        buildTag(ModResources.COMMON.itemTag("gears")).add(SLATESTEEL_GEAR).addTag(TITANIUM_GEARS);
+        final TagKey<Item> gearsTag = ModResources.COMMON.itemTag("gears");
+        buildTag(TITANIUM_GEARS).add(TITANIUM_GEAR).copyTo(gearsTag);
+        buildTag(gearsTag).add(SLATESTEEL_GEAR);
 
         buildTag(SWORDS).add(EPSILON_SWORD);
         buildTag(SHOVELS).add(EPSILON_SHOVEL);
@@ -77,8 +80,9 @@ class ItemTagsGen extends LimaTagsProvider.ItemTags
 
         buildTag(BEACON_PAYMENT_ITEMS).add(TITANIUM_INGOT, NIOBIUM_INGOT, SLATESTEEL_INGOT); // Only add this mod's ingots
 
-        buildTag(DEEPSLATE_DUSTS).add(DEEPSLATE_DUST);
-        buildTag(DUSTS).add(CARBON_DUST).addTag(DEEPSLATE_DUSTS);
+        buildTag(SODIUM_DUSTS).add(SODIUM_DUST).copyTo(DUSTS);
+        buildTag(SILICON_DUSTS).add(SILICON_DUST).copyTo(DUSTS);
+        buildTag(DEEPSLATE_DUSTS).add(DEEPSLATE_DUST).copyTo(DUSTS);
 
         buildTag(GREEN_GROUP_DYE_SOURCES).add(SHORT_GRASS, TALL_GRASS, FERN, LARGE_FERN).addTags(LEAVES, SAPLINGS);
         buildTag(CARBON_SOURCES).add(CHARCOAL).addTag(COALS);

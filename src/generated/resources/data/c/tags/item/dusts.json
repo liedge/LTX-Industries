@@ -1,6 +1,7 @@
 {
   "values": [
-    "ltxi:carbon_dust",
-    "#c:dusts/deepslate"
+    "ltxi:sodium_dust",
+    "ltxi:silicon_dust",
+    "ltxi:deepslate_dust"
   ]
 }

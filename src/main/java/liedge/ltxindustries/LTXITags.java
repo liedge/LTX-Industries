@@ -66,6 +66,7 @@ public final class LTXITags
         // Ingots
         public static final TagKey<Item> TITANIUM_INGOTS = COMMON.itemTag("ingots/titanium");
         public static final TagKey<Item> NIOBIUM_INGOTS = COMMON.itemTag("ingots/niobium");
+        public static final TagKey<Item> SILICON_INGOTS = COMMON.itemTag("ingots/silicon");
         public static final TagKey<Item> SLATESTEEL_INGOTS = COMMON.itemTag("ingots/slatesteel");
 
         // Nuggets
@@ -74,6 +75,8 @@ public final class LTXITags
         public static final TagKey<Item> SLATESTEEL_NUGGETS = COMMON.itemTag("nuggets/slatesteel");
 
         // Dusts
+        public static final TagKey<Item> SODIUM_DUSTS = COMMON.itemTag("dusts/sodium");
+        public static final TagKey<Item> SILICON_DUSTS = COMMON.itemTag("dusts/silicon");
         public static final TagKey<Item> DEEPSLATE_DUSTS = COMMON.itemTag("dusts/deepslate");
 
         // Misc common tags

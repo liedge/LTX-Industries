@@ -3,6 +3,7 @@ package liedge.ltxindustries.client;
 import com.mojang.logging.LogUtils;
 import liedge.limacore.client.LimaCoreClientUtil;
 import liedge.limacore.client.SimpleFogFluidExtension;
+import liedge.limacore.lib.ModResources;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.client.gui.ClientFabricatingInputsTooltip;
@@ -93,15 +94,16 @@ public class LTXIndustriesClient
         @SubscribeEvent
         private void registerFluidModels(final RegisterFluidModelsEvent event)
         {
-            event.register(LimaCoreClientUtil.fluidModel(LTXIndustries.RESOURCES, "block/viridic_acid_still", "block/viridic_acid_flowing", null), LTXIFluids.VIRIDIC_ACID, LTXIFluids.FLOWING_VIRIDIC_ACID);
-
             final Material gasSprite = new Material(LTXIndustries.RESOURCES.id("block/gas"));
             final IntFunction<FluidModel.Unbaked> gas = rgb -> new FluidModel.Unbaked(gasSprite, gasSprite, null, FluidTintSources.constant(ARGB.opaque(rgb)));
 
-            event.register(gas.apply(0xe7e7e7), LTXIFluids.HYDROGEN);
-            event.register(gas.apply(0xe7e7e7), LTXIFluids.FLOWING_HYDROGEN);
-            event.register(gas.apply(0x91a5d5), LTXIFluids.OXYGEN);
-            event.register(gas.apply(0x91a5d5), LTXIFluids.FLOWING_OXYGEN);
+            event.register(gas.apply(0xe7e7e7), LTXIFluids.HYDROGEN, LTXIFluids.FLOWING_HYDROGEN);
+            event.register(gas.apply(0x27306e), LTXIFluids.NITROGEN, LTXIFluids.FLOWING_NITROGEN);
+            event.register(gas.apply(0x91a5d5), LTXIFluids.OXYGEN, LTXIFluids.FLOWING_OXYGEN);
+            event.register(gas.apply(0xccf76f), LTXIFluids.CHLORINE, LTXIFluids.FLOWING_CHLORINE);
+            event.register(gas.apply(0x8f73f6), LTXIFluids.ARGON, LTXIFluids.FLOWING_ARGON);
+            event.register(LimaCoreClientUtil.fluidModel(ModResources.MC, "block/water_still", "block/water_flow", FluidTintSources.constant(0xff43d5ee)), LTXIFluids.SEA_WATER, LTXIFluids.FLOWING_SEA_WATER);
+            event.register(LimaCoreClientUtil.fluidModel(LTXIndustries.RESOURCES, "block/viridic_acid_still", "block/viridic_acid_flowing", null), LTXIFluids.VIRIDIC_ACID, LTXIFluids.FLOWING_VIRIDIC_ACID);
         }
 
         @SubscribeEvent

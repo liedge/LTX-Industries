@@ -77,12 +77,27 @@ class ModelsGen extends ModelProvider
     private void registerItemModels(ItemModelGenerators models)
     {
         registerFlatModels(models,
+                // Raw ores
                 RAW_TITANIUM,
-                TITANIUM_INGOT,
-                TITANIUM_NUGGET,
                 RAW_NIOBIUM,
+                // Ingots
+                TITANIUM_INGOT,
                 NIOBIUM_INGOT,
+                SILICON_INGOT,
+                SLATESTEEL_INGOT,
+                POLYMER_INGOT,
+                // Nuggets
+                TITANIUM_NUGGET,
                 NIOBIUM_NUGGET,
+                SLATESTEEL_NUGGET,
+                // Dusts
+                CARBON_DUST,
+                SODIUM_DUST,
+                SILICON_DUST,
+                DEEPSLATE_DUST,
+                RESINOUS_BIOMASS,
+                ACIDIC_BIOMASS,
+                // Plants
                 SPARK_FRUIT,
                 VITRIOL_BERRIES,
                 LTX_LIME_PIGMENT,
@@ -122,19 +137,12 @@ class ModelsGen extends ModelProvider
                 WONDERLAND_BODY,
                 WONDERLAND_LEGS,
                 WONDERLAND_FEET,
-                CARBON_DUST,
-                RESINOUS_BIOMASS,
-                ACIDIC_BIOMASS,
-                DEEPSLATE_DUST,
                 ELECTRIC_CHEMICAL,
                 MONOMER_CHEMICAL,
                 VIRIDIC_WEAPON_CHEMICAL,
                 CHORUS_CHEMICAL,
                 SCULK_CHEMICAL,
                 GLOOM_CHEMICAL,
-                SLATESTEEL_INGOT,
-                POLYMER_INGOT,
-                SLATESTEEL_NUGGET,
                 EMPTY_UPGRADE_MODULE,
                 UPGRADE_MODULE,
                 EMPTY_FABRICATION_BLUEPRINT,
@@ -201,9 +209,13 @@ class ModelsGen extends ModelProvider
                 .setRenderer(WeaponSpecialRenderer.Type.SIMPLE_RECOIL, RecoilAnimation.linear(0.1f), 0.375f, 5f)
                 .build(models);
 
-        bucket(models, VIRIDIC_ACID_BUCKET, LTXIFluids.VIRIDIC_ACID);
         bucket(models, HYDROGEN_BUCKET, LTXIFluids.HYDROGEN);
+        bucket(models, NITROGEN_BUCKET, LTXIFluids.NITROGEN);
         bucket(models, OXYGEN_BUCKET, LTXIFluids.OXYGEN);
+        bucket(models, CHLORINE_BUCKET, LTXIFluids.CHLORINE);
+        bucket(models, ARGON_BUCKET, LTXIFluids.ARGON);
+        bucket(models, SEA_WATER_BUCKET, LTXIFluids.SEA_WATER);
+        bucket(models, VIRIDIC_ACID_BUCKET, LTXIFluids.VIRIDIC_ACID);
     }
 
     private void registerBlockModels(BlockModelGenerators models)

@@ -6,6 +6,7 @@ import liedge.limacore.registry.LimaDeferredItems;
 import liedge.limacore.registry.game.LimaCoreDataComponents;
 import liedge.limacore.transfer.LimaTransferUtil;
 import liedge.limacore.util.LimaCollectionsUtil;
+import liedge.limacore.util.LimaRegistryUtil;
 import liedge.ltxindustries.LTXIIdentifiers;
 import liedge.ltxindustries.block.NeonLightColor;
 import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
@@ -18,15 +19,13 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.BucketItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.Consumables;
 import net.minecraft.world.item.component.UseEffects;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.capabilities.Capabilities;
@@ -137,13 +136,31 @@ public final class LTXIItems
     public static final DeferredItem<BlockItem> RAILGUN_TURRET = registerTurretBlockItem(LTXIBlocks.RAILGUN_TURRET);
     // #endregion
 
-    // Base mod materials
+    // Raw ores
     public static final DeferredItem<Item> RAW_TITANIUM = ITEMS.registerSimpleItem("raw_titanium");
-    public static final DeferredItem<Item> TITANIUM_INGOT = ITEMS.registerSimpleItem("titanium_ingot");
-    public static final DeferredItem<Item> TITANIUM_NUGGET = ITEMS.registerSimpleItem("titanium_nugget");
     public static final DeferredItem<Item> RAW_NIOBIUM = ITEMS.registerSimpleItem("raw_niobium");
+
+    // Ingots
+    public static final DeferredItem<Item> TITANIUM_INGOT = ITEMS.registerSimpleItem("titanium_ingot");
     public static final DeferredItem<Item> NIOBIUM_INGOT = ITEMS.registerSimpleItem("niobium_ingot");
+    public static final DeferredItem<Item> SILICON_INGOT = ITEMS.registerSimpleItem("silicon_ingot");
+    public static final DeferredItem<Item> SLATESTEEL_INGOT = ITEMS.registerSimpleItem("slatesteel_ingot");
+    public static final DeferredItem<Item> POLYMER_INGOT = ITEMS.registerSimpleItem("polymer_ingot");
+
+    // Nuggets
+    public static final DeferredItem<Item> TITANIUM_NUGGET = ITEMS.registerSimpleItem("titanium_nugget");
     public static final DeferredItem<Item> NIOBIUM_NUGGET = ITEMS.registerSimpleItem("niobium_nugget");
+    public static final DeferredItem<Item> SLATESTEEL_NUGGET = ITEMS.registerSimpleItem("slatesteel_nugget");
+
+    // Dusts
+    public static final DeferredItem<Item> CARBON_DUST = ITEMS.registerSimpleItem("carbon_dust");
+    public static final DeferredItem<Item> SODIUM_DUST = ITEMS.registerSimpleItem("sodium_dust");
+    public static final DeferredItem<Item> SILICON_DUST = ITEMS.registerSimpleItem("silicon_dust");
+    public static final DeferredItem<Item> DEEPSLATE_DUST = ITEMS.registerSimpleItem("deepslate_dust");
+    public static final DeferredItem<Item> RESINOUS_BIOMASS = ITEMS.registerSimpleItem("resinous_biomass");
+    public static final DeferredItem<Item> ACIDIC_BIOMASS = ITEMS.registerSimpleItem("acidic_biomass");
+
+    // Plants
     public static final DeferredItem<BlockItem> SPARK_FRUIT = ITEMS.registerSimpleBlockItem(LTXIBlocks.SPARK_FRUIT, properties -> properties.food(
             new FoodProperties(3, 2, true),
             Consumables.defaultFood().onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(MobEffects.SPEED, 200))).build()));
@@ -151,9 +168,13 @@ public final class LTXIItems
     public static final DeferredItem<BlockItem> GLOOM_SHROOM = ITEMS.registerSimpleBlockItem(LTXIBlocks.GLOOM_SHROOM);
 
     // Buckets
-    public static final DeferredItem<BucketItem> VIRIDIC_ACID_BUCKET = ITEMS.registerItem("viridic_acid_bucket", properties -> new BucketItem(LTXIFluids.VIRIDIC_ACID.get(), properties), properties -> properties.stacksTo(1));
-    public static final DeferredItem<BucketItem> HYDROGEN_BUCKET = ITEMS.registerItem("hydrogen_bucket", properties -> new BucketItem(LTXIFluids.HYDROGEN.get(), properties), properties -> properties.stacksTo(1));
-    public static final DeferredItem<BucketItem> OXYGEN_BUCKET = ITEMS.registerItem("oxygen_bucket", properties -> new BucketItem(LTXIFluids.OXYGEN.get(), properties), properties -> properties.stacksTo(1));
+    public static final DeferredItem<BucketItem> HYDROGEN_BUCKET = registerBucket(LTXIFluids.HYDROGEN);
+    public static final DeferredItem<BucketItem> NITROGEN_BUCKET = registerBucket(LTXIFluids.NITROGEN);
+    public static final DeferredItem<BucketItem> OXYGEN_BUCKET = registerBucket(LTXIFluids.OXYGEN);
+    public static final DeferredItem<BucketItem> CHLORINE_BUCKET = registerBucket(LTXIFluids.CHLORINE);
+    public static final DeferredItem<BucketItem> ARGON_BUCKET = registerBucket(LTXIFluids.ARGON);
+    public static final DeferredItem<BucketItem> SEA_WATER_BUCKET = registerBucket(LTXIFluids.SEA_WATER);
+    public static final DeferredItem<BucketItem> VIRIDIC_ACID_BUCKET = registerBucket(LTXIFluids.VIRIDIC_ACID);
 
     // Pigments
     public static final DeferredItem<Item> LTX_LIME_PIGMENT = ITEMS.registerSimpleItem("ltx_lime_pigment");
@@ -213,12 +234,6 @@ public final class LTXIItems
     public static final DeferredItem<EnergyArmorItem> WONDERLAND_LEGS = registerLTXGear(LTXIIdentifiers.ID_WONDERLAND_LEGS, properties -> new EnergyArmorItem(properties, EquipmentSlot.LEGS, 6f));
     public static final DeferredItem<EnergyArmorItem> WONDERLAND_FEET = registerLTXGear(LTXIIdentifiers.ID_WONDERLAND_FEET, properties -> new EnergyArmorItem(properties, EquipmentSlot.FEET, 3f));
 
-    // Processed resources
-    public static final DeferredItem<Item> CARBON_DUST = ITEMS.registerSimpleItem("carbon_dust");
-    public static final DeferredItem<Item> RESINOUS_BIOMASS = ITEMS.registerSimpleItem("resinous_biomass");
-    public static final DeferredItem<Item> ACIDIC_BIOMASS = ITEMS.registerSimpleItem("acidic_biomass");
-    public static final DeferredItem<Item> DEEPSLATE_DUST = ITEMS.registerSimpleItem("deepslate_dust");
-
     // Chemicals
     public static final DeferredItem<Item> ELECTRIC_CHEMICAL = ITEMS.registerSimpleItem("electric_chemical");
     public static final DeferredItem<Item> MONOMER_CHEMICAL = ITEMS.registerSimpleItem("monomer_chemical");
@@ -226,11 +241,6 @@ public final class LTXIItems
     public static final DeferredItem<Item> CHORUS_CHEMICAL = ITEMS.registerSimpleItem("chorus_chemical");
     public static final DeferredItem<Item> SCULK_CHEMICAL = ITEMS.registerSimpleItem("sculk_chemical");
     public static final DeferredItem<Item> GLOOM_CHEMICAL = ITEMS.registerSimpleItem("gloom_chemical");
-
-    // Synthetic resources
-    public static final DeferredItem<Item> SLATESTEEL_INGOT = ITEMS.registerSimpleItem("slatesteel_ingot");
-    public static final DeferredItem<Item> SLATESTEEL_NUGGET = ITEMS.registerSimpleItem("slatesteel_nugget");
-    public static final DeferredItem<Item> POLYMER_INGOT = ITEMS.registerSimpleItem("polymer_ingot");
 
     // Upgrade
     public static final DeferredItem<Item> EMPTY_UPGRADE_MODULE = ITEMS.registerSimpleItem("empty_upgrade_module");
@@ -296,5 +306,10 @@ public final class LTXIItems
     private static <T extends Item> DeferredItem<T> registerLTXGear(String name, Function<Item.Properties, T> constructor)
     {
         return ITEMS.registerItem(name, constructor, properties -> properties.stacksTo(1).fireResistant().rarity(LTXIItemRarities.ltxGearRarity()));
+    }
+
+    private static DeferredItem<BucketItem> registerBucket(Holder<Fluid> holder)
+    {
+        return ITEMS.registerItem(LimaRegistryUtil.getNonNullRegistryId(holder).getPath() + "_bucket", properties -> new BucketItem(holder.value(), properties), properties -> properties.stacksTo(1));
     }
 }

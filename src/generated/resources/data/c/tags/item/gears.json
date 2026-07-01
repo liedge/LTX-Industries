@@ -1,6 +1,6 @@
 {
   "values": [
-    "ltxi:slatesteel_gear",
-    "#c:gears/titanium"
+    "ltxi:titanium_gear",
+    "ltxi:slatesteel_gear"
   ]
 }
