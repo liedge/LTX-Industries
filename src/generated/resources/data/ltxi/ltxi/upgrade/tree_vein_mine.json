@@ -34,12 +34,12 @@
   "effects": {
     "ltxi:vein_mine": [
       {
-        "condition": {
+        "energy_per_block": 0.0,
+        "environment": {
           "blocks": "#minecraft:leaves"
         },
         "max_blocks": 256,
-        "needs_same_block": false,
-        "target": {
+        "primary": {
           "blocks": "#minecraft:logs"
         }
       }

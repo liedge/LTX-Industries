@@ -421,7 +421,7 @@ public final class LTXIUpgrades
                 .register(context);
         Upgrade.builder(TREE_VEIN_MINE)
                 .forEquipment(LTXIItems.EPSILON_AXE)
-                .withEffect(VEIN_MINE, VeinMine.create(BlockPredicate.Builder.block().of(blocks, BlockTags.LOGS), BlockPredicate.Builder.block().of(blocks, BlockTags.LEAVES), VeinMine.MAX_BLOCK_LIMIT, false))
+                .withEffect(VEIN_MINE, VeinMine.create(BlockPredicate.Builder.block().of(blocks, BlockTags.LOGS), BlockPredicate.Builder.block().of(blocks, BlockTags.LEAVES), VeinMine.MAX_BLOCK_LIMIT, 0f))
                 .staticTooltip(0)
                 .effectIcon(veinMineOverlay(ItemIcon.of(Items.OAK_LOG)))
                 .category("tools")

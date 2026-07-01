@@ -17,6 +17,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -102,11 +103,10 @@ public abstract class ModularEnergyMiningItem extends BaseEnergyMiningItem imple
 
         if (!level.isClientSide() && state.getDestroySpeed(level, pos) != 0f && miningEntity instanceof Player player)
         {
-            int veinOps = Math.max(1, veinMine(player, (ServerLevel) level, stack, pos));
-
+            int energyActionsUsed = 1 + veinMine(player, (ServerLevel) level, stack, pos);
             if (!player.isCreative())
             {
-                consumeEnergyActions(player, stack, veinOps);
+                consumeEnergyActions(player, stack, energyActionsUsed);
             }
         }
 
@@ -183,37 +183,35 @@ public abstract class ModularEnergyMiningItem extends BaseEnergyMiningItem imple
     private int veinMine(Player player, ServerLevel level, ItemStack stack, BlockPos origin)
     {
         BlockState originState = level.getBlockState(origin);
-        int maxBreak = player.isCreative() ? VeinMine.MAX_BLOCK_LIMIT : getEnergyStored(stack) / getEnergyUsage(stack);
+        int usableEnergyActions = player.isCreative() ? VeinMine.MAX_BLOCK_LIMIT : getEnergyStored(stack) / getEnergyUsage(stack);
 
-        if (maxBreak <= 1) return 0;
+        if (usableEnergyActions < 1) return 0;
 
         return getUpgrades(stack).listEffectStream(LTXIUpgradeEffectComponents.VEIN_MINE)
-                .mapToInt(effect -> tryVeinMine(player, level, stack, effect, maxBreak, origin, originState))
+                .mapToInt(effect -> runVeinMineEffect(level, effect, player, stack, usableEnergyActions, origin, originState))
                 .filter(result -> result > 0)
                 .findFirst()
                 .orElse(0);
     }
 
-    private int tryVeinMine(Player player, ServerLevel level, ItemStack stack, VeinMine effect, int maxBreak, BlockPos origin, BlockState originState)
+    private int runVeinMineEffect(ServerLevel level, VeinMine effect, Player player, ItemStack tool, int usableEnergyActions, BlockPos origin, BlockState originState)
     {
-        List<BlockPos> positions = effect.apply(level, origin, originState);
-        if (positions.size() < 2) return 0;
+        List<BlockPos> positions = effect.apply(level, origin, originState, usableEnergyActions);
+        if (positions.size() <= 1) return 0;
 
         // Destroy blocks and collect drops
         List<ItemEntity> drops = new ObjectArrayList<>();
         Vec3 dropsPos = Vec3.atCenterOf(origin);
 
-        int ops = Math.min(positions.size(), maxBreak);
-        for (int i = 0; i < ops; i++)
+        for (BlockPos pos : positions)
         {
-            BlockPos pos = positions.get(i);
             BlockState state = level.getBlockState(pos);
             if (state.isAir()) continue;
 
             // Collect drops and experience with the player's tool
             BlockEntity blockEntity = state.hasBlockEntity() ? level.getBlockEntity(pos) : null;
             FluidState fluidState = level.getFluidState(pos);
-            Block.getDrops(state, level, pos, blockEntity, player, stack).forEach(drop ->
+            Block.getDrops(state, level, pos, blockEntity, player, tool).forEach(drop ->
                     drops.add(new ItemEntity(level, dropsPos.x, dropsPos.y, dropsPos.z, drop)));
             level.setBlock(pos, fluidState.createLegacyBlock(), Block.UPDATE_ALL);
 
@@ -224,8 +222,8 @@ public abstract class ModularEnergyMiningItem extends BaseEnergyMiningItem imple
         }
 
         BlockEntity originBE = originState.hasBlockEntity() ? level.getBlockEntity(origin) : null;
-        CommonHooks.handleBlockDrops(level, origin, originState, originBE, drops, player, stack);
+        CommonHooks.handleBlockDrops(level, origin, originState, originBE, drops, player, tool);
 
-        return ops;
+        return Mth.ceil(positions.size() * effect.energyActions());
     }
 }
