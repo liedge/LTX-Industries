@@ -10,8 +10,8 @@
       "ingredient": "#c:ingots/titanium"
     },
     {
-      "count": 8,
-      "ingredient": "minecraft:redstone"
+      "count": 4,
+      "ingredient": "#c:ingots/silicon"
     },
     {
       "count": 2,

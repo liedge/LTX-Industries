@@ -54,6 +54,7 @@ import net.minecraft.world.level.storage.loot.predicates.DamageSourceCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemEntityPropertyCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.neoforged.neoforge.common.NeoForgeMod;
+import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.registries.holdersets.AnyHolderSet;
 
 import static liedge.ltxindustries.LTXIConstants.*;
@@ -117,6 +118,7 @@ public final class LTXIUpgrades
     public static final ResourceKey<Upgrade> TOOL_NETHERITE_LEVEL = key("tool_netherite_level");
     public static final ResourceKey<Upgrade> EPSILON_OMNI_DRILL = key("epsilon_omni_drill");
     public static final ResourceKey<Upgrade> TREE_VEIN_MINE = key("tree_vein_mine");
+    public static final ResourceKey<Upgrade> ORE_VEIN_MINE = key("ore_vein_mine");
     public static final ResourceKey<Upgrade> TOOL_VIBRATION_CANCEL = key("tool_vibration_cancel");
 
     // Weapon upgrades
@@ -223,7 +225,7 @@ public final class LTXIUpgrades
                 .forEquipment(allWeapons)
                 .forMachines(turrets)
                 .withEffect(EXTRA_DAMAGE_TAGS, DamageTypeTags.NO_ANGER)
-                .staticTooltip(0)
+                .simpleTooltip()
                 .effectIcon(SpriteIcon.create("stealth_damage"))
                 .register(context);
         Upgrade.builder(MOB_DROPS_CAPTURE)
@@ -280,7 +282,7 @@ public final class LTXIUpgrades
                         EntityAttributeValue.totalValue(LootContext.EntityTarget.THIS, Attributes.ARMOR),
                         EntityAttributeValue.baseValue(LootContext.EntityTarget.THIS, Attributes.ARMOR),
                         CompareOperation.LESS_THAN_OR_EQUALS))
-                .tooltip(0, key -> TranslatableTooltip.create(key, ValueComponent.of(ConstantDouble.of(0.2d), ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE)))
+                .tooltip(key -> TranslatableTooltip.create(key, ValueComponent.of(ConstantDouble.of(0.2d), ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE)))
                 .effectIcon(defaultOverlay(SpriteIcon.create("razor")))
                 .category("default/tool")
                 .register(context);
@@ -303,14 +305,14 @@ public final class LTXIUpgrades
                 .withEffect(SUPPRESS_VIBRATIONS, SuppressVibrations.mainHand(gameEvents.getOrThrow(LTXITags.GameEvents.WEAPON_VIBRATIONS)))
                 .withEffect(EXTRA_DAMAGE_TAGS, DamageTypeTags.NO_ANGER)
                 .withEffect(EXTRA_DAMAGE_TAGS, DamageTypeTags.NO_KNOCKBACK)
-                .staticTooltip(0)
+                .simpleTooltip()
                 .effectIcon(defaultModuleIcon(LTXIItems.SERENITY))
                 .category("default/weapon")
                 .register(context);
         Upgrade.builder(MIRAGE_DEFAULT)
                 .forEquipment(LTXIItems.MIRAGE)
                 .withEffect(EXTRA_DAMAGE_TAGS, DamageTypeTags.NO_KNOCKBACK)
-                .staticTooltip(0)
+                .simpleTooltip()
                 .effectIcon(defaultModuleIcon(LTXIItems.MIRAGE))
                 .category("default/weapon")
                 .register(context);
@@ -331,11 +333,11 @@ public final class LTXIUpgrades
                         LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.ATTACKER, EntityPredicate.Builder.entity()
                                 .moving(MovementPredicate.speed(MinMaxBounds.Doubles.atMost(1e-3d)))
                                 .flags(EntityFlagsPredicate.Builder.flags().setCrouching(true))))
-                .tooltip(0, key -> TranslatableTooltip.create(key,
+                .tooltip(key -> TranslatableTooltip.create(key,
                         ValueComponent.of(ConstantDouble.of(1), ValueFormat.SIGNED_FLAT_NUMBER, ValueSentiment.POSITIVE),
                         ValueComponent.of(ConstantDouble.of(30), ValueFormat.FLAT_NUMBER, ValueSentiment.NEUTRAL),
                         ValueComponent.of(ConstantDouble.of(50), ValueFormat.FLAT_NUMBER, ValueSentiment.POSITIVE)))
-                .tooltip(1, key -> TranslatableTooltip.create(key, ValueComponent.of(ConstantDouble.of(0.15d), ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE)))
+                .tooltip(key -> TranslatableTooltip.create(key, ValueComponent.of(ConstantDouble.of(0.15d), ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE)))
                 .effectIcon(defaultModuleIcon(LTXIItems.STARGAZER))
                 .category("default/weapon")
                 .register(context);
@@ -351,7 +353,7 @@ public final class LTXIUpgrades
         Upgrade.builder(HEAD_DEFAULT)
                 .forEquipment(LTXIItems.WONDERLAND_HEAD)
                 .withEffect(MOB_EFFECT_IMMUNITY, MobEffectImmunity.immuneTo(mobEffects, LTXITags.MobEffects.VISION_DEBUFF, headMECost))
-                .tooltip(0, key -> TranslatableTooltip.create(key, energyActionsTooltip(headMECost)))
+                .tooltip(key -> TranslatableTooltip.create(key, energyActionsTooltip(headMECost)))
                 .effectIcon(defaultModuleIcon(LTXIItems.WONDERLAND_HEAD))
                 .category("default/armor/1")
                 .register(context);
@@ -368,7 +370,7 @@ public final class LTXIUpgrades
                 .itemAttributes(Attributes.MOVEMENT_SPEED, "speed_boost", LevelBasedValue.constant(0.1f), AttributeModifier.Operation.ADD_MULTIPLIED_BASE, EquipmentSlotGroup.LEGS)
                 .itemAttributes(Attributes.WATER_MOVEMENT_EFFICIENCY, "water_move", LevelBasedValue.constant(1), AttributeModifier.Operation.ADD_VALUE, EquipmentSlotGroup.LEGS)
                 .withEffect(MOB_EFFECT_IMMUNITY, MobEffectImmunity.immuneTo(mobEffects, LTXITags.MobEffects.MOVEMENT_DEBUFF, legsMECost))
-                .tooltip(0, key -> TranslatableTooltip.create(key, energyActionsTooltip(legsMECost)))
+                .tooltip(key -> TranslatableTooltip.create(key, energyActionsTooltip(legsMECost)))
                 .effectIcon(defaultModuleIcon(LTXIItems.WONDERLAND_LEGS))
                 .category("default/armor/3")
                 .register(context);
@@ -378,7 +380,7 @@ public final class LTXIUpgrades
                 .itemAttributes(Attributes.STEP_HEIGHT, "step_boost", LevelBasedValue.constant(1), AttributeModifier.Operation.ADD_VALUE, EquipmentSlotGroup.FEET)
                 .itemAttributes(Attributes.SAFE_FALL_DISTANCE, "safe_fall", LevelBasedValue.constant(5), AttributeModifier.Operation.ADD_VALUE, EquipmentSlotGroup.FEET)
                 .withConditionUnit(DAMAGE_IMMUNITY, DamageSourceCondition.hasDamageSource(DamageSourcePredicate.Builder.damageType().tag(TagPredicate.is(DamageTypeTags.BURN_FROM_STEPPING))))
-                .staticTooltip(0)
+                .simpleTooltip()
                 .effectIcon(defaultModuleIcon(LTXIItems.WONDERLAND_FEET))
                 .category("default/armor/4")
                 .register(context);
@@ -422,8 +424,16 @@ public final class LTXIUpgrades
         Upgrade.builder(TREE_VEIN_MINE)
                 .forEquipment(LTXIItems.EPSILON_AXE)
                 .withEffect(VEIN_MINE, VeinMine.create(BlockPredicate.Builder.block().of(blocks, BlockTags.LOGS), BlockPredicate.Builder.block().of(blocks, BlockTags.LEAVES), VeinMine.MAX_BLOCK_LIMIT, 0f))
-                .staticTooltip(0)
+                .simpleTooltip()
                 .effectIcon(veinMineOverlay(ItemIcon.of(Items.OAK_LOG)))
+                .category("tools")
+                .register(context);
+        Upgrade.builder(ORE_VEIN_MINE)
+                .createDefaultTitle(ChatFormatting.YELLOW)
+                .forEquipment(LTXIItems.EPSILON_DRILL)
+                .withEffect(VEIN_MINE, VeinMine.create(BlockPredicate.Builder.block().of(blocks, Tags.Blocks.ORES), 64, 0.25f))
+                .tooltip(key -> TranslatableTooltip.create(key, energyActionsTooltip(ConstantDouble.of(0.25d))))
+                .effectIcon(veinMineOverlay(ItemIcon.of(Items.GOLD_ORE)))
                 .category("tools")
                 .register(context);
         Upgrade.builder(TOOL_VIBRATION_CANCEL)
@@ -555,12 +565,12 @@ public final class LTXIUpgrades
                 .itemAttributes(Attributes.KNOCKBACK_RESISTANCE, "steady", LevelBasedValue.perLevel(0.0625f), AttributeModifier.Operation.ADD_VALUE, EquipmentSlotGroup.ARMOR)
                 .withConditionalEffect(DAMAGE_REDUCTION, DamageReduction.blockDamage(defenseAmt, defenseEnergy), DamageSourceCondition.hasDamageSource(DamageSourcePredicate.Builder.damageType()
                         .tag(TagPredicate.isNot(DamageTypeTags.BYPASSES_INVULNERABILITY))))
-                .tooltip(0, key -> TranslatableTooltip.create(key, ValueComponent.of(defenseAmt, ValueFormat.PERCENTAGE, ValueSentiment.POSITIVE), energyActionsTooltip(defenseEnergy)))
+                .tooltip(key -> TranslatableTooltip.create(key, ValueComponent.of(defenseAmt, ValueFormat.PERCENTAGE, ValueSentiment.POSITIVE), energyActionsTooltip(defenseEnergy)))
                 .effectIcon(SpriteIcon.create("defense"))
                 .category("armor")
                 .register(context);
         Upgrade.builder(HEAD_EXPERIENCE_CAPTURE)
-                .createDefaultTitle(o -> o.withStyle(ChatFormatting.AQUA))
+                .createDefaultTitle(ChatFormatting.AQUA)
                 .forEquipment(LTXIItems.WONDERLAND_HEAD)
                 .withSpecialEffect(CAPTURE_MOB_EXPERIENCE, CaptureLoot.mobExperience())
                 .effectIcon(veinMineOverlay(SpriteIcon.create("xp_orb")))
@@ -736,14 +746,14 @@ public final class LTXIUpgrades
                 .tooltip(energyCapacityTooltip(umsEnergyStorage, ValueFormat.MULTIPLICATIVE, ValueSentiment.POSITIVE))
                 .tooltip(energyTransferTooltip(umsEnergyStorage, ValueFormat.MULTIPLICATIVE, ValueSentiment.POSITIVE))
                 .tooltip(energyUsageTooltip(umsEnergyUsage, ValueFormat.MULTIPLICATIVE, ValueSentiment.NEGATIVE))
-                .staticTooltip(LTXILangKeys.INSTANT_PROCESSING_UPGRADE.translate().withStyle(LTXIConstants.LIME_GREEN.chatStyle()))
+                .simpleTooltip(LTXILangKeys.INSTANT_PROCESSING_UPGRADE.translate().withStyle(LTXIConstants.LIME_GREEN.chatStyle()))
                 .effectIcon(SpriteIcon.create("ultimate_gear"))
                 .category("gpm")
                 .register(context);
 
         ContextlessValue gpmParallelOps = LinearDouble.linearIncrement(2);
         Upgrade.builder(GPM_PARALLEL)
-                .createDefaultTitle(o -> o.withStyle(ChatFormatting.LIGHT_PURPLE))
+                .createDefaultTitle(ChatFormatting.LIGHT_PURPLE)
                 .forMachines(blockEntities, LTXITags.BlockEntities.GENERAL_PROCESSING_MACHINES)
                 .exclusiveWith(holders, PARALLEL_OPS_UPGRADES)
                 .withEffect(PARALLEL_OPERATIONS, ValueOperation.of(gpmParallelOps, MathOperation.REPLACE))
@@ -770,7 +780,7 @@ public final class LTXIUpgrades
 
         ContextlessValue geoSynthParallel = ExponentialDouble.of(2, LinearDouble.oneIncrement(4));
         Upgrade.builder(GEO_SYNTHESIZER_PARALLEL)
-                .createDefaultTitle(o -> o.withStyle(ChatFormatting.AQUA))
+                .createDefaultTitle(ChatFormatting.AQUA)
                 .forMachines(LTXIBlockEntities.GEO_SYNTHESIZER)
                 .exclusiveWith(holders, PARALLEL_OPS_UPGRADES)
                 .withEffect(PARALLEL_OPERATIONS, ValueOperation.of(geoSynthParallel, MathOperation.REPLACE))

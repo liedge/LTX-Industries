@@ -12,15 +12,11 @@
       "ingredient": "#c:ingots/titanium"
     },
     {
-      "count": 12,
-      "ingredient": "minecraft:redstone"
-    },
-    {
       "count": 8,
-      "ingredient": "minecraft:quartz"
+      "ingredient": "#c:ingots/silicon"
     },
     {
-      "count": 4,
+      "count": 6,
       "ingredient": "ltxi:electric_chemical"
     }
   ],

@@ -1,0 +1,16 @@
+{
+  "type": "ltxi:material_fusing",
+  "craft_time": 400,
+  "item_inputs": [
+    {
+      "count": 4,
+      "ingredient": "#c:dusts/silicon"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:silicon_ingot"
+    }
+  ]
+}

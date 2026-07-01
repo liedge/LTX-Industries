@@ -19,7 +19,7 @@
       "ingredient": "ltxi:slatesteel_ingot"
     },
     {
-      "count": 48,
+      "count": 32,
       "ingredient": "ltxi:polymer_ingot"
     },
     {
@@ -28,7 +28,7 @@
     },
     {
       "count": 48,
-      "ingredient": "minecraft:redstone"
+      "ingredient": "ltxi:silicon_ingot"
     },
     {
       "count": 12,

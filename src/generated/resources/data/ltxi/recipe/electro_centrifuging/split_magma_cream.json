@@ -1,0 +1,18 @@
+{
+  "type": "ltxi:electro_centrifuging",
+  "item_inputs": [
+    {
+      "ingredient": "minecraft:magma_cream"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "minecraft:slime_ball"
+    },
+    {
+      "count": 1,
+      "id": "minecraft:blaze_powder"
+    }
+  ]
+}

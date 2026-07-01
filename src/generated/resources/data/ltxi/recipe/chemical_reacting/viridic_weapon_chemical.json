@@ -7,13 +7,13 @@
       "ingredient": "ltxi:viridic_acid"
     },
     {
-      "amount": 2000,
-      "ingredient": "#c:hydrogen"
+      "amount": 4000,
+      "ingredient": "ltxi:chlorine"
     }
   ],
   "item_inputs": [
     {
-      "count": 2,
+      "count": 8,
       "ingredient": "ltxi:electric_chemical"
     }
   ],

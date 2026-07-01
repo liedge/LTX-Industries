@@ -269,7 +269,9 @@ class LanguageGen extends LimaLanguageProvider
         upgrade(LTXIUpgrades.TOOL_NETHERITE_LEVEL, "Netherite-Core Tool Head", "Upgraded tool cutters can harvest Netherite-level materials.");
         upgrade(LTXIUpgrades.EPSILON_OMNI_DRILL, "ε Cutter Rev.000", "Restored prototype ε mining tech with bypassed safeties. Makes modular mining tools effective against all material types.");
         upgrade(LTXIUpgrades.TREE_VEIN_MINE, "Lumber Felling Unit", "Automatic harvesting algorithm for the ε-Series Axe's energy cutter. May cause localized deforestation.");
-        upgradeTooltip(LTXIUpgrades.TREE_VEIN_MINE, 0, "Vein-mines trees, up to 256 logs");
+        upgradeTooltip(LTXIUpgrades.TREE_VEIN_MINE, 0, "Vein-mines trees, up to 256 logs. Does not use energy actions for additional blocks.");
+        upgrade(LTXIUpgrades.ORE_VEIN_MINE, "Prospector Nanites", "A energy-saving mineral trace unit for the ε-Series Drill.");
+        upgradeTooltip(LTXIUpgrades.ORE_VEIN_MINE, 0, "Vein-mines up to 64 ores using %s per additional block broken.");
         upgrade(LTXIUpgrades.TOOL_VIBRATION_CANCEL, "Resonance-Tuned Servos", "Special lining on this tool's servos dampen vibrations from standard use.");
         upgrade(LTXIUpgrades.EQUIPMENT_BLOCK_DROPS_CAPTURE, "Mining Subspace Link", "Establishes a matter warp link capable of intercepting material harvesting products.");
 
