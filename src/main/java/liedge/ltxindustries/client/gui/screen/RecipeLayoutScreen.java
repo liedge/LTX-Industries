@@ -4,6 +4,7 @@ import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.blockentity.base.RecipeModeHolderBlockEntity;
 import liedge.ltxindustries.client.LTXILangKeys;
+import liedge.ltxindustries.client.gui.ItemLikeIconsRenderer;
 import liedge.ltxindustries.client.gui.widget.LTXISidebarButton;
 import liedge.ltxindustries.client.gui.widget.MachineProgressWidget;
 import liedge.ltxindustries.menu.RecipeLayoutMenu;
@@ -103,13 +104,9 @@ public final class RecipeLayoutScreen extends MachineBaseScreen<RecipeLayoutMenu
         protected void extractInnerContents(GuiGraphicsExtractor graphics, int guiX, int guiY)
         {
             Holder<RecipeMode> mode = blockEntity.getMode();
-            if (mode == null)
+            if (mode == null || ItemLikeIconsRenderer.render(graphics, mode.value().icon(), guiX, guiY) == 0)
             {
                 renderSprite(graphics, MODE_OVERLAY_SPRITE, guiX, guiY);
-            }
-            else
-            {
-                graphics.fakeItem(mode.value().displayItem().create(), guiX, guiY);
             }
         }
 
@@ -131,7 +128,7 @@ public final class RecipeLayoutScreen extends MachineBaseScreen<RecipeLayoutMenu
             consumer.accept(LTXILangKeys.RECIPE_MODES_TITLE_OR_TOOLTIP.translate());
 
             Holder<RecipeMode> mode = blockEntity.getMode();
-            Component modeComponent = mode != null ? mode.value().displayName() : LTXILangKeys.NONE_UNIVERSAL_TOOLTIP.translate().withStyle(ChatFormatting.GRAY);
+            Component modeComponent = mode != null ? mode.value().title() : LTXILangKeys.NONE_UNIVERSAL_TOOLTIP.translate().withStyle(ChatFormatting.GRAY);
             consumer.accept(LTXILangKeys.RECIPE_MODE_CURRENT_MODE.translateArgs(modeComponent));
         }
     }

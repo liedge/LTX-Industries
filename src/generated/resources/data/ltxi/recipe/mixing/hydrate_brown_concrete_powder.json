@@ -1,0 +1,21 @@
+{
+  "type": "ltxi:mixing",
+  "craft_time": 40,
+  "fluid_inputs": [
+    {
+      "amount": 125,
+      "ingredient": "#minecraft:water"
+    }
+  ],
+  "item_inputs": [
+    {
+      "ingredient": "minecraft:brown_concrete_powder"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "minecraft:brown_concrete"
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 package liedge.ltxindustries.block;
 
 import liedge.limacore.block.LimaEntityBlock;
+import liedge.limacore.util.LimaItemUtil;
 import liedge.ltxindustries.item.LTXIItemAbilities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -16,6 +17,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.common.ItemAbility;
 import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
 import net.neoforged.neoforge.transfer.fluid.FluidUtil;
 import org.jspecify.annotations.Nullable;
@@ -67,9 +69,15 @@ public abstract class BaseWrenchEntityBlock extends LimaEntityBlock
     {
         if (stack.canPerformAction(LTXIItemAbilities.WRENCH_ROTATE) || stack.canPerformAction(LTXIItemAbilities.WRENCH_DISMANTLE)) return InteractionResult.PASS;
 
-        ResourceHandler<FluidResource> blockFluids = level.getCapability(Capabilities.Fluid.BLOCK, pos, null);
-        if (blockFluids != null && FluidUtil.interactWithFluidHandler(player, hand, pos, blockFluids))
+        if (LimaItemUtil.hasFluidHandlerCapability(ItemAccess.forPlayerInteraction(player, hand)))
         {
+            if (!level.isClientSide())
+            {
+                ResourceHandler<FluidResource> blockFluids = level.getCapability(Capabilities.Fluid.BLOCK, pos, null);
+                if (blockFluids == null || !FluidUtil.interactWithFluidHandler(player, hand, pos, blockFluids, null))
+                    return InteractionResult.TRY_WITH_EMPTY_HAND;
+            }
+
             return InteractionResult.SUCCESS;
         }
 

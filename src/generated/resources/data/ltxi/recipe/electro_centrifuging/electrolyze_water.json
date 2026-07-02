@@ -1,0 +1,21 @@
+{
+  "type": "ltxi:electro_centrifuging",
+  "craft_time": 1200,
+  "fluid_inputs": [
+    {
+      "amount": 1000,
+      "ingredient": "#minecraft:water"
+    }
+  ],
+  "fluid_results": [
+    {
+      "amount": 1000,
+      "id": "ltxi:hydrogen"
+    },
+    {
+      "amount": 500,
+      "id": "ltxi:oxygen"
+    }
+  ],
+  "mode": "ltxi:electrolyze"
+}

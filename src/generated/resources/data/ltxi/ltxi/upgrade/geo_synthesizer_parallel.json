@@ -5,18 +5,19 @@
       "translate": "upgrade.ltxi.geo_synthesizer_parallel.desc"
     },
     "icon": {
-      "type": "overlay",
+      "type": "composite",
       "background": {
-        "type": "item_stack",
-        "item": {
-          "id": "ltxi:geo_synthesizer"
-        }
+        "type": "item",
+        "id": "ltxi:geo_synthesizer"
       },
-      "height": 9,
-      "overlay": "ltxi:plus_overlay",
-      "width": 9,
-      "x_offset": 6,
-      "y_offset": 6
+      "foreground": {
+        "type": "sprite",
+        "height": 9,
+        "id": "ltxi:plus_overlay",
+        "width": 9,
+        "x": 6,
+        "y": 6
+      }
     },
     "title": {
       "color": "aqua",

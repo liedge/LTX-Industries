@@ -113,42 +113,54 @@ class LanguageGen extends LimaLanguageProvider
         //#endregion
 
         // Fluids
-        fluidType(LTXIFluids.VIRIDIC_ACID_TYPE, "Viridic Acid");
         fluidType(LTXIFluids.HYDROGEN_TYPE, "Hydrogen");
+        fluidType(LTXIFluids.NITROGEN_TYPE, "Nitrogen");
         fluidType(LTXIFluids.OXYGEN_TYPE, "Oxygen");
+        fluidType(LTXIFluids.CHLORINE_TYPE, "Chlorine");
+        fluidType(LTXIFluids.ARGON_TYPE, "Argon");
+        fluidType(LTXIFluids.SEA_WATER_TYPE, "Sea Water");
+        fluidType(LTXIFluids.VIRIDIC_ACID_TYPE, "Viridic Acid");
 
         //#region Items
-        addItem(GUIDE_TABLET, "Guide Tablet");
         addItem(RAW_TITANIUM, "Raw Titanium");
-        addItem(TITANIUM_INGOT, "Titanium Ingot");
-        addItem(TITANIUM_NUGGET, "Titanium Nugget");
         addItem(RAW_NIOBIUM, "Raw Niobium");
-        addItem(NIOBIUM_INGOT, "Niobium Ingot");
-        addItem(NIOBIUM_NUGGET, "Niobium Nugget");
-        addItem(VITRIOL_BERRIES, "Vitriol Berries");
-        addItem(VIRIDIC_ACID_BUCKET, "Viridic Acid Bucket");
-        addItem(HYDROGEN_BUCKET, "Hydrogen Bucket");
-        addItem(OXYGEN_BUCKET, "Oxygen Bucket");
 
+        addItem(TITANIUM_INGOT, "Titanium Ingot");
+        addItem(NIOBIUM_INGOT, "Niobium Ingot");
+        addItem(SILICON_INGOT, "Silicon Ingot");
+        addItem(SLATESTEEL_INGOT, "Slatesteel Ingot");
+        addItem(POLYMER_INGOT, "Polymer Bar");
+
+        addItem(TITANIUM_NUGGET, "Titanium Nugget");
+        addItem(NIOBIUM_NUGGET, "Niobium Nugget");
+
+        addItem(CARBON_DUST, "Carbon Dust");
+        addItem(SODIUM_DUST, "Sodium Dust");
+        addItem(SILICON_DUST, "Silicon Dust");
+        addItem(DEEPSLATE_DUST, "Deepslate Dust");
+        addItem(RESINOUS_BIOMASS, "Resinous Biomass");
+        addItem(ACIDIC_BIOMASS, "Acidic Biomass");
+
+        addItem(VITRIOL_BERRIES, "Vitriol Berries");
+        addItem(HYDROGEN_BUCKET, "Hydrogen Bucket");
+        addItem(NITROGEN_BUCKET, "Nitrogen Bucket");
+        addItem(OXYGEN_BUCKET, "Oxygen Bucket");
+        addItem(CHLORINE_BUCKET, "Chlorine Bucket");
+        addItem(ARGON_BUCKET, "Argon Bucket");
+        addItem(SEA_WATER_BUCKET, "Sea Water Bucket");
+        addItem(VIRIDIC_ACID_BUCKET, "Viridic Acid Bucket");
         addItem(LTX_LIME_PIGMENT, "LTXI Lime Pigment");
         addItem(ENERGY_BLUE_PIGMENT, "Energy Blue Pigment");
         addItem(ELECTRIC_CHARTREUSE_PIGMENT, "Electric Chartreuse Pigment");
         addItem(VIRIDIC_GREEN_PIGMENT, "Viridic Green Pigment");
         addItem(GLOOM_BLUE_PIGMENT, "Gloom Blue Pigment");
-
-        addItem(CARBON_DUST, "Carbon Dust");
-        addItem(RESINOUS_BIOMASS, "Resinous Biomass");
-        addItem(ACIDIC_BIOMASS, "Acidic Biomass");
-        addItem(DEEPSLATE_DUST, "Deepslate Dust");
         addItem(ELECTRIC_CHEMICAL, "Electrolyte Blend");
         addItem(MONOMER_CHEMICAL, "Monomer Solution");
         addItem(VIRIDIC_WEAPON_CHEMICAL, "Weapons-Grade Viridic Acid");
         addItem(CHORUS_CHEMICAL, "Chorus Extract");
         addItem(SCULK_CHEMICAL, "Echo Serum");
         addItem(GLOOM_CHEMICAL, "Concentrated Gloom Essence");
-        addItem(SLATESTEEL_INGOT, "Slatesteel Ingot");
         addItem(SLATESTEEL_NUGGET, "Slatesteel Nugget");
-        addItem(POLYMER_INGOT, "Polymer Bar");
         addItem(TITANIUM_GEAR, "Titanium Gear");
         addItem(SLATESTEEL_GEAR, "Slatesteel Gear");
         addItem(CIRCUIT_BOARD, "Circuit Board");
@@ -178,6 +190,8 @@ class LanguageGen extends LimaLanguageProvider
         addItem(LEAD_ORE_PEBBLES, "Lead Ore Pebbles");
         addItem(SILVER_ORE_PEBBLES, "Silver Ore Pebbles");
         addItem(URANIUM_ORE_PEBBLES, "Uranium Ore Pebbles");
+
+        addItem(GUIDE_TABLET, "Guide Tablet");
         addItem(EPSILON_DRILL, "ε-Series Drill");
         addItem(EPSILON_SWORD, "ε-Series Sword");
         addItem(EPSILON_SHOVEL, "ε-Series Shovel");
@@ -255,7 +269,9 @@ class LanguageGen extends LimaLanguageProvider
         upgrade(LTXIUpgrades.TOOL_NETHERITE_LEVEL, "Netherite-Core Tool Head", "Upgraded tool cutters can harvest Netherite-level materials.");
         upgrade(LTXIUpgrades.EPSILON_OMNI_DRILL, "ε Cutter Rev.000", "Restored prototype ε mining tech with bypassed safeties. Makes modular mining tools effective against all material types.");
         upgrade(LTXIUpgrades.TREE_VEIN_MINE, "Lumber Felling Unit", "Automatic harvesting algorithm for the ε-Series Axe's energy cutter. May cause localized deforestation.");
-        upgradeTooltip(LTXIUpgrades.TREE_VEIN_MINE, 0, "Vein-mines trees, up to 256 logs");
+        upgradeTooltip(LTXIUpgrades.TREE_VEIN_MINE, 0, "Vein-mines trees, up to 256 logs. Does not use energy actions for additional blocks.");
+        upgrade(LTXIUpgrades.ORE_VEIN_MINE, "Prospector Nanites", "A energy-saving mineral trace unit for the ε-Series Drill.");
+        upgradeTooltip(LTXIUpgrades.ORE_VEIN_MINE, 0, "Vein-mines up to 64 ores using %s per additional block broken.");
         upgrade(LTXIUpgrades.TOOL_VIBRATION_CANCEL, "Resonance-Tuned Servos", "Special lining on this tool's servos dampen vibrations from standard use.");
         upgrade(LTXIUpgrades.EQUIPMENT_BLOCK_DROPS_CAPTURE, "Mining Subspace Link", "Establishes a matter warp link capable of intercepting material harvesting products.");
 

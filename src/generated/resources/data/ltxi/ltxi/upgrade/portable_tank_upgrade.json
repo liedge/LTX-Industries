@@ -4,18 +4,19 @@
       "translate": "upgrade.ltxi.portable_tank_upgrade.desc"
     },
     "icon": {
-      "type": "overlay",
+      "type": "composite",
       "background": {
-        "type": "item_stack",
-        "item": {
-          "id": "ltxi:portable_tank"
-        }
+        "type": "item",
+        "id": "ltxi:portable_tank"
       },
-      "height": 9,
-      "overlay": "ltxi:plus_overlay",
-      "width": 9,
-      "x_offset": 6,
-      "y_offset": 6
+      "foreground": {
+        "type": "sprite",
+        "height": 9,
+        "id": "ltxi:plus_overlay",
+        "width": 9,
+        "x": 6,
+        "y": 6
+      }
     },
     "title": {
       "translate": "upgrade.ltxi.portable_tank_upgrade"

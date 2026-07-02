@@ -1,0 +1,14 @@
+{
+  "type": "ltxi:grinding",
+  "fluid_results": [
+    {
+      "amount": 250,
+      "id": "ltxi:sea_water"
+    }
+  ],
+  "item_inputs": [
+    {
+      "ingredient": "minecraft:kelp"
+    }
+  ]
+}

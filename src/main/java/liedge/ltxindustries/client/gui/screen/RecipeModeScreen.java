@@ -5,8 +5,11 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.client.gui.LimaGuiUtil;
 import liedge.ltxindustries.blockentity.base.RecipeModeHolderBlockEntity;
 import liedge.ltxindustries.client.LTXILangKeys;
+import liedge.ltxindustries.client.gui.ItemLikeIconsRenderer;
 import liedge.ltxindustries.client.gui.widget.BaseGridRenderable;
 import liedge.ltxindustries.client.gui.widget.SubMenuBackButton;
+import liedge.ltxindustries.lib.icon.ItemLikeIcon;
+import liedge.ltxindustries.lib.icon.ItemIcon;
 import liedge.ltxindustries.menu.RecipeModeMenu;
 import liedge.ltxindustries.recipe.RecipeMode;
 import liedge.ltxindustries.registry.LTXIRegistries;
@@ -22,7 +25,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeType;
 import org.jetbrains.annotations.Nullable;
@@ -41,7 +43,7 @@ public class RecipeModeScreen extends LTXIScreen<RecipeModeMenu>
 
         // Options init
         this.options = new ObjectArrayList<>();
-        options.add(new SelectorOption(Items.BARRIER.getDefaultInstance(), null));
+        options.add(new SelectorOption(null));
 
         final Holder<RecipeType<?>> machineRecipeType = menu.menuContext().getRecipeTypeHolder();
 
@@ -52,7 +54,7 @@ public class RecipeModeScreen extends LTXIScreen<RecipeModeMenu>
             {
                 if (mode.value().recipeTypes().contains(machineRecipeType))
                 {
-                    options.add(new SelectorOption(mode.value().displayItem().create(), mode));
+                    options.add(new SelectorOption(mode));
                 }
             }
             else
@@ -99,7 +101,13 @@ public class RecipeModeScreen extends LTXIScreen<RecipeModeMenu>
         super.extractTooltip(graphics, x, y);
     }
 
-    private record SelectorOption(ItemStack stack, @Nullable Holder<RecipeMode> mode) {}
+    private record SelectorOption(@Nullable Holder<RecipeMode> mode, ItemLikeIcon icon)
+    {
+        private SelectorOption(@Nullable Holder<RecipeMode> mode)
+        {
+            this(mode, mode != null ? mode.value().icon() : ItemIcon.of(Items.BARRIER));
+        }
+    }
 
     private static class SelectorGrid extends BaseGridRenderable.FixedElements<SelectorOption>
     {
@@ -130,14 +138,14 @@ public class RecipeModeScreen extends LTXIScreen<RecipeModeMenu>
                 sprite = GRID_UNIT;
             }
             graphics.blitSprite(RenderPipelines.GUI_TEXTURED, sprite, posX, posY, 18, 18);
-            graphics.fakeItem(element.stack, posX + 1, posY + 1);
+            ItemLikeIconsRenderer.render(graphics, element.icon, posX + 1, posY + 1);
         }
 
         @Override
         public void renderElementTooltip(GuiGraphicsExtractor graphics, SelectorOption element, int mouseX, int mouseY, int gridIndex, int elementIndex)
         {
             Holder<RecipeMode> mode = element.mode;
-            Component tooltip = mode != null ? mode.value().displayName() : LTXILangKeys.NONE_UNIVERSAL_TOOLTIP.translate();
+            Component tooltip = mode != null ? mode.value().title() : LTXILangKeys.NONE_UNIVERSAL_TOOLTIP.translate();
             graphics.setTooltipForNextFrame(tooltip, mouseX, mouseY);
         }
 

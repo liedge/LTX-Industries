@@ -2,13 +2,15 @@ package liedge.ltxindustries.lib.upgrades;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import liedge.ltxindustries.lib.icon.EmptyIcon;
+import liedge.ltxindustries.lib.icon.ItemLikeIcon;
 import liedge.ltxindustries.lib.upgrades.tooltip.UpgradeComponentLike;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
 
 import java.util.List;
 
-public record UpgradeDisplayInfo(Component title, Component description, List<UpgradeComponentLike> tooltips, UpgradeIcon icon, String category) implements Comparable<UpgradeDisplayInfo>
+public record UpgradeDisplayInfo(Component title, Component description, List<UpgradeComponentLike> tooltips, ItemLikeIcon icon, String category) implements Comparable<UpgradeDisplayInfo>
 {
     public static final String NO_CATEGORY = "";
 
@@ -16,7 +18,7 @@ public record UpgradeDisplayInfo(Component title, Component description, List<Up
             ComponentSerialization.CODEC.fieldOf("title").forGetter(UpgradeDisplayInfo::title),
             ComponentSerialization.CODEC.fieldOf("description").forGetter(UpgradeDisplayInfo::description),
             UpgradeComponentLike.CODEC.listOf(1, 10).optionalFieldOf("tooltips", List.of()).forGetter(UpgradeDisplayInfo::tooltips),
-            UpgradeIcon.CODEC.optionalFieldOf("icon", UpgradeIcon.noRenderIcon()).forGetter(UpgradeDisplayInfo::icon),
+            ItemLikeIcon.CODEC.optionalFieldOf("icon", EmptyIcon.INSTANCE).forGetter(UpgradeDisplayInfo::icon),
             Codec.STRING.optionalFieldOf("category", NO_CATEGORY).forGetter(UpgradeDisplayInfo::category))
             .apply(instance, UpgradeDisplayInfo::new));
 

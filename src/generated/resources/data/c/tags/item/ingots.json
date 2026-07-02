@@ -1,7 +1,8 @@
 {
   "values": [
-    "#c:ingots/titanium",
-    "#c:ingots/niobium",
-    "#c:ingots/slatesteel"
+    "ltxi:titanium_ingot",
+    "ltxi:niobium_ingot",
+    "ltxi:silicon_ingot",
+    "ltxi:slatesteel_ingot"
   ]
 }

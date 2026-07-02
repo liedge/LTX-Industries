@@ -22,7 +22,6 @@ import liedge.ltxindustries.lib.upgrades.UpgradeEntry;
 import liedge.ltxindustries.recipe.*;
 import liedge.ltxindustries.registry.bootstrap.LTXIRecipeModes;
 import liedge.ltxindustries.registry.game.LTXIDataComponents;
-import liedge.ltxindustries.registry.game.LTXIFluids;
 import liedge.ltxindustries.registry.game.LTXIItems;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
@@ -33,10 +32,12 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.alchemy.PotionContents;
@@ -64,7 +65,7 @@ import static liedge.ltxindustries.LTXITags.Fluids.HYDROGEN_FLUIDS;
 import static liedge.ltxindustries.LTXITags.Fluids.OXYGEN_FLUIDS;
 import static liedge.ltxindustries.LTXITags.Items.*;
 import static liedge.ltxindustries.registry.bootstrap.LTXIUpgrades.*;
-import static liedge.ltxindustries.registry.game.LTXIFluids.VIRIDIC_ACID;
+import static liedge.ltxindustries.registry.game.LTXIFluids.*;
 import static liedge.ltxindustries.registry.game.LTXIItems.*;
 import static net.minecraft.world.item.Items.*;
 import static net.neoforged.neoforge.common.Tags.Items.*;
@@ -255,7 +256,7 @@ class RecipesGen extends LimaRecipeProvider
                 .input(items, TITANIUM_INGOTS, 8)
                 .input(SLATESTEEL_INGOT, 12)
                 .input(POLYMER_INGOT, 16)
-                .input(REDSTONE, 32)
+                .input(SILICON_INGOT, 32)
                 .input(NIOBIUM_INGOT, 8)
                 .input(DIAMOND, 8)
                 .input(CHORUS_CHEMICAL, 4)
@@ -267,9 +268,9 @@ class RecipesGen extends LimaRecipeProvider
                 .input(T4_CIRCUIT, 2)
                 .input(items, TITANIUM_INGOTS, 16)
                 .input(SLATESTEEL_INGOT, 24)
-                .input(POLYMER_INGOT, 48)
+                .input(POLYMER_INGOT, 32)
                 .input(NIOBIUM_INGOT, 16)
-                .input(REDSTONE, 48)
+                .input(SILICON_INGOT, 48)
                 .input(AMETHYST_SHARD, 12)
                 .input(SCULK_CHEMICAL, 8)
                 .output(ItemResult.of(T5_CIRCUIT))
@@ -506,9 +507,14 @@ class RecipesGen extends LimaRecipeProvider
                 .input(POLYMER_INGOT, 16)
                 .input(SLATESTEEL_GEAR, 2)
                 .input(LTX_LIME_PIGMENT, 8));
-        upgradeFabricating(output, toolEUMGroup, TREE_VEIN_MINE, 1, 250_00, builder -> builder
+        upgradeFabricating(output, toolEUMGroup, TREE_VEIN_MINE, 1, 25_000, builder -> builder
                 .input(T1_CIRCUIT)
                 .input(items, TITANIUM_GEARS, 2));
+        upgradeFabricating(output, toolEUMGroup, ORE_VEIN_MINE, 1, 50_000, builder -> builder
+                .input(T2_CIRCUIT)
+                .input(OPTICAL_TECH_PART)
+                .input(items, TITANIUM_GEARS, 2)
+                .input(SLATESTEEL_GEAR));
         upgradeFabricating(output, toolEUMGroup, TOOL_VIBRATION_CANCEL, 1, 500_000, builder -> builder
                 .input(T3_CIRCUIT, 2)
                 .input(items, TITANIUM_INGOTS, 8)
@@ -860,6 +866,7 @@ class RecipesGen extends LimaRecipeProvider
         grinding().input(VITRIOL_BERRIES).output(ItemResult.of(ACIDIC_BIOMASS)).save(output);
         grinding().input(items, CARBON_SOURCES).output(ItemResult.of(CARBON_DUST)).save(output);
         grinding().input(items, LTXITags.Items.DEEPSLATE_GRINDABLES).output(ItemResult.of(DEEPSLATE_DUST)).save(output, "grind_deepslate");
+        grinding().input(KELP).fluidOutput(FluidResult.of(SEA_WATER, 250)).save(output, "grind_kelp");
 
         // Dyes
         Holder<RecipeMode> dyes = registries.holderOrThrow(LTXIRecipeModes.DYE_EXTRACTION);
@@ -904,6 +911,7 @@ class RecipesGen extends LimaRecipeProvider
         fusing().input(items, TITANIUM_INGOTS).input(items, GEMS_QUARTZ, 3).output(ItemResult.of(TITANIUM_GLASS, 2)).save(output);
         fusing().input(AMETHYST_SHARD).input(SCULK_CHEMICAL, 4).output(ItemResult.of(ECHO_SHARD)).time(400).save(output);
         fusing().randomInput(SCULK_CATALYST, 1, 0f).randomInput(SCULK_CHEMICAL, 1, 0.5f).input(DIRT).output(ItemResult.of(SCULK)).save(output);
+        fusing().input(items, SILICON_DUSTS, 4).output(ItemResult.of(SILICON_INGOT)).time(400).save(output);
     }
 
     private void electroCentrifugingRecipes()
@@ -919,7 +927,30 @@ class RecipesGen extends LimaRecipeProvider
         electroCentrifuging().input(LTXIItems.SPARK_FRUIT).output(ItemResult.of(ELECTRIC_CHARTREUSE_PIGMENT, 2)).time(120).needsMode(dyes).save(output);
         electroCentrifuging().input(LTXIItems.GLOOM_SHROOM).output(ItemResult.of(GLOOM_BLUE_PIGMENT, 2)).time(120).needsMode(dyes).save(output);
 
-        // Recipes
+        // Electrolysis
+        electroCentrifuging()
+                .needsMode(electrolyze)
+                .input(items, SANDS, 1)
+                .output(ItemResult.of(SILICON_DUST))
+                .fluidOutput(FluidResult.of(OXYGEN, 250))
+                .time(160)
+                .save(output, "electrolyze_sand");
+        electroCentrifuging()
+                .needsMode(electrolyze)
+                .fluidInput(fluids, FluidTags.WATER, 1000)
+                .fluidOutput(FluidResult.of(HYDROGEN, 1000))
+                .fluidOutput(FluidResult.of(OXYGEN, 500))
+                .time(1200)
+                .save(output, "electrolyze_water");
+        electroCentrifuging()
+                .needsMode(electrolyze)
+                .fluidInput(SEA_WATER, 1000)
+                .output(ItemResult.of(SODIUM_DUST))
+                .fluidOutput(FluidResult.of(CHLORINE, 500))
+                .time(400)
+                .save(output, "electrolyze_sea_water");
+
+        // Splitting
         electroCentrifuging()
                 .input(MUD)
                 .output(ItemResult.of(DIRT))
@@ -928,14 +959,11 @@ class RecipesGen extends LimaRecipeProvider
                 .fluidOutput(FluidResult.of(Fluids.WATER, 1000))
                 .time(120)
                 .save(output, "split_mud");
-
         electroCentrifuging()
-                .needsMode(electrolyze)
-                .fluidInput(fluids, FluidTags.WATER, 1000)
-                .fluidOutput(FluidResult.of(LTXIFluids.HYDROGEN, 1000))
-                .fluidOutput(FluidResult.of(LTXIFluids.OXYGEN, 500))
-                .time(300)
-                .save(output, "water_electrolyzing");
+                .input(MAGMA_CREAM)
+                .output(ItemResult.of(SLIME_BALL))
+                .output(ItemResult.of(BLAZE_POWDER))
+                .save(output, "split_magma_cream");
 
         electroCentrifuging()
                 .needsMode(dissolution)
@@ -944,7 +972,6 @@ class RecipesGen extends LimaRecipeProvider
                 .output(ItemResult.of(CHORUS_CHEMICAL))
                 .time(300)
                 .save(output, "chorus_fruit_extraction");
-
         electroCentrifuging()
                 .needsMode(dissolution)
                 .fluidInput(VIRIDIC_ACID, 2000)
@@ -960,8 +987,21 @@ class RecipesGen extends LimaRecipeProvider
         mixing().input(DIRT).fluidInput(fluids, FluidTags.WATER, 1000).output(ItemResult.of(MUD)).time(120).save(output);
         mixing().input(ACIDIC_BIOMASS, 4).fluidInput(fluids, FluidTags.WATER, 1000).fluidOutput(FluidResult.of(VIRIDIC_ACID, 1000)).save(output);
         mixing().input(RESINOUS_BIOMASS, 2).fluidInput(VIRIDIC_ACID, 250).output(ItemResult.of(MONOMER_CHEMICAL)).save(output);
-    }
 
+        // Concretes
+        for (DyeColor color : DyeColor.values())
+        {
+            Identifier concreteId = ModResources.MC.id(color.getSerializedName() + "_concrete");
+            Identifier powderId = concreteId.withSuffix("_powder");
+
+            mixing()
+                    .time(40)
+                    .input(items.getOrThrow(ResourceKey.create(Registries.ITEM, powderId)).value())
+                    .fluidInput(fluids, FluidTags.WATER, 125)
+                    .output(ItemResult.of(items.getOrThrow(ResourceKey.create(Registries.ITEM, concreteId))))
+                    .save(output, "hydrate_" + powderId.getPath());
+        }
+    }
 
     private void energizingRecipes()
     {
@@ -971,15 +1011,14 @@ class RecipesGen extends LimaRecipeProvider
         energizing().input(TITANIUM_GLASS).output(ItemResult.of(GLACIA_GLASS)).time(100).save(output);
     }
 
-
     private void chemLabRecipes()
     {
         chemLab().input(MONOMER_CHEMICAL).fluidInput(fluids, OXYGEN_FLUIDS, 125).output(ItemResult.of(POLYMER_INGOT)).save(output);
         chemLab().input(POLYMER_INGOT).input(COPPER_INGOT, 2).fluidInput(VIRIDIC_ACID, 125).output(ItemResult.of(CIRCUIT_BOARD)).save(output);
         chemLab()
-                .input(ELECTRIC_CHEMICAL, 2)
+                .input(ELECTRIC_CHEMICAL, 8)
                 .fluidInput(VIRIDIC_ACID, 8000)
-                .fluidInput(fluids, HYDROGEN_FLUIDS, 2000)
+                .fluidInput(CHLORINE, 4000)
                 .output(ItemResult.of(VIRIDIC_WEAPON_CHEMICAL))
                 .time(900)
                 .save(output);
@@ -990,28 +1029,25 @@ class RecipesGen extends LimaRecipeProvider
         assembling()
                 .input(CIRCUIT_BOARD)
                 .input(items, TITANIUM_INGOTS, 2)
-                .input(REDSTONE, 4)
+                .input(items, SILICON_INGOTS, 2)
                 .input(COPPER_INGOT, 2)
                 .output(ItemResult.of(T1_CIRCUIT, 2))
                 .time(200)
                 .save(output);
-
         assembling()
                 .input(CIRCUIT_BOARD)
                 .input(items, TITANIUM_INGOTS, 4)
-                .input(REDSTONE, 8)
+                .input(items, SILICON_INGOTS, 4)
                 .input(GOLD_INGOT, 2)
                 .output(ItemResult.of(T2_CIRCUIT, 2))
                 .time(300)
                 .save(output);
-
         assembling()
                 .input(CIRCUIT_BOARD)
                 .input(T2_CIRCUIT)
                 .input(items, TITANIUM_INGOTS, 6)
-                .input(REDSTONE, 12)
-                .input(QUARTZ, 8)
-                .input(ELECTRIC_CHEMICAL, 4)
+                .input(items, SILICON_INGOTS, 8)
+                .input(ELECTRIC_CHEMICAL, 6)
                 .output(ItemResult.of(T3_CIRCUIT))
                 .save(output);
 

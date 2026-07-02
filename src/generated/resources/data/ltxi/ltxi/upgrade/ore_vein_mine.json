@@ -1,0 +1,64 @@
+{
+  "display": {
+    "category": "tools",
+    "description": {
+      "translate": "upgrade.ltxi.ore_vein_mine.desc"
+    },
+    "icon": {
+      "type": "composite",
+      "background": {
+        "type": "item",
+        "id": "minecraft:gold_ore"
+      },
+      "foreground": {
+        "type": "sprite",
+        "height": 6,
+        "id": "ltxi:vein_mine_overlay",
+        "width": 10,
+        "x": 5,
+        "y": 9
+      }
+    },
+    "title": {
+      "color": "yellow",
+      "translate": "upgrade.ltxi.ore_vein_mine"
+    },
+    "tooltips": [
+      {
+        "type": "custom_args",
+        "args": [
+          {
+            "type": "custom_args",
+            "args": [
+              {
+                "type": "value",
+                "format": "flat",
+                "sentiment": "negative",
+                "value": 0.25
+              }
+            ],
+            "key": "tooltip.ltxi.energy_actions",
+            "style": {
+              "color": "#8BD1F0"
+            }
+          }
+        ],
+        "key": "upgrade.ltxi.ore_vein_mine.tooltip0"
+      }
+    ]
+  },
+  "effects": {
+    "ltxi:vein_mine": [
+      {
+        "energy_per_block": 0.25,
+        "max_blocks": 64,
+        "primary": {
+          "blocks": "#c:ores"
+        }
+      }
+    ]
+  },
+  "users": {
+    "items": "ltxi:epsilon_drill"
+  }
+}

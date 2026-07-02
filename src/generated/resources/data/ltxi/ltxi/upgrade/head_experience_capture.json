@@ -5,13 +5,16 @@
       "translate": "upgrade.ltxi.head_experience_capture.desc"
     },
     "icon": {
-      "type": "overlay",
+      "type": "composite",
       "background": "ltxi:xp_orb",
-      "height": 6,
-      "overlay": "ltxi:vein_mine_overlay",
-      "width": 10,
-      "x_offset": 5,
-      "y_offset": 9
+      "foreground": {
+        "type": "sprite",
+        "height": 6,
+        "id": "ltxi:vein_mine_overlay",
+        "width": 10,
+        "x": 5,
+        "y": 9
+      }
     },
     "title": {
       "color": "aqua",

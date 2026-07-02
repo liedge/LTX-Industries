@@ -4,18 +4,19 @@
       "translate": "upgrade.ltxi.nova_god_rounds.desc"
     },
     "icon": {
-      "type": "overlay",
+      "type": "composite",
       "background": {
-        "type": "item_stack",
-        "item": {
-          "id": "ltxi:nova"
-        }
+        "type": "item",
+        "id": "ltxi:nova"
       },
-      "height": 9,
-      "overlay": "ltxi:plus_overlay",
-      "width": 9,
-      "x_offset": 6,
-      "y_offset": 6
+      "foreground": {
+        "type": "sprite",
+        "height": 9,
+        "id": "ltxi:plus_overlay",
+        "width": 9,
+        "x": 6,
+        "y": 6
+      }
     },
     "title": {
       "translate": "upgrade.ltxi.nova_god_rounds"

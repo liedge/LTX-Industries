@@ -7,30 +7,36 @@ import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import net.minecraft.advancements.criterion.BlockPredicate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.*;
 
-public record VeinMine(BlockPredicate target, Optional<BlockPredicate> condition, int maxBlocks, boolean needsSameBlock)
+public record VeinMine(BlockPredicate primary, Optional<BlockPredicate> environment, int maxBlocks, float energyActions)
 {
     public static final int MAX_BLOCK_LIMIT = 256;
 
-    public static final Codec<VeinMine> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            BlockPredicate.CODEC.fieldOf("target").forGetter(VeinMine::target),
-            BlockPredicate.CODEC.optionalFieldOf("condition").forGetter(VeinMine::condition),
+    public static final Codec<VeinMine> CODEC = RecordCodecBuilder.create(i -> i.group(
+            BlockPredicate.CODEC.fieldOf("primary").forGetter(VeinMine::primary),
+            BlockPredicate.CODEC.optionalFieldOf("environment").forGetter(VeinMine::environment),
             Codec.intRange(2, MAX_BLOCK_LIMIT).fieldOf("max_blocks").forGetter(VeinMine::maxBlocks),
-            Codec.BOOL.optionalFieldOf("needs_same_block", true).forGetter(VeinMine::needsSameBlock))
-            .apply(instance, VeinMine::new));
+            Codec.floatRange(0f, 1f).optionalFieldOf("energy_per_block", 1f).forGetter(VeinMine::energyActions))
+            .apply(i, VeinMine::new));
 
-    public static VeinMine create(BlockPredicate.Builder target, @Nullable BlockPredicate.Builder condition, int maxBlocks, boolean needsSameBlock)
+    public static VeinMine create(BlockPredicate.Builder primary, BlockPredicate.@Nullable Builder environment, int maxBlocks, float energyActions)
     {
-        return new VeinMine(target.build(), Optional.ofNullable(condition).map(BlockPredicate.Builder::build), maxBlocks, needsSameBlock);
+        return new VeinMine(primary.build(), Optional.ofNullable(environment).map(BlockPredicate.Builder::build), maxBlocks, energyActions);
     }
 
-    public List<BlockPos> apply(ServerLevel level, BlockPos originPos, BlockState originState)
+    public static VeinMine create(BlockPredicate.Builder primary, int maxBlocks, float energyActions)
     {
-        if (!target.matches(level, originPos)) return List.of();
+        return create(primary, null, maxBlocks, energyActions);
+    }
+
+    public List<BlockPos> apply(ServerLevel level, BlockPos originPos, BlockState originState, int usableEnergyActions)
+    {
+        if (!primary.matches(level, originPos)) return List.of();
 
         Set<BlockPos> checked = new ObjectOpenHashSet<>();
         Queue<BlockPos> toCheck = new ArrayDeque<>();
@@ -40,10 +46,12 @@ public record VeinMine(BlockPredicate target, Optional<BlockPredicate> condition
         toCheck.add(originPos);
         checked.add(originPos);
 
-        BlockPredicate condition = this.condition.orElse(null);
-        boolean conditionMet = condition == null;
+        BlockPredicate environment = this.environment.orElse(null);
+        boolean environmentCheck = environment == null;
 
-        while (!toCheck.isEmpty() && toBreak.size() < maxBlocks)
+
+        final int limit = getBlockLimit(usableEnergyActions);
+        while (!toCheck.isEmpty() && toBreak.size() < limit)
         {
             BlockPos pos = toCheck.poll();
             for (BlockPos visiting : BlockPos.betweenClosed(pos.offset(-1, -1, -1), pos.offset(1, 1, 1)))
@@ -55,20 +63,26 @@ public record VeinMine(BlockPredicate target, Optional<BlockPredicate> condition
                 checked.add(visitingImmutable);
 
                 // Update global condition
-                if (!conditionMet && condition.matches(level, visitingImmutable))
+                if (!environmentCheck && environment.matches(level, visitingImmutable))
                 {
-                    conditionMet = true;
+                    environmentCheck = true;
                 }
 
-                // Check target predicate and block matching requirement
-                if (!target.matches(level, visitingImmutable)) continue;
-                if (needsSameBlock && visitingState.getBlock() != originState.getBlock()) continue;
+                // Must match origin block and primary predicate
+                if (visitingState.getBlock() != originState.getBlock() || !primary.matches(level, visitingImmutable)) continue;
 
                 toCheck.add(visitingImmutable);
                 toBreak.add(visitingImmutable);
             }
         }
 
-        return conditionMet ? toBreak : List.of();
+        return environmentCheck ? toBreak : List.of();
+    }
+
+    private int getBlockLimit(int usableEnergyActions)
+    {
+        if (this.energyActions == 0f) return this.maxBlocks;
+
+        return Math.min(this.maxBlocks, Mth.floor(usableEnergyActions / this.energyActions));
     }
 }

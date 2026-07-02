@@ -13,6 +13,8 @@ import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.client.LTXILangKeys;
+import liedge.ltxindustries.lib.icon.ItemIcon;
+import liedge.ltxindustries.lib.icon.SpriteIcon;
 import liedge.ltxindustries.lib.upgrades.Upgrade;
 import liedge.ltxindustries.lib.upgrades.effect.*;
 import liedge.ltxindustries.lib.upgrades.effect.entity.ApplyMobEffect;
@@ -52,14 +54,13 @@ import net.minecraft.world.level.storage.loot.predicates.DamageSourceCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemEntityPropertyCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.neoforged.neoforge.common.NeoForgeMod;
+import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.registries.holdersets.AnyHolderSet;
 
 import static liedge.ltxindustries.LTXIConstants.*;
 import static liedge.ltxindustries.LTXIIdentifiers.*;
 import static liedge.ltxindustries.LTXITags.Upgrades.*;
 import static liedge.ltxindustries.data.generation.LTXIBootstrapUtil.*;
-import static liedge.ltxindustries.lib.upgrades.UpgradeIcon.itemIcon;
-import static liedge.ltxindustries.lib.upgrades.UpgradeIcon.sprite;
 import static liedge.ltxindustries.registry.bootstrap.LTXIEnchantments.AMMO_SCAVENGER;
 import static liedge.ltxindustries.registry.bootstrap.LTXIEnchantments.RAZOR;
 import static liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents.*;
@@ -117,6 +118,7 @@ public final class LTXIUpgrades
     public static final ResourceKey<Upgrade> TOOL_NETHERITE_LEVEL = key("tool_netherite_level");
     public static final ResourceKey<Upgrade> EPSILON_OMNI_DRILL = key("epsilon_omni_drill");
     public static final ResourceKey<Upgrade> TREE_VEIN_MINE = key("tree_vein_mine");
+    public static final ResourceKey<Upgrade> ORE_VEIN_MINE = key("ore_vein_mine");
     public static final ResourceKey<Upgrade> TOOL_VIBRATION_CANCEL = key("tool_vibration_cancel");
 
     // Weapon upgrades
@@ -197,7 +199,7 @@ public final class LTXIUpgrades
                 .forMachines(turrets)
                 .exclusiveWith(holders, TARGET_PREDICATES)
                 .targetRestriction(AllOfCondition.allOf())
-                .effectIcon(sprite("all_targets"))
+                .effectIcon(SpriteIcon.create("all_targets"))
                 .category("target_predicates")
                 .register(context);
         Upgrade.builder(NEUTRAL_ENEMY_TARGETING)
@@ -206,7 +208,7 @@ public final class LTXIUpgrades
                 .forMachines(turrets)
                 .exclusiveWith(holders, TARGET_PREDICATES)
                 .targetRestriction(EntityHostilityCondition.attackerIs(MinMaxRange.atLeast(MobHostility.NEUTRAL_ENEMY)))
-                .effectIcon(sprite("neutral_enemy_targets"))
+                .effectIcon(SpriteIcon.create("neutral_enemy_targets"))
                 .category("target_predicates")
                 .register(context);
         Upgrade.builder(HOSTILE_TARGETING)
@@ -215,7 +217,7 @@ public final class LTXIUpgrades
                 .forMachines(turrets)
                 .exclusiveWith(holders, TARGET_PREDICATES)
                 .targetRestriction(EntityHostilityCondition.attackerIs(MinMaxRange.atLeast(MobHostility.HOSTILE)))
-                .effectIcon(sprite("hostile_targets"))
+                .effectIcon(SpriteIcon.create("hostile_targets"))
                 .category("target_predicates")
                 .register(context);
 
@@ -223,14 +225,14 @@ public final class LTXIUpgrades
                 .forEquipment(allWeapons)
                 .forMachines(turrets)
                 .withEffect(EXTRA_DAMAGE_TAGS, DamageTypeTags.NO_ANGER)
-                .staticTooltip(0)
-                .effectIcon(sprite("stealth_damage"))
+                .simpleTooltip()
+                .effectIcon(SpriteIcon.create("stealth_damage"))
                 .register(context);
         Upgrade.builder(MOB_DROPS_CAPTURE)
                 .forEquipment(allWeapons)
                 .forMachines(turrets)
                 .withSpecialEffect(CAPTURE_MOB_DROPS, CaptureLoot.mobDrops())
-                .effectIcon(sprite("magnet"))
+                .effectIcon(SpriteIcon.create("magnet"))
                 .register(context);
     }
 
@@ -280,8 +282,8 @@ public final class LTXIUpgrades
                         EntityAttributeValue.totalValue(LootContext.EntityTarget.THIS, Attributes.ARMOR),
                         EntityAttributeValue.baseValue(LootContext.EntityTarget.THIS, Attributes.ARMOR),
                         CompareOperation.LESS_THAN_OR_EQUALS))
-                .tooltip(0, key -> TranslatableTooltip.create(key, ValueComponent.of(ConstantDouble.of(0.2d), ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE)))
-                .effectIcon(defaultOverlay(sprite("razor")))
+                .tooltip(key -> TranslatableTooltip.create(key, ValueComponent.of(ConstantDouble.of(0.2d), ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE)))
+                .effectIcon(defaultOverlay(SpriteIcon.create("razor")))
                 .category("default/tool")
                 .register(context);
 
@@ -303,14 +305,14 @@ public final class LTXIUpgrades
                 .withEffect(SUPPRESS_VIBRATIONS, SuppressVibrations.mainHand(gameEvents.getOrThrow(LTXITags.GameEvents.WEAPON_VIBRATIONS)))
                 .withEffect(EXTRA_DAMAGE_TAGS, DamageTypeTags.NO_ANGER)
                 .withEffect(EXTRA_DAMAGE_TAGS, DamageTypeTags.NO_KNOCKBACK)
-                .staticTooltip(0)
+                .simpleTooltip()
                 .effectIcon(defaultModuleIcon(LTXIItems.SERENITY))
                 .category("default/weapon")
                 .register(context);
         Upgrade.builder(MIRAGE_DEFAULT)
                 .forEquipment(LTXIItems.MIRAGE)
                 .withEffect(EXTRA_DAMAGE_TAGS, DamageTypeTags.NO_KNOCKBACK)
-                .staticTooltip(0)
+                .simpleTooltip()
                 .effectIcon(defaultModuleIcon(LTXIItems.MIRAGE))
                 .category("default/weapon")
                 .register(context);
@@ -331,11 +333,11 @@ public final class LTXIUpgrades
                         LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.ATTACKER, EntityPredicate.Builder.entity()
                                 .moving(MovementPredicate.speed(MinMaxBounds.Doubles.atMost(1e-3d)))
                                 .flags(EntityFlagsPredicate.Builder.flags().setCrouching(true))))
-                .tooltip(0, key -> TranslatableTooltip.create(key,
+                .tooltip(key -> TranslatableTooltip.create(key,
                         ValueComponent.of(ConstantDouble.of(1), ValueFormat.SIGNED_FLAT_NUMBER, ValueSentiment.POSITIVE),
                         ValueComponent.of(ConstantDouble.of(30), ValueFormat.FLAT_NUMBER, ValueSentiment.NEUTRAL),
                         ValueComponent.of(ConstantDouble.of(50), ValueFormat.FLAT_NUMBER, ValueSentiment.POSITIVE)))
-                .tooltip(1, key -> TranslatableTooltip.create(key, ValueComponent.of(ConstantDouble.of(0.15d), ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE)))
+                .tooltip(key -> TranslatableTooltip.create(key, ValueComponent.of(ConstantDouble.of(0.15d), ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE)))
                 .effectIcon(defaultModuleIcon(LTXIItems.STARGAZER))
                 .category("default/weapon")
                 .register(context);
@@ -351,7 +353,7 @@ public final class LTXIUpgrades
         Upgrade.builder(HEAD_DEFAULT)
                 .forEquipment(LTXIItems.WONDERLAND_HEAD)
                 .withEffect(MOB_EFFECT_IMMUNITY, MobEffectImmunity.immuneTo(mobEffects, LTXITags.MobEffects.VISION_DEBUFF, headMECost))
-                .tooltip(0, key -> TranslatableTooltip.create(key, energyActionsTooltip(headMECost)))
+                .tooltip(key -> TranslatableTooltip.create(key, energyActionsTooltip(headMECost)))
                 .effectIcon(defaultModuleIcon(LTXIItems.WONDERLAND_HEAD))
                 .category("default/armor/1")
                 .register(context);
@@ -368,7 +370,7 @@ public final class LTXIUpgrades
                 .itemAttributes(Attributes.MOVEMENT_SPEED, "speed_boost", LevelBasedValue.constant(0.1f), AttributeModifier.Operation.ADD_MULTIPLIED_BASE, EquipmentSlotGroup.LEGS)
                 .itemAttributes(Attributes.WATER_MOVEMENT_EFFICIENCY, "water_move", LevelBasedValue.constant(1), AttributeModifier.Operation.ADD_VALUE, EquipmentSlotGroup.LEGS)
                 .withEffect(MOB_EFFECT_IMMUNITY, MobEffectImmunity.immuneTo(mobEffects, LTXITags.MobEffects.MOVEMENT_DEBUFF, legsMECost))
-                .tooltip(0, key -> TranslatableTooltip.create(key, energyActionsTooltip(legsMECost)))
+                .tooltip(key -> TranslatableTooltip.create(key, energyActionsTooltip(legsMECost)))
                 .effectIcon(defaultModuleIcon(LTXIItems.WONDERLAND_LEGS))
                 .category("default/armor/3")
                 .register(context);
@@ -378,7 +380,7 @@ public final class LTXIUpgrades
                 .itemAttributes(Attributes.STEP_HEIGHT, "step_boost", LevelBasedValue.constant(1), AttributeModifier.Operation.ADD_VALUE, EquipmentSlotGroup.FEET)
                 .itemAttributes(Attributes.SAFE_FALL_DISTANCE, "safe_fall", LevelBasedValue.constant(5), AttributeModifier.Operation.ADD_VALUE, EquipmentSlotGroup.FEET)
                 .withConditionUnit(DAMAGE_IMMUNITY, DamageSourceCondition.hasDamageSource(DamageSourcePredicate.Builder.damageType().tag(TagPredicate.is(DamageTypeTags.BURN_FROM_STEPPING))))
-                .staticTooltip(0)
+                .simpleTooltip()
                 .effectIcon(defaultModuleIcon(LTXIItems.WONDERLAND_FEET))
                 .category("default/armor/4")
                 .register(context);
@@ -391,7 +393,7 @@ public final class LTXIUpgrades
                 .setMaxRank(4)
                 .withEffect(ENERGY_CAPACITY, ValueOperation.of(equipmentEnergyAmt, MathOperation.MULTIPLY))
                 .tooltip(energyCapacityTooltip(equipmentEnergyAmt, ValueFormat.MULTIPLICATIVE, ValueSentiment.POSITIVE))
-                .effectIcon(sprite("extra_energy"))
+                .effectIcon(SpriteIcon.create("extra_energy"))
                 .category("equipment")
                 .register(context);
 
@@ -402,40 +404,48 @@ public final class LTXIUpgrades
                 .setMaxRank(5)
                 .withEffect(ENCHANTMENT_LEVELS, AddEnchantmentLevels.rankLinear(enchantments.getOrThrow(Enchantments.LURE)))
                 .withEffect(ENCHANTMENT_LEVELS, AddEnchantmentLevels.rankLinear(enchantments.getOrThrow(Enchantments.LUCK_OF_THE_SEA)))
-                .effectIcon(plusOverlay(itemIcon(LTXIItems.EPSILON_FISHING_ROD)))
+                .effectIcon(plusOverlay(ItemIcon.of(LTXIItems.EPSILON_FISHING_ROD)))
                 .category("tools")
                 .register(context);
         Upgrade.builder(TOOL_NETHERITE_LEVEL)
                 .forEquipment(modularMiningTools)
                 .exclusiveWith(holders, MINING_LEVELS)
                 .withEffect(MODULAR_TOOL, ModularTool.limitedTo(blocks.getOrThrow(BlockTags.INCORRECT_FOR_NETHERITE_TOOL)))
-                .effectIcon(greenArrowOverlay(itemIcon(Items.NETHERITE_PICKAXE)))
+                .effectIcon(greenArrowOverlay(ItemIcon.of(Items.NETHERITE_PICKAXE)))
                 .category("tools")
                 .register(context);
         Upgrade.builder(EPSILON_OMNI_DRILL)
                 .createDefaultTitle(LIME_GREEN)
                 .forEquipment(modularMiningTools)
                 .withEffect(MODULAR_TOOL, ModularTool.effectiveOn(anyBlockHolderSet))
-                .effectIcon(sprite("purple_drill_head"))
+                .effectIcon(SpriteIcon.create("purple_drill_head"))
                 .category("tools/drill")
                 .register(context);
         Upgrade.builder(TREE_VEIN_MINE)
                 .forEquipment(LTXIItems.EPSILON_AXE)
-                .withEffect(VEIN_MINE, VeinMine.create(BlockPredicate.Builder.block().of(blocks, BlockTags.LOGS), BlockPredicate.Builder.block().of(blocks, BlockTags.LEAVES), VeinMine.MAX_BLOCK_LIMIT, false))
-                .staticTooltip(0)
-                .effectIcon(veinMineOverlay(itemIcon(Items.OAK_LOG)))
+                .withEffect(VEIN_MINE, VeinMine.create(BlockPredicate.Builder.block().of(blocks, BlockTags.LOGS), BlockPredicate.Builder.block().of(blocks, BlockTags.LEAVES), VeinMine.MAX_BLOCK_LIMIT, 0f))
+                .simpleTooltip()
+                .effectIcon(veinMineOverlay(ItemIcon.of(Items.OAK_LOG)))
+                .category("tools")
+                .register(context);
+        Upgrade.builder(ORE_VEIN_MINE)
+                .createDefaultTitle(ChatFormatting.YELLOW)
+                .forEquipment(LTXIItems.EPSILON_DRILL)
+                .withEffect(VEIN_MINE, VeinMine.create(BlockPredicate.Builder.block().of(blocks, Tags.Blocks.ORES), 64, 0.25f))
+                .tooltip(key -> TranslatableTooltip.create(key, energyActionsTooltip(ConstantDouble.of(0.25d))))
+                .effectIcon(veinMineOverlay(ItemIcon.of(Items.GOLD_ORE)))
                 .category("tools")
                 .register(context);
         Upgrade.builder(TOOL_VIBRATION_CANCEL)
                 .forEquipment(items.getOrThrow(LTXITags.Items.TOOL_EQUIPMENT))
                 .withEffect(SUPPRESS_VIBRATIONS, SuppressVibrations.forSlot(EquipmentSlotGroup.HAND, gameEvents.getOrThrow(LTXITags.GameEvents.HANDHELD_EQUIPMENT)))
-                .effectIcon(redXOverlay(itemIcon(Items.SCULK_SENSOR)))
+                .effectIcon(redXOverlay(ItemIcon.of(Items.SCULK_SENSOR)))
                 .category("tools")
                 .register(context);
         Upgrade.builder(EQUIPMENT_BLOCK_DROPS_CAPTURE)
                 .forEquipment(miningTools)
                 .withEffect(CAPTURE_BLOCK_DROPS, CaptureLoot.blockDrops(anyItemHolderSet))
-                .effectIcon(sprite("magnet"))
+                .effectIcon(SpriteIcon.create("magnet"))
                 .category("tools")
                 .register(context);
 
@@ -447,19 +457,19 @@ public final class LTXIUpgrades
                 .tooltip(TranslatableTooltip.create(LTXILangKeys.ATTRIBUTE_SCALED_DAMAGE_UPGRADE,
                         ValueComponent.of(ConstantDouble.of(0.25d), ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE),
                         StaticTooltip.of(Component.translatable(Attributes.MAX_HEALTH.value().getDescriptionId()).withStyle(ChatFormatting.DARK_RED))))
-                .effectIcon(plusOverlay(itemIcon(LTXIItems.NOVA)))
+                .effectIcon(plusOverlay(ItemIcon.of(LTXIItems.NOVA)))
                 .register(context);
         Upgrade.builder(HANABI_SPEED_BOOST)
                 .forEquipment(LTXIItems.HANABI)
                 .setMaxRank(2)
                 .withEffect(WEAPON_RANGE, ValueOperation.of(LinearDouble.linearIncrement(0.5d), MathOperation.ADD))
                 .tooltip(TranslatableTooltip.create(LTXILangKeys.PROJECTILE_SPEED_UPGRADE, ValueComponent.of(LinearDouble.linearIncrement(0.5d), ValueFormat.SIGNED_FLAT_NUMBER, ValueSentiment.POSITIVE)))
-                .effectIcon(yellowArrowOverlay(sprite("orb_grenade")))
+                .effectIcon(yellowArrowOverlay(SpriteIcon.create("orb_grenade")))
                 .register(context);
         Upgrade.builder(WEAPON_VIBRATION_CANCEL)
                 .forEquipment(projectileWeapons)
                 .withEffect(SUPPRESS_VIBRATIONS, SuppressVibrations.mainHand(gameEvents.getOrThrow(LTXITags.GameEvents.WEAPON_VIBRATIONS)))
-                .effectIcon(redXOverlay(itemIcon(Items.SCULK_SENSOR)))
+                .effectIcon(redXOverlay(ItemIcon.of(Items.SCULK_SENSOR)))
                 .register(context);
 
         ContextlessValue lightweightEnergyCapacity = ConstantDouble.of(100_000);
@@ -473,7 +483,7 @@ public final class LTXIUpgrades
                 .withSpecialEffect(RELOAD_SOURCE, WeaponReloadSource.commonEnergy())
                 .tooltip(energyCapacityTooltip(lightweightEnergyCapacity, ValueFormat.FLAT_NUMBER, ValueSentiment.NEUTRAL))
                 .tooltip(energyUsageTooltip(lightweightEnergyUsage, ValueFormat.FLAT_NUMBER, ValueSentiment.NEUTRAL))
-                .effectIcon(sprite(LIGHTWEIGHT_ENERGY_ADAPTER.identifier().getPath()))
+                .effectIcon(SpriteIcon.create(LIGHTWEIGHT_ENERGY_ADAPTER.identifier().getPath()))
                 .category("weapon/ammo")
                 .register(context);
 
@@ -488,7 +498,7 @@ public final class LTXIUpgrades
                 .withSpecialEffect(RELOAD_SOURCE, WeaponReloadSource.commonEnergy())
                 .tooltip(energyCapacityTooltip(specialistEnergyCapacity, ValueFormat.FLAT_NUMBER, ValueSentiment.NEUTRAL))
                 .tooltip(energyUsageTooltip(specialistEnergyUsage, ValueFormat.FLAT_NUMBER, ValueSentiment.NEUTRAL))
-                .effectIcon(sprite(SPECIALIST_ENERGY_ADAPTER.identifier().getPath()))
+                .effectIcon(SpriteIcon.create(SPECIALIST_ENERGY_ADAPTER.identifier().getPath()))
                 .category("weapon/ammo")
                 .register(context);
 
@@ -503,7 +513,7 @@ public final class LTXIUpgrades
                 .withSpecialEffect(RELOAD_SOURCE, WeaponReloadSource.commonEnergy())
                 .tooltip(energyCapacityTooltip(explosivesEnergyCapacity, ValueFormat.FLAT_NUMBER, ValueSentiment.NEUTRAL))
                 .tooltip(energyUsageTooltip(explosivesEnergyUsage, ValueFormat.FLAT_NUMBER, ValueSentiment.NEUTRAL))
-                .effectIcon(sprite(EXPLOSIVES_ENERGY_ADAPTER.identifier().getPath()))
+                .effectIcon(SpriteIcon.create(EXPLOSIVES_ENERGY_ADAPTER.identifier().getPath()))
                 .category("weapon/ammo")
                 .register(context);
 
@@ -518,7 +528,7 @@ public final class LTXIUpgrades
                 .withSpecialEffect(RELOAD_SOURCE, WeaponReloadSource.commonEnergy())
                 .tooltip(energyCapacityTooltip(heavyEnergyCapacity, ValueFormat.FLAT_NUMBER, ValueSentiment.NEUTRAL))
                 .tooltip(energyUsageTooltip(heavyEnergyUsage, ValueFormat.FLAT_NUMBER, ValueSentiment.NEUTRAL))
-                .effectIcon(sprite(HEAVY_ENERGY_ADAPTER.identifier().getPath()))
+                .effectIcon(SpriteIcon.create(HEAVY_ENERGY_ADAPTER.identifier().getPath()))
                 .category("weapon/ammo")
                 .register(context);
 
@@ -527,7 +537,7 @@ public final class LTXIUpgrades
                 .forEquipment(projectileWeapons)
                 .exclusiveWith(holders, RELOAD_SOURCE_MODIFIERS)
                 .withSpecialEffect(RELOAD_SOURCE, WeaponReloadSource.infiniteAmmo())
-                .effectIcon(sprite("infinite_ammo"))
+                .effectIcon(SpriteIcon.create("infinite_ammo"))
                 .category("weapon/ammo")
                 .register(context);
 
@@ -536,7 +546,7 @@ public final class LTXIUpgrades
                 .forEquipment(LTXIItems.WONDERLAND_HEAD)
                 .withConditionalEffect(EQUIPMENT_TICK, ApplyMobEffect.applyPassiveEffect(MobEffects.NIGHT_VISION, ConstantDouble.of(400), ConstantDouble.of(0)),
                         LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity().periodicTick(60)))
-                .effectIcon(sprite("blue_visor"))
+                .effectIcon(SpriteIcon.create("blue_visor"))
                 .category("armor")
                 .register(context);
         Upgrade.builder(ARMOR_PASSIVE_SHIELD)
@@ -544,7 +554,7 @@ public final class LTXIUpgrades
                 .forEquipment(wonderlandArmor)
                 .setMaxRank(4)
                 .itemAttributes(LTXIAttributes.SHIELD_CAPACITY, "shield", LevelBasedValue.perLevel(5), AttributeModifier.Operation.ADD_VALUE, EquipmentSlotGroup.ARMOR)
-                .effectIcon(sprite("bubble_shield"))
+                .effectIcon(SpriteIcon.create("bubble_shield"))
                 .category("armor")
                 .register(context);
         ContextlessValue defenseAmt = LinearDouble.linearIncrement(0.0625d);
@@ -555,22 +565,22 @@ public final class LTXIUpgrades
                 .itemAttributes(Attributes.KNOCKBACK_RESISTANCE, "steady", LevelBasedValue.perLevel(0.0625f), AttributeModifier.Operation.ADD_VALUE, EquipmentSlotGroup.ARMOR)
                 .withConditionalEffect(DAMAGE_REDUCTION, DamageReduction.blockDamage(defenseAmt, defenseEnergy), DamageSourceCondition.hasDamageSource(DamageSourcePredicate.Builder.damageType()
                         .tag(TagPredicate.isNot(DamageTypeTags.BYPASSES_INVULNERABILITY))))
-                .tooltip(0, key -> TranslatableTooltip.create(key, ValueComponent.of(defenseAmt, ValueFormat.PERCENTAGE, ValueSentiment.POSITIVE), energyActionsTooltip(defenseEnergy)))
-                .effectIcon(sprite("defense"))
+                .tooltip(key -> TranslatableTooltip.create(key, ValueComponent.of(defenseAmt, ValueFormat.PERCENTAGE, ValueSentiment.POSITIVE), energyActionsTooltip(defenseEnergy)))
+                .effectIcon(SpriteIcon.create("defense"))
                 .category("armor")
                 .register(context);
         Upgrade.builder(HEAD_EXPERIENCE_CAPTURE)
-                .createDefaultTitle(o -> o.withStyle(ChatFormatting.AQUA))
+                .createDefaultTitle(ChatFormatting.AQUA)
                 .forEquipment(LTXIItems.WONDERLAND_HEAD)
                 .withSpecialEffect(CAPTURE_MOB_EXPERIENCE, CaptureLoot.mobExperience())
-                .effectIcon(veinMineOverlay(sprite("xp_orb")))
+                .effectIcon(veinMineOverlay(SpriteIcon.create("xp_orb")))
                 .category("armor")
                 .register(context);
         Upgrade.builder(BREATHING_UNIT)
                 .forEquipment(LTXIItems.WONDERLAND_HEAD)
                 .withConditionalEffect(EQUIPMENT_TICK, ApplyMobEffect.applyPassiveEffect(MobEffects.WATER_BREATHING, ConstantDouble.of(400), ConstantDouble.of(0)),
                         LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity().periodicTick(60)))
-                .effectIcon(sprite("respirator"))
+                .effectIcon(SpriteIcon.create("respirator"))
                 .category("armor")
                 .register(context);
         Upgrade.builder(PASSIVE_SATURATION)
@@ -578,14 +588,14 @@ public final class LTXIUpgrades
                 .withConditionalEffect(EQUIPMENT_TICK, ApplyMobEffect.applyPassiveEffect(MobEffects.SATURATION, ConstantDouble.of(200), ConstantDouble.of(0)),
                         LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS, EntityPredicate.Builder.entity().periodicTick(60)))
                 .withEffect(MOB_EFFECT_IMMUNITY, MobEffectImmunity.immuneTo(MobEffects.HUNGER, ConstantDouble.of(0)))
-                .effectIcon(greenArrowOverlay(itemIcon(Items.COOKED_BEEF)))
+                .effectIcon(greenArrowOverlay(ItemIcon.of(Items.COOKED_BEEF)))
                 .category("armor")
                 .register(context);
         Upgrade.builder(CREATIVE_FLIGHT)
                 .createDefaultTitle(CREATIVE_PINK)
                 .forEquipment(LTXIItems.WONDERLAND_BODY)
                 .itemAttributes(NeoForgeMod.CREATIVE_FLIGHT, "fly", LevelBasedValue.constant(1), AttributeModifier.Operation.ADD_VALUE, EquipmentSlotGroup.CHEST)
-                .effectIcon(sprite("flight"))
+                .effectIcon(SpriteIcon.create("flight"))
                 .category("armor")
                 .register(context);
 
@@ -594,14 +604,14 @@ public final class LTXIUpgrades
                 .forEquipment(miningTools)
                 .setMaxRank(5)
                 .withEffect(ENCHANTMENT_LEVELS, AddEnchantmentLevels.rankLinear(enchantments.getOrThrow(Enchantments.EFFICIENCY)))
-                .effectIcon(yellowArrowOverlay(itemIcon(LTXIItems.EPSILON_DRILL)))
+                .effectIcon(yellowArrowOverlay(ItemIcon.of(LTXIItems.EPSILON_DRILL)))
                 .category("enchants")
                 .register(context);
         Upgrade.builder(SILK_TOUCH_ENCHANTMENT)
                 .forEquipment(miningTools)
                 .exclusiveWith(holders, MINING_DROPS_MODIFIERS)
                 .withEffect(ENCHANTMENT_LEVELS, AddEnchantmentLevels.fixed(enchantments.getOrThrow(Enchantments.SILK_TOUCH), 1))
-                .effectIcon(bottomRightOverlay(itemIcon(LTXIItems.EPSILON_DRILL), "silk_overlay", 8))
+                .effectIcon(bottomRightOverlay(ItemIcon.of(LTXIItems.EPSILON_DRILL), "silk_overlay", 8))
                 .category("enchants")
                 .register(context);
         Upgrade.builder(FORTUNE_ENCHANTMENT)
@@ -623,14 +633,14 @@ public final class LTXIUpgrades
                 .forEquipment(allWeapons)
                 .setMaxRank(5)
                 .withEffect(ENCHANTMENT_LEVELS, AddEnchantmentLevels.rankLinear(enchantments.getOrThrow(AMMO_SCAVENGER)))
-                .effectIcon(sprite("ammo_scavenger"))
+                .effectIcon(SpriteIcon.create("ammo_scavenger"))
                 .category("enchants")
                 .register(context);
         Upgrade.builder(RAZOR_ENCHANTMENT)
                 .forEquipment(allWeapons)
                 .setMaxRank(5)
                 .withEffect(ENCHANTMENT_LEVELS, AddEnchantmentLevels.rankLinear(enchantments.getOrThrow(RAZOR)))
-                .effectIcon(sprite("razor"))
+                .effectIcon(SpriteIcon.create("razor"))
                 .category("enchants")
                 .register(context);
 
@@ -638,31 +648,31 @@ public final class LTXIUpgrades
         Upgrade.builder(FLAME_GRENADE_CORE)
                 .forEquipment(LTXIItems.HANABI)
                 .withEffect(GRENADE_UNLOCK, GrenadeType.FLAME)
-                .effectIcon(sprite("flame_grenade_core"))
+                .effectIcon(SpriteIcon.create("flame_grenade_core"))
                 .category("shells/1")
                 .register(context);
         Upgrade.builder(CRYO_GRENADE_CORE)
                 .forEquipment(LTXIItems.HANABI)
                 .withEffect(GRENADE_UNLOCK, GrenadeType.CRYO)
-                .effectIcon(sprite("cryo_grenade_core"))
+                .effectIcon(SpriteIcon.create("cryo_grenade_core"))
                 .category("shells/2")
                 .register(context);
         Upgrade.builder(ELECTRIC_GRENADE_CORE)
                 .forEquipment(LTXIItems.HANABI)
                 .withEffect(GRENADE_UNLOCK, GrenadeType.ELECTRIC)
-                .effectIcon(sprite("electric_grenade_core"))
+                .effectIcon(SpriteIcon.create("electric_grenade_core"))
                 .category("shells/3")
                 .register(context);
         Upgrade.builder(ACID_GRENADE_CORE)
                 .forEquipment(LTXIItems.HANABI)
                 .withEffect(GRENADE_UNLOCK, GrenadeType.ACID)
-                .effectIcon(sprite("acid_grenade_core"))
+                .effectIcon(SpriteIcon.create("acid_grenade_core"))
                 .category("shells/4")
                 .register(context);
         Upgrade.builder(GLOOM_GAS_GRENADE_CORE)
                 .forEquipment(LTXIItems.HANABI)
                 .withEffect(GRENADE_UNLOCK, GrenadeType.GLOOM_GAS)
-                .effectIcon(sprite("gloom_grenade_core"))
+                .effectIcon(SpriteIcon.create("gloom_grenade_core"))
                 .category("shells/5")
                 .register(context);
         Upgrade.builder(OMNI_GRENADE_CORE)
@@ -672,7 +682,7 @@ public final class LTXIUpgrades
                 .withEffect(GRENADE_UNLOCK, GrenadeType.ELECTRIC)
                 .withEffect(GRENADE_UNLOCK, GrenadeType.ACID)
                 .withEffect(GRENADE_UNLOCK, GrenadeType.GLOOM_GAS)
-                .effectIcon(sprite("omni_grenade_core"))
+                .effectIcon(SpriteIcon.create("omni_grenade_core"))
                 .category("shells/0")
                 .register(context);
     }
@@ -691,7 +701,7 @@ public final class LTXIUpgrades
                 .tooltip(energyCapacityTooltip(ecaScaling, ValueFormat.MULTIPLICATIVE, ValueSentiment.POSITIVE))
                 .tooltip(energyTransferTooltip(ecaScaling, ValueFormat.MULTIPLICATIVE, ValueSentiment.POSITIVE))
                 .setMaxRank(5)
-                .effectIcon(sprite("extra_energy"))
+                .effectIcon(SpriteIcon.create("extra_energy"))
                 .register(context);
 
         ContextlessValue tankScaling = ExponentialDouble.of(2, LinearDouble.oneIncrement(2));
@@ -700,7 +710,7 @@ public final class LTXIUpgrades
                 .withEffect(FLUID_CAPACITY, ValueOperation.of(tankScaling, MathOperation.MULTIPLY))
                 .tooltip(fluidCapacityTooltip(tankScaling, ValueFormat.MULTIPLICATIVE, ValueSentiment.POSITIVE))
                 .setMaxRank(5)
-                .effectIcon(plusOverlay(itemIcon(LTXIItems.PORTABLE_TANK)))
+                .effectIcon(plusOverlay(ItemIcon.of(LTXIItems.PORTABLE_TANK)))
                 .register(context);
 
         ContextlessValue smsEnergyStorage = LinearDouble.linearIncrement(0.5d);
@@ -718,7 +728,7 @@ public final class LTXIUpgrades
                 .tooltip(TranslatableTooltip.create(LTXILangKeys.MACHINE_SPEED_UPGRADE, ValueComponent.of(ExponentialDouble.negativeLinearExponent(0.725d), ValueFormat.MULTIPLICATIVE, ValueSentiment.POSITIVE)))
                 .tooltip(TranslatableTooltip.create(LTXILangKeys.ENERGY_PER_RECIPE_UPGRADE, ValueComponent.of(ExponentialDouble.linearExponent(1.0875d), ValueFormat.MULTIPLICATIVE, ValueSentiment.NEGATIVE)))
                 .setMaxRank(6)
-                .effectIcon(greenArrowOverlay(sprite("titanium_gear")))
+                .effectIcon(greenArrowOverlay(SpriteIcon.create("titanium_gear")))
                 .category("gpm")
                 .register(context);
 
@@ -736,20 +746,20 @@ public final class LTXIUpgrades
                 .tooltip(energyCapacityTooltip(umsEnergyStorage, ValueFormat.MULTIPLICATIVE, ValueSentiment.POSITIVE))
                 .tooltip(energyTransferTooltip(umsEnergyStorage, ValueFormat.MULTIPLICATIVE, ValueSentiment.POSITIVE))
                 .tooltip(energyUsageTooltip(umsEnergyUsage, ValueFormat.MULTIPLICATIVE, ValueSentiment.NEGATIVE))
-                .staticTooltip(LTXILangKeys.INSTANT_PROCESSING_UPGRADE.translate().withStyle(LTXIConstants.LIME_GREEN.chatStyle()))
-                .effectIcon(sprite("ultimate_gear"))
+                .simpleTooltip(LTXILangKeys.INSTANT_PROCESSING_UPGRADE.translate().withStyle(LTXIConstants.LIME_GREEN.chatStyle()))
+                .effectIcon(SpriteIcon.create("ultimate_gear"))
                 .category("gpm")
                 .register(context);
 
         ContextlessValue gpmParallelOps = LinearDouble.linearIncrement(2);
         Upgrade.builder(GPM_PARALLEL)
-                .createDefaultTitle(o -> o.withStyle(ChatFormatting.LIGHT_PURPLE))
+                .createDefaultTitle(ChatFormatting.LIGHT_PURPLE)
                 .forMachines(blockEntities, LTXITags.BlockEntities.GENERAL_PROCESSING_MACHINES)
                 .exclusiveWith(holders, PARALLEL_OPS_UPGRADES)
                 .withEffect(PARALLEL_OPERATIONS, ValueOperation.of(gpmParallelOps, MathOperation.REPLACE))
                 .tooltip(parallelOpsTooltip(gpmParallelOps, ValueFormat.FLAT_NUMBER, ValueSentiment.POSITIVE))
                 .setMaxRank(4)
-                .effectIcon(plusOverlay(sprite("titanium_gear")))
+                .effectIcon(plusOverlay(SpriteIcon.create("titanium_gear")))
                 .category("gpm")
                 .register(context);
 
@@ -765,18 +775,18 @@ public final class LTXIUpgrades
                 .tooltip(energyTransferTooltip(fabTransfer, ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE))
                 .tooltip(energyUsageTooltip(fabUsage, ValueFormat.MULTIPLICATIVE, ValueSentiment.POSITIVE))
                 .setMaxRank(4)
-                .effectIcon(sprite("fabricator_upgrade"))
+                .effectIcon(SpriteIcon.create("fabricator_upgrade"))
                 .register(context);
 
         ContextlessValue geoSynthParallel = ExponentialDouble.of(2, LinearDouble.oneIncrement(4));
         Upgrade.builder(GEO_SYNTHESIZER_PARALLEL)
-                .createDefaultTitle(o -> o.withStyle(ChatFormatting.AQUA))
+                .createDefaultTitle(ChatFormatting.AQUA)
                 .forMachines(LTXIBlockEntities.GEO_SYNTHESIZER)
                 .exclusiveWith(holders, PARALLEL_OPS_UPGRADES)
                 .withEffect(PARALLEL_OPERATIONS, ValueOperation.of(geoSynthParallel, MathOperation.REPLACE))
                 .tooltip(parallelOpsTooltip(geoSynthParallel, ValueFormat.FLAT_NUMBER, ValueSentiment.POSITIVE))
                 .setMaxRank(3)
-                .effectIcon(plusOverlay(itemIcon(LTXIBlocks.GEO_SYNTHESIZER)))
+                .effectIcon(plusOverlay(ItemIcon.of(LTXIBlocks.GEO_SYNTHESIZER)))
                 .category("machine_unique")
                 .register(context);
 
@@ -792,7 +802,7 @@ public final class LTXIUpgrades
                 .forMachines(blockEntities, LTXITags.BlockEntities.TURRETS)
                 .setMaxRank(2)
                 .withEffect(ENCHANTMENT_LEVELS, AddEnchantmentLevels.rankLinear(enchantments.getOrThrow(LTXIEnchantments.RAZOR)))
-                .effectIcon(sprite("razor"))
+                .effectIcon(SpriteIcon.create("razor"))
                 .category("turret")
                 .register(context);
     }

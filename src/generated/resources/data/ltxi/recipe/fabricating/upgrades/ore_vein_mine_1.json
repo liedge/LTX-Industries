@@ -1,0 +1,32 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 50000,
+  "group": "eum/tool",
+  "item_inputs": [
+    {
+      "ingredient": "ltxi:empty_upgrade_module"
+    },
+    {
+      "ingredient": "ltxi:t2_circuit"
+    },
+    {
+      "ingredient": "ltxi:optical_tech_part"
+    },
+    {
+      "count": 2,
+      "ingredient": "#c:gears/titanium"
+    },
+    {
+      "ingredient": "ltxi:slatesteel_gear"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:upgrade": {
+        "upgrade": "ltxi:ore_vein_mine"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:upgrade_module"
+  }
+}

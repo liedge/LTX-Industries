@@ -5,18 +5,19 @@
       "translate": "upgrade.ltxi.tool_vibration_cancel.desc"
     },
     "icon": {
-      "type": "overlay",
+      "type": "composite",
       "background": {
-        "type": "item_stack",
-        "item": {
-          "id": "minecraft:sculk_sensor"
-        }
+        "type": "item",
+        "id": "minecraft:sculk_sensor"
       },
-      "height": 9,
-      "overlay": "ltxi:red_x_overlay",
-      "width": 9,
-      "x_offset": 6,
-      "y_offset": 6
+      "foreground": {
+        "type": "sprite",
+        "height": 9,
+        "id": "ltxi:red_x_overlay",
+        "width": 9,
+        "x": 6,
+        "y": 6
+      }
     },
     "title": {
       "translate": "upgrade.ltxi.tool_vibration_cancel"

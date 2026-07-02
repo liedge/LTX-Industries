@@ -1,20 +1,22 @@
 {
   "type": "ltxi:electro_centrifuging",
-  "craft_time": 300,
+  "craft_time": 400,
   "fluid_inputs": [
     {
       "amount": 1000,
-      "ingredient": "#minecraft:water"
+      "ingredient": "ltxi:sea_water"
     }
   ],
   "fluid_results": [
     {
-      "amount": 1000,
-      "id": "ltxi:hydrogen"
-    },
-    {
       "amount": 500,
-      "id": "ltxi:oxygen"
+      "id": "ltxi:chlorine"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:sodium_dust"
     }
   ],
   "mode": "ltxi:electrolyze"

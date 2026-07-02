@@ -1,0 +1,22 @@
+{
+  "type": "ltxi:electro_centrifuging",
+  "craft_time": 160,
+  "fluid_results": [
+    {
+      "amount": 250,
+      "id": "ltxi:oxygen"
+    }
+  ],
+  "item_inputs": [
+    {
+      "ingredient": "#c:sands"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:silicon_dust"
+    }
+  ],
+  "mode": "ltxi:electrolyze"
+}

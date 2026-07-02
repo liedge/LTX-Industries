@@ -5,10 +5,13 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.data.BootstrapObjectBuilder;
 import liedge.limacore.lib.LimaColor;
 import liedge.limacore.lib.ModResources;
+import liedge.ltxindustries.lib.icon.EmptyIcon;
+import liedge.ltxindustries.lib.icon.ItemLikeIcon;
 import liedge.ltxindustries.lib.upgrades.effect.*;
 import liedge.ltxindustries.lib.upgrades.tooltip.StaticTooltip;
 import liedge.ltxindustries.lib.upgrades.tooltip.UpgradeComponentLike;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
@@ -49,7 +52,7 @@ public final class UpgradeBuilder implements BootstrapObjectBuilder<Upgrade>
     private Component title;
     private Component description;
     private final List<UpgradeComponentLike> tooltips = new ObjectArrayList<>();
-    private UpgradeIcon icon = UpgradeIcon.noRenderIcon();
+    private ItemLikeIcon icon = EmptyIcon.INSTANCE;
     private String category = UpgradeDisplayInfo.NO_CATEGORY;
 
     private int maxRank = 1;
@@ -81,6 +84,11 @@ public final class UpgradeBuilder implements BootstrapObjectBuilder<Upgrade>
         return createDefaultTitle(title -> title.withStyle(color.chatStyle()));
     }
 
+    public UpgradeBuilder createDefaultTitle(ChatFormatting formatting)
+    {
+        return createDefaultTitle(title -> title.withStyle(formatting));
+    }
+
     public UpgradeBuilder createDefaultTitle(UnaryOperator<MutableComponent> operator)
     {
         this.title = operator.apply(defaultTitle());
@@ -99,17 +107,18 @@ public final class UpgradeBuilder implements BootstrapObjectBuilder<Upgrade>
         return this;
     }
 
-    public UpgradeBuilder tooltip(int index, Function<String, UpgradeComponentLike> function)
+    public UpgradeBuilder tooltip(Function<String, UpgradeComponentLike> function)
     {
+        int index = tooltips.size();
         return tooltip(function.apply(tooltipKey(key, index)));
     }
 
-    public UpgradeBuilder staticTooltip(int index)
+    public UpgradeBuilder simpleTooltip()
     {
-        return tooltip(index, key -> StaticTooltip.of(Component.translatable(key)));
+        return tooltip(key -> StaticTooltip.of(Component.translatable(key)));
     }
 
-    public UpgradeBuilder staticTooltip(Component component)
+    public UpgradeBuilder simpleTooltip(Component component)
     {
         return tooltip(StaticTooltip.of(component));
     }
@@ -270,7 +279,7 @@ public final class UpgradeBuilder implements BootstrapObjectBuilder<Upgrade>
     }
     //#endregion
 
-    public UpgradeBuilder effectIcon(UpgradeIcon icon)
+    public UpgradeBuilder effectIcon(ItemLikeIcon icon)
     {
         this.icon = icon;
         return this;

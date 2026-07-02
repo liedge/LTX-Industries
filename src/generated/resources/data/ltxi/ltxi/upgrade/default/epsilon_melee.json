@@ -5,13 +5,16 @@
       "translate": "upgrade.ltxi.default.epsilon_melee.desc"
     },
     "icon": {
-      "type": "overlay",
+      "type": "composite",
       "background": "ltxi:razor",
-      "height": 7,
-      "overlay": "ltxi:default_overlay",
-      "width": 7,
-      "x_offset": 8,
-      "y_offset": 8
+      "foreground": {
+        "type": "sprite",
+        "height": 7,
+        "id": "ltxi:default_overlay",
+        "width": 7,
+        "x": 8,
+        "y": 8
+      }
     },
     "title": {
       "color": "#9DF143",

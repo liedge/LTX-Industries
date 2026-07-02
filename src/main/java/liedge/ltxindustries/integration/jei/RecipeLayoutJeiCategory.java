@@ -5,6 +5,7 @@ import liedge.limacore.recipe.LimaRecipeType;
 import liedge.limacore.util.LimaTextUtil;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.client.LTXILangKeys;
+import liedge.ltxindustries.client.gui.ItemLikeIconsRenderer;
 import liedge.ltxindustries.client.gui.screen.RecipeLayoutScreen;
 import liedge.ltxindustries.menu.layout.LayoutSlot;
 import liedge.ltxindustries.menu.layout.RecipeLayout;
@@ -28,7 +29,6 @@ import net.minecraft.client.gui.navigation.ScreenPosition;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import org.jetbrains.annotations.Nullable;
 
@@ -144,13 +144,8 @@ final class RecipeLayoutJeiCategory<R extends LTXIRecipe> extends LTXIJeiCategor
         return jeiRecipeType;
     }
 
-    private record RecipeModeWidget(ScreenPosition position, IDrawable background, IDrawable overlay, @Nullable Holder<RecipeMode> mode, ItemStack displayStack) implements IRecipeWidget
+    private record RecipeModeWidget(ScreenPosition position, IDrawable background, IDrawable overlay, @Nullable Holder<RecipeMode> mode) implements IRecipeWidget
     {
-        private RecipeModeWidget(ScreenPosition position, IDrawable background, IDrawable overlay, @Nullable Holder<RecipeMode> mode)
-        {
-            this(position, background, overlay, mode, mode != null ? mode.value().displayItem().create() : ItemStack.EMPTY);
-        }
-
         @Override
         public ScreenPosition getPosition()
         {
@@ -161,9 +156,8 @@ final class RecipeLayoutJeiCategory<R extends LTXIRecipe> extends LTXIJeiCategor
         public void drawWidget(GuiGraphicsExtractor graphics, double mouseX, double mouseY)
         {
             background.draw(graphics, -1, -1);
-            if (mode != null && !displayStack.isEmpty())
-                graphics.fakeItem(displayStack, 0, 0);
-            else
+
+            if (mode == null || ItemLikeIconsRenderer.render(graphics, mode.value().icon(), 0, 0) == 0)
                 overlay.draw(graphics, 0, 0);
         }
 
@@ -173,7 +167,7 @@ final class RecipeLayoutJeiCategory<R extends LTXIRecipe> extends LTXIJeiCategor
             if (LimaGuiUtil.isMouseWithinArea(mouseX, mouseY, 0, 0, 16, 16))
             {
                 if (mode != null)
-                    tooltip.add(LTXILangKeys.JEI_RECIPE_MODE_NEEDED.translateArgs(mode.value().displayName()));
+                    tooltip.add(LTXILangKeys.JEI_RECIPE_MODE_NEEDED.translateArgs(mode.value().title()));
                 else
                     tooltip.add(LTXILangKeys.JEI_NO_RECIPE_MODE_NEEDED.translate().withStyle(ChatFormatting.GRAY));
             }

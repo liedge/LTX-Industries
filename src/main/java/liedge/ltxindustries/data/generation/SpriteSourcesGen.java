@@ -26,7 +26,7 @@ class SpriteSourcesGen extends SpriteSourceProvider
     protected void gather()
     {
         // Mod atlas definitions
-        atlas(LTXIAtlasIds.UPGRADE_ICONS_ID)
+        atlas(LTXIAtlasIds.MODULAR_ICONS_ID)
                 .addSource(nsDirSource("upgrade_module"))
                 .addSource(itemSheetCopy("titanium_gear"))
                 .addSource(itemSheetCopy("slatesteel_gear"));
