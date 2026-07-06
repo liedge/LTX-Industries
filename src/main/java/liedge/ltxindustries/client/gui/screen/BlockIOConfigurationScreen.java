@@ -1,6 +1,7 @@
 package liedge.ltxindustries.client.gui.screen;
 
 import com.mojang.blaze3d.platform.InputConstants;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.blockentity.RelativeHorizontalSide;
 import liedge.limacore.client.LimaComponentUtil;
 import liedge.limacore.client.gui.LimaBaseButton;
@@ -10,6 +11,7 @@ import liedge.limacore.lib.Translatable;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.blockentity.base.BlockIOConfiguration;
+import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntity;
 import liedge.ltxindustries.client.gui.widget.LTXISidebarButton;
 import liedge.ltxindustries.client.gui.widget.SubMenuBackButton;
 import liedge.ltxindustries.menu.BlockIOConfigurationMenu;
@@ -17,12 +19,19 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.InputWithModifiers;
 import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentUtils;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 
+import java.util.List;
 import java.util.function.BooleanSupplier;
 
 import static liedge.ltxindustries.LTXIndustries.RESOURCES;
@@ -40,9 +49,14 @@ public class BlockIOConfigurationScreen extends LTXIScreen<BlockIOConfigurationM
     private static final Identifier AUTO_IN_DISABLED_SPRITE = RESOURCES.id("widget/auto_input_disabled");
     private static final Identifier AUTO_IN_ENABLED_SPRITE = RESOURCES.id("widget/auto_input_enabled");
 
+    private final Player player;
+    private final List<IOButton> buttons = new ObjectArrayList<>();
+    private int buttonRefreshTimer = 0;
+
     public BlockIOConfigurationScreen(BlockIOConfigurationMenu menu, Inventory inventory, Component title)
     {
         super(menu, inventory, title, DEFAULT_WIDTH, DEFAULT_HEIGHT, 18, 18, 0);
+        this.player = inventory.player;
     }
 
     private BlockIOConfiguration getIOConfiguration()
@@ -67,7 +81,7 @@ public class BlockIOConfigurationScreen extends LTXIScreen<BlockIOConfigurationM
                 case RIGHT -> new IOButton(leftPos + 92, topPos + 37, side);
             };
 
-            addRenderableWidget(button);
+            buttons.add(addRenderableWidget(button));
         }
 
         int rightSidebarY = topPos + 3;
@@ -89,14 +103,56 @@ public class BlockIOConfigurationScreen extends LTXIScreen<BlockIOConfigurationM
         graphics.blit(RenderPipelines.GUI_TEXTURED, BUTTON_GRID_TEXTURE, leftPos + 60, topPos + 21, 0f, 0f, 48, 48, 48, 48);
     }
 
+    @Override
+    protected void containerTick()
+    {
+        if (buttonRefreshTimer <= 0)
+        {
+            ConfigurableIOBlockEntity blockEntity = menu.menuContext().blockEntity();
+            BlockPos pos = blockEntity.getBlockPos();
+            Direction facing = blockEntity.getFacing();
+
+            for (IOButton button : buttons)
+            {
+                button.refreshNeighborBlockItem(menu.level(), pos, facing);
+            }
+
+            buttonRefreshTimer += 40;
+        }
+        else
+        {
+            buttonRefreshTimer--;
+        }
+    }
+
     private class IOButton extends LimaBaseButton
     {
         private final RelativeHorizontalSide side;
+        private ItemStack neighborBlockItem = ItemStack.EMPTY;
 
         public IOButton(int x, int y, RelativeHorizontalSide side)
         {
             super(x, y, 16, 16);
             this.side = side;
+        }
+
+        private void refreshNeighborBlockItem(Level level, BlockPos pos, Direction facing)
+        {
+            BlockPos neighborPos = pos.relative(side.resolveAbsoluteSide(facing));
+            BlockState neighborState = level.getBlockState(neighborPos);
+
+            this.neighborBlockItem = neighborState.getCloneItemStack(neighborPos, level, true, player);
+        }
+
+        @Override
+        protected void extractContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a)
+        {
+            super.extractContents(graphics, mouseX, mouseY, a);
+
+            if (!neighborBlockItem.isEmpty())
+            {
+                graphics.fakeItem(neighborBlockItem, getX(), getY());
+            }
         }
 
         @Override
