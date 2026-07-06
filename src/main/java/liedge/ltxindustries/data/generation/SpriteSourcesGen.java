@@ -1,5 +1,7 @@
 package liedge.ltxindustries.data.generation;
 
+import liedge.limacore.client.GrayscaleSprite;
+import liedge.limacore.lib.ModResources;
 import liedge.ltxindustries.client.LTXIAtlasIds;
 import net.minecraft.client.renderer.texture.atlas.SpriteSource;
 import net.minecraft.client.renderer.texture.atlas.sources.SingleFile;
@@ -43,6 +45,13 @@ class SpriteSourcesGen extends SpriteSourceProvider
                 .addSource(singleSprite("core/solid_lime", "item/solid_lime"))
                 .addSource(singleSprite("block/glacia_glass", "item/glacia_glass"))
                 .addSource(singleSprite("block/glowstick", "item/glowstick"));
+
+        SourceList particles = atlas(AtlasIds.PARTICLES);
+        for (int i = 0; i < 16; i++)
+        {
+            String name = "sonic_boom_" + i;
+            particles.addSource(grayscaleMC(name, "particle/" + name, 1.375f));
+        }
     }
 
     private SpriteSource nsDirSource(String path)
@@ -58,5 +67,10 @@ class SpriteSourcesGen extends SpriteSourceProvider
     private SpriteSource itemSheetCopy(String name)
     {
         return singleSprite("item/" + name, name);
+    }
+
+    private SpriteSource grayscaleMC(String name, String sourcePath, float brightness)
+    {
+        return new GrayscaleSprite(RESOURCES.id(name), ModResources.MC.id(sourcePath), brightness);
     }
 }

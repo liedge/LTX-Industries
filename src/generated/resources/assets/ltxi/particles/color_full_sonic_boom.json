@@ -1,20 +1,20 @@
 {
   "textures": [
-    "ltxi:color_sonic_boom_0",
-    "ltxi:color_sonic_boom_1",
-    "ltxi:color_sonic_boom_2",
-    "ltxi:color_sonic_boom_3",
-    "ltxi:color_sonic_boom_4",
-    "ltxi:color_sonic_boom_5",
-    "ltxi:color_sonic_boom_6",
-    "ltxi:color_sonic_boom_7",
-    "ltxi:color_sonic_boom_8",
-    "ltxi:color_sonic_boom_9",
-    "ltxi:color_sonic_boom_10",
-    "ltxi:color_sonic_boom_11",
-    "ltxi:color_sonic_boom_12",
-    "ltxi:color_sonic_boom_13",
-    "ltxi:color_sonic_boom_14",
-    "ltxi:color_sonic_boom_15"
+    "ltxi:sonic_boom_0",
+    "ltxi:sonic_boom_1",
+    "ltxi:sonic_boom_2",
+    "ltxi:sonic_boom_3",
+    "ltxi:sonic_boom_4",
+    "ltxi:sonic_boom_5",
+    "ltxi:sonic_boom_6",
+    "ltxi:sonic_boom_7",
+    "ltxi:sonic_boom_8",
+    "ltxi:sonic_boom_9",
+    "ltxi:sonic_boom_10",
+    "ltxi:sonic_boom_11",
+    "ltxi:sonic_boom_12",
+    "ltxi:sonic_boom_13",
+    "ltxi:sonic_boom_14",
+    "ltxi:sonic_boom_15"
   ]
 }
