@@ -27,14 +27,14 @@ public final class LTXIBootstrapUtil
         return bottomRightOverlay(background, overlayPath, squareSize, squareSize);
     }
 
-    public static ItemLikeIcon defaultOverlay(ItemLikeIcon background)
+    public static ItemLikeIcon blueRingOverlay(ItemLikeIcon background)
     {
-        return bottomRightOverlay(background, "default_overlay", 7);
+        return bottomRightOverlay(background, "blue_ring", 7);
     }
 
     public static ItemLikeIcon defaultModuleIcon(ItemLike item)
     {
-        return defaultOverlay(ItemIcon.of(item));
+        return blueRingOverlay(ItemIcon.of(item));
     }
 
     public static ItemLikeIcon luckOverlay(ItemLike item)

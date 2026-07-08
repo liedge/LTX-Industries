@@ -4,7 +4,7 @@
       "type": "neoforge:namespaced_directory",
       "namespace": "ltxi",
       "prefix": "",
-      "source": "upgrade_module"
+      "source": "modular_icon"
     },
     {
       "type": "minecraft:single",

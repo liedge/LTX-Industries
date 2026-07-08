@@ -283,7 +283,7 @@ public final class LTXIUpgrades
                         EntityAttributeValue.baseValue(LootContext.EntityTarget.THIS, Attributes.ARMOR),
                         CompareOperation.LESS_THAN_OR_EQUALS))
                 .tooltip(key -> TranslatableTooltip.create(key, ValueComponent.of(ConstantDouble.of(0.2d), ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE)))
-                .effectIcon(defaultOverlay(SpriteIcon.create("razor")))
+                .effectIcon(blueRingOverlay(SpriteIcon.create("razor")))
                 .category("default/tool")
                 .register(context);
 
