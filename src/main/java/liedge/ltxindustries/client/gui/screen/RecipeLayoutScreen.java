@@ -1,6 +1,7 @@
 package liedge.ltxindustries.client.gui.screen;
 
 import liedge.limacore.client.gui.TooltipLineConsumer;
+import liedge.limacore.util.LimaCoreObjects;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.blockentity.base.RecipeModeHolderBlockEntity;
 import liedge.ltxindustries.client.LTXILangKeys;
@@ -11,7 +12,6 @@ import liedge.ltxindustries.menu.RecipeLayoutMenu;
 import liedge.ltxindustries.menu.layout.LayoutSlot;
 import liedge.ltxindustries.menu.layout.RecipeLayout;
 import liedge.ltxindustries.recipe.RecipeMode;
-import liedge.ltxindustries.registry.LTXIRegistries;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
@@ -19,7 +19,6 @@ import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.item.crafting.RecipeType;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -36,18 +35,7 @@ public final class RecipeLayoutScreen extends MachineBaseScreen<RecipeLayoutMenu
     {
         super(menu, inventory, title, DEFAULT_WIDTH, DEFAULT_HEIGHT);
         this.layout = menu.getLayout();
-
-        if (menu.menuContext() instanceof RecipeModeHolderBlockEntity blockEntity)
-        {
-            Holder<RecipeType<?>> holder = blockEntity.getRecipeTypeHolder();
-            boolean check = inventory.player.level().registryAccess().lookupOrThrow(LTXIRegistries.Keys.RECIPE_MODES)
-                    .stream().anyMatch(o -> o.recipeTypes().contains(holder));
-            this.modeHolder = check ? blockEntity : null;
-        }
-        else
-        {
-            this.modeHolder = null;
-        }
+        this.modeHolder = LimaCoreObjects.tryCast(RecipeModeHolderBlockEntity.class, menu.menuContext());
     }
 
     @Override

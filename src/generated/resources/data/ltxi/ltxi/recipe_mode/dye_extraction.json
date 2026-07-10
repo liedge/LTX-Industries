@@ -3,11 +3,6 @@
     "type": "item",
     "id": "minecraft:lime_dye"
   },
-  "recipe_types": [
-    "ltxi:grinding",
-    "ltxi:electro_centrifuging",
-    "ltxi:energizing"
-  ],
   "title": {
     "translate": "recipe_mode.ltxi.dye_extraction"
   }

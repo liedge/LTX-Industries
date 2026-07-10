@@ -1,6 +1,7 @@
 package liedge.ltxindustries;
 
 import liedge.ltxindustries.lib.upgrades.Upgrade;
+import liedge.ltxindustries.recipe.RecipeMode;
 import liedge.ltxindustries.registry.LTXIRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.ItemTags;
@@ -172,6 +173,23 @@ public final class LTXITags
         private static TagKey<Upgrade> tag(String name)
         {
             return RESOURCES.tagKey(LTXIRegistries.Keys.UPGRADES, name);
+        }
+    }
+
+    public static final class RecipeModes
+    {
+        private RecipeModes() { }
+
+        public static final TagKey<RecipeMode> DEFAULT_GRINDING = defaultModeTag(LTXIIdentifiers.ID_GRINDING_RECIPE);
+        public static final TagKey<RecipeMode> DEFAULT_ELECTRO_CENTRIFUGING = defaultModeTag(LTXIIdentifiers.ID_ELECTRO_CENTRIFUGING_RECIPE);
+        public static final TagKey<RecipeMode> DEFAULT_MIXING = defaultModeTag(LTXIIdentifiers.ID_MIXING_RECIPE);
+        public static final TagKey<RecipeMode> DEFAULT_ENERGIZING = defaultModeTag(LTXIIdentifiers.ID_ENERGIZING_RECIPE);
+        public static final TagKey<RecipeMode> DEFAULT_CHEMICAL_REACTING = defaultModeTag(LTXIIdentifiers.ID_CHEMICAL_REACTING);
+        public static final TagKey<RecipeMode> DEFAULT_GARDEN_SIMULATING = defaultModeTag(LTXIIdentifiers.ID_GARDEN_SIMULATING_RECIPE);
+
+        private static TagKey<RecipeMode> defaultModeTag(String recipeTypeId)
+        {
+            return RESOURCES.tagKey(LTXIRegistries.Keys.RECIPE_MODES, "default/" + recipeTypeId);
         }
     }
 

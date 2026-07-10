@@ -6,8 +6,6 @@ import liedge.limacore.recipe.input.RecipeItemInput;
 import liedge.limacore.recipe.result.FluidResult;
 import liedge.limacore.recipe.result.ItemResult;
 import net.minecraft.core.Holder;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
@@ -42,21 +40,12 @@ public abstract class LTXIRecipe extends LimaCustomRecipe<LTXIRecipeInput>
     @Override
     public boolean matches(LTXIRecipeInput input, Level level)
     {
-        if (mode != null)
+        if (this.mode != null)
         {
             Holder<RecipeMode> inputMode = input.mode();
-
-            if (inputMode == null || !Objects.equals(inputMode, mode) || !inputMode.value().recipeTypes().contains(typeHolder()))
-            {
-                return false;
-            }
+            if (!Objects.equals(this.mode, inputMode)) return false;
         }
 
         return super.matches(input, level);
-    }
-
-    private Holder<RecipeType<?>> typeHolder()
-    {
-        return BuiltInRegistries.RECIPE_TYPE.wrapAsHolder(getType());
     }
 }

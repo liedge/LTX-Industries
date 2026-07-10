@@ -6,6 +6,7 @@ import liedge.ltxindustries.lib.upgrades.Upgrade;
 import liedge.ltxindustries.lib.upgrades.value.UpgradeValueTypes;
 import liedge.ltxindustries.network.packet.*;
 import liedge.ltxindustries.recipe.RecipeMode;
+import liedge.ltxindustries.registry.LTXIDataMaps;
 import liedge.ltxindustries.registry.LTXIRegistries;
 import liedge.ltxindustries.registry.game.*;
 import liedge.ltxindustries.util.config.LTXIClientConfig;
@@ -27,6 +28,7 @@ import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import net.neoforged.neoforge.registries.DataPackRegistryEvent;
 import net.neoforged.neoforge.registries.NewRegistryEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
+import net.neoforged.neoforge.registries.datamaps.RegisterDataMapTypesEvent;
 import org.slf4j.Logger;
 
 import static liedge.limacore.util.LimaNetworkUtil.*;
@@ -111,6 +113,12 @@ public class LTXIndustries
         private void registerGameObjects(final RegisterEvent event)
         {
             event.register(Registries.FLUID, LTXIFluids::registerFluids);
+        }
+
+        @SubscribeEvent
+        private void registerDataMapTypes(final RegisterDataMapTypesEvent event)
+        {
+            event.register(LTXIDataMaps.DEFAULT_RECIPE_MODES);
         }
 
         @SubscribeEvent

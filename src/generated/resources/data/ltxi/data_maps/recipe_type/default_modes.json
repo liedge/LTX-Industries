@@ -1,0 +1,10 @@
+{
+  "values": {
+    "ltxi:chemical_reacting": "#ltxi:default/chemical_reacting",
+    "ltxi:electro_centrifuging": "#ltxi:default/electro_centrifuging",
+    "ltxi:energizing": "#ltxi:default/energizing",
+    "ltxi:garden_simulating": "#ltxi:default/garden_simulating",
+    "ltxi:grinding": "#ltxi:default/grinding",
+    "ltxi:mixing": "#ltxi:default/mixing"
+  }
+}

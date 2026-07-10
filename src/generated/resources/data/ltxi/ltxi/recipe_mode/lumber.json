@@ -3,7 +3,6 @@
     "type": "item",
     "id": "minecraft:oak_log"
   },
-  "recipe_types": "ltxi:garden_simulating",
   "title": {
     "translate": "recipe_mode.ltxi.lumber"
   }

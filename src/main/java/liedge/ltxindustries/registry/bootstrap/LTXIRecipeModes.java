@@ -11,7 +11,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Items;
 
 import static liedge.ltxindustries.recipe.RecipeMode.builder;
-import static liedge.ltxindustries.registry.game.LTXIRecipeTypes.*;
 
 public final class LTXIRecipeModes
 {
@@ -33,13 +32,13 @@ public final class LTXIRecipeModes
 
     public static void bootstrap(BootstrapContext<RecipeMode> context)
     {
-        builder(DYE_EXTRACTION).forTypes(GRINDING, ELECTRO_CENTRIFUGING, ENERGIZING).icon(ItemIcon.of(Items.LIME_DYE)).register(context);
-        builder(CHEM_DISSOLUTION).forTypes(ELECTRO_CENTRIFUGING, MIXING, CHEMICAL_REACTING).icon(ItemIcon.of(LTXIItems.VIRIDIC_ACID_BUCKET)).register(context);
-        builder(ECF_ELECTROLYZE).forType(ELECTRO_CENTRIFUGING).icon(ItemIcon.of(LTXIItems.ELECTRIC_CHEMICAL)).styledName(LTXIConstants.ELECTRIC_GREEN).register(context);
+        builder(DYE_EXTRACTION).icon(ItemIcon.of(Items.LIME_DYE)).register(context);
+        builder(CHEM_DISSOLUTION).icon(ItemIcon.of(LTXIItems.VIRIDIC_ACID_BUCKET)).register(context);
+        builder(ECF_ELECTROLYZE).icon(ItemIcon.of(LTXIItems.ELECTRIC_CHEMICAL)).styledName(LTXIConstants.ELECTRIC_GREEN).register(context);
 
-        builder(GS_FARMING).forType(GARDEN_SIMULATING).icon(ItemIcon.of(Items.WHEAT)).register(context);
-        builder(GS_WOODS).forType(GARDEN_SIMULATING).icon(ItemIcon.of(Items.OAK_LOG)).register(context);
-        builder(GS_ORCHARD).forType(GARDEN_SIMULATING).icon(ItemIcon.of(Items.APPLE)).register(context);
-        builder(GS_FOLIAGE).forType(GARDEN_SIMULATING).icon(ItemIcon.of(Items.OAK_LEAVES)).register(context);
+        builder(GS_FARMING).icon(ItemIcon.of(Items.WHEAT)).register(context);
+        builder(GS_WOODS).icon(ItemIcon.of(Items.OAK_LOG)).register(context);
+        builder(GS_ORCHARD).icon(ItemIcon.of(Items.APPLE)).register(context);
+        builder(GS_FOLIAGE).icon(ItemIcon.of(Items.OAK_LEAVES)).register(context);
     }
 }

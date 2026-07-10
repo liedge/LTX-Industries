@@ -8,11 +8,11 @@ import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.client.gui.ItemLikeIconsRenderer;
 import liedge.ltxindustries.client.gui.widget.BaseGridRenderable;
 import liedge.ltxindustries.client.gui.widget.SubMenuBackButton;
-import liedge.ltxindustries.lib.icon.ItemLikeIcon;
 import liedge.ltxindustries.lib.icon.ItemIcon;
+import liedge.ltxindustries.lib.icon.ItemLikeIcon;
 import liedge.ltxindustries.menu.RecipeModeMenu;
 import liedge.ltxindustries.recipe.RecipeMode;
-import liedge.ltxindustries.registry.LTXIRegistries;
+import liedge.ltxindustries.registry.LTXIDataMaps;
 import liedge.ltxindustries.registry.game.LTXINetworkSerializers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -20,7 +20,7 @@ import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.core.Holder;
-import net.minecraft.core.IdMap;
+import net.minecraft.core.HolderSet;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
@@ -46,21 +46,10 @@ public class RecipeModeScreen extends LTXIScreen<RecipeModeMenu>
         options.add(new SelectorOption(null));
 
         final Holder<RecipeType<?>> machineRecipeType = menu.menuContext().getRecipeTypeHolder();
-
-        IdMap<Holder<RecipeMode>> modeRegistry = inventory.player.level().registryAccess().lookupOrThrow(LTXIRegistries.Keys.RECIPE_MODES).asHolderIdMap();
-        for (Holder<RecipeMode> mode : modeRegistry)
+        HolderSet<RecipeMode> defaultModes = machineRecipeType.getData(LTXIDataMaps.DEFAULT_RECIPE_MODES);
+        if (defaultModes != null)
         {
-            if (options.size() <= 23)
-            {
-                if (mode.value().recipeTypes().contains(machineRecipeType))
-                {
-                    options.add(new SelectorOption(mode));
-                }
-            }
-            else
-            {
-                break;
-            }
+            defaultModes.stream().limit(23).forEach(holder -> options.add(new SelectorOption(holder)));
         }
     }
 
