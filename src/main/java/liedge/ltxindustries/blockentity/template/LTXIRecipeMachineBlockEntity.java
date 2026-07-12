@@ -5,11 +5,14 @@ import liedge.ltxindustries.block.LTXIBlockProperties;
 import liedge.ltxindustries.block.MachineState;
 import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
 import liedge.ltxindustries.blockentity.base.RecipeModeHolderBlockEntity;
+import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.recipe.LTXIRecipe;
 import liedge.ltxindustries.recipe.LTXIRecipeInput;
 import liedge.ltxindustries.recipe.RecipeMode;
+import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -17,17 +20,19 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.level.storage.loot.LootContext;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.neoforge.transfer.resource.ResourceStack;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 public abstract class LTXIRecipeMachineBlockEntity<R extends LTXIRecipe> extends BaseRecipeMachineBlockEntity<LTXIRecipeInput, R> implements RecipeModeHolderBlockEntity
 {
-    @Nullable
-    private Holder<RecipeMode> mode;
+    private @Nullable Holder<RecipeMode> mode;
+    private HolderSet<RecipeMode> availableModes = HolderSet.empty();
 
     protected LTXIRecipeMachineBlockEntity(ConfigurableIOBlockEntityType<?> type, RecipeType<R> recipeType, BlockPos pos, BlockState state, int inputSlots, int outputSlots, int inputTanks, int outputTanks)
     {
@@ -50,6 +55,12 @@ public abstract class LTXIRecipeMachineBlockEntity<R extends LTXIRecipe> extends
             setChanged();
             reCheckRecipe();
         }
+    }
+
+    @Override
+    public HolderSet<RecipeMode> getAvailableRecipeModes()
+    {
+        return availableModes;
     }
 
     @Override
@@ -132,6 +143,24 @@ public abstract class LTXIRecipeMachineBlockEntity<R extends LTXIRecipe> extends
     {
         super.saveAdditional(output);
         output.storeNullable(TAG_KEY_RECIPE_MODE, RecipeMode.CODEC, mode);
+    }
+
+    @Override
+    public void onUpgradeRefresh(LootContext context, Upgrades upgrades)
+    {
+        super.onUpgradeRefresh(context, upgrades);
+
+        HolderSet<RecipeMode> defaultModes = getDefaultRecipeModes();
+        List<Holder<RecipeMode>> modes = Stream.concat(defaultModes.stream(), upgrades.effectStream(LTXIUpgradeEffectComponents.UNLOCK_RECIPE_MODE))
+                .limit(23)
+                .toList();
+
+        this.availableModes = modes.isEmpty() ? HolderSet.empty() : HolderSet.direct(modes);
+
+        if (this.mode != null && !availableModes.contains(this.mode))
+        {
+            setMode(null);
+        }
     }
 
     public static abstract class StateMachine<R extends LTXIRecipe> extends LTXIRecipeMachineBlockEntity<R>

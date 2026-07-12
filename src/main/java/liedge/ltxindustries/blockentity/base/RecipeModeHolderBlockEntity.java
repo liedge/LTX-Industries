@@ -4,8 +4,10 @@ import liedge.limacore.network.sync.LimaDataWatcher;
 import liedge.limacore.network.sync.NullableValueTracker;
 import liedge.limacore.transfer.item.ItemHolderBlockEntity;
 import liedge.ltxindustries.recipe.RecipeMode;
+import liedge.ltxindustries.registry.LTXIDataMaps;
 import liedge.ltxindustries.registry.game.LTXINetworkSerializers;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
 import net.minecraft.world.item.crafting.RecipeType;
 import org.jetbrains.annotations.Nullable;
 
@@ -20,6 +22,14 @@ public interface RecipeModeHolderBlockEntity extends ItemHolderBlockEntity, SubM
     void setMode(@Nullable Holder<RecipeMode> mode);
 
     Holder<RecipeType<?>> getRecipeTypeHolder();
+
+    HolderSet<RecipeMode> getAvailableRecipeModes();
+
+    default HolderSet<RecipeMode> getDefaultRecipeModes()
+    {
+        HolderSet<RecipeMode> set = getRecipeTypeHolder().getData(LTXIDataMaps.DEFAULT_RECIPE_MODES);
+        return set != null ? set : HolderSet.empty();
+    }
 
     default LimaDataWatcher<Optional<Holder<RecipeMode>>> keepRecipeModeSynced()
     {

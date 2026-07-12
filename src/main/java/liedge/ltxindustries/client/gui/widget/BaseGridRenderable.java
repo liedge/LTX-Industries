@@ -3,8 +3,6 @@ package liedge.ltxindustries.client.gui.widget;
 import com.google.common.base.Preconditions;
 import liedge.limacore.client.gui.BaseLimaRenderable;
 
-import java.util.List;
-
 public abstract class BaseGridRenderable<T> extends BaseLimaRenderable implements GridGUIElement<T>
 {
     private final int elementWidth;
@@ -53,22 +51,5 @@ public abstract class BaseGridRenderable<T> extends BaseLimaRenderable implement
     public int gridSize()
     {
         return gridSize;
-    }
-
-    public static abstract class FixedElements<T> extends BaseGridRenderable<T>
-    {
-        private final List<T> elements;
-
-        protected FixedElements(int x, int y, int elementWidth, int elementHeight, int gridWidth, int gridHeight, List<T> elements)
-        {
-            super(x, y, elementWidth, elementHeight, gridWidth, gridHeight);
-            this.elements = elements;
-        }
-
-        @Override
-        public List<T> getElements()
-        {
-            return elements;
-        }
     }
 }

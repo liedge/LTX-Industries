@@ -7,7 +7,9 @@ import liedge.ltxindustries.lib.upgrades.effect.*;
 import liedge.ltxindustries.lib.upgrades.effect.entity.EntityUpgradeEffect;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
 import liedge.ltxindustries.lib.weapons.WeaponReloadSource;
+import liedge.ltxindustries.recipe.RecipeMode;
 import liedge.ltxindustries.registry.LTXIRegistries;
+import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
@@ -79,6 +81,7 @@ public final class LTXIUpgradeEffectComponents
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<MinimumMachineSpeed>> MINIMUM_MACHINE_SPEED = COMPONENTS.register("minimum_speed", () -> UpgradeDataComponentType.create(MinimumMachineSpeed.CODEC));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ValueOperation>>> TICKS_PER_OPERATION = COMPONENTS.registerValue("ticks_per_operation");
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ValueOperation>>> PARALLEL_OPERATIONS = COMPONENTS.registerValue("parallel_operations");
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Holder<RecipeMode>>> UNLOCK_RECIPE_MODE = COMPONENTS.register("unlock_recipe_mode", () -> UpgradeDataComponentType.custom(RecipeMode.CODEC));
     //#endregion
 
     private static class DeferredRegister extends net.neoforged.neoforge.registries.DeferredRegister.DataComponents

@@ -9,6 +9,7 @@ import liedge.ltxindustries.lib.icon.ItemLikeIcon;
 import liedge.ltxindustries.registry.LTXIRegistries;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
@@ -26,6 +27,7 @@ public record RecipeMode(Component title, ItemLikeIcon icon)
             .apply(instance, RecipeMode::new));
     public static final Codec<Holder<RecipeMode>> CODEC = RegistryFixedCodec.create(LTXIRegistries.Keys.RECIPE_MODES);
     public static final StreamCodec<RegistryFriendlyByteBuf, Holder<RecipeMode>> STREAM_CODEC = ByteBufCodecs.holderRegistry(LTXIRegistries.Keys.RECIPE_MODES);
+    public static final StreamCodec<RegistryFriendlyByteBuf, HolderSet<RecipeMode>> SET_STREAM_CODEC = ByteBufCodecs.holderSet(LTXIRegistries.Keys.RECIPE_MODES);
 
     public static Builder builder(ResourceKey<RecipeMode> key)
     {
