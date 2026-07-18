@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "ltxi:peridotite",
+  "result": {
+    "count": 2,
+    "id": "ltxi:peridotite_slab"
+  }
+}

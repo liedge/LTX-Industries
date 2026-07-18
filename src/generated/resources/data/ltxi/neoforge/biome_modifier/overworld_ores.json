@@ -1,6 +1,9 @@
 {
   "type": "neoforge:add_features",
   "biomes": "#minecraft:is_overworld",
-  "features": "ltxi:titanium_ore",
+  "features": [
+    "ltxi:peridotite_ore",
+    "ltxi:titanium_ore"
+  ],
   "step": "underground_ores"
 }

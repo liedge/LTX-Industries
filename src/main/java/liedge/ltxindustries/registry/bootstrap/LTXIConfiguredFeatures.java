@@ -32,6 +32,7 @@ public final class LTXIConfiguredFeatures
 {
     private LTXIConfiguredFeatures() {}
 
+    public static final ResourceKey<ConfiguredFeature<?, ?>> PERIDOTITE_ORE_CONFIG = key("peridotite_ore");
     public static final ResourceKey<ConfiguredFeature<?, ?>> TITANIUM_ORE_CONFIG = key("titanium_ore");
     public static final ResourceKey<ConfiguredFeature<?, ?>> NIOBIUM_ORE_CONFIG = key("niobium_ore");
     public static final ResourceKey<ConfiguredFeature<?, ?>> TITANIUM_CLUSTERS_CONFIG = key("titanium_clusters");
@@ -48,6 +49,7 @@ public final class LTXIConfiguredFeatures
     public static void bootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context)
     {
         // Ores
+        ConfiguredFeature<?, ?> peridotiteOre = new ConfiguredFeature<>(Feature.ORE, oreConfig(32, tagMatchOreTarget(BlockTags.BASE_STONE_OVERWORLD, LTXIBlocks.PERIDOTITE)));
         ConfiguredFeature<?, ?> titaniumOre = new ConfiguredFeature<>(Feature.ORE, oreConfig(10, tagMatchOreTarget(BlockTags.STONE_ORE_REPLACEABLES, LTXIBlocks.TITANIUM_ORE), tagMatchOreTarget(BlockTags.DEEPSLATE_ORE_REPLACEABLES, LTXIBlocks.DEEPSLATE_TITANIUM_ORE)));
         ConfiguredFeature<?, ?> niobiumOre = new ConfiguredFeature<>(Feature.ORE, oreConfig(3, singleBlockOreTarget(Blocks.END_STONE, LTXIBlocks.NIOBIUM_ORE)));
         ConfiguredFeature<?, ?> titaniumClusters = PlaceOnSideFeature.placeOnSide(simpleState(LTXIBlocks.RAW_TITANIUM_CLUSTER), Direction.UP);
@@ -76,6 +78,7 @@ public final class LTXIConfiguredFeatures
         // Gloom Shroom
         ConfiguredFeature<?, ?> gloomShroom = new ConfiguredFeature<>(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(BlockStateProvider.simple(LTXIBlocks.GLOOM_SHROOM.get())));
 
+        context.register(PERIDOTITE_ORE_CONFIG, peridotiteOre);
         context.register(TITANIUM_ORE_CONFIG, titaniumOre);
         context.register(NIOBIUM_ORE_CONFIG, niobiumOre);
         context.register(TITANIUM_CLUSTERS_CONFIG, titaniumClusters);

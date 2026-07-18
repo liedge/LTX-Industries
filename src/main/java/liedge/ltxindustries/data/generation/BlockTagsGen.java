@@ -61,6 +61,14 @@ class BlockTagsGen extends LimaTagsProvider.RegistryTags<Block>
         List<Holder<Block>> ironPickaxeBreakable = List.of(TITANIUM_ORE, DEEPSLATE_TITANIUM_ORE, RAW_TITANIUM_BLOCK, RAW_TITANIUM_CLUSTER, TITANIUM_BLOCK, SLATESTEEL_BLOCK);
         List<Holder<Block>> diamondPickaxeBreakable = List.of(NIOBIUM_ORE, RAW_NIOBIUM_BLOCK, RAW_NIOBIUM_CLUSTER, NIOBIUM_BLOCK);
         buildTag(MINEABLE_WITH_PICKAXE).add(
+                PERIDOTITE,
+                PERIDOTITE_STAIRS,
+                PERIDOTITE_SLAB,
+                PERIDOTITE_WALL,
+                POLISHED_PERIDOTITE,
+                POLISHED_PERIDOTITE_STAIRS,
+                POLISHED_PERIDOTITE_SLAB,
+                POLISHED_PERIDOTITE_WALL,
                 TITANIUM_PANEL,
                 SMOOTH_TITANIUM_PANEL,
                 TILED_TITANIUM_PANEL,
@@ -76,6 +84,11 @@ class BlockTagsGen extends LimaTagsProvider.RegistryTags<Block>
         buildTag(NEEDS_DIAMOND_TOOL).addHolders(diamondPickaxeBreakable);
 
         buildTag(BEACON_BASE_BLOCKS).add(TITANIUM_BLOCK, NIOBIUM_BLOCK, SLATESTEEL_BLOCK);
+
+        buildTag(STONES).add(PERIDOTITE);
+        buildTag(STAIRS).add(PERIDOTITE_STAIRS, POLISHED_PERIDOTITE_STAIRS);
+        buildTag(SLABS).add(PERIDOTITE_SLAB, POLISHED_PERIDOTITE_SLAB);
+        buildTag(WALLS).add(PERIDOTITE_WALL, POLISHED_PERIDOTITE_WALL);
 
         buildTag(TITANIUM_ORES).add(TITANIUM_ORE, DEEPSLATE_TITANIUM_ORE);
         buildTag(NIOBIUM_ORES).add(NIOBIUM_ORE);

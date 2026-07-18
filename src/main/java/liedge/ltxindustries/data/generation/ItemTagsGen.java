@@ -6,6 +6,7 @@ import liedge.ltxindustries.LTXITags.Blocks;
 import liedge.ltxindustries.LTXIndustries;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -29,6 +30,10 @@ class ItemTagsGen extends LimaTagsProvider.ItemTags
     @Override
     protected void addTags(HolderLookup.Provider lookup)
     {
+        copyTag(Tags.Blocks.STONES, STONES);
+        copyTag(BlockTags.STAIRS, STAIRS);
+        copyTag(BlockTags.SLABS, SLABS);
+        copyTag(BlockTags.WALLS, WALLS);
         copyTag(Blocks.TITANIUM_ORES, TITANIUM_ORES);
         copyTag(Blocks.NIOBIUM_ORES, NIOBIUM_ORES);
 

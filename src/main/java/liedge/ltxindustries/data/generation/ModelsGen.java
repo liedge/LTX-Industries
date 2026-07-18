@@ -30,6 +30,7 @@ import net.minecraft.client.renderer.item.properties.numeric.UseCycle;
 import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
+import net.minecraft.data.BlockFamily;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
@@ -60,6 +61,18 @@ class ModelsGen extends ModelProvider
     // Common resources
     private final ModResources resources;
     private final int waterTint = 0x3f76e4;
+
+    // Block families
+    private final BlockFamily peridotiteFamily = new BlockFamily.Builder(LTXIBlocks.PERIDOTITE.get())
+            .stairs(LTXIBlocks.PERIDOTITE_STAIRS.get())
+            .slab(LTXIBlocks.PERIDOTITE_SLAB.get())
+            .wall(LTXIBlocks.PERIDOTITE_WALL.get())
+            .getFamily();
+    private final BlockFamily polishedPeridotiteFamily = new BlockFamily.Builder(LTXIBlocks.POLISHED_PERIDOTITE.get())
+            .stairs(LTXIBlocks.POLISHED_PERIDOTITE_STAIRS.get())
+            .slab(LTXIBlocks.POLISHED_PERIDOTITE_SLAB.get())
+            .wall(LTXIBlocks.POLISHED_PERIDOTITE_WALL.get())
+            .getFamily();
 
     ModelsGen(PackOutput output, ModResources resources)
     {
@@ -232,6 +245,8 @@ class ModelsGen extends ModelProvider
         models.createTrivialCube(LTXIBlocks.TITANIUM_BLOCK.get());
         models.createTrivialCube(LTXIBlocks.NIOBIUM_BLOCK.get());
         models.createTrivialCube(LTXIBlocks.SLATESTEEL_BLOCK.get());
+        models.family(peridotiteFamily.getBaseBlock()).generateFor(peridotiteFamily);
+        models.family(polishedPeridotiteFamily.getBaseBlock()).generateFor(polishedPeridotiteFamily);
         createNeonLights(models);
         models.createTrivialCube(LTXIBlocks.TITANIUM_PANEL.get());
         models.createTrivialCube(LTXIBlocks.SMOOTH_TITANIUM_PANEL.get());

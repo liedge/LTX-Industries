@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "ltxi:block/polished_peridotite_slab"
+    },
+    "type=double": {
+      "model": "ltxi:block/polished_peridotite"
+    },
+    "type=top": {
+      "model": "ltxi:block/polished_peridotite_slab_top"
+    }
+  }
+}

@@ -27,6 +27,7 @@ public final class LTXIPlacedFeatures
 {
     private LTXIPlacedFeatures() {}
 
+    public static final ResourceKey<PlacedFeature> PERIDOTITE_ORE_PLACEMENT = key("peridotite_ore");
     public static final ResourceKey<PlacedFeature> TITANIUM_ORE_PLACEMENT = key("titanium_ore");
     public static final ResourceKey<PlacedFeature> NIOBIUM_ORE_PLACEMENT = key("niobium_ore");
     public static final ResourceKey<PlacedFeature> TITANIUM_CLUSTERS_PLACEMENT = key("titanium_clusters");
@@ -46,6 +47,8 @@ public final class LTXIPlacedFeatures
         HolderGetter<ConfiguredFeature<?, ?>> configs = context.lookup(Registries.CONFIGURED_FEATURE);
         HolderGetter<Structure> structures = context.lookup(Registries.STRUCTURE);
 
+        PlacedFeature peridotiteOre = orePlacement(configs.getOrThrow(LTXIConfiguredFeatures.PERIDOTITE_ORE_CONFIG), 2,
+                HeightRangePlacement.uniform(VerticalAnchor.BOTTOM, VerticalAnchor.aboveBottom(60)));
         PlacedFeature titaniumOre = orePlacement(configs.getOrThrow(LTXIConfiguredFeatures.TITANIUM_ORE_CONFIG), 10,
                 HeightRangePlacement.triangle(VerticalAnchor.BOTTOM, VerticalAnchor.absolute(60)));
         PlacedFeature niobiumOre = orePlacement(configs.getOrThrow(LTXIConfiguredFeatures.NIOBIUM_ORE_CONFIG), 2, HeightRangePlacement.uniform(VerticalAnchor.BOTTOM, VerticalAnchor.TOP));
@@ -92,7 +95,8 @@ public final class LTXIPlacedFeatures
                 RandomOffsetPlacement.vertical(ConstantInt.of(1)),
                 BiomeFilter.biome()));
 
-        context.register(LTXIPlacedFeatures.TITANIUM_ORE_PLACEMENT, titaniumOre);
+        context.register(PERIDOTITE_ORE_PLACEMENT, peridotiteOre);
+        context.register(TITANIUM_ORE_PLACEMENT, titaniumOre);
         context.register(NIOBIUM_ORE_PLACEMENT, niobiumOre);
         context.register(TITANIUM_CLUSTERS_PLACEMENT, titaniumClusters);
         context.register(NIOBIUM_CLUSTERS_PLACEMENT, niobiumClusters);

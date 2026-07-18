@@ -38,7 +38,7 @@ public final class LTXIRecipeSerializers
             builder.defaultTime(400).withItemIngredients(6).withOptionalFluidIngredients(1).withItemResults(1));
     public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<FabricatingRecipe>> FABRICATING = SERIALIZERS.register(LTXIIdentifiers.ID_FABRICATING_RECIPE, () -> new RecipeSerializer<>(FabricatingRecipe.CODEC, FabricatingRecipe.STREAM_CODEC));
     public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<GeoSynthesisRecipe>> GEO_SYNTHESIS = register(LTXIIdentifiers.ID_GEO_SYNTHESIS_RECIPE, GeoSynthesisRecipe::new, builder ->
-            builder.defaultTime(60).withItemIngredients(1).withFluidIngredients(2, 2).withItemResults(1));
+            builder.defaultTime(100).withItemIngredients(1).withFluidIngredients(2, 2).withItemResults(1));
     public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<GardenSimulatingRecipe>> GARDEN_SIMULATING = register(LTXIIdentifiers.ID_GARDEN_SIMULATING_RECIPE, GardenSimulatingRecipe::new, builder ->
             builder.defaultTime(600).withItemIngredients(1).withOptionalFluidIngredients(1).withItemResults(4));
 

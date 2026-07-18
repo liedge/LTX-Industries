@@ -38,9 +38,9 @@ public final class LTXIBiomeModifiers
         HolderGetter<PlacedFeature> placements = context.lookup(Registries.PLACED_FEATURE);
         HolderGetter<Biome> biomes = context.lookup(Registries.BIOME);
 
-        BiomeModifier titaniumOre = new net.neoforged.neoforge.common.world.BiomeModifiers.AddFeaturesBiomeModifier(
+        BiomeModifier overworldOres = new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
-                keyHolderSet(placements, TITANIUM_ORE_PLACEMENT),
+                keyHolderSet(placements, PERIDOTITE_ORE_PLACEMENT, TITANIUM_ORE_PLACEMENT),
                 GenerationStep.Decoration.UNDERGROUND_ORES);
 
         BiomeModifier niobiumOre = new net.neoforged.neoforge.common.world.BiomeModifiers.AddFeaturesBiomeModifier(
@@ -68,7 +68,7 @@ public final class LTXIBiomeModifiers
                 keyHolderSet(placements, GLOOM_SHROOM_PLACEMENT),
                 GenerationStep.Decoration.VEGETAL_DECORATION);
 
-        context.register(OVERWORLD_ORES, titaniumOre);
+        context.register(OVERWORLD_ORES, overworldOres);
         context.register(BASALT_DELTA_ORES, basaltDeltas);
         context.register(OUTER_END_ORES, niobiumOre);
         context.register(JUNGLE_VEGETATION, sparkFruits);

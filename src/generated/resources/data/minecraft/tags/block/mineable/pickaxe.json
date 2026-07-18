@@ -1,5 +1,13 @@
 {
   "values": [
+    "ltxi:peridotite",
+    "ltxi:peridotite_stairs",
+    "ltxi:peridotite_slab",
+    "ltxi:peridotite_wall",
+    "ltxi:polished_peridotite",
+    "ltxi:polished_peridotite_stairs",
+    "ltxi:polished_peridotite_slab",
+    "ltxi:polished_peridotite_wall",
     "ltxi:titanium_panel",
     "ltxi:smooth_titanium_panel",
     "ltxi:tiled_titanium_panel",

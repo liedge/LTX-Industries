@@ -51,6 +51,14 @@ public final class LTXIBlocks
     public static final DeferredBlock<Block> SLATESTEEL_BLOCK = BLOCKS.registerSimpleBlock("slatesteel_block", properties -> properties.mapColor(MapColor.COLOR_LIGHT_GRAY).strength(5f, 12f).sound(SoundType.METAL).requiresCorrectToolForDrops());
 
     // Building blocks
+    public static final DeferredBlock<Block> PERIDOTITE = BLOCKS.registerSimpleBlock("peridotite", LTXIBlocks::peridotiteProperties);
+    public static final DeferredBlock<StairBlock> PERIDOTITE_STAIRS = BLOCKS.registerBlock("peridotite_stairs", properties -> new StairBlock(PERIDOTITE.get().defaultBlockState(), properties), LTXIBlocks::peridotiteProperties);
+    public static final DeferredBlock<SlabBlock> PERIDOTITE_SLAB = BLOCKS.registerBlock("peridotite_slab", SlabBlock::new, LTXIBlocks::peridotiteProperties);
+    public static final DeferredBlock<WallBlock> PERIDOTITE_WALL = BLOCKS.registerBlock("peridotite_wall", WallBlock::new, LTXIBlocks::peridotiteProperties);
+    public static final DeferredBlock<Block> POLISHED_PERIDOTITE = BLOCKS.registerSimpleBlock("polished_peridotite", LTXIBlocks::peridotiteProperties);
+    public static final DeferredBlock<StairBlock> POLISHED_PERIDOTITE_STAIRS = BLOCKS.registerBlock("polished_peridotite_stairs", properties -> new StairBlock(POLISHED_PERIDOTITE.get().defaultBlockState(), properties), LTXIBlocks::peridotiteProperties);
+    public static final DeferredBlock<SlabBlock> POLISHED_PERIDOTITE_SLAB = BLOCKS.registerBlock("polished_peridotite_slab", SlabBlock::new, LTXIBlocks::peridotiteProperties);
+    public static final DeferredBlock<WallBlock> POLISHED_PERIDOTITE_WALL = BLOCKS.registerBlock("polished_peridotite_wall", WallBlock::new, LTXIBlocks::peridotiteProperties);
     public static final Map<NeonLightColor, DeferredBlock<Block>> NEON_LIGHTS = LimaCollectionsUtil.fillAndCreateImmutableEnumMap(NeonLightColor.class, color -> BLOCKS.registerSimpleBlock(color + "_neon_light", properties -> neonLightProperties(properties).mapColor(color.getMapColor())));
     public static final DeferredBlock<Block> TITANIUM_PANEL = BLOCKS.registerSimpleBlock("titanium_panel", properties -> properties.mapColor(DyeColor.WHITE).strength(3.5f, 36f).sound(SoundType.COPPER).requiresCorrectToolForDrops());
     public static final DeferredBlock<Block> SMOOTH_TITANIUM_PANEL = BLOCKS.registerSimpleBlock("smooth_titanium_panel", properties -> properties.mapColor(DyeColor.WHITE).strength(3.5f, 36f).sound(SoundType.COPPER).requiresCorrectToolForDrops());
@@ -122,6 +130,16 @@ public final class LTXIBlocks
     public static final DeferredBlock<MeshBlock> MESH_BLOCK = BLOCKS.registerBlock("mesh_block", MeshBlock::new, properties -> machineProperties(properties).dynamicShape().noOcclusion().noLootTable());
 
     // Helpers & initializers
+    private static BlockBehaviour.Properties peridotiteProperties(BlockBehaviour.Properties base)
+    {
+        return base
+                .mapColor(DyeColor.GREEN)
+                .sound(SoundType.BASALT)
+                .strength(3f, 6f)
+                .requiresCorrectToolForDrops()
+                .instrument(NoteBlockInstrument.BASEDRUM);
+    }
+
     private static BlockBehaviour.Properties neonLightProperties(BlockBehaviour.Properties base)
     {
         return base

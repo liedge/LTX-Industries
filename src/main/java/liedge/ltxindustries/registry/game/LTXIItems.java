@@ -95,6 +95,14 @@ public final class LTXIItems
     public static final DeferredItem<BlockItem> TITANIUM_BLOCK = ITEMS.registerSimpleBlockItem(LTXIBlocks.TITANIUM_BLOCK);
     public static final DeferredItem<BlockItem> NIOBIUM_BLOCK = ITEMS.registerSimpleBlockItem(LTXIBlocks.NIOBIUM_BLOCK);
     public static final DeferredItem<BlockItem> SLATESTEEL_BLOCK = ITEMS.registerSimpleBlockItem(LTXIBlocks.SLATESTEEL_BLOCK);
+    public static final DeferredItem<BlockItem> PERIDOTITE = ITEMS.registerSimpleBlockItem(LTXIBlocks.PERIDOTITE);
+    public static final DeferredItem<BlockItem> PERIDOTITE_STAIRS = ITEMS.registerSimpleBlockItem(LTXIBlocks.PERIDOTITE_STAIRS);
+    public static final DeferredItem<BlockItem> PERIDOTITE_SLAB = ITEMS.registerSimpleBlockItem(LTXIBlocks.PERIDOTITE_SLAB);
+    public static final DeferredItem<BlockItem> PERIDOTITE_WALL = ITEMS.registerSimpleBlockItem(LTXIBlocks.PERIDOTITE_WALL);
+    public static final DeferredItem<BlockItem> POLISHED_PERIDOTITE = ITEMS.registerSimpleBlockItem(LTXIBlocks.POLISHED_PERIDOTITE);
+    public static final DeferredItem<BlockItem> POLISHED_PERIDOTITE_STAIRS = ITEMS.registerSimpleBlockItem(LTXIBlocks.POLISHED_PERIDOTITE_STAIRS);
+    public static final DeferredItem<BlockItem> POLISHED_PERIDOTITE_SLAB = ITEMS.registerSimpleBlockItem(LTXIBlocks.POLISHED_PERIDOTITE_SLAB);
+    public static final DeferredItem<BlockItem> POLISHED_PERIDOTITE_WALL = ITEMS.registerSimpleBlockItem(LTXIBlocks.POLISHED_PERIDOTITE_WALL);
     public static final Map<NeonLightColor, DeferredItem<BlockItem>> NEON_LIGHTS = LimaCollectionsUtil.fillAndCreateImmutableEnumMap(NeonLightColor.class, color -> ITEMS.registerSimpleBlockItem(LTXIBlocks.NEON_LIGHTS.get(color)));
     public static final DeferredItem<BlockItem> TITANIUM_PANEL = ITEMS.registerSimpleBlockItem(LTXIBlocks.TITANIUM_PANEL);
     public static final DeferredItem<BlockItem> SMOOTH_TITANIUM_PANEL = ITEMS.registerSimpleBlockItem(LTXIBlocks.SMOOTH_TITANIUM_PANEL);

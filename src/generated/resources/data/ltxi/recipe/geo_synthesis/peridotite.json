@@ -1,0 +1,27 @@
+{
+  "type": "ltxi:geo_synthesis",
+  "fluid_inputs": [
+    {
+      "amount": 1000,
+      "consume_chance": 0.0,
+      "ingredient": "#minecraft:water"
+    },
+    {
+      "amount": 1000,
+      "consume_chance": 0.0,
+      "ingredient": "#minecraft:lava"
+    }
+  ],
+  "item_inputs": [
+    {
+      "consume_chance": 0.0,
+      "ingredient": "ltxi:peridotite"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:peridotite"
+    }
+  ]
+}

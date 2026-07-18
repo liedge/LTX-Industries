@@ -96,6 +96,11 @@ class RecipesGen extends LimaRecipeProvider
     private final HolderGetter<Item> items;
     private final HolderGetter<Fluid> fluids;
 
+    // Patterns
+    private final String[] stairsPattern = {"#  ", "## ", "###"};
+    private final String[] slabPattern = {"###"};
+    private final String[] wallPattern = {"###", "###"};
+
     private RecipesGen(HolderLookup.Provider registries, RecipeOutput output)
     {
         super(registries, output, LTXIndustries.RESOURCES);
@@ -107,6 +112,14 @@ class RecipesGen extends LimaRecipeProvider
     protected void buildRecipes()
     {
         //#region Crafting table recipes
+        shaped(PERIDOTITE_STAIRS, 4).input('#', PERIDOTITE).patterns(stairsPattern).category(CraftingBookCategory.BUILDING).save(output);
+        shaped(PERIDOTITE_SLAB, 6).input('#', PERIDOTITE).patterns(slabPattern).category(CraftingBookCategory.BUILDING).save(output);
+        shaped(PERIDOTITE_WALL, 6).input('#', PERIDOTITE).patterns(wallPattern).save(output);
+        shaped(POLISHED_PERIDOTITE, 4).input('#', PERIDOTITE).patterns("##", "##").save(output);
+        shaped(POLISHED_PERIDOTITE_STAIRS, 4).input('#', POLISHED_PERIDOTITE).patterns(stairsPattern).category(CraftingBookCategory.BUILDING).save(output);
+        shaped(POLISHED_PERIDOTITE_SLAB, 6).input('#', POLISHED_PERIDOTITE).patterns(slabPattern).category(CraftingBookCategory.BUILDING).save(output);
+        shaped(POLISHED_PERIDOTITE_WALL, 6).input('#', POLISHED_PERIDOTITE).patterns(wallPattern).save(output);
+
         nineStorageRecipes(output, RAW_TITANIUM, RAW_TITANIUM_BLOCK);
         nineStorageRecipes(output, RAW_NIOBIUM, RAW_NIOBIUM_BLOCK);
 
@@ -200,7 +213,22 @@ class RecipesGen extends LimaRecipeProvider
         NEON_LIGHTS.forEach((color, holder) -> shaped(holder, 4).input('d', neonLightDye(color)).input('g', GLOWSTONE).patterns("dg", "gd").save(output));
         //#endregion
 
-        // Smelting/cooking recipes
+        cookingRecipes();
+        stonecuttingRecipes();
+        fabricatingRecipes();
+        grindingRecipes();
+        mfcRecipes();
+        electroCentrifugingRecipes();
+        mixingRecipes();
+        energizingRecipes();
+        chemLabRecipes();
+        assemblingRecipes();
+        geoSynthesisRecipes();
+        gardenSimRecipes();
+    }
+
+    private void cookingRecipes()
+    {
         oreSmeltBlast(output, "smelt_raw_titanium", RAW_TITANIUM, stackTemplate(TITANIUM_INGOT));
         oreSmeltBlast(output, "smelt_stone_titanium", TITANIUM_ORE, stackTemplate(TITANIUM_INGOT));
         oreSmeltBlast(output, "smelt_deepslate_titanium", DEEPSLATE_TITANIUM_ORE, stackTemplate(TITANIUM_INGOT));
@@ -219,17 +247,17 @@ class RecipesGen extends LimaRecipeProvider
         orePebblesCooking(NETHERITE_ORE_PEBBLES, NETHERITE_SCRAP, 1);
         orePebblesCooking(TITANIUM_ORE_PEBBLES, TITANIUM_INGOT, 1);
         orePebblesCooking(NIOBIUM_ORE_PEBBLES, NIOBIUM_INGOT, 1);
+    }
 
-        fabricatingRecipes();
-        grindingRecipes();
-        mfcRecipes();
-        electroCentrifugingRecipes();
-        mixingRecipes();
-        energizingRecipes();
-        chemLabRecipes();
-        assemblingRecipes();
-        geoSynthesisRecipes();
-        gardenSimRecipes();
+    private void stonecuttingRecipes()
+    {
+        stonecutting(PERIDOTITE_STAIRS).input(PERIDOTITE).category(CraftingBookCategory.BUILDING).save(output);
+        stonecutting(PERIDOTITE_SLAB, 2).input(PERIDOTITE).category(CraftingBookCategory.BUILDING).save(output);
+        stonecutting(PERIDOTITE_WALL).input(PERIDOTITE).save(output);
+        stonecutting(POLISHED_PERIDOTITE).input(PERIDOTITE).category(CraftingBookCategory.BUILDING).save(output);
+        stonecutting(POLISHED_PERIDOTITE_STAIRS).input(POLISHED_PERIDOTITE).category(CraftingBookCategory.BUILDING).save(output);
+        stonecutting(POLISHED_PERIDOTITE_SLAB, 2).input(POLISHED_PERIDOTITE).category(CraftingBookCategory.BUILDING).save(output);
+        stonecutting(POLISHED_PERIDOTITE_WALL).input(POLISHED_PERIDOTITE).save(output);
     }
 
     private void fabricatingRecipes()
@@ -1105,16 +1133,18 @@ class RecipesGen extends LimaRecipeProvider
 
     private void geoSynthesisRecipes()
     {
-        geoSynthesis().randomInput(COBBLESTONE, 1, 0f).randomFluidInput(fluids, FluidTags.WATER, 1000, 0f).randomFluidInput(Fluids.LAVA, 1000, 0f).output(ItemResult.of(COBBLESTONE)).save(output);
-        geoSynthesis().randomInput(STONE, 1, 0f).randomFluidInput(fluids, FluidTags.WATER, 1000, 0f).randomFluidInput(Fluids.LAVA, 1000, 0f).output(ItemResult.of(STONE)).save(output);
-        geoSynthesis().randomInput(COBBLED_DEEPSLATE, 1, 0f).randomFluidInput(fluids, FluidTags.WATER, 1000, 0f).randomFluidInput(Fluids.LAVA, 1000, 0f).output(ItemResult.of(COBBLED_DEEPSLATE)).save(output);
-        geoSynthesis().randomInput(DEEPSLATE, 1, 0f).randomFluidInput(fluids, FluidTags.WATER, 1000, 0f).randomFluidInput(Fluids.LAVA, 1000, 0f).output(ItemResult.of(DEEPSLATE)).save(output);
-        geoSynthesis().randomInput(GRANITE, 1, 0f).randomFluidInput(fluids, FluidTags.WATER, 1000, 0f).randomFluidInput(Fluids.LAVA, 1000, 0f).output(ItemResult.of(GRANITE)).save(output);
-        geoSynthesis().randomInput(DIORITE, 1, 0f).randomFluidInput(fluids, FluidTags.WATER, 1000, 0f).randomFluidInput(Fluids.LAVA, 1000, 0f).output(ItemResult.of(DIORITE)).save(output);
-        geoSynthesis().randomInput(ANDESITE, 1, 0f).randomFluidInput(fluids, FluidTags.WATER, 1000, 0f).randomFluidInput(Fluids.LAVA, 1000, 0f).output(ItemResult.of(ANDESITE)).save(output);
-        geoSynthesis().randomInput(DRIPSTONE_BLOCK, 1, 0f).randomFluidInput(VIRIDIC_ACID, 1000, 0f).randomFluidInput(Fluids.WATER, 1000, 0f).output(ItemResult.of(DRIPSTONE_BLOCK)).save(output);
-        geoSynthesis().randomInput(BASALT, 1, 0f).randomFluidInput(fluids, FluidTags.WATER, 1000, 0f).randomFluidInput(Fluids.LAVA, 1000, 0f).output(ItemResult.of(BASALT)).save(output);
-        geoSynthesis().randomInput(BLACKSTONE, 1, 0f).randomFluidInput(fluids, FluidTags.WATER, 1000, 0f).randomFluidInput(Fluids.LAVA, 1000, 0f).output(ItemResult.of(BLACKSTONE)).save(output);
+        geoSynthWaterLava(COBBLESTONE);
+        geoSynthWaterLava(STONE);
+        geoSynthWaterLava(COBBLED_DEEPSLATE);
+        geoSynthWaterLava(DEEPSLATE);
+        geoSynthWaterLava(GRANITE);
+        geoSynthWaterLava(DIORITE);
+        geoSynthWaterLava(ANDESITE);
+        geoSynthWaterLava(PERIDOTITE);
+        geoSynthWaterLava(DRIPSTONE_BLOCK);
+        geoSynthWaterLava(BASALT);
+        geoSynthWaterLava(BLACKSTONE);
+
         geoSynthesis().randomInput(OBSIDIAN, 1, 0f).randomFluidInput(fluids, FluidTags.WATER, 1000, 0f).fluidInput(Fluids.LAVA, 1000).time(120).output(ItemResult.of(OBSIDIAN)).save(output);
     }
 
@@ -1287,7 +1317,13 @@ class RecipesGen extends LimaRecipeProvider
 
     private LTXIBuilder<GeoSynthesisRecipe> geoSynthesis()
     {
-        return new LTXIBuilder<>(resources, 60, GeoSynthesisRecipe::new);
+        return new LTXIBuilder<>(resources, 100, GeoSynthesisRecipe::new);
+    }
+
+    private void geoSynthWaterLava(ItemLike key)
+    {
+        geoSynthesis().randomInput(key, 1, 0f).randomFluidInput(fluids, FluidTags.WATER, 1000, 0f).randomFluidInput(fluids, FluidTags.LAVA, 1000, 0f)
+                .output(ItemResult.of(key.asItem())).save(output);
     }
 
     private GardenBuilder garden()

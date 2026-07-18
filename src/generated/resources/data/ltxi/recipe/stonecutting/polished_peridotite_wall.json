@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "ltxi:polished_peridotite",
+  "result": {
+    "id": "ltxi:polished_peridotite_wall"
+  }
+}

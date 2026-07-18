@@ -58,6 +58,14 @@ class LanguageGen extends LimaLanguageProvider
         addBlock(LTXIBlocks.TITANIUM_BLOCK, "Block of Titanium");
         addBlock(LTXIBlocks.NIOBIUM_BLOCK, "Block of Niobium");
         addBlock(LTXIBlocks.SLATESTEEL_BLOCK, "Block of Slatesteel");
+        addBlock(LTXIBlocks.PERIDOTITE, "Peridotite");
+        addBlock(LTXIBlocks.PERIDOTITE_STAIRS, "Peridotite Stairs");
+        addBlock(LTXIBlocks.PERIDOTITE_SLAB, "Peridotite Slab");
+        addBlock(LTXIBlocks.PERIDOTITE_WALL, "Peridotite Wall");
+        addBlock(LTXIBlocks.POLISHED_PERIDOTITE, "Polished Peridotite");
+        addBlock(LTXIBlocks.POLISHED_PERIDOTITE_STAIRS, "Polished Peridotite Stairs");
+        addBlock(LTXIBlocks.POLISHED_PERIDOTITE_SLAB, "Polished Peridotite Slab");
+        addBlock(LTXIBlocks.POLISHED_PERIDOTITE_WALL, "Polished Peridotite Wall");
 
         LTXIBlocks.NEON_LIGHTS.forEach((color, holder) ->
         {
