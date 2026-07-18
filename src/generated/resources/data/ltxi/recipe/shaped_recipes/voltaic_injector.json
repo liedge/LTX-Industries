@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "a": "minecraft:lightning_rod",
+    "a": "ltxi:small_voltaic_cell",
     "c": "ltxi:t1_circuit",
     "g": "#c:gears/titanium",
     "s": "minecraft:copper_ingot",

@@ -154,7 +154,6 @@ class LanguageGen extends LimaLanguageProvider
         addItem(ELECTRIC_CHARTREUSE_PIGMENT, "Electric Chartreuse Pigment");
         addItem(VIRIDIC_GREEN_PIGMENT, "Viridic Green Pigment");
         addItem(GLOOM_BLUE_PIGMENT, "Gloom Blue Pigment");
-        addItem(ELECTRIC_CHEMICAL, "Electrolyte Blend");
         addItem(MONOMER_CHEMICAL, "Monomer Solution");
         addItem(VIRIDIC_WEAPON_CHEMICAL, "Weapons-Grade Viridic Acid");
         addItem(CHORUS_CHEMICAL, "Chorus Extract");
@@ -163,6 +162,9 @@ class LanguageGen extends LimaLanguageProvider
         addItem(SLATESTEEL_NUGGET, "Slatesteel Nugget");
         addItem(TITANIUM_GEAR, "Titanium Gear");
         addItem(SLATESTEEL_GEAR, "Slatesteel Gear");
+        addItem(SMALL_VOLTAIC_CELL, "Basic Voltaic Cell");
+        addItem(MEDIUM_VOLTAIC_CELL, "Voltaic Cell");
+        addItem(LARGE_VOLTAIC_CELL, "High-Energy Voltaic Cell");
         addItem(CIRCUIT_BOARD, "Circuit Board");
         simpleHintItem(T1_CIRCUIT, "Basic Circuit", "First tier circuit. Sufficient energy and data throughput for most entry-level applications.");
         simpleHintItem(T2_CIRCUIT, "Enhanced Circuit", "Second tier circuit. Improved energy and data efficiency from higher quality conductors.");
@@ -258,10 +260,11 @@ class LanguageGen extends LimaLanguageProvider
         upgrade(LTXIUpgrades.HEAD_DEFAULT, "AL/1C [H] Unit", "Neural processor core of the AL/1C bodysuit.");
         upgradeTooltip(LTXIUpgrades.HEAD_DEFAULT, 0, "Blocks vision debuff effects (%s)");
         upgrade(LTXIUpgrades.BODY_DEFAULT, "AL/1C [B] Unit", "Vital function management system of the AL/1C bodysuit.");
+        upgradeTooltip(LTXIUpgrades.BODY_DEFAULT, 0, "Immunity to fire damage");
         upgrade(LTXIUpgrades.LEGS_DEFAULT, "AL/1C [L] Unit", "Primary locomotion systems of the AL/1C bodysuit.");
         upgradeTooltip(LTXIUpgrades.LEGS_DEFAULT, 0, "Blocks movement debuff effects (%s)");
         upgrade(LTXIUpgrades.FEET_DEFAULT, "AL/1C [F] Unit", "Bipedal stabilization systems of the AL/1C bodysuit.");
-        upgradeTooltip(LTXIUpgrades.FEET_DEFAULT, 0, "Immune to hot floor damage.");
+        upgradeTooltip(LTXIUpgrades.FEET_DEFAULT, 0, "Immunity to hot floor damage.");
 
         upgrade(LTXIUpgrades.EQUIPMENT_ENERGY_UPGRADE, "Augmented Equipment Battery", "Maximize your equipment's field uptime with this upgraded battery.");
 
@@ -293,7 +296,6 @@ class LanguageGen extends LimaLanguageProvider
         upgrade(LTXIUpgrades.PASSIVE_SATURATION, "Metabolic Synthesizer", "Injects a stable mix of nutrients required for healthy function.");
         upgrade(LTXIUpgrades.CREATIVE_FLIGHT, "Fantasia Rulebook", italicName("One of the %s project's most successful experiments. Allows the user to exist outside the laws of gravity.", "Wonderland"));
 
-        upgrade(LTXIUpgrades.EFFICIENCY_ENCHANTMENT, "Overclocked Energy Cutters", "Enhances the power feed to the tool's energy cutter.");
         upgrade(LTXIUpgrades.SILK_TOUCH_ENCHANTMENT, "Stabilized Harvest Matrix", "Calibrated to extract intact samples from the terrain.");
         upgrade(LTXIUpgrades.FORTUNE_ENCHANTMENT, "Overclocked Harvest Matrix", "Calibrated to extract superior quantities of valuable resources.");
         upgrade(LTXIUpgrades.LOOTING_ENCHANTMENT, "Combat Yield Protocol", "Calibrated to maximize structural integrity of salvageable biomaterials.");
@@ -350,9 +352,9 @@ class LanguageGen extends LimaLanguageProvider
         add(FABRICATING, "Fabricating");
 
         // Recipe sub-modes
+        recipeMode(LTXIRecipeModes.ELEMENT_EXTRACTION, "Element Extraction");
         recipeMode(LTXIRecipeModes.DYE_EXTRACTION, "Dye Extraction");
         recipeMode(LTXIRecipeModes.CHEM_DISSOLUTION, "Dissolution");
-        recipeMode(LTXIRecipeModes.ECF_ELECTROLYZE, "Electrolyze");
         recipeMode(LTXIRecipeModes.GS_FARMING, "Farming");
         recipeMode(LTXIRecipeModes.GS_WOODS, "Woods");
         recipeMode(LTXIRecipeModes.GS_ORCHARD, "Orchard");

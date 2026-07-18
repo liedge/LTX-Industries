@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "a": "minecraft:crafting_table",
+    "c": "ltxi:t3_circuit",
+    "e": "ltxi:large_voltaic_cell",
+    "g": "#c:gears/titanium",
+    "s": "ltxi:slatesteel_block",
+    "t": "#c:storage_blocks/titanium"
+  },
+  "pattern": [
+    "tst",
+    "cac",
+    "geg"
+  ],
+  "result": {
+    "id": "ltxi:repair_station"
+  }
+}

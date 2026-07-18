@@ -51,6 +51,7 @@ public final class LTXIItems
     public static void register(IEventBus bus)
     {
         ITEMS.register(bus);
+        ITEMS.addAlias(RESOURCES.id("electric_chemical"), SODIUM_DUST.getId());
         bus.addListener(RegisterCapabilitiesEvent.class, LTXIItems::registerCapabilities);
     }
 
@@ -206,6 +207,9 @@ public final class LTXIItems
     // Components
     public static final DeferredItem<Item> TITANIUM_GEAR = ITEMS.registerSimpleItem("titanium_gear");
     public static final DeferredItem<Item> SLATESTEEL_GEAR = ITEMS.registerSimpleItem("slatesteel_gear");
+    public static final DeferredItem<Item> SMALL_VOLTAIC_CELL = ITEMS.registerSimpleItem("small_voltaic_cell");
+    public static final DeferredItem<Item> MEDIUM_VOLTAIC_CELL = ITEMS.registerSimpleItem("medium_voltaic_cell");
+    public static final DeferredItem<Item> LARGE_VOLTAIC_CELL = ITEMS.registerSimpleItem("large_voltaic_cell");
     public static final DeferredItem<Item> CIRCUIT_BOARD = ITEMS.registerSimpleItem("circuit_board");
     public static final DeferredItem<SimpleHintItem> T1_CIRCUIT = registerSimpleHint("t1_circuit");
     public static final DeferredItem<SimpleHintItem> T2_CIRCUIT = registerSimpleHint("t2_circuit");
@@ -235,7 +239,6 @@ public final class LTXIItems
     public static final DeferredItem<EnergyArmorItem> WONDERLAND_FEET = registerLTXGear(LTXIIdentifiers.ID_WONDERLAND_FEET, properties -> new EnergyArmorItem(properties, EquipmentSlot.FEET, 3f));
 
     // Chemicals
-    public static final DeferredItem<Item> ELECTRIC_CHEMICAL = ITEMS.registerSimpleItem("electric_chemical");
     public static final DeferredItem<Item> MONOMER_CHEMICAL = ITEMS.registerSimpleItem("monomer_chemical");
     public static final DeferredItem<Item> VIRIDIC_WEAPON_CHEMICAL = ITEMS.registerSimpleItem("viridic_weapon_chemical");
     public static final DeferredItem<Item> CHORUS_CHEMICAL = ITEMS.registerSimpleItem("chorus_chemical");

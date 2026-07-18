@@ -18,8 +18,8 @@
       "ingredient": "#c:gears/titanium"
     },
     {
-      "count": 32,
-      "ingredient": "ltxi:electric_chemical"
+      "count": 8,
+      "ingredient": "ltxi:medium_voltaic_cell"
     }
   ],
   "result": {

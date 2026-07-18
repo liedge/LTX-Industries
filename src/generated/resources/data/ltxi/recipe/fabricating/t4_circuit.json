@@ -1,6 +1,6 @@
 {
   "type": "ltxi:fabricating",
-  "energy_required": 20000000,
+  "energy_required": 25000000,
   "group": "circuits",
   "item_inputs": [
     {
@@ -11,20 +11,15 @@
       "ingredient": "ltxi:t3_circuit"
     },
     {
-      "count": 8,
+      "count": 12,
       "ingredient": "#c:ingots/titanium"
     },
     {
-      "count": 12,
-      "ingredient": "ltxi:slatesteel_ingot"
+      "ingredient": "ltxi:large_voltaic_cell"
     },
     {
-      "count": 16,
-      "ingredient": "ltxi:polymer_ingot"
-    },
-    {
-      "count": 32,
-      "ingredient": "ltxi:silicon_ingot"
+      "count": 64,
+      "ingredient": "#c:ingots/silicon"
     },
     {
       "count": 8,
@@ -35,7 +30,7 @@
       "ingredient": "minecraft:diamond"
     },
     {
-      "count": 4,
+      "count": 16,
       "ingredient": "ltxi:chorus_chemical"
     }
   ],

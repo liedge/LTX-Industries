@@ -141,7 +141,6 @@ public final class LTXIUpgrades
     public static final ResourceKey<Upgrade> CREATIVE_FLIGHT = key("creative_flight");
 
     // Enchantments
-    public static final ResourceKey<Upgrade> EFFICIENCY_ENCHANTMENT = key("enchantment/efficiency");
     public static final ResourceKey<Upgrade> SILK_TOUCH_ENCHANTMENT = key("enchantment/silk_touch");
     public static final ResourceKey<Upgrade> FORTUNE_ENCHANTMENT = key("enchantment/fortune");
     public static final ResourceKey<Upgrade> LOOTING_ENCHANTMENT = key("enchantment/looting");
@@ -361,6 +360,8 @@ public final class LTXIUpgrades
                 .forEquipment(LTXIItems.WONDERLAND_BODY)
                 .itemAttributes(Attributes.BLOCK_INTERACTION_RANGE, "block_reach", LevelBasedValue.constant(1), AttributeModifier.Operation.ADD_VALUE, EquipmentSlotGroup.CHEST)
                 .itemAttributes(Attributes.ENTITY_INTERACTION_RANGE, "entity_reach", LevelBasedValue.constant(1), AttributeModifier.Operation.ADD_VALUE, EquipmentSlotGroup.CHEST)
+                .withConditionUnit(DAMAGE_IMMUNITY, DamageSourceCondition.hasDamageSource(DamageSourcePredicate.Builder.damageType().tag(TagPredicate.is(DamageTypeTags.IS_FIRE))))
+                .simpleTooltip()
                 .effectIcon(defaultModuleIcon(LTXIItems.WONDERLAND_BODY))
                 .category("default/armor/2")
                 .register(context);
@@ -393,7 +394,7 @@ public final class LTXIUpgrades
                 .setMaxRank(4)
                 .withEffect(ENERGY_CAPACITY, ValueOperation.of(equipmentEnergyAmt, MathOperation.MULTIPLY))
                 .tooltip(energyCapacityTooltip(equipmentEnergyAmt, ValueFormat.MULTIPLICATIVE, ValueSentiment.POSITIVE))
-                .effectIcon(SpriteIcon.create("extra_energy"))
+                .effectIcon(plusOverlay(ItemIcon.of(LTXIItems.LARGE_VOLTAIC_CELL)))
                 .category("equipment")
                 .register(context);
 
@@ -600,13 +601,6 @@ public final class LTXIUpgrades
                 .register(context);
 
         // Enchantments
-        Upgrade.builder(EFFICIENCY_ENCHANTMENT)
-                .forEquipment(miningTools)
-                .setMaxRank(5)
-                .withEffect(ENCHANTMENT_LEVELS, AddEnchantmentLevels.rankLinear(enchantments.getOrThrow(Enchantments.EFFICIENCY)))
-                .effectIcon(yellowArrowOverlay(ItemIcon.of(LTXIItems.EPSILON_DRILL)))
-                .category("enchants")
-                .register(context);
         Upgrade.builder(SILK_TOUCH_ENCHANTMENT)
                 .forEquipment(miningTools)
                 .exclusiveWith(holders, MINING_DROPS_MODIFIERS)
@@ -701,7 +695,7 @@ public final class LTXIUpgrades
                 .tooltip(energyCapacityTooltip(ecaScaling, ValueFormat.MULTIPLICATIVE, ValueSentiment.POSITIVE))
                 .tooltip(energyTransferTooltip(ecaScaling, ValueFormat.MULTIPLICATIVE, ValueSentiment.POSITIVE))
                 .setMaxRank(5)
-                .effectIcon(SpriteIcon.create("extra_energy"))
+                .effectIcon(plusOverlay(ItemIcon.of(LTXIItems.LARGE_VOLTAIC_CELL)))
                 .register(context);
 
         ContextlessValue tankScaling = ExponentialDouble.of(2, LinearDouble.oneIncrement(2));

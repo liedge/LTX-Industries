@@ -1,20 +1,23 @@
 {
   "type": "ltxi:assembling",
-  "craft_time": 300,
   "item_inputs": [
     {
       "ingredient": "ltxi:circuit_board"
     },
     {
-      "count": 4,
+      "count": 8,
       "ingredient": "#c:ingots/titanium"
     },
     {
-      "count": 4,
+      "count": 2,
+      "ingredient": "ltxi:small_voltaic_cell"
+    },
+    {
+      "count": 12,
       "ingredient": "#c:ingots/silicon"
     },
     {
-      "count": 2,
+      "count": 4,
       "ingredient": "minecraft:gold_ingot"
     }
   ],

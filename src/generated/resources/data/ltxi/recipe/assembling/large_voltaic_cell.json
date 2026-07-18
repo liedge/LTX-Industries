@@ -1,0 +1,36 @@
+{
+  "type": "ltxi:assembling",
+  "craft_time": 600,
+  "item_inputs": [
+    {
+      "count": 8,
+      "ingredient": "#c:ingots/titanium"
+    },
+    {
+      "count": 8,
+      "ingredient": "ltxi:slatesteel_ingot"
+    },
+    {
+      "count": 12,
+      "ingredient": "ltxi:polymer_ingot"
+    },
+    {
+      "count": 2,
+      "ingredient": "ltxi:medium_voltaic_cell"
+    },
+    {
+      "count": 4,
+      "ingredient": "ltxi:niobium_ingot"
+    },
+    {
+      "count": 16,
+      "ingredient": "#c:dusts/sodium"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:large_voltaic_cell"
+    }
+  ]
+}

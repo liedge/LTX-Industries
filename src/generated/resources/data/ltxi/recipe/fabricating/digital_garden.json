@@ -4,7 +4,7 @@
   "group": "machines",
   "item_inputs": [
     {
-      "ingredient": "ltxi:t4_circuit"
+      "ingredient": "ltxi:t3_circuit"
     },
     {
       "count": 8,

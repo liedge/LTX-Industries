@@ -13,11 +13,5 @@
       "id": "ltxi:chlorine"
     }
   ],
-  "item_results": [
-    {
-      "count": 1,
-      "id": "ltxi:sodium_dust"
-    }
-  ],
-  "mode": "ltxi:electrolyze"
+  "mode": "ltxi:element_extraction"
 }

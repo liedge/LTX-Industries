@@ -3,7 +3,21 @@
     "description": {
       "translate": "upgrade.ltxi.eca_capacity.desc"
     },
-    "icon": "ltxi:extra_energy",
+    "icon": {
+      "type": "composite",
+      "background": {
+        "type": "item",
+        "id": "ltxi:large_voltaic_cell"
+      },
+      "foreground": {
+        "type": "sprite",
+        "height": 9,
+        "id": "ltxi:plus_overlay",
+        "width": 9,
+        "x": 6,
+        "y": 6
+      }
+    },
     "title": {
       "color": "#8BD1F0",
       "translate": "upgrade.ltxi.eca_capacity"

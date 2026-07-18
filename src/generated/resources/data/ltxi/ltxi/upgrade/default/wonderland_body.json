@@ -21,7 +21,15 @@
     },
     "title": {
       "translate": "upgrade.ltxi.default.wonderland_body"
-    }
+    },
+    "tooltips": [
+      {
+        "type": "static",
+        "tooltip": {
+          "translate": "upgrade.ltxi.default.wonderland_body.tooltip0"
+        }
+      }
+    ]
   },
   "effects": {
     "ltxi:add_item_attributes": [
@@ -42,6 +50,22 @@
           "operation": "add_value"
         },
         "slots": "chest"
+      }
+    ],
+    "ltxi:damage_immunity": [
+      {
+        "effect": {},
+        "requirements": {
+          "condition": "minecraft:damage_source_properties",
+          "predicate": {
+            "tags": [
+              {
+                "expected": true,
+                "id": "minecraft:is_fire"
+              }
+            ]
+          }
+        }
       }
     ]
   },

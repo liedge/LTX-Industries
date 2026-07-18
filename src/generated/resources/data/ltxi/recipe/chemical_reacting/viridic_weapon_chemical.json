@@ -14,7 +14,7 @@
   "item_inputs": [
     {
       "count": 8,
-      "ingredient": "ltxi:electric_chemical"
+      "ingredient": "#c:dusts/sodium"
     }
   ],
   "item_results": [

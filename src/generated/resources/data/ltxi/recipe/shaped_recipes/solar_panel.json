@@ -4,7 +4,7 @@
   "key": {
     "a": "#c:gears/titanium",
     "c": "ltxi:t2_circuit",
-    "e": "ltxi:electric_chemical",
+    "e": "ltxi:small_voltaic_cell",
     "g": "ltxi:titanium_glass",
     "t": "#c:ingots/titanium"
   },

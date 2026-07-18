@@ -1,5 +1,5 @@
 {
-  "type": "ltxi:electro_centrifuging",
+  "type": "ltxi:grinding",
   "craft_time": 120,
   "item_inputs": [
     {

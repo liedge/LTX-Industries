@@ -1,0 +1,23 @@
+{
+  "type": "ltxi:garden_simulating",
+  "craft_time": 300,
+  "fluid_inputs": [
+    {
+      "amount": 1500,
+      "ingredient": "#minecraft:water"
+    }
+  ],
+  "item_inputs": [
+    {
+      "consume_chance": 0.0,
+      "ingredient": "minecraft:pale_oak_sapling"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 8,
+      "id": "minecraft:pale_oak_leaves"
+    }
+  ],
+  "mode": "ltxi:foliage"
+}

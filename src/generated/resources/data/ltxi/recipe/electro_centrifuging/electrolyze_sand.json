@@ -18,5 +18,5 @@
       "id": "ltxi:silicon_dust"
     }
   ],
-  "mode": "ltxi:electrolyze"
+  "mode": "ltxi:element_extraction"
 }

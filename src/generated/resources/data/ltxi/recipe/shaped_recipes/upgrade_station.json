@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "a": "minecraft:crafting_table",
-    "b": "ltxi:titanium_block",
+    "b": "#c:storage_blocks/titanium",
     "l": "#c:dyes/lime",
     "t": "#c:ingots/titanium"
   },

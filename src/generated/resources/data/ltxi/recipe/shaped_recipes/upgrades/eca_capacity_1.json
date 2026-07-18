@@ -3,14 +3,13 @@
   "category": "misc",
   "key": {
     "c": "ltxi:t1_circuit",
-    "e": "ltxi:electric_chemical",
-    "i": "#c:ingots/copper",
+    "e": "ltxi:small_voltaic_cell",
     "m": "ltxi:empty_upgrade_module"
   },
   "pattern": [
-    "ici",
+    " c ",
     "eme",
-    "ici"
+    " c "
   ],
   "result": {
     "components": {

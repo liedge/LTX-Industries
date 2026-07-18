@@ -2,15 +2,15 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "c": "minecraft:stone_pressure_plate",
+    "b": "minecraft:stone_pressure_plate",
+    "e": "ltxi:small_voltaic_cell",
     "m": "minecraft:copper_ingot",
-    "r": "minecraft:redstone",
-    "t": "#c:ingots/titanium"
+    "r": "minecraft:repeater"
   },
   "pattern": [
-    "tmt",
-    "mcm",
-    "rmr"
+    "eme",
+    "mrm",
+    "bbb"
   ],
   "result": {
     "id": "ltxi:t1_circuit"

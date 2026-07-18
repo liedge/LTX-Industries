@@ -1,8 +1,8 @@
 package liedge.ltxindustries.registry.bootstrap;
 
-import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.lib.icon.ItemIcon;
+import liedge.ltxindustries.lib.icon.SpriteIcon;
 import liedge.ltxindustries.recipe.RecipeMode;
 import liedge.ltxindustries.registry.LTXIRegistries;
 import liedge.ltxindustries.registry.game.LTXIItems;
@@ -16,9 +16,10 @@ public final class LTXIRecipeModes
 {
     private LTXIRecipeModes() {}
 
+    public static final ResourceKey<RecipeMode> ELEMENT_EXTRACTION = key("element_extraction");
+
     public static final ResourceKey<RecipeMode> DYE_EXTRACTION = key("dye_extraction");
     public static final ResourceKey<RecipeMode> CHEM_DISSOLUTION = key("chemical_dissolve");
-    public static final ResourceKey<RecipeMode> ECF_ELECTROLYZE = key("electrolyze");
 
     public static final ResourceKey<RecipeMode> GS_FARMING = key("farming");
     public static final ResourceKey<RecipeMode> GS_WOODS = key("lumber");
@@ -32,9 +33,9 @@ public final class LTXIRecipeModes
 
     public static void bootstrap(BootstrapContext<RecipeMode> context)
     {
+        builder(ELEMENT_EXTRACTION).icon(SpriteIcon.create("sodium_ion")).register(context);
         builder(DYE_EXTRACTION).icon(ItemIcon.of(Items.LIME_DYE)).register(context);
         builder(CHEM_DISSOLUTION).icon(ItemIcon.of(LTXIItems.VIRIDIC_ACID_BUCKET)).register(context);
-        builder(ECF_ELECTROLYZE).icon(ItemIcon.of(LTXIItems.ELECTRIC_CHEMICAL)).styledName(LTXIConstants.ELECTRIC_GREEN).register(context);
 
         builder(GS_FARMING).icon(ItemIcon.of(Items.WHEAT)).register(context);
         builder(GS_WOODS).icon(ItemIcon.of(Items.OAK_LOG)).register(context);

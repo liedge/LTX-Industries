@@ -21,12 +21,8 @@
       "ingredient": "#c:ingots/titanium"
     },
     {
-      "count": 6,
-      "ingredient": "minecraft:gold_ingot"
-    },
-    {
-      "count": 12,
-      "ingredient": "ltxi:electric_chemical"
+      "count": 2,
+      "ingredient": "ltxi:medium_voltaic_cell"
     }
   ],
   "item_results": [

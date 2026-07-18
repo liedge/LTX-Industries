@@ -22,12 +22,7 @@
       "ingredient": "#c:ingots/titanium"
     },
     {
-      "count": 6,
-      "ingredient": "ltxi:niobium_ingot"
-    },
-    {
-      "count": 24,
-      "ingredient": "ltxi:electric_chemical"
+      "ingredient": "ltxi:large_voltaic_cell"
     }
   ],
   "item_results": [
