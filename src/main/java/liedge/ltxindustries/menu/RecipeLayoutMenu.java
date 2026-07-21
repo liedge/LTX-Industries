@@ -7,13 +7,10 @@ import liedge.limacore.transfer.fluid.LimaBlockEntityFluids;
 import liedge.ltxindustries.blockentity.base.RecipeModeHolderBlockEntity;
 import liedge.ltxindustries.blockentity.template.BaseRecipeMachineBlockEntity;
 import liedge.ltxindustries.client.LTXILangKeys;
-import liedge.ltxindustries.menu.layout.LayoutSlot;
 import liedge.ltxindustries.menu.layout.RecipeLayout;
 import liedge.ltxindustries.registry.game.LTXIMenus;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
-
-import java.util.List;
 
 public final class RecipeLayoutMenu<CTX extends BaseRecipeMachineBlockEntity<?, ?>> extends LTXIMachineMenu<CTX>
 {
@@ -26,26 +23,7 @@ public final class RecipeLayoutMenu<CTX extends BaseRecipeMachineBlockEntity<?, 
         super(type, containerId, inventory, menuContext);
         this.layout = layout;
 
-        for (LayoutSlot.Type slotType : LayoutSlot.Type.values())
-        {
-            BlockContentsType contentsType = slotType.getContentsType();
-            if (contentsType == null) continue;
-
-            List<LayoutSlot> layoutSlots = layout.getSlotsForType(slotType);
-            for (int i = 0; i < layoutSlots.size(); i++)
-            {
-                LayoutSlot s = layoutSlots.get(i);
-
-                switch (slotType)
-                {
-                    case ITEM_INPUT -> addSlot(contentsType, i, s.x(), s.y());
-                    case ITEM_OUTPUT -> addRecipeOutputSlot(i, s.x(), s.y(), menuContext.getRecipeCheck().getRecipeType());
-                    case FLUID_INPUT -> addFluidSlot(menuContext.getFluidsOrThrow(contentsType), i, s.x(), s.y(), true);
-                    case FLUID_OUTPUT -> addFluidSlot(menuContext.getFluidsOrThrow(contentsType), i, s.x(), s.y(), false);
-                }
-            }
-        }
-
+        initLayout(layout);
         addDefaultPlayerInventoryAndHotbar();
     }
 
