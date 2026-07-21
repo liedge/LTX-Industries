@@ -1,32 +1,25 @@
 package liedge.ltxindustries.integration.jei;
 
-import liedge.limacore.client.gui.LimaGuiUtil;
 import liedge.limacore.recipe.LimaRecipeType;
 import liedge.limacore.util.LimaTextUtil;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.client.LTXILangKeys;
-import liedge.ltxindustries.client.gui.ItemLikeIconsRenderer;
 import liedge.ltxindustries.client.gui.screen.RecipeLayoutScreen;
 import liedge.ltxindustries.menu.layout.LayoutSlot;
 import liedge.ltxindustries.menu.layout.RecipeLayout;
 import liedge.ltxindustries.recipe.LTXIRecipe;
-import liedge.ltxindustries.recipe.RecipeMode;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
-import mezz.jei.api.gui.builder.ITooltipBuilder;
-import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.drawable.IDrawableStatic;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.gui.placement.HorizontalAlignment;
 import mezz.jei.api.gui.placement.VerticalAlignment;
 import mezz.jei.api.gui.widgets.IRecipeExtrasBuilder;
-import mezz.jei.api.gui.widgets.IRecipeWidget;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.types.IRecipeHolderType;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.navigation.ScreenPosition;
-import net.minecraft.core.Holder;
+import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -34,14 +27,15 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.IntSummaryStatistics;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-final class RecipeLayoutJeiCategory<R extends LTXIRecipe> extends LTXIJeiCategory<R>
+final class RecipeLayoutJeiCategory<R extends LTXIRecipe> extends LTXIRecipeHolderCategory<R>
 {
     private static final int PADDING = 3;
 
-    static <R extends LTXIRecipe> RecipeLayoutJeiCategory<R> create(IGuiHelper helper, Supplier<LimaRecipeType<R>> typeSupplier, IRecipeHolderType<R> jeiRecipeType, RecipeLayout layout)
+    static ScreenRectangle layoutBounds(RecipeLayout layout)
     {
         IntSummaryStatistics xss = layout.streamSlots().collect(Collectors.summarizingInt(LayoutSlot::x));
         IntSummaryStatistics yss = layout.streamSlots().collect(Collectors.summarizingInt(LayoutSlot::y));
@@ -51,63 +45,61 @@ final class RecipeLayoutJeiCategory<R extends LTXIRecipe> extends LTXIJeiCategor
         int xOffset = xss.getMin() - PADDING - 1;
         int yOffset = yss.getMin() - PADDING - 1;
 
-        return new RecipeLayoutJeiCategory<>(helper, typeSupplier.get(), jeiRecipeType, layout, width, height, xOffset, yOffset);
+        return new ScreenRectangle(xOffset, yOffset, width, height);
+    }
+
+    static <R, I> void addLayoutInputs(IRecipeLayoutBuilder builder, RecipeLayout layout, ScreenRectangle bounds, LayoutSlot.Type slotType, R recipe, Function<R, List<I>> inputsFunction, LayoutInputAcceptor<I> inputAcceptor)
+    {
+        List<LayoutSlot> slots = layout.getSlotsForType(slotType);
+        List<I> inputs = inputsFunction.apply(recipe);
+
+        int max = Math.min(slots.size(), inputs.size());
+        for (int i = 0; i < max; i++)
+        {
+            LayoutSlot slot = slots.get(i);
+            I input = inputs.get(i);
+            inputAcceptor.accept(builder, input, slot.x() - bounds.left(), slot.y() - bounds.top());
+        }
+    }
+
+    static <R extends LTXIRecipe> RecipeLayoutJeiCategory<R> create(IGuiHelper helper, Supplier<LimaRecipeType<R>> typeSupplier, IRecipeHolderType<R> jeiRecipeType, RecipeLayout layout)
+    {
+        return new RecipeLayoutJeiCategory<>(helper, typeSupplier.get(), jeiRecipeType, layout, layoutBounds(layout));
     }
 
     private final IRecipeHolderType<R> jeiRecipeType;
     private final RecipeLayout layout;
-    private final int xOffset;
-    private final int yOffset;
+    private final ScreenRectangle bounds;
 
     // Mode stuff
     private final IDrawableStatic modeBackground;
     private final IDrawableStatic modeOverlay;
     private final @Nullable ScreenPosition modePos;
 
-    private RecipeLayoutJeiCategory(IGuiHelper helper, LimaRecipeType<R> recipeType, IRecipeHolderType<R> jeiRecipeType, RecipeLayout layout, int width, int height, int xOffset, int yOffset)
+    private RecipeLayoutJeiCategory(IGuiHelper helper, LimaRecipeType<R> recipeType, IRecipeHolderType<R> jeiRecipeType, RecipeLayout layout, ScreenRectangle bounds)
     {
-        super(helper, recipeType, width, height);
+        super(helper, recipeType, bounds.width(), bounds.height());
         this.jeiRecipeType = jeiRecipeType;
         this.layout = layout;
-        this.xOffset = xOffset;
-        this.yOffset = yOffset;
+        this.bounds = bounds;
 
         this.modeBackground = guiSpriteDrawable(LayoutSlot.Type.RECIPE_MODE.getSprite(), 18, 18).build();
         this.modeOverlay = guiSpriteDrawable(RecipeLayoutScreen.MODE_OVERLAY_SPRITE, 16, 16).build();
-        this.modePos = layout.streamSlots().filter(o -> o.type() == LayoutSlot.Type.RECIPE_MODE).findFirst().map(o -> new ScreenPosition(o.x() - xOffset, o.y() - yOffset)).orElse(null);
+        this.modePos = layout.streamSlots().filter(o -> o.type() == LayoutSlot.Type.RECIPE_MODE).findFirst().map(o -> new ScreenPosition(o.x() - bounds.left(), o.y() - bounds.top())).orElse(null);
+    }
+
+    private <T> void addLayoutInputs(IRecipeLayoutBuilder builder, LayoutSlot.Type slotType, R recipe, Function<R, List<T>> inputsExtractor, LayoutInputAcceptor<T> acceptor)
+    {
+        addLayoutInputs(builder, layout, bounds, slotType, recipe, inputsExtractor, acceptor);
     }
 
     @Override
     protected void setRecipe(IRecipeLayoutBuilder builder, RecipeHolder<R> holder, R recipe, IFocusGroup focuses, RegistryAccess registries)
     {
-        for (LayoutSlot.Type slotType : LayoutSlot.Type.values())
-        {
-            List<LayoutSlot> layoutSlots = layout.getSlotsForType(slotType);
-            int slotMax = switch(slotType)
-            {
-                case ITEM_INPUT -> recipe.getItemInputs().size();
-                case FLUID_INPUT -> recipe.getFluidInputs().size();
-                case ITEM_OUTPUT -> recipe.getItemResults().size();
-                case FLUID_OUTPUT -> recipe.getFluidResults().size();
-                case RECIPE_MODE -> 1;
-            };
-            slotMax = Math.min(layoutSlots.size(), slotMax);
-
-            for (int i = 0; i < slotMax; i++)
-            {
-                LayoutSlot s = layoutSlots.get(i);
-                int sx = s.x() - xOffset;
-                int sy = s.y() - yOffset;
-
-                switch (s.type())
-                {
-                    case ITEM_INPUT -> itemInputSlot(builder, recipe, i, sx, sy);
-                    case ITEM_OUTPUT -> itemResultSlot(builder, recipe, i, sx, sy);
-                    case FLUID_INPUT -> fluidInputSlot(builder, recipe, i, sx, sy);
-                    case FLUID_OUTPUT -> fluidResultSlot(builder, recipe, i, sx, sy);
-                }
-            }
-        }
+        addLayoutInputs(builder, LayoutSlot.Type.ITEM_INPUT, recipe, R::getItemInputs, this::itemInputSlot);
+        addLayoutInputs(builder, LayoutSlot.Type.FLUID_INPUT, recipe, R::getFluidInputs, this::fluidInputSlot);
+        addLayoutInputs(builder, LayoutSlot.Type.ITEM_OUTPUT, recipe, R::getItemResults, this::itemResultSlot);
+        addLayoutInputs(builder, LayoutSlot.Type.FLUID_OUTPUT, recipe, R::getFluidResults, this::fluidResultSlot);
     }
 
     @Override
@@ -127,12 +119,14 @@ final class RecipeLayoutJeiCategory<R extends LTXIRecipe> extends LTXIJeiCategor
     }
 
     @Override
-    protected void drawRecipe(RecipeHolder<R> recipeHolder, IRecipeSlotsView view, GuiGraphicsExtractor graphics, double mouseX, double mouseY)
+    public void draw(RecipeHolder<R> holder, IRecipeSlotsView recipeSlotsView, GuiGraphicsExtractor graphics, double mouseX, double mouseY)
     {
-        RecipeLayoutScreen.renderLayout(graphics, -xOffset, -yOffset, layout);
+        super.draw(holder, recipeSlotsView, graphics, mouseX, mouseY);
 
-        int px = layout.progressBarX() - xOffset;
-        int py = layout.progressBarY() - yOffset;
+        RecipeLayoutScreen.renderLayout(graphics, -bounds.left(), -bounds.top(), layout);
+
+        int px = layout.progressBarX() - bounds.left();
+        int py = layout.progressBarY() - bounds.top();
 
         machineProgressBackground.draw(graphics, px, py);
         machineProgress.draw(graphics, px + 1, py + 1);
@@ -144,33 +138,9 @@ final class RecipeLayoutJeiCategory<R extends LTXIRecipe> extends LTXIJeiCategor
         return jeiRecipeType;
     }
 
-    private record RecipeModeWidget(ScreenPosition position, IDrawable background, IDrawable overlay, @Nullable Holder<RecipeMode> mode) implements IRecipeWidget
+    @FunctionalInterface
+    public interface LayoutInputAcceptor<T>
     {
-        @Override
-        public ScreenPosition getPosition()
-        {
-            return position;
-        }
-
-        @Override
-        public void drawWidget(GuiGraphicsExtractor graphics, double mouseX, double mouseY)
-        {
-            background.draw(graphics, -1, -1);
-
-            if (mode == null || ItemLikeIconsRenderer.render(graphics, mode.value().icon(), 0, 0) == 0)
-                overlay.draw(graphics, 0, 0);
-        }
-
-        @Override
-        public void getTooltip(ITooltipBuilder tooltip, double mouseX, double mouseY)
-        {
-            if (LimaGuiUtil.isMouseWithinArea(mouseX, mouseY, 0, 0, 16, 16))
-            {
-                if (mode != null)
-                    tooltip.add(LTXILangKeys.JEI_RECIPE_MODE_NEEDED.translateArgs(mode.value().title()));
-                else
-                    tooltip.add(LTXILangKeys.JEI_NO_RECIPE_MODE_NEEDED.translate().withStyle(ChatFormatting.GRAY));
-            }
-        }
+        void accept(IRecipeLayoutBuilder builder, T input, int x, int y);
     }
 }
