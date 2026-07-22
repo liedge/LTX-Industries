@@ -5,6 +5,7 @@ import liedge.limacore.util.LimaTextUtil;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.client.gui.screen.RecipeLayoutScreen;
+import liedge.ltxindustries.client.gui.widget.OpenRecipeModesButton;
 import liedge.ltxindustries.menu.layout.LayoutSlot;
 import liedge.ltxindustries.menu.layout.RecipeLayout;
 import liedge.ltxindustries.recipe.LTXIRecipe;
@@ -35,13 +36,13 @@ final class RecipeLayoutJeiCategory<R extends LTXIRecipe> extends LTXIRecipeHold
 {
     private static final int PADDING = 3;
 
-    static ScreenRectangle layoutBounds(RecipeLayout layout)
+    static ScreenRectangle layoutBounds(RecipeLayout layout, int bottomExtraPadding)
     {
         IntSummaryStatistics xss = layout.streamSlots().collect(Collectors.summarizingInt(LayoutSlot::x));
         IntSummaryStatistics yss = layout.streamSlots().collect(Collectors.summarizingInt(LayoutSlot::y));
 
         int width = (xss.getMax() - xss.getMin()) + 18 + PADDING * 2;
-        int height = (yss.getMax() - yss.getMin()) + 29 + PADDING * 2;
+        int height = (yss.getMax() - yss.getMin()) + 18 + bottomExtraPadding + PADDING * 2;
         int xOffset = xss.getMin() - PADDING - 1;
         int yOffset = yss.getMin() - PADDING - 1;
 
@@ -64,7 +65,7 @@ final class RecipeLayoutJeiCategory<R extends LTXIRecipe> extends LTXIRecipeHold
 
     static <R extends LTXIRecipe> RecipeLayoutJeiCategory<R> create(IGuiHelper helper, Supplier<LimaRecipeType<R>> typeSupplier, IRecipeHolderType<R> jeiRecipeType, RecipeLayout layout)
     {
-        return new RecipeLayoutJeiCategory<>(helper, typeSupplier.get(), jeiRecipeType, layout, layoutBounds(layout));
+        return new RecipeLayoutJeiCategory<>(helper, typeSupplier.get(), jeiRecipeType, layout, layoutBounds(layout, 11));
     }
 
     private final IRecipeHolderType<R> jeiRecipeType;
@@ -84,7 +85,7 @@ final class RecipeLayoutJeiCategory<R extends LTXIRecipe> extends LTXIRecipeHold
         this.bounds = bounds;
 
         this.modeBackground = guiSpriteDrawable(LayoutSlot.Type.RECIPE_MODE.getSprite(), 18, 18).build();
-        this.modeOverlay = guiSpriteDrawable(RecipeLayoutScreen.MODE_OVERLAY_SPRITE, 16, 16).build();
+        this.modeOverlay = guiSpriteDrawable(OpenRecipeModesButton.MODE_OVERLAY_SPRITE, 16, 16).build();
         this.modePos = layout.streamSlots().filter(o -> o.type() == LayoutSlot.Type.RECIPE_MODE).findFirst().map(o -> new ScreenPosition(o.x() - bounds.left(), o.y() - bounds.top())).orElse(null);
     }
 

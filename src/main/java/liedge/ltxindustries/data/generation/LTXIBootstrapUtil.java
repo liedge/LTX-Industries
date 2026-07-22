@@ -32,6 +32,11 @@ public final class LTXIBootstrapUtil
         return bottomRightOverlay(background, "blue_ring", 7);
     }
 
+    public static ItemLikeIcon greenRingOverlay(ItemLikeIcon background)
+    {
+        return bottomRightOverlay(background, "green_ring", 7);
+    }
+
     public static ItemLikeIcon defaultModuleIcon(ItemLike item)
     {
         return blueRingOverlay(ItemIcon.of(item));

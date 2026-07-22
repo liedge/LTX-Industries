@@ -19,8 +19,6 @@ import net.minecraft.world.item.ItemStack;
 
 public class MachineUpgradeMenu extends UpgradesConfigMenu<MachineBaseBlockEntity>
 {
-    public static final int BACK_BUTTON_ID = 1;
-
     public MachineUpgradeMenu(LimaMenuType<MachineBaseBlockEntity, ?> type, int containerId, Inventory inventory, MachineBaseBlockEntity menuContext)
     {
         super(type, containerId, inventory, menuContext, menuContext.getItemsOrThrow(BlockContentsType.AUXILIARY), MachineBaseBlockEntity.AUX_MODULE_ITEM_SLOT);
@@ -32,7 +30,7 @@ public class MachineUpgradeMenu extends UpgradesConfigMenu<MachineBaseBlockEntit
     protected void defineButtonEventHandlers(EventHandlerBuilder builder)
     {
         super.defineButtonEventHandlers(builder);
-        builder.handleUnitAction(BACK_BUTTON_ID, menuContext::returnToPrimaryMenuScreen);
+        builder.handleUnitAction(SharedMenuButtons.EXIT_SUB_MENU, menuContext::returnToPrimaryMenuScreen);
     }
 
     @Override

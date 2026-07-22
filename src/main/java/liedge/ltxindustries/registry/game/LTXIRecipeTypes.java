@@ -40,6 +40,7 @@ public final class LTXIRecipeTypes
     public static final DeferredHolder<RecipeType<?>, LimaRecipeType<AssemblingRecipe>> ASSEMBLING = registerType(LTXIIdentifiers.ID_ASSEMBLING_RECIPE);
     public static final DeferredHolder<RecipeType<?>, LimaRecipeType<FabricatingRecipe>> FABRICATING = registerType(LTXIIdentifiers.ID_FABRICATING_RECIPE);
     public static final DeferredHolder<RecipeType<?>, LimaRecipeType<GeoSynthesisRecipe>> GEO_SYNTHESIS = registerType(LTXIIdentifiers.ID_GEO_SYNTHESIS_RECIPE);
+    public static final DeferredHolder<RecipeType<?>, LimaRecipeType<AirScrubbingRecipe>> AIR_SCRUBBING = registerType(LTXIIdentifiers.ID_AIR_SCRUBBING_RECIPE);
     public static final DeferredHolder<RecipeType<?>, LimaRecipeType<GardenSimulatingRecipe>> GARDEN_SIMULATING = registerType(LTXIIdentifiers.ID_GARDEN_SIMULATING_RECIPE);
 
     private static <R extends Recipe<?>> DeferredHolder<RecipeType<?>, LimaRecipeType<R>> registerType(String name)

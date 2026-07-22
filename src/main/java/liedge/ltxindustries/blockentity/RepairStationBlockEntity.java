@@ -8,7 +8,6 @@ import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.blockentity.base.EnergyConsumerBlockEntity;
 import liedge.ltxindustries.blockentity.base.TimedProcessBlockEntity;
 import liedge.ltxindustries.blockentity.template.ProductionMachineBlockEntity;
-import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.registry.game.LTXIBlockEntities;
 import liedge.ltxindustries.util.LTXITooltipUtil;
@@ -39,7 +38,7 @@ public class RepairStationBlockEntity extends ProductionMachineBlockEntity imple
     @Override
     public void appendStatsTooltips(TooltipLineConsumer consumer)
     {
-        consumer.accept(LTXILangKeys.MACHINE_TICKS_PER_OP_TOOLTIP.translateArgs(getTicksPerOperation()));
+        appendOperationTicksTooltip(consumer);
         LTXITooltipUtil.appendEnergyUsagePerTickTooltip(consumer, getEnergyUsage());
     }
 

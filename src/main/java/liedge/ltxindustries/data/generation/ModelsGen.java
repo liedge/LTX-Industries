@@ -288,6 +288,7 @@ class ModelsGen extends ModelProvider
                 List.of(), id -> ItemModelUtils.tintedModel(id, ItemModelUtils.constantTint(waterTint)));
         createIdentityMachine(models, LTXIBlocks.FABRICATOR);
         createIdentityMachine(models, LTXIBlocks.AUTO_FABRICATOR);
+        createCompositeBinaryMachine(models, LTXIBlocks.ATMOSPHERIC_SCRUBBER, List.of(Parts.EMISSIVE_ACTIVE, "impeller"), List.of("impeller"), List.of(Parts.EMISSIVE_ACTIVE));
         createIdentityMachine(models, LTXIBlocks.DIGITAL_GARDEN, id -> ItemModelUtils.tintedModel(id, ItemModelUtils.constantTint(waterTint)));
         createCompositeBinaryMachine(models, LTXIBlocks.PORTABLE_GENERATOR, List.of(Parts.EMISSIVE_ACTIVE), List.of(), List.of(Parts.EMISSIVE_ACTIVE));
         createCompositeBinaryMachine(models, LTXIBlocks.SOLAR_PANEL, List.of(Parts.EMISSIVE_ACTIVE), List.of(), List.of(Parts.EMISSIVE_ACTIVE));
@@ -306,6 +307,7 @@ class ModelsGen extends ModelProvider
         createBEPart(models, LTXIBlocks.GRINDER.get(), "_rear_crusher", false, Parts.FRAME, Parts.EMISSIVE_IDLE, Parts.EMISSIVE_ACTIVE, "front_crusher");
         createBEPart(models, LTXIBlocks.ELECTROCENTRIFUGE.get(), "_tubes", true, Parts.FRAME, Parts.EMISSIVE_IDLE, Parts.EMISSIVE_ACTIVE);
         createBEPart(models, LTXIBlocks.MIXER.get(), "_blades", false, Parts.FRAME, Parts.EMISSIVE_IDLE, Parts.EMISSIVE_ACTIVE);
+        createBEPart(models, LTXIBlocks.ATMOSPHERIC_SCRUBBER.get(), "_impeller", false, Parts.FRAME, Parts.EMISSIVE_IDLE, Parts.EMISSIVE_ACTIVE);
     }
 
     private void createEmissiveOre(BlockModelGenerators models, Block particleBlock, Holder<Block> holder)
@@ -582,9 +584,9 @@ class ModelsGen extends ModelProvider
         return ExtendedModelTemplateBuilder.builder().parent(parent).customLoader(ExtendedCuboidBuilder::new, Consumers.nop()).build();
     }
 
-    private void createBEPart(BlockModelGenerators models, Block block, String suffix, boolean emissive, String... parts)
+    private void createBEPart(BlockModelGenerators models, Block block, String suffix, boolean emissive, String... excludedParts)
     {
-        ExclusionTemplate template = ExclusionTemplate.of(block).exclude(parts).emissive(emissive);
+        ExclusionTemplate template = ExclusionTemplate.of(block).exclude(excludedParts).emissive(emissive);
         Identifier path = LimaRegistryUtil.getBlockId(block).withPath(s -> "block_entity/" + s + suffix);
         template.create(path, new TextureMapping(), models.modelOutput);
     }

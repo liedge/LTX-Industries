@@ -1,0 +1,8 @@
+{
+  "parent": "ltxi:block/atmospheric_scrubber",
+  "visibility": {
+    "emissive_active": false,
+    "emissive_idle": false,
+    "frame": false
+  }
+}

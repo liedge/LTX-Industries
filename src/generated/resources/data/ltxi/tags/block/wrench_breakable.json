@@ -13,6 +13,7 @@
     "ltxi:geo_synthesizer",
     "ltxi:fabricator",
     "ltxi:auto_fabricator",
+    "ltxi:atmospheric_scrubber",
     "ltxi:digital_garden",
     "ltxi:portable_generator",
     "ltxi:solar_panel",

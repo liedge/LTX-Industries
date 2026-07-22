@@ -16,9 +16,6 @@ import java.util.List;
 
 public abstract class MachineBaseMenu<CTX extends MachineBaseBlockEntity> extends BlockEntityMenu<CTX>
 {
-    public static final int UPGRADES_BUTTON_ID = 0;
-    public static final int IO_CONTROLS_BUTTON_ID = 1;
-
     protected MachineBaseMenu(LimaMenuType<CTX, ?> type, int containerId, Inventory inventory, CTX menuContext)
     {
         super(type, containerId, inventory, menuContext);
@@ -55,8 +52,8 @@ public abstract class MachineBaseMenu<CTX extends MachineBaseBlockEntity> extend
     @Override
     protected void defineButtonEventHandlers(EventHandlerBuilder builder)
     {
-        builder.handleUnitAction(UPGRADES_BUTTON_ID,
+        builder.handleUnitAction(SharedMenuButtons.OPEN_UPGRADES,
                 sender -> LimaMenuProvider.create(LTXIMenus.MACHINE_UPGRADES.get(), menuContext, null, false).openMenuScreen(sender));
-        builder.handleAction(IO_CONTROLS_BUTTON_ID, LTXINetworkSerializers.MACHINE_INPUT_TYPE, menuContext::openIOControlMenuScreen);
+        builder.handleAction(SharedMenuButtons.OPEN_IO_CONTROLS, LTXINetworkSerializers.MACHINE_INPUT_TYPE, menuContext::openIOControlMenuScreen);
     }
 }

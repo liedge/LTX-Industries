@@ -1,9 +1,11 @@
 package liedge.ltxindustries.blockentity.base;
 
+import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.network.sync.DataWatcherHolder;
 import liedge.limacore.network.sync.SimpleValueTracker;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
+import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -40,5 +42,10 @@ public interface TimedProcessBlockEntity
         }
 
         int getBaseTicksPerOperation();
+
+        default void appendOperationTicksTooltip(TooltipLineConsumer consumer)
+        {
+            consumer.accept(LTXILangKeys.MACHINE_TICKS_PER_OP_TOOLTIP.translateArgs(getTicksPerOperation()));
+        }
     }
 }

@@ -37,6 +37,7 @@ class DataMapsGen extends DataMapProvider
         defaultRecipeModes(registries, LTXIRecipeTypes.MIXING, DEFAULT_MIXING);
         defaultRecipeModes(registries, LTXIRecipeTypes.ENERGIZING, DEFAULT_ENERGIZING);
         defaultRecipeModes(registries, LTXIRecipeTypes.CHEMICAL_REACTING, DEFAULT_CHEMICAL_REACTING);
+        defaultRecipeModes(registries, LTXIRecipeTypes.AIR_SCRUBBING, DEFAULT_AIR_SCRUBBING);
         defaultRecipeModes(registries, LTXIRecipeTypes.GARDEN_SIMULATING, DEFAULT_GARDEN_SIMULATING);
     }
 

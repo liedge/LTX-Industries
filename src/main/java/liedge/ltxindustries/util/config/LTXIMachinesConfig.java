@@ -45,6 +45,10 @@ public final class LTXIMachinesConfig
     public static final ModConfigSpec.IntValue GEO_SYNTHESIZER_CAPACITY;
     public static final ModConfigSpec.IntValue GEO_SYNTHESIZER_ENERGY_USAGE;
 
+    public static final ModConfigSpec.IntValue AIR_SCRUBBER_ENERGY_CAPACITY;
+    public static final ModConfigSpec.IntValue AIR_SCRUBBER_ENERGY_USAGE;
+    public static final ModConfigSpec.IntValue AIR_SCRUBBER_BASE_SPEED;
+
     public static final ModConfigSpec.IntValue DIGITAL_GARDEN_ENERGY_CAPACITY;
     public static final ModConfigSpec.IntValue DIGITAL_GARDEN_ENERGY_USAGE;
 
@@ -158,6 +162,12 @@ public final class LTXIMachinesConfig
         builder.comment("Geo Synthesizer").push("geo_synthesizer");
         GEO_SYNTHESIZER_CAPACITY = ConfigUtil.energyCapacity(builder, 100_000);
         GEO_SYNTHESIZER_ENERGY_USAGE = ConfigUtil.energyUsagePerTick(builder, 10);
+        builder.pop();
+
+        builder.comment("Atmospheric Scrubber").push("atmospheric_scrubber");
+        AIR_SCRUBBER_ENERGY_CAPACITY = ConfigUtil.energyCapacity(builder, 250_000);
+        AIR_SCRUBBER_ENERGY_USAGE = ConfigUtil.energyUsagePerTick(builder, 80);
+        AIR_SCRUBBER_BASE_SPEED = ConfigUtil.positiveInt(builder, "ticks_per_operation", "Base ticks needed for one machine operation", 600);
         builder.pop();
 
         builder.comment("Bio/ARU Garden").push("digital_garden");

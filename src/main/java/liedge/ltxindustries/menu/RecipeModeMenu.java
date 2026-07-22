@@ -16,7 +16,6 @@ import java.util.List;
 
 public class RecipeModeMenu extends BlockEntityMenu<RecipeModeHolderBlockEntity>
 {
-    public static final int BACK_BUTTON_ID = 0;
     public static final int MODE_SWITCH_BUTTON_ID = 1;
 
     private final List<Holder<RecipeMode>> remoteModes = new ObjectArrayList<>();
@@ -61,7 +60,7 @@ public class RecipeModeMenu extends BlockEntityMenu<RecipeModeHolderBlockEntity>
     @Override
     protected void defineButtonEventHandlers(EventHandlerBuilder builder)
     {
-        builder.handleUnitAction(BACK_BUTTON_ID, menuContext::returnToPrimaryMenuScreen);
+        builder.handleUnitAction(SharedMenuButtons.EXIT_SUB_MENU, menuContext::returnToPrimaryMenuScreen);
         builder.handleAction(MODE_SWITCH_BUTTON_ID, LTXINetworkSerializers.RECIPE_MODE, (_, optional) -> {
             Holder<RecipeMode> mode = optional.orElse(null);
             if (mode == null || menuContext.getAvailableRecipeModes().contains(mode)) menuContext.setMode(mode);

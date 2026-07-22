@@ -55,6 +55,7 @@ public final class LTXIIdentifiers
     public static final String ID_FABRICATOR = "fabricator";
     public static final String ID_AUTO_FABRICATOR = "auto_fabricator";
     public static final String ID_GEO_SYNTHESIZER = "geo_synthesizer";
+    public static final String ID_ATMOSPHERIC_SCRUBBER = "atmospheric_scrubber";
     public static final String ID_DIGITAL_GARDEN = "digital_garden";
 
     public static final String ID_PORTABLE_GENERATOR = "portable_generator";
@@ -76,5 +77,6 @@ public final class LTXIIdentifiers
     public static final String ID_ASSEMBLING_RECIPE = "assembling";
     public static final String ID_FABRICATING_RECIPE = "fabricating";
     public static final String ID_GEO_SYNTHESIS_RECIPE = "geo_synthesis";
+    public static final String ID_AIR_SCRUBBING_RECIPE = "air_scrubbing";
     public static final String ID_GARDEN_SIMULATING_RECIPE = "garden_simulating";
 }

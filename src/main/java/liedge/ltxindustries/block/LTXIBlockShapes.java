@@ -126,6 +126,13 @@ public final class LTXIBlockShapes
             // Inner cube
             dimensionBox(0.5d, 3.5d, 0.5d, 15, 12, 15));
 
+    public static final VoxelShape ATMOSPHERIC_SCRUBBER = Shapes.or(
+            dimensionBox(1, 0, 2, 14, 3, 12),
+            dimensionBox(9, 3, 3, 6, 10, 10),
+            dimensionBox(1, 3, 3, 8, 4, 10),
+            dimensionBox(1, 3, 4, 8, 12, 8),
+            dimensionBox(2, 3, 2, 6, 4, 1));
+
     public static final VoxelShape GEO_SYNTHESIZER = Shapes.or(
             dimensionBox(0, 0, 1, 16, 2, 14),
             dimensionBox(0.5d, 2, 1.5d, 15, 6, 13),

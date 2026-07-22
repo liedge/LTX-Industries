@@ -106,6 +106,7 @@ class LanguageGen extends LimaLanguageProvider
         addBlock(LTXIBlocks.FABRICATOR, "Fabricator");
         addBlock(LTXIBlocks.AUTO_FABRICATOR, "Auto Fabricator");
         addBlock(LTXIBlocks.UPGRADE_STATION, "Upgrade Station");
+        addBlock(LTXIBlocks.ATMOSPHERIC_SCRUBBER, "Atmospheric Scrubber");
         addBlock(LTXIBlocks.DIGITAL_GARDEN, "Bio/ARU Garden");
 
         addBlock(LTXIBlocks.PORTABLE_GENERATOR, "Portable Generator");
@@ -358,11 +359,16 @@ class LanguageGen extends LimaLanguageProvider
         add(ASSEMBLING, "Assembling");
         add(GEO_SYNTHESIS, "Geo Synthesis");
         add(FABRICATING, "Fabricating");
+        add(AIR_SCRUBBING, "Atmospheric Scrubbing");
 
         // Recipe sub-modes
         recipeMode(LTXIRecipeModes.ELEMENT_EXTRACTION, "Element Extraction");
         recipeMode(LTXIRecipeModes.DYE_EXTRACTION, "Dye Extraction");
         recipeMode(LTXIRecipeModes.CHEM_DISSOLUTION, "Dissolution");
+        recipeMode(LTXIRecipeModes.AMBIENT_FLUIDS, "Ambient Fluids");
+        recipeMode(LTXIRecipeModes.AMBIENT_GASES, "Ambient Gases");
+        recipeMode(LTXIRecipeModes.LOCALIZED_FLUIDS, "Localized Fluids");
+        recipeMode(LTXIRecipeModes.LOCALIZED_GASES, "Localized Gases");
         recipeMode(LTXIRecipeModes.GS_FARMING, "Farming");
         recipeMode(LTXIRecipeModes.GS_WOODS, "Woods");
         recipeMode(LTXIRecipeModes.GS_ORCHARD, "Orchard");
@@ -416,6 +422,9 @@ class LanguageGen extends LimaLanguageProvider
         add(FUEL_UNITS_STORED, "Fuel units: %s/%s");
         add(ENERGY_PER_FUEL_UNIT, "Per fuel unit: %s");
         add(JEI_CRAFTING_TIME_TOOLTIP, "%ss | %st");
+        add(JEI_LOCATION_DIMENSION_TOOLTIP, "In dimension: %s");
+        add(JEI_LOCATION_BIOMES_TOOLTIP, "In biome(s): %s");
+        add(JEI_LOCATION_WATERLOG_TOOLTIP, "Machine must be waterlogged");
 
         add(INPUT_NOT_CONSUMED_TOOLTIP, "Input not consumed");
         add(INPUT_CONSUME_CHANCE_TOOLTIP, "Input consume chance: %s");

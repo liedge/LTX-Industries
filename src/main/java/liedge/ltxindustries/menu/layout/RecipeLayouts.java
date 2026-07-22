@@ -44,6 +44,11 @@ public final class RecipeLayouts
             .modeSlot(25, 35)
             .fluidIn(43, 35).itemIn(61, 35).fluidIn(79, 35)
             .itemOut(137, 35).build(104, 40);
+    public static final RecipeLayout AIR_SCRUBBING = RecipeLayout.builder()
+            .modeSlot(43, 35)
+            .slotGrid(62, 27, 4, 1, LayoutSlot.Type.FLUID_OUTPUT)
+            .slotGrid(62, 45, 2, 1, LayoutSlot.Type.ITEM_OUTPUT)
+            .build(76, 12);
     public static final RecipeLayout GARDEN_SIMULATING = RecipeLayout.builder()
             .modeSlot(34, 35)
             .itemIn(52, 26).fluidIn(52, 44)

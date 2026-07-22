@@ -42,6 +42,7 @@ class BlockTagsGen extends LimaTagsProvider.RegistryTags<Block>
                 GEO_SYNTHESIZER,
                 FABRICATOR,
                 AUTO_FABRICATOR,
+                ATMOSPHERIC_SCRUBBER,
                 DIGITAL_GARDEN,
                 PORTABLE_GENERATOR,
                 SOLAR_PANEL,

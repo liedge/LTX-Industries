@@ -1,5 +1,6 @@
 {
   "values": {
+    "ltxi:air_scrubbing": "#ltxi:default/air_scrubbing",
     "ltxi:chemical_reacting": "#ltxi:default/chemical_reacting",
     "ltxi:electro_centrifuging": "#ltxi:default/electro_centrifuging",
     "ltxi:energizing": "#ltxi:default/energizing",

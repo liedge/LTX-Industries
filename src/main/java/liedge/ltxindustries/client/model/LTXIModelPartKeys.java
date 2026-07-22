@@ -16,6 +16,7 @@ public final class LTXIModelPartKeys
     public static final StandaloneModelKey<StaticQuads> GRINDER_REAR_CRUSHER = key("grinder_rear_crusher");
     public static final StandaloneModelKey<StaticQuads> ELECTROCENTRIFUGE_TUBES = key("electrocentrifuge_tubes");
     public static final StandaloneModelKey<StaticQuads> MIXER_BLADES = key("mixer_blades");
+    public static final StandaloneModelKey<StaticQuads> ATMOSPHERIC_SCRUBBER_IMPELLER = key("atmospheric_scrubber_impeller");
 
     public static final StandaloneModelKey<StaticQuads> ARC_TURRET_SWIVEL = key("arc_turret_swivel");
     public static final StandaloneModelKey<StaticQuads> ARC_TURRET_WEAPONS = key("arc_turret_weapons");
@@ -36,6 +37,7 @@ public final class LTXIModelPartKeys
         registerBEPart(event, GRINDER_REAR_CRUSHER);
         registerBEPart(event, ELECTROCENTRIFUGE_TUBES);
         registerBEPart(event, MIXER_BLADES);
+        registerBEPart(event, ATMOSPHERIC_SCRUBBER_IMPELLER);
         registerBEPart(event, ARC_TURRET_SWIVEL);
         registerBEPart(event, ARC_TURRET_WEAPONS);
         registerBEPart(event, ROCKET_TURRET_SWIVEL);

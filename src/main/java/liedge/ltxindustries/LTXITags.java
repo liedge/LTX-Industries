@@ -185,6 +185,7 @@ public final class LTXITags
         public static final TagKey<RecipeMode> DEFAULT_MIXING = defaultModeTag(LTXIIdentifiers.ID_MIXING_RECIPE);
         public static final TagKey<RecipeMode> DEFAULT_ENERGIZING = defaultModeTag(LTXIIdentifiers.ID_ENERGIZING_RECIPE);
         public static final TagKey<RecipeMode> DEFAULT_CHEMICAL_REACTING = defaultModeTag(LTXIIdentifiers.ID_CHEMICAL_REACTING);
+        public static final TagKey<RecipeMode> DEFAULT_AIR_SCRUBBING = defaultModeTag(LTXIIdentifiers.ID_AIR_SCRUBBING_RECIPE);
         public static final TagKey<RecipeMode> DEFAULT_GARDEN_SIMULATING = defaultModeTag(LTXIIdentifiers.ID_GARDEN_SIMULATING_RECIPE);
 
         private static TagKey<RecipeMode> defaultModeTag(String recipeTypeId)

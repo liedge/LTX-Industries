@@ -67,7 +67,7 @@ public class BlockIOConfigurationScreen extends LTXIScreen<BlockIOConfigurationM
     @Override
     protected void addWidgets()
     {
-        addRenderableWidget(new SubMenuBackButton(leftPos - leftPadding, topPos + 3, this, BlockIOConfigurationMenu.BACK_BUTTON_ID));
+        addRenderableWidget(new SubMenuBackButton(leftPos - leftPadding, topPos + 3, this));
 
         for (RelativeHorizontalSide side : menu.getIOConfigRules().validSides())
         {

@@ -8,6 +8,7 @@ import liedge.limacore.recipe.LimaCustomRecipe;
 import liedge.limacore.recipe.LimaRecipeType;
 import liedge.limacore.util.LimaRegistryUtil;
 import liedge.ltxindustries.LTXIndustries;
+import liedge.ltxindustries.client.gui.screen.AirScrubberScreen;
 import liedge.ltxindustries.client.gui.screen.RecipeLayoutScreen;
 import liedge.ltxindustries.menu.layout.RecipeLayout;
 import liedge.ltxindustries.menu.layout.RecipeLayouts;
@@ -68,6 +69,7 @@ public class LTXIJeiPlugin implements IModPlugin
     static final IRecipeHolderType<ChemicalReactingRecipe> CHEMICAL_REACTING_JEI = storeType(CHEMICAL_REACTING);
     static final IRecipeHolderType<AssemblingRecipe> ASSEMBLING_JEI = storeType(ASSEMBLING);
     static final IRecipeHolderType<GeoSynthesisRecipe> GEO_SYNTHESIS_JEI = storeType(GEO_SYNTHESIS);
+    static final IRecipeHolderType<AirScrubbingRecipe> AIR_SCRUBBING_JEI = storeType(AIR_SCRUBBING);
     static final IRecipeHolderType<GardenSimulatingRecipe> GARDEN_SIMULATING_JEI = storeType(GARDEN_SIMULATING);
     static final IRecipeHolderType<FabricatingRecipe> FABRICATING_JEI = storeType(FABRICATING);
 
@@ -95,6 +97,7 @@ public class LTXIJeiPlugin implements IModPlugin
         registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, CHEMICAL_REACTING, CHEMICAL_REACTING_JEI, RecipeLayouts.CHEMICAL_REACTING));
         registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, ASSEMBLING, ASSEMBLING_JEI, RecipeLayouts.ASSEMBLING));
         registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, GEO_SYNTHESIS, GEO_SYNTHESIS_JEI, RecipeLayouts.GEO_SYNTHESIS));
+        registration.addRecipeCategories(AirScrubbingCategory.create(helper));
         registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, GARDEN_SIMULATING, GARDEN_SIMULATING_JEI, RecipeLayouts.GARDEN_SIMULATING));
         registration.addRecipeCategories(new FabricatingJeiCategory(helper, FABRICATING));
     }
@@ -110,6 +113,7 @@ public class LTXIJeiPlugin implements IModPlugin
         registration.addRecipes(CHEMICAL_REACTING_JEI, List.copyOf(LimaCoreClient.getClientRecipes().byType(CHEMICAL_REACTING)));
         registration.addRecipes(ASSEMBLING_JEI, List.copyOf(LimaCoreClient.getClientRecipes().byType(ASSEMBLING)));
         registration.addRecipes(GEO_SYNTHESIS_JEI, List.copyOf(LimaCoreClient.getClientRecipes().byType(GEO_SYNTHESIS)));
+        registration.addRecipes(AIR_SCRUBBING_JEI, List.copyOf(LimaCoreClient.getClientRecipes().byType(AIR_SCRUBBING)));
         registration.addRecipes(GARDEN_SIMULATING_JEI, List.copyOf(LimaCoreClient.getClientRecipes().byType(GARDEN_SIMULATING)));
 
         registration.addRecipes(FABRICATING_JEI, LimaCoreClient.getClientRecipes().byType(FABRICATING)
@@ -132,6 +136,7 @@ public class LTXIJeiPlugin implements IModPlugin
         registration.addCraftingStation(CHEMICAL_REACTING_JEI, LTXIBlocks.CHEM_LAB);
         registration.addCraftingStation(ASSEMBLING_JEI, LTXIBlocks.ASSEMBLER);
         registration.addCraftingStation(GEO_SYNTHESIS_JEI, LTXIBlocks.GEO_SYNTHESIZER);
+        registration.addCraftingStation(AIR_SCRUBBING_JEI, LTXIBlocks.ATMOSPHERIC_SCRUBBER);
         registration.addCraftingStation(GARDEN_SIMULATING_JEI, LTXIBlocks.DIGITAL_GARDEN);
         registration.addCraftingStation(FABRICATING_JEI, LTXIBlocks.FABRICATOR, LTXIBlocks.AUTO_FABRICATOR);
     }
@@ -148,6 +153,16 @@ public class LTXIJeiPlugin implements IModPlugin
                 if (slot == null) return Optional.empty();
 
                 return builder.createBuilder(NeoForgeTypes.FLUID_STACK, slot.getFluid()).buildWithArea(containerScreen.getLeftPos() + slot.getX(), containerScreen.getTopPos() + slot.getY(), 16, 16);
+            }
+        });
+
+        registration.addGuiContainerHandler(AirScrubberScreen.class, new IGuiContainerHandler<>()
+        {
+            @Override
+            public Collection<IGuiClickableArea> getGuiClickableAreas(AirScrubberScreen containerScreen, double guiMouseX, double guiMouseY)
+            {
+                RecipeLayout layout = RecipeLayouts.AIR_SCRUBBING;
+                return List.of(IGuiClickableArea.createBasic(layout.progressBarX(), layout.progressBarY(), 24, 6, AIR_SCRUBBING_JEI));
             }
         });
 

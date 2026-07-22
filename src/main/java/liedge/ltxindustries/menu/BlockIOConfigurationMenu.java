@@ -25,7 +25,6 @@ import java.util.Objects;
 
 public class BlockIOConfigurationMenu extends LimaMenu<BlockIOConfigurationMenu.MenuContext>
 {
-    public static final int BACK_BUTTON_ID = 0;
     public static final int CYCLE_FORWARD_BUTTON_ID = 1;
     public static final int CYCLE_BACKWARD_BUTTON_ID = 2;
     public static final int TOGGLE_AUTO_INPUT_BUTTON_ID = 3;
@@ -81,7 +80,7 @@ public class BlockIOConfigurationMenu extends LimaMenu<BlockIOConfigurationMenu.
     @Override
     protected void defineButtonEventHandlers(EventHandlerBuilder builder)
     {
-        builder.handleUnitAction(BACK_BUTTON_ID, menuContext.blockEntity::returnToPrimaryMenuScreen);
+        builder.handleUnitAction(SharedMenuButtons.EXIT_SUB_MENU, menuContext.blockEntity::returnToPrimaryMenuScreen);
         builder.handleAction(CYCLE_FORWARD_BUTTON_ID, LimaCoreNetworkSerializers.RELATIVE_SIDE, (_, side) ->
                 setConfigLogged(getIOConfiguration().cycleIOAccess(side, getIOConfigRules(), true)));
         builder.handleAction(CYCLE_BACKWARD_BUTTON_ID, LimaCoreNetworkSerializers.RELATIVE_SIDE, (_, side) ->

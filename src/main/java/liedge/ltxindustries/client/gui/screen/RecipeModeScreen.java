@@ -62,7 +62,7 @@ public class RecipeModeScreen extends LTXIScreen<RecipeModeMenu>
     @Override
     protected void addWidgets()
     {
-        addRenderableWidget(new SubMenuBackButton(leftPos - leftPadding, topPos + 3, this, RecipeModeMenu.BACK_BUTTON_ID));
+        addRenderableWidget(new SubMenuBackButton(leftPos - leftPadding, topPos + 3, this));
         this.selectorGrid = addRenderableOnly(new SelectorGrid(leftPos + 15, topPos + 12, this));
     }
 

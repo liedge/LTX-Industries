@@ -17,6 +17,6 @@ public class MachineUpgradesScreen extends UpgradesConfigScreen<MachineUpgradeMe
     {
         super.addWidgets();
 
-        addRenderableWidget(new SubMenuBackButton(leftPos - leftPadding, topPos + 3, this, MachineUpgradeMenu.BACK_BUTTON_ID));
+        addRenderableWidget(new SubMenuBackButton(leftPos - leftPadding, topPos + 3, this));
     }
 }
