@@ -32,6 +32,7 @@
   },
   "max_rank": 5,
   "users": {
+    "block_entities": "#ltxi:turrets",
     "items": "#ltxi:weapons"
   }
 }

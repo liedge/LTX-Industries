@@ -836,11 +836,6 @@ class RecipesGen extends LimaRecipeProvider
                 .input(AMETHYST_BLOCK, 4)
                 .input(items, SODIUM_DUSTS, 32));
 
-        final String turretMUMGroup = "mum/turret";
-        upgradeFabricating(output, turretMUMGroup, TURRET_LOOTING, 1, 125_000, multi1);
-        upgradeFabricating(output, turretMUMGroup, TURRET_LOOTING, 2, 250_000, multi2);
-        upgradeFabricating(output, turretMUMGroup, TURRET_LOOTING, 3, 500_000, multi3);
-
         UnaryOperator<FabricatingBuilder> targetPredicates = builder -> builder
                 .input(T3_CIRCUIT)
                 .input(OPTICAL_TECH_PART)

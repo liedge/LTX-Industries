@@ -309,7 +309,7 @@ class LanguageGen extends LimaLanguageProvider
         upgrade(LTXIUpgrades.FORTUNE_ENCHANTMENT, "Overclocked Harvest Matrix", "Calibrated to extract superior quantities of valuable resources.");
         upgrade(LTXIUpgrades.LOOTING_ENCHANTMENT, "Combat Yield Protocol", "Calibrated to maximize structural integrity of salvageable biomaterials.");
         upgrade(LTXIUpgrades.AMMO_SCAVENGER_ENCHANTMENT, "Munition Trace Unit", "Improves detection of high-grade LTX ammunition in the field.");
-        upgrade(LTXIUpgrades.RAZOR_ENCHANTMENT, "Severance Algorithm", "Weapon calibration enables the retrieval of anatomical curiosities.");
+        upgrade(LTXIUpgrades.RAZOR_ENCHANTMENT, "Severance Algorithm", "Weapon systems may occasionally collect anatomical curiosities.");
 
         upgrade(LTXIUpgrades.FLAME_GRENADE_CORE, "Flame Shells", "Shells are loaded with a long-burning fuel that leaves a lingering blaze.");
         upgrade(LTXIUpgrades.CRYO_GRENADE_CORE, "Cryo Shells", "Shells contain a strong cryogenic compound that can immobilize targets in a large area.");
@@ -327,8 +327,6 @@ class LanguageGen extends LimaLanguageProvider
         upgrade(LTXIUpgrades.GPM_PARALLEL, "GPM Multi-Threading", "Parallelized task framework that completes multiple operations per cycle, as input and output constraints permit.");
         upgrade(LTXIUpgrades.FABRICATOR_UPGRADE, "Enhanced Tool Head", "Elevate your Fabricator's manufacturing capabilities with superior internal components.");
         upgrade(LTXIUpgrades.GEO_SYNTHESIZER_PARALLEL, "Lithic Co-Processor", "A specialized parallel processor for producing geological material.");
-        upgrade(LTXIUpgrades.TURRET_LOOTING, "Efficient Target Disposal", "Smarter turret targeting systems allow for increased loot drops from eliminated targets.");
-        upgrade(LTXIUpgrades.TURRET_RAZOR, "Headhunter Scope", "Precise turret calibration enables the collection of anatomical curiosities.");
         //#endregion
 
         // Creative tabs

@@ -169,9 +169,6 @@ public final class LTXIUpgrades
 
     public static final ResourceKey<Upgrade> GEO_SYNTHESIZER_PARALLEL = key("geo_synthesizer_parallel");
 
-    public static final ResourceKey<Upgrade> TURRET_LOOTING = key("turret_enchantment/looting");
-    public static final ResourceKey<Upgrade> TURRET_RAZOR = key("turret_enchantment/razor");
-
     //#endregion
 
     public static void bootstrap(BootstrapContext<Upgrade> context)
@@ -240,6 +237,7 @@ public final class LTXIUpgrades
         // Holder getters
         HolderGetter<Item> items = context.lookup(Registries.ITEM);
         HolderGetter<Block> blocks = context.lookup(Registries.BLOCK);
+        HolderGetter<BlockEntityType<?>> blockEntities = context.lookup(Registries.BLOCK_ENTITY_TYPE);
         HolderGetter<Enchantment> enchantments = context.lookup(Registries.ENCHANTMENT);
         HolderGetter<GameEvent> gameEvents = context.lookup(Registries.GAME_EVENT);
         HolderGetter<MobEffect> mobEffects = context.lookup(Registries.MOB_EFFECT);
@@ -618,6 +616,7 @@ public final class LTXIUpgrades
                 .register(context);
         Upgrade.builder(LOOTING_ENCHANTMENT)
                 .forEquipment(allWeapons)
+                .forMachines(blockEntities, LTXITags.BlockEntities.TURRETS)
                 .setMaxRank(5)
                 .withEffect(ENCHANTMENT_LEVELS, AddEnchantmentLevels.rankLinear(enchantments.getOrThrow(Enchantments.LOOTING)))
                 .effectIcon(luckOverlay(LTXIItems.EPSILON_SWORD))
@@ -625,6 +624,7 @@ public final class LTXIUpgrades
                 .register(context);
         Upgrade.builder(AMMO_SCAVENGER_ENCHANTMENT)
                 .forEquipment(allWeapons)
+                .forMachines(blockEntities, LTXITags.BlockEntities.TURRETS)
                 .setMaxRank(5)
                 .withEffect(ENCHANTMENT_LEVELS, AddEnchantmentLevels.rankLinear(enchantments.getOrThrow(AMMO_SCAVENGER)))
                 .effectIcon(SpriteIcon.create("ammo_scavenger"))
@@ -632,6 +632,7 @@ public final class LTXIUpgrades
                 .register(context);
         Upgrade.builder(RAZOR_ENCHANTMENT)
                 .forEquipment(allWeapons)
+                .forMachines(blockEntities, LTXITags.BlockEntities.TURRETS)
                 .setMaxRank(5)
                 .withEffect(ENCHANTMENT_LEVELS, AddEnchantmentLevels.rankLinear(enchantments.getOrThrow(RAZOR)))
                 .effectIcon(SpriteIcon.create("razor"))
@@ -683,7 +684,6 @@ public final class LTXIUpgrades
 
     private static void machineUpgrades(BootstrapContext<Upgrade> context, HolderGetter<Upgrade> holders)
     {
-        HolderGetter<Enchantment> enchantments = context.lookup(Registries.ENCHANTMENT);
         HolderGetter<BlockEntityType<?>> blockEntities = context.lookup(Registries.BLOCK_ENTITY_TYPE);
 
         ContextlessValue ecaScaling = ExponentialDouble.of(2, LinearDouble.oneIncrement(3));
@@ -782,22 +782,6 @@ public final class LTXIUpgrades
                 .setMaxRank(3)
                 .effectIcon(plusOverlay(ItemIcon.of(LTXIBlocks.GEO_SYNTHESIZER)))
                 .category("machine_unique")
-                .register(context);
-
-        Upgrade.builder(TURRET_LOOTING)
-                .forMachines(blockEntities, LTXITags.BlockEntities.TURRETS)
-                .withEffect(ENCHANTMENT_LEVELS, AddEnchantmentLevels.rankLinear(enchantments.getOrThrow(Enchantments.LOOTING)))
-                .setMaxRank(3)
-                .effectIcon(luckOverlay(LTXIItems.EPSILON_SWORD))
-                .category("turret")
-                .register(context);
-
-        Upgrade.builder(TURRET_RAZOR)
-                .forMachines(blockEntities, LTXITags.BlockEntities.TURRETS)
-                .setMaxRank(2)
-                .withEffect(ENCHANTMENT_LEVELS, AddEnchantmentLevels.rankLinear(enchantments.getOrThrow(LTXIEnchantments.RAZOR)))
-                .effectIcon(SpriteIcon.create("razor"))
-                .category("turret")
                 .register(context);
     }
 }

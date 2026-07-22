@@ -198,7 +198,8 @@ public final class LTXIEntityUtil
         if (!enchantments.isEmpty())
         {
             ItemStack stack = new ItemStack(Items.STICK);
-            stack.set(DataComponents.ENCHANTMENTS, upgrades.getEnchantments());
+            stack.set(DataComponents.ENCHANTMENTS, enchantments);
+            fakePlayer.setItemInHand(InteractionHand.MAIN_HAND, stack);
         }
 
         int result = hurtAll(level, targets, damageSource, damage);
