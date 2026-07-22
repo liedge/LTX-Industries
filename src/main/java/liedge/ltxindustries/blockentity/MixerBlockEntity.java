@@ -11,7 +11,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class MixerBlockEntity extends LTXIRecipeMachineBlockEntity.StateMachine<MixingRecipe>
+public class MixerBlockEntity extends LTXIRecipeMachineBlockEntity<MixingRecipe>
 {
     private int spinSpeed = 0;
     private float impellerYRot0;
@@ -37,7 +37,7 @@ public class MixerBlockEntity extends LTXIRecipeMachineBlockEntity.StateMachine<
     @Override
     protected void tickClient(Level level, BlockPos pos, BlockState state)
     {
-        if (state.getValue(LTXIBlockProperties.BINARY_MACHINE_STATE).isActive())
+        if (LTXIBlockProperties.isMachineActive(state))
         {
             if (spinSpeed < 40) spinSpeed += 4;
 

@@ -2,8 +2,6 @@ package liedge.ltxindustries.blockentity;
 
 import liedge.limacore.transfer.LimaTransferUtil;
 import liedge.limacore.transfer.item.LimaBlockEntityItems;
-import liedge.ltxindustries.block.LTXIBlockProperties;
-import liedge.ltxindustries.block.MachineState;
 import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
 import liedge.ltxindustries.blockentity.template.BaseRecipeMachineBlockEntity;
 import net.minecraft.core.BlockPos;
@@ -92,10 +90,4 @@ public abstract class CookingBlockEntity<R extends AbstractCookingRecipe> extend
         }
     }
 
-    @Override
-    protected void onCraftingStateChanged(boolean newCraftingState)
-    {
-        BlockState newState = getBlockState().setValue(LTXIBlockProperties.BINARY_MACHINE_STATE, MachineState.of(newCraftingState));
-        nonNullLevel().setBlockAndUpdate(getBlockPos(), newState);
-    }
 }

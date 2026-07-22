@@ -9,7 +9,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import static liedge.ltxindustries.util.config.LTXIMachinesConfig.*;
 
-public class MaterialFusingChamberBlockEntity extends LTXIRecipeMachineBlockEntity.StateMachine<MaterialFusingRecipe>
+public class MaterialFusingChamberBlockEntity extends LTXIRecipeMachineBlockEntity<MaterialFusingRecipe>
 {
     public MaterialFusingChamberBlockEntity(BlockPos pos, BlockState state)
     {

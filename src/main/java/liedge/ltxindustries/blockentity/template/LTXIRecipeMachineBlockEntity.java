@@ -1,19 +1,15 @@
 package liedge.ltxindustries.blockentity.template;
 
 import liedge.limacore.blockentity.BlockContentsType;
-import liedge.ltxindustries.block.LTXIBlockProperties;
-import liedge.ltxindustries.block.MachineState;
 import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
 import liedge.ltxindustries.blockentity.base.RecipeModeHolderBlockEntity;
 import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.recipe.LTXIRecipe;
 import liedge.ltxindustries.recipe.LTXIRecipeInput;
 import liedge.ltxindustries.recipe.RecipeMode;
-import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
@@ -27,7 +23,6 @@ import net.neoforged.neoforge.transfer.resource.ResourceStack;
 import org.jspecify.annotations.Nullable;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 public abstract class LTXIRecipeMachineBlockEntity<R extends LTXIRecipe> extends BaseRecipeMachineBlockEntity<LTXIRecipeInput, R> implements RecipeModeHolderBlockEntity
 {
@@ -64,9 +59,9 @@ public abstract class LTXIRecipeMachineBlockEntity<R extends LTXIRecipe> extends
     }
 
     @Override
-    public Holder<RecipeType<?>> getRecipeTypeHolder()
+    public void setAvailableRecipeModes(HolderSet<RecipeMode> availableModes)
     {
-        return BuiltInRegistries.RECIPE_TYPE.wrapAsHolder(getRecipeCheck().getRecipeType());
+        this.availableModes = availableModes;
     }
 
     @Override
@@ -149,32 +144,6 @@ public abstract class LTXIRecipeMachineBlockEntity<R extends LTXIRecipe> extends
     public void onUpgradeRefresh(LootContext context, Upgrades upgrades)
     {
         super.onUpgradeRefresh(context, upgrades);
-
-        HolderSet<RecipeMode> defaultModes = getDefaultRecipeModes();
-        List<Holder<RecipeMode>> modes = Stream.concat(defaultModes.stream(), upgrades.effectStream(LTXIUpgradeEffectComponents.UNLOCK_RECIPE_MODE))
-                .limit(23)
-                .toList();
-
-        this.availableModes = modes.isEmpty() ? HolderSet.empty() : HolderSet.direct(modes);
-
-        if (this.mode != null && !availableModes.contains(this.mode))
-        {
-            setMode(null);
-        }
-    }
-
-    public static abstract class StateMachine<R extends LTXIRecipe> extends LTXIRecipeMachineBlockEntity<R>
-    {
-        protected StateMachine(ConfigurableIOBlockEntityType<?> type, RecipeType<R> recipeType, BlockPos pos, BlockState state, int inputSlots, int outputSlots, int inputTanks, int outputTanks)
-        {
-            super(type, recipeType, pos, state, inputSlots, outputSlots, inputTanks, outputTanks);
-        }
-
-        @Override
-        protected void onCraftingStateChanged(boolean newCraftingState)
-        {
-            BlockState newState = getBlockState().setValue(LTXIBlockProperties.BINARY_MACHINE_STATE, MachineState.of(newCraftingState));
-            nonNullLevel().setBlockAndUpdate(getBlockPos(), newState);
-        }
+        RecipeModeHolderBlockEntity.applyUpgrades(this, upgrades);
     }
 }

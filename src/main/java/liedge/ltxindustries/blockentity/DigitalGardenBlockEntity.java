@@ -34,9 +34,6 @@ public class DigitalGardenBlockEntity extends LTXIRecipeMachineBlockEntity<Garde
     }
 
     @Override
-    protected void onCraftingStateChanged(boolean newCraftingState) { }
-
-    @Override
     public int getBaseEnergyCapacity()
     {
         return LTXIMachinesConfig.DIGITAL_GARDEN_ENERGY_CAPACITY.getAsInt();

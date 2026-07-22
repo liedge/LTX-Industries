@@ -8,7 +8,7 @@ import liedge.ltxindustries.util.config.LTXIMachinesConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class AssemblerBlockEntity extends LTXIRecipeMachineBlockEntity.StateMachine<AssemblingRecipe>
+public class AssemblerBlockEntity extends LTXIRecipeMachineBlockEntity<AssemblingRecipe>
 {
     public AssemblerBlockEntity(BlockPos pos, BlockState state)
     {

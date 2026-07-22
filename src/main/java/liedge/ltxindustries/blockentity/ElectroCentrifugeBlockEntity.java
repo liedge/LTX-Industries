@@ -13,7 +13,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
-public class ElectroCentrifugeBlockEntity extends LTXIRecipeMachineBlockEntity.StateMachine<ElectroCentrifugingRecipe>
+public class ElectroCentrifugeBlockEntity extends LTXIRecipeMachineBlockEntity<ElectroCentrifugingRecipe>
 {
     public @Nullable EnergyBoltData tubeBolt;
     private int spinSpeed = 0;
@@ -40,7 +40,7 @@ public class ElectroCentrifugeBlockEntity extends LTXIRecipeMachineBlockEntity.S
     @Override
     protected void tickClient(Level level, BlockPos pos, BlockState state)
     {
-        if (state.getValue(LTXIBlockProperties.BINARY_MACHINE_STATE).isActive())
+        if (LTXIBlockProperties.isMachineActive(state))
         {
             if (spinSpeed < 30) spinSpeed += 3;
 

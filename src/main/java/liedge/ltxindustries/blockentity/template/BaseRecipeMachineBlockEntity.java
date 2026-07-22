@@ -3,6 +3,7 @@ package liedge.ltxindustries.blockentity.template;
 import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.recipe.LimaRecipeCheck;
+import liedge.ltxindustries.block.LTXIBlockProperties;
 import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
 import liedge.ltxindustries.blockentity.base.EnergyConsumerBlockEntity;
 import liedge.ltxindustries.blockentity.base.RecipeMachineBlockEntity;
@@ -109,13 +110,12 @@ public abstract class BaseRecipeMachineBlockEntity<I extends RecipeInput, R exte
     {
         if (isCrafting() != crafting)
         {
-            this.crafting = crafting;
             setChanged();
-            onCraftingStateChanged(crafting);
+            this.crafting = crafting;
         }
-    }
 
-    protected abstract void onCraftingStateChanged(boolean newCraftingState);
+        LTXIBlockProperties.updateBinaryState(nonNullLevel(), getBlockPos(), getBlockState(), crafting);
+    }
 
     protected abstract I getRecipeInput(Level level);
 
@@ -181,7 +181,11 @@ public abstract class BaseRecipeMachineBlockEntity<I extends RecipeInput, R exte
                 RecipeHolder<R> recipeHolder = lookup.get();
                 boolean recipeChanged = lastUsed.filter(recipeHolder::equals).isEmpty();
 
-                if (recipeChanged) this.shouldCheckCraftingTime = true;
+                if (recipeChanged)
+                {
+                    this.craftingProgress = 0;
+                    this.shouldCheckCraftingTime = true;
+                }
 
                 hasValidRecipe = canInsertRecipeResults(level, recipeHolder.value(), recipeInput);
                 if (hasValidRecipe && shouldCheckCraftingTime)
