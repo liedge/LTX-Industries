@@ -190,14 +190,12 @@ public final class LTXIBlockShapes
             Block.box(5, 17, 5, 11, 25, 11));
 
     public static final VoxelShape DIGITAL_GARDEN = Shapes.or(
-            // Base
-            Block.box(0, 0, 0, 16, 10, 16),
-            dimensionBox(0.5d, 10, 0.5d, 15, 3, 15),
-            // Back panel
-            dimensionBox(0.5d, 13, 13.5d, 15, 16, 2),
-            // Window
-            dimensionBox(1, 13, 1, 14, 16, 12.5d),
-            // Top
-            dimensionBox(0, 29, 0, 16, 3, 16));
+            dimensionBox(1, 0, 1, 14, 4, 14),
+            dimensionBox(2, 5, 2, 12, 3, 12),
+            dimensionBox(4, 4, 1, 8, 8, 1),
+            dimensionBox(1, 9, 1, 14, 3, 14),
+            dimensionBox(1.5d, 12, 1.5d, 13, 16, 13),
+            dimensionBox(1, 28, 1, 14, 3, 14),
+            dimensionBox(2, 31, 2, 12, 1, 12));
     //#endregion
 }
