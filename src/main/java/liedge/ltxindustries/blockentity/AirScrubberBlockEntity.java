@@ -297,6 +297,7 @@ public class AirScrubberBlockEntity extends ProductionMachineBlockEntity impleme
         super.loadAdditional(input);
         currentProcessTime = input.getIntOr(TAG_KEY_PROGRESS, 0);
         this.mode = input.read(TAG_KEY_RECIPE_MODE, RecipeMode.CODEC).orElse(null);
+        recipeCheck.deserialize(input);
     }
 
     @Override
@@ -305,6 +306,7 @@ public class AirScrubberBlockEntity extends ProductionMachineBlockEntity impleme
         super.saveAdditional(output);
         output.putInt(TAG_KEY_PROGRESS, currentProcessTime);
         output.storeNullable(TAG_KEY_RECIPE_MODE, RecipeMode.CODEC, mode);
+        recipeCheck.serialize(output);
     }
 
     public float lerpImpellerRot(float partialTick)

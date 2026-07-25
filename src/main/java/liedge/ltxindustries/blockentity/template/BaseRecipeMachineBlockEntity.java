@@ -256,6 +256,7 @@ public abstract class BaseRecipeMachineBlockEntity<I extends RecipeInput, R exte
     {
         super.loadAdditional(input);
         craftingProgress = input.getIntOr(TAG_KEY_PROGRESS, 0);
+        recipeCheck.deserialize(input);
     }
 
     @Override
@@ -263,5 +264,6 @@ public abstract class BaseRecipeMachineBlockEntity<I extends RecipeInput, R exte
     {
         super.saveAdditional(output);
         output.putInt(TAG_KEY_PROGRESS, craftingProgress);
+        recipeCheck.serialize(output);
     }
 }
