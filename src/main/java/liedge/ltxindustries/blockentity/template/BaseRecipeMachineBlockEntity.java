@@ -11,6 +11,7 @@ import liedge.ltxindustries.blockentity.base.TimedProcessBlockEntity;
 import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import liedge.ltxindustries.util.LTXITooltipUtil;
+import liedge.ltxindustries.util.LTXIUpgradeUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
@@ -236,7 +237,7 @@ public abstract class BaseRecipeMachineBlockEntity<I extends RecipeInput, R exte
     {
         super.onUpgradeRefresh(context, upgrades);
         EnergyConsumerBlockEntity.applyUpgrades(this, context, upgrades);
-        this.recipeTimeFunction = createCachedSpeedFunction(upgrades, context);
+        this.recipeTimeFunction = LTXIUpgradeUtil.createMachineSpeedFunction(upgrades, context);
         int parallel = Mth.floor(upgrades.runValueOps(LTXIUpgradeEffectComponents.PARALLEL_OPERATIONS, context, 1));
         this.operationCount = Mth.clamp(parallel, 1, 64);
 

@@ -1,27 +1,16 @@
 package liedge.ltxindustries.blockentity.template;
 
 import liedge.limacore.blockentity.BlockContentsType;
-import liedge.limacore.lib.math.MathOperation;
 import liedge.limacore.transfer.fluid.FluidHolderBlockEntity;
 import liedge.limacore.transfer.fluid.LimaBlockEntityFluids;
 import liedge.limacore.transfer.item.LimaBlockEntityItems;
 import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
-import liedge.ltxindustries.lib.upgrades.EffectRankPair;
-import liedge.ltxindustries.lib.upgrades.Upgrades;
-import liedge.ltxindustries.lib.upgrades.effect.MinimumMachineSpeed;
-import liedge.ltxindustries.lib.upgrades.effect.ValueOperation;
-import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
-import net.minecraft.world.level.storage.loot.LootContext;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import org.jspecify.annotations.Nullable;
-
-import java.util.List;
-import java.util.function.IntUnaryOperator;
 
 public abstract class ProductionMachineBlockEntity extends LTXIMachineBlockEntity implements FluidHolderBlockEntity
 {
@@ -130,28 +119,5 @@ public abstract class ProductionMachineBlockEntity extends LTXIMachineBlockEntit
     {
         super.saveAdditional(output);
         saveFluidResources(output);
-    }
-
-    // Helper
-    protected static IntUnaryOperator createCachedSpeedFunction(Upgrades upgrades, LootContext context)
-    {
-        List<EffectRankPair<ValueOperation>> list = upgrades.effectPairs(LTXIUpgradeEffectComponents.TICKS_PER_OPERATION)
-                .sorted(MathOperation.comparingPriority(o -> o.effect().operation()))
-                .toList();
-        if (list.isEmpty()) return IntUnaryOperator.identity();
-
-        final int minSpeed = upgrades.effectStream(LTXIUpgradeEffectComponents.MINIMUM_MACHINE_SPEED).mapToInt(MinimumMachineSpeed::minimumSpeed).min().orElse(0);
-        return base ->
-        {
-            if (base <= minSpeed) return base;
-
-            double total = base;
-            for (EffectRankPair<ValueOperation> pair : list)
-            {
-                total = pair.effect().apply(context, pair.upgradeRank(), base, total);
-            }
-
-            return Math.max(minSpeed, Mth.floor(total));
-        };
     }
 }

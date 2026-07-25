@@ -5,12 +5,12 @@ import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.data.LimaCoreCodecs;
-import liedge.limacore.lib.math.MathOperation;
 import liedge.limacore.network.LimaStreamCodecs;
 import liedge.limacore.util.LimaRegistryUtil;
 import liedge.ltxindustries.lib.upgrades.effect.*;
 import liedge.ltxindustries.lib.upgrades.effect.entity.EntityUpgradeEffect;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
+import liedge.ltxindustries.util.LTXIUpgradeUtil;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.TypedInstance;
@@ -305,26 +305,22 @@ public final class Upgrades
         for (var entry : reductions.entrySet())
         {
             float modifier = Mth.clamp(-entry.getValue(), -1f, 0f);
-            event.addReductionModifier(entry.getKey(), (type, reduction) -> reduction + (reduction * modifier));
+            event.addReductionModifier(entry.getKey(), (_, reduction) -> reduction + (reduction * modifier));
         }
     }
     //#endregion
 
     //#region Value computing helpers
+    public List<EffectRankPair<ValueOperation>> getValuePairs(DataComponentType<List<ValueOperation>> type)
+    {
+        return effectPairs(type)
+                .sorted(Comparator.comparing(EffectRankPair::effect))
+                .toList();
+    }
+
     public double runValueOps(DataComponentType<List<ValueOperation>> type, LootContext context, double base, double total)
     {
-        double result = total;
-        List<EffectRankPair<ValueOperation>> list = effectPairs(type)
-                .sorted(MathOperation.comparingPriority(p -> p.effect().operation()))
-                .toList();
-
-        for (EffectRankPair<ValueOperation> pair : list)
-        {
-            ValueOperation effect = pair.effect();
-            result = effect.apply(context, pair.upgradeRank(), base, result);
-        }
-
-        return result;
+        return LTXIUpgradeUtil.runValuePairs(getValuePairs(type), context, base, total);
     }
 
     public double runValueOps(DataComponentType<List<ValueOperation>> type, LootContext context, double base)
@@ -344,18 +340,11 @@ public final class Upgrades
 
     public double runConditionalValueOps(DataComponentType<List<ConditionEffect<ValueOperation>>> type, LootContext context, double base, double total)
     {
-        double result = total;
         List<EffectRankPair<ValueOperation>> pairs = matchingEffectPairs(type, context)
-                .sorted(MathOperation.comparingPriority(o -> o.effect().operation()))
+                .sorted(Comparator.comparing(EffectRankPair::effect))
                 .toList();
 
-        for (EffectRankPair<ValueOperation> pair : pairs)
-        {
-            ValueOperation effect = pair.effect();
-            result = effect.apply(context, pair.upgradeRank(), base, result);
-        }
-
-        return result;
+        return LTXIUpgradeUtil.runValuePairs(pairs, context, base, total);
     }
 
     public double runConditionalValueOps(DataComponentType<List<ConditionEffect<ValueOperation>>> type, LootContext context, double base)
