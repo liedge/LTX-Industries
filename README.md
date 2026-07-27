@@ -10,6 +10,10 @@ You can download official releases from these sources:
 - <a href="https://www.curseforge.com/minecraft/mc-mods/ltx-industries"><img alt="CurseForge Downloads" src="https://img.shields.io/curseforge/dt/1075456?logo=curseforge&logoColor=%23F16436&label=CurseForge&color=%23F16436" /></a>
 - <a href="https://modrinth.com/mod/ltx-industries"><img alt="Modrinth Downloads" src="https://img.shields.io/modrinth/dt/LQRvkGba?logo=modrinth&logoColor=%2300AF5C&label=Modrinth&color=%2300AF5C" /></a>
 
+## Localization
+
+If you would like to help translate LTX Industries, please visit our [Crowdin](https://crowdin.com/project/ltx-industries) project page. You may request additional languages on the project page if your target language is not found.
+
 ## Licensing
 - **Source Code**
   - Copyright © 2024-2026 Ed Jimenez
@@ -18,6 +22,5 @@ You can download official releases from these sources:
 - **Assets**
   - Copyright © 2024-2026 Ed Jimenez
   - **ALL RIGHTS RESERVED** unless otherwise specified
-  - Non `en_us` translations belong to their respective authors
 - **Sound Effects**
   - Free to use from Pixabay under the [Pixabay Content License](https://pixabay.com/service/license-summary/)
