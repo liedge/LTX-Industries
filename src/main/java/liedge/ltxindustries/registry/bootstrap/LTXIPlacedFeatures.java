@@ -8,6 +8,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.StructureTags;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
@@ -29,8 +30,11 @@ public final class LTXIPlacedFeatures
 
     public static final ResourceKey<PlacedFeature> PERIDOTITE_ORE_PLACEMENT = key("peridotite_ore");
     public static final ResourceKey<PlacedFeature> TITANIUM_ORE_PLACEMENT = key("titanium_ore");
+    public static final ResourceKey<PlacedFeature> SILVER_ORE_PLACEMENT = key("silver_ore");
+    public static final ResourceKey<PlacedFeature> MOUNTAINS_SILVER_ORE_PLACEMENT = key("mountains_silver_ore");
     public static final ResourceKey<PlacedFeature> NIOBIUM_ORE_PLACEMENT = key("niobium_ore");
     public static final ResourceKey<PlacedFeature> TITANIUM_CLUSTERS_PLACEMENT = key("titanium_clusters");
+    public static final ResourceKey<PlacedFeature> SILVER_CLUSTERS_PLACEMENT = key("silver_clusters");
     public static final ResourceKey<PlacedFeature> NIOBIUM_CLUSTERS_PLACEMENT = key("niobium_clusters");
     public static final ResourceKey<PlacedFeature> SPARK_FRUIT_PLACEMENT = key("jungle_spark_fruits");
     public static final ResourceKey<PlacedFeature> FORTRESS_BILEVINE = key("fortress_bilevine");
@@ -51,12 +55,21 @@ public final class LTXIPlacedFeatures
                 HeightRangePlacement.uniform(VerticalAnchor.BOTTOM, VerticalAnchor.aboveBottom(60)));
         PlacedFeature titaniumOre = orePlacement(configs.getOrThrow(LTXIConfiguredFeatures.TITANIUM_ORE_CONFIG), 10,
                 HeightRangePlacement.triangle(VerticalAnchor.BOTTOM, VerticalAnchor.absolute(60)));
+        PlacedFeature silverOre = orePlacement(configs.getOrThrow(LTXIConfiguredFeatures.SILVER_ORE_CONFIG), 4, HeightRangePlacement.triangle(VerticalAnchor.BOTTOM, VerticalAnchor.absolute(32)));
+        PlacedFeature mountainsSilverOre = orePlacement(configs.getOrThrow(LTXIConfiguredFeatures.MOUNTAINS_SILVER_ORE_CONFIG), 8, HeightRangePlacement.triangle(VerticalAnchor.BOTTOM, VerticalAnchor.absolute(64)));
         PlacedFeature niobiumOre = orePlacement(configs.getOrThrow(LTXIConfiguredFeatures.NIOBIUM_ORE_CONFIG), 2, HeightRangePlacement.uniform(VerticalAnchor.BOTTOM, VerticalAnchor.TOP));
         PlacedFeature titaniumClusters = new PlacedFeature(configs.getOrThrow(LTXIConfiguredFeatures.TITANIUM_CLUSTERS_CONFIG), List.of(
                 CountPlacement.of(8),
                 InSquarePlacement.spread(),
                 HeightRangePlacement.uniform(VerticalAnchor.BOTTOM, VerticalAnchor.TOP),
                 RandomAxisScanPlacement.vertical(16, replaceableSturdyFaces(false, Direction.UP)),
+                BiomeFilter.biome()));
+        PlacedFeature silverClusters = new PlacedFeature(configs.getOrThrow(LTXIConfiguredFeatures.SILVER_CLUSTERS_CONFIG), List.of(
+                CountPlacement.of(28),
+                InSquarePlacement.spread(),
+                HeightRangePlacement.triangle(VerticalAnchor.BOTTOM, VerticalAnchor.absolute(64)),
+                RandomAxisScanPlacement.vertical(16, replaceableSturdyFaces(false)),
+                StructurePlacementFilter.placeInsideStructure(structures.getOrThrow(StructureTags.MINESHAFT)),
                 BiomeFilter.biome()));
         PlacedFeature niobiumClusters = new PlacedFeature(configs.getOrThrow(LTXIConfiguredFeatures.NIOBIUM_CLUSTERS_CONFIG), List.of(
                 CountPlacement.of(12),
@@ -97,8 +110,11 @@ public final class LTXIPlacedFeatures
 
         context.register(PERIDOTITE_ORE_PLACEMENT, peridotiteOre);
         context.register(TITANIUM_ORE_PLACEMENT, titaniumOre);
+        context.register(SILVER_ORE_PLACEMENT, silverOre);
+        context.register(MOUNTAINS_SILVER_ORE_PLACEMENT, mountainsSilverOre);
         context.register(NIOBIUM_ORE_PLACEMENT, niobiumOre);
         context.register(TITANIUM_CLUSTERS_PLACEMENT, titaniumClusters);
+        context.register(SILVER_CLUSTERS_PLACEMENT, silverClusters);
         context.register(NIOBIUM_CLUSTERS_PLACEMENT, niobiumClusters);
         context.register(SPARK_FRUIT_PLACEMENT, sparkFruits);
         context.register(FORTRESS_BILEVINE, fortressBilevine);

@@ -87,12 +87,17 @@ public final class LTXIItems
     // #region Block items
     public static final DeferredItem<BlockItem> TITANIUM_ORE = ITEMS.registerSimpleBlockItem(LTXIBlocks.TITANIUM_ORE);
     public static final DeferredItem<BlockItem> DEEPSLATE_TITANIUM_ORE = ITEMS.registerSimpleBlockItem(LTXIBlocks.DEEPSLATE_TITANIUM_ORE);
+    public static final DeferredItem<BlockItem> SILVER_ORE = ITEMS.registerSimpleBlockItem(LTXIBlocks.SILVER_ORE);
+    public static final DeferredItem<BlockItem> DEEPSLATE_SILVER_ORE = ITEMS.registerSimpleBlockItem(LTXIBlocks.DEEPSLATE_SILVER_ORE);
     public static final DeferredItem<BlockItem> NIOBIUM_ORE = ITEMS.registerSimpleBlockItem(LTXIBlocks.NIOBIUM_ORE);
     public static final DeferredItem<BlockItem> RAW_TITANIUM_BLOCK = ITEMS.registerSimpleBlockItem(LTXIBlocks.RAW_TITANIUM_BLOCK);
+    public static final DeferredItem<BlockItem> RAW_SILVER_BLOCK = ITEMS.registerSimpleBlockItem(LTXIBlocks.RAW_SILVER_BLOCK);
     public static final DeferredItem<BlockItem> RAW_NIOBIUM_BLOCK = ITEMS.registerSimpleBlockItem(LTXIBlocks.RAW_NIOBIUM_BLOCK);
     public static final DeferredItem<BlockItem> RAW_TITANIUM_CLUSTER = ITEMS.registerSimpleBlockItem(LTXIBlocks.RAW_TITANIUM_CLUSTER);
+    public static final DeferredItem<BlockItem> RAW_SILVER_CLUSTER = ITEMS.registerSimpleBlockItem(LTXIBlocks.RAW_SILVER_CLUSTER);
     public static final DeferredItem<BlockItem> RAW_NIOBIUM_CLUSTER = ITEMS.registerSimpleBlockItem(LTXIBlocks.RAW_NIOBIUM_CLUSTER);
     public static final DeferredItem<BlockItem> TITANIUM_BLOCK = ITEMS.registerSimpleBlockItem(LTXIBlocks.TITANIUM_BLOCK);
+    public static final DeferredItem<BlockItem> SILVER_BLOCK = ITEMS.registerSimpleBlockItem(LTXIBlocks.SILVER_BLOCK);
     public static final DeferredItem<BlockItem> NIOBIUM_BLOCK = ITEMS.registerSimpleBlockItem(LTXIBlocks.NIOBIUM_BLOCK);
     public static final DeferredItem<BlockItem> SLATESTEEL_BLOCK = ITEMS.registerSimpleBlockItem(LTXIBlocks.SLATESTEEL_BLOCK);
     public static final DeferredItem<BlockItem> PERIDOTITE = ITEMS.registerSimpleBlockItem(LTXIBlocks.PERIDOTITE);
@@ -148,17 +153,25 @@ public final class LTXIItems
 
     // Raw ores
     public static final DeferredItem<Item> RAW_TITANIUM = ITEMS.registerSimpleItem("raw_titanium");
+    public static final DeferredItem<Item> RAW_SILVER = ITEMS.registerSimpleItem("raw_silver");
     public static final DeferredItem<Item> RAW_NIOBIUM = ITEMS.registerSimpleItem("raw_niobium");
 
     // Ingots
     public static final DeferredItem<Item> TITANIUM_INGOT = ITEMS.registerSimpleItem("titanium_ingot");
+    public static final DeferredItem<Item> SILVER_INGOT = ITEMS.registerSimpleItem("silver_ingot");
     public static final DeferredItem<Item> NIOBIUM_INGOT = ITEMS.registerSimpleItem("niobium_ingot");
+    public static final DeferredItem<Item> RHENIUM_INGOT = ITEMS.registerSimpleItem("rhenium_ingot");
     public static final DeferredItem<Item> SILICON_INGOT = ITEMS.registerSimpleItem("silicon_ingot");
     public static final DeferredItem<Item> SLATESTEEL_INGOT = ITEMS.registerSimpleItem("slatesteel_ingot");
+    public static final DeferredItem<Item> TUNGSTEN_SLATESTEEL_INGOT = ITEMS.registerSimpleItem("tungsten_slatesteel_ingot");
     public static final DeferredItem<Item> POLYMER_INGOT = ITEMS.registerSimpleItem("polymer_ingot");
+
+    // Ingots
+    public static final DeferredItem<Item> OLIVINE = ITEMS.registerSimpleItem("olivine");
 
     // Nuggets
     public static final DeferredItem<Item> TITANIUM_NUGGET = ITEMS.registerSimpleItem("titanium_nugget");
+    public static final DeferredItem<Item> SILVER_NUGGET = ITEMS.registerSimpleItem("silver_nugget");
     public static final DeferredItem<Item> NIOBIUM_NUGGET = ITEMS.registerSimpleItem("niobium_nugget");
     public static final DeferredItem<Item> SLATESTEEL_NUGGET = ITEMS.registerSimpleItem("slatesteel_nugget");
 
@@ -167,6 +180,7 @@ public final class LTXIItems
     public static final DeferredItem<Item> SODIUM_DUST = ITEMS.registerSimpleItem("sodium_dust");
     public static final DeferredItem<Item> SILICON_DUST = ITEMS.registerSimpleItem("silicon_dust");
     public static final DeferredItem<Item> DEEPSLATE_DUST = ITEMS.registerSimpleItem("deepslate_dust");
+    public static final DeferredItem<Item> PERIDOTITE_DUST = ITEMS.registerSimpleItem("peridotite_dust");
     public static final DeferredItem<Item> RESINOUS_BIOMASS = ITEMS.registerSimpleItem("resinous_biomass");
     public static final DeferredItem<Item> ACIDIC_BIOMASS = ITEMS.registerSimpleItem("acidic_biomass");
 
@@ -183,8 +197,12 @@ public final class LTXIItems
     public static final DeferredItem<BucketItem> OXYGEN_BUCKET = registerBucket(LTXIFluids.OXYGEN);
     public static final DeferredItem<BucketItem> CHLORINE_BUCKET = registerBucket(LTXIFluids.CHLORINE);
     public static final DeferredItem<BucketItem> ARGON_BUCKET = registerBucket(LTXIFluids.ARGON);
+    public static final DeferredItem<BucketItem> METHANE_BUCKET = registerBucket(LTXIFluids.METHANE);
     public static final DeferredItem<BucketItem> SEA_WATER_BUCKET = registerBucket(LTXIFluids.SEA_WATER);
+    public static final DeferredItem<BucketItem> AMMONIA_BUCKET = registerBucket(LTXIFluids.AMMONIA);
+    public static final DeferredItem<BucketItem> HYDROCHLORIC_ACID_BUCKET = registerBucket(LTXIFluids.HYDROCHLORIC_ACID);
     public static final DeferredItem<BucketItem> VIRIDIC_ACID_BUCKET = registerBucket(LTXIFluids.VIRIDIC_ACID);
+    public static final DeferredItem<BucketItem> LIQUID_SILICONE_BUCKET = registerBucket(LTXIFluids.LIQUID_SILICONE);
 
     // Pigments
     public static final DeferredItem<Item> LTX_LIME_PIGMENT = ITEMS.registerSimpleItem("ltx_lime_pigment");
@@ -253,6 +271,8 @@ public final class LTXIItems
     public static final DeferredItem<Item> CHORUS_CHEMICAL = ITEMS.registerSimpleItem("chorus_chemical");
     public static final DeferredItem<Item> SCULK_CHEMICAL = ITEMS.registerSimpleItem("sculk_chemical");
     public static final DeferredItem<Item> GLOOM_CHEMICAL = ITEMS.registerSimpleItem("gloom_chemical");
+    public static final DeferredItem<Item> TUNGSTEN_TRIOXIDE = ITEMS.registerSimpleItem("tungsten_trioxide");
+    public static final DeferredItem<Item> RHENIUM_7_OXIDE = ITEMS.registerSimpleItem("rhenium_7_oxide");
 
     // Upgrade
     public static final DeferredItem<Item> EMPTY_UPGRADE_MODULE = ITEMS.registerSimpleItem("empty_upgrade_module");

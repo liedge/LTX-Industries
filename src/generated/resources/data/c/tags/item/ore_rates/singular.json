@@ -1,6 +1,9 @@
 {
   "values": [
-    "#c:ores/titanium",
-    "#c:ores/niobium"
+    "ltxi:titanium_ore",
+    "ltxi:deepslate_titanium_ore",
+    "ltxi:silver_ore",
+    "ltxi:deepslate_silver_ore",
+    "ltxi:niobium_ore"
   ]
 }

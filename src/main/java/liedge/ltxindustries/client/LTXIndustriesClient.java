@@ -50,6 +50,7 @@ import net.neoforged.neoforge.client.fluid.FluidTintSources;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import org.slf4j.Logger;
 
+import java.awt.*;
 import java.util.List;
 import java.util.function.IntFunction;
 
@@ -96,14 +97,19 @@ public class LTXIndustriesClient
         {
             final Material gasSprite = new Material(LTXIndustries.RESOURCES.id("block/gas"));
             final IntFunction<FluidModel.Unbaked> gas = rgb -> new FluidModel.Unbaked(gasSprite, gasSprite, null, FluidTintSources.constant(ARGB.opaque(rgb)));
+            final IntFunction<FluidModel.Unbaked> waterBase = rgb -> LimaCoreClientUtil.fluidModel(ModResources.MC, "block/water_still", "block/water_flow", FluidTintSources.constant(ARGB.opaque(rgb)));
 
             event.register(gas.apply(0xe7e7e7), LTXIFluids.HYDROGEN, LTXIFluids.FLOWING_HYDROGEN);
             event.register(gas.apply(0x27306e), LTXIFluids.NITROGEN, LTXIFluids.FLOWING_NITROGEN);
             event.register(gas.apply(0x91a5d5), LTXIFluids.OXYGEN, LTXIFluids.FLOWING_OXYGEN);
             event.register(gas.apply(0xccf76f), LTXIFluids.CHLORINE, LTXIFluids.FLOWING_CHLORINE);
             event.register(gas.apply(0x8f73f6), LTXIFluids.ARGON, LTXIFluids.FLOWING_ARGON);
-            event.register(LimaCoreClientUtil.fluidModel(ModResources.MC, "block/water_still", "block/water_flow", FluidTintSources.constant(0xff43d5ee)), LTXIFluids.SEA_WATER, LTXIFluids.FLOWING_SEA_WATER);
+            event.register(gas.apply(0x50acf2), LTXIFluids.METHANE, LTXIFluids.FLOWING_METHANE);
+            event.register(waterBase.apply(0x43d5ee), LTXIFluids.SEA_WATER, LTXIFluids.FLOWING_SEA_WATER);
+            event.register(gas.apply(0x73faa5), LTXIFluids.AMMONIA, LTXIFluids.FLOWING_AMMONIA);
+            event.register(waterBase.apply(0xd5fc7e), LTXIFluids.HYDROCHLORIC_ACID, LTXIFluids.FLOWING_HYDROCHLORIC_ACID);
             event.register(LimaCoreClientUtil.fluidModel(LTXIndustries.RESOURCES, "block/viridic_acid_still", "block/viridic_acid_flowing", null), LTXIFluids.VIRIDIC_ACID, LTXIFluids.FLOWING_VIRIDIC_ACID);
+            event.register(LimaCoreClientUtil.fluidModel(LTXIndustries.RESOURCES, "block/light_molten_still", "block/light_molten_flow", FluidTintSources.constant(0xff5f6c72)), LTXIFluids.LIQUID_SILICONE, LTXIFluids.FLOWING_LIQUID_SILICONE);
         }
 
         @SubscribeEvent

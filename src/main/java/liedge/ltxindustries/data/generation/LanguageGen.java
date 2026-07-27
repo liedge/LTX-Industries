@@ -50,12 +50,17 @@ class LanguageGen extends LimaLanguageProvider
         //#region Blocks
         addBlock(LTXIBlocks.TITANIUM_ORE, "Titanium Ore");
         addBlock(LTXIBlocks.DEEPSLATE_TITANIUM_ORE, "Deepslate Titanium Ore");
+        addBlock(LTXIBlocks.SILVER_ORE, "Silver Ore");
+        addBlock(LTXIBlocks.DEEPSLATE_SILVER_ORE, "Deepslate Silver Ore");
         addBlock(LTXIBlocks.NIOBIUM_ORE, "Niobium Ore");
         addBlock(LTXIBlocks.RAW_TITANIUM_BLOCK, "Block of Raw Titanium");
+        addBlock(LTXIBlocks.RAW_SILVER_BLOCK, "Block of Raw Silver");
         addBlock(LTXIBlocks.RAW_NIOBIUM_BLOCK, "Block of Raw Niobium");
         addBlock(LTXIBlocks.RAW_TITANIUM_CLUSTER, "Raw Titanium Cluster");
+        addBlock(LTXIBlocks.RAW_SILVER_CLUSTER, "Raw Silver Cluster");
         addBlock(LTXIBlocks.RAW_NIOBIUM_CLUSTER, "Raw Niobium Cluster");
         addBlock(LTXIBlocks.TITANIUM_BLOCK, "Block of Titanium");
+        addBlock(LTXIBlocks.SILVER_BLOCK, "Block of Silver");
         addBlock(LTXIBlocks.NIOBIUM_BLOCK, "Block of Niobium");
         addBlock(LTXIBlocks.SLATESTEEL_BLOCK, "Block of Slatesteel");
         addBlock(LTXIBlocks.PERIDOTITE, "Peridotite");
@@ -127,26 +132,37 @@ class LanguageGen extends LimaLanguageProvider
         fluidType(LTXIFluids.OXYGEN_TYPE, "Oxygen");
         fluidType(LTXIFluids.CHLORINE_TYPE, "Chlorine");
         fluidType(LTXIFluids.ARGON_TYPE, "Argon");
+        fluidType(LTXIFluids.METHANE_TYPE, "Methane");
         fluidType(LTXIFluids.SEA_WATER_TYPE, "Sea Water");
+        fluidType(LTXIFluids.AMMONIA_TYPE, "Ammonia");
+        fluidType(LTXIFluids.HYDROCHLORIC_ACID_TYPE, "Hydrochloric Acid");
         fluidType(LTXIFluids.VIRIDIC_ACID_TYPE, "Viridic Acid");
+        fluidType(LTXIFluids.LIQUID_SILICONE_TYPE, "Liquid Silicone");
 
         //#region Items
         addItem(RAW_TITANIUM, "Raw Titanium");
+        addItem(RAW_SILVER, "Raw Silver");
         addItem(RAW_NIOBIUM, "Raw Niobium");
 
         addItem(TITANIUM_INGOT, "Titanium Ingot");
+        addItem(SILVER_INGOT, "Silver Ingot");
         addItem(NIOBIUM_INGOT, "Niobium Ingot");
+        addItem(RHENIUM_INGOT, "Rhenium Ingot");
         addItem(SILICON_INGOT, "Silicon Ingot");
         addItem(SLATESTEEL_INGOT, "Slatesteel Ingot");
+        addItem(TUNGSTEN_SLATESTEEL_INGOT, "Tungsten-Plated Slatesteel");
         addItem(POLYMER_INGOT, "Polymer Bar");
+        addItem(OLIVINE, "Olivine");
 
         addItem(TITANIUM_NUGGET, "Titanium Nugget");
+        addItem(SILVER_NUGGET, "Silver Nugget");
         addItem(NIOBIUM_NUGGET, "Niobium Nugget");
 
         addItem(CARBON_DUST, "Carbon Dust");
         addItem(SODIUM_DUST, "Sodium Dust");
         addItem(SILICON_DUST, "Silicon Dust");
         addItem(DEEPSLATE_DUST, "Deepslate Dust");
+        addItem(PERIDOTITE_DUST, "Peridotite Dust");
         addItem(RESINOUS_BIOMASS, "Resinous Biomass");
         addItem(ACIDIC_BIOMASS, "Acidic Biomass");
 
@@ -156,8 +172,12 @@ class LanguageGen extends LimaLanguageProvider
         addItem(OXYGEN_BUCKET, "Oxygen Bucket");
         addItem(CHLORINE_BUCKET, "Chlorine Bucket");
         addItem(ARGON_BUCKET, "Argon Bucket");
+        addItem(METHANE_BUCKET, "Methane Bucket");
         addItem(SEA_WATER_BUCKET, "Sea Water Bucket");
+        addItem(AMMONIA_BUCKET, "Ammonia Bucket");
+        addItem(HYDROCHLORIC_ACID_BUCKET, "Hydrochloric Acid Bucket");
         addItem(VIRIDIC_ACID_BUCKET, "Viridic Acid Bucket");
+        addItem(LIQUID_SILICONE_BUCKET, "Liquid Silicone Bucket");
         addItem(LTX_LIME_PIGMENT, "LTXI Lime Pigment");
         addItem(ENERGY_BLUE_PIGMENT, "Energy Blue Pigment");
         addItem(ELECTRIC_CHARTREUSE_PIGMENT, "Electric Chartreuse Pigment");
@@ -168,6 +188,8 @@ class LanguageGen extends LimaLanguageProvider
         addItem(CHORUS_CHEMICAL, "Chorus Extract");
         addItem(SCULK_CHEMICAL, "Echo Serum");
         addItem(GLOOM_CHEMICAL, "Concentrated Gloom Essence");
+        addItem(TUNGSTEN_TRIOXIDE, "Tungsten Trioxide");
+        addItem(RHENIUM_7_OXIDE, "Rhenium(VII) Oxide");
         addItem(SLATESTEEL_NUGGET, "Slatesteel Nugget");
         addItem(TITANIUM_GEAR, "Titanium Gear");
         addItem(SLATESTEEL_GEAR, "Slatesteel Gear");

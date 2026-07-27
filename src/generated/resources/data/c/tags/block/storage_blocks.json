@@ -1,9 +1,11 @@
 {
   "values": [
-    "#c:storage_blocks/raw_titanium",
-    "#c:storage_blocks/raw_niobium",
-    "#c:storage_blocks/titanium",
-    "#c:storage_blocks/niobium",
-    "#c:storage_blocks/slatesteel"
+    "ltxi:raw_titanium_block",
+    "ltxi:raw_silver_block",
+    "ltxi:raw_niobium_block",
+    "ltxi:titanium_block",
+    "ltxi:silver_block",
+    "ltxi:niobium_block",
+    "ltxi:slatesteel_block"
   ]
 }

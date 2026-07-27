@@ -5,6 +5,11 @@
     "ltxi:raw_titanium_block",
     "ltxi:raw_titanium_cluster",
     "ltxi:titanium_block",
+    "ltxi:silver_ore",
+    "ltxi:deepslate_silver_ore",
+    "ltxi:raw_silver_block",
+    "ltxi:raw_silver_cluster",
+    "ltxi:silver_block",
     "ltxi:slatesteel_block"
   ]
 }

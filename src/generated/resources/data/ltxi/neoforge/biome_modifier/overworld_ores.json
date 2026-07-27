@@ -3,7 +3,9 @@
   "biomes": "#minecraft:is_overworld",
   "features": [
     "ltxi:peridotite_ore",
-    "ltxi:titanium_ore"
+    "ltxi:titanium_ore",
+    "ltxi:silver_ore",
+    "ltxi:silver_clusters"
   ],
   "step": "underground_ores"
 }

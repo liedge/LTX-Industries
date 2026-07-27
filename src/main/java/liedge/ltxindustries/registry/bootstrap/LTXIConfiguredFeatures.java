@@ -18,6 +18,7 @@ import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.BlockColumnConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.stateproviders.RandomizedIntStateProvider;
@@ -34,8 +35,11 @@ public final class LTXIConfiguredFeatures
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> PERIDOTITE_ORE_CONFIG = key("peridotite_ore");
     public static final ResourceKey<ConfiguredFeature<?, ?>> TITANIUM_ORE_CONFIG = key("titanium_ore");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> SILVER_ORE_CONFIG = key("silver_ore");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> MOUNTAINS_SILVER_ORE_CONFIG = key("mountains_silver_ore");
     public static final ResourceKey<ConfiguredFeature<?, ?>> NIOBIUM_ORE_CONFIG = key("niobium_ore");
     public static final ResourceKey<ConfiguredFeature<?, ?>> TITANIUM_CLUSTERS_CONFIG = key("titanium_clusters");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> SILVER_CLUSTERS_CONFIG = key("silver_clusters");
     public static final ResourceKey<ConfiguredFeature<?, ?>> NIOBIUM_CLUSTERS_CONFIG = key("niobium_clusters");
     public static final ResourceKey<ConfiguredFeature<?, ?>> SPARK_FRUIT_CONFIG = key("jungle_spark_fruits");
     public static final ResourceKey<ConfiguredFeature<?, ?>> BILEVINE_CONFIG = key("bilevine");
@@ -51,8 +55,14 @@ public final class LTXIConfiguredFeatures
         // Ores
         ConfiguredFeature<?, ?> peridotiteOre = new ConfiguredFeature<>(Feature.ORE, oreConfig(32, tagMatchOreTarget(BlockTags.BASE_STONE_OVERWORLD, LTXIBlocks.PERIDOTITE)));
         ConfiguredFeature<?, ?> titaniumOre = new ConfiguredFeature<>(Feature.ORE, oreConfig(10, tagMatchOreTarget(BlockTags.STONE_ORE_REPLACEABLES, LTXIBlocks.TITANIUM_ORE), tagMatchOreTarget(BlockTags.DEEPSLATE_ORE_REPLACEABLES, LTXIBlocks.DEEPSLATE_TITANIUM_ORE)));
+
+        List<OreConfiguration.TargetBlockState> silverRules = List.of(tagMatchOreTarget(BlockTags.STONE_ORE_REPLACEABLES, LTXIBlocks.SILVER_ORE), tagMatchOreTarget(BlockTags.DEEPSLATE_ORE_REPLACEABLES, LTXIBlocks.DEEPSLATE_SILVER_ORE));
+        ConfiguredFeature<?, ?> silverOre = new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(silverRules, 5));
+        ConfiguredFeature<?, ?> mountainsSilverOre = new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(silverRules, 8));
+
         ConfiguredFeature<?, ?> niobiumOre = new ConfiguredFeature<>(Feature.ORE, oreConfig(3, singleBlockOreTarget(Blocks.END_STONE, LTXIBlocks.NIOBIUM_ORE)));
         ConfiguredFeature<?, ?> titaniumClusters = PlaceOnSideFeature.placeOnSide(simpleState(LTXIBlocks.RAW_TITANIUM_CLUSTER), Direction.UP);
+        ConfiguredFeature<?, ?> silverClusters = PlaceOnSideFeature.placeOnAnySide(simpleState(LTXIBlocks.RAW_SILVER_CLUSTER));
         ConfiguredFeature<?, ?> niobiumClusters = PlaceOnSideFeature.placeOnAnySide(simpleState(LTXIBlocks.RAW_NIOBIUM_CLUSTER));
 
         // Spark fruit
@@ -80,8 +90,11 @@ public final class LTXIConfiguredFeatures
 
         context.register(PERIDOTITE_ORE_CONFIG, peridotiteOre);
         context.register(TITANIUM_ORE_CONFIG, titaniumOre);
+        context.register(SILVER_ORE_CONFIG, silverOre);
+        context.register(MOUNTAINS_SILVER_ORE_CONFIG, mountainsSilverOre);
         context.register(NIOBIUM_ORE_CONFIG, niobiumOre);
         context.register(TITANIUM_CLUSTERS_CONFIG, titaniumClusters);
+        context.register(SILVER_CLUSTERS_CONFIG, silverClusters);
         context.register(NIOBIUM_CLUSTERS_CONFIG, niobiumClusters);
         context.register(SPARK_FRUIT_CONFIG, sparkFruits);
         context.register(BILEVINE_CONFIG, bilevine);

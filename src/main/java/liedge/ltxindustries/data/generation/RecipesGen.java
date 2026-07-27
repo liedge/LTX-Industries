@@ -121,9 +121,11 @@ class RecipesGen extends LimaRecipeProvider
         shaped(POLISHED_PERIDOTITE_WALL, 6).input('#', POLISHED_PERIDOTITE).patterns(wallPattern).save(output);
 
         nineStorageRecipes(output, RAW_TITANIUM, RAW_TITANIUM_BLOCK);
+        nineStorageRecipes(output, RAW_SILVER, RAW_SILVER_BLOCK);
         nineStorageRecipes(output, RAW_NIOBIUM, RAW_NIOBIUM_BLOCK);
 
         nuggetIngotBlockRecipes(output, "titanium", TITANIUM_NUGGET, TITANIUM_INGOT, TITANIUM_BLOCK);
+        nuggetIngotBlockRecipes(output, "silver", SILVER_NUGGET, SILVER_INGOT, SILVER_BLOCK);
         nuggetIngotBlockRecipes(output, "niobium", NIOBIUM_NUGGET, NIOBIUM_INGOT, NIOBIUM_BLOCK);
         nuggetIngotBlockRecipes(output, "slatesteel", SLATESTEEL_NUGGET, SLATESTEEL_INGOT, SLATESTEEL_BLOCK);
 
@@ -232,7 +234,10 @@ class RecipesGen extends LimaRecipeProvider
         oreSmeltBlast(output, "smelt_raw_titanium", RAW_TITANIUM, stackTemplate(TITANIUM_INGOT));
         oreSmeltBlast(output, "smelt_stone_titanium", TITANIUM_ORE, stackTemplate(TITANIUM_INGOT));
         oreSmeltBlast(output, "smelt_deepslate_titanium", DEEPSLATE_TITANIUM_ORE, stackTemplate(TITANIUM_INGOT));
+        oreSmeltBlast(output, "smelt_stone_silver", SILVER_ORE, stackTemplate(SILVER_INGOT));
+        oreSmeltBlast(output, "smelt_deepslate_silver", DEEPSLATE_SILVER_ORE, stackTemplate(SILVER_INGOT));
         oreSmeltBlast(output, "smelt_raw_niobium", RAW_NIOBIUM, stackTemplate(NIOBIUM_INGOT));
+        oreSmeltBlast(output, "smelt_raw_silver", RAW_SILVER, stackTemplate(SILVER_INGOT));
         oreSmeltBlast(output, "smelt_niobium_ore", NIOBIUM_ORE, stackTemplate(NIOBIUM_INGOT));
 
         orePebblesCooking(COAL_ORE_PEBBLES, COAL, 2);
@@ -898,6 +903,7 @@ class RecipesGen extends LimaRecipeProvider
         orePebbleGrinding(SILVER_ORE_PEBBLES, ModResources.COMMON.itemTag("ores/silver"), ModResources.COMMON.itemTag("raw_materials/silver"), "silver", output, true);
         orePebbleGrinding(URANIUM_ORE_PEBBLES, ModResources.COMMON.itemTag("ores/uranium"), ModResources.COMMON.itemTag("raw_materials/uranium"), "uranium", output, true);
         grinding().input(RAW_TITANIUM_CLUSTER).output(ItemResult.of(RAW_TITANIUM, 5)).save(output, "grind_titanium_clusters");
+        grinding().input(RAW_SILVER_CLUSTER).output(ItemResult.of(RAW_SILVER, 5)).save(output, "grind_silver_clusters");
         grinding().input(RAW_NIOBIUM_CLUSTER).output(ItemResult.of(RAW_NIOBIUM, 5)).save(output, "grind_niobium_clusters");
     }
 

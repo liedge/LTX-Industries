@@ -22,6 +22,7 @@ public final class LTXIBiomeModifiers
     private LTXIBiomeModifiers() {}
 
     public static final ResourceKey<BiomeModifier> OVERWORLD_ORES = key("overworld_ores");
+    public static final ResourceKey<BiomeModifier> MOUNTAINS_ORES = key("mountains_ores");
     public static final ResourceKey<BiomeModifier> BASALT_DELTA_ORES = key("basalt_delta_ores");
     public static final ResourceKey<BiomeModifier> OUTER_END_ORES = key("outer_end_ores");
     public static final ResourceKey<BiomeModifier> JUNGLE_VEGETATION = key("jungle_vegetation");
@@ -40,7 +41,12 @@ public final class LTXIBiomeModifiers
 
         BiomeModifier overworldOres = new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
-                keyHolderSet(placements, PERIDOTITE_ORE_PLACEMENT, TITANIUM_ORE_PLACEMENT),
+                keyHolderSet(placements, PERIDOTITE_ORE_PLACEMENT, TITANIUM_ORE_PLACEMENT, SILVER_ORE_PLACEMENT, SILVER_CLUSTERS_PLACEMENT),
+                GenerationStep.Decoration.UNDERGROUND_ORES);
+
+        BiomeModifier mountainsOres = new BiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_MOUNTAIN),
+                keyHolderSet(placements, MOUNTAINS_SILVER_ORE_PLACEMENT),
                 GenerationStep.Decoration.UNDERGROUND_ORES);
 
         BiomeModifier niobiumOre = new net.neoforged.neoforge.common.world.BiomeModifiers.AddFeaturesBiomeModifier(
@@ -69,6 +75,7 @@ public final class LTXIBiomeModifiers
                 GenerationStep.Decoration.VEGETAL_DECORATION);
 
         context.register(OVERWORLD_ORES, overworldOres);
+        context.register(MOUNTAINS_ORES, mountainsOres);
         context.register(BASALT_DELTA_ORES, basaltDeltas);
         context.register(OUTER_END_ORES, niobiumOre);
         context.register(JUNGLE_VEGETATION, sparkFruits);

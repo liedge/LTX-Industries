@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "ltxi:raw_silver_block"
+  ],
+  "result": {
+    "count": 9,
+    "id": "ltxi:raw_silver"
+  }
+}

@@ -27,10 +27,13 @@ public final class LTXITags
         private Blocks() {}
 
         public static final TagKey<Block> TITANIUM_ORES = COMMON.blockTag("ores/titanium");
+        public static final TagKey<Block> SILVER_ORES = COMMON.blockTag("ores/silver");
         public static final TagKey<Block> NIOBIUM_ORES = COMMON.blockTag("ores/niobium");
         public static final TagKey<Block> RAW_TITANIUM_STORAGE_BLOCKS = COMMON.blockTag("storage_blocks/raw_titanium");
+        public static final TagKey<Block> RAW_SILVER_STORAGE_BLOCKS = COMMON.blockTag("storage_blocks/raw_silver");
         public static final TagKey<Block> RAW_NIOBIUM_STORAGE_BLOCKS = COMMON.blockTag("storage_blocks/raw_niobium");
         public static final TagKey<Block> TITANIUM_STORAGE_BLOCKS = COMMON.blockTag("storage_blocks/titanium");
+        public static final TagKey<Block> SILVER_STORAGE_BLOCKS = COMMON.blockTag("storage_blocks/silver");
         public static final TagKey<Block> NIOBIUM_STORAGE_BLOCKS = COMMON.blockTag("storage_blocks/niobium");
         public static final TagKey<Block> SLATESTEEL_STORAGE_BLOCKS = COMMON.blockTag("storage_blocks/slatesteel");
         public static final TagKey<Block> SHEARS_HARVESTABLE = COMMON.blockTag("shears_harvestable");
@@ -49,10 +52,13 @@ public final class LTXITags
 
         // Block tags
         public static final TagKey<Item> TITANIUM_ORES = copy(Blocks.TITANIUM_ORES);
+        public static final TagKey<Item> SILVER_ORES = copy(Blocks.SILVER_ORES);
         public static final TagKey<Item> NIOBIUM_ORES = copy(Blocks.NIOBIUM_ORES);
         public static final TagKey<Item> RAW_TITANIUM_STORAGE_BLOCKS = copy(Blocks.RAW_TITANIUM_STORAGE_BLOCKS);
+        public static final TagKey<Item> RAW_SILVER_STORAGE_BLOCKS = copy(Blocks.RAW_SILVER_STORAGE_BLOCKS);
         public static final TagKey<Item> RAW_NIOBIUM_STORAGE_BLOCKS = copy(Blocks.RAW_NIOBIUM_STORAGE_BLOCKS);
         public static final TagKey<Item> TITANIUM_STORAGE_BLOCKS = copy(Blocks.TITANIUM_STORAGE_BLOCKS);
+        public static final TagKey<Item> SILVER_STORAGE_BLOCKS = copy(Blocks.SILVER_STORAGE_BLOCKS);
         public static final TagKey<Item> NIOBIUM_STORAGE_BLOCKS = copy(Blocks.NIOBIUM_STORAGE_BLOCKS);
         public static final TagKey<Item> SLATESTEEL_STORAGE_BLOCKS = copy(Blocks.SLATESTEEL_STORAGE_BLOCKS);
         public static final TagKey<Item> ORE_CLUSTERS = copy(Blocks.ORE_CLUSTERS);
@@ -62,16 +68,22 @@ public final class LTXITags
 
         // Raw materials
         public static final TagKey<Item> RAW_TITANIUM_MATERIALS = COMMON.itemTag("raw_materials/titanium");
+        public static final TagKey<Item> RAW_SILVER_MATERIALS = COMMON.itemTag("raw_materials/silver");
         public static final TagKey<Item> RAW_NIOBIUM_MATERIALS = COMMON.itemTag("raw_materials/niobium");
 
         // Ingots
         public static final TagKey<Item> TITANIUM_INGOTS = COMMON.itemTag("ingots/titanium");
+        public static final TagKey<Item> SILVER_INGOTS = COMMON.itemTag("ingots/silver");
         public static final TagKey<Item> NIOBIUM_INGOTS = COMMON.itemTag("ingots/niobium");
         public static final TagKey<Item> SILICON_INGOTS = COMMON.itemTag("ingots/silicon");
         public static final TagKey<Item> SLATESTEEL_INGOTS = COMMON.itemTag("ingots/slatesteel");
 
+        // Gems
+        public static final TagKey<Item> OLIVINE_GEMS = COMMON.itemTag("gems/olivine");
+
         // Nuggets
         public static final TagKey<Item> TITANIUM_NUGGETS = COMMON.itemTag("nuggets/titanium");
+        public static final TagKey<Item> SILVER_NUGGETS = COMMON.itemTag("nuggets/silver");
         public static final TagKey<Item> NIOBIUM_NUGGETS = COMMON.itemTag("nuggets/niobium");
         public static final TagKey<Item> SLATESTEEL_NUGGETS = COMMON.itemTag("nuggets/slatesteel");
 

@@ -92,15 +92,22 @@ class ModelsGen extends ModelProvider
         registerFlatModels(models,
                 // Raw ores
                 RAW_TITANIUM,
+                RAW_SILVER,
                 RAW_NIOBIUM,
                 // Ingots
                 TITANIUM_INGOT,
+                SILVER_INGOT,
                 NIOBIUM_INGOT,
+                RHENIUM_INGOT,
                 SILICON_INGOT,
                 SLATESTEEL_INGOT,
+                TUNGSTEN_SLATESTEEL_INGOT,
                 POLYMER_INGOT,
+                // Gems
+                OLIVINE,
                 // Nuggets
                 TITANIUM_NUGGET,
+                SILVER_NUGGET,
                 NIOBIUM_NUGGET,
                 SLATESTEEL_NUGGET,
                 // Dusts
@@ -108,6 +115,7 @@ class ModelsGen extends ModelProvider
                 SODIUM_DUST,
                 SILICON_DUST,
                 DEEPSLATE_DUST,
+                PERIDOTITE_DUST,
                 RESINOUS_BIOMASS,
                 ACIDIC_BIOMASS,
                 // Plants
@@ -158,6 +166,8 @@ class ModelsGen extends ModelProvider
                 CHORUS_CHEMICAL,
                 SCULK_CHEMICAL,
                 GLOOM_CHEMICAL,
+                TUNGSTEN_TRIOXIDE,
+                RHENIUM_7_OXIDE,
                 EMPTY_UPGRADE_MODULE,
                 UPGRADE_MODULE,
                 EMPTY_FABRICATION_BLUEPRINT,
@@ -229,20 +239,29 @@ class ModelsGen extends ModelProvider
         bucket(models, OXYGEN_BUCKET, LTXIFluids.OXYGEN);
         bucket(models, CHLORINE_BUCKET, LTXIFluids.CHLORINE);
         bucket(models, ARGON_BUCKET, LTXIFluids.ARGON);
+        bucket(models, METHANE_BUCKET, LTXIFluids.METHANE);
         bucket(models, SEA_WATER_BUCKET, LTXIFluids.SEA_WATER);
+        bucket(models, AMMONIA_BUCKET, LTXIFluids.AMMONIA);
+        bucket(models, HYDROCHLORIC_ACID_BUCKET, LTXIFluids.HYDROCHLORIC_ACID);
         bucket(models, VIRIDIC_ACID_BUCKET, LTXIFluids.VIRIDIC_ACID);
+        bucket(models, LIQUID_SILICONE_BUCKET, LTXIFluids.LIQUID_SILICONE);
     }
 
     private void registerBlockModels(BlockModelGenerators models)
     {
         models.createTrivialCube(LTXIBlocks.TITANIUM_ORE.get());
         models.createTrivialCube(LTXIBlocks.DEEPSLATE_TITANIUM_ORE.get());
+        models.createTrivialCube(LTXIBlocks.SILVER_ORE.get());
+        models.createTrivialCube(LTXIBlocks.DEEPSLATE_SILVER_ORE.get());
         createEmissiveOre(models, Blocks.END_STONE, LTXIBlocks.NIOBIUM_ORE);
         models.createTrivialCube(LTXIBlocks.RAW_TITANIUM_BLOCK.get());
+        models.createTrivialCube(LTXIBlocks.RAW_SILVER_BLOCK.get());
         models.createTrivialCube(LTXIBlocks.RAW_NIOBIUM_BLOCK.get());
         createOreCluster(models, LTXIBlocks.RAW_TITANIUM_CLUSTER, Blocks.SMOOTH_BASALT, LTXIBlocks.RAW_TITANIUM_BLOCK.get());
+        createOreCluster(models, LTXIBlocks.RAW_SILVER_CLUSTER, Blocks.STONE, LTXIBlocks.RAW_SILVER_BLOCK.get());
         createOreCluster(models, LTXIBlocks.RAW_NIOBIUM_CLUSTER, Blocks.END_STONE, LTXIBlocks.RAW_NIOBIUM_BLOCK.get());
         models.createTrivialCube(LTXIBlocks.TITANIUM_BLOCK.get());
+        models.createTrivialCube(LTXIBlocks.SILVER_BLOCK.get());
         models.createTrivialCube(LTXIBlocks.NIOBIUM_BLOCK.get());
         models.createTrivialCube(LTXIBlocks.SLATESTEEL_BLOCK.get());
         models.family(peridotiteFamily.getBaseBlock()).generateFor(peridotiteFamily);

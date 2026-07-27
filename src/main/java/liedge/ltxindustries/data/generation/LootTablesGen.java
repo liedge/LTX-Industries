@@ -153,14 +153,19 @@ class LootTablesGen extends LimaLootTableProvider
 
             oreDrop(TITANIUM_ORE, LTXIItems.RAW_TITANIUM);
             oreDrop(DEEPSLATE_TITANIUM_ORE, LTXIItems.RAW_TITANIUM);
+            oreDrop(SILVER_ORE, LTXIItems.RAW_SILVER);
+            oreDrop(DEEPSLATE_SILVER_ORE, LTXIItems.RAW_SILVER);
             oreDrop(NIOBIUM_ORE, LTXIItems.RAW_NIOBIUM);
 
             dropSelf(RAW_TITANIUM_BLOCK,
+                    RAW_SILVER_BLOCK,
                     RAW_NIOBIUM_BLOCK,
                     TITANIUM_BLOCK,
+                    SILVER_BLOCK,
                     NIOBIUM_BLOCK,
                     SLATESTEEL_BLOCK);
             oreCluster(RAW_TITANIUM_CLUSTER, LTXIItems.RAW_TITANIUM);
+            oreCluster(RAW_SILVER_CLUSTER, LTXIItems.RAW_SILVER);
             oreCluster(RAW_NIOBIUM_CLUSTER, LTXIItems.RAW_NIOBIUM);
 
             dropSelf(PERIDOTITE, PERIDOTITE_STAIRS, PERIDOTITE_SLAB, PERIDOTITE_WALL,

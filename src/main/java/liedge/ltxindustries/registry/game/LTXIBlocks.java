@@ -5,7 +5,6 @@ import liedge.ltxindustries.LTXIIdentifiers;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.block.*;
 import liedge.ltxindustries.block.mesh.LTXIBlockMeshes;
-import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.*;
@@ -35,18 +34,23 @@ public final class LTXIBlocks
     private static final BlockBehaviour.StatePredicate NEVER = (_,_,_) -> false;
 
     // Ores
-    public static final DeferredBlock<DropExperienceBlock> TITANIUM_ORE = BLOCKS.registerBlock("titanium_ore", properties -> new DropExperienceBlock(ConstantInt.of(0), properties), properties -> properties.mapColor(MapColor.STONE).strength(3f).requiresCorrectToolForDrops());
-    public static final DeferredBlock<DropExperienceBlock> DEEPSLATE_TITANIUM_ORE = BLOCKS.registerBlock("deepslate_titanium_ore", properties -> new DropExperienceBlock(ConstantInt.of(0), properties), properties -> properties.mapColor(MapColor.DEEPSLATE).strength(4.5f, 3f).sound(SoundType.DEEPSLATE).requiresCorrectToolForDrops());
+    public static final DeferredBlock<Block> TITANIUM_ORE = BLOCKS.registerSimpleBlock("titanium_ore", properties -> properties.mapColor(MapColor.STONE).strength(3f).requiresCorrectToolForDrops());
+    public static final DeferredBlock<Block> DEEPSLATE_TITANIUM_ORE = BLOCKS.registerSimpleBlock("deepslate_titanium_ore", properties -> properties.mapColor(MapColor.DEEPSLATE).strength(4.5f, 3f).sound(SoundType.DEEPSLATE).requiresCorrectToolForDrops());
+    public static final DeferredBlock<Block> SILVER_ORE = BLOCKS.registerSimpleBlock("silver_ore", properties -> properties.mapColor(MapColor.STONE).strength(3f).requiresCorrectToolForDrops());
+    public static final DeferredBlock<Block> DEEPSLATE_SILVER_ORE = BLOCKS.registerSimpleBlock("deepslate_silver_ore", properties -> properties.mapColor(MapColor.DEEPSLATE).strength(4.5f, 3f).sound(SoundType.DEEPSLATE).requiresCorrectToolForDrops());
     public static final DeferredBlock<DropExperienceBlock> NIOBIUM_ORE = BLOCKS.registerBlock("niobium_ore", properties -> new DropExperienceBlock(UniformInt.of(1, 4), properties), properties -> properties.mapColor(MapColor.SAND).strength(3.2f, 9f).requiresCorrectToolForDrops());
 
     // Raw ore blocks
     public static final DeferredBlock<Block> RAW_TITANIUM_BLOCK = BLOCKS.registerSimpleBlock("raw_titanium_block", properties -> properties.mapColor(MapColor.COLOR_LIGHT_GRAY).strength(5f, 6f).requiresCorrectToolForDrops());
+    public static final DeferredBlock<Block> RAW_SILVER_BLOCK = BLOCKS.registerSimpleBlock("raw_silver_block", properties -> properties.mapColor(MapColor.TERRACOTTA_LIGHT_BLUE).strength(5f, 6f).requiresCorrectToolForDrops());
     public static final DeferredBlock<Block> RAW_NIOBIUM_BLOCK = BLOCKS.registerSimpleBlock("raw_niobium_block", properties -> properties.mapColor(MapColor.COLOR_PURPLE).strength(5f, 9f).requiresCorrectToolForDrops());
     public static final DeferredBlock<SurfaceStickingBlock> RAW_TITANIUM_CLUSTER = BLOCKS.registerBlock("raw_titanium_cluster", properties -> new SurfaceStickingBlock(properties, LTXIBlockShapes.RAW_ORE_CLUSTER, false), properties -> properties.mapColor(MapColor.COLOR_LIGHT_GRAY).strength(5f, 6f).requiresCorrectToolForDrops().noOcclusion());
+    public static final DeferredBlock<SurfaceStickingBlock> RAW_SILVER_CLUSTER = BLOCKS.registerBlock("raw_silver_cluster", properties -> new SurfaceStickingBlock(properties, LTXIBlockShapes.RAW_ORE_CLUSTER, false), properties -> properties.mapColor(MapColor.TERRACOTTA_LIGHT_BLUE).strength(5f, 6f).requiresCorrectToolForDrops().noOcclusion());
     public static final DeferredBlock<SurfaceStickingBlock> RAW_NIOBIUM_CLUSTER = BLOCKS.registerBlock("raw_niobium_cluster", properties -> new SurfaceStickingBlock(properties, LTXIBlockShapes.RAW_ORE_CLUSTER, false), properties -> properties.mapColor(MapColor.COLOR_PURPLE).strength(5f, 9f).requiresCorrectToolForDrops().noOcclusion());
 
     // Ingot storage blocks
     public static final DeferredBlock<Block> TITANIUM_BLOCK = BLOCKS.registerSimpleBlock("titanium_block", properties -> properties.mapColor(MapColor.COLOR_LIGHT_GRAY).strength(5f, 6f).sound(SoundType.METAL).requiresCorrectToolForDrops());
+    public static final DeferredBlock<Block> SILVER_BLOCK = BLOCKS.registerSimpleBlock("silver_block", properties -> properties.mapColor(MapColor.TERRACOTTA_LIGHT_BLUE).strength(5f, 6f).sound(SoundType.METAL).requiresCorrectToolForDrops());
     public static final DeferredBlock<Block> NIOBIUM_BLOCK = BLOCKS.registerSimpleBlock("niobium_block", properties -> properties.mapColor(MapColor.COLOR_LIGHT_GRAY).strength(6f, 9f).sound(SoundType.METAL).requiresCorrectToolForDrops());
     public static final DeferredBlock<Block> SLATESTEEL_BLOCK = BLOCKS.registerSimpleBlock("slatesteel_block", properties -> properties.mapColor(MapColor.COLOR_LIGHT_GRAY).strength(5f, 12f).sound(SoundType.METAL).requiresCorrectToolForDrops());
 

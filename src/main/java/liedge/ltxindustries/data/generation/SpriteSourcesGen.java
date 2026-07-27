@@ -39,8 +39,8 @@ class SpriteSourcesGen extends SpriteSourceProvider
                 .addSource(singleSprite("gui/light_panel", "slot/empty"));
         atlas(AtlasIds.BLOCKS)
                 .addSource(singleSprite("core/solid_lime", "block/solid_lime"))
-                .addSource(singleSprite("core/lime_fluid", "block/lime_fluid"))
-                .addSource(singleSprite("core/flowing_lime_fluid", "block/flowing_lime_fluid"));
+                .addSource(grayscaleMC("block/light_molten_still", "block/lava_still", 1.75f))
+                .addSource(grayscaleMC("block/light_molten_flow", "block/lava_flow", 1.75f));
         atlas(AtlasIds.ITEMS)
                 .addSource(singleSprite("core/solid_lime", "item/solid_lime"))
                 .addSource(singleSprite("block/glacia_glass", "item/glacia_glass"))
