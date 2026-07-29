@@ -64,6 +64,7 @@ public final class LTXIBlockEntities
         registerItemEnergyFluidCaps(event, List.of(
                 GRINDER,
                 MATERIAL_FUSING_CHAMBER,
+                HYDROSIEVE,
                 ELECTROCENTRIFUGE,
                 MIXER,
                 CHEM_LAB,
@@ -192,6 +193,8 @@ public final class LTXIBlockEntities
             builder -> builder.withBlock(LTXIBlocks.GRINDER).hasMenu(LTXIMenus.GRINDER));
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<MaterialFusingChamberBlockEntity>> MATERIAL_FUSING_CHAMBER = registerItemEnergyFluidMachine(LTXIIdentifiers.ID_MATERIAL_FUSING_CHAMBER, MaterialFusingChamberBlockEntity::new, STANDARD_PUSH_PULL, INPUT_ONLY_NO_PULL, INPUT_ONLY_PULL,
             builder -> builder.withBlock(LTXIBlocks.MATERIAL_FUSING_CHAMBER).hasMenu(LTXIMenus.MATERIAL_FUSING_CHAMBER));
+    public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<HydroSieveBlockEntity>> HYDROSIEVE = registerItemEnergyFluidMachine(LTXIIdentifiers.ID_HYDROSIEVE, HydroSieveBlockEntity::new, STANDARD_PUSH_PULL, INPUT_ONLY_NO_PULL, INPUT_ONLY_PULL,
+            builder -> builder.withBlock(LTXIBlocks.HYDROSIEVE).hasMenu(LTXIMenus.HYDROSIEVE));
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<ElectroCentrifugeBlockEntity>> ELECTROCENTRIFUGE = registerItemEnergyFluidMachine(LTXIIdentifiers.ID_ELECTROCENTRIFUGE, ElectroCentrifugeBlockEntity::new, STANDARD_PUSH_PULL, INPUT_ONLY_NO_PULL, STANDARD_PUSH_PULL,
             builder -> builder.withBlock(LTXIBlocks.ELECTROCENTRIFUGE).hasMenu(LTXIMenus.ELECTROCENTRIFUGE));
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<MixerBlockEntity>> MIXER = registerItemEnergyFluidMachine(LTXIIdentifiers.ID_MIXER, MixerBlockEntity::new, STANDARD_PUSH_PULL, INPUT_ONLY_NO_PULL, STANDARD_PUSH_PULL,

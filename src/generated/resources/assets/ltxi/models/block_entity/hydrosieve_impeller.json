@@ -1,0 +1,9 @@
+{
+  "parent": "ltxi:block/hydrosieve",
+  "visibility": {
+    "emissive_active": false,
+    "emissive_idle": false,
+    "frame": false,
+    "water": false
+  }
+}

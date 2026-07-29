@@ -34,6 +34,7 @@ class BlockTagsGen extends LimaTagsProvider.RegistryTags<Block>
                 DIGITAL_BLAST_FURNACE,
                 GRINDER,
                 MATERIAL_FUSING_CHAMBER,
+                HYDROSIEVE,
                 ELECTROCENTRIFUGE,
                 MIXER,
                 VOLTAIC_INJECTOR,

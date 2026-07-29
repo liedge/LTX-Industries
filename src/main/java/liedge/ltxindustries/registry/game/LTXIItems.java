@@ -133,6 +133,7 @@ public final class LTXIItems
     public static final DeferredItem<BlockItem> DIGITAL_BLAST_FURNACE = registerMachineBlockItem(LTXIBlocks.DIGITAL_BLAST_FURNACE);
     public static final DeferredItem<BlockItem> GRINDER = registerMachineBlockItem(LTXIBlocks.GRINDER);
     public static final DeferredItem<BlockItem> MATERIAL_FUSING_CHAMBER = registerMachineBlockItem(LTXIBlocks.MATERIAL_FUSING_CHAMBER);
+    public static final DeferredItem<BlockItem> HYDROSIEVE = registerMachineBlockItem(LTXIBlocks.HYDROSIEVE);
     public static final DeferredItem<BlockItem> ELECTROCENTRIFUGE = registerMachineBlockItem(LTXIBlocks.ELECTROCENTRIFUGE);
     public static final DeferredItem<BlockItem> MIXER = registerMachineBlockItem(LTXIBlocks.MIXER);
     public static final DeferredItem<BlockItem> VOLTAIC_INJECTOR = registerMachineBlockItem(LTXIBlocks.VOLTAIC_INJECTOR);

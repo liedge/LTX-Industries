@@ -1,0 +1,8 @@
+{
+  "parent": "ltxi:block/hydrosieve",
+  "loader": "limacore:extended_cuboid",
+  "visibility": {
+    "emissive_active": false,
+    "water": false
+  }
+}

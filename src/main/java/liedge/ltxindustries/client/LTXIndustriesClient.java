@@ -6,6 +6,7 @@ import liedge.limacore.client.SimpleFogFluidExtension;
 import liedge.limacore.lib.ModResources;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.LTXIndustries;
+import liedge.ltxindustries.block.LTXIBlockProperties;
 import liedge.ltxindustries.client.gui.ClientFabricatingInputsTooltip;
 import liedge.ltxindustries.client.gui.ClientItemStacksTooltip;
 import liedge.ltxindustries.client.gui.layer.BubbleShieldLayer;
@@ -29,6 +30,7 @@ import liedge.ltxindustries.data.LTXIReloadListeners;
 import liedge.ltxindustries.menu.tooltip.FabricatingInputsTooltip;
 import liedge.ltxindustries.menu.tooltip.ItemStacksTooltip;
 import liedge.ltxindustries.registry.game.*;
+import net.minecraft.client.color.block.BlockTintSource;
 import net.minecraft.client.color.block.BlockTintSources;
 import net.minecraft.client.renderer.block.FluidModel;
 import net.minecraft.client.renderer.entity.ArmorStandRenderer;
@@ -146,6 +148,7 @@ public class LTXIndustriesClient
             event.register(LTXIMenus.DIGITAL_BLAST_FURNACE.get(), RecipeLayoutScreen::new);
             event.register(LTXIMenus.GRINDER.get(), RecipeLayoutScreen::new);
             event.register(LTXIMenus.MATERIAL_FUSING_CHAMBER.get(), RecipeLayoutScreen::new);
+            event.register(LTXIMenus.HYDROSIEVE.get(), RecipeLayoutScreen::new);
             event.register(LTXIMenus.ELECTROCENTRIFUGE.get(), RecipeLayoutScreen::new);
             event.register(LTXIMenus.MIXER.get(), RecipeLayoutScreen::new);
             event.register(LTXIMenus.VOLTAIC_INJECTOR.get(), RecipeLayoutScreen::new);
@@ -204,6 +207,7 @@ public class LTXIndustriesClient
             event.registerBlockEntityRenderer(LTXIBlockEntities.INFINITE_ENERGY_CELL_ARRAY.get(), ctx -> new EnergyCellArrayRenderer(ctx, LTXIConstants.CREATIVE_PINK));
             event.registerBlockEntityRenderer(LTXIBlockEntities.PORTABLE_TANK.get(), TankRenderer::new);
             event.registerBlockEntityRenderer(LTXIBlockEntities.GRINDER.get(), GrinderRenderer::new);
+            event.registerBlockEntityRenderer(LTXIBlockEntities.HYDROSIEVE.get(), HydroSieveRenderer::new);
             event.registerBlockEntityRenderer(LTXIBlockEntities.ELECTROCENTRIFUGE.get(), ElectroCentrifugeRenderer::new);
             event.registerBlockEntityRenderer(LTXIBlockEntities.MIXER.get(), MixerRenderer::new);
             event.registerBlockEntityRenderer(LTXIBlockEntities.VOLTAIC_INJECTOR.get(), VoltaicInjectorRenderer::new);
@@ -252,6 +256,9 @@ public class LTXIndustriesClient
         public void registerBlockColors(final RegisterColorHandlersEvent.BlockTintSources event)
         {
             event.register(List.of(BlockTintSources.constant(0xff3f76e4)), LTXIBlocks.INFINITE_WATER_TANK.get(), LTXIBlocks.GEO_SYNTHESIZER.get(), LTXIBlocks.DIGITAL_GARDEN.get());
+
+            BlockTintSource waterActiveOnly = state -> LTXIBlockProperties.isMachineActive(state) ? 0xff3f76e4 : -1;
+            event.register(List.of(waterActiveOnly), LTXIBlocks.HYDROSIEVE.get());
         }
 
         @SubscribeEvent

@@ -63,6 +63,7 @@ public class LTXIJeiPlugin implements IModPlugin
     static final IRecipeHolderType<BlastingRecipe> BLASTING_JEI = storeExisting(RecipeTypes.BLASTING);
     static final IRecipeHolderType<GrindingRecipe> GRINDING_JEI = storeType(GRINDING);
     static final IRecipeHolderType<MaterialFusingRecipe> MATERIAL_FUSING_JEI = storeType(MATERIAL_FUSING);
+    static final IRecipeHolderType<SievingRecipe> SIEVING_JEI = storeType(SIEVING);
     static final IRecipeHolderType<ElectroCentrifugingRecipe> ELECTRO_CENTRIFUGING_JEI = storeType(ELECTRO_CENTRIFUGING);
     static final IRecipeHolderType<MixingRecipe> MIXING_JEI = storeType(MIXING);
     static final IRecipeHolderType<EnergizingRecipe> ENERGIZING_JEI = storeType(ENERGIZING);
@@ -91,6 +92,7 @@ public class LTXIJeiPlugin implements IModPlugin
         IGuiHelper helper = registration.getJeiHelpers().getGuiHelper();
         registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, GRINDING, GRINDING_JEI, RecipeLayouts.GRINDING));
         registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, MATERIAL_FUSING, MATERIAL_FUSING_JEI, RecipeLayouts.FUSING));
+        registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, SIEVING, SIEVING_JEI, RecipeLayouts.SIEVING));
         registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, ELECTRO_CENTRIFUGING, ELECTRO_CENTRIFUGING_JEI, RecipeLayouts.ELECTRO_CENTRIFUGING));
         registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, MIXING, MIXING_JEI, RecipeLayouts.MIXING));
         registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, ENERGIZING, ENERGIZING_JEI, RecipeLayouts.ENERGIZING));
@@ -107,6 +109,7 @@ public class LTXIJeiPlugin implements IModPlugin
     {
         registration.addRecipes(GRINDING_JEI, List.copyOf(LimaCoreClient.getClientRecipes().byType(GRINDING)));
         registration.addRecipes(MATERIAL_FUSING_JEI, List.copyOf(LimaCoreClient.getClientRecipes().byType(MATERIAL_FUSING)));
+        registration.addRecipes(SIEVING_JEI, List.copyOf(LimaCoreClient.getClientRecipes().byType(SIEVING)));
         registration.addRecipes(ELECTRO_CENTRIFUGING_JEI, List.copyOf(LimaCoreClient.getClientRecipes().byType(ELECTRO_CENTRIFUGING)));
         registration.addRecipes(MIXING_JEI, List.copyOf(LimaCoreClient.getClientRecipes().byType(MIXING)));
         registration.addRecipes(ENERGIZING_JEI, List.copyOf(LimaCoreClient.getClientRecipes().byType(ENERGIZING)));
@@ -130,6 +133,7 @@ public class LTXIJeiPlugin implements IModPlugin
         registration.addCraftingStation(BLASTING_JEI, LTXIBlocks.DIGITAL_BLAST_FURNACE);
         registration.addCraftingStation(GRINDING_JEI, LTXIBlocks.GRINDER);
         registration.addCraftingStation(MATERIAL_FUSING_JEI, LTXIBlocks.MATERIAL_FUSING_CHAMBER);
+        registration.addCraftingStation(SIEVING_JEI, LTXIBlocks.HYDROSIEVE);
         registration.addCraftingStation(ELECTRO_CENTRIFUGING_JEI, LTXIBlocks.ELECTROCENTRIFUGE);
         registration.addCraftingStation(MIXING_JEI, LTXIBlocks.MIXER);
         registration.addCraftingStation(ENERGIZING_JEI, LTXIBlocks.VOLTAIC_INJECTOR);

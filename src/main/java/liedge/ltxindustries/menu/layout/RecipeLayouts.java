@@ -15,6 +15,12 @@ public final class RecipeLayouts
             .fluidIn(43, 45)
             .itemOut(137, 36)
             .build(104, 41);
+    public static final RecipeLayout SIEVING = RecipeLayout.builder()
+            .modeSlot(25, 35)
+            .itemIn(43, 26)
+            .fluidIn(43, 44)
+            .slotGrid(101, 27, 3, 2, LayoutSlot.Type.ITEM_OUTPUT)
+            .build(68, 40);
     public static final RecipeLayout ELECTRO_CENTRIFUGING = RecipeLayout.builder()
             .modeSlot(25, 35)
             .itemIn(43, 35).fluidIn(61, 35)

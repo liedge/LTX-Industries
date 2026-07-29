@@ -33,6 +33,7 @@ public final class LTXIRecipeTypes
 
     public static final DeferredHolder<RecipeType<?>, LimaRecipeType<GrindingRecipe>> GRINDING = registerType(LTXIIdentifiers.ID_GRINDING_RECIPE);
     public static final DeferredHolder<RecipeType<?>, LimaRecipeType<MaterialFusingRecipe>> MATERIAL_FUSING = registerType(LTXIIdentifiers.ID_MATERIAL_FUSING_RECIPE);
+    public static final DeferredHolder<RecipeType<?>, LimaRecipeType<SievingRecipe>> SIEVING = registerType(LTXIIdentifiers.ID_SIEVING_RECIPE);
     public static final DeferredHolder<RecipeType<?>, LimaRecipeType<ElectroCentrifugingRecipe>> ELECTRO_CENTRIFUGING = registerType(LTXIIdentifiers.ID_ELECTRO_CENTRIFUGING_RECIPE);
     public static final DeferredHolder<RecipeType<?>, LimaRecipeType<MixingRecipe>> MIXING = registerType(LTXIIdentifiers.ID_MIXING_RECIPE);
     public static final DeferredHolder<RecipeType<?>, LimaRecipeType<EnergizingRecipe>> ENERGIZING = registerType(LTXIIdentifiers.ID_ENERGIZING_RECIPE);

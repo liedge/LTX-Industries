@@ -1291,6 +1291,11 @@ class RecipesGen extends LimaRecipeProvider
         return new LTXIBuilder<>(resources, MaterialFusingRecipe::new);
     }
 
+    private LTXIBuilder<SievingRecipe> sieving()
+    {
+        return new LTXIBuilder<>(resources, SievingRecipe::new);
+    }
+
     private LTXIBuilder<ElectroCentrifugingRecipe> electroCentrifuging()
     {
         return new LTXIBuilder<>(resources, ElectroCentrifugingRecipe::new);

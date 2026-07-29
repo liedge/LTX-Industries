@@ -65,6 +65,14 @@ public final class LTXIBlockShapes
             dimensionBox(0, 6, 2, 1, 8, 12),
             dimensionBox(4, 9, 0, 8, 5, 1));
 
+    public static final VoxelShape HYDROSIEVE = Shapes.or(
+            dimensionBox(1, 0, 1, 14, 3, 14),
+            dimensionBox(2, 3, 2, 12, 3, 12),
+            dimensionBox(1, 6, 1, 14, 9, 1),
+            dimensionBox(1, 6, 14, 14, 9, 1),
+            dimensionBox(1, 6, 2, 1, 9, 12),
+            dimensionBox(14, 6, 2, 1, 9, 12));
+
     public static final VoxelShape ELECTROCENTRIFUGE = Shapes.or(
             // Chassis
             dimensionBox(0, 0, 0, 4, 2, 4),

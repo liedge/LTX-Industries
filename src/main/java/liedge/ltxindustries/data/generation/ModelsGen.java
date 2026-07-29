@@ -295,6 +295,8 @@ class ModelsGen extends ModelProvider
         createCompositeBinaryMachine(models, LTXIBlocks.GRINDER,
                 List.of(Parts.EMISSIVE_ACTIVE, "front_crusher", "rear_crusher"), List.of("front_crusher", "rear_crusher"), List.of());
         createBasicBinaryMachine(models, LTXIBlocks.MATERIAL_FUSING_CHAMBER, Templates.BASIC_MACHINE_IDLE, Templates.BASIC_MACHINE_ACTIVE);
+        createCompositeBinaryMachine(models, LTXIBlocks.HYDROSIEVE,
+                List.of(Parts.EMISSIVE_ACTIVE, Parts.IMPELLER, "water"), List.of(Parts.IMPELLER), List.of(Parts.EMISSIVE_ACTIVE, "water"));
         createCompositeBinaryMachine(models, LTXIBlocks.ELECTROCENTRIFUGE,
                 List.of(Parts.EMISSIVE_ACTIVE, "tubes", "tubes_emissive"), List.of("tubes", "tubes_emissive"), List.of());
         createCompositeBinaryMachine(models, LTXIBlocks.MIXER, List.of(Parts.EMISSIVE_ACTIVE, "blades"), List.of("blades"), List.of());
@@ -307,7 +309,7 @@ class ModelsGen extends ModelProvider
                 List.of(), id -> ItemModelUtils.tintedModel(id, ItemModelUtils.constantTint(waterTint)));
         createIdentityMachine(models, LTXIBlocks.FABRICATOR);
         createIdentityMachine(models, LTXIBlocks.AUTO_FABRICATOR);
-        createCompositeBinaryMachine(models, LTXIBlocks.ATMOSPHERIC_SCRUBBER, List.of(Parts.EMISSIVE_ACTIVE, "impeller"), List.of("impeller"), List.of(Parts.EMISSIVE_ACTIVE));
+        createCompositeBinaryMachine(models, LTXIBlocks.ATMOSPHERIC_SCRUBBER, List.of(Parts.EMISSIVE_ACTIVE, Parts.IMPELLER), List.of(Parts.IMPELLER), List.of(Parts.EMISSIVE_ACTIVE));
         createIdentityMachine(models, LTXIBlocks.DIGITAL_GARDEN, id -> ItemModelUtils.tintedModel(id, ItemModelUtils.constantTint(waterTint)));
         createCompositeBinaryMachine(models, LTXIBlocks.PORTABLE_GENERATOR, List.of(Parts.EMISSIVE_ACTIVE), List.of(), List.of(Parts.EMISSIVE_ACTIVE));
         createCompositeBinaryMachine(models, LTXIBlocks.SOLAR_PANEL, List.of(Parts.EMISSIVE_ACTIVE), List.of(), List.of(Parts.EMISSIVE_ACTIVE));
@@ -324,6 +326,7 @@ class ModelsGen extends ModelProvider
         // Block entity parts
         createBEPart(models, LTXIBlocks.GRINDER.get(), "_front_crusher", false, Parts.FRAME, Parts.EMISSIVE_IDLE, Parts.EMISSIVE_ACTIVE, "rear_crusher");
         createBEPart(models, LTXIBlocks.GRINDER.get(), "_rear_crusher", false, Parts.FRAME, Parts.EMISSIVE_IDLE, Parts.EMISSIVE_ACTIVE, "front_crusher");
+        createBEPart(models, LTXIBlocks.HYDROSIEVE.get(), "_impeller", false, Parts.FRAME, Parts.EMISSIVE_IDLE, Parts.EMISSIVE_ACTIVE, "water");
         createBEPart(models, LTXIBlocks.ELECTROCENTRIFUGE.get(), "_tubes", true, Parts.FRAME, Parts.EMISSIVE_IDLE, Parts.EMISSIVE_ACTIVE);
         createBEPart(models, LTXIBlocks.MIXER.get(), "_blades", false, Parts.FRAME, Parts.EMISSIVE_IDLE, Parts.EMISSIVE_ACTIVE);
         createBEPart(models, LTXIBlocks.ATMOSPHERIC_SCRUBBER.get(), "_impeller", false, Parts.FRAME, Parts.EMISSIVE_IDLE, Parts.EMISSIVE_ACTIVE);
@@ -776,5 +779,6 @@ class ModelsGen extends ModelProvider
         private static final String FRAME = "frame";
         private static final String EMISSIVE_IDLE = "emissive_idle";
         private static final String EMISSIVE_ACTIVE = "emissive_active";
+        private static final String IMPELLER = "impeller";
     }
 }

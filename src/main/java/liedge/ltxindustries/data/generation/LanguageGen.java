@@ -102,6 +102,7 @@ class LanguageGen extends LimaLanguageProvider
         addBlock(LTXIBlocks.DIGITAL_BLAST_FURNACE, "Digital Blast Furnace");
         addBlock(LTXIBlocks.GRINDER, "Grinder");
         addBlock(LTXIBlocks.MATERIAL_FUSING_CHAMBER, "Material Fusing Chamber");
+        addBlock(LTXIBlocks.HYDROSIEVE, "HydroSieve");
         addBlock(LTXIBlocks.ELECTROCENTRIFUGE, "ElectroCentrifuge");
         addBlock(LTXIBlocks.MIXER, "Mixer");
         addBlock(LTXIBlocks.VOLTAIC_INJECTOR, "Voltaic Injector");
@@ -371,6 +372,7 @@ class LanguageGen extends LimaLanguageProvider
         // Recipe types
         add(GRINDING, "Grinding");
         add(MATERIAL_FUSING, "Material Fusing");
+        add(SIEVING, "Hydro-Sieving");
         add(ELECTRO_CENTRIFUGING, "ElectroCentrifuging");
         add(MIXING, "Mixing");
         add(ENERGIZING, "Energizing");

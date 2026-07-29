@@ -27,6 +27,9 @@ public final class LTXIMachinesConfig
     public static final ModConfigSpec.IntValue MFC_ENERGY_CAPACITY;
     public static final ModConfigSpec.IntValue MFC_ENERGY_USAGE;
 
+    public static final ModConfigSpec.IntValue HYDROSIEVE_ENERGY_CAPACITY;
+    public static final ModConfigSpec.IntValue HYDROSIEVE_ENERGY_USAGE;
+
     public static final ModConfigSpec.IntValue ELECTROCENTRIFUGE_ENERGY_CAPACITY;
     public static final ModConfigSpec.IntValue ELECTROCENTRIFUGE_ENERGY_USAGE;
 
@@ -132,6 +135,11 @@ public final class LTXIMachinesConfig
         builder.comment("Material Fusing Chamber").push("material_fusing_chamber");
         MFC_ENERGY_CAPACITY = ConfigUtil.energyCapacity(builder, 100_000);
         MFC_ENERGY_USAGE =  ConfigUtil.energyUsagePerTick(builder, 30);
+        builder.pop();
+
+        builder.comment("HydroSieve").push("hydrosieve");
+        HYDROSIEVE_ENERGY_CAPACITY = ConfigUtil.energyCapacity(builder, 100_000);
+        HYDROSIEVE_ENERGY_USAGE = ConfigUtil.energyUsagePerTick(builder, 40);
         builder.pop();
 
         builder.comment("ElectroCentrifuge").push("electrocentrifuge");
