@@ -23,8 +23,13 @@ public final class RecipeLayoutScreen extends MachineBaseScreen<RecipeLayoutMenu
 
     public RecipeLayoutScreen(RecipeLayoutMenu<?> menu, Inventory inventory, Component title)
     {
-        super(menu, inventory, title, DEFAULT_WIDTH, DEFAULT_HEIGHT);
-        this.layout = menu.getLayout();
+        this(menu, menu.getLayout(), inventory, title);
+    }
+
+    private RecipeLayoutScreen(RecipeLayoutMenu<?> menu, RecipeLayout layout, Inventory inventory, Component title)
+    {
+        super(menu, inventory, title, layout.getWidth(), layout.getHeight());
+        this.layout = layout;
         this.modeHolder = LimaCoreObjects.tryCast(RecipeModeHolderBlockEntity.class, menu.menuContext());
     }
 
@@ -32,7 +37,7 @@ public final class RecipeLayoutScreen extends MachineBaseScreen<RecipeLayoutMenu
     protected void addWidgets()
     {
         super.addWidgets();
-        addRenderableOnly(new MachineProgressWidget(menu.menuContext(), leftPos + layout.progressBarX(), topPos + layout.progressBarY()));
+        addRenderableOnly(new MachineProgressWidget(menu.menuContext(), leftPos + layout.getProgressBarX(), topPos + layout.getProgressBarY()));
 
         if (modeHolder != null)
         {

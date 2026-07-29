@@ -19,7 +19,10 @@ public final class RecipeLayoutMenu<CTX extends BaseRecipeMachineBlockEntity<?, 
         this.layout = layout;
 
         initLayout(layout);
-        addDefaultPlayerInventoryAndHotbar();
+
+        int playerInvX = (layout.getWidth() - 162) / 2 + 1;
+        int playerInvY = layout.getHeight() - 82;
+        addPlayerInventoryAndHotbar(playerInvX, playerInvY);
     }
 
     public RecipeLayout getLayout()

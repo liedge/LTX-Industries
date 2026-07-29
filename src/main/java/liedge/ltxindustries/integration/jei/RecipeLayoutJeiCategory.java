@@ -126,8 +126,8 @@ final class RecipeLayoutJeiCategory<R extends LTXIRecipe> extends LTXIRecipeHold
 
         RecipeLayoutScreen.renderLayout(graphics, -bounds.left(), -bounds.top(), layout);
 
-        int px = layout.progressBarX() - bounds.left();
-        int py = layout.progressBarY() - bounds.top();
+        int px = layout.getProgressBarX() - bounds.left();
+        int py = layout.getProgressBarY() - bounds.top();
 
         machineProgressBackground.draw(graphics, px, py);
         machineProgress.draw(graphics, px + 1, py + 1);

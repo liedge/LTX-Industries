@@ -12,7 +12,7 @@ public class ChemLabBlockEntity extends LTXIRecipeMachineBlockEntity<ChemicalRea
 {
     public ChemLabBlockEntity(BlockPos pos, BlockState state)
     {
-        super(LTXIBlockEntities.CHEM_LAB.get(), LTXIRecipeTypes.CHEMICAL_REACTING.get(), pos, state, 3, 2, 3, 2);
+        super(LTXIBlockEntities.CHEM_LAB.get(), LTXIRecipeTypes.CHEMICAL_REACTING.get(), pos, state, 3, 3, 3, 3);
     }
 
     @Override

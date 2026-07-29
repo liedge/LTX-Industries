@@ -18,7 +18,7 @@ public class VoltaicInjectorBlockEntity extends LTXIRecipeMachineBlockEntity<Ene
 
     public VoltaicInjectorBlockEntity(BlockPos pos, BlockState state)
     {
-        super(LTXIBlockEntities.VOLTAIC_INJECTOR.get(), LTXIRecipeTypes.ENERGIZING.get(), pos, state, 1, 1, 0, 0);
+        super(LTXIBlockEntities.VOLTAIC_INJECTOR.get(), LTXIRecipeTypes.ENERGIZING.get(), pos, state, 1, 3, 0, 0);
     }
 
     @Override

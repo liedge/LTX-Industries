@@ -33,9 +33,9 @@ public final class LTXIRecipeSerializers
     public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<MixingRecipe>> MIXING = register(LTXIIdentifiers.ID_MIXING_RECIPE, MixingRecipe::new, builder ->
             builder.withOptionalItemIngredients(4).withOptionalFluidIngredients(2).withOptionalItemResults(1).withOptionalFluidResults(1));
     public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<EnergizingRecipe>> ENERGIZING = register(LTXIIdentifiers.ID_ENERGIZING_RECIPE, EnergizingRecipe::new, builder ->
-            builder.withItemIngredients(1).withItemResults(1));
+            builder.withItemIngredients(1).withItemResults(3));
     public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<ChemicalReactingRecipe>> CHEMICAL_REACTING = register(LTXIIdentifiers.ID_CHEMICAL_REACTING, ChemicalReactingRecipe::new, builder ->
-            builder.withOptionalItemIngredients(3).withOptionalFluidIngredients(3).withOptionalItemResults(2).withOptionalFluidResults(2));
+            builder.withOptionalItemIngredients(3).withOptionalFluidIngredients(3).withOptionalItemResults(3).withOptionalFluidResults(3));
     public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<AssemblingRecipe>> ASSEMBLING = register(LTXIIdentifiers.ID_ASSEMBLING_RECIPE, AssemblingRecipe::new, builder ->
             builder.defaultTime(400).withItemIngredients(6).withOptionalFluidIngredients(1).withItemResults(1));
     public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<FabricatingRecipe>> FABRICATING = SERIALIZERS.register(LTXIIdentifiers.ID_FABRICATING_RECIPE, () -> new RecipeSerializer<>(FabricatingRecipe.CODEC, FabricatingRecipe.STREAM_CODEC));

@@ -44,8 +44,6 @@ public abstract class UpgradesConfigScreen<M extends UpgradesConfigMenu<?>> exte
     protected UpgradesConfigScreen(M menu, Inventory inventory, Component title, int leftPadding)
     {
         super(menu, inventory, title, 190, 200, leftPadding, 0, 0);
-
-        this.inventoryLabelX = 14;
     }
 
     protected void blitSlotSprites(GuiGraphicsExtractor graphics)

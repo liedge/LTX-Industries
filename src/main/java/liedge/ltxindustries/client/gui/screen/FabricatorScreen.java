@@ -70,9 +70,6 @@ public class FabricatorScreen extends MachineBaseScreen<FabricatorMenu>
                 holder -> getTooltipLines(holder, tooltipContext),
                 holder -> holder.value().getResultPreview().typeHolder().unwrapKey().stream().map(ResourceKey::identifier),
                 LimaCoreClient.getClientRecipes().byType(LTXIRecipeTypes.FABRICATING).stream().sorted(FabricatingRecipe.GROUP_AND_NAME_COMPARATOR).toList());
-
-        // Screen setup
-        this.inventoryLabelX = 14;
     }
 
     private Stream<String> getTooltipLines(RecipeHolder<FabricatingRecipe> holder, Item.TooltipContext context)

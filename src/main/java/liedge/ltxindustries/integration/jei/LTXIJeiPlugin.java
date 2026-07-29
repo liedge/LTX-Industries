@@ -166,7 +166,7 @@ public class LTXIJeiPlugin implements IModPlugin
             public Collection<IGuiClickableArea> getGuiClickableAreas(AirScrubberScreen containerScreen, double guiMouseX, double guiMouseY)
             {
                 RecipeLayout layout = RecipeLayouts.AIR_SCRUBBING;
-                return List.of(IGuiClickableArea.createBasic(layout.progressBarX(), layout.progressBarY(), 24, 6, AIR_SCRUBBING_JEI));
+                return List.of(IGuiClickableArea.createBasic(layout.getProgressBarX(), layout.getProgressBarY(), 24, 6, AIR_SCRUBBING_JEI));
             }
         });
 
@@ -181,7 +181,7 @@ public class LTXIJeiPlugin implements IModPlugin
                 RecipeLayout layout = containerScreen.getMenu().getLayout();
                 IRecipeHolderType<?> jeiType = TYPE_MAP.get(typeId);
 
-                return jeiType != null ? List.of(IGuiClickableArea.createBasic(layout.progressBarX(), layout.progressBarY(), 24, 6, jeiType)) : List.of();
+                return jeiType != null ? List.of(IGuiClickableArea.createBasic(layout.getProgressBarX(), layout.getProgressBarY(), 24, 6, jeiType)) : List.of();
             }
         });
     }

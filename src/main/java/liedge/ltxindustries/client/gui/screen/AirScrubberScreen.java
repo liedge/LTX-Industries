@@ -23,7 +23,7 @@ public class AirScrubberScreen extends MachineBaseScreen<AirScrubberMenu>
     {
         super.addWidgets();
 
-        addRenderableOnly(new MachineProgressWidget(menu.menuContext(), leftPos + layout.progressBarX(), topPos + layout.progressBarY()));
+        addRenderableOnly(new MachineProgressWidget(menu.menuContext(), leftPos + layout.getProgressBarX(), topPos + layout.getProgressBarY()));
         addRenderableWidget(new OpenRecipeModesButton(leftPos - leftPadding, bottomPos - 43, this, menu.menuContext()));
     }
 
