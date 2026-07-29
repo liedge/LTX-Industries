@@ -1,0 +1,9 @@
+{
+  "icon": {
+    "type": "item",
+    "id": "ltxi:raw_silver"
+  },
+  "title": {
+    "translate": "recipe_mode.ltxi.ore_processing"
+  }
+}

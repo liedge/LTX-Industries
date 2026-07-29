@@ -12,6 +12,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.Tags;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import static liedge.ltxindustries.LTXITags.Items.*;
@@ -66,7 +67,7 @@ class ItemTagsGen extends LimaTagsProvider.ItemTags
         buildTag(NIOBIUM_INGOTS).add(NIOBIUM_INGOT).copyTo(INGOTS);
         buildTag(SILICON_INGOTS).add(SILICON_INGOT).copyTo(INGOTS);
         buildTag(SLATESTEEL_INGOTS).add(SLATESTEEL_INGOT).copyTo(INGOTS);
-        buildTag(INGOTS).add(RHENIUM_INGOT);
+        buildTag(INGOTS).add(TUNGSTEN_SLATESTEEL_INGOT, RHENIUM_INGOT);
 
         buildTag(TITANIUM_NUGGETS).add(TITANIUM_NUGGET).copyTo(NUGGETS);
         buildTag(SILVER_NUGGETS).add(SILVER_NUGGET).copyTo(NUGGETS);
@@ -96,6 +97,12 @@ class ItemTagsGen extends LimaTagsProvider.ItemTags
         buildTag(SILICON_DUSTS).add(SILICON_DUST).copyTo(DUSTS);
         buildTag(DEEPSLATE_DUSTS).add(DEEPSLATE_DUST).copyTo(DUSTS);
         buildTag(DUSTS).add(PERIDOTITE_DUST);
+
+        buildTag(CRUSHED_ORE_ITEMS).addHolders(List.copyOf(CRUSHED_ORES.values()));
+        buildTag(WASHED_ORE_ITEMS).addHolders(List.copyOf(WASHED_ORES.values()));
+        buildTag(ORE_CHUNK_ITEMS).addHolders(List.copyOf(ORE_CHUNKS.values()));
+        buildTag(ORE_SOLUTION_ITEMS).addHolders(List.copyOf(ORE_SOLUTIONS.values()));
+        buildTag(ORE_CRYSTAL_ITEMS).addHolders(List.copyOf(ORE_CRYSTALS.values()));
 
         buildTag(GREEN_GROUP_DYE_SOURCES).add(SHORT_GRASS, TALL_GRASS, FERN, LARGE_FERN).addTags(LEAVES, SAPLINGS);
         buildTag(CARBON_SOURCES).add(CHARCOAL).addTag(COALS);

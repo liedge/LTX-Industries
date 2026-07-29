@@ -92,6 +92,13 @@ public final class LTXITags
         public static final TagKey<Item> SILICON_DUSTS = COMMON.itemTag("dusts/silicon");
         public static final TagKey<Item> DEEPSLATE_DUSTS = COMMON.itemTag("dusts/deepslate");
 
+        // Ore processing
+        public static final TagKey<Item> CRUSHED_ORE_ITEMS = RESOURCES.itemTag("crushed_ores");
+        public static final TagKey<Item> WASHED_ORE_ITEMS = RESOURCES.itemTag("washed_ores");
+        public static final TagKey<Item> ORE_CHUNK_ITEMS = RESOURCES.itemTag("ore_chunks");
+        public static final TagKey<Item> ORE_SOLUTION_ITEMS = RESOURCES.itemTag("ore_solutions");
+        public static final TagKey<Item> ORE_CRYSTAL_ITEMS = RESOURCES.itemTag("ore_crystals");
+
         // Misc common tags
         public static final TagKey<Item> TITANIUM_GEARS = COMMON.itemTag("gears/titanium");
 

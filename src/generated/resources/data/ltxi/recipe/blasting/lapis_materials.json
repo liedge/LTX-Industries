@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.5,
+  "ingredient": [
+    "ltxi:crushed_lapis_ore",
+    "ltxi:washed_lapis_ore",
+    "ltxi:lapis_ore_chunk",
+    "ltxi:lapis_ore_solution",
+    "ltxi:lapis_ore_crystal"
+  ],
+  "result": {
+    "count": 4,
+    "id": "minecraft:lapis_lazuli"
+  }
+}

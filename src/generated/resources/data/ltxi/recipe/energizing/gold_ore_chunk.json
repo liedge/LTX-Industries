@@ -1,0 +1,24 @@
+{
+  "type": "ltxi:energizing",
+  "craft_time": 300,
+  "item_inputs": [
+    {
+      "ingredient": "ltxi:washed_gold_ore"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:gold_ore_chunk"
+    },
+    {
+      "count": {
+        "chance": 0.5,
+        "max": 1,
+        "min": 1
+      },
+      "id": "ltxi:gold_ore_chunk"
+    }
+  ],
+  "mode": "ltxi:ore_processing"
+}

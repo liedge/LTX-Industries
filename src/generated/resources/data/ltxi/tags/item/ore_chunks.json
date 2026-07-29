@@ -1,0 +1,16 @@
+{
+  "values": [
+    "ltxi:coal_ore_chunk",
+    "ltxi:copper_ore_chunk",
+    "ltxi:iron_ore_chunk",
+    "ltxi:lapis_ore_chunk",
+    "ltxi:redstone_ore_chunk",
+    "ltxi:gold_ore_chunk",
+    "ltxi:diamond_ore_chunk",
+    "ltxi:emerald_ore_chunk",
+    "ltxi:quartz_ore_chunk",
+    "ltxi:titanium_ore_chunk",
+    "ltxi:silver_ore_chunk",
+    "ltxi:niobium_ore_chunk"
+  ]
+}

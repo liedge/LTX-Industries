@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.5,
+  "ingredient": [
+    "ltxi:crushed_emerald_ore",
+    "ltxi:washed_emerald_ore",
+    "ltxi:emerald_ore_chunk",
+    "ltxi:emerald_ore_solution",
+    "ltxi:emerald_ore_crystal"
+  ],
+  "result": {
+    "id": "minecraft:emerald"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "type": "ltxi:chemical_reacting",
+  "craft_time": 400,
+  "fluid_inputs": [
+    {
+      "amount": 250,
+      "ingredient": "ltxi:viridic_acid"
+    }
+  ],
+  "item_inputs": [
+    {
+      "ingredient": "ltxi:copper_ore_chunk"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:copper_ore_solution"
+    },
+    {
+      "count": {
+        "chance": 0.5,
+        "max": 1,
+        "min": 1
+      },
+      "id": "ltxi:copper_ore_solution"
+    }
+  ],
+  "mode": "ltxi:ore_processing"
+}

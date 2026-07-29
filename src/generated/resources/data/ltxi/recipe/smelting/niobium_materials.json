@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.5,
+  "ingredient": [
+    "ltxi:crushed_niobium_ore",
+    "ltxi:washed_niobium_ore",
+    "ltxi:niobium_ore_chunk",
+    "ltxi:niobium_ore_solution",
+    "ltxi:niobium_ore_crystal"
+  ],
+  "result": {
+    "id": "ltxi:niobium_ingot"
+  }
+}

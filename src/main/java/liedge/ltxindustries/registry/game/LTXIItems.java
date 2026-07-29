@@ -13,6 +13,7 @@ import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
 import liedge.ltxindustries.item.*;
 import liedge.ltxindustries.item.tool.*;
 import liedge.ltxindustries.item.weapon.*;
+import liedge.ltxindustries.lib.BuiltInOres;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -212,25 +213,12 @@ public final class LTXIItems
     public static final DeferredItem<Item> VIRIDIC_GREEN_PIGMENT = ITEMS.registerSimpleItem("viridic_green_pigment");
     public static final DeferredItem<Item> GLOOM_BLUE_PIGMENT = ITEMS.registerSimpleItem("gloom_blue_pigment");
 
-    // Ore pebbles
-    public static final DeferredItem<Item> COAL_ORE_PEBBLES = ITEMS.registerSimpleItem("coal_ore_pebbles");
-    public static final DeferredItem<Item> COPPER_ORE_PEBBLES = ITEMS.registerSimpleItem("copper_ore_pebbles");
-    public static final DeferredItem<Item> IRON_ORE_PEBBLES = ITEMS.registerSimpleItem("iron_ore_pebbles");
-    public static final DeferredItem<Item> LAPIS_ORE_PEBBLES = ITEMS.registerSimpleItem("lapis_ore_pebbles");
-    public static final DeferredItem<Item> REDSTONE_ORE_PEBBLES = ITEMS.registerSimpleItem("redstone_ore_pebbles");
-    public static final DeferredItem<Item> GOLD_ORE_PEBBLES = ITEMS.registerSimpleItem("gold_ore_pebbles");
-    public static final DeferredItem<Item> DIAMOND_ORE_PEBBLES = ITEMS.registerSimpleItem("diamond_ore_pebbles");
-    public static final DeferredItem<Item> EMERALD_ORE_PEBBLES = ITEMS.registerSimpleItem("emerald_ore_pebbles");
-    public static final DeferredItem<Item> QUARTZ_ORE_PEBBLES = ITEMS.registerSimpleItem("quartz_ore_pebbles");
-    public static final DeferredItem<Item> NETHERITE_ORE_PEBBLES = ITEMS.registerSimpleItem("netherite_ore_pebbles");
-    public static final DeferredItem<Item> TITANIUM_ORE_PEBBLES = ITEMS.registerSimpleItem("titanium_ore_pebbles");
-    public static final DeferredItem<Item> NIOBIUM_ORE_PEBBLES = ITEMS.registerSimpleItem("niobium_ore_pebbles");
-    public static final DeferredItem<Item> TIN_ORE_PEBBLES = ITEMS.registerSimpleItem("tin_ore_pebbles");
-    public static final DeferredItem<Item> OSMIUM_ORE_PEBBLES = ITEMS.registerSimpleItem("osmium_ore_pebbles");
-    public static final DeferredItem<Item> NICKEL_ORE_PEBBLES = ITEMS.registerSimpleItem("nickel_ore_pebbles");
-    public static final DeferredItem<Item> LEAD_ORE_PEBBLES = ITEMS.registerSimpleItem("lead_ore_pebbles");
-    public static final DeferredItem<Item> SILVER_ORE_PEBBLES = ITEMS.registerSimpleItem("silver_ore_pebbles");
-    public static final DeferredItem<Item> URANIUM_ORE_PEBBLES = ITEMS.registerSimpleItem("uranium_ore_pebbles");
+    // Ore group materials
+    public static final Map<BuiltInOres, DeferredItem<Item>> CRUSHED_ORES = registerOreGroup(s -> "crushed_" + s + "_ore");
+    public static final Map<BuiltInOres, DeferredItem<Item>> WASHED_ORES = registerOreGroup(s -> "washed_" + s + "_ore");
+    public static final Map<BuiltInOres, DeferredItem<Item>> ORE_CHUNKS = registerOreGroup(s -> s + "_ore_chunk");
+    public static final Map<BuiltInOres, DeferredItem<Item>> ORE_SOLUTIONS = registerOreGroup(s -> s + "_ore_solution");
+    public static final Map<BuiltInOres, DeferredItem<Item>> ORE_CRYSTALS = registerOreGroup(s -> s + "_ore_crystal");
 
     // Components
     public static final DeferredItem<Item> TITANIUM_GEAR = ITEMS.registerSimpleItem("titanium_gear");
@@ -344,5 +332,10 @@ public final class LTXIItems
     private static DeferredItem<BucketItem> registerBucket(Holder<Fluid> holder)
     {
         return ITEMS.registerItem(LimaRegistryUtil.getNonNullRegistryId(holder).getPath() + "_bucket", properties -> new BucketItem(holder.value(), properties), properties -> properties.stacksTo(1));
+    }
+
+    private static Map<BuiltInOres, DeferredItem<Item>> registerOreGroup(UnaryOperator<String> nameFunction)
+    {
+        return LimaCollectionsUtil.fillAndCreateImmutableEnumMap(BuiltInOres.class, e -> ITEMS.registerSimpleItem(nameFunction.apply(e.getSerializedName())));
     }
 }

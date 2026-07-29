@@ -1,0 +1,16 @@
+{
+  "values": [
+    "ltxi:coal_ore_solution",
+    "ltxi:copper_ore_solution",
+    "ltxi:iron_ore_solution",
+    "ltxi:lapis_ore_solution",
+    "ltxi:redstone_ore_solution",
+    "ltxi:gold_ore_solution",
+    "ltxi:diamond_ore_solution",
+    "ltxi:emerald_ore_solution",
+    "ltxi:quartz_ore_solution",
+    "ltxi:titanium_ore_solution",
+    "ltxi:silver_ore_solution",
+    "ltxi:niobium_ore_solution"
+  ]
+}

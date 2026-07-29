@@ -14,6 +14,7 @@ import liedge.ltxindustries.client.renderer.item.RecoilAnimation;
 import liedge.ltxindustries.client.renderer.item.TankSpecialRenderer;
 import liedge.ltxindustries.client.renderer.item.WeaponSpecialRenderer;
 import liedge.ltxindustries.item.weapon.WeaponItem;
+import liedge.ltxindustries.lib.BuiltInOres;
 import liedge.ltxindustries.registry.game.LTXIBlocks;
 import liedge.ltxindustries.registry.game.LTXIFluids;
 import net.minecraft.client.color.item.ItemTintSource;
@@ -43,6 +44,7 @@ import net.neoforged.neoforge.client.model.generators.loaders.CompositeModelBuil
 import net.neoforged.neoforge.client.model.generators.template.CustomLoaderBuilder;
 import net.neoforged.neoforge.client.model.generators.template.ExtendedModelTemplateBuilder;
 import net.neoforged.neoforge.client.model.item.DynamicFluidContainerModel;
+import net.neoforged.neoforge.registries.DeferredItem;
 import org.apache.commons.lang3.function.Consumers;
 import org.joml.Vector3f;
 import org.joml.Vector3fc;
@@ -126,24 +128,6 @@ class ModelsGen extends ModelProvider
                 ELECTRIC_CHARTREUSE_PIGMENT,
                 VIRIDIC_GREEN_PIGMENT,
                 GLOOM_BLUE_PIGMENT,
-                COAL_ORE_PEBBLES,
-                COPPER_ORE_PEBBLES,
-                IRON_ORE_PEBBLES,
-                LAPIS_ORE_PEBBLES,
-                REDSTONE_ORE_PEBBLES,
-                GOLD_ORE_PEBBLES,
-                DIAMOND_ORE_PEBBLES,
-                EMERALD_ORE_PEBBLES,
-                QUARTZ_ORE_PEBBLES,
-                NETHERITE_ORE_PEBBLES,
-                TITANIUM_ORE_PEBBLES,
-                NIOBIUM_ORE_PEBBLES,
-                TIN_ORE_PEBBLES,
-                OSMIUM_ORE_PEBBLES,
-                NICKEL_ORE_PEBBLES,
-                LEAD_ORE_PEBBLES,
-                SILVER_ORE_PEBBLES,
-                URANIUM_ORE_PEBBLES,
                 TITANIUM_GEAR,
                 SLATESTEEL_GEAR,
                 SMALL_VOLTAIC_CELL,
@@ -179,6 +163,12 @@ class ModelsGen extends ModelProvider
                 SPECIALIST_WEAPON_ENERGY,
                 EXPLOSIVES_WEAPON_ENERGY,
                 HEAVY_WEAPON_ENERGY);
+
+        oreGroupModels(models, CRUSHED_ORES, "crushed_ore");
+        oreGroupModels(models, WASHED_ORES, "washed_ore");
+        oreGroupModels(models, ORE_CHUNKS, "ore_chunk");
+        oreGroupModels(models, ORE_SOLUTIONS, "ore_solution");
+        oreGroupModels(models, ORE_CRYSTALS, "ore_crystal");
 
         emissiveFlatItem(models, GUIDE_TABLET);
         emissiveHandheldFlatItem(models, EPSILON_DRILL);
@@ -474,6 +464,18 @@ class ModelsGen extends ModelProvider
                 true);
 
         models.itemModelOutput.accept(item.asItem(), unbaked);
+    }
+
+    private void oreGroupModels(ItemModelGenerators models, Map<BuiltInOres, DeferredItem<Item>> registrations, String texturePrefix)
+    {
+        registrations.forEach((key, holder) ->
+        {
+            Item item = holder.value();
+            Material material = new Material(resources.id("item/" + texturePrefix + "_" + key.getSerializedName()));
+            Identifier model = ModelTemplates.FLAT_ITEM.create(item, TextureMapping.layer0(material), models.modelOutput);
+
+            models.itemModelOutput.accept(item, ItemModelUtils.plainModel(model));
+        });
     }
 
     private WeaponBuilder weapon(Holder<Item> holder)

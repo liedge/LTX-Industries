@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.5,
+  "ingredient": [
+    "ltxi:crushed_silver_ore",
+    "ltxi:washed_silver_ore",
+    "ltxi:silver_ore_chunk",
+    "ltxi:silver_ore_solution",
+    "ltxi:silver_ore_crystal"
+  ],
+  "result": {
+    "id": "ltxi:silver_ingot"
+  }
+}

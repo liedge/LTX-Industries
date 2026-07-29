@@ -11,6 +11,7 @@ import liedge.ltxindustries.item.SimpleHintItem;
 import liedge.ltxindustries.item.tool.ToolSpeed;
 import liedge.ltxindustries.item.weapon.HanabiItem;
 import liedge.ltxindustries.item.weapon.WeaponItem;
+import liedge.ltxindustries.lib.BuiltInOres;
 import liedge.ltxindustries.lib.upgrades.Upgrade;
 import liedge.ltxindustries.lib.upgrades.UpgradeBuilder;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
@@ -206,24 +207,21 @@ class LanguageGen extends LimaLanguageProvider
         simpleHintItem(OPTICAL_TECH_PART, "Optical Module", "Multi purpose lens with an onboard visual data processor. Useful for target processing and visual aids.");
         simpleHintItem(IMPULSE_TECH_PART, "Impulse Driver Module", "Hydrogen-fueled device that generates powerful yet precise shock waves. Optimal for propulsion and explosive systems.");
 
-        addItem(COAL_ORE_PEBBLES, "Coal Ore Pebbles");
-        addItem(COPPER_ORE_PEBBLES, "Copper Ore Pebbles");
-        addItem(IRON_ORE_PEBBLES, "Iron Ore Pebbles");
-        addItem(LAPIS_ORE_PEBBLES, "Lapis Lazuli Ore Pebbles");
-        addItem(REDSTONE_ORE_PEBBLES, "Redstone Ore Pebbles");
-        addItem(GOLD_ORE_PEBBLES, "Gold Ore Pebbles");
-        addItem(DIAMOND_ORE_PEBBLES, "Diamond Ore Pebbles");
-        addItem(EMERALD_ORE_PEBBLES, "Emerald Ore Pebbles");
-        addItem(QUARTZ_ORE_PEBBLES, "Nether Quartz Ore Pebbles");
-        addItem(NETHERITE_ORE_PEBBLES, "Netherite Scrap Ore Pebbles");
-        addItem(TITANIUM_ORE_PEBBLES, "Titanium Ore Pebbles");
-        addItem(NIOBIUM_ORE_PEBBLES, "Niobium Ore Pebbles");
-        addItem(TIN_ORE_PEBBLES, "Tin Ore Pebbles");
-        addItem(OSMIUM_ORE_PEBBLES, "Osmium Ore Pebbles");
-        addItem(NICKEL_ORE_PEBBLES, "Nickel Ore Pebbles");
-        addItem(LEAD_ORE_PEBBLES, "Lead Ore Pebbles");
-        addItem(SILVER_ORE_PEBBLES, "Silver Ore Pebbles");
-        addItem(URANIUM_ORE_PEBBLES, "Uranium Ore Pebbles");
+        for (BuiltInOres ore : BuiltInOres.values())
+        {
+            String localizedName = switch (ore)
+            {
+                case LAPIS -> "Lapis Lazuli";
+                case QUARTZ -> "Nether Quartz";
+                default -> localizeSimpleName(ore);
+            };
+
+            addItem(CRUSHED_ORES.get(ore), "Crushed " + localizedName + " Ore");
+            addItem(WASHED_ORES.get(ore), "Washed " + localizedName + " Ore");
+            addItem(ORE_CHUNKS.get(ore), localizedName + " Ore Chunk");
+            addItem(ORE_SOLUTIONS.get(ore), localizedName + " Ore Solution");
+            addItem(ORE_CRYSTALS.get(ore), localizedName + " Ore Crystal");
+        }
 
         addItem(GUIDE_TABLET, "Guide Tablet");
         addItem(EPSILON_DRILL, "ε-Series Drill");
@@ -387,6 +385,7 @@ class LanguageGen extends LimaLanguageProvider
         recipeMode(LTXIRecipeModes.ELEMENT_EXTRACTION, "Element Extraction");
         recipeMode(LTXIRecipeModes.DYE_EXTRACTION, "Dye Extraction");
         recipeMode(LTXIRecipeModes.CHEM_DISSOLUTION, "Dissolution");
+        recipeMode(LTXIRecipeModes.ORE_PROCESSING, "Ore Processing");
         recipeMode(LTXIRecipeModes.AMBIENT_FLUIDS, "Ambient Fluids");
         recipeMode(LTXIRecipeModes.AMBIENT_GASES, "Ambient Gases");
         recipeMode(LTXIRecipeModes.LOCALIZED_FLUIDS, "Localized Fluids");

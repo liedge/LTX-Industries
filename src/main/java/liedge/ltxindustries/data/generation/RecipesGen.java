@@ -16,6 +16,7 @@ import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.block.NeonLightColor;
 import liedge.ltxindustries.integration.guideme.GuideMEIntegration;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
+import liedge.ltxindustries.lib.BuiltInOres;
 import liedge.ltxindustries.lib.upgrades.MutableUpgrades;
 import liedge.ltxindustries.lib.upgrades.Upgrade;
 import liedge.ltxindustries.lib.upgrades.UpgradeEntry;
@@ -49,17 +50,18 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.conditions.ModLoadedCondition;
-import net.neoforged.neoforge.common.conditions.NotCondition;
-import net.neoforged.neoforge.common.conditions.TagEmptyCondition;
+import net.neoforged.neoforge.common.crafting.CompoundIngredient;
 import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 import net.neoforged.neoforge.fluids.SimpleFluidContent;
 import org.jspecify.annotations.Nullable;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
+import java.util.stream.Stream;
 
 import static liedge.ltxindustries.LTXITags.Fluids.HYDROGEN_FLUIDS;
 import static liedge.ltxindustries.LTXITags.Fluids.OXYGEN_FLUIDS;
@@ -217,9 +219,11 @@ class RecipesGen extends LimaRecipeProvider
 
         cookingRecipes();
         stonecuttingRecipes();
+        oreProcessingRecipes();
         fabricatingRecipes();
         grindingRecipes();
         mfcRecipes();
+        sievingRecipes();
         electroCentrifugingRecipes();
         mixingRecipes();
         energizingRecipes();
@@ -239,19 +243,6 @@ class RecipesGen extends LimaRecipeProvider
         oreSmeltBlast(output, "smelt_raw_niobium", RAW_NIOBIUM, stackTemplate(NIOBIUM_INGOT));
         oreSmeltBlast(output, "smelt_raw_silver", RAW_SILVER, stackTemplate(SILVER_INGOT));
         oreSmeltBlast(output, "smelt_niobium_ore", NIOBIUM_ORE, stackTemplate(NIOBIUM_INGOT));
-
-        orePebblesCooking(COAL_ORE_PEBBLES, COAL, 2);
-        orePebblesCooking(COPPER_ORE_PEBBLES, COPPER_INGOT, 1);
-        orePebblesCooking(IRON_ORE_PEBBLES, IRON_INGOT, 1);
-        orePebblesCooking(LAPIS_ORE_PEBBLES, LAPIS_LAZULI, 6);
-        orePebblesCooking(REDSTONE_ORE_PEBBLES, REDSTONE, 8);
-        orePebblesCooking(GOLD_ORE_PEBBLES, GOLD_INGOT, 1);
-        orePebblesCooking(DIAMOND_ORE_PEBBLES, DIAMOND, 1);
-        orePebblesCooking(EMERALD_ORE_PEBBLES, EMERALD, 1);
-        orePebblesCooking(QUARTZ_ORE_PEBBLES, QUARTZ, 4);
-        orePebblesCooking(NETHERITE_ORE_PEBBLES, NETHERITE_SCRAP, 1);
-        orePebblesCooking(TITANIUM_ORE_PEBBLES, TITANIUM_INGOT, 1);
-        orePebblesCooking(NIOBIUM_ORE_PEBBLES, NIOBIUM_INGOT, 1);
     }
 
     private void stonecuttingRecipes()
@@ -263,6 +254,72 @@ class RecipesGen extends LimaRecipeProvider
         stonecutting(POLISHED_PERIDOTITE_STAIRS).input(POLISHED_PERIDOTITE).category(CraftingBookCategory.BUILDING).save(output);
         stonecutting(POLISHED_PERIDOTITE_SLAB, 2).input(POLISHED_PERIDOTITE).category(CraftingBookCategory.BUILDING).save(output);
         stonecutting(POLISHED_PERIDOTITE_WALL).input(POLISHED_PERIDOTITE).save(output);
+    }
+
+    private void oreProcessingRecipes()
+    {
+        oreProcessCooking(BuiltInOres.COAL, COAL, 2);
+        oreProcessCooking(BuiltInOres.COPPER, COPPER_INGOT, 1);
+        oreProcessCooking(BuiltInOres.IRON, IRON_INGOT, 1);
+        oreProcessCooking(BuiltInOres.LAPIS, LAPIS_LAZULI, 4);
+        oreProcessCooking(BuiltInOres.REDSTONE, REDSTONE, 6);
+        oreProcessCooking(BuiltInOres.GOLD, GOLD_INGOT, 1);
+        oreProcessCooking(BuiltInOres.DIAMOND, DIAMOND, 1);
+        oreProcessCooking(BuiltInOres.EMERALD, EMERALD, 1);
+        oreProcessCooking(BuiltInOres.QUARTZ, QUARTZ, 2);
+        oreProcessCooking(BuiltInOres.TITANIUM, TITANIUM_INGOT, 1);
+        oreProcessCooking(BuiltInOres.SILVER, SILVER_INGOT, 1);
+        oreProcessCooking(BuiltInOres.NIOBIUM, NIOBIUM_INGOT, 1);
+
+        Holder<RecipeMode> mode = registries.holderOrThrow(LTXIRecipeModes.ORE_PROCESSING);
+
+        for (BuiltInOres ore : BuiltInOres.values())
+        {
+            Holder<Item> crushedOre = CRUSHED_ORES.get(ore);
+            Holder<Item> washedOre = WASHED_ORES.get(ore);
+            Holder<Item> oreChunk = ORE_CHUNKS.get(ore);
+            Holder<Item> oreSolution = ORE_SOLUTIONS.get(ore);
+            Holder<Item> oreCrystal = ORE_CRYSTALS.get(ore);
+
+            ItemResult s3Byproduct = ore == BuiltInOres.TITANIUM ? ItemResult.of(TUNGSTEN_TRIOXIDE, ResultCount.exactlyRandom(1, 0.1f)) : null;
+            ItemResult s5Byproduct = ore == BuiltInOres.COPPER ? ItemResult.of(RHENIUM_7_OXIDE, ResultCount.exactlyRandom(1, 0.05f)) : null;
+
+            sieving()
+                    .needsMode(mode)
+                    .input(crushedOre.value())
+                    .fluidInput(fluids, FluidTags.WATER, 1000)
+                    .output(ItemResult.of(washedOre))
+                    .output(ItemResult.of(washedOre, ResultCount.exactlyRandom(1, 0.5f)))
+                    .save(output);
+
+            energizing()
+                    .needsMode(mode)
+                    .input(washedOre.value())
+                    .output(ItemResult.of(oreChunk))
+                    .output(ItemResult.of(oreChunk, ResultCount.exactlyRandom(1, 0.5f)))
+                    .tryOutput(s3Byproduct)
+                    .time(300)
+                    .save(output);
+
+            chemLab()
+                    .needsMode(mode)
+                    .input(oreChunk.value())
+                    .fluidInput(VIRIDIC_ACID, 250)
+                    .output(ItemResult.of(oreSolution))
+                    .output(ItemResult.of(oreSolution, ResultCount.exactlyRandom(1, 0.5f)))
+                    .time(400)
+                    .save(output);
+
+            electroCentrifuging()
+                    .needsMode(mode)
+                    .input(oreSolution.value())
+                    .fluidInput(HYDROCHLORIC_ACID, 200)
+                    .output(ItemResult.of(oreCrystal))
+                    .output(ItemResult.of(oreCrystal, ResultCount.exactlyRandom(1, 0.5f)))
+                    .tryOutput(s5Byproduct)
+                    .time(600)
+                    .save(output);
+        }
     }
 
     private void fabricatingRecipes()
@@ -867,7 +924,8 @@ class RecipesGen extends LimaRecipeProvider
         grinding().input(BAMBOO).output(ItemResult.of(RESINOUS_BIOMASS)).save(output, "grind_bamboo");
         grinding().input(VITRIOL_BERRIES).output(ItemResult.of(ACIDIC_BIOMASS)).save(output);
         grinding().input(items, CARBON_SOURCES).output(ItemResult.of(CARBON_DUST)).save(output);
-        grinding().input(items, LTXITags.Items.DEEPSLATE_GRINDABLES).output(ItemResult.of(DEEPSLATE_DUST)).save(output, "grind_deepslate");
+        grinding().input(items, LTXITags.Items.DEEPSLATE_GRINDABLES).output(ItemResult.of(DEEPSLATE_DUST)).save(output);
+        grinding().input(Ingredient.of(PERIDOTITE, POLISHED_PERIDOTITE)).output(ItemResult.of(PERIDOTITE_DUST)).save(output);
         grinding().input(KELP).fluidOutput(FluidResult.of(SEA_WATER, 250)).save(output, "grind_kelp");
         grinding().needsMode(elements).input(SPARK_FRUIT).output(ItemResult.of(SODIUM_DUST)).time(300).save(output);
 
@@ -884,24 +942,20 @@ class RecipesGen extends LimaRecipeProvider
         grinding().needsMode(dyes).input(GLOOM_SHROOM).output(ItemResult.of(GLOOM_BLUE_PIGMENT, 2)).time(120).save(output);
 
         // Ore processing
-        orePebbleGrinding(COAL_ORE_PEBBLES, Tags.Items.ORES_COAL, null, "coal", output);
-        orePebbleGrinding(COPPER_ORE_PEBBLES, Tags.Items.ORES_COPPER, Tags.Items.RAW_MATERIALS_COPPER, "copper", output);
-        orePebbleGrinding(IRON_ORE_PEBBLES, Tags.Items.ORES_IRON, Tags.Items.RAW_MATERIALS_IRON, "iron", output);
-        orePebbleGrinding(LAPIS_ORE_PEBBLES, Tags.Items.ORES_LAPIS, null, "lapis", output);
-        orePebbleGrinding(REDSTONE_ORE_PEBBLES, Tags.Items.ORES_REDSTONE, null, "redstone", output);
-        orePebbleGrinding(GOLD_ORE_PEBBLES, Tags.Items.ORES_GOLD, Tags.Items.RAW_MATERIALS_GOLD, "gold", output);
-        orePebbleGrinding(DIAMOND_ORE_PEBBLES, Tags.Items.ORES_DIAMOND, null, "diamond", output);
-        orePebbleGrinding(EMERALD_ORE_PEBBLES, Tags.Items.ORES_EMERALD, null, "emerald", output);
-        orePebbleGrinding(QUARTZ_ORE_PEBBLES, Tags.Items.ORES_QUARTZ, null, "quartz", output);
-        grinding().input(items, ORES_NETHERITE_SCRAP).output(ItemResult.of(NETHERITE_ORE_PEBBLES, 2)).save(output, "grind_debris");
-        orePebbleGrinding(TITANIUM_ORE_PEBBLES, LTXITags.Items.TITANIUM_ORES, LTXITags.Items.RAW_TITANIUM_MATERIALS, "titanium", output);
-        orePebbleGrinding(NIOBIUM_ORE_PEBBLES, LTXITags.Items.NIOBIUM_ORES, LTXITags.Items.RAW_NIOBIUM_MATERIALS, "niobium", output);
-        orePebbleGrinding(TIN_ORE_PEBBLES, ModResources.COMMON.itemTag("ores/tin"), ModResources.COMMON.itemTag("raw_materials/tin"), "tin", output, true);
-        orePebbleGrinding(OSMIUM_ORE_PEBBLES, ModResources.COMMON.itemTag("ores/osmium"), ModResources.COMMON.itemTag("raw_materials/osmium"), "osmium", output, true);
-        orePebbleGrinding(NICKEL_ORE_PEBBLES, ModResources.COMMON.itemTag("ores/nickel"), ModResources.COMMON.itemTag("raw_materials/nickel"), "nickel", output, true);
-        orePebbleGrinding(LEAD_ORE_PEBBLES, ModResources.COMMON.itemTag("ores/lead"), ModResources.COMMON.itemTag("raw_materials/lead"), "lead", output, true);
-        orePebbleGrinding(SILVER_ORE_PEBBLES, ModResources.COMMON.itemTag("ores/silver"), ModResources.COMMON.itemTag("raw_materials/silver"), "silver", output, true);
-        orePebbleGrinding(URANIUM_ORE_PEBBLES, ModResources.COMMON.itemTag("ores/uranium"), ModResources.COMMON.itemTag("raw_materials/uranium"), "uranium", output, true);
+        oreProcessCrushing(BuiltInOres.COAL, ORES_COAL, null);
+        oreProcessCrushing(BuiltInOres.COPPER, ORES_COPPER, RAW_MATERIALS_COPPER);
+        oreProcessCrushing(BuiltInOres.IRON, ORES_IRON, RAW_MATERIALS_IRON);
+        oreProcessCrushing(BuiltInOres.LAPIS, ORES_LAPIS, null);
+        oreProcessCrushing(BuiltInOres.REDSTONE, ORES_REDSTONE, null);
+        oreProcessCrushing(BuiltInOres.GOLD, ORES_GOLD, RAW_MATERIALS_GOLD);
+        oreProcessCrushing(BuiltInOres.DIAMOND, ORES_DIAMOND, null);
+        oreProcessCrushing(BuiltInOres.EMERALD, ORES_EMERALD, null);
+        oreProcessCrushing(BuiltInOres.QUARTZ, ORES_QUARTZ, null);
+        oreProcessCrushing(BuiltInOres.TITANIUM, TITANIUM_ORES, RAW_TITANIUM_MATERIALS);
+        oreProcessCrushing(BuiltInOres.SILVER, SILVER_ORES, RAW_SILVER_MATERIALS);
+        oreProcessCrushing(BuiltInOres.NIOBIUM, NIOBIUM_ORES, RAW_NIOBIUM_MATERIALS);
+
+        // Ore clusters
         grinding().input(RAW_TITANIUM_CLUSTER).output(ItemResult.of(RAW_TITANIUM, 5)).save(output, "grind_titanium_clusters");
         grinding().input(RAW_SILVER_CLUSTER).output(ItemResult.of(RAW_SILVER, 5)).save(output, "grind_silver_clusters");
         grinding().input(RAW_NIOBIUM_CLUSTER).output(ItemResult.of(RAW_NIOBIUM, 5)).save(output, "grind_niobium_clusters");
@@ -909,13 +963,16 @@ class RecipesGen extends LimaRecipeProvider
 
     private void mfcRecipes()
     {
-        fusing().input(NETHERITE_ORE_PEBBLES, 2).input(GOLD_INGOT).output(ItemResult.of(NETHERITE_INGOT)).save(output, "pebble_netherite");
         fusing().input(NETHERITE_SCRAP, 4).input(GOLD_INGOT, 1).output(ItemResult.of(NETHERITE_INGOT)).save(output, "scrap_netherite");
         NEON_LIGHTS.forEach((color, holder) -> fusing().input(items, NEON_LIGHT_MATERIALS, 2).input(neonLightDye(color)).time(80).output(ItemResult.of(holder, 8)).save(output));
         fusing().input(IRON_INGOT).input(CARBON_DUST).input(DEEPSLATE_DUST, 4).fluidInput(fluids, OXYGEN_FLUIDS, 250).time(400).output(ItemResult.of(SLATESTEEL_INGOT)).save(output);
         fusing().input(items, TITANIUM_INGOTS).input(items, GEMS_QUARTZ, 3).output(ItemResult.of(TITANIUM_GLASS, 2)).save(output);
         fusing().input(AMETHYST_SHARD).input(SCULK_CHEMICAL, 4).output(ItemResult.of(ECHO_SHARD)).time(400).save(output);
         fusing().randomInput(SCULK_CATALYST, 1, 0f).randomInput(SCULK_CHEMICAL, 1, 0.5f).input(DIRT).output(ItemResult.of(SCULK)).save(output);
+    }
+
+    private void sievingRecipes()
+    {
     }
 
     private void electroCentrifugingRecipes()
@@ -1252,38 +1309,32 @@ class RecipesGen extends LimaRecipeProvider
         garden().reproduce(LTXIItems.GLOOM_SHROOM).water(10_000).time(1200).save(output);
     }
 
-    // Helpers
-    private void orePebblesCooking(ItemLike orePebble, ItemLike resultItem, int resultCount)
+    //#region Ore processing
+
+    private void oreProcessCooking(BuiltInOres ore, ItemLike resultItem, int resultCount)
     {
-        String name = getItemName(orePebble);
-        smelting(stackTemplate(resultItem, resultCount)).input(orePebble).xp(0.5f).save(output, "smelt_" + name);
-        blasting(stackTemplate(resultItem, resultCount)).input(orePebble).xp(0.5f).save(output, "blast_" + name);
+        String name = ore.getSerializedName() + "_materials";
+        Ingredient ingredient = Ingredient.of(CRUSHED_ORES.get(ore), WASHED_ORES.get(ore), ORE_CHUNKS.get(ore), ORE_SOLUTIONS.get(ore), ORE_CRYSTALS.get(ore));
+
+        smelting(stackTemplate(resultItem, resultCount)).input(ingredient).xp(0.5f).save(output, name);
+        blasting(stackTemplate(resultItem, resultCount)).input(ingredient).xp(0.5f).save(output, name);
     }
+
+    private void oreProcessCrushing(BuiltInOres ore, TagKey<Item> oreTag, @Nullable TagKey<Item> rawOreTag)
+    {
+        List<Ingredient> baseMaterials = Stream.of(oreTag, rawOreTag).filter(Objects::nonNull).map(tag -> Ingredient.of(items.getOrThrow(tag))).toList();
+        Ingredient ingredient = baseMaterials.size() == 1 ? baseMaterials.getFirst() : new CompoundIngredient(baseMaterials).toVanilla();
+
+        grinding().input(ingredient).output(ItemResult.of(CRUSHED_ORES.get(ore), 2)).save(output, "grind_" + ore.getSerializedName() + "_ores");
+    }
+
+    //#endregion
+
+    // Helpers
 
     private LTXIBuilder<GrindingRecipe> grinding()
     {
         return new LTXIBuilder<>(resources, GrindingRecipe::new);
-    }
-
-    private void orePebbleGrinding(Holder<Item> orePebble, TagKey<Item> oreTag, @Nullable TagKey<Item> rawOreTag, String name, RecipeOutput output, boolean optional)
-    {
-        // Ore block recipe
-        LTXIBuilder<?> oreRecipe = grinding().input(items, oreTag).output(ItemResult.of(orePebble, 3));
-        if (optional) oreRecipe.condition(new NotCondition(new TagEmptyCondition<>(oreTag)));
-        oreRecipe.save(output, "grind_" + name + "_ores");
-
-        // Raw material recipe
-        if (rawOreTag != null)
-        {
-            LTXIBuilder<?> rawMatRecipe = grinding().input(items, rawOreTag).output(ItemResult.of(orePebble, 2));
-            if (optional) rawMatRecipe.condition(new NotCondition(new TagEmptyCondition<>(rawOreTag)));
-            rawMatRecipe.save(output, "grind_raw_" + name + "_materials");
-        }
-    }
-
-    private void orePebbleGrinding(Holder<Item> orePebble, TagKey<Item> oreTag, @Nullable TagKey<Item> rawOreTag, String name, RecipeOutput output)
-    {
-        orePebbleGrinding(orePebble, oreTag, rawOreTag, name, output, false);
     }
 
     private LTXIBuilder<MaterialFusingRecipe> fusing()
@@ -1487,6 +1538,11 @@ class RecipesGen extends LimaRecipeProvider
         LTXIBuilder<R> needsMode(HolderGetter<RecipeMode> holders, ResourceKey<RecipeMode> key)
         {
             return needsMode(holders.getOrThrow(key));
+        }
+
+        LTXIBuilder<R> tryOutput(@Nullable ItemResult result)
+        {
+            return result != null ? output(result) : this;
         }
 
         @Override

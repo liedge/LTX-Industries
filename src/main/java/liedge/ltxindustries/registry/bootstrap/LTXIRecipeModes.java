@@ -19,9 +19,9 @@ public final class LTXIRecipeModes
     private LTXIRecipeModes() {}
 
     public static final ResourceKey<RecipeMode> ELEMENT_EXTRACTION = key("element_extraction");
-
     public static final ResourceKey<RecipeMode> DYE_EXTRACTION = key("dye_extraction");
     public static final ResourceKey<RecipeMode> CHEM_DISSOLUTION = key("chemical_dissolve");
+    public static final ResourceKey<RecipeMode> ORE_PROCESSING = key("ore_processing");
 
     // Atmospheric Scrubber modes
     public static final ResourceKey<RecipeMode> AMBIENT_FLUIDS = key("ambient_fluids");
@@ -45,6 +45,7 @@ public final class LTXIRecipeModes
         builder(ELEMENT_EXTRACTION).icon(SpriteIcon.create("sodium_ion")).register(context);
         builder(DYE_EXTRACTION).icon(ItemIcon.of(Items.LIME_DYE)).register(context);
         builder(CHEM_DISSOLUTION).icon(ItemIcon.of(LTXIItems.VIRIDIC_ACID_BUCKET)).register(context);
+        builder(ORE_PROCESSING).icon(ItemIcon.of(LTXIItems.RAW_SILVER)).register(context);
 
         builder(AMBIENT_FLUIDS).icon(LTXIBootstrapUtil.blueRingOverlay(ItemIcon.of(Items.WATER_BUCKET))).register(context);
         builder(AMBIENT_GASES).icon(LTXIBootstrapUtil.blueRingOverlay(ItemIcon.of(LTXIItems.ARGON_BUCKET))).register(context);

@@ -2,13 +2,19 @@
   "type": "ltxi:grinding",
   "item_inputs": [
     {
-      "ingredient": "#c:ores/titanium"
+      "ingredient": {
+        "neoforge:ingredient_type": "neoforge:compound",
+        "children": [
+          "#c:ores/titanium",
+          "#c:raw_materials/titanium"
+        ]
+      }
     }
   ],
   "item_results": [
     {
-      "count": 3,
-      "id": "ltxi:titanium_ore_pebbles"
+      "count": 2,
+      "id": "ltxi:crushed_titanium_ore"
     }
   ]
 }

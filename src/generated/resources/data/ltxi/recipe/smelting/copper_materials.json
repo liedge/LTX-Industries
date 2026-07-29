@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.5,
+  "ingredient": [
+    "ltxi:crushed_copper_ore",
+    "ltxi:washed_copper_ore",
+    "ltxi:copper_ore_chunk",
+    "ltxi:copper_ore_solution",
+    "ltxi:copper_ore_crystal"
+  ],
+  "result": {
+    "id": "minecraft:copper_ingot"
+  }
+}

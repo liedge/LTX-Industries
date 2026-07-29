@@ -2,13 +2,19 @@
   "type": "ltxi:grinding",
   "item_inputs": [
     {
-      "ingredient": "#c:ores/iron"
+      "ingredient": {
+        "neoforge:ingredient_type": "neoforge:compound",
+        "children": [
+          "#c:ores/iron",
+          "#c:raw_materials/iron"
+        ]
+      }
     }
   ],
   "item_results": [
     {
-      "count": 3,
-      "id": "ltxi:iron_ore_pebbles"
+      "count": 2,
+      "id": "ltxi:crushed_iron_ore"
     }
   ]
 }
