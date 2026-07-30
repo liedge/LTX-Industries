@@ -120,7 +120,7 @@ public final class LTXIBlocks
     public static final DeferredBlock<PrimaryMeshBlock> RAILGUN_TURRET = BLOCKS.registerBlock(LTXIIdentifiers.ID_RAILGUN_TURRET, properties -> PrimaryMeshBlock.create(properties, LTXIBlockMeshes.TURRET, LTXIBlockShapes.GENERAL_TURRET, true), LTXIBlocks::machineProperties);
 
     // Fluid blocks
-    public static final DeferredBlock<LiquidBlock> VIRIDIC_ACID_BLOCK = BLOCKS.registerBlock("viridic_acid", properties -> new LiquidBlock(LTXIFluids.VIRIDIC_ACID.get(), properties), properties -> properties
+    public static final DeferredBlock<LiquidBlock> SULFURIC_ACID_BLOCK = BLOCKS.registerBlock(LTXIIdentifiers.ID_SULFURIC_ACID, properties -> new LiquidBlock(LTXIFluids.SULFURIC_ACID.get(), properties), properties -> properties
             .mapColor(MapColor.PLANT)
             .replaceable()
             .noCollision()
@@ -128,7 +128,7 @@ public final class LTXIBlocks
             .pushReaction(PushReaction.DESTROY)
             .noLootTable()
             .liquid()
-            .lightLevel(_ -> LTXIFluids.VIRIDIC_ACID_LIGHT)
+            .lightLevel(_ -> LTXIFluids.SULFURIC_ACID_LIGHT)
             .sound(SoundType.EMPTY));
 
     // Technical blocks

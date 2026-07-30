@@ -7,13 +7,13 @@
       "ingredient": "#ltxi:neon_light_materials"
     },
     {
-      "ingredient": "ltxi:viridic_green_pigment"
+      "ingredient": "ltxi:corrosive_green_pigment"
     }
   ],
   "item_results": [
     {
       "count": 8,
-      "id": "ltxi:viridic_green_neon_light"
+      "id": "ltxi:corrosive_green_neon_light"
     }
   ]
 }

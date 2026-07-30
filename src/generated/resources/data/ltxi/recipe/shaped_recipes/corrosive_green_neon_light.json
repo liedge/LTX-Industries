@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "d": "ltxi:viridic_green_pigment",
+    "d": "ltxi:corrosive_green_pigment",
     "g": "minecraft:glowstone"
   },
   "pattern": [
@@ -11,6 +11,6 @@
   ],
   "result": {
     "count": 4,
-    "id": "ltxi:viridic_green_neon_light"
+    "id": "ltxi:corrosive_green_neon_light"
   }
 }

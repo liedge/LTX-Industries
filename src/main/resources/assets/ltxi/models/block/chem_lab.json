@@ -397,8 +397,8 @@
 		},
 		"fluid": {
 			"textures": {
-				"flowing": "ltxi:block/viridic_acid_flowing",
-				"still": "ltxi:block/viridic_acid_still"
+				"flowing": "ltxi:block/sulfuric_acid_flow",
+				"still": "ltxi:block/sulfuric_acid_still"
 			},
 			"elements": [
 				{

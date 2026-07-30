@@ -135,10 +135,11 @@ class LanguageGen extends LimaLanguageProvider
         fluidType(LTXIFluids.CHLORINE_TYPE, "Chlorine");
         fluidType(LTXIFluids.ARGON_TYPE, "Argon");
         fluidType(LTXIFluids.METHANE_TYPE, "Methane");
+        fluidType(LTXIFluids.SULPHURINE_TYPE, "Sulphurine");
         fluidType(LTXIFluids.SEA_WATER_TYPE, "Sea Water");
         fluidType(LTXIFluids.AMMONIA_TYPE, "Ammonia");
         fluidType(LTXIFluids.HYDROCHLORIC_ACID_TYPE, "Hydrochloric Acid");
-        fluidType(LTXIFluids.VIRIDIC_ACID_TYPE, "Viridic Acid");
+        fluidType(LTXIFluids.SULFURIC_ACID_TYPE, "Sulfuric Acid");
         fluidType(LTXIFluids.LIQUID_SILICONE_TYPE, "Liquid Silicone");
 
         //#region Items
@@ -178,15 +179,15 @@ class LanguageGen extends LimaLanguageProvider
         addItem(SEA_WATER_BUCKET, "Sea Water Bucket");
         addItem(AMMONIA_BUCKET, "Ammonia Bucket");
         addItem(HYDROCHLORIC_ACID_BUCKET, "Hydrochloric Acid Bucket");
-        addItem(VIRIDIC_ACID_BUCKET, "Viridic Acid Bucket");
+        addItem(SULFURIC_ACID_BUCKET, "Sulfuric Acid Bucket");
         addItem(LIQUID_SILICONE_BUCKET, "Liquid Silicone Bucket");
         addItem(LTX_LIME_PIGMENT, "LTXI Lime Pigment");
         addItem(ENERGY_BLUE_PIGMENT, "Energy Blue Pigment");
         addItem(ELECTRIC_CHARTREUSE_PIGMENT, "Electric Chartreuse Pigment");
-        addItem(VIRIDIC_GREEN_PIGMENT, "Viridic Green Pigment");
+        addItem(CORROSIVE_GREEN_PIGMENT, "Corrosive Green Pigment");
         addItem(GLOOM_BLUE_PIGMENT, "Gloom Blue Pigment");
         addItem(MONOMER_CHEMICAL, "Monomer Solution");
-        addItem(VIRIDIC_WEAPON_CHEMICAL, "Weapons-Grade Viridic Acid");
+        addItem(CORROSIVE_WEAPON_CHEMICAL, "Weapons-Grade Corrosive");
         addItem(CHORUS_CHEMICAL, "Chorus Extract");
         addItem(SCULK_CHEMICAL, "Echo Serum");
         addItem(GLOOM_CHEMICAL, "Concentrated Gloom Essence");

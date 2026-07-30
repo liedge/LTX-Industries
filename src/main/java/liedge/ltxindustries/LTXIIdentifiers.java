@@ -34,7 +34,22 @@ public final class LTXIIdentifiers
     public static final String ID_NOVA = "nova";
     //#endregion
 
-    // Machines (for shared menus, block entity type, block, etc.)
+    //#region Fluids
+    public static final String ID_HYDROGEN = "hydrogen";
+    public static final String ID_NITROGEN = "nitrogen";
+    public static final String ID_OXYGEN = "oxygen";
+    public static final String ID_CHLORINE = "chlorine";
+    public static final String ID_ARGON = "argon";
+    public static final String ID_METHANE = "methane";
+    public static final String ID_SULPHURINE = "sulphurine";
+    public static final String ID_SEA_WATER = "sea_water";
+    public static final String ID_AMMONIA = "ammonia";
+    public static final String ID_HYDROCHLORIC_ACID = "hydrochloric_acid";
+    public static final String ID_SULFURIC_ACID = "sulfuric_acid";
+    public static final String ID_LIQUID_SILICONE = "liquid_silicone";
+    //#endregion
+
+    //#region Machines
     public static final String ID_UPGRADE_STATION = "upgrade_station";
     public static final String ID_ENERGY_CELL_ARRAY = "energy_cell_array";
     public static final String ID_INFINITE_ENERGY_CELL_ARRAY = "infinite_energy_cell_array";
@@ -67,6 +82,7 @@ public final class LTXIIdentifiers
     public static final String ID_ARC_TURRET = "arc_turret";
     public static final String ID_ROCKET_TURRET = "rocket_turret";
     public static final String ID_RAILGUN_TURRET = "railgun_turret";
+    //#endregion
 
     // Crafting types (recipe type and serializer)
     public static final String ID_GRINDING_RECIPE = "grinding";

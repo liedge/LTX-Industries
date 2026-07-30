@@ -4,7 +4,7 @@
   "fluid_inputs": [
     {
       "amount": 8000,
-      "ingredient": "ltxi:viridic_acid"
+      "ingredient": "ltxi:sulfuric_acid"
     },
     {
       "amount": 4000,
@@ -20,7 +20,7 @@
   "item_results": [
     {
       "count": 1,
-      "id": "ltxi:viridic_weapon_chemical"
+      "id": "ltxi:corrosive_weapon_chemical"
     }
   ]
 }

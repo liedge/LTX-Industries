@@ -1,7 +1,7 @@
 {
   "icon": {
     "type": "item",
-    "id": "ltxi:viridic_acid_bucket"
+    "id": "ltxi:sulfuric_acid_bucket"
   },
   "title": {
     "translate": "recipe_mode.ltxi.chemical_dissolve"

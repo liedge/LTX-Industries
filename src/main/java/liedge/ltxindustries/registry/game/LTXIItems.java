@@ -52,7 +52,6 @@ public final class LTXIItems
     public static void register(IEventBus bus)
     {
         ITEMS.register(bus);
-        ITEMS.addAlias(RESOURCES.id("electric_chemical"), SODIUM_DUST.getId());
         bus.addListener(RegisterCapabilitiesEvent.class, LTXIItems::registerCapabilities);
     }
 
@@ -200,17 +199,18 @@ public final class LTXIItems
     public static final DeferredItem<BucketItem> CHLORINE_BUCKET = registerBucket(LTXIFluids.CHLORINE);
     public static final DeferredItem<BucketItem> ARGON_BUCKET = registerBucket(LTXIFluids.ARGON);
     public static final DeferredItem<BucketItem> METHANE_BUCKET = registerBucket(LTXIFluids.METHANE);
+    public static final DeferredItem<BucketItem> SULPHURINE_BUCKET = registerBucket(LTXIFluids.SULPHURINE);
     public static final DeferredItem<BucketItem> SEA_WATER_BUCKET = registerBucket(LTXIFluids.SEA_WATER);
     public static final DeferredItem<BucketItem> AMMONIA_BUCKET = registerBucket(LTXIFluids.AMMONIA);
     public static final DeferredItem<BucketItem> HYDROCHLORIC_ACID_BUCKET = registerBucket(LTXIFluids.HYDROCHLORIC_ACID);
-    public static final DeferredItem<BucketItem> VIRIDIC_ACID_BUCKET = registerBucket(LTXIFluids.VIRIDIC_ACID);
+    public static final DeferredItem<BucketItem> SULFURIC_ACID_BUCKET = registerBucket(LTXIFluids.SULFURIC_ACID);
     public static final DeferredItem<BucketItem> LIQUID_SILICONE_BUCKET = registerBucket(LTXIFluids.LIQUID_SILICONE);
 
     // Pigments
     public static final DeferredItem<Item> LTX_LIME_PIGMENT = ITEMS.registerSimpleItem("ltx_lime_pigment");
     public static final DeferredItem<Item> ENERGY_BLUE_PIGMENT = ITEMS.registerSimpleItem("energy_blue_pigment");
     public static final DeferredItem<Item> ELECTRIC_CHARTREUSE_PIGMENT = ITEMS.registerSimpleItem("electric_chartreuse_pigment");
-    public static final DeferredItem<Item> VIRIDIC_GREEN_PIGMENT = ITEMS.registerSimpleItem("viridic_green_pigment");
+    public static final DeferredItem<Item> CORROSIVE_GREEN_PIGMENT = ITEMS.registerSimpleItem("corrosive_green_pigment");
     public static final DeferredItem<Item> GLOOM_BLUE_PIGMENT = ITEMS.registerSimpleItem("gloom_blue_pigment");
 
     // Ore group materials
@@ -256,7 +256,7 @@ public final class LTXIItems
 
     // Chemicals
     public static final DeferredItem<Item> MONOMER_CHEMICAL = ITEMS.registerSimpleItem("monomer_chemical");
-    public static final DeferredItem<Item> VIRIDIC_WEAPON_CHEMICAL = ITEMS.registerSimpleItem("viridic_weapon_chemical");
+    public static final DeferredItem<Item> CORROSIVE_WEAPON_CHEMICAL = ITEMS.registerSimpleItem("corrosive_weapon_chemical");
     public static final DeferredItem<Item> CHORUS_CHEMICAL = ITEMS.registerSimpleItem("chorus_chemical");
     public static final DeferredItem<Item> SCULK_CHEMICAL = ITEMS.registerSimpleItem("sculk_chemical");
     public static final DeferredItem<Item> GLOOM_CHEMICAL = ITEMS.registerSimpleItem("gloom_chemical");

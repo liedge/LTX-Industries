@@ -3,7 +3,7 @@
     "type": "neoforge:fluid_container",
     "cover_is_mask": false,
     "flip_gas": true,
-    "fluid": "ltxi:viridic_acid",
+    "fluid": "ltxi:sulphurine",
     "textures": {
       "base": "minecraft:item/bucket",
       "fluid": "neoforge:item/mask/bucket_fluid"

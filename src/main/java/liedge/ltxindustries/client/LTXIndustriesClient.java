@@ -52,7 +52,6 @@ import net.neoforged.neoforge.client.fluid.FluidTintSources;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import org.slf4j.Logger;
 
-import java.awt.*;
 import java.util.List;
 import java.util.function.IntFunction;
 
@@ -107,10 +106,11 @@ public class LTXIndustriesClient
             event.register(gas.apply(0xccf76f), LTXIFluids.CHLORINE, LTXIFluids.FLOWING_CHLORINE);
             event.register(gas.apply(0x8f73f6), LTXIFluids.ARGON, LTXIFluids.FLOWING_ARGON);
             event.register(gas.apply(0x50acf2), LTXIFluids.METHANE, LTXIFluids.FLOWING_METHANE);
+            event.register(gas.apply(0x71ff5e), LTXIFluids.SULPHURINE, LTXIFluids.FLOWING_SULPHURINE);
             event.register(waterBase.apply(0x43d5ee), LTXIFluids.SEA_WATER, LTXIFluids.FLOWING_SEA_WATER);
             event.register(gas.apply(0x73faa5), LTXIFluids.AMMONIA, LTXIFluids.FLOWING_AMMONIA);
             event.register(waterBase.apply(0xd5fc7e), LTXIFluids.HYDROCHLORIC_ACID, LTXIFluids.FLOWING_HYDROCHLORIC_ACID);
-            event.register(LimaCoreClientUtil.fluidModel(LTXIndustries.RESOURCES, "block/viridic_acid_still", "block/viridic_acid_flowing", null), LTXIFluids.VIRIDIC_ACID, LTXIFluids.FLOWING_VIRIDIC_ACID);
+            event.register(LimaCoreClientUtil.fluidModel(LTXIndustries.RESOURCES, "block/sulfuric_acid_still", "block/sulfuric_acid_flow", null), LTXIFluids.SULFURIC_ACID, LTXIFluids.FLOWING_SULFURIC_ACID);
             event.register(LimaCoreClientUtil.fluidModel(LTXIndustries.RESOURCES, "block/light_molten_still", "block/light_molten_flow", FluidTintSources.constant(0xff5f6c72)), LTXIFluids.LIQUID_SILICONE, LTXIFluids.FLOWING_LIQUID_SILICONE);
         }
 
@@ -130,7 +130,7 @@ public class LTXIndustriesClient
             event.registerItem(new DaybreakClientItem(), LTXIItems.DAYBREAK);
             event.registerItem(new NovaClientItem(), LTXIItems.NOVA);
 
-            event.registerFluidType(SimpleFogFluidExtension.create(LTXIConstants.LIME_GREEN, 13f), LTXIFluids.VIRIDIC_ACID_TYPE);
+            event.registerFluidType(SimpleFogFluidExtension.create(LTXIConstants.LIME_GREEN, 13f), LTXIFluids.SULFURIC_ACID_TYPE);
         }
 
         @SubscribeEvent

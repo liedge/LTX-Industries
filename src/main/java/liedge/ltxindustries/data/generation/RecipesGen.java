@@ -304,7 +304,7 @@ class RecipesGen extends LimaRecipeProvider
             chemLab()
                     .needsMode(mode)
                     .input(oreChunk.value())
-                    .fluidInput(VIRIDIC_ACID, 250)
+                    .fluidInput(SULFURIC_ACID, 250)
                     .output(ItemResult.of(oreSolution))
                     .output(ItemResult.of(oreSolution, ResultCount.exactlyRandom(1, 0.5f)))
                     .time(400)
@@ -753,7 +753,7 @@ class RecipesGen extends LimaRecipeProvider
                 .input(TITANIUM_GLASS, 32)
                 .input(SLATESTEEL_INGOT, 16)
                 .input(POLYMER_INGOT, 24)
-                .input(VIRIDIC_WEAPON_CHEMICAL, 16));
+                .input(CORROSIVE_WEAPON_CHEMICAL, 16));
         upgradeFabricating(output, "eum/weapon/gl", GLOOM_GAS_GRENADE_CORE, 1, 50_000_000, builder -> builder
                 .input(IMPULSE_TECH_PART, 4)
                 .input(TITANIUM_GLASS, 32)
@@ -984,7 +984,7 @@ class RecipesGen extends LimaRecipeProvider
 
         // Dyes
         electroCentrifuging().input(items, DYES_LIME).output(ItemResult.of(LTX_LIME_PIGMENT)).time(120).needsMode(dyes).save(output);
-        electroCentrifuging().input(VITRIOL_BERRIES).output(ItemResult.of(VIRIDIC_GREEN_PIGMENT, 2)).time(120).needsMode(dyes).save(output);
+        electroCentrifuging().input(VITRIOL_BERRIES).output(ItemResult.of(CORROSIVE_GREEN_PIGMENT, 2)).time(120).needsMode(dyes).save(output);
 
         // Electrolysis
         electroCentrifuging()
@@ -1025,14 +1025,14 @@ class RecipesGen extends LimaRecipeProvider
 
         electroCentrifuging()
                 .needsMode(dissolution)
-                .fluidInput(VIRIDIC_ACID, 250)
+                .fluidInput(SULFURIC_ACID, 250)
                 .input(CHORUS_FRUIT, 2)
                 .output(ItemResult.of(CHORUS_CHEMICAL))
                 .time(300)
                 .save(output, "chorus_fruit_extraction");
         electroCentrifuging()
                 .needsMode(dissolution)
-                .fluidInput(VIRIDIC_ACID, 2000)
+                .fluidInput(SULFURIC_ACID, 2000)
                 .input(LTXIItems.GLOOM_SHROOM)
                 .output(ItemResult.of(SCULK_CHEMICAL))
                 .output(ItemResult.of(GLOOM_CHEMICAL, ResultCount.exactlyRandom(1, 0.05f)))
@@ -1043,8 +1043,8 @@ class RecipesGen extends LimaRecipeProvider
     private void mixingRecipes()
     {
         mixing().input(DIRT).fluidInput(fluids, FluidTags.WATER, 1000).output(ItemResult.of(MUD)).time(120).save(output);
-        mixing().input(ACIDIC_BIOMASS, 4).fluidInput(fluids, FluidTags.WATER, 1000).fluidOutput(FluidResult.of(VIRIDIC_ACID, 1000)).save(output);
-        mixing().input(RESINOUS_BIOMASS, 2).fluidInput(VIRIDIC_ACID, 250).output(ItemResult.of(MONOMER_CHEMICAL)).save(output);
+        mixing().input(ACIDIC_BIOMASS, 4).fluidInput(fluids, FluidTags.WATER, 1000).fluidOutput(FluidResult.of(SULFURIC_ACID, 1000)).save(output);
+        mixing().input(RESINOUS_BIOMASS, 2).fluidInput(SULFURIC_ACID, 250).output(ItemResult.of(MONOMER_CHEMICAL)).save(output);
 
         // Concretes
         for (DyeColor color : DyeColor.values())
@@ -1072,12 +1072,12 @@ class RecipesGen extends LimaRecipeProvider
     private void chemLabRecipes()
     {
         chemLab().input(MONOMER_CHEMICAL).fluidInput(fluids, OXYGEN_FLUIDS, 125).output(ItemResult.of(POLYMER_INGOT)).save(output);
-        chemLab().input(POLYMER_INGOT).input(COPPER_INGOT, 2).fluidInput(VIRIDIC_ACID, 125).output(ItemResult.of(CIRCUIT_BOARD)).save(output);
+        chemLab().input(POLYMER_INGOT).input(COPPER_INGOT, 2).fluidInput(SULFURIC_ACID, 125).output(ItemResult.of(CIRCUIT_BOARD)).save(output);
         chemLab()
                 .input(items, SODIUM_DUSTS, 8)
-                .fluidInput(VIRIDIC_ACID, 8000)
+                .fluidInput(SULFURIC_ACID, 8000)
                 .fluidInput(CHLORINE, 4000)
-                .output(ItemResult.of(VIRIDIC_WEAPON_CHEMICAL))
+                .output(ItemResult.of(CORROSIVE_WEAPON_CHEMICAL))
                 .time(900)
                 .save(output);
     }
@@ -1473,7 +1473,7 @@ class RecipesGen extends LimaRecipeProvider
             case LTX_LIME -> Either.left(LTX_LIME_PIGMENT);
             case ENERGY_BLUE -> Either.left(ENERGY_BLUE_PIGMENT);
             case ELECTRIC_CHARTREUSE -> Either.left(ELECTRIC_CHARTREUSE_PIGMENT);
-            case VIRIDIC_GREEN -> Either.left(VIRIDIC_GREEN_PIGMENT);
+            case CORROSIVE_GREEN -> Either.left(CORROSIVE_GREEN_PIGMENT);
             case GLOOM_BLUE -> Either.left(GLOOM_BLUE_PIGMENT);
             default -> Either.right(Objects.requireNonNull(color.getDyeColor()).getTag());
         };

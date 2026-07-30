@@ -1,8 +1,10 @@
 package liedge.ltxindustries.registry.game;
 
+import liedge.ltxindustries.LTXIIdentifiers;
 import liedge.ltxindustries.LTXIndustries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.SoundActions;
@@ -29,34 +31,36 @@ public final class LTXIFluids
 
     public static void registerFluids(RegisterEvent.RegisterHelper<Fluid> helper)
     {
-        registerFluid(helper, HYDROGEN_TYPE, HYDROGEN, FLOWING_HYDROGEN, properties -> properties.bucket(LTXIItems.HYDROGEN_BUCKET));
-        registerFluid(helper, NITROGEN_TYPE, NITROGEN, FLOWING_NITROGEN, properties -> properties.bucket(LTXIItems.NITROGEN_BUCKET));
-        registerFluid(helper, OXYGEN_TYPE, OXYGEN, FLOWING_OXYGEN, properties -> properties.bucket(LTXIItems.OXYGEN_BUCKET));
-        registerFluid(helper, CHLORINE_TYPE, CHLORINE, FLOWING_CHLORINE, properties -> properties.bucket(LTXIItems.CHLORINE_BUCKET));
-        registerFluid(helper, ARGON_TYPE, ARGON, FLOWING_ARGON, properties -> properties.bucket(LTXIItems.ARGON_BUCKET));
-        registerFluid(helper, METHANE_TYPE, METHANE, FLOWING_METHANE, properties -> properties.bucket(LTXIItems.METHANE_BUCKET));
-        registerFluid(helper, SEA_WATER_TYPE, SEA_WATER, FLOWING_SEA_WATER, properties -> properties.bucket(LTXIItems.SEA_WATER_BUCKET));
-        registerFluid(helper, AMMONIA_TYPE, AMMONIA, FLOWING_AMMONIA, properties -> properties.bucket(LTXIItems.AMMONIA_BUCKET));
-        registerFluid(helper, HYDROCHLORIC_ACID_TYPE, HYDROCHLORIC_ACID, FLOWING_HYDROCHLORIC_ACID, properties -> properties.bucket(LTXIItems.HYDROCHLORIC_ACID_BUCKET));
-        registerFluid(helper, VIRIDIC_ACID_TYPE, VIRIDIC_ACID, FLOWING_VIRIDIC_ACID, properties -> properties.block(LTXIBlocks.VIRIDIC_ACID_BLOCK).bucket(LTXIItems.VIRIDIC_ACID_BUCKET));
-        registerFluid(helper, LIQUID_SILICONE_TYPE, LIQUID_SILICONE, FLOWING_LIQUID_SILICONE, properties -> properties.bucket(LTXIItems.LIQUID_SILICONE_BUCKET));
+        registerSimpleFluid(helper, HYDROGEN_TYPE, HYDROGEN, FLOWING_HYDROGEN, LTXIItems.HYDROGEN_BUCKET);
+        registerSimpleFluid(helper, NITROGEN_TYPE, NITROGEN, FLOWING_NITROGEN, LTXIItems.NITROGEN_BUCKET);
+        registerSimpleFluid(helper, OXYGEN_TYPE, OXYGEN, FLOWING_OXYGEN, LTXIItems.OXYGEN_BUCKET);
+        registerSimpleFluid(helper, CHLORINE_TYPE, CHLORINE, FLOWING_CHLORINE, LTXIItems.CHLORINE_BUCKET);
+        registerSimpleFluid(helper, ARGON_TYPE, ARGON, FLOWING_ARGON, LTXIItems.ARGON_BUCKET);
+        registerSimpleFluid(helper, METHANE_TYPE, METHANE, FLOWING_METHANE, LTXIItems.METHANE_BUCKET);
+        registerSimpleFluid(helper, SULPHURINE_TYPE, SULPHURINE, FLOWING_SULPHURINE, LTXIItems.SULPHURINE_BUCKET);
+        registerSimpleFluid(helper, SEA_WATER_TYPE, SEA_WATER, FLOWING_SEA_WATER, LTXIItems.SEA_WATER_BUCKET);
+        registerSimpleFluid(helper, AMMONIA_TYPE, AMMONIA, FLOWING_AMMONIA, LTXIItems.AMMONIA_BUCKET);
+        registerSimpleFluid(helper, HYDROCHLORIC_ACID_TYPE, HYDROCHLORIC_ACID, FLOWING_HYDROCHLORIC_ACID, LTXIItems.HYDROCHLORIC_ACID_BUCKET);
+        registerFluid(helper, SULFURIC_ACID_TYPE, SULFURIC_ACID, FLOWING_SULFURIC_ACID, properties -> properties.block(LTXIBlocks.SULFURIC_ACID_BLOCK).bucket(LTXIItems.SULFURIC_ACID_BUCKET));
+        registerSimpleFluid(helper, LIQUID_SILICONE_TYPE, LIQUID_SILICONE, FLOWING_LIQUID_SILICONE, LTXIItems.LIQUID_SILICONE_BUCKET);
     }
 
     // Light levels
-    public static final int VIRIDIC_ACID_LIGHT = 7;
+    public static final int SULFURIC_ACID_LIGHT = 7;
 
     //#region Fluid Types
-    public static final DeferredHolder<FluidType, FluidType> HYDROGEN_TYPE = registerType("hydrogen", UnaryOperator.identity());
-    public static final DeferredHolder<FluidType, FluidType> NITROGEN_TYPE = registerType("nitrogen", UnaryOperator.identity());
-    public static final DeferredHolder<FluidType, FluidType> OXYGEN_TYPE = registerType("oxygen", UnaryOperator.identity());
-    public static final DeferredHolder<FluidType, FluidType> CHLORINE_TYPE = registerType("chlorine", UnaryOperator.identity());
-    public static final DeferredHolder<FluidType, FluidType> ARGON_TYPE = registerType("argon", UnaryOperator.identity());
-    public static final DeferredHolder<FluidType, FluidType> METHANE_TYPE = registerType("methane", UnaryOperator.identity());
-    public static final DeferredHolder<FluidType, FluidType> SEA_WATER_TYPE = registerType("sea_water", UnaryOperator.identity());
-    public static final DeferredHolder<FluidType, FluidType> AMMONIA_TYPE = registerType("ammonia", UnaryOperator.identity());
-    public static final DeferredHolder<FluidType, FluidType> HYDROCHLORIC_ACID_TYPE = registerType("hydrochloric_acid", UnaryOperator.identity());
-    public static final DeferredHolder<FluidType, FluidType> VIRIDIC_ACID_TYPE = registerType("viridic_acid", properties -> properties.lightLevel(VIRIDIC_ACID_LIGHT));
-    public static final DeferredHolder<FluidType, FluidType> LIQUID_SILICONE_TYPE = registerType("liquid_silicone", UnaryOperator.identity());
+    public static final DeferredHolder<FluidType, FluidType> HYDROGEN_TYPE = simpleType(LTXIIdentifiers.ID_HYDROGEN);
+    public static final DeferredHolder<FluidType, FluidType> NITROGEN_TYPE = simpleType(LTXIIdentifiers.ID_NITROGEN);
+    public static final DeferredHolder<FluidType, FluidType> OXYGEN_TYPE = simpleType(LTXIIdentifiers.ID_OXYGEN);
+    public static final DeferredHolder<FluidType, FluidType> CHLORINE_TYPE = simpleType(LTXIIdentifiers.ID_CHLORINE);
+    public static final DeferredHolder<FluidType, FluidType> ARGON_TYPE = simpleType(LTXIIdentifiers.ID_ARGON);
+    public static final DeferredHolder<FluidType, FluidType> METHANE_TYPE = simpleType(LTXIIdentifiers.ID_METHANE);
+    public static final DeferredHolder<FluidType, FluidType> SULPHURINE_TYPE = simpleType(LTXIIdentifiers.ID_SULPHURINE);
+    public static final DeferredHolder<FluidType, FluidType> SEA_WATER_TYPE = simpleType(LTXIIdentifiers.ID_SEA_WATER);
+    public static final DeferredHolder<FluidType, FluidType> AMMONIA_TYPE = simpleType(LTXIIdentifiers.ID_AMMONIA);
+    public static final DeferredHolder<FluidType, FluidType> HYDROCHLORIC_ACID_TYPE = simpleType(LTXIIdentifiers.ID_HYDROCHLORIC_ACID);
+    public static final DeferredHolder<FluidType, FluidType> SULFURIC_ACID_TYPE = registerType(LTXIIdentifiers.ID_SULFURIC_ACID, properties -> properties.lightLevel(SULFURIC_ACID_LIGHT));
+    public static final DeferredHolder<FluidType, FluidType> LIQUID_SILICONE_TYPE = simpleType(LTXIIdentifiers.ID_LIQUID_SILICONE);
     //#endregion
 
     //#region Fluids
@@ -72,14 +76,16 @@ public final class LTXIFluids
     public static final DeferredHolder<Fluid, BaseFlowingFluid.Flowing> FLOWING_ARGON = flowing(ARGON_TYPE);
     public static final DeferredHolder<Fluid, BaseFlowingFluid.Source> METHANE = source(METHANE_TYPE);
     public static final DeferredHolder<Fluid, BaseFlowingFluid.Flowing> FLOWING_METHANE = flowing(METHANE_TYPE);
+    public static final DeferredHolder<Fluid, BaseFlowingFluid.Source> SULPHURINE = source(SULPHURINE_TYPE);
+    public static final DeferredHolder<Fluid, BaseFlowingFluid.Flowing> FLOWING_SULPHURINE = flowing(SULPHURINE_TYPE);
     public static final DeferredHolder<Fluid, BaseFlowingFluid.Source> SEA_WATER = source(SEA_WATER_TYPE);
     public static final DeferredHolder<Fluid, BaseFlowingFluid.Flowing> FLOWING_SEA_WATER = flowing(SEA_WATER_TYPE);
     public static final DeferredHolder<Fluid, BaseFlowingFluid.Source> AMMONIA = source(AMMONIA_TYPE);
     public static final DeferredHolder<Fluid, BaseFlowingFluid.Flowing> FLOWING_AMMONIA = flowing(AMMONIA_TYPE);
     public static final DeferredHolder<Fluid, BaseFlowingFluid.Source> HYDROCHLORIC_ACID = source(HYDROCHLORIC_ACID_TYPE);
     public static final DeferredHolder<Fluid, BaseFlowingFluid.Flowing> FLOWING_HYDROCHLORIC_ACID = flowing(HYDROCHLORIC_ACID_TYPE);
-    public static final DeferredHolder<Fluid, BaseFlowingFluid.Source> VIRIDIC_ACID = source(VIRIDIC_ACID_TYPE);
-    public static final DeferredHolder<Fluid, BaseFlowingFluid.Flowing> FLOWING_VIRIDIC_ACID = flowing(VIRIDIC_ACID_TYPE);
+    public static final DeferredHolder<Fluid, BaseFlowingFluid.Source> SULFURIC_ACID = source(SULFURIC_ACID_TYPE);
+    public static final DeferredHolder<Fluid, BaseFlowingFluid.Flowing> FLOWING_SULFURIC_ACID = flowing(SULFURIC_ACID_TYPE);
     public static final DeferredHolder<Fluid, BaseFlowingFluid.Source> LIQUID_SILICONE = source(LIQUID_SILICONE_TYPE);
     public static final DeferredHolder<Fluid, BaseFlowingFluid.Flowing> FLOWING_LIQUID_SILICONE = flowing(LIQUID_SILICONE_TYPE);
     //#endregion
@@ -101,11 +107,20 @@ public final class LTXIFluids
                 .sound(SoundActions.BUCKET_EMPTY, SoundEvents.BUCKET_EMPTY))));
     }
 
-    private static void registerFluid(RegisterEvent.RegisterHelper<Fluid> helper, Supplier<FluidType> typeSupplier,
-                                      DeferredHolder<Fluid, BaseFlowingFluid.Source> sourceHolder, DeferredHolder<Fluid, BaseFlowingFluid.Flowing> flowingHolder, UnaryOperator<BaseFlowingFluid.Properties> propertiesOp)
+    private static DeferredHolder<FluidType, FluidType> simpleType(String name)
     {
-        BaseFlowingFluid.Properties properties = propertiesOp.apply(new BaseFlowingFluid.Properties(typeSupplier, sourceHolder, flowingHolder));
-        helper.register(sourceHolder.getId(), new BaseFlowingFluid.Source(properties));
-        helper.register(flowingHolder.getId(), new BaseFlowingFluid.Flowing(properties));
+        return registerType(name, UnaryOperator.identity());
+    }
+
+    private static void registerFluid(RegisterEvent.RegisterHelper<Fluid> helper, Supplier<FluidType> typeSupplier, DeferredHolder<Fluid, ?> source, DeferredHolder<Fluid, ?> flowing, UnaryOperator<BaseFlowingFluid.Properties> op)
+    {
+        BaseFlowingFluid.Properties properties = op.apply(new BaseFlowingFluid.Properties(typeSupplier, source, flowing));
+        helper.register(source.getId(), new BaseFlowingFluid.Source(properties));
+        helper.register(flowing.getId(), new BaseFlowingFluid.Flowing(properties));
+    }
+
+    private static void registerSimpleFluid(RegisterEvent.RegisterHelper<Fluid> helper, Supplier<FluidType> typeSupplier, DeferredHolder<Fluid, ?> source, DeferredHolder<Fluid, ?> flowing, Supplier<? extends Item> bucket)
+    {
+        registerFluid(helper, typeSupplier, source, flowing, properties -> properties.bucket(bucket));
     }
 }

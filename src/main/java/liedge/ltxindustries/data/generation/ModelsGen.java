@@ -126,7 +126,7 @@ class ModelsGen extends ModelProvider
                 LTX_LIME_PIGMENT,
                 ENERGY_BLUE_PIGMENT,
                 ELECTRIC_CHARTREUSE_PIGMENT,
-                VIRIDIC_GREEN_PIGMENT,
+                CORROSIVE_GREEN_PIGMENT,
                 GLOOM_BLUE_PIGMENT,
                 TITANIUM_GEAR,
                 SLATESTEEL_GEAR,
@@ -146,7 +146,7 @@ class ModelsGen extends ModelProvider
                 WONDERLAND_LEGS,
                 WONDERLAND_FEET,
                 MONOMER_CHEMICAL,
-                VIRIDIC_WEAPON_CHEMICAL,
+                CORROSIVE_WEAPON_CHEMICAL,
                 CHORUS_CHEMICAL,
                 SCULK_CHEMICAL,
                 GLOOM_CHEMICAL,
@@ -230,10 +230,11 @@ class ModelsGen extends ModelProvider
         bucket(models, CHLORINE_BUCKET, LTXIFluids.CHLORINE);
         bucket(models, ARGON_BUCKET, LTXIFluids.ARGON);
         bucket(models, METHANE_BUCKET, LTXIFluids.METHANE);
+        bucket(models, SULPHURINE_BUCKET, LTXIFluids.SULPHURINE);
         bucket(models, SEA_WATER_BUCKET, LTXIFluids.SEA_WATER);
         bucket(models, AMMONIA_BUCKET, LTXIFluids.AMMONIA);
         bucket(models, HYDROCHLORIC_ACID_BUCKET, LTXIFluids.HYDROCHLORIC_ACID);
-        bucket(models, VIRIDIC_ACID_BUCKET, LTXIFluids.VIRIDIC_ACID);
+        bucket(models, SULFURIC_ACID_BUCKET, LTXIFluids.SULFURIC_ACID);
         bucket(models, LIQUID_SILICONE_BUCKET, LTXIFluids.LIQUID_SILICONE);
     }
 
@@ -309,7 +310,7 @@ class ModelsGen extends ModelProvider
         createTurretBlock(models, LTXIBlocks.ROCKET_TURRET);
         createTurretBlock(models, LTXIBlocks.RAILGUN_TURRET);
 
-        models.createAirLikeBlock(LTXIBlocks.VIRIDIC_ACID_BLOCK.get(), new Material(resources.id("block/viridic_acid_still")));
+        models.createAirLikeBlock(LTXIBlocks.SULFURIC_ACID_BLOCK.get(), new Material(resources.id("block/sulfuric_acid_still")));
         createGlowstick(models);
         models.blockStateOutput.accept(MultiVariantGenerator.dispatch(LTXIBlocks.MESH_BLOCK.get(), BlockModelGenerators.plainVariant(Templates.MACHINE_BLOCK.model.orElseThrow())));
 

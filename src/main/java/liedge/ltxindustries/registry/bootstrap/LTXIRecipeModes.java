@@ -44,7 +44,7 @@ public final class LTXIRecipeModes
     {
         builder(ELEMENT_EXTRACTION).icon(SpriteIcon.create("sodium_ion")).register(context);
         builder(DYE_EXTRACTION).icon(ItemIcon.of(Items.LIME_DYE)).register(context);
-        builder(CHEM_DISSOLUTION).icon(ItemIcon.of(LTXIItems.VIRIDIC_ACID_BUCKET)).register(context);
+        builder(CHEM_DISSOLUTION).icon(ItemIcon.of(LTXIItems.SULFURIC_ACID_BUCKET)).register(context);
         builder(ORE_PROCESSING).icon(ItemIcon.of(LTXIItems.RAW_SILVER)).register(context);
 
         builder(AMBIENT_FLUIDS).icon(LTXIBootstrapUtil.blueRingOverlay(ItemIcon.of(Items.WATER_BUCKET))).register(context);
