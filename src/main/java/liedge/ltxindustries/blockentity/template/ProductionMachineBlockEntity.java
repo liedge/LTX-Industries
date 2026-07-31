@@ -5,10 +5,13 @@ import liedge.limacore.transfer.fluid.FluidHolderBlockEntity;
 import liedge.limacore.transfer.fluid.LimaBlockEntityFluids;
 import liedge.limacore.transfer.item.LimaBlockEntityItems;
 import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
+import liedge.ltxindustries.lib.upgrades.Upgrades;
+import liedge.ltxindustries.util.LTXIUpgradeUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.level.storage.loot.LootContext;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import org.jspecify.annotations.Nullable;
 
@@ -107,6 +110,13 @@ public abstract class ProductionMachineBlockEntity extends LTXIMachineBlockEntit
     //#endregion
 
     // Startup and Serialization
+    @Override
+    public void onUpgradeRefresh(LootContext context, Upgrades upgrades)
+    {
+        super.onUpgradeRefresh(context, upgrades);
+        LTXIUpgradeUtil.applyFluidMachineUpgrades(this, upgrades, context, i -> i / 4);
+    }
+
     @Override
     protected void loadAdditional(ValueInput input)
     {

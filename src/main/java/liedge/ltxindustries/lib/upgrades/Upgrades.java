@@ -5,6 +5,7 @@ import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.data.LimaCoreCodecs;
+import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.network.LimaStreamCodecs;
 import liedge.limacore.util.LimaRegistryUtil;
 import liedge.ltxindustries.lib.upgrades.effect.*;
@@ -313,24 +314,17 @@ public final class Upgrades
     //#region Value computing helpers
     public List<EffectRankPair<ValueOperation>> getValuePairs(DataComponentType<List<ValueOperation>> type)
     {
-        return effectPairs(type)
-                .sorted(Comparator.comparing(EffectRankPair::effect))
-                .toList();
+        return effectPairs(type).sorted(Comparator.comparing(EffectRankPair::effect)).toList();
     }
 
-    public double runValueOps(DataComponentType<List<ValueOperation>> type, LootContext context, double base, double total)
+    public List<EffectRankPair<ValueOperation>> getMatchingValuePairs(DataComponentType<List<ConditionEffect<ValueOperation>>> type, LootContext context)
     {
-        return LTXIUpgradeUtil.runValuePairs(getValuePairs(type), context, base, total);
+        return matchingEffectPairs(type, context).sorted(Comparator.comparing(EffectRankPair::effect)).toList();
     }
 
     public double runValueOps(DataComponentType<List<ValueOperation>> type, LootContext context, double base)
     {
-        return runValueOps(type, context, base, base);
-    }
-
-    public double runValueOps(Supplier<? extends DataComponentType<List<ValueOperation>>> typeSupplier, LootContext context, double base, double total)
-    {
-        return runValueOps(typeSupplier.get(), context, base, total);
+        return LTXIUpgradeUtil.calculateValues(getValuePairs(type), context, base);
     }
 
     public double runValueOps(Supplier<? extends DataComponentType<List<ValueOperation>>> typeSupplier, LootContext context, double base)
@@ -338,23 +332,20 @@ public final class Upgrades
         return runValueOps(typeSupplier.get(), context, base);
     }
 
-    public double runConditionalValueOps(DataComponentType<List<ConditionEffect<ValueOperation>>> type, LootContext context, double base, double total)
+    public int runRoundedIntValueOps(DataComponentType<List<ValueOperation>> type, LootContext context, int minimum, int base)
     {
-        List<EffectRankPair<ValueOperation>> pairs = matchingEffectPairs(type, context)
-                .sorted(Comparator.comparing(EffectRankPair::effect))
-                .toList();
+        List<EffectRankPair<ValueOperation>> pairs = getValuePairs(type);
+        return pairs.isEmpty() ? base : Math.max(minimum, LimaCoreMath.roundInt(LTXIUpgradeUtil.calculateValues(pairs, context, base)));
+    }
 
-        return LTXIUpgradeUtil.runValuePairs(pairs, context, base, total);
+    public int runRoundedIntValueOps(Supplier<? extends DataComponentType<List<ValueOperation>>> typeSupplier, LootContext context, int minimum, int base)
+    {
+        return runRoundedIntValueOps(typeSupplier.get(), context, minimum, base);
     }
 
     public double runConditionalValueOps(DataComponentType<List<ConditionEffect<ValueOperation>>> type, LootContext context, double base)
     {
-        return runConditionalValueOps(type, context, base, base);
-    }
-
-    public double runConditionalValueOps(Supplier<? extends DataComponentType<List<ConditionEffect<ValueOperation>>>> typeSupplier, LootContext context, double base, double total)
-    {
-        return runConditionalValueOps(typeSupplier.get(), context, base, total);
+        return LTXIUpgradeUtil.calculateValues(getMatchingValuePairs(type, context), context, base);
     }
 
     public double runConditionalValueOps(Supplier<? extends DataComponentType<List<ConditionEffect<ValueOperation>>>> typeSupplier, LootContext context, double base)

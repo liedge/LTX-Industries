@@ -38,10 +38,10 @@ public final class RecipeLayoutMenu<CTX extends BaseRecipeMachineBlockEntity<?, 
         menuContext.keepEnergyConsumerPropertiesSynced(collector);
 
         LimaBlockEntityFluids inputFluids = menuContext.getFluids(BlockContentsType.INPUT);
-        if (inputFluids != null) inputFluids.syncTanks(collector);
+        if (inputFluids != null) inputFluids.syncAllProperties(collector);
 
         LimaBlockEntityFluids outputFluids = menuContext.getFluids(BlockContentsType.OUTPUT);
-        if (outputFluids != null) outputFluids.syncTanks(collector);
+        if (outputFluids != null) outputFluids.syncAllProperties(collector);
 
         if (menuContext instanceof RecipeModeHolderBlockEntity modeHolder)
         {

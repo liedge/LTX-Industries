@@ -23,7 +23,7 @@ public class AirScrubberMenu extends LTXIMachineMenu<AirScrubberBlockEntity>
         menuContext.keepEnergyConsumerPropertiesSynced(collector);
         menuContext.keepTimedProcessSynced(collector);
 
-        menuContext.getFluidsOrThrow(BlockContentsType.OUTPUT).syncTanks(collector);
+        menuContext.getFluidsOrThrow(BlockContentsType.OUTPUT).syncAllProperties(collector);
         collector.register(menuContext.keepRecipeModeSynced());
     }
 
