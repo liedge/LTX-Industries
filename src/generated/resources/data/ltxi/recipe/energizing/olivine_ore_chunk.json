@@ -1,0 +1,32 @@
+{
+  "type": "ltxi:energizing",
+  "craft_time": 300,
+  "item_inputs": [
+    {
+      "ingredient": "ltxi:washed_olivine_ore"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:olivine_ore_chunk"
+    },
+    {
+      "count": {
+        "chance": 0.5,
+        "max": 1,
+        "min": 1
+      },
+      "id": "ltxi:olivine_ore_chunk"
+    },
+    {
+      "count": {
+        "chance": 0.075,
+        "max": 1,
+        "min": 1
+      },
+      "id": "ltxi:pyroxene"
+    }
+  ],
+  "mode": "ltxi:ore_processing"
+}

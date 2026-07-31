@@ -4,6 +4,7 @@ import net.minecraft.util.StringRepresentable;
 
 public enum BuiltInOres implements StringRepresentable
 {
+    // MC
     COAL("coal"),
     COPPER("copper"),
     IRON("iron"),
@@ -13,8 +14,10 @@ public enum BuiltInOres implements StringRepresentable
     DIAMOND("diamond"),
     EMERALD("emerald"),
     QUARTZ("quartz"),
+    // LTXI
     TITANIUM("titanium"),
     SILVER("silver"),
+    OLIVINE("olivine"),
     NIOBIUM("niobium");
 
     private final String name;

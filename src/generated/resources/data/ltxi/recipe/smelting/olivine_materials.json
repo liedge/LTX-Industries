@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.5,
+  "ingredient": [
+    "ltxi:crushed_olivine_ore",
+    "ltxi:washed_olivine_ore",
+    "ltxi:olivine_ore_chunk",
+    "ltxi:olivine_ore_solution",
+    "ltxi:olivine_ore_crystal"
+  ],
+  "result": {
+    "id": "ltxi:olivine"
+  }
+}

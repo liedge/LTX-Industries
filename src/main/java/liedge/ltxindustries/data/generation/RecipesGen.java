@@ -269,6 +269,7 @@ class RecipesGen extends LimaRecipeProvider
         oreProcessCooking(BuiltInOres.QUARTZ, QUARTZ, 2);
         oreProcessCooking(BuiltInOres.TITANIUM, TITANIUM_INGOT, 1);
         oreProcessCooking(BuiltInOres.SILVER, SILVER_INGOT, 1);
+        oreProcessCooking(BuiltInOres.OLIVINE, OLIVINE, 1);
         oreProcessCooking(BuiltInOres.NIOBIUM, NIOBIUM_INGOT, 1);
 
         Holder<RecipeMode> mode = registries.holderOrThrow(LTXIRecipeModes.ORE_PROCESSING);
@@ -281,7 +282,12 @@ class RecipesGen extends LimaRecipeProvider
             Holder<Item> oreSolution = ORE_SOLUTIONS.get(ore);
             Holder<Item> oreCrystal = ORE_CRYSTALS.get(ore);
 
-            ItemResult s3Byproduct = ore == BuiltInOres.TITANIUM ? ItemResult.of(TUNGSTEN_TRIOXIDE, ResultCount.exactlyRandom(1, 0.1f)) : null;
+            ItemResult s3Byproduct = switch (ore)
+            {
+                case TITANIUM -> ItemResult.of(TUNGSTEN_TRIOXIDE, ResultCount.exactlyRandom(1, 0.1f));
+                case OLIVINE -> ItemResult.of(PYROXENE, ResultCount.exactlyRandom(1, 0.075f));
+                default -> null;
+            };
             ItemResult s5Byproduct = ore == BuiltInOres.COPPER ? ItemResult.of(RHENIUM_7_OXIDE, ResultCount.exactlyRandom(1, 0.05f)) : null;
 
             sieving()
@@ -953,6 +959,7 @@ class RecipesGen extends LimaRecipeProvider
         oreProcessCrushing(BuiltInOres.QUARTZ, ORES_QUARTZ, null);
         oreProcessCrushing(BuiltInOres.TITANIUM, TITANIUM_ORES, RAW_TITANIUM_MATERIALS);
         oreProcessCrushing(BuiltInOres.SILVER, SILVER_ORES, RAW_SILVER_MATERIALS);
+        oreProcessCrushing(BuiltInOres.OLIVINE, null, RAW_OLIVINE_MATERIALS);
         oreProcessCrushing(BuiltInOres.NIOBIUM, NIOBIUM_ORES, RAW_NIOBIUM_MATERIALS);
 
         // Ore clusters
@@ -1320,7 +1327,7 @@ class RecipesGen extends LimaRecipeProvider
         blasting(stackTemplate(resultItem, resultCount)).input(ingredient).xp(0.5f).save(output, name);
     }
 
-    private void oreProcessCrushing(BuiltInOres ore, TagKey<Item> oreTag, @Nullable TagKey<Item> rawOreTag)
+    private void oreProcessCrushing(BuiltInOres ore, @Nullable TagKey<Item> oreTag, @Nullable TagKey<Item> rawOreTag)
     {
         List<Ingredient> baseMaterials = Stream.of(oreTag, rawOreTag).filter(Objects::nonNull).map(tag -> Ingredient.of(items.getOrThrow(tag))).toList();
         Ingredient ingredient = baseMaterials.size() == 1 ? baseMaterials.getFirst() : new CompoundIngredient(baseMaterials).toVanilla();

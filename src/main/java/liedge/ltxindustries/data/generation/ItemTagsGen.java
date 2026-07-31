@@ -60,6 +60,7 @@ class ItemTagsGen extends LimaTagsProvider.ItemTags
 
         buildTag(RAW_TITANIUM_MATERIALS).add(RAW_TITANIUM).copyTo(RAW_MATERIALS);
         buildTag(RAW_SILVER_MATERIALS).add(RAW_SILVER).copyTo(RAW_MATERIALS);
+        buildTag(RAW_OLIVINE_MATERIALS).add(RAW_OLIVINE).copyTo(RAW_MATERIALS);
         buildTag(RAW_NIOBIUM_MATERIALS).add(RAW_NIOBIUM).copyTo(RAW_MATERIALS);
 
         buildTag(TITANIUM_INGOTS).add(TITANIUM_INGOT).copyTo(INGOTS);
@@ -75,6 +76,7 @@ class ItemTagsGen extends LimaTagsProvider.ItemTags
         buildTag(SLATESTEEL_NUGGETS).add(SLATESTEEL_NUGGET).copyTo(NUGGETS);
 
         buildTag(OLIVINE_GEMS).add(OLIVINE).copyTo(GEMS);
+        buildTag(GEMS).add(PYROXENE);
 
         final TagKey<Item> gearsTag = ModResources.COMMON.itemTag("gears");
         buildTag(TITANIUM_GEARS).add(TITANIUM_GEAR).copyTo(gearsTag);

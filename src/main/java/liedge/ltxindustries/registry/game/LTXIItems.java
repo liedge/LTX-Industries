@@ -155,6 +155,7 @@ public final class LTXIItems
     // Raw ores
     public static final DeferredItem<Item> RAW_TITANIUM = ITEMS.registerSimpleItem("raw_titanium");
     public static final DeferredItem<Item> RAW_SILVER = ITEMS.registerSimpleItem("raw_silver");
+    public static final DeferredItem<Item> RAW_OLIVINE = ITEMS.registerSimpleItem("raw_olivine");
     public static final DeferredItem<Item> RAW_NIOBIUM = ITEMS.registerSimpleItem("raw_niobium");
 
     // Ingots
@@ -169,6 +170,7 @@ public final class LTXIItems
 
     // Ingots
     public static final DeferredItem<Item> OLIVINE = ITEMS.registerSimpleItem("olivine");
+    public static final DeferredItem<Item> PYROXENE = ITEMS.registerSimpleItem("pyroxene");
 
     // Nuggets
     public static final DeferredItem<Item> TITANIUM_NUGGET = ITEMS.registerSimpleItem("titanium_nugget");
@@ -227,6 +229,7 @@ public final class LTXIItems
     public static final DeferredItem<Item> MEDIUM_VOLTAIC_CELL = ITEMS.registerSimpleItem("medium_voltaic_cell");
     public static final DeferredItem<Item> LARGE_VOLTAIC_CELL = ITEMS.registerSimpleItem("large_voltaic_cell");
     public static final DeferredItem<Item> CIRCUIT_BOARD = ITEMS.registerSimpleItem("circuit_board");
+    public static final DeferredItem<Item> NANO_CORE = ITEMS.registerSimpleItem("nano_core");
     public static final DeferredItem<SimpleHintItem> T1_CIRCUIT = registerSimpleHint("t1_circuit");
     public static final DeferredItem<SimpleHintItem> T2_CIRCUIT = registerSimpleHint("t2_circuit");
     public static final DeferredItem<SimpleHintItem> T3_CIRCUIT = registerSimpleHint("t3_circuit");

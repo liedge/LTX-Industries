@@ -95,6 +95,7 @@ class ModelsGen extends ModelProvider
                 // Raw ores
                 RAW_TITANIUM,
                 RAW_SILVER,
+                RAW_OLIVINE,
                 RAW_NIOBIUM,
                 // Ingots
                 TITANIUM_INGOT,
@@ -107,6 +108,7 @@ class ModelsGen extends ModelProvider
                 POLYMER_INGOT,
                 // Gems
                 OLIVINE,
+                PYROXENE,
                 // Nuggets
                 TITANIUM_NUGGET,
                 SILVER_NUGGET,
@@ -134,6 +136,7 @@ class ModelsGen extends ModelProvider
                 MEDIUM_VOLTAIC_CELL,
                 LARGE_VOLTAIC_CELL,
                 CIRCUIT_BOARD,
+                NANO_CORE,
                 T1_CIRCUIT,
                 T2_CIRCUIT,
                 T3_CIRCUIT,

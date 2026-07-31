@@ -145,6 +145,7 @@ class LanguageGen extends LimaLanguageProvider
         //#region Items
         addItem(RAW_TITANIUM, "Raw Titanium");
         addItem(RAW_SILVER, "Raw Silver");
+        addItem(RAW_OLIVINE, "Raw Olivine");
         addItem(RAW_NIOBIUM, "Raw Niobium");
 
         addItem(TITANIUM_INGOT, "Titanium Ingot");
@@ -156,6 +157,7 @@ class LanguageGen extends LimaLanguageProvider
         addItem(TUNGSTEN_SLATESTEEL_INGOT, "Tungsten-Plated Slatesteel");
         addItem(POLYMER_INGOT, "Polymer Bar");
         addItem(OLIVINE, "Olivine");
+        addItem(PYROXENE, "Pyroxene");
 
         addItem(TITANIUM_NUGGET, "Titanium Nugget");
         addItem(SILVER_NUGGET, "Silver Nugget");
@@ -176,6 +178,7 @@ class LanguageGen extends LimaLanguageProvider
         addItem(CHLORINE_BUCKET, "Chlorine Bucket");
         addItem(ARGON_BUCKET, "Argon Bucket");
         addItem(METHANE_BUCKET, "Methane Bucket");
+        addItem(SULPHURINE_BUCKET, "Sulphurine Bucket");
         addItem(SEA_WATER_BUCKET, "Sea Water Bucket");
         addItem(AMMONIA_BUCKET, "Ammonia Bucket");
         addItem(HYDROCHLORIC_ACID_BUCKET, "Hydrochloric Acid Bucket");
@@ -200,6 +203,7 @@ class LanguageGen extends LimaLanguageProvider
         addItem(MEDIUM_VOLTAIC_CELL, "Voltaic Cell");
         addItem(LARGE_VOLTAIC_CELL, "High-Energy Voltaic Cell");
         addItem(CIRCUIT_BOARD, "Circuit Board");
+        addItem(NANO_CORE, "Nano-Core");
         simpleHintItem(T1_CIRCUIT, "Basic Circuit", "First tier circuit. Sufficient energy and data throughput for most entry-level applications.");
         simpleHintItem(T2_CIRCUIT, "Enhanced Circuit", "Second tier circuit. Improved energy and data efficiency from higher quality conductors.");
         simpleHintItem(T3_CIRCUIT, "Precision Circuit", "Third tier circuit. Highest performance on conventional materials. Handles all standard engineering and industrial applications.");

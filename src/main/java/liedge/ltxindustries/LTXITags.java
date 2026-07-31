@@ -69,6 +69,7 @@ public final class LTXITags
         // Raw materials
         public static final TagKey<Item> RAW_TITANIUM_MATERIALS = COMMON.itemTag("raw_materials/titanium");
         public static final TagKey<Item> RAW_SILVER_MATERIALS = COMMON.itemTag("raw_materials/silver");
+        public static final TagKey<Item> RAW_OLIVINE_MATERIALS = COMMON.itemTag("raw_materials/olivine");
         public static final TagKey<Item> RAW_NIOBIUM_MATERIALS = COMMON.itemTag("raw_materials/niobium");
 
         // Ingots

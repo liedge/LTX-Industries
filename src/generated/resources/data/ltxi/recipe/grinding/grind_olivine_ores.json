@@ -1,0 +1,14 @@
+{
+  "type": "ltxi:grinding",
+  "item_inputs": [
+    {
+      "ingredient": "#c:raw_materials/olivine"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 2,
+      "id": "ltxi:crushed_olivine_ore"
+    }
+  ]
+}
