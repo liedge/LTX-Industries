@@ -588,5 +588,6 @@
   "upgrade_effect.ltxi.reload_source.energy": "Weapon reloads from an internal CE battery",
   "upgrade_effect.ltxi.reload_source.infinite": "Grants weapon an infinite, never-draining magazine",
   "upgrade_effect.ltxi.reload_source.item": "Replaces reload item: %s",
-  "upgrade_effect.ltxi.suppress_vibrations": "Suppresses %s sculk vibrations"
+  "upgrade_effect.ltxi.suppress_vibrations": "Suppresses %s sculk vibrations",
+  "upgrade_effect.ltxi.unlock_recipe_mode": "Unlocks the %s recipe mode"
 }

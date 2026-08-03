@@ -503,6 +503,7 @@ class LanguageGen extends LimaLanguageProvider
         add(CAPPED_ENCHANTMENT_UPGRADE_EFFECT, "+%s %s levels (max %s)");
         add(GRENADE_UNLOCK_EFFECT, "Can use %s shells");
         add(CANCEL_FALLS_EFFECT, "Cancels falls (%s)");
+        add(UNLOCK_RECIPE_MODE_EFFECT, "Unlocks the %s recipe mode");
 
         add(WeaponReloadSource.Type.ITEM.getItemTooltip(), "Reloads with %s");
         add(WeaponReloadSource.Type.ITEM.getUpgradeTooltip(), "Replaces reload item: %s");

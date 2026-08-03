@@ -4,6 +4,7 @@ import liedge.limacore.network.sync.LimaDataWatcher;
 import liedge.limacore.network.sync.NullableValueTracker;
 import liedge.limacore.transfer.item.ItemHolderBlockEntity;
 import liedge.ltxindustries.lib.upgrades.Upgrades;
+import liedge.ltxindustries.lib.upgrades.effect.UnlockRecipeMode;
 import liedge.ltxindustries.recipe.RecipeMode;
 import liedge.ltxindustries.registry.LTXIDataMaps;
 import liedge.ltxindustries.registry.game.LTXINetworkSerializers;
@@ -25,7 +26,7 @@ public interface RecipeModeHolderBlockEntity extends ItemHolderBlockEntity, SubM
     static void applyUpgrades(RecipeModeHolderBlockEntity blockEntity, Upgrades upgrades)
     {
         HolderSet<RecipeMode> defaultModes = blockEntity.getDefaultRecipeModes();
-        List<Holder<RecipeMode>> upgradeModes = Stream.concat(defaultModes.stream(), upgrades.effectStream(LTXIUpgradeEffectComponents.UNLOCK_RECIPE_MODE))
+        List<Holder<RecipeMode>> upgradeModes = Stream.concat(defaultModes.stream(), upgrades.effectStream(LTXIUpgradeEffectComponents.UNLOCK_RECIPE_MODE).map(UnlockRecipeMode::mode))
                 .limit(23)
                 .toList();
 

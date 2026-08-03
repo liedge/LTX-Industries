@@ -111,6 +111,7 @@ public final class LTXILangKeys
     public static final Translatable CAPPED_ENCHANTMENT_UPGRADE_EFFECT = upgradeEffect("enchantment.capped");
     public static final Translatable GRENADE_UNLOCK_EFFECT = upgradeEffect("grenade_unlock");
     public static final Translatable CANCEL_FALLS_EFFECT = upgradeEffect("cancel_fall");
+    public static final Translatable UNLOCK_RECIPE_MODE_EFFECT = upgradeEffect("unlock_recipe_mode");
 
     private static Translatable prefixKey(String prefix, String key)
     {
