@@ -23,7 +23,7 @@ public final class AirScrubberRenderer extends SimpleMachineRenderer<AirScrubber
     @Override
     protected void extractAdditional(AirScrubberBlockEntity blockEntity, State state, float partialTick)
     {
-        state.machineSpin = blockEntity.lerpImpellerRot(partialTick);
+        state.machineMotion = blockEntity.lerpImpellerRot(partialTick);
     }
 
     @Override
@@ -36,7 +36,7 @@ public final class AirScrubberRenderer extends SimpleMachineRenderer<AirScrubber
         poseStack.translate(-0.5f, 0f, -0.5f);
 
         poseStack.translate(0.71875f, 0.5f, 0.5f);
-        poseStack.mulPose(Axis.XP.rotationDegrees(state.machineSpin));
+        poseStack.mulPose(Axis.XP.rotationDegrees(state.machineMotion));
         poseStack.translate(-0.71875f, -0.5f, -0.5f);
 
         impeller.submit(poseStack, nodeCollector, state.lightCoords);

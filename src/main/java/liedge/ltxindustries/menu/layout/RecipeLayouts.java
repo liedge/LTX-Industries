@@ -9,6 +9,12 @@ public final class RecipeLayouts
             .itemsOut(101, 27, 3, 1)
             .fluidOut(101, 45)
             .build(68, 41);
+    public static final RecipeLayout PRESSING = RecipeLayout.builder()
+            .modeSlot(25, 35)
+            .itemsIn(43, 26, 2, 1)
+            .fluidIn(43, 44)
+            .itemsOut(119, 35, 2, 1)
+            .build(86, 40);
     public static final RecipeLayout FUSING = RecipeLayout.builder()
             .modeSlot(25, 36)
             .itemsIn(43, 27, 3, 1)

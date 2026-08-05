@@ -288,6 +288,7 @@ class ModelsGen extends ModelProvider
         createBasicBinaryMachine(models, LTXIBlocks.DIGITAL_BLAST_FURNACE, Templates.BASIC_MACHINE_IDLE, Templates.BASIC_MACHINE_ACTIVE);
         createCompositeBinaryMachine(models, LTXIBlocks.GRINDER,
                 List.of(Parts.EMISSIVE_ACTIVE, "front_crusher", "rear_crusher"), List.of("front_crusher", "rear_crusher"), List.of());
+        createCompositeBinaryMachine(models, LTXIBlocks.MATERIAL_PRESS, List.of(Parts.EMISSIVE_ACTIVE, "hammer"), List.of("hammer"), List.of(Parts.EMISSIVE_ACTIVE));
         createBasicBinaryMachine(models, LTXIBlocks.MATERIAL_FUSING_CHAMBER, Templates.BASIC_MACHINE_IDLE, Templates.BASIC_MACHINE_ACTIVE);
         createCompositeBinaryMachine(models, LTXIBlocks.HYDROSIEVE,
                 List.of(Parts.EMISSIVE_ACTIVE, Parts.IMPELLER, "water"), List.of(Parts.IMPELLER), List.of(Parts.EMISSIVE_ACTIVE, "water"));
@@ -320,6 +321,7 @@ class ModelsGen extends ModelProvider
         // Block entity parts
         createBEPart(models, LTXIBlocks.GRINDER.get(), "_front_crusher", false, Parts.FRAME, Parts.EMISSIVE_IDLE, Parts.EMISSIVE_ACTIVE, "rear_crusher");
         createBEPart(models, LTXIBlocks.GRINDER.get(), "_rear_crusher", false, Parts.FRAME, Parts.EMISSIVE_IDLE, Parts.EMISSIVE_ACTIVE, "front_crusher");
+        createBEPart(models, LTXIBlocks.MATERIAL_PRESS.get(), "_hammer", true, Parts.FRAME, Parts.EMISSIVE_IDLE, Parts.EMISSIVE_ACTIVE);
         createBEPart(models, LTXIBlocks.HYDROSIEVE.get(), "_impeller", false, Parts.FRAME, Parts.EMISSIVE_IDLE, Parts.EMISSIVE_ACTIVE, "water");
         createBEPart(models, LTXIBlocks.ELECTROCENTRIFUGE.get(), "_tubes", true, Parts.FRAME, Parts.EMISSIVE_IDLE, Parts.EMISSIVE_ACTIVE);
         createBEPart(models, LTXIBlocks.MIXER.get(), "_blades", false, Parts.FRAME, Parts.EMISSIVE_IDLE, Parts.EMISSIVE_ACTIVE);

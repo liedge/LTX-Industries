@@ -65,6 +65,14 @@ public final class LTXIBlockShapes
             dimensionBox(0, 6, 2, 1, 8, 12),
             dimensionBox(4, 9, 0, 8, 5, 1));
 
+    public static final VoxelShape MATERIAL_PRESS = Shapes.or(
+            dimensionBox(1, 0, 1, 14, 3, 14),
+            dimensionBox(2, 3, 2, 12, 1, 12),
+            dimensionBox(0, 0, 5, 2, 16, 6),
+            dimensionBox(14, 0, 5, 2, 16, 6),
+            dimensionBox(2, 13, 2, 12, 3, 12),
+            dimensionBox(5, 12, 1, 6, 4, 1));
+
     public static final VoxelShape HYDROSIEVE = Shapes.or(
             dimensionBox(1, 0, 1, 14, 3, 14),
             dimensionBox(2, 3, 2, 12, 3, 12),

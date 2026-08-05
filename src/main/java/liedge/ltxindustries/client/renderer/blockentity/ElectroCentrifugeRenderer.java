@@ -42,7 +42,7 @@ public class ElectroCentrifugeRenderer extends SimpleMachineRenderer<ElectroCent
     @Override
     protected void extractAdditional(ElectroCentrifugeBlockEntity blockEntity, State state, float partialTick)
     {
-        state.machineSpin = blockEntity.lerpTubesYRot(partialTick);
+        state.machineMotion = blockEntity.lerpTubesYRot(partialTick);
         state.machineBolt = blockEntity.tubeBolt;
     }
 
@@ -52,7 +52,7 @@ public class ElectroCentrifugeRenderer extends SimpleMachineRenderer<ElectroCent
         poseStack.pushPose();
 
         poseStack.translate(0.5f, 0, 0.5f);
-        poseStack.mulPose(Axis.YP.rotationDegrees(state.machineSpin));
+        poseStack.mulPose(Axis.YP.rotationDegrees(state.machineMotion));
         poseStack.translate(-0.5f, 0, -0.5f);
 
         tubes.submit(poseStack, nodeCollector, state.lightCoords);

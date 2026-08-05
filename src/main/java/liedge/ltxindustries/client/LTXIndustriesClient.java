@@ -147,6 +147,7 @@ public class LTXIndustriesClient
             event.register(LTXIMenus.DIGITAL_SMOKER.get(), RecipeLayoutScreen::new);
             event.register(LTXIMenus.DIGITAL_BLAST_FURNACE.get(), RecipeLayoutScreen::new);
             event.register(LTXIMenus.GRINDER.get(), RecipeLayoutScreen::new);
+            event.register(LTXIMenus.MATERIAL_PRESS.get(), RecipeLayoutScreen::new);
             event.register(LTXIMenus.MATERIAL_FUSING_CHAMBER.get(), RecipeLayoutScreen::new);
             event.register(LTXIMenus.HYDROSIEVE.get(), RecipeLayoutScreen::new);
             event.register(LTXIMenus.ELECTROCENTRIFUGE.get(), RecipeLayoutScreen::new);
@@ -207,6 +208,7 @@ public class LTXIndustriesClient
             event.registerBlockEntityRenderer(LTXIBlockEntities.INFINITE_ENERGY_CELL_ARRAY.get(), ctx -> new EnergyCellArrayRenderer(ctx, LTXIConstants.CREATIVE_PINK));
             event.registerBlockEntityRenderer(LTXIBlockEntities.PORTABLE_TANK.get(), TankRenderer::new);
             event.registerBlockEntityRenderer(LTXIBlockEntities.GRINDER.get(), GrinderRenderer::new);
+            event.registerBlockEntityRenderer(LTXIBlockEntities.MATERIAL_PRESS.get(), MaterialPressRenderer::new);
             event.registerBlockEntityRenderer(LTXIBlockEntities.HYDROSIEVE.get(), HydroSieveRenderer::new);
             event.registerBlockEntityRenderer(LTXIBlockEntities.ELECTROCENTRIFUGE.get(), ElectroCentrifugeRenderer::new);
             event.registerBlockEntityRenderer(LTXIBlockEntities.MIXER.get(), MixerRenderer::new);

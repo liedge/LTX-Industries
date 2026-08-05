@@ -63,6 +63,7 @@ public final class LTXIBlockEntities
         // Machine capability registration (item, energy, fluid)
         registerItemEnergyFluidCaps(event, List.of(
                 GRINDER,
+                MATERIAL_PRESS,
                 MATERIAL_FUSING_CHAMBER,
                 HYDROSIEVE,
                 ELECTROCENTRIFUGE,
@@ -191,6 +192,8 @@ public final class LTXIBlockEntities
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<DigitalBlastFurnaceBlockEntity>> DIGITAL_BLAST_FURNACE = registerItemEnergyMachine(LTXIIdentifiers.ID_DIGITAL_BLAST_FURNACE, DigitalBlastFurnaceBlockEntity::new, STANDARD_PUSH_PULL, INPUT_ONLY_NO_PULL, builder -> builder.withBlock(LTXIBlocks.DIGITAL_BLAST_FURNACE).hasMenu(LTXIMenus.DIGITAL_BLAST_FURNACE));
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<GrinderBlockEntity>> GRINDER = registerItemEnergyFluidMachine(LTXIIdentifiers.ID_GRINDER, GrinderBlockEntity::new, STANDARD_PUSH_PULL, INPUT_ONLY_NO_PULL, OUTPUT_ONLY_PUSH,
             builder -> builder.withBlock(LTXIBlocks.GRINDER).hasMenu(LTXIMenus.GRINDER));
+    public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<MaterialPressBlockEntity>> MATERIAL_PRESS = registerItemEnergyFluidMachine(LTXIIdentifiers.ID_MATERIAL_PRESS, MaterialPressBlockEntity::new, STANDARD_PUSH_PULL, INPUT_ONLY_NO_PULL, INPUT_ONLY_PULL,
+            builder -> builder.withBlock(LTXIBlocks.MATERIAL_PRESS).hasMenu(LTXIMenus.MATERIAL_PRESS));
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<MaterialFusingChamberBlockEntity>> MATERIAL_FUSING_CHAMBER = registerItemEnergyFluidMachine(LTXIIdentifiers.ID_MATERIAL_FUSING_CHAMBER, MaterialFusingChamberBlockEntity::new, STANDARD_PUSH_PULL, INPUT_ONLY_NO_PULL, INPUT_ONLY_PULL,
             builder -> builder.withBlock(LTXIBlocks.MATERIAL_FUSING_CHAMBER).hasMenu(LTXIMenus.MATERIAL_FUSING_CHAMBER));
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<HydroSieveBlockEntity>> HYDROSIEVE = registerItemEnergyFluidMachine(LTXIIdentifiers.ID_HYDROSIEVE, HydroSieveBlockEntity::new, STANDARD_PUSH_PULL, INPUT_ONLY_NO_PULL, INPUT_ONLY_PULL,

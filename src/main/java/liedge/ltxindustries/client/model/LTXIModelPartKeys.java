@@ -14,6 +14,7 @@ public final class LTXIModelPartKeys
 
     public static final StandaloneModelKey<StaticQuads> GRINDER_FRONT_CRUSHER = key("grinder_front_crusher");
     public static final StandaloneModelKey<StaticQuads> GRINDER_REAR_CRUSHER = key("grinder_rear_crusher");
+    public static final StandaloneModelKey<StaticQuads> MATERIAL_PRESS_HAMMER = key("material_press_hammer");
     public static final StandaloneModelKey<StaticQuads> HYDROSIEVE_IMPELLER = key("hydrosieve_impeller");
     public static final StandaloneModelKey<StaticQuads> ELECTROCENTRIFUGE_TUBES = key("electrocentrifuge_tubes");
     public static final StandaloneModelKey<StaticQuads> MIXER_BLADES = key("mixer_blades");
@@ -36,6 +37,7 @@ public final class LTXIModelPartKeys
     {
         registerBEPart(event, GRINDER_FRONT_CRUSHER);
         registerBEPart(event, GRINDER_REAR_CRUSHER);
+        registerBEPart(event, MATERIAL_PRESS_HAMMER);
         registerBEPart(event, HYDROSIEVE_IMPELLER);
         registerBEPart(event, ELECTROCENTRIFUGE_TUBES);
         registerBEPart(event, MIXER_BLADES);

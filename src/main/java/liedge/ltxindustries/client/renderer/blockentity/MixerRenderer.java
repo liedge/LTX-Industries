@@ -22,7 +22,7 @@ public class MixerRenderer extends SimpleMachineRenderer<MixerBlockEntity>
     @Override
     protected void extractAdditional(MixerBlockEntity blockEntity, State state, float partialTick)
     {
-        state.machineSpin = blockEntity.lerpImpellerYRot(partialTick);
+        state.machineMotion = blockEntity.lerpImpellerYRot(partialTick);
     }
 
     @Override
@@ -31,7 +31,7 @@ public class MixerRenderer extends SimpleMachineRenderer<MixerBlockEntity>
         poseStack.pushPose();
 
         poseStack.translate(0.5f, 0f, 0.5f);
-        poseStack.mulPose(Axis.YP.rotationDegrees(state.machineSpin));
+        poseStack.mulPose(Axis.YP.rotationDegrees(state.machineMotion));
         poseStack.translate(-0.5f, 0f, -0.5f);
 
         blades.submit(poseStack, nodeCollector, state.lightCoords);

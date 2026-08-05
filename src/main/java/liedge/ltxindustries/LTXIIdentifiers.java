@@ -61,6 +61,7 @@ public final class LTXIIdentifiers
     public static final String ID_DIGITAL_SMOKER = "digital_smoker";
     public static final String ID_DIGITAL_BLAST_FURNACE = "digital_blast_furnace";
     public static final String ID_GRINDER = "grinder";
+    public static final String ID_MATERIAL_PRESS = "material_press";
     public static final String ID_MATERIAL_FUSING_CHAMBER = "material_fusing_chamber";
     public static final String ID_HYDROSIEVE = "hydrosieve";
     public static final String ID_ELECTROCENTRIFUGE = "electrocentrifuge";
@@ -86,6 +87,7 @@ public final class LTXIIdentifiers
 
     // Crafting types (recipe type and serializer)
     public static final String ID_GRINDING_RECIPE = "grinding";
+    public static final String ID_PRESSING_RECIPE = "pressing";
     public static final String ID_MATERIAL_FUSING_RECIPE = "material_fusing";
     public static final String ID_SIEVING_RECIPE = "sieving";
     public static final String ID_ELECTRO_CENTRIFUGING_RECIPE = "electro_centrifuging";

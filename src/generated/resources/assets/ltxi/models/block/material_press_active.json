@@ -1,0 +1,6 @@
+{
+  "parent": "ltxi:block/material_press",
+  "visibility": {
+    "hammer": false
+  }
+}

@@ -33,6 +33,7 @@ class BlockTagsGen extends LimaTagsProvider.RegistryTags<Block>
                 DIGITAL_SMOKER,
                 DIGITAL_BLAST_FURNACE,
                 GRINDER,
+                MATERIAL_PRESS,
                 MATERIAL_FUSING_CHAMBER,
                 HYDROSIEVE,
                 ELECTROCENTRIFUGE,

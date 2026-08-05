@@ -22,7 +22,7 @@ public final class HydroSieveRenderer extends SimpleMachineRenderer<HydroSieveBl
     @Override
     protected void extractAdditional(HydroSieveBlockEntity blockEntity, State state, float partialTick)
     {
-        state.machineSpin = blockEntity.lerpRotation(partialTick);
+        state.machineMotion = blockEntity.lerpRotation(partialTick);
     }
 
     @Override
@@ -31,7 +31,7 @@ public final class HydroSieveRenderer extends SimpleMachineRenderer<HydroSieveBl
         poseStack.pushPose();
 
         poseStack.translate(0.5f, 0f, 0.5f);
-        poseStack.mulPose(Axis.YP.rotationDegrees(state.machineSpin));
+        poseStack.mulPose(Axis.YP.rotationDegrees(state.machineMotion));
         poseStack.translate(-0.5f, 0f, -0.5f);
 
         impeller.submit(poseStack, nodeCollector, state.lightCoords);
