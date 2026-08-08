@@ -15,7 +15,7 @@ public final class RecipeLayouts
             .fluidIn(43, 44)
             .itemsOut(119, 35, 2, 1)
             .build(86, 40);
-    public static final RecipeLayout FUSING = RecipeLayout.builder()
+    public static final RecipeLayout ARC_SMELTING = RecipeLayout.builder()
             .modeSlot(25, 36)
             .itemsIn(43, 27, 3, 1)
             .fluidIn(43, 45)

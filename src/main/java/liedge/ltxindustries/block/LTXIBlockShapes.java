@@ -65,6 +65,15 @@ public final class LTXIBlockShapes
             dimensionBox(0, 6, 2, 1, 8, 12),
             dimensionBox(4, 9, 0, 8, 5, 1));
 
+    public static final VoxelShape ARC_FURNACE = Shapes.or(
+            dimensionBox(2, 0, 1, 12, 3, 14),
+            dimensionBox(3, 3, 2, 10, 8, 10),
+            dimensionBox(2, 5, 6, 12, 4, 7),
+            dimensionBox(2, 11, 1, 12, 2, 12),
+            dimensionBox(3, 13, 2, 10, 1, 10),
+            dimensionBox(4, 3, 12, 8, 10, 3),
+            dimensionBox(6, 14, 5, 4, 2, 4));
+
     public static final VoxelShape MATERIAL_PRESS = Shapes.or(
             dimensionBox(1, 0, 1, 14, 3, 14),
             dimensionBox(2, 3, 2, 12, 1, 12),

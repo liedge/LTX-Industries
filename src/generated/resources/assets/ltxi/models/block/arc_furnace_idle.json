@@ -1,0 +1,6 @@
+{
+  "parent": "ltxi:block/arc_furnace",
+  "visibility": {
+    "emissive_active": false
+  }
+}

@@ -13,22 +13,22 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public final class MaterialFusingRecipe extends LTXIRecipe
+public final class ArcSmeltingRecipe extends LTXIRecipe
 {
-    public MaterialFusingRecipe(List<RecipeItemInput> itemInputs, List<RecipeFluidInput> fluidInputs, List<ItemResult> itemResults, List<FluidResult> fluidResults, int craftTime, @Nullable Holder<RecipeMode> mode)
+    public ArcSmeltingRecipe(List<RecipeItemInput> itemInputs, List<RecipeFluidInput> fluidInputs, List<ItemResult> itemResults, List<FluidResult> fluidResults, int craftTime, @Nullable Holder<RecipeMode> mode)
     {
         super(itemInputs, fluidInputs, itemResults, fluidResults, craftTime, mode);
     }
 
     @Override
-    public RecipeSerializer<MaterialFusingRecipe> getSerializer()
+    public RecipeSerializer<ArcSmeltingRecipe> getSerializer()
     {
-        return LTXIRecipeSerializers.MATERIAL_FUSING.get();
+        return LTXIRecipeSerializers.ARC_SMELTING.get();
     }
 
     @Override
-    public LimaRecipeType<MaterialFusingRecipe> getType()
+    public LimaRecipeType<ArcSmeltingRecipe> getType()
     {
-        return LTXIRecipeTypes.MATERIAL_FUSING.get();
+        return LTXIRecipeTypes.ARC_SMELTING.get();
     }
 }

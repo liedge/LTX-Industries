@@ -1,0 +1,7 @@
+{
+  "parent": "ltxi:block/arc_furnace",
+  "loader": "limacore:extended_cuboid",
+  "visibility": {
+    "emissive_active": false
+  }
+}

@@ -64,7 +64,7 @@ public final class LTXIBlockEntities
         registerItemEnergyFluidCaps(event, List.of(
                 GRINDER,
                 MATERIAL_PRESS,
-                MATERIAL_FUSING_CHAMBER,
+                ARC_FURNACE,
                 HYDROSIEVE,
                 ELECTROCENTRIFUGE,
                 MIXER,
@@ -194,8 +194,8 @@ public final class LTXIBlockEntities
             builder -> builder.withBlock(LTXIBlocks.GRINDER).hasMenu(LTXIMenus.GRINDER));
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<MaterialPressBlockEntity>> MATERIAL_PRESS = registerItemEnergyFluidMachine(LTXIIdentifiers.ID_MATERIAL_PRESS, MaterialPressBlockEntity::new, STANDARD_PUSH_PULL, INPUT_ONLY_NO_PULL, INPUT_ONLY_PULL,
             builder -> builder.withBlock(LTXIBlocks.MATERIAL_PRESS).hasMenu(LTXIMenus.MATERIAL_PRESS));
-    public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<MaterialFusingChamberBlockEntity>> MATERIAL_FUSING_CHAMBER = registerItemEnergyFluidMachine(LTXIIdentifiers.ID_MATERIAL_FUSING_CHAMBER, MaterialFusingChamberBlockEntity::new, STANDARD_PUSH_PULL, INPUT_ONLY_NO_PULL, INPUT_ONLY_PULL,
-            builder -> builder.withBlock(LTXIBlocks.MATERIAL_FUSING_CHAMBER).hasMenu(LTXIMenus.MATERIAL_FUSING_CHAMBER));
+    public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<ArcFurnaceBlockEntity>> ARC_FURNACE = registerItemEnergyFluidMachine(LTXIIdentifiers.ID_ARC_FURNACE, ArcFurnaceBlockEntity::new, STANDARD_PUSH_PULL, INPUT_ONLY_NO_PULL, INPUT_ONLY_PULL,
+            builder -> builder.withBlock(LTXIBlocks.ARC_FURNACE).hasMenu(LTXIMenus.ARC_FURNACE));
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<HydroSieveBlockEntity>> HYDROSIEVE = registerItemEnergyFluidMachine(LTXIIdentifiers.ID_HYDROSIEVE, HydroSieveBlockEntity::new, STANDARD_PUSH_PULL, INPUT_ONLY_NO_PULL, INPUT_ONLY_PULL,
             builder -> builder.withBlock(LTXIBlocks.HYDROSIEVE).hasMenu(LTXIMenus.HYDROSIEVE));
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<ElectroCentrifugeBlockEntity>> ELECTROCENTRIFUGE = registerItemEnergyFluidMachine(LTXIIdentifiers.ID_ELECTROCENTRIFUGE, ElectroCentrifugeBlockEntity::new, STANDARD_PUSH_PULL, INPUT_ONLY_NO_PULL, STANDARD_PUSH_PULL,

@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "ltxi:item/material_fusing_chamber"
+    "model": "ltxi:item/arc_furnace"
   }
 }

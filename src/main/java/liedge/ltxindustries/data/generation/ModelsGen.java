@@ -289,7 +289,7 @@ class ModelsGen extends ModelProvider
         createCompositeBinaryMachine(models, LTXIBlocks.GRINDER,
                 List.of(Parts.EMISSIVE_ACTIVE, "front_crusher", "rear_crusher"), List.of("front_crusher", "rear_crusher"), List.of());
         createCompositeBinaryMachine(models, LTXIBlocks.MATERIAL_PRESS, List.of(Parts.EMISSIVE_ACTIVE, "hammer"), List.of("hammer"), List.of(Parts.EMISSIVE_ACTIVE));
-        createBasicBinaryMachine(models, LTXIBlocks.MATERIAL_FUSING_CHAMBER, Templates.BASIC_MACHINE_IDLE, Templates.BASIC_MACHINE_ACTIVE);
+        createCompositeBinaryMachine(models, LTXIBlocks.ARC_FURNACE, List.of(Parts.EMISSIVE_ACTIVE), List.of(), List.of(Parts.EMISSIVE_ACTIVE));
         createCompositeBinaryMachine(models, LTXIBlocks.HYDROSIEVE,
                 List.of(Parts.EMISSIVE_ACTIVE, Parts.IMPELLER, "water"), List.of(Parts.IMPELLER), List.of(Parts.EMISSIVE_ACTIVE, "water"));
         createCompositeBinaryMachine(models, LTXIBlocks.ELECTROCENTRIFUGE,

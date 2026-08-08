@@ -148,7 +148,7 @@ public class LTXIndustriesClient
             event.register(LTXIMenus.DIGITAL_BLAST_FURNACE.get(), RecipeLayoutScreen::new);
             event.register(LTXIMenus.GRINDER.get(), RecipeLayoutScreen::new);
             event.register(LTXIMenus.MATERIAL_PRESS.get(), RecipeLayoutScreen::new);
-            event.register(LTXIMenus.MATERIAL_FUSING_CHAMBER.get(), RecipeLayoutScreen::new);
+            event.register(LTXIMenus.ARC_FURNACE.get(), RecipeLayoutScreen::new);
             event.register(LTXIMenus.HYDROSIEVE.get(), RecipeLayoutScreen::new);
             event.register(LTXIMenus.ELECTROCENTRIFUGE.get(), RecipeLayoutScreen::new);
             event.register(LTXIMenus.MIXER.get(), RecipeLayoutScreen::new);

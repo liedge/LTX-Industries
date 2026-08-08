@@ -11,7 +11,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "ltxi:material_fusing_chamber"
+          "name": "ltxi:arc_furnace"
         }
       ],
       "functions": [
@@ -22,5 +22,5 @@
       "rolls": 1.0
     }
   ],
-  "random_sequence": "ltxi:blocks/material_fusing_chamber"
+  "random_sequence": "ltxi:blocks/arc_furnace"
 }
