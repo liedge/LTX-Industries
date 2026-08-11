@@ -12,7 +12,8 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class StargazerItem extends FullAutoWeaponItem implements ScopingWeaponItem
 {
@@ -24,9 +25,9 @@ public class StargazerItem extends FullAutoWeaponItem implements ScopingWeaponIt
     }
 
     @Override
-    public @Nullable ResourceKey<Upgrade> getDefaultUpgradeKey()
+    public List<ResourceKey<Upgrade>> getDefaultUpgrades()
     {
-        return LTXIUpgrades.STARGAZER_DEFAULT;
+        return List.of(LTXIUpgrades.STARGAZER_DEFAULT);
     }
 
     @Override

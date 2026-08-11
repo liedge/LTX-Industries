@@ -3,6 +3,10 @@ package liedge.ltxindustries.lib.upgrades;
 import it.unimi.dsi.fastutil.objects.Object2IntLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderGetter;
+import net.minecraft.resources.ResourceKey;
+
+import java.util.Collection;
 
 public final class MutableUpgrades
 {
@@ -16,6 +20,16 @@ public final class MutableUpgrades
     MutableUpgrades(Upgrades source)
     {
         map.putAll(source.getMapForCloning());
+    }
+
+    public MutableUpgrades setAll(HolderGetter<Upgrade> holders, Collection<ResourceKey<Upgrade>> keys)
+    {
+        for (ResourceKey<Upgrade> key : keys)
+        {
+            holders.get(key).ifPresent(this::set);
+        }
+
+        return this;
     }
 
     public MutableUpgrades set(Holder<Upgrade> upgrade, int upgradeRank)

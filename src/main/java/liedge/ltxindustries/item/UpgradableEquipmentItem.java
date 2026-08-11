@@ -8,6 +8,7 @@ import liedge.limacore.transfer.LimaEnergyUtil;
 import liedge.ltxindustries.lib.upgrades.MutableUpgrades;
 import liedge.ltxindustries.lib.upgrades.Upgrade;
 import liedge.ltxindustries.lib.upgrades.Upgrades;
+import liedge.ltxindustries.registry.LTXIRegistries;
 import liedge.ltxindustries.registry.game.LTXIDataComponents;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import liedge.ltxindustries.util.LTXITooltipUtil;
@@ -28,7 +29,6 @@ import net.neoforged.neoforge.transfer.energy.EnergyHandler;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface UpgradableEquipmentItem extends ItemLike, EnergyHolderItem
 {
@@ -94,15 +94,18 @@ public interface UpgradableEquipmentItem extends ItemLike, EnergyHolderItem
     }
     //#endregion
 
-    default @Nullable ResourceKey<Upgrade> getDefaultUpgradeKey()
+    default List<ResourceKey<Upgrade>> getDefaultUpgrades()
     {
-        return null;
+        return List.of();
     }
 
     default ItemStack createStackWithDefaultUpgrades(HolderLookup.Provider registries)
     {
         ItemStack stack = new ItemStack(this);
-        Optional.ofNullable(getDefaultUpgradeKey()).flatMap(registries::holder).ifPresent(holder -> setUpgrades(stack, MutableUpgrades.create().set(holder).build()));
+
+        Upgrades upgrades = MutableUpgrades.create().setAll(registries.lookupOrThrow(LTXIRegistries.Keys.UPGRADES), getDefaultUpgrades()).build();
+        if (!upgrades.isEmpty()) setUpgrades(stack, upgrades);
+
         return stack;
     }
 

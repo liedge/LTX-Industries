@@ -1,5 +1,6 @@
 package liedge.ltxindustries.item;
 
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.lib.upgrades.Upgrade;
 import liedge.ltxindustries.registry.bootstrap.LTXIUpgrades;
@@ -20,6 +21,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.equipment.Equippable;
 import org.jspecify.annotations.Nullable;
+
+import java.util.List;
 
 public class EnergyArmorItem extends EnergyEquipmentItem
 {
@@ -50,16 +53,21 @@ public class EnergyArmorItem extends EnergyEquipmentItem
     }
 
     @Override
-    public @Nullable ResourceKey<Upgrade> getDefaultUpgradeKey()
+    public List<ResourceKey<Upgrade>> getDefaultUpgrades()
     {
-        return switch (equipmentSlot)
+        List<ResourceKey<Upgrade>> keys = new ObjectArrayList<>();
+
+        switch (equipmentSlot)
         {
-            case HEAD -> LTXIUpgrades.HEAD_DEFAULT;
-            case CHEST -> LTXIUpgrades.BODY_DEFAULT;
-            case LEGS -> LTXIUpgrades.LEGS_DEFAULT;
-            case FEET -> LTXIUpgrades.FEET_DEFAULT;
-            default -> null;
-        };
+            case HEAD -> keys.add(LTXIUpgrades.HEAD_DEFAULT);
+            case CHEST -> keys.add(LTXIUpgrades.BODY_DEFAULT);
+            case LEGS -> keys.add(LTXIUpgrades.LEGS_DEFAULT);
+            case FEET -> keys.add(LTXIUpgrades.FEET_DEFAULT);
+        }
+        keys.add(LTXIUpgrades.ARMOR_DEFENSE);
+        keys.add(LTXIUpgrades.ARMOR_PASSIVE_SHIELD);
+
+        return keys;
     }
 
     @Override

@@ -14,7 +14,8 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class SerenityItem extends FullAutoWeaponItem implements ScopingWeaponItem
 {
@@ -24,9 +25,9 @@ public class SerenityItem extends FullAutoWeaponItem implements ScopingWeaponIte
     }
 
     @Override
-    public @Nullable ResourceKey<Upgrade> getDefaultUpgradeKey()
+    public List<ResourceKey<Upgrade>> getDefaultUpgrades()
     {
-        return LTXIUpgrades.SERENITY_DEFAULT;
+        return List.of(LTXIUpgrades.SERENITY_DEFAULT);
     }
 
     @Override

@@ -19,7 +19,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class AuroraItem extends SemiAutoWeaponItem
 {
@@ -29,9 +30,9 @@ public class AuroraItem extends SemiAutoWeaponItem
     }
 
     @Override
-    public @Nullable ResourceKey<Upgrade> getDefaultUpgradeKey()
+    public List<ResourceKey<Upgrade>> getDefaultUpgrades()
     {
-        return LTXIUpgrades.AURORA_DEFAULT;
+        return List.of(LTXIUpgrades.AURORA_DEFAULT);
     }
 
     @Override
