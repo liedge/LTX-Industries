@@ -1,7 +1,7 @@
 {
   "type": "ltxi:fabricating",
-  "energy_required": 500000,
-  "group": "eum/enchant",
+  "energy_required": 600000,
+  "group": "upgrade/enchant",
   "item_inputs": [
     {
       "ingredient": {
@@ -16,24 +16,28 @@
       }
     },
     {
-      "count": 4,
+      "count": 2,
       "ingredient": "ltxi:t3_circuit"
     },
     {
+      "count": 4,
+      "ingredient": "#c:gears/titanium"
+    },
+    {
+      "count": 2,
+      "ingredient": "ltxi:slatesteel_gear"
+    },
+    {
       "count": 8,
-      "ingredient": "#c:ingots/titanium"
+      "ingredient": "minecraft:gold_ingot"
+    },
+    {
+      "count": 4,
+      "ingredient": "#c:gems/diamond"
     },
     {
       "count": 2,
-      "ingredient": "minecraft:emerald"
-    },
-    {
-      "count": 2,
-      "ingredient": "minecraft:diamond"
-    },
-    {
-      "count": 2,
-      "ingredient": "minecraft:lapis_block"
+      "ingredient": "#c:gems/emerald"
     }
   ],
   "result": {

@@ -1,0 +1,39 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 25000000,
+  "group": "machines/ores",
+  "item_inputs": [
+    {
+      "ingredient": "ltxi:empty_upgrade_module"
+    },
+    {
+      "count": 16,
+      "ingredient": "#c:plates/titanium"
+    },
+    {
+      "count": 8,
+      "ingredient": "ltxi:fluoropolymer_ingot"
+    },
+    {
+      "count": 4,
+      "ingredient": "ltxi:t3_circuit"
+    },
+    {
+      "count": 4,
+      "ingredient": "#c:gears/titanium"
+    },
+    {
+      "count": 8,
+      "ingredient": "ltxi:titanium_glass"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:upgrade": {
+        "upgrade": "ltxi:ore_process_4"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:upgrade_module"
+  }
+}

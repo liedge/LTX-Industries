@@ -36,9 +36,7 @@ class SpriteSourcesGen extends SpriteSourceProvider
     {
         // Mod atlas definitions
         atlas(LTXIAtlasIds.MODULAR_ICONS_ID)
-                .addSource(nsDirSource("modular_icon"))
-                .addSource(itemSheetCopy("titanium_gear"))
-                .addSource(itemSheetCopy("slatesteel_gear"));
+                .addSource(nsDirSource("modular_icon"));
 
         // Vanilla atlas modifications
         atlas(AtlasIds.GUI)
@@ -46,8 +44,10 @@ class SpriteSourcesGen extends SpriteSourceProvider
                 .addSource(singleSprite("gui/light_panel", "slot/empty"));
         atlas(AtlasIds.BLOCKS)
                 .addSource(singleSprite("core/solid_lime", "block/solid_lime"))
-                .addSource(grayscaleMC("block/light_molten_still", "block/lava_still", 1.75f))
-                .addSource(grayscaleMC("block/light_molten_flow", "block/lava_flow", 1.75f));
+                .addSource(grayscaleMC("block/light_molten_still", "block/lava_still", 1.75f, 1))
+                .addSource(grayscaleMC("block/light_molten_flow", "block/lava_flow", 1.75f, 1))
+                .addSource(grayscaleMC("block/bright_water_still", "block/water_still", 1.15f, 1.25f))
+                .addSource(grayscaleMC("block/bright_water_flow", "block/water_flow", 1.15f, 1.25f));
         atlas(AtlasIds.ITEMS)
                 .addSource(singleSprite("core/solid_lime", "item/solid_lime"))
                 .addSource(singleSprite("block/glacia_glass", "item/glacia_glass"))
@@ -58,7 +58,7 @@ class SpriteSourcesGen extends SpriteSourceProvider
         for (int i = 0; i < 16; i++)
         {
             String name = "sonic_boom_" + i;
-            particles.addSource(grayscaleMC(name, "particle/" + name, 1.375f));
+            particles.addSource(grayscaleMC(name, "particle/" + name, 1.375f, 1));
         }
     }
 
@@ -77,9 +77,9 @@ class SpriteSourcesGen extends SpriteSourceProvider
         return singleSprite("item/" + name, name);
     }
 
-    private SpriteSource grayscaleMC(String name, String sourcePath, float brightness)
+    private SpriteSource grayscaleMC(String name, String sourcePath, float brightness, float alpha)
     {
-        return new GrayscaleSprite(RESOURCES.id(name), ModResources.MC.id(sourcePath), brightness);
+        return new GrayscaleSprite(RESOURCES.id(name), ModResources.MC.id(sourcePath), brightness, alpha);
     }
 
     private SpriteSource orePermutations()

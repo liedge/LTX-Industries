@@ -1,33 +1,33 @@
 {
   "type": "ltxi:fabricating",
   "energy_required": 20000000,
-  "group": "turrets",
+  "group": "0/turret",
   "item_inputs": [
+    {
+      "count": 2,
+      "ingredient": "ltxi:machine_housing"
+    },
+    {
+      "count": 8,
+      "ingredient": "ltxi:tungsten_slatesteel_ingot"
+    },
     {
       "ingredient": "ltxi:t4_circuit"
     },
     {
-      "count": 4,
+      "count": 2,
       "ingredient": "ltxi:optical_tech_part"
     },
     {
-      "count": 32,
-      "ingredient": "#c:ingots/titanium"
-    },
-    {
-      "count": 12,
-      "ingredient": "ltxi:polymer_ingot"
-    },
-    {
-      "count": 8,
-      "ingredient": "ltxi:slatesteel_ingot"
-    },
-    {
-      "count": 8,
-      "ingredient": "#c:gears/titanium"
+      "count": 3,
+      "ingredient": "ltxi:laser_tech_part"
     },
     {
       "count": 4,
+      "ingredient": "#c:gears/titanium"
+    },
+    {
+      "count": 2,
       "ingredient": "ltxi:slatesteel_gear"
     }
   ],

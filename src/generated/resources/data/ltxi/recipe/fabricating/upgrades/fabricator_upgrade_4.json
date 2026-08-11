@@ -1,7 +1,7 @@
 {
   "type": "ltxi:fabricating",
   "energy_required": 10000000,
-  "group": "mum/fabricator",
+  "group": "upgrade/fabricator",
   "item_inputs": [
     {
       "ingredient": {
@@ -19,16 +19,20 @@
       "ingredient": "ltxi:t4_circuit"
     },
     {
-      "count": 4,
+      "count": 8,
+      "ingredient": "ltxi:tungsten_slatesteel_plate"
+    },
+    {
+      "count": 2,
       "ingredient": "ltxi:optical_tech_part"
     },
     {
-      "count": 4,
-      "ingredient": "minecraft:amethyst_block"
+      "count": 2,
+      "ingredient": "ltxi:large_voltaic_cell"
     },
     {
-      "count": 32,
-      "ingredient": "#c:dusts/sodium"
+      "count": 2,
+      "ingredient": "ltxi:laser_tech_part"
     }
   ],
   "result": {

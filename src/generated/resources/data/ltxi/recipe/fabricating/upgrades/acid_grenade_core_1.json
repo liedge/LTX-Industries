@@ -1,7 +1,7 @@
 {
   "type": "ltxi:fabricating",
   "energy_required": 25000000,
-  "group": "eum/weapon/gl",
+  "group": "upgrade/hanabi.gc4",
   "item_inputs": [
     {
       "ingredient": "ltxi:empty_upgrade_module"
@@ -11,16 +11,12 @@
       "ingredient": "ltxi:impulse_tech_part"
     },
     {
-      "count": 32,
-      "ingredient": "ltxi:titanium_glass"
-    },
-    {
-      "count": 16,
-      "ingredient": "ltxi:slatesteel_ingot"
-    },
-    {
       "count": 24,
-      "ingredient": "ltxi:polymer_ingot"
+      "ingredient": "ltxi:fluoropolymer_plate"
+    },
+    {
+      "count": 4,
+      "ingredient": "ltxi:tungsten_slatesteel_plate"
     },
     {
       "count": 16,

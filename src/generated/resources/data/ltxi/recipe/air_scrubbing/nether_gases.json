@@ -1,0 +1,13 @@
+{
+  "type": "ltxi:air_scrubbing",
+  "fluid_results": [
+    {
+      "amount": 500,
+      "id": "ltxi:sulphurine"
+    }
+  ],
+  "location": {
+    "dimension": "minecraft:the_nether"
+  },
+  "mode": "ltxi:ambient_gases"
+}

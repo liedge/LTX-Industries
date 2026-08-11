@@ -9,8 +9,7 @@
   "category": "misc",
   "ingredients": [
     "minecraft:book",
-    "#c:ingots/titanium",
-    "#c:dyes/lime"
+    "ltxi:small_voltaic_cell"
   ],
   "result": {
     "id": "ltxi:guide_tablet"

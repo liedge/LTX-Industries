@@ -1,0 +1,22 @@
+{
+  "type": "ltxi:chemical_reacting",
+  "craft_time": 400,
+  "fluid_inputs": [
+    {
+      "amount": 1000,
+      "ingredient": "#c:oxygen"
+    }
+  ],
+  "fluid_results": [
+    {
+      "amount": 1000,
+      "id": "ltxi:sulphurine"
+    }
+  ],
+  "item_inputs": [
+    {
+      "count": 4,
+      "ingredient": "#c:dusts/sulfur"
+    }
+  ]
+}

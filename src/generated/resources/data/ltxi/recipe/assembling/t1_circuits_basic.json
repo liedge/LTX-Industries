@@ -1,0 +1,30 @@
+{
+  "type": "ltxi:assembling",
+  "item_inputs": [
+    {
+      "ingredient": "ltxi:circuit_board"
+    },
+    {
+      "count": 4,
+      "ingredient": "ltxi:silicon_plate"
+    },
+    {
+      "count": 3,
+      "ingredient": "#c:plates/copper"
+    },
+    {
+      "count": 2,
+      "ingredient": "ltxi:small_voltaic_cell"
+    },
+    {
+      "count": 2,
+      "ingredient": "#c:plates/titanium"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 2,
+      "id": "ltxi:t1_circuit"
+    }
+  ]
+}

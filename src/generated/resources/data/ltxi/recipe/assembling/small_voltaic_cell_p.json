@@ -1,0 +1,23 @@
+{
+  "type": "ltxi:assembling",
+  "item_inputs": [
+    {
+      "count": 4,
+      "ingredient": "ltxi:polymer_ingot"
+    },
+    {
+      "count": 2,
+      "ingredient": "#c:plates/copper"
+    },
+    {
+      "count": 4,
+      "ingredient": "#c:dusts/sodium"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 2,
+      "id": "ltxi:small_voltaic_cell"
+    }
+  ]
+}

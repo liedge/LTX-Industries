@@ -1,0 +1,31 @@
+{
+  "type": "ltxi:arc_smelting",
+  "craft_time": 600,
+  "fluid_inputs": [
+    {
+      "amount": 1000,
+      "ingredient": "ltxi:argon"
+    }
+  ],
+  "item_inputs": [
+    {
+      "count": 6,
+      "ingredient": "#c:dusts/silicon"
+    },
+    {
+      "count": 6,
+      "ingredient": "ltxi:phosphorus_dust"
+    },
+    {
+      "count": 8,
+      "ingredient": "ltxi:olivine"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:logic_core"
+    }
+  ],
+  "mode": "ltxi:inert_smelting"
+}

@@ -1,0 +1,9 @@
+{
+  "icon": {
+    "type": "item",
+    "id": "ltxi:titanium_gear"
+  },
+  "title": {
+    "translate": "recipe_mode.ltxi.gear_pressing"
+  }
+}

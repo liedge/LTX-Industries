@@ -1,7 +1,7 @@
 {
   "type": "ltxi:fabricating",
   "energy_required": 5000000,
-  "group": "mum/fabricator",
+  "group": "upgrade/fabricator",
   "item_inputs": [
     {
       "ingredient": {
@@ -21,15 +21,17 @@
     },
     {
       "count": 4,
+      "ingredient": "ltxi:tungsten_slatesteel_plate"
+    },
+    {
+      "count": 2,
       "ingredient": "ltxi:optical_tech_part"
     },
     {
-      "count": 4,
-      "ingredient": "minecraft:amethyst_shard"
+      "ingredient": "ltxi:large_voltaic_cell"
     },
     {
-      "count": 16,
-      "ingredient": "#c:dusts/sodium"
+      "ingredient": "ltxi:laser_tech_part"
     }
   ],
   "result": {

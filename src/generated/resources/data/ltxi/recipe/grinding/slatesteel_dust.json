@@ -1,0 +1,14 @@
+{
+  "type": "ltxi:grinding",
+  "item_inputs": [
+    {
+      "ingredient": "ltxi:slatesteel_ingot"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:slatesteel_dust"
+    }
+  ]
+}

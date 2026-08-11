@@ -9,15 +9,6 @@
     {
       "count": 1,
       "id": "minecraft:gravel"
-    },
-    {
-      "count": {
-        "chance": 0.25,
-        "max": 1,
-        "min": 1
-      },
-      "id": "minecraft:flint",
-      "required": false
     }
   ]
 }

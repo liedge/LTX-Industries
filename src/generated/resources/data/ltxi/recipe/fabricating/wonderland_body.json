@@ -1,32 +1,38 @@
 {
   "type": "ltxi:fabricating",
-  "energy_required": 8000000,
-  "group": "ltx/armor.2",
+  "energy_required": 20000000,
+  "group": "1/armor.2",
   "item_inputs": [
     {
       "count": 2,
       "ingredient": "ltxi:t3_circuit"
     },
     {
-      "count": 24,
-      "ingredient": "#c:ingots/titanium"
-    },
-    {
-      "count": 8,
-      "ingredient": "ltxi:ltx_lime_pigment"
+      "count": 32,
+      "ingredient": "#c:plates/titanium"
     },
     {
       "count": 16,
-      "ingredient": "ltxi:slatesteel_ingot"
+      "ingredient": "ltxi:slatesteel_plate"
+    },
+    {
+      "count": 24,
+      "ingredient": "ltxi:fluoropolymer_plate"
     },
     {
       "count": 8,
-      "ingredient": "ltxi:polymer_ingot"
+      "ingredient": "ltxi:silicone_rubber"
+    },
+    {
+      "count": 2,
+      "ingredient": "ltxi:medium_voltaic_cell"
     }
   ],
   "result": {
     "components": {
       "ltxi:upgrades": {
+        "ltxi:armor_defense": 1,
+        "ltxi:armor_passive_shield": 1,
         "ltxi:default/wonderland_body": 1
       }
     },

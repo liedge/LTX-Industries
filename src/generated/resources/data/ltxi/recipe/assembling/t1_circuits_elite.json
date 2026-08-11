@@ -1,0 +1,20 @@
+{
+  "type": "ltxi:assembling",
+  "item_inputs": [
+    {
+      "ingredient": "ltxi:elite_circuit_board"
+    },
+    {
+      "ingredient": "#c:plates/copper"
+    },
+    {
+      "ingredient": "ltxi:logic_core"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 4,
+      "id": "ltxi:t1_circuit"
+    }
+  ]
+}

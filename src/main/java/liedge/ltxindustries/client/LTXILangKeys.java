@@ -95,8 +95,6 @@ public final class LTXILangKeys
     public static final Translatable FLUID_CAPACITY_UPGRADE = upgradeEffect("fluid_capacity");
     public static final Translatable PARALLEL_OPERATIONS_UPGRADE = upgradeEffect("parallel");
     public static final Translatable MACHINE_SPEED_UPGRADE = upgradeEffect("machine_speed");
-    public static final Translatable ENERGY_PER_RECIPE_UPGRADE = upgradeEffect("energy_per_recipe");
-    public static final Translatable INSTANT_PROCESSING_UPGRADE = upgradeEffect("instant_process");
     public static final Translatable PROJECTILE_SPEED_UPGRADE = upgradeEffect("projectile_speed");
     public static final Translatable ATTRIBUTE_SCALED_DAMAGE_UPGRADE = upgradeEffect("attribute_scaled_damage");
 

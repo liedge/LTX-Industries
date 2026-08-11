@@ -1,0 +1,24 @@
+{
+  "type": "ltxi:chemical_reacting",
+  "fluid_inputs": [
+    {
+      "amount": 1000,
+      "ingredient": "ltxi:sulfuric_acid"
+    }
+  ],
+  "item_inputs": [
+    {
+      "count": 2,
+      "ingredient": "ltxi:fluoropolymer_plate"
+    },
+    {
+      "ingredient": "#c:plates/silver"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:elite_circuit_board"
+    }
+  ]
+}

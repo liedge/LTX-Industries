@@ -1,0 +1,19 @@
+{
+  "type": "ltxi:grinding",
+  "craft_time": 300,
+  "fluid_results": [
+    {
+      "amount": 200,
+      "id": "ltxi:ammonia"
+    }
+  ],
+  "item_inputs": [
+    {
+      "ingredient": [
+        "minecraft:warped_fungus",
+        "minecraft:crimson_fungus"
+      ]
+    }
+  ],
+  "mode": "ltxi:element_extraction"
+}

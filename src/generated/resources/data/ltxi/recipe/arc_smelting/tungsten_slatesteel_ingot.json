@@ -1,0 +1,22 @@
+{
+  "type": "ltxi:arc_smelting",
+  "craft_time": 1200,
+  "fluid_inputs": [
+    {
+      "amount": 500,
+      "ingredient": "ltxi:nitrogen"
+    }
+  ],
+  "item_inputs": [
+    {
+      "ingredient": "ltxi:tungsten_slatesteel_dust"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:tungsten_slatesteel_ingot"
+    }
+  ],
+  "mode": "ltxi:inert_smelting"
+}

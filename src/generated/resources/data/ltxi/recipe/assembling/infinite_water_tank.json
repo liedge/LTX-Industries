@@ -1,9 +1,9 @@
 {
   "type": "ltxi:assembling",
-  "craft_time": 600,
+  "craft_time": 1200,
   "fluid_inputs": [
     {
-      "amount": 32000,
+      "amount": 2500000,
       "ingredient": "#minecraft:water"
     }
   ],
@@ -21,12 +21,20 @@
       "ingredient": "ltxi:t4_circuit"
     },
     {
-      "count": 2,
+      "count": 32,
+      "ingredient": "ltxi:slatesteel_plate"
+    },
+    {
+      "count": 4,
       "ingredient": "ltxi:slatesteel_gear"
     },
     {
       "count": 16,
-      "ingredient": "ltxi:polymer_ingot"
+      "ingredient": "ltxi:fluoropolymer_plate"
+    },
+    {
+      "count": 32,
+      "ingredient": "ltxi:silicone_rubber"
     }
   ],
   "item_results": [

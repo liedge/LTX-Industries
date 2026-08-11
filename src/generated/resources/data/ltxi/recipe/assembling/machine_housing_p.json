@@ -1,0 +1,19 @@
+{
+  "type": "ltxi:assembling",
+  "item_inputs": [
+    {
+      "count": 8,
+      "ingredient": "#c:plates/titanium"
+    },
+    {
+      "count": 4,
+      "ingredient": "ltxi:polymer_ingot"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:machine_housing"
+    }
+  ]
+}

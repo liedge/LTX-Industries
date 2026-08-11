@@ -1,7 +1,7 @@
 {
   "type": "ltxi:fabricating",
   "energy_required": 10000000,
-  "group": "eum/armor",
+  "group": "upgrade/armor",
   "item_inputs": [
     {
       "ingredient": {
@@ -15,19 +15,16 @@
       }
     },
     {
-      "count": 4,
+      "count": 3,
       "ingredient": "ltxi:t3_circuit"
     },
     {
       "count": 8,
-      "ingredient": "#c:ingots/titanium"
+      "ingredient": "ltxi:fluoropolymer_plate"
     },
     {
-      "count": 8,
-      "ingredient": "ltxi:slatesteel_ingot"
-    },
-    {
-      "ingredient": "#c:gears/titanium"
+      "count": 2,
+      "ingredient": "ltxi:medium_voltaic_cell"
     },
     {
       "count": 16,

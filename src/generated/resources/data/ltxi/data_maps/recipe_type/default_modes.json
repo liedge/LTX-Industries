@@ -1,11 +1,13 @@
 {
   "values": {
     "ltxi:air_scrubbing": "#ltxi:default/air_scrubbing",
+    "ltxi:arc_smelting": "#ltxi:default/arc_smelting",
     "ltxi:chemical_reacting": "#ltxi:default/chemical_reacting",
     "ltxi:electro_centrifuging": "#ltxi:default/electro_centrifuging",
     "ltxi:energizing": "#ltxi:default/energizing",
     "ltxi:garden_simulating": "#ltxi:default/garden_simulating",
     "ltxi:grinding": "#ltxi:default/grinding",
-    "ltxi:mixing": "#ltxi:default/mixing"
+    "ltxi:mixing": "#ltxi:default/mixing",
+    "ltxi:pressing": "#ltxi:default/pressing"
   }
 }

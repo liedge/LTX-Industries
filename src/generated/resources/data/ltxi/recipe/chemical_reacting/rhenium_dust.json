@@ -1,0 +1,22 @@
+{
+  "type": "ltxi:chemical_reacting",
+  "craft_time": 1200,
+  "fluid_inputs": [
+    {
+      "amount": 4000,
+      "ingredient": "#c:hydrogen"
+    }
+  ],
+  "item_inputs": [
+    {
+      "count": 2,
+      "ingredient": "ltxi:ammonium_perrhenate"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:rhenium_dust"
+    }
+  ]
+}

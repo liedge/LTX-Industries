@@ -2,15 +2,15 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "c": "minecraft:copper_ingot",
-    "l": "minecraft:lightning_rod",
-    "s": "#c:dusts/sodium",
+    "c": "minecraft:copper_block",
+    "e": "#c:dusts/sodium",
+    "s": "#c:ingots/silver",
     "t": "#c:ingots/titanium"
   },
   "pattern": [
-    "tct",
-    "sls",
-    "scs"
+    "tst",
+    "ece",
+    "eee"
   ],
   "result": {
     "id": "ltxi:small_voltaic_cell"

@@ -1,0 +1,25 @@
+{
+  "type": "ltxi:chemical_reacting",
+  "craft_time": 600,
+  "fluid_inputs": [
+    {
+      "amount": 4000,
+      "ingredient": "#c:hydrogen"
+    }
+  ],
+  "item_inputs": [
+    {
+      "ingredient": "ltxi:slatesteel_dust"
+    },
+    {
+      "count": 2,
+      "ingredient": "ltxi:tungsten_trioxide"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:tungsten_slatesteel_dust"
+    }
+  ]
+}

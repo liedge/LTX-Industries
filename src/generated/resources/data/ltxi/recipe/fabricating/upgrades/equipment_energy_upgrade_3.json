@@ -1,7 +1,7 @@
 {
   "type": "ltxi:fabricating",
   "energy_required": 500000,
-  "group": "eum/tool",
+  "group": "upgrade/tool",
   "item_inputs": [
     {
       "ingredient": {
@@ -16,23 +16,23 @@
       }
     },
     {
+      "count": 2,
       "ingredient": "ltxi:t3_circuit"
     },
     {
+      "count": 12,
+      "ingredient": "#c:plates/titanium"
+    },
+    {
+      "count": 12,
+      "ingredient": "ltxi:fluoropolymer_ingot"
+    },
+    {
       "count": 8,
-      "ingredient": "#c:ingots/titanium"
+      "ingredient": "ltxi:silicone_rubber"
     },
     {
-      "count": 16,
-      "ingredient": "ltxi:polymer_ingot"
-    },
-    {
-      "count": 4,
-      "ingredient": "minecraft:gold_ingot"
-    },
-    {
-      "count": 16,
-      "ingredient": "#c:dusts/sodium"
+      "ingredient": "ltxi:large_voltaic_cell"
     }
   ],
   "result": {

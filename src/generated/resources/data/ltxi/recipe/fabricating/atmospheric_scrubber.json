@@ -1,0 +1,42 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 5000000,
+  "group": "0/machine",
+  "item_inputs": [
+    {
+      "ingredient": "ltxi:machine_housing"
+    },
+    {
+      "count": 8,
+      "ingredient": [
+        "ltxi:polymer_ingot",
+        "ltxi:fluoropolymer_ingot"
+      ]
+    },
+    {
+      "count": 2,
+      "ingredient": "ltxi:t3_circuit"
+    },
+    {
+      "ingredient": {
+        "neoforge:ingredient_type": "neoforge:components",
+        "components": {
+          "limacore:fluid": {}
+        },
+        "items": "ltxi:portable_tank"
+      }
+    },
+    {
+      "count": 2,
+      "ingredient": "ltxi:slatesteel_gear"
+    },
+    {
+      "count": 4,
+      "ingredient": "minecraft:iron_bars"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "ltxi:atmospheric_scrubber"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "type": "ltxi:grinding",
+  "item_inputs": [
+    {
+      "ingredient": "minecraft:charcoal"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:carbon_dust"
+    }
+  ],
+  "mode": "ltxi:element_extraction"
+}

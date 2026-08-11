@@ -1,9 +1,8 @@
 {
   "type": "ltxi:electro_centrifuging",
-  "craft_time": 600,
   "fluid_inputs": [
     {
-      "amount": 200,
+      "amount": 125,
       "ingredient": "ltxi:hydrochloric_acid"
     }
   ],
@@ -24,6 +23,14 @@
         "min": 1
       },
       "id": "ltxi:olivine_ore_crystal"
+    },
+    {
+      "count": {
+        "chance": 0.05,
+        "max": 1,
+        "min": 1
+      },
+      "id": "ltxi:pyroxene"
     }
   ],
   "mode": "ltxi:ore_processing"

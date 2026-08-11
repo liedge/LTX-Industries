@@ -1,0 +1,24 @@
+{
+  "type": "ltxi:air_scrubbing",
+  "fluid_results": [
+    {
+      "amount": 500,
+      "id": "ltxi:nitrogen"
+    }
+  ],
+  "item_results": [
+    {
+      "count": {
+        "chance": 0.025,
+        "max": 1,
+        "min": 1
+      },
+      "id": "ltxi:carbon_dust",
+      "required": false
+    }
+  ],
+  "location": {
+    "dimension": "minecraft:overworld"
+  },
+  "mode": "ltxi:ambient_gases"
+}

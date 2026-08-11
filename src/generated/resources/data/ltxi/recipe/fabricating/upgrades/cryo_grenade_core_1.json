@@ -1,7 +1,7 @@
 {
   "type": "ltxi:fabricating",
   "energy_required": 2500000,
-  "group": "eum/weapon/gl",
+  "group": "upgrade/hanabi.gc2",
   "item_inputs": [
     {
       "ingredient": "ltxi:empty_upgrade_module"
@@ -10,12 +10,8 @@
       "ingredient": "ltxi:impulse_tech_part"
     },
     {
-      "count": 4,
-      "ingredient": "#c:ingots/titanium"
-    },
-    {
-      "count": 8,
-      "ingredient": "ltxi:titanium_glass"
+      "count": 24,
+      "ingredient": "#c:plates/titanium"
     },
     {
       "count": 16,

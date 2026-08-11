@@ -1,7 +1,7 @@
 {
   "type": "ltxi:fabricating",
-  "energy_required": 20000000,
-  "group": "upgrades/storage",
+  "energy_required": 30000000,
+  "group": "upgrade/storage",
   "item_inputs": [
     {
       "ingredient": {
@@ -16,27 +16,20 @@
       }
     },
     {
-      "ingredient": "ltxi:t4_circuit"
+      "count": 32,
+      "ingredient": "#c:plates/titanium"
     },
     {
       "count": 8,
-      "ingredient": "#c:ingots/titanium"
+      "ingredient": "ltxi:tungsten_slatesteel_plate"
     },
     {
-      "count": 8,
-      "ingredient": "ltxi:slatesteel_ingot"
-    },
-    {
-      "count": 24,
-      "ingredient": "ltxi:polymer_ingot"
+      "count": 16,
+      "ingredient": "ltxi:silicone_rubber"
     },
     {
       "count": 32,
       "ingredient": "ltxi:titanium_glass"
-    },
-    {
-      "count": 4,
-      "ingredient": "ltxi:chorus_chemical"
     }
   ],
   "result": {

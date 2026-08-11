@@ -1,0 +1,16 @@
+{
+  "type": "ltxi:pressing",
+  "item_inputs": [
+    {
+      "count": 4,
+      "ingredient": "#c:ingots/titanium"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:titanium_gear"
+    }
+  ],
+  "mode": "ltxi:gear_pressing"
+}

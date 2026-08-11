@@ -2,17 +2,17 @@
   "type": "ltxi:chemical_reacting",
   "fluid_inputs": [
     {
-      "amount": 125,
+      "amount": 500,
       "ingredient": "ltxi:sulfuric_acid"
     }
   ],
   "item_inputs": [
     {
-      "ingredient": "ltxi:polymer_ingot"
+      "count": 2,
+      "ingredient": "ltxi:polymer_plate"
     },
     {
-      "count": 2,
-      "ingredient": "minecraft:copper_ingot"
+      "ingredient": "#c:plates/copper"
     }
   ],
   "item_results": [

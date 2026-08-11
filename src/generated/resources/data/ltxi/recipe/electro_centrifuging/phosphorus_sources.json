@@ -1,0 +1,21 @@
+{
+  "type": "ltxi:electro_centrifuging",
+  "craft_time": 300,
+  "item_inputs": [
+    {
+      "count": 2,
+      "ingredient": [
+        "minecraft:glowstone_dust",
+        "minecraft:blaze_powder",
+        "minecraft:glow_berries"
+      ]
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:phosphorus_dust"
+    }
+  ],
+  "mode": "ltxi:element_extraction"
+}

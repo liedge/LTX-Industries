@@ -1,0 +1,7 @@
+{
+  "icon": "ltxi:gas_smelting",
+  "title": {
+    "color": "#8F73F6",
+    "translate": "recipe_mode.ltxi.inert_smelting"
+  }
+}

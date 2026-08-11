@@ -1,0 +1,15 @@
+{
+  "type": "ltxi:pressing",
+  "item_inputs": [
+    {
+      "ingredient": "ltxi:polymer_ingot"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:polymer_plate"
+    }
+  ],
+  "mode": "ltxi:plate_pressing"
+}

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "b": "minecraft:iron_bars",
+    "g": "ltxi:slatesteel_gear",
+    "m": "ltxi:empty_upgrade_module",
+    "s": "ltxi:slatesteel_plate"
+  },
+  "pattern": [
+    "sbs",
+    "bmb",
+    "gbg"
+  ],
+  "result": {
+    "components": {
+      "ltxi:upgrade": {
+        "upgrade": "ltxi:ore_process_2"
+      }
+    },
+    "id": "ltxi:upgrade_module"
+  }
+}

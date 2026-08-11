@@ -1,0 +1,21 @@
+{
+  "type": "ltxi:arc_smelting",
+  "fluid_inputs": [
+    {
+      "amount": 125,
+      "ingredient": "ltxi:nitrogen"
+    }
+  ],
+  "item_inputs": [
+    {
+      "ingredient": "#c:dusts/silicon"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:silicon_ingot"
+    }
+  ],
+  "mode": "ltxi:inert_smelting"
+}

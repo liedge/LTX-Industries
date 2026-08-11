@@ -5,16 +5,6 @@
       "namespace": "ltxi",
       "prefix": "",
       "source": "modular_icon"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "ltxi:item/titanium_gear",
-      "sprite": "ltxi:titanium_gear"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "ltxi:item/slatesteel_gear",
-      "sprite": "ltxi:slatesteel_gear"
     }
   ]
 }

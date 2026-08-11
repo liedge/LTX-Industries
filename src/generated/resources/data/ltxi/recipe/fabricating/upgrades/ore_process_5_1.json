@@ -1,0 +1,41 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 50000000,
+  "group": "machines/ores",
+  "item_inputs": [
+    {
+      "ingredient": "ltxi:empty_upgrade_module"
+    },
+    {
+      "count": 24,
+      "ingredient": "ltxi:titanium_glass"
+    },
+    {
+      "ingredient": "ltxi:t4_circuit"
+    },
+    {
+      "count": 8,
+      "ingredient": "#c:gears/titanium"
+    },
+    {
+      "count": 4,
+      "ingredient": "ltxi:slatesteel_gear"
+    },
+    {
+      "ingredient": "ltxi:large_voltaic_cell"
+    },
+    {
+      "count": 32,
+      "ingredient": "#c:dusts/sodium"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:upgrade": {
+        "upgrade": "ltxi:ore_process_5"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:upgrade_module"
+  }
+}

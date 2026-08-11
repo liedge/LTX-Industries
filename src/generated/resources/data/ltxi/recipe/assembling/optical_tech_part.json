@@ -1,17 +1,20 @@
 {
   "type": "ltxi:assembling",
-  "craft_time": 200,
   "item_inputs": [
+    {
+      "count": 6,
+      "ingredient": "#c:plates/titanium"
+    },
     {
       "ingredient": "ltxi:t2_circuit"
     },
     {
       "count": 2,
-      "ingredient": "ltxi:titanium_glass"
+      "ingredient": "ltxi:small_voltaic_cell"
     },
     {
-      "count": 6,
-      "ingredient": "#c:dusts/sodium"
+      "count": 4,
+      "ingredient": "ltxi:titanium_glass"
     }
   ],
   "item_results": [

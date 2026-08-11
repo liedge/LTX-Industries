@@ -200,13 +200,13 @@ public final class LTXIMachinesConfig
 
         builder.comment("Portable Generator").push("portable_generator");
         PORTABLE_GENERATOR_CAPACITY = ConfigUtil.energyCapacity(builder, 100_000);
-        PORTABLE_GENERATOR_GENERATION = ConfigUtil.positiveInt(builder, "energy_generation", "Energy generated per tick", 40);
+        PORTABLE_GENERATOR_GENERATION = ConfigUtil.positiveInt(builder, "energy_generation", "Energy generated per tick", 60);
         PORTABLE_GENERATOR_ENERGY_PER_FUEL = ConfigUtil.positiveInt(builder, "energy_per_fuel", "How much energy a fuel unit produces", 2500);
         builder.pop();
 
         builder.comment("Solar Panel").push("solar_panel");
-        SOLAR_PANEL_CAPACITY = ConfigUtil.energyCapacity(builder, 80_000);
-        SOLAR_PANEL_GENERATION = ConfigUtil.positiveInt(builder, "energy_generation", "Energy generated per tick", 25);
+        SOLAR_PANEL_CAPACITY = ConfigUtil.energyCapacity(builder, 100_000);
+        SOLAR_PANEL_GENERATION = ConfigUtil.positiveInt(builder, "energy_generation", "Energy generated per tick", 30);
         builder.pop();
 
         builder.comment("Repair Station").push("repair_station");

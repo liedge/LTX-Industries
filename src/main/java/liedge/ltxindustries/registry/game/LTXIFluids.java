@@ -41,12 +41,10 @@ public final class LTXIFluids
         registerSimpleFluid(helper, SEA_WATER_TYPE, SEA_WATER, FLOWING_SEA_WATER, LTXIItems.SEA_WATER_BUCKET);
         registerSimpleFluid(helper, AMMONIA_TYPE, AMMONIA, FLOWING_AMMONIA, LTXIItems.AMMONIA_BUCKET);
         registerSimpleFluid(helper, HYDROCHLORIC_ACID_TYPE, HYDROCHLORIC_ACID, FLOWING_HYDROCHLORIC_ACID, LTXIItems.HYDROCHLORIC_ACID_BUCKET);
-        registerFluid(helper, SULFURIC_ACID_TYPE, SULFURIC_ACID, FLOWING_SULFURIC_ACID, properties -> properties.block(LTXIBlocks.SULFURIC_ACID_BLOCK).bucket(LTXIItems.SULFURIC_ACID_BUCKET));
-        registerSimpleFluid(helper, LIQUID_SILICONE_TYPE, LIQUID_SILICONE, FLOWING_LIQUID_SILICONE, LTXIItems.LIQUID_SILICONE_BUCKET);
+        registerSimpleFluid(helper, SULFURIC_ACID_TYPE, SULFURIC_ACID, FLOWING_SULFURIC_ACID, LTXIItems.SULFURIC_ACID_BUCKET);
+        registerSimpleFluid(helper, HYDROFLUORIC_ACID_TYPE, HYDROFLUORIC_ACID, FLOWING_HYDROFLUORIC_ACID, LTXIItems.HYDROFLUORIC_ACID_BUCKET);
+        registerSimpleFluid(helper, SILICONE_OIL_TYPE, SILICONE_OIL, FLOWING_SILICONE_OIL, LTXIItems.SILICONE_OIL_BUCKET);
     }
-
-    // Light levels
-    public static final int SULFURIC_ACID_LIGHT = 7;
 
     //#region Fluid Types
     public static final DeferredHolder<FluidType, FluidType> HYDROGEN_TYPE = simpleType(LTXIIdentifiers.ID_HYDROGEN);
@@ -58,9 +56,10 @@ public final class LTXIFluids
     public static final DeferredHolder<FluidType, FluidType> SULPHURINE_TYPE = simpleType(LTXIIdentifiers.ID_SULPHURINE);
     public static final DeferredHolder<FluidType, FluidType> SEA_WATER_TYPE = simpleType(LTXIIdentifiers.ID_SEA_WATER);
     public static final DeferredHolder<FluidType, FluidType> AMMONIA_TYPE = simpleType(LTXIIdentifiers.ID_AMMONIA);
-    public static final DeferredHolder<FluidType, FluidType> HYDROCHLORIC_ACID_TYPE = simpleType(LTXIIdentifiers.ID_HYDROCHLORIC_ACID);
-    public static final DeferredHolder<FluidType, FluidType> SULFURIC_ACID_TYPE = registerType(LTXIIdentifiers.ID_SULFURIC_ACID, properties -> properties.lightLevel(SULFURIC_ACID_LIGHT));
-    public static final DeferredHolder<FluidType, FluidType> LIQUID_SILICONE_TYPE = simpleType(LTXIIdentifiers.ID_LIQUID_SILICONE);
+    public static final DeferredHolder<FluidType, FluidType> HYDROCHLORIC_ACID_TYPE = simpleType(LTXIIdentifiers.ID_HYDROCHLORIC_ACID, 7);
+    public static final DeferredHolder<FluidType, FluidType> SULFURIC_ACID_TYPE = simpleType(LTXIIdentifiers.ID_SULFURIC_ACID, 7);
+    public static final DeferredHolder<FluidType, FluidType> HYDROFLUORIC_ACID_TYPE = simpleType(LTXIIdentifiers.ID_HYDROFLUORIC_ACID, 7);
+    public static final DeferredHolder<FluidType, FluidType> SILICONE_OIL_TYPE = simpleType(LTXIIdentifiers.ID_SILICONE_OIL);
     //#endregion
 
     //#region Fluids
@@ -86,8 +85,10 @@ public final class LTXIFluids
     public static final DeferredHolder<Fluid, BaseFlowingFluid.Flowing> FLOWING_HYDROCHLORIC_ACID = flowing(HYDROCHLORIC_ACID_TYPE);
     public static final DeferredHolder<Fluid, BaseFlowingFluid.Source> SULFURIC_ACID = source(SULFURIC_ACID_TYPE);
     public static final DeferredHolder<Fluid, BaseFlowingFluid.Flowing> FLOWING_SULFURIC_ACID = flowing(SULFURIC_ACID_TYPE);
-    public static final DeferredHolder<Fluid, BaseFlowingFluid.Source> LIQUID_SILICONE = source(LIQUID_SILICONE_TYPE);
-    public static final DeferredHolder<Fluid, BaseFlowingFluid.Flowing> FLOWING_LIQUID_SILICONE = flowing(LIQUID_SILICONE_TYPE);
+    public static final DeferredHolder<Fluid, BaseFlowingFluid.Source> HYDROFLUORIC_ACID = source(HYDROFLUORIC_ACID_TYPE);
+    public static final DeferredHolder<Fluid, BaseFlowingFluid.Flowing> FLOWING_HYDROFLUORIC_ACID = flowing(HYDROFLUORIC_ACID_TYPE);
+    public static final DeferredHolder<Fluid, BaseFlowingFluid.Source> SILICONE_OIL = source(SILICONE_OIL_TYPE);
+    public static final DeferredHolder<Fluid, BaseFlowingFluid.Flowing> FLOWING_SILICONE_OIL = flowing(SILICONE_OIL_TYPE);
     //#endregion
 
     private static DeferredHolder<Fluid, BaseFlowingFluid.Source> source(DeferredHolder<FluidType, ?> typeHolder)
@@ -100,16 +101,17 @@ public final class LTXIFluids
         return DeferredHolder.create(Registries.FLUID, typeHolder.getId().withPrefix("flowing_"));
     }
 
-    private static DeferredHolder<FluidType, FluidType> registerType(String name, UnaryOperator<FluidType.Properties> propertiesOp)
+    private static DeferredHolder<FluidType, FluidType> simpleType(String name, int lightLevel)
     {
-        return TYPES.register(name, () -> new FluidType(propertiesOp.apply(FluidType.Properties.create()
+        return TYPES.register(name, () -> new FluidType(FluidType.Properties.create()
                 .sound(SoundActions.BUCKET_FILL, SoundEvents.BUCKET_FILL)
-                .sound(SoundActions.BUCKET_EMPTY, SoundEvents.BUCKET_EMPTY))));
+                .sound(SoundActions.BUCKET_EMPTY, SoundEvents.BUCKET_EMPTY)
+                .lightLevel(lightLevel)));
     }
 
     private static DeferredHolder<FluidType, FluidType> simpleType(String name)
     {
-        return registerType(name, UnaryOperator.identity());
+        return simpleType(name, 0);
     }
 
     private static void registerFluid(RegisterEvent.RegisterHelper<Fluid> helper, Supplier<FluidType> typeSupplier, DeferredHolder<Fluid, ?> source, DeferredHolder<Fluid, ?> flowing, UnaryOperator<BaseFlowingFluid.Properties> op)

@@ -11,16 +11,12 @@
       "ingredient": "ltxi:t3_circuit"
     },
     {
-      "count": 16,
-      "ingredient": "#c:ingots/titanium"
+      "count": 6,
+      "ingredient": "ltxi:fluoropolymer_ingot"
     },
     {
       "count": 16,
-      "ingredient": "ltxi:polymer_ingot"
-    },
-    {
-      "count": 16,
-      "ingredient": "#minecraft:wool"
+      "ingredient": "ltxi:silicone_rubber"
     },
     {
       "count": 8,

@@ -1,0 +1,29 @@
+{
+  "type": "ltxi:sieving",
+  "fluid_inputs": [
+    {
+      "amount": 1000,
+      "ingredient": "#minecraft:water"
+    }
+  ],
+  "item_inputs": [
+    {
+      "ingredient": "ltxi:crushed_fluorite_ore"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:washed_fluorite_ore"
+    },
+    {
+      "count": {
+        "chance": 0.5,
+        "max": 1,
+        "min": 1
+      },
+      "id": "ltxi:washed_fluorite_ore"
+    }
+  ],
+  "mode": "ltxi:ore_processing"
+}

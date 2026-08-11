@@ -96,6 +96,7 @@ class ModelsGen extends ModelProvider
                 RAW_TITANIUM,
                 RAW_SILVER,
                 RAW_OLIVINE,
+                RAW_FLUORITE,
                 RAW_NIOBIUM,
                 // Ingots
                 TITANIUM_INGOT,
@@ -106,8 +107,11 @@ class ModelsGen extends ModelProvider
                 SLATESTEEL_INGOT,
                 TUNGSTEN_SLATESTEEL_INGOT,
                 POLYMER_INGOT,
+                FLUOROPOLYMER_INGOT,
+                SILICONE_RUBBER,
                 // Gems
                 OLIVINE,
+                FLUORITE,
                 PYROXENE,
                 // Nuggets
                 TITANIUM_NUGGET,
@@ -115,9 +119,17 @@ class ModelsGen extends ModelProvider
                 NIOBIUM_NUGGET,
                 SLATESTEEL_NUGGET,
                 // Dusts
+                TITANIUM_DUST,
+                SILVER_DUST,
+                NIOBIUM_DUST,
+                RHENIUM_DUST,
                 CARBON_DUST,
                 SODIUM_DUST,
                 SILICON_DUST,
+                PHOSPHORUS_DUST,
+                SULFUR_DUST,
+                SLATESTEEL_DUST,
+                TUNGSTEN_SLATESTEEL_DUST,
                 DEEPSLATE_DUST,
                 PERIDOTITE_DUST,
                 RESINOUS_BIOMASS,
@@ -130,13 +142,29 @@ class ModelsGen extends ModelProvider
                 ELECTRIC_CHARTREUSE_PIGMENT,
                 CORROSIVE_GREEN_PIGMENT,
                 GLOOM_BLUE_PIGMENT,
+                // Gears
                 TITANIUM_GEAR,
                 SLATESTEEL_GEAR,
+                // Plates
+                COPPER_PLATE,
+                GOLD_PLATE,
+                TITANIUM_PLATE,
+                SILVER_PLATE,
+                NIOBIUM_PLATE,
+                RHENIUM_PLATE,
+                SILICON_PLATE,
+                SLATESTEEL_PLATE,
+                TUNGSTEN_SLATESTEEL_PLATE,
+                POLYMER_PLATE,
+                FLUOROPOLYMER_PLATE,
+                // Components
                 SMALL_VOLTAIC_CELL,
                 MEDIUM_VOLTAIC_CELL,
                 LARGE_VOLTAIC_CELL,
                 CIRCUIT_BOARD,
-                NANO_CORE,
+                ELITE_CIRCUIT_BOARD,
+                LOGIC_CORE,
+                NANO_LOGIC_CORE,
                 T1_CIRCUIT,
                 T2_CIRCUIT,
                 T3_CIRCUIT,
@@ -144,17 +172,18 @@ class ModelsGen extends ModelProvider
                 T5_CIRCUIT,
                 OPTICAL_TECH_PART,
                 IMPULSE_TECH_PART,
+                LASER_TECH_PART,
                 WONDERLAND_HEAD,
                 WONDERLAND_BODY,
                 WONDERLAND_LEGS,
                 WONDERLAND_FEET,
-                MONOMER_CHEMICAL,
                 CORROSIVE_WEAPON_CHEMICAL,
                 CHORUS_CHEMICAL,
                 SCULK_CHEMICAL,
-                GLOOM_CHEMICAL,
+                GLOOM_WEAPON_CHEMICAL,
                 TUNGSTEN_TRIOXIDE,
                 RHENIUM_7_OXIDE,
+                AMMONIUM_PERRHENATE,
                 EMPTY_UPGRADE_MODULE,
                 UPGRADE_MODULE,
                 EMPTY_FABRICATION_BLUEPRINT,
@@ -166,6 +195,8 @@ class ModelsGen extends ModelProvider
                 SPECIALIST_WEAPON_ENERGY,
                 EXPLOSIVES_WEAPON_ENERGY,
                 HEAVY_WEAPON_ENERGY);
+
+        existingItem(models, MACHINE_HOUSING);
 
         oreGroupModels(models, CRUSHED_ORES, "crushed_ore");
         oreGroupModels(models, WASHED_ORES, "washed_ore");
@@ -238,7 +269,8 @@ class ModelsGen extends ModelProvider
         bucket(models, AMMONIA_BUCKET, LTXIFluids.AMMONIA);
         bucket(models, HYDROCHLORIC_ACID_BUCKET, LTXIFluids.HYDROCHLORIC_ACID);
         bucket(models, SULFURIC_ACID_BUCKET, LTXIFluids.SULFURIC_ACID);
-        bucket(models, LIQUID_SILICONE_BUCKET, LTXIFluids.LIQUID_SILICONE);
+        bucket(models, HYDROFLUORIC_ACID_BUCKET, LTXIFluids.HYDROFLUORIC_ACID);
+        bucket(models, SILICONE_OIL_BUCKET, LTXIFluids.SILICONE_OIL);
     }
 
     private void registerBlockModels(BlockModelGenerators models)
@@ -287,16 +319,15 @@ class ModelsGen extends ModelProvider
         createBasicBinaryMachine(models, LTXIBlocks.DIGITAL_SMOKER, Templates.BASIC_MACHINE_IDLE, Templates.BASIC_MACHINE_ACTIVE);
         createBasicBinaryMachine(models, LTXIBlocks.DIGITAL_BLAST_FURNACE, Templates.BASIC_MACHINE_IDLE, Templates.BASIC_MACHINE_ACTIVE);
         createCompositeBinaryMachine(models, LTXIBlocks.GRINDER,
-                List.of(Parts.EMISSIVE_ACTIVE, "front_crusher", "rear_crusher"), List.of("front_crusher", "rear_crusher"), List.of());
+                List.of(Parts.EMISSIVE_ACTIVE, "front_crusher", "rear_crusher"), List.of("front_crusher", "rear_crusher"), List.of(Parts.EMISSIVE_ACTIVE));
         createCompositeBinaryMachine(models, LTXIBlocks.MATERIAL_PRESS, List.of(Parts.EMISSIVE_ACTIVE, "hammer"), List.of("hammer"), List.of(Parts.EMISSIVE_ACTIVE));
         createCompositeBinaryMachine(models, LTXIBlocks.ARC_FURNACE, List.of(Parts.EMISSIVE_ACTIVE), List.of(), List.of(Parts.EMISSIVE_ACTIVE));
         createCompositeBinaryMachine(models, LTXIBlocks.HYDROSIEVE,
                 List.of(Parts.EMISSIVE_ACTIVE, Parts.IMPELLER, "water"), List.of(Parts.IMPELLER), List.of(Parts.EMISSIVE_ACTIVE, "water"));
-        createCompositeBinaryMachine(models, LTXIBlocks.ELECTROCENTRIFUGE,
-                List.of(Parts.EMISSIVE_ACTIVE, "tubes", "tubes_emissive"), List.of("tubes", "tubes_emissive"), List.of());
-        createCompositeBinaryMachine(models, LTXIBlocks.MIXER, List.of(Parts.EMISSIVE_ACTIVE, "blades"), List.of("blades"), List.of());
-        createCompositeBinaryMachine(models, LTXIBlocks.VOLTAIC_INJECTOR, List.of(Parts.EMISSIVE_ACTIVE), List.of(), List.of());
-        createCompositeBinaryMachine(models, LTXIBlocks.CHEM_LAB, List.of(Parts.EMISSIVE_ACTIVE, "fluid"), List.of(), List.of("fluid"));
+        createCompositeBinaryMachine(models, LTXIBlocks.ELECTROCENTRIFUGE, List.of(Parts.EMISSIVE_ACTIVE, "tubes"), List.of("tubes"), List.of(Parts.EMISSIVE_ACTIVE));
+        createCompositeBinaryMachine(models, LTXIBlocks.MIXER, List.of(Parts.EMISSIVE_ACTIVE, "blades"), List.of("blades"), List.of(Parts.EMISSIVE_ACTIVE));
+        createCompositeBinaryMachine(models, LTXIBlocks.VOLTAIC_INJECTOR, List.of(Parts.EMISSIVE_ACTIVE), List.of(), List.of(Parts.EMISSIVE_ACTIVE));
+        createCompositeBinaryMachine(models, LTXIBlocks.CHEM_LAB, List.of(Parts.EMISSIVE_ACTIVE, "fluid"), List.of(), List.of("fluid", Parts.EMISSIVE_ACTIVE));
         createBasicBinaryMachine(models, LTXIBlocks.ASSEMBLER, Templates.ASSEMBLER, null);
         createCompositeBinaryMachine(models, LTXIBlocks.GEO_SYNTHESIZER,
                 List.of(Parts.EMISSIVE_ACTIVE),
@@ -314,7 +345,6 @@ class ModelsGen extends ModelProvider
         createTurretBlock(models, LTXIBlocks.ROCKET_TURRET);
         createTurretBlock(models, LTXIBlocks.RAILGUN_TURRET);
 
-        models.createAirLikeBlock(LTXIBlocks.SULFURIC_ACID_BLOCK.get(), new Material(resources.id("block/sulfuric_acid_still")));
         createGlowstick(models);
         models.blockStateOutput.accept(MultiVariantGenerator.dispatch(LTXIBlocks.MESH_BLOCK.get(), BlockModelGenerators.plainVariant(Templates.MACHINE_BLOCK.model.orElseThrow())));
 
@@ -382,6 +412,11 @@ class ModelsGen extends ModelProvider
         {
             models.generateFlatItem(item.asItem(), ModelTemplates.FLAT_ITEM);
         }
+    }
+
+    private void existingItem(ItemModelGenerators models, ItemLike item)
+    {
+        models.itemModelOutput.accept(item.asItem(), ItemModelUtils.plainModel(ModelLocationUtils.getModelLocation(item.asItem())));
     }
 
     private ItemModel.Unbaked emissiveFlatModel(Identifier rootPath, ModelTemplate template, @Nullable Identifier baseTexture, @Nullable Identifier emissiveTexture, BiConsumer<Identifier, ModelInstance> output)
@@ -753,7 +788,6 @@ class ModelsGen extends ModelProvider
         private static final ModelTemplate BASIC_MACHINE_IDLE = builder("block/basic_machine_idle").requiredTextureSlot(TextureSlot.FRONT).build();
         private static final ModelTemplate BASIC_MACHINE_ACTIVE = builder("block/basic_machine_active").requiredTextureSlot(TextureSlot.FRONT)
                 .requiredTextureSlot(Textures.FRONT_EMISSIVE).build();
-        private static final ModelTemplate ASSEMBLER = builder("block/assembler").requiredTextureSlot(TextureSlot.FRONT).build();
         private static final ModelTemplate TURRET = builder("block/template/turret").build();
 
         private static ExtendedModelTemplateBuilder builder(String path)

@@ -1,0 +1,13 @@
+{
+  "type": "ltxi:air_scrubbing",
+  "fluid_results": [
+    {
+      "amount": 1000,
+      "id": "minecraft:lava"
+    }
+  ],
+  "location": {
+    "dimension": "minecraft:the_nether"
+  },
+  "mode": "ltxi:ambient_fluids"
+}

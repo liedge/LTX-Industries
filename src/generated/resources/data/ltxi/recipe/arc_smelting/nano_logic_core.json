@@ -1,0 +1,31 @@
+{
+  "type": "ltxi:arc_smelting",
+  "craft_time": 1200,
+  "fluid_inputs": [
+    {
+      "amount": 4000,
+      "ingredient": "ltxi:argon"
+    }
+  ],
+  "item_inputs": [
+    {
+      "count": 2,
+      "ingredient": "ltxi:logic_core"
+    },
+    {
+      "count": 8,
+      "ingredient": "ltxi:pyroxene"
+    },
+    {
+      "count": 4,
+      "ingredient": "ltxi:niobium_dust"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:nano_logic_core"
+    }
+  ],
+  "mode": "ltxi:inert_smelting"
+}

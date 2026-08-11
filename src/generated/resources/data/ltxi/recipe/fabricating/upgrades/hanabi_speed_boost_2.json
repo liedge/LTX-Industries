@@ -1,7 +1,7 @@
 {
   "type": "ltxi:fabricating",
   "energy_required": 2000000,
-  "group": "eum/weapon",
+  "group": "upgrade/hanabi.sb",
   "item_inputs": [
     {
       "ingredient": {
@@ -23,8 +23,8 @@
       "ingredient": "ltxi:impulse_tech_part"
     },
     {
-      "count": 4,
-      "ingredient": "minecraft:phantom_membrane"
+      "count": 8,
+      "ingredient": "ltxi:chorus_chemical"
     }
   ],
   "result": {

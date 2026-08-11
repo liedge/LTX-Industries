@@ -1,26 +1,18 @@
 {
   "type": "ltxi:assembling",
-  "craft_time": 600,
+  "craft_time": 900,
   "item_inputs": [
     {
       "count": 8,
-      "ingredient": "#c:ingots/titanium"
+      "ingredient": "ltxi:fluoropolymer_ingot"
     },
     {
-      "count": 8,
-      "ingredient": "ltxi:slatesteel_ingot"
+      "count": 3,
+      "ingredient": "#c:plates/gold"
     },
     {
-      "count": 12,
-      "ingredient": "ltxi:polymer_ingot"
-    },
-    {
-      "count": 2,
-      "ingredient": "ltxi:medium_voltaic_cell"
-    },
-    {
-      "count": 4,
-      "ingredient": "ltxi:niobium_ingot"
+      "count": 3,
+      "ingredient": "ltxi:niobium_plate"
     },
     {
       "count": 16,

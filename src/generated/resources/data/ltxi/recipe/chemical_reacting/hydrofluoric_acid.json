@@ -1,0 +1,21 @@
+{
+  "type": "ltxi:chemical_reacting",
+  "fluid_inputs": [
+    {
+      "amount": 1000,
+      "ingredient": "ltxi:sulfuric_acid"
+    }
+  ],
+  "fluid_results": [
+    {
+      "amount": 1000,
+      "id": "ltxi:hydrofluoric_acid"
+    }
+  ],
+  "item_inputs": [
+    {
+      "count": 4,
+      "ingredient": "#c:gems/fluorite"
+    }
+  ]
+}

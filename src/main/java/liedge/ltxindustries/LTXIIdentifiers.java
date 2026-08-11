@@ -46,7 +46,8 @@ public final class LTXIIdentifiers
     public static final String ID_AMMONIA = "ammonia";
     public static final String ID_HYDROCHLORIC_ACID = "hydrochloric_acid";
     public static final String ID_SULFURIC_ACID = "sulfuric_acid";
-    public static final String ID_LIQUID_SILICONE = "liquid_silicone";
+    public static final String ID_HYDROFLUORIC_ACID = "hydrofluoric_acid";
+    public static final String ID_SILICONE_OIL = "silicone_oil";
     //#endregion
 
     //#region Machines

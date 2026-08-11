@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": "#c:ingots/copper",
+    "g": "minecraft:gold_nugget",
+    "p": "minecraft:paper",
+    "r": "minecraft:repeater"
+  },
+  "pattern": [
+    "gcg",
+    "crc",
+    "ppp"
+  ],
+  "result": {
+    "id": "ltxi:circuit_board"
+  }
+}

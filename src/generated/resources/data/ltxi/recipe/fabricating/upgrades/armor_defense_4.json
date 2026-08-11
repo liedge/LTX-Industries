@@ -1,7 +1,7 @@
 {
   "type": "ltxi:fabricating",
   "energy_required": 50000000,
-  "group": "eum/armor",
+  "group": "upgrade/armor",
   "item_inputs": [
     {
       "ingredient": {
@@ -20,16 +20,16 @@
       "ingredient": "ltxi:t4_circuit"
     },
     {
-      "count": 24,
-      "ingredient": "#c:ingots/titanium"
+      "count": 32,
+      "ingredient": "#c:plates/titanium"
     },
     {
-      "count": 24,
-      "ingredient": "ltxi:slatesteel_ingot"
+      "count": 4,
+      "ingredient": "ltxi:rhenium_plate"
     },
     {
       "count": 12,
-      "ingredient": "ltxi:polymer_ingot"
+      "ingredient": "ltxi:fluoropolymer_plate"
     }
   ],
   "result": {

@@ -1,6 +1,20 @@
 {
   "values": [
+    "ltxi:digital_furnace",
+    "ltxi:digital_smoker",
+    "ltxi:digital_blast_furnace",
+    "ltxi:grinder",
+    "ltxi:material_press",
+    "ltxi:arc_furnace",
+    "ltxi:hydrosieve",
+    "ltxi:electrocentrifuge",
+    "ltxi:mixer",
+    "ltxi:voltaic_injector",
+    "ltxi:chem_lab",
+    "ltxi:assembler",
+    "ltxi:geo_synthesizer",
+    "ltxi:atmospheric_scrubber",
     "ltxi:digital_garden",
-    "#ltxi:machines/general_processing"
+    "ltxi:repair_station"
   ]
 }

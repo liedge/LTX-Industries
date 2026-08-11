@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": "ltxi:t1_circuit",
+    "g": "ltxi:slatesteel_gear",
+    "h": "ltxi:machine_housing",
+    "s": "ltxi:slatesteel_ingot",
+    "t": "#c:ingots/titanium"
+  },
+  "pattern": [
+    "gtg",
+    " s ",
+    "chc"
+  ],
+  "result": {
+    "id": "ltxi:material_press"
+  }
+}

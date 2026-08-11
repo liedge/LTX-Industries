@@ -2,16 +2,17 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "a": "minecraft:crafting_table",
-    "c": "ltxi:t3_circuit",
-    "g": "ltxi:slatesteel_gear",
-    "o": "ltxi:optical_tech_part",
-    "t": "#c:ingots/titanium"
+    "c": "ltxi:t2_circuit",
+    "e": "ltxi:medium_voltaic_cell",
+    "g": "#c:gears/titanium",
+    "h": "ltxi:machine_housing",
+    "o": "#c:gems/diamond",
+    "s": "ltxi:slatesteel_gear"
   },
   "pattern": [
-    "tot",
-    "cac",
-    "gtg"
+    "gog",
+    "ese",
+    "chc"
   ],
   "result": {
     "id": "ltxi:fabricator"

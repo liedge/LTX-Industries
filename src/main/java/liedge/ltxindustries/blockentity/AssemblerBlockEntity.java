@@ -1,5 +1,6 @@
 package liedge.ltxindustries.blockentity;
 
+import liedge.limacore.blockentity.BlockContentsType;
 import liedge.ltxindustries.blockentity.template.LTXIRecipeMachineBlockEntity;
 import liedge.ltxindustries.recipe.AssemblingRecipe;
 import liedge.ltxindustries.registry.game.LTXIBlockEntities;
@@ -13,6 +14,12 @@ public class AssemblerBlockEntity extends LTXIRecipeMachineBlockEntity<Assemblin
     public AssemblerBlockEntity(BlockPos pos, BlockState state)
     {
         super(LTXIBlockEntities.ASSEMBLER.get(), LTXIRecipeTypes.ASSEMBLING.get(), pos, state, 6, 1, 1, 0);
+    }
+
+    @Override
+    public int getBaseFluidCapacity(BlockContentsType contentsType)
+    {
+        return contentsType == BlockContentsType.INPUT ? 10_000_000 : 0;
     }
 
     @Override

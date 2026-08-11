@@ -1,9 +1,8 @@
 {
   "type": "ltxi:electro_centrifuging",
-  "craft_time": 600,
   "fluid_inputs": [
     {
-      "amount": 200,
+      "amount": 125,
       "ingredient": "ltxi:hydrochloric_acid"
     }
   ],

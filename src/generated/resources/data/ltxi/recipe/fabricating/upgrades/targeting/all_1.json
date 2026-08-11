@@ -13,7 +13,7 @@
       "ingredient": "ltxi:optical_tech_part"
     },
     {
-      "ingredient": "minecraft:phantom_membrane"
+      "ingredient": "ltxi:logic_core"
     }
   ],
   "result": {

@@ -1,0 +1,24 @@
+{
+  "type": "ltxi:assembling",
+  "craft_time": 600,
+  "item_inputs": [
+    {
+      "count": 4,
+      "ingredient": "ltxi:fluoropolymer_ingot"
+    },
+    {
+      "count": 3,
+      "ingredient": "#c:plates/silver"
+    },
+    {
+      "count": 8,
+      "ingredient": "#c:dusts/sodium"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 2,
+      "id": "ltxi:medium_voltaic_cell"
+    }
+  ]
+}

@@ -16,6 +16,20 @@
       "brightness": 1.75,
       "id": "ltxi:block/light_molten_flow",
       "source": "minecraft:block/lava_flow"
+    },
+    {
+      "type": "limacore:grayscale",
+      "alpha": 1.25,
+      "brightness": 1.15,
+      "id": "ltxi:block/bright_water_still",
+      "source": "minecraft:block/water_still"
+    },
+    {
+      "type": "limacore:grayscale",
+      "alpha": 1.25,
+      "brightness": 1.15,
+      "id": "ltxi:block/bright_water_flow",
+      "source": "minecraft:block/water_flow"
     }
   ]
 }

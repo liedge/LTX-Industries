@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": "ltxi:t1_circuit",
+    "e": "ltxi:small_voltaic_cell",
+    "g": "ltxi:slatesteel_gear",
+    "m": "ltxi:empty_upgrade_module",
+    "s": "ltxi:slatesteel_plate"
+  },
+  "pattern": [
+    "ese",
+    "cmc",
+    "gsg"
+  ],
+  "result": {
+    "components": {
+      "ltxi:upgrade": {
+        "upgrade": "ltxi:power_tiers"
+      }
+    },
+    "id": "ltxi:upgrade_module"
+  }
+}

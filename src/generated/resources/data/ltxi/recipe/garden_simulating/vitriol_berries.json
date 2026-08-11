@@ -2,8 +2,9 @@
   "type": "ltxi:garden_simulating",
   "fluid_inputs": [
     {
-      "amount": 1000,
-      "ingredient": "#minecraft:water"
+      "amount": 16000,
+      "consume_chance": 0.0,
+      "ingredient": "ltxi:sulphurine"
     }
   ],
   "item_inputs": [

@@ -18,6 +18,7 @@ public enum BuiltInOres implements StringRepresentable
     TITANIUM("titanium"),
     SILVER("silver"),
     OLIVINE("olivine"),
+    FLUORITE("fluorite"),
     NIOBIUM("niobium");
 
     private final String name;

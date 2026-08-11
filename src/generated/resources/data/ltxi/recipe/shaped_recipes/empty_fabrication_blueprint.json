@@ -3,13 +3,12 @@
   "category": "misc",
   "key": {
     "c": "ltxi:t1_circuit",
-    "l": "#c:dyes/lime",
-    "p": "minecraft:paper",
+    "g": "ltxi:titanium_glass",
+    "s": "minecraft:paper",
     "t": "#c:ingots/titanium"
   },
   "pattern": [
-    "lll",
-    "ppp",
+    "gsg",
     "tct"
   ],
   "result": {

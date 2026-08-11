@@ -1,8 +1,16 @@
 {
   "values": [
+    "ltxi:titanium_dust",
+    "ltxi:silver_dust",
+    "ltxi:niobium_dust",
     "ltxi:sodium_dust",
     "ltxi:silicon_dust",
+    "ltxi:sulfur_dust",
     "ltxi:deepslate_dust",
+    "ltxi:carbon_dust",
+    "ltxi:phosphorus_dust",
+    "ltxi:tungsten_slatesteel_dust",
+    "ltxi:rhenium_dust",
     "ltxi:peridotite_dust"
   ]
 }

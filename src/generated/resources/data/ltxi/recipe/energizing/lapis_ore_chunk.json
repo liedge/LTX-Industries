@@ -1,6 +1,5 @@
 {
   "type": "ltxi:energizing",
-  "craft_time": 300,
   "item_inputs": [
     {
       "ingredient": "ltxi:washed_lapis_ore"

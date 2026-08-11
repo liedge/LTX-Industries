@@ -1,0 +1,14 @@
+{
+  "type": "ltxi:air_scrubbing",
+  "fluid_results": [
+    {
+      "amount": 250,
+      "id": "ltxi:methane"
+    }
+  ],
+  "location": {
+    "biomes": "#c:is_swamp",
+    "dimension": "minecraft:overworld"
+  },
+  "mode": "ltxi:localized_gases"
+}

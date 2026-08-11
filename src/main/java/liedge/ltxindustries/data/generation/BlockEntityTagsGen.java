@@ -39,13 +39,6 @@ class BlockEntityTagsGen extends LimaTagsProvider.RegistryTags<BlockEntityType<?
                 ATMOSPHERIC_SCRUBBER,
                 DIGITAL_GARDEN,
                 REPAIR_STATION);
-        buildTag(INSTANT_UPGRADABLE_MACHINES).add(
-                DIGITAL_FURNACE,
-                DIGITAL_SMOKER,
-                DIGITAL_BLAST_FURNACE,
-                GRINDER,
-                GEO_SYNTHESIZER,
-                REPAIR_STATION);
 
         buildTag(STANDARD_PARALLEL_UPGRADABLE).add(
                 DIGITAL_FURNACE,

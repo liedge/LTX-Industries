@@ -13,6 +13,7 @@ import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.client.LTXILangKeys;
+import liedge.ltxindustries.lib.BuiltInOres;
 import liedge.ltxindustries.lib.icon.ItemIcon;
 import liedge.ltxindustries.lib.icon.SpriteIcon;
 import liedge.ltxindustries.lib.upgrades.Upgrade;
@@ -22,6 +23,7 @@ import liedge.ltxindustries.lib.upgrades.tooltip.*;
 import liedge.ltxindustries.lib.upgrades.value.*;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
 import liedge.ltxindustries.lib.weapons.WeaponReloadSource;
+import liedge.ltxindustries.recipe.RecipeMode;
 import liedge.ltxindustries.registry.LTXIRegistries;
 import liedge.ltxindustries.registry.game.*;
 import net.minecraft.ChatFormatting;
@@ -56,6 +58,8 @@ import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.registries.holdersets.AnyHolderSet;
+
+import java.util.List;
 
 import static liedge.ltxindustries.LTXIConstants.*;
 import static liedge.ltxindustries.LTXIIdentifiers.*;
@@ -115,7 +119,6 @@ public final class LTXIUpgrades
 
     // Tool upgrades
     public static final ResourceKey<Upgrade> EPSILON_FISHING_LURE = key("epsilon_fishing_lure");
-    public static final ResourceKey<Upgrade> TOOL_NETHERITE_LEVEL = key("tool_netherite_level");
     public static final ResourceKey<Upgrade> EPSILON_OMNI_DRILL = key("epsilon_omni_drill");
     public static final ResourceKey<Upgrade> TREE_VEIN_MINE = key("tree_vein_mine");
     public static final ResourceKey<Upgrade> ORE_VEIN_MINE = key("ore_vein_mine");
@@ -128,7 +131,6 @@ public final class LTXIUpgrades
     public static final ResourceKey<Upgrade> EXPLOSIVES_ENERGY_ADAPTER = key("explosives_energy_adapter");
     public static final ResourceKey<Upgrade> HEAVY_ENERGY_ADAPTER = key("heavy_energy_adapter");
     public static final ResourceKey<Upgrade> INFINITE_AMMO = key("infinite_ammo");
-    public static final ResourceKey<Upgrade> NOVA_GOD_ROUNDS = key("nova_god_rounds");
     public static final ResourceKey<Upgrade> HANABI_SPEED_BOOST = key("hanabi_speed_boost");
 
     // Armor upgrades
@@ -162,11 +164,14 @@ public final class LTXIUpgrades
     public static final ResourceKey<Upgrade> ECA_CAPACITY_UPGRADE = key("eca_capacity");
     public static final ResourceKey<Upgrade> PORTABLE_TANK_UPGRADE = key("portable_tank_upgrade");
 
-    public static final ResourceKey<Upgrade> STANDARD_MACHINE_SYSTEMS = key("standard_machine_systems");
-    public static final ResourceKey<Upgrade> ULTIMATE_MACHINE_SYSTEMS = key("ultimate_machine_systems");
-    public static final ResourceKey<Upgrade> GPM_PARALLEL = key("gpm_parallel");
+    public static final ResourceKey<Upgrade> POWER_TIERS = key("power_tiers");
+    public static final ResourceKey<Upgrade> PARALLEL_TIERS = key("parallel_tiers");
     public static final ResourceKey<Upgrade> FABRICATOR_UPGRADE = key("fabricator_upgrade");
 
+    public static final ResourceKey<Upgrade> ORE_PROCESS_2 = key("ore_process_2");
+    public static final ResourceKey<Upgrade> ORE_PROCESS_3 = key("ore_process_3");
+    public static final ResourceKey<Upgrade> ORE_PROCESS_4 = key("ore_process_4");
+    public static final ResourceKey<Upgrade> ORE_PROCESS_5 = key("ore_process_5");
     public static final ResourceKey<Upgrade> GEO_SYNTHESIZER_PARALLEL = key("geo_synthesizer_parallel");
 
     //#endregion
@@ -342,6 +347,11 @@ public final class LTXIUpgrades
                 .forEquipment(LTXIItems.NOVA)
                 .damageAttributes(Attributes.KNOCKBACK_RESISTANCE, "knockback_resist", LevelBasedValue.constant(-1), AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)
                 .damageAttributes(LimaCoreAttributes.KNOCKBACK_MULTIPLIER, "knockback", LevelBasedValue.constant(2f), AttributeModifier.Operation.ADD_VALUE)
+                .withEffect(EXTRA_DAMAGE_TAGS, LTXITags.DamageTypes.BYPASS_SURVIVAL_DEFENSES)
+                .withConditionalEffect(EQUIPMENT_DAMAGE, ValueOperation.of(ValueMathOperation.of(EntityAttributeValue.totalValue(LootContext.EntityTarget.THIS, Attributes.MAX_HEALTH), ConstantValue.exactly(0.25f), MathOperation.MULTIPLY), MathOperation.ADD))
+                .tooltip(TranslatableTooltip.create(LTXILangKeys.ATTRIBUTE_SCALED_DAMAGE_UPGRADE,
+                        ValueComponent.of(ConstantDouble.of(0.25d), ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE),
+                        StaticTooltip.of(Component.translatable(Attributes.MAX_HEALTH.value().getDescriptionId()).withStyle(ChatFormatting.DARK_RED))))
                 .effectIcon(defaultModuleIcon(LTXIItems.NOVA))
                 .category("default/weapon")
                 .register(context);
@@ -406,13 +416,6 @@ public final class LTXIUpgrades
                 .effectIcon(plusOverlay(ItemIcon.of(LTXIItems.EPSILON_FISHING_ROD)))
                 .category("tools")
                 .register(context);
-        Upgrade.builder(TOOL_NETHERITE_LEVEL)
-                .forEquipment(modularMiningTools)
-                .exclusiveWith(holders, MINING_LEVELS)
-                .withEffect(MODULAR_TOOL, ModularTool.limitedTo(blocks.getOrThrow(BlockTags.INCORRECT_FOR_NETHERITE_TOOL)))
-                .effectIcon(greenArrowOverlay(ItemIcon.of(Items.NETHERITE_PICKAXE)))
-                .category("tools")
-                .register(context);
         Upgrade.builder(EPSILON_OMNI_DRILL)
                 .createDefaultTitle(LIME_GREEN)
                 .forEquipment(modularMiningTools)
@@ -449,15 +452,6 @@ public final class LTXIUpgrades
                 .register(context);
 
         // Weapon-specific upgrades
-        Upgrade.builder(NOVA_GOD_ROUNDS)
-                .forEquipment(LTXIItems.NOVA)
-                .withEffect(EXTRA_DAMAGE_TAGS, LTXITags.DamageTypes.BYPASS_SURVIVAL_DEFENSES)
-                .withConditionalEffect(EQUIPMENT_DAMAGE, ValueOperation.of(ValueMathOperation.of(EntityAttributeValue.totalValue(LootContext.EntityTarget.THIS, Attributes.MAX_HEALTH), ConstantValue.exactly(0.25f), MathOperation.MULTIPLY), MathOperation.ADD))
-                .tooltip(TranslatableTooltip.create(LTXILangKeys.ATTRIBUTE_SCALED_DAMAGE_UPGRADE,
-                        ValueComponent.of(ConstantDouble.of(0.25d), ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE),
-                        StaticTooltip.of(Component.translatable(Attributes.MAX_HEALTH.value().getDescriptionId()).withStyle(ChatFormatting.DARK_RED))))
-                .effectIcon(plusOverlay(ItemIcon.of(LTXIItems.NOVA)))
-                .register(context);
         Upgrade.builder(HANABI_SPEED_BOOST)
                 .forEquipment(LTXIItems.HANABI)
                 .setMaxRank(2)
@@ -606,11 +600,12 @@ public final class LTXIUpgrades
                 .effectIcon(bottomRightOverlay(ItemIcon.of(LTXIItems.EPSILON_DRILL), "silk_overlay", 8))
                 .category("enchants")
                 .register(context);
+        LevelBasedValue luckLevels = LevelBasedValue.lookup(List.of(1f, 2f, 3f, 5f, 7f), LevelBasedValue.constant(0f));
         Upgrade.builder(FORTUNE_ENCHANTMENT)
                 .forEquipment(miningTools)
                 .exclusiveWith(holders, MINING_DROPS_MODIFIERS)
                 .setMaxRank(5)
-                .withEffect(ENCHANTMENT_LEVELS, AddEnchantmentLevels.rankLinear(enchantments.getOrThrow(Enchantments.FORTUNE)))
+                .withEffect(ENCHANTMENT_LEVELS, AddEnchantmentLevels.add(enchantments.getOrThrow(Enchantments.FORTUNE), luckLevels))
                 .effectIcon(luckOverlay(LTXIItems.EPSILON_DRILL))
                 .category("enchants")
                 .register(context);
@@ -618,7 +613,7 @@ public final class LTXIUpgrades
                 .forEquipment(allWeapons)
                 .forMachines(blockEntities, LTXITags.BlockEntities.TURRETS)
                 .setMaxRank(5)
-                .withEffect(ENCHANTMENT_LEVELS, AddEnchantmentLevels.rankLinear(enchantments.getOrThrow(Enchantments.LOOTING)))
+                .withEffect(ENCHANTMENT_LEVELS, AddEnchantmentLevels.add(enchantments.getOrThrow(Enchantments.LOOTING), luckLevels))
                 .effectIcon(luckOverlay(LTXIItems.EPSILON_SWORD))
                 .category("enchants")
                 .register(context);
@@ -685,6 +680,7 @@ public final class LTXIUpgrades
     private static void machineUpgrades(BootstrapContext<Upgrade> context, HolderGetter<Upgrade> holders)
     {
         HolderGetter<BlockEntityType<?>> blockEntities = context.lookup(Registries.BLOCK_ENTITY_TYPE);
+        HolderGetter<RecipeMode> recipeModes = context.lookup(LTXIRegistries.Keys.RECIPE_MODES);
 
         ContextlessValue ecaScaling = ExponentialDouble.of(2, LinearDouble.oneIncrement(3));
         Upgrade.builder(ECA_CAPACITY_UPGRADE)
@@ -707,54 +703,35 @@ public final class LTXIUpgrades
                 .effectIcon(plusOverlay(ItemIcon.of(LTXIItems.PORTABLE_TANK)))
                 .register(context);
 
-        ContextlessValue smsEnergyStorage = LinearDouble.linearIncrement(0.5d);
-        Upgrade.builder(STANDARD_MACHINE_SYSTEMS)
+        ContextlessValue sptEnergyStorage = LinearDouble.oneIncrement(1);
+        ContextlessValue sptEnergyUsage = ExponentialDouble.linearExponent(2d);
+        Upgrade.builder(POWER_TIERS)
+                .createDefaultTitle(LIME_GREEN)
                 .forMachines(blockEntities, LTXITags.BlockEntities.STANDARD_UPGRADABLE_MACHINES)
                 .exclusiveWith(holders, MACHINE_TIER)
-                .withEffect(ENERGY_CAPACITY, ValueOperation.of(smsEnergyStorage, MathOperation.ADD_PERCENT_OF_BASE))
-                .withEffect(ENERGY_TRANSFER_RATE, ValueOperation.of(smsEnergyStorage, MathOperation.ADD_PERCENT_OF_BASE))
-                .withEffect(TICKS_PER_OPERATION, ValueOperation.of(ExponentialDouble.linearExponent(0.725d), MathOperation.MULTIPLY))
-                .withEffect(ENERGY_USAGE, ValueOperation.of(ExponentialDouble.linearExponent(1.5d), MathOperation.MULTIPLY))
-                .withSpecialEffect(MINIMUM_MACHINE_SPEED, MinimumMachineSpeed.atLeast(5))
-                .tooltip(energyCapacityTooltip(smsEnergyStorage, ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE))
-                .tooltip(energyTransferTooltip(smsEnergyStorage, ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE))
-                .tooltip(energyUsageTooltip(ExponentialDouble.linearExponent(1.5d), ValueFormat.MULTIPLICATIVE, ValueSentiment.NEUTRAL))
-                .tooltip(TranslatableTooltip.create(LTXILangKeys.MACHINE_SPEED_UPGRADE, ValueComponent.of(ExponentialDouble.negativeLinearExponent(0.725d), ValueFormat.MULTIPLICATIVE, ValueSentiment.POSITIVE)))
-                .tooltip(TranslatableTooltip.create(LTXILangKeys.ENERGY_PER_RECIPE_UPGRADE, ValueComponent.of(ExponentialDouble.linearExponent(1.0875d), ValueFormat.MULTIPLICATIVE, ValueSentiment.NEGATIVE)))
-                .setMaxRank(6)
-                .effectIcon(greenArrowOverlay(SpriteIcon.create("titanium_gear")))
-                .category("gpm")
+                .withEffect(ENERGY_CAPACITY, ValueOperation.of(sptEnergyStorage, MathOperation.ADD_PERCENT_OF_BASE))
+                .withEffect(ENERGY_TRANSFER_RATE, ValueOperation.of(sptEnergyStorage, MathOperation.ADD_PERCENT_OF_BASE))
+                .withEffect(TICKS_PER_OPERATION, ValueOperation.of(ExponentialDouble.linearExponent(0.5d), MathOperation.MULTIPLY))
+                .withEffect(ENERGY_USAGE, ValueOperation.of(sptEnergyUsage, MathOperation.MULTIPLY))
+                .tooltip(energyCapacityTooltip(sptEnergyStorage, ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE))
+                .tooltip(energyTransferTooltip(sptEnergyStorage, ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE))
+                .tooltip(energyUsageTooltip(sptEnergyUsage, ValueFormat.MULTIPLICATIVE, ValueSentiment.NEGATIVE))
+                .tooltip(TranslatableTooltip.create(LTXILangKeys.MACHINE_SPEED_UPGRADE, ValueComponent.of(ExponentialDouble.negativeLinearExponent(0.5d), ValueFormat.MULTIPLICATIVE, ValueSentiment.POSITIVE)))
+                .setMaxRank(5)
+                .effectIcon(SpriteIcon.create("power_tiers"))
+                .category("machine")
                 .register(context);
 
-        ContextlessValue umsEnergyStorage = ConstantDouble.of(16);
-        ContextlessValue umsEnergyUsage = ConstantDouble.of(512);
-        Upgrade.builder(ULTIMATE_MACHINE_SYSTEMS)
-                .createDefaultTitle(LTXIConstants.LIME_GREEN)
-                .forMachines(blockEntities, LTXITags.BlockEntities.ULTIMATE_UPGRADABLE_MACHINES)
-                .exclusiveWith(holders, MACHINE_TIER)
-                .withEffect(ENERGY_CAPACITY, ValueOperation.of(umsEnergyStorage, MathOperation.MULTIPLY))
-                .withEffect(ENERGY_TRANSFER_RATE, ValueOperation.of(umsEnergyStorage, MathOperation.MULTIPLY))
-                .withEffect(ENERGY_USAGE, ValueOperation.of(umsEnergyUsage, MathOperation.MULTIPLY))
-                .withEffect(TICKS_PER_OPERATION, ValueOperation.of(ConstantDouble.of(0), MathOperation.MULTIPLY))
-                .withSpecialEffect(MINIMUM_MACHINE_SPEED, MinimumMachineSpeed.atLeast(0))
-                .tooltip(energyCapacityTooltip(umsEnergyStorage, ValueFormat.MULTIPLICATIVE, ValueSentiment.POSITIVE))
-                .tooltip(energyTransferTooltip(umsEnergyStorage, ValueFormat.MULTIPLICATIVE, ValueSentiment.POSITIVE))
-                .tooltip(energyUsageTooltip(umsEnergyUsage, ValueFormat.MULTIPLICATIVE, ValueSentiment.NEGATIVE))
-                .simpleTooltip(LTXILangKeys.INSTANT_PROCESSING_UPGRADE.translate().withStyle(LTXIConstants.LIME_GREEN.chatStyle()))
-                .effectIcon(SpriteIcon.create("ultimate_gear"))
-                .category("gpm")
-                .register(context);
-
-        ContextlessValue gpmParallelOps = LinearDouble.linearIncrement(2);
-        Upgrade.builder(GPM_PARALLEL)
+        ContextlessValue spOperations = LinearDouble.linearIncrement(4);
+        Upgrade.builder(PARALLEL_TIERS)
                 .createDefaultTitle(ChatFormatting.LIGHT_PURPLE)
-                .forMachines(blockEntities, LTXITags.BlockEntities.GENERAL_PROCESSING_MACHINES)
+                .forMachines(blockEntities, LTXITags.BlockEntities.STANDARD_PARALLEL_UPGRADABLE)
                 .exclusiveWith(holders, PARALLEL_OPS_UPGRADES)
-                .withEffect(PARALLEL_OPERATIONS, ValueOperation.of(gpmParallelOps, MathOperation.REPLACE))
-                .tooltip(parallelOpsTooltip(gpmParallelOps, ValueFormat.FLAT_NUMBER, ValueSentiment.POSITIVE))
-                .setMaxRank(4)
-                .effectIcon(plusOverlay(SpriteIcon.create("titanium_gear")))
-                .category("gpm")
+                .withEffect(PARALLEL_OPERATIONS, ValueOperation.of(spOperations, MathOperation.ADD))
+                .tooltip(parallelOpsTooltip(spOperations, ValueFormat.FLAT_NUMBER, ValueSentiment.POSITIVE))
+                .setMaxRank(3)
+                .effectIcon(SpriteIcon.create("parallel_tiers"))
+                .category("machine")
                 .register(context);
 
         ContextlessValue fabCapacity = LinearDouble.linearIncrement(2);
@@ -770,6 +747,32 @@ public final class LTXIUpgrades
                 .tooltip(energyUsageTooltip(fabUsage, ValueFormat.MULTIPLICATIVE, ValueSentiment.POSITIVE))
                 .setMaxRank(4)
                 .effectIcon(SpriteIcon.create("fabricator_upgrade"))
+                .register(context);
+
+        UnlockRecipeMode oreProcessing = new UnlockRecipeMode(recipeModes.getOrThrow(LTXIRecipeModes.ORE_PROCESSING));
+        Upgrade.builder(ORE_PROCESS_2)
+                .forMachines(LTXIBlockEntities.HYDROSIEVE)
+                .withSpecialEffect(UNLOCK_RECIPE_MODE, oreProcessing)
+                .effectIcon(greenArrowOverlay(ItemIcon.of(LTXIItems.WASHED_ORES.get(BuiltInOres.SILVER))))
+                .category("ores/2")
+                .register(context);
+        Upgrade.builder(ORE_PROCESS_3)
+                .forMachines(LTXIBlockEntities.VOLTAIC_INJECTOR)
+                .withSpecialEffect(UNLOCK_RECIPE_MODE, oreProcessing)
+                .effectIcon(greenArrowOverlay(ItemIcon.of(LTXIItems.ORE_CHUNKS.get(BuiltInOres.SILVER))))
+                .category("ores/3")
+                .register(context);
+        Upgrade.builder(ORE_PROCESS_4)
+                .forMachines(LTXIBlockEntities.CHEM_LAB)
+                .withSpecialEffect(UNLOCK_RECIPE_MODE, oreProcessing)
+                .effectIcon(greenArrowOverlay(ItemIcon.of(LTXIItems.ORE_SOLUTIONS.get(BuiltInOres.SILVER))))
+                .category("ores/4")
+                .register(context);
+        Upgrade.builder(ORE_PROCESS_5)
+                .forMachines(LTXIBlockEntities.ELECTROCENTRIFUGE)
+                .withSpecialEffect(UNLOCK_RECIPE_MODE, oreProcessing)
+                .effectIcon(greenArrowOverlay(ItemIcon.of(LTXIItems.ORE_CRYSTALS.get(BuiltInOres.SILVER))))
+                .category("ores/5")
                 .register(context);
 
         ContextlessValue geoSynthParallel = ExponentialDouble.of(2, LinearDouble.oneIncrement(4));

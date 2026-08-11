@@ -33,6 +33,8 @@ class DataMapsGen extends DataMapProvider
                 .add(LTXIGameEvents.PROJECTILE_IMPACT, new VibrationFrequency(2), false);
 
         defaultRecipeModes(registries, LTXIRecipeTypes.GRINDING, DEFAULT_GRINDING);
+        defaultRecipeModes(registries, LTXIRecipeTypes.PRESSING, DEFAULT_PRESSING);
+        defaultRecipeModes(registries, LTXIRecipeTypes.ARC_SMELTING, DEFAULT_ARC_SMELTING);
         defaultRecipeModes(registries, LTXIRecipeTypes.ELECTRO_CENTRIFUGING, DEFAULT_ELECTRO_CENTRIFUGING);
         defaultRecipeModes(registries, LTXIRecipeTypes.MIXING, DEFAULT_MIXING);
         defaultRecipeModes(registries, LTXIRecipeTypes.ENERGIZING, DEFAULT_ENERGIZING);

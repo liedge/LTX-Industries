@@ -157,6 +157,7 @@ public final class LTXIItems
     public static final DeferredItem<Item> RAW_TITANIUM = ITEMS.registerSimpleItem("raw_titanium");
     public static final DeferredItem<Item> RAW_SILVER = ITEMS.registerSimpleItem("raw_silver");
     public static final DeferredItem<Item> RAW_OLIVINE = ITEMS.registerSimpleItem("raw_olivine");
+    public static final DeferredItem<Item> RAW_FLUORITE = ITEMS.registerSimpleItem("raw_fluorite");
     public static final DeferredItem<Item> RAW_NIOBIUM = ITEMS.registerSimpleItem("raw_niobium");
 
     // Ingots
@@ -168,9 +169,12 @@ public final class LTXIItems
     public static final DeferredItem<Item> SLATESTEEL_INGOT = ITEMS.registerSimpleItem("slatesteel_ingot");
     public static final DeferredItem<Item> TUNGSTEN_SLATESTEEL_INGOT = ITEMS.registerSimpleItem("tungsten_slatesteel_ingot");
     public static final DeferredItem<Item> POLYMER_INGOT = ITEMS.registerSimpleItem("polymer_ingot");
+    public static final DeferredItem<Item> FLUOROPOLYMER_INGOT = ITEMS.registerSimpleItem("fluoropolymer_ingot");
+    public static final DeferredItem<Item> SILICONE_RUBBER = ITEMS.registerSimpleItem("silicone_rubber");
 
-    // Ingots
+    // Gems
     public static final DeferredItem<Item> OLIVINE = ITEMS.registerSimpleItem("olivine");
+    public static final DeferredItem<Item> FLUORITE = ITEMS.registerSimpleItem("fluorite");
     public static final DeferredItem<Item> PYROXENE = ITEMS.registerSimpleItem("pyroxene");
 
     // Nuggets
@@ -180,9 +184,17 @@ public final class LTXIItems
     public static final DeferredItem<Item> SLATESTEEL_NUGGET = ITEMS.registerSimpleItem("slatesteel_nugget");
 
     // Dusts
+    public static final DeferredItem<Item> TITANIUM_DUST = ITEMS.registerSimpleItem("titanium_dust");
+    public static final DeferredItem<Item> SILVER_DUST = ITEMS.registerSimpleItem("silver_dust");
+    public static final DeferredItem<Item> NIOBIUM_DUST = ITEMS.registerSimpleItem("niobium_dust");
+    public static final DeferredItem<Item> RHENIUM_DUST = ITEMS.registerSimpleItem("rhenium_dust");
     public static final DeferredItem<Item> CARBON_DUST = ITEMS.registerSimpleItem("carbon_dust");
     public static final DeferredItem<Item> SODIUM_DUST = ITEMS.registerSimpleItem("sodium_dust");
     public static final DeferredItem<Item> SILICON_DUST = ITEMS.registerSimpleItem("silicon_dust");
+    public static final DeferredItem<Item> PHOSPHORUS_DUST = ITEMS.registerSimpleItem("phosphorus_dust");
+    public static final DeferredItem<Item> SULFUR_DUST = ITEMS.registerSimpleItem("sulfur_dust");
+    public static final DeferredItem<Item> SLATESTEEL_DUST = ITEMS.registerSimpleItem("slatesteel_dust");
+    public static final DeferredItem<Item> TUNGSTEN_SLATESTEEL_DUST = ITEMS.registerSimpleItem("tungsten_slatesteel_dust");
     public static final DeferredItem<Item> DEEPSLATE_DUST = ITEMS.registerSimpleItem("deepslate_dust");
     public static final DeferredItem<Item> PERIDOTITE_DUST = ITEMS.registerSimpleItem("peridotite_dust");
     public static final DeferredItem<Item> RESINOUS_BIOMASS = ITEMS.registerSimpleItem("resinous_biomass");
@@ -207,7 +219,8 @@ public final class LTXIItems
     public static final DeferredItem<BucketItem> AMMONIA_BUCKET = registerBucket(LTXIFluids.AMMONIA);
     public static final DeferredItem<BucketItem> HYDROCHLORIC_ACID_BUCKET = registerBucket(LTXIFluids.HYDROCHLORIC_ACID);
     public static final DeferredItem<BucketItem> SULFURIC_ACID_BUCKET = registerBucket(LTXIFluids.SULFURIC_ACID);
-    public static final DeferredItem<BucketItem> LIQUID_SILICONE_BUCKET = registerBucket(LTXIFluids.LIQUID_SILICONE);
+    public static final DeferredItem<BucketItem> HYDROFLUORIC_ACID_BUCKET = registerBucket(LTXIFluids.HYDROFLUORIC_ACID);
+    public static final DeferredItem<BucketItem> SILICONE_OIL_BUCKET = registerBucket(LTXIFluids.SILICONE_OIL);
 
     // Pigments
     public static final DeferredItem<Item> LTX_LIME_PIGMENT = ITEMS.registerSimpleItem("ltx_lime_pigment");
@@ -216,21 +229,32 @@ public final class LTXIItems
     public static final DeferredItem<Item> CORROSIVE_GREEN_PIGMENT = ITEMS.registerSimpleItem("corrosive_green_pigment");
     public static final DeferredItem<Item> GLOOM_BLUE_PIGMENT = ITEMS.registerSimpleItem("gloom_blue_pigment");
 
-    // Ore group materials
-    public static final Map<BuiltInOres, DeferredItem<Item>> CRUSHED_ORES = registerOreGroup(s -> "crushed_" + s + "_ore");
-    public static final Map<BuiltInOres, DeferredItem<Item>> WASHED_ORES = registerOreGroup(s -> "washed_" + s + "_ore");
-    public static final Map<BuiltInOres, DeferredItem<Item>> ORE_CHUNKS = registerOreGroup(s -> s + "_ore_chunk");
-    public static final Map<BuiltInOres, DeferredItem<Item>> ORE_SOLUTIONS = registerOreGroup(s -> s + "_ore_solution");
-    public static final Map<BuiltInOres, DeferredItem<Item>> ORE_CRYSTALS = registerOreGroup(s -> s + "_ore_crystal");
-
-    // Components
+    // Gears
     public static final DeferredItem<Item> TITANIUM_GEAR = ITEMS.registerSimpleItem("titanium_gear");
     public static final DeferredItem<Item> SLATESTEEL_GEAR = ITEMS.registerSimpleItem("slatesteel_gear");
+
+    // Plates
+    public static final DeferredItem<Item> COPPER_PLATE = ITEMS.registerSimpleItem("copper_plate");
+    public static final DeferredItem<Item> GOLD_PLATE = ITEMS.registerSimpleItem("gold_plate");
+    public static final DeferredItem<Item> TITANIUM_PLATE = ITEMS.registerSimpleItem("titanium_plate");
+    public static final DeferredItem<Item> SILVER_PLATE = ITEMS.registerSimpleItem("silver_plate");
+    public static final DeferredItem<Item> NIOBIUM_PLATE = ITEMS.registerSimpleItem("niobium_plate");
+    public static final DeferredItem<Item> RHENIUM_PLATE = ITEMS.registerSimpleItem("rhenium_plate");
+    public static final DeferredItem<Item> SILICON_PLATE = ITEMS.registerSimpleItem("silicon_plate");
+    public static final DeferredItem<Item> SLATESTEEL_PLATE = ITEMS.registerSimpleItem("slatesteel_plate");
+    public static final DeferredItem<Item> TUNGSTEN_SLATESTEEL_PLATE = ITEMS.registerSimpleItem("tungsten_slatesteel_plate");
+    public static final DeferredItem<Item> POLYMER_PLATE = ITEMS.registerSimpleItem("polymer_plate");
+    public static final DeferredItem<Item> FLUOROPOLYMER_PLATE = ITEMS.registerSimpleItem("fluoropolymer_plate");
+
+    // Components
+    public static final DeferredItem<Item> MACHINE_HOUSING = ITEMS.registerSimpleItem("machine_housing");
     public static final DeferredItem<Item> SMALL_VOLTAIC_CELL = ITEMS.registerSimpleItem("small_voltaic_cell");
     public static final DeferredItem<Item> MEDIUM_VOLTAIC_CELL = ITEMS.registerSimpleItem("medium_voltaic_cell");
     public static final DeferredItem<Item> LARGE_VOLTAIC_CELL = ITEMS.registerSimpleItem("large_voltaic_cell");
     public static final DeferredItem<Item> CIRCUIT_BOARD = ITEMS.registerSimpleItem("circuit_board");
-    public static final DeferredItem<Item> NANO_CORE = ITEMS.registerSimpleItem("nano_core");
+    public static final DeferredItem<Item> ELITE_CIRCUIT_BOARD = ITEMS.registerSimpleItem("elite_circuit_board", properties -> properties.rarity(Rarity.RARE));
+    public static final DeferredItem<Item> LOGIC_CORE = ITEMS.registerSimpleItem("logic_core");
+    public static final DeferredItem<Item> NANO_LOGIC_CORE = ITEMS.registerSimpleItem("nano_logic_core");
     public static final DeferredItem<SimpleHintItem> T1_CIRCUIT = registerSimpleHint("t1_circuit");
     public static final DeferredItem<SimpleHintItem> T2_CIRCUIT = registerSimpleHint("t2_circuit");
     public static final DeferredItem<SimpleHintItem> T3_CIRCUIT = registerSimpleHint("t3_circuit");
@@ -238,6 +262,7 @@ public final class LTXIItems
     public static final DeferredItem<SimpleHintItem> T5_CIRCUIT = registerSimpleHint("t5_circuit", properties -> properties.rarity(LTXIItemRarities.ltxGearRarity()));
     public static final DeferredItem<SimpleHintItem> OPTICAL_TECH_PART = registerSimpleHint("optical_tech_part", properties -> properties.rarity(Rarity.UNCOMMON));
     public static final DeferredItem<SimpleHintItem> IMPULSE_TECH_PART = registerSimpleHint("impulse_tech_part", properties -> properties.rarity(Rarity.UNCOMMON));
+    public static final DeferredItem<SimpleHintItem> LASER_TECH_PART = registerSimpleHint("laser_tech_part", properties -> properties.rarity(Rarity.RARE));
 
     // Guide and Epsilon series tools
     public static final DeferredItem<GuideTabletItem> GUIDE_TABLET = registerLTXGear("guide_tablet", GuideTabletItem::new);
@@ -259,13 +284,13 @@ public final class LTXIItems
     public static final DeferredItem<EnergyArmorItem> WONDERLAND_FEET = registerLTXGear(LTXIIdentifiers.ID_WONDERLAND_FEET, properties -> new EnergyArmorItem(properties, EquipmentSlot.FEET, 3f));
 
     // Chemicals
-    public static final DeferredItem<Item> MONOMER_CHEMICAL = ITEMS.registerSimpleItem("monomer_chemical");
     public static final DeferredItem<Item> CORROSIVE_WEAPON_CHEMICAL = ITEMS.registerSimpleItem("corrosive_weapon_chemical");
     public static final DeferredItem<Item> CHORUS_CHEMICAL = ITEMS.registerSimpleItem("chorus_chemical");
     public static final DeferredItem<Item> SCULK_CHEMICAL = ITEMS.registerSimpleItem("sculk_chemical");
-    public static final DeferredItem<Item> GLOOM_CHEMICAL = ITEMS.registerSimpleItem("gloom_chemical");
+    public static final DeferredItem<Item> GLOOM_WEAPON_CHEMICAL = ITEMS.registerSimpleItem("gloom_weapon_chemical");
     public static final DeferredItem<Item> TUNGSTEN_TRIOXIDE = ITEMS.registerSimpleItem("tungsten_trioxide");
     public static final DeferredItem<Item> RHENIUM_7_OXIDE = ITEMS.registerSimpleItem("rhenium_7_oxide");
+    public static final DeferredItem<Item> AMMONIUM_PERRHENATE = ITEMS.registerSimpleItem("ammonium_perrhenate");
 
     // Upgrade
     public static final DeferredItem<Item> EMPTY_UPGRADE_MODULE = ITEMS.registerSimpleItem("empty_upgrade_module");
@@ -307,6 +332,15 @@ public final class LTXIItems
     public static final DeferredItem<SimpleHintItem> SPECIALIST_WEAPON_ENERGY = registerSimpleHint("specialist_weapon_energy");
     public static final DeferredItem<SimpleHintItem> EXPLOSIVES_WEAPON_ENERGY = registerSimpleHint("explosives_weapon_energy");
     public static final DeferredItem<SimpleHintItem> HEAVY_WEAPON_ENERGY = registerSimpleHint("heavy_weapon_energy");
+
+    // Ore group materials
+    public static final Map<BuiltInOres, DeferredItem<Item>> CRUSHED_ORES = registerOreGroup(s -> "crushed_" + s + "_ore");
+    public static final Map<BuiltInOres, DeferredItem<Item>> WASHED_ORES = registerOreGroup(s -> "washed_" + s + "_ore");
+    public static final Map<BuiltInOres, DeferredItem<Item>> ORE_CHUNKS = registerOreGroup(s -> s + "_ore_chunk");
+    public static final Map<BuiltInOres, DeferredItem<Item>> ORE_SOLUTIONS = registerOreGroup(s -> s + "_ore_solution");
+    public static final Map<BuiltInOres, DeferredItem<Item>> ORE_CRYSTALS = registerOreGroup(s -> s + "_ore_crystal");
+
+    // Helpers
 
     private static DeferredItem<BlockItem> registerMachineBlockItem(Holder<Block> holder)
     {

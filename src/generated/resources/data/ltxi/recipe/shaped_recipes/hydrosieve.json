@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "b": "minecraft:iron_bars",
+    "c": "ltxi:t1_circuit",
+    "g": "#c:gears/titanium",
+    "h": "ltxi:machine_housing",
+    "t": "#c:ingots/titanium"
+  },
+  "pattern": [
+    "bbb",
+    "tgt",
+    "chc"
+  ],
+  "result": {
+    "id": "ltxi:hydrosieve"
+  }
+}

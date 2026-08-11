@@ -1,25 +1,32 @@
 {
   "type": "ltxi:fabricating",
-  "energy_required": 500000,
-  "group": "mum/fabricator",
+  "energy_required": 1000000,
+  "group": "upgrade/fabricator",
   "item_inputs": [
     {
       "ingredient": "ltxi:empty_upgrade_module"
     },
     {
+      "count": 2,
       "ingredient": "ltxi:t2_circuit"
     },
     {
-      "count": 2,
+      "count": 4,
+      "ingredient": "ltxi:slatesteel_plate"
+    },
+    {
       "ingredient": "ltxi:optical_tech_part"
     },
     {
-      "count": 2,
-      "ingredient": "minecraft:diamond"
+      "count": 4,
+      "ingredient": "ltxi:medium_voltaic_cell"
     },
     {
       "count": 4,
-      "ingredient": "#c:dusts/sodium"
+      "ingredient": "ltxi:olivine"
+    },
+    {
+      "ingredient": "minecraft:diamond"
     }
   ],
   "result": {

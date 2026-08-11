@@ -1,33 +1,29 @@
 {
   "type": "ltxi:fabricating",
   "energy_required": 100000000,
-  "group": "circuits",
+  "group": "0/circuit",
   "item_inputs": [
     {
-      "ingredient": "ltxi:circuit_board"
+      "count": 16,
+      "ingredient": "#c:plates/titanium"
     },
     {
-      "count": 2,
+      "count": 8,
+      "ingredient": "ltxi:rhenium_ingot"
+    },
+    {
+      "ingredient": "ltxi:elite_circuit_board"
+    },
+    {
+      "count": 4,
       "ingredient": "ltxi:t4_circuit"
     },
     {
-      "count": 24,
-      "ingredient": "#c:ingots/titanium"
-    },
-    {
-      "count": 2,
+      "count": 3,
       "ingredient": "ltxi:large_voltaic_cell"
     },
     {
-      "count": 64,
-      "ingredient": "#c:ingots/silicon"
-    },
-    {
-      "count": 32,
-      "ingredient": "#c:ingots/silicon"
-    },
-    {
-      "count": 16,
+      "count": 24,
       "ingredient": "ltxi:sculk_chemical"
     }
   ],

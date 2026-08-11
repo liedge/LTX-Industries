@@ -2,16 +2,16 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "a": "minecraft:furnace",
+    "0": "minecraft:furnace",
     "b": "minecraft:iron_bars",
     "c": "ltxi:t1_circuit",
-    "g": "#c:gears/titanium",
-    "t": "#c:ingots/titanium"
+    "e": "ltxi:small_voltaic_cell",
+    "h": "ltxi:machine_housing"
   },
   "pattern": [
-    "ttt",
-    "bab",
-    "gcg"
+    "000",
+    "bhb",
+    "ece"
   ],
   "result": {
     "id": "ltxi:portable_generator"

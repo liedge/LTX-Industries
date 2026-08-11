@@ -1,0 +1,14 @@
+{
+  "type": "ltxi:grinding",
+  "item_inputs": [
+    {
+      "ingredient": "#c:raw_materials/fluorite"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 2,
+      "id": "ltxi:crushed_fluorite_ore"
+    }
+  ]
+}

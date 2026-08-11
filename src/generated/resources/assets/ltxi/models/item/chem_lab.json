@@ -2,6 +2,7 @@
   "parent": "ltxi:block/chem_lab",
   "loader": "limacore:extended_cuboid",
   "visibility": {
+    "emissive_active": false,
     "fluid": false
   }
 }

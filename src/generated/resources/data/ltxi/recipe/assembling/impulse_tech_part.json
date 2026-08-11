@@ -2,24 +2,25 @@
   "type": "ltxi:assembling",
   "fluid_inputs": [
     {
-      "amount": 16000,
+      "amount": 32000,
       "ingredient": "#c:hydrogen"
     }
   ],
   "item_inputs": [
     {
-      "ingredient": "ltxi:t3_circuit"
-    },
-    {
-      "count": 16,
-      "ingredient": "#c:ingots/titanium"
+      "count": 12,
+      "ingredient": "#c:plates/titanium"
     },
     {
       "count": 8,
-      "ingredient": "ltxi:slatesteel_ingot"
+      "ingredient": "ltxi:slatesteel_plate"
     },
     {
-      "ingredient": "ltxi:slatesteel_gear"
+      "ingredient": "ltxi:t2_circuit"
+    },
+    {
+      "count": 2,
+      "ingredient": "ltxi:medium_voltaic_cell"
     },
     {
       "count": 32,

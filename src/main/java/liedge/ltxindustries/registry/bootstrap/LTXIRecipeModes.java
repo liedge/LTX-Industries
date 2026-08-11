@@ -1,5 +1,7 @@
 package liedge.ltxindustries.registry.bootstrap;
 
+import liedge.limacore.lib.LimaColor;
+import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.data.generation.LTXIBootstrapUtil;
 import liedge.ltxindustries.lib.icon.ItemIcon;
@@ -23,6 +25,14 @@ public final class LTXIRecipeModes
     public static final ResourceKey<RecipeMode> CHEM_DISSOLUTION = key("chemical_dissolve");
     public static final ResourceKey<RecipeMode> ORE_PROCESSING = key("ore_processing");
 
+    // Material Press modes
+    public static final ResourceKey<RecipeMode> PLATE_PRESSING = key("plate_pressing");
+    public static final ResourceKey<RecipeMode> GEAR_PRESSING = key("gear_pressing");
+
+    // Arc Furnace modes
+    public static final ResourceKey<RecipeMode> UNSHIELDED_SMELTING = key("unshielded_smelting");
+    public static final ResourceKey<RecipeMode> INERT_SMELTING = key("inert_smelting");
+
     // Atmospheric Scrubber modes
     public static final ResourceKey<RecipeMode> AMBIENT_FLUIDS = key("ambient_fluids");
     public static final ResourceKey<RecipeMode> AMBIENT_GASES = key("ambient_gases");
@@ -42,10 +52,16 @@ public final class LTXIRecipeModes
 
     public static void bootstrap(BootstrapContext<RecipeMode> context)
     {
-        builder(ELEMENT_EXTRACTION).icon(SpriteIcon.create("sodium_ion")).register(context);
+        builder(ELEMENT_EXTRACTION).icon(SpriteIcon.create("sodium_ion")).styledName(LTXIConstants.ELECTRIC_GREEN).register(context);
         builder(DYE_EXTRACTION).icon(ItemIcon.of(Items.LIME_DYE)).register(context);
         builder(CHEM_DISSOLUTION).icon(ItemIcon.of(LTXIItems.SULFURIC_ACID_BUCKET)).register(context);
-        builder(ORE_PROCESSING).icon(ItemIcon.of(LTXIItems.RAW_SILVER)).register(context);
+        builder(ORE_PROCESSING).icon(LTXIBootstrapUtil.greenArrowOverlay(ItemIcon.of(LTXIItems.RAW_SILVER))).register(context);
+
+        builder(PLATE_PRESSING).icon(ItemIcon.of(LTXIItems.TITANIUM_PLATE)).register(context);
+        builder(GEAR_PRESSING).icon(ItemIcon.of(LTXIItems.TITANIUM_GEAR)).register(context);
+
+        builder(UNSHIELDED_SMELTING).icon(ItemIcon.of(LTXIItems.SLATESTEEL_INGOT)).register(context);
+        builder(INERT_SMELTING).icon(SpriteIcon.create("gas_smelting")).styledName(LimaColor.createOpaque(0x8f73f6)).register(context);
 
         builder(AMBIENT_FLUIDS).icon(LTXIBootstrapUtil.blueRingOverlay(ItemIcon.of(Items.WATER_BUCKET))).register(context);
         builder(AMBIENT_GASES).icon(LTXIBootstrapUtil.blueRingOverlay(ItemIcon.of(LTXIItems.ARGON_BUCKET))).register(context);

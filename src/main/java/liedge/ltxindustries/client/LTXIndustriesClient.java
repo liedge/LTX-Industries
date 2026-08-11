@@ -99,6 +99,8 @@ public class LTXIndustriesClient
             final Material gasSprite = new Material(LTXIndustries.RESOURCES.id("block/gas"));
             final IntFunction<FluidModel.Unbaked> gas = rgb -> new FluidModel.Unbaked(gasSprite, gasSprite, null, FluidTintSources.constant(ARGB.opaque(rgb)));
             final IntFunction<FluidModel.Unbaked> waterBase = rgb -> LimaCoreClientUtil.fluidModel(ModResources.MC, "block/water_still", "block/water_flow", FluidTintSources.constant(ARGB.opaque(rgb)));
+            final IntFunction<FluidModel.Unbaked> moltenLight = rgb -> LimaCoreClientUtil.fluidModel(LTXIndustries.RESOURCES, "block/light_molten_still", "block/light_molten_flow", FluidTintSources.constant(ARGB.opaque(rgb)));
+            final IntFunction<FluidModel.Unbaked> brightWater = rgb -> LimaCoreClientUtil.fluidModel(LTXIndustries.RESOURCES, "block/bright_water_still", "block/bright_water_flow", FluidTintSources.constant(ARGB.opaque(rgb)));
 
             event.register(gas.apply(0xe7e7e7), LTXIFluids.HYDROGEN, LTXIFluids.FLOWING_HYDROGEN);
             event.register(gas.apply(0x27306e), LTXIFluids.NITROGEN, LTXIFluids.FLOWING_NITROGEN);
@@ -109,9 +111,10 @@ public class LTXIndustriesClient
             event.register(gas.apply(0x71ff5e), LTXIFluids.SULPHURINE, LTXIFluids.FLOWING_SULPHURINE);
             event.register(waterBase.apply(0x43d5ee), LTXIFluids.SEA_WATER, LTXIFluids.FLOWING_SEA_WATER);
             event.register(gas.apply(0x73faa5), LTXIFluids.AMMONIA, LTXIFluids.FLOWING_AMMONIA);
-            event.register(waterBase.apply(0xd5fc7e), LTXIFluids.HYDROCHLORIC_ACID, LTXIFluids.FLOWING_HYDROCHLORIC_ACID);
-            event.register(LimaCoreClientUtil.fluidModel(LTXIndustries.RESOURCES, "block/sulfuric_acid_still", "block/sulfuric_acid_flow", null), LTXIFluids.SULFURIC_ACID, LTXIFluids.FLOWING_SULFURIC_ACID);
-            event.register(LimaCoreClientUtil.fluidModel(LTXIndustries.RESOURCES, "block/light_molten_still", "block/light_molten_flow", FluidTintSources.constant(0xff5f6c72)), LTXIFluids.LIQUID_SILICONE, LTXIFluids.FLOWING_LIQUID_SILICONE);
+            event.register(brightWater.apply(0xd5fc7e), LTXIFluids.HYDROCHLORIC_ACID, LTXIFluids.FLOWING_HYDROCHLORIC_ACID);
+            event.register(brightWater.apply(LTXIConstants.ACID_GREEN.argb32()), LTXIFluids.SULFURIC_ACID, LTXIFluids.FLOWING_SULFURIC_ACID);
+            event.register(brightWater.apply(0xffbae6), LTXIFluids.HYDROFLUORIC_ACID, LTXIFluids.FLOWING_HYDROFLUORIC_ACID);
+            event.register(moltenLight.apply(0x5f6c72), LTXIFluids.SILICONE_OIL, LTXIFluids.FLOWING_SILICONE_OIL);
         }
 
         @SubscribeEvent
@@ -259,8 +262,8 @@ public class LTXIndustriesClient
         {
             event.register(List.of(BlockTintSources.constant(0xff3f76e4)), LTXIBlocks.INFINITE_WATER_TANK.get(), LTXIBlocks.GEO_SYNTHESIZER.get(), LTXIBlocks.DIGITAL_GARDEN.get());
 
-            BlockTintSource waterActiveOnly = state -> LTXIBlockProperties.isMachineActive(state) ? 0xff3f76e4 : -1;
-            event.register(List.of(waterActiveOnly), LTXIBlocks.HYDROSIEVE.get());
+            event.register(List.of(activeStateTint(0x3f76e4)), LTXIBlocks.HYDROSIEVE.get());
+            event.register(List.of(activeStateTint(LTXIConstants.ACID_GREEN.argb32())), LTXIBlocks.CHEM_LAB.get());
         }
 
         @SubscribeEvent
@@ -288,6 +291,13 @@ public class LTXIndustriesClient
         public void registerClientReloadListeners(final AddClientReloadListenersEvent event)
         {
             event.addListener(LTXIReloadListeners.BUBBLE_SHIELD_MODEL, BubbleShieldModel.INSTANCE);
+        }
+
+        // Helpers
+        private BlockTintSource activeStateTint(int color)
+        {
+            int argb = ARGB.opaque(color);
+            return state -> LTXIBlockProperties.isMachineActive(state) ? argb : -1;
         }
     }
 }

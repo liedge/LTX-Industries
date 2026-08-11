@@ -2,16 +2,16 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "a": "minecraft:blast_furnace",
+    "0": "#c:ingots/copper",
+    "b": "minecraft:bricks",
     "c": "ltxi:t1_circuit",
-    "g": "#c:gears/titanium",
-    "s": "#c:glass_blocks/cheap",
-    "t": "#c:ingots/titanium"
+    "h": "ltxi:machine_housing",
+    "k": "minecraft:blast_furnace"
   },
   "pattern": [
-    "tct",
-    "sas",
-    "gcg"
+    " k ",
+    "bhb",
+    "0c0"
   ],
   "result": {
     "id": "ltxi:digital_blast_furnace"

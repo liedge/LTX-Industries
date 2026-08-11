@@ -10,12 +10,15 @@
       "ingredient": "ltxi:t4_circuit"
     },
     {
-      "count": 4,
-      "ingredient": "minecraft:phantom_membrane"
+      "ingredient": "ltxi:nano_logic_core"
     },
     {
-      "count": 12,
+      "count": 16,
       "ingredient": "ltxi:chorus_chemical"
+    },
+    {
+      "count": 8,
+      "ingredient": "ltxi:sculk_chemical"
     },
     {
       "ingredient": {

@@ -2,16 +2,16 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "a": "minecraft:cauldron",
-    "c": "ltxi:t2_circuit",
+    "0": "ltxi:titanium_glass",
+    "c": "ltxi:t1_circuit",
+    "e": "ltxi:small_voltaic_cell",
     "g": "#c:gears/titanium",
-    "s": "ltxi:titanium_glass",
-    "t": "#c:ingots/titanium"
+    "h": "ltxi:machine_housing"
   },
   "pattern": [
-    "gcg",
-    "sas",
-    "tct"
+    "0 0",
+    "ege",
+    "chc"
   ],
   "result": {
     "id": "ltxi:electrocentrifuge"

@@ -1,0 +1,16 @@
+{
+  "type": "ltxi:pressing",
+  "item_inputs": [
+    {
+      "count": 4,
+      "ingredient": "ltxi:slatesteel_ingot"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:slatesteel_gear"
+    }
+  ],
+  "mode": "ltxi:gear_pressing"
+}

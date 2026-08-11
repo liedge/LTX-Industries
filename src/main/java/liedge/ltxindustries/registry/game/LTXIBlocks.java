@@ -120,18 +120,6 @@ public final class LTXIBlocks
     public static final DeferredBlock<PrimaryMeshBlock> ROCKET_TURRET = BLOCKS.registerBlock(LTXIIdentifiers.ID_ROCKET_TURRET, properties -> PrimaryMeshBlock.create(properties, LTXIBlockMeshes.TURRET, LTXIBlockShapes.GENERAL_TURRET, true), LTXIBlocks::machineProperties);
     public static final DeferredBlock<PrimaryMeshBlock> RAILGUN_TURRET = BLOCKS.registerBlock(LTXIIdentifiers.ID_RAILGUN_TURRET, properties -> PrimaryMeshBlock.create(properties, LTXIBlockMeshes.TURRET, LTXIBlockShapes.GENERAL_TURRET, true), LTXIBlocks::machineProperties);
 
-    // Fluid blocks
-    public static final DeferredBlock<LiquidBlock> SULFURIC_ACID_BLOCK = BLOCKS.registerBlock(LTXIIdentifiers.ID_SULFURIC_ACID, properties -> new LiquidBlock(LTXIFluids.SULFURIC_ACID.get(), properties), properties -> properties
-            .mapColor(MapColor.PLANT)
-            .replaceable()
-            .noCollision()
-            .strength(100f)
-            .pushReaction(PushReaction.DESTROY)
-            .noLootTable()
-            .liquid()
-            .lightLevel(_ -> LTXIFluids.SULFURIC_ACID_LIGHT)
-            .sound(SoundType.EMPTY));
-
     // Technical blocks
     public static final DeferredBlock<SurfaceStickingBlock> GLOWSTICK = BLOCKS.registerBlock("glowstick", properties -> new SurfaceStickingBlock(properties, LTXIBlockShapes.GLOWSTICK, true), properties -> properties.noCollision().instabreak().pushReaction(PushReaction.DESTROY).lightLevel(_ -> 15).noLootTable());
     public static final DeferredBlock<MeshBlock> MESH_BLOCK = BLOCKS.registerBlock("mesh_block", MeshBlock::new, properties -> machineProperties(properties).dynamicShape().noOcclusion().noLootTable());

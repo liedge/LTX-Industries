@@ -1,0 +1,26 @@
+{
+  "type": "ltxi:mixing",
+  "craft_time": 800,
+  "fluid_inputs": [
+    {
+      "amount": 4000,
+      "ingredient": "#minecraft:water"
+    },
+    {
+      "amount": 1000,
+      "ingredient": "ltxi:sulfuric_acid"
+    }
+  ],
+  "item_inputs": [
+    {
+      "count": 8,
+      "ingredient": "ltxi:resinous_biomass"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 2,
+      "id": "ltxi:polymer_ingot"
+    }
+  ]
+}

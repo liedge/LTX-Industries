@@ -52,6 +52,7 @@ public final class UpgradeBuilder implements BootstrapObjectBuilder<Upgrade>
     private Component title;
     private Component description;
     private final List<UpgradeComponentLike> tooltips = new ObjectArrayList<>();
+    private int keyedTooltipIndex = 0;
     private ItemLikeIcon icon = EmptyIcon.INSTANCE;
     private String category = UpgradeDisplayInfo.NO_CATEGORY;
 
@@ -109,8 +110,7 @@ public final class UpgradeBuilder implements BootstrapObjectBuilder<Upgrade>
 
     public UpgradeBuilder tooltip(Function<String, UpgradeComponentLike> function)
     {
-        int index = tooltips.size();
-        return tooltip(function.apply(tooltipKey(key, index)));
+        return tooltip(function.apply(tooltipKey(key, keyedTooltipIndex++)));
     }
 
     public UpgradeBuilder simpleTooltip()
@@ -118,9 +118,9 @@ public final class UpgradeBuilder implements BootstrapObjectBuilder<Upgrade>
         return tooltip(key -> StaticTooltip.of(Component.translatable(key)));
     }
 
-    public UpgradeBuilder simpleTooltip(Component component)
+    public UpgradeBuilder simpleTooltip(LimaColor color)
     {
-        return tooltip(StaticTooltip.of(component));
+        return tooltip(key -> StaticTooltip.of(Component.translatable(key).withStyle(color.chatStyle())));
     }
 
     public UpgradeBuilder setMaxRank(int maxRank)

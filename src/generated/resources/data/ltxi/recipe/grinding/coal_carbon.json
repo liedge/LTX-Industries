@@ -1,0 +1,23 @@
+{
+  "type": "ltxi:grinding",
+  "item_inputs": [
+    {
+      "ingredient": "minecraft:coal"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:carbon_dust"
+    },
+    {
+      "count": {
+        "chance": 0.25,
+        "max": 1,
+        "min": 1
+      },
+      "id": "ltxi:sulfur_dust"
+    }
+  ],
+  "mode": "ltxi:element_extraction"
+}

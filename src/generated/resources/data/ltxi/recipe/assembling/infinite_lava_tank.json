@@ -1,0 +1,42 @@
+{
+  "type": "ltxi:assembling",
+  "craft_time": 3600,
+  "fluid_inputs": [
+    {
+      "amount": 10000000,
+      "ingredient": "#minecraft:lava"
+    }
+  ],
+  "item_inputs": [
+    {
+      "ingredient": {
+        "neoforge:ingredient_type": "neoforge:components",
+        "components": {
+          "limacore:fluid": {}
+        },
+        "items": "ltxi:portable_tank"
+      }
+    },
+    {
+      "ingredient": "ltxi:t5_circuit"
+    },
+    {
+      "count": 32,
+      "ingredient": "ltxi:tungsten_slatesteel_plate"
+    },
+    {
+      "count": 4,
+      "ingredient": "ltxi:rhenium_plate"
+    },
+    {
+      "count": 8,
+      "ingredient": "ltxi:slatesteel_gear"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:infinite_lava_tank"
+    }
+  ]
+}

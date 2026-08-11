@@ -1,0 +1,56 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 50000000,
+  "group": "machine/power_tiers",
+  "item_inputs": [
+    {
+      "ingredient": {
+        "neoforge:ingredient_type": "neoforge:components",
+        "components": {
+          "ltxi:upgrade": {
+            "rank": 4,
+            "upgrade": "ltxi:power_tiers"
+          }
+        },
+        "items": "ltxi:upgrade_module"
+      }
+    },
+    {
+      "count": 16,
+      "ingredient": "#c:plates/titanium"
+    },
+    {
+      "count": 8,
+      "ingredient": "ltxi:fluoropolymer_plate"
+    },
+    {
+      "count": 8,
+      "ingredient": "ltxi:tungsten_slatesteel_plate"
+    },
+    {
+      "ingredient": "ltxi:t5_circuit"
+    },
+    {
+      "count": 3,
+      "ingredient": "ltxi:large_voltaic_cell"
+    },
+    {
+      "count": 4,
+      "ingredient": "#c:gears/titanium"
+    },
+    {
+      "count": 8,
+      "ingredient": "ltxi:slatesteel_gear"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:upgrade": {
+        "rank": 5,
+        "upgrade": "ltxi:power_tiers"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:upgrade_module"
+  }
+}

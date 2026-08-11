@@ -26,7 +26,18 @@
   "effects": {
     "ltxi:enchantment_levels": [
       {
-        "enchantment": "minecraft:fortune"
+        "enchantment": "minecraft:fortune",
+        "levels": {
+          "type": "minecraft:lookup",
+          "fallback": 0.0,
+          "values": [
+            1.0,
+            2.0,
+            3.0,
+            5.0,
+            7.0
+          ]
+        }
       }
     ]
   },
