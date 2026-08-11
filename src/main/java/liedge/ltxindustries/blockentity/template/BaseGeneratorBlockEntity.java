@@ -66,7 +66,7 @@ public abstract class BaseGeneratorBlockEntity extends LTXIMachineBlockEntity
     @Override
     public final int getBaseEnergyTransferRate()
     {
-        return Ints.saturatedCast(getBaseEnergyGeneration() * 4L);
+        return Ints.saturatedCast(energyGeneration * 4L);
     }
 
     @Override

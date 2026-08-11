@@ -109,11 +109,9 @@ public class PortableGeneratorBlockEntity extends BaseGeneratorBlockEntity
         if (!EnergyHandlerUtil.isFull(energy))
         {
             int energyNeeded = Math.min(energy.getCapacityAsInt() - energy.getAmountAsInt(), getEnergyGeneration());
+            int fuelToBurn = Math.min(getNeededFuel(energyNeeded), fuelUnits);
 
-            int fuelNeeded = getNeededFuel(energyNeeded);
-            int fuelToBurn = Math.min(fuelNeeded, fuelUnits);
-
-            if (energyNeeded <= partialFuelEnergy || fuelToBurn > 0)
+            if (energyNeeded > 0 && (partialFuelEnergy > 0 || fuelToBurn > 0))
             {
                 try (Transaction tx = Transaction.openRoot())
                 {
