@@ -328,7 +328,7 @@ class ModelsGen extends ModelProvider
         createCompositeBinaryMachine(models, LTXIBlocks.MIXER, List.of(Parts.EMISSIVE_ACTIVE, "blades"), List.of("blades"), List.of(Parts.EMISSIVE_ACTIVE));
         createCompositeBinaryMachine(models, LTXIBlocks.VOLTAIC_INJECTOR, List.of(Parts.EMISSIVE_ACTIVE), List.of(), List.of(Parts.EMISSIVE_ACTIVE));
         createCompositeBinaryMachine(models, LTXIBlocks.CHEM_LAB, List.of(Parts.EMISSIVE_ACTIVE, "fluid"), List.of(), List.of("fluid", Parts.EMISSIVE_ACTIVE));
-        createBasicBinaryMachine(models, LTXIBlocks.ASSEMBLER, Templates.ASSEMBLER, null);
+        createCompositeBinaryMachine(models, LTXIBlocks.ASSEMBLER, List.of(Parts.EMISSIVE_ACTIVE, "belt_active"), List.of("belt_idle"), List.of(Parts.EMISSIVE_ACTIVE, "belt_active"));
         createCompositeBinaryMachine(models, LTXIBlocks.GEO_SYNTHESIZER,
                 List.of(Parts.EMISSIVE_ACTIVE),
                 List.of(),

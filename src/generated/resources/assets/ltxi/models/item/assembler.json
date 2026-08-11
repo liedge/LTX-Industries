@@ -1,4 +1,8 @@
 {
-  "parent": "ltxi:block/assembler_idle",
-  "loader": "limacore:extended_cuboid"
+  "parent": "ltxi:block/assembler",
+  "loader": "limacore:extended_cuboid",
+  "visibility": {
+    "belt_active": false,
+    "emissive_active": false
+  }
 }

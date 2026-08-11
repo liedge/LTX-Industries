@@ -131,7 +131,9 @@ public final class LTXIBlockShapes
             dimensionBox(6, 4, 2, 4, 9, 4),
             dimensionBox(10.5d, 4, 2, 4, 9, 4));
 
-    public static final VoxelShape ASSEMBLER = Shapes.or(
+    public static final VoxelShape ASSEMBLER = dimensionBox(0, 0, 1, 16, 15, 14);
+
+    public static final VoxelShape AUTO_FABRICATOR = Shapes.or(
             // Feet & base
             dimensionBox(0, 0, 0, 4, 2, 4),
             dimensionBox(12, 0, 0, 4, 2, 4),
