@@ -7,7 +7,6 @@ import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.block.NeonLightColor;
 import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
 import liedge.ltxindustries.client.LTXIKeyMappings;
-import liedge.ltxindustries.item.SimpleHintItem;
 import liedge.ltxindustries.item.tool.ToolSpeed;
 import liedge.ltxindustries.item.weapon.HanabiItem;
 import liedge.ltxindustries.item.weapon.WeaponItem;
@@ -234,14 +233,14 @@ class LanguageGen extends LimaLanguageProvider
         addItem(ELITE_CIRCUIT_BOARD, "Elite Circuit Board");
         addItem(LOGIC_CORE, "Logic Core");
         addItem(NANO_LOGIC_CORE, "Nano Logic Core");
-        simpleHintItem(T1_CIRCUIT, "Basic Circuit", "First tier circuit. Sufficient energy and data throughput for most entry-level applications.");
-        simpleHintItem(T2_CIRCUIT, "Enhanced Circuit", "Second tier circuit. Improved energy and data efficiency from higher quality conductors.");
-        simpleHintItem(T3_CIRCUIT, "Precision Circuit", "Third tier circuit. Highest performance on conventional materials. Handles all standard engineering and industrial applications.");
-        simpleHintItem(T4_CIRCUIT, "Nano-Core Processor", "Fourth tier circuit. Exotic crystal-metal nanoarchitecture packed into a small form factor. Near unmatched power delivery and data processing.");
-        simpleHintItem(T5_CIRCUIT, "Real Virtuality Processor", "Fifth and final tier circuit. Can create digital microverses where its calculations don't break the laws of physics. Don't question it.");
-        simpleHintItem(OPTICAL_TECH_PART, "Optical Module", "Multi purpose lens with an onboard visual data processor. Useful for target processing and visual aids.");
-        simpleHintItem(LASER_TECH_PART, "Olivine Laser Engine", "Focuses large amounts of energy through an olivine refracting crystal. Capable of producing high power lasers or crystallizing light.");
-        simpleHintItem(IMPULSE_TECH_PART, "Impulse Driver Module", "Hydrogen-fueled device that generates powerful yet precise shock waves. Optimal for propulsion and explosive systems.");
+        simpleLoreItem(T1_CIRCUIT, "Basic Circuit", "First tier circuit. Sufficient energy and data throughput for most entry-level applications.");
+        simpleLoreItem(T2_CIRCUIT, "Enhanced Circuit", "Second tier circuit. Improved energy and data efficiency from higher quality conductors.");
+        simpleLoreItem(T3_CIRCUIT, "Precision Circuit", "Third tier circuit. Highest performance on conventional materials. Handles all standard engineering and industrial applications.");
+        simpleLoreItem(T4_CIRCUIT, "Nano-Core Processor", "Fourth tier circuit. Exotic crystal-metal nanoarchitecture packed into a small form factor. Near unmatched power delivery and data processing.");
+        simpleLoreItem(T5_CIRCUIT, "Real Virtuality Processor", "Fifth and final tier circuit. Can create digital microverses where its calculations don't break the laws of physics. Don't question it.");
+        simpleLoreItem(OPTICAL_TECH_PART, "Optical Module", "Multi purpose lens with an onboard visual data processor. Useful for target processing and visual aids.");
+        simpleLoreItem(LASER_TECH_PART, "Olivine Laser Engine", "Focuses large amounts of energy through an olivine refracting crystal. Capable of producing high power lasers or crystallizing light.");
+        simpleLoreItem(IMPULSE_TECH_PART, "Impulse Driver Module", "Hydrogen-fueled device that generates powerful yet precise shock waves. Optimal for propulsion and explosive systems.");
 
         for (BuiltInOres ore : BuiltInOres.values())
         {
@@ -276,7 +275,7 @@ class LanguageGen extends LimaLanguageProvider
         addItem(WONDERLAND_FEET, italicName("%s AL/1C Seg.F", "Wonderland"));
 
         addItem(EMPTY_UPGRADE_MODULE, "Empty Upgrade Module");
-        simpleHintItem(EMPTY_FABRICATION_BLUEPRINT, "Empty Fabrication Blueprint", "Encode a Fabrication recipe in a Fabricator.");
+        simpleLoreItem(EMPTY_FABRICATION_BLUEPRINT, "Empty Fabrication Blueprint", "Encode a Fabrication recipe in a Fabricator.");
         addItem(FABRICATION_BLUEPRINT, "Fabrication Blueprint");
         addItem(ITEMS_IO_CONFIG_CARD, "Items IO Config Card");
         addItem(ENERGY_IO_CONFIG_CARD, "Energy IO Config Card");
@@ -601,10 +600,10 @@ class LanguageGen extends LimaLanguageProvider
         add(LTXIKeyMappings.RELOAD_KEY_SUBTITLE, "Reload Weapon");
     }
 
-    private void simpleHintItem(DeferredItem<SimpleHintItem> item, String name, String hint)
+    private void simpleLoreItem(DeferredItem<?> item, String name, String hint)
     {
         addItem(item, name);
-        add(item.get().getShiftHint(), hint);
+        add(item.getId().toLanguageKey(ITEM_LORE_PREFIX), hint);
     }
 
     private String italicName(String pattern, String name)

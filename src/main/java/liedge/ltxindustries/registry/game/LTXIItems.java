@@ -10,12 +10,18 @@ import liedge.limacore.util.LimaRegistryUtil;
 import liedge.ltxindustries.LTXIIdentifiers;
 import liedge.ltxindustries.block.NeonLightColor;
 import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
+import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.item.*;
 import liedge.ltxindustries.item.tool.*;
 import liedge.ltxindustries.item.weapon.*;
 import liedge.ltxindustries.lib.BuiltInOres;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -25,6 +31,7 @@ import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.component.Consumables;
+import net.minecraft.world.item.component.ItemLore;
 import net.minecraft.world.item.component.UseEffects;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import net.minecraft.world.level.ItemLike;
@@ -40,6 +47,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
@@ -258,14 +266,14 @@ public final class LTXIItems
     public static final DeferredItem<Item> ELITE_CIRCUIT_BOARD = ITEMS.registerSimpleItem("elite_circuit_board", properties -> properties.rarity(Rarity.RARE));
     public static final DeferredItem<Item> LOGIC_CORE = ITEMS.registerSimpleItem("logic_core");
     public static final DeferredItem<Item> NANO_LOGIC_CORE = ITEMS.registerSimpleItem("nano_logic_core");
-    public static final DeferredItem<SimpleHintItem> T1_CIRCUIT = registerSimpleHint("t1_circuit");
-    public static final DeferredItem<SimpleHintItem> T2_CIRCUIT = registerSimpleHint("t2_circuit");
-    public static final DeferredItem<SimpleHintItem> T3_CIRCUIT = registerSimpleHint("t3_circuit");
-    public static final DeferredItem<SimpleHintItem> T4_CIRCUIT = registerSimpleHint("t4_circuit", properties -> properties.rarity(Rarity.RARE));
-    public static final DeferredItem<SimpleHintItem> T5_CIRCUIT = registerSimpleHint("t5_circuit", properties -> properties.rarity(LTXIItemRarities.ltxGearRarity()));
-    public static final DeferredItem<SimpleHintItem> OPTICAL_TECH_PART = registerSimpleHint("optical_tech_part", properties -> properties.rarity(Rarity.UNCOMMON));
-    public static final DeferredItem<SimpleHintItem> IMPULSE_TECH_PART = registerSimpleHint("impulse_tech_part", properties -> properties.rarity(Rarity.UNCOMMON));
-    public static final DeferredItem<SimpleHintItem> LASER_TECH_PART = registerSimpleHint("laser_tech_part", properties -> properties.rarity(Rarity.RARE));
+    public static final DeferredItem<Item> T1_CIRCUIT = registerSimpleLore("t1_circuit");
+    public static final DeferredItem<Item> T2_CIRCUIT = registerSimpleLore("t2_circuit");
+    public static final DeferredItem<Item> T3_CIRCUIT = registerSimpleLore("t3_circuit");
+    public static final DeferredItem<Item> T4_CIRCUIT = registerSimpleLore("t4_circuit", properties -> properties.rarity(Rarity.RARE));
+    public static final DeferredItem<Item> T5_CIRCUIT = registerSimpleLore("t5_circuit", properties -> properties.rarity(LTXIItemRarities.ltxGearRarity()));
+    public static final DeferredItem<Item> OPTICAL_TECH_PART = registerSimpleLore("optical_tech_part", properties -> properties.rarity(Rarity.UNCOMMON));
+    public static final DeferredItem<Item> IMPULSE_TECH_PART = registerSimpleLore("impulse_tech_part", properties -> properties.rarity(Rarity.UNCOMMON));
+    public static final DeferredItem<Item> LASER_TECH_PART = registerSimpleLore("laser_tech_part", properties -> properties.rarity(Rarity.RARE));
 
     // Guide and Epsilon series tools
     public static final DeferredItem<GuideTabletItem> GUIDE_TABLET = registerLTXGear("guide_tablet", GuideTabletItem::new);
@@ -300,7 +308,7 @@ public final class LTXIItems
     public static final DeferredItem<UpgradeModuleItem> UPGRADE_MODULE = ITEMS.registerItem("upgrade_module", UpgradeModuleItem::new, properties -> properties.stacksTo(1).fireResistant());
 
     // Data holding 'cards'
-    public static final DeferredItem<SimpleHintItem> EMPTY_FABRICATION_BLUEPRINT = registerSimpleHint("empty_fabrication_blueprint");
+    public static final DeferredItem<Item> EMPTY_FABRICATION_BLUEPRINT = registerSimpleLore("empty_fabrication_blueprint");
     public static final DeferredItem<FabricationBlueprintItem> FABRICATION_BLUEPRINT = ITEMS.registerItem("fabrication_blueprint", FabricationBlueprintItem::new, properties -> properties.stacksTo(1));
     public static final DeferredItem<IOConfigCardItem> ITEMS_IO_CONFIG_CARD = ITEMS.registerItem("items_io_config_card", properties -> new IOConfigCardItem(properties, BlockEntityInputType.ITEMS), properties -> properties.stacksTo(1));
     public static final DeferredItem<IOConfigCardItem> ENERGY_IO_CONFIG_CARD = ITEMS.registerItem("energy_io_config_card", properties -> new IOConfigCardItem(properties, BlockEntityInputType.ENERGY), properties -> properties.stacksTo(1));
@@ -358,14 +366,17 @@ public final class LTXIItems
         return ITEMS.registerCustomBlockItem(holder, ContentsTooltipBlockItem::energyOwnerTooltipItem, properties -> properties.stacksTo(1).rarity(LTXIItemRarities.ltxGearRarity()));
     }
 
-    private static DeferredItem<SimpleHintItem> registerSimpleHint(String name, UnaryOperator<Item.Properties> properties)
+    private static DeferredItem<Item> registerSimpleLore(String name, UnaryOperator<Item.Properties> properties)
     {
-        return ITEMS.registerItem(name, SimpleHintItem::new, properties);
+        return ITEMS.register(name, key -> new Item(properties.apply(new Item.Properties()
+                .setId(ResourceKey.create(Registries.ITEM, key))
+                .component(DataComponents.LORE, new ItemLore(List.of(Component.translatable(key.toLanguageKey(LTXILangKeys.ITEM_LORE_PREFIX))
+                        .withStyle(Style.EMPTY.withColor(ChatFormatting.GRAY).withItalic(false))))))));
     }
 
-    private static DeferredItem<SimpleHintItem> registerSimpleHint(String name)
+    private static DeferredItem<Item> registerSimpleLore(String name)
     {
-        return registerSimpleHint(name, UnaryOperator.identity());
+        return registerSimpleLore(name, UnaryOperator.identity());
     }
 
     private static <T extends Item> DeferredItem<T> registerLTXGear(String name, Function<Item.Properties, T> constructor, UnaryOperator<Item.Properties> properties)

@@ -9,6 +9,7 @@ public final class LTXILangKeys
     private LTXILangKeys() {}
 
     public static final String UPGRADE_EFFECT_PREFIX = "upgrade_effect";
+    public static final String ITEM_LORE_PREFIX = "item_lore";
 
     // Death messages
     public static final Translatable INVALID_WEAPON_DEATH_MESSAGE = RESOURCES.translationHolder("death.attack.{}.unknown_weapon");
