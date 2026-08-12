@@ -43,20 +43,18 @@ around it. The space must be a replaceable block like air or flowing water.
 
 ## Usage
 
-You can process Gloom Shrooms in the [ElectroCentrifuge](../machines/gpm/electrocentrifuge.md) with a little bit of
+You can process Gloom Shrooms in the [Mixer](../machines/processing/mixer.md) with a little bit of
 [Viridic Acid](vitriol_berries.md) solvent. This will net you a bottle of Echo Serum and, rarely, a vial of Concentrated Gloom Essence.
 
 ### Echo Serum
 
 <ItemImage id="sculk_chemical" scale="2" />
 
-Echo Serum is the refined essence of Sculk absorbed by the Gloom Shroom over centuries. Conveniently extracted,
-purified, and bottled by the ElectroCentrifuge. Neat. It is used for crafting Sculk-attuned technology as well as the
-paradoxical [Real Virtuality Circuit](circuits.md).
+Echo Serum is the refined essence of Sculk absorbed by the Gloom Shroom over centuries dissolved in a Sulfuric Acid solution.
 
 ### Concentrated Gloom Essence
  
-<ItemImage id="gloom_chemical" scale="2" />
+<ItemImage id="gloom_weapon_chemical" scale="2" />
 
 Rarely, Gloom Shrooms contain such a large amount of spores that a vial of Concentrated Gloom Essence
 may be extracted alongside Echo Serum. Accumulate enough vials, and you can use them to craft the

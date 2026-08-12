@@ -1,11 +1,11 @@
 ---
 navigation:
-    title: Machinery
-    icon: auto_fabricator
+    title: Processing Machines
+    icon: mixer
     position: 20
 ---
 
-# Machines
+# Processing Machines
 
 Whether you need resource processing, crafting, or defense we've got you covered. 
 

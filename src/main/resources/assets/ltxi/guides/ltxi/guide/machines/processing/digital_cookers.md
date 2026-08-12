@@ -2,8 +2,12 @@
 navigation:
     title: Digital Cooking
     icon: digital_furnace
-    parent: machines/index.md
-    position: 10
+    parent: machines/processing/index.md
+    position: 100
+item_ids:
+  - digital_furnace
+  - digital_smoker
+  - digital_blast_furnace
 ---
 
 # Digital Cooking Machines

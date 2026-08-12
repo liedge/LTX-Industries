@@ -8,7 +8,7 @@ navigation:
 # ε-Series tools
 
 The ε (epsilon) series is our standard tool product line. All tools are unbreakable, run on <Color id="energy">Energy</Color>,
-and are [upgradable](../fundamentals/upgrade_system.md).
+and are [upgradable](fundamentals/upgrade_system.md).
 
 ## Mining Tools
 
@@ -55,10 +55,10 @@ They still support the enchantment upgrade modules.
 <ItemIcon id="epsilon_axe" />
 </ItemGrid>
 
-The Sword and Axe are designated *melee weapons*. They share certain upgrade modules with the [signature series weapons](../weapons/index.md)
+The Sword and Axe are designated *melee weapons*. They share certain upgrade modules with the [signature series weapons](weapons/index.md)
 including enchantment modules (Razor and Looting) and target filters.
 
-> The [Equipment Damage Modifier](../fundamentals/damage_modifiers.md) system applies to all ε-Series melee weapons.
+> The [Equipment Damage Modifier](fundamentals/damage_modifiers.md) system applies to all ε-Series melee weapons.
 
 ## Miscellaneous tools
 

@@ -9,7 +9,6 @@ navigation:
 
 ## Added Enchantments
 - [Razor](razor.md)
-- [Ammo Scavenger](ammo_scavenger.md)
 
 ## Obtaining
 All enchantments can be obtained via the enchantment table. However, their maximum level will be lower than what you can get

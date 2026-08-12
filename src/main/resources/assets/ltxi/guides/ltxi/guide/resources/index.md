@@ -2,6 +2,7 @@
 navigation:
     title: Resources
     position: 3
+    icon: titanium_ingot
 ---
 
 # Materials and Resources

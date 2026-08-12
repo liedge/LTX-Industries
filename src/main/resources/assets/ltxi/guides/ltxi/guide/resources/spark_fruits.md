@@ -41,9 +41,5 @@ A planted fruit will go through 2 growth stages before maturing.
 
 ## Usage
 
-### Electrolyte Blend
-
-<ItemImage id="electric_chemical" scale="2" />
-
-Use a [Grinder](../machines/gpm/grinder.md) to extract the capacitive and conductive pulp of Spark Fruits. This
+Use a [Grinder](../machines/processing/grinder.md) to extract the elemental [Sodium](elements.md#sodium) contained in the fruit's juice. This
 ingredient is vital for manufacturing advanced electrical components and upgrades.

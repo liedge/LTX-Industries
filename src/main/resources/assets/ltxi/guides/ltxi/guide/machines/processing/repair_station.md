@@ -2,8 +2,8 @@
 navigation:
     title: Repair Station
     icon: repair_station
-    parent: machines/index.md
-    position: 31
+    parent: machines/processing/index.md
+    position: 200
 item_ids:
   - repair_station
 ---
