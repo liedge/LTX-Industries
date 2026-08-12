@@ -190,11 +190,7 @@ class ModelsGen extends ModelProvider
                 FABRICATION_BLUEPRINT,
                 ITEMS_IO_CONFIG_CARD,
                 ENERGY_IO_CONFIG_CARD,
-                FLUIDS_IO_CONFIG_CARD,
-                LIGHTWEIGHT_WEAPON_ENERGY,
-                SPECIALIST_WEAPON_ENERGY,
-                EXPLOSIVES_WEAPON_ENERGY,
-                HEAVY_WEAPON_ENERGY);
+                FLUIDS_IO_CONFIG_CARD);
 
         existingItem(models, MACHINE_HOUSING);
 

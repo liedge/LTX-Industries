@@ -65,7 +65,6 @@ import static liedge.ltxindustries.LTXIConstants.*;
 import static liedge.ltxindustries.LTXIIdentifiers.*;
 import static liedge.ltxindustries.LTXITags.Upgrades.*;
 import static liedge.ltxindustries.data.generation.LTXIBootstrapUtil.*;
-import static liedge.ltxindustries.registry.bootstrap.LTXIEnchantments.AMMO_SCAVENGER;
 import static liedge.ltxindustries.registry.bootstrap.LTXIEnchantments.RAZOR;
 import static liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents.*;
 
@@ -102,7 +101,6 @@ public final class LTXIUpgrades
     public static final ResourceKey<Upgrade> EPSILON_SHOVEL_DEFAULT = defaultKey(ID_EPSILON_SHOVEL);
     public static final ResourceKey<Upgrade> EPSILON_WRENCH_DEFAULT = defaultKey(ID_EPSILON_WRENCH);
     public static final ResourceKey<Upgrade> EPSILON_MELEE_DEFAULT = defaultKey("epsilon_melee");
-    public static final ResourceKey<Upgrade> WAYFINDER_DEFAULT = defaultKey(ID_WAYFINDER);
     public static final ResourceKey<Upgrade> SERENITY_DEFAULT = defaultKey(ID_SERENITY);
     public static final ResourceKey<Upgrade> MIRAGE_DEFAULT = defaultKey(ID_MIRAGE);
     public static final ResourceKey<Upgrade> AURORA_DEFAULT = defaultKey(ID_AURORA);
@@ -126,10 +124,6 @@ public final class LTXIUpgrades
 
     // Weapon upgrades
     public static final ResourceKey<Upgrade> WEAPON_VIBRATION_CANCEL = key("weapon_vibration_cancel");
-    public static final ResourceKey<Upgrade> LIGHTWEIGHT_ENERGY_ADAPTER = key("lightweight_energy_adapter");
-    public static final ResourceKey<Upgrade> SPECIALIST_ENERGY_ADAPTER = key("specialist_energy_adapter");
-    public static final ResourceKey<Upgrade> EXPLOSIVES_ENERGY_ADAPTER = key("explosives_energy_adapter");
-    public static final ResourceKey<Upgrade> HEAVY_ENERGY_ADAPTER = key("heavy_energy_adapter");
     public static final ResourceKey<Upgrade> INFINITE_AMMO = key("infinite_ammo");
     public static final ResourceKey<Upgrade> HANABI_SPEED_BOOST = key("hanabi_speed_boost");
 
@@ -146,7 +140,6 @@ public final class LTXIUpgrades
     public static final ResourceKey<Upgrade> SILK_TOUCH_ENCHANTMENT = key("enchantment/silk_touch");
     public static final ResourceKey<Upgrade> FORTUNE_ENCHANTMENT = key("enchantment/fortune");
     public static final ResourceKey<Upgrade> LOOTING_ENCHANTMENT = key("enchantment/looting");
-    public static final ResourceKey<Upgrade> AMMO_SCAVENGER_ENCHANTMENT = key("enchantment/ammo_scavenger");
     public static final ResourceKey<Upgrade> RAZOR_ENCHANTMENT = key("enchantment/razor");
 
     // Hanabi grenade cores
@@ -289,19 +282,6 @@ public final class LTXIUpgrades
                 .category("default/tool")
                 .register(context);
 
-        ContextlessValue gslEnergyCap = ConstantDouble.of(50_000);
-        ContextlessValue gslEnergyUse = ConstantDouble.of(5000);
-        Upgrade.builder(WAYFINDER_DEFAULT)
-                .forEquipment(LTXIItems.WAYFINDER)
-                .exclusiveWith(holders, RELOAD_SOURCE_MODIFIERS)
-                .withEffect(ENERGY_CAPACITY, ValueOperation.of(gslEnergyCap, MathOperation.REPLACE))
-                .withEffect(ENERGY_USAGE, ValueOperation.of(gslEnergyUse, MathOperation.REPLACE))
-                .withSpecialEffect(RELOAD_SOURCE, WeaponReloadSource.commonEnergy())
-                .tooltip(energyCapacityTooltip(gslEnergyCap, ValueFormat.FLAT_NUMBER, ValueSentiment.NEUTRAL))
-                .tooltip(energyUsageTooltip(gslEnergyUse, ValueFormat.FLAT_NUMBER, ValueSentiment.NEUTRAL))
-                .effectIcon(defaultModuleIcon(LTXIItems.WAYFINDER))
-                .category("default/weapon")
-                .register(context);
         Upgrade.builder(SERENITY_DEFAULT)
                 .forEquipment(LTXIItems.SERENITY)
                 .withEffect(SUPPRESS_VIBRATIONS, SuppressVibrations.mainHand(gameEvents.getOrThrow(LTXITags.GameEvents.WEAPON_VIBRATIONS)))
@@ -330,15 +310,15 @@ public final class LTXIUpgrades
                 .register(context);
         Upgrade.builder(STARGAZER_DEFAULT)
                 .forEquipment(LTXIItems.STARGAZER)
-                .withConditionalEffect(EQUIPMENT_DAMAGE, ValueOperation.of(TargetDistanceCurve.of(ConstantDouble.of(30), ConstantDouble.of(50), ConstantDouble.of(50)), MathOperation.ADD))
+                .withConditionalEffect(EQUIPMENT_DAMAGE, ValueOperation.of(TargetDistanceCurve.of(ConstantDouble.of(30), ConstantDouble.of(50), ConstantDouble.of(75)), MathOperation.ADD))
                 .withConditionalEffect(EQUIPMENT_DAMAGE, ValueOperation.of(ConstantDouble.of(0.15d), MathOperation.ADD_PERCENT_OF_TOTAL),
                         LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.ATTACKER, EntityPredicate.Builder.entity()
                                 .moving(MovementPredicate.speed(MinMaxBounds.Doubles.atMost(1e-3d)))
                                 .flags(EntityFlagsPredicate.Builder.flags().setCrouching(true))))
                 .tooltip(key -> TranslatableTooltip.create(key,
-                        ValueComponent.of(ConstantDouble.of(1), ValueFormat.SIGNED_FLAT_NUMBER, ValueSentiment.POSITIVE),
+                        ValueComponent.of(ConstantDouble.of(1.5d), ValueFormat.SIGNED_FLAT_NUMBER, ValueSentiment.POSITIVE),
                         ValueComponent.of(ConstantDouble.of(30), ValueFormat.FLAT_NUMBER, ValueSentiment.NEUTRAL),
-                        ValueComponent.of(ConstantDouble.of(50), ValueFormat.FLAT_NUMBER, ValueSentiment.POSITIVE)))
+                        ValueComponent.of(ConstantDouble.of(75), ValueFormat.FLAT_NUMBER, ValueSentiment.POSITIVE)))
                 .tooltip(key -> TranslatableTooltip.create(key, ValueComponent.of(ConstantDouble.of(0.15d), ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE)))
                 .effectIcon(defaultModuleIcon(LTXIItems.STARGAZER))
                 .category("default/weapon")
@@ -465,66 +445,6 @@ public final class LTXIUpgrades
                 .effectIcon(redXOverlay(ItemIcon.of(Items.SCULK_SENSOR)))
                 .register(context);
 
-        ContextlessValue lightweightEnergyCapacity = ConstantDouble.of(100_000);
-        ContextlessValue lightweightEnergyUsage = ConstantDouble.of(10_000);
-        Upgrade.builder(LIGHTWEIGHT_ENERGY_ADAPTER)
-                .createDefaultTitle(REM_BLUE)
-                .forEquipment(items, LTXITags.Items.LIGHTWEIGHT_WEAPONS)
-                .exclusiveWith(holders, RELOAD_SOURCE_MODIFIERS)
-                .withEffect(ENERGY_CAPACITY, ValueOperation.of(lightweightEnergyCapacity, MathOperation.REPLACE))
-                .withEffect(ENERGY_USAGE, ValueOperation.of(lightweightEnergyUsage, MathOperation.REPLACE))
-                .withSpecialEffect(RELOAD_SOURCE, WeaponReloadSource.commonEnergy())
-                .tooltip(energyCapacityTooltip(lightweightEnergyCapacity, ValueFormat.FLAT_NUMBER, ValueSentiment.NEUTRAL))
-                .tooltip(energyUsageTooltip(lightweightEnergyUsage, ValueFormat.FLAT_NUMBER, ValueSentiment.NEUTRAL))
-                .effectIcon(SpriteIcon.create(LIGHTWEIGHT_ENERGY_ADAPTER.identifier().getPath()))
-                .category("weapon/ammo")
-                .register(context);
-
-        ContextlessValue specialistEnergyCapacity = ConstantDouble.of(5_000_000);
-        ContextlessValue specialistEnergyUsage = ConstantDouble.of(1_000_000);
-        Upgrade.builder(SPECIALIST_ENERGY_ADAPTER)
-                .createDefaultTitle(REM_BLUE)
-                .forEquipment(items, LTXITags.Items.SPECIALIST_WEAPONS)
-                .exclusiveWith(holders, RELOAD_SOURCE_MODIFIERS)
-                .withEffect(ENERGY_CAPACITY, ValueOperation.of(specialistEnergyCapacity, MathOperation.REPLACE))
-                .withEffect(ENERGY_USAGE, ValueOperation.of(specialistEnergyUsage, MathOperation.REPLACE))
-                .withSpecialEffect(RELOAD_SOURCE, WeaponReloadSource.commonEnergy())
-                .tooltip(energyCapacityTooltip(specialistEnergyCapacity, ValueFormat.FLAT_NUMBER, ValueSentiment.NEUTRAL))
-                .tooltip(energyUsageTooltip(specialistEnergyUsage, ValueFormat.FLAT_NUMBER, ValueSentiment.NEUTRAL))
-                .effectIcon(SpriteIcon.create(SPECIALIST_ENERGY_ADAPTER.identifier().getPath()))
-                .category("weapon/ammo")
-                .register(context);
-
-        ContextlessValue explosivesEnergyCapacity = ConstantDouble.of(20_000_000);
-        ContextlessValue explosivesEnergyUsage = ConstantDouble.of(10_000_000);
-        Upgrade.builder(EXPLOSIVES_ENERGY_ADAPTER)
-                .createDefaultTitle(REM_BLUE)
-                .forEquipment(items, LTXITags.Items.EXPLOSIVE_WEAPONS)
-                .exclusiveWith(holders, RELOAD_SOURCE_MODIFIERS)
-                .withEffect(ENERGY_CAPACITY, ValueOperation.of(explosivesEnergyCapacity, MathOperation.REPLACE))
-                .withEffect(ENERGY_USAGE, ValueOperation.of(explosivesEnergyUsage, MathOperation.REPLACE))
-                .withSpecialEffect(RELOAD_SOURCE, WeaponReloadSource.commonEnergy())
-                .tooltip(energyCapacityTooltip(explosivesEnergyCapacity, ValueFormat.FLAT_NUMBER, ValueSentiment.NEUTRAL))
-                .tooltip(energyUsageTooltip(explosivesEnergyUsage, ValueFormat.FLAT_NUMBER, ValueSentiment.NEUTRAL))
-                .effectIcon(SpriteIcon.create(EXPLOSIVES_ENERGY_ADAPTER.identifier().getPath()))
-                .category("weapon/ammo")
-                .register(context);
-
-        ContextlessValue heavyEnergyCapacity = ConstantDouble.of(50_000_000);
-        ContextlessValue heavyEnergyUsage = ConstantDouble.of(25_000_000);
-        Upgrade.builder(HEAVY_ENERGY_ADAPTER)
-                .createDefaultTitle(REM_BLUE)
-                .forEquipment(items, LTXITags.Items.HEAVY_WEAPONS)
-                .exclusiveWith(holders, RELOAD_SOURCE_MODIFIERS)
-                .withEffect(ENERGY_CAPACITY, ValueOperation.of(heavyEnergyCapacity, MathOperation.REPLACE))
-                .withEffect(ENERGY_USAGE, ValueOperation.of(heavyEnergyUsage, MathOperation.REPLACE))
-                .withSpecialEffect(RELOAD_SOURCE, WeaponReloadSource.commonEnergy())
-                .tooltip(energyCapacityTooltip(heavyEnergyCapacity, ValueFormat.FLAT_NUMBER, ValueSentiment.NEUTRAL))
-                .tooltip(energyUsageTooltip(heavyEnergyUsage, ValueFormat.FLAT_NUMBER, ValueSentiment.NEUTRAL))
-                .effectIcon(SpriteIcon.create(HEAVY_ENERGY_ADAPTER.identifier().getPath()))
-                .category("weapon/ammo")
-                .register(context);
-
         Upgrade.builder(INFINITE_AMMO)
                 .createDefaultTitle(CREATIVE_PINK)
                 .forEquipment(projectileWeapons)
@@ -615,14 +535,6 @@ public final class LTXIUpgrades
                 .setMaxRank(5)
                 .withEffect(ENCHANTMENT_LEVELS, AddEnchantmentLevels.add(enchantments.getOrThrow(Enchantments.LOOTING), luckLevels))
                 .effectIcon(luckOverlay(LTXIItems.EPSILON_SWORD))
-                .category("enchants")
-                .register(context);
-        Upgrade.builder(AMMO_SCAVENGER_ENCHANTMENT)
-                .forEquipment(allWeapons)
-                .forMachines(blockEntities, LTXITags.BlockEntities.TURRETS)
-                .setMaxRank(5)
-                .withEffect(ENCHANTMENT_LEVELS, AddEnchantmentLevels.rankLinear(enchantments.getOrThrow(AMMO_SCAVENGER)))
-                .effectIcon(SpriteIcon.create("ammo_scavenger"))
                 .category("enchants")
                 .register(context);
         Upgrade.builder(RAZOR_ENCHANTMENT)

@@ -8,7 +8,6 @@ import liedge.ltxindustries.lib.upgrades.Upgrade;
 import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
 import liedge.ltxindustries.registry.bootstrap.LTXIUpgrades;
 import liedge.ltxindustries.registry.game.LTXIGameEvents;
-import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.registry.game.LTXISounds;
 import liedge.ltxindustries.util.config.LTXIWeaponsConfig;
 import net.minecraft.resources.ResourceKey;
@@ -26,7 +25,7 @@ public class AuroraItem extends SemiAutoWeaponItem
 {
     public AuroraItem(Properties properties)
     {
-        super(properties, 5, 10d, 40, LTXIItems.SPECIALIST_WEAPON_ENERGY);
+        super(properties, 5, 13d, 40);
     }
 
     @Override
@@ -62,6 +61,6 @@ public class AuroraItem extends SemiAutoWeaponItem
     @Override
     public int getFireRate(ItemStack stack)
     {
-        return 10;
+        return 7;
     }
 }

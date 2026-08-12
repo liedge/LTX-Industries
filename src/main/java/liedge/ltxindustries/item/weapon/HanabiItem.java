@@ -12,7 +12,6 @@ import liedge.ltxindustries.lib.weapons.GrenadeType;
 import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
 import liedge.ltxindustries.registry.bootstrap.LTXIUpgrades;
 import liedge.ltxindustries.registry.game.LTXIGameEvents;
-import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.registry.game.LTXISounds;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import net.minecraft.core.HolderLookup;
@@ -41,7 +40,7 @@ public class HanabiItem extends SemiAutoWeaponItem implements ScrollModeSwitchIt
 
     public HanabiItem(Properties properties)
     {
-        super(properties, 6, 1.5d, 50, LTXIItems.EXPLOSIVES_WEAPON_ENERGY);
+        super(properties, 6, 1.5d, 50);
     }
 
     public void setGrenadeType(ItemStack stack, GrenadeType grenadeType)

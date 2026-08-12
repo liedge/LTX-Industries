@@ -3,7 +3,6 @@ package liedge.ltxindustries.item.weapon;
 import liedge.ltxindustries.lib.upgrades.Upgrade;
 import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
 import liedge.ltxindustries.registry.bootstrap.LTXIUpgrades;
-import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.registry.game.LTXISounds;
 import liedge.ltxindustries.util.config.LTXIWeaponsConfig;
 import net.minecraft.resources.ResourceKey;
@@ -21,7 +20,7 @@ public class StargazerItem extends FullAutoWeaponItem implements ScopingWeaponIt
 
     public StargazerItem(Properties properties)
     {
-        super(properties, 5, 200, 40, LTXIItems.SPECIALIST_WEAPON_ENERGY);
+        super(properties, 5, 200, 40);
     }
 
     @Override

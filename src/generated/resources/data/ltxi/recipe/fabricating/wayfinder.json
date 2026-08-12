@@ -19,11 +19,6 @@
     }
   ],
   "result": {
-    "components": {
-      "ltxi:upgrades": {
-        "ltxi:default/wayfinder": 1
-      }
-    },
     "count": 1,
     "id": "ltxi:wayfinder"
   }

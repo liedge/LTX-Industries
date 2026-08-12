@@ -3,14 +3,8 @@ package liedge.ltxindustries.data.generation;
 import liedge.limacore.data.generation.loot.LimaBlockLootSubProvider;
 import liedge.limacore.data.generation.loot.LimaLootSubProvider;
 import liedge.limacore.data.generation.loot.LimaLootTableProvider;
-import liedge.limacore.lib.MinMaxRange;
-import liedge.limacore.lib.MobHostility;
 import liedge.limacore.util.LimaLootUtil;
-import liedge.limacore.world.loot.DynamicWeightLootEntry;
-import liedge.limacore.world.loot.condition.EntityHostilityCondition;
 import liedge.limacore.world.loot.level.RangedLookupLevelBasedValue;
-import liedge.limacore.world.loot.number.EntityEnchantmentLevels;
-import liedge.limacore.world.loot.number.RoundValue;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.advancements.criterion.GrenadeElementSubPredicate;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
@@ -32,7 +26,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraft.world.item.enchantment.LevelBasedValue;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -42,9 +35,11 @@ import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
 import net.minecraft.world.level.storage.loot.functions.FillPlayerHead;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
-import net.minecraft.world.level.storage.loot.predicates.*;
+import net.minecraft.world.level.storage.loot.predicates.AnyOfCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemEntityPropertyCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
-import net.minecraft.world.level.storage.loot.providers.number.NumberProvider;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.common.loot.CanItemPerformAbility;
@@ -99,18 +94,6 @@ class LootTablesGen extends LimaLootTableProvider
             addTable(ENTITY_EXTRA_DROPS, LootTable.lootTable()
                     .withPool(wardenDrops));
 
-            // Ammo drops table
-            LootPool.Builder ammoDrops = LootPool.lootPool()
-                    .when(EntityHostilityCondition.attackerIs(MinMaxRange.atLeast(MobHostility.NEUTRAL_ENEMY)))
-                    .when(LootItemRandomChanceWithEnchantedBonusCondition.randomChanceAndLootingBoost(registries, 0.25f, 0.025f))
-                    .add(lootItem(LTXIItems.LIGHTWEIGHT_WEAPON_ENERGY).setWeight(80))
-                    .add(DynamicWeightLootEntry.dynamicWeightItem(LTXIItems.SPECIALIST_WEAPON_ENERGY, 15).setReplaceWeight(false).setDynamicWeight(ammoEnchantValue(0, LevelBasedValue.perLevel(6))))
-                    .add(DynamicWeightLootEntry.dynamicWeightItem(LTXIItems.EXPLOSIVES_WEAPON_ENERGY, 5).setReplaceWeight(false).setDynamicWeight(ammoEnchantValue(0, LevelBasedValue.perLevel(3))))
-                    .add(DynamicWeightLootEntry.dynamicWeightItem(LTXIItems.HEAVY_WEAPON_ENERGY, 1).setReplaceWeight(false).setDynamicWeight(ammoEnchantValue(0, LevelBasedValue.perLevel(2))))
-                    .setRolls(RoundValue.roundRandomly(ammoEnchantValue(1, RangedLookupLevelBasedValue.linearLookup(1.2f, 1.4f, 1.6f, 1.8f, 2f))));
-
-            addTable(ENEMY_AMMO_DROPS, LootTable.lootTable().withPool(ammoDrops));
-
             // Razor enchantment loot table
             LootPool.Builder razorGeneralHeads = LootPool.lootPool()
                     .when(LimaLootUtil.randomChanceLinearEnchantBonus(razorEnchantment, 0f, 0.1f))
@@ -129,12 +112,6 @@ class LootTablesGen extends LimaLootTableProvider
                     .when(LimaLootUtil.randomChanceLinearEnchantBonus(razorEnchantment, 0f, 0.33f))
                     .add(lootItem(Items.RABBIT_FOOT));
             addTable(RAZOR_LOOT_TABLE, LootTable.lootTable().withPool(razorGeneralHeads).withPool(razorDragonHead).withPool(razorRabbitFoot));
-        }
-
-        private NumberProvider ammoEnchantValue(int fallback, LevelBasedValue amount)
-        {
-            Holder<Enchantment> enchantment = registries.holderOrThrow(LTXIEnchantments.AMMO_SCAVENGER);
-            return EntityEnchantmentLevels.enchantedValue(LootContext.EntityTarget.ATTACKER, enchantment, ConstantValue.exactly(fallback), amount);
         }
     }
 

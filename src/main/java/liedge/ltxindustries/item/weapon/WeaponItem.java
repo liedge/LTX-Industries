@@ -21,7 +21,6 @@ import liedge.ltxindustries.registry.bootstrap.LTXIDamageTypes;
 import liedge.ltxindustries.registry.game.*;
 import liedge.ltxindustries.util.LTXITooltipUtil;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -38,7 +37,10 @@ import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUseAnimation;
+import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.phys.Vec3;
@@ -75,11 +77,6 @@ public abstract class WeaponItem extends EnergyEquipmentItem
         this.baseRange = baseRange;
         this.baseReloadSpeed = baseReloadSpeed;
         this.baseReloadSource = baseReloadSource;
-    }
-
-    protected WeaponItem(Properties properties, int baseMagCapacity, double baseRange, int baseReloadSpeed, Holder<Item> defaultAmmoItem)
-    {
-        this(properties, baseMagCapacity, baseRange, baseReloadSpeed, WeaponReloadSource.withItem(defaultAmmoItem));
     }
 
     //#region Weapon user events

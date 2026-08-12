@@ -62,7 +62,7 @@ public final class LTXIWeaponsConfig
         CRYO_SHELL_DAMAGE_MULTIPLIER = builder.comment("Cryo shell damage multiplier to mobs that are weak to freeze damage").defineInRange("cryo_multiplier", 8.0d, 0d, Double.MAX_VALUE);
         ELECTRIC_SHELL_BASE_DAMAGE = ConfigUtil.damageSpec(builder, "electric_shell_base_damage", null, 30d);
         ELECTRIC_SHELL_DAMAGE_MULTIPLIER = builder.comment("Electric shell damage multiplier to mobs in rain, water, or who are weak to electricity").defineInRange("electric_multiplier", 3.0d, 0d, Double.MAX_VALUE);
-        ACID_SHELL_BASE_DAMAGE = ConfigUtil.damageSpec(builder, "acid_shell_base_damage", null, 50d);
+        ACID_SHELL_BASE_DAMAGE = ConfigUtil.damageSpec(builder, "acid_shell_base_damage", null, 60d);
         GLOOM_GAS_SHELL_BASE_DAMAGE = ConfigUtil.damageSpec(builder, "gloom_gas_shell_base_damage", null, 4d);
         builder.pop();
 

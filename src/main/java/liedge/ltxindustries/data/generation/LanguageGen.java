@@ -290,11 +290,6 @@ class LanguageGen extends LimaLanguageProvider
         addItem(STARGAZER, italicName("%s 37/LF", "Stargazer"));
         addItem(DAYBREAK, italicName("%s 41/RL", "Daybreak"));
         addItem(NOVA, italicName("%s 77/HX", "Nova"));
-
-        simpleHintItem(LIGHTWEIGHT_WEAPON_ENERGY, "Lightweight Weapon Energy", "Consumable energy cell for powering Lightweight-class weaponry.");
-        simpleHintItem(SPECIALIST_WEAPON_ENERGY, "Specialist Weapon Energy", "Consumable energy cell for powering Specialist-class weaponry.");
-        simpleHintItem(EXPLOSIVES_WEAPON_ENERGY, "Explosive Weapon Energy", "Consumable energy cell for powering Explosive-class weaponry.");
-        simpleHintItem(HEAVY_WEAPON_ENERGY, "Heavy Weapon Energy", "Consumable energy cell for powering Heavy-class weaponry.");
         //#endregion
 
         //#region Universal upgrades
@@ -313,7 +308,6 @@ class LanguageGen extends LimaLanguageProvider
         upgradeDescOnly(LTXIUpgrades.EPSILON_WRENCH_DEFAULT, "Standard issue operating system. Enables lossless dismantling and retrieval of machines.");
         upgradeDescOnly(LTXIUpgrades.EPSILON_MELEE_DEFAULT, "Standard issue operating system. Tool energy blade is optimized for efficient severing and disintegration of organic matter.");
         upgradeTooltip(LTXIUpgrades.EPSILON_MELEE_DEFAULT, 0, "%s bonus damage against unarmored targets");
-        upgrade(LTXIUpgrades.WAYFINDER_DEFAULT, "Wayfinder Intrinsics", "Wayfinder's energy feed system ships pre-configured to use Common Energy.");
         upgrade(LTXIUpgrades.SERENITY_DEFAULT, "Serenity Intrinsics", "Serenity's small lightfrags zip right through targets without a trace.");
         upgradeTooltip(LTXIUpgrades.SERENITY_DEFAULT, 0, "No anger and knockback on damage");
         upgrade(LTXIUpgrades.MIRAGE_DEFAULT, "Mirage Intrinsics", "Mirage's lightfrags pierce without physical impulse for efficient damage output levels.");
@@ -344,10 +338,6 @@ class LanguageGen extends LimaLanguageProvider
         upgrade(LTXIUpgrades.EQUIPMENT_BLOCK_DROPS_CAPTURE, "Mining Subspace Link", "Establishes a matter warp link capable of intercepting material harvesting products.");
 
         upgrade(LTXIUpgrades.WEAPON_VIBRATION_CANCEL, "Echo Suppressor", "Augments weapons and projectiles with an anti-resonance field, erasing vibration signatures");
-        upgrade(LTXIUpgrades.LIGHTWEIGHT_ENERGY_ADAPTER, "Lightweight Energy Adapter", "Reroutes the energy feed system of Lightweight weaponry to use Common Energy.");
-        upgrade(LTXIUpgrades.SPECIALIST_ENERGY_ADAPTER, "Specialist Energy Adapter", "Reroutes the energy feed system of Specialist weaponry to use Common Energy.");
-        upgrade(LTXIUpgrades.EXPLOSIVES_ENERGY_ADAPTER, "Explosives Energy Adapter", "Reroutes the energy feed system of Explosives weaponry to use Common Energy.");
-        upgrade(LTXIUpgrades.HEAVY_ENERGY_ADAPTER, "Heavy Energy Adapter", "Reroutes the energy feed system of Heavy weaponry to use Common Energy.");
         upgrade(LTXIUpgrades.INFINITE_AMMO, "//ERR~MAG-Z!!-NE//∞", "Ignore the laws of physics with this never-ending ammo source. Try not to cause a mass extinction event.");
         upgrade(LTXIUpgrades.HANABI_SPEED_BOOST, "Hanabi Launch Boost", "Increases the velocity of the Hanabi grenades.");
 
@@ -363,7 +353,6 @@ class LanguageGen extends LimaLanguageProvider
         upgrade(LTXIUpgrades.SILK_TOUCH_ENCHANTMENT, "Stabilized Harvest Matrix", "Calibrated to extract intact samples from the terrain.");
         upgrade(LTXIUpgrades.FORTUNE_ENCHANTMENT, "Overclocked Harvest Matrix", "Calibrated to extract superior quantities of valuable resources.");
         upgrade(LTXIUpgrades.LOOTING_ENCHANTMENT, "Combat Yield Protocol", "Calibrated to maximize structural integrity of salvageable biomaterials.");
-        upgrade(LTXIUpgrades.AMMO_SCAVENGER_ENCHANTMENT, "Munition Trace Unit", "Improves detection of high-grade LTX ammunition in the field.");
         upgrade(LTXIUpgrades.RAZOR_ENCHANTMENT, "Severance Algorithm", "Weapon systems may occasionally collect anatomical curiosities.");
 
         upgrade(LTXIUpgrades.FLAME_GRENADE_CORE, "Flame Shells", "Shells are loaded with a long-burning fuel that leaves a lingering blaze.");
@@ -451,7 +440,6 @@ class LanguageGen extends LimaLanguageProvider
 
         // Enchantments
         enchantment(LTXIEnchantments.RAZOR, "Razor");
-        enchantment(LTXIEnchantments.AMMO_SCAVENGER, "Ammo Scavenger");
 
         //#region Tooltips
         add(INLINE_ENERGY, "Energy: %s");

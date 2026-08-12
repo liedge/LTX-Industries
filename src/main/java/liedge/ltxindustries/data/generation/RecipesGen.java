@@ -338,7 +338,6 @@ class RecipesGen extends LimaRecipeProvider
         defaultModuleFabricating(EPSILON_WRENCH_DEFAULT, EPSILON_WRENCH);
         defaultModuleFabricating(EPSILON_MELEE_DEFAULT, EPSILON_SWORD, EPSILON_AXE);
         defaultModuleFabricating(TREE_VEIN_MINE, EPSILON_AXE);
-        defaultModuleFabricating(WAYFINDER_DEFAULT, WAYFINDER);
         defaultModuleFabricating(SERENITY_DEFAULT, SERENITY);
         defaultModuleFabricating(MIRAGE_DEFAULT, MIRAGE);
         defaultModuleFabricating(AURORA_DEFAULT, AURORA);
@@ -727,33 +726,6 @@ class RecipesGen extends LimaRecipeProvider
                 .input(TITANIUM_PLATES, 32)
                 .input(TUNGSTEN_SLATESTEEL_PLATE, 12)
                 .input(LASER_TECH_PART, 2));
-
-        upgradeFabricating("eum/enchant", AMMO_SCAVENGER_ENCHANTMENT, 1, 300_000, builder -> builder
-                .input(T2_CIRCUIT, 2)
-                .input(TITANIUM_INGOTS, 8)
-                .input(GUNPOWDER, 8)
-                .input(LIGHTWEIGHT_WEAPON_ENERGY, 2));
-        upgradeFabricating("eum/enchant", AMMO_SCAVENGER_ENCHANTMENT, 2, 600_000, builder -> builder
-                .input(T2_CIRCUIT, 4)
-                .input(TITANIUM_INGOTS, 12)
-                .input(LAPIS_LAZULI, 16)
-                .input(LIGHTWEIGHT_WEAPON_ENERGY, 4));
-        upgradeFabricating("eum/enchant", AMMO_SCAVENGER_ENCHANTMENT, 3, 900_000, builder -> builder
-                .input(T3_CIRCUIT, 4)
-                .input(TITANIUM_INGOTS, 16)
-                .input(LIGHTWEIGHT_WEAPON_ENERGY, 8)
-                .input(SPECIALIST_WEAPON_ENERGY, 2));
-        upgradeFabricating("eum/enchant", AMMO_SCAVENGER_ENCHANTMENT, 4, 1_200_000, builder -> builder
-                .input(T4_CIRCUIT, 2)
-                .input(SPECIALIST_WEAPON_ENERGY, 4)
-                .input(EXPLOSIVES_WEAPON_ENERGY, 2));
-        upgradeFabricating("eum/enchant", AMMO_SCAVENGER_ENCHANTMENT, 5, 1_500_000, builder -> builder
-                .input(T4_CIRCUIT, 4)
-                .input(SLATESTEEL_INGOT, 2)
-                .input(LIGHTWEIGHT_WEAPON_ENERGY, 16)
-                .input(SPECIALIST_WEAPON_ENERGY, 8)
-                .input(EXPLOSIVES_WEAPON_ENERGY, 4)
-                .input(HEAVY_WEAPON_ENERGY, 2));
 
         final String hanabiGroup = "upgrade/hanabi";
         upgradeFabricating(hanabiGroup + ".gc1", FLAME_GRENADE_CORE, 1, 2_500_000, builder -> builder

@@ -1,31 +1,19 @@
 package liedge.ltxindustries.item.weapon;
 
 import liedge.ltxindustries.entity.GlowstickProjectileEntity;
-import liedge.ltxindustries.lib.upgrades.Upgrade;
 import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
-import liedge.ltxindustries.registry.bootstrap.LTXIUpgrades;
 import liedge.ltxindustries.registry.game.LTXIGameEvents;
-import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.registry.game.LTXISounds;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-import java.util.List;
-
 public class WayfinderItem extends SemiAutoWeaponItem
 {
     public WayfinderItem(Properties properties)
     {
-        super(properties, 10, MAX_PROJECTILE_SPEED, 10, LTXIItems.LIGHTWEIGHT_WEAPON_ENERGY);
-    }
-
-    @Override
-    public List<ResourceKey<Upgrade>> getDefaultUpgrades()
-    {
-        return List.of(LTXIUpgrades.WAYFINDER_DEFAULT);
+        super(properties, 10, MAX_PROJECTILE_SPEED, 10);
     }
 
     @Override

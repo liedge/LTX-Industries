@@ -6,7 +6,6 @@ import liedge.ltxindustries.entity.LTXIEntityUtil;
 import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
 import liedge.ltxindustries.registry.game.LTXIGameEvents;
-import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.registry.game.LTXISounds;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -28,7 +27,7 @@ public class DaybreakItem extends SemiAutoWeaponItem
 
     public DaybreakItem(Properties properties)
     {
-        super(properties, 2, 1.5d, 60, LTXIItems.EXPLOSIVES_WEAPON_ENERGY);
+        super(properties, 2, 1.5d, 60);
     }
 
     private boolean isInTargetScanPath(Player player, Entity target, Upgrades upgrades)
@@ -118,6 +117,6 @@ public class DaybreakItem extends SemiAutoWeaponItem
     @Override
     public int getFireRate(ItemStack stack)
     {
-        return 30;
+        return 15;
     }
 }

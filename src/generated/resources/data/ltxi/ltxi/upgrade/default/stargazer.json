@@ -30,7 +30,7 @@
             "type": "value",
             "format": "signed_flat",
             "sentiment": "positive",
-            "value": 1.0
+            "value": 1.5
           },
           {
             "type": "value",
@@ -41,7 +41,7 @@
             "type": "value",
             "format": "flat",
             "sentiment": "positive",
-            "value": 50.0
+            "value": 75.0
           }
         ],
         "key": "upgrade.ltxi.default.stargazer.tooltip0"
@@ -67,7 +67,7 @@
           "op": "add",
           "value": {
             "type": "distance_curve",
-            "factor": 50.0,
+            "factor": 75.0,
             "range": 50.0,
             "start": 30.0
           }

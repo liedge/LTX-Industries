@@ -4,7 +4,6 @@ import liedge.limacore.util.LimaEntityUtil;
 import liedge.ltxindustries.lib.upgrades.Upgrade;
 import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
 import liedge.ltxindustries.registry.bootstrap.LTXIUpgrades;
-import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.registry.game.LTXISounds;
 import liedge.ltxindustries.util.config.LTXIWeaponsConfig;
 import net.minecraft.resources.ResourceKey;
@@ -21,7 +20,7 @@ public class MirageItem extends FullAutoWeaponItem implements ScopingWeaponItem
 {
     public MirageItem(Properties properties)
     {
-        super(properties, 30, 45d, 30, LTXIItems.LIGHTWEIGHT_WEAPON_ENERGY);
+        super(properties, 30, 45d, 30);
     }
 
     @Override

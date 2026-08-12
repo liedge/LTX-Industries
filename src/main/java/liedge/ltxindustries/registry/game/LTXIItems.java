@@ -20,7 +20,10 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.BucketItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.component.Consumables;
 import net.minecraft.world.item.component.UseEffects;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
@@ -304,34 +307,37 @@ public final class LTXIItems
     public static final DeferredItem<IOConfigCardItem> FLUIDS_IO_CONFIG_CARD = ITEMS.registerItem("fluids_io_config_card", properties -> new IOConfigCardItem(properties, BlockEntityInputType.FLUIDS), properties -> properties.stacksTo(1));
 
     // Signature weapons
-    public static final DeferredItem<WayfinderItem> WAYFINDER = registerLTXGear(LTXIIdentifiers.ID_WAYFINDER, WayfinderItem::new);
-
-    public static final DeferredItem<SerenityItem> SERENITY = registerLTXGear(LTXIIdentifiers.ID_SERENITY, properties -> new SerenityItem(properties
-            .component(DataComponents.USE_EFFECTS, new UseEffects(true, true, 1f))));
-
-    public static final DeferredItem<MirageItem> MIRAGE = registerLTXGear(LTXIIdentifiers.ID_MIRAGE, MirageItem::new);
-
-    public static final DeferredItem<AuroraItem> AURORA = registerLTXGear(LTXIIdentifiers.ID_AURORA, properties -> new AuroraItem(properties
+    public static final DeferredItem<WayfinderItem> WAYFINDER = registerLTXGear(LTXIIdentifiers.ID_WAYFINDER, WayfinderItem::new, properties -> properties
+            .component(LimaCoreDataComponents.ENERGY_CAPACITY, 50_000)
+            .component(LimaCoreDataComponents.ENERGY_USAGE, 5000));
+    public static final DeferredItem<SerenityItem> SERENITY = registerLTXGear(LTXIIdentifiers.ID_SERENITY, SerenityItem::new, properties -> properties
+            .component(DataComponents.USE_EFFECTS, new UseEffects(true, true, 1f))
+            .component(LimaCoreDataComponents.ENERGY_CAPACITY, 100_000)
+            .component(LimaCoreDataComponents.ENERGY_USAGE, 10_000));
+    public static final DeferredItem<MirageItem> MIRAGE = registerLTXGear(LTXIIdentifiers.ID_MIRAGE, MirageItem::new, properties -> properties
+            .component(LimaCoreDataComponents.ENERGY_CAPACITY, 150_000)
+            .component(LimaCoreDataComponents.ENERGY_USAGE, 10_000));
+    public static final DeferredItem<AuroraItem> AURORA = registerLTXGear(LTXIIdentifiers.ID_AURORA, AuroraItem::new, properties -> properties
+            .component(LimaCoreDataComponents.ENERGY_CAPACITY, 2_500_000)
+            .component(LimaCoreDataComponents.ENERGY_USAGE, 500_000)
             .component(LTXIDataComponents.MAX_HITS, 5)
-            .component(LTXIDataComponents.BLOCK_PIERCE, 0.4d)));
-
-    public static final DeferredItem<HanabiItem> HANABI = registerLTXGear(LTXIIdentifiers.ID_HANABI, HanabiItem::new);
-
-    public static final DeferredItem<StargazerItem> STARGAZER = registerLTXGear(LTXIIdentifiers.ID_STARGAZER, properties -> new StargazerItem(properties
+            .component(LTXIDataComponents.BLOCK_PIERCE, 0.5d));
+    public static final DeferredItem<HanabiItem> HANABI = registerLTXGear(LTXIIdentifiers.ID_HANABI, HanabiItem::new, properties -> properties
+            .component(LimaCoreDataComponents.ENERGY_CAPACITY, 20_000_000)
+            .component(LimaCoreDataComponents.ENERGY_USAGE, 10_000_000));
+    public static final DeferredItem<StargazerItem> STARGAZER = registerLTXGear(LTXIIdentifiers.ID_STARGAZER, StargazerItem::new, properties -> properties
+            .component(LimaCoreDataComponents.ENERGY_CAPACITY, 2_500_000)
+            .component(LimaCoreDataComponents.ENERGY_USAGE, 500_000)
             .component(LTXIDataComponents.MAX_HITS, 2)
-            .component(LTXIDataComponents.BLOCK_PIERCE, 0.34d)));
-
-    public static final DeferredItem<DaybreakItem> DAYBREAK = registerLTXGear(LTXIIdentifiers.ID_DAYBREAK, DaybreakItem::new);
-
-    public static final DeferredItem<NovaItem> NOVA = registerLTXGear(LTXIIdentifiers.ID_NOVA, properties -> new NovaItem(properties
+            .component(LTXIDataComponents.BLOCK_PIERCE, 0.34d));
+    public static final DeferredItem<DaybreakItem> DAYBREAK = registerLTXGear(LTXIIdentifiers.ID_DAYBREAK, DaybreakItem::new, properties -> properties
+            .component(LimaCoreDataComponents.ENERGY_CAPACITY, 20_000_000)
+            .component(LimaCoreDataComponents.ENERGY_USAGE, 10_000_000));
+    public static final DeferredItem<NovaItem> NOVA = registerLTXGear(LTXIIdentifiers.ID_NOVA, NovaItem::new, properties -> properties
+            .component(LimaCoreDataComponents.ENERGY_CAPACITY, 50_000_000)
+            .component(LimaCoreDataComponents.ENERGY_USAGE, 25_000_000)
             .component(LTXIDataComponents.MAX_HITS, 100)
-            .component(LTXIDataComponents.BLOCK_PIERCE, 1.4143d)));
-
-    // Weapon ammo items
-    public static final DeferredItem<SimpleHintItem> LIGHTWEIGHT_WEAPON_ENERGY = registerSimpleHint("lightweight_weapon_energy");
-    public static final DeferredItem<SimpleHintItem> SPECIALIST_WEAPON_ENERGY = registerSimpleHint("specialist_weapon_energy");
-    public static final DeferredItem<SimpleHintItem> EXPLOSIVES_WEAPON_ENERGY = registerSimpleHint("explosives_weapon_energy");
-    public static final DeferredItem<SimpleHintItem> HEAVY_WEAPON_ENERGY = registerSimpleHint("heavy_weapon_energy");
+            .component(LTXIDataComponents.BLOCK_PIERCE, 1.4143d));
 
     // Ore group materials
     public static final Map<BuiltInOres, DeferredItem<Item>> CRUSHED_ORES = registerOreGroup(s -> "crushed_" + s + "_ore");
@@ -362,9 +368,14 @@ public final class LTXIItems
         return registerSimpleHint(name, UnaryOperator.identity());
     }
 
+    private static <T extends Item> DeferredItem<T> registerLTXGear(String name, Function<Item.Properties, T> constructor, UnaryOperator<Item.Properties> properties)
+    {
+        return ITEMS.registerItem(name, constructor, p -> properties.apply(p).stacksTo(1).fireResistant().rarity(LTXIItemRarities.ltxGearRarity()));
+    }
+
     private static <T extends Item> DeferredItem<T> registerLTXGear(String name, Function<Item.Properties, T> constructor)
     {
-        return ITEMS.registerItem(name, constructor, properties -> properties.stacksTo(1).fireResistant().rarity(LTXIItemRarities.ltxGearRarity()));
+        return registerLTXGear(name, constructor, UnaryOperator.identity());
     }
 
     private static DeferredItem<BucketItem> registerBucket(Holder<Fluid> holder)
