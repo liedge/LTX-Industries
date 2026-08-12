@@ -90,16 +90,16 @@ public class LTXIndustries
             PayloadRegistrar registrar = event.registrar(MODID);
 
             // Clientbound Packets
-            registerPlayToClient(registrar, ClientboundTriggerPacket.TYPE, ClientboundTriggerPacket.STREAM_CODEC);
+            registerPlayToClient(registrar, ClientboundTriggerStatePacket.TYPE, ClientboundTriggerStatePacket.STREAM_CODEC);
+            registerPlayToClient(registrar, ClientboundTriggerTimerPacket.TYPE, ClientboundTriggerTimerPacket.STREAM_CODEC);
+            registerPlayToClient(registrar, ClientboundReloadPacket.TYPE, ClientboundReloadPacket.STREAM_CODEC);
             registerPlayToClient(registrar, ClientboundFocusTargetPacket.TYPE, ClientboundFocusTargetPacket.STREAM_CODEC);
 
             // Serverbound Packets
             registerPlayToServer(registrar, ServerboundItemModeSwitchPacket.TYPE, ServerboundItemModeSwitchPacket.STREAM_CODEC);
             registerPlayToServer(registrar, ServerboundTriggerPacket.TYPE, ServerboundTriggerPacket.STREAM_CODEC);
+            registerPlayToServer(registrar, ServerboundReloadPacket.TYPE, ServerboundReloadPacket.STREAM_CODEC);
             registerPlayToServer(registrar, ServerboundWeaponSlotPacket.TYPE, ServerboundWeaponSlotPacket.STREAM_CODEC);
-
-            // Bi-directional packets
-            registerBiDirectional(registrar, ReloadPacket.TYPE, ReloadPacket.STREAM_CODEC);
         }
 
         @SubscribeEvent

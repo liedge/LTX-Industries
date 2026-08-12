@@ -4,7 +4,7 @@ import liedge.limacore.lib.TickTimer;
 import liedge.limacore.util.LimaCoreObjects;
 import liedge.ltxindustries.client.item.WeaponClientItem;
 import liedge.ltxindustries.item.weapon.WeaponItem;
-import liedge.ltxindustries.network.packet.ReloadPacket;
+import liedge.ltxindustries.network.packet.ServerboundReloadPacket;
 import liedge.ltxindustries.network.packet.ServerboundTriggerPacket;
 import liedge.ltxindustries.network.packet.ServerboundWeaponSlotPacket;
 import liedge.ltxindustries.registry.game.LTXIAttachmentTypes;
@@ -76,14 +76,15 @@ public final class ClientExtendedInput extends LTXIExtendedInput
         if (canReloadWeapon(stack, player, weaponItem))
         {
             setSelectedSlot(player, player.getInventory().getSelectedSlot());
-            ClientPacketDistributor.sendToServer(new ReloadPacket(getSelectedSlot()));
+            ClientPacketDistributor.sendToServer(new ServerboundReloadPacket(getSelectedSlot()));
         }
     }
 
     @Override
-    protected void tickTimers()
+    protected void tickTimers(Player player)
     {
-        super.tickTimers();
+        super.tickTimers(player);
+
         animationTimerA.tickTimer();
         animationTimerB.tickTimer();
         modeSwitchTimer.tickTimer();
@@ -101,8 +102,6 @@ public final class ClientExtendedInput extends LTXIExtendedInput
     @Override
     protected void triggerLogicTick(Player player, ItemStack selectedItem, int selectedSlot, @Nullable WeaponItem weaponItem)
     {
-        super.triggerLogicTick(player, selectedItem, selectedSlot, weaponItem);
-
         // Check for slot changes
         setSelectedSlot(player, player.getInventory().getSelectedSlot());
 
@@ -125,6 +124,8 @@ public final class ClientExtendedInput extends LTXIExtendedInput
 
             this.previousLeftInput = leftInput;
         }
+
+        super.triggerLogicTick(player, selectedItem, selectedSlot, weaponItem);
 
         if (weaponItem != null)
         {

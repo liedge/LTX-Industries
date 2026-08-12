@@ -13,6 +13,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.jspecify.annotations.Nullable;
 
+import java.util.Map;
+
 public abstract class LTXIExtendedInput
 {
     public static LTXIExtendedInput of(Player player)
@@ -170,16 +172,20 @@ public abstract class LTXIExtendedInput
         return false;
     }
 
-    protected void tickTimers()
+    protected void tickTimers(Player player)
     {
         ObjectIterator<Object2ObjectMap.Entry<WeaponItem, TickTimer>> iterator = triggerTimers.object2ObjectEntrySet().iterator();
         while (iterator.hasNext())
         {
-            Object2ObjectMap.Entry<WeaponItem, TickTimer> e = iterator.next();
-            TickTimer timer = e.getValue();
+            Map.Entry<WeaponItem, TickTimer> entry = iterator.next();
+
+            WeaponItem weaponItem = entry.getKey();
+            TickTimer timer = entry.getValue();
             timer.tickTimer();
+
             if (timer.getTimerState() == TickTimer.State.STOPPED)
             {
+                onTriggerTimerEnd(player, weaponItem);
                 iterator.remove();
             }
         }
@@ -221,11 +227,19 @@ public abstract class LTXIExtendedInput
         }
     }
 
-    protected void startTriggerTimer(WeaponItem weaponItem, int duration)
+    protected void onTriggerTimerStart(Player player, WeaponItem weaponItem, int duration) { }
+
+    protected void onTriggerTimerEnd(Player player, WeaponItem weaponItem) { }
+
+    public void setTriggerTimer(Player player, WeaponItem weaponItem, int duration)
     {
-        TickTimer timer = new TickTimer();
-        timer.startTimer(duration);
-        triggerTimers.put(weaponItem, timer);
+        if (duration > 0)
+        {
+            TickTimer timer = new TickTimer();
+            timer.startTimer(duration);
+            triggerTimers.put(weaponItem, timer);
+            onTriggerTimerStart(player, weaponItem, duration);
+        }
     }
 
     public float lerpTriggerTimer(WeaponItem weaponItem, float partialTick)
@@ -254,9 +268,7 @@ public abstract class LTXIExtendedInput
     public void shootWeapon(ItemStack heldItem, Player player, WeaponItem weaponItem)
     {
         weaponItem.weaponFired(heldItem, player, player.level(), this);
-
-        int fireRate = weaponItem.getFireRate(heldItem);
-        if (fireRate > 0) startTriggerTimer(weaponItem, fireRate);
+        setTriggerTimer(player, weaponItem, weaponItem.getFireRate(heldItem));
     }
 
     public TickTimer getReloadTimer()
@@ -267,7 +279,7 @@ public abstract class LTXIExtendedInput
     public void tick(Player player)
     {
         // Tick timers
-        tickTimers();
+        tickTimers(player);
 
         // Tick trigger logic
         ItemStack selectedItem = player.getInventory().getItem(selectedSlot);

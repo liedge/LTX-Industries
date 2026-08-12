@@ -11,7 +11,7 @@ final class LTXIClientPacketHandler
 {
     private LTXIClientPacketHandler() {}
 
-    static void handleTriggerPacket(ClientboundTriggerPacket packet, IPayloadContext context)
+    static void handleTriggerPacket(ClientboundTriggerStatePacket packet, IPayloadContext context)
     {
         Player player = context.player();
         LTXIExtendedInput input = LTXIExtendedInput.of(player);
