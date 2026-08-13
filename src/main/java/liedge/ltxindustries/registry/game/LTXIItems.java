@@ -261,6 +261,8 @@ public final class LTXIItems
     public static final DeferredItem<Item> SILICON_PLATE = ITEMS.registerSimpleItem("silicon_plate");
     public static final DeferredItem<Item> SLATESTEEL_PLATE = ITEMS.registerSimpleItem("slatesteel_plate");
     public static final DeferredItem<Item> TUNGSTEN_SLATESTEEL_PLATE = ITEMS.registerSimpleItem("tungsten_slatesteel_plate");
+
+    // Polymer/Rubber Sheets
     public static final DeferredItem<Item> POLYMER_SHEET = ITEMS.registerSimpleItem(LTXIIdentifiers.ID_POLYMER_SHEET);
     public static final DeferredItem<Item> FLUOROPOLYMER_SHEET = ITEMS.registerSimpleItem(LTXIIdentifiers.ID_FLUOROPOLYMER_SHEET);
 

@@ -77,7 +77,10 @@ public final class LTXITags
         public static final TagKey<Item> TITANIUM_INGOTS = COMMON.itemTag("ingots/titanium");
         public static final TagKey<Item> SILVER_INGOTS = COMMON.itemTag("ingots/silver");
         public static final TagKey<Item> NIOBIUM_INGOTS = COMMON.itemTag("ingots/niobium");
+        public static final TagKey<Item> RHENIUM_INGOTS = COMMON.itemTag("ingots/rhenium");
         public static final TagKey<Item> SILICON_INGOTS = COMMON.itemTag("ingots/silicon");
+        public static final TagKey<Item> SLATESTEEL_INGOTS = COMMON.itemTag("ingots/slatesteel");
+        public static final TagKey<Item> TUNGSTEN_SLATESTEEL_INGOTS = COMMON.itemTag("ingots/tungsten_slatesteel");
 
         // Gems
         public static final TagKey<Item> OLIVINE_GEMS = COMMON.itemTag("gems/olivine");
@@ -94,15 +97,26 @@ public final class LTXITags
         public static final TagKey<Item> GOLD_PLATES = COMMON.itemTag("plates/gold");
         public static final TagKey<Item> TITANIUM_PLATES = COMMON.itemTag("plates/titanium");
         public static final TagKey<Item> SILVER_PLATES = COMMON.itemTag("plates/silver");
+        public static final TagKey<Item> NIOBIUM_PLATES = COMMON.itemTag("plates/niobium");
+        public static final TagKey<Item> RHENIUM_PLATES = COMMON.itemTag("plates/rhenium");
+        public static final TagKey<Item> SILICON_PLATES = COMMON.itemTag("plates/silicon");
+        public static final TagKey<Item> SLATESTEEL_PLATES = COMMON.itemTag("plates/slatesteel");
+        public static final TagKey<Item> TUNGSTEN_SLATESTEEL_PLATES = COMMON.itemTag("plates/tungsten_slatesteel");
 
         // Dusts
         public static final TagKey<Item> TITANIUM_DUSTS = COMMON.itemTag("dusts/titanium");
         public static final TagKey<Item> SILVER_DUSTS = COMMON.itemTag("dusts/silver");
         public static final TagKey<Item> NIOBIUM_DUSTS = COMMON.itemTag("dusts/niobium");
+        public static final TagKey<Item> RHENIUM_DUSTS = COMMON.itemTag("dusts/rhenium");
+        public static final TagKey<Item> CARBON_DUSTS = COMMON.itemTag("dusts/carbon");
         public static final TagKey<Item> SODIUM_DUSTS = COMMON.itemTag("dusts/sodium");
         public static final TagKey<Item> SILICON_DUSTS = COMMON.itemTag("dusts/silicon");
+        public static final TagKey<Item> PHOSPHORUS_DUSTS = COMMON.itemTag("dusts/phosphorus");
         public static final TagKey<Item> SULFUR_DUSTS = COMMON.itemTag("dusts/sulfur");
+        public static final TagKey<Item> SLATESTEEL_DUSTS = COMMON.itemTag("dusts/slatesteel");
+        public static final TagKey<Item> TUNGSTEN_SLATESTEEL_DUSTS = COMMON.itemTag("dusts/tungsten_slatesteel");
         public static final TagKey<Item> DEEPSLATE_DUSTS = COMMON.itemTag("dusts/deepslate");
+        public static final TagKey<Item> PERIDOTITE_DUSTS = COMMON.itemTag("dusts/peridotite");
 
         // Ore processing
         public static final TagKey<Item> CRUSHED_ORE_ITEMS = RESOURCES.itemTag("crushed_ores");
@@ -113,11 +127,16 @@ public final class LTXITags
 
         // Misc common tags
         public static final TagKey<Item> TITANIUM_GEARS = COMMON.itemTag("gears/titanium");
+        public static final TagKey<Item> SLATESTEEL_GEARS = COMMON.itemTag("gears/slatesteel");
 
-        // Mod tags
+        // Mod material tags
+        public static final TagKey<Item> POLYMERS = RESOURCES.itemTag("polymers");
+        public static final TagKey<Item> POLYMER_SHEETS = RESOURCES.itemTag("polymer_sheets");
         public static final TagKey<Item> GREEN_GROUP_DYE_SOURCES = RESOURCES.itemTag("dye_sources/green_group");
-
+        public static final TagKey<Item> PHOSPHORUS_SOURCES = RESOURCES.itemTag("phosphorus_sources");
         public static final TagKey<Item> APPLE_SAPLINGS = RESOURCES.itemTag("apple_saplings");
+
+        // Technical tags
         public static final TagKey<Item> REPAIR_BLACKLIST = RESOURCES.itemTag("repair_blacklist");
 
         // Equipment tags

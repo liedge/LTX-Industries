@@ -106,6 +106,7 @@ class ModelsGen extends ModelProvider
                 SILICON_INGOT,
                 SLATESTEEL_INGOT,
                 TUNGSTEN_SLATESTEEL_INGOT,
+                // Synthetic Resources
                 POLYMER,
                 FLUOROPOLYMER,
                 SILICONE_RUBBER,
@@ -155,6 +156,7 @@ class ModelsGen extends ModelProvider
                 SILICON_PLATE,
                 SLATESTEEL_PLATE,
                 TUNGSTEN_SLATESTEEL_PLATE,
+                // Polymer/Rubber Sheets
                 POLYMER_SHEET,
                 FLUOROPOLYMER_SHEET,
                 // Components
