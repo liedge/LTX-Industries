@@ -332,7 +332,7 @@ class ModelsGen extends ModelProvider
         createIdentityMachine(models, LTXIBlocks.FABRICATOR);
         createIdentityMachine(models, LTXIBlocks.AUTO_FABRICATOR);
         createCompositeBinaryMachine(models, LTXIBlocks.ATMOSPHERIC_SCRUBBER, List.of(Parts.EMISSIVE_ACTIVE, Parts.IMPELLER), List.of(Parts.IMPELLER), List.of(Parts.EMISSIVE_ACTIVE));
-        createIdentityMachine(models, LTXIBlocks.DIGITAL_GARDEN, id -> ItemModelUtils.tintedModel(id, ItemModelUtils.constantTint(waterTint)));
+        createCompositeBinaryMachine(models, LTXIBlocks.DIGITAL_GARDEN, List.of(Parts.EMISSIVE_ACTIVE, "water"), List.of(), List.of(Parts.EMISSIVE_ACTIVE, "water"));
         createCompositeBinaryMachine(models, LTXIBlocks.PORTABLE_GENERATOR, List.of(Parts.EMISSIVE_ACTIVE), List.of(), List.of(Parts.EMISSIVE_ACTIVE));
         createCompositeBinaryMachine(models, LTXIBlocks.SOLAR_PANEL, List.of(Parts.EMISSIVE_ACTIVE), List.of(), List.of(Parts.EMISSIVE_ACTIVE));
         createIdentityMachine(models, LTXIBlocks.REPAIR_STATION);

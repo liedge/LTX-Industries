@@ -260,9 +260,9 @@ public class LTXIndustriesClient
         @SubscribeEvent
         public void registerBlockColors(final RegisterColorHandlersEvent.BlockTintSources event)
         {
-            event.register(List.of(BlockTintSources.constant(0xff3f76e4)), LTXIBlocks.INFINITE_WATER_TANK.get(), LTXIBlocks.GEO_SYNTHESIZER.get(), LTXIBlocks.DIGITAL_GARDEN.get());
+            event.register(List.of(BlockTintSources.constant(0xff3f76e4)), LTXIBlocks.INFINITE_WATER_TANK.get(), LTXIBlocks.GEO_SYNTHESIZER.get());
 
-            event.register(List.of(activeStateTint(0x3f76e4)), LTXIBlocks.HYDROSIEVE.get());
+            event.register(List.of(activeStateTint(0x3f76e4)), LTXIBlocks.HYDROSIEVE.get(), LTXIBlocks.DIGITAL_GARDEN.get());
             event.register(List.of(activeStateTint(LTXIConstants.ACID_GREEN.argb32())), LTXIBlocks.CHEM_LAB.get());
         }
 

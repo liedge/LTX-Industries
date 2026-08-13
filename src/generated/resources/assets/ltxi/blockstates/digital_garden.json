@@ -1,18 +1,33 @@
 {
   "variants": {
-    "facing=east": {
-      "model": "ltxi:block/digital_garden",
+    "facing=east,machine_state=active": {
+      "model": "ltxi:block/digital_garden_active",
       "y": 90
     },
-    "facing=north": {
-      "model": "ltxi:block/digital_garden"
+    "facing=east,machine_state=idle": {
+      "model": "ltxi:block/digital_garden_idle",
+      "y": 90
     },
-    "facing=south": {
-      "model": "ltxi:block/digital_garden",
+    "facing=north,machine_state=active": {
+      "model": "ltxi:block/digital_garden_active"
+    },
+    "facing=north,machine_state=idle": {
+      "model": "ltxi:block/digital_garden_idle"
+    },
+    "facing=south,machine_state=active": {
+      "model": "ltxi:block/digital_garden_active",
       "y": 180
     },
-    "facing=west": {
-      "model": "ltxi:block/digital_garden",
+    "facing=south,machine_state=idle": {
+      "model": "ltxi:block/digital_garden_idle",
+      "y": 180
+    },
+    "facing=west,machine_state=active": {
+      "model": "ltxi:block/digital_garden_active",
+      "y": 270
+    },
+    "facing=west,machine_state=idle": {
+      "model": "ltxi:block/digital_garden_idle",
       "y": 270
     }
   }

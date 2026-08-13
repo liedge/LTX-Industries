@@ -1,6 +1,5 @@
 {
   "parent": "ltxi:block/digital_garden",
-  "loader": "limacore:extended_cuboid",
   "visibility": {
     "emissive_active": false,
     "water": false

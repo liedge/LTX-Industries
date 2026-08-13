@@ -103,10 +103,10 @@ public final class LTXIBlocks
     public static final DeferredBlock<StateMachineBlock> CHEM_LAB = BLOCKS.registerBlock(LTXIIdentifiers.ID_CHEM_LAB, properties -> StateMachineBlock.rotatingShape(properties, LTXIBlockShapes.CHEM_LAB, false), LTXIBlocks::machineProperties);
     public static final DeferredBlock<StateMachineBlock> ASSEMBLER = BLOCKS.registerBlock(LTXIIdentifiers.ID_ASSEMBLER, properties -> StateMachineBlock.rotatingShape(properties, LTXIBlockShapes.ASSEMBLER, false), LTXIBlocks::machineProperties);
     public static final DeferredBlock<StateMachineBlock> GEO_SYNTHESIZER = BLOCKS.registerBlock(LTXIIdentifiers.ID_GEO_SYNTHESIZER, properties -> StateMachineBlock.rotatingShape(properties, LTXIBlockShapes.GEO_SYNTHESIZER, false), LTXIBlocks::machineProperties);
-    public static final DeferredBlock<PrimaryMeshBlock> FABRICATOR = BLOCKS.registerBlock(LTXIIdentifiers.ID_FABRICATOR, properties -> PrimaryMeshBlock.create(properties, LTXIBlockMeshes.FABRICATOR, LTXIBlockShapes.FABRICATOR, true), LTXIBlocks::machineProperties);
+    public static final DeferredBlock<PrimaryMeshBlock> FABRICATOR = BLOCKS.registerBlock(LTXIIdentifiers.ID_FABRICATOR, properties -> new PrimaryMeshBlock(properties, LTXIBlockMeshes.FABRICATOR, LTXIBlockShapes.FABRICATOR, true), LTXIBlocks::machineProperties);
     public static final DeferredBlock<SimpleWrenchBlock> AUTO_FABRICATOR = BLOCKS.registerBlock(LTXIIdentifiers.ID_AUTO_FABRICATOR, properties -> SimpleWrenchBlock.staticShape(properties, LTXIBlockShapes.AUTO_FABRICATOR), LTXIBlocks::machineProperties);
     public static final DeferredBlock<StateMachineBlock> ATMOSPHERIC_SCRUBBER = BLOCKS.registerBlock(LTXIIdentifiers.ID_ATMOSPHERIC_SCRUBBER, properties -> StateMachineBlock.rotatingShape(properties, LTXIBlockShapes.ATMOSPHERIC_SCRUBBER, true), LTXIBlocks::machineProperties);
-    public static final DeferredBlock<PrimaryMeshBlock> DIGITAL_GARDEN = BLOCKS.registerBlock(LTXIIdentifiers.ID_DIGITAL_GARDEN, properties -> PrimaryMeshBlock.create(properties, LTXIBlockMeshes.DIGITAL_GARDEN, LTXIBlockShapes.DIGITAL_GARDEN, false), LTXIBlocks::machineProperties);
+    public static final DeferredBlock<StatePrimaryMeshBlock> DIGITAL_GARDEN = BLOCKS.registerBlock(LTXIIdentifiers.ID_DIGITAL_GARDEN, properties -> new StatePrimaryMeshBlock(properties, LTXIBlockMeshes.DIGITAL_GARDEN, LTXIBlockShapes.DIGITAL_GARDEN, false), LTXIBlocks::machineProperties);
 
     // Power Generators
     public static final DeferredBlock<StateMachineBlock> PORTABLE_GENERATOR = BLOCKS.registerBlock(LTXIIdentifiers.ID_PORTABLE_GENERATOR, properties -> StateMachineBlock.rotatingShape(properties, LTXIBlockShapes.PORTABLE_GENERATOR, false), LTXIBlocks::machineProperties);
@@ -116,9 +116,9 @@ public final class LTXIBlocks
     public static final DeferredBlock<SimpleWrenchBlock> REPAIR_STATION = BLOCKS.registerBlock(LTXIIdentifiers.ID_REPAIR_STATION, properties -> SimpleWrenchBlock.rotatingShape(properties, LTXIBlockShapes.REPAIR_STATION), LTXIBlocks::machineProperties);
 
     // Turrets
-    public static final DeferredBlock<PrimaryMeshBlock> ARC_TURRET = BLOCKS.registerBlock(LTXIIdentifiers.ID_ARC_TURRET, properties -> PrimaryMeshBlock.create(properties, LTXIBlockMeshes.TURRET, LTXIBlockShapes.GENERAL_TURRET, true), LTXIBlocks::machineProperties);
-    public static final DeferredBlock<PrimaryMeshBlock> ROCKET_TURRET = BLOCKS.registerBlock(LTXIIdentifiers.ID_ROCKET_TURRET, properties -> PrimaryMeshBlock.create(properties, LTXIBlockMeshes.TURRET, LTXIBlockShapes.GENERAL_TURRET, true), LTXIBlocks::machineProperties);
-    public static final DeferredBlock<PrimaryMeshBlock> RAILGUN_TURRET = BLOCKS.registerBlock(LTXIIdentifiers.ID_RAILGUN_TURRET, properties -> PrimaryMeshBlock.create(properties, LTXIBlockMeshes.TURRET, LTXIBlockShapes.GENERAL_TURRET, true), LTXIBlocks::machineProperties);
+    public static final DeferredBlock<PrimaryMeshBlock> ARC_TURRET = BLOCKS.registerBlock(LTXIIdentifiers.ID_ARC_TURRET, properties -> new PrimaryMeshBlock(properties, LTXIBlockMeshes.TURRET, LTXIBlockShapes.GENERAL_TURRET, true), LTXIBlocks::machineProperties);
+    public static final DeferredBlock<PrimaryMeshBlock> ROCKET_TURRET = BLOCKS.registerBlock(LTXIIdentifiers.ID_ROCKET_TURRET, properties -> new PrimaryMeshBlock(properties, LTXIBlockMeshes.TURRET, LTXIBlockShapes.GENERAL_TURRET, true), LTXIBlocks::machineProperties);
+    public static final DeferredBlock<PrimaryMeshBlock> RAILGUN_TURRET = BLOCKS.registerBlock(LTXIIdentifiers.ID_RAILGUN_TURRET, properties -> new PrimaryMeshBlock(properties, LTXIBlockMeshes.TURRET, LTXIBlockShapes.GENERAL_TURRET, true), LTXIBlocks::machineProperties);
 
     // Technical blocks
     public static final DeferredBlock<SurfaceStickingBlock> GLOWSTICK = BLOCKS.registerBlock("glowstick", properties -> new SurfaceStickingBlock(properties, LTXIBlockShapes.GLOWSTICK, true), properties -> properties.noCollision().instabreak().pushReaction(PushReaction.DESTROY).lightLevel(_ -> 15).noLootTable());
