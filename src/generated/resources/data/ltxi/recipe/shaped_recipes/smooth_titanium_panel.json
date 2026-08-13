@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "f": "ltxi:polymer_ingot",
+    "f": "ltxi:polymer",
     "t": "#c:ingots/titanium"
   },
   "pattern": [

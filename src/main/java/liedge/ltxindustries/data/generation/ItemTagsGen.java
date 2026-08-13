@@ -84,7 +84,7 @@ class ItemTagsGen extends LimaTagsProvider.ItemTags
         buildTag(GOLD_PLATES).add(GOLD_PLATE).copyTo(plateTag);
         buildTag(TITANIUM_PLATES).add(TITANIUM_PLATE).copyTo(plateTag);
         buildTag(SILVER_PLATES).add(SILVER_PLATE).copyTo(plateTag);
-        buildTag(plateTag).add(NIOBIUM_PLATE, RHENIUM_PLATE, SILICON_PLATE, SLATESTEEL_PLATE, TUNGSTEN_SLATESTEEL_PLATE, POLYMER_PLATE, FLUOROPOLYMER_PLATE);
+        buildTag(plateTag).add(NIOBIUM_PLATE, RHENIUM_PLATE, SILICON_PLATE, SLATESTEEL_PLATE, TUNGSTEN_SLATESTEEL_PLATE, POLYMER_SHEET, FLUOROPOLYMER_SHEET);
 
         final TagKey<Item> gearsTag = ModResources.COMMON.itemTag("gears");
         buildTag(TITANIUM_GEARS).add(TITANIUM_GEAR).copyTo(gearsTag);

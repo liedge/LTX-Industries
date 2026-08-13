@@ -63,6 +63,11 @@ public final class LTXIItems
     public static void register(IEventBus bus)
     {
         ITEMS.register(bus);
+        ITEMS.addAlias(RESOURCES.id("polymer_ingot"), RESOURCES.id(LTXIIdentifiers.ID_POLYMER));
+        ITEMS.addAlias(RESOURCES.id("fluoropolymer_ingot"), RESOURCES.id(LTXIIdentifiers.ID_FLUOROPOLYMER));
+        ITEMS.addAlias(RESOURCES.id("polymer_plate"), RESOURCES.id(LTXIIdentifiers.ID_POLYMER_SHEET));
+        ITEMS.addAlias(RESOURCES.id("fluoropolymer_plate"), RESOURCES.id(LTXIIdentifiers.ID_FLUOROPOLYMER_SHEET));
+
         bus.addListener(RegisterCapabilitiesEvent.class, LTXIItems::registerCapabilities);
     }
 
@@ -179,8 +184,10 @@ public final class LTXIItems
     public static final DeferredItem<Item> SILICON_INGOT = ITEMS.registerSimpleItem("silicon_ingot");
     public static final DeferredItem<Item> SLATESTEEL_INGOT = ITEMS.registerSimpleItem("slatesteel_ingot");
     public static final DeferredItem<Item> TUNGSTEN_SLATESTEEL_INGOT = ITEMS.registerSimpleItem("tungsten_slatesteel_ingot");
-    public static final DeferredItem<Item> POLYMER_INGOT = ITEMS.registerSimpleItem("polymer_ingot");
-    public static final DeferredItem<Item> FLUOROPOLYMER_INGOT = ITEMS.registerSimpleItem("fluoropolymer_ingot");
+
+    // Synthetic Resources
+    public static final DeferredItem<Item> POLYMER = ITEMS.registerSimpleItem(LTXIIdentifiers.ID_POLYMER);
+    public static final DeferredItem<Item> FLUOROPOLYMER = ITEMS.registerSimpleItem(LTXIIdentifiers.ID_FLUOROPOLYMER);
     public static final DeferredItem<Item> SILICONE_RUBBER = ITEMS.registerSimpleItem("silicone_rubber");
 
     // Gems
@@ -254,8 +261,8 @@ public final class LTXIItems
     public static final DeferredItem<Item> SILICON_PLATE = ITEMS.registerSimpleItem("silicon_plate");
     public static final DeferredItem<Item> SLATESTEEL_PLATE = ITEMS.registerSimpleItem("slatesteel_plate");
     public static final DeferredItem<Item> TUNGSTEN_SLATESTEEL_PLATE = ITEMS.registerSimpleItem("tungsten_slatesteel_plate");
-    public static final DeferredItem<Item> POLYMER_PLATE = ITEMS.registerSimpleItem("polymer_plate");
-    public static final DeferredItem<Item> FLUOROPOLYMER_PLATE = ITEMS.registerSimpleItem("fluoropolymer_plate");
+    public static final DeferredItem<Item> POLYMER_SHEET = ITEMS.registerSimpleItem(LTXIIdentifiers.ID_POLYMER_SHEET);
+    public static final DeferredItem<Item> FLUOROPOLYMER_SHEET = ITEMS.registerSimpleItem(LTXIIdentifiers.ID_FLUOROPOLYMER_SHEET);
 
     // Components
     public static final DeferredItem<Item> MACHINE_HOUSING = ITEMS.registerSimpleItem("machine_housing");

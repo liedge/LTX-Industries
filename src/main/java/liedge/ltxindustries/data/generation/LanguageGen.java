@@ -157,8 +157,8 @@ class LanguageGen extends LimaLanguageProvider
         addItem(SILICON_INGOT, "Silicon Ingot");
         addItem(SLATESTEEL_INGOT, "Slatesteel Ingot");
         addItem(TUNGSTEN_SLATESTEEL_INGOT, "Tungsten-Plated Slatesteel");
-        addItem(POLYMER_INGOT, "Polymer Bar");
-        addItem(FLUOROPOLYMER_INGOT, "Fluoropolymer Bar");
+        addItem(POLYMER, "Polymer Bar");
+        addItem(FLUOROPOLYMER, "Fluoropolymer Bar");
         addItem(SILICONE_RUBBER, "Silicone Rubber");
 
         addItem(OLIVINE, "Olivine");
@@ -223,8 +223,8 @@ class LanguageGen extends LimaLanguageProvider
         addItem(SILICON_PLATE, "Silicon Plate");
         addItem(SLATESTEEL_PLATE, "Slatesteel Plate");
         addItem(TUNGSTEN_SLATESTEEL_PLATE, "Tungsten-Plated Slatesteel Plate");
-        addItem(POLYMER_PLATE, "Polymer Plate");
-        addItem(FLUOROPOLYMER_PLATE, "Fluoropolymer Plate");
+        addItem(POLYMER_SHEET, "Polymer Plate");
+        addItem(FLUOROPOLYMER_SHEET, "Fluoropolymer Plate");
         addItem(MACHINE_HOUSING, "Machine Housing");
         addItem(SMALL_VOLTAIC_CELL, "Basic Voltaic Cell");
         addItem(MEDIUM_VOLTAIC_CELL, "Voltaic Cell");

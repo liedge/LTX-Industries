@@ -9,7 +9,7 @@
     "ltxi:silicon_plate",
     "ltxi:slatesteel_plate",
     "ltxi:tungsten_slatesteel_plate",
-    "ltxi:polymer_plate",
-    "ltxi:fluoropolymer_plate"
+    "ltxi:polymer_sheet",
+    "ltxi:fluoropolymer_sheet"
   ]
 }

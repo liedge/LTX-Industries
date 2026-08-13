@@ -22,8 +22,8 @@
     {
       "count": 4,
       "ingredient": [
-        "ltxi:polymer_plate",
-        "ltxi:fluoropolymer_plate"
+        "ltxi:polymer_sheet",
+        "ltxi:fluoropolymer_sheet"
       ]
     },
     {

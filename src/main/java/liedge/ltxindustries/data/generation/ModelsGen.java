@@ -106,8 +106,8 @@ class ModelsGen extends ModelProvider
                 SILICON_INGOT,
                 SLATESTEEL_INGOT,
                 TUNGSTEN_SLATESTEEL_INGOT,
-                POLYMER_INGOT,
-                FLUOROPOLYMER_INGOT,
+                POLYMER,
+                FLUOROPOLYMER,
                 SILICONE_RUBBER,
                 // Gems
                 OLIVINE,
@@ -155,8 +155,8 @@ class ModelsGen extends ModelProvider
                 SILICON_PLATE,
                 SLATESTEEL_PLATE,
                 TUNGSTEN_SLATESTEEL_PLATE,
-                POLYMER_PLATE,
-                FLUOROPOLYMER_PLATE,
+                POLYMER_SHEET,
+                FLUOROPOLYMER_SHEET,
                 // Components
                 SMALL_VOLTAIC_CELL,
                 MEDIUM_VOLTAIC_CELL,

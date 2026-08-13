@@ -8,6 +8,11 @@ public final class LTXIIdentifiers
     private LTXIIdentifiers() {}
 
     //#region Items
+    public static final String ID_POLYMER = "polymer";
+    public static final String ID_FLUOROPOLYMER = "fluoropolymer";
+    public static final String ID_POLYMER_SHEET = "polymer_sheet";
+    public static final String ID_FLUOROPOLYMER_SHEET = "fluoropolymer_sheet";
+
     public static final String ID_EPSILON_DRILL = "epsilon_drill";
     public static final String ID_EPSILON_SWORD = "epsilon_sword";
     public static final String ID_EPSILON_SHOVEL = "epsilon_shovel";

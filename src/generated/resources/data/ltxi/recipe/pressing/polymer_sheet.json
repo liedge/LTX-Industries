@@ -2,13 +2,13 @@
   "type": "ltxi:pressing",
   "item_inputs": [
     {
-      "ingredient": "ltxi:polymer_ingot"
+      "ingredient": "ltxi:polymer"
     }
   ],
   "item_results": [
     {
       "count": 1,
-      "id": "ltxi:polymer_plate"
+      "id": "ltxi:polymer_sheet"
     }
   ],
   "mode": "ltxi:plate_pressing"

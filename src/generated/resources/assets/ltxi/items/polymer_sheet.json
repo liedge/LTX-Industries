@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "ltxi:item/polymer_ingot"
+    "model": "ltxi:item/polymer_sheet"
   }
 }

@@ -9,8 +9,8 @@
     {
       "count": 12,
       "ingredient": [
-        "ltxi:polymer_ingot",
-        "ltxi:fluoropolymer_ingot"
+        "ltxi:polymer",
+        "ltxi:fluoropolymer"
       ]
     },
     {

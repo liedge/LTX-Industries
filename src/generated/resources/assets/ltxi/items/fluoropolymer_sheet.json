@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "ltxi:item/polymer_plate"
+    "model": "ltxi:item/fluoropolymer_sheet"
   }
 }

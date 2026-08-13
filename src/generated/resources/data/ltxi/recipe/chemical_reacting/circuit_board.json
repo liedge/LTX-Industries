@@ -9,7 +9,7 @@
   "item_inputs": [
     {
       "count": 2,
-      "ingredient": "ltxi:polymer_plate"
+      "ingredient": "ltxi:polymer_sheet"
     },
     {
       "ingredient": "#c:plates/copper"

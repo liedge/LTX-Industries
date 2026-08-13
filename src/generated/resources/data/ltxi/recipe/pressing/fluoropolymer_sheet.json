@@ -2,13 +2,13 @@
   "type": "ltxi:pressing",
   "item_inputs": [
     {
-      "ingredient": "ltxi:fluoropolymer_ingot"
+      "ingredient": "ltxi:fluoropolymer"
     }
   ],
   "item_results": [
     {
       "count": 1,
-      "id": "ltxi:fluoropolymer_plate"
+      "id": "ltxi:fluoropolymer_sheet"
     }
   ],
   "mode": "ltxi:plate_pressing"
