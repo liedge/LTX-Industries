@@ -3,7 +3,7 @@
   "category": "misc",
   "cookingtime": 200,
   "experience": 0.7,
-  "ingredient": "ltxi:silver_ore",
+  "ingredient": "#c:ores/silver",
   "result": {
     "id": "ltxi:silver_ingot"
   }

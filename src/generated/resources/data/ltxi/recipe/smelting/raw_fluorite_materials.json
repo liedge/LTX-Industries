@@ -3,8 +3,8 @@
   "category": "misc",
   "cookingtime": 200,
   "experience": 0.7,
-  "ingredient": "ltxi:titanium_ore",
+  "ingredient": "#c:raw_materials/fluorite",
   "result": {
-    "id": "ltxi:titanium_ingot"
+    "id": "ltxi:fluorite"
   }
 }

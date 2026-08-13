@@ -12,7 +12,7 @@
     },
     {
       "count": 4,
-      "ingredient": "ltxi:slatesteel_plate"
+      "ingredient": "#c:plates/slatesteel"
     },
     {
       "ingredient": "ltxi:optical_tech_part"
@@ -23,10 +23,10 @@
     },
     {
       "count": 4,
-      "ingredient": "ltxi:olivine"
+      "ingredient": "#c:gems/olivine"
     },
     {
-      "ingredient": "minecraft:diamond"
+      "ingredient": "#c:gems/diamond"
     }
   ],
   "result": {

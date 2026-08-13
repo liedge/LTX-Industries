@@ -23,11 +23,11 @@
       "ingredient": "#c:gears/titanium"
     },
     {
-      "ingredient": "ltxi:slatesteel_gear"
+      "ingredient": "#c:gears/slatesteel"
     },
     {
       "count": 4,
-      "ingredient": "minecraft:gold_ingot"
+      "ingredient": "#c:ingots/gold"
     },
     {
       "count": 2,

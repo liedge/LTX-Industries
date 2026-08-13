@@ -25,7 +25,7 @@
     },
     {
       "count": 8,
-      "ingredient": "minecraft:string"
+      "ingredient": "#c:strings"
     },
     {
       "count": 2,

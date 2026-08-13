@@ -3,7 +3,7 @@
   "item_inputs": [
     {
       "count": 4,
-      "ingredient": "ltxi:slatesteel_ingot"
+      "ingredient": "#c:ingots/slatesteel"
     }
   ],
   "item_results": [

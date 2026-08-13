@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "0": "ltxi:carbon_dust",
+    "0": "#c:dusts/carbon",
     "a": "minecraft:blast_furnace",
     "c": "ltxi:t1_circuit",
     "h": "ltxi:machine_housing",

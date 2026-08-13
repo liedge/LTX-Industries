@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "c": "ltxi:t1_circuit",
-    "m": "minecraft:chest",
+    "m": "#c:chests/wooden",
     "t": "#c:ingots/titanium"
   },
   "pattern": [

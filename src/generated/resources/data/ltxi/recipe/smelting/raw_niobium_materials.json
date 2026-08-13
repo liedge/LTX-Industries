@@ -3,8 +3,8 @@
   "category": "misc",
   "cookingtime": 200,
   "experience": 0.7,
-  "ingredient": "ltxi:deepslate_silver_ore",
+  "ingredient": "#c:raw_materials/niobium",
   "result": {
-    "id": "ltxi:silver_ingot"
+    "id": "ltxi:niobium_ingot"
   }
 }

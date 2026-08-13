@@ -8,10 +8,7 @@
     },
     {
       "count": 8,
-      "ingredient": [
-        "ltxi:polymer",
-        "ltxi:fluoropolymer"
-      ]
+      "ingredient": "#ltxi:polymers"
     },
     {
       "count": 2,
@@ -28,7 +25,7 @@
     },
     {
       "count": 2,
-      "ingredient": "ltxi:slatesteel_gear"
+      "ingredient": "#c:gears/slatesteel"
     },
     {
       "count": 4,

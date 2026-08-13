@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "i": "ltxi:slatesteel_ingot",
+    "i": "#c:ingots/slatesteel",
     "n": "#c:nuggets/iron"
   },
   "pattern": [

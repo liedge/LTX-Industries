@@ -4,7 +4,7 @@
   "item_inputs": [
     {
       "count": 2,
-      "ingredient": "ltxi:phosphorus_dust"
+      "ingredient": "#c:dusts/phosphorus"
     },
     {
       "ingredient": "#c:dyes/gray"

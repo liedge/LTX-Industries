@@ -3,8 +3,8 @@
   "category": "misc",
   "cookingtime": 100,
   "experience": 0.7,
-  "ingredient": "ltxi:niobium_ore",
+  "ingredient": "#c:ores/silver",
   "result": {
-    "id": "ltxi:niobium_ingot"
+    "id": "ltxi:silver_ingot"
   }
 }

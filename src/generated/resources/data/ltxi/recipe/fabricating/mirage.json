@@ -13,18 +13,15 @@
     },
     {
       "count": 24,
-      "ingredient": [
-        "ltxi:polymer",
-        "ltxi:fluoropolymer"
-      ]
+      "ingredient": "#ltxi:polymers"
     },
     {
       "count": 8,
-      "ingredient": "ltxi:slatesteel_ingot"
+      "ingredient": "#c:ingots/slatesteel"
     },
     {
       "count": 48,
-      "ingredient": "ltxi:olivine"
+      "ingredient": "#c:gems/olivine"
     }
   ],
   "result": {

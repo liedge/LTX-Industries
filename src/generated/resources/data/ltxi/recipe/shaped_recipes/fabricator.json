@@ -7,7 +7,7 @@
     "g": "#c:gears/titanium",
     "h": "ltxi:machine_housing",
     "o": "#c:gems/diamond",
-    "s": "ltxi:slatesteel_gear"
+    "s": "#c:gears/slatesteel"
   },
   "pattern": [
     "gog",

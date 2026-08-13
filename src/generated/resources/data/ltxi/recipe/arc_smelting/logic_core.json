@@ -14,11 +14,11 @@
     },
     {
       "count": 6,
-      "ingredient": "ltxi:phosphorus_dust"
+      "ingredient": "#c:dusts/phosphorus"
     },
     {
       "count": 8,
-      "ingredient": "ltxi:olivine"
+      "ingredient": "#c:gems/olivine"
     }
   ],
   "item_results": [

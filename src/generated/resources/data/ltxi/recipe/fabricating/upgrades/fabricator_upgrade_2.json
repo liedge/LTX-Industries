@@ -20,7 +20,7 @@
     },
     {
       "count": 8,
-      "ingredient": "ltxi:slatesteel_plate"
+      "ingredient": "#c:plates/slatesteel"
     },
     {
       "count": 2,
@@ -32,7 +32,7 @@
     },
     {
       "count": 8,
-      "ingredient": "ltxi:olivine"
+      "ingredient": "#c:gems/olivine"
     }
   ],
   "result": {

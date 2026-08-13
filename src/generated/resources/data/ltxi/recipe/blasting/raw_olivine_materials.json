@@ -3,8 +3,8 @@
   "category": "misc",
   "cookingtime": 100,
   "experience": 0.7,
-  "ingredient": "ltxi:deepslate_titanium_ore",
+  "ingredient": "#c:raw_materials/olivine",
   "result": {
-    "id": "ltxi:titanium_ingot"
+    "id": "ltxi:olivine"
   }
 }

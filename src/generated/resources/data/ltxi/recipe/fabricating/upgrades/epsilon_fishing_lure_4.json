@@ -21,15 +21,15 @@
     },
     {
       "count": 2,
-      "ingredient": "ltxi:slatesteel_ingot"
+      "ingredient": "#c:ingots/slatesteel"
     },
     {
       "count": 4,
-      "ingredient": "minecraft:string"
+      "ingredient": "#c:strings"
     },
     {
       "count": 12,
-      "ingredient": "ltxi:carbon_dust"
+      "ingredient": "#c:dusts/carbon"
     },
     {
       "count": 6,
@@ -37,7 +37,7 @@
     },
     {
       "count": 2,
-      "ingredient": "minecraft:prismarine_crystals"
+      "ingredient": "#c:gems/prismarine"
     }
   ],
   "result": {

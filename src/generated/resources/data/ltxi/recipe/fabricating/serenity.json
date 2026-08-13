@@ -13,14 +13,11 @@
     },
     {
       "count": 16,
-      "ingredient": [
-        "ltxi:polymer",
-        "ltxi:fluoropolymer"
-      ]
+      "ingredient": "#ltxi:polymers"
     },
     {
       "count": 24,
-      "ingredient": "ltxi:olivine"
+      "ingredient": "#c:gems/olivine"
     }
   ],
   "result": {

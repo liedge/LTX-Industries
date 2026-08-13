@@ -1,9 +1,9 @@
 {
-  "type": "minecraft:smelting",
+  "type": "minecraft:blasting",
   "category": "misc",
-  "cookingtime": 200,
+  "cookingtime": 100,
   "experience": 0.7,
-  "ingredient": "ltxi:niobium_ore",
+  "ingredient": "#c:ores/niobium",
   "result": {
     "id": "ltxi:niobium_ingot"
   }

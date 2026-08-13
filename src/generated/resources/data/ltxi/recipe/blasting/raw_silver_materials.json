@@ -3,8 +3,8 @@
   "category": "misc",
   "cookingtime": 100,
   "experience": 0.7,
-  "ingredient": "ltxi:raw_fluorite",
+  "ingredient": "#c:raw_materials/silver",
   "result": {
-    "id": "ltxi:fluorite"
+    "id": "ltxi:silver_ingot"
   }
 }

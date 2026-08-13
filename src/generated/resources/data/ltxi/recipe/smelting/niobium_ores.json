@@ -3,8 +3,8 @@
   "category": "misc",
   "cookingtime": 200,
   "experience": 0.7,
-  "ingredient": "ltxi:raw_titanium",
+  "ingredient": "#c:ores/niobium",
   "result": {
-    "id": "ltxi:titanium_ingot"
+    "id": "ltxi:niobium_ingot"
   }
 }

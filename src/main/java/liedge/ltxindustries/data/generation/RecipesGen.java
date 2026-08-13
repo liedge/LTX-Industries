@@ -147,23 +147,21 @@ class RecipesGen extends LimaRecipeProvider
         nuggetIngotBlockRecipes("niobium", NIOBIUM_NUGGET, NIOBIUM_INGOT, NIOBIUM_BLOCK);
         nuggetIngotBlockRecipes("slatesteel", SLATESTEEL_NUGGET, SLATESTEEL_INGOT, SLATESTEEL_BLOCK);
 
-        shaped(TITANIUM_PANEL, 32).input('t', TITANIUM_INGOTS).input('f', POLYMER).patterns("tft", "f f", "tft").category(CraftingBookCategory.BUILDING).save(output);
-        shaped(SMOOTH_TITANIUM_PANEL, 32).input('t', TITANIUM_INGOTS).input('f', POLYMER).patterns("ftf", "t t", "ftf").category(CraftingBookCategory.BUILDING).save(output);
-        shaped(TILED_TITANIUM_PANEL, 4).input('p', TITANIUM_PANEL).patterns("pp", "pp").category(CraftingBookCategory.BUILDING).save(output);
-        shaped(SLATESTEEL_PANEL, 32).input('s', SLATESTEEL_INGOT).input('f', POLYMER).patterns("sfs", "f f", "sfs").category(CraftingBookCategory.BUILDING).save(output);
-        shaped(SMOOTH_SLATESTEEL_PANEL, 32).input('s', SLATESTEEL_INGOT).input('f', POLYMER).patterns("fsf", "s s", "fsf").category(CraftingBookCategory.BUILDING).save(output);
-        shaped(TILED_SLATESTEEL_PANEL, 4).input('p', SLATESTEEL_PANEL).patterns("pp", "pp").category(CraftingBookCategory.BUILDING).save(output);
+        shaped(TITANIUM_PANEL, 16).input('m', TITANIUM_INGOTS).input('p', POLYMER).patterns("mpm", "p p", "mpm").category(CraftingBookCategory.BUILDING).save(output, "titanium_panel_p");
+        shaped(TITANIUM_PANEL, 32).input('m', TITANIUM_INGOTS).input('p', FLUOROPOLYMER).patterns("mpm", "p p", "mpm").category(CraftingBookCategory.BUILDING).save(output, "titanium_panel_fp");
+        shaped(SLATESTEEL_PANEL, 16).input('m', SLATESTEEL_INGOTS).input('p', POLYMER).patterns("mpm", "p p", "mpm").category(CraftingBookCategory.BUILDING).save(output, "slatesteel_panel_p");
+        shaped(SLATESTEEL_PANEL, 32).input('m', SLATESTEEL_INGOTS).input('p', FLUOROPOLYMER).patterns("mpm", "p p", "mpm").category(CraftingBookCategory.BUILDING).save(output, "slatesteel_panel_fp");
 
         shaped(TITANIUM_GEAR).input('i', TITANIUM_INGOTS).input('n', NUGGETS_IRON).patterns("ini", "n n", "ini").save(output);
-        shaped(SLATESTEEL_GEAR).input('i', SLATESTEEL_INGOT).input('n', NUGGETS_IRON).patterns("ini", "n n", "ini").save(output);
+        shaped(SLATESTEEL_GEAR).input('i', SLATESTEEL_INGOTS).input('n', NUGGETS_IRON).patterns("ini", "n n", "ini").save(output);
         shaped(MACHINE_HOUSING).input('i', INGOTS_IRON).input('g', TITANIUM_GEARS).input('l', LEVER).patterns("igi", "glg", "igi").save(output);
         shaped(SMALL_VOLTAIC_CELL).input('t', TITANIUM_INGOTS).input('s', SILVER_INGOTS).input('c', COPPER_BLOCK).input('e', SODIUM_DUSTS).patterns("tst", "ece", "eee").save(output);
         shaped(CIRCUIT_BOARD).input('p', PAPER).input('r', REPEATER).input('c', INGOTS_COPPER).input('g', GOLD_NUGGET).patterns("gcg", "crc", "ppp").save(output);
         shaped(T1_CIRCUIT).input('b', CIRCUIT_BOARD).input('e', SMALL_VOLTAIC_CELL).input('c', INGOTS_COPPER).input('t', TITANIUM_INGOTS).patterns("ece", "cbc", "tct").save(output);
 
-        shaped(EMPTY_UPGRADE_MODULE, 2).input('t', TITANIUM_INGOTS).input('c', T1_CIRCUIT).input('g', TITANIUM_GLASS).input('s', SLATESTEEL_INGOT).patterns("gsg", "tct").save(output);
+        shaped(EMPTY_UPGRADE_MODULE, 2).input('t', TITANIUM_INGOTS).input('c', T1_CIRCUIT).input('g', TITANIUM_GLASS).input('s', SLATESTEEL_INGOTS).patterns("gsg", "tct").save(output);
         shaped(EMPTY_FABRICATION_BLUEPRINT, 2).input('t', TITANIUM_INGOTS).input('c', T1_CIRCUIT).input('g', TITANIUM_GLASS).input('s', PAPER).patterns("gsg", "tct").save(output);
-        shaped(ITEMS_IO_CONFIG_CARD).input('t', TITANIUM_INGOTS).input('c', T1_CIRCUIT).input('m', CHEST).patterns(" m ", "tct", " t ").save(output);
+        shaped(ITEMS_IO_CONFIG_CARD).input('t', TITANIUM_INGOTS).input('c', T1_CIRCUIT).input('m', CHESTS_WOODEN).patterns(" m ", "tct", " t ").save(output);
         shaped(ENERGY_IO_CONFIG_CARD).input('t', TITANIUM_INGOTS).input('c', T1_CIRCUIT).input('m', SODIUM_DUSTS).patterns(" m ", "tct", " t ").save(output);
         shaped(FLUIDS_IO_CONFIG_CARD).input('t', TITANIUM_INGOTS).input('c', T1_CIRCUIT).input('m', BUCKET).patterns(" m ", "tct", " t ").save(output);
 
@@ -178,41 +176,41 @@ class RecipesGen extends LimaRecipeProvider
         shaped(DIGITAL_BLAST_FURNACE).input('h', MACHINE_HOUSING).input('c', T1_CIRCUIT).input('b', Items.BRICKS).input('0', INGOTS_COPPER).input('k', BLAST_FURNACE).patterns(" k ", "bhb", "0c0").save(output);
         shaped(GRINDER).input('h', MACHINE_HOUSING).input('t', TITANIUM_INGOTS).input('g', TITANIUM_GEARS).input('c', T1_CIRCUIT).input('i', INGOTS_IRON)
                 .patterns("t t", "gig", "chc").save(output);
-        shaped(MATERIAL_PRESS).input('h', MACHINE_HOUSING).input('t', TITANIUM_INGOTS).input('c', T1_CIRCUIT).input('s', SLATESTEEL_INGOT).input('g', SLATESTEEL_GEAR)
+        shaped(MATERIAL_PRESS).input('h', MACHINE_HOUSING).input('t', TITANIUM_INGOTS).input('c', T1_CIRCUIT).input('s', SLATESTEEL_INGOTS).input('g', SLATESTEEL_GEARS)
                 .patterns("gtg", " s ", "chc").save(output);
-        shaped(ARC_FURNACE).input('h', MACHINE_HOUSING).input('c', T1_CIRCUIT).input('a', BLAST_FURNACE).input('o', OBSIDIANS_NORMAL).input('0', CARBON_DUST).patterns("000", "oao", "chc").save(output);
+        shaped(ARC_FURNACE).input('h', MACHINE_HOUSING).input('c', T1_CIRCUIT).input('a', BLAST_FURNACE).input('o', OBSIDIANS_NORMAL).input('0', CARBON_DUSTS).patterns("000", "oao", "chc").save(output);
         shaped(HYDROSIEVE).input('h', MACHINE_HOUSING).input('t', TITANIUM_INGOTS).input('g', TITANIUM_GEARS).input('c', T1_CIRCUIT).input('b', IRON_BARS).patterns("bbb", "tgt", "chc").save(output);
         shaped(ELECTROCENTRIFUGE).input('h', MACHINE_HOUSING).input('g', TITANIUM_GEARS).input('c', T1_CIRCUIT).input('0', TITANIUM_GLASS).input('e', SMALL_VOLTAIC_CELL).patterns("0 0", "ege", "chc").save(output);
         shaped(MIXER).input('h', MACHINE_HOUSING).input('t', TITANIUM_INGOTS).input('g', TITANIUM_GEARS).input('c', T1_CIRCUIT).input('0', TITANIUM_GLASS).patterns("ttt", "0g0", "chc").save(output);
-        shaped(VOLTAIC_INJECTOR).input('h', MACHINE_HOUSING).input('s', SLATESTEEL_PLATE).input('c', T1_CIRCUIT).input('o', OLIVINE_GEMS).input('e', SMALL_VOLTAIC_CELL).patterns(" o ", "ese", "chc").save(output);
+        shaped(VOLTAIC_INJECTOR).input('h', MACHINE_HOUSING).input('s', SLATESTEEL_PLATES).input('c', T1_CIRCUIT).input('o', OLIVINE_GEMS).input('e', SMALL_VOLTAIC_CELL).patterns(" o ", "ese", "chc").save(output);
         shaped(CHEM_LAB).input('h', MACHINE_HOUSING).input('t', TITANIUM_INGOTS).input('c', T1_CIRCUIT).input('a', emptyPortableTank()).input('0', TITANIUM_GLASS).patterns("ttt", "0a0", "chc").save(output);
-        shaped(ASSEMBLER).input('h', MACHINE_HOUSING).input('g', SLATESTEEL_GEAR).input('c', T1_CIRCUIT).input('e', SMALL_VOLTAIC_CELL).input('0', TITANIUM_GLASS)
+        shaped(ASSEMBLER).input('h', MACHINE_HOUSING).input('g', SLATESTEEL_GEARS).input('c', T1_CIRCUIT).input('e', SMALL_VOLTAIC_CELL).input('0', TITANIUM_GLASS)
                 .patterns("e e", "0g0", "chc").save(output);
         shaped(GEO_SYNTHESIZER).input('h', MACHINE_HOUSING).input('c', T1_CIRCUIT).input('a', DIAMOND_PICKAXE).input('s', BUCKET).patterns("sas", "chc").save(output);
-        shaped(FABRICATOR).input('h', MACHINE_HOUSING).input('g', TITANIUM_GEARS).input('s', SLATESTEEL_GEAR).input('c', T2_CIRCUIT).input('o', GEMS_DIAMOND).input('e', MEDIUM_VOLTAIC_CELL)
+        shaped(FABRICATOR).input('h', MACHINE_HOUSING).input('g', TITANIUM_GEARS).input('s', SLATESTEEL_GEARS).input('c', T2_CIRCUIT).input('o', GEMS_DIAMOND).input('e', MEDIUM_VOLTAIC_CELL)
                 .patterns("gog", "ese", "chc").save(output);
-        shaped(AUTO_FABRICATOR).input('h', MACHINE_HOUSING).input('g', TITANIUM_GEARS).input('s', SLATESTEEL_GEAR).input('c', T3_CIRCUIT).input('o', OPTICAL_TECH_PART).input('e', MEDIUM_VOLTAIC_CELL)
+        shaped(AUTO_FABRICATOR).input('h', MACHINE_HOUSING).input('g', TITANIUM_GEARS).input('s', SLATESTEEL_GEARS).input('c', T3_CIRCUIT).input('o', OPTICAL_TECH_PART).input('e', MEDIUM_VOLTAIC_CELL)
                 .patterns("gog", "ese", "chc").save(output);
-        shaped(UPGRADE_STATION).input('t', TITANIUM_INGOTS).input('g', TITANIUM_GEARS).input('s', SLATESTEEL_PLATE).input('p', TITANIUM_PLATES).input('0', Ingredient.of(POLYMER, FLUOROPOLYMER))
+        shaped(UPGRADE_STATION).input('t', TITANIUM_INGOTS).input('g', TITANIUM_GEARS).input('s', SLATESTEEL_PLATES).input('p', TITANIUM_PLATES).input('0', POLYMERS)
                 .patterns("psp", "0g0", "ttt").save(output);
-        shaped(REPAIR_STATION).input('h', MACHINE_HOUSING).input('t', TITANIUM_PLATES).input('s', SLATESTEEL_BLOCK).input('c', T2_CIRCUIT).input('g', SLATESTEEL_GEAR).input('e', LARGE_VOLTAIC_CELL)
+        shaped(REPAIR_STATION).input('h', MACHINE_HOUSING).input('t', TITANIUM_PLATES).input('s', SLATESTEEL_BLOCK).input('c', T2_CIRCUIT).input('g', SLATESTEEL_GEARS).input('e', LARGE_VOLTAIC_CELL)
                 .patterns("tst", "geg", "chc").save(output);
 
         // Generators
         shaped(PORTABLE_GENERATOR).input('h', MACHINE_HOUSING).input('c', T1_CIRCUIT).input('e', SMALL_VOLTAIC_CELL).input('0', FURNACE).input('b', IRON_BARS).patterns("000", "bhb", "ece").save(output);
-        shaped(SOLAR_PANEL).input('h', MACHINE_HOUSING).input('s', SILICON_PLATE).input('c', T1_CIRCUIT).input('e', SMALL_VOLTAIC_CELL).input('g', TITANIUM_GLASS).patterns("sss", "ghg", "ece").save(output);
+        shaped(SOLAR_PANEL).input('h', MACHINE_HOUSING).input('s', SILICON_PLATES).input('c', T1_CIRCUIT).input('e', SMALL_VOLTAIC_CELL).input('g', TITANIUM_GLASS).patterns("sss", "ghg", "ece").save(output);
 
         // Upgrade modules
         upgradeShaped(POWER_TIERS, 1, builder -> builder
-                .input('c', T1_CIRCUIT).input('s', SLATESTEEL_PLATE).input('g', SLATESTEEL_GEAR).input('e', SMALL_VOLTAIC_CELL).patterns("ese", "cmc", "gsg"));
+                .input('c', T1_CIRCUIT).input('s', SLATESTEEL_PLATES).input('g', SLATESTEEL_GEARS).input('e', SMALL_VOLTAIC_CELL).patterns("ese", "cmc", "gsg"));
         upgradeShaped(POWER_TIERS, 2, builder -> builder
-                .input('c', T2_CIRCUIT).input('t', TITANIUM_GEARS).input('g', SLATESTEEL_GEAR).input('e', MEDIUM_VOLTAIC_CELL).patterns("ege", "cmc", "gtg"));
+                .input('c', T2_CIRCUIT).input('t', TITANIUM_GEARS).input('g', SLATESTEEL_GEARS).input('e', MEDIUM_VOLTAIC_CELL).patterns("ege", "cmc", "gtg"));
         upgradeShaped(GEO_SYNTHESIZER_PARALLEL, 1, builder -> builder
                 .input('w', WATER_BUCKET).input('l', LAVA_BUCKET).input('c', T1_CIRCUIT).input('t', TITANIUM_INGOTS).patterns("twt", "cmc", "tlt"));
         upgradeShaped(GEO_SYNTHESIZER_PARALLEL, 2, builder -> builder
                 .input('w', PACKED_ICE).input('l', MAGMA_BLOCK).input('c', T2_CIRCUIT).input('g', TITANIUM_GEARS).patterns("wgl", "cmc", "lgw"));
         upgradeShaped(GEO_SYNTHESIZER_PARALLEL, 3, builder -> builder
-                .input('w', BLUE_ICE).input('l', MAGMA_BLOCK).input('c', T3_CIRCUIT).input('g', SLATESTEEL_GEAR).patterns("wgl", "cmc", "lgw"));
+                .input('w', BLUE_ICE).input('l', MAGMA_BLOCK).input('c', T3_CIRCUIT).input('g', SLATESTEEL_GEARS).patterns("wgl", "cmc", "lgw"));
 
         upgradeShaped(ECA_CAPACITY_UPGRADE, 1, builder -> builder.input('c', T1_CIRCUIT).input('e', SMALL_VOLTAIC_CELL).patterns(" c ", "eme", " c "));
         upgradeShaped(ECA_CAPACITY_UPGRADE, 2, builder -> builder.input('c', T2_CIRCUIT).input('e', SMALL_VOLTAIC_CELL).patterns(" c ", "eme", " c "));
@@ -220,33 +218,37 @@ class RecipesGen extends LimaRecipeProvider
         upgradeShaped(PORTABLE_TANK_UPGRADE, 1, builder -> builder.input('g', TITANIUM_GLASS).input('b', BUCKET).patterns(" g ", "gmg", " b "));
         upgradeShaped(PORTABLE_TANK_UPGRADE, 2, builder -> builder.input('g', TITANIUM_GLASS).input('t', TITANIUM_INGOTS).patterns("tgt", "gmg", "tgt"));
 
-        upgradeShaped(ORE_PROCESS_2, 1, builder -> builder.input('s', SLATESTEEL_PLATE).input('g', SLATESTEEL_GEAR).input('b', IRON_BARS).patterns("sbs", "bmb", "gbg"));
+        upgradeShaped(ORE_PROCESS_2, 1, builder -> builder.input('s', SLATESTEEL_PLATES).input('g', SLATESTEEL_GEARS).input('b', IRON_BARS).patterns("sbs", "bmb", "gbg"));
 
         NEON_LIGHTS.forEach((color, holder) -> shaped(holder, 4).input('d', neonLightDye(color)).input('g', GLOWSTONE).patterns("dg", "gd").save(output));
     }
 
     private void cookingRecipes()
     {
-        oreSmeltBlast("smelt_raw_titanium", RAW_TITANIUM, TITANIUM_INGOT);
-        oreSmeltBlast("smelt_stone_titanium", TITANIUM_ORE, TITANIUM_INGOT);
-        oreSmeltBlast("smelt_deepslate_titanium", DEEPSLATE_TITANIUM_ORE, TITANIUM_INGOT);
-        oreSmeltBlast("smelt_raw_silver", RAW_SILVER, SILVER_INGOT);
-        oreSmeltBlast("smelt_stone_silver", SILVER_ORE, SILVER_INGOT);
-        oreSmeltBlast("smelt_deepslate_silver", DEEPSLATE_SILVER_ORE, SILVER_INGOT);
-        oreSmeltBlast("smelt_raw_olivine", RAW_OLIVINE, OLIVINE);
-        oreSmeltBlast("smelt_raw_fluorite", RAW_FLUORITE, FLUORITE);
-        oreSmeltBlast("smelt_raw_niobium", RAW_NIOBIUM, NIOBIUM_INGOT);
-        oreSmeltBlast("smelt_niobium_ore", NIOBIUM_ORE, NIOBIUM_INGOT);
+        oreSmeltBlast("raw_titanium_materials", Ingredient.of(items.getOrThrow(RAW_TITANIUM_MATERIALS)), TITANIUM_INGOT);
+        oreSmeltBlast("titanium_ores", Ingredient.of(items.getOrThrow(TITANIUM_ORES)), TITANIUM_INGOT);
+
+        oreSmeltBlast("raw_silver_materials", Ingredient.of(items.getOrThrow(RAW_SILVER_MATERIALS)), SILVER_INGOT);
+        oreSmeltBlast("silver_ores", Ingredient.of(items.getOrThrow(SILVER_ORES)), SILVER_INGOT);
+
+        oreSmeltBlast("raw_olivine_materials", Ingredient.of(items.getOrThrow(RAW_OLIVINE_MATERIALS)), OLIVINE);
+        oreSmeltBlast("raw_fluorite_materials", Ingredient.of(items.getOrThrow(RAW_FLUORITE_MATERIALS)), FLUORITE);
+
+        oreSmeltBlast("raw_niobium_materials", Ingredient.of(items.getOrThrow(RAW_NIOBIUM_MATERIALS)), NIOBIUM_INGOT);
+        oreSmeltBlast("niobium_ores", Ingredient.of(items.getOrThrow(NIOBIUM_ORES)), NIOBIUM_INGOT);
 
         // Dust smelting
-        smelting(TITANIUM_INGOT).input(TITANIUM_DUST).save(output, "smelt_titanium_dust");
-        smelting(SILVER_INGOT).input(SILVER_DUST).save(output, "smelt_silver_dust");
-        smelting(NIOBIUM_INGOT).input(NIOBIUM_DUST).save(output, "smelt_niobium_dust");
-        smelting(SLATESTEEL_INGOT).input(SLATESTEEL_DUST).save(output, "smelt_slatesteel_dust");
+        smelting(TITANIUM_INGOT).input(TITANIUM_DUSTS).save(output, "smelt_titanium_dust");
+        smelting(SILVER_INGOT).input(SILVER_DUSTS).save(output, "smelt_silver_dust");
+        smelting(NIOBIUM_INGOT).input(NIOBIUM_DUSTS).save(output, "smelt_niobium_dust");
+        smelting(SLATESTEEL_INGOT).input(SLATESTEEL_DUSTS).save(output, "smelt_slatesteel_dust");
     }
 
     private void stonecuttingRecipes()
     {
+        stonecuttingInterchange(List.of(TITANIUM_PANEL, SMOOTH_TITANIUM_PANEL, TILED_TITANIUM_PANEL));
+        stonecuttingInterchange(List.of(SLATESTEEL_PANEL, SMOOTH_SLATESTEEL_PANEL, TILED_SLATESTEEL_PANEL));
+
         stonecutting(PERIDOTITE_STAIRS).input(PERIDOTITE).category(CraftingBookCategory.BUILDING).save(output);
         stonecutting(PERIDOTITE_SLAB, 2).input(PERIDOTITE).category(CraftingBookCategory.BUILDING).save(output);
         stonecutting(PERIDOTITE_WALL).input(PERIDOTITE).save(output);
@@ -352,7 +354,7 @@ class RecipesGen extends LimaRecipeProvider
 
         fabricating(100_000_000)
                 .input(TITANIUM_PLATES, 16)
-                .input(RHENIUM_INGOT, 8)
+                .input(RHENIUM_INGOTS, 8)
                 .input(ELITE_CIRCUIT_BOARD)
                 .input(T4_CIRCUIT, 4)
                 .input(LARGE_VOLTAIC_CELL, 3)
@@ -364,10 +366,10 @@ class RecipesGen extends LimaRecipeProvider
         String machineGroup = "0/machine";
         fabricating(5_000_000)
                 .input(MACHINE_HOUSING)
-                .input(Ingredient.of(POLYMER, FLUOROPOLYMER), 8)
+                .input(POLYMERS, 8)
                 .input(T3_CIRCUIT, 2)
                 .input(emptyPortableTank())
-                .input(SLATESTEEL_GEAR, 2)
+                .input(SLATESTEEL_GEARS, 2)
                 .input(IRON_BARS, 4)
                 .output(ItemResult.of(ATMOSPHERIC_SCRUBBER))
                 .group(machineGroup)
@@ -390,7 +392,7 @@ class RecipesGen extends LimaRecipeProvider
                 .input(MEDIUM_VOLTAIC_CELL, 8)
                 .input(SODIUM_DUSTS, 32)
                 .input(TITANIUM_GEARS, 4)
-                .input(SLATESTEEL_GEAR, 2)
+                .input(SLATESTEEL_GEARS, 2)
                 .output(ItemResult.of(ARC_TURRET))
                 .group(turretGroup)
                 .save(output);
@@ -399,20 +401,20 @@ class RecipesGen extends LimaRecipeProvider
                 .input(T3_CIRCUIT, 2)
                 .input(OPTICAL_TECH_PART, 2)
                 .input(IMPULSE_TECH_PART, 2)
-                .input(PHOSPHORUS_DUST, 16)
+                .input(PHOSPHORUS_DUSTS, 16)
                 .input(TITANIUM_GEARS, 4)
-                .input(SLATESTEEL_GEAR, 2)
+                .input(SLATESTEEL_GEARS, 2)
                 .output(ItemResult.of(ROCKET_TURRET))
                 .group(turretGroup)
                 .save(output);
         fabricating(20_000_000)
                 .input(MACHINE_HOUSING, 2)
-                .input(TUNGSTEN_SLATESTEEL_INGOT, 8)
+                .input(TUNGSTEN_SLATESTEEL_INGOTS, 8)
                 .input(T4_CIRCUIT)
                 .input(OPTICAL_TECH_PART, 2)
                 .input(LASER_TECH_PART, 3)
                 .input(TITANIUM_GEARS, 4)
-                .input(SLATESTEEL_GEAR, 2)
+                .input(SLATESTEEL_GEARS, 2)
                 .output(ItemResult.of(RAILGUN_TURRET))
                 .group(turretGroup)
                 .save(output);
@@ -424,60 +426,60 @@ class RecipesGen extends LimaRecipeProvider
                 .input(MEDIUM_VOLTAIC_CELL)
                 .input(TITANIUM_INGOTS, 24)
                 .input(OLIVINE_GEMS, 4)
-                .input(SLATESTEEL_INGOT, 8)
-                .input(SLATESTEEL_GEAR, 2)
+                .input(SLATESTEEL_INGOTS, 8)
+                .input(SLATESTEEL_GEARS, 2)
                 .input(TITANIUM_GEARS));
         equipmentFabricating(EPSILON_SWORD, toolFabGroup, 1_000_000, builder -> builder
                 .input(T3_CIRCUIT)
                 .input(MEDIUM_VOLTAIC_CELL)
                 .input(TITANIUM_INGOTS, 16)
                 .input(OLIVINE_GEMS, 8)
-                .input(SLATESTEEL_GEAR, 2)
+                .input(SLATESTEEL_GEARS, 2)
                 .input(TITANIUM_GEARS));
         equipmentFabricating(EPSILON_SHOVEL, toolFabGroup, 1_000_000, builder -> builder
                 .input(T3_CIRCUIT)
                 .input(MEDIUM_VOLTAIC_CELL)
                 .input(TITANIUM_INGOTS, 16)
                 .input(OLIVINE_GEMS, 4)
-                .input(SLATESTEEL_GEAR, 2)
+                .input(SLATESTEEL_GEARS, 2)
                 .input(TITANIUM_GEARS));
         equipmentFabricating(EPSILON_AXE, toolFabGroup, 1_000_000, builder -> builder
                 .input(T3_CIRCUIT)
                 .input(MEDIUM_VOLTAIC_CELL)
                 .input(TITANIUM_INGOTS, 24)
                 .input(OLIVINE_GEMS, 8)
-                .input(SLATESTEEL_GEAR, 2)
+                .input(SLATESTEEL_GEARS, 2)
                 .input(TITANIUM_GEARS));
         equipmentFabricating(EPSILON_HOE, toolFabGroup, 1_000_000, builder -> builder
                 .input(T3_CIRCUIT)
                 .input(MEDIUM_VOLTAIC_CELL)
                 .input(TITANIUM_INGOTS, 16)
                 .input(OLIVINE_GEMS, 4)
-                .input(SLATESTEEL_GEAR, 2)
+                .input(SLATESTEEL_GEARS, 2)
                 .input(TITANIUM_GEARS));
         equipmentFabricating(EPSILON_SHEARS, toolFabGroup, 500_000, builder -> builder
                 .input(T2_CIRCUIT)
                 .input(MEDIUM_VOLTAIC_CELL)
                 .input(TITANIUM_INGOTS, 12)
-                .input(SLATESTEEL_PLATE, 2)
+                .input(SLATESTEEL_PLATES, 2)
                 .input(TITANIUM_GEARS));
         equipmentFabricating(EPSILON_BRUSH, toolFabGroup, 500_000, builder -> builder
                 .input(T2_CIRCUIT, 2)
                 .input(TITANIUM_INGOTS, 12)
-                .input(SLATESTEEL_GEAR, 2)
+                .input(SLATESTEEL_GEARS, 2)
                 .input(TITANIUM_GEARS)
                 .input(FEATHER, 4));
         equipmentFabricating(EPSILON_FISHING_ROD, toolFabGroup, 500_000, builder -> builder
                 .input(T2_CIRCUIT, 2)
                 .input(TITANIUM_INGOTS, 12)
                 .input(TITANIUM_GEARS, 2)
-                .input(SLATESTEEL_GEAR)
-                .input(STRING, 4));
+                .input(SLATESTEEL_GEARS)
+                .input(STRINGS, 4));
         equipmentFabricating(EPSILON_LIGHTER, toolFabGroup, 500_000, builder -> builder
                 .input(T2_CIRCUIT, 2)
                 .input(TITANIUM_INGOTS, 12)
-                .input(SLATESTEEL_PLATE, 4)
-                .input(PHOSPHORUS_DUST, 4));
+                .input(SLATESTEEL_PLATES, 4)
+                .input(PHOSPHORUS_DUSTS, 4));
 
         // Weapons fabrication
         String weaponFabGroup = "1/weapon";
@@ -489,24 +491,24 @@ class RecipesGen extends LimaRecipeProvider
         equipmentFabricating(SERENITY, weaponFabGroup + ".11", 1_000_000, builder -> builder
                 .input(T2_CIRCUIT, 2)
                 .input(TITANIUM_INGOTS, 16)
-                .input(Ingredient.of(POLYMER, FLUOROPOLYMER), 16)
-                .input(OLIVINE, 24));
+                .input(POLYMERS, 16)
+                .input(OLIVINE_GEMS, 24));
         equipmentFabricating(MIRAGE, weaponFabGroup + ".13", 2_500_000, builder -> builder
                 .input(T2_CIRCUIT, 2)
                 .input(TITANIUM_INGOTS, 24)
-                .input(Ingredient.of(POLYMER, FLUOROPOLYMER), 24)
-                .input(SLATESTEEL_INGOT, 8)
-                .input(OLIVINE, 48));
+                .input(POLYMERS, 24)
+                .input(SLATESTEEL_INGOTS, 8)
+                .input(OLIVINE_GEMS, 48));
         equipmentFabricating(AURORA, weaponFabGroup + ".21", 10_000_000, builder -> builder
                 .input(T3_CIRCUIT, 2)
                 .input(TITANIUM_INGOTS, 32)
                 .input(FLUOROPOLYMER, 24)
-                .input(SLATESTEEL_INGOT, 16)
+                .input(SLATESTEEL_INGOTS, 16)
                 .input(LASER_TECH_PART, 2));
         equipmentFabricating(HANABI, weaponFabGroup + ".33", 100_000_000, builder -> builder
                 .input(T3_CIRCUIT, 2)
                 .input(TITANIUM_INGOTS, 24)
-                .input(TUNGSTEN_SLATESTEEL_INGOT, 16)
+                .input(TUNGSTEN_SLATESTEEL_INGOTS, 16)
                 .input(IMPULSE_TECH_PART, 4)
                 .input(TITANIUM_GLASS, 20));
         equipmentFabricating(STARGAZER, weaponFabGroup + ".37", 50_000_000, builder -> builder
@@ -514,20 +516,20 @@ class RecipesGen extends LimaRecipeProvider
                 .input(OPTICAL_TECH_PART, 4)
                 .input(TITANIUM_INGOTS, 32)
                 .input(FLUOROPOLYMER, 20)
-                .input(SLATESTEEL_INGOT, 8)
+                .input(SLATESTEEL_INGOTS, 8)
                 .input(LASER_TECH_PART, 3));
         equipmentFabricating(DAYBREAK, weaponFabGroup + ".41", 100_000_000, builder -> builder
                 .input(T4_CIRCUIT)
                 .input(OPTICAL_TECH_PART, 2)
                 .input(TITANIUM_INGOTS, 48)
-                .input(TUNGSTEN_SLATESTEEL_INGOT, 20)
+                .input(TUNGSTEN_SLATESTEEL_INGOTS, 20)
                 .input(IMPULSE_TECH_PART, 4));
         equipmentFabricating(NOVA, weaponFabGroup + ".77", 250_000_000, builder -> builder
                 .input(T5_CIRCUIT)
                 .input(OPTICAL_TECH_PART)
                 .input(TITANIUM_INGOTS, 32)
-                .input(SLATESTEEL_INGOT, 24)
-                .input(RHENIUM_INGOT, 8)
+                .input(SLATESTEEL_INGOTS, 24)
+                .input(RHENIUM_INGOTS, 8)
                 .input(LASER_TECH_PART, 8));
 
         // Bodysuit fabrication
@@ -535,7 +537,7 @@ class RecipesGen extends LimaRecipeProvider
         UnaryOperator<FabricatingBuilder> armorBase = builder -> builder
                 .input(T3_CIRCUIT, 2)
                 .input(TITANIUM_PLATES, 32)
-                .input(SLATESTEEL_PLATE, 16)
+                .input(SLATESTEEL_PLATES, 16)
                 .input(FLUOROPOLYMER_SHEET, 24)
                 .input(SILICONE_RUBBER, 8)
                 .input(MEDIUM_VOLTAIC_CELL, 2);
@@ -548,7 +550,7 @@ class RecipesGen extends LimaRecipeProvider
         upgradeFabricating(upgradeGroup, EQUIPMENT_ENERGY_UPGRADE, 1, 100_000, builder -> builder
                 .input(T2_CIRCUIT)
                 .input(TITANIUM_PLATES, 4)
-                .input(Ingredient.of(POLYMER, FLUOROPOLYMER), 4)
+                .input(POLYMERS, 4)
                 .input(MEDIUM_VOLTAIC_CELL, 2));
         upgradeFabricating(upgradeGroup, EQUIPMENT_ENERGY_UPGRADE, 2, 250_000, builder -> builder
                 .input(T2_CIRCUIT, 2)
@@ -570,44 +572,44 @@ class RecipesGen extends LimaRecipeProvider
                 .input(LARGE_VOLTAIC_CELL, 2));
         upgradeFabricating(upgradeGroup, EPSILON_FISHING_LURE, 1, 100_000, builder -> builder
                 .input(T1_CIRCUIT)
-                .input(STRING, 4)
+                .input(STRINGS, 4)
                 .input(COD, 2));
         upgradeFabricating(upgradeGroup, EPSILON_FISHING_LURE, 2, 250_000, builder -> builder
                 .input(T1_CIRCUIT, 2)
-                .input(STRING, 8)
+                .input(STRINGS, 8)
                 .input(COD, 4)
                 .input(SALMON, 2));
         upgradeFabricating(upgradeGroup, EPSILON_FISHING_LURE, 3, 500_000, builder -> builder
                 .input(T2_CIRCUIT, 2)
                 .input(TITANIUM_INGOTS, 2)
-                .input(STRING, 8)
+                .input(STRINGS, 8)
                 .input(PUFFERFISH, 2));
         upgradeFabricating(upgradeGroup, EPSILON_FISHING_LURE, 4, 1_000_000, builder -> builder
                 .input(T3_CIRCUIT, 2)
-                .input(SLATESTEEL_INGOT, 2)
-                .input(STRING, 4)
-                .input(CARBON_DUST, 12)
+                .input(SLATESTEEL_INGOTS, 2)
+                .input(STRINGS, 4)
+                .input(CARBON_DUSTS, 12)
                 .input(LTX_LIME_PIGMENT, 6)
-                .input(PRISMARINE_CRYSTALS, 2));
+                .input(GEMS_PRISMARINE, 2));
         upgradeFabricating(upgradeGroup, EPSILON_FISHING_LURE, 5, 2_000_000, builder -> builder
                 .input(T3_CIRCUIT, 4)
-                .input(SLATESTEEL_INGOT, 4)
+                .input(SLATESTEEL_INGOTS, 4)
                 .input(POLYMER, 8)
-                .input(STRING, 8)
-                .input(CARBON_DUST, 24)
+                .input(STRINGS, 8)
+                .input(CARBON_DUSTS, 24)
                 .input(LTX_LIME_PIGMENT, 12)
                 .input(HEART_OF_THE_SEA));
         upgradeFabricating(upgradeGroup, EPSILON_OMNI_DRILL, 1, 20_000_000, builder -> builder
                 .input(T4_CIRCUIT)
                 .input(TITANIUM_PLATES, 32)
-                .input(SLATESTEEL_GEAR, 4)
-                .input(TUNGSTEN_SLATESTEEL_INGOT, 16)
+                .input(SLATESTEEL_GEARS, 4)
+                .input(TUNGSTEN_SLATESTEEL_INGOTS, 16)
                 .input(LASER_TECH_PART));
         upgradeFabricating(upgradeGroup, ORE_VEIN_MINE, 1, 50_000, builder -> builder
                 .input(T2_CIRCUIT)
                 .input(OPTICAL_TECH_PART)
                 .input(TITANIUM_GEARS, 2)
-                .input(SLATESTEEL_GEAR));
+                .input(SLATESTEEL_GEARS));
         upgradeFabricating(upgradeGroup, TOOL_VIBRATION_CANCEL, 1, 500_000, builder -> builder
                 .input(T3_CIRCUIT, 2)
                 .input(FLUOROPOLYMER, 4)
@@ -617,9 +619,9 @@ class RecipesGen extends LimaRecipeProvider
         UnaryOperator<FabricatingBuilder> directDrops = builder -> builder
                 .input(T3_CIRCUIT, 3)
                 .input(TITANIUM_INGOTS, 16)
-                .input(SLATESTEEL_INGOT, 8)
+                .input(SLATESTEEL_INGOTS, 8)
                 .input(CHORUS_CHEMICAL, 8)
-                .input(ENDER_PEARL, 8);
+                .input(ENDER_PEARLS, 8);
         upgradeFabricating(upgradeGroup, EQUIPMENT_BLOCK_DROPS_CAPTURE, 1, 15_000_000, directDrops);
         upgradeFabricating("combat", NO_ANGER_ATTACKS, 1, 1_000_000, builder -> builder
                 .input(T4_CIRCUIT)
@@ -637,10 +639,10 @@ class RecipesGen extends LimaRecipeProvider
 
         final String enchantGroup = "upgrade/enchant";
         upgradeFabricating(enchantGroup, SILK_TOUCH_ENCHANTMENT, 1, 500_000, builder -> builder
-                .input(Ingredient.of(POLYMER, FLUOROPOLYMER), 12)
+                .input(POLYMERS, 12)
                 .input(T3_CIRCUIT)
                 .input(GOLD_PLATES, 8)
-                .input(EMERALD, 4));
+                .input(GEMS_EMERALD, 4));
         upgradeFabricating(enchantGroup, LOOTING_ENCHANTMENT, 1, 200_000, builder -> builder
                 .input(T2_CIRCUIT)
                 .input(TITANIUM_PLATES, 4)
@@ -648,23 +650,23 @@ class RecipesGen extends LimaRecipeProvider
         upgradeFabricating(enchantGroup, LOOTING_ENCHANTMENT, 2, 400_000, builder -> builder
                 .input(T2_CIRCUIT, 2)
                 .input(TITANIUM_PLATES, 8)
-                .input(SLATESTEEL_PLATE, 4)
+                .input(SLATESTEEL_PLATES, 4)
                 .input(OLIVINE_GEMS, 6));
         upgradeFabricating(enchantGroup, LOOTING_ENCHANTMENT, 3, 600_000, builder -> builder
                 .input(T3_CIRCUIT, 2)
                 .input(TITANIUM_PLATES, 12)
-                .input(SLATESTEEL_PLATE, 8)
+                .input(SLATESTEEL_PLATES, 8)
                 .input(OLIVINE_GEMS, 9));
         upgradeFabricating(enchantGroup, LOOTING_ENCHANTMENT, 4, 1_000_000, builder -> builder
                 .input(T4_CIRCUIT)
                 .input(TITANIUM_PLATES, 16)
-                .input(TUNGSTEN_SLATESTEEL_PLATE, 8)
+                .input(TUNGSTEN_SLATESTEEL_PLATES, 8)
                 .input(OLIVINE_GEMS, 12)
                 .input(CORROSIVE_WEAPON_CHEMICAL, 2));
         upgradeFabricating(enchantGroup, LOOTING_ENCHANTMENT, 5, 2_000_000, builder -> builder
                 .input(T4_CIRCUIT, 2)
                 .input(TITANIUM_PLATES, 32)
-                .input(RHENIUM_PLATE, 4)
+                .input(RHENIUM_PLATES, 4)
                 .input(OLIVINE_GEMS, 24)
                 .input(CORROSIVE_WEAPON_CHEMICAL, 4));
 
@@ -676,63 +678,63 @@ class RecipesGen extends LimaRecipeProvider
         upgradeFabricating(enchantGroup, FORTUNE_ENCHANTMENT, 2, 400_000, builder -> builder
                 .input(T2_CIRCUIT, 2)
                 .input(TITANIUM_GEARS, 2)
-                .input(SLATESTEEL_GEAR)
-                .input(GOLD_INGOT, 4)
+                .input(SLATESTEEL_GEARS)
+                .input(INGOTS_GOLD, 4)
                 .input(GEMS_DIAMOND, 2));
         upgradeFabricating(enchantGroup, FORTUNE_ENCHANTMENT, 3, 600_000, builder -> builder
                 .input(T3_CIRCUIT, 2)
                 .input(TITANIUM_GEARS, 4)
-                .input(SLATESTEEL_GEAR, 2)
-                .input(GOLD_INGOT, 8)
+                .input(SLATESTEEL_GEARS, 2)
+                .input(INGOTS_GOLD, 8)
                 .input(GEMS_DIAMOND, 4)
                 .input(GEMS_EMERALD, 2));
         upgradeFabricating(enchantGroup, FORTUNE_ENCHANTMENT, 4, 1_000_000, builder -> builder
                 .input(T4_CIRCUIT)
                 .input(TITANIUM_GEARS, 8)
-                .input(SLATESTEEL_GEAR, 4)
-                .input(TUNGSTEN_SLATESTEEL_INGOT, 8)
+                .input(SLATESTEEL_GEARS, 4)
+                .input(TUNGSTEN_SLATESTEEL_INGOTS, 8)
                 .input(LOGIC_CORE, 4)
                 .input(PYROXENE, 4));
         upgradeFabricating(enchantGroup, FORTUNE_ENCHANTMENT, 5, 2_000_000, builder -> builder
                 .input(T4_CIRCUIT, 2)
                 .input(TITANIUM_GEARS, 12)
-                .input(SLATESTEEL_GEAR, 6)
-                .input(RHENIUM_INGOT, 4)
+                .input(SLATESTEEL_GEARS, 6)
+                .input(RHENIUM_INGOTS, 4)
                 .input(LOGIC_CORE, 6)
                 .input(PYROXENE, 8));
 
         upgradeFabricating(enchantGroup, RAZOR_ENCHANTMENT, 1, 250_000, builder -> builder
                 .input(T2_CIRCUIT, 2)
                 .input(TITANIUM_PLATES, 4)
-                .input(SLATESTEEL_PLATE, 8)
+                .input(SLATESTEEL_PLATES, 8)
                 .input(OLIVINE_GEMS, 8));
         upgradeFabricating(enchantGroup, RAZOR_ENCHANTMENT, 2, 500_000, builder -> builder
                 .input(T2_CIRCUIT, 4)
                 .input(TITANIUM_PLATES, 8)
-                .input(SLATESTEEL_PLATE, 12)
+                .input(SLATESTEEL_PLATES, 12)
                 .input(OLIVINE_GEMS, 12));
         upgradeFabricating(enchantGroup, RAZOR_ENCHANTMENT, 3, 1_000_000, builder -> builder
                 .input(T3_CIRCUIT, 2)
                 .input(TITANIUM_PLATES, 12)
-                .input(SLATESTEEL_PLATE, 16)
+                .input(SLATESTEEL_PLATES, 16)
                 .input(OLIVINE_GEMS, 16));
         upgradeFabricating(enchantGroup, RAZOR_ENCHANTMENT, 4, 2_00_000, builder -> builder
                 .input(T3_CIRCUIT, 4)
                 .input(TITANIUM_PLATES, 24)
-                .input(SLATESTEEL_PLATE, 32)
+                .input(SLATESTEEL_PLATES, 32)
                 .input(LASER_TECH_PART));
         upgradeFabricating(enchantGroup, RAZOR_ENCHANTMENT, 5, 4_000_000, builder -> builder
                 .input(T4_CIRCUIT)
                 .input(TITANIUM_PLATES, 32)
-                .input(TUNGSTEN_SLATESTEEL_PLATE, 12)
+                .input(TUNGSTEN_SLATESTEEL_PLATES, 12)
                 .input(LASER_TECH_PART, 2));
 
         final String hanabiGroup = "upgrade/hanabi";
         upgradeFabricating(hanabiGroup + ".gc1", FLAME_GRENADE_CORE, 1, 2_500_000, builder -> builder
                 .input(IMPULSE_TECH_PART, 2)
                 .input(TITANIUM_PLATES, 24)
-                .input(SLATESTEEL_PLATE, 8)
-                .input(PHOSPHORUS_DUST, 32));
+                .input(SLATESTEEL_PLATES, 8)
+                .input(PHOSPHORUS_DUSTS, 32));
         upgradeFabricating(hanabiGroup + ".gc2", CRYO_GRENADE_CORE, 1, 2_500_000, builder -> builder
                 .input(IMPULSE_TECH_PART)
                 .input(TITANIUM_PLATES, 24)
@@ -745,7 +747,7 @@ class RecipesGen extends LimaRecipeProvider
         upgradeFabricating(hanabiGroup + ".gc4", ACID_GRENADE_CORE, 1, 25_000_000, builder -> builder
                 .input(IMPULSE_TECH_PART, 2)
                 .input(FLUOROPOLYMER_SHEET, 24)
-                .input(TUNGSTEN_SLATESTEEL_PLATE, 4)
+                .input(TUNGSTEN_SLATESTEEL_PLATES, 4)
                 .input(CORROSIVE_WEAPON_CHEMICAL, 16));
         upgradeFabricating(hanabiGroup + ".gc5", GLOOM_GAS_GRENADE_CORE, 1, 50_000_000, builder -> builder
                 .input(IMPULSE_TECH_PART, 2)
@@ -787,17 +789,17 @@ class RecipesGen extends LimaRecipeProvider
         upgradeFabricating(armorGroup, ARMOR_DEFENSE, 2, 1_000_000, builder -> builder
                 .input(T3_CIRCUIT, 2)
                 .input(TITANIUM_PLATES, 16)
-                .input(SLATESTEEL_PLATE, 8)
+                .input(SLATESTEEL_PLATES, 8)
                 .input(FLUOROPOLYMER_SHEET, 4));
         upgradeFabricating(armorGroup, ARMOR_DEFENSE, 3, 10_000_000, builder -> builder
                 .input(T4_CIRCUIT)
                 .input(TITANIUM_PLATES, 20)
-                .input(TUNGSTEN_SLATESTEEL_PLATE, 8)
+                .input(TUNGSTEN_SLATESTEEL_PLATES, 8)
                 .input(FLUOROPOLYMER_SHEET, 8));
         upgradeFabricating(armorGroup, ARMOR_DEFENSE, 4, 50_000_000, builder -> builder
                 .input(T4_CIRCUIT, 2)
                 .input(TITANIUM_PLATES, 32)
-                .input(RHENIUM_PLATE, 4)
+                .input(RHENIUM_PLATES, 4)
                 .input(FLUOROPOLYMER_SHEET, 12));
 
         upgradeFabricating(armorGroup, HEAD_EXPERIENCE_CAPTURE, 1, 10_000_000, builder -> builder
@@ -827,33 +829,33 @@ class RecipesGen extends LimaRecipeProvider
         final String powerTiersCategory = "machine/power_tiers";
         upgradeFabricating(powerTiersCategory, POWER_TIERS, 3, 10_000_000, builder -> builder
                 .input(TITANIUM_PLATES, 4)
-                .input(Ingredient.of(POLYMER_SHEET, FLUOROPOLYMER_SHEET), 4)
+                .input(POLYMER_SHEETS, 4)
                 .input(T3_CIRCUIT, 2)
                 .input(MEDIUM_VOLTAIC_CELL, 4)
                 .input(TITANIUM_GEARS, 2)
-                .input(SLATESTEEL_GEAR, 4));
+                .input(SLATESTEEL_GEARS, 4));
         upgradeFabricating(powerTiersCategory, POWER_TIERS, 4, 25_000_000, builder -> builder
                 .input(TITANIUM_PLATES, 8)
                 .input(FLUOROPOLYMER_SHEET, 6)
-                .input(TUNGSTEN_SLATESTEEL_PLATE, 4)
+                .input(TUNGSTEN_SLATESTEEL_PLATES, 4)
                 .input(T4_CIRCUIT)
                 .input(LARGE_VOLTAIC_CELL, 2)
                 .input(TITANIUM_GEARS, 3)
-                .input(SLATESTEEL_GEAR, 6));
+                .input(SLATESTEEL_GEARS, 6));
         upgradeFabricating(powerTiersCategory, POWER_TIERS, 5, 50_000_000, builder -> builder
                 .input(TITANIUM_PLATES, 16)
                 .input(FLUOROPOLYMER_SHEET, 8)
-                .input(TUNGSTEN_SLATESTEEL_PLATE, 8)
+                .input(TUNGSTEN_SLATESTEEL_PLATES, 8)
                 .input(T5_CIRCUIT)
                 .input(LARGE_VOLTAIC_CELL, 3)
                 .input(TITANIUM_GEARS, 4)
-                .input(SLATESTEEL_GEAR, 8));
+                .input(SLATESTEEL_GEARS, 8));
 
         final String oreProcessCategory = "machines/ores";
         upgradeFabricating(oreProcessCategory, ORE_PROCESS_3, 1, 12_500_000, builder -> builder
-                .input(SLATESTEEL_PLATE, 8)
+                .input(SLATESTEEL_PLATES, 8)
                 .input(T3_CIRCUIT, 2)
-                .input(SLATESTEEL_GEAR, 4)
+                .input(SLATESTEEL_GEARS, 4)
                 .input(MEDIUM_VOLTAIC_CELL, 4)
                 .input(OLIVINE_GEMS, 32));
         upgradeFabricating(oreProcessCategory, ORE_PROCESS_4, 1, 25_000_000, builder -> builder
@@ -866,14 +868,14 @@ class RecipesGen extends LimaRecipeProvider
                 .input(TITANIUM_GLASS, 24)
                 .input(T4_CIRCUIT)
                 .input(TITANIUM_GEARS, 8)
-                .input(SLATESTEEL_GEAR, 4)
+                .input(SLATESTEEL_GEARS, 4)
                 .input(LARGE_VOLTAIC_CELL)
                 .input(SODIUM_DUSTS, 32));
 
         final String storageUpgrades = "upgrade/storage";
         upgradeFabricating(storageUpgrades, ECA_CAPACITY_UPGRADE, 3, 10_000_000, builder -> builder
                 .input(T3_CIRCUIT, 2)
-                .input(Ingredient.of(POLYMER, FLUOROPOLYMER), 8)
+                .input(POLYMERS, 8)
                 .input(MEDIUM_VOLTAIC_CELL, 4));
         upgradeFabricating(storageUpgrades, ECA_CAPACITY_UPGRADE, 4, 20_000_000, builder -> builder
                 .input(T3_CIRCUIT, 4)
@@ -888,43 +890,43 @@ class RecipesGen extends LimaRecipeProvider
 
         upgradeFabricating(storageUpgrades, PORTABLE_TANK_UPGRADE, 3, 10_000_000, builder -> builder
                 .input(TITANIUM_PLATES, 8)
-                .input(SLATESTEEL_PLATE, 4)
+                .input(SLATESTEEL_PLATES, 4)
                 .input(SILICONE_RUBBER, 4)
                 .input(TITANIUM_GLASS, 8));
         upgradeFabricating(storageUpgrades, PORTABLE_TANK_UPGRADE, 4, 20_000_000, builder -> builder
                 .input(TITANIUM_PLATES, 16)
-                .input(SLATESTEEL_PLATE, 8)
+                .input(SLATESTEEL_PLATES, 8)
                 .input(SILICONE_RUBBER, 8)
                 .input(TITANIUM_GLASS, 16));
         upgradeFabricating(storageUpgrades, PORTABLE_TANK_UPGRADE, 5, 30_000_000, builder -> builder
                 .input(TITANIUM_PLATES, 32)
-                .input(TUNGSTEN_SLATESTEEL_PLATE, 8)
+                .input(TUNGSTEN_SLATESTEEL_PLATES, 8)
                 .input(SILICONE_RUBBER, 16)
                 .input(TITANIUM_GLASS, 32));
 
         final String fabricatorUG = "upgrade/fabricator";
         upgradeFabricating(fabricatorUG, FABRICATOR_UPGRADE, 1, 1_000_000, builder -> builder
                 .input(T2_CIRCUIT, 2)
-                .input(SLATESTEEL_PLATE, 4)
+                .input(SLATESTEEL_PLATES, 4)
                 .input(OPTICAL_TECH_PART)
                 .input(MEDIUM_VOLTAIC_CELL, 4)
-                .input(OLIVINE, 4)
-                .input(DIAMOND));
+                .input(OLIVINE_GEMS, 4)
+                .input(GEMS_DIAMOND));
         upgradeFabricating(fabricatorUG, FABRICATOR_UPGRADE, 2, 2_500_000, builder -> builder
                 .input(T2_CIRCUIT, 4)
-                .input(SLATESTEEL_PLATE, 8)
+                .input(SLATESTEEL_PLATES, 8)
                 .input(OPTICAL_TECH_PART, 2)
                 .input(MEDIUM_VOLTAIC_CELL, 4)
-                .input(OLIVINE, 8));
+                .input(OLIVINE_GEMS, 8));
         upgradeFabricating(fabricatorUG, FABRICATOR_UPGRADE, 3, 5_000_000, builder -> builder
                 .input(T3_CIRCUIT, 2)
-                .input(TUNGSTEN_SLATESTEEL_PLATE, 4)
+                .input(TUNGSTEN_SLATESTEEL_PLATES, 4)
                 .input(OPTICAL_TECH_PART, 2)
                 .input(LARGE_VOLTAIC_CELL)
                 .input(LASER_TECH_PART));
         upgradeFabricating(fabricatorUG, FABRICATOR_UPGRADE, 4, 10_000_000, builder -> builder
                 .input(T4_CIRCUIT)
-                .input(TUNGSTEN_SLATESTEEL_PLATE, 8)
+                .input(TUNGSTEN_SLATESTEEL_PLATES, 8)
                 .input(OPTICAL_TECH_PART, 2)
                 .input(LARGE_VOLTAIC_CELL, 2)
                 .input(LASER_TECH_PART, 2));
@@ -955,7 +957,7 @@ class RecipesGen extends LimaRecipeProvider
         grinding().input(TITANIUM_INGOTS).output(ItemResult.of(TITANIUM_DUST)).save(output);
         grinding().input(SILVER_INGOTS).output(ItemResult.of(SILVER_DUST)).save(output);
         grinding().input(NIOBIUM_INGOTS).output(ItemResult.of(NIOBIUM_DUST)).save(output);
-        grinding().input(SLATESTEEL_INGOT).output(ItemResult.of(SLATESTEEL_DUST)).save(output);
+        grinding().input(SLATESTEEL_INGOTS).output(ItemResult.of(SLATESTEEL_DUST)).save(output);
         grinding().input(DEEPSLATE_GRINDABLES).output(ItemResult.of(DEEPSLATE_DUST)).save(output);
 
         // Resource things
@@ -1013,15 +1015,15 @@ class RecipesGen extends LimaRecipeProvider
         pressing().needsMode(plates).input(TITANIUM_INGOTS).output(ItemResult.of(TITANIUM_PLATE)).save(output);
         pressing().needsMode(plates).input(SILVER_INGOTS).output(ItemResult.of(SILVER_PLATE)).save(output);
         pressing().needsMode(plates).input(NIOBIUM_INGOTS).output(ItemResult.of(NIOBIUM_PLATE)).save(output);
-        pressing().needsMode(plates).input(RHENIUM_INGOT).output(ItemResult.of(RHENIUM_PLATE)).save(output);
+        pressing().needsMode(plates).input(RHENIUM_INGOTS).output(ItemResult.of(RHENIUM_PLATE)).save(output);
         pressing().needsMode(plates).input(SILICON_INGOTS).output(ItemResult.of(SILICON_PLATE)).save(output);
-        pressing().needsMode(plates).input(SLATESTEEL_INGOT).output(ItemResult.of(SLATESTEEL_PLATE)).save(output);
-        pressing().needsMode(plates).input(TUNGSTEN_SLATESTEEL_INGOT).output(ItemResult.of(TUNGSTEN_SLATESTEEL_PLATE)).save(output);
+        pressing().needsMode(plates).input(SLATESTEEL_INGOTS).output(ItemResult.of(SLATESTEEL_PLATE)).save(output);
+        pressing().needsMode(plates).input(TUNGSTEN_SLATESTEEL_INGOTS).output(ItemResult.of(TUNGSTEN_SLATESTEEL_PLATE)).save(output);
         pressing().needsMode(plates).input(POLYMER).output(ItemResult.of(POLYMER_SHEET)).save(output);
         pressing().needsMode(plates).input(FLUOROPOLYMER).output(ItemResult.of(FLUOROPOLYMER_SHEET)).save(output);
 
         pressing().needsMode(gears).input(TITANIUM_INGOTS, 4).output(ItemResult.of(TITANIUM_GEAR)).save(output);
-        pressing().needsMode(gears).input(SLATESTEEL_INGOT, 4).output(ItemResult.of(SLATESTEEL_GEAR)).save(output);
+        pressing().needsMode(gears).input(SLATESTEEL_INGOTS, 4).output(ItemResult.of(SLATESTEEL_GEAR)).save(output);
     }
 
     private void arcSmeltingRecipes()
@@ -1031,16 +1033,16 @@ class RecipesGen extends LimaRecipeProvider
         Holder<RecipeMode> inertGas = registries.holderOrThrow(LTXIRecipeModes.INERT_SMELTING);
 
         // Unshielded mode smelting
-        arcSmelting().needsMode(unshielded).input(INGOTS_IRON).input(CARBON_DUST).input(DEEPSLATE_DUST, 2).fluidInput(OXYGEN_FLUIDS, 250).output(ItemResult.of(SLATESTEEL_INGOT)).time(300).save(output);
+        arcSmelting().needsMode(unshielded).input(INGOTS_IRON).input(CARBON_DUSTS).input(DEEPSLATE_DUSTS, 2).fluidInput(OXYGEN_FLUIDS, 250).output(ItemResult.of(SLATESTEEL_INGOT)).time(300).save(output);
         arcSmelting().needsMode(unshielded).input(SILICON_DUSTS, 2).output(ItemResult.of(SILICON_INGOT)).time(600).save(output);
 
         // Inert gas smelting
         arcSmelting().needsMode(inertGas).input(SILICON_DUSTS).fluidInput(NITROGEN, 125).output(ItemResult.of(SILICON_INGOT)).save(output, "silicon_ingot_gas");
-        arcSmelting().needsMode(inertGas).input(TUNGSTEN_SLATESTEEL_DUST).fluidInput(NITROGEN, 500).output(ItemResult.of(TUNGSTEN_SLATESTEEL_INGOT)).time(1200).save(output);
+        arcSmelting().needsMode(inertGas).input(TUNGSTEN_SLATESTEEL_DUSTS).fluidInput(NITROGEN, 500).output(ItemResult.of(TUNGSTEN_SLATESTEEL_INGOT)).time(1200).save(output);
         arcSmelting().needsMode(inertGas)
                 .input(SILICON_DUSTS, 6)
-                .input(PHOSPHORUS_DUST, 6)
-                .input(OLIVINE, 8)
+                .input(PHOSPHORUS_DUSTS, 6)
+                .input(OLIVINE_GEMS, 8)
                 .fluidInput(ARGON, 1000)
                 .output(ItemResult.of(LOGIC_CORE))
                 .time(600)
@@ -1048,15 +1050,15 @@ class RecipesGen extends LimaRecipeProvider
         arcSmelting().needsMode(inertGas)
                 .input(LOGIC_CORE, 2)
                 .input(PYROXENE, 8)
-                .input(NIOBIUM_DUST, 4)
+                .input(NIOBIUM_DUSTS, 4)
                 .fluidInput(ARGON, 4000)
                 .output(ItemResult.of(NANO_LOGIC_CORE))
                 .time(1200)
                 .save(output);
-        arcSmelting().needsMode(inertGas).input(RHENIUM_DUST).fluidInput(ARGON, 2000).output(ItemResult.of(RHENIUM_INGOT)).time(1800).save(output);
+        arcSmelting().needsMode(inertGas).input(RHENIUM_DUSTS).fluidInput(ARGON, 2000).output(ItemResult.of(RHENIUM_INGOT)).time(1800).save(output);
 
         // Misc
-        NEON_LIGHTS.forEach((color, holder) -> arcSmelting().input(PHOSPHORUS_DUST, 2).input(neonLightDye(color)).time(120).output(ItemResult.of(holder, 16)).save(output));
+        NEON_LIGHTS.forEach((color, holder) -> arcSmelting().input(PHOSPHORUS_DUSTS, 2).input(neonLightDye(color)).time(120).output(ItemResult.of(holder, 16)).save(output));
         arcSmelting().input(NETHERITE_SCRAP, 4).input(INGOTS_GOLD).output(ItemResult.of(NETHERITE_INGOT)).save(output);
         arcSmelting().input(TITANIUM_INGOTS).input(GEMS_QUARTZ, 3).output(ItemResult.of(TITANIUM_GLASS, 2)).save(output);
     }
@@ -1064,8 +1066,8 @@ class RecipesGen extends LimaRecipeProvider
     private void sievingRecipes()
     {
         sieving().water(125).input(GRAVELS).output(ItemResult.of(FLINT)).output(ItemResult.of(FLINT, ResultCount.exactlyRandom(1, 0.5f))).save(output);
-        sieving().water(1000).input(PERIDOTITE_DUST).output(ItemResult.of(RAW_OLIVINE, ResultCount.exactlyRandom(1, 0.025f))).save(output);
-        sieving().water(1000).input(DEEPSLATE_DUST).output(ItemResult.of(RAW_FLUORITE, ResultCount.exactlyRandom(1, 0.025f))).save(output);
+        sieving().water(1000).input(PERIDOTITE_DUSTS).output(ItemResult.of(RAW_OLIVINE, ResultCount.exactlyRandom(1, 0.025f))).save(output);
+        sieving().water(1000).input(DEEPSLATE_DUSTS).output(ItemResult.of(RAW_FLUORITE, ResultCount.exactlyRandom(1, 0.025f))).save(output);
     }
 
     private void electroCentrifugingRecipes()
@@ -1090,13 +1092,13 @@ class RecipesGen extends LimaRecipeProvider
                 .save(output, "electrolyze_flint");
         electroCentrifuging()
                 .needsMode(elements)
-                .input(Tags.Items.GEMS_QUARTZ)
+                .input(GEMS_QUARTZ)
                 .output(ItemResult.of(SILICON_DUST, 2))
                 .fluidOutput(FluidResult.of(OXYGEN, 1000))
                 .save(output, "electrolyze_quartz");
         electroCentrifuging()
                 .needsMode(elements)
-                .input(Ingredient.of(GLOWSTONE_DUST, BLAZE_POWDER, GLOW_BERRIES), 2)
+                .input(PHOSPHORUS_SOURCES, 2)
                 .output(ItemResult.of(PHOSPHORUS_DUST))
                 .time(300)
                 .save(output, "phosphorus_sources");
@@ -1213,7 +1215,7 @@ class RecipesGen extends LimaRecipeProvider
                 .save(output);
 
         chemLab()
-                .input(SLATESTEEL_DUST)
+                .input(SLATESTEEL_DUSTS)
                 .input(TUNGSTEN_TRIOXIDE, 2)
                 .fluidInput(HYDROGEN_FLUIDS, 4000)
                 .output(ItemResult.of(TUNGSTEN_SLATESTEEL_DUST))
@@ -1266,14 +1268,14 @@ class RecipesGen extends LimaRecipeProvider
         assembling()
                 .input(FLUOROPOLYMER, 8)
                 .input(GOLD_PLATES, 3)
-                .input(NIOBIUM_PLATE, 3)
+                .input(NIOBIUM_PLATES, 3)
                 .input(SODIUM_DUSTS, 16)
                 .output(ItemResult.of(LARGE_VOLTAIC_CELL))
                 .time(900)
                 .save(output);
         assembling()
                 .input(CIRCUIT_BOARD)
-                .input(SILICON_PLATE, 4)
+                .input(SILICON_PLATES, 4)
                 .input(COPPER_PLATES, 3)
                 .input(SMALL_VOLTAIC_CELL, 2)
                 .input(TITANIUM_PLATES, 2)
@@ -1287,7 +1289,7 @@ class RecipesGen extends LimaRecipeProvider
                 .save(output, "t1_circuits_elite");
         assembling()
                 .input(T1_CIRCUIT, 2)
-                .input(SILICON_PLATE, 6)
+                .input(SILICON_PLATES, 6)
                 .input(SILVER_PLATES, 3)
                 .input(SMALL_VOLTAIC_CELL, 3)
                 .input(TITANIUM_PLATES, 4)
@@ -1303,7 +1305,7 @@ class RecipesGen extends LimaRecipeProvider
                 .save(output, "t2_circuits_elite");
         assembling()
                 .input(T2_CIRCUIT, 2)
-                .input(SILICON_PLATE, 8)
+                .input(SILICON_PLATES, 8)
                 .input(GOLD_PLATES, 3)
                 .input(MEDIUM_VOLTAIC_CELL, 2)
                 .input(TITANIUM_PLATES, 6)
@@ -1337,7 +1339,7 @@ class RecipesGen extends LimaRecipeProvider
                 .save(output);
         assembling()
                 .input(TITANIUM_PLATES, 12)
-                .input(SLATESTEEL_PLATE, 8)
+                .input(SLATESTEEL_PLATES, 8)
                 .input(T2_CIRCUIT)
                 .input(MEDIUM_VOLTAIC_CELL, 2)
                 .input(SODIUM_DUSTS, 32)
@@ -1346,7 +1348,7 @@ class RecipesGen extends LimaRecipeProvider
                 .save(output);
         assembling()
                 .input(FLUOROPOLYMER_SHEET, 12)
-                .input(SLATESTEEL_PLATE, 8)
+                .input(SLATESTEEL_PLATES, 8)
                 .input(T3_CIRCUIT)
                 .input(SILICONE_RUBBER, 4)
                 .input(LARGE_VOLTAIC_CELL)
@@ -1357,8 +1359,8 @@ class RecipesGen extends LimaRecipeProvider
         assembling()
                 .input(emptyPortableTank())
                 .input(T4_CIRCUIT)
-                .input(SLATESTEEL_PLATE, 32)
-                .input(SLATESTEEL_GEAR, 4)
+                .input(SLATESTEEL_PLATES, 32)
+                .input(SLATESTEEL_GEARS, 4)
                 .input(FLUOROPOLYMER_SHEET, 16)
                 .input(SILICONE_RUBBER, 32)
                 .water(2_500_000)
@@ -1368,9 +1370,9 @@ class RecipesGen extends LimaRecipeProvider
         assembling()
                 .input(emptyPortableTank())
                 .input(T5_CIRCUIT)
-                .input(TUNGSTEN_SLATESTEEL_PLATE, 32)
-                .input(RHENIUM_PLATE, 4)
-                .input(SLATESTEEL_GEAR, 8)
+                .input(TUNGSTEN_SLATESTEEL_PLATES, 32)
+                .input(RHENIUM_PLATES, 4)
+                .input(SLATESTEEL_GEARS, 8)
                 .fluidInput(FluidTags.LAVA, 10_000_000)
                 .output(ItemResult.of(INFINITE_LAVA_TANK))
                 .time(3600)
@@ -1391,7 +1393,7 @@ class RecipesGen extends LimaRecipeProvider
         geoSynthWaterLava(BASALT);
         geoSynthWaterLava(BLACKSTONE);
 
-        geoSynthesis().randomInput(OBSIDIAN, 1, 0f).water(1000, 0f).fluidInput(Fluids.LAVA, 1000).time(120).output(ItemResult.of(OBSIDIAN)).save(output);
+        geoSynthesis().randomInput(OBSIDIAN, 1, 0f).water(1000, 0f).fluidInput(FluidTags.LAVA, 1000).time(120).output(ItemResult.of(OBSIDIAN)).save(output);
     }
 
     private void scrubbingRecipes()
@@ -1544,11 +1546,18 @@ class RecipesGen extends LimaRecipeProvider
 
     // Helpers
 
+    private void stonecuttingInterchange(List<ItemLike> variants)
+    {
+        for (ItemLike variant : variants)
+        {
+            stonecutting(variant).input(Ingredient.of(variants.stream().filter(o -> o != variant))).save(output);
+        }
+    }
+
     private LTXIBuilder<GrindingRecipe> grinding()
     {
         return new LTXIBuilder<>(resources, registries, GrindingRecipe::new);
     }
-
 
     private LTXIBuilder<PressingRecipe> pressing()
     {

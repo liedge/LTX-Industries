@@ -2,16 +2,16 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "f": "ltxi:polymer",
-    "t": "#c:ingots/titanium"
+    "m": "#c:ingots/titanium",
+    "p": "ltxi:polymer"
   },
   "pattern": [
-    "tft",
-    "f f",
-    "tft"
+    "mpm",
+    "p p",
+    "mpm"
   ],
   "result": {
-    "count": 32,
+    "count": 16,
     "id": "ltxi:titanium_panel"
   }
 }

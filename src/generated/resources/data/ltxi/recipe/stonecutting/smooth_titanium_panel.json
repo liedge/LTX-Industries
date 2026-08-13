@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": [
+    "ltxi:titanium_panel",
+    "ltxi:tiled_titanium_panel"
+  ],
+  "result": {
+    "id": "ltxi:smooth_titanium_panel"
+  }
+}

@@ -15,7 +15,7 @@
     },
     {
       "count": 2,
-      "ingredient": "ltxi:slatesteel_plate"
+      "ingredient": "#c:plates/slatesteel"
     },
     {
       "ingredient": "#c:gears/titanium"

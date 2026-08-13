@@ -3,8 +3,8 @@
   "category": "misc",
   "cookingtime": 100,
   "experience": 0.7,
-  "ingredient": "ltxi:deepslate_silver_ore",
+  "ingredient": "#c:ores/titanium",
   "result": {
-    "id": "ltxi:silver_ingot"
+    "id": "ltxi:titanium_ingot"
   }
 }

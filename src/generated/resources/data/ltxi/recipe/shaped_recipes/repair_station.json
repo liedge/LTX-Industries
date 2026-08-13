@@ -4,7 +4,7 @@
   "key": {
     "c": "ltxi:t2_circuit",
     "e": "ltxi:large_voltaic_cell",
-    "g": "ltxi:slatesteel_gear",
+    "g": "#c:gears/slatesteel",
     "h": "ltxi:machine_housing",
     "s": "ltxi:slatesteel_block",
     "t": "#c:plates/titanium"

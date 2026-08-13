@@ -21,7 +21,7 @@
     },
     {
       "count": 4,
-      "ingredient": "ltxi:slatesteel_ingot"
+      "ingredient": "#c:ingots/slatesteel"
     },
     {
       "count": 8,
@@ -29,11 +29,11 @@
     },
     {
       "count": 8,
-      "ingredient": "minecraft:string"
+      "ingredient": "#c:strings"
     },
     {
       "count": 24,
-      "ingredient": "ltxi:carbon_dust"
+      "ingredient": "#c:dusts/carbon"
     },
     {
       "count": 12,

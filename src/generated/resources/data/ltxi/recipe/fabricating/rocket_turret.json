@@ -21,7 +21,7 @@
     },
     {
       "count": 16,
-      "ingredient": "ltxi:phosphorus_dust"
+      "ingredient": "#c:dusts/phosphorus"
     },
     {
       "count": 4,
@@ -29,7 +29,7 @@
     },
     {
       "count": 2,
-      "ingredient": "ltxi:slatesteel_gear"
+      "ingredient": "#c:gears/slatesteel"
     }
   ],
   "result": {

@@ -3,8 +3,8 @@
   "category": "misc",
   "cookingtime": 100,
   "experience": 0.7,
-  "ingredient": "ltxi:raw_olivine",
+  "ingredient": "#c:raw_materials/fluorite",
   "result": {
-    "id": "ltxi:olivine"
+    "id": "ltxi:fluorite"
   }
 }

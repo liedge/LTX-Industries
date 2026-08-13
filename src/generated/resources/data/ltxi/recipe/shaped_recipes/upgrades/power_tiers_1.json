@@ -4,9 +4,9 @@
   "key": {
     "c": "ltxi:t1_circuit",
     "e": "ltxi:small_voltaic_cell",
-    "g": "ltxi:slatesteel_gear",
+    "g": "#c:gears/slatesteel",
     "m": "ltxi:empty_upgrade_module",
-    "s": "ltxi:slatesteel_plate"
+    "s": "#c:plates/slatesteel"
   },
   "pattern": [
     "ese",

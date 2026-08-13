@@ -8,10 +8,7 @@
     },
     {
       "count": 12,
-      "ingredient": [
-        "ltxi:polymer",
-        "ltxi:fluoropolymer"
-      ]
+      "ingredient": "#ltxi:polymers"
     },
     {
       "ingredient": "ltxi:t3_circuit"
@@ -22,7 +19,7 @@
     },
     {
       "count": 4,
-      "ingredient": "minecraft:emerald"
+      "ingredient": "#c:gems/emerald"
     }
   ],
   "result": {

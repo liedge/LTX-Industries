@@ -16,7 +16,7 @@
     },
     {
       "count": 8,
-      "ingredient": "ltxi:slatesteel_ingot"
+      "ingredient": "#c:ingots/slatesteel"
     },
     {
       "count": 8,
@@ -24,7 +24,7 @@
     },
     {
       "count": 8,
-      "ingredient": "minecraft:ender_pearl"
+      "ingredient": "#c:ender_pearls"
     }
   ],
   "result": {

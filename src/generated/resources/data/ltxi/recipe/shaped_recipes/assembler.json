@@ -5,7 +5,7 @@
     "0": "ltxi:titanium_glass",
     "c": "ltxi:t1_circuit",
     "e": "ltxi:small_voltaic_cell",
-    "g": "ltxi:slatesteel_gear",
+    "g": "#c:gears/slatesteel",
     "h": "ltxi:machine_housing"
   },
   "pattern": [

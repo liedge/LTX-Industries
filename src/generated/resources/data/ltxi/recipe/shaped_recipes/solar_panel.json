@@ -6,7 +6,7 @@
     "e": "ltxi:small_voltaic_cell",
     "g": "ltxi:titanium_glass",
     "h": "ltxi:machine_housing",
-    "s": "ltxi:silicon_plate"
+    "s": "#c:plates/silicon"
   },
   "pattern": [
     "sss",

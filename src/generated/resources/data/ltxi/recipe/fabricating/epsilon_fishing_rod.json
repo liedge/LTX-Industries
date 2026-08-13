@@ -16,11 +16,11 @@
       "ingredient": "#c:gears/titanium"
     },
     {
-      "ingredient": "ltxi:slatesteel_gear"
+      "ingredient": "#c:gears/slatesteel"
     },
     {
       "count": 4,
-      "ingredient": "minecraft:string"
+      "ingredient": "#c:strings"
     }
   ],
   "result": {

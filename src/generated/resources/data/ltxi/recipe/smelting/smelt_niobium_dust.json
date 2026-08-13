@@ -3,7 +3,7 @@
   "category": "misc",
   "cookingtime": 200,
   "experience": 0.0,
-  "ingredient": "ltxi:niobium_dust",
+  "ingredient": "#c:dusts/niobium",
   "result": {
     "id": "ltxi:niobium_ingot"
   }

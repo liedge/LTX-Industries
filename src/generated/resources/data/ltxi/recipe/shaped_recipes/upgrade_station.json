@@ -2,13 +2,10 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "0": [
-      "ltxi:polymer",
-      "ltxi:fluoropolymer"
-    ],
+    "0": "#ltxi:polymers",
     "g": "#c:gears/titanium",
     "p": "#c:plates/titanium",
-    "s": "ltxi:slatesteel_plate",
+    "s": "#c:plates/slatesteel",
     "t": "#c:ingots/titanium"
   },
   "pattern": [

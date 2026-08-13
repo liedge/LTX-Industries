@@ -21,10 +21,7 @@
     },
     {
       "count": 8,
-      "ingredient": [
-        "ltxi:polymer",
-        "ltxi:fluoropolymer"
-      ]
+      "ingredient": "#ltxi:polymers"
     },
     {
       "count": 4,

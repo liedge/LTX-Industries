@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "c": "ltxi:t3_circuit",
-    "g": "ltxi:slatesteel_gear",
+    "g": "#c:gears/slatesteel",
     "l": "minecraft:magma_block",
     "m": {
       "neoforge:ingredient_type": "neoforge:components",

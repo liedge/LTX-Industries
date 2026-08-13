@@ -9,7 +9,7 @@
     },
     {
       "amount": 1000,
-      "ingredient": "minecraft:lava"
+      "ingredient": "#minecraft:lava"
     }
   ],
   "item_inputs": [

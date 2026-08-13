@@ -2,7 +2,7 @@
   "type": "ltxi:pressing",
   "item_inputs": [
     {
-      "ingredient": "ltxi:slatesteel_ingot"
+      "ingredient": "#c:ingots/slatesteel"
     }
   ],
   "item_results": [

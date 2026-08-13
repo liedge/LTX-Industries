@@ -25,11 +25,11 @@
     },
     {
       "count": 2,
-      "ingredient": "ltxi:slatesteel_gear"
+      "ingredient": "#c:gears/slatesteel"
     },
     {
       "count": 8,
-      "ingredient": "minecraft:gold_ingot"
+      "ingredient": "#c:ingots/gold"
     },
     {
       "count": 4,

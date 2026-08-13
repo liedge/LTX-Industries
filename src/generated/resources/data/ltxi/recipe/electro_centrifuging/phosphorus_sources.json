@@ -4,11 +4,7 @@
   "item_inputs": [
     {
       "count": 2,
-      "ingredient": [
-        "minecraft:glowstone_dust",
-        "minecraft:blaze_powder",
-        "minecraft:glow_berries"
-      ]
+      "ingredient": "#ltxi:phosphorus_sources"
     }
   ],
   "item_results": [

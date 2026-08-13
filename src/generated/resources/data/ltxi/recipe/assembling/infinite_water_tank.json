@@ -22,11 +22,11 @@
     },
     {
       "count": 32,
-      "ingredient": "ltxi:slatesteel_plate"
+      "ingredient": "#c:plates/slatesteel"
     },
     {
       "count": 4,
-      "ingredient": "ltxi:slatesteel_gear"
+      "ingredient": "#c:gears/slatesteel"
     },
     {
       "count": 16,

@@ -13,11 +13,11 @@
     },
     {
       "count": 4,
-      "ingredient": "ltxi:slatesteel_plate"
+      "ingredient": "#c:plates/slatesteel"
     },
     {
       "count": 4,
-      "ingredient": "ltxi:phosphorus_dust"
+      "ingredient": "#c:dusts/phosphorus"
     }
   ],
   "result": {

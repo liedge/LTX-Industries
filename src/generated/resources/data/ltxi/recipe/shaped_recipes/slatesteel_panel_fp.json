@@ -2,16 +2,16 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "f": "ltxi:polymer",
-    "s": "ltxi:slatesteel_ingot"
+    "m": "#c:ingots/slatesteel",
+    "p": "ltxi:fluoropolymer"
   },
   "pattern": [
-    "fsf",
-    "s s",
-    "fsf"
+    "mpm",
+    "p p",
+    "mpm"
   ],
   "result": {
     "count": 32,
-    "id": "ltxi:smooth_slatesteel_panel"
+    "id": "ltxi:slatesteel_panel"
   }
 }
