@@ -6,7 +6,7 @@
     "e": "ltxi:large_voltaic_cell",
     "g": "#c:gears/slatesteel",
     "h": "ltxi:machine_housing",
-    "s": "ltxi:slatesteel_block",
+    "s": "#c:storage_blocks/slatesteel",
     "t": "#c:plates/titanium"
   },
   "pattern": [

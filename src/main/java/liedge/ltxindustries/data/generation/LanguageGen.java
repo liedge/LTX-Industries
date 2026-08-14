@@ -223,8 +223,8 @@ class LanguageGen extends LimaLanguageProvider
         addItem(SILICON_PLATE, "Silicon Plate");
         addItem(SLATESTEEL_PLATE, "Slatesteel Plate");
         addItem(TUNGSTEN_SLATESTEEL_PLATE, "Tungsten-Plated Slatesteel Plate");
-        addItem(POLYMER_SHEET, "Polymer Plate");
-        addItem(FLUOROPOLYMER_SHEET, "Fluoropolymer Plate");
+        addItem(POLYMER_SHEET, "Polymer Sheet");
+        addItem(FLUOROPOLYMER_SHEET, "Fluoropolymer Sheet");
         addItem(MACHINE_HOUSING, "Machine Housing");
         addItem(SMALL_VOLTAIC_CELL, "Basic Voltaic Cell");
         addItem(MEDIUM_VOLTAIC_CELL, "Voltaic Cell");

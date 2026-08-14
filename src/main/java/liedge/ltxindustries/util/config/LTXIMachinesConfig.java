@@ -200,7 +200,7 @@ public final class LTXIMachinesConfig
 
         builder.comment("Portable Generator").push("portable_generator");
         PORTABLE_GENERATOR_CAPACITY = ConfigUtil.energyCapacity(builder, 100_000);
-        PORTABLE_GENERATOR_GENERATION = ConfigUtil.positiveInt(builder, "energy_generation", "Energy generated per tick", 60);
+        PORTABLE_GENERATOR_GENERATION = ConfigUtil.positiveInt(builder, "energy_generation", "Energy generated per tick", 80);
         PORTABLE_GENERATOR_ENERGY_PER_FUEL = ConfigUtil.positiveInt(builder, "energy_per_fuel", "How much energy a fuel unit produces", 2500);
         builder.pop();
 

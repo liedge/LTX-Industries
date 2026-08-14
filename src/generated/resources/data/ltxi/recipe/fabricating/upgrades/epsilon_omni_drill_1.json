@@ -19,7 +19,7 @@
     },
     {
       "count": 16,
-      "ingredient": "ltxi:tungsten_slatesteel_ingot"
+      "ingredient": "#c:ingots/tungsten_slatesteel"
     },
     {
       "ingredient": "ltxi:laser_tech_part"

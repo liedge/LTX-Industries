@@ -155,7 +155,7 @@ class RecipesGen extends LimaRecipeProvider
         shaped(TITANIUM_GEAR).input('i', TITANIUM_INGOTS).input('n', NUGGETS_IRON).patterns("ini", "n n", "ini").save(output);
         shaped(SLATESTEEL_GEAR).input('i', SLATESTEEL_INGOTS).input('n', NUGGETS_IRON).patterns("ini", "n n", "ini").save(output);
         shaped(MACHINE_HOUSING).input('i', INGOTS_IRON).input('g', TITANIUM_GEARS).input('l', LEVER).patterns("igi", "glg", "igi").save(output);
-        shaped(SMALL_VOLTAIC_CELL).input('t', TITANIUM_INGOTS).input('s', SILVER_INGOTS).input('c', COPPER_BLOCK).input('e', SODIUM_DUSTS).patterns("tst", "ece", "eee").save(output);
+        shaped(SMALL_VOLTAIC_CELL).input('t', TITANIUM_INGOTS).input('s', SILVER_INGOTS).input('c', STORAGE_BLOCKS_COPPER).input('g', GLASS_BLOCKS_CHEAP).patterns("tst", "gcg", "gsg").save(output);
         shaped(CIRCUIT_BOARD).input('p', PAPER).input('r', REPEATER).input('c', INGOTS_COPPER).input('g', GOLD_NUGGET).patterns("gcg", "crc", "ppp").save(output);
         shaped(T1_CIRCUIT).input('b', CIRCUIT_BOARD).input('e', SMALL_VOLTAIC_CELL).input('c', INGOTS_COPPER).input('t', TITANIUM_INGOTS).patterns("ece", "cbc", "tct").save(output);
 
@@ -193,7 +193,7 @@ class RecipesGen extends LimaRecipeProvider
                 .patterns("gog", "ese", "chc").save(output);
         shaped(UPGRADE_STATION).input('t', TITANIUM_INGOTS).input('g', TITANIUM_GEARS).input('s', SLATESTEEL_PLATES).input('p', TITANIUM_PLATES).input('0', POLYMERS)
                 .patterns("psp", "0g0", "ttt").save(output);
-        shaped(REPAIR_STATION).input('h', MACHINE_HOUSING).input('t', TITANIUM_PLATES).input('s', SLATESTEEL_BLOCK).input('c', T2_CIRCUIT).input('g', SLATESTEEL_GEARS).input('e', LARGE_VOLTAIC_CELL)
+        shaped(REPAIR_STATION).input('h', MACHINE_HOUSING).input('t', TITANIUM_PLATES).input('s', SLATESTEEL_STORAGE_BLOCKS).input('c', T2_CIRCUIT).input('g', SLATESTEEL_GEARS).input('e', LARGE_VOLTAIC_CELL)
                 .patterns("tst", "geg", "chc").save(output);
 
         // Generators

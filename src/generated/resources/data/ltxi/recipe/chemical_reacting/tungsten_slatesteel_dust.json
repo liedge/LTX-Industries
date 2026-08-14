@@ -9,7 +9,7 @@
   ],
   "item_inputs": [
     {
-      "ingredient": "ltxi:slatesteel_dust"
+      "ingredient": "#c:dusts/slatesteel"
     },
     {
       "count": 2,

@@ -22,11 +22,11 @@
     },
     {
       "count": 32,
-      "ingredient": "ltxi:tungsten_slatesteel_plate"
+      "ingredient": "#c:plates/tungsten_slatesteel"
     },
     {
       "count": 4,
-      "ingredient": "ltxi:rhenium_plate"
+      "ingredient": "#c:plates/rhenium"
     },
     {
       "count": 8,

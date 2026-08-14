@@ -25,7 +25,7 @@
     },
     {
       "count": 4,
-      "ingredient": "ltxi:tungsten_slatesteel_plate"
+      "ingredient": "#c:plates/tungsten_slatesteel"
     },
     {
       "ingredient": "ltxi:t4_circuit"
