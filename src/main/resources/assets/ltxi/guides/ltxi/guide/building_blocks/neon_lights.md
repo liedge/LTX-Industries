@@ -15,5 +15,5 @@ navigation:
 
 A lighting solution that's both performance friendly and aesthetically pleasing. They emit the max light level of **15**. You can craft these with glowstone blocks in a crafting table,
 but a more efficient recipe able to use more glowing ingredients is available via the
-[Material Fusing Chamber](../machines/gpm/mfc.md). The standard 16 color variants can be made with their respective dye,
+[Material Fusing Chamber](../machines/mfc.md). The standard 16 color variants can be made with their respective dye,
 and there are also 5 additional light colors made from our custom pigments.

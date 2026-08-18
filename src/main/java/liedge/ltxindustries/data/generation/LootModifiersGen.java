@@ -20,7 +20,6 @@ class LootModifiersGen extends LimaLootModifierProvider
     @Override
     protected void start()
     {
-        add("enemy_ammo_drops", rollLootTable(ENEMY_AMMO_DROPS).killedByPlayer());
         add("extra_drops", rollLootTable(ENTITY_EXTRA_DROPS).killedByPlayer());
         add("razor_loot_table", rollLootTable(RAZOR_LOOT_TABLE).killedByPlayer());
     }

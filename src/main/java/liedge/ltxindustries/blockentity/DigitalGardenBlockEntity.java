@@ -2,6 +2,7 @@ package liedge.ltxindustries.blockentity;
 
 import liedge.limacore.network.sync.SimpleValueTracker;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
+import liedge.ltxindustries.block.LTXIBlockProperties;
 import liedge.ltxindustries.blockentity.template.LTXIRecipeMachineBlockEntity;
 import liedge.ltxindustries.recipe.GardenSimulatingRecipe;
 import liedge.ltxindustries.registry.game.LTXIBlockEntities;
@@ -24,7 +25,8 @@ public class DigitalGardenBlockEntity extends LTXIRecipeMachineBlockEntity<Garde
 
     public ItemStack getClientPreviewItem()
     {
-        return clientPreviewItem;
+        BlockState state = getBlockState();
+        return LTXIBlockProperties.isMachineActive(state) ? clientPreviewItem : ItemStack.EMPTY;
     }
 
     @Override
@@ -32,9 +34,6 @@ public class DigitalGardenBlockEntity extends LTXIRecipeMachineBlockEntity<Garde
     {
         collector.register(SimpleValueTracker.create(LimaCoreNetworkSerializers.ITEM_RESOURCE, this::writePreviewResource, this::readPreviewResource).setAutomatic());
     }
-
-    @Override
-    protected void onCraftingStateChanged(boolean newCraftingState) { }
 
     @Override
     public int getBaseEnergyCapacity()

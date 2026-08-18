@@ -25,7 +25,7 @@ public class GrinderRenderer extends SimpleMachineRenderer<GrinderBlockEntity>
     @Override
     protected void extractAdditional(GrinderBlockEntity blockEntity, State state, float partialTick)
     {
-        state.machineSpin = blockEntity.lerpCrushersRot(partialTick);
+        state.machineMotion = blockEntity.lerpCrushersRot(partialTick);
     }
 
     @Override
@@ -41,7 +41,7 @@ public class GrinderRenderer extends SimpleMachineRenderer<GrinderBlockEntity>
         // Rotate and render front crusher
         poseStack.pushPose();
         poseStack.translate(0.5f, 0.625f, 0.375f);
-        poseStack.mulPose(Axis.XP.rotationDegrees(state.machineSpin));
+        poseStack.mulPose(Axis.XP.rotationDegrees(state.machineMotion));
         poseStack.translate(-0.5f, -0.625f, -0.375f);
 
         frontCrusher.submit(poseStack, nodeCollector, state.lightCoords);
@@ -50,7 +50,7 @@ public class GrinderRenderer extends SimpleMachineRenderer<GrinderBlockEntity>
         // Rotate and render back crusher
         poseStack.pushPose();
         poseStack.translate(0.5f, 0.625f, 0.625f);
-        poseStack.mulPose(Axis.XN.rotationDegrees(state.machineSpin));
+        poseStack.mulPose(Axis.XN.rotationDegrees(state.machineMotion));
         poseStack.translate(-0.5f, -0.625f, -0.625f);
 
         rearCrusher.submit(poseStack, nodeCollector, state.lightCoords);

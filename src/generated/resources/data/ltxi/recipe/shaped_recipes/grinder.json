@@ -4,13 +4,14 @@
   "key": {
     "c": "ltxi:t1_circuit",
     "g": "#c:gears/titanium",
-    "s": "minecraft:iron_ingot",
+    "h": "ltxi:machine_housing",
+    "i": "#c:ingots/iron",
     "t": "#c:ingots/titanium"
   },
   "pattern": [
-    "tct",
-    "sgs",
-    "gcg"
+    "t t",
+    "gig",
+    "chc"
   ],
   "result": {
     "id": "ltxi:grinder"

@@ -1,0 +1,29 @@
+{
+  "type": "ltxi:chemical_reacting",
+  "fluid_inputs": [
+    {
+      "amount": 1000,
+      "ingredient": "ltxi:hydrofluoric_acid"
+    },
+    {
+      "amount": 2000,
+      "ingredient": "ltxi:methane"
+    },
+    {
+      "amount": 3000,
+      "ingredient": "ltxi:chlorine"
+    }
+  ],
+  "item_inputs": [
+    {
+      "consume_chance": 0.0,
+      "ingredient": "#c:dusts/titanium"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 2,
+      "id": "ltxi:fluoropolymer"
+    }
+  ]
+}

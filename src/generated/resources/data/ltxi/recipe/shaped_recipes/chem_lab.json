@@ -2,16 +2,22 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "a": "ltxi:slatesteel_gear",
-    "c": "ltxi:t2_circuit",
-    "g": "#c:gears/titanium",
-    "s": "ltxi:titanium_glass",
+    "0": "ltxi:titanium_glass",
+    "a": {
+      "neoforge:ingredient_type": "neoforge:components",
+      "components": {
+        "limacore:fluid": {}
+      },
+      "items": "ltxi:portable_tank"
+    },
+    "c": "ltxi:t1_circuit",
+    "h": "ltxi:machine_housing",
     "t": "#c:ingots/titanium"
   },
   "pattern": [
-    "tct",
-    "sas",
-    "gcg"
+    "ttt",
+    "0a0",
+    "chc"
   ],
   "result": {
     "id": "ltxi:chem_lab"

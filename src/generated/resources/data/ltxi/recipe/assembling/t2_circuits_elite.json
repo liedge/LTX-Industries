@@ -1,0 +1,21 @@
+{
+  "type": "ltxi:assembling",
+  "craft_time": 600,
+  "item_inputs": [
+    {
+      "ingredient": "ltxi:elite_circuit_board"
+    },
+    {
+      "ingredient": "#c:plates/silver"
+    },
+    {
+      "ingredient": "ltxi:logic_core"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 2,
+      "id": "ltxi:t2_circuit"
+    }
+  ]
+}

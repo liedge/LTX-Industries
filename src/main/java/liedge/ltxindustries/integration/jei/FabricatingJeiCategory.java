@@ -24,14 +24,14 @@ import java.util.function.Supplier;
 
 import static liedge.ltxindustries.LTXIConstants.REM_BLUE;
 
-class FabricatingJeiCategory extends LTXIJeiCategory<FabricatingRecipe>
+class FabricatingJeiCategory extends LTXIRecipeHolderCategory<FabricatingRecipe>
 {
     private final IDrawableStatic progressBackground;
     private final IDrawableAnimated progressForeground;
 
     FabricatingJeiCategory(IGuiHelper helper, Supplier<LimaRecipeType<FabricatingRecipe>> typeSupplier)
     {
-        super(helper, typeSupplier, 140, 66);
+        super(helper, typeSupplier.get(), 140, 66);
         this.progressBackground = guiSpriteDrawable(FabricatorProgressWidget.BACKGROUND_SPRITE, FabricatorProgressWidget.BACKGROUND_WIDTH, FabricatorProgressWidget.BACKGROUND_HEIGHT).build();
         this.progressForeground = guiSpriteDrawable(FabricatorProgressWidget.FILL_SPRITE, FabricatorProgressWidget.FILL_WIDTH, FabricatorProgressWidget.FILL_HEIGHT).buildAnimated(80, IDrawableAnimated.StartDirection.BOTTOM, false);
     }
@@ -46,12 +46,14 @@ class FabricatingJeiCategory extends LTXIJeiCategory<FabricatingRecipe>
     protected void setRecipe(IRecipeLayoutBuilder builder, RecipeHolder<FabricatingRecipe> holder, FabricatingRecipe recipe, IFocusGroup focuses, RegistryAccess registries)
     {
         builder.addOutputSlot(114, 36).addItemStacks(List.of(recipe.getResultPreview()));
-        itemInputSlotGrid(builder, recipe, 2, 2, 6);
+        itemInputSlotGrid(builder, recipe.getItemInputs(), 2, 2, 6);
     }
 
     @Override
-    protected void drawRecipe(RecipeHolder<FabricatingRecipe> recipeHolder, IRecipeSlotsView view, GuiGraphicsExtractor graphics, double mouseX, double mouseY)
+    public void draw(RecipeHolder<FabricatingRecipe> holder, IRecipeSlotsView recipeSlotsView, GuiGraphicsExtractor graphics, double mouseX, double mouseY)
     {
+        super.draw(holder, recipeSlotsView, graphics, mouseX, mouseY);
+
         LTXIScreen.blitEmptySlotGrid(graphics, 1, 1, 6, 2);
         LTXIScreen.blitEmptySlotGrid(graphics, 1, 37, 4, 1);
 
@@ -59,7 +61,7 @@ class FabricatingJeiCategory extends LTXIJeiCategory<FabricatingRecipe>
         progressBackground.draw(graphics, 133, 33);
         progressForeground.draw(graphics, 134, 34);
 
-        FabricatingRecipe recipe = recipeHolder.value();
+        FabricatingRecipe recipe = holder.value();
         Component energyText = LTXILangKeys.INLINE_ENERGY.translateArgs(LimaTextUtil.formatWholeNumber(recipe.getEnergyRequired()));
         graphics.text(Minecraft.getInstance().font, energyText, 2, 57, REM_BLUE.argb32(), false);
     }

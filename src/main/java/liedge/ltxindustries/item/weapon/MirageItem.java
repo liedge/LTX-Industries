@@ -4,7 +4,6 @@ import liedge.limacore.util.LimaEntityUtil;
 import liedge.ltxindustries.lib.upgrades.Upgrade;
 import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
 import liedge.ltxindustries.registry.bootstrap.LTXIUpgrades;
-import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.registry.game.LTXISounds;
 import liedge.ltxindustries.util.config.LTXIWeaponsConfig;
 import net.minecraft.resources.ResourceKey;
@@ -14,19 +13,20 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class MirageItem extends FullAutoWeaponItem implements ScopingWeaponItem
 {
     public MirageItem(Properties properties)
     {
-        super(properties, 30, 45d, 30, LTXIItems.LIGHTWEIGHT_WEAPON_ENERGY);
+        super(properties, 30, 45d, 30);
     }
 
     @Override
-    public @Nullable ResourceKey<Upgrade> getDefaultUpgradeKey()
+    public List<ResourceKey<Upgrade>> getDefaultUpgrades()
     {
-        return LTXIUpgrades.MIRAGE_DEFAULT;
+        return List.of(LTXIUpgrades.MIRAGE_DEFAULT);
     }
 
     @Override

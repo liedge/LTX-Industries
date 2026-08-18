@@ -1,0 +1,8 @@
+{
+  "values": [
+    "ltxi:ambient_fluids",
+    "ltxi:ambient_gases",
+    "ltxi:localized_fluids",
+    "ltxi:localized_gases"
+  ]
+}

@@ -13,7 +13,7 @@ import net.minecraft.world.level.storage.loot.providers.number.NumberProvider;
 
 import java.util.Set;
 
-public record ValueOperation(UpgradeValueProvider value, MathOperation operation) implements LootContextUser
+public record ValueOperation(UpgradeValueProvider value, MathOperation operation) implements LootContextUser, Comparable<ValueOperation>
 {
     public static final Codec<ValueOperation> DIRECT_CODEC = RecordCodecBuilder.create(instance -> instance.group(
             UpgradeValueProvider.DIRECT_CODEC.fieldOf("value").forGetter(ValueOperation::value),
@@ -41,5 +41,11 @@ public record ValueOperation(UpgradeValueProvider value, MathOperation operation
     public Set<ContextKey<?>> getReferencedContextParams()
     {
         return value.getReferencedContextParams();
+    }
+
+    @Override
+    public int compareTo(ValueOperation o)
+    {
+        return this.operation.comparePriority(o.operation);
     }
 }

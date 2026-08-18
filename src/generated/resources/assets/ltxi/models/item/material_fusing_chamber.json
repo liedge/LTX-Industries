@@ -1,4 +1,0 @@
-{
-  "parent": "ltxi:block/material_fusing_chamber_idle",
-  "loader": "limacore:extended_cuboid"
-}

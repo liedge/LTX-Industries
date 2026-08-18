@@ -8,7 +8,7 @@ import liedge.ltxindustries.util.config.LTXIMachinesConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class GeoSynthesizerBlockEntity extends LTXIRecipeMachineBlockEntity.StateMachine<GeoSynthesisRecipe>
+public class GeoSynthesizerBlockEntity extends LTXIRecipeMachineBlockEntity<GeoSynthesisRecipe>
 {
     public GeoSynthesizerBlockEntity(BlockPos pos, BlockState state)
     {

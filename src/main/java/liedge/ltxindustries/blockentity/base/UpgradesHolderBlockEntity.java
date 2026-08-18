@@ -2,8 +2,8 @@ package liedge.ltxindustries.blockentity.base;
 
 import liedge.limacore.blockentity.LimaBlockEntity;
 import liedge.limacore.client.gui.TooltipLineConsumer;
-import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.transfer.energy.EnergyHolderBlockEntity;
+import liedge.limacore.transfer.energy.LimaEnergyHandler;
 import liedge.limacore.transfer.item.ItemHolderBlockEntity;
 import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
@@ -48,10 +48,13 @@ public interface UpgradesHolderBlockEntity extends SubMenuProviderBlockEntity, I
         // Apply to energy holders, must run here since it is a compounding calculation
         if (this instanceof EnergyHolderBlockEntity energyHolder)
         {
-            double newCapacity = upgrades.runValueOps(LTXIUpgradeEffectComponents.ENERGY_CAPACITY, context, energyHolder.getBaseEnergyCapacity());
-            double newTransferRate = upgrades.runValueOps(LTXIUpgradeEffectComponents.ENERGY_TRANSFER_RATE, context, energyHolder.getBaseEnergyTransferRate());
-            energyHolder.getEnergy().setCapacity(LimaCoreMath.roundInt(newCapacity));
-            energyHolder.getEnergy().setTransferRate(LimaCoreMath.roundInt(newTransferRate));
+            LimaEnergyHandler handler = energyHolder.getEnergy();
+
+            int newCapacity = upgrades.runRoundedIntValueOps(LTXIUpgradeEffectComponents.ENERGY_CAPACITY, context, 0, energyHolder.getBaseEnergyCapacity());
+            int newTransferRate = upgrades.runRoundedIntValueOps(LTXIUpgradeEffectComponents.ENERGY_TRANSFER_RATE, context, 0, energyHolder.getBaseEnergyTransferRate());
+
+            handler.setCapacity(newCapacity);
+            handler.setTransferRate(newTransferRate);
         }
     }
 }

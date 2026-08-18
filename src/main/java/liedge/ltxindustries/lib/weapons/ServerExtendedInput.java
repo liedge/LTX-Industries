@@ -5,7 +5,8 @@ import liedge.limacore.util.LimaCoreObjects;
 import liedge.limacore.util.LimaEntityUtil;
 import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.network.packet.ClientboundFocusTargetPacket;
-import liedge.ltxindustries.network.packet.ReloadPacket;
+import liedge.ltxindustries.network.packet.ClientboundReloadPacket;
+import liedge.ltxindustries.network.packet.ClientboundTriggerTimerPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -27,16 +28,33 @@ public final class ServerExtendedInput extends LTXIExtendedInput
     {
         if (canReloadWeapon(stack, player, weaponItem))
         {
-            if (isInfiniteAmmo(stack, player, weaponItem))
+            int duration = weaponItem.getReloadSpeed(stack);
+            if (isInfiniteAmmo(stack, player, weaponItem) || duration <= 0)
             {
                 weaponItem.setAmmoLoadedMax(stack);
             }
             else
             {
-                getReloadTimer().startTimer(weaponItem.getReloadSpeed(stack));
-                LimaCoreObjects.cast(ServerPlayer.class, player).connection.send(new ReloadPacket(getSelectedSlot()));
+                getReloadTimer().startTimer(duration);
+                ServerPlayer sender = LimaCoreObjects.cast(ServerPlayer.class, player);
+                sender.connection.send(new ClientboundReloadPacket(getSelectedSlot(), duration));
             }
         }
+    }
+
+    @Override
+    protected void onTriggerTimerStart(Player player, WeaponItem weaponItem, int duration)
+    {
+        if (duration > 1)
+        {
+            PacketDistributor.sendToPlayersTrackingEntityAndSelf(player, new ClientboundTriggerTimerPacket(weaponItem, duration));
+        }
+    }
+
+    @Override
+    protected void onTriggerTimerEnd(Player player, WeaponItem weaponItem)
+    {
+        PacketDistributor.sendToPlayersTrackingEntityAndSelf(player, new ClientboundTriggerTimerPacket(weaponItem, 0));
     }
 
     @Override

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "category": "ores/4",
+    "description": {
+      "translate": "upgrade.ltxi.ore_process_4.desc"
+    },
+    "icon": {
+      "type": "composite",
+      "background": {
+        "type": "item",
+        "id": "ltxi:silver_ore_solution"
+      },
+      "foreground": {
+        "type": "sprite",
+        "height": 9,
+        "id": "ltxi:green_arrow_overlay",
+        "width": 9,
+        "x": 6,
+        "y": 6
+      }
+    },
+    "title": {
+      "translate": "upgrade.ltxi.ore_process_4"
+    }
+  },
+  "effects": {
+    "ltxi:unlock_recipe_mode": "ltxi:ore_processing"
+  },
+  "users": {
+    "block_entities": "ltxi:chem_lab"
+  }
+}

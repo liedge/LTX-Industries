@@ -1,6 +1,7 @@
 package liedge.ltxindustries.blockentity.base;
 
 import liedge.limacore.recipe.LimaRecipeCheck;
+import liedge.limacore.recipe.LimaRecipeUtil;
 import liedge.limacore.recipe.result.RecipeResult;
 import liedge.limacore.transfer.item.ItemHolderBlockEntity;
 import net.minecraft.server.level.ServerLevel;
@@ -41,21 +42,6 @@ public interface RecipeMachineBlockEntity<I extends RecipeInput, R extends Recip
 
     default <RES extends Resource> boolean canInsertResourceResults(Collection<? extends RecipeResult<?, RES>> results, @Nullable ResourceHandler<RES> inventory)
     {
-        if (results.isEmpty()) return true;
-
-        try (Transaction tx = Transaction.openRoot())
-        {
-            for (RecipeResult<?, RES> result : results)
-            {
-                if (!result.required()) continue;
-
-                int required = result.count().max();
-                int inserted = ResourceHandlerUtil.insertStacking(inventory, result.getResource(), required, tx);
-
-                if (inserted < required) return false;
-            }
-        }
-
-        return true;
+        return LimaRecipeUtil.canInsertResults(inventory, results);
     }
 }

@@ -11,26 +11,77 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
-public sealed interface RecipeLayout permits MenuLayoutMap
+public final class RecipeLayout
 {
-    static Builder builder()
+    static final int DEFAULT_WIDTH = 176;
+    static final int DEFAULT_HEIGHT = 166;
+
+    static Builder builder(int width, int height)
     {
-        return new Builder();
+        return new Builder(width, height);
     }
 
-    int progressBarX();
+    static Builder builder()
+    {
+        return builder(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+    }
 
-    int progressBarY();
+    private final int width;
+    private final int height;
+    private final Map<LayoutSlot.Type, List<LayoutSlot>> slots;
+    private final int progressBarX;
+    private final int progressBarY;
 
-    List<LayoutSlot> getSlotsForType(LayoutSlot.Type type);
+    private RecipeLayout(int width, int height, Map<LayoutSlot.Type, List<LayoutSlot>> slots, int progressBarX, int progressBarY)
+    {
+        this.width = width;
+        this.height = height;
+        this.slots = slots;
+        this.progressBarX = progressBarX;
+        this.progressBarY = progressBarY;
+    }
 
-    Stream<LayoutSlot> streamSlots();
+    public int getWidth()
+    {
+        return width;
+    }
 
-    final class Builder
+    public int getHeight()
+    {
+        return height;
+    }
+
+    public int getProgressBarX()
+    {
+        return progressBarX;
+    }
+
+    public int getProgressBarY()
+    {
+        return progressBarY;
+    }
+
+    public List<LayoutSlot> getSlotsForType(LayoutSlot.Type type)
+    {
+        return slots.get(type);
+    }
+
+    public Stream<LayoutSlot> streamSlots()
+    {
+        return slots.values().stream().flatMap(List::stream);
+    }
+
+    static final class Builder
     {
         private final Map<LayoutSlot.Type, ObjectList<LayoutSlot>> map = new EnumMap<>(LayoutSlot.Type.class);
+        private final int width;
+        private final int height;
 
-        private Builder() {}
+        private Builder(int width, int height)
+        {
+            this.width = width;
+            this.height = height;
+        }
 
         public Builder slotGrid(int x0, int y0, int width, int height, LayoutSlot.Type slotType)
         {
@@ -52,9 +103,19 @@ public sealed interface RecipeLayout permits MenuLayoutMap
             return put(LayoutSlot.Type.ITEM_INPUT, x, y);
         }
 
+        public Builder itemsIn(int x, int y, int width, int height)
+        {
+            return slotGrid(x, y, width, height, LayoutSlot.Type.ITEM_INPUT);
+        }
+
         public Builder itemOut(int x, int y)
         {
             return put(LayoutSlot.Type.ITEM_OUTPUT, x, y);
+        }
+
+        public Builder itemsOut(int x, int y, int width, int height)
+        {
+            return slotGrid(x, y, width, height, LayoutSlot.Type.ITEM_OUTPUT);
         }
 
         public Builder fluidIn(int x, int y)
@@ -62,9 +123,19 @@ public sealed interface RecipeLayout permits MenuLayoutMap
             return put(LayoutSlot.Type.FLUID_INPUT, x, y);
         }
 
+        public Builder fluidsIn(int x, int y, int width, int height)
+        {
+            return slotGrid(x, y, width, height, LayoutSlot.Type.FLUID_INPUT);
+        }
+
         public Builder fluidOut(int x, int y)
         {
             return put(LayoutSlot.Type.FLUID_OUTPUT, x, y);
+        }
+
+        public Builder fluidsOut(int x, int y, int width, int height)
+        {
+            return slotGrid(x, y, width, height, LayoutSlot.Type.FLUID_OUTPUT);
         }
 
         public Builder modeSlot(int x, int y)
@@ -80,7 +151,7 @@ public sealed interface RecipeLayout permits MenuLayoutMap
 
         private List<LayoutSlot> getList(LayoutSlot.Type type)
         {
-            return map.computeIfAbsent(type, $ -> new ObjectArrayList<>());
+            return map.computeIfAbsent(type, _ -> new ObjectArrayList<>());
         }
 
         public RecipeLayout build(int progressBarX, int progressBarY)
@@ -94,7 +165,7 @@ public sealed interface RecipeLayout permits MenuLayoutMap
                 out.put(type, l);
             }
 
-            return new MenuLayoutMap(progressBarX, progressBarY, ImmutableMap.copyOf(out));
+            return new RecipeLayout(width, height, ImmutableMap.copyOf(out), progressBarX, progressBarY);
         }
     }
 }

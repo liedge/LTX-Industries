@@ -13,7 +13,7 @@
       "foreground": {
         "type": "sprite",
         "height": 7,
-        "id": "ltxi:default_overlay",
+        "id": "ltxi:blue_ring",
         "width": 7,
         "x": 8,
         "y": 8
@@ -21,7 +21,28 @@
     },
     "title": {
       "translate": "upgrade.ltxi.default.nova"
-    }
+    },
+    "tooltips": [
+      {
+        "type": "custom_args",
+        "args": [
+          {
+            "type": "value",
+            "format": "signed_percentage",
+            "sentiment": "positive",
+            "value": 0.25
+          },
+          {
+            "type": "static",
+            "tooltip": {
+              "color": "dark_red",
+              "translate": "attribute.name.max_health"
+            }
+          }
+        ],
+        "key": "upgrade_effect.ltxi.attribute_scaled_damage"
+      }
+    ]
   },
   "effects": {
     "ltxi:add_damage_attributes": [
@@ -41,6 +62,29 @@
           "operation": "add_value"
         }
       }
+    ],
+    "ltxi:equipment_damage": [
+      {
+        "effect": {
+          "op": "add",
+          "value": {
+            "type": "number_wrapper",
+            "value": {
+              "type": "limacore:math",
+              "first": {
+                "type": "limacore:entity_attribute",
+                "attribute": "minecraft:max_health",
+                "target": "this"
+              },
+              "op": "multiply",
+              "second": 0.25
+            }
+          }
+        }
+      }
+    ],
+    "ltxi:extra_damage_tags": [
+      "ltxi:bypass_survival_defenses"
     ]
   },
   "users": {

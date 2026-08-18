@@ -1,7 +1,7 @@
 {
   "type": "ltxi:fabricating",
   "energy_required": 150000000,
-  "group": "eum/armor",
+  "group": "upgrade/armor",
   "item_inputs": [
     {
       "ingredient": "ltxi:empty_upgrade_module"
@@ -10,12 +10,20 @@
       "ingredient": "ltxi:t5_circuit"
     },
     {
+      "count": 4,
+      "ingredient": "ltxi:large_voltaic_cell"
+    },
+    {
+      "count": 8,
+      "ingredient": "ltxi:impulse_tech_part"
+    },
+    {
       "count": 32,
       "ingredient": "ltxi:chorus_chemical"
     },
     {
       "count": 16,
-      "ingredient": "minecraft:phantom_membrane"
+      "ingredient": "ltxi:sculk_chemical"
     }
   ],
   "result": {

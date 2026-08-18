@@ -1,0 +1,32 @@
+{
+  "display": {
+    "category": "ores/3",
+    "description": {
+      "translate": "upgrade.ltxi.ore_process_3.desc"
+    },
+    "icon": {
+      "type": "composite",
+      "background": {
+        "type": "item",
+        "id": "ltxi:silver_ore_chunk"
+      },
+      "foreground": {
+        "type": "sprite",
+        "height": 9,
+        "id": "ltxi:green_arrow_overlay",
+        "width": 9,
+        "x": 6,
+        "y": 6
+      }
+    },
+    "title": {
+      "translate": "upgrade.ltxi.ore_process_3"
+    }
+  },
+  "effects": {
+    "ltxi:unlock_recipe_mode": "ltxi:ore_processing"
+  },
+  "users": {
+    "block_entities": "ltxi:voltaic_injector"
+  }
+}

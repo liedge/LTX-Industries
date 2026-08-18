@@ -6,6 +6,7 @@ import liedge.limacore.client.SimpleFogFluidExtension;
 import liedge.limacore.lib.ModResources;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.LTXIndustries;
+import liedge.ltxindustries.block.LTXIBlockProperties;
 import liedge.ltxindustries.client.gui.ClientFabricatingInputsTooltip;
 import liedge.ltxindustries.client.gui.ClientItemStacksTooltip;
 import liedge.ltxindustries.client.gui.layer.BubbleShieldLayer;
@@ -29,6 +30,7 @@ import liedge.ltxindustries.data.LTXIReloadListeners;
 import liedge.ltxindustries.menu.tooltip.FabricatingInputsTooltip;
 import liedge.ltxindustries.menu.tooltip.ItemStacksTooltip;
 import liedge.ltxindustries.registry.game.*;
+import net.minecraft.client.color.block.BlockTintSource;
 import net.minecraft.client.color.block.BlockTintSources;
 import net.minecraft.client.renderer.block.FluidModel;
 import net.minecraft.client.renderer.entity.ArmorStandRenderer;
@@ -96,14 +98,23 @@ public class LTXIndustriesClient
         {
             final Material gasSprite = new Material(LTXIndustries.RESOURCES.id("block/gas"));
             final IntFunction<FluidModel.Unbaked> gas = rgb -> new FluidModel.Unbaked(gasSprite, gasSprite, null, FluidTintSources.constant(ARGB.opaque(rgb)));
+            final IntFunction<FluidModel.Unbaked> waterBase = rgb -> LimaCoreClientUtil.fluidModel(ModResources.MC, "block/water_still", "block/water_flow", FluidTintSources.constant(ARGB.opaque(rgb)));
+            final IntFunction<FluidModel.Unbaked> moltenLight = rgb -> LimaCoreClientUtil.fluidModel(LTXIndustries.RESOURCES, "block/light_molten_still", "block/light_molten_flow", FluidTintSources.constant(ARGB.opaque(rgb)));
+            final IntFunction<FluidModel.Unbaked> brightWater = rgb -> LimaCoreClientUtil.fluidModel(LTXIndustries.RESOURCES, "block/bright_water_still", "block/bright_water_flow", FluidTintSources.constant(ARGB.opaque(rgb)));
 
             event.register(gas.apply(0xe7e7e7), LTXIFluids.HYDROGEN, LTXIFluids.FLOWING_HYDROGEN);
             event.register(gas.apply(0x27306e), LTXIFluids.NITROGEN, LTXIFluids.FLOWING_NITROGEN);
             event.register(gas.apply(0x91a5d5), LTXIFluids.OXYGEN, LTXIFluids.FLOWING_OXYGEN);
             event.register(gas.apply(0xccf76f), LTXIFluids.CHLORINE, LTXIFluids.FLOWING_CHLORINE);
             event.register(gas.apply(0x8f73f6), LTXIFluids.ARGON, LTXIFluids.FLOWING_ARGON);
-            event.register(LimaCoreClientUtil.fluidModel(ModResources.MC, "block/water_still", "block/water_flow", FluidTintSources.constant(0xff43d5ee)), LTXIFluids.SEA_WATER, LTXIFluids.FLOWING_SEA_WATER);
-            event.register(LimaCoreClientUtil.fluidModel(LTXIndustries.RESOURCES, "block/viridic_acid_still", "block/viridic_acid_flowing", null), LTXIFluids.VIRIDIC_ACID, LTXIFluids.FLOWING_VIRIDIC_ACID);
+            event.register(gas.apply(0x50acf2), LTXIFluids.METHANE, LTXIFluids.FLOWING_METHANE);
+            event.register(gas.apply(0x71ff5e), LTXIFluids.SULPHURINE, LTXIFluids.FLOWING_SULPHURINE);
+            event.register(waterBase.apply(0x43d5ee), LTXIFluids.SEA_WATER, LTXIFluids.FLOWING_SEA_WATER);
+            event.register(gas.apply(0x73faa5), LTXIFluids.AMMONIA, LTXIFluids.FLOWING_AMMONIA);
+            event.register(brightWater.apply(0xd5fc7e), LTXIFluids.HYDROCHLORIC_ACID, LTXIFluids.FLOWING_HYDROCHLORIC_ACID);
+            event.register(brightWater.apply(LTXIConstants.ACID_GREEN.argb32()), LTXIFluids.SULFURIC_ACID, LTXIFluids.FLOWING_SULFURIC_ACID);
+            event.register(brightWater.apply(0xffbae6), LTXIFluids.HYDROFLUORIC_ACID, LTXIFluids.FLOWING_HYDROFLUORIC_ACID);
+            event.register(moltenLight.apply(0x5f6c72), LTXIFluids.SILICONE_OIL, LTXIFluids.FLOWING_SILICONE_OIL);
         }
 
         @SubscribeEvent
@@ -122,7 +133,7 @@ public class LTXIndustriesClient
             event.registerItem(new DaybreakClientItem(), LTXIItems.DAYBREAK);
             event.registerItem(new NovaClientItem(), LTXIItems.NOVA);
 
-            event.registerFluidType(SimpleFogFluidExtension.create(LTXIConstants.LIME_GREEN, 13f), LTXIFluids.VIRIDIC_ACID_TYPE);
+            event.registerFluidType(SimpleFogFluidExtension.create(LTXIConstants.LIME_GREEN, 13f), LTXIFluids.SULFURIC_ACID_TYPE);
         }
 
         @SubscribeEvent
@@ -139,7 +150,9 @@ public class LTXIndustriesClient
             event.register(LTXIMenus.DIGITAL_SMOKER.get(), RecipeLayoutScreen::new);
             event.register(LTXIMenus.DIGITAL_BLAST_FURNACE.get(), RecipeLayoutScreen::new);
             event.register(LTXIMenus.GRINDER.get(), RecipeLayoutScreen::new);
-            event.register(LTXIMenus.MATERIAL_FUSING_CHAMBER.get(), RecipeLayoutScreen::new);
+            event.register(LTXIMenus.MATERIAL_PRESS.get(), RecipeLayoutScreen::new);
+            event.register(LTXIMenus.ARC_FURNACE.get(), RecipeLayoutScreen::new);
+            event.register(LTXIMenus.HYDROSIEVE.get(), RecipeLayoutScreen::new);
             event.register(LTXIMenus.ELECTROCENTRIFUGE.get(), RecipeLayoutScreen::new);
             event.register(LTXIMenus.MIXER.get(), RecipeLayoutScreen::new);
             event.register(LTXIMenus.VOLTAIC_INJECTOR.get(), RecipeLayoutScreen::new);
@@ -149,6 +162,7 @@ public class LTXIndustriesClient
             event.register(LTXIMenus.FABRICATOR.get(), FabricatorScreen::new);
             event.register(LTXIMenus.AUTO_FABRICATOR.get(), AutoFabricatorScreen::new);
             event.register(LTXIMenus.UPGRADE_STATION.get(), UpgradeStationScreen::new);
+            event.register(LTXIMenus.ATMOSPHERIC_SCRUBBER.get(), AirScrubberScreen::new);
             event.register(LTXIMenus.DIGITAL_GARDEN.get(), RecipeLayoutScreen::new);
             event.register(LTXIMenus.PORTABLE_GENERATOR.get(), PortableGeneratorScreen::new);
             event.register(LTXIMenus.SOLAR_PANEL.get(), SolarPanelScreen::new);
@@ -197,12 +211,15 @@ public class LTXIndustriesClient
             event.registerBlockEntityRenderer(LTXIBlockEntities.INFINITE_ENERGY_CELL_ARRAY.get(), ctx -> new EnergyCellArrayRenderer(ctx, LTXIConstants.CREATIVE_PINK));
             event.registerBlockEntityRenderer(LTXIBlockEntities.PORTABLE_TANK.get(), TankRenderer::new);
             event.registerBlockEntityRenderer(LTXIBlockEntities.GRINDER.get(), GrinderRenderer::new);
+            event.registerBlockEntityRenderer(LTXIBlockEntities.MATERIAL_PRESS.get(), MaterialPressRenderer::new);
+            event.registerBlockEntityRenderer(LTXIBlockEntities.HYDROSIEVE.get(), HydroSieveRenderer::new);
             event.registerBlockEntityRenderer(LTXIBlockEntities.ELECTROCENTRIFUGE.get(), ElectroCentrifugeRenderer::new);
             event.registerBlockEntityRenderer(LTXIBlockEntities.MIXER.get(), MixerRenderer::new);
             event.registerBlockEntityRenderer(LTXIBlockEntities.VOLTAIC_INJECTOR.get(), VoltaicInjectorRenderer::new);
             event.registerBlockEntityRenderer(LTXIBlockEntities.FABRICATOR.get(), ctx -> new BaseFabricatorRenderer(ctx, -0.1875d, 1.0625d));
             event.registerBlockEntityRenderer(LTXIBlockEntities.AUTO_FABRICATOR.get(), ctx -> new BaseFabricatorRenderer(ctx, 0, 0.375d));
             event.registerBlockEntityRenderer(LTXIBlockEntities.UPGRADE_STATION.get(), UpgradeStationRenderer::new);
+            event.registerBlockEntityRenderer(LTXIBlockEntities.ATMOSPHERIC_SCRUBBER.get(), AirScrubberRenderer::new);
             event.registerBlockEntityRenderer(LTXIBlockEntities.DIGITAL_GARDEN.get(), DigitalGardenRenderer::new);
             event.registerBlockEntityRenderer(LTXIBlockEntities.ARC_TURRET.get(), ArcTurretRenderer::new);
             event.registerBlockEntityRenderer(LTXIBlockEntities.ROCKET_TURRET.get(), RocketTurretRenderer::new);
@@ -243,7 +260,10 @@ public class LTXIndustriesClient
         @SubscribeEvent
         public void registerBlockColors(final RegisterColorHandlersEvent.BlockTintSources event)
         {
-            event.register(List.of(BlockTintSources.water()), LTXIBlocks.INFINITE_WATER_TANK.get(), LTXIBlocks.GEO_SYNTHESIZER.get(), LTXIBlocks.DIGITAL_GARDEN.get());
+            event.register(List.of(BlockTintSources.constant(0xff3f76e4)), LTXIBlocks.INFINITE_WATER_TANK.get(), LTXIBlocks.GEO_SYNTHESIZER.get());
+
+            event.register(List.of(activeStateTint(0x3f76e4)), LTXIBlocks.HYDROSIEVE.get(), LTXIBlocks.DIGITAL_GARDEN.get());
+            event.register(List.of(activeStateTint(LTXIConstants.ACID_GREEN.argb32())), LTXIBlocks.CHEM_LAB.get());
         }
 
         @SubscribeEvent
@@ -271,6 +291,13 @@ public class LTXIndustriesClient
         public void registerClientReloadListeners(final AddClientReloadListenersEvent event)
         {
             event.addListener(LTXIReloadListeners.BUBBLE_SHIELD_MODEL, BubbleShieldModel.INSTANCE);
+        }
+
+        // Helpers
+        private BlockTintSource activeStateTint(int color)
+        {
+            int argb = ARGB.opaque(color);
+            return state -> LTXIBlockProperties.isMachineActive(state) ? argb : -1;
         }
     }
 }

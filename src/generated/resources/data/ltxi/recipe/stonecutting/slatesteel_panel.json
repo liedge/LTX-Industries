@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": [
+    "ltxi:smooth_slatesteel_panel",
+    "ltxi:tiled_slatesteel_panel"
+  ],
+  "result": {
+    "id": "ltxi:slatesteel_panel"
+  }
+}

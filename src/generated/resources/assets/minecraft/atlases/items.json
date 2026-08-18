@@ -14,6 +14,33 @@
       "type": "minecraft:single",
       "resource": "ltxi:block/glowstick",
       "sprite": "ltxi:item/glowstick"
+    },
+    {
+      "type": "minecraft:paletted_permutations",
+      "palette_key": "ltxi:palette/ore_key",
+      "permutations": {
+        "coal": "ltxi:palette/ore/coal",
+        "copper": "ltxi:palette/ore/copper",
+        "diamond": "ltxi:palette/ore/diamond",
+        "emerald": "ltxi:palette/ore/emerald",
+        "fluorite": "ltxi:palette/ore/fluorite",
+        "gold": "ltxi:palette/ore/gold",
+        "iron": "ltxi:palette/ore/iron",
+        "lapis": "ltxi:palette/ore/lapis",
+        "niobium": "ltxi:palette/ore/niobium",
+        "olivine": "ltxi:palette/ore/olivine",
+        "quartz": "ltxi:palette/ore/quartz",
+        "redstone": "ltxi:palette/ore/redstone",
+        "silver": "ltxi:palette/ore/silver",
+        "titanium": "ltxi:palette/ore/titanium"
+      },
+      "textures": [
+        "ltxi:item/crushed_ore",
+        "ltxi:item/washed_ore",
+        "ltxi:item/ore_chunk",
+        "ltxi:item/ore_solution",
+        "ltxi:item/ore_crystal"
+      ]
     }
   ]
 }

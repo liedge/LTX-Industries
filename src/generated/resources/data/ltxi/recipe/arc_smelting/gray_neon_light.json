@@ -1,0 +1,19 @@
+{
+  "type": "ltxi:arc_smelting",
+  "craft_time": 120,
+  "item_inputs": [
+    {
+      "count": 2,
+      "ingredient": "#c:dusts/phosphorus"
+    },
+    {
+      "ingredient": "#c:dyes/gray"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 16,
+      "id": "ltxi:gray_neon_light"
+    }
+  ]
+}

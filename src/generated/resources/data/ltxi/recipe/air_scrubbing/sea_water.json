@@ -1,0 +1,15 @@
+{
+  "type": "ltxi:air_scrubbing",
+  "fluid_results": [
+    {
+      "amount": 1000,
+      "id": "ltxi:sea_water"
+    }
+  ],
+  "location": {
+    "biomes": "#c:is_ocean",
+    "dimension": "minecraft:overworld",
+    "needs_waterlog": true
+  },
+  "mode": "ltxi:localized_fluids"
+}

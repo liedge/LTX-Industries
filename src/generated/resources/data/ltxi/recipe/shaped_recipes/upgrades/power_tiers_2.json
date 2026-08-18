@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": "ltxi:t2_circuit",
+    "e": "ltxi:medium_voltaic_cell",
+    "g": "#c:gears/slatesteel",
+    "m": {
+      "neoforge:ingredient_type": "neoforge:components",
+      "components": {
+        "ltxi:upgrade": {
+          "upgrade": "ltxi:power_tiers"
+        }
+      },
+      "items": "ltxi:upgrade_module"
+    },
+    "t": "#c:gears/titanium"
+  },
+  "pattern": [
+    "ege",
+    "cmc",
+    "gtg"
+  ],
+  "result": {
+    "components": {
+      "ltxi:upgrade": {
+        "rank": 2,
+        "upgrade": "ltxi:power_tiers"
+      }
+    },
+    "id": "ltxi:upgrade_module"
+  }
+}

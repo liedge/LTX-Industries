@@ -1,9 +1,10 @@
 {
   "type": "ltxi:fabricating",
-  "energy_required": 20000000,
-  "group": "ltx/weapon.33",
+  "energy_required": 100000000,
+  "group": "1/weapon.33",
   "item_inputs": [
     {
+      "count": 2,
       "ingredient": "ltxi:t3_circuit"
     },
     {
@@ -11,23 +12,15 @@
       "ingredient": "#c:ingots/titanium"
     },
     {
-      "count": 24,
-      "ingredient": "ltxi:polymer_ingot"
+      "count": 16,
+      "ingredient": "#c:ingots/tungsten_slatesteel"
     },
     {
-      "count": 8,
-      "ingredient": "ltxi:slatesteel_ingot"
-    },
-    {
-      "count": 12,
-      "ingredient": "ltxi:ltx_lime_pigment"
-    },
-    {
-      "count": 2,
+      "count": 4,
       "ingredient": "ltxi:impulse_tech_part"
     },
     {
-      "count": 6,
+      "count": 20,
       "ingredient": "ltxi:titanium_glass"
     }
   ],

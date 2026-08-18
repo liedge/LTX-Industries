@@ -1,26 +1,32 @@
 {
   "type": "ltxi:fabricating",
   "energy_required": 1000000,
-  "group": "ltx/tool",
+  "group": "1/tools",
   "item_inputs": [
     {
       "ingredient": "ltxi:t3_circuit"
+    },
+    {
+      "ingredient": "ltxi:medium_voltaic_cell"
     },
     {
       "count": 24,
       "ingredient": "#c:ingots/titanium"
     },
     {
-      "count": 6,
-      "ingredient": "ltxi:polymer_ingot"
+      "count": 4,
+      "ingredient": "#c:gems/olivine"
     },
     {
-      "count": 3,
-      "ingredient": "ltxi:slatesteel_gear"
+      "count": 8,
+      "ingredient": "#c:ingots/slatesteel"
     },
     {
-      "count": 6,
-      "ingredient": "ltxi:ltx_lime_pigment"
+      "count": 2,
+      "ingredient": "#c:gears/slatesteel"
+    },
+    {
+      "ingredient": "#c:gears/titanium"
     }
   ],
   "result": {

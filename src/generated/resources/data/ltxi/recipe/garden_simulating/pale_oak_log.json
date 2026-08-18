@@ -1,0 +1,22 @@
+{
+  "type": "ltxi:garden_simulating",
+  "fluid_inputs": [
+    {
+      "amount": 1000,
+      "ingredient": "#minecraft:water"
+    }
+  ],
+  "item_inputs": [
+    {
+      "consume_chance": 0.0,
+      "ingredient": "minecraft:pale_oak_sapling"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 4,
+      "id": "minecraft:pale_oak_log"
+    }
+  ],
+  "mode": "ltxi:lumber"
+}

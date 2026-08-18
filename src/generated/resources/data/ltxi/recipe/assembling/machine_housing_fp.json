@@ -1,0 +1,19 @@
+{
+  "type": "ltxi:assembling",
+  "item_inputs": [
+    {
+      "count": 4,
+      "ingredient": "#c:plates/titanium"
+    },
+    {
+      "count": 2,
+      "ingredient": "ltxi:fluoropolymer"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:machine_housing"
+    }
+  ]
+}

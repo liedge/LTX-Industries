@@ -1,0 +1,14 @@
+{
+  "type": "ltxi:grinding",
+  "item_inputs": [
+    {
+      "ingredient": "#c:ingots/silver"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:silver_dust"
+    }
+  ]
+}

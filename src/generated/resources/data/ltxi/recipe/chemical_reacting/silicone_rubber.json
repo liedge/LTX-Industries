@@ -1,0 +1,19 @@
+{
+  "type": "ltxi:chemical_reacting",
+  "fluid_inputs": [
+    {
+      "amount": 1000,
+      "ingredient": "ltxi:silicone_oil"
+    },
+    {
+      "amount": 500,
+      "ingredient": "ltxi:sulphurine"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 2,
+      "id": "ltxi:silicone_rubber"
+    }
+  ]
+}

@@ -2,16 +2,16 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "a": "#c:gears/titanium",
-    "c": "ltxi:t2_circuit",
-    "e": "ltxi:electric_chemical",
+    "c": "ltxi:t1_circuit",
+    "e": "ltxi:small_voltaic_cell",
     "g": "ltxi:titanium_glass",
-    "t": "#c:ingots/titanium"
+    "h": "ltxi:machine_housing",
+    "s": "#c:plates/silicon"
   },
   "pattern": [
-    "geg",
-    " a ",
-    "tct"
+    "sss",
+    "ghg",
+    "ece"
   ],
   "result": {
     "id": "ltxi:solar_panel"

@@ -2,16 +2,16 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "a": "minecraft:lightning_rod",
     "c": "ltxi:t1_circuit",
-    "g": "#c:gears/titanium",
-    "s": "minecraft:copper_ingot",
-    "t": "#c:ingots/titanium"
+    "e": "ltxi:small_voltaic_cell",
+    "h": "ltxi:machine_housing",
+    "o": "#c:gems/olivine",
+    "s": "#c:plates/slatesteel"
   },
   "pattern": [
-    "tct",
-    "sas",
-    "gcg"
+    " o ",
+    "ese",
+    "chc"
   ],
   "result": {
     "id": "ltxi:voltaic_injector"

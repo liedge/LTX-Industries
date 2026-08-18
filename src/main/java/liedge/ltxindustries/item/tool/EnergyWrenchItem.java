@@ -46,9 +46,9 @@ public class EnergyWrenchItem extends BaseEnergyMiningItem
     }
 
     @Override
-    public @Nullable ResourceKey<Upgrade> getDefaultUpgradeKey()
+    public List<ResourceKey<Upgrade>> getDefaultUpgrades()
     {
-        return LTXIUpgrades.EPSILON_WRENCH_DEFAULT;
+        return List.of(LTXIUpgrades.EPSILON_WRENCH_DEFAULT);
     }
 
     @Override

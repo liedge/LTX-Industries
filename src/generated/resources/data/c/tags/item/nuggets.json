@@ -1,7 +1,8 @@
 {
   "values": [
-    "#c:nuggets/titanium",
-    "#c:nuggets/niobium",
-    "#c:nuggets/slatesteel"
+    "ltxi:titanium_nugget",
+    "ltxi:silver_nugget",
+    "ltxi:niobium_nugget",
+    "ltxi:slatesteel_nugget"
   ]
 }

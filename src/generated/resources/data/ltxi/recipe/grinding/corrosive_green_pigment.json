@@ -1,0 +1,16 @@
+{
+  "type": "ltxi:grinding",
+  "craft_time": 120,
+  "item_inputs": [
+    {
+      "ingredient": "ltxi:vitriol_berries"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 2,
+      "id": "ltxi:corrosive_green_pigment"
+    }
+  ],
+  "mode": "ltxi:dye_extraction"
+}

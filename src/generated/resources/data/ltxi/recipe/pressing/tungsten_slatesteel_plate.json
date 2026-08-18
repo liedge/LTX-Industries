@@ -1,0 +1,15 @@
+{
+  "type": "ltxi:pressing",
+  "item_inputs": [
+    {
+      "ingredient": "#c:ingots/tungsten_slatesteel"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:tungsten_slatesteel_plate"
+    }
+  ],
+  "mode": "ltxi:plate_pressing"
+}

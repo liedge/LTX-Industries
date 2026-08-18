@@ -1,0 +1,39 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 12500000,
+  "group": "machines/ores",
+  "item_inputs": [
+    {
+      "ingredient": "ltxi:empty_upgrade_module"
+    },
+    {
+      "count": 8,
+      "ingredient": "#c:plates/slatesteel"
+    },
+    {
+      "count": 2,
+      "ingredient": "ltxi:t3_circuit"
+    },
+    {
+      "count": 4,
+      "ingredient": "#c:gears/slatesteel"
+    },
+    {
+      "count": 4,
+      "ingredient": "ltxi:medium_voltaic_cell"
+    },
+    {
+      "count": 32,
+      "ingredient": "#c:gems/olivine"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:upgrade": {
+        "upgrade": "ltxi:ore_process_3"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:upgrade_module"
+  }
+}

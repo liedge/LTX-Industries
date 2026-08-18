@@ -1,6 +1,7 @@
 package liedge.ltxindustries;
 
 import liedge.ltxindustries.lib.upgrades.Upgrade;
+import liedge.ltxindustries.recipe.RecipeMode;
 import liedge.ltxindustries.registry.LTXIRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.ItemTags;
@@ -26,10 +27,13 @@ public final class LTXITags
         private Blocks() {}
 
         public static final TagKey<Block> TITANIUM_ORES = COMMON.blockTag("ores/titanium");
+        public static final TagKey<Block> SILVER_ORES = COMMON.blockTag("ores/silver");
         public static final TagKey<Block> NIOBIUM_ORES = COMMON.blockTag("ores/niobium");
         public static final TagKey<Block> RAW_TITANIUM_STORAGE_BLOCKS = COMMON.blockTag("storage_blocks/raw_titanium");
+        public static final TagKey<Block> RAW_SILVER_STORAGE_BLOCKS = COMMON.blockTag("storage_blocks/raw_silver");
         public static final TagKey<Block> RAW_NIOBIUM_STORAGE_BLOCKS = COMMON.blockTag("storage_blocks/raw_niobium");
         public static final TagKey<Block> TITANIUM_STORAGE_BLOCKS = COMMON.blockTag("storage_blocks/titanium");
+        public static final TagKey<Block> SILVER_STORAGE_BLOCKS = COMMON.blockTag("storage_blocks/silver");
         public static final TagKey<Block> NIOBIUM_STORAGE_BLOCKS = COMMON.blockTag("storage_blocks/niobium");
         public static final TagKey<Block> SLATESTEEL_STORAGE_BLOCKS = COMMON.blockTag("storage_blocks/slatesteel");
         public static final TagKey<Block> SHEARS_HARVESTABLE = COMMON.blockTag("shears_harvestable");
@@ -48,10 +52,13 @@ public final class LTXITags
 
         // Block tags
         public static final TagKey<Item> TITANIUM_ORES = copy(Blocks.TITANIUM_ORES);
+        public static final TagKey<Item> SILVER_ORES = copy(Blocks.SILVER_ORES);
         public static final TagKey<Item> NIOBIUM_ORES = copy(Blocks.NIOBIUM_ORES);
         public static final TagKey<Item> RAW_TITANIUM_STORAGE_BLOCKS = copy(Blocks.RAW_TITANIUM_STORAGE_BLOCKS);
+        public static final TagKey<Item> RAW_SILVER_STORAGE_BLOCKS = copy(Blocks.RAW_SILVER_STORAGE_BLOCKS);
         public static final TagKey<Item> RAW_NIOBIUM_STORAGE_BLOCKS = copy(Blocks.RAW_NIOBIUM_STORAGE_BLOCKS);
         public static final TagKey<Item> TITANIUM_STORAGE_BLOCKS = copy(Blocks.TITANIUM_STORAGE_BLOCKS);
+        public static final TagKey<Item> SILVER_STORAGE_BLOCKS = copy(Blocks.SILVER_STORAGE_BLOCKS);
         public static final TagKey<Item> NIOBIUM_STORAGE_BLOCKS = copy(Blocks.NIOBIUM_STORAGE_BLOCKS);
         public static final TagKey<Item> SLATESTEEL_STORAGE_BLOCKS = copy(Blocks.SLATESTEEL_STORAGE_BLOCKS);
         public static final TagKey<Item> ORE_CLUSTERS = copy(Blocks.ORE_CLUSTERS);
@@ -61,33 +68,75 @@ public final class LTXITags
 
         // Raw materials
         public static final TagKey<Item> RAW_TITANIUM_MATERIALS = COMMON.itemTag("raw_materials/titanium");
+        public static final TagKey<Item> RAW_SILVER_MATERIALS = COMMON.itemTag("raw_materials/silver");
+        public static final TagKey<Item> RAW_OLIVINE_MATERIALS = COMMON.itemTag("raw_materials/olivine");
+        public static final TagKey<Item> RAW_FLUORITE_MATERIALS = COMMON.itemTag("raw_materials/fluorite");
         public static final TagKey<Item> RAW_NIOBIUM_MATERIALS = COMMON.itemTag("raw_materials/niobium");
 
         // Ingots
         public static final TagKey<Item> TITANIUM_INGOTS = COMMON.itemTag("ingots/titanium");
+        public static final TagKey<Item> SILVER_INGOTS = COMMON.itemTag("ingots/silver");
         public static final TagKey<Item> NIOBIUM_INGOTS = COMMON.itemTag("ingots/niobium");
+        public static final TagKey<Item> RHENIUM_INGOTS = COMMON.itemTag("ingots/rhenium");
         public static final TagKey<Item> SILICON_INGOTS = COMMON.itemTag("ingots/silicon");
         public static final TagKey<Item> SLATESTEEL_INGOTS = COMMON.itemTag("ingots/slatesteel");
+        public static final TagKey<Item> TUNGSTEN_SLATESTEEL_INGOTS = COMMON.itemTag("ingots/tungsten_slatesteel");
+
+        // Gems
+        public static final TagKey<Item> OLIVINE_GEMS = COMMON.itemTag("gems/olivine");
+        public static final TagKey<Item> FLUORITE_GEMS = COMMON.itemTag("gems/fluorite");
 
         // Nuggets
         public static final TagKey<Item> TITANIUM_NUGGETS = COMMON.itemTag("nuggets/titanium");
+        public static final TagKey<Item> SILVER_NUGGETS = COMMON.itemTag("nuggets/silver");
         public static final TagKey<Item> NIOBIUM_NUGGETS = COMMON.itemTag("nuggets/niobium");
         public static final TagKey<Item> SLATESTEEL_NUGGETS = COMMON.itemTag("nuggets/slatesteel");
 
+        // Plates
+        public static final TagKey<Item> COPPER_PLATES = COMMON.itemTag("plates/copper");
+        public static final TagKey<Item> GOLD_PLATES = COMMON.itemTag("plates/gold");
+        public static final TagKey<Item> TITANIUM_PLATES = COMMON.itemTag("plates/titanium");
+        public static final TagKey<Item> SILVER_PLATES = COMMON.itemTag("plates/silver");
+        public static final TagKey<Item> NIOBIUM_PLATES = COMMON.itemTag("plates/niobium");
+        public static final TagKey<Item> RHENIUM_PLATES = COMMON.itemTag("plates/rhenium");
+        public static final TagKey<Item> SILICON_PLATES = COMMON.itemTag("plates/silicon");
+        public static final TagKey<Item> SLATESTEEL_PLATES = COMMON.itemTag("plates/slatesteel");
+        public static final TagKey<Item> TUNGSTEN_SLATESTEEL_PLATES = COMMON.itemTag("plates/tungsten_slatesteel");
+
         // Dusts
+        public static final TagKey<Item> TITANIUM_DUSTS = COMMON.itemTag("dusts/titanium");
+        public static final TagKey<Item> SILVER_DUSTS = COMMON.itemTag("dusts/silver");
+        public static final TagKey<Item> NIOBIUM_DUSTS = COMMON.itemTag("dusts/niobium");
+        public static final TagKey<Item> RHENIUM_DUSTS = COMMON.itemTag("dusts/rhenium");
+        public static final TagKey<Item> CARBON_DUSTS = COMMON.itemTag("dusts/carbon");
         public static final TagKey<Item> SODIUM_DUSTS = COMMON.itemTag("dusts/sodium");
         public static final TagKey<Item> SILICON_DUSTS = COMMON.itemTag("dusts/silicon");
+        public static final TagKey<Item> PHOSPHORUS_DUSTS = COMMON.itemTag("dusts/phosphorus");
+        public static final TagKey<Item> SULFUR_DUSTS = COMMON.itemTag("dusts/sulfur");
+        public static final TagKey<Item> SLATESTEEL_DUSTS = COMMON.itemTag("dusts/slatesteel");
+        public static final TagKey<Item> TUNGSTEN_SLATESTEEL_DUSTS = COMMON.itemTag("dusts/tungsten_slatesteel");
         public static final TagKey<Item> DEEPSLATE_DUSTS = COMMON.itemTag("dusts/deepslate");
+        public static final TagKey<Item> PERIDOTITE_DUSTS = COMMON.itemTag("dusts/peridotite");
+
+        // Ore processing
+        public static final TagKey<Item> CRUSHED_ORE_ITEMS = RESOURCES.itemTag("crushed_ores");
+        public static final TagKey<Item> WASHED_ORE_ITEMS = RESOURCES.itemTag("washed_ores");
+        public static final TagKey<Item> ORE_CHUNK_ITEMS = RESOURCES.itemTag("ore_chunks");
+        public static final TagKey<Item> ORE_SOLUTION_ITEMS = RESOURCES.itemTag("ore_solutions");
+        public static final TagKey<Item> ORE_CRYSTAL_ITEMS = RESOURCES.itemTag("ore_crystals");
 
         // Misc common tags
         public static final TagKey<Item> TITANIUM_GEARS = COMMON.itemTag("gears/titanium");
+        public static final TagKey<Item> SLATESTEEL_GEARS = COMMON.itemTag("gears/slatesteel");
 
-        // Mod tags
+        // Mod material tags
+        public static final TagKey<Item> POLYMERS = RESOURCES.itemTag("polymers");
+        public static final TagKey<Item> POLYMER_SHEETS = RESOURCES.itemTag("polymer_sheets");
         public static final TagKey<Item> GREEN_GROUP_DYE_SOURCES = RESOURCES.itemTag("dye_sources/green_group");
-        public static final TagKey<Item> CARBON_SOURCES = RESOURCES.itemTag("carbon_sources");
-
-        public static final TagKey<Item> NEON_LIGHT_MATERIALS = RESOURCES.itemTag("neon_light_materials");
+        public static final TagKey<Item> PHOSPHORUS_SOURCES = RESOURCES.itemTag("phosphorus_sources");
         public static final TagKey<Item> APPLE_SAPLINGS = RESOURCES.itemTag("apple_saplings");
+
+        // Technical tags
         public static final TagKey<Item> REPAIR_BLACKLIST = RESOURCES.itemTag("repair_blacklist");
 
         // Equipment tags
@@ -146,9 +195,8 @@ public final class LTXITags
     {
         private BlockEntities() {}
 
-        public static final TagKey<BlockEntityType<?>> GENERAL_PROCESSING_MACHINES = tag("machines/general_processing");
         public static final TagKey<BlockEntityType<?>> STANDARD_UPGRADABLE_MACHINES = tag("upgradable/standard");
-        public static final TagKey<BlockEntityType<?>> ULTIMATE_UPGRADABLE_MACHINES = tag("upgradable/ultimate");
+        public static final TagKey<BlockEntityType<?>> STANDARD_PARALLEL_UPGRADABLE = tag("upgradable/standard_parallel");
         public static final TagKey<BlockEntityType<?>> TURRETS = tag("turrets");
 
         private static TagKey<BlockEntityType<?>> tag(String name)
@@ -161,7 +209,6 @@ public final class LTXITags
     {
         private Upgrades() {}
 
-        public static final TagKey<Upgrade> MINING_LEVELS = tag("mining_levels");
         public static final TagKey<Upgrade> MINING_DROPS_MODIFIERS = tag("mining_drops_modifiers");
         public static final TagKey<Upgrade> RELOAD_SOURCE_MODIFIERS = tag("reload_source_modifiers");
         public static final TagKey<Upgrade> TARGET_PREDICATES = tag("target_predicates");
@@ -172,6 +219,26 @@ public final class LTXITags
         private static TagKey<Upgrade> tag(String name)
         {
             return RESOURCES.tagKey(LTXIRegistries.Keys.UPGRADES, name);
+        }
+    }
+
+    public static final class RecipeModes
+    {
+        private RecipeModes() { }
+
+        public static final TagKey<RecipeMode> DEFAULT_GRINDING = defaultModeTag(LTXIIdentifiers.ID_GRINDING_RECIPE);
+        public static final TagKey<RecipeMode> DEFAULT_PRESSING = defaultModeTag(LTXIIdentifiers.ID_PRESSING_RECIPE);
+        public static final TagKey<RecipeMode> DEFAULT_ARC_SMELTING = defaultModeTag(LTXIIdentifiers.ID_ARC_SMELTING_RECIPE);
+        public static final TagKey<RecipeMode> DEFAULT_ELECTRO_CENTRIFUGING = defaultModeTag(LTXIIdentifiers.ID_ELECTRO_CENTRIFUGING_RECIPE);
+        public static final TagKey<RecipeMode> DEFAULT_MIXING = defaultModeTag(LTXIIdentifiers.ID_MIXING_RECIPE);
+        public static final TagKey<RecipeMode> DEFAULT_ENERGIZING = defaultModeTag(LTXIIdentifiers.ID_ENERGIZING_RECIPE);
+        public static final TagKey<RecipeMode> DEFAULT_CHEMICAL_REACTING = defaultModeTag(LTXIIdentifiers.ID_CHEMICAL_REACTING);
+        public static final TagKey<RecipeMode> DEFAULT_AIR_SCRUBBING = defaultModeTag(LTXIIdentifiers.ID_AIR_SCRUBBING_RECIPE);
+        public static final TagKey<RecipeMode> DEFAULT_GARDEN_SIMULATING = defaultModeTag(LTXIIdentifiers.ID_GARDEN_SIMULATING_RECIPE);
+
+        private static TagKey<RecipeMode> defaultModeTag(String recipeTypeId)
+        {
+            return RESOURCES.tagKey(LTXIRegistries.Keys.RECIPE_MODES, "default/" + recipeTypeId);
         }
     }
 

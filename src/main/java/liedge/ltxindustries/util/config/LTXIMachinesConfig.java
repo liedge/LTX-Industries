@@ -24,8 +24,14 @@ public final class LTXIMachinesConfig
     public static final ModConfigSpec.IntValue GRINDER_ENERGY_CAPACITY;
     public static final ModConfigSpec.IntValue GRINDER_ENERGY_USAGE;
 
-    public static final ModConfigSpec.IntValue MFC_ENERGY_CAPACITY;
-    public static final ModConfigSpec.IntValue MFC_ENERGY_USAGE;
+    public static final ModConfigSpec.IntValue MATERIAL_PRESS_ENERGY_CAPACITY;
+    public static final ModConfigSpec.IntValue MATERIAL_PRESS_ENERGY_USAGE;
+
+    public static final ModConfigSpec.IntValue ARC_FURNACE_ENERGY_CAPACITY;
+    public static final ModConfigSpec.IntValue ARC_FURNACE_ENERGY_USAGE;
+
+    public static final ModConfigSpec.IntValue HYDROSIEVE_ENERGY_CAPACITY;
+    public static final ModConfigSpec.IntValue HYDROSIEVE_ENERGY_USAGE;
 
     public static final ModConfigSpec.IntValue ELECTROCENTRIFUGE_ENERGY_CAPACITY;
     public static final ModConfigSpec.IntValue ELECTROCENTRIFUGE_ENERGY_USAGE;
@@ -44,6 +50,10 @@ public final class LTXIMachinesConfig
 
     public static final ModConfigSpec.IntValue GEO_SYNTHESIZER_CAPACITY;
     public static final ModConfigSpec.IntValue GEO_SYNTHESIZER_ENERGY_USAGE;
+
+    public static final ModConfigSpec.IntValue AIR_SCRUBBER_ENERGY_CAPACITY;
+    public static final ModConfigSpec.IntValue AIR_SCRUBBER_ENERGY_USAGE;
+    public static final ModConfigSpec.IntValue AIR_SCRUBBER_BASE_SPEED;
 
     public static final ModConfigSpec.IntValue DIGITAL_GARDEN_ENERGY_CAPACITY;
     public static final ModConfigSpec.IntValue DIGITAL_GARDEN_ENERGY_USAGE;
@@ -125,9 +135,19 @@ public final class LTXIMachinesConfig
         GRINDER_ENERGY_USAGE = ConfigUtil.energyUsagePerTick(builder, 30);
         builder.pop();
 
-        builder.comment("Material Fusing Chamber").push("material_fusing_chamber");
-        MFC_ENERGY_CAPACITY = ConfigUtil.energyCapacity(builder, 100_000);
-        MFC_ENERGY_USAGE =  ConfigUtil.energyUsagePerTick(builder, 30);
+        builder.comment("Material Press").push("material_press");
+        MATERIAL_PRESS_ENERGY_CAPACITY = ConfigUtil.energyCapacity(builder, 100_000);
+        MATERIAL_PRESS_ENERGY_USAGE = ConfigUtil.energyUsagePerTick(builder, 30);
+        builder.pop();
+
+        builder.comment("Arc Furnace").push("arc_furnace");
+        ARC_FURNACE_ENERGY_CAPACITY = ConfigUtil.energyCapacity(builder, 100_000);
+        ARC_FURNACE_ENERGY_USAGE =  ConfigUtil.energyUsagePerTick(builder, 30);
+        builder.pop();
+
+        builder.comment("HydroSieve").push("hydrosieve");
+        HYDROSIEVE_ENERGY_CAPACITY = ConfigUtil.energyCapacity(builder, 100_000);
+        HYDROSIEVE_ENERGY_USAGE = ConfigUtil.energyUsagePerTick(builder, 40);
         builder.pop();
 
         builder.comment("ElectroCentrifuge").push("electrocentrifuge");
@@ -160,6 +180,12 @@ public final class LTXIMachinesConfig
         GEO_SYNTHESIZER_ENERGY_USAGE = ConfigUtil.energyUsagePerTick(builder, 10);
         builder.pop();
 
+        builder.comment("Atmospheric Scrubber").push("atmospheric_scrubber");
+        AIR_SCRUBBER_ENERGY_CAPACITY = ConfigUtil.energyCapacity(builder, 250_000);
+        AIR_SCRUBBER_ENERGY_USAGE = ConfigUtil.energyUsagePerTick(builder, 80);
+        AIR_SCRUBBER_BASE_SPEED = ConfigUtil.positiveInt(builder, "ticks_per_operation", "Base ticks needed for one machine operation", 600);
+        builder.pop();
+
         builder.comment("Bio/ARU Garden").push("digital_garden");
         DIGITAL_GARDEN_ENERGY_CAPACITY = ConfigUtil.energyCapacity(builder, 250_000);
         DIGITAL_GARDEN_ENERGY_USAGE = ConfigUtil.energyUsagePerTick(builder, 80);
@@ -174,13 +200,13 @@ public final class LTXIMachinesConfig
 
         builder.comment("Portable Generator").push("portable_generator");
         PORTABLE_GENERATOR_CAPACITY = ConfigUtil.energyCapacity(builder, 100_000);
-        PORTABLE_GENERATOR_GENERATION = ConfigUtil.positiveInt(builder, "energy_generation", "Energy generated per tick", 40);
+        PORTABLE_GENERATOR_GENERATION = ConfigUtil.positiveInt(builder, "energy_generation", "Energy generated per tick", 80);
         PORTABLE_GENERATOR_ENERGY_PER_FUEL = ConfigUtil.positiveInt(builder, "energy_per_fuel", "How much energy a fuel unit produces", 2500);
         builder.pop();
 
         builder.comment("Solar Panel").push("solar_panel");
-        SOLAR_PANEL_CAPACITY = ConfigUtil.energyCapacity(builder, 80_000);
-        SOLAR_PANEL_GENERATION = ConfigUtil.positiveInt(builder, "energy_generation", "Energy generated per tick", 25);
+        SOLAR_PANEL_CAPACITY = ConfigUtil.energyCapacity(builder, 100_000);
+        SOLAR_PANEL_GENERATION = ConfigUtil.positiveInt(builder, "energy_generation", "Energy generated per tick", 30);
         builder.pop();
 
         builder.comment("Repair Station").push("repair_station");

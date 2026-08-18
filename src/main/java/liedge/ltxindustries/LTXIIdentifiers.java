@@ -8,6 +8,11 @@ public final class LTXIIdentifiers
     private LTXIIdentifiers() {}
 
     //#region Items
+    public static final String ID_POLYMER = "polymer";
+    public static final String ID_FLUOROPOLYMER = "fluoropolymer";
+    public static final String ID_POLYMER_SHEET = "polymer_sheet";
+    public static final String ID_FLUOROPOLYMER_SHEET = "fluoropolymer_sheet";
+
     public static final String ID_EPSILON_DRILL = "epsilon_drill";
     public static final String ID_EPSILON_SWORD = "epsilon_sword";
     public static final String ID_EPSILON_SHOVEL = "epsilon_shovel";
@@ -34,7 +39,23 @@ public final class LTXIIdentifiers
     public static final String ID_NOVA = "nova";
     //#endregion
 
-    // Machines (for shared menus, block entity type, block, etc.)
+    //#region Fluids
+    public static final String ID_HYDROGEN = "hydrogen";
+    public static final String ID_NITROGEN = "nitrogen";
+    public static final String ID_OXYGEN = "oxygen";
+    public static final String ID_CHLORINE = "chlorine";
+    public static final String ID_ARGON = "argon";
+    public static final String ID_METHANE = "methane";
+    public static final String ID_SULPHURINE = "sulphurine";
+    public static final String ID_SEA_WATER = "sea_water";
+    public static final String ID_AMMONIA = "ammonia";
+    public static final String ID_HYDROCHLORIC_ACID = "hydrochloric_acid";
+    public static final String ID_SULFURIC_ACID = "sulfuric_acid";
+    public static final String ID_HYDROFLUORIC_ACID = "hydrofluoric_acid";
+    public static final String ID_SILICONE_OIL = "silicone_oil";
+    //#endregion
+
+    //#region Machines
     public static final String ID_UPGRADE_STATION = "upgrade_station";
     public static final String ID_ENERGY_CELL_ARRAY = "energy_cell_array";
     public static final String ID_INFINITE_ENERGY_CELL_ARRAY = "infinite_energy_cell_array";
@@ -46,7 +67,9 @@ public final class LTXIIdentifiers
     public static final String ID_DIGITAL_SMOKER = "digital_smoker";
     public static final String ID_DIGITAL_BLAST_FURNACE = "digital_blast_furnace";
     public static final String ID_GRINDER = "grinder";
-    public static final String ID_MATERIAL_FUSING_CHAMBER = "material_fusing_chamber";
+    public static final String ID_MATERIAL_PRESS = "material_press";
+    public static final String ID_ARC_FURNACE = "arc_furnace";
+    public static final String ID_HYDROSIEVE = "hydrosieve";
     public static final String ID_ELECTROCENTRIFUGE = "electrocentrifuge";
     public static final String ID_MIXER = "mixer";
     public static final String ID_VOLTAIC_INJECTOR = "voltaic_injector";
@@ -55,6 +78,7 @@ public final class LTXIIdentifiers
     public static final String ID_FABRICATOR = "fabricator";
     public static final String ID_AUTO_FABRICATOR = "auto_fabricator";
     public static final String ID_GEO_SYNTHESIZER = "geo_synthesizer";
+    public static final String ID_ATMOSPHERIC_SCRUBBER = "atmospheric_scrubber";
     public static final String ID_DIGITAL_GARDEN = "digital_garden";
 
     public static final String ID_PORTABLE_GENERATOR = "portable_generator";
@@ -65,10 +89,13 @@ public final class LTXIIdentifiers
     public static final String ID_ARC_TURRET = "arc_turret";
     public static final String ID_ROCKET_TURRET = "rocket_turret";
     public static final String ID_RAILGUN_TURRET = "railgun_turret";
+    //#endregion
 
     // Crafting types (recipe type and serializer)
     public static final String ID_GRINDING_RECIPE = "grinding";
-    public static final String ID_MATERIAL_FUSING_RECIPE = "material_fusing";
+    public static final String ID_PRESSING_RECIPE = "pressing";
+    public static final String ID_ARC_SMELTING_RECIPE = "arc_smelting";
+    public static final String ID_SIEVING_RECIPE = "sieving";
     public static final String ID_ELECTRO_CENTRIFUGING_RECIPE = "electro_centrifuging";
     public static final String ID_MIXING_RECIPE = "mixing";
     public static final String ID_ENERGIZING_RECIPE = "energizing";
@@ -76,5 +103,6 @@ public final class LTXIIdentifiers
     public static final String ID_ASSEMBLING_RECIPE = "assembling";
     public static final String ID_FABRICATING_RECIPE = "fabricating";
     public static final String ID_GEO_SYNTHESIS_RECIPE = "geo_synthesis";
+    public static final String ID_AIR_SCRUBBING_RECIPE = "air_scrubbing";
     public static final String ID_GARDEN_SIMULATING_RECIPE = "garden_simulating";
 }

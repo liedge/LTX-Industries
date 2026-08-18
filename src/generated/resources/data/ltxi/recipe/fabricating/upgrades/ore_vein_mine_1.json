@@ -1,7 +1,7 @@
 {
   "type": "ltxi:fabricating",
   "energy_required": 50000,
-  "group": "eum/tool",
+  "group": "upgrade/tool",
   "item_inputs": [
     {
       "ingredient": "ltxi:empty_upgrade_module"
@@ -17,7 +17,7 @@
       "ingredient": "#c:gears/titanium"
     },
     {
-      "ingredient": "ltxi:slatesteel_gear"
+      "ingredient": "#c:gears/slatesteel"
     }
   ],
   "result": {

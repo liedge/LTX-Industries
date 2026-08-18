@@ -1,0 +1,19 @@
+{
+  "type": "ltxi:arc_smelting",
+  "craft_time": 120,
+  "item_inputs": [
+    {
+      "count": 2,
+      "ingredient": "#c:dusts/phosphorus"
+    },
+    {
+      "ingredient": "ltxi:gloom_blue_pigment"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 16,
+      "id": "ltxi:gloom_blue_neon_light"
+    }
+  ]
+}

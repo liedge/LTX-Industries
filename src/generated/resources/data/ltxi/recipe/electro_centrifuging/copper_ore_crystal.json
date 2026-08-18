@@ -1,0 +1,37 @@
+{
+  "type": "ltxi:electro_centrifuging",
+  "fluid_inputs": [
+    {
+      "amount": 125,
+      "ingredient": "ltxi:hydrochloric_acid"
+    }
+  ],
+  "item_inputs": [
+    {
+      "ingredient": "ltxi:copper_ore_solution"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:copper_ore_crystal"
+    },
+    {
+      "count": {
+        "chance": 0.5,
+        "max": 1,
+        "min": 1
+      },
+      "id": "ltxi:copper_ore_crystal"
+    },
+    {
+      "count": {
+        "chance": 0.05,
+        "max": 1,
+        "min": 1
+      },
+      "id": "ltxi:rhenium_7_oxide"
+    }
+  ],
+  "mode": "ltxi:ore_processing"
+}

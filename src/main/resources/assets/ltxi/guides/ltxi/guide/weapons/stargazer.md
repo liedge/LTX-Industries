@@ -7,12 +7,14 @@ navigation:
 ---
 
 # *Stargazer* 37/LF
+
 <ItemImage id="stargazer" scale="3" />
 
 ## Stats
-- Base Damage: 45.0
+
+- Base damage: 45.0
 - Range: 200.0
 - Projectile: [LightFrag](index.md#lightfrags)
 - Trigger: Charge-up fusion
-- Charge Time: 0.5 sec
-- Trigger Cooldown: 0.25 sec
+- Charge time: 0.5 sec
+- Trigger cooldown: 0.25 sec

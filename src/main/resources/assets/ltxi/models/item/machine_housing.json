@@ -1,0 +1,37 @@
+{
+	"parent": "minecraft:block/block",
+	"loader": "limacore:extended_cuboid",
+	"textures": {
+		"particle": "#base",
+		"base": "ltxi:item/machine_housing_base",
+		"emissive": "ltxi:item/machine_housing_emissive"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [16, 16, 16],
+			"faces": {
+				"north": { "uv": [0, 0, 16, 16], "texture": "#base" },
+				"east": { "uv": [0, 0, 16, 16], "texture": "#base" },
+				"south": { "uv": [0, 0, 16, 16], "texture": "#base" },
+				"west": { "uv": [0, 0, 16, 16], "texture": "#base" },
+				"up": { "uv": [0, 0, 16, 16], "texture": "#base" },
+				"down": { "uv": [0, 0, 16, 16], "texture": "#base" }
+			}
+		},
+		{
+			"from": [0, 0, 0],
+			"to": [16, 16, 16],
+			"shade": false,
+			"light_emission": 15,
+			"faces": {
+				"north": { "uv": [0, 0, 16, 16], "texture": "#emissive" },
+				"east": { "uv": [0, 0, 16, 16], "texture": "#emissive" },
+				"south": { "uv": [0, 0, 16, 16], "texture": "#emissive" },
+				"west": { "uv": [0, 0, 16, 16], "texture": "#emissive" },
+				"up": { "uv": [0, 0, 16, 16], "texture": "#emissive" },
+				"down": { "uv": [0, 0, 16, 16], "texture": "#emissive" }
+			}
+		}
+	]
+}

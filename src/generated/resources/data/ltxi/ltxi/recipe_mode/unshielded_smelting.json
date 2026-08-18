@@ -1,0 +1,9 @@
+{
+  "icon": {
+    "type": "item",
+    "id": "ltxi:slatesteel_ingot"
+  },
+  "title": {
+    "translate": "recipe_mode.ltxi.unshielded_smelting"
+  }
+}

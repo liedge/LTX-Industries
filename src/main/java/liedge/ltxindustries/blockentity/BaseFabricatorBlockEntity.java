@@ -137,7 +137,7 @@ public abstract class BaseFabricatorBlockEntity extends ProductionMachineBlockEn
         tickServerFabricator(level, pos, state);
 
         // Auto output item if option available
-        tickAutoResourceOutput(20, getItems(BlockContentsType.INPUT), null);
+        tickAutoResourceOutput(20, getItems(BlockContentsType.OUTPUT), null);
     }
 
     protected abstract void tickServerFabricator(ServerLevel level, BlockPos pos, BlockState state);

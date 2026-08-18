@@ -15,8 +15,6 @@ public class AutoFabricatorScreen extends MachineBaseScreen<AutoFabricatorMenu>
     public AutoFabricatorScreen(AutoFabricatorMenu menu, Inventory inventory, Component title)
     {
         super(menu, inventory, title, 190, 180);
-
-        this.inventoryLabelX = 14;
     }
 
     @Override

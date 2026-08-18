@@ -21,6 +21,6 @@ class EnchantmentTagsGen extends LimaTagsProvider<Enchantment>
     @Override
     protected void addTags(HolderLookup.Provider provider)
     {
-        buildTag(EnchantmentTags.NON_TREASURE).add(LTXIEnchantments.RAZOR, LTXIEnchantments.AMMO_SCAVENGER);
+        buildTag(EnchantmentTags.NON_TREASURE).add(LTXIEnchantments.RAZOR);
     }
 }

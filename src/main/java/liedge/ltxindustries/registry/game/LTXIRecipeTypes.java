@@ -32,7 +32,9 @@ public final class LTXIRecipeTypes
     }
 
     public static final DeferredHolder<RecipeType<?>, LimaRecipeType<GrindingRecipe>> GRINDING = registerType(LTXIIdentifiers.ID_GRINDING_RECIPE);
-    public static final DeferredHolder<RecipeType<?>, LimaRecipeType<MaterialFusingRecipe>> MATERIAL_FUSING = registerType(LTXIIdentifiers.ID_MATERIAL_FUSING_RECIPE);
+    public static final DeferredHolder<RecipeType<?>, LimaRecipeType<PressingRecipe>> PRESSING = registerType(LTXIIdentifiers.ID_PRESSING_RECIPE);
+    public static final DeferredHolder<RecipeType<?>, LimaRecipeType<ArcSmeltingRecipe>> ARC_SMELTING = registerType(LTXIIdentifiers.ID_ARC_SMELTING_RECIPE);
+    public static final DeferredHolder<RecipeType<?>, LimaRecipeType<SievingRecipe>> SIEVING = registerType(LTXIIdentifiers.ID_SIEVING_RECIPE);
     public static final DeferredHolder<RecipeType<?>, LimaRecipeType<ElectroCentrifugingRecipe>> ELECTRO_CENTRIFUGING = registerType(LTXIIdentifiers.ID_ELECTRO_CENTRIFUGING_RECIPE);
     public static final DeferredHolder<RecipeType<?>, LimaRecipeType<MixingRecipe>> MIXING = registerType(LTXIIdentifiers.ID_MIXING_RECIPE);
     public static final DeferredHolder<RecipeType<?>, LimaRecipeType<EnergizingRecipe>> ENERGIZING = registerType(LTXIIdentifiers.ID_ENERGIZING_RECIPE);
@@ -40,6 +42,7 @@ public final class LTXIRecipeTypes
     public static final DeferredHolder<RecipeType<?>, LimaRecipeType<AssemblingRecipe>> ASSEMBLING = registerType(LTXIIdentifiers.ID_ASSEMBLING_RECIPE);
     public static final DeferredHolder<RecipeType<?>, LimaRecipeType<FabricatingRecipe>> FABRICATING = registerType(LTXIIdentifiers.ID_FABRICATING_RECIPE);
     public static final DeferredHolder<RecipeType<?>, LimaRecipeType<GeoSynthesisRecipe>> GEO_SYNTHESIS = registerType(LTXIIdentifiers.ID_GEO_SYNTHESIS_RECIPE);
+    public static final DeferredHolder<RecipeType<?>, LimaRecipeType<AirScrubbingRecipe>> AIR_SCRUBBING = registerType(LTXIIdentifiers.ID_AIR_SCRUBBING_RECIPE);
     public static final DeferredHolder<RecipeType<?>, LimaRecipeType<GardenSimulatingRecipe>> GARDEN_SIMULATING = registerType(LTXIIdentifiers.ID_GARDEN_SIMULATING_RECIPE);
 
     private static <R extends Recipe<?>> DeferredHolder<RecipeType<?>, LimaRecipeType<R>> registerType(String name)

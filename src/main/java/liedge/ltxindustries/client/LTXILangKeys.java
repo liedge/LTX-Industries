@@ -9,6 +9,7 @@ public final class LTXILangKeys
     private LTXILangKeys() {}
 
     public static final String UPGRADE_EFFECT_PREFIX = "upgrade_effect";
+    public static final String ITEM_LORE_PREFIX = "item_lore";
 
     // Death messages
     public static final Translatable INVALID_WEAPON_DEATH_MESSAGE = RESOURCES.translationHolder("death.attack.{}.unknown_weapon");
@@ -47,7 +48,10 @@ public final class LTXILangKeys
     public static final Translatable CRAFTING_PROGRESS_TOOLTIP = tooltip("craft_progress");
     public static final Translatable FUEL_UNITS_STORED = tooltip("fuel_units");
     public static final Translatable ENERGY_PER_FUEL_UNIT = tooltip("energy_per_fuel");
-    public static final Translatable JEI_CRAFTING_TIME_TOOLTIP = tooltip("jei_craft_time");
+    public static final Translatable JEI_CRAFTING_TIME_TOOLTIP = jeiTooltip("crafting_time");
+    public static final Translatable JEI_LOCATION_DIMENSION_TOOLTIP = jeiTooltip("ml.dimension");
+    public static final Translatable JEI_LOCATION_BIOMES_TOOLTIP = jeiTooltip("ml.biome");
+    public static final Translatable JEI_LOCATION_WATERLOG_TOOLTIP =  jeiTooltip("ml.waterlog");
 
     public static final Translatable INPUT_NOT_CONSUMED_TOOLTIP = tooltip("input.no_consume");
     public static final Translatable INPUT_CONSUME_CHANCE_TOOLTIP = tooltip("input.use_chance");
@@ -92,8 +96,6 @@ public final class LTXILangKeys
     public static final Translatable FLUID_CAPACITY_UPGRADE = upgradeEffect("fluid_capacity");
     public static final Translatable PARALLEL_OPERATIONS_UPGRADE = upgradeEffect("parallel");
     public static final Translatable MACHINE_SPEED_UPGRADE = upgradeEffect("machine_speed");
-    public static final Translatable ENERGY_PER_RECIPE_UPGRADE = upgradeEffect("energy_per_recipe");
-    public static final Translatable INSTANT_PROCESSING_UPGRADE = upgradeEffect("instant_process");
     public static final Translatable PROJECTILE_SPEED_UPGRADE = upgradeEffect("projectile_speed");
     public static final Translatable ATTRIBUTE_SCALED_DAMAGE_UPGRADE = upgradeEffect("attribute_scaled_damage");
 
@@ -108,6 +110,7 @@ public final class LTXILangKeys
     public static final Translatable CAPPED_ENCHANTMENT_UPGRADE_EFFECT = upgradeEffect("enchantment.capped");
     public static final Translatable GRENADE_UNLOCK_EFFECT = upgradeEffect("grenade_unlock");
     public static final Translatable CANCEL_FALLS_EFFECT = upgradeEffect("cancel_fall");
+    public static final Translatable UNLOCK_RECIPE_MODE_EFFECT = upgradeEffect("unlock_recipe_mode");
 
     private static Translatable prefixKey(String prefix, String key)
     {
@@ -127,6 +130,11 @@ public final class LTXILangKeys
     private static Translatable itemHint(String key)
     {
         return prefixKey("hint", key);
+    }
+
+    private static Translatable jeiTooltip(String key)
+    {
+        return prefixKey("jei", key);
     }
 
     public static Translatable tooltip(String key)

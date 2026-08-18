@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.5,
+  "ingredient": [
+    "ltxi:crushed_redstone_ore",
+    "ltxi:washed_redstone_ore",
+    "ltxi:redstone_ore_chunk",
+    "ltxi:redstone_ore_solution",
+    "ltxi:redstone_ore_crystal"
+  ],
+  "result": {
+    "count": 6,
+    "id": "minecraft:redstone"
+  }
+}

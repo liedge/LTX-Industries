@@ -1,0 +1,15 @@
+{
+  "type": "ltxi:pressing",
+  "item_inputs": [
+    {
+      "ingredient": "#c:ingots/copper"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:copper_plate"
+    }
+  ],
+  "mode": "ltxi:plate_pressing"
+}

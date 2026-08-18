@@ -1,11 +1,13 @@
 package liedge.ltxindustries.blockentity.base;
 
+import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.network.sync.DataWatcherHolder;
 import liedge.limacore.network.sync.SimpleValueTracker;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
+import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.lib.upgrades.Upgrades;
-import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
+import liedge.ltxindustries.util.LTXIUpgradeUtil;
 import net.minecraft.world.level.storage.loot.LootContext;
 
 public interface TimedProcessBlockEntity
@@ -35,10 +37,15 @@ public interface TimedProcessBlockEntity
     {
         static void applyUpgrades(FixedBaseDuration blockEntity, LootContext context, Upgrades upgrades)
         {
-            double newTicksPerOp = upgrades.runValueOps(LTXIUpgradeEffectComponents.TICKS_PER_OPERATION, context, blockEntity.getBaseTicksPerOperation());
-            blockEntity.setTicksPerOperation(Math.max(0, LimaCoreMath.roundInt(newTicksPerOp)));
+            int newTicksPerOp = LTXIUpgradeUtil.calculateMachineSpeed(upgrades, context, blockEntity.getBaseTicksPerOperation());
+            blockEntity.setTicksPerOperation(newTicksPerOp);
         }
 
         int getBaseTicksPerOperation();
+
+        default void appendOperationTicksTooltip(TooltipLineConsumer consumer)
+        {
+            consumer.accept(LTXILangKeys.MACHINE_TICKS_PER_OP_TOOLTIP.translateArgs(getTicksPerOperation()));
+        }
     }
 }

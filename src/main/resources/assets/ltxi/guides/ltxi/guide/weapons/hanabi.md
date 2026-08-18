@@ -7,14 +7,16 @@ navigation:
 ---
 
 # *Hanabi* 33/GL
+
 <ItemImage id="hanabi" scale="3" />
 
 ## Stats
-- Base Damage: Varies (see below)
-- Projectile: Orb Grenade
-- Projectile Speed: 30 m/s
+
+- Base damage: Varies (see below)
+- Projectile: Shell Grenades
+- Projectile speed: 30 m/s
 - Trigger: Semi Auto
-- Trigger Cooldown: 0.75 sec
+- Trigger cooldown: 0.75 sec
 
 ## Shells
 
@@ -63,7 +65,7 @@ Acid shells specialize against highly armored or high threat targets. Their blas
 they deal increased damage to compensate.
 
 - Blast radius: 5.0
-- Base damage: 50.0
+- Base damage: 60.0
 - Applies [*Corroding III*](../fundamentals/mob_effects.md#corroding) for 10 seconds
 
 ### Gloom Gas

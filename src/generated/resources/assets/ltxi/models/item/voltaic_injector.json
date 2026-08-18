@@ -1,4 +1,7 @@
 {
   "parent": "ltxi:block/voltaic_injector",
-  "loader": "limacore:extended_cuboid"
+  "loader": "limacore:extended_cuboid",
+  "visibility": {
+    "emissive_active": false
+  }
 }

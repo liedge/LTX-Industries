@@ -1,0 +1,32 @@
+{
+  "type": "ltxi:assembling",
+  "craft_time": 600,
+  "item_inputs": [
+    {
+      "count": 2,
+      "ingredient": "ltxi:t1_circuit"
+    },
+    {
+      "count": 6,
+      "ingredient": "#c:plates/silicon"
+    },
+    {
+      "count": 3,
+      "ingredient": "#c:plates/silver"
+    },
+    {
+      "count": 3,
+      "ingredient": "ltxi:small_voltaic_cell"
+    },
+    {
+      "count": 4,
+      "ingredient": "#c:plates/titanium"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:t2_circuit"
+    }
+  ]
+}

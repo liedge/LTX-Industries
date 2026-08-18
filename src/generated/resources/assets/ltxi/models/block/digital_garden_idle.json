@@ -1,0 +1,7 @@
+{
+  "parent": "ltxi:block/digital_garden",
+  "visibility": {
+    "emissive_active": false,
+    "water": false
+  }
+}

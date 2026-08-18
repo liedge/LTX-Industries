@@ -1,0 +1,21 @@
+{
+  "type": "ltxi:chemical_reacting",
+  "craft_time": 1200,
+  "fluid_inputs": [
+    {
+      "amount": 1000,
+      "ingredient": "ltxi:ammonia"
+    }
+  ],
+  "item_inputs": [
+    {
+      "ingredient": "ltxi:rhenium_7_oxide"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:ammonium_perrhenate"
+    }
+  ]
+}

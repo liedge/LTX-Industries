@@ -1,9 +1,5 @@
 {
   "values": [
-    "ltxi:lightweight_energy_adapter",
-    "ltxi:specialist_energy_adapter",
-    "ltxi:explosives_energy_adapter",
-    "ltxi:heavy_energy_adapter",
     "ltxi:infinite_ammo"
   ]
 }

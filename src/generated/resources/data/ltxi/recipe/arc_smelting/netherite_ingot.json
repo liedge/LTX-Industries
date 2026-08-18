@@ -1,0 +1,18 @@
+{
+  "type": "ltxi:arc_smelting",
+  "item_inputs": [
+    {
+      "count": 4,
+      "ingredient": "minecraft:netherite_scrap"
+    },
+    {
+      "ingredient": "#c:ingots/gold"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "minecraft:netherite_ingot"
+    }
+  ]
+}

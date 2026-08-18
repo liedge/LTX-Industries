@@ -1,0 +1,48 @@
+{
+  "display": {
+    "category": "machine",
+    "description": {
+      "translate": "upgrade.ltxi.parallel_tiers.desc"
+    },
+    "icon": "ltxi:parallel_tiers",
+    "title": {
+      "color": "light_purple",
+      "translate": "upgrade.ltxi.parallel_tiers"
+    },
+    "tooltips": [
+      {
+        "type": "custom_args",
+        "args": [
+          {
+            "type": "value",
+            "format": "flat",
+            "sentiment": "positive",
+            "value": {
+              "type": "linear",
+              "base": 4.0,
+              "increment": 4.0
+            }
+          }
+        ],
+        "key": "upgrade_effect.ltxi.parallel"
+      }
+    ]
+  },
+  "effects": {
+    "ltxi:parallel_operations": [
+      {
+        "op": "add",
+        "value": {
+          "type": "linear",
+          "base": 4.0,
+          "increment": 4.0
+        }
+      }
+    ]
+  },
+  "exclusive_set": "#ltxi:parallel_ops",
+  "max_rank": 3,
+  "users": {
+    "block_entities": "#ltxi:upgradable/standard_parallel"
+  }
+}

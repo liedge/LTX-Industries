@@ -2,13 +2,19 @@
   "type": "ltxi:grinding",
   "item_inputs": [
     {
-      "ingredient": "#c:ores/gold"
+      "ingredient": {
+        "neoforge:ingredient_type": "neoforge:compound",
+        "children": [
+          "#c:ores/gold",
+          "#c:raw_materials/gold"
+        ]
+      }
     }
   ],
   "item_results": [
     {
-      "count": 3,
-      "id": "ltxi:gold_ore_pebbles"
+      "count": 2,
+      "id": "ltxi:crushed_gold_ore"
     }
   ]
 }

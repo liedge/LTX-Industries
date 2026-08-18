@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "ltxi:peridotite",
+  "result": {
+    "id": "ltxi:peridotite_wall"
+  }
+}

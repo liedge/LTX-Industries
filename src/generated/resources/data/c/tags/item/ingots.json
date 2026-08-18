@@ -1,8 +1,11 @@
 {
   "values": [
     "ltxi:titanium_ingot",
+    "ltxi:silver_ingot",
     "ltxi:niobium_ingot",
+    "ltxi:rhenium_ingot",
     "ltxi:silicon_ingot",
-    "ltxi:slatesteel_ingot"
+    "ltxi:slatesteel_ingot",
+    "ltxi:tungsten_slatesteel_ingot"
   ]
 }

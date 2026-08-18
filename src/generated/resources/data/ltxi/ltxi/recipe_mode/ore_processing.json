@@ -1,0 +1,20 @@
+{
+  "icon": {
+    "type": "composite",
+    "background": {
+      "type": "item",
+      "id": "ltxi:raw_silver"
+    },
+    "foreground": {
+      "type": "sprite",
+      "height": 9,
+      "id": "ltxi:green_arrow_overlay",
+      "width": 9,
+      "x": 6,
+      "y": 6
+    }
+  },
+  "title": {
+    "translate": "recipe_mode.ltxi.ore_processing"
+  }
+}

@@ -5,7 +5,6 @@ import liedge.ltxindustries.LTXIIdentifiers;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.block.*;
 import liedge.ltxindustries.block.mesh.LTXIBlockMeshes;
-import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.*;
@@ -35,22 +34,35 @@ public final class LTXIBlocks
     private static final BlockBehaviour.StatePredicate NEVER = (_,_,_) -> false;
 
     // Ores
-    public static final DeferredBlock<DropExperienceBlock> TITANIUM_ORE = BLOCKS.registerBlock("titanium_ore", properties -> new DropExperienceBlock(ConstantInt.of(0), properties), properties -> properties.mapColor(MapColor.STONE).strength(3f).requiresCorrectToolForDrops());
-    public static final DeferredBlock<DropExperienceBlock> DEEPSLATE_TITANIUM_ORE = BLOCKS.registerBlock("deepslate_titanium_ore", properties -> new DropExperienceBlock(ConstantInt.of(0), properties), properties -> properties.mapColor(MapColor.DEEPSLATE).strength(4.5f, 3f).sound(SoundType.DEEPSLATE).requiresCorrectToolForDrops());
+    public static final DeferredBlock<Block> TITANIUM_ORE = BLOCKS.registerSimpleBlock("titanium_ore", properties -> properties.mapColor(MapColor.STONE).strength(3f).requiresCorrectToolForDrops());
+    public static final DeferredBlock<Block> DEEPSLATE_TITANIUM_ORE = BLOCKS.registerSimpleBlock("deepslate_titanium_ore", properties -> properties.mapColor(MapColor.DEEPSLATE).strength(4.5f, 3f).sound(SoundType.DEEPSLATE).requiresCorrectToolForDrops());
+    public static final DeferredBlock<Block> SILVER_ORE = BLOCKS.registerSimpleBlock("silver_ore", properties -> properties.mapColor(MapColor.STONE).strength(3f).requiresCorrectToolForDrops());
+    public static final DeferredBlock<Block> DEEPSLATE_SILVER_ORE = BLOCKS.registerSimpleBlock("deepslate_silver_ore", properties -> properties.mapColor(MapColor.DEEPSLATE).strength(4.5f, 3f).sound(SoundType.DEEPSLATE).requiresCorrectToolForDrops());
     public static final DeferredBlock<DropExperienceBlock> NIOBIUM_ORE = BLOCKS.registerBlock("niobium_ore", properties -> new DropExperienceBlock(UniformInt.of(1, 4), properties), properties -> properties.mapColor(MapColor.SAND).strength(3.2f, 9f).requiresCorrectToolForDrops());
 
     // Raw ore blocks
     public static final DeferredBlock<Block> RAW_TITANIUM_BLOCK = BLOCKS.registerSimpleBlock("raw_titanium_block", properties -> properties.mapColor(MapColor.COLOR_LIGHT_GRAY).strength(5f, 6f).requiresCorrectToolForDrops());
+    public static final DeferredBlock<Block> RAW_SILVER_BLOCK = BLOCKS.registerSimpleBlock("raw_silver_block", properties -> properties.mapColor(MapColor.TERRACOTTA_LIGHT_BLUE).strength(5f, 6f).requiresCorrectToolForDrops());
     public static final DeferredBlock<Block> RAW_NIOBIUM_BLOCK = BLOCKS.registerSimpleBlock("raw_niobium_block", properties -> properties.mapColor(MapColor.COLOR_PURPLE).strength(5f, 9f).requiresCorrectToolForDrops());
     public static final DeferredBlock<SurfaceStickingBlock> RAW_TITANIUM_CLUSTER = BLOCKS.registerBlock("raw_titanium_cluster", properties -> new SurfaceStickingBlock(properties, LTXIBlockShapes.RAW_ORE_CLUSTER, false), properties -> properties.mapColor(MapColor.COLOR_LIGHT_GRAY).strength(5f, 6f).requiresCorrectToolForDrops().noOcclusion());
+    public static final DeferredBlock<SurfaceStickingBlock> RAW_SILVER_CLUSTER = BLOCKS.registerBlock("raw_silver_cluster", properties -> new SurfaceStickingBlock(properties, LTXIBlockShapes.RAW_ORE_CLUSTER, false), properties -> properties.mapColor(MapColor.TERRACOTTA_LIGHT_BLUE).strength(5f, 6f).requiresCorrectToolForDrops().noOcclusion());
     public static final DeferredBlock<SurfaceStickingBlock> RAW_NIOBIUM_CLUSTER = BLOCKS.registerBlock("raw_niobium_cluster", properties -> new SurfaceStickingBlock(properties, LTXIBlockShapes.RAW_ORE_CLUSTER, false), properties -> properties.mapColor(MapColor.COLOR_PURPLE).strength(5f, 9f).requiresCorrectToolForDrops().noOcclusion());
 
     // Ingot storage blocks
     public static final DeferredBlock<Block> TITANIUM_BLOCK = BLOCKS.registerSimpleBlock("titanium_block", properties -> properties.mapColor(MapColor.COLOR_LIGHT_GRAY).strength(5f, 6f).sound(SoundType.METAL).requiresCorrectToolForDrops());
+    public static final DeferredBlock<Block> SILVER_BLOCK = BLOCKS.registerSimpleBlock("silver_block", properties -> properties.mapColor(MapColor.TERRACOTTA_LIGHT_BLUE).strength(5f, 6f).sound(SoundType.METAL).requiresCorrectToolForDrops());
     public static final DeferredBlock<Block> NIOBIUM_BLOCK = BLOCKS.registerSimpleBlock("niobium_block", properties -> properties.mapColor(MapColor.COLOR_LIGHT_GRAY).strength(6f, 9f).sound(SoundType.METAL).requiresCorrectToolForDrops());
     public static final DeferredBlock<Block> SLATESTEEL_BLOCK = BLOCKS.registerSimpleBlock("slatesteel_block", properties -> properties.mapColor(MapColor.COLOR_LIGHT_GRAY).strength(5f, 12f).sound(SoundType.METAL).requiresCorrectToolForDrops());
 
     // Building blocks
+    public static final DeferredBlock<Block> PERIDOTITE = BLOCKS.registerSimpleBlock("peridotite", LTXIBlocks::peridotiteProperties);
+    public static final DeferredBlock<StairBlock> PERIDOTITE_STAIRS = BLOCKS.registerBlock("peridotite_stairs", properties -> new StairBlock(PERIDOTITE.get().defaultBlockState(), properties), LTXIBlocks::peridotiteProperties);
+    public static final DeferredBlock<SlabBlock> PERIDOTITE_SLAB = BLOCKS.registerBlock("peridotite_slab", SlabBlock::new, LTXIBlocks::peridotiteProperties);
+    public static final DeferredBlock<WallBlock> PERIDOTITE_WALL = BLOCKS.registerBlock("peridotite_wall", WallBlock::new, LTXIBlocks::peridotiteProperties);
+    public static final DeferredBlock<Block> POLISHED_PERIDOTITE = BLOCKS.registerSimpleBlock("polished_peridotite", LTXIBlocks::peridotiteProperties);
+    public static final DeferredBlock<StairBlock> POLISHED_PERIDOTITE_STAIRS = BLOCKS.registerBlock("polished_peridotite_stairs", properties -> new StairBlock(POLISHED_PERIDOTITE.get().defaultBlockState(), properties), LTXIBlocks::peridotiteProperties);
+    public static final DeferredBlock<SlabBlock> POLISHED_PERIDOTITE_SLAB = BLOCKS.registerBlock("polished_peridotite_slab", SlabBlock::new, LTXIBlocks::peridotiteProperties);
+    public static final DeferredBlock<WallBlock> POLISHED_PERIDOTITE_WALL = BLOCKS.registerBlock("polished_peridotite_wall", WallBlock::new, LTXIBlocks::peridotiteProperties);
     public static final Map<NeonLightColor, DeferredBlock<Block>> NEON_LIGHTS = LimaCollectionsUtil.fillAndCreateImmutableEnumMap(NeonLightColor.class, color -> BLOCKS.registerSimpleBlock(color + "_neon_light", properties -> neonLightProperties(properties).mapColor(color.getMapColor())));
     public static final DeferredBlock<Block> TITANIUM_PANEL = BLOCKS.registerSimpleBlock("titanium_panel", properties -> properties.mapColor(DyeColor.WHITE).strength(3.5f, 36f).sound(SoundType.COPPER).requiresCorrectToolForDrops());
     public static final DeferredBlock<Block> SMOOTH_TITANIUM_PANEL = BLOCKS.registerSimpleBlock("smooth_titanium_panel", properties -> properties.mapColor(DyeColor.WHITE).strength(3.5f, 36f).sound(SoundType.COPPER).requiresCorrectToolForDrops());
@@ -82,16 +94,19 @@ public final class LTXIBlocks
     public static final DeferredBlock<StateMachineBlock> DIGITAL_SMOKER = BLOCKS.registerBlock(LTXIIdentifiers.ID_DIGITAL_SMOKER, properties -> StateMachineBlock.staticShape(properties, LTXIBlockShapes.COOKING_MACHINE, false), LTXIBlocks::machineProperties);
     public static final DeferredBlock<StateMachineBlock> DIGITAL_BLAST_FURNACE = BLOCKS.registerBlock(LTXIIdentifiers.ID_DIGITAL_BLAST_FURNACE, properties -> StateMachineBlock.staticShape(properties, LTXIBlockShapes.COOKING_MACHINE, false), LTXIBlocks::machineProperties);
     public static final DeferredBlock<StateMachineBlock> GRINDER = BLOCKS.registerBlock(LTXIIdentifiers.ID_GRINDER, properties -> StateMachineBlock.rotatingShape(properties, LTXIBlockShapes.GRINDER, true), LTXIBlocks::machineProperties);
-    public static final DeferredBlock<StateMachineBlock> MATERIAL_FUSING_CHAMBER = BLOCKS.registerBlock(LTXIIdentifiers.ID_MATERIAL_FUSING_CHAMBER, properties -> StateMachineBlock.staticShape(properties, LTXIBlockShapes.COOKING_MACHINE, false), LTXIBlocks::machineProperties);
+    public static final DeferredBlock<StateMachineBlock> MATERIAL_PRESS = BLOCKS.registerBlock(LTXIIdentifiers.ID_MATERIAL_PRESS, properties -> StateMachineBlock.rotatingShape(properties, LTXIBlockShapes.MATERIAL_PRESS, true), LTXIBlocks::machineProperties);
+    public static final DeferredBlock<StateMachineBlock> ARC_FURNACE = BLOCKS.registerBlock(LTXIIdentifiers.ID_ARC_FURNACE, properties -> StateMachineBlock.rotatingShape(properties, LTXIBlockShapes.ARC_FURNACE, false), LTXIBlocks::machineProperties);
+    public static final DeferredBlock<StateMachineBlock> HYDROSIEVE = BLOCKS.registerBlock(LTXIIdentifiers.ID_HYDROSIEVE, properties -> StateMachineBlock.staticShape(properties, LTXIBlockShapes.HYDROSIEVE, true), LTXIBlocks::machineProperties);
     public static final DeferredBlock<StateMachineBlock> ELECTROCENTRIFUGE = BLOCKS.registerBlock(LTXIIdentifiers.ID_ELECTROCENTRIFUGE, properties -> StateMachineBlock.staticShape(properties, LTXIBlockShapes.ELECTROCENTRIFUGE, true), LTXIBlocks::machineProperties);
     public static final DeferredBlock<StateMachineBlock> MIXER = BLOCKS.registerBlock(LTXIIdentifiers.ID_MIXER, properties -> StateMachineBlock.staticShape(properties, LTXIBlockShapes.MIXER, true), LTXIBlocks::machineProperties);
     public static final DeferredBlock<StateMachineBlock> VOLTAIC_INJECTOR = BLOCKS.registerBlock(LTXIIdentifiers.ID_VOLTAIC_INJECTOR, properties -> StateMachineBlock.rotatingShape(properties, LTXIBlockShapes.VOLTAIC_INJECTOR, true), LTXIBlocks::machineProperties);
     public static final DeferredBlock<StateMachineBlock> CHEM_LAB = BLOCKS.registerBlock(LTXIIdentifiers.ID_CHEM_LAB, properties -> StateMachineBlock.rotatingShape(properties, LTXIBlockShapes.CHEM_LAB, false), LTXIBlocks::machineProperties);
-    public static final DeferredBlock<StateMachineBlock> ASSEMBLER = BLOCKS.registerBlock(LTXIIdentifiers.ID_ASSEMBLER, properties -> StateMachineBlock.staticShape(properties, LTXIBlockShapes.ASSEMBLER, false), LTXIBlocks::machineProperties);
+    public static final DeferredBlock<StateMachineBlock> ASSEMBLER = BLOCKS.registerBlock(LTXIIdentifiers.ID_ASSEMBLER, properties -> StateMachineBlock.rotatingShape(properties, LTXIBlockShapes.ASSEMBLER, false), LTXIBlocks::machineProperties);
     public static final DeferredBlock<StateMachineBlock> GEO_SYNTHESIZER = BLOCKS.registerBlock(LTXIIdentifiers.ID_GEO_SYNTHESIZER, properties -> StateMachineBlock.rotatingShape(properties, LTXIBlockShapes.GEO_SYNTHESIZER, false), LTXIBlocks::machineProperties);
-    public static final DeferredBlock<PrimaryMeshBlock> FABRICATOR = BLOCKS.registerBlock(LTXIIdentifiers.ID_FABRICATOR, properties -> PrimaryMeshBlock.create(properties, LTXIBlockMeshes.FABRICATOR, LTXIBlockShapes.FABRICATOR, true), LTXIBlocks::machineProperties);
-    public static final DeferredBlock<SimpleWrenchBlock> AUTO_FABRICATOR = BLOCKS.registerBlock(LTXIIdentifiers.ID_AUTO_FABRICATOR, properties -> SimpleWrenchBlock.staticShape(properties, LTXIBlockShapes.ASSEMBLER), LTXIBlocks::machineProperties);
-    public static final DeferredBlock<PrimaryMeshBlock> DIGITAL_GARDEN = BLOCKS.registerBlock(LTXIIdentifiers.ID_DIGITAL_GARDEN, properties -> PrimaryMeshBlock.create(properties, LTXIBlockMeshes.DIGITAL_GARDEN, LTXIBlockShapes.DIGITAL_GARDEN, false), LTXIBlocks::machineProperties);
+    public static final DeferredBlock<PrimaryMeshBlock> FABRICATOR = BLOCKS.registerBlock(LTXIIdentifiers.ID_FABRICATOR, properties -> new PrimaryMeshBlock(properties, LTXIBlockMeshes.FABRICATOR, LTXIBlockShapes.FABRICATOR, true), LTXIBlocks::machineProperties);
+    public static final DeferredBlock<SimpleWrenchBlock> AUTO_FABRICATOR = BLOCKS.registerBlock(LTXIIdentifiers.ID_AUTO_FABRICATOR, properties -> SimpleWrenchBlock.staticShape(properties, LTXIBlockShapes.AUTO_FABRICATOR), LTXIBlocks::machineProperties);
+    public static final DeferredBlock<StateMachineBlock> ATMOSPHERIC_SCRUBBER = BLOCKS.registerBlock(LTXIIdentifiers.ID_ATMOSPHERIC_SCRUBBER, properties -> StateMachineBlock.rotatingShape(properties, LTXIBlockShapes.ATMOSPHERIC_SCRUBBER, true), LTXIBlocks::machineProperties);
+    public static final DeferredBlock<StatePrimaryMeshBlock> DIGITAL_GARDEN = BLOCKS.registerBlock(LTXIIdentifiers.ID_DIGITAL_GARDEN, properties -> new StatePrimaryMeshBlock(properties, LTXIBlockMeshes.DIGITAL_GARDEN, LTXIBlockShapes.DIGITAL_GARDEN, false), LTXIBlocks::machineProperties);
 
     // Power Generators
     public static final DeferredBlock<StateMachineBlock> PORTABLE_GENERATOR = BLOCKS.registerBlock(LTXIIdentifiers.ID_PORTABLE_GENERATOR, properties -> StateMachineBlock.rotatingShape(properties, LTXIBlockShapes.PORTABLE_GENERATOR, false), LTXIBlocks::machineProperties);
@@ -101,27 +116,25 @@ public final class LTXIBlocks
     public static final DeferredBlock<SimpleWrenchBlock> REPAIR_STATION = BLOCKS.registerBlock(LTXIIdentifiers.ID_REPAIR_STATION, properties -> SimpleWrenchBlock.rotatingShape(properties, LTXIBlockShapes.REPAIR_STATION), LTXIBlocks::machineProperties);
 
     // Turrets
-    public static final DeferredBlock<PrimaryMeshBlock> ARC_TURRET = BLOCKS.registerBlock(LTXIIdentifiers.ID_ARC_TURRET, properties -> PrimaryMeshBlock.create(properties, LTXIBlockMeshes.TURRET, LTXIBlockShapes.GENERAL_TURRET, true), LTXIBlocks::machineProperties);
-    public static final DeferredBlock<PrimaryMeshBlock> ROCKET_TURRET = BLOCKS.registerBlock(LTXIIdentifiers.ID_ROCKET_TURRET, properties -> PrimaryMeshBlock.create(properties, LTXIBlockMeshes.TURRET, LTXIBlockShapes.GENERAL_TURRET, true), LTXIBlocks::machineProperties);
-    public static final DeferredBlock<PrimaryMeshBlock> RAILGUN_TURRET = BLOCKS.registerBlock(LTXIIdentifiers.ID_RAILGUN_TURRET, properties -> PrimaryMeshBlock.create(properties, LTXIBlockMeshes.TURRET, LTXIBlockShapes.GENERAL_TURRET, true), LTXIBlocks::machineProperties);
-
-    // Fluid blocks
-    public static final DeferredBlock<LiquidBlock> VIRIDIC_ACID_BLOCK = BLOCKS.registerBlock("viridic_acid", properties -> new LiquidBlock(LTXIFluids.VIRIDIC_ACID.get(), properties), properties -> properties
-            .mapColor(MapColor.PLANT)
-            .replaceable()
-            .noCollision()
-            .strength(100f)
-            .pushReaction(PushReaction.DESTROY)
-            .noLootTable()
-            .liquid()
-            .lightLevel(_ -> LTXIFluids.VIRIDIC_ACID_LIGHT)
-            .sound(SoundType.EMPTY));
+    public static final DeferredBlock<PrimaryMeshBlock> ARC_TURRET = BLOCKS.registerBlock(LTXIIdentifiers.ID_ARC_TURRET, properties -> new PrimaryMeshBlock(properties, LTXIBlockMeshes.TURRET, LTXIBlockShapes.GENERAL_TURRET, true), LTXIBlocks::machineProperties);
+    public static final DeferredBlock<PrimaryMeshBlock> ROCKET_TURRET = BLOCKS.registerBlock(LTXIIdentifiers.ID_ROCKET_TURRET, properties -> new PrimaryMeshBlock(properties, LTXIBlockMeshes.TURRET, LTXIBlockShapes.GENERAL_TURRET, true), LTXIBlocks::machineProperties);
+    public static final DeferredBlock<PrimaryMeshBlock> RAILGUN_TURRET = BLOCKS.registerBlock(LTXIIdentifiers.ID_RAILGUN_TURRET, properties -> new PrimaryMeshBlock(properties, LTXIBlockMeshes.TURRET, LTXIBlockShapes.GENERAL_TURRET, true), LTXIBlocks::machineProperties);
 
     // Technical blocks
     public static final DeferredBlock<SurfaceStickingBlock> GLOWSTICK = BLOCKS.registerBlock("glowstick", properties -> new SurfaceStickingBlock(properties, LTXIBlockShapes.GLOWSTICK, true), properties -> properties.noCollision().instabreak().pushReaction(PushReaction.DESTROY).lightLevel(_ -> 15).noLootTable());
     public static final DeferredBlock<MeshBlock> MESH_BLOCK = BLOCKS.registerBlock("mesh_block", MeshBlock::new, properties -> machineProperties(properties).dynamicShape().noOcclusion().noLootTable());
 
     // Helpers & initializers
+    private static BlockBehaviour.Properties peridotiteProperties(BlockBehaviour.Properties base)
+    {
+        return base
+                .mapColor(DyeColor.GREEN)
+                .sound(SoundType.BASALT)
+                .strength(3f, 6f)
+                .requiresCorrectToolForDrops()
+                .instrument(NoteBlockInstrument.BASEDRUM);
+    }
+
     private static BlockBehaviour.Properties neonLightProperties(BlockBehaviour.Properties base)
     {
         return base

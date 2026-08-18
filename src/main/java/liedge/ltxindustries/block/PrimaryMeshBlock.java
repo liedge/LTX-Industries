@@ -1,7 +1,6 @@
 package liedge.ltxindustries.block;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
-import it.unimi.dsi.fastutil.ints.Int2ObjectMaps;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import liedge.limacore.util.LimaBlockUtil;
 import liedge.ltxindustries.block.mesh.BlockMesh;
@@ -42,38 +41,40 @@ public class PrimaryMeshBlock extends BaseMeshBlock
         return x << 12 | y << 7 | z << 2 | facing.get2DDataValue();
     }
 
-    public static PrimaryMeshBlock create(Properties properties, Identifier blockMeshId, VoxelShape identityShape, boolean tickClient)
+    private static BiFunction<Direction, MeshPosition, VoxelShape> createShapeFunction(BlockMesh blockMesh, VoxelShape identityShape)
     {
-        BlockMesh mesh = Objects.requireNonNull(LTXIBlockMeshes.getBlockMesh(blockMeshId));
         Int2ObjectMap<VoxelShape> map = new Int2ObjectOpenHashMap<>();
 
         for (Direction side : Direction.Plane.HORIZONTAL)
         {
             VoxelShape rotatedIdentity = LimaBlockUtil.rotateYClockwise(identityShape, LimaBlockUtil.rotationYFromDirection(side));
 
-            for (MeshPosition position : mesh.getMeshPositions())
+            for (MeshPosition position : blockMesh.getMeshPositions())
             {
                 int key = shapeKey(position.pos(), side);
-                Vec3i offset = mesh.computeMeshOffset(position, mesh.getPrimary(), side.getOpposite());
+                Vec3i offset = blockMesh.computeMeshOffset(position, blockMesh.getPrimary(), side.getOpposite());
                 VoxelShape shape = LimaBlockUtil.moveShape(rotatedIdentity, offset.getX(), offset.getY(), offset.getZ());
                 map.put(key, shape);
             }
         }
 
-        final Int2ObjectMap<VoxelShape> shapeMap = Int2ObjectMaps.unmodifiable(map);
-        return new PrimaryMeshBlock(properties, mesh, (side, meshPos) -> shapeMap.getOrDefault(shapeKey(meshPos.pos(), side), Shapes.empty()), tickClient);
+        return (side, meshPos) -> map.getOrDefault(shapeKey(meshPos.pos(), side), Shapes.empty());
     }
 
     private final BlockMesh blockMesh;
     private final BiFunction<Direction, MeshPosition, VoxelShape> shapeFunction;
     private final boolean tickClient;
 
-    private PrimaryMeshBlock(Properties properties, BlockMesh blockMesh, BiFunction<Direction, MeshPosition, VoxelShape> shapeFunction, boolean tickClient)
+    public PrimaryMeshBlock(Properties properties, Identifier meshId, VoxelShape identityShape, boolean tickClient)
     {
         super(properties);
-        this.blockMesh = blockMesh;
-        this.shapeFunction = shapeFunction;
+        this.blockMesh = Objects.requireNonNull(LTXIBlockMeshes.getBlockMesh(meshId));
+        this.shapeFunction = createShapeFunction(blockMesh, identityShape);
         this.tickClient = tickClient;
+
+        registerDefaultState(getStateDefinition().any()
+                .setValue(HORIZONTAL_FACING, Direction.NORTH)
+                .setValue(WATERLOGGED, false));
     }
 
     public BlockMesh getBlockMesh()

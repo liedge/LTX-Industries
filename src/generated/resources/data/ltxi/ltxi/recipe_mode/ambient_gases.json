@@ -1,0 +1,20 @@
+{
+  "icon": {
+    "type": "composite",
+    "background": {
+      "type": "item",
+      "id": "ltxi:argon_bucket"
+    },
+    "foreground": {
+      "type": "sprite",
+      "height": 7,
+      "id": "ltxi:blue_ring",
+      "width": 7,
+      "x": 8,
+      "y": 8
+    }
+  },
+  "title": {
+    "translate": "recipe_mode.ltxi.ambient_gases"
+  }
+}

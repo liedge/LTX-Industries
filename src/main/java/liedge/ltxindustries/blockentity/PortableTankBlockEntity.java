@@ -16,7 +16,7 @@ import liedge.ltxindustries.blockentity.template.MachineBaseBlockEntity;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.registry.game.LTXIBlockEntities;
-import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
+import liedge.ltxindustries.util.LTXIUpgradeUtil;
 import liedge.ltxindustries.util.config.LTXIMachinesConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -122,19 +122,7 @@ public class PortableTankBlockEntity extends MachineBaseBlockEntity implements F
     {
         super.onUpgradeRefresh(context, upgrades);
 
-        double upgradeCapacity = upgrades.runValueOps(LTXIUpgradeEffectComponents.FLUID_CAPACITY, context, LTXIMachinesConfig.PORTABLE_TANK_CAPACITY.getAsInt());
-        int newCapacity = Math.max(LimaCoreMath.roundInt(upgradeCapacity), 1);
-        int newTransferRate = Math.max(newCapacity / 10, 1);
-
-        tank.setCapacity(newCapacity);
-        tank.setTransferRate(newTransferRate);
-
-        // Dump fluid if upgrade removed
-        if (tank.getAmountAsInt(0) > newCapacity)
-        {
-            tank.set(0, tank.getResource(0), newCapacity);
-        }
-
+        LTXIUpgradeUtil.applyFluidMachineUpgrades(this, upgrades, context, i -> i / 10);
         fluidLevelTracker.checkForChanges();
     }
 

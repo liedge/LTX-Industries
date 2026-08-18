@@ -1,0 +1,26 @@
+{
+  "type": "ltxi:chemical_reacting",
+  "craft_time": 900,
+  "fluid_inputs": [
+    {
+      "amount": 8000,
+      "ingredient": "ltxi:sulfuric_acid"
+    },
+    {
+      "amount": 4000,
+      "ingredient": "ltxi:chlorine"
+    }
+  ],
+  "item_inputs": [
+    {
+      "count": 8,
+      "ingredient": "#c:dusts/sodium"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:corrosive_weapon_chemical"
+    }
+  ]
+}

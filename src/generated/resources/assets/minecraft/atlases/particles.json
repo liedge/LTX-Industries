@@ -1,0 +1,100 @@
+{
+  "sources": [
+    {
+      "type": "limacore:grayscale",
+      "brightness": 1.375,
+      "id": "ltxi:sonic_boom_0",
+      "source": "minecraft:particle/sonic_boom_0"
+    },
+    {
+      "type": "limacore:grayscale",
+      "brightness": 1.375,
+      "id": "ltxi:sonic_boom_1",
+      "source": "minecraft:particle/sonic_boom_1"
+    },
+    {
+      "type": "limacore:grayscale",
+      "brightness": 1.375,
+      "id": "ltxi:sonic_boom_2",
+      "source": "minecraft:particle/sonic_boom_2"
+    },
+    {
+      "type": "limacore:grayscale",
+      "brightness": 1.375,
+      "id": "ltxi:sonic_boom_3",
+      "source": "minecraft:particle/sonic_boom_3"
+    },
+    {
+      "type": "limacore:grayscale",
+      "brightness": 1.375,
+      "id": "ltxi:sonic_boom_4",
+      "source": "minecraft:particle/sonic_boom_4"
+    },
+    {
+      "type": "limacore:grayscale",
+      "brightness": 1.375,
+      "id": "ltxi:sonic_boom_5",
+      "source": "minecraft:particle/sonic_boom_5"
+    },
+    {
+      "type": "limacore:grayscale",
+      "brightness": 1.375,
+      "id": "ltxi:sonic_boom_6",
+      "source": "minecraft:particle/sonic_boom_6"
+    },
+    {
+      "type": "limacore:grayscale",
+      "brightness": 1.375,
+      "id": "ltxi:sonic_boom_7",
+      "source": "minecraft:particle/sonic_boom_7"
+    },
+    {
+      "type": "limacore:grayscale",
+      "brightness": 1.375,
+      "id": "ltxi:sonic_boom_8",
+      "source": "minecraft:particle/sonic_boom_8"
+    },
+    {
+      "type": "limacore:grayscale",
+      "brightness": 1.375,
+      "id": "ltxi:sonic_boom_9",
+      "source": "minecraft:particle/sonic_boom_9"
+    },
+    {
+      "type": "limacore:grayscale",
+      "brightness": 1.375,
+      "id": "ltxi:sonic_boom_10",
+      "source": "minecraft:particle/sonic_boom_10"
+    },
+    {
+      "type": "limacore:grayscale",
+      "brightness": 1.375,
+      "id": "ltxi:sonic_boom_11",
+      "source": "minecraft:particle/sonic_boom_11"
+    },
+    {
+      "type": "limacore:grayscale",
+      "brightness": 1.375,
+      "id": "ltxi:sonic_boom_12",
+      "source": "minecraft:particle/sonic_boom_12"
+    },
+    {
+      "type": "limacore:grayscale",
+      "brightness": 1.375,
+      "id": "ltxi:sonic_boom_13",
+      "source": "minecraft:particle/sonic_boom_13"
+    },
+    {
+      "type": "limacore:grayscale",
+      "brightness": 1.375,
+      "id": "ltxi:sonic_boom_14",
+      "source": "minecraft:particle/sonic_boom_14"
+    },
+    {
+      "type": "limacore:grayscale",
+      "brightness": 1.375,
+      "id": "ltxi:sonic_boom_15",
+      "source": "minecraft:particle/sonic_boom_15"
+    }
+  ]
+}

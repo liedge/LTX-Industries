@@ -1,0 +1,7 @@
+{
+  "parent": "ltxi:block/material_press",
+  "loader": "limacore:extended_cuboid",
+  "visibility": {
+    "emissive_active": false
+  }
+}

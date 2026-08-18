@@ -2,15 +2,15 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "b": "minecraft:copper_block",
     "c": "ltxi:t1_circuit",
-    "e": "ltxi:electric_chemical",
-    "t": "#c:ingots/titanium"
+    "e": "ltxi:small_voltaic_cell",
+    "h": "ltxi:machine_housing",
+    "t": "#c:ingots/copper"
   },
   "pattern": [
-    "tct",
-    "ebe",
-    "tct"
+    "ttt",
+    "ehe",
+    "ece"
   ],
   "result": {
     "id": "ltxi:energy_cell_array"

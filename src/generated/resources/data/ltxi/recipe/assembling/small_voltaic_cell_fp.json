@@ -1,0 +1,23 @@
+{
+  "type": "ltxi:assembling",
+  "item_inputs": [
+    {
+      "count": 2,
+      "ingredient": "ltxi:fluoropolymer"
+    },
+    {
+      "count": 2,
+      "ingredient": "#c:plates/copper"
+    },
+    {
+      "count": 4,
+      "ingredient": "#c:dusts/sodium"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 3,
+      "id": "ltxi:small_voltaic_cell"
+    }
+  ]
+}

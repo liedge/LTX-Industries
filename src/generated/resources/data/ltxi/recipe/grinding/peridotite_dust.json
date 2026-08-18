@@ -1,0 +1,17 @@
+{
+  "type": "ltxi:grinding",
+  "item_inputs": [
+    {
+      "ingredient": [
+        "ltxi:peridotite",
+        "ltxi:polished_peridotite"
+      ]
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:peridotite_dust"
+    }
+  ]
+}

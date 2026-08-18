@@ -1,0 +1,16 @@
+{
+  "type": "ltxi:grinding",
+  "craft_time": 120,
+  "item_inputs": [
+    {
+      "ingredient": "ltxi:gloom_shroom"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 2,
+      "id": "ltxi:gloom_blue_pigment"
+    }
+  ],
+  "mode": "ltxi:dye_extraction"
+}

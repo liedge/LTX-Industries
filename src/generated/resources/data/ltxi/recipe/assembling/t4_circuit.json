@@ -1,0 +1,34 @@
+{
+  "type": "ltxi:assembling",
+  "craft_time": 1800,
+  "item_inputs": [
+    {
+      "count": 2,
+      "ingredient": "ltxi:elite_circuit_board"
+    },
+    {
+      "count": 2,
+      "ingredient": "ltxi:t3_circuit"
+    },
+    {
+      "ingredient": "ltxi:nano_logic_core"
+    },
+    {
+      "ingredient": "ltxi:large_voltaic_cell"
+    },
+    {
+      "count": 8,
+      "ingredient": "ltxi:chorus_chemical"
+    },
+    {
+      "count": 4,
+      "ingredient": "#c:plates/titanium"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:t4_circuit"
+    }
+  ]
+}

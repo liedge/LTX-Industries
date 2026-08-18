@@ -38,8 +38,7 @@ public record ServerboundTriggerPacket(int slot, boolean isRelease) implements S
                 if (stack.getItem() instanceof WeaponItem weaponItem)
                 {
                     input.pressTrigger(sender, stack, weaponItem);
-                    // Always sync trigger state on server trigger press
-                    sender.connection.send(new ClientboundTriggerPacket(slot, input.isTriggerHeld()));
+                    sender.connection.send(new ClientboundTriggerStatePacket(slot, input.isTriggerHeld()));
                 }
             }
         }

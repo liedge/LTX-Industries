@@ -10,7 +10,7 @@
       "foreground": {
         "type": "sprite",
         "height": 7,
-        "id": "ltxi:default_overlay",
+        "id": "ltxi:blue_ring",
         "width": 7,
         "x": 8,
         "y": 8

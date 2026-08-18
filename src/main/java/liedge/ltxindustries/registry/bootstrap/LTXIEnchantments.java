@@ -17,7 +17,6 @@ public final class LTXIEnchantments
     private LTXIEnchantments() {}
 
     public static final ResourceKey<Enchantment> RAZOR = LTXIndustries.RESOURCES.resourceKey(Registries.ENCHANTMENT, "razor");
-    public static final ResourceKey<Enchantment> AMMO_SCAVENGER = LTXIndustries.RESOURCES.resourceKey(Registries.ENCHANTMENT, "ammo_scavenger");
 
     public static void bootstrap(BootstrapContext<Enchantment> context)
     {
@@ -32,16 +31,6 @@ public final class LTXIEnchantments
                         3,
                         EquipmentSlotGroup.MAINHAND));
 
-        Enchantment.Builder ammoScavenger = Enchantment.enchantment(Enchantment.definition(
-                items.getOrThrow(ItemTags.SHARP_WEAPON_ENCHANTABLE),
-                1,
-                3,
-                Enchantment.dynamicCost(10, 9),
-                Enchantment.dynamicCost(60, 9),
-                2,
-                EquipmentSlotGroup.MAINHAND));
-
         registerEnchantment(context, RAZOR, razor);
-        registerEnchantment(context, AMMO_SCAVENGER, ammoScavenger);
     }
 }

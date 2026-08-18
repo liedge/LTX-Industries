@@ -14,7 +14,9 @@ import liedge.ltxindustries.util.config.LTXIMachinesConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -22,6 +24,7 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.Function;
 
 public class ArcTurretBlockEntity extends TurretBlockEntity
 {
@@ -86,12 +89,12 @@ public class ArcTurretBlockEntity extends TurretBlockEntity
         {
             if (consumeUsageEnergy())
             {
-                TurretDamageSource source = TurretDamageSource.create(level, LTXIDamageTypes.ARC_TURRET, this, null, owner, traceStart);
                 float damage = (float) LTXIMachinesConfig.ARC_TURRET_DAMAGE.getAsDouble();
+                final Function<@Nullable LivingEntity, DamageSource> sourceFunction = fakePlayer -> TurretDamageSource.create(level, LTXIDamageTypes.ARC_TURRET, this, null, fakePlayer, traceStart);
 
-                if (LTXIEntityUtil.hurtWithEnchantedFakePlayer(level, currentTarget, owner, getUpgrades(), _ -> source, damage))
+                if (LTXIEntityUtil.hurtWithEnchantedFakePlayer(level, currentTarget, owner, getUpgrades(), sourceFunction, damage))
                 {
-                    LTXIEntityUtil.hurtWithEnchantedFakePlayer(level, getTargetQueue(), owner, getUpgrades(), _ -> source, damage);
+                    LTXIEntityUtil.hurtWithEnchantedFakePlayer(level, getTargetQueue(), owner, getUpgrades(), sourceFunction, damage);
                 }
                 else
                 {

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.5,
+  "ingredient": [
+    "ltxi:crushed_coal_ore",
+    "ltxi:washed_coal_ore",
+    "ltxi:coal_ore_chunk",
+    "ltxi:coal_ore_solution",
+    "ltxi:coal_ore_crystal"
+  ],
+  "result": {
+    "count": 2,
+    "id": "minecraft:coal"
+  }
+}

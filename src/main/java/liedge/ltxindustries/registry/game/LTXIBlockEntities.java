@@ -63,12 +63,15 @@ public final class LTXIBlockEntities
         // Machine capability registration (item, energy, fluid)
         registerItemEnergyFluidCaps(event, List.of(
                 GRINDER,
-                MATERIAL_FUSING_CHAMBER,
+                MATERIAL_PRESS,
+                ARC_FURNACE,
+                HYDROSIEVE,
                 ELECTROCENTRIFUGE,
                 MIXER,
                 CHEM_LAB,
                 ASSEMBLER,
                 GEO_SYNTHESIZER,
+                ATMOSPHERIC_SCRUBBER,
                 DIGITAL_GARDEN));
 
         // Energy only
@@ -189,8 +192,12 @@ public final class LTXIBlockEntities
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<DigitalBlastFurnaceBlockEntity>> DIGITAL_BLAST_FURNACE = registerItemEnergyMachine(LTXIIdentifiers.ID_DIGITAL_BLAST_FURNACE, DigitalBlastFurnaceBlockEntity::new, STANDARD_PUSH_PULL, INPUT_ONLY_NO_PULL, builder -> builder.withBlock(LTXIBlocks.DIGITAL_BLAST_FURNACE).hasMenu(LTXIMenus.DIGITAL_BLAST_FURNACE));
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<GrinderBlockEntity>> GRINDER = registerItemEnergyFluidMachine(LTXIIdentifiers.ID_GRINDER, GrinderBlockEntity::new, STANDARD_PUSH_PULL, INPUT_ONLY_NO_PULL, OUTPUT_ONLY_PUSH,
             builder -> builder.withBlock(LTXIBlocks.GRINDER).hasMenu(LTXIMenus.GRINDER));
-    public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<MaterialFusingChamberBlockEntity>> MATERIAL_FUSING_CHAMBER = registerItemEnergyFluidMachine(LTXIIdentifiers.ID_MATERIAL_FUSING_CHAMBER, MaterialFusingChamberBlockEntity::new, STANDARD_PUSH_PULL, INPUT_ONLY_NO_PULL, INPUT_ONLY_PULL,
-            builder -> builder.withBlock(LTXIBlocks.MATERIAL_FUSING_CHAMBER).hasMenu(LTXIMenus.MATERIAL_FUSING_CHAMBER));
+    public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<MaterialPressBlockEntity>> MATERIAL_PRESS = registerItemEnergyFluidMachine(LTXIIdentifiers.ID_MATERIAL_PRESS, MaterialPressBlockEntity::new, STANDARD_PUSH_PULL, INPUT_ONLY_NO_PULL, INPUT_ONLY_PULL,
+            builder -> builder.withBlock(LTXIBlocks.MATERIAL_PRESS).hasMenu(LTXIMenus.MATERIAL_PRESS));
+    public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<ArcFurnaceBlockEntity>> ARC_FURNACE = registerItemEnergyFluidMachine(LTXIIdentifiers.ID_ARC_FURNACE, ArcFurnaceBlockEntity::new, STANDARD_PUSH_PULL, INPUT_ONLY_NO_PULL, INPUT_ONLY_PULL,
+            builder -> builder.withBlock(LTXIBlocks.ARC_FURNACE).hasMenu(LTXIMenus.ARC_FURNACE));
+    public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<HydroSieveBlockEntity>> HYDROSIEVE = registerItemEnergyFluidMachine(LTXIIdentifiers.ID_HYDROSIEVE, HydroSieveBlockEntity::new, STANDARD_PUSH_PULL, INPUT_ONLY_NO_PULL, INPUT_ONLY_PULL,
+            builder -> builder.withBlock(LTXIBlocks.HYDROSIEVE).hasMenu(LTXIMenus.HYDROSIEVE));
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<ElectroCentrifugeBlockEntity>> ELECTROCENTRIFUGE = registerItemEnergyFluidMachine(LTXIIdentifiers.ID_ELECTROCENTRIFUGE, ElectroCentrifugeBlockEntity::new, STANDARD_PUSH_PULL, INPUT_ONLY_NO_PULL, STANDARD_PUSH_PULL,
             builder -> builder.withBlock(LTXIBlocks.ELECTROCENTRIFUGE).hasMenu(LTXIMenus.ELECTROCENTRIFUGE));
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<MixerBlockEntity>> MIXER = registerItemEnergyFluidMachine(LTXIIdentifiers.ID_MIXER, MixerBlockEntity::new, STANDARD_PUSH_PULL, INPUT_ONLY_NO_PULL, STANDARD_PUSH_PULL,
@@ -202,6 +209,8 @@ public final class LTXIBlockEntities
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<GeoSynthesizerBlockEntity>> GEO_SYNTHESIZER = registerItemEnergyFluidMachine(LTXIIdentifiers.ID_GEO_SYNTHESIZER, GeoSynthesizerBlockEntity::new, STANDARD_PUSH_PULL, INPUT_ONLY_NO_PULL, INPUT_ONLY_PULL, builder -> builder.withBlock(LTXIBlocks.GEO_SYNTHESIZER).hasMenu(LTXIMenus.GEO_SYNTHESIZER));
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<FabricatorBlockEntity>> FABRICATOR = registerItemEnergyMachine(LTXIIdentifiers.ID_FABRICATOR, FabricatorBlockEntity::new, FABRICATOR_ITEM_RULES, FABRICATOR_ENERGY_RULES, builder -> builder.withBlock(LTXIBlocks.FABRICATOR).hasMenu(LTXIMenus.FABRICATOR));
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<AutoFabricatorBlockEntity>> AUTO_FABRICATOR = registerItemEnergyMachine(LTXIIdentifiers.ID_AUTO_FABRICATOR, AutoFabricatorBlockEntity::new, STANDARD_PUSH_ONLY, INPUT_ONLY_NO_PULL, builder -> builder.withBlock(LTXIBlocks.AUTO_FABRICATOR).hasMenu(LTXIMenus.AUTO_FABRICATOR));
+    public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<AirScrubberBlockEntity>> ATMOSPHERIC_SCRUBBER = registerItemEnergyFluidMachine(LTXIIdentifiers.ID_ATMOSPHERIC_SCRUBBER, AirScrubberBlockEntity::new, OUTPUT_ONLY_PUSH, INPUT_ONLY_NO_PULL, OUTPUT_ONLY_PUSH,
+            builder -> builder.withBlock(LTXIBlocks.ATMOSPHERIC_SCRUBBER).hasMenu(LTXIMenus.ATMOSPHERIC_SCRUBBER));
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<DigitalGardenBlockEntity>> DIGITAL_GARDEN = registerItemEnergyFluidMachine(LTXIIdentifiers.ID_DIGITAL_GARDEN, DigitalGardenBlockEntity::new, DOUBLE_BLOCK_STANDARD_PUSH_ONLY, DOUBLE_BLOCK_INPUT_NO_PULL, DOUBLE_BLOCK_INPUT_PULL, builder -> builder.withBlock(LTXIBlocks.DIGITAL_GARDEN).hasMenu(LTXIMenus.DIGITAL_GARDEN));
 
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<PortableGeneratorBlockEntity>> PORTABLE_GENERATOR = registerSided(LTXIIdentifiers.ID_PORTABLE_GENERATOR, PortableGeneratorBlockEntity::new, builder -> builder

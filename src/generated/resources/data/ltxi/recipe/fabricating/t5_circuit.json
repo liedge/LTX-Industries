@@ -1,41 +1,29 @@
 {
   "type": "ltxi:fabricating",
   "energy_required": 100000000,
-  "group": "circuits",
+  "group": "0/circuit",
   "item_inputs": [
     {
-      "ingredient": "ltxi:circuit_board"
-    },
-    {
-      "count": 2,
-      "ingredient": "ltxi:t4_circuit"
-    },
-    {
       "count": 16,
-      "ingredient": "#c:ingots/titanium"
-    },
-    {
-      "count": 24,
-      "ingredient": "ltxi:slatesteel_ingot"
-    },
-    {
-      "count": 32,
-      "ingredient": "ltxi:polymer_ingot"
-    },
-    {
-      "count": 16,
-      "ingredient": "ltxi:niobium_ingot"
-    },
-    {
-      "count": 48,
-      "ingredient": "ltxi:silicon_ingot"
-    },
-    {
-      "count": 12,
-      "ingredient": "minecraft:amethyst_shard"
+      "ingredient": "#c:plates/titanium"
     },
     {
       "count": 8,
+      "ingredient": "#c:ingots/rhenium"
+    },
+    {
+      "ingredient": "ltxi:elite_circuit_board"
+    },
+    {
+      "count": 4,
+      "ingredient": "ltxi:t4_circuit"
+    },
+    {
+      "count": 3,
+      "ingredient": "ltxi:large_voltaic_cell"
+    },
+    {
+      "count": 24,
       "ingredient": "ltxi:sculk_chemical"
     }
   ],

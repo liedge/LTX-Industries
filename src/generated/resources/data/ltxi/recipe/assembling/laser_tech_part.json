@@ -1,0 +1,33 @@
+{
+  "type": "ltxi:assembling",
+  "item_inputs": [
+    {
+      "count": 12,
+      "ingredient": "ltxi:fluoropolymer_sheet"
+    },
+    {
+      "count": 8,
+      "ingredient": "#c:plates/slatesteel"
+    },
+    {
+      "ingredient": "ltxi:t3_circuit"
+    },
+    {
+      "count": 4,
+      "ingredient": "ltxi:silicone_rubber"
+    },
+    {
+      "ingredient": "ltxi:large_voltaic_cell"
+    },
+    {
+      "count": 24,
+      "ingredient": "#c:gems/olivine"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:laser_tech_part"
+    }
+  ]
+}

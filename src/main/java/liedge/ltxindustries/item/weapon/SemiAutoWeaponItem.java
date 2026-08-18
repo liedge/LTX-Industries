@@ -1,16 +1,15 @@
 package liedge.ltxindustries.item.weapon;
 
 import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
-import net.minecraft.core.Holder;
+import liedge.ltxindustries.lib.weapons.WeaponReloadSource;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 public abstract class SemiAutoWeaponItem extends WeaponItem
 {
-    protected SemiAutoWeaponItem(Properties properties, int baseMagCapacity, double baseRange, int baseReloadSpeed, Holder<Item> defaultAmmoItem)
+    protected SemiAutoWeaponItem(Properties properties, int baseMagCapacity, double baseRange, int baseReloadSpeed)
     {
-        super(properties, baseMagCapacity, baseRange, baseReloadSpeed, defaultAmmoItem);
+        super(properties, baseMagCapacity, baseRange, baseReloadSpeed, WeaponReloadSource.commonEnergy());
     }
 
     @Override

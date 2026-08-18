@@ -17,7 +17,6 @@ public final class LTXILootTables
     public static final ResourceKey<LootTable> BILEVINE_HARVEST = key("harvest/bilevine");
 
     // Entity extra drops
-    public static final ResourceKey<LootTable> ENEMY_AMMO_DROPS = key("entity/enemy_ammo_drops");
     public static final ResourceKey<LootTable> ENTITY_EXTRA_DROPS = key("entity/extra_drops");
     public static final ResourceKey<LootTable> RAZOR_LOOT_TABLE = key("entity/razor");
 }

@@ -46,21 +46,10 @@ a berry. Existing vine blocks will **not** generate berries over time.
 
 ## Usage
 
-### Viridic Acid
+### Acidic Biomass
 
-<ItemGrid>
-<ItemIcon id="acidic_biomass" />
-<ItemIcon id="viridic_acid_bucket" />
-</ItemGrid>
+<ItemImage id="acidic_biomass" />
 
-This berry is the source of Viridic Acid, the backbone chemical of most of LTX Industries' chemistry processing lines and
-a key ingredient for Polymer. Find some berries and set up a farm as soon as you're able to. You'll need it.
-
-### Weapons-Grade Refining
-
-<ItemImage id="viridic_weapon_chemical" scale="2" />
-
-As versatile as Viridic Acid is, it's offensive properties leave a lot to be desired. And LTXI's equipment division
-does not do subtle. Enriching a batch of acid with *Hydrogen* and *Gunpowder* in the [Chem Lab](../machines/gpm/chem_lab.md)
-will yield you a tiny vial of Weapons-Grade Viridic Acid. You can use this to make the [Acid Shells](../weapons/hanabi.md#acid)
-equipment upgrade module for the *Hanabi*.
+Vitriol Berries, having grown in an environment without any moisture, contain relatively high amounts of oxy-sulfuric
+compounds that would otherwise react with water-containing air. Crushing berries into Acidic Biomass and [mixing](../machines/processing/mixer.md)
+is the easiest and likely first method of producing [Sulfuric Acid](synthetic_materials.md#sulfuric-acid).

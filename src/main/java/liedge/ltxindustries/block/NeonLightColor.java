@@ -29,7 +29,7 @@ public enum NeonLightColor
     LTX_LIME(MapColor.COLOR_LIGHT_GREEN, null),
     ENERGY_BLUE(MapColor.COLOR_LIGHT_BLUE, null),
     ELECTRIC_CHARTREUSE(MapColor.COLOR_LIGHT_GREEN, null),
-    VIRIDIC_GREEN(MapColor.PLANT, null),
+    CORROSIVE_GREEN(MapColor.PLANT, null),
     GLOOM_BLUE(MapColor.WATER, null);
 
     private final MapColor mapColor;

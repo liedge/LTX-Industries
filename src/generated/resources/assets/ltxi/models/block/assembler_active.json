@@ -1,6 +1,6 @@
 {
   "parent": "ltxi:block/assembler",
-  "textures": {
-    "front": "ltxi:block/assembler_active"
+  "visibility": {
+    "belt_idle": false
   }
 }

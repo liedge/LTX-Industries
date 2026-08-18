@@ -7,12 +7,14 @@ navigation:
 ---
 
 # *Daybreak* 41/RL
+
 <ItemImage id="daybreak" scale="3" />
 
 ## Stats
-- Base Direct Hit Damage: 100.0
-- Base Splash Damage: 40.0
+
+- Base direct hit damage: 100.0
+- Base splash damage: 40.0
 - Projectile: Rockets
-- Projectile Speed: 30 m/s
+- Projectile speed: 30 m/s
 - Trigger: Semi Auto
-- Trigger Cooldown: 1.5 sec
+- Trigger cooldown: 1.5 sec

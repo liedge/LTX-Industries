@@ -1,0 +1,17 @@
+{
+  "type": "ltxi:electro_centrifuging",
+  "craft_time": 600,
+  "fluid_results": [
+    {
+      "amount": 250,
+      "id": "ltxi:chlorine"
+    }
+  ],
+  "item_inputs": [
+    {
+      "count": 2,
+      "ingredient": "minecraft:kelp"
+    }
+  ],
+  "mode": "ltxi:element_extraction"
+}

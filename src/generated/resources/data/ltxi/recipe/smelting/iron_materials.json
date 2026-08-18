@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.5,
+  "ingredient": [
+    "ltxi:crushed_iron_ore",
+    "ltxi:washed_iron_ore",
+    "ltxi:iron_ore_chunk",
+    "ltxi:iron_ore_solution",
+    "ltxi:iron_ore_crystal"
+  ],
+  "result": {
+    "id": "minecraft:iron_ingot"
+  }
+}

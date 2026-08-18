@@ -39,13 +39,13 @@ import java.util.Optional;
 
 public abstract class ModularEnergyMiningItem extends BaseEnergyMiningItem implements ScrollModeSwitchItem
 {
-    private static Tool.Rule createDenyRule(TagKey<Block> tagKey)
+    private static Tool.Rule defaultDenyRule()
     {
-        HolderSet<Block> deniedSet = BuiltInRegistries.acquireBootstrapRegistrationLookup(BuiltInRegistries.BLOCK).getOrThrow(tagKey);
+        HolderSet<Block> deniedSet = BuiltInRegistries.acquireBootstrapRegistrationLookup(BuiltInRegistries.BLOCK).getOrThrow(BlockTags.INCORRECT_FOR_NETHERITE_TOOL);
         return Tool.Rule.deniesDrops(deniedSet);
     }
 
-    private static List<Tool.Rule> createAllowRules(List<TagKey<Block>> tags)
+    private static List<Tool.Rule> defaultAllowRules(List<TagKey<Block>> tags)
     {
         HolderGetter<Block> holders = BuiltInRegistries.acquireBootstrapRegistrationLookup(BuiltInRegistries.BLOCK);
         return tags.stream().map(tag -> Tool.Rule.minesAndDrops(holders.getOrThrow(tag), 1f)).toList();
@@ -74,7 +74,7 @@ public abstract class ModularEnergyMiningItem extends BaseEnergyMiningItem imple
 
     protected ModularEnergyMiningItem(Properties properties, float poweredAttackDamage, float attackSpeed, List<TagKey<Block>> tags)
     {
-        this(properties, poweredAttackDamage, attackSpeed, createDenyRule(BlockTags.INCORRECT_FOR_DIAMOND_TOOL), createAllowRules(tags));
+        this(properties, poweredAttackDamage, attackSpeed, defaultDenyRule(), defaultAllowRules(tags));
     }
 
     public ToolSpeed getToolSpeed(ItemStack stack)

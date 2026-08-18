@@ -1,7 +1,7 @@
 {
   "type": "ltxi:fabricating",
-  "energy_required": 1000000,
-  "group": "mum/fabricator",
+  "energy_required": 2500000,
+  "group": "upgrade/fabricator",
   "item_inputs": [
     {
       "ingredient": {
@@ -15,7 +15,12 @@
       }
     },
     {
-      "ingredient": "ltxi:t3_circuit"
+      "count": 4,
+      "ingredient": "ltxi:t2_circuit"
+    },
+    {
+      "count": 8,
+      "ingredient": "#c:plates/slatesteel"
     },
     {
       "count": 2,
@@ -23,11 +28,11 @@
     },
     {
       "count": 4,
-      "ingredient": "minecraft:diamond"
+      "ingredient": "ltxi:medium_voltaic_cell"
     },
     {
       "count": 8,
-      "ingredient": "ltxi:electric_chemical"
+      "ingredient": "#c:gems/olivine"
     }
   ],
   "result": {

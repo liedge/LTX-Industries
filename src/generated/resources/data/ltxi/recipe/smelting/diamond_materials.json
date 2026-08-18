@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.5,
+  "ingredient": [
+    "ltxi:crushed_diamond_ore",
+    "ltxi:washed_diamond_ore",
+    "ltxi:diamond_ore_chunk",
+    "ltxi:diamond_ore_solution",
+    "ltxi:diamond_ore_crystal"
+  ],
+  "result": {
+    "id": "minecraft:diamond"
+  }
+}

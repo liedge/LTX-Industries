@@ -1,0 +1,15 @@
+{
+  "values": [
+    "ltxi:digital_furnace",
+    "ltxi:digital_smoker",
+    "ltxi:digital_blast_furnace",
+    "ltxi:grinder",
+    "ltxi:arc_furnace",
+    "ltxi:hydrosieve",
+    "ltxi:electrocentrifuge",
+    "ltxi:mixer",
+    "ltxi:voltaic_injector",
+    "ltxi:chem_lab",
+    "ltxi:geo_synthesizer"
+  ]
+}

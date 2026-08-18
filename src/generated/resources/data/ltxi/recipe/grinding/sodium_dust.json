@@ -1,0 +1,16 @@
+{
+  "type": "ltxi:grinding",
+  "craft_time": 300,
+  "item_inputs": [
+    {
+      "ingredient": "ltxi:spark_fruit"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:sodium_dust"
+    }
+  ],
+  "mode": "ltxi:element_extraction"
+}

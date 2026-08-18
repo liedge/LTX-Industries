@@ -11,8 +11,8 @@ public class PortableTankMenu extends MachineBaseMenu<PortableTankBlockEntity>
     public PortableTankMenu(LimaMenuType<PortableTankBlockEntity, ?> type, int containerId, Inventory inventory, PortableTankBlockEntity menuContext)
     {
         super(type, containerId, inventory, menuContext);
+        addFluidSlot(BlockContentsType.GENERAL, 0, 80, 36);
         addDefaultPlayerInventoryAndHotbar();
-        addFluidSlot(getTank(), 0, 80, 36);
     }
 
     @Override

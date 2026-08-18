@@ -1,7 +1,7 @@
 {
   "type": "ltxi:fabricating",
   "energy_required": 200000,
-  "group": "eum/enchant",
+  "group": "upgrade/enchant",
   "item_inputs": [
     {
       "ingredient": {
@@ -20,12 +20,15 @@
       "ingredient": "ltxi:t3_circuit"
     },
     {
-      "count": 6,
-      "ingredient": "minecraft:wither_skeleton_skull"
+      "count": 24,
+      "ingredient": "#c:plates/titanium"
     },
     {
-      "count": 6,
-      "ingredient": "minecraft:piglin_head"
+      "count": 32,
+      "ingredient": "#c:plates/slatesteel"
+    },
+    {
+      "ingredient": "ltxi:laser_tech_part"
     }
   ],
   "result": {

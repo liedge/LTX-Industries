@@ -1,0 +1,28 @@
+{
+  "type": "ltxi:assembling",
+  "craft_time": 900,
+  "item_inputs": [
+    {
+      "count": 8,
+      "ingredient": "ltxi:fluoropolymer"
+    },
+    {
+      "count": 3,
+      "ingredient": "#c:plates/gold"
+    },
+    {
+      "count": 3,
+      "ingredient": "#c:plates/niobium"
+    },
+    {
+      "count": 16,
+      "ingredient": "#c:dusts/sodium"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:large_voltaic_cell"
+    }
+  ]
+}

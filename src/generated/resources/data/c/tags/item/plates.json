@@ -1,0 +1,13 @@
+{
+  "values": [
+    "ltxi:copper_plate",
+    "ltxi:gold_plate",
+    "ltxi:titanium_plate",
+    "ltxi:silver_plate",
+    "ltxi:niobium_plate",
+    "ltxi:rhenium_plate",
+    "ltxi:silicon_plate",
+    "ltxi:slatesteel_plate",
+    "ltxi:tungsten_slatesteel_plate"
+  ]
+}

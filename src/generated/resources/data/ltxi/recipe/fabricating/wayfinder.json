@@ -1,0 +1,25 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 250000,
+  "group": "1/weapon.05",
+  "item_inputs": [
+    {
+      "count": 2,
+      "ingredient": "ltxi:t1_circuit"
+    },
+    {
+      "count": 8,
+      "ingredient": "#c:ingots/titanium"
+    },
+    {
+      "ingredient": "#c:gears/titanium"
+    },
+    {
+      "ingredient": "ltxi:medium_voltaic_cell"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "ltxi:wayfinder"
+  }
+}

@@ -26,12 +26,24 @@
   "effects": {
     "ltxi:enchantment_levels": [
       {
-        "enchantment": "minecraft:looting"
+        "enchantment": "minecraft:looting",
+        "levels": {
+          "type": "minecraft:lookup",
+          "fallback": 0.0,
+          "values": [
+            1.0,
+            2.0,
+            3.0,
+            5.0,
+            7.0
+          ]
+        }
       }
     ]
   },
   "max_rank": 5,
   "users": {
+    "block_entities": "#ltxi:turrets",
     "items": "#ltxi:weapons"
   }
 }

@@ -1,0 +1,22 @@
+{
+  "type": "ltxi:chemical_reacting",
+  "craft_time": 2400,
+  "fluid_inputs": [
+    {
+      "amount": 4000,
+      "ingredient": "ltxi:ammonia"
+    }
+  ],
+  "item_inputs": [
+    {
+      "count": 32,
+      "ingredient": "ltxi:sculk_chemical"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:gloom_weapon_chemical"
+    }
+  ]
+}

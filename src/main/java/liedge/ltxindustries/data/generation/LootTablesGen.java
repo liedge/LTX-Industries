@@ -3,14 +3,8 @@ package liedge.ltxindustries.data.generation;
 import liedge.limacore.data.generation.loot.LimaBlockLootSubProvider;
 import liedge.limacore.data.generation.loot.LimaLootSubProvider;
 import liedge.limacore.data.generation.loot.LimaLootTableProvider;
-import liedge.limacore.lib.MinMaxRange;
-import liedge.limacore.lib.MobHostility;
 import liedge.limacore.util.LimaLootUtil;
-import liedge.limacore.world.loot.DynamicWeightLootEntry;
-import liedge.limacore.world.loot.condition.EntityHostilityCondition;
 import liedge.limacore.world.loot.level.RangedLookupLevelBasedValue;
-import liedge.limacore.world.loot.number.EntityEnchantmentLevels;
-import liedge.limacore.world.loot.number.RoundValue;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.advancements.criterion.GrenadeElementSubPredicate;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
@@ -32,7 +26,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraft.world.item.enchantment.LevelBasedValue;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -42,9 +35,11 @@ import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
 import net.minecraft.world.level.storage.loot.functions.FillPlayerHead;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
-import net.minecraft.world.level.storage.loot.predicates.*;
+import net.minecraft.world.level.storage.loot.predicates.AnyOfCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemEntityPropertyCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
-import net.minecraft.world.level.storage.loot.providers.number.NumberProvider;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.common.loot.CanItemPerformAbility;
@@ -94,22 +89,10 @@ class LootTablesGen extends LimaLootTableProvider
             LootPool.Builder wardenDrops = LootPool.lootPool()
                     .when(needsEntityType(EntityType.WARDEN))
                     .when(AnyOfCondition.anyOf(acidFinalBlow, corrodingCheck))
-                    .add(lootItem(LTXIItems.GLOOM_CHEMICAL));
+                    .add(lootItem(LTXIItems.GLOOM_WEAPON_CHEMICAL));
 
             addTable(ENTITY_EXTRA_DROPS, LootTable.lootTable()
                     .withPool(wardenDrops));
-
-            // Ammo drops table
-            LootPool.Builder ammoDrops = LootPool.lootPool()
-                    .when(EntityHostilityCondition.attackerIs(MinMaxRange.atLeast(MobHostility.NEUTRAL_ENEMY)))
-                    .when(LootItemRandomChanceWithEnchantedBonusCondition.randomChanceAndLootingBoost(registries, 0.25f, 0.025f))
-                    .add(lootItem(LTXIItems.LIGHTWEIGHT_WEAPON_ENERGY).setWeight(80))
-                    .add(DynamicWeightLootEntry.dynamicWeightItem(LTXIItems.SPECIALIST_WEAPON_ENERGY, 15).setReplaceWeight(false).setDynamicWeight(ammoEnchantValue(0, LevelBasedValue.perLevel(6))))
-                    .add(DynamicWeightLootEntry.dynamicWeightItem(LTXIItems.EXPLOSIVES_WEAPON_ENERGY, 5).setReplaceWeight(false).setDynamicWeight(ammoEnchantValue(0, LevelBasedValue.perLevel(3))))
-                    .add(DynamicWeightLootEntry.dynamicWeightItem(LTXIItems.HEAVY_WEAPON_ENERGY, 1).setReplaceWeight(false).setDynamicWeight(ammoEnchantValue(0, LevelBasedValue.perLevel(2))))
-                    .setRolls(RoundValue.roundRandomly(ammoEnchantValue(1, RangedLookupLevelBasedValue.linearLookup(1.2f, 1.4f, 1.6f, 1.8f, 2f))));
-
-            addTable(ENEMY_AMMO_DROPS, LootTable.lootTable().withPool(ammoDrops));
 
             // Razor enchantment loot table
             LootPool.Builder razorGeneralHeads = LootPool.lootPool()
@@ -130,12 +113,6 @@ class LootTablesGen extends LimaLootTableProvider
                     .add(lootItem(Items.RABBIT_FOOT));
             addTable(RAZOR_LOOT_TABLE, LootTable.lootTable().withPool(razorGeneralHeads).withPool(razorDragonHead).withPool(razorRabbitFoot));
         }
-
-        private NumberProvider ammoEnchantValue(int fallback, LevelBasedValue amount)
-        {
-            Holder<Enchantment> enchantment = registries.holderOrThrow(LTXIEnchantments.AMMO_SCAVENGER);
-            return EntityEnchantmentLevels.enchantedValue(LootContext.EntityTarget.ATTACKER, enchantment, ConstantValue.exactly(fallback), amount);
-        }
     }
 
     private static class BlockDrops extends LimaBlockLootSubProvider
@@ -153,16 +130,23 @@ class LootTablesGen extends LimaLootTableProvider
 
             oreDrop(TITANIUM_ORE, LTXIItems.RAW_TITANIUM);
             oreDrop(DEEPSLATE_TITANIUM_ORE, LTXIItems.RAW_TITANIUM);
+            oreDrop(SILVER_ORE, LTXIItems.RAW_SILVER);
+            oreDrop(DEEPSLATE_SILVER_ORE, LTXIItems.RAW_SILVER);
             oreDrop(NIOBIUM_ORE, LTXIItems.RAW_NIOBIUM);
 
             dropSelf(RAW_TITANIUM_BLOCK,
+                    RAW_SILVER_BLOCK,
                     RAW_NIOBIUM_BLOCK,
                     TITANIUM_BLOCK,
+                    SILVER_BLOCK,
                     NIOBIUM_BLOCK,
                     SLATESTEEL_BLOCK);
             oreCluster(RAW_TITANIUM_CLUSTER, LTXIItems.RAW_TITANIUM);
+            oreCluster(RAW_SILVER_CLUSTER, LTXIItems.RAW_SILVER);
             oreCluster(RAW_NIOBIUM_CLUSTER, LTXIItems.RAW_NIOBIUM);
 
+            dropSelf(PERIDOTITE, PERIDOTITE_STAIRS, PERIDOTITE_SLAB, PERIDOTITE_WALL,
+                    POLISHED_PERIDOTITE, POLISHED_PERIDOTITE_STAIRS, POLISHED_PERIDOTITE_SLAB, POLISHED_PERIDOTITE_WALL);
             dropSelf(NEON_LIGHTS.values());
             dropSelf(TITANIUM_PANEL, SMOOTH_TITANIUM_PANEL, TILED_TITANIUM_PANEL, TITANIUM_GLASS, GLACIA_GLASS, SLATESTEEL_PANEL, SMOOTH_SLATESTEEL_PANEL, TILED_SLATESTEEL_PANEL);
             add(SPARK_FRUIT, block -> {
@@ -183,7 +167,9 @@ class LootTablesGen extends LimaLootTableProvider
             dropSelfWithEntity(DIGITAL_SMOKER);
             dropSelfWithEntity(DIGITAL_BLAST_FURNACE);
             dropSelfWithEntity(GRINDER);
-            dropSelfWithEntity(MATERIAL_FUSING_CHAMBER);
+            dropSelfWithEntity(MATERIAL_PRESS);
+            dropSelfWithEntity(ARC_FURNACE);
+            dropSelfWithEntity(HYDROSIEVE);
             dropSelfWithEntity(ELECTROCENTRIFUGE);
             dropSelfWithEntity(MIXER);
             dropSelfWithEntity(VOLTAIC_INJECTOR);
@@ -193,6 +179,7 @@ class LootTablesGen extends LimaLootTableProvider
             dropSelfWithEntity(FABRICATOR);
             dropSelfWithEntity(AUTO_FABRICATOR);
             dropSelfWithEntity(UPGRADE_STATION);
+            dropSelfWithEntity(ATMOSPHERIC_SCRUBBER);
             dropSelfWithEntity(DIGITAL_GARDEN);
 
             dropSelfWithEntity(PORTABLE_GENERATOR);

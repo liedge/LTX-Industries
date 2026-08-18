@@ -6,11 +6,13 @@ import liedge.ltxindustries.LTXITags.Blocks;
 import liedge.ltxindustries.LTXIndustries;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.Tags;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import static liedge.ltxindustries.LTXITags.Items.*;
@@ -29,12 +31,19 @@ class ItemTagsGen extends LimaTagsProvider.ItemTags
     @Override
     protected void addTags(HolderLookup.Provider lookup)
     {
+        copyTag(Tags.Blocks.STONES, STONES);
+        copyTag(BlockTags.STAIRS, STAIRS);
+        copyTag(BlockTags.SLABS, SLABS);
+        copyTag(BlockTags.WALLS, WALLS);
         copyTag(Blocks.TITANIUM_ORES, TITANIUM_ORES);
+        copyTag(Blocks.SILVER_ORES, SILVER_ORES);
         copyTag(Blocks.NIOBIUM_ORES, NIOBIUM_ORES);
 
         copyTag(Blocks.RAW_TITANIUM_STORAGE_BLOCKS, RAW_TITANIUM_STORAGE_BLOCKS);
+        copyTag(Blocks.RAW_SILVER_STORAGE_BLOCKS, RAW_SILVER_STORAGE_BLOCKS);
         copyTag(Blocks.RAW_NIOBIUM_STORAGE_BLOCKS, RAW_NIOBIUM_STORAGE_BLOCKS);
         copyTag(Blocks.TITANIUM_STORAGE_BLOCKS, TITANIUM_STORAGE_BLOCKS);
+        copyTag(Blocks.SILVER_STORAGE_BLOCKS, SILVER_STORAGE_BLOCKS);
         copyTag(Blocks.NIOBIUM_STORAGE_BLOCKS, NIOBIUM_STORAGE_BLOCKS);
         copyTag(Blocks.SLATESTEEL_STORAGE_BLOCKS, SLATESTEEL_STORAGE_BLOCKS);
 
@@ -49,23 +58,43 @@ class ItemTagsGen extends LimaTagsProvider.ItemTags
         copyTag(Tags.Blocks.ORES_IN_GROUND_STONE, ORES_IN_GROUND_STONE);
         copyTag(Tags.Blocks.ORES_IN_GROUND_DEEPSLATE, ORES_IN_GROUND_DEEPSLATE);
 
-        buildTag(RAW_TITANIUM_MATERIALS).add(RAW_TITANIUM);
-        buildTag(RAW_NIOBIUM_MATERIALS).add(RAW_NIOBIUM);
-        buildTag(RAW_MATERIALS).addTags(RAW_TITANIUM_MATERIALS, RAW_NIOBIUM_MATERIALS);
+        buildTag(RAW_TITANIUM_MATERIALS).add(RAW_TITANIUM).copyTo(RAW_MATERIALS);
+        buildTag(RAW_SILVER_MATERIALS).add(RAW_SILVER).copyTo(RAW_MATERIALS);
+        buildTag(RAW_OLIVINE_MATERIALS).add(RAW_OLIVINE).copyTo(RAW_MATERIALS);
+        buildTag(RAW_FLUORITE_MATERIALS).add(RAW_FLUORITE).copyTo(RAW_MATERIALS);
+        buildTag(RAW_NIOBIUM_MATERIALS).add(RAW_NIOBIUM).copyTo(RAW_MATERIALS);
 
         buildTag(TITANIUM_INGOTS).add(TITANIUM_INGOT).copyTo(INGOTS);
+        buildTag(SILVER_INGOTS).add(SILVER_INGOT).copyTo(INGOTS);
         buildTag(NIOBIUM_INGOTS).add(NIOBIUM_INGOT).copyTo(INGOTS);
+        buildTag(RHENIUM_INGOTS).add(RHENIUM_INGOT).copyTo(INGOTS);
         buildTag(SILICON_INGOTS).add(SILICON_INGOT).copyTo(INGOTS);
         buildTag(SLATESTEEL_INGOTS).add(SLATESTEEL_INGOT).copyTo(INGOTS);
+        buildTag(TUNGSTEN_SLATESTEEL_INGOTS).add(TUNGSTEN_SLATESTEEL_INGOT).copyTo(INGOTS);
 
-        buildTag(TITANIUM_NUGGETS).add(TITANIUM_NUGGET);
-        buildTag(NIOBIUM_NUGGETS).add(NIOBIUM_NUGGET);
-        buildTag(SLATESTEEL_NUGGETS).add(SLATESTEEL_NUGGET);
-        buildTag(NUGGETS).addTags(TITANIUM_NUGGETS, NIOBIUM_NUGGETS, SLATESTEEL_NUGGETS);
+        buildTag(TITANIUM_NUGGETS).add(TITANIUM_NUGGET).copyTo(NUGGETS);
+        buildTag(SILVER_NUGGETS).add(SILVER_NUGGET).copyTo(NUGGETS);
+        buildTag(NIOBIUM_NUGGETS).add(NIOBIUM_NUGGET).copyTo(NUGGETS);
+        buildTag(SLATESTEEL_NUGGETS).add(SLATESTEEL_NUGGET).copyTo(NUGGETS);
+
+        buildTag(OLIVINE_GEMS).add(OLIVINE).copyTo(GEMS);
+        buildTag(FLUORITE_GEMS).add(FLUORITE).copyTo(GEMS);
+        buildTag(GEMS).add(PYROXENE);
+
+        TagKey<Item> plateTag = ModResources.COMMON.itemTag("plates");
+        buildTag(COPPER_PLATES).add(COPPER_PLATE).copyTo(plateTag);
+        buildTag(GOLD_PLATES).add(GOLD_PLATE).copyTo(plateTag);
+        buildTag(TITANIUM_PLATES).add(TITANIUM_PLATE).copyTo(plateTag);
+        buildTag(SILVER_PLATES).add(SILVER_PLATE).copyTo(plateTag);
+        buildTag(NIOBIUM_PLATES).add(NIOBIUM_PLATE).copyTo(plateTag);
+        buildTag(RHENIUM_PLATES).add(RHENIUM_PLATE).copyTo(plateTag);
+        buildTag(SILICON_PLATES).add(SILICON_PLATE).copyTo(plateTag);
+        buildTag(SLATESTEEL_PLATES).add(SLATESTEEL_PLATE).copyTo(plateTag);
+        buildTag(TUNGSTEN_SLATESTEEL_PLATES).add(TUNGSTEN_SLATESTEEL_PLATE).copyTo(plateTag);
 
         final TagKey<Item> gearsTag = ModResources.COMMON.itemTag("gears");
         buildTag(TITANIUM_GEARS).add(TITANIUM_GEAR).copyTo(gearsTag);
-        buildTag(gearsTag).add(SLATESTEEL_GEAR);
+        buildTag(SLATESTEEL_GEARS).add(SLATESTEEL_GEAR).copyTo(gearsTag);
 
         buildTag(SWORDS).add(EPSILON_SWORD);
         buildTag(SHOVELS).add(EPSILON_SHOVEL);
@@ -78,15 +107,32 @@ class ItemTagsGen extends LimaTagsProvider.ItemTags
         buildTag(TOOLS_IGNITER).add(EPSILON_LIGHTER);
         buildTag(CREEPER_IGNITERS).add(EPSILON_LIGHTER);
 
-        buildTag(BEACON_PAYMENT_ITEMS).add(TITANIUM_INGOT, NIOBIUM_INGOT, SLATESTEEL_INGOT); // Only add this mod's ingots
+        buildTag(BEACON_PAYMENT_ITEMS).add(TITANIUM_INGOT, SILVER_INGOT, NIOBIUM_INGOT); // Only add this mod's ingots
 
+        buildTag(TITANIUM_DUSTS).add(TITANIUM_DUST).copyTo(DUSTS);
+        buildTag(SILVER_DUSTS).add(SILVER_DUST).copyTo(DUSTS);
+        buildTag(NIOBIUM_DUSTS).add(NIOBIUM_DUST).copyTo(DUSTS);
+        buildTag(RHENIUM_DUSTS).add(RHENIUM_DUST).copyTo(DUSTS);
+        buildTag(CARBON_DUSTS).add(CARBON_DUST).copyTo(DUSTS);
         buildTag(SODIUM_DUSTS).add(SODIUM_DUST).copyTo(DUSTS);
         buildTag(SILICON_DUSTS).add(SILICON_DUST).copyTo(DUSTS);
+        buildTag(PHOSPHORUS_DUSTS).add(PHOSPHORUS_DUST).copyTo(DUSTS);
+        buildTag(SULFUR_DUSTS).add(SULFUR_DUST).copyTo(DUSTS);
+        buildTag(SLATESTEEL_DUSTS).add(SLATESTEEL_DUST).copyTo(DUSTS);
+        buildTag(TUNGSTEN_SLATESTEEL_DUSTS).add(TUNGSTEN_SLATESTEEL_DUST).copyTo(DUSTS);
         buildTag(DEEPSLATE_DUSTS).add(DEEPSLATE_DUST).copyTo(DUSTS);
+        buildTag(PERIDOTITE_DUSTS).add(PERIDOTITE_DUST).copyTo(DUSTS);
 
+        buildTag(CRUSHED_ORE_ITEMS).addHolders(List.copyOf(CRUSHED_ORES.values()));
+        buildTag(WASHED_ORE_ITEMS).addHolders(List.copyOf(WASHED_ORES.values()));
+        buildTag(ORE_CHUNK_ITEMS).addHolders(List.copyOf(ORE_CHUNKS.values()));
+        buildTag(ORE_SOLUTION_ITEMS).addHolders(List.copyOf(ORE_SOLUTIONS.values()));
+        buildTag(ORE_CRYSTAL_ITEMS).addHolders(List.copyOf(ORE_CRYSTALS.values()));
+
+        buildTag(POLYMERS).add(POLYMER, FLUOROPOLYMER);
+        buildTag(POLYMER_SHEETS).add(POLYMER_SHEET, FLUOROPOLYMER_SHEET);
         buildTag(GREEN_GROUP_DYE_SOURCES).add(SHORT_GRASS, TALL_GRASS, FERN, LARGE_FERN).addTags(LEAVES, SAPLINGS);
-        buildTag(CARBON_SOURCES).add(CHARCOAL).addTag(COALS);
-        buildTag(NEON_LIGHT_MATERIALS).add(GLOWSTONE, GLOW_INK_SAC, GLOW_BERRIES);
+        buildTag(PHOSPHORUS_SOURCES).add(BLAZE_POWDER, GLOW_BERRIES).addTag(DUSTS_GLOWSTONE);
         buildTag(APPLE_SAPLINGS).add(OAK_SAPLING, DARK_OAK_SAPLING);
 
         // Weapon equipment definitions

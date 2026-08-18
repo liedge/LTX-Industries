@@ -1,0 +1,7 @@
+{
+  "parent": "ltxi:block/raw_ore_cluster",
+  "textures": {
+    "base": "minecraft:block/stone",
+    "ore": "ltxi:block/raw_silver_block"
+  }
+}

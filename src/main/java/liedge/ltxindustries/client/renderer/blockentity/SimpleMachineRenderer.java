@@ -22,7 +22,7 @@ public abstract class SimpleMachineRenderer<BE extends MachineBaseBlockEntity> e
     {
         private State() { }
 
-        float machineSpin;
+        float machineMotion;
 
         @Nullable
         EnergyBoltData machineBolt;

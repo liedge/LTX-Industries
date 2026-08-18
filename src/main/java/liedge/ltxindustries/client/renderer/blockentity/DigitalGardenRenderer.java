@@ -12,10 +12,16 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.LightCoordsUtil;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import org.joml.AxisAngle4f;
+import org.joml.Matrix3f;
+import org.joml.Matrix3fc;
+import org.joml.Vector3f;
 import org.jspecify.annotations.Nullable;
 
 public class DigitalGardenRenderer extends MachineBaseRenderer<DigitalGardenBlockEntity, DigitalGardenRenderer.State>
 {
+    private final Matrix3fc guiFrontNormal = new Matrix3f().set(new AxisAngle4f(0, new Vector3f(1, 1, 1).normalize()));
+
     public DigitalGardenRenderer(BlockEntityRendererProvider.Context context)
     {
         super(context);
@@ -34,7 +40,7 @@ public class DigitalGardenRenderer extends MachineBaseRenderer<DigitalGardenBloc
         if (stack.isEmpty()) return;
 
         ItemStackRenderState previewItem = new ItemStackRenderState();
-        itemResolver.updateForTopItem(previewItem, stack, ItemDisplayContext.FIXED, null, null, 0);
+        itemResolver.updateForTopItem(previewItem, stack, ItemDisplayContext.GUI, blockEntity.getLevel(), null, 0);
         state.previewItem = previewItem;
     }
 
@@ -47,10 +53,11 @@ public class DigitalGardenRenderer extends MachineBaseRenderer<DigitalGardenBloc
         poseStack.pushPose();
 
         poseStack.translate(0.5f, 0.4375f, 0.5f);
-        poseStack.mulPose(Axis.YP.rotationDegrees(LTXIRenderer.facingYRotation(state.facing)));
-        poseStack.translate(0, 0, -0.53125f);
-        poseStack.scale(0.4375f, 0.4375f, 0.4375f);
+        poseStack.mulPose(Axis.YP.rotationDegrees(LTXIRenderer.facingYRotation(state.facing) + 180f));
+        poseStack.translate(0, 0.0625d, 0.438d);
 
+        poseStack.scale(0.375f, 0.375f, 1e-7f);
+        poseStack.last().normal().set(guiFrontNormal);
         previewItem.submit(poseStack, nodeCollector, LightCoordsUtil.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 0);
 
         poseStack.popPose();

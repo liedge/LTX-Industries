@@ -1,0 +1,44 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 20000000,
+  "group": "upgrade/storage",
+  "item_inputs": [
+    {
+      "ingredient": {
+        "neoforge:ingredient_type": "neoforge:components",
+        "components": {
+          "ltxi:upgrade": {
+            "rank": 3,
+            "upgrade": "ltxi:eca_capacity"
+          }
+        },
+        "items": "ltxi:upgrade_module"
+      }
+    },
+    {
+      "count": 4,
+      "ingredient": "ltxi:t3_circuit"
+    },
+    {
+      "count": 16,
+      "ingredient": "ltxi:fluoropolymer"
+    },
+    {
+      "count": 8,
+      "ingredient": "ltxi:silicone_rubber"
+    },
+    {
+      "ingredient": "ltxi:large_voltaic_cell"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:upgrade": {
+        "rank": 4,
+        "upgrade": "ltxi:eca_capacity"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:upgrade_module"
+  }
+}

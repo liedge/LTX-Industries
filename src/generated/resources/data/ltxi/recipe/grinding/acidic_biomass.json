@@ -10,5 +10,6 @@
       "count": 1,
       "id": "ltxi:acidic_biomass"
     }
-  ]
+  ],
+  "mode": "ltxi:element_extraction"
 }

@@ -41,9 +41,9 @@ public class EnergyAxeItem extends ModularEnergyMiningItem
     }
 
     @Override
-    public @Nullable ResourceKey<Upgrade> getDefaultUpgradeKey()
+    public List<ResourceKey<Upgrade>> getDefaultUpgrades()
     {
-        return LTXIUpgrades.EPSILON_MELEE_DEFAULT;
+        return List.of(LTXIUpgrades.EPSILON_MELEE_DEFAULT, LTXIUpgrades.TREE_VEIN_MINE);
     }
 
     @Override

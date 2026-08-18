@@ -1,0 +1,21 @@
+{
+  "type": "ltxi:electro_centrifuging",
+  "fluid_results": [
+    {
+      "amount": 1000,
+      "id": "ltxi:oxygen"
+    }
+  ],
+  "item_inputs": [
+    {
+      "ingredient": "#c:gems/quartz"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 2,
+      "id": "ltxi:silicon_dust"
+    }
+  ],
+  "mode": "ltxi:element_extraction"
+}

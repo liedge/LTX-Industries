@@ -2,15 +2,16 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "a": "minecraft:crafting_table",
-    "b": "ltxi:titanium_block",
-    "l": "#c:dyes/lime",
+    "0": "#ltxi:polymers",
+    "g": "#c:gears/titanium",
+    "p": "#c:plates/titanium",
+    "s": "#c:plates/slatesteel",
     "t": "#c:ingots/titanium"
   },
   "pattern": [
-    "ttt",
-    "lal",
-    "tbt"
+    "psp",
+    "0g0",
+    "ttt"
   ],
   "result": {
     "id": "ltxi:upgrade_station"

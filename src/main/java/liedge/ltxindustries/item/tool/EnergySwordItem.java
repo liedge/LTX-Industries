@@ -12,7 +12,6 @@ import net.minecraft.world.item.component.Tool;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.ItemAbility;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Set;
@@ -44,8 +43,8 @@ public class EnergySwordItem extends BaseEnergyMiningItem
     }
 
     @Override
-    public @Nullable ResourceKey<Upgrade> getDefaultUpgradeKey()
+    public List<ResourceKey<Upgrade>> getDefaultUpgrades()
     {
-        return LTXIUpgrades.EPSILON_MELEE_DEFAULT;
+        return List.of(LTXIUpgrades.EPSILON_MELEE_DEFAULT);
     }
 }

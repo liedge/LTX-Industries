@@ -9,7 +9,7 @@
     {
       "amount": 1000,
       "consume_chance": 0.0,
-      "ingredient": "minecraft:lava"
+      "ingredient": "#minecraft:lava"
     }
   ],
   "item_inputs": [

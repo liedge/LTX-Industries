@@ -6,15 +6,27 @@ public final class RecipeLayouts
     public static final RecipeLayout GRINDING = RecipeLayout.builder()
             .modeSlot(25, 35)
             .itemIn(43, 35)
-            .itemOut(101, 27).itemOut(119, 27).itemOut(137, 27)
+            .itemsOut(101, 27, 3, 1)
             .fluidOut(101, 45)
             .build(68, 41);
-    public static final RecipeLayout FUSING = RecipeLayout.builder()
+    public static final RecipeLayout PRESSING = RecipeLayout.builder()
+            .modeSlot(25, 35)
+            .itemsIn(43, 26, 2, 1)
+            .fluidIn(43, 44)
+            .itemsOut(119, 35, 2, 1)
+            .build(86, 40);
+    public static final RecipeLayout ARC_SMELTING = RecipeLayout.builder()
             .modeSlot(25, 36)
-            .itemIn(43, 27).itemIn(61, 27).itemIn(79, 27)
+            .itemsIn(43, 27, 3, 1)
             .fluidIn(43, 45)
             .itemOut(137, 36)
             .build(104, 41);
+    public static final RecipeLayout SIEVING = RecipeLayout.builder()
+            .modeSlot(25, 35)
+            .itemIn(43, 26)
+            .fluidIn(43, 44)
+            .itemsOut(101, 27, 3, 2)
+            .build(68, 40);
     public static final RecipeLayout ELECTRO_CENTRIFUGING = RecipeLayout.builder()
             .modeSlot(25, 35)
             .itemIn(43, 35).fluidIn(61, 35)
@@ -26,15 +38,17 @@ public final class RecipeLayouts
             .fluidIn(43, 53).fluidIn(61, 53)
             .itemOut(119, 35).fluidOut(137, 35).build(86, 40);
     public static final RecipeLayout ENERGIZING = RecipeLayout.builder()
-            .modeSlot(36, 35)
-            .itemIn(54, 35).itemOut(112, 35)
-            .build(79, 40);
-    public static final RecipeLayout CHEMICAL_REACTING = RecipeLayout.builder()
-            .modeSlot(16, 35)
-            .itemIn(34, 26).itemIn(52, 26).itemIn(70, 26)
-            .fluidIn(34, 44).fluidIn(52, 44).fluidIn(70, 44)
-            .itemOut(128, 26).itemOut(146, 26)
-            .fluidOut(128, 44).fluidOut(146, 44).build(95, 40);
+            .modeSlot(25, 35)
+            .itemIn(43, 35)
+            .itemsOut(101, 35, 3, 1)
+            .build(68, 40);
+    public static final RecipeLayout CHEMICAL_REACTING = RecipeLayout.builder(190, RecipeLayout.DEFAULT_HEIGHT)
+            .modeSlot(15, 35)
+            .itemsIn(33, 26, 3, 1)
+            .fluidsIn(33, 44, 3, 1)
+            .itemsOut(127, 26, 3, 1)
+            .fluidsOut(127, 44, 3, 1)
+            .build(94, 40);
     public static final RecipeLayout ASSEMBLING = RecipeLayout.builder()
             .modeSlot(25, 35)
             .slotGrid(43, 17, 3, 2, LayoutSlot.Type.ITEM_INPUT)
@@ -44,9 +58,15 @@ public final class RecipeLayouts
             .modeSlot(25, 35)
             .fluidIn(43, 35).itemIn(61, 35).fluidIn(79, 35)
             .itemOut(137, 35).build(104, 40);
+    public static final RecipeLayout AIR_SCRUBBING = RecipeLayout.builder()
+            .modeSlot(43, 35)
+            .fluidsOut(62, 27, 4, 1)
+            .itemsOut(62, 45, 2, 1)
+            .build(76, 12);
     public static final RecipeLayout GARDEN_SIMULATING = RecipeLayout.builder()
             .modeSlot(34, 35)
-            .itemIn(52, 26).fluidIn(52, 44)
-            .itemOut(110, 26).itemOut(128, 26).itemOut(110, 44).itemOut(128, 44)
+            .itemIn(52, 26)
+            .fluidIn(52, 44)
+            .itemsOut(110, 26, 2, 2)
             .build(77, 40);
 }

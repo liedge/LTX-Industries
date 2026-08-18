@@ -11,6 +11,7 @@ import liedge.ltxindustries.client.gui.widget.LTXISidebarButton;
 import liedge.ltxindustries.client.gui.widget.MachineUpgradesButton;
 import liedge.ltxindustries.client.gui.widget.OpenIOControlButton;
 import liedge.ltxindustries.menu.MachineBaseMenu;
+import liedge.ltxindustries.menu.SharedMenuButtons;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
@@ -43,7 +44,7 @@ public abstract class MachineBaseScreen<M extends MachineBaseMenu<?>> extends LT
         int sidebarY = 23;
         for (BlockEntityInputType type : menu.menuContext().getConfigurableInputTypes())
         {
-            addRenderableWidget(new OpenIOControlButton(rightPos, topPos + sidebarY, this, MachineBaseMenu.IO_CONTROLS_BUTTON_ID, type));
+            addRenderableWidget(new OpenIOControlButton(rightPos, topPos + sidebarY, this, SharedMenuButtons.OPEN_IO_CONTROLS, type));
             sidebarY += LTXISidebarButton.SIDEBAR_BUTTON_HEIGHT;
         }
     }

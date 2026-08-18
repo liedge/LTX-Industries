@@ -44,13 +44,7 @@ public final class LTXICreativeTabs
     {
         LimaCreativeTabFillerItem.addHoldersToTab(tabId, parameters, output, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS, LTXIItems.getRegisteredItems());
 
-        // Add GuideME tablet (if installed)
-        // TODO Return integration
-        //ItemStack guideTablet = GuideMEIntegration.createGuideTabletItem();
-        //if (!guideTablet.isEmpty()) output.accept(guideTablet, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-
         HolderLookup<Enchantment> enchantments = parameters.holders().lookupOrThrow(Registries.ENCHANTMENT);
-        addEnchantedBooks(output, enchantments, LTXIEnchantments.AMMO_SCAVENGER);
         addEnchantedBooks(output, enchantments, LTXIEnchantments.RAZOR);
     }
 

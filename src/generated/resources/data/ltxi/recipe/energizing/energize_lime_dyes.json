@@ -1,0 +1,16 @@
+{
+  "type": "ltxi:energizing",
+  "craft_time": 120,
+  "item_inputs": [
+    {
+      "ingredient": "#c:dyes/lime"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:ltx_lime_pigment"
+    }
+  ],
+  "mode": "ltxi:dye_extraction"
+}

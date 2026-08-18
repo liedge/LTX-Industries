@@ -1,7 +1,7 @@
 {
   "type": "ltxi:fabricating",
   "energy_required": 20000000,
-  "group": "eum/tool",
+  "group": "upgrade/tool",
   "item_inputs": [
     {
       "ingredient": "ltxi:empty_upgrade_module"
@@ -11,19 +11,18 @@
     },
     {
       "count": 32,
-      "ingredient": "#c:ingots/titanium"
+      "ingredient": "#c:plates/titanium"
+    },
+    {
+      "count": 4,
+      "ingredient": "#c:gears/slatesteel"
     },
     {
       "count": 16,
-      "ingredient": "ltxi:polymer_ingot"
+      "ingredient": "#c:ingots/tungsten_slatesteel"
     },
     {
-      "count": 2,
-      "ingredient": "ltxi:slatesteel_gear"
-    },
-    {
-      "count": 8,
-      "ingredient": "ltxi:ltx_lime_pigment"
+      "ingredient": "ltxi:laser_tech_part"
     }
   ],
   "result": {

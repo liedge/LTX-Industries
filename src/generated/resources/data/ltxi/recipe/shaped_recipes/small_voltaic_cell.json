@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": "#c:storage_blocks/copper",
+    "g": "#c:glass_blocks/cheap",
+    "s": "#c:ingots/silver",
+    "t": "#c:ingots/titanium"
+  },
+  "pattern": [
+    "tst",
+    "gcg",
+    "gsg"
+  ],
+  "result": {
+    "id": "ltxi:small_voltaic_cell"
+  }
+}

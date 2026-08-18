@@ -8,11 +8,11 @@ import liedge.ltxindustries.util.config.LTXIMachinesConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class ChemLabBlockEntity extends LTXIRecipeMachineBlockEntity.StateMachine<ChemicalReactingRecipe>
+public class ChemLabBlockEntity extends LTXIRecipeMachineBlockEntity<ChemicalReactingRecipe>
 {
     public ChemLabBlockEntity(BlockPos pos, BlockState state)
     {
-        super(LTXIBlockEntities.CHEM_LAB.get(), LTXIRecipeTypes.CHEMICAL_REACTING.get(), pos, state, 3, 2, 3, 2);
+        super(LTXIBlockEntities.CHEM_LAB.get(), LTXIRecipeTypes.CHEMICAL_REACTING.get(), pos, state, 3, 3, 3, 3);
     }
 
     @Override

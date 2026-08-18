@@ -1,6 +1,6 @@
 {
   "values": [
-    "ltxi:gpm_parallel",
+    "ltxi:parallel_tiers",
     "ltxi:geo_synthesizer_parallel"
   ]
 }

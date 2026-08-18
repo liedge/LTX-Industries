@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.5,
+  "ingredient": [
+    "ltxi:crushed_titanium_ore",
+    "ltxi:washed_titanium_ore",
+    "ltxi:titanium_ore_chunk",
+    "ltxi:titanium_ore_solution",
+    "ltxi:titanium_ore_crystal"
+  ],
+  "result": {
+    "id": "ltxi:titanium_ingot"
+  }
+}

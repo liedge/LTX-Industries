@@ -1,7 +1,7 @@
 {
   "type": "ltxi:fabricating",
   "energy_required": 500000,
-  "group": "eum/tool",
+  "group": "upgrade/tool",
   "item_inputs": [
     {
       "ingredient": {
@@ -25,7 +25,7 @@
     },
     {
       "count": 8,
-      "ingredient": "minecraft:string"
+      "ingredient": "#c:strings"
     },
     {
       "count": 2,

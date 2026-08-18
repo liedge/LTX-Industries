@@ -1,0 +1,6 @@
+{
+  "parent": "ltxi:block/neon_light",
+  "textures": {
+    "all": "ltxi:block/corrosive_green_neon_light"
+  }
+}

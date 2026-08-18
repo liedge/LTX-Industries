@@ -1,8 +1,12 @@
 {
   "type": "ltxi:fabricating",
   "energy_required": 5000000,
-  "group": "turrets",
+  "group": "0/turret",
   "item_inputs": [
+    {
+      "count": 2,
+      "ingredient": "ltxi:machine_housing"
+    },
     {
       "count": 2,
       "ingredient": "ltxi:t3_circuit"
@@ -16,16 +20,16 @@
       "ingredient": "ltxi:impulse_tech_part"
     },
     {
-      "count": 24,
-      "ingredient": "#c:ingots/titanium"
+      "count": 16,
+      "ingredient": "#c:dusts/phosphorus"
     },
     {
-      "count": 6,
+      "count": 4,
       "ingredient": "#c:gears/titanium"
     },
     {
       "count": 2,
-      "ingredient": "ltxi:slatesteel_gear"
+      "ingredient": "#c:gears/slatesteel"
     }
   ],
   "result": {

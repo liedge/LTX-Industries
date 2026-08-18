@@ -2,16 +2,14 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "a": "minecraft:cobblestone",
+    "a": "minecraft:diamond_pickaxe",
     "c": "ltxi:t1_circuit",
-    "g": "#c:gears/titanium",
-    "s": "minecraft:bucket",
-    "t": "#c:ingots/titanium"
+    "h": "ltxi:machine_housing",
+    "s": "minecraft:bucket"
   },
   "pattern": [
-    "tct",
     "sas",
-    "gcg"
+    "chc"
   ],
   "result": {
     "id": "ltxi:geo_synthesizer"

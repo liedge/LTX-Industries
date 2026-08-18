@@ -7,10 +7,10 @@ import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.block.NeonLightColor;
 import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
 import liedge.ltxindustries.client.LTXIKeyMappings;
-import liedge.ltxindustries.item.SimpleHintItem;
 import liedge.ltxindustries.item.tool.ToolSpeed;
 import liedge.ltxindustries.item.weapon.HanabiItem;
 import liedge.ltxindustries.item.weapon.WeaponItem;
+import liedge.ltxindustries.lib.BuiltInOres;
 import liedge.ltxindustries.lib.upgrades.Upgrade;
 import liedge.ltxindustries.lib.upgrades.UpgradeBuilder;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
@@ -50,14 +50,27 @@ class LanguageGen extends LimaLanguageProvider
         //#region Blocks
         addBlock(LTXIBlocks.TITANIUM_ORE, "Titanium Ore");
         addBlock(LTXIBlocks.DEEPSLATE_TITANIUM_ORE, "Deepslate Titanium Ore");
+        addBlock(LTXIBlocks.SILVER_ORE, "Silver Ore");
+        addBlock(LTXIBlocks.DEEPSLATE_SILVER_ORE, "Deepslate Silver Ore");
         addBlock(LTXIBlocks.NIOBIUM_ORE, "Niobium Ore");
         addBlock(LTXIBlocks.RAW_TITANIUM_BLOCK, "Block of Raw Titanium");
+        addBlock(LTXIBlocks.RAW_SILVER_BLOCK, "Block of Raw Silver");
         addBlock(LTXIBlocks.RAW_NIOBIUM_BLOCK, "Block of Raw Niobium");
         addBlock(LTXIBlocks.RAW_TITANIUM_CLUSTER, "Raw Titanium Cluster");
+        addBlock(LTXIBlocks.RAW_SILVER_CLUSTER, "Raw Silver Cluster");
         addBlock(LTXIBlocks.RAW_NIOBIUM_CLUSTER, "Raw Niobium Cluster");
         addBlock(LTXIBlocks.TITANIUM_BLOCK, "Block of Titanium");
+        addBlock(LTXIBlocks.SILVER_BLOCK, "Block of Silver");
         addBlock(LTXIBlocks.NIOBIUM_BLOCK, "Block of Niobium");
         addBlock(LTXIBlocks.SLATESTEEL_BLOCK, "Block of Slatesteel");
+        addBlock(LTXIBlocks.PERIDOTITE, "Peridotite");
+        addBlock(LTXIBlocks.PERIDOTITE_STAIRS, "Peridotite Stairs");
+        addBlock(LTXIBlocks.PERIDOTITE_SLAB, "Peridotite Slab");
+        addBlock(LTXIBlocks.PERIDOTITE_WALL, "Peridotite Wall");
+        addBlock(LTXIBlocks.POLISHED_PERIDOTITE, "Polished Peridotite");
+        addBlock(LTXIBlocks.POLISHED_PERIDOTITE_STAIRS, "Polished Peridotite Stairs");
+        addBlock(LTXIBlocks.POLISHED_PERIDOTITE_SLAB, "Polished Peridotite Slab");
+        addBlock(LTXIBlocks.POLISHED_PERIDOTITE_WALL, "Polished Peridotite Wall");
 
         LTXIBlocks.NEON_LIGHTS.forEach((color, holder) ->
         {
@@ -88,7 +101,9 @@ class LanguageGen extends LimaLanguageProvider
         addBlock(LTXIBlocks.DIGITAL_SMOKER, "Digital Smoker");
         addBlock(LTXIBlocks.DIGITAL_BLAST_FURNACE, "Digital Blast Furnace");
         addBlock(LTXIBlocks.GRINDER, "Grinder");
-        addBlock(LTXIBlocks.MATERIAL_FUSING_CHAMBER, "Material Fusing Chamber");
+        addBlock(LTXIBlocks.MATERIAL_PRESS, "Material Press");
+        addBlock(LTXIBlocks.ARC_FURNACE, "Arc Furnace");
+        addBlock(LTXIBlocks.HYDROSIEVE, "HydroSieve");
         addBlock(LTXIBlocks.ELECTROCENTRIFUGE, "ElectroCentrifuge");
         addBlock(LTXIBlocks.MIXER, "Mixer");
         addBlock(LTXIBlocks.VOLTAIC_INJECTOR, "Voltaic Injector");
@@ -98,6 +113,7 @@ class LanguageGen extends LimaLanguageProvider
         addBlock(LTXIBlocks.FABRICATOR, "Fabricator");
         addBlock(LTXIBlocks.AUTO_FABRICATOR, "Auto Fabricator");
         addBlock(LTXIBlocks.UPGRADE_STATION, "Upgrade Station");
+        addBlock(LTXIBlocks.ATMOSPHERIC_SCRUBBER, "Atmospheric Scrubber");
         addBlock(LTXIBlocks.DIGITAL_GARDEN, "Bio/ARU Garden");
 
         addBlock(LTXIBlocks.PORTABLE_GENERATOR, "Portable Generator");
@@ -118,26 +134,54 @@ class LanguageGen extends LimaLanguageProvider
         fluidType(LTXIFluids.OXYGEN_TYPE, "Oxygen");
         fluidType(LTXIFluids.CHLORINE_TYPE, "Chlorine");
         fluidType(LTXIFluids.ARGON_TYPE, "Argon");
+        fluidType(LTXIFluids.METHANE_TYPE, "Methane");
+        fluidType(LTXIFluids.SULPHURINE_TYPE, "Sulphurine");
         fluidType(LTXIFluids.SEA_WATER_TYPE, "Sea Water");
-        fluidType(LTXIFluids.VIRIDIC_ACID_TYPE, "Viridic Acid");
+        fluidType(LTXIFluids.AMMONIA_TYPE, "Ammonia");
+        fluidType(LTXIFluids.HYDROCHLORIC_ACID_TYPE, "Hydrochloric Acid");
+        fluidType(LTXIFluids.SULFURIC_ACID_TYPE, "Sulfuric Acid");
+        fluidType(LTXIFluids.HYDROFLUORIC_ACID_TYPE, "Hydrofluoric Acid");
+        fluidType(LTXIFluids.SILICONE_OIL_TYPE, "Silicone Oil");
 
         //#region Items
         addItem(RAW_TITANIUM, "Raw Titanium");
+        addItem(RAW_SILVER, "Raw Silver");
+        addItem(RAW_OLIVINE, "Raw Olivine");
+        addItem(RAW_FLUORITE, "Raw Fluorite");
         addItem(RAW_NIOBIUM, "Raw Niobium");
 
         addItem(TITANIUM_INGOT, "Titanium Ingot");
+        addItem(SILVER_INGOT, "Silver Ingot");
         addItem(NIOBIUM_INGOT, "Niobium Ingot");
+        addItem(RHENIUM_INGOT, "Rhenium Ingot");
         addItem(SILICON_INGOT, "Silicon Ingot");
         addItem(SLATESTEEL_INGOT, "Slatesteel Ingot");
-        addItem(POLYMER_INGOT, "Polymer Bar");
+        addItem(TUNGSTEN_SLATESTEEL_INGOT, "Tungsten-Plated Slatesteel");
+        addItem(POLYMER, "Polymer Bar");
+        addItem(FLUOROPOLYMER, "Fluoropolymer Bar");
+        addItem(SILICONE_RUBBER, "Silicone Rubber");
+
+        addItem(OLIVINE, "Olivine");
+        addItem(FLUORITE, "Fluorite");
+        addItem(PYROXENE, "Pyroxene");
 
         addItem(TITANIUM_NUGGET, "Titanium Nugget");
+        addItem(SILVER_NUGGET, "Silver Nugget");
         addItem(NIOBIUM_NUGGET, "Niobium Nugget");
 
+        addItem(TITANIUM_DUST, "Titanium Dust");
+        addItem(SILVER_DUST, "Silver Dust");
+        addItem(NIOBIUM_DUST, "Niobium Dust");
+        addItem(RHENIUM_DUST, "Rhenium Dust");
         addItem(CARBON_DUST, "Carbon Dust");
         addItem(SODIUM_DUST, "Sodium Dust");
         addItem(SILICON_DUST, "Silicon Dust");
+        addItem(PHOSPHORUS_DUST, "Phosphorus Dust");
+        addItem(SULFUR_DUST, "Sulfur Dust");
+        addItem(SLATESTEEL_DUST, "Slatesteel Dust");
+        addItem(TUNGSTEN_SLATESTEEL_DUST, "Tungsten-Plated Slatesteel Dust");
         addItem(DEEPSLATE_DUST, "Deepslate Dust");
+        addItem(PERIDOTITE_DUST, "Peridotite Dust");
         addItem(RESINOUS_BIOMASS, "Resinous Biomass");
         addItem(ACIDIC_BIOMASS, "Acidic Biomass");
 
@@ -147,49 +191,72 @@ class LanguageGen extends LimaLanguageProvider
         addItem(OXYGEN_BUCKET, "Oxygen Bucket");
         addItem(CHLORINE_BUCKET, "Chlorine Bucket");
         addItem(ARGON_BUCKET, "Argon Bucket");
+        addItem(METHANE_BUCKET, "Methane Bucket");
+        addItem(SULPHURINE_BUCKET, "Sulphurine Bucket");
         addItem(SEA_WATER_BUCKET, "Sea Water Bucket");
-        addItem(VIRIDIC_ACID_BUCKET, "Viridic Acid Bucket");
+        addItem(AMMONIA_BUCKET, "Ammonia Bucket");
+        addItem(HYDROCHLORIC_ACID_BUCKET, "Hydrochloric Acid Bucket");
+        addItem(SULFURIC_ACID_BUCKET, "Sulfuric Acid Bucket");
+        addItem(HYDROFLUORIC_ACID_BUCKET, "Hydrofluoric Acid Bucket");
+        addItem(SILICONE_OIL_BUCKET, "Silicone Oil Bucket");
         addItem(LTX_LIME_PIGMENT, "LTXI Lime Pigment");
         addItem(ENERGY_BLUE_PIGMENT, "Energy Blue Pigment");
         addItem(ELECTRIC_CHARTREUSE_PIGMENT, "Electric Chartreuse Pigment");
-        addItem(VIRIDIC_GREEN_PIGMENT, "Viridic Green Pigment");
+        addItem(CORROSIVE_GREEN_PIGMENT, "Corrosive Green Pigment");
         addItem(GLOOM_BLUE_PIGMENT, "Gloom Blue Pigment");
-        addItem(ELECTRIC_CHEMICAL, "Electrolyte Blend");
-        addItem(MONOMER_CHEMICAL, "Monomer Solution");
-        addItem(VIRIDIC_WEAPON_CHEMICAL, "Weapons-Grade Viridic Acid");
+        addItem(CORROSIVE_WEAPON_CHEMICAL, "Weapons-Grade Corrosive");
         addItem(CHORUS_CHEMICAL, "Chorus Extract");
         addItem(SCULK_CHEMICAL, "Echo Serum");
-        addItem(GLOOM_CHEMICAL, "Concentrated Gloom Essence");
+        addItem(GLOOM_WEAPON_CHEMICAL, "Weapons-Grade Gloom Serum");
+        addItem(TUNGSTEN_TRIOXIDE, "Tungsten Trioxide");
+        addItem(RHENIUM_7_OXIDE, "Rhenium(VII) Oxide");
+        addItem(AMMONIUM_PERRHENATE, "Ammonium Perrhenate");
         addItem(SLATESTEEL_NUGGET, "Slatesteel Nugget");
         addItem(TITANIUM_GEAR, "Titanium Gear");
         addItem(SLATESTEEL_GEAR, "Slatesteel Gear");
+        addItem(COPPER_PLATE, "Copper Plate");
+        addItem(GOLD_PLATE, "Gold Plate");
+        addItem(TITANIUM_PLATE, "Titanium Plate");
+        addItem(SILVER_PLATE, "Silver Plate");
+        addItem(NIOBIUM_PLATE, "Niobium Plate");
+        addItem(RHENIUM_PLATE, "Rhenium Plate");
+        addItem(SILICON_PLATE, "Silicon Plate");
+        addItem(SLATESTEEL_PLATE, "Slatesteel Plate");
+        addItem(TUNGSTEN_SLATESTEEL_PLATE, "Tungsten-Plated Slatesteel Plate");
+        addItem(POLYMER_SHEET, "Polymer Sheet");
+        addItem(FLUOROPOLYMER_SHEET, "Fluoropolymer Sheet");
+        addItem(MACHINE_HOUSING, "Machine Housing");
+        addItem(SMALL_VOLTAIC_CELL, "Basic Voltaic Cell");
+        addItem(MEDIUM_VOLTAIC_CELL, "Voltaic Cell");
+        addItem(LARGE_VOLTAIC_CELL, "High-Energy Voltaic Cell");
         addItem(CIRCUIT_BOARD, "Circuit Board");
-        simpleHintItem(T1_CIRCUIT, "Basic Circuit", "First tier circuit. Sufficient energy and data throughput for most entry-level applications.");
-        simpleHintItem(T2_CIRCUIT, "Enhanced Circuit", "Second tier circuit. Improved energy and data efficiency from higher quality conductors.");
-        simpleHintItem(T3_CIRCUIT, "Precision Circuit", "Third tier circuit. Highest performance on conventional materials. Handles all standard engineering and industrial applications.");
-        simpleHintItem(T4_CIRCUIT, "Nano-Core Processor", "Fourth tier circuit. Exotic crystal-metal nanoarchitecture packed into a small form factor. Near unmatched power delivery and data processing.");
-        simpleHintItem(T5_CIRCUIT, "Real Virtuality Processor", "Fifth and final tier circuit. Can create digital microverses where its calculations don't break the laws of physics. Don't question it.");
-        simpleHintItem(OPTICAL_TECH_PART, "Optical Module", "Multi purpose lens with an onboard visual data processor. Useful for target processing and visual aids.");
-        simpleHintItem(IMPULSE_TECH_PART, "Impulse Driver Module", "Hydrogen-fueled device that generates powerful yet precise shock waves. Optimal for propulsion and explosive systems.");
+        addItem(ELITE_CIRCUIT_BOARD, "Elite Circuit Board");
+        addItem(LOGIC_CORE, "Logic Core");
+        addItem(NANO_LOGIC_CORE, "Nano Logic Core");
+        simpleLoreItem(T1_CIRCUIT, "Basic Circuit", "First tier circuit. Sufficient energy and data throughput for most entry-level applications.");
+        simpleLoreItem(T2_CIRCUIT, "Enhanced Circuit", "Second tier circuit. Improved energy and data efficiency from higher quality conductors.");
+        simpleLoreItem(T3_CIRCUIT, "Precision Circuit", "Third tier circuit. Highest performance on conventional materials. Handles all standard engineering and industrial applications.");
+        simpleLoreItem(T4_CIRCUIT, "Nano-Core Processor", "Fourth tier circuit. Exotic crystal-metal nanoarchitecture packed into a small form factor. Near unmatched power delivery and data processing.");
+        simpleLoreItem(T5_CIRCUIT, "Real Virtuality Processor", "Fifth and final tier circuit. Can create digital microverses where its calculations don't break the laws of physics. Don't question it.");
+        simpleLoreItem(OPTICAL_TECH_PART, "Optical Module", "Multi purpose lens with an onboard visual data processor. Useful for target processing and visual aids.");
+        simpleLoreItem(LASER_TECH_PART, "Olivine Laser Engine", "Focuses large amounts of energy through an olivine refracting crystal. Capable of producing high power lasers or crystallizing light.");
+        simpleLoreItem(IMPULSE_TECH_PART, "Impulse Driver Module", "Hydrogen-fueled device that generates powerful yet precise shock waves. Optimal for propulsion and explosive systems.");
 
-        addItem(COAL_ORE_PEBBLES, "Coal Ore Pebbles");
-        addItem(COPPER_ORE_PEBBLES, "Copper Ore Pebbles");
-        addItem(IRON_ORE_PEBBLES, "Iron Ore Pebbles");
-        addItem(LAPIS_ORE_PEBBLES, "Lapis Lazuli Ore Pebbles");
-        addItem(REDSTONE_ORE_PEBBLES, "Redstone Ore Pebbles");
-        addItem(GOLD_ORE_PEBBLES, "Gold Ore Pebbles");
-        addItem(DIAMOND_ORE_PEBBLES, "Diamond Ore Pebbles");
-        addItem(EMERALD_ORE_PEBBLES, "Emerald Ore Pebbles");
-        addItem(QUARTZ_ORE_PEBBLES, "Nether Quartz Ore Pebbles");
-        addItem(NETHERITE_ORE_PEBBLES, "Netherite Scrap Ore Pebbles");
-        addItem(TITANIUM_ORE_PEBBLES, "Titanium Ore Pebbles");
-        addItem(NIOBIUM_ORE_PEBBLES, "Niobium Ore Pebbles");
-        addItem(TIN_ORE_PEBBLES, "Tin Ore Pebbles");
-        addItem(OSMIUM_ORE_PEBBLES, "Osmium Ore Pebbles");
-        addItem(NICKEL_ORE_PEBBLES, "Nickel Ore Pebbles");
-        addItem(LEAD_ORE_PEBBLES, "Lead Ore Pebbles");
-        addItem(SILVER_ORE_PEBBLES, "Silver Ore Pebbles");
-        addItem(URANIUM_ORE_PEBBLES, "Uranium Ore Pebbles");
+        for (BuiltInOres ore : BuiltInOres.values())
+        {
+            String localizedName = switch (ore)
+            {
+                case LAPIS -> "Lapis Lazuli";
+                case QUARTZ -> "Nether Quartz";
+                default -> localizeSimpleName(ore);
+            };
+
+            addItem(CRUSHED_ORES.get(ore), "Crushed " + localizedName + " Ore");
+            addItem(WASHED_ORES.get(ore), "Washed " + localizedName + " Ore");
+            addItem(ORE_CHUNKS.get(ore), localizedName + " Ore Chunk");
+            addItem(ORE_SOLUTIONS.get(ore), localizedName + " Ore Solution");
+            addItem(ORE_CRYSTALS.get(ore), localizedName + " Ore Crystal");
+        }
 
         addItem(GUIDE_TABLET, "Guide Tablet");
         addItem(EPSILON_DRILL, "ε-Series Drill");
@@ -208,7 +275,7 @@ class LanguageGen extends LimaLanguageProvider
         addItem(WONDERLAND_FEET, italicName("%s AL/1C Seg.F", "Wonderland"));
 
         addItem(EMPTY_UPGRADE_MODULE, "Empty Upgrade Module");
-        simpleHintItem(EMPTY_FABRICATION_BLUEPRINT, "Empty Fabrication Blueprint", "Encode a Fabrication recipe in a Fabricator.");
+        simpleLoreItem(EMPTY_FABRICATION_BLUEPRINT, "Empty Fabrication Blueprint", "Encode a Fabrication recipe in a Fabricator.");
         addItem(FABRICATION_BLUEPRINT, "Fabrication Blueprint");
         addItem(ITEMS_IO_CONFIG_CARD, "Items IO Config Card");
         addItem(ENERGY_IO_CONFIG_CARD, "Energy IO Config Card");
@@ -222,11 +289,6 @@ class LanguageGen extends LimaLanguageProvider
         addItem(STARGAZER, italicName("%s 37/LF", "Stargazer"));
         addItem(DAYBREAK, italicName("%s 41/RL", "Daybreak"));
         addItem(NOVA, italicName("%s 77/HX", "Nova"));
-
-        simpleHintItem(LIGHTWEIGHT_WEAPON_ENERGY, "Lightweight Weapon Energy", "Consumable energy cell for powering Lightweight-class weaponry.");
-        simpleHintItem(SPECIALIST_WEAPON_ENERGY, "Specialist Weapon Energy", "Consumable energy cell for powering Specialist-class weaponry.");
-        simpleHintItem(EXPLOSIVES_WEAPON_ENERGY, "Explosive Weapon Energy", "Consumable energy cell for powering Explosive-class weaponry.");
-        simpleHintItem(HEAVY_WEAPON_ENERGY, "Heavy Weapon Energy", "Consumable energy cell for powering Heavy-class weaponry.");
         //#endregion
 
         //#region Universal upgrades
@@ -245,7 +307,6 @@ class LanguageGen extends LimaLanguageProvider
         upgradeDescOnly(LTXIUpgrades.EPSILON_WRENCH_DEFAULT, "Standard issue operating system. Enables lossless dismantling and retrieval of machines.");
         upgradeDescOnly(LTXIUpgrades.EPSILON_MELEE_DEFAULT, "Standard issue operating system. Tool energy blade is optimized for efficient severing and disintegration of organic matter.");
         upgradeTooltip(LTXIUpgrades.EPSILON_MELEE_DEFAULT, 0, "%s bonus damage against unarmored targets");
-        upgrade(LTXIUpgrades.WAYFINDER_DEFAULT, "Wayfinder Intrinsics", "Wayfinder's energy feed system ships pre-configured to use Common Energy.");
         upgrade(LTXIUpgrades.SERENITY_DEFAULT, "Serenity Intrinsics", "Serenity's small lightfrags zip right through targets without a trace.");
         upgradeTooltip(LTXIUpgrades.SERENITY_DEFAULT, 0, "No anger and knockback on damage");
         upgrade(LTXIUpgrades.MIRAGE_DEFAULT, "Mirage Intrinsics", "Mirage's lightfrags pierce without physical impulse for efficient damage output levels.");
@@ -254,19 +315,19 @@ class LanguageGen extends LimaLanguageProvider
         upgrade(LTXIUpgrades.STARGAZER_DEFAULT, "Stargazer Intrinsics", "Stargazer's systems are calibrated for precise long-range engagements.");
         upgradeTooltip(LTXIUpgrades.STARGAZER_DEFAULT, 0, "%s bonus damage per meter after %sm (%s max bonus)");
         upgradeTooltip(LTXIUpgrades.STARGAZER_DEFAULT, 1, "%s bonus damage when standing still and sneaking");
-        upgrade(LTXIUpgrades.NOVA_DEFAULT, "Nova Intrinsics", "Nova's lightfrags can knock away even the heaviest targets.");
+        upgrade(LTXIUpgrades.NOVA_DEFAULT, "Nova Intrinsics", "Nova's lightfrags may or may not violently deconstruct targets at the atomic level.");
         upgrade(LTXIUpgrades.HEAD_DEFAULT, "AL/1C [H] Unit", "Neural processor core of the AL/1C bodysuit.");
         upgradeTooltip(LTXIUpgrades.HEAD_DEFAULT, 0, "Blocks vision debuff effects (%s)");
         upgrade(LTXIUpgrades.BODY_DEFAULT, "AL/1C [B] Unit", "Vital function management system of the AL/1C bodysuit.");
+        upgradeTooltip(LTXIUpgrades.BODY_DEFAULT, 0, "Immunity to fire damage");
         upgrade(LTXIUpgrades.LEGS_DEFAULT, "AL/1C [L] Unit", "Primary locomotion systems of the AL/1C bodysuit.");
         upgradeTooltip(LTXIUpgrades.LEGS_DEFAULT, 0, "Blocks movement debuff effects (%s)");
         upgrade(LTXIUpgrades.FEET_DEFAULT, "AL/1C [F] Unit", "Bipedal stabilization systems of the AL/1C bodysuit.");
-        upgradeTooltip(LTXIUpgrades.FEET_DEFAULT, 0, "Immune to hot floor damage.");
+        upgradeTooltip(LTXIUpgrades.FEET_DEFAULT, 0, "Immunity to hot floor damage.");
 
         upgrade(LTXIUpgrades.EQUIPMENT_ENERGY_UPGRADE, "Augmented Equipment Battery", "Maximize your equipment's field uptime with this upgraded battery.");
 
         upgrade(LTXIUpgrades.EPSILON_FISHING_LURE, "ε Anglers' Kit", "Upgraded lure for the ε-Series fishing rod. Attracts more valuable aquatic specimens faster than regular bait.");
-        upgrade(LTXIUpgrades.TOOL_NETHERITE_LEVEL, "Netherite-Core Tool Head", "Upgraded tool cutters can harvest Netherite-level materials.");
         upgrade(LTXIUpgrades.EPSILON_OMNI_DRILL, "ε Cutter Rev.000", "Restored prototype ε mining tech with bypassed safeties. Makes modular mining tools effective against all material types.");
         upgrade(LTXIUpgrades.TREE_VEIN_MINE, "Lumber Felling Unit", "Automatic harvesting algorithm for the ε-Series Axe's energy cutter. May cause localized deforestation.");
         upgradeTooltip(LTXIUpgrades.TREE_VEIN_MINE, 0, "Vein-mines trees, up to 256 logs. Does not use energy actions for additional blocks.");
@@ -276,12 +337,7 @@ class LanguageGen extends LimaLanguageProvider
         upgrade(LTXIUpgrades.EQUIPMENT_BLOCK_DROPS_CAPTURE, "Mining Subspace Link", "Establishes a matter warp link capable of intercepting material harvesting products.");
 
         upgrade(LTXIUpgrades.WEAPON_VIBRATION_CANCEL, "Echo Suppressor", "Augments weapons and projectiles with an anti-resonance field, erasing vibration signatures");
-        upgrade(LTXIUpgrades.LIGHTWEIGHT_ENERGY_ADAPTER, "Lightweight Energy Adapter", "Reroutes the energy feed system of Lightweight weaponry to use Common Energy.");
-        upgrade(LTXIUpgrades.SPECIALIST_ENERGY_ADAPTER, "Specialist Energy Adapter", "Reroutes the energy feed system of Specialist weaponry to use Common Energy.");
-        upgrade(LTXIUpgrades.EXPLOSIVES_ENERGY_ADAPTER, "Explosives Energy Adapter", "Reroutes the energy feed system of Explosives weaponry to use Common Energy.");
-        upgrade(LTXIUpgrades.HEAVY_ENERGY_ADAPTER, "Heavy Energy Adapter", "Reroutes the energy feed system of Heavy weaponry to use Common Energy.");
         upgrade(LTXIUpgrades.INFINITE_AMMO, "//ERR~MAG-Z!!-NE//∞", "Ignore the laws of physics with this never-ending ammo source. Try not to cause a mass extinction event.");
-        upgrade(LTXIUpgrades.NOVA_GOD_ROUNDS, "Stellar Reality Disruptor", "Rip through reality itself with this Nova upgrade. Ensures swift defeat of even the strongest enemies.");
         upgrade(LTXIUpgrades.HANABI_SPEED_BOOST, "Hanabi Launch Boost", "Increases the velocity of the Hanabi grenades.");
 
         upgrade(LTXIUpgrades.PASSIVE_NIGHT_VISION, "NV Visor", "AL/1C optics modified to work in low light environments.");
@@ -293,12 +349,10 @@ class LanguageGen extends LimaLanguageProvider
         upgrade(LTXIUpgrades.PASSIVE_SATURATION, "Metabolic Synthesizer", "Injects a stable mix of nutrients required for healthy function.");
         upgrade(LTXIUpgrades.CREATIVE_FLIGHT, "Fantasia Rulebook", italicName("One of the %s project's most successful experiments. Allows the user to exist outside the laws of gravity.", "Wonderland"));
 
-        upgrade(LTXIUpgrades.EFFICIENCY_ENCHANTMENT, "Overclocked Energy Cutters", "Enhances the power feed to the tool's energy cutter.");
         upgrade(LTXIUpgrades.SILK_TOUCH_ENCHANTMENT, "Stabilized Harvest Matrix", "Calibrated to extract intact samples from the terrain.");
         upgrade(LTXIUpgrades.FORTUNE_ENCHANTMENT, "Overclocked Harvest Matrix", "Calibrated to extract superior quantities of valuable resources.");
         upgrade(LTXIUpgrades.LOOTING_ENCHANTMENT, "Combat Yield Protocol", "Calibrated to maximize structural integrity of salvageable biomaterials.");
-        upgrade(LTXIUpgrades.AMMO_SCAVENGER_ENCHANTMENT, "Munition Trace Unit", "Improves detection of high-grade LTX ammunition in the field.");
-        upgrade(LTXIUpgrades.RAZOR_ENCHANTMENT, "Severance Algorithm", "Weapon calibration enables the retrieval of anatomical curiosities.");
+        upgrade(LTXIUpgrades.RAZOR_ENCHANTMENT, "Severance Algorithm", "Weapon systems may occasionally collect anatomical curiosities.");
 
         upgrade(LTXIUpgrades.FLAME_GRENADE_CORE, "Flame Shells", "Shells are loaded with a long-burning fuel that leaves a lingering blaze.");
         upgrade(LTXIUpgrades.CRYO_GRENADE_CORE, "Cryo Shells", "Shells contain a strong cryogenic compound that can immobilize targets in a large area.");
@@ -311,13 +365,14 @@ class LanguageGen extends LimaLanguageProvider
         //#region Machine upgrades
         upgrade(LTXIUpgrades.ECA_CAPACITY_UPGRADE, "Auxiliary Energy Cells", "Increases the energy capacity and transfer rate of the Energy Cell Array.");
         upgrade(LTXIUpgrades.PORTABLE_TANK_UPGRADE, "Ti-Glass Reservoir", "A higher pressure and throughput-rated composite glass chassis for the Portable Tank.");
-        upgrade(LTXIUpgrades.STANDARD_MACHINE_SYSTEMS, "GPM Standard Systems", "Core modular systems designed for balanced efficiency.");
-        upgrade(LTXIUpgrades.ULTIMATE_MACHINE_SYSTEMS, "GPM Ultimate Systems", "The pinnacle of engineering precision! Achieves near-instantaneous crafting at the cost of immense energy consumption.");
-        upgrade(LTXIUpgrades.GPM_PARALLEL, "GPM Multi-Threading", "Parallelized task framework that completes multiple operations per cycle, as input and output constraints permit.");
+        upgrade(LTXIUpgrades.POWER_TIERS, "Σ/VM3 Power Supply Unit", "Standard issue SIGMA-VM3 power supplies are compatible with all our powered machinery.");
+        upgrade(LTXIUpgrades.PARALLEL_TIERS, "Σ/4D Hypervisor Module", "SIGMA-4D co-processors may be deployed on select machinery for zero-cost parallelization.");
         upgrade(LTXIUpgrades.FABRICATOR_UPGRADE, "Enhanced Tool Head", "Elevate your Fabricator's manufacturing capabilities with superior internal components.");
+        upgrade(LTXIUpgrades.ORE_PROCESS_2, "Ore Washing Kit", "Upgrades the HydroSieve's internals to be able to wash away the impurities from crushed ores.");
+        upgrade(LTXIUpgrades.ORE_PROCESS_3, "Ore Cutting Laser", "Drop-in replacement emitter for the Voltaic Injector. Allows the electricity beam to cut cleaned ores.");
+        upgrade(LTXIUpgrades.ORE_PROCESS_4, "Ore Dissolution Vats", "Equip your Chem Lab with acid baths that dissolve processed ore chunks into solution vials.");
+        upgrade(LTXIUpgrades.ORE_PROCESS_5, "Ore Crystallizing Tubes", "Nano-tech powered filtration and circulation systems for the ElectroCentrifuge's tubes that allows the crystallization of ore solutions.");
         upgrade(LTXIUpgrades.GEO_SYNTHESIZER_PARALLEL, "Lithic Co-Processor", "A specialized parallel processor for producing geological material.");
-        upgrade(LTXIUpgrades.TURRET_LOOTING, "Efficient Target Disposal", "Smarter turret targeting systems allow for increased loot drops from eliminated targets.");
-        upgrade(LTXIUpgrades.TURRET_RAZOR, "Headhunter Scope", "Precise turret calibration enables the collection of anatomical curiosities.");
         //#endregion
 
         // Creative tabs
@@ -339,7 +394,9 @@ class LanguageGen extends LimaLanguageProvider
 
         // Recipe types
         add(GRINDING, "Grinding");
-        add(MATERIAL_FUSING, "Material Fusing");
+        add(PRESSING, "Material Pressing");
+        add(ARC_SMELTING, "Arc Smelting");
+        add(SIEVING, "Hydro-Sieving");
         add(ELECTRO_CENTRIFUGING, "ElectroCentrifuging");
         add(MIXING, "Mixing");
         add(ENERGIZING, "Energizing");
@@ -348,11 +405,21 @@ class LanguageGen extends LimaLanguageProvider
         add(ASSEMBLING, "Assembling");
         add(GEO_SYNTHESIS, "Geo Synthesis");
         add(FABRICATING, "Fabricating");
+        add(AIR_SCRUBBING, "Atmospheric Scrubbing");
 
         // Recipe sub-modes
+        recipeMode(LTXIRecipeModes.ELEMENT_EXTRACTION, "Element Extraction");
         recipeMode(LTXIRecipeModes.DYE_EXTRACTION, "Dye Extraction");
         recipeMode(LTXIRecipeModes.CHEM_DISSOLUTION, "Dissolution");
-        recipeMode(LTXIRecipeModes.ECF_ELECTROLYZE, "Electrolyze");
+        recipeMode(LTXIRecipeModes.ORE_PROCESSING, "Ore Processing");
+        recipeMode(LTXIRecipeModes.PLATE_PRESSING, "Plate Pressing");
+        recipeMode(LTXIRecipeModes.GEAR_PRESSING, "Gear Pressing");
+        recipeMode(LTXIRecipeModes.UNSHIELDED_SMELTING, "Unshielded Smelting");
+        recipeMode(LTXIRecipeModes.INERT_SMELTING, "Inert Gas Smelting");
+        recipeMode(LTXIRecipeModes.AMBIENT_FLUIDS, "Ambient Fluids");
+        recipeMode(LTXIRecipeModes.AMBIENT_GASES, "Ambient Gases");
+        recipeMode(LTXIRecipeModes.LOCALIZED_FLUIDS, "Localized Fluids");
+        recipeMode(LTXIRecipeModes.LOCALIZED_GASES, "Localized Gases");
         recipeMode(LTXIRecipeModes.GS_FARMING, "Farming");
         recipeMode(LTXIRecipeModes.GS_WOODS, "Woods");
         recipeMode(LTXIRecipeModes.GS_ORCHARD, "Orchard");
@@ -372,7 +439,6 @@ class LanguageGen extends LimaLanguageProvider
 
         // Enchantments
         enchantment(LTXIEnchantments.RAZOR, "Razor");
-        enchantment(LTXIEnchantments.AMMO_SCAVENGER, "Ammo Scavenger");
 
         //#region Tooltips
         add(INLINE_ENERGY, "Energy: %s");
@@ -406,6 +472,9 @@ class LanguageGen extends LimaLanguageProvider
         add(FUEL_UNITS_STORED, "Fuel units: %s/%s");
         add(ENERGY_PER_FUEL_UNIT, "Per fuel unit: %s");
         add(JEI_CRAFTING_TIME_TOOLTIP, "%ss | %st");
+        add(JEI_LOCATION_DIMENSION_TOOLTIP, "In dimension: %s");
+        add(JEI_LOCATION_BIOMES_TOOLTIP, "In biome(s): %s");
+        add(JEI_LOCATION_WATERLOG_TOOLTIP, "Machine must be waterlogged");
 
         add(INPUT_NOT_CONSUMED_TOOLTIP, "Input not consumed");
         add(INPUT_CONSUME_CHANCE_TOOLTIP, "Input consume chance: %s");
@@ -443,8 +512,6 @@ class LanguageGen extends LimaLanguageProvider
         add(FLUID_CAPACITY_UPGRADE, "%s fluid capacity");
         add(PARALLEL_OPERATIONS_UPGRADE, "%s operations per cycle");
         add(MACHINE_SPEED_UPGRADE, "%s machine speed");
-        add(ENERGY_PER_RECIPE_UPGRADE, "Avg. energy per recipe: %s");
-        add(INSTANT_PROCESSING_UPGRADE, "Instant machine operation");
         add(PROJECTILE_SPEED_UPGRADE, "%s projectile speed");
         add(ATTRIBUTE_SCALED_DAMAGE_UPGRADE, "%s of target's %s as extra damage");
 
@@ -458,6 +525,7 @@ class LanguageGen extends LimaLanguageProvider
         add(CAPPED_ENCHANTMENT_UPGRADE_EFFECT, "+%s %s levels (max %s)");
         add(GRENADE_UNLOCK_EFFECT, "Can use %s shells");
         add(CANCEL_FALLS_EFFECT, "Cancels falls (%s)");
+        add(UNLOCK_RECIPE_MODE_EFFECT, "Unlocks the %s recipe mode");
 
         add(WeaponReloadSource.Type.ITEM.getItemTooltip(), "Reloads with %s");
         add(WeaponReloadSource.Type.ITEM.getUpgradeTooltip(), "Replaces reload item: %s");
@@ -532,10 +600,10 @@ class LanguageGen extends LimaLanguageProvider
         add(LTXIKeyMappings.RELOAD_KEY_SUBTITLE, "Reload Weapon");
     }
 
-    private void simpleHintItem(DeferredItem<SimpleHintItem> item, String name, String hint)
+    private void simpleLoreItem(DeferredItem<?> item, String name, String hint)
     {
         addItem(item, name);
-        add(item.get().getShiftHint(), hint);
+        add(item.getId().toLanguageKey(ITEM_LORE_PREFIX), hint);
     }
 
     private String italicName(String pattern, String name)

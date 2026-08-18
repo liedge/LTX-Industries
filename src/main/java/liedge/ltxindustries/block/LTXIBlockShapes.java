@@ -65,6 +65,31 @@ public final class LTXIBlockShapes
             dimensionBox(0, 6, 2, 1, 8, 12),
             dimensionBox(4, 9, 0, 8, 5, 1));
 
+    public static final VoxelShape ARC_FURNACE = Shapes.or(
+            dimensionBox(2, 0, 1, 12, 3, 14),
+            dimensionBox(3, 3, 2, 10, 8, 10),
+            dimensionBox(2, 5, 6, 12, 4, 7),
+            dimensionBox(2, 11, 1, 12, 2, 12),
+            dimensionBox(3, 13, 2, 10, 1, 10),
+            dimensionBox(4, 3, 12, 8, 10, 3),
+            dimensionBox(6, 14, 5, 4, 2, 4));
+
+    public static final VoxelShape MATERIAL_PRESS = Shapes.or(
+            dimensionBox(1, 0, 1, 14, 3, 14),
+            dimensionBox(2, 3, 2, 12, 1, 12),
+            dimensionBox(0, 0, 5, 2, 16, 6),
+            dimensionBox(14, 0, 5, 2, 16, 6),
+            dimensionBox(2, 13, 2, 12, 3, 12),
+            dimensionBox(5, 12, 1, 6, 4, 1));
+
+    public static final VoxelShape HYDROSIEVE = Shapes.or(
+            dimensionBox(1, 0, 1, 14, 3, 14),
+            dimensionBox(2, 3, 2, 12, 3, 12),
+            dimensionBox(1, 6, 1, 14, 9, 1),
+            dimensionBox(1, 6, 14, 14, 9, 1),
+            dimensionBox(1, 6, 2, 1, 9, 12),
+            dimensionBox(14, 6, 2, 1, 9, 12));
+
     public static final VoxelShape ELECTROCENTRIFUGE = Shapes.or(
             // Chassis
             dimensionBox(0, 0, 0, 4, 2, 4),
@@ -106,7 +131,9 @@ public final class LTXIBlockShapes
             dimensionBox(6, 4, 2, 4, 9, 4),
             dimensionBox(10.5d, 4, 2, 4, 9, 4));
 
-    public static final VoxelShape ASSEMBLER = Shapes.or(
+    public static final VoxelShape ASSEMBLER = dimensionBox(0, 0, 1, 16, 15, 14);
+
+    public static final VoxelShape AUTO_FABRICATOR = Shapes.or(
             // Feet & base
             dimensionBox(0, 0, 0, 4, 2, 4),
             dimensionBox(12, 0, 0, 4, 2, 4),
@@ -125,6 +152,13 @@ public final class LTXIBlockShapes
             dimensionBox(0, 14, 2, 2, 2, 12),
             // Inner cube
             dimensionBox(0.5d, 3.5d, 0.5d, 15, 12, 15));
+
+    public static final VoxelShape ATMOSPHERIC_SCRUBBER = Shapes.or(
+            dimensionBox(1, 0, 2, 14, 3, 12),
+            dimensionBox(9, 3, 3, 6, 10, 10),
+            dimensionBox(1, 3, 3, 8, 4, 10),
+            dimensionBox(1, 3, 4, 8, 12, 8),
+            dimensionBox(2, 3, 2, 6, 4, 1));
 
     public static final VoxelShape GEO_SYNTHESIZER = Shapes.or(
             dimensionBox(0, 0, 1, 16, 2, 14),
@@ -183,14 +217,12 @@ public final class LTXIBlockShapes
             Block.box(5, 17, 5, 11, 25, 11));
 
     public static final VoxelShape DIGITAL_GARDEN = Shapes.or(
-            // Base
-            Block.box(0, 0, 0, 16, 10, 16),
-            dimensionBox(0.5d, 10, 0.5d, 15, 3, 15),
-            // Back panel
-            dimensionBox(0.5d, 13, 13.5d, 15, 16, 2),
-            // Window
-            dimensionBox(1, 13, 1, 14, 16, 12.5d),
-            // Top
-            dimensionBox(0, 29, 0, 16, 3, 16));
+            dimensionBox(1, 0, 1, 14, 4, 14),
+            dimensionBox(2, 5, 2, 12, 3, 12),
+            dimensionBox(4, 4, 1, 8, 8, 1),
+            dimensionBox(1, 9, 1, 14, 3, 14),
+            dimensionBox(1.5d, 12, 1.5d, 13, 16, 13),
+            dimensionBox(1, 28, 1, 14, 3, 14),
+            dimensionBox(2, 31, 2, 12, 1, 12));
     //#endregion
 }

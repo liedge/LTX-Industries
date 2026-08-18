@@ -1,0 +1,29 @@
+{
+  "type": "ltxi:arc_smelting",
+  "craft_time": 300,
+  "fluid_inputs": [
+    {
+      "amount": 250,
+      "ingredient": "#c:oxygen"
+    }
+  ],
+  "item_inputs": [
+    {
+      "ingredient": "#c:ingots/iron"
+    },
+    {
+      "ingredient": "#c:dusts/carbon"
+    },
+    {
+      "count": 2,
+      "ingredient": "#c:dusts/deepslate"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:slatesteel_ingot"
+    }
+  ],
+  "mode": "ltxi:unshielded_smelting"
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "m": "#c:ingots/slatesteel",
+    "p": "ltxi:polymer"
+  },
+  "pattern": [
+    "mpm",
+    "p p",
+    "mpm"
+  ],
+  "result": {
+    "count": 16,
+    "id": "ltxi:slatesteel_panel"
+  }
+}

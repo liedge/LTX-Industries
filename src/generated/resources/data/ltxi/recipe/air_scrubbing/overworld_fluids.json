@@ -1,0 +1,13 @@
+{
+  "type": "ltxi:air_scrubbing",
+  "fluid_results": [
+    {
+      "amount": 1000,
+      "id": "minecraft:water"
+    }
+  ],
+  "location": {
+    "dimension": "minecraft:overworld"
+  },
+  "mode": "ltxi:ambient_fluids"
+}

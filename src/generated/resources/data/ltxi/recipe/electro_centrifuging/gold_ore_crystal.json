@@ -1,0 +1,29 @@
+{
+  "type": "ltxi:electro_centrifuging",
+  "fluid_inputs": [
+    {
+      "amount": 125,
+      "ingredient": "ltxi:hydrochloric_acid"
+    }
+  ],
+  "item_inputs": [
+    {
+      "ingredient": "ltxi:gold_ore_solution"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:gold_ore_crystal"
+    },
+    {
+      "count": {
+        "chance": 0.5,
+        "max": 1,
+        "min": 1
+      },
+      "id": "ltxi:gold_ore_crystal"
+    }
+  ],
+  "mode": "ltxi:ore_processing"
+}

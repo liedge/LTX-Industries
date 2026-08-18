@@ -1,6 +1,9 @@
 {
   "values": [
-    "#c:raw_materials/titanium",
-    "#c:raw_materials/niobium"
+    "ltxi:raw_titanium",
+    "ltxi:raw_silver",
+    "ltxi:raw_olivine",
+    "ltxi:raw_fluorite",
+    "ltxi:raw_niobium"
   ]
 }

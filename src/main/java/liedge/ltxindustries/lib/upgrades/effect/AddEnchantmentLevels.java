@@ -25,9 +25,19 @@ public record AddEnchantmentLevels(Holder<Enchantment> enchantment, LevelBasedVa
 
     public static final Comparator<AddEnchantmentLevels> DESCENDING_MAX_LEVELS_COMPARATOR = Comparator.comparingInt(AddEnchantmentLevels::maxLevel).reversed();
 
+    public static AddEnchantmentLevels add(Holder<Enchantment> enchantment, LevelBasedValue levels, int maxLevel)
+    {
+        return new AddEnchantmentLevels(enchantment, levels, maxLevel);
+    }
+
+    public static AddEnchantmentLevels add(Holder<Enchantment> enchantment, LevelBasedValue levels)
+    {
+        return add(enchantment, levels, Enchantment.MAX_LEVEL);
+    }
+
     public static AddEnchantmentLevels fixed(Holder<Enchantment> enchantment, int level, int maxLevel)
     {
-        return new AddEnchantmentLevels(enchantment, LevelBasedValue.constant(level), maxLevel);
+        return add(enchantment, LevelBasedValue.constant(level), maxLevel);
     }
 
     public static AddEnchantmentLevels fixed(Holder<Enchantment> enchantment, int level)
@@ -37,7 +47,7 @@ public record AddEnchantmentLevels(Holder<Enchantment> enchantment, LevelBasedVa
 
     public static AddEnchantmentLevels rankLinear(Holder<Enchantment> enchantment, int maxLevel)
     {
-        return new AddEnchantmentLevels(enchantment, LevelBasedValue.perLevel(1), maxLevel);
+        return add(enchantment, LevelBasedValue.perLevel(1), maxLevel);
     }
 
     public static AddEnchantmentLevels rankLinear(Holder<Enchantment> enchantment)

@@ -1,24 +1,109 @@
 package liedge.ltxindustries.util;
 
+import com.google.common.base.Preconditions;
+import liedge.limacore.blockentity.BlockContentsType;
+import liedge.limacore.lib.math.LimaCoreMath;
+import liedge.limacore.transfer.fluid.FluidHolderBlockEntity;
+import liedge.limacore.transfer.fluid.LimaBlockEntityFluids;
 import liedge.limacore.util.LimaCoreObjects;
 import liedge.ltxindustries.entity.damage.UpgradesAwareDamageSource;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
+import liedge.ltxindustries.lib.upgrades.EffectRankPair;
 import liedge.ltxindustries.lib.upgrades.UpgradedEquipmentInUse;
 import liedge.ltxindustries.lib.upgrades.Upgrades;
+import liedge.ltxindustries.lib.upgrades.effect.MinimumMachineSpeed;
+import liedge.ltxindustries.lib.upgrades.effect.ValueOperation;
+import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.storage.loot.LootContext;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
+import java.util.function.IntUnaryOperator;
 
 public final class LTXIUpgradeUtil
 {
     private LTXIUpgradeUtil() {}
 
     public static final EquipmentSlot[] ARMOR_SLOTS = new EquipmentSlot[]{EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET};
+
+    public static double calculateValues(Collection<EffectRankPair<ValueOperation>> effects, LootContext context, double base, double initialValue)
+    {
+        double result = initialValue;
+
+        for (EffectRankPair<ValueOperation> pair : effects)
+        {
+            ValueOperation effect = pair.effect();
+            result = effect.apply(context, pair.upgradeRank(), base, result);
+        }
+
+        return result;
+    }
+
+    public static double calculateValues(Collection<EffectRankPair<ValueOperation>> effects, LootContext context, double base)
+    {
+        return calculateValues(effects, context, base, base);
+    }
+
+    public static void applyFluidMachineUpgrades(FluidHolderBlockEntity blockEntity, Upgrades upgrades, LootContext context, IntUnaryOperator transferFunction)
+    {
+        for (BlockContentsType contentsType : BlockContentsType.values())
+        {
+            LimaBlockEntityFluids handler = blockEntity.getFluids(contentsType);
+            if (handler == null) continue;
+
+            int baseCapacity = blockEntity.getBaseFluidCapacity(contentsType);
+            int newCapacity = upgrades.runRoundedIntValueOps(LTXIUpgradeEffectComponents.FLUID_CAPACITY, context, 0, baseCapacity);
+            int newTransferRate = baseCapacity == newCapacity ? blockEntity.getBaseFluidTransferRate(contentsType) : Math.max(0, transferFunction.applyAsInt(newCapacity));
+
+            handler.setCapacity(newCapacity);
+            handler.setTransferRate(newTransferRate);
+
+            for (int slot = 0; slot < handler.size(); slot++)
+            {
+                if (handler.getAmountAsInt(slot) > newCapacity) handler.set(slot, handler.getResource(slot), newCapacity);
+            }
+        }
+    }
+
+    public static int calculateMachineSpeed(Upgrades upgrades, LootContext context, int baseSpeed, int minimumSpeed)
+    {
+        Preconditions.checkArgument(minimumSpeed >= 0, "Minimum speed must be at least 0");
+
+        List<EffectRankPair<ValueOperation>> list = upgrades.getValuePairs(LTXIUpgradeEffectComponents.TICKS_PER_OPERATION.get());
+
+        if (list.isEmpty() || baseSpeed <= minimumSpeed) return baseSpeed;
+
+        double calculated = calculateValues(list, context, baseSpeed, baseSpeed);
+        return Math.max(minimumSpeed, LimaCoreMath.roundInt(calculated));
+    }
+
+    public static int calculateMachineSpeed(Upgrades upgrades, LootContext context, int baseSpeed)
+    {
+        int minimumSpeed = upgrades.effectStream(LTXIUpgradeEffectComponents.MINIMUM_MACHINE_SPEED).mapToInt(MinimumMachineSpeed::minimumSpeed).min().orElse(0);
+        return calculateMachineSpeed(upgrades, context, baseSpeed, minimumSpeed);
+    }
+
+    public static IntUnaryOperator createMachineSpeedFunction(Upgrades upgrades, LootContext context)
+    {
+        List<EffectRankPair<ValueOperation>> list = upgrades.getValuePairs(LTXIUpgradeEffectComponents.TICKS_PER_OPERATION.get());
+        if (list.isEmpty()) return IntUnaryOperator.identity();
+
+        final int minimumSpeed = upgrades.effectStream(LTXIUpgradeEffectComponents.MINIMUM_MACHINE_SPEED).mapToInt(MinimumMachineSpeed::minimumSpeed).min().orElse(0);
+        return baseSpeed ->
+        {
+            if (baseSpeed <= minimumSpeed) return baseSpeed;
+
+            double calculated = calculateValues(list, context, baseSpeed, baseSpeed);
+            return Math.max(minimumSpeed, LimaCoreMath.roundInt(calculated));
+        };
+    }
 
     public static boolean iterateEquipmentSlots(LivingEntity sourceEntity, EquipmentSlot[] slots, EquipmentSlotVisitor visitor)
     {

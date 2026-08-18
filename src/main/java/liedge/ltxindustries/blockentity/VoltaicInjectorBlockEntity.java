@@ -12,13 +12,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
-public class VoltaicInjectorBlockEntity extends LTXIRecipeMachineBlockEntity.StateMachine<EnergizingRecipe>
+public class VoltaicInjectorBlockEntity extends LTXIRecipeMachineBlockEntity<EnergizingRecipe>
 {
     public @Nullable EnergyBoltData platformBolt;
 
     public VoltaicInjectorBlockEntity(BlockPos pos, BlockState state)
     {
-        super(LTXIBlockEntities.VOLTAIC_INJECTOR.get(), LTXIRecipeTypes.ENERGIZING.get(), pos, state, 1, 1, 0, 0);
+        super(LTXIBlockEntities.VOLTAIC_INJECTOR.get(), LTXIRecipeTypes.ENERGIZING.get(), pos, state, 1, 3, 0, 0);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class VoltaicInjectorBlockEntity extends LTXIRecipeMachineBlockEntity.Sta
     @Override
     protected void tickClient(Level level, BlockPos pos, BlockState state)
     {
-        if (state.getValue(LTXIBlockProperties.BINARY_MACHINE_STATE).isActive())
+        if (LTXIBlockProperties.isMachineActive(state))
         {
             platformBolt = EnergyBoltData.create(0, 0, 0, 0, 0.5625d, 0, 0.0104167f, 0.05f, level.getRandom());
         }

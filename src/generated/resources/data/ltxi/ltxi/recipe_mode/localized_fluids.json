@@ -1,0 +1,21 @@
+{
+  "icon": {
+    "type": "composite",
+    "background": {
+      "type": "item",
+      "id": "minecraft:water_bucket"
+    },
+    "foreground": {
+      "type": "sprite",
+      "height": 7,
+      "id": "ltxi:green_ring",
+      "width": 7,
+      "x": 8,
+      "y": 8
+    }
+  },
+  "title": {
+    "color": "yellow",
+    "translate": "recipe_mode.ltxi.localized_fluids"
+  }
+}

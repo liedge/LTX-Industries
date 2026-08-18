@@ -1,17 +1,14 @@
 {
   "type": "ltxi:fabricating",
-  "energy_required": 25000,
-  "group": "eum/tool",
+  "energy_required": 50000,
+  "group": "eum/defaults",
   "item_inputs": [
     {
       "ingredient": "ltxi:empty_upgrade_module"
     },
     {
-      "ingredient": "ltxi:t1_circuit"
-    },
-    {
-      "count": 2,
-      "ingredient": "#c:gears/titanium"
+      "consume_chance": 0.0,
+      "ingredient": "ltxi:epsilon_axe"
     }
   ],
   "result": {

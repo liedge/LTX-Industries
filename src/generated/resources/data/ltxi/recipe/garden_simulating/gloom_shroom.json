@@ -1,10 +1,9 @@
 {
   "type": "ltxi:garden_simulating",
-  "craft_time": 1200,
   "fluid_inputs": [
     {
-      "amount": 10000,
-      "ingredient": "#minecraft:water"
+      "amount": 1000,
+      "ingredient": "ltxi:ammonia"
     }
   ],
   "item_inputs": [

@@ -1,0 +1,19 @@
+{
+  "type": "ltxi:arc_smelting",
+  "craft_time": 120,
+  "item_inputs": [
+    {
+      "count": 2,
+      "ingredient": "#c:dusts/phosphorus"
+    },
+    {
+      "ingredient": "#c:dyes/lime"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 16,
+      "id": "ltxi:lime_neon_light"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "icon": "ltxi:sodium_ion",
+  "title": {
+    "color": "#DEFF70",
+    "translate": "recipe_mode.ltxi.element_extraction"
+  }
+}

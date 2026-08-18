@@ -8,11 +8,10 @@ import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.client.gui.ItemLikeIconsRenderer;
 import liedge.ltxindustries.client.gui.widget.BaseGridRenderable;
 import liedge.ltxindustries.client.gui.widget.SubMenuBackButton;
-import liedge.ltxindustries.lib.icon.ItemLikeIcon;
 import liedge.ltxindustries.lib.icon.ItemIcon;
+import liedge.ltxindustries.lib.icon.ItemLikeIcon;
 import liedge.ltxindustries.menu.RecipeModeMenu;
 import liedge.ltxindustries.recipe.RecipeMode;
-import liedge.ltxindustries.registry.LTXIRegistries;
 import liedge.ltxindustries.registry.game.LTXINetworkSerializers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -20,13 +19,11 @@ import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.core.Holder;
-import net.minecraft.core.IdMap;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.RecipeType;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -44,22 +41,20 @@ public class RecipeModeScreen extends LTXIScreen<RecipeModeMenu>
         // Options init
         this.options = new ObjectArrayList<>();
         options.add(new SelectorOption(null));
+    }
 
-        final Holder<RecipeType<?>> machineRecipeType = menu.menuContext().getRecipeTypeHolder();
-
-        IdMap<Holder<RecipeMode>> modeRegistry = inventory.player.level().registryAccess().lookupOrThrow(LTXIRegistries.Keys.RECIPE_MODES).asHolderIdMap();
-        for (Holder<RecipeMode> mode : modeRegistry)
+    @Override
+    protected void containerTick()
+    {
+        if (menu.shouldUpdateScreen())
         {
-            if (options.size() <= 23)
+            options.clear();
+            options.add(new SelectorOption(null));
+
+            List<Holder<RecipeMode>> modes = menu.getRemoteModes();
+            for (Holder<RecipeMode> mode : modes)
             {
-                if (mode.value().recipeTypes().contains(machineRecipeType))
-                {
-                    options.add(new SelectorOption(mode));
-                }
-            }
-            else
-            {
-                break;
+                options.add(new SelectorOption(mode));
             }
         }
     }
@@ -67,7 +62,7 @@ public class RecipeModeScreen extends LTXIScreen<RecipeModeMenu>
     @Override
     protected void addWidgets()
     {
-        addRenderableWidget(new SubMenuBackButton(leftPos - leftPadding, topPos + 3, this, RecipeModeMenu.BACK_BUTTON_ID));
+        addRenderableWidget(new SubMenuBackButton(leftPos - leftPadding, topPos + 3, this));
         this.selectorGrid = addRenderableOnly(new SelectorGrid(leftPos + 15, topPos + 12, this));
     }
 
@@ -109,16 +104,22 @@ public class RecipeModeScreen extends LTXIScreen<RecipeModeMenu>
         }
     }
 
-    private static class SelectorGrid extends BaseGridRenderable.FixedElements<SelectorOption>
+    private static class SelectorGrid extends BaseGridRenderable<SelectorOption>
     {
         private final RecipeModeScreen parent;
         private final RecipeModeHolderBlockEntity blockEntity;
 
         SelectorGrid(int x, int y, RecipeModeScreen parent)
         {
-            super(x, y, 18, 18, 8, 3, parent.options);
+            super(x, y, 18, 18, 8, 3);
             this.parent = parent;
             this.blockEntity = parent.menu.menuContext();
+        }
+
+        @Override
+        public List<SelectorOption> getElements()
+        {
+            return parent.options;
         }
 
         @Override

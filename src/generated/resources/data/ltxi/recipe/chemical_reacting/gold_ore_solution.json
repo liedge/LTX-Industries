@@ -1,0 +1,29 @@
+{
+  "type": "ltxi:chemical_reacting",
+  "fluid_inputs": [
+    {
+      "amount": 125,
+      "ingredient": "ltxi:sulfuric_acid"
+    }
+  ],
+  "item_inputs": [
+    {
+      "ingredient": "ltxi:gold_ore_chunk"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 1,
+      "id": "ltxi:gold_ore_solution"
+    },
+    {
+      "count": {
+        "chance": 0.5,
+        "max": 1,
+        "min": 1
+      },
+      "id": "ltxi:gold_ore_solution"
+    }
+  ],
+  "mode": "ltxi:ore_processing"
+}

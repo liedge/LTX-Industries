@@ -3,8 +3,7 @@
   "category": "misc",
   "key": {
     "c": "ltxi:t2_circuit",
-    "e": "ltxi:electric_chemical",
-    "i": "#c:ingots/titanium",
+    "e": "ltxi:small_voltaic_cell",
     "m": {
       "neoforge:ingredient_type": "neoforge:components",
       "components": {
@@ -16,9 +15,9 @@
     }
   },
   "pattern": [
-    "ici",
+    " c ",
     "eme",
-    "ici"
+    " c "
   ],
   "result": {
     "components": {

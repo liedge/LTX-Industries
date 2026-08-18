@@ -22,27 +22,7 @@ via [upgrade modules](../fundamentals/upgrade_system.md).
 
 ## Reload Source: Items
 
-<ItemGrid>
-<ItemIcon id="lightweight_weapon_energy" />
-<ItemIcon id="specialist_weapon_energy" />
-<ItemIcon id="explosives_weapon_energy" />
-<ItemIcon id="heavy_weapon_energy" />
-</ItemGrid>
-
-By default, weapons use their classification's Weapon Energy item to reload. Weapon energy items have a 25% chance to drop
-from mobs of <Color id="red">Neutral-Enemy</Color> hostility or greater. **Looting** adds 2.5% per level to the drop rate.
-
-### Weapon energy distribution
-
-| Type            | Probability |
-|-----------------|-------------|
-| **Lightweight** | 79.2%       |
-| **Specialist**  | 14.9%       |
-| **Explosives**  | 4.9%        |
-| **Heavy**       | 1.0%        |
-
-The [Ammo Scavenger](../enchantments/ammo_scavenger.md) enchantment affects the drop chance distribution, as well as
-the amount of items that can drop. See that page for a more detailed breakdown.
+The weapon will consume 1 of the specified item to recharge the magazine.
 
 ## Reload Source: Energy
 

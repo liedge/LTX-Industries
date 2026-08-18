@@ -13,7 +13,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import static liedge.ltxindustries.util.config.LTXIMachinesConfig.GRINDER_ENERGY_CAPACITY;
 import static liedge.ltxindustries.util.config.LTXIMachinesConfig.GRINDER_ENERGY_USAGE;
 
-public class GrinderBlockEntity extends LTXIRecipeMachineBlockEntity.StateMachine<GrindingRecipe>
+public class GrinderBlockEntity extends LTXIRecipeMachineBlockEntity<GrindingRecipe>
 {
     private int spinSpeed;
     private float crushersRot0;
@@ -39,7 +39,7 @@ public class GrinderBlockEntity extends LTXIRecipeMachineBlockEntity.StateMachin
     @Override
     protected void tickClient(Level level, BlockPos pos, BlockState state)
     {
-        if (state.getValue(LTXIBlockProperties.BINARY_MACHINE_STATE).isActive())
+        if (LTXIBlockProperties.isMachineActive(state))
         {
             if (spinSpeed < 30) spinSpeed += 3;
         }
