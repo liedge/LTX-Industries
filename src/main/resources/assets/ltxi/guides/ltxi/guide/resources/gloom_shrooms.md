@@ -32,7 +32,7 @@ Gloom shrooms can only be planted on top of Sculk. In addition, they cannot be e
 ### Propagation
 
 <GameScene zoom={2} interactive={true}>
-<ImportStructure src="gloom_shroom_farm.nbt" />
+<ImportStructure src="../assets/gloom_shroom_farm.nbt" />
 <Block id="gloom_shroom" y="1" />
 </GameScene>
 

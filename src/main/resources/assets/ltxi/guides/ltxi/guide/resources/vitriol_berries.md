@@ -23,7 +23,7 @@ growth spots are underneath any solid block. You'll likely find them in the hall
 and on the ceiling of Bastions.
 
 <GameScene zoom={2} interactive={true}>
-<ImportStructure src="bilevines.nbt" />
+<ImportStructure src="../assets/bilevines.nbt" />
 </GameScene>
 
 ## Farming

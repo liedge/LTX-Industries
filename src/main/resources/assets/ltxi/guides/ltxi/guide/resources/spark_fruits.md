@@ -23,7 +23,7 @@ Spark fruits generate on the underside of jungle leaves. Fully grown Spark Fruit
 exploring a jungle at night, it might make your foraging easier.
 
 <GameScene zoom={2} interactive={true}>
-<ImportStructure src="spark_fruit_tree.nbt" />
+<ImportStructure src="../assets/spark_fruit_tree.nbt" />
 </GameScene>
 
 ### Villager Trading
