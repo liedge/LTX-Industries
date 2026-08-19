@@ -37,8 +37,4 @@ navigation:
 
 ## 用途
 
-### 电解质浆液
-
-<ItemImage id="electric_chemical" scale="2" />
-
-使用[粉碎机](../machines/gpm/grinder.md)可以提取出具有导电性和电容性的电浆果浆液。这种成分是制造高级电力组件及升级的必需品。
+使用[粉碎机](../machines/processing/grinder.md)可以提取出果汁中的[钠](elements.md#sodium)元素。这种成分是制造高级电力组件及升级的必需品。

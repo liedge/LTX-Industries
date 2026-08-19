@@ -2,8 +2,12 @@
 navigation:
     title: 数字型熔炼装置
     icon: digital_furnace
-    parent: machines/index.md
-    position: 10
+    parent: machines/processing/index.md
+    position: 100
+item_ids:
+  - digital_furnace
+  - digital_smoker
+  - digital_blast_furnace
 ---
 
 # 数字型熔炼装置

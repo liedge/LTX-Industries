@@ -40,17 +40,8 @@ navigation:
 
 ## 用途
 
-### 魔能酸
+### 酸性生物质
 
-<ItemGrid>
-<ItemIcon id="acidic_biomass" />
-<ItemIcon id="viridic_acid_bucket" />
-</ItemGrid>
+<ItemImage id="acidic_biomass" />
 
-强酸莓是魔能酸的来源，而魔能酸是模组中化学工业流水线的支柱化学品，也是聚合物的关键原料。尽早寻找强酸莓并建一个农场，后期会需要大量强酸莓。
-
-### 武器级浓缩
-
-<ItemImage id="viridic_weapon_chemical" scale="2" />
-
-魔能酸用途多样，而其攻击性也令人浮想联翩；LTXI 的武器部分并没有忽视这一点。在[化学反应器](../machines/gpm/chem_lab.md)中用*氢气*和*火药*浓缩魔能酸可以得到一小罐武器级魔能酸，武器级魔能酸可用于制造用于 *“花火”* 的[强酸弹](../weapons/hanabi.md#acid)。
+在完全没有水分的环境中长成的强酸莓含有较多的硫氧化物，这些硫氧化物很容易与空气中的水分反应。将强酸莓粉碎为酸性生物质后再与水[搅拌](../machines/processing/mixer.md)是获得[硫酸](synthetic_materials.md#sulfuric-acid)最容易的方式，而且也很可能是最初的方式。

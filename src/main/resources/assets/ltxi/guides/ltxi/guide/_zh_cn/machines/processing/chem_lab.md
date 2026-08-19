@@ -2,8 +2,8 @@
 navigation:
     title: 化学反应器
     icon: chem_lab
-    parent: machines/index.md
-    position: 16
+    parent: machines/processing/index.md
+    position: 108
 item_ids:
     - chem_lab
 ---
@@ -18,4 +18,4 @@ item_ids:
 ## Recipe Spec
 - 基础工作时间：因配方而异，默认为 10 秒
 - 输入：0\~3 种物品，0\~2 种流体
-- 输出：0\~2 种物品，0\~2 种流体
+- 输出：0\~3 种物品，0\~3 种流体

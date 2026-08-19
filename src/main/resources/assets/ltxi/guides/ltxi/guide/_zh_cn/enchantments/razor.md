@@ -1,6 +1,6 @@
 ---
 navigation:
-    title: Razor
+    title: 剃刀
     parent: enchantments/index.md
     icon: "minecraft:enchanted_book"
 ---
