@@ -1,0 +1,14 @@
+{
+  "type": "ltxi:grinding",
+  "item_inputs": [
+    {
+      "ingredient": "minecraft:magma_block"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 4,
+      "id": "minecraft:magma_cream"
+    }
+  ]
+}

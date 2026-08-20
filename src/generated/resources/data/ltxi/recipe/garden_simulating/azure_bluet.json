@@ -3,7 +3,7 @@
   "craft_time": 300,
   "fluid_inputs": [
     {
-      "amount": 125,
+      "amount": 250,
       "ingredient": "#minecraft:water"
     }
   ],
@@ -15,7 +15,7 @@
   ],
   "item_results": [
     {
-      "count": 1,
+      "count": 2,
       "id": "minecraft:azure_bluet"
     }
   ]

@@ -10,8 +10,14 @@
       "ingredient": "ltxi:methane"
     },
     {
-      "amount": 3000,
+      "amount": 2000,
       "ingredient": "ltxi:chlorine"
+    }
+  ],
+  "fluid_results": [
+    {
+      "amount": 1000,
+      "id": "ltxi:hydrochloric_acid"
     }
   ],
   "item_inputs": [

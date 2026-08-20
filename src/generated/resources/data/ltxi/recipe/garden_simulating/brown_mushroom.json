@@ -2,7 +2,7 @@
   "type": "ltxi:garden_simulating",
   "fluid_inputs": [
     {
-      "amount": 250,
+      "amount": 500,
       "ingredient": "#minecraft:water"
     }
   ],
@@ -14,7 +14,7 @@
   ],
   "item_results": [
     {
-      "count": 1,
+      "count": 2,
       "id": "minecraft:brown_mushroom"
     }
   ],

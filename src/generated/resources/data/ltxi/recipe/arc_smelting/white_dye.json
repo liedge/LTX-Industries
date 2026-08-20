@@ -1,0 +1,20 @@
+{
+  "type": "ltxi:arc_smelting",
+  "fluid_inputs": [
+    {
+      "amount": 1000,
+      "ingredient": "#c:oxygen"
+    }
+  ],
+  "item_inputs": [
+    {
+      "ingredient": "#c:dusts/titanium"
+    }
+  ],
+  "item_results": [
+    {
+      "count": 8,
+      "id": "minecraft:white_dye"
+    }
+  ]
+}

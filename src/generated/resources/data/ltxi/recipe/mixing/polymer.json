@@ -1,9 +1,9 @@
 {
   "type": "ltxi:mixing",
-  "craft_time": 800,
+  "craft_time": 600,
   "fluid_inputs": [
     {
-      "amount": 4000,
+      "amount": 2000,
       "ingredient": "#minecraft:water"
     },
     {
@@ -13,7 +13,7 @@
   ],
   "item_inputs": [
     {
-      "count": 8,
+      "count": 4,
       "ingredient": "ltxi:resinous_biomass"
     }
   ],

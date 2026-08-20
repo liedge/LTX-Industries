@@ -6,7 +6,7 @@
       "ingredient": "ltxi:methane"
     },
     {
-      "amount": 4000,
+      "amount": 2000,
       "ingredient": "ltxi:chlorine"
     }
   ],
@@ -16,9 +16,8 @@
       "id": "ltxi:silicone_oil"
     },
     {
-      "amount": 2000,
-      "id": "ltxi:hydrochloric_acid",
-      "required": false
+      "amount": 1000,
+      "id": "ltxi:hydrochloric_acid"
     }
   ],
   "item_inputs": [

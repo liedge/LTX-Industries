@@ -34,7 +34,6 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
-import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
@@ -963,10 +962,13 @@ class RecipesGen extends LimaRecipeProvider
         // Resource things
         grinding().input(STONE).output(ItemResult.of(COBBLESTONE)).save(output);
         grinding().input(COBBLESTONES_NORMAL).output(ItemResult.of(GRAVEL)).save(output);
-        grinding().input(Tags.Items.GRAVELS).output(ItemResult.of(SAND)).save(output);
+        grinding().input(GRAVELS).output(ItemResult.of(SAND)).save(output);
         grinding().input(CROPS_SUGAR_CANE).output(ItemResult.of(RESINOUS_BIOMASS)).output(ItemResult.of(SUGAR, 2)).save(output, "grind_sugar_cane");
         grinding().input(BAMBOO).output(ItemResult.of(RESINOUS_BIOMASS)).save(output, "grind_bamboo");
         grinding().input(Ingredient.of(PERIDOTITE, POLISHED_PERIDOTITE)).output(ItemResult.of(PERIDOTITE_DUST)).save(output);
+        grinding().input(BONES).output(ItemResult.of(BONE_MEAL, ResultCount.between(4, 6))).save(output);
+        grinding().input(RODS_BLAZE).output(ItemResult.of(BLAZE_POWDER, ResultCount.between(4, 6))).save(output);
+        grinding().input(MAGMA_BLOCK).output(ItemResult.of(MAGMA_CREAM, 4)).save(output);
 
         // Dyes
         grinding()
@@ -1061,6 +1063,7 @@ class RecipesGen extends LimaRecipeProvider
         NEON_LIGHTS.forEach((color, holder) -> arcSmelting().input(PHOSPHORUS_DUSTS, 2).input(neonLightDye(color)).time(120).output(ItemResult.of(holder, 16)).save(output));
         arcSmelting().input(NETHERITE_SCRAP, 4).input(INGOTS_GOLD).output(ItemResult.of(NETHERITE_INGOT)).save(output);
         arcSmelting().input(TITANIUM_INGOTS).input(GEMS_QUARTZ, 3).output(ItemResult.of(TITANIUM_GLASS, 2)).save(output);
+        arcSmelting().input(TITANIUM_DUSTS).fluidInput(OXYGEN_FLUIDS, 1000).output(ItemResult.of(WHITE_DYE, 8)).save(output);
     }
 
     private void sievingRecipes()
@@ -1142,22 +1145,32 @@ class RecipesGen extends LimaRecipeProvider
     {
         mixing().input(DIRT).water(1000).output(ItemResult.of(MUD)).time(120).save(output);
         mixing().input(ACIDIC_BIOMASS, 4).water(1000).fluidOutput(FluidResult.of(SULFURIC_ACID, 1000)).save(output);
-        mixing().input(RESINOUS_BIOMASS, 8).water(4000).fluidInput(SULFURIC_ACID, 1000).output(ItemResult.of(POLYMER, 2)).time(800).save(output);
+        mixing().input(RESINOUS_BIOMASS, 4).water(2000).fluidInput(SULFURIC_ACID, 1000).output(ItemResult.of(POLYMER, 2)).time(600).save(output);
         mixing().input(CHORUS_FRUIT, 2).fluidInput(SULFURIC_ACID, 1000).output(ItemResult.of(CHORUS_CHEMICAL)).time(600).save(output);
         mixing().input(GLOOM_SHROOM, 2).fluidInput(SULFURIC_ACID, 1000).output(ItemResult.of(SCULK_CHEMICAL)).time(600).save(output);
 
         // Concretes
         for (DyeColor color : DyeColor.values())
         {
-            Identifier concreteId = ModResources.MC.id(color.getSerializedName() + "_concrete");
-            Identifier powderId = concreteId.withSuffix("_powder");
+            String colorName = color.getSerializedName();
+            Holder<Item> concretePowder = items.getOrThrow(ModResources.MC.resourceKey(Registries.ITEM, colorName + "_concrete_powder"));
+            Holder<Item> concrete = items.getOrThrow(ModResources.MC.resourceKey(Registries.ITEM, colorName + "_concrete"));
 
             mixing()
                     .time(40)
-                    .input(items.getOrThrow(ResourceKey.create(Registries.ITEM, powderId)).value())
+                    .input(concretePowder.value())
                     .water(125)
-                    .output(ItemResult.of(items.getOrThrow(ResourceKey.create(Registries.ITEM, concreteId))))
-                    .save(output, "hydrate_" + powderId.getPath());
+                    .output(ItemResult.of(concrete))
+                    .save(output, "concretes/hydrate_" + colorName);
+
+            mixing()
+                    .time(100)
+                    .input(GRAVELS, 4)
+                    .input(SANDS, 4)
+                    .input(color.getTag())
+                    .water(1000)
+                    .output(ItemResult.of(concrete, 8))
+                    .save(output, "concretes/mix_" + colorName);
         }
     }
 
@@ -1185,17 +1198,18 @@ class RecipesGen extends LimaRecipeProvider
         chemLab()
                 .input(SILICON_DUSTS, 4)
                 .fluidInput(METHANE, 2000)
-                .fluidInput(CHLORINE, 4000)
+                .fluidInput(CHLORINE, 2000)
                 .fluidOutput(FluidResult.of(SILICONE_OIL, 1000))
-                .fluidOutput(FluidResult.of(HYDROCHLORIC_ACID, ResultCount.exactly(2000), false))
+                .fluidOutput(FluidResult.of(HYDROCHLORIC_ACID, 1000))
                 .save(output);
         chemLab().fluidInput(SILICONE_OIL, 1000).fluidInput(SULPHURINE, 500).output(ItemResult.of(SILICONE_RUBBER, 2)).save(output);
         chemLab()
                 .randomInput(TITANIUM_DUSTS, 1, 0f)
                 .fluidInput(HYDROFLUORIC_ACID, 1000)
                 .fluidInput(METHANE, 2000)
-                .fluidInput(CHLORINE, 3000)
+                .fluidInput(CHLORINE, 2000)
                 .output(ItemResult.of(FLUOROPOLYMER, 2))
+                .fluidOutput(FluidResult.of(HYDROCHLORIC_ACID, 1000))
                 .save(output);
 
         chemLab().input(POLYMER_SHEET, 2).input(COPPER_PLATES).fluidInput(SULFURIC_ACID, 500).output(ItemResult.of(CIRCUIT_BOARD)).save(output);
@@ -1429,62 +1443,62 @@ class RecipesGen extends LimaRecipeProvider
         Holder<RecipeMode> foliage = registries.holderOrThrow(LTXIRecipeModes.GS_FOLIAGE);
 
         // Crops
-        garden().needsMode(farming).growSeed(WHEAT_SEEDS, WHEAT, 1).water(250).save(output);
+        garden().needsMode(farming).growSeed(WHEAT_SEEDS, WHEAT, 2).water(250).save(output);
         garden().needsMode(farming).reproduce(POTATO, 2).water(250).save(output);
         garden().needsMode(farming).reproduce(CARROT, 2).water(250).save(output);
         garden().needsMode(farming).growSeed(BEETROOT_SEEDS, BEETROOT, 2).water(250).save(output);
-        garden().needsMode(farming).reproduce(SWEET_BERRIES).water(250).save(output);
+        garden().needsMode(farming).reproduce(SWEET_BERRIES, 2).water(250).save(output);
         garden().needsMode(farming).reproduce(COCOA_BEANS, 2).water(500).save(output);
         garden().needsMode(farming).growSeed(PUMPKIN_SEEDS, PUMPKIN, 1).water(1000).save(output);
         garden().needsMode(farming).growSeed(MELON_SEEDS, MELON, 1).water(1000).save(output);
-        garden().needsMode(farming).reproduce(GLOW_BERRIES).water(250).save(output);
-        garden().needsMode(farming).reproduce(BAMBOO).water(500).save(output);
-        garden().needsMode(farming).reproduce(SUGAR_CANE).water(500).save(output);
-        garden().needsMode(farming).reproduce(CACTUS).water(125).save(output);
-        garden().needsMode(farming).reproduce(KELP).water(1000).save(output);
+        garden().needsMode(farming).reproduce(GLOW_BERRIES, 2).water(250).save(output);
+        garden().needsMode(farming).reproduce(BAMBOO, 2).water(500).save(output);
+        garden().needsMode(farming).reproduce(SUGAR_CANE, 2).water(500).save(output);
+        garden().needsMode(farming).reproduce(CACTUS, 2).water(125).save(output);
+        garden().needsMode(farming).reproduce(KELP, 2).water(1000).save(output);
         garden().needsMode(farming).reproduce(SEA_PICKLE, 2).water(1000).save(output);
-        garden().needsMode(farming).reproduce(NETHER_WART).water(250).save(output);
+        garden().needsMode(farming).reproduce(NETHER_WART, 2).water(250).save(output);
         garden().needsMode(farming).growSeed(CHORUS_FLOWER, CHORUS_FRUIT, 2).water(1000).save(output);
 
         // Flowers
-        garden().reproduce(DANDELION).water(125).time(300).save(output);
-        garden().reproduce(POPPY).water(125).time(300).save(output);
-        garden().reproduce(BLUE_ORCHID).water(125).time(300).save(output);
-        garden().reproduce(ALLIUM).water(125).time(300).save(output);
-        garden().reproduce(AZURE_BLUET).water(125).time(300).save(output);
-        garden().reproduce(RED_TULIP).water(125).time(300).save(output);
-        garden().reproduce(ORANGE_TULIP).water(125).time(300).save(output);
-        garden().reproduce(WHITE_TULIP).water(125).time(300).save(output);
-        garden().reproduce(PINK_TULIP).water(125).time(300).save(output);
-        garden().reproduce(OXEYE_DAISY).water(125).time(300).save(output);
-        garden().reproduce(CORNFLOWER).water(125).time(300).save(output);
-        garden().reproduce(LILY_OF_THE_VALLEY).water(125).time(300).save(output);
-        garden().reproduce(WITHER_ROSE).water(500).save(output);
-        garden().growSeed(TORCHFLOWER_SEEDS, TORCHFLOWER, 1).water(500).save(output);
-        garden().reproduce(SUNFLOWER).water(250).time(300).save(output);
-        garden().reproduce(LILAC).water(250).time(300).save(output);
-        garden().reproduce(PEONY).water(250).time(300).save(output);
-        garden().reproduce(ROSE_BUSH).water(250).time(300).save(output);
-        garden().growSeed(PITCHER_POD, PITCHER_PLANT, 1).water(500).save(output);
+        garden().reproduce(DANDELION, 2).water(250).time(300).save(output);
+        garden().reproduce(POPPY, 2).water(250).time(300).save(output);
+        garden().reproduce(BLUE_ORCHID, 2).water(250).time(300).save(output);
+        garden().reproduce(ALLIUM, 2).water(250).time(300).save(output);
+        garden().reproduce(AZURE_BLUET, 2).water(250).time(300).save(output);
+        garden().reproduce(RED_TULIP, 2).water(250).time(300).save(output);
+        garden().reproduce(ORANGE_TULIP, 2).water(250).time(300).save(output);
+        garden().reproduce(WHITE_TULIP, 2).water(250).time(300).save(output);
+        garden().reproduce(PINK_TULIP, 2).water(250).time(300).save(output);
+        garden().reproduce(OXEYE_DAISY, 2).water(250).time(300).save(output);
+        garden().reproduce(CORNFLOWER, 2).water(250).time(300).save(output);
+        garden().reproduce(LILY_OF_THE_VALLEY, 2).water(250).time(300).save(output);
+        garden().reproduce(WITHER_ROSE).water(1000).save(output);
+        garden().growSeed(TORCHFLOWER_SEEDS, TORCHFLOWER, 2).water(500).save(output);
+        garden().reproduce(SUNFLOWER, 2).water(250).time(300).save(output);
+        garden().reproduce(LILAC, 2).water(250).time(300).save(output);
+        garden().reproduce(PEONY, 2).water(250).time(300).save(output);
+        garden().reproduce(ROSE_BUSH, 2).water(250).time(300).save(output);
+        garden().growSeed(PITCHER_POD, PITCHER_PLANT, 2).water(500).save(output);
 
         // Shrooms
-        garden().needsMode(farming).reproduce(RED_MUSHROOM).water(250).save(output);
-        garden().needsMode(farming).reproduce(BROWN_MUSHROOM).water(250).save(output);
+        garden().needsMode(farming).reproduce(RED_MUSHROOM, 2).water(500).save(output);
+        garden().needsMode(farming).reproduce(BROWN_MUSHROOM, 2).water(500).save(output);
 
         // Saplings
-        garden().needsMode(farming).reproduce(OAK_SAPLING).water(250).time(300).save(output);
-        garden().needsMode(farming).reproduce(BIRCH_SAPLING).water(250).time(300).save(output);
-        garden().needsMode(farming).reproduce(SPRUCE_SAPLING).water(250).time(300).save(output);
-        garden().needsMode(farming).reproduce(JUNGLE_SAPLING).water(250).time(300).save(output);
-        garden().needsMode(farming).reproduce(DARK_OAK_SAPLING).water(250).time(300).save(output);
-        garden().needsMode(farming).reproduce(ACACIA_SAPLING).water(250).time(300).save(output);
-        garden().needsMode(farming).reproduce(CHERRY_SAPLING).water(250).time(300).save(output);
-        garden().needsMode(farming).reproduce(MANGROVE_PROPAGULE).water(250).time(300).save(output);
-        garden().needsMode(farming).reproduce(PALE_OAK_SAPLING).water(250).time(300).save(output);
-        garden().needsMode(farming).reproduce(AZALEA).water(250).time(300).save(output);
-        garden().needsMode(farming).reproduce(FLOWERING_AZALEA).water(250).time(300).save(output);
-        garden().needsMode(farming).reproduce(CRIMSON_FUNGUS).water(250).time(300).save(output);
-        garden().needsMode(farming).reproduce(WARPED_FUNGUS).water(250).time(300).save(output);
+        garden().needsMode(farming).reproduce(OAK_SAPLING, 2).water(250).time(300).save(output);
+        garden().needsMode(farming).reproduce(BIRCH_SAPLING, 2).water(250).time(300).save(output);
+        garden().needsMode(farming).reproduce(SPRUCE_SAPLING, 2).water(250).time(300).save(output);
+        garden().needsMode(farming).reproduce(JUNGLE_SAPLING, 2).water(250).time(300).save(output);
+        garden().needsMode(farming).reproduce(DARK_OAK_SAPLING, 2).water(250).time(300).save(output);
+        garden().needsMode(farming).reproduce(ACACIA_SAPLING, 2).water(250).time(300).save(output);
+        garden().needsMode(farming).reproduce(CHERRY_SAPLING,  2).water(250).time(300).save(output);
+        garden().needsMode(farming).reproduce(MANGROVE_PROPAGULE, 2).water(250).time(300).save(output);
+        garden().needsMode(farming).reproduce(PALE_OAK_SAPLING, 2).water(250).time(300).save(output);
+        garden().needsMode(farming).reproduce(AZALEA, 2).water(250).time(300).save(output);
+        garden().needsMode(farming).reproduce(FLOWERING_AZALEA, 2).water(250).time(300).save(output);
+        garden().needsMode(farming).reproduce(CRIMSON_FUNGUS, 2).water(250).time(300).save(output);
+        garden().needsMode(farming).reproduce(WARPED_FUNGUS, 2).water(250).time(300).save(output);
 
         // Woods
         garden().needsMode(woods).growSeed(OAK_SAPLING, OAK_LOG, 4).water(1000).save(output);
@@ -1518,8 +1532,8 @@ class RecipesGen extends LimaRecipeProvider
         garden().needsMode(foliage).growSeed(WARPED_FUNGUS, WARPED_WART_BLOCK, 2).water(1500).time(300).save(output);
 
         // LTXI
-        garden().reproduce(SPARK_FRUIT).water(500).save(output);
-        garden().reproduce(VITRIOL_BERRIES).randomFluidInput(SULPHURINE, 16000, 0f).save(output);
+        garden().reproduce(SPARK_FRUIT, 3).water(1000).save(output);
+        garden().reproduce(VITRIOL_BERRIES, 2).randomFluidInput(SULPHURINE, 16000, 0f).save(output);
         garden().reproduce(GLOOM_SHROOM).fluidInput(AMMONIA, 1000).save(output);
     }
 
