@@ -8,6 +8,7 @@ import liedge.limacore.recipe.result.FluidResult;
 import liedge.limacore.recipe.result.ItemResult;
 import liedge.limacore.recipe.result.RecipeResult;
 import liedge.limacore.recipe.result.ResultCount;
+import liedge.limacore.transfer.LimaTransferUtil;
 import liedge.limacore.util.LimaTextUtil;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.client.LTXILangKeys;
@@ -31,7 +32,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.util.context.ContextMap;
 import net.minecraft.world.item.crafting.display.SlotDisplayContext;
 import net.neoforged.neoforge.fluids.FluidStack;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 import java.util.Objects;
@@ -136,7 +137,7 @@ abstract class LTXIBaseCategory<T> implements IRecipeCategory<T>
         List<Component> tooltipLines = new ObjectArrayList<>();
         resultRequirementTooltip(result, tooltipLines);
         IDrawable chanceOverlay = resultChanceOverlay(count, tooltipLines);
-        IDrawable countOverlay = resultCountOverlay(count, tooltipLines, Component::literal);
+        IDrawable countOverlay = itemResultCountOverlay(count, tooltipLines);
 
         slot.addRichTooltipCallback((_, lines) -> lines.addAll(tooltipLines));
         if (chanceOverlay != null || countOverlay != null) slot.setOverlay(new ResultOverlay(chanceOverlay, countOverlay), 0, 0);
@@ -169,13 +170,22 @@ abstract class LTXIBaseCategory<T> implements IRecipeCategory<T>
         return new ScaledFontDrawable(chanceStr, 0.5f);
     }
 
+    private @Nullable IDrawable itemResultCountOverlay(ResultCount count, List<Component> lines)
+    {
+        if (count.isFixedCount()) return null;
+
+        String amountString = count.min() + "-" + count.max();
+        lines.add(LTXILangKeys.OUTPUT_VARIABLE_COUNT_TOOLTIP.translate().append(amountString));
+        return new ScaledFontDrawable(Component.literal(amountString), 0.5f);
+    }
+
     private @Nullable IDrawable resultCountOverlay(ResultCount count, List<Component> lines, Function<String, Component> amountTooltip)
     {
         if (count.isFixedCount()) return null;
 
-        String formattedAmount = String.format("%s-%s", LimaTextUtil.formatWholeNumber(count.min()), LimaTextUtil.formatWholeNumber(count.max()));
-        lines.add(LTXILangKeys.OUTPUT_VARIABLE_COUNT_TOOLTIP.translate().append(amountTooltip.apply(formattedAmount)));
-        return new ScaledFontDrawable(Component.literal("VAR"), 0.75f);
+        String amountString = LimaTransferUtil.formatFullFluidAmount(count.min()) + "-" + LimaTransferUtil.formatFullFluidAmount(count.max());
+        lines.add(LTXILangKeys.OUTPUT_VARIABLE_COUNT_TOOLTIP.translate().append(amountString));
+        return new ScaledFontDrawable(Component.literal("VAR").withStyle(ChatFormatting.ITALIC), 0.75f);
     }
 
     private void resultRequirementTooltip(RecipeResult<?, ?> result, List<Component> lines)
