@@ -43,7 +43,7 @@ public final class UpgradeModuleClientItem implements ItemGuiRenderOverride
             graphics.nextStratum();
             LimaGuiUtil.fillVerticalGradient(graphics, RenderPipelines.GUI, x + 1, y + 1, x + 3, y + 15, 0xff4a4a4a, -16777216);
             float yo = 14f - 14f * LimaCoreMath.divideFloat(rank, maxRank);
-            LimaGuiUtil.fillVerticalGradient(graphics, RenderPipelines.GUI, x + 1, y + 1 + yo, x + 3, y + 15, LTXIConstants.UPGRADE_RANK_MAGENTA.argb32(), 0xffd13ff0);
+            LimaGuiUtil.fillVerticalGradient(graphics, RenderPipelines.GUI, x + 1, y + 1 + yo, x + 3, y + 15, LTXIConstants.UPGRADE_RANK_MAGENTA_1.argb32(), LTXIConstants.UPGRADE_RANK_MAGENTA_2.argb32());
         }
 
         return true;

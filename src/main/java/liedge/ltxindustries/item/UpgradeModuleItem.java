@@ -137,7 +137,7 @@ public final class UpgradeModuleItem extends Item implements LimaCreativeTabFill
         if (entry != null)
         {
             Upgrade upgrade = entry.upgrade().value();
-            if (upgrade.maxRank() > 1) tooltipAdder.accept(LTXILangKeys.UPGRADE_RANK_TOOLTIP.translateArgs(entry.rank(), upgrade.maxRank()).withStyle(LTXIConstants.UPGRADE_RANK_MAGENTA.chatStyle()));
+            if (upgrade.maxRank() > 1) tooltipAdder.accept(LTXILangKeys.UPGRADE_RANK_TOOLTIP.translateArgs(entry.rank(), upgrade.maxRank()).withStyle(LTXIConstants.UPGRADE_RANK_MAGENTA_1.chatStyle()));
             tooltipAdder.accept(upgrade.display().description());
         }
         else

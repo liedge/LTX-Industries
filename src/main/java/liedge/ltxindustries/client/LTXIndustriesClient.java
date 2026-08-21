@@ -27,6 +27,7 @@ import liedge.ltxindustries.client.renderer.entity.ShellGrenadeRenderer;
 import liedge.ltxindustries.client.renderer.entity.WonderlandArmorLayer;
 import liedge.ltxindustries.client.renderer.item.TankSpecialRenderer;
 import liedge.ltxindustries.data.LTXIReloadListeners;
+import liedge.ltxindustries.integration.guideme.GuideMEIntegration;
 import liedge.ltxindustries.menu.tooltip.FabricatingInputsTooltip;
 import liedge.ltxindustries.menu.tooltip.ItemStacksTooltip;
 import liedge.ltxindustries.registry.game.*;
@@ -65,6 +66,8 @@ public class LTXIndustriesClient
     public LTXIndustriesClient(IEventBus modBus, ModContainer modContainer)
     {
         modBus.register(new ClientSetup());
+
+        GuideMEIntegration.register();
     }
 
     private static class ClientSetup

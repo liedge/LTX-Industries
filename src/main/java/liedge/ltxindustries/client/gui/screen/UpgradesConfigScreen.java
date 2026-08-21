@@ -28,8 +28,7 @@ import org.joml.Matrix3x2fStack;
 import java.util.List;
 import java.util.Optional;
 
-import static liedge.ltxindustries.LTXIConstants.OUTPUT_ORANGE;
-import static liedge.ltxindustries.LTXIConstants.UPGRADE_RANK_MAGENTA;
+import static liedge.ltxindustries.LTXIConstants.*;
 
 public abstract class UpgradesConfigScreen<M extends UpgradesConfigMenu<?>> extends LTXIScreen<M>
 {
@@ -177,8 +176,8 @@ public abstract class UpgradesConfigScreen<M extends UpgradesConfigMenu<?>> exte
             }
             else
             {
-                leftColor = 0xffd13ff0;
-                rightColor = UPGRADE_RANK_MAGENTA.argb32();
+                leftColor = UPGRADE_RANK_MAGENTA_2.argb32();
+                rightColor = UPGRADE_RANK_MAGENTA_1.argb32();
             }
 
             LimaGuiUtil.fillHorizontalGradient(graphics, RenderPipelines.GUI, posX + 21, posY + 15, posX + 21 + xo, posY + 19, leftColor, rightColor);
@@ -192,7 +191,7 @@ public abstract class UpgradesConfigScreen<M extends UpgradesConfigMenu<?>> exte
 
             List<Component> lines = new ObjectArrayList<>();
             lines.add(upgrade.display().title());
-            lines.add(LTXILangKeys.UPGRADE_RANK_TOOLTIP.translateArgs(rank, upgrade.maxRank()).withStyle(UPGRADE_RANK_MAGENTA.chatStyle()));
+            lines.add(LTXILangKeys.UPGRADE_RANK_TOOLTIP.translateArgs(rank, upgrade.maxRank()).withStyle(UPGRADE_RANK_MAGENTA_1.chatStyle()));
             lines.add(upgrade.display().description());
             upgrade.appendEffectTooltips(rank, lines::add);
 
