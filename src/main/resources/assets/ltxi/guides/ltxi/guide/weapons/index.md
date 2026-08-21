@@ -1,7 +1,7 @@
 ---
 navigation:
     title: Weapons
-    position: 30
+    position: 32
     icon: hanabi
 ---
 

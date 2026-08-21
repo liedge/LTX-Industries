@@ -2,7 +2,7 @@
 navigation:
     title: "Portable Tank"
     position: 2
-    parent: machines/storage/index.md
+    parent: storage/index.md
     icon: portable_tank
 item_ids:
   - portable_tank
@@ -15,7 +15,7 @@ item_ids:
 <BlockImage id="portable_tank" scale="4" />
 
 **Portable Tanks** will be your general purpose fluid storage option. They have configurable IO and can be
-[upgraded](../../fundamentals/upgrade_system.md). Tanks will retain their contents when broken and have **fluid handling capability**
+[upgraded](../fundamentals/upgrade_system.md). Tanks will retain their contents when broken and have **fluid handling capability**
 as both items and block entities. As items, they have no transfer limit. As block entities, their transfer limit is 1/10th
 of their total capacity.
 

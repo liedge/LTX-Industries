@@ -7,8 +7,8 @@ navigation:
 
 # Composite Glasses
 
-Fusing quartz and Titanium in the [Material Fusing Chamber](../machines/mfc.md) produces a crystal-clear
-and tough glass. These glass blocks are highly resistant to conventional explosions, equivalent to **Obsidian**.
+Smelting quartz and titanium in the [Arc Furnace](../machines/processing/arc_furnace.md) produces a crystal-clear
+and exceptionally tough glass. These glass blocks are highly resistant to conventional explosions, equivalent to Obsidian.
 You don't need Silk Touch to break these blocks, but you do need a pickaxe of any tier.
 
 ## Titanium Glass

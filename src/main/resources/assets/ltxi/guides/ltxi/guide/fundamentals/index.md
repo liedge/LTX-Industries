@@ -1,7 +1,8 @@
 ---
 navigation:
     title: Fundamentals
-    position: 2
+    icon: empty_upgrade_module
+    position: 1
 ---
 
 # Fundamental Mechanics

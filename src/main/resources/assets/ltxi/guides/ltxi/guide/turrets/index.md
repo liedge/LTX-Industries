@@ -2,7 +2,7 @@
 navigation:
     title: "Turrets"
     icon: arc_turret
-    position: 21
+    position: 33
 ---
 
 # A/DS Turrets

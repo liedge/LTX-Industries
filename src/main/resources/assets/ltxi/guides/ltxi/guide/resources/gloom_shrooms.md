@@ -1,8 +1,8 @@
 ---
 navigation:
     title: Gloom Shroom
-    position: 1
     icon: gloom_shroom
+    position: 12
     parent: resources/index.md
 ---
 
@@ -41,24 +41,21 @@ a Sculk Catalyst and some Sculk, then plant your initial shrooms close to the Ca
 and a sculk charge passes through a Gloom Shroom, there is a 33% chance it will spread 1 new shroom to a *3x3x3 area*
 around it. The space must be a replaceable block like air or flowing water.
 
-## Usage
-
-You can process Gloom Shrooms in the [Mixer](../machines/processing/mixer.md) with a little bit of
-[Viridic Acid](vitriol_berries.md) solvent. This will net you a bottle of Echo Serum and, rarely, a vial of Concentrated Gloom Essence.
+## Products
 
 ### Echo Serum
 
 <ItemImage id="sculk_chemical" scale="2" />
 
-Echo Serum is the refined essence of Sculk absorbed by the Gloom Shroom over centuries dissolved in a Sulfuric Acid solution.
+Dissolving Gloom Shrooms in [Sulfuric Acid](acids.md#sulfuric-acid) using the [Mixer](../machines/processing/mixer.md)
+to produce Echo Serum.
 
 ### Concentrated Gloom Essence
  
 <ItemImage id="gloom_weapon_chemical" scale="2" />
 
-Rarely, Gloom Shrooms contain such a large amount of spores that a vial of Concentrated Gloom Essence
-may be extracted alongside Echo Serum. Accumulate enough vials, and you can use them to craft the
-[Gloom Gas](../weapons/hanabi.md#gloom-gas) Shells upgrades for the *Hanabi*.
+Taking a large amount of Echo Serum and reducing with [Ammonia](elements_compound.md#ammonia) will produce Concentrated
+Gloom Essence. This substance is not very useful industrially, but is useful for creating debilitation weaponry.
 
 For those who prefer a more combat-oriented approach, killing the Warden with a final blow from *Hanabi*'s
 [Acid Shells](../weapons/hanabi.md#acid) **OR** while it is affected by the [Corroding](../fundamentals/mob_effects.md#corroding)

@@ -1,7 +1,7 @@
 ---
 navigation:
     title: Spark Fruit
-    position: 1
+    position: 10
     icon: spark_fruit
     parent: resources/index.md
 ---
@@ -39,7 +39,9 @@ A planted fruit will go through 2 growth stages before maturing.
 - Fully grown fruits will drop 3 Spark Fruits. This can be increased by <Color id="light_purple">Fortune</Color>.
 - Immature fruits will drop themselves.
 
-## Usage
+## Products
 
-Use a [Grinder](../machines/processing/grinder.md) to extract the elemental [Sodium](elements.md#sodium) contained in the fruit's juice. This
-ingredient is vital for manufacturing advanced electrical components and upgrades.
+### Sodium
+
+Use a [Grinder](../machines/processing/grinder.md) to extract the elemental [Sodium](elements_base.md#sodium) contained in the fruit's
+juice. This ingredient is vital for manufacturing advanced electrical components and upgrades.

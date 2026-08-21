@@ -1,14 +1,9 @@
 ---
 navigation:
     title: "Ammunition Basics"
-    icon: lightweight_weapon_energy
+    icon: medium_voltaic_cell
     parent: weapons/index.md
     position: 0
-item_ids:
-  - lightweight_weapon_energy
-  - specialist_weapon_energy
-  - explosives_weapon_energy
-  - heavy_weapon_energy
 ---
 
 # Ammunition Mechanics

@@ -1,7 +1,7 @@
 ---
 navigation:
     title: Vitriol Berries
-    position: 1
+    position: 11
     icon: vitriol_berries
     parent: resources/index.md
 ---
@@ -50,6 +50,7 @@ a berry. Existing vine blocks will **not** generate berries over time.
 
 <ItemImage id="acidic_biomass" />
 
-Vitriol Berries, having grown in an environment without any moisture, contain relatively high amounts of oxy-sulfuric
-compounds that would otherwise react with water-containing air. Crushing berries into Acidic Biomass and [mixing](../machines/processing/mixer.md)
-is the easiest and likely first method of producing [Sulfuric Acid](synthetic_materials.md#sulfuric-acid).
+Vitriol Berries love feasting on the ambient [Sulphurine](elements_compound.md#sulphurine) of the Nether, so their
+pulp is full of organic sulfuric compounds. [Grinding](../machines/processing/grinder.md) the berries into pulp
+and [Mixing](../machines/processing/mixer.md) it with water is the easiest and likely first method you will use to
+produce [Sulfuric Acid](acids.md#sulfuric-acid).

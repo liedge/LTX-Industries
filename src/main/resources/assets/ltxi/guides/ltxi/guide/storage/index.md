@@ -2,7 +2,7 @@
 navigation:
     title: Storage
     position: 20
-    icon: energy_cell_array
+    icon: portable_tank
 ---
 
 # Storage

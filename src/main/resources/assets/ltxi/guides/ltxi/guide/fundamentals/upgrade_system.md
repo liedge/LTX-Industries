@@ -19,17 +19,15 @@ LTXI equipment (tools, armor, weapons) and machines can be extensively upgraded 
 <ItemImage id="upgrade_module" />
 
 These little guys hold a ranked upgrade entry. Hold Shift on the module item to see its name, rank,
-effect tooltips, and what you can install it on.
-
-### Upgrade Users
-
-Each upgrade has an 'Upgrade Users' property. That is, which items or machines it can be installed on. While most
-upgrades are going to be exclusive to either equipment items or machinery, some are compatible with both!
+effect tooltips, and what you can install it on. While most upgrades will be exclusive to either equipment items or
+machinery, some are compatible with both. For example, the combat enchantment upgrade modules are compatible with
+both weaponry and turrets.
 
 ## Installing on machines
 
-The upgrade management is built into machines. Look for the Upgrade Module icon on the right sidebar, it will be the
-topmost option.
+![](../assets/machine_upgrades_button.png)
+
+Upgrade management is built into upgradable machines. The button will be the topmost option on the right sidebar.
 
 ## Installing on equipment
 

@@ -1,6 +1,7 @@
 ---
 navigation:
-    title: "Home/Index"
+    title: Welcome
+    icon: guide_tablet
     position: 0
 ---
 
@@ -8,13 +9,3 @@ navigation:
 
 This guide contains *almost* everything you should know about the mod. *Fundamentals* and *Resources* would be a good
 place to start.
-
-## Categories
-- [Fundamentals](fundamentals/index.md)
-- [Resources](resources/index.md)
-- [Building Blocks](building_blocks/index.md)
-- [Enchantments](enchantments/index.md)
-- [Machinery](machines/processing/index.md)
-- [Turrets](turrets/index.md)
-- [Tools](tools.md)
-- [Weapons](weapons/index.md)

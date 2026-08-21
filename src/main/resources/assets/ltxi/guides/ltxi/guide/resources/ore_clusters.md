@@ -1,7 +1,7 @@
 ---
 navigation:
     title: Ore Clusters
-    position: 0
+    position: 1
     icon: raw_titanium_cluster
     parent: resources/index.md
 ---
@@ -26,7 +26,7 @@ entirely mismatched.
 
 </GameScene>
 
-Inconveniently, raw ore clusters spawn in much more dangerous locations than their [normal counterpart](ores.md).
+Inconveniently, raw ore clusters spawn in much more dangerous locations than their normal counterparts.
 
 ### Titanium
 
