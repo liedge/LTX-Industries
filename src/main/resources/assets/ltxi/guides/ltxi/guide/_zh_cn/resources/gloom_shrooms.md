@@ -37,17 +37,17 @@ navigation:
 
 ## 用途
 
-阴郁菇可在[电解离心机](../machines/gpm/electrocentrifuge.md)中用少量[魔能酸](vitriol_berries.md)溶液处理，产物为一瓶回响浆液，有时也会得到一小罐浓缩阴郁提取物。
+阴郁菇可在[电解离心机](../machines/processing/mixer.md)中用少量硫酸处理，产物为一瓶回响浆液，有时也会得到一小罐浓缩阴郁提取物。
 
 ### 回响浆液
 
 <ItemImage id="sculk_chemical" scale="2" />
 
-回响浆液是阴郁菇数个世纪以来吸收的幽匿成分的精炼产品，在机器中经过简易的提取、纯化和装瓶步骤之后，其可以用于制造幽匿类的科技物品，以及悖论般的[现实虚拟处理器](circuits.md).
+回响浆液是阴郁菇数个世纪以来吸收的幽匿成分的精炼产品的硫酸溶液。
 
 ### 浓缩阴郁提取物
 
-<ItemImage id="gloom_chemical" scale="2" />
+<ItemImage id="gloom_weapon_chemical" scale="2" />
 
 阴郁菇的防御机制是释放出来自监守者的削弱力量，这种力量类似某种毒剂，但根据已知的分类标准，其并不属于任何一种毒剂。浓缩阴郁提取物可用于制造用于 *“花火”* 的[阴郁气体](../weapons/hanabi.md#neuro)弹。
 

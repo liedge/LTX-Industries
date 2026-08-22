@@ -17,12 +17,16 @@ navigation:
 <GameScene zoom={2} interactive={true}>
 <Block id="minecraft:basalt" x="0" />
 <Block id="minecraft:purpur_block" x="1" />
+<Block id="minecraft:stone" x="1" />
+<Block id="minecraft:purpur_block" x="2" />
 <Block id="raw_titanium_cluster" x="0" y="1" />
 <Block id="raw_niobium_cluster" x="1" y="1" />
+<Block id="raw_silver_cluster" x="1" y="1" />
+<Block id="raw_niobium_cluster" x="2" y="1" />
 
 </GameScene>
 
-不太方便的一点是，相较于其[普通版本](ores.md)，钛矿簇和铌矿簇会生成在危险得多的地方。
+不太方便的一点是，相较于其[普通版本](ores.md)，矿簇会生成在危险得多的地方。
 
 ### 钛矿簇
 
@@ -30,12 +34,16 @@ navigation:
 - 高度范围：任意
 - 限制：只能生成在方块的*坚实顶面*
 
+### 银矿簇
+
+- 生成位置：废弃矿井
+- 高度范围：世界底部至 Y=64
+
 ### 铌矿簇
 
 - 生成位置：末地城
 - 高度范围：Y=50-150
-- 限制：任何坚实的方块面
 
 ## 挖掘
 
-矿簇的挖掘要求与其普通版本一致，挖掘后掉落 3-5 个粗矿，**不受**时运影响。使用带有<Color id="light_purple">精准采集</Color>的工具挖掘矿簇时会掉落本身，可在[粉碎机](../machines/gpm/grinder.md)中处理，并总是产出 5 个粗矿。
+矿簇的挖掘要求与其普通版本一致，挖掘后掉落 3-5 个粗矿，**不受**时运影响。使用带有<Color id="light_purple">精准采集</Color>的工具挖掘矿簇时会掉落本身，可在[粉碎机](../machines/processing/grinder.md)中处理，并总是产出 5 个粗矿。

@@ -7,7 +7,7 @@ navigation:
 
 # ε-系列工具
 
-ε-系列工具是 LTXI 的标准工具产品线。所有工具都无法破坏，由 <Color id="energy">CE能量</Color> 驱动，并且[可升级](../fundamentals/upgrade_system.md)。
+ε-系列工具是 LTXI 的标准工具产品线。所有工具都无法破坏，由 <Color id="energy">CE能量</Color> 驱动，并且[可升级](fundamentals/upgrade_system.md)。
 
 ## 挖掘工具
 
@@ -49,9 +49,9 @@ navigation:
 <ItemIcon id="epsilon_axe" />
 </ItemGrid>
 
-剑和斧被设计为*近战武器*，其与[信号系列武器](../weapons/index.md)共享部分升级模块，包括魔咒模块（剃刀和抢夺）和目标筛选器。
+剑和斧被设计为*近战武器*，其与[信号系列武器](weapons/index.md)共享部分升级模块，包括魔咒模块（剃刀和抢夺）和目标筛选器。
 
-> [装备伤害修正](../fundamentals/damage_modifiers.md)系统适用于所有ε-系列近战武器。
+> [装备伤害修正](fundamentals/damage_modifiers.md)系统适用于所有ε-系列近战武器。
 
 ## 杂项工具
 

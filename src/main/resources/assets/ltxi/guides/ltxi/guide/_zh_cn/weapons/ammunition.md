@@ -18,25 +18,7 @@ item_ids:
 
 ## 装填来源：物品
 
-<ItemGrid>
-<ItemIcon id="lightweight_weapon_energy" />
-<ItemIcon id="specialist_weapon_energy" />
-<ItemIcon id="explosives_weapon_energy" />
-<ItemIcon id="heavy_weapon_energy" />
-</ItemGrid>
-
-默认状态下武器会使用对应类别的武器能量进行装填。武器能量物品在击杀敌对等级达到会超过<Color id="red">中立敌人</Color>的生物时有 25% 概率掉落，每级**抢夺**魔咒提升 2.5% 的掉落概率。
-
-### 各级武器能量掉落概率
-
-| 种类      | 概率    |
-|---------|-------|
-| **轻型**  | 79.2% |
-| **专业型** | 14.9% |
-| **爆破型** | 4.9%  |
-| **重型**  | 1.0%  |
-
-[弹药猎手](../enchantments/ammo_scavenger.md)魔咒会影响各种武器能量的掉落概率，以及能够掉落的物品数量，详见该魔咒的手册页面。 
+武器会消耗 1 个特定物品来装填弹夹。
 
 ## 装填来源：能量
 

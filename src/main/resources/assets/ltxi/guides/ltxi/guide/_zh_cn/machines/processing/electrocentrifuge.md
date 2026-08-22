@@ -2,8 +2,8 @@
 navigation:
     title: 电解离心机
     icon: electrocentrifuge
-    parent: machines/index.md
-    position: 13
+    parent: machines/processing/index.md
+    position: 105
 item_ids:
     - electrocentrifuge
 ---
@@ -13,7 +13,7 @@ item_ids:
 <BlockImage id="electrocentrifuge" scale="4" />
 
 ## 概述
-电解离心机将*电解*与*离心*功能集成于一台方便的机器，其能够将水分离为氢气和氧气，或从原材料中提取出有价值的高浓缩化合物。
+电解和离心二合一的机器，也是我们获奖最多的产品之一。其专用于从各种原料中提取基础元素。
 
 ## 配方属性
 - 基础工作时间：因配方而异，默认为 10 秒

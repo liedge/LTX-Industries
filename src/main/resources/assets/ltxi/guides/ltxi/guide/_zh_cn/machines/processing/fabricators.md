@@ -2,8 +2,8 @@
 navigation:
     title: "组装器"
     icon: fabricator
-    parent: machines/index.md
-    position: 30
+    parent: machines/processing/index.md
+    position: 110
 item_ids:
     - fabricator
     - auto_fabricator
