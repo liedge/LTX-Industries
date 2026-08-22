@@ -1,3 +1,23 @@
 files:
   - source: /src/generated/resources/assets/ltxi/lang/en_us.json
     translation: /src/main/resources/assets/ltxi/lang/%locale_with_underscore%.json
+  - source: /src/main/resources/assets/ltxi/guides/ltxi/guide/*.md
+    translation: /src/main/resources/assets/ltxi/guides/ltxi/guide/_%locale_with_underscore%/%original_file_name%
+  - source: /src/main/resources/assets/ltxi/guides/ltxi/guide/building_blocks/*.md
+    translation: /src/main/resources/assets/ltxi/guides/ltxi/guide/_%locale_with_underscore%/building_blocks/%original_file_name%
+  - source: /src/main/resources/assets/ltxi/guides/ltxi/guide/energy/*.md
+    translation: /src/main/resources/assets/ltxi/guides/ltxi/guide/_%locale_with_underscore%/energy/%original_file_name%
+  - source: /src/main/resources/assets/ltxi/guides/ltxi/guide/fundamentals/*.md
+    translation: /src/main/resources/assets/ltxi/guides/ltxi/guide/_%locale_with_underscore%/fundamentals/%original_file_name%
+  - source: /src/main/resources/assets/ltxi/guides/ltxi/guide/machines/processing/*.md
+    translation: /src/main/resources/assets/ltxi/guides/ltxi/guide/_%locale_with_underscore%/machines/processing/%original_file_name%
+  - source: /src/main/resources/assets/ltxi/guides/ltxi/guide/machines/resource/*.md
+    translation: /src/main/resources/assets/ltxi/guides/ltxi/guide/_%locale_with_underscore%/machines/resource/%original_file_name%
+  - source: /src/main/resources/assets/ltxi/guides/ltxi/guide/resources/*.md
+    translation: /src/main/resources/assets/ltxi/guides/ltxi/guide/_%locale_with_underscore%/resources/%original_file_name%
+  - source: /src/main/resources/assets/ltxi/guides/ltxi/guide/storage/*.md
+    translation: /src/main/resources/assets/ltxi/guides/ltxi/guide/_%locale_with_underscore%/storage/%original_file_name%
+  - source: /src/main/resources/assets/ltxi/guides/ltxi/guide/turrets/*.md
+    translation: /src/main/resources/assets/ltxi/guides/ltxi/guide/_%locale_with_underscore%/turrets/%original_file_name%
+  - source: /src/main/resources/assets/ltxi/guides/ltxi/guide/weapons/*.md
+    translation: /src/main/resources/assets/ltxi/guides/ltxi/guide/_%locale_with_underscore%/weapons/%original_file_name%
