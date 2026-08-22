@@ -19,7 +19,6 @@ import liedge.ltxindustries.util.LTXIUpgradeUtil;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.TagKey;
-import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -40,6 +39,7 @@ import net.neoforged.neoforge.event.entity.living.*;
 import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
 import net.neoforged.neoforge.event.level.BlockDropsEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+import org.apache.commons.lang3.mutable.MutableFloat;
 
 import java.util.List;
 
@@ -311,19 +311,26 @@ public final class LTXIEventHandler
     public static void onPreLivingDamage(final LivingDamageEvent.Pre event)
     {
         LivingEntity hurtEntity = event.getEntity();
-        if (hurtEntity.level() instanceof ServerLevel level && event.getNewDamage() > 0f)
+        float eventDamage = event.getNewDamage();
+
+        if (hurtEntity.level() instanceof ServerLevel level && eventDamage > 0f)
         {
-            LootContext context = UpgradeContexts.damageContext(level, hurtEntity, event.getSource(), event.getNewDamage());
-            float[] reduction = new float[]{0f};
+            if (!Float.isFinite(eventDamage)) eventDamage = Float.MAX_VALUE;
+
+            LootContext context = UpgradeContexts.damageContext(level, hurtEntity, event.getSource(), eventDamage);
+            MutableFloat reduction = new MutableFloat();
 
             LTXIUpgradeUtil.runOnEquipmentSlots(hurtEntity, LTXIUpgradeUtil.ARMOR_SLOTS, (upgrades, equipmentInUse) ->
             {
                 upgrades.applyDamageEntityEffects(LTXIUpgradeEffectComponents.PRE_ATTACK, level, context, EffectTarget.VICTIM, equipmentInUse);
-                if (reduction[0] < 1) reduction[0] += upgrades.applyDamageReduction(context, equipmentInUse);
+                if (reduction.floatValue() < 1f) reduction.add(upgrades.applyDamageReduction(context, equipmentInUse));
             });
 
-            float newDamage = event.getNewDamage() - (event.getNewDamage() * Mth.clamp(reduction[0], 0f, 1f));
-            event.setNewDamage(newDamage);
+            float reductionMul = Math.clamp(reduction.floatValue(), 0f, 1f);
+            if (reductionMul > 0)
+            {
+                event.setNewDamage(eventDamage * (1f - reductionMul));
+            }
         }
     }
 
