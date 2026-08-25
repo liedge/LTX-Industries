@@ -1,6 +1,6 @@
 package liedge.ltxindustries.client.particle;
 
-import liedge.limacore.client.LimaCoreClientUtil;
+import liedge.limacore.client.util.LimaCoreClientUtil;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.registry.game.LTXIParticles;
 import net.minecraft.client.multiplayer.ClientLevel;

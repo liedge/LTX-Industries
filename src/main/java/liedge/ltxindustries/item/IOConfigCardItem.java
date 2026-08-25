@@ -2,7 +2,7 @@ package liedge.ltxindustries.item;
 
 import liedge.limacore.blockentity.IOAccess;
 import liedge.limacore.blockentity.RelativeHorizontalSide;
-import liedge.limacore.client.LimaComponentUtil;
+import liedge.limacore.client.util.LimaComponentUtil;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.util.LimaBlockUtil;
 import liedge.ltxindustries.LTXIConstants;

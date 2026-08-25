@@ -3,7 +3,7 @@ package liedge.ltxindustries.lib.upgrades;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.netty.buffer.ByteBuf;
-import liedge.limacore.client.LimaComponentUtil;
+import liedge.limacore.client.util.LimaComponentUtil;
 import liedge.limacore.network.LimaStreamCodecs;
 import liedge.limacore.util.LimaRegistryUtil;
 import liedge.ltxindustries.lib.upgrades.effect.UpgradeDataComponentType;

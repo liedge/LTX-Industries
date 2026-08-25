@@ -52,7 +52,7 @@ import static liedge.ltxindustries.LTXIConstants.LIME_GREEN;
 
 public abstract class WeaponItem extends EnergyEquipmentItem
 {
-    public static final Codec<WeaponItem> CODEC = LimaCoreCodecs.classCastRegistryCodec(BuiltInRegistries.ITEM, WeaponItem.class);
+    public static final Codec<WeaponItem> CODEC = LimaCoreCodecs.subclassCodec(BuiltInRegistries.ITEM.byNameCodec(), WeaponItem.class);
     public static final StreamCodec<RegistryFriendlyByteBuf, WeaponItem> STREAM_CODEC = LimaStreamCodecs.classCastRegistryStreamCodec(Registries.ITEM, WeaponItem.class);
 
     public static final Translatable AMMO_LOADED_TOOLTIP = LTXILangKeys.tooltip("ammo_loaded");

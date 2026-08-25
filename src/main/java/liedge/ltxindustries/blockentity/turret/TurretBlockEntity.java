@@ -4,7 +4,7 @@ import it.unimi.dsi.fastutil.ints.IntList;
 import liedge.limacore.LimaCommonConstants;
 import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.blockentity.OwnableBlockEntity;
-import liedge.limacore.client.LimaCoreClientUtil;
+import liedge.limacore.client.util.LimaCoreClientUtil;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.network.sync.NullableValueTracker;

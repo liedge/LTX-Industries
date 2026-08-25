@@ -1,7 +1,7 @@
 package liedge.ltxindustries.client;
 
 import com.mojang.blaze3d.platform.InputConstants;
-import liedge.limacore.client.LimaCoreClientUtil;
+import liedge.limacore.client.util.LimaCoreClientUtil;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.item.weapon.WeaponItem;
 import net.minecraft.client.KeyMapping;

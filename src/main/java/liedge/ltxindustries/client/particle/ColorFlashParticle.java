@@ -1,6 +1,6 @@
 package liedge.ltxindustries.client.particle;
 
-import liedge.limacore.client.LimaCoreClientUtil;
+import liedge.limacore.client.util.LimaCoreClientUtil;
 import liedge.limacore.client.particle.ColorSizeParticleOptions;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;

@@ -3,7 +3,7 @@ package liedge.ltxindustries.client.gui.screen;
 import com.mojang.blaze3d.platform.InputConstants;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.blockentity.RelativeHorizontalSide;
-import liedge.limacore.client.LimaComponentUtil;
+import liedge.limacore.client.util.LimaComponentUtil;
 import liedge.limacore.client.gui.LimaBaseButton;
 import liedge.limacore.client.gui.LimaGuiUtil;
 import liedge.limacore.client.gui.TooltipLineConsumer;

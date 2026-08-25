@@ -1,8 +1,8 @@
 package liedge.ltxindustries.client;
 
 import com.mojang.logging.LogUtils;
-import liedge.limacore.client.LimaCoreClientUtil;
 import liedge.limacore.client.SimpleFogFluidExtension;
+import liedge.limacore.client.util.LimaModelsUtil;
 import liedge.limacore.lib.ModResources;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.LTXIndustries;
@@ -101,9 +101,9 @@ public class LTXIndustriesClient
         {
             final Material gasSprite = new Material(LTXIndustries.RESOURCES.id("block/gas"));
             final IntFunction<FluidModel.Unbaked> gas = rgb -> new FluidModel.Unbaked(gasSprite, gasSprite, null, FluidTintSources.constant(ARGB.opaque(rgb)));
-            final IntFunction<FluidModel.Unbaked> waterBase = rgb -> LimaCoreClientUtil.fluidModel(ModResources.MC, "block/water_still", "block/water_flow", FluidTintSources.constant(ARGB.opaque(rgb)));
-            final IntFunction<FluidModel.Unbaked> moltenLight = rgb -> LimaCoreClientUtil.fluidModel(LTXIndustries.RESOURCES, "block/light_molten_still", "block/light_molten_flow", FluidTintSources.constant(ARGB.opaque(rgb)));
-            final IntFunction<FluidModel.Unbaked> brightWater = rgb -> LimaCoreClientUtil.fluidModel(LTXIndustries.RESOURCES, "block/bright_water_still", "block/bright_water_flow", FluidTintSources.constant(ARGB.opaque(rgb)));
+            final IntFunction<FluidModel.Unbaked> waterBase = rgb -> LimaModelsUtil.fluidModel(ModResources.MC, "block/water_still", "block/water_flow", FluidTintSources.constant(ARGB.opaque(rgb)));
+            final IntFunction<FluidModel.Unbaked> moltenLight = rgb -> LimaModelsUtil.fluidModel(LTXIndustries.RESOURCES, "block/light_molten_still", "block/light_molten_flow", FluidTintSources.constant(ARGB.opaque(rgb)));
+            final IntFunction<FluidModel.Unbaked> brightWater = rgb -> LimaModelsUtil.fluidModel(LTXIndustries.RESOURCES, "block/bright_water_still", "block/bright_water_flow", FluidTintSources.constant(ARGB.opaque(rgb)));
 
             event.register(gas.apply(0xe7e7e7), LTXIFluids.HYDROGEN, LTXIFluids.FLOWING_HYDROGEN);
             event.register(gas.apply(0x27306e), LTXIFluids.NITROGEN, LTXIFluids.FLOWING_NITROGEN);

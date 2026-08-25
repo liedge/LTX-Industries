@@ -2,7 +2,7 @@ package liedge.ltxindustries.client.renderer.item;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.serialization.MapCodec;
-import liedge.limacore.client.LimaCoreClientUtil;
+import liedge.limacore.client.util.LimaModelsUtil;
 import liedge.limacore.registry.game.LimaCoreDataComponents;
 import liedge.ltxindustries.blockentity.PortableTankBlockEntity;
 import liedge.ltxindustries.client.model.custom.TankContentsModel;
@@ -34,7 +34,7 @@ public final class TankSpecialRenderer implements SpecialModelRenderer<TankConte
     @Override
     public void getExtents(Consumer<Vector3fc> output)
     {
-        LimaCoreClientUtil.sizedCubeExtents(output, 3, 3, 3, 10, 11, 10);
+        LimaModelsUtil.scaledSizedCubeExtents(output, 3, 3, 3, 10, 11, 10);
     }
 
     @Override

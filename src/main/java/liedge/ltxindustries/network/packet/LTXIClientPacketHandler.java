@@ -1,6 +1,6 @@
 package liedge.ltxindustries.network.packet;
 
-import liedge.limacore.client.LimaCoreClientUtil;
+import liedge.limacore.client.util.LimaCoreClientUtil;
 import liedge.ltxindustries.lib.weapons.ClientExtendedInput;
 import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
 import net.minecraft.world.entity.LivingEntity;
