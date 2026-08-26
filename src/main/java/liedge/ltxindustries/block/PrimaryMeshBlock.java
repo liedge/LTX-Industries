@@ -3,6 +3,7 @@ package liedge.ltxindustries.block;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import liedge.limacore.util.LimaBlockUtil;
+import liedge.limacore.util.LimaShapesUtil;
 import liedge.ltxindustries.block.mesh.BlockMesh;
 import liedge.ltxindustries.block.mesh.LTXIBlockMeshes;
 import liedge.ltxindustries.block.mesh.MeshPosition;
@@ -47,13 +48,13 @@ public class PrimaryMeshBlock extends BaseMeshBlock
 
         for (Direction side : Direction.Plane.HORIZONTAL)
         {
-            VoxelShape rotatedIdentity = LimaBlockUtil.rotateYClockwise(identityShape, LimaBlockUtil.rotationYFromDirection(side));
+            VoxelShape rotatedIdentity = Shapes.rotate(identityShape, LimaShapesUtil.getYRotation(side));
 
             for (MeshPosition position : blockMesh.getMeshPositions())
             {
                 int key = shapeKey(position.pos(), side);
                 Vec3i offset = blockMesh.computeMeshOffset(position, blockMesh.getPrimary(), side.getOpposite());
-                VoxelShape shape = LimaBlockUtil.moveShape(rotatedIdentity, offset.getX(), offset.getY(), offset.getZ());
+                VoxelShape shape = LimaShapesUtil.move(rotatedIdentity, offset.getX(), offset.getY(), offset.getZ());
                 map.put(key, shape);
             }
         }

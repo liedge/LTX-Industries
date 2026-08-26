@@ -1,6 +1,5 @@
 package liedge.ltxindustries.block;
 
-import liedge.limacore.util.LimaBlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
@@ -15,6 +14,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.util.Map;
@@ -28,12 +28,12 @@ public class StateMachineBlock extends BaseWrenchEntityBlock implements SimpleWa
 {
     public static StateMachineBlock staticShape(Properties properties, VoxelShape shape, boolean tickClient)
     {
-        return new StateMachineBlock(properties, $ -> shape, tickClient);
+        return new StateMachineBlock(properties, _ -> shape, tickClient);
     }
 
     public static StateMachineBlock rotatingShape(Properties properties, VoxelShape referenceShape, boolean tickClient)
     {
-        Map<Direction, VoxelShape> shapeMap = LimaBlockUtil.createHorizontalShapeMap(referenceShape);
+        Map<Direction, VoxelShape> shapeMap = Shapes.rotateHorizontal(referenceShape);
         return new StateMachineBlock(properties, shapeMap::get, tickClient);
     }
 

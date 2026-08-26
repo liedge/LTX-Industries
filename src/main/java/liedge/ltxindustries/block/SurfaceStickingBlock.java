@@ -1,11 +1,16 @@
 package liedge.ltxindustries.block;
 
 import com.google.common.collect.ImmutableMap;
+import com.mojang.math.OctahedralGroup;
+import liedge.limacore.util.LimaShapesUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.*;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
@@ -14,13 +19,13 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumMap;
 import java.util.Map;
 
-import static liedge.limacore.util.LimaBlockUtil.*;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.FACING;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.WATERLOGGED;
 
@@ -97,9 +102,11 @@ public class SurfaceStickingBlock extends Block implements SimpleWaterloggedBloc
         Map<Direction, VoxelShape> map = new EnumMap<>(Direction.class);
 
         map.put(Direction.UP, identity);
-        map.put(Direction.DOWN, rotateXClockwise(identity, 180));
-        VoxelShape north = rotateZClockWise(identity, 270);
-        Direction.Plane.HORIZONTAL.forEach(facing -> map.put(facing, rotateYClockwise(north, rotationYFromDirection(facing))));
+        map.put(Direction.DOWN, Shapes.rotate(identity, OctahedralGroup.BLOCK_ROT_X_180));
+        for (Direction side : Direction.Plane.HORIZONTAL)
+        {
+            map.put(side, Shapes.rotate(identity, LimaShapesUtil.getYRotation(side).compose(OctahedralGroup.BLOCK_ROT_X_90)));
+        }
 
         return ImmutableMap.copyOf(map);
     }

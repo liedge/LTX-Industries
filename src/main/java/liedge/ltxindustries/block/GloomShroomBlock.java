@@ -1,6 +1,6 @@
 package liedge.ltxindustries.block;
 
-import liedge.limacore.util.LimaBlockUtil;
+import liedge.limacore.util.LimaShapesUtil;
 import liedge.ltxindustries.registry.game.LTXIBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -21,7 +21,7 @@ import java.util.List;
 
 public class GloomShroomBlock extends BushBlock implements SculkBehaviour
 {
-    private static final VoxelShape SHAPE = LimaBlockUtil.dimensionBox(3, 0, 3, 10, 13, 10);
+    private static final VoxelShape SHAPE = LimaShapesUtil.sizedBox(3, 0, 3, 10, 13, 10);
 
     public GloomShroomBlock(Properties properties)
     {

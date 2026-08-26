@@ -1,6 +1,6 @@
 package liedge.ltxindustries.block;
 
-import liedge.limacore.util.LimaBlockUtil;
+import liedge.limacore.util.LimaShapesUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -26,9 +26,9 @@ import static net.minecraft.world.level.block.state.properties.BlockStatePropert
 
 public class SparkFruitBlock extends Block implements BonemealableBlock
 {
-    private static final VoxelShape AGE_0_SHAPE = LimaBlockUtil.dimensionBox(5.5d, 7, 5.5d, 5, 9, 5);
-    private static final VoxelShape AGE_1_SHAPE = LimaBlockUtil.dimensionBox(5.5d, 4, 5.5d, 5, 12, 5);
-    private static final VoxelShape AGE_2_SHAPE = LimaBlockUtil.dimensionBox(4.5d, 2, 4.5d, 7, 14, 7);
+    private static final VoxelShape AGE_0_SHAPE = LimaShapesUtil.sizedBox(5.5d, 7, 5.5d, 5, 9, 5);
+    private static final VoxelShape AGE_1_SHAPE = LimaShapesUtil.sizedBox(5.5d, 4, 5.5d, 5, 12, 5);
+    private static final VoxelShape AGE_2_SHAPE = LimaShapesUtil.sizedBox(4.5d, 2, 4.5d, 7, 14, 7);
 
     public SparkFruitBlock(Properties properties)
     {

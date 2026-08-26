@@ -1,6 +1,6 @@
 package liedge.ltxindustries.entity;
 
-import liedge.limacore.util.LimaBlockUtil;
+import liedge.limacore.util.LimaShapesUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
@@ -14,6 +14,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.fluids.FluidType;
 
+import java.util.List;
 import java.util.Optional;
 
 public final class DynamicClipContext extends ClipContext
@@ -42,7 +43,8 @@ public final class DynamicClipContext extends ClipContext
 
         boolean pierced = true;
 
-        for (AABB bb : LimaBlockUtil.blockPosShiftedAABBs(shape, pos))
+        List<AABB> boundingBoxes = LimaShapesUtil.toLevelBoundingBoxes(shape, pos);
+        for (AABB bb : boundingBoxes)
         {
             Optional<Vec3> entry = bb.contains(getFrom()) ? Optional.of(getFrom()) : bb.clip(getFrom(), getTo());
             Optional<Vec3> exit = bb.contains(getTo()) ? Optional.of(getTo()) : bb.clip(getTo(), getFrom());
