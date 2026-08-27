@@ -3,6 +3,7 @@ package liedge.ltxindustries.client.model.custom;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import liedge.limacore.client.util.LimaModelsUtil;
 import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.ltxindustries.client.LTXIRenderer;
 import liedge.ltxindustries.client.renderer.LTXIRenderTypes;
@@ -12,6 +13,7 @@ import net.minecraft.util.ExtraCodecs;
 import org.joml.*;
 
 import java.lang.Math;
+import java.util.function.Consumer;
 
 public record EnergyDisplayModel(Vector3fc from, Vector3fc to, float length, Direction.Axis axis, Rotation rotation)
 {
@@ -54,6 +56,18 @@ public record EnergyDisplayModel(Vector3fc from, Vector3fc to, float length, Dir
                 LTXIRenderer.submitUnlitCuboid(pose, buffer, Direction.values(), from.x(), from.y(), from.z(), scaledTo.x(), scaledTo.y(), scaledTo.z(), color, alpha));
 
         poseStack.popPose();
+    }
+
+    public void getExtents(Consumer<Vector3fc> output)
+    {
+        if (rotation.equals(Rotation.NONE))
+        {
+            LimaModelsUtil.cubeExtents(output, from, to);
+        }
+        else
+        {
+            LimaModelsUtil.cubeExtents(output, from, to, rotation.value, rotation.origin);
+        }
     }
 
     public record Rotation(Vector3fc origin, Quaternionfc value)

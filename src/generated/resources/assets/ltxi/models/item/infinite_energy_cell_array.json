@@ -1,4 +1,5 @@
 {
   "parent": "ltxi:block/infinite_energy_cell_array",
-  "loader": "limacore:extended_cuboid"
+  "loader": "limacore:extended_cuboid",
+  "pipeline": "entity"
 }

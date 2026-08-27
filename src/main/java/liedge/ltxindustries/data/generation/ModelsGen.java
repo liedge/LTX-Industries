@@ -3,13 +3,20 @@ package liedge.ltxindustries.data.generation;
 import com.google.gson.JsonObject;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.client.model.ExtendedCuboidBuilder;
+import liedge.limacore.client.model.ItemModelPipeline;
+import liedge.limacore.client.renderer.LimaSpecialModelRenderer;
+import liedge.limacore.client.util.LimaModelsUtil;
+import liedge.limacore.lib.LimaColor;
 import liedge.limacore.lib.ModResources;
 import liedge.limacore.util.LimaRegistryUtil;
+import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.block.LTXIBlockProperties;
 import liedge.ltxindustries.block.MachineState;
 import liedge.ltxindustries.client.model.custom.EnergyDisplayModel;
 import liedge.ltxindustries.client.model.item.GrenadeTypeTint;
 import liedge.ltxindustries.client.model.item.WeaponModel;
+import liedge.ltxindustries.client.renderer.blockentity.EnergyCellArrayRenderer;
+import liedge.ltxindustries.client.renderer.item.EnergyDisplaysSpecialRenderer;
 import liedge.ltxindustries.client.renderer.item.RecoilAnimation;
 import liedge.ltxindustries.client.renderer.item.TankSpecialRenderer;
 import liedge.ltxindustries.client.renderer.item.WeaponSpecialRenderer;
@@ -45,7 +52,6 @@ import net.neoforged.neoforge.client.model.generators.template.CustomLoaderBuild
 import net.neoforged.neoforge.client.model.generators.template.ExtendedModelTemplateBuilder;
 import net.neoforged.neoforge.client.model.item.DynamicFluidContainerModel;
 import net.neoforged.neoforge.registries.DeferredItem;
-import org.apache.commons.lang3.function.Consumers;
 import org.joml.Vector3f;
 import org.joml.Vector3fc;
 import org.jspecify.annotations.Nullable;
@@ -306,8 +312,8 @@ class ModelsGen extends ModelProvider
         createGloomShroom(models);
 
         createIdentityMachine(models, LTXIBlocks.UPGRADE_STATION);
-        createIdentityMachine(models, LTXIBlocks.ENERGY_CELL_ARRAY);
-        createIdentityMachine(models, LTXIBlocks.INFINITE_ENERGY_CELL_ARRAY);
+        createEnergyCellArray(models, LTXIBlocks.ENERGY_CELL_ARRAY, LTXIConstants.REM_BLUE);
+        createEnergyCellArray(models, LTXIBlocks.INFINITE_ENERGY_CELL_ARRAY, LTXIConstants.CREATIVE_PINK);
         createIdentityMachine(models, LTXIBlocks.PORTABLE_TANK, id ->
                 ItemModelUtils.composite(ItemModelUtils.plainModel(id), ItemModelUtils.specialModel(id, TankSpecialRenderer.Unbaked.INSTANCE)));
         createIdentityMachine(models, LTXIBlocks.INFINITE_WATER_TANK, id -> ItemModelUtils.tintedModel(id, ItemModelUtils.constantTint(waterTint)));
@@ -642,9 +648,29 @@ class ModelsGen extends ModelProvider
         createIdentityMachine(models, holder, ItemModelUtils::plainModel);
     }
 
+    private void createEnergyCellArray(BlockModelGenerators models, Holder<Block> holder, LimaColor tintColor)
+    {
+        Block block = holder.value();
+        Identifier blockModel = ModelLocationUtils.getModelLocation(block);
+        models.blockStateOutput.accept(MultiVariantGenerator.dispatch(block, BlockModelGenerators.plainVariant(blockModel))
+                .with(BlockModelGenerators.ROTATION_HORIZONTAL_FACING));
+
+        Identifier itemModel = unlitParent(blockModel, true).create(block.asItem(), new TextureMapping(), models.modelOutput);
+        LimaSpecialModelRenderer.LimaUnbaked<?> specialModel = new EnergyDisplaysSpecialRenderer.Unbaked(EnergyDisplaysSpecialRenderer.FillSource.ECA, EnergyCellArrayRenderer.createDisplays(), ItemModelUtils.constantTint(tintColor.argb32()));
+        models.itemModelOutput.accept(block.asItem(), ItemModelUtils.composite(ItemModelUtils.plainModel(itemModel), LimaModelsUtil.specialModel(itemModel, specialModel)));
+    }
+
+    private ModelTemplate unlitParent(Identifier parent, boolean useEntityPipeline)
+    {
+        return ExtendedModelTemplateBuilder.builder().parent(parent).customLoader(ExtendedCuboidBuilder::new, builder ->
+        {
+            if (useEntityPipeline) builder.setModelPipeline(ItemModelPipeline.ENTITY_PIPELINE);
+        }).build();
+    }
+
     private ModelTemplate unlitParent(Identifier parent)
     {
-        return ExtendedModelTemplateBuilder.builder().parent(parent).customLoader(ExtendedCuboidBuilder::new, Consumers.nop()).build();
+        return unlitParent(parent, false);
     }
 
     private void createBEPart(BlockModelGenerators models, Block block, String suffix, boolean emissive, String... excludedParts)

@@ -1,6 +1,7 @@
 package liedge.ltxindustries.client.renderer.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.lib.LimaColor;
 import liedge.ltxindustries.blockentity.BaseECABlockEntity;
 import liedge.ltxindustries.client.model.custom.EnergyDisplayModel;
@@ -9,21 +10,22 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.core.Direction;
 
+import java.util.List;
+
 public class EnergyCellArrayRenderer extends MachineBaseRenderer<BaseECABlockEntity, EnergyCellArrayRenderer.State>
 {
-    private static EnergyDisplayModel fillModel(float x, float z)
+    public static List<EnergyDisplayModel> createDisplays()
     {
-        return EnergyDisplayModel.create(x, 2.5f, z, 4, 9, 4, Direction.Axis.Y);
+        List<EnergyDisplayModel> list = new ObjectArrayList<>();
+        list.add(EnergyDisplayModel.create(2f, 2.5f, 2f, 4, 9, 4, Direction.Axis.Y));
+        list.add(EnergyDisplayModel.create(10f, 2.5f, 2f, 4, 9, 4, Direction.Axis.Y));
+        list.add(EnergyDisplayModel.create(2f, 2.5f, 10f, 4, 9, 4, Direction.Axis.Y));
+        list.add(EnergyDisplayModel.create(10f, 2.5f, 10f, 4, 9, 4, Direction.Axis.Y));
+
+        return list;
     }
 
-    private final EnergyDisplayModel[] fillModels = new EnergyDisplayModel[]
-            {
-                    fillModel(2, 2),
-                    fillModel(10, 2),
-                    fillModel(2, 10),
-                    fillModel(10, 10)
-            };
-
+    private final List<EnergyDisplayModel> fillModels = createDisplays();
     private final LimaColor fillColor;
 
     public EnergyCellArrayRenderer(BlockEntityRendererProvider.Context context, LimaColor fillColor)

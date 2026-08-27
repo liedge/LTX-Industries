@@ -1,6 +1,81 @@
 {
   "model": {
-    "type": "minecraft:model",
-    "model": "ltxi:item/infinite_energy_cell_array"
+    "type": "minecraft:composite",
+    "models": [
+      {
+        "type": "minecraft:model",
+        "model": "ltxi:item/infinite_energy_cell_array"
+      },
+      {
+        "type": "limacore:special",
+        "base": "ltxi:item/infinite_energy_cell_array",
+        "renderer": {
+          "type": "ltxi:energy_displays",
+          "fill": "energy_cell_array",
+          "models": [
+            {
+              "axis": "y",
+              "from": [
+                0.125625,
+                0.156875,
+                0.125625
+              ],
+              "length": 0.56125,
+              "to": [
+                0.374375,
+                0.718125,
+                0.374375
+              ]
+            },
+            {
+              "axis": "y",
+              "from": [
+                0.625625,
+                0.156875,
+                0.125625
+              ],
+              "length": 0.56125,
+              "to": [
+                0.874375,
+                0.718125,
+                0.374375
+              ]
+            },
+            {
+              "axis": "y",
+              "from": [
+                0.125625,
+                0.156875,
+                0.625625
+              ],
+              "length": 0.56125,
+              "to": [
+                0.374375,
+                0.718125,
+                0.874375
+              ]
+            },
+            {
+              "axis": "y",
+              "from": [
+                0.625625,
+                0.156875,
+                0.625625
+              ],
+              "length": 0.56125,
+              "to": [
+                0.874375,
+                0.718125,
+                0.874375
+              ]
+            }
+          ],
+          "tint": {
+            "type": "minecraft:constant",
+            "value": -65281
+          }
+        }
+      }
+    ]
   }
 }

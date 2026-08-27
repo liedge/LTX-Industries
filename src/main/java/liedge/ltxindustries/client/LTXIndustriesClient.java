@@ -24,6 +24,7 @@ import liedge.ltxindustries.client.renderer.entity.GlowstickProjectileRenderer;
 import liedge.ltxindustries.client.renderer.entity.RocketRenderer;
 import liedge.ltxindustries.client.renderer.entity.ShellGrenadeRenderer;
 import liedge.ltxindustries.client.renderer.entity.WonderlandArmorLayer;
+import liedge.ltxindustries.client.renderer.item.EnergyDisplaysSpecialRenderer;
 import liedge.ltxindustries.client.renderer.item.TankSpecialRenderer;
 import liedge.ltxindustries.data.LTXIReloadListeners;
 import liedge.ltxindustries.integration.guideme.GuideMEIntegration;
@@ -87,6 +88,7 @@ public class LTXIndustriesClient
         private void registerSpecialRenderers(final RegisterSpecialModelRendererEvent event)
         {
             event.register(LTXIndustries.RESOURCES.id("tank"), TankSpecialRenderer.Unbaked.CODEC);
+            event.register(LTXIndustries.RESOURCES.id("energy_displays"), EnergyDisplaysSpecialRenderer.Unbaked.CODEC);
         }
 
         @SubscribeEvent
