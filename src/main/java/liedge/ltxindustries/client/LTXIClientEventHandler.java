@@ -94,7 +94,7 @@ public final class LTXIClientEventHandler
     @SubscribeEvent
     public static void onClientTick(final ClientTickEvent.Pre event)
     {
-        BubbleShieldRenderer.INSTANCE.tickRenderer();
+        LTXIClientResources.INSTANCE.getShieldRenderer().tickRenderer();
     }
 
     @SubscribeEvent
@@ -180,7 +180,7 @@ public final class LTXIClientEventHandler
             double yCenter = state.y + entity.getBoundingBox().getYsize() / 2d;
             float yRot = entity == Minecraft.getInstance().player ? -entity.getYRot() : state.yRot;
 
-            BubbleShieldRenderer.RenderState shieldState = new BubbleShieldRenderer.RenderState(yCenter, yRot, scale, LTXIConstants.BUBBLE_SHIELD_BLUE.argb32(), state.partialTick);
+            BubbleShieldRenderer.State shieldState = new BubbleShieldRenderer.State(yCenter, yRot, scale, LTXIConstants.BUBBLE_SHIELD_BLUE.argb32(), state.partialTick);
             state.setRenderData(LTXIRenderer.BUBBLE_SHIELD_STATE, shieldState);
         });
     }
@@ -227,7 +227,7 @@ public final class LTXIClientEventHandler
 
         for (EntityRenderState entityState : renderState.entityRenderStates)
         {
-            BubbleShieldRenderer.RenderState shieldState = entityState.getRenderData(LTXIRenderer.BUBBLE_SHIELD_STATE);
+            BubbleShieldRenderer.State shieldState = entityState.getRenderData(LTXIRenderer.BUBBLE_SHIELD_STATE);
             if (shieldState == null) continue;
 
             poseStack.pushPose();
@@ -238,7 +238,7 @@ public final class LTXIClientEventHandler
             float scale = shieldState.scale();
             poseStack.scale(scale, scale, scale);
 
-            BubbleShieldRenderer.INSTANCE.submit(poseStack.last(), buffer, shieldState.color(), shieldState.partialTick());
+            LTXIClientResources.INSTANCE.getShieldRenderer().submit(poseStack.last(), buffer, shieldState.color(), shieldState.partialTick());
 
             poseStack.popPose();
         }

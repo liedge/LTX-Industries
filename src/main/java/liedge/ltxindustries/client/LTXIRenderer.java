@@ -21,7 +21,7 @@ public final class LTXIRenderer
 {
     public static final ContextKey<Boolean> SHOW_WONDERLAND_WINGS = LTXIndustries.RESOURCES.contextKey("show_wings");
     public static final ContextKey<LockOnRenderData> LOCK_ON_TARGET = LTXIndustries.RESOURCES.contextKey("lock_on_target");
-    public static final ContextKey<BubbleShieldRenderer.RenderState> BUBBLE_SHIELD_STATE = LTXIndustries.RESOURCES.contextKey("shield_state");
+    public static final ContextKey<BubbleShieldRenderer.State> BUBBLE_SHIELD_STATE = LTXIndustries.RESOURCES.contextKey("shield_state");
 
     private LTXIRenderer() {}
 

@@ -1,57 +1,24 @@
 package liedge.ltxindustries.client.model.custom;
 
 import com.google.common.primitives.Floats;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.JsonOps;
 import it.unimi.dsi.fastutil.floats.FloatList;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import liedge.limacore.data.LimaCoreCodecs;
-import liedge.ltxindustries.LTXIndustries;
-import liedge.ltxindustries.client.LTXIndustriesClient;
-import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.util.ARGB;
-import net.minecraft.util.GsonHelper;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.util.List;
 
-public final class BubbleShieldModel implements ResourceManagerReloadListener
+public final class BubbleShieldModel
 {
-    public static final BubbleShieldModel INSTANCE = new BubbleShieldModel();
     public static final int SHIELD_POLYGON_COUNT = 122;
-    private static final Codec<List<Geometry>> GEOMETRIES_CODEC = Geometry.CODEC.listOf(SHIELD_POLYGON_COUNT, SHIELD_POLYGON_COUNT);
+    public static final Codec<BubbleShieldModel> CODEC = Geometry.CODEC.listOf(SHIELD_POLYGON_COUNT, SHIELD_POLYGON_COUNT).fieldOf("shapes").xmap(BubbleShieldModel::new, o -> o.geometries).codec();
 
-    private final List<Geometry> geometries = new ObjectArrayList<>();
+    private final List<Geometry> geometries;
 
-    private BubbleShieldModel() {}
-
-    @Override
-    public void onResourceManagerReload(ResourceManager manager)
+    private BubbleShieldModel(List<Geometry> geometries)
     {
-        try (BufferedReader reader = manager.openAsReader(LTXIndustries.RESOURCES.id("core/bubble_shield_model.json")))
-        {
-            // Clear current data
-            geometries.clear();
-
-            // Decode geometries
-            JsonObject root = GsonHelper.parse(reader);
-            JsonArray shapesJson = GsonHelper.getAsJsonArray(root, "shapes");
-            geometries.addAll(LimaCoreCodecs.strictDecode(GEOMETRIES_CODEC, JsonOps.INSTANCE, shapesJson));
-        }
-        catch (JsonParseException | IllegalStateException | IOException ex)
-        {
-            LTXIndustriesClient.CLIENT_LOGGER.error("bubble_shield_model.json didn't decode correctly, it might be missing, corrupted, or modified by a data-pack. Don't do that.", ex);
-            throw new IllegalStateException("Failed to loaded bubble shield model.", ex);
-        }
-
-        LTXIndustriesClient.CLIENT_LOGGER.info("Loaded bubble shield model.");
+        this.geometries = geometries;
     }
 
     public void submitFaces(PoseStack.Pose pose, VertexConsumer buffer, int[] indexes, int color, float alpha)

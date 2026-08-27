@@ -14,7 +14,7 @@ import java.util.Objects;
 public final class LTXIReloadListeners
 {
     // Identifiers
-    public static final Identifier BUBBLE_SHIELD_MODEL = LTXIndustries.RESOURCES.id("bubble_shield_model");
+    public static final Identifier CLIENT_RESOURCES = LTXIndustries.RESOURCES.id("client_resources");
     public static final Identifier EQUIPMENT_DAMAGE_MODIFIERS = LTXIndustries.RESOURCES.id("equipment_damage_modifier");
 
     private static @Nullable EquipmentDamageModifiers damageModifiers;

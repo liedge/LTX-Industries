@@ -15,7 +15,6 @@ import liedge.ltxindustries.client.gui.layer.WeaponCrosshairLayer;
 import liedge.ltxindustries.client.gui.screen.*;
 import liedge.ltxindustries.client.item.*;
 import liedge.ltxindustries.client.model.LTXIModelPartKeys;
-import liedge.ltxindustries.client.model.custom.BubbleShieldModel;
 import liedge.ltxindustries.client.model.entity.*;
 import liedge.ltxindustries.client.model.item.GrenadeTypeTint;
 import liedge.ltxindustries.client.model.item.WeaponModel;
@@ -293,7 +292,7 @@ public class LTXIndustriesClient
         @SubscribeEvent
         public void registerClientReloadListeners(final AddClientReloadListenersEvent event)
         {
-            event.addListener(LTXIReloadListeners.BUBBLE_SHIELD_MODEL, BubbleShieldModel.INSTANCE);
+            event.addListener(LTXIReloadListeners.CLIENT_RESOURCES, LTXIClientResources.INSTANCE);
         }
 
         // Helpers
