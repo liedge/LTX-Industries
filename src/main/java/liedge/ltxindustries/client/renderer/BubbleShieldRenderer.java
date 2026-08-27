@@ -8,9 +8,7 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.lib.TickTimer;
 import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.util.LimaCollectionsUtil;
-import liedge.ltxindustries.client.LTXIRenderer;
 import liedge.ltxindustries.client.model.custom.BubbleShieldModel;
-import net.minecraft.util.Mth;
 import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayDeque;
@@ -66,7 +64,7 @@ public final class BubbleShieldRenderer
     private static class FadeAnimation
     {
         private final int[] geometryIndexes;
-        private final TickTimer animationTimer = new TickTimer();
+        private final TickTimer timer = new TickTimer();
 
         private FadeAnimation(int[] geometryIndexes)
         {
@@ -75,16 +73,16 @@ public final class BubbleShieldRenderer
 
         private void tick()
         {
-            animationTimer.tickTimer();
-            if (animationTimer.getTimerState() == TickTimer.State.STOPPED && LimaCoreMath.rollRandomChance(0.08d))
+            timer.tickTimer();
+            if (!timer.isRunningClient() && LimaCoreMath.rollRandomChance(0.08d))
             {
-                animationTimer.startTimer(LimaCoreMath.nextIntBetweenInclusive(12, 18), false);
+                timer.startTimer(20);
             }
         }
 
         private void submit(BubbleShieldModel model, PoseStack.Pose pose, VertexConsumer buffer, int color, float partialTick)
         {
-            float alpha = animationTimer.getTimerState() == TickTimer.State.STOPPED ? 0.125f : Mth.clamp(LTXIRenderer.linearThresholdCurve(animationTimer.lerpProgressNotPaused(partialTick), 0.3f), 0.125f, 0.8f);
+            float alpha = timer.getTimerState() == TickTimer.State.STOPPED ? 0.125f : LTXIKeyframeTracks.SHIELD_FADE.apply(timer.lerpProgressNotPaused(partialTick));
             model.submitFaces(pose, buffer, geometryIndexes, color, alpha);
         }
     }
