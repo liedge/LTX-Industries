@@ -87,11 +87,11 @@ public class WonderlandArmorLayer<S extends HumanoidRenderState, M extends Human
 
         nodeCollector.submitCustomGeometry(poseStack, LTXIRenderTypes.WONDERLAND_EPHEMERA, (pose, buffer) ->
         {
-            LTXIRenderer.renderArcRing(pose, buffer, 0.15f, 0.02f, 0, 360, 24, LTXIConstants.LIME_GREEN);
-            LTXIRenderer.renderArcRing(pose, buffer, 0.25f, 0.0325f, 0, 360, 32, LTXIConstants.LIME_GREEN);
+            LTXIRenderer.submitArcRing(pose, buffer, 0.15f, 0.02f, 0, 360, 24, LTXIConstants.LIME_GREEN);
+            LTXIRenderer.submitArcRing(pose, buffer, 0.25f, 0.0325f, 0, 360, 32, LTXIConstants.LIME_GREEN);
 
             float spin = (Util.getMillis() % 7000L) / 7000f;
-            LTXIRenderer.renderArcsRing(pose, buffer, spin * 360f, 3, 60f, 0.01875f, 0.325f, 7, LTXIConstants.LIME_GREEN);
+            LTXIRenderer.submitSplitArcsRing(pose, buffer, spin * 360f, 3, 60f, 0.01875f, 0.325f, 7, LTXIConstants.LIME_GREEN);
         });
 
         poseStack.popPose();
@@ -109,7 +109,7 @@ public class WonderlandArmorLayer<S extends HumanoidRenderState, M extends Human
             poseStack.mulPose(Axis.YP.rotationDegrees(90));
             poseStack.translate(0f, 0.25f, 0.203125f);
 
-            nodeCollector.submitCustomGeometry(poseStack, LTXIRenderTypes.WONDERLAND_EPHEMERA, (pose, buffer) -> LTXIRenderer.renderArcsRing(pose, buffer, armSpin, 7, 35f, 0.015f, 0.125f, 4, LTXIConstants.LIME_GREEN));
+            nodeCollector.submitCustomGeometry(poseStack, LTXIRenderTypes.WONDERLAND_EPHEMERA, (pose, buffer) -> LTXIRenderer.submitSplitArcsRing(pose, buffer, armSpin, 7, 35f, 0.015f, 0.125f, 4, LTXIConstants.LIME_GREEN));
             poseStack.popPose();
         }
 
@@ -121,7 +121,7 @@ public class WonderlandArmorLayer<S extends HumanoidRenderState, M extends Human
             poseStack.mulPose(Axis.YP.rotationDegrees(90));
             poseStack.translate(0f, 0.25f, -0.171875f);
 
-            nodeCollector.submitCustomGeometry(poseStack, LTXIRenderTypes.WONDERLAND_EPHEMERA, (pose, buffer) -> LTXIRenderer.renderArcsRing(pose, buffer, armSpin, 7, 35f, 0.015f, 0.125f, 4, LTXIConstants.LIME_GREEN));
+            nodeCollector.submitCustomGeometry(poseStack, LTXIRenderTypes.WONDERLAND_EPHEMERA, (pose, buffer) -> LTXIRenderer.submitSplitArcsRing(pose, buffer, armSpin, 7, 35f, 0.015f, 0.125f, 4, LTXIConstants.LIME_GREEN));
             poseStack.popPose();
         }
     }
@@ -178,8 +178,8 @@ public class WonderlandArmorLayer<S extends HumanoidRenderState, M extends Human
 
         nodeCollector.submitCustomGeometry(poseStack, LTXIRenderTypes.WONDERLAND_EPHEMERA, (pose, buffer) ->
         {
-            LTXIRenderer.renderArcRing(pose, buffer, 0.078125f, 0.009375f, 0, 360, 24, LTXIConstants.LIME_GREEN);
-            LTXIRenderer.renderArcsRing(pose, buffer, -spin, 7, 35f, 0.0125f, 0.109375f, 4, LTXIConstants.LIME_GREEN);
+            LTXIRenderer.submitArcRing(pose, buffer, 0.078125f, 0.009375f, 0, 360, 24, LTXIConstants.LIME_GREEN);
+            LTXIRenderer.submitSplitArcsRing(pose, buffer, -spin, 7, 35f, 0.0125f, 0.109375f, 4, LTXIConstants.LIME_GREEN);
         });
 
         poseStack.popPose();
@@ -192,8 +192,8 @@ public class WonderlandArmorLayer<S extends HumanoidRenderState, M extends Human
 
         nodeCollector.submitCustomGeometry(poseStack, LTXIRenderTypes.WONDERLAND_EPHEMERA, (pose, buffer) ->
         {
-            LTXIRenderer.renderArcRing(pose, buffer, 0.078125f, 0.009375f, 0, 360, 24, LTXIConstants.LIME_GREEN);
-            LTXIRenderer.renderArcsRing(pose, buffer, spin, 7, 35f, 0.0125f, 0.109375f, 4, LTXIConstants.LIME_GREEN);
+            LTXIRenderer.submitArcRing(pose, buffer, 0.078125f, 0.009375f, 0, 360, 24, LTXIConstants.LIME_GREEN);
+            LTXIRenderer.submitSplitArcsRing(pose, buffer, spin, 7, 35f, 0.0125f, 0.109375f, 4, LTXIConstants.LIME_GREEN);
         });
 
         poseStack.popPose();
@@ -201,9 +201,9 @@ public class WonderlandArmorLayer<S extends HumanoidRenderState, M extends Human
 
     private void renderWingPiece(PoseStack.Pose pose, VertexConsumer buffer, float connectRadius, float connectWidth, float wingRadius, float wingWidth, float wingOutline, float startAngle, float endAngle)
     {
-        LTXIRenderer.renderArcRing(pose, buffer, connectRadius, connectWidth, startAngle, endAngle, 8, LTXIConstants.LIME_GREEN);
-        LTXIRenderer.renderArcRing(pose, buffer, wingRadius, wingOutline, startAngle, endAngle, 8, LTXIConstants.LIME_GREEN);
-        LTXIRenderer.renderArcRing(pose, buffer, wingRadius + wingOutline, wingWidth - (wingOutline * 2), startAngle, endAngle, 12, LTXIConstants.LIME_GREEN, 0.5f);
-        LTXIRenderer.renderArcRing(pose, buffer, wingRadius + wingWidth - wingOutline, wingOutline, startAngle, endAngle, 12, LTXIConstants.LIME_GREEN);
+        LTXIRenderer.submitArcRing(pose, buffer, connectRadius, connectWidth, startAngle, endAngle, 8, LTXIConstants.LIME_GREEN);
+        LTXIRenderer.submitArcRing(pose, buffer, wingRadius, wingOutline, startAngle, endAngle, 8, LTXIConstants.LIME_GREEN);
+        LTXIRenderer.submitArcRing(pose, buffer, wingRadius + wingOutline, wingWidth - (wingOutline * 2), startAngle, endAngle, 12, LTXIConstants.LIME_GREEN, 0.5f);
+        LTXIRenderer.submitArcRing(pose, buffer, wingRadius + wingWidth - wingOutline, wingOutline, startAngle, endAngle, 12, LTXIConstants.LIME_GREEN);
     }
 }

@@ -26,11 +26,11 @@ public final class StargazerRenderer extends WeaponSpecialRenderer
 
         nodeCollector.submitCustomGeometry(poseStack, LTXIRenderTypes.WONDERLAND_EPHEMERA, (pose, buffer) ->
         {
-            LTXIRenderer.renderArcRing(pose, buffer, 0.05625f, 0.0025f, 0, 360, 24, LTXIConstants.LIME_GREEN);
-            LTXIRenderer.renderArcRing(pose, buffer, 0.0078125f, 0.00390625f, 0, 360, 20, LTXIConstants.LIME_GREEN);
+            LTXIRenderer.submitArcRing(pose, buffer, 0.05625f, 0.0025f, 0, 360, 24, LTXIConstants.LIME_GREEN);
+            LTXIRenderer.submitArcRing(pose, buffer, 0.0078125f, 0.00390625f, 0, 360, 20, LTXIConstants.LIME_GREEN);
 
             float spin = (Util.getMillis() % 10000L) / 10000f;
-            LTXIRenderer.renderArcsRing(pose, buffer, spin * 360f, 3, 55f, 0.00390625f, 0.0625f, 5, LTXIConstants.LIME_GREEN);
+            LTXIRenderer.submitSplitArcsRing(pose, buffer, spin * 360f, 3, 55f, 0.00390625f, 0.0625f, 5, LTXIConstants.LIME_GREEN);
         });
 
         poseStack.popPose();

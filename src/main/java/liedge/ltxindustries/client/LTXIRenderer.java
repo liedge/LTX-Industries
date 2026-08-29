@@ -60,23 +60,23 @@ public final class LTXIRenderer
         return Mth.lerp(LimaCoreMath.divideFloat(i, iMax), start, end);
     }
 
-    private static void submitArcSegment(PoseStack.Pose pose, VertexConsumer buffer, float innerRadius, float outerRadius, float a1, float a2, float red, float green, float blue, float alpha)
+    private static void submitArcSegment(PoseStack.Pose pose, VertexConsumer buffer, float innerRadius, float outerRadius, float a1, float a2, int color)
     {
         float cos1 = Mth.cos(a1);
         float sin1 = Mth.sin(a1);
         float cos2 = Mth.cos(a2);
         float sin2 = Mth.sin(a2);
 
-        buffer.addVertex(pose, cos1 * innerRadius, sin1 * innerRadius, 0).setColor(red, green, blue, alpha);
-        buffer.addVertex(pose, cos2 * innerRadius, sin2 * innerRadius, 0).setColor(red, green, blue, alpha);
-        buffer.addVertex(pose, cos1 * outerRadius, sin1 * outerRadius, 0).setColor(red, green, blue, alpha);
+        buffer.addVertex(pose, cos1 * innerRadius, sin1 * innerRadius, 0).setColor(color);
+        buffer.addVertex(pose, cos2 * innerRadius, sin2 * innerRadius, 0).setColor(color);
+        buffer.addVertex(pose, cos1 * outerRadius, sin1 * outerRadius, 0).setColor(color);
 
-        buffer.addVertex(pose, cos1 * outerRadius, sin1 * outerRadius, 0).setColor(red, green, blue, alpha);
-        buffer.addVertex(pose, cos2 * innerRadius, sin2 * innerRadius, 0).setColor(red, green, blue, alpha);
-        buffer.addVertex(pose, cos2 * outerRadius, sin2 * outerRadius, 0).setColor(red, green, blue, alpha);
+        buffer.addVertex(pose, cos1 * outerRadius, sin1 * outerRadius, 0).setColor(color);
+        buffer.addVertex(pose, cos2 * innerRadius, sin2 * innerRadius, 0).setColor(color);
+        buffer.addVertex(pose, cos2 * outerRadius, sin2 * outerRadius, 0).setColor(color);
     }
 
-    public static void renderArcRing(PoseStack.Pose pose, VertexConsumer buffer, float radius, float width, float startAngle, float endAngle, int segments, LimaColor color, float alpha)
+    public static void submitArcRing(PoseStack.Pose pose, VertexConsumer buffer, float radius, float width, float startAngle, float endAngle, int segments, int color)
     {
         if (endAngle <= startAngle || segments < 1) return;
 
@@ -88,24 +88,34 @@ public final class LTXIRenderer
         {
             float a1 = lerpArc(i, segments, arcStart, arcEnd);
             float a2 = lerpArc(i + 1, segments, arcStart, arcEnd);
-            submitArcSegment(pose, buffer, radius, outerRadius, a1, a2, color.red(), color.green(), color.blue(), alpha);
+            submitArcSegment(pose, buffer, radius, outerRadius, a1, a2, color);
         }
     }
 
-    public static void renderArcRing(PoseStack.Pose pose, VertexConsumer buffer, float radius, float width, float startAngle, float endAngle, int segments, LimaColor color)
+    public static void submitArcRing(PoseStack.Pose pose, VertexConsumer buffer, float radius, float width, float startAngle, float endAngle, int segments, LimaColor color, float alpha)
     {
-        renderArcRing(pose, buffer, radius, width, startAngle, endAngle, segments, color, 1f);
+        submitArcRing(pose, buffer, radius, width, startAngle, endAngle, segments, ARGB.color(alpha, color.argb32()));
     }
 
-    public static void renderArcsRing(PoseStack.Pose pose, VertexConsumer buffer, float delta, int arcs, float arcLength, float arcWidth, float radius, int segments, LimaColor color)
+    public static void submitArcRing(PoseStack.Pose pose, VertexConsumer buffer, float radius, float width, float startAngle, float endAngle, int segments, LimaColor color)
+    {
+        submitArcRing(pose, buffer, radius, width, startAngle, endAngle, segments, color, 1f);
+    }
+
+    public static void submitSplitArcsRing(PoseStack.Pose pose, VertexConsumer buffer, float delta, int arcs, float arcLength, float arcWidth, float radius, int segments, int color)
     {
         final float halfArc = arcLength / 2f;
 
         for (int i = 0; i < arcs; i++)
         {
             float angle = i * (360f / arcs) + delta;
-            renderArcRing(pose, buffer, radius, arcWidth, angle - halfArc, angle + halfArc, segments, color);
+            submitArcRing(pose, buffer, radius, arcWidth, angle - halfArc, angle + halfArc, segments, color);
         }
+    }
+
+    public static void submitSplitArcsRing(PoseStack.Pose pose, VertexConsumer buffer, float delta, int arcs, float arcLength, float arcWidth, float radius, int segments, LimaColor color)
+    {
+        submitSplitArcsRing(pose, buffer, delta, arcs, arcLength, arcWidth, radius, segments, color.argb32());
     }
     //#endregion
     
