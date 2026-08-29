@@ -6,6 +6,11 @@
       "sprite": "ltxi:block/solid_lime"
     },
     {
+      "type": "minecraft:single",
+      "resource": "ltxi:core/white",
+      "sprite": "ltxi:block/white"
+    },
+    {
       "type": "limacore:grayscale",
       "brightness": 1.75,
       "id": "ltxi:block/light_molten_still",

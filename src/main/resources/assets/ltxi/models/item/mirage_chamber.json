@@ -1,11 +1,12 @@
 {
-	"_license": "(C) 2026 Eduardo Jimenez | All Rights Reserved",
+	"_license": "(C) 2026 Ed Jimenez | All Rights Reserved",
 	"_credit": "Made with Blockbench",
+	"parent": "ltxi:item/template/mirage",
 	"loader": "limacore:extended_cuboid",
 	"pipeline": "entity",
 	"textures": {
 		"weapon0": "ltxi:item/weapons/auto_frame_0",
-		"lights": "ltxi:item/solid_lime"
+		"lights": "ltxi:item/white"
 	},
 	"elements": [
 		{
@@ -24,10 +25,10 @@
 			"shade": false,
 			"light_emission": 15,
 			"faces": {
-				"east": { "uv": [1.5, 1, 2, 2], "texture": "#lights" },
-				"west": { "uv": [0, 1, 0.5, 2], "texture": "#lights" },
-				"up": { "uv": [0, 0, 1, 0.5], "texture": "#lights" },
-				"down": { "uv": [0, 1.5, 1, 2], "texture": "#lights" }
+				"east": { "uv": [1.5, 1, 2, 2], "texture": "#lights", "tintindex": 0 },
+				"west": { "uv": [0, 1, 0.5, 2], "texture": "#lights", "tintindex": 0 },
+				"up": { "uv": [0, 0, 1, 0.5], "texture": "#lights", "tintindex": 0 },
+				"down": { "uv": [0, 1.5, 1, 2], "texture": "#lights", "tintindex": 0 }
 			}
 		},
 		{
@@ -36,8 +37,8 @@
 			"shade": false,
 			"light_emission": 15,
 			"faces": {
-				"east": { "uv": [0.5, 1, 2.5, 1.5], "texture": "#lights" },
-				"west": { "uv": [0, 1, 2, 1.5], "texture": "#lights" }
+				"east": { "uv": [0.5, 1, 2.5, 1.5], "texture": "#lights", "tintindex": 0 },
+				"west": { "uv": [0, 1, 2, 1.5], "texture": "#lights", "tintindex": 0 }
 			}
 		},
 		{
@@ -46,10 +47,10 @@
 			"shade": false,
 			"light_emission": 15,
 			"faces": {
-				"east": { "uv": [1.5, 1, 2, 2], "texture": "#lights" },
-				"west": { "uv": [0, 1, 0.5, 2], "texture": "#lights" },
-				"up": { "uv": [0, 0, 1, 0.5], "texture": "#lights" },
-				"down": { "uv": [0, 1.5, 1, 2], "texture": "#lights" }
+				"east": { "uv": [1.5, 1, 2, 2], "texture": "#lights", "tintindex": 0 },
+				"west": { "uv": [0, 1, 0.5, 2], "texture": "#lights", "tintindex": 0 },
+				"up": { "uv": [0, 0, 1, 0.5], "texture": "#lights", "tintindex": 0 },
+				"down": { "uv": [0, 1.5, 1, 2], "texture": "#lights", "tintindex": 0 }
 			}
 		},
 		{
@@ -58,8 +59,8 @@
 			"shade": false,
 			"light_emission": 15,
 			"faces": {
-				"up": { "uv": [0, 0, 0.5, 2], "texture": "#lights" },
-				"down": { "uv": [0, 1.5, 0.5, 3.5], "texture": "#lights" }
+				"up": { "uv": [0, 0, 0.5, 2], "texture": "#lights", "tintindex": 0 },
+				"down": { "uv": [0, 1.5, 0.5, 3.5], "texture": "#lights", "tintindex": 0 }
 			}
 		}
 	]

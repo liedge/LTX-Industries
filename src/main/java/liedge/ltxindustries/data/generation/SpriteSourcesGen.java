@@ -44,12 +44,15 @@ class SpriteSourcesGen extends SpriteSourceProvider
                 .addSource(singleSprite("gui/light_panel", "slot/empty"));
         atlas(AtlasIds.BLOCKS)
                 .addSource(singleSprite("core/solid_lime", "block/solid_lime"))
+                .addSource(singleSprite("core/white", "block/white"))
                 .addSource(grayscaleMC("block/light_molten_still", "block/lava_still", 1.75f, 1))
                 .addSource(grayscaleMC("block/light_molten_flow", "block/lava_flow", 1.75f, 1))
                 .addSource(grayscaleMC("block/bright_water_still", "block/water_still", 1.15f, 1.25f))
                 .addSource(grayscaleMC("block/bright_water_flow", "block/water_flow", 1.15f, 1.25f));
         atlas(AtlasIds.ITEMS)
                 .addSource(singleSprite("core/solid_lime", "item/solid_lime"))
+                .addSource(singleSprite("core/white", "item/white"))
+                .addSource(singleSprite("block/titanium_panel", "item/titanium_panel"))
                 .addSource(singleSprite("block/glacia_glass", "item/glacia_glass"))
                 .addSource(singleSprite("block/glowstick", "item/glowstick"))
                 .addSource(orePermutations());

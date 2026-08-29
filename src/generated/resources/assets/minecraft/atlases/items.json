@@ -7,6 +7,16 @@
     },
     {
       "type": "minecraft:single",
+      "resource": "ltxi:core/white",
+      "sprite": "ltxi:item/white"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "ltxi:block/titanium_panel",
+      "sprite": "ltxi:item/titanium_panel"
+    },
+    {
+      "type": "minecraft:single",
       "resource": "ltxi:block/glacia_glass",
       "sprite": "ltxi:item/glacia_glass"
     },

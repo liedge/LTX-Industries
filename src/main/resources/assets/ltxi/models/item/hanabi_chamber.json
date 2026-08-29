@@ -1,10 +1,11 @@
 {
-	"_license": "(C) 2026 Eduardo Jimenez | All Rights Reserved",
+	"_license": "(C) 2026 Ed Jimenez | All Rights Reserved",
 	"_credit": "Made with Blockbench",
+	"parent": "ltxi:item/template/hanabi",
 	"loader": "limacore:extended_cuboid",
 	"pipeline": "entity",
 	"textures": {
-		"white_lights": "neoforge:white",
+		"lights": "ltxi:item/white",
 		"weapon1": "ltxi:item/weapons/hanabi_1"
 	},
 	"elements": [
@@ -14,8 +15,8 @@
 			"shade": false,
 			"light_emission": 15,
 			"faces": {
-				"east": { "uv": [0, 0.5, 4, 1], "texture": "#white_lights", "tintindex": 0 },
-				"west": { "uv": [0, 0.5, 4, 1], "texture": "#white_lights", "tintindex": 0 }
+				"east": { "uv": [0, 0.5, 4, 1], "texture": "#lights", "tintindex": 0 },
+				"west": { "uv": [0, 0.5, 4, 1], "texture": "#lights", "tintindex": 0 }
 			}
 		},
 		{
@@ -24,8 +25,8 @@
 			"shade": false,
 			"light_emission": 15,
 			"faces": {
-				"east": { "uv": [0, 0.5, 4, 1], "texture": "#white_lights", "tintindex": 0 },
-				"west": { "uv": [0, 0.5, 4, 1], "texture": "#white_lights", "tintindex": 0 }
+				"east": { "uv": [0, 0.5, 4, 1], "texture": "#lights", "tintindex": 0 },
+				"west": { "uv": [0, 0.5, 4, 1], "texture": "#lights", "tintindex": 0 }
 			}
 		},
 		{
@@ -34,10 +35,10 @@
 			"shade": false,
 			"light_emission": 15,
 			"faces": {
-				"east": { "uv": [3.5, 0.5, 4, 2], "texture": "#white_lights", "tintindex": 0 },
-				"west": { "uv": [0, 0.5, 0.5, 2], "texture": "#white_lights", "tintindex": 0 },
-				"up": { "uv": [0, 0, 2.5, 0.5], "texture": "#white_lights", "tintindex": 0 },
-				"down": { "uv": [0, 3.5, 2.5, 4], "texture": "#white_lights", "tintindex": 0 }
+				"east": { "uv": [3.5, 0.5, 4, 2], "texture": "#lights", "tintindex": 0 },
+				"west": { "uv": [0, 0.5, 0.5, 2], "texture": "#lights", "tintindex": 0 },
+				"up": { "uv": [0, 0, 2.5, 0.5], "texture": "#lights", "tintindex": 0 },
+				"down": { "uv": [0, 3.5, 2.5, 4], "texture": "#lights", "tintindex": 0 }
 			}
 		},
 		{
@@ -46,10 +47,10 @@
 			"shade": false,
 			"light_emission": 15,
 			"faces": {
-				"east": { "uv": [3.5, 0.5, 4, 3], "texture": "#white_lights", "tintindex": 0 },
-				"west": { "uv": [0, 0.5, 0.5, 3], "texture": "#white_lights", "tintindex": 0 },
-				"up": { "uv": [0, 0, 1.5, 0.5], "texture": "#white_lights", "tintindex": 0 },
-				"down": { "uv": [0, 3.5, 1.5, 4], "texture": "#white_lights", "tintindex": 0 }
+				"east": { "uv": [3.5, 0.5, 4, 3], "texture": "#lights", "tintindex": 0 },
+				"west": { "uv": [0, 0.5, 0.5, 3], "texture": "#lights", "tintindex": 0 },
+				"up": { "uv": [0, 0, 1.5, 0.5], "texture": "#lights", "tintindex": 0 },
+				"down": { "uv": [0, 3.5, 1.5, 4], "texture": "#lights", "tintindex": 0 }
 			}
 		},
 		{
@@ -58,10 +59,10 @@
 			"shade": false,
 			"light_emission": 15,
 			"faces": {
-				"east": { "uv": [3.5, 0.5, 4, 3], "texture": "#white_lights", "tintindex": 0 },
-				"west": { "uv": [0, 0.5, 0.5, 3], "texture": "#white_lights", "tintindex": 0 },
-				"up": { "uv": [0, 0, 1.5, 0.5], "texture": "#white_lights", "tintindex": 0 },
-				"down": { "uv": [0, 3.5, 1.5, 4], "texture": "#white_lights", "tintindex": 0 }
+				"east": { "uv": [3.5, 0.5, 4, 3], "texture": "#lights", "tintindex": 0 },
+				"west": { "uv": [0, 0.5, 0.5, 3], "texture": "#lights", "tintindex": 0 },
+				"up": { "uv": [0, 0, 1.5, 0.5], "texture": "#lights", "tintindex": 0 },
+				"down": { "uv": [0, 3.5, 1.5, 4], "texture": "#lights", "tintindex": 0 }
 			}
 		},
 		{
@@ -70,10 +71,10 @@
 			"shade": false,
 			"light_emission": 15,
 			"faces": {
-				"east": { "uv": [3.5, 0.5, 4, 2], "texture": "#white_lights", "tintindex": 0 },
-				"west": { "uv": [0, 0.5, 0.5, 2], "texture": "#white_lights", "tintindex": 0 },
-				"up": { "uv": [0, 0, 2.5, 0.5], "texture": "#white_lights", "tintindex": 0 },
-				"down": { "uv": [0, 3.5, 2.5, 4], "texture": "#white_lights", "tintindex": 0 }
+				"east": { "uv": [3.5, 0.5, 4, 2], "texture": "#lights", "tintindex": 0 },
+				"west": { "uv": [0, 0.5, 0.5, 2], "texture": "#lights", "tintindex": 0 },
+				"up": { "uv": [0, 0, 2.5, 0.5], "texture": "#lights", "tintindex": 0 },
+				"down": { "uv": [0, 3.5, 2.5, 4], "texture": "#lights", "tintindex": 0 }
 			}
 		},
 		{
@@ -82,8 +83,8 @@
 			"shade": false,
 			"light_emission": 15,
 			"faces": {
-				"up": { "uv": [0, 0, 0.5, 4], "texture": "#white_lights", "tintindex": 0 },
-				"down": { "uv": [0, 0, 0.5, 4], "texture": "#white_lights", "tintindex": 0 }
+				"up": { "uv": [0, 0, 0.5, 4], "texture": "#lights", "tintindex": 0 },
+				"down": { "uv": [0, 0, 0.5, 4], "texture": "#lights", "tintindex": 0 }
 			}
 		},
 		{
@@ -92,8 +93,8 @@
 			"shade": false,
 			"light_emission": 15,
 			"faces": {
-				"up": { "uv": [0, 0, 0.5, 4], "texture": "#white_lights", "tintindex": 0 },
-				"down": { "uv": [0, 0, 0.5, 4], "texture": "#white_lights", "tintindex": 0 }
+				"up": { "uv": [0, 0, 0.5, 4], "texture": "#lights", "tintindex": 0 },
+				"down": { "uv": [0, 0, 0.5, 4], "texture": "#lights", "tintindex": 0 }
 			}
 		},
 		{
