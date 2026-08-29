@@ -6,6 +6,8 @@ public final class LTXIKeyframeTracks
 {
     private LTXIKeyframeTracks() { }
 
+
+    // Standard tracks
     public static final LimaKeyframeTrack WEAPON_CROSSHAIR = LimaKeyframeTrack.builder()
             .start(0f, EasingType.OUT_CIRC)
             .frame(0.175f, 1f, EasingType.CONSTANT)

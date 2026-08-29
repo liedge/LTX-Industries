@@ -5,10 +5,8 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import liedge.limacore.client.gui.FloatingGuiRenderState;
 import liedge.limacore.client.gui.LimaGuiUtil;
 import liedge.limacore.lib.LimaColor;
-import liedge.limacore.lib.TickTimer;
 import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.ltxindustries.LTXIConstants;
-import liedge.ltxindustries.client.LTXIRenderer;
 import liedge.ltxindustries.client.renderer.LTXIRenderPipelines;
 import liedge.ltxindustries.item.weapon.StargazerItem;
 import liedge.ltxindustries.item.weapon.WeaponItem;
@@ -19,7 +17,6 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.state.gui.GuiElementRenderState;
 import net.minecraft.util.Mth;
-import net.minecraft.world.item.ItemStack;
 
 public final class StargazerClientItem extends WeaponClientItem
 {
@@ -29,33 +26,24 @@ public final class StargazerClientItem extends WeaponClientItem
     }
 
     @Override
-    public void onMainHandTick(ItemStack stack, WeaponItem weaponItem, ClientExtendedInput controls)
+    protected float getSpinSpeed(ClientExtendedInput controls, boolean timerActive, float timerProgress)
     {
-        TickTimer timerB = controls.getAnimationTimerB();
         int triggerTicks = controls.getTicksHoldingTrigger();
-        float speed;
-
-        if (timerB.getTimerState() == TickTimer.State.RUNNING)
+        if (triggerTicks > 0)
         {
-            speed = 1.25f * LTXIRenderer.sineAnimationCurve(timerB.getProgressPercent());
-        }
-        else if (triggerTicks > 0)
-        {
-            speed = 1.25f * Math.min(1f, triggerTicks / (float) StargazerItem.CHARGE_TICKS);
+            return CHAMBER_FULL_SPEED * Math.min(1f, triggerTicks / (float) StargazerItem.CHARGE_TICKS);
         }
         else
         {
-            speed = 0.025f;
+            return super.getSpinSpeed(controls, timerActive, timerProgress);
         }
-
-        updateSpinAnimation(controls, speed);
     }
 
     @Override
     protected void extractCrosshairSprites(GuiGraphicsExtractor graphics, RenderPipeline pipeline, LocalPlayer player, WeaponItem weaponItem, ClientExtendedInput controls, int x, int y, LimaColor color, float partialTick)
     {
         int dotY = y + 3;
-        float bloom = 5f * triggerCurve(controls, weaponItem, 0.1f, partialTick);
+        float bloom = 5f * applyCrosshairEasing(controls, weaponItem, partialTick);
 
         // Primary crosshair
         blitSprite(graphics, pipeline, ANGLE_BRACKET, x - 6 - bloom, y, 4, 7, color);

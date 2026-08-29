@@ -7,9 +7,9 @@ import liedge.limacore.client.gui.VerticalAlignment;
 import liedge.limacore.lib.LimaColor;
 import liedge.limacore.lib.TickTimer;
 import liedge.limacore.util.LimaCoreObjects;
-import liedge.ltxindustries.client.LTXIRenderer;
 import liedge.ltxindustries.client.gui.layer.EquipmentHUDLayer;
 import liedge.ltxindustries.client.renderer.LTXIArmPoses;
+import liedge.ltxindustries.client.renderer.LTXIKeyframeTracks;
 import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.lib.weapons.ClientExtendedInput;
 import liedge.ltxindustries.lib.weapons.WeaponReloadSource;
@@ -23,6 +23,7 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.data.AtlasIds;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -59,6 +60,9 @@ public abstract class WeaponClientItem implements EquipmentHUDLayer.Renderer
     static final Identifier AOE_VERTICAL = RESOURCES.id("crosshair/aoe_v");
     static final Identifier HEAVY_PISTOL_CROSSHAIR = RESOURCES.id("crosshair/heavy_pistol");
 
+    static final float CHAMBER_FULL_SPEED = 1.25f;
+    static final float CHAMBER_IDLE_SPEED = 0.025f;
+
     // Class def
     private final int crosshairWidth;
     private final int crosshairHeight;
@@ -94,18 +98,20 @@ public abstract class WeaponClientItem implements EquipmentHUDLayer.Renderer
     public void onMainHandTick(ItemStack stack, WeaponItem weaponItem, ClientExtendedInput controls)
     {
         TickTimer timerB = controls.getAnimationTimerB();
-        float speed;
+        float speed = getSpinSpeed(controls, timerB.isRunningClient(), timerB.getProgressPercent());
+        updateSpinAnimation(controls, speed);
+    }
 
-        if (timerB.getTimerState() == TickTimer.State.RUNNING)
+    protected float getSpinSpeed(ClientExtendedInput controls, boolean timerActive, float timerProgress)
+    {
+        if (timerActive)
         {
-            speed = 1.5f * LTXIRenderer.sineAnimationCurve(timerB.getProgressPercent());
+            return CHAMBER_FULL_SPEED * Mth.sin(Mth.PI * timerProgress);
         }
         else
         {
-            speed = 0.025f;
+            return CHAMBER_IDLE_SPEED;
         }
-
-        updateSpinAnimation(controls, speed);
     }
 
     protected void updateSpinAnimation(ClientExtendedInput controls, float speed)
@@ -192,9 +198,14 @@ public abstract class WeaponClientItem implements EquipmentHUDLayer.Renderer
 
     //#region Crosshair render helpers
 
-    protected float triggerCurve(ClientExtendedInput controls, WeaponItem weaponItem, float threshold, float partialTick)
+    protected float applyCrosshairEasing(float delta)
     {
-        return LTXIRenderer.linearThresholdCurve(controls.lerpTriggerTimer(weaponItem, partialTick), threshold);
+        return LTXIKeyframeTracks.WEAPON_CROSSHAIR.apply(delta);
+    }
+
+    protected float applyCrosshairEasing(ClientExtendedInput controls, WeaponItem weaponItem, float partialTick)
+    {
+        return applyCrosshairEasing(controls.lerpTriggerTimer(weaponItem, partialTick));
     }
 
     protected void blitSprite(GuiGraphicsExtractor graphics, RenderPipeline pipeline, Identifier spriteId, float x, float y, int width, int height, LimaColor color)

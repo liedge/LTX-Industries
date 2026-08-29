@@ -3,7 +3,6 @@ package liedge.ltxindustries.client.item;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import liedge.limacore.lib.LimaColor;
 import liedge.limacore.util.LimaEntityUtil;
-import liedge.ltxindustries.client.LTXIRenderer;
 import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.lib.weapons.ClientExtendedInput;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -31,7 +30,7 @@ public final class MirageClientItem extends AutoWeaponClientItem
             baseBloom = 4f;
         }
 
-        float bloom = baseBloom + 1.5f * LTXIRenderer.sineAnimationCurve(controls.lerpTriggerTimer(weaponItem, partialTick));
+        float bloom = baseBloom + 1.5f * applyCrosshairEasing(controls, weaponItem, partialTick);
 
         blitSprite(graphics, pipeline, STANDARD_HORIZONTAL, x - 5 - bloom, y, 4, 1, color);
         blitSprite(graphics, pipeline, STANDARD_HORIZONTAL, x + 2 + bloom, y, 4, 1, color);

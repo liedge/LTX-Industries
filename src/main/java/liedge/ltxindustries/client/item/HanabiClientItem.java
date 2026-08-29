@@ -17,7 +17,7 @@ public final class HanabiClientItem extends WeaponClientItem
     @Override
     protected void extractCrosshairSprites(GuiGraphicsExtractor graphics, RenderPipeline pipeline, LocalPlayer player, WeaponItem weaponItem, ClientExtendedInput controls, int x, int y, LimaColor color, float partialTick)
     {
-        float bloom = 4f * triggerCurve(controls, weaponItem, 0.15f, partialTick);
+        float bloom = 4f * applyCrosshairEasing(controls, weaponItem, partialTick);
 
         blitSprite(graphics, pipeline, HOLLOW_DOT, x, y, 5, 5, color);
 

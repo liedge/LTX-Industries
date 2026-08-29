@@ -4,7 +4,7 @@ import com.mojang.blaze3d.pipeline.RenderPipeline;
 import liedge.limacore.lib.LimaColor;
 import liedge.limacore.util.LimaEntityUtil;
 import liedge.ltxindustries.LTXIConstants;
-import liedge.ltxindustries.client.LTXIRenderer;
+import liedge.ltxindustries.client.renderer.LTXIKeyframeTracks;
 import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.lib.weapons.ClientExtendedInput;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -35,7 +35,7 @@ public final class NovaClientItem extends WeaponClientItem
             baseBloom = 3f;
         }
 
-        float bloom = baseBloom + 7f * LTXIRenderer.linearThresholdCurve(triggerLerp, 0.15f);
+        float bloom = baseBloom + 7f * LTXIKeyframeTracks.WEAPON_CROSSHAIR.apply(triggerLerp);
 
         float xl = x - 6 - bloom;
         float yu = y - 6 - bloom;
