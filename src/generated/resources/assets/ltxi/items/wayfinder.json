@@ -1,36 +1,66 @@
 {
   "model": {
     "type": "ltxi:weapon",
-    "energy_displays": [
+    "chamber": "ltxi:item/wayfinder_chamber",
+    "chamber_tint": {
+      "type": "minecraft:constant",
+      "value": -6426301
+    },
+    "frame": "ltxi:item/wayfinder_frame",
+    "frame_extras": [
       {
-        "axis": "z",
-        "from": [
-          0.4225,
-          0.563125,
-          0.813125
+        "type": "ltxi:energy_displays",
+        "fill": "weapons",
+        "models": [
+          {
+            "axis": "z",
+            "from": [
+              0.4225,
+              0.563125,
+              0.813125
+            ],
+            "length": 0.31124997,
+            "to": [
+              0.5775,
+              0.718125,
+              1.124375
+            ]
+          }
         ],
-        "length": 0.31124997,
-        "to": [
-          0.5775,
-          0.718125,
-          1.124375
-        ]
+        "tint": {
+          "type": "minecraft:constant",
+          "value": -6426301
+        }
       }
     ],
-    "special_model": {
-      "type": "simple_recoil",
-      "chamber": "ltxi:item/wayfinder_chamber",
-      "chamber_origin": [
+    "frame_tint": {
+      "type": "minecraft:constant",
+      "value": -6426301
+    },
+    "renderer": {
+      "chamber_pos": [
         0.5,
         0.640625,
         0.53125
       ],
-      "frame": "ltxi:item/wayfinder_frame",
       "recoil_angle": 2.5,
-      "recoil_animation": {
-        "type": "linear",
-        "threshold": 0.15
-      },
+      "recoil_animation": [
+        {
+          "easing": "out_circ",
+          "time": 0.0,
+          "value": 0.0
+        },
+        {
+          "easing": "in_sine",
+          "time": 0.2,
+          "value": 1.0
+        },
+        {
+          "easing": "constant",
+          "time": 1.0,
+          "value": 0.0
+        }
+      ],
       "recoil_distance": 0.5
     },
     "template": "ltxi:item/template/wayfinder"

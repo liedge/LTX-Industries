@@ -1,21 +1,45 @@
 {
   "model": {
     "type": "ltxi:weapon",
-    "energy_displays": [],
-    "special_model": {
-      "type": "simple_recoil",
-      "chamber": "ltxi:item/nova_chamber",
-      "chamber_origin": [
+    "chamber": "ltxi:item/nova_chamber",
+    "chamber_tint": {
+      "type": "minecraft:constant",
+      "value": -6426301
+    },
+    "frame": "ltxi:item/nova_frame",
+    "frame_tint": {
+      "type": "minecraft:constant",
+      "value": -6426301
+    },
+    "renderer": {
+      "chamber_pos": [
         0.5,
         0.625,
         0.59375
       ],
-      "frame": "ltxi:item/nova_frame",
-      "recoil_angle": 5.0,
-      "recoil_animation": {
-        "type": "linear",
-        "threshold": 0.1
-      },
+      "recoil_angle": 15.0,
+      "recoil_animation": [
+        {
+          "easing": "out_circ",
+          "time": 0.0,
+          "value": 0.0
+        },
+        {
+          "easing": "constant",
+          "time": 0.2,
+          "value": 1.0
+        },
+        {
+          "easing": "in_sine",
+          "time": 0.3,
+          "value": 1.0
+        },
+        {
+          "easing": "constant",
+          "time": 1.0,
+          "value": 0.0
+        }
+      ],
       "recoil_distance": 0.375
     },
     "template": "ltxi:item/template/nova"

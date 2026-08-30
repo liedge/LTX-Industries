@@ -36,24 +36,6 @@ public final class LTXIRenderer
         };
     }
 
-    public static float sineAnimationCurve(float delta)
-    {
-        return Mth.sin(Mth.PI * delta);
-    }
-
-    public static float linearThresholdCurve(float delta, float threshold)
-    {
-        if (delta <= threshold)
-        {
-            return delta / threshold;
-        }
-        else
-        {
-            float slope = 1f / (1f - threshold);
-            return 1f - (delta - threshold) * slope;
-        }
-    }
-
     //#region Rings
     private static float lerpArc(int i, int iMax, float start, float end)
     {

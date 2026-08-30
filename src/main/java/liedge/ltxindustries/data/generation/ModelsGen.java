@@ -14,10 +14,11 @@ import liedge.ltxindustries.block.LTXIBlockProperties;
 import liedge.ltxindustries.block.MachineState;
 import liedge.ltxindustries.client.model.custom.EnergyDisplayModel;
 import liedge.ltxindustries.client.model.item.GrenadeTypeTint;
-import liedge.ltxindustries.client.model.item.WeaponModel;
+import liedge.ltxindustries.client.model.item.WeaponItemModel;
+import liedge.ltxindustries.client.renderer.LimaKeyframeTrack;
 import liedge.ltxindustries.client.renderer.blockentity.EnergyCellArrayRenderer;
 import liedge.ltxindustries.client.renderer.item.EnergyDisplaysSpecialRenderer;
-import liedge.ltxindustries.client.renderer.item.RecoilAnimation;
+import liedge.ltxindustries.client.renderer.item.StargazerSightRenderer;
 import liedge.ltxindustries.client.renderer.item.TankSpecialRenderer;
 import liedge.ltxindustries.client.renderer.item.WeaponSpecialRenderer;
 import liedge.ltxindustries.item.weapon.WeaponItem;
@@ -41,6 +42,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.data.BlockFamily;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.EasingType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
@@ -220,46 +222,57 @@ class ModelsGen extends ModelProvider
         emissiveFishingRod(models);
         emissiveHandheldFlatItem(models, EPSILON_LIGHTER);
 
+        LimaKeyframeTrack defRecoilAnim = LimaKeyframeTrack.builder()
+                .start(0f, EasingType.OUT_CIRC)
+                .frame(0.2f, 1f, EasingType.IN_SINE)
+                .end(0f);
+        ItemTintSource defEnergyTint = ItemModelUtils.constantTint(LTXIConstants.LIME_GREEN.argb32());
         weapon(WAYFINDER)
-                .addEnergyDisplay(EnergyDisplayModel.create(6.75f, 9f, 13f, 2.5f, 2.5f, 5f, Direction.Axis.Z))
-                .setChamberOrigin(8f, 10.25f, 8.5f)
-                .setRenderer(WeaponSpecialRenderer.Type.SIMPLE_RECOIL, RecoilAnimation.linear(0.15f), 0.5f, 2.5f)
+                .addEnergyDisplays(defEnergyTint, EnergyDisplayModel.create(6.75f, 9f, 13f, 2.5f, 2.5f, 5f, Direction.Axis.Z))
+                .setChamberPos(8f, 10.25f, 8.5f)
+                .setRecoilProperties(defRecoilAnim, 0.5f, 2.5f)
                 .build(models);
         EnergyDisplayModel autoFrameED = EnergyDisplayModel.create(6.75f, -1f, 4f, 2.5f, 7f, 3f, Direction.Axis.Y, EnergyDisplayModel.Rotation.axisAngle(6.75f, 9f, 4f, Direction.Axis.X, -15f));
         weapon(SERENITY)
-                .addEnergyDisplay(autoFrameED)
-                .setChamberOrigin(8f, 11f, 12.5f)
-                .setRenderer(WeaponSpecialRenderer.Type.SIMPLE_RECOIL, RecoilAnimation.sineCurve(), 0.03125f, 0.4f)
+                .addEnergyDisplays(defEnergyTint, autoFrameED)
+                .setChamberPos(8f, 11f, 12.5f)
+                .setRecoilProperties(defRecoilAnim, 0.03125f, 0.4f)
                 .build(models);
         weapon(MIRAGE)
-                .addEnergyDisplay(autoFrameED)
-                .setChamberOrigin(8f, 11f, 12.5f)
-                .setRenderer(WeaponSpecialRenderer.Type.SIMPLE_RECOIL, RecoilAnimation.sineCurve(), 0.03125f, 0.4f)
+                .addEnergyDisplays(defEnergyTint, autoFrameED)
+                .setChamberPos(8f, 11f, 12.5f)
+                .setRecoilProperties(defRecoilAnim, 0.03125f, 0.4f)
                 .build(models);
         weapon(AURORA)
-                .addEnergyDisplay(EnergyDisplayModel.create(6.75f, 0f, 3f, 2.5f, 6f, 3f, Direction.Axis.Y, EnergyDisplayModel.Rotation.axisAngle(6.75f, 9f, 3f, Direction.Axis.X, -15f)))
-                .setChamberOrigin(8f, 11f, 11f)
-                .setRenderer(WeaponSpecialRenderer.Type.SIMPLE_RECOIL, RecoilAnimation.linear(0.15f), 0.5f, 2.5f)
+                .addEnergyDisplays(defEnergyTint, EnergyDisplayModel.create(6.75f, 0f, 3f, 2.5f, 6f, 3f, Direction.Axis.Y, EnergyDisplayModel.Rotation.axisAngle(6.75f, 9f, 3f, Direction.Axis.X, -15f)))
+                .setChamberPos(8f, 11f, 11f)
+                .setRecoilProperties(defRecoilAnim, 0.5f, 2.5f)
                 .build(models);
         weapon(HANABI)
-                .addEnergyDisplay(EnergyDisplayModel.create(6.25f, 14.5f, 13f, 3.5f, 5f, 3.5f, Direction.Axis.Y, EnergyDisplayModel.Rotation.axisAngle(8, 13, 13, Direction.Axis.X, 45f)))
-                .setEnergyTint(GrenadeTypeTint.INSTANCE)
-                .setChamberOrigin(8f, 10.75f, 8.5f)
-                .setRenderer(WeaponSpecialRenderer.Type.SIMPLE_RECOIL, RecoilAnimation.linear(0.15f), 0.5f, 2.5f)
+                .addEnergyDisplays(GrenadeTypeTint.INSTANCE, EnergyDisplayModel.create(6.25f, 14.5f, 13f, 3.5f, 5f, 3.5f, Direction.Axis.Y, EnergyDisplayModel.Rotation.axisAngle(8, 13, 13, Direction.Axis.X, 45f)))
+                .setChamberTint(GrenadeTypeTint.INSTANCE)
+                .setChamberPos(8f, 10.75f, 8.5f)
+                .setRecoilProperties(defRecoilAnim, 0.5f, 2.5f)
                 .build(models);
         weapon(STARGAZER)
-                .addEnergyDisplay(EnergyDisplayModel.create(6.75f, 0f, 4f, 2.5f, 5f, 4f, Direction.Axis.Y, EnergyDisplayModel.Rotation.axisAngle(6.75f, 7f, 4f, Direction.Axis.X, -15f)))
-                .setChamberOrigin(8f, 10f, 6.5f)
-                .setRenderer(WeaponSpecialRenderer.Type.STARGAZER_SIGHT, RecoilAnimation.linear(0.15f), 0.4f, 3f)
+                .addExtra(new StargazerSightRenderer.Unbaked(new Vector3f(8f, 14.75f, 12.75f).mul(0.0625f), defEnergyTint))
+                .addEnergyDisplays(defEnergyTint, EnergyDisplayModel.create(6.75f, 0f, 4f, 2.5f, 5f, 4f, Direction.Axis.Y, EnergyDisplayModel.Rotation.axisAngle(6.75f, 7f, 4f, Direction.Axis.X, -15f)))
+                .setChamberPos(8f, 10f, 6.5f)
+                .setRecoilProperties(defRecoilAnim, 0.4f, 3f)
                 .build(models);
         weapon(DAYBREAK)
-                .addEnergyDisplay(EnergyDisplayModel.create(6f, 17f, 11f, 4f, 5f, 4f, Direction.Axis.Y, EnergyDisplayModel.Rotation.axisAngle(8f, 14f, 11f, Direction.Axis.X, 45f)))
-                .setChamberOrigin(8f, 12f, 5.5f)
-                .setRenderer(WeaponSpecialRenderer.Type.SIMPLE_RECOIL, RecoilAnimation.linear(0.1f), 0.625f, 2f)
+                .addEnergyDisplays(defEnergyTint, EnergyDisplayModel.create(6f, 17f, 11f, 4f, 5f, 4f, Direction.Axis.Y, EnergyDisplayModel.Rotation.axisAngle(8f, 14f, 11f, Direction.Axis.X, 45f)))
+                .setChamberPos(8f, 12f, 5.5f)
+                .setRecoilProperties(defRecoilAnim, 0.625f, 2f)
                 .build(models);
+        LimaKeyframeTrack novaRecoil = LimaKeyframeTrack.builder()
+                .start(0f, EasingType.OUT_CIRC)
+                .frame(0.2f, 1f, EasingType.CONSTANT)
+                .frame(0.3f, 1f, EasingType.IN_SINE)
+                .end(0f);
         weapon(NOVA)
-                .setChamberOrigin(8f, 10f, 9.5f)
-                .setRenderer(WeaponSpecialRenderer.Type.SIMPLE_RECOIL, RecoilAnimation.linear(0.1f), 0.375f, 5f)
+                .setChamberPos(8f, 10f, 9.5f)
+                .setRecoilProperties(novaRecoil, 0.375f, 15f)
                 .build(models);
 
         bucket(models, HYDROGEN_BUCKET, LTXIFluids.HYDROGEN);
@@ -757,10 +770,11 @@ class ModelsGen extends ModelProvider
         private final Identifier frame;
         private final Identifier chamber;
 
-        private final List<EnergyDisplayModel> energyDisplays = new ObjectArrayList<>();
-        private @Nullable ItemTintSource energyTint;
-        private @Nullable Vector3fc chamberOrigin;
-        private WeaponSpecialRenderer.@Nullable Unbaked specialModel;
+        private final List<LimaSpecialModelRenderer.LimaUnbaked<?>> frameExtras = new ObjectArrayList<>();
+        private @Nullable Vector3fc chamberPos;
+        private WeaponSpecialRenderer.@Nullable SpecialUnbaked specialModel;
+        private ItemTintSource frameTint = ItemModelUtils.constantTint(LTXIConstants.LIME_GREEN.argb32());
+        private ItemTintSource chamberTint = ItemModelUtils.constantTint(LTXIConstants.LIME_GREEN.argb32());
 
         private WeaponBuilder(Item item, Identifier template, Identifier frame, Identifier chamber)
         {
@@ -770,33 +784,45 @@ class ModelsGen extends ModelProvider
             this.chamber = chamber;
         }
 
-        WeaponBuilder addEnergyDisplay(EnergyDisplayModel display)
+        WeaponBuilder addExtra(LimaSpecialModelRenderer.LimaUnbaked<?> extra)
         {
-            energyDisplays.add(display);
+            frameExtras.add(extra);
             return this;
         }
 
-        WeaponBuilder setEnergyTint(ItemTintSource energyTint)
+        WeaponBuilder addEnergyDisplays(ItemTintSource energyTint, EnergyDisplayModel... displays)
         {
-            this.energyTint = energyTint;
+            frameExtras.addFirst(new EnergyDisplaysSpecialRenderer.Unbaked(EnergyDisplaysSpecialRenderer.FillSource.WEAPONS, List.of(displays), energyTint));
             return this;
         }
 
-        WeaponBuilder setChamberOrigin(float x, float y, float z)
+        WeaponBuilder setFrameTint(ItemTintSource frameTint)
         {
-            chamberOrigin = new Vector3f(x, y, z).mul(0.0625f);
+            this.frameTint = frameTint;
             return this;
         }
 
-        WeaponBuilder setRenderer(WeaponSpecialRenderer.Type type, RecoilAnimation recoilAnimation, float recoilDistance, float recoilAngle)
+        WeaponBuilder setChamberTint(ItemTintSource chamberTint)
         {
-            this.specialModel = new WeaponSpecialRenderer.Unbaked(frame, chamber, Objects.requireNonNull(chamberOrigin), recoilAnimation, recoilDistance, recoilAngle, type);
+            this.chamberTint = chamberTint;
+            return this;
+        }
+
+        WeaponBuilder setChamberPos(float x, float y, float z)
+        {
+            chamberPos = new Vector3f(x, y, z).mul(0.0625f);
+            return this;
+        }
+
+        WeaponBuilder setRecoilProperties(LimaKeyframeTrack recoilAnimation, float recoilDistance, float recoilAngle)
+        {
+            this.specialModel = new WeaponSpecialRenderer.SpecialUnbaked(Objects.requireNonNull(chamberPos), recoilAnimation, recoilDistance, recoilAngle);
             return this;
         }
 
         void build(ItemModelGenerators models)
         {
-            models.itemModelOutput.accept(item, new WeaponModel.Unbaked(template, energyDisplays, Optional.ofNullable(energyTint), Objects.requireNonNull(specialModel)));
+            models.itemModelOutput.accept(item, new WeaponItemModel.Unbaked(template, frame, chamber, frameExtras, Objects.requireNonNull(specialModel), frameTint, chamberTint));
         }
     }
 
