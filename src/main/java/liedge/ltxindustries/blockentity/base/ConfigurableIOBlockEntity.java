@@ -46,7 +46,7 @@ public interface ConfigurableIOBlockEntity extends SubMenuProviderBlockEntity
 
     IOConfigurationRules getIOConfigRules(BlockEntityInputType inputType);
 
-    default void openIOControlMenuScreen(Player player, BlockEntityInputType inputType)
+    default void openIOControlsSubMenu(Player player, BlockEntityInputType inputType)
     {
         BlockIOConfigurationMenu.MenuContext context = new BlockIOConfigurationMenu.MenuContext(this, inputType);
         Component title = Objects.requireNonNull(LTXIMenus.BLOCK_IO_CONFIGURATION.get().getDefaultTitle()).translateArgs(context.inputType().translate());

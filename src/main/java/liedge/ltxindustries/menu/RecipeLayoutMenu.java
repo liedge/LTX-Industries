@@ -60,7 +60,7 @@ public final class RecipeLayoutMenu<CTX extends BaseRecipeMachineBlockEntity<?, 
     {
         if (menuContext instanceof RecipeModeHolderBlockEntity modeHolder)
         {
-            SharedMenuButtons.openModesSubMenu(sender, modeHolder);
+            modeHolder.openModesSubMenu(sender);
         }
     }
 }

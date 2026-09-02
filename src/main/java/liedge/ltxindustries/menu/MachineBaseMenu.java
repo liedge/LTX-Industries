@@ -54,6 +54,6 @@ public abstract class MachineBaseMenu<CTX extends MachineBaseBlockEntity> extend
     {
         builder.handleUnitAction(SharedMenuButtons.OPEN_UPGRADES,
                 sender -> LimaMenuProvider.create(LTXIMenus.MACHINE_UPGRADES.get(), menuContext, null, false).openMenuScreen(sender));
-        builder.handleAction(SharedMenuButtons.OPEN_IO_CONTROLS, LTXINetworkSerializers.MACHINE_INPUT_TYPE, menuContext::openIOControlMenuScreen);
+        builder.handleAction(SharedMenuButtons.OPEN_IO_CONTROLS, LTXINetworkSerializers.MACHINE_INPUT_TYPE, menuContext::openIOControlsSubMenu);
     }
 }

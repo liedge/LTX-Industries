@@ -31,6 +31,6 @@ public class AirScrubberMenu extends LTXIMachineMenu<AirScrubberBlockEntity>
     protected void defineButtonEventHandlers(EventHandlerBuilder builder)
     {
         super.defineButtonEventHandlers(builder);
-        builder.handleUnitAction(SharedMenuButtons.OPEN_RECIPE_MODES, sender -> SharedMenuButtons.openModesSubMenu(sender, menuContext));
+        builder.handleUnitAction(SharedMenuButtons.OPEN_RECIPE_MODES, menuContext::openModesSubMenu);
     }
 }
