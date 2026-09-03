@@ -77,7 +77,7 @@ public abstract class ConfigurableSidesBlockEntity extends LimaBlockEntity imple
     @Override
     public final boolean setIOConfiguration(BlockEntityInputType inputType, BlockIOConfiguration configuration)
     {
-        if (supportsInputType(inputType))
+        if (supportsInputType(inputType) && configuration.isValidForRules(getIOConfigRules(inputType)))
         {
             boolean changed = setIOConfigInternal(inputType, configuration);
             if (changed)

@@ -19,7 +19,10 @@ public final class MutableUpgrades
 
     MutableUpgrades(Upgrades source)
     {
-        map.putAll(source.getMapForCloning());
+        if (!source.isEmpty())
+        {
+            map.putAll(source.getMap());
+        }
     }
 
     public MutableUpgrades setAll(HolderGetter<Upgrade> holders, Collection<ResourceKey<Upgrade>> keys)

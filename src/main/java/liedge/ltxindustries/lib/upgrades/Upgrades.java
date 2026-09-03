@@ -5,6 +5,7 @@ import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.data.LimaCoreCodecs;
+import liedge.limacore.data.MapLikeData;
 import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.network.LimaStreamCodecs;
 import liedge.limacore.util.LimaRegistryUtil;
@@ -28,7 +29,6 @@ import net.minecraft.world.level.storage.loot.LootContext;
 import net.neoforged.neoforge.common.damagesource.DamageContainer;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.registries.holdersets.AnyHolderSet;
-import org.jetbrains.annotations.ApiStatus;
 
 import java.util.*;
 import java.util.function.Function;
@@ -36,25 +36,25 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public final class Upgrades
+public final class Upgrades extends MapLikeData<Holder<Upgrade>, Integer>
 {
-    public static final Codec<Upgrades> CODEC = LimaCoreCodecs.object2IntLinkedHashMap(Upgrade.CODEC, Upgrade.RANK_CODEC).xmap(Upgrades::new, Upgrades::getMapForCloning);
-    public static final StreamCodec<RegistryFriendlyByteBuf, Upgrades> STREAM_CODEC = LimaStreamCodecs.object2IntLinkedMap(Upgrade.STREAM_CODEC, Upgrade.RANK_STREAM_CODEC).map(Upgrades::new, Upgrades::getMapForCloning);
+    public static final Codec<Upgrades> CODEC = LimaCoreCodecs.object2IntLinkedHashMap(Upgrade.CODEC, Upgrade.RANK_CODEC).xmap(Upgrades::new, Upgrades::getMap);
+    public static final StreamCodec<RegistryFriendlyByteBuf, Upgrades> STREAM_CODEC = LimaStreamCodecs.object2IntMap(Upgrade.STREAM_CODEC, Upgrade.RANK_STREAM_CODEC).map(Upgrades::new, Upgrades::getMap);
+
     public static final Upgrades EMPTY = new Upgrades(new Object2IntOpenHashMap<>());
 
-    private final Object2IntMap<Holder<Upgrade>> internalMap;
-    private final int mapHash;
+    private final Object2IntMap<Holder<Upgrade>> upgradeMap;
 
-    Upgrades(Object2IntMap<Holder<Upgrade>> internalMap)
+    Upgrades(Object2IntMap<Holder<Upgrade>> upgradeMap)
     {
-        this.internalMap = internalMap;
-        this.mapHash = internalMap.hashCode();
+        super(upgradeMap);
+        this.upgradeMap = upgradeMap;
     }
 
     //#region General iteration helpers
     public <T> void forEachEffect(DataComponentType<List<T>> type, EffectVisitor<T> visitor)
     {
-        for (Object2IntMap.Entry<Holder<Upgrade>> entry : internalMap.object2IntEntrySet())
+        for (Object2IntMap.Entry<Holder<Upgrade>> entry : upgradeMap.object2IntEntrySet())
         {
             List<T> effects = entry.getKey().value().getListEffect(type);
             final int rank = entry.getIntValue();
@@ -73,7 +73,7 @@ public final class Upgrades
 
     public <T, C extends EffectConditionHolder<T>> void forEachConditionalEffect(DataComponentType<List<C>> type, LootContext context, EffectVisitor<T> visitor)
     {
-        for (Object2IntMap.Entry<Holder<Upgrade>> entry : internalMap.object2IntEntrySet())
+        for (Object2IntMap.Entry<Holder<Upgrade>> entry : upgradeMap.object2IntEntrySet())
         {
             int rank = entry.getIntValue();
             List<C> effects = entry.getKey().value().getListEffect(type);
@@ -91,7 +91,7 @@ public final class Upgrades
 
     public <T> boolean anySpecialMatch(DataComponentType<T> type, EffectPredicate<T> predicate)
     {
-        for (var entry : internalMap.object2IntEntrySet())
+        for (var entry : upgradeMap.object2IntEntrySet())
         {
             T effect = entry.getKey().value().effects().get(type);
             if (effect != null && predicate.test(effect, entry.getIntValue())) return true;
@@ -107,7 +107,7 @@ public final class Upgrades
 
     public <T> boolean anyMatch(DataComponentType<List<T>> type, EffectPredicate<T> predicate)
     {
-        for (Object2IntMap.Entry<Holder<Upgrade>> entry : internalMap.object2IntEntrySet())
+        for (Object2IntMap.Entry<Holder<Upgrade>> entry : upgradeMap.object2IntEntrySet())
         {
             List<T> list = entry.getKey().value().getListEffect(type);
             final int rank = entry.getIntValue();
@@ -226,7 +226,7 @@ public final class Upgrades
     {
         List<HolderSet<R>> sets = new ObjectArrayList<>();
 
-        for (Object2IntMap.Entry<Holder<Upgrade>> entry : internalMap.object2IntEntrySet())
+        for (Object2IntMap.Entry<Holder<Upgrade>> entry : upgradeMap.object2IntEntrySet())
         {
             List<T> effects = entry.getKey().value().getListEffect(type);
             for (T effect : effects)
@@ -247,7 +247,7 @@ public final class Upgrades
 
     public void applyDamageEntityEffects(DataComponentType<List<TargetableEffect<EntityUpgradeEffect>>> type, ServerLevel level, LootContext context, EffectTarget source, UpgradedEquipmentInUse equipmentInUse)
     {
-        for (var entry : internalMap.object2IntEntrySet())
+        for (var entry : upgradeMap.object2IntEntrySet())
         {
             List<TargetableEffect<EntityUpgradeEffect>> effects = entry.getKey().value().getListEffect(type);
             int rank = entry.getIntValue();
@@ -272,7 +272,7 @@ public final class Upgrades
     {
         float pieceTotal = 0f;
 
-        for (var entry : internalMap.object2IntEntrySet())
+        for (var entry : upgradeMap.object2IntEntrySet())
         {
             List<ConditionEffect<DamageReduction>> effects = entry.getKey().value().getListEffect(LTXIUpgradeEffectComponents.DAMAGE_REDUCTION);
             int rank = entry.getIntValue();
@@ -355,16 +355,6 @@ public final class Upgrades
     //#endregion
 
     // Container properties
-    public int size()
-    {
-        return internalMap.size();
-    }
-
-    public boolean isEmpty()
-    {
-        return internalMap.isEmpty();
-    }
-
     public boolean canInstallUpgrade(TypedInstance<?> user, UpgradeEntry entry)
     {
         Holder<Upgrade> holder = entry.upgrade();
@@ -377,14 +367,14 @@ public final class Upgrades
         if (!upgrade.canBeInstalledOn(user)) return false;
 
         // Check exclusivity
-        return internalMap.keySet().stream().map(Holder::value)
+        return upgradeMap.keySet().stream().map(Holder::value)
                 .filter(o -> !upgrade.equals(o))
                 .allMatch(o -> o.canBeInstalledAlongside(holder));
     }
 
     public int getUpgradeRank(Holder<Upgrade> upgradeHolder)
     {
-        return internalMap.getOrDefault(upgradeHolder, 0);
+        return upgradeMap.getOrDefault(upgradeHolder, 0);
     }
 
     public MutableUpgrades mutable()
@@ -394,47 +384,24 @@ public final class Upgrades
 
     public Set<Object2IntMap.Entry<Holder<Upgrade>>> toEntrySet()
     {
-        return Collections.unmodifiableSet(internalMap.object2IntEntrySet());
+        return Collections.unmodifiableSet(upgradeMap.object2IntEntrySet());
     }
 
     private Stream<Object2IntMap.Entry<Holder<Upgrade>>> entryStream()
     {
-        return internalMap.object2IntEntrySet().stream();
+        return upgradeMap.object2IntEntrySet().stream();
     }
 
-    @ApiStatus.Internal
-    Object2IntMap<Holder<Upgrade>> getMapForCloning()
+    @Override
+    public Object2IntMap<Holder<Upgrade>> getMap()
     {
-        return internalMap;
+        return upgradeMap;
     }
 
     @Override
     public String toString()
     {
         return entryStream().map(entry -> LimaRegistryUtil.getNonNullRegistryId(entry.getKey()) + "(" + entry.getIntValue() + ")").collect(Collectors.joining(","));
-    }
-
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (obj == this)
-        {
-            return true;
-        }
-        else if (obj instanceof Upgrades other)
-        {
-            return this.internalMap.equals(other.internalMap);
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    @Override
-    public int hashCode()
-    {
-        return mapHash;
     }
 
     @FunctionalInterface
