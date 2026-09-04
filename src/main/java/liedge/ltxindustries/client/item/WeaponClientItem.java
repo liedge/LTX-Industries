@@ -4,7 +4,6 @@ import com.mojang.blaze3d.pipeline.RenderPipeline;
 import liedge.limacore.client.gui.HorizontalAlignment;
 import liedge.limacore.client.gui.LimaGuiUtil;
 import liedge.limacore.client.gui.VerticalAlignment;
-import liedge.limacore.lib.LimaColor;
 import liedge.limacore.lib.TickTimer;
 import liedge.limacore.util.LimaCoreObjects;
 import liedge.ltxindustries.client.gui.layer.EquipmentHUDLayer;
@@ -78,16 +77,16 @@ public abstract class WeaponClientItem implements EquipmentHUDLayer.Renderer
     }
 
     public void extractCrosshairs(GuiGraphicsExtractor graphics, RenderPipeline pipeline, LocalPlayer player, WeaponItem weaponItem,
-                                  ClientExtendedInput controls, int screenWidth, int screenHeight, LimaColor color, float partialTick)
+                                  ClientExtendedInput controls, int screenWidth, int screenHeight, float partialTick)
     {
         int centerX = (screenWidth - crosshairWidth) / 2;
         int centerY = (screenHeight - crosshairHeight) / 2;
 
-        extractCrosshairSprites(graphics, pipeline, player, weaponItem, controls, centerX, centerY, color, partialTick);
+        extractCrosshairSprites(graphics, pipeline, player, weaponItem, controls, centerX, centerY, partialTick);
     }
 
     protected abstract void extractCrosshairSprites(GuiGraphicsExtractor graphics, RenderPipeline pipeline, LocalPlayer player, WeaponItem weaponItem,
-                                                    ClientExtendedInput controls, int x, int y, LimaColor color, float partialTick);
+                                                    ClientExtendedInput controls, int x, int y, float partialTick);
 
     public void onWeaponFired(ItemStack stack, Player player, WeaponItem weaponItem, ClientExtendedInput controls)
     {
@@ -158,7 +157,7 @@ public abstract class WeaponClientItem implements EquipmentHUDLayer.Renderer
         {
             case ITEM -> renderAmmoCounter(graphics, AMMO_COUNTER_SPRITE, xAlign, yAlign, xOffset, yOffset, 44, 13, ammo, ammoColor(ammo), weaponItem.getAmmoCapacity(heldItem), NO_ENERGY);
             case COMMON_ENERGY -> renderAmmoCounter(graphics, ENERGY_COUNTER_SPRITE, xAlign, yAlign, xOffset, yOffset, 44, 19, ammo, ammoColor(ammo), weaponItem.getAmmoCapacity(heldItem), weaponItem.getChargePercentage(heldItem));
-            case INFINITE -> renderAmmoCounter(graphics, INFINITE_COUNTER_SPRITE, xAlign, yAlign, xOffset, yOffset, 36, 13, ammo, LIME_GREEN.argb32(), NO_CAPACITY, NO_ENERGY);
+            case INFINITE -> renderAmmoCounter(graphics, INFINITE_COUNTER_SPRITE, xAlign, yAlign, xOffset, yOffset, 36, 13, ammo, LIME_GREEN, NO_CAPACITY, NO_ENERGY);
         }
     }
 
@@ -191,7 +190,7 @@ public abstract class WeaponClientItem implements EquipmentHUDLayer.Renderer
 
     private int ammoColor(int ammo)
     {
-        return ammo > 0 ? LIME_GREEN.argb32() : HOSTILE_ORANGE.argb32();
+        return ammo > 0 ? LIME_GREEN : HOSTILE_ORANGE;
     }
 
     //#endregion
@@ -208,22 +207,22 @@ public abstract class WeaponClientItem implements EquipmentHUDLayer.Renderer
         return applyCrosshairEasing(controls.lerpTriggerTimer(weaponItem, partialTick));
     }
 
-    protected void blitSprite(GuiGraphicsExtractor graphics, RenderPipeline pipeline, Identifier spriteId, float x, float y, int width, int height, LimaColor color)
+    protected void blitSprite(GuiGraphicsExtractor graphics, RenderPipeline pipeline, Identifier spriteId, float x, float y, int width, int height, int color)
     {
         TextureAtlasSprite sprite = Minecraft.getInstance().getAtlasManager().getAtlasOrThrow(AtlasIds.GUI).getSprite(spriteId);
-        LimaGuiUtil.floatBlit(graphics, pipeline, sprite, x, y, width, height, color.argb32());
+        LimaGuiUtil.floatBlit(graphics, pipeline, sprite, x, y, width, height, color);
     }
 
-    protected void blitSpriteMirrorU(GuiGraphicsExtractor graphics, RenderPipeline pipeline, Identifier spriteId, float x, float y, int width, int height, LimaColor color)
+    protected void blitSpriteMirrorU(GuiGraphicsExtractor graphics, RenderPipeline pipeline, Identifier spriteId, float x, float y, int width, int height, int color)
     {
         TextureAtlasSprite sprite = Minecraft.getInstance().getAtlasManager().getAtlasOrThrow(AtlasIds.GUI).getSprite(spriteId);
-        LimaGuiUtil.floatBlit(graphics, pipeline, sprite.atlasLocation(), x, y, x + width, y + height, sprite.getU1(), sprite.getU0(), sprite.getV0(), sprite.getV1(), color.argb32());
+        LimaGuiUtil.floatBlit(graphics, pipeline, sprite.atlasLocation(), x, y, x + width, y + height, sprite.getU1(), sprite.getU0(), sprite.getV0(), sprite.getV1(), color);
     }
 
-    protected void blitSpriteMirrorV(GuiGraphicsExtractor graphics, RenderPipeline pipeline, Identifier spriteId, float x, float y, int width, int height, LimaColor color)
+    protected void blitSpriteMirrorV(GuiGraphicsExtractor graphics, RenderPipeline pipeline, Identifier spriteId, float x, float y, int width, int height, int color)
     {
         TextureAtlasSprite sprite = Minecraft.getInstance().getAtlasManager().getAtlasOrThrow(AtlasIds.GUI).getSprite(spriteId);
-        LimaGuiUtil.floatBlit(graphics, pipeline, sprite.atlasLocation(), x, y, x + width, y + height, sprite.getU0(), sprite.getU1(), sprite.getV1(), sprite.getV0(), color.argb32());
+        LimaGuiUtil.floatBlit(graphics, pipeline, sprite.atlasLocation(), x, y, x + width, y + height, sprite.getU0(), sprite.getU1(), sprite.getV1(), sprite.getV0(), color);
     }
 
     //#endregion

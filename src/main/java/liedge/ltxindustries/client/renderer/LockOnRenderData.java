@@ -3,7 +3,6 @@ package liedge.ltxindustries.client.renderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-import liedge.limacore.lib.LimaColor;
 import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.client.LTXIRenderer;
@@ -46,14 +45,14 @@ public record LockOnRenderData(float x, float y, float z, float xRot, float yRot
         pose.rotate(Axis.ZP.rotationDegrees(Mth.wrapDegrees(spin * 360f)));
 
         float spread = -0.6875f - (2f * (1f - progress));
-        LimaColor color = progress >= 1 ? LTXIConstants.LIME_GREEN : LTXIConstants.HOSTILE_ORANGE;
+        int color = progress >= 1 ? LTXIConstants.LIME_GREEN : LTXIConstants.HOSTILE_ORANGE;
 
         drawQuad(pose, consumer, spread, 0, color);
         drawQuad(pose, consumer, spread, 120, color);
         drawQuad(pose, consumer, spread, 240, color);
     }
 
-    private void drawQuad(PoseStack.Pose pose, VertexConsumer buffer, float spread, int angle, LimaColor color)
+    private void drawQuad(PoseStack.Pose pose, VertexConsumer buffer, float spread, int angle, int color)
     {
         float angleRad = LimaCoreMath.toRad(angle);
 
@@ -79,9 +78,9 @@ public record LockOnRenderData(float x, float y, float z, float xRot, float yRot
             vtx[i + 1] = (x * sin + y * cos) + centerY;
         }
 
-        buffer.addVertex(pose, vtx[0], vtx[1], 0).setColor(color.red(), color.green(), color.blue(), 1f).setUv(0, 0);
-        buffer.addVertex(pose, vtx[2], vtx[3], 0).setColor(color.red(), color.green(), color.blue(), 1f).setUv(0, 1);
-        buffer.addVertex(pose, vtx[4], vtx[5], 0).setColor(color.red(), color.green(), color.blue(), 1f).setUv(1, 1);
-        buffer.addVertex(pose, vtx[6], vtx[7], 0).setColor(color.red(), color.green(), color.blue(), 1f).setUv(1, 0);
+        buffer.addVertex(pose, vtx[0], vtx[1], 0).setColor(color).setUv(0, 0);
+        buffer.addVertex(pose, vtx[2], vtx[3], 0).setColor(color).setUv(0, 1);
+        buffer.addVertex(pose, vtx[4], vtx[5], 0).setColor(color).setUv(1, 1);
+        buffer.addVertex(pose, vtx[6], vtx[7], 0).setColor(color).setUv(1, 0);
     }
 }

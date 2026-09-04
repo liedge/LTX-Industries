@@ -2,7 +2,6 @@ package liedge.ltxindustries.client.renderer.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import liedge.limacore.lib.LimaColor;
 import liedge.ltxindustries.blockentity.BaseECABlockEntity;
 import liedge.ltxindustries.client.model.custom.EnergyDisplayModel;
 import net.minecraft.client.renderer.SubmitNodeCollector;
@@ -26,9 +25,9 @@ public class EnergyCellArrayRenderer extends MachineBaseRenderer<BaseECABlockEnt
     }
 
     private final List<EnergyDisplayModel> fillModels = createDisplays();
-    private final LimaColor fillColor;
+    private final int fillColor;
 
-    public EnergyCellArrayRenderer(BlockEntityRendererProvider.Context context, LimaColor fillColor)
+    public EnergyCellArrayRenderer(BlockEntityRendererProvider.Context context, int fillColor)
     {
         super(context);
         this.fillColor = fillColor;
@@ -53,7 +52,7 @@ public class EnergyCellArrayRenderer extends MachineBaseRenderer<BaseECABlockEnt
         {
             for (EnergyDisplayModel model : fillModels)
             {
-                model.submit(poseStack, nodeCollector, state.energyFill, fillColor.argb32(), 0.8f);
+                model.submit(poseStack, nodeCollector, state.energyFill, fillColor, 0.8f);
             }
         }
     }

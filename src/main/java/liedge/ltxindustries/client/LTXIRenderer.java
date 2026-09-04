@@ -2,7 +2,6 @@ package liedge.ltxindustries.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import liedge.limacore.lib.LimaColor;
 import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.client.model.custom.EnergyBoltData;
@@ -74,14 +73,9 @@ public final class LTXIRenderer
         }
     }
 
-    public static void submitArcRing(PoseStack.Pose pose, VertexConsumer buffer, float radius, float width, float startAngle, float endAngle, int segments, LimaColor color, float alpha)
+    public static void submitArcRing(PoseStack.Pose pose, VertexConsumer buffer, float radius, float width, float startAngle, float endAngle, int segments, int color, float alpha)
     {
-        submitArcRing(pose, buffer, radius, width, startAngle, endAngle, segments, ARGB.color(alpha, color.argb32()));
-    }
-
-    public static void submitArcRing(PoseStack.Pose pose, VertexConsumer buffer, float radius, float width, float startAngle, float endAngle, int segments, LimaColor color)
-    {
-        submitArcRing(pose, buffer, radius, width, startAngle, endAngle, segments, color, 1f);
+        submitArcRing(pose, buffer, radius, width, startAngle, endAngle, segments, ARGB.color(alpha, color));
     }
 
     public static void submitSplitArcsRing(PoseStack.Pose pose, VertexConsumer buffer, float delta, int arcs, float arcLength, float arcWidth, float radius, int segments, int color)
@@ -93,11 +87,6 @@ public final class LTXIRenderer
             float angle = i * (360f / arcs) + delta;
             submitArcRing(pose, buffer, radius, arcWidth, angle - halfArc, angle + halfArc, segments, color);
         }
-    }
-
-    public static void submitSplitArcsRing(PoseStack.Pose pose, VertexConsumer buffer, float delta, int arcs, float arcLength, float arcWidth, float radius, int segments, LimaColor color)
-    {
-        submitSplitArcsRing(pose, buffer, delta, arcs, arcLength, arcWidth, radius, segments, color.argb32());
     }
     //#endregion
     
@@ -207,11 +196,6 @@ public final class LTXIRenderer
             submitUnlitCuboidFace(pose, buffer, side, x1, y1, z1, x2, y2, z2, ARGB.color(alpha, color));
         }
     }
-
-    public static void submitUnlitCuboid(PoseStack.Pose pose, VertexConsumer buffer, Direction[] faces, float x1, float y1, float z1, float x2, float y2, float z2, LimaColor color, float alpha)
-    {
-        submitUnlitCuboid(pose, buffer, faces, x1, y1, z1, x2, y2, z2, color.argb32(), alpha);
-    }
     //#endregion
 
     public static double[] lerpEntityCenter(Entity entity, double x0, double y0, double z0, float partialTick)
@@ -223,27 +207,30 @@ public final class LTXIRenderer
         return new double[] {x, y, z};
     }
 
-    public static void submitBoltQuad(PoseStack.Pose pose, VertexConsumer buffer, Vector3f a, Vector3f b, Vector3f c, Vector3f d, LimaColor color, float alpha)
+    private static void submitBoltQuad(PoseStack.Pose pose, VertexConsumer buffer, Vector3f a, Vector3f b, Vector3f c, Vector3f d, int argb32)
     {
-        buffer.addVertex(pose, a.x, a.y, a.z).setColor(color.red(), color.green(), color.blue(), alpha);
-        buffer.addVertex(pose, b.x, b.y, b.z).setColor(color.red(), color.green(), color.blue(), alpha);
-        buffer.addVertex(pose, c.x, c.y, c.z).setColor(color.red(), color.green(), color.blue(), alpha);
-        buffer.addVertex(pose, d.x, d.y, d.z).setColor(color.red(), color.green(), color.blue(), alpha);
+        buffer.addVertex(pose, a.x, a.y, a.z).setColor(argb32);
+        buffer.addVertex(pose, b.x, b.y, b.z).setColor(argb32);
+        buffer.addVertex(pose, c.x, c.y, c.z).setColor(argb32);
+        buffer.addVertex(pose, d.x, d.y, d.z).setColor(argb32);
     }
 
-    public static void submitEnergyBolt(PoseStack poseStack, SubmitNodeCollector nodeCollector, RenderType renderType, EnergyBoltData data, LimaColor color, float alpha)
+    public static void submitEnergyBolt(PoseStack.Pose pose, VertexConsumer buffer, EnergyBoltData model, int color, float alpha)
     {
-        nodeCollector.submitCustomGeometry(poseStack, renderType, (pose, buffer) ->
+        for (Vector3f[] v : model.segments())
         {
-            for (Vector3f[] v : data.segments())
-            {
-                submitBoltQuad(pose, buffer, v[2], v[1], v[0], v[3], color, alpha);
-                submitBoltQuad(pose, buffer, v[4], v[5], v[6], v[7], color, alpha);
-                submitBoltQuad(pose, buffer, v[7], v[3], v[0], v[4], color, alpha);
-                submitBoltQuad(pose, buffer, v[1], v[2], v[6], v[5], color, alpha);
-                submitBoltQuad(pose, buffer, v[0], v[1], v[5], v[4], color, alpha);
-                submitBoltQuad(pose, buffer, v[6], v[2], v[3], v[7], color, alpha);
-            }
-        });
+            int argb32 = ARGB.color(alpha, color);
+            submitBoltQuad(pose, buffer, v[2], v[1], v[0], v[3], argb32);
+            submitBoltQuad(pose, buffer, v[4], v[5], v[6], v[7], argb32);
+            submitBoltQuad(pose, buffer, v[7], v[3], v[0], v[4], argb32);
+            submitBoltQuad(pose, buffer, v[1], v[2], v[6], v[5], argb32);
+            submitBoltQuad(pose, buffer, v[0], v[1], v[5], v[4], argb32);
+            submitBoltQuad(pose, buffer, v[6], v[2], v[3], v[7], argb32);
+        }
+    }
+
+    public static void submitEnergyBolt(PoseStack poseStack, SubmitNodeCollector nodeCollector, RenderType renderType, EnergyBoltData data, int color, float alpha)
+    {
+        nodeCollector.submitCustomGeometry(poseStack, renderType, (pose, buffer) -> submitEnergyBolt(pose, buffer, data, color, alpha));
     }
 }

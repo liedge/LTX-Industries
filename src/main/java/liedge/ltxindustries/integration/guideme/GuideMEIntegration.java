@@ -7,7 +7,6 @@ import guideme.color.ConstantColor;
 import guideme.color.SymbolicColorResolver;
 import guideme.compiler.tags.BlockTagCompiler;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import liedge.limacore.lib.LimaColor;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.LTXIndustries;
 import net.minecraft.resources.Identifier;
@@ -57,9 +56,9 @@ public final class GuideMEIntegration
             return new ColorMapBuilder();
         }
 
-        ColorMapBuilder add(String name, LimaColor color)
+        ColorMapBuilder add(String name, int color)
         {
-            map.put(LTXIndustries.RESOURCES.id(name), new ConstantColor(color.argb32()));
+            map.put(LTXIndustries.RESOURCES.id(name), new ConstantColor(color));
             return this;
         }
 

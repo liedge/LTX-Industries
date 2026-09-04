@@ -16,6 +16,7 @@ import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.client.gui.ItemLikeIconsRenderer;
 import liedge.ltxindustries.lib.upgrades.Upgrade;
 import liedge.ltxindustries.lib.upgrades.UpgradeEntry;
+import liedge.ltxindustries.util.LTXIChatStyles;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
@@ -59,7 +60,7 @@ final class LytUpgradeEntry extends LytBlock implements InteractiveElement
         ItemLikeIconsRenderer.render(graphics, upgrade.display().icon(), x + 2, y + 2);
 
         float rankHeight = 16f - 16f * LimaCoreMath.divideFloat(entry.rank(), upgrade.maxRank());
-        LimaGuiUtil.fillVerticalGradient(graphics, RenderPipelines.GUI, x + 20, y + 2 + rankHeight, x + 22, y + 18, LTXIConstants.UPGRADE_RANK_MAGENTA_1.argb32(), LTXIConstants.UPGRADE_RANK_MAGENTA_2.argb32());
+        LimaGuiUtil.fillVerticalGradient(graphics, RenderPipelines.GUI, x + 20, y + 2 + rankHeight, x + 22, y + 18, LTXIConstants.UPGRADE_RANK_MAGENTA_1, LTXIConstants.UPGRADE_RANK_MAGENTA_2);
     }
 
     @Override
@@ -73,7 +74,7 @@ final class LytUpgradeEntry extends LytBlock implements InteractiveElement
 
         if (upgrade.maxRank() > 1)
         {
-            lines.add(LTXILangKeys.UPGRADE_RANK_TOOLTIP.translateArgs(entry.rank(), upgrade.maxRank()).withStyle(LTXIConstants.UPGRADE_RANK_MAGENTA_1.chatStyle()));
+            lines.add(LTXILangKeys.UPGRADE_RANK_TOOLTIP.translateArgs(entry.rank(), upgrade.maxRank()).withStyle(LTXIChatStyles.UPGRADE_RANK_MAGENTA));
         }
 
         upgrade.appendEffectTooltips(entry.rank(), lines::add);

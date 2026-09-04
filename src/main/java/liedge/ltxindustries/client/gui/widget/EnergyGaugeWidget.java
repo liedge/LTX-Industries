@@ -7,10 +7,9 @@ import liedge.limacore.transfer.energy.EnergyHolderBlockEntity;
 import liedge.limacore.transfer.energy.LimaEnergyHandler;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.client.LTXILangKeys;
+import liedge.ltxindustries.util.LTXIChatStyles;
 import liedge.ltxindustries.util.LTXITooltipUtil;
 import net.minecraft.resources.Identifier;
-
-import static liedge.ltxindustries.LTXIConstants.HOSTILE_ORANGE;
 
 public class EnergyGaugeWidget extends FillBarWidget.VerticalBar
 {
@@ -59,7 +58,7 @@ public class EnergyGaugeWidget extends FillBarWidget.VerticalBar
     public void createWidgetTooltip(TooltipLineConsumer consumer)
     {
         LTXITooltipUtil.appendStorageEnergyTooltip(consumer, energy.getAmountAsInt(), energy.getCapacityAsInt(), energy.getTransferRate());
-        if (isOvercharge()) consumer.accept(LTXILangKeys.ENERGY_OVERCHARGE_TOOLTIP.translate().withStyle(HOSTILE_ORANGE.chatStyle()));
+        if (isOvercharge()) consumer.accept(LTXILangKeys.ENERGY_OVERCHARGE_TOOLTIP.translate().withStyle(LTXIChatStyles.HOSTILE_ORANGE));
     }
 
     private boolean isOvercharge()

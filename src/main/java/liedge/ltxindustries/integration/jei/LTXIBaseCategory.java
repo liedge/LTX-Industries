@@ -10,9 +10,9 @@ import liedge.limacore.recipe.result.RecipeResult;
 import liedge.limacore.recipe.result.ResultCount;
 import liedge.limacore.transfer.LimaTransferUtil;
 import liedge.limacore.util.LimaTextUtil;
-import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.client.gui.widget.MachineProgressWidget;
+import liedge.ltxindustries.util.LTXIChatStyles;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -196,7 +196,7 @@ abstract class LTXIBaseCategory<T> implements IRecipeCategory<T>
         }
         if (!result.required())
         {
-            lines.add(LTXILangKeys.OUTPUT_OPTIONAL_TOOLTIP.translate().withStyle(LTXIConstants.OUTPUT_ORANGE.chatStyle()));
+            lines.add(LTXILangKeys.OUTPUT_OPTIONAL_TOOLTIP.translate().withStyle(LTXIChatStyles.OUTPUT_ORANGE));
         }
     }
 

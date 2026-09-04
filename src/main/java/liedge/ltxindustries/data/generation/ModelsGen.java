@@ -6,7 +6,6 @@ import liedge.limacore.client.model.ExtendedCuboidBuilder;
 import liedge.limacore.client.model.ItemModelPipeline;
 import liedge.limacore.client.renderer.LimaSpecialModelRenderer;
 import liedge.limacore.client.util.LimaModelsUtil;
-import liedge.limacore.lib.LimaColor;
 import liedge.limacore.lib.ModResources;
 import liedge.limacore.util.LimaRegistryUtil;
 import liedge.ltxindustries.LTXIConstants;
@@ -671,7 +670,7 @@ class ModelsGen extends ModelProvider
         createIdentityMachine(models, holder, ItemModelUtils::plainModel);
     }
 
-    private void createEnergyCellArray(BlockModelGenerators models, Holder<Block> holder, LimaColor tintColor)
+    private void createEnergyCellArray(BlockModelGenerators models, Holder<Block> holder, int tintColor)
     {
         Block block = holder.value();
         Identifier blockModel = ModelLocationUtils.getModelLocation(block);
@@ -679,7 +678,7 @@ class ModelsGen extends ModelProvider
                 .with(BlockModelGenerators.ROTATION_HORIZONTAL_FACING));
 
         Identifier itemModel = unlitParent(blockModel, true).create(block.asItem(), new TextureMapping(), models.modelOutput);
-        LimaSpecialModelRenderer.LimaUnbaked<?> specialModel = new EnergyDisplaysSpecialRenderer.Unbaked(EnergyDisplaysSpecialRenderer.FillSource.ECA, EnergyCellArrayRenderer.createDisplays(), ItemModelUtils.constantTint(tintColor.argb32()));
+        LimaSpecialModelRenderer.LimaUnbaked<?> specialModel = new EnergyDisplaysSpecialRenderer.Unbaked(EnergyDisplaysSpecialRenderer.FillSource.ECA, EnergyCellArrayRenderer.createDisplays(), ItemModelUtils.constantTint(tintColor));
         models.itemModelOutput.accept(block.asItem(), ItemModelUtils.composite(ItemModelUtils.plainModel(itemModel), LimaModelsUtil.specialModel(itemModel, specialModel)));
     }
 
@@ -783,8 +782,8 @@ class ModelsGen extends ModelProvider
         private final List<LimaSpecialModelRenderer.LimaUnbaked<?>> frameExtras = new ObjectArrayList<>();
         private @Nullable Vector3fc chamberPos;
         private WeaponSpecialRenderer.@Nullable SpecialUnbaked specialModel;
-        private ItemTintSource frameTint = ItemModelUtils.constantTint(LTXIConstants.LIME_GREEN.argb32());
-        private ItemTintSource chamberTint = ItemModelUtils.constantTint(LTXIConstants.LIME_GREEN.argb32());
+        private @Nullable ItemTintSource frameTint;
+        private @Nullable ItemTintSource chamberTint;
 
         private WeaponBuilder(Item item, Identifier template, Identifier frame, Identifier chamber)
         {
@@ -832,7 +831,8 @@ class ModelsGen extends ModelProvider
 
         void build(ItemModelGenerators models)
         {
-            models.itemModelOutput.accept(item, new WeaponItemModel.Unbaked(template, frame, chamber, frameExtras, Objects.requireNonNull(specialModel), frameTint, chamberTint));
+            models.itemModelOutput.accept(item, new WeaponItemModel.Unbaked(template, frame, chamber, frameExtras,
+                    Objects.requireNonNull(specialModel), Objects.requireNonNull(frameTint), Objects.requireNonNull(chamberTint)));
         }
     }
 

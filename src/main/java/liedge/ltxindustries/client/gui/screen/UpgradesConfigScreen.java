@@ -14,6 +14,7 @@ import liedge.ltxindustries.client.gui.widget.BaseScrollGridRenderable;
 import liedge.ltxindustries.client.gui.widget.ScrollbarWidget;
 import liedge.ltxindustries.lib.upgrades.Upgrade;
 import liedge.ltxindustries.menu.UpgradesConfigMenu;
+import liedge.ltxindustries.util.LTXIChatStyles;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.MouseButtonEvent;
@@ -176,8 +177,8 @@ public abstract class UpgradesConfigScreen<M extends UpgradesConfigMenu<?>> exte
             }
             else
             {
-                leftColor = UPGRADE_RANK_MAGENTA_2.argb32();
-                rightColor = UPGRADE_RANK_MAGENTA_1.argb32();
+                leftColor = UPGRADE_RANK_MAGENTA_2;
+                rightColor = UPGRADE_RANK_MAGENTA_1;
             }
 
             LimaGuiUtil.fillHorizontalGradient(graphics, RenderPipelines.GUI, posX + 21, posY + 15, posX + 21 + xo, posY + 19, leftColor, rightColor);
@@ -191,11 +192,11 @@ public abstract class UpgradesConfigScreen<M extends UpgradesConfigMenu<?>> exte
 
             List<Component> lines = new ObjectArrayList<>();
             lines.add(upgrade.display().title());
-            lines.add(LTXILangKeys.UPGRADE_RANK_TOOLTIP.translateArgs(rank, upgrade.maxRank()).withStyle(UPGRADE_RANK_MAGENTA_1.chatStyle()));
+            lines.add(LTXILangKeys.UPGRADE_RANK_TOOLTIP.translateArgs(rank, upgrade.maxRank()).withStyle(LTXIChatStyles.UPGRADE_RANK_MAGENTA));
             lines.add(upgrade.display().description());
             upgrade.appendEffectTooltips(rank, lines::add);
 
-            lines.add(LTXILangKeys.UPGRADE_REMOVE_HINT.translate().withStyle(OUTPUT_ORANGE.chatStyle()));
+            lines.add(LTXILangKeys.UPGRADE_REMOVE_HINT.translate().withStyle(LTXIChatStyles.OUTPUT_ORANGE));
 
             graphics.setTooltipForNextFrame(Minecraft.getInstance().font, lines, Optional.empty(), mouseX, mouseY);
         }

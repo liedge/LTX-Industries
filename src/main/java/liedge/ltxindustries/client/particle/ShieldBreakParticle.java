@@ -2,7 +2,6 @@ package liedge.ltxindustries.client.particle;
 
 import liedge.limacore.client.particle.ColorParticleOptions;
 import liedge.limacore.client.particle.ColorSizeParticleOptions;
-import liedge.limacore.lib.LimaColor;
 import liedge.ltxindustries.registry.game.LTXIParticles;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.NoRenderParticle;
@@ -13,10 +12,10 @@ import net.minecraft.world.phys.Vec3;
 
 public class ShieldBreakParticle extends NoRenderParticle
 {
-    private final LimaColor color;
+    private final int color;
     private final float size;
 
-    private ShieldBreakParticle(ClientLevel level, double x, double y, double z, LimaColor color, float size)
+    private ShieldBreakParticle(ClientLevel level, double x, double y, double z, int color, float size)
     {
         super(level, x, y, z);
         this.color = color;
@@ -26,7 +25,7 @@ public class ShieldBreakParticle extends NoRenderParticle
     @Override
     public void tick()
     {
-        level.addAlwaysVisibleParticle(new ColorSizeParticleOptions(LTXIParticles.COLOR_FLASH, color, size * 2f), true, x, y, z, 0, 0, 0);
+        level.addAlwaysVisibleParticle(ColorSizeParticleOptions.of(LTXIParticles.COLOR_FLASH, color, size * 2f), true, x, y, z, 0, 0, 0);
 
         int arcs = random.nextIntBetweenInclusive(3, 7);
 
@@ -35,7 +34,7 @@ public class ShieldBreakParticle extends NoRenderParticle
         {
             Vec3 a = arcPoint(r * 0.3d);
             Vec3 b = arcPoint(r);
-            level.addAlwaysVisibleParticle(new ColorParticleOptions(LTXIParticles.ENERGY_BOLT, color), true, a.x, a.y, b.z, b.x, b.y, b.z);
+            level.addAlwaysVisibleParticle(ColorParticleOptions.of(LTXIParticles.ENERGY_BOLT, color), true, a.x, a.y, b.z, b.x, b.y, b.z);
         }
 
         remove();

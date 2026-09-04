@@ -14,7 +14,7 @@ public class GloomMobEffect extends MobEffect
 {
     public GloomMobEffect(Identifier id)
     {
-        super(MobEffectCategory.HARMFUL, LTXIConstants.GLOOM_BLUE.argb32());
+        super(MobEffectCategory.HARMFUL, LTXIConstants.GLOOM_BLUE);
 
         addAttributeModifier(LimaCoreAttributes.DAMAGE_MULTIPLIER, id.withSuffix(".damage_weakness"), -0.25d, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
     }

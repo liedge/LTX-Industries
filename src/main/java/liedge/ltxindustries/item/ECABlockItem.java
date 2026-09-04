@@ -39,7 +39,7 @@ public class ECABlockItem extends BlockItem implements EnergyHolderItem, Tooltip
     @Override
     public int getBarColor(ItemStack stack)
     {
-        return LTXIConstants.REM_BLUE.argb32();
+        return LTXIConstants.REM_BLUE;
     }
 
     @Override

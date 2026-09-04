@@ -17,7 +17,6 @@ import java.util.UUID;
 
 import static liedge.limacore.transfer.LimaEnergyUtil.*;
 import static liedge.limacore.util.LimaTextUtil.*;
-import static liedge.ltxindustries.LTXIConstants.REM_BLUE;
 import static liedge.ltxindustries.LTXIndustries.RESOURCES;
 import static liedge.ltxindustries.client.LTXILangKeys.*;
 
@@ -30,28 +29,28 @@ public final class LTXITooltipUtil
 
     public static void appendEnergyOnlyTooltip(TooltipLineConsumer consumer, int energy)
     {
-        consumer.accept(INLINE_ENERGY.translateArgs(toEnergyString(energy)).withStyle(REM_BLUE.chatStyle()));
+        consumer.accept(INLINE_ENERGY.translateArgs(toEnergyString(energy)).withStyle(LTXIChatStyles.REM_BLUE));
     }
 
     public static void appendEnergyWithCapacityTooltip(TooltipLineConsumer consumer, int energy, int capacity)
     {
-        consumer.accept(INLINE_ENERGY.translateArgs(toEnergyStoredString(energy, capacity)).withStyle(REM_BLUE.chatStyle()));
+        consumer.accept(INLINE_ENERGY.translateArgs(toEnergyStoredString(energy, capacity)).withStyle(LTXIChatStyles.REM_BLUE));
     }
 
     public static void appendEnergyUsageTooltip(TooltipLineConsumer consumer, int energyUsage)
     {
-        consumer.accept(INLINE_ENERGY_USAGE.translateArgs(toEnergyString(energyUsage)).withStyle(REM_BLUE.chatStyle()));
+        consumer.accept(INLINE_ENERGY_USAGE.translateArgs(toEnergyString(energyUsage)).withStyle(LTXIChatStyles.REM_BLUE));
     }
 
     public static void appendEnergyUsagePerTickTooltip(TooltipLineConsumer consumer, int energyUsage)
     {
-        consumer.accept(INLINE_ENERGY_USAGE.translateArgs(toEnergyPerTickString(energyUsage)).withStyle(REM_BLUE.chatStyle()));
+        consumer.accept(INLINE_ENERGY_USAGE.translateArgs(toEnergyPerTickString(energyUsage)).withStyle(LTXIChatStyles.REM_BLUE));
     }
 
     public static void appendStorageEnergyTooltip(TooltipLineConsumer consumer, int energy, int capacity, int transferRate)
     {
         appendEnergyWithCapacityTooltip(consumer, energy, capacity);
-        consumer.accept(INLINE_ENERGY_TRANSFER_RATE.translateArgs(toEnergyPerTickString(transferRate)).withStyle(REM_BLUE.chatStyle()));
+        consumer.accept(INLINE_ENERGY_TRANSFER_RATE.translateArgs(toEnergyPerTickString(transferRate)).withStyle(LTXIChatStyles.REM_BLUE));
     }
 
     public static void appendItemStorageEnergyTooltip(TooltipLineConsumer consumer, ItemStack stack, EnergyHolderItem item)
@@ -61,7 +60,7 @@ public final class LTXITooltipUtil
 
     public static void appendEnergyGenerationTooltip(TooltipLineConsumer consumer, int energyGeneration)
     {
-        consumer.accept(INLINE_ENERGY_GENERATION.translateArgs(toEnergyPerTickString(energyGeneration)).withStyle(REM_BLUE.chatStyle()));
+        consumer.accept(INLINE_ENERGY_GENERATION.translateArgs(toEnergyPerTickString(energyGeneration)).withStyle(LTXIChatStyles.REM_BLUE));
     }
 
     public static String formatFlatNumber(double value)

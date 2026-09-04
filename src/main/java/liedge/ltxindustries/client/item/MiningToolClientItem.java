@@ -43,6 +43,6 @@ public final class MiningToolClientItem implements EquipmentHUDLayer.Renderer
 
         Component speedText = speed.translate();
         int speedX0 = font.width(speedText) / 2;
-        graphics.text(font, speedText, x + 23 - speedX0, y + 3, LTXIConstants.LIME_GREEN.argb32(), false);
+        graphics.text(font, speedText, x + 23 - speedX0, y + 3, LTXIConstants.LIME_GREEN, false);
     }
 }

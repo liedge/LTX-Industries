@@ -1,6 +1,5 @@
 package liedge.ltxindustries.client.renderer.blockentity;
 
-import liedge.limacore.lib.LimaColor;
 import liedge.ltxindustries.client.model.custom.EnergyBoltData;
 import liedge.ltxindustries.client.renderer.LockOnRenderData;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
@@ -17,7 +16,7 @@ public final class TurretRenderState extends BlockEntityRenderState
     double targetDistance;
 
     List<LockOnRenderData> rocketTargets = List.of();
-    LimaColor railgunBeamColor = LimaColor.WHITE;
+    int railgunBeamColor = -1;
 
     @Nullable EnergyBoltData primaryBolt;
     @Nullable Vec3 chainOffset;

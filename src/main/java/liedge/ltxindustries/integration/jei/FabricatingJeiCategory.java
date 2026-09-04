@@ -63,6 +63,6 @@ class FabricatingJeiCategory extends LTXIRecipeHolderCategory<FabricatingRecipe>
 
         FabricatingRecipe recipe = holder.value();
         Component energyText = LTXILangKeys.INLINE_ENERGY.translateArgs(LimaTextUtil.formatWholeNumber(recipe.getEnergyRequired()));
-        graphics.text(Minecraft.getInstance().font, energyText, 2, 57, REM_BLUE.argb32(), false);
+        graphics.text(Minecraft.getInstance().font, energyText, 2, 57, REM_BLUE, false);
     }
 }

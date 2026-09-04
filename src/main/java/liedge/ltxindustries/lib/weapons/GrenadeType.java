@@ -1,7 +1,6 @@
 package liedge.ltxindustries.lib.weapons;
 
 import liedge.limacore.data.LimaEnumCodec;
-import liedge.limacore.lib.LimaColor;
 import liedge.limacore.lib.OrderedEnum;
 import liedge.limacore.lib.Translatable;
 import liedge.ltxindustries.LTXIndustries;
@@ -10,11 +9,13 @@ import liedge.ltxindustries.lib.upgrades.tooltip.UpgradeTooltipsProvider;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.StringRepresentable;
 import net.neoforged.neoforge.network.codec.NeoForgeStreamCodecs;
 
 import java.util.function.Consumer;
+import java.util.function.UnaryOperator;
 
 import static liedge.ltxindustries.LTXIConstants.*;
 
@@ -31,17 +32,19 @@ public enum GrenadeType implements StringRepresentable, Translatable, OrderedEnu
     public static final StreamCodec<FriendlyByteBuf, GrenadeType> STREAM_CODEC = NeoForgeStreamCodecs.enumCodec(GrenadeType.class);
 
     private final String name;
-    private final LimaColor color;
+    private final int color;
+    private final UnaryOperator<Style> styleModifier;
     private final String descriptionId;
 
-    GrenadeType(String name, LimaColor color)
+    GrenadeType(String name, int color)
     {
         this.name = name;
         this.color = color;
+        this.styleModifier = s -> s.withColor(color);
         this.descriptionId = LTXIndustries.RESOURCES.translationKey("grenade_type", "{}", name);
     }
 
-    public LimaColor getColor()
+    public int getColor()
     {
         return color;
     }
@@ -55,7 +58,7 @@ public enum GrenadeType implements StringRepresentable, Translatable, OrderedEnu
     @Override
     public MutableComponent translate()
     {
-        return Translatable.super.translate().withStyle(color.chatStyle());
+        return Translatable.super.translate().withStyle(styleModifier);
     }
 
     @Override

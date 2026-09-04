@@ -4,7 +4,6 @@ import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import liedge.limacore.client.gui.FloatingGuiRenderState;
 import liedge.limacore.client.gui.LimaGuiUtil;
-import liedge.limacore.lib.LimaColor;
 import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.client.renderer.LTXIRenderPipelines;
@@ -40,27 +39,27 @@ public final class StargazerClientItem extends WeaponClientItem
     }
 
     @Override
-    protected void extractCrosshairSprites(GuiGraphicsExtractor graphics, RenderPipeline pipeline, LocalPlayer player, WeaponItem weaponItem, ClientExtendedInput controls, int x, int y, LimaColor color, float partialTick)
+    protected void extractCrosshairSprites(GuiGraphicsExtractor graphics, RenderPipeline pipeline, LocalPlayer player, WeaponItem weaponItem, ClientExtendedInput controls, int x, int y, float partialTick)
     {
         int dotY = y + 3;
         float bloom = 5f * applyCrosshairEasing(controls, weaponItem, partialTick);
 
         // Primary crosshair
-        blitSprite(graphics, pipeline, ANGLE_BRACKET, x - 6 - bloom, y, 4, 7, color);
-        blitSpriteMirrorU(graphics, pipeline, ANGLE_BRACKET, x + 3 + bloom, y, 4, 7, color);
-        graphics.fill(x, dotY, x + 1, dotY + 1, LTXIConstants.LIME_GREEN.argb32());
+        blitSprite(graphics, pipeline, ANGLE_BRACKET, x - 6 - bloom, y, 4, 7, -1);
+        blitSpriteMirrorU(graphics, pipeline, ANGLE_BRACKET, x + 3 + bloom, y, 4, 7, -1);
+        graphics.fill(x, dotY, x + 1, dotY + 1, LTXIConstants.LIME_GREEN);
 
         // Charge arc
         int triggerTicks = controls.getTicksHoldingTrigger();
         if (triggerTicks > 0)
         {
-            graphics.submitGuiElementRenderState(new ChargeStops(graphics, x, dotY, LTXIConstants.LIME_GREEN.argb32()));
+            graphics.submitGuiElementRenderState(new ChargeStops(graphics, x, dotY, LTXIConstants.LIME_GREEN));
 
             float arcLength = Math.min(1f, controls.lerpTicksHoldingTrigger(partialTick) / (float) StargazerItem.CHARGE_TICKS);
             float startAngle = 120f - 210f * arcLength;
             float endAngle = 120f;
 
-            GuiElementRenderState arcState = endAngle <= startAngle ? null : new ChargeArc(graphics, x, dotY, startAngle, endAngle, LTXIConstants.LIME_GREEN.argb32());
+            GuiElementRenderState arcState = endAngle <= startAngle ? null : new ChargeArc(graphics, x, dotY, startAngle, endAngle, LTXIConstants.LIME_GREEN);
             if (arcState != null) graphics.submitGuiElementRenderState(arcState);
         }
     }

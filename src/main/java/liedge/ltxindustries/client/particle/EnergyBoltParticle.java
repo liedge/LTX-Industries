@@ -5,7 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import liedge.limacore.client.particle.ColorParticleOptions;
 import liedge.limacore.client.particle.CustomGeometryParticle;
 import liedge.limacore.client.particle.CustomGeometryParticleEntry;
-import liedge.limacore.lib.LimaColor;
+import liedge.ltxindustries.client.LTXIRenderer;
 import liedge.ltxindustries.client.model.custom.EnergyBoltData;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -16,21 +16,19 @@ import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import org.joml.Vector3f;
 import org.jspecify.annotations.Nullable;
 
-import static liedge.ltxindustries.client.LTXIRenderer.submitBoltQuad;
 
 public class EnergyBoltParticle extends CustomGeometryParticle
 {
     private final Vec3 start;
     private final Vec3 end;
-    private final LimaColor color;
+    private final int color;
 
     @Nullable
     private EnergyBoltData nextBolt;
 
-    private EnergyBoltParticle(ClientLevel level, Vec3 start, Vec3 end, LimaColor color, double length)
+    private EnergyBoltParticle(ClientLevel level, Vec3 start, Vec3 end, int color, double length)
     {
         super(level, start.x, start.y, start.z);
 
@@ -65,7 +63,7 @@ public class EnergyBoltParticle extends CustomGeometryParticle
         return nextBolt != null ? new Entry(x, y, z, nextBolt, color) : null;
     }
 
-    private record Entry(float x, float y, float z, EnergyBoltData bolt, LimaColor color) implements CustomGeometryParticleEntry
+    private record Entry(float x, float y, float z, EnergyBoltData bolt, int color) implements CustomGeometryParticleEntry
     {
         @Override
         public RenderType renderType()
@@ -76,17 +74,7 @@ public class EnergyBoltParticle extends CustomGeometryParticle
         @Override
         public void render(PoseStack.Pose pose, VertexConsumer buffer)
         {
-            final float alpha = 0.85f;
-
-            for (Vector3f[] v : bolt.segments())
-            {
-                submitBoltQuad(pose, buffer, v[2], v[1], v[0], v[3], color, alpha);
-                submitBoltQuad(pose, buffer, v[4], v[5], v[6], v[7], color, alpha);
-                submitBoltQuad(pose, buffer, v[7], v[3], v[0], v[4], color, alpha);
-                submitBoltQuad(pose, buffer, v[1], v[2], v[6], v[5], color, alpha);
-                submitBoltQuad(pose, buffer, v[0], v[1], v[5], v[4], color, alpha);
-                submitBoltQuad(pose, buffer, v[6], v[2], v[3], v[7], color, alpha);
-            }
+            LTXIRenderer.submitEnergyBolt(pose, buffer, bolt, color, 0.85f);
         }
     }
 

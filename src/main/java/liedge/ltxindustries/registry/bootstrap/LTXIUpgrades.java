@@ -26,6 +26,7 @@ import liedge.ltxindustries.lib.weapons.WeaponReloadSource;
 import liedge.ltxindustries.recipe.RecipeMode;
 import liedge.ltxindustries.registry.LTXIRegistries;
 import liedge.ltxindustries.registry.game.*;
+import liedge.ltxindustries.util.LTXIChatStyles;
 import net.minecraft.ChatFormatting;
 import net.minecraft.advancements.criterion.*;
 import net.minecraft.core.HolderGetter;
@@ -253,7 +254,7 @@ public final class LTXIUpgrades
         HolderSet<Item> wonderlandArmor = items.getOrThrow(LTXITags.Items.WONDERLAND_ARMOR);
 
         // Built in upgrades
-        final Component defaultToolTitle = LTXILangKeys.TOOL_DEFAULT_UPGRADE_TITLE.translate().withStyle(LIME_GREEN.chatStyle());
+        final Component defaultToolTitle = LTXILangKeys.TOOL_DEFAULT_UPGRADE_TITLE.translate().withStyle(LTXIChatStyles.LIME_GREEN);
         Upgrade.builder(EPSILON_SHOVEL_DEFAULT)
                 .setTitle(defaultToolTitle)
                 .forEquipment(LTXIItems.EPSILON_SHOVEL)

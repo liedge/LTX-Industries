@@ -1,7 +1,6 @@
 package liedge.ltxindustries.client.particle;
 
 import liedge.limacore.client.particle.ColorParticleOptions;
-import liedge.limacore.lib.LimaColor;
 import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.ltxindustries.registry.game.LTXIParticles;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -19,9 +18,9 @@ public class RailgunBoltParticle extends NoRenderParticle
     private final Vec3 start;
     private final Vec3 direction;
     private final int beamSegments;
-    private final LimaColor color;
+    private final int color;
 
-    private RailgunBoltParticle(ClientLevel level, Vec3 start, Vec3 direction, int beamSegments, LimaColor color)
+    private RailgunBoltParticle(ClientLevel level, Vec3 start, Vec3 direction, int beamSegments, int color)
     {
         super(level, start.x, start.y, start.z);
         this.start = start;
@@ -35,7 +34,7 @@ public class RailgunBoltParticle extends NoRenderParticle
     {
         if (age == 0)
         {
-            ParticleOptions options = new ColorParticleOptions(LTXIParticles.COLOR_FULL_SONIC_BOOM, color);
+            ParticleOptions options = ColorParticleOptions.of(LTXIParticles.COLOR_FULL_SONIC_BOOM, color);
             for (int i = 0; i < beamSegments; i++)
             {
                 double px = start.x + direction.x * i;
@@ -63,7 +62,7 @@ public class RailgunBoltParticle extends NoRenderParticle
                 Vec3 arcStart = LimaCoreMath.relativePointToRotations(xRot, yRot, xo0, yo0, 0f).add(px, py, pz);
                 Vec3 arcEnd = LimaCoreMath.relativePointToRotations(xRot, yRot, xo1, yo1, 1f).add(px, py, pz);
 
-                level.addAlwaysVisibleParticle(new ColorParticleOptions(LTXIParticles.ENERGY_BOLT, color), true, arcStart.x, arcStart.y, arcStart.z, arcEnd.x, arcEnd.y, arcEnd.z);
+                level.addAlwaysVisibleParticle(ColorParticleOptions.of(LTXIParticles.ENERGY_BOLT, color), true, arcStart.x, arcStart.y, arcStart.z, arcEnd.x, arcEnd.y, arcEnd.z);
             }
 
             remove();

@@ -114,7 +114,7 @@ public class LTXIndustriesClient
             event.register(waterBase.apply(0x43d5ee), LTXIFluids.SEA_WATER, LTXIFluids.FLOWING_SEA_WATER);
             event.register(gas.apply(0x73faa5), LTXIFluids.AMMONIA, LTXIFluids.FLOWING_AMMONIA);
             event.register(brightWater.apply(0xd5fc7e), LTXIFluids.HYDROCHLORIC_ACID, LTXIFluids.FLOWING_HYDROCHLORIC_ACID);
-            event.register(brightWater.apply(LTXIConstants.ACID_GREEN.argb32()), LTXIFluids.SULFURIC_ACID, LTXIFluids.FLOWING_SULFURIC_ACID);
+            event.register(brightWater.apply(LTXIConstants.ACID_GREEN), LTXIFluids.SULFURIC_ACID, LTXIFluids.FLOWING_SULFURIC_ACID);
             event.register(brightWater.apply(0xffbae6), LTXIFluids.HYDROFLUORIC_ACID, LTXIFluids.FLOWING_HYDROFLUORIC_ACID);
             event.register(moltenLight.apply(0x5f6c72), LTXIFluids.SILICONE_OIL, LTXIFluids.FLOWING_SILICONE_OIL);
         }
@@ -265,7 +265,7 @@ public class LTXIndustriesClient
             event.register(List.of(BlockTintSources.constant(0xff3f76e4)), LTXIBlocks.INFINITE_WATER_TANK.get(), LTXIBlocks.GEO_SYNTHESIZER.get());
 
             event.register(List.of(activeStateTint(0x3f76e4)), LTXIBlocks.HYDROSIEVE.get(), LTXIBlocks.DIGITAL_GARDEN.get());
-            event.register(List.of(activeStateTint(LTXIConstants.ACID_GREEN.argb32())), LTXIBlocks.CHEM_LAB.get());
+            event.register(List.of(activeStateTint(LTXIConstants.ACID_GREEN)), LTXIBlocks.CHEM_LAB.get());
         }
 
         @SubscribeEvent

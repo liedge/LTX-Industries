@@ -1,9 +1,8 @@
 package liedge.ltxindustries.client.particle;
 
-import liedge.limacore.client.util.LimaCoreClientUtil;
 import liedge.limacore.client.particle.ColorParticleOptions;
 import liedge.limacore.client.particle.ColorSizeParticleOptions;
-import liedge.limacore.lib.LimaColor;
+import liedge.limacore.client.util.LimaCoreClientUtil;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.registry.game.LTXIParticles;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -16,7 +15,7 @@ public final class ColorExplosionParticle extends SingleQuadParticle
 {
     private final SpriteSet sprites;
 
-    private ColorExplosionParticle(ClientLevel level, SpriteSet sprites, double x, double y, double z, LimaColor color)
+    private ColorExplosionParticle(ClientLevel level, SpriteSet sprites, double x, double y, double z, int color)
     {
         super(level, x, y, z, sprites.first());
         this.sprites = sprites;
@@ -54,11 +53,11 @@ public final class ColorExplosionParticle extends SingleQuadParticle
 
     private static abstract class BaseEmitter extends NoRenderParticle
     {
-        private final LimaColor color;
+        private final int color;
         private final float radius;
         private final int density;
 
-        private BaseEmitter(ClientLevel level, double x, double y, double z, LimaColor color, float radius, int density, int lifetime)
+        private BaseEmitter(ClientLevel level, double x, double y, double z, int color, float radius, int density, int lifetime)
         {
             super(level, x, y, z);
 
@@ -68,7 +67,7 @@ public final class ColorExplosionParticle extends SingleQuadParticle
             this.lifetime = lifetime;
         }
 
-        abstract void spawnParticle(double x, double y, double z, LimaColor color);
+        abstract void spawnParticle(double x, double y, double z, int color);
 
         @Override
         public void tick()
@@ -93,15 +92,15 @@ public final class ColorExplosionParticle extends SingleQuadParticle
 
     private static class SonicBoomEmitter extends BaseEmitter
     {
-        private SonicBoomEmitter(ClientLevel level, double x, double y, double z, LimaColor color, float radius)
+        private SonicBoomEmitter(ClientLevel level, double x, double y, double z, int color, float radius)
         {
             super(level, x, y, z, color, radius, 6, 4);
         }
 
         @Override
-        void spawnParticle(double x, double y, double z, LimaColor color)
+        void spawnParticle(double x, double y, double z, int color)
         {
-            level.addAlwaysVisibleParticle(new ColorParticleOptions(LTXIParticles.COLOR_HALF_SONIC_BOOM, color), x, y, z, 0, 0, 0);
+            level.addAlwaysVisibleParticle(ColorParticleOptions.of(LTXIParticles.COLOR_HALF_SONIC_BOOM, color), x, y, z, 0, 0, 0);
         }
     }
 
@@ -109,11 +108,11 @@ public final class ColorExplosionParticle extends SingleQuadParticle
     {
         private GloomBurstEmitter(ClientLevel level, double x, double y, double z)
         {
-            super(level, x, y, z, LimaColor.WHITE, 4.5f, 8, 5);
+            super(level, x, y, z, -1, 4.5f, 8, 5);
         }
 
         @Override
-        void spawnParticle(double x, double y, double z, LimaColor color)
+        void spawnParticle(double x, double y, double z, int color)
         {
             level.addAlwaysVisibleParticle(LTXIParticles.GLOOM_BURST.get(), x, y, z, 0, 0, 0);
         }

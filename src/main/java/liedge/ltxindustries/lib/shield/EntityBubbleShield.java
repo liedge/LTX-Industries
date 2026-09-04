@@ -57,7 +57,7 @@ public interface EntityBubbleShield
     {
         Vec3 center = entity.getBoundingBox().getCenter();
 
-        ParticleOptions particle = new ColorSizeParticleOptions(LTXIParticles.SHIELD_BREAK, LTXIConstants.BUBBLE_SHIELD_BLUE, (float) LimaEntityUtil.getLargestBBDimension(entity));
+        ParticleOptions particle = ColorSizeParticleOptions.of(LTXIParticles.SHIELD_BREAK, LTXIConstants.BUBBLE_SHIELD_BLUE, (float) LimaEntityUtil.getLargestBBDimension(entity));
         LimaNetworkUtil.sendParticle(entity.level(), particle, LimaNetworkUtil.LONG_PARTICLE_DIST, center);
 
         entity.level().playSound(null, center.x, center.y, center.z, LTXISounds.BUBBLE_SHIELD_BREAK, SoundSource.NEUTRAL, 2f, 0.95f);

@@ -143,7 +143,7 @@ public class ShellGrenadeEntity extends LTXIProjectileEntity implements IEntityW
         // Add electric bolt particles between impact and targets if electric
         if (grenadeType == GrenadeType.ELECTRIC)
         {
-            LimaNetworkUtil.sendParticle(level, new ColorParticleOptions(LTXIParticles.ENERGY_BOLT, grenadeType.getColor()), LimaNetworkUtil.NORMAL_PARTICLE_DIST, hitLocation, hitEntity.getEyePosition());
+            LimaNetworkUtil.sendParticle(level, ColorParticleOptions.of(LTXIParticles.ENERGY_BOLT, grenadeType.getColor()), LimaNetworkUtil.NORMAL_PARTICLE_DIST, hitLocation, hitEntity.getEyePosition());
         }
     }
 
@@ -213,7 +213,7 @@ public class ShellGrenadeEntity extends LTXIProjectileEntity implements IEntityW
         double px = getX() + p.x();
         double py = getY(0.5d) + p.y();
         double pz = getZ() + p.z();
-        level.addAlwaysVisibleParticle(new ColorSizeParticleOptions(LTXIParticles.COLOR_GLITTER, grenadeType.getColor(), 0.5f), true, px, py, pz, 0, 0, 0);
+        level.addAlwaysVisibleParticle(ColorSizeParticleOptions.of(LTXIParticles.COLOR_GLITTER, grenadeType.getColor(), 0.5f), true, px, py, pz, 0, 0, 0);
     }
 
     @Override

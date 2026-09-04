@@ -6,7 +6,6 @@ import com.mojang.math.Axis;
 import liedge.limacore.client.particle.ColorParticleOptions;
 import liedge.limacore.client.particle.CustomGeometryParticle;
 import liedge.limacore.client.particle.CustomGeometryParticleEntry;
-import liedge.limacore.lib.LimaColor;
 import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.ltxindustries.client.LTXIRenderer;
 import net.minecraft.client.Camera;
@@ -28,10 +27,10 @@ public class LightfragTracerParticle extends CustomGeometryParticle
 
     private final float xRot;
     private final float yRot;
-    private final LimaColor color;
+    private final int color;
     private final float trailLength;
 
-    private LightfragTracerParticle(ClientLevel level, Vec3 start, Vec3 end, LimaColor color, float tracerDistance)
+    private LightfragTracerParticle(ClientLevel level, Vec3 start, Vec3 end, int color, float tracerDistance)
     {
         super(level, start.x, start.y, start.z);
 
@@ -93,7 +92,7 @@ public class LightfragTracerParticle extends CustomGeometryParticle
         return new Entry(x, y, z, xRot, yRot, trailLength, color, alpha1, alpha2);
     }
 
-    private record Entry(float x, float y, float z, float xRot, float yRot, float length, LimaColor color, float alpha1, float alpha2) implements CustomGeometryParticleEntry
+    private record Entry(float x, float y, float z, float xRot, float yRot, float length, int color, float alpha1, float alpha2) implements CustomGeometryParticleEntry
     {
         @Override
         public RenderType renderType()

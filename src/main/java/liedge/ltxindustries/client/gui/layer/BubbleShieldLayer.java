@@ -40,7 +40,7 @@ public final class BubbleShieldLayer extends LimaGuiLayer
             String shieldStr = Integer.toString((int) shieldHealth);
             int shieldX0 = font.width(shieldStr) / 2;
             graphics.blitSprite(RenderPipelines.GUI_TEXTURED, DISPLAY_SPRITE, x, y, 33, 13);
-            graphics.text(font, shieldStr, x + 19 - shieldX0, y + 3, LTXIConstants.BUBBLE_SHIELD_BLUE.argb32(), false);
+            graphics.text(font, shieldStr, x + 19 - shieldX0, y + 3, LTXIConstants.BUBBLE_SHIELD_BLUE, false);
         }
     }
 }

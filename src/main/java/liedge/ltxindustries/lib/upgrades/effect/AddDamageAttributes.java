@@ -2,9 +2,9 @@ package liedge.ltxindustries.lib.upgrades.effect;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.lib.upgrades.value.RankBasedAttributeModifier;
+import liedge.ltxindustries.util.LTXIChatStyles;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.Identifier;
@@ -31,6 +31,6 @@ public record AddDamageAttributes(Holder<Attribute> attribute, RankBasedAttribut
     @Override
     public MutableComponent tooltipPrefix()
     {
-        return LTXILangKeys.DAMAGE_ATTRIBUTES_EFFECT_PREFIX.translate().withStyle(LTXIConstants.HOSTILE_ORANGE.chatStyle());
+        return LTXILangKeys.DAMAGE_ATTRIBUTES_EFFECT_PREFIX.translate().withStyle(LTXIChatStyles.HOSTILE_ORANGE);
     }
 }

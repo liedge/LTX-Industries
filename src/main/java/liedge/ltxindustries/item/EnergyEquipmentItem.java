@@ -75,7 +75,7 @@ public abstract class EnergyEquipmentItem extends Item implements UpgradableEqui
     @Override
     public int getBarColor(ItemStack stack)
     {
-        return LTXIConstants.REM_BLUE.argb32();
+        return LTXIConstants.REM_BLUE;
     }
 
     @Override

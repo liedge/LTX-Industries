@@ -30,11 +30,11 @@ public class GrenadeExplosionParticle extends NoRenderParticle
     @Override
     public void tick()
     {
-        level.addAlwaysVisibleParticle(new ColorSizeParticleOptions(LTXIParticles.COLOR_FLASH, grenadeElement.getColor(), (float) explosionSize), true, x, y, z, 0, 0, 0);
+        level.addAlwaysVisibleParticle(ColorSizeParticleOptions.of(LTXIParticles.COLOR_FLASH, grenadeElement.getColor(), (float) explosionSize), true, x, y, z, 0, 0, 0);
 
         switch (grenadeElement)
         {
-            case EXPLOSIVE -> level.addParticle(new ColorSizeParticleOptions(LTXIParticles.HALF_SONIC_BOOM_EMITTER, grenadeElement.getColor(), (float) explosionSize / 2f), true, true, x, y, z, 0, 0, 0);
+            case EXPLOSIVE -> level.addParticle(ColorSizeParticleOptions.of(LTXIParticles.HALF_SONIC_BOOM_EMITTER, grenadeElement.getColor(), (float) explosionSize / 2f), true, true, x, y, z, 0, 0, 0);
             case CRYO -> cryoSnowflakeExplosion();
             case ELECTRIC -> particleBall(LTXIParticles.MINI_ELECTRIC_SPARK.get(), 0.5d, 1);
             case ACID -> acidExplosion();

@@ -1,6 +1,5 @@
 package liedge.ltxindustries.registry.bootstrap;
 
-import liedge.limacore.lib.LimaColor;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.data.generation.LTXIBootstrapUtil;
@@ -61,7 +60,7 @@ public final class LTXIRecipeModes
         builder(GEAR_PRESSING).icon(ItemIcon.of(LTXIItems.TITANIUM_GEAR)).register(context);
 
         builder(UNSHIELDED_SMELTING).icon(ItemIcon.of(LTXIItems.SLATESTEEL_INGOT)).register(context);
-        builder(INERT_SMELTING).icon(SpriteIcon.create("gas_smelting")).styledName(LimaColor.createOpaque(0x8f73f6)).register(context);
+        builder(INERT_SMELTING).icon(SpriteIcon.create("gas_smelting")).styledName(0x8f73f6).register(context);
 
         builder(AMBIENT_FLUIDS).icon(LTXIBootstrapUtil.blueRingOverlay(ItemIcon.of(Items.WATER_BUCKET))).register(context);
         builder(AMBIENT_GASES).icon(LTXIBootstrapUtil.blueRingOverlay(ItemIcon.of(LTXIItems.ARGON_BUCKET))).register(context);

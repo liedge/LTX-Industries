@@ -5,7 +5,6 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.client.LimaCoreClient;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.limacore.transfer.LimaEnergyUtil;
-import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.blockentity.BaseFabricatorBlockEntity;
 import liedge.ltxindustries.client.gui.widget.BaseScrollGridRenderable;
 import liedge.ltxindustries.client.gui.widget.FabricatorProgressWidget;
@@ -15,6 +14,7 @@ import liedge.ltxindustries.menu.layout.LayoutSlot;
 import liedge.ltxindustries.menu.tooltip.FabricatingInputsTooltip;
 import liedge.ltxindustries.recipe.FabricatingRecipe;
 import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
+import liedge.ltxindustries.util.LTXIChatStyles;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -258,9 +258,9 @@ public class FabricatorScreen extends MachineBaseScreen<FabricatorMenu>
 
             List<Component> lines = getTooltipFromItem(Minecraft.getInstance(), recipe.getResultPreview());
 
-            if (gridIndex == selectedRecipe) lines.add(FABRICATOR_SELECTED_RECIPE_TOOLTIP.translate().withStyle(LTXIConstants.LIME_GREEN.chatStyle()));
+            if (gridIndex == selectedRecipe) lines.add(FABRICATOR_SELECTED_RECIPE_TOOLTIP.translate().withStyle(LTXIChatStyles.LIME_GREEN));
 
-            lines.add(INLINE_ENERGY_REQUIRED_TOOLTIP.translateArgs(LimaEnergyUtil.toEnergyString(recipe.getEnergyRequired())).withStyle(LTXIConstants.REM_BLUE.chatStyle()));
+            lines.add(INLINE_ENERGY_REQUIRED_TOOLTIP.translateArgs(LimaEnergyUtil.toEnergyString(recipe.getEnergyRequired())).withStyle(LTXIChatStyles.REM_BLUE));
             graphics.setTooltipForNextFrame(Minecraft.getInstance().font, lines, Optional.of(new FabricatingInputsTooltip(element.id())), ItemStack.EMPTY, mouseX, mouseY);
         }
 

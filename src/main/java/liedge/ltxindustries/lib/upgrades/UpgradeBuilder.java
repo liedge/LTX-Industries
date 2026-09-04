@@ -3,7 +3,6 @@ package liedge.ltxindustries.lib.upgrades;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.data.BootstrapObjectBuilder;
-import liedge.limacore.lib.LimaColor;
 import liedge.limacore.lib.ModResources;
 import liedge.ltxindustries.lib.icon.EmptyIcon;
 import liedge.ltxindustries.lib.icon.ItemLikeIcon;
@@ -80,9 +79,9 @@ public final class UpgradeBuilder implements BootstrapObjectBuilder<Upgrade>
         return this;
     }
 
-    public UpgradeBuilder createDefaultTitle(LimaColor color)
+    public UpgradeBuilder createDefaultTitle(int color)
     {
-        return createDefaultTitle(title -> title.withStyle(color.chatStyle()));
+        return createDefaultTitle(title -> title.withStyle(s -> s.withColor(color)));
     }
 
     public UpgradeBuilder createDefaultTitle(ChatFormatting formatting)
@@ -118,9 +117,9 @@ public final class UpgradeBuilder implements BootstrapObjectBuilder<Upgrade>
         return tooltip(key -> StaticTooltip.of(Component.translatable(key)));
     }
 
-    public UpgradeBuilder simpleTooltip(LimaColor color)
+    public UpgradeBuilder simpleTooltip(int color)
     {
-        return tooltip(key -> StaticTooltip.of(Component.translatable(key).withStyle(color.chatStyle())));
+        return tooltip(key -> StaticTooltip.of(Component.translatable(key).withStyle(s -> s.withColor(color))));
     }
 
     public UpgradeBuilder setMaxRank(int maxRank)

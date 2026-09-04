@@ -1,12 +1,10 @@
 package liedge.ltxindustries.client.gui.layer;
 
-import com.mojang.blaze3d.pipeline.RenderPipeline;
 import liedge.limacore.client.gui.LimaGuiLayer;
 import liedge.limacore.client.gui.LimaGuiUtil;
 import liedge.ltxindustries.client.item.WeaponClientItem;
 import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.lib.weapons.ClientExtendedInput;
-import liedge.ltxindustries.util.config.LTXIClientConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.player.LocalPlayer;
@@ -57,11 +55,10 @@ public final class WeaponCrosshairLayer extends LimaGuiLayer
         }
         else
         {
-            RenderPipeline pipeline = LTXIClientConfig.SOLID_COLOR_CROSSHAIR.getAsBoolean() ? RenderPipelines.GUI_TEXTURED : RenderPipelines.CROSSHAIR;
             WeaponClientItem clientItem = WeaponClientItem.of(weaponItem);
             if (clientItem != null)
             {
-                clientItem.extractCrosshairs(graphics, pipeline, player, weaponItem, controls, screenWidth, screenHeight, LTXIClientConfig.getCrosshairColor(), partialTicks);
+                clientItem.extractCrosshairs(graphics, RenderPipelines.CROSSHAIR, player, weaponItem, controls, screenWidth, screenHeight, partialTicks);
             }
         }
     }

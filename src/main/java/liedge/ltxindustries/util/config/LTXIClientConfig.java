@@ -2,16 +2,11 @@ package liedge.ltxindustries.util.config;
 
 import liedge.limacore.client.gui.HorizontalAlignment;
 import liedge.limacore.client.gui.VerticalAlignment;
-import liedge.limacore.lib.LimaColor;
-import liedge.limacore.lib.math.LimaCoreMath;
 import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
 public final class LTXIClientConfig
 {
-    public static final ModConfigSpec.BooleanValue SOLID_COLOR_CROSSHAIR;
-    private static final ModConfigSpec.ConfigValue<String> WEAPON_CROSSHAIR_COLOR;
-
     public static final ModConfigSpec.BooleanValue ALWAYS_SHOW_UPGRADE_ICONS;
     public static final ModConfigSpec.BooleanValue INVERT_MODE_SWITCH_SCROLL;
 
@@ -34,7 +29,6 @@ public final class LTXIClientConfig
     public static final ModConfigSpec CLIENT_CONFIG_SPEC;
 
     // Cached values
-    private static LimaColor crosshairColor = LimaColor.WHITE;
     private static HorizontalAlignment equipmentHUDXAlign = DEFAULT_EQUIPMENT_HUD_X_ALIGN;
     private static VerticalAlignment equipmentHUDYAlign = DEFAULT_EQUIPMENT_HUD_Y_ALIGN;
     private static HorizontalAlignment shieldHorizontalAlign = DEFAULT_SHIELD_HUD_X_ALIGN;
@@ -44,17 +38,11 @@ public final class LTXIClientConfig
     {
         if (event.getConfig().getSpec() == CLIENT_CONFIG_SPEC)
         {
-            crosshairColor = SOLID_COLOR_CROSSHAIR.get() ? LimaCoreMath.tryParseHexadecimal(WEAPON_CROSSHAIR_COLOR.get()).map(LimaColor::createOpaque).orElse(LimaColor.WHITE) : LimaColor.WHITE;
             equipmentHUDXAlign = HorizontalAlignment.CODEC.byNameOrElse(EQUIPMENT_HUD_HORIZONTAL_ALIGN.get(), DEFAULT_EQUIPMENT_HUD_X_ALIGN);
             equipmentHUDYAlign = VerticalAlignment.CODEC.byNameOrElse(EQUIPMENT_HUD_VERTICAL_ALIGN.get(), DEFAULT_EQUIPMENT_HUD_Y_ALIGN);
             shieldHorizontalAlign = HorizontalAlignment.CODEC.byNameOrElse(SHIELD_HUD_HORIZONTAL_ALIGN.get(), DEFAULT_SHIELD_HUD_X_ALIGN);
             shieldVerticalAlign = VerticalAlignment.CODEC.byNameOrElse(SHIELD_HUD_VERTICAL_ALIGN.get(), DEFAULT_SHIELD_HUD_Y_ALIGN);
         }
-    }
-
-    public static LimaColor getCrosshairColor()
-    {
-        return crosshairColor;
     }
 
     public static HorizontalAlignment getEquipmentHUDXAlign()
@@ -80,11 +68,6 @@ public final class LTXIClientConfig
     static
     {
         ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
-
-        SOLID_COLOR_CROSSHAIR = builder.comment("Controls whether the weapon crosshair/reticle is a custom color. Otherwise, uses the minecraft style background aware transparent color. Defaults to false")
-                .define("solid_color_weapon_crosshair", false);
-        WEAPON_CROSSHAIR_COLOR = builder.comment("The color of the weapon crosshair if the solid color crosshair option is enabled. Use a hexadecimal color format prefixed with #.")
-                .define("weapon_crosshair_color", "#ffffff");
 
         ALWAYS_SHOW_UPGRADE_ICONS = builder.comment("Whether upgrade module icons are always shown instead of needing to hold down SHIFT. (Defaults to false)")
                 .define("always_show_upgrade_icons", false);

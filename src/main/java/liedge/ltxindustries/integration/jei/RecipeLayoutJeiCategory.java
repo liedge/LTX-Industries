@@ -114,7 +114,7 @@ final class RecipeLayoutJeiCategory<R extends LTXIRecipe> extends LTXIRecipeHold
                 .setPosition(PADDING, getHeight() - PADDING - 10)
                 .setTextAlignment(HorizontalAlignment.LEFT)
                 .setTextAlignment(VerticalAlignment.BOTTOM)
-                .setColor(LTXIConstants.LIME_GREEN.argb32());
+                .setColor(LTXIConstants.LIME_GREEN);
 
         if (modePos != null) builder.addWidget(new RecipeModeWidget(modePos, modeBackground, modeOverlay, recipeHolder.value().getMode()));
     }

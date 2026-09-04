@@ -10,6 +10,7 @@ import liedge.limacore.util.LimaLootUtil;
 import liedge.limacore.util.LimaNetworkUtil;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.data.LTXIReloadListeners;
+import liedge.ltxindustries.data.LightColors;
 import liedge.ltxindustries.entity.CompoundHitResult;
 import liedge.ltxindustries.entity.DynamicClipContext;
 import liedge.ltxindustries.entity.damage.EquipmentDamageSource;
@@ -19,6 +20,7 @@ import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
 import liedge.ltxindustries.lib.weapons.WeaponReloadSource;
 import liedge.ltxindustries.registry.bootstrap.LTXIDamageTypes;
 import liedge.ltxindustries.registry.game.*;
+import liedge.ltxindustries.util.LTXIChatStyles;
 import liedge.ltxindustries.util.LTXITooltipUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
@@ -47,8 +49,6 @@ import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Comparator;
-
-import static liedge.ltxindustries.LTXIConstants.LIME_GREEN;
 
 public abstract class WeaponItem extends EnergyEquipmentItem
 {
@@ -233,19 +233,19 @@ public abstract class WeaponItem extends EnergyEquipmentItem
         CompoundHitResult hitResult = CompoundHitResult.tracePath(level, player, getUpgrades(stack), getWeaponRange(stack), inaccuracy, getEntityMaxHits(stack), getBlockPierceDistance(stack), DynamicClipContext.FluidCollisionPredicate.NONE, bbExpansion);
         hitResult.entityHits().forEach(hit -> causeLightfragDamage(level, hit.getEntity(), player, stack, baseDamage));
         level.gameEvent(player, LTXIGameEvents.WEAPON_FIRED, player.getEyePosition());
-        sendTracerParticle(level, hitResult.origin(), hitResult.impactLocation());
+        sendTracerParticle(level, hitResult.origin(), hitResult.impactLocation(), getLightColor(stack, LightColors.Channel.ENERGY));
     }
 
-    protected void sendTracerParticle(Level level, Vec3 start, Vec3 end)
+    protected void sendTracerParticle(Level level, Vec3 start, Vec3 end, int energyColor)
     {
-        LimaNetworkUtil.sendParticle(level, new ColorParticleOptions(LTXIParticles.LIGHTFRAG_TRACER, LIME_GREEN), LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, start, end);
+        LimaNetworkUtil.sendParticle(level, ColorParticleOptions.of(LTXIParticles.LIGHTFRAG_TRACER, energyColor), LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, start, end);
     }
 
     @Override
     public void appendTooltipHintComponents(Level level, ItemStack stack, TooltipLineConsumer consumer)
     {
-        consumer.accept(AMMO_LOADED_TOOLTIP.translateArgs(Component.literal(Integer.toString(getAmmoLoaded(stack))).withStyle(LIME_GREEN.chatStyle()), getAmmoCapacity(stack)).withStyle(ChatFormatting.GRAY));
-        consumer.accept(RELOAD_SPEED_TOOLTIP.translateArgs(LTXITooltipUtil.flatNumberWithoutSign(getReloadSpeed(stack) / 20d).withStyle(LIME_GREEN.chatStyle())).withStyle(ChatFormatting.GRAY));
+        consumer.accept(AMMO_LOADED_TOOLTIP.translateArgs(Component.literal(Integer.toString(getAmmoLoaded(stack))).withStyle(LTXIChatStyles.LIME_GREEN), getAmmoCapacity(stack)).withStyle(ChatFormatting.GRAY));
+        consumer.accept(RELOAD_SPEED_TOOLTIP.translateArgs(LTXITooltipUtil.flatNumberWithoutSign(getReloadSpeed(stack) / 20d).withStyle(LTXIChatStyles.LIME_GREEN)).withStyle(ChatFormatting.GRAY));
 
         WeaponReloadSource reloadSource = getReloadSource(stack);
         consumer.accept(reloadSource.getItemTooltip());

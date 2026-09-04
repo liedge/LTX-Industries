@@ -6,6 +6,7 @@ import liedge.ltxindustries.lib.icon.ItemLikeIcon;
 import liedge.ltxindustries.lib.icon.SpriteIcon;
 import liedge.ltxindustries.lib.upgrades.tooltip.*;
 import liedge.ltxindustries.lib.upgrades.value.ContextlessValue;
+import net.minecraft.network.chat.Style;
 import net.minecraft.world.level.ItemLike;
 
 import static liedge.ltxindustries.LTXIConstants.REM_BLUE;
@@ -75,17 +76,17 @@ public final class LTXIBootstrapUtil
     // Upgrade tooltips
     public static UpgradeComponentLike energyCapacityTooltip(ContextlessValue value, ValueFormat format, ValueSentiment sentiment)
     {
-        return TranslatableTooltip.create(LTXILangKeys.ENERGY_CAPACITY_UPGRADE, REM_BLUE.chatStyle(), ValueComponent.of(value, format, sentiment));
+        return TranslatableTooltip.create(LTXILangKeys.ENERGY_CAPACITY_UPGRADE, Style.EMPTY.withColor(REM_BLUE), ValueComponent.of(value, format, sentiment));
     }
 
     public static UpgradeComponentLike energyTransferTooltip(ContextlessValue value, ValueFormat format, ValueSentiment sentiment)
     {
-        return TranslatableTooltip.create(LTXILangKeys.ENERGY_TRANSFER_UPGRADE, REM_BLUE.chatStyle(), ValueComponent.of(value, format, sentiment));
+        return TranslatableTooltip.create(LTXILangKeys.ENERGY_TRANSFER_UPGRADE, Style.EMPTY.withColor(REM_BLUE), ValueComponent.of(value, format, sentiment));
     }
 
     public static UpgradeComponentLike energyUsageTooltip(ContextlessValue value, ValueFormat format, ValueSentiment sentiment)
     {
-        return TranslatableTooltip.create(LTXILangKeys.ENERGY_USAGE_UPGRADE, REM_BLUE.chatStyle(), ValueComponent.of(value, format, sentiment));
+        return TranslatableTooltip.create(LTXILangKeys.ENERGY_USAGE_UPGRADE, Style.EMPTY.withColor(REM_BLUE), ValueComponent.of(value, format, sentiment));
     }
 
     public static UpgradeComponentLike fluidCapacityTooltip(ContextlessValue value, ValueFormat format, ValueSentiment sentiment)
@@ -100,6 +101,6 @@ public final class LTXIBootstrapUtil
 
     public static UpgradeComponentLike energyActionsTooltip(ContextlessValue value)
     {
-        return TranslatableTooltip.create(LTXILangKeys.ENERGY_ACTIONS_TOOLTIP, REM_BLUE.chatStyle(), ValueComponent.of(value, ValueFormat.FLAT_NUMBER, ValueSentiment.NEGATIVE));
+        return TranslatableTooltip.create(LTXILangKeys.ENERGY_ACTIONS_TOOLTIP, Style.EMPTY.withColor(REM_BLUE), ValueComponent.of(value, ValueFormat.FLAT_NUMBER, ValueSentiment.NEGATIVE));
     }
 }

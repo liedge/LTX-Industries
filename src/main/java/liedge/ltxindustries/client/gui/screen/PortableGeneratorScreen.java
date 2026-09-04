@@ -4,12 +4,12 @@ import liedge.limacore.client.gui.BaseLimaRenderable;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.transfer.LimaEnergyUtil;
-import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.blockentity.PortableGeneratorBlockEntity;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.menu.PortableGeneratorMenu;
 import liedge.ltxindustries.menu.layout.LayoutSlot;
+import liedge.ltxindustries.util.LTXIChatStyles;
 import liedge.ltxindustries.util.config.LTXIMachinesConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -67,7 +67,7 @@ public class PortableGeneratorScreen extends MachineBaseScreen<PortableGenerator
         public void createWidgetTooltip(TooltipLineConsumer consumer)
         {
             consumer.accept(LTXILangKeys.FUEL_UNITS_STORED.translateArgs(blockEntity.getFuelUnits(), PortableGeneratorBlockEntity.MAX_FUEL_UNITS));
-            Component energyPerFuel = Component.literal(LimaEnergyUtil.toEnergyString(LTXIMachinesConfig.PORTABLE_GENERATOR_ENERGY_PER_FUEL.getAsInt())).withStyle(LTXIConstants.REM_BLUE.chatStyle());
+            Component energyPerFuel = Component.literal(LimaEnergyUtil.toEnergyString(LTXIMachinesConfig.PORTABLE_GENERATOR_ENERGY_PER_FUEL.getAsInt())).withStyle(LTXIChatStyles.REM_BLUE);
             consumer.accept(LTXILangKeys.ENERGY_PER_FUEL_UNIT.translateArgs(energyPerFuel));
         }
 

@@ -1,7 +1,6 @@
 package liedge.ltxindustries.client.item;
 
 import com.mojang.blaze3d.pipeline.RenderPipeline;
-import liedge.limacore.lib.LimaColor;
 import liedge.limacore.util.LimaEntityUtil;
 import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.lib.weapons.ClientExtendedInput;
@@ -17,7 +16,7 @@ public final class SerenityClientItem extends AutoWeaponClientItem
     }
 
     @Override
-    protected void extractCrosshairSprites(GuiGraphicsExtractor graphics, RenderPipeline pipeline, LocalPlayer player, WeaponItem weaponItem, ClientExtendedInput controls, int x, int y, LimaColor color, float partialTick)
+    protected void extractCrosshairSprites(GuiGraphicsExtractor graphics, RenderPipeline pipeline, LocalPlayer player, WeaponItem weaponItem, ClientExtendedInput controls, int x, int y, float partialTick)
     {
         float baseBloom;
         if (LimaEntityUtil.isEntityUsingItem(player, InteractionHand.MAIN_HAND))
@@ -32,8 +31,8 @@ public final class SerenityClientItem extends AutoWeaponClientItem
 
         float bloom = baseBloom + 2f * (controls.isTriggerHeld() ? applyCrosshairEasing(partialTick) : 0f);
 
-        blitSprite(graphics, pipeline, HOLLOW_DOT, x, y, 5, 5, color);
-        blitSprite(graphics, pipeline, CIRCLE_BRACKET, x - 4 - bloom, y - 4, 6, 13, color);
-        blitSpriteMirrorU(graphics, pipeline, CIRCLE_BRACKET, x + 3 + bloom, y - 4, 6, 13, color);
+        blitSprite(graphics, pipeline, HOLLOW_DOT, x, y, 5, 5, -1);
+        blitSprite(graphics, pipeline, CIRCLE_BRACKET, x - 4 - bloom, y - 4, 6, 13, -1);
+        blitSpriteMirrorU(graphics, pipeline, CIRCLE_BRACKET, x + 3 + bloom, y - 4, 6, 13, -1);
     }
 }

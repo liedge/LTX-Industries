@@ -1,7 +1,6 @@
 package liedge.ltxindustries.client.item;
 
 import com.mojang.blaze3d.pipeline.RenderPipeline;
-import liedge.limacore.lib.LimaColor;
 import liedge.limacore.util.LimaEntityUtil;
 import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.lib.weapons.ClientExtendedInput;
@@ -17,7 +16,7 @@ public final class MirageClientItem extends AutoWeaponClientItem
     }
 
     @Override
-    protected void extractCrosshairSprites(GuiGraphicsExtractor graphics, RenderPipeline pipeline, LocalPlayer player, WeaponItem weaponItem, ClientExtendedInput controls, int x, int y, LimaColor color, float partialTick)
+    protected void extractCrosshairSprites(GuiGraphicsExtractor graphics, RenderPipeline pipeline, LocalPlayer player, WeaponItem weaponItem, ClientExtendedInput controls, int x, int y, float partialTick)
     {
         float baseBloom;
         if (LimaEntityUtil.isEntityUsingItem(player, InteractionHand.MAIN_HAND))
@@ -32,8 +31,8 @@ public final class MirageClientItem extends AutoWeaponClientItem
 
         float bloom = baseBloom + 1.5f * applyCrosshairEasing(controls, weaponItem, partialTick);
 
-        blitSprite(graphics, pipeline, STANDARD_HORIZONTAL, x - 5 - bloom, y, 4, 1, color);
-        blitSprite(graphics, pipeline, STANDARD_HORIZONTAL, x + 2 + bloom, y, 4, 1, color);
-        blitSprite(graphics, pipeline, STANDARD_VERTICAL, x, y + 2 + bloom, 1, 4, color);
+        blitSprite(graphics, pipeline, STANDARD_HORIZONTAL, x - 5 - bloom, y, 4, 1, -1);
+        blitSprite(graphics, pipeline, STANDARD_HORIZONTAL, x + 2 + bloom, y, 4, 1, -1);
+        blitSprite(graphics, pipeline, STANDARD_VERTICAL, x, y + 2 + bloom, 1, 4, -1);
     }
 }

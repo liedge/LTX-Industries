@@ -4,13 +4,13 @@ import liedge.limacore.client.LimaCoreClient;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.item.LimaCreativeTabFillerItem;
 import liedge.limacore.transfer.LimaEnergyUtil;
-import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.menu.tooltip.FabricatingInputsTooltip;
 import liedge.ltxindustries.recipe.FabricatingRecipe;
 import liedge.ltxindustries.registry.game.LTXIDataComponents;
 import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
+import liedge.ltxindustries.util.LTXIChatStyles;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
@@ -56,12 +56,12 @@ public class FabricationBlueprintItem extends Item implements TooltipShiftHintIt
             if (result.getCount() > 1) name.append(" x" + result.getCount());
 
             consumer.accept(name);
-            consumer.accept(LTXILangKeys.INLINE_ENERGY_REQUIRED_TOOLTIP.translateArgs(LimaEnergyUtil.toEnergyString(recipe.getEnergyRequired())).withStyle(LTXIConstants.REM_BLUE.chatStyle()));
+            consumer.accept(LTXILangKeys.INLINE_ENERGY_REQUIRED_TOOLTIP.translateArgs(LimaEnergyUtil.toEnergyString(recipe.getEnergyRequired())).withStyle(LTXIChatStyles.REM_BLUE));
             consumer.accept(new FabricatingInputsTooltip(holder.id()));
         }
         else
         {
-            consumer.accept(LTXILangKeys.INVALID_BLUEPRINT_HINT.translate().withStyle(LTXIConstants.HOSTILE_ORANGE.chatStyle()));
+            consumer.accept(LTXILangKeys.INVALID_BLUEPRINT_HINT.translate().withStyle(LTXIChatStyles.HOSTILE_ORANGE));
         }
     }
 

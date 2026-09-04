@@ -3,7 +3,6 @@ package liedge.ltxindustries.recipe;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import liedge.limacore.data.BootstrapObjectBuilder;
-import liedge.limacore.lib.LimaColor;
 import liedge.ltxindustries.lib.icon.EmptyIcon;
 import liedge.ltxindustries.lib.icon.ItemLikeIcon;
 import liedge.ltxindustries.registry.LTXIRegistries;
@@ -53,9 +52,9 @@ public record RecipeMode(Component title, ItemLikeIcon icon)
             return this;
         }
 
-        public Builder styledName(LimaColor color)
+        public Builder styledName(int color)
         {
-            this.displayName = defaultName().withStyle(color.chatStyle());
+            this.displayName = defaultName().withStyle(s -> s.withColor(color));
             return this;
         }
 

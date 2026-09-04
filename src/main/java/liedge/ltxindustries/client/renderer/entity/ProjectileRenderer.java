@@ -31,11 +31,11 @@ public abstract class ProjectileRenderer<T extends LTXIProjectileEntity> extends
     }
 
     @Override
-    public void extractRenderState(T entity, ProjectileRenderState reusedState, float partialTick)
+    public void extractRenderState(T entity, ProjectileRenderState state, float partialTick)
     {
-        super.extractRenderState(entity, reusedState, partialTick);
-        reusedState.yRot = LimaCoreMath.toRad(-entity.getYRot());
-        reusedState.xRot = LimaCoreMath.toRad(entity.getXRot() - 90f);
+        super.extractRenderState(entity, state, partialTick);
+        state.yRot = LimaCoreMath.toRad(-entity.getYRot());
+        state.xRot = LimaCoreMath.toRad(entity.getXRot() - 90f);
     }
 
     @Override

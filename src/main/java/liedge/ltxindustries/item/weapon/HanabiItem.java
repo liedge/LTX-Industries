@@ -116,7 +116,7 @@ public class HanabiItem extends SemiAutoWeaponItem implements ScrollModeSwitchIt
     {
         if (channel == LightColors.Channel.ENERGY)
         {
-            return getGrenadeTypeFromItem(stack).getColor().argb32();
+            return getGrenadeTypeFromItem(stack).getColor();
         }
         else
         {

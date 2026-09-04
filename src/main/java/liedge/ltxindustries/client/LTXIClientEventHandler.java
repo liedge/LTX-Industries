@@ -180,7 +180,7 @@ public final class LTXIClientEventHandler
             double yCenter = state.y + entity.getBoundingBox().getYsize() / 2d;
             float yRot = entity == Minecraft.getInstance().player ? -entity.getYRot() : state.yRot;
 
-            BubbleShieldRenderer.State shieldState = new BubbleShieldRenderer.State(yCenter, yRot, scale, LTXIConstants.BUBBLE_SHIELD_BLUE.argb32(), state.partialTick);
+            BubbleShieldRenderer.State shieldState = new BubbleShieldRenderer.State(yCenter, yRot, scale, LTXIConstants.BUBBLE_SHIELD_BLUE, state.partialTick);
             state.setRenderData(LTXIRenderer.BUBBLE_SHIELD_STATE, shieldState);
         });
     }

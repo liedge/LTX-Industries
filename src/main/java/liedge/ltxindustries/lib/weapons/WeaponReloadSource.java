@@ -3,7 +3,6 @@ package liedge.ltxindustries.lib.weapons;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import liedge.limacore.data.LimaEnumCodec;
-import liedge.limacore.lib.LimaColor;
 import liedge.limacore.lib.Translatable;
 import liedge.limacore.transfer.LimaEnergyUtil;
 import liedge.ltxindustries.LTXIConstants;
@@ -17,6 +16,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.StringRepresentable;
@@ -29,6 +29,7 @@ import net.neoforged.neoforge.transfer.access.ItemAccess;
 import net.neoforged.neoforge.transfer.energy.EnergyHandler;
 
 import java.util.function.Consumer;
+import java.util.function.UnaryOperator;
 
 public interface WeaponReloadSource extends UpgradeTooltipsProvider
 {
@@ -57,12 +58,12 @@ public interface WeaponReloadSource extends UpgradeTooltipsProvider
     @Override
     default void addUpgradeTooltips(int upgradeRank, Consumer<Component> lines)
     {
-        lines.accept(getType().upgradeTooltip.translate().withStyle(getType().color.chatStyle()));
+        lines.accept(getType().upgradeTooltip.translate().withStyle(getType().styleModifier));
     }
 
     default Component getItemTooltip()
     {
-        return getType().itemTooltip.translate().withStyle(getType().color.chatStyle());
+        return getType().itemTooltip.translate().withStyle(getType().styleModifier);
     }
 
     Type getType();
@@ -134,7 +135,7 @@ public interface WeaponReloadSource extends UpgradeTooltipsProvider
 
         private Component itemNameTooltip()
         {
-            return reloadItem.value().components().getOrDefault(DataComponents.ITEM_NAME, CommonComponents.EMPTY).copy().withStyle(getType().color.chatStyle());
+            return reloadItem.value().components().getOrDefault(DataComponents.ITEM_NAME, CommonComponents.EMPTY).copy().withStyle(getType().styleModifier);
         }
     }
 
@@ -197,31 +198,26 @@ public interface WeaponReloadSource extends UpgradeTooltipsProvider
         public static final StreamCodec<RegistryFriendlyByteBuf, Type> STREAM_CODEC = NeoForgeStreamCodecs.enumCodec(Type.class);
 
         private final String name;
-        private final LimaColor color;
         private final MapCodec<? extends WeaponReloadSource> codec;
         private final StreamCodec<? super RegistryFriendlyByteBuf, ? extends WeaponReloadSource> streamCodec;
         private final Translatable itemTooltip;
         private final Translatable upgradeTooltip;
+        private final UnaryOperator<Style> styleModifier;
 
-        Type(String name, LimaColor color, MapCodec<? extends WeaponReloadSource> codec, StreamCodec<? super RegistryFriendlyByteBuf, ? extends WeaponReloadSource> streamCodec)
+        Type(String name, int color, MapCodec<? extends WeaponReloadSource> codec, StreamCodec<? super RegistryFriendlyByteBuf, ? extends WeaponReloadSource> streamCodec)
         {
             this.name = name;
-            this.color = color;
             this.codec = codec;
             this.streamCodec = streamCodec;
             this.itemTooltip = LTXILangKeys.tooltip("reload_source." + name);
             this.upgradeTooltip = LTXILangKeys.upgradeEffect("reload_source." + name);
+            this.styleModifier = s -> s.withColor(color);
         }
 
         @Override
         public String getSerializedName()
         {
             return name;
-        }
-
-        public LimaColor getColor()
-        {
-            return color;
         }
 
         public MapCodec<? extends WeaponReloadSource> getCodec()

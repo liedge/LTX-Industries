@@ -16,7 +16,7 @@ public class FrostbiteMobEffect extends MobEffect
 {
     public FrostbiteMobEffect(Identifier id)
     {
-        super(MobEffectCategory.HARMFUL, LTXIConstants.CRYO_LIGHT_BLUE.argb32());
+        super(MobEffectCategory.HARMFUL, LTXIConstants.CRYO_LIGHT_BLUE);
         addAttributeModifier(Attributes.ATTACK_SPEED, id.withSuffix(".attack_speed"), -0.25d, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
         addAttributeModifier(Attributes.MOVEMENT_SPEED, id.withSuffix(".move_speed"), -0.25d, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
         addAttributeModifier(Attributes.FLYING_SPEED, id.withSuffix(".fly_speed"), -0.25d, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);

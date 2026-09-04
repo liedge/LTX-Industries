@@ -45,8 +45,8 @@ public abstract class BaseRocketEntity extends HomingProjectileEntity
         getEntitiesInAOE(level, hitLocation, BLAST_RADIUS, owner, directHit).forEach(aoeHit -> hurtTarget(level, aoeHit, owner, hitLocation, false));
         level.playSound(null, hitLocation.x, hitLocation.y, hitLocation.z, LTXISounds.ROCKET_EXPLODE.get(), SoundSource.PLAYERS, 4f, 0.9f);
 
-        LimaNetworkUtil.sendParticle(level, new ColorSizeParticleOptions(LTXIParticles.COLOR_FLASH, LTXIConstants.LIME_GREEN, (float) BLAST_RADIUS * 2f), LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, hitLocation);
-        LimaNetworkUtil.sendParticle(level, new ColorSizeParticleOptions(LTXIParticles.HALF_SONIC_BOOM_EMITTER, LTXIConstants.LIME_GREEN, (float) BLAST_RADIUS), LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, hitLocation);
+        LimaNetworkUtil.sendParticle(level, ColorSizeParticleOptions.of(LTXIParticles.COLOR_FLASH, LTXIConstants.LIME_GREEN, (float) BLAST_RADIUS * 2f), LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, hitLocation);
+        LimaNetworkUtil.sendParticle(level, ColorSizeParticleOptions.of(LTXIParticles.HALF_SONIC_BOOM_EMITTER, LTXIConstants.LIME_GREEN, (float) BLAST_RADIUS), LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, hitLocation);
 
         return CollisionResult.DESTROY;
     }
@@ -61,6 +61,6 @@ public abstract class BaseRocketEntity extends HomingProjectileEntity
 
         double trailSpeed = Mth.clamp(getDeltaMovement().length() - 0.7d, -0.7d, 0.1d);
         Vec3 v = LimaCoreMath.createMotionVector(getXRot(), getYRot(), trailSpeed, 5d);
-        level.addAlwaysVisibleParticle(new ColorSizeParticleOptions(LTXIParticles.COLOR_GLITTER, LTXIConstants.LIME_GREEN, 1.5f), true, px, py, pz, v.x(), v.y(), v.z());
+        level.addAlwaysVisibleParticle(ColorSizeParticleOptions.of(LTXIParticles.COLOR_GLITTER, LTXIConstants.LIME_GREEN, 1.5f), true, px, py, pz, v.x(), v.y(), v.z());
     }
 }

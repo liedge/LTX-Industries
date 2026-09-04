@@ -3,13 +3,13 @@ package liedge.ltxindustries.lib.upgrades.effect;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import liedge.limacore.util.LimaEntityUtil;
-import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.lib.upgrades.UpgradedEquipmentInUse;
 import liedge.ltxindustries.lib.upgrades.tooltip.UpgradeTooltipsProvider;
 import liedge.ltxindustries.lib.upgrades.tooltip.ValueFormat;
 import liedge.ltxindustries.lib.upgrades.tooltip.ValueSentiment;
 import liedge.ltxindustries.lib.upgrades.value.ContextlessValue;
+import liedge.ltxindustries.util.LTXIChatStyles;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -39,6 +39,6 @@ public record CancelFall(ContextlessValue energyActions) implements UpgradeToolt
     public void addUpgradeTooltips(int upgradeRank, Consumer<Component> lines)
     {
         Component energyStr = ValueFormat.FLAT_NUMBER.apply(energyActions.calculateInt(upgradeRank), ValueSentiment.NEGATIVE);
-        lines.accept(LTXILangKeys.CANCEL_FALLS_EFFECT.translateArgs(LTXILangKeys.ENERGY_ACTIONS_TOOLTIP.translateArgs(energyStr).withStyle(LTXIConstants.REM_BLUE.chatStyle())));
+        lines.accept(LTXILangKeys.CANCEL_FALLS_EFFECT.translateArgs(LTXILangKeys.ENERGY_ACTIONS_TOOLTIP.translateArgs(energyStr).withStyle(LTXIChatStyles.REM_BLUE)));
     }
 }

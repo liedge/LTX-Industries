@@ -3,7 +3,6 @@ package liedge.ltxindustries.item;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.item.LimaCreativeTabFillerItem;
 import liedge.limacore.util.LimaBlockUtil;
-import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.blockentity.MeshBlockEntity;
 import liedge.ltxindustries.blockentity.base.UpgradesHolderBlockEntity;
 import liedge.ltxindustries.client.LTXILangKeys;
@@ -16,6 +15,7 @@ import liedge.ltxindustries.registry.game.LTXICreativeTabs;
 import liedge.ltxindustries.registry.game.LTXIDataComponents;
 import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.registry.game.LTXISounds;
+import liedge.ltxindustries.util.LTXIChatStyles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
@@ -25,7 +25,10 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
@@ -34,9 +37,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.function.Consumer;
-
-import static liedge.ltxindustries.LTXIConstants.HOSTILE_ORANGE;
-import static liedge.ltxindustries.LTXIConstants.LIME_GREEN;
 
 public final class UpgradeModuleItem extends Item implements LimaCreativeTabFillerItem, TooltipShiftHintItem
 {
@@ -95,7 +95,7 @@ public final class UpgradeModuleItem extends Item implements LimaCreativeTabFill
                 Upgrades newUpgrades = previousUpgrades.mutable().set(entry).build();
                 blockEntity.setUpgrades(newUpgrades);
 
-                player.sendOverlayMessage(LTXILangKeys.UPGRADE_INSTALL_SUCCESS.translate().withStyle(LIME_GREEN.chatStyle()));
+                player.sendOverlayMessage(LTXILangKeys.UPGRADE_INSTALL_SUCCESS.translate().withStyle(LTXIChatStyles.LIME_GREEN));
                 level.playSound(null, pos, LTXISounds.UPGRADE_INSTALL.get(), SoundSource.PLAYERS, 1f, 1f);
 
                 usedItem.consume(1, player);
@@ -108,7 +108,7 @@ public final class UpgradeModuleItem extends Item implements LimaCreativeTabFill
             }
             else
             {
-                player.sendOverlayMessage(LTXILangKeys.UPGRADE_INSTALL_FAIL.translate().withStyle(HOSTILE_ORANGE.chatStyle()));
+                player.sendOverlayMessage(LTXILangKeys.UPGRADE_INSTALL_FAIL.translate().withStyle(LTXIChatStyles.HOSTILE_ORANGE));
             }
         }
 
@@ -125,7 +125,7 @@ public final class UpgradeModuleItem extends Item implements LimaCreativeTabFill
         }
         else
         {
-            return super.getName(stack).copy().withStyle(HOSTILE_ORANGE.chatStyle());
+            return super.getName(stack).copy().withStyle(LTXIChatStyles.HOSTILE_ORANGE);
         }
     }
 
@@ -137,12 +137,12 @@ public final class UpgradeModuleItem extends Item implements LimaCreativeTabFill
         if (entry != null)
         {
             Upgrade upgrade = entry.upgrade().value();
-            if (upgrade.maxRank() > 1) tooltipAdder.accept(LTXILangKeys.UPGRADE_RANK_TOOLTIP.translateArgs(entry.rank(), upgrade.maxRank()).withStyle(LTXIConstants.UPGRADE_RANK_MAGENTA_1.chatStyle()));
+            if (upgrade.maxRank() > 1) tooltipAdder.accept(LTXILangKeys.UPGRADE_RANK_TOOLTIP.translateArgs(entry.rank(), upgrade.maxRank()).withStyle(LTXIChatStyles.UPGRADE_RANK_MAGENTA));
             tooltipAdder.accept(upgrade.display().description());
         }
         else
         {
-            tooltipAdder.accept(LTXILangKeys.INVALID_UPGRADE_HINT.translate().withStyle(HOSTILE_ORANGE.chatStyle()));
+            tooltipAdder.accept(LTXILangKeys.INVALID_UPGRADE_HINT.translate().withStyle(LTXIChatStyles.HOSTILE_ORANGE));
         }
     }
 
@@ -158,7 +158,7 @@ public final class UpgradeModuleItem extends Item implements LimaCreativeTabFill
         List<ItemStack> itemUsers = upgrade.users().items().stream().map(item -> item.value().getDefaultInstance()).limit(24).toList();
         if (!itemUsers.isEmpty())
         {
-            consumer.accept(LTXILangKeys.EQUIPMENT_COMPATIBILITY_TOOLTIP.translate().withStyle(LIME_GREEN.chatStyle()));
+            consumer.accept(LTXILangKeys.EQUIPMENT_COMPATIBILITY_TOOLTIP.translate().withStyle(LTXIChatStyles.LIME_GREEN));
             consumer.accept(new ItemStacksTooltip(itemUsers, 8, 3, false));
         }
 
@@ -166,7 +166,7 @@ public final class UpgradeModuleItem extends Item implements LimaCreativeTabFill
                 .map(block -> block.asItem().getDefaultInstance()).toList();
         if (!machineUsers.isEmpty())
         {
-            consumer.accept(LTXILangKeys.MACHINE_COMPATIBILITY_TOOLTIP.translate().withStyle(LIME_GREEN.chatStyle()));
+            consumer.accept(LTXILangKeys.MACHINE_COMPATIBILITY_TOOLTIP.translate().withStyle(LTXIChatStyles.LIME_GREEN));
             consumer.accept(new ItemStacksTooltip(machineUsers, 8, 3, false));
         }
     }

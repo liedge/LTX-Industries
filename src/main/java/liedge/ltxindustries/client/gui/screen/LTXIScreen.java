@@ -38,7 +38,7 @@ public abstract class LTXIScreen<M extends LimaMenu<?>> extends LimaMenuScreen<M
 
     protected LTXIScreen(M menu, Inventory inventory, Component title, int primaryWidth, int primaryHeight, int leftPadding, int rightPadding, int bottomPadding)
     {
-        super(menu, inventory, title, primaryWidth, primaryHeight, leftPadding, rightPadding, TITLE_BAR_HEIGHT, bottomPadding, LTXIConstants.LIME_GREEN.argb32());
+        super(menu, inventory, title, primaryWidth, primaryHeight, leftPadding, rightPadding, TITLE_BAR_HEIGHT, bottomPadding, LTXIConstants.LIME_GREEN);
 
         this.titleLabelY = -9;
         this.inventoryLabelX = (primaryWidth - 162) / 2 + 1;

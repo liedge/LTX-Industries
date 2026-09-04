@@ -2,9 +2,9 @@ package liedge.ltxindustries.lib.upgrades.effect;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
-import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.lib.upgrades.tooltip.UpgradeTooltipsProvider;
+import liedge.ltxindustries.util.LTXIChatStyles;
 import liedge.ltxindustries.util.LTXITooltipUtil;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryCodecs;
@@ -41,7 +41,7 @@ public interface CaptureLoot extends UpgradeTooltipsProvider
         @Override
         public void addUpgradeTooltips(int upgradeRank, Consumer<Component> lines)
         {
-            lines.accept(LTXILangKeys.CAPTURE_MOB_DROPS_EFFECT.translate().withStyle(LTXIConstants.LIME_GREEN.chatStyle()));
+            lines.accept(LTXILangKeys.CAPTURE_MOB_DROPS_EFFECT.translate().withStyle(LTXIChatStyles.LIME_GREEN));
         }
     }
 
@@ -52,7 +52,7 @@ public interface CaptureLoot extends UpgradeTooltipsProvider
         @Override
         public void addUpgradeTooltips(int upgradeRank, Consumer<Component> lines)
         {
-            lines.accept(LTXILangKeys.CAPTURE_BLOCK_DROPS_EFFECT.translateArgs(LTXITooltipUtil.translateHolderSet(items)).withStyle(LTXIConstants.LIME_GREEN.chatStyle()));
+            lines.accept(LTXILangKeys.CAPTURE_BLOCK_DROPS_EFFECT.translateArgs(LTXITooltipUtil.translateHolderSet(items)).withStyle(LTXIChatStyles.LIME_GREEN));
         }
     }
 
@@ -66,7 +66,7 @@ public interface CaptureLoot extends UpgradeTooltipsProvider
         @Override
         public void addUpgradeTooltips(int upgradeRank, Consumer<Component> lines)
         {
-            lines.accept(LTXILangKeys.CAPTURE_MOB_EXPERIENCE_EFFECT.translate().withStyle(LTXIConstants.LIME_GREEN.chatStyle()));
+            lines.accept(LTXILangKeys.CAPTURE_MOB_EXPERIENCE_EFFECT.translate().withStyle(LTXIChatStyles.LIME_GREEN));
         }
     }
 }

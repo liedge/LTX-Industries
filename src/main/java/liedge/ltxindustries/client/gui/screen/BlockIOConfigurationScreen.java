@@ -3,18 +3,18 @@ package liedge.ltxindustries.client.gui.screen;
 import com.mojang.blaze3d.platform.InputConstants;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.blockentity.RelativeHorizontalSide;
-import liedge.limacore.client.util.LimaComponentUtil;
 import liedge.limacore.client.gui.LimaBaseButton;
 import liedge.limacore.client.gui.LimaGuiUtil;
 import liedge.limacore.client.gui.TooltipLineConsumer;
+import liedge.limacore.client.util.LimaComponentUtil;
 import liedge.limacore.lib.Translatable;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
-import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.blockentity.base.BlockIOConfiguration;
 import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntity;
 import liedge.ltxindustries.client.gui.widget.LTXISidebarButton;
 import liedge.ltxindustries.client.gui.widget.SubMenuBackButton;
 import liedge.ltxindustries.menu.BlockIOConfigurationMenu;
+import liedge.ltxindustries.util.LTXIChatStyles;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.InputWithModifiers;
 import net.minecraft.client.input.MouseButtonInfo;
@@ -196,7 +196,7 @@ public class BlockIOConfigurationScreen extends LTXIScreen<BlockIOConfigurationM
         @Override
         public void createWidgetTooltip(TooltipLineConsumer consumer)
         {
-            Component sideTooltip = side.translate().withStyle(LTXIConstants.LIME_GREEN.chatStyle())
+            Component sideTooltip = side.translate().withStyle(LTXIChatStyles.LIME_GREEN)
                     .append(CommonComponents.SPACE)
                     .append(ComponentUtils.wrapInSquareBrackets(LimaComponentUtil.localizeDirection(side.resolveAbsoluteSide(menu.menuContext().blockEntity().getFacing())).translate()));
 
