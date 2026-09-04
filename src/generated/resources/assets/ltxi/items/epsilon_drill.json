@@ -1,6 +1,21 @@
 {
   "model": {
-    "type": "minecraft:model",
-    "model": "ltxi:item/epsilon_drill"
+    "type": "minecraft:composite",
+    "models": [
+      {
+        "type": "minecraft:model",
+        "model": "ltxi:item/epsilon_drill_base"
+      },
+      {
+        "type": "minecraft:model",
+        "model": "ltxi:item/epsilon_drill_emissive",
+        "tints": [
+          {
+            "type": "ltxi:light_colors",
+            "channel": "energy"
+          }
+        ]
+      }
+    ]
   }
 }

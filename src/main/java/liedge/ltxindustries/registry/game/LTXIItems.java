@@ -287,16 +287,16 @@ public final class LTXIItems
 
     // Guide and Epsilon series tools
     public static final DeferredItem<GuideTabletItem> GUIDE_TABLET = registerLTXGear("guide_tablet", GuideTabletItem::new);
-    public static final DeferredItem<EnergyDrillItem> EPSILON_DRILL = registerLTXGear(LTXIIdentifiers.ID_EPSILON_DRILL, properties -> new EnergyDrillItem(properties, 5f, -2f));
-    public static final DeferredItem<EnergySwordItem> EPSILON_SWORD = registerLTXGear(LTXIIdentifiers.ID_EPSILON_SWORD, properties -> new EnergySwordItem(properties, 9f, -1.5f));
-    public static final DeferredItem<EnergyShovelItem> EPSILON_SHOVEL = registerLTXGear(LTXIIdentifiers.ID_EPSILON_SHOVEL, properties -> new EnergyShovelItem(properties, 7.5f, -2.2f));
-    public static final DeferredItem<EnergyAxeItem> EPSILON_AXE = registerLTXGear(LTXIIdentifiers.ID_EPSILON_AXE, properties -> new EnergyAxeItem(properties, 12f, -2.8f));
-    public static final DeferredItem<EnergyHoeItem> EPSILON_HOE = registerLTXGear(LTXIIdentifiers.ID_EPSILON_HOE, properties -> new EnergyHoeItem(properties, 3f, -1f));
-    public static final DeferredItem<EnergyWrenchItem> EPSILON_WRENCH = registerLTXGear(LTXIIdentifiers.ID_EPSILON_WRENCH, EnergyWrenchItem::new);
-    public static final DeferredItem<EnergyShearsItem> EPSILON_SHEARS = registerLTXGear(LTXIIdentifiers.ID_EPSILON_SHEARS, EnergyShearsItem::new);
-    public static final DeferredItem<EnergyBrushItem> EPSILON_BRUSH = registerLTXGear(LTXIIdentifiers.ID_EPSILON_BRUSH, EnergyBrushItem::new);
-    public static final DeferredItem<EnergyFishingRodItem> EPSILON_FISHING_ROD = registerLTXGear(LTXIIdentifiers.ID_EPSILON_FISHING_ROD, EnergyFishingRodItem::new);
-    public static final DeferredItem<EnergyLighterItem> EPSILON_LIGHTER = registerLTXGear(LTXIIdentifiers.ID_EPSILON_LIGHTER, EnergyLighterItem::new);
+    public static final DeferredItem<EnergyDrillItem> EPSILON_DRILL = registerETool(LTXIIdentifiers.ID_EPSILON_DRILL, properties -> new EnergyDrillItem(properties, 5f, -2f));
+    public static final DeferredItem<EnergySwordItem> EPSILON_SWORD = registerETool(LTXIIdentifiers.ID_EPSILON_SWORD, properties -> new EnergySwordItem(properties, 9f, -1.5f));
+    public static final DeferredItem<EnergyShovelItem> EPSILON_SHOVEL = registerETool(LTXIIdentifiers.ID_EPSILON_SHOVEL, properties -> new EnergyShovelItem(properties, 7.5f, -2.2f));
+    public static final DeferredItem<EnergyAxeItem> EPSILON_AXE = registerETool(LTXIIdentifiers.ID_EPSILON_AXE, properties -> new EnergyAxeItem(properties, 12f, -2.8f));
+    public static final DeferredItem<EnergyHoeItem> EPSILON_HOE = registerETool(LTXIIdentifiers.ID_EPSILON_HOE, properties -> new EnergyHoeItem(properties, 3f, -1f));
+    public static final DeferredItem<EnergyWrenchItem> EPSILON_WRENCH = registerETool(LTXIIdentifiers.ID_EPSILON_WRENCH, EnergyWrenchItem::new);
+    public static final DeferredItem<EnergyShearsItem> EPSILON_SHEARS = registerETool(LTXIIdentifiers.ID_EPSILON_SHEARS, EnergyShearsItem::new);
+    public static final DeferredItem<EnergyBrushItem> EPSILON_BRUSH = registerETool(LTXIIdentifiers.ID_EPSILON_BRUSH, EnergyBrushItem::new);
+    public static final DeferredItem<EnergyFishingRodItem> EPSILON_FISHING_ROD = registerETool(LTXIIdentifiers.ID_EPSILON_FISHING_ROD, EnergyFishingRodItem::new);
+    public static final DeferredItem<EnergyLighterItem> EPSILON_LIGHTER = registerETool(LTXIIdentifiers.ID_EPSILON_LIGHTER, EnergyLighterItem::new);
 
     // LTX armor set
     public static final DeferredItem<EnergyArmorItem> WONDERLAND_HEAD = registerLTXGear(LTXIIdentifiers.ID_WONDERLAND_HEAD, properties -> new EnergyArmorItem(properties, EquipmentSlot.HEAD, 3f));
@@ -405,6 +405,11 @@ public final class LTXIItems
     private static <T extends Item> DeferredItem<T> registerLTXGear(String name, Function<Item.Properties, T> constructor)
     {
         return registerLTXGear(name, constructor, UnaryOperator.identity());
+    }
+
+    private static <T extends Item> DeferredItem<T> registerETool(String name, Function<Item.Properties, T> constructor)
+    {
+        return registerLTXGear(name, constructor, p -> p.component(LTXIDataComponents.LIGHT_COLORS, LightColors.DEFAULT_TOOL_COLORS));
     }
 
     private static DeferredItem<BucketItem> registerBucket(Holder<Fluid> holder)

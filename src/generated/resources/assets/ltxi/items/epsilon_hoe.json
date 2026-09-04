@@ -1,6 +1,21 @@
 {
   "model": {
-    "type": "minecraft:model",
-    "model": "ltxi:item/epsilon_hoe"
+    "type": "minecraft:composite",
+    "models": [
+      {
+        "type": "minecraft:model",
+        "model": "ltxi:item/epsilon_hoe_base"
+      },
+      {
+        "type": "minecraft:model",
+        "model": "ltxi:item/epsilon_hoe_emissive",
+        "tints": [
+          {
+            "type": "ltxi:light_colors",
+            "channel": "energy"
+          }
+        ]
+      }
+    ]
   }
 }

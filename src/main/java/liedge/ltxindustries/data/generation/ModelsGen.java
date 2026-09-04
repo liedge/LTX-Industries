@@ -211,24 +211,26 @@ class ModelsGen extends ModelProvider
         oreGroupModels(models, ORE_SOLUTIONS, "ore_solution");
         oreGroupModels(models, ORE_CRYSTALS, "ore_crystal");
 
-        emissiveFlatItem(models, GUIDE_TABLET);
-        emissiveHandheldFlatItem(models, EPSILON_DRILL);
-        emissiveHandheldFlatItem(models, EPSILON_SWORD);
-        emissiveHandheldFlatItem(models, EPSILON_SHOVEL);
-        emissiveHandheldFlatItem(models, EPSILON_AXE);
-        emissiveHandheldFlatItem(models, EPSILON_HOE);
-        emissiveHandheldFlatItem(models, EPSILON_WRENCH);
-        emissiveFlatItem(models, EPSILON_SHEARS);
-        emissiveBrush(models);
-        emissiveFishingRod(models);
-        emissiveHandheldFlatItem(models, EPSILON_LIGHTER);
+        // Common tints
+        ItemTintSource frameTint = new LightColorTint(LightColors.Channel.PRIMARY);
+        ItemTintSource energyTint = new LightColorTint(LightColors.Channel.ENERGY);
+
+        emissiveFlatItem(models, GUIDE_TABLET, null);
+        emissiveFlatItem(models, ModelTemplates.FLAT_HANDHELD_ITEM, EPSILON_DRILL, energyTint);
+        emissiveFlatItem(models, ModelTemplates.FLAT_HANDHELD_ITEM, EPSILON_SWORD, energyTint);
+        emissiveFlatItem(models, ModelTemplates.FLAT_HANDHELD_ITEM, EPSILON_SHOVEL, energyTint);
+        emissiveFlatItem(models, ModelTemplates.FLAT_HANDHELD_ITEM, EPSILON_AXE, energyTint);
+        emissiveFlatItem(models, ModelTemplates.FLAT_HANDHELD_ITEM, EPSILON_HOE, energyTint);
+        emissiveFlatItem(models, ModelTemplates.FLAT_HANDHELD_ITEM, EPSILON_WRENCH, energyTint);
+        emissiveFlatItem(models, EPSILON_SHEARS, energyTint);
+        emissiveBrush(models, energyTint);
+        emissiveFishingRod(models, energyTint);
+        emissiveFlatItem(models, ModelTemplates.FLAT_HANDHELD_ITEM, EPSILON_LIGHTER, energyTint);
 
         LimaKeyframeTrack defRecoilAnim = LimaKeyframeTrack.builder()
                 .start(0f, EasingType.OUT_CIRC)
                 .frame(0.2f, 1f, EasingType.IN_SINE)
                 .end(0f);
-        ItemTintSource frameTint = new LightColorTint(LightColors.Channel.PRIMARY);
-        ItemTintSource energyTint = new LightColorTint(LightColors.Channel.ENERGY);
         weapon(WAYFINDER)
                 .setFrameTint(frameTint)
                 .setChamberTint(energyTint)
@@ -453,53 +455,44 @@ class ModelsGen extends ModelProvider
         models.itemModelOutput.accept(item.asItem(), ItemModelUtils.plainModel(ModelLocationUtils.getModelLocation(item.asItem())));
     }
 
-    private ItemModel.Unbaked emissiveFlatModel(Identifier rootPath, ModelTemplate template, @Nullable Identifier baseTexture, @Nullable Identifier emissiveTexture, BiConsumer<Identifier, ModelInstance> output)
+    private ItemModel.Unbaked emissiveFlatModel(BiConsumer<Identifier, ModelInstance> output, ModelTemplate template, Identifier rootPath, @Nullable Identifier baseTexture, @Nullable Identifier emissiveTexture, @Nullable ItemTintSource emissiveTint)
     {
         Identifier modelPath = rootPath.withPrefix("item/");
         Identifier basePath = modelPath.withSuffix("_base");
         Identifier emissivePath = modelPath.withSuffix("_emissive");
 
-        Material baseMaterial = new Material(Objects.requireNonNullElse(baseTexture, basePath));
-        Material emissiveMaterial = new Material(Objects.requireNonNullElse(emissiveTexture, emissivePath));
+        basePath = template.create(basePath, Textures.layer0(basePath, baseTexture), output);
+        emissivePath = template.extend().customLoader(ExtendedCuboidBuilder::new, ExtendedCuboidBuilder::forceEmissiveQuads).build()
+                .create(emissivePath, Textures.layer0(emissivePath, emissiveTexture), output);
 
-        template.extend().customLoader(CompositeModelBuilder::new, builder -> builder
-                .inlineChild("base", ModelTemplates.FLAT_ITEM, TextureMapping.layer0(baseMaterial))
-                .inlineChild("emissive", Templates.UNLIT_FLAT_ITEM, TextureMapping.layer0(emissiveMaterial)))
-                .build()
-                .create(modelPath, TextureMapping.layer0(baseMaterial), output);
-
-        return ItemModelUtils.plainModel(modelPath);
+        ItemModel.Unbaked emissiveModel = emissiveTint != null ? ItemModelUtils.tintedModel(emissivePath, emissiveTint) : ItemModelUtils.plainModel(emissivePath);
+        return ItemModelUtils.composite(ItemModelUtils.plainModel(basePath), emissiveModel);
     }
 
-    private void emissiveFlatItem(ItemModelGenerators models, ItemLike holder, ModelTemplate template)
+    private void emissiveFlatItem(ItemModelGenerators models, ModelTemplate template, Holder<Item> holder, @Nullable ItemTintSource emissiveTint)
     {
-        Item item = holder.asItem();
+        Item item = holder.value();
         Identifier id = LimaRegistryUtil.getItemId(item);
 
-        models.itemModelOutput.accept(item, emissiveFlatModel(id, template, null, null, models.modelOutput));
+        models.itemModelOutput.accept(item, emissiveFlatModel(models.modelOutput, template, id, null, null, emissiveTint));
     }
 
-    private void emissiveFlatItem(ItemModelGenerators models, ItemLike holder)
+    private void emissiveFlatItem(ItemModelGenerators models, Holder<Item> holder, @Nullable ItemTintSource emissiveTint)
     {
-        emissiveFlatItem(models, holder, ModelTemplates.FLAT_ITEM);
+        emissiveFlatItem(models, ModelTemplates.FLAT_ITEM, holder, emissiveTint);
     }
 
-    private void emissiveHandheldFlatItem(ItemModelGenerators models, ItemLike holder)
-    {
-        emissiveFlatItem(models, holder, ModelTemplates.FLAT_HANDHELD_ITEM);
-    }
-
-    private void emissiveFishingRod(ItemModelGenerators models)
+    private void emissiveFishingRod(ItemModelGenerators models, ItemTintSource emissiveTint)
     {
         Item item = EPSILON_FISHING_ROD.asItem();
         Identifier id = LimaRegistryUtil.getItemId(item);
 
         models.generateBooleanDispatch(item, new FishingRodCast(),
-                emissiveFlatModel(id.withSuffix("_cast"), ModelTemplates.FLAT_HANDHELD_ROD_ITEM, null, null, models.modelOutput),
-                emissiveFlatModel(id, ModelTemplates.FLAT_HANDHELD_ROD_ITEM, null, null, models.modelOutput));
+                emissiveFlatModel(models.modelOutput, ModelTemplates.FLAT_HANDHELD_ROD_ITEM, id.withSuffix("_cast"), null, null, emissiveTint),
+                emissiveFlatModel(models.modelOutput, ModelTemplates.FLAT_HANDHELD_ROD_ITEM, id, null, null, emissiveTint));
     }
 
-    private void emissiveBrush(ItemModelGenerators models)
+    private void emissiveBrush(ItemModelGenerators models, ItemTintSource emissiveTint)
     {
         Item item = EPSILON_BRUSH.asItem();
         Identifier id = LimaRegistryUtil.getItemId(item);
@@ -512,8 +505,8 @@ class ModelsGen extends ModelProvider
         for (int i = 0; i < 4; i++)
         {
             String suffix = i > 0 ? "_brushing_" + (i - 1) : "";
-            Identifier brushModel = ModResources.MC.id("item/brush" + suffix);
-            brushModels[i] = emissiveFlatModel(id.withSuffix(suffix), new ModelTemplate(Optional.of(brushModel), Optional.empty(), TextureSlot.LAYER0), baseTexture, emissiveTexture, models.modelOutput);
+            ModelTemplate template = new ModelTemplate(Optional.of(ModResources.MC.id("item/brush" + suffix)), Optional.empty(), TextureSlot.LAYER0);
+            brushModels[i] = emissiveFlatModel(models.modelOutput, template, id.withSuffix(suffix), baseTexture, emissiveTexture, emissiveTint);
         }
 
         models.itemModelOutput.accept(item, ItemModelUtils.rangeSelect(new UseCycle(10f), 0.1f,
@@ -845,8 +838,6 @@ class ModelsGen extends ModelProvider
 
     private static class Templates
     {
-        private static final ModelTemplate UNLIT_FLAT_ITEM = ModelTemplates.FLAT_ITEM.extend().customLoader(ExtendedCuboidBuilder::new, ExtendedCuboidBuilder::forceEmissiveQuads).build();
-
         private static final ModelTemplate ORE_CLUSTER = builder("block/raw_ore_cluster").requiredTextureSlot(Textures.BASE).requiredTextureSlot(Textures.ORE).build();
         private static final ModelTemplate EMISSIVE_ORE = builder("block/emissive_ore").requiredTextureSlot(Textures.BASE).requiredTextureSlot(Textures.EMISSIVE)
                 .requiredTextureSlot(TextureSlot.PARTICLE).build();
@@ -880,6 +871,12 @@ class ModelsGen extends ModelProvider
             return new TextureMapping()
                     .put(TextureSlot.FRONT, TextureMapping.getBlockTexture(block, "_active"))
                     .put(FRONT_EMISSIVE, TextureMapping.getBlockTexture(block, "_active_emissive"));
+        }
+
+        private static TextureMapping layer0(Identifier path, @Nullable Identifier texture)
+        {
+            Material material = new Material(Objects.requireNonNullElse(texture, path));
+            return TextureMapping.layer0(material);
         }
     }
 

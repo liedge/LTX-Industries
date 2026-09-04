@@ -4,29 +4,89 @@
     "entries": [
       {
         "model": {
-          "type": "minecraft:model",
-          "model": "ltxi:item/epsilon_brush_brushing_0"
+          "type": "minecraft:composite",
+          "models": [
+            {
+              "type": "minecraft:model",
+              "model": "ltxi:item/epsilon_brush_brushing_0_base"
+            },
+            {
+              "type": "minecraft:model",
+              "model": "ltxi:item/epsilon_brush_brushing_0_emissive",
+              "tints": [
+                {
+                  "type": "ltxi:light_colors",
+                  "channel": "energy"
+                }
+              ]
+            }
+          ]
         },
         "threshold": 0.25
       },
       {
         "model": {
-          "type": "minecraft:model",
-          "model": "ltxi:item/epsilon_brush_brushing_1"
+          "type": "minecraft:composite",
+          "models": [
+            {
+              "type": "minecraft:model",
+              "model": "ltxi:item/epsilon_brush_brushing_1_base"
+            },
+            {
+              "type": "minecraft:model",
+              "model": "ltxi:item/epsilon_brush_brushing_1_emissive",
+              "tints": [
+                {
+                  "type": "ltxi:light_colors",
+                  "channel": "energy"
+                }
+              ]
+            }
+          ]
         },
         "threshold": 0.5
       },
       {
         "model": {
-          "type": "minecraft:model",
-          "model": "ltxi:item/epsilon_brush_brushing_2"
+          "type": "minecraft:composite",
+          "models": [
+            {
+              "type": "minecraft:model",
+              "model": "ltxi:item/epsilon_brush_brushing_2_base"
+            },
+            {
+              "type": "minecraft:model",
+              "model": "ltxi:item/epsilon_brush_brushing_2_emissive",
+              "tints": [
+                {
+                  "type": "ltxi:light_colors",
+                  "channel": "energy"
+                }
+              ]
+            }
+          ]
         },
         "threshold": 0.75
       }
     ],
     "fallback": {
-      "type": "minecraft:model",
-      "model": "ltxi:item/epsilon_brush"
+      "type": "minecraft:composite",
+      "models": [
+        {
+          "type": "minecraft:model",
+          "model": "ltxi:item/epsilon_brush_base"
+        },
+        {
+          "type": "minecraft:model",
+          "model": "ltxi:item/epsilon_brush_emissive",
+          "tints": [
+            {
+              "type": "ltxi:light_colors",
+              "channel": "energy"
+            }
+          ]
+        }
+      ]
     },
     "period": 10.0,
     "property": "minecraft:use_cycle",
