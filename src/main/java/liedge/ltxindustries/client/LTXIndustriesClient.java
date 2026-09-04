@@ -1,6 +1,5 @@
 package liedge.ltxindustries.client;
 
-import com.mojang.logging.LogUtils;
 import liedge.limacore.client.SimpleFogFluidExtension;
 import liedge.limacore.client.util.LimaModelsUtil;
 import liedge.limacore.lib.ModResources;
@@ -16,7 +15,7 @@ import liedge.ltxindustries.client.gui.screen.*;
 import liedge.ltxindustries.client.item.*;
 import liedge.ltxindustries.client.model.LTXIModelPartKeys;
 import liedge.ltxindustries.client.model.entity.*;
-import liedge.ltxindustries.client.model.item.GrenadeTypeTint;
+import liedge.ltxindustries.client.model.item.LightColorTint;
 import liedge.ltxindustries.client.model.item.WeaponItemModel;
 import liedge.ltxindustries.client.particle.*;
 import liedge.ltxindustries.client.renderer.blockentity.*;
@@ -52,7 +51,6 @@ import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.client.fluid.FluidTintSources;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
-import org.slf4j.Logger;
 
 import java.util.List;
 import java.util.function.IntFunction;
@@ -62,8 +60,6 @@ import static liedge.ltxindustries.registry.game.LTXIParticles.*;
 @Mod(value = LTXIndustries.MODID, dist = Dist.CLIENT)
 public class LTXIndustriesClient
 {
-    public static final Logger CLIENT_LOGGER = LogUtils.getLogger();
-
     public LTXIndustriesClient(IEventBus modBus, ModContainer modContainer)
     {
         modBus.register(new ClientSetup());
@@ -260,7 +256,7 @@ public class LTXIndustriesClient
         @SubscribeEvent
         private void registerItemTintSources(final RegisterColorHandlersEvent.ItemTintSources event)
         {
-            event.register(LTXIndustries.RESOURCES.id("grenade_type"), GrenadeTypeTint.CODEC);
+            event.register(LTXIndustries.RESOURCES.id("light_colors"), LightColorTint.CODEC);
         }
 
         @SubscribeEvent

@@ -3,6 +3,7 @@ package liedge.ltxindustries.registry.game;
 import com.mojang.serialization.Codec;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.blockentity.base.BlockIOConfiguration;
+import liedge.ltxindustries.data.LightColors;
 import liedge.ltxindustries.item.tool.ToolSpeed;
 import liedge.ltxindustries.lib.upgrades.UpgradeEntry;
 import liedge.ltxindustries.lib.upgrades.Upgrades;
@@ -34,6 +35,7 @@ public final class LTXIDataComponents
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<UpgradeEntry>> UPGRADE_ENTRY = TYPES.registerComponentType("upgrade", builder -> builder.persistent(UpgradeEntry.CODEC).networkSynchronized(UpgradeEntry.STREAM_CODEC).cacheEncoding());
 
     // Misc components
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<LightColors>> LIGHT_COLORS = TYPES.registerComponentType("light_colors", builder -> builder.persistent(LightColors.CODEC).networkSynchronized(LightColors.STREAM_CODEC).cacheEncoding());
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<ResourceKey<Recipe<?>>>> BLUEPRINT_RECIPE = TYPES.registerComponentType("blueprint_recipe", builder -> builder.persistent(Recipe.KEY_CODEC).networkSynchronized(ResourceKey.streamCodec(Registries.RECIPE)));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<BlockIOConfiguration>> BLOCK_IO_CONFIGURATION = TYPES.registerComponentType("block_io_config", builder -> builder.persistent(BlockIOConfiguration.CODEC).networkSynchronized(BlockIOConfiguration.STREAM_CODEC).cacheEncoding());
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<ToolSpeed>> TOOL_SPEED = TYPES.registerComponentType("tool_speed", builder -> builder.persistent(ToolSpeed.CODEC).networkSynchronized(ToolSpeed.STREAM_CODEC));

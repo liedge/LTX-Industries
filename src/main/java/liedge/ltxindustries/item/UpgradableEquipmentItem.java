@@ -5,6 +5,7 @@ import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.item.EnergyHolderItem;
 import liedge.limacore.registry.game.LimaCoreDataComponents;
 import liedge.limacore.transfer.LimaEnergyUtil;
+import liedge.ltxindustries.data.LightColors;
 import liedge.ltxindustries.lib.upgrades.MutableUpgrades;
 import liedge.ltxindustries.lib.upgrades.Upgrade;
 import liedge.ltxindustries.lib.upgrades.Upgrades;
@@ -45,6 +46,20 @@ public interface UpgradableEquipmentItem extends ItemLike, EnergyHolderItem
     default boolean isInCorrectSlot(EquipmentSlot slot)
     {
         return getEquipmentSlot() == null || slot == getEquipmentSlot();
+    }
+
+    // Color functions
+    default int getLightColor(ItemStack stack, LightColors.Channel channel)
+    {
+        LightColors colors = stack.getOrDefault(LTXIDataComponents.LIGHT_COLORS, LightColors.EMPTY);
+        Integer color = colors.getColor(channel);
+
+        return color != null ? color : getDynamicLightColor(stack, channel);
+    }
+
+    default int getDynamicLightColor(ItemStack stack, LightColors.Channel channel)
+    {
+        return -1;
     }
 
     //#region Energy functions

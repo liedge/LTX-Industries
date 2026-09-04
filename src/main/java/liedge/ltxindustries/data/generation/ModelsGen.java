@@ -13,7 +13,7 @@ import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.block.LTXIBlockProperties;
 import liedge.ltxindustries.block.MachineState;
 import liedge.ltxindustries.client.model.custom.EnergyDisplayModel;
-import liedge.ltxindustries.client.model.item.GrenadeTypeTint;
+import liedge.ltxindustries.client.model.item.LightColorTint;
 import liedge.ltxindustries.client.model.item.WeaponItemModel;
 import liedge.ltxindustries.client.renderer.LimaKeyframeTrack;
 import liedge.ltxindustries.client.renderer.blockentity.EnergyCellArrayRenderer;
@@ -21,6 +21,7 @@ import liedge.ltxindustries.client.renderer.item.EnergyDisplaysSpecialRenderer;
 import liedge.ltxindustries.client.renderer.item.StargazerSightRenderer;
 import liedge.ltxindustries.client.renderer.item.TankSpecialRenderer;
 import liedge.ltxindustries.client.renderer.item.WeaponSpecialRenderer;
+import liedge.ltxindustries.data.LightColors;
 import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.lib.BuiltInOres;
 import liedge.ltxindustries.registry.game.LTXIBlocks;
@@ -226,42 +227,56 @@ class ModelsGen extends ModelProvider
                 .start(0f, EasingType.OUT_CIRC)
                 .frame(0.2f, 1f, EasingType.IN_SINE)
                 .end(0f);
-        ItemTintSource defEnergyTint = ItemModelUtils.constantTint(LTXIConstants.LIME_GREEN.argb32());
+        ItemTintSource frameTint = new LightColorTint(LightColors.Channel.PRIMARY);
+        ItemTintSource energyTint = new LightColorTint(LightColors.Channel.ENERGY);
         weapon(WAYFINDER)
-                .addEnergyDisplays(defEnergyTint, EnergyDisplayModel.create(6.75f, 9f, 13f, 2.5f, 2.5f, 5f, Direction.Axis.Z))
+                .setFrameTint(frameTint)
+                .setChamberTint(energyTint)
+                .addEnergyDisplays(energyTint, EnergyDisplayModel.create(6.75f, 9f, 13f, 2.5f, 2.5f, 5f, Direction.Axis.Z))
                 .setChamberPos(8f, 10.25f, 8.5f)
                 .setRecoilProperties(defRecoilAnim, 0.5f, 2.5f)
                 .build(models);
         EnergyDisplayModel autoFrameED = EnergyDisplayModel.create(6.75f, -1f, 4f, 2.5f, 7f, 3f, Direction.Axis.Y, EnergyDisplayModel.Rotation.axisAngle(6.75f, 9f, 4f, Direction.Axis.X, -15f));
         weapon(SERENITY)
-                .addEnergyDisplays(defEnergyTint, autoFrameED)
+                .setFrameTint(frameTint)
+                .setChamberTint(energyTint)
+                .addEnergyDisplays(energyTint, autoFrameED)
                 .setChamberPos(8f, 11f, 12.5f)
                 .setRecoilProperties(defRecoilAnim, 0.03125f, 0.4f)
                 .build(models);
         weapon(MIRAGE)
-                .addEnergyDisplays(defEnergyTint, autoFrameED)
+                .setFrameTint(frameTint)
+                .setChamberTint(energyTint)
+                .addEnergyDisplays(energyTint, autoFrameED)
                 .setChamberPos(8f, 11f, 12.5f)
                 .setRecoilProperties(defRecoilAnim, 0.03125f, 0.4f)
                 .build(models);
         weapon(AURORA)
-                .addEnergyDisplays(defEnergyTint, EnergyDisplayModel.create(6.75f, 0f, 3f, 2.5f, 6f, 3f, Direction.Axis.Y, EnergyDisplayModel.Rotation.axisAngle(6.75f, 9f, 3f, Direction.Axis.X, -15f)))
+                .setFrameTint(frameTint)
+                .setChamberTint(energyTint)
+                .addEnergyDisplays(energyTint, EnergyDisplayModel.create(6.75f, 0f, 3f, 2.5f, 6f, 3f, Direction.Axis.Y, EnergyDisplayModel.Rotation.axisAngle(6.75f, 9f, 3f, Direction.Axis.X, -15f)))
                 .setChamberPos(8f, 11f, 11f)
                 .setRecoilProperties(defRecoilAnim, 0.5f, 2.5f)
                 .build(models);
         weapon(HANABI)
-                .addEnergyDisplays(GrenadeTypeTint.INSTANCE, EnergyDisplayModel.create(6.25f, 14.5f, 13f, 3.5f, 5f, 3.5f, Direction.Axis.Y, EnergyDisplayModel.Rotation.axisAngle(8, 13, 13, Direction.Axis.X, 45f)))
-                .setChamberTint(GrenadeTypeTint.INSTANCE)
+                .setFrameTint(frameTint)
+                .setChamberTint(energyTint)
+                .addEnergyDisplays(energyTint, EnergyDisplayModel.create(6.25f, 14.5f, 13f, 3.5f, 5f, 3.5f, Direction.Axis.Y, EnergyDisplayModel.Rotation.axisAngle(8, 13, 13, Direction.Axis.X, 45f)))
                 .setChamberPos(8f, 10.75f, 8.5f)
                 .setRecoilProperties(defRecoilAnim, 0.5f, 2.5f)
                 .build(models);
         weapon(STARGAZER)
-                .addExtra(new StargazerSightRenderer.Unbaked(new Vector3f(8f, 14.75f, 12.75f).mul(0.0625f), defEnergyTint))
-                .addEnergyDisplays(defEnergyTint, EnergyDisplayModel.create(6.75f, 0f, 4f, 2.5f, 5f, 4f, Direction.Axis.Y, EnergyDisplayModel.Rotation.axisAngle(6.75f, 7f, 4f, Direction.Axis.X, -15f)))
+                .setFrameTint(frameTint)
+                .setChamberTint(energyTint)
+                .addExtra(new StargazerSightRenderer.Unbaked(new Vector3f(8f, 14.75f, 12.75f).mul(0.0625f), frameTint))
+                .addEnergyDisplays(energyTint, EnergyDisplayModel.create(6.75f, 0f, 4f, 2.5f, 5f, 4f, Direction.Axis.Y, EnergyDisplayModel.Rotation.axisAngle(6.75f, 7f, 4f, Direction.Axis.X, -15f)))
                 .setChamberPos(8f, 10f, 6.5f)
                 .setRecoilProperties(defRecoilAnim, 0.4f, 3f)
                 .build(models);
         weapon(DAYBREAK)
-                .addEnergyDisplays(defEnergyTint, EnergyDisplayModel.create(6f, 17f, 11f, 4f, 5f, 4f, Direction.Axis.Y, EnergyDisplayModel.Rotation.axisAngle(8f, 14f, 11f, Direction.Axis.X, 45f)))
+                .setFrameTint(frameTint)
+                .setChamberTint(energyTint)
+                .addEnergyDisplays(energyTint, EnergyDisplayModel.create(6f, 17f, 11f, 4f, 5f, 4f, Direction.Axis.Y, EnergyDisplayModel.Rotation.axisAngle(8f, 14f, 11f, Direction.Axis.X, 45f)))
                 .setChamberPos(8f, 12f, 5.5f)
                 .setRecoilProperties(defRecoilAnim, 0.625f, 2f)
                 .build(models);
@@ -271,6 +286,8 @@ class ModelsGen extends ModelProvider
                 .frame(0.3f, 1f, EasingType.IN_SINE)
                 .end(0f);
         weapon(NOVA)
+                .setFrameTint(frameTint)
+                .setChamberTint(energyTint)
                 .setChamberPos(8f, 10f, 9.5f)
                 .setRecoilProperties(novaRecoil, 0.375f, 15f)
                 .build(models);

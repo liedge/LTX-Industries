@@ -3,13 +3,13 @@
     "type": "ltxi:weapon",
     "chamber": "ltxi:item/nova_chamber",
     "chamber_tint": {
-      "type": "minecraft:constant",
-      "value": -6426301
+      "type": "ltxi:light_colors",
+      "channel": "energy"
     },
     "frame": "ltxi:item/nova_frame",
     "frame_tint": {
-      "type": "minecraft:constant",
-      "value": -6426301
+      "type": "ltxi:light_colors",
+      "channel": "primary"
     },
     "renderer": {
       "chamber_pos": [

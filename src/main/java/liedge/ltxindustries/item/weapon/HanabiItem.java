@@ -4,6 +4,7 @@ import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.lib.OrderedEnum;
 import liedge.limacore.lib.Translatable;
 import liedge.ltxindustries.client.LTXILangKeys;
+import liedge.ltxindustries.data.LightColors;
 import liedge.ltxindustries.entity.ShellGrenadeEntity;
 import liedge.ltxindustries.item.ScrollModeSwitchItem;
 import liedge.ltxindustries.lib.upgrades.MutableUpgrades;
@@ -108,6 +109,19 @@ public class HanabiItem extends SemiAutoWeaponItem implements ScrollModeSwitchIt
     public int getSwitchCooldown()
     {
         return 6;
+    }
+
+    @Override
+    public int getDynamicLightColor(ItemStack stack, LightColors.Channel channel)
+    {
+        if (channel == LightColors.Channel.ENERGY)
+        {
+            return getGrenadeTypeFromItem(stack).getColor().argb32();
+        }
+        else
+        {
+            return -1;
+        }
     }
 
     @Override

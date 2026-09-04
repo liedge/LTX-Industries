@@ -3,8 +3,8 @@
     "type": "ltxi:weapon",
     "chamber": "ltxi:item/wayfinder_chamber",
     "chamber_tint": {
-      "type": "minecraft:constant",
-      "value": -6426301
+      "type": "ltxi:light_colors",
+      "channel": "energy"
     },
     "frame": "ltxi:item/wayfinder_frame",
     "frame_extras": [
@@ -28,14 +28,14 @@
           }
         ],
         "tint": {
-          "type": "minecraft:constant",
-          "value": -6426301
+          "type": "ltxi:light_colors",
+          "channel": "energy"
         }
       }
     ],
     "frame_tint": {
-      "type": "minecraft:constant",
-      "value": -6426301
+      "type": "ltxi:light_colors",
+      "channel": "primary"
     },
     "renderer": {
       "chamber_pos": [
