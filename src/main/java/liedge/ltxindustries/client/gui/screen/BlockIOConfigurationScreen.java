@@ -188,13 +188,7 @@ public class BlockIOConfigurationScreen extends LTXIScreen<BlockIOConfigurationM
         }
 
         @Override
-        public boolean hasTooltip()
-        {
-            return true;
-        }
-
-        @Override
-        public void createWidgetTooltip(TooltipLineConsumer consumer)
+        public void extractTooltip(TooltipLineConsumer consumer, int mouseX, int mouseY)
         {
             Component sideTooltip = side.translate().withStyle(LTXIChatStyles.LIME_GREEN)
                     .append(CommonComponents.SPACE)
@@ -233,13 +227,7 @@ public class BlockIOConfigurationScreen extends LTXIScreen<BlockIOConfigurationM
         }
 
         @Override
-        public boolean hasTooltip()
-        {
-            return true;
-        }
-
-        @Override
-        public void createWidgetTooltip(TooltipLineConsumer consumer)
+        public void extractTooltip(TooltipLineConsumer consumer, int mouseX, int mouseY)
         {
             Component label = stateGetter.getAsBoolean() ? onLabel : offLabel;
             consumer.accept(label);

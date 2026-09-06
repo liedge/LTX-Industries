@@ -2,6 +2,7 @@ package liedge.ltxindustries.client.gui.widget;
 
 import liedge.limacore.client.gui.LimaGuiUtil;
 import liedge.limacore.client.gui.LimaRenderable;
+import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.lib.math.LimaCoreMath;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 
@@ -59,7 +60,7 @@ public interface GridGUIElement<T> extends LimaRenderable
 
     void renderElement(GuiGraphicsExtractor graphics, T element, int posX, int posY, int gridIndex, int elementIndex, int mouseX, int mouseY);
 
-    void renderElementTooltip(GuiGraphicsExtractor graphics, T element, int mouseX, int mouseY, int gridIndex, int elementIndex);
+    void extractElementTooltip(TooltipLineConsumer consumer, T element, int mouseX, int mouseY, int gridIndex, int elementIndex);
 
     void onElementClicked(T element, double mouseX, double mouseY, int button, int gridIndex, int elementIndex);
 
@@ -81,21 +82,20 @@ public interface GridGUIElement<T> extends LimaRenderable
         }
     }
 
-    default boolean renderTooltips(GuiGraphicsExtractor graphics, int mouseX, int mouseY)
+    @Override
+    default void extractTooltip(TooltipLineConsumer consumer, int mouseX, int mouseY)
     {
-        if (!isMouseOver(mouseX, mouseY)) return false;
-        else if (getElements().isEmpty()) return true;
+        List<T> elements = getElements();
+        if (elements.isEmpty()) return;
 
         int gridIndex = getGridIndexAt(mouseX, mouseY);
         int elementIndex = elementStart() + gridIndex;
 
         if (isValidGridIndex(gridIndex) && isValidElementIndex(elementIndex))
         {
-            T element = getElements().get(elementIndex);
-            renderElementTooltip(graphics, element, mouseX, mouseY, gridIndex, elementIndex);
+            T element = elements.get(elementIndex);
+            extractElementTooltip(consumer, element, mouseX, mouseY, gridIndex, elementIndex);
         }
-
-        return true;
     }
 
     default boolean onGridClicked(double mouseX, double mouseY, int button)

@@ -58,13 +58,7 @@ public class PortableGeneratorScreen extends MachineBaseScreen<PortableGenerator
         }
 
         @Override
-        public boolean hasTooltip()
-        {
-            return true;
-        }
-
-        @Override
-        public void createWidgetTooltip(TooltipLineConsumer consumer)
+        public void extractTooltip(TooltipLineConsumer consumer, int mouseX, int mouseY)
         {
             consumer.accept(LTXILangKeys.FUEL_UNITS_STORED.translateArgs(blockEntity.getFuelUnits(), PortableGeneratorBlockEntity.MAX_FUEL_UNITS));
             Component energyPerFuel = Component.literal(LimaEnergyUtil.toEnergyString(LTXIMachinesConfig.PORTABLE_GENERATOR_ENERGY_PER_FUEL.getAsInt())).withStyle(LTXIChatStyles.REM_BLUE);

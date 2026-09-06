@@ -49,13 +49,7 @@ public class EnergyGaugeWidget extends FillBarWidget.VerticalBar
     }
 
     @Override
-    public boolean hasTooltip()
-    {
-        return true;
-    }
-
-    @Override
-    public void createWidgetTooltip(TooltipLineConsumer consumer)
+    public void extractTooltip(TooltipLineConsumer consumer, int mouseX, int mouseY)
     {
         LTXITooltipUtil.appendStorageEnergyTooltip(consumer, energy.getAmountAsInt(), energy.getCapacityAsInt(), energy.getTransferRate());
         if (isOvercharge()) consumer.accept(LTXILangKeys.ENERGY_OVERCHARGE_TOOLTIP.translate().withStyle(LTXIChatStyles.HOSTILE_ORANGE));

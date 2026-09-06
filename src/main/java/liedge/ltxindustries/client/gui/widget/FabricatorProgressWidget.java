@@ -52,14 +52,10 @@ public class FabricatorProgressWidget extends FillBarWidget.VerticalBar
     }
 
     @Override
-    public boolean hasTooltip()
+    public void extractTooltip(TooltipLineConsumer consumer, int mouseX, int mouseY)
     {
-        return blockEntity.isCrafting();
-    }
+        if (!blockEntity.isCrafting()) return;
 
-    @Override
-    public void createWidgetTooltip(TooltipLineConsumer consumer)
-    {
         RecipeHolder<FabricatingRecipe> lastUsedRecipe = LimaCoreClient.getClientRecipes().byKey(LTXIRecipeTypes.FABRICATING, blockEntity.getRecipeCheck().getLastUsedRecipeKey());
         if (lastUsedRecipe != null)
         {

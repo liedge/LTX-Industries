@@ -45,13 +45,7 @@ public class OpenRecipeModesButton extends LTXISidebarButton.LeftSided
     }
 
     @Override
-    public boolean hasTooltip()
-    {
-        return true;
-    }
-
-    @Override
-    public void createWidgetTooltip(TooltipLineConsumer consumer)
+    public void extractTooltip(TooltipLineConsumer consumer, int mouseX, int mouseY)
     {
         consumer.accept(LTXILangKeys.RECIPE_MODES_TITLE_OR_TOOLTIP.translate());
 

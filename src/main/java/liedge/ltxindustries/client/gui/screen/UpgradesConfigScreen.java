@@ -2,8 +2,8 @@ package liedge.ltxindustries.client.gui.screen;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.client.gui.LimaGuiUtil;
+import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.limacore.util.LimaRegistryUtil;
@@ -27,9 +27,9 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix3x2fStack;
 
 import java.util.List;
-import java.util.Optional;
 
-import static liedge.ltxindustries.LTXIConstants.*;
+import static liedge.ltxindustries.LTXIConstants.UPGRADE_RANK_MAGENTA_1;
+import static liedge.ltxindustries.LTXIConstants.UPGRADE_RANK_MAGENTA_2;
 
 public abstract class UpgradesConfigScreen<M extends UpgradesConfigMenu<?>> extends LTXIScreen<M>
 {
@@ -79,17 +79,6 @@ public abstract class UpgradesConfigScreen<M extends UpgradesConfigMenu<?>> exte
         blitDarkPanel(graphics, 60, 22, 106, 82);
         blitLightPanel(graphics, 166, 22, 10, 82);
         blitSlotSprites(graphics);
-    }
-
-    @Override
-    protected void extractTooltip(GuiGraphicsExtractor graphics, int x, int y)
-    {
-        if (menu.getCarried().isEmpty() && selectorList != null)
-        {
-            if (selectorList.renderTooltips(graphics, x, y)) return;
-        }
-
-        super.extractTooltip(graphics, x, y);
     }
 
     @Override
@@ -185,20 +174,18 @@ public abstract class UpgradesConfigScreen<M extends UpgradesConfigMenu<?>> exte
         }
 
         @Override
-        public void renderElementTooltip(GuiGraphicsExtractor graphics, Object2IntMap.Entry<Holder<Upgrade>> element, int mouseX, int mouseY, int gridIndex, int elementIndex)
+        public void extractElementTooltip(TooltipLineConsumer consumer, Object2IntMap.Entry<Holder<Upgrade>> element, int mouseX, int mouseY, int gridIndex, int elementIndex)
         {
             Upgrade upgrade = element.getKey().value();
             int rank = element.getIntValue();
 
-            List<Component> lines = new ObjectArrayList<>();
-            lines.add(upgrade.display().title());
-            lines.add(LTXILangKeys.UPGRADE_RANK_TOOLTIP.translateArgs(rank, upgrade.maxRank()).withStyle(LTXIChatStyles.UPGRADE_RANK_MAGENTA));
-            lines.add(upgrade.display().description());
-            upgrade.appendEffectTooltips(rank, lines::add);
+            consumer.accept(upgrade.display().title());
+            consumer.accept(LTXILangKeys.UPGRADE_RANK_TOOLTIP.translateArgs(rank, upgrade.maxRank()).withStyle(LTXIChatStyles.UPGRADE_RANK_MAGENTA));
+            consumer.accept(upgrade.display().description());
 
-            lines.add(LTXILangKeys.UPGRADE_REMOVE_HINT.translate().withStyle(LTXIChatStyles.OUTPUT_ORANGE));
+            upgrade.appendEffectTooltips(rank, consumer::accept);
 
-            graphics.setTooltipForNextFrame(Minecraft.getInstance().font, lines, Optional.empty(), mouseX, mouseY);
+            consumer.accept(LTXILangKeys.UPGRADE_REMOVE_HINT.translate().withStyle(LTXIChatStyles.OUTPUT_ORANGE));
         }
 
         @Override

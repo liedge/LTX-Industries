@@ -3,6 +3,7 @@ package liedge.ltxindustries.client.gui.screen;
 import com.mojang.blaze3d.platform.InputConstants;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.client.LimaCoreClient;
+import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.limacore.transfer.LimaEnergyUtil;
 import liedge.ltxindustries.blockentity.BaseFabricatorBlockEntity;
@@ -42,7 +43,6 @@ import org.lwjgl.glfw.GLFW;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 import static liedge.ltxindustries.LTXIndustries.RESOURCES;
@@ -116,17 +116,6 @@ public class FabricatorScreen extends MachineBaseScreen<FabricatorMenu>
         blitOutputSlot(graphics, 39, 83);
         blitDarkPanel(graphics, 75, 31, 92, 74);
         blitLightPanel(graphics, 167, 31, 10, 74);
-    }
-
-    @Override
-    protected void extractTooltip(GuiGraphicsExtractor graphics, int x, int y)
-    {
-        if (menu.getCarried().isEmpty() && selectorGrid != null)
-        {
-            if (selectorGrid.renderTooltips(graphics, x, y)) return;
-        }
-
-        super.extractTooltip(graphics, x, y);
     }
 
     @Override
@@ -252,16 +241,16 @@ public class FabricatorScreen extends MachineBaseScreen<FabricatorMenu>
         }
 
         @Override
-        public void renderElementTooltip(GuiGraphicsExtractor graphics, RecipeHolder<FabricatingRecipe> element, int mouseX, int mouseY, int gridIndex, int elementIndex)
+        public void extractElementTooltip(TooltipLineConsumer consumer, RecipeHolder<FabricatingRecipe> element, int mouseX, int mouseY, int gridIndex, int elementIndex)
         {
             FabricatingRecipe recipe = element.value();
 
-            List<Component> lines = getTooltipFromItem(Minecraft.getInstance(), recipe.getResultPreview());
+            consumer.acceptTexts(getTooltipFromItem(Minecraft.getInstance(), recipe.getResultPreview()));
 
-            if (gridIndex == selectedRecipe) lines.add(FABRICATOR_SELECTED_RECIPE_TOOLTIP.translate().withStyle(LTXIChatStyles.LIME_GREEN));
+            if (gridIndex == selectedRecipe) consumer.accept(FABRICATOR_SELECTED_RECIPE_TOOLTIP.translate().withStyle(LTXIChatStyles.LIME_GREEN));
 
-            lines.add(INLINE_ENERGY_REQUIRED_TOOLTIP.translateArgs(LimaEnergyUtil.toEnergyString(recipe.getEnergyRequired())).withStyle(LTXIChatStyles.REM_BLUE));
-            graphics.setTooltipForNextFrame(Minecraft.getInstance().font, lines, Optional.of(new FabricatingInputsTooltip(element.id())), ItemStack.EMPTY, mouseX, mouseY);
+            consumer.accept(INLINE_ENERGY_REQUIRED_TOOLTIP.translateArgs(LimaEnergyUtil.toEnergyString(recipe.getEnergyRequired())).withStyle(LTXIChatStyles.REM_BLUE));
+            consumer.accept(new FabricatingInputsTooltip(element.id()));
         }
 
         @Override

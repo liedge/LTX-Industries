@@ -3,6 +3,7 @@ package liedge.ltxindustries.client.gui.screen;
 import com.mojang.blaze3d.platform.InputConstants;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.client.gui.LimaGuiUtil;
+import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.ltxindustries.blockentity.base.RecipeModeHolderBlockEntity;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.client.gui.ItemLikeIconsRenderer;
@@ -85,17 +86,6 @@ public class RecipeModeScreen extends LTXIScreen<RecipeModeMenu>
         return super.mouseClicked(event, isDoubleClick);
     }
 
-    @Override
-    protected void extractTooltip(GuiGraphicsExtractor graphics, int x, int y)
-    {
-        if (menu.getCarried().isEmpty() && selectorGrid != null)
-        {
-            selectorGrid.renderTooltips(graphics, x, y);
-        }
-
-        super.extractTooltip(graphics, x, y);
-    }
-
     private record SelectorOption(@Nullable Holder<RecipeMode> mode, ItemLikeIcon icon)
     {
         private SelectorOption(@Nullable Holder<RecipeMode> mode)
@@ -143,11 +133,11 @@ public class RecipeModeScreen extends LTXIScreen<RecipeModeMenu>
         }
 
         @Override
-        public void renderElementTooltip(GuiGraphicsExtractor graphics, SelectorOption element, int mouseX, int mouseY, int gridIndex, int elementIndex)
+        public void extractElementTooltip(TooltipLineConsumer consumer, SelectorOption element, int mouseX, int mouseY, int gridIndex, int elementIndex)
         {
             Holder<RecipeMode> mode = element.mode;
             Component tooltip = mode != null ? mode.value().title() : LTXILangKeys.NONE_UNIVERSAL_TOOLTIP.translate();
-            graphics.setTooltipForNextFrame(tooltip, mouseX, mouseY);
+            consumer.accept(tooltip);
         }
 
         @Override

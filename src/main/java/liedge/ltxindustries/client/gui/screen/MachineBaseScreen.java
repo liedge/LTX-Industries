@@ -82,13 +82,7 @@ public abstract class MachineBaseScreen<M extends MachineBaseMenu<?>> extends LT
         }
 
         @Override
-        public boolean hasTooltip()
-        {
-            return true;
-        }
-
-        @Override
-        public void createWidgetTooltip(TooltipLineConsumer consumer)
+        public void extractTooltip(TooltipLineConsumer consumer, int mouseX, int mouseY)
         {
             blockEntity.appendStatsTooltips(consumer);
         }
