@@ -9,6 +9,7 @@ import liedge.limacore.network.sync.SimpleValueTracker;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.limacore.transfer.item.ItemHolderBlockEntity;
 import liedge.limacore.transfer.item.LimaBlockEntityItems;
+import liedge.ltxindustries.blockentity.base.SubMenuProviderBlockEntity;
 import liedge.ltxindustries.item.UpgradeModuleItem;
 import liedge.ltxindustries.lib.upgrades.Upgrade;
 import liedge.ltxindustries.lib.upgrades.Upgrades;
@@ -26,7 +27,7 @@ import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 import java.util.List;
 
-public abstract class UpgradesConfigMenu<CTX extends ItemHolderBlockEntity> extends BlockEntityMenu<CTX>
+public abstract class UpgradesConfigMenu<CTX extends ItemHolderBlockEntity & SubMenuProviderBlockEntity> extends BlockEntityMenu<CTX>
 {
     public static final int UPGRADE_REMOVAL_BUTTON_ID = 0;
 
@@ -57,6 +58,7 @@ public abstract class UpgradesConfigMenu<CTX extends ItemHolderBlockEntity> exte
     @Override
     protected void defineButtonEventHandlers(EventHandlerBuilder builder)
     {
+        builder.handleUnitAction(SharedMenuButtons.EXIT_SUB_MENU, menuContext::returnToPrimaryMenuScreen);
         builder.handleAction(UPGRADE_REMOVAL_BUTTON_ID, LimaCoreNetworkSerializers.IDENTIFIER, this::tryRemoveUpgrade);
     }
 

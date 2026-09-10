@@ -27,13 +27,6 @@ public class MachineUpgradeMenu extends UpgradesConfigMenu<MachineBaseBlockEntit
     }
 
     @Override
-    protected void defineButtonEventHandlers(EventHandlerBuilder builder)
-    {
-        super.defineButtonEventHandlers(builder);
-        builder.handleUnitAction(SharedMenuButtons.EXIT_SUB_MENU, menuContext::returnToPrimaryMenuScreen);
-    }
-
-    @Override
     protected Upgrades getUpgrades()
     {
         return menuContext.getUpgrades();

@@ -52,7 +52,7 @@ public interface UpgradableEquipmentItem extends ItemLike, EnergyHolderItem
     default int getLightColor(ItemStack stack, LightColors.Channel channel)
     {
         LightColors colors = stack.getOrDefault(LTXIDataComponents.LIGHT_COLORS, LightColors.EMPTY);
-        Integer color = colors.getColor(channel);
+        Integer color = colors.get(channel);
 
         return color != null ? color : getDynamicLightColor(stack, channel);
     }

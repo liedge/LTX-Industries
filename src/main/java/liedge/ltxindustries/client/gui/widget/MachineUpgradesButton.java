@@ -13,7 +13,7 @@ public class MachineUpgradesButton extends LTXISidebarButton.RightSided
 
     public MachineUpgradesButton(int x, int y, LimaMenuScreen<?> parent)
     {
-        super(x, y, LTXILangKeys.MACHINE_UPGRADES_SIDEBAR_TOOLTIP.translate());
+        super(x, y, LTXILangKeys.MANAGE_UPGRADES.translate());
         this.parent = parent;
         setTooltip(Tooltip.create(getMessage()));
     }

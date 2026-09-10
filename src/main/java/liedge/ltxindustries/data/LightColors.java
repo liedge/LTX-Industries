@@ -4,14 +4,15 @@ import com.mojang.serialization.Codec;
 import liedge.limacore.data.LimaCoreCodecs;
 import liedge.limacore.data.LimaEnumCodec;
 import liedge.limacore.data.MapLikeData;
+import liedge.limacore.lib.Translatable;
 import liedge.ltxindustries.LTXIConstants;
+import liedge.ltxindustries.LTXIndustries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.ARGB;
 import net.minecraft.util.StringRepresentable;
 import net.neoforged.neoforge.network.codec.NeoForgeStreamCodecs;
-import org.jspecify.annotations.Nullable;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -37,11 +38,6 @@ public final class LightColors extends MapLikeData<LightColors.Channel, Integer>
         super(map);
     }
 
-    public @Nullable Integer getColor(Channel channel)
-    {
-        return map.get(channel);
-    }
-
     public LightColors clearColor(Channel channel)
     {
         if (map.containsKey(channel))
@@ -60,7 +56,7 @@ public final class LightColors extends MapLikeData<LightColors.Channel, Integer>
     {
         color = ARGB.opaque(color);
 
-        Integer current = getColor(channel);
+        Integer current = get(channel);
 
         if (current == null || color != current)
         {
@@ -79,7 +75,7 @@ public final class LightColors extends MapLikeData<LightColors.Channel, Integer>
         return isEmpty() ? new EnumMap<>(Channel.class) : new EnumMap<>(map);
     }
 
-    public enum Channel implements StringRepresentable
+    public enum Channel implements StringRepresentable, Translatable
     {
         PRIMARY("primary"),
         SECONDARY("secondary"),
@@ -89,16 +85,24 @@ public final class LightColors extends MapLikeData<LightColors.Channel, Integer>
         public static final StreamCodec<FriendlyByteBuf, Channel> STREAM_CODEC = NeoForgeStreamCodecs.enumCodec(Channel.class);
 
         private final String name;
+        private final String descriptionId;
 
         Channel(String name)
         {
             this.name = name;
+            this.descriptionId = LTXIndustries.RESOURCES.translationKey("light_channel.{}", name);
         }
 
         @Override
         public String getSerializedName()
         {
             return name;
+        }
+
+        @Override
+        public String descriptionId()
+        {
+            return descriptionId;
         }
     }
 }

@@ -3,16 +3,20 @@ package liedge.ltxindustries.blockentity;
 import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.blockentity.IOAccess;
 import liedge.limacore.blockentity.LimaBlockEntity;
+import liedge.limacore.menu.LimaMenuProvider;
 import liedge.limacore.network.sync.SimpleValueTracker;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.limacore.transfer.item.ItemHolderBlockEntity;
 import liedge.limacore.transfer.item.LimaBlockEntityItems;
+import liedge.ltxindustries.blockentity.base.SubMenuProviderBlockEntity;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
 import liedge.ltxindustries.registry.game.LTXIBlockEntities;
 import liedge.ltxindustries.registry.game.LTXIDataComponents;
 import liedge.ltxindustries.registry.game.LTXIItems;
+import liedge.ltxindustries.registry.game.LTXIMenus;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
@@ -20,7 +24,7 @@ import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import org.jspecify.annotations.Nullable;
 
-public class UpgradeStationBlockEntity extends LimaBlockEntity implements ItemHolderBlockEntity
+public class UpgradeStationBlockEntity extends LimaBlockEntity implements ItemHolderBlockEntity, SubMenuProviderBlockEntity
 {
     public static final int EQUIPMENT_ITEM_SLOT = 0;
     public static final int UPGRADE_MODULE_SLOT = 1;
@@ -38,6 +42,27 @@ public class UpgradeStationBlockEntity extends LimaBlockEntity implements ItemHo
     public ItemStack getPreviewItem()
     {
         return previewItem;
+    }
+
+    public boolean hasValidItem()
+    {
+        return inventory.getResource(EQUIPMENT_ITEM_SLOT).getItem() instanceof UpgradableEquipmentItem;
+    }
+
+    public void openUpgradesSubMenu(ServerPlayer player)
+    {
+        if (hasValidItem())
+        {
+            LimaMenuProvider.create(LTXIMenus.EQUIPMENT_UPGRADES.get(), this, null, false).openMenuScreen(player);
+        }
+    }
+
+    public void openColorConfigMenu(ServerPlayer player)
+    {
+        if (hasValidItem())
+        {
+            LimaMenuProvider.create(LTXIMenus.LIGHT_COLORS_CONFIG.get(), this, null, false).openMenuScreen(player);
+        }
     }
 
     @Override

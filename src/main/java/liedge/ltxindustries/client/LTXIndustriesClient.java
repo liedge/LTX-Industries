@@ -142,7 +142,7 @@ public class LTXIndustriesClient
         public void registerMenuScreens(final RegisterMenuScreensEvent event)
         {
             event.register(LTXIMenus.BLOCK_IO_CONFIGURATION.get(), BlockIOConfigurationScreen::new);
-            event.register(LTXIMenus.MACHINE_UPGRADES.get(), MachineUpgradesScreen::new);
+            event.register(LTXIMenus.MACHINE_UPGRADES.get(), UpgradesConfigScreen::new);
             event.register(LTXIMenus.RECIPE_MODE_SELECT.get(), RecipeModeScreen::new);
 
             event.register(LTXIMenus.ENERGY_CELL_ARRAY.get(), EnergyCellArrayScreen::new);
@@ -164,6 +164,8 @@ public class LTXIndustriesClient
             event.register(LTXIMenus.FABRICATOR.get(), FabricatorScreen::new);
             event.register(LTXIMenus.AUTO_FABRICATOR.get(), AutoFabricatorScreen::new);
             event.register(LTXIMenus.UPGRADE_STATION.get(), UpgradeStationScreen::new);
+            event.register(LTXIMenus.EQUIPMENT_UPGRADES.get(), UpgradesConfigScreen::new);
+            event.register(LTXIMenus.LIGHT_COLORS_CONFIG.get(), LightColorsScreen::new);
             event.register(LTXIMenus.ATMOSPHERIC_SCRUBBER.get(), AirScrubberScreen::new);
             event.register(LTXIMenus.DIGITAL_GARDEN.get(), RecipeLayoutScreen::new);
             event.register(LTXIMenus.PORTABLE_GENERATOR.get(), PortableGeneratorScreen::new);

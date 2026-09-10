@@ -11,6 +11,7 @@ import liedge.ltxindustries.LTXIIdentifiers;
 import liedge.ltxindustries.block.NeonLightColor;
 import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
 import liedge.ltxindustries.client.LTXILangKeys;
+import liedge.ltxindustries.data.LightChannels;
 import liedge.ltxindustries.data.LightColors;
 import liedge.ltxindustries.item.*;
 import liedge.ltxindustries.item.tool.*;
@@ -328,42 +329,50 @@ public final class LTXIItems
     public static final DeferredItem<WayfinderItem> WAYFINDER = registerLTXGear(LTXIIdentifiers.ID_WAYFINDER, WayfinderItem::new, properties -> properties
             .component(LimaCoreDataComponents.ENERGY_CAPACITY, 50_000)
             .component(LimaCoreDataComponents.ENERGY_USAGE, 5000)
-            .component(LTXIDataComponents.LIGHT_COLORS, LightColors.DEFAULT_WEAPON_COLORS));
+            .component(LTXIDataComponents.LIGHT_COLORS, LightColors.DEFAULT_WEAPON_COLORS)
+            .component(LTXIDataComponents.LIGHT_CHANNELS, LightChannels.DEFAULT_WEAPON_CHANNELS));
     public static final DeferredItem<SerenityItem> SERENITY = registerLTXGear(LTXIIdentifiers.ID_SERENITY, SerenityItem::new, properties -> properties
             .component(DataComponents.USE_EFFECTS, new UseEffects(true, true, 1f))
             .component(LimaCoreDataComponents.ENERGY_CAPACITY, 100_000)
             .component(LimaCoreDataComponents.ENERGY_USAGE, 10_000)
-            .component(LTXIDataComponents.LIGHT_COLORS, LightColors.DEFAULT_WEAPON_COLORS));
+            .component(LTXIDataComponents.LIGHT_COLORS, LightColors.DEFAULT_WEAPON_COLORS)
+            .component(LTXIDataComponents.LIGHT_CHANNELS, LightChannels.DEFAULT_WEAPON_CHANNELS));
     public static final DeferredItem<MirageItem> MIRAGE = registerLTXGear(LTXIIdentifiers.ID_MIRAGE, MirageItem::new, properties -> properties
             .component(LimaCoreDataComponents.ENERGY_CAPACITY, 150_000)
             .component(LimaCoreDataComponents.ENERGY_USAGE, 10_000)
-            .component(LTXIDataComponents.LIGHT_COLORS, LightColors.DEFAULT_WEAPON_COLORS));
+            .component(LTXIDataComponents.LIGHT_COLORS, LightColors.DEFAULT_WEAPON_COLORS)
+            .component(LTXIDataComponents.LIGHT_CHANNELS, LightChannels.DEFAULT_WEAPON_CHANNELS));
     public static final DeferredItem<AuroraItem> AURORA = registerLTXGear(LTXIIdentifiers.ID_AURORA, AuroraItem::new, properties -> properties
             .component(LimaCoreDataComponents.ENERGY_CAPACITY, 2_500_000)
             .component(LimaCoreDataComponents.ENERGY_USAGE, 500_000)
             .component(LTXIDataComponents.MAX_HITS, 5)
             .component(LTXIDataComponents.BLOCK_PIERCE, 0.5d)
-            .component(LTXIDataComponents.LIGHT_COLORS, LightColors.DEFAULT_WEAPON_COLORS));
+            .component(LTXIDataComponents.LIGHT_COLORS, LightColors.DEFAULT_WEAPON_COLORS)
+            .component(LTXIDataComponents.LIGHT_CHANNELS, LightChannels.DEFAULT_WEAPON_CHANNELS));
     public static final DeferredItem<HanabiItem> HANABI = registerLTXGear(LTXIIdentifiers.ID_HANABI, HanabiItem::new, properties -> properties
             .component(LimaCoreDataComponents.ENERGY_CAPACITY, 20_000_000)
             .component(LimaCoreDataComponents.ENERGY_USAGE, 10_000_000)
-            .component(LTXIDataComponents.LIGHT_COLORS, LightColors.DEFAULT_WEAPON_COLORS.clearColor(LightColors.Channel.ENERGY)));
+            .component(LTXIDataComponents.LIGHT_COLORS, LightColors.DEFAULT_WEAPON_COLORS.clearColor(LightColors.Channel.ENERGY))
+            .component(LTXIDataComponents.LIGHT_CHANNELS, LightChannels.of(LightColors.Channel.PRIMARY)));
     public static final DeferredItem<StargazerItem> STARGAZER = registerLTXGear(LTXIIdentifiers.ID_STARGAZER, StargazerItem::new, properties -> properties
             .component(LimaCoreDataComponents.ENERGY_CAPACITY, 2_500_000)
             .component(LimaCoreDataComponents.ENERGY_USAGE, 500_000)
             .component(LTXIDataComponents.MAX_HITS, 2)
             .component(LTXIDataComponents.BLOCK_PIERCE, 0.34d)
-            .component(LTXIDataComponents.LIGHT_COLORS, LightColors.DEFAULT_WEAPON_COLORS));
+            .component(LTXIDataComponents.LIGHT_COLORS, LightColors.DEFAULT_WEAPON_COLORS)
+            .component(LTXIDataComponents.LIGHT_CHANNELS, LightChannels.DEFAULT_WEAPON_CHANNELS));
     public static final DeferredItem<DaybreakItem> DAYBREAK = registerLTXGear(LTXIIdentifiers.ID_DAYBREAK, DaybreakItem::new, properties -> properties
             .component(LimaCoreDataComponents.ENERGY_CAPACITY, 20_000_000)
             .component(LimaCoreDataComponents.ENERGY_USAGE, 10_000_000)
-            .component(LTXIDataComponents.LIGHT_COLORS, LightColors.DEFAULT_WEAPON_COLORS));
+            .component(LTXIDataComponents.LIGHT_COLORS, LightColors.DEFAULT_WEAPON_COLORS)
+            .component(LTXIDataComponents.LIGHT_CHANNELS, LightChannels.DEFAULT_WEAPON_CHANNELS));
     public static final DeferredItem<NovaItem> NOVA = registerLTXGear(LTXIIdentifiers.ID_NOVA, NovaItem::new, properties -> properties
             .component(LimaCoreDataComponents.ENERGY_CAPACITY, 50_000_000)
             .component(LimaCoreDataComponents.ENERGY_USAGE, 25_000_000)
             .component(LTXIDataComponents.MAX_HITS, 100)
             .component(LTXIDataComponents.BLOCK_PIERCE, 1.4143d)
-            .component(LTXIDataComponents.LIGHT_COLORS, LightColors.DEFAULT_WEAPON_COLORS));
+            .component(LTXIDataComponents.LIGHT_COLORS, LightColors.DEFAULT_WEAPON_COLORS)
+            .component(LTXIDataComponents.LIGHT_CHANNELS, LightChannels.DEFAULT_WEAPON_CHANNELS));
 
     // Ore group materials
     public static final Map<BuiltInOres, DeferredItem<Item>> CRUSHED_ORES = registerOreGroup(s -> "crushed_" + s + "_ore");
@@ -409,7 +418,9 @@ public final class LTXIItems
 
     private static <T extends Item> DeferredItem<T> registerETool(String name, Function<Item.Properties, T> constructor)
     {
-        return registerLTXGear(name, constructor, p -> p.component(LTXIDataComponents.LIGHT_COLORS, LightColors.DEFAULT_TOOL_COLORS));
+        return registerLTXGear(name, constructor, p -> p
+                .component(LTXIDataComponents.LIGHT_COLORS, LightColors.DEFAULT_TOOL_COLORS)
+                .component(LTXIDataComponents.LIGHT_CHANNELS, LightChannels.DEFAULT_TOOL_CHANNELS));
     }
 
     private static DeferredItem<BucketItem> registerBucket(Holder<Fluid> holder)

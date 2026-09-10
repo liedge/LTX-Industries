@@ -11,6 +11,7 @@ import liedge.ltxindustries.blockentity.turret.ArcTurretBlockEntity;
 import liedge.ltxindustries.blockentity.turret.RailgunTurretBlockEntity;
 import liedge.ltxindustries.blockentity.turret.RocketTurretBlockEntity;
 import liedge.ltxindustries.blockentity.turret.TurretBlockEntity;
+import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.menu.*;
 import liedge.ltxindustries.menu.layout.RecipeLayout;
 import liedge.ltxindustries.menu.layout.RecipeLayouts;
@@ -32,10 +33,13 @@ public final class LTXIMenus
     }
 
     public static final DeferredHolder<MenuType<?>, BlockIOConfigurationMenu.MenuType> BLOCK_IO_CONFIGURATION = TYPES.register("block_io_configuration", BlockIOConfigurationMenu.MenuType::new);
-    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<MachineBaseBlockEntity, MachineUpgradeMenu>> MACHINE_UPGRADES = TYPES.register("machine_upgrades", id -> BlockEntityMenuType.create(id, MachineBaseBlockEntity.class, MachineUpgradeMenu::new));
+    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<MachineBaseBlockEntity, MachineUpgradeMenu>> MACHINE_UPGRADES = TYPES.register("machine_upgrades", () -> BlockEntityMenuType.create(MachineBaseBlockEntity.class, MachineUpgradeMenu::new, LTXILangKeys.GUI_UPGRADES));
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<RecipeModeHolderBlockEntity, RecipeModeMenu>> RECIPE_MODE_SELECT = TYPES.register("recipe_modes", () -> BlockEntityMenuType.create(RecipeModeHolderBlockEntity.class, RecipeModeMenu::new));
 
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<UpgradeStationBlockEntity, UpgradeStationMenu>> UPGRADE_STATION = TYPES.register(LTXIIdentifiers.ID_UPGRADE_STATION, () -> BlockEntityMenuType.create(UpgradeStationBlockEntity.class, UpgradeStationMenu::new));
+    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<UpgradeStationBlockEntity, EquipmentUpgradeMenu>> EQUIPMENT_UPGRADES = TYPES.register("equipment_upgrades", () -> BlockEntityMenuType.create(UpgradeStationBlockEntity.class, EquipmentUpgradeMenu::new, LTXILangKeys.GUI_UPGRADES));
+    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<UpgradeStationBlockEntity, LightColorsMenu>> LIGHT_COLORS_CONFIG = TYPES.register("light_colors", () -> BlockEntityMenuType.create(UpgradeStationBlockEntity.class, LightColorsMenu::new, LTXILangKeys.GUI_LIGHT_COLORS));
+
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<BaseECABlockEntity, EnergyCellArrayMenu>> ENERGY_CELL_ARRAY = TYPES.register(LTXIIdentifiers.ID_ENERGY_CELL_ARRAY, () -> BlockEntityMenuType.create(BaseECABlockEntity.class, EnergyCellArrayMenu::new));
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<PortableTankBlockEntity, PortableTankMenu>> PORTABLE_TANK = TYPES.register(LTXIIdentifiers.ID_PORTABLE_TANK, () -> BlockEntityMenuType.create(PortableTankBlockEntity.class, PortableTankMenu::new));
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<SpecialInfiniteTankBlockEntity, SpecialInfiniteTankMenu>> SPECIAL_INFINITE_TANK = TYPES.register("special_infinite_tank", () -> BlockEntityMenuType.create(SpecialInfiniteTankBlockEntity.class, SpecialInfiniteTankMenu::new, null));

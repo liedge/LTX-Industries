@@ -2,6 +2,7 @@ package liedge.ltxindustries.lib.upgrades;
 
 import com.mojang.serialization.Codec;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.Object2IntMaps;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.data.LimaCoreCodecs;
@@ -395,7 +396,7 @@ public final class Upgrades extends MapLikeData<Holder<Upgrade>, Integer>
     @Override
     public Object2IntMap<Holder<Upgrade>> getMap()
     {
-        return upgradeMap;
+        return Object2IntMaps.unmodifiable(upgradeMap);
     }
 
     @Override

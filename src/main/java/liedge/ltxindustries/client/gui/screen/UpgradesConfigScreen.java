@@ -12,6 +12,7 @@ import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.client.gui.ItemLikeIconsRenderer;
 import liedge.ltxindustries.client.gui.widget.BaseScrollGridRenderable;
 import liedge.ltxindustries.client.gui.widget.ScrollbarWidget;
+import liedge.ltxindustries.client.gui.widget.SubMenuBackButton;
 import liedge.ltxindustries.lib.upgrades.Upgrade;
 import liedge.ltxindustries.menu.UpgradesConfigMenu;
 import liedge.ltxindustries.util.LTXIChatStyles;
@@ -31,7 +32,7 @@ import java.util.List;
 import static liedge.ltxindustries.LTXIConstants.UPGRADE_RANK_MAGENTA_1;
 import static liedge.ltxindustries.LTXIConstants.UPGRADE_RANK_MAGENTA_2;
 
-public abstract class UpgradesConfigScreen<M extends UpgradesConfigMenu<?>> extends LTXIScreen<M>
+public final class UpgradesConfigScreen extends LTXIScreen<UpgradesConfigMenu<?>>
 {
     private static final Identifier SELECTOR_SPRITE = LTXIndustries.RESOURCES.id("widget/upgrade_selector");
     private static final Identifier SELECTOR_SPRITE_FOCUS = LTXIndustries.RESOURCES.id("widget/upgrade_selector_focus");
@@ -41,19 +42,16 @@ public abstract class UpgradesConfigScreen<M extends UpgradesConfigMenu<?>> exte
     private @Nullable ScrollbarWidget scrollbar;
     private @Nullable SelectorList selectorList;
 
-    protected UpgradesConfigScreen(M menu, Inventory inventory, Component title, int leftPadding)
+    public UpgradesConfigScreen(UpgradesConfigMenu<?> menu, Inventory inventory, Component title)
     {
-        super(menu, inventory, title, 190, 200, leftPadding, 0, 0);
-    }
-
-    protected void blitSlotSprites(GuiGraphicsExtractor graphics)
-    {
-        blitSlotSprite(graphics, SLOT_SPRITE, 23, 86);
+        super(menu, inventory, title, 190, 200, 18, 0, 0);
     }
 
     @Override
     protected void addWidgets()
     {
+        addRenderableWidget(new SubMenuBackButton(leftPos - leftPadding, topPos + 3, this));
+
         this.selectorList = addRenderableOnly(new SelectorList(leftPos + 61, topPos + 23, this));
         this.scrollbar = addRenderableWidget(new ScrollbarWidget(leftPos + 167, topPos + 23, 80, selectorList));
         scrollbar.reset();
@@ -76,7 +74,7 @@ public abstract class UpgradesConfigScreen<M extends UpgradesConfigMenu<?>> exte
         super.extractBackground(graphics, mouseX, mouseY, partialTick);
 
         // Background sprites
-        blitSlotSprites(graphics);
+        blitSlotSprite(graphics, SLOT_SPRITE, 23, 86);
     }
 
     @Override
@@ -103,9 +101,9 @@ public abstract class UpgradesConfigScreen<M extends UpgradesConfigMenu<?>> exte
 
     private static class SelectorList extends BaseScrollGridRenderable<Object2IntMap.Entry<Holder<Upgrade>>>
     {
-        private final UpgradesConfigScreen<?> parent;
+        private final UpgradesConfigScreen parent;
 
-        SelectorList(int x, int y, UpgradesConfigScreen<?> parent)
+        SelectorList(int x, int y, UpgradesConfigScreen parent)
         {
             super(x, y, 104, 20, 1, 4);
             this.parent = parent;

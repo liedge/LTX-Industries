@@ -7,6 +7,7 @@ import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.block.NeonLightColor;
 import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
 import liedge.ltxindustries.client.LTXIKeyMappings;
+import liedge.ltxindustries.data.LightColors;
 import liedge.ltxindustries.item.tool.ToolSpeed;
 import liedge.ltxindustries.item.weapon.HanabiItem;
 import liedge.ltxindustries.item.weapon.WeaponItem;
@@ -381,7 +382,6 @@ class LanguageGen extends LimaLanguageProvider
 
         // Menu titles
         menuTitle(LTXIMenus.BLOCK_IO_CONFIGURATION, "%s IO Config");
-        menuTitle(LTXIMenus.MACHINE_UPGRADES, "Machine Upgrades");
         menuTitle(LTXIMenus.ARC_TURRET, "Ionos Turret");
         menuTitle(LTXIMenus.ROCKET_TURRET, "Atmos Turret");
         menuTitle(LTXIMenus.RAILGUN_TURRET, "Noctis Turret");
@@ -440,7 +440,16 @@ class LanguageGen extends LimaLanguageProvider
         // Enchantments
         enchantment(LTXIEnchantments.RAZOR, "Razor");
 
-        //#region Tooltips
+        //#region Lang key translations
+        add(GUI_APPLY, "Apply");
+        add(GUI_RESET, "Reset");
+        add(GUI_ENABLED, "Enabled");
+        add(GUI_DISABLED, "Disabled");
+        add(GUI_UPGRADES, "Upgrades");
+        add(GUI_LIGHT_COLORS, "Light Colors");
+        add(MANAGE_UPGRADES, "Manage upgrade modules");
+        add(MANAGE_LIGHT_COLORS, "Manage light colors");
+
         add(INLINE_ENERGY, "Energy: %s");
         add(INLINE_ENERGY_TRANSFER_RATE, "Energy I/O: %s");
         add(INLINE_ENERGY_USAGE, "Energy use: %s");
@@ -457,7 +466,6 @@ class LanguageGen extends LimaLanguageProvider
         add(AUTO_OUTPUT_ON_TOOLTIP, "Auto Output Enabled");
         add(AUTO_INPUT_OFF_TOOLTIP, "Auto Input Disabled");
         add(AUTO_INPUT_ON_TOOLTIP, "Auto Input Enabled");
-        add(MACHINE_UPGRADES_SIDEBAR_TOOLTIP, "Manage Upgrade Modules");
         add(RECIPE_MODES_TITLE_OR_TOOLTIP, "Recipe Modes");
         add(RECIPE_MODE_CURRENT_MODE, "Current mode: %s");
         add(JEI_RECIPE_MODE_NEEDED, "Needs mode: %s");
@@ -570,6 +578,7 @@ class LanguageGen extends LimaLanguageProvider
         // Enum types
         addEnum(GrenadeType.class);
         addEnum(ToolSpeed.class);
+        addEnum(LightColors.Channel.class, (_, value) -> value + " light channel");
 
         // Damage types
         add(INVALID_WEAPON_DEATH_MESSAGE, "%s was killed by an invalid LTX weapon");
