@@ -1,6 +1,7 @@
 package liedge.ltxindustries.item.weapon;
 
 import liedge.limacore.lib.TickTimer;
+import liedge.ltxindustries.data.LightColors;
 import liedge.ltxindustries.entity.EquipmentRocketEntity;
 import liedge.ltxindustries.entity.LTXIEntityUtil;
 import liedge.ltxindustries.lib.upgrades.Upgrades;
@@ -102,6 +103,7 @@ public class DaybreakItem extends SemiAutoWeaponItem
         {
             EquipmentRocketEntity rocket = new EquipmentRocketEntity(level, heldItem);
             rocket.setOwner(player);
+            rocket.setColor(getLightColor(heldItem, LightColors.Channel.ENERGY));
 
             LivingEntity focusedTarget = controls.getFocusedTarget();
             rocket.aimAndSetPosFromShooter(player, getProjectileWeaponRange(heldItem), 0d);

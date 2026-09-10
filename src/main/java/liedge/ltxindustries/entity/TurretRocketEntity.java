@@ -69,6 +69,12 @@ public class TurretRocketEntity extends BaseRocketEntity
     }
 
     @Override
+    public int getColor()
+    {
+        return LTXIConstants.LIME_GREEN;
+    }
+
+    @Override
     protected void hurtTarget(ServerLevel level, Entity targetEntity, @Nullable LivingEntity owner, Vec3 hitLocation, boolean isDirectHit)
     {
         float baseDamage = (float) LTXIMachinesConfig.ROCKET_TURRET_ROCKET_DAMAGE.getAsDouble();

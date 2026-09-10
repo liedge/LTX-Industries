@@ -24,6 +24,13 @@ public class RocketRenderer<T extends BaseRocketEntity> extends ProjectileRender
     }
 
     @Override
+    public void extractRenderState(T entity, ProjectileRenderState state, float partialTick)
+    {
+        super.extractRenderState(entity, state, partialTick);
+        state.energyColor = entity.getColor();
+    }
+
+    @Override
     protected ProjectileModel createModel(EntityRendererProvider.Context context)
     {
         return new SmallRocketModel(context.bakeLayer(LTXIModelLayers.SMALL_ROCKET));

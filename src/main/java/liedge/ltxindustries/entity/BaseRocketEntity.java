@@ -3,7 +3,6 @@ package liedge.ltxindustries.entity;
 import liedge.limacore.client.particle.ColorSizeParticleOptions;
 import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.util.LimaNetworkUtil;
-import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.registry.game.LTXIParticles;
 import liedge.ltxindustries.registry.game.LTXISounds;
 import net.minecraft.server.level.ServerLevel;
@@ -27,6 +26,8 @@ public abstract class BaseRocketEntity extends HomingProjectileEntity
         super(type, level);
     }
 
+    public abstract int getColor();
+
     protected abstract void hurtTarget(ServerLevel level, Entity targetEntity, @Nullable LivingEntity owner, Vec3 hitLocation, boolean isDirectHit);
 
     @Override
@@ -45,8 +46,8 @@ public abstract class BaseRocketEntity extends HomingProjectileEntity
         getEntitiesInAOE(level, hitLocation, BLAST_RADIUS, owner, directHit).forEach(aoeHit -> hurtTarget(level, aoeHit, owner, hitLocation, false));
         level.playSound(null, hitLocation.x, hitLocation.y, hitLocation.z, LTXISounds.ROCKET_EXPLODE.get(), SoundSource.PLAYERS, 4f, 0.9f);
 
-        LimaNetworkUtil.sendParticle(level, ColorSizeParticleOptions.of(LTXIParticles.COLOR_FLASH, LTXIConstants.LIME_GREEN, (float) BLAST_RADIUS * 2f), LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, hitLocation);
-        LimaNetworkUtil.sendParticle(level, ColorSizeParticleOptions.of(LTXIParticles.HALF_SONIC_BOOM_EMITTER, LTXIConstants.LIME_GREEN, (float) BLAST_RADIUS), LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, hitLocation);
+        LimaNetworkUtil.sendParticle(level, ColorSizeParticleOptions.of(LTXIParticles.COLOR_FLASH, getColor(), (float) BLAST_RADIUS * 2f), LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, hitLocation);
+        LimaNetworkUtil.sendParticle(level, ColorSizeParticleOptions.of(LTXIParticles.HALF_SONIC_BOOM_EMITTER, getColor(), (float) BLAST_RADIUS), LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, hitLocation);
 
         return CollisionResult.DESTROY;
     }
@@ -61,6 +62,6 @@ public abstract class BaseRocketEntity extends HomingProjectileEntity
 
         double trailSpeed = Mth.clamp(getDeltaMovement().length() - 0.7d, -0.7d, 0.1d);
         Vec3 v = LimaCoreMath.createMotionVector(getXRot(), getYRot(), trailSpeed, 5d);
-        level.addAlwaysVisibleParticle(ColorSizeParticleOptions.of(LTXIParticles.COLOR_GLITTER, LTXIConstants.LIME_GREEN, 1.5f), true, px, py, pz, v.x(), v.y(), v.z());
+        level.addAlwaysVisibleParticle(ColorSizeParticleOptions.of(LTXIParticles.COLOR_GLITTER, getColor(), 1.5f), true, px, py, pz, v.x(), v.y(), v.z());
     }
 }
