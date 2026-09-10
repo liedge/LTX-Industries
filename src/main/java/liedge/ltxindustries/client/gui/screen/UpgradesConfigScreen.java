@@ -76,8 +76,6 @@ public abstract class UpgradesConfigScreen<M extends UpgradesConfigMenu<?>> exte
         super.extractBackground(graphics, mouseX, mouseY, partialTick);
 
         // Background sprites
-        blitDarkPanel(graphics, 60, 22, 106, 82);
-        blitLightPanel(graphics, 166, 22, 10, 82);
         blitSlotSprites(graphics);
     }
 

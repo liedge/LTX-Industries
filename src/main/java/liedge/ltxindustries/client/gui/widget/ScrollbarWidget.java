@@ -3,6 +3,7 @@ package liedge.ltxindustries.client.gui.widget;
 import com.mojang.blaze3d.platform.InputConstants;
 import liedge.limacore.client.gui.BaseLimaRenderable;
 import liedge.ltxindustries.LTXIndustries;
+import liedge.ltxindustries.client.gui.screen.LTXIScreen;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
@@ -78,7 +79,11 @@ public class ScrollbarWidget extends BaseLimaRenderable implements NarratableEnt
     @Override
     public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a)
     {
-        graphics.blitSprite(RenderPipelines.GUI_TEXTURED, SCROLLER_SPRITE, getX(), getY() + scrollPosition, SCROLLER_WIDTH, SCROLLER_HEIGHT);
+        int x = getX();
+        int y = getY();
+
+        graphics.blitSprite(RenderPipelines.GUI_TEXTURED, LTXIScreen.LIGHT_PANEL, x - 1, y - 1, getWidth() + 2, getHeight() + 2);
+        graphics.blitSprite(RenderPipelines.GUI_TEXTURED, SCROLLER_SPRITE, x, y + scrollPosition, SCROLLER_WIDTH, SCROLLER_HEIGHT);
     }
 
     @Override

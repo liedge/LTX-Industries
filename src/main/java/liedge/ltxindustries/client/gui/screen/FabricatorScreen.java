@@ -114,8 +114,6 @@ public class FabricatorScreen extends MachineBaseScreen<FabricatorMenu>
         blitPowerInSlot(graphics, 7, 52);
         blitSlotSprite(graphics, BLUEPRINT_SLOT_SPRITE, 42, 60);
         blitOutputSlot(graphics, 39, 83);
-        blitDarkPanel(graphics, 75, 31, 92, 74);
-        blitLightPanel(graphics, 167, 31, 10, 74);
     }
 
     @Override

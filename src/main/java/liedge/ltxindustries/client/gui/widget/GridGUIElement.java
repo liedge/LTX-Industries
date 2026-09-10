@@ -4,7 +4,9 @@ import liedge.limacore.client.gui.LimaGuiUtil;
 import liedge.limacore.client.gui.LimaRenderable;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.lib.math.LimaCoreMath;
+import liedge.ltxindustries.client.gui.screen.LTXIScreen;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.renderer.RenderPipelines;
 
 import java.util.List;
 
@@ -67,15 +69,18 @@ public interface GridGUIElement<T> extends LimaRenderable
     @Override
     default void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a)
     {
+        int x = getX();
+        int y = getY();
+        graphics.blitSprite(RenderPipelines.GUI_TEXTURED, LTXIScreen.DARK_PANEL, x - 1, y - 1, getWidth() + 2, getHeight() + 2);
+
         if (getElements().isEmpty()) return;
 
         int start = elementStart();
-
         for (int i = start; i < elementEnd(); i++)
         {
             int gridIndex = i - start;
-            int posX = getX() + (gridIndex % gridWidth()) * elementWidth();
-            int posY = getY() + (gridIndex / gridWidth()) * elementHeight();
+            int posX = x + (gridIndex % gridWidth()) * elementWidth();
+            int posY = y + (gridIndex / gridWidth()) * elementHeight();
             T element = getElements().get(i);
 
             renderElement(graphics, element, posX, posY, gridIndex, i, mouseX, mouseY);

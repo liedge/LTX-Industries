@@ -1,6 +1,5 @@
 package liedge.ltxindustries.client.gui.screen;
 
-import liedge.limacore.client.gui.LimaGuiUtil;
 import liedge.limacore.client.gui.LimaMenuScreen;
 import liedge.limacore.menu.LimaMenu;
 import liedge.ltxindustries.LTXIConstants;
@@ -16,21 +15,21 @@ import static liedge.ltxindustries.LTXIndustries.RESOURCES;
 public abstract class LTXIScreen<M extends LimaMenu<?>> extends LimaMenuScreen<M>
 {
     // Textures
-    private static final Identifier CONTAINER_BASE_TEXTURE = RESOURCES.textureLocation("gui", "container_base");
     private static final Identifier SLOT_TILE_TEXTURE = RESOURCES.textureLocation("gui", "slots");
-    private static final Identifier LIGHT_PANEL_TEXTURE = RESOURCES.textureLocation("gui", "light_panel");
-    private static final Identifier DARK_PANEL_TEXTURE = RESOURCES.textureLocation("gui", "dark_panel");
 
     // Common sprites
+    private static final Identifier CONTAINER_SPRITE = RESOURCES.id("container");
+    private static final Identifier TITLE_BAR_SPRITE = RESOURCES.id("title_bar");
     private static final Identifier POWER_IN_SLOT = RESOURCES.id("slot/power_in");
     protected static final Identifier POWER_OUT_SLOT = RESOURCES.id("slot/power_out");
     private static final Identifier BIG_OUTPUT_SLOT = RESOURCES.id("slot/big_output");
     static final Identifier GRID_UNIT = RESOURCES.id("widget/grid_unit");
     static final Identifier GRID_UNIT_FOCUSED = RESOURCES.id("widget/grid_unit_focus");
     static final Identifier GRID_UNIT_SELECTED = RESOURCES.id("widget/grid_unit_selected");
+    public static final Identifier DARK_PANEL = RESOURCES.id("dark_panel");
+    public static final Identifier LIGHT_PANEL = RESOURCES.id("light_panel");
 
     // Dimensions
-    private static final int BG_CORNER_SIZE = 4;
     private static final int TITLE_BAR_HEIGHT = 15;
 
     private int titleBarWidth;
@@ -59,8 +58,8 @@ public abstract class LTXIScreen<M extends LimaMenu<?>> extends LimaMenuScreen<M
     {
         super.extractBackground(graphics, mouseX, mouseY, partialTick);
 
-        nineSliceBlit(graphics, CONTAINER_BASE_TEXTURE, BG_CORNER_SIZE, 0, 0, primaryWidth, primaryHeight, 16, 16);
-        LimaGuiUtil.nineSliceNoBottomBlit(graphics, RenderPipelines.GUI_TEXTURED, CONTAINER_BASE_TEXTURE, BG_CORNER_SIZE, leftPos + titleBarX, topPos - topPadding, titleBarWidth, TITLE_BAR_HEIGHT, 16, 16);
+        graphics.blitSprite(RenderPipelines.GUI_TEXTURED, CONTAINER_SPRITE, leftPos, topPos, primaryWidth, primaryHeight, -1);
+        graphics.blitSprite(RenderPipelines.GUI_TEXTURED, TITLE_BAR_SPRITE, leftPos + titleBarX, topPos - topPadding, titleBarWidth, TITLE_BAR_HEIGHT, -1);
 
         int invX = (primaryWidth - 162) / 2;
         int invY = primaryHeight - 83;
@@ -96,21 +95,6 @@ public abstract class LTXIScreen<M extends LimaMenu<?>> extends LimaMenuScreen<M
     protected void blitOutputSlot(GuiGraphicsExtractor graphics, int x, int y)
     {
         blitOutputSlotSprite(graphics, leftPos + x, topPos + y);
-    }
-
-    protected void blitLightPanel(GuiGraphicsExtractor graphics, int x, int y, int width, int height)
-    {
-        nineSliceBlit(graphics, LIGHT_PANEL_TEXTURE, 1, x, y, width, height, 18, 18);
-    }
-
-    protected void blitDarkPanel(GuiGraphicsExtractor graphics, int x, int y, int width, int height)
-    {
-        nineSliceBlit(graphics, DARK_PANEL_TEXTURE, 1, x, y, width, height, 18, 18);
-    }
-
-    protected void nineSliceBlit(GuiGraphicsExtractor graphics, Identifier textureLocation, int cornerSize, int x, int y, int width, int height, int textureWidth, int textureHeight)
-    {
-        LimaGuiUtil.nineSliceBlit(graphics, RenderPipelines.GUI_TEXTURED, textureLocation, cornerSize, leftPos + x, topPos + y, width, height, textureWidth, textureHeight);
     }
 
     // Blit helpers (public for JEI use)

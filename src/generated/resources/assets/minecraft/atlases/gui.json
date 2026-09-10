@@ -4,11 +4,6 @@
       "type": "minecraft:single",
       "resource": "ltxi:item/upgrade_module",
       "sprite": "ltxi:upgrade_module"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "ltxi:gui/light_panel",
-      "sprite": "ltxi:slot/empty"
     }
   ]
 }

@@ -68,14 +68,6 @@ public class RecipeModeScreen extends LTXIScreen<RecipeModeMenu>
     }
 
     @Override
-    public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick)
-    {
-        super.extractBackground(graphics, mouseX, mouseY, partialTick);
-
-        blitDarkPanel(graphics, 14, 11, 146, 56);
-    }
-
-    @Override
     public boolean mouseClicked(MouseButtonEvent event, boolean isDoubleClick)
     {
         if (menu.getCarried().isEmpty() && event.button() == InputConstants.MOUSE_BUTTON_LEFT && selectorGrid != null)
