@@ -35,7 +35,7 @@ import org.jspecify.annotations.Nullable;
 
 import java.util.Optional;
 
-public class AirScrubberBlockEntity extends ProductionMachineBlockEntity implements RecipeMachineBlockEntity<AirScrubbingInput, AirScrubbingRecipe>,
+public class AirScrubberBlockEntity extends ProductionMachineBlockEntity implements RecipeMachineBlockEntity.TimedRecipe<AirScrubbingInput, AirScrubbingRecipe>,
         EnergyConsumerBlockEntity, TimedProcessBlockEntity.FixedBaseDuration, RecipeModeHolderBlockEntity
 {
     private final LimaRecipeCheck<AirScrubbingInput, AirScrubbingRecipe> recipeCheck = LimaRecipeCheck.create(LTXIRecipeTypes.AIR_SCRUBBING);

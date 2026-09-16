@@ -31,7 +31,7 @@ import java.util.Optional;
 import java.util.function.IntUnaryOperator;
 
 public abstract class BaseRecipeMachineBlockEntity<I extends RecipeInput, R extends Recipe<I>> extends ProductionMachineBlockEntity
-        implements TimedProcessBlockEntity, EnergyConsumerBlockEntity, RecipeMachineBlockEntity<I, R>
+        implements TimedProcessBlockEntity, EnergyConsumerBlockEntity, RecipeMachineBlockEntity.TimedRecipe<I, R>
 {
     private final LimaRecipeCheck<I, R> recipeCheck;
     private int energyUsage = getBaseEnergyUsage();

@@ -1,5 +1,6 @@
 package liedge.ltxindustries.blockentity.base;
 
+import liedge.limacore.blockentity.LimaBlockEntityAccess;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.network.sync.DataWatcherHolder;
@@ -10,9 +11,13 @@ import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.util.LTXIUpgradeUtil;
 import net.minecraft.world.level.storage.loot.LootContext;
 
-public interface TimedProcessBlockEntity
+public interface TimedProcessBlockEntity extends LimaBlockEntityAccess
 {
     String TAG_KEY_PROGRESS = "progress";
+
+    boolean isActive();
+
+    void setActive(boolean active);
 
     int getCurrentProcessTime();
 
@@ -24,7 +29,7 @@ public interface TimedProcessBlockEntity
 
     default float getProcessTimePercent()
     {
-        return LimaCoreMath.divideFloat(getCurrentProcessTime(), getTicksPerOperation());
+        return LimaCoreMath.getFloatRatio(getCurrentProcessTime(), getTicksPerOperation());
     }
 
     default void keepTimedProcessSynced(DataWatcherHolder.DataWatcherCollector collector)

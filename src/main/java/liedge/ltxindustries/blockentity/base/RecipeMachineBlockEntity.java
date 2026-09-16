@@ -44,4 +44,19 @@ public interface RecipeMachineBlockEntity<I extends RecipeInput, R extends Recip
     {
         return LimaRecipeUtil.canInsertResults(inventory, results);
     }
+
+    interface TimedRecipe<I extends RecipeInput, R extends Recipe<I>> extends RecipeMachineBlockEntity<I, R>, TimedProcessBlockEntity
+    {
+        @Override
+        default boolean isActive()
+        {
+            return isCrafting();
+        }
+
+        @Override
+        default void setActive(boolean active)
+        {
+            setCrafting(active);
+        }
+    }
 }
