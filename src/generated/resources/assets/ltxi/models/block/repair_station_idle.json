@@ -1,6 +1,5 @@
 {
   "parent": "ltxi:block/repair_station",
-  "loader": "limacore:extended_cuboid",
   "visibility": {
     "emissive_active": false
   }

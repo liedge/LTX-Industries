@@ -374,7 +374,7 @@ class ModelsGen extends ModelProvider
         createCompositeBinaryMachine(models, LTXIBlocks.DIGITAL_GARDEN, List.of(Parts.EMISSIVE_ACTIVE, "water"), List.of(), List.of(Parts.EMISSIVE_ACTIVE, "water"));
         createCompositeBinaryMachine(models, LTXIBlocks.PORTABLE_GENERATOR, List.of(Parts.EMISSIVE_ACTIVE), List.of(), List.of(Parts.EMISSIVE_ACTIVE));
         createCompositeBinaryMachine(models, LTXIBlocks.SOLAR_PANEL, List.of(Parts.EMISSIVE_ACTIVE), List.of(), List.of(Parts.EMISSIVE_ACTIVE));
-        createIdentityMachine(models, LTXIBlocks.REPAIR_STATION);
+        createCompositeBinaryMachine(models, LTXIBlocks.REPAIR_STATION, List.of(Parts.EMISSIVE_ACTIVE), List.of(), List.of(Parts.EMISSIVE_ACTIVE));
 
         createTurretBlock(models, LTXIBlocks.ARC_TURRET);
         createTurretBlock(models, LTXIBlocks.ROCKET_TURRET);

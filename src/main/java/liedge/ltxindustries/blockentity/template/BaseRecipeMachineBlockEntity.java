@@ -246,13 +246,6 @@ public abstract class BaseRecipeMachineBlockEntity<I extends RecipeInput, R exte
     }
 
     @Override
-    protected void onLoadServer(ServerLevel level)
-    {
-        super.onLoadServer(level);
-        reCheckRecipe();
-    }
-
-    @Override
     protected void loadAdditional(ValueInput input)
     {
         super.loadAdditional(input);

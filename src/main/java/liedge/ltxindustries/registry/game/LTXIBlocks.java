@@ -113,7 +113,7 @@ public final class LTXIBlocks
     public static final DeferredBlock<StateMachineBlock> SOLAR_PANEL = BLOCKS.registerBlock(LTXIIdentifiers.ID_SOLAR_PANEL, properties -> StateMachineBlock.rotatingShape(properties, LTXIBlockShapes.SOLAR_PANEL, false), LTXIBlocks::machineProperties);
 
     // Misc machinery
-    public static final DeferredBlock<SimpleWrenchBlock> REPAIR_STATION = BLOCKS.registerBlock(LTXIIdentifiers.ID_REPAIR_STATION, properties -> SimpleWrenchBlock.rotatingShape(properties, LTXIBlockShapes.REPAIR_STATION), LTXIBlocks::machineProperties);
+    public static final DeferredBlock<StateMachineBlock> REPAIR_STATION = BLOCKS.registerBlock(LTXIIdentifiers.ID_REPAIR_STATION, properties -> StateMachineBlock.rotatingShape(properties, LTXIBlockShapes.REPAIR_STATION, false), LTXIBlocks::machineProperties);
 
     // Turrets
     public static final DeferredBlock<PrimaryMeshBlock> ARC_TURRET = BLOCKS.registerBlock(LTXIIdentifiers.ID_ARC_TURRET, properties -> new PrimaryMeshBlock(properties, LTXIBlockMeshes.TURRET, LTXIBlockShapes.GENERAL_TURRET, true), LTXIBlocks::machineProperties);

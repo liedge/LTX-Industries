@@ -71,7 +71,6 @@ public final class LTXIMachinesConfig
 
     public static final ModConfigSpec.IntValue REPAIR_STATION_CAPACITY;
     public static final ModConfigSpec.IntValue REPAIR_STATION_ENERGY_USAGE;
-    public static final ModConfigSpec.IntValue REPAIR_STATION_BASE_SPEED;
 
     public static final ModConfigSpec.IntValue ARC_TURRET_ENERGY_CAPACITY;
     public static final ModConfigSpec.IntValue ARC_TURRET_ENERGY_USAGE;
@@ -212,7 +211,6 @@ public final class LTXIMachinesConfig
         builder.comment("Repair Station").push("repair_station");
         REPAIR_STATION_CAPACITY = ConfigUtil.energyCapacity(builder, 250_000);
         REPAIR_STATION_ENERGY_USAGE = ConfigUtil.energyUsagePerTick(builder, 80);
-        REPAIR_STATION_BASE_SPEED = ConfigUtil.positiveInt(builder, "ticks_per_operation", "Base ticks needed for one Repair Station operation", 40);
         builder.pop();
 
         builder.comment("Ionos Turret").push("arc_turret");
