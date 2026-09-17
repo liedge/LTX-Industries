@@ -44,6 +44,10 @@ repositories {
             includeGroup "curse.maven"
         }
     }
+    maven {
+        name = "Modrinth Maven"
+        url = "https://api.modrinth.com/maven"
+    }
 }
 
 base {
@@ -155,6 +159,9 @@ dependencies {
 
     // AE2
     compileOnly("org.appliedenergistics:appliedenergistics2:${ae2_version}:api")
+
+    // Jade
+    implementation("maven.modrinth:jade:${jade_version}+neoforge")
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

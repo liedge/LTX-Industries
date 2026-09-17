@@ -87,6 +87,8 @@
   "block.ltxi.voltaic_injector": "Voltaic Injector",
   "block.ltxi.white_neon_light": "White Neon Light",
   "block.ltxi.yellow_neon_light": "Yellow Neon Light",
+  "config.jade.plugin_ltxi.pg_fuel": "Portable Generator Fuel",
+  "config.jade.plugin_ltxi.recipe_mode": "Recipe Mode",
   "container.ltxi.arc_turret": "Ionos Turret",
   "container.ltxi.block_io_configuration": "%s IO Config",
   "container.ltxi.railgun_turret": "Noctis Turret",

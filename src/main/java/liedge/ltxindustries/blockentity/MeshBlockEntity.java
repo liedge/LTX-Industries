@@ -1,6 +1,10 @@
 package liedge.ltxindustries.blockentity;
 
 import liedge.limacore.blockentity.LimaBlockEntity;
+import liedge.limacore.transfer.energy.EnergyHolderBlockEntity;
+import liedge.limacore.transfer.fluid.FluidHolderBlockEntity;
+import liedge.limacore.transfer.item.ItemHolderBlockEntity;
+import liedge.limacore.util.LimaBlockUtil;
 import liedge.ltxindustries.block.PrimaryMeshBlock;
 import liedge.ltxindustries.block.mesh.BlockMesh;
 import liedge.ltxindustries.block.mesh.LTXIBlockMeshes;
@@ -18,7 +22,11 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.storage.TagValueOutput;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
-import org.jetbrains.annotations.Nullable;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.energy.EnergyHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import org.jspecify.annotations.Nullable;
 
 public final class MeshBlockEntity extends LimaBlockEntity
 {
@@ -57,6 +65,38 @@ public final class MeshBlockEntity extends LimaBlockEntity
                 level.removeBlock(primary, false);
             }
         }
+    }
+
+    @Nullable
+    public <T> T getPrimaryBlockEntity(BlockPos pos, BlockState state, Class<T> beType)
+    {
+        BlockPos primaryPos = getPrimaryPos(pos, state);
+        return primaryPos != null ? LimaBlockUtil.getSafeBlockEntity(level, primaryPos, beType) : null;
+    }
+
+    // Caps for Jade (for now)
+    public @Nullable ResourceHandler<ItemResource> getPrimaryItems(@Nullable Direction side)
+    {
+        if (side != null) return null;
+
+        ItemHolderBlockEntity be = getPrimaryBlockEntity(getBlockPos(), getBlockState(), ItemHolderBlockEntity.class);
+        return be != null ? be.createExternalItems(null) : null;
+    }
+
+    public @Nullable EnergyHandler getPrimaryEnergy(@Nullable Direction side)
+    {
+        if (side != null) return null;
+
+        EnergyHolderBlockEntity be = getPrimaryBlockEntity(getBlockPos(), getBlockState(), EnergyHolderBlockEntity.class);
+        return be != null ? be.createExternalEnergy(null) : null;
+    }
+
+    public @Nullable ResourceHandler<FluidResource> getPrimaryFluids(@Nullable Direction side)
+    {
+        if (side != null) return null;
+
+        FluidHolderBlockEntity be = getPrimaryBlockEntity(getBlockPos(), getBlockState(), FluidHolderBlockEntity.class);
+        return be != null ? be.createExternalFluids(null) : null;
     }
 
     public @Nullable BlockMesh getBlockMesh()

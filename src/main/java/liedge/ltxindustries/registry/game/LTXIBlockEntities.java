@@ -81,6 +81,11 @@ public final class LTXIBlockEntities
         registerFluidCap(event, PORTABLE_TANK);
         registerFluidCap(event, INFINITE_WATER_TANK);
         registerFluidCap(event, INFINITE_LAVA_TANK);
+
+        // Mesh BE (special for Jade)
+        event.registerBlockEntity(Capabilities.Item.BLOCK, MESH_BLOCK.get(), MeshBlockEntity::getPrimaryItems);
+        event.registerBlockEntity(Capabilities.Energy.BLOCK, MESH_BLOCK.get(), MeshBlockEntity::getPrimaryEnergy);
+        event.registerBlockEntity(Capabilities.Fluid.BLOCK, MESH_BLOCK.get(), MeshBlockEntity::getPrimaryFluids);
     }
 
     private static <T extends LimaBlockEntity & ItemHolderBlockEntity & EnergyHolderBlockEntity> void registerItemEnergyCaps(RegisterCapabilitiesEvent event, Collection<? extends Supplier<? extends BlockEntityType<? extends T>>> types)

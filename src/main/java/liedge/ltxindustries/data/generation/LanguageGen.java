@@ -8,6 +8,7 @@ import liedge.ltxindustries.block.NeonLightColor;
 import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
 import liedge.ltxindustries.client.LTXIKeyMappings;
 import liedge.ltxindustries.data.LightColors;
+import liedge.ltxindustries.integration.jade.LTXIJadePlugin;
 import liedge.ltxindustries.item.tool.ToolSpeed;
 import liedge.ltxindustries.item.weapon.HanabiItem;
 import liedge.ltxindustries.item.weapon.WeaponItem;
@@ -607,6 +608,10 @@ class LanguageGen extends LimaLanguageProvider
         // Key mapping
         add(LTXIKeyMappings.KEY_CATEGORY.id().toLanguageKey("key.category"), "LTX Industries");
         add(LTXIKeyMappings.RELOAD_KEY_SUBTITLE, "Reload Weapon");
+
+        // Jade
+        add(LTXIJadePlugin.optionLangKey(LTXIJadePlugin.UID_RECIPE_MODE), "Recipe Mode");
+        add(LTXIJadePlugin.optionLangKey(LTXIJadePlugin.UID_PG_FUEL), "Portable Generator Fuel");
     }
 
     private void simpleLoreItem(DeferredItem<?> item, String name, String hint)
