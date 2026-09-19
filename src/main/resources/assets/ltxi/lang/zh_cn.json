@@ -87,6 +87,8 @@
   "block.ltxi.voltaic_injector": "高压注入器",
   "block.ltxi.white_neon_light": "白色霓虹灯",
   "block.ltxi.yellow_neon_light": "黄色霓虹灯",
+  "config.jade.plugin_ltxi.pg_fuel": "便携式发电机燃料",
+  "config.jade.plugin_ltxi.recipe_mode": "配方模式",
   "container.ltxi.arc_turret": "解离电弧炮塔",
   "container.ltxi.block_io_configuration": "%s IO 配置",
   "container.ltxi.railgun_turret": "夜神轨道炮塔",
