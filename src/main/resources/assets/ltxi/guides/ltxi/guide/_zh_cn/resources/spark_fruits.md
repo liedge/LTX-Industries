@@ -1,9 +1,9 @@
 ---
 navigation:
-    title: 电浆果
-    position: 1
-    icon: spark_fruit
-    parent: resources/index.md
+  title: 电浆果
+  position: 10
+  icon: spark_fruit
+  parent: resources/index.md
 ---
 
 # 电浆果
@@ -21,7 +21,7 @@ navigation:
 电浆果自然生成于丛林树叶的底面。完全成熟的电浆果会产生亮度等级为 7 的光照，因此在夜间探索丛林会更容易找到电浆果。
 
 <GameScene zoom={2} interactive={true}>
-<ImportStructure src="spark_fruit_tree.nbt" />
+<ImportStructure src="../assets/spark_fruit_tree.nbt" />
 </GameScene>
 
 ### 村民交易
@@ -35,10 +35,8 @@ navigation:
 - 完全成熟的植株会掉落 3 个电浆果，掉落数量会受到<Color id="light_purple">时运</Color>加成。
 - 未完全成熟的植株会掉落自身。
 
-## 用途
+## 相关产物
 
-### 电解质浆液
+### 钠
 
-<ItemImage id="electric_chemical" scale="2" />
-
-使用[粉碎机](../machines/gpm/grinder.md)可以提取出具有导电性和电容性的电浆果浆液。这种成分是制造高级电力组件及升级的必需品。
+使用[粉碎机](../machines/processing/grinder.md)可以提取出果汁中的[钠](elements_base.md#sodium)元素。这种成分是制造高级电力组件及升级的必需品。
