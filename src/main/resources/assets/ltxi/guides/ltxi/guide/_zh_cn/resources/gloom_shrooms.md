@@ -1,9 +1,9 @@
 ---
 navigation:
-    title: 阴郁菇
-    position: 1
-    icon: gloom_shroom
-    parent: resources/index.md
+  title: 阴郁菇
+  icon: gloom_shroom
+  position: 12
+  parent: resources/index.md
 ---
 
 # 阴郁菇
@@ -29,26 +29,24 @@ navigation:
 ### 增殖
 
 <GameScene zoom={2} interactive={true}>
-<ImportStructure src="gloom_shroom_farm.nbt" />
+<ImportStructure src="../assets/gloom_shroom_farm.nbt" />
 <Block id="gloom_shroom" y="1" />
 </GameScene>
 
-这些蘑菇渴望生命，它们并不会自然蔓延，使用骨粉也无济于事；要想让其增殖，需要先获取一个幽匿催发体和一些幽匿块，再将初始的蘑菇放置在催发体附近，当催发体激活且产生的能量波穿过阴郁菇时，阴郁菇有 33% 的概率在 *3x3x3 范围内* 产生一株新的阴郁菇。产生新阴郁菇的位置必须是空气或流动水等可被替换的方块。
+这些蘑菇渴望生命，它们并不会自然蔓延，使用骨粉也无济于事；要想让其增殖，需要先获取一个幽匿催发体和一些幽匿块，再将初始的蘑菇放置在催发体附近。当催发体激活且产生的能量波穿过阴郁菇时，阴郁菇有 33% 的概率在 _3x3x3 范围内_ 产生一株新的阴郁菇。产生新阴郁菇的位置必须是空气或流动水等可被替换的方块。
 
-## 用途
-
-阴郁菇可在[电解离心机](../machines/gpm/electrocentrifuge.md)中用少量[魔能酸](vitriol_berries.md)溶液处理，产物为一瓶回响浆液，有时也会得到一小罐浓缩阴郁提取物。
+## 产物
 
 ### 回响浆液
 
 <ItemImage id="sculk_chemical" scale="2" />
 
-回响浆液是阴郁菇数个世纪以来吸收的幽匿成分的精炼产品，在机器中经过简易的提取、纯化和装瓶步骤之后，其可以用于制造幽匿类的科技物品，以及悖论般的[现实虚拟处理器](circuits.md).
+阴郁菇可在[搅拌机](../machines/processing/mixer.md)中用[硫酸](acids.md#sulfuric-acid)处理为回响浆液。
 
 ### 浓缩阴郁提取物
 
-<ItemImage id="gloom_chemical" scale="2" />
+<ItemImage id="gloom_weapon_chemical" scale="2" />
 
-阴郁菇的防御机制是释放出来自监守者的削弱力量，这种力量类似某种毒剂，但根据已知的分类标准，其并不属于任何一种毒剂。浓缩阴郁提取物可用于制造用于 *“花火”* 的[阴郁气体](../weapons/hanabi.md#neuro)弹。
+使用[氨](elements_compound.md#ammonia)浓缩大量的回响浆液，可以得到浓缩阴郁提取物。这种物质在工业上用途不多，但可用于制造削弱型的武器。
 
-使用*花火*的[强酸弹](../weapons/hanabi.md#acid)**或**在其具有[腐蚀](../fundamentals/mob_effects.md#corroding)效果时击杀监守者必定会额外掉落 1 个浓缩阴郁提取物。
+浓缩阴郁提取物也可以通过战斗方式获取。用“花火”的[强酸弹](../weapons/hanabi.md#acid)击杀监守者，或在监守者具有[腐蚀](../fundamentals/mob_effects.md#corroding)状态效果时将其击杀，都可以掉落 1 个浓缩阴郁提取物。
