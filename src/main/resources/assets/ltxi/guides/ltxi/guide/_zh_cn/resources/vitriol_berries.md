@@ -1,9 +1,9 @@
 ---
 navigation:
-    title: 强酸莓
-    position: 1
-    icon: vitriol_berries
-    parent: resources/index.md
+  title: 强酸莓
+  position: 11
+  icon: vitriol_berries
+  parent: resources/index.md
 ---
 
 # 强酸莓
@@ -19,7 +19,7 @@ navigation:
 生长强酸莓的植株**苦胆藤**在下界要塞和堡垒遗迹中生成，其倾向于在任意固体方块下方生长。在下界要塞的走廊和桥上的伸出部分，以及堡垒遗迹的天花板上，比较容易发现苦胆藤。
 
 <GameScene zoom={2} interactive={true}>
-<ImportStructure src="bilevines.nbt" />
+<ImportStructure src="../assets/bilevines.nbt" />
 </GameScene>
 
 ## 种植
@@ -40,17 +40,8 @@ navigation:
 
 ## 用途
 
-### 魔能酸
+### 酸性生物质
 
-<ItemGrid>
-<ItemIcon id="acidic_biomass" />
-<ItemIcon id="viridic_acid_bucket" />
-</ItemGrid>
+<ItemImage id="acidic_biomass" />
 
-强酸莓是魔能酸的来源，而魔能酸是模组中化学工业流水线的支柱化学品，也是聚合物的关键原料。尽早寻找强酸莓并建一个农场，后期会需要大量强酸莓。
-
-### 武器级浓缩
-
-<ItemImage id="viridic_weapon_chemical" scale="2" />
-
-魔能酸用途多样，而其攻击性也令人浮想联翩；LTXI 的武器部分并没有忽视这一点。在[化学反应器](../machines/gpm/chem_lab.md)中用*氢气*和*火药*浓缩魔能酸可以得到一小罐武器级魔能酸，武器级魔能酸可用于制造用于 *“花火”* 的[强酸弹](../weapons/hanabi.md#acid)。
+强酸莓很喜欢吸收下界环境中的[硫化物](elements_compound.md#sulphurine)，因此其细胞中富含有机硫化合物。将强酸莓[粉碎](../machines/processing/grinder.md)并与水[搅拌](../machines/processing/mixer.md)可以获取[硫酸](acids.md#sulfuric-acid)，是获取硫酸的最简易方法，也很可能是最初方法。
