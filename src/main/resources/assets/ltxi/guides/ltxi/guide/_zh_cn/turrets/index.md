@@ -1,8 +1,8 @@
 ---
 navigation:
-    title: "炮塔"
-    icon: arc_turret
-    position: 21
+  title: "炮塔"
+  icon: arc_turret
+  position: 33
 ---
 
 # A/DS 炮塔
@@ -11,9 +11,9 @@ navigation:
 
 ## 可用炮塔
 
-- [*解离*](arc_turret.md)
-- [*御风*](rocket_turret.md)
-- [*夜神*](railgun_turret.md)
+- [_解离_](arc_turret.md)
+- [_御风_](rocket_turret.md)
+- [_夜神_](railgun_turret.md)
 
 ## 操作
 
@@ -29,7 +29,7 @@ navigation:
 
 ### 待机
 
-新合成的炮塔和耗尽能量的炮塔处于这种状态。此时，炮塔会每秒钟检查一次内部能量储量并判断是否足够完成一次开火，若能量足够则会进入**搜索**模式。
+新合成的炮塔和耗尽能量的炮塔处于这种状态。此时，炮塔会每秒钟检查一次内部能量储量并判断是否足够完成一次开火，若能量足够则会进入搜索模式。
 
 ### 搜索
 
