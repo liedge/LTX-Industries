@@ -1,12 +1,12 @@
 ---
 navigation:
-    title: 幻影
-    icon: mirage
-    parent: weapons/index.md
-    position: 113
+  title: 幻影
+  icon: mirage
+  parent: weapons/index.md
+  position: 113
 ---
 
-# *“幻影”* 13/CX
+# _“幻影”_ 13/CX
 
 <ItemImage id="mirage" scale="3" />
 
