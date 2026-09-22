@@ -1,15 +1,17 @@
 ---
 navigation:
-    title: 瞻星
-    icon: stargazer
-    parent: weapons/index.md
-    position: 137
+  title: 瞻星
+  icon: stargazer
+  parent: weapons/index.md
+  position: 137
 ---
 
-# *“瞻星”* 37/LF
+# _“瞻星”_ 37/LF
+
 <ItemImage id="stargazer" scale="3" />
 
 ## 属性
+
 - 基础伤害：45.0
 - 范围：200.0
 - 弹射物：[光弹](index.md#lightfrags)

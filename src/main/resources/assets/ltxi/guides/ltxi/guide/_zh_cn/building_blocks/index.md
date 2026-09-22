@@ -1,11 +1,16 @@
 ---
 navigation:
   title: 建筑方块
+  icon: glacia_glass
   position: 10
 ---
 
 # 建筑方块
 
-这些建筑方块有时用作合成材料，但更大的用途还是用于装饰或增强你的基地。由于某些方块具有装饰之外的功能，建议大致阅读一下这些条目。
+<GameScene zoom={2} interactive={true}>
+<ImportStructure src="../assets/building_sample.nbt" />
+</GameScene>
+
+最高端的科技值得被建设在最好的设施里，而不是室外空地，难道不是吗？ 模组提供了多种建筑方块，可用于建造高科技实验室和基地。
 
 <SubPages />

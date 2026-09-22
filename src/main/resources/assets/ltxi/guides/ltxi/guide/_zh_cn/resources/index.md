@@ -1,7 +1,8 @@
 ---
 navigation:
-    title: 资源
-    position: 3
+  title: 资源
+  position: 3
+  icon: titanium_ingot
 ---
 
 # 材料与资源

@@ -1,15 +1,17 @@
 ---
 navigation:
-    title: 花火
-    icon: hanabi
-    parent: weapons/index.md
-    position: 133
+  title: 花火
+  icon: hanabi
+  parent: weapons/index.md
+  position: 133
 ---
 
-# *“花火”* 33/GL
+# _“花火”_ 33/GL
+
 <ItemImage id="hanabi" scale="3" />
 
 ## 属性
+
 - 基础伤害：不定（见下文）
 - 弹射物：球形榴弹
 - 弹射物速度：30 m/s
@@ -18,9 +20,10 @@ navigation:
 
 ## 榴弹
 
-花火可发射多种榴弹。默认情况下其执行发射爆破弹，其他种类的榴弹必须使用[装备升级模块](../fundamentals/upgrade_system.md)解锁。
+花火可发射多种榴弹。默认情况下其仅可发射爆破弹，其他种类的榴弹必须使用[装备升级模块](../fundamentals/upgrade_system.md)解锁。
 
 ### 爆破弹
+
 标准型爆破榴弹，无趣但可靠。
 
 - 爆炸半径：10.0
@@ -39,33 +42,37 @@ navigation:
   - 流浪者、北极熊、雪傀儡
 
 ### 霜冻弹
+
 霜冻弹将敌人冻结在大片的冰块中。推荐用于控制成群的敌人或者针对弱点为冰的生物。
 
 - 爆炸半径：12.0
 - 基础伤害：4.0
 - 对具有 `#ltxi:weak_to_cryo` 标签的实体造成 8 倍伤害
   - 默认情况下此标签包含 `#minecraft:freeze_hurts_extra`：炽足兽、烈焰人、岩浆怪
-- 造成 20 秒的[*霜冻 III*](../fundamentals/mob_effects.md)效果
+- 造成 20 秒的[_霜冻 III_](../fundamentals/mob_effects.md#frostbite)效果
 
 ### 电能弹
+
 电能弹擅长在湿润和水下环境发挥威力。
 
-- 爆炸半径：10.0，*在雨中或水下爆炸时提升至 20.0*
+- 爆炸半径：10.0，_在雨中或水下爆炸时提升至 20.0_
 - 基础伤害：30.0
 - 对满足以下条件之一条件的实体造成 3 倍伤害：
   - 处在水中或雨中
   - 具有 `#ltxi:weak_to_electric` 标签：海龟、美西螈、守卫者、远古守卫者、鱼、海豚、由于、发光鱿鱼、蝌蚪
 
 ### 强酸弹
+
 强酸弹专用于对抗具有重甲的目标或高威胁目标。其爆炸半径更小，但作为弥补，其造成的伤害更高。
 
 - 爆炸半径：5.0
-- 基础伤害：50.0
-- 造成 10 秒的[*腐蚀 III*](../fundamentals/mob_effects.md)效果
+- 基础伤害：60.0
+- 造成 10 秒的[_腐蚀 III_](../fundamentals/mob_effects.md#corroding)效果
 
 ### 阴郁气体弹
+
 阴郁气体弹能够削弱敌人的伤害和行动能力。
 
 - 爆炸半径：5.0
 - 基础伤害：4.0
-- 造成 30 秒的[*阴郁 III*](../fundamentals/mob_effects.md)效果
+- 造成 30 秒的[_阴郁 III_](../fundamentals/mob_effects.md#gloom)效果

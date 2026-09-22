@@ -1,15 +1,17 @@
 ---
 navigation:
-    title: 破晓
-    icon: daybreak
-    parent: weapons/index.md
-    position: 141
+  title: 破晓
+  icon: daybreak
+  parent: weapons/index.md
+  position: 141
 ---
 
-# *“破晓”* 41/RL
+# _“破晓”_ 41/RL
+
 <ItemImage id="daybreak" scale="3" />
 
 ## 属性
+
 - 基础伤害（直接击中）：100.0
 - 基础伤害（爆炸）：40.0
 - 弹射物：火箭弹

@@ -1,14 +1,14 @@
 ---
 navigation:
-    title: 夜神
-    icon: railgun_turret
-    parent: turrets/index.md
-    position: 2
+  title: 夜神
+  icon: railgun_turret
+  parent: turrets/index.md
+  position: 2
 item_ids:
   - railgun_turret
 ---
 
-# *“夜神”* A/DS 轨道炮塔
+# “夜神” A/DS 轨道炮塔
 
 <GameScene zoom={4} interactive={false}>
 <Block id="mesh_block" y="0" />
@@ -18,7 +18,8 @@ item_ids:
 </BlockAnnotation>
 </GameScene>
 
-## Stats
+## 属性
+
 - 水平索敌半径：25.0
 - 垂直索敌半径：25.0
 - 目标搜寻时间间隔：4 秒

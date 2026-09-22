@@ -1,14 +1,14 @@
 ---
 navigation:
-    title: 御风
-    icon: rocket_turret
-    parent: turrets/index.md
-    position: 1
+  title: 御风
+  icon: rocket_turret
+  parent: turrets/index.md
+  position: 1
 item_ids:
   - rocket_turret
 ---
 
-# *“御风”* A/DS 防空火箭炮塔
+# “御风” A/DS 防空火箭炮塔
 
 <GameScene zoom={4} interactive={false}>
 <Block id="mesh_block" y="0" />
@@ -19,6 +19,7 @@ item_ids:
 </GameScene>
 
 ## 属性
+
 - 水平索敌半径：50.0
 - 垂直索敌半径：75.0
 - 目标搜寻时间间隔：5 秒
