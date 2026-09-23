@@ -21,46 +21,46 @@ public final class ConfigurableIOBlockEntityType<BE extends LimaBlockEntity> ext
         return new Builder<>(factory);
     }
 
-    private final Map<BlockEntityInputType, IOConfigurationRules> configRules;
-    private final Set<BlockEntityInputType> validInputTypes;
+    private final Map<ResourceType, IORules> configRules;
+    private final Set<ResourceType> validInputTypes;
 
-    private ConfigurableIOBlockEntityType(BlockEntitySupplier<BE> factory, Set<Block> validBlocks, Map<BlockEntityInputType, IOConfigurationRules> configRules, @Nullable Holder<MenuType<?>> menuTypeHolder)
+    private ConfigurableIOBlockEntityType(BlockEntitySupplier<BE> factory, Set<Block> validBlocks, Map<ResourceType, IORules> configRules, @Nullable Holder<MenuType<?>> menuTypeHolder)
     {
         super(factory, validBlocks, menuTypeHolder);
         this.configRules = configRules;
         this.validInputTypes = Collections.unmodifiableSet(configRules.keySet());
     }
 
-    public Collection<BlockEntityInputType> getValidInputTypes()
+    public Collection<ResourceType> getValidInputTypes()
     {
         return validInputTypes;
     }
 
-    public IOConfigurationRules getIOConfigRules(BlockEntityInputType inputType)
+    public IORules getIOConfigRules(ResourceType inputType)
     {
-        IOConfigurationRules rules = configRules.get(inputType);
+        IORules rules = configRules.get(inputType);
         if (rules != null) return rules;
         else throw new IllegalArgumentException(String.format("Block entity type %s does not support input type %s", LimaRegistryUtil.getNonNullRegistryId(this, BuiltInRegistries.BLOCK_ENTITY_TYPE), inputType.getSerializedName()));
     }
 
     public static class Builder<BE extends LimaBlockEntity> extends AbstractBuilder<BE, ConfigurableIOBlockEntityType<BE>, Builder<BE>>
     {
-        private final Map<BlockEntityInputType, IOConfigurationRules> ruleMap = new EnumMap<>(BlockEntityInputType.class);
+        private final Map<ResourceType, IORules> ruleMap = new EnumMap<>(ResourceType.class);
 
         private Builder(BlockEntitySupplier<BE> factory)
         {
             super(factory);
         }
 
-        public Builder<BE> withConfigRules(BlockEntityInputType inputType, IOConfigurationRules rules)
+        public Builder<BE> withConfigRules(ResourceType inputType, IORules rules)
         {
             LimaCollectionsUtil.putNoDuplicates(ruleMap, inputType, rules);
             return this;
         }
 
-        public Builder<BE> withConfigRules(BlockEntityInputType inputType, UnaryOperator<IOConfigurationRules.Builder> builder)
+        public Builder<BE> withConfigRules(ResourceType inputType, UnaryOperator<IORules.Builder> builder)
         {
-            return withConfigRules(inputType, builder.apply(IOConfigurationRules.builder()).build());
+            return withConfigRules(inputType, builder.apply(IORules.builder()).build());
         }
 
         @Override

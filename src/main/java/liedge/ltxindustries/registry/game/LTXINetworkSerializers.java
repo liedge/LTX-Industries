@@ -3,7 +3,7 @@ package liedge.ltxindustries.registry.game;
 import liedge.limacore.network.NetworkSerializer;
 import liedge.limacore.registry.LimaDeferredNetworkSerializers;
 import liedge.ltxindustries.LTXIndustries;
-import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
+import liedge.ltxindustries.blockentity.base.ResourceType;
 import liedge.ltxindustries.blockentity.base.BlockIOConfiguration;
 import liedge.ltxindustries.data.LightChannels;
 import liedge.ltxindustries.data.LightColors;
@@ -33,6 +33,6 @@ public final class LTXINetworkSerializers
     public static final DeferredHolder<NetworkSerializer<?>, NetworkSerializer<LightChannels>> LIGHT_CHANNELS = SERIALIZERS.registerCodec("light_channels", () -> LightChannels.STREAM_CODEC);
     public static final DeferredHolder<NetworkSerializer<?>, NetworkSerializer<Optional<Holder<RecipeMode>>>> RECIPE_MODE = SERIALIZERS.registerCodec("recipe_mode", () -> ByteBufCodecs.optional(RecipeMode.STREAM_CODEC));
     public static final DeferredHolder<NetworkSerializer<?>, NetworkSerializer<HolderSet<RecipeMode>>> RECIPE_MODES = SERIALIZERS.registerCodec("recipe_modes", () -> RecipeMode.SET_STREAM_CODEC);
-    public static final DeferredHolder<NetworkSerializer<?>, NetworkSerializer<BlockEntityInputType>> MACHINE_INPUT_TYPE = SERIALIZERS.registerCodec("machine_input_type", () -> BlockEntityInputType.STREAM_CODEC);
+    public static final DeferredHolder<NetworkSerializer<?>, NetworkSerializer<ResourceType>> MACHINE_INPUT_TYPE = SERIALIZERS.registerCodec("machine_input_type", () -> ResourceType.STREAM_CODEC);
     public static final DeferredHolder<NetworkSerializer<?>, NetworkSerializer<BlockIOConfiguration>> BLOCK_IO_CONFIG = SERIALIZERS.registerCodec("block_io_config", () -> BlockIOConfiguration.STREAM_CODEC);
 }

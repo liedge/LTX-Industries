@@ -4,7 +4,7 @@ import liedge.limacore.client.gui.LimaRenderable;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.transfer.energy.EnergyHolderBlockEntity;
 import liedge.ltxindustries.LTXIndustries;
-import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
+import liedge.ltxindustries.blockentity.base.ResourceType;
 import liedge.ltxindustries.blockentity.base.UpgradesHolderBlockEntity;
 import liedge.ltxindustries.client.gui.widget.EnergyGaugeWidget;
 import liedge.ltxindustries.client.gui.widget.LTXISidebarButton;
@@ -42,7 +42,7 @@ public abstract class MachineBaseScreen<M extends MachineBaseMenu<?>> extends LT
 
         // Right sidebar widgets
         int sidebarY = 23;
-        for (BlockEntityInputType type : menu.menuContext().getConfigurableInputTypes())
+        for (ResourceType type : menu.menuContext().getConfigurableInputTypes())
         {
             addRenderableWidget(new OpenIOControlButton(rightPos, topPos + sidebarY, this, SharedMenuButtons.OPEN_IO_CONTROLS, type));
             sidebarY += LTXISidebarButton.SIDEBAR_BUTTON_HEIGHT;

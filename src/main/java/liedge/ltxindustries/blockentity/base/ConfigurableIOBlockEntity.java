@@ -24,16 +24,16 @@ public interface ConfigurableIOBlockEntity extends SubMenuProviderBlockEntity
         return getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING);
     }
 
-    Collection<BlockEntityInputType> getConfigurableInputTypes();
+    Collection<ResourceType> getConfigurableInputTypes();
 
-    default boolean supportsInputType(BlockEntityInputType inputType)
+    default boolean supportsInputType(ResourceType inputType)
     {
         return getConfigurableInputTypes().contains(inputType);
     }
 
-    @Nullable BlockIOConfiguration getIOConfiguration(BlockEntityInputType inputType);
+    @Nullable BlockIOConfiguration getIOConfiguration(ResourceType inputType);
 
-    default BlockIOConfiguration getIOConfigurationOrThrow(BlockEntityInputType inputType)
+    default BlockIOConfiguration getIOConfigurationOrThrow(ResourceType inputType)
     {
         BlockIOConfiguration configuration = getIOConfiguration(inputType);
         if (configuration != null)
@@ -42,23 +42,23 @@ public interface ConfigurableIOBlockEntity extends SubMenuProviderBlockEntity
             throw new IllegalArgumentException("Block entity does not support " + inputType.getSerializedName() + " IO configurations.");
     }
 
-    boolean setIOConfiguration(BlockEntityInputType inputType, BlockIOConfiguration configuration);
+    boolean setIOConfiguration(ResourceType inputType, BlockIOConfiguration configuration);
 
-    IOConfigurationRules getIOConfigRules(BlockEntityInputType inputType);
+    IORules getIOConfigRules(ResourceType inputType);
 
-    default void openIOControlsSubMenu(Player player, BlockEntityInputType inputType)
+    default void openIOControlsSubMenu(Player player, ResourceType inputType)
     {
         BlockIOConfigurationMenu.MenuContext context = new BlockIOConfigurationMenu.MenuContext(this, inputType);
         Component title = Objects.requireNonNull(LTXIMenus.BLOCK_IO_CONFIGURATION.get().getDefaultTitle()).translateArgs(context.inputType().translate());
         LimaMenuProvider.create(LTXIMenus.BLOCK_IO_CONFIGURATION.get(), context, title, false).openMenuScreen(player);
     }
 
-    default void loadIOConfigurations(ValueInput global, BiConsumer<BlockEntityInputType, BlockIOConfiguration> consumer)
+    default void loadIOConfigurations(ValueInput global, BiConsumer<ResourceType, BlockIOConfiguration> consumer)
     {
         ValueInput input = global.child(KEY_IO_CONFIGS).orElse(null);
         if (input == null) return;
 
-        for (BlockEntityInputType type : getConfigurableInputTypes())
+        for (ResourceType type : getConfigurableInputTypes())
         {
             input.read(type.getSerializedName(), BlockIOConfiguration.CODEC).ifPresent(config -> consumer.accept(type, config));
         }
@@ -68,7 +68,7 @@ public interface ConfigurableIOBlockEntity extends SubMenuProviderBlockEntity
     {
         ValueOutput output = global.child(KEY_IO_CONFIGS);
 
-        for (BlockEntityInputType type : getConfigurableInputTypes())
+        for (ResourceType type : getConfigurableInputTypes())
         {
             BlockIOConfiguration config = getIOConfiguration(type);
             output.storeNullable(type.getSerializedName(), BlockIOConfiguration.CODEC, config);

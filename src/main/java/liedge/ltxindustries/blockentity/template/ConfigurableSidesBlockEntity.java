@@ -52,19 +52,19 @@ public abstract class ConfigurableSidesBlockEntity extends LimaBlockEntity imple
         super(type, pos, state);
 
         this.type = type;
-        this.itemsIOConfig = BlockIOConfiguration.create(type, BlockEntityInputType.ITEMS);
-        this.energyIOConfig = BlockIOConfiguration.create(type, BlockEntityInputType.ENERGY);
-        this.fluidsIOConfig = BlockIOConfiguration.create(type, BlockEntityInputType.FLUIDS);
+        this.itemsIOConfig = BlockIOConfiguration.create(type, ResourceType.ITEMS);
+        this.energyIOConfig = BlockIOConfiguration.create(type, ResourceType.ENERGY);
+        this.fluidsIOConfig = BlockIOConfiguration.create(type, ResourceType.FLUIDS);
     }
 
     @Override
-    public final Collection<BlockEntityInputType> getConfigurableInputTypes()
+    public final Collection<ResourceType> getConfigurableInputTypes()
     {
         return type.getValidInputTypes();
     }
 
     @Override
-    public final @Nullable BlockIOConfiguration getIOConfiguration(BlockEntityInputType inputType)
+    public final @Nullable BlockIOConfiguration getIOConfiguration(ResourceType inputType)
     {
         return switch (inputType)
         {
@@ -75,7 +75,7 @@ public abstract class ConfigurableSidesBlockEntity extends LimaBlockEntity imple
     }
 
     @Override
-    public final boolean setIOConfiguration(BlockEntityInputType inputType, BlockIOConfiguration configuration)
+    public final boolean setIOConfiguration(ResourceType inputType, BlockIOConfiguration configuration)
     {
         if (supportsInputType(inputType) && configuration.isValidForRules(getIOConfigRules(inputType)))
         {
@@ -93,7 +93,7 @@ public abstract class ConfigurableSidesBlockEntity extends LimaBlockEntity imple
     }
 
     @Override
-    public final IOConfigurationRules getIOConfigRules(BlockEntityInputType inputType)
+    public final IORules getIOConfigRules(ResourceType inputType)
     {
         return type.getIOConfigRules(inputType);
     }
@@ -266,7 +266,7 @@ public abstract class ConfigurableSidesBlockEntity extends LimaBlockEntity imple
         fluidConnections = createConnections(level, Capabilities.Fluid.BLOCK, fluidsIOConfig);
     }
 
-    private boolean setIOConfigInternal(BlockEntityInputType inputType, BlockIOConfiguration configuration)
+    private boolean setIOConfigInternal(ResourceType inputType, BlockIOConfiguration configuration)
     {
         return switch (inputType)
         {

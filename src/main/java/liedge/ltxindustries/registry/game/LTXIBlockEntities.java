@@ -1,6 +1,5 @@
 package liedge.ltxindustries.registry.game;
 
-import com.google.common.collect.ImmutableSet;
 import liedge.limacore.blockentity.*;
 import liedge.limacore.transfer.energy.EnergyHolderBlockEntity;
 import liedge.limacore.transfer.fluid.FluidHolderBlockEntity;
@@ -8,9 +7,9 @@ import liedge.limacore.transfer.item.ItemHolderBlockEntity;
 import liedge.ltxindustries.LTXIIdentifiers;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.blockentity.*;
-import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
+import liedge.ltxindustries.blockentity.base.ResourceType;
 import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
-import liedge.ltxindustries.blockentity.base.IOConfigurationRules;
+import liedge.ltxindustries.blockentity.base.IORules;
 import liedge.ltxindustries.blockentity.turret.ArcTurretBlockEntity;
 import liedge.ltxindustries.blockentity.turret.RailgunTurretBlockEntity;
 import liedge.ltxindustries.blockentity.turret.RocketTurretBlockEntity;
@@ -123,37 +122,37 @@ public final class LTXIBlockEntities
     }
 
     //#region Sided Access Rules
-    private static final IOConfigurationRules STANDARD_PUSH_PULL = IOConfigurationRules.builder().forAllSides().permits(IOAccessSets.ALL_ALLOWED).withDefaultIOAccess(IOAccess.INPUT_ONLY).allowsAutoInput().allowsAutoOutput().build();
-    private static final IOConfigurationRules STANDARD_PUSH_ONLY = IOConfigurationRules.builder().forAllSides().permits(IOAccessSets.ALL_ALLOWED).withDefaultIOAccess(IOAccess.INPUT_ONLY).allowsAutoOutput().build();
-    private static final IOConfigurationRules INPUT_ONLY_NO_PULL = IOConfigurationRules.builder().forAllSides().permits(IOAccessSets.INPUT_ONLY_OR_DISABLED).withDefaultIOAccess(IOAccess.INPUT_ONLY).build();
-    private static final IOConfigurationRules INPUT_ONLY_PULL = IOConfigurationRules.builder().forAllSides().permits(IOAccessSets.INPUT_ONLY_OR_DISABLED).withDefaultIOAccess(IOAccess.INPUT_ONLY).allowsAutoInput().build();
-    private static final IOConfigurationRules OUTPUT_ONLY_PUSH = IOConfigurationRules.builder().forAllSides().permits(IOAccessSets.OUTPUT_ONLY_OR_DISABLED).withDefaultIOAccess(IOAccess.OUTPUT_ONLY).allowsAutoOutput().build();
-    private static final IOConfigurationRules OUTPUT_ONLY_AUTO_PUSH = IOConfigurationRules.builder().forAllSides().permits(IOAccessSets.OUTPUT_ONLY_OR_DISABLED).withDefaultIOAccess(IOAccess.OUTPUT_ONLY).autoOutputByDefault().build();
+    private static final IORules STANDARD_PUSH_PULL = IORules.builder().permits(IOAccessSets.ALL_ALLOWED).withDefaultIOAccess(IOAccess.INPUT_ONLY).allowsAutoInput().allowsAutoOutput().build();
+    private static final IORules STANDARD_PUSH_ONLY = IORules.builder().permits(IOAccessSets.ALL_ALLOWED).withDefaultIOAccess(IOAccess.INPUT_ONLY).allowsAutoOutput().build();
+    private static final IORules INPUT_ONLY_NO_PULL = IORules.builder().permits(IOAccessSets.INPUT_ONLY_OR_DISABLED).withDefaultIOAccess(IOAccess.INPUT_ONLY).build();
+    private static final IORules INPUT_ONLY_PULL = IORules.builder().permits(IOAccessSets.INPUT_ONLY_OR_DISABLED).withDefaultIOAccess(IOAccess.INPUT_ONLY).allowsAutoInput().build();
+    private static final IORules OUTPUT_ONLY_PUSH = IORules.builder().permits(IOAccessSets.OUTPUT_ONLY_OR_DISABLED).withDefaultIOAccess(IOAccess.OUTPUT_ONLY).allowsAutoOutput().build();
+    private static final IORules OUTPUT_ONLY_AUTO_PUSH = IORules.builder().permits(IOAccessSets.OUTPUT_ONLY_OR_DISABLED).withDefaultIOAccess(IOAccess.OUTPUT_ONLY).autoOutputByDefault().build();
 
-    private static final Set<RelativeHorizontalSide> FABRICATOR_VALID_SIDES = ImmutableSet.copyOf(EnumSet.of(RelativeHorizontalSide.BOTTOM, RelativeHorizontalSide.FRONT, RelativeHorizontalSide.REAR, RelativeHorizontalSide.LEFT));
-    private static final IOConfigurationRules FABRICATOR_ITEM_RULES = IOConfigurationRules.builder()
+    private static final Set<RelativeHorizontalSide> FABRICATOR_VALID_SIDES = EnumSet.of(RelativeHorizontalSide.BOTTOM, RelativeHorizontalSide.FRONT, RelativeHorizontalSide.REAR, RelativeHorizontalSide.LEFT);
+    private static final IORules FABRICATOR_ITEM_RULES = IORules.builder()
             .forSides(FABRICATOR_VALID_SIDES)
             .permits(IOAccessSets.OUTPUT_ONLY_OR_DISABLED)
             .withDefaultIOAccess(IOAccess.OUTPUT_ONLY)
             .allowsAutoOutput().build();
-    private static final IOConfigurationRules FABRICATOR_ENERGY_RULES = IOConfigurationRules.builder().forSides(FABRICATOR_VALID_SIDES).permits(IOAccessSets.INPUT_ONLY_OR_DISABLED).withDefaultIOAccess(IOAccess.INPUT_ONLY).build();
+    private static final IORules FABRICATOR_ENERGY_RULES = IORules.builder().forSides(FABRICATOR_VALID_SIDES).permits(IOAccessSets.INPUT_ONLY_OR_DISABLED).withDefaultIOAccess(IOAccess.INPUT_ONLY).build();
 
-    private static final Set<RelativeHorizontalSide> DOUBLE_BLOCK_VALID_SIDES = ImmutableSet.copyOf(EnumSet.of(RelativeHorizontalSide.BOTTOM, RelativeHorizontalSide.FRONT, RelativeHorizontalSide.REAR, RelativeHorizontalSide.LEFT, RelativeHorizontalSide.RIGHT));
-    private static final IOConfigurationRules DOUBLE_BLOCK_STANDARD_PUSH_ONLY = IOConfigurationRules.builder()
+    private static final Set<RelativeHorizontalSide> DOUBLE_BLOCK_VALID_SIDES = EnumSet.of(RelativeHorizontalSide.BOTTOM, RelativeHorizontalSide.FRONT, RelativeHorizontalSide.REAR, RelativeHorizontalSide.LEFT, RelativeHorizontalSide.RIGHT);
+    private static final IORules DOUBLE_BLOCK_STANDARD_PUSH_ONLY = IORules.builder()
             .forSides(DOUBLE_BLOCK_VALID_SIDES)
             .permits(IOAccessSets.ALL_ALLOWED)
             .withDefaultIOAccess(IOAccess.INPUT_ONLY)
             .allowsAutoOutput().build();
-    private static final IOConfigurationRules DOUBLE_BLOCK_INPUT_NO_PULL = IOConfigurationRules.builder()
+    private static final IORules DOUBLE_BLOCK_INPUT_NO_PULL = IORules.builder()
             .forSides(DOUBLE_BLOCK_VALID_SIDES)
             .permits(IOAccessSets.INPUT_ONLY_OR_DISABLED)
             .withDefaultIOAccess(IOAccess.INPUT_ONLY).build();
-    private static final IOConfigurationRules DOUBLE_BLOCK_INPUT_PULL = IOConfigurationRules.builder()
+    private static final IORules DOUBLE_BLOCK_INPUT_PULL = IORules.builder()
             .forSides(DOUBLE_BLOCK_VALID_SIDES)
             .permits(IOAccessSets.INPUT_ONLY_OR_DISABLED)
             .withDefaultIOAccess(IOAccess.INPUT_ONLY)
             .allowsAutoInput().build();
-    private static final IOConfigurationRules TURRET_ITEM_RULES = IOConfigurationRules.builder()
+    private static final IORules TURRET_ITEM_RULES = IORules.builder()
             .forSides(DOUBLE_BLOCK_VALID_SIDES)
             .permits(IOAccessSets.OUTPUT_ONLY_OR_DISABLED)
             .withDefaultIOAccess(IOAccess.OUTPUT_ONLY)
@@ -166,30 +165,30 @@ public final class LTXIBlockEntities
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<EnergyCellArrayBlockEntity>> ENERGY_CELL_ARRAY = TYPES.register(LTXIIdentifiers.ID_ENERGY_CELL_ARRAY, () -> ConfigurableIOBlockEntityType.sidedBuilder(EnergyCellArrayBlockEntity::new)
             .withBlock(LTXIBlocks.ENERGY_CELL_ARRAY)
             .hasMenu(LTXIMenus.ENERGY_CELL_ARRAY)
-            .withConfigRules(BlockEntityInputType.ITEMS, STANDARD_PUSH_ONLY)
-            .withConfigRules(BlockEntityInputType.ENERGY, builder -> builder.forAllSides().permits(IOAccessSets.INPUT_XOR_OUTPUT_OR_DISABLED).withDefaultIOAccess(IOAccess.INPUT_ONLY).autoOutputByDefault())
+            .withConfigRules(ResourceType.ITEMS, STANDARD_PUSH_ONLY)
+            .withConfigRules(ResourceType.ENERGY, builder -> builder.permits(IOAccessSets.INPUT_XOR_OUTPUT_OR_DISABLED).withDefaultIOAccess(IOAccess.INPUT_ONLY).autoOutputByDefault())
             .build());
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<InfiniteECABlockEntity>> INFINITE_ENERGY_CELL_ARRAY = TYPES.register(LTXIIdentifiers.ID_INFINITE_ENERGY_CELL_ARRAY, () -> ConfigurableIOBlockEntityType.sidedBuilder(InfiniteECABlockEntity::new)
             .withBlock(LTXIBlocks.INFINITE_ENERGY_CELL_ARRAY)
             .hasMenu(LTXIMenus.ENERGY_CELL_ARRAY)
-            .withConfigRules(BlockEntityInputType.ITEMS, STANDARD_PUSH_ONLY)
-            .withConfigRules(BlockEntityInputType.ENERGY, OUTPUT_ONLY_AUTO_PUSH)
+            .withConfigRules(ResourceType.ITEMS, STANDARD_PUSH_ONLY)
+            .withConfigRules(ResourceType.ENERGY, OUTPUT_ONLY_AUTO_PUSH)
             .build());
 
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<PortableTankBlockEntity>> PORTABLE_TANK = TYPES.register(LTXIIdentifiers.ID_PORTABLE_TANK, () -> ConfigurableIOBlockEntityType.sidedBuilder(PortableTankBlockEntity::new)
             .withBlock(LTXIBlocks.PORTABLE_TANK)
             .hasMenu(LTXIMenus.PORTABLE_TANK)
-            .withConfigRules(BlockEntityInputType.FLUIDS, builder -> builder.forAllSides().permits(IOAccessSets.INPUT_XOR_OUTPUT_OR_DISABLED).withDefaultIOAccess(IOAccess.INPUT_ONLY).allowsAutoInput().allowsAutoOutput())
+            .withConfigRules(ResourceType.FLUIDS, builder -> builder.permits(IOAccessSets.INPUT_XOR_OUTPUT_OR_DISABLED).withDefaultIOAccess(IOAccess.INPUT_ONLY).allowsAutoInput().allowsAutoOutput())
             .build());
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<SpecialInfiniteTankBlockEntity>> INFINITE_WATER_TANK = TYPES.register(LTXIIdentifiers.ID_INFINITE_WATER_TANK, () -> ConfigurableIOBlockEntityType.sidedBuilder(SpecialInfiniteTankBlockEntity::createWaterTank)
             .withBlock(LTXIBlocks.INFINITE_WATER_TANK)
             .hasMenu(LTXIMenus.SPECIAL_INFINITE_TANK)
-            .withConfigRules(BlockEntityInputType.FLUIDS, OUTPUT_ONLY_AUTO_PUSH)
+            .withConfigRules(ResourceType.FLUIDS, OUTPUT_ONLY_AUTO_PUSH)
             .build());
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<SpecialInfiniteTankBlockEntity>> INFINITE_LAVA_TANK = TYPES.register(LTXIIdentifiers.ID_INFINITE_LAVA_TANK, () -> ConfigurableIOBlockEntityType.sidedBuilder(SpecialInfiniteTankBlockEntity::createLavaTank)
             .withBlock(LTXIBlocks.INFINITE_LAVA_TANK)
             .hasMenu(LTXIMenus.SPECIAL_INFINITE_TANK)
-            .withConfigRules(BlockEntityInputType.FLUIDS, OUTPUT_ONLY_AUTO_PUSH)
+            .withConfigRules(ResourceType.FLUIDS, OUTPUT_ONLY_AUTO_PUSH)
             .build());
 
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<DigitalFurnaceBlockEntity>> DIGITAL_FURNACE = registerItemEnergyMachine(LTXIIdentifiers.ID_DIGITAL_FURNACE, DigitalFurnaceBlockEntity::new, STANDARD_PUSH_PULL, INPUT_ONLY_NO_PULL, builder -> builder.withBlock(LTXIBlocks.DIGITAL_FURNACE).hasMenu(LTXIMenus.DIGITAL_FURNACE));
@@ -221,12 +220,12 @@ public final class LTXIBlockEntities
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<PortableGeneratorBlockEntity>> PORTABLE_GENERATOR = registerSided(LTXIIdentifiers.ID_PORTABLE_GENERATOR, PortableGeneratorBlockEntity::new, builder -> builder
             .withBlock(LTXIBlocks.PORTABLE_GENERATOR)
             .hasMenu(LTXIMenus.PORTABLE_GENERATOR)
-            .withConfigRules(BlockEntityInputType.ITEMS, INPUT_ONLY_NO_PULL)
-            .withConfigRules(BlockEntityInputType.ENERGY, OUTPUT_ONLY_AUTO_PUSH));
+            .withConfigRules(ResourceType.ITEMS, INPUT_ONLY_NO_PULL)
+            .withConfigRules(ResourceType.ENERGY, OUTPUT_ONLY_AUTO_PUSH));
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<SolarPanelBlockEntity>> SOLAR_PANEL = registerSided(LTXIIdentifiers.ID_SOLAR_PANEL, SolarPanelBlockEntity::new, builder -> builder
             .withBlock(LTXIBlocks.SOLAR_PANEL)
             .hasMenu(LTXIMenus.SOLAR_PANEL)
-            .withConfigRules(BlockEntityInputType.ENERGY, OUTPUT_ONLY_AUTO_PUSH));
+            .withConfigRules(ResourceType.ENERGY, OUTPUT_ONLY_AUTO_PUSH));
 
     public static final DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<RepairStationBlockEntity>> REPAIR_STATION = registerItemEnergyMachine(LTXIIdentifiers.ID_REPAIR_STATION, RepairStationBlockEntity::new, STANDARD_PUSH_PULL, INPUT_ONLY_NO_PULL, builder -> builder.withBlock(LTXIBlocks.REPAIR_STATION).hasMenu(LTXIMenus.REPAIR_STATION));
 
@@ -243,14 +242,14 @@ public final class LTXIBlockEntities
         return TYPES.register(name, () -> op.apply(ConfigurableIOBlockEntityType.sidedBuilder(factory)).build());
     }
 
-    private static <BE extends LimaBlockEntity> DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<BE>> registerItemEnergyMachine(String name, BlockEntityType.BlockEntitySupplier<BE> beFactory, IOConfigurationRules itemRules, IOConfigurationRules energyRules, UnaryOperator<ConfigurableIOBlockEntityType.Builder<BE>> op)
+    private static <BE extends LimaBlockEntity> DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<BE>> registerItemEnergyMachine(String name, BlockEntityType.BlockEntitySupplier<BE> beFactory, IORules itemRules, IORules energyRules, UnaryOperator<ConfigurableIOBlockEntityType.Builder<BE>> op)
     {
-        return registerSided(name, beFactory, builder -> op.apply(builder.withConfigRules(BlockEntityInputType.ITEMS, itemRules).withConfigRules(BlockEntityInputType.ENERGY, energyRules)));
+        return registerSided(name, beFactory, builder -> op.apply(builder.withConfigRules(ResourceType.ITEMS, itemRules).withConfigRules(ResourceType.ENERGY, energyRules)));
     }
 
-    private static <BE extends LimaBlockEntity> DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<BE>> registerItemEnergyFluidMachine(String name, BlockEntityType.BlockEntitySupplier<BE> beFactory, IOConfigurationRules itemRules, IOConfigurationRules energyRules, IOConfigurationRules fluidRules, UnaryOperator<ConfigurableIOBlockEntityType.Builder<BE>> op)
+    private static <BE extends LimaBlockEntity> DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<BE>> registerItemEnergyFluidMachine(String name, BlockEntityType.BlockEntitySupplier<BE> beFactory, IORules itemRules, IORules energyRules, IORules fluidRules, UnaryOperator<ConfigurableIOBlockEntityType.Builder<BE>> op)
     {
-        return registerSided(name, beFactory, builder -> op.apply(builder.withConfigRules(BlockEntityInputType.ITEMS, itemRules).withConfigRules(BlockEntityInputType.ENERGY, energyRules).withConfigRules(BlockEntityInputType.FLUIDS, fluidRules)));
+        return registerSided(name, beFactory, builder -> op.apply(builder.withConfigRules(ResourceType.ITEMS, itemRules).withConfigRules(ResourceType.ENERGY, energyRules).withConfigRules(ResourceType.FLUIDS, fluidRules)));
     }
 
     private static <BE extends TurretBlockEntity> DeferredHolder<BlockEntityType<?>, ConfigurableIOBlockEntityType<BE>> registerTurret(String name, BlockEntityType.BlockEntitySupplier<BE> beFactory, UnaryOperator<ConfigurableIOBlockEntityType.Builder<BE>> builderOp)

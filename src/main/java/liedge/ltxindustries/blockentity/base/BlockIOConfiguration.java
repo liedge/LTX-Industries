@@ -31,26 +31,26 @@ public final class BlockIOConfiguration extends MapLikeData<RelativeHorizontalSi
             ByteBufCodecs.BOOL, BlockIOConfiguration::autoOutput,
             BlockIOConfiguration::new);
 
-    public static BlockIOConfiguration create(IOConfigurationRules rules, Function<RelativeHorizontalSide, IOAccess> mapper)
+    public static BlockIOConfiguration create(IORules rules, Function<RelativeHorizontalSide, IOAccess> mapper)
     {
         EnumMap<RelativeHorizontalSide, IOAccess> map = new EnumMap<>(RelativeHorizontalSide.class);
 
-        for (RelativeHorizontalSide side : rules.validSides())
+        for (RelativeHorizontalSide side : rules.getSides())
         {
             IOAccess access = mapper.apply(side);
-            if (!rules.validIOAccesses().contains(access)) access = rules.defaultIOAccess();
+            if (!rules.getAccesses().contains(access)) access = rules.getDefaultAccess();
             map.put(side, access);
         }
 
         return new BlockIOConfiguration(map, rules.defaultAutoInput(), rules.defaultAutoOutput());
     }
 
-    public static BlockIOConfiguration create(IOConfigurationRules rules)
+    public static BlockIOConfiguration create(IORules rules)
     {
-        return create(rules, ignored -> rules.defaultIOAccess());
+        return create(rules, ignored -> rules.getDefaultAccess());
     }
 
-    public static @Nullable BlockIOConfiguration create(ConfigurableIOBlockEntityType<?> type, BlockEntityInputType inputType)
+    public static @Nullable BlockIOConfiguration create(ConfigurableIOBlockEntityType<?> type, ResourceType inputType)
     {
         if (type.getValidInputTypes().contains(inputType))
         {
@@ -96,10 +96,10 @@ public final class BlockIOConfiguration extends MapLikeData<RelativeHorizontalSi
         return this;
     }
 
-    public BlockIOConfiguration cycleIOAccess(RelativeHorizontalSide side, IOConfigurationRules rules, boolean forward)
+    public BlockIOConfiguration cycleIOAccess(RelativeHorizontalSide side, IORules rules, boolean forward)
     {
         IOAccess current = getIOAccess(side);
-        IOAccess next = forward ? OrderedEnum.nextAvailable(rules.validIOAccesses(), current) : OrderedEnum.previousAvailable(rules.validIOAccesses(), current);
+        IOAccess next = forward ? OrderedEnum.nextAvailable(rules.getAccesses(), current) : OrderedEnum.previousAvailable(rules.getAccesses(), current);
         return setIOAccess(side, next);
     }
 
@@ -135,9 +135,9 @@ public final class BlockIOConfiguration extends MapLikeData<RelativeHorizontalSi
         return setAutoOutput(!autoOutput());
     }
 
-    public boolean isValidForRules(IOConfigurationRules rules)
+    public boolean isValidForRules(IORules rules)
     {
-        boolean mapTest = map.entrySet().stream().allMatch(entry -> rules.validSides().contains(entry.getKey()) && rules.validIOAccesses().contains(entry.getValue()));
+        boolean mapTest = map.entrySet().stream().allMatch(entry -> rules.getSides().contains(entry.getKey()) && rules.getAccesses().contains(entry.getValue()));
         boolean autoIOTest = (!autoInput || rules.allowsAutoInput()) && (!autoOutput || rules.allowsAutoOutput());
 
         return mapTest && autoIOTest;

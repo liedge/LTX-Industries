@@ -8,10 +8,10 @@ import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.limacore.util.LimaBlockUtil;
 import liedge.limacore.util.LimaRegistryUtil;
 import liedge.ltxindustries.LTXIndustries;
-import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
+import liedge.ltxindustries.blockentity.base.ResourceType;
 import liedge.ltxindustries.blockentity.base.BlockIOConfiguration;
 import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntity;
-import liedge.ltxindustries.blockentity.base.IOConfigurationRules;
+import liedge.ltxindustries.blockentity.base.IORules;
 import liedge.ltxindustries.registry.game.LTXINetworkSerializers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -60,7 +60,7 @@ public class BlockIOConfigurationMenu extends LimaMenu<BlockIOConfigurationMenu.
         }
     }
 
-    public IOConfigurationRules getIOConfigRules()
+    public IORules getIOConfigRules()
     {
         return menuContext.blockEntity.getIOConfigRules(menuContext.inputType);
     }
@@ -100,7 +100,7 @@ public class BlockIOConfigurationMenu extends LimaMenu<BlockIOConfigurationMenu.
         public void encodeContext(MenuContext menuContext, RegistryFriendlyByteBuf net)
         {
             net.writeBlockPos(menuContext.blockEntity.getBlockPos());
-            BlockEntityInputType.STREAM_CODEC.encode(net, menuContext.inputType);
+            ResourceType.STREAM_CODEC.encode(net, menuContext.inputType);
         }
 
         @Override
@@ -108,7 +108,7 @@ public class BlockIOConfigurationMenu extends LimaMenu<BlockIOConfigurationMenu.
         {
             BlockPos pos = net.readBlockPos();
             ConfigurableIOBlockEntity holder = Objects.requireNonNull(LimaBlockUtil.getSafeBlockEntity(inventory.player.level(), pos, ConfigurableIOBlockEntity.class));
-            BlockEntityInputType inputType = BlockEntityInputType.STREAM_CODEC.decode(net);
+            ResourceType inputType = ResourceType.STREAM_CODEC.decode(net);
 
             return new MenuContext(holder, inputType);
         }
@@ -120,5 +120,5 @@ public class BlockIOConfigurationMenu extends LimaMenu<BlockIOConfigurationMenu.
         }
     }
 
-    public record MenuContext(ConfigurableIOBlockEntity blockEntity, BlockEntityInputType inputType) {}
+    public record MenuContext(ConfigurableIOBlockEntity blockEntity, ResourceType inputType) {}
 }
