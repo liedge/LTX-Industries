@@ -5,7 +5,7 @@ import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.transfer.energy.EnergyHolderBlockEntity;
 import liedge.limacore.transfer.energy.LimaBlockEntityEnergy;
 import liedge.limacore.transfer.energy.LimaEnergyHandler;
-import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
+import liedge.ltxindustries.blockentity.base.ResourceType;
 import liedge.ltxindustries.blockentity.base.BlockIOConfiguration;
 import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
 import net.minecraft.core.BlockPos;
@@ -106,7 +106,7 @@ public abstract class LTXIMachineBlockEntity extends MachineBaseBlockEntity impl
 
     protected void pushEnergyToSides()
     {
-        BlockIOConfiguration configuration = getIOConfigurationOrThrow(BlockEntityInputType.ENERGY);
+        BlockIOConfiguration configuration = getIOConfigurationOrThrow(ResourceType.ENERGY);
         if (configuration.autoOutput())
         {
             Direction front = getFacing();

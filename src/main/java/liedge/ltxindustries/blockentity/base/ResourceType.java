@@ -10,20 +10,20 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.StringRepresentable;
 import net.neoforged.neoforge.network.codec.NeoForgeStreamCodecs;
 
-public enum BlockEntityInputType implements StringRepresentable, Translatable
+public enum ResourceType implements StringRepresentable, Translatable
 {
     ITEMS("items"),
     ENERGY("energy"),
     FLUIDS("fluids");
 
-    public static final Codec<BlockEntityInputType> CODEC = LimaEnumCodec.create(BlockEntityInputType.class);
-    public static final StreamCodec<FriendlyByteBuf, BlockEntityInputType> STREAM_CODEC = NeoForgeStreamCodecs.enumCodec(BlockEntityInputType.class);
+    public static final Codec<ResourceType> CODEC = LimaEnumCodec.create(ResourceType.class);
+    public static final StreamCodec<FriendlyByteBuf, ResourceType> STREAM_CODEC = NeoForgeStreamCodecs.enumCodec(ResourceType.class);
     public static final Translatable SIDEBAR_TOOLTIP = LTXILangKeys.tooltip("configure_io");
 
     private final String name;
     private final String descriptionId;
 
-    BlockEntityInputType(String name)
+    ResourceType(String name)
     {
         this.name = name;
         this.descriptionId = LTXIndustries.RESOURCES.translationKey("input_type.{}", name);

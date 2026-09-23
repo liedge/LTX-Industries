@@ -13,7 +13,7 @@ import liedge.limacore.recipe.SimpleResourceAccess;
 import liedge.limacore.util.LimaCoreObjects;
 import liedge.ltxindustries.blockentity.AutoFabricatorBlockEntity;
 import liedge.ltxindustries.blockentity.BaseFabricatorBlockEntity;
-import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
+import liedge.ltxindustries.blockentity.base.ResourceType;
 import liedge.ltxindustries.blockentity.base.BlockIOConfiguration;
 import liedge.ltxindustries.registry.game.LTXIBlockEntities;
 import liedge.ltxindustries.registry.game.LTXIBlocks;
@@ -58,10 +58,10 @@ public final class AutoFabricatorCraftingMachine implements ICraftingMachine
                 if (LTXIMachinesConfig.FABRICATOR_AE2_AUTO_RECONFIGURE_IO.getAsBoolean())
                 {
                     RelativeHorizontalSide beSide = RelativeHorizontalSide.of(blockEntity.getFacing(), ejectionDirection);
-                    BlockIOConfiguration configuration = blockEntity.getIOConfigurationOrThrow(BlockEntityInputType.ITEMS)
+                    BlockIOConfiguration configuration = blockEntity.getIOConfigurationOrThrow(ResourceType.ITEMS)
                             .setIOAccess(beSide, IOAccess.OUTPUT_ONLY)
                             .setAutoOutput(true);
-                    blockEntity.setIOConfiguration(BlockEntityInputType.ITEMS, configuration);
+                    blockEntity.setIOConfiguration(ResourceType.ITEMS, configuration);
                 }
 
                 // Set crafting state

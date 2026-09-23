@@ -2,7 +2,7 @@ package liedge.ltxindustries.client.gui.widget;
 
 import liedge.limacore.client.gui.LimaMenuScreen;
 import liedge.ltxindustries.LTXIndustries;
-import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
+import liedge.ltxindustries.blockentity.base.ResourceType;
 import liedge.ltxindustries.registry.game.LTXINetworkSerializers;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Tooltip;
@@ -16,12 +16,12 @@ public class OpenIOControlButton extends LTXISidebarButton.RightSided
 
     private final LimaMenuScreen<?> parent;
     private final int buttonId;
-    private final BlockEntityInputType inputType;
+    private final ResourceType inputType;
     private final Identifier icon;
 
-    public OpenIOControlButton(int x, int y, LimaMenuScreen<?> parent, int buttonId, BlockEntityInputType inputType)
+    public OpenIOControlButton(int x, int y, LimaMenuScreen<?> parent, int buttonId, ResourceType inputType)
     {
-        super(x, y, BlockEntityInputType.SIDEBAR_TOOLTIP.translateArgs(inputType.translate()));
+        super(x, y, ResourceType.SIDEBAR_TOOLTIP.translateArgs(inputType.translate()));
         this.parent = parent;
         this.buttonId = buttonId;
         this.inputType = inputType;

@@ -6,7 +6,7 @@ import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.client.util.LimaComponentUtil;
 import liedge.limacore.util.LimaBlockUtil;
 import liedge.ltxindustries.LTXIConstants;
-import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
+import liedge.ltxindustries.blockentity.base.ResourceType;
 import liedge.ltxindustries.blockentity.base.BlockIOConfiguration;
 import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntity;
 import liedge.ltxindustries.client.LTXILangKeys;
@@ -24,9 +24,9 @@ import net.minecraft.world.level.Level;
 
 public class IOConfigCardItem extends Item implements TooltipShiftHintItem
 {
-    private final BlockEntityInputType cardInputType;
+    private final ResourceType cardInputType;
 
-    public IOConfigCardItem(Properties properties, BlockEntityInputType cardInputType)
+    public IOConfigCardItem(Properties properties, ResourceType cardInputType)
     {
         super(properties);
         this.cardInputType = cardInputType;

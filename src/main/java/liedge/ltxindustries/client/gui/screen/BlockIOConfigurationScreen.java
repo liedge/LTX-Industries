@@ -69,7 +69,7 @@ public class BlockIOConfigurationScreen extends LTXIScreen<BlockIOConfigurationM
     {
         addRenderableWidget(new SubMenuBackButton(leftPos - leftPadding, topPos + 3, this));
 
-        for (RelativeHorizontalSide side : menu.getIOConfigRules().validSides())
+        for (RelativeHorizontalSide side : menu.getIOConfigRules().getSides())
         {
             IOButton button = switch (side)
             {

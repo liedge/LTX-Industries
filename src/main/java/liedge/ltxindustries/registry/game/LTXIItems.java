@@ -9,7 +9,7 @@ import liedge.limacore.util.LimaCollectionsUtil;
 import liedge.limacore.util.LimaRegistryUtil;
 import liedge.ltxindustries.LTXIIdentifiers;
 import liedge.ltxindustries.block.NeonLightColor;
-import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
+import liedge.ltxindustries.blockentity.base.ResourceType;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.data.LightChannels;
 import liedge.ltxindustries.data.LightColors;
@@ -321,9 +321,9 @@ public final class LTXIItems
     // Data holding 'cards'
     public static final DeferredItem<Item> EMPTY_FABRICATION_BLUEPRINT = registerSimpleLore("empty_fabrication_blueprint");
     public static final DeferredItem<FabricationBlueprintItem> FABRICATION_BLUEPRINT = ITEMS.registerItem("fabrication_blueprint", FabricationBlueprintItem::new, properties -> properties.stacksTo(1));
-    public static final DeferredItem<IOConfigCardItem> ITEMS_IO_CONFIG_CARD = ITEMS.registerItem("items_io_config_card", properties -> new IOConfigCardItem(properties, BlockEntityInputType.ITEMS), properties -> properties.stacksTo(1));
-    public static final DeferredItem<IOConfigCardItem> ENERGY_IO_CONFIG_CARD = ITEMS.registerItem("energy_io_config_card", properties -> new IOConfigCardItem(properties, BlockEntityInputType.ENERGY), properties -> properties.stacksTo(1));
-    public static final DeferredItem<IOConfigCardItem> FLUIDS_IO_CONFIG_CARD = ITEMS.registerItem("fluids_io_config_card", properties -> new IOConfigCardItem(properties, BlockEntityInputType.FLUIDS), properties -> properties.stacksTo(1));
+    public static final DeferredItem<IOConfigCardItem> ITEMS_IO_CONFIG_CARD = ITEMS.registerItem("items_io_config_card", properties -> new IOConfigCardItem(properties, ResourceType.ITEMS), properties -> properties.stacksTo(1));
+    public static final DeferredItem<IOConfigCardItem> ENERGY_IO_CONFIG_CARD = ITEMS.registerItem("energy_io_config_card", properties -> new IOConfigCardItem(properties, ResourceType.ENERGY), properties -> properties.stacksTo(1));
+    public static final DeferredItem<IOConfigCardItem> FLUIDS_IO_CONFIG_CARD = ITEMS.registerItem("fluids_io_config_card", properties -> new IOConfigCardItem(properties, ResourceType.FLUIDS), properties -> properties.stacksTo(1));
 
     // Signature weapons
     public static final DeferredItem<WayfinderItem> WAYFINDER = registerLTXGear(LTXIIdentifiers.ID_WAYFINDER, WayfinderItem::new, properties -> properties

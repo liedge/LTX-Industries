@@ -5,7 +5,7 @@ import liedge.limacore.lib.ModResources;
 import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.block.NeonLightColor;
-import liedge.ltxindustries.blockentity.base.BlockEntityInputType;
+import liedge.ltxindustries.blockentity.base.ResourceType;
 import liedge.ltxindustries.client.LTXIKeyMappings;
 import liedge.ltxindustries.data.LightColors;
 import liedge.ltxindustries.integration.jade.LTXIJadePlugin;
@@ -388,10 +388,10 @@ class LanguageGen extends LimaLanguageProvider
         menuTitle(LTXIMenus.RAILGUN_TURRET, "Noctis Turret");
 
         // Machine input types
-        add(BlockEntityInputType.ITEMS, "Items");
-        add(BlockEntityInputType.ENERGY, "Energy");
-        add(BlockEntityInputType.FLUIDS, "Fluids");
-        add(BlockEntityInputType.SIDEBAR_TOOLTIP, "Configure %s IO");
+        add(ResourceType.ITEMS, "Items");
+        add(ResourceType.ENERGY, "Energy");
+        add(ResourceType.FLUIDS, "Fluids");
+        add(ResourceType.SIDEBAR_TOOLTIP, "Configure %s IO");
 
         // Recipe types
         add(GRINDING, "Grinding");
