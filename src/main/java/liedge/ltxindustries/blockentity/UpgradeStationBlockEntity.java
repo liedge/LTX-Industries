@@ -3,12 +3,13 @@ package liedge.ltxindustries.blockentity;
 import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.blockentity.IOAccess;
 import liedge.limacore.blockentity.LimaBlockEntity;
-import liedge.limacore.menu.LimaMenuProvider;
+import liedge.limacore.menu.BlockEntityMenuProvider;
 import liedge.limacore.network.sync.SimpleValueTracker;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.limacore.transfer.item.ItemHolderBlockEntity;
 import liedge.limacore.transfer.item.LimaBlockEntityItems;
 import liedge.ltxindustries.blockentity.base.SubMenuProviderBlockEntity;
+import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
 import liedge.ltxindustries.registry.game.LTXIBlockEntities;
 import liedge.ltxindustries.registry.game.LTXIDataComponents;
@@ -17,6 +18,7 @@ import liedge.ltxindustries.registry.game.LTXIMenus;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
@@ -46,6 +48,12 @@ public class UpgradeStationBlockEntity extends LimaBlockEntity implements ItemHo
         return previewItem;
     }
 
+    @Override
+    public boolean validForMenu(Player player)
+    {
+        return super.validForMenu(player) && hasValidItem();
+    }
+
     public boolean hasValidItem()
     {
         return inventory.getResource(EQUIPMENT_ITEM_SLOT).getItem() instanceof UpgradableEquipmentItem;
@@ -55,7 +63,7 @@ public class UpgradeStationBlockEntity extends LimaBlockEntity implements ItemHo
     {
         if (hasValidItem())
         {
-            LimaMenuProvider.create(LTXIMenus.EQUIPMENT_UPGRADES.get(), this, null, false).openMenuScreen(player);
+            player.openMenu(new BlockEntityMenuProvider(LTXIMenus.EQUIPMENT_UPGRADES, this, LTXILangKeys.GUI_UPGRADES.translate(), false));
         }
     }
 
@@ -63,7 +71,7 @@ public class UpgradeStationBlockEntity extends LimaBlockEntity implements ItemHo
     {
         if (hasValidItem())
         {
-            LimaMenuProvider.create(LTXIMenus.LIGHT_COLORS_CONFIG.get(), this, null, false).openMenuScreen(player);
+            player.openMenu(new BlockEntityMenuProvider(LTXIMenus.LIGHT_COLORS_CONFIG, this, LTXILangKeys.GUI_LIGHT_COLORS.translate(), false));
         }
     }
 

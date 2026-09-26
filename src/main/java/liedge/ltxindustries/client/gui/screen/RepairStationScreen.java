@@ -17,7 +17,7 @@ public class RepairStationScreen extends MachineBaseScreen<RepairStationMenu>
     protected void addWidgets()
     {
         super.addWidgets();
-        addRenderableOnly(new MachineProgressWidget(menu.menuContext(), leftPos + 75, topPos + 39));
+        addRenderableOnly(new MachineProgressWidget(menu.getMenuContext(), leftPos + 75, topPos + 39));
     }
 
     @Override

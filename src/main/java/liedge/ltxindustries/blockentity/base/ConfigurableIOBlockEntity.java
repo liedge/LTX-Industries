@@ -1,18 +1,18 @@
 package liedge.ltxindustries.blockentity.base;
 
-import liedge.limacore.menu.LimaMenuProvider;
+import liedge.limacore.menu.StandaloneMenuProvider;
 import liedge.ltxindustries.menu.BlockIOConfigurationMenu;
 import liedge.ltxindustries.registry.game.LTXIMenus;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
-import java.util.Objects;
 import java.util.function.BiConsumer;
 
 public interface ConfigurableIOBlockEntity extends SubMenuProviderBlockEntity
@@ -46,11 +46,14 @@ public interface ConfigurableIOBlockEntity extends SubMenuProviderBlockEntity
 
     IORules getIOConfigRules(ResourceType inputType);
 
-    default void openIOControlsSubMenu(Player player, ResourceType inputType)
+    default void openIOControlsSubMenu(ServerPlayer player, ResourceType resourceType)
     {
-        BlockIOConfigurationMenu.MenuContext context = new BlockIOConfigurationMenu.MenuContext(this, inputType);
-        Component title = Objects.requireNonNull(LTXIMenus.BLOCK_IO_CONFIGURATION.get().getDefaultTitle()).translateArgs(context.inputType().translate());
-        LimaMenuProvider.create(LTXIMenus.BLOCK_IO_CONFIGURATION.get(), context, title, false).openMenuScreen(player);
+        MenuProvider provider = new StandaloneMenuProvider(Component.translatable(LTXIMenus.BLOCK_IO_CONFIGURATION.get().getDescriptionId(), resourceType.translate()), false,
+                (id, inv, _) -> new BlockIOConfigurationMenu(id, inv, this, resourceType));
+        player.openMenu(provider, net -> {
+            net.writeBlockPos(getBlockPos());
+            ResourceType.STREAM_CODEC.encode(net, resourceType);
+        });
     }
 
     default void loadIOConfigurations(ValueInput global, BiConsumer<ResourceType, BlockIOConfiguration> consumer)

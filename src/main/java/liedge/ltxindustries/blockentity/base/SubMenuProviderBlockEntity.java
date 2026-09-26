@@ -1,16 +1,16 @@
 package liedge.ltxindustries.blockentity.base;
 
-import liedge.limacore.blockentity.LimaBlockEntity;
 import liedge.limacore.blockentity.LimaBlockEntityAccess;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.MenuProvider;
 
 import java.util.Objects;
 
 public interface SubMenuProviderBlockEntity extends LimaBlockEntityAccess
 {
-    default void returnToPrimaryMenuScreen(Player player)
+    default void returnToPrimaryMenuScreen(ServerPlayer player)
     {
-        LimaBlockEntity thisBlock = getAsLimaBlockEntity();
-        Objects.requireNonNull(thisBlock.getType().createMenuProvider(thisBlock, false)).openMenuScreen(player);
+        MenuProvider provider = Objects.requireNonNull(getAsLimaBlockEntity().getMenuProvider(false));
+        player.openMenu(provider);
     }
 }

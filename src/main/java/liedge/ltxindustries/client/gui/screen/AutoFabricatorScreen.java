@@ -21,7 +21,7 @@ public class AutoFabricatorScreen extends MachineBaseScreen<AutoFabricatorMenu>
     protected void addWidgets()
     {
         super.addWidgets();
-        addRenderableOnly(new FabricatorProgressWidget(leftPos + 171, topPos + 70, menu.menuContext()));
+        addRenderableOnly(new FabricatorProgressWidget(leftPos + 171, topPos + 70, menu.getMenuContext()));
     }
 
     @Override

@@ -24,25 +24,25 @@ public abstract class MachineBaseScreen<M extends MachineBaseMenu<?>> extends LT
 
     protected MachineBaseScreen(M menu, Inventory inventory, Component title, int primaryWidth, int primaryHeight)
     {
-        super(menu, inventory, title, primaryWidth, primaryHeight, menu.menuContext().hasStatsTooltips() ? 18 : 0, 18, 0);
+        super(menu, inventory, title, primaryWidth, primaryHeight, menu.getMenuContext().hasStatsTooltips() ? 18 : 0, 18, 0);
     }
 
     @Override
     protected void addWidgets()
     {
         // Energy bar is in the same place every time, for now
-        if (menu.menuContext() instanceof EnergyHolderBlockEntity energyContext)
+        if (menu.getMenuContext() instanceof EnergyHolderBlockEntity energyContext)
         {
             addRenderableOnly(new EnergyGaugeWidget(energyContext, leftPos + 10, topPos + 9));
         }
 
         // Left sidebar widgets
         addRenderableWidget(new MachineUpgradesButton(rightPos, topPos + 3, this));
-        if (menu.menuContext().hasStatsTooltips()) addRenderableOnly(new StatsWidget(leftPos - leftPadding, bottomPos - 23, menu.menuContext()));
+        if (menu.getMenuContext().hasStatsTooltips()) addRenderableOnly(new StatsWidget(leftPos - leftPadding, bottomPos - 23, menu.getMenuContext()));
 
         // Right sidebar widgets
         int sidebarY = 23;
-        for (ResourceType type : menu.menuContext().getConfigurableInputTypes())
+        for (ResourceType type : menu.getMenuContext().getConfigurableInputTypes())
         {
             addRenderableWidget(new OpenIOControlButton(rightPos, topPos + sidebarY, this, SharedMenuButtons.OPEN_IO_CONTROLS, type));
             sidebarY += LTXISidebarButton.SIDEBAR_BUTTON_HEIGHT;

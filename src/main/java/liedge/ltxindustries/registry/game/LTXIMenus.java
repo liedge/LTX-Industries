@@ -1,6 +1,9 @@
 package liedge.ltxindustries.registry.game;
 
+import liedge.limacore.blockentity.LimaBlockEntityAccess;
+import liedge.limacore.menu.BlockEntityMenu;
 import liedge.limacore.menu.BlockEntityMenuType;
+import liedge.limacore.menu.LimaMenuType;
 import liedge.ltxindustries.LTXIIdentifiers;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.blockentity.*;
@@ -11,7 +14,6 @@ import liedge.ltxindustries.blockentity.turret.ArcTurretBlockEntity;
 import liedge.ltxindustries.blockentity.turret.RailgunTurretBlockEntity;
 import liedge.ltxindustries.blockentity.turret.RocketTurretBlockEntity;
 import liedge.ltxindustries.blockentity.turret.TurretBlockEntity;
-import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.menu.*;
 import liedge.ltxindustries.menu.layout.RecipeLayout;
 import liedge.ltxindustries.menu.layout.RecipeLayouts;
@@ -32,17 +34,17 @@ public final class LTXIMenus
         TYPES.register(bus);
     }
 
-    public static final DeferredHolder<MenuType<?>, BlockIOConfigurationMenu.MenuType> BLOCK_IO_CONFIGURATION = TYPES.register("block_io_configuration", BlockIOConfigurationMenu.MenuType::new);
-    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<MachineBaseBlockEntity, MachineUpgradeMenu>> MACHINE_UPGRADES = TYPES.register("machine_upgrades", () -> BlockEntityMenuType.create(MachineBaseBlockEntity.class, MachineUpgradeMenu::new, LTXILangKeys.GUI_UPGRADES));
-    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<RecipeModeHolderBlockEntity, RecipeModeMenu>> RECIPE_MODE_SELECT = TYPES.register("recipe_modes", () -> BlockEntityMenuType.create(RecipeModeHolderBlockEntity.class, RecipeModeMenu::new));
+    public static final DeferredHolder<MenuType<?>, LimaMenuType<BlockIOConfigurationMenu>> BLOCK_IO_CONFIGURATION = TYPES.register("block_io_configuration", id -> LimaMenuType.create(id, BlockIOConfigurationMenu::new));
+    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<MachineBaseBlockEntity, MachineUpgradeMenu>> MACHINE_UPGRADES = registerBE("machine_upgrades", MachineBaseBlockEntity.class, MachineUpgradeMenu::new);
+    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<RecipeModeHolderBlockEntity, RecipeModeMenu>> RECIPE_MODE_SELECT = registerBE("recipe_modes", RecipeModeHolderBlockEntity.class, RecipeModeMenu::new);
 
-    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<UpgradeStationBlockEntity, UpgradeStationMenu>> UPGRADE_STATION = TYPES.register(LTXIIdentifiers.ID_UPGRADE_STATION, () -> BlockEntityMenuType.create(UpgradeStationBlockEntity.class, UpgradeStationMenu::new));
-    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<UpgradeStationBlockEntity, EquipmentUpgradeMenu>> EQUIPMENT_UPGRADES = TYPES.register("equipment_upgrades", () -> BlockEntityMenuType.create(UpgradeStationBlockEntity.class, EquipmentUpgradeMenu::new, LTXILangKeys.GUI_UPGRADES));
-    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<UpgradeStationBlockEntity, LightColorsMenu>> LIGHT_COLORS_CONFIG = TYPES.register("light_colors", () -> BlockEntityMenuType.create(UpgradeStationBlockEntity.class, LightColorsMenu::new, LTXILangKeys.GUI_LIGHT_COLORS));
+    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<UpgradeStationBlockEntity, UpgradeStationMenu>> UPGRADE_STATION = registerBE(LTXIIdentifiers.ID_UPGRADE_STATION, UpgradeStationBlockEntity.class, UpgradeStationMenu::new);
+    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<UpgradeStationBlockEntity, EquipmentUpgradeMenu>> EQUIPMENT_UPGRADES = registerBE("equipment_upgrades", UpgradeStationBlockEntity.class, EquipmentUpgradeMenu::new);
+    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<UpgradeStationBlockEntity, LightColorsMenu>> LIGHT_COLORS_CONFIG = registerBE("light_colors", UpgradeStationBlockEntity.class, LightColorsMenu::new);
 
-    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<BaseECABlockEntity, EnergyCellArrayMenu>> ENERGY_CELL_ARRAY = TYPES.register(LTXIIdentifiers.ID_ENERGY_CELL_ARRAY, () -> BlockEntityMenuType.create(BaseECABlockEntity.class, EnergyCellArrayMenu::new));
-    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<PortableTankBlockEntity, PortableTankMenu>> PORTABLE_TANK = TYPES.register(LTXIIdentifiers.ID_PORTABLE_TANK, () -> BlockEntityMenuType.create(PortableTankBlockEntity.class, PortableTankMenu::new));
-    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<SpecialInfiniteTankBlockEntity, SpecialInfiniteTankMenu>> SPECIAL_INFINITE_TANK = TYPES.register("special_infinite_tank", () -> BlockEntityMenuType.create(SpecialInfiniteTankBlockEntity.class, SpecialInfiniteTankMenu::new, null));
+    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<BaseECABlockEntity, EnergyCellArrayMenu>> ENERGY_CELL_ARRAY = registerBE(LTXIIdentifiers.ID_ENERGY_CELL_ARRAY, BaseECABlockEntity.class, EnergyCellArrayMenu::new);
+    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<PortableTankBlockEntity, PortableTankMenu>> PORTABLE_TANK = registerBE(LTXIIdentifiers.ID_PORTABLE_TANK, PortableTankBlockEntity.class, PortableTankMenu::new);
+    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<SpecialInfiniteTankBlockEntity, SpecialInfiniteTankMenu>> SPECIAL_INFINITE_TANK = registerBE("special_infinite_tank", SpecialInfiniteTankBlockEntity.class, SpecialInfiniteTankMenu::new);
 
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<DigitalFurnaceBlockEntity, RecipeLayoutMenu<DigitalFurnaceBlockEntity>>> DIGITAL_FURNACE = registerLayoutRecipeMenu(LTXIIdentifiers.ID_DIGITAL_FURNACE, DigitalFurnaceBlockEntity.class, RecipeLayouts.COOKING_LAYOUT);
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<DigitalSmokerBlockEntity, RecipeLayoutMenu<DigitalSmokerBlockEntity>>> DIGITAL_SMOKER = registerLayoutRecipeMenu(LTXIIdentifiers.ID_DIGITAL_SMOKER, DigitalSmokerBlockEntity.class, RecipeLayouts.COOKING_LAYOUT);
@@ -57,28 +59,35 @@ public final class LTXIMenus
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<ChemLabBlockEntity, RecipeLayoutMenu<ChemLabBlockEntity>>> CHEM_LAB = registerLayoutRecipeMenu(LTXIIdentifiers.ID_CHEM_LAB, ChemLabBlockEntity.class, RecipeLayouts.CHEMICAL_REACTING);
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<AssemblerBlockEntity, RecipeLayoutMenu<AssemblerBlockEntity>>> ASSEMBLER = registerLayoutRecipeMenu(LTXIIdentifiers.ID_ASSEMBLER, AssemblerBlockEntity.class, RecipeLayouts.ASSEMBLING);
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<GeoSynthesizerBlockEntity, RecipeLayoutMenu<GeoSynthesizerBlockEntity>>> GEO_SYNTHESIZER = registerLayoutRecipeMenu(LTXIIdentifiers.ID_GEO_SYNTHESIZER, GeoSynthesizerBlockEntity.class, RecipeLayouts.GEO_SYNTHESIS);
-    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<FabricatorBlockEntity, FabricatorMenu>> FABRICATOR = TYPES.register(LTXIIdentifiers.ID_FABRICATOR, () -> BlockEntityMenuType.create(FabricatorBlockEntity.class, FabricatorMenu::new));
-    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<AutoFabricatorBlockEntity, AutoFabricatorMenu>> AUTO_FABRICATOR = TYPES.register(LTXIIdentifiers.ID_AUTO_FABRICATOR, () -> BlockEntityMenuType.create(AutoFabricatorBlockEntity.class, AutoFabricatorMenu::new));
-    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<AirScrubberBlockEntity, AirScrubberMenu>> ATMOSPHERIC_SCRUBBER = TYPES.register(LTXIIdentifiers.ID_ATMOSPHERIC_SCRUBBER, () -> BlockEntityMenuType.create(AirScrubberBlockEntity.class, AirScrubberMenu::new));
+    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<FabricatorBlockEntity, FabricatorMenu>> FABRICATOR = registerBE(LTXIIdentifiers.ID_FABRICATOR, FabricatorBlockEntity.class, FabricatorMenu::new);
+    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<AutoFabricatorBlockEntity, AutoFabricatorMenu>> AUTO_FABRICATOR = registerBE(LTXIIdentifiers.ID_AUTO_FABRICATOR, AutoFabricatorBlockEntity.class, AutoFabricatorMenu::new);
+    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<AirScrubberBlockEntity, AirScrubberMenu>> ATMOSPHERIC_SCRUBBER = registerBE(LTXIIdentifiers.ID_ATMOSPHERIC_SCRUBBER, AirScrubberBlockEntity.class, AirScrubberMenu::new);
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<DigitalGardenBlockEntity, RecipeLayoutMenu<DigitalGardenBlockEntity>>> DIGITAL_GARDEN = registerLayoutRecipeMenu(LTXIIdentifiers.ID_DIGITAL_GARDEN, DigitalGardenBlockEntity.class, RecipeLayouts.GARDEN_SIMULATING);
 
-    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<PortableGeneratorBlockEntity, PortableGeneratorMenu>> PORTABLE_GENERATOR = TYPES.register(LTXIIdentifiers.ID_PORTABLE_GENERATOR, () -> BlockEntityMenuType.create(PortableGeneratorBlockEntity.class, PortableGeneratorMenu::new));
-    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<SolarPanelBlockEntity, SolarPanelMenu>> SOLAR_PANEL = TYPES.register(LTXIIdentifiers.ID_SOLAR_PANEL, () -> BlockEntityMenuType.create(SolarPanelBlockEntity.class, SolarPanelMenu::new));
+    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<PortableGeneratorBlockEntity, PortableGeneratorMenu>> PORTABLE_GENERATOR = registerBE(LTXIIdentifiers.ID_PORTABLE_GENERATOR, PortableGeneratorBlockEntity.class, PortableGeneratorMenu::new);
+    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<SolarPanelBlockEntity, SolarPanelMenu>> SOLAR_PANEL = registerBE(LTXIIdentifiers.ID_SOLAR_PANEL, SolarPanelBlockEntity.class, SolarPanelMenu::new);
 
-    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<RepairStationBlockEntity, RepairStationMenu>> REPAIR_STATION = TYPES.register(LTXIIdentifiers.ID_REPAIR_STATION, () -> BlockEntityMenuType.create(RepairStationBlockEntity.class, RepairStationMenu::new));
+    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<RepairStationBlockEntity, RepairStationMenu>> REPAIR_STATION = registerBE(LTXIIdentifiers.ID_REPAIR_STATION, RepairStationBlockEntity.class, RepairStationMenu::new);
 
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<ArcTurretBlockEntity, TurretMenu<ArcTurretBlockEntity>>> ARC_TURRET = registerTurret(LTXIIdentifiers.ID_ARC_TURRET, ArcTurretBlockEntity.class);
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<RocketTurretBlockEntity, TurretMenu<RocketTurretBlockEntity>>> ROCKET_TURRET = registerTurret(LTXIIdentifiers.ID_ROCKET_TURRET, RocketTurretBlockEntity.class);
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<RailgunTurretBlockEntity, TurretMenu<RailgunTurretBlockEntity>>> RAILGUN_TURRET = registerTurret(LTXIIdentifiers.ID_RAILGUN_TURRET, RailgunTurretBlockEntity.class);
 
+    // Helpers
+    private static <BE extends LimaBlockEntityAccess, M extends BlockEntityMenu<BE>> DeferredHolder<MenuType<?>, BlockEntityMenuType<BE, M>> registerBE(String name, Class<BE> beClass, BlockEntityMenuType.TypedFactory<BE, M> factory)
+    {
+        return TYPES.register(name, id -> BlockEntityMenuType.create(id, beClass, factory));
+    }
+
     private static <BE extends BaseRecipeMachineBlockEntity<?, ?>> DeferredHolder<MenuType<?>, BlockEntityMenuType<BE, RecipeLayoutMenu<BE>>> registerLayoutRecipeMenu(String name, Class<BE> beClass, RecipeLayout layout)
     {
         //noinspection RedundantTypeArguments
-        return TYPES.register(name, () -> BlockEntityMenuType.<BE, RecipeLayoutMenu<BE>>create(beClass, (type, containerId, inventory, menuContext) -> new RecipeLayoutMenu<>(type, containerId, inventory, menuContext, layout)));
+        return LTXIMenus.<BE, RecipeLayoutMenu<BE>>registerBE(name, beClass, (type, id, inv, be) -> new RecipeLayoutMenu<>(type, id, inv, be, layout));
     }
 
     private static <BE extends TurretBlockEntity> DeferredHolder<MenuType<?>, BlockEntityMenuType<BE, TurretMenu<BE>>> registerTurret(String name, Class<BE> beClass)
     {
-        return TYPES.register(name, id -> BlockEntityMenuType.<BE, TurretMenu<BE>>create(id, beClass, TurretMenu::new));
+        //noinspection RedundantTypeArguments
+        return LTXIMenus.<BE, TurretMenu<BE>>registerBE(name, beClass, TurretMenu::new);
     }
 }

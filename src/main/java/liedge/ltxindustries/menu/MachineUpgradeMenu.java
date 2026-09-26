@@ -1,7 +1,6 @@
 package liedge.ltxindustries.menu;
 
 import liedge.limacore.blockentity.BlockContentsType;
-import liedge.limacore.menu.LimaMenuType;
 import liedge.ltxindustries.blockentity.template.MachineBaseBlockEntity;
 import liedge.ltxindustries.lib.upgrades.Upgrade;
 import liedge.ltxindustries.lib.upgrades.UpgradeEntry;
@@ -15,11 +14,12 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 
 public class MachineUpgradeMenu extends UpgradesConfigMenu<MachineBaseBlockEntity>
 {
-    public MachineUpgradeMenu(LimaMenuType<MachineBaseBlockEntity, ?> type, int containerId, Inventory inventory, MachineBaseBlockEntity menuContext)
+    public MachineUpgradeMenu(MenuType<?> type, int containerId, Inventory inventory, MachineBaseBlockEntity menuContext)
     {
         super(type, containerId, inventory, menuContext, menuContext.getItemsOrThrow(BlockContentsType.AUXILIARY), MachineBaseBlockEntity.AUX_MODULE_ITEM_SLOT);
 

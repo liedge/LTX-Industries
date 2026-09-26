@@ -1,14 +1,14 @@
 package liedge.ltxindustries.menu;
 
 import liedge.limacore.blockentity.BlockContentsType;
-import liedge.limacore.menu.LimaMenuType;
 import liedge.ltxindustries.blockentity.AirScrubberBlockEntity;
 import liedge.ltxindustries.menu.layout.RecipeLayouts;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.MenuType;
 
 public class AirScrubberMenu extends LTXIMachineMenu<AirScrubberBlockEntity>
 {
-    public AirScrubberMenu(LimaMenuType<AirScrubberBlockEntity, ?> type, int containerId, Inventory inventory, AirScrubberBlockEntity menuContext)
+    public AirScrubberMenu(MenuType<?> type, int containerId, Inventory inventory, AirScrubberBlockEntity menuContext)
     {
         super(type, containerId, inventory, menuContext, true);
 
@@ -21,12 +21,7 @@ public class AirScrubberMenu extends LTXIMachineMenu<AirScrubberBlockEntity>
 
         menuContext.getFluidsOrThrow(BlockContentsType.OUTPUT).syncAllProperties(this);
         addDataWatcher(menuContext.keepRecipeModeSynced());
-    }
 
-    @Override
-    protected void defineButtonEventHandlers(EventHandlerBuilder builder)
-    {
-        super.defineButtonEventHandlers(builder);
-        builder.handleUnitAction(SharedMenuButtons.OPEN_RECIPE_MODES, menuContext::openModesSubMenu);
+        handleUnitButton(SharedMenuButtons.OPEN_RECIPE_MODES, menuContext::openModesSubMenu);
     }
 }

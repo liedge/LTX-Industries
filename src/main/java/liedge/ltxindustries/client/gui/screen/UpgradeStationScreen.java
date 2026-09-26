@@ -42,7 +42,7 @@ public class UpgradeStationScreen extends LTXIScreen<UpgradeStationMenu>
     {
         if (upgradesButton != null && colorChangeButton != null)
         {
-            boolean enable = menu.menuContext().hasValidItem();
+            boolean enable = menu.getMenuContext().hasValidItem();
 
             upgradesButton.active = enable;
             colorChangeButton.active = enable;

@@ -1,7 +1,6 @@
 package liedge.ltxindustries.menu;
 
 import liedge.limacore.blockentity.BlockContentsType;
-import liedge.limacore.menu.LimaMenuType;
 import liedge.limacore.util.LimaLootUtil;
 import liedge.ltxindustries.blockentity.UpgradeStationBlockEntity;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
@@ -17,7 +16,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 
@@ -26,17 +25,11 @@ import static liedge.ltxindustries.blockentity.UpgradeStationBlockEntity.UPGRADE
 
 public class EquipmentUpgradeMenu extends UpgradesConfigMenu<UpgradeStationBlockEntity>
 {
-    public EquipmentUpgradeMenu(LimaMenuType<UpgradeStationBlockEntity, ?> type, int containerId, Inventory inventory, UpgradeStationBlockEntity menuContext)
+    public EquipmentUpgradeMenu(MenuType<?> type, int containerId, Inventory inventory, UpgradeStationBlockEntity menuContext)
     {
         super(type, containerId, inventory, menuContext, menuContext.getItemsOrThrow(BlockContentsType.GENERAL), UPGRADE_MODULE_SLOT);
 
         addPlayerInventoryAndHotbar(15, 118);
-    }
-
-    @Override
-    public boolean stillValid(Player player)
-    {
-        return super.stillValid(player) && menuContext.hasValidItem();
     }
 
     @Override

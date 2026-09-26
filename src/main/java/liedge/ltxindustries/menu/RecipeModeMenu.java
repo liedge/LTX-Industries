@@ -2,7 +2,6 @@ package liedge.ltxindustries.menu;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.menu.BlockEntityMenu;
-import liedge.limacore.menu.LimaMenuType;
 import liedge.limacore.network.sync.SimpleValueTracker;
 import liedge.limacore.network.sync.ValueTracker;
 import liedge.ltxindustries.blockentity.base.RecipeModeHolderBlockEntity;
@@ -11,6 +10,7 @@ import liedge.ltxindustries.registry.game.LTXINetworkSerializers;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.MenuType;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class RecipeModeMenu extends BlockEntityMenu<RecipeModeHolderBlockEntity>
     private final List<Holder<RecipeMode>> remoteModes = new ObjectArrayList<>();
     private boolean screenUpdate;
 
-    public RecipeModeMenu(LimaMenuType<RecipeModeHolderBlockEntity, ?> type, int containerId, Inventory inventory, RecipeModeHolderBlockEntity menuContext)
+    public RecipeModeMenu(MenuType<?> type, int containerId, Inventory inventory, RecipeModeHolderBlockEntity menuContext)
     {
         super(type, containerId, inventory, menuContext);
         addDefaultPlayerInventoryAndHotbar();
@@ -34,6 +34,12 @@ public class RecipeModeMenu extends BlockEntityMenu<RecipeModeHolderBlockEntity>
             screenUpdate = true;
         });
         addDataWatcher(tracker);
+
+        handleUnitButton(SharedMenuButtons.EXIT_SUB_MENU, menuContext::returnToPrimaryMenuScreen);
+        handleButton(MODE_SWITCH_BUTTON_ID, LTXINetworkSerializers.RECIPE_MODE, (_, optional) -> {
+            Holder<RecipeMode> mode = optional.orElse(null);
+            if (mode == null || menuContext.getAvailableRecipeModes().contains(mode)) menuContext.setMode(mode);
+        });
     }
 
     public List<Holder<RecipeMode>> getRemoteModes()
@@ -50,15 +56,5 @@ public class RecipeModeMenu extends BlockEntityMenu<RecipeModeHolderBlockEntity>
         }
 
         return false;
-    }
-
-    @Override
-    protected void defineButtonEventHandlers(EventHandlerBuilder builder)
-    {
-        builder.handleUnitAction(SharedMenuButtons.EXIT_SUB_MENU, menuContext::returnToPrimaryMenuScreen);
-        builder.handleAction(MODE_SWITCH_BUTTON_ID, LTXINetworkSerializers.RECIPE_MODE, (_, optional) -> {
-            Holder<RecipeMode> mode = optional.orElse(null);
-            if (mode == null || menuContext.getAvailableRecipeModes().contains(mode)) menuContext.setMode(mode);
-        });
     }
 }

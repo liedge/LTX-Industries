@@ -179,7 +179,7 @@ public class LTXIJeiPlugin implements IModPlugin
             @Override
             public Collection<IGuiClickableArea> getGuiClickableAreas(RecipeLayoutScreen containerScreen, double guiMouseX, double guiMouseY)
             {
-                RecipeType<?> type = containerScreen.getMenu().menuContext().getRecipeCheck().getRecipeType();
+                RecipeType<?> type = containerScreen.getMenu().getMenuContext().getRecipeCheck().getRecipeType();
                 Identifier typeId = LimaRegistryUtil.getNonNullRegistryId(type, BuiltInRegistries.RECIPE_TYPE);
 
                 RecipeLayout layout = containerScreen.getMenu().getLayout();

@@ -2,23 +2,31 @@ package liedge.ltxindustries.menu;
 
 import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.menu.BlockEntityMenu;
-import liedge.limacore.menu.LimaMenuProvider;
-import liedge.limacore.menu.LimaMenuType;
+import liedge.limacore.menu.BlockEntityMenuProvider;
 import liedge.ltxindustries.blockentity.base.RecipeMachineBlockEntity;
 import liedge.ltxindustries.blockentity.template.MachineBaseBlockEntity;
+import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.menu.layout.LayoutSlot;
 import liedge.ltxindustries.menu.layout.RecipeLayout;
 import liedge.ltxindustries.registry.game.LTXIMenus;
 import liedge.ltxindustries.registry.game.LTXINetworkSerializers;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.MenuType;
 
 import java.util.List;
 
 public abstract class MachineBaseMenu<CTX extends MachineBaseBlockEntity> extends BlockEntityMenu<CTX>
 {
-    protected MachineBaseMenu(LimaMenuType<CTX, ?> type, int containerId, Inventory inventory, CTX menuContext)
+    protected MachineBaseMenu(MenuType<?> type, int containerId, Inventory inventory, CTX menuContext)
     {
         super(type, containerId, inventory, menuContext);
+
+        handleUnitButton(SharedMenuButtons.OPEN_UPGRADES, sender -> {
+            MenuProvider provider = new BlockEntityMenuProvider(LTXIMenus.MACHINE_UPGRADES, getMenuContext(), LTXILangKeys.GUI_UPGRADES.translate(), false);
+            sender.openMenu(provider);
+        });
+        handleButton(SharedMenuButtons.OPEN_IO_CONTROLS, LTXINetworkSerializers.MACHINE_INPUT_TYPE, menuContext::openIOControlsSubMenu);
     }
 
     protected void initLayout(RecipeLayout layout)
@@ -47,13 +55,5 @@ public abstract class MachineBaseMenu<CTX extends MachineBaseBlockEntity> extend
                 }
             }
         }
-    }
-
-    @Override
-    protected void defineButtonEventHandlers(EventHandlerBuilder builder)
-    {
-        builder.handleUnitAction(SharedMenuButtons.OPEN_UPGRADES,
-                sender -> LimaMenuProvider.create(LTXIMenus.MACHINE_UPGRADES.get(), menuContext, null, false).openMenuScreen(sender));
-        builder.handleAction(SharedMenuButtons.OPEN_IO_CONTROLS, LTXINetworkSerializers.MACHINE_INPUT_TYPE, menuContext::openIOControlsSubMenu);
     }
 }

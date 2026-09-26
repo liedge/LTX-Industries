@@ -1,12 +1,12 @@
 package liedge.ltxindustries.block;
 
 import liedge.limacore.blockentity.LimaBlockEntityType;
-import liedge.limacore.menu.LimaMenuProvider;
 import liedge.limacore.util.LimaBlockUtil;
 import liedge.ltxindustries.block.mesh.MeshPosition;
 import liedge.ltxindustries.blockentity.MeshBlockEntity;
 import liedge.ltxindustries.registry.game.LTXIBlockEntities;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -45,10 +45,16 @@ public final class MeshBlock extends BaseMeshBlock
     }
 
     @Override
-    public @Nullable LimaMenuProvider getMenuProvider(BlockState state, Level level, BlockPos pos)
+    public @Nullable MenuProvider getMenuProvider(BlockState state, Level level, BlockPos pos)
     {
         BlockPos primaryPos = getPrimaryPos(level, pos, state);
-        return primaryPos != null ? blockEntityMenuProvider(level, primaryPos) : null;
+        if (primaryPos != null)
+        {
+            BlockState primaryState = level.getBlockState(primaryPos);
+            return primaryState.getMenuProvider(level, primaryPos);
+        }
+
+        return null;
     }
 
     @Override

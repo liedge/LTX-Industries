@@ -1,12 +1,12 @@
 package liedge.ltxindustries.menu;
 
-import liedge.limacore.menu.LimaMenuType;
 import liedge.ltxindustries.blockentity.SolarPanelBlockEntity;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.MenuType;
 
 public class SolarPanelMenu extends MachineBaseMenu<SolarPanelBlockEntity>
 {
-    public SolarPanelMenu(LimaMenuType<SolarPanelBlockEntity, ?> type, int containerId, Inventory inventory, SolarPanelBlockEntity menuContext)
+    public SolarPanelMenu(MenuType<?> type, int containerId, Inventory inventory, SolarPanelBlockEntity menuContext)
     {
         super(type, containerId, inventory, menuContext);
 
