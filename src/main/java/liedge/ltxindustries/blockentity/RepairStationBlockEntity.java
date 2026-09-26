@@ -163,9 +163,6 @@ public class RepairStationBlockEntity extends ProductionMachineBlockEntity imple
     }
 
     @Override
-    public void defineDataWatchers(DataWatcherCollector collector) { }
-
-    @Override
     public boolean isActive()
     {
         return active;

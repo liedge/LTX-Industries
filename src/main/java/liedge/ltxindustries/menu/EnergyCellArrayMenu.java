@@ -14,11 +14,7 @@ public class EnergyCellArrayMenu extends LTXIMachineMenu<BaseECABlockEntity>
         addSlotsGrid(BlockContentsType.GENERAL, 0, 56, 37, 4, 1);
 
         addDefaultPlayerInventoryAndHotbar();
-    }
 
-    @Override
-    public void defineDataWatchers(DataWatcherCollector collector)
-    {
-        menuContext.getEnergy().syncAllProperties(collector);
+        menuContext.getEnergy().syncAllProperties(this);
     }
 }

@@ -101,9 +101,6 @@ public abstract class BaseECABlockEntity extends LTXIMachineBlockEntity
     }
 
     @Override
-    public void defineDataWatchers(DataWatcherCollector collector) {}
-
-    @Override
     public Component getMenuTitle(BlockEntityMenuType<?, ?> menuType)
     {
         return LTXIBlocks.ENERGY_CELL_ARRAY.get().getName();

@@ -13,12 +13,8 @@ public class PortableTankMenu extends MachineBaseMenu<PortableTankBlockEntity>
         super(type, containerId, inventory, menuContext);
         addFluidSlot(BlockContentsType.GENERAL, 0, 80, 36);
         addDefaultPlayerInventoryAndHotbar();
-    }
 
-    @Override
-    public void defineDataWatchers(DataWatcherCollector collector)
-    {
-        getTank().syncAllProperties(collector);
+        getTank().syncAllProperties(this);
     }
 
     private LimaBlockEntityFluids getTank()

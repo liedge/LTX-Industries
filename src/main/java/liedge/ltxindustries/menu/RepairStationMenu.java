@@ -15,13 +15,9 @@ public class RepairStationMenu extends LTXIMachineMenu<RepairStationBlockEntity>
         addOutputSlot(0, 104, 34);
 
         addDefaultPlayerInventoryAndHotbar();
-    }
 
-    @Override
-    public void defineDataWatchers(DataWatcherCollector collector)
-    {
-        menuContext.getEnergy().syncAllProperties(collector);
-        menuContext.keepEnergyConsumerPropertiesSynced(collector);
-        menuContext.keepTimedProcessSynced(collector);
+        menuContext.getEnergy().syncAllProperties(this);
+        menuContext.keepEnergyConsumerPropertiesSynced(this);
+        menuContext.keepTimedProcessSynced(this);
     }
 }

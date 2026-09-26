@@ -162,9 +162,6 @@ public class AirScrubberBlockEntity extends ProductionMachineBlockEntity impleme
     }
 
     @Override
-    public void defineDataWatchers(DataWatcherCollector collector) { }
-
-    @Override
     public LimaRecipeCheck<AirScrubbingInput, AirScrubbingRecipe> getRecipeCheck()
     {
         return recipeCheck;

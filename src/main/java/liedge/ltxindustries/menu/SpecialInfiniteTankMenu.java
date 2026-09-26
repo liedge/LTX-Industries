@@ -20,9 +20,6 @@ public final class SpecialInfiniteTankMenu extends MachineBaseMenu<SpecialInfini
         addFluidSlot(si -> new FluidSlot(80, 36, si, menuContext.getInfiniteFluids()));
     }
 
-    @Override
-    public void defineDataWatchers(DataWatcherCollector collector) { }
-
     private static class FluidSlot extends LimaFluidSlot
     {
         private final FluidResource resource;

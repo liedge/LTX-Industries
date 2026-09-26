@@ -14,17 +14,13 @@ public class AirScrubberMenu extends LTXIMachineMenu<AirScrubberBlockEntity>
 
         initLayout(RecipeLayouts.AIR_SCRUBBING);
         addDefaultPlayerInventoryAndHotbar();
-    }
 
-    @Override
-    public void defineDataWatchers(DataWatcherCollector collector)
-    {
-        menuContext.getEnergy().syncAllProperties(collector);
-        menuContext.keepEnergyConsumerPropertiesSynced(collector);
-        menuContext.keepTimedProcessSynced(collector);
+        menuContext.getEnergy().syncAllProperties(this);
+        menuContext.keepEnergyConsumerPropertiesSynced(this);
+        menuContext.keepTimedProcessSynced(this);
 
-        menuContext.getFluidsOrThrow(BlockContentsType.OUTPUT).syncAllProperties(collector);
-        collector.register(menuContext.keepRecipeModeSynced());
+        menuContext.getFluidsOrThrow(BlockContentsType.OUTPUT).syncAllProperties(this);
+        addDataWatcher(menuContext.keepRecipeModeSynced());
     }
 
     @Override

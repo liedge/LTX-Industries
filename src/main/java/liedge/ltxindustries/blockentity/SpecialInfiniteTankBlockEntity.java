@@ -49,9 +49,6 @@ public final class SpecialInfiniteTankBlockEntity extends MachineBaseBlockEntity
     }
 
     @Override
-    public void defineDataWatchers(DataWatcherCollector collector) { }
-
-    @Override
     public @Nullable LimaBlockEntityFluids getFluids(BlockContentsType contentsType)
     {
         return null;

@@ -62,13 +62,9 @@ public class PortableTankBlockEntity extends MachineBaseBlockEntity implements F
 
         this.fluidTracker = SimpleValueTracker.create(LimaCoreNetworkSerializers.FLUID_RESOURCE, () -> tank.getResource(0), resource -> this.clientFluid = resource);
         this.fluidLevelTracker = SimpleValueTracker.create(LimaCoreNetworkSerializers.VAR_INT, () -> getFluidVisualLevel(tank.getAmountAsInt(0), tank.getCapacity()), fill -> this.clientFluidLevel = fill);
-    }
 
-    @Override
-    public void defineDataWatchers(DataWatcherCollector collector)
-    {
-        collector.register(fluidTracker);
-        collector.register(fluidLevelTracker);
+        addDataWatcher(fluidTracker);
+        addDataWatcher(fluidLevelTracker);
     }
 
     @Override

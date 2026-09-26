@@ -16,9 +16,6 @@ public class UpgradeStationMenu extends BlockEntityMenu<UpgradeStationBlockEntit
     }
 
     @Override
-    public void defineDataWatchers(DataWatcherCollector collector) { }
-
-    @Override
     protected void defineButtonEventHandlers(EventHandlerBuilder builder)
     {
         builder.handleUnitAction(0, menuContext::openUpgradesSubMenu);

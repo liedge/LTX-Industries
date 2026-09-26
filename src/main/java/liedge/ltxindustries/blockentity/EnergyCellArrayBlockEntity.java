@@ -18,6 +18,8 @@ public class EnergyCellArrayBlockEntity extends BaseECABlockEntity
     public EnergyCellArrayBlockEntity(BlockPos pos, BlockState state)
     {
         super(LTXIBlockEntities.ENERGY_CELL_ARRAY.get(), pos, state, null);
+
+        addDataWatcher(SimpleValueTracker.create(LimaCoreNetworkSerializers.VAR_INT, () -> Mth.floor(LimaEnergyUtil.getFillPercentage(getEnergy()) * 20f), i -> this.remoteEnergyFill = i).setAutomatic());
     }
 
     @Override
@@ -36,11 +38,5 @@ public class EnergyCellArrayBlockEntity extends BaseECABlockEntity
     public int getBaseEnergyTransferRate()
     {
         return ECA_BASE_TRANSFER_RATE.getAsInt();
-    }
-
-    @Override
-    public void defineDataWatchers(DataWatcherCollector collector)
-    {
-        collector.register(SimpleValueTracker.create(LimaCoreNetworkSerializers.VAR_INT, () -> Mth.floor(LimaEnergyUtil.getFillPercentage(getEnergy()) * 20f), i -> this.remoteEnergyFill = i).setAutomatic());
     }
 }

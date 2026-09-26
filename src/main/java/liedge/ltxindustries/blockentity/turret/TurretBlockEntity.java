@@ -4,8 +4,8 @@ import it.unimi.dsi.fastutil.ints.IntList;
 import liedge.limacore.LimaCommonConstants;
 import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.blockentity.OwnableBlockEntity;
-import liedge.limacore.client.util.LimaCoreClientUtil;
 import liedge.limacore.client.gui.TooltipLineConsumer;
+import liedge.limacore.client.util.LimaCoreClientUtil;
 import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.network.sync.NullableValueTracker;
 import liedge.limacore.network.sync.SimpleValueTracker;
@@ -91,6 +91,10 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
                 if (entity != null) targetQueue.add(entity);
             }
         });
+
+        addDataWatcher(SimpleValueTracker.createEnum(TurretState.class, this::getTurretState, this::setTurretState).setAutomatic());
+        addDataWatcher(NullableValueTracker.createClientEntity(this::getTarget, this::setClientTarget).setAutomatic());
+        addDataWatcher(queueTracker);
     }
 
     public Vec3 getTraceStart()
@@ -210,14 +214,6 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
     {
         super.preRemoveSideEffects(pos, state);
         purgeTargets(TurretTargetTracker.getOrDefault(getOwner()));
-    }
-
-    @Override
-    public void defineDataWatchers(DataWatcherCollector collector)
-    {
-        collector.register(SimpleValueTracker.createEnum(TurretState.class, this::getTurretState, this::setTurretState).setAutomatic());
-        collector.register(NullableValueTracker.createClientEntity(this::getTarget, this::setClientTarget).setAutomatic());
-        collector.register(queueTracker);
     }
 
     @Override

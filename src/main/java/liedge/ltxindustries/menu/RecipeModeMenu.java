@@ -25,6 +25,15 @@ public class RecipeModeMenu extends BlockEntityMenu<RecipeModeHolderBlockEntity>
     {
         super(type, containerId, inventory, menuContext);
         addDefaultPlayerInventoryAndHotbar();
+
+        addDataWatcher(menuContext.keepRecipeModeSynced());
+
+        ValueTracker<HolderSet<RecipeMode>> tracker = SimpleValueTracker.create(LTXINetworkSerializers.RECIPE_MODES, menuContext::getAvailableRecipeModes, holders -> {
+            this.remoteModes.clear();
+            holders.forEach(this.remoteModes::add);
+            screenUpdate = true;
+        });
+        addDataWatcher(tracker);
     }
 
     public List<Holder<RecipeMode>> getRemoteModes()
@@ -41,20 +50,6 @@ public class RecipeModeMenu extends BlockEntityMenu<RecipeModeHolderBlockEntity>
         }
 
         return false;
-    }
-
-    @Override
-    public void defineDataWatchers(DataWatcherCollector collector)
-    {
-        collector.register(menuContext.keepRecipeModeSynced());
-
-        ValueTracker<HolderSet<RecipeMode>> tracker = SimpleValueTracker.create(LTXINetworkSerializers.RECIPE_MODES, menuContext::getAvailableRecipeModes, holders -> {
-            this.remoteModes.clear();
-            holders.forEach(this.remoteModes::add);
-            screenUpdate = true;
-        });
-        tracker.checkForChanges();
-        collector.register(tracker);
     }
 
     @Override

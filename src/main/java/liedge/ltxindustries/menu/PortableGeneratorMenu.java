@@ -13,13 +13,9 @@ public class PortableGeneratorMenu extends MachineBaseMenu<PortableGeneratorBloc
 
         addSlot(BlockContentsType.INPUT, 0, 80, 26);
         addPlayerInventoryAndHotbar(DEFAULT_INV_X, 66);
-    }
 
-    @Override
-    public void defineDataWatchers(DataWatcherCollector collector)
-    {
-        menuContext.getEnergy().syncAllProperties(collector);
-        collector.register(menuContext.syncEnergyGeneration());
-        collector.register(menuContext.syncFuelUnits());
+        menuContext.getEnergy().syncAllProperties(this);
+        addDataWatcher(menuContext.syncEnergyGeneration());
+        addDataWatcher(menuContext.syncFuelUnits());
     }
 }

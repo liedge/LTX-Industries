@@ -8,10 +8,10 @@ import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.limacore.util.LimaBlockUtil;
 import liedge.limacore.util.LimaRegistryUtil;
 import liedge.ltxindustries.LTXIndustries;
-import liedge.ltxindustries.blockentity.base.ResourceType;
 import liedge.ltxindustries.blockentity.base.BlockIOConfiguration;
 import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntity;
 import liedge.ltxindustries.blockentity.base.IORules;
+import liedge.ltxindustries.blockentity.base.ResourceType;
 import liedge.ltxindustries.registry.game.LTXINetworkSerializers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -35,6 +35,8 @@ public class BlockIOConfigurationMenu extends LimaMenu<BlockIOConfigurationMenu.
         super(type, containerId, inventory, menuContext);
 
         addDefaultPlayerInventoryAndHotbar();
+
+        addDataWatcher(SimpleValueTracker.create(LTXINetworkSerializers.BLOCK_IO_CONFIG, this::getIOConfiguration, this::setConfig).setAutomatic());
     }
 
     public BlockIOConfiguration getIOConfiguration()
@@ -69,12 +71,6 @@ public class BlockIOConfigurationMenu extends LimaMenu<BlockIOConfigurationMenu.
     protected boolean quickMoveInternal(int index, ItemStack stack)
     {
         return false;
-    }
-
-    @Override
-    public void defineDataWatchers(DataWatcherCollector collector)
-    {
-        collector.register(SimpleValueTracker.create(LTXINetworkSerializers.BLOCK_IO_CONFIG, this::getIOConfiguration, this::setConfig).setAutomatic());
     }
 
     @Override

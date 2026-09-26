@@ -30,19 +30,15 @@ public class LightColorsMenu extends BlockEntityMenu<UpgradeStationBlockEntity>
         this.generalInventory = menuContext.getItemsOrThrow(BlockContentsType.GENERAL);
 
         addPlayerInventoryAndHotbar(DEFAULT_INV_X, 88);
+
+        addDataWatcher(SimpleValueTracker.create(LTXINetworkSerializers.LIGHT_COLORS, this::updateLightColors, this::setLightColors).setAutomatic());
+        addDataWatcher(SimpleValueTracker.create(LTXINetworkSerializers.LIGHT_CHANNELS, this::updateLightChannels, this::setLightChannels).setAutomatic());
     }
 
     @Override
     public boolean stillValid(Player player)
     {
         return super.stillValid(player) && menuContext.hasValidItem();
-    }
-
-    @Override
-    public void defineDataWatchers(DataWatcherCollector collector)
-    {
-        collector.register(SimpleValueTracker.create(LTXINetworkSerializers.LIGHT_COLORS, this::updateLightColors, this::setLightColors).setAutomatic());
-        collector.register(SimpleValueTracker.create(LTXINetworkSerializers.LIGHT_CHANNELS, this::updateLightChannels, this::setLightChannels).setAutomatic());
     }
 
     @Override

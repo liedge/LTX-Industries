@@ -32,10 +32,10 @@ public interface TimedProcessBlockEntity extends LimaBlockEntityAccess
         return LimaCoreMath.getFloatRatio(getCurrentProcessTime(), getTicksPerOperation());
     }
 
-    default void keepTimedProcessSynced(DataWatcherHolder.DataWatcherCollector collector)
+    default void keepTimedProcessSynced(DataWatcherHolder holder)
     {
-        collector.register(SimpleValueTracker.create(LimaCoreNetworkSerializers.VAR_INT, this::getCurrentProcessTime, this::setCurrentProcessTime).setAutomatic());
-        collector.register(SimpleValueTracker.create(LimaCoreNetworkSerializers.VAR_INT, this::getTicksPerOperation, this::setTicksPerOperation).setAutomatic());
+        holder.addDataWatcher(SimpleValueTracker.create(LimaCoreNetworkSerializers.VAR_INT, this::getCurrentProcessTime, this::setCurrentProcessTime).setAutomatic());
+        holder.addDataWatcher(SimpleValueTracker.create(LimaCoreNetworkSerializers.VAR_INT, this::getTicksPerOperation, this::setTicksPerOperation).setAutomatic());
     }
 
     interface FixedBaseDuration extends TimedProcessBlockEntity
