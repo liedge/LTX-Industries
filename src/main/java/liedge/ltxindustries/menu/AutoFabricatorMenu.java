@@ -1,15 +1,15 @@
 package liedge.ltxindustries.menu;
 
 import liedge.limacore.blockentity.BlockContentsType;
-import liedge.limacore.menu.LimaMenuType;
 import liedge.ltxindustries.blockentity.AutoFabricatorBlockEntity;
 import liedge.ltxindustries.blockentity.BaseFabricatorBlockEntity;
 import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.MenuType;
 
 public class AutoFabricatorMenu extends LTXIMachineMenu<AutoFabricatorBlockEntity>
 {
-    public AutoFabricatorMenu(LimaMenuType<AutoFabricatorBlockEntity, ?> type, int containerId, Inventory inventory, AutoFabricatorBlockEntity menuContext)
+    public AutoFabricatorMenu(MenuType<?> type, int containerId, Inventory inventory, AutoFabricatorBlockEntity menuContext)
     {
         super(type, containerId, inventory, menuContext);
 

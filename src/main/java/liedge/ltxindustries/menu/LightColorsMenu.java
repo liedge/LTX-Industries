@@ -2,7 +2,6 @@ package liedge.ltxindustries.menu;
 
 import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.menu.BlockEntityMenu;
-import liedge.limacore.menu.LimaMenuType;
 import liedge.limacore.network.sync.SimpleValueTracker;
 import liedge.limacore.transfer.item.LimaBlockEntityItems;
 import liedge.ltxindustries.blockentity.UpgradeStationBlockEntity;
@@ -11,7 +10,7 @@ import liedge.ltxindustries.data.LightColors;
 import liedge.ltxindustries.registry.game.LTXIDataComponents;
 import liedge.ltxindustries.registry.game.LTXINetworkSerializers;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 
@@ -23,7 +22,7 @@ public class LightColorsMenu extends BlockEntityMenu<UpgradeStationBlockEntity>
     private LightChannels lightChannels = LightChannels.NONE;
     private boolean updateScreen;
 
-    public LightColorsMenu(LimaMenuType<UpgradeStationBlockEntity, ?> type, int containerId, Inventory inventory, UpgradeStationBlockEntity menuContext)
+    public LightColorsMenu(MenuType<?> type, int containerId, Inventory inventory, UpgradeStationBlockEntity menuContext)
     {
         super(type, containerId, inventory, menuContext);
 
@@ -33,20 +32,9 @@ public class LightColorsMenu extends BlockEntityMenu<UpgradeStationBlockEntity>
 
         addDataWatcher(SimpleValueTracker.create(LTXINetworkSerializers.LIGHT_COLORS, this::updateLightColors, this::setLightColors).setAutomatic());
         addDataWatcher(SimpleValueTracker.create(LTXINetworkSerializers.LIGHT_CHANNELS, this::updateLightChannels, this::setLightChannels).setAutomatic());
-    }
 
-    @Override
-    public boolean stillValid(Player player)
-    {
-        return super.stillValid(player) && menuContext.hasValidItem();
-    }
-
-    @Override
-    protected void defineButtonEventHandlers(EventHandlerBuilder builder)
-    {
-        builder.handleUnitAction(SharedMenuButtons.EXIT_SUB_MENU, menuContext::returnToPrimaryMenuScreen);
-
-        builder.handleAction(0, LTXINetworkSerializers.LIGHT_COLORS, (_, colors) ->
+        handleUnitButton(SharedMenuButtons.EXIT_SUB_MENU, menuContext::returnToPrimaryMenuScreen);
+        handleButton(0, LTXINetworkSerializers.LIGHT_COLORS, (_, colors) ->
         {
             boolean valid = !lightColors.equals(colors) && colors.getMap().keySet().stream().allMatch(lightChannels::contains);
             if (valid)

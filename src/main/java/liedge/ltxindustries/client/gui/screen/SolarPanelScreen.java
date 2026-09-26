@@ -27,7 +27,7 @@ public class SolarPanelScreen extends MachineBaseScreen<SolarPanelMenu>
         int sunX = leftPos + 82;
         int sunY = topPos + 28;
 
-        if (LTXIBlockProperties.isMachineActive(menu.menuContext().getBlockState()))
+        if (LTXIBlockProperties.isMachineActive(menu.getMenuContext().getBlockState()))
         {
             graphics.blitSprite(RenderPipelines.GUI_TEXTURED, SUN_ON_SPRITE, sunX, sunY, 12, 12);
         }

@@ -32,7 +32,7 @@ public class PortableGeneratorScreen extends MachineBaseScreen<PortableGenerator
     {
         super.addWidgets();
 
-        addRenderableOnly(new FuelGauge(leftPos + 158, topPos + 15, menu.menuContext()));
+        addRenderableOnly(new FuelGauge(leftPos + 158, topPos + 15, menu.getMenuContext()));
     }
 
     @Override

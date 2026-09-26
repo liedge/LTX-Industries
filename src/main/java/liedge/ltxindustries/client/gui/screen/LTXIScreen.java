@@ -12,7 +12,7 @@ import net.minecraft.world.entity.player.Inventory;
 
 import static liedge.ltxindustries.LTXIndustries.RESOURCES;
 
-public abstract class LTXIScreen<M extends LimaMenu<?>> extends LimaMenuScreen<M>
+public abstract class LTXIScreen<M extends LimaMenu> extends LimaMenuScreen<M>
 {
     // Textures
     private static final Identifier SLOT_TILE_TEXTURE = RESOURCES.textureLocation("gui", "slots");

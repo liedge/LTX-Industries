@@ -1,9 +1,9 @@
 package liedge.ltxindustries.menu;
 
-import liedge.limacore.menu.LimaMenuType;
 import liedge.limacore.menu.slot.LimaFluidSlot;
 import liedge.ltxindustries.blockentity.SpecialInfiniteTankBlockEntity;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.MenuType;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.ResourceHandlerUtil;
@@ -13,7 +13,7 @@ import org.jspecify.annotations.Nullable;
 
 public final class SpecialInfiniteTankMenu extends MachineBaseMenu<SpecialInfiniteTankBlockEntity>
 {
-    public SpecialInfiniteTankMenu(LimaMenuType<SpecialInfiniteTankBlockEntity, ?> type, int containerId, Inventory inventory, SpecialInfiniteTankBlockEntity menuContext)
+    public SpecialInfiniteTankMenu(MenuType<?> type, int containerId, Inventory inventory, SpecialInfiniteTankBlockEntity menuContext)
     {
         super(type, containerId, inventory, menuContext);
         addDefaultPlayerInventoryAndHotbar();

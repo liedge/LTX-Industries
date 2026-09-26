@@ -3,7 +3,6 @@ package liedge.ltxindustries.menu;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.menu.BlockEntityMenu;
-import liedge.limacore.menu.LimaMenuType;
 import liedge.limacore.menu.slot.LimaItemSlot;
 import liedge.limacore.network.sync.LimaDataWatcher;
 import liedge.limacore.network.sync.SimpleValueTracker;
@@ -21,6 +20,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.neoforge.transfer.item.PlayerInventoryWrapper;
@@ -37,7 +37,7 @@ public abstract class UpgradesConfigMenu<CTX extends ItemHolderBlockEntity & Sub
     protected final int moduleSlot;
     private boolean screenUpdate = true;
 
-    protected UpgradesConfigMenu(LimaMenuType<CTX, ?> type, int containerId, Inventory inventory, CTX menuContext, LimaBlockEntityItems moduleSourceInventory, int moduleSlot)
+    protected UpgradesConfigMenu(MenuType<?> type, int containerId, Inventory inventory, CTX menuContext, LimaBlockEntityItems moduleSourceInventory, int moduleSlot)
     {
         super(type, containerId, inventory, menuContext);
 
@@ -51,13 +51,9 @@ public abstract class UpgradesConfigMenu<CTX extends ItemHolderBlockEntity & Sub
             this.screenUpdate = true;
         }).setAutomatic();
         addDataWatcher(upgradesTracker);
-    }
 
-    @Override
-    protected void defineButtonEventHandlers(EventHandlerBuilder builder)
-    {
-        builder.handleUnitAction(SharedMenuButtons.EXIT_SUB_MENU, menuContext::returnToPrimaryMenuScreen);
-        builder.handleAction(UPGRADE_REMOVAL_BUTTON_ID, LimaCoreNetworkSerializers.IDENTIFIER, this::tryRemoveUpgrade);
+        handleUnitButton(SharedMenuButtons.EXIT_SUB_MENU, menuContext::returnToPrimaryMenuScreen);
+        handleButton(UPGRADE_REMOVAL_BUTTON_ID, LimaCoreNetworkSerializers.IDENTIFIER, this::tryRemoveUpgrade);
     }
 
     protected abstract Upgrades getUpgrades();

@@ -1,13 +1,13 @@
 package liedge.ltxindustries.menu;
 
 import liedge.limacore.blockentity.BlockContentsType;
-import liedge.limacore.menu.LimaMenuType;
 import liedge.ltxindustries.blockentity.RepairStationBlockEntity;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.MenuType;
 
 public class RepairStationMenu extends LTXIMachineMenu<RepairStationBlockEntity>
 {
-    public RepairStationMenu(LimaMenuType<RepairStationBlockEntity, ?> type, int containerId, Inventory inventory, RepairStationBlockEntity menuContext)
+    public RepairStationMenu(MenuType<?> type, int containerId, Inventory inventory, RepairStationBlockEntity menuContext)
     {
         super(type, containerId, inventory, menuContext, true);
 

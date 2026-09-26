@@ -1,13 +1,13 @@
 package liedge.ltxindustries.menu;
 
 import liedge.limacore.blockentity.BlockContentsType;
-import liedge.limacore.menu.LimaMenuType;
 import liedge.ltxindustries.blockentity.PortableGeneratorBlockEntity;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.MenuType;
 
 public class PortableGeneratorMenu extends MachineBaseMenu<PortableGeneratorBlockEntity>
 {
-    public PortableGeneratorMenu(LimaMenuType<PortableGeneratorBlockEntity, ?> type, int containerId, Inventory inventory, PortableGeneratorBlockEntity menuContext)
+    public PortableGeneratorMenu(MenuType<?> type, int containerId, Inventory inventory, PortableGeneratorBlockEntity menuContext)
     {
         super(type, containerId, inventory, menuContext);
 

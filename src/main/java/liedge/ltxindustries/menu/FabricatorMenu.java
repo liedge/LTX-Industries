@@ -1,7 +1,6 @@
 package liedge.ltxindustries.menu;
 
 import liedge.limacore.blockentity.BlockContentsType;
-import liedge.limacore.menu.LimaMenuType;
 import liedge.limacore.recipe.SimpleResourceAccess;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.limacore.transfer.item.LimaBlockEntityItems;
@@ -15,6 +14,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
@@ -27,7 +27,7 @@ public class FabricatorMenu extends LTXIMachineMenu<FabricatorBlockEntity>
     public static final int CRAFT_BUTTON_ID = 2;
     public static final int ENCODE_BLUEPRINT_BUTTON_ID = 3;
 
-    public FabricatorMenu(LimaMenuType<FabricatorBlockEntity, ?> type, int containerId, Inventory inventory, FabricatorBlockEntity context)
+    public FabricatorMenu(MenuType<?> type, int containerId, Inventory inventory, FabricatorBlockEntity context)
     {
         super(type, containerId, inventory, context);
 
@@ -41,6 +41,9 @@ public class FabricatorMenu extends LTXIMachineMenu<FabricatorBlockEntity>
         menuContext.keepEnergyConsumerPropertiesSynced(this);
         addDataWatcher(menuContext.keepProgressSynced());
         addDataWatcher(menuContext.getRecipeCheck().keepLastUsedSynced());
+
+        handleButton(CRAFT_BUTTON_ID, LimaCoreNetworkSerializers.RECIPE_KEY, this::receiveCraftCommand);
+        handleButton(ENCODE_BLUEPRINT_BUTTON_ID, LimaCoreNetworkSerializers.RECIPE_KEY, this::receiveEncodeCommand);
     }
 
     private void receiveCraftCommand(ServerPlayer sender, ResourceKey<Recipe<?>> key)
@@ -80,13 +83,5 @@ public class FabricatorMenu extends LTXIMachineMenu<FabricatorBlockEntity>
                 }
             }
         });
-    }
-
-    @Override
-    protected void defineButtonEventHandlers(EventHandlerBuilder builder)
-    {
-        super.defineButtonEventHandlers(builder);
-        builder.handleAction(CRAFT_BUTTON_ID, LimaCoreNetworkSerializers.RECIPE_KEY, this::receiveCraftCommand);
-        builder.handleAction(ENCODE_BLUEPRINT_BUTTON_ID, LimaCoreNetworkSerializers.RECIPE_KEY, this::receiveEncodeCommand);
     }
 }

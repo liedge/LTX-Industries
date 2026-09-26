@@ -1,70 +1,80 @@
 package liedge.ltxindustries.menu;
 
 import liedge.limacore.blockentity.LimaBlockEntity;
-import liedge.limacore.menu.LimaMenu;
-import liedge.limacore.menu.LimaMenuType;
+import liedge.limacore.menu.BlockEntityMenu;
 import liedge.limacore.network.sync.SimpleValueTracker;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
-import liedge.limacore.util.LimaBlockUtil;
 import liedge.limacore.util.LimaRegistryUtil;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.blockentity.base.BlockIOConfiguration;
 import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntity;
 import liedge.ltxindustries.blockentity.base.IORules;
 import liedge.ltxindustries.blockentity.base.ResourceType;
+import liedge.ltxindustries.registry.game.LTXIMenus;
 import liedge.ltxindustries.registry.game.LTXINetworkSerializers;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
-import java.util.Objects;
-
-public class BlockIOConfigurationMenu extends LimaMenu<BlockIOConfigurationMenu.MenuContext>
+public class BlockIOConfigurationMenu extends BlockEntityMenu<ConfigurableIOBlockEntity>
 {
     public static final int CYCLE_FORWARD_BUTTON_ID = 1;
     public static final int CYCLE_BACKWARD_BUTTON_ID = 2;
     public static final int TOGGLE_AUTO_INPUT_BUTTON_ID = 3;
     public static final int TOGGLE_AUTO_OUTPUT_BUTTON_ID = 4;
 
-    private BlockIOConfigurationMenu(LimaMenuType<MenuContext, ?> type, int containerId, Inventory inventory, MenuContext menuContext)
+    private final ResourceType resourceType;
+
+    public BlockIOConfigurationMenu(int containerId, Inventory inventory, ConfigurableIOBlockEntity blockEntity, ResourceType resourceType)
     {
-        super(type, containerId, inventory, menuContext);
+        super(LTXIMenus.BLOCK_IO_CONFIGURATION.get(), containerId, inventory, blockEntity);
+        this.resourceType = resourceType;
 
         addDefaultPlayerInventoryAndHotbar();
 
         addDataWatcher(SimpleValueTracker.create(LTXINetworkSerializers.BLOCK_IO_CONFIG, this::getIOConfiguration, this::setConfig).setAutomatic());
+
+        handleUnitButton(SharedMenuButtons.EXIT_SUB_MENU, blockEntity::returnToPrimaryMenuScreen);
+        handleButton(CYCLE_FORWARD_BUTTON_ID, LimaCoreNetworkSerializers.RELATIVE_SIDE, (_, side) ->
+                setConfigLogged(getIOConfiguration().cycleIOAccess(side, getIOConfigRules(), true)));
+        handleButton(CYCLE_BACKWARD_BUTTON_ID, LimaCoreNetworkSerializers.RELATIVE_SIDE, (_, side) ->
+                setConfigLogged(getIOConfiguration().cycleIOAccess(side, getIOConfigRules(), false)));
+        handleUnitButton(TOGGLE_AUTO_INPUT_BUTTON_ID, _ -> setConfigLogged(getIOConfiguration().toggleAutoInput()));
+        handleUnitButton(TOGGLE_AUTO_OUTPUT_BUTTON_ID, _ -> setConfigLogged(getIOConfiguration().toggleAutoOutput()));
+    }
+
+    public BlockIOConfigurationMenu(int containerId, Inventory inventory, RegistryFriendlyByteBuf net)
+    {
+        this(containerId, inventory, decodeBlockEntity(net, inventory, ConfigurableIOBlockEntity.class), ResourceType.STREAM_CODEC.decode(net));
     }
 
     public BlockIOConfiguration getIOConfiguration()
     {
-        return menuContext.blockEntity.getIOConfigurationOrThrow(menuContext.inputType);
+        return menuContext.getIOConfigurationOrThrow(resourceType);
     }
 
     private boolean setConfig(BlockIOConfiguration configuration)
     {
-        return menuContext.blockEntity.setIOConfiguration(menuContext.inputType, configuration);
+        return menuContext.setIOConfiguration(resourceType, configuration);
     }
 
     private void setConfigLogged(BlockIOConfiguration configuration)
     {
         if (!setConfig(configuration))
         {
-            LimaBlockEntity be = menuContext.blockEntity.getAsLimaBlockEntity();
+            LimaBlockEntity be = menuContext.getAsLimaBlockEntity();
             LTXIndustries.LOGGER.warn("Attempted to apply an invalid IO configuration in menu screen for block entity type {} at {}. {} Configuration: {}",
                     LimaRegistryUtil.getNonNullRegistryId(be.getType(), BuiltInRegistries.BLOCK_ENTITY_TYPE),
                     be.getBlockPos(),
-                    menuContext.inputType.getSerializedName(),
+                    resourceType.getSerializedName(),
                     configuration);
         }
     }
 
     public IORules getIOConfigRules()
     {
-        return menuContext.blockEntity.getIOConfigRules(menuContext.inputType);
+        return menuContext.getIOConfigRules(resourceType);
     }
 
     @Override
@@ -72,49 +82,4 @@ public class BlockIOConfigurationMenu extends LimaMenu<BlockIOConfigurationMenu.
     {
         return false;
     }
-
-    @Override
-    protected void defineButtonEventHandlers(EventHandlerBuilder builder)
-    {
-        builder.handleUnitAction(SharedMenuButtons.EXIT_SUB_MENU, menuContext.blockEntity::returnToPrimaryMenuScreen);
-        builder.handleAction(CYCLE_FORWARD_BUTTON_ID, LimaCoreNetworkSerializers.RELATIVE_SIDE, (_, side) ->
-                setConfigLogged(getIOConfiguration().cycleIOAccess(side, getIOConfigRules(), true)));
-        builder.handleAction(CYCLE_BACKWARD_BUTTON_ID, LimaCoreNetworkSerializers.RELATIVE_SIDE, (_, side) ->
-                setConfigLogged(getIOConfiguration().cycleIOAccess(side, getIOConfigRules(), false)));
-        builder.handleUnitAction(TOGGLE_AUTO_INPUT_BUTTON_ID, _ -> setConfigLogged(getIOConfiguration().toggleAutoInput()));
-        builder.handleUnitAction(TOGGLE_AUTO_OUTPUT_BUTTON_ID, _ -> setConfigLogged(getIOConfiguration().toggleAutoOutput()));
-    }
-
-    public static final class MenuType extends LimaMenuType<MenuContext, BlockIOConfigurationMenu>
-    {
-        public MenuType(Identifier id)
-        {
-            super(MenuContext.class, BlockIOConfigurationMenu::new, defaultMenuTitle(id));
-        }
-
-        @Override
-        public void encodeContext(MenuContext menuContext, RegistryFriendlyByteBuf net)
-        {
-            net.writeBlockPos(menuContext.blockEntity.getBlockPos());
-            ResourceType.STREAM_CODEC.encode(net, menuContext.inputType);
-        }
-
-        @Override
-        protected MenuContext decodeContext(RegistryFriendlyByteBuf net, Inventory inventory)
-        {
-            BlockPos pos = net.readBlockPos();
-            ConfigurableIOBlockEntity holder = Objects.requireNonNull(LimaBlockUtil.getSafeBlockEntity(inventory.player.level(), pos, ConfigurableIOBlockEntity.class));
-            ResourceType inputType = ResourceType.STREAM_CODEC.decode(net);
-
-            return new MenuContext(holder, inputType);
-        }
-
-        @Override
-        public boolean canPlayerKeepUsing(MenuContext menuContext, Player player)
-        {
-            return menuContext.blockEntity.getAsLimaBlockEntity().canPlayerUse(player);
-        }
-    }
-
-    public record MenuContext(ConfigurableIOBlockEntity blockEntity, ResourceType inputType) {}
 }

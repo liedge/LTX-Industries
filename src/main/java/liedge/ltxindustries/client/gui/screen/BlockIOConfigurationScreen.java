@@ -108,7 +108,7 @@ public class BlockIOConfigurationScreen extends LTXIScreen<BlockIOConfigurationM
     {
         if (buttonRefreshTimer <= 0)
         {
-            ConfigurableIOBlockEntity blockEntity = menu.menuContext().blockEntity();
+            ConfigurableIOBlockEntity blockEntity = menu.getMenuContext();
             BlockPos pos = blockEntity.getBlockPos();
             Direction facing = blockEntity.getFacing();
 
@@ -192,7 +192,7 @@ public class BlockIOConfigurationScreen extends LTXIScreen<BlockIOConfigurationM
         {
             Component sideTooltip = side.translate().withStyle(LTXIChatStyles.LIME_GREEN)
                     .append(CommonComponents.SPACE)
-                    .append(ComponentUtils.wrapInSquareBrackets(LimaComponentUtil.localizeDirection(side.resolveAbsoluteSide(menu.menuContext().blockEntity().getFacing())).translate()));
+                    .append(ComponentUtils.wrapInSquareBrackets(LimaComponentUtil.localizeDirection(side.resolveAbsoluteSide(menu.getMenuContext().getFacing())).translate()));
 
             consumer.accept(sideTooltip);
             consumer.accept(getIOConfiguration().getIOAccess(side).translate());

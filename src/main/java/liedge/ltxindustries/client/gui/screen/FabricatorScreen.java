@@ -95,7 +95,7 @@ public class FabricatorScreen extends MachineBaseScreen<FabricatorMenu>
     {
         super.addWidgets();
 
-        addRenderableOnly(new FabricatorProgressWidget(leftPos + 61, topPos + 83, menu.menuContext()));
+        addRenderableOnly(new FabricatorProgressWidget(leftPos + 61, topPos + 83, menu.getMenuContext()));
         this.selectorGrid = addRenderableOnly(new SelectorGrid(leftPos + 76, topPos + 32, this));
 
         this.scrollbar = addRenderableWidget(new ScrollbarWidget(leftPos + 168, topPos + 32, 72, selectorGrid));
@@ -184,7 +184,7 @@ public class FabricatorScreen extends MachineBaseScreen<FabricatorMenu>
         {
             super(x, y, 18, 18, 5, 4);
             this.parent = parent;
-            this.blockEntity = parent.menu.menuContext();
+            this.blockEntity = parent.menu.getMenuContext();
         }
 
         @Override

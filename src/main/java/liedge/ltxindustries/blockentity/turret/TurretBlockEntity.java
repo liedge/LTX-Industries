@@ -7,6 +7,7 @@ import liedge.limacore.blockentity.OwnableBlockEntity;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.client.util.LimaCoreClientUtil;
 import liedge.limacore.lib.math.LimaCoreMath;
+import liedge.limacore.menu.BlockEntityMenuType;
 import liedge.limacore.network.sync.NullableValueTracker;
 import liedge.limacore.network.sync.SimpleValueTracker;
 import liedge.limacore.network.sync.ValueTracker;
@@ -25,6 +26,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -348,6 +350,12 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
             }
             case FIRING -> turretFiringTick(level, pos, state, owner, tracker);
         }
+    }
+
+    @Override
+    public Component getMenuTitle(BlockEntityMenuType<?, ?> menuType)
+    {
+        return Component.translatable(menuType.getDescriptionId());
     }
 
     @Override

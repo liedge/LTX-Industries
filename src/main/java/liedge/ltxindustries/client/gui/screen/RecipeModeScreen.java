@@ -95,7 +95,7 @@ public class RecipeModeScreen extends LTXIScreen<RecipeModeMenu>
         {
             super(x, y, 18, 18, 8, 3);
             this.parent = parent;
-            this.blockEntity = parent.menu.menuContext();
+            this.blockEntity = parent.menu.getMenuContext();
         }
 
         @Override

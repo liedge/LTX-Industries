@@ -4,10 +4,11 @@ import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.menu.LimaMenuType;
 import liedge.ltxindustries.blockentity.turret.TurretBlockEntity;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.MenuType;
 
 public class TurretMenu<BE extends TurretBlockEntity> extends LTXIMachineMenu<BE>
 {
-    public TurretMenu(LimaMenuType<BE, ?> type, int containerId, Inventory inventory, BE menuContext)
+    public TurretMenu(MenuType<?> type, int containerId, Inventory inventory, BE menuContext)
     {
         super(type, containerId, inventory, menuContext);
 

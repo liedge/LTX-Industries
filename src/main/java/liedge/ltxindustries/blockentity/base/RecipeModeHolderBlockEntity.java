@@ -1,6 +1,6 @@
 package liedge.ltxindustries.blockentity.base;
 
-import liedge.limacore.menu.LimaMenuProvider;
+import liedge.limacore.menu.BlockEntityMenuProvider;
 import liedge.limacore.network.sync.LimaDataWatcher;
 import liedge.limacore.network.sync.NullableValueTracker;
 import liedge.limacore.transfer.item.ItemHolderBlockEntity;
@@ -15,7 +15,7 @@ import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
@@ -65,10 +65,9 @@ public interface RecipeModeHolderBlockEntity extends ItemHolderBlockEntity, SubM
         return HolderSet.empty();
     }
 
-    default void openModesSubMenu(Player player)
+    default void openModesSubMenu(ServerPlayer player)
     {
-        LimaMenuProvider.create(LTXIMenus.RECIPE_MODE_SELECT.get(), this, LTXILangKeys.RECIPE_MODES_TITLE_OR_TOOLTIP.translate(), false)
-                .openMenuScreen(player);
+        player.openMenu(new BlockEntityMenuProvider(LTXIMenus.RECIPE_MODE_SELECT, this, LTXILangKeys.RECIPE_MODES_TITLE_OR_TOOLTIP.translate(), false));
     }
 
     default LimaDataWatcher<Optional<Holder<RecipeMode>>> keepRecipeModeSynced()
