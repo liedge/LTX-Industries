@@ -17,14 +17,10 @@ public class AutoFabricatorMenu extends LTXIMachineMenu<AutoFabricatorBlockEntit
         addSlot(BlockContentsType.AUXILIARY, BaseFabricatorBlockEntity.AUX_BLUEPRINT_SLOT, 120, 73);
         addRecipeOutputSlot(0, 152, 73, LTXIRecipeTypes.FABRICATING);
         addPlayerInventoryAndHotbar(15, 98);
-    }
 
-    @Override
-    public void defineDataWatchers(DataWatcherCollector collector)
-    {
-        menuContext.getEnergy().syncAllProperties(collector);
-        menuContext.keepEnergyConsumerPropertiesSynced(collector);
-        collector.register(menuContext.keepProgressSynced());
-        collector.register(menuContext.getRecipeCheck().keepLastUsedSynced());
+        menuContext.getEnergy().syncAllProperties(this);
+        menuContext.keepEnergyConsumerPropertiesSynced(this);
+        addDataWatcher(menuContext.keepProgressSynced());
+        addDataWatcher(menuContext.getRecipeCheck().keepLastUsedSynced());
     }
 }

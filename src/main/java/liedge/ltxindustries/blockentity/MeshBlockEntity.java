@@ -47,9 +47,6 @@ public final class MeshBlockEntity extends LimaBlockEntity
     }
 
     @Override
-    public void defineDataWatchers(DataWatcherCollector collector) {}
-
-    @Override
     public void preRemoveSideEffects(BlockPos pos, BlockState state)
     {
         Level level = nonNullLevel();

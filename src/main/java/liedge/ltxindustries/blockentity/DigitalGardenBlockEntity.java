@@ -21,18 +21,14 @@ public class DigitalGardenBlockEntity extends LTXIRecipeMachineBlockEntity<Garde
     public DigitalGardenBlockEntity(BlockPos pos, BlockState state)
     {
         super(LTXIBlockEntities.DIGITAL_GARDEN.get(), LTXIRecipeTypes.GARDEN_SIMULATING.get(), pos, state, 1, 4, 1, 0);
+
+        addDataWatcher(SimpleValueTracker.create(LimaCoreNetworkSerializers.ITEM_RESOURCE, this::writePreviewResource, this::readPreviewResource).setAutomatic());
     }
 
     public ItemStack getClientPreviewItem()
     {
         BlockState state = getBlockState();
         return LTXIBlockProperties.isMachineActive(state) ? clientPreviewItem : ItemStack.EMPTY;
-    }
-
-    @Override
-    public void defineDataWatchers(DataWatcherCollector collector)
-    {
-        collector.register(SimpleValueTracker.create(LimaCoreNetworkSerializers.ITEM_RESOURCE, this::writePreviewResource, this::readPreviewResource).setAutomatic());
     }
 
     @Override

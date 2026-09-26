@@ -41,6 +41,9 @@ public abstract class BaseFabricatorBlockEntity extends ProductionMachineBlockEn
     protected BaseFabricatorBlockEntity(ConfigurableIOBlockEntityType<?> type, BlockPos pos, BlockState state, int inputSlots)
     {
         super(type, pos, state, 3, inputSlots, 1);
+
+        addDataWatcher(SimpleValueTracker.create(LimaCoreNetworkSerializers.BOOL, this::isCrafting, this::setCrafting).setAutomatic());
+        addDataWatcher(SimpleValueTracker.create(LimaCoreNetworkSerializers.ITEM_RESOURCE, this::writePreviewResource, this::readPreviewResource).setAutomatic());
     }
 
     public ItemStack getClientPreviewItem()
@@ -100,13 +103,6 @@ public abstract class BaseFabricatorBlockEntity extends ProductionMachineBlockEn
     {
         this.crafting = crafting;
         setChanged();
-    }
-
-    @Override
-    public void defineDataWatchers(DataWatcherCollector collector)
-    {
-        collector.register(SimpleValueTracker.create(LimaCoreNetworkSerializers.BOOL, this::isCrafting, this::setCrafting).setAutomatic());
-        collector.register(SimpleValueTracker.create(LimaCoreNetworkSerializers.ITEM_RESOURCE, this::writePreviewResource, this::readPreviewResource).setAutomatic());
     }
 
     @Override

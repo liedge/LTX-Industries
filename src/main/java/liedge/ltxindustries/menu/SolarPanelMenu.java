@@ -11,12 +11,8 @@ public class SolarPanelMenu extends MachineBaseMenu<SolarPanelBlockEntity>
         super(type, containerId, inventory, menuContext);
 
         addPlayerInventoryAndHotbar(DEFAULT_INV_X, 66);
-    }
 
-    @Override
-    public void defineDataWatchers(DataWatcherCollector collector)
-    {
-        menuContext.getEnergy().syncAllProperties(collector);
-        collector.register(menuContext.syncEnergyGeneration());
+        menuContext.getEnergy().syncAllProperties(this);
+        addDataWatcher(menuContext.syncEnergyGeneration());
     }
 }

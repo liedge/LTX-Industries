@@ -37,6 +37,8 @@ public class UpgradeStationBlockEntity extends LimaBlockEntity implements ItemHo
     {
         super(LTXIBlockEntities.UPGRADE_STATION.get(), pos, state);
         this.inventory = new LimaBlockEntityItems(this, BlockContentsType.GENERAL, 2);
+
+        addDataWatcher(SimpleValueTracker.create(LimaCoreNetworkSerializers.ITEM_RESOURCE, () -> inventory.getResource(EQUIPMENT_ITEM_SLOT), resource -> this.previewItem = resource.toStack()).setAutomatic());
     }
 
     public ItemStack getPreviewItem()
@@ -63,12 +65,6 @@ public class UpgradeStationBlockEntity extends LimaBlockEntity implements ItemHo
         {
             LimaMenuProvider.create(LTXIMenus.LIGHT_COLORS_CONFIG.get(), this, null, false).openMenuScreen(player);
         }
-    }
-
-    @Override
-    public void defineDataWatchers(DataWatcherCollector collector)
-    {
-        collector.register(SimpleValueTracker.create(LimaCoreNetworkSerializers.ITEM_RESOURCE, () -> inventory.getResource(EQUIPMENT_ITEM_SLOT), resource -> this.previewItem = resource.toStack()).setAutomatic());
     }
 
     @Override

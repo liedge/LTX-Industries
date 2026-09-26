@@ -36,6 +36,11 @@ public class FabricatorMenu extends LTXIMachineMenu<FabricatorBlockEntity>
         addSlot(BlockContentsType.AUXILIARY, BaseFabricatorBlockEntity.AUX_BLUEPRINT_SLOT, 43, 61);
 
         addPlayerInventoryAndHotbar(15, 118);
+
+        menuContext.getEnergy().syncAllProperties(this);
+        menuContext.keepEnergyConsumerPropertiesSynced(this);
+        addDataWatcher(menuContext.keepProgressSynced());
+        addDataWatcher(menuContext.getRecipeCheck().keepLastUsedSynced());
     }
 
     private void receiveCraftCommand(ServerPlayer sender, ResourceKey<Recipe<?>> key)
@@ -75,15 +80,6 @@ public class FabricatorMenu extends LTXIMachineMenu<FabricatorBlockEntity>
                 }
             }
         });
-    }
-
-    @Override
-    public void defineDataWatchers(DataWatcherCollector collector)
-    {
-        menuContext.getEnergy().syncAllProperties(collector);
-        menuContext.keepEnergyConsumerPropertiesSynced(collector);
-        collector.register(menuContext.keepProgressSynced());
-        collector.register(menuContext.getRecipeCheck().keepLastUsedSynced());
     }
 
     @Override

@@ -13,11 +13,7 @@ public class TurretMenu<BE extends TurretBlockEntity> extends LTXIMachineMenu<BE
 
         addSlotsGrid(BlockContentsType.OUTPUT, 0, 80, 23, 5, 4, slot -> slot.allowPlacement(false));
         addPlayerInventoryAndHotbar(8, 106);
-    }
 
-    @Override
-    public void defineDataWatchers(DataWatcherCollector collector)
-    {
-        menuContext.getEnergy().syncAllProperties(collector);
+        menuContext.getEnergy().syncAllProperties(this);
     }
 }

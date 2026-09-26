@@ -27,9 +27,6 @@ public abstract class BaseGeneratorBlockEntity extends LTXIMachineBlockEntity
         super(type, pos, state, 1, null);
     }
 
-    @Override
-    public void defineDataWatchers(DataWatcherCollector collector) { }
-
     public abstract int getBaseEnergyGeneration();
 
     public int getEnergyGeneration()

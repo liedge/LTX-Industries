@@ -23,30 +23,26 @@ public final class RecipeLayoutMenu<CTX extends BaseRecipeMachineBlockEntity<?, 
         int playerInvX = (layout.getWidth() - 162) / 2 + 1;
         int playerInvY = layout.getHeight() - 82;
         addPlayerInventoryAndHotbar(playerInvX, playerInvY);
+
+        menuContext.getEnergy().syncAllProperties(this);
+        menuContext.keepTimedProcessSynced(this);
+        menuContext.keepEnergyConsumerPropertiesSynced(this);
+
+        LimaBlockEntityFluids inputFluids = menuContext.getFluids(BlockContentsType.INPUT);
+        if (inputFluids != null) inputFluids.syncAllProperties(this);
+
+        LimaBlockEntityFluids outputFluids = menuContext.getFluids(BlockContentsType.OUTPUT);
+        if (outputFluids != null) outputFluids.syncAllProperties(this);
+
+        if (menuContext instanceof RecipeModeHolderBlockEntity modeHolder)
+        {
+            addDataWatcher(modeHolder.keepRecipeModeSynced());
+        }
     }
 
     public RecipeLayout getLayout()
     {
         return layout;
-    }
-
-    @Override
-    public void defineDataWatchers(DataWatcherCollector collector)
-    {
-        menuContext.getEnergy().syncAllProperties(collector);
-        menuContext.keepTimedProcessSynced(collector);
-        menuContext.keepEnergyConsumerPropertiesSynced(collector);
-
-        LimaBlockEntityFluids inputFluids = menuContext.getFluids(BlockContentsType.INPUT);
-        if (inputFluids != null) inputFluids.syncAllProperties(collector);
-
-        LimaBlockEntityFluids outputFluids = menuContext.getFluids(BlockContentsType.OUTPUT);
-        if (outputFluids != null) outputFluids.syncAllProperties(collector);
-
-        if (menuContext instanceof RecipeModeHolderBlockEntity modeHolder)
-        {
-            collector.register(modeHolder.keepRecipeModeSynced());
-        }
     }
 
     @Override

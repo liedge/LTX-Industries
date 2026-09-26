@@ -62,9 +62,6 @@ public abstract class BaseRecipeMachineBlockEntity<I extends RecipeInput, R exte
     }
 
     @Override
-    public void defineDataWatchers(DataWatcherCollector collector) {}
-
-    @Override
     public int getCurrentProcessTime()
     {
         return craftingProgress;

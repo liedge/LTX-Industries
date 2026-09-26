@@ -34,8 +34,8 @@ public interface EnergyConsumerBlockEntity extends EnergyHolderBlockEntity
         return LimaEnergyUtil.useExact(getEnergy(), getEnergyUsage(), null);
     }
 
-    default void keepEnergyConsumerPropertiesSynced(DataWatcherHolder.DataWatcherCollector collector)
+    default void keepEnergyConsumerPropertiesSynced(DataWatcherHolder holder)
     {
-        collector.register(SimpleValueTracker.create(LimaCoreNetworkSerializers.VAR_INT, this::getEnergyUsage, this::setEnergyUsage).setAutomatic());
+        holder.addDataWatcher(SimpleValueTracker.create(LimaCoreNetworkSerializers.VAR_INT, this::getEnergyUsage, this::setEnergyUsage).setAutomatic());
     }
 }
