@@ -1,8 +1,8 @@
 package liedge.ltxindustries.blockentity;
 
+import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.transfer.LimaTransferUtil;
 import liedge.limacore.transfer.item.LimaBlockEntityItems;
-import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
 import liedge.ltxindustries.blockentity.template.BaseRecipeMachineBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -17,7 +17,7 @@ import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 public abstract class CookingBlockEntity<R extends AbstractCookingRecipe> extends BaseRecipeMachineBlockEntity<SingleRecipeInput, R>
 {
-    protected CookingBlockEntity(ConfigurableIOBlockEntityType<?> type, RecipeType<R> recipeType, BlockPos pos, BlockState state)
+    protected CookingBlockEntity(LimaBlockEntityType<?> type, RecipeType<R> recipeType, BlockPos pos, BlockState state)
     {
         super(type, recipeType, pos, state, 1, 1, 0, 0);
     }

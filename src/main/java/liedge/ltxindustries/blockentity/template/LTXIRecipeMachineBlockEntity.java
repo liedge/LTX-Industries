@@ -1,7 +1,7 @@
 package liedge.ltxindustries.blockentity.template;
 
 import liedge.limacore.blockentity.BlockContentsType;
-import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
+import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.ltxindustries.blockentity.base.RecipeModeHolderBlockEntity;
 import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.recipe.LTXIRecipe;
@@ -29,7 +29,7 @@ public abstract class LTXIRecipeMachineBlockEntity<R extends LTXIRecipe> extends
     private @Nullable Holder<RecipeMode> mode;
     private HolderSet<RecipeMode> availableModes = HolderSet.empty();
 
-    protected LTXIRecipeMachineBlockEntity(ConfigurableIOBlockEntityType<?> type, RecipeType<R> recipeType, BlockPos pos, BlockState state, int inputSlots, int outputSlots, int inputTanks, int outputTanks)
+    protected LTXIRecipeMachineBlockEntity(LimaBlockEntityType<?> type, RecipeType<R> recipeType, BlockPos pos, BlockState state, int inputSlots, int outputSlots, int inputTanks, int outputTanks)
     {
         super(type, recipeType, pos, state, inputSlots, outputSlots, inputTanks, outputTanks);
     }

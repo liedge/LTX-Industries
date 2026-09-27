@@ -1,10 +1,10 @@
 package liedge.ltxindustries.blockentity.template;
 
 import liedge.limacore.blockentity.BlockContentsType;
+import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.recipe.LimaRecipeCheck;
 import liedge.ltxindustries.block.LTXIBlockProperties;
-import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
 import liedge.ltxindustries.blockentity.base.EnergyConsumerBlockEntity;
 import liedge.ltxindustries.blockentity.base.RecipeMachineBlockEntity;
 import liedge.ltxindustries.blockentity.base.TimedProcessBlockEntity;
@@ -43,7 +43,7 @@ public abstract class BaseRecipeMachineBlockEntity<I extends RecipeInput, R exte
     private boolean shouldCheckRecipe;
     private boolean shouldCheckCraftingTime;
 
-    protected BaseRecipeMachineBlockEntity(ConfigurableIOBlockEntityType<?> type, RecipeType<R> recipeType, BlockPos pos, BlockState state, int inputSlots, int outputSlots, int inputTanks, int outputTanks)
+    protected BaseRecipeMachineBlockEntity(LimaBlockEntityType<?> type, RecipeType<R> recipeType, BlockPos pos, BlockState state, int inputSlots, int outputSlots, int inputTanks, int outputTanks)
     {
         super(type, pos, state, 2, inputSlots, outputSlots, inputTanks, outputTanks);
         this.recipeCheck = LimaRecipeCheck.create(recipeType);

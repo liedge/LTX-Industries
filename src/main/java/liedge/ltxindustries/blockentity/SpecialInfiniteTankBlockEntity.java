@@ -2,10 +2,10 @@ package liedge.ltxindustries.blockentity;
 
 import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.blockentity.IOAccess;
+import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.transfer.LimaInfiniteResources;
 import liedge.limacore.transfer.fluid.FluidHolderBlockEntity;
 import liedge.limacore.transfer.fluid.LimaBlockEntityFluids;
-import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
 import liedge.ltxindustries.blockentity.template.MachineBaseBlockEntity;
 import liedge.ltxindustries.registry.game.LTXIBlockEntities;
 import net.minecraft.core.BlockPos;
@@ -31,7 +31,7 @@ public final class SpecialInfiniteTankBlockEntity extends MachineBaseBlockEntity
 
     private final ResourceHandler<FluidResource> infiniteFluids;
 
-    private SpecialInfiniteTankBlockEntity(ConfigurableIOBlockEntityType<?> type, BlockPos pos, BlockState state, FluidResource resource)
+    private SpecialInfiniteTankBlockEntity(LimaBlockEntityType<?> type, BlockPos pos, BlockState state, FluidResource resource)
     {
         super(type, pos, state, 1);
         this.infiniteFluids = new LimaInfiniteResources<>(resource);

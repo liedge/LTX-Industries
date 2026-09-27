@@ -1,10 +1,10 @@
 package liedge.ltxindustries.blockentity.template;
 
 import liedge.limacore.blockentity.BlockContentsType;
+import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.transfer.item.LimaBlockEntityItems;
 import liedge.limacore.util.LimaItemUtil;
 import liedge.ltxindustries.LTXIConstants;
-import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
 import liedge.ltxindustries.blockentity.base.UpgradesHolderBlockEntity;
 import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.registry.game.LTXIDataComponents;
@@ -29,7 +29,7 @@ public abstract class MachineBaseBlockEntity extends ConfigurableSidesBlockEntit
     private final LimaBlockEntityItems auxInventory;
     private Upgrades upgrades = Upgrades.EMPTY;
 
-    protected MachineBaseBlockEntity(ConfigurableIOBlockEntityType<?> type, BlockPos pos, BlockState state, int auxInventorySize)
+    protected MachineBaseBlockEntity(LimaBlockEntityType<?> type, BlockPos pos, BlockState state, int auxInventorySize)
     {
         super(type, pos, state);
         this.auxInventory = new LimaBlockEntityItems(this, BlockContentsType.AUXILIARY, auxInventorySize);

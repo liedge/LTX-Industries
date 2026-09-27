@@ -3,6 +3,7 @@ package liedge.ltxindustries.blockentity.turret;
 import it.unimi.dsi.fastutil.ints.IntList;
 import liedge.limacore.LimaCommonConstants;
 import liedge.limacore.blockentity.BlockContentsType;
+import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.blockentity.OwnableBlockEntity;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.client.util.LimaCoreClientUtil;
@@ -13,7 +14,6 @@ import liedge.limacore.network.sync.SimpleValueTracker;
 import liedge.limacore.network.sync.ValueTracker;
 import liedge.limacore.registry.game.LimaCoreDataComponents;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
-import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
 import liedge.ltxindustries.blockentity.base.EnergyConsumerBlockEntity;
 import liedge.ltxindustries.blockentity.template.ProductionMachineBlockEntity;
 import liedge.ltxindustries.entity.LTXIEntityUtil;
@@ -75,7 +75,7 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
     private double targetDistance;
     private boolean lookingAtTarget;
 
-    protected TurretBlockEntity(ConfigurableIOBlockEntityType<?> type, BlockPos pos, BlockState state, double traceY, double horizontalSearchRadius, double verticalSearchRadius)
+    protected TurretBlockEntity(LimaBlockEntityType<?> type, BlockPos pos, BlockState state, double traceY, double horizontalSearchRadius, double verticalSearchRadius)
     {
         super(type, pos, state, 2, 0, 20);
         this.traceStart = new Vec3(pos.getX() + 0.5d, pos.getY() + traceY, pos.getZ() + 0.5d);
