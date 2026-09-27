@@ -1,7 +1,6 @@
 package liedge.ltxindustries.menu;
 
 import liedge.limacore.blockentity.BlockContentsType;
-import liedge.limacore.menu.LimaMenuType;
 import liedge.ltxindustries.blockentity.template.LTXIMachineBlockEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;

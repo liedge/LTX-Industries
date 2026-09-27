@@ -1,10 +1,10 @@
 package liedge.ltxindustries.blockentity.template;
 
 import liedge.limacore.blockentity.BlockContentsType;
+import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.transfer.fluid.FluidHolderBlockEntity;
 import liedge.limacore.transfer.fluid.LimaBlockEntityFluids;
 import liedge.limacore.transfer.item.LimaBlockEntityItems;
-import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
 import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.util.LTXIUpgradeUtil;
 import net.minecraft.core.BlockPos;
@@ -26,7 +26,7 @@ public abstract class ProductionMachineBlockEntity extends LTXIMachineBlockEntit
     private final @Nullable LimaBlockEntityFluids inputFluids;
     private final @Nullable LimaBlockEntityFluids outputFluids;
 
-    protected ProductionMachineBlockEntity(ConfigurableIOBlockEntityType<?> type, BlockPos pos, BlockState state, int auxInventorySize, int inputSlots, int outputSlots, int inputTanks, int outputTanks)
+    protected ProductionMachineBlockEntity(LimaBlockEntityType<?> type, BlockPos pos, BlockState state, int auxInventorySize, int inputSlots, int outputSlots, int inputTanks, int outputTanks)
     {
         super(type, pos, state, auxInventorySize, null);
 
@@ -36,7 +36,7 @@ public abstract class ProductionMachineBlockEntity extends LTXIMachineBlockEntit
         this.outputFluids = outputTanks > 0 ? new LimaBlockEntityFluids(this, BlockContentsType.OUTPUT, outputTanks) : null;
     }
 
-    protected ProductionMachineBlockEntity(ConfigurableIOBlockEntityType<?> type, BlockPos pos, BlockState state, int auxInventorySize, int inputSlots, int outputSlots)
+    protected ProductionMachineBlockEntity(LimaBlockEntityType<?> type, BlockPos pos, BlockState state, int auxInventorySize, int inputSlots, int outputSlots)
     {
         this(type, pos, state, auxInventorySize, inputSlots, outputSlots, 0, 0);
     }

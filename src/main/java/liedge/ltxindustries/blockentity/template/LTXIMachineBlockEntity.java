@@ -2,12 +2,12 @@ package liedge.ltxindustries.blockentity.template;
 
 import liedge.limacore.LimaCommonConstants;
 import liedge.limacore.blockentity.BlockContentsType;
+import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.transfer.energy.EnergyHolderBlockEntity;
 import liedge.limacore.transfer.energy.LimaBlockEntityEnergy;
 import liedge.limacore.transfer.energy.LimaEnergyHandler;
 import liedge.ltxindustries.blockentity.base.ResourceType;
 import liedge.ltxindustries.blockentity.base.BlockIOConfiguration;
-import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponentGetter;
@@ -25,13 +25,13 @@ public abstract class LTXIMachineBlockEntity extends MachineBaseBlockEntity impl
 {
     private final LimaEnergyHandler energy;
 
-    protected LTXIMachineBlockEntity(ConfigurableIOBlockEntityType<?> type, BlockPos pos, BlockState state, int auxInventorySize, @Nullable LimaEnergyHandler energy)
+    protected LTXIMachineBlockEntity(LimaBlockEntityType<?> type, BlockPos pos, BlockState state, int auxInventorySize, @Nullable LimaEnergyHandler energy)
     {
         super(type, pos, state, auxInventorySize);
         this.energy = energy != null ? energy : new LimaBlockEntityEnergy(this);
     }
 
-    protected LTXIMachineBlockEntity(ConfigurableIOBlockEntityType<?> type, BlockPos pos, BlockState state, @Nullable LimaEnergyHandler energyStorage)
+    protected LTXIMachineBlockEntity(LimaBlockEntityType<?> type, BlockPos pos, BlockState state, @Nullable LimaEnergyHandler energyStorage)
     {
         this(type, pos, state, 2, energyStorage);
     }

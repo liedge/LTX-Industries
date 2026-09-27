@@ -3,11 +3,11 @@ package liedge.ltxindustries.blockentity;
 import com.google.common.base.Predicates;
 import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.blockentity.IOAccess;
+import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.menu.BlockEntityMenuType;
 import liedge.limacore.transfer.energy.LimaEnergyHandler;
 import liedge.limacore.transfer.item.LimaBlockEntityItems;
 import liedge.limacore.util.LimaItemUtil;
-import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
 import liedge.ltxindustries.blockentity.template.LTXIMachineBlockEntity;
 import liedge.ltxindustries.registry.game.LTXIBlocks;
 import net.minecraft.core.BlockPos;
@@ -27,7 +27,7 @@ public abstract class BaseECABlockEntity extends LTXIMachineBlockEntity
 {
     private final LimaBlockEntityItems chargingInventory;
 
-    public BaseECABlockEntity(ConfigurableIOBlockEntityType<?> type, BlockPos pos, BlockState state, @Nullable LimaEnergyHandler energyStorage)
+    public BaseECABlockEntity(LimaBlockEntityType<?> type, BlockPos pos, BlockState state, @Nullable LimaEnergyHandler energyStorage)
     {
         super(type, pos, state, energyStorage);
         this.chargingInventory = new LimaBlockEntityItems(this, BlockContentsType.GENERAL, 4);

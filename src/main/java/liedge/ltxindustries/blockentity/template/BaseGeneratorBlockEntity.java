@@ -1,6 +1,7 @@
 package liedge.ltxindustries.blockentity.template;
 
 import com.google.common.primitives.Ints;
+import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.network.sync.LimaDataWatcher;
@@ -8,7 +9,6 @@ import liedge.limacore.network.sync.SimpleValueTracker;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.ltxindustries.block.LTXIBlockProperties;
 import liedge.ltxindustries.block.MachineState;
-import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
 import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import liedge.ltxindustries.util.LTXITooltipUtil;
@@ -22,7 +22,7 @@ public abstract class BaseGeneratorBlockEntity extends LTXIMachineBlockEntity
     private boolean active;
     private int energyGeneration;
 
-    protected BaseGeneratorBlockEntity(ConfigurableIOBlockEntityType<?> type, BlockPos pos, BlockState state)
+    protected BaseGeneratorBlockEntity(LimaBlockEntityType<?> type, BlockPos pos, BlockState state)
     {
         super(type, pos, state, 1, null);
     }

@@ -3,7 +3,11 @@ package liedge.ltxindustries.blockentity.template;
 import com.google.common.base.Predicates;
 import liedge.limacore.blockentity.IOAccess;
 import liedge.limacore.blockentity.LimaBlockEntity;
-import liedge.ltxindustries.blockentity.base.*;
+import liedge.limacore.blockentity.LimaBlockEntityType;
+import liedge.ltxindustries.blockentity.base.BlockIOConfiguration;
+import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntity;
+import liedge.ltxindustries.blockentity.base.IORuleSet;
+import liedge.ltxindustries.blockentity.base.ResourceType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -22,7 +26,6 @@ import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.neoforge.transfer.resource.Resource;
 import org.jspecify.annotations.Nullable;
 
-import java.util.Collection;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Objects;
@@ -31,8 +34,6 @@ import java.util.function.Predicate;
 
 public abstract class ConfigurableSidesBlockEntity extends LimaBlockEntity implements ConfigurableIOBlockEntity
 {
-    private final ConfigurableIOBlockEntityType<?> type;
-
     // IO configurations
     private @Nullable BlockIOConfiguration itemsIOConfig;
     private @Nullable BlockIOConfiguration energyIOConfig;
@@ -47,20 +48,14 @@ public abstract class ConfigurableSidesBlockEntity extends LimaBlockEntity imple
     private int autoInputTimer;
     private int autoOutputTimer;
 
-    protected ConfigurableSidesBlockEntity(ConfigurableIOBlockEntityType<?> type, BlockPos pos, BlockState state)
+    protected ConfigurableSidesBlockEntity(LimaBlockEntityType<?> type, BlockPos pos, BlockState state)
     {
         super(type, pos, state);
 
-        this.type = type;
-        this.itemsIOConfig = BlockIOConfiguration.create(type, ResourceType.ITEMS);
-        this.energyIOConfig = BlockIOConfiguration.create(type, ResourceType.ENERGY);
-        this.fluidsIOConfig = BlockIOConfiguration.create(type, ResourceType.FLUIDS);
-    }
-
-    @Override
-    public final Collection<ResourceType> getConfigurableInputTypes()
-    {
-        return type.getValidInputTypes();
+        IORuleSet rules = getRuleSet();
+        this.itemsIOConfig = BlockIOConfiguration.create(rules, ResourceType.ITEMS);
+        this.energyIOConfig = BlockIOConfiguration.create(rules, ResourceType.ENERGY);
+        this.fluidsIOConfig = BlockIOConfiguration.create(rules, ResourceType.FLUIDS);
     }
 
     @Override
@@ -90,12 +85,6 @@ public abstract class ConfigurableSidesBlockEntity extends LimaBlockEntity imple
         }
 
         return false;
-    }
-
-    @Override
-    public final IORules getIOConfigRules(ResourceType inputType)
-    {
-        return type.getIOConfigRules(inputType);
     }
 
     public IOAccess getTopLevelItemIO(@Nullable Direction side)

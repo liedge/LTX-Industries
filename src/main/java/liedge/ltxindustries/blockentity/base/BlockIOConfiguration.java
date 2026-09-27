@@ -50,16 +50,10 @@ public final class BlockIOConfiguration extends MapLikeData<RelativeHorizontalSi
         return create(rules, ignored -> rules.getDefaultAccess());
     }
 
-    public static @Nullable BlockIOConfiguration create(ConfigurableIOBlockEntityType<?> type, ResourceType inputType)
+    public static @Nullable BlockIOConfiguration create(IORuleSet ruleSet, ResourceType resourceType)
     {
-        if (type.getValidInputTypes().contains(inputType))
-        {
-            return create(type.getIOConfigRules(inputType));
-        }
-        else
-        {
-            return null;
-        }
+        IORules rules = ruleSet.get(resourceType);
+        return rules != null ? create(rules) : null;
     }
 
     // Class def

@@ -3,6 +3,7 @@ package liedge.ltxindustries.registry.game;
 import com.mojang.serialization.Codec;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.blockentity.base.BlockIOConfiguration;
+import liedge.ltxindustries.blockentity.base.IORuleSet;
 import liedge.ltxindustries.data.LightChannels;
 import liedge.ltxindustries.data.LightColors;
 import liedge.ltxindustries.item.tool.ToolSpeed;
@@ -51,4 +52,7 @@ public final class LTXIDataComponents
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> MAX_HITS = TYPES.registerComponentType("max_hits", builder -> builder.persistent(ExtraCodecs.POSITIVE_INT).networkSynchronized(ByteBufCodecs.VAR_INT));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Double>> BLOCK_PIERCE = TYPES.registerComponentType("block_pierce", builder -> builder.persistent(Codec.doubleRange(0d, 512d)).networkSynchronized(ByteBufCodecs.DOUBLE));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<GrenadeType>> GRENADE_TYPE = TYPES.registerComponentType("grenade_type", builder -> builder.persistent(GrenadeType.CODEC).networkSynchronized(GrenadeType.STREAM_CODEC));
+
+    // Misc/Registry
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<IORuleSet>> IO_RULES = TYPES.registerComponentType("io_rules", builder -> builder.persistent(IORuleSet.CODEC));
 }

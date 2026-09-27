@@ -42,7 +42,7 @@ public abstract class MachineBaseScreen<M extends MachineBaseMenu<?>> extends LT
 
         // Right sidebar widgets
         int sidebarY = 23;
-        for (ResourceType type : menu.getMenuContext().getConfigurableInputTypes())
+        for (ResourceType type : menu.getMenuContext().getRuleSet().getResourceTypes())
         {
             addRenderableWidget(new OpenIOControlButton(rightPos, topPos + sidebarY, this, SharedMenuButtons.OPEN_IO_CONTROLS, type));
             sidebarY += LTXISidebarButton.SIDEBAR_BUTTON_HEIGHT;

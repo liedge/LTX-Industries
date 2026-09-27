@@ -1,6 +1,6 @@
 package liedge.ltxindustries.blockentity.turret;
 
-import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
+import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.ltxindustries.lib.TurretTargetTracker;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -11,7 +11,7 @@ import org.jetbrains.annotations.Nullable;
 
 public abstract class SemiAutoTurretBlockEntity extends TurretBlockEntity
 {
-    protected SemiAutoTurretBlockEntity(ConfigurableIOBlockEntityType<?> type, BlockPos pos, BlockState state, double traceY, double horizontalSearchRadius, double verticalSearchRadius)
+    protected SemiAutoTurretBlockEntity(LimaBlockEntityType<?> type, BlockPos pos, BlockState state, double traceY, double horizontalSearchRadius, double verticalSearchRadius)
     {
         super(type, pos, state, traceY, horizontalSearchRadius, verticalSearchRadius);
     }

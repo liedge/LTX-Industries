@@ -1,13 +1,13 @@
 package liedge.ltxindustries.blockentity;
 
 import liedge.limacore.blockentity.BlockContentsType;
+import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.network.sync.LimaDataWatcher;
 import liedge.limacore.network.sync.SimpleValueTracker;
 import liedge.limacore.recipe.LimaRecipeCheck;
 import liedge.limacore.recipe.RecipeInputAccess;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
-import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntityType;
 import liedge.ltxindustries.blockentity.base.EnergyConsumerBlockEntity;
 import liedge.ltxindustries.blockentity.base.RecipeMachineBlockEntity;
 import liedge.ltxindustries.blockentity.template.ProductionMachineBlockEntity;
@@ -38,7 +38,7 @@ public abstract class BaseFabricatorBlockEntity extends ProductionMachineBlockEn
     // Client properties
     private ItemStack clientPreviewItem = ItemStack.EMPTY;
 
-    protected BaseFabricatorBlockEntity(ConfigurableIOBlockEntityType<?> type, BlockPos pos, BlockState state, int inputSlots)
+    protected BaseFabricatorBlockEntity(LimaBlockEntityType<?> type, BlockPos pos, BlockState state, int inputSlots)
     {
         super(type, pos, state, 3, inputSlots, 1);
 
