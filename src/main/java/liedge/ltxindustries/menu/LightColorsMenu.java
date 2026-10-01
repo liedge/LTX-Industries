@@ -10,6 +10,7 @@ import liedge.ltxindustries.data.LightColors;
 import liedge.ltxindustries.registry.game.LTXIDataComponents;
 import liedge.ltxindustries.registry.game.LTXINetworkSerializers;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.transfer.item.ItemResource;
@@ -44,6 +45,19 @@ public class LightColorsMenu extends BlockEntityMenu<UpgradeStationBlockEntity>
                 generalInventory.set(UpgradeStationBlockEntity.EQUIPMENT_ITEM_SLOT, ItemResource.of(stack), 1);
             }
         });
+    }
+
+    @Override
+    public boolean stillValid(Player player)
+    {
+        if (player.level().isClientSide())
+        {
+            return true;
+        }
+        else
+        {
+            return menuContext.getAsLimaBlockEntity().validForMenu(player) && menuContext.hasValidItem();
+        }
     }
 
     public LightColors getLightColors()

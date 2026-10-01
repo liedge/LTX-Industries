@@ -18,7 +18,6 @@ import liedge.ltxindustries.registry.game.LTXIMenus;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
@@ -46,12 +45,6 @@ public class UpgradeStationBlockEntity extends LimaBlockEntity implements ItemHo
     public ItemStack getPreviewItem()
     {
         return previewItem;
-    }
-
-    @Override
-    public boolean validForMenu(Player player)
-    {
-        return super.validForMenu(player) && hasValidItem();
     }
 
     public boolean hasValidItem()

@@ -16,6 +16,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.transfer.item.ItemResource;
@@ -30,6 +31,19 @@ public class EquipmentUpgradeMenu extends UpgradesConfigMenu<UpgradeStationBlock
         super(type, containerId, inventory, menuContext, menuContext.getItemsOrThrow(BlockContentsType.GENERAL), UPGRADE_MODULE_SLOT);
 
         addPlayerInventoryAndHotbar(15, 118);
+    }
+
+    @Override
+    public boolean stillValid(Player player)
+    {
+        if (player.level().isClientSide())
+        {
+            return true;
+        }
+        else
+        {
+            return menuContext.getAsLimaBlockEntity().validForMenu(player) && menuContext.hasValidItem();
+        }
     }
 
     @Override
