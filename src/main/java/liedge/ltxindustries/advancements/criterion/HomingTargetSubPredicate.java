@@ -2,7 +2,6 @@ package liedge.ltxindustries.advancements.criterion;
 
 import com.mojang.serialization.MapCodec;
 import liedge.ltxindustries.entity.HomingProjectileEntity;
-import liedge.ltxindustries.registry.game.LTXILootRegistries;
 import net.minecraft.advancements.criterion.EntityPredicate;
 import net.minecraft.advancements.criterion.EntitySubPredicate;
 import net.minecraft.server.level.ServerLevel;
@@ -29,7 +28,7 @@ public record HomingTargetSubPredicate(Optional<EntityPredicate> predicate) impl
     @Override
     public MapCodec<? extends EntitySubPredicate> codec()
     {
-        return LTXILootRegistries.HOMING_TARGET_SUB_PREDICATE.get();
+        return CODEC;
     }
 
     @Override

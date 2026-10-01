@@ -8,7 +8,6 @@ import liedge.ltxindustries.lib.upgrades.UpgradedEquipmentInUse;
 import liedge.ltxindustries.lib.upgrades.value.ConstantDouble;
 import liedge.ltxindustries.lib.upgrades.value.ContextlessValue;
 import liedge.ltxindustries.lib.upgrades.value.UpgradeValueProvider;
-import liedge.ltxindustries.registry.game.LTXIEntityUpgradeEffects;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.context.ContextKey;
 import net.minecraft.world.entity.Entity;
@@ -45,9 +44,9 @@ public record RestoreShield(UpgradeValueProvider amount, ContextlessValue maxOve
     }
 
     @Override
-    public EntityUpgradeEffectType<?> getType()
+    public MapCodec<? extends EntityUpgradeEffect> codec()
     {
-        return LTXIEntityUpgradeEffects.RESTORE_SHIELD.get();
+        return CODEC;
     }
 
     @Override

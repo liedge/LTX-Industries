@@ -31,7 +31,8 @@ import net.neoforged.neoforge.registries.RegisterEvent;
 import net.neoforged.neoforge.registries.datamaps.RegisterDataMapTypesEvent;
 import org.slf4j.Logger;
 
-import static liedge.limacore.util.LimaNetworkUtil.*;
+import static liedge.limacore.util.LimaNetworkUtil.registerPlayToClient;
+import static liedge.limacore.util.LimaNetworkUtil.registerPlayToServer;
 
 @Mod(LTXIndustries.MODID)
 public class LTXIndustries
@@ -50,11 +51,9 @@ public class LTXIndustries
         LTXICreativeTabs.register(modBus);
         LTXIDataComponents.register(modBus);
         LTXIEntities.register(modBus);
-        LTXIEntityUpgradeEffects.register(modBus);
         LTXIFluids.register(modBus);
         LTXIGameEvents.register(modBus);
         LTXIItems.register(modBus);
-        LTXILootRegistries.register(modBus);
         LTXIMenus.register(modBus);
         LTXIMobEffects.register(modBus);
         LTXINetworkSerializers.register(modBus);
@@ -112,6 +111,8 @@ public class LTXIndustries
         @SubscribeEvent
         private void registerGameObjects(final RegisterEvent event)
         {
+            LTXIEntityUpgradeEffects.register(event, RESOURCES);
+            LTXILootRegistries.register(event, RESOURCES);
             event.register(Registries.FLUID, LTXIFluids::registerFluids);
         }
 
@@ -125,7 +126,7 @@ public class LTXIndustries
         private void registerCustomRegistries(final NewRegistryEvent event)
         {
             event.register(LTXIRegistries.UPGRADE_COMPONENT_TYPES);
-            event.register(LTXIRegistries.ENTITY_UPGRADE_EFFECT_TYPES);
+            event.register(LTXIRegistries.ENTITY_UPGRADE_EFFECTS);
         }
 
         @SubscribeEvent

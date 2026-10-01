@@ -2,15 +2,13 @@ package liedge.ltxindustries.lib.upgrades.effect.entity;
 
 import com.mojang.serialization.MapCodec;
 import liedge.ltxindustries.lib.upgrades.UpgradedEquipmentInUse;
-import liedge.ltxindustries.registry.game.LTXIEntityUpgradeEffects;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.context.ContextKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.Validatable;
+import net.minecraft.world.level.storage.loot.ValidationContext;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public record CompoundEntityEffect(List<EntityUpgradeEffect> effects) implements EntityUpgradeEffect
 {
@@ -31,14 +29,15 @@ public record CompoundEntityEffect(List<EntityUpgradeEffect> effects) implements
     }
 
     @Override
-    public EntityUpgradeEffectType<?> getType()
+    public MapCodec<? extends EntityUpgradeEffect> codec()
     {
-        return LTXIEntityUpgradeEffects.ALL_OF_EFFECT.get();
+        return CODEC;
     }
 
     @Override
-    public Set<ContextKey<?>> getReferencedContextParams()
+    public void validate(ValidationContext context)
     {
-        return effects.stream().flatMap(e -> e.getReferencedContextParams().stream()).collect(Collectors.toSet());
+        EntityUpgradeEffect.super.validate(context);
+        Validatable.validate(context, "effects", effects);
     }
 }

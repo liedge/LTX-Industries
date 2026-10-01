@@ -2,7 +2,6 @@ package liedge.ltxindustries.lib.upgrades.effect.entity;
 
 import com.mojang.serialization.MapCodec;
 import liedge.ltxindustries.lib.upgrades.UpgradedEquipmentInUse;
-import liedge.ltxindustries.registry.game.LTXIEntityUpgradeEffects;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.enchantment.LevelBasedValue;
@@ -24,8 +23,8 @@ public record IgniteEntity(LevelBasedValue duration) implements EntityUpgradeEff
     }
 
     @Override
-    public EntityUpgradeEffectType<?> getType()
+    public MapCodec<? extends EntityUpgradeEffect> codec()
     {
-        return LTXIEntityUpgradeEffects.IGNITE_ENTITY.get();
+        return CODEC;
     }
 }

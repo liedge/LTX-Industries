@@ -1,7 +1,8 @@
 package liedge.ltxindustries.registry;
 
+import com.mojang.serialization.MapCodec;
 import liedge.ltxindustries.lib.upgrades.Upgrade;
-import liedge.ltxindustries.lib.upgrades.effect.entity.EntityUpgradeEffectType;
+import liedge.ltxindustries.lib.upgrades.effect.entity.EntityUpgradeEffect;
 import liedge.ltxindustries.recipe.RecipeMode;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
@@ -14,7 +15,7 @@ public final class LTXIRegistries
     private LTXIRegistries() {}
 
     public static final Registry<DataComponentType<?>> UPGRADE_COMPONENT_TYPES = RESOURCES.registryBuilder(Keys.UPGRADE_COMPONENT_TYPES).sync(true).create();
-    public static final Registry<EntityUpgradeEffectType<?>> ENTITY_UPGRADE_EFFECT_TYPES = RESOURCES.registryBuilder(Keys.ENTITY_UPGRADE_EFFECT_TYPES).sync(true).create();
+    public static final Registry<MapCodec<? extends EntityUpgradeEffect>> ENTITY_UPGRADE_EFFECTS = RESOURCES.registryBuilder(Keys.ENTITY_UPGRADE_EFFECTS).sync(true).create();
 
     public static final class Keys
     {
@@ -22,7 +23,7 @@ public final class LTXIRegistries
 
         // Game registries
         public static final ResourceKey<Registry<DataComponentType<?>>> UPGRADE_COMPONENT_TYPES = RESOURCES.registryResourceKey("upgrade_component");
-        public static final ResourceKey<Registry<EntityUpgradeEffectType<?>>> ENTITY_UPGRADE_EFFECT_TYPES = RESOURCES.registryResourceKey("entity_upgrade_effect");
+        public static final ResourceKey<Registry<MapCodec<? extends EntityUpgradeEffect>>> ENTITY_UPGRADE_EFFECTS = RESOURCES.registryResourceKey("entity_upgrade_effect");
 
         // Data registries
         public static final ResourceKey<Registry<Upgrade>> UPGRADES = RESOURCES.registryResourceKey("upgrade");

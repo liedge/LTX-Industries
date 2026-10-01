@@ -3,7 +3,6 @@ package liedge.ltxindustries.advancements.criterion;
 import com.mojang.serialization.MapCodec;
 import liedge.ltxindustries.entity.ShellGrenadeEntity;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
-import liedge.ltxindustries.registry.game.LTXILootRegistries;
 import net.minecraft.advancements.criterion.EntitySubPredicate;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -22,7 +21,7 @@ public record GrenadeElementSubPredicate(GrenadeType type) implements EntitySubP
     @Override
     public MapCodec<? extends EntitySubPredicate> codec()
     {
-        return LTXILootRegistries.GRENADE_ELEMENT_SUB_PREDICATE.get();
+        return CODEC;
     }
 
     @Override
