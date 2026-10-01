@@ -16,7 +16,7 @@ navigation:
 <ItemIcon id="silver_ore" />
 </ItemGrid>
 
-矿物处理流程从粗矿或矿石方块开始，经历粉碎、洗涤、切块、溶解和结晶五步，最终得到成品。
+矿物处理流程从粗矿或原矿石开始，经历粉碎、洗涤、切块、溶解和结晶五步，最终得到成品。
 
 <ItemGrid>
 <ItemIcon id="crushed_silver_ore" />
