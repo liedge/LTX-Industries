@@ -5,7 +5,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import liedge.ltxindustries.entity.damage.EffectDamageSource;
 import liedge.ltxindustries.lib.upgrades.UpgradedEquipmentInUse;
 import liedge.ltxindustries.lib.upgrades.value.UpgradeValueProvider;
-import liedge.ltxindustries.registry.game.LTXIEntityUpgradeEffects;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.context.ContextKey;
@@ -40,9 +39,9 @@ public record DamageEntity(Holder<DamageType> damageType, UpgradeValueProvider a
     }
 
     @Override
-    public EntityUpgradeEffectType<?> getType()
+    public MapCodec<? extends EntityUpgradeEffect> codec()
     {
-        return LTXIEntityUpgradeEffects.DAMAGE_ENTITY.get();
+        return CODEC;
     }
 
     @Override

@@ -2,10 +2,8 @@ package liedge.ltxindustries.lib.upgrades.effect.entity;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import liedge.limacore.util.LimaLootUtil;
 import liedge.ltxindustries.lib.upgrades.UpgradedEquipmentInUse;
 import liedge.ltxindustries.lib.upgrades.value.ContextlessValue;
-import liedge.ltxindustries.registry.game.LTXIEntityUpgradeEffects;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.context.ContextKey;
 import net.minecraft.world.entity.Entity;
@@ -50,14 +48,14 @@ public record ApplyInArea(EntityUpgradeEffect child, ContextlessValue horizontal
     }
 
     @Override
-    public EntityUpgradeEffectType<?> getType()
+    public MapCodec<? extends EntityUpgradeEffect> codec()
     {
-        return LTXIEntityUpgradeEffects.APPLY_IN_AREA.get();
+        return CODEC;
     }
 
     @Override
     public Set<ContextKey<?>> getReferencedContextParams()
     {
-        return LimaLootUtil.joinReferencedParams(child, horizontalRadius, verticalRadius);
+        return child.getReferencedContextParams();
     }
 }

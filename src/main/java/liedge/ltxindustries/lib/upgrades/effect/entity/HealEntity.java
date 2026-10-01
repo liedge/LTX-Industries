@@ -3,7 +3,6 @@ package liedge.ltxindustries.lib.upgrades.effect.entity;
 import com.mojang.serialization.MapCodec;
 import liedge.ltxindustries.lib.upgrades.UpgradedEquipmentInUse;
 import liedge.ltxindustries.lib.upgrades.value.UpgradeValueProvider;
-import liedge.ltxindustries.registry.game.LTXIEntityUpgradeEffects;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.context.ContextKey;
 import net.minecraft.world.entity.Entity;
@@ -31,9 +30,9 @@ public record HealEntity(UpgradeValueProvider amount) implements EntityUpgradeEf
     }
 
     @Override
-    public EntityUpgradeEffectType<?> getType()
+    public MapCodec<? extends EntityUpgradeEffect> codec()
     {
-        return LTXIEntityUpgradeEffects.HEAL_ENTITY.get();
+        return CODEC;
     }
 
     @Override
