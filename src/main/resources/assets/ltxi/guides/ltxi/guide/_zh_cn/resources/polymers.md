@@ -23,4 +23,4 @@ navigation:
 
 <ItemImage id="fluoropolymer" />
 
-氟聚合物是聚合物的升级版本，其生产线看上去可能比较复杂，实际上确实是这样。因此，强烈建议搭建自动化产线。氟聚合物可在[化学反应器](../machines/processing/chem_lab.md)中使用[氢氟酸](acids.md#hydrofluoric-acid)、[甲烷](elements_compound.md#methane)和[氯气](elements_base.md#chlorine)反应得到，此过程会产生氟聚合物条和副产物盐酸。
+氟聚合物是聚合物的升级版本，其生产线看上去比较复杂，实际上确实如此；因此，强烈建议搭建自动化产线。氟聚合物可在[化学反应器](../machines/processing/chem_lab.md)中使用[氢氟酸](acids.md#hydrofluoric-acid)、[甲烷](elements_compound.md#methane)和[氯气](elements_base.md#chlorine)反应得到，此过程会产生氟聚合物条和副产物盐酸。
