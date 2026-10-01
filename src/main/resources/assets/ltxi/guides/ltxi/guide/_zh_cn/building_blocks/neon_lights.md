@@ -44,4 +44,4 @@ navigation:
 <Block id="titanium_panel" x="2" y="-1" />
 </GameScene>
 
-虽然现实中的霓虹灯充有稀有气体，但模组中的并非如此。 模组中的霓虹灯是由[磷](../resources/elements_base.md#phosphorus)和染料烧结成的装饰性光源方块， 可通过[电弧炉](../machines/processing/arc_furnace.md)制作，且材料的转换比率极高。 其中 16 种标准颜色的霓虹灯可以使用相应的染料合成，另外 5 种颜色的则需要使用模组添加的颜料合成。
+虽然现实中的霓虹灯充有稀有气体，但模组中的并非如此。模组中的霓虹灯是由[磷](../resources/elements_base.md#phosphorus)和染料烧结成的装饰性光源方块，可通过[电弧炉](../machines/processing/arc_furnace.md)制作，且材料的转换比率极高。其中 16 种标准颜色的霓虹灯可以使用相应的染料合成，另外 5 种颜色的则需要使用模组添加的颜料合成。
