@@ -26,6 +26,8 @@ public final class LTXIEntities
     public static final DeferredHolder<EntityType<?>, EntityType<TurretRocketEntity>> TURRET_ROCKET = projectile("turret_rocket", TurretRocketEntity::new, 0.6f, 0.6f, 2);
     public static final DeferredHolder<EntityType<?>, EntityType<FlameFieldEntity>> FLAME_FIELD = ENTITIES.registerEntityType("flame_field", FlameFieldEntity::new, MobCategory.MISC, builder -> builder
             .sized(4f, 4f).clientTrackingRange(10).updateInterval(10).fireImmune());
+    public static final DeferredHolder<EntityType<?>, EntityType<SeekerMine>> SEEKER_MINE = ENTITIES.registerEntityType("seeker_mine", SeekerMine::new, MobCategory.MISC, builder -> builder
+            .sized(0.45f, 0.45f).clientTrackingRange(8).fireImmune());
 
     private static <T extends LTXIProjectileEntity> DeferredHolder<EntityType<?>, EntityType<T>> projectile(String name, EntityType.EntityFactory<T> factory, float width, float height, int updateInterval)
     {

@@ -12,8 +12,7 @@ import java.util.concurrent.CompletableFuture;
 
 import static liedge.ltxindustries.LTXITags.EntityTypes.*;
 import static liedge.ltxindustries.registry.game.LTXIEntities.*;
-import static net.minecraft.tags.EntityTypeTags.FREEZE_HURTS_EXTRA_TYPES;
-import static net.minecraft.tags.EntityTypeTags.SENSITIVE_TO_IMPALING;
+import static net.minecraft.tags.EntityTypeTags.*;
 import static net.minecraft.world.entity.EntityType.*;
 
 class EntityTagsGen extends LimaTagsProvider.RegistryTags<EntityType<?>>
@@ -28,12 +27,13 @@ class EntityTagsGen extends LimaTagsProvider.RegistryTags<EntityType<?>>
     {
         buildTag(INVALID_TARGETS)
                 .add(ITEM, EXPERIENCE_ORB, ITEM_FRAME, GLOW_ITEM_FRAME, ARMOR_STAND)
-                .add(GLOWSTICK_PROJECTILE, SHELL_GRENADE, DAYBREAK_ROCKET, TURRET_ROCKET, FLAME_FIELD)
+                .add(GLOWSTICK_PROJECTILE, SHELL_GRENADE, DAYBREAK_ROCKET, TURRET_ROCKET, FLAME_FIELD, SEEKER_MINE)
                 .addOptional(Identifier.fromNamespaceAndPath("evilcraft", "vengeance_spirit"));
         buildTag(MEDIUM_THREAT_TARGETS).add(EVOKER, HOGLIN, ILLUSIONER, IRON_GOLEM, PIGLIN_BRUTE, RAVAGER, VINDICATOR, ZOGLIN);
         buildTag(HIGH_THREAT_TARGETS).add(ELDER_GUARDIAN, ENDER_DRAGON, WITHER, WARDEN);
         buildTag(FLYING_TARGETS).add(PHANTOM, GHAST, BLAZE, BREEZE, ENDER_DRAGON, VEX, WITHER);
         buildTag(AQUATIC_TARGETS).add(DROWNED, GUARDIAN, ELDER_GUARDIAN);
+        buildTag(FALL_DAMAGE_IMMUNE).add(SEEKER_MINE);
 
         buildTag(WEAK_TO_FLAME).add(STRAY, POLAR_BEAR, SNOW_GOLEM);
         buildTag(WEAK_TO_CRYO).addTag(FREEZE_HURTS_EXTRA_TYPES);

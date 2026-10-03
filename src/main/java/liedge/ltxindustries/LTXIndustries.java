@@ -2,6 +2,7 @@ package liedge.ltxindustries;
 
 import com.mojang.logging.LogUtils;
 import liedge.limacore.lib.ModResources;
+import liedge.ltxindustries.entity.SeekerMine;
 import liedge.ltxindustries.lib.upgrades.Upgrade;
 import liedge.ltxindustries.lib.upgrades.value.UpgradeValueTypes;
 import liedge.ltxindustries.network.packet.*;
@@ -22,6 +23,7 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
@@ -135,6 +137,13 @@ public class LTXIndustries
             event.dataPackRegistry(LTXIRegistries.Keys.UPGRADES, Upgrade.DIRECT_CODEC, Upgrade.DIRECT_CODEC);
             event.dataPackRegistry(LTXIRegistries.Keys.RECIPE_MODES, RecipeMode.DIRECT_CODEC, RecipeMode.DIRECT_CODEC);
         }
+
+        @SubscribeEvent
+        private void createEntityAttributes(final EntityAttributeCreationEvent event)
+        {
+            event.put(LTXIEntities.SEEKER_MINE.get(), SeekerMine.createAttributes());
+        }
+
         @SubscribeEvent
         private void modifyEntityAttributes(final EntityAttributeModificationEvent event)
         {

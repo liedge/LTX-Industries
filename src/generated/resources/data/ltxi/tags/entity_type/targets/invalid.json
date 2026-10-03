@@ -10,6 +10,7 @@
     "ltxi:daybreak_rocket",
     "ltxi:turret_rocket",
     "ltxi:flame_field",
+    "ltxi:seeker_mine",
     {
       "id": "evilcraft:vengeance_spirit",
       "required": false

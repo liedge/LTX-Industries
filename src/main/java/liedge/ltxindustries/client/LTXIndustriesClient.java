@@ -209,6 +209,7 @@ public class LTXIndustriesClient
             event.registerEntityRenderer(LTXIEntities.DAYBREAK_ROCKET.get(), RocketRenderer::new);
             event.registerEntityRenderer(LTXIEntities.TURRET_ROCKET.get(), RocketRenderer::new);
             event.registerEntityRenderer(LTXIEntities.FLAME_FIELD.get(), NoopRenderer::new);
+            event.registerEntityRenderer(LTXIEntities.SEEKER_MINE.get(), NoopRenderer::new);
 
             // Block entities
             event.registerBlockEntityRenderer(LTXIBlockEntities.ENERGY_CELL_ARRAY.get(), ctx -> new EnergyCellArrayRenderer(ctx, LTXIConstants.REM_BLUE));

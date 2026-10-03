@@ -432,6 +432,7 @@ class LanguageGen extends LimaLanguageProvider
         addEntityType(LTXIEntities.DAYBREAK_ROCKET, "Daybreak Rocket");
         addEntityType(LTXIEntities.TURRET_ROCKET, "Turret Rocket");
         addEntityType(LTXIEntities.FLAME_FIELD, "Flame Field");
+        addEntityType(LTXIEntities.SEEKER_MINE, "Seeker Mine");
 
         // Mob effects
         addEffect(LTXIMobEffects.FROSTBITE, "Frostbite");
