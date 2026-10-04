@@ -31,6 +31,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -297,7 +298,7 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
                     {
                         if (!targetQueue.isEmpty()) purgeTargets(tracker);
 
-                        List<Entity> foundTargets = level.getEntities(owner, searchArea, e -> LTXIEntityUtil.isValidContextTarget(e, owner, targetFilter) && !tracker.contains(e))
+                        List<Entity> foundTargets = level.getEntities(owner, searchArea, e -> e instanceof LivingEntity && LTXIEntityUtil.isValidContextTarget(e, owner, targetFilter) && !tracker.contains(e))
                                 .stream()
                                 .sorted(Comparator.comparingDouble(e -> e.distanceToSqr(traceStart)))
                                 .filter(e -> {
