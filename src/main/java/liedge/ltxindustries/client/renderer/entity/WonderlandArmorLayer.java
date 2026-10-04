@@ -3,6 +3,7 @@ package liedge.ltxindustries.client.renderer.entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
+import liedge.limacore.client.renderer.LimaCoreRenderTypes;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.client.LTXIRenderer;
@@ -13,10 +14,14 @@ import liedge.ltxindustries.item.EnergyArmorItem;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.entity.ArmorModelSet;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.LightCoordsUtil;
 import net.minecraft.util.Mth;
 import net.minecraft.util.Util;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -27,21 +32,22 @@ public class WonderlandArmorLayer<S extends HumanoidRenderState, M extends Human
 {
     private static final Identifier TEXTURE = LTXIndustries.RESOURCES.textureLocation("entity", "wonderland_armor");
 
-    private final WonderlandArmorModel<S> model;
+    private final WonderlandArmorModel<S> visor;
+    private final ArmorModelSet<WonderlandArmorModel<S>> base;
+    private final ArmorModelSet<WonderlandArmorModel<S>> emissive;
 
     public WonderlandArmorLayer(RenderLayerParent<S, M> renderer, EntityModelSet entityModels)
     {
         super(renderer);
-        this.model = new WonderlandArmorModel<>(entityModels.bakeLayer(LTXIModelLayers.WONDERLAND_ARMOR_SET));
+        this.visor = new WonderlandArmorModel<>(entityModels.bakeLayer(LTXIModelLayers.WONDERLAND_VISOR), RenderTypes::entityTranslucentEmissive);
+        this.base = ArmorModelSet.bake(LTXIModelLayers.WONDERLAND_BASE, entityModels, root -> new WonderlandArmorModel<>(root, RenderTypes::entityCutout));
+        this.emissive = ArmorModelSet.bake(LTXIModelLayers.WONDERLAND_EMISSIVE, entityModels, root -> new WonderlandArmorModel<>(root, LimaCoreRenderTypes::entityCutoutEmissive));
     }
 
     @Override
     public void submit(PoseStack poseStack, SubmitNodeCollector nodeCollector, int packedLight, S renderState, float yRot, float xRot)
     {
         poseStack.pushPose();
-
-        ClientHooks.copyModelProperties(getParentModel(), model);
-        model.setupAnim(renderState);
 
         submitArmorPiece(poseStack, nodeCollector, renderState, renderState.headEquipment, EquipmentSlot.HEAD, packedLight);
         submitArmorPiece(poseStack, nodeCollector, renderState, renderState.chestEquipment, EquipmentSlot.CHEST, packedLight);
@@ -55,29 +61,33 @@ public class WonderlandArmorLayer<S extends HumanoidRenderState, M extends Human
     {
         if (!(stack.getItem() instanceof EnergyArmorItem)) return;
 
+        WonderlandArmorModel<S> baseModel = base.get(slot);
+        WonderlandArmorModel<S> emissiveModel = emissive.get(slot);
+
+        ClientHooks.copyModelProperties(getParentModel(), baseModel);
+        ClientHooks.copyModelProperties(getParentModel(), emissiveModel);
+
+        nodeCollector.submitModel(baseModel, renderState, poseStack, TEXTURE, packedLight, OverlayTexture.NO_OVERLAY, renderState.outlineColor, null);
+        nodeCollector.submitModel(emissiveModel, renderState, poseStack, TEXTURE, LightCoordsUtil.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, renderState.outlineColor, null);
+
         switch (slot)
         {
             case HEAD ->
             {
-                model.submitHead(poseStack, nodeCollector, TEXTURE, packedLight);
-                submitHeadEphemera(poseStack, nodeCollector);
+                ClientHooks.copyModelProperties(getParentModel(), visor);
+                nodeCollector.submitModel(visor, renderState, poseStack, TEXTURE, LightCoordsUtil.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, renderState.outlineColor, null);
+                submitHeadEphemera(poseStack, nodeCollector, baseModel);
             }
             case CHEST ->
             {
-                model.submitBody(poseStack, nodeCollector, TEXTURE, packedLight);
-                submitArmsEphemera(poseStack, nodeCollector, model.leftArm.visible, model.rightArm.visible);
-                submitWingsEphemera(poseStack, nodeCollector, renderState);
+                submitArmsEphemera(poseStack, nodeCollector, baseModel);
+                submitWingsEphemera(poseStack, nodeCollector, baseModel, renderState);
             }
-            case LEGS ->
-            {
-                model.submitLegs(poseStack, nodeCollector, TEXTURE, packedLight);
-                submitLegsEphemera(poseStack, nodeCollector);
-            }
-            case FEET -> model.submitFeet(poseStack, nodeCollector, TEXTURE, packedLight);
+            case LEGS -> submitLegsEphemera(poseStack, nodeCollector, baseModel);
         }
     }
 
-    private void submitHeadEphemera(PoseStack poseStack, SubmitNodeCollector nodeCollector)
+    private void submitHeadEphemera(PoseStack poseStack, SubmitNodeCollector nodeCollector, WonderlandArmorModel<S> model)
     {
         poseStack.pushPose();
 
@@ -97,12 +107,12 @@ public class WonderlandArmorLayer<S extends HumanoidRenderState, M extends Human
         poseStack.popPose();
     }
 
-    private void submitArmsEphemera(PoseStack poseStack, SubmitNodeCollector nodeCollector, boolean left, boolean right)
+    private void submitArmsEphemera(PoseStack poseStack, SubmitNodeCollector nodeCollector, WonderlandArmorModel<S> model)
     {
         float armSpin = (Util.getMillis() % 1500L) / 1500f * 360f;
 
         // Left arm
-        if (left)
+        if (model.leftArm.visible)
         {
             poseStack.pushPose();
             model.leftArm.translateAndRotate(poseStack);
@@ -114,7 +124,7 @@ public class WonderlandArmorLayer<S extends HumanoidRenderState, M extends Human
         }
 
         // Right arm
-        if (right)
+        if (model.rightArm.visible)
         {
             poseStack.pushPose();
             model.rightArm.translateAndRotate(poseStack);
@@ -126,7 +136,7 @@ public class WonderlandArmorLayer<S extends HumanoidRenderState, M extends Human
         }
     }
 
-    private void submitWingsEphemera(PoseStack poseStack, SubmitNodeCollector nodeCollector, S renderState)
+    private void submitWingsEphemera(PoseStack poseStack, SubmitNodeCollector nodeCollector, WonderlandArmorModel<S> model, S renderState)
     {
         // Wings
         if (!renderState.getRenderDataOrDefault(LTXIRenderer.SHOW_WONDERLAND_WINGS, false)) return;
@@ -166,7 +176,7 @@ public class WonderlandArmorLayer<S extends HumanoidRenderState, M extends Human
         poseStack.popPose();
     }
 
-    private void submitLegsEphemera(PoseStack poseStack, SubmitNodeCollector nodeCollector)
+    private void submitLegsEphemera(PoseStack poseStack, SubmitNodeCollector nodeCollector, WonderlandArmorModel<S> model)
     {
         float spin = (Util.getMillis() % 3000L) / 3000f * 360f;
 

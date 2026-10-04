@@ -238,7 +238,9 @@ public class LTXIndustriesClient
             event.registerLayerDefinition(LTXIModelLayers.SHELL_GRENADE_EMISSIVE, ShellGrenadeModel::defineEmissiveLayer);
             event.registerLayerDefinition(LTXIModelLayers.SMALL_ROCKET_BASE, SmallRocketModel::defineBaseLayer);
             event.registerLayerDefinition(LTXIModelLayers.SMALL_ROCKET_EMISSIVE, SmallRocketModel::defineEmissiveLayer);
-            event.registerLayerDefinition(LTXIModelLayers.WONDERLAND_ARMOR_SET, WonderlandArmorModel::createArmorLayer);
+            event.registerLayerDefinition(LTXIModelLayers.WONDERLAND_VISOR, WonderlandArmorModel::defineVisorLayer);
+            WonderlandArmorModel.registerLayers(event, LTXIModelLayers.WONDERLAND_BASE, WonderlandArmorModel::createBaseMesh);
+            WonderlandArmorModel.registerLayers(event, LTXIModelLayers.WONDERLAND_EMISSIVE, WonderlandArmorModel::createEmissiveMesh);
         }
 
         @SubscribeEvent
