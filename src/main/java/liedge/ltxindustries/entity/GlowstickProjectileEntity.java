@@ -29,12 +29,6 @@ public class GlowstickProjectileEntity extends LTXIProjectileEntity
     }
 
     @Override
-    public int getLifetime()
-    {
-        return 100;
-    }
-
-    @Override
     protected CollisionResult onCollision(ServerLevel level, @Nullable LivingEntity owner, HitResult hitResult, Vec3 hitLocation)
     {
         if (hitResult.getType() == HitResult.Type.ENTITY) return CollisionResult.NO_OP;

@@ -148,12 +148,6 @@ public class ShellGrenadeEntity extends LTXIProjectileEntity implements IEntityW
     }
 
     @Override
-    public int getLifetime()
-    {
-        return 200;
-    }
-
-    @Override
     protected float getProjectileGravity()
     {
         return 0.0125f;

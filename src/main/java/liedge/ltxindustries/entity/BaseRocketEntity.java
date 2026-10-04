@@ -31,12 +31,6 @@ public abstract class BaseRocketEntity extends HomingProjectileEntity
     protected abstract void hurtTarget(ServerLevel level, Entity targetEntity, @Nullable LivingEntity owner, Vec3 hitLocation, boolean isDirectHit);
 
     @Override
-    public int getLifetime()
-    {
-        return 1000;
-    }
-
-    @Override
     protected CollisionResult onCollision(ServerLevel level, @Nullable LivingEntity owner, HitResult hitResult, Vec3 hitLocation)
     {
         Entity directHit = hitResult.getType() == HitResult.Type.ENTITY ? ((EntityHitResult) hitResult).getEntity() : null;

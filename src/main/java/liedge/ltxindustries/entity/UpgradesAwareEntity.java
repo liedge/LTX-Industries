@@ -28,6 +28,7 @@ import java.util.UUID;
 
 public abstract class UpgradesAwareEntity extends Entity implements TraceableEntity
 {
+    protected int age;
     private @Nullable UUID ownerId;
     private @Nullable LivingEntity owner;
     private ItemStack weaponItem = ItemStack.EMPTY;
@@ -93,12 +94,6 @@ public abstract class UpgradesAwareEntity extends Entity implements TraceableEnt
     }
 
     @Override
-    public boolean fireImmune()
-    {
-        return true;
-    }
-
-    @Override
     public PushReaction getPistonPushReaction()
     {
         return PushReaction.IGNORE;
@@ -113,7 +108,7 @@ public abstract class UpgradesAwareEntity extends Entity implements TraceableEnt
     @Override
     protected void readAdditionalSaveData(ValueInput input)
     {
-        this.tickCount = input.getIntOr("age", 0);
+        this.age = input.getShortOr(LimaCommonConstants.KEY_AGE, (short) 0);
         this.ownerId = input.read(LimaCommonConstants.KEY_OWNER, UUIDUtil.CODEC).orElse(null);
         this.weaponItem = input.read("weapon_item", ItemStack.OPTIONAL_CODEC).orElse(ItemStack.EMPTY);
     }
@@ -121,7 +116,7 @@ public abstract class UpgradesAwareEntity extends Entity implements TraceableEnt
     @Override
     protected void addAdditionalSaveData(ValueOutput output)
     {
-        output.putInt("age", tickCount);
+        output.putShort(LimaCommonConstants.KEY_AGE, (short) age);
         output.storeNullable(LimaCommonConstants.KEY_OWNER, UUIDUtil.CODEC, ownerId);
         output.store("weapon_item", ItemStack.OPTIONAL_CODEC, weaponItem);
     }

@@ -23,6 +23,8 @@ import static liedge.limacore.lib.math.LimaCoreMath.xyRotBetweenPoints;
 
 public abstract class LTXIProjectileEntity extends UpgradesAwareEntity
 {
+    private static final int LIFETIME = 1200;
+
     protected LTXIProjectileEntity(EntityType<?> type, Level level)
     {
         super(type, level);
@@ -72,8 +74,6 @@ public abstract class LTXIProjectileEntity extends UpgradesAwareEntity
     }
     //#endregion
 
-    public abstract int getLifetime();
-
     protected float getProjectileGravity()
     {
         return 0f;
@@ -113,6 +113,11 @@ public abstract class LTXIProjectileEntity extends UpgradesAwareEntity
 
         if (level instanceof ServerLevel serverLevel)
         {
+            if (age++ >= LIFETIME)
+            {
+                discard();
+            }
+
             LivingEntity owner = getOwner();
             HitResult hitResult = tracePath(level);
 
