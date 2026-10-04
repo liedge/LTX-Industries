@@ -1,37 +1,21 @@
 package liedge.ltxindustries.client.model.entity;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import liedge.limacore.client.renderer.LimaCoreRenderTypes;
-import liedge.ltxindustries.client.renderer.entity.ProjectileRenderState;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.client.renderer.SubmitNodeCollector;
-import net.minecraft.client.renderer.rendertype.RenderTypes;
-import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.LightCoordsUtil;
+
+import java.util.function.Function;
 
 public class SmallRocketModel extends ProjectileModel
 {
-    private final ModelPart body;
-    private final ModelPart lights;
-    
-    public SmallRocketModel(ModelPart root)
+    public SmallRocketModel(ModelPart root, Function<Identifier, RenderType> renderType)
     {
-        super(root, RenderTypes::entityCutout);
-        this.body = root.getChild("body");
-        this.lights = root.getChild("lights");
+        super(root, renderType);
     }
 
-    @Override
-    public void submitParts(ProjectileRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, Identifier texture)
-    {
-        nodeCollector.submitModelPart(body, poseStack, renderType(texture), renderState.lightCoords, OverlayTexture.NO_OVERLAY, null);
-        nodeCollector.submitModelPart(lights, poseStack, LimaCoreRenderTypes.entityCutoutEmissive(texture), LightCoordsUtil.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, null, renderState.energyColor, null);
-    }
-
-    public static LayerDefinition defineLayer()
+    public static LayerDefinition defineBaseLayer()
     {
         MeshDefinition mesh = new MeshDefinition();
         PartDefinition root = mesh.getRoot();
@@ -47,7 +31,15 @@ public class SmallRocketModel extends ProjectileModel
                 .texOffs(12, 7).addBox(0.0F, 5.0F, 1.5F, 0.0F, 4.0F, 3.0F, CubeDeformation.NONE)
                 .texOffs(12, 3).addBox(0.0F, 5.0F, -4.5F, 0.0F, 4.0F, 3.0F, CubeDeformation.NONE), PartPose.offset(0f, 4.5f, 0f));
 
-        root.addOrReplaceChild("lights", CubeListBuilder.create()
+        return LayerDefinition.create(mesh, 32, 32);
+    }
+
+    public static LayerDefinition defineEmissiveLayer()
+    {
+        MeshDefinition mesh = new MeshDefinition();
+        PartDefinition root = mesh.getRoot();
+
+        root.addOrReplaceChild("body", CubeListBuilder.create()
                 .texOffs(0, 19).addBox(-1.0F, -9.0F, -1.0F, 2.0F, 1.0F, 2.0F, CubeDeformation.NONE)
                 .texOffs(0, 28).addBox(-1.5F, 2.0F, -1.5F, 3.0F, 1.0F, 3.0F, new CubeDeformation(0.01F))
                 .texOffs(0, 22).addBox(-2.0F, -8.0F, -2.0F, 4.0F, 2.0F, 4.0F, new CubeDeformation(-0.49F)), PartPose.offset(0f, 4.5f, 0f));

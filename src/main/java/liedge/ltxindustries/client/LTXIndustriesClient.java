@@ -234,8 +234,10 @@ public class LTXIndustriesClient
         public void registerLayerDefinitions(final EntityRenderersEvent.RegisterLayerDefinitions event)
         {
             event.registerLayerDefinition(LTXIModelLayers.GLOWSTICK_PROJECTILE, GlowstickProjectileModel::defineLayer);
-            event.registerLayerDefinition(LTXIModelLayers.SHELL_GRENADE, ShellGrenadeModel::defineLayer);
-            event.registerLayerDefinition(LTXIModelLayers.SMALL_ROCKET, SmallRocketModel::defineLayer);
+            event.registerLayerDefinition(LTXIModelLayers.SHELL_GRENADE_BASE, ShellGrenadeModel::defineBaseLayer);
+            event.registerLayerDefinition(LTXIModelLayers.SHELL_GRENADE_EMISSIVE, ShellGrenadeModel::defineEmissiveLayer);
+            event.registerLayerDefinition(LTXIModelLayers.SMALL_ROCKET_BASE, SmallRocketModel::defineBaseLayer);
+            event.registerLayerDefinition(LTXIModelLayers.SMALL_ROCKET_EMISSIVE, SmallRocketModel::defineEmissiveLayer);
             event.registerLayerDefinition(LTXIModelLayers.WONDERLAND_ARMOR_SET, WonderlandArmorModel::createArmorLayer);
         }
 

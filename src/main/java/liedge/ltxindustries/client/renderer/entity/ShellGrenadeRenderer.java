@@ -1,12 +1,13 @@
 package liedge.ltxindustries.client.renderer.entity;
 
+import liedge.limacore.client.renderer.LimaCoreRenderTypes;
 import liedge.ltxindustries.LTXIndustries;
-import liedge.ltxindustries.client.model.entity.LTXIModelLayers;
-import liedge.ltxindustries.client.model.entity.ProjectileModel;
-import liedge.ltxindustries.client.model.entity.ShellGrenadeModel;
+import liedge.ltxindustries.client.model.entity.*;
 import liedge.ltxindustries.entity.ShellGrenadeEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.resources.Identifier;
+import org.jspecify.annotations.Nullable;
 
 public class ShellGrenadeRenderer extends ProjectileRenderer<ShellGrenadeEntity>
 {
@@ -25,9 +26,21 @@ public class ShellGrenadeRenderer extends ProjectileRenderer<ShellGrenadeEntity>
     }
 
     @Override
-    protected ProjectileModel createModel(EntityRendererProvider.Context context)
+    protected ProjectileModel createBaseModel(EntityRendererProvider.Context context)
     {
-        return new ShellGrenadeModel(context.bakeLayer(LTXIModelLayers.SHELL_GRENADE));
+        return new ShellGrenadeModel(context.bakeLayer(LTXIModelLayers.SHELL_GRENADE_BASE), RenderTypes::entityCutout);
+    }
+
+    @Override
+    protected @Nullable ProjectileModel createEmissiveModel(EntityRendererProvider.Context context)
+    {
+        return new ShellGrenadeModel(context.bakeLayer(LTXIModelLayers.SHELL_GRENADE_EMISSIVE), LimaCoreRenderTypes::entityCutoutEmissive);
+    }
+
+    @Override
+    protected float yOffset()
+    {
+        return -1.125f;
     }
 
     @Override
