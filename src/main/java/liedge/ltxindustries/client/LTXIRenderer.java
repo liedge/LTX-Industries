@@ -146,45 +146,45 @@ public final class LTXIRenderer
         {
             case UP ->
             {
-                buffer.addVertex(pose, x1, y2, z2).setUv(u0, v1).setColor(color).setLight(packedLight);
-                buffer.addVertex(pose, x2, y2, z2).setUv(u1, v1).setColor(color).setLight(packedLight);
-                buffer.addVertex(pose, x2, y2, z1).setUv(u1, v0).setColor(color).setLight(packedLight);
-                buffer.addVertex(pose, x1, y2, z1).setUv(u0, v0).setColor(color).setLight(packedLight);
+                buffer.addVertex(pose, x1, y2, z2).setUv(u0, v1).setColor(color).setLight(packedLight).setNormal(pose, side.getUnitVec3f());
+                buffer.addVertex(pose, x2, y2, z2).setUv(u1, v1).setColor(color).setLight(packedLight).setNormal(pose, side.getUnitVec3f());
+                buffer.addVertex(pose, x2, y2, z1).setUv(u1, v0).setColor(color).setLight(packedLight).setNormal(pose, side.getUnitVec3f());
+                buffer.addVertex(pose, x1, y2, z1).setUv(u0, v0).setColor(color).setLight(packedLight).setNormal(pose, side.getUnitVec3f());
             }
             case DOWN ->
             {
-                buffer.addVertex(pose, x1, y1, z1).setUv(u0, v1).setColor(color).setLight(packedLight);
-                buffer.addVertex(pose, x2, y1, z1).setUv(u1, v1).setColor(color).setLight(packedLight);
-                buffer.addVertex(pose, x2, y1, z2).setUv(u1, v0).setColor(color).setLight(packedLight);
-                buffer.addVertex(pose, x1, y1, z2).setUv(u0, v0).setColor(color).setLight(packedLight);
+                buffer.addVertex(pose, x1, y1, z1).setUv(u0, v1).setColor(color).setLight(packedLight).setNormal(pose, side.getUnitVec3f());
+                buffer.addVertex(pose, x2, y1, z1).setUv(u1, v1).setColor(color).setLight(packedLight).setNormal(pose, side.getUnitVec3f());
+                buffer.addVertex(pose, x2, y1, z2).setUv(u1, v0).setColor(color).setLight(packedLight).setNormal(pose, side.getUnitVec3f());
+                buffer.addVertex(pose, x1, y1, z2).setUv(u0, v0).setColor(color).setLight(packedLight).setNormal(pose, side.getUnitVec3f());
             }
             case NORTH ->
             {
-                buffer.addVertex(pose, x2, y1, z1).setUv(u0, v1).setColor(color).setLight(packedLight);
-                buffer.addVertex(pose, x1, y1, z1).setUv(u1, v1).setColor(color).setLight(packedLight);
-                buffer.addVertex(pose, x1, y2, z1).setUv(u1, v0).setColor(color).setLight(packedLight);
-                buffer.addVertex(pose, x2, y2, z1).setUv(u0, v0).setColor(color).setLight(packedLight);
+                buffer.addVertex(pose, x2, y1, z1).setUv(u0, v1).setColor(color).setLight(packedLight).setNormal(pose, side.getUnitVec3f());
+                buffer.addVertex(pose, x1, y1, z1).setUv(u1, v1).setColor(color).setLight(packedLight).setNormal(pose, side.getUnitVec3f());
+                buffer.addVertex(pose, x1, y2, z1).setUv(u1, v0).setColor(color).setLight(packedLight).setNormal(pose, side.getUnitVec3f());
+                buffer.addVertex(pose, x2, y2, z1).setUv(u0, v0).setColor(color).setLight(packedLight).setNormal(pose, side.getUnitVec3f());
             }
             case SOUTH ->
             {
-                buffer.addVertex(pose, x2, y2, z2).setUv(u1, v0).setColor(color).setLight(packedLight);
-                buffer.addVertex(pose, x1, y2, z2).setUv(u0, v0).setColor(color).setLight(packedLight);
-                buffer.addVertex(pose, x1, y1, z2).setUv(u0, v1).setColor(color).setLight(packedLight);
-                buffer.addVertex(pose, x2, y1, z2).setUv(u1, v1).setColor(color).setLight(packedLight);
+                buffer.addVertex(pose, x2, y2, z2).setUv(u1, v0).setColor(color).setLight(packedLight).setNormal(pose, side.getUnitVec3f());
+                buffer.addVertex(pose, x1, y2, z2).setUv(u0, v0).setColor(color).setLight(packedLight).setNormal(pose, side.getUnitVec3f());
+                buffer.addVertex(pose, x1, y1, z2).setUv(u0, v1).setColor(color).setLight(packedLight).setNormal(pose, side.getUnitVec3f());
+                buffer.addVertex(pose, x2, y1, z2).setUv(u1, v1).setColor(color).setLight(packedLight).setNormal(pose, side.getUnitVec3f());
             }
             case EAST ->
             {
-                buffer.addVertex(pose, x2, y1, z2).setUv(u0, v1).setColor(color).setLight(packedLight);
-                buffer.addVertex(pose, x2, y1, z1).setUv(u1, v1).setColor(color).setLight(packedLight);
-                buffer.addVertex(pose, x2, y2, z1).setUv(u1, v0).setColor(color).setLight(packedLight);
-                buffer.addVertex(pose, x2, y2, z2).setUv(u0, v0).setColor(color).setLight(packedLight);
+                buffer.addVertex(pose, x2, y1, z2).setUv(u0, v1).setColor(color).setLight(packedLight).setNormal(pose, side.getUnitVec3f());
+                buffer.addVertex(pose, x2, y1, z1).setUv(u1, v1).setColor(color).setLight(packedLight).setNormal(pose, side.getUnitVec3f());
+                buffer.addVertex(pose, x2, y2, z1).setUv(u1, v0).setColor(color).setLight(packedLight).setNormal(pose, side.getUnitVec3f());
+                buffer.addVertex(pose, x2, y2, z2).setUv(u0, v0).setColor(color).setLight(packedLight).setNormal(pose, side.getUnitVec3f());
             }
             case WEST ->
             {
-                buffer.addVertex(pose, x1, y2, z2).setUv(u1, v0).setColor(color).setLight(packedLight);
-                buffer.addVertex(pose, x1, y2, z1).setUv(u0, v0).setColor(color).setLight(packedLight);
-                buffer.addVertex(pose, x1, y1, z1).setUv(u0, v1).setColor(color).setLight(packedLight);
-                buffer.addVertex(pose, x1, y1, z2).setUv(u1, v1).setColor(color).setLight(packedLight);
+                buffer.addVertex(pose, x1, y2, z2).setUv(u1, v0).setColor(color).setLight(packedLight).setNormal(pose, side.getUnitVec3f());
+                buffer.addVertex(pose, x1, y2, z1).setUv(u0, v0).setColor(color).setLight(packedLight).setNormal(pose, side.getUnitVec3f());
+                buffer.addVertex(pose, x1, y1, z1).setUv(u0, v1).setColor(color).setLight(packedLight).setNormal(pose, side.getUnitVec3f());
+                buffer.addVertex(pose, x1, y1, z2).setUv(u1, v1).setColor(color).setLight(packedLight).setNormal(pose, side.getUnitVec3f());
             }
         }
     }
