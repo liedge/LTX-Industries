@@ -19,10 +19,7 @@ import liedge.ltxindustries.client.model.item.LightColorTint;
 import liedge.ltxindustries.client.model.item.WeaponItemModel;
 import liedge.ltxindustries.client.particle.*;
 import liedge.ltxindustries.client.renderer.blockentity.*;
-import liedge.ltxindustries.client.renderer.entity.GlowstickProjectileRenderer;
-import liedge.ltxindustries.client.renderer.entity.RocketRenderer;
-import liedge.ltxindustries.client.renderer.entity.ShellGrenadeRenderer;
-import liedge.ltxindustries.client.renderer.entity.WonderlandArmorLayer;
+import liedge.ltxindustries.client.renderer.entity.*;
 import liedge.ltxindustries.client.renderer.item.EnergyDisplaysSpecialRenderer;
 import liedge.ltxindustries.client.renderer.item.StargazerSightRenderer;
 import liedge.ltxindustries.client.renderer.item.TankSpecialRenderer;
@@ -208,8 +205,9 @@ public class LTXIndustriesClient
             event.registerEntityRenderer(LTXIEntities.SHELL_GRENADE.get(), ShellGrenadeRenderer::new);
             event.registerEntityRenderer(LTXIEntities.DAYBREAK_ROCKET.get(), RocketRenderer::new);
             event.registerEntityRenderer(LTXIEntities.TURRET_ROCKET.get(), RocketRenderer::new);
+            event.registerEntityRenderer(LTXIEntities.CLUSTER_MUNITION.get(), ClusterMunitionRenderer::new);
             event.registerEntityRenderer(LTXIEntities.FLAME_FIELD.get(), NoopRenderer::new);
-            event.registerEntityRenderer(LTXIEntities.SEEKER_MINE.get(), NoopRenderer::new);
+            event.registerEntityRenderer(LTXIEntities.SEEKER_MINE.get(), SeekerMineRenderer::new);
 
             // Block entities
             event.registerBlockEntityRenderer(LTXIBlockEntities.ENERGY_CELL_ARRAY.get(), ctx -> new EnergyCellArrayRenderer(ctx, LTXIConstants.REM_BLUE));
@@ -239,6 +237,9 @@ public class LTXIndustriesClient
             event.registerLayerDefinition(LTXIModelLayers.SHELL_GRENADE_EMISSIVE, ShellGrenadeModel::defineEmissiveLayer);
             event.registerLayerDefinition(LTXIModelLayers.SMALL_ROCKET_BASE, SmallRocketModel::defineBaseLayer);
             event.registerLayerDefinition(LTXIModelLayers.SMALL_ROCKET_EMISSIVE, SmallRocketModel::defineEmissiveLayer);
+            event.registerLayerDefinition(LTXIModelLayers.CLUSTER_MUNITION, ClusterMunitionModel::defineLayer);
+            event.registerLayerDefinition(LTXIModelLayers.SEEKER_MINE_BASE, SeekerMineModel::defineBaseLayer);
+            event.registerLayerDefinition(LTXIModelLayers.SEEKER_MINE_EMISSIVE, SeekerMineModel::defineEmissiveLayer);
             event.registerLayerDefinition(LTXIModelLayers.WONDERLAND_VISOR, WonderlandArmorModel::defineVisorLayer);
             WonderlandArmorModel.registerLayers(event, LTXIModelLayers.WONDERLAND_BASE, WonderlandArmorModel::createBaseMesh);
             WonderlandArmorModel.registerLayers(event, LTXIModelLayers.WONDERLAND_EMISSIVE, WonderlandArmorModel::createEmissiveMesh);

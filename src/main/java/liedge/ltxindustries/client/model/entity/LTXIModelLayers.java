@@ -13,6 +13,9 @@ public final class LTXIModelLayers
     public static final ModelLayerLocation SHELL_GRENADE_EMISSIVE = emissive("shell_grenade");
     public static final ModelLayerLocation SMALL_ROCKET_BASE = base("small_rocket");
     public static final ModelLayerLocation SMALL_ROCKET_EMISSIVE = emissive("small_rocket");
+    public static final ModelLayerLocation CLUSTER_MUNITION = base("cluster_munition");
+    public static final ModelLayerLocation SEEKER_MINE_BASE = base("seeker_mine");
+    public static final ModelLayerLocation SEEKER_MINE_EMISSIVE = emissive("seeker_mine");
 
     private static final String WONDERLAND_ID = "wonderland_armor";
     public static final ArmorModelSet<ModelLayerLocation> WONDERLAND_BASE = wonderlandSet("head", "chest", "legs", "feet");

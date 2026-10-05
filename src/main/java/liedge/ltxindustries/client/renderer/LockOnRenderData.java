@@ -12,18 +12,18 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.Util;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
+import org.joml.Vector3fc;
 
-public record LockOnRenderData(float x, float y, float z, float xRot, float yRot, float size, float progress) implements SubmitNodeCollector.CustomGeometryRenderer
+public record LockOnRenderData(Vector3fc pos, float xRot, float yRot, float size, float progress) implements SubmitNodeCollector.CustomGeometryRenderer
 {
     public static LockOnRenderData of(Entity entity, double originX, double originY, double originZ, Camera camera, float progress, float partialTick)
     {
-        double[] pos = LTXIRenderer.lerpEntityCenter(entity, originX, originY, originZ, partialTick);
-        float size = (float) entity.getBoundingBox().getSize();
-
+        Vector3fc pos = LTXIRenderer.lerpEntityCenter(entity, originX, originY, originZ, partialTick);
         float xRot = camera.xRot();
         float yRot = -camera.yRot();
+        float size = (float) entity.getBoundingBox().getSize();
 
-        return new LockOnRenderData((float) pos[0], (float) pos[1], (float) pos[2], xRot, yRot, size, progress);
+        return new LockOnRenderData(pos, xRot, yRot, size, progress);
     }
 
     public static LockOnRenderData of(Entity entity, Camera camera, float progress, float partialTick)
@@ -35,7 +35,7 @@ public record LockOnRenderData(float x, float y, float z, float xRot, float yRot
     @Override
     public void render(PoseStack.Pose pose, VertexConsumer consumer)
     {
-        pose.translate(x, y, z);
+        pose.translate(pos.x(), pos.y(), pos.z());
         pose.rotate(Axis.YP.rotationDegrees(yRot));
         pose.rotate(Axis.XP.rotationDegrees(xRot));
 

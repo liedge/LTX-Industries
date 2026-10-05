@@ -1,12 +1,19 @@
 package liedge.ltxindustries.entity;
 
 import liedge.limacore.LimaCommonConstants;
+import liedge.limacore.client.util.LimaCoreClientUtil;
 import liedge.limacore.lib.MobHostility;
 import liedge.limacore.util.LimaCoreObjects;
 import liedge.limacore.util.LimaEntityUtil;
 import liedge.ltxindustries.registry.game.LTXIEntities;
 import net.minecraft.core.UUIDUtil;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -25,6 +32,7 @@ import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.Nullable;
 
@@ -33,9 +41,17 @@ import java.util.UUID;
 
 public class SeekerMine extends PathfinderMob implements TraceableEntity
 {
+    private static final EntityDataAccessor<Integer> DATA_TARGETED_ENTITY = SynchedEntityData.defineId(SeekerMine.class, EntityDataSerializers.INT);
+
     private @Nullable UUID ownerId;
     private @Nullable LivingEntity owner;
     private int age;
+
+    public float wheelSpin0;
+    public float wheelSpin;
+    public float capSpin0;
+    public float capSpin;
+    private @Nullable LivingEntity remoteTarget;
 
     public SeekerMine(EntityType<? extends SeekerMine> type, Level level)
     {
@@ -77,6 +93,25 @@ public class SeekerMine extends PathfinderMob implements TraceableEntity
     }
 
     @Override
+    public void setTarget(@Nullable LivingEntity target)
+    {
+        super.setTarget(target);
+        getEntityData().set(DATA_TARGETED_ENTITY, LimaEntityUtil.getEntityId(getTarget()));
+    }
+
+    @Override
+    public void onSyncedDataUpdated(EntityDataAccessor<?> accessor)
+    {
+        super.onSyncedDataUpdated(accessor);
+
+        if (accessor.equals(DATA_TARGETED_ENTITY))
+        {
+            int eid = getEntityData().get(DATA_TARGETED_ENTITY);
+            this.remoteTarget = LimaCoreClientUtil.getClientEntity(eid, LivingEntity.class);
+        }
+    }
+
+    @Override
     public void tick()
     {
         super.tick();
@@ -88,6 +123,17 @@ public class SeekerMine extends PathfinderMob implements TraceableEntity
             if (age >= 600)
             {
                 discard();
+            }
+        }
+        else
+        {
+            wheelSpin0 = wheelSpin;
+            capSpin0 = capSpin;
+
+            if (isAggressive() && onGround())
+            {
+                wheelSpin = (wheelSpin - 45) % 360f;
+                capSpin = (capSpin - 20) % 360f;
             }
         }
     }
@@ -149,6 +195,24 @@ public class SeekerMine extends PathfinderMob implements TraceableEntity
         super.addAdditionalSaveData(output);
         output.storeNullable(LimaCommonConstants.KEY_OWNER, UUIDUtil.CODEC, ownerId);
         output.putShort(LimaCommonConstants.KEY_AGE, (short) age);
+    }
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder entityData)
+    {
+        super.defineSynchedData(entityData);
+        entityData.define(DATA_TARGETED_ENTITY, 0);
+    }
+
+    @Override
+    public boolean shouldRenderAtSqrDistance(double distance)
+    {
+        return distance <= 16384;
+    }
+
+    public @Nullable LivingEntity getRemoteTarget()
+    {
+        return remoteTarget;
     }
 
     private boolean unableToGoToOwner()
@@ -215,8 +279,29 @@ public class SeekerMine extends PathfinderMob implements TraceableEntity
                 pos = pos.add(target.position()).scale(0.5d);
             }
 
-            // TODO: Replace with custom explosion entity
-            mine.level().explode(mine, pos.x(), pos.y(), pos.z(), 5f, Level.ExplosionInteraction.NONE);
+            ServerLevel level = getServerLevel(mine);
+
+            // Main exp
+            level.playSound(mine, pos.x, pos.y, pos.z, SoundEvents.GENERIC_EXPLODE, SoundSource.NEUTRAL, 2f, Mth.randomBetween(mine.random, 0.775f, 0.95f));
+            level.getEntities(mine, AABB.ofSize(pos, 4f, 4f, 4f), e -> LTXIEntityUtil.isValidBaseTarget(e, mine.getOwner()))
+                    .forEach(hit -> {
+                        hit.hurtServer(level, level.damageSources().explosion(mine, mine.getOwner()), 40f);
+                    });
+
+            double arc = Math.PI * 2 / 8d;
+            for (int i = 0; i < 8; i++)
+            {
+                double a = arc * i;
+                double hv = Mth.nextDouble(level.getRandom(), 0.1d, 0.2d);
+                double dx = Math.cos(a) * hv;
+                double dy = Mth.nextDouble(level.getRandom(), 0.25d, 0.4d);
+                double dz = Math.sin(a) * hv;
+
+                ClusterMunition sub = new ClusterMunition(level);
+                sub.setPos(pos);
+                sub.setDeltaMovement(dx, dy, dz);
+                level.addFreshEntity(sub);
+            }
         }
     }
 

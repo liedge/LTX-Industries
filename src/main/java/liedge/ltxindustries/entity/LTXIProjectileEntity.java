@@ -74,11 +74,6 @@ public abstract class LTXIProjectileEntity extends UpgradesAwareEntity
     }
     //#endregion
 
-    protected float getProjectileGravity()
-    {
-        return 0f;
-    }
-
     protected ClipContext blockTraceContext(Vec3 start, Vec3 path)
     {
         return new ClipContext(start, start.add(path), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this);
@@ -147,7 +142,7 @@ public abstract class LTXIProjectileEntity extends UpgradesAwareEntity
         }
 
         // Motion update
-        float gravity = getProjectileGravity();
+        double gravity = getGravity();
         if (!isNoGravity() && gravity > 0)
         {
             Vec3 delta = getDeltaMovement();

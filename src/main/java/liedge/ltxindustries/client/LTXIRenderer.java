@@ -15,6 +15,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.context.ContextKey;
 import net.minecraft.world.entity.Entity;
 import org.joml.Vector3f;
+import org.joml.Vector3fc;
 
 public final class LTXIRenderer
 {
@@ -198,13 +199,13 @@ public final class LTXIRenderer
     }
     //#endregion
 
-    public static double[] lerpEntityCenter(Entity entity, double x0, double y0, double z0, float partialTick)
+    public static Vector3fc lerpEntityCenter(Entity entity, double xOffset, double yOffset, double zOffset, float partialTick)
     {
-        double x = Mth.lerp(partialTick, entity.xo - x0, entity.getX() - x0);
-        double y = Mth.lerp(partialTick, entity.yo - y0, entity.getY() - y0) + (entity.getBoundingBox().getYsize() / 2d);
-        double z = Mth.lerp(partialTick, entity.zo - z0, entity.getZ() - z0);
+        double x = Mth.lerp(partialTick, entity.xOld, entity.getX()) - xOffset;
+        double y = Mth.lerp(partialTick, entity.yOld, entity.getY()) + (entity.getBoundingBox().getYsize() / 2d) - yOffset;
+        double z = Mth.lerp(partialTick, entity.zOld, entity.getZ()) - zOffset;
 
-        return new double[] {x, y, z};
+        return new Vector3f((float)x, (float)y, (float)z);
     }
 
     private static void submitBoltQuad(PoseStack.Pose pose, VertexConsumer buffer, Vector3f a, Vector3f b, Vector3f c, Vector3f d, int argb32)

@@ -148,9 +148,9 @@ public class ShellGrenadeEntity extends LTXIProjectileEntity implements IEntityW
     }
 
     @Override
-    protected float getProjectileGravity()
+    protected double getDefaultGravity()
     {
-        return 0.0125f;
+        return 0.0125d;
     }
 
     @Override
