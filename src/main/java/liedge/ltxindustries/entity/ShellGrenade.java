@@ -41,16 +41,16 @@ import java.util.List;
 import static liedge.ltxindustries.registry.game.LTXIMobEffects.*;
 import static liedge.ltxindustries.util.config.LTXIWeaponsConfig.*;
 
-public class ShellGrenadeEntity extends LTXIProjectileEntity implements IEntityWithComplexSpawn
+public class ShellGrenade extends LTXIProjectileEntity implements IEntityWithComplexSpawn
 {
     private GrenadeType grenadeType = GrenadeType.EXPLOSIVE;
 
-    public ShellGrenadeEntity(EntityType<?> type, Level level)
+    public ShellGrenade(EntityType<?> type, Level level)
     {
         super(type, level);
     }
 
-    public ShellGrenadeEntity(Level level, GrenadeType grenadeType, ItemStack launcherItem)
+    public ShellGrenade(Level level, GrenadeType grenadeType, ItemStack launcherItem)
     {
         this(LTXIEntities.SHELL_GRENADE.get(), level);
         this.grenadeType = grenadeType;
@@ -148,21 +148,21 @@ public class ShellGrenadeEntity extends LTXIProjectileEntity implements IEntityW
     }
 
     @Override
-    protected float getProjectileGravity()
+    protected double getDefaultGravity()
     {
-        return 0.0125f;
+        return 0.0125d;
     }
 
     @Override
     protected CollisionResult onCollision(ServerLevel level, @Nullable LivingEntity owner, HitResult hitResult, Vec3 hitLocation)
     {
         double blastRadius = getBlastRadius();
-        List<Entity> hits = getEntitiesInAOE(level, hitLocation, blastRadius, owner, null); // Use new helper
+        List<Entity> hits = getEntities(level, hitLocation, blastRadius, owner, null); // Use new helper
 
         // Spawn AOE entity
         if (grenadeType == GrenadeType.FLAME)
         {
-            FlameFieldEntity flame = new FlameFieldEntity(level);
+            HanabiFlameField flame = new HanabiFlameField(level);
             flame.setOwner(owner);
             flame.setWeaponItem(getWeaponItem());
             flame.setPos(hitLocation.x, hitLocation.y - 0.5d, hitLocation.z);

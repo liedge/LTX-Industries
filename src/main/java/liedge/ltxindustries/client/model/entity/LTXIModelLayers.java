@@ -1,5 +1,6 @@
 package liedge.ltxindustries.client.model.entity;
 
+import liedge.ltxindustries.LTXIIdentifiers;
 import liedge.ltxindustries.LTXIndustries;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.entity.ArmorModelSet;
@@ -8,9 +9,9 @@ public final class LTXIModelLayers
 {
     private LTXIModelLayers() {}
 
-    public static final ModelLayerLocation GLOWSTICK_PROJECTILE = base("glowstick_projectile");
-    public static final ModelLayerLocation SHELL_GRENADE_BASE = base("shell_grenade");
-    public static final ModelLayerLocation SHELL_GRENADE_EMISSIVE = emissive("shell_grenade");
+    public static final ModelLayerLocation GLOWSTICK_PROJECTILE = base(LTXIIdentifiers.ID_GLOWSTICK_PROJECTILE);
+    public static final ModelLayerLocation SHELL_GRENADE_BASE = base(LTXIIdentifiers.ID_SHELL_GRENADE);
+    public static final ModelLayerLocation SHELL_GRENADE_EMISSIVE = emissive(LTXIIdentifiers.ID_SHELL_GRENADE);
     public static final ModelLayerLocation SMALL_ROCKET_BASE = base("small_rocket");
     public static final ModelLayerLocation SMALL_ROCKET_EMISSIVE = emissive("small_rocket");
 

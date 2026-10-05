@@ -4,7 +4,6 @@ import net.minecraft.core.UUIDUtil;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
@@ -47,8 +46,10 @@ public abstract class HomingProjectileEntity extends LTXIProjectileEntity
     }
 
     @Override
-    protected void tickServer(ServerLevel level, @Nullable LivingEntity owner)
+    protected void tickServer(ServerLevel level)
     {
+        super.tickServer(level);
+
         Entity target = getTargetEntity();
         if (target != null)
         {

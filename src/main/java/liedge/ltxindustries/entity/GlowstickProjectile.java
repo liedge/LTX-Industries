@@ -16,14 +16,14 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
-public class GlowstickProjectileEntity extends LTXIProjectileEntity
+public class GlowstickProjectile extends LTXIProjectileEntity
 {
-    public GlowstickProjectileEntity(EntityType<?> type, Level level)
+    public GlowstickProjectile(EntityType<?> type, Level level)
     {
         super(type, level);
     }
 
-    public GlowstickProjectileEntity(Level level)
+    public GlowstickProjectile(Level level)
     {
         this(LTXIEntities.GLOWSTICK_PROJECTILE.get(), level);
     }

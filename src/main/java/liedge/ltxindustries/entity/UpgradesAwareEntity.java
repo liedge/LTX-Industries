@@ -1,34 +1,34 @@
 package liedge.ltxindustries.entity;
 
 import liedge.limacore.LimaCommonConstants;
+import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.util.LimaCoreObjects;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
 import liedge.ltxindustries.lib.upgrades.Upgrades;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.TraceableEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
-public abstract class UpgradesAwareEntity extends Entity implements TraceableEntity
+public abstract class UpgradesAwareEntity extends Entity implements SmartProjectileEntity
 {
-    protected int age;
+    public static final int DEFAULT_LIFETIME = 1200;
+
+    private int age;
     private @Nullable UUID ownerId;
     private @Nullable LivingEntity owner;
     private ItemStack weaponItem = ItemStack.EMPTY;
@@ -50,12 +50,14 @@ public abstract class UpgradesAwareEntity extends Entity implements TraceableEnt
         this.weaponItem = weaponItem;
     }
 
+    @Override
     public Upgrades getUpgrades()
     {
         return UpgradableEquipmentItem.getUpgradesFrom(getWeaponItem());
     }
 
-    protected TargetPredicate getOrCreateTargetFilter()
+    @Override
+    public TargetPredicate getTargets()
     {
         if (predicate == null)
         {
@@ -76,21 +78,65 @@ public abstract class UpgradesAwareEntity extends Entity implements TraceableEnt
         return owner;
     }
 
+    @Override
     public void setOwner(@Nullable LivingEntity owner)
     {
         this.owner = owner;
         this.ownerId = owner != null ? owner.getUUID() : null;
     }
 
-    protected List<Entity> getEntitiesInAOE(Level level, AABB bb, @Nullable LivingEntity owner, @Nullable Entity directHit)
+    @Override
+    public void tick()
     {
-        return level.getEntities(this, bb, e -> LTXIEntityUtil.isValidContextTarget(e, owner, getOrCreateTargetFilter()) && !Objects.equals(directHit, e));
+        super.tick();
+
+        Level level = level();
+
+        if (level instanceof ServerLevel serverLevel)
+        {
+            if (age++ >= getLifetime())
+            {
+                onExpire(serverLevel, age);
+            }
+
+            tickServer(serverLevel);
+        }
+        else
+        {
+            tickClient(level);
+        }
+
+        updateMotion();
     }
 
-    protected List<Entity> getEntitiesInAOE(Level level, Vec3 hitLocation, double radius, @Nullable LivingEntity owner, @Nullable Entity directHit)
+    protected int getLifetime()
     {
-        radius *= 2;
-        return getEntitiesInAOE(level, AABB.ofSize(hitLocation, radius, radius, radius), owner, directHit);
+        return DEFAULT_LIFETIME;
+    }
+
+    protected void onExpire(ServerLevel level, int age)
+    {
+        discard();
+    }
+
+    protected void tickServer(ServerLevel level) { }
+
+    protected void tickClient(Level level) { }
+
+    protected void updateMotion()
+    {
+        Vec3 delta = getDeltaMovement();
+
+        double gravity = getGravity();
+        if (gravity > 0)
+        {
+            delta = delta.add(0, -gravity, 0);
+            setDeltaMovement(delta);
+        }
+
+        setXRot(Mth.rotLerp(0.5f, xRotO, LimaCoreMath.getXRot(delta)));
+        setYRot(Mth.rotLerp(0.5f, yRotO, LimaCoreMath.getYRot(delta)));
+        setPos(position().add(delta));
     }
 
     @Override

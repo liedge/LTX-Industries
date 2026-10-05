@@ -1,7 +1,7 @@
 package liedge.ltxindustries.blockentity.turret;
 
 import liedge.ltxindustries.LTXITags;
-import liedge.ltxindustries.entity.TurretRocketEntity;
+import liedge.ltxindustries.entity.TurretRocket;
 import liedge.ltxindustries.registry.game.LTXIBlockEntities;
 import liedge.ltxindustries.registry.game.LTXISounds;
 import liedge.ltxindustries.util.config.LTXIMachinesConfig;
@@ -60,7 +60,7 @@ public class RocketTurretBlockEntity extends SemiAutoTurretBlockEntity
     @Override
     protected void attackTarget(ServerLevel level, BlockPos pos, BlockState state, @Nullable Player owner, Entity target)
     {
-        TurretRocketEntity rocket = new TurretRocketEntity(level, this);
+        TurretRocket rocket = new TurretRocket(level, this);
         rocket.setOwner(owner);
         rocket.setPos(traceStart);
         rocket.aimAtEntity(target, 2.5d);

@@ -4,12 +4,12 @@ import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.client.model.entity.GlowstickProjectileModel;
 import liedge.ltxindustries.client.model.entity.LTXIModelLayers;
 import liedge.ltxindustries.client.model.entity.ProjectileModel;
-import liedge.ltxindustries.entity.GlowstickProjectileEntity;
+import liedge.ltxindustries.entity.GlowstickProjectile;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.LightCoordsUtil;
 
-public class GlowstickProjectileRenderer extends ProjectileRenderer<GlowstickProjectileEntity>
+public class GlowstickProjectileRenderer extends ProjectileRenderer<GlowstickProjectile>
 {
     private static final Identifier TEXTURE = LTXIndustries.RESOURCES.textureLocation("block", "glowstick");
 
@@ -19,7 +19,7 @@ public class GlowstickProjectileRenderer extends ProjectileRenderer<GlowstickPro
     }
 
     @Override
-    public void extractRenderState(GlowstickProjectileEntity entity, ProjectileRenderState state, float partialTick)
+    public void extractRenderState(GlowstickProjectile entity, ProjectileRenderState state, float partialTick)
     {
         super.extractRenderState(entity, state, partialTick);
         state.lightCoords = LightCoordsUtil.FULL_BRIGHT;

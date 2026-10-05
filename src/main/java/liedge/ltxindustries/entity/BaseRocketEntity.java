@@ -37,7 +37,7 @@ public abstract class BaseRocketEntity extends HomingProjectileEntity
 
         if (directHit != null) hurtTarget(level, directHit, owner, hitLocation, true);
 
-        getEntitiesInAOE(level, hitLocation, BLAST_RADIUS, owner, directHit).forEach(aoeHit -> hurtTarget(level, aoeHit, owner, hitLocation, false));
+        getEntities(level, hitLocation, BLAST_RADIUS, owner, directHit).forEach(aoeHit -> hurtTarget(level, aoeHit, owner, hitLocation, false));
         level.playSound(null, hitLocation.x, hitLocation.y, hitLocation.z, LTXISounds.ROCKET_EXPLODE.get(), SoundSource.PLAYERS, 4f, 0.9f);
 
         LimaNetworkUtil.sendParticle(level, ColorSizeParticleOptions.of(LTXIParticles.COLOR_FLASH, getColor(), (float) BLAST_RADIUS * 2f), LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, hitLocation);

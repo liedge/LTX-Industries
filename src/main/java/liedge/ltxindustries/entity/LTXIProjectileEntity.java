@@ -23,8 +23,6 @@ import static liedge.limacore.lib.math.LimaCoreMath.xyRotBetweenPoints;
 
 public abstract class LTXIProjectileEntity extends UpgradesAwareEntity
 {
-    private static final int LIFETIME = 1200;
-
     protected LTXIProjectileEntity(EntityType<?> type, Level level)
     {
         super(type, level);
@@ -65,19 +63,7 @@ public abstract class LTXIProjectileEntity extends UpgradesAwareEntity
         aimTowardsPoint(target.getBoundingBox().getCenter(), speed, 0, maxTurnAngle);
     }
 
-    public void rotateTowardsMotion()
-    {
-        Vec3 delta = getDeltaMovement();
-
-        setXRot(Mth.rotLerp(0.5f, xRotO, LimaCoreMath.getXRot(delta)));
-        setYRot(Mth.rotLerp(0.5f, yRotO, LimaCoreMath.getYRot(delta)));
-    }
     //#endregion
-
-    protected float getProjectileGravity()
-    {
-        return 0f;
-    }
 
     protected ClipContext blockTraceContext(Vec3 start, Vec3 path)
     {
@@ -101,61 +87,28 @@ public abstract class LTXIProjectileEntity extends UpgradesAwareEntity
 
     protected abstract CollisionResult onCollision(ServerLevel level, @Nullable LivingEntity owner, HitResult hitResult, Vec3 hitLocation);
 
-    protected void tickServer(ServerLevel level, @Nullable LivingEntity owner) {}
-
-    protected void tickClient(Level level) {}
-
     @Override
-    public final void tick()
+    protected void tickServer(ServerLevel level)
     {
-        super.tick();
-        Level level = level();
+        LivingEntity owner = getOwner();
+        HitResult hitResult = tracePath(level);
 
-        if (level instanceof ServerLevel serverLevel)
+        if (hitResult.getType() != HitResult.Type.MISS)
         {
-            if (age++ >= LIFETIME)
+            Vec3 hitLocation = hitResult.getLocation();
+            CollisionResult result = onCollision(level, owner, hitResult, hitLocation);
+
+            if (result != CollisionResult.NO_OP)
+            {
+                boolean postEvent = getUpgrades().noneMatch(LTXIUpgradeEffectComponents.SUPPRESS_VIBRATIONS, (effect, _) -> effect.test(EquipmentSlot.MAINHAND, LTXIGameEvents.PROJECTILE_IMPACT));
+                if (postEvent) level.gameEvent(owner, LTXIGameEvents.PROJECTILE_IMPACT, hitLocation);
+            }
+
+            if (result == CollisionResult.DESTROY)
             {
                 discard();
             }
-
-            LivingEntity owner = getOwner();
-            HitResult hitResult = tracePath(level);
-
-            if (hitResult.getType() != HitResult.Type.MISS)
-            {
-                Vec3 hitLocation = hitResult.getLocation();
-                CollisionResult result = onCollision(serverLevel, owner, hitResult, hitLocation);
-
-                if (result != CollisionResult.NO_OP)
-                {
-                    boolean postEvent = getUpgrades().noneMatch(LTXIUpgradeEffectComponents.SUPPRESS_VIBRATIONS, (effect, _) -> effect.test(EquipmentSlot.MAINHAND, LTXIGameEvents.PROJECTILE_IMPACT));
-                    if (postEvent) serverLevel.gameEvent(owner, LTXIGameEvents.PROJECTILE_IMPACT, hitLocation);
-                }
-
-                if (result == CollisionResult.DESTROY)
-                {
-                    discard();
-                    return;
-                }
-            }
-
-            tickServer(serverLevel, owner);
         }
-        else
-        {
-            tickClient(level);
-        }
-
-        // Motion update
-        float gravity = getProjectileGravity();
-        if (!isNoGravity() && gravity > 0)
-        {
-            Vec3 delta = getDeltaMovement();
-            setDeltaMovement(delta.x, delta.y - gravity, delta.z);
-        }
-
-        rotateTowardsMotion();
-        setPos(position().add(getDeltaMovement()));
     }
 
     @Override

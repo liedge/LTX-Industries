@@ -1,7 +1,7 @@
 package liedge.ltxindustries.advancements.criterion;
 
 import com.mojang.serialization.MapCodec;
-import liedge.ltxindustries.entity.ShellGrenadeEntity;
+import liedge.ltxindustries.entity.ShellGrenade;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
 import net.minecraft.advancements.criterion.EntitySubPredicate;
 import net.minecraft.server.level.ServerLevel;
@@ -27,6 +27,6 @@ public record GrenadeElementSubPredicate(GrenadeType type) implements EntitySubP
     @Override
     public boolean matches(Entity entity, ServerLevel level, @Nullable Vec3 position)
     {
-        return entity instanceof ShellGrenadeEntity grenade && grenade.getGrenadeType() == type;
+        return entity instanceof ShellGrenade grenade && grenade.getGrenadeType() == type;
     }
 }

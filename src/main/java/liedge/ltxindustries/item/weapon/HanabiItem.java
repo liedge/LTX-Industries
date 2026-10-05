@@ -5,7 +5,7 @@ import liedge.limacore.lib.OrderedEnum;
 import liedge.limacore.lib.Translatable;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.data.LightColors;
-import liedge.ltxindustries.entity.ShellGrenadeEntity;
+import liedge.ltxindustries.entity.ShellGrenade;
 import liedge.ltxindustries.item.ScrollModeSwitchItem;
 import liedge.ltxindustries.lib.upgrades.MutableUpgrades;
 import liedge.ltxindustries.lib.upgrades.Upgrades;
@@ -77,7 +77,7 @@ public class HanabiItem extends SemiAutoWeaponItem implements ScrollModeSwitchIt
     {
         if (!level.isClientSide())
         {
-            ShellGrenadeEntity grenade = new ShellGrenadeEntity(level, getGrenadeTypeFromItem(heldItem), heldItem);
+            ShellGrenade grenade = new ShellGrenade(level, getGrenadeTypeFromItem(heldItem), heldItem);
             grenade.setOwner(player);
             grenade.aimAndSetPosFromShooter(player, getProjectileWeaponRange(heldItem), 0d);
             level.addFreshEntity(grenade);

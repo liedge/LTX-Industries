@@ -91,6 +91,10 @@ public final class LTXIIdentifiers
     public static final String ID_RAILGUN_TURRET = "railgun_turret";
     //#endregion
 
+    // Entities
+    public static final String ID_GLOWSTICK_PROJECTILE = "glowstick_projectile";
+    public static final String ID_SHELL_GRENADE = "shell_grenade";
+
     // Crafting types (recipe type and serializer)
     public static final String ID_GRINDING_RECIPE = "grinding";
     public static final String ID_PRESSING_RECIPE = "pressing";

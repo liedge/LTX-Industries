@@ -15,16 +15,16 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 import org.jetbrains.annotations.Nullable;
 
-public class EquipmentRocketEntity extends BaseRocketEntity implements IEntityWithComplexSpawn
+public class DaybreakRocket extends BaseRocketEntity implements IEntityWithComplexSpawn
 {
     private int color = -1;
 
-    public EquipmentRocketEntity(EntityType<?> type, Level level)
+    public DaybreakRocket(EntityType<?> type, Level level)
     {
         super(type, level);
     }
 
-    public EquipmentRocketEntity(Level level, ItemStack launcherItem)
+    public DaybreakRocket(Level level, ItemStack launcherItem)
     {
         this(LTXIEntities.DAYBREAK_ROCKET.get(), level);
         setWeaponItem(launcherItem.copy());

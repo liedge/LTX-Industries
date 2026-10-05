@@ -1,5 +1,6 @@
 package liedge.ltxindustries.registry.game;
 
+import liedge.ltxindustries.LTXIIdentifiers;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.entity.*;
 import net.minecraft.world.entity.EntityType;
@@ -20,11 +21,11 @@ public final class LTXIEntities
     }
 
     // Entity types
-    public static final DeferredHolder<EntityType<?>, EntityType<GlowstickProjectileEntity>> GLOWSTICK_PROJECTILE = projectile("glowstick_projectile", GlowstickProjectileEntity::new, 0.25f, 0.25f, 10);
-    public static final DeferredHolder<EntityType<?>, EntityType<ShellGrenadeEntity>> SHELL_GRENADE = projectile("shell_grenade", ShellGrenadeEntity::new, 0.35f, 0.35f, 2);
-    public static final DeferredHolder<EntityType<?>, EntityType<EquipmentRocketEntity>> DAYBREAK_ROCKET = projectile("daybreak_rocket", EquipmentRocketEntity::new, 0.6f, 0.6f, 2);
-    public static final DeferredHolder<EntityType<?>, EntityType<TurretRocketEntity>> TURRET_ROCKET = projectile("turret_rocket", TurretRocketEntity::new, 0.6f, 0.6f, 2);
-    public static final DeferredHolder<EntityType<?>, EntityType<FlameFieldEntity>> FLAME_FIELD = ENTITIES.registerEntityType("flame_field", FlameFieldEntity::new, MobCategory.MISC, builder -> builder
+    public static final DeferredHolder<EntityType<?>, EntityType<GlowstickProjectile>> GLOWSTICK_PROJECTILE = projectile(LTXIIdentifiers.ID_GLOWSTICK_PROJECTILE, GlowstickProjectile::new, 0.25f, 0.25f, 10);
+    public static final DeferredHolder<EntityType<?>, EntityType<ShellGrenade>> SHELL_GRENADE = projectile(LTXIIdentifiers.ID_SHELL_GRENADE, ShellGrenade::new, 0.35f, 0.35f, 2);
+    public static final DeferredHolder<EntityType<?>, EntityType<DaybreakRocket>> DAYBREAK_ROCKET = projectile("daybreak_rocket", DaybreakRocket::new, 0.6f, 0.6f, 2);
+    public static final DeferredHolder<EntityType<?>, EntityType<TurretRocket>> TURRET_ROCKET = projectile("turret_rocket", TurretRocket::new, 0.6f, 0.6f, 2);
+    public static final DeferredHolder<EntityType<?>, EntityType<HanabiFlameField>> FLAME_FIELD = ENTITIES.registerEntityType("flame_field", HanabiFlameField::new, MobCategory.MISC, builder -> builder
             .sized(4f, 4f).clientTrackingRange(10).updateInterval(10).fireImmune());
 
     private static <T extends LTXIProjectileEntity> DeferredHolder<EntityType<?>, EntityType<T>> projectile(String name, EntityType.EntityFactory<T> factory, float width, float height, int updateInterval)

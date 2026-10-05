@@ -1,17 +1,18 @@
 package liedge.ltxindustries.client.renderer.entity;
 
 import liedge.limacore.client.renderer.LimaCoreRenderTypes;
+import liedge.ltxindustries.LTXIIdentifiers;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.client.model.entity.*;
-import liedge.ltxindustries.entity.ShellGrenadeEntity;
+import liedge.ltxindustries.entity.ShellGrenade;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.resources.Identifier;
 import org.jspecify.annotations.Nullable;
 
-public class ShellGrenadeRenderer extends ProjectileRenderer<ShellGrenadeEntity>
+public class ShellGrenadeRenderer extends ProjectileRenderer<ShellGrenade>
 {
-    private static final Identifier TEXTURE = LTXIndustries.RESOURCES.textureLocation("entity", "shell_grenade");
+    private static final Identifier TEXTURE = LTXIndustries.RESOURCES.textureLocation("entity", LTXIIdentifiers.ID_SHELL_GRENADE);
 
     public ShellGrenadeRenderer(EntityRendererProvider.Context context)
     {
@@ -19,7 +20,7 @@ public class ShellGrenadeRenderer extends ProjectileRenderer<ShellGrenadeEntity>
     }
 
     @Override
-    public void extractRenderState(ShellGrenadeEntity entity, ProjectileRenderState state, float partialTick)
+    public void extractRenderState(ShellGrenade entity, ProjectileRenderState state, float partialTick)
     {
         super.extractRenderState(entity, state, partialTick);
         state.energyColor = entity.getGrenadeType().getColor();

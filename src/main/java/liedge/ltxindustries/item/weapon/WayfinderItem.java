@@ -1,6 +1,6 @@
 package liedge.ltxindustries.item.weapon;
 
-import liedge.ltxindustries.entity.GlowstickProjectileEntity;
+import liedge.ltxindustries.entity.GlowstickProjectile;
 import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
 import liedge.ltxindustries.registry.game.LTXIGameEvents;
 import liedge.ltxindustries.registry.game.LTXISounds;
@@ -27,7 +27,7 @@ public class WayfinderItem extends SemiAutoWeaponItem
     {
         if (!level.isClientSide())
         {
-            GlowstickProjectileEntity glowstick = new GlowstickProjectileEntity(level);
+            GlowstickProjectile glowstick = new GlowstickProjectile(level);
             glowstick.setOwner(player);
             glowstick.aimAndSetPosFromShooter(player, getProjectileWeaponRange(heldItem), 0d);
 

@@ -22,24 +22,24 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
-public class TurretRocketEntity extends BaseRocketEntity
+public class TurretRocket extends BaseRocketEntity
 {
     private Upgrades upgrades = Upgrades.EMPTY;
     private @Nullable BlockPos turretPos;
     private @Nullable AABB turretBB;
 
-    public TurretRocketEntity(EntityType<?> type, Level level, @Nullable BlockPos turretPos)
+    public TurretRocket(EntityType<?> type, Level level, @Nullable BlockPos turretPos)
     {
         super(type, level);
         this.turretPos = turretPos;
     }
 
-    public TurretRocketEntity(EntityType<?> type, Level level)
+    public TurretRocket(EntityType<?> type, Level level)
     {
         this(type, level, null);
     }
 
-    public TurretRocketEntity(Level level, RocketTurretBlockEntity blockEntity)
+    public TurretRocket(Level level, RocketTurretBlockEntity blockEntity)
     {
         this(LTXIEntities.TURRET_ROCKET.get(), level, blockEntity.getBlockPos());
         this.upgrades = blockEntity.getUpgrades();
