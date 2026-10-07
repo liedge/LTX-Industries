@@ -259,7 +259,7 @@ public final class LTXITags
     {
         private DamageTypes() {}
 
-        public static final TagKey<DamageType> WEAPONS = tag("weapons");
+        public static final TagKey<DamageType> WEAPONS_OR_GADGETS = tag("wepaon_or_gadget");
         public static final TagKey<DamageType> TURRETS = tag("turrets");
 
         public static final TagKey<DamageType> BYPASS_SURVIVAL_DEFENSES = tag("bypass_survival_defenses");

@@ -1,7 +1,11 @@
 {
   "values": [
-    "ltxi:flame_grenade",
-    "ltxi:sticky_flame",
-    "ltxi:arc_turret"
+    "ltxi:flame",
+    "ltxi:cryo",
+    "ltxi:electric",
+    "ltxi:acid",
+    "ltxi:gloom_gas",
+    "ltxi:explosive_turret",
+    "ltxi:electric_turret"
   ]
 }

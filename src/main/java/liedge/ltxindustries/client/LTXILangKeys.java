@@ -11,10 +11,6 @@ public final class LTXILangKeys
     public static final String UPGRADE_EFFECT_PREFIX = "upgrade_effect";
     public static final String ITEM_LORE_PREFIX = "item_lore";
 
-    // Death messages
-    public static final Translatable INVALID_WEAPON_DEATH_MESSAGE = RESOURCES.translationHolder("death.attack.{}.unknown_weapon");
-    public static final Translatable STRAY_PROJECTILE_DEATH_MESSAGE = RESOURCES.translationHolder("death.attack.{}.stray_projectile");
-
     // GUI keys
     public static final Translatable GUI_APPLY = gui("apply");
     public static final Translatable GUI_RESET = gui("reset");

@@ -90,7 +90,7 @@ public class ArcTurretBlockEntity extends TurretBlockEntity
             if (consumeUsageEnergy())
             {
                 float damage = (float) LTXIMachinesConfig.ARC_TURRET_DAMAGE.getAsDouble();
-                final Function<@Nullable LivingEntity, DamageSource> sourceFunction = fakePlayer -> TurretDamageSource.create(level, LTXIDamageTypes.ARC_TURRET, this, null, fakePlayer, traceStart);
+                final Function<@Nullable LivingEntity, DamageSource> sourceFunction = fakePlayer -> TurretDamageSource.create(level, LTXIDamageTypes.ELECTRIC_TURRET, this, null, fakePlayer, traceStart);
 
                 if (LTXIEntityUtil.hurtWithEnchantedFakePlayer(level, currentTarget, owner, getUpgrades(), sourceFunction, damage))
                 {

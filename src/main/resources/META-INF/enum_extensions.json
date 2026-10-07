@@ -38,20 +38,20 @@
     },
     {
       "enum": "net/minecraft/world/damagesource/DeathMessageType",
-      "name": "LTXI_NO_ITEM_CAUSING_ENTITY_ONLY",
+      "name": "LTXI_NO_ITEM",
       "constructor": "(Ljava/lang/String;Lnet/neoforged/neoforge/common/damagesource/IDeathMessageProvider;)V",
       "parameters": {
-        "class": "liedge/ltxindustries/lib/LTXIDeathMessageTypes",
-        "field": "NO_ITEM_CAUSING_ENTITY_ONLY"
+        "class": "liedge/ltxindustries/entity/damage/LTXIDeathMessageTypes",
+        "field": "NO_ITEM"
       }
     },
     {
       "enum": "net/minecraft/world/damagesource/DeathMessageType",
-      "name": "LTXI_WEAPON_DAMAGE",
+      "name": "LTXI_NO_ITEM_OR_DIRECT_ENTITY",
       "constructor": "(Ljava/lang/String;Lnet/neoforged/neoforge/common/damagesource/IDeathMessageProvider;)V",
       "parameters": {
-        "class": "liedge/ltxindustries/lib/LTXIDeathMessageTypes",
-        "field": "WEAPON_DEATH_MESSAGE_TYPE"
+        "class": "liedge/ltxindustries/entity/damage/LTXIDeathMessageTypes",
+        "field": "NO_ITEM_OR_DIRECT_ENTITY"
       }
     }
   ]

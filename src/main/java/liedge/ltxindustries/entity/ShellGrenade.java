@@ -84,12 +84,12 @@ public class ShellGrenade extends LTXIProjectileEntity implements IEntityWithCom
     {
         return switch (getGrenadeType())
         {
-            case EXPLOSIVE -> LTXIDamageTypes.EXPLOSIVE_WEAPON;
-            case FLAME -> LTXIDamageTypes.FLAME_GRENADE;
-            case CRYO -> LTXIDamageTypes.CRYO_GRENADE;
-            case ELECTRIC -> LTXIDamageTypes.ELECTRIC_GRENADE;
-            case ACID -> LTXIDamageTypes.ACID_GRENADE;
-            case GLOOM_GAS -> LTXIDamageTypes.GLOOM_GAS_GRENADE;
+            case EXPLOSIVE -> LTXIDamageTypes.EXPLOSIVE;
+            case FLAME -> LTXIDamageTypes.FLAME;
+            case CRYO -> LTXIDamageTypes.CRYO;
+            case ELECTRIC -> LTXIDamageTypes.ELECTRIC;
+            case ACID -> LTXIDamageTypes.ACID;
+            case GLOOM_GAS -> LTXIDamageTypes.GLOOM_GAS;
         };
     }
 

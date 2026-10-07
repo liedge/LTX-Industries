@@ -44,7 +44,7 @@ public class HanabiFlameField extends UpgradesAwareEntity
             LivingEntity owner = getOwner();
             getEntities(level, getBoundingBox(), owner, null).forEach(hit ->
             {
-                if (LTXIItems.HANABI.get().causeProjectileDamage(level, hit, this, owner, LTXIDamageTypes.STICKY_FLAME, getWeaponItem(), 4d))
+                if (LTXIItems.HANABI.get().causeProjectileDamage(level, hit, this, owner, LTXIDamageTypes.FLAME, getWeaponItem(), 4d))
                 {
                     hit.setRemainingFireTicks(400);
                 }
