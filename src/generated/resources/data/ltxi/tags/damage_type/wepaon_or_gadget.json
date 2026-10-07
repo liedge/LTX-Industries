@@ -1,11 +1,11 @@
 {
   "values": [
+    "ltxi:lightfrag",
+    "ltxi:explosive",
     "ltxi:flame",
     "ltxi:cryo",
     "ltxi:electric",
     "ltxi:acid",
-    "ltxi:gloom_gas",
-    "ltxi:explosive_turret",
-    "ltxi:electric_turret"
+    "ltxi:gloom_gas"
   ]
 }

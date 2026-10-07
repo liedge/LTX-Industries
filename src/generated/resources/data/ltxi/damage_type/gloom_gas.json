@@ -1,6 +1,6 @@
 {
   "death_message_type": "ltxi:no_weapon_item",
   "exhaustion": 0.0,
-  "message_id": "ltxi.lightfrag",
+  "message_id": "ltxi.gloom_gas",
   "scaling": "when_caused_by_living_non_player"
 }

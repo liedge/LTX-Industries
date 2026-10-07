@@ -1,7 +1,7 @@
 {
-  "death_message_type": "ltxi:weapon",
+  "death_message_type": "ltxi:no_weapon_item",
   "effects": "freezing",
   "exhaustion": 0.0,
-  "message_id": "ltxi.cryo_grenade",
+  "message_id": "ltxi.cryo",
   "scaling": "when_caused_by_living_non_player"
 }

@@ -45,7 +45,7 @@ public class DaybreakRocket extends BaseRocketEntity implements IEntityWithCompl
     protected void hurtTarget(ServerLevel level, Entity targetEntity, @Nullable LivingEntity owner, Vec3 hitLocation, boolean isDirectHit)
     {
         double baseDamage = isDirectHit ? LTXIWeaponsConfig.DAYBREAK_BASE_IMPACT_DAMAGE.getAsDouble() : LTXIWeaponsConfig.DAYBREAK_BASE_SPLASH_DAMAGE.getAsDouble();
-        LTXIItems.DAYBREAK.get().causeProjectileDamage(level, targetEntity, this, owner, LTXIDamageTypes.EXPLOSIVE_WEAPON, getWeaponItem(), baseDamage);
+        LTXIItems.DAYBREAK.get().causeProjectileDamage(level, targetEntity, this, owner, LTXIDamageTypes.EXPLOSIVE, getWeaponItem(), baseDamage);
     }
 
     @Override

@@ -582,20 +582,17 @@ class LanguageGen extends LimaLanguageProvider
         addEnum(LightColors.Channel.class, (_, value) -> value + " light channel");
 
         // Damage types
-        add(INVALID_WEAPON_DEATH_MESSAGE, "%s was killed by an invalid LTX weapon");
-        add(STRAY_PROJECTILE_DEATH_MESSAGE, "%s was killed by a stray %s");
-        damageType(LTXIDamageTypes.LIGHTFRAG, "%2$s shot %1$s with %3$s");
-        damageType(LTXIDamageTypes.EXPLOSIVE_WEAPON, "%s was blown up by %s's %s");
-        damageType(LTXIDamageTypes.FLAME_GRENADE, "%s was incinerated by %s's %s");
-        damageType(LTXIDamageTypes.CRYO_GRENADE, "%s was frozen solid by %s's %s");
-        damageType(LTXIDamageTypes.ELECTRIC_GRENADE, "%s was electrocuted by %s's %s");
-        damageType(LTXIDamageTypes.ACID_GRENADE, "%s was dissolved by %s's %s");
-        damageType(LTXIDamageTypes.GLOOM_GAS_GRENADE, "%s was dimmed out by %s's %s");
+        damageType(LTXIDamageTypes.LIGHTFRAG, "%1$s was shot by %2$s");
+        damageType(LTXIDamageTypes.EXPLOSIVE, "%1$s was blown up by %2$s");
+        damageType(LTXIDamageTypes.FLAME, "%1$s was incinerated by %2$s");
+        damageType(LTXIDamageTypes.CRYO, "%1$s was frozen solid by %2$s");
+        damageType(LTXIDamageTypes.ELECTRIC, "%1$s was electrocuted by %2$s");
+        damageType(LTXIDamageTypes.ACID, "%1$s was corroded by %2$s");
+        damageType(LTXIDamageTypes.GLOOM_GAS, "%1$s was gassed out by %2$s");
 
-        noItemCausingEntityOnlyDamageMessage(LTXIDamageTypes.STICKY_FLAME, "%s was cooked well-done by %s", "%s was cooked well-done");
-        noItemCausingEntityOnlyDamageMessage(LTXIDamageTypes.ROCKET_TURRET, "%s was shot down by %s's Atmos turret", "%s was shot down by a rogue Atmos turret");
-        noItemCausingEntityOnlyDamageMessage(LTXIDamageTypes.RAILGUN_TURRET, "%s was obliterated by %s's Noctis turret", "%s was obliterated by a rogue Noctis turret");
-        noItemCausingEntityOnlyDamageMessage(LTXIDamageTypes.ARC_TURRET, "%s was electrocuted by %s's Ionos turret", "%s was electrocuted by a rogue Ionos turret");
+        noAttackerDamage(LTXIDamageTypes.EXPLOSIVE_TURRET, "%1$s was blown up by %2$s' turret", "%s was blown up by a rogue turret");
+        noAttackerDamage(LTXIDamageTypes.ELECTRIC_TURRET, "%1$s was zapped by %2$s's turret", "%s was zapped by a rogue turret");
+        noAttackerDamage(LTXIDamageTypes.RAILGUN_TURRET, "%1$s was obliterated by %2$s's turret", "%s was obliterated by a rogue turret");
 
         //#region Advancements
         //#endregion
@@ -626,9 +623,9 @@ class LanguageGen extends LimaLanguageProvider
         return String.format(pattern, name);
     }
 
-    private void noItemCausingEntityOnlyDamageMessage(ResourceKey<DamageType> damageTypeKey, String translation, String unownedTranslation)
+    private void noAttackerDamage(ResourceKey<DamageType> key, String value, String noAttacker)
     {
-        damageTypeAndVariants(damageTypeKey, translation, collector -> collector.accept("unowned", unownedTranslation));
+        damageTypeAndVariants(key, value, collector -> collector.accept(".noAttacker", noAttacker));
     }
 
     private void upgrade(ResourceKey<Upgrade> key, String title, String description)

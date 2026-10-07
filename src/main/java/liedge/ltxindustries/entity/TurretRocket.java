@@ -83,11 +83,11 @@ public class TurretRocket extends BaseRocketEntity
         if (be != null)
         {
             // Auto-wrap player owners with a Fake Player instance that has the turret's enchantments
-            LTXIEntityUtil.hurtWithEnchantedFakePlayer(level, targetEntity, owner, be.getUpgrades(), fakePlayer -> TurretDamageSource.create(level, LTXIDamageTypes.ROCKET_TURRET, be, this, fakePlayer, null), baseDamage);
+            LTXIEntityUtil.hurtWithEnchantedFakePlayer(level, targetEntity, owner, be.getUpgrades(), fakePlayer -> TurretDamageSource.create(level, LTXIDamageTypes.EXPLOSIVE_TURRET, be, this, fakePlayer, null), baseDamage);
         }
         else
         {
-            targetEntity.hurtServer(level, level.damageSources().source(LTXIDamageTypes.ROCKET_TURRET, this, owner), baseDamage);
+            targetEntity.hurtServer(level, level.damageSources().source(LTXIDamageTypes.EXPLOSIVE_TURRET, this, owner), baseDamage);
         }
     }
 
