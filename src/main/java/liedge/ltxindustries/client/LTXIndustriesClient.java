@@ -166,7 +166,7 @@ public class LTXIndustriesClient
             event.register(LTXIMenus.UPGRADE_STATION.get(), UpgradeStationScreen::new);
             event.register(LTXIMenus.EQUIPMENT_UPGRADES.get(), UpgradesConfigScreen::new);
             event.register(LTXIMenus.LIGHT_COLORS_CONFIG.get(), LightColorsScreen::new);
-            event.register(LTXIMenus.ATMOSPHERIC_SCRUBBER.get(), AirScrubberScreen::new);
+            event.register(LTXIMenus.ATMOSPHERIC_SCRUBBER.get(), RecipeLayoutScreen::new);
             event.register(LTXIMenus.DIGITAL_GARDEN.get(), RecipeLayoutScreen::new);
             event.register(LTXIMenus.PORTABLE_GENERATOR.get(), PortableGeneratorScreen::new);
             event.register(LTXIMenus.SOLAR_PANEL.get(), SolarPanelScreen::new);

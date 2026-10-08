@@ -2,18 +2,20 @@ package liedge.ltxindustries.menu;
 
 import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.transfer.fluid.LimaBlockEntityFluids;
+import liedge.ltxindustries.blockentity.base.EnergyConsumerBlockEntity;
+import liedge.ltxindustries.blockentity.base.RecipeMachineBlockEntity;
 import liedge.ltxindustries.blockentity.base.RecipeModeHolderBlockEntity;
-import liedge.ltxindustries.blockentity.template.BaseRecipeMachineBlockEntity;
+import liedge.ltxindustries.blockentity.template.ProductionMachineBlockEntity;
 import liedge.ltxindustries.menu.layout.RecipeLayout;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
 
-public final class RecipeLayoutMenu<CTX extends BaseRecipeMachineBlockEntity<?, ?>> extends LTXIMachineMenu<CTX>
+public final class RecipeLayoutMenu<BE extends ProductionMachineBlockEntity & RecipeMachineBlockEntity.TimedRecipe<?,?> & EnergyConsumerBlockEntity> extends LTXIMachineMenu<BE>
 {
     private final RecipeLayout layout;
 
-    public RecipeLayoutMenu(MenuType<?> type, int containerId, Inventory inventory, CTX menuContext, RecipeLayout layout)
+    public RecipeLayoutMenu(MenuType<?> type, int containerId, Inventory inventory, BE menuContext, RecipeLayout layout)
     {
         super(type, containerId, inventory, menuContext);
         this.layout = layout;

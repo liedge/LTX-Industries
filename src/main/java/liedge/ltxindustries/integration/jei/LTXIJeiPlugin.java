@@ -8,7 +8,6 @@ import liedge.limacore.recipe.LimaCustomRecipe;
 import liedge.limacore.recipe.LimaRecipeType;
 import liedge.limacore.util.LimaRegistryUtil;
 import liedge.ltxindustries.LTXIndustries;
-import liedge.ltxindustries.client.gui.screen.AirScrubberScreen;
 import liedge.ltxindustries.client.gui.screen.RecipeLayoutScreen;
 import liedge.ltxindustries.menu.layout.RecipeLayout;
 import liedge.ltxindustries.menu.layout.RecipeLayouts;
@@ -161,16 +160,6 @@ public class LTXIJeiPlugin implements IModPlugin
                 if (slot == null) return Optional.empty();
 
                 return builder.createBuilder(NeoForgeTypes.FLUID_STACK, slot.getFluid()).buildWithArea(containerScreen.getLeftPos() + slot.getX(), containerScreen.getTopPos() + slot.getY(), 16, 16);
-            }
-        });
-
-        registration.addGuiContainerHandler(AirScrubberScreen.class, new IGuiContainerHandler<>()
-        {
-            @Override
-            public Collection<IGuiClickableArea> getGuiClickableAreas(AirScrubberScreen containerScreen, double guiMouseX, double guiMouseY)
-            {
-                RecipeLayout layout = RecipeLayouts.AIR_SCRUBBING;
-                return List.of(IGuiClickableArea.createBasic(layout.getProgressBarX(), layout.getProgressBarY(), 24, 6, AIR_SCRUBBING_JEI));
             }
         });
 

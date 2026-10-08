@@ -7,9 +7,11 @@ import liedge.limacore.menu.LimaMenuType;
 import liedge.ltxindustries.LTXIIdentifiers;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.blockentity.*;
+import liedge.ltxindustries.blockentity.base.EnergyConsumerBlockEntity;
+import liedge.ltxindustries.blockentity.base.RecipeMachineBlockEntity;
 import liedge.ltxindustries.blockentity.base.RecipeModeHolderBlockEntity;
-import liedge.ltxindustries.blockentity.template.BaseRecipeMachineBlockEntity;
 import liedge.ltxindustries.blockentity.template.MachineBaseBlockEntity;
+import liedge.ltxindustries.blockentity.template.ProductionMachineBlockEntity;
 import liedge.ltxindustries.blockentity.turret.ArcTurretBlockEntity;
 import liedge.ltxindustries.blockentity.turret.RailgunTurretBlockEntity;
 import liedge.ltxindustries.blockentity.turret.RocketTurretBlockEntity;
@@ -61,7 +63,7 @@ public final class LTXIMenus
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<GeoSynthesizerBlockEntity, RecipeLayoutMenu<GeoSynthesizerBlockEntity>>> GEO_SYNTHESIZER = registerLayoutRecipeMenu(LTXIIdentifiers.ID_GEO_SYNTHESIZER, GeoSynthesizerBlockEntity.class, RecipeLayouts.GEO_SYNTHESIS);
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<FabricatorBlockEntity, FabricatorMenu>> FABRICATOR = registerBE(LTXIIdentifiers.ID_FABRICATOR, FabricatorBlockEntity.class, FabricatorMenu::new);
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<AutoFabricatorBlockEntity, AutoFabricatorMenu>> AUTO_FABRICATOR = registerBE(LTXIIdentifiers.ID_AUTO_FABRICATOR, AutoFabricatorBlockEntity.class, AutoFabricatorMenu::new);
-    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<AirScrubberBlockEntity, AirScrubberMenu>> ATMOSPHERIC_SCRUBBER = registerBE(LTXIIdentifiers.ID_ATMOSPHERIC_SCRUBBER, AirScrubberBlockEntity.class, AirScrubberMenu::new);
+    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<AirScrubberBlockEntity, RecipeLayoutMenu<AirScrubberBlockEntity>>> ATMOSPHERIC_SCRUBBER = registerLayoutRecipeMenu(LTXIIdentifiers.ID_ATMOSPHERIC_SCRUBBER, AirScrubberBlockEntity.class, RecipeLayouts.AIR_SCRUBBING);
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<DigitalGardenBlockEntity, RecipeLayoutMenu<DigitalGardenBlockEntity>>> DIGITAL_GARDEN = registerLayoutRecipeMenu(LTXIIdentifiers.ID_DIGITAL_GARDEN, DigitalGardenBlockEntity.class, RecipeLayouts.GARDEN_SIMULATING);
 
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<PortableGeneratorBlockEntity, PortableGeneratorMenu>> PORTABLE_GENERATOR = registerBE(LTXIIdentifiers.ID_PORTABLE_GENERATOR, PortableGeneratorBlockEntity.class, PortableGeneratorMenu::new);
@@ -79,7 +81,7 @@ public final class LTXIMenus
         return TYPES.register(name, id -> BlockEntityMenuType.create(id, beClass, factory));
     }
 
-    private static <BE extends BaseRecipeMachineBlockEntity<?, ?>> DeferredHolder<MenuType<?>, BlockEntityMenuType<BE, RecipeLayoutMenu<BE>>> registerLayoutRecipeMenu(String name, Class<BE> beClass, RecipeLayout layout)
+    private static <BE extends ProductionMachineBlockEntity & RecipeMachineBlockEntity.TimedRecipe<?, ?> & EnergyConsumerBlockEntity> DeferredHolder<MenuType<?>, BlockEntityMenuType<BE, RecipeLayoutMenu<BE>>> registerLayoutRecipeMenu(String name, Class<BE> beClass, RecipeLayout layout)
     {
         //noinspection RedundantTypeArguments
         return LTXIMenus.<BE, RecipeLayoutMenu<BE>>registerBE(name, beClass, (type, id, inv, be) -> new RecipeLayoutMenu<>(type, id, inv, be, layout));
