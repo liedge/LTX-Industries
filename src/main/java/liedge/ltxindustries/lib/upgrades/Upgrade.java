@@ -57,6 +57,13 @@ public record Upgrade(UpgradeDisplayInfo display, int maxRank, UpgradeUsers user
     }
 
     // Class def
+
+    @Override
+    public String toString()
+    {
+        return "Upgrade[" + display.title().getString() + "]";
+    }
+
     public boolean canBeInstalledOn(TypedInstance<?> user)
     {
         return users.test(user);
