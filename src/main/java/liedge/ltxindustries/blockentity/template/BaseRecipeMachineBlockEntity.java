@@ -9,6 +9,7 @@ import liedge.limacore.network.LimaStreamCodecs;
 import liedge.limacore.network.sync.SimpleValueTracker;
 import liedge.limacore.network.sync.ValueTracker;
 import liedge.limacore.recipe.LimaRecipeCheck;
+import liedge.limacore.util.LimaCollectionsUtil;
 import liedge.ltxindustries.block.LTXIBlockProperties;
 import liedge.ltxindustries.blockentity.base.EnergyConsumerBlockEntity;
 import liedge.ltxindustries.blockentity.base.RecipeMachineBlockEntity;
@@ -226,6 +227,32 @@ public abstract class BaseRecipeMachineBlockEntity<I extends RecipeInput, R exte
     {
         itemFilters = null;
         fluidFilters = null;
+    }
+
+    public void setItemFilter(int index, ItemResource resource)
+    {
+        ResourceHandler<?> items = getItems(BlockContentsType.INPUT);
+        if (items == null) return;
+
+        int size = items.size();
+        if (index < 0 || index >= size) return;
+
+        NonNullList<ItemResource> newFilters = itemFilters != null ? LimaCollectionsUtil.mutableNonNullCopyOf(itemFilters) : NonNullList.withSize(size, ItemResource.EMPTY);
+        newFilters.set(index, resource);
+        this.itemFilters = newFilters;
+    }
+
+    public void setFluidFilter(int index, FluidResource resource)
+    {
+        ResourceHandler<?> fluids = getFluids(BlockContentsType.INPUT);
+        if (fluids == null) return;
+
+        int size = fluids.size();
+        if (index < 0 || index >= size) return;
+
+        NonNullList<FluidResource> newFilters = fluidFilters != null ? LimaCollectionsUtil.mutableNonNullCopyOf(fluidFilters) : NonNullList.withSize(size, FluidResource.EMPTY);
+        newFilters.set(index, resource);
+        this.fluidFilters = newFilters;
     }
 
     public void setFiltersFromInputs()

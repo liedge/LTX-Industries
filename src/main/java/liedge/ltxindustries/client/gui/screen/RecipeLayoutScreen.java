@@ -73,6 +73,16 @@ public final class RecipeLayoutScreen extends MachineBaseScreen<RecipeLayoutMenu
 
     }
 
+    public Set<Slot> getInputSlots()
+    {
+        return inputSlots;
+    }
+
+    public Set<LimaFluidSlot> getInputFluidSlots()
+    {
+        return inputFluidSlots;
+    }
+
     @Override
     protected void addWidgets()
     {
@@ -86,7 +96,7 @@ public final class RecipeLayoutScreen extends MachineBaseScreen<RecipeLayoutMenu
             lsy -= LTXISidebarButton.SIDEBAR_BUTTON_HEIGHT;
         }
 
-        addRenderableWidget(new LockSlotsButton(leftPos - leftPadding, lsy, this));
+        if (!inputSlots.isEmpty() || !inputFluidSlots.isEmpty()) addRenderableWidget(new LockSlotsButton(leftPos - leftPadding, lsy, this));
     }
 
     @Override

@@ -177,5 +177,7 @@ public class LTXIJeiPlugin implements IModPlugin
                 return jeiType != null ? List.of(IGuiClickableArea.createBasic(layout.getProgressBarX(), layout.getProgressBarY(), 24, 6, jeiType)) : List.of();
             }
         });
+
+        registration.addGhostIngredientHandler(RecipeLayoutScreen.class, new InputLockHandler());
     }
 }

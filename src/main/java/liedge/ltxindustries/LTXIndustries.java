@@ -99,6 +99,8 @@ public class LTXIndustries
             registerPlayToServer(registrar, ServerboundTriggerPacket.TYPE, ServerboundTriggerPacket.STREAM_CODEC);
             registerPlayToServer(registrar, ServerboundReloadPacket.TYPE, ServerboundReloadPacket.STREAM_CODEC);
             registerPlayToServer(registrar, ServerboundWeaponSlotPacket.TYPE, ServerboundWeaponSlotPacket.STREAM_CODEC);
+            registerPlayToServer(registrar, ServerboundSetFilterPacket.ForItems.TYPE, ServerboundSetFilterPacket.ForItems.STREAM_CODEC);
+            registerPlayToServer(registrar, ServerboundSetFilterPacket.ForFluids.TYPE, ServerboundSetFilterPacket.ForFluids.STREAM_CODEC);
         }
 
         @SubscribeEvent
