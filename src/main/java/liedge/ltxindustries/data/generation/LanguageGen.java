@@ -456,6 +456,7 @@ class LanguageGen extends LimaLanguageProvider
         add(INLINE_ENERGY_USAGE, "Energy use: %s");
         add(NO_FLUID_STORED, "No fluid");
         add(INLINE_FLUID_TRANSFER_RATE, "Fluid I/O: %s");
+        add(DUMP_FLUIDS, "Middle-Click with a wrench to empty tank");
         add(INLINE_NO_OWNER_TOOLTIP, "No Owner");
         add(INLINE_OWNER_TOOLTIP, "Owner: %s");
         add(ENERGY_OVERCHARGE_TOOLTIP, "Energy Overcharged! Your energy stored is more than your current capacity.");
@@ -471,6 +472,7 @@ class LanguageGen extends LimaLanguageProvider
         add(RECIPE_MODE_CURRENT_MODE, "Current mode: %s");
         add(JEI_RECIPE_MODE_NEEDED, "Needs mode: %s");
         add(JEI_NO_RECIPE_MODE_NEEDED, "No recipe mode needed.");
+        add(INPUT_FILTER_LOCK, "Toggle input slot lock");
 
         add(MACHINE_TICKS_PER_OP_TOOLTIP, "Ticks per operation: %s");
         add(FABRICATOR_SELECTED_RECIPE_TOOLTIP, "Left click to craft. Right click to encode blueprint (must have blank blueprint in slot).");

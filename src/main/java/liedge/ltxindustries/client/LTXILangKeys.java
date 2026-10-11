@@ -37,6 +37,7 @@ public final class LTXILangKeys
     public static final Translatable RECIPE_MODE_CURRENT_MODE = tooltip("recipe_mode.current");
     public static final Translatable JEI_RECIPE_MODE_NEEDED = tooltip("jei.mode.needed");
     public static final Translatable JEI_NO_RECIPE_MODE_NEEDED = tooltip("jei.mode.not_needed");
+    public static final Translatable INPUT_FILTER_LOCK = tooltip("input_filter_lock");
 
     public static final Translatable INLINE_ENERGY = tooltip("energy");
     public static final Translatable INLINE_ENERGY_TRANSFER_RATE = tooltip("energy_transfer_rate");
@@ -46,6 +47,7 @@ public final class LTXILangKeys
 
     public static final Translatable NO_FLUID_STORED = tooltip("no_fluid");
     public static final Translatable INLINE_FLUID_TRANSFER_RATE = tooltip("fluid_transfer_rate");
+    public static final Translatable DUMP_FLUIDS = tooltip("dump_fluids");
 
     public static final Translatable INLINE_NO_OWNER_TOOLTIP = tooltip("no_owner");
     public static final Translatable INLINE_OWNER_TOOLTIP = tooltip("owner");

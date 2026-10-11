@@ -5,15 +5,19 @@ import liedge.limacore.registry.LimaDeferredNetworkSerializers;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.blockentity.base.ResourceType;
 import liedge.ltxindustries.blockentity.base.BlockIOConfiguration;
+import liedge.ltxindustries.blockentity.template.BaseRecipeMachineBlockEntity;
 import liedge.ltxindustries.data.LightChannels;
 import liedge.ltxindustries.data.LightColors;
 import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.recipe.RecipeMode;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
+import net.minecraft.core.NonNullList;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 
 import java.util.Optional;
 
@@ -35,4 +39,6 @@ public final class LTXINetworkSerializers
     public static final DeferredHolder<NetworkSerializer<?>, NetworkSerializer<HolderSet<RecipeMode>>> RECIPE_MODES = SERIALIZERS.registerCodec("recipe_modes", () -> RecipeMode.SET_STREAM_CODEC);
     public static final DeferredHolder<NetworkSerializer<?>, NetworkSerializer<ResourceType>> MACHINE_INPUT_TYPE = SERIALIZERS.registerCodec("machine_input_type", () -> ResourceType.STREAM_CODEC);
     public static final DeferredHolder<NetworkSerializer<?>, NetworkSerializer<BlockIOConfiguration>> BLOCK_IO_CONFIG = SERIALIZERS.registerCodec("block_io_config", () -> BlockIOConfiguration.STREAM_CODEC);
+    public static final DeferredHolder<NetworkSerializer<?>, NetworkSerializer<Optional<NonNullList<ItemResource>>>> ITEM_FILTERS = SERIALIZERS.registerCodec("item_filters", () -> BaseRecipeMachineBlockEntity.ITEM_FILTER_STREAM_CODEC);
+    public static final DeferredHolder<NetworkSerializer<?>, NetworkSerializer<Optional<NonNullList<FluidResource>>>> FLUID_FILTERS = SERIALIZERS.registerCodec("fluid_filters", () -> BaseRecipeMachineBlockEntity.FLUID_FILTER_STREAM_CODEC);
 }

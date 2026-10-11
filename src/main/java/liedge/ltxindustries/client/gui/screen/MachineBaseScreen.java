@@ -37,15 +37,18 @@ public abstract class MachineBaseScreen<M extends MachineBaseMenu<?>> extends LT
         }
 
         // Left sidebar widgets
-        addRenderableWidget(new MachineUpgradesButton(rightPos, topPos + 3, this));
         if (menu.getMenuContext().hasStatsTooltips()) addRenderableOnly(new StatsWidget(leftPos - leftPadding, bottomPos - 23, menu.getMenuContext()));
 
         // Right sidebar widgets
-        int sidebarY = 23;
+        int rsy = topPos + 3;
+
+        addRenderableWidget(new MachineUpgradesButton(rightPos, rsy, this));
+        rsy += LTXISidebarButton.SIDEBAR_BUTTON_HEIGHT;
+
         for (ResourceType type : menu.getMenuContext().getRuleSet().getResourceTypes())
         {
-            addRenderableWidget(new OpenIOControlButton(rightPos, topPos + sidebarY, this, SharedMenuButtons.OPEN_IO_CONTROLS, type));
-            sidebarY += LTXISidebarButton.SIDEBAR_BUTTON_HEIGHT;
+            addRenderableWidget(new OpenIOControlButton(rightPos, rsy, this, SharedMenuButtons.OPEN_IO_CONTROLS, type));
+            rsy += LTXISidebarButton.SIDEBAR_BUTTON_HEIGHT;
         }
     }
 

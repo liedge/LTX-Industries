@@ -49,6 +49,12 @@ public final class SpecialInfiniteTankMenu extends MachineBaseMenu<SpecialInfini
         }
 
         @Override
+        public int getCapacity(FluidResource resource)
+        {
+            return getCapacity();
+        }
+
+        @Override
         public int getCapacity()
         {
             return Integer.MAX_VALUE;

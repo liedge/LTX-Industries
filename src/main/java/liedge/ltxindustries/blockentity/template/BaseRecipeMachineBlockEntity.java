@@ -1,18 +1,28 @@
 package liedge.ltxindustries.blockentity.template;
 
+import com.mojang.serialization.Codec;
 import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.client.gui.TooltipLineConsumer;
+import liedge.limacore.data.LimaCoreCodecs;
+import liedge.limacore.network.LimaStreamCodecs;
+import liedge.limacore.network.sync.SimpleValueTracker;
+import liedge.limacore.network.sync.ValueTracker;
 import liedge.limacore.recipe.LimaRecipeCheck;
 import liedge.ltxindustries.block.LTXIBlockProperties;
 import liedge.ltxindustries.blockentity.base.EnergyConsumerBlockEntity;
 import liedge.ltxindustries.blockentity.base.RecipeMachineBlockEntity;
 import liedge.ltxindustries.blockentity.base.TimedProcessBlockEntity;
 import liedge.ltxindustries.lib.upgrades.Upgrades;
+import liedge.ltxindustries.registry.game.LTXINetworkSerializers;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import liedge.ltxindustries.util.LTXITooltipUtil;
 import liedge.ltxindustries.util.LTXIUpgradeUtil;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
@@ -26,6 +36,10 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Optional;
 import java.util.function.IntUnaryOperator;
@@ -33,6 +47,16 @@ import java.util.function.IntUnaryOperator;
 public abstract class BaseRecipeMachineBlockEntity<I extends RecipeInput, R extends Recipe<I>> extends ProductionMachineBlockEntity
         implements TimedProcessBlockEntity, EnergyConsumerBlockEntity, RecipeMachineBlockEntity.TimedRecipe<I, R>
 {
+    private static final Codec<NonNullList<ItemResource>> ITEM_FILTER_CODEC = LimaCoreCodecs.mutableNonNullList(ItemResource.OPTIONAL_CODEC);
+    private static final Codec<NonNullList<FluidResource>> FLUID_FILTER_CODEC = LimaCoreCodecs.mutableNonNullList(FluidResource.OPTIONAL_CODEC);
+    public static final StreamCodec<RegistryFriendlyByteBuf, Optional<NonNullList<ItemResource>>> ITEM_FILTER_STREAM_CODEC = ByteBufCodecs.optional(ItemResource.STREAM_CODEC.apply(LimaStreamCodecs.asNonNullList()));
+    public static final StreamCodec<RegistryFriendlyByteBuf, Optional<NonNullList<FluidResource>>> FLUID_FILTER_STREAM_CODEC = ByteBufCodecs.optional(FluidResource.STREAM_CODEC.apply(LimaStreamCodecs.asNonNullList()));
+
+    // Filters
+    private @Nullable NonNullList<ItemResource> itemFilters;
+    private @Nullable NonNullList<FluidResource> fluidFilters;
+
+    // Recipe things
     private final LimaRecipeCheck<I, R> recipeCheck;
     private int energyUsage = getBaseEnergyUsage();
     private IntUnaryOperator recipeTimeFunction = IntUnaryOperator.identity();
@@ -159,6 +183,98 @@ public abstract class BaseRecipeMachineBlockEntity<I extends RecipeInput, R exte
         }
     }
 
+    //#region Slot locking
+
+    @Override
+    public boolean isItemValid(BlockContentsType contentsType, int index, ItemResource resource)
+    {
+        if (contentsType == BlockContentsType.INPUT && itemFilters != null)
+        {
+            return resource.equals(itemFilters.get(index));
+        }
+
+        return super.isItemValid(contentsType, index, resource);
+    }
+
+    @Override
+    public boolean isFluidValid(BlockContentsType contentsType, int index, FluidResource resource)
+    {
+        if (contentsType == BlockContentsType.INPUT && fluidFilters != null)
+        {
+            return resource.equals(fluidFilters.get(index));
+        }
+
+        return super.isFluidValid(contentsType, index, resource);
+    }
+
+    public @Nullable NonNullList<ItemResource> getItemFilters()
+    {
+        return itemFilters;
+    }
+
+    public @Nullable NonNullList<FluidResource> getFluidFilters()
+    {
+        return fluidFilters;
+    }
+
+    public boolean isLocked()
+    {
+        return itemFilters != null || fluidFilters != null;
+    }
+
+    public void clearFilters()
+    {
+        itemFilters = null;
+        fluidFilters = null;
+    }
+
+    public void setFiltersFromInputs()
+    {
+        ResourceHandler<ItemResource> items = getItems(BlockContentsType.INPUT);
+        if (items != null)
+        {
+            itemFilters = NonNullList.withSize(items.size(), ItemResource.EMPTY);
+            for (int i = 0; i < items.size(); i++)
+            {
+                itemFilters.set(i, items.getResource(i));
+            }
+        }
+        else
+        {
+            itemFilters = null;
+        }
+
+        ResourceHandler<FluidResource> fluids = getFluids(BlockContentsType.INPUT);
+        if (fluids != null)
+        {
+            fluidFilters = NonNullList.withSize(fluids.size(), FluidResource.EMPTY);
+            for (int i = 0; i < fluids.size(); i++)
+            {
+                fluidFilters.set(i, fluids.getResource(i));
+            }
+        }
+        else
+        {
+            fluidFilters = null;
+        }
+    }
+
+    public ValueTracker<Optional<NonNullList<ItemResource>>> syncItemFilters()
+    {
+        return SimpleValueTracker.create(LTXINetworkSerializers.ITEM_FILTERS,
+                () -> Optional.ofNullable(itemFilters),
+                o -> this.itemFilters = o.orElse(null)).setAutomatic();
+    }
+
+    public ValueTracker<Optional<NonNullList<FluidResource>>> syncFluidFilters()
+    {
+        return SimpleValueTracker.create(LTXINetworkSerializers.FLUID_FILTERS,
+                () -> Optional.ofNullable(fluidFilters),
+                o -> this.fluidFilters = o.orElse(null)).setAutomatic();
+    }
+
+    //#endregion
+
     @Override
     protected void tickServer(ServerLevel level, BlockPos pos, BlockState state)
     {
@@ -248,6 +364,9 @@ public abstract class BaseRecipeMachineBlockEntity<I extends RecipeInput, R exte
         super.loadAdditional(input);
         craftingProgress = input.getIntOr(TAG_KEY_PROGRESS, 0);
         recipeCheck.deserialize(input);
+
+        input.read("item_filters", ITEM_FILTER_CODEC).ifPresent(list -> this.itemFilters = list);
+        input.read("fluid_filters", FLUID_FILTER_CODEC).ifPresent(list -> this.fluidFilters = list);
     }
 
     @Override
@@ -256,5 +375,8 @@ public abstract class BaseRecipeMachineBlockEntity<I extends RecipeInput, R exte
         super.saveAdditional(output);
         output.putInt(TAG_KEY_PROGRESS, craftingProgress);
         recipeCheck.serialize(output);
+
+        output.storeNullable("item_filters", ITEM_FILTER_CODEC, itemFilters);
+        output.storeNullable("fluid_filters", FLUID_FILTER_CODEC, fluidFilters);
     }
 }
