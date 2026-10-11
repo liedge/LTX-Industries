@@ -100,7 +100,7 @@ public class LTXIJeiPlugin implements IModPlugin
         registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, CHEMICAL_REACTING, CHEMICAL_REACTING_JEI, RecipeLayouts.CHEMICAL_REACTING));
         registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, ASSEMBLING, ASSEMBLING_JEI, RecipeLayouts.ASSEMBLING));
         registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, GEO_SYNTHESIS, GEO_SYNTHESIS_JEI, RecipeLayouts.GEO_SYNTHESIS));
-        registration.addRecipeCategories(AirScrubbingCategory.create(helper));
+        registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, AIR_SCRUBBING, AIR_SCRUBBING_JEI, RecipeLayouts.AIR_SCRUBBING));
         registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, GARDEN_SIMULATING, GARDEN_SIMULATING_JEI, RecipeLayouts.GARDEN_SIMULATING));
         registration.addRecipeCategories(new FabricatingJeiCategory(helper, FABRICATING));
     }

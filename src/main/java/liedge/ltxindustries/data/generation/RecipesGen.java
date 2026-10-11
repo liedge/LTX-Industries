@@ -1747,79 +1747,100 @@ class RecipesGen extends LimaRecipeProvider
         }
     }
 
-    private static class LTXIBuilder<R extends LTXIRecipe> extends LimaCustomRecipeBuilder<R, LTXIBuilder<R>>
+    private static abstract class BaseLTXIBuilder<R extends LTXIRecipe> extends LimaCustomRecipeBuilder<R, BaseLTXIBuilder<R>>
     {
         private final int defaultTime;
-        private final LTXIRecipeSupplier<R> factory;
 
         private int craftTime = -1;
         private @Nullable Holder<RecipeMode> mode;
 
-        LTXIBuilder(ModResources resources, HolderLookup.Provider registries, LTXIRecipeSupplier<R> factory, int defaultTime)
+        BaseLTXIBuilder(ModResources resources, HolderLookup.Provider registries, int defaultTime)
         {
             super(resources, registries);
             this.defaultTime = defaultTime;
-            this.factory = factory;
         }
 
-        LTXIBuilder(ModResources resources, HolderLookup.Provider registries, LTXIRecipeSupplier<R> factory)
+        BaseLTXIBuilder(ModResources resources, HolderLookup.Provider registries)
         {
-            this(resources, registries, factory, LTXIRecipe.DEFAULT_CRAFTING_TIME);
+            this(resources, registries, LTXIRecipe.DEFAULT_CRAFTING_TIME);
         }
 
-        LTXIBuilder<R> time(int craftTime)
+        BaseLTXIBuilder<R> time(int craftTime)
         {
             this.craftTime = craftTime;
             return this;
         }
 
-        LTXIBuilder<R> needsMode(Holder<RecipeMode> mode)
+        BaseLTXIBuilder<R> needsMode(Holder<RecipeMode> mode)
         {
             this.mode = mode;
             return this;
         }
 
-        LTXIBuilder<R> needsMode(ResourceKey<RecipeMode> key)
+        BaseLTXIBuilder<R> needsMode(ResourceKey<RecipeMode> key)
         {
             return needsMode(registries.holderOrThrow(key));
         }
 
-        LTXIBuilder<R> tryOutput(@Nullable ItemResult result)
+        BaseLTXIBuilder<R> tryOutput(@Nullable ItemResult result)
         {
             return result != null ? output(result) : this;
         }
 
         // Commonly used inputs
-        LTXIBuilder<R> water(int amount)
+        BaseLTXIBuilder<R> water(int amount)
         {
             return fluidInput(FluidTags.WATER, amount);
         }
 
-        LTXIBuilder<R> water(int amount, float consumeChance)
+        BaseLTXIBuilder<R> water(int amount, float consumeChance)
         {
             return randomFluidInput(FluidTags.WATER, amount, consumeChance);
         }
 
         @Override
-        protected R buildRecipe()
+        protected final R buildRecipe()
         {
             int time = craftTime > 0 ? craftTime : defaultTime;
-            return factory.apply(itemInputs, fluidInputs, itemResults, fluidResults, time, Optional.ofNullable(mode));
+            return build(time, mode);
+        }
+
+        abstract R build(int craftTime, @Nullable Holder<RecipeMode> mode);
+    }
+
+    private static class LTXIBuilder<R extends LTXIRecipe> extends BaseLTXIBuilder<R>
+    {
+        private final LTXIRecipeSupplier<R> factory;
+
+        LTXIBuilder(ModResources resources, HolderLookup.Provider registries, LTXIRecipeSupplier<R> factory)
+        {
+            super(resources, registries);
+            this.factory = factory;
+        }
+
+        LTXIBuilder(ModResources resources, HolderLookup.Provider registries, LTXIRecipeSupplier<R> factory, int defaultCraftTime)
+        {
+            super(resources, registries, defaultCraftTime);
+            this.factory = factory;
+        }
+
+        @Override
+        R build(int craftTime, @Nullable Holder<RecipeMode> mode)
+        {
+            return factory.apply(itemInputs, fluidInputs, itemResults, fluidResults, craftTime, Optional.ofNullable(mode));
         }
     }
 
-    private static class ScrubbingBuilder extends LimaCustomRecipeBuilder<AirScrubbingRecipe, ScrubbingBuilder>
+    private static class ScrubbingBuilder extends BaseLTXIBuilder<AirScrubbingRecipe>
     {
-        private final Holder<RecipeMode> mode;
-
         private @Nullable ResourceKey<Level> dimension;
         private @Nullable HolderSet<Biome> biomes;
         private boolean needsWaterlog = false;
 
         ScrubbingBuilder(ModResources resources, HolderLookup.Provider registries, Holder<RecipeMode> mode)
         {
-            super(resources, registries);
-            this.mode = mode;
+            super(resources, registries, 600);
+            needsMode(mode);
         }
 
         ScrubbingBuilder inDimension(ResourceKey<Level> dimension)
@@ -1846,9 +1867,9 @@ class RecipesGen extends LimaRecipeProvider
         }
 
         @Override
-        protected AirScrubbingRecipe buildRecipe()
+        AirScrubbingRecipe build(int craftTime, @Nullable Holder<RecipeMode> mode)
         {
-            return new AirScrubbingRecipe(mode, new MachineLocation(Optional.ofNullable(dimension), Optional.ofNullable(biomes), needsWaterlog), itemResults, fluidResults);
+            return new AirScrubbingRecipe(itemResults, fluidResults, craftTime, mode, new MachineLocation(Optional.ofNullable(dimension), Optional.ofNullable(biomes), needsWaterlog));
         }
     }
 

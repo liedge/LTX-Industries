@@ -5,9 +5,12 @@ import liedge.limacore.util.LimaTextUtil;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.client.gui.screen.RecipeLayoutScreen;
+import liedge.ltxindustries.client.gui.widget.MachineProgressWidget;
 import liedge.ltxindustries.client.gui.widget.OpenRecipeModesButton;
+import liedge.ltxindustries.lib.MachineLocation;
 import liedge.ltxindustries.menu.layout.LayoutSlot;
 import liedge.ltxindustries.menu.layout.RecipeLayout;
+import liedge.ltxindustries.recipe.AirScrubbingRecipe;
 import liedge.ltxindustries.recipe.LTXIRecipe;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawableStatic;
@@ -30,42 +33,39 @@ import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 final class RecipeLayoutJeiCategory<R extends LTXIRecipe> extends LTXIRecipeHolderCategory<R>
 {
     private static final int PADDING = 3;
 
-    static ScreenRectangle layoutBounds(RecipeLayout layout, int bottomExtraPadding)
+    static ScreenRectangle layoutBounds(RecipeLayout layout)
     {
-        IntSummaryStatistics xss = layout.streamSlots().collect(Collectors.summarizingInt(LayoutSlot::x));
-        IntSummaryStatistics yss = layout.streamSlots().collect(Collectors.summarizingInt(LayoutSlot::y));
+        IntSummaryStatistics xss = new IntSummaryStatistics();
+        IntSummaryStatistics yss = new IntSummaryStatistics();
 
-        int width = (xss.getMax() - xss.getMin()) + 18 + PADDING * 2;
-        int height = (yss.getMax() - yss.getMin()) + 18 + bottomExtraPadding + PADDING * 2;
+        layout.streamSlots().forEach(s -> {
+            xss.accept(s.x());
+            xss.accept(s.x() + 18);
+            yss.accept(s.y());
+            yss.accept(s.y() + 18);
+        });
+
+        xss.accept(layout.getProgressBarX());
+        xss.accept(layout.getProgressBarX() + MachineProgressWidget.BACKGROUND_WIDTH);
+        yss.accept(layout.getProgressBarY());
+        yss.accept(layout.getProgressBarY() + MachineProgressWidget.BACKGROUND_HEIGHT);
+
+        int width = (xss.getMax() - xss.getMin()) + PADDING * 2;
+        int height = (yss.getMax() - yss.getMin()) + 11 + PADDING * 2;
         int xOffset = xss.getMin() - PADDING - 1;
         int yOffset = yss.getMin() - PADDING - 1;
 
         return new ScreenRectangle(xOffset, yOffset, width, height);
     }
 
-    static <R, I> void addLayoutInputs(IRecipeLayoutBuilder builder, RecipeLayout layout, ScreenRectangle bounds, LayoutSlot.Type slotType, R recipe, Function<R, List<I>> inputsFunction, LayoutInputAcceptor<I> inputAcceptor)
-    {
-        List<LayoutSlot> slots = layout.getSlotsForType(slotType);
-        List<I> inputs = inputsFunction.apply(recipe);
-
-        int max = Math.min(slots.size(), inputs.size());
-        for (int i = 0; i < max; i++)
-        {
-            LayoutSlot slot = slots.get(i);
-            I input = inputs.get(i);
-            inputAcceptor.accept(builder, input, slot.x() - bounds.left(), slot.y() - bounds.top());
-        }
-    }
-
     static <R extends LTXIRecipe> RecipeLayoutJeiCategory<R> create(IGuiHelper helper, Supplier<LimaRecipeType<R>> typeSupplier, IRecipeHolderType<R> jeiRecipeType, RecipeLayout layout)
     {
-        return new RecipeLayoutJeiCategory<>(helper, typeSupplier.get(), jeiRecipeType, layout, layoutBounds(layout, 11));
+        return new RecipeLayoutJeiCategory<>(helper, typeSupplier.get(), jeiRecipeType, layout, layoutBounds(layout));
     }
 
     private final IRecipeHolderType<R> jeiRecipeType;
@@ -91,7 +91,16 @@ final class RecipeLayoutJeiCategory<R extends LTXIRecipe> extends LTXIRecipeHold
 
     private <T> void addLayoutInputs(IRecipeLayoutBuilder builder, LayoutSlot.Type slotType, R recipe, Function<R, List<T>> inputsExtractor, LayoutInputAcceptor<T> acceptor)
     {
-        addLayoutInputs(builder, layout, bounds, slotType, recipe, inputsExtractor, acceptor);
+        List<LayoutSlot> slots = layout.getSlotsForType(slotType);
+        List<T> inputs = inputsExtractor.apply(recipe);
+
+        int max = Math.min(slots.size(), inputs.size());
+        for (int i = 0; i < max; i++)
+        {
+            LayoutSlot slot = slots.get(i);
+            T input = inputs.get(i);
+            acceptor.accept(builder, input, slot.x() - bounds.left(), slot.y() - bounds.top());
+        }
     }
 
     @Override
@@ -106,7 +115,8 @@ final class RecipeLayoutJeiCategory<R extends LTXIRecipe> extends LTXIRecipeHold
     @Override
     public void createRecipeExtras(IRecipeExtrasBuilder builder, RecipeHolder<R> recipeHolder, IFocusGroup focuses)
     {
-        int timeInTicks = recipeHolder.value().getCraftTime();
+        R recipe = recipeHolder.value();
+        int timeInTicks = recipe.getCraftTime();
         String timeInSeconds = LimaTextUtil.format2PlaceDecimal(timeInTicks / 20d);
 
         Component craftTimeComponent = LTXILangKeys.JEI_CRAFTING_TIME_TOOLTIP.translateArgs(timeInSeconds, timeInTicks);
@@ -116,7 +126,17 @@ final class RecipeLayoutJeiCategory<R extends LTXIRecipe> extends LTXIRecipeHold
                 .setTextAlignment(VerticalAlignment.BOTTOM)
                 .setColor(LTXIConstants.LIME_GREEN);
 
-        if (modePos != null) builder.addWidget(new RecipeModeWidget(modePos, modeBackground, modeOverlay, recipeHolder.value().getMode()));
+        if (modePos != null)
+        {
+            MachineLocation location = null;
+
+            if (recipe instanceof AirScrubbingRecipe asr)
+            {
+                location = asr.getLocation();
+            }
+
+            builder.addWidget(new RecipeModeWidget(modePos, modeBackground, modeOverlay, recipe.getMode(), location));
+        }
     }
 
     @Override

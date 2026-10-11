@@ -10,6 +10,7 @@ import liedge.limacore.recipe.input.RecipeFluidInput;
 import liedge.limacore.recipe.input.RecipeItemInput;
 import liedge.limacore.recipe.result.FluidResult;
 import liedge.limacore.recipe.result.ItemResult;
+import net.minecraft.core.Holder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -19,6 +20,13 @@ import java.util.Optional;
 
 public final class LTXIRecipeCodecBuilder<R extends LTXIRecipe> extends LimaRecipeSerializerBuilder<R, LTXIRecipeCodecBuilder<R>>
 {
+    public static final MapCodec<Optional<Holder<RecipeMode>>> MODE_FIELD_CODEC = RecipeMode.CODEC.optionalFieldOf("mode");
+
+    public static MapCodec<Integer> craftTimeField(int defaultTime)
+    {
+        return ExtraCodecs.POSITIVE_INT.optionalFieldOf("craft_time", defaultTime);
+    }
+
     private final LTXIRecipeSupplier<R> factory;
     private int defaultCraftingTime = LTXIRecipe.DEFAULT_CRAFTING_TIME;
 
@@ -38,8 +46,8 @@ public final class LTXIRecipeCodecBuilder<R extends LTXIRecipe> extends LimaReci
     protected MapCodec<R> buildCodec()
     {
         return RecordCodecBuilder.mapCodec(instance -> commonFields(instance)
-                .and(ExtraCodecs.POSITIVE_INT.optionalFieldOf("craft_time", defaultCraftingTime).forGetter(LTXIRecipe::getCraftTime))
-                .and(RecipeMode.CODEC.optionalFieldOf("mode").forGetter(o -> Optional.ofNullable(o.getMode())))
+                .and(craftTimeField(defaultCraftingTime).forGetter(LTXIRecipe::getCraftTime))
+                .and(MODE_FIELD_CODEC.forGetter(o -> Optional.ofNullable(o.getMode())))
                 .apply(instance, factory));
     }
 

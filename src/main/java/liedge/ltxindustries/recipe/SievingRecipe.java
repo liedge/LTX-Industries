@@ -7,7 +7,6 @@ import liedge.limacore.recipe.result.ItemResult;
 import liedge.ltxindustries.registry.game.LTXIRecipeSerializers;
 import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
 import net.minecraft.core.Holder;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import org.jetbrains.annotations.Nullable;
@@ -22,13 +21,13 @@ public final class SievingRecipe extends LTXIRecipe
     }
 
     @Override
-    public RecipeSerializer<? extends Recipe<LTXIRecipeInput>> getSerializer()
+    public RecipeSerializer<SievingRecipe> getSerializer()
     {
         return LTXIRecipeSerializers.SIEVING.get();
     }
 
     @Override
-    public RecipeType<? extends Recipe<LTXIRecipeInput>> getType()
+    public RecipeType<SievingRecipe> getType()
     {
         return LTXIRecipeTypes.SIEVING.get();
     }

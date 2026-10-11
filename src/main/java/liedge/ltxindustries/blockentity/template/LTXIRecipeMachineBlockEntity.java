@@ -67,7 +67,7 @@ public abstract class LTXIRecipeMachineBlockEntity<R extends LTXIRecipe> extends
     @Override
     protected LTXIRecipeInput getRecipeInput(Level level)
     {
-        return new LTXIRecipeInput(getItems(BlockContentsType.INPUT), getFluids(BlockContentsType.INPUT), mode);
+        return new LTXIRecipeInput(getItems(BlockContentsType.INPUT), getFluids(BlockContentsType.INPUT), mode, getBlockPos());
     }
 
     @Override
