@@ -12,7 +12,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.level.storage.loot.LootContext;
-import net.neoforged.neoforge.transfer.item.ItemResource;
 import org.jspecify.annotations.Nullable;
 
 public abstract class ProductionMachineBlockEntity extends LTXIMachineBlockEntity implements FluidHolderBlockEntity
@@ -42,27 +41,6 @@ public abstract class ProductionMachineBlockEntity extends LTXIMachineBlockEntit
     }
 
     //#region Item holder impl
-
-    public LimaBlockEntityItems getInputInventory()
-    {
-        return getItemsOrThrow(BlockContentsType.INPUT);
-    }
-
-    public LimaBlockEntityItems getOutputInventory()
-    {
-        return getItemsOrThrow(BlockContentsType.OUTPUT);
-    }
-
-    @Override
-    public boolean isItemValid(BlockContentsType contentsType, int index, ItemResource resource)
-    {
-        return contentsType == BlockContentsType.INPUT ? isItemValidForInputInventory(index, resource) : super.isItemValid(contentsType, index, resource);
-    }
-
-    protected boolean isItemValidForInputInventory(int index, ItemResource resource)
-    {
-        return true;
-    }
 
     @Override
     public @Nullable LimaBlockEntityItems getItems(BlockContentsType contentsType)

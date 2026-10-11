@@ -60,16 +60,16 @@ public class RepairStationBlockEntity extends ProductionMachineBlockEntity imple
     }
 
     @Override
-    protected boolean isItemValidForInputInventory(int index, ItemResource resource)
-    {
-        return canRepairItem(resource.toStack());
-    }
-
-    @Override
     public void onEnergyChanged(int previousAmount)
     {
         setChanged();
         if (previousAmount < getEnergyUsage() && hasMinimumEnergy()) checkItem = true;
+    }
+
+    @Override
+    public boolean isItemValid(BlockContentsType contentsType, int index, ItemResource resource)
+    {
+        return contentsType == BlockContentsType.INPUT ? canRepairItem(resource.toStack()) : super.isItemValid(contentsType, index, resource);
     }
 
     @Override

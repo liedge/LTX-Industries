@@ -169,7 +169,7 @@ public abstract class BaseFabricatorBlockEntity extends ProductionMachineBlockEn
     // For data watcher use only, called on server
     private ItemResource writePreviewResource()
     {
-        ItemResource resource = getOutputInventory().getResource(0);
+        ItemResource resource = getItemsOrThrow(BlockContentsType.OUTPUT).getResource(0);
 
         if (isCrafting() && level instanceof ServerLevel serverLevel)
         {

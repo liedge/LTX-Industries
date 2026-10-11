@@ -52,7 +52,7 @@ public final class AutoFabricatorCraftingMachine implements ICraftingMachine
         if (patternDetails instanceof AEFabricationPattern fabricationPattern)
         {
             ServerLevel level = LimaCoreObjects.tryCast(ServerLevel.class, blockEntity.getLevel());
-            if (level != null && blockEntity.canInsertRecipeResults(level, fabricationPattern.recipe().value(), new SimpleResourceAccess(blockEntity.getInputInventory(), null)))
+            if (level != null && blockEntity.canInsertRecipeResults(level, fabricationPattern.recipe().value(), new SimpleResourceAccess(blockEntity.getItems(BlockContentsType.INPUT), null)))
             {
                 // If enabled, auto-reconfigure the item IO config
                 if (LTXIMachinesConfig.FABRICATOR_AE2_AUTO_RECONFIGURE_IO.getAsBoolean())

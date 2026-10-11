@@ -1,5 +1,6 @@
 package liedge.ltxindustries.blockentity;
 
+import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.network.sync.SimpleValueTracker;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.ltxindustries.block.LTXIBlockProperties;
@@ -45,7 +46,7 @@ public class DigitalGardenBlockEntity extends LTXIRecipeMachineBlockEntity<Garde
 
     private ItemResource writePreviewResource()
     {
-        ItemResource resource = getOutputInventory().getResource(0);
+        ItemResource resource = getItemsOrThrow(BlockContentsType.OUTPUT).getResource(0);
 
         if (isCrafting() && level instanceof ServerLevel serverLevel)
         {

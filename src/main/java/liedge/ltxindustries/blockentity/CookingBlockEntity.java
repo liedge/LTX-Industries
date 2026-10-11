@@ -1,5 +1,6 @@
 package liedge.ltxindustries.blockentity;
 
+import liedge.limacore.blockentity.BlockContentsType;
 import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.transfer.LimaTransferUtil;
 import liedge.limacore.transfer.item.LimaBlockEntityItems;
@@ -25,7 +26,7 @@ public abstract class CookingBlockEntity<R extends AbstractCookingRecipe> extend
     @Override
     protected SingleRecipeInput getRecipeInput(Level level)
     {
-        LimaBlockEntityItems inputs = getInputInventory();
+        LimaBlockEntityItems inputs = getItemsOrThrow(BlockContentsType.INPUT);
 
         int amount = inputs.getAmountAsInt(0);
         ItemStack current = inputs.getResource(0).toStack(amount);
@@ -44,7 +45,7 @@ public abstract class CookingBlockEntity<R extends AbstractCookingRecipe> extend
     {
         try (Transaction tx = Transaction.openRoot())
         {
-            LimaBlockEntityItems input = getInputInventory();
+            LimaBlockEntityItems input = getItemsOrThrow(BlockContentsType.INPUT);
             ItemResource stored = input.getResource(0);
 
             int extracted = input.extract(0, stored, 1, tx);
@@ -56,7 +57,7 @@ public abstract class CookingBlockEntity<R extends AbstractCookingRecipe> extend
     @Override
     public boolean canInsertRecipeResults(ServerLevel level, R recipe, SingleRecipeInput inputAccess)
     {
-        return LimaTransferUtil.canMergeIntoIndex(getOutputInventory(), 0, recipe.assemble(inputAccess));
+        return LimaTransferUtil.canMergeIntoIndex(getItemsOrThrow(BlockContentsType.OUTPUT), 0, recipe.assemble(inputAccess));
     }
 
     @Override
@@ -66,7 +67,7 @@ public abstract class CookingBlockEntity<R extends AbstractCookingRecipe> extend
 
         try (Transaction tx = Transaction.openRoot())
         {
-            int inserted = getOutputInventory().insert(0, ItemResource.of(result), result.getCount(), tx);
+            int inserted = getItemsOrThrow(BlockContentsType.OUTPUT).insert(0, ItemResource.of(result), result.getCount(), tx);
             if (inserted > 0) tx.commit();
         }
     }
