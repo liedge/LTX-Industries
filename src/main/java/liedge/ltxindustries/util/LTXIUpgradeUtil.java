@@ -6,7 +6,7 @@ import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.transfer.fluid.FluidHolderBlockEntity;
 import liedge.limacore.transfer.fluid.LimaBlockEntityFluids;
 import liedge.limacore.util.LimaCoreObjects;
-import liedge.ltxindustries.entity.damage.UpgradesAwareDamageSource;
+import liedge.ltxindustries.entity.damage.LTXIDamageSource;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
 import liedge.ltxindustries.lib.upgrades.EffectRankPair;
 import liedge.ltxindustries.lib.upgrades.UpgradedEquipmentInUse;
@@ -141,9 +141,9 @@ public final class LTXIUpgradeUtil
     {
         if (source.getEntity() instanceof LivingEntity attacker && attacker.level() instanceof ServerLevel level)
         {
-            if (source instanceof UpgradesAwareDamageSource upgradesAwareSource)
+            if (source instanceof LTXIDamageSource upgradesAwareSource)
             {
-                if (!upgradesAwareSource.canApplyEffects()) return;
+                if (!upgradesAwareSource.canApplyDamageEffects()) return;
 
                 Upgrades upgrades = upgradesAwareSource.getUpgrades();
                 ItemStack stack = Objects.requireNonNullElse(upgradesAwareSource.getWeaponItem(), ItemStack.EMPTY);

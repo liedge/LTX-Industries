@@ -4,17 +4,15 @@ import com.google.common.base.Preconditions;
 import liedge.limacore.blockentity.BlockContentsType;
 import liedge.ltxindustries.blockentity.turret.TurretBlockEntity;
 import liedge.ltxindustries.lib.upgrades.DropsCapture;
-import liedge.ltxindustries.lib.upgrades.Upgrades;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
-public class TurretDamageSource extends UpgradesAwareDamageSource
+public class TurretDamageSource extends LTXIDamageSource
 {
     public static TurretDamageSource create(Level level, ResourceKey<DamageType> damageTypeKey, TurretBlockEntity blockEntity, @Nullable Entity directEntity, @Nullable Entity owner, @Nullable Vec3 location)
     {
@@ -24,22 +22,10 @@ public class TurretDamageSource extends UpgradesAwareDamageSource
 
     private final TurretBlockEntity blockEntity;
 
-    private TurretDamageSource(Holder<DamageType> type, TurretBlockEntity blockEntity, @Nullable Entity directEntity, @Nullable Entity causingEntity, @Nullable Vec3 location)
+    private TurretDamageSource(Holder<DamageType> type, TurretBlockEntity blockEntity, @Nullable Entity directEntity, @Nullable Entity causingEntity, @Nullable Vec3 pos)
     {
-        super(type, directEntity, causingEntity, location);
+        super(type, directEntity, causingEntity, pos, blockEntity.getUpgrades(), null, true);
         this.blockEntity = blockEntity;
-    }
-
-    @Override
-    public @Nullable ItemStack getWeaponItem()
-    {
-        return null;
-    }
-
-    @Override
-    public Upgrades getUpgrades()
-    {
-        return blockEntity.getUpgrades();
     }
 
     @Override

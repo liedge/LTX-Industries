@@ -3,7 +3,6 @@ package liedge.ltxindustries.entity;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.registry.bootstrap.LTXIDamageTypes;
 import liedge.ltxindustries.registry.game.LTXIEntities;
-import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.util.config.LTXIWeaponsConfig;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
@@ -48,7 +47,7 @@ public class DaybreakRocket extends BaseRocketEntity implements IEntityWithCompl
     protected void hurtTarget(ServerLevel level, Entity targetEntity, @Nullable LivingEntity owner, Vec3 hitLocation, boolean isDirectHit)
     {
         double baseDamage = isDirectHit ? LTXIWeaponsConfig.DAYBREAK_BASE_IMPACT_DAMAGE.getAsDouble() : LTXIWeaponsConfig.DAYBREAK_BASE_SPLASH_DAMAGE.getAsDouble();
-        LTXIItems.DAYBREAK.get().causeProjectileDamage(level, targetEntity, this, owner, LTXIDamageTypes.EXPLOSIVE, getWeaponItem(), baseDamage);
+        hurtEntity(level, LTXIDamageTypes.EXPLOSIVE, targetEntity, owner, baseDamage);
     }
 
     @Override

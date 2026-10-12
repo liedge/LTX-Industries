@@ -10,7 +10,6 @@ import liedge.ltxindustries.client.particle.GrenadeExplosionParticleOptions;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
 import liedge.ltxindustries.registry.bootstrap.LTXIDamageTypes;
 import liedge.ltxindustries.registry.game.LTXIEntities;
-import liedge.ltxindustries.registry.game.LTXIItems;
 import liedge.ltxindustries.registry.game.LTXIParticles;
 import liedge.ltxindustries.registry.game.LTXISounds;
 import net.minecraft.core.Holder;
@@ -178,7 +177,7 @@ public class ShellGrenade extends LTXIProjectileEntity implements IEntityWithCom
 
             // Deal damage to entities
             final double baseDamage = getBaseDamage() * getDamageMultiplier(hitEntity);
-            LTXIItems.HANABI.get().causeProjectileDamage(level, hitEntity, this, owner, getDamageType(), getWeaponItem(),  baseDamage);
+            hurtEntity(level, getDamageType(), hitEntity, owner, baseDamage);
 
             // Spawn any additional particle effects on hit entities (if applicable)
             spawnHitEntityParticles(level, hitLocation, hitEntity);

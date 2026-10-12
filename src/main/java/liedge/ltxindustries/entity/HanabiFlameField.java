@@ -2,7 +2,6 @@ package liedge.ltxindustries.entity;
 
 import liedge.ltxindustries.registry.bootstrap.LTXIDamageTypes;
 import liedge.ltxindustries.registry.game.LTXIEntities;
-import liedge.ltxindustries.registry.game.LTXIItems;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -44,7 +43,7 @@ public class HanabiFlameField extends UpgradesAwareEntity
             LivingEntity owner = getOwner();
             getEntities(level, getBoundingBox(), owner, null).forEach(hit ->
             {
-                if (LTXIItems.HANABI.get().causeProjectileDamage(level, hit, this, owner, LTXIDamageTypes.FLAME, getWeaponItem(), 4d))
+                if (hurtEntity(level, LTXIDamageTypes.FLAME, hit, owner, 4d))
                 {
                     hit.setRemainingFireTicks(400);
                 }

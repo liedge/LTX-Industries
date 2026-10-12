@@ -3,7 +3,7 @@ package liedge.ltxindustries;
 import liedge.limacore.event.DamageAttributeModifiersEvent;
 import liedge.limacore.util.LimaLootUtil;
 import liedge.ltxindustries.entity.LTXIEntityUtil;
-import liedge.ltxindustries.entity.damage.UpgradesAwareDamageSource;
+import liedge.ltxindustries.entity.damage.LTXIDamageSource;
 import liedge.ltxindustries.item.UpgradableEquipmentItem;
 import liedge.ltxindustries.lib.shield.EntityBubbleShield;
 import liedge.ltxindustries.lib.upgrades.DropsCapture;
@@ -242,7 +242,7 @@ public final class LTXIEventHandler
         DropsCapture dropsCapture = null;
 
         // First attempt to get from upgradable damage source. Most likely case
-        if (damageSource instanceof UpgradesAwareDamageSource upgradableSource)
+        if (damageSource instanceof LTXIDamageSource upgradableSource)
         {
             dropsCapture = upgradableSource.getDropsCapture();
         }

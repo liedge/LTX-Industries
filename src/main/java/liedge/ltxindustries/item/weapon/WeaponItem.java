@@ -13,7 +13,7 @@ import liedge.ltxindustries.data.LTXIReloadListeners;
 import liedge.ltxindustries.data.LightColors;
 import liedge.ltxindustries.entity.CompoundHitResult;
 import liedge.ltxindustries.entity.DynamicClipContext;
-import liedge.ltxindustries.entity.damage.EquipmentDamageSource;
+import liedge.ltxindustries.entity.damage.LTXIDamageSource;
 import liedge.ltxindustries.item.EnergyEquipmentItem;
 import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
@@ -30,12 +30,11 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -46,7 +45,6 @@ import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.phys.Vec3;
-import org.jspecify.annotations.Nullable;
 
 import java.util.Comparator;
 
@@ -195,37 +193,15 @@ public abstract class WeaponItem extends EnergyEquipmentItem
         super.onUpgradeRefresh(context, stack, upgrades);
     }
 
-    private boolean hurtEntity(ServerLevel level, Entity target, EquipmentDamageSource damageSource, double baseDamage)
-    {
-        // Create the loot context and get the upgrades
-        LootContext context = LimaLootUtil.entityLootContext(level, target, damageSource);
-        ItemStack weaponItem = damageSource.getWeaponItem();
-        Upgrades upgrades = getUpgrades(weaponItem);
-
-        // Get upgraded damage, then apply global damage modifiers
-        double damage = LTXIReloadListeners.equipmentDamageModifiers().apply(weaponItem, context, baseDamage, getUpgradedDamage(upgrades, context, baseDamage));
-
-        // Only hurt if we have non-negligible damage
-        return damage >= 1e-4 && target.hurtServer(level, damageSource, (float) damage);
-    }
-
     protected void causeLightfragDamage(ServerLevel level, Entity target, LivingEntity attacker, ItemStack heldItem, double baseDamage)
     {
-        EquipmentDamageSource source = EquipmentDamageSource.directDamage(LTXIDamageTypes.LIGHTFRAG, attacker, heldItem);
-        hurtEntity(level, target, source, baseDamage);
-    }
+        Upgrades upgrades = getUpgrades(heldItem);
+        DamageSource source = new LTXIDamageSource(attacker.registryAccess().holderOrThrow(LTXIDamageTypes.LIGHTFRAG), attacker, attacker, upgrades, heldItem, true);
+        LootContext context = LimaLootUtil.entityLootContext(level, target, source);
 
-    public boolean causeProjectileDamage(ServerLevel level, Entity target, Entity projectile, @Nullable LivingEntity attacker, ResourceKey<DamageType> damageType, ItemStack weaponItem, double baseDamage)
-    {
-        EquipmentDamageSource source = EquipmentDamageSource.projectileDamage(damageType, projectile, attacker, weaponItem);
-        if (attacker != null)
-        {
-            return hurtEntity(level, target, source, baseDamage);
-        }
-        else
-        {
-            return target.hurtServer(level, source, (float) baseDamage);
-        }
+        double damage = LTXIReloadListeners.equipmentDamageModifiers().apply(heldItem, context, baseDamage, getUpgradedDamage(upgrades, context, baseDamage));
+
+        if (damage >= 1e-4) target.hurtServer(level, source, (float) damage);
     }
 
     protected void traceLightfrag(ServerLevel level, Player player, ItemStack stack, double baseDamage, double inaccuracy, double bbExpansion)

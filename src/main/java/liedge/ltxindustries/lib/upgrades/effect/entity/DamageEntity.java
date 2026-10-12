@@ -2,7 +2,7 @@ package liedge.ltxindustries.lib.upgrades.effect.entity;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import liedge.ltxindustries.entity.damage.EffectDamageSource;
+import liedge.ltxindustries.entity.damage.LTXIDamageSource;
 import liedge.ltxindustries.lib.upgrades.UpgradedEquipmentInUse;
 import liedge.ltxindustries.lib.upgrades.value.UpgradeValueProvider;
 import net.minecraft.core.Holder;
@@ -12,6 +12,9 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.Validatable;
+import net.minecraft.world.level.storage.loot.ValidationContext;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 
 import java.util.Set;
 
@@ -32,7 +35,8 @@ public record DamageEntity(Holder<DamageType> damageType, UpgradeValueProvider a
     {
         if (equipmentInUse.canAttack(affectedEntity))
         {
-            DamageSource source = new EffectDamageSource(damageType, equipmentInUse.owner(), equipmentInUse.upgrades());
+            Entity directEntity = context.getOptionalParameter(LootContextParams.DIRECT_ATTACKING_ENTITY);
+            DamageSource source = new LTXIDamageSource(damageType, directEntity, equipmentInUse.owner(), equipmentInUse.upgrades(), equipmentInUse.stack(), false);
             float damage = (float) amount.get(context, upgradeRank);
             affectedEntity.hurtServer(level, source, damage);
         }
@@ -47,6 +51,13 @@ public record DamageEntity(Holder<DamageType> damageType, UpgradeValueProvider a
     @Override
     public Set<ContextKey<?>> getReferencedContextParams()
     {
-        return amount.getReferencedContextParams();
+        return Set.of(LootContextParams.DIRECT_ATTACKING_ENTITY);
+    }
+
+    @Override
+    public void validate(ValidationContext context)
+    {
+        EntityUpgradeEffect.super.validate(context);
+        Validatable.validate(context, "amount", amount);
     }
 }
