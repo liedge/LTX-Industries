@@ -12,4 +12,17 @@ public record LTXIRecipeInput(@Nullable ResourceHandler<ItemResource> items,
                               @Nullable ResourceHandler<FluidResource> fluids,
                               @Nullable Holder<RecipeMode> mode,
                               BlockPos pos) implements RecipeInputAccess
-{ }
+{
+    @Override
+    public boolean isEmpty()
+    {
+        if (items == null && fluids == null)
+        {
+            return false;
+        }
+        else
+        {
+            return RecipeInputAccess.super.isEmpty();
+        }
+    }
+}
