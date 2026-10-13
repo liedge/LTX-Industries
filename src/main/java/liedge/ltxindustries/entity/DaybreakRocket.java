@@ -1,5 +1,6 @@
 package liedge.ltxindustries.entity;
 
+import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.registry.bootstrap.LTXIDamageTypes;
 import liedge.ltxindustries.registry.game.LTXIEntities;
 import liedge.ltxindustries.registry.game.LTXIItems;
@@ -11,6 +12,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 import org.jetbrains.annotations.Nullable;
@@ -58,5 +61,19 @@ public class DaybreakRocket extends BaseRocketEntity implements IEntityWithCompl
     public void readSpawnData(RegistryFriendlyByteBuf net)
     {
         this.color = net.readVarInt();
+    }
+
+    @Override
+    protected void readAdditionalSaveData(ValueInput input)
+    {
+        super.readAdditionalSaveData(input);
+        this.color = input.getIntOr(LTXIConstants.KEY_COLOR, -1);
+    }
+
+    @Override
+    protected void addAdditionalSaveData(ValueOutput output)
+    {
+        super.addAdditionalSaveData(output);
+        output.putInt(LTXIConstants.KEY_COLOR, this.color);
     }
 }
