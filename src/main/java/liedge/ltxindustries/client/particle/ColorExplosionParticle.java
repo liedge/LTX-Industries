@@ -1,7 +1,6 @@
 package liedge.ltxindustries.client.particle;
 
 import liedge.limacore.client.particle.ColorParticleOptions;
-import liedge.limacore.client.particle.ColorSizeParticleOptions;
 import liedge.limacore.client.util.LimaCoreClientUtil;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.registry.game.LTXIParticles;
@@ -90,20 +89,6 @@ public final class ColorExplosionParticle extends SingleQuadParticle
         }
     }
 
-    private static class SonicBoomEmitter extends BaseEmitter
-    {
-        private SonicBoomEmitter(ClientLevel level, double x, double y, double z, int color, float radius)
-        {
-            super(level, x, y, z, color, radius, 6, 4);
-        }
-
-        @Override
-        void spawnParticle(double x, double y, double z, int color)
-        {
-            level.addAlwaysVisibleParticle(ColorParticleOptions.of(LTXIParticles.COLOR_HALF_SONIC_BOOM, color), x, y, z, 0, 0, 0);
-        }
-    }
-
     private static class GloomBurstEmitter extends BaseEmitter
     {
         private GloomBurstEmitter(ClientLevel level, double x, double y, double z)
@@ -114,7 +99,7 @@ public final class ColorExplosionParticle extends SingleQuadParticle
         @Override
         void spawnParticle(double x, double y, double z, int color)
         {
-            level.addAlwaysVisibleParticle(LTXIParticles.GLOOM_BURST.get(), x, y, z, 0, 0, 0);
+            level.addParticle(LTXIParticles.GLOOM_BURST.get(), true, false, x, y, z, 0, 0, 0);
         }
     }
 
@@ -141,15 +126,6 @@ public final class ColorExplosionParticle extends SingleQuadParticle
             particle.setLifetime(fullDuration ? 16 : 4 + random.nextInt(3));
 
             return particle;
-        }
-    }
-
-    public static final class SonicBoomEmitterProvider implements ParticleProvider<ColorSizeParticleOptions>
-    {
-        @Override
-        public Particle createParticle(ColorSizeParticleOptions options, ClientLevel level, double x, double y, double z, double xAux, double yAux, double zAux, RandomSource random)
-        {
-            return new SonicBoomEmitter(level, x, y, z, options.color(), options.size());
         }
     }
 

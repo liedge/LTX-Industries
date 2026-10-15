@@ -44,6 +44,6 @@ public class FrostbiteMobEffect extends MobEffect
     @Override
     public ParticleOptions createParticleOptions(MobEffectInstance effect)
     {
-        return LTXIParticles.CRYO_SNOWFLAKE.get();
+        return LTXIParticles.FREEZING_SNOWFLAKE.get();
     }
 }

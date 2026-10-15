@@ -1,7 +1,9 @@
 package liedge.ltxindustries.item.tool;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import liedge.limacore.client.particle.ColorParticleOptions;
 import liedge.limacore.util.LimaNetworkUtil;
+import liedge.ltxindustries.data.LightColors;
 import liedge.ltxindustries.item.ScrollModeSwitchItem;
 import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.lib.upgrades.effect.ModularTool;
@@ -13,6 +15,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
@@ -203,6 +206,7 @@ public abstract class ModularEnergyMiningItem extends BaseEnergyMiningItem imple
         List<ItemEntity> drops = new ObjectArrayList<>();
         Vec3 dropsPos = Vec3.atCenterOf(origin);
 
+        ParticleOptions particle = ColorParticleOptions.of(LTXIParticles.COLOR_SPARK, getLightColor(tool, LightColors.Channel.ENERGY));
         for (BlockPos pos : positions)
         {
             BlockState state = level.getBlockState(pos);
@@ -218,7 +222,7 @@ public abstract class ModularEnergyMiningItem extends BaseEnergyMiningItem imple
             // Send particles
             Vec3 particlePos = Vec3.atCenterOf(pos);
             Vec3 particleDelta = dropsPos.subtract(particlePos).scale(0.1f);
-            LimaNetworkUtil.sendParticle(level, LTXIParticles.MINI_ELECTRIC_SPARK, LimaNetworkUtil.NORMAL_PARTICLE_DIST, particlePos, particleDelta);
+            LimaNetworkUtil.sendParticle(level, particle, LimaNetworkUtil.NORMAL_PARTICLE_DIST, particlePos, particleDelta);
         }
 
         BlockEntity originBE = originState.hasBlockEntity() ? level.getBlockEntity(origin) : null;

@@ -1,5 +1,6 @@
 package liedge.ltxindustries.entity;
 
+import liedge.limacore.client.particle.ColorParticleOptions;
 import liedge.limacore.client.particle.ColorSizeParticleOptions;
 import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.util.LimaNetworkUtil;
@@ -41,7 +42,7 @@ public abstract class BaseRocketEntity extends HomingProjectileEntity
         level.playSound(null, hitLocation.x, hitLocation.y, hitLocation.z, LTXISounds.ROCKET_EXPLODE.get(), SoundSource.PLAYERS, 4f, 0.9f);
 
         LimaNetworkUtil.sendParticle(level, ColorSizeParticleOptions.of(LTXIParticles.COLOR_FLASH, getColor(), (float) BLAST_RADIUS * 2f), LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, hitLocation);
-        LimaNetworkUtil.sendParticle(level, ColorSizeParticleOptions.of(LTXIParticles.HALF_SONIC_BOOM_EMITTER, getColor(), (float) BLAST_RADIUS), LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, hitLocation);
+        LimaNetworkUtil.sendParticle(level, ColorParticleOptions.of(LTXIParticles.ROCKET_BURST, getColor()), LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, hitLocation, getDeltaMovement().normalize());
 
         return CollisionResult.DESTROY;
     }

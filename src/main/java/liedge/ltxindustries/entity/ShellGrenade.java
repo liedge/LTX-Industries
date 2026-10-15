@@ -6,7 +6,7 @@ import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.util.LimaBlockUtil;
 import liedge.limacore.util.LimaNetworkUtil;
 import liedge.ltxindustries.LTXITags;
-import liedge.ltxindustries.client.particle.GrenadeExplosionParticleOptions;
+import liedge.ltxindustries.client.particle.HanabiParticleOptions;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
 import liedge.ltxindustries.registry.bootstrap.LTXIDamageTypes;
 import liedge.ltxindustries.registry.game.LTXIEntities;
@@ -194,7 +194,7 @@ public class ShellGrenade extends LTXIProjectileEntity implements IEntityWithCom
         };
         level.playSound(null, hitLocation.x, hitLocation.y, hitLocation.z, sound, SoundSource.PLAYERS, 3f, Mth.randomBetween(random, 0.775f, 0.95f));
 
-        LimaNetworkUtil.sendParticle(level, new GrenadeExplosionParticleOptions(grenadeType, blastRadius * 2d), LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, hitLocation);
+        LimaNetworkUtil.sendParticle(level, new HanabiParticleOptions(grenadeType, grenadeType.getColor(), (float) blastRadius * 2f), LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, hitLocation);
 
         return CollisionResult.DESTROY;
     }

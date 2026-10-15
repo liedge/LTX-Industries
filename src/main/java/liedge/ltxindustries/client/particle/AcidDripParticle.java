@@ -4,10 +4,7 @@ import liedge.limacore.client.util.LimaCoreClientUtil;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.registry.game.LTXIParticles;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.particle.SingleQuadParticle;
-import net.minecraft.client.particle.SpriteSet;
+import net.minecraft.client.particle.*;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.RandomSource;
@@ -51,6 +48,7 @@ public class AcidDripParticle extends SingleQuadParticle
             return;
         }
 
+        yd -= 0.0625d;
         move(xd, yd, zd);
 
         if (createParticleOnLand && onGround)
@@ -60,9 +58,10 @@ public class AcidDripParticle extends SingleQuadParticle
             return;
         }
 
-        xd *= 0.75d;
-        yd = Math.max(-3d, yd - 0.0625d);
-        zd *= 0.75d;
+        xd *= 0.775d;
+        double ym = yd > 0 ? 0.925d : 0.98d;
+        yd *= ym;
+        zd *= 0.775d;
     }
 
     public static final class Provider implements ParticleProvider<SimpleParticleType>
