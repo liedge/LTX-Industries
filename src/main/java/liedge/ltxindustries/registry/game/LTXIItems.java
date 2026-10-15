@@ -17,6 +17,7 @@ import liedge.ltxindustries.item.*;
 import liedge.ltxindustries.item.tool.*;
 import liedge.ltxindustries.item.weapon.*;
 import liedge.ltxindustries.lib.BuiltInOres;
+import liedge.ltxindustries.lib.weapons.GrenadeType;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
@@ -352,8 +353,9 @@ public final class LTXIItems
     public static final DeferredItem<HanabiItem> HANABI = registerLTXGear(LTXIIdentifiers.ID_HANABI, HanabiItem::new, properties -> properties
             .component(LimaCoreDataComponents.ENERGY_CAPACITY, 20_000_000)
             .component(LimaCoreDataComponents.ENERGY_USAGE, 10_000_000)
-            .component(LTXIDataComponents.LIGHT_COLORS, LightColors.DEFAULT_WEAPON_COLORS.clearColor(LightColors.Channel.ENERGY))
-            .component(LTXIDataComponents.LIGHT_CHANNELS, LightChannels.of(LightColors.Channel.PRIMARY)));
+            .component(LTXIDataComponents.LIGHT_COLORS, LightColors.DEFAULT_WEAPON_COLORS)
+            .component(LTXIDataComponents.LIGHT_CHANNELS, LightChannels.DEFAULT_WEAPON_CHANNELS)
+            .component(LTXIDataComponents.GRENADE_TYPE, GrenadeType.SPARKLER));
     public static final DeferredItem<StargazerItem> STARGAZER = registerLTXGear(LTXIIdentifiers.ID_STARGAZER, StargazerItem::new, properties -> properties
             .component(LimaCoreDataComponents.ENERGY_CAPACITY, 2_500_000)
             .component(LimaCoreDataComponents.ENERGY_USAGE, 500_000)

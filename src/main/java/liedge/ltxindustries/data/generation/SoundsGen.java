@@ -38,7 +38,7 @@ class SoundsGen extends LimaSoundDefinitionsProvider
         addSingleDirectSound(NOVA_FIRE);
 
         addSingleEventSound(ROCKET_EXPLODE, GENERIC_EXPLODE);
-        addSingleEventSound(EXPLOSIVE_SHELL_IMPACT, GENERIC_EXPLODE);
+        addSingleEventSound(SPARKLER_SHELL_IMPACT, GENERIC_EXPLODE);
         addSingleDirectSound(FLAME_SHELL_IMPACT);
         addSingleDirectSound(CRYO_SHELL_IMPACT);
         addSingleDirectSound(ELECTRIC_SHELL_IMPACT);

@@ -569,7 +569,7 @@ class LanguageGen extends LimaLanguageProvider
         soundEvent(DAYBREAK_FIRE, "Daybreak fires");
         soundEvent(NOVA_FIRE, "Nova fires");
         soundEvent(ROCKET_EXPLODE, "Rocket explodes");
-        soundEvent(EXPLOSIVE_SHELL_IMPACT, "Explosive shell impact");
+        soundEvent(SPARKLER_SHELL_IMPACT, "Sparkler shell impact");
         soundEvent(FLAME_SHELL_IMPACT, "Flame shell impact");
         soundEvent(CRYO_SHELL_IMPACT, "Cryo shell impact");
         soundEvent(ELECTRIC_SHELL_IMPACT, "Electric shell impact");

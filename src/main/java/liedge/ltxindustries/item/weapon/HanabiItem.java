@@ -36,7 +36,7 @@ public class HanabiItem extends SemiAutoWeaponItem implements ScrollModeSwitchIt
 
     public static GrenadeType getGrenadeTypeFromItem(ItemStack stack)
     {
-        return stack.getOrDefault(GRENADE_TYPE, GrenadeType.EXPLOSIVE);
+        return stack.getOrDefault(GRENADE_TYPE, GrenadeType.SPARKLER);
     }
 
     public HanabiItem(Properties properties)
@@ -49,17 +49,10 @@ public class HanabiItem extends SemiAutoWeaponItem implements ScrollModeSwitchIt
         stack.set(GRENADE_TYPE, grenadeType);
     }
 
-    /**
-     * Creates a stack meant for use in upgrade icons or creative tabs.
-     * @param grenadeType The grenade type equipped
-     * @return The item stack
-     */
-    public ItemStack createDecorativeStack(GrenadeType grenadeType)
+    public ItemStack creativeTabStack()
     {
         ItemStack stack = new ItemStack(this);
         setAmmoLoadedMax(stack);
-        setGrenadeType(stack, grenadeType);
-
         return stack;
     }
 
@@ -69,7 +62,7 @@ public class HanabiItem extends SemiAutoWeaponItem implements ScrollModeSwitchIt
         super.onUpgradeRefresh(context, stack, upgrades);
         GrenadeType currentlyEquipped = getGrenadeTypeFromItem(stack);
         boolean shouldReset = upgrades.listEffectStream(LTXIUpgradeEffectComponents.GRENADE_UNLOCK).noneMatch(currentlyEquipped::equals);
-        if (shouldReset) setGrenadeType(stack, GrenadeType.EXPLOSIVE);
+        if (shouldReset) setGrenadeType(stack, GrenadeType.SPARKLER);
     }
 
     @Override
@@ -97,7 +90,7 @@ public class HanabiItem extends SemiAutoWeaponItem implements ScrollModeSwitchIt
     public void switchItemMode(Player player, ItemStack stack, boolean forward)
     {
         Upgrades upgrades = getUpgrades(stack);
-        Set<GrenadeType> availableTypes = EnumSet.of(GrenadeType.EXPLOSIVE);
+        Set<GrenadeType> availableTypes = EnumSet.of(GrenadeType.SPARKLER);
         upgrades.forEachEffect(LTXIUpgradeEffectComponents.GRENADE_UNLOCK, (effect, _) -> availableTypes.add(effect));
 
         GrenadeType currentType = HanabiItem.getGrenadeTypeFromItem(stack);
@@ -112,16 +105,15 @@ public class HanabiItem extends SemiAutoWeaponItem implements ScrollModeSwitchIt
     }
 
     @Override
-    public int getDynamicLightColor(ItemStack stack, LightColors.Channel channel)
+    public int getLightColor(ItemStack stack, LightColors.Channel channel)
     {
         if (channel == LightColors.Channel.ENERGY)
         {
-            return getGrenadeTypeFromItem(stack).getColor();
+            GrenadeType element = getGrenadeTypeFromItem(stack);
+            if (element != GrenadeType.SPARKLER) return element.getColor();
         }
-        else
-        {
-            return -1;
-        }
+
+        return super.getLightColor(stack, channel);
     }
 
     @Override

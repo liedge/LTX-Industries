@@ -3,7 +3,6 @@ package liedge.ltxindustries.registry.game;
 import liedge.limacore.item.LimaCreativeTabFillerItem;
 import liedge.limacore.util.LimaItemUtil;
 import liedge.ltxindustries.LTXIndustries;
-import liedge.ltxindustries.lib.weapons.GrenadeType;
 import liedge.ltxindustries.registry.bootstrap.LTXIEnchantments;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
@@ -31,7 +30,7 @@ public final class LTXICreativeTabs
     }
 
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MAIN_TAB = TABS.register("main", id -> LimaItemUtil.tabBuilderWithTitle(id)
-            .icon(() -> LTXIItems.HANABI.get().createDecorativeStack(GrenadeType.ELECTRIC))
+            .icon(() -> LTXIItems.HANABI.get().creativeTabStack())
             .displayItems((parameters, output) -> buildMainTab(id, parameters, output))
             .build());
 

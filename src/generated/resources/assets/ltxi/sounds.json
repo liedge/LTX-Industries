@@ -35,15 +35,6 @@
     ],
     "subtitle": "subtitle.ltxi.equipment_mode_switch"
   },
-  "explosive_shell_impact": {
-    "sounds": [
-      {
-        "type": "event",
-        "name": "entity.generic.explode"
-      }
-    ],
-    "subtitle": "subtitle.ltxi.explosive_shell_impact"
-  },
   "flame_shell_impact": {
     "sounds": [
       "ltxi:flame_shell_impact"
@@ -118,6 +109,15 @@
       "ltxi:shield_break"
     ],
     "subtitle": "subtitle.ltxi.shield_break"
+  },
+  "sparkler_shell_impact": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.generic.explode"
+      }
+    ],
+    "subtitle": "subtitle.ltxi.sparkler_shell_impact"
   },
   "stargazer_charge": {
     "sounds": [

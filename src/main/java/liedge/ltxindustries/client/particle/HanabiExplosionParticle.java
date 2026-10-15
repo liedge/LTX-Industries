@@ -36,9 +36,9 @@ public class HanabiExplosionParticle extends NoRenderParticle
 
         switch (element)
         {
-            case EXPLOSIVE -> particleBall(ColorParticleOptions.of(LTXIParticles.COLOR_TWINKLE_SPARK, color), 0.775d, 3);
+            case SPARKLER -> particleBall(ColorParticleOptions.of(LTXIParticles.COLOR_TWINKLE_SPARK, color), 0.825d, 3);
             case CRYO -> cryoSnowflakeExplosion();
-            case ELECTRIC -> particleBall(ColorParticleOptions.of(LTXIParticles.COLOR_TWINKLE_SPARK, color), 0.5d, 1);
+            case ELECTRIC -> particleBall(ColorParticleOptions.of(LTXIParticles.COLOR_TWINKLE_SPARK, color), 0.825d, 2);
             case ACID -> particleBall(LTXIParticles.ACID_FALL.get(), 0.755d, 3);
             case GLOOM_GAS -> level.addAlwaysVisibleParticle(LTXIParticles.GLOOM_BURST_EMITTER.get(), true, x, y, z, 0, 0, 0);
         }

@@ -35,7 +35,7 @@ public final class LTXISounds
     public static final DeferredHolder<SoundEvent, SoundEvent> NOVA_FIRE = registerSound("nova_fire");
     
     public static final DeferredHolder<SoundEvent, SoundEvent> ROCKET_EXPLODE = registerSound("rocket_explode");
-    public static final DeferredHolder<SoundEvent, SoundEvent> EXPLOSIVE_SHELL_IMPACT = registerSound("explosive_shell_impact");
+    public static final DeferredHolder<SoundEvent, SoundEvent> SPARKLER_SHELL_IMPACT = registerSound("sparkler_shell_impact");
     public static final DeferredHolder<SoundEvent, SoundEvent> FLAME_SHELL_IMPACT = registerSound("flame_shell_impact");
     public static final DeferredHolder<SoundEvent, SoundEvent> CRYO_SHELL_IMPACT = registerSound("cryo_shell_impact");
     public static final DeferredHolder<SoundEvent, SoundEvent> ELECTRIC_SHELL_IMPACT = registerSound("electric_shell_impact");

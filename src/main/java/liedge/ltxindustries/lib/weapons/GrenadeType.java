@@ -21,7 +21,7 @@ import static liedge.ltxindustries.LTXIConstants.*;
 
 public enum GrenadeType implements StringRepresentable, Translatable, OrderedEnum<GrenadeType>, UpgradeTooltipsProvider
 {
-    EXPLOSIVE("explosive", EXPLOSIVE_GRAY),
+    SPARKLER("sparkler", LIME_GREEN),
     FLAME("flame", FLAME_ORANGE),
     CRYO("cryo", CRYO_LIGHT_BLUE),
     ELECTRIC("electric", ELECTRIC_GREEN),

@@ -38,6 +38,11 @@ public interface UpgradableEquipmentItem extends ItemLike, EnergyHolderItem
         return getter.getOrDefault(LTXIDataComponents.UPGRADES, Upgrades.EMPTY);
     }
 
+    static int getLightColorFrom(ItemStack stack, LightColors.Channel channel)
+    {
+        return stack.getItem() instanceof UpgradableEquipmentItem item ? item.getLightColor(stack, channel) : -1;
+    }
+
     default @Nullable EquipmentSlot getEquipmentSlot()
     {
         return null;
@@ -52,14 +57,7 @@ public interface UpgradableEquipmentItem extends ItemLike, EnergyHolderItem
     default int getLightColor(ItemStack stack, LightColors.Channel channel)
     {
         LightColors colors = stack.getOrDefault(LTXIDataComponents.LIGHT_COLORS, LightColors.EMPTY);
-        Integer color = colors.get(channel);
-
-        return color != null ? color : getDynamicLightColor(stack, channel);
-    }
-
-    default int getDynamicLightColor(ItemStack stack, LightColors.Channel channel)
-    {
-        return -1;
+        return colors.getOrDefault(channel, -1);
     }
 
     //#region Energy functions

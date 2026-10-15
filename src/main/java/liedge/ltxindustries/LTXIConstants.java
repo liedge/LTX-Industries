@@ -25,7 +25,6 @@ public final class LTXIConstants
     public static final int CREATIVE_PINK = ARGB.opaque(0xff00ff);
 
     // Elemental colors
-    public static final int EXPLOSIVE_GRAY = ARGB.opaque(0x8b8b8b);
     public static final int FLAME_ORANGE = ARGB.opaque(0xff8c19);
     public static final int CRYO_LIGHT_BLUE = ARGB.opaque(0xc0f6fc);
     public static final int ELECTRIC_GREEN = ARGB.opaque(0xdeff70);

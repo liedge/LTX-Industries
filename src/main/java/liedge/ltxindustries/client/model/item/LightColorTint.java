@@ -16,12 +16,7 @@ public record LightColorTint(LightColors.Channel channel) implements ItemTintSou
     @Override
     public int calculate(ItemStack stack, @Nullable ClientLevel level, @Nullable LivingEntity owner)
     {
-        if (stack.getItem() instanceof UpgradableEquipmentItem item)
-        {
-            return item.getLightColor(stack, channel);
-        }
-
-        return -1;
+        return UpgradableEquipmentItem.getLightColorFrom(stack, channel);
     }
 
     @Override

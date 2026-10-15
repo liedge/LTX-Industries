@@ -5,8 +5,11 @@ import liedge.limacore.client.particle.ColorSizeParticleOptions;
 import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.util.LimaBlockUtil;
 import liedge.limacore.util.LimaNetworkUtil;
+import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.client.particle.HanabiParticleOptions;
+import liedge.ltxindustries.data.LightColors;
+import liedge.ltxindustries.item.UpgradableEquipmentItem;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
 import liedge.ltxindustries.registry.bootstrap.LTXIDamageTypes;
 import liedge.ltxindustries.registry.game.LTXIEntities;
@@ -42,18 +45,20 @@ import static liedge.ltxindustries.util.config.LTXIWeaponsConfig.*;
 
 public class ShellGrenade extends LTXIProjectileEntity implements IEntityWithComplexSpawn
 {
-    private GrenadeType grenadeType = GrenadeType.EXPLOSIVE;
+    private GrenadeType grenadeType = GrenadeType.SPARKLER;
+    private int color = -1;
 
     public ShellGrenade(EntityType<?> type, Level level)
     {
         super(type, level);
     }
 
-    public ShellGrenade(Level level, GrenadeType grenadeType, ItemStack launcherItem)
+    public ShellGrenade(Level level, GrenadeType grenadeType, ItemStack weaponItem)
     {
         this(LTXIEntities.SHELL_GRENADE.get(), level);
         this.grenadeType = grenadeType;
-        setWeaponItem(launcherItem.copy());
+        this.color = UpgradableEquipmentItem.getLightColorFrom(weaponItem, LightColors.Channel.ENERGY);
+        setWeaponItem(weaponItem.copy());
     }
 
     public GrenadeType getGrenadeType()
@@ -61,16 +66,16 @@ public class ShellGrenade extends LTXIProjectileEntity implements IEntityWithCom
         return grenadeType;
     }
 
-    private void setGrenadeType(GrenadeType grenadeType)
+    public int getColor()
     {
-        this.grenadeType = grenadeType;
+        return color;
     }
 
     private double getBlastRadius()
     {
         return switch (getGrenadeType())
         {
-            case EXPLOSIVE -> 5d;
+            case SPARKLER -> 5d;
             case FLAME -> 3.5d;
             case CRYO -> 6d;
             case ELECTRIC -> checkGrenadeInRainOrWater() ? 10d : 5d;
@@ -83,7 +88,7 @@ public class ShellGrenade extends LTXIProjectileEntity implements IEntityWithCom
     {
         return switch (getGrenadeType())
         {
-            case EXPLOSIVE -> LTXIDamageTypes.EXPLOSIVE;
+            case SPARKLER -> LTXIDamageTypes.EXPLOSIVE;
             case FLAME -> LTXIDamageTypes.FLAME;
             case CRYO -> LTXIDamageTypes.CRYO;
             case ELECTRIC -> LTXIDamageTypes.ELECTRIC;
@@ -113,7 +118,7 @@ public class ShellGrenade extends LTXIProjectileEntity implements IEntityWithCom
     {
         ModConfigSpec.DoubleValue configValue = switch (grenadeType)
         {
-            case EXPLOSIVE -> EXPLOSIVE_SHELL_BASE_DAMAGE;
+            case SPARKLER -> SPARKLER_SHELL_BASE_DAMAGE;
             case FLAME -> FLAME_SHELL_BASE_DAMAGE;
             case CRYO -> CRYO_SHELL_BASE_DAMAGE;
             case ELECTRIC -> ELECTRIC_SHELL_BASE_DAMAGE;
@@ -142,7 +147,7 @@ public class ShellGrenade extends LTXIProjectileEntity implements IEntityWithCom
         // Add electric bolt particles between impact and targets if electric
         if (grenadeType == GrenadeType.ELECTRIC)
         {
-            LimaNetworkUtil.sendParticle(level, ColorParticleOptions.of(LTXIParticles.ENERGY_BOLT, grenadeType.getColor()), LimaNetworkUtil.NORMAL_PARTICLE_DIST, hitLocation, hitEntity.getEyePosition());
+            LimaNetworkUtil.sendParticle(level, ColorParticleOptions.of(LTXIParticles.ENERGY_BOLT, color), LimaNetworkUtil.NORMAL_PARTICLE_DIST, hitLocation, hitEntity.getEyePosition());
         }
     }
 
@@ -185,7 +190,7 @@ public class ShellGrenade extends LTXIProjectileEntity implements IEntityWithCom
 
         Holder<SoundEvent> sound = switch (grenadeType)
         {
-            case EXPLOSIVE -> LTXISounds.EXPLOSIVE_SHELL_IMPACT;
+            case SPARKLER -> LTXISounds.SPARKLER_SHELL_IMPACT;
             case FLAME -> LTXISounds.FLAME_SHELL_IMPACT;
             case CRYO -> LTXISounds.CRYO_SHELL_IMPACT;
             case ELECTRIC -> LTXISounds.ELECTRIC_SHELL_IMPACT;
@@ -194,7 +199,7 @@ public class ShellGrenade extends LTXIProjectileEntity implements IEntityWithCom
         };
         level.playSound(null, hitLocation.x, hitLocation.y, hitLocation.z, sound, SoundSource.PLAYERS, 3f, Mth.randomBetween(random, 0.775f, 0.95f));
 
-        LimaNetworkUtil.sendParticle(level, new HanabiParticleOptions(grenadeType, grenadeType.getColor(), (float) blastRadius * 2f), LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, hitLocation);
+        LimaNetworkUtil.sendParticle(level, new HanabiParticleOptions(grenadeType, color, (float) blastRadius * 2f), LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, hitLocation);
 
         return CollisionResult.DESTROY;
     }
@@ -206,14 +211,15 @@ public class ShellGrenade extends LTXIProjectileEntity implements IEntityWithCom
         double px = getX() + p.x();
         double py = getY(0.5d) + p.y();
         double pz = getZ() + p.z();
-        level.addAlwaysVisibleParticle(ColorSizeParticleOptions.of(LTXIParticles.COLOR_GLITTER, grenadeType.getColor(), 0.5f), true, px, py, pz, 0, 0, 0);
+        level.addAlwaysVisibleParticle(ColorSizeParticleOptions.of(LTXIParticles.COLOR_GLITTER, color, 0.5f), true, px, py, pz, 0, 0, 0);
     }
 
     @Override
     protected void readAdditionalSaveData(ValueInput input)
     {
         super.readAdditionalSaveData(input);
-        grenadeType = input.read("grenade_type", GrenadeType.CODEC).orElse(GrenadeType.EXPLOSIVE);
+        this.grenadeType = input.read("grenade_type", GrenadeType.CODEC).orElse(GrenadeType.SPARKLER);
+        this.color = input.getIntOr(LTXIConstants.KEY_COLOR, -1);
     }
 
     @Override
@@ -221,17 +227,18 @@ public class ShellGrenade extends LTXIProjectileEntity implements IEntityWithCom
     {
         super.addAdditionalSaveData(output);
         output.store("grenade_type", GrenadeType.CODEC, grenadeType);
+        output.putInt(LTXIConstants.KEY_COLOR, color);
     }
 
     @Override
-    public void writeSpawnData(RegistryFriendlyByteBuf buffer)
+    public void writeSpawnData(RegistryFriendlyByteBuf net)
     {
-        GrenadeType.STREAM_CODEC.encode(buffer, grenadeType);
+        net.writeVarInt(color);
     }
 
     @Override
-    public void readSpawnData(RegistryFriendlyByteBuf additionalData)
+    public void readSpawnData(RegistryFriendlyByteBuf net)
     {
-        setGrenadeType(GrenadeType.STREAM_CODEC.decode(additionalData));
+        this.color = net.readVarInt();
     }
 }

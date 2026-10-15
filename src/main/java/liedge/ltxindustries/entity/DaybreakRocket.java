@@ -1,6 +1,8 @@
 package liedge.ltxindustries.entity;
 
 import liedge.ltxindustries.LTXIConstants;
+import liedge.ltxindustries.data.LightColors;
+import liedge.ltxindustries.item.UpgradableEquipmentItem;
 import liedge.ltxindustries.registry.bootstrap.LTXIDamageTypes;
 import liedge.ltxindustries.registry.game.LTXIEntities;
 import liedge.ltxindustries.util.config.LTXIWeaponsConfig;
@@ -26,21 +28,17 @@ public class DaybreakRocket extends BaseRocketEntity implements IEntityWithCompl
         super(type, level);
     }
 
-    public DaybreakRocket(Level level, ItemStack launcherItem)
+    public DaybreakRocket(Level level, ItemStack weaponItem)
     {
         this(LTXIEntities.DAYBREAK_ROCKET.get(), level);
-        setWeaponItem(launcherItem.copy());
+        setWeaponItem(weaponItem.copy());
+        this.color = UpgradableEquipmentItem.getLightColorFrom(weaponItem, LightColors.Channel.ENERGY);
     }
 
     @Override
     public int getColor()
     {
         return color;
-    }
-
-    public void setColor(int color)
-    {
-        this.color = color;
     }
 
     @Override
