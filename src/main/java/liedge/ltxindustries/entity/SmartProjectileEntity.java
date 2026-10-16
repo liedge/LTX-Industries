@@ -11,6 +11,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Targeting;
 import net.minecraft.world.entity.TraceableEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -21,7 +22,7 @@ import org.jspecify.annotations.Nullable;
 import java.util.List;
 import java.util.Objects;
 
-public interface SmartProjectileEntity extends TraceableEntity
+public interface SmartProjectileEntity extends TraceableEntity, Targeting
 {
     Upgrades getUpgrades();
 
@@ -31,6 +32,12 @@ public interface SmartProjectileEntity extends TraceableEntity
     @Nullable LivingEntity getOwner();
 
     void setOwner(@Nullable LivingEntity owner);
+
+    @Override
+    default @Nullable LivingEntity getTarget()
+    {
+        return null;
+    }
 
     default TargetPredicate getTargets()
     {

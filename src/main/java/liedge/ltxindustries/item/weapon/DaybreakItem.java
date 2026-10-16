@@ -105,7 +105,7 @@ public class DaybreakItem extends SemiAutoWeaponItem
             rocket.aimAndSetPosFromShooter(player, getProjectileWeaponRange(heldItem), 0d);
 
             LivingEntity focusedTarget = controls.getFocusedTarget();
-            if (focusedTarget != null && controls.getTargetTicks() > 20) rocket.setTargetEntity(focusedTarget);
+            if (focusedTarget != null && controls.getTargetTicks() > 20) rocket.setTarget(focusedTarget);
 
             level.addFreshEntity(rocket);
             level.gameEvent(player, LTXIGameEvents.WEAPON_FIRED, player.getEyePosition());

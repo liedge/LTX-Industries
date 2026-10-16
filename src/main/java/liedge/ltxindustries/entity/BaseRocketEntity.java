@@ -16,9 +16,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
-public abstract class BaseRocketEntity extends HomingProjectileEntity
+public abstract class BaseRocketEntity extends LTXIProjectileEntity
 {
     public static final double BLAST_RADIUS = 3d;
 
@@ -45,6 +45,15 @@ public abstract class BaseRocketEntity extends HomingProjectileEntity
         LimaNetworkUtil.sendParticle(level, ColorParticleOptions.of(LTXIParticles.ROCKET_BURST, getColor()), LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, hitLocation, getDeltaMovement().normalize());
 
         return CollisionResult.DESTROY;
+    }
+
+    @Override
+    protected void tickServer(ServerLevel level)
+    {
+        super.tickServer(level);
+
+        Entity target = getTarget();
+        if (target != null) aimAtEntity(target, getDeltaMovement().length(), 30f); // Try this out
     }
 
     @Override

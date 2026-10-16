@@ -35,6 +35,7 @@ public abstract class LTXIProjectileEntity extends UpgradesAwareEntity
         Vec3 motion = createMotionVector(shooter, speed, inaccuracy);
         setRot(LimaCoreMath.getYRot(motion), LimaCoreMath.getXRot(motion));
         setDeltaMovement(motion);
+        needsSync = true;
     }
 
     public void aimTowardsPoint(Vec3 target, double speed, double inaccuracy)
