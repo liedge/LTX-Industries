@@ -97,6 +97,11 @@ abstract class LTXIBaseCategory<T> implements IRecipeCategory<T>
         return SlotDisplayContext.fromLevel(Objects.requireNonNull(Minecraft.getInstance().level));
     }
 
+    private static boolean isSourceFluid(FluidStack stack)
+    {
+        return !stack.isEmpty() && stack.getFluid().isSource(stack.getFluid().defaultFluidState());
+    }
+
     private void addFluidStack(IRecipeSlotBuilder slot, FluidStack stack)
     {
         slot.add(stack.getFluid(), stack.getAmount(), stack.getComponentsPatch());
@@ -122,7 +127,7 @@ abstract class LTXIBaseCategory<T> implements IRecipeCategory<T>
     protected void fluidInputSlot(IRecipeLayoutBuilder builder, RecipeFluidInput input, int x, int y)
     {
         IRecipeSlotBuilder slot = builder.addInputSlot(x, y).setCustomRenderer(NeoForgeTypes.FLUID_STACK, FluidWithCountRenderer.INSTANCE);
-        input.ingredient().display().resolve(makeContext(), input.displayResolver()).forEach(stack -> addFluidStack(slot, stack));
+        input.ingredient().display().resolve(makeContext(), input.displayResolver()).filter(LTXIBaseCategory::isSourceFluid).forEach(stack -> addFluidStack(slot, stack));
 
         if (input.isRandom()) randomInputOverlay(slot, input);
     }
