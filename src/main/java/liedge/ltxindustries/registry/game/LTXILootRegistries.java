@@ -3,7 +3,6 @@ package liedge.ltxindustries.registry.game;
 import com.mojang.serialization.MapCodec;
 import liedge.limacore.lib.ModResources;
 import liedge.ltxindustries.advancements.criterion.GrenadeElementSubPredicate;
-import liedge.ltxindustries.advancements.criterion.HomingTargetSubPredicate;
 import net.minecraft.advancements.criterion.EntitySubPredicate;
 import net.minecraft.core.registries.Registries;
 import net.neoforged.neoforge.registries.RegisterEvent;
@@ -22,6 +21,5 @@ public final class LTXILootRegistries
     private static void registerSubPredicates(ModResources.RegisterHelper<MapCodec<? extends EntitySubPredicate>> helper)
     {
         helper.register("grenade_element", GrenadeElementSubPredicate.CODEC);
-        helper.register("homing_target", HomingTargetSubPredicate.CODEC);
     }
 }

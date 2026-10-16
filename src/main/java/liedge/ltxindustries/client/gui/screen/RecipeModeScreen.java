@@ -28,7 +28,6 @@ import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Optional;
 
 public class RecipeModeScreen extends LTXIScreen<RecipeModeMenu>
 {
@@ -138,7 +137,7 @@ public class RecipeModeScreen extends LTXIScreen<RecipeModeMenu>
             if (blockEntity.getMode() != element.mode)
             {
                 Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
-                parent.sendCustomButtonData(RecipeModeMenu.MODE_SWITCH_BUTTON_ID, Optional.ofNullable(element.mode), LTXINetworkSerializers.RECIPE_MODE);
+                parent.sendOptionalButtonData(RecipeModeMenu.MODE_SWITCH_BUTTON_ID, element.mode, LTXINetworkSerializers.RECIPE_MODE);
             }
         }
     }

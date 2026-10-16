@@ -6,7 +6,7 @@ import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.data.LimaCoreCodecs;
 import liedge.limacore.network.LimaStreamCodecs;
-import liedge.limacore.network.sync.SimpleValueTracker;
+import liedge.limacore.network.sync.NullableValueTracker;
 import liedge.limacore.network.sync.ValueTracker;
 import liedge.limacore.recipe.LimaRecipeCheck;
 import liedge.limacore.util.LimaCollectionsUtil;
@@ -288,16 +288,12 @@ public abstract class BaseRecipeMachineBlockEntity<I extends RecipeInput, R exte
 
     public ValueTracker<Optional<NonNullList<ItemResource>>> syncItemFilters()
     {
-        return SimpleValueTracker.create(LTXINetworkSerializers.ITEM_FILTERS,
-                () -> Optional.ofNullable(itemFilters),
-                o -> this.itemFilters = o.orElse(null)).setAutomatic();
+        return NullableValueTracker.create(LTXINetworkSerializers.ITEM_FILTERS, () -> itemFilters, o -> this.itemFilters = o).setAutomatic();
     }
 
     public ValueTracker<Optional<NonNullList<FluidResource>>> syncFluidFilters()
     {
-        return SimpleValueTracker.create(LTXINetworkSerializers.FLUID_FILTERS,
-                () -> Optional.ofNullable(fluidFilters),
-                o -> this.fluidFilters = o.orElse(null)).setAutomatic();
+        return NullableValueTracker.create(LTXINetworkSerializers.FLUID_FILTERS, () -> fluidFilters, o -> this.fluidFilters = o).setAutomatic();
     }
 
     //#endregion
