@@ -27,7 +27,7 @@ class EntityTagsGen extends LimaTagsProvider.RegistryTags<EntityType<?>>
     protected void addTags(HolderLookup.Provider lookup)
     {
         buildTag(INVALID_TARGETS)
-                .add(ITEM, EXPERIENCE_ORB, ITEM_FRAME, GLOW_ITEM_FRAME, ARMOR_STAND)
+                .add(ITEM_FRAME, GLOW_ITEM_FRAME, ARMOR_STAND)
                 .add(GLOWSTICK_PROJECTILE, SHELL_GRENADE, DAYBREAK_ROCKET, TURRET_ROCKET, FLAME_FIELD)
                 .addOptional(Identifier.fromNamespaceAndPath("evilcraft", "vengeance_spirit"));
         buildTag(MEDIUM_THREAT_TARGETS).add(EVOKER, HOGLIN, ILLUSIONER, IRON_GOLEM, PIGLIN_BRUTE, RAVAGER, VINDICATOR, ZOGLIN);

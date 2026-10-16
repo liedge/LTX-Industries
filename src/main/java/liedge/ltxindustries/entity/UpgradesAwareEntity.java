@@ -181,6 +181,12 @@ public abstract class UpgradesAwareEntity extends Entity implements SmartProject
     }
 
     @Override
+    public boolean isAttackable()
+    {
+        return false;
+    }
+
+    @Override
     public boolean hurtServer(ServerLevel level, DamageSource damageSource, float amount)
     {
         return false;
