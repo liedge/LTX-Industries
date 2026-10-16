@@ -15,5 +15,6 @@ public class TurretMenu<BE extends TurretBlockEntity> extends LTXIMachineMenu<BE
         addPlayerInventoryAndHotbar(8, 106);
 
         menuContext.getEnergy().syncAllProperties(this);
+        addDataWatcher(menuContext.syncOwner());
     }
 }

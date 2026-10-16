@@ -4,10 +4,10 @@ import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.ltxindustries.lib.TurretTargetTracker;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public abstract class SemiAutoTurretBlockEntity extends TurretBlockEntity
 {
@@ -16,12 +16,12 @@ public abstract class SemiAutoTurretBlockEntity extends TurretBlockEntity
         super(type, pos, state, traceY, horizontalSearchRadius, verticalSearchRadius);
     }
 
-    protected abstract void attackTarget(ServerLevel level, BlockPos pos, BlockState state, @Nullable Player owner, Entity target);
+    protected abstract void attackTarget(ServerLevel level, BlockPos pos, BlockState state, @Nullable Player owner, LivingEntity target);
 
     @Override
     protected void turretFiringTick(ServerLevel level, BlockPos pos, BlockState state, @Nullable Player owner, TurretTargetTracker tracker)
     {
-        Entity currentTarget = getTarget();
+        LivingEntity currentTarget = getTarget();
         if (targetStillValid(currentTarget))
         {
             if (consumeUsageEnergy())

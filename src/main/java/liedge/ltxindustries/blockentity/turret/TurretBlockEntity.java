@@ -14,6 +14,7 @@ import liedge.limacore.network.sync.SimpleValueTracker;
 import liedge.limacore.network.sync.ValueTracker;
 import liedge.limacore.registry.game.LimaCoreDataComponents;
 import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
+import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.blockentity.base.EnergyConsumerBlockEntity;
 import liedge.ltxindustries.blockentity.template.ProductionMachineBlockEntity;
 import liedge.ltxindustries.entity.LTXIEntityUtil;
@@ -23,7 +24,6 @@ import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.registry.game.LTXISounds;
 import liedge.ltxindustries.util.LTXITooltipUtil;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.network.chat.Component;
@@ -31,8 +31,10 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityReference;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
@@ -42,7 +44,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.*;
 
@@ -61,9 +63,8 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
 
     private final TargetPredicate defaultFilter = (level, targetEntity, _) -> this.isValidDefaultTarget(level, targetEntity);
     private TargetPredicate targetFilter = defaultFilter;
-    private @Nullable UUID targetId;
-    private @Nullable Entity target;
-    private final Queue<Entity> targetQueue = new ArrayDeque<>();
+    private @Nullable EntityReference<LivingEntity> target;
+    private final Queue<LivingEntity> targetQueue = new ArrayDeque<>();
 
     // Client properties
     private final ValueTracker<IntList> queueTracker;
@@ -75,6 +76,7 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
     protected float turretXRot;
     private double targetDistance;
     private boolean lookingAtTarget;
+    private @Nullable LivingEntity clientTarget;
 
     protected TurretBlockEntity(LimaBlockEntityType<?> type, BlockPos pos, BlockState state, double traceY, double horizontalSearchRadius, double verticalSearchRadius)
     {
@@ -90,13 +92,13 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
 
             for (int eid : list)
             {
-                Entity entity = LimaCoreClientUtil.getClientEntity(eid);
+                LivingEntity entity = LimaCoreClientUtil.getClientEntity(eid, LivingEntity.class);
                 if (entity != null) targetQueue.add(entity);
             }
         });
 
         addDataWatcher(SimpleValueTracker.createEnum(TurretState.class, this::getTurretState, this::setTurretState).setAutomatic());
-        addDataWatcher(NullableValueTracker.createClientEntity(this::getTarget, this::setClientTarget).setAutomatic());
+        addDataWatcher(NullableValueTracker.createClientEntity(LivingEntity.class, this::getTarget, this::setClientTarget).setAutomatic());
         addDataWatcher(queueTracker);
     }
 
@@ -121,26 +123,17 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
         setChanged();
     }
 
-    @Nullable
-    protected Entity getTarget()
+    public @Nullable LivingEntity getTarget()
     {
-        if (target == null && targetId != null && level instanceof ServerLevel sl)
-        {
-            target = sl.getEntity(targetId);
-        }
-
-        return target;
+        return level != null ? EntityReference.getLivingEntity(target, level) : null;
     }
 
-    public void setTarget(@Nullable Entity target)
+    public void setTarget(@Nullable LivingEntity target)
     {
-        this.target = target;
-        this.targetId = target != null ? target.getUUID() : null;
-
-        setChanged();
+        this.target = EntityReference.of(target);
     }
 
-    public Queue<Entity> getTargetQueue()
+    public Queue<LivingEntity> getTargetQueue()
     {
         return targetQueue;
     }
@@ -180,12 +173,12 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
 
     protected void setNextTarget(TurretTargetTracker tracker)
     {
-        tracker.remove(target);
+        tracker.remove(getTarget());
         setTarget(null);
 
         while (!targetQueue.isEmpty())
         {
-            Entity next = targetQueue.poll();
+            LivingEntity next = targetQueue.poll();
             queueTracker.setChanged(true);
 
             if (targetStillValid(next))
@@ -204,12 +197,18 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
 
     protected void purgeTargets(TurretTargetTracker tracker)
     {
-        tracker.remove(target);
+        tracker.remove(getTarget());
         tracker.removeAll(targetQueue);
 
         setTarget(null);
         targetQueue.clear();
         queueTracker.setChanged(true);
+    }
+
+    @Override
+    public void onPlacedByPlayer(Level level, Player player, ItemStack blockItem)
+    {
+        setOwner(player);
     }
 
     @Override
@@ -298,7 +297,7 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
                     {
                         if (!targetQueue.isEmpty()) purgeTargets(tracker);
 
-                        List<Entity> foundTargets = level.getEntities(owner, searchArea, e -> e instanceof LivingEntity && LTXIEntityUtil.isValidContextTarget(e, owner, targetFilter) && !tracker.contains(e))
+                        List<LivingEntity> foundTargets = level.getEntities(owner, searchArea, e -> e instanceof LivingEntity && LTXIEntityUtil.isValidContextTarget(e, owner, targetFilter) && !tracker.contains(e))
                                 .stream()
                                 .sorted(Comparator.comparingDouble(e -> e.distanceToSqr(traceStart)))
                                 .filter(e -> {
@@ -312,6 +311,7 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
                                     return false;
                                 })
                                 .limit(getMaxTargetsPerSearch())
+                                .map(e -> (LivingEntity) e)
                                 .toList();
 
                         if (!foundTargets.isEmpty())
@@ -337,7 +337,7 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
             {
                 int duration = turretState == TurretState.CHARGING ? getChargingDuration() : getCooldownDuration();
 
-                if (targetStillValid(target))
+                if (targetStillValid(getTarget()))
                 {
                     if (advanceServerTimer(duration))
                     {
@@ -385,8 +385,8 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
     {
         super.loadAdditional(input);
         loadOwnerID(input);
-        turretState = input.read("turret_state", TurretState.CODEC).orElse(TurretState.SEARCHING);
-        targetId = input.read("target", UUIDUtil.CODEC).orElse(null);
+        this.turretState = input.read("turret_state", TurretState.CODEC).orElse(TurretState.SEARCHING);
+        this.target = EntityReference.read(input, LTXIConstants.KEY_TARGET);
     }
 
     @Override
@@ -395,7 +395,7 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
         super.saveAdditional(output);
         saveOwnerID(output);
         output.store("turret_state", TurretState.CODEC, turretState);
-        output.storeNullable("target", UUIDUtil.CODEC, targetId);
+        EntityReference.store(target, output, LTXIConstants.KEY_TARGET);
     }
 
     //#region Client functions
@@ -408,9 +408,9 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
         turretXRot0 = turretXRot;
 
         // Point towards active target
-        if (targetStillValid(target))
+        if (targetStillValid(clientTarget))
         {
-            Vec3 dir = target.getBoundingBox().getCenter().subtract(traceStart);
+            Vec3 dir = clientTarget.getBoundingBox().getCenter().subtract(traceStart);
             targetDistance = dir.length();
 
             float nextYRot = 180f - LimaCoreMath.getYRot(dir);
@@ -426,7 +426,7 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
         }
         else // Idle animation
         {
-            target = null;
+            setClientTarget(null);
             targetDistance = 0d;
             lookingAtTarget = false;
 
@@ -449,15 +449,17 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
         }
     }
 
-    public @Nullable Entity getClientTarget()
+    public @Nullable LivingEntity getClientTarget()
     {
-        return target;
+        return clientTarget;
     }
 
-    protected void setClientTarget(@Nullable Entity target)
+    private void setClientTarget(@Nullable LivingEntity target)
     {
-        if (target != null && !LTXIEntityUtil.isEntityAlive(target)) target = null;
-        this.target = target;
+        if (target != null && LTXIEntityUtil.isEntityAlive(target))
+            this.clientTarget = target;
+        else
+            this.clientTarget = null;
     }
 
     public double getTargetDistance()

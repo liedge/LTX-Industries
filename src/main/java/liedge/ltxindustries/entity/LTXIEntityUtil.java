@@ -117,7 +117,7 @@ public final class LTXIEntityUtil
         };
     }
 
-    public static IntList flattenEntityIds(Collection<Entity> entities)
+    public static IntList flattenEntityIds(Collection<? extends Entity> entities)
     {
         if (entities.isEmpty()) return IntList.of();
 
@@ -171,7 +171,7 @@ public final class LTXIEntityUtil
                 });
     }
 
-    public static int hurtAll(ServerLevel level, Iterable<Entity> targets, DamageSource damageSource, float damage)
+    public static int hurtAll(ServerLevel level, Iterable<? extends Entity> targets, DamageSource damageSource, float damage)
     {
         int result = 0;
 
@@ -183,7 +183,7 @@ public final class LTXIEntityUtil
         return result;
     }
 
-    public static int hurtWithEnchantedFakePlayer(ServerLevel level, Iterable<Entity> targets, @Nullable LivingEntity attackingEntity, Upgrades upgrades, Function<@Nullable LivingEntity, ? extends DamageSource> damageSourceFunction, float damage)
+    public static int hurtWithEnchantedFakePlayer(ServerLevel level, Iterable<? extends Entity> targets, @Nullable LivingEntity attackingEntity, Upgrades upgrades, Function<@Nullable LivingEntity, ? extends DamageSource> damageSourceFunction, float damage)
     {
         if (!(attackingEntity instanceof Player player))
         {

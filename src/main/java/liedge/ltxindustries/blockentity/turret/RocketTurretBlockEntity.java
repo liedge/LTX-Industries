@@ -10,9 +10,10 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class RocketTurretBlockEntity extends SemiAutoTurretBlockEntity
 {
@@ -58,7 +59,7 @@ public class RocketTurretBlockEntity extends SemiAutoTurretBlockEntity
     }
 
     @Override
-    protected void attackTarget(ServerLevel level, BlockPos pos, BlockState state, @Nullable Player owner, Entity target)
+    protected void attackTarget(ServerLevel level, BlockPos pos, BlockState state, @Nullable Player owner, LivingEntity target)
     {
         TurretRocket rocket = new TurretRocket(level, this);
         rocket.setOwner(owner);

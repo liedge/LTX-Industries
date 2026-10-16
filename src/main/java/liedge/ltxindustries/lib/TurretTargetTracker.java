@@ -2,7 +2,7 @@ package liedge.ltxindustries.lib;
 
 import liedge.ltxindustries.registry.game.LTXIAttachmentTypes;
 import net.minecraft.world.entity.Entity;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -32,7 +32,7 @@ public abstract class TurretTargetTracker
 
     public abstract void remove(@Nullable Entity target);
 
-    public abstract void removeAll(Collection<Entity> targets);
+    public abstract void removeAll(Collection<? extends Entity> targets);
 
     private static class SetBacked extends TurretTargetTracker
     {
@@ -57,7 +57,7 @@ public abstract class TurretTargetTracker
         }
 
         @Override
-        public void removeAll(Collection<Entity> targets)
+        public void removeAll(Collection<? extends Entity> targets)
         {
             set.removeAll(targets);
         }
@@ -81,6 +81,6 @@ public abstract class TurretTargetTracker
         public void remove(@Nullable Entity target) { }
 
         @Override
-        public void removeAll(Collection<Entity> targets) {}
+        public void removeAll(Collection<? extends Entity> targets) {}
     }
 }
