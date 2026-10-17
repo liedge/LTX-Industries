@@ -41,8 +41,8 @@ public abstract class BaseRocketEntity extends LTXIProjectileEntity
         getEntities(level, hitLocation, BLAST_RADIUS, owner, directHit).forEach(aoeHit -> hurtTarget(level, aoeHit, owner, hitLocation, false));
         level.playSound(null, hitLocation.x, hitLocation.y, hitLocation.z, LTXISounds.ROCKET_EXPLODE.get(), SoundSource.PLAYERS, 4f, 0.9f);
 
-        LimaNetworkUtil.sendParticle(level, ColorSizeParticleOptions.of(LTXIParticles.COLOR_FLASH, getColor(), (float) BLAST_RADIUS * 2f), LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, hitLocation);
-        LimaNetworkUtil.sendParticle(level, ColorParticleOptions.of(LTXIParticles.ROCKET_BURST, getColor()), LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, hitLocation, getDeltaMovement().normalize());
+        LimaNetworkUtil.sendAlwaysVisibleParticle(level, ColorSizeParticleOptions.of(LTXIParticles.COLOR_FLASH, getColor(), (float) BLAST_RADIUS * 2f), hitLocation);
+        LimaNetworkUtil.sendAlwaysVisibleParticle(level, ColorParticleOptions.of(LTXIParticles.ROCKET_BURST, getColor()), hitLocation, getDeltaMovement().normalize());
 
         return CollisionResult.DESTROY;
     }

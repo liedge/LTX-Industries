@@ -145,12 +145,12 @@ public class ShellGrenade extends LTXIProjectileEntity implements IEntityWithCom
         if (instance != null) hitEntity.forceAddEffect(instance, getOwner());
     }
 
-    private void spawnHitEntityParticles(Level level, Vec3 hitLocation, Entity hitEntity)
+    private void spawnHitEntityParticles(ServerLevel level, Vec3 hitLocation, Entity hitEntity)
     {
         // Add electric bolt particles between impact and targets if electric
         if (grenadeType == GrenadeType.ELECTRIC)
         {
-            LimaNetworkUtil.sendParticle(level, ColorParticleOptions.of(LTXIParticles.ENERGY_BOLT, color), LimaNetworkUtil.NORMAL_PARTICLE_DIST, hitLocation, hitEntity.getEyePosition());
+            LimaNetworkUtil.sendAlwaysVisibleParticle(level, ColorParticleOptions.of(LTXIParticles.ENERGY_BOLT, color), hitLocation, hitEntity.getEyePosition());
         }
     }
 
@@ -210,7 +210,7 @@ public class ShellGrenade extends LTXIProjectileEntity implements IEntityWithCom
         };
         level.playSound(null, hitLocation.x, hitLocation.y, hitLocation.z, sound, SoundSource.PLAYERS, 3f, Mth.randomBetween(random, 0.775f, 0.95f));
 
-        LimaNetworkUtil.sendParticle(level, new HanabiParticleOptions(grenadeType, color, (float) blastRadius * 2f), LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, hitLocation);
+        LimaNetworkUtil.sendAlwaysVisibleParticle(level, new HanabiParticleOptions(grenadeType, color, (float) blastRadius * 2f), hitLocation);
 
         return CollisionResult.DESTROY;
     }

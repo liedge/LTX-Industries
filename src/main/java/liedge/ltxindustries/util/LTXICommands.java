@@ -6,6 +6,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import liedge.limacore.util.LimaCoreObjects;
 import liedge.ltxindustries.LTXICapabilities;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.client.LTXILangKeys;
@@ -13,6 +14,7 @@ import liedge.ltxindustries.lib.shield.EntityBubbleShield;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -74,7 +76,7 @@ public final class LTXICommands
             {
                 case "set" -> shield.setShieldHealth(entity, amount);
                 case "give" -> shield.addShieldHealth(entity, amount, EntityBubbleShield.GLOBAL_MAX_SHIELD);
-                case "remove" -> shield.reduceShieldHealth(entity, amount);
+                case "remove" -> shield.damageShield(LimaCoreObjects.cast(ServerLevel.class, entity.level()), entity, amount);
             }
 
             return 1;

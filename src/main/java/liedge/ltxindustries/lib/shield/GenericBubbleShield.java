@@ -1,11 +1,11 @@
 package liedge.ltxindustries.lib.shield;
 
 import liedge.ltxindustries.util.config.LTXIServerConfig;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.level.Level;
 
 public final class GenericBubbleShield implements EntityBubbleShield
 {
@@ -14,12 +14,12 @@ public final class GenericBubbleShield implements EntityBubbleShield
     private GenericBubbleShield() {}
 
     @Override
-    public float blockDamage(LivingEntity entity, Level level, DamageSource source, float original)
+    public float blockDamage(LivingEntity entity, ServerLevel level, DamageSource source, float original)
     {
         if (!source.is(DamageTypeTags.BYPASSES_INVULNERABILITY))
         {
             float shield = getShieldHealth(entity);
-            reduceShieldHealth(entity, original);
+            damageShield(level, entity, original);
 
             return Math.max(original - shield, 0);
         }
@@ -28,12 +28,12 @@ public final class GenericBubbleShield implements EntityBubbleShield
     }
 
     @Override
-    public boolean blockMobEffect(LivingEntity entity, Level level, MobEffectInstance effectInstance)
+    public boolean blockMobEffect(LivingEntity entity, ServerLevel level, MobEffectInstance effectInstance)
     {
         float shield = getShieldHealth(entity);
         if (shield > 0)
         {
-            reduceShieldHealth(entity, (float) LTXIServerConfig.SHIELD_EFFECT_BLOCK_COST.getAsDouble());
+            damageShield(level, entity, (float) LTXIServerConfig.SHIELD_EFFECT_BLOCK_COST.getAsDouble());
             return true;
         }
 

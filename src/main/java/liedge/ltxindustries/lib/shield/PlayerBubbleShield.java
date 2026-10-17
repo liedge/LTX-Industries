@@ -2,12 +2,12 @@ package liedge.ltxindustries.lib.shield;
 
 import liedge.ltxindustries.registry.game.LTXIAttributes;
 import liedge.ltxindustries.util.config.LTXIServerConfig;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
 
 public final class PlayerBubbleShield implements EntityBubbleShield
 {
@@ -36,9 +36,9 @@ public final class PlayerBubbleShield implements EntityBubbleShield
     }
 
     @Override
-    public float blockDamage(LivingEntity entity, Level level, DamageSource source, float original)
+    public float blockDamage(LivingEntity entity, ServerLevel level, DamageSource source, float original)
     {
-        if (!source.is(DamageTypeTags.BYPASSES_INVULNERABILITY) && hurtShield(entity, original))
+        if (!source.is(DamageTypeTags.BYPASSES_INVULNERABILITY) && hurtShield(level, entity, original))
         {
             return 0;
         }
@@ -49,19 +49,19 @@ public final class PlayerBubbleShield implements EntityBubbleShield
     }
 
     @Override
-    public boolean blockMobEffect(LivingEntity entity, Level level, MobEffectInstance effectInstance)
+    public boolean blockMobEffect(LivingEntity entity, ServerLevel level, MobEffectInstance effectInstance)
     {
-        return hurtShield(entity, (float) LTXIServerConfig.SHIELD_EFFECT_BLOCK_COST.getAsDouble());
+        return hurtShield(level, entity, (float) LTXIServerConfig.SHIELD_EFFECT_BLOCK_COST.getAsDouble());
     }
 
     @Override
-    public void onShieldBreak(LivingEntity entity)
+    public void onShieldBreak(ServerLevel level, LivingEntity entity)
     {
-        EntityBubbleShield.super.onShieldBreak(entity);
+        EntityBubbleShield.super.onShieldBreak(level, entity);
         entity.invulnerableTime = 60;
     }
 
-    private boolean hurtShield(LivingEntity entity, float damage)
+    private boolean hurtShield(ServerLevel level, LivingEntity entity, float damage)
     {
         float shield = getShieldHealth(entity);
         rechargeDelay = 100;
@@ -70,7 +70,7 @@ public final class PlayerBubbleShield implements EntityBubbleShield
         {
             if (invulnerabilityTicks == 0)
             {
-                reduceShieldHealth(entity, damage);
+                damageShield(level, entity, damage);
                 invulnerabilityTicks = 20;
             }
 

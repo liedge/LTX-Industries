@@ -211,9 +211,9 @@ public abstract class WeaponItem extends EnergyEquipmentItem
         sendTracerParticle(level, hitResult.origin(), hitResult.impactLocation(), getLightColor(stack, LightColors.Channel.ENERGY));
     }
 
-    protected void sendTracerParticle(Level level, Vec3 start, Vec3 end, int energyColor)
+    protected void sendTracerParticle(ServerLevel level, Vec3 start, Vec3 end, int energyColor)
     {
-        LimaNetworkUtil.sendParticle(level, ColorParticleOptions.of(LTXIParticles.LIGHTFRAG_TRACER, energyColor), LimaNetworkUtil.UNLIMITED_PARTICLE_DIST, start, end);
+        LimaNetworkUtil.sendAlwaysVisibleParticle(level, ColorParticleOptions.of(LTXIParticles.LIGHTFRAG_TRACER, energyColor), start, end);
     }
 
     @Override
