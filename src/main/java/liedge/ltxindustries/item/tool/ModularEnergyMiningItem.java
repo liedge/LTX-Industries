@@ -222,7 +222,7 @@ public abstract class ModularEnergyMiningItem extends BaseEnergyMiningItem imple
             // Send particles
             Vec3 particlePos = Vec3.atCenterOf(pos);
             Vec3 particleDelta = dropsPos.subtract(particlePos).scale(0.1f);
-            LimaNetworkUtil.sendParticle(level, particle, LimaNetworkUtil.NORMAL_PARTICLE_DIST, particlePos, particleDelta);
+            LimaNetworkUtil.sendParticle(level, particle, false, false, particlePos, particleDelta);
         }
 
         BlockEntity originBE = originState.hasBlockEntity() ? level.getBlockEntity(origin) : null;

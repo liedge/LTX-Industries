@@ -48,7 +48,7 @@ public class AuroraItem extends SemiAutoWeaponItem
                         hit -> hit.getBoundingBox().getSize() <= 1d ? 0.75d : 0.375d);
                 hitResult.entityHits().forEach(hit -> pelletHits.mergeInt(hit.getEntity(), 1, Integer::sum));
 
-                sendTracerParticle(level, hitResult.origin(), hitResult.impactLocation(), energyColor);
+                sendTracerParticle(serverLevel, hitResult.origin(), hitResult.impactLocation(), energyColor);
             }
 
             final double basePelletDamage = LTXIWeaponsConfig.AURORA_BASE_DAMAGE.getAsDouble();
