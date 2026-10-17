@@ -12,7 +12,6 @@ import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.data.LTXIReloadListeners;
 import liedge.ltxindustries.data.LightColors;
 import liedge.ltxindustries.entity.CompoundHitResult;
-import liedge.ltxindustries.entity.DynamicClipContext;
 import liedge.ltxindustries.entity.damage.LTXIDamageSource;
 import liedge.ltxindustries.item.EnergyEquipmentItem;
 import liedge.ltxindustries.lib.upgrades.Upgrades;
@@ -206,7 +205,7 @@ public abstract class WeaponItem extends EnergyEquipmentItem
 
     protected void traceLightfrag(ServerLevel level, Player player, ItemStack stack, double baseDamage, double inaccuracy, double bbExpansion)
     {
-        CompoundHitResult hitResult = CompoundHitResult.tracePath(level, player, getUpgrades(stack), getWeaponRange(stack), inaccuracy, getEntityMaxHits(stack), getBlockPierceDistance(stack), DynamicClipContext.FluidCollisionPredicate.NONE, bbExpansion);
+        CompoundHitResult hitResult = CompoundHitResult.tracePath(level, player, getUpgrades(stack), getWeaponRange(stack), inaccuracy, getEntityMaxHits(stack), getBlockPierceDistance(stack), bbExpansion);
         hitResult.entityHits().forEach(hit -> causeLightfragDamage(level, hit.getEntity(), player, stack, baseDamage));
         level.gameEvent(player, LTXIGameEvents.WEAPON_FIRED, player.getEyePosition());
         sendTracerParticle(level, hitResult.origin(), hitResult.impactLocation(), getLightColor(stack, LightColors.Channel.ENERGY));

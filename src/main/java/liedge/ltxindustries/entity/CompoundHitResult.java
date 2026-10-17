@@ -3,6 +3,8 @@ package liedge.ltxindustries.entity;
 import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.util.LimaBlockUtil;
 import liedge.ltxindustries.lib.upgrades.Upgrades;
+import liedge.ltxindustries.world.level.DynamicClipContext;
+import liedge.ltxindustries.world.level.FluidCollision;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
@@ -16,8 +18,7 @@ import java.util.function.ToDoubleFunction;
 
 public record CompoundHitResult(Vec3 origin, List<EntityHitResult> entityHits, HitResult impact)
 {
-    public static CompoundHitResult tracePath(Level level, LivingEntity sourceEntity, Upgrades upgrades, double range, double deviation, int maxHits, double blockPierceDistance,
-                                              DynamicClipContext.FluidCollisionPredicate fluidCollision, ToDoubleFunction<Entity> bbExpansionFunction)
+    public static CompoundHitResult tracePath(Level level, LivingEntity sourceEntity, Upgrades upgrades, double range, double deviation, int maxHits, double blockPierce, ToDoubleFunction<Entity> bbExpansionFunction)
     {
         // Path points
         Vec3 origin = sourceEntity.getEyePosition();
@@ -26,7 +27,7 @@ public record CompoundHitResult(Vec3 origin, List<EntityHitResult> entityHits, H
         Vec3 end;
 
         // Do block trace
-        BlockHitResult blockTrace = level.clip(new DynamicClipContext(origin, pathEnd, sourceEntity, fluidCollision, blockPierceDistance));
+        BlockHitResult blockTrace = level.clip(new DynamicClipContext(origin, pathEnd, sourceEntity, FluidCollision.NONE, blockPierce));
         end = blockTrace.getLocation();
 
         TargetPredicate predicate = TargetPredicate.create(upgrades);
@@ -37,10 +38,9 @@ public record CompoundHitResult(Vec3 origin, List<EntityHitResult> entityHits, H
         return new CompoundHitResult(origin, entityHits, impact);
     }
 
-    public static CompoundHitResult tracePath(Level level, LivingEntity sourceEntity, Upgrades upgrades, double range, double deviation, int maxHits, double blockPierceDistance,
-                                              DynamicClipContext.FluidCollisionPredicate fluidCollision, double bbExpansion)
+    public static CompoundHitResult tracePath(Level level, LivingEntity sourceEntity, Upgrades upgrades, double range, double deviation, int maxHits, double blockPierce, double bbExpansion)
     {
-        return tracePath(level, sourceEntity, upgrades, range, deviation, maxHits, blockPierceDistance, fluidCollision, ignored -> bbExpansion);
+        return tracePath(level, sourceEntity, upgrades, range, deviation, maxHits, blockPierce, ignored -> bbExpansion);
     }
 
     public double traceDistance()

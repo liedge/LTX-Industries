@@ -23,6 +23,8 @@ import liedge.ltxindustries.lib.TurretTargetTracker;
 import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.registry.game.LTXISounds;
 import liedge.ltxindustries.util.LTXITooltipUtil;
+import liedge.ltxindustries.world.level.DynamicClipContext;
+import liedge.ltxindustries.world.level.FluidCollision;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
@@ -303,7 +305,7 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
                                 .filter(e -> {
                                     if (tracker.add(e))
                                     {
-                                        HitResult blockTrace = level.clip(new TurretClipContext(traceStart, e.getBoundingBox().getCenter(), e, boundingBox));
+                                        HitResult blockTrace = level.clip(new DynamicClipContext(traceStart, e.getBoundingBox().getCenter(), e, FluidCollision.NONE, 0d, boundingBox.inflate(0.1d)));
                                         if (blockTrace.getType() != HitResult.Type.BLOCK) return true;
                                     }
 
