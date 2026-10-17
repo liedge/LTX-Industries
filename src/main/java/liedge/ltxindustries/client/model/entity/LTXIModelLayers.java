@@ -14,6 +14,7 @@ public final class LTXIModelLayers
     public static final ModelLayerLocation SHELL_GRENADE_EMISSIVE = emissive(LTXIIdentifiers.ID_SHELL_GRENADE);
     public static final ModelLayerLocation SMALL_ROCKET_BASE = base("small_rocket");
     public static final ModelLayerLocation SMALL_ROCKET_EMISSIVE = emissive("small_rocket");
+    public static final ModelLayerLocation BOMBLET = base(LTXIIdentifiers.ID_BOMBLET);
 
     private static final String WONDERLAND_ID = "wonderland_armor";
     public static final ArmorModelSet<ModelLayerLocation> WONDERLAND_BASE = wonderlandSet("head", "chest", "legs", "feet");

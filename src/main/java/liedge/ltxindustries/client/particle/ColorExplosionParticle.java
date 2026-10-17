@@ -105,15 +105,13 @@ public final class ColorExplosionParticle extends SingleQuadParticle
 
     // Providers
 
-    public static final class SonicBoomProvider implements ParticleProvider<ColorParticleOptions>
+    public static final class FullSonicBoomProvider implements ParticleProvider<ColorParticleOptions>
     {
         private final SpriteSet sprites;
-        private final boolean fullDuration;
 
-        public SonicBoomProvider(SpriteSet sprites, boolean fullDuration)
+        public FullSonicBoomProvider(SpriteSet sprites)
         {
             this.sprites = sprites;
-            this.fullDuration = fullDuration;
         }
 
         @Override
@@ -121,9 +119,31 @@ public final class ColorExplosionParticle extends SingleQuadParticle
         {
             ColorExplosionParticle particle = new ColorExplosionParticle(level, sprites, x, y, z, options.color());
 
-            particle.quadSize = 1.275f;
-            particle.setSize(1.275f, 1.275f);
-            particle.setLifetime(fullDuration ? 16 : 4 + random.nextInt(3));
+            particle.quadSize = 0.875f;
+            particle.setSize(0.875f, 0.875f);
+            particle.setLifetime(16);
+
+            return particle;
+        }
+    }
+
+    public static final class HalfSonicBoomProvider implements ParticleProvider<ColorParticleOptions>
+    {
+        private final SpriteSet sprites;
+
+        public HalfSonicBoomProvider(SpriteSet sprites)
+        {
+            this.sprites = sprites;
+        }
+
+        @Override
+        public Particle createParticle(ColorParticleOptions options, ClientLevel level, double x, double y, double z, double xAux, double yAux, double zAux, RandomSource random)
+        {
+            ColorExplosionParticle particle = new ColorExplosionParticle(level, sprites, x, y, z, options.color());
+
+            particle.quadSize = 2f;
+            particle.setSize(2f, 2f);
+            particle.setLifetime(4 + random.nextInt(3));
 
             return particle;
         }

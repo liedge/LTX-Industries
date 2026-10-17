@@ -17,6 +17,7 @@ public final class LTXIWeaponsConfig
 
     // Hanabi
     public static final ModConfigSpec.DoubleValue SPARKLER_SHELL_BASE_DAMAGE;
+    public static final ModConfigSpec.DoubleValue SPARKLER_BOMBLET_BASE_DAMAGE;
     public static final ModConfigSpec.DoubleValue FLAME_SHELL_BASE_DAMAGE;
     public static final ModConfigSpec.DoubleValue FLAME_SHELL_DAMAGE_MULTIPLIER;
     public static final ModConfigSpec.DoubleValue CRYO_SHELL_BASE_DAMAGE;
@@ -56,6 +57,7 @@ public final class LTXIWeaponsConfig
 
         builder.push("hanabi");
         SPARKLER_SHELL_BASE_DAMAGE = ConfigUtil.damageSpec(builder, "sparkler_shell_base_damage", null, 30d);
+        SPARKLER_BOMBLET_BASE_DAMAGE = ConfigUtil.damageSpec(builder, "sparkler_bomblet_base_damage", null, 10d);
         FLAME_SHELL_BASE_DAMAGE = ConfigUtil.damageSpec(builder, "flame_shell_base_damage", null, 10d);
         FLAME_SHELL_DAMAGE_MULTIPLIER = builder.comment("Flame shells' damage multiplier to mobs that are weak to fire damage").defineInRange("flame_multiplier", 3.0d, 0d, Double.MAX_VALUE);
         CRYO_SHELL_BASE_DAMAGE = ConfigUtil.damageSpec(builder, "cryo_shell_base_damage", null, 4d);

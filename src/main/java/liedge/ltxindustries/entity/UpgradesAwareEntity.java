@@ -22,7 +22,7 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.jspecify.annotations.Nullable;
 
-public abstract class UpgradesAwareEntity extends Entity implements SmartProjectileEntity
+public abstract class UpgradesAwareEntity extends Entity implements UpgradableEntity
 {
     public static final int DEFAULT_LIFETIME = 1200;
 
@@ -136,15 +136,9 @@ public abstract class UpgradesAwareEntity extends Entity implements SmartProject
 
     protected void updateMotion()
     {
+        applyGravity();
+
         Vec3 delta = getDeltaMovement();
-
-        double gravity = getGravity();
-        if (gravity > 0)
-        {
-            delta = delta.add(0, -gravity, 0);
-            setDeltaMovement(delta);
-        }
-
         setXRot(Mth.rotLerp(0.5f, xRotO, LimaCoreMath.getXRot(delta)));
         setYRot(Mth.rotLerp(0.5f, yRotO, LimaCoreMath.getYRot(delta)));
         setPos(position().add(delta));

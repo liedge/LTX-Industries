@@ -6,8 +6,7 @@ import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.SoundDefinition;
 
 import static liedge.ltxindustries.registry.game.LTXISounds.*;
-import static net.minecraft.sounds.SoundEvents.GENERIC_EXPLODE;
-import static net.minecraft.sounds.SoundEvents.WARDEN_SONIC_BOOM;
+import static net.minecraft.sounds.SoundEvents.*;
 
 class SoundsGen extends LimaSoundDefinitionsProvider
 {
@@ -38,6 +37,7 @@ class SoundsGen extends LimaSoundDefinitionsProvider
         addSingleDirectSound(NOVA_FIRE);
 
         addSingleEventSound(ROCKET_EXPLODE, GENERIC_EXPLODE);
+        addSingleEventSound(BOMBLET_EXPLODE, FIREWORK_ROCKET_LARGE_BLAST);
         addSingleEventSound(SPARKLER_SHELL_IMPACT, GENERIC_EXPLODE);
         addSingleDirectSound(FLAME_SHELL_IMPACT);
         addSingleDirectSound(CRYO_SHELL_IMPACT);

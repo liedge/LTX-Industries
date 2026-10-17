@@ -27,8 +27,6 @@ public abstract class BaseRocketEntity extends LTXIProjectileEntity
         super(type, level);
     }
 
-    public abstract int getColor();
-
     protected abstract void hurtTarget(ServerLevel level, Entity targetEntity, @Nullable LivingEntity owner, Vec3 hitLocation, boolean isDirectHit);
 
     @Override

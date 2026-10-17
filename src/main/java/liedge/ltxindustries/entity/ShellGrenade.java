@@ -22,7 +22,9 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -34,12 +36,14 @@ import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.CollisionContext;
 import net.neoforged.neoforge.common.ModConfigSpec;
-import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 
@@ -69,19 +73,20 @@ public class ShellGrenade extends LTXIProjectileEntity implements IEntityWithCom
         return grenadeType;
     }
 
+    @Override
     public int getColor()
     {
         return color;
     }
 
-    private double getBlastRadius()
+    private double getBlastRadius(Vec3 hitLocation)
     {
         return switch (getGrenadeType())
         {
             case SPARKLER -> 5d;
             case FLAME -> 3.5d;
             case CRYO -> 6d;
-            case ELECTRIC -> checkGrenadeInRainOrWater() ? 10d : 5d;
+            case ELECTRIC -> wouldBeInRainOrWater(hitLocation) ? 10d : 5d;
             case ACID -> 2.5d;
             case GLOOM_GAS -> 4.5d;
         };
@@ -100,10 +105,11 @@ public class ShellGrenade extends LTXIProjectileEntity implements IEntityWithCom
         };
     }
 
-    private boolean checkGrenadeInRainOrWater()
+    private boolean wouldBeInRainOrWater(Vec3 hitLocation)
     {
         Level level = level();
-        return LimaBlockUtil.betweenClosedStreamSafe(level, getBoundingBox().inflate(0.001d)).anyMatch(pos -> level.isRainingAt(pos) || level.getFluidState(pos).is(Tags.Fluids.WATER));
+        AABB bb = makeBoundingBox(hitLocation).inflate(0.25d);
+        return LimaBlockUtil.betweenClosedStreamSafe(level, bb).anyMatch(pos -> level.isRainingAt(pos) || level.getFluidState(pos).is(FluidTags.WATER));
     }
 
     private double getDamageMultiplier(Entity hitEntity)
@@ -167,21 +173,36 @@ public class ShellGrenade extends LTXIProjectileEntity implements IEntityWithCom
         return new DynamicClipContext(start, end, this, fluidCollision, blockPierce);
     }
 
-
     @Override
     protected CollisionResult onCollision(ServerLevel level, @Nullable LivingEntity owner, HitResult hitResult, Vec3 hitLocation)
     {
-        double blastRadius = getBlastRadius();
+        double blastRadius = getBlastRadius(hitLocation);
         List<Entity> hits = getEntities(level, hitLocation, blastRadius, owner, null); // Use new helper
 
-        // Spawn AOE entity
-        if (grenadeType == GrenadeType.FLAME)
+        switch (grenadeType)
         {
-            HanabiFlameField flame = new HanabiFlameField(level);
-            flame.setOwner(owner);
-            flame.setWeaponItem(getWeaponItem());
-            flame.setPos(hitLocation.x, hitLocation.y - 0.5d, hitLocation.z);
-            level.addFreshEntity(flame);
+            case SPARKLER ->
+            {
+                spawnBomblets(level, hitLocation, owner, 0.1375d, 0.250d);
+                spawnBomblets(level, hitLocation, owner, 0.325d, 0.45d);
+            }
+            case FLAME ->
+            {
+                if (wouldBeInRainOrWater(hitLocation))
+                {
+                    level.playSound(null, hitLocation.x, hitLocation.y, hitLocation.z, SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS, 3f, 1f);
+                    return CollisionResult.DESTROY;
+                }
+
+                HanabiFlameField flame = new HanabiFlameField(level);
+                flame.setOwner(owner);
+                flame.setWeaponItem(getWeaponItem().copy());
+
+                Vec3 flamePos = hitResult instanceof EntityHitResult ehr ? ehr.getEntity().getBoundingBox().getBottomCenter() : hitLocation.subtract(0, 0.25d, 0);
+                flame.setPos(flamePos);
+
+                level.addFreshEntity(flame);
+            }
         }
 
         hits.forEach(hitEntity -> {
@@ -251,5 +272,44 @@ public class ShellGrenade extends LTXIProjectileEntity implements IEntityWithCom
     public void readSpawnData(RegistryFriendlyByteBuf net)
     {
         this.color = net.readVarInt();
+    }
+
+    private void spawnBomblets(ServerLevel level, Vec3 hitLocation, @Nullable LivingEntity owner, double minSpread, double maxSpread)
+    {
+        double arc = Math.PI * 2 / 7d;
+        double arcOffset = random.nextDouble() * arc;
+        float dmg = (float) SPARKLER_BOMBLET_BASE_DAMAGE.getAsDouble();
+
+        for (int i = 0; i < 7; i++)
+        {
+            double a = arc * i + arcOffset;
+            double spread = Mth.nextDouble(random, minSpread, maxSpread);
+
+            double dx = Math.cos(a) * spread;
+            double dy = Mth.nextDouble(random, 0.3d, 0.6d);
+            double dz = Math.sin(a) * spread;
+
+            Vec3 delta = new Vec3(dx, dy, dz);
+            Vec3 pos = hitLocation.add(delta);
+
+            HitResult clip = level.clip(new ClipContext(hitLocation, pos, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, CollisionContext.empty()));
+            if (clip.getType() == HitResult.Type.BLOCK)
+            {
+                Vec3 rd = getDeltaMovement().scale(-1d);
+                float xRot = LimaCoreMath.getXRot(rd);
+                float yRot = LimaCoreMath.getYRot(rd);
+
+                delta = LimaCoreMath.relativePointToRotations(xRot, yRot, dx, dz, dy);
+                pos = hitLocation.add(delta);
+            }
+
+            Bomblet bomblet = new Bomblet(level, color, dmg);
+            bomblet.setOwner(owner);
+            bomblet.setWeaponItem(getWeaponItem().copy());
+            bomblet.setPos(pos);
+            bomblet.setDeltaMovement(delta);
+
+            level.addFreshEntity(bomblet);
+        }
     }
 }

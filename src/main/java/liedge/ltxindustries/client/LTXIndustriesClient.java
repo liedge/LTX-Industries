@@ -19,10 +19,7 @@ import liedge.ltxindustries.client.model.item.LightColorTint;
 import liedge.ltxindustries.client.model.item.WeaponItemModel;
 import liedge.ltxindustries.client.particle.*;
 import liedge.ltxindustries.client.renderer.blockentity.*;
-import liedge.ltxindustries.client.renderer.entity.GlowstickProjectileRenderer;
-import liedge.ltxindustries.client.renderer.entity.RocketRenderer;
-import liedge.ltxindustries.client.renderer.entity.ShellGrenadeRenderer;
-import liedge.ltxindustries.client.renderer.entity.WonderlandArmorLayer;
+import liedge.ltxindustries.client.renderer.entity.*;
 import liedge.ltxindustries.client.renderer.item.EnergyDisplaysSpecialRenderer;
 import liedge.ltxindustries.client.renderer.item.StargazerSightRenderer;
 import liedge.ltxindustries.client.renderer.item.TankSpecialRenderer;
@@ -182,8 +179,8 @@ public class LTXIndustriesClient
             event.registerSpecial(LIGHTFRAG_TRACER.get(), new LightfragTracerParticle.Provider());
             event.registerSpriteSet(COLOR_GLITTER.get(), AnimatedGlowParticle.ColorGlitterProvider::new);
             event.registerSpriteSet(COLOR_FLASH.get(), ColorFlashParticle.Provider::new);
-            event.registerSpriteSet(COLOR_FULL_SONIC_BOOM.get(), sprites -> new ColorExplosionParticle.SonicBoomProvider(sprites, true));
-            event.registerSpriteSet(COLOR_HALF_SONIC_BOOM.get(), sprites -> new ColorExplosionParticle.SonicBoomProvider(sprites, false));
+            event.registerSpriteSet(COLOR_FULL_SONIC_BOOM.get(), ColorExplosionParticle.FullSonicBoomProvider::new);
+            event.registerSpriteSet(COLOR_HALF_SONIC_BOOM.get(), ColorExplosionParticle.HalfSonicBoomProvider::new);
             event.registerSpecial(GROUND_ICICLE.get(), new GroundIcicleParticle.Provider());
             event.registerSpriteSet(SNOWFLAKE.get(), sprites -> new SnowflakeParticle.Provider(sprites, true));
             event.registerSpriteSet(FREEZING_SNOWFLAKE.get(), sprites -> new SnowflakeParticle.Provider(sprites, false));
@@ -210,6 +207,7 @@ public class LTXIndustriesClient
             event.registerEntityRenderer(LTXIEntities.SHELL_GRENADE.get(), ShellGrenadeRenderer::new);
             event.registerEntityRenderer(LTXIEntities.DAYBREAK_ROCKET.get(), RocketRenderer::new);
             event.registerEntityRenderer(LTXIEntities.TURRET_ROCKET.get(), RocketRenderer::new);
+            event.registerEntityRenderer(LTXIEntities.BOMBLET.get(), BombletRenderer::new);
             event.registerEntityRenderer(LTXIEntities.FLAME_FIELD.get(), NoopRenderer::new);
 
             // Block entities
@@ -240,6 +238,7 @@ public class LTXIndustriesClient
             event.registerLayerDefinition(LTXIModelLayers.SHELL_GRENADE_EMISSIVE, ShellGrenadeModel::defineEmissiveLayer);
             event.registerLayerDefinition(LTXIModelLayers.SMALL_ROCKET_BASE, SmallRocketModel::defineBaseLayer);
             event.registerLayerDefinition(LTXIModelLayers.SMALL_ROCKET_EMISSIVE, SmallRocketModel::defineEmissiveLayer);
+            event.registerLayerDefinition(LTXIModelLayers.BOMBLET, BombletModel::defineLayer);
             event.registerLayerDefinition(LTXIModelLayers.WONDERLAND_VISOR, WonderlandArmorModel::defineVisorLayer);
             WonderlandArmorModel.registerLayers(event, LTXIModelLayers.WONDERLAND_BASE, WonderlandArmorModel::createBaseMesh);
             WonderlandArmorModel.registerLayers(event, LTXIModelLayers.WONDERLAND_EMISSIVE, WonderlandArmorModel::createEmissiveMesh);

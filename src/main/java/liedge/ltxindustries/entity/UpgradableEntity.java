@@ -22,7 +22,7 @@ import org.jspecify.annotations.Nullable;
 import java.util.List;
 import java.util.Objects;
 
-public interface SmartProjectileEntity extends TraceableEntity, Targeting
+public interface UpgradableEntity extends TraceableEntity, Targeting
 {
     Upgrades getUpgrades();
 
@@ -32,6 +32,11 @@ public interface SmartProjectileEntity extends TraceableEntity, Targeting
     @Nullable LivingEntity getOwner();
 
     void setOwner(@Nullable LivingEntity owner);
+
+    default int getColor()
+    {
+        return -1;
+    }
 
     @Override
     default @Nullable LivingEntity getTarget()

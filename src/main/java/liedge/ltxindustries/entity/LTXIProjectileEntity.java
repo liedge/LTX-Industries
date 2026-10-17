@@ -125,6 +125,8 @@ public abstract class LTXIProjectileEntity extends UpgradesAwareEntity
 
             if (result == CollisionResult.DESTROY)
             {
+                setDeltaMovement(Vec3.ZERO);
+                setPos(hitLocation);
                 discard();
             }
         }

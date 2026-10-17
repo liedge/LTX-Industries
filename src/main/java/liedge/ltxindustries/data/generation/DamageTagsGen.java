@@ -37,6 +37,6 @@ class DamageTagsGen extends LimaTagsProvider<DamageType>
         buildTag(IS_EXPLOSION).add(EXPLOSIVE, EXPLOSIVE_TURRET);
         buildTag(IS_FIRE).add(FLAME);
         buildTag(IS_ELECTRIC).add(ELECTRIC, ELECTRIC_TURRET);
-        buildTag(NO_KNOCKBACK).add(FLAME, CRYO, ELECTRIC, ACID, GLOOM_GAS, EXPLOSIVE_TURRET, ELECTRIC_TURRET);
+        buildTag(NO_KNOCKBACK).add(EXPLOSIVE, FLAME, CRYO, ELECTRIC, ACID, GLOOM_GAS, EXPLOSIVE_TURRET, ELECTRIC_TURRET);
     }
 }

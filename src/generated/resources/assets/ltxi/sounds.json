@@ -11,6 +11,15 @@
     ],
     "subtitle": "subtitle.ltxi.aurora_fire"
   },
+  "bomblet_explode": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.firework_rocket.large_blast"
+      }
+    ],
+    "subtitle": "subtitle.ltxi.bomblet_explode"
+  },
   "cryo_shell_impact": {
     "sounds": [
       "ltxi:cryo_shell_impact"
