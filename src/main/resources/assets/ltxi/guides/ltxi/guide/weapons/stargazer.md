@@ -10,6 +10,10 @@ navigation:
 
 <ItemImage id="stargazer" scale="3" />
 
+### Default upgrade
+
+<UpgradeEntry id="default/stargazer" />
+
 ## Stats
 
 - Base damage: 45.0

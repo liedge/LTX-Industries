@@ -20,17 +20,22 @@ navigation:
 
 ## Shells
 
-Hanabi can fire several types of shells. By default, only Explosive shells are available. Other types must be unlocked via
-[Equipment Upgrade Modules](../fundamentals/upgrade_system.md).
+Hanabi can fire several types of shells. After extensive field research, we have replaced the standard-issue explosive
+shells with our new Sparkler shells. Other types must be unlocked via [Equipment Upgrade Modules](../fundamentals/upgrade_system.md).
 
-### Explosive
-Standard explosive shell. Boring, but reliable.
+### Sparkler
+
+This shell creates a strong primary explosion, then splits into 14 bomblets which deal massive amounts of explosive damage
+in a large circular area.
 
 - Blast radius: 10.0
 - Base damage: 30.0
+- Bomblet damage: 10.0
 - `#minecraft:is_explosion` damage tag.
 
 ### Flame
+
+<UpgradeEntry id="flame_grenade_core" />
 
 Creates a stationary flame field that lingers for **5 seconds** and continuously burns everything inside it. Not
 recommended against highly mobile targets.
@@ -43,6 +48,9 @@ recommended against highly mobile targets.
   - Strays, Polar Bears, Snow Golems
 
 ### Cryo
+
+<UpgradeEntry id="cryo_grenade_core" />
+
 Cryo shells blast enemies in a large area with ice. Recommended for crowd control or enemies weak to ice.
 
 - Blast radius: 12.0
@@ -52,6 +60,9 @@ Cryo shells blast enemies in a large area with ice. Recommended for crowd contro
 - Applies [*Frostbite III*](../fundamentals/mob_effects.md#frostbite) for 20 seconds
 
 ### Electric
+
+<UpgradeEntry id="electric_grenade_core" />
+
 Electric shells' specialty is wet and underwater combat.
 
 - Blast radius: 10.0, *20.0 if shell impacts in rain or water*
@@ -61,6 +72,9 @@ Electric shells' specialty is wet and underwater combat.
   - Is tagged `#ltxi:weak_to_electric`: Turtles, Axolotls, Guardians, Elder Guardians, Fish, Dolphins, Squids, Glow Squids, Tadpoles
 
 ### Acid
+
+<UpgradeEntry id="acid_grenade_core" />
+
 Acid shells specialize against highly armored or high threat targets. Their blast radius is smaller, but
 they deal increased damage to compensate.
 
@@ -69,6 +83,9 @@ they deal increased damage to compensate.
 - Applies [*Corroding III*](../fundamentals/mob_effects.md#corroding) for 10 seconds
 
 ### Gloom Gas
+
+<UpgradeEntry id="gloom_gas_grenade_core" />
+
 Gloom Gas shells weaken enemy damage and abilities.
 
 - Blast radius: 5.0

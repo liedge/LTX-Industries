@@ -10,6 +10,10 @@ navigation:
 
 <ItemImage id="mirage" scale="3" />
 
+### Default upgrade
+
+<UpgradeEntry id="default/mirage" />
+
 ## Stats
 
 - Base damage: 4.5

@@ -10,6 +10,10 @@ navigation:
 
 <ItemImage id="nova" scale="3" />
 
+### Default upgrade
+
+<UpgradeEntry id="default/nova" />
+
 ## Stats
 - Base damage: 75.0
 - Range: 50.0

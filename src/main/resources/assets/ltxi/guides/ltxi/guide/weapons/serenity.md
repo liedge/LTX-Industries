@@ -10,6 +10,10 @@ navigation:
 
 <ItemImage id="serenity" scale="3" />
 
+### Default upgrade
+
+<UpgradeEntry id="default/serenity" />
+
 Don't let its size fool you, *Serenity*'s LightFrags are engineered to tear apart low threat, unarmored enemies at close
 range. As a downside, it will [struggle](../fundamentals/damage_modifiers.md) against armored and higher threat targets.
 

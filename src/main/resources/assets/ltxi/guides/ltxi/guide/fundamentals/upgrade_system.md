@@ -33,5 +33,4 @@ Upgrade management is built into upgradable machines. The button will be the top
 
 <BlockImage id="upgrade_station" scale="2.5" />
 
-You'll need an **Upgrade Station** to configure upgrades on equipment. Insert the equipment item into the equipment slot
-to modify its upgrades.
+You'll need an [Upgrade Station](upgrade_station.md) to configure upgrades on equipment.

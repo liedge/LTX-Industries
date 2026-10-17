@@ -10,9 +10,7 @@ navigation:
 The ε (epsilon) series is our standard tool product line. All tools are unbreakable, run on <Color id="energy">Energy</Color>,
 and are [upgradable](fundamentals/upgrade_system.md).
 
-## Mining Tools
-
-### Modular
+## Modular Mining Tools
 
 <ItemGrid>
 <ItemIcon id="epsilon_drill" />
@@ -20,6 +18,13 @@ and are [upgradable](fundamentals/upgrade_system.md).
 <ItemIcon id="epsilon_axe" />
 <ItemIcon id="epsilon_hoe" />
 </ItemGrid>
+
+### Default upgrades
+
+<Row>
+<UpgradeEntry id="default/epsilon_shovel" />
+<UpgradeEntry id="tree_vein_mine" />
+</Row>
 
 The Drill, Shovel, Axe and Hoe are designated *modular mining tools*. Switching equipment mode cycles through the 5
 available base mining speeds:
@@ -36,17 +41,19 @@ harvestable materials for mining convenience.
 
 > ε-Series Shovel's default upgrade module grants Silk Touch.
 
-### Non-Modular
+## Other Mining Tools
 
 <ItemGrid>
 <ItemIcon id="epsilon_shears" />
 <ItemIcon id="epsilon_wrench" />
 </ItemGrid>
 
+### Default upgrades
+
+<UpgradeEntry id="default/epsilon_wrench" />
+
 The Wrench and Shears do not have the variable speed or the ability to change effective blocks via the upgrade system.
 They still support the enchantment upgrade modules.
-
-> ε-Series Wrench's default upgrade module captures `ltxi:wrench_breakable` block drops directly to your inventory! 
 
 ## Melee weapons
 
@@ -54,6 +61,10 @@ They still support the enchantment upgrade modules.
 <ItemIcon id="epsilon_sword" />
 <ItemIcon id="epsilon_axe" />
 </ItemGrid>
+
+### Default upgrades
+
+<UpgradeEntry id="default/epsilon_melee" />
 
 The Sword and Axe are designated *melee weapons*. They share certain upgrade modules with the [signature series weapons](weapons/index.md)
 including enchantment modules (Razor and Looting) and target filters.

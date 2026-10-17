@@ -10,6 +10,10 @@ navigation:
 
 <ItemImage id="aurora" scale="3" />
 
+### Default upgrade
+
+<UpgradeEntry id="default/aurora" />
+
 ## Stats
 
 - Base damage: 9.0 x pellet, 63.0 max
