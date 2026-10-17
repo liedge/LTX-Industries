@@ -3,12 +3,13 @@ package liedge.ltxindustries.entity;
 import liedge.limacore.util.LimaBlockUtil;
 import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.blockentity.turret.RocketTurretBlockEntity;
-import liedge.ltxindustries.blockentity.turret.TurretClipContext;
 import liedge.ltxindustries.entity.damage.TurretDamageSource;
 import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.registry.bootstrap.LTXIDamageTypes;
 import liedge.ltxindustries.registry.game.LTXIEntities;
 import liedge.ltxindustries.util.config.LTXIMachinesConfig;
+import liedge.ltxindustries.world.level.DynamicClipContext;
+import liedge.ltxindustries.world.level.FluidCollision;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -55,17 +56,16 @@ public class TurretRocket extends BaseRocketEntity
     {
         if (turretPos != null && LimaBlockUtil.getSafeBlockEntity(level(), turretPos) instanceof RocketTurretBlockEntity be)
         {
-            this.turretBB = be.getBoundingBox();
+            this.turretBB = be.getBoundingBox().inflate(0.1d);
         }
 
         return turretBB;
     }
 
     @Override
-    protected ClipContext blockTraceContext(Vec3 start, Vec3 path)
+    protected ClipContext blockTraceContext(Vec3 start, Vec3 end, double blockPierce)
     {
-        AABB turretBB = getTurretBB();
-        return turretBB != null ? new TurretClipContext(start, start.add(path), this, turretBB) : super.blockTraceContext(start, path);
+        return new DynamicClipContext(start, end, this, FluidCollision.NONE, blockPierce, getTurretBB());
     }
 
     @Override

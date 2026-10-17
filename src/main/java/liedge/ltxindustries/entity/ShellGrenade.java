@@ -15,6 +15,8 @@ import liedge.ltxindustries.registry.bootstrap.LTXIDamageTypes;
 import liedge.ltxindustries.registry.game.LTXIEntities;
 import liedge.ltxindustries.registry.game.LTXIParticles;
 import liedge.ltxindustries.registry.game.LTXISounds;
+import liedge.ltxindustries.world.level.DynamicClipContext;
+import liedge.ltxindustries.world.level.FluidCollision;
 import net.minecraft.core.Holder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceKey;
@@ -28,6 +30,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
@@ -156,6 +159,14 @@ public class ShellGrenade extends LTXIProjectileEntity implements IEntityWithCom
     {
         return 0.0125d;
     }
+
+    @Override
+    protected ClipContext blockTraceContext(Vec3 start, Vec3 end, double blockPierce)
+    {
+        FluidCollision fluidCollision = grenadeType == GrenadeType.FLAME ? FluidCollision.WATER : FluidCollision.NONE;
+        return new DynamicClipContext(start, end, this, fluidCollision, blockPierce);
+    }
+
 
     @Override
     protected CollisionResult onCollision(ServerLevel level, @Nullable LivingEntity owner, HitResult hitResult, Vec3 hitLocation)
