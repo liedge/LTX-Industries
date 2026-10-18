@@ -4,7 +4,6 @@ import liedge.limacore.LimaCommonConstants;
 import liedge.limacore.client.particle.ColorParticleOptions;
 import liedge.limacore.client.particle.ColorSizeParticleOptions;
 import liedge.limacore.util.LimaNetworkUtil;
-import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.registry.bootstrap.LTXIDamageTypes;
 import liedge.ltxindustries.registry.game.LTXIEntities;
 import liedge.ltxindustries.registry.game.LTXIParticles;
@@ -113,8 +112,8 @@ public class Bomblet extends LTXIProjectileEntity implements IEntityWithComplexS
         super.readAdditionalSaveData(input);
 
         this.lifespan = input.getIntOr(LimaCommonConstants.KEY_LIFESPAN, 25);
-        this.color = input.getIntOr(LTXIConstants.KEY_COLOR, -1);
-        this.power = input.getFloatOr("power", 0f);
+        this.color = input.getIntOr(LimaCommonConstants.KEY_COLOR, -1);
+        this.power = input.getFloatOr(LimaCommonConstants.KEY_POWER, 0f);
     }
 
     @Override
@@ -123,8 +122,8 @@ public class Bomblet extends LTXIProjectileEntity implements IEntityWithComplexS
         super.addAdditionalSaveData(output);
 
         output.putInt(LimaCommonConstants.KEY_LIFESPAN, lifespan);
-        output.putInt(LTXIConstants.KEY_COLOR, color);
-        output.putFloat("power", power);
+        output.putInt(LimaCommonConstants.KEY_COLOR, color);
+        output.putFloat(LimaCommonConstants.KEY_POWER, power);
     }
 
     @Override

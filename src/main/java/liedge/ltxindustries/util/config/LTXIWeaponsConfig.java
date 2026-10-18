@@ -33,6 +33,7 @@ public final class LTXIWeaponsConfig
     // Daybreak
     public static final ModConfigSpec.DoubleValue DAYBREAK_BASE_IMPACT_DAMAGE;
     public static final ModConfigSpec.DoubleValue DAYBREAK_BASE_SPLASH_DAMAGE;
+    public static final ModConfigSpec.DoubleValue DAYBREAK_BOMBLET_BASE_DAMAGE;
 
     // Nova
     public static final ModConfigSpec.DoubleValue NOVA_BASE_DAMAGE;
@@ -75,6 +76,7 @@ public final class LTXIWeaponsConfig
         builder.push("daybreak");
         DAYBREAK_BASE_IMPACT_DAMAGE = ConfigUtil.damageSpec(builder, "base_impact_damage", "Direct hit base damage", 100d);
         DAYBREAK_BASE_SPLASH_DAMAGE = ConfigUtil.damageSpec(builder, "base_splash_damage", "Base splash/AOE/explosion damage", 40d);
+        DAYBREAK_BOMBLET_BASE_DAMAGE = ConfigUtil.damageSpec(builder, "bomblet_base_damage", null, 15d);
         builder.pop();
 
         builder.push("nova");

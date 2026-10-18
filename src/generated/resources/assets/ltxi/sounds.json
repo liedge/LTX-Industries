@@ -20,6 +20,12 @@
     ],
     "subtitle": "subtitle.ltxi.bomblet_explode"
   },
+  "bomblet_prime": {
+    "sounds": [
+      "ltxi:bomblet_prime"
+    ],
+    "subtitle": "subtitle.ltxi.bomblet_prime"
+  },
   "cryo_shell_impact": {
     "sounds": [
       "ltxi:cryo_shell_impact"

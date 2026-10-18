@@ -26,6 +26,7 @@ public final class LTXIEntities
     public static final DeferredHolder<EntityType<?>, EntityType<DaybreakRocket>> DAYBREAK_ROCKET = projectile("daybreak_rocket", DaybreakRocket::new, 0.6f, 0.6f, 2);
     public static final DeferredHolder<EntityType<?>, EntityType<TurretRocket>> TURRET_ROCKET = projectile("turret_rocket", TurretRocket::new, 0.6f, 0.6f, 2);
     public static final DeferredHolder<EntityType<?>, EntityType<Bomblet>> BOMBLET = projectile(LTXIIdentifiers.ID_BOMBLET, Bomblet::new, 0.25f, 0.25f, 2);
+    public static final DeferredHolder<EntityType<?>, EntityType<HomingBomblet>> HOMING_BOMBLET = projectile("homing_bomblet", HomingBomblet::new, 0.25f, 0.25f, 2);
 
     public static final DeferredHolder<EntityType<?>, EntityType<HanabiFlameField>> FLAME_FIELD = ENTITIES.registerEntityType("flame_field", HanabiFlameField::new, MobCategory.MISC, builder -> builder
             .sized(4f, 4f).clientTrackingRange(10).updateInterval(10).fireImmune());

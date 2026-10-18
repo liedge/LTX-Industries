@@ -208,6 +208,7 @@ public class LTXIndustriesClient
             event.registerEntityRenderer(LTXIEntities.DAYBREAK_ROCKET.get(), RocketRenderer::new);
             event.registerEntityRenderer(LTXIEntities.TURRET_ROCKET.get(), RocketRenderer::new);
             event.registerEntityRenderer(LTXIEntities.BOMBLET.get(), BombletRenderer::new);
+            event.registerEntityRenderer(LTXIEntities.HOMING_BOMBLET.get(), HomingBombletRenderer::new);
             event.registerEntityRenderer(LTXIEntities.FLAME_FIELD.get(), NoopRenderer::new);
 
             // Block entities

@@ -432,6 +432,7 @@ class LanguageGen extends LimaLanguageProvider
         addEntityType(LTXIEntities.DAYBREAK_ROCKET, "Daybreak Rocket");
         addEntityType(LTXIEntities.TURRET_ROCKET, "Turret Rocket");
         addEntityType(LTXIEntities.BOMBLET, "Bomblet");
+        addEntityType(LTXIEntities.HOMING_BOMBLET, "Homing Bomblet");
         addEntityType(LTXIEntities.FLAME_FIELD, "Flame Field");
 
         // Mob effects
@@ -569,6 +570,7 @@ class LanguageGen extends LimaLanguageProvider
         soundEvent(STARGAZER_FIRE, "Stargazer fires");
         soundEvent(DAYBREAK_FIRE, "Daybreak fires");
         soundEvent(NOVA_FIRE, "Nova fires");
+        soundEvent(BOMBLET_PRIME, "Bomblet primes");
         soundEvent(ROCKET_EXPLODE, "Rocket explodes");
         soundEvent(BOMBLET_EXPLODE, "Bomblet explodes");
         soundEvent(SPARKLER_SHELL_IMPACT, "Sparkler shell impact");

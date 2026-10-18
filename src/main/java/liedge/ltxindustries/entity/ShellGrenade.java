@@ -1,11 +1,11 @@
 package liedge.ltxindustries.entity;
 
+import liedge.limacore.LimaCommonConstants;
 import liedge.limacore.client.particle.ColorParticleOptions;
 import liedge.limacore.client.particle.ColorSizeParticleOptions;
 import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.util.LimaBlockUtil;
 import liedge.limacore.util.LimaNetworkUtil;
-import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.client.particle.HanabiParticleOptions;
 import liedge.ltxindustries.data.LightColors;
@@ -251,7 +251,7 @@ public class ShellGrenade extends LTXIProjectileEntity implements IEntityWithCom
     {
         super.readAdditionalSaveData(input);
         this.grenadeType = input.read("grenade_type", GrenadeType.CODEC).orElse(GrenadeType.SPARKLER);
-        this.color = input.getIntOr(LTXIConstants.KEY_COLOR, -1);
+        this.color = input.getIntOr(LimaCommonConstants.KEY_COLOR, -1);
     }
 
     @Override
@@ -259,7 +259,7 @@ public class ShellGrenade extends LTXIProjectileEntity implements IEntityWithCom
     {
         super.addAdditionalSaveData(output);
         output.store("grenade_type", GrenadeType.CODEC, grenadeType);
-        output.putInt(LTXIConstants.KEY_COLOR, color);
+        output.putInt(LimaCommonConstants.KEY_COLOR, color);
     }
 
     @Override

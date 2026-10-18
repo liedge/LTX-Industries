@@ -8,7 +8,6 @@ public final class LTXIConstants
 
     // Common keys
     public static final String KEY_UPGRADES_CONTAINER = "upgrades";
-    public static final String KEY_COLOR = "color";
     public static final String KEY_TARGET = "target";
 
     //#region Color templates
