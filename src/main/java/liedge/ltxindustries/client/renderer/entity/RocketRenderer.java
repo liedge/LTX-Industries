@@ -30,7 +30,7 @@ public class RocketRenderer<T extends BaseRocketEntity> extends ProjectileRender
     public void extractRenderState(T entity, ProjectileRenderState state, float partialTick)
     {
         super.extractRenderState(entity, state, partialTick);
-        state.energyColor = entity.getColor();
+        state.color = entity.getColor();
     }
 
     @Override

@@ -23,7 +23,7 @@ public class ShellGrenadeRenderer extends ProjectileRenderer<ShellGrenade>
     public void extractRenderState(ShellGrenade entity, ProjectileRenderState state, float partialTick)
     {
         super.extractRenderState(entity, state, partialTick);
-        state.energyColor = entity.getColor();
+        state.color = entity.getColor();
     }
 
     @Override

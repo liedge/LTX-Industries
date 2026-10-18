@@ -1,13 +1,13 @@
 package liedge.ltxindustries.client.model.entity;
 
-import liedge.ltxindustries.client.renderer.entity.BombletRenderer;
+import liedge.ltxindustries.client.renderer.entity.ProjectileRenderState;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 
-public class BombletModel extends EntityModel<BombletRenderer.State>
+public class BombletModel extends EntityModel<ProjectileRenderState>
 {
     private final ModelPart body;
 
@@ -18,12 +18,12 @@ public class BombletModel extends EntityModel<BombletRenderer.State>
     }
 
     @Override
-    public void setupAnim(BombletRenderer.State state)
+    public void setupAnim(ProjectileRenderState state)
     {
         super.setupAnim(state);
 
-        body.xRot = state.rotation;
-        body.yRot = state.rotation;
+        body.xRot = state.xRot;
+        body.yRot = state.yRot;
     }
 
     public static LayerDefinition defineLayer()

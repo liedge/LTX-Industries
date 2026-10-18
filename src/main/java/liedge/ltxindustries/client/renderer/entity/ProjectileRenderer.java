@@ -66,7 +66,7 @@ public abstract class ProjectileRenderer<T extends LTXIProjectileEntity> extends
         if (emissive != null)
         {
             emissive.setupAnim(state);
-            nodeCollector.submitModel(emissive, state, poseStack, emissive.renderType(texture()), LightCoordsUtil.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, state.energyColor, null, state.outlineColor, null);
+            nodeCollector.submitModel(emissive, state, poseStack, emissive.renderType(texture()), LightCoordsUtil.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, state.color, null, state.outlineColor, null);
         }
 
         poseStack.popPose();

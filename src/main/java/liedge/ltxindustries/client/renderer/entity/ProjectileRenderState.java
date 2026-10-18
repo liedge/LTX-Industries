@@ -6,5 +6,5 @@ public class ProjectileRenderState extends EntityRenderState
 {
     public float yRot;
     public float xRot;
-    public int energyColor;
+    public int color = -1;
 }
