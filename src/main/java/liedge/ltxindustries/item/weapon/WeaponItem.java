@@ -77,7 +77,7 @@ public abstract class WeaponItem extends EnergyEquipmentItem
     }
 
     //#region Weapon user events
-    public abstract void triggerPressed(ItemStack heldItem, Player player, LTXIExtendedInput input);
+    public abstract boolean triggerPressed(ItemStack heldItem, Player player, LTXIExtendedInput input);
 
     public abstract boolean canContinueHoldingTrigger(ItemStack heldItem, Player player, LTXIExtendedInput input);
 

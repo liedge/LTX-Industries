@@ -4,7 +4,6 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectIterator;
 import liedge.limacore.lib.TickTimer;
-import liedge.limacore.util.LimaCoreObjects;
 import liedge.ltxindustries.item.weapon.WeaponItem;
 import liedge.ltxindustries.registry.game.LTXIAttachmentTypes;
 import net.minecraft.util.Mth;
@@ -84,13 +83,10 @@ public abstract class LTXIExtendedInput
         stopTriggerHold(player);
     }
 
-    public void pressTrigger(Player player, ItemStack stack, WeaponItem weaponItem)
+    public boolean pressTrigger(Player player, ItemStack stack, WeaponItem weaponItem)
     {
         boolean handCheck = player.getOffhandItem().isEmpty() || weaponItem.isOneHanded(stack);
-        if (checkNotReloading() && handCheck)
-        {
-            weaponItem.triggerPressed(stack, player, this);
-        }
+        return handCheck && checkNotReloading() && weaponItem.triggerPressed(stack, player, this);
     }
 
     public void startTriggerHold(Player player)
@@ -123,7 +119,9 @@ public abstract class LTXIExtendedInput
         }
     }
 
-    protected void triggerLogicTick(Player player, ItemStack selectedItem, int selectedSlot, @Nullable WeaponItem weaponItem)
+    protected abstract void tickTrigger(Player player);
+
+    protected final void updateTriggerState(Player player, ItemStack selectedItem, @Nullable WeaponItem weaponItem)
     {
         if (triggerHeld)
         {
@@ -278,12 +276,8 @@ public abstract class LTXIExtendedInput
 
     public void tick(Player player)
     {
-        // Tick timers
         tickTimers(player);
-
-        // Tick trigger logic
-        ItemStack selectedItem = player.getInventory().getItem(selectedSlot);
-        triggerLogicTick(player, selectedItem, selectedSlot, LimaCoreObjects.tryCast(WeaponItem.class, selectedItem.getItem()));
+        tickTrigger(player);
 
         // Target focus logic
         if (focusedTarget != null)

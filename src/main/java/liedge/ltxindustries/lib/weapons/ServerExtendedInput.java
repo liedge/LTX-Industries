@@ -77,9 +77,12 @@ public final class ServerExtendedInput extends LTXIExtendedInput
     }
 
     @Override
-    protected void triggerLogicTick(Player player, ItemStack selectedItem, int selectedSlot, @Nullable WeaponItem weaponItem)
+    protected void tickTrigger(Player player)
     {
-        super.triggerLogicTick(player, selectedItem, selectedSlot, weaponItem);
+        int selectedSlot = getSelectedSlot();
+        ItemStack selectedItem = player.getInventory().getItem(selectedSlot);
+        WeaponItem weaponItem = LimaCoreObjects.tryCast(WeaponItem.class, selectedItem.getItem());
+        updateTriggerState(player, selectedItem, weaponItem);
 
         if (getReloadTimer().getTimerState() == TickTimer.State.STOPPED && reloadFlag)
         {

@@ -13,12 +13,15 @@ public abstract class FullAutoWeaponItem extends WeaponItem
     }
 
     @Override
-    public void triggerPressed(ItemStack heldItem, Player player, LTXIExtendedInput input)
+    public boolean triggerPressed(ItemStack heldItem, Player player, LTXIExtendedInput input)
     {
-        if (input.canStartShootingWeapon(heldItem, player, this))
+        if (input.canContinueShootingWeapon(heldItem, player, this))
         {
             input.startTriggerHold(player);
+            return true;
         }
+
+        return false;
     }
 
     @Override

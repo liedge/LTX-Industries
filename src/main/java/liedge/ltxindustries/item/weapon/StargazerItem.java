@@ -2,6 +2,7 @@ package liedge.ltxindustries.item.weapon;
 
 import liedge.ltxindustries.lib.upgrades.Upgrade;
 import liedge.ltxindustries.lib.weapons.LTXIExtendedInput;
+import liedge.ltxindustries.lib.weapons.WeaponReloadSource;
 import liedge.ltxindustries.registry.bootstrap.LTXIUpgrades;
 import liedge.ltxindustries.registry.game.LTXISounds;
 import liedge.ltxindustries.util.config.LTXIWeaponsConfig;
@@ -14,19 +15,31 @@ import net.minecraft.world.level.Level;
 
 import java.util.List;
 
-public class StargazerItem extends FullAutoWeaponItem implements ScopingWeaponItem
+public class StargazerItem extends WeaponItem implements ScopingWeaponItem
 {
     public static final int CHARGE_TICKS = 10;
 
     public StargazerItem(Properties properties)
     {
-        super(properties, 5, 200, 40);
+        super(properties, 5, 200, 40, WeaponReloadSource.commonEnergy());
     }
 
     @Override
     public List<ResourceKey<Upgrade>> getDefaultUpgrades()
     {
         return List.of(LTXIUpgrades.STARGAZER_DEFAULT);
+    }
+
+    @Override
+    public boolean triggerPressed(ItemStack heldItem, Player player, LTXIExtendedInput input)
+    {
+        if (input.canStartShootingWeapon(heldItem, player, this))
+        {
+            input.startTriggerHold(player);
+            return true;
+        }
+
+        return false;
     }
 
     @Override

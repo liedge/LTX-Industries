@@ -12,7 +12,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.client.network.ClientPacketDistributor;
-import org.jspecify.annotations.Nullable;
 
 public final class ClientExtendedInput extends LTXIExtendedInput
 {
@@ -100,19 +99,20 @@ public final class ClientExtendedInput extends LTXIExtendedInput
     }
 
     @Override
-    protected void triggerLogicTick(Player player, ItemStack selectedItem, int selectedSlot, @Nullable WeaponItem weaponItem)
+    protected void tickTrigger(Player player)
     {
-        // Check for slot changes
-        setSelectedSlot(player, player.getInventory().getSelectedSlot());
+        int selectedSlot = player.getInventory().getSelectedSlot();
+        ItemStack selectedItem = player.getInventory().getSelectedItem();
+        WeaponItem weaponItem = LimaCoreObjects.tryCast(WeaponItem.class, selectedItem.getItem());
+        setSelectedSlot(player, selectedSlot);
 
         boolean leftInput = Minecraft.getInstance().options.keyAttack.isDown() && !player.isSpectator();
         if (this.previousLeftInput != leftInput)
         {
             if (leftInput)
             {
-                if (weaponItem != null)
+                if (weaponItem != null && pressTrigger(player, selectedItem, weaponItem))
                 {
-                    pressTrigger(player, selectedItem, weaponItem);
                     ClientPacketDistributor.sendToServer(new ServerboundTriggerPacket(selectedSlot, false));
                 }
             }
@@ -125,7 +125,7 @@ public final class ClientExtendedInput extends LTXIExtendedInput
             this.previousLeftInput = leftInput;
         }
 
-        super.triggerLogicTick(player, selectedItem, selectedSlot, weaponItem);
+        updateTriggerState(player, selectedItem, weaponItem);
 
         if (weaponItem != null)
         {
