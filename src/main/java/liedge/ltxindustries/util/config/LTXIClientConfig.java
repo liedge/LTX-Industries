@@ -70,7 +70,7 @@ public final class LTXIClientConfig
         ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
 
         ALWAYS_SHOW_UPGRADE_ICONS = builder.comment("Whether upgrade module icons are always shown instead of needing to hold down SHIFT. (Defaults to false)")
-                .define("always_show_upgrade_icons", false);
+                .define("always_show_upgrade_icons", true);
 
         INVERT_MODE_SWITCH_SCROLL = builder.comment("Inverts the scroll direction for switching between equipment modes. By default, scroll down cycles forward.")
                 .define("invert_mode_switch_scroll", false);
