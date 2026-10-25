@@ -2,14 +2,14 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "g": "#c:gears/titanium",
-    "i": "#c:ingots/iron",
-    "l": "minecraft:lever"
+    "c": "#c:gears/titanium",
+    "g": "#c:glass_blocks/cheap",
+    "t": "#c:ingots/titanium"
   },
   "pattern": [
-    "igi",
-    "glg",
-    "igi"
+    "tgt",
+    "gcg",
+    "tgt"
   ],
   "result": {
     "id": "ltxi:machine_housing"

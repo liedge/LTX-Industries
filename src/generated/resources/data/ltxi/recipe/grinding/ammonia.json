@@ -1,6 +1,5 @@
 {
   "type": "ltxi:grinding",
-  "craft_time": 300,
   "fluid_results": [
     {
       "amount": 200,

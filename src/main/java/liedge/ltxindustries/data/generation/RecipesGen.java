@@ -153,8 +153,8 @@ class RecipesGen extends LimaRecipeProvider
 
         shaped(TITANIUM_GEAR).input('i', TITANIUM_INGOTS).input('n', NUGGETS_IRON).patterns("ini", "n n", "ini").save(output);
         shaped(SLATESTEEL_GEAR).input('i', SLATESTEEL_INGOTS).input('n', NUGGETS_IRON).patterns("ini", "n n", "ini").save(output);
-        shaped(MACHINE_HOUSING).input('i', INGOTS_IRON).input('g', TITANIUM_GEARS).input('l', LEVER).patterns("igi", "glg", "igi").save(output);
-        shaped(SMALL_VOLTAIC_CELL).input('t', TITANIUM_INGOTS).input('s', SILVER_INGOTS).input('c', STORAGE_BLOCKS_COPPER).input('g', GLASS_BLOCKS_CHEAP).patterns("tst", "gcg", "gsg").save(output);
+        shaped(MACHINE_HOUSING).input('t', TITANIUM_INGOTS).input('g', GLASS_BLOCKS_CHEAP).input('c', TITANIUM_GEARS).patterns("tgt", "gcg", "tgt").save(output);
+        shaped(SMALL_VOLTAIC_CELL).input('t', TITANIUM_INGOTS).input('s', SILVER_INGOTS).input('c', LIGHTNING_ROD).input('g', GLASS_BLOCKS_CHEAP).patterns("tst", "gcg", "gsg").save(output);
         shaped(CIRCUIT_BOARD).input('p', PAPER).input('r', REPEATER).input('c', INGOTS_COPPER).input('g', GOLD_NUGGET).patterns("gcg", "crc", "ppp").save(output);
         shaped(T1_CIRCUIT).input('b', CIRCUIT_BOARD).input('e', SMALL_VOLTAIC_CELL).input('c', INGOTS_COPPER).input('t', TITANIUM_INGOTS).patterns("ece", "cbc", "tct").save(output);
 
@@ -201,7 +201,7 @@ class RecipesGen extends LimaRecipeProvider
 
         // Upgrade modules
         upgradeShaped(POWER_TIERS, 1, builder -> builder
-                .input('c', T1_CIRCUIT).input('s', SLATESTEEL_PLATES).input('g', SLATESTEEL_GEARS).input('e', SMALL_VOLTAIC_CELL).patterns("ese", "cmc", "gsg"));
+                .input('c', T1_CIRCUIT).input('s', SLATESTEEL_INGOTS).input('g', TITANIUM_GEARS).input('e', SMALL_VOLTAIC_CELL).patterns("ese", "cmc", "gsg"));
         upgradeShaped(POWER_TIERS, 2, builder -> builder
                 .input('c', T2_CIRCUIT).input('t', TITANIUM_GEARS).input('g', SLATESTEEL_GEARS).input('e', MEDIUM_VOLTAIC_CELL).patterns("ege", "cmc", "gtg"));
         upgradeShaped(GEO_SYNTHESIZER_PARALLEL, 1, builder -> builder
@@ -287,11 +287,12 @@ class RecipesGen extends LimaRecipeProvider
             ItemResult s3Byproduct = switch (ore)
             {
                 case TITANIUM -> ItemResult.of(TUNGSTEN_TRIOXIDE, ResultCount.exactlyRandom(1, 0.1f));
-                case OLIVINE -> ItemResult.of(PYROXENE, ResultCount.exactlyRandom(1, 0.075f));
+                case OLIVINE -> ItemResult.of(PYROXENE, ResultCount.exactlyRandom(1, 0.1f));
                 default -> null;
             };
             ItemResult s5Byproduct = switch (ore)
             {
+                case TITANIUM -> ItemResult.of(TUNGSTEN_TRIOXIDE, ResultCount.exactlyRandom(1, 0.05f));
                 case COPPER -> ItemResult.of(RHENIUM_7_OXIDE, ResultCount.exactlyRandom(1, 0.05f));
                 case OLIVINE -> ItemResult.of(PYROXENE, ResultCount.exactlyRandom(1, 0.05f));
                 default -> null;
@@ -946,11 +947,11 @@ class RecipesGen extends LimaRecipeProvider
         Holder<RecipeMode> dyes = registries.holderOrThrow(LTXIRecipeModes.DYE_EXTRACTION);
 
         // Element/base compounds
-        grinding().needsMode(elements).input(SPARK_FRUIT).output(ItemResult.of(SODIUM_DUST)).time(300).save(output);
+        grinding().needsMode(elements).input(SPARK_FRUIT).output(ItemResult.of(SODIUM_DUST)).save(output);
         grinding().needsMode(elements).input(VITRIOL_BERRIES).output(ItemResult.of(ACIDIC_BIOMASS)).save(output);
         grinding().needsMode(elements).input(COAL).output(ItemResult.of(CARBON_DUST)).output(ItemResult.of(SULFUR_DUST, ResultCount.exactlyRandom(1, 0.25f))).save(output, "coal_carbon");
         grinding().needsMode(elements).input(CHARCOAL).output(ItemResult.of(CARBON_DUST)).save(output, "charcoal_carbon");
-        grinding().needsMode(elements).input(Ingredient.of(WARPED_FUNGUS, CRIMSON_FUNGUS)).fluidOutput(FluidResult.of(AMMONIA, 200)).time(300).save(output);
+        grinding().needsMode(elements).input(Ingredient.of(WARPED_FUNGUS, CRIMSON_FUNGUS)).fluidOutput(FluidResult.of(AMMONIA, 200)).save(output);
 
         // Dusts
         grinding().input(TITANIUM_INGOTS).output(ItemResult.of(TITANIUM_DUST)).save(output);
@@ -1035,8 +1036,8 @@ class RecipesGen extends LimaRecipeProvider
         Holder<RecipeMode> inertGas = registries.holderOrThrow(LTXIRecipeModes.INERT_SMELTING);
 
         // Unshielded mode smelting
-        arcSmelting().needsMode(unshielded).input(INGOTS_IRON).input(CARBON_DUSTS).input(DEEPSLATE_DUSTS, 2).fluidInput(OXYGEN_FLUIDS, 250).output(ItemResult.of(SLATESTEEL_INGOT)).time(300).save(output);
-        arcSmelting().needsMode(unshielded).input(SILICON_DUSTS, 2).output(ItemResult.of(SILICON_INGOT)).time(600).save(output);
+        arcSmelting().needsMode(unshielded).input(INGOTS_IRON).input(CARBON_DUSTS).input(DEEPSLATE_DUSTS, 2).fluidInput(OXYGEN_FLUIDS, 250).output(ItemResult.of(SLATESTEEL_INGOT)).save(output);
+        arcSmelting().needsMode(unshielded).input(SILICON_DUSTS, 2).output(ItemResult.of(SILICON_INGOT)).time(400).save(output);
 
         // Inert gas smelting
         arcSmelting().needsMode(inertGas).input(SILICON_DUSTS).fluidInput(NITROGEN, 125).output(ItemResult.of(SILICON_INGOT)).save(output, "silicon_ingot_gas");
@@ -1061,7 +1062,7 @@ class RecipesGen extends LimaRecipeProvider
 
         // Misc
         NEON_LIGHTS.forEach((color, holder) -> arcSmelting().input(PHOSPHORUS_DUSTS, 2).input(neonLightDye(color)).time(120).output(ItemResult.of(holder, 16)).save(output));
-        arcSmelting().input(NETHERITE_SCRAP, 4).input(INGOTS_GOLD).output(ItemResult.of(NETHERITE_INGOT)).save(output);
+        arcSmelting().input(NETHERITE_SCRAP).input(INGOTS_GOLD, 2).output(ItemResult.of(NETHERITE_INGOT)).save(output);
         arcSmelting().input(TITANIUM_INGOTS).input(GEMS_QUARTZ, 3).output(ItemResult.of(TITANIUM_GLASS, 2)).save(output);
         arcSmelting().input(TITANIUM_DUSTS).fluidInput(OXYGEN_FLUIDS, 1000).output(ItemResult.of(WHITE_DYE, 8)).save(output);
     }
@@ -1069,8 +1070,10 @@ class RecipesGen extends LimaRecipeProvider
     private void sievingRecipes()
     {
         sieving().water(125).input(GRAVELS).output(ItemResult.of(FLINT)).output(ItemResult.of(FLINT, ResultCount.exactlyRandom(1, 0.5f))).save(output);
-        sieving().water(1000).input(PERIDOTITE_DUSTS).output(ItemResult.of(RAW_OLIVINE, ResultCount.exactlyRandom(1, 0.025f))).save(output);
-        sieving().water(1000).input(DEEPSLATE_DUSTS).output(ItemResult.of(RAW_FLUORITE, ResultCount.exactlyRandom(1, 0.025f))).save(output);
+        sieving().water(1000).input(PERIDOTITE_DUSTS).output(ItemResult.of(RAW_OLIVINE, ResultCount.exactlyRandom(1, 0.05f))).save(output);
+        sieving().water(1000).input(DEEPSLATE_DUSTS).output(ItemResult.of(RAW_FLUORITE, ResultCount.exactlyRandom(1, 0.05f))).save(output);
+        sieving().fluidInput(HYDROCHLORIC_ACID, 500).input(PERIDOTITE_DUSTS).output(ItemResult.of(RAW_OLIVINE, ResultCount.exactlyRandom(1, 0.25f))).save(output, "peridotite_dusts_hcl");
+        sieving().fluidInput(HYDROCHLORIC_ACID, 500).input(DEEPSLATE_DUSTS).output(ItemResult.of(RAW_FLUORITE, ResultCount.exactlyRandom(1, 0.25f))).save(output, "deepslate_dusts_hcl");
     }
 
     private void electroCentrifugingRecipes()
@@ -1251,7 +1254,7 @@ class RecipesGen extends LimaRecipeProvider
 
     private void assemblingRecipes()
     {
-        assembling().input(TITANIUM_PLATES, 8).input(POLYMER, 4).output(ItemResult.of(MACHINE_HOUSING)).save(output, "machine_housing_p");
+        assembling().input(TITANIUM_PLATES, 6).input(POLYMER, 4).output(ItemResult.of(MACHINE_HOUSING)).save(output, "machine_housing_p");
         assembling().input(TITANIUM_PLATES, 4).input(FLUOROPOLYMER, 2).output(ItemResult.of(MACHINE_HOUSING)).save(output, "machine_housing_fp");
         assembling()
                 .input(POLYMER, 4)
