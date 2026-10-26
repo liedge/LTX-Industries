@@ -64,8 +64,7 @@ import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
-import static liedge.ltxindustries.LTXITags.Fluids.HYDROGEN_FLUIDS;
-import static liedge.ltxindustries.LTXITags.Fluids.OXYGEN_FLUIDS;
+import static liedge.ltxindustries.LTXITags.Fluids.*;
 import static liedge.ltxindustries.LTXITags.Items.*;
 import static liedge.ltxindustries.registry.bootstrap.LTXIUpgrades.*;
 import static liedge.ltxindustries.registry.game.LTXIFluids.*;
@@ -317,7 +316,7 @@ class RecipesGen extends LimaRecipeProvider
             chemLab()
                     .needsMode(mode)
                     .input(oreChunk.value())
-                    .fluidInput(SULFURIC_ACID, 125)
+                    .fluidInput(SULFURIC_ACIDS, 125)
                     .output(ItemResult.of(oreSolution))
                     .output(ItemResult.of(oreSolution, ResultCount.exactlyRandom(1, 0.5f)))
                     .save(output);
@@ -1148,9 +1147,9 @@ class RecipesGen extends LimaRecipeProvider
     {
         mixing().input(DIRT).water(1000).output(ItemResult.of(MUD)).time(120).save(output);
         mixing().input(ACIDIC_BIOMASS, 4).water(1000).fluidOutput(FluidResult.of(SULFURIC_ACID, 1000)).save(output);
-        mixing().input(RESINOUS_BIOMASS, 4).water(2000).fluidInput(SULFURIC_ACID, 1000).output(ItemResult.of(POLYMER, 2)).time(600).save(output);
-        mixing().input(CHORUS_FRUIT, 2).fluidInput(SULFURIC_ACID, 1000).output(ItemResult.of(CHORUS_CHEMICAL)).time(600).save(output);
-        mixing().input(GLOOM_SHROOM, 2).fluidInput(SULFURIC_ACID, 1000).output(ItemResult.of(SCULK_CHEMICAL)).time(600).save(output);
+        mixing().input(RESINOUS_BIOMASS, 4).water(2000).fluidInput(SULFURIC_ACIDS, 1000).output(ItemResult.of(POLYMER, 2)).time(600).save(output);
+        mixing().input(CHORUS_FRUIT, 2).fluidInput(SULFURIC_ACIDS, 1000).output(ItemResult.of(CHORUS_CHEMICAL)).time(600).save(output);
+        mixing().input(GLOOM_SHROOM, 2).fluidInput(SULFURIC_ACIDS, 1000).output(ItemResult.of(SCULK_CHEMICAL)).time(600).save(output);
 
         // Concretes
         for (DyeColor color : DyeColor.values())
@@ -1196,7 +1195,7 @@ class RecipesGen extends LimaRecipeProvider
         chemLab().fluidInput(NITROGEN, 1000).fluidInput(HYDROGEN_FLUIDS, 3000).fluidOutput(FluidResult.of(AMMONIA, 1000)).save(output);
         chemLab().input(SULFUR_DUSTS, 4).fluidInput(OXYGEN_FLUIDS, 1000).fluidOutput(FluidResult.of(SULPHURINE, 1000)).time(400).save(output, "sulfur_to_sulphurine");
         chemLab().fluidInput(SULPHURINE, 1000).water(1000).fluidOutput(FluidResult.of(SULFURIC_ACID, 1000)).time(900).save(output);
-        chemLab().input(FLUORITE_GEMS, 4).fluidInput(SULFURIC_ACID, 1000).fluidOutput(FluidResult.of(HYDROFLUORIC_ACID, 1000)).save(output);
+        chemLab().input(FLUORITE_GEMS, 4).fluidInput(SULFURIC_ACIDS, 1000).fluidOutput(FluidResult.of(HYDROFLUORIC_ACID, 1000)).save(output);
 
         chemLab()
                 .input(SILICON_DUSTS, 4)
@@ -1215,11 +1214,11 @@ class RecipesGen extends LimaRecipeProvider
                 .fluidOutput(FluidResult.of(HYDROCHLORIC_ACID, 1000))
                 .save(output);
 
-        chemLab().input(POLYMER_SHEET, 2).input(COPPER_PLATES).fluidInput(SULFURIC_ACID, 500).output(ItemResult.of(CIRCUIT_BOARD)).save(output);
-        chemLab().input(FLUOROPOLYMER_SHEET, 2).input(SILVER_PLATES).fluidInput(SULFURIC_ACID, 1000).output(ItemResult.of(ELITE_CIRCUIT_BOARD)).save(output);
+        chemLab().input(POLYMER_SHEET, 2).input(COPPER_PLATES).fluidInput(SULFURIC_ACIDS, 500).output(ItemResult.of(CIRCUIT_BOARD)).save(output);
+        chemLab().input(FLUOROPOLYMER_SHEET, 2).input(SILVER_PLATES).fluidInput(SULFURIC_ACIDS, 1000).output(ItemResult.of(ELITE_CIRCUIT_BOARD)).save(output);
         chemLab()
                 .input(SODIUM_DUSTS, 8)
-                .fluidInput(SULFURIC_ACID, 8000)
+                .fluidInput(SULFURIC_ACIDS, 8000)
                 .fluidInput(CHLORINE, 4000)
                 .output(ItemResult.of(CORROSIVE_WEAPON_CHEMICAL))
                 .time(900)

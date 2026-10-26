@@ -167,8 +167,9 @@ public final class LTXITags
     {
         private Fluids() {}
 
-        public static final TagKey<Fluid> HYDROGEN_FLUIDS = COMMON.fluidTag("hydrogen");
-        public static final TagKey<Fluid> OXYGEN_FLUIDS = COMMON.fluidTag("oxygen");
+        public static final TagKey<Fluid> HYDROGEN_FLUIDS = COMMON.fluidTag(LTXIIdentifiers.ID_HYDROGEN);
+        public static final TagKey<Fluid> OXYGEN_FLUIDS = COMMON.fluidTag(LTXIIdentifiers.ID_OXYGEN);
+        public static final TagKey<Fluid> SULFURIC_ACIDS = COMMON.fluidTag(LTXIIdentifiers.ID_SULFURIC_ACID);
     }
 
     public static final class EntityTypes

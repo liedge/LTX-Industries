@@ -4,7 +4,7 @@
   "fluid_inputs": [
     {
       "amount": 8000,
-      "ingredient": "ltxi:sulfuric_acid"
+      "ingredient": "#c:sulfuric_acid"
     },
     {
       "amount": 4000,

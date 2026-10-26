@@ -9,8 +9,7 @@ import net.minecraft.world.level.material.Fluid;
 
 import java.util.concurrent.CompletableFuture;
 
-import static liedge.ltxindustries.LTXITags.Fluids.HYDROGEN_FLUIDS;
-import static liedge.ltxindustries.LTXITags.Fluids.OXYGEN_FLUIDS;
+import static liedge.ltxindustries.LTXITags.Fluids.*;
 import static liedge.ltxindustries.registry.game.LTXIFluids.*;
 
 class FluidTagsGen extends LimaTagsProvider.RegistryTags<Fluid>
@@ -25,5 +24,6 @@ class FluidTagsGen extends LimaTagsProvider.RegistryTags<Fluid>
     {
         buildTag(HYDROGEN_FLUIDS).add(HYDROGEN, FLOWING_HYDROGEN);
         buildTag(OXYGEN_FLUIDS).add(OXYGEN, FLOWING_OXYGEN);
+        buildTag(SULFURIC_ACIDS).add(SULFURIC_ACID, FLOWING_SULFURIC_ACID);
     }
 }
