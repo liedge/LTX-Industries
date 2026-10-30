@@ -12,7 +12,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.Tags;
 
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import static liedge.ltxindustries.LTXITags.Items.*;
@@ -123,11 +122,11 @@ class ItemTagsGen extends LimaTagsProvider.ItemTags
         buildTag(DEEPSLATE_DUSTS).add(DEEPSLATE_DUST).copyTo(DUSTS);
         buildTag(PERIDOTITE_DUSTS).add(PERIDOTITE_DUST).copyTo(DUSTS);
 
-        buildTag(CRUSHED_ORE_ITEMS).addHolders(List.copyOf(CRUSHED_ORES.values()));
-        buildTag(WASHED_ORE_ITEMS).addHolders(List.copyOf(WASHED_ORES.values()));
-        buildTag(ORE_CHUNK_ITEMS).addHolders(List.copyOf(ORE_CHUNKS.values()));
-        buildTag(ORE_SOLUTION_ITEMS).addHolders(List.copyOf(ORE_SOLUTIONS.values()));
-        buildTag(ORE_CRYSTAL_ITEMS).addHolders(List.copyOf(ORE_CRYSTALS.values()));
+        buildTag(CRUSHED_ORE_ITEMS).add(CRUSHED_ORES.values());
+        buildTag(WASHED_ORE_ITEMS).add(WASHED_ORES.values());
+        buildTag(ORE_CHUNK_ITEMS).add(ORE_CHUNKS.values());
+        buildTag(ORE_SOLUTION_ITEMS).add(ORE_SOLUTIONS.values());
+        buildTag(ORE_CRYSTAL_ITEMS).add(ORE_CRYSTALS.values());
 
         buildTag(POLYMERS).add(POLYMER, FLUOROPOLYMER);
         buildTag(POLYMER_SHEETS).add(POLYMER_SHEET, FLUOROPOLYMER_SHEET);
@@ -172,5 +171,21 @@ class ItemTagsGen extends LimaTagsProvider.ItemTags
         // Equipment-related tags
         buildTag(FREEZE_IMMUNE_WEARABLES).addTag(WONDERLAND_ARMOR);
         buildTag(ENERGY_UPGRADABLE_EQUIPMENT).addTags(WONDERLAND_ARMOR, TOOL_EQUIPMENT);
+
+        // Tag removals
+        buildTag(TRIMMABLE_ARMOR).removeTag(WONDERLAND_ARMOR);
+
+        buildTag(HEAD_ARMOR_ENCHANTABLE).remove(WONDERLAND_HEAD);
+        buildTag(CHEST_ARMOR_ENCHANTABLE).remove(WONDERLAND_BODY);
+        buildTag(LEG_ARMOR_ENCHANTABLE).remove(WONDERLAND_LEGS);
+        buildTag(FOOT_ARMOR_ENCHANTABLE).remove(WONDERLAND_FEET);
+
+        buildTag(EQUIPPABLE_ENCHANTABLE).removeTag(WONDERLAND_ARMOR);
+        buildTag(DURABILITY_ENCHANTABLE).removeTag(EQUIPMENT_ITEMS);
+        buildTag(MINING_ENCHANTABLE).removeTag(EQUIPMENT_ITEMS);
+        buildTag(MINING_LOOT_ENCHANTABLE).removeTag(EQUIPMENT_ITEMS);
+        buildTag(SWEEPING_ENCHANTABLE).removeTag(MELEE_WEAPONS);
+        buildTag(MELEE_WEAPON_ENCHANTABLE).removeTag(MELEE_WEAPONS);
+        buildTag(SHARP_WEAPON_ENCHANTABLE).removeTag(MELEE_WEAPONS);
     }
 }

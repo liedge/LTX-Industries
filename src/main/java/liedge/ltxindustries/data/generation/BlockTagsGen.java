@@ -59,7 +59,7 @@ class BlockTagsGen extends LimaTagsProvider.RegistryTags<Block>
                 ROCKET_TURRET,
                 RAILGUN_TURRET,
                 MESH_BLOCK);
-        buildTag(NEON_LIGHT_BLOCKS).addHolders(List.copyOf(NEON_LIGHTS.values()));
+        buildTag(NEON_LIGHT_BLOCKS).add(NEON_LIGHTS.values());
 
         List<Holder<Block>> ironPickaxeBreakable = List.of(TITANIUM_ORE, DEEPSLATE_TITANIUM_ORE, RAW_TITANIUM_BLOCK, RAW_TITANIUM_CLUSTER, TITANIUM_BLOCK,
                 SILVER_ORE, DEEPSLATE_SILVER_ORE, RAW_SILVER_BLOCK, RAW_SILVER_CLUSTER, SILVER_BLOCK,
@@ -83,10 +83,10 @@ class BlockTagsGen extends LimaTagsProvider.RegistryTags<Block>
                 SMOOTH_SLATESTEEL_PANEL,
                 TILED_SLATESTEEL_PANEL)
                 .addTags(WRENCH_BREAKABLE, NEON_LIGHT_BLOCKS)
-                .addHolders(ironPickaxeBreakable)
-                .addHolders(diamondPickaxeBreakable);
-        buildTag(NEEDS_IRON_TOOL).addHolders(ironPickaxeBreakable);
-        buildTag(NEEDS_DIAMOND_TOOL).addHolders(diamondPickaxeBreakable);
+                .add(ironPickaxeBreakable)
+                .add(diamondPickaxeBreakable);
+        buildTag(NEEDS_IRON_TOOL).add(ironPickaxeBreakable);
+        buildTag(NEEDS_DIAMOND_TOOL).add(diamondPickaxeBreakable);
 
         buildTag(BEACON_BASE_BLOCKS).add(TITANIUM_BLOCK, SILVER_BLOCK, NIOBIUM_BLOCK, SLATESTEEL_BLOCK);
 
