@@ -13,7 +13,6 @@ import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.LTXIndustries;
 import liedge.ltxindustries.client.LTXILangKeys;
-import liedge.ltxindustries.lib.BuiltInOres;
 import liedge.ltxindustries.lib.icon.ItemIcon;
 import liedge.ltxindustries.lib.icon.SpriteIcon;
 import liedge.ltxindustries.lib.upgrades.Upgrade;
@@ -23,7 +22,6 @@ import liedge.ltxindustries.lib.upgrades.tooltip.*;
 import liedge.ltxindustries.lib.upgrades.value.*;
 import liedge.ltxindustries.lib.weapons.GrenadeType;
 import liedge.ltxindustries.lib.weapons.WeaponReloadSource;
-import liedge.ltxindustries.recipe.RecipeMode;
 import liedge.ltxindustries.registry.LTXIRegistries;
 import liedge.ltxindustries.registry.game.*;
 import liedge.ltxindustries.util.LTXIChatStyles;
@@ -162,10 +160,6 @@ public final class LTXIUpgrades
     public static final ResourceKey<Upgrade> PARALLEL_TIERS = key("parallel_tiers");
     public static final ResourceKey<Upgrade> FABRICATOR_UPGRADE = key("fabricator_upgrade");
 
-    public static final ResourceKey<Upgrade> ORE_PROCESS_2 = key("ore_process_2");
-    public static final ResourceKey<Upgrade> ORE_PROCESS_3 = key("ore_process_3");
-    public static final ResourceKey<Upgrade> ORE_PROCESS_4 = key("ore_process_4");
-    public static final ResourceKey<Upgrade> ORE_PROCESS_5 = key("ore_process_5");
     public static final ResourceKey<Upgrade> GEO_SYNTHESIZER_PARALLEL = key("geo_synthesizer_parallel");
 
     //#endregion
@@ -593,7 +587,6 @@ public final class LTXIUpgrades
     private static void machineUpgrades(BootstrapContext<Upgrade> context, HolderGetter<Upgrade> holders)
     {
         HolderGetter<BlockEntityType<?>> blockEntities = context.lookup(Registries.BLOCK_ENTITY_TYPE);
-        HolderGetter<RecipeMode> recipeModes = context.lookup(LTXIRegistries.Keys.RECIPE_MODES);
 
         ContextlessValue ecaScaling = ExponentialDouble.of(2, LinearDouble.oneIncrement(3));
         Upgrade.builder(ECA_CAPACITY_UPGRADE)
@@ -660,32 +653,6 @@ public final class LTXIUpgrades
                 .tooltip(energyUsageTooltip(fabUsage, ValueFormat.MULTIPLICATIVE, ValueSentiment.POSITIVE))
                 .setMaxRank(4)
                 .effectIcon(SpriteIcon.create("fabricator_upgrade"))
-                .register(context);
-
-        UnlockRecipeMode oreProcessing = new UnlockRecipeMode(recipeModes.getOrThrow(LTXIRecipeModes.ORE_PROCESSING));
-        Upgrade.builder(ORE_PROCESS_2)
-                .forMachines(LTXIBlockEntities.HYDROSIEVE)
-                .withSpecialEffect(UNLOCK_RECIPE_MODE, oreProcessing)
-                .effectIcon(greenArrowOverlay(ItemIcon.of(LTXIItems.WASHED_ORES.get(BuiltInOres.SILVER))))
-                .category("ores/2")
-                .register(context);
-        Upgrade.builder(ORE_PROCESS_3)
-                .forMachines(LTXIBlockEntities.VOLTAIC_INJECTOR)
-                .withSpecialEffect(UNLOCK_RECIPE_MODE, oreProcessing)
-                .effectIcon(greenArrowOverlay(ItemIcon.of(LTXIItems.ORE_CHUNKS.get(BuiltInOres.SILVER))))
-                .category("ores/3")
-                .register(context);
-        Upgrade.builder(ORE_PROCESS_4)
-                .forMachines(LTXIBlockEntities.CHEM_LAB)
-                .withSpecialEffect(UNLOCK_RECIPE_MODE, oreProcessing)
-                .effectIcon(greenArrowOverlay(ItemIcon.of(LTXIItems.ORE_SOLUTIONS.get(BuiltInOres.SILVER))))
-                .category("ores/4")
-                .register(context);
-        Upgrade.builder(ORE_PROCESS_5)
-                .forMachines(LTXIBlockEntities.ELECTROCENTRIFUGE)
-                .withSpecialEffect(UNLOCK_RECIPE_MODE, oreProcessing)
-                .effectIcon(greenArrowOverlay(ItemIcon.of(LTXIItems.ORE_CRYSTALS.get(BuiltInOres.SILVER))))
-                .category("ores/5")
                 .register(context);
 
         ContextlessValue geoSynthParallel = ExponentialDouble.of(2, LinearDouble.oneIncrement(4));

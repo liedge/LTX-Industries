@@ -22,7 +22,6 @@ public final class LTXIRecipeModes
     public static final ResourceKey<RecipeMode> ELEMENT_EXTRACTION = key("element_extraction");
     public static final ResourceKey<RecipeMode> DYE_EXTRACTION = key("dye_extraction");
     public static final ResourceKey<RecipeMode> CHEM_DISSOLUTION = key("chemical_dissolve");
-    public static final ResourceKey<RecipeMode> ORE_PROCESSING = key("ore_processing");
 
     // Material Press modes
     public static final ResourceKey<RecipeMode> PLATE_PRESSING = key("plate_pressing");
@@ -54,7 +53,6 @@ public final class LTXIRecipeModes
         builder(ELEMENT_EXTRACTION).icon(SpriteIcon.create("sodium_ion")).styledName(LTXIConstants.ELECTRIC_GREEN).register(context);
         builder(DYE_EXTRACTION).icon(ItemIcon.of(Items.LIME_DYE)).register(context);
         builder(CHEM_DISSOLUTION).icon(ItemIcon.of(LTXIItems.SULFURIC_ACID_BUCKET)).register(context);
-        builder(ORE_PROCESSING).icon(LTXIBootstrapUtil.greenArrowOverlay(ItemIcon.of(LTXIItems.RAW_SILVER))).register(context);
 
         builder(PLATE_PRESSING).icon(ItemIcon.of(LTXIItems.TITANIUM_PLATE)).register(context);
         builder(GEAR_PRESSING).icon(ItemIcon.of(LTXIItems.TITANIUM_GEAR)).register(context);

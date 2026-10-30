@@ -370,10 +370,6 @@ class LanguageGen extends LimaLanguageProvider
         upgrade(LTXIUpgrades.POWER_TIERS, "Σ/VM3 Power Supply Unit", "Standard issue SIGMA-VM3 power supplies are compatible with all our powered machinery.");
         upgrade(LTXIUpgrades.PARALLEL_TIERS, "Σ/4D Hypervisor Module", "SIGMA-4D co-processors may be deployed on select machinery for zero-cost parallelization.");
         upgrade(LTXIUpgrades.FABRICATOR_UPGRADE, "Enhanced Tool Head", "Elevate your Fabricator's manufacturing capabilities with superior internal components.");
-        upgrade(LTXIUpgrades.ORE_PROCESS_2, "Ore Washing Kit", "Upgrades the HydroSieve's internals to be able to wash away the impurities from crushed ores.");
-        upgrade(LTXIUpgrades.ORE_PROCESS_3, "Ore Cutting Laser", "Drop-in replacement emitter for the Voltaic Injector. Allows the electricity beam to cut cleaned ores.");
-        upgrade(LTXIUpgrades.ORE_PROCESS_4, "Ore Dissolution Vats", "Equip your Chem Lab with acid baths that dissolve processed ore chunks into solution vials.");
-        upgrade(LTXIUpgrades.ORE_PROCESS_5, "Ore Crystallizing Tubes", "Nano-tech powered filtration and circulation systems for the ElectroCentrifuge's tubes that allows the crystallization of ore solutions.");
         upgrade(LTXIUpgrades.GEO_SYNTHESIZER_PARALLEL, "Lithic Co-Processor", "A specialized parallel processor for producing geological material.");
         //#endregion
 
@@ -412,7 +408,6 @@ class LanguageGen extends LimaLanguageProvider
         recipeMode(LTXIRecipeModes.ELEMENT_EXTRACTION, "Element Extraction");
         recipeMode(LTXIRecipeModes.DYE_EXTRACTION, "Dye Extraction");
         recipeMode(LTXIRecipeModes.CHEM_DISSOLUTION, "Dissolution");
-        recipeMode(LTXIRecipeModes.ORE_PROCESSING, "Ore Processing");
         recipeMode(LTXIRecipeModes.PLATE_PRESSING, "Plate Pressing");
         recipeMode(LTXIRecipeModes.GEAR_PRESSING, "Gear Pressing");
         recipeMode(LTXIRecipeModes.UNSHIELDED_SMELTING, "Unshielded Smelting");

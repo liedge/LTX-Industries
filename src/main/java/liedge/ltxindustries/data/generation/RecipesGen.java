@@ -216,8 +216,6 @@ class RecipesGen extends LimaRecipeProvider
         upgradeShaped(PORTABLE_TANK_UPGRADE, 1, builder -> builder.input('g', TITANIUM_GLASS).input('b', BUCKET).patterns(" g ", "gmg", " b "));
         upgradeShaped(PORTABLE_TANK_UPGRADE, 2, builder -> builder.input('g', TITANIUM_GLASS).input('t', TITANIUM_INGOTS).patterns("tgt", "gmg", "tgt"));
 
-        upgradeShaped(ORE_PROCESS_2, 1, builder -> builder.input('s', SLATESTEEL_PLATES).input('g', SLATESTEEL_GEARS).input('b', IRON_BARS).patterns("sbs", "bmb", "gbg"));
-
         NEON_LIGHTS.forEach((color, holder) -> shaped(holder, 4).input('d', neonLightDye(color)).input('g', GLOWSTONE).patterns("dg", "gd").save(output));
     }
 
@@ -273,8 +271,6 @@ class RecipesGen extends LimaRecipeProvider
         oreProcessCooking(BuiltInOres.FLUORITE, FLUORITE, 2);
         oreProcessCooking(BuiltInOres.NIOBIUM, NIOBIUM_INGOT, 1);
 
-        Holder<RecipeMode> mode = registries.holderOrThrow(LTXIRecipeModes.ORE_PROCESSING);
-
         for (BuiltInOres ore : BuiltInOres.values())
         {
             Holder<Item> crushedOre = CRUSHED_ORES.get(ore);
@@ -298,7 +294,6 @@ class RecipesGen extends LimaRecipeProvider
             };
 
             sieving()
-                    .needsMode(mode)
                     .input(crushedOre.value())
                     .water(1000)
                     .output(ItemResult.of(washedOre))
@@ -306,7 +301,6 @@ class RecipesGen extends LimaRecipeProvider
                     .save(output);
 
             energizing()
-                    .needsMode(mode)
                     .input(washedOre.value())
                     .output(ItemResult.of(oreChunk))
                     .output(ItemResult.of(oreChunk, ResultCount.exactlyRandom(1, 0.5f)))
@@ -314,7 +308,6 @@ class RecipesGen extends LimaRecipeProvider
                     .save(output);
 
             chemLab()
-                    .needsMode(mode)
                     .input(oreChunk.value())
                     .fluidInput(SULFURIC_ACIDS, 125)
                     .output(ItemResult.of(oreSolution))
@@ -322,7 +315,6 @@ class RecipesGen extends LimaRecipeProvider
                     .save(output);
 
             electroCentrifuging()
-                    .needsMode(mode)
                     .input(oreSolution.value())
                     .fluidInput(HYDROCHLORIC_ACID, 125)
                     .output(ItemResult.of(oreCrystal))
@@ -849,27 +841,6 @@ class RecipesGen extends LimaRecipeProvider
                 .input(LARGE_VOLTAIC_CELL, 3)
                 .input(TITANIUM_GEARS, 4)
                 .input(SLATESTEEL_GEARS, 8));
-
-        final String oreProcessCategory = "machines/ores";
-        upgradeFabricating(oreProcessCategory, ORE_PROCESS_3, 1, 12_500_000, builder -> builder
-                .input(SLATESTEEL_PLATES, 8)
-                .input(T3_CIRCUIT, 2)
-                .input(SLATESTEEL_GEARS, 4)
-                .input(MEDIUM_VOLTAIC_CELL, 4)
-                .input(OLIVINE_GEMS, 32));
-        upgradeFabricating(oreProcessCategory, ORE_PROCESS_4, 1, 25_000_000, builder -> builder
-                .input(TITANIUM_PLATES, 16)
-                .input(FLUOROPOLYMER, 8)
-                .input(T3_CIRCUIT, 4)
-                .input(TITANIUM_GEARS, 4)
-                .input(TITANIUM_GLASS, 8));
-        upgradeFabricating(oreProcessCategory, ORE_PROCESS_5, 1, 50_000_000, builder -> builder
-                .input(TITANIUM_GLASS, 24)
-                .input(T4_CIRCUIT)
-                .input(TITANIUM_GEARS, 8)
-                .input(SLATESTEEL_GEARS, 4)
-                .input(LARGE_VOLTAIC_CELL)
-                .input(SODIUM_DUSTS, 32));
 
         final String storageUpgrades = "upgrade/storage";
         upgradeFabricating(storageUpgrades, ECA_CAPACITY_UPGRADE, 3, 10_000_000, builder -> builder

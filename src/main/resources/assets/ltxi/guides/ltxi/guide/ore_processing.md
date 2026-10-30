@@ -38,25 +38,18 @@ has a 50% of doubling each processed item. This means that on *average*, stages 
 ## Stage 1
 
 The first stage of ore processing is handled by the [Grinder](machines/processing/grinder.md) which will crush raw
-materials/ore blocks into Crushed Ore. This is the only stage which requires no upgrades or the Ore Processing
-[recipe mode](fundamentals/recipe_modes.md). It is available rather early, so prioritize getting a Grinder as soon
-as possible.
+materials/ore blocks into Crushed Ore.
 
 ## Stage 2
 
-<UpgradeEntry id="ore_process_2" />
-
-The [HydroSieve](machines/processing/hydrosieve.md) will process Crushed Ores into Washed Ores. At this stage you will start
-needing the Ore Processing recipe mode, which is not available by default on any of the machines. You will need to
-craft and install the above upgrade module onto your HydroSieve.
+The [HydroSieve](machines/processing/hydrosieve.md) will process Crushed Ores into Washed Ores. This steps consumes Water, although
+it is such an abundant resource it is almost not worth mentioning. Almost.
 
 ## Stage 3
 
-<UpgradeEntry id="ore_process_3" />
-
-The [Voltaic Injector](machines/processing/voltaic_injector.md) refines Washed Ores into Ore Chunks. The cost of upgrade
-modules takes a sharp turn upwards around this point. Investment in power tier upgrade modules is heavily recommended
-at this point to avoid bottlenecks.
+The [Voltaic Injector](machines/processing/voltaic_injector.md) refines Washed Ores into Ore Chunks. You'll need an
+[Olivine](resources/gems.md#olivine) crystal to craft the Voltaic Injector, so you should already have a HydroSieve
+setup for passively producing at least Olivine.
 
 ### Pyroxene and Tungsten
 
@@ -69,15 +62,11 @@ Pyroxene and Tungsten Trioxide will appear as byproducts from Olivine and Titani
 
 ## Stage 4
 
-<UpgradeEntry id="ore_process_4" />
-
 The [Chem Lab](machines/processing/chem_lab.md) will dissolve Ore Chunks into vials of Ore Solution using a small
 amount of [Sulfuric Acid](resources/acids.md#sulfuric-acid). A dedicated production line of Sulfuric Acid solely
 for ore processing is recommended.
 
 ## Stage 5
-
-<UpgradeEntry id="ore_process_5" />
 
 The [ElectroCentrifuge](machines/processing/electrocentrifuge.md) will precipitate Ore Solution into Ore Crystals with
 [Hydrochloric Acid](resources/acids.md#hydrochloric-acid). Once again, a dedicated supply line of acid is recommended
