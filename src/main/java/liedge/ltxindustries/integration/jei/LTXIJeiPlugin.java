@@ -24,6 +24,7 @@ import mezz.jei.api.gui.handlers.IGuiContainerHandler;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.neoforge.NeoForgeTypes;
 import mezz.jei.api.recipe.types.IRecipeHolderType;
+import mezz.jei.api.recipe.types.IRecipeType;
 import mezz.jei.api.registration.*;
 import mezz.jei.api.runtime.IClickableIngredient;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -73,6 +74,7 @@ public class LTXIJeiPlugin implements IModPlugin
     static final IRecipeHolderType<AirScrubbingRecipe> AIR_SCRUBBING_JEI = storeType(AIR_SCRUBBING);
     static final IRecipeHolderType<GardenSimulatingRecipe> GARDEN_SIMULATING_JEI = storeType(GARDEN_SIMULATING);
     static final IRecipeHolderType<FabricatingRecipe> FABRICATING_JEI = storeType(FABRICATING);
+    static final IRecipeType<UpgradeUsersCategory.Entry> UPGRADE_USERS = IRecipeType.create(LTXIndustries.RESOURCES.id("upgrade_users"), UpgradeUsersCategory.Entry.class);
 
     @Override
     public Identifier getPluginUid()
@@ -103,6 +105,8 @@ public class LTXIJeiPlugin implements IModPlugin
         registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, AIR_SCRUBBING, AIR_SCRUBBING_JEI, RecipeLayouts.AIR_SCRUBBING));
         registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, GARDEN_SIMULATING, GARDEN_SIMULATING_JEI, RecipeLayouts.GARDEN_SIMULATING));
         registration.addRecipeCategories(new FabricatingJeiCategory(helper, FABRICATING));
+
+        registration.addRecipeCategories(new UpgradeUsersCategory(UPGRADE_USERS, helper.createDrawableItemLike(LTXIItems.UPGRADE_MODULE)));
     }
 
     @Override
@@ -125,6 +129,8 @@ public class LTXIJeiPlugin implements IModPlugin
                 .stream()
                 .sorted(FabricatingRecipe.GROUP_AND_NAME_COMPARATOR)
                 .toList());
+
+        registration.addRecipes(UPGRADE_USERS, UpgradeUsersCategory.getAllRecipes());
     }
 
     @Override
