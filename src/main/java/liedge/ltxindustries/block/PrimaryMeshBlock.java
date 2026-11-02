@@ -5,14 +5,12 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import liedge.limacore.util.LimaBlockUtil;
 import liedge.limacore.util.LimaShapesUtil;
 import liedge.ltxindustries.block.mesh.BlockMesh;
-import liedge.ltxindustries.block.mesh.LTXIBlockMeshes;
 import liedge.ltxindustries.block.mesh.MeshPosition;
 import liedge.ltxindustries.blockentity.MeshBlockEntity;
 import liedge.ltxindustries.registry.game.LTXIBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
-import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -24,9 +22,8 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
-import java.util.Objects;
 import java.util.function.BiFunction;
 
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING;
@@ -66,10 +63,10 @@ public class PrimaryMeshBlock extends BaseMeshBlock
     private final BiFunction<Direction, MeshPosition, VoxelShape> shapeFunction;
     private final boolean tickClient;
 
-    public PrimaryMeshBlock(Properties properties, Identifier meshId, VoxelShape identityShape, boolean tickClient)
+    public PrimaryMeshBlock(Properties properties, BlockMesh blockMesh, VoxelShape identityShape, boolean tickClient)
     {
         super(properties);
-        this.blockMesh = Objects.requireNonNull(LTXIBlockMeshes.getBlockMesh(meshId));
+        this.blockMesh = blockMesh;
         this.shapeFunction = createShapeFunction(blockMesh, identityShape);
         this.tickClient = tickClient;
 

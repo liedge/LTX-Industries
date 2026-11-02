@@ -2,6 +2,7 @@ package liedge.ltxindustries;
 
 import com.mojang.logging.LogUtils;
 import liedge.limacore.lib.ModResources;
+import liedge.ltxindustries.block.mesh.LTXIBlockMeshes;
 import liedge.ltxindustries.lib.upgrades.Upgrade;
 import liedge.ltxindustries.lib.upgrades.value.UpgradeValueTypes;
 import liedge.ltxindustries.network.packet.*;
@@ -64,6 +65,7 @@ public class LTXIndustries
         LTXIUpgradeEffectComponents.register(modBus);
 
         // Initialize static value type registry
+        LTXIBlockMeshes.bootstrap();
         UpgradeValueTypes.bootstrap();
 
         // Mod configs

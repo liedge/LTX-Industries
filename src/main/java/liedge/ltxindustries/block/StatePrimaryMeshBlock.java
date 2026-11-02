@@ -1,7 +1,7 @@
 package liedge.ltxindustries.block;
 
+import liedge.ltxindustries.block.mesh.BlockMesh;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -10,9 +10,9 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class StatePrimaryMeshBlock extends PrimaryMeshBlock
 {
-    public StatePrimaryMeshBlock(Properties properties, Identifier meshId, VoxelShape identityShape, boolean tickClient)
+    public StatePrimaryMeshBlock(Properties properties, BlockMesh blockMesh, VoxelShape identityShape, boolean tickClient)
     {
-        super(properties, meshId, identityShape, tickClient);
+        super(properties, blockMesh, identityShape, tickClient);
 
         registerDefaultState(getStateDefinition().any()
                 .setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH)

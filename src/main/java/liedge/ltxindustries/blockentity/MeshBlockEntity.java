@@ -14,7 +14,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.Identifier;
 import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -30,8 +29,6 @@ import org.jspecify.annotations.Nullable;
 
 public final class MeshBlockEntity extends LimaBlockEntity
 {
-    @Nullable
-    private Identifier meshId;
     @Nullable
     private BlockMesh blockMesh;
 
@@ -98,18 +95,12 @@ public final class MeshBlockEntity extends LimaBlockEntity
 
     public @Nullable BlockMesh getBlockMesh()
     {
-        if (blockMesh == null && meshId != null)
-        {
-            blockMesh = LTXIBlockMeshes.getBlockMesh(meshId);
-        }
-
         return blockMesh;
     }
 
     public void setBlockMesh(BlockMesh blockMesh)
     {
         this.blockMesh = blockMesh;
-        this.meshId = LTXIBlockMeshes.getBlockMeshId(blockMesh);
     }
 
     public @Nullable MeshPosition getMeshPosition()
@@ -183,13 +174,13 @@ public final class MeshBlockEntity extends LimaBlockEntity
 
     private void loadMesh(ValueInput input)
     {
-        this.meshId = input.read("mesh", Identifier.CODEC).orElse(null);
+        this.blockMesh = input.read("mesh", LTXIBlockMeshes.CODEC).orElse(null);
         this.meshIndex = input.getIntOr("index", -1);
     }
 
     private void saveMesh(ValueOutput output)
     {
-        output.storeNullable("mesh", Identifier.CODEC, meshId);
+        output.storeNullable("mesh", LTXIBlockMeshes.CODEC, blockMesh);
         output.putInt("index", meshIndex);
     }
 }

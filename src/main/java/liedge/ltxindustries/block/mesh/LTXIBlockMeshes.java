@@ -1,45 +1,42 @@
 package liedge.ltxindustries.block.mesh;
 
-import com.google.common.collect.BiMap;
-import com.google.common.collect.ImmutableBiMap;
+import com.mojang.logging.LogUtils;
+import com.mojang.serialization.Codec;
 import liedge.ltxindustries.LTXIIdentifiers;
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.Util;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Objects;
-
-import static liedge.ltxindustries.LTXIndustries.RESOURCES;
+import net.minecraft.util.ExtraCodecs;
+import org.slf4j.Logger;
 
 public final class LTXIBlockMeshes
 {
     private LTXIBlockMeshes() {}
 
-    public static @Nullable BlockMesh getBlockMesh(Identifier id)
+    private static final Logger LOG = LogUtils.getLogger();
+    private static final ExtraCodecs.LateBoundIdMapper<Identifier, BlockMesh> ID_MAPPER = new ExtraCodecs.LateBoundIdMapper<>();
+    public static final Codec<BlockMesh> CODEC = ID_MAPPER.codec(Identifier.CODEC);
+
+    // note to self: neg x is right, pos z is forward (rel to player facing when place)
+
+    public static final BlockMesh FABRICATOR = BlockMesh.builder(LTXIIdentifiers.ID_FABRICATOR)
+            .add(0, 0, 0, BlockMeshPartType.PRIMARY)
+            .add(0, 1, 0)
+            .add(-1, 0, 0)
+            .add(-1, 1, 0)
+            .build();
+    public static final BlockMesh DIGITAL_GARDEN = BlockMesh.builder(LTXIIdentifiers.ID_DIGITAL_GARDEN).add(0, 0, 0, BlockMeshPartType.PRIMARY).add(0, 1, 0).build();
+    public static final BlockMesh TURRET = BlockMesh.builder("turret").add(0, 0, 0, BlockMeshPartType.PRIMARY).add(0, 1, 0).build();
+
+    public static void bootstrap()
     {
-        return REGISTRY.get(id);
+        register(FABRICATOR);
+        register(DIGITAL_GARDEN);
+        register(TURRET);
+
+        LOG.info("Initialized {} block meshes", ID_MAPPER.values().size());
     }
 
-    public static Identifier getBlockMeshId(BlockMesh mesh)
+    private static void register(BlockMesh mesh)
     {
-        return Objects.requireNonNull(REGISTRY.inverse().get(mesh), "Unregistered mesh.");
+        ID_MAPPER.put(mesh.getId(), mesh);
     }
-
-    public static final Identifier FABRICATOR = RESOURCES.id(LTXIIdentifiers.ID_FABRICATOR);
-    public static final Identifier DIGITAL_GARDEN = RESOURCES.id(LTXIIdentifiers.ID_DIGITAL_GARDEN);
-    public static final Identifier TURRET = RESOURCES.id("turret");
-
-    private static final BiMap<Identifier, BlockMesh> REGISTRY = Util.make(() -> {
-        ImmutableBiMap.Builder<Identifier, BlockMesh> builder = new ImmutableBiMap.Builder<>();
-
-        BlockMesh fabricator = BlockMesh.builder().add(0, 0, 0, BlockMeshPartType.PRIMARY).add(0, 1, 0).add(-1, 0, 0).add(-1, 1, 0).build();
-        BlockMesh digitalGarden = BlockMesh.builder().add(0, 0, 0, BlockMeshPartType.PRIMARY).add(0, 1, 0).build();
-        BlockMesh turret = BlockMesh.builder().add(0, 0, 0, BlockMeshPartType.PRIMARY).add(0, 1, 0).build();
-
-        builder.put(FABRICATOR, fabricator);
-        builder.put(DIGITAL_GARDEN, digitalGarden);
-        builder.put(TURRET, turret);
-
-        return builder.build();
-    });
 }

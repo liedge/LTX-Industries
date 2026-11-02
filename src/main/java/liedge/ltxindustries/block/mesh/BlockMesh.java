@@ -1,16 +1,19 @@
 package liedge.ltxindustries.block.mesh;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.AbstractIterator;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectList;
 import it.unimi.dsi.fastutil.objects.ObjectLists;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import liedge.ltxindustries.LTXIndustries;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.Level;
+import org.jspecify.annotations.Nullable;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -18,18 +21,25 @@ import java.util.stream.StreamSupport;
 
 public final class BlockMesh
 {
-    static BlockMesh.Builder builder()
+    public static BlockMesh.Builder builder(String name)
     {
-        return new Builder();
+        return new Builder(LTXIndustries.RESOURCES.id(name));
     }
 
+    private final Identifier id;
     private final List<MeshPosition> meshPositions;
     private final MeshPosition primary;
 
-    BlockMesh(List<MeshPosition> meshPositions, MeshPosition primary)
+    private BlockMesh(Identifier id, List<MeshPosition> meshPositions, MeshPosition primary)
     {
+        this.id = id;
         this.meshPositions = meshPositions;
         this.primary = primary;
+    }
+
+    public Identifier getId()
+    {
+        return id;
     }
 
     public MeshPosition getPrimary()
@@ -87,27 +97,27 @@ public final class BlockMesh
         final BlockPos primaryPos = getPrimaryBlockPos(blockPos, meshPosition, zAxis);
         Direction xAxis = zAxis.getCounterClockWise();
 
-        return () -> new Iterator<>()
+        return () -> new AbstractIterator<>()
         {
-            private final MeshBlockPos cursor = new MeshBlockPos();
+            private @Nullable MeshBlockPos cursor;
             private int current = 0;
 
             @Override
-            public boolean hasNext()
+            protected @Nullable MeshBlockPos computeNext()
             {
-                return current < meshPositions.size();
-            }
+                if (current >= meshPositions.size()) return endOfData();
 
-            @Override
-            public MeshBlockPos next()
-            {
                 MeshPosition next = meshPositions.get(current);
 
                 int x = primaryPos.getX() + (xAxis.getStepX() * next.pos().getX()) + (zAxis.getStepX() * next.pos().getZ());
                 int y = primaryPos.getY() + next.pos().getY();
                 int z = primaryPos.getZ() + (xAxis.getStepZ() * next.pos().getX()) + (zAxis.getStepZ() * next.pos().getZ());
 
-                cursor.setMeshPosition(next);
+                if (cursor == null)
+                    cursor = new MeshBlockPos(next);
+                else
+                    cursor.setMeshPosition(next);
+
                 cursor.set(x, y, z);
                 current++;
 
@@ -120,6 +130,11 @@ public final class BlockMesh
     {
         private MeshPosition meshPosition;
 
+        private MeshBlockPos(MeshPosition initial)
+        {
+            this.meshPosition = initial;
+        }
+
         public void setMeshPosition(MeshPosition meshPosition)
         {
             this.meshPosition = meshPosition;
@@ -131,10 +146,16 @@ public final class BlockMesh
         }
     }
 
-    static class Builder
+    public static final class Builder
     {
+        private final Identifier id;
         private final ObjectList<MeshPosition> meshPositions = new ObjectArrayList<>();
         private final Set<Vec3i> usedPos = new ObjectOpenHashSet<>();
+
+        private Builder(Identifier id)
+        {
+            this.id = id;
+        }
 
         public Builder add(int x, int y, int z, BlockMeshPartType type)
         {
@@ -156,7 +177,7 @@ public final class BlockMesh
             List<MeshPosition> primaries = meshPositions.stream().filter(o -> o.type() == BlockMeshPartType.PRIMARY).toList();
             Preconditions.checkState(primaries.size() == 1, "Block mesh contains invalid number of primary positions: " + primaries.size());
 
-            return new BlockMesh(ObjectLists.unmodifiable(meshPositions), primaries.getFirst());
+            return new BlockMesh(id, ObjectLists.unmodifiable(meshPositions), primaries.getFirst());
         }
     }
 }
