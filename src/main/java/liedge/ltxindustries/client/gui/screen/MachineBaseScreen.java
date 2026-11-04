@@ -4,14 +4,14 @@ import liedge.limacore.client.gui.LimaRenderable;
 import liedge.limacore.client.gui.TooltipLineConsumer;
 import liedge.limacore.transfer.energy.EnergyHolderBlockEntity;
 import liedge.ltxindustries.LTXIndustries;
-import liedge.ltxindustries.blockentity.base.ResourceType;
-import liedge.ltxindustries.blockentity.base.UpgradesHolderBlockEntity;
+import liedge.ltxindustries.blockentity.base.*;
 import liedge.ltxindustries.client.gui.widget.EnergyGaugeWidget;
 import liedge.ltxindustries.client.gui.widget.LTXISidebarButton;
 import liedge.ltxindustries.client.gui.widget.MachineUpgradesButton;
 import liedge.ltxindustries.client.gui.widget.OpenIOControlButton;
 import liedge.ltxindustries.menu.MachineBaseMenu;
 import liedge.ltxindustries.menu.SharedMenuButtons;
+import liedge.ltxindustries.registry.game.LTXIDataComponents;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
@@ -45,10 +45,14 @@ public abstract class MachineBaseScreen<M extends MachineBaseMenu<?>> extends LT
         addRenderableWidget(new MachineUpgradesButton(rightPos, rsy, this));
         rsy += LTXISidebarButton.SIDEBAR_BUTTON_HEIGHT;
 
-        for (ResourceType type : menu.getMenuContext().getRuleSet().getResourceTypes())
+        IORuleSet ruleSet = menu.getMenuContext().getType().get(LTXIDataComponents.IO_RULES);
+        if (ruleSet != null)
         {
-            addRenderableWidget(new OpenIOControlButton(rightPos, rsy, this, SharedMenuButtons.OPEN_IO_CONTROLS, type));
-            rsy += LTXISidebarButton.SIDEBAR_BUTTON_HEIGHT;
+            for (ResourceType type : ruleSet.getResourceTypes())
+            {
+                addRenderableWidget(new OpenIOControlButton(rightPos, rsy, this, SharedMenuButtons.OPEN_IO_CONTROLS, type));
+                rsy += LTXISidebarButton.SIDEBAR_BUTTON_HEIGHT;
+            }
         }
     }
 

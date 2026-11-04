@@ -262,7 +262,7 @@ public abstract class TurretBlockEntity extends ProductionMachineBlockEntity imp
     public void onUpgradeRefresh(LootContext context, Upgrades upgrades)
     {
         super.onUpgradeRefresh(context, upgrades);
-        EnergyConsumerBlockEntity.applyUpgrades(this, context, upgrades);
+        EnergyConsumerBlockEntity.onUpgradeRefresh(this, context, upgrades);
         this.targetFilter = TargetPredicate.create(upgrades, defaultFilter);
     }
 

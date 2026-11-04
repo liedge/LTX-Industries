@@ -12,7 +12,7 @@ import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.limacore.transfer.LimaTransferUtil;
 import liedge.limacore.transfer.fluid.FluidHolderBlockEntity;
 import liedge.limacore.transfer.fluid.LimaBlockEntityFluids;
-import liedge.ltxindustries.blockentity.template.MachineBaseBlockEntity;
+import liedge.ltxindustries.blockentity.template.ConfigurableSidesBlockEntity;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.registry.game.LTXIBlockEntities;
@@ -33,7 +33,7 @@ import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
 import org.jspecify.annotations.Nullable;
 
-public class PortableTankBlockEntity extends MachineBaseBlockEntity implements FluidHolderBlockEntity
+public class PortableTankBlockEntity extends ConfigurableSidesBlockEntity implements FluidHolderBlockEntity
 {
     public static final int FLUID_VISUAL_LEVELS = 11;
 

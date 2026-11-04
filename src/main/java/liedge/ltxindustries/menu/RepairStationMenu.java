@@ -9,7 +9,7 @@ public class RepairStationMenu extends LTXIMachineMenu<RepairStationBlockEntity>
 {
     public RepairStationMenu(MenuType<?> type, int containerId, Inventory inventory, RepairStationBlockEntity menuContext)
     {
-        super(type, containerId, inventory, menuContext, true);
+        super(type, containerId, inventory, menuContext);
 
         addSlot(BlockContentsType.INPUT, 0, 56, 34);
         addOutputSlot(0, 104, 34);

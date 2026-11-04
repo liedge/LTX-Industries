@@ -2,7 +2,6 @@ package liedge.ltxindustries.blockentity.template;
 
 import com.google.common.base.Predicates;
 import liedge.limacore.blockentity.IOAccess;
-import liedge.limacore.blockentity.LimaBlockEntity;
 import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.ltxindustries.blockentity.base.BlockIOConfiguration;
 import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntity;
@@ -32,7 +31,7 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public abstract class ConfigurableSidesBlockEntity extends LimaBlockEntity implements ConfigurableIOBlockEntity
+public abstract class ConfigurableSidesBlockEntity extends UpgradableBaseBlockEntity implements ConfigurableIOBlockEntity
 {
     // IO configurations
     private @Nullable BlockIOConfiguration itemsIOConfig;
@@ -48,9 +47,9 @@ public abstract class ConfigurableSidesBlockEntity extends LimaBlockEntity imple
     private int autoInputTimer;
     private int autoOutputTimer;
 
-    protected ConfigurableSidesBlockEntity(LimaBlockEntityType<?> type, BlockPos pos, BlockState state)
+    protected ConfigurableSidesBlockEntity(LimaBlockEntityType<?> type, BlockPos pos, BlockState state, int auxInvSize)
     {
-        super(type, pos, state);
+        super(type, pos, state, auxInvSize);
 
         IORuleSet rules = getRuleSet();
         this.itemsIOConfig = BlockIOConfiguration.create(rules, ResourceType.ITEMS);
@@ -87,6 +86,7 @@ public abstract class ConfigurableSidesBlockEntity extends LimaBlockEntity imple
         return false;
     }
 
+    @Override
     public IOAccess getTopLevelItemIO(@Nullable Direction side)
     {
         if (side == null || itemsIOConfig == null)
@@ -250,6 +250,8 @@ public abstract class ConfigurableSidesBlockEntity extends LimaBlockEntity imple
     @Override
     protected void onLoadServer(ServerLevel level)
     {
+        super.onLoadServer(level);
+
         itemConnections = createConnections(level, Capabilities.Item.BLOCK, itemsIOConfig);
         energyConnections = createConnections(level, Capabilities.Energy.BLOCK, energyIOConfig);
         fluidConnections = createConnections(level, Capabilities.Fluid.BLOCK, fluidsIOConfig);

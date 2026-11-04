@@ -1,7 +1,8 @@
 package liedge.ltxindustries.menu;
 
 import liedge.limacore.blockentity.BlockContentsType;
-import liedge.ltxindustries.blockentity.template.MachineBaseBlockEntity;
+import liedge.ltxindustries.blockentity.base.UpgradesHolderBlockEntity;
+import liedge.ltxindustries.blockentity.template.UpgradableBaseBlockEntity;
 import liedge.ltxindustries.lib.upgrades.Upgrade;
 import liedge.ltxindustries.lib.upgrades.UpgradeEntry;
 import liedge.ltxindustries.lib.upgrades.Upgrades;
@@ -17,11 +18,11 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 
-public class MachineUpgradeMenu extends UpgradesConfigMenu<MachineBaseBlockEntity>
+public class MachineUpgradeMenu extends UpgradesConfigMenu<UpgradesHolderBlockEntity>
 {
-    public MachineUpgradeMenu(MenuType<?> type, int containerId, Inventory inventory, MachineBaseBlockEntity menuContext)
+    public MachineUpgradeMenu(MenuType<?> type, int containerId, Inventory inventory, UpgradesHolderBlockEntity menuContext)
     {
-        super(type, containerId, inventory, menuContext, menuContext.getItemsOrThrow(BlockContentsType.AUXILIARY), MachineBaseBlockEntity.AUX_MODULE_ITEM_SLOT);
+        super(type, containerId, inventory, menuContext, menuContext.getItemsOrThrow(BlockContentsType.AUXILIARY), UpgradableBaseBlockEntity.AUX_MODULE_ITEM_SLOT);
 
         addPlayerInventoryAndHotbar(15, 118);
     }
@@ -36,7 +37,7 @@ public class MachineUpgradeMenu extends UpgradesConfigMenu<MachineBaseBlockEntit
     protected boolean canInstallUpgrade(ItemStack upgradeModuleItem)
     {
         UpgradeEntry entry = upgradeModuleItem.get(LTXIDataComponents.UPGRADE_ENTRY);
-        return entry != null && getUpgrades().canInstallUpgrade(menuContext, entry);
+        return entry != null && getUpgrades().canInstallUpgrade(menuContext.getAsLimaBlockEntity(), entry);
     }
 
     @Override
@@ -45,7 +46,7 @@ public class MachineUpgradeMenu extends UpgradesConfigMenu<MachineBaseBlockEntit
         Upgrades currentUpgrades = getUpgrades();
         UpgradeEntry moduleEntry = moduleItem.get(LTXIDataComponents.UPGRADE_ENTRY);
 
-        if (moduleEntry != null && currentUpgrades.canInstallUpgrade(menuContext, moduleEntry))
+        if (moduleEntry != null && currentUpgrades.canInstallUpgrade(menuContext.getAsLimaBlockEntity(), moduleEntry))
         {
             int previousRank = currentUpgrades.getUpgradeRank(moduleEntry.upgrade());
 

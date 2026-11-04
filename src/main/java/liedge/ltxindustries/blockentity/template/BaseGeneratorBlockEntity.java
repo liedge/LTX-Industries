@@ -3,21 +3,17 @@ package liedge.ltxindustries.blockentity.template;
 import com.google.common.primitives.Ints;
 import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.client.gui.TooltipLineConsumer;
-import liedge.limacore.lib.math.LimaCoreMath;
-import liedge.limacore.network.sync.LimaDataWatcher;
-import liedge.limacore.network.sync.SimpleValueTracker;
-import liedge.limacore.registry.game.LimaCoreNetworkSerializers;
 import liedge.ltxindustries.block.LTXIBlockProperties;
 import liedge.ltxindustries.block.MachineState;
+import liedge.ltxindustries.blockentity.base.EnergyGeneratorBlockEntity;
 import liedge.ltxindustries.lib.upgrades.Upgrades;
-import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
 import liedge.ltxindustries.util.LTXITooltipUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootContext;
 
-public abstract class BaseGeneratorBlockEntity extends LTXIMachineBlockEntity
+public abstract class BaseGeneratorBlockEntity extends LTXIMachineBlockEntity implements EnergyGeneratorBlockEntity
 {
     private boolean active;
     private int energyGeneration;
@@ -27,21 +23,16 @@ public abstract class BaseGeneratorBlockEntity extends LTXIMachineBlockEntity
         super(type, pos, state, 1, null);
     }
 
-    public abstract int getBaseEnergyGeneration();
-
+    @Override
     public int getEnergyGeneration()
     {
         return energyGeneration;
     }
 
+    @Override
     public void setEnergyGeneration(int energyGeneration)
     {
         this.energyGeneration = energyGeneration;
-    }
-
-    public LimaDataWatcher<Integer> syncEnergyGeneration()
-    {
-        return SimpleValueTracker.create(LimaCoreNetworkSerializers.VAR_INT, this::getEnergyGeneration, this::setEnergyGeneration).setAutomatic();
     }
 
     protected boolean isActive()
@@ -75,8 +66,7 @@ public abstract class BaseGeneratorBlockEntity extends LTXIMachineBlockEntity
     @Override
     public void onUpgradeRefresh(LootContext context, Upgrades upgrades)
     {
-        double newGeneration = upgrades.runValueOps(LTXIUpgradeEffectComponents.ENERGY_GENERATION, context, getBaseEnergyGeneration());
-        setEnergyGeneration(LimaCoreMath.roundInt(newGeneration));
+        EnergyGeneratorBlockEntity.onUpgradeRefresh(this, context, upgrades);
 
         super.onUpgradeRefresh(context, upgrades);
     }

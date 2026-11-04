@@ -21,7 +21,7 @@ import net.neoforged.neoforge.transfer.energy.EnergyHandler;
 import net.neoforged.neoforge.transfer.energy.EnergyHandlerUtil;
 import org.jspecify.annotations.Nullable;
 
-public abstract class LTXIMachineBlockEntity extends MachineBaseBlockEntity implements EnergyHolderBlockEntity
+public abstract class LTXIMachineBlockEntity extends ConfigurableSidesBlockEntity implements EnergyHolderBlockEntity
 {
     private final LimaEnergyHandler energy;
 

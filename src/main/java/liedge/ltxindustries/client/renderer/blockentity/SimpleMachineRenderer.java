@@ -1,11 +1,11 @@
 package liedge.ltxindustries.client.renderer.blockentity;
 
-import liedge.ltxindustries.blockentity.template.MachineBaseBlockEntity;
+import liedge.ltxindustries.blockentity.template.UpgradableBaseBlockEntity;
 import liedge.ltxindustries.client.model.custom.EnergyBoltData;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import org.jspecify.annotations.Nullable;
 
-public abstract class SimpleMachineRenderer<BE extends MachineBaseBlockEntity> extends MachineBaseRenderer<BE, SimpleMachineRenderer.State>
+public abstract class SimpleMachineRenderer<BE extends UpgradableBaseBlockEntity> extends MachineBaseRenderer<BE, SimpleMachineRenderer.State>
 {
     protected SimpleMachineRenderer(BlockEntityRendererProvider.Context context)
     {

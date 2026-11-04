@@ -27,7 +27,7 @@ public interface RecipeModeHolderBlockEntity extends ItemHolderBlockEntity, SubM
 {
     String TAG_KEY_RECIPE_MODE = "recipe_mode";
 
-    static void applyUpgrades(RecipeModeHolderBlockEntity blockEntity, Upgrades upgrades)
+    static void onUpgradeRefresh(RecipeModeHolderBlockEntity blockEntity, Upgrades upgrades)
     {
         HolderSet<RecipeMode> defaultModes = blockEntity.getDefaultRecipeModes();
         List<Holder<RecipeMode>> upgradeModes = Stream.concat(defaultModes.stream(), upgrades.effectStream(LTXIUpgradeEffectComponents.UNLOCK_RECIPE_MODE).map(UnlockRecipeMode::mode))

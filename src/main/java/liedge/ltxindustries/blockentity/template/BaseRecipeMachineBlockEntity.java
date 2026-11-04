@@ -372,7 +372,7 @@ public abstract class BaseRecipeMachineBlockEntity<I extends RecipeInput, R exte
     public void onUpgradeRefresh(LootContext context, Upgrades upgrades)
     {
         super.onUpgradeRefresh(context, upgrades);
-        EnergyConsumerBlockEntity.applyUpgrades(this, context, upgrades);
+        EnergyConsumerBlockEntity.onUpgradeRefresh(this, context, upgrades);
         this.recipeTimeFunction = LTXIUpgradeUtil.createMachineSpeedFunction(upgrades, context);
         int parallel = Mth.floor(upgrades.runValueOps(LTXIUpgradeEffectComponents.PARALLEL_OPERATIONS, context, 1));
         this.operationCount = Mth.clamp(parallel, 1, 64);

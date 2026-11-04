@@ -12,7 +12,7 @@ import net.minecraft.world.level.storage.loot.LootContext;
 
 public interface EnergyConsumerBlockEntity extends EnergyHolderBlockEntity
 {
-    static void applyUpgrades(EnergyConsumerBlockEntity blockEntity, LootContext context, Upgrades upgrades)
+    static void onUpgradeRefresh(EnergyConsumerBlockEntity blockEntity, LootContext context, Upgrades upgrades)
     {
         double newEnergyUsage = upgrades.runValueOps(LTXIUpgradeEffectComponents.ENERGY_USAGE, context, blockEntity.getBaseEnergyUsage());
         blockEntity.setEnergyUsage(Math.max(0, LimaCoreMath.roundInt(newEnergyUsage)));

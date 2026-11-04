@@ -6,7 +6,7 @@ import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.transfer.LimaInfiniteResources;
 import liedge.limacore.transfer.fluid.FluidHolderBlockEntity;
 import liedge.limacore.transfer.fluid.LimaBlockEntityFluids;
-import liedge.ltxindustries.blockentity.template.MachineBaseBlockEntity;
+import liedge.ltxindustries.blockentity.template.ConfigurableSidesBlockEntity;
 import liedge.ltxindustries.registry.game.LTXIBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -17,7 +17,7 @@ import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
 import org.jspecify.annotations.Nullable;
 
-public final class SpecialInfiniteTankBlockEntity extends MachineBaseBlockEntity implements FluidHolderBlockEntity
+public final class SpecialInfiniteTankBlockEntity extends ConfigurableSidesBlockEntity implements FluidHolderBlockEntity
 {
     public static SpecialInfiniteTankBlockEntity createWaterTank(BlockPos pos, BlockState state)
     {

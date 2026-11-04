@@ -77,7 +77,7 @@ public abstract class BaseFabricatorBlockEntity extends ProductionMachineBlockEn
     public void onUpgradeRefresh(LootContext context, Upgrades upgrades)
     {
         super.onUpgradeRefresh(context, upgrades);
-        EnergyConsumerBlockEntity.applyUpgrades(this, context, upgrades);
+        EnergyConsumerBlockEntity.onUpgradeRefresh(this, context, upgrades);
     }
 
     @Override

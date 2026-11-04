@@ -144,6 +144,6 @@ public abstract class LTXIRecipeMachineBlockEntity<R extends LTXIRecipe> extends
     public void onUpgradeRefresh(LootContext context, Upgrades upgrades)
     {
         super.onUpgradeRefresh(context, upgrades);
-        RecipeModeHolderBlockEntity.applyUpgrades(this, upgrades);
+        RecipeModeHolderBlockEntity.onUpgradeRefresh(this, upgrades);
     }
 }

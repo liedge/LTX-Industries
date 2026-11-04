@@ -1,7 +1,7 @@
 package liedge.ltxindustries.client.renderer.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import liedge.ltxindustries.blockentity.template.MachineBaseBlockEntity;
+import liedge.ltxindustries.blockentity.template.UpgradableBaseBlockEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -13,7 +13,7 @@ import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.Nullable;
 
-public abstract class MachineBaseRenderer<BE extends MachineBaseBlockEntity, S extends MachineRenderState> implements BlockEntityRenderer<BE, S>
+public abstract class MachineBaseRenderer<BE extends UpgradableBaseBlockEntity, S extends MachineRenderState> implements BlockEntityRenderer<BE, S>
 {
     protected final ItemModelResolver itemResolver;
     protected final ModelManager modelManager;

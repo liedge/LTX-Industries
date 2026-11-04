@@ -15,7 +15,7 @@ public class PortableGeneratorMenu extends MachineBaseMenu<PortableGeneratorBloc
         addPlayerInventoryAndHotbar(DEFAULT_INV_X, 66);
 
         menuContext.getEnergy().syncAllProperties(this);
-        addDataWatcher(menuContext.syncEnergyGeneration());
+        menuContext.syncEnergyGeneration(this);
         addDataWatcher(menuContext.syncFuelUnits());
     }
 }

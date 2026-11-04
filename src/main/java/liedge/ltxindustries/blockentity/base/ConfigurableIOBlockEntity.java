@@ -8,7 +8,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.MenuProvider;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.Nullable;
@@ -20,10 +19,7 @@ public interface ConfigurableIOBlockEntity extends SubMenuProviderBlockEntity
 {
     String KEY_IO_CONFIGS = "io_configs";
 
-    default Direction getFacing()
-    {
-        return getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING);
-    }
+    Direction getFacing();
 
     default IORuleSet getRuleSet()
     {

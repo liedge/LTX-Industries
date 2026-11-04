@@ -1,6 +1,8 @@
 package liedge.ltxindustries.blockentity.template;
 
+import com.google.common.base.Preconditions;
 import liedge.limacore.blockentity.BlockContentsType;
+import liedge.limacore.blockentity.LimaBlockEntity;
 import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.transfer.item.LimaBlockEntityItems;
 import liedge.limacore.util.LimaItemUtil;
@@ -10,42 +12,45 @@ import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.registry.game.LTXIDataComponents;
 import liedge.ltxindustries.registry.game.LTXIItems;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.transfer.access.ItemAccess;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import org.jspecify.annotations.Nullable;
 
-public abstract class MachineBaseBlockEntity extends ConfigurableSidesBlockEntity implements UpgradesHolderBlockEntity
+public abstract class UpgradableBaseBlockEntity extends LimaBlockEntity implements UpgradesHolderBlockEntity
 {
-    // Recommended standard inventory indices for machines
+    // Standard aux inventory indices for upgradable BEs
     public static final int AUX_MODULE_ITEM_SLOT = 0;
     public static final int AUX_ENERGY_ITEM_SLOT = 1;
-
-    public static boolean checkValidUpgrade(ItemResource resource)
-    {
-        return resource.is(LTXIItems.UPGRADE_MODULE.get()) && resource.has(LTXIDataComponents.UPGRADE_ENTRY);
-    }
 
     private final LimaBlockEntityItems auxInventory;
     private Upgrades upgrades = Upgrades.EMPTY;
 
-    protected MachineBaseBlockEntity(LimaBlockEntityType<?> type, BlockPos pos, BlockState state, int auxInventorySize)
+    protected UpgradableBaseBlockEntity(LimaBlockEntityType<?> type, BlockPos pos, BlockState state, int auxInvSize)
     {
         super(type, pos, state);
-        this.auxInventory = new LimaBlockEntityItems(this, BlockContentsType.AUXILIARY, auxInventorySize);
+
+        Preconditions.checkArgument(auxInvSize > 0, "Aux inventory size must be >= 1");
+        this.auxInventory = new LimaBlockEntityItems(this, BlockContentsType.AUXILIARY, auxInvSize);
     }
 
-    // Item holder defaults
+    // All upgradable BEs are horizontal facing... probably
+    public Direction getFacing()
+    {
+        return getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING);
+    }
 
     @Override
     public @Nullable LimaBlockEntityItems getItems(BlockContentsType contentsType)
     {
-        return contentsType == BlockContentsType.AUXILIARY ? this.auxInventory : null;
+        return contentsType == BlockContentsType.AUXILIARY ? auxInventory : null;
     }
 
     @Override
@@ -58,13 +63,13 @@ public abstract class MachineBaseBlockEntity extends ConfigurableSidesBlockEntit
     {
         return switch (index)
         {
-            case AUX_MODULE_ITEM_SLOT -> checkValidUpgrade(resource);
+            case AUX_MODULE_ITEM_SLOT -> resource.is(LTXIItems.UPGRADE_MODULE.get()) && resource.has(LTXIDataComponents.UPGRADE_ENTRY);
             case AUX_ENERGY_ITEM_SLOT -> LimaItemUtil.hasEnergyCapability(ItemAccess.forStack(resource.toStack()));
             default -> false;
         };
     }
 
-    // Upgrades holder implementation
+    // Upgrades holder impl
 
     @Override
     public final Upgrades getUpgrades()
@@ -77,12 +82,14 @@ public abstract class MachineBaseBlockEntity extends ConfigurableSidesBlockEntit
     {
         this.upgrades = upgrades;
 
-        if (level instanceof ServerLevel serverLevel)
+        if (level instanceof ServerLevel sl)
         {
             setChanged();
-            onUpgradeRefresh(createUpgradeContext(serverLevel), upgrades);
+            onUpgradeRefresh(createUpgradeContext(sl), upgrades);
         }
     }
+
+    // Load/Save stuff
 
     @Override
     protected void applyImplicitComponents(DataComponentGetter components)
@@ -123,8 +130,6 @@ public abstract class MachineBaseBlockEntity extends ConfigurableSidesBlockEntit
     @Override
     protected void onLoadServer(ServerLevel level)
     {
-        super.onLoadServer(level);
-
         onUpgradeRefresh(createUpgradeContext(level), upgrades);
     }
 }

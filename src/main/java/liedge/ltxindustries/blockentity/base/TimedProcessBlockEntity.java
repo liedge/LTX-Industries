@@ -40,7 +40,7 @@ public interface TimedProcessBlockEntity extends LimaBlockEntityAccess
 
     interface FixedBaseDuration extends TimedProcessBlockEntity
     {
-        static void applyUpgrades(FixedBaseDuration blockEntity, LootContext context, Upgrades upgrades)
+        static void onUpgradeRefresh(FixedBaseDuration blockEntity, LootContext context, Upgrades upgrades)
         {
             int newTicksPerOp = LTXIUpgradeUtil.calculateMachineSpeed(upgrades, context, blockEntity.getBaseTicksPerOperation());
             blockEntity.setTicksPerOperation(newTicksPerOp);

@@ -233,7 +233,7 @@ public class RepairStationBlockEntity extends ProductionMachineBlockEntity imple
     {
         super.onUpgradeRefresh(context, upgrades);
 
-        EnergyConsumerBlockEntity.applyUpgrades(this, context, upgrades);
+        EnergyConsumerBlockEntity.onUpgradeRefresh(this, context, upgrades);
         this.repairTimeFunction = LTXIUpgradeUtil.createMachineSpeedFunction(upgrades, context);
 
         this.checkItem = true;
