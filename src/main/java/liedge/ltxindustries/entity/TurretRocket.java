@@ -95,15 +95,15 @@ public class TurretRocket extends BaseRocketEntity
     protected void readAdditionalSaveData(ValueInput input)
     {
         super.readAdditionalSaveData(input);
-        upgrades = input.read(LTXIConstants.KEY_UPGRADES_CONTAINER, Upgrades.CODEC).orElse(Upgrades.EMPTY);
-        turretPos = input.read("turret_pos", BlockPos.CODEC).orElse(null);
+        this.upgrades = Upgrades.read(input);
+        this.turretPos = input.read("turret_pos", BlockPos.CODEC).orElse(null);
     }
 
     @Override
     protected void addAdditionalSaveData(ValueOutput output)
     {
         super.addAdditionalSaveData(output);
-        output.store(LTXIConstants.KEY_UPGRADES_CONTAINER, Upgrades.CODEC, upgrades);
+        upgrades.store(output);
         output.storeNullable("turret_pos", BlockPos.CODEC, turretPos);
     }
 }

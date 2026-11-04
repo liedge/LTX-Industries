@@ -51,8 +51,7 @@ public class PrimaryMeshBlock extends BaseMeshBlock
             {
                 int key = shapeKey(position.pos(), side);
                 Vec3i offset = blockMesh.computeMeshOffset(position, blockMesh.getPrimary(), side.getOpposite());
-                VoxelShape shape = LimaShapesUtil.move(rotatedIdentity, offset.getX(), offset.getY(), offset.getZ());
-                map.put(key, shape);
+                map.put(key, rotatedIdentity.move(offset).optimize());
             }
         }
 

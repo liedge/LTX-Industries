@@ -10,6 +10,7 @@ import liedge.limacore.data.MapLikeData;
 import liedge.limacore.lib.math.LimaCoreMath;
 import liedge.limacore.network.LimaStreamCodecs;
 import liedge.limacore.util.LimaRegistryUtil;
+import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.lib.upgrades.effect.*;
 import liedge.ltxindustries.lib.upgrades.effect.entity.EntityUpgradeEffect;
 import liedge.ltxindustries.registry.game.LTXIUpgradeEffectComponents;
@@ -26,6 +27,8 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.neoforged.neoforge.common.damagesource.DamageContainer;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
@@ -44,12 +47,22 @@ public final class Upgrades extends MapLikeData<Holder<Upgrade>, Integer>
 
     public static final Upgrades EMPTY = new Upgrades(new Object2IntOpenHashMap<>());
 
+    public static Upgrades read(ValueInput input)
+    {
+        return input.read(LTXIConstants.KEY_UPGRADES_CONTAINER, Upgrades.CODEC).orElse(EMPTY);
+    }
+
     private final Object2IntMap<Holder<Upgrade>> upgradeMap;
 
     Upgrades(Object2IntMap<Holder<Upgrade>> upgradeMap)
     {
         super(upgradeMap);
         this.upgradeMap = upgradeMap;
+    }
+
+    public void store(ValueOutput output)
+    {
+        output.store(LTXIConstants.KEY_UPGRADES_CONTAINER, Upgrades.CODEC, this);
     }
 
     //#region General iteration helpers

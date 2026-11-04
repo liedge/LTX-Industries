@@ -26,6 +26,11 @@ public abstract class MachineBaseBlockEntity extends ConfigurableSidesBlockEntit
     public static final int AUX_MODULE_ITEM_SLOT = 0;
     public static final int AUX_ENERGY_ITEM_SLOT = 1;
 
+    public static boolean checkValidUpgrade(ItemResource resource)
+    {
+        return resource.is(LTXIItems.UPGRADE_MODULE.get()) && resource.has(LTXIDataComponents.UPGRADE_ENTRY);
+    }
+
     private final LimaBlockEntityItems auxInventory;
     private Upgrades upgrades = Upgrades.EMPTY;
 
@@ -53,7 +58,7 @@ public abstract class MachineBaseBlockEntity extends ConfigurableSidesBlockEntit
     {
         return switch (index)
         {
-            case AUX_MODULE_ITEM_SLOT -> resource.is(LTXIItems.UPGRADE_MODULE.asItem()) && resource.has(LTXIDataComponents.UPGRADE_ENTRY);
+            case AUX_MODULE_ITEM_SLOT -> checkValidUpgrade(resource);
             case AUX_ENERGY_ITEM_SLOT -> LimaItemUtil.hasEnergyCapability(ItemAccess.forStack(resource.toStack()));
             default -> false;
         };
@@ -102,7 +107,7 @@ public abstract class MachineBaseBlockEntity extends ConfigurableSidesBlockEntit
     {
         super.loadAdditional(input);
 
-        this.upgrades = input.read(LTXIConstants.KEY_UPGRADES_CONTAINER, Upgrades.CODEC).orElse(Upgrades.EMPTY);
+        this.upgrades = Upgrades.read(input);
         loadItemResources(input);
     }
 
@@ -111,7 +116,7 @@ public abstract class MachineBaseBlockEntity extends ConfigurableSidesBlockEntit
     {
         super.saveAdditional(output);
 
-        output.store(LTXIConstants.KEY_UPGRADES_CONTAINER, Upgrades.CODEC, upgrades);
+        upgrades.store(output);
         saveItemResources(output);
     }
 

@@ -1,5 +1,6 @@
 package liedge.ltxindustries.block;
 
+import liedge.limacore.block.VoxelShapeBuilder;
 import liedge.limacore.util.LimaShapesUtil;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
@@ -8,14 +9,14 @@ public final class LTXIBlockShapes
     private LTXIBlockShapes() {}
 
     //#region Single block shapes
-    public static final VoxelShape RAW_ORE_CLUSTER = LimaShapesUtil.shapeBuilder()
+    public static final VoxelShape RAW_ORE_CLUSTER = VoxelShapeBuilder.create()
             .box(1, 0, 1, 14, 2, 14)
             .box(2, 2, 2, 12, 14, 12)
             .build();
 
     public static final VoxelShape GLOWSTICK = LimaShapesUtil.sizedBox(7, 0, 7, 2, 8, 2);
 
-    public static final VoxelShape UPGRADE_STATION = LimaShapesUtil.shapeBuilder()
+    public static final VoxelShape UPGRADE_STATION = VoxelShapeBuilder.create()
             // Center
             .box(1, 0, 1, 14, 12, 14)
             // Feet
@@ -30,18 +31,18 @@ public final class LTXIBlockShapes
             .box(0, 12, 15, 16, 4, 1)
             .build();
 
-    public static final VoxelShape ENERGY_CELL_ARRAY = LimaShapesUtil.shapeBuilder()
+    public static final VoxelShape ENERGY_CELL_ARRAY = VoxelShapeBuilder.create()
             .box(0, 0, 0, 16, 3, 16)
             .box(0, 13, 0, 16, 3, 16)
             .box(1, 2.5d, 1, 14, 11, 14)
             .build();
 
-    public static final VoxelShape PORTABLE_TANK = LimaShapesUtil.shapeBuilder()
+    public static final VoxelShape PORTABLE_TANK = VoxelShapeBuilder.create()
             .box(3, 0, 3, 10, 16, 10)
             .box(5, 12, 2, 6, 4, 1)
             .build();
 
-    public static final VoxelShape COOKING_MACHINE = LimaShapesUtil.shapeBuilder()
+    public static final VoxelShape COOKING_MACHINE = VoxelShapeBuilder.create()
             // Bottom frame base
             .absBox(0, 0, 0, 16, 4, 16)
             // Vertical frame pieces
@@ -58,7 +59,7 @@ public final class LTXIBlockShapes
             .box(0.5d, 3.5d, 0.5d, 15, 12, 15)
             .build();
 
-    public static final VoxelShape GRINDER = LimaShapesUtil.shapeBuilder()
+    public static final VoxelShape GRINDER = VoxelShapeBuilder.create()
             .box(0, 0, 1, 16, 3, 14)
             .box(1, 3, 2, 14, 3, 12)
             .box(0, 6, 1, 16, 8, 1)
@@ -68,7 +69,7 @@ public final class LTXIBlockShapes
             .box(4, 9, 0, 8, 5, 1)
             .build();
 
-    public static final VoxelShape ARC_FURNACE = LimaShapesUtil.shapeBuilder()
+    public static final VoxelShape ARC_FURNACE = VoxelShapeBuilder.create()
             .box(2, 0, 1, 12, 3, 14)
             .box(3, 3, 2, 10, 8, 10)
             .box(2, 5, 6, 12, 4, 7)
@@ -78,7 +79,7 @@ public final class LTXIBlockShapes
             .box(6, 14, 5, 4, 2, 4)
             .build();
 
-    public static final VoxelShape MATERIAL_PRESS = LimaShapesUtil.shapeBuilder()
+    public static final VoxelShape MATERIAL_PRESS = VoxelShapeBuilder.create()
             .box(1, 0, 1, 14, 3, 14)
             .box(2, 3, 2, 12, 1, 12)
             .box(0, 0, 5, 2, 16, 6)
@@ -87,7 +88,7 @@ public final class LTXIBlockShapes
             .box(5, 12, 1, 6, 4, 1)
             .build();
 
-    public static final VoxelShape HYDROSIEVE = LimaShapesUtil.shapeBuilder()
+    public static final VoxelShape HYDROSIEVE = VoxelShapeBuilder.create()
             .box(1, 0, 1, 14, 3, 14)
             .box(2, 3, 2, 12, 3, 12)
             .box(1, 6, 1, 14, 9, 1)
@@ -96,7 +97,7 @@ public final class LTXIBlockShapes
             .box(14, 6, 2, 1, 9, 12)
             .build();
 
-    public static final VoxelShape ELECTROCENTRIFUGE = LimaShapesUtil.shapeBuilder()
+    public static final VoxelShape ELECTROCENTRIFUGE = VoxelShapeBuilder.create()
             // Chassis
             .box(0, 0, 0, 4, 2, 4)
             .box(0, 0, 12, 4, 2, 4)
@@ -112,7 +113,7 @@ public final class LTXIBlockShapes
             .box(2, 8, 2, 12, 8, 12)
             .build();
 
-    public static final VoxelShape MIXER = LimaShapesUtil.shapeBuilder()
+    public static final VoxelShape MIXER = VoxelShapeBuilder.create()
             .box(0, 0, 0, 16, 4, 16)
             .box(1, 4, 1, 14, 1, 14)
             .box(1.5d, 5, 1.5d, 13, 8, 13)
@@ -120,7 +121,7 @@ public final class LTXIBlockShapes
             .box(2, 15, 2, 12, 1, 12)
             .build();
 
-    public static final VoxelShape VOLTAIC_INJECTOR = LimaShapesUtil.shapeBuilder()
+    public static final VoxelShape VOLTAIC_INJECTOR = VoxelShapeBuilder.create()
             .box(1, 0, 1, 14, 4, 14)
             .box(2, 4, 2, 12, 2, 12)
             .box(14, 4, 5, 1, 11, 6)
@@ -129,7 +130,7 @@ public final class LTXIBlockShapes
             .box(5, 12, 4, 6, 4, 1)
             .build();
 
-    public static final VoxelShape CHEM_LAB = LimaShapesUtil.shapeBuilder()
+    public static final VoxelShape CHEM_LAB = VoxelShapeBuilder.create()
             // Frame
             .box(0, 0, 0, 16, 4, 16)
             .box(2, 4, 7, 12, 9, 9)
@@ -143,7 +144,7 @@ public final class LTXIBlockShapes
 
     public static final VoxelShape ASSEMBLER = LimaShapesUtil.sizedBox(0, 0, 1, 16, 15, 14);
 
-    public static final VoxelShape AUTO_FABRICATOR = LimaShapesUtil.shapeBuilder()
+    public static final VoxelShape AUTO_FABRICATOR = VoxelShapeBuilder.create()
             // Feet & base
             .box(0, 0, 0, 4, 2, 4)
             .box(12, 0, 0, 4, 2, 4)
@@ -164,7 +165,7 @@ public final class LTXIBlockShapes
             .box(0.5d, 3.5d, 0.5d, 15, 12, 15)
             .build();
 
-    public static final VoxelShape ATMOSPHERIC_SCRUBBER = LimaShapesUtil.shapeBuilder()
+    public static final VoxelShape ATMOSPHERIC_SCRUBBER = VoxelShapeBuilder.create()
             .box(1, 0, 2, 14, 3, 12)
             .box(9, 3, 3, 6, 10, 10)
             .box(1, 3, 3, 8, 4, 10)
@@ -172,14 +173,14 @@ public final class LTXIBlockShapes
             .box(2, 3, 2, 6, 4, 1)
             .build();
 
-    public static final VoxelShape GEO_SYNTHESIZER = LimaShapesUtil.shapeBuilder()
+    public static final VoxelShape GEO_SYNTHESIZER = VoxelShapeBuilder.create()
             .box(0, 0, 1, 16, 2, 14)
             .box(0.5d, 2, 1.5d, 15, 6, 13)
             .box(0, 8, 1, 16, 2, 14)
             .box(4, 5, 0.5d, 8, 11, 15)
             .build();
 
-    public static final VoxelShape PORTABLE_GENERATOR = LimaShapesUtil.shapeBuilder()
+    public static final VoxelShape PORTABLE_GENERATOR = VoxelShapeBuilder.create()
             .box(0, 0, 1, 16, 3, 14)
             .box(1, 3, 1, 14, 4, 14)
             .box(0, 3, 2, 2, 12, 12)
@@ -188,7 +189,7 @@ public final class LTXIBlockShapes
             .box(2, 3, 3, 12, 11, 10)
             .build();
 
-    public static final VoxelShape SOLAR_PANEL = LimaShapesUtil.shapeBuilder()
+    public static final VoxelShape SOLAR_PANEL = VoxelShapeBuilder.create()
             .box(5, 0, 5, 6, 2, 6)
             .box(6, 2, 6, 4, 3, 4)
             .box(7, 5, 7, 2, 6, 2)
@@ -196,7 +197,7 @@ public final class LTXIBlockShapes
             .box(1, 12.5d, 0.5d, 14, 3, 15)
             .build();
 
-    public static final VoxelShape REPAIR_STATION = LimaShapesUtil.shapeBuilder()
+    public static final VoxelShape REPAIR_STATION = VoxelShapeBuilder.create()
             .box(2, 0, 2, 12, 3, 12)
             .box(4, 3, 4, 8, 6, 8)
             .box(0, 9, 1, 16, 4, 14)
@@ -208,7 +209,7 @@ public final class LTXIBlockShapes
     //#endregion
 
     //#region Multi-block/mesh shapes
-    public static final VoxelShape FABRICATOR = LimaShapesUtil.shapeBuilder()
+    public static final VoxelShape FABRICATOR = VoxelShapeBuilder.create()
             .box(-16, 0, 0, 32, 2, 16)
             .box(-15, 2, 1, 30, 11, 14)
             .box(-16, 13, 0, 32, 2, 16)
@@ -219,7 +220,7 @@ public final class LTXIBlockShapes
             .box(-14, 15, 4.25d, 10, 8.25d, 6.5d)
             .build();
 
-    public static final VoxelShape GENERAL_TURRET = LimaShapesUtil.shapeBuilder()
+    public static final VoxelShape GENERAL_TURRET = VoxelShapeBuilder.create()
             // Base
             .absBox(0, 0, 0, 16, 3, 16)
             .box(1, 3, 1, 14, 12, 14)
@@ -234,7 +235,7 @@ public final class LTXIBlockShapes
             .absBox(5, 17, 5, 11, 25, 11)
             .build();
 
-    public static final VoxelShape DIGITAL_GARDEN = LimaShapesUtil.shapeBuilder()
+    public static final VoxelShape DIGITAL_GARDEN = VoxelShapeBuilder.create()
             .box(1, 0, 1, 14, 4, 14)
             .box(2, 5, 2, 12, 3, 12)
             .box(4, 4, 1, 8, 8, 1)
