@@ -218,6 +218,7 @@ public final class LTXIBlockEntities
     public static final DeferredHolder<BlockEntityType<?>, LimaBlockEntityType<RailgunTurretBlockEntity>> RAILGUN_TURRET = registerTurret(LTXIIdentifiers.ID_RAILGUN_TURRET, RailgunTurretBlockEntity::new, builder -> builder.withBlock(LTXIBlocks.RAILGUN_TURRET).hasMenu(LTXIMenus.RAILGUN_TURRET));
 
     public static final DeferredHolder<BlockEntityType<?>, LimaBlockEntityType<MeshBlockEntity>> MESH_BLOCK = register("mesh_block", MeshBlockEntity::new, builder -> builder.withBlock(LTXIBlocks.MESH_BLOCK));
+    public static final DeferredHolder<BlockEntityType<?>, LimaBlockEntityType<MeshPortBlockEntity>> PORT_MESH_BLOCK = register("port_mesh_block", MeshPortBlockEntity::new, builder -> builder.withBlock(LTXIBlocks.MESH_BLOCK));
     //#endregion
 
     // Helpers

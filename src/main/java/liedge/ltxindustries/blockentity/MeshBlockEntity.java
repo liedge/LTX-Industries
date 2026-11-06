@@ -1,6 +1,7 @@
 package liedge.ltxindustries.blockentity;
 
 import liedge.limacore.blockentity.LimaBlockEntity;
+import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.transfer.energy.EnergyHolderBlockEntity;
 import liedge.limacore.transfer.fluid.FluidHolderBlockEntity;
 import liedge.limacore.transfer.item.ItemHolderBlockEntity;
@@ -15,7 +16,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.ProblemReporter;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.storage.TagValueOutput;
@@ -27,31 +27,28 @@ import net.neoforged.neoforge.transfer.fluid.FluidResource;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import org.jspecify.annotations.Nullable;
 
-public final class MeshBlockEntity extends LimaBlockEntity
+public sealed class MeshBlockEntity extends LimaBlockEntity permits MeshPortBlockEntity
 {
-    @Nullable
-    private BlockMesh blockMesh;
+    private @Nullable BlockMesh mesh;
+    private @Nullable MeshPosition meshPos;
+    private @Nullable BlockPos primaryPos;
 
-    private int meshIndex = -1;
-    @Nullable
-    private MeshPosition meshPosition;
-    @Nullable
-    private BlockPos primaryPos;
+    MeshBlockEntity(LimaBlockEntityType<?> type, BlockPos pos, BlockState state)
+    {
+        super(type, pos, state);
+    }
 
     public MeshBlockEntity(BlockPos pos, BlockState state)
     {
-        super(LTXIBlockEntities.MESH_BLOCK.get(), pos, state);
+        this(LTXIBlockEntities.MESH_BLOCK.get(), pos, state);
     }
 
     @Override
     public void preRemoveSideEffects(BlockPos pos, BlockState state)
     {
-        Level level = nonNullLevel();
-
-        BlockMesh mesh = getBlockMesh();
         BlockPos primary = getPrimaryPos(pos, state);
 
-        if (mesh != null && primary != null)
+        if (level != null && mesh != null && primary != null)
         {
             BlockState primaryState = level.getBlockState(primary);
             if (primaryState.getBlock() instanceof PrimaryMeshBlock primaryBlock && primaryBlock.getBlockMesh().equals(mesh))
@@ -68,7 +65,6 @@ public final class MeshBlockEntity extends LimaBlockEntity
         return primaryPos != null ? LimaBlockUtil.getSafeBlockEntity(level, primaryPos, beType) : null;
     }
 
-    // Caps for Jade (for now)
     public @Nullable ResourceHandler<ItemResource> getPrimaryItems(@Nullable Direction side)
     {
         if (side != null) return null;
@@ -93,44 +89,34 @@ public final class MeshBlockEntity extends LimaBlockEntity
         return be != null ? be.createExternalFluids(null) : null;
     }
 
-    public @Nullable BlockMesh getBlockMesh()
+    public @Nullable BlockMesh getMesh()
     {
-        return blockMesh;
+        return mesh;
     }
 
-    public void setBlockMesh(BlockMesh blockMesh)
+    public void setMesh(BlockMesh mesh)
     {
-        this.blockMesh = blockMesh;
+        this.mesh = mesh;
     }
 
-    public @Nullable MeshPosition getMeshPosition()
+    public @Nullable MeshPosition getMeshPos()
     {
-        if (meshPosition == null && meshIndex != -1)
-        {
-            BlockMesh mesh = getBlockMesh();
-            if (mesh != null) meshPosition = mesh.getMeshPosition(meshIndex);
-        }
-
-        return meshPosition;
+        return meshPos;
     }
 
-    public void setMeshPosition(MeshPosition meshPosition)
+    public void setMeshPos(MeshPosition meshPos)
     {
-        this.meshPosition = meshPosition;
-        this.meshIndex = meshPosition.index();
+        this.meshPos = meshPos;
     }
 
     public @Nullable BlockPos getPrimaryPos(BlockPos pos, BlockState state)
     {
         if (this.primaryPos == null)
         {
-            BlockMesh mesh = getBlockMesh();
-            MeshPosition meshPosition = getMeshPosition();
-
-            if (mesh != null && meshPosition != null)
+            if (mesh != null && meshPos != null)
             {
                 Direction zAxis = state.getValue(BlockStateProperties.HORIZONTAL_FACING).getOpposite();
-                this.primaryPos = mesh.getPrimaryBlockPos(pos, meshPosition, zAxis);
+                this.primaryPos = mesh.getPrimaryBlockPos(pos, meshPos, zAxis);
             }
         }
 
@@ -174,13 +160,17 @@ public final class MeshBlockEntity extends LimaBlockEntity
 
     private void loadMesh(ValueInput input)
     {
-        this.blockMesh = input.read("mesh", LTXIBlockMeshes.CODEC).orElse(null);
-        this.meshIndex = input.getIntOr("index", -1);
+        this.mesh = input.read("mesh", LTXIBlockMeshes.CODEC).orElse(null);
+
+        int index = input.getIntOr("index", -1);
+        this.meshPos = mesh != null && index >= 0 ? mesh.getMeshPosition(index) : null;
     }
 
     private void saveMesh(ValueOutput output)
     {
-        output.storeNullable("mesh", LTXIBlockMeshes.CODEC, blockMesh);
-        output.putInt("index", meshIndex);
+        output.storeNullable("mesh", LTXIBlockMeshes.CODEC, mesh);
+
+        int index = meshPos != null ? meshPos.index() : -1;
+        output.putInt("index", index);
     }
 }

@@ -18,13 +18,12 @@ public final class LTXIBlockMeshes
     // note to self: neg x is right, pos z is forward (rel to player facing when place)
 
     public static final BlockMesh FABRICATOR = BlockMesh.builder(LTXIIdentifiers.ID_FABRICATOR)
-            .add(0, 0, 0, BlockMeshPartType.PRIMARY)
             .add(0, 1, 0)
             .add(-1, 0, 0)
             .add(-1, 1, 0)
             .build();
-    public static final BlockMesh DIGITAL_GARDEN = BlockMesh.builder(LTXIIdentifiers.ID_DIGITAL_GARDEN).add(0, 0, 0, BlockMeshPartType.PRIMARY).add(0, 1, 0).build();
-    public static final BlockMesh TURRET = BlockMesh.builder("turret").add(0, 0, 0, BlockMeshPartType.PRIMARY).add(0, 1, 0).build();
+    public static final BlockMesh DIGITAL_GARDEN = BlockMesh.builder(LTXIIdentifiers.ID_DIGITAL_GARDEN).add(0, 1, 0).build();
+    public static final BlockMesh TURRET = BlockMesh.builder("turret").add(0, 1, 0).build();
 
     public static void bootstrap()
     {
