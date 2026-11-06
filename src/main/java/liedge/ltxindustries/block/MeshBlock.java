@@ -6,6 +6,8 @@ import liedge.ltxindustries.block.mesh.MeshPosition;
 import liedge.ltxindustries.blockentity.MeshBlockEntity;
 import liedge.ltxindustries.registry.game.LTXIBlockEntities;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -13,22 +15,44 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING;
+import static net.minecraft.world.level.block.state.properties.BlockStateProperties.WATERLOGGED;
 
 public final class MeshBlock extends BaseMeshBlock
 {
     public MeshBlock(Properties properties)
     {
         super(properties);
+
+        registerDefaultState(getStateDefinition().any()
+                .setValue(HORIZONTAL_FACING, Direction.NORTH)
+                .setValue(WATERLOGGED, false)
+                .setValue(LTXIBlockProperties.MESH_PORT, false));
+    }
+
+    @Override
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult)
+    {
+        return super.useWithoutItem(state, level, pos, player, hitResult);
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
+    {
+        super.createBlockStateDefinition(builder);
+        builder.add(LTXIBlockProperties.MESH_PORT);
     }
 
     @Override
@@ -41,7 +65,14 @@ public final class MeshBlock extends BaseMeshBlock
     @Override
     public LimaBlockEntityType<?> getBlockEntityType(BlockState state)
     {
-        return LTXIBlockEntities.MESH_BLOCK.get();
+        boolean isPort = state.getValue(LTXIBlockProperties.MESH_PORT);
+        return isPort ? LTXIBlockEntities.PORT_MESH_BLOCK.get() : LTXIBlockEntities.MESH_BLOCK.get();
+    }
+
+    @Override
+    protected boolean shouldTickServer(BlockState state)
+    {
+        return state.getValue(LTXIBlockProperties.MESH_PORT);
     }
 
     @Override
@@ -169,7 +200,7 @@ public final class MeshBlock extends BaseMeshBlock
         if (blockEntity != null)
         {
             BlockPos primaryPos = blockEntity.getPrimaryPos(pos, state);
-            MeshPosition meshPosition = blockEntity.getMeshPosition();
+            MeshPosition meshPosition = blockEntity.getMeshPos();
 
             if (primaryPos != null && meshPosition != null && level.getBlockState(primaryPos).getBlock() instanceof PrimaryMeshBlock primaryBlock)
             {

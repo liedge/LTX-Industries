@@ -7,6 +7,7 @@ import liedge.ltxindustries.blockentity.base.BlockIOConfiguration;
 import liedge.ltxindustries.blockentity.base.ConfigurableIOBlockEntity;
 import liedge.ltxindustries.blockentity.base.IORuleSet;
 import liedge.ltxindustries.blockentity.base.ResourceType;
+import liedge.ltxindustries.util.SidedResourceUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -18,17 +19,14 @@ import net.neoforged.neoforge.capabilities.BlockCapability;
 import net.neoforged.neoforge.capabilities.BlockCapabilityCache;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.transfer.ResourceHandler;
-import net.neoforged.neoforge.transfer.ResourceHandlerUtil;
 import net.neoforged.neoforge.transfer.energy.EnergyHandler;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
 import net.neoforged.neoforge.transfer.item.ItemResource;
-import net.neoforged.neoforge.transfer.resource.Resource;
 import org.jspecify.annotations.Nullable;
 
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.function.Function;
 import java.util.function.Predicate;
 
 public abstract class ConfigurableSidesBlockEntity extends UpgradableBaseBlockEntity implements ConfigurableIOBlockEntity
@@ -155,46 +153,12 @@ public abstract class ConfigurableSidesBlockEntity extends UpgradableBaseBlockEn
         return cap != null ? cap.getCapability() : null;
     }
 
-    protected <T extends Resource> void pullResources(@Nullable BlockIOConfiguration configuration, @Nullable ResourceHandler<T> thisInventory, int amount, Predicate<T> filter, Function<Direction, @Nullable ResourceHandler<T>> neighborAccess)
-    {
-        if (configuration != null && configuration.autoInput())
-        {
-            Direction front = getFacing();
-
-            for (var entry : configuration)
-            {
-                if (entry.getValue().allowsInput())
-                {
-                    ResourceHandler<T> neighborInventory = neighborAccess.apply(entry.getKey().resolveAbsoluteSide(front));
-                    ResourceHandlerUtil.moveStacking(neighborInventory, thisInventory, filter, amount, null);
-                }
-            }
-        }
-    }
-
-    protected <T extends Resource> void pushResources(@Nullable BlockIOConfiguration configuration, @Nullable ResourceHandler<T> thisInventory, int amount, Predicate<T> filter, Function<Direction, @Nullable ResourceHandler<T>> neighborAccess)
-    {
-        if (configuration != null && configuration.autoOutput())
-        {
-            Direction front = getFacing();
-
-            for (var entry : configuration)
-            {
-                if (entry.getValue().allowsOutput())
-                {
-                    ResourceHandler<T> neighborInventory = neighborAccess.apply(entry.getKey().resolveAbsoluteSide(front));
-                    ResourceHandlerUtil.moveStacking(thisInventory, neighborInventory, filter, amount, null);
-                }
-            }
-        }
-    }
-
     protected void tickAutoResourceInput(int frequency, @Nullable ResourceHandler<ItemResource> items, @Nullable ResourceHandler<FluidResource> fluids, Predicate<ItemResource> itemFilter, Predicate<FluidResource> fluidFilter)
     {
         if (autoInputTimer >= frequency)
         {
-            pullResources(itemsIOConfig, items, Item.DEFAULT_MAX_STACK_SIZE, itemFilter, this::getNeighborItemHandler);
-            pullResources(fluidsIOConfig, fluids, Integer.MAX_VALUE, fluidFilter, this::getNeighborFluidHandler);
+            SidedResourceUtil.pullResources(itemsIOConfig, getFacing(), items, Item.DEFAULT_MAX_STACK_SIZE, itemFilter, this::getNeighborItemHandler);
+            SidedResourceUtil.pullResources(fluidsIOConfig, getFacing(), fluids, Integer.MAX_VALUE, fluidFilter, this::getNeighborFluidHandler);
 
             autoInputTimer = 0;
         }
@@ -213,8 +177,8 @@ public abstract class ConfigurableSidesBlockEntity extends UpgradableBaseBlockEn
     {
         if (autoOutputTimer >= frequency)
         {
-            pushResources(itemsIOConfig, items, Item.DEFAULT_MAX_STACK_SIZE, itemFilter, this::getNeighborItemHandler);
-            pushResources(fluidsIOConfig, fluids, Integer.MAX_VALUE, fluidFilter, this::getNeighborFluidHandler);
+            SidedResourceUtil.pushResources(itemsIOConfig, getFacing(), items, Item.DEFAULT_MAX_STACK_SIZE, itemFilter, this::getNeighborItemHandler);
+            SidedResourceUtil.pushResources(fluidsIOConfig, getFacing(), fluids, Integer.MAX_VALUE, fluidFilter, this::getNeighborFluidHandler);
 
             autoOutputTimer = 0;
         }

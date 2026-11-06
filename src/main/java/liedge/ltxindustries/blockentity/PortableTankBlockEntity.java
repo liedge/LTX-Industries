@@ -93,7 +93,7 @@ public class PortableTankBlockEntity extends ConfigurableSidesBlockEntity implem
     }
 
     @Override
-    public @Nullable ResourceHandler<FluidResource> createExternalFluids(@Nullable Direction side)
+    public @Nullable ResourceHandler<FluidResource> createAutoExternalFluids(@Nullable Direction side)
     {
         if (side == null) return tank;
 

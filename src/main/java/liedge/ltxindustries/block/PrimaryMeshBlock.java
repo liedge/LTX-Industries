@@ -50,7 +50,7 @@ public class PrimaryMeshBlock extends BaseMeshBlock
             for (MeshPosition position : blockMesh.getMeshPositions())
             {
                 int key = shapeKey(position.pos(), side);
-                Vec3i offset = blockMesh.computeMeshOffset(position, blockMesh.getPrimary(), side.getOpposite());
+                Vec3i offset = blockMesh.computeMeshOffset(position, MeshPosition.PRIMARY, side.getOpposite());
                 map.put(key, rotatedIdentity.move(offset).optimize());
             }
         }
@@ -87,7 +87,7 @@ public class PrimaryMeshBlock extends BaseMeshBlock
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context)
     {
-        return shapeFunction.apply(state.getValue(HORIZONTAL_FACING), blockMesh.getPrimary());
+        return shapeFunction.apply(state.getValue(HORIZONTAL_FACING), MeshPosition.PRIMARY);
     }
 
     @Override
@@ -110,7 +110,7 @@ public class PrimaryMeshBlock extends BaseMeshBlock
         Direction zAxis = context.getHorizontalDirection();
         BlockMesh mesh = getBlockMesh();
 
-        if (mesh.canPlaceMesh(level, origin, mesh.getPrimary(), zAxis))
+        if (mesh.canPlaceMesh(level, origin, MeshPosition.PRIMARY, zAxis))
         {
             return defaultBlockState()
                     .setValue(HORIZONTAL_FACING, zAxis.getOpposite())
@@ -128,18 +128,19 @@ public class PrimaryMeshBlock extends BaseMeshBlock
         BlockMesh mesh = getBlockMesh();
         Direction facing = state.getValue(HORIZONTAL_FACING);
 
-        mesh.meshStream(pos, mesh.getPrimary(), facing.getOpposite()).filter(cursor -> !cursor.equals(pos)).forEach(cursor ->
+        mesh.meshStream(pos, MeshPosition.PRIMARY, facing.getOpposite()).filter(cursor -> !cursor.equals(pos)).forEach(cursor ->
         {
             BlockState cursorState = LTXIBlocks.MESH_BLOCK.get().defaultBlockState()
                     .setValue(HORIZONTAL_FACING, facing)
-                    .setValue(WATERLOGGED, level.getFluidState(cursor).is(Fluids.WATER));
+                    .setValue(WATERLOGGED, level.getFluidState(cursor).is(Fluids.WATER))
+                    .setValue(LTXIBlockProperties.MESH_PORT, cursor.getMeshPosition().isPort());
             level.setBlockAndUpdate(cursor, cursorState);
 
             MeshBlockEntity blockEntity = LimaBlockUtil.getSafeBlockEntity(level, cursor, MeshBlockEntity.class);
             if (blockEntity != null)
             {
-                blockEntity.setBlockMesh(mesh);
-                blockEntity.setMeshPosition(cursor.getMeshPosition());
+                blockEntity.setMesh(mesh);
+                blockEntity.setMeshPos(cursor.getMeshPosition());
                 blockEntity.setChanged();
             }
         });
@@ -151,11 +152,11 @@ public class PrimaryMeshBlock extends BaseMeshBlock
     protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel level, BlockPos pos, boolean movedByPiston)
     {
         BlockMesh mesh = getBlockMesh();
-        mesh.meshStream(pos, mesh.getPrimary(), state.getValue(HORIZONTAL_FACING).getOpposite())
+        mesh.meshStream(pos, MeshPosition.PRIMARY, state.getValue(HORIZONTAL_FACING).getOpposite())
                 .filter(cursor -> !cursor.equals(pos))
                 .forEach(cursor -> {
                     MeshBlockEntity blockEntity = LimaBlockUtil.getBlockEntity(level, cursor, MeshBlockEntity.class);
-                    if (blockEntity != null && mesh.equals(blockEntity.getBlockMesh())) level.removeBlock(cursor, false);
+                    if (blockEntity != null && mesh.equals(blockEntity.getMesh())) level.removeBlock(cursor, false);
                 });
     }
 }

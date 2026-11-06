@@ -3,12 +3,16 @@ package liedge.ltxindustries.blockentity.template;
 import com.google.common.primitives.Ints;
 import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.client.gui.TooltipLineConsumer;
+import liedge.limacore.transfer.energy.LimaEnergyHandler;
 import liedge.ltxindustries.block.LTXIBlockProperties;
 import liedge.ltxindustries.block.MachineState;
 import liedge.ltxindustries.blockentity.base.EnergyGeneratorBlockEntity;
+import liedge.ltxindustries.blockentity.base.ResourceType;
 import liedge.ltxindustries.lib.upgrades.Upgrades;
 import liedge.ltxindustries.util.LTXITooltipUtil;
+import liedge.ltxindustries.util.SidedResourceUtil;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -49,6 +53,13 @@ public abstract class BaseGeneratorBlockEntity extends LTXIMachineBlockEntity im
             this.active = active;
             level.setBlockAndUpdate(pos, state.setValue(LTXIBlockProperties.BINARY_MACHINE_STATE, MachineState.of(active)));
         }
+    }
+
+    @Override
+    protected void tickServer(ServerLevel level, BlockPos pos, BlockState state)
+    {
+        LimaEnergyHandler energy = getEnergy();
+        SidedResourceUtil.pushEnergy(getIOConfiguration(ResourceType.ENERGY), getFacing(), energy, energy.getTransferRate(), this::getNeighborEnergyHandler);
     }
 
     @Override

@@ -80,10 +80,13 @@ public final class LTXIBlockEntities
         registerFluidCap(event, INFINITE_WATER_TANK);
         registerFluidCap(event, INFINITE_LAVA_TANK);
 
-        // Mesh BE (special for Jade)
+        // Mesh BEs
         event.registerBlockEntity(Capabilities.Item.BLOCK, MESH_BLOCK.get(), MeshBlockEntity::getPrimaryItems);
+        event.registerBlockEntity(Capabilities.Item.BLOCK, PORT_MESH_BLOCK.get(), MeshBlockEntity::getPrimaryItems);
         event.registerBlockEntity(Capabilities.Energy.BLOCK, MESH_BLOCK.get(), MeshBlockEntity::getPrimaryEnergy);
+        event.registerBlockEntity(Capabilities.Energy.BLOCK, PORT_MESH_BLOCK.get(), MeshBlockEntity::getPrimaryEnergy);
         event.registerBlockEntity(Capabilities.Fluid.BLOCK, MESH_BLOCK.get(), MeshBlockEntity::getPrimaryFluids);
+        event.registerBlockEntity(Capabilities.Fluid.BLOCK, PORT_MESH_BLOCK.get(), MeshBlockEntity::getPrimaryFluids);
     }
 
     private static <T extends LimaBlockEntity & ItemHolderBlockEntity & EnergyHolderBlockEntity> void registerItemEnergyCaps(RegisterCapabilitiesEvent event, Collection<? extends Supplier<? extends BlockEntityType<? extends T>>> types)
@@ -107,17 +110,17 @@ public final class LTXIBlockEntities
 
     private static void registerItemCap(RegisterCapabilitiesEvent event, Supplier<? extends BlockEntityType<? extends ItemHolderBlockEntity>> holder)
     {
-        event.registerBlockEntity(Capabilities.Item.BLOCK, holder.get(), ItemHolderBlockEntity::createExternalItems);
+        event.registerBlockEntity(Capabilities.Item.BLOCK, holder.get(), ItemHolderBlockEntity::createAutoExternalItems);
     }
 
     private static void registerEnergyCap(RegisterCapabilitiesEvent event, Supplier<? extends BlockEntityType<? extends EnergyHolderBlockEntity>> holder)
     {
-        event.registerBlockEntity(Capabilities.Energy.BLOCK, holder.get(), EnergyHolderBlockEntity::createExternalEnergy);
+        event.registerBlockEntity(Capabilities.Energy.BLOCK, holder.get(), EnergyHolderBlockEntity::createAutoExternalEnergy);
     }
 
     private static void registerFluidCap(RegisterCapabilitiesEvent event, Supplier<? extends BlockEntityType<? extends FluidHolderBlockEntity>> holder)
     {
-        event.registerBlockEntity(Capabilities.Fluid.BLOCK, holder.get(), FluidHolderBlockEntity::createExternalFluids);
+        event.registerBlockEntity(Capabilities.Fluid.BLOCK, holder.get(), FluidHolderBlockEntity::createAutoExternalFluids);
     }
 
     //#region Sided Access Rules
@@ -218,6 +221,7 @@ public final class LTXIBlockEntities
     public static final DeferredHolder<BlockEntityType<?>, LimaBlockEntityType<RailgunTurretBlockEntity>> RAILGUN_TURRET = registerTurret(LTXIIdentifiers.ID_RAILGUN_TURRET, RailgunTurretBlockEntity::new, builder -> builder.withBlock(LTXIBlocks.RAILGUN_TURRET).hasMenu(LTXIMenus.RAILGUN_TURRET));
 
     public static final DeferredHolder<BlockEntityType<?>, LimaBlockEntityType<MeshBlockEntity>> MESH_BLOCK = register("mesh_block", MeshBlockEntity::new, builder -> builder.withBlock(LTXIBlocks.MESH_BLOCK));
+    public static final DeferredHolder<BlockEntityType<?>, LimaBlockEntityType<MeshPortBlockEntity>> PORT_MESH_BLOCK = register("port_mesh_block", MeshPortBlockEntity::new, builder -> builder.withBlock(LTXIBlocks.MESH_BLOCK));
     //#endregion
 
     // Helpers

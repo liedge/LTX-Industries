@@ -3,6 +3,7 @@ package liedge.ltxindustries.block;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 
 public final class LTXIBlockProperties
@@ -10,6 +11,7 @@ public final class LTXIBlockProperties
     private LTXIBlockProperties() {}
 
     public static final EnumProperty<MachineState> BINARY_MACHINE_STATE = EnumProperty.create("machine_state", MachineState.class, MachineState.IDLE, MachineState.ACTIVE);
+    public static final BooleanProperty MESH_PORT = BooleanProperty.create("mesh_port");
 
     public static boolean isMachineActive(BlockState state)
     {

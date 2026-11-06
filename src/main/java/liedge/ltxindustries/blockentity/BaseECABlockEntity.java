@@ -8,10 +8,11 @@ import liedge.limacore.menu.BlockEntityMenuType;
 import liedge.limacore.transfer.energy.LimaEnergyHandler;
 import liedge.limacore.transfer.item.LimaBlockEntityItems;
 import liedge.limacore.util.LimaItemUtil;
+import liedge.ltxindustries.blockentity.base.ResourceType;
 import liedge.ltxindustries.blockentity.template.LTXIMachineBlockEntity;
 import liedge.ltxindustries.registry.game.LTXIBlocks;
+import liedge.ltxindustries.util.SidedResourceUtil;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.state.BlockState;
@@ -72,9 +73,9 @@ public abstract class BaseECABlockEntity extends LTXIMachineBlockEntity
     }
 
     @Override
-    public @Nullable ResourceHandler<ItemResource> createExternalItems(@Nullable Direction side)
+    public @Nullable ResourceHandler<ItemResource> createExternalItems(@Nullable IOAccess access)
     {
-        return chargingInventory.createIOWrapper(getTopLevelItemIO(side));
+        return access != null ? chargingInventory.createIOWrapper(access) : null;
     }
 
     @Override
@@ -97,7 +98,7 @@ public abstract class BaseECABlockEntity extends LTXIMachineBlockEntity
 
         // Auto output energy if option enabled
         tickAutoResourceOutput(100, chargingInventory, null, resource -> checkResourceEnergy(resource).allowsOutput(), Predicates.alwaysTrue());
-        pushEnergyToSides();
+        SidedResourceUtil.pushEnergy(getIOConfiguration(ResourceType.ENERGY), getFacing(), machineEnergy, machineEnergy.getTransferRate(), this::getNeighborEnergyHandler);
     }
 
     @Override

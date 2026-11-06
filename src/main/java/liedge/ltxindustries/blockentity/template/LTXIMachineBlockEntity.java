@@ -6,10 +6,7 @@ import liedge.limacore.blockentity.LimaBlockEntityType;
 import liedge.limacore.transfer.energy.EnergyHolderBlockEntity;
 import liedge.limacore.transfer.energy.LimaBlockEntityEnergy;
 import liedge.limacore.transfer.energy.LimaEnergyHandler;
-import liedge.ltxindustries.blockentity.base.ResourceType;
-import liedge.ltxindustries.blockentity.base.BlockIOConfiguration;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.world.level.block.state.BlockState;
@@ -103,22 +100,4 @@ public abstract class LTXIMachineBlockEntity extends ConfigurableSidesBlockEntit
             if (itemEnergy != null) EnergyHandlerUtil.move(itemEnergy, energy, energy.getTransferRate(), null);
         }
     }
-
-    protected void pushEnergyToSides()
-    {
-        BlockIOConfiguration configuration = getIOConfigurationOrThrow(ResourceType.ENERGY);
-        if (configuration.autoOutput())
-        {
-            Direction front = getFacing();
-            for (var entry : configuration)
-            {
-                if (entry.getValue().allowsOutput())
-                {
-                    EnergyHandler neighborEnergy = getNeighborEnergyHandler(entry.getKey().resolveAbsoluteSide(front));
-                    if (neighborEnergy != null) EnergyHandlerUtil.move(energy, neighborEnergy, energy.getTransferRate(), null);
-                }
-            }
-        }
-    }
-
 }

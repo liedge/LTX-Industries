@@ -48,6 +48,6 @@ public class SolarPanelBlockEntity extends BaseGeneratorBlockEntity
             }
         }
 
-        pushEnergyToSides();
+        super.tickServer(level, pos, state);
     }
 }

@@ -7,6 +7,7 @@ import it.unimi.dsi.fastutil.objects.ObjectList;
 import it.unimi.dsi.fastutil.objects.ObjectLists;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import liedge.ltxindustries.LTXIndustries;
+import liedge.ltxindustries.blockentity.base.IORuleSet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
@@ -16,6 +17,7 @@ import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 import java.util.Set;
+import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -28,23 +30,16 @@ public final class BlockMesh
 
     private final Identifier id;
     private final List<MeshPosition> meshPositions;
-    private final MeshPosition primary;
 
-    private BlockMesh(Identifier id, List<MeshPosition> meshPositions, MeshPosition primary)
+    private BlockMesh(Identifier id, List<MeshPosition> meshPositions)
     {
         this.id = id;
         this.meshPositions = meshPositions;
-        this.primary = primary;
     }
 
     public Identifier getId()
     {
         return id;
-    }
-
-    public MeshPosition getPrimary()
-    {
-        return primary;
     }
 
     public List<MeshPosition> getMeshPositions()
@@ -66,7 +61,7 @@ public final class BlockMesh
 
     public BlockPos getPrimaryBlockPos(BlockPos pos, MeshPosition from, Direction zAxis)
     {
-        return getRelativeBlockPos(pos, from, primary, zAxis);
+        return getRelativeBlockPos(pos, from, MeshPosition.PRIMARY, zAxis);
     }
 
     public BlockPos getRelativeBlockPos(BlockPos blockPos, MeshPosition from, MeshPosition to, Direction zAxis)
@@ -155,13 +150,16 @@ public final class BlockMesh
         private Builder(Identifier id)
         {
             this.id = id;
+            meshPositions.add(MeshPosition.PRIMARY);
+            usedPos.add(Vec3i.ZERO);
         }
 
-        public Builder add(int x, int y, int z, BlockMeshPartType type)
+        public Builder add(int x, int y, int z, @Nullable IORuleSet portRules)
         {
             Vec3i pos = new Vec3i(x, y, z);
             if (!usedPos.add(pos)) throw new IllegalArgumentException("Mesh position " + pos + " already used.");
-            MeshPosition position = new MeshPosition(meshPositions.size(), pos, type);
+
+            MeshPosition position = new MeshPosition.SecondaryPos(meshPositions.size(), pos, portRules);
             meshPositions.add(position);
 
             return this;
@@ -169,15 +167,30 @@ public final class BlockMesh
 
         public Builder add(int x, int y, int z)
         {
-            return add(x, y, z, BlockMeshPartType.DUMMY);
+            return add(x, y, z, null);
+        }
+
+        public Builder addPort(int x, int y, int z, UnaryOperator<IORuleSet.Builder> builder)
+        {
+            return add(x, y, z, builder.apply(IORuleSet.builder()).build());
+        }
+
+        public Builder fill(int minX, int minY, int minZ, int maxX, int maxY, int maxZ)
+        {
+            Iterable<BlockPos> iterable = BlockPos.betweenClosed(minX, minY, minZ, maxX, maxY, maxZ);
+
+            for (BlockPos c : iterable)
+            {
+                if (!usedPos.contains(c)) add(c.getX(), c.getY(), c.getZ());
+            }
+
+            return this;
         }
 
         public BlockMesh build()
         {
-            List<MeshPosition> primaries = meshPositions.stream().filter(o -> o.type() == BlockMeshPartType.PRIMARY).toList();
-            Preconditions.checkState(primaries.size() == 1, "Block mesh contains invalid number of primary positions: " + primaries.size());
-
-            return new BlockMesh(id, ObjectLists.unmodifiable(meshPositions), primaries.getFirst());
+            Preconditions.checkState(meshPositions.size() > 1, "Empty mesh");
+            return new BlockMesh(id, ObjectLists.unmodifiable(meshPositions));
         }
     }
 }

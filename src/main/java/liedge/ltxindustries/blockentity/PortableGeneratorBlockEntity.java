@@ -132,7 +132,7 @@ public class PortableGeneratorBlockEntity extends BaseGeneratorBlockEntity
         }
         setActive(level, pos, state, wasActiveThisTick);
 
-        pushEnergyToSides();
+        super.tickServer(level, pos, state);
     }
 
     @Override

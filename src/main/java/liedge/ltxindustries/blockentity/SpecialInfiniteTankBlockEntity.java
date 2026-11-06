@@ -55,7 +55,7 @@ public final class SpecialInfiniteTankBlockEntity extends ConfigurableSidesBlock
     }
 
     @Override
-    public @Nullable ResourceHandler<FluidResource> createExternalFluids(@Nullable Direction side)
+    public @Nullable ResourceHandler<FluidResource> createAutoExternalFluids(@Nullable Direction side)
     {
         if (side == null) return infiniteFluids;
 

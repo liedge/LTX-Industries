@@ -8,12 +8,14 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.neoforge.capabilities.EntityCapability;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import org.jspecify.annotations.Nullable;
 
 public final class LTXICapabilities
 {
     private LTXICapabilities() {}
 
-    public static final EntityCapability<EntityBubbleShield, Void> ENTITY_BUBBLE_SHIELD = EntityCapability.createVoid(LTXIndustries.RESOURCES.id("bubble_shield"), EntityBubbleShield.class);
+    // Entities
+    public static final EntityCapability<EntityBubbleShield, @Nullable Void> ENTITY_BUBBLE_SHIELD = EntityCapability.createVoid(LTXIndustries.RESOURCES.id("bubble_shield"), EntityBubbleShield.class);
 
     public static void registerShieldCapability(final RegisterCapabilitiesEvent event)
     {
