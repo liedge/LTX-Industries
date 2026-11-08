@@ -126,7 +126,7 @@ public final class RecipeLayoutMenu<BE extends BaseRecipeMachineBlockEntity<?, ?
             if (getAmount() > 0)
             {
                 LimaBlockEntityFluids fluids = (LimaBlockEntityFluids) getResourceHandler();
-                fluids.set(getSlotIndex(), FluidResource.EMPTY, 0);
+                fluids.set(getResourceIndex(), FluidResource.EMPTY, 0);
 
                 return true;
             }
