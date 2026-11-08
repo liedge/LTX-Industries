@@ -135,6 +135,18 @@ public final class IORules
             return this;
         }
 
+        public Builder forSides(RelativeHorizontalSide... sides)
+        {
+            return forSides(List.of(sides));
+        }
+
+        public Builder onlyAllow(IOAccess access)
+        {
+            this.accesses = EnumSet.of(access);
+            this.defaultAccess = access;
+            return this;
+        }
+
         public Builder permits(Collection<IOAccess> accesses)
         {
             this.accesses = EnumSet.copyOf(accesses);

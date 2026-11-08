@@ -1,5 +1,6 @@
 package liedge.ltxindustries.registry.game;
 
+import liedge.limacore.LimaCoreCapabilities;
 import liedge.limacore.blockentity.*;
 import liedge.limacore.transfer.energy.EnergyHolderBlockEntity;
 import liedge.limacore.transfer.fluid.FluidHolderBlockEntity;
@@ -74,11 +75,15 @@ public final class LTXIBlockEntities
 
         // Energy only
         registerEnergyCap(event, SOLAR_PANEL);
+        registerEnergyCap(event, GAS_TURBINE);
+        event.registerBlockEntity(LimaCoreCapabilities.IO_ENERGY, GAS_TURBINE.get(), EnergyHolderBlockEntity::createExternalEnergy);
 
         // Fluids only
         registerFluidCap(event, PORTABLE_TANK);
         registerFluidCap(event, INFINITE_WATER_TANK);
         registerFluidCap(event, INFINITE_LAVA_TANK);
+        registerFluidCap(event, GAS_TURBINE);
+        event.registerBlockEntity(LimaCoreCapabilities.IO_FLUIDS, GAS_TURBINE.get(), FluidHolderBlockEntity::createExternalFluids);
 
         // Mesh BEs
         event.registerBlockEntity(Capabilities.Item.BLOCK, MESH_BLOCK.get(), MeshBlockEntity::getPrimaryItems);
@@ -213,6 +218,8 @@ public final class LTXIBlockEntities
     public static final DeferredHolder<BlockEntityType<?>, LimaBlockEntityType<SolarPanelBlockEntity>> SOLAR_PANEL = registerSided(LTXIIdentifiers.ID_SOLAR_PANEL, SolarPanelBlockEntity::new,
             rules -> rules.energy(OUTPUT_ONLY_AUTO_PUSH),
             builder -> builder.withBlock(LTXIBlocks.SOLAR_PANEL).hasMenu(LTXIMenus.SOLAR_PANEL));
+    public static final DeferredHolder<BlockEntityType<?>, LimaBlockEntityType<GasTurbineBlockEntity>> GAS_TURBINE = register(LTXIIdentifiers.ID_GAS_TURBINE, GasTurbineBlockEntity::new, builder -> builder
+            .withBlock(LTXIBlocks.GAS_TURBINE).hasMenu(LTXIMenus.GAS_TURBINE));
 
     public static final DeferredHolder<BlockEntityType<?>, LimaBlockEntityType<RepairStationBlockEntity>> REPAIR_STATION = registerItemEnergyMachine(LTXIIdentifiers.ID_REPAIR_STATION, RepairStationBlockEntity::new, STANDARD_PUSH_PULL, INPUT_ONLY_NO_PULL, builder -> builder.withBlock(LTXIBlocks.REPAIR_STATION).hasMenu(LTXIMenus.REPAIR_STATION));
 

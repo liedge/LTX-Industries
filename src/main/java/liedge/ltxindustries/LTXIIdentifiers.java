@@ -83,6 +83,7 @@ public final class LTXIIdentifiers
 
     public static final String ID_PORTABLE_GENERATOR = "portable_generator";
     public static final String ID_SOLAR_PANEL = "solar_panel";
+    public static final String ID_GAS_TURBINE = "gas_turbine";
 
     public static final String ID_REPAIR_STATION = "repair_station";
 

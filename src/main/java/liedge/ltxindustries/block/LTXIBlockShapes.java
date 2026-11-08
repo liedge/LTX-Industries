@@ -1,7 +1,9 @@
 package liedge.ltxindustries.block;
 
+import com.mojang.math.OctahedralGroup;
 import liedge.limacore.block.VoxelShapeBuilder;
 import liedge.limacore.util.LimaShapesUtil;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public final class LTXIBlockShapes
@@ -195,6 +197,21 @@ public final class LTXIBlockShapes
             .box(7, 5, 7, 2, 6, 2)
             .box(6, 11, 6, 4, 2, 4)
             .box(1, 12.5d, 0.5d, 14, 3, 15)
+            .build();
+
+    public static final VoxelShape GAS_TURBINE = VoxelShapeBuilder.create()
+            .box(-6, 0, -14, 28, 3, 30)
+            .box(-5, 3, -14, 26, 26, 18)
+            .box(-4, 3, 4, 24, 25, 6)
+            .box(-5, 3, 10, 26, 26, 6)
+            .box(-7, 9, 10, 2, 14, 6)
+            .box(1, 29, 10, 14, 2, 6)
+            .box(21, 9, 10, 2, 14, 6)
+            .box(-7, 1, 16, 30, 30, 15)
+            .box(3, 3, -16, 10, 10, 2)
+            .box(3, 29, -13, 10, 3, 10)
+            .offset(-1, 0, 0)
+            .rotated(OctahedralGroup.BLOCK_ROT_Y_90, new Vec3(0.5d, 0.5d, 1.5d))
             .build();
 
     public static final VoxelShape REPAIR_STATION = VoxelShapeBuilder.create()

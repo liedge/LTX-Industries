@@ -68,6 +68,9 @@ public final class LTXIMachinesConfig
     public static final ModConfigSpec.IntValue SOLAR_PANEL_CAPACITY;
     public static final ModConfigSpec.IntValue SOLAR_PANEL_GENERATION;
 
+    public static final ModConfigSpec.IntValue GAS_TURBINE_CAPACITY;
+    public static final ModConfigSpec.IntValue GAS_TURBINE_GENERATION;
+
     public static final ModConfigSpec.IntValue REPAIR_STATION_CAPACITY;
     public static final ModConfigSpec.IntValue REPAIR_STATION_ENERGY_USAGE;
 
@@ -197,13 +200,18 @@ public final class LTXIMachinesConfig
 
         builder.comment("Portable Generator").push("portable_generator");
         PORTABLE_GENERATOR_CAPACITY = ConfigUtil.energyCapacity(builder, 100_000);
-        PORTABLE_GENERATOR_GENERATION = ConfigUtil.positiveInt(builder, "energy_generation", "Energy generated per tick", 80);
+        PORTABLE_GENERATOR_GENERATION = ConfigUtil.energyGeneration(builder, 80);
         PORTABLE_GENERATOR_ENERGY_PER_FUEL = ConfigUtil.positiveInt(builder, "energy_per_fuel", "How much energy a fuel unit produces", 2500);
         builder.pop();
 
         builder.comment("Solar Panel").push("solar_panel");
         SOLAR_PANEL_CAPACITY = ConfigUtil.energyCapacity(builder, 100_000);
-        SOLAR_PANEL_GENERATION = ConfigUtil.positiveInt(builder, "energy_generation", "Energy generated per tick", 30);
+        SOLAR_PANEL_GENERATION = ConfigUtil.energyGeneration(builder, 30);
+        builder.pop();
+
+        builder.comment("Gas Turbine").push("gas_turbine");
+        GAS_TURBINE_CAPACITY = ConfigUtil.energyCapacity(builder, 20_000_000);
+        GAS_TURBINE_GENERATION = ConfigUtil.energyGeneration(builder, 8192);
         builder.pop();
 
         builder.comment("Repair Station").push("repair_station");

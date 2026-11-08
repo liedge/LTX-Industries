@@ -2,7 +2,10 @@ package liedge.ltxindustries.block.mesh;
 
 import com.mojang.logging.LogUtils;
 import com.mojang.serialization.Codec;
+import liedge.limacore.blockentity.IOAccess;
+import liedge.limacore.blockentity.RelativeHorizontalSide;
 import liedge.ltxindustries.LTXIIdentifiers;
+import liedge.ltxindustries.blockentity.base.IORules;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.ExtraCodecs;
 import org.slf4j.Logger;
@@ -24,12 +27,22 @@ public final class LTXIBlockMeshes
             .build();
     public static final BlockMesh DIGITAL_GARDEN = BlockMesh.builder(LTXIIdentifiers.ID_DIGITAL_GARDEN).add(0, 1, 0).build();
     public static final BlockMesh TURRET = BlockMesh.builder("turret").add(0, 1, 0).build();
+    public static final BlockMesh GAS_TURBINE = BlockMesh.builder(LTXIIdentifiers.ID_GAS_TURBINE)
+            .addPort(1, 0, 1, b -> b
+                    .energy(IORules.builder().autoOutputByDefault().onlyAllow(IOAccess.OUTPUT_ONLY).forSides(RelativeHorizontalSide.LEFT))
+                    .fluids(IORules.builder().onlyAllow(IOAccess.INPUT_ONLY).forSides(RelativeHorizontalSide.LEFT)))
+            .addPort(1, 1, 1, b -> b
+                    .energy(IORules.builder().autoOutputByDefault().onlyAllow(IOAccess.OUTPUT_ONLY).forSides(RelativeHorizontalSide.TOP))
+                    .fluids(IORules.builder().onlyAllow(IOAccess.INPUT_ONLY).forSides(RelativeHorizontalSide.TOP)))
+            .fill(-1, 0, 0, 1, 1, 2)
+            .build();
 
     public static void bootstrap()
     {
         register(FABRICATOR);
         register(DIGITAL_GARDEN);
         register(TURRET);
+        register(GAS_TURBINE);
 
         LOG.info("Initialized {} block meshes", ID_MAPPER.values().size());
     }

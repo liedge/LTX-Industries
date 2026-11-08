@@ -1,0 +1,8 @@
+{
+  "parent": "ltxi:block/gas_turbine",
+  "visibility": {
+    "emissive_active": false,
+    "emissive_idle": false,
+    "frame": false
+  }
+}

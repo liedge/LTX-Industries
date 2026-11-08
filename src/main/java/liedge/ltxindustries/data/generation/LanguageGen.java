@@ -120,6 +120,7 @@ class LanguageGen extends LimaLanguageProvider
 
         addBlock(LTXIBlocks.PORTABLE_GENERATOR, "Portable Generator");
         addBlock(LTXIBlocks.SOLAR_PANEL, "Solar Panel");
+        addBlock(LTXIBlocks.GAS_TURBINE, "Gas Turbine");
 
         addBlock(LTXIBlocks.REPAIR_STATION, "Repair Station");
 

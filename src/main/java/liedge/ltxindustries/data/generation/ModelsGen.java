@@ -1,11 +1,18 @@
 package liedge.ltxindustries.data.generation;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.mojang.math.Axis;
+import com.mojang.math.Transformation;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.JsonOps;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import liedge.limacore.client.model.ExtendedCuboidBuilder;
 import liedge.limacore.client.model.ItemModelPipeline;
 import liedge.limacore.client.renderer.LimaSpecialModelRenderer;
 import liedge.limacore.client.util.LimaModelsUtil;
+import liedge.limacore.data.LimaCoreCodecs;
 import liedge.limacore.lib.ModResources;
 import liedge.limacore.util.LimaRegistryUtil;
 import liedge.ltxindustries.LTXIConstants;
@@ -43,6 +50,7 @@ import net.minecraft.data.BlockFamily;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.EasingType;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
@@ -54,6 +62,7 @@ import net.neoforged.neoforge.client.model.generators.template.CustomLoaderBuild
 import net.neoforged.neoforge.client.model.generators.template.ExtendedModelTemplateBuilder;
 import net.neoforged.neoforge.client.model.item.DynamicFluidContainerModel;
 import net.neoforged.neoforge.registries.DeferredItem;
+import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import org.joml.Vector3fc;
 import org.jspecify.annotations.Nullable;
@@ -364,16 +373,15 @@ class ModelsGen extends ModelProvider
         createCompositeBinaryMachine(models, LTXIBlocks.VOLTAIC_INJECTOR, List.of(Parts.EMISSIVE_ACTIVE), List.of(), List.of(Parts.EMISSIVE_ACTIVE));
         createCompositeBinaryMachine(models, LTXIBlocks.CHEM_LAB, List.of(Parts.EMISSIVE_ACTIVE, "fluid"), List.of(), List.of("fluid", Parts.EMISSIVE_ACTIVE));
         createCompositeBinaryMachine(models, LTXIBlocks.ASSEMBLER, List.of(Parts.EMISSIVE_ACTIVE, "belt_active"), List.of("belt_idle"), List.of(Parts.EMISSIVE_ACTIVE, "belt_active"));
-        createCompositeBinaryMachine(models, LTXIBlocks.GEO_SYNTHESIZER,
-                List.of(Parts.EMISSIVE_ACTIVE),
-                List.of(),
-                List.of(), id -> ItemModelUtils.tintedModel(id, ItemModelUtils.constantTint(waterTint)));
+        createCompositeBinaryMachine(models, LTXIBlocks.GEO_SYNTHESIZER, List.of(Parts.EMISSIVE_ACTIVE), List.of(), List.of(), null, id -> ItemModelUtils.tintedModel(id, ItemModelUtils.constantTint(waterTint)));
         createIdentityMachine(models, LTXIBlocks.FABRICATOR);
         createIdentityMachine(models, LTXIBlocks.AUTO_FABRICATOR);
         createCompositeBinaryMachine(models, LTXIBlocks.ATMOSPHERIC_SCRUBBER, List.of(Parts.EMISSIVE_ACTIVE, Parts.IMPELLER), List.of(Parts.IMPELLER), List.of(Parts.EMISSIVE_ACTIVE));
         createCompositeBinaryMachine(models, LTXIBlocks.DIGITAL_GARDEN, List.of(Parts.EMISSIVE_ACTIVE, "water"), List.of(), List.of(Parts.EMISSIVE_ACTIVE, "water"));
         createCompositeBinaryMachine(models, LTXIBlocks.PORTABLE_GENERATOR, List.of(Parts.EMISSIVE_ACTIVE), List.of(), List.of(Parts.EMISSIVE_ACTIVE));
         createCompositeBinaryMachine(models, LTXIBlocks.SOLAR_PANEL, List.of(Parts.EMISSIVE_ACTIVE), List.of(), List.of(Parts.EMISSIVE_ACTIVE));
+        Transformation turbineTransform = new Transformation(new Vector3f(-1, 0, 1), Axis.YP.rotationDegrees(-90f), null, null);
+        createCompositeBinaryMachine(models, LTXIBlocks.GAS_TURBINE, List.of(Parts.EMISSIVE_ACTIVE, "blades"), List.of("blades"), List.of(Parts.EMISSIVE_ACTIVE), turbineTransform, ItemModelUtils::plainModel);
         createCompositeBinaryMachine(models, LTXIBlocks.REPAIR_STATION, List.of(Parts.EMISSIVE_ACTIVE), List.of(), List.of(Parts.EMISSIVE_ACTIVE));
 
         createTurretBlock(models, LTXIBlocks.ARC_TURRET);
@@ -391,6 +399,7 @@ class ModelsGen extends ModelProvider
         createBEPart(models, LTXIBlocks.ELECTROCENTRIFUGE.get(), "_tubes", true, Parts.FRAME, Parts.EMISSIVE_IDLE, Parts.EMISSIVE_ACTIVE);
         createBEPart(models, LTXIBlocks.MIXER.get(), "_blades", false, Parts.FRAME, Parts.EMISSIVE_IDLE, Parts.EMISSIVE_ACTIVE);
         createBEPart(models, LTXIBlocks.ATMOSPHERIC_SCRUBBER.get(), "_impeller", false, Parts.FRAME, Parts.EMISSIVE_IDLE, Parts.EMISSIVE_ACTIVE);
+        createBEPart(models, LTXIBlocks.GAS_TURBINE.get(), "_blades", false, Parts.FRAME, Parts.EMISSIVE_IDLE, Parts.EMISSIVE_ACTIVE);
     }
 
     private void createEmissiveOre(BlockModelGenerators models, Block particleBlock, Holder<Block> holder)
@@ -602,17 +611,17 @@ class ModelsGen extends ModelProvider
 
     private void createCompositeBinaryMachine(BlockModelGenerators models, Holder<Block> holder, List<String> idleExclusions, List<String> activeExclusions, List<String> itemExclusions)
     {
-        createCompositeBinaryMachine(models, holder, idleExclusions, activeExclusions, itemExclusions, ItemModelUtils::plainModel);
+        createCompositeBinaryMachine(models, holder, idleExclusions, activeExclusions, itemExclusions, null, ItemModelUtils::plainModel);
     }
 
     private void createCompositeBinaryMachine(BlockModelGenerators models, Holder<Block> holder, List<String> idleExclusions, List<String> activeExclusions, List<String> itemExclusions,
-                                              Function<Identifier, ItemModel.Unbaked> itemMapper)
+                                              @Nullable Transformation rootTransform, Function<Identifier, ItemModel.Unbaked> itemMapper)
     {
         Block block = holder.value();
         Identifier parent = ModelLocationUtils.getModelLocation(block);
 
-        Identifier idleModel = ExclusionTemplate.of(parent).exclude(idleExclusions).create(block, "_idle", models.modelOutput);
-        Identifier activeModel = ExclusionTemplate.of(parent).exclude(activeExclusions).create(block, "_active", models.modelOutput);
+        Identifier idleModel = ExclusionTemplate.of(parent).exclude(idleExclusions).rt(rootTransform).create(block, "_idle", models.modelOutput);
+        Identifier activeModel = ExclusionTemplate.of(parent).exclude(activeExclusions).rt(rootTransform).create(block, "_active", models.modelOutput);
         models.blockStateOutput.accept(binaryMachineState(block, idleModel, activeModel));
 
         Identifier itemModel = ExclusionTemplate.of(parent).exclude(itemExclusions).emissive().create(block.asItem(), models.modelOutput);
@@ -714,8 +723,14 @@ class ModelsGen extends ModelProvider
             return new ExclusionTemplate(ModelLocationUtils.getModelLocation(block));
         }
 
+        private static final Codec<Transformation> TRANSFORM_CODEC = RecordCodecBuilder.create(i -> i.group(
+                ExtraCodecs.VECTOR3F.optionalFieldOf("translation", new Vector3f()).forGetter(Transformation::translation),
+                ExtraCodecs.QUATERNIONF.optionalFieldOf("left_rotation", new Quaternionf()).forGetter(Transformation::leftRotation))
+                .apply(i, (t, lr) -> new Transformation(t, lr, null, null)));
+
         private final List<String> hiddenParts = new ObjectArrayList<>();
         private @Nullable CustomLoaderBuilder custom;
+        private @Nullable Transformation rootTransform;
 
         ExclusionTemplate(Identifier parent)
         {
@@ -744,6 +759,12 @@ class ModelsGen extends ModelProvider
             return emissive(true);
         }
 
+        ExclusionTemplate rt(@Nullable Transformation rootTransform)
+        {
+            this.rootTransform = rootTransform;
+            return this;
+        }
+
         Identifier create(Block block, String suffix, BiConsumer<Identifier, ModelInstance> output)
         {
             return createWithSuffix(block, suffix, new TextureMapping(), output);
@@ -766,6 +787,12 @@ class ModelsGen extends ModelProvider
                 JsonObject visibility = new JsonObject();
                 hiddenParts.forEach(part -> visibility.addProperty(part, false));
                 json.add("visibility", visibility);
+            }
+
+            if (rootTransform != null)
+            {
+                JsonElement rtJson = LimaCoreCodecs.strictEncode(TRANSFORM_CODEC, JsonOps.INSTANCE, rootTransform);
+                json.add("transform", rtJson);
             }
 
             return json;

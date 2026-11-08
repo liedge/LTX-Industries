@@ -1,7 +1,9 @@
 package liedge.ltxindustries.data.generation;
 
+import liedge.ltxindustries.data.TurbineFuel;
 import liedge.ltxindustries.recipe.RecipeMode;
 import liedge.ltxindustries.registry.LTXIDataMaps;
+import liedge.ltxindustries.registry.game.LTXIFluids;
 import liedge.ltxindustries.registry.game.LTXIGameEvents;
 import liedge.ltxindustries.registry.game.LTXIRecipeTypes;
 import net.minecraft.core.Holder;
@@ -32,6 +34,7 @@ class DataMapsGen extends DataMapProvider
                 .add(LTXIGameEvents.WEAPON_FIRED, new VibrationFrequency(3), false)
                 .add(LTXIGameEvents.PROJECTILE_IMPACT, new VibrationFrequency(2), false);
 
+        // Default recipe modes
         defaultRecipeModes(registries, LTXIRecipeTypes.GRINDING, DEFAULT_GRINDING);
         defaultRecipeModes(registries, LTXIRecipeTypes.PRESSING, DEFAULT_PRESSING);
         defaultRecipeModes(registries, LTXIRecipeTypes.ARC_SMELTING, DEFAULT_ARC_SMELTING);
@@ -41,6 +44,9 @@ class DataMapsGen extends DataMapProvider
         defaultRecipeModes(registries, LTXIRecipeTypes.CHEMICAL_REACTING, DEFAULT_CHEMICAL_REACTING);
         defaultRecipeModes(registries, LTXIRecipeTypes.AIR_SCRUBBING, DEFAULT_AIR_SCRUBBING);
         defaultRecipeModes(registries, LTXIRecipeTypes.GARDEN_SIMULATING, DEFAULT_GARDEN_SIMULATING);
+
+        // Turbine fuels
+        builder(LTXIDataMaps.TURBINE_FUELS).add(LTXIFluids.METHANE, new TurbineFuel(15_000), false);
     }
 
     private void defaultRecipeModes(HolderLookup.Provider registries, Holder<RecipeType<?>> recipeType, TagKey<RecipeMode> tag)

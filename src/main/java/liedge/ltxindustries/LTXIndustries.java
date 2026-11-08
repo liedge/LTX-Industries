@@ -124,6 +124,7 @@ public class LTXIndustries
         private void registerDataMapTypes(final RegisterDataMapTypesEvent event)
         {
             event.register(LTXIDataMaps.DEFAULT_RECIPE_MODES);
+            event.register(LTXIDataMaps.TURBINE_FUELS);
         }
 
         @SubscribeEvent

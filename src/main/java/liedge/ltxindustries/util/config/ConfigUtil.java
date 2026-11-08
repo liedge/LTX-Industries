@@ -33,6 +33,11 @@ final class ConfigUtil
         return customEnergyUsage(builder, "Base energy usage per tick", defaultValue);
     }
 
+    static ModConfigSpec.IntValue energyGeneration(ModConfigSpec.Builder builder, int defaultValue)
+    {
+        return positiveInt(builder, "energy_generation", "Base energy generated per tick", defaultValue);
+    }
+
     static ModConfigSpec.DoubleValue damageSpec(ModConfigSpec.Builder builder, String field, @Nullable String comment, double defaultValue)
     {
         if (comment != null) builder.comment(comment);

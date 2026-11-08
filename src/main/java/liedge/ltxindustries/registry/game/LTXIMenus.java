@@ -66,6 +66,7 @@ public final class LTXIMenus
 
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<PortableGeneratorBlockEntity, PortableGeneratorMenu>> PORTABLE_GENERATOR = registerBE(LTXIIdentifiers.ID_PORTABLE_GENERATOR, PortableGeneratorBlockEntity.class, PortableGeneratorMenu::new);
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<SolarPanelBlockEntity, SolarPanelMenu>> SOLAR_PANEL = registerBE(LTXIIdentifiers.ID_SOLAR_PANEL, SolarPanelBlockEntity.class, SolarPanelMenu::new);
+    public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<GasTurbineBlockEntity, GasTurbineMenu>> GAS_TURBINE = registerBE(LTXIIdentifiers.ID_GAS_TURBINE, GasTurbineBlockEntity.class, GasTurbineMenu::new);
 
     public static final DeferredHolder<MenuType<?>, BlockEntityMenuType<RepairStationBlockEntity, RepairStationMenu>> REPAIR_STATION = registerBE(LTXIIdentifiers.ID_REPAIR_STATION, RepairStationBlockEntity.class, RepairStationMenu::new);
 

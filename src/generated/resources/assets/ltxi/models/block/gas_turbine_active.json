@@ -1,0 +1,19 @@
+{
+  "parent": "ltxi:block/gas_turbine",
+  "transform": {
+    "left_rotation": [
+      0.0,
+      -0.70710677,
+      0.0,
+      0.70710677
+    ],
+    "translation": [
+      -1.0,
+      0.0,
+      1.0
+    ]
+  },
+  "visibility": {
+    "blades": false
+  }
+}

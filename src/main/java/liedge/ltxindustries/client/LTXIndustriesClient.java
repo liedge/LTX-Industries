@@ -167,6 +167,7 @@ public class LTXIndustriesClient
             event.register(LTXIMenus.DIGITAL_GARDEN.get(), RecipeLayoutScreen::new);
             event.register(LTXIMenus.PORTABLE_GENERATOR.get(), PortableGeneratorScreen::new);
             event.register(LTXIMenus.SOLAR_PANEL.get(), SolarPanelScreen::new);
+            event.register(LTXIMenus.GAS_TURBINE.get(), GasTurbineScreen::new);
             event.register(LTXIMenus.REPAIR_STATION.get(), RepairStationScreen::new);
             event.register(LTXIMenus.ARC_TURRET.get(), TurretScreen::new);
             event.register(LTXIMenus.ROCKET_TURRET.get(), TurretScreen::new);
@@ -226,6 +227,7 @@ public class LTXIndustriesClient
             event.registerBlockEntityRenderer(LTXIBlockEntities.UPGRADE_STATION.get(), UpgradeStationRenderer::new);
             event.registerBlockEntityRenderer(LTXIBlockEntities.ATMOSPHERIC_SCRUBBER.get(), AirScrubberRenderer::new);
             event.registerBlockEntityRenderer(LTXIBlockEntities.DIGITAL_GARDEN.get(), DigitalGardenRenderer::new);
+            event.registerBlockEntityRenderer(LTXIBlockEntities.GAS_TURBINE.get(), GasTurbineRenderer::new);
             event.registerBlockEntityRenderer(LTXIBlockEntities.ARC_TURRET.get(), ArcTurretRenderer::new);
             event.registerBlockEntityRenderer(LTXIBlockEntities.ROCKET_TURRET.get(), RocketTurretRenderer::new);
             event.registerBlockEntityRenderer(LTXIBlockEntities.RAILGUN_TURRET.get(), RailgunTurretRenderer::new);

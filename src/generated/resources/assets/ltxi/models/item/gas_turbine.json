@@ -1,0 +1,7 @@
+{
+  "parent": "ltxi:block/gas_turbine",
+  "loader": "limacore:extended_cuboid",
+  "visibility": {
+    "emissive_active": false
+  }
+}
