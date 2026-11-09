@@ -1,0 +1,44 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 16000000,
+  "group": "upgrade/turbine",
+  "item_inputs": [
+    {
+      "ingredient": {
+        "neoforge:ingredient_type": "neoforge:components",
+        "components": {
+          "ltxi:upgrade": {
+            "rank": 3,
+            "upgrade": "ltxi:turbine_tiers"
+          }
+        },
+        "items": "ltxi:upgrade_module"
+      }
+    },
+    {
+      "count": 16,
+      "ingredient": "#c:plates/titanium"
+    },
+    {
+      "count": 4,
+      "ingredient": "#c:plates/tungsten_slatesteel"
+    },
+    {
+      "count": 8,
+      "ingredient": "#c:gears/slatesteel"
+    },
+    {
+      "ingredient": "ltxi:large_voltaic_cell"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:upgrade": {
+        "rank": 4,
+        "upgrade": "ltxi:turbine_tiers"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:upgrade_module"
+  }
+}

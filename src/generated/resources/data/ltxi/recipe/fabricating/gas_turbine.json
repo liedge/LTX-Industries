@@ -1,0 +1,39 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 10000000,
+  "group": "0/machine",
+  "item_inputs": [
+    {
+      "count": 6,
+      "ingredient": "ltxi:machine_housing"
+    },
+    {
+      "count": 2,
+      "ingredient": "ltxi:t3_circuit"
+    },
+    {
+      "ingredient": {
+        "neoforge:ingredient_type": "neoforge:components",
+        "components": {
+          "limacore:fluid": {}
+        },
+        "items": "ltxi:portable_tank"
+      }
+    },
+    {
+      "ingredient": "ltxi:epsilon_lighter"
+    },
+    {
+      "count": 12,
+      "ingredient": "#c:plates/slatesteel"
+    },
+    {
+      "count": 2,
+      "ingredient": "#c:gears/slatesteel"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "ltxi:gas_turbine"
+  }
+}

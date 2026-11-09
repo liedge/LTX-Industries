@@ -89,6 +89,11 @@ public final class LTXIBootstrapUtil
         return TranslatableTooltip.create(LTXILangKeys.ENERGY_USAGE_UPGRADE, Style.EMPTY.withColor(REM_BLUE), ValueComponent.of(value, format, sentiment));
     }
 
+    public static UpgradeComponentLike energyGenerationTooltip(ContextlessValue value, ValueFormat format, ValueSentiment sentiment)
+    {
+        return TranslatableTooltip.create(LTXILangKeys.ENERGY_GENERATION_UPGRADE, Style.EMPTY.withColor(REM_BLUE), ValueComponent.of(value, format, sentiment));
+    }
+
     public static UpgradeComponentLike fluidCapacityTooltip(ContextlessValue value, ValueFormat format, ValueSentiment sentiment)
     {
         return TranslatableTooltip.create(LTXILangKeys.FLUID_CAPACITY_UPGRADE, ValueComponent.of(value, format, sentiment));

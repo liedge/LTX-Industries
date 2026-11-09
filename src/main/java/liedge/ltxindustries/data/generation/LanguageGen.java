@@ -371,6 +371,7 @@ class LanguageGen extends LimaLanguageProvider
         upgrade(LTXIUpgrades.POWER_TIERS, "Σ/VM3 Power Supply Unit", "Standard issue SIGMA-VM3 power supplies are compatible with all our powered machinery.");
         upgrade(LTXIUpgrades.PARALLEL_TIERS, "Σ/4D Hypervisor Module", "SIGMA-4D co-processors may be deployed on select machinery for zero-cost parallelization.");
         upgrade(LTXIUpgrades.FABRICATOR_UPGRADE, "Enhanced Tool Head", "Elevate your Fabricator's manufacturing capabilities with superior internal components.");
+        upgrade(LTXIUpgrades.TURBINE_TIERS, "Enhanced Turbine Engine", "Improve turbine housing and combustion chamber for higher stable fuel injection rates.");
         upgrade(LTXIUpgrades.GEO_SYNTHESIZER_PARALLEL, "Lithic Co-Processor", "A specialized parallel processor for producing geological material.");
         //#endregion
 
@@ -520,6 +521,7 @@ class LanguageGen extends LimaLanguageProvider
         add(ENERGY_CAPACITY_UPGRADE, "%s energy capacity");
         add(ENERGY_TRANSFER_UPGRADE, "%s energy transfer rate");
         add(ENERGY_USAGE_UPGRADE, "%s energy usage");
+        add(ENERGY_GENERATION_UPGRADE, "%s energy generation");
         add(FLUID_CAPACITY_UPGRADE, "%s fluid capacity");
         add(PARALLEL_OPERATIONS_UPGRADE, "%s operations per cycle");
         add(MACHINE_SPEED_UPGRADE, "%s machine speed");

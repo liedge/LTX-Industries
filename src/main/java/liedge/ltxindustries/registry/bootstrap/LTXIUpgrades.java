@@ -159,6 +159,7 @@ public final class LTXIUpgrades
     public static final ResourceKey<Upgrade> POWER_TIERS = key("power_tiers");
     public static final ResourceKey<Upgrade> PARALLEL_TIERS = key("parallel_tiers");
     public static final ResourceKey<Upgrade> FABRICATOR_UPGRADE = key("fabricator_upgrade");
+    public static final ResourceKey<Upgrade> TURBINE_TIERS = key("turbine_tiers");
 
     public static final ResourceKey<Upgrade> GEO_SYNTHESIZER_PARALLEL = key("geo_synthesizer_parallel");
 
@@ -653,6 +654,19 @@ public final class LTXIUpgrades
                 .tooltip(energyUsageTooltip(fabUsage, ValueFormat.MULTIPLICATIVE, ValueSentiment.POSITIVE))
                 .setMaxRank(4)
                 .effectIcon(SpriteIcon.create("fabricator_upgrade"))
+                .register(context);
+
+        ContextlessValue turbineGen = LinearDouble.linearIncrement(2);
+        ContextlessValue turbineCap = LinearDouble.oneIncrement(1);
+        Upgrade.builder(TURBINE_TIERS)
+                .createDefaultTitle(REM_BLUE)
+                .forMachines(LTXIBlockEntities.GAS_TURBINE)
+                .withEffect(ENERGY_GENERATION, ValueOperation.of(turbineGen, MathOperation.MULTIPLY))
+                .withEffect(ENERGY_CAPACITY, ValueOperation.of(turbineCap, MathOperation.ADD_PERCENT_OF_BASE))
+                .tooltip(energyGenerationTooltip(turbineGen, ValueFormat.MULTIPLICATIVE, ValueSentiment.POSITIVE))
+                .tooltip(energyCapacityTooltip(turbineCap, ValueFormat.SIGNED_PERCENTAGE, ValueSentiment.POSITIVE))
+                .setMaxRank(4)
+                .effectIcon(blueRingOverlay(ItemIcon.of(LTXIBlocks.GAS_TURBINE)))
                 .register(context);
 
         ContextlessValue geoSynthParallel = ExponentialDouble.of(2, LinearDouble.oneIncrement(4));

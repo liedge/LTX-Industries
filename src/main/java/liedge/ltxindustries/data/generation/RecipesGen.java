@@ -374,6 +374,16 @@ class RecipesGen extends LimaRecipeProvider
                 .output(ItemResult.of(DIGITAL_GARDEN))
                 .group(machineGroup)
                 .save(output);
+        fabricating(10_000_000)
+                .input(MACHINE_HOUSING, 6)
+                .input(T3_CIRCUIT, 2)
+                .input(emptyPortableTank())
+                .input(EPSILON_LIGHTER)
+                .input(SLATESTEEL_PLATES, 12)
+                .input(SLATESTEEL_GEARS, 2)
+                .output(ItemResult.of(GAS_TURBINE))
+                .group(machineGroup)
+                .save(output);
 
         String turretGroup = "0/turret";
         fabricating(2_500_000)
@@ -841,6 +851,28 @@ class RecipesGen extends LimaRecipeProvider
                 .input(LARGE_VOLTAIC_CELL, 3)
                 .input(TITANIUM_GEARS, 4)
                 .input(SLATESTEEL_GEARS, 8));
+
+        final String turbineUpgrades = "upgrade/turbine";
+        upgradeFabricating(turbineUpgrades, TURBINE_TIERS, 1, 2_000_000, builder -> builder
+                .input(TITANIUM_PLATES, 4)
+                .input(SLATESTEEL_PLATES, 2)
+                .input(SLATESTEEL_GEARS)
+                .input(MEDIUM_VOLTAIC_CELL));
+        upgradeFabricating(turbineUpgrades, TURBINE_TIERS, 2, 4_000_000, builder -> builder
+                .input(TITANIUM_PLATES, 8)
+                .input(SLATESTEEL_PLATES, 4)
+                .input(SLATESTEEL_GEARS, 2)
+                .input(MEDIUM_VOLTAIC_CELL, 2));
+        upgradeFabricating(turbineUpgrades, TURBINE_TIERS, 3, 8_000_000, turbine -> turbine
+                .input(TITANIUM_PLATES, 12)
+                .input(TUNGSTEN_SLATESTEEL_PLATES, 2)
+                .input(SLATESTEEL_GEARS, 4)
+                .input(MEDIUM_VOLTAIC_CELL, 4));
+        upgradeFabricating(turbineUpgrades, TURBINE_TIERS, 4, 16_000_000, builder -> builder
+                .input(TITANIUM_PLATES, 16)
+                .input(TUNGSTEN_SLATESTEEL_PLATES, 4)
+                .input(SLATESTEEL_GEARS, 8)
+                .input(LARGE_VOLTAIC_CELL));
 
         final String storageUpgrades = "upgrade/storage";
         upgradeFabricating(storageUpgrades, ECA_CAPACITY_UPGRADE, 3, 10_000_000, builder -> builder

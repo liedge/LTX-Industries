@@ -1,0 +1,92 @@
+{
+  "display": {
+    "description": {
+      "translate": "upgrade.ltxi.turbine_tiers.desc"
+    },
+    "icon": {
+      "type": "composite",
+      "background": {
+        "type": "item",
+        "id": "ltxi:gas_turbine"
+      },
+      "foreground": {
+        "type": "sprite",
+        "height": 7,
+        "id": "ltxi:blue_ring",
+        "width": 7,
+        "x": 8,
+        "y": 8
+      }
+    },
+    "title": {
+      "color": "#8BD1F0",
+      "translate": "upgrade.ltxi.turbine_tiers"
+    },
+    "tooltips": [
+      {
+        "type": "custom_args",
+        "args": [
+          {
+            "type": "value",
+            "format": "multiplicative",
+            "sentiment": "positive",
+            "value": {
+              "type": "linear",
+              "base": 2.0,
+              "increment": 2.0
+            }
+          }
+        ],
+        "key": "upgrade_effect.ltxi.energy_gen",
+        "style": {
+          "color": "#8BD1F0"
+        }
+      },
+      {
+        "type": "custom_args",
+        "args": [
+          {
+            "type": "value",
+            "format": "signed_percentage",
+            "sentiment": "positive",
+            "value": {
+              "type": "linear",
+              "base": 1.0,
+              "increment": 1.0
+            }
+          }
+        ],
+        "key": "upgrade_effect.ltxi.energy_capacity",
+        "style": {
+          "color": "#8BD1F0"
+        }
+      }
+    ]
+  },
+  "effects": {
+    "ltxi:energy_capacity": [
+      {
+        "op": "add_percent_of_base",
+        "value": {
+          "type": "linear",
+          "base": 1.0,
+          "increment": 1.0
+        }
+      }
+    ],
+    "ltxi:energy_generation": [
+      {
+        "op": "multiply",
+        "value": {
+          "type": "linear",
+          "base": 2.0,
+          "increment": 2.0
+        }
+      }
+    ]
+  },
+  "max_rank": 4,
+  "users": {
+    "block_entities": "ltxi:gas_turbine"
+  }
+}

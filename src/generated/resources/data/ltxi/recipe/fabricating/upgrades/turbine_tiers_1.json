@@ -1,0 +1,33 @@
+{
+  "type": "ltxi:fabricating",
+  "energy_required": 2000000,
+  "group": "upgrade/turbine",
+  "item_inputs": [
+    {
+      "ingredient": "ltxi:empty_upgrade_module"
+    },
+    {
+      "count": 4,
+      "ingredient": "#c:plates/titanium"
+    },
+    {
+      "count": 2,
+      "ingredient": "#c:plates/slatesteel"
+    },
+    {
+      "ingredient": "#c:gears/slatesteel"
+    },
+    {
+      "ingredient": "ltxi:medium_voltaic_cell"
+    }
+  ],
+  "result": {
+    "components": {
+      "ltxi:upgrade": {
+        "upgrade": "ltxi:turbine_tiers"
+      }
+    },
+    "count": 1,
+    "id": "ltxi:upgrade_module"
+  }
+}
