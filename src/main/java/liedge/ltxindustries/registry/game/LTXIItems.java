@@ -318,7 +318,7 @@ public final class LTXIItems
 
     // Upgrade
     public static final DeferredItem<Item> EMPTY_UPGRADE_MODULE = ITEMS.registerSimpleItem("empty_upgrade_module");
-    public static final DeferredItem<UpgradeModuleItem> UPGRADE_MODULE = ITEMS.registerItem("upgrade_module", UpgradeModuleItem::new, properties -> properties.stacksTo(1).fireResistant());
+    public static final DeferredItem<UpgradeModuleItem> UPGRADE_MODULE = ITEMS.registerItem("upgrade_module", UpgradeModuleItem::new, Item.Properties::fireResistant);
 
     // Data holding 'cards'
     public static final DeferredItem<Item> EMPTY_FABRICATION_BLUEPRINT = registerSimpleLore("empty_fabrication_blueprint");

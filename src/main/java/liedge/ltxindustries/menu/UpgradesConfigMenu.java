@@ -119,9 +119,10 @@ public abstract class UpgradesConfigMenu<CTX extends ItemHolderBlockEntity & Sub
         {
             if (!stack.isEmpty() && level() instanceof ServerLevel level)
             {
-                if (installUpgrade(level, stack))
+                if (canInstallUpgrade(stack) && installUpgrade(level, stack))
                 {
-                    super.setByPlayer(ItemStack.EMPTY);
+                    ItemStack rem = stack.copyWithCount(stack.getCount() - 1);
+                    super.setByPlayer(rem);
                     return;
                 }
             }
@@ -132,7 +133,7 @@ public abstract class UpgradesConfigMenu<CTX extends ItemHolderBlockEntity & Sub
         @Override
         public boolean mayPlace(ItemStack stack)
         {
-            return super.mayPlace(stack) && canInstallUpgrade(stack);
+            return super.mayPlace(stack);
         }
     }
 }

@@ -58,7 +58,8 @@ public final class UpgradeModuleItem extends Item implements LimaCreativeTabFill
         ItemStack stack = player.getItemInHand(usedHand);
         if (player.isCrouching() && stack.get(LTXIDataComponents.UPGRADE_ENTRY) == null)
         {
-            return InteractionResult.SUCCESS_SERVER.heldItemTransformedTo(LTXIItems.EMPTY_UPGRADE_MODULE.toStack());
+            ItemStack newStack = LTXIItems.EMPTY_UPGRADE_MODULE.toStack(stack.getCount());
+            return InteractionResult.SUCCESS_SERVER.heldItemTransformedTo(newStack);
         }
 
         return super.use(level, player, usedHand);
@@ -98,8 +99,9 @@ public final class UpgradeModuleItem extends Item implements LimaCreativeTabFill
                 player.sendOverlayMessage(LTXILangKeys.UPGRADE_INSTALL_SUCCESS.translate().withStyle(LTXIChatStyles.LIME_GREEN));
                 level.playSound(null, pos, LTXISounds.UPGRADE_INSTALL.get(), SoundSource.PLAYERS, 1f, 1f);
 
+                int preApplyAmt = usedItem.getCount();
                 usedItem.consume(1, player);
-                if (usedItem.isEmpty() && previousRank > 0)
+                if (usedItem.getCount() < preApplyAmt && previousRank > 0)
                 {
                     player.getInventory().placeItemBackInInventory(get(entry.upgrade(), previousRank));
                 }
