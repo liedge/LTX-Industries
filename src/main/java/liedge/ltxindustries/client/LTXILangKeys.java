@@ -20,7 +20,6 @@ public final class LTXILangKeys
     public static final Translatable GUI_LIGHT_COLORS = gui("light_colors");
     public static final Translatable MANAGE_UPGRADES = gui("manage_upgrades");
     public static final Translatable MANAGE_LIGHT_COLORS = gui("manage_light_colors");
-    //public static final Translatable
 
     // Tooltips
     public static final Translatable NONE_UNIVERSAL_TOOLTIP = tooltip("none");
@@ -56,10 +55,6 @@ public final class LTXILangKeys
     public static final Translatable CRAFTING_PROGRESS_TOOLTIP = tooltip("craft_progress");
     public static final Translatable FUEL_UNITS_STORED = tooltip("fuel_units");
     public static final Translatable ENERGY_PER_FUEL_UNIT = tooltip("energy_per_fuel");
-    public static final Translatable JEI_CRAFTING_TIME_TOOLTIP = jeiTooltip("crafting_time");
-    public static final Translatable JEI_LOCATION_DIMENSION_TOOLTIP = jeiTooltip("ml.dimension");
-    public static final Translatable JEI_LOCATION_BIOMES_TOOLTIP = jeiTooltip("ml.biome");
-    public static final Translatable JEI_LOCATION_WATERLOG_TOOLTIP =  jeiTooltip("ml.waterlog");
 
     public static final Translatable INPUT_NOT_CONSUMED_TOOLTIP = tooltip("input.no_consume");
     public static final Translatable INPUT_CONSUME_CHANCE_TOOLTIP = tooltip("input.use_chance");
@@ -67,6 +62,13 @@ public final class LTXILangKeys
     public static final Translatable OUTPUT_VARIABLE_COUNT_TOOLTIP = tooltip("output.variable");
     public static final Translatable OUTPUT_REQUIRED_TOOLTIP = tooltip("output.required");
     public static final Translatable OUTPUT_OPTIONAL_TOOLTIP = tooltip("output.not_required");
+
+    // JEI stuff
+    public static final Translatable JEI_TURBINE_FUELS_TITLE = jeiTooltip("turbine_fuels");
+    public static final Translatable JEI_CRAFTING_TIME_TOOLTIP = jeiTooltip("crafting_time");
+    public static final Translatable JEI_LOCATION_DIMENSION_TOOLTIP = jeiTooltip("ml.dimension");
+    public static final Translatable JEI_LOCATION_BIOMES_TOOLTIP = jeiTooltip("ml.biome");
+    public static final Translatable JEI_LOCATION_WATERLOG_TOOLTIP =  jeiTooltip("ml.waterlog");
 
     // System Messages
     public static final Translatable UPGRADE_INSTALL_SUCCESS = sysMsg("upgrade_success");
@@ -87,7 +89,7 @@ public final class LTXILangKeys
     public static final Translatable EMPTY_IO_CARD_HINT = itemHint("io_card.empty");
     public static final Translatable ENCODED_IO_CARD_HINT = itemHint("io_card.encoded");
 
-    // Static upgrade upgrade titles
+    // Static upgrade titles
     public static final Translatable TOOL_DEFAULT_UPGRADE_TITLE = prefixKey("equipment_upgrade", "tool_default");
 
     // Upgrades tooltips

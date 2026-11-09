@@ -74,7 +74,9 @@ public class LTXIJeiPlugin implements IModPlugin
     static final IRecipeHolderType<AirScrubbingRecipe> AIR_SCRUBBING_JEI = storeType(AIR_SCRUBBING);
     static final IRecipeHolderType<GardenSimulatingRecipe> GARDEN_SIMULATING_JEI = storeType(GARDEN_SIMULATING);
     static final IRecipeHolderType<FabricatingRecipe> FABRICATING_JEI = storeType(FABRICATING);
-    static final IRecipeType<UpgradeUsersCategory.Entry> UPGRADE_USERS = IRecipeType.create(LTXIndustries.RESOURCES.id("upgrade_users"), UpgradeUsersCategory.Entry.class);
+
+    static final IRecipeType<UpgradeUsersCategory.Entry> UPGRADE_USERS = customType("upgrade_users", UpgradeUsersCategory.Entry.class);
+    static final IRecipeType<TurbineFuelsCategory.Entry> TURBINE_FUELS = customType("turbine_fuels", TurbineFuelsCategory.Entry.class);
 
     @Override
     public Identifier getPluginUid()
@@ -104,9 +106,10 @@ public class LTXIJeiPlugin implements IModPlugin
         registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, GEO_SYNTHESIS, GEO_SYNTHESIS_JEI, RecipeLayouts.GEO_SYNTHESIS));
         registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, AIR_SCRUBBING, AIR_SCRUBBING_JEI, RecipeLayouts.AIR_SCRUBBING));
         registration.addRecipeCategories(RecipeLayoutJeiCategory.create(helper, GARDEN_SIMULATING, GARDEN_SIMULATING_JEI, RecipeLayouts.GARDEN_SIMULATING));
-        registration.addRecipeCategories(new FabricatingJeiCategory(helper, FABRICATING));
+        registration.addRecipeCategories(new FabricatingJeiCategory(helper, FABRICATING_JEI, FABRICATING));
 
-        registration.addRecipeCategories(new UpgradeUsersCategory(UPGRADE_USERS, helper.createDrawableItemLike(LTXIItems.UPGRADE_MODULE)));
+        registration.addRecipeCategories(new UpgradeUsersCategory(helper, UPGRADE_USERS));
+        registration.addRecipeCategories(new TurbineFuelsCategory(helper, TURBINE_FUELS));
     }
 
     @Override
@@ -131,6 +134,7 @@ public class LTXIJeiPlugin implements IModPlugin
                 .toList());
 
         registration.addRecipes(UPGRADE_USERS, UpgradeUsersCategory.getAllRecipes());
+        registration.addRecipes(TURBINE_FUELS, TurbineFuelsCategory.getAllRecipes(registration.getIngredientManager()));
     }
 
     @Override
@@ -152,6 +156,9 @@ public class LTXIJeiPlugin implements IModPlugin
         registration.addCraftingStation(AIR_SCRUBBING_JEI, LTXIBlocks.ATMOSPHERIC_SCRUBBER);
         registration.addCraftingStation(GARDEN_SIMULATING_JEI, LTXIBlocks.DIGITAL_GARDEN);
         registration.addCraftingStation(FABRICATING_JEI, LTXIBlocks.FABRICATOR, LTXIBlocks.AUTO_FABRICATOR);
+
+        registration.addCraftingStation(UPGRADE_USERS, LTXIBlocks.UPGRADE_STATION);
+        registration.addCraftingStation(TURBINE_FUELS, LTXIBlocks.GAS_TURBINE);
     }
 
     @Override
@@ -185,5 +192,10 @@ public class LTXIJeiPlugin implements IModPlugin
         });
 
         registration.addGhostIngredientHandler(RecipeLayoutScreen.class, new InputLockHandler());
+    }
+
+    private static <T> IRecipeType<T> customType(String name, Class<T> typeClass)
+    {
+        return IRecipeType.create(LTXIndustries.RESOURCES.id(name), typeClass);
     }
 }

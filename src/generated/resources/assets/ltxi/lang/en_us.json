@@ -359,6 +359,7 @@
   "jei.ltxi.ml.biome": "In biome(s): %s",
   "jei.ltxi.ml.dimension": "In dimension: %s",
   "jei.ltxi.ml.waterlog": "Machine must be waterlogged",
+  "jei.ltxi.turbine_fuels": "Turbine Fuels",
   "key.category.ltxi.controls": "LTX Industries",
   "key.ltxi.reload_weapon": "Reload Weapon",
   "light_channel.ltxi.energy": "Energy light channel",

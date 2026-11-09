@@ -480,6 +480,8 @@ class LanguageGen extends LimaLanguageProvider
         add(CRAFTING_PROGRESS_TOOLTIP, "Crafting: %s%%");
         add(FUEL_UNITS_STORED, "Fuel units: %s/%s");
         add(ENERGY_PER_FUEL_UNIT, "Per fuel unit: %s");
+
+        add(JEI_TURBINE_FUELS_TITLE, "Turbine Fuels");
         add(JEI_CRAFTING_TIME_TOOLTIP, "%ss | %st");
         add(JEI_LOCATION_DIMENSION_TOOLTIP, "In dimension: %s");
         add(JEI_LOCATION_BIOMES_TOOLTIP, "In biome(s): %s");

@@ -10,16 +10,15 @@ import liedge.ltxindustries.lib.upgrades.Upgrade;
 import liedge.ltxindustries.lib.upgrades.UpgradeUsers;
 import liedge.ltxindustries.registry.LTXIRegistries;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
-import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotDrawablesView;
 import mezz.jei.api.gui.placement.HorizontalAlignment;
 import mezz.jei.api.gui.placement.VerticalAlignment;
 import mezz.jei.api.gui.widgets.IRecipeExtrasBuilder;
 import mezz.jei.api.gui.widgets.IScrollGridWidget;
+import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import mezz.jei.api.recipe.category.AbstractRecipeCategory;
 import mezz.jei.api.recipe.types.IRecipeType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.Holder;
@@ -34,7 +33,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import java.util.List;
 import java.util.Objects;
 
-final class UpgradeUsersCategory extends AbstractRecipeCategory<UpgradeUsersCategory.Entry>
+final class UpgradeUsersCategory extends LTXIBaseCategory<UpgradeUsersCategory.Entry>
 {
     static List<Entry> getAllRecipes()
     {
@@ -71,9 +70,9 @@ final class UpgradeUsersCategory extends AbstractRecipeCategory<UpgradeUsersCate
         return recipes;
     }
 
-    UpgradeUsersCategory(IRecipeType<Entry> recipeType, IDrawable icon)
+    UpgradeUsersCategory(IGuiHelper helper, IRecipeType<Entry> recipeType)
     {
-        super(recipeType, LTXILangKeys.GUI_UPGRADES.translate(), icon, 142, 110);
+        super(helper, recipeType, LTXILangKeys.GUI_UPGRADES.translate(), null, 142, 110);
     }
 
     @Override

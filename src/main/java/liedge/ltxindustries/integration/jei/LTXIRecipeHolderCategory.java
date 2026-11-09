@@ -13,15 +13,12 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 
 abstract class LTXIRecipeHolderCategory<R extends LimaCustomRecipe<?>> extends LTXIBaseCategory<RecipeHolder<R>>
 {
-    protected LTXIRecipeHolderCategory(IGuiHelper helper, LimaRecipeType<R> gameRecipeType, int width, int height)
+    protected LTXIRecipeHolderCategory(IGuiHelper helper, IRecipeHolderType<R> recipeType, LimaRecipeType<R> gameRecipeType, int width, int height)
     {
-        super(helper, gameRecipeType.translate(), width, height);
+        super(helper, recipeType, gameRecipeType.translate(), null, width, height);
     }
 
     protected abstract void setRecipe(IRecipeLayoutBuilder builder, RecipeHolder<R> holder, R recipe, IFocusGroup focuses, RegistryAccess registries);
-
-    @Override
-    public abstract IRecipeHolderType<R> getRecipeType();
 
     @Override
     public void draw(RecipeHolder<R> holder, IRecipeSlotsView recipeSlotsView, GuiGraphicsExtractor graphics, double mouseX, double mouseY)

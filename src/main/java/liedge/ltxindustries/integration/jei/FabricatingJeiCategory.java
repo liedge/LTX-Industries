@@ -2,6 +2,7 @@ package liedge.ltxindustries.integration.jei;
 
 import liedge.limacore.recipe.LimaRecipeType;
 import liedge.limacore.util.LimaTextUtil;
+import liedge.ltxindustries.LTXIConstants;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.client.gui.screen.LTXIScreen;
 import liedge.ltxindustries.client.gui.widget.FabricatorProgressWidget;
@@ -10,10 +11,10 @@ import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawableAnimated;
 import mezz.jei.api.gui.drawable.IDrawableStatic;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
+import mezz.jei.api.gui.widgets.IRecipeExtrasBuilder;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.types.IRecipeHolderType;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
@@ -22,24 +23,16 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import java.util.List;
 import java.util.function.Supplier;
 
-import static liedge.ltxindustries.LTXIConstants.REM_BLUE;
-
 class FabricatingJeiCategory extends LTXIRecipeHolderCategory<FabricatingRecipe>
 {
     private final IDrawableStatic progressBackground;
     private final IDrawableAnimated progressForeground;
 
-    FabricatingJeiCategory(IGuiHelper helper, Supplier<LimaRecipeType<FabricatingRecipe>> typeSupplier)
+    FabricatingJeiCategory(IGuiHelper helper, IRecipeHolderType<FabricatingRecipe> recipeType, Supplier<LimaRecipeType<FabricatingRecipe>> typeSupplier)
     {
-        super(helper, typeSupplier.get(), 140, 66);
-        this.progressBackground = guiSpriteDrawable(FabricatorProgressWidget.BACKGROUND_SPRITE, FabricatorProgressWidget.BACKGROUND_WIDTH, FabricatorProgressWidget.BACKGROUND_HEIGHT).build();
-        this.progressForeground = guiSpriteDrawable(FabricatorProgressWidget.FILL_SPRITE, FabricatorProgressWidget.FILL_WIDTH, FabricatorProgressWidget.FILL_HEIGHT).buildAnimated(80, IDrawableAnimated.StartDirection.BOTTOM, false);
-    }
-
-    @Override
-    public IRecipeHolderType<FabricatingRecipe> getRecipeType()
-    {
-        return LTXIJeiPlugin.FABRICATING_JEI;
+        super(helper, recipeType, typeSupplier.get(), 140, 66);
+        this.progressBackground = guiSpriteDrawable(helper, FabricatorProgressWidget.BACKGROUND_SPRITE, FabricatorProgressWidget.BACKGROUND_WIDTH, FabricatorProgressWidget.BACKGROUND_HEIGHT).build();
+        this.progressForeground = guiSpriteDrawable(helper, FabricatorProgressWidget.FILL_SPRITE, FabricatorProgressWidget.FILL_WIDTH, FabricatorProgressWidget.FILL_HEIGHT).buildAnimated(80, IDrawableAnimated.StartDirection.BOTTOM, false);
     }
 
     @Override
@@ -50,19 +43,25 @@ class FabricatingJeiCategory extends LTXIRecipeHolderCategory<FabricatingRecipe>
     }
 
     @Override
+    public void createRecipeExtras(IRecipeExtrasBuilder builder, RecipeHolder<FabricatingRecipe> recipe, IFocusGroup focuses)
+    {
+        builder.addDrawable(progressBackground, 133, 33);
+        builder.addDrawable(progressForeground, 134, 34);
+
+        Component energyText = LTXILangKeys.INLINE_ENERGY.translateArgs(LimaTextUtil.formatWholeNumber(recipe.value().getEnergyRequired()));
+        builder.addText(energyText, getWidth(), 10)
+                .setPosition(2, 57)
+                .setShadow(false)
+                .setColor(LTXIConstants.REM_BLUE);
+    }
+
+    @Override
     public void draw(RecipeHolder<FabricatingRecipe> holder, IRecipeSlotsView recipeSlotsView, GuiGraphicsExtractor graphics, double mouseX, double mouseY)
     {
         super.draw(holder, recipeSlotsView, graphics, mouseX, mouseY);
 
         LTXIScreen.blitEmptySlotGrid(graphics, 1, 1, 6, 2);
         LTXIScreen.blitEmptySlotGrid(graphics, 1, 37, 4, 1);
-
         LTXIScreen.blitOutputSlotSprite(graphics, 111, 33);
-        progressBackground.draw(graphics, 133, 33);
-        progressForeground.draw(graphics, 134, 34);
-
-        FabricatingRecipe recipe = holder.value();
-        Component energyText = LTXILangKeys.INLINE_ENERGY.translateArgs(LimaTextUtil.formatWholeNumber(recipe.getEnergyRequired()));
-        graphics.text(Minecraft.getInstance().font, energyText, 2, 57, REM_BLUE, false);
     }
 }

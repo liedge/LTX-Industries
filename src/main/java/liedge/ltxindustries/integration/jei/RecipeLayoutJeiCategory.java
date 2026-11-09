@@ -65,10 +65,9 @@ final class RecipeLayoutJeiCategory<R extends LTXIRecipe> extends LTXIRecipeHold
 
     static <R extends LTXIRecipe> RecipeLayoutJeiCategory<R> create(IGuiHelper helper, Supplier<LimaRecipeType<R>> typeSupplier, IRecipeHolderType<R> jeiRecipeType, RecipeLayout layout)
     {
-        return new RecipeLayoutJeiCategory<>(helper, typeSupplier.get(), jeiRecipeType, layout, layoutBounds(layout));
+        return new RecipeLayoutJeiCategory<>(helper, jeiRecipeType, typeSupplier.get(), layout, layoutBounds(layout));
     }
 
-    private final IRecipeHolderType<R> jeiRecipeType;
     private final RecipeLayout layout;
     private final ScreenRectangle bounds;
 
@@ -77,15 +76,14 @@ final class RecipeLayoutJeiCategory<R extends LTXIRecipe> extends LTXIRecipeHold
     private final IDrawableStatic modeOverlay;
     private final @Nullable ScreenPosition modePos;
 
-    private RecipeLayoutJeiCategory(IGuiHelper helper, LimaRecipeType<R> recipeType, IRecipeHolderType<R> jeiRecipeType, RecipeLayout layout, ScreenRectangle bounds)
+    private RecipeLayoutJeiCategory(IGuiHelper helper, IRecipeHolderType<R> recipeType, LimaRecipeType<R> gameRecipeType, RecipeLayout layout, ScreenRectangle bounds)
     {
-        super(helper, recipeType, bounds.width(), bounds.height());
-        this.jeiRecipeType = jeiRecipeType;
+        super(helper, recipeType, gameRecipeType, bounds.width(), bounds.height());
         this.layout = layout;
         this.bounds = bounds;
 
-        this.modeBackground = guiSpriteDrawable(LayoutSlot.Type.RECIPE_MODE.getSprite(), 18, 18).build();
-        this.modeOverlay = guiSpriteDrawable(OpenRecipeModesButton.MODE_OVERLAY_SPRITE, 16, 16).build();
+        this.modeBackground = guiSpriteDrawable(helper, LayoutSlot.Type.RECIPE_MODE.getSprite(), 18, 18).build();
+        this.modeOverlay = guiSpriteDrawable(helper, OpenRecipeModesButton.MODE_OVERLAY_SPRITE, 16, 16).build();
         this.modePos = layout.streamSlots().filter(o -> o.type() == LayoutSlot.Type.RECIPE_MODE).findFirst().map(o -> new ScreenPosition(o.x() - bounds.left(), o.y() - bounds.top())).orElse(null);
     }
 
@@ -116,9 +114,14 @@ final class RecipeLayoutJeiCategory<R extends LTXIRecipe> extends LTXIRecipeHold
     public void createRecipeExtras(IRecipeExtrasBuilder builder, RecipeHolder<R> recipeHolder, IFocusGroup focuses)
     {
         R recipe = recipeHolder.value();
+
+        int progX = layout.getProgressBarX() - bounds.left();
+        int progY = layout.getProgressBarY() - bounds.top();
+        builder.addDrawable(machineProgressBackground, progX, progY);
+        builder.addDrawable(machineProgress, progX + 1, progY + 1);
+
         int timeInTicks = recipe.getCraftTime();
         String timeInSeconds = LimaTextUtil.format2PlaceDecimal(timeInTicks / 20d);
-
         Component craftTimeComponent = LTXILangKeys.JEI_CRAFTING_TIME_TOOLTIP.translateArgs(timeInSeconds, timeInTicks);
         builder.addText(craftTimeComponent, getWidth() - (PADDING * 2), 10)
                 .setPosition(PADDING, getHeight() - PADDING - 10)
@@ -145,18 +148,6 @@ final class RecipeLayoutJeiCategory<R extends LTXIRecipe> extends LTXIRecipeHold
         super.draw(holder, recipeSlotsView, graphics, mouseX, mouseY);
 
         RecipeLayoutScreen.renderLayout(graphics, -bounds.left(), -bounds.top(), layout);
-
-        int px = layout.getProgressBarX() - bounds.left();
-        int py = layout.getProgressBarY() - bounds.top();
-
-        machineProgressBackground.draw(graphics, px, py);
-        machineProgress.draw(graphics, px + 1, py + 1);
-    }
-
-    @Override
-    public IRecipeHolderType<R> getRecipeType()
-    {
-        return jeiRecipeType;
     }
 
     @FunctionalInterface

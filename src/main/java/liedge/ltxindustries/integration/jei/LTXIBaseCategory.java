@@ -12,6 +12,7 @@ import liedge.limacore.transfer.LimaTransferUtil;
 import liedge.limacore.util.LimaTextUtil;
 import liedge.ltxindustries.client.LTXILangKeys;
 import liedge.ltxindustries.client.gui.widget.MachineProgressWidget;
+import liedge.ltxindustries.menu.layout.LayoutSlot;
 import liedge.ltxindustries.util.LTXIChatStyles;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
@@ -23,6 +24,7 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredientRenderer;
 import mezz.jei.api.neoforge.NeoForgeTypes;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import mezz.jei.api.recipe.types.IRecipeType;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -42,39 +44,35 @@ abstract class LTXIBaseCategory<T> implements IRecipeCategory<T>
 {
     static final int BG_COLOR = 0xff2e2e2e;
 
-    protected final IGuiHelper helper;
+    private final IRecipeType<T> recipeType;
     private final Component title;
+    private final @Nullable IDrawable icon;
     private final int width;
     private final int height;
 
     // Commonly used drawables
+    protected final IDrawableStatic itemSlotSprite;
+    protected final IDrawableStatic fluidSlotSprite;
     protected final IDrawableStatic machineProgressBackground;
     protected final IDrawableAnimated machineProgress;
 
-    protected LTXIBaseCategory(IGuiHelper helper, Component title, int width, int height)
+    protected LTXIBaseCategory(IGuiHelper helper, IRecipeType<T> recipeType, Component title, @Nullable IDrawable icon, int width, int height)
     {
-        this.helper = helper;
+        this.recipeType = recipeType;
         this.title = title;
+        this.icon = icon;
         this.width = width;
         this.height = height;
 
-        this.machineProgressBackground = guiSpriteDrawable(MachineProgressWidget.BACKGROUND_SPRITE, MachineProgressWidget.BACKGROUND_WIDTH, MachineProgressWidget.BACKGROUND_HEIGHT).build();
-        this.machineProgress = guiSpriteDrawable(MachineProgressWidget.FILL_SPRITE, MachineProgressWidget.FILL_WIDTH, MachineProgressWidget.FILL_HEIGHT).buildAnimated(100, IDrawableAnimated.StartDirection.LEFT, false);
+        this.itemSlotSprite = guiSpriteDrawable(helper, LayoutSlot.ITEM_SLOT_SPRITE, 18, 18).build();
+        this.fluidSlotSprite = guiSpriteDrawable(helper, LayoutSlot.FLUID_SLOT_SPRITE, 18, 18).build();
+        this.machineProgressBackground = guiSpriteDrawable(helper, MachineProgressWidget.BACKGROUND_SPRITE, MachineProgressWidget.BACKGROUND_WIDTH, MachineProgressWidget.BACKGROUND_HEIGHT).build();
+        this.machineProgress = guiSpriteDrawable(helper, MachineProgressWidget.FILL_SPRITE, MachineProgressWidget.FILL_WIDTH, MachineProgressWidget.FILL_HEIGHT).buildAnimated(100, IDrawableAnimated.StartDirection.LEFT, false);
     }
 
     protected final RegistryAccess localRegistryAccess()
     {
         return Objects.requireNonNull(Minecraft.getInstance().level, "Minecraft local level is null").registryAccess();
-    }
-
-    protected Identifier unwrapGuiSpriteTexture(Identifier spriteLocation)
-    {
-        return spriteLocation.withPath(path -> String.format("textures/gui/sprites/%s.png", path));
-    }
-
-    protected IDrawableBuilder guiSpriteDrawable(Identifier spriteLocation, int width, int height)
-    {
-        return helper.drawableBuilder(unwrapGuiSpriteTexture(spriteLocation), 0, 0, width, height).setTextureSize(width, height);
     }
 
     private void randomInputOverlay(IRecipeSlotBuilder slot, RecipeStackInput<?, ?> input)
@@ -97,7 +95,7 @@ abstract class LTXIBaseCategory<T> implements IRecipeCategory<T>
         return SlotDisplayContext.fromLevel(Objects.requireNonNull(Minecraft.getInstance().level));
     }
 
-    private static boolean isSourceFluid(FluidStack stack)
+    static boolean isSourceFluid(FluidStack stack)
     {
         return !stack.isEmpty() && stack.getFluid().isSource(stack.getFluid().defaultFluidState());
     }
@@ -206,6 +204,12 @@ abstract class LTXIBaseCategory<T> implements IRecipeCategory<T>
     }
 
     @Override
+    public IRecipeType<T> getRecipeType()
+    {
+        return recipeType;
+    }
+
+    @Override
     public int getWidth()
     {
         return width;
@@ -226,7 +230,17 @@ abstract class LTXIBaseCategory<T> implements IRecipeCategory<T>
     @Override
     public @Nullable IDrawable getIcon()
     {
-        return null;
+        return icon;
+    }
+
+    static Identifier unwrapGuiSpriteTexture(Identifier spriteLocation)
+    {
+        return spriteLocation.withPath(path -> String.format("textures/gui/sprites/%s.png", path));
+    }
+
+    static IDrawableBuilder guiSpriteDrawable(IGuiHelper helper, Identifier spriteLocation, int width, int height)
+    {
+        return helper.drawableBuilder(unwrapGuiSpriteTexture(spriteLocation), 0, 0, width, height).setTextureSize(width, height);
     }
 
     private record ResultOverlay(@Nullable IDrawable chance, @Nullable IDrawable count) implements IDrawable
