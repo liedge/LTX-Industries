@@ -28,8 +28,8 @@
         "type": "minecraft:all_of",
         "predicates": [
           {
-            "type": "minecraft:matching_blocks",
-            "blocks": "minecraft:jungle_leaves"
+            "type": "minecraft:matching_block_tag",
+            "tag": "ltxi:supports_spark_fruit"
           },
           {
             "type": "minecraft:matching_blocks",

@@ -41,6 +41,8 @@ public final class LTXITags
         // Mod Tags
         public static final TagKey<Block> ORE_CLUSTERS = RESOURCES.blockTag("ore_clusters");
         public static final TagKey<Block> NEON_LIGHT_BLOCKS = RESOURCES.blockTag("neon_lights");
+        public static final TagKey<Block> SUPPORTS_SPARK_FRUIT = RESOURCES.blockTag("supports_spark_fruit");
+        public static final TagKey<Block> SUPPORTS_GLOOM_SHROOM = RESOURCES.blockTag("supports_gloom_shroom");
         public static final TagKey<Block> DEEPSLATE_GRINDABLES = RESOURCES.blockTag("deepslate_grindables");
         public static final TagKey<Block> WRENCH_BREAKABLE = RESOURCES.blockTag("wrench_breakable");
         public static final TagKey<Block> EPSILON_HOE_BOOSTABLE = RESOURCES.blockTag("epsilon_hoe_boostable");

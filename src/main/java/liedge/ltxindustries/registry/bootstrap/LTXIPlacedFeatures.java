@@ -2,6 +2,7 @@ package liedge.ltxindustries.registry.bootstrap;
 
 import liedge.limacore.world.generation.RandomAxisScanPlacement;
 import liedge.limacore.world.generation.StructurePlacementFilter;
+import liedge.ltxindustries.LTXITags;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
@@ -83,7 +84,7 @@ public final class LTXIPlacedFeatures
                 CountPlacement.of(10),
                 InSquarePlacement.spread(),
                 HeightRangePlacement.uniform(VerticalAnchor.absolute(60), VerticalAnchor.absolute(128)),
-                RandomAxisScanPlacement.vertical(16, BlockPredicate.allOf(BlockPredicate.matchesBlocks(Blocks.JUNGLE_LEAVES), isAir(Direction.DOWN))),
+                RandomAxisScanPlacement.vertical(16, BlockPredicate.allOf(BlockPredicate.matchesTag(LTXITags.Blocks.SUPPORTS_SPARK_FRUIT), isAir(Direction.DOWN))),
                 RandomOffsetPlacement.vertical(ConstantInt.of(-1)),
                 BiomeFilter.biome()));
         PlacedFeature fortressBilevine = new PlacedFeature(configs.getOrThrow(LTXIConfiguredFeatures.BILEVINE_CONFIG), List.of(
@@ -104,7 +105,7 @@ public final class LTXIPlacedFeatures
                 CountPlacement.of(2),
                 InSquarePlacement.spread(),
                 HeightRangePlacement.uniform(VerticalAnchor.bottom(), VerticalAnchor.absolute(0)),
-                RandomAxisScanPlacement.vertical(16, BlockPredicate.allOf(BlockPredicate.matchesBlocks(Blocks.SCULK), isAir(Direction.UP))),
+                RandomAxisScanPlacement.vertical(16, BlockPredicate.allOf(BlockPredicate.matchesTag(LTXITags.Blocks.SUPPORTS_GLOOM_SHROOM), isAir(Direction.UP))),
                 RandomOffsetPlacement.vertical(ConstantInt.of(1)),
                 BiomeFilter.biome()));
 

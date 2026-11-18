@@ -1,6 +1,7 @@
 package liedge.ltxindustries.block;
 
 import liedge.limacore.util.LimaShapesUtil;
+import liedge.ltxindustries.LTXITags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -81,7 +82,7 @@ public class SparkFruitBlock extends Block implements BonemealableBlock
         TriState soilDecision = aboveState.canSustainPlant(level, abovePos, Direction.DOWN, state);
 
         if (!soilDecision.isDefault()) return soilDecision.isTrue();
-        else return aboveState.is(Blocks.JUNGLE_LEAVES);
+        else return aboveState.is(LTXITags.Blocks.SUPPORTS_SPARK_FRUIT);
     }
 
     @Nullable

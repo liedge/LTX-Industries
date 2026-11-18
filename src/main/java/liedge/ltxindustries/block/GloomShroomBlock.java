@@ -1,6 +1,7 @@
 package liedge.ltxindustries.block;
 
 import liedge.limacore.util.LimaShapesUtil;
+import liedge.ltxindustries.LTXITags;
 import liedge.ltxindustries.registry.game.LTXIBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -37,7 +38,7 @@ public class GloomShroomBlock extends BushBlock implements SculkBehaviour
     @Override
     protected boolean mayPlaceOn(BlockState state, BlockGetter level, BlockPos pos)
     {
-        return state.is(Blocks.SCULK);
+        return state.is(LTXITags.Blocks.SUPPORTS_GLOOM_SHROOM);
     }
 
     @Override
@@ -48,7 +49,7 @@ public class GloomShroomBlock extends BushBlock implements SculkBehaviour
         TriState soilDecision = belowState.canSustainPlant(level, belowPos, Direction.UP, state);
 
         if (!soilDecision.isDefault()) return soilDecision.isTrue();
-        else return belowState.is(Blocks.SCULK) && !level.canSeeSky(pos);
+        else return belowState.is(LTXITags.Blocks.SUPPORTS_GLOOM_SHROOM) && !level.canSeeSky(pos);
     }
 
     @Override
@@ -85,7 +86,7 @@ public class GloomShroomBlock extends BushBlock implements SculkBehaviour
 
     private boolean canGrowOn(LevelAccessor level, BlockPos sculkPos)
     {
-        if (!level.getBlockState(sculkPos).is(Blocks.SCULK)) return false;
+        if (!level.getBlockState(sculkPos).is(LTXITags.Blocks.SUPPORTS_GLOOM_SHROOM)) return false;
 
         BlockPos pos = sculkPos.above();
         BlockState state = level.getBlockState(pos);
