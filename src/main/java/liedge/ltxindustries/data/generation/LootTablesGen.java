@@ -153,7 +153,7 @@ class LootTablesGen extends LimaLootTableProvider
                 LootItemCondition.Builder fullGrown = LootItemBlockStatePropertyCondition.hasBlockStateProperties(block).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(AGE_2, 2));
                 return singleItemTable(applyExplosionDecay(block, lootItem(block)
                         .apply(SetItemCountFunction.setCount(ConstantValue.exactly(3)).when(fullGrown))
-                        .apply(ApplyBonusCount.addUniformBonusCount(fortune).when(fullGrown))));
+                        .apply(ApplyBonusCount.addUniformBonusCount(fortune, 2).when(fullGrown))));
             });
             berryVines(BILEVINE);
             berryVines(BILEVINE_PLANT);
@@ -201,7 +201,9 @@ class LootTablesGen extends LimaLootTableProvider
         private void berryVines(Holder<Block> holder)
         {
             add(holder, block -> singlePoolTable(LootPool.lootPool().setRolls(ConstantValue.exactly(1))
-                    .add(lootItem(LTXIItems.VITRIOL_BERRIES).when(LimaLootUtil.matchBlockProperty(block, BERRIES, true)))
+                    .add(lootItem(LTXIItems.VITRIOL_BERRIES)
+                            .when(LimaLootUtil.matchBlockProperty(block, BERRIES, true))
+                            .apply(ApplyBonusCount.addUniformBonusCount(registries.getOrThrow(Enchantments.FORTUNE), 2)))
                     .add(lootItem(LTXIItems.VITRIOL_BERRIES).when(CanItemPerformAbility.canItemPerformAbility(ItemAbilities.SHEARS_DIG)))));
         }
     }
@@ -216,7 +218,9 @@ class LootTablesGen extends LimaLootTableProvider
         @Override
         protected void generateTables()
         {
-            addTable(BILEVINE_HARVEST, singleItemTable(LTXIItems.VITRIOL_BERRIES));
+            Holder<Enchantment> fortune = registries.getOrThrow(Enchantments.FORTUNE);
+
+            addTable(BILEVINE_HARVEST, singleItemTable(lootItem(LTXIItems.VITRIOL_BERRIES).apply(ApplyBonusCount.addUniformBonusCount(fortune, 2))));
         }
     }
 }

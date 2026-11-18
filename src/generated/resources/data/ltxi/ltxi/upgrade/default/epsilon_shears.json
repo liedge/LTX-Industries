@@ -1,0 +1,38 @@
+{
+  "display": {
+    "category": "default/tool",
+    "description": {
+      "translate": "upgrade.ltxi.default.epsilon_shears.desc"
+    },
+    "icon": {
+      "type": "composite",
+      "background": {
+        "type": "item",
+        "id": "ltxi:epsilon_shears"
+      },
+      "foreground": {
+        "type": "sprite",
+        "height": 7,
+        "id": "ltxi:blue_ring",
+        "width": 7,
+        "x": 8,
+        "y": 8
+      }
+    },
+    "title": {
+      "color": "#9DF143",
+      "translate": "equipment_upgrade.ltxi.tool_default"
+    }
+  },
+  "effects": {
+    "ltxi:enchantment_levels": [
+      {
+        "enchantment": "minecraft:fortune",
+        "levels": 3.0
+      }
+    ]
+  },
+  "users": {
+    "items": "ltxi:epsilon_shears"
+  }
+}

@@ -1,9 +1,12 @@
 package liedge.ltxindustries.item.tool;
 
 import liedge.ltxindustries.LTXITags;
+import liedge.ltxindustries.lib.upgrades.Upgrade;
+import liedge.ltxindustries.registry.bootstrap.LTXIUpgrades;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -36,6 +39,12 @@ public class EnergyShearsItem extends BaseEnergyMiningItem
     protected Set<ItemAbility> getAvailableAbilities()
     {
         return ItemAbilities.DEFAULT_SHEARS_ACTIONS;
+    }
+
+    @Override
+    public List<ResourceKey<Upgrade>> getDefaultUpgrades()
+    {
+        return List.of(LTXIUpgrades.EPSILON_SHEARS_DEFAULT);
     }
 
     @Override

@@ -22,6 +22,11 @@
     }
   ],
   "result": {
+    "components": {
+      "ltxi:upgrades": {
+        "ltxi:default/epsilon_shears": 1
+      }
+    },
     "count": 1,
     "id": "ltxi:epsilon_shears"
   }

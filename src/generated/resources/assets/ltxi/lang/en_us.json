@@ -502,6 +502,7 @@
   "upgrade.ltxi.default.aurora.desc": "Aurora's combat precepts, specialized in fast assault and scout operations.",
   "upgrade.ltxi.default.epsilon_melee.desc": "Standard issue operating system. Tool energy blade is optimized for efficient severing and disintegration of organic matter.",
   "upgrade.ltxi.default.epsilon_melee.tooltip0": "%s bonus damage against unarmored targets",
+  "upgrade.ltxi.default.epsilon_shears.desc": "Standard issue operating system. Calibrated for increased base yield of certain flora.",
   "upgrade.ltxi.default.epsilon_shovel.desc": "Standard issue operating system. Tool energy cutter preserves topographical integrity.",
   "upgrade.ltxi.default.epsilon_wrench.desc": "Standard issue operating system. Enables lossless dismantling and retrieval of machines.",
   "upgrade.ltxi.default.mirage": "Mirage Intrinsics",

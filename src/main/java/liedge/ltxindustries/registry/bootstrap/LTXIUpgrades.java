@@ -99,6 +99,7 @@ public final class LTXIUpgrades
     // Default equipment upgrades
     public static final ResourceKey<Upgrade> EPSILON_SHOVEL_DEFAULT = defaultKey(ID_EPSILON_SHOVEL);
     public static final ResourceKey<Upgrade> EPSILON_WRENCH_DEFAULT = defaultKey(ID_EPSILON_WRENCH);
+    public static final ResourceKey<Upgrade> EPSILON_SHEARS_DEFAULT = defaultKey(ID_EPSILON_SHEARS);
     public static final ResourceKey<Upgrade> EPSILON_MELEE_DEFAULT = defaultKey("epsilon_melee");
     public static final ResourceKey<Upgrade> SERENITY_DEFAULT = defaultKey(ID_SERENITY);
     public static final ResourceKey<Upgrade> MIRAGE_DEFAULT = defaultKey(ID_MIRAGE);
@@ -262,6 +263,13 @@ public final class LTXIUpgrades
                 .forEquipment(LTXIItems.EPSILON_WRENCH)
                 .withEffect(CAPTURE_BLOCK_DROPS, CaptureLoot.blockDrops(items.getOrThrow(LTXITags.Items.WRENCH_BREAKABLE)))
                 .effectIcon(defaultModuleIcon(LTXIItems.EPSILON_WRENCH))
+                .category("default/tool")
+                .register(context);
+        Upgrade.builder(EPSILON_SHEARS_DEFAULT)
+                .setTitle(defaultToolTitle)
+                .forEquipment(LTXIItems.EPSILON_SHEARS)
+                .withEffect(ENCHANTMENT_LEVELS, AddEnchantmentLevels.fixed(enchantments.getOrThrow(Enchantments.FORTUNE), 3))
+                .effectIcon(defaultModuleIcon(LTXIItems.EPSILON_SHEARS))
                 .category("default/tool")
                 .register(context);
         Upgrade.builder(EPSILON_MELEE_DEFAULT)

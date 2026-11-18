@@ -329,6 +329,7 @@ class RecipesGen extends LimaRecipeProvider
         // Default modules
         defaultModuleFabricating(EPSILON_SHOVEL_DEFAULT, EPSILON_SHOVEL);
         defaultModuleFabricating(EPSILON_WRENCH_DEFAULT, EPSILON_WRENCH);
+        defaultModuleFabricating(EPSILON_SHEARS_DEFAULT, EPSILON_SHEARS);
         defaultModuleFabricating(EPSILON_MELEE_DEFAULT, EPSILON_SWORD, EPSILON_AXE);
         defaultModuleFabricating(TREE_VEIN_MINE, EPSILON_AXE);
         defaultModuleFabricating(SERENITY_DEFAULT, SERENITY);

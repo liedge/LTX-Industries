@@ -50,7 +50,10 @@ harvestable materials for mining convenience.
 
 ### Default upgrades
 
+<Row>
+<UpgradeEntry id="default/epsilon_shears" />
 <UpgradeEntry id="default/epsilon_wrench" />
+</Row>
 
 The Wrench and Shears do not have the variable speed or the ability to change effective blocks via the upgrade system.
 They still support the enchantment upgrade modules.

@@ -308,6 +308,7 @@ class LanguageGen extends LimaLanguageProvider
         add(TOOL_DEFAULT_UPGRADE_TITLE, "ε Core Systems");
         upgradeDescOnly(LTXIUpgrades.EPSILON_SHOVEL_DEFAULT, "Standard issue operating system. Tool energy cutter preserves topographical integrity.");
         upgradeDescOnly(LTXIUpgrades.EPSILON_WRENCH_DEFAULT, "Standard issue operating system. Enables lossless dismantling and retrieval of machines.");
+        upgradeDescOnly(LTXIUpgrades.EPSILON_SHEARS_DEFAULT, "Standard issue operating system. Calibrated for increased base yield of certain flora.");
         upgradeDescOnly(LTXIUpgrades.EPSILON_MELEE_DEFAULT, "Standard issue operating system. Tool energy blade is optimized for efficient severing and disintegration of organic matter.");
         upgradeTooltip(LTXIUpgrades.EPSILON_MELEE_DEFAULT, 0, "%s bonus damage against unarmored targets");
         upgrade(LTXIUpgrades.SERENITY_DEFAULT, "Serenity Intrinsics", "Serenity's small lightfrags zip right through targets without a trace.");
