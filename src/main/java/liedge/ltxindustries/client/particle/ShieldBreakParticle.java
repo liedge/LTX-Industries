@@ -34,7 +34,7 @@ public class ShieldBreakParticle extends NoRenderParticle
         {
             Vec3 a = arcPoint(r * 0.3d);
             Vec3 b = arcPoint(r);
-            level.addAlwaysVisibleParticle(ColorParticleOptions.of(LTXIParticles.ENERGY_BOLT, color), true, a.x, a.y, b.z, b.x, b.y, b.z);
+            level.addAlwaysVisibleParticle(ColorParticleOptions.of(LTXIParticles.ENERGY_BOLT, color), true, a.x, a.y, a.z, b.x, b.y, b.z);
         }
 
         remove();
